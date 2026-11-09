@@ -674,6 +674,76 @@ def get_engine(api_key: str = "") -> PlaybookEngine:
     return _default_engine
 
 
+_LOOP_PHASE_ALIASES: dict[str, str] = {
+    "recon": "recon",
+    "scan": "scanning",
+    "scanning": "scanning",
+    "enum": "enumeration",
+    "enumeration": "enumeration",
+    "exploit": "exploitation",
+    "exploitation": "exploitation",
+    "postexp": "post_exploitation",
+    "post_exploitation": "post_exploitation",
+    "privesc": "post_exploitation",
+    "lateral": "post_exploitation",
+    "cred": "post_exploitation",
+    "exfil": "post_exploitation",
+    "report": "complete",
+    "complete": "complete",
+}
+
+
+def phase_techniques(phase: str, platform: str = "", top_n: int = 8) -> list[dict]:
+    """Return candidate ATT&CK techniques for one canonical loop phase.
+
+    Resolution order: STIX enterprise bundle (tactic-scoped), then the
+    local Atomic index (platform-scoped best effort). Never raises.
+
+    Args:
+        phase: Canonical kill-chain phase (``recon``, ``exploit``, ...).
+        platform: OS hint (``linux``/``windows``/``macos``), blank for any.
+        top_n: Maximum number of techniques returned.
+
+    Returns:
+        List of dicts with ``technique_id`` and ``name`` keys, possibly empty.
+    """
+    mapped = _LOOP_PHASE_ALIASES.get(str(phase or "").strip().lower(), "")
+    if not mapped:
+        return []
+    tactics = PHASE_TACTIC_MAP.get(mapped, [])
+    platform_l = str(platform or "").strip().lower()
+    out: list[dict] = []
+    seen: set[str] = set()
+
+    stix = get_engine()._stix
+    if tactics and stix.available():
+        try:
+            for tech in stix.techniques_for_tactics(tactics, platform_l):
+                tid = str(tech.get("technique_id", "") or "").strip()
+                if tid and tid not in seen:
+                    seen.add(tid)
+                    out.append({"technique_id": tid, "name": str(tech.get("name", "") or "")})
+        except Exception as exc:
+            log.debug("STIX technique query failed: %s", exc)
+
+    if not out:
+        index = get_engine()._atomic.build()
+        for tid in sorted(index):
+            if len(out) >= max(1, top_n):
+                break
+            if tid in seen:
+                continue
+            tests = index.get(tid) or []
+            if platform_l and tests and not any(
+                platform_l in [p.lower() for p in t.get("platforms", [])] for t in tests
+            ):
+                continue
+            seen.add(tid)
+            out.append({"technique_id": tid, "name": str(tests[0].get("name", "") or "") if tests else ""})
+
+    return out[: max(1, top_n)]
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------

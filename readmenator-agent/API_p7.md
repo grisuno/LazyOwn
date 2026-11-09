@@ -58,7 +58,7 @@ Imported by: `cli/doctor.py`, `cli/wizard.py`, `tests/test_profiles.py`
 
 ## core/prompt.py
 Depends on: `core/config.py`
-Imported by: `key.py`, `static/js/quill-2.0.3.js`
+Imported by: `key.py`, `static/hexabot/hexabot-spinner.js`, `static/js/quill-2.0.3.js`
 - `get_git_info` (function) `core/prompt.py:35` `def get_git_info()` -- Return current git branch and dirty-status for the prompt.
 - `get_venv_info` (function) `core/prompt.py:60` `def get_venv_info()` -- Return the active virtualenv name, or empty string if none.
 - `get_kernel` (function) `core/prompt.py:68` `def get_kernel()` -- Return the running kernel version (short form).

@@ -38,6 +38,7 @@ from collections import deque
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any, Callable
 
 DEFAULT_REPEAT_WINDOW = 5
 DEFAULT_TARGET_LIMIT = 3
@@ -51,6 +52,17 @@ _EDR_HIGH_SIGNAL_SCORE = 2.0
 _EDR_SIGNAL_WEIGHT = 2.0
 _EDR_DECAY = 0.5
 _PAUSE_RANGES = {1: (2.0, 5.0), 2: (5.0, 15.0)}
+_PAUSE_MAX_DELAY_SEC = 300.0
+_SLEEPER_WINDOW_RE = re.compile(r"^(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$")
+
+_FALLBACK_PACING_LOCAL: dict[str, Any] = {
+    "enabled": True,
+    "jitter_pct_min": 0.0,
+    "jitter_pct_max": 0.0,
+    "edr_pause_ranges": _PAUSE_RANGES,
+    "max_delay_sec": _PAUSE_MAX_DELAY_SEC,
+    "sleeper_windows": (),
+}
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _STOPWORDS = frozenset(
@@ -182,13 +194,113 @@ class EdrPacer:
     feeds one executed command with its wall-clock duration and output;
     the internal score decays over time so a single anomaly does not
     permanently slow the loop.
+
+    Delays are fully configurable through the orchestrator ``pacing``
+    block (see ``orchestrator_config.pacing``): per-level quiet ranges,
+    a jitter percentage applied to every drawn delay and ``HH:MM-HH:MM``
+    sleeper windows during which the recommended delay extends to the
+    window end (clamped to ``max_delay_sec`` so callers re-check the
+    window instead of oversleeping a cancellation).
     """
 
-    def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC) -> None:
+    def __init__(
+        self,
+        duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC,
+        *,
+        pause_ranges: dict[int, tuple[float, float]] | None = None,
+        jitter_pct: tuple[float, float] = (0.0, 0.0),
+        max_delay_sec: float = _PAUSE_MAX_DELAY_SEC,
+        sleeper_windows: tuple[str, ...] | list[str] = (),
+        clock: Callable[[], float] | None = None,
+        rng: Callable[[float, float], float] | None = None,
+    ) -> None:
+        """Configure the pacer.
+
+        Args:
+            duration_threshold: Seconds after which a step counts as slow.
+            pause_ranges: Per-level ``(low, high)`` quiet ranges; None
+                keeps the built-in table. An empty mapping disables
+                level-based pauses entirely.
+            jitter_pct: ``(min, max)`` percentage applied to every drawn
+                pause, e.g. ``(-30, 60)`` shrinks or stretches the delay.
+            max_delay_sec: Upper clamp for any recommended delay.
+            sleeper_windows: ``HH:MM-HH:MM`` quiet windows (local time).
+            clock: Injectable wall clock (epoch seconds) for tests.
+            rng: Injectable ``uniform(low, high)`` sampler for tests.
+        """
         self._threshold = max(1.0, float(duration_threshold))
+        raw_ranges = dict(pause_ranges) if pause_ranges is not None else dict(_PAUSE_RANGES)
+        self._pause_ranges: dict[int, tuple[float, float]] = {}
+        for level, bounds in raw_ranges.items():
+            try:
+                low, high = float(bounds[0]), float(bounds[1])
+            except (TypeError, ValueError, IndexError):
+                continue
+            if not isinstance(level, bool) and low >= 0 and high >= low:
+                self._pause_ranges[int(level)] = (low, high)
+        low_pct, high_pct = (float(jitter_pct[0]), float(jitter_pct[1]))
+        self._jitter_pct = (min(low_pct, high_pct), max(low_pct, high_pct))
+        self._max_delay = max(0.0, float(max_delay_sec))
+        self._sleeper_windows = EdrPacer.parse_windows(sleeper_windows)
+        self._clock = clock or time.time
+        self._rng = rng or random.uniform
         self._score = 0.0
         self._last_signal = ""
         self._lock = threading.Lock()
+
+    @staticmethod
+    def parse_windows(raw: tuple[str, ...] | list[str] | None) -> tuple[tuple[int, int, int, int], ...]:
+        """Parse ``HH:MM-HH:MM`` window strings into minute tuples.
+
+        Args:
+            raw: Raw window declarations; invalid entries are skipped.
+
+        Returns:
+            Tuples of ``(start_h, start_m, end_h, end_m)`` in 24h local
+            time.
+        """
+        parsed: list[tuple[int, int, int, int]] = []
+        for window in raw or ():
+            match = _SLEEPER_WINDOW_RE.match(str(window).strip())
+            if not match:
+                continue
+            start_h, start_m, end_h, end_m = (int(part) for part in match.groups())
+            if start_h > 23 or end_h > 23 or start_m > 59 or end_m > 59:
+                continue
+            parsed.append((start_h, start_m, end_h, end_m))
+        return tuple(parsed)
+
+    @classmethod
+    def from_config(cls, **overrides: Any) -> "EdrPacer":
+        """Build a pacer from the orchestrator pacing configuration.
+
+        Args:
+            overrides: Forwarded to the constructor verbatim, winning
+                over the configuration (used by callers that clamp).
+
+        Returns:
+            A configured pacer; when the orchestrator config is absent
+            or unreadable the built-in defaults apply, and
+            ``pacing.enabled = false`` yields an inert pacer.
+        """
+        try:
+            from modules import orchestrator_config
+
+            config = orchestrator_config.pacing()
+        except Exception:
+            config: dict[str, Any] = dict(_FALLBACK_PACING_LOCAL)
+        if not config.get("enabled", True):
+            return cls(pause_ranges={}, sleeper_windows=(), max_delay_sec=0.0, **overrides)
+        return cls(
+            pause_ranges=dict(config.get("edr_pause_ranges") or _PAUSE_RANGES),
+            jitter_pct=(
+                float(config.get("jitter_pct_min", 0.0) or 0.0),
+                float(config.get("jitter_pct_max", 0.0) or 0.0),
+            ),
+            max_delay_sec=float(config.get("max_delay_sec", _PAUSE_MAX_DELAY_SEC) or 0.0),
+            sleeper_windows=tuple(config.get("sleeper_windows") or ()),
+            **overrides,
+        )
 
     def observe(self, command: str, duration_sec: float, output: str) -> None:
         """Feed one executed step and update the telemetry estimate.
@@ -233,13 +345,94 @@ class EdrPacer:
         with self._lock:
             return self._last_signal
 
-    def inter_step_delay(self) -> float:
-        """Recommended sleep before the next step at the current level."""
-        level = self.level
-        if level not in _PAUSE_RANGES:
+    @staticmethod
+    def _window_seconds_until_end(
+        windows: tuple[tuple[int, int, int, int], ...], now: float | None
+    ) -> float:
+        """Return seconds until the active window ends (0 when outside).
+
+        Windows may wrap midnight (``23:00-03:00``); a wrapped window
+        matches when local time is after the start or before the end.
+        """
+        moment = time.localtime(now if now is not None else time.time())
+        minutes_now = moment.tm_hour * 60 + moment.tm_min
+        for start_h, start_m, end_h, end_m in windows:
+            start = start_h * 60 + start_m
+            end = end_h * 60 + end_m
+            if start == end:
+                continue
+            if start < end:
+                if not (start <= minutes_now < end):
+                    continue
+                return (end - minutes_now) * 60.0 - moment.tm_sec
+            if minutes_now >= start:
+                return (24 * 60 - minutes_now + end) * 60.0 - moment.tm_sec
+            if minutes_now < end:
+                return (end - minutes_now) * 60.0 - moment.tm_sec
+        return 0.0
+
+    def in_sleeper_window(self, now: float | None = None) -> bool:
+        """True when local time falls inside a configured quiet window."""
+        moment = self._clock() if now is None else now
+        return self._window_seconds_until_end(self._sleeper_windows, moment) > 0.0
+
+    @staticmethod
+    def windows_delay(
+        windows: tuple[str, ...] | list[str], now: float | None = None
+    ) -> float:
+        """Static quiet-window delay for callers without a pacer instance.
+
+        Args:
+            windows: ``HH:MM-HH:MM`` window declarations.
+            now: Injectable epoch seconds (None uses the real clock).
+
+        Returns:
+            Seconds until the active window ends, clamped to the
+            configured maximum; 0 when outside every window.
+        """
+        parsed = EdrPacer.parse_windows(windows)
+        if not parsed:
             return 0.0
-        low, high = _PAUSE_RANGES[level]
-        return random.uniform(low, high)
+        try:
+            from modules import orchestrator_config
+
+            max_delay = float(orchestrator_config.pacing().get("max_delay_sec", _PAUSE_MAX_DELAY_SEC) or 0.0)
+        except Exception:
+            max_delay = _PAUSE_MAX_DELAY_SEC
+        delay = EdrPacer._window_seconds_until_end(parsed, now)
+        if delay <= 0.0:
+            return 0.0
+        return max(0.0, min(delay, max_delay)) if max_delay > 0 else delay
+
+    def sleeper_delay(self, now: float | None = None) -> float:
+        """Recommended sleep because of a quiet window (0 when outside).
+
+        The delay is the time until the window end, clamped to
+        ``max_delay_sec`` so long windows sleep in bounded chunks and
+        every caller re-checks cancellation between chunks.
+        """
+        moment = self._clock() if now is None else now
+        delay = self._window_seconds_until_end(self._sleeper_windows, moment)
+        if delay <= 0.0:
+            return 0.0
+        return max(0.0, min(delay, self._max_delay)) if self._max_delay > 0 else delay
+
+    def inter_step_delay(self) -> float:
+        """Recommended sleep before the next step at the current level.
+
+        Combines the level's quiet range (scaled by the configured
+        jitter percentage) with the sleeper-window delay, taking the
+        larger of the two and clamping to ``max_delay_sec``.
+        """
+        low, high = self._pause_ranges.get(self.level, (0.0, 0.0))
+        delay = self._rng(low, high) if high > low else (low if low > 0 else 0.0)
+        jmin, jmax = self._jitter_pct
+        if delay > 0.0 and (jmin or jmax):
+            delay *= 1.0 + (self._rng(jmin, jmax) / 100.0)
+        delay = max(delay, self.sleeper_delay())
+        if self._max_delay > 0:
+            delay = min(delay, self._max_delay)
+        return max(0.0, delay)
 
     def quieten(self, command: str) -> str:
         """Return a quieter variant of the command at the current level.
@@ -255,6 +448,20 @@ class EdrPacer:
             if level >= required_level and pattern.search(command or ""):
                 return pattern.sub(replacement, command, count=1)
         return command
+
+    def describe(self) -> dict[str, Any]:
+        """Return a snapshot of the pacer state for admin surfaces."""
+        return {
+            "level": self.level,
+            "signal": self.signal,
+            "jitter_pct": self._jitter_pct,
+            "max_delay_sec": self._max_delay,
+            "sleeper_windows": [
+                f"{start_h:02d}:{start_m:02d}-{end_h:02d}:{end_m:02d}"
+                for start_h, start_m, end_h, end_m in self._sleeper_windows
+            ],
+            "in_sleeper_window": self.in_sleeper_window(),
+        }
 
 
 class TargetLimiter:

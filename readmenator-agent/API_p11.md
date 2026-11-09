@@ -85,8 +85,20 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_d
 
 ## modules/chain_facts.py
 Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_loop.py`, `tests/test_f4_hardening.py`
 - `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
+
+## modules/chain_loop.py
+Depends on: `cli/apt_chain_support.py`, `core/config.py`, `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_chain_loop.py`, `tests/test_playbook_chain.py`
+- `chain_mode` (function) `modules/chain_loop.py:34` `def chain_mode()` -- Return the configured chain transport mode for loop runs.
+- `is_chain_command` (function) `modules/chain_loop.py:52` `def is_chain_command(command)` -- True when the command line invokes the apt_chain verb.
+- `parse_chain_invocation` (function) `modules/chain_loop.py:57` `def parse_chain_invocation(command)` -- Split one ``apt_chain`` command line into name, target and vars.
+- `stepwise_eligible` (function) `modules/chain_loop.py:108` `def stepwise_eligible(chain, routable)` -- Decide whether one chain can run stepwise inside the worker.
+- `ChainStepBlocked.__init__` (method) `modules/chain_loop.py:141` `def __init__(self, status, detail)` -- Record the guard status and reason.
+- `run_chain_stepwise` (function) `modules/chain_loop.py:153` `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` -- Run one ``apt_chain`` decision step-by-step inside the worker.
+- `guarded` (function) `modules/chain_loop.py:225` `def guarded(step_command)` -- Route one chain step through the worker's guard path.
+- `on_step` (function) `modules/chain_loop.py:282` `def on_step(outcome)` -- Emit one chain_step telemetry event.
 
 ## modules/chain_match.py
 Depends on: `modules/chain_registry.py`
@@ -101,38 +113,38 @@ Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `test
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/selection/playbook.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
-- `skip_pending` (function) `modules/chain_registry.py:67` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
-- `ChainStep.identifier` (method) `modules/chain_registry.py:146` `def identifier(self)` -- Return the declared id or a stable generated one.
-- `Chain.resolve` (method) `modules/chain_registry.py:170` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
-- `evaluate_when` (function) `modules/chain_registry.py:291` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
-- `validate_chain` (function) `modules/chain_registry.py:356` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
-- `render_text_token_braces` (function) `modules/chain_registry.py:571` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
-- `load_all` (function) `modules/chain_registry.py:576` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
-- `get` (function) `modules/chain_registry.py:721` `def get(name, chains_dir)` -- Return one chain by name, or None.
-- `scan_all` (function) `modules/chain_registry.py:726` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
-- `set_enabled` (function) `modules/chain_registry.py:786` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
-- `generate_for_playbook` (function) `modules/chain_registry.py:809` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+- `skip_pending` (function) `modules/chain_registry.py:69` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
+- `ChainStep.identifier` (method) `modules/chain_registry.py:152` `def identifier(self)` -- Return the declared id or a stable generated one.
+- `Chain.resolve` (method) `modules/chain_registry.py:176` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
+- `evaluate_when` (function) `modules/chain_registry.py:297` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
+- `validate_chain` (function) `modules/chain_registry.py:362` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
+- `render_text_token_braces` (function) `modules/chain_registry.py:586` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
+- `load_all` (function) `modules/chain_registry.py:591` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
+- `get` (function) `modules/chain_registry.py:749` `def get(name, chains_dir)` -- Return one chain by name, or None.
+- `scan_all` (function) `modules/chain_registry.py:754` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
+- `set_enabled` (function) `modules/chain_registry.py:814` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
+- `generate_for_playbook` (function) `modules/chain_registry.py:837` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
-Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-- `StepOutcome.ok` (method) `modules/chain_runner.py:82` `def ok(self)` -- Return True for success, dry-run and skipped steps.
-- `StepOutcome.to_dict` (method) `modules/chain_runner.py:86` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:131` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:155` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:178` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:183` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:188` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:193` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:198` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:203` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:208` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:219` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:332` `def run(self)` -- Execute the chain in order and return every step outcome.
+Depends on: `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
+- `StepOutcome.ok` (method) `modules/chain_runner.py:84` `def ok(self)` -- Return True for success, dry-run and skipped steps.
+- `StepOutcome.to_dict` (method) `modules/chain_runner.py:88` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:134` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:159` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:182` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:187` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:192` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:197` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:202` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:207` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `render_text` (function) `modules/chain_runner.py:212` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:223` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:348` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
 - `checkpoint_dir` (function) `modules/chain_state.py:26` `def checkpoint_dir(base_dir)` -- Return the directory that stores chain checkpoints.
 - `new_run_id` (function) `modules/chain_state.py:33` `def new_run_id(chain_name)` -- Return a collision-resistant run id for one chain execution.
 - `write_checkpoint` (function) `modules/chain_state.py:39` `def write_checkpoint(directory, state)` -- Persist one chain run state as JSON and return the file path.
@@ -142,9 +154,9 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 ## modules/chain_synth.py
 Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
 Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `tests/test_chain_synth.py`
-- `synth_chain_data` (function) `modules/chain_synth.py:89` `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)` -- Compose the chain dict for a host; (data, notes).
-- `facts_for_target` (function) `modules/chain_synth.py:224` `def facts_for_target(target)` -- Pull host facts from the FactStore for synthesis inputs.
-- `write_generated_chain` (function) `modules/chain_synth.py:253` `def write_generated_chain(data, chains_dir)` -- Validate and persist the generated chain file; returns (path, errors).
+- `synth_chain_data` (function) `modules/chain_synth.py:91` `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` -- Compose the chain dict for a host; (data, notes).
+- `facts_for_target` (function) `modules/chain_synth.py:243` `def facts_for_target(target)` -- Pull host facts from the FactStore for synthesis inputs.
+- `write_generated_chain` (function) `modules/chain_synth.py:272` `def write_generated_chain(data, chains_dir)` -- Validate and persist the generated chain file; returns (path, errors).
 
 ## modules/chain_tokens.py
 Depends on: `skills/lazyown_facts.py`
@@ -295,7 +307,6 @@ Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beaco
 
 ## modules/config_store.py
 Depends on: `core/config.py`, `core/logging.py`
-Imported by: `tests/test_core_modules.py`
 - `init` (function) `modules/config_store.py:36` `def init(path, watch)` -- Initialise the config store (idempotent).
 - `get_config` (function) `modules/config_store.py:53` `def get_config(key, default)` -- Return a config value (or the full dict when *key* is empty).
 - `set_config` (function) `modules/config_store.py:66` `def set_config()` -- Update one or more keys and persist to disk atomically.
@@ -338,7 +349,7 @@ Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome
 
 ## modules/custom_tools.py
 Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
 - `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
 - `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
 - `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
@@ -480,20 +491,6 @@ Imported by: `modules/lazy_loop.py`
 - `build_engine_digest` (function) `modules/digest.py:20` `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` -- Render the engine-loop markdown digest.
 - `write_digest` (function) `modules/digest.py:71` `def write_digest(task_id, body, root)` -- Persist the digest beside the archives; returns the written path.
 - `worker_results_digest` (function) `modules/digest.py:82` `def worker_results_digest(rows)` -- Extract displayed step lines and blocked bases from result dicts.
-
-## modules/dns_beacon.py
-Depends on: `core/safe_exec.py`
-Imported by: `cli/commands/dns_exfil.py`
-- `DNSBeacon.__init__` (method) `modules/dns_beacon.py:38` `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)`
-- `DNSBeacon.check_in` (method) `modules/dns_beacon.py:105` `def check_in(self)` -- Send heartbeat and check for pending commands.
-- `DNSBeacon.send_result` (method) `modules/dns_beacon.py:135` `def send_result(self, command, output, exit_code)` -- Send command output via DNS TXT queries.
-- `DNSBeacon.run` (method) `modules/dns_beacon.py:171` `def run(self)` -- Main beacon loop: check-in -> execute command -> send result -> sleep.
-- `DNSC2Server.__init__` (method) `modules/dns_beacon.py:211` `def __init__(self, domain, log_source, interface)`
-- `DNSC2Server.register_beacon` (method) `modules/dns_beacon.py:225` `def register_beacon(self, beacon_id, hostname)` -- Register a new DNS beacon.
-- `DNSC2Server.list_beacons` (method) `modules/dns_beacon.py:235` `def list_beacons(self)` -- List all registered DNS beacons.
-- `DNSC2Server.send_task` (method) `modules/dns_beacon.py:239` `def send_task(self, beacon_id, command)` -- Queue a command for a DNS beacon.
-- `DNSC2Server.process_query_log` (method) `modules/dns_beacon.py:248` `def process_query_log(self, line)` -- Process a single DNS query log line and extract beacon data.
-- `DNSC2Server.get_results` (method) `modules/dns_beacon.py:327` `def get_results(self, beacon_id)` -- Get received results for a beacon.
 
 
 Next: [API_p12.md](API_p12.md)

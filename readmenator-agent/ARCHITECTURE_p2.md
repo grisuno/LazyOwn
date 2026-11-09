@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/session_ops.py` -> `modules/pipeline_engine.py`
+- `cli/commands/session_ops.py` -> `modules/planner.py`
+- `cli/commands/session_ops.py` -> `skills/autonomous_daemon.py`
+- `cli/commands/session_ops.py` -> `utils.py`
+- `cli/commands/shellsys.py` -> `cli/commands/_base.py`
+- `cli/commands/shellsys.py` -> `core/safe_exec.py`
+- `cli/commands/shellsys.py` -> `core/session_secrets.py`
+- `cli/commands/shellsys.py` -> `utils.py`
 - `cli/commands/sleep_obfuscation.py` -> `cli/commands/_base.py`
 - `cli/commands/sleep_obfuscation.py` -> `modules/sleep_obfuscation.py`
 - `cli/commands/sleep_obfuscation.py` -> `utils.py`
@@ -73,6 +81,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/lazy_orchestrator.py` -> `cli/tui_forms.py`
 - `cli/lazy_orchestrator.py` -> `core/param_registry.py`
 - `cli/lazy_orchestrator.py` -> `modules/jsonl_tail.py`
+- `cli/lazy_orchestrator.py` -> `modules/killchain.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_engine.py`
 - `cli/lazy_orchestrator.py` -> `modules/lazy_loop.py`
 - `cli/lazy_orchestrator.py` -> `modules/orchestrator_config.py`
@@ -487,14 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/registry.py` -> `lazygui/services/event_log.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/sessions_panel.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/sessions_panel.py` -> `lazygui/services/models.py`
-- `lazygui/panels/sessions_panel.py` -> `lazygui/widgets/filter_bar.py`
-- `lazygui/panels/terminal_panel.py` -> `lazygui/config/constants.py`
-- `lazygui/panels/terminal_panel.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/terminal_panel.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/terminal_panel.py` -> `lazygui/widgets/terminal_view.py`
-- `lazygui/services/__init__.py` -> `lazygui/services/backend.py`
-- `lazygui/services/__init__.py` -> `lazygui/services/event_log.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

@@ -50,6 +50,68 @@ class CalderaAbilityRef:
     name: str = ""
 
 
+ACTION_KINDS: tuple[str, ...] = (
+    "atomic",
+    "command",
+    "lazyscript",
+    "lua",
+    "plugin",
+    "lazyaddon",
+    "chain",
+)
+
+
+@dataclass
+class PlaybookAction:
+    """One executable step inside a playbook phase.
+
+    ``kind`` selects the executor contract: ``atomic`` emulates the
+    phase technique through Atomic Red Team, ``command`` runs a shell
+    line, ``lazyscript`` a ``lazyscripts/`` script, ``lua``/``plugin``
+    a plugin-registered verb, ``lazyaddon`` a registered addon via
+    ``lazy_addon run`` and ``chain`` nests another ``apt_chain``.
+    """
+
+    kind: str = "command"
+    run: str = ""
+    technique_id: str = ""
+    name: str = ""
+    timeout: int = 0
+    sleep: float = 0.0
+    jitter: float = 0.0
+    continue_on_error: bool = False
+    capture: str = ""
+    when: str = ""
+    sinks: list[str] = field(default_factory=list)
+
+
+def _actions_from_raw(raw: Any) -> list[PlaybookAction]:
+    """Parse one phase's ``steps`` declarations, skipping malformed ones."""
+    actions: list[PlaybookAction] = []
+    for item in raw or []:
+        if not isinstance(item, dict):
+            continue
+        kind = str(item.get("kind", "") or "").strip().lower() or "command"
+        if kind not in ACTION_KINDS:
+            kind = "command"
+        actions.append(
+            PlaybookAction(
+                kind=kind,
+                run=str(item.get("run", "") or ""),
+                technique_id=str(item.get("technique_id", "") or ""),
+                name=str(item.get("name", "") or ""),
+                timeout=int(item.get("timeout", 0) or 0),
+                sleep=float(item.get("sleep", 0.0) or 0.0),
+                jitter=float(item.get("jitter", 0.0) or 0.0),
+                continue_on_error=bool(item.get("continue_on_error", False)),
+                capture=str(item.get("capture", "") or ""),
+                when=str(item.get("when", "") or ""),
+                sinks=[str(value) for value in (item.get("sinks") or []) if str(value).strip()],
+            )
+        )
+    return actions
+
+
 @dataclass
 class PhaseStep:
     name: str
@@ -59,6 +121,7 @@ class PhaseStep:
     atomic_tests: list[AtomicTestRef] = field(default_factory=list)
     caldera_abilities: list[CalderaAbilityRef] = field(default_factory=list)
     detection_hints: list[str] = field(default_factory=list)
+    steps: list[PlaybookAction] = field(default_factory=list)
 
 
 @dataclass
@@ -85,6 +148,7 @@ class AptPlaybook:
                     atomic_tests=atomic_tests,
                     caldera_abilities=caldera_abilities,
                     detection_hints=ph.get("detection_hints", []),
+                    steps=_actions_from_raw(ph.get("steps")),
                 )
             )
         return cls(
@@ -105,6 +169,7 @@ class AptPlaybook:
             "phases": len(self.phases),
             "atomic_tests": sum(len(p.atomic_tests) for p in self.phases),
             "caldera_abilities": sum(len(p.caldera_abilities) for p in self.phases),
+            "actions": sum(len(p.steps) for p in self.phases),
         }
 
 

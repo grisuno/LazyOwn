@@ -40,6 +40,38 @@ _ADMIN_ACTIONS = frozenset(
     {"list", "show", "validate", "enable", "disable", "checkpoints", "resume", "synth", "approvals"}
 )
 _MAX_JSON_VALUES = 64
+_ADMIN_VALUED_FLAGS = frozenset({"--techniques", "--playbook", "--target", "--limit"})
+
+
+def _parse_admin_flags(args: ChainArgs, tokens: list[str]) -> None:
+    """Split admin tokens into positionals, valued flags and plain flags."""
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token in _ADMIN_VALUED_FLAGS:
+            value = tokens[index + 1] if index + 1 < len(tokens) else ""
+            index += 2
+            if not value or value.startswith("-"):
+                args.errors.append(f"missing value for {token}")
+                continue
+            if token == "--techniques":
+                args.techniques = [part.strip() for part in value.split(",") if part.strip()]
+            elif token == "--playbook":
+                args.playbook = value
+            elif token == "--target":
+                args.target = value
+            elif token == "--limit":
+                try:
+                    args.limit = max(1, int(value))
+                except ValueError:
+                    args.errors.append(f"--limit needs an integer (got {value!r})")
+            continue
+        if token.startswith("-") and token not in _FLAGS_NO_VALUE:
+            args.errors.append(f"unknown option for {args.admin_action}: {token}")
+            index += 1
+            continue
+        args.admin_args.append(token)
+        index += 1
 
 
 def _token_name_ok(name: str) -> bool:
@@ -69,6 +101,7 @@ class ChainArgs:
     resume_run_id: str = ""
     playbook: str = ""
     chain_override: str = ""
+    techniques: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
 
@@ -88,10 +121,7 @@ def parse_chain_args(line: str) -> ChainArgs:
         return args
     if parts[0].lower() in _ADMIN_ACTIONS:
         args.admin_action = parts[0].lower()
-        args.admin_args = [part for part in parts[1:] if not part.startswith("-")]
-        for token in parts[1:]:
-            if token.startswith("-") and token not in _FLAGS_NO_VALUE:
-                args.errors.append(f"unknown option for {args.admin_action}: {token}")
+        _parse_admin_flags(args, parts[1:])
         if args.admin_action in ("list", "approvals") and "--json" in [part.lower() for part in parts[1:]]:
             args.json_out = True
         if args.admin_action == "synth" and "--json" in [part.lower() for part in parts[1:]]:
@@ -169,6 +199,35 @@ def _set_value(args: ChainArgs, flag: str, value: str) -> None:
             args.errors.append(f"--timeout needs seconds (got {value!r})")
 
 
+def _synth_from_playbook(playbook: str, target: str) -> dict[str, Any]:
+    """Lower one named APT playbook into a written chain; admin payload."""
+    try:
+        from modules.apt_playbooks import AptPlaybookEngine
+        from modules.playbook_chain import playbook_to_chain, write_playbook_chain
+
+        loaded = AptPlaybookEngine().get(playbook)
+    except Exception as exc:
+        return {"ok": False, "error": f"playbook lowering unavailable: {exc}"}
+    if loaded is None:
+        return {"ok": False, "error": f"unknown playbook: {playbook}"}
+    chain, errors = playbook_to_chain(loaded, target=target)
+    if chain is None:
+        return {"ok": False, "action": "synth", "errors": errors}
+    try:
+        path = write_playbook_chain(chain)
+    except OSError as exc:
+        return {"ok": False, "action": "synth", "errors": [f"write failed: {exc}"]}
+    return {
+        "ok": True,
+        "action": "synth",
+        "name": chain.name,
+        "path": path,
+        "steps": len(chain.steps),
+        "errors": errors,
+        "notes": [f"lowered from playbook {loaded.apt_name}"],
+    }
+
+
 def resolve_admin(args: ChainArgs) -> dict[str, Any]:
     """Execute an admin action against the registry and checkpoint store."""
     from modules.chain_registry import CHAINS_DIR, scan_all, set_enabled, validate_chain
@@ -181,7 +240,7 @@ def resolve_admin(args: ChainArgs) -> dict[str, Any]:
     if args.admin_action == "checkpoints":
         return {"ok": True, "action": "checkpoints", "rows": list_checkpoints(limit=args.limit or 10)}
     if args.admin_action == "synth":
-        playbook = args.admin_args[0].strip() if args.admin_args else ""
+        playbook = args.playbook or (args.admin_args[0].strip() if args.admin_args else "")
         target = ""
         if len(args.admin_args) > 1:
             target = args.admin_args[1].strip()
@@ -189,6 +248,8 @@ def resolve_admin(args: ChainArgs) -> dict[str, Any]:
             target = args.target.strip()
         if not target:
             return {"ok": False, "error": "synth needs a target (positional, --target or rhost)"}
+        if args.playbook and not args.techniques:
+            return _synth_from_playbook(playbook, target)
         try:
             from modules.chain_synth import facts_for_target, synth_chain_data, write_generated_chain
         except Exception as exc:
@@ -200,6 +261,7 @@ def resolve_admin(args: ChainArgs) -> dict[str, Any]:
             facts.get("services", []),
             has_creds=bool(facts.get("has_creds")),
             os_hint=str(facts.get("os_hint", "")),
+            techniques=args.techniques,
         )
         file_path, errors = write_generated_chain(data, CHAINS_DIR)
         return {

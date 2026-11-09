@@ -1,9 +1,91 @@
 # API (page 20 of 26)
 Previous: [API_p19.md](API_p19.md)
 
+## modules/win_rootkit/mrhyde.c
+- `RunExperiment` (function) `modules/win_rootkit/mrhyde.c:19` `void __cdecl RunExperiment()` -- Define the RunExperiment function
+- `load_hidden_pids` (function) `modules/win_rootkit/mrhyde.c:24` `void load_hidden_pids()`
+- `load_hidden_files` (function) `modules/win_rootkit/mrhyde.c:47` `void load_hidden_files()`
+- `FindProcessId` (function) `modules/win_rootkit/mrhyde.c:89` `DWORD FindProcessId(const char* processName)`
+- `HideProcessByPID` (function) `modules/win_rootkit/mrhyde.c:115` `void HideProcessByPID(DWORD pid)`
+- `search_pid` (function) `modules/win_rootkit/mrhyde.c:137` `BOOL search_pid()`
+- `should_hide_pid` (function) `modules/win_rootkit/mrhyde.c:147` `BOOL should_hide_pid(DWORD pid)`
+- `should_hide_file` (function) `modules/win_rootkit/mrhyde.c:161` `BOOL should_hide_file(const char* filename)`
+- `HookedFindFirstFile` (function) `modules/win_rootkit/mrhyde.c:171` `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindFirstFile
+- `HookedFindNextFile` (function) `modules/win_rootkit/mrhyde.c:180` `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindNextFile
+- `HookedCreateToolhelp32Snapshot` (function) `modules/win_rootkit/mrhyde.c:189` `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` -- Hook para CreateToolhelp32Snapshot
+- `HookedProcess32First` (function) `modules/win_rootkit/mrhyde.c:198` `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32First
+- `HookedProcess32Next` (function) `modules/win_rootkit/mrhyde.c:210` `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32Next
+- `HookFunctions` (function) `modules/win_rootkit/mrhyde.c:222` `void HookFunctions()` -- Función para realizar el hooking de las funciones
+- `DllMain` (function) `modules/win_rootkit/mrhyde.c:272` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/win_rootkit/win_rin3_rootkit.cs
+- `SID.GetUsernameFromPid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:145`
+- `SID.ShouldHidePid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:203`
+- `SID.HookFindFirstFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:214`
+- `SID.HookCreateFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:226`
+
+## modules/win_rootkit/win_ring3_rootkit.c
+- `DownloadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:79` `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)`
+- `ReflectiveLoadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:99` `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)`
+- `initPIDArray` (function) `modules/win_rootkit/win_ring3_rootkit.c:146` `void initPIDArray(PIDArray *array)` -- Función para inicializar el arreglo de PIDs
+- `addPID` (function) `modules/win_rootkit/win_ring3_rootkit.c:153` `void addPID(PIDArray *array, DWORD pid)` -- Función para agregar un PID al arreglo
+- `freePIDArray` (function) `modules/win_rootkit/win_ring3_rootkit.c:162` `void freePIDArray(PIDArray *array)` -- Función para liberar la memoria del arreglo de PIDs
+- `getPIDsFromTasklist` (function) `modules/win_rootkit/win_ring3_rootkit.c:166` `void getPIDsFromTasklist(PIDArray *pidArray)`
+- `AddDllToAppInitDLLs` (function) `modules/win_rootkit/win_ring3_rootkit.c:191` `BOOL AddDllToAppInitDLLs(const char* dllPath)`
+- `GetProcessIdByName` (function) `modules/win_rootkit/win_ring3_rootkit.c:240` `DWORD GetProcessIdByName(const char* processName)`
+- `Gifted` (function) `modules/win_rootkit/win_ring3_rootkit.c:270` `BOOL Gifted(DWORD processId, const char* dllPath)`
+- `elp` (function) `modules/win_rootkit/win_ring3_rootkit.c:362` `void elp()`
+- `ensure_pid_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:382` `void ensure_pid_file_exists()`
+- `ensure_key_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:419` `void ensure_key_file_exists()`
+- `ensure_hide_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:446` `void ensure_hide_file_exists()`
+- `giveGift` (function) `modules/win_rootkit/win_ring3_rootkit.c:475` `BOOL giveGift()`
+- `handle_client` (function) `modules/win_rootkit/win_ring3_rootkit.c:526` `DWORD WINAPI handle_client(LPVOID client_socket)`
+- `monitor_shell` (function) `modules/win_rootkit/win_ring3_rootkit.c:755` `DWORD WINAPI monitor_shell(LPVOID data)`
+- `main` (function) `modules/win_rootkit/win_ring3_rootkit.c:865` `int main()`
+
+## modules/win_rootkit/win_ring3_rootkit.cpp
+- `get_username_from_pid` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:42` `char* get_username_from_pid(DWORD pid)`
+- `should_hide_pid` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:65` `int should_hide_pid(const char* pid)`
+- `hook_FindFirstFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:75` `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)`
+- `hook_CreateFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:85` `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...`
+- `DllMain` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:94` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/winbox_gym.py
+Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
+- `load_index` (function) `modules/winbox_gym.py:222` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/winbox_gym.py:227` `def vulnerabilities(path)` -- Return every indexed lab vector.
+- `get` (function) `modules/winbox_gym.py:233` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
+- `chain_for` (function) `modules/winbox_gym.py:242` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
+- `exploit_for` (function) `modules/winbox_gym.py:252` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
+- `validate_matrix` (function) `modules/winbox_gym.py:262` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/winbox_gym.py:311` `def summary(path)` -- Return counts by severity and service for operators.
+- `binary_path` (function) `modules/winbox_gym.py:335` `def binary_path()` -- Resolve the winbox executable or None.
+- `ensure_installed` (function) `modules/winbox_gym.py:340` `def ensure_installed(params, timeout)` -- Clone and pip-install the upstream WinBox repo when the binary is missing.
+- `check_readiness` (function) `modules/winbox_gym.py:412` `def check_readiness(params)` -- Report WinBox lab readiness without installing anything.
+- `ensure_prereqs` (function) `modules/winbox_gym.py:453` `def ensure_prereqs(timeout)` -- Install missing lab host prerequisites through apt-get.
+- `ensure_lab_ready` (function) `modules/winbox_gym.py:822` `def ensure_lab_ready(params)` -- Bring the WinBox lab to attackable state in one idempotent call.
+- `run_cli` (function) `modules/winbox_gym.py:924` `def run_cli(args, timeout)` -- Run one allowlisted winbox CLI action without a shell.
+- `vm_status` (function) `modules/winbox_gym.py:1113` `def vm_status(timeout)` -- Query the WinBox VM state and address.
+- `vm_ip` (function) `modules/winbox_gym.py:1148` `def vm_ip()` -- Return the lab VM IPv4 address, or an empty string.
+- `resolve_target` (function) `modules/winbox_gym.py:1170` `def resolve_target()` -- Return the lab VM IP and mirror it into ``payload.json`` rhost.
+- `ensure_vm_running` (function) `modules/winbox_gym.py:1184` `def ensure_vm_running(timeout)` -- Start the lab VM when it is not running.
+- `record_artifact` (function) `modules/winbox_gym.py:1211` `def record_artifact(name, output)` -- Persist one CLI transcript under ``sessions/winbox``.
+- `attack_readiness` (function) `modules/winbox_gym.py:1234` `def attack_readiness(params)` -- Report whether the autonomous loop can attack the lab right now.
+- `main` (function) `modules/winbox_gym.py:1262` `def main()` -- CLI: list | validate | summary | readiness.
+
+## modules/workspace.py
+Imported by: `tests/test_lazy_loop.py`
+- `root` (function) `modules/workspace.py:21` `def root()` -- Return (and create) the workspace root directory.
+- `resolve` (function) `modules/workspace.py:27` `def resolve(rel)` -- Resolve a workspace-relative path, refusing escapes.
+- `list_entries` (function) `modules/workspace.py:46` `def list_entries(rel)` -- List one directory with names, kinds and sizes.
+- `read_text` (function) `modules/workspace.py:63` `def read_text(rel, limit)` -- Read one file, truncated to the byte limit.
+- `write_text` (function) `modules/workspace.py:72` `def write_text(rel, content)` -- Write one file, creating parents; returns the character count.
+- `make_dir` (function) `modules/workspace.py:83` `def make_dir(rel)` -- Create one directory (parents included).
+- `remove` (function) `modules/workspace.py:90` `def remove(rel)` -- Delete a file or directory tree inside the workspace.
+
 ## modules/world_model.py
 Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_model_extended.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_model_extended.py`
 - `read_state_dict` (function) `modules/world_model.py:292` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
 - `write_state_dict` (function) `modules/world_model.py:327` `def write_state_dict(path, data)` -- Atomically write a world-model state dict encrypted at rest.
 - `HostState.rank` (method) `modules/world_model.py:384` `def rank(self)`
@@ -224,6 +306,7 @@ Depends on: `poc_tui/config.py`
 
 ## poc_tui/run.py
 Depends on: `poc_tui/app.py`
+Imported by: `static/hexabot/hexabot-spinner.js`
 - `main` (function) `poc_tui/run.py:9` `def main()`
 
 ## readmeneitor.py
@@ -409,52 +492,6 @@ Depends on: `scripts/journal.py`
 - `render` (function) `scripts/sync_doc_stats.py:136` `def render(template, stats)` -- Format one replacement template with the measured stats.
 - `sync` (function) `scripts/sync_doc_stats.py:141` `def sync(check, stats, root)` -- Apply or verify every replacement; return the list of stale spots.
 - `main` (function) `scripts/sync_doc_stats.py:165` `def main()` -- CLI entry point.
-
-## scripts/top_tier_check.py
-- `fail` (function) `scripts/top_tier_check.py:23` `def fail(message)`
-- `ok` (function) `scripts/top_tier_check.py:28` `def ok(message)`
-- `count_cli_commands` (function) `scripts/top_tier_check.py:32` `def count_cli_commands()`
-- `count_mcp_tools` (function) `scripts/top_tier_check.py:43` `def count_mcp_tools()`
-- `count_addons` (function) `scripts/top_tier_check.py:48` `def count_addons()`
-- `check_versions` (function) `scripts/top_tier_check.py:52` `def check_versions()`
-- `check_doc_counts` (function) `scripts/top_tier_check.py:70` `def check_doc_counts(commands, mcp, addons)`
-- `check_tracked_secrets` (function) `scripts/top_tier_check.py:81` `def check_tracked_secrets()`
-- `check_release_inputs` (function) `scripts/top_tier_check.py:108` `def check_release_inputs()`
-- `main` (function) `scripts/top_tier_check.py:116` `def main()`
-
-## scripts/update_apt_atomic_ids.py
-- `build_technique_index` (function) `scripts/update_apt_atomic_ids.py:22` `def build_technique_index(atomics_path)` -- Map technique_id -> list of {atomic_id, name, description}.
-- `update_playbooks` (function) `scripts/update_apt_atomic_ids.py:46` `def update_playbooks(index, playbook_dir)`
-
-## scripts/validate_agent_contract.sh
-- `pass` (function) `scripts/validate_agent_contract.sh:23`
-- `fail` (function) `scripts/validate_agent_contract.sh:27`
-- `check` (function) `scripts/validate_agent_contract.sh:32`
-- `check_no_hardcoded_passwords` (function) `scripts/validate_agent_contract.sh:59` -- -- No hardcoded credentials outside payload.json --- Pentest help-text, doc placeholders (<...>), template vars ({{...
-- `check_no_hardcoded_wordlists` (function) `scripts/validate_agent_contract.sh:74` -- -- No hardcoded wordlist paths outside payload.json --- Help-text examples, docstrings and filesystem hints are...
-
-## skills/aci_planner.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/world_model.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_aci_planner.py`
-- `AttackPhase.to_dict` (method) `skills/aci_planner.py:171` `def to_dict(self)` -- Serialize to dict for JSON persistence.
-- `AttackPhase.from_dict` (method) `skills/aci_planner.py:176` `def from_dict(cls, d)` -- Deserialize from dict.
-- `ACIPlan.active_phase` (method) `skills/aci_planner.py:199` `def active_phase(self)` -- Return the first phase that is active or pending.
-- `ACIPlan.completion_pct` (method) `skills/aci_planner.py:207` `def completion_pct(self)` -- Percentage of phases that are done or skipped.
-- `ACIPlan.to_dict` (method) `skills/aci_planner.py:214` `def to_dict(self)` -- Serialize to dict for JSON persistence.
-- `ACIPlan.from_dict` (method) `skills/aci_planner.py:221` `def from_dict(cls, d)` -- Deserialize from dict.
-- `ACIPlanner.__init__` (method) `skills/aci_planner.py:463` `def __init__(self, api_key, objectives_file, plan_file)`
-- `ACIPlanner.plan` (method) `skills/aci_planner.py:473` `def plan(self, goal, phase_filter)` -- Decompose *goal* into an ACIPlan, inject objectives, persist.
-- `ACIEngine.__init__` (method) `skills/aci_planner.py:606` `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)`
-- `ACIEngine.status` (method) `skills/aci_planner.py:620` `def status(self)` -- Return a structured status dict for the active plan.
-- `ACIEngine.should_replan` (method) `skills/aci_planner.py:660` `def should_replan(self, plan)` -- Return True when the plan is stalled and a replan is warranted.
-- `ACIEngine.replan` (method) `skills/aci_planner.py:673` `def replan(self, reason)` -- Generate a new set of objectives for blocked/remaining phases.
-- `ACIEngine.complete` (method) `skills/aci_planner.py:743` `def complete(self)` -- Mark the active plan as completed and archive it.
-- `ACIReflector.__init__` (method) `skills/aci_planner.py:799` `def __init__(self, lessons_file)`
-- `ACIReflector.reflect` (method) `skills/aci_planner.py:802` `def reflect(self, plan)` -- Analyse *plan* and generate lessons.
-- `mcp_aci_plan` (function) `skills/aci_planner.py:867` `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` -- Plan an engagement goal and return a JSON summary.
-- `mcp_aci_status` (function) `skills/aci_planner.py:925` `def mcp_aci_status()` -- Return live status of the active ACI plan as JSON.
-- `mcp_aci_replan` (function) `skills/aci_planner.py:942` `def mcp_aci_replan(reason)` -- Force adaptive replanning of the active ACI plan.
-- `main` (function) `skills/aci_planner.py:1005` `def main(argv)` -- Entry point for CLI usage.
 
 
 Next: [API_p21.md](API_p21.md)

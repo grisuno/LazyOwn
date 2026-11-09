@@ -3055,6 +3055,40 @@ class TaskStore:
         return int(intent_id) in (record.get("killed", []) or [])
 
 
+def _payload_scope_items() -> list[dict]:
+    """Lift the payload's authorized scope into task scope rules.
+
+    The payload ``scope`` list (CIDRs, bare IPs, hostnames) is the
+    operator's engagement authorization; every loop task inherits it so
+    worker gating vets loopback and RFC1918 targets the same way the CLI
+    guard does, instead of falling back to the lab-only default.
+
+    Returns:
+        Scope rule dicts (kind, value, reason); empty when the payload
+        has no scope.
+    """
+    try:
+        from core.config import load_payload
+
+        entries = (load_payload() or {}).get("scope") or []
+    except Exception:
+        return []
+    items: list[dict] = []
+    for entry in entries:
+        value = str(entry or "").strip()
+        if not value:
+            continue
+        asset = _target_as_asset(value)
+        kind = {
+            "url": "url",
+            "cidr": "cidr",
+            "ip": "ip",
+            "subdomain": "subdomain",
+        }.get(asset.kind, "subdomain")
+        items.append({"kind": kind, "value": value, "reason": "authorized in payload.json"})
+    return items
+
+
 def extract_scope_items(goal_text: str, description: str = "") -> list[dict]:
     """Lift explicit asset scope from goal like the planner goalsScopeTail.
 
@@ -4135,7 +4169,7 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         self._jobs: dict[str, dict] = {}
         self._shell_session = None
         self._shell_queue = None
-        self._pacer = EdrPacer()
+        self._pacer = EdrPacer.from_config()
         self._repeats = RepeatDetector(window=8)
         self._fact_store: FactVectorStore | None = None
         register_worker(self)
@@ -4746,6 +4780,9 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                     tool_use_id=str(decision.get("tool_use_id", "")),
                 )
                 return "", "blocked", f"needs approval: {confirm_reason}"
+        chained = self._run_chained(intent, command, executor, budget, intercept, retry_state)
+        if chained is not None:
+            return chained
         output = self._run(command, executor)
         budget.record_toolcall(self.task_id, intent.node_id)
         try:
@@ -4812,6 +4849,38 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         except Exception:
             pass
         return output, "ok", ""
+
+    def _run_chained(
+        self,
+        intent: ExplorationNode,
+        command: str,
+        executor,
+        budget: Budget,
+        intercept: InterceptQueue,
+        retry_state: dict,
+    ) -> tuple[str, str, str] | None:
+        """Delegate ``apt_chain`` decisions to the stepwise chain executor.
+
+        Args:
+            intent: Executed intent node.
+            command: Command line (checked for the apt_chain prefix).
+            executor: Worker executor callable for leaf commands.
+            budget: Loop budget tracker.
+            intercept: Worker intercept queue.
+            retry_state: Worker retry state.
+
+        Returns:
+            The guarded outcome of the stepwise chain run, or None when
+            the command is not a chain decision or must fall through to
+            the whole-chain verb path.
+        """
+        try:
+            from modules.chain_loop import is_chain_command, run_chain_stepwise
+        except Exception:
+            return None
+        if not is_chain_command(command):
+            return None
+        return run_chain_stepwise(self, intent, command, executor, budget, intercept, retry_state)
 
     def _publish_shell_proof(self, intent: ExplorationNode, target: str, command: str, output: str) -> bool:
         """Publish one exploit outcome when a step output proves a live shell.
@@ -7836,6 +7905,8 @@ class LazyLoopEngine:
         self.worker_cap = 5
         self.intel_sync_interval = INTEL_SYNC_INTERVAL_SEC
         self.wake_debounce_sec = WAKE_DEBOUNCE_SEC
+        self.sleeper_windows: tuple[str, ...] = ()
+        self.round_sleep_sec = 0.0
         self.apply_profile("")
         try:
             from core.config import load_payload
@@ -7870,6 +7941,17 @@ class LazyLoopEngine:
         resolved = dict(profile.get("limits") or {})
         self.limits = resolved
         self.debounce_sec = float(resolved.get("step_delay_sec", DEFAULT_DEBOUNCE_SEC) or DEFAULT_DEBOUNCE_SEC)
+        try:
+            from modules import orchestrator_config as _oc_pacing
+
+            pacing_cfg = _oc_pacing.pacing()
+        except Exception:
+            pacing_cfg = {}
+        self.sleeper_windows = tuple(str(window) for window in (pacing_cfg.get("sleeper_windows") or ()))
+        try:
+            self.round_sleep_sec = max(0.0, float(pacing_cfg.get("round_sleep_sec", 0.0) or 0.0))
+        except (TypeError, ValueError):
+            self.round_sleep_sec = 0.0
         self.heartbeat_sec = float(resolved.get("heartbeat_sec", PLAN_HEARTBEAT_SEC) or PLAN_HEARTBEAT_SEC)
         self.wake_debounce_sec = float(resolved.get("wake_debounce_sec", WAKE_DEBOUNCE_SEC) or WAKE_DEBOUNCE_SEC)
         self.intel_sync_interval = float(
@@ -7890,6 +7972,31 @@ class LazyLoopEngine:
         self._register_mediators()
         self._register_guardrails()
         return profile
+
+    def _sleeper_round(self, activity) -> None:
+        """Sleep inside a configured quiet window before the next round.
+
+        Bounded chunks so cancellation stays responsive; the next call
+        re-enters the window while it lasts.
+
+        Args:
+            activity: Activity log receiving the sleeper event.
+        """
+        if not self.sleeper_windows:
+            return
+        try:
+            from modules.loop_guardrails import EdrPacer
+
+            delay = EdrPacer.windows_delay(self.sleeper_windows)
+        except Exception:
+            return
+        if delay <= 0.0:
+            return
+        try:
+            activity.emit("loop", "sleeper", f"quiet window active — sleeping {delay:.0f}s")
+        except Exception:
+            pass
+        time.sleep(delay)
 
     def bind_shell(self, shell) -> None:
         """Attach the live shell so workers route auto/addon verbs via it."""
@@ -8038,6 +8145,16 @@ class LazyLoopEngine:
         for spec in decompose_goals(goal, description):
             graph.add_node("goal", spec["text"], state="pending", meta={"vulnclass": spec["vulnclass"]})
         added = 0
+        for item in _payload_scope_items():
+            try:
+                self.store.add_scope(task.task_id, item["kind"], item["value"], item["reason"])
+                try:
+                    self.assets.insert(item["kind"], item["value"], task_id=task.task_id)
+                except ValueError:
+                    pass
+                added += 1
+            except (KeyError, ValueError):
+                continue
         for item in extract_scope_items(goal, description):
             try:
                 self.store.add_scope(task.task_id, item["kind"], item["value"], item["reason"])
@@ -8949,9 +9066,11 @@ class LazyLoopEngine:
             if owns_pool:
                 for worker in created:
                     worker.close()
-            time.sleep(self.debounce_sec)
+            self._sleeper_round(activity)
+            time.sleep(self.debounce_sec + self.round_sleep_sec)
         else:
-            time.sleep(self.debounce_sec)
+            self._sleeper_round(activity)
+            time.sleep(self.debounce_sec + self.round_sleep_sec)
         retested = (
             self._auto_retest(task_id, graph, activity, traffic, executor=executor, limit=self.retest_limit)
             if stage_enabled("retest")

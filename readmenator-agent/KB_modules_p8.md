@@ -1,6 +1,27 @@
 # Subsystem: modules (page 8 of 18)
 Previous: [KB_modules_p7.md](KB_modules_p7.md)
 
+## modules/lazy_autofire.py
+- Doc: Lazy autofire: exploit intelligence closing the loop into chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `autofire_armed` (function, line 41) `def autofire_armed(payload)`
+  - `consider_report` (function, line 53) `def consider_report(report, chains_dir, state_path, armed, now)`
+  - `fire_from_file` (function, line 105) `def fire_from_file(target, feed_path)`
+  - `sweep_state` (function, line 127) `def sweep_state(state_path, now)`
+  - `status` (function, line 147) `def status(payload, state_path)`
+  - `_fire_matches` (function, line 166) `def _fire_matches(report)`
+  - `_cooldown_filter` (function, line 180) `def _cooldown_filter(fires, state, target, moment, chains_dir)`
+  - `_existing_chain_tokens` (function, line 215) `def _existing_chain_tokens(chains_dir, slug)`
+  - `_chain_data` (function, line 225) `def _chain_data(target, fires)`
+  - `_load_state` (function, line 281) `def _load_state(path)`
+  - `_save_state` (function, line 291) `def _save_state(path, state)`
+  - `_stamp_cooldown` (function, line 305) `def _stamp_cooldown(state, target, cves, moment)`
+  - `_slug` (function, line 312) `def _slug(text)`
+- Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/lazy_probes.py`
+- Imported by: `tests/test_loop_fire_pending.py`
+
 ## modules/lazy_bridge.py
 - Doc: Bidirectional LAZY <-> LazyOwn bridge.
 - Layer: utility
@@ -64,6 +85,19 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 
+## modules/lazy_continuation.py
+- Doc: Task continuation records: campaign memory that survives loop restarts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ContinuationRecord` (class, line 34) `class ContinuationRecord`
+  - `_dir` (function, line 58) `def _dir()`
+  - `_slug` (function, line 65) `def _slug(target)`
+  - `record_path` (function, line 71) `def record_path(target)`
+  - `save` (function, line 83) `def save(target, task_id, goal, status, settlement, findings, next_steps)`
+  - `load` (function, line 132) `def load(target)`
+  - `recall_candidates` (function, line 159) `def recall_candidates(target, limit)`
+
 ## modules/lazy_creds.py
 - Doc: Default-credential knowledge base for LazyOwn.
 - Layer: utility
@@ -111,6 +145,16 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Depends on: `modules/lazy_heat.py`
 - Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_feedmatch.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
 
+## modules/lazy_drafts.py
+- Doc: Injected objective drafts: close the lazy_drafts handoff loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_drafts_dir` (function, line 27) `def _drafts_dir()`
+  - `drain` (function, line 34) `def drain(engine)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `tests/test_loop_objective_wiring.py`
+
 ## modules/lazy_engine.py
 - Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
 - Layer: utility
@@ -118,7 +162,7 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Symbols:
   - `LazyEngine` (class, line 56) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
 
 ## modules/lazy_exposure.py
 - Doc: Target exposure report for LazyOwn.
@@ -167,6 +211,16 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `feed_fingerprint` (function, line 486) `def feed_fingerprint(entries)`
 - Depends on: `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`
 - Imported by: `modules/lazy_exposure.py`, `modules/lazy_inventory.py`, `modules/lazy_sentinel.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_sentinel.py`
+
+## modules/lazy_finalizer.py
+- Doc: Evidence-gated finalization for the autonomous loop and apt_chain.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FinalizerDecision` (class, line 35) `class FinalizerDecision`
+  - `decide` (function, line 72) `def decide(status, candidate_verdict, facts, findings, confirmed, tested, pending_approvals, pending_plan_steps)`
+  - `to_dict` (method, line 58) `def to_dict(self)`
+- Imported by: `tests/test_chain_finalizer.py`
 
 ## modules/lazy_findings.py
 - Doc: Engagement findings ledger: state machine plus reproducible evidence.

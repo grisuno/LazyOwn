@@ -1,31 +1,6 @@
 # Subsystem: modules (page 15 of 18)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
-## modules/playbook_admin.py
-- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PlaybookEntry` (class, line 40) `class PlaybookEntry`
-  - `_yaml_module` (function, line 55) `def _yaml_module()`
-  - `slugify` (function, line 62) `def slugify(value)`
-  - `playbook_path` (function, line 75) `def playbook_path(filename, directory)`
-  - `load_playbook` (function, line 102) `def load_playbook(path)`
-  - `playbook_kind` (function, line 123) `def playbook_kind(data)`
-  - `validate_playbook` (function, line 136) `def validate_playbook(data)`
-  - `_count_steps` (function, line 183) `def _count_steps(data)`
-  - `summarize` (function, line 197) `def summarize(path)`
-  - `scan_playbooks` (function, line 231) `def scan_playbooks(directory)`
-  - `preview_playbook` (function, line 251) `def preview_playbook(path, limit)`
-  - `playbook_template` (function, line 265) `def playbook_template(name, description, platforms)`
-  - `_write_atomic` (function, line 282) `def _write_atomic(target, data)`
-  - `create_playbook` (function, line 297) `def create_playbook(filename)`
-  - `_target_for_write` (function, line 337) `def _target_for_write(path, directory)`
-  - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
-  - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
-  - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
-
 ## modules/playbook_engine.py
 - Doc: modules/playbook_engine.py
 - Layer: utility
@@ -40,6 +15,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `_TechniqueSelector` (class, line 311) `class _TechniqueSelector`
   - `PlaybookEngine` (class, line 375) `class PlaybookEngine`
   - `get_engine` (function, line 669) `def get_engine(api_key)`
+  - `phase_techniques` (function, line 696) `def phase_techniques(phase, platform, top_n)`
   - `to_dict` (method, line 113) `def to_dict(self)`
   - `from_dict` (method, line 128) `def from_dict(cls, d)`
   - `to_dict` (method, line 141) `def to_dict(self)`
@@ -61,9 +37,9 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `save` (method, line 599) `def save(self, playbook, path)`
   - `load` (method, line 611) `def load(self, path)`
   - `result_summary` (method, line 640) `def result_summary(self, result)`
-  - `_local_executor` (function, line 722) `def _local_executor(command, host)`
+  - `_local_executor` (function, line 792) `def _local_executor(command, host)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
 
 ## modules/playbook_executor.py
 - Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.
@@ -96,6 +72,28 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `generate_pipeline` (method, line 378) `def generate_pipeline(self, name, platform)`
   - `run` (method, line 390) `def run(self, name, platform, target, onecmd)`
 - Depends on: `modules/pipeline_engine.py`
+
+## modules/poc_registry.py
+- Doc: Reusable PoC verbs: standalone exploit scripts as loop-routable actions.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PocArg` (class, line 77) `class PocArg`
+  - `PocVerb` (class, line 95) `class PocVerb`
+  - `RenderedPoc` (class, line 152) `class RenderedPoc`
+  - `_placeholder_names` (function, line 168) `def _placeholder_names(template)`
+  - `_resolve_placeholder` (function, line 173) `def _resolve_placeholder(name, overrides, params)`
+  - `_parse_args` (function, line 196) `def _parse_args(raw)`
+  - `_parse_verb` (function, line 213) `def _parse_verb(name, raw)`
+  - `_load_catalog` (function, line 257) `def _load_catalog(path)`
+  - `poc_verbs` (function, line 283) `def poc_verbs(catalog_path)`
+  - `get_poc` (function, line 312) `def get_poc(name, catalog_path)`
+  - `interpreter_argv` (function, line 325) `def interpreter_argv(verb)`
+  - `render_argv` (function, line 337) `def render_argv(verb, params, target, overrides)`
+  - `missing_requirements` (function, line 392) `def missing_requirements(verb)`
+  - `propose_intents` (function, line 409) `def propose_intents(service_texts, target, limit, catalog_path)`
+  - `verbs_summary` (function, line 449) `def verbs_summary(catalog_path)`
+  - `to_dict` (method, line 129) `def to_dict(self)`
 
 ## modules/polymorphic_engine.py
 - Doc: Polymorphic code generation engine — shellcode mutation and obfuscation.
@@ -227,7 +225,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `find_credentials` (function, line 159) `def find_credentials(output)`
   - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
 - Depends on: `modules/lazy_loop.py`
-- Imported by: `modules/lazy_loop.py`, `tests/test_reaction_bridge.py`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
 
 ## modules/reactive_engine.py
 - Doc: modules/reactive_engine.py
@@ -277,7 +275,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
   - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 
 ## modules/recommender.py
 - Doc: LazyOwn Smart Command Recommender
@@ -416,6 +414,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
 - Symbols:
   - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
   - `reverse_shell_exit` (function, line 16) `static void __exit reverse_shell_exit(void)`
+- Depends on: `modules/selection/module.py`
 
 ## modules/revshell.c
 - Layer: utility

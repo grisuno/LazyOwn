@@ -1,6 +1,37 @@
 # API (page 16 of 26)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/lazyreverse_shell.sh
+- `mostrar_ayuda` (function) `modules/lazyreverse_shell.sh:21` -- Función para mostrar ayuda
+- `validar_ip` (function) `modules/lazyreverse_shell.sh:31` -- Validar dirección IP
+
+## modules/lazyshortener.py
+Depends on: `core/safe_exec.py`
+Imported by: `modules/lazypoophish.py`
+- `providers` (function) `modules/lazyshortener.py:30` `def providers()` -- Return every supported shortener provider key.
+- `shorten` (function) `modules/lazyshortener.py:35` `def shorten(url, provider, timeout)` -- Shorten one URL through a keyless public provider.
+
+## modules/lazyvpnshield.sh
+- `ctrl_c` (function) `modules/lazyvpnshield.sh:11`
+- `check_sudo` (function) `modules/lazyvpnshield.sh:16`
+- `save_current_rules` (function) `modules/lazyvpnshield.sh:29`
+- `show_current_rules` (function) `modules/lazyvpnshield.sh:37`
+- `apply_vpn_rules` (function) `modules/lazyvpnshield.sh:45`
+- `undo_and_restore_rules` (function) `modules/lazyvpnshield.sh:86`
+- `main` (function) `modules/lazyvpnshield.sh:113`
+
+## modules/lazywps.sh
+- `ctrl_c` (function) `modules/lazywps.sh:9`
+
+## modules/lesson_ingestor.py
+Depends on: `core/logging.py`, `modules/moe_router.py`, `modules/rl_trainer.py`
+Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
+- `LessonLearned.from_dict` (method) `modules/lesson_ingestor.py:66` `def from_dict(cls, d)`
+- `LessonIngestor.__init__` (method) `modules/lesson_ingestor.py:86` `def __init__(self, lessons_file, router, trainer, boost_reward)`
+- `LessonIngestor.ingest` (method) `modules/lesson_ingestor.py:125` `def ingest(self, lesson)` -- Apply a single lesson to the MoE performance store and RL Q-table.
+- `LessonIngestor.ingest_all` (method) `modules/lesson_ingestor.py:185` `def ingest_all(self, lessons)` -- Ingest a batch of lessons.
+- `ingest_campaign_lessons` (function) `modules/lesson_ingestor.py:222` `def ingest_campaign_lessons(lessons_file)` -- Module-level convenience function to ingest all campaign lessons.
+
 ## modules/lilsplunky.py
 Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 - `simple_parse_log_line` (function) `modules/lilsplunky.py:69` `def simple_parse_log_line(line, file_path)` -- Intenta extraer información básica de una línea de log.
@@ -192,6 +223,19 @@ Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runn
 - `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
 - `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
 
+## modules/loop/worker_agentic.py
+Depends on: `modules/__init__.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`
+Imported by: `modules/loop/__init__.py`
+- `run_command` (function) `modules/loop/worker_agentic.py:94` `def run_command(command, background)` -- Run one shell probe/verb through scope, guard and audit.
+- `record_fact` (function) `modules/loop/worker_agentic.py:120` `def record_fact(text)` -- Persist one observed or inferred fact on the exploration graph.
+- `report_finding` (function) `modules/loop/worker_agentic.py:129` `def report_finding(name, evidence, severity)` -- Record a verified vulnerability with its evidence.
+- `traffic_search` (function) `modules/loop/worker_agentic.py:140` `def traffic_search(query)` -- Search captured command/traffic records by keyword.
+- `graph_state` (function) `modules/loop/worker_agentic.py:153` `def graph_state()` -- Compact exploration overview: intents, facts, findings.
+- `shell_open` (function) `modules/loop/worker_agentic.py:168` `def shell_open()` -- Open a persistent bash session for multi-step shell work.
+- `shell_send` (function) `modules/loop/worker_agentic.py:172` `def shell_send(command)` -- Run one guarded command in the persistent shell session.
+- `job_status` (function) `modules/loop/worker_agentic.py:176` `def job_status(job_id)` -- Report whether one background job is still running.
+- `job_output` (function) `modules/loop/worker_agentic.py:184` `def job_output(job_id)` -- Return the tail of one background job's output.
+
 ## modules/loop_ai_bridge.py
 Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
@@ -213,31 +257,38 @@ Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation
 - `ai_snapshot` (function) `modules/loop_ai_bridge.py:469` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
 
 ## modules/loop_guardrails.py
-Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
-- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:98` `def __init__(self, window)`
-- `RepeatDetector.record` (method) `modules/loop_guardrails.py:104` `def record(self, command)` -- Add one executed command; returns True when the window fills.
-- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:139` `def stuck(self)` -- True when the loop is visibly not progressing.
-- `RepeatDetector.oscillation_pair` (method) `modules/loop_guardrails.py:163` `def oscillation_pair(self)` -- Return the detected alternating pair, ('', '') when none.
-- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:167` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
-- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:171` `def reset(self)` -- Clear the window (operator intervention acknowledged).
-- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:187` `def __init__(self, duration_threshold)`
-- `EdrPacer.observe` (method) `modules/loop_guardrails.py:193` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
-- `EdrPacer.decay` (method) `modules/loop_guardrails.py:215` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
-- `EdrPacer.level` (method) `modules/loop_guardrails.py:221` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
-- `EdrPacer.signal` (method) `modules/loop_guardrails.py:231` `def signal(self)` -- Human-readable reason for the current level (may be empty).
-- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:236` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
-- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:244` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
-- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:268` `def __init__(self, max_concurrent)`
-- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:275` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
-- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:280` `def active_targets(self)` -- How many distinct targets currently hold a slot.
-- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:286` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
-- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:338` `def __init__(self, path, max_facts)`
-- `FactVectorStore.path` (method) `modules/loop_guardrails.py:346` `def path(self)` -- Backing file path.
-- `FactVectorStore.add` (method) `modules/loop_guardrails.py:367` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
-- `FactVectorStore.search` (method) `modules/loop_guardrails.py:401` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
-- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:431` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
-- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:440` `def clear(self)` -- Drop every fact (manual reset path).
-- `FactVectorStore.save` (method) `modules/loop_guardrails.py:446` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
+Depends on: `modules/__init__.py`
+Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
+- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:110` `def __init__(self, window)`
+- `RepeatDetector.record` (method) `modules/loop_guardrails.py:116` `def record(self, command)` -- Add one executed command; returns True when the window fills.
+- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:151` `def stuck(self)` -- True when the loop is visibly not progressing.
+- `RepeatDetector.oscillation_pair` (method) `modules/loop_guardrails.py:175` `def oscillation_pair(self)` -- Return the detected alternating pair, ('', '') when none.
+- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:179` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
+- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:183` `def reset(self)` -- Clear the window (operator intervention acknowledged).
+- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:206` `def __init__(self, duration_threshold)` -- Configure the pacer.
+- `EdrPacer.parse_windows` (method) `modules/loop_guardrails.py:252` `def parse_windows(raw)` -- Parse ``HH:MM-HH:MM`` window strings into minute tuples.
+- `EdrPacer.from_config` (method) `modules/loop_guardrails.py:274` `def from_config(cls)` -- Build a pacer from the orchestrator pacing configuration.
+- `EdrPacer.observe` (method) `modules/loop_guardrails.py:305` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
+- `EdrPacer.decay` (method) `modules/loop_guardrails.py:327` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
+- `EdrPacer.level` (method) `modules/loop_guardrails.py:333` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
+- `EdrPacer.signal` (method) `modules/loop_guardrails.py:343` `def signal(self)` -- Human-readable reason for the current level (may be empty).
+- `EdrPacer.in_sleeper_window` (method) `modules/loop_guardrails.py:374` `def in_sleeper_window(self, now)` -- True when local time falls inside a configured quiet window.
+- `EdrPacer.windows_delay` (method) `modules/loop_guardrails.py:380` `def windows_delay(windows, now)` -- Static quiet-window delay for callers without a pacer instance.
+- `EdrPacer.sleeper_delay` (method) `modules/loop_guardrails.py:407` `def sleeper_delay(self, now)` -- Recommended sleep because of a quiet window (0 when outside).
+- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:420` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
+- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:437` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
+- `EdrPacer.describe` (method) `modules/loop_guardrails.py:452` `def describe(self)` -- Return a snapshot of the pacer state for admin surfaces.
+- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:475` `def __init__(self, max_concurrent)`
+- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:482` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
+- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:487` `def active_targets(self)` -- How many distinct targets currently hold a slot.
+- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:493` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
+- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:545` `def __init__(self, path, max_facts)`
+- `FactVectorStore.path` (method) `modules/loop_guardrails.py:553` `def path(self)` -- Backing file path.
+- `FactVectorStore.add` (method) `modules/loop_guardrails.py:574` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
+- `FactVectorStore.search` (method) `modules/loop_guardrails.py:608` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
+- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:638` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
+- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:647` `def clear(self)` -- Drop every fact (manual reset path).
+- `FactVectorStore.save` (method) `modules/loop_guardrails.py:653` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
 
 ## modules/loop_manager.py
 Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
@@ -329,14 +380,25 @@ Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`, `tests
 
 ## modules/mediation/contracts.py
 Depends on: `modules/mediation/hub.py`
-Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`
-- `MediationDomains.is_known` (method) `modules/mediation/contracts.py:23` `def is_known(cls, domain)` -- Check whether a domain key is registered in the default set.
-- `ActivityLogPort.read` (method) `modules/mediation/contracts.py:44` `def read(self, limit)` -- Return the latest activity records oldest-first.
-- `LlmCompletionPort.complete` (method) `modules/mediation/contracts.py:60` `def complete(self, prompt, max_tokens, task_id)` -- Complete one prompt with the configured LLM pool.
-- `LlmCompletionPort.has_members` (method) `modules/mediation/contracts.py:78` `def has_members(self)` -- Report whether any LLM member is configured.
-- `MediatorContract.describe` (method) `modules/mediation/contracts.py:89` `def describe(self)` -- Return introspection metadata for diagnostics.
-- `MediationHubContract.mediator_for` (method) `modules/mediation/contracts.py:98` `def mediator_for(self, domain)` -- Return the mediator registered for a domain key, or None.
-- `resolve` (function) `modules/mediation/contracts.py:103` `def resolve(domain)` -- Return the default-hub mediator for a domain key.
+Imported by: `modules/loop/worker_memory.py`, `modules/mediation/__init__.py`, `modules/mediation/engine_mediator.py`, `modules/mediation/hub.py`, `tests/test_engine_mediator.py`
+- `MediationDomains.is_known` (method) `modules/mediation/contracts.py:24` `def is_known(cls, domain)` -- Check whether a domain key is registered in the default set.
+- `ActivityLogPort.read` (method) `modules/mediation/contracts.py:45` `def read(self, limit)` -- Return the latest activity records oldest-first.
+- `LlmCompletionPort.complete` (method) `modules/mediation/contracts.py:61` `def complete(self, prompt, max_tokens, task_id)` -- Complete one prompt with the configured LLM pool.
+- `LlmCompletionPort.has_members` (method) `modules/mediation/contracts.py:79` `def has_members(self)` -- Report whether any LLM member is configured.
+- `MediatorContract.describe` (method) `modules/mediation/contracts.py:90` `def describe(self)` -- Return introspection metadata for diagnostics.
+- `MediationHubContract.mediator_for` (method) `modules/mediation/contracts.py:99` `def mediator_for(self, domain)` -- Return the mediator registered for a domain key, or None.
+- `resolve` (function) `modules/mediation/contracts.py:104` `def resolve(domain)` -- Return the default-hub mediator for a domain key.
+
+## modules/mediation/engine_mediator.py
+Depends on: `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/mediation/contracts.py`, `modules/reactive_engine.py`
+Imported by: `modules/mediation/hub.py`, `tests/test_engine_mediator.py`
+- `ExploitRetryPort.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:37` `def retry_with_credentials(self, target, credentials)` -- Queue one retry attempt per captured credential pair.
+- `ReactionPort.analyse` (method) `modules/mediation/engine_mediator.py:54` `def analyse(self, output, command, platform)` -- Analyse one command's output for next-action decisions.
+- `ReasoningPort.reason` (method) `modules/mediation/engine_mediator.py:72` `def reason(self, target)` -- Return the next exploit strategy for a target.
+- `EngineMediator.describe` (method) `modules/mediation/engine_mediator.py:89` `def describe(self)` -- Return introspection metadata for diagnostics.
+- `EngineMediator.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:97` `def retry_with_credentials(self, target, credentials)` -- Queue captured credentials into the exploit engine's retry loop.
+- `EngineMediator.analyse` (method) `modules/mediation/engine_mediator.py:118` `def analyse(self, output, command, platform)` -- Run reactive-engine analysis over one step's output.
+- `EngineMediator.reason` (method) `modules/mediation/engine_mediator.py:136` `def reason(self, target)` -- Return the exploit-chain strategy for a target.
 
 ## modules/mediation/feedback_mediator.py
 Depends on: `modules/lazy_orchestrator_feedback.py`
@@ -345,14 +407,14 @@ Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`
 - `FeedbackMediator.order_steps` (method) `modules/mediation/feedback_mediator.py:22` `def order_steps(self, steps, stack)` -- Reorder worker steps with cross-task priors.
 
 ## modules/mediation/hub.py
-Depends on: `modules/mediation/chain_mediator.py`, `modules/mediation/contracts.py`, `modules/mediation/feedback_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/mediation/telemetry_mediator.py`
-Imported by: `modules/mediation/__init__.py`, `modules/mediation/contracts.py`, `tests/test_mediation.py`
+Depends on: `modules/mediation/chain_mediator.py`, `modules/mediation/contracts.py`, `modules/mediation/engine_mediator.py`, `modules/mediation/feedback_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/mediation/telemetry_mediator.py`
+Imported by: `modules/loop/worker_memory.py`, `modules/mediation/__init__.py`, `modules/mediation/contracts.py`, `tests/test_mediation.py`
 - `MediationHub.__init__` (method) `modules/mediation/hub.py:22` `def __init__(self)` -- Start with an empty registry.
 - `MediationHub.register` (method) `modules/mediation/hub.py:26` `def register(self, mediator)` -- Register a mediator under its declared domain.
 - `MediationHub.mediator_for` (method) `modules/mediation/hub.py:35` `def mediator_for(self, domain)` -- Return the mediator registered for a domain key, or None.
 - `MediationHub.snapshot` (method) `modules/mediation/hub.py:46` `def snapshot(self)` -- Return high-level metadata for every registered mediator.
-- `default_hub` (function) `modules/mediation/hub.py:73` `def default_hub()` -- Return a fresh default-configured hub (test-safe, no singleton).
-- `get_hub` (function) `modules/mediation/hub.py:78` `def get_hub()` -- Return the process-wide hub, building it on first use.
+- `default_hub` (function) `modules/mediation/hub.py:75` `def default_hub()` -- Return a fresh default-configured hub (test-safe, no singleton).
+- `get_hub` (function) `modules/mediation/hub.py:80` `def get_hub()` -- Return the process-wide hub, building it on first use.
 
 ## modules/mediation/intel_mediator.py
 Depends on: `modules/lazy_intel.py`, `modules/lazy_loop.py`
@@ -429,72 +491,6 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_
 - `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
 - `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
 - `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
-
-## modules/metasploitable_gym.py
-Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
-Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
-- `load_index` (function) `modules/metasploitable_gym.py:42` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
-- `vulnerabilities` (function) `modules/metasploitable_gym.py:47` `def vulnerabilities(path)` -- Return every indexed vulnerability.
-- `get` (function) `modules/metasploitable_gym.py:53` `def get(vuln_id, path)` -- Return one vulnerability by id, or None.
-- `chain_for` (function) `modules/metasploitable_gym.py:62` `def chain_for(vuln_id, path)` -- Return the resolved chain for one vulnerability, or None.
-- `exploit_for` (function) `modules/metasploitable_gym.py:72` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one vulnerability, or None.
-- `validate_matrix` (function) `modules/metasploitable_gym.py:82` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
-- `summary` (function) `modules/metasploitable_gym.py:138` `def summary(path)` -- Return counts by severity and service for operators.
-- `main` (function) `modules/metasploitable_gym.py:157` `def main()` -- CLI: list | validate | info | chain.
-
-## modules/metasploitable_migrations.py
-Depends on: `core/safe_exec.py`
-Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
-- `build_migrations` (function) `modules/metasploitable_migrations.py:194` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
-- `apply_migrations` (function) `modules/metasploitable_migrations.py:354` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
-
-## modules/metrics.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
-- `MetricsRegistry.__init__` (method) `modules/metrics.py:63` `def __init__(self)` -- Create an empty registry with its own lock.
-- `MetricsRegistry.inc` (method) `modules/metrics.py:69` `def inc(self, name, labels, value)` -- Increment the named counter for the given labels.
-- `MetricsRegistry.get` (method) `modules/metrics.py:87` `def get(self, name, labels)` -- Return the current value of a counter.
-- `MetricsRegistry.prometheus_text` (method) `modules/metrics.py:107` `def prometheus_text(self)` -- Render every counter in Prometheus text exposition format.
-- `MetricRecord.to_dict` (method) `modules/metrics.py:167` `def to_dict(self)` -- Return the record as a JSON-serialisable dictionary.
-- `MetricsWriter.__init__` (method) `modules/metrics.py:189` `def __init__(self, path)` -- Initialise the writer.
-- `MetricsWriter.path` (method) `modules/metrics.py:201` `def path(self)` -- Return the JSONL destination path.
-- `MetricsWriter.append` (method) `modules/metrics.py:206` `def append(self, record)` -- Append a single record to disk.
-- `MetricsAggregator.summarize` (method) `modules/metrics.py:254` `def summarize(cls, records, window_seconds, now_utc)` -- Compute aggregate statistics over the supplied records.
-- `MetricsRecorder.__init__` (method) `modules/metrics.py:339` `def __init__(self, writer)` -- Initialise the recorder.
-- `MetricsRecorder.path` (method) `modules/metrics.py:350` `def path(self)` -- Return the JSONL path used by the underlying writer.
-- `MetricsRecorder.record` (method) `modules/metrics.py:355` `def record(self, command, args, duration_ms, success, exit_code, source)` -- Persist a single command-execution telemetry record.
-- `MetricsRecorder.summarize` (method) `modules/metrics.py:416` `def summarize(self, window_seconds)` -- Return aggregate statistics over recorded events.
-- `MetricsRecorder.tail` (method) `modules/metrics.py:430` `def tail(self, n)` -- Return the most recent *n* records, newest first.
-- `get_recorder` (function) `modules/metrics.py:452` `def get_recorder()` -- Return the process-wide :class:`MetricsRecorder` singleton.
-- `reset_recorder_for_tests` (function) `modules/metrics.py:466` `def reset_recorder_for_tests(writer)` -- Replace the module-level recorder with a fresh instance.
-
-## modules/mfa_bypass.py
-Imported by: `cli/commands/cicd.py`
-- `MFABypassEngine.__init__` (method) `modules/mfa_bypass.py:128` `def __init__(self, sessions_dir)`
-- `MFABypassEngine.enumerate_techniques` (method) `modules/mfa_bypass.py:133` `def enumerate_techniques(self, target)` -- Enumerate viable MFA bypass techniques for a given target.
-- `MFABypassEngine.generate_phishing_templates` (method) `modules/mfa_bypass.py:153` `def generate_phishing_templates(self, target)` -- Generate phishing templates tailored for MFA bypass.
-- `MFABypassEngine.mfa_conditional_access_scan` (method) `modules/mfa_bypass.py:223` `def mfa_conditional_access_scan(self, domain)` -- Scan for conditional access policy gaps.
-- `MFABypassEngine.replay_oauth_token` (method) `modules/mfa_bypass.py:252` `def replay_oauth_token(self, access_token, refresh_token)` -- Test if an OAuth2 token is still valid and can be replayed.
-- `MFABypassEngine.saml_golden_ticket_check` (method) `modules/mfa_bypass.py:278` `def saml_golden_ticket_check(self, adfs_server)` -- Check for ADFS token signing certificate exposure.
-- `MFABypassEngine.export_report` (method) `modules/mfa_bypass.py:303` `def export_report(self)` -- Export MFA bypass results to a JSON report.
-
-## modules/module_registry.py
-Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`
-- `ModuleInfo.__init__` (method) `modules/module_registry.py:216` `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
-- `ModuleInfo.to_dict` (method) `modules/module_registry.py:246` `def to_dict(self)`
-- `ModuleRegistry.__init__` (method) `modules/module_registry.py:279` `def __init__(self, base_dir)`
-- `ModuleRegistry.get_instance` (method) `modules/module_registry.py:285` `def get_instance(cls, base_dir)` -- Return the singleton registry instance.
-- `ModuleRegistry.scan` (method) `modules/module_registry.py:291` `def scan(self)` -- Scan all module directories and return the full list.
-- `ModuleRegistry.rescan` (method) `modules/module_registry.py:304` `def rescan(self)` -- Force a full rescan and return modules.
-- `ModuleRegistry.get` (method) `modules/module_registry.py:313` `def get(self, name)` -- Get a module by name.
-- `ModuleRegistry.search` (method) `modules/module_registry.py:319` `def search(self, query, module_type, category, enabled_only, include_deprecated)` -- Search indexed modules.
-- `ModuleRegistry.deprecated_modules` (method) `modules/module_registry.py:359` `def deprecated_modules(self)` -- Return all deprecated modules.
-- `ModuleRegistry.by_type` (method) `modules/module_registry.py:365` `def by_type(self, module_type)` -- Shorthand for ``search(module_type=module_type)``.
-- `ModuleRegistry.summary` (method) `modules/module_registry.py:369` `def summary(self)` -- Return counts by module type.
-- `ModuleRegistry.proposal_intents` (method) `modules/module_registry.py:378` `def proposal_intents(self, texts, target, limit)` -- Loop bridge: map corpus mentions onto runnable module intents.
-- `format_module_table` (function) `modules/module_registry.py:666` `def format_module_table(modules, cols)` -- Format a list of modules as an aligned text table.
-- `format_module_detail` (function) `modules/module_registry.py:713` `def format_module_detail(m)` -- Format a single module's full metadata.
 
 
 Next: [API_p17.md](API_p17.md)

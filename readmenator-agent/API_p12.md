@@ -1,6 +1,20 @@
 # API (page 12 of 26)
 Previous: [API_p11.md](API_p11.md)
 
+## modules/dns_beacon.py
+Depends on: `core/safe_exec.py`
+Imported by: `cli/commands/dns_exfil.py`
+- `DNSBeacon.__init__` (method) `modules/dns_beacon.py:38` `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)`
+- `DNSBeacon.check_in` (method) `modules/dns_beacon.py:105` `def check_in(self)` -- Send heartbeat and check for pending commands.
+- `DNSBeacon.send_result` (method) `modules/dns_beacon.py:135` `def send_result(self, command, output, exit_code)` -- Send command output via DNS TXT queries.
+- `DNSBeacon.run` (method) `modules/dns_beacon.py:171` `def run(self)` -- Main beacon loop: check-in -> execute command -> send result -> sleep.
+- `DNSC2Server.__init__` (method) `modules/dns_beacon.py:211` `def __init__(self, domain, log_source, interface)`
+- `DNSC2Server.register_beacon` (method) `modules/dns_beacon.py:225` `def register_beacon(self, beacon_id, hostname)` -- Register a new DNS beacon.
+- `DNSC2Server.list_beacons` (method) `modules/dns_beacon.py:235` `def list_beacons(self)` -- List all registered DNS beacons.
+- `DNSC2Server.send_task` (method) `modules/dns_beacon.py:239` `def send_task(self, beacon_id, command)` -- Queue a command for a DNS beacon.
+- `DNSC2Server.process_query_log` (method) `modules/dns_beacon.py:248` `def process_query_log(self, line)` -- Process a single DNS query log line and extract beacon data.
+- `DNSC2Server.get_results` (method) `modules/dns_beacon.py:327` `def get_results(self, beacon_id)` -- Get received results for a beacon.
+
 ## modules/domain_dominance.py
 Depends on: `core/hardening.py`
 Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
@@ -316,6 +330,18 @@ Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules
 - `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
 - `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
 
+## modules/exploitdb_bridge.py
+- `scan_tier0` (function) `modules/exploitdb_bridge.py:105` `def scan_tier0(limit, platform, only_cve)`
+- `gen_yaml` (function) `modules/exploitdb_bridge.py:151` `def gen_yaml(item, outdir)`
+- `sync_tier0` (function) `modules/exploitdb_bridge.py:194` `def sync_tier0(limit, platform, only_cve, outdir)`
+
+## modules/exploitdb_c_bridge.py
+- `scan_c` (function) `modules/exploitdb_c_bridge.py:32` `def scan_c(limit, platform, skip_existing)`
+- `gen_c_yaml_compile_on_use` (function) `modules/exploitdb_c_bridge.py:89` `def gen_c_yaml_compile_on_use(item)`
+- `gen_batch` (function) `modules/exploitdb_c_bridge.py:134` `def gen_batch(limit)`
+- `compile_batch` (function) `modules/exploitdb_c_bridge.py:148` `def compile_batch(limit)`
+- `gen_c_yaml` (function) `modules/exploitdb_c_bridge.py:152` `def gen_c_yaml(item, binpath, wrapper)`
+
 ## modules/exploitgym_gym.py
 Depends on: `modules/redteam_gym.py`
 Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
@@ -457,38 +483,6 @@ Imported by: `cli/commands/active_directory.py`
 - `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
 - `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
 - `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
-
-## modules/guardrails/advisories.py
-Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
-- `AdvisoryLedger.__init__` (method) `modules/guardrails/advisories.py:20` `def __init__(self, limit)` -- Create an empty ledger.
-- `AdvisoryLedger.notice` (method) `modules/guardrails/advisories.py:31` `def notice(self, code, message)` -- Record one advisory without blocking the caller.
-- `AdvisoryLedger.tail` (method) `modules/guardrails/advisories.py:49` `def tail(self, limit)` -- Return the newest notices up to the limit.
-- `AdvisoryLedger.clear` (method) `modules/guardrails/advisories.py:54` `def clear(self)` -- Drop every notice, returning the discarded count.
-- `AdvisoryLedger.describe` (method) `modules/guardrails/advisories.py:61` `def describe(self)` -- Return the ledger summary for the admin console.
-- `AdvisoryLedger.tail_locked` (method) `modules/guardrails/advisories.py:66` `def tail_locked(self, limit)` -- Tail helper used by describe; caller holds the lock.
-- `FeatureGate.__init__` (method) `modules/guardrails/advisories.py:74` `def __init__(self, features)` -- Create a gate limited to the known optional features.
-- `FeatureGate.suspend` (method) `modules/guardrails/advisories.py:84` `def suspend(self, feature, reason)` -- Suspend one optional feature.
-- `FeatureGate.resume` (method) `modules/guardrails/advisories.py:102` `def resume(self, feature)` -- Resume one suspended feature, returning True when it changed.
-- `FeatureGate.resume_all` (method) `modules/guardrails/advisories.py:108` `def resume_all(self)` -- Resume every suspended feature, returning the resumed count.
-- `FeatureGate.is_suspended` (method) `modules/guardrails/advisories.py:115` `def is_suspended(self, feature)` -- Return True when the feature is currently suspended.
-- `FeatureGate.suspended` (method) `modules/guardrails/advisories.py:120` `def suspended(self)` -- Return the suspended feature map (feature -> reason).
-- `FeatureGate.describe` (method) `modules/guardrails/advisories.py:125` `def describe(self)` -- Return the gate state for the admin console.
-
-## modules/guardrails/budget.py
-Depends on: `modules/guardrails/contracts.py`
-Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
-- `CapacityEnvelope.__init__` (method) `modules/guardrails/budget.py:28` `def __init__(self, capacities, threshold)` -- Seed capacities and the saturation threshold.
-- `CapacityEnvelope.configure` (method) `modules/guardrails/budget.py:50` `def configure(self, capacities, threshold)` -- Apply capacity and threshold settings, clamping invalid values.
-- `CapacityEnvelope.admit` (method) `modules/guardrails/budget.py:78` `def admit(self, task_class, units)` -- Reserve units for one tier honouring the priority contract.
-- `CapacityEnvelope.account` (method) `modules/guardrails/budget.py:109` `def account(self, task_class, units)` -- Record consumed units for one tier (idempotent on refusal).
-- `CapacityEnvelope.release` (method) `modules/guardrails/budget.py:118` `def release(self, task_class, units)` -- Return units to a tier ledger once an execution finishes.
-- `CapacityEnvelope.purge` (method) `modules/guardrails/budget.py:126` `def purge(self, task_class)` -- Zero one tier ledger, returning the freed unit count.
-- `CapacityEnvelope.reclaim` (method) `modules/guardrails/budget.py:136` `def reclaim(self)` -- Purge SUPPORT allocations, returning the freed unit count.
-- `CapacityEnvelope.usage` (method) `modules/guardrails/budget.py:140` `def usage(self, task_class)` -- Return current consumed units for one tier.
-- `CapacityEnvelope.capacity` (method) `modules/guardrails/budget.py:147` `def capacity(self, task_class)` -- Return configured capacity for one tier.
-- `CapacityEnvelope.saturated` (method) `modules/guardrails/budget.py:154` `def saturated(self, task_class)` -- Return True when the tier usage ratio reaches the threshold.
-- `CapacityEnvelope.threshold` (method) `modules/guardrails/budget.py:161` `def threshold(self)` -- Return the configured saturation threshold.
-- `CapacityEnvelope.describe` (method) `modules/guardrails/budget.py:166` `def describe(self)` -- Return a per-tier usage snapshot for the admin console.
 
 
 Next: [API_p13.md](API_p13.md)

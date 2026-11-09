@@ -55,6 +55,8 @@ _MAX_LIST_ITEM_CHARS = 128
 _BUDGET_KEYS = frozenset({"attempts", "seconds"})
 _MAX_BUDGET_ATTEMPTS = _MAX_RETRIES + 1
 _MAX_BUDGET_SECONDS = _MAX_STEP_TIMEOUT
+_MAX_STEP_SLEEP = _MAX_STEP_TIMEOUT
+_MAX_STEP_JITTER = 100.0
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _MAX_EVIDENCE_PATH_CHARS = 512
 _SHELL_METACHARS = re.compile(r"[;&|<>()`$\\]")
@@ -107,7 +109,9 @@ class ChainStep:
     ``required_fields`` verifies field presence in captured evidence,
     ``benign_alternatives`` annotates benign explanations, ``budget``
     caps attempts and wall time, and ``evidence_sha256`` pins artefact
-    integrity across re-runs.
+    integrity across re-runs. ``sleep`` forces a fixed pre-next-step
+    delay and ``jitter`` (percentage) randomises it on top of the
+    orchestrator pacing.
     """
 
     run: str = ""
@@ -141,6 +145,8 @@ class ChainStep:
     evidence: list[str] = field(default_factory=list)
     evidence_sha256: dict[str, str] = field(default_factory=dict)
     budget: dict[str, int] = field(default_factory=dict)
+    sleep: float = 0.0
+    jitter: float = 0.0
 
     @property
     def identifier(self) -> str:
@@ -489,6 +495,15 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
                             f"step {step_label}: parallel steps cannot declare {forbidden} "
                             "(parallel outcomes merge after the group, in declaration order)"
                         )
+                for forbidden in ("sleep", "jitter"):
+                    if step.get(forbidden):
+                        errors.append(f"step {step_label}: parallel steps cannot declare {forbidden}")
+            for pacing_key, ceiling in (("sleep", _MAX_STEP_SLEEP), ("jitter", _MAX_STEP_JITTER)):
+                value = step.get(pacing_key, 0)
+                if value is None:
+                    continue
+                if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= ceiling:
+                    errors.append(f"step {step_label}: {pacing_key} must be 0-{ceiling:g}")
             expect_exit = step.get("expect_exit", [])
             if expect_exit and not isinstance(expect_exit, (int, list)):
                 errors.append(f"step {step_label}: expect_exit must be an int or a list of ints")
@@ -663,6 +678,17 @@ def _nonneg_int(raw: Any) -> int:
     return max(0, value)
 
 
+def _nonneg_float(raw: Any, ceiling: float) -> float:
+    """Return a clamped non-negative float, or 0 on any malformed input."""
+    try:
+        value = float(raw)
+    except (TypeError, ValueError):
+        return 0.0
+    if value != value or value in (float("inf"), float("-inf")):
+        return 0.0
+    return max(0.0, min(value, ceiling))
+
+
 def _step_from_raw(item: dict[str, Any]) -> ChainStep:
     """Build one validated step from YAML data."""
     resolver = item.get("resolve_newest") or {}
@@ -715,6 +741,8 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
             if str(path).strip() and str(digest).strip()
         },
         budget=budget,
+        sleep=_nonneg_float(item.get("sleep", 0.0), _MAX_STEP_SLEEP),
+        jitter=_nonneg_float(item.get("jitter", 0.0), _MAX_STEP_JITTER),
     )
 
 

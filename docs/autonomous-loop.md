@@ -180,7 +180,23 @@ auto_loop --profile stealth "map the perimeter"
 `lazy_orchestrator` exposes the Profiles tab: Enter or Space activates
 one profile, and the Config tab keeps editing the payload knobs the
 runner reads (heartbeat seconds, verb timeout, agentic flags, NOA
-archiving, proxy settings, agent backend). Additional per-run flags:
+archiving, proxy settings, agent backend).
+
+The **Pacing tab** groups every `orchestrator.pacing` knob in one place:
+`enabled`, `jitter_pct_min`/`max`, `max_delay_sec`, `round_sleep_sec`,
+`sleeper_windows` (`HH:MM-HH:MM`, comma-separated quiet windows) and
+`edr_pause_ranges` (`level:low-high`, comma-separated). Every field is
+validated and persisted through `orchestrator_config.set_pacing`, so the
+payload, the active profile and the loop's `EdrPacer`
+(`modules/loop_guardrails`) stay consistent; malformed windows or
+inverted ranges are rejected, never silently coerced. The same knobs are
+scriptable with `lazy_pacing list` / `lazy_pacing set <key> <value>`
+(including `lazy_pacing set sleeper_windows 22:00-06:00,12:00-13:00`).
+Because the `ChainRunner` paces between every step from this config, an
+`apt_chain` run — including a synthesised technique chain — inherits the
+configured jitter and sleeper windows between techniques.
+
+Additional per-run flags:
 `--profile`, `--rounds`, `--workers`, `--timeout`, `--step-delay`,
 `--targets-from-file`, `--max-concurrent`, `--no-bootstrap`, `--view`,
 `--plain`.
@@ -443,3 +459,31 @@ When the loop proposes `auto addon:<name>`, the router translates it to
 Cost/noise/precondition semantics live in `config/verb_manifests.yaml`
 (`modules/verb_manifest.py`) and feed `apt_chain --dry-run` plan checks,
 the detection oracle and the planner ranking.
+
+A verb may declare a `phases:` list in `config/verbs.yaml` (in addition
+to the single `phase`) to be advertised to the planner in more than one
+kill-chain phase. The chaining verbs (`apt_chain`, `atomic_emulate`,
+`atomic_tests`, `atomic_lazyown`) carry the post-foothold set
+(`exploit`, `privesc`, `lateral`, `exfil`) so the planner can propose
+technique chaining throughout an engagement, matching what the shared
+selector cascade already emits.
+
+## Technique chaining and curated recipes
+
+Two shared selectors (`modules/selection`, see its README) widen what the
+loop chains:
+
+- `TechniqueChainSelector` compiles two or more phase-ranked (or
+  goal-named) MITRE/Atomic techniques into one ordered `apt_chain` of
+  `atomic_tests` steps via `modules/chain_synth.synth_technique_chain_data`.
+  The `ChainRunner`'s `EdrPacer` then applies the configured jitter and
+  sleeper windows between techniques. Synthesis is idempotent — an
+  already registered chain is never rewritten.
+- `LazyscriptSelector` proposes a curated `lazyscript <name>.ls` recipe
+  when its name tokens match the goal or discovered services, so the loop
+  runs an operator-authored `.ls` chain instead of rebuilding it verb by
+  verb.
+
+Both are on by default and administered like every selector through
+`orchestrator.selectors.<name>` (unknown or absent names default to
+enabled).

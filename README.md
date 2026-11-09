@@ -434,6 +434,13 @@ Thanks to cmd2 for making this tool possible through their great work, and we lo
 
 Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their review, but they failed to check some repositories before confirming that we're missing capabilities announced in the readme. They're not in the repo, but they load as lazy add-ons ;) [blacksandbeacon](https://github.com/grisuno/blacksandbeacon) event [kiploit](https://kitploit.com/en/tools/github/grisuno/blacksandbeacon) known  [win beacon](https://github.com/grisuno/beacon)
 
+CN-Sec was wrong to say that these techniques "were not implemented." Hacktricks ([https://hacktricks.wiki/en/linux-hardening/post-exploitation/linux-fileless-execution.html](https://hacktricks.wiki/en/linux-hardening/post-exploitation/linux-fileless-execution.html)
+), one of the most respected sources in offensive security, includes LazyOwn as an official reference for:
+- Fileless post-exploitation techniques in Linux
+- Linux BOF implementation with .so/dlopen
+- Memory staging (runtime decoding/decompression)
+- Deleted-file execution
+
 [https://zone.ci/secarticles/wx/587776.html](https://zone.ci/secarticles/wx/587776.html?utm_source=lazyown_redteam)
 
 ## mcpharbor.app

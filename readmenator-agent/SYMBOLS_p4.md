@@ -1,8 +1,27 @@
-# Symbols (page 4 of 49)
+# Symbols (page 4 of 50)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_hostdiscover` | method | `cli/commands/scan.py:606` | `def do_hostdiscover(self, line)` |
+| `do_magicrecon` | method | `cli/commands/scan.py:548` | `def do_magicrecon(self, line)` |
+| `do_nmapscript` | method | `cli/commands/scan.py:316` | `def do_nmapscript(self, line)` |
+| `do_nuclei` | method | `cli/commands/scan.py:350` | `def do_nuclei(self, line)` |
+| `do_osmedeus` | method | `cli/commands/scan.py:473` | `def do_osmedeus(self, line)` |
+| `do_portdiscover` | method | `cli/commands/scan.py:664` | `def do_portdiscover(self, line)` |
+| `do_portservicediscover` | method | `cli/commands/scan.py:724` | `def do_portservicediscover(self, line)` |
+| `do_skipfish` | method | `cli/commands/scan.py:789` | `def do_skipfish(self, line)` |
+| `do_vscan` | method | `cli/commands/scan.py:839` | `def do_vscan(self, line)` |
+| `ScanMigratedCommandSet` | class | `cli/commands/scan_migrated.py:32` | `class ScanMigratedCommandSet(LazyOwnCommandSet)` |
+| `conficker_exploit` | function | `cli/commands/scan_migrated.py:582` | `def conficker_exploit(config_file, host, lhost, lport)` |
+| `do_ad_ldap_enum` | method | `cli/commands/scan_migrated.py:2715` | `def do_ad_ldap_enum(self, line)` |
+| `do_allin` | method | `cli/commands/scan_migrated.py:1241` | `def do_allin(self, line)` |
+| `do_arjun` | method | `cli/commands/scan_migrated.py:1501` | `def do_arjun(self, line)` |
+| `do_blazy` | method | `cli/commands/scan_migrated.py:1722` | `def do_blazy(self, line)` |
+| `do_bloodhound` | method | `cli/commands/scan_migrated.py:218` | `def do_bloodhound(self, line)` |
+| `do_breacher` | method | `cli/commands/scan_migrated.py:1840` | `def do_breacher(self, line)` |
+| `do_certipy` | method | `cli/commands/scan_migrated.py:2584` | `def do_certipy(self, line)` |
+| `do_certipy_ad` | method | `cli/commands/scan_migrated.py:2520` | `def do_certipy_ad(self, line)` |
 | `do_changeme` | method | `cli/commands/scan_migrated.py:699` | `def do_changeme(self, line)` |
 | `do_cme` | method | `cli/commands/scan_migrated.py:37` | `def do_cme(self, line)` |
 | `do_davtest` | method | `cli/commands/scan_migrated.py:901` | `def do_davtest(self, line)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `__init__` | method | `cli/graph_overlay.py:260` | `def __init__(self)` |
 | `_advisor` | method | `cli/graph_overlay.py:174` | `def _advisor(self)` |
 | `_build_app` | function | `cli/graph_overlay.py:235` | `def _build_app(state, theme)` |
-| `_default_advisor_factory` | function | `cli/graph_overlay.py:181` | `def _default_advisor_factory()` |
-| `_edge_badge` | method | `cli/graph_overlay.py:159` | `def _edge_badge(self, edges)` |
-| `_god_nodes` | method | `cli/graph_overlay.py:111` | `def _god_nodes(self, advisor)` |
-| `_neighbors` | method | `cli/graph_overlay.py:119` | `def _neighbors(self, advisor)` |
-| `_refresh` | method | `cli/graph_overlay.py:287` | `def _refresh(self)` |
-| `_row` | method | `cli/graph_overlay.py:147` | `def _row(self, payload, badge)` |
-| `_truncate` | method | `cli/graph_overlay.py:169` | `def _truncate(self, value)` |
-| `action_close` | method | `cli/graph_overlay.py:284` | `def action_close(self)` |
-| `action_toggle_view` | method | `cli/graph_overlay.py:280` | `def action_toggle_view(self)` |
-| `build_state` | function | `cli/graph_overlay.py:192` | `def build_state(config, advisor_factory)` |
-| `compose` | method | `cli/graph_overlay.py:265` | `def compose(self)` |
-| `is_available` | method | `cli/graph_overlay.py:77` | `def is_available(self)` |
-| `launch_overlay` | function | `cli/graph_overlay.py:203` | `def launch_overlay(payload, state, runner)` |
-| `on_input_changed` | method | `cli/graph_overlay.py:276` | `def on_input_changed(self, event)` |
-| `on_mount` | method | `cli/graph_overlay.py:273` | `def on_mount(self)` |
-| `set_focus` | method | `cli/graph_overlay.py:87` | `def set_focus(self, value)` |
-| `snapshot` | method | `cli/graph_overlay.py:102` | `def snapshot(self)` |
-| `toggle_view` | method | `cli/graph_overlay.py:95` | `def toggle_view(self)` |
-| `HeadlessRunner` | class | `cli/headless.py:62` | `class HeadlessRunner` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

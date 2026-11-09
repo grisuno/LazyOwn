@@ -322,3 +322,39 @@ def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys):
     capsys.readouterr()
     shell.do_apt_chain("demo 10.0.0.9 --totally-unknown-flag")
     assert "unknown option" in capsys.readouterr().out
+
+
+class TestSynthFlags:
+    """synth accepts --techniques/--playbook/--target without tripping flag errors."""
+
+    def test_techniques_parsed(self):
+        """Given --techniques, When parsing, Then ids land on args.techniques."""
+        args = parse_chain_args("synth rocke 10.9.9.4 --techniques T1059.001,T1003")
+        assert args.admin_action == "synth"
+        assert args.techniques == ["T1059.001", "T1003"]
+        assert args.admin_args == ["rocke", "10.9.9.4"]
+        assert args.errors == []
+
+    def test_playbook_flag_parsed(self):
+        """Given --playbook, When parsing, Then args.playbook carries the name."""
+        args = parse_chain_args("synth --playbook rocke --target 10.9.9.5")
+        assert args.admin_action == "synth"
+        assert args.playbook == "rocke"
+        assert args.target == "10.9.9.5"
+        assert args.errors == []
+
+    def test_missing_value_errors(self):
+        """Given a dangling valued flag, When parsing, Then a loud error comes back."""
+        args = parse_chain_args("synth --techniques")
+        assert args.errors and "missing value" in args.errors[0]
+
+    def test_unknown_admin_flag_still_loud(self):
+        """Given an unknown dash flag, When parsing, Then the old error survives."""
+        args = parse_chain_args("synth --bogus x")
+        assert args.errors and "unknown option" in args.errors[0]
+
+    def test_positional_only_unchanged(self):
+        """Given legacy positional synth, When parsing, Then admin_args keep shape."""
+        args = parse_chain_args("synth rocke 10.9.9.6")
+        assert args.admin_args == ["rocke", "10.9.9.6"]
+        assert args.techniques == [] and args.playbook == ""

@@ -1,6 +1,38 @@
 # Subsystem: modules (page 4 of 18)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/command_executor.py
+- Doc: UnifiedCommandExecutor — shared shell command execution service.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `set_thread_timeout` (function, line 41) `def set_thread_timeout(seconds)`
+  - `clear_thread_timeout` (function, line 46) `def clear_thread_timeout()`
+  - `thread_timeout` (function, line 54) `def thread_timeout()`
+  - `set_thread_stdin_devnull` (function, line 59) `def set_thread_stdin_devnull(enabled)`
+  - `clear_thread_stdin_devnull` (function, line 64) `def clear_thread_stdin_devnull()`
+  - `thread_stdin_devnull` (function, line 72) `def thread_stdin_devnull()`
+  - `_kill_process_group` (function, line 77) `def _kill_process_group(proc)`
+  - `ExecutionResult` (class, line 97) `class ExecutionResult`
+  - `CommandExecutor` (class, line 106) `class CommandExecutor`
+  - `get_executor` (function, line 426) `def get_executor()`
+  - `__init__` (method, line 118) `def __init__(self)`
+  - `instance` (method, line 122) `def instance(cls)`
+  - `add_hook` (method, line 127) `def add_hook(self, hook)`
+  - `run` (method, line 131) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 165) `def _needs_shell(self, command)`
+  - `_argv` (method, line 173) `def _argv(self, command)`
+  - `run_passthrough` (method, line 179) `def run_passthrough(self, command, env)`
+  - `run_tee` (method, line 194) `def run_tee(self, command)`
+  - `_default_writer` (method, line 291) `def _default_writer(line)`
+  - `_run_capture` (method, line 296) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 321) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 358) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 394) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 401) `def _publish_event(self, result)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
+- Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
+
 ## modules/compliance.py
 - Doc: modules/compliance.py
 - Layer: utility
@@ -83,7 +115,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
   - `_watch_loop` (function, line 148) `def _watch_loop()`
 - Depends on: `core/config.py`, `core/logging.py`
-- Imported by: `tests/test_core_modules.py`
 
 ## modules/credential_reuse.py
 - Doc: Credential Reuse Engine for LazyOwn.
@@ -169,7 +200,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `run_tool` (function, line 151) `def run_tool(name, arg, on_output)`
   - `_run_http` (function, line 179) `def _run_http(tool, arg, on_output)`
 - Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
 
 ## modules/cve_matcher.py
 - Doc: modules/cve_matcher.py
@@ -453,46 +484,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `get_results` (method, line 327) `def get_results(self, beacon_id)`
 - Depends on: `core/safe_exec.py`
 - Imported by: `cli/commands/dns_exfil.py`
-
-## modules/domain_dominance.py
-- Doc: Domain Dominance Engine — automated Active Directory takeover.
-- Layer: business_logic
-- Language: py
-- Symbols:
-  - `DomainInfo` (class, line 49) `class DomainInfo`
-  - `CredentialStash` (class, line 65) `class CredentialStash`
-  - `DominanceResult` (class, line 75) `class DominanceResult`
-  - `DomainDominance` (class, line 89) `class DomainDominance`
-  - `__init__` (method, line 103) `def __init__(self)`
-  - `get_instance` (method, line 110) `def get_instance(cls)`
-  - `dominate` (method, line 121) `def dominate(self, domain, dc_ip, username, password, ntlm_hash)`
-  - `enumerate_domain` (method, line 194) `def enumerate_domain(self, domain, dc_ip)`
-  - `extract_credentials` (method, line 227) `def extract_credentials(self, domain_info, known_creds)`
-  - `escalate` (method, line 260) `def escalate(self, domain_info, stash)`
-  - `persist` (method, line 314) `def persist(self, domain_info)`
-  - `_discover_dc` (method, line 340) `def _discover_dc(self, domain, dns_servers)`
-  - `_find_dcs` (method, line 366) `def _find_dcs(self, domain, dc_ip)`
-  - `_find_domain_admins` (method, line 392) `def _find_domain_admins(self, domain, dc_ip)`
-  - `_enumerate_users` (method, line 426) `def _enumerate_users(self, dc_ip)`
-  - `_enumerate_computers` (method, line 469) `def _enumerate_computers(self, dc_ip)`
-  - `_enumerate_groups` (method, line 495) `def _enumerate_groups(self, dc_ip)`
-  - `_enumerate_spns` (method, line 516) `def _enumerate_spns(self, dc_ip)`
-  - `_enumerate_trusts` (method, line 546) `def _enumerate_trusts(self, domain, dc_ip)`
-  - `_asrep_roast` (method, line 575) `def _asrep_roast(self, domain_info)`
-  - `_kerberoast` (method, line 625) `def _kerberoast(self, domain_info)`
-  - `_psexec_session` (method, line 666) `def _psexec_session(self, target, domain, user, password)`
-  - `_wmiexec_session` (method, line 697) `def _wmiexec_session(self, target, domain, user, password)`
-  - `_pth_session` (method, line 728) `def _pth_session(self, target, domain, user, ntlm_hash)`
-  - `_attempt_dcsync` (method, line 768) `def _attempt_dcsync(self, dc_ip)`
-  - `_load_config` (method, line 827) `def _load_config(self)`
-  - `_domain_to_dn` (method, line 838) `def _domain_to_dn(self, domain)`
-  - `_seal_loot_secret` (method, line 850) `def _seal_loot_secret(secret)`
-  - `_unseal_loot_secret` (method, line 871) `def _unseal_loot_secret(stored)`
-  - `_save_credential` (method, line 890) `def _save_credential(self, username, secret, secret_type, source)`
-  - `_save_session` (method, line 924) `def _save_session(self, session_id, target, method, user)`
-  - `_save_dominance_report` (method, line 944) `def _save_dominance_report(self)`
-- Depends on: `core/hardening.py`
-- Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

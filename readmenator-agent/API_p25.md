@@ -153,7 +153,7 @@ Depends on: `cli/assign.py`
 - `Z` (function) `static/js/purify-3.0.9.min.js:2` -- /*! @license DOMPurify 3.0.9 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla...
 
 ## static/js/quill-2.0.3.js
-Depends on: `cli/show.py`, `core/prompt.py`, `lazyown-docker/init.sh`
+Depends on: `cli/show.py`, `core/prompt.py`, `gyms/docker/php2shell/src/info.php`, `lazyown-docker/init.sh`
 - `i` (function) `static/js/quill-2.0.3.js:2` -- /*!
 - `l` (function) `static/js/quill-2.0.3.js:2` -- /*!
 - `n` (function) `static/js/quill-2.0.3.js:2` -- /*!
@@ -209,6 +209,7 @@ Depends on: `cli/show.py`, `core/prompt.py`, `lazyown-docker/init.sh`
 - `F` (function) `static/js/quill-2.0.3.js:2` -- /*!
 
 ## static/js/select2-4.1.0.min.js
+Depends on: `modules/selection/module.py`
 - `e` (function) `static/js/select2-4.1.0.min.js:2` -- /*!
 - `t` (function) `static/js/select2-4.1.0.min.js:2` -- /*!
 - `d` (function) `static/js/select2-4.1.0.min.js:2` -- /*!
@@ -270,7 +271,7 @@ Depends on: `cli/assign.py`, `cli/show.py`
 - `u` (function) `static/js/tippy-6.js:1`
 
 ## static/js/vis-network-9.1.2.min.js
-Depends on: `cli/show.py`, `core/process.py`, `lazyown-docker/init.sh`
+Depends on: `cli/show.py`, `core/process.py`, `gyms/docker/php2shell/src/info.php`, `lazyown-docker/init.sh`
 - `C` (function) `static/js/vis-network-9.1.2.min.js:26` -- @license vis.js is dual licensed under both  1.
 - `g` (function) `static/js/vis-network-9.1.2.min.js:26` -- @license vis.js is dual licensed under both  1.
 - `t` (function) `static/js/vis-network-9.1.2.min.js:26` -- @license vis.js is dual licensed under both  1.

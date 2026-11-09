@@ -1,8 +1,55 @@
-# Symbols (page 18 of 49)
+# Symbols (page 18 of 50)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `conformance` | function | `modules/lazy_roles.py:154` | `def conformance(role)` |
+| `list_roles` | function | `modules/lazy_roles.py:100` | `def list_roles()` |
+| `role_prompt` | function | `modules/lazy_roles.py:109` | `def role_prompt(role, goal, context)` |
+| `roles_for_phase` | function | `modules/lazy_roles.py:134` | `def roles_for_phase(phase)` |
+| `LoopRunConfig` | class | `modules/lazy_runner.py:94` | `class LoopRunConfig` |
+| `ThreadStdoutRouter` | class | `modules/lazy_runner.py:45` | `class ThreadStdoutRouter(TextIOBase)` |
+| `__init__` | method | `modules/lazy_runner.py:55` | `def __init__(self, main_stream, spool)` |
+| `_abort_run` | function | `modules/lazy_runner.py:411` | `def _abort_run(engine, task_id, reason)` |
+| `_apply_budget` | function | `modules/lazy_runner.py:613` | `def _apply_budget(engine, task_id, budget)` |
+| `_bootstrap` | function | `modules/lazy_runner.py:592` | `def _bootstrap(scan_target, executor)` |
+| `_budget_declined` | function | `modules/lazy_runner.py:626` | `def _budget_declined(config)` |
+| `_dump_thread_stacks` | function | `modules/lazy_runner.py:772` | `def _dump_thread_stacks()` |
+| `_executor` | function | `modules/lazy_runner.py:363` | `def _executor(command)` |
+| `_format_activity` | function | `modules/lazy_runner.py:758` | `def _format_activity(record)` |
+| `_limited` | function | `modules/lazy_runner.py:1150` | `def _limited()` |
+| `_maybe_phishing_fallback` | function | `modules/lazy_runner.py:475` | `def _maybe_phishing_fallback(result, config, params)` |
+| `_overview` | function | `modules/lazy_runner.py:748` | `def _overview(task_id)` |
+| `_poll_progress` | function | `modules/lazy_runner.py:801` | `def _poll_progress(engine, config, progress, transcript, worker)` |
+| `_prepare_engine` | function | `modules/lazy_runner.py:430` | `def _prepare_engine(engine, shell, config, params)` |
+| `_print_handoff` | function | `modules/lazy_runner.py:567` | `def _print_handoff(handoff)` |
+| `_resolve_alias` | function | `modules/lazy_runner.py:355` | `def _resolve_alias(command)` |
+| `_run` | function | `modules/lazy_runner.py:694` | `def _run()` |
+| `_run_plain` | function | `modules/lazy_runner.py:919` | `def _run_plain(engine, config)` |
+| `_run_targets_file` | function | `modules/lazy_runner.py:1124` | `def _run_targets_file(shell, params, config)` |
+| `_run_with_progress` | function | `modules/lazy_runner.py:642` | `def _run_with_progress(engine, config)` |
+| `_stall_thresholds` | function | `modules/lazy_runner.py:787` | `def _stall_thresholds(verb_timeout)` |
+| `_start_proxy` | function | `modules/lazy_runner.py:450` | `def _start_proxy(engine, params)` |
+| `_terminal_stream` | function | `modules/lazy_runner.py:897` | `def _terminal_stream()` |
+| `_to_float` | function | `modules/lazy_runner.py:164` | `def _to_float(raw, default)` |
+| `_to_int` | function | `modules/lazy_runner.py:156` | `def _to_int(raw, default)` |
+| `_tty_available` | function | `modules/lazy_runner.py:1111` | `def _tty_available()` |
+| `_work_one` | function | `modules/lazy_runner.py:1147` | `def _work_one(target)` |
+| `_write` | function | `modules/lazy_runner.py:909` | `def _write(text)` |
+| `build_executor` | function | `modules/lazy_runner.py:338` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
+| `clamped` | method | `modules/lazy_runner.py:120` | `def clamped(self)` |
+| `encoding` | method | `modules/lazy_runner.py:80` | `def encoding(self)` |
+| `flush` | method | `modules/lazy_runner.py:72` | `def flush(self)` |
+| `isatty` | method | `modules/lazy_runner.py:84` | `def isatty(self)` |
+| `load_targets_file` | function | `modules/lazy_runner.py:954` | `def load_targets_file(path)` |
+| `parse_loop_line` | function | `modules/lazy_runner.py:172` | `def parse_loop_line(line)` |
+| `report_result` | function | `modules/lazy_runner.py:521` | `def report_result(result)` |
+| `resolve_loop_defaults` | function | `modules/lazy_runner.py:302` | `def resolve_loop_defaults(config)` |
+| `run_loop` | function | `modules/lazy_runner.py:1009` | `def run_loop(shell, params, config)` |
+| `stream` | function | `modules/lazy_runner.py:657` | `def stream(text)` |
+| `write` | method | `modules/lazy_runner.py:61` | `def write(self, data)` |
+| `_payload_value` | function | `modules/lazy_sandbox.py:41` | `def _payload_value(key, default)` |
+| `_sandbox_executor` | function | `modules/lazy_sandbox.py:265` | `def _sandbox_executor(command)` |
 | `container_name` | function | `modules/lazy_sandbox.py:67` | `def container_name(task_id)` |
 | `container_running` | function | `modules/lazy_sandbox.py:94` | `def container_running(task_id)` |
 | `docker_available` | function | `modules/lazy_sandbox.py:73` | `def docker_available()` |
@@ -449,52 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `LLMEvaluator` | class | `modules/llm_evaluator.py:161` | `class LLMEvaluator` |
 | `OutcomeRecorder` | class | `modules/llm_evaluator.py:55` | `class OutcomeRecorder(ABC)` |
 | `QualityMetrics` | class | `modules/llm_evaluator.py:140` | `class QualityMetrics` |
-| `__init__` | method | `modules/llm_evaluator.py:76` | `def __init__(self, path)` |
-| `__init__` | method | `modules/llm_evaluator.py:162` | `def __init__(self, recorder)` |
-| `_cli` | function | `modules/llm_evaluator.py:322` | `def _cli()` |
-| `_new_id` | function | `modules/llm_evaluator.py:35` | `def _new_id()` |
-| `_record_from_dict` | function | `modules/llm_evaluator.py:39` | `def _record_from_dict(d)` |
-| `_safe_mean` | function | `modules/llm_evaluator.py:150` | `def _safe_mean(values)` |
-| `_tactic_success_rates` | function | `modules/llm_evaluator.py:154` | `def _tactic_success_rates(records)` |
-| `compute_metrics` | method | `modules/llm_evaluator.py:200` | `def compute_metrics(self, session_id)` |
-| `export_finetuning_dataset` | method | `modules/llm_evaluator.py:256` | `def export_finetuning_dataset(self, path)` |
-| `get_evaluator` | function | `modules/llm_evaluator.py:293` | `def get_evaluator()` |
-| `load_all` | method | `modules/llm_evaluator.py:69` | `def load_all(self)` |
-| `load_all` | method | `modules/llm_evaluator.py:120` | `def load_all(self)` |
-| `load_by_session` | method | `modules/llm_evaluator.py:72` | `def load_by_session(self, session_id)` |
-| `load_by_session` | method | `modules/llm_evaluator.py:135` | `def load_by_session(self, session_id)` |
-| `quality_report` | method | `modules/llm_evaluator.py:241` | `def quality_report(self, session_id)` |
-| `record` | method | `modules/llm_evaluator.py:57` | `def record(self, decision)` |
-| `record` | method | `modules/llm_evaluator.py:81` | `def record(self, decision)` |
-| `record_decision` | method | `modules/llm_evaluator.py:165` | `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
-| `record_decision` | function | `modules/llm_evaluator.py:302` | `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
-| `record_outcome` | method | `modules/llm_evaluator.py:191` | `def record_outcome(self, decision_id, actual_outcome, findings_count, success)` |
-| `record_outcome` | function | `modules/llm_evaluator.py:313` | `def record_outcome(decision_id, actual_outcome, findings_count, success)` |
-| `update_outcome` | method | `modules/llm_evaluator.py:60` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
-| `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
-| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:194` | `class LLMBackendNotSupportedError(ValueError)` |
-| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:190` | `class LLMBackendUnavailableError(RuntimeError)` |
-| `_build_anthropic` | function | `modules/llm_factory.py:544` | `def _build_anthropic(config)` |
-| `_build_backend` | function | `modules/llm_factory.py:705` | `def _build_backend(normalized, resolved_config)` |
-| `_build_deepseek` | function | `modules/llm_factory.py:566` | `def _build_deepseek(config)` |
-| `_build_groq` | function | `modules/llm_factory.py:472` | `def _build_groq(config)` |
-| `_build_llamacpp` | function | `modules/llm_factory.py:508` | `def _build_llamacpp(config)` |
-| `_build_ollama` | function | `modules/llm_factory.py:494` | `def _build_ollama(config)` |
-| `_build_openai` | function | `modules/llm_factory.py:522` | `def _build_openai(config)` |
-| `_is_placeholder_key` | function | `modules/llm_factory.py:333` | `def _is_placeholder_key(value)` |
-| `_normalize_backend` | function | `modules/llm_factory.py:407` | `def _normalize_backend(backend)` |
-| `_pi_complete` | function | `modules/llm_factory.py:807` | `def _pi_complete(model, prompt, max_tokens)` |
-| `_pi_timeout` | function | `modules/llm_factory.py:795` | `def _pi_timeout()` |
-| `_require_cloud_allowed` | function | `modules/llm_factory.py:440` | `def _require_cloud_allowed(normalized)` |
-| `_resolve_api_key` | function | `modules/llm_factory.py:353` | `def _resolve_api_key(config)` |
-| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:376` | `def _resolve_api_key_for_backend(backend, config)` |
-| `_resolve_model_identifier` | function | `modules/llm_factory.py:588` | `def _resolve_model_identifier(backend_identifier, config)` |
-| `_wrap_with_budget` | function | `modules/llm_factory.py:615` | `def _wrap_with_budget(backend, config, backend_identifier)` |
-| `api_key_config_key` | function | `modules/llm_factory.py:266` | `def api_key_config_key(backend)` |
-| `backend_requires_api_key` | function | `modules/llm_factory.py:291` | `def backend_requires_api_key(backend)` |
-| `complete` | function | `modules/llm_factory.py:919` | `def complete(model, prompt, max_tokens)` |
-| `default_model_for` | function | `modules/llm_factory.py:224` | `def default_model_for(backend)` |
-| `get_llm_backend` | function | `modules/llm_factory.py:653` | `def get_llm_backend(config, backend)` |
-| `get_llm_backend_raw` | function | `modules/llm_factory.py:749` | `def get_llm_backend_raw(config, backend)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

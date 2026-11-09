@@ -307,7 +307,7 @@ def parse_manifest(verb: str, data: object) -> VerbManifest:
         ValueError: When the entry violates the schema.
     """
     verb = str(verb or "").strip().lower()
-    if not re.match(r"^[a-z][a-z0-9_]{0,63}$", verb):
+    if not re.match(r"^(?:poc:)?[a-z][a-z0-9_]{0,63}$", verb):
         raise ValueError(f"invalid verb name: {verb!r}")
     if not isinstance(data, dict):
         raise ValueError("manifest must be a mapping")

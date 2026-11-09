@@ -812,3 +812,21 @@ def test_mcp_lazy_tools_declared_for_every_handler():
     declared = set(re.findall(r'name="(lazyown_lazy_[a-z_]+)"', source))
     assert handlers, "no lazy handlers found"
     assert handlers <= declared, f"undeclared lazy tools: {sorted(handlers - declared)}"
+
+
+def test_create_task_seeds_payload_scope(tmp_path, monkeypatch):
+    """BDD: the payload's authorized scope gates every loop worker from task zero."""
+    import core.config as core_config
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+
+    def fake_payload(path=None):
+        return {"scope": ["172.17.0.0/24", "10.66.44.7"]}
+
+    monkeypatch.setattr(core_config, "load_payload", fake_payload)
+
+    task_id = engine.create_task("engage the lab")["task_id"]
+    record = engine.store.get(task_id)
+    entries = {(item["kind"], item["value"]) for item in record.get("scope", []) or []}
+    assert ("cidr", "172.17.0.0/24") in entries, entries
+    assert ("ip", "10.66.44.7") in entries, entries

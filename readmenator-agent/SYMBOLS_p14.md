@@ -1,8 +1,50 @@
-# Symbols (page 14 of 49)
+# Symbols (page 14 of 50)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_default_narrator` | function | `modules/engagement_hooks.py:482` | `def get_default_narrator()` |
+| `is_valid_target` | function | `modules/engagement_hooks.py:626` | `def is_valid_target(value)` |
+| `list_pending_approvals` | function | `modules/engagement_hooks.py:575` | `def list_pending_approvals()` |
+| `name` | method | `modules/engagement_hooks.py:155` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:178` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:213` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
+| `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
+| `now` | method | `modules/engagement_hooks.py:124` | `def now(cls, kind, target, message, payload, severity)` |
+| `publish_shell_obtained` | function | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
+| `render_line` | method | `modules/engagement_hooks.py:143` | `def render_line(self)` |
+| `resolve_approval` | function | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
+| `EnrichEngine` | class | `modules/enrich.py:100` | `class EnrichEngine` |
+| `EnrichResult` | class | `modules/enrich.py:30` | `class EnrichResult` |
+| `__init__` | method | `modules/enrich.py:103` | `def __init__(self, max_workers)` |
+| `_run` | method | `modules/enrich.py:121` | `def _run(self, target)` |
+| `fetch_http` | function | `modules/enrich.py:86` | `def fetch_http(target, timeout)` |
+| `resolve_dns` | function | `modules/enrich.py:73` | `def resolve_dns(target, timeout)` |
+| `scan_files_for` | function | `modules/enrich.py:40` | `def scan_files_for(sessions_dir, target)` |
+| `shared_engine` | function | `modules/enrich.py:137` | `def shared_engine()` |
+| `should_rescan` | function | `modules/enrich.py:57` | `def should_rescan(sessions_dir, target, fresh_sec)` |
+| `shutdown` | method | `modules/enrich.py:128` | `def shutdown(self, wait)` |
+| `submit` | method | `modules/enrich.py:108` | `def submit(self, target)` |
+| `EntraIDAttackEngine` | class | `modules/entra_id_attacks.py:81` | `class EntraIDAttackEngine` |
+| `EntraIDConfig` | class | `modules/entra_id_attacks.py:57` | `class EntraIDConfig` |
+| `__init__` | method | `modules/entra_id_attacks.py:92` | `def __init__(self, config)` |
+| `conditional_access_bypass` | method | `modules/entra_id_attacks.py:307` | `def conditional_access_bypass(self)` |
+| `device_code_phish` | method | `modules/entra_id_attacks.py:96` | `def device_code_phish(self, scope)` |
+| `entra_connect_sync_abuse` | method | `modules/entra_id_attacks.py:266` | `def entra_connect_sync_abuse(self)` |
+| `enumerate_tenant` | method | `modules/entra_id_attacks.py:345` | `def enumerate_tenant(self)` |
+| `managed_identity_abuse` | method | `modules/entra_id_attacks.py:235` | `def managed_identity_abuse(self, resource)` |
+| `oauth_consent_grant` | method | `modules/entra_id_attacks.py:166` | `def oauth_consent_grant(self, redirect_uri)` |
+| `poll_device_code` | method | `modules/entra_id_attacks.py:129` | `def poll_device_code(self, device_code, interval, timeout)` |
+| `service_principal_credential_theft` | method | `modules/entra_id_attacks.py:203` | `def service_principal_credential_theft(self)` |
+| `summary` | method | `modules/entra_id_attacks.py:368` | `def summary(self)` |
+| `_from_raw` | function | `modules/estorides_fusion.py:142` | `def _from_raw(document)` |
+| `_norm` | function | `modules/estorides_fusion.py:123` | `def _norm(value)` |
+| `community_for` | function | `modules/estorides_fusion.py:180` | `def community_for(kind, value)` |
+| `estorides_checkout` | function | `modules/estorides_fusion.py:48` | `def estorides_checkout()` |
+| `find_export` | function | `modules/estorides_fusion.py:68` | `def find_export(sessions_dir)` |
 | `find_lan_bundle` | function | `modules/estorides_fusion.py:268` | `def find_lan_bundle(sessions_dir)` |
 | `load_export` | function | `modules/estorides_fusion.py:128` | `def load_export(path)` |
 | `load_lan_bundle` | function | `modules/estorides_fusion.py:288` | `def load_lan_bundle(path)` |
@@ -268,6 +310,22 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `recommend` | method | `modules/exploit_recommender.py:337` | `def recommend(self, hosts, top_n)` |
 | `set_nvd_api_key` | method | `modules/exploit_recommender.py:132` | `def set_nvd_api_key(self, key)` |
 | `set_world_model` | method | `modules/exploit_recommender.py:129` | `def set_world_model(self, world_model)` |
+| `_find_cve` | function | `modules/exploitdb_bridge.py:40` | `def _find_cve(text)` |
+| `_guess_commands` | function | `modules/exploitdb_bridge.py:61` | `def _guess_commands(edb_id, edb_file, ext, desc, src, port)` |
+| `_infer_runner` | function | `modules/exploitdb_bridge.py:47` | `def _infer_runner(ext)` |
+| `_load_csv` | function | `modules/exploitdb_bridge.py:23` | `def _load_csv()` |
+| `_read_src` | function | `modules/exploitdb_bridge.py:30` | `def _read_src(edb_file)` |
+| `gen_yaml` | function | `modules/exploitdb_bridge.py:151` | `def gen_yaml(item, outdir)` |
+| `scan_tier0` | function | `modules/exploitdb_bridge.py:105` | `def scan_tier0(limit, platform, only_cve)` |
+| `sync_tier0` | function | `modules/exploitdb_bridge.py:194` | `def sync_tier0(limit, platform, only_cve, outdir)` |
+| `_flags` | function | `modules/exploitdb_c_bridge.py:74` | `def _flags(src)` |
+| `_load_csv` | function | `modules/exploitdb_c_bridge.py:17` | `def _load_csv()` |
+| `_read` | function | `modules/exploitdb_c_bridge.py:24` | `def _read(edb_file)` |
+| `compile_batch` | function | `modules/exploitdb_c_bridge.py:148` | `def compile_batch(limit)` |
+| `gen_batch` | function | `modules/exploitdb_c_bridge.py:134` | `def gen_batch(limit)` |
+| `gen_c_yaml` | function | `modules/exploitdb_c_bridge.py:152` | `def gen_c_yaml(item, binpath, wrapper)` |
+| `gen_c_yaml_compile_on_use` | function | `modules/exploitdb_c_bridge.py:89` | `def gen_c_yaml_compile_on_use(item)` |
+| `scan_c` | function | `modules/exploitdb_c_bridge.py:32` | `def scan_c(limit, platform, skip_existing)` |
 | `_detect_domain` | function | `modules/exploitgym_gym.py:96` | `def _detect_domain(task_id)` |
 | `_ensure_clone` | function | `modules/exploitgym_gym.py:232` | `def _ensure_clone(root, timeout)` |
 | `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
@@ -438,63 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `resume_all` | method | `modules/guardrails/advisories.py:108` | `def resume_all(self)` |
 | `suspend` | method | `modules/guardrails/advisories.py:84` | `def suspend(self, feature, reason)` |
 | `suspended` | method | `modules/guardrails/advisories.py:120` | `def suspended(self)` |
-| `tail` | method | `modules/guardrails/advisories.py:49` | `def tail(self, limit)` |
-| `tail_locked` | method | `modules/guardrails/advisories.py:66` | `def tail_locked(self, limit)` |
-| `CapacityEnvelope` | class | `modules/guardrails/budget.py:25` | `class CapacityEnvelope` |
-| `__init__` | method | `modules/guardrails/budget.py:28` | `def __init__(self, capacities, threshold)` |
-| `_default_capacities` | method | `modules/guardrails/budget.py:42` | `def _default_capacities()` |
-| `_snapshot_locked` | method | `modules/guardrails/budget.py:176` | `def _snapshot_locked(self)` |
-| `_usage_ratio` | method | `modules/guardrails/budget.py:171` | `def _usage_ratio(self, tier)` |
-| `account` | method | `modules/guardrails/budget.py:109` | `def account(self, task_class, units)` |
-| `admit` | method | `modules/guardrails/budget.py:78` | `def admit(self, task_class, units)` |
-| `capacity` | method | `modules/guardrails/budget.py:147` | `def capacity(self, task_class)` |
-| `configure` | method | `modules/guardrails/budget.py:50` | `def configure(self, capacities, threshold)` |
-| `describe` | method | `modules/guardrails/budget.py:166` | `def describe(self)` |
-| `purge` | method | `modules/guardrails/budget.py:126` | `def purge(self, task_class)` |
-| `reclaim` | method | `modules/guardrails/budget.py:136` | `def reclaim(self)` |
-| `release` | method | `modules/guardrails/budget.py:118` | `def release(self, task_class, units)` |
-| `saturated` | method | `modules/guardrails/budget.py:154` | `def saturated(self, task_class)` |
-| `threshold` | method | `modules/guardrails/budget.py:161` | `def threshold(self)` |
-| `usage` | method | `modules/guardrails/budget.py:140` | `def usage(self, task_class)` |
-| `CheckpointLedger` | class | `modules/guardrails/checkpoints.py:18` | `class CheckpointLedger` |
-| `__init__` | method | `modules/guardrails/checkpoints.py:21` | `def __init__(self, history)` |
-| `capture` | method | `modules/guardrails/checkpoints.py:33` | `def capture(self, key, state)` |
-| `describe` | method | `modules/guardrails/checkpoints.py:92` | `def describe(self)` |
-| `keys` | method | `modules/guardrails/checkpoints.py:59` | `def keys(self)` |
-| `restore` | method | `modules/guardrails/checkpoints.py:51` | `def restore(self, key)` |
-| `warm_restart` | method | `modules/guardrails/checkpoints.py:64` | `def warm_restart(self, core_key)` |
-| `GuardrailContract` | class | `modules/guardrails/contracts.py:49` | `class GuardrailContract(Protocol)` |
-| `HarnessAdminPort` | class | `modules/guardrails/contracts.py:73` | `class HarnessAdminPort(Protocol)` |
-| `RunTicket` | class | `modules/guardrails/contracts.py:40` | `class RunTicket` |
-| `TaskClass` | class | `modules/guardrails/contracts.py:19` | `class TaskClass(IntEnum)` |
-| `configure` | method | `modules/guardrails/contracts.py:76` | `def configure(self, settings)` |
-| `describe` | method | `modules/guardrails/contracts.py:52` | `def describe(self)` |
-| `is_known` | method | `modules/guardrails/contracts.py:31` | `def is_known(cls, value)` |
-| `rearm` | method | `modules/guardrails/contracts.py:80` | `def rearm(self)` |
-| `run_guarded` | method | `modules/guardrails/contracts.py:56` | `def run_guarded(self, task_class, fn)` |
-| `warm_restart` | method | `modules/guardrails/contracts.py:68` | `def warm_restart(self)` |
-| `GuardHarness` | class | `modules/guardrails/harness.py:25` | `class GuardHarness` |
-| `__init__` | method | `modules/guardrails/harness.py:28` | `def __init__(self, threshold, capacities)` |
-| `_on_failure` | method | `modules/guardrails/harness.py:174` | `def _on_failure(self, tier, ticket, key, fn, args, kwargs, exc)` |
-| `configure` | method | `modules/guardrails/harness.py:48` | `def configure(self, settings)` |
-| `describe` | method | `modules/guardrails/harness.py:165` | `def describe(self)` |
-| `global_harness` | function | `modules/guardrails/harness.py:232` | `def global_harness()` |
-| `rearm` | method | `modules/guardrails/harness.py:153` | `def rearm(self)` |
-| `reset_global_harness` | function | `modules/guardrails/harness.py:241` | `def reset_global_harness()` |
-| `run_guarded` | method | `modules/guardrails/harness.py:63` | `def run_guarded(self, task_class, fn)` |
-| `suspend` | method | `modules/guardrails/harness.py:138` | `def suspend(self, feature, reason)` |
-| `warm_restart` | method | `modules/guardrails/harness.py:124` | `def warm_restart(self, core_key)` |
-| `has` | function | `modules/gui_askpass.sh:22` | `` |
-| `try_kdialog` | function | `modules/gui_askpass.sh:40` | `` |
-| `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
-| `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
-| `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
-| `cleanup_enabled` | function | `modules/gym_cleanup.py:21` | `def cleanup_enabled()` |
-| `cleanup_gym_machines` | function | `modules/gym_cleanup.py:35` | `def cleanup_gym_machines(verbose)` |
-| `_catalogue` | function | `modules/gym_matrix_runner.py:36` | `def _catalogue(catalogue)` |
-| `_persist` | function | `modules/gym_matrix_runner.py:236` | `def _persist(summary_result, sessions_dir)` |
-| `_stats` | function | `modules/gym_matrix_runner.py:220` | `def _stats(runs)` |
-| `load_matrix` | function | `modules/gym_matrix_runner.py:252` | `def load_matrix(sessions_dir)` |
-| `plan_matrix` | function | `modules/gym_matrix_runner.py:49` | `def plan_matrix(target, sessions_dir, only, top_k, catalogue)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

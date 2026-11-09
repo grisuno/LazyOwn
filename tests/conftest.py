@@ -163,3 +163,20 @@ def _offline_llm_for_loop_tests(request, monkeypatch):
         monkeypatch.setattr(bridge, "LAZY_DIR", sandbox)
     except Exception:
         pass
+
+
+@pytest.fixture(autouse=True)
+def _isolated_payload_scope(tmp_path, monkeypatch):
+    """Keep ambient payload scope out of loop tests.
+
+    ``LazyEngine.create_task`` seeds task scope from the operator payload;
+    without isolation every engine-creating test inherits the checkout's
+    real ``scope`` entries as assets and changes step composition. Tests
+    that exercise the seeding patch ``core.config.load_payload`` themselves
+    and win over this default.
+    """
+    try:
+        import core.config as core_config
+    except Exception:
+        return
+    monkeypatch.setattr(core_config, "load_payload", lambda *a, **k: {})

@@ -266,27 +266,28 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `VerbCatalogConfig` (class, line 76) `class VerbCatalogConfig`
-  - `_default_config` (function, line 99) `def _default_config()`
-  - `_builtin_names` (function, line 105) `def _builtin_names()`
-  - `_phase_fallback` (function, line 117) `def _phase_fallback(verb)`
-  - `_risk_fallback` (function, line 127) `def _risk_fallback(verb)`
-  - `_addon_discoveries` (function, line 137) `def _addon_discoveries(config)`
-  - `_all_discoveries` (function, line 181) `def _all_discoveries(config)`
-  - `index_commands` (function, line 190) `def index_commands(config)`
-  - `validate_catalog` (function, line 230) `def validate_catalog(data)`
-  - `load` (function, line 263) `def load(config)`
-  - `entries` (function, line 296) `def entries(config)`
-  - `catalog_enabled` (function, line 349) `def catalog_enabled(name, config)`
-  - `catalog_source` (function, line 364) `def catalog_source(name, config)`
-  - `set_enabled` (function, line 378) `def set_enabled(name, enabled, config)`
-  - `sync` (function, line 415) `def sync(config)`
-  - `_write` (function, line 470) `def _write(cfg, verbs)`
-  - `_drop_cache` (function, line 494) `def _drop_cache(path_key)`
-  - `stats` (function, line 502) `def stats(config)`
-  - `search` (function, line 516) `def search(query, config, phase, enabled, limit)`
-- Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
-- Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
+  - `VerbCatalogConfig` (class, line 77) `class VerbCatalogConfig`
+  - `_default_config` (function, line 101) `def _default_config()`
+  - `_builtin_names` (function, line 111) `def _builtin_names()`
+  - `_phase_fallback` (function, line 123) `def _phase_fallback(verb)`
+  - `_risk_fallback` (function, line 133) `def _risk_fallback(verb)`
+  - `_addon_discoveries` (function, line 143) `def _addon_discoveries(config)`
+  - `_poc_discoveries` (function, line 187) `def _poc_discoveries(config)`
+  - `_all_discoveries` (function, line 214) `def _all_discoveries(config)`
+  - `index_commands` (function, line 226) `def index_commands(config)`
+  - `validate_catalog` (function, line 266) `def validate_catalog(data)`
+  - `load` (function, line 299) `def load(config)`
+  - `entries` (function, line 332) `def entries(config)`
+  - `catalog_enabled` (function, line 385) `def catalog_enabled(name, config)`
+  - `catalog_source` (function, line 400) `def catalog_source(name, config)`
+  - `set_enabled` (function, line 414) `def set_enabled(name, enabled, config)`
+  - `sync` (function, line 452) `def sync(config)`
+  - `_write` (function, line 512) `def _write(cfg, verbs)`
+  - `_drop_cache` (function, line 536) `def _drop_cache(path_key)`
+  - `stats` (function, line 544) `def stats(config)`
+  - `search` (function, line 558) `def search(query, config, phase, enabled, limit)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+- Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
 
 ## modules/verb_manifest.py
 - Doc: Typed verb manifests - semantics for routable shell verbs.

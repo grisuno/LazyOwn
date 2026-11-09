@@ -1,31 +1,6 @@
 # Subsystem: modules (page 10 of 18)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
-## modules/lazy_loop.py (continued)
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_failure_memory_veto.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_policy_planner_signal.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_trigger_policy.py`, `tests/test_world_diff_retest.py`
-
-## modules/lazy_match_policy.py
-- Doc: Match policy doctrine: what may claim a match and what stays a lead.
-- Layer: business_logic
-- Language: py
-- Symbols:
-  - `strand_from_sighting` (function, line 37) `def strand_from_sighting(sighting)`
-  - `_version_in_range` (function, line 66) `def _version_in_range(version, ranges)`
-  - `is_os_sighting` (function, line 79) `def is_os_sighting(product, cpe)`
-  - `strand_rank` (function, line 102) `def strand_rank(strand)`
-  - `has_standing` (function, line 107) `def has_standing(match)`
-  - `MatchStore` (class, line 124) `class MatchStore`
-  - `__init__` (method, line 127) `def __init__(self, sessions_dir)`
-  - `upsert` (method, line 132) `def upsert(self, identity, sighting, now)`
-  - `_key` (method, line 170) `def _key(identity)`
-  - `rows` (method, line 177) `def rows(self)`
-  - `close` (method, line 181) `def close(self, identity, reason, now)`
-  - `closed_reason` (method, line 196) `def closed_reason(self, identity)`
-  - `_load` (method, line 203) `def _load(self)`
-  - `_save_frame` (method, line 214) `def _save_frame(self, store)`
-- Depends on: `modules/lazy_heat.py`
-- Imported by: `tests/test_lazy_match_policy.py`
-
 ## modules/lazy_mentions.py
 - Doc: LAZY chat mentions with multi-type search and scroll pagination.
 - Layer: utility
@@ -67,6 +42,22 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `hint_text` (function, line 311) `def hint_text(verdict)`
   - `as_dict` (method, line 107) `def as_dict(self)`
 - Imported by: `tests/test_lazy_netattack.py`
+
+## modules/lazy_objective_queue.py
+- Doc: Objective queue plumbing: the autonomous loop's read side of the objective store.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ObjectiveCandidate` (class, line 35) `class ObjectiveCandidate`
+  - `_objectives_path` (function, line 49) `def _objectives_path()`
+  - `_load_records` (function, line 66) `def _load_records(path)`
+  - `_save_records` (function, line 91) `def _save_records(path, records)`
+  - `pending_objectives` (function, line 105) `def pending_objectives(limit, target)`
+  - `_update_status` (function, line 153) `def _update_status(objective_id, status, notes)`
+  - `mark_started` (function, line 177) `def mark_started(objective_id, task_id)`
+  - `settle` (function, line 196) `def settle(objective_id, task_id, success)`
+  - `objective_ids_from_text` (function, line 235) `def objective_ids_from_text(text)`
+- Depends on: `modules/lazy_loop.py`
 
 ## modules/lazy_oob.py
 - Doc: Local OOB canary for blind SSRF/RCE detection.
@@ -482,6 +473,20 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_hermes_config_path` (function, line 112) `def _hermes_config_path()`
   - `register_external_dirs` (function, line 117) `def register_external_dirs()`
 - Imported by: `cli/commands/lazyops.py`
+
+## modules/lazy_skills.py
+- Doc: Skill context injection for planner/worker prompts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_frontmatter` (function, line 28) `def _frontmatter(text)`
+  - `_skill_files` (function, line 42) `def _skill_files()`
+  - `_load` (function, line 53) `def _load(path)`
+  - `list_skills` (function, line 85) `def list_skills()`
+  - `get_skill` (function, line 91) `def get_skill(name)`
+  - `match_skills` (function, line 102) `def match_skills(text, limit)`
+  - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

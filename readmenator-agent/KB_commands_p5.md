@@ -1,6 +1,63 @@
 # Subsystem: commands (page 5 of 5)
 Previous: [KB_commands_p4.md](KB_commands_p4.md)
 
+## cli/commands/socks_proxy.py
+- Doc: SOCKS proxy CommandSet — beacon tunneling configuration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SocksProxyCommandSet` (class, line 18) `class SocksProxyCommandSet(LazyOwnCommandSet)`
+  - `do_socks_config` (method, line 25) `def do_socks_config(self, line)`
+  - `do_socks_sessions` (method, line 75) `def do_socks_sessions(self, line)`
+  - `do_socks_export` (method, line 94) `def do_socks_export(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/socks_proxy.py`, `utils.py`
+
+## cli/commands/supply_chain.py
+- Doc: Supply Chain Attack command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SupplyChainCommandSet` (class, line 88) `class SupplyChainCommandSet(LazyOwnCommandSet)`
+  - `_parse_requirements` (function, line 282) `def _parse_requirements(filepath)`
+  - `_parse_package_json` (function, line 307) `def _parse_package_json(filepath)`
+  - `_parse_gemfile` (function, line 328) `def _parse_gemfile(filepath)`
+  - `_parse_cargo_toml` (function, line 348) `def _parse_cargo_toml(filepath)`
+  - `_parse_go_mod` (function, line 377) `def _parse_go_mod(filepath)`
+  - `_parse_pom_xml` (function, line 397) `def _parse_pom_xml(filepath)`
+  - `_pypi_exists` (function, line 425) `def _pypi_exists(package_name)`
+  - `is_internal_name` (function, line 450) `def is_internal_name(name)`
+  - `_extract_flag` (function, line 475) `def _extract_flag(args, flag)`
+  - `do_depconfuse` (method, line 95) `def do_depconfuse(self, line)`
+  - `do_package_squat` (method, line 140) `def do_package_squat(self, line)`
+  - `do_depscan` (method, line 216) `def do_depscan(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/surface.py
+- Doc: Attack-surface operations: confirmed discovery scans, estorides fusion.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SurfaceCommandSet` (class, line 36) `class SurfaceCommandSet(LazyOwnCommandSet)`
+  - `do_scandiscovery` (method, line 43) `def do_scandiscovery(self, line)`
+  - `do_estorides_intel` (method, line 86) `def do_estorides_intel(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
+
+## cli/commands/ux.py
+- Doc: Usability commands: hud, undo, config_diff, cheat, suggest.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `UxCommandSet` (class, line 39) `class UxCommandSet(LazyOwnCommandSet)`
+  - `do_hud` (method, line 46) `def do_hud(self, line)`
+  - `do_undo` (method, line 85) `def do_undo(self, line)`
+  - `do_config_diff` (method, line 115) `def do_config_diff(self, line)`
+  - `do_cheat` (method, line 140) `def do_cheat(self, line)`
+  - `do_toast` (method, line 167) `def do_toast(self, line)`
+  - `do_suggest` (method, line 261) `def do_suggest(self, line)`
+  - `_candidate_commands` (method, line 281) `def _candidate_commands(self)`
+  - `_find_cheat_section` (method, line 298) `def _find_cheat_section(query)`
+- Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
+
 ## cli/commands/verb_admin.py
 - Doc: Operator administration of the autonomous-loop verb catalog.
 - Layer: utility

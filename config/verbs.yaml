@@ -1857,6 +1857,11 @@ verbs:
   apt_chain:
     enabled: true
     phase: c2
+    phases:
+      - exploit
+      - privesc
+      - lateral
+      - exfil
     risk: safe
     description: Run a fully YAML-administered APT chain with one command.
     source: builtin
@@ -1930,8 +1935,13 @@ verbs:
     description: Clean up engagement artefacts (soft) or tear down the gym (hard).
     source: builtin
   atomic_emulate:
-    enabled: false
+    enabled: true
     phase: c2
+    phases:
+      - exploit
+      - privesc
+      - lateral
+      - exfil
     risk: safe
     description: Execute emulation tests on the target through a working shell.
     source: cli
@@ -1942,8 +1952,13 @@ verbs:
     description: Generate test + cleanup scripts for a MITRE ID or GUID.
     source: builtin
   atomic_lazyown:
-    enabled: false
+    enabled: true
     phase: postexp
+    phases:
+      - exploit
+      - privesc
+      - lateral
+      - exfil
     risk: safe
     description: Execute atomic red-team tests via LazyOwn.
     source: cli
@@ -1956,6 +1971,11 @@ verbs:
   atomic_tests:
     enabled: true
     phase: c2
+    phases:
+      - exploit
+      - privesc
+      - lateral
+      - exfil
     risk: safe
     description: Stage an Atomic Red Team test by MITRE technique ID or GUID.
     source: builtin

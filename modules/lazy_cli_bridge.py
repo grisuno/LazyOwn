@@ -216,6 +216,27 @@ def cli_catalog_for_phase(phase: str, limit: int = 40) -> str:
     return ", ".join(names)
 
 
+def _verb_in_phase(row: dict, phase: str) -> bool:
+    """Return whether a catalog row is routable in the given phase.
+
+    A row may declare a ``phases`` list to be valid in several kill-chain
+    phases; otherwise its single ``phase`` is used. Matching is empty-safe
+    so a row with no phase information never claims a phase it did not
+    declare.
+
+    Args:
+        row: One catalog entry from :func:`modules.verb_catalog.entries`.
+        phase: The current kill-chain phase, lowercased.
+
+    Returns:
+        True when the verb is valid in ``phase``.
+    """
+    phases = row.get("phases")
+    if isinstance(phases, (list, tuple)) and phases:
+        return phase in {str(item or "").strip().lower() for item in phases}
+    return str(row.get("phase") or "").strip().lower() == phase
+
+
 def catalog_cli_for_phase(limit: int = 24) -> str:
     """Return enabled catalog commands for the current kill-chain phase.
 
@@ -241,7 +262,7 @@ def catalog_cli_for_phase(limit: int = 24) -> str:
         names = [
             name
             for name, row in view.items()
-            if bool(row.get("enabled")) and str(row.get("phase") or "") == phase
+            if bool(row.get("enabled")) and _verb_in_phase(row, phase)
         ]
         if not names:
             names = [name for name, row in view.items() if bool(row.get("enabled"))]

@@ -230,3 +230,35 @@ def test_steps_for_addon_verb_runs_lazy_addon(tmp_path: Path, monkeypatch):
     monkeypatch.setattr(auto_registry, "verb_enabled", lambda name: name == "addon:certipy_v2")
     assert auto_registry.steps_for("auto addon:certipy_v2", "10.0.0.1") == ["lazy addon certipy_v2 10.0.0.1"]
     assert auto_registry.steps_for("auto addon:certipy_v2") == ["lazy addon certipy_v2"]
+
+
+def test_entries_default_phases_is_single_phase(sandbox: catalog.VerbCatalogConfig):
+    """Given a verb with only a single phase, phases mirrors that phase."""
+    cfg = sandbox
+    cfg.catalog_path.write_text(
+        "version: 1\nverbs:\n  lazynmap:\n    enabled: true\n    phase: recon\n",
+        encoding="utf-8",
+    )
+    row = catalog.entries(cfg)["lazynmap"]
+    assert row["phase"] == "recon"
+    assert row["phases"] == ("recon",)
+
+
+def test_entries_multi_phase_list_is_honoured(sandbox: catalog.VerbCatalogConfig):
+    """Given an explicit phases list, entries exposes every declared phase."""
+    cfg = sandbox
+    cfg.catalog_path.write_text(
+        "version: 1\nverbs:\n"
+        "  apt_chain:\n    enabled: true\n    phase: c2\n"
+        "    phases:\n      - exploit\n      - privesc\n      - lateral\n",
+        encoding="utf-8",
+    )
+    row = catalog.entries(cfg)["apt_chain"]
+    assert row["phases"] == ("exploit", "privesc", "lateral")
+
+
+def test_validate_catalog_rejects_non_string_phases(sandbox: catalog.VerbCatalogConfig):
+    """Given a phases value that is not a list of strings, validation fails."""
+    errors = catalog.validate_catalog({"version": 1, "verbs": {"x": {"phases": "exploit"}}})
+    assert any("phases" in error for error in errors)
+    assert catalog.validate_catalog({"version": 1, "verbs": {"x": {"phases": ["exploit"]}}}) == []

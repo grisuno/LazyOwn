@@ -382,7 +382,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `next` (method, line 360) `def next(self, cmd, params, target, phase, limit)`
   - `chain` (method, line 372) `def chain(self, cmd, params, target, phase, limit)`
 - Depends on: `cli/exploration.py`, `cli/reactive_hints.py`
-- Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_chain.py`
+- Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/mcp_tools/command_next.py`, `skills/mcp_tools/command_prev.py`, `tests/test_command_chain.py`
 
 ## cli/command_explorer.py
 - Doc: Interactive command explorer by phase and goal for the LazyOwn shell.

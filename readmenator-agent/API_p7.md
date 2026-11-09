@@ -1,9 +1,21 @@
-# API (page 7 of 26)
+# API (page 7 of 27)
 Previous: [API_p6.md](API_p6.md)
+
+## core/network.py
+Depends on: `core/console.py`
+Imported by: `core/__init__.py`
+- `parse_ip_mac` (function) `core/network.py:18` `def parse_ip_mac(input_string)` -- Extract IP and MAC from a formatted string.
+- `create_arp_packet` (function) `core/network.py:33` `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)` -- Build a raw ARP request/reply packet.
+- `send_packet` (function) `core/network.py:66` `def send_packet(packet, iface)` -- Send a raw packet on a given network interface.
+- `parse_proc_net_file` (function) `core/network.py:78` `def parse_proc_net_file(file_path)` -- Parse a ``/proc/net/*`` file and extract (ip, port) pairs.
+- `get_open_ports` (function) `core/network.py:105` `def get_open_ports()` -- Discover listening TCP ports from ``/proc/net/tcp`` and ``tcp6``.
+- `is_port_in_use` (function) `core/network.py:120` `def is_port_in_use(port, host)` -- Check whether a TCP port is already bound.
+- `get_banner` (function) `core/network.py:134` `def get_banner(ip, port)` -- Grab a TCP banner from the given host and port.
+- `get_network_info` (function) `core/network.py:154` `def get_network_info()` -- Collect local network information.
 
 ## core/param_registry.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/commands/params_ops.py`, `cli/lazy_orchestrator.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_orchestrator.py`, `tests/test_param_registry.py`, `tests/test_php2shell_addon.py`
+Imported by: `cli/commands/params_ops.py`, `cli/lazy_orchestrator.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`, `lazyown.py`, `skills/mcp_tools/create_param.py`, `skills/mcp_tools/delete_param.py`, `skills/mcp_tools/list_params.py`, `tests/test_lazy_orchestrator.py`, `tests/test_param_registry.py`, `tests/test_php2shell_addon.py`
 - `OperatorParam.as_entry` (method) `core/param_registry.py:133` `def as_entry(self)` -- Return the YAML mapping stored in ``params/operator.yaml``.
 - `OperatorParam.to_spec` (method) `core/param_registry.py:142` `def to_spec(self)` -- Return the payload schema spec for this parameter.
 - `registry_path` (function) `core/param_registry.py:158` `def registry_path(root)` -- Return the operator registry file path.
@@ -25,7 +37,7 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
-Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
+Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
 - `register_specs` (function) `core/payload_schema.py:1862` `def register_specs(specs)` -- Register (or replace) field specs at runtime.
 - `unregister_specs` (function) `core/payload_schema.py:1885` `def unregister_specs(keys)` -- Remove runtime-registered specs from the schema.
 - `field_for` (function) `core/payload_schema.py:1903` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.

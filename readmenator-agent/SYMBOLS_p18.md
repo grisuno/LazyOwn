@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `switch_tenant` | method | `modules/lazy_rbac.py:486` | `def switch_tenant(self, tenant_id)` |
+| `to_dict` | method | `modules/lazy_rbac.py:136` | `def to_dict(self)` |
+| `to_dict` | method | `modules/lazy_rbac.py:386` | `def to_dict(self)` |
+| `update_role` | method | `modules/lazy_rbac.py:304` | `def update_role(self, user_id, new_role)` |
+| `valid_roles` | method | `modules/lazy_rbac.py:62` | `def valid_roles(cls)` |
+| `verify_recovery_code` | method | `modules/lazy_rbac.py:192` | `def verify_recovery_code(self, code)` |
+| `verify_totp` | method | `modules/lazy_rbac.py:187` | `def verify_totp(self, token)` |
+| `_expire` | function | `modules/lazy_reaper.py:92` | `def _expire(store, task_id)` |
+| `_log` | function | `modules/lazy_reaper.py:115` | `def _log(log_path, row)` |
+| `reap` | function | `modules/lazy_reaper.py:30` | `def reap(store, log_path, now, stale_seconds)` |
 | `conformance` | function | `modules/lazy_roles.py:154` | `def conformance(role)` |
 | `list_roles` | function | `modules/lazy_roles.py:100` | `def list_roles()` |
 | `role_prompt` | function | `modules/lazy_roles.py:109` | `def role_prompt(role, goal, context)` |
@@ -17,7 +27,7 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_dump_thread_stacks` | function | `modules/lazy_runner.py:772` | `def _dump_thread_stacks()` |
 | `_executor` | function | `modules/lazy_runner.py:363` | `def _executor(command)` |
 | `_format_activity` | function | `modules/lazy_runner.py:758` | `def _format_activity(record)` |
-| `_limited` | function | `modules/lazy_runner.py:1150` | `def _limited()` |
+| `_limited` | function | `modules/lazy_runner.py:1210` | `def _limited()` |
 | `_maybe_phishing_fallback` | function | `modules/lazy_runner.py:475` | `def _maybe_phishing_fallback(result, config, params)` |
 | `_overview` | function | `modules/lazy_runner.py:748` | `def _overview(task_id)` |
 | `_poll_progress` | function | `modules/lazy_runner.py:801` | `def _poll_progress(engine, config, progress, transcript, worker)` |
@@ -26,26 +36,27 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_resolve_alias` | function | `modules/lazy_runner.py:355` | `def _resolve_alias(command)` |
 | `_run` | function | `modules/lazy_runner.py:694` | `def _run()` |
 | `_run_plain` | function | `modules/lazy_runner.py:919` | `def _run_plain(engine, config)` |
-| `_run_targets_file` | function | `modules/lazy_runner.py:1124` | `def _run_targets_file(shell, params, config)` |
+| `_run_targets_file` | function | `modules/lazy_runner.py:1184` | `def _run_targets_file(shell, params, config)` |
 | `_run_with_progress` | function | `modules/lazy_runner.py:642` | `def _run_with_progress(engine, config)` |
 | `_stall_thresholds` | function | `modules/lazy_runner.py:787` | `def _stall_thresholds(verb_timeout)` |
 | `_start_proxy` | function | `modules/lazy_runner.py:450` | `def _start_proxy(engine, params)` |
 | `_terminal_stream` | function | `modules/lazy_runner.py:897` | `def _terminal_stream()` |
 | `_to_float` | function | `modules/lazy_runner.py:164` | `def _to_float(raw, default)` |
 | `_to_int` | function | `modules/lazy_runner.py:156` | `def _to_int(raw, default)` |
-| `_tty_available` | function | `modules/lazy_runner.py:1111` | `def _tty_available()` |
-| `_work_one` | function | `modules/lazy_runner.py:1147` | `def _work_one(target)` |
+| `_tty_available` | function | `modules/lazy_runner.py:1171` | `def _tty_available()` |
+| `_work_one` | function | `modules/lazy_runner.py:1207` | `def _work_one(target)` |
 | `_write` | function | `modules/lazy_runner.py:909` | `def _write(text)` |
+| `bind_target_authority` | function | `modules/lazy_runner.py:954` | `def bind_target_authority(shell, targets)` |
 | `build_executor` | function | `modules/lazy_runner.py:338` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
 | `clamped` | method | `modules/lazy_runner.py:120` | `def clamped(self)` |
 | `encoding` | method | `modules/lazy_runner.py:80` | `def encoding(self)` |
 | `flush` | method | `modules/lazy_runner.py:72` | `def flush(self)` |
 | `isatty` | method | `modules/lazy_runner.py:84` | `def isatty(self)` |
-| `load_targets_file` | function | `modules/lazy_runner.py:954` | `def load_targets_file(path)` |
+| `load_targets_file` | function | `modules/lazy_runner.py:1014` | `def load_targets_file(path)` |
 | `parse_loop_line` | function | `modules/lazy_runner.py:172` | `def parse_loop_line(line)` |
 | `report_result` | function | `modules/lazy_runner.py:521` | `def report_result(result)` |
 | `resolve_loop_defaults` | function | `modules/lazy_runner.py:302` | `def resolve_loop_defaults(config)` |
-| `run_loop` | function | `modules/lazy_runner.py:1009` | `def run_loop(shell, params, config)` |
+| `run_loop` | function | `modules/lazy_runner.py:1069` | `def run_loop(shell, params, config)` |
 | `stream` | function | `modules/lazy_runner.py:657` | `def stream(text)` |
 | `write` | method | `modules/lazy_runner.py:61` | `def write(self, data)` |
 | `_payload_value` | function | `modules/lazy_sandbox.py:41` | `def _payload_value(key, default)` |
@@ -485,16 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_ask_llamacpp` | method | `modules/llm_client.py:242` | `def _ask_llamacpp(self, prompt, model, system)` |
 | `_ask_ollama` | method | `modules/llm_client.py:220` | `def _ask_ollama(self, prompt, model)` |
 | `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
-| `ask` | function | `modules/llm_client.py:276` | `def ask(prompt)` |
-| `classify` | method | `modules/llm_client.py:130` | `def classify(self, output)` |
-| `classify` | function | `modules/llm_client.py:288` | `def classify(output)` |
-| `get_client` | function | `modules/llm_client.py:268` | `def get_client(api_key)` |
-| `summarize` | method | `modules/llm_client.py:159` | `def summarize(self, text)` |
-| `summarize` | function | `modules/llm_client.py:293` | `def summarize(text)` |
-| `DecisionRecord` | class | `modules/llm_evaluator.py:21` | `class DecisionRecord` |
-| `JSONLRecorder` | class | `modules/llm_evaluator.py:75` | `class JSONLRecorder(OutcomeRecorder)` |
-| `LLMEvaluator` | class | `modules/llm_evaluator.py:161` | `class LLMEvaluator` |
-| `OutcomeRecorder` | class | `modules/llm_evaluator.py:55` | `class OutcomeRecorder(ABC)` |
-| `QualityMetrics` | class | `modules/llm_evaluator.py:140` | `class QualityMetrics` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

@@ -1,5 +1,8 @@
-# API (page 16 of 26)
+# API (page 16 of 27)
 Previous: [API_p15.md](API_p15.md)
+
+## modules/lazypsexec.sh
+- `execute_psexec` (function) `modules/lazypsexec.sh:15` -- Función para ejecutar psexec y verificar la salida
 
 ## modules/lazyreverse_shell.sh
 - `mostrar_ayuda` (function) `modules/lazyreverse_shell.sh:21` -- Función para mostrar ayuda
@@ -113,7 +116,7 @@ Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `m
 - `summarize` (function) `modules/llm_client.py:293` `def summarize(text)` -- Module-level convenience wrapper.
 
 ## modules/llm_evaluator.py
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+Imported by: `skills/mcp_tools/eval_quality.py`, `tests/test_core_modules.py`
 - `OutcomeRecorder.record` (method) `modules/llm_evaluator.py:57` `def record(self, decision)`
 - `OutcomeRecorder.update_outcome` (method) `modules/llm_evaluator.py:60` `def update_outcome(self, decision_id, actual, findings_count, success)`
 - `OutcomeRecorder.load_all` (method) `modules/llm_evaluator.py:69` `def load_all(self)`
@@ -258,7 +261,7 @@ Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation
 
 ## modules/loop_guardrails.py
 Depends on: `modules/__init__.py`
-Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
+Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_orchestrator_pacing.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
 - `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:110` `def __init__(self, window)`
 - `RepeatDetector.record` (method) `modules/loop_guardrails.py:116` `def record(self, command)` -- Add one executed command; returns True when the window fills.
 - `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:151` `def stuck(self)` -- True when the loop is visibly not progressing.
@@ -355,7 +358,7 @@ Imported by: `cli/commands/payload_arsenal.py`
 
 ## modules/mcp_agent_bridge.py
 Depends on: `core/logging.py`, `modules/llm_factory.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
+Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`
 - `get_agent_status` (function) `modules/mcp_agent_bridge.py:163` `def get_agent_status(agent_id)` -- Public: returns current status dict for an agent.
 - `get_agent_result` (function) `modules/mcp_agent_bridge.py:188` `def get_agent_result(agent_id)` -- Public: returns final result + full action log.
 - `list_agents` (function) `modules/mcp_agent_bridge.py:211` `def list_agents(limit)` -- List recent agents sorted by start time.
@@ -462,7 +465,7 @@ Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
 
 ## modules/memory_store.py
 Depends on: `modules/memory_embeddings.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
+Imported by: `tests/test_memory_semantics.py`
 - `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
 - `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
 - `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`

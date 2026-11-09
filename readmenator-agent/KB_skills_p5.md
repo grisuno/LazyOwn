@@ -273,7 +273,7 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `_get_hive_memory` (method, line 919) `def _get_hive_memory(self)`
   - `_load_key` (method, line 930) `def _load_key()`
 - Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
-- Imported by: `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/swan_ensemble.py`, `skills/mcp_tools/swan_route.py`, `skills/mcp_tools/swan_run.py`, `skills/mcp_tools/swan_status.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
 
 ## skills/toposwarm_autonomous.py
 - Doc: skills/toposwarm_autonomous.py

@@ -3,6 +3,17 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ask` | function | `modules/llm_client.py:276` | `def ask(prompt)` |
+| `classify` | method | `modules/llm_client.py:130` | `def classify(self, output)` |
+| `classify` | function | `modules/llm_client.py:288` | `def classify(output)` |
+| `get_client` | function | `modules/llm_client.py:268` | `def get_client(api_key)` |
+| `summarize` | method | `modules/llm_client.py:159` | `def summarize(self, text)` |
+| `summarize` | function | `modules/llm_client.py:293` | `def summarize(text)` |
+| `DecisionRecord` | class | `modules/llm_evaluator.py:21` | `class DecisionRecord` |
+| `JSONLRecorder` | class | `modules/llm_evaluator.py:75` | `class JSONLRecorder(OutcomeRecorder)` |
+| `LLMEvaluator` | class | `modules/llm_evaluator.py:161` | `class LLMEvaluator` |
+| `OutcomeRecorder` | class | `modules/llm_evaluator.py:55` | `class OutcomeRecorder(ABC)` |
+| `QualityMetrics` | class | `modules/llm_evaluator.py:140` | `class QualityMetrics` |
 | `__init__` | method | `modules/llm_evaluator.py:76` | `def __init__(self, path)` |
 | `__init__` | method | `modules/llm_evaluator.py:162` | `def __init__(self, recorder)` |
 | `_cli` | function | `modules/llm_evaluator.py:322` | `def _cli()` |
@@ -485,16 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
 | `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
 | `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
-| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
-| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
-| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
-| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
-| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
-| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
-| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
-| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
-| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

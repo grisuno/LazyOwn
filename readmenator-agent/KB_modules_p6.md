@@ -116,7 +116,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `format_for_llm` (method, line 390) `def format_for_llm(self, matches, max_items)`
   - `parse_version` (function, line 25) `def parse_version(v)`
 - Depends on: `lazygui/version.py`, `modules/world_model.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`
 
 ## modules/exploitdb_bridge.py
 - Layer: utility
@@ -170,7 +170,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `score_task` (function, line 565) `def score_task(task_id, success, techniques, params)`
   - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
 - Depends on: `modules/redteam_gym.py`
-- Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+- Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
 
 ## modules/factsio.py
 - Doc: Canonical reader for the FactStore ``policy_facts.json`` document.

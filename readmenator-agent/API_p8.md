@@ -1,4 +1,4 @@
-# API (page 8 of 26)
+# API (page 8 of 27)
 Previous: [API_p7.md](API_p7.md)
 
 ## lazyc2.py

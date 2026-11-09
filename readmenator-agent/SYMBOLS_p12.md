@@ -3,6 +3,13 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2188` | `def _match_privesc_techniques(self, findings, os_type)` |
+| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1842` | `def _match_service_banners(self, profile)` |
+| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1759` | `def _parse_nse_output(self, target_ip)` |
+| `_register_session` | method | `modules/autonomous_exploit_engine.py:1471` | `def _register_session(self, ip, output)` |
+| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1159` | `def _resolve_port(self, candidate, profile)` |
+| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1113` | `def _run_exploit(self, candidate, profile)` |
+| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2076` | `def _run_linux_privesc_checks(self, profile, session_id)` |
 | `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2145` | `def _run_windows_privesc_checks(self, profile, session_id)` |
 | `_scorer` | method | `modules/autonomous_exploit_engine.py:1073` | `def _scorer(self, exploit, service, product, version)` |
 | `chain_privesc` | method | `modules/autonomous_exploit_engine.py:2048` | `def chain_privesc(self, profile, session_id)` |
@@ -413,7 +420,8 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_wordlist` | function | `modules/chain_synth.py:35` | `def _wordlist(param, fallback)` |
 | `facts_for_target` | function | `modules/chain_synth.py:243` | `def facts_for_target(target)` |
 | `synth_chain_data` | function | `modules/chain_synth.py:91` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` |
-| `write_generated_chain` | function | `modules/chain_synth.py:272` | `def write_generated_chain(data, chains_dir)` |
+| `synth_technique_chain_data` | function | `modules/chain_synth.py:272` | `def synth_technique_chain_data(target, techniques, os_hint)` |
+| `write_generated_chain` | function | `modules/chain_synth.py:339` | `def write_generated_chain(data, chains_dir)` |
 | `_candidate_files` | function | `modules/chain_tokens.py:120` | `def _candidate_files()` |
 | `_load_host_facts` | function | `modules/chain_tokens.py:77` | `def _load_host_facts(host)` |
 | `_mentions` | function | `modules/chain_tokens.py:130` | `def _mentions(path, needle)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_collab_login_required` | function | `modules/collab_bp.py:120` | `def _collab_login_required(f)` |
 | `_collab_permission_required` | function | `modules/collab_bp.py:136` | `def _collab_permission_required(perm_name)` |
 | `_expire` | method | `modules/collab_bp.py:297` | `def _expire(self)` |
-| `_expire` | method | `modules/collab_bp.py:350` | `def _expire(self)` |
-| `acquire` | method | `modules/collab_bp.py:267` | `def acquire(self, target, operator, ttl_secs)` |
-| `active_operators` | method | `modules/collab_bp.py:345` | `def active_operators(self)` |
-| `all_locks` | method | `modules/collab_bp.py:292` | `def all_locks(self)` |
-| `collab_ui` | function | `modules/collab_bp.py:396` | `def collab_ui()` |
-| `decorated` | function | `modules/collab_bp.py:84` | `def decorated()` |
-| `decorated` | function | `modules/collab_bp.py:124` | `def decorated()` |
-| `decorated` | function | `modules/collab_bp.py:141` | `def decorated()` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

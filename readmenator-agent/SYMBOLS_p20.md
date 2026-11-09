@@ -3,6 +3,17 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
+| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
+| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
+| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
+| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
+| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
+| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
+| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
+| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
 | `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
 | `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
 | `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
@@ -485,16 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `__init__` | method | `modules/pipeline_engine.py:638` | `def __init__(self, pipelines_dir)` |
 | `__init__` | method | `modules/pipeline_engine.py:778` | `def __init__(self, runs_dir)` |
 | `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
-| `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
-| `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
-| `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
-| `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
-| `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
-| `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
-| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
-| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
-| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
-| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
-| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

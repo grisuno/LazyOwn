@@ -1,4 +1,4 @@
-# Subsystem: tests (page 14 of 24)
+# Subsystem: tests (page 14 of 25)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
 ## tests/test_lazy_parity.py
@@ -118,148 +118,148 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
 - Language: py
 - Symbols:
   - `store` (function, line 21) `def store(tmp_path, monkeypatch)`
-  - `test_parse_loop_line_flags` (function, line 30) `def test_parse_loop_line_flags()`
-  - `test_parse_loop_line_rejects_bad_input` (function, line 42) `def test_parse_loop_line_rejects_bad_input()`
-  - `test_config_clamps_operating_range` (function, line 50) `def test_config_clamps_operating_range()`
-  - `test_loop_commands_share_the_runner` (function, line 57) `def test_loop_commands_share_the_runner()`
-  - `test_guard_judge_survives_rule_changes` (function, line 67) `def test_guard_judge_survives_rule_changes(store)`
-  - `test_custom_tool_trigger_matches_services` (function, line 79) `def test_custom_tool_trigger_matches_services(store)`
-  - `test_intercept_wait_wakes_on_decide` (function, line 90) `def test_intercept_wait_wakes_on_decide(store)`
-  - `test_archive_restore_keeps_edges_anchors_scope` (function, line 110) `def test_archive_restore_keeps_edges_anchors_scope(store)`
-  - `test_asset_insert_enforces_task_gate` (function, line 133) `def test_asset_insert_enforces_task_gate(store)`
-  - `test_worker_bash_fallback_uses_streaming_runner` (function, line 143) `def test_worker_bash_fallback_uses_streaming_runner(store, monkeypatch)`
-  - `test_terminal_guard_is_safe_without_tty` (function, line 172) `def test_terminal_guard_is_safe_without_tty()`
-  - `test_autonomous_mode_flag_and_input_restore` (function, line 181) `def test_autonomous_mode_flag_and_input_restore(monkeypatch)`
-  - `test_automsf_intent_needs_a_module_path` (function, line 196) `def test_automsf_intent_needs_a_module_path()`
-  - `test_run_loop_drives_the_engine_and_reports` (function, line 204) `def test_run_loop_drives_the_engine_and_reports(store, monkeypatch)`
-  - `test_shell_verb_observer_print_is_recursion_safe` (function, line 240) `def test_shell_verb_observer_print_is_recursion_safe()`
-  - `test_terminal_stream_bypasses_stdout_redirect` (function, line 259) `def test_terminal_stream_bypasses_stdout_redirect(monkeypatch)`
-  - `test_judge_prompt_is_versioned_untrusted_json` (function, line 276) `def test_judge_prompt_is_versioned_untrusted_json(store, monkeypatch)`
-  - `test_worker_resumes_skipping_executed_steps` (function, line 293) `def test_worker_resumes_skipping_executed_steps(store)`
-  - `test_run_wrapup_records_fact_on_exhaustion` (function, line 319) `def test_run_wrapup_records_fact_on_exhaustion(store, monkeypatch)`
-  - `test_finding_report_drafted_by_reporter_agent` (function, line 334) `def test_finding_report_drafted_by_reporter_agent(store, monkeypatch)`
-  - `_seed_cold_facts` (function, line 353) `def _seed_cold_facts(graph, loop, count)`
-  - `_prime_cold` (function, line 363) `def _prime_cold(compactor, loop)`
-  - `test_cold_digest_applies_background_body` (function, line 372) `def test_cold_digest_applies_background_body(store)`
-  - `test_cold_background_disabled_requests_nothing` (function, line 394) `def test_cold_background_disabled_requests_nothing(store, monkeypatch)`
-  - `test_cold_background_worker_caches_compressed_body` (function, line 412) `def test_cold_background_worker_caches_compressed_body(store, monkeypatch)`
-  - `test_cross_task_fleet_operations` (function, line 440) `def test_cross_task_fleet_operations(store)`
-  - `test_llm_health_persists_across_registries` (function, line 474) `def test_llm_health_persists_across_registries(tmp_path, monkeypatch)`
-  - `test_llm_pool_rotates_equal_priority_heads` (function, line 488) `def test_llm_pool_rotates_equal_priority_heads(store, monkeypatch)`
-  - `test_llm_pool_connect_retry_before_failover` (function, line 507) `def test_llm_pool_connect_retry_before_failover(store, monkeypatch)`
-  - `test_broadcast_events_cursor_resume` (function, line 528) `def test_broadcast_events_cursor_resume(store)`
-  - `test_loop_broadcast_sse_route_declared` (function, line 547) `def test_loop_broadcast_sse_route_declared()`
-  - `test_noa_archive_written_when_enabled` (function, line 556) `def test_noa_archive_written_when_enabled(store, monkeypatch)`
-  - `test_proxy_safe_send_error_swallows_dead_client` (function, line 576) `def test_proxy_safe_send_error_swallows_dead_client()`
-  - `test_proxy_server_silences_connection_noise` (function, line 593) `def test_proxy_server_silences_connection_noise()`
-  - `test_proxy_handler_only_uses_safe_error_sender` (function, line 613) `def test_proxy_handler_only_uses_safe_error_sender()`
-  - `test_progress_emit_never_feeds_stdout_redirect` (function, line 619) `def test_progress_emit_never_feeds_stdout_redirect(capsys)`
-  - `test_run_with_progress_finishes_and_streams` (function, line 641) `def test_run_with_progress_finishes_and_streams(store, capsys)`
-  - `test_format_activity_line` (function, line 685) `def test_format_activity_line()`
-  - `test_run_with_progress_streams_activity_events` (function, line 692) `def test_run_with_progress_streams_activity_events(store, capsys)`
-  - `test_steer_delivered_to_agent_as_operator_message` (function, line 726) `def test_steer_delivered_to_agent_as_operator_message(store, monkeypatch)`
-  - `test_steer_cleared_after_delivery` (function, line 770) `def test_steer_cleared_after_delivery(store)`
-  - `test_thread_stdout_router_routes_by_thread` (function, line 781) `def test_thread_stdout_router_routes_by_thread(capsys)`
-  - `test_run_with_progress_restores_stdout_on_cancel` (function, line 806) `def test_run_with_progress_restores_stdout_on_cancel(store, monkeypatch, capsys)`
-  - `test_run_loop_treats_systemexit_as_cancel` (function, line 849) `def test_run_loop_treats_systemexit_as_cancel(store, monkeypatch)`
-  - `test_wake_bus_signals_and_suppresses` (function, line 878) `def test_wake_bus_signals_and_suppresses(store)`
-  - `test_engine_wake_preempts_heartbeat` (function, line 892) `def test_engine_wake_preempts_heartbeat(store)`
-  - `test_engine_heartbeat_replans_when_idle` (function, line 927) `def test_engine_heartbeat_replans_when_idle(store)`
-  - `test_agent_background_jobs_and_output` (function, line 951) `def test_agent_background_jobs_and_output(store)`
-  - `test_agent_persistent_shell_session` (function, line 999) `def test_agent_persistent_shell_session(store)`
-  - `test_reporter_runs_background_and_applies` (function, line 1037) `def test_reporter_runs_background_and_applies(store, monkeypatch)`
-  - `test_evidence_ranged_read_and_roles` (function, line 1068) `def test_evidence_ranged_read_and_roles(store)`
-  - `test_finalize_parks_open_intents` (function, line 1100) `def test_finalize_parks_open_intents(store)`
-  - `test_agent_prompt_includes_skills_block` (function, line 1121) `def test_agent_prompt_includes_skills_block(store, monkeypatch)`
-  - `test_auto_verb_overrides_payload_target_for_the_run` (function, line 1145) `def test_auto_verb_overrides_payload_target_for_the_run()`
-  - `test_round_fuses_intel_into_world_model` (function, line 1167) `def test_round_fuses_intel_into_world_model(store, monkeypatch)`
-  - `test_agentic_falls_back_to_next_member` (function, line 1180) `def test_agentic_falls_back_to_next_member(store, monkeypatch)`
-  - `test_bootstrap_passes_target_to_auto_populate` (function, line 1234) `def test_bootstrap_passes_target_to_auto_populate(tmp_path, monkeypatch)`
-  - `test_auto_populate_verb_carries_target` (function, line 1252) `def test_auto_populate_verb_carries_target()`
-  - `test_worker_llm_steps_filter_sudo` (function, line 1259) `def test_worker_llm_steps_filter_sudo(store, monkeypatch)`
-  - `test_pyautomate_filters_to_requested_target` (function, line 1289) `def test_pyautomate_filters_to_requested_target(tmp_path, monkeypatch)`
-  - `test_lazy_addon_positional_target_overrides_rhost` (function, line 1305) `def test_lazy_addon_positional_target_overrides_rhost(monkeypatch)`
-  - `test_shutdown_loop_runtime_cleans_everything` (function, line 1328) `def test_shutdown_loop_runtime_cleans_everything(store, monkeypatch)`
-  - `test_do_qa_runs_shutdown_and_dedupes_killall` (function, line 1367) `def test_do_qa_runs_shutdown_and_dedupes_killall(monkeypatch)`
-  - `test_lazynmap_routing_and_steps` (function, line 1390) `def test_lazynmap_routing_and_steps(store)`
-  - `test_lazynmap_overrides_payload_rhost_for_scope` (function, line 1439) `def test_lazynmap_overrides_payload_rhost_for_scope(store)`
-  - `test_run_tee_interactive_keeps_operator_terminal` (function, line 1464) `def test_run_tee_interactive_keeps_operator_terminal(monkeypatch)`
-  - `test_run_tee_loop_context_detaches_child` (function, line 1498) `def test_run_tee_loop_context_detaches_child(monkeypatch)`
-  - `test_run_tee_stdin_devnull_in_loop_context` (function, line 1532) `def test_run_tee_stdin_devnull_in_loop_context()`
-  - `test_run_tee_thread_timeout_kills_child` (function, line 1547) `def test_run_tee_thread_timeout_kills_child()`
-  - `test_plausibility_filter_drops_hallucinated_flags` (function, line 1568) `def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch)`
-  - `test_dev_smoke_tools_run_green` (function, line 1602) `def test_dev_smoke_tools_run_green()`
-  - `test_lazy_view_command_registered` (function, line 1612) `def test_lazy_view_command_registered()`
-  - `_wait` (function, line 97) `def _wait()`
-  - `_fake_streaming` (function, line 150) `def _fake_streaming(command, on_output, timeout_sec)`
-  - `_FakeEngine` (class, line 212) `class _FakeEngine`
-  - `_Shell` (class, line 244) `class _Shell`
-  - `_observer` (function, line 250) `def _observer(line)`
-  - `_complete` (function, line 281) `def _complete(self, prompt, max_tokens)`
-  - `_exec` (function, line 308) `def _exec(command)`
-  - `scripted` (function, line 497) `def scripted(model, prompt, max_tokens)`
-  - `flaky` (function, line 516) `def flaky(model, prompt, max_tokens)`
-  - `_Stub` (class, line 582) `class _Stub`
-  - `_DummyHandler` (class, line 599) `class _DummyHandler`
-  - `_SlowEngine` (class, line 648) `class _SlowEngine`
-  - `_Engine` (class, line 699) `class _Engine`
-  - `_Completions` (class, line 737) `class _Completions`
-  - `_worker` (function, line 793) `def _worker()`
-  - `_StuckEngine` (class, line 816) `class _StuckEngine`
-  - `_interrupt` (function, line 833) `def _interrupt()`
-  - `_FakeEngine` (class, line 855) `class _FakeEngine`
-  - `_exit` (function, line 868) `def _exit()`
-  - `_round` (function, line 905) `def _round(task_id_arg, workers, executor)`
-  - `_round` (function, line 938) `def _round(task_id_arg, workers, executor)`
-  - `_Shell` (class, line 1151) `class _Shell`
-  - `_BadCompletions` (class, line 1188) `class _BadCompletions`
-  - `_GoodCompletions` (class, line 1192) `class _GoodCompletions`
-  - `_resolve` (function, line 1209) `def _resolve(exclude)`
-  - `_executor` (function, line 1244) `def _executor(command)`
-  - `_Shell` (class, line 1312) `class _Shell`
-  - `_fake_run` (function, line 1315) `def _fake_run(command)`
-  - `_Proxy` (class, line 1354) `class _Proxy`
-  - `_fake_shutdown` (function, line 1375) `def _fake_shutdown(reason)`
-  - `_Shell` (class, line 1403) `class _Shell`
-  - `_Shell` (class, line 1446) `class _Shell`
-  - `_FakeProc` (class, line 1480) `class _FakeProc`
-  - `_FakeProc` (class, line 1510) `class _FakeProc`
-  - `__init__` (method, line 215) `def __init__(self)`
-  - `bind_shell` (method, line 218) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 221) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 224) `def orchestrate(self)`
-  - `onecmd_plus_hooks` (method, line 245) `def onecmd_plus_hooks(self, command)`
-  - `send_error` (method, line 585) `def send_error(self, code, message)`
-  - `__init__` (method, line 600) `def __init__(self)`
-  - `__init__` (method, line 651) `def __init__(self)`
-  - `bind_shell` (method, line 655) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 658) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 661) `def orchestrate(self)`
-  - `__init__` (method, line 702) `def __init__(self)`
-  - `bind_shell` (method, line 706) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 709) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 712) `def orchestrate(self)`
-  - `create` (method, line 738) `def create(self)`
-  - `__init__` (method, line 819) `def __init__(self)`
-  - `bind_shell` (method, line 823) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 826) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 829) `def orchestrate(self)`
-  - `__init__` (method, line 858) `def __init__(self)`
-  - `bind_shell` (method, line 862) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 865) `def set_concurrency(self, value)`
-  - `__init__` (method, line 1152) `def __init__(self)`
-  - `onecmd_plus_hooks` (method, line 1155) `def onecmd_plus_hooks(self, command)`
-  - `create` (method, line 1189) `def create(self)`
-  - `__init__` (method, line 1193) `def __init__(self)`
-  - `create` (method, line 1196) `def create(self)`
-  - `stop` (method, line 1355) `def stop(self)`
-  - `onecmd_plus_hooks` (method, line 1404) `def onecmd_plus_hooks(self, command)`
-  - `__init__` (method, line 1447) `def __init__(self)`
-  - `onecmd_plus_hooks` (method, line 1450) `def onecmd_plus_hooks(self, command)`
-  - `__init__` (method, line 1481) `def __init__(self)`
-  - `wait` (method, line 1487) `def wait(self, timeout)`
-  - `__init__` (method, line 1511) `def __init__(self)`
-  - `wait` (method, line 1517) `def wait(self, timeout)`
+  - `test_parse_loop_line_flags` (function, line 32) `def test_parse_loop_line_flags()`
+  - `test_parse_loop_line_rejects_bad_input` (function, line 44) `def test_parse_loop_line_rejects_bad_input()`
+  - `test_config_clamps_operating_range` (function, line 52) `def test_config_clamps_operating_range()`
+  - `test_loop_commands_share_the_runner` (function, line 59) `def test_loop_commands_share_the_runner()`
+  - `test_guard_judge_survives_rule_changes` (function, line 69) `def test_guard_judge_survives_rule_changes(store)`
+  - `test_custom_tool_trigger_matches_services` (function, line 81) `def test_custom_tool_trigger_matches_services(store)`
+  - `test_intercept_wait_wakes_on_decide` (function, line 92) `def test_intercept_wait_wakes_on_decide(store)`
+  - `test_archive_restore_keeps_edges_anchors_scope` (function, line 112) `def test_archive_restore_keeps_edges_anchors_scope(store)`
+  - `test_asset_insert_enforces_task_gate` (function, line 135) `def test_asset_insert_enforces_task_gate(store)`
+  - `test_worker_bash_fallback_uses_streaming_runner` (function, line 145) `def test_worker_bash_fallback_uses_streaming_runner(store, monkeypatch)`
+  - `test_terminal_guard_is_safe_without_tty` (function, line 174) `def test_terminal_guard_is_safe_without_tty()`
+  - `test_autonomous_mode_flag_and_input_restore` (function, line 183) `def test_autonomous_mode_flag_and_input_restore(monkeypatch)`
+  - `test_automsf_intent_needs_a_module_path` (function, line 198) `def test_automsf_intent_needs_a_module_path()`
+  - `test_run_loop_drives_the_engine_and_reports` (function, line 206) `def test_run_loop_drives_the_engine_and_reports(store, monkeypatch)`
+  - `test_shell_verb_observer_print_is_recursion_safe` (function, line 242) `def test_shell_verb_observer_print_is_recursion_safe()`
+  - `test_terminal_stream_bypasses_stdout_redirect` (function, line 261) `def test_terminal_stream_bypasses_stdout_redirect(monkeypatch)`
+  - `test_judge_prompt_is_versioned_untrusted_json` (function, line 278) `def test_judge_prompt_is_versioned_untrusted_json(store, monkeypatch)`
+  - `test_worker_resumes_skipping_executed_steps` (function, line 295) `def test_worker_resumes_skipping_executed_steps(store)`
+  - `test_run_wrapup_records_fact_on_exhaustion` (function, line 321) `def test_run_wrapup_records_fact_on_exhaustion(store, monkeypatch)`
+  - `test_finding_report_drafted_by_reporter_agent` (function, line 336) `def test_finding_report_drafted_by_reporter_agent(store, monkeypatch)`
+  - `_seed_cold_facts` (function, line 355) `def _seed_cold_facts(graph, loop, count)`
+  - `_prime_cold` (function, line 365) `def _prime_cold(compactor, loop)`
+  - `test_cold_digest_applies_background_body` (function, line 374) `def test_cold_digest_applies_background_body(store)`
+  - `test_cold_background_disabled_requests_nothing` (function, line 396) `def test_cold_background_disabled_requests_nothing(store, monkeypatch)`
+  - `test_cold_background_worker_caches_compressed_body` (function, line 414) `def test_cold_background_worker_caches_compressed_body(store, monkeypatch)`
+  - `test_cross_task_fleet_operations` (function, line 442) `def test_cross_task_fleet_operations(store)`
+  - `test_llm_health_persists_across_registries` (function, line 476) `def test_llm_health_persists_across_registries(tmp_path, monkeypatch)`
+  - `test_llm_pool_rotates_equal_priority_heads` (function, line 490) `def test_llm_pool_rotates_equal_priority_heads(store, monkeypatch)`
+  - `test_llm_pool_connect_retry_before_failover` (function, line 509) `def test_llm_pool_connect_retry_before_failover(store, monkeypatch)`
+  - `test_broadcast_events_cursor_resume` (function, line 530) `def test_broadcast_events_cursor_resume(store)`
+  - `test_loop_broadcast_sse_route_declared` (function, line 549) `def test_loop_broadcast_sse_route_declared()`
+  - `test_noa_archive_written_when_enabled` (function, line 558) `def test_noa_archive_written_when_enabled(store, monkeypatch)`
+  - `test_proxy_safe_send_error_swallows_dead_client` (function, line 578) `def test_proxy_safe_send_error_swallows_dead_client()`
+  - `test_proxy_server_silences_connection_noise` (function, line 595) `def test_proxy_server_silences_connection_noise()`
+  - `test_proxy_handler_only_uses_safe_error_sender` (function, line 615) `def test_proxy_handler_only_uses_safe_error_sender()`
+  - `test_progress_emit_never_feeds_stdout_redirect` (function, line 621) `def test_progress_emit_never_feeds_stdout_redirect(capsys)`
+  - `test_run_with_progress_finishes_and_streams` (function, line 643) `def test_run_with_progress_finishes_and_streams(store, capsys)`
+  - `test_format_activity_line` (function, line 687) `def test_format_activity_line()`
+  - `test_run_with_progress_streams_activity_events` (function, line 694) `def test_run_with_progress_streams_activity_events(store, capsys)`
+  - `test_steer_delivered_to_agent_as_operator_message` (function, line 728) `def test_steer_delivered_to_agent_as_operator_message(store, monkeypatch)`
+  - `test_steer_cleared_after_delivery` (function, line 772) `def test_steer_cleared_after_delivery(store)`
+  - `test_thread_stdout_router_routes_by_thread` (function, line 783) `def test_thread_stdout_router_routes_by_thread(capsys)`
+  - `test_run_with_progress_restores_stdout_on_cancel` (function, line 808) `def test_run_with_progress_restores_stdout_on_cancel(store, monkeypatch, capsys)`
+  - `test_run_loop_treats_systemexit_as_cancel` (function, line 851) `def test_run_loop_treats_systemexit_as_cancel(store, monkeypatch)`
+  - `test_wake_bus_signals_and_suppresses` (function, line 880) `def test_wake_bus_signals_and_suppresses(store)`
+  - `test_engine_wake_preempts_heartbeat` (function, line 894) `def test_engine_wake_preempts_heartbeat(store)`
+  - `test_engine_heartbeat_replans_when_idle` (function, line 929) `def test_engine_heartbeat_replans_when_idle(store)`
+  - `test_agent_background_jobs_and_output` (function, line 953) `def test_agent_background_jobs_and_output(store)`
+  - `test_agent_persistent_shell_session` (function, line 1001) `def test_agent_persistent_shell_session(store)`
+  - `test_reporter_runs_background_and_applies` (function, line 1039) `def test_reporter_runs_background_and_applies(store, monkeypatch)`
+  - `test_evidence_ranged_read_and_roles` (function, line 1070) `def test_evidence_ranged_read_and_roles(store)`
+  - `test_finalize_parks_open_intents` (function, line 1102) `def test_finalize_parks_open_intents(store)`
+  - `test_agent_prompt_includes_skills_block` (function, line 1123) `def test_agent_prompt_includes_skills_block(store, monkeypatch)`
+  - `test_auto_verb_overrides_payload_target_for_the_run` (function, line 1147) `def test_auto_verb_overrides_payload_target_for_the_run()`
+  - `test_round_fuses_intel_into_world_model` (function, line 1169) `def test_round_fuses_intel_into_world_model(store, monkeypatch)`
+  - `test_agentic_falls_back_to_next_member` (function, line 1182) `def test_agentic_falls_back_to_next_member(store, monkeypatch)`
+  - `test_bootstrap_passes_target_to_auto_populate` (function, line 1236) `def test_bootstrap_passes_target_to_auto_populate(tmp_path, monkeypatch)`
+  - `test_auto_populate_verb_carries_target` (function, line 1254) `def test_auto_populate_verb_carries_target()`
+  - `test_worker_llm_steps_filter_sudo` (function, line 1261) `def test_worker_llm_steps_filter_sudo(store, monkeypatch)`
+  - `test_pyautomate_filters_to_requested_target` (function, line 1291) `def test_pyautomate_filters_to_requested_target(tmp_path, monkeypatch)`
+  - `test_lazy_addon_positional_target_overrides_rhost` (function, line 1307) `def test_lazy_addon_positional_target_overrides_rhost(monkeypatch)`
+  - `test_shutdown_loop_runtime_cleans_everything` (function, line 1330) `def test_shutdown_loop_runtime_cleans_everything(store, monkeypatch)`
+  - `test_do_qa_runs_shutdown_and_dedupes_killall` (function, line 1369) `def test_do_qa_runs_shutdown_and_dedupes_killall(monkeypatch)`
+  - `test_lazynmap_routing_and_steps` (function, line 1392) `def test_lazynmap_routing_and_steps(store)`
+  - `test_lazynmap_overrides_payload_rhost_for_scope` (function, line 1441) `def test_lazynmap_overrides_payload_rhost_for_scope(store)`
+  - `test_run_tee_interactive_keeps_operator_terminal` (function, line 1466) `def test_run_tee_interactive_keeps_operator_terminal(monkeypatch)`
+  - `test_run_tee_loop_context_detaches_child` (function, line 1500) `def test_run_tee_loop_context_detaches_child(monkeypatch)`
+  - `test_run_tee_stdin_devnull_in_loop_context` (function, line 1534) `def test_run_tee_stdin_devnull_in_loop_context()`
+  - `test_run_tee_thread_timeout_kills_child` (function, line 1549) `def test_run_tee_thread_timeout_kills_child()`
+  - `test_plausibility_filter_drops_hallucinated_flags` (function, line 1570) `def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch)`
+  - `test_dev_smoke_tools_run_green` (function, line 1604) `def test_dev_smoke_tools_run_green()`
+  - `test_lazy_view_command_registered` (function, line 1614) `def test_lazy_view_command_registered()`
+  - `_wait` (function, line 99) `def _wait()`
+  - `_fake_streaming` (function, line 152) `def _fake_streaming(command, on_output, timeout_sec)`
+  - `_FakeEngine` (class, line 214) `class _FakeEngine`
+  - `_Shell` (class, line 246) `class _Shell`
+  - `_observer` (function, line 252) `def _observer(line)`
+  - `_complete` (function, line 283) `def _complete(self, prompt, max_tokens)`
+  - `_exec` (function, line 310) `def _exec(command)`
+  - `scripted` (function, line 499) `def scripted(model, prompt, max_tokens)`
+  - `flaky` (function, line 518) `def flaky(model, prompt, max_tokens)`
+  - `_Stub` (class, line 584) `class _Stub`
+  - `_DummyHandler` (class, line 601) `class _DummyHandler`
+  - `_SlowEngine` (class, line 650) `class _SlowEngine`
+  - `_Engine` (class, line 701) `class _Engine`
+  - `_Completions` (class, line 739) `class _Completions`
+  - `_worker` (function, line 795) `def _worker()`
+  - `_StuckEngine` (class, line 818) `class _StuckEngine`
+  - `_interrupt` (function, line 835) `def _interrupt()`
+  - `_FakeEngine` (class, line 857) `class _FakeEngine`
+  - `_exit` (function, line 870) `def _exit()`
+  - `_round` (function, line 907) `def _round(task_id_arg, workers, executor)`
+  - `_round` (function, line 940) `def _round(task_id_arg, workers, executor)`
+  - `_Shell` (class, line 1153) `class _Shell`
+  - `_BadCompletions` (class, line 1190) `class _BadCompletions`
+  - `_GoodCompletions` (class, line 1194) `class _GoodCompletions`
+  - `_resolve` (function, line 1211) `def _resolve(exclude)`
+  - `_executor` (function, line 1246) `def _executor(command)`
+  - `_Shell` (class, line 1314) `class _Shell`
+  - `_fake_run` (function, line 1317) `def _fake_run(command)`
+  - `_Proxy` (class, line 1356) `class _Proxy`
+  - `_fake_shutdown` (function, line 1377) `def _fake_shutdown(reason)`
+  - `_Shell` (class, line 1405) `class _Shell`
+  - `_Shell` (class, line 1448) `class _Shell`
+  - `_FakeProc` (class, line 1482) `class _FakeProc`
+  - `_FakeProc` (class, line 1512) `class _FakeProc`
+  - `__init__` (method, line 217) `def __init__(self)`
+  - `bind_shell` (method, line 220) `def bind_shell(self, shell)`
+  - `set_concurrency` (method, line 223) `def set_concurrency(self, value)`
+  - `orchestrate` (method, line 226) `def orchestrate(self)`
+  - `onecmd_plus_hooks` (method, line 247) `def onecmd_plus_hooks(self, command)`
+  - `send_error` (method, line 587) `def send_error(self, code, message)`
+  - `__init__` (method, line 602) `def __init__(self)`
+  - `__init__` (method, line 653) `def __init__(self)`
+  - `bind_shell` (method, line 657) `def bind_shell(self, shell)`
+  - `set_concurrency` (method, line 660) `def set_concurrency(self, value)`
+  - `orchestrate` (method, line 663) `def orchestrate(self)`
+  - `__init__` (method, line 704) `def __init__(self)`
+  - `bind_shell` (method, line 708) `def bind_shell(self, shell)`
+  - `set_concurrency` (method, line 711) `def set_concurrency(self, value)`
+  - `orchestrate` (method, line 714) `def orchestrate(self)`
+  - `create` (method, line 740) `def create(self)`
+  - `__init__` (method, line 821) `def __init__(self)`
+  - `bind_shell` (method, line 825) `def bind_shell(self, shell)`
+  - `set_concurrency` (method, line 828) `def set_concurrency(self, value)`
+  - `orchestrate` (method, line 831) `def orchestrate(self)`
+  - `__init__` (method, line 860) `def __init__(self)`
+  - `bind_shell` (method, line 864) `def bind_shell(self, shell)`
+  - `set_concurrency` (method, line 867) `def set_concurrency(self, value)`
+  - `__init__` (method, line 1154) `def __init__(self)`
+  - `onecmd_plus_hooks` (method, line 1157) `def onecmd_plus_hooks(self, command)`
+  - `create` (method, line 1191) `def create(self)`
+  - `__init__` (method, line 1195) `def __init__(self)`
+  - `create` (method, line 1198) `def create(self)`
+  - `stop` (method, line 1357) `def stop(self)`
+  - `onecmd_plus_hooks` (method, line 1406) `def onecmd_plus_hooks(self, command)`
+  - `__init__` (method, line 1449) `def __init__(self)`
+  - `onecmd_plus_hooks` (method, line 1452) `def onecmd_plus_hooks(self, command)`
+  - `__init__` (method, line 1483) `def __init__(self)`
+  - `wait` (method, line 1489) `def wait(self, timeout)`
+  - `__init__` (method, line 1513) `def __init__(self)`
+  - `wait` (method, line 1519) `def wait(self, timeout)`
 - Depends on: `cli/commands/exploit_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/session_ops.py`, `core/autonomous.py`, `core/config.py`, `core/process.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/command_executor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_progress.py`, `modules/tools/__init__.py`
 
 ## tests/test_lazy_runner_fallback.py

@@ -3,26 +3,33 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `run_lazynmap` | method | `lazyown.py:2765` | `def run_lazynmap(self)` |
-| `run_lazynmapdiscovery` | method | `lazyown.py:2913` | `def run_lazynmapdiscovery(self)` |
-| `run_lazyown` | method | `lazyown.py:2709` | `def run_lazyown(self)` |
-| `run_lazypathhijacking` | method | `lazyown.py:3919` | `def run_lazypathhijacking(self)` |
-| `run_lazyreverse_shell` | method | `lazyown.py:3536` | `def run_lazyreverse_shell(self)` |
-| `run_lazysearch` | method | `lazyown.py:2662` | `def run_lazysearch(self)` |
-| `run_lazysearch_bot` | method | `lazyown.py:3140` | `def run_lazysearch_bot(self)` |
-| `run_lazysearch_gui` | method | `lazyown.py:2679` | `def run_lazysearch_gui(self)` |
-| `run_lazysniff` | method | `lazyown.py:2928` | `def run_lazysniff(self)` |
-| `run_lazyssh77enum` | method | `lazyown.py:3360` | `def run_lazyssh77enum(self)` |
-| `run_lazywerkzeugdebug` | method | `lazyown.py:2824` | `def run_lazywerkzeugdebug(self)` |
-| `run_script` | method | `lazyown.py:3952` | `def run_script(self, script_name)` |
-| `run_update_db` | method | `lazyown.py:2735` | `def run_update_db(self)` |
-| `save_user_command` | method | `lazyown.py:1888` | `def save_user_command(self, alias, command)` |
+| `run_lazygath` | method | `lazyown.py:2887` | `def run_lazygath(self)` |
+| `run_lazyhoneypot` | method | `lazyown.py:3080` | `def run_lazyhoneypot(self)` |
+| `run_lazylfi2rce` | method | `lazyown.py:3238` | `def run_lazylfi2rce(self)` |
+| `run_lazylogpoisoning` | method | `lazyown.py:3319` | `def run_lazylogpoisoning(self)` |
+| `run_lazymetaextract0r` | method | `lazyown.py:3197` | `def run_lazymetaextract0r(self)` |
+| `run_lazymsfvenom` | method | `lazyown.py:3701` | `def run_lazymsfvenom(self)` |
+| `run_lazynetbios` | method | `lazyown.py:3029` | `def run_lazynetbios(self)` |
+| `run_lazynmap` | method | `lazyown.py:2771` | `def run_lazynmap(self)` |
+| `run_lazynmapdiscovery` | method | `lazyown.py:2919` | `def run_lazynmapdiscovery(self)` |
+| `run_lazyown` | method | `lazyown.py:2715` | `def run_lazyown(self)` |
+| `run_lazypathhijacking` | method | `lazyown.py:3925` | `def run_lazypathhijacking(self)` |
+| `run_lazyreverse_shell` | method | `lazyown.py:3542` | `def run_lazyreverse_shell(self)` |
+| `run_lazysearch` | method | `lazyown.py:2668` | `def run_lazysearch(self)` |
+| `run_lazysearch_bot` | method | `lazyown.py:3146` | `def run_lazysearch_bot(self)` |
+| `run_lazysearch_gui` | method | `lazyown.py:2685` | `def run_lazysearch_gui(self)` |
+| `run_lazysniff` | method | `lazyown.py:2934` | `def run_lazysniff(self)` |
+| `run_lazyssh77enum` | method | `lazyown.py:3366` | `def run_lazyssh77enum(self)` |
+| `run_lazywerkzeugdebug` | method | `lazyown.py:2830` | `def run_lazywerkzeugdebug(self)` |
+| `run_script` | method | `lazyown.py:3958` | `def run_script(self, script_name)` |
+| `run_update_db` | method | `lazyown.py:2741` | `def run_update_db(self)` |
+| `save_user_command` | method | `lazyown.py:1894` | `def save_user_command(self, alias, command)` |
 | `scripts` | method | `lazyown.py:884` | `def scripts(self)` |
-| `tool_wrapper` | function | `lazyown.py:1966` | `def tool_wrapper(arg)` |
-| `upload_file_to_c2` | method | `lazyown.py:4069` | `def upload_file_to_c2(self, file_path, clientid)` |
-| `view_code` | method | `lazyown.py:4292` | `def view_code(self, stdscr)` |
-| `wrapper` | function | `lazyown.py:2067` | `def wrapper(arg)` |
-| `wrapper_yaml` | function | `lazyown.py:2183` | `def wrapper_yaml(arg)` |
+| `tool_wrapper` | function | `lazyown.py:1972` | `def tool_wrapper(arg)` |
+| `upload_file_to_c2` | method | `lazyown.py:4075` | `def upload_file_to_c2(self, file_path, clientid)` |
+| `view_code` | method | `lazyown.py:4298` | `def view_code(self, stdscr)` |
+| `wrapper` | function | `lazyown.py:2073` | `def wrapper(arg)` |
+| `wrapper_yaml` | function | `lazyown.py:2189` | `def wrapper_yaml(arg)` |
 | `auth` | function | `modules/49803.py:43` | `def auth()` |
 | `connection` | function | `modules/49803.py:106` | `def connection()` |
 | `injection` | function | `modules/49803.py:69` | `def injection()` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1510` | `def _load_world_model(self, target)` |
 | `_match_by_port` | method | `modules/autonomous_exploit_engine.py:1016` | `def _match_by_port(self, port, os_type)` |
 | `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:474` | `def _match_exploit_db(self, service, product, version)` |
-| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2188` | `def _match_privesc_techniques(self, findings, os_type)` |
-| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1842` | `def _match_service_banners(self, profile)` |
-| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1759` | `def _parse_nse_output(self, target_ip)` |
-| `_register_session` | method | `modules/autonomous_exploit_engine.py:1471` | `def _register_session(self, ip, output)` |
-| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1159` | `def _resolve_port(self, candidate, profile)` |
-| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1113` | `def _run_exploit(self, candidate, profile)` |
-| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2076` | `def _run_linux_privesc_checks(self, profile, session_id)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

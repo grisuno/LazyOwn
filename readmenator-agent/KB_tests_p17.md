@@ -1,4 +1,4 @@
-# Subsystem: tests (page 17 of 24)
+# Subsystem: tests (page 17 of 25)
 Previous: [KB_tests_p16.md](KB_tests_p16.md)
 
 ## tests/test_loop_objective_wiring.py
@@ -88,6 +88,26 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `complete` (method, line 32) `def complete(self)`
 - Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`
 
+## tests/test_loop_target_authority.py
+- Doc: Target authority: --target rebinds payload rhost and scope.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeShell` (class, line 16) `class _FakeShell`
+  - `test_single_target_replaces_rhost_and_scope` (function, line 31) `def test_single_target_replaces_rhost_and_scope()`
+  - `test_multi_target_scope_is_every_target` (function, line 42) `def test_multi_target_scope_is_every_target()`
+  - `test_dedupes_and_strips` (function, line 49) `def test_dedupes_and_strips()`
+  - `test_noop_when_already_bound` (function, line 55) `def test_noop_when_already_bound()`
+  - `test_enforcement_mode_untouched` (function, line 62) `def test_enforcement_mode_untouched()`
+  - `test_empty_targets_is_noop` (function, line 68) `def test_empty_targets_is_noop()`
+  - `test_fallback_writer_without_scope_save` (function, line 75) `def test_fallback_writer_without_scope_save(monkeypatch)`
+  - `__init__` (method, line 19) `def __init__(self, params)`
+  - `_scope_save` (method, line 23) `def _scope_save(self, entries, mode)`
+  - `_fake_save` (function, line 78) `def _fake_save(params)`
+  - `_Bare` (class, line 83) `class _Bare`
+  - `__init__` (method, line 84) `def __init__(self)`
+- Depends on: `modules/lazy_runner.py`
+
 ## tests/test_loop_trigger_hints.py
 - Doc: BDD for the cve_hot trigger hint fingerprints.
 - Layer: testing
@@ -168,16 +188,17 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_registered` (function, line 23) `def _registered()`
-  - `_fallback_branches` (function, line 40) `def _fallback_branches()`
-  - `TestRegistryDispatch` (class, line 51) `class TestRegistryDispatch`
-  - `test_set_config_refuses_null_values` (function, line 67) `def test_set_config_refuses_null_values()`
-  - `test_new_chain_shell_tools_have_defs_and_handlers` (function, line 82) `def test_new_chain_shell_tools_have_defs_and_handlers()`
-  - `test_opencode_bridge_curates_loop_and_chain` (function, line 92) `def test_opencode_bridge_curates_loop_and_chain()`
-  - `test_mcp_never_offers_interactive_repl` (function, line 107) `def test_mcp_never_offers_interactive_repl()`
-  - `test_no_dead_duplicate_branches` (method, line 52) `def test_no_dead_duplicate_branches(self)`
-  - `test_migrated_handlers_registered` (method, line 56) `def test_migrated_handlers_registered(self)`
-  - `test_migrated_handlers_absent_from_fallback` (method, line 61) `def test_migrated_handlers_absent_from_fallback(self)`
+  - `_package_names` (function, line 29) `def _package_names()`
+  - `_registered` (function, line 33) `def _registered()`
+  - `_fallback_branches` (function, line 50) `def _fallback_branches()`
+  - `TestRegistryDispatch` (class, line 61) `class TestRegistryDispatch`
+  - `test_set_config_refuses_null_values` (function, line 79) `def test_set_config_refuses_null_values()`
+  - `test_new_chain_shell_tools_have_defs_and_handlers` (function, line 99) `def test_new_chain_shell_tools_have_defs_and_handlers()`
+  - `test_opencode_bridge_curates_loop_and_chain` (function, line 106) `def test_opencode_bridge_curates_loop_and_chain()`
+  - `test_mcp_never_offers_interactive_repl` (function, line 121) `def test_mcp_never_offers_interactive_repl()`
+  - `test_no_dead_duplicate_branches` (method, line 62) `def test_no_dead_duplicate_branches(self)`
+  - `test_migrated_handlers_registered` (method, line 66) `def test_migrated_handlers_registered(self)`
+  - `test_migrated_handlers_absent_from_fallback` (method, line 71) `def test_migrated_handlers_absent_from_fallback(self)`
 
 ## tests/test_mcp_improvements.py
 - Doc: Tests for the high/medium/low impact MCP improvements.
@@ -251,6 +272,24 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `test_limits_suggestions` (function, line 81) `def test_limits_suggestions(monkeypatch)`
   - `fake_recommend` (function, line 48) `def fake_recommend()`
   - `explode` (function, line 62) `def explode()`
+
+## tests/test_mcp_tools_registry.py
+- Doc: Contract for the one-file-per-tool MCP registry (``skills/mcp_tools``).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registry_names` (function, line 26) `def _registry_names()`
+  - `_legacy_schema_names` (function, line 30) `def _legacy_schema_names()`
+  - `_legacy_handler_names` (function, line 45) `def _legacy_handler_names()`
+  - `TestRegistryDiscovery` (class, line 62) `class TestRegistryDiscovery`
+  - `TestSingleOwnership` (class, line 93) `class TestSingleOwnership`
+  - `TestImportPurity` (class, line 103) `class TestImportPurity`
+  - `test_reference_tool_discovered` (method, line 63) `def test_reference_tool_discovered(self)`
+  - `test_register_handlers_populates_table` (method, line 66) `def test_register_handlers_populates_table(self)`
+  - `test_no_duplicate_schema` (method, line 94) `def test_no_duplicate_schema(self)`
+  - `test_no_duplicate_handler` (method, line 98) `def test_no_duplicate_handler(self)`
+  - `test_tool_modules_do_not_import_runtime` (method, line 104) `def test_tool_modules_do_not_import_runtime(self)`
+- Depends on: `skills/mcp_tools/_context.py`
 
 ## tests/test_mediation.py
 - Doc: Mediator pattern contract tests for the mediation package.
@@ -426,58 +465,6 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `test_no_unevaluated_fstring_all_literal` (function, line 74) `def test_no_unevaluated_fstring_all_literal()`
   - `test_method_bodies_are_embedded_in_order` (function, line 81) `def test_method_bodies_are_embedded_in_order()`
 - Depends on: `scripts/migrate_lazyown.py`
-
-## tests/test_module_registry.py
-- Doc: Tests for modules.module_registry — ModuleInfo, ModuleRegistry, search, summary.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestClassify` (class, line 20) `class TestClassify`
-  - `TestModuleInfo` (class, line 36) `class TestModuleInfo`
-  - `TestModuleRegistry` (class, line 75) `class TestModuleRegistry`
-  - `TestFormatFunctions` (class, line 185) `class TestFormatFunctions`
-  - `test_known_categories` (method, line 21) `def test_known_categories(self)`
-  - `test_unknown_category_defaults_to_auxiliary` (method, line 27) `def test_unknown_category_defaults_to_auxiliary(self)`
-  - `test_empty_string` (method, line 31) `def test_empty_string(self)`
-  - `test_minimal_construction` (method, line 37) `def test_minimal_construction(self)`
-  - `test_full_construction` (method, line 44) `def test_full_construction(self)`
-  - `test_to_dict` (method, line 62) `def test_to_dict(self)`
-  - `test_repr` (method, line 70) `def test_repr(self)`
-  - `test_singleton` (method, line 76) `def test_singleton(self)`
-  - `test_singleton_with_base_dir` (method, line 82) `def test_singleton_with_base_dir(self)`
-  - `test_initial_state_not_scanned` (method, line 87) `def test_initial_state_not_scanned(self)`
-  - `test_scan_returns_list` (method, line 92) `def test_scan_returns_list(self)`
-  - `test_scan_is_idempotent` (method, line 99) `def test_scan_is_idempotent(self)`
-  - `test_rescan_forces_refresh` (method, line 106) `def test_rescan_forces_refresh(self)`
-  - `test_search_returns_list` (method, line 115) `def test_search_returns_list(self)`
-  - `test_search_by_module_type` (method, line 121) `def test_search_by_module_type(self)`
-  - `test_search_by_category` (method, line 127) `def test_search_by_category(self)`
-  - `test_get_known_module` (method, line 133) `def test_get_known_module(self)`
-  - `test_get_unknown_returns_none` (method, line 145) `def test_get_unknown_returns_none(self)`
-  - `test_summary_returns_counts` (method, line 149) `def test_summary_returns_counts(self)`
-  - `test_by_type_shorthand` (method, line 159) `def test_by_type_shorthand(self)`
-  - `test_search_enabled_only_filters_disabled` (method, line 164) `def test_search_enabled_only_filters_disabled(self)`
-  - `test_format_module_table_empty` (method, line 186) `def test_format_module_table_empty(self)`
-  - `test_format_module_table_with_data` (method, line 190) `def test_format_module_table_with_data(self)`
-  - `test_format_module_detail` (method, line 201) `def test_format_module_detail(self)`
-  - `test_format_module_detail_minimal` (method, line 217) `def test_format_module_detail_minimal(self)`
-- Depends on: `modules/module_registry.py`
-
-## tests/test_module_registry_bridge.py
-- Doc: Module-registry loop bridge: corpus mentions enter planning as intents.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_registry` (function, line 15) `def _registry(tmp_path)`
-  - `_registry_with_extras` (function, line 43) `def _registry_with_extras(tmp_path)`
-  - `_empty_osinfer` (function, line 51) `def _empty_osinfer(monkeypatch)`
-  - `test_name_mentions_propose_runnable_intents` (function, line 58) `def test_name_mentions_propose_runnable_intents(tmp_path, monkeypatch)`
-  - `test_playbook_mentions_map_to_apt_playbook` (function, line 66) `def test_playbook_mentions_map_to_apt_playbook(tmp_path, monkeypatch)`
-  - `test_incompatible_os_is_gated` (function, line 74) `def test_incompatible_os_is_gated(tmp_path, monkeypatch)`
-  - `test_fillers_and_nonrunnable_sources_propose_nothing` (function, line 85) `def test_fillers_and_nonrunnable_sources_propose_nothing(tmp_path, monkeypatch)`
-  - `test_limit_caps_results` (function, line 93) `def test_limit_caps_results(tmp_path, monkeypatch)`
-  - `test_planner_appends_registry_candidates_last` (function, line 107) `def test_planner_appends_registry_candidates_last(tmp_path, monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/module_registry.py`
 
 
 Next: [KB_tests_p18.md](KB_tests_p18.md)

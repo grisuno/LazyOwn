@@ -39,7 +39,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `result_summary` (method, line 640) `def result_summary(self, result)`
   - `_local_executor` (function, line 792) `def _local_executor(command, host)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/playbook_generate.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
 
 ## modules/playbook_executor.py
 - Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.
@@ -275,7 +275,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
   - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/reactive_suggest.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 
 ## modules/recommender.py
 - Doc: LazyOwn Smart Command Recommender

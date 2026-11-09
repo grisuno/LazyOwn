@@ -1,8 +1,184 @@
-# Index (page 3 of 3)
+# Index (page 3 of 4)
 Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `skills/mcp_tools/lazy_intel.py` | MCP tool ``lazyown_lazy_intel`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_mention.py` | MCP tool ``lazyown_lazy_mention``: search mention sources, paginated. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_proxy.py` | MCP tool ``lazyown_lazy_proxy``: control the lazy-engine proxy. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_status.py` | MCP tool ``lazyown_lazy_status``: report lazy-bridge status. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_sync.py` | MCP tool ``lazyown_lazy_sync``: sync all lazy-bridge sources. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_trace.py` | MCP tool ``lazyown_lazy_trace``: search a task activity log. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_workspace.py` | MCP tool ``lazyown_lazy_workspace``: list/read/write workspace files. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazysearch.py` | MCP tool ``lazyown_lazysearch`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_addons.py` | MCP tool ``lazyown_list_addons`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_agents.py` | MCP tool ``lazyown_list_agents`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_event_rules.py` | MCP tool ``lazyown_list_event_rules`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_modules.py` | MCP tool ``lazyown_list_modules``: list modules and scripts in modules/. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_params.py` | MCP tool ``lazyown_list_params`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_plugins.py` | MCP tool ``lazyown_list_plugins`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_sessions.py` | MCP tool ``lazyown_list_sessions`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/list_targets.py` | MCP tool ``lazyown_list_targets`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/llm_ask.py` | MCP tool ``lazyown_llm_ask`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lolbas_list.py` | MCP tool ``lazyown_lolbas_list``: list LOLBAS techniques from plugins. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lolbas_use.py` | MCP tool ``lazyown_lolbas_use``: execute one LOLBAS technique. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/loop_smoke.py` | MCP tool ``lazyown_loop_smoke``: single-leg autonomous loop smoke test. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/memory_recall.py` | MCP tool ``lazyown_memory_recall`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/memory_store.py` | MCP tool ``lazyown_memory_store`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 1 |
+| `skills/mcp_tools/metrics_summary.py` | MCP tool ``lazyown_metrics_summary`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/misp_export.py` | MCP tool ``lazyown_misp_export`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/next_objective.py` | MCP tool ``lazyown_next_objective`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/opencode_config.py` | MCP tool ``lazyown_opencode_config``: point opencode/hermes at llama.cpp. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/palette.py` | MCP tool ``lazyown_palette`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/parquet_annotate.py` | MCP tool ``lazyown_parquet_annotate`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/parquet_query.py` | MCP tool ``lazyown_parquet_query`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/phase_guide.py` | MCP tool ``lazyown_phase_guide`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/pipeline_list.py` | MCP tool ``lazyown_pipeline_list`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/pipeline_run.py` | MCP tool ``lazyown_pipeline_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/pipeline_status.py` | MCP tool ``lazyown_pipeline_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/pipeline_validate.py` | MCP tool ``lazyown_pipeline_validate`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/pivot_status.py` | MCP tool ``lazyown_pivot_status``: view pivot routes and suggestions. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/playbook_generate.py` | MCP tool ``lazyown_playbook_generate`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/poll_events.py` | MCP tool ``lazyown_poll_events`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/rag_index.py` | MCP tool ``lazyown_rag_index`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/rag_query.py` | MCP tool ``lazyown_rag_query`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/rea.py` | MCP tool ``lazyown_rea``: reverse-engineer a local artifact via the REA CLI. | mcp_tools | 3 | 0 |
+| `skills/mcp_tools/reactive_suggest.py` | MCP tool ``lazyown_reactive_suggest`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/read_prompt.py` | MCP tool ``lazyown_read_prompt`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/read_session_file.py` | MCP tool ``lazyown_read_session_file`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/rich_tui_snapshot.py` | MCP tool ``lazyown_rich_tui_snapshot``: non-blocking Rich TUI snapshot. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/run_api.py` | MCP tool ``lazyown_run_api`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/run_command.py` | MCP tool ``lazyown_run_command``: execute LazyOwn shell commands. | mcp_tools | 3 | 0 |
+| `skills/mcp_tools/searchsploit.py` | MCP tool ``lazyown_searchsploit`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/session_diff.py` | MCP tool ``lazyown_session_diff`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/session_state.py` | MCP tool ``lazyown_session_state`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/session_status.py` | MCP tool ``lazyown_session_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/set_active_target.py` | MCP tool ``lazyown_set_active_target`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/set_config.py` | MCP tool ``lazyown_set_config``: set one key in payload.json. | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/soul.py` | MCP tool ``lazyown_soul`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/stealth.py` | MCP tool ``lazyown_stealth``: toggle stealth mode for later operations. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/swan_ensemble.py` | MCP tool ``lazyown_swan_ensemble`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/swan_route.py` | MCP tool ``lazyown_swan_route`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/swan_run.py` | MCP tool ``lazyown_swan_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/swan_status.py` | MCP tool ``lazyown_swan_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/target_context.py` | MCP tool ``lazyown_target_context`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/tasks_cleanup.py` | MCP tool ``lazyown_tasks_cleanup`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/threat_model.py` | MCP tool ``lazyown_threat_model`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/timeline.py` | MCP tool ``lazyown_timeline`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/ttp_chain.py` | MCP tool ``lazyown_ttp_chain`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/unified_dashboard.py` | MCP tool ``lazyown_unified_dashboard``: combined campaign dashboard. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_eventlogs.py` | MCP tool ``lazyown_winbox_eventlogs``: query guest Windows event logs. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_exec.py` | MCP tool ``lazyown_winbox_exec``: run a command inside the WinBox guest. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_gym_list.py` | MCP tool ``lazyown_winbox_gym_list``: list and validate WinBox gym vectors. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_gym_plan.py` | MCP tool ``lazyown_winbox_gym_plan``: build the WinBox gym attack plan. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_gym_run.py` | MCP tool ``lazyown_winbox_gym_run``: run the WinBox gym matrix on the lab. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_snapshot.py` | MCP tool ``lazyown_winbox_snapshot``: manage WinBox lab snapshots. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_status.py` | MCP tool ``lazyown_winbox_status``: report WinBox lab readiness. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_tools.py` | MCP tool ``lazyown_winbox_tools``: manage tools staged in the WinBox guest. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/winbox_vm.py` | MCP tool ``lazyown_winbox_vm``: drive the WinBox lab VM lifecycle. | mcp_tools | 1 | 0 |
+| `skills/sessions_watcher.py` | LazyOwn Sessions Watcher | skills | 18 | 1 |
+| `skills/setup.sh` | paths_for_sudo: Collect paths that exist on this system | skills | 5 | 0 |
+| `skills/swan_agent.py` | skills/swan_agent.py — LazyOwn SWAN Agent | skills | 44 | 8 |
+| `skills/tests/__init__.py` | - | skills_tests | 0 | 0 |
+| `skills/tests/test_autonomous_daemon.py` | skills/tests/test_autonomous_daemon.py — Tests for autonomous_daemon.py (SOLID refactoring)  All... | skills_tests | 88 | 0 |
+| `skills/tests/test_facts.py` | Tests for lazyown_facts.py — parsers and FactStore. | skills_tests | 37 | 0 |
+| `skills/tests/test_harness_e2e.py` | End-to-end test for the Claude Code-style harness layer. | skills_tests | 10 | 0 |
+| `skills/tests/test_hive_mind.py` | skills/tests/test_hive_mind.py — Tests for hive_mind.py (SOLID refactoring)  All file I/O uses... | skills_tests | 95 | 0 |
+| `skills/tests/test_mcp_smoke.py` | Smoke test for the MCP server: verify all 131 tools are registered. | skills_tests | 5 | 0 |
+| `skills/tests/test_objectives.py` | Tests for lazyown_objective.py — ObjectiveStore and SoulUpdater. | skills_tests | 28 | 0 |
+| `skills/tests/test_parquet_db.py` | Tests for lazyown_parquet_db.py — ParquetDB. | skills_tests | 33 | 0 |
+| `skills/toposwarm_autonomous.py` | skills/toposwarm_autonomous.py | skills | 15 | 0 |
+| `skills/unified_orchestrator.py` | Unified orchestrator facade collapsing daemon, hive and SWAN into one surface. | skills | 59 | 2 |
+| `skills/update_knowledge.py` | LazyOwn Knowledge Refresh | skills | 1 | 0 |
+| `slack_c2_bot.py` | - | root | 16 | 0 |
+| `source/conf.py` | Configuration file for the Sphinx documentation builder. | misc | 0 | 0 |
+| `static/hexabot/hexabot-spinner.js` | - | misc | 24 | 0 |
+| `static/js/3d-force-graph-1.73.4.min.js` | Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph... | js | 176 | 0 |
+| `static/js/bootstrap-4.5.2.min.js` | r: ! | js | 7 | 0 |
+| `static/js/bootstrap-5.3.0.bundle.min.js` | W: ! | js | 28 | 0 |
+| `static/js/chart.min.js` | xt: ! | js | 88 | 0 |
+| `static/js/force-graph-1.43.5.min.js` | Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph... | js | 31 | 0 |
+| `static/js/html2pdf.bundle.min.js` | o: 3. | js | 738 | 0 |
+| `static/js/jquery-3.5.1.slim.min.js` | ! jQuery v3.5.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/location,-ajax/var/nonce,-aja... | js | 6 | 0 |
+| `static/js/particles.js` | - | js | 11 | 0 |
+| `static/js/popper-2.5.4.min.js` | - | js | 1 | 0 |
+| `static/js/purify-3.0.9.min.js` | ! @license DOMPurify 3.0.9 \| (c) Cure53 and other contributors \| Released under the Apache... | js | 2 | 0 |
+| `static/js/quill-2.0.3.js` | ! | js | 124 | 0 |
+| `static/js/select2-4.1.0.min.js` | ! | js | 3 | 0 |
+| `static/js/showdown-2.1.0.min.js` | ! showdown v 2.1.0 - 21-04-2022 | js | 5 | 0 |
+| `static/js/socket.io-4.0.0.min.js` | as: ! | js | 32 | 0 |
+| `static/js/socket.io-4.3.2.min.js` | as: ! | js | 15 | 0 |
+| `static/js/tippy-6.js` | - | js | 3 | 0 |
+| `static/js/vis-network-9.1.2.min.js` | as: @license vis.js is dual licensed under both  1. | js | 135 | 0 |
+| `static/js/vis-network.min.js` | as: @license vis.js is dual licensed under both  1. | js | 135 | 0 |
+| `static/js/xterm-addon-fit-0.7.0.js` | - | js | 0 | 0 |
+| `static/js/xterm-addon-web-links-0.5.0.js` | - | js | 4 | 0 |
+| `static/js/xterm.js` | - | js | 62 | 0 |
+| `telegram_c2.py` | download_c2: Handle the /download_c2 command to download a file from the C2. | root | 19 | 0 |
+| `telegram_hermes.py` | LazyOwn Telegram Bot with Hermes Gateway Integration  This bot bridges Telegram to the full... | root | 31 | 0 |
+| `test_bdd.sh` | - | root | 0 | 0 |
+| `testmeneitor.py` | - | root | 5 | 0 |
+| `tests/__init__.py` | - | tests | 0 | 0 |
+| `tests/conftest.py` | Global pytest isolation hooks. | tests | 12 | 0 |
+| `tests/contract/__init__.py` | - | contract | 0 | 0 |
+| `tests/contract/test_suite_homologation.py` | SDD suite homologation contract for LazyOwn tests. | contract | 20 | 0 |
+| `tests/integration_autonomous_flow.py` | test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module... | tests | 1 | 0 |
+| `tests/mutation_common.py` | Shared driver for curated mutation runners. | tests | 5 | 3 |
+| `tests/run_mutation_addon_creator.py` | Manual mutation testing runner for the LazyAddon creator contract. | tests | 4 | 0 |
+| `tests/run_mutation_addon_updater.py` | Mutation runner for the lazyaddon update contract. | tests | 4 | 0 |
+| `tests/run_mutation_api_authz.py` | Mutation testing runner for core.api_authz and core.logging. | tests | 3 | 0 |
+| `tests/run_mutation_autonomous_ops.py` | Manual mutation runner for the LAZY port contracts. | tests | 4 | 0 |
+| `tests/run_mutation_beacon_dispatch.py` | Mutation runner for the beacon dispatch sink contract. | tests | 5 | 0 |
+| `tests/run_mutation_c2_route_auth.py` | Mutation gate for C2 route-level auth boundaries. | tests | 2 | 0 |
+| `tests/run_mutation_chain_v2.py` | Mutation runner for the chain v2 contract. | tests | 4 | 0 |
+| `tests/run_mutation_contract_manifest.py` | Mutation gate for the contract manifest drift checker. | tests | 2 | 0 |
+| `tests/run_mutation_emulation_runner.py` | Mutation runner for the emulation-runner contract. | tests | 4 | 0 |
+| `tests/run_mutation_infra_report.py` | Mutation runner for the disposable infra and reporting contracts. | tests | 4 | 0 |
+| `tests/run_mutation_intel_svg.py` | Mutation runner for the intel relations-svg contract. | tests | 4 | 0 |
+| `tests/run_mutation_killchain.py` | Manual mutation testing runner for the unified kill-chain contract. | tests | 4 | 0 |
+| `tests/run_mutation_lazy_scope.py` | Mutation runner for the lab-only default scope contract. | tests | 4 | 0 |
+| `tests/run_mutation_llm.py` | Mutation runner for the LLM subsystem contract. | tests | 4 | 0 |
+| `tests/run_mutation_llm_orchestrator.py` | Mutation runner for the orchestrator-governed LLM failover contract. | tests | 4 | 0 |
+| `tests/run_mutation_loop_cli_catalog.py` | Mutation runner for the planner catalog visibility contract. | tests | 1 | 0 |
+| `tests/run_mutation_no_shell.py` | Mutation gate for the no-shell execution contract. | tests | 2 | 0 |
+| `tests/run_mutation_opsec.py` | Mutation runner for the consolidated OPSEC scorer contract. | tests | 4 | 0 |
+| `tests/run_mutation_orchestrator_yaml.py` | Mutation runner for the orchestrator YAML contract. | tests | 4 | 0 |
+| `tests/run_mutation_outcome_bus.py` | Mutation runner for the outcome-bus contract. | tests | 4 | 0 |
+| `tests/run_mutation_phase1.py` | Mutation testing runner for Phase 1 data-gap closure. | tests | 4 | 0 |
+| `tests/run_mutation_shell_semantics.py` | Mutation gate for shell semantics and colored output. | tests | 2 | 0 |
+| `tests/run_mutation_tests.py` | Manual mutation testing runner for LazyOwn connectivity improvements. | tests | 4 | 0 |
+| `tests/run_mutation_trigger_hints.py` | Mutation runner for the cve_hot hint fingerprint contract. | tests | 4 | 0 |
+| `tests/run_mutation_trigger_policy.py` | Mutation runner for the trigger policy contract. | tests | 1 | 0 |
+| `tests/run_mutation_ux_usability.py` | Mutation testing runner for the UX usability contracts. | tests | 4 | 0 |
+| `tests/run_mutation_verb_catalog.py` | Mutation runner for the verb catalog contract. | tests | 1 | 0 |
+| `tests/run_mutation_world_diff.py` | Mutation runner for the lazy world-diff contract. | tests | 4 | 0 |
+| `tests/test_aci_planner.py` | tests/test_aci_planner.py | tests | 95 | 0 |
+| `tests/test_ad_lab_gym.py` | Contract tests for the AD lab gym (Docker Samba DC) matrix and capture. | tests | 25 | 0 |
+| `tests/test_addon_creator.py` | Tests for the LazyAddon creator contract and C2 blueprint. | tests | 86 | 0 |
+| `tests/test_addon_updater.py` | Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware. | tests | 13 | 0 |
+| `tests/test_aes_key_propagation.py` | TDD tests for the AES key resolution contract. | tests | 12 | 0 |
+| `tests/test_ai_commands_llm.py` | Behavioural tests for the resurrected ``ask``/``groq`` commands. | tests | 18 | 0 |
+| `tests/test_api_authz.py` | Tests for ``core.api_authz`` — tenant-bound API authorization. | tests | 48 | 0 |
+| `tests/test_api_key_resolution.py` | API-key resolution contract tests. | tests | 9 | 0 |
+| `tests/test_api_v1.py` | Integration tests for the versioned C2 REST API (``/api/v1``). | tests | 13 | 0 |
+| `tests/test_apt_chain_admin.py` | apt_chain admin & run options BDD contract. | tests | 28 | 0 |
+| `tests/test_apt_chain_integration.py` | BDD integration: apt_chain runs real cmd2 verbs, raw commands and shell. | tests | 6 | 0 |
+| `tests/test_asset_gate.py` | Asset gate + un-nerfed outputs + IntelGraph CSP regression tests. | tests | 16 | 0 |
+| `tests/test_atomic_exploit_bridge.py` | Atomic exploit catalogue: one YAML per exploit, engine administered by files. | tests | 38 | 0 |
+| `tests/test_atomic_loop.py` | Atomic emulation inside the autonomous loop (registry + playbooks). | tests | 17 | 0 |
+| `tests/test_atomic_resolver.py` | MITRE ATT&CK <-> Atomic Red Team translator contract. | tests | 9 | 0 |
+| `tests/test_attack_surface3d.py` | Attack-surface 3D module: surface+intel fusion + embedded pages. | tests | 8 | 0 |
+| `tests/test_attack_surface_addons.py` | tests/test_attack_surface_addons.py  BDD: Validate cloud, supply-chain, and web attack-surface... | tests | 76 | 0 |
+| `tests/test_audit_remediation.py` | Audit-remediation contract tests (P0-P4). | tests | 28 | 0 |
+| `tests/test_auto_crypto.py` | Tests for cli.auto_crypto — automatic session data encryption. | tests | 22 | 0 |
+| `tests/test_auto_loop_memory.py` | BDD tests for the auto-loop persistent memory and selector cascade. | tests | 19 | 0 |
+| `tests/test_auto_registry.py` | Auto-verb registry: loop-ready automation commands. | tests | 20 | 0 |
+| `tests/test_autonomous_ops.py` | BDD scoped tests for integrated autonomous operations C04-C10. | tests | 17 | 0 |
+| `tests/test_autonomous_replay.py` | Tests for ``skills/autonomous_replay.py``. | tests | 18 | 0 |
+| `tests/test_autosuggest.py` | Unit tests for cli.autosuggest. | tests | 41 | 0 |
+| `tests/test_awesome_windows_security_skill.py` | tests/test_awesome_windows_security_skill.py  Contract suite for the... | tests | 51 | 0 |
+| `tests/test_backdoor_random.py` | Backdoor credentials: random like C2 operators, persisted via assign. | tests | 5 | 0 |
+| `tests/test_banner_config.py` | Tests for cli/banner_config.py — registry, settings, renderer, wizard. | tests | 45 | 0 |
 | `tests/test_bdd_infra_range_report.py` | BDD scenarios for disposable infra, range, and executive reporting. | tests | 5 | 0 |
 | `tests/test_beacon_config_builder.py` | Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and... | tests | 16 | 0 |
 | `tests/test_beacon_history.py` | BDD-style tests for persistent beacon command/result history storage. | tests | 10 | 0 |
@@ -159,7 +335,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_intel_wiring.py` | Wiring contract tests: loop timeline snapshot + MCP lazy intel tools. | tests | 11 | 0 |
 | `tests/test_lazy_inventory.py` | BDD tests for the host-reported inventory contract. | tests | 12 | 0 |
 | `tests/test_lazy_ledger.py` | Freshness ledger contract: recurring windows are ledger windows. | tests | 11 | 0 |
-| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 46 | 0 |
+| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 48 | 0 |
 | `tests/test_lazy_match_policy.py` | Match policy contract: strands, standing and audited closures. | tests | 8 | 0 |
 | `tests/test_lazy_netattack.py` | Tests for modules.lazy_netattack — Windows attack-surface adjudication. | tests | 17 | 0 |
 | `tests/test_lazy_oob.py` | Contract tests for the lazyoob OOB canary. | tests | 12 | 0 |
@@ -202,7 +378,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
 | `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
 | `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
-| `tests/test_loop_cli_catalog.py` | BDD tests for planner prompt visibility into routable CLI verbs. | tests | 6 | 0 |
+| `tests/test_loop_cli_catalog.py` | BDD tests for planner prompt visibility into routable CLI verbs. | tests | 7 | 0 |
 | `tests/test_loop_cold_overview.py` | Cold debounce + planner overview parity (lazy 0.3.8 coldgraph). | tests | 6 | 0 |
 | `tests/test_loop_evidence_wiring.py` | BDD tests for the loop evidence loop-closure wiring. | tests | 19 | 0 |
 | `tests/test_loop_fire_pending.py` | Vertical test: fire-pending intelligence drives a real auto_loop round. | tests | 14 | 0 |
@@ -221,14 +397,16 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_spawn_side.py` | Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9). | tests | 4 | 0 |
 | `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
 | `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
+| `tests/test_loop_target_authority.py` | Target authority: --target rebinds payload rhost and scope. | tests | 13 | 0 |
 | `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
 | `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one orchestrator, no dual engines. | tests | 13 | 0 |
-| `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 10 | 0 |
+| `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 11 | 0 |
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
 | `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
 | `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
+| `tests/test_mcp_tools_registry.py` | Contract for the one-file-per-tool MCP registry (``skills/mcp_tools``). | tests | 11 | 0 |
 | `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 52 | 0 |
 | `tests/test_memory_semantics.py` | BDD tests for hashing embeddings and hybrid episodic recall. | tests | 14 | 0 |
 | `tests/test_metasploitable_gym.py` | Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry. | tests | 6 | 0 |
@@ -249,6 +427,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_opsec_scorer.py` | Tests for modules/opsec_scorer.py | tests | 13 | 0 |
 | `tests/test_opsec_scorer_consolidated.py` | Consolidated OPSEC scorer contract tests (SDD/TDD/BDD). | tests | 22 | 0 |
 | `tests/test_orchestrator_api.py` | Integration tests for the orchestrator REST API (``/api/v1/orchestrator``). | tests | 12 | 0 |
+| `tests/test_orchestrator_pacing.py` | Pacing tab: jitter and sleeper controls round-trip through set_pacing. | tests | 12 | 0 |
 | `tests/test_orchestrator_triggers.py` | BDD tests for the orchestrator Triggers tab. | tests | 6 | 0 |
 | `tests/test_orchestrator_yaml.py` | Orchestrator YAML BDD contract: profiles, stages, limits and CLI wiring. | tests | 13 | 0 |
 | `tests/test_outcome_bus.py` | Outcome bus BDD contract: one event, every surface, failure isolation. | tests | 25 | 0 |
@@ -275,7 +454,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_prompt_readline_markers.py` | Regression tests for readline marker handling in the Neon Box prompt. | tests | 8 | 0 |
 | `tests/test_prompt_refresh.py` | Contract tests for live prompt refresh after a payload change. | tests | 9 | 0 |
 | `tests/test_pwntomate_tools.py` | Regression guard for pwntomate tool templates (tools/*.tool). | tests | 8 | 0 |
-| `tests/test_rea_mcp.py` | Tests for the lazyown_rea MCP tool (REA reverse-engineering skill). | tests | 24 | 0 |
+| `tests/test_rea_mcp.py` | Tests for the lazyown_rea MCP tool (REA reverse-engineering skill). | tests | 27 | 0 |
 | `tests/test_reaction_bridge.py` | BDD tests for the reaction bridge (planner injections + cred reuse). | tests | 8 | 0 |
 | `tests/test_reactive_engine_semantic.py` | Tests for the semantic context advisor in ``modules/reactive_engine.py``. | tests | 13 | 0 |
 | `tests/test_reactive_hints.py` | Tests for cli/reactive_hints.py. | tests | 31 | 0 |
@@ -296,7 +475,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_scope_bound_auto_gate.py` | tests/test_scope_bound_auto_gate.py  Coverage for the fully autonomous engage mode ("real auto... | tests | 37 | 0 |
 | `tests/test_scope_deny_priority.py` | Tests for scope denylist priority (engine lab scope + CLI guard). | tests | 11 | 0 |
 | `tests/test_scope_guard.py` | Test suite for cli/scope_guard.py. | tests | 46 | 0 |
-| `tests/test_scope_guard_integration.py` | Integration tests for the scope guard wired into LazyOwnShell. | tests | 25 | 0 |
+| `tests/test_scope_guard_integration.py` | Integration tests for the scope guard wired into LazyOwnShell. | tests | 30 | 0 |
 | `tests/test_security_alerts_fix.py` | Regression tests for CodeQL alerts #941-#972 (SSRF, TLS, clear-text, ReDoS, paths). | tests | 24 | 0 |
 | `tests/test_security_codeql_batch.py` | SDD regression tests for the CodeQL security batch. | tests | 37 | 0 |
 | `tests/test_security_hardening.py` | SDD+TDD+BDD tests for security hardening contracts. | tests | 36 | 0 |
@@ -306,8 +485,10 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_security_hardening_v5.py` | SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS. | tests | 40 | 0 |
 | `tests/test_security_lazyc2.py` | Security tests for the LazyOwn C2 web layer. | tests | 58 | 0 |
 | `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
+| `tests/test_selection_lazyscript.py` | Tests for the LazyscriptSelector. | tests | 10 | 0 |
 | `tests/test_selection_module.py` | Tests for the ModuleSelector over the shared module registry bridge. | tests | 10 | 0 |
 | `tests/test_selection_technique.py` | Tests for the TechniqueSelector and its playbook_engine helper. | tests | 21 | 0 |
+| `tests/test_selection_technique_chain.py` | Tests for TechniqueChainSelector and the focused technique-chain synth. | tests | 16 | 0 |
 | `tests/test_selection_wiring.py` | Vertical wiring tests: playbooks, adversaries and apt_chain through the loop. | tests | 13 | 0 |
 | `tests/test_selectors_base.py` | Shared selector brain contract: base types, chain selector and cascade. | tests | 9 | 0 |
 | `tests/test_selectors_capabilities.py` | Capability selector contracts: playbook, adversary and atomic strategies. | tests | 12 | 0 |
@@ -315,51 +496,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
 | `tests/test_session_secrets.py` | SessionSecretsSpec: Contract for session-scoped secret rotation. | tests | 8 | 0 |
 | `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
-| `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
-| `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
-| `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
-| `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
-| `tests/test_single_source_of_truth.py` | Single-source-of-truth contract tests. | tests | 26 | 0 |
-| `tests/test_sink_chain_feed.py` | Chain-feed sink contract: live step visibility and unhandled-failure steering. | tests | 8 | 0 |
-| `tests/test_sink_lazy_intel.py` | BDD tests for the dedicated lazy_intel sink. | tests | 13 | 0 |
-| `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
-| `tests/test_socks_proxy.py` | Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator... | tests | 52 | 0 |
-| `tests/test_status_bar_operators.py` | Tests for the operator-presence segment of cli/status_bar.py. | tests | 9 | 0 |
-| `tests/test_structured_logging.py` | Tests for ``core.logging`` — structured JSON-lines logger. | tests | 19 | 0 |
-| `tests/test_surface_graph.py` | Tests for the network surface graph reader. | tests | 13 | 0 |
-| `tests/test_sync_doc_stats.py` | Tests for the documentation-stats single source of truth. | tests | 7 | 0 |
-| `tests/test_themes.py` | Tests for cli/themes.py. | tests | 6 | 0 |
-| `tests/test_timeline_browser.py` | Tests for cli/timeline_browser.py. | tests | 8 | 0 |
-| `tests/test_tips_engine.py` | Tests for cli.tips_engine — unified post-command suggestion engine. | tests | 67 | 0 |
-| `tests/test_toast_bus.py` | Tests for cli/toast_bus.py. | tests | 24 | 0 |
-| `tests/test_toastr_unify.py` | BDD tests for the unified toastr presentation layer. | tests | 12 | 0 |
-| `tests/test_trigger_policy.py` | BDD contract tests for the declarative trigger policy. | tests | 7 | 0 |
-| `tests/test_trusted_proxy.py` | TDD tests for the trusted proxy resolver contract. | tests | 11 | 0 |
-| `tests/test_ttpscope_bridge.py` | TTPScope bridge contract: validators, fallbacks, addon schema. | tests | 9 | 0 |
-| `tests/test_tui_splash.py` | Tests for cli.splash — the animated first-run overlay. | tests | 17 | 0 |
-| `tests/test_tui_style.py` | Tests for the cli/style semantic token layer. | tests | 8 | 0 |
-| `tests/test_tui_theme_command.py` | Tests for the cli.tui_theme command logic. | tests | 19 | 0 |
-| `tests/test_tui_themes.py` | Tests for the four new themes added on top of the original four. | tests | 15 | 0 |
-| `tests/test_unified_bridge_delegate.py` | Contract tests for UnifiedBridge.delegate agent polling. | tests | 9 | 0 |
-| `tests/test_unified_dashboard.py` | Tests for modules/unified_dashboard.py. | tests | 18 | 0 |
-| `tests/test_utils_import_silent.py` | utils as a library: importing it must never parse the importer's argv. | tests | 2 | 0 |
-| `tests/test_verb_catalog.py` | BDD contract tests for the operator verb catalog. | tests | 17 | 0 |
-| `tests/test_verb_manifest.py` | BDD tests for the typed verb manifest store. | tests | 13 | 0 |
-| `tests/test_viral_adoption.py` | Viral adoption assets: GIFs, smoke script, drift CI, launch kit. | tests | 7 | 0 |
-| `tests/test_vuln_mitigations.py` | Regression suite for the GitHub code-scanning mitigations. | tests | 28 | 0 |
-| `tests/test_vulnbot_fallback.py` | SDD spec and BDD scenarios for the VulnBot orchestrator-governed CLI. | tests | 25 | 0 |
-| `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 70 | 0 |
-| `tests/test_wizard_binary_check.py` | tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to... | tests | 26 | 0 |
-| `tests/test_wizard_llm.py` | Contract tests for the wizard LLM provider setup step. | tests | 31 | 0 |
-| `tests/test_world_diff_retest.py` | World-diff retest loop contract: detected changes steer the planner. | tests | 4 | 0 |
-| `tests/test_world_model_extended.py` | Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary. | tests | 22 | 0 |
-| `tests/test_xss_sanitization.py` | Untrusted data rendered into the DOM must be neutralized. | tests | 8 | 0 |
-| `tools/contract_check.py` | Contract conformance checker for single-file LAZY port modules. | tools | 2 | 0 |
-| `tools/extract_cluster.py` | Extract a named cluster of do_* methods from a CommandSet module. | tools | 4 | 0 |
-| `tools/gen_demo_gifs.py` | Generate LazyOwn demo GIFs without external services. | tools | 3 | 1 |
-| `tools/gen_demo_gifs_extra.py` | Additional LazyOwn demo GIFs. | tools | 1 | 0 |
-| `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
-| `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
-| `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 112 |
 
+Next: [INDEX_p4.md](INDEX_p4.md)

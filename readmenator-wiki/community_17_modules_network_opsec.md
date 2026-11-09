@@ -1,10 +1,10 @@
-# modules: opsec_scorer
+# modules: network_opsec
 
-*Community 13 | 9 files | cohesion 0.50*
+*Community 17 | 6 files | cohesion 0.71*
 
 ## Definition
 
-This community groups 9 file(s) rooted at `modules` with dominant language py (cohesion 0.50). Central symbols: `FileTimestamps`, `ForensicCleaner`, `ForensicCleanerConfig`, `GateAction`, `GatedOpsecScore`, `LogTamper`, `LogTamperConfig`, `MemoryCleaner`. Core file: `modules/opsec_scorer.py` (36 symbols). Documented purpose: OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory, network.  Provides: opsec_score             — Real-time OPSEC risk assess.
+This community groups 6 file(s) rooted at `modules` with dominant language py (cohesion 0.71). Central symbols: `FileTimestamps`, `ForensicCleaner`, `ForensicCleanerConfig`, `LogTamper`, `LogTamperConfig`, `MemoryCleaner`, `MemoryCleanerConfig`, `NetworkOpsecConfig`. Core file: `modules/network_opsec.py` (12 symbols). Documented purpose: OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory, network.  Provides: opsec_score             — Real-time OPSEC risk assess.
 
 ## Files
 
@@ -15,10 +15,7 @@ This community groups 9 file(s) rooted at `modules` with dominant language py (c
 | `modules/log_tamper.py` | py | utility | 9 | yes |
 | `modules/memory_cleaner.py` | py | utility | 7 | yes |
 | `modules/network_opsec.py` | py | utility | 12 | yes |
-| `modules/opsec_scorer.py` | py | utility | 36 | yes |
 | `modules/timestomper.py` | py | utility | 12 | yes |
-| `tests/test_opsec_scorer.py` | py | testing | 13 | yes |
-| `tests/test_opsec_scorer_consolidated.py` | py | testing | 22 | yes |
 
 ## Key Symbols
 
@@ -55,8 +52,8 @@ This community groups 9 file(s) rooted at `modules` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 10
-- Cross-boundary resolved imports (EXTRACTED): 10
+- Internal resolved imports (EXTRACTED): 7
+- Cross-boundary resolved imports (EXTRACTED): 2
 
 ## Connections
 
@@ -64,13 +61,12 @@ This community groups 9 file(s) rooted at `modules` with dominant language py (c
 
 ## Risks
 
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `modules/opsec_scorer.py` -> `core/config.py`
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
-- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `modules/opsec_scorer.py` be broken with an interface?
-- What would break if the most connected file in modules: opsec_scorer changed?
-- Should modules: opsec_scorer be split, given cohesion 0.50?
+- What would break if the most connected file in modules: network_opsec changed?
+- Should modules: network_opsec be split, given cohesion 0.71?
 
 ## Sources
 
@@ -79,7 +75,4 @@ This community groups 9 file(s) rooted at `modules` with dominant language py (c
 - `modules/log_tamper.py`
 - `modules/memory_cleaner.py`
 - `modules/network_opsec.py`
-- `modules/opsec_scorer.py`
 - `modules/timestomper.py`
-- `tests/test_opsec_scorer.py`
-- `tests/test_opsec_scorer_consolidated.py`

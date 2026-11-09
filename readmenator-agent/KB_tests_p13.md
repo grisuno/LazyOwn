@@ -1,4 +1,4 @@
-# Subsystem: tests (page 13 of 24)
+# Subsystem: tests (page 13 of 25)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
 ## tests/test_lazy_agent.py
@@ -280,8 +280,8 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_shell_exit_snapshot_registered` (method, line 52) `def test_shell_exit_snapshot_registered(self)`
   - `test_record_quiet_never_raises` (method, line 57) `def test_record_quiet_never_raises(self, tmp_path)`
   - `test_lazy_tools_declared` (method, line 66) `def test_lazy_tools_declared(self)`
-  - `test_lazy_tools_dispatched` (method, line 72) `def test_lazy_tools_dispatched(self)`
-  - `test_hermes_bridge_exposes_lazy_tools` (method, line 78) `def test_hermes_bridge_exposes_lazy_tools(self)`
+  - `test_lazy_tools_dispatched` (method, line 75) `def test_lazy_tools_dispatched(self)`
+  - `test_hermes_bridge_exposes_lazy_tools` (method, line 83) `def test_hermes_bridge_exposes_lazy_tools(self)`
 - Depends on: `modules/__init__.py`, `modules/lazy_timeline.py`
 
 ## tests/test_lazy_inventory.py
@@ -362,17 +362,19 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_lazy_command_set_registered` (function, line 774) `def test_lazy_command_set_registered()`
   - `test_mcp_lazy_handlers_registered` (function, line 794) `def test_mcp_lazy_handlers_registered()`
   - `test_mcp_lazy_tools_declared_for_every_handler` (function, line 804) `def test_mcp_lazy_tools_declared_for_every_handler()`
+  - `test_create_task_seeds_payload_scope` (function, line 817) `def test_create_task_seeds_payload_scope(tmp_path, monkeypatch)`
   - `git` (function, line 451) `def git(cwd)`
   - `fake_post` (function, line 564) `def fake_post(url, data, timeout)`
   - `_Smtp` (class, line 570) `class _Smtp`
   - `_is_hooks_url` (function, line 603) `def _is_hooks_url(url)`
+  - `fake_payload` (function, line 823) `def fake_payload(path)`
   - `__init__` (method, line 571) `def __init__(self, host, port, timeout)`
   - `__enter__` (method, line 574) `def __enter__(self)`
   - `__exit__` (method, line 577) `def __exit__(self)`
   - `starttls` (method, line 580) `def starttls(self)`
   - `login` (method, line 583) `def login(self, user, password)`
   - `send_message` (method, line 586) `def send_message(self, message)`
-- Depends on: `modules/auto_registry.py`, `modules/chain_match.py`, `modules/custom_tools.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/notify.py`, `modules/outcome_bus.py`, `modules/selfupdate.py`, `modules/sinks/chain_feed.py`, `modules/workspace.py`
+- Depends on: `core/config.py`, `modules/auto_registry.py`, `modules/chain_match.py`, `modules/custom_tools.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/notify.py`, `modules/outcome_bus.py`, `modules/selfupdate.py`, `modules/sinks/chain_feed.py`, `modules/workspace.py`
 
 ## tests/test_lazy_match_policy.py
 - Doc: Match policy contract: strands, standing and audited closures.

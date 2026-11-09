@@ -89,6 +89,7 @@ TASKS_FILE = SESSIONS_DIR / "tasks.json"
 # ── Logging ───────────────────────────────────────────────────────────────────
 
 from modules.logging_config import configure, get_logger  # noqa: E402
+from modules.selection.base import ActionDecision  # noqa: E402
 
 configure(
     level=logging.INFO,
@@ -675,16 +676,7 @@ _PHASE_CATEGORIES: dict[str, list[str]] = {
 }
 
 
-@dataclass
-class CommandDecision:
-    """Result of a command selection."""
-
-    command: str
-    args: str = ""
-    source: str = "fallback"  # reactive|parquet|bridge|llm|fallback
-    reason: str = ""
-    mitre: str = ""
-    priority: int = 5
+CommandDecision = ActionDecision
 
 
 class ICommandSelector(ABC):

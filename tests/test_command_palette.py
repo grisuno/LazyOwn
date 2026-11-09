@@ -1340,11 +1340,12 @@ class TestMcpPaletteWiring:
 
     @pytest.fixture(scope="class")
     def src(self, suite_config: PaletteSuiteConfig) -> str:
-        """The full text of the MCP server module."""
-        return suite_config.mcp_path.read_text(encoding="utf-8")
+        """The full text of the one-file-per-tool palette module."""
+        module = suite_config.mcp_path.parent / "mcp_tools" / "palette.py"
+        return module.read_text(encoding="utf-8")
 
     def test_tool_declared_in_list_tools(self, src: str, suite_config: PaletteSuiteConfig) -> None:
-        """The tool name appears in the declared ``list_tools`` block."""
+        """The tool name appears in the module's ``TOOL`` schema."""
         assert f'name="{suite_config.mcp_tool_name}"' in src
 
     def test_input_schema_documents_line_property(self, src: str, suite_config: PaletteSuiteConfig) -> None:
@@ -1354,8 +1355,8 @@ class TestMcpPaletteWiring:
         assert f'"{suite_config.mcp_input_property}"' in tool_block
 
     def test_dispatcher_branch_present(self, src: str, suite_config: PaletteSuiteConfig) -> None:
-        """``call_tool`` includes a branch for the palette tool."""
-        assert f'name == "{suite_config.mcp_tool_name}"' in src
+        """The palette tool module exposes a handler."""
+        assert "def handle(" in src
 
     def test_dispatcher_branch_imports_render_json(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """The dispatcher imports the structured renderer entry point."""
@@ -1379,27 +1380,24 @@ class TestMcpPaletteWiring:
 
     @staticmethod
     def _tool_declaration_block(src: str, tool_name: str) -> str:
-        """Slice the ``types.Tool`` declaration up to the next sibling tool.
+        """Slice the module's ``types.Tool`` declaration up to the handler.
 
-        The MCP tool list is a flat list of ``types.Tool(...)`` calls; we
-        scan from the marker to the next top-level ``types.Tool(`` opening
-        instead of trying to balance parens inside nested input schemas.
+        The one-file-per-tool module holds a single ``TOOL = types.Tool(...)``
+        schema followed by the handler, so the declaration runs from the
+        ``types.Tool(`` marker to the ``def handle`` that follows it.
         """
-        pattern = re.compile(
-            rf'types\.Tool\(\s*name="{re.escape(tool_name)}".*?(?=\n        types\.Tool\(|\n    \])',
-            re.DOTALL,
-        )
-        match = pattern.search(src)
-        return match.group(0) if match else ""
+        start = src.find("types.Tool(")
+        if start == -1 or f'name="{tool_name}"' not in src:
+            return ""
+        end = src.find("def handle(", start)
+        return src[start:end] if end != -1 else src[start:]
 
     @staticmethod
     def _dispatcher_branch(src: str, tool_name: str) -> str:
-        pattern = re.compile(
-            rf'name == "{re.escape(tool_name)}":(?P<body>.*?)(?=\n    elif name == "lazyown_|\n    # ──)',
-            re.DOTALL,
-        )
-        match = pattern.search(src)
-        return match.group("body") if match else ""
+        """Return the handler body of the one-file-per-tool palette module."""
+        marker = "def handle("
+        idx = src.find(marker)
+        return src[idx:] if idx != -1 else ""
 
 
 class TestC2PaletteRoute:
@@ -1954,8 +1952,9 @@ class TestMcpPaletteDescription:
 
     @pytest.fixture(scope="class")
     def src(self, suite_config: PaletteSuiteConfig) -> str:
-        """The full text of the MCP server module."""
-        return suite_config.mcp_path.read_text(encoding="utf-8")
+        """The full text of the one-file-per-tool palette module."""
+        module = suite_config.mcp_path.parent / "mcp_tools" / "palette.py"
+        return module.read_text(encoding="utf-8")
 
     def test_description_mentions_next_mode(self, src: str) -> None:
         """The tool description advertises ``--next``."""

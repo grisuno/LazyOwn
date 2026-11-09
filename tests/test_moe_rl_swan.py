@@ -678,12 +678,18 @@ class TestMCPRegistration:
         sys.path.insert(0, str(_ROOT / "skills"))
 
         # We cannot easily run the async list_tools, so grep for the names
-        src = (_ROOT / "skills" / "lazyown_mcp.py").read_text()
+        _sk = _ROOT / "skills"
+        src = (_sk / "lazyown_mcp.py").read_text() + "".join(
+            p.read_text() for p in (_sk / "mcp_tools").glob("*.py")
+        )
         for tool in ("lazyown_swan_run", "lazyown_swan_ensemble", "lazyown_swan_status", "lazyown_swan_route"):
             assert tool in src, f"MCP tool '{tool}' not found in lazyown_mcp.py"
 
     def test_hive_tools_registered_in_mcp(self):
         """Core hive tools must appear in lazyown_mcp.py."""
-        src = (_ROOT / "skills" / "lazyown_mcp.py").read_text()
+        _sk = _ROOT / "skills"
+        src = (_sk / "lazyown_mcp.py").read_text() + "".join(
+            p.read_text() for p in (_sk / "mcp_tools").glob("*.py")
+        )
         for tool in ("lazyown_hive_spawn", "lazyown_hive_status", "lazyown_hive_recall", "lazyown_autonomous_start"):
             assert tool in src, f"MCP tool '{tool}' not found"

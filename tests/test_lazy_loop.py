@@ -794,24 +794,24 @@ def test_lazy_command_set_registered():
 def test_mcp_lazy_handlers_registered():
     from pathlib import Path
 
-    source = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp.py").read_text(
-        encoding="utf-8")
+    tools_dir = Path(__file__).resolve().parent.parent / "skills" / "mcp_tools"
+    source = "".join(p.read_text(encoding="utf-8") for p in tools_dir.glob("*.py"))
     for name in ("lazyown_lazy_status", "lazyown_lazy_sync", "lazyown_lazy_board",
                  "lazyown_lazy_trace", "lazyown_lazy_hint", "lazyown_lazy_finding"):
         assert name in source
 
 
 def test_mcp_lazy_tools_declared_for_every_handler():
-    """BDD: every registered lazy handler is declared in list_tools."""
-    import re
+    """BDD: every lazy tool module declares its own TOOL schema and handler."""
     from pathlib import Path
 
-    source = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp.py").read_text(
-        encoding="utf-8")
-    handlers = set(re.findall(r'register_handler\("(lazyown_lazy_[a-z_]+)"\)', source))
-    declared = set(re.findall(r'name="(lazyown_lazy_[a-z_]+)"', source))
-    assert handlers, "no lazy handlers found"
-    assert handlers <= declared, f"undeclared lazy tools: {sorted(handlers - declared)}"
+    tools_dir = Path(__file__).resolve().parent.parent / "skills" / "mcp_tools"
+    lazy_modules = sorted(tools_dir.glob("lazy_*.py"))
+    assert lazy_modules, "no lazy tool modules found"
+    for module in lazy_modules:
+        text = module.read_text(encoding="utf-8")
+        assert "TOOL = types.Tool(" in text, f"{module.name} missing TOOL schema"
+        assert "def handle(" in text, f"{module.name} missing handler"
 
 
 def test_create_task_seeds_payload_scope(tmp_path, monkeypatch):

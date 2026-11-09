@@ -370,7 +370,10 @@ def test_c2_profile_save_load(tmp_path):
 def test_mcp_tools_registered():
     import ast
 
-    src = open(str(_ROOT / "skills" / "lazyown_mcp.py")).read()
+    _sk = _ROOT / "skills"
+    src = (_sk / "lazyown_mcp.py").read_text() + "".join(
+        p.read_text() for p in (_sk / "mcp_tools").glob("*.py")
+    )
     for tool in [
         "lazyown_memory_recall",
         "lazyown_memory_store",

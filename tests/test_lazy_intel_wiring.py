@@ -65,15 +65,20 @@ class TestLoopTimelineWiring:
 class TestMcpTools:
     def test_lazy_tools_declared(self):
         story = "lazyown_lazy_intel and lazyown_lazysearch are listed tools"
-        source = MCP_PATH.read_text(encoding="utf-8")
+        tools_dir = MCP_PATH.parent / "mcp_tools"
+        source = MCP_PATH.read_text(encoding="utf-8") + "".join(
+            p.read_text(encoding="utf-8") for p in tools_dir.glob("*.py")
+        )
         assert "name=\"lazyown_lazy_intel\"" in source, story
         assert "name=\"lazyown_lazysearch\"" in source, story
 
     def test_lazy_tools_dispatched(self):
-        story = "the call tool chain routes both lazy tools"
-        source = MCP_PATH.read_text(encoding="utf-8")
-        assert 'elif name == "lazyown_lazy_intel"' in source, story
-        assert 'elif name == "lazyown_lazysearch"' in source, story
+        story = "both lazy tools are served by the one-file-per-tool package"
+        tools_dir = MCP_PATH.parent / "mcp_tools"
+        for leaf in ("lazy_intel", "lazysearch"):
+            module = tools_dir / f"{leaf}.py"
+            assert module.exists(), f"{module} missing: {story}"
+            assert "def handle(" in module.read_text(encoding="utf-8"), story
 
     def test_hermes_bridge_exposes_lazy_tools(self):
         story = "the opencode bridge aliases the lazy tools under short names"

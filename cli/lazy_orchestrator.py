@@ -40,7 +40,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from cli.orchestrator_assets_tabs import CONFIG_FIELDS, OrchestratorAssetsMixin, _widget_id
+from cli.orchestrator_assets_tabs import CONFIG_FIELDS, PACING_FIELDS, OrchestratorAssetsMixin, _widget_id
 from cli.tui_forms import (
     ConfirmModal,
     FormModal,
@@ -228,6 +228,17 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                         yield Input(placeholder=spec.placeholder, id=_widget_id(spec.key))
                     yield Button("Save config", id="config-save", variant="primary")
                     yield Static("", id="config-status")
+            with TabPane("Pacing", id="tab-pacing"):
+                with VerticalScroll():
+                    yield Static(
+                        "jitter and sleeper controls for the autonomous loop",
+                        classes="modal-label",
+                    )
+                    for spec in PACING_FIELDS:
+                        yield Static(spec.label, classes="modal-label")
+                        yield Input(placeholder=spec.placeholder, id=_widget_id(spec.key))
+                    yield Button("Save pacing", id="pacing-save", variant="primary")
+                    yield Static("", id="pacing-status")
             with TabPane("Pipeline", id="tab-pipeline"):
                 yield DataTable(id="stages-table")
             with TabPane("Verbs", id="tab-verbs"):
@@ -452,6 +463,9 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         if event.button.id == "config-save":
             self._submit_config_save()
             return
+        if event.button.id == "pacing-save":
+            self._submit_pacing_save()
+            return
         if event.button.id == "harness-save":
             self._submit_harness_save()
             return
@@ -476,6 +490,26 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             )
         except Exception:
             pass
+
+    def _submit_pacing_save(self) -> None:
+        """Validate and persist the Pacing tab fields, then report status."""
+        values = {}
+        for spec in PACING_FIELDS:
+            try:
+                values[spec.key] = str(self.query_one(f"#{_widget_id(spec.key)}", Input).value).strip()
+            except Exception:
+                continue
+        summary = self.save_pacing(values)
+        errors = summary.get("errors") or []
+        if errors:
+            message = Text("; ".join(errors))
+        else:
+            message = Text(f"saved {summary.get('saved', 0)} pacing knob(s) to payload")
+        try:
+            self.query_one("#pacing-status", Static).update(message)
+        except Exception:
+            pass
+        self._load_pacing_into_form()
 
     def _submit_harness_save(self) -> None:
         """Persist the harness form values and reconfigure the harness."""

@@ -48,11 +48,27 @@ CONFIG_FIELDS = (
     ConfigField("sleep_activation_delay_max", "Activation delay max", "0s"),
     ConfigField("persistence_cron_schedule", "Persistence cron schedule", "*/5 * * * *"),
     ConfigField("persistence_service_name", "Persistence service name", "sysmaint"),
-    ConfigField("orchestrator.pacing.enabled", "Loop pacing enabled", "true"),
-    ConfigField("orchestrator.pacing.jitter_pct_min", "Loop jitter min pct", "0"),
-    ConfigField("orchestrator.pacing.jitter_pct_max", "Loop jitter max pct", "10"),
-    ConfigField("orchestrator.pacing.max_delay_sec", "Loop max delay sec", "300"),
-    ConfigField("orchestrator.pacing.round_sleep_sec", "Loop round sleep sec", "0"),
+)
+
+
+PACING_FIELDS = (
+    ConfigField("orchestrator.pacing.enabled", "Loop pacing enabled", "true", kind="bool"),
+    ConfigField("orchestrator.pacing.jitter_pct_min", "Loop jitter min pct", "0", kind="number"),
+    ConfigField("orchestrator.pacing.jitter_pct_max", "Loop jitter max pct", "10", kind="number"),
+    ConfigField("orchestrator.pacing.max_delay_sec", "Loop max delay sec", "300", kind="number"),
+    ConfigField("orchestrator.pacing.round_sleep_sec", "Loop round sleep sec", "0", kind="number"),
+    ConfigField(
+        "orchestrator.pacing.sleeper_windows",
+        "Sleeper windows (HH:MM-HH:MM, comma-separated)",
+        "22:00-06:00",
+        kind="windows",
+    ),
+    ConfigField(
+        "orchestrator.pacing.edr_pause_ranges",
+        "EDR pause ranges (level:low-high, comma-separated)",
+        "1:2-5,2:5-15",
+        kind="ranges",
+    ),
 )
 
 
@@ -71,6 +87,92 @@ def _coerce(raw) -> object:
         return float(text)
     except ValueError:
         return raw
+
+
+def parse_sleeper_windows(raw: str) -> tuple[list[str], list[str]]:
+    """Parse a comma-separated sleeper-window string.
+
+    Each window must match ``HH:MM-HH:MM`` (validated against
+    :data:`modules.orchestrator_config.SLEEPER_WINDOW_RE`). The parser is
+    lenient on surrounding whitespace and empty entries.
+
+    Args:
+        raw: Operator text such as ``"22:00-06:00, 12:00-13:00"``.
+
+    Returns:
+        A ``(valid, invalid)`` pair: the accepted windows and the tokens
+        that failed validation.
+    """
+    from modules.orchestrator_config import SLEEPER_WINDOW_RE
+
+    valid: list[str] = []
+    invalid: list[str] = []
+    for token in str(raw or "").split(","):
+        window = token.strip()
+        if not window:
+            continue
+        if SLEEPER_WINDOW_RE.match(window):
+            valid.append(window)
+        else:
+            invalid.append(window)
+    return valid, invalid
+
+
+def format_sleeper_windows(value: object) -> str:
+    """Render stored sleeper windows as an editable comma-separated string."""
+    if isinstance(value, (list, tuple)):
+        return ", ".join(str(window) for window in value)
+    return "" if value is None else str(value)
+
+
+def parse_edr_pause_ranges(raw: str) -> tuple[dict[int, list[float]], list[str]]:
+    """Parse ``level:low-high`` pause ranges from a compact string.
+
+    Args:
+        raw: Operator text such as ``"1:2-5,2:5-15"``.
+
+    Returns:
+        A ``(ranges, invalid)`` pair where ``ranges`` maps a defense level
+        to a ``[low, high]`` pair with ``0 <= low <= high`` and ``invalid``
+        holds the tokens that failed to parse.
+    """
+    ranges: dict[int, list[float]] = {}
+    invalid: list[str] = []
+    for token in str(raw or "").split(","):
+        entry = token.strip()
+        if not entry:
+            continue
+        try:
+            level_text, bounds = entry.split(":", 1)
+            low_text, high_text = bounds.split("-", 1)
+            level = int(level_text.strip())
+            low = float(low_text.strip())
+            high = float(high_text.strip())
+        except (ValueError, AttributeError):
+            invalid.append(entry)
+            continue
+        if 0 <= low <= high:
+            ranges[level] = [low, high]
+        else:
+            invalid.append(entry)
+    return ranges, invalid
+
+
+def format_edr_pause_ranges(value: object) -> str:
+    """Render stored EDR pause ranges as an editable compact string."""
+    if not isinstance(value, dict):
+        return "" if value is None else str(value)
+    parts: list[str] = []
+    for level in sorted(value, key=lambda item: str(item)):
+        bounds = value[level]
+        try:
+            low, high = bounds[0], bounds[1]
+        except (TypeError, IndexError, KeyError):
+            continue
+        low_text = int(low) if float(low).is_integer() else low
+        high_text = int(high) if float(high).is_integer() else high
+        parts.append(f"{level}:{low_text}-{high_text}")
+    return ",".join(parts)
 
 
 def _payload_value(payload: dict, key: str):
@@ -778,7 +880,7 @@ class OrchestratorAssetsMixin:
         return dict(payload or {})
 
     def _load_payload_into_form(self) -> None:
-        """Fill the config inputs with the current payload values."""
+        """Fill the config and pacing inputs with the current payload values."""
         payload = self._load_payload()
         for spec in CONFIG_FIELDS:
             value = _payload_value(payload, spec.key)
@@ -787,6 +889,74 @@ class OrchestratorAssetsMixin:
                 widget.value = "" if value is None else str(value)
             except Exception:
                 continue
+        self._load_pacing_into_form()
+
+    def _load_pacing_into_form(self) -> None:
+        """Fill the Pacing tab inputs from the resolved pacing profile."""
+        try:
+            from modules.orchestrator_config import pacing as _pacing
+
+            resolved = _pacing()
+        except Exception:
+            resolved = {}
+        for spec in PACING_FIELDS:
+            leaf = spec.key.rsplit(".", 1)[-1]
+            value = resolved.get(leaf)
+            if spec.kind == "windows":
+                text = format_sleeper_windows(value)
+            elif spec.kind == "ranges":
+                text = format_edr_pause_ranges(value)
+            else:
+                text = "" if value is None else str(value)
+            try:
+                self.query_one(f"#{_widget_id(spec.key)}", Input).value = text
+            except Exception:
+                continue
+
+    def save_pacing(self, values: dict) -> dict:
+        """Validate and persist the Pacing tab fields through set_pacing.
+
+        Every knob is routed through
+        :func:`modules.orchestrator_config.set_pacing` so the payload,
+        the active profile view and the loop's EdrPacer stay consistent.
+        Malformed sleeper windows or pause ranges are rejected and
+        reported rather than silently coerced.
+
+        Args:
+            values: Mapping of dotted pacing keys to raw operator strings.
+
+        Returns:
+            A summary mapping with ``saved`` (count) and ``errors`` (list).
+        """
+        from modules.orchestrator_config import set_pacing
+
+        saved = 0
+        errors: list[str] = []
+        for spec in PACING_FIELDS:
+            raw = values.get(spec.key)
+            if raw is None or str(raw).strip() == "" and spec.kind not in ("windows", "ranges"):
+                continue
+            leaf = spec.key.rsplit(".", 1)[-1]
+            if spec.kind == "windows":
+                windows, invalid = parse_sleeper_windows(raw)
+                if invalid:
+                    errors.append(f"invalid sleeper window(s): {', '.join(invalid)}")
+                    continue
+                payload_value: object = windows
+            elif spec.kind == "ranges":
+                ranges, invalid = parse_edr_pause_ranges(raw)
+                if invalid:
+                    errors.append(f"invalid EDR range(s): {', '.join(invalid)}")
+                    continue
+                payload_value = {str(level): bounds for level, bounds in ranges.items()}
+            else:
+                payload_value = _coerce(raw)
+            try:
+                set_pacing(leaf, payload_value)
+                saved += 1
+            except (KeyError, OSError, ValueError) as exc:
+                errors.append(f"{leaf}: {exc}")
+        return {"saved": saved, "errors": errors}
 
     def save_config(self, values: dict) -> dict:
         """Merge the given keys into the payload and persist it.

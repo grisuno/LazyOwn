@@ -18,6 +18,7 @@ from modules.selection.chain import ChainSelector
 from modules.selection.cred_spray import CredentialSpraySelector
 from modules.selection.edb import EDBSelector
 from modules.selection.intel import IntelSelector
+from modules.selection.lazyscript import LazyscriptSelector
 from modules.selection.module import ModuleSelector
 from modules.selection.playbook import PlaybookSelector
 from modules.selection.poc import PoCSelector
@@ -53,6 +54,7 @@ def all_selectors() -> list[Selector]:
         TechniqueChainSelector(),
         TechniqueSelector(),
         ModuleSelector(),
+        LazyscriptSelector(),
         ChainSelector(allow_lab=allow_lab),
     ]
 

@@ -59,7 +59,7 @@ Compile: `gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c`
 
 | Capability | Cobalt Strike | Sliver | Havoc | LazyOwn + BlackSandBeacon |
 |---|---|---|---|---|
-| Windows BOF | Yes | No | No | Yes (via `beacon` addon) |
+| Windows BOF | Yes | No | No | [Yes (via `beacon` addon)](https://github.com/grisuno/beacon) |
 | Linux BOF | **No** | **No** | **No** | **Yes** |
-| ARM BOF | No | No | No | Planned (`blackzincbeacon`) |
+| ARM BOF | No | No | No | [Planned (`blackzincbeacon`)](https://github.com/grisuno/blackzincbeacon) |
 | Open source | No | Yes | Yes | Yes |

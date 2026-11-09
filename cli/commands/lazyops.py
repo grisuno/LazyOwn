@@ -2823,18 +2823,26 @@ class LazyCommandSet(LazyOwnCommandSet):
             print_msg("[*] set one: lazy_pacing set <key> <value>")
             return
         if args[0] == "set" and len(args) >= 3:
-            key, raw = args[1], args[2]
-            lowered = raw.strip().lower()
-            if lowered in ("true", "false"):
-                value: object = lowered == "true"
+            key, raw = args[1], " ".join(args[2:])
+            if key == "sleeper_windows":
+                windows = [token.strip() for token in raw.split(",") if token.strip()]
+                invalid = [w for w in windows if not orchestrator_config.SLEEPER_WINDOW_RE.match(w)]
+                if invalid:
+                    print_error(f"Invalid sleeper window(s): {', '.join(invalid)} (use HH:MM-HH:MM)")
+                    return
+                value: object = windows
             else:
-                try:
-                    value = int(raw)
-                except ValueError:
+                lowered = raw.strip().lower()
+                if lowered in ("true", "false"):
+                    value = lowered == "true"
+                else:
                     try:
-                        value = float(raw)
+                        value = int(raw)
                     except ValueError:
-                        value = raw
+                        try:
+                            value = float(raw)
+                        except ValueError:
+                            value = raw
             try:
                 pacing = orchestrator_config.set_pacing(key, value)
             except KeyError:

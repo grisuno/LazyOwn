@@ -96,3 +96,34 @@ def test_missing_catalog_view_adds_nothing(tmp_path, monkeypatch):
     task_id = TaskStore().create("probe").task_id
     context = build_prompt_context(task_id, ExplorationGraph(task_id), AssetGraph(), TaskStore())
     assert "Allowed commands" not in context
+
+
+def test_multi_phase_verb_visible_in_each_declared_phase(sandbox, monkeypatch):
+    """Given a verb with a phases list, it reaches the planner in each phase."""
+    from modules import killchain
+    from modules.lazy_cli_bridge import catalog_cli_for_phase
+
+    catalog_path = sandbox / "verbs.yaml"
+    catalog_path.write_text(
+        "version: 1\nverbs:\n"
+        "  lazynmap:\n    enabled: true\n"
+        "  apt_chain:\n    enabled: true\n    phase: c2\n"
+        "    phases:\n      - exploit\n      - privesc\n",
+        encoding="utf-8",
+    )
+    index_path = sandbox / "index.json"
+    index_path.write_text(
+        '{"commands": ['
+        '{"name": "do_lazynmap", "phase": "recon"}, '
+        '{"name": "do_apt_chain", "phase": "c2"}]}',
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(killchain.KillChain, "current_phase", staticmethod(lambda: "recon"))
+    assert "apt_chain" not in catalog_cli_for_phase()
+
+    monkeypatch.setattr(killchain.KillChain, "current_phase", staticmethod(lambda: "exploit"))
+    assert "apt_chain" in catalog_cli_for_phase()
+
+    monkeypatch.setattr(killchain.KillChain, "current_phase", staticmethod(lambda: "privesc"))
+    assert "apt_chain" in catalog_cli_for_phase()

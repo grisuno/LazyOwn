@@ -4679,8 +4679,15 @@ verbs:
     description: Generate a professional red team report from session data.
     source: cli
   lazyscript:
-    enabled: false
+    enabled: true
     phase: misc
+    phases:
+      - recon
+      - scan
+      - enum
+      - exploit
+      - privesc
+      - lateral
     risk: safe
     description: Executes commands defined in a lazyscript file.
     source: cli

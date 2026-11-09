@@ -16,6 +16,7 @@ cascade instead of carrying private "pick the next action" logic.
 | `technique_chain.py` | `TechniqueChainSelector` - compiles two or more phase-ranked (or goal-named) techniques into one ordered `apt_chain` of `atomic_tests` steps via `modules/chain_synth.synth_technique_chain_data`, so the ChainRunner EdrPacer paces jitter and sleeper windows between techniques. |
 | `cred_spray.py` | `CredentialSpraySelector` - reuses configured credentials against an open service with the matching LazyOwn verb. |
 | `chain.py` | `ChainSelector` - proposes `apt_chain <name> <target>` via the shared matcher in `modules/chain_match.py`. |
+| `lazyscript.py` | `LazyscriptSelector` - proposes a curated `lazyscript <name>.ls` recipe when its name tokens match the goal or discovered services (the operator-authored `.ls` chaining surface). |
 | `registry.py` | `all_selectors()` is the full priority-ordered cascade; `default_selectors()` drops any selector the orchestrator disabled; `propose_next(ctx)` returns the first concrete decision. |
 
 ## Administration

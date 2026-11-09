@@ -1,6 +1,39 @@
 # Subsystem: commands (page 3 of 5)
 Previous: [KB_commands_p2.md](KB_commands_p2.md)
 
+## cli/commands/lab.py
+- Doc: Lab environment commands -- spin up vulnerable practice targets.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LabCommandSet` (class, line 27) `class LabCommandSet(LazyOwnCommandSet)`
+  - `_docker_available` (method, line 33) `def _docker_available(self)`
+  - `_running_containers` (method, line 37) `def _running_containers(self)`
+  - `_running_range_containers` (method, line 41) `def _running_range_containers(self)`
+  - `_container_name` (method, line 45) `def _container_name(self, scenario)`
+  - `_container_ip` (method, line 49) `def _container_ip(self, container_name)`
+  - `_lab_ensure_web` (method, line 53) `def _lab_ensure_web(self, scenario, container_name)`
+  - `_print_lab_target` (method, line 57) `def _print_lab_target(self, scenario, container_name, ports)`
+  - `_lab_migrate` (method, line 78) `def _lab_migrate(self, scenario, container_name)`
+  - `do_lab` (method, line 93) `def do_lab(self, line)`
+  - `_lab_list` (method, line 145) `def _lab_list(self)`
+  - `_lab_start` (method, line 159) `def _lab_start(self, scenario)`
+  - `_lab_stop` (method, line 205) `def _lab_stop(self, scenario)`
+  - `_range_dispatch` (method, line 218) `def _range_dispatch(self, args)`
+  - `_range_list` (method, line 250) `def _range_list(self)`
+  - `_range_start` (method, line 259) `def _range_start(self, profile)`
+  - `_range_container_state` (method, line 296) `def _range_container_state(self, container)`
+  - `_range_wait_healthy` (method, line 321) `def _range_wait_healthy(self, compose, timeout)`
+  - `_range_verify` (method, line 353) `def _range_verify(self, profile)`
+  - `_tcp_reachable` (method, line 390) `def _tcp_reachable(host, port, timeout)`
+  - `_range_container_ip` (method, line 407) `def _range_container_ip(self, container)`
+  - `_range_stop` (method, line 418) `def _range_stop(self, profile)`
+  - `_range_status` (method, line 431) `def _range_status(self)`
+  - `_lab_container_state` (method, line 442) `def _lab_container_state(self, container_name)`
+  - `_lab_status` (method, line 456) `def _lab_status(self)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- Imported by: `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
+
 ## cli/commands/lateral.py
 - Doc: Lateral Movement command set (pending).
 - Layer: utility
@@ -83,6 +116,19 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `LazyPassGenCommandSet` (class, line 14) `class LazyPassGenCommandSet(LazyOwnCommandSet)`
   - `do_lazypassgen` (method, line 21) `def do_lazypassgen(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/lazy_poc.py
+- Doc: LazyPoc shell commands: catalogued PoC scripts as reusable verbs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyPocCommandSet` (class, line 20) `class LazyPocCommandSet(LazyOwnCommandSet)`
+  - `do_lazy_poc` (method, line 25) `def do_lazy_poc(self, line)`
+  - `_list` (method, line 67) `def _list(self, registry)`
+  - `_info` (method, line 82) `def _info(self, registry, name)`
+  - `_run` (method, line 105) `def _run(self, registry, name, target, overrides)`
+  - `_log_run` (method, line 155) `def _log_run(self, verb, rendered, output, returncode)`
+- Depends on: `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/lazyloop.py
 - Doc: Lazy queue and misc command set.
@@ -175,6 +221,7 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_loop` (method, line 2685) `def do_lazy_loop(self, line)`
   - `do_lazy_sandbox` (method, line 2711) `def do_lazy_sandbox(self, line)`
   - `do_lazy_install` (method, line 2774) `def do_lazy_install(self, line)`
+  - `do_lazy_pacing` (method, line 2812) `def do_lazy_pacing(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
   - `list_tasks` (function, line 1567) `def list_tasks()`
   - `task_graph` (function, line 1571) `def task_graph(task)`
@@ -433,67 +480,6 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_wmi_scheduled_task` (method, line 209) `def do_wmi_scheduled_task(self, line)`
   - `_extract` (method, line 275) `def _extract(args, flag)`
 - Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
-
-## cli/commands/persist_migrated.py
-- Doc: persist commands migrated from lazyown.py.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PersistMigratedCommandSet` (class, line 32) `class PersistMigratedCommandSet(LazyOwnCommandSet)`
-  - `generate_backdoor_username` (method, line 37) `def generate_backdoor_username()`
-  - `generate_backdoor_password` (method, line 43) `def generate_backdoor_password()`
-  - `resolve_backdoor_creds` (method, line 53) `def resolve_backdoor_creds(params)`
-  - `_ensure_backdoor_creds` (method, line 68) `def _ensure_backdoor_creds(self)`
-  - `do_pwncat` (method, line 91) `def do_pwncat(self, line)`
-  - `do_ftp` (method, line 135) `def do_ftp(self, line)`
-  - `do_rdp` (method, line 194) `def do_rdp(self, line)`
-  - `do_grisun0` (method, line 268) `def do_grisun0(self, line)`
-  - `do_grisun0w` (method, line 312) `def do_grisun0w(self, line)`
-  - `do_asprevbase64` (method, line 354) `def do_asprevbase64(self, line)`
-  - `do_weevelygen` (method, line 392) `def do_weevelygen(self, line)`
-  - `do_weevely` (method, line 432) `def do_weevely(self, line)`
-  - `do_backdoor_factory` (method, line 478) `def do_backdoor_factory(self, line)`
-  - `do_msfpc` (method, line 524) `def do_msfpc(self, line)`
-  - `do_ivy` (method, line 605) `def do_ivy(self, line)`
-  - `do_veil` (method, line 705) `def do_veil(self, line)`
-  - `do_scarecrow` (method, line 779) `def do_scarecrow(self, line)`
-  - `do_generate_revshell` (method, line 897) `def do_generate_revshell(self, line)`
-  - `do_dr0p1t` (method, line 963) `def do_dr0p1t(self, line)`
-  - `do_paranoid_meterpreter` (method, line 1026) `def do_paranoid_meterpreter(self, line)`
-  - `do_setoolKits` (method, line 1114) `def do_setoolKits(self, line)`
-  - `do_darkarmour` (method, line 1147) `def do_darkarmour(self, line)`
-  - `do_knokknok` (method, line 1215) `def do_knokknok(self, line)`
-  - `do_listener_go` (method, line 1250) `def do_listener_go(self, line)`
-  - `do_listener_py` (method, line 1317) `def do_listener_py(self, line)`
-  - `do_service` (method, line 1384) `def do_service(self, line)`
-  - `do_toctoc` (method, line 1457) `def do_toctoc(self, line)`
-  - `do_beaconcfg` (method, line 1480) `def do_beaconcfg(self, line)`
-- Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
-- Imported by: `tests/test_backdoor_random.py`
-
-## cli/commands/phishing_wizard.py
-- Doc: Phishing Wizard command set.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PhishingWizardCommandSet` (class, line 183) `class PhishingWizardCommandSet(LazyOwnCommandSet)`
-  - `_profile_targets` (function, line 510) `def _profile_targets(domain)`
-  - `_save_targets` (function, line 522) `def _save_targets(campaign_dir, targets)`
-  - `_log_click` (function, line 533) `def _log_click(campaign_dir, ip, user_agent)`
-  - `_ensure_session_key` (function, line 551) `def _ensure_session_key()`
-  - `_log_credentials` (function, line 569) `def _log_credentials(campaign_dir, email, password, ip)`
-  - `_send_smtp_email` (function, line 603) `def _send_smtp_email(server, port, username, password, to_email, from_addr, subject, html_body)`
-  - `_extract_flag` (function, line 702) `def _extract_flag(args, flag)`
-  - `do_phish_wizard` (method, line 190) `def do_phish_wizard(self, line)`
-  - `do_phish_serve` (method, line 361) `def do_phish_serve(self, line)`
-  - `do_phish_report` (method, line 443) `def do_phish_report(self, line)`
-  - `do_phisher` (function, line 637) `def do_phisher(self, line)`
-  - `PhishingHandler` (class, line 388) `class PhishingHandler(BaseHTTPRequestHandler)`
-  - `log_message` (method, line 389) `def log_message(self, format)`
-  - `do_GET` (method, line 392) `def do_GET(self)`
-  - `do_POST` (method, line 407) `def do_POST(self)`
-  - `do_OPTIONS` (method, line 427) `def do_OPTIONS(self)`
-- Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

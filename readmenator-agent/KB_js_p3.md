@@ -426,7 +426,7 @@ Previous: [KB_js_p2.md](KB_js_p2.md)
   - `Ct` (class, line 2)
   - `extends` (class, line 2)
   - `extends` (class, line 2)
-- Depends on: `cli/show.py`, `core/prompt.py`, `lazyown-docker/init.sh`
+- Depends on: `cli/show.py`, `core/prompt.py`, `gyms/docker/php2shell/src/info.php`, `lazyown-docker/init.sh`
 
 ## static/js/select2-4.1.0.min.js
 - Doc: !
@@ -436,6 +436,7 @@ Previous: [KB_js_p2.md](KB_js_p2.md)
   - `e` (function, line 2)
   - `t` (function, line 2)
   - `d` (function, line 2)
+- Depends on: `modules/selection/module.py`
 
 ## static/js/showdown-2.1.0.min.js
 - Doc: ! showdown v 2.1.0 - 21-04-2022

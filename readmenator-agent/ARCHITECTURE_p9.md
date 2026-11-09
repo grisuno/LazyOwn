@@ -2,6 +2,15 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `modules/lazy_objective_queue.py` -> __future__, dataclasses, datetime, json, os, pathlib, re
+- `modules/lazy_oob.py` -> __future__, dataclasses, json, pathlib, secrets, threading, time, typing
+- `modules/lazy_orchestrator_feedback.py` -> __future__, json, pathlib, threading, time
+- `modules/lazy_osinfer.py` -> __future__, json, pathlib, re, yaml
+- `modules/lazy_probes.py` -> __future__, dataclasses, re, shlex, urllib.parse
+- `modules/lazy_proxy.py` -> __future__, base64, cryptography, cryptography.hazmat.primitives, cryptography.hazmat.primitives.asymmetric, cryptography.x509.oid, datetime, http.client, ipaddress, os, pathlib, re, select, shutil, socket, ssl, subprocess, sys, tempfile, threading, time, urllib.parse
+- `modules/lazy_rbac.py` -> __future__, collections.abc, dataclasses, flask, flask_login, functools, hmac, json, os, pathlib, pyotp, re, secrets, time, typing
+- `modules/lazy_reaper.py` -> __future__, json, pathlib, time, typing
+- `modules/lazy_roles.py` -> __future__, json, pathlib, time
 - `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, ipaddress, os, pathlib, queue, re, shlex, signal, sys, threading, time
 - `modules/lazy_sandbox.py` -> __future__, os, pathlib, re, shutil, subprocess, threading
 - `modules/lazy_scope.py` -> __future__, dataclasses, ipaddress, pathlib, re, socket, time
@@ -42,8 +51,13 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
 - `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
 - `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
+- `modules/loop/__init__.py` -> __future__
+- `modules/loop/worker_agentic.py` -> __future__, json, re, typing
+- `modules/loop/worker_execution.py` -> __future__, os, queue, signal, subprocess, threading, time, typing
+- `modules/loop/worker_gating.py` -> __future__, re
+- `modules/loop/worker_memory.py` -> __future__
 - `modules/loop_ai_bridge.py` -> __future__, threading
-- `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
+- `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time, typing
 - `modules/loop_manager.py` -> __future__, dataclasses, datetime, ipaddress, json, os, pathlib, re, signal, subprocess, sys, threading, time, typing, uuid
 - `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
 - `modules/loop_triggers.py` -> __future__, collections.abc, hashlib, json, pathlib
@@ -53,6 +67,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/mediation/__init__.py` -> __future__
 - `modules/mediation/chain_mediator.py` -> __future__, typing
 - `modules/mediation/contracts.py` -> __future__, typing
+- `modules/mediation/engine_mediator.py` -> __future__, typing
 - `modules/mediation/feedback_mediator.py` -> __future__, typing
 - `modules/mediation/hub.py` -> __future__, threading, typing
 - `modules/mediation/intel_mediator.py` -> __future__, typing
@@ -73,11 +88,11 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/notify.py` -> __future__, dataclasses, ipaddress, os, re, socket, time, urllib.parse, urllib.request
 - `modules/nuclei_templates_sync.py` -> __future__, argparse, pathlib, shutil, subprocess, sys, tempfile
 - `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
-- `modules/ooficesod0woodo.py` -> uno
+- `modules/ooficesod0woodo.py` -> argparse, uno
 - `modules/operation.py` -> __future__, builtins, collections.abc, dataclasses, datetime, json, pathlib, typing, uuid, yaml
 - `modules/operator_profiles.py` -> __future__, dataclasses, datetime, json, os, pathlib, shutil, subprocess, threading, typing
 - `modules/opsec_scorer.py` -> __future__, dataclasses, time, typing
-- `modules/orchestrator_config.py` -> __future__, copy, pathlib, threading, time, typing, yaml
+- `modules/orchestrator_config.py` -> __future__, copy, pathlib, re, threading, time, typing, yaml
 - `modules/osint_enrich.py` -> __future__, json, pathlib, re, time, urllib.parse, urllib.request
 - `modules/outcome_bus.py` -> __future__, collections, dataclasses, hashlib, importlib, json, pathlib, threading, time, typing
 - `modules/payload_factory.py` -> __future__, abc, base64, builtins, os, socket, struct, subprocess, typing
@@ -85,8 +100,10 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/pipeline_engine.py` -> __future__, abc, builtins, collections.abc, contextlib, dataclasses, datetime, io, json, os, pathlib, re, shutil, threading, typing, uuid, yaml
 - `modules/planner.py` -> __future__, dataclasses, pathlib, re
 - `modules/playbook_admin.py` -> __future__, dataclasses, os, pathlib, re, typing, yaml
+- `modules/playbook_chain.py` -> __future__, os, re, typing, yaml
 - `modules/playbook_engine.py` -> __future__, argparse, collections.abc, dataclasses, datetime, glob, json, os, pathlib, re, stix2, sys, typing, yaml
 - `modules/playbook_executor.py` -> __future__, abc, dataclasses, json, os, pathlib, re, typing, yaml
+- `modules/poc_registry.py` -> __future__, dataclasses, pathlib, re, shutil, threading, time, yaml
 - `modules/polymorphic_engine.py` -> __future__, base64, dataclasses, hashlib, math, pathlib, random, struct, typing, zlib
 - `modules/privesc_predictor.py` -> __future__, dataclasses, os, pandas, pathlib, re, sys, typing
 - `modules/professional_report.py` -> __future__, dataclasses, datetime, json, pathlib, subprocess, typing
@@ -98,7 +115,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/reflective_dll.py` -> __future__, dataclasses, hashlib, struct, typing
 - `modules/resource_script.py` -> __future__, collections.abc, datetime, os, re, shlex, subprocess, time, typing
 - `modules/retry_session.py` -> __future__, atexit, collections.abc, os, pathlib, re, stat
-- `modules/reverse-shell.c` -> linux/kmod.h, linux/module.h
+- `modules/reverse-shell.c` -> linux/kmod.h
 - `modules/revshell.c` -> windows.h
 - `modules/rich_tui.py` -> __future__, rich.align, rich.box, rich.layout, rich.live, rich.panel, rich.table, rich.text, rich.tree, select, sys, termios, threading, time, tty, typing
 - `modules/rl_trainer.py` -> __future__, abc, argparse, collections.abc, dataclasses, json, pathlib, random, threading, time
@@ -106,19 +123,23 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/rootkit/mrhyde.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, locale.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h, wchar.h
 - `modules/rootkit/mrhyde2.c` -> dirent.h, dlfcn.h, errno.h, fcntl.h, pwd.h, signal.h, stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, sys/wait.h, unistd.h
 - `modules/rootkit/mrhyde3.c` -> arpa/inet.h, dirent.h, dlfcn.h, errno.h, fcntl.h, linux/io_uring.h, linux/limits.h, netinet/in.h, poll.h, pthread.h, pwd.h, signal.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/mman.h, sys/socket.h, sys/stat.h, sys/syscall.h, sys/types.h, sys/wait.h, unistd.h
-- `modules/rootkit/rootkit.c` -> asm/msr.h, asm/special_insns.h, crypto/hash.h, linux/dirent.h, linux/fdtable.h, linux/file.h, linux/fs.h, linux/in.h, linux/inet.h, linux/kconfig.h, linux/kprobes.h, linux/module.h, linux/net.h, linux/scatterlist.h, linux/sched.h, linux/string.h, linux/syscalls.h, linux/tcp.h, linux/uaccess.h, linux/unistd.h, net/sock.h
+- `modules/rootkit/rootkit.c` -> asm/msr.h, asm/special_insns.h, crypto/hash.h, linux/dirent.h, linux/fdtable.h, linux/file.h, linux/fs.h, linux/in.h, linux/inet.h, linux/kconfig.h, linux/kprobes.h, linux/net.h, linux/scatterlist.h, linux/sched.h, linux/string.h, linux/syscalls.h, linux/tcp.h, linux/uaccess.h, linux/unistd.h, net/sock.h
 - `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
 - `modules/search.py` -> bs4, csv, requests
 - `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
 - `modules/selection/__init__.py` -> __future__
-- `modules/selection/adversary.py` -> __future__, pathlib, re, yaml
+- `modules/selection/adversary.py` -> __future__, glob, pathlib, re, yaml
 - `modules/selection/atomic.py` -> __future__, re
 - `modules/selection/base.py` -> __future__, collections.abc, dataclasses, typing
 - `modules/selection/chain.py` -> __future__
 - `modules/selection/cred_spray.py` -> __future__
+- `modules/selection/edb.py` -> __future__
 - `modules/selection/intel.py` -> __future__, json, os, pathlib, re
+- `modules/selection/module.py` -> __future__
 - `modules/selection/playbook.py` -> __future__, pathlib, re
+- `modules/selection/poc.py` -> __future__, re
 - `modules/selection/registry.py` -> __future__, collections.abc, os
+- `modules/selection/technique.py` -> __future__
 - `modules/selector_manager.py` -> __future__, collections.abc, dataclasses
 - `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
 - `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
@@ -264,6 +285,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/unified_orchestrator.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, threading, time, typing, uuid
 - `skills/update_knowledge.py` -> __future__, argparse, pathlib, sys
 - `slack_c2_bot.py` -> contextlib, io, requests, slack_bolt, slack_bolt.adapter.socket_mode, time
+- `static/hexabot/hexabot-spinner.js` -> three/addons/controls/OrbitControls.js, three/addons/environments/RoomEnvironment.js, three/addons/loaders/GLTFLoader.js, three/addons/postprocessing/EffectComposer.js, three/addons/postprocessing/OutputPass.js, three/addons/postprocessing/RenderPass.js, three/addons/postprocessing/UnrealBloomPass.js
 - `static/js/bootstrap-4.5.2.min.js` -> jquery, popper.js
 - `static/js/html2pdf.bundle.min.js` -> vertx
 - `static/js/quill-2.0.3.js` -> util
@@ -356,15 +378,17 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_chain_distill_custody.py` -> __future__, hashlib, pathlib
 - `tests/test_chain_distill_scope.py` -> __future__, pathlib
 - `tests/test_chain_evidence.py` -> __future__, hashlib, pathlib, sys, yaml
+- `tests/test_chain_finalizer.py` -> __future__
 - `tests/test_chain_freshness_guard.py` -> __future__, os, pathlib, time
 - `tests/test_chain_list_command.py` -> __future__
+- `tests/test_chain_loop.py` -> __future__, types
 - `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
 - `tests/test_chain_parallel_fallback.py` -> __future__, pathlib, tempfile, threading, time
 - `tests/test_chain_registry.py` -> __future__, os, pathlib, sys, yaml
 - `tests/test_chain_runner.py` -> __future__, threading, time
 - `tests/test_chain_selector.py` -> __future__, pathlib, sys
 - `tests/test_chain_step_streaming.py` -> __future__, json, pathlib
-- `tests/test_chain_synth.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_chain_synth.py` -> __future__, pathlib, yaml
 - `tests/test_chain_token_hardening.py` -> __future__, pathlib, shlex, yaml
 - `tests/test_chain_v24_core.py` -> __future__, os, time
 - `tests/test_ci_strict.py` -> __future__, pathlib, re
@@ -424,6 +448,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_engagement_and_ping.py` -> __future__, ast, csv, json, pathlib, pytest, re, sys
 - `tests/test_engagement_command_gate.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_engagement_elo_and_methodology.py` -> __future__, json, pathlib, pytest, sys
+- `tests/test_engine_mediator.py` -> __future__, inspect, types
 - `tests/test_estorides_fusion.py` -> __future__, importlib.util, json, pathlib, sys
 - `tests/test_evidence_hints.py` -> __future__, pathlib, pytest, tempfile, types
 - `tests/test_executor_kernel.py` -> __future__, ast, pathlib, subprocess
@@ -471,30 +496,5 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_lazy_autofire.py` -> __future__, json, pathlib, yaml
 - `tests/test_lazy_bridge_traffic.py` -> __future__, json
 - `tests/test_lazy_checks.py` -> __future__, json, pathlib
-- `tests/test_lazy_creds.py` -> __future__, pathlib, tempfile, unittest
-- `tests/test_lazy_engine.py` -> __future__, pytest
-- `tests/test_lazy_evidence.py` -> __future__, hashlib, json, sqlite3, zipfile
-- `tests/test_lazy_exposure.py` -> __future__, json
-- `tests/test_lazy_feedmatch.py` -> __future__, json, os, pytest
-- `tests/test_lazy_findings.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_lazy_hostscore.py` -> __future__, json, pathlib
-- `tests/test_lazy_intel_wiring.py` -> __future__, pathlib, time
-- `tests/test_lazy_inventory.py` -> __future__
-- `tests/test_lazy_ledger.py` -> __future__, pathlib
-- `tests/test_lazy_loop.py` -> __future__, ast, json, pathlib, re, smtplib, subprocess, time, urllib.parse
-- `tests/test_lazy_match_policy.py` -> __future__, pathlib
-- `tests/test_lazy_netattack.py` -> __future__, pytest
-- `tests/test_lazy_oob.py` -> __future__, pathlib, tempfile, unittest, unittest.mock, urllib.request
-- `tests/test_lazy_orchestrator.py` -> __future__, asyncio, json, pytest, shutil, textual.widgets, yaml
-- `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
-- `tests/test_lazy_probes.py` -> __future__
-- `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
-- `tests/test_lazy_reaper.py` -> __future__, typing
-- `tests/test_lazy_runner.py` -> __future__, ast, builtins, contextlib, io, json, os, pathlib, pytest, queue, subprocess, sys, threading, time, types
-- `tests/test_lazy_runner_fallback.py` -> __future__, pytest
-- `tests/test_lazy_scope.py` -> __future__, pathlib
-- `tests/test_lazy_search.py` -> __future__
-- `tests/test_lazy_sentinel.py` -> __future__, pytest, shlex
-- `tests/test_lazy_streaming.py` -> __future__, types
 
 Next: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)

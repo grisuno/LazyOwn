@@ -1,5 +1,59 @@
-# Subsystem: tests (page 5 of 23)
+# Subsystem: tests (page 5 of 24)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
+
+## tests/test_categories.py
+- Doc: Tests for modules/categories.py — category constants and look-up tables.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestCategoryConstants` (class, line 28) `class TestCategoryConstants`
+  - `TestShortToCategory` (class, line 78) `class TestShortToCategory`
+  - `TestCategoryToShort` (class, line 128) `class TestCategoryToShort`
+  - `TestAllCategories` (class, line 154) `class TestAllCategories`
+  - `TestBijectionInvariant` (class, line 172) `class TestBijectionInvariant`
+  - `test_all_recon_values` (method, line 29) `def test_all_recon_values(self)`
+  - `test_all_scanning_values` (method, line 32) `def test_all_scanning_values(self)`
+  - `test_all_exploitation_values` (method, line 35) `def test_all_exploitation_values(self)`
+  - `test_all_post_exploitation_values` (method, line 38) `def test_all_post_exploitation_values(self)`
+  - `test_all_persistence_values` (method, line 41) `def test_all_persistence_values(self)`
+  - `test_all_privesc_values` (method, line 44) `def test_all_privesc_values(self)`
+  - `test_all_cred_access_values` (method, line 47) `def test_all_cred_access_values(self)`
+  - `test_all_lateral_values` (method, line 50) `def test_all_lateral_values(self)`
+  - `test_all_exfil_values` (method, line 53) `def test_all_exfil_values(self)`
+  - `test_all_c2_values` (method, line 56) `def test_all_c2_values(self)`
+  - `test_all_reporting_values` (method, line 59) `def test_all_reporting_values(self)`
+  - `test_all_misc_values` (method, line 62) `def test_all_misc_values(self)`
+  - `test_all_lua_values` (method, line 65) `def test_all_lua_values(self)`
+  - `test_all_ai_values` (method, line 68) `def test_all_ai_values(self)`
+  - `test_all_cloud_values` (method, line 71) `def test_all_cloud_values(self)`
+  - `test_all_container_values` (method, line 74) `def test_all_container_values(self)`
+  - `test_recon_to_category` (method, line 79) `def test_recon_to_category(self)`
+  - `test_scanning_to_category` (method, line 82) `def test_scanning_to_category(self)`
+  - `test_enum_to_scanning_category` (method, line 85) `def test_enum_to_scanning_category(self)`
+  - `test_exploit_to_category` (method, line 88) `def test_exploit_to_category(self)`
+  - `test_post_to_category` (method, line 91) `def test_post_to_category(self)`
+  - `test_persistence_to_category` (method, line 94) `def test_persistence_to_category(self)`
+  - `test_privesc_to_category` (method, line 97) `def test_privesc_to_category(self)`
+  - `test_credential_to_category` (method, line 100) `def test_credential_to_category(self)`
+  - `test_lateral_to_category` (method, line 103) `def test_lateral_to_category(self)`
+  - `test_exfil_to_category` (method, line 106) `def test_exfil_to_category(self)`
+  - `test_c2_to_category` (method, line 109) `def test_c2_to_category(self)`
+  - `test_reporting_to_category` (method, line 112) `def test_reporting_to_category(self)`
+  - `test_misc_to_category` (method, line 115) `def test_misc_to_category(self)`
+  - `test_ai_to_category` (method, line 118) `def test_ai_to_category(self)`
+  - `test_unknown_short_name_raises_key_error` (method, line 121) `def test_unknown_short_name_raises_key_error(self)`
+  - `test_recon_reverse_lookup` (method, line 129) `def test_recon_reverse_lookup(self)`
+  - `test_exploitation_reverse_lookup` (method, line 132) `def test_exploitation_reverse_lookup(self)`
+  - `test_privesc_reverse_lookup` (method, line 135) `def test_privesc_reverse_lookup(self)`
+  - `test_c2_reverse_lookup` (method, line 138) `def test_c2_reverse_lookup(self)`
+  - `test_reverse_lookup_roundtrip` (method, line 141) `def test_reverse_lookup_roundtrip(self)`
+  - `test_reverse_lookup_less_than_or_equal_forward` (method, line 150) `def test_reverse_lookup_less_than_or_equal_forward(self)`
+  - `test_every_short_key_in_all_categories` (method, line 155) `def test_every_short_key_in_all_categories(self)`
+  - `test_all_categories_non_empty` (method, line 161) `def test_all_categories_non_empty(self)`
+  - `test_no_duplicate_all_categories` (method, line 165) `def test_no_duplicate_all_categories(self)`
+  - `test_all_categories_count` (method, line 168) `def test_all_categories_count(self)`
+  - `test_forward_and_reverse_match` (method, line 173) `def test_forward_and_reverse_match(self)`
+- Depends on: `modules/categories.py`
 
 ## tests/test_chain_approval_c2.py
 - Doc: Contract tests for the chain approval gate (C2 human-in-the-loop).
@@ -126,6 +180,21 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `_execute` (method, line 204) `def _execute(self, command, timeout, expect_exits)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
+## tests/test_chain_finalizer.py
+- Doc: Chain finalization contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 21) `def _chain(steps)`
+  - `test_chain_with_captured_evidence_is_verified` (function, line 26) `def test_chain_with_captured_evidence_is_verified()`
+  - `test_chain_ok_without_evidence_is_downgraded` (function, line 39) `def test_chain_ok_without_evidence_is_downgraded()`
+  - `test_chain_with_open_steps_reports_pending_reason` (function, line 49) `def test_chain_with_open_steps_reports_pending_reason()`
+  - `test_dry_run_has_no_finalization` (function, line 71) `def test_dry_run_has_no_finalization()`
+  - `test_hunting_verdicts_count_as_confirmed` (function, line 80) `def test_hunting_verdicts_count_as_confirmed(tmp_path)`
+  - `executor` (function, line 53) `def executor(command)`
+  - `executor` (function, line 86) `def executor(command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/lazy_finalizer.py`
+
 ## tests/test_chain_freshness_guard.py
 - Doc: Freshness guards for chain skips: stale artefacts do not skip work.
 - Layer: testing
@@ -150,6 +219,36 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_chain_list_lists_registry` (function, line 12) `def test_chain_list_lists_registry(capsys)`
   - `test_chain_list_filters` (function, line 22) `def test_chain_list_filters(capsys)`
 - Depends on: `cli/commands/exploit_migrated.py`
+
+## tests/test_chain_loop.py
+- Doc: Chain-aware loop execution: stepwise apt_chain decisions inside the worker, subprocess fallback...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `FakeActivity` (class, line 21) `class FakeActivity`
+  - `FakeWorker` (class, line 29) `class FakeWorker`
+  - `_intent` (function, line 49) `def _intent()`
+  - `_chain` (function, line 53) `def _chain()`
+  - `_patch_chain` (function, line 64) `def _patch_chain(monkeypatch, chain, name)`
+  - `_routable_true` (function, line 68) `def _routable_true(monkeypatch)`
+  - `test_parse_chain_invocation_splits_name_target_vars` (function, line 72) `def test_parse_chain_invocation_splits_name_target_vars()`
+  - `test_stepwise_eligible_reports_unroutable_steps` (function, line 81) `def test_stepwise_eligible_reports_unroutable_steps()`
+  - `test_run_chain_stepwise_routes_every_step_through_guard` (function, line 93) `def test_run_chain_stepwise_routes_every_step_through_guard(monkeypatch)`
+  - `test_run_chain_stepwise_subprocess_mode_falls_through` (function, line 112) `def test_run_chain_stepwise_subprocess_mode_falls_through(monkeypatch)`
+  - `test_run_chain_stepwise_auto_mode_skips_ineligible` (function, line 121) `def test_run_chain_stepwise_auto_mode_skips_ineligible(monkeypatch)`
+  - `test_run_chain_stepwise_forced_blocks_ineligible` (function, line 129) `def test_run_chain_stepwise_forced_blocks_ineligible(monkeypatch)`
+  - `test_run_chain_stepwise_guard_block_aborts_chain` (function, line 140) `def test_run_chain_stepwise_guard_block_aborts_chain(monkeypatch)`
+  - `test_run_chain_stepwise_unknown_chain_falls_through` (function, line 155) `def test_run_chain_stepwise_unknown_chain_falls_through(monkeypatch)`
+  - `test_run_chain_stepwise_nesting_limit_blocks` (function, line 162) `def test_run_chain_stepwise_nesting_limit_blocks(monkeypatch)`
+  - `test_chain_step_blocked_carries_status_and_detail` (function, line 173) `def test_chain_step_blocked_carries_status_and_detail()`
+  - `test_run_chain_stepwise_worker_target_used_when_unset` (function, line 180) `def test_run_chain_stepwise_worker_target_used_when_unset(monkeypatch)`
+  - `__init__` (method, line 22) `def __init__(self)`
+  - `emit` (method, line 25) `def emit(self, name, kind, message)`
+  - `__init__` (method, line 33) `def __init__(self, statuses)`
+  - `_target_for` (method, line 38) `def _target_for(self, intent)`
+  - `_guard_step` (method, line 41) `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)`
+  - `spy_runner` (function, line 188) `def spy_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
+- Depends on: `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/chain_registry.py`
 
 ## tests/test_chain_mode.py
 - Doc: Tests for cli/chain_mode.py.
@@ -260,6 +359,9 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_validate_rejects_malformed_when` (function, line 315) `def test_validate_rejects_malformed_when()`
   - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 323) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
   - `test_runner_captures_verb_stdout` (function, line 341) `def test_runner_captures_verb_stdout()`
+  - `test_runner_step_sleep_jitter_applies` (function, line 358) `def test_runner_step_sleep_jitter_applies()`
+  - `test_runner_step_sleep_skipped_on_failure` (function, line 380) `def test_runner_step_sleep_skipped_on_failure()`
+  - `test_runner_validate_rejects_parallel_sleep` (function, line 393) `def test_runner_validate_rejects_parallel_sleep()`
   - `executor` (function, line 39) `def executor(command)`
   - `executor` (function, line 62) `def executor(command)`
   - `executor` (function, line 79) `def executor(command)`
@@ -272,6 +374,8 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `Shell` (class, line 284) `class Shell`
   - `executor` (function, line 327) `def executor(command)`
   - `FakeShell` (class, line 343) `class FakeShell`
+  - `executor` (function, line 371) `def executor(command)`
+  - `executor` (function, line 385) `def executor(command)`
   - `do_echo` (method, line 227) `def do_echo(self, line)`
   - `do_assign` (method, line 254) `def do_assign(self, line)`
   - `onecmd` (method, line 257) `def onecmd(self, command)`
@@ -335,16 +439,19 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `TestSynthData` (class, line 12) `class TestSynthData`
-  - `json_text` (function, line 52) `def json_text(data)`
-  - `TestGeneratedFile` (class, line 58) `class TestGeneratedFile`
-  - `TestFactsForTarget` (class, line 78) `class TestFactsForTarget`
-  - `test_spine_steps_present` (method, line 15) `def test_spine_steps_present(self)`
-  - `test_service_variants` (method, line 27) `def test_service_variants(self)`
-  - `test_cred_reuse_and_c2_flags` (method, line 43) `def test_cred_reuse_and_c2_flags(self)`
-  - `test_write_ok_then_registry_sees_it` (method, line 61) `def test_write_ok_then_registry_sees_it(self, tmp_path)`
-  - `test_invalid_data_never_written` (method, line 69) `def test_invalid_data_never_written(self, tmp_path)`
-  - `test_unknown_target_empty` (method, line 81) `def test_unknown_target_empty(self)`
+  - `TestSynthData` (class, line 10) `class TestSynthData`
+  - `json_text` (function, line 50) `def json_text(data)`
+  - `TestGeneratedFile` (class, line 56) `class TestGeneratedFile`
+  - `TestFactsForTarget` (class, line 76) `class TestFactsForTarget`
+  - `TestTechniqueSynth` (class, line 86) `class TestTechniqueSynth`
+  - `test_spine_steps_present` (method, line 13) `def test_spine_steps_present(self)`
+  - `test_service_variants` (method, line 25) `def test_service_variants(self)`
+  - `test_cred_reuse_and_c2_flags` (method, line 41) `def test_cred_reuse_and_c2_flags(self)`
+  - `test_write_ok_then_registry_sees_it` (method, line 59) `def test_write_ok_then_registry_sees_it(self, tmp_path)`
+  - `test_invalid_data_never_written` (method, line 67) `def test_invalid_data_never_written(self, tmp_path)`
+  - `test_unknown_target_empty` (method, line 79) `def test_unknown_target_empty(self)`
+  - `test_technique_steps_staged` (method, line 89) `def test_technique_steps_staged(self)`
+  - `test_no_techniques_unchanged` (method, line 101) `def test_no_techniques_unchanged(self)`
 - Depends on: `modules/chain_synth.py`
 
 ## tests/test_chain_token_hardening.py
@@ -367,129 +474,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `executor` (function, line 92) `def executor(command)`
   - `do_lazynmap` (method, line 80) `def do_lazynmap(self, line)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_v24_core.py
-- Doc: Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 20) `def _chain(steps)`
-  - `test_runner_captures_regex_named_groups_for_later_steps` (function, line 25) `def test_runner_captures_regex_named_groups_for_later_steps()`
-  - `test_runner_captures_json_fields_from_output` (function, line 48) `def test_runner_captures_json_fields_from_output()`
-  - `test_runner_verify_fails_a_step_when_probe_fails` (function, line 68) `def test_runner_verify_fails_a_step_when_probe_fails()`
-  - `test_runner_verify_may_consume_capture` (function, line 85) `def test_runner_verify_may_consume_capture()`
-  - `test_runner_expect_exit_accepts_configured_codes_only` (function, line 106) `def test_runner_expect_exit_accepts_configured_codes_only()`
-  - `test_runner_on_fail_routes_to_fallback_step` (function, line 113) `def test_runner_on_fail_routes_to_fallback_step()`
-  - `test_runner_on_success_reorders_execution` (function, line 138) `def test_runner_on_success_reorders_execution()`
-  - `test_runner_loop_guard_blocks_infinite_branching` (function, line 160) `def test_runner_loop_guard_blocks_infinite_branching()`
-  - `test_runner_total_timeout_stops_pending_steps` (function, line 180) `def test_runner_total_timeout_stops_pending_steps()`
-  - `test_runner_confirm_requires_approver_failure_closed` (function, line 195) `def test_runner_confirm_requires_approver_failure_closed()`
-  - `test_runner_confirm_approval_grants_or_denies` (function, line 203) `def test_runner_confirm_approval_grants_or_denies()`
-  - `test_runner_checkpoints_enable_resume` (function, line 226) `def test_runner_checkpoints_enable_resume(tmp_path, monkeypatch)`
-  - `test_runner_replanner_sets_vars_and_inserts_steps` (function, line 271) `def test_runner_replanner_sets_vars_and_inserts_steps()`
-  - `test_runner_replanner_skip_rest_ends_early` (function, line 302) `def test_runner_replanner_skip_rest_ends_early()`
-  - `test_checkpoint_state_round_trip` (function, line 322) `def test_checkpoint_state_round_trip(tmp_path)`
-  - `test_schema_v24_accepts_and_rejects_new_fields` (function, line 333) `def test_schema_v24_accepts_and_rejects_new_fields()`
-  - `test_validated_shipped_chains_still_load` (function, line 382) `def test_validated_shipped_chains_still_load()`
-  - `executor` (function, line 29) `def executor(command)`
-  - `executor` (function, line 51) `def executor(command)`
-  - `executor` (function, line 72) `def executor(command)`
-  - `executor` (function, line 89) `def executor(command)`
-  - `executor` (function, line 117) `def executor(command)`
-  - `executor` (function, line 142) `def executor(command)`
-  - `executor` (function, line 164) `def executor(command)`
-  - `executor` (function, line 184) `def executor(command)`
-  - `record` (function, line 217) `def record(command)`
-  - `executor` (function, line 231) `def executor(command)`
-  - `resumed_executor` (function, line 252) `def resumed_executor(command)`
-  - `executor` (function, line 275) `def executor(command)`
-  - `replanner` (function, line 279) `def replanner(context)`
-  - `executor` (function, line 305) `def executor(command)`
-  - `replanner` (function, line 308) `def replanner(context)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
-
-## tests/test_ci_strict.py
-- Doc: Contract tests for the strict CI workflow.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_strict_workflow_exists` (function, line 21) `def test_strict_workflow_exists()`
-  - `test_strict_workflow_contains_no_swallow_flags` (function, line 26) `def test_strict_workflow_contains_no_swallow_flags()`
-  - `test_strict_workflow_runs_lint` (function, line 38) `def test_strict_workflow_runs_lint()`
-  - `test_strict_workflow_runs_type_check` (function, line 44) `def test_strict_workflow_runs_type_check()`
-  - `test_strict_workflow_runs_security_scan` (function, line 50) `def test_strict_workflow_runs_security_scan()`
-  - `test_strict_workflow_runs_pytest` (function, line 56) `def test_strict_workflow_runs_pytest()`
-  - `test_strict_workflow_targets_main_branch` (function, line 62) `def test_strict_workflow_targets_main_branch()`
-  - `test_old_swallow_workflow_is_removed` (function, line 68) `def test_old_swallow_workflow_is_removed()`
-  - `test_ci_workflow_has_no_swallowed_quality_gate` (function, line 83) `def test_ci_workflow_has_no_swallowed_quality_gate()`
-  - `test_ci_workflow_gates_severity_and_types` (function, line 91) `def test_ci_workflow_gates_severity_and_types()`
-
-## tests/test_claudemd_consistency.py
-- Doc: Guard against drift between CLAUDE.md numeric claims and reality.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `claude_md_text` (function, line 22) `def claude_md_text()`
-  - `test_claude_md_reports_actual_test_file_count` (function, line 28) `def test_claude_md_reports_actual_test_file_count(claude_md_text)`
-  - `test_claude_md_does_not_reference_deduplicated_config` (function, line 41) `def test_claude_md_does_not_reference_deduplicated_config(claude_md_text)`
-
-## tests/test_claudemd_size.py
-- Doc: Enforce a hard cap on ``CLAUDE.md`` size.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_claude_md_under_size_budget` (function, line 22) `def test_claude_md_under_size_budget()`
-
-## tests/test_cli_assign.py
-- Doc: ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 29) `def _add_repo_root_to_syspath()`
-  - `TestApplyAssign` (class, line 34) `class TestApplyAssign`
-  - `TestAssignLineParsing` (class, line 101) `class TestAssignLineParsing`
-  - `TestFormatPayload` (class, line 139) `class TestFormatPayload`
-  - `TestLazyOwnAssignWiring` (class, line 197) `class TestLazyOwnAssignWiring`
-  - `TestCompleteAssignBehaviour` (class, line 264) `class TestCompleteAssignBehaviour`
-  - `test_returns_true_when_key_exists` (method, line 35) `def test_returns_true_when_key_exists(self)`
-  - `test_returns_false_when_key_missing` (method, line 42) `def test_returns_false_when_key_missing(self)`
-  - `test_does_not_invoke_save_on_failure` (method, line 49) `def test_does_not_invoke_save_on_failure(self)`
-  - `test_invokes_save_on_success` (method, line 57) `def test_invokes_save_on_success(self)`
-  - `test_save_receives_mutated_dict` (method, line 66) `def test_save_receives_mutated_dict(self)`
-  - `test_save_optional` (method, line 78) `def test_save_optional(self)`
-  - `test_allows_windows_path_backslashes` (method, line 85) `def test_allows_windows_path_backslashes(self)`
-  - `test_rejects_shell_operators_and_escapes` (method, line 92) `def test_rejects_shell_operators_and_escapes(self)`
-  - `test_posix_false_parses_preserve_backslashes` (method, line 102) `def test_posix_false_parses_preserve_backslashes(self)`
-  - `test_strip_shell_quotes_variants` (method, line 111) `def test_strip_shell_quotes_variants(self)`
-  - `test_persists_to_disk_via_save_payload` (method, line 119) `def test_persists_to_disk_via_save_payload(self, tmp_path)`
-  - `test_empty_payload_returns_empty_string` (method, line 140) `def test_empty_payload_returns_empty_string(self)`
-  - `test_renders_keys_sorted` (method, line 145) `def test_renders_keys_sorted(self)`
-  - `test_aligns_column_to_widest_key` (method, line 154) `def test_aligns_column_to_widest_key(self)`
-  - `test_none_values_render_as_empty` (method, line 164) `def test_none_values_render_as_empty(self)`
-  - `test_keys_whitelist_filters_output` (method, line 170) `def test_keys_whitelist_filters_output(self)`
-  - `test_missing_whitelist_keys_render_as_empty` (method, line 177) `def test_missing_whitelist_keys_render_as_empty(self)`
-  - `test_int_value_rendered_as_string` (method, line 184) `def test_int_value_rendered_as_string(self)`
-  - `test_no_ansi_codes` (method, line 190) `def test_no_ansi_codes(self)`
-  - `src` (method, line 199) `def src(self)`
-  - `migrated_src` (method, line 203) `def migrated_src(self)`
-  - `test_imports_apply_assign` (method, line 211) `def test_imports_apply_assign(self, migrated_src)`
-  - `test_imports_save_payload_from_core` (method, line 214) `def test_imports_save_payload_from_core(self, migrated_src)`
-  - `test_imports_format_payload` (method, line 217) `def test_imports_format_payload(self, migrated_src)`
-  - `test_do_assign_calls_apply_assign` (method, line 220) `def test_do_assign_calls_apply_assign(self, migrated_src)`
-  - `test_do_assign_refreshes_aliases` (method, line 225) `def test_do_assign_refreshes_aliases(self, migrated_src)`
-  - `test_do_assign_no_longer_directly_mutates_params` (method, line 230) `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)`
-  - `test_complete_assign_defined` (method, line 236) `def test_complete_assign_defined(self, src)`
-  - `test_complete_assign_reads_self_params` (method, line 239) `def test_complete_assign_reads_self_params(self, src)`
-  - `test_do_show_uses_format_payload` (method, line 243) `def test_do_show_uses_format_payload(self, migrated_src)`
-  - `test_do_payload_refreshes_aliases` (method, line 247) `def test_do_payload_refreshes_aliases(self, migrated_src)`
-  - `_extract_method_body` (method, line 253) `def _extract_method_body(src, name)`
-  - `test_returns_keys_starting_with_text` (method, line 267) `def test_returns_keys_starting_with_text(self)`
-  - `test_no_completion_for_value_position` (method, line 284) `def test_no_completion_for_value_position(self)`
-  - `test_refuses_null_on_required` (method, line 293) `def test_refuses_null_on_required(self)`
-  - `test_warn_saves_invalid_but_present` (method, line 302) `def test_warn_saves_invalid_but_present(self)`
-  - `test_auto_populate_refuses_shell_less_save` (method, line 310) `def test_auto_populate_refuses_shell_less_save(self)`
-  - `saver` (function, line 72) `def saver(p)`
-- Depends on: `cli/assign.py`, `cli/commands/mcp_bridge.py`, `cli/commands/session_ops.py`, `cli/show.py`, `core/config.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

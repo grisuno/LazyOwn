@@ -166,6 +166,16 @@ profiles:
       max_rounds: 10
       max_toolcalls: 200
       max_findings: 50
+    pacing:
+      enabled: true
+      jitter_pct_min: 0
+      jitter_pct_max: 10
+      max_delay_sec: 300
+      edr_pause_ranges:
+        1: [2.0, 5.0]
+        2: [5.0, 15.0]
+      sleeper_windows: []
+      round_sleep_sec: 0
     findings:
       min_evidence_output: 16
       max_output_chars: 4000
@@ -192,6 +202,16 @@ profiles:
     description: Low-noise engagement with slower cadence and fewer probes.
     extends: default
     mode: pentest
+    pacing:
+      enabled: true
+      jitter_pct_min: 30
+      jitter_pct_max: 60
+      max_delay_sec: 120
+      edr_pause_ranges:
+        1: [5.0, 10.0]
+        2: [15.0, 45.0]
+      sleeper_windows: []
+      round_sleep_sec: 30
     stages:
       enrich:
         params:

@@ -2808,5 +2808,44 @@ class LazyCommandSet(LazyOwnCommandSet):
         proc = _sp.run(shlex.split(recipe), capture_output=True, text=True, timeout=600)
         print_msg(((proc.stdout or "") + (proc.stderr or ""))[-3000:] or "[*] no output.")
 
+    @cmd2.with_category(ai_category)
+    def do_lazy_pacing(self, line):
+        """Show or set loop pacing knobs. Usage: lazy_pacing [list|set <key> <value>]"""
+        from modules import orchestrator_config
+
+        args = shlex.split(line) if line.strip() else []
+        if not args or args[0] == "list":
+            pacing = orchestrator_config.pacing()
+            profile = orchestrator_config.active_profile()
+            print_msg(f"[*] pacing (profile {profile}):")
+            for key, value in pacing.items():
+                print_msg(f"  {key}: {value}")
+            print_msg("[*] set one: lazy_pacing set <key> <value>")
+            return
+        if args[0] == "set" and len(args) >= 3:
+            key, raw = args[1], args[2]
+            lowered = raw.strip().lower()
+            if lowered in ("true", "false"):
+                value: object = lowered == "true"
+            else:
+                try:
+                    value = int(raw)
+                except ValueError:
+                    try:
+                        value = float(raw)
+                    except ValueError:
+                        value = raw
+            try:
+                pacing = orchestrator_config.set_pacing(key, value)
+            except KeyError:
+                known = ", ".join(sorted(orchestrator_config.FALLBACK_PACING))
+                print_error(f"Unknown pacing key '{key}'. Valid keys: {known}")
+                return
+            print_msg(f"[+] pacing {key} -> {value}")
+            for inner_key, inner_value in pacing.items():
+                print_msg(f"  {inner_key}: {inner_value}")
+            return
+        print_error("Usage: lazy_pacing [list|set <key> <value>]")
+
 
 __all__ = ["LazyCommandSet"]

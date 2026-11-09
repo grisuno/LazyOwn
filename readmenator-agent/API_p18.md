@@ -1,9 +1,99 @@
 # API (page 18 of 26)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/playbook_executor.py
+Depends on: `modules/pipeline_engine.py`
+- `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
+- `ITTPMapper.resolve` (method) `modules/playbook_executor.py:97` `def resolve(self, technique_id, atomic_test, platform)` -- Return a LazyOwn shell command string or None if unmapped.
+- `DefaultTTPMapper.register` (method) `modules/playbook_executor.py:180` `def register(cls, technique_id, platform, command)` -- Add a new technique-to-command mapping.
+- `DefaultTTPMapper.resolve` (method) `modules/playbook_executor.py:185` `def resolve(self, technique_id, atomic_test, platform)`
+- `PlaybookLoader.__init__` (method) `modules/playbook_executor.py:208` `def __init__(self, playbooks_dir)`
+- `PlaybookLoader.list` (method) `modules/playbook_executor.py:211` `def list(self)` -- Return every discoverable playbook name.
+- `PlaybookLoader.load` (method) `modules/playbook_executor.py:224` `def load(self, name)` -- Load and validate a playbook by name.
+- `PlaybookEngine.__init__` (method) `modules/playbook_executor.py:339` `def __init__(self, loader, mapper, pipelines_dir)`
+- `PlaybookEngine.loader` (method) `modules/playbook_executor.py:350` `def loader(self)`
+- `PlaybookEngine.analyze` (method) `modules/playbook_executor.py:353` `def analyze(self, name, platform)` -- Analyze a playbook: count techniques, automated vs manual, coverage.
+- `PlaybookEngine.generate_pipeline` (method) `modules/playbook_executor.py:378` `def generate_pipeline(self, name, platform)` -- Generate a pipeline YAML file from a playbook.
+- `PlaybookEngine.run` (method) `modules/playbook_executor.py:390` `def run(self, name, platform, target, onecmd)` -- Generate and execute a pipeline from a playbook.
+- `playbook_list` (function) `modules/playbook_executor.py:416` `def playbook_list()` -- Return a JSON array of available playbooks.
+- `playbook_analyze` (function) `modules/playbook_executor.py:422` `def playbook_analyze(name, platform)` -- Return a JSON summary of one playbook.
+- `playbook_generate` (function) `modules/playbook_executor.py:429` `def playbook_generate(name, platform)` -- Generate a runnable pipeline from a playbook.
+- `playbook_run` (function) `modules/playbook_executor.py:436` `def playbook_run(name, platform, target, onecmd)` -- Analyze, generate, and execute a playbook.
+
+## modules/poc_registry.py
+- `PocVerb.to_dict` (method) `modules/poc_registry.py:129` `def to_dict(self)` -- Return a JSON-serialisable summary for the orchestrator surfaces.
+- `poc_verbs` (function) `modules/poc_registry.py:283` `def poc_verbs(catalog_path)` -- Return the catalogued PoC verbs (cached, fail-safe).
+- `get_poc` (function) `modules/poc_registry.py:312` `def get_poc(name, catalog_path)` -- Return one PoC verb by name, or None when unknown/disabled-less.
+- `interpreter_argv` (function) `modules/poc_registry.py:325` `def interpreter_argv(verb)` -- Return the ``argv`` prefix that launches the PoC script.
+- `render_argv` (function) `modules/poc_registry.py:337` `def render_argv(verb, params, target, overrides)` -- Expand one PoC verb into a safe ``argv`` list.
+- `missing_requirements` (function) `modules/poc_registry.py:392` `def missing_requirements(verb)` -- Return the PoC's required binaries that are absent on this host.
+- `propose_intents` (function) `modules/poc_registry.py:409` `def propose_intents(service_texts, target, limit, catalog_path)` -- Propose ``lazy_poc run`` intent lines for matching service tokens.
+- `verbs_summary` (function) `modules/poc_registry.py:449` `def verbs_summary(catalog_path)` -- Return every PoC verb as a dict for TUI and MCP surfaces.
+
+## modules/polymorphic_engine.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
+- `PolymorphicEngine.mutate` (method) `modules/polymorphic_engine.py:163` `def mutate(self, shellcode, arch)` -- Apply all configured mutation passes to shellcode.
+- `PolymorphicEngine.decode_xor` (method) `modules/polymorphic_engine.py:361` `def decode_xor(data)` -- Decode single-byte XOR encrypted shellcode.
+- `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
+- `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
+- `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
+
+## modules/privesc_predictor.py
+Depends on: `core/console.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/crystal_ball.py`
+- `parse_linpeas_output` (function) `modules/privesc_predictor.py:165` `def parse_linpeas_output(text)` -- Extract a structured SystemProfile from linpeas output text.
+- `parse_winpeas_output` (function) `modules/privesc_predictor.py:218` `def parse_winpeas_output(text)` -- Extract a structured SystemProfile from winpeas output text.
+- `match_known_cves` (function) `modules/privesc_predictor.py:249` `def match_known_cves(profile)` -- Match kernel version against the built-in CVE database.
+- `suid_vectors` (function) `modules/privesc_predictor.py:287` `def suid_vectors(profile)` -- Generate privilege escalation vectors from SUID binaries.
+- `capability_vectors` (function) `modules/privesc_predictor.py:361` `def capability_vectors(profile)` -- Generate privilege escalation vectors from Linux capabilities.
+- `group_vectors` (function) `modules/privesc_predictor.py:463` `def group_vectors(profile)` -- Generate privilege escalation vectors from group memberships.
+- `sudo_vectors` (function) `modules/privesc_predictor.py:501` `def sudo_vectors(profile)` -- Generate privilege escalation vectors from sudo rules.
+- `cron_vectors` (function) `modules/privesc_predictor.py:578` `def cron_vectors(profile)` -- Generate vectors from writable cron jobs and PATH manipulation.
+- `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
+- `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
+- `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
+
+## modules/professional_report.py
+Depends on: `modules/llm_factory.py`, `modules/world_model.py`
+Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
+- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
+- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
+- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:219` `def classify_findings(self, data)` -- Classify collected data into structured findings.
+- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:247` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
+- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:912` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
+- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:936` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
+- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:982` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+
+## modules/progress_ledger.py
+Imported by: `modules/lazy_loop.py`, `tests/test_progress_ledger.py`
+- `StrikePolicy.clamped` (method) `modules/progress_ledger.py:56` `def clamped(self)` -- Return a copy with the strike cap forced into range.
+- `RoundSignals.progress` (method) `modules/progress_ledger.py:82` `def progress(self)` -- Return True when any objective-evidence signal fired.
+- `ProgressLedger.__init__` (method) `modules/progress_ledger.py:103` `def __init__(self, engagement_id, base_dir, policy)` -- Bind the ledger to one engagement.
+- `ProgressLedger.file_path` (method) `modules/progress_ledger.py:128` `def file_path(self)` -- Return the persisted strike state path.
+- `ProgressLedger.load` (method) `modules/progress_ledger.py:132` `def load(self)` -- Load persisted state, keeping any file intact on parse failure.
+- `ProgressLedger.save` (method) `modules/progress_ledger.py:152` `def save(self)` -- Persist the strike state with owner-only permissions.
+- `ProgressLedger.strikes` (method) `modules/progress_ledger.py:167` `def strikes(self)` -- Return the current consecutive no-progress strike count.
+- `ProgressLedger.log` (method) `modules/progress_ledger.py:172` `def log(self)` -- Return the recent strike/progress log rows.
+- `ProgressLedger.signals_from_brief` (method) `modules/progress_ledger.py:176` `def signals_from_brief(self, brief)` -- Diff one graph/orchestrator brief against the stored previous one.
+- `ProgressLedger.observe` (method) `modules/progress_ledger.py:208` `def observe(self, signals, note)` -- Record one round of signals and update the strike counter.
+- `ProgressLedger.brief_for_discards` (method) `modules/progress_ledger.py:250` `def brief_for_discards(self)` -- Return durable rows for the finding-ledger discard recorder.
+
+## modules/r.sh
+Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
+- `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
+
+## modules/reaction_bridge.py
+Depends on: `modules/lazy_loop.py`
+Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
+- `ReactionPick.__init__` (method) `modules/reaction_bridge.py:69` `def __init__(self, command, reason, priority, mitre)`
+- `save_decisions` (function) `modules/reaction_bridge.py:80` `def save_decisions(task_id, decisions)` -- Park picks into the per-task buffer; returns the saved count.
+- `load_reaction_triggers` (function) `modules/reaction_bridge.py:108` `def load_reaction_triggers(task_id, consumer)` -- Drain the buffer into planner trigger dicts (one-shot, one per round).
+- `find_credentials` (function) `modules/reaction_bridge.py:159` `def find_credentials(output)` -- Extract user:pass pairs and hashes; placeholder values are dropped.
+
 ## modules/reactive_engine.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 - `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
 - `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
 - `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
@@ -96,6 +186,7 @@ Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/
 - `resolve_sudo_consent` (function) `modules/retry_session.py:204` `def resolve_sudo_consent(confirmer, want_sudo)` -- Gate the elevated mode behind an explicit, warned confirmation.
 
 ## modules/reverse-shell.c
+Depends on: `modules/selection/module.py`
 - `reverse_shell_init` (function) `modules/reverse-shell.c:12` `static int __init reverse_shell_init(void)` -- call_usermodehelper function is used to create user mode processes from kernel space
 - `reverse_shell_exit` (function) `modules/reverse-shell.c:16` `static void __exit reverse_shell_exit(void)`
 
@@ -227,7 +318,7 @@ Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/
 - `getdents64` (function) `modules/rootkit/mrhyde3.c:609` `ssize_t getdents64(int fd, void *dirp, size_t count)`
 
 ## modules/rootkit/rootkit.c
-Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
+Depends on: `core/crypto.py`, `lazyown-docker/init.sh`, `modules/selection/module.py`
 - `regs_override_return` (function) `modules/rootkit/rootkit.c:54` `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` -- Define regs_override_return function
 - `hooked_getdents` (function) `modules/rootkit/rootkit.c:86` `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents function
 - `hooked_getdents64` (function) `modules/rootkit/rootkit.c:112` `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents64 function
@@ -272,18 +363,18 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprf
 ## modules/selection/adversary.py
 Depends on: `modules/selection/base.py`
 Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
-- `load_profiles` (function) `modules/selection/adversary.py:25` `def load_profiles(adversaries_dir)` -- Load every adversary profile dictionary shipped in the repo.
-- `resolve_profile` (function) `modules/selection/adversary.py:79` `def resolve_profile(goal, adversaries_dir)` -- Resolve the adversary profile the goal names, if any.
-- `AdversarySelector.__init__` (method) `modules/selection/adversary.py:122` `def __init__(self, adversaries_dir, confirm)` -- Bind the profile directory and the execution confirmation word.
-- `AdversarySelector.propose` (method) `modules/selection/adversary.py:135` `def propose(self, ctx)` -- Return the emulation action when the goal names a profile.
+- `load_profiles` (function) `modules/selection/adversary.py:26` `def load_profiles(adversaries_dir)` -- Load every adversary profile dictionary shipped in the repo.
+- `resolve_profile` (function) `modules/selection/adversary.py:80` `def resolve_profile(goal, adversaries_dir)` -- Resolve the adversary profile the goal names, if any.
+- `AdversarySelector.__init__` (method) `modules/selection/adversary.py:123` `def __init__(self, adversaries_dir, confirm)` -- Bind the profile directory and the execution confirmation word.
+- `AdversarySelector.propose` (method) `modules/selection/adversary.py:136` `def propose(self, ctx)` -- Return the emulation action when the goal names a profile.
 
 ## modules/selection/atomic.py
 Depends on: `modules/selection/base.py`
-Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `tests/test_selectors_capabilities.py`
 - `AtomicSelector.propose` (method) `modules/selection/atomic.py:25` `def propose(self, ctx)` -- Return an atomic-emulation action when technique ids are named.
 
 ## modules/selection/base.py
-Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/intel.py`, `modules/selection/playbook.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
 - `Selector.propose` (method) `modules/selection/base.py:73` `def propose(self, ctx)` -- Return the next action for this strategy, or None to abstain.
 
 ## modules/selection/chain.py
@@ -297,6 +388,11 @@ Depends on: `modules/selection/base.py`
 Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_capabilities.py`
 - `CredentialSpraySelector.propose` (method) `modules/selection/cred_spray.py:37` `def propose(self, ctx)` -- Return a spray verb for the first matching open service, or None.
 
+## modules/selection/edb.py
+Depends on: `modules/__init__.py`, `modules/selection/base.py`
+Imported by: `modules/selection/registry.py`
+- `EDBSelector.propose` (method) `modules/selection/edb.py:11` `def propose(self, ctx)`
+
 ## modules/selection/intel.py
 Depends on: `modules/selection/base.py`
 Imported by: `modules/selection/registry.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`
@@ -305,18 +401,33 @@ Imported by: `modules/selection/registry.py`, `tests/test_intel_selector.py`, `t
 - `pending_fires` (function) `modules/selection/intel.py:60` `def pending_fires(target)` -- Fire-tier bounded matches of a target not covered by a chain yet.
 - `IntelSelector.propose` (method) `modules/selection/intel.py:117` `def propose(self, ctx)` -- Return the next intelligence action, or None when none applies.
 
+## modules/selection/module.py
+Depends on: `modules/module_registry.py`, `modules/selection/base.py`
+Imported by: `modules/reverse-shell.c`, `modules/rootkit/rootkit.c`, `modules/selection/registry.py`, `static/js/select2-4.1.0.min.js`, `tests/test_selection_module.py`
+- `ModuleSelector.propose` (method) `modules/selection/module.py:21` `def propose(self, ctx)` -- Return the first unproposed registry intent, or None.
+
 ## modules/selection/playbook.py
 Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/selection/base.py`
 Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
 - `PlaybookSelector.__init__` (method) `modules/selection/playbook.py:79` `def __init__(self, playbook_dir)` -- Bind the playbook directory for summary loading.
 - `PlaybookSelector.propose` (method) `modules/selection/playbook.py:128` `def propose(self, ctx)` -- Return an actor-emulation action when the goal names one, else None.
 
+## modules/selection/poc.py
+Depends on: `modules/__init__.py`, `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_poc_registry.py`
+- `PoCSelector.propose` (method) `modules/selection/poc.py:25` `def propose(self, ctx)` -- Return a PoC action for the context, or None when nothing fits.
+
 ## modules/selection/registry.py
-Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/intel.py`, `modules/selection/playbook.py`
+Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`
 Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
-- `all_selectors` (function) `modules/selection/registry.py:25` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
-- `default_selectors` (function) `modules/selection/registry.py:46` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
-- `propose_next` (function) `modules/selection/registry.py:61` `def propose_next(ctx, selectors)` -- Return the first concrete decision from the cascade, or None.
+- `all_selectors` (function) `modules/selection/registry.py:29` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
+- `default_selectors` (function) `modules/selection/registry.py:57` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
+- `propose_next` (function) `modules/selection/registry.py:72` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
+
+## modules/selection/technique.py
+Depends on: `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
+Imported by: `modules/selection/registry.py`, `tests/test_selection_technique.py`
+- `TechniqueSelector.propose` (method) `modules/selection/technique.py:23` `def propose(self, ctx)` -- Return a technique emulation action, or None when not applicable.
 
 ## modules/selector_manager.py
 Imported by: `tests/test_auto_loop_memory.py`
@@ -381,114 +492,6 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/te
 - `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
 - `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
 - `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
-
-## modules/session_state.py
-Imported by: `modules/recommender.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
-- `build_state` (function) `modules/session_state.py:189` `def build_state()` -- Assemble and return the current session state dict.
-- `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
-- `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
-
-## modules/sidequestion.py
-Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
-- `SideQuestionService.__init__` (method) `modules/sidequestion.py:55` `def __init__(self, answer_fn, config)` -- Initialize registries with an optional answer function.
-- `SideQuestionService.capture` (method) `modules/sidequestion.py:66` `def capture(self, task_id, text)` -- Freeze main-loop context into an immutable snapshot.
-- `SideQuestionService.ask` (method) `modules/sidequestion.py:75` `def ask(self, snapshot_id, question)` -- Answer from a snapshot without touching main state.
-- `SideQuestionService.cancel` (method) `modules/sidequestion.py:104` `def cancel(self, request_id)` -- Mark a pending request cancelled.
-- `SideQuestionService.history` (method) `modules/sidequestion.py:113` `def history(self, limit, before)` -- Page request history newest first.
-
-## modules/sinks/attack_graph.py
-Depends on: `modules/attack_surface3d.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/attack_graph.py:13` `def apply(event)` -- Rebuild the attack graph and its exposure summary.
-
-## modules/sinks/beacon_dispatch.py
-Depends on: `core/config.py`, `core/hardening.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/beacon_dispatch.py:46` `def apply(event)` -- Stage the catch-back command for one foothold outcome.
-
-## modules/sinks/c2_surfaces.py
-Depends on: `modules/c2_surfaces.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/c2_surfaces.py:11` `def apply(event)` -- Write the operator-visible surfaces for one outcome.
-
-## modules/sinks/campaign_db.py
-Depends on: `modules/db.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/campaign_db.py:9` `def apply(event)` -- Mirror one outcome into the campaign database.
-
-## modules/sinks/chain_feed.py
-Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_lazy_loop.py`, `tests/test_sink_chain_feed.py`
-- `apply` (function) `modules/sinks/chain_feed.py:22` `def apply(event)` -- Append one chain-step trace record and steer unhandled failures.
-
-## modules/sinks/event_bus.py
-Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/event_bus.py:9` `def apply(event)` -- Publish one event to the unified bus.
-
-## modules/sinks/findings.py
-Depends on: `core/logging.py`, `modules/__init__.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`
-Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`
-- `limits_for` (function) `modules/sinks/findings.py:22` `def limits_for()` -- Return the ledger limits resolved from operator configuration.
-- `apply` (function) `modules/sinks/findings.py:42` `def apply(event)` -- Append one ledger row for a finding-class outcome.
-- `ledger_for` (function) `modules/sinks/findings.py:72` `def ledger_for(engagement_id)` -- Return one ledger bound to the sessions findings directory.
-- `handoff` (function) `modules/sinks/findings.py:88` `def handoff(engagement_id, status, rounds)` -- Build the operator handoff from the durable ledger.
-- `ingest_discarded` (function) `modules/sinks/findings.py:107` `def ingest_discarded(engagement_id, entries)` -- Record discarded vector rows for one engagement.
-
-## modules/sinks/intel_graph.py
-Depends on: `modules/intel_fusion.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/intel_graph.py:13` `def apply(event)` -- Rebuild the intel graph and its summary.
-
-## modules/sinks/killchain.py
-Depends on: `modules/killchain.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/killchain.py:11` `def apply(event)` -- Advance the kill-chain phase only when the outcome proves progress.
-
-## modules/sinks/lazy_intel.py
-Depends on: `modules/db.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- `apply` (function) `modules/sinks/lazy_intel.py:28` `def apply(event)` -- Mirror one lazy_intel event into the world model and the database.
-
-## modules/sinks/objectives.py
-Depends on: `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/objectives.py:16` `def apply(event)` -- Append one actionable objective when the outcome warrants it.
-
-## modules/sinks/routing.py
-Depends on: `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/outcome_bus.py`
-Imported by: `skills/lazyown_mcp.py`
-- `apply` (function) `modules/sinks/routing.py:9` `def apply(event)` -- Record one routing outcome for cross-task priors.
-
-## modules/sinks/world_diff.py
-Depends on: `modules/lazy_world_diff.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `tests/test_outcome_bus.py`, `tests/test_world_diff_retest.py`
-- `apply` (function) `modules/sinks/world_diff.py:14` `def apply(event)` -- Diff one host's world snapshot and record the changes.
-
-## modules/sinks/world_model.py
-Depends on: `modules/obs_parser.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- `apply` (function) `modules/sinks/world_model.py:12` `def apply(event)` -- Write one outcome into the world model.
-
-## modules/sleep_obfuscation.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
-- `SleepObfuscationConfig.to_dict` (method) `modules/sleep_obfuscation.py:129` `def to_dict(self)` -- Serialize to dictionary.
-- `SleepObfuscationConfig.from_dict` (method) `modules/sleep_obfuscation.py:146` `def from_dict(cls, raw)` -- Build from dictionary.
-- `SleepTechniqueCatalog.__init__` (method) `modules/sleep_obfuscation.py:170` `def __init__(self)`
-- `SleepTechniqueCatalog.register` (method) `modules/sleep_obfuscation.py:173` `def register(self, technique)` -- Register a technique in the catalog.
-- `SleepTechniqueCatalog.get` (method) `modules/sleep_obfuscation.py:177` `def get(self, name)` -- Retrieve a technique by name.
-- `SleepTechniqueCatalog.list_all` (method) `modules/sleep_obfuscation.py:184` `def list_all(self)` -- Return all registered techniques sorted by detection resistance.
-- `SleepTechniqueCatalog.list_by_platform` (method) `modules/sleep_obfuscation.py:192` `def list_by_platform(self, platform)` -- Return techniques supported on a given platform.
-- `SleepTechniqueCatalog.list_names` (method) `modules/sleep_obfuscation.py:196` `def list_names(self)` -- Return sorted list of technique names.
-- `SleepTechniqueValidator.validate` (method) `modules/sleep_obfuscation.py:369` `def validate(config, technique)` -- Validate config against a technique definition.
-- `SleepTechniqueValidator.validate_config` (method) `modules/sleep_obfuscation.py:386` `def validate_config(config)` -- Validate the config itself for internal consistency.
-- `SleepObfuscationEngine.__init__` (method) `modules/sleep_obfuscation.py:407` `def __init__(self, catalog)`
-- `SleepObfuscationEngine.catalog` (method) `modules/sleep_obfuscation.py:416` `def catalog(self)` -- Return the technique catalog.
-- `SleepObfuscationEngine.config` (method) `modules/sleep_obfuscation.py:421` `def config(self)` -- Return the active runtime configuration.
-- `SleepObfuscationEngine.detection_resistance` (method) `modules/sleep_obfuscation.py:426` `def detection_resistance(self)` -- Return the detection resistance score of the active technique.
-- `SleepObfuscationEngine.select` (method) `modules/sleep_obfuscation.py:442` `def select(self, technique_name)` -- Select a technique from the catalog.
-- `SleepObfuscationEngine.configure` (method) `modules/sleep_obfuscation.py:449` `def configure(self, technique, overrides)` -- Build a validated SleepObfuscationConfig for a technique.
-- `SleepObfuscationEngine.validate` (method) `modules/sleep_obfuscation.py:484` `def validate(self, config)` -- Validate configuration against the active technique.
-- `SleepObfuscationEngine.recommend` (method) `modules/sleep_obfuscation.py:500` `def recommend(self, platform)` -- Recommend techniques for a platform sorted by detection resistance.
-- `SleepObfuscationEngine.to_dict` (method) `modules/sleep_obfuscation.py:513` `def to_dict(self)` -- Serialize the entire engine state to a dictionary.
-- `SleepObfuscationEngine.from_dict` (method) `modules/sleep_obfuscation.py:522` `def from_dict(cls, raw)` -- Build an engine from a serialized state dictionary.
 
 
 Next: [API_p19.md](API_p19.md)

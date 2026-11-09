@@ -86,50 +86,51 @@ Previous: [KB_modules.md](KB_modules.md)
 - Symbols:
   - `_looks_like_target` (function, line 38) `def _looks_like_target(value)`
   - `auto_verb_target` (function, line 67) `def auto_verb_target(command)`
-  - `AutoVerb` (class, line 103) `class AutoVerb`
-  - `_os_default_for_verb` (function, line 247) `def _os_default_for_verb(verb)`
-  - `_verb_rows` (function, line 255) `def _verb_rows()`
-  - `_verb_row` (function, line 300) `def _verb_row(name)`
-  - `verb_enabled` (function, line 309) `def verb_enabled(name)`
-  - `_cli_verb_allowed` (function, line 384) `def _cli_verb_allowed(name)`
-  - `_repo_base` (function, line 412) `def _repo_base()`
-  - `binary_available` (function, line 419) `def binary_available(name)`
-  - `missing_binary` (function, line 435) `def missing_binary(command)`
-  - `verb_gap` (function, line 447) `def verb_gap(verb)`
-  - `verb_available` (function, line 459) `def verb_available(verb)`
-  - `service_tokens` (function, line 464) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 475) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 506) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 542) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 565) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 591) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 635) `def is_routable_command(line)`
-  - `verbs` (function, line 653) `def verbs()`
-  - `is_shell_verb` (function, line 658) `def is_shell_verb(token)`
-  - `build_command` (function, line 682) `def build_command(verb, target)`
-  - `verbs_for` (function, line 693) `def verbs_for(text)`
-  - `propose_intents` (function, line 699) `def propose_intents(goal, target, finding_texts)`
-  - `_atomic_steps` (function, line 723) `def _atomic_steps(verb, text)`
-  - `_playbook_steps` (function, line 742) `def _playbook_steps(text)`
-  - `_apt_chain_steps` (function, line 757) `def _apt_chain_steps(embedded, target, strict)`
-  - `_chain_name_for_playbook` (function, line 786) `def _chain_name_for_playbook(playbook)`
-  - `steps_for` (function, line 813) `def steps_for(text, target)`
-  - `ShellResult` (class, line 936) `class ShellResult`
-  - `_TeeCapture` (class, line 943) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 971) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1069) `def _register_process(process)`
-  - `_unregister_process` (function, line 1075) `def _unregister_process(process)`
-  - `track_process` (function, line 1081) `def track_process(process)`
-  - `untrack_process` (function, line 1086) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1091) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1114) `def execute_streaming(command, on_output, timeout_sec)`
-  - `__init__` (method, line 953) `def __init__(self, observer)`
-  - `write` (method, line 958) `def write(self, data)`
-  - `_invoke` (function, line 994) `def _invoke()`
-  - `_target` (function, line 1005) `def _target()`
-  - `_kill` (function, line 1146) `def _kill()`
+  - `AutoVerb` (class, line 107) `class AutoVerb`
+  - `_os_default_for_verb` (function, line 251) `def _os_default_for_verb(verb)`
+  - `_verb_rows` (function, line 259) `def _verb_rows()`
+  - `_verb_row` (function, line 304) `def _verb_row(name)`
+  - `verb_enabled` (function, line 313) `def verb_enabled(name)`
+  - `_cli_verb_allowed` (function, line 388) `def _cli_verb_allowed(name)`
+  - `_repo_base` (function, line 416) `def _repo_base()`
+  - `binary_available` (function, line 423) `def binary_available(name)`
+  - `missing_binary` (function, line 439) `def missing_binary(command)`
+  - `verb_gap` (function, line 451) `def verb_gap(verb)`
+  - `verb_available` (function, line 463) `def verb_available(verb)`
+  - `service_tokens` (function, line 468) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 479) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 510) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 546) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 569) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 595) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 639) `def is_routable_command(line)`
+  - `verbs` (function, line 657) `def verbs()`
+  - `is_shell_verb` (function, line 662) `def is_shell_verb(token)`
+  - `build_command` (function, line 686) `def build_command(verb, target)`
+  - `verbs_for` (function, line 697) `def verbs_for(text)`
+  - `propose_intents` (function, line 703) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 728) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 747) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 762) `def _apt_chain_steps(embedded, target, strict)`
+  - `_chain_name_for_playbook` (function, line 791) `def _chain_name_for_playbook(playbook)`
+  - `steps_for` (function, line 824) `def steps_for(text, target)`
+  - `ShellResult` (class, line 980) `class ShellResult`
+  - `_TeeCapture` (class, line 987) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 1015) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1113) `def _register_process(process)`
+  - `_unregister_process` (function, line 1119) `def _unregister_process(process)`
+  - `track_process` (function, line 1125) `def track_process(process)`
+  - `untrack_process` (function, line 1130) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1135) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1158) `def execute_streaming(command, on_output, timeout_sec)`
+  - `_exploitdb_steps` (function, line 1266) `def _exploitdb_steps(embedded, target)`
+  - `__init__` (method, line 997) `def __init__(self, observer)`
+  - `write` (method, line 1002) `def write(self, data)`
+  - `_invoke` (function, line 1038) `def _invoke()`
+  - `_target` (function, line 1049) `def _target()`
+  - `_kill` (function, line 1190) `def _kill()`
 - Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_selection_wiring.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -183,7 +184,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `full_auto_pwn` (method, line 2668) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
 - Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
 - Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.

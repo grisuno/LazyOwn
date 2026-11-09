@@ -1,8 +1,32 @@
-# Symbols (page 9 of 49)
+# Symbols (page 9 of 50)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `api_loop_broadcast` | function | `lazyc2.py:7879` | `def api_loop_broadcast()` |
+| `api_loop_broadcast_stream` | function | `lazyc2.py:7821` | `def api_loop_broadcast_stream()` |
+| `api_loop_graph` | function | `lazyc2.py:8037` | `def api_loop_graph()` |
+| `api_loop_log` | function | `lazyc2.py:7071` | `def api_loop_log(loop_id)` |
+| `api_loop_stop` | function | `lazyc2.py:7094` | `def api_loop_stop(loop_id)` |
+| `api_loops_list` | function | `lazyc2.py:7059` | `def api_loops_list()` |
+| `api_loops_start` | function | `lazyc2.py:7010` | `def api_loops_start()` |
+| `api_surface_live` | function | `lazyc2.py:7661` | `def api_surface_live()` |
+| `attack3d_view` | function | `lazyc2.py:7717` | `def attack3d_view()` |
+| `attack_bundle_view` | function | `lazyc2.py:7736` | `def attack_bundle_view()` |
+| `aumentar_elo` | function | `lazyc2.py:1150` | `def aumentar_elo(user_id, cantidad)` |
+| `aumentar_elo_route` | function | `lazyc2.py:6600` | `def aumentar_elo_route(user_id)` |
+| `authenticate` | function | `lazyc2.py:1502` | `def authenticate()` |
+| `banners` | function | `lazyc2.py:6616` | `def banners()` |
+| `broadcast_view` | function | `lazyc2.py:7807` | `def broadcast_view()` |
+| `campaign_report` | function | `lazyc2.py:8415` | `def campaign_report(campaign_id)` |
+| `capture_audio` | function | `lazyc2.py:7622` | `def capture_audio()` |
+| `capture_image` | function | `lazyc2.py:7596` | `def capture_image()` |
+| `change_password` | function | `lazyc2.py:6534` | `def change_password()` |
+| `chatbot` | function | `lazyc2.py:5336` | `def chatbot()` |
+| `check_auth` | function | `lazyc2.py:1487` | `def check_auth(username, password)` |
+| `clean_expired_tokens` | function | `lazyc2.py:648` | `def clean_expired_tokens()` |
+| `clean_json` | function | `lazyc2.py:656` | `def clean_json(text)` |
+| `compliance_add_evidence` | function | `lazyc2.py:6777` | `def compliance_add_evidence()` |
 | `compliance_dashboard` | function | `lazyc2.py:6725` | `def compliance_dashboard()` |
 | `compliance_export` | function | `lazyc2.py:6827` | `def compliance_export(format)` |
 | `compliance_report` | function | `lazyc2.py:6747` | `def compliance_report()` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `PanelConstants` | class | `lazygui/config/constants.py:185` | `class PanelConstants` |
 | `PtyConstants` | class | `lazygui/config/constants.py:86` | `class PtyConstants` |
 | `ThemeConstants` | class | `lazygui/config/constants.py:161` | `class ThemeConstants` |
-| `TimingConstants` | class | `lazygui/config/constants.py:34` | `class TimingConstants` |
-| `WindowConstants` | class | `lazygui/config/constants.py:18` | `class WindowConstants` |
-| `panel_labels` | method | `lazygui/config/constants.py:239` | `def panel_labels(self)` |
-| `AppPaths` | class | `lazygui/config/paths.py:19` | `class AppPaths` |
-| `_detect_project_root` | function | `lazygui/config/paths.py:79` | `def _detect_project_root()` |
-| `c2_credentials_path` | method | `lazygui/config/paths.py:59` | `def c2_credentials_path(self)` |
-| `config_dir` | method | `lazygui/config/paths.py:32` | `def config_dir(self)` |
-| `ensure_config_dir` | method | `lazygui/config/paths.py:73` | `def ensure_config_dir(self)` |
-| `layout_file` | method | `lazygui/config/paths.py:44` | `def layout_file(self)` |
-| `lazyc2_script` | method | `lazygui/config/paths.py:54` | `def lazyc2_script(self)` |
-| `project_run_script` | method | `lazygui/config/paths.py:49` | `def project_run_script(self)` |
-| `sessions_dir` | method | `lazygui/config/paths.py:69` | `def sessions_dir(self)` |
-| `settings_file` | method | `lazygui/config/paths.py:39` | `def settings_file(self)` |
-| `AppSettings` | class | `lazygui/config/settings.py:27` | `class AppSettings` |
-| `c2_credentials_loaded` | method | `lazygui/config/settings.py:120` | `def c2_credentials_loaded(self)` |
-| `c2_credentials_loaded` | method | `lazygui/config/settings.py:125` | `def c2_credentials_loaded(self, value)` |
-| `get` | method | `lazygui/config/settings.py:55` | `def get(self, key, default)` |
-| `last_backend_id` | method | `lazygui/config/settings.py:73` | `def last_backend_id(self)` |
-| `last_backend_id` | method | `lazygui/config/settings.py:78` | `def last_backend_id(self, value)` |
-| `last_operator_name` | method | `lazygui/config/settings.py:98` | `def last_operator_name(self)` |
-| `last_operator_name` | method | `lazygui/config/settings.py:107` | `def last_operator_name(self, value)` |
-| `last_teamserver_password` | method | `lazygui/config/settings.py:111` | `def last_teamserver_password(self)` |
-| `last_teamserver_password` | method | `lazygui/config/settings.py:116` | `def last_teamserver_password(self, value)` |
-| `last_teamserver_url` | method | `lazygui/config/settings.py:84` | `def last_teamserver_url(self)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

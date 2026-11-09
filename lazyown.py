@@ -1733,7 +1733,7 @@ class LazyOwnShell(cmd2.Cmd):
                 return True
         return False
 
-    def _scope_check(self, cmd_name: str) -> bool:
+    def _scope_check(self, cmd_name: str, target: str = "", force_offensive: bool = False) -> bool:
         """Authorize a command against the configured engagement scope.
 
         Builds a fresh :class:`cli.scope_guard.ScopeGuard` from the live payload
@@ -1744,6 +1744,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         Args:
             cmd_name: The command name about to run.
+            target: Explicit target override (defaults to ``rhost``). Commands
+                such as ``apt_chain`` take the victim as an argument, so the
+                argument — not the ambient ``rhost`` — is what gets vetted.
+            force_offensive: Veto the category classification and treat the
+                command as offensive, for callers that already know the verb
+                acts on the target.
 
         Returns:
             ``True`` when the command may proceed, ``False`` when it must be
@@ -1753,11 +1759,11 @@ class LazyOwnShell(cmd2.Cmd):
             guard = _ScopeGuard(
                 scope_entries=self.params.get("scope"),
                 mode=self.params.get("scope_enforcement"),
-                is_offensive=self._resolve_offensive,
+                is_offensive=(lambda name: True) if force_offensive else self._resolve_offensive,
                 deny_entries=self.params.get("scope_deny"),
             )
-            target = str(self.params.get("rhost") or "").strip()
-            decision = guard.evaluate(cmd_name, target)
+            resolved = str(target if str(target or "").strip() else self.params.get("rhost") or "").strip()
+            decision = guard.evaluate(cmd_name, resolved)
             if not decision.reason:
                 return True
             if decision.mode is _ScopeMode.WARN:

@@ -172,7 +172,7 @@ Previous: [KB_js_p3.md](KB_js_p3.md)
   - `did` (class, line 48)
   - `did` (class, line 48)
   - `as` (class, line 48)
-- Depends on: `cli/show.py`, `core/process.py`, `lazyown-docker/init.sh`
+- Depends on: `cli/show.py`, `core/process.py`, `gyms/docker/php2shell/src/info.php`, `lazyown-docker/init.sh`
 
 ## static/js/vis-network.min.js
 - Doc: as: @license vis.js is dual licensed under both  1.
@@ -314,7 +314,7 @@ Previous: [KB_js_p3.md](KB_js_p3.md)
   - `did` (class, line 48)
   - `did` (class, line 48)
   - `as` (class, line 48)
-- Depends on: `cli/show.py`, `core/process.py`, `lazyown-docker/init.sh`
+- Depends on: `cli/show.py`, `core/process.py`, `gyms/docker/php2shell/src/info.php`, `lazyown-docker/init.sh`
 
 ## static/js/xterm-addon-fit-0.7.0.js
 - Layer: utility
@@ -395,5 +395,5 @@ Previous: [KB_js_p3.md](KB_js_p3.md)
   - `a` (class, line 1)
   - `n` (class, line 1)
   - `d` (class, line 1)
-- Depends on: `lazyown-docker/init.sh`, `modules/colors.py`, `skills/claude_md_orchestrator/parser.py`
+- Depends on: `gyms/docker/php2shell/src/info.php`, `lazyown-docker/init.sh`, `modules/colors.py`, `skills/claude_md_orchestrator/parser.py`
 

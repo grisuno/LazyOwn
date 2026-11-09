@@ -29,25 +29,27 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_token_name_ok` (function, line 45) `def _token_name_ok(name)`
-  - `ChainArgs` (class, line 51) `class ChainArgs`
-  - `parse_chain_args` (function, line 75) `def parse_chain_args(line)`
-  - `_set_value` (function, line 144) `def _set_value(args, flag, value)`
-  - `resolve_admin` (function, line 172) `def resolve_admin(args)`
-  - `select_step_ids` (function, line 291) `def select_step_ids(chain, args)`
-  - `adversarial_continue` (function, line 323) `def adversarial_continue(chain)`
-  - `render_result` (function, line 331) `def render_result(result)`
-  - `build_cli_approver` (function, line 364) `def build_cli_approver(printer, input_fn)`
-  - `build_reactive_replanner` (function, line 386) `def build_reactive_replanner()`
-  - `_decision_command` (function, line 411) `def _decision_command(decision)`
-  - `_step_from_decision` (function, line 420) `def _step_from_decision(command, outcome, executed_count)`
-  - `_recent_changes_block` (function, line 442) `def _recent_changes_block(target)`
-  - `build_llm_recovery_chain` (function, line 470) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 544) `def _platform()`
-  - `approve` (function, line 372) `def approve(step_id, command)`
-  - `replan` (function, line 389) `def replan(context)`
-- Depends on: `modules/__init__.py`, `modules/chain_approval.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`
+  - `_parse_admin_flags` (function, line 46) `def _parse_admin_flags(args, tokens)`
+  - `_token_name_ok` (function, line 77) `def _token_name_ok(name)`
+  - `ChainArgs` (class, line 83) `class ChainArgs`
+  - `parse_chain_args` (function, line 108) `def parse_chain_args(line)`
+  - `_set_value` (function, line 174) `def _set_value(args, flag, value)`
+  - `_synth_from_playbook` (function, line 202) `def _synth_from_playbook(playbook, target)`
+  - `resolve_admin` (function, line 231) `def resolve_admin(args)`
+  - `select_step_ids` (function, line 353) `def select_step_ids(chain, args)`
+  - `adversarial_continue` (function, line 385) `def adversarial_continue(chain)`
+  - `render_result` (function, line 393) `def render_result(result)`
+  - `build_cli_approver` (function, line 426) `def build_cli_approver(printer, input_fn)`
+  - `build_reactive_replanner` (function, line 448) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 473) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 482) `def _step_from_decision(command, outcome, executed_count)`
+  - `_recent_changes_block` (function, line 504) `def _recent_changes_block(target)`
+  - `build_llm_recovery_chain` (function, line 532) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 606) `def _platform()`
+  - `approve` (function, line 434) `def approve(step_id, command)`
+  - `replan` (function, line 451) `def replan(context)`
+- Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_approval.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`, `tests/test_playbook_chain.py`
 
 ## cli/assign.py
 - Doc: ``assign`` business logic.
@@ -56,7 +58,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Symbols:
   - `apply_assign` (function, line 42) `def apply_assign(params, key, value)`
 - Depends on: `core/payload_schema.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `static/js/3d-force-graph-1.73.4.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/force-graph-1.43.5.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `static/hexabot/hexabot-spinner.js`, `static/js/3d-force-graph-1.73.4.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/force-graph-1.43.5.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`
 
 ## cli/auto_crypto.py
 - Doc: Automatic encryption of sensitive session data on app open/close.

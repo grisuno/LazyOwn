@@ -1,4 +1,4 @@
-# API (page 12 of 26)
+# API (page 12 of 27)
 Previous: [API_p11.md](API_p11.md)
 
 ## modules/dns_beacon.py
@@ -183,7 +183,7 @@ Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 - `export_combined_graph` (function) `modules/estorides_importer.py:1031` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
 
 ## modules/evasion_engine.py
-Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
+Imported by: `cli/commands/evasive_payload.py`, `skills/mcp_tools/evasion_generate.py`, `skills/mcp_tools/evasion_rotate.py`
 - `EvasionEngine.__init__` (method) `modules/evasion_engine.py:130` `def __init__(self, config)`
 - `EvasionEngine.set_config` (method) `modules/evasion_engine.py:136` `def set_config(self, config)`
 - `EvasionEngine.generate_profile` (method) `modules/evasion_engine.py:244` `def generate_profile(self, os_family)`
@@ -251,7 +251,7 @@ Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
 - `unwire_all_consumers` (function) `modules/event_consumers.py:399` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
 
 ## modules/event_engine.py
-Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
+Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/ack_event.py`, `skills/mcp_tools/add_rule.py`, `skills/mcp_tools/heartbeat_status.py`, `skills/mcp_tools/list_event_rules.py`, `skills/mcp_tools/poll_events.py`, `skills/sessions_watcher.py`
 - `load_rules` (function) `modules/event_engine.py:99` `def load_rules()` -- Load rules from event_rules.json, creating it with defaults if missing.
 - `save_rules` (function) `modules/event_engine.py:110` `def save_rules(rules)`
 - `add_rule` (function) `modules/event_engine.py:114` `def add_rule(rule)` -- Add or replace a rule by id.
@@ -320,7 +320,7 @@ Imported by: `cli/commands/exploit_migrated.py`
 
 ## modules/exploit_recommender.py
 Depends on: `lazygui/version.py`, `modules/world_model.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`
 - `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
 - `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
 - `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
@@ -344,7 +344,7 @@ Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules
 
 ## modules/exploitgym_gym.py
 Depends on: `modules/redteam_gym.py`
-Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
 - `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
 - `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
 - `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).

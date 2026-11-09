@@ -51,7 +51,7 @@
   - `_map_finding` (method, line 490) `def _map_finding(self, finding)`
   - `__init__` (method, line 501) `def __init__(self, data)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_single_source_of_truth.py`
+- Imported by: `modules/integrations/__init__.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/integrations/nuclei_bridge.py
 - Doc: modules/integrations/nuclei_bridge.py
@@ -148,4 +148,4 @@
   - `search_service` (method, line 293) `def search_service(self, name, version)`
   - `enrich_findings` (method, line 300) `def enrich_findings(self, findings)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
+- Imported by: `modules/integrations/__init__.py`

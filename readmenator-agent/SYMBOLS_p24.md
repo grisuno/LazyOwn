@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `pivot_candidates` | method | `modules/world_model.py:533` | `def pivot_candidates(self, top_k)` |
+| `pivot_candidates` | method | `modules/world_model.py:1239` | `def pivot_candidates(self, top_k)` |
+| `rank` | method | `modules/world_model.py:384` | `def rank(self)` |
+| `read_section` | method | `modules/world_model.py:1412` | `def read_section(self, key)` |
+| `read_state_dict` | function | `modules/world_model.py:292` | `def read_state_dict(path)` |
+| `reload` | method | `modules/world_model.py:1369` | `def reload(self)` |
+| `remove_host` | method | `modules/world_model.py:811` | `def remove_host(self, ip)` |
+| `reset` | method | `modules/world_model.py:1385` | `def reset(self)` |
+| `reset_host` | method | `modules/world_model.py:801` | `def reset_host(self, ip)` |
+| `set_os_hint` | method | `modules/world_model.py:860` | `def set_os_hint(self, ip, os_hint)` |
+| `snapshot` | method | `modules/world_model.py:1396` | `def snapshot(self)` |
+| `to_context_string` | method | `modules/world_model.py:1261` | `def to_context_string(self)` |
+| `to_dict` | method | `modules/world_model.py:555` | `def to_dict(self)` |
+| `to_dict` | method | `modules/world_model.py:609` | `def to_dict(self)` |
+| `update_from_findings` | method | `modules/world_model.py:1006` | `def update_from_findings(self, findings)` |
+| `write_section` | method | `modules/world_model.py:1429` | `def write_section(self, key, value)` |
+| `write_state_dict` | function | `modules/world_model.py:327` | `def write_state_dict(path, data)` |
+| `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
+| `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
+| `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
 | `create_yaml_addon` | method | `modules/yaml_generator.py:109` | `def create_yaml_addon(self, user_request, output_dir)` |
 | `extract_yaml_from_markdown` | method | `modules/yaml_generator.py:100` | `def extract_yaml_from_markdown(self, text)` |
 | `generate_prompt` | method | `modules/yaml_generator.py:54` | `def generate_prompt(self, user_request)` |
@@ -440,61 +460,41 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `status` | method | `skills/aci_planner.py:620` | `def status(self)` |
 | `to_dict` | method | `skills/aci_planner.py:171` | `def to_dict(self)` |
 | `to_dict` | method | `skills/aci_planner.py:214` | `def to_dict(self)` |
-| `BridgeFallbackResolver` | class | `skills/autonomous_daemon.py:3320` | `class BridgeFallbackResolver(IToolFallbackResolver)` |
-| `BridgeSelector` | class | `skills/autonomous_daemon.py:795` | `class BridgeSelector(ICommandSelector)` |
-| `CascadeStrategy` | class | `skills/autonomous_daemon.py:1440` | `class CascadeStrategy` |
-| `ChainSelector` | class | `skills/autonomous_daemon.py:1387` | `class ChainSelector(ICommandSelector)` |
-| `CommandDecision` | class | `skills/autonomous_daemon.py:679` | `class CommandDecision` |
-| `CommandRunnerChain` | class | `skills/autonomous_daemon.py:588` | `class CommandRunnerChain(ICommandRunner)` |
-| `CredentialSpraySelector` | class | `skills/autonomous_daemon.py:1339` | `class CredentialSpraySelector(ICommandSelector)` |
-| `DroneCoordinator` | class | `skills/autonomous_daemon.py:2964` | `class DroneCoordinator` |
-| `EngageOrchestrator` | class | `skills/autonomous_daemon.py:3459` | `class EngageOrchestrator` |
-| `EnginePhaseResult` | class | `skills/autonomous_daemon.py:3269` | `class EnginePhaseResult` |
-| `EnginePhaseStep` | class | `skills/autonomous_daemon.py:3252` | `class EnginePhaseStep` |
-| `ExecutionEngine` | class | `skills/autonomous_daemon.py:1578` | `class ExecutionEngine(IObjectiveHandler)` |
-| `FallbackSelector` | class | `skills/autonomous_daemon.py:1034` | `class FallbackSelector(ICommandSelector)` |
-| `ICommandRunner` | class | `skills/autonomous_daemon.py:427` | `class ICommandRunner(ABC)` |
-| `ICommandSelector` | class | `skills/autonomous_daemon.py:690` | `class ICommandSelector(ABC)` |
-| `IObjectiveHandler` | class | `skills/autonomous_daemon.py:1564` | `class IObjectiveHandler(ABC)` |
-| `IToolFallbackResolver` | class | `skills/autonomous_daemon.py:3286` | `class IToolFallbackResolver(ABC)` |
-| `LLMSelector` | class | `skills/autonomous_daemon.py:864` | `class LLMSelector(ICommandSelector)` |
-| `MCPCommandRunner` | class | `skills/autonomous_daemon.py:480` | `class MCPCommandRunner(ICommandRunner)` |
-| `MetricsAwareSelector` | class | `skills/autonomous_daemon.py:1057` | `class MetricsAwareSelector(ICommandSelector)` |
-| `PTYCommandRunner` | class | `skills/autonomous_daemon.py:499` | `class PTYCommandRunner(ICommandRunner)` |
-| `ParquetSelector` | class | `skills/autonomous_daemon.py:749` | `class ParquetSelector(ICommandSelector)` |
-| `ReactiveSelector` | class | `skills/autonomous_daemon.py:703` | `class ReactiveSelector(ICommandSelector)` |
-| `SWANSelector` | class | `skills/autonomous_daemon.py:964` | `class SWANSelector(ICommandSelector)` |
-| `StaticFallbackResolver` | class | `skills/autonomous_daemon.py:3299` | `class StaticFallbackResolver(IToolFallbackResolver)` |
-| `StepResult` | class | `skills/autonomous_daemon.py:1552` | `class StepResult` |
-| `StrategyEngine` | class | `skills/autonomous_daemon.py:1471` | `class StrategyEngine` |
-| `UnifiedBrainSelector` | class | `skills/autonomous_daemon.py:1288` | `class UnifiedBrainSelector(ICommandSelector)` |
-| `_ShellDetector` | class | `skills/autonomous_daemon.py:3368` | `class _ShellDetector` |
-| `__init__` | method | `skills/autonomous_daemon.py:597` | `def __init__(self, runners)` |
-| `__init__` | method | `skills/autonomous_daemon.py:709` | `def __init__(self, reactive_engine)` |
-| `__init__` | method | `skills/autonomous_daemon.py:755` | `def __init__(self, pdb, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:801` | `def __init__(self, dispatcher, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1078` | `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1301` | `def __init__(self)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1349` | `def __init__(self, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1407` | `def __init__(self)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1447` | `def __init__(self, selectors)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1485` | `def __init__(self, runner, selectors)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1590` | `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)` |
-| `__init__` | method | `skills/autonomous_daemon.py:2973` | `def __init__(self)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3329` | `def __init__(self, dispatcher)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3381` | `def __init__(self, narrator)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3473` | `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...` |
-| `_ask_via` | function | `skills/autonomous_daemon.py:933` | `def _ask_via(_backend, _goal, _key)` |
-| `_bridge_candidate` | method | `skills/autonomous_daemon.py:816` | `def _bridge_candidate(self, phase, services, tag, os_hint)` |
-| `_build_default_runner` | function | `skills/autonomous_daemon.py:618` | `def _build_default_runner()` |
-| `_build_drafts_engine` | function | `skills/autonomous_daemon.py:4364` | `def _build_drafts_engine()` |
-| `_candidates` | method | `skills/autonomous_daemon.py:3334` | `def _candidates(self, primary, phase)` |
-| `_clear_pid` | function | `skills/autonomous_daemon.py:4845` | `def _clear_pid()` |
-| `_compute_step_reward` | function | `skills/autonomous_daemon.py:1757` | `def _compute_step_reward(output, command, phase, success, findings, prev_cmds)` |
-| `_consult_gate` | method | `skills/autonomous_daemon.py:4044` | `def _consult_gate(self, step)` |
-| `_credential_worth_task` | function | `skills/autonomous_daemon.py:211` | `def _credential_worth_task(cred)` |
-| `_current_bridge_phase` | function | `skills/autonomous_daemon.py:3176` | `def _current_bridge_phase()` |
-| `_current_summary` | method | `skills/autonomous_daemon.py:1156` | `def _current_summary(self)` |
-| `_daemon_tool` | function | `skills/autonomous_daemon.py:462` | `def _daemon_tool(command)` |
+| `BridgeFallbackResolver` | class | `skills/autonomous_daemon.py:3312` | `class BridgeFallbackResolver(IToolFallbackResolver)` |
+| `BridgeSelector` | class | `skills/autonomous_daemon.py:787` | `class BridgeSelector(ICommandSelector)` |
+| `CascadeStrategy` | class | `skills/autonomous_daemon.py:1432` | `class CascadeStrategy` |
+| `ChainSelector` | class | `skills/autonomous_daemon.py:1379` | `class ChainSelector(ICommandSelector)` |
+| `CommandRunnerChain` | class | `skills/autonomous_daemon.py:589` | `class CommandRunnerChain(ICommandRunner)` |
+| `CredentialSpraySelector` | class | `skills/autonomous_daemon.py:1331` | `class CredentialSpraySelector(ICommandSelector)` |
+| `DroneCoordinator` | class | `skills/autonomous_daemon.py:2956` | `class DroneCoordinator` |
+| `EngageOrchestrator` | class | `skills/autonomous_daemon.py:3451` | `class EngageOrchestrator` |
+| `EnginePhaseResult` | class | `skills/autonomous_daemon.py:3261` | `class EnginePhaseResult` |
+| `EnginePhaseStep` | class | `skills/autonomous_daemon.py:3244` | `class EnginePhaseStep` |
+| `ExecutionEngine` | class | `skills/autonomous_daemon.py:1570` | `class ExecutionEngine(IObjectiveHandler)` |
+| `FallbackSelector` | class | `skills/autonomous_daemon.py:1026` | `class FallbackSelector(ICommandSelector)` |
+| `ICommandRunner` | class | `skills/autonomous_daemon.py:428` | `class ICommandRunner(ABC)` |
+| `ICommandSelector` | class | `skills/autonomous_daemon.py:682` | `class ICommandSelector(ABC)` |
+| `IObjectiveHandler` | class | `skills/autonomous_daemon.py:1556` | `class IObjectiveHandler(ABC)` |
+| `IToolFallbackResolver` | class | `skills/autonomous_daemon.py:3278` | `class IToolFallbackResolver(ABC)` |
+| `LLMSelector` | class | `skills/autonomous_daemon.py:856` | `class LLMSelector(ICommandSelector)` |
+| `MCPCommandRunner` | class | `skills/autonomous_daemon.py:481` | `class MCPCommandRunner(ICommandRunner)` |
+| `MetricsAwareSelector` | class | `skills/autonomous_daemon.py:1049` | `class MetricsAwareSelector(ICommandSelector)` |
+| `PTYCommandRunner` | class | `skills/autonomous_daemon.py:500` | `class PTYCommandRunner(ICommandRunner)` |
+| `ParquetSelector` | class | `skills/autonomous_daemon.py:741` | `class ParquetSelector(ICommandSelector)` |
+| `ReactiveSelector` | class | `skills/autonomous_daemon.py:695` | `class ReactiveSelector(ICommandSelector)` |
+| `SWANSelector` | class | `skills/autonomous_daemon.py:956` | `class SWANSelector(ICommandSelector)` |
+| `StaticFallbackResolver` | class | `skills/autonomous_daemon.py:3291` | `class StaticFallbackResolver(IToolFallbackResolver)` |
+| `StepResult` | class | `skills/autonomous_daemon.py:1544` | `class StepResult` |
+| `StrategyEngine` | class | `skills/autonomous_daemon.py:1463` | `class StrategyEngine` |
+| `UnifiedBrainSelector` | class | `skills/autonomous_daemon.py:1280` | `class UnifiedBrainSelector(ICommandSelector)` |
+| `_ShellDetector` | class | `skills/autonomous_daemon.py:3360` | `class _ShellDetector` |
+| `__init__` | method | `skills/autonomous_daemon.py:598` | `def __init__(self, runners)` |
+| `__init__` | method | `skills/autonomous_daemon.py:701` | `def __init__(self, reactive_engine)` |
+| `__init__` | method | `skills/autonomous_daemon.py:747` | `def __init__(self, pdb, fail_counts)` |
+| `__init__` | method | `skills/autonomous_daemon.py:793` | `def __init__(self, dispatcher, fail_counts)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1070` | `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1293` | `def __init__(self)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1341` | `def __init__(self, fail_counts)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1399` | `def __init__(self)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

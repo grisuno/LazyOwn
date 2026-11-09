@@ -1,5 +1,36 @@
-# API (page 22 of 26)
+# API (page 22 of 27)
 Previous: [API_p21.md](API_p21.md)
+
+## skills/lazyown_campaign.py
+Depends on: `core/logging.py`, `modules/lesson_ingestor.py`, `modules/logging_config.py`
+Imported by: `skills/mcp_tools/campaign.py`
+- `is_ip_in_scope` (function) `skills/lazyown_campaign.py:64` `def is_ip_in_scope(ip, scope)` -- Return True if *ip* belongs to any entry in *scope*.
+- `Campaign.is_active` (method) `skills/lazyown_campaign.py:148` `def is_active(self)` -- Return True when the campaign has not been completed yet.
+- `Campaign.to_dict` (method) `skills/lazyown_campaign.py:152` `def to_dict(self)` -- Serialise to a plain dict suitable for JSON persistence.
+- `Campaign.from_dict` (method) `skills/lazyown_campaign.py:157` `def from_dict(cls, data)` -- Deserialise from a dict loaded out of JSON.
+- `LessonLearned.to_dict` (method) `skills/lazyown_campaign.py:189` `def to_dict(self)`
+- `EpisodeReflectionEngine.__init__` (method) `skills/lazyown_campaign.py:256` `def __init__(self, hive_memory)` -- Parameters hive_memory: Optional HiveMemory instance for semantic storage.
+- `EpisodeReflectionEngine.reflect` (method) `skills/lazyown_campaign.py:268` `def reflect(self, campaign)` -- Extract lessons from *campaign* and persist them.
+- `CampaignStore.__init__` (method) `skills/lazyown_campaign.py:382` `def __init__(self, campaign_file)`
+- `CampaignStore.load` (method) `skills/lazyown_campaign.py:395` `def load(self)` -- Load the current campaign from disk.
+- `CampaignStore.create` (method) `skills/lazyown_campaign.py:414` `def create(self, name, scope, notes)` -- Create and persist a brand-new campaign.
+- `CampaignStore.complete` (method) `skills/lazyown_campaign.py:445` `def complete(self, notes, run_reflection, hive_memory)` -- Mark the active campaign as completed and optionally run reflection.
+- `CampaignStore.update_phase` (method) `skills/lazyown_campaign.py:500` `def update_phase(self, host, phase)` -- Set (or update) the attack phase for *host*.
+- `CampaignStore.add_milestone` (method) `skills/lazyown_campaign.py:516` `def add_milestone(self, host, milestone_type, notes)` -- Record a milestone achievement for *host*.
+- `CampaignStore.add_to_scope` (method) `skills/lazyown_campaign.py:540` `def add_to_scope(self, ip_or_cidr)` -- Append *ip_or_cidr* to the campaign scope (idempotent).
+- `CampaignStore.in_scope` (method) `skills/lazyown_campaign.py:559` `def in_scope(self, ip)` -- Return True if *ip* falls within the campaign scope.
+- `CampaignStore.summary` (method) `skills/lazyown_campaign.py:566` `def summary(self)` -- Return a human-readable multi-line summary of the campaign.
+- `main` (function) `skills/lazyown_campaign.py:667` `def main(argv)`
+
+## skills/lazyown_claudemd.py
+Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
+- `ClaudeMdLoader.__init__` (method) `skills/lazyown_claudemd.py:32` `def __init__(self, cwd)`
+- `ClaudeMdLoader.load` (method) `skills/lazyown_claudemd.py:35` `def load(self)` -- Return merged instructions string from all applicable levels.
+- `ClaudeMdLoader.list_files` (method) `skills/lazyown_claudemd.py:90` `def list_files(self)` -- Return metadata for all CLAUDE.md files that exist.
+- `ClaudeMdLoader.create_user_file` (method) `skills/lazyown_claudemd.py:115` `def create_user_file(self, content)` -- Create/overwrite ~/.lazyown/CLAUDE.md.
+- `ClaudeMdLoader.create_project_file` (method) `skills/lazyown_claudemd.py:121` `def create_project_file(self, content, local)` -- Create CLAUDE.md (or CLAUDE.local.md) in cwd.
+- `ClaudeMdLoader.add_rule` (method) `skills/lazyown_claudemd.py:127` `def add_rule(self, rule_name, content)` -- Add a named rule file to .lazyown/rules/.
+- `ClaudeMdLoader.status_text` (method) `skills/lazyown_claudemd.py:135` `def status_text(self)`
 
 ## skills/lazyown_context.py
 Imported by: `skills/lazyown_mcp.py`, `skills/lazyown_session.py`, `skills/tests/test_harness_e2e.py`
@@ -14,7 +45,7 @@ Imported by: `skills/lazyown_mcp.py`, `skills/lazyown_session.py`, `skills/tests
 - `compact_output` (function) `skills/lazyown_context.py:237` `def compact_output(content, tool_name)` -- Convenience wrapper: compact and return string.
 
 ## skills/lazyown_daemon.py
-Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `modules/session_state.py`, `modules/timeline_narrator.py`, `skills/sessions_watcher.py`
+Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `modules/timeline_narrator.py`, `skills/sessions_watcher.py`
 - `process_new_rows` (function) `skills/lazyown_daemon.py:108` `def process_new_rows()`
 - `file_watcher_loop` (function) `skills/lazyown_daemon.py:150` `def file_watcher_loop(queue)` -- Watch sessions/ for new/modified files and dispatch handlers.
 - `_Handler.on_created` (method) `skills/lazyown_daemon.py:201` `def on_created(self, event)`
@@ -30,7 +61,7 @@ Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_confi
 
 ## skills/lazyown_facts.py
 Depends on: `core/logging.py`, `modules/logging_config.py`
-Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
+Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
 - `Config.default` (method) `skills/lazyown_facts.py:45` `def default(cls)`
 - `HostFacts.highest_access` (method) `skills/lazyown_facts.py:145` `def highest_access(self)`
 - `HostFacts.open_ports` (method) `skills/lazyown_facts.py:156` `def open_ports(self)`
@@ -78,8 +109,8 @@ Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`
 - `main` (function) `skills/lazyown_facts.py:1074` `def main()`
 
 ## skills/lazyown_groq_agents.py
-Depends on: `modules/atomic_enricher.py`, `modules/lazyown_bridge.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`
-Imported by: `skills/hive_mind.py`, `skills/lazyown_mcp.py`, `skills/swan_agent.py`, `tests/test_bridge_catalog_filtered.py`
+Depends on: `modules/atomic_enricher.py`, `modules/lazyown_bridge.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`
+Imported by: `skills/hive_mind.py`, `skills/mcp_tools/groq_agent.py`, `skills/swan_agent.py`, `tests/test_bridge_catalog_filtered.py`
 - `GroqAgentPool.__init__` (method) `skills/lazyown_groq_agents.py:702` `def __init__(self)`
 - `GroqAgentPool.spawn` (method) `skills/lazyown_groq_agents.py:706` `def spawn(self, goal, tools_filter, api_key, backend, max_iterations, system_prompt, block)` -- Spawn a new agent.
 - `GroqAgentPool.status` (method) `skills/lazyown_groq_agents.py:778` `def status(self, agent_id)`
@@ -109,7 +140,7 @@ Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
 
 ## skills/lazyown_llm.py
 Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`
-Imported by: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`
+Imported by: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/llm_ask.py`
 - `LLMTool.openai_schema` (method) `skills/lazyown_llm.py:79` `def openai_schema(self)`
 - `LLMBridge.__init__` (method) `skills/lazyown_llm.py:104` `def __init__(self, backend, model, api_key)`
 - `LLMBridge.register_tool` (method) `skills/lazyown_llm.py:118` `def register_tool(self, name, description, parameters, func)`
@@ -124,18 +155,17 @@ Imported by: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyo
 - `main` (function) `skills/lazyown_llm.py:493` `def main()`
 
 ## skills/lazyown_mcp.py
-Depends on: `cli/command_chain.py`, `cli/graph_advisor.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/llm_budget.py`, `core/logging.py`, `core/param_registry.py`, `core/payload_schema.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_pivot.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/backdoor/server.c`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/cve_matcher.py`, `modules/dashboard_engine.py`, `modules/db.py`, `modules/evasion_engine.py`, `modules/event_engine.py`, `modules/exploit_recommender.py`, `modules/exploitgym_gym.py`, `modules/integrations/misp_export.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_search.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/mcp_agent_bridge.py`, `modules/memory_store.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/pipeline_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/recommender.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/session_state.py`, `modules/sinks/routing.py`, `modules/threat_model.py`, `modules/timeline_narrator.py`, `modules/ttpscope_bridge.py`, `modules/unified_dashboard.py`, `modules/world_model.py`, `scripts/lazy_opencode_config.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/daemon_control.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/swan_agent.py`
+Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/killchain.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/playbook_engine.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
 Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
 - `register_handler` (function) `skills/lazyown_mcp.py:604` `def register_handler(tool_name)` -- Decorator that registers an async handler for *tool_name*.
-- `coerce_value` (function) `skills/lazyown_mcp.py:854` `def coerce_value(k, v)`
-- `list_tools` (function) `skills/lazyown_mcp.py:2298` `def list_tools()`
-- `substitute_playbook_target` (function) `skills/lazyown_mcp.py:6924` `def substitute_playbook_target(command, target)` -- Substitute the {target} token in a playbook step command.
-- `call_tool` (function) `skills/lazyown_mcp.py:6942` `def call_tool(name, arguments)`
-- `text` (function) `skills/lazyown_mcp.py:6956` `def text(content)`
-- `main` (function) `skills/lazyown_mcp.py:12158` `def main()`
+- `list_tools` (function) `skills/lazyown_mcp.py:897` `def list_tools()`
+- `substitute_playbook_target` (function) `skills/lazyown_mcp.py:1308` `def substitute_playbook_target(command, target)` -- Substitute the {target} token in a playbook step command.
+- `call_tool` (function) `skills/lazyown_mcp.py:1326` `def call_tool(name, arguments)`
+- `text` (function) `skills/lazyown_mcp.py:1328` `def text(content)`
+- `main` (function) `skills/lazyown_mcp.py:2477` `def main()`
 
 ## skills/lazyown_mcp_helpers.py
-Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_mcp_improvements.py`
+Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/evidence_grep.py`, `skills/mcp_tools/run_command.py`, `skills/mcp_tools/session_diff.py`, `skills/mcp_tools/target_context.py`, `skills/mcp_tools/tasks_cleanup.py`, `tests/test_mcp_improvements.py`
 - `is_likely_credential` (function) `skills/lazyown_mcp_helpers.py:37` `def is_likely_credential(value)` -- Score whether a string is plausibly a real credential.
 - `evidence_freshness` (function) `skills/lazyown_mcp_helpers.py:67` `def evidence_freshness(path, threshold_seconds, now)` -- Return age + stale flag for an evidence file.
 - `parse_task_value` (function) `skills/lazyown_mcp_helpers.py:125` `def parse_task_value(title)` -- Extract the embedded JSON-ish payload from a task title.
@@ -161,7 +191,7 @@ Imported by: `tests/test_opencode_mcp_harness.py`
 - `main` (function) `skills/lazyown_mcp_opencode.py:213` `def main()`
 
 ## skills/lazyown_objective.py
-Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`, `tests/test_golden_path.py`
+Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/inject_objective.py`, `skills/mcp_tools/next_objective.py`, `skills/mcp_tools/soul.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`, `tests/test_golden_path.py`
 - `Objective.sort_key` (method) `skills/lazyown_objective.py:116` `def sort_key(self)`
 - `ObjectiveStore.__init__` (method) `skills/lazyown_objective.py:131` `def __init__(self, path)`
 - `ObjectiveStore.cleanup` (method) `skills/lazyown_objective.py:163` `def cleanup(self)` -- Expire pending objectives whose TTL has passed.
@@ -190,7 +220,7 @@ Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/la
 
 ## skills/lazyown_parquet_db.py
 Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
+Imported by: `cli/commands/mcp_bridge.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/parquet_annotate.py`, `skills/mcp_tools/parquet_query.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
 - `ParquetDB.__init__` (method) `skills/lazyown_parquet_db.py:295` `def __init__(self, lazyown_dir)`
 - `ParquetDB.sync` (method) `skills/lazyown_parquet_db.py:316` `def sync(self, csv_path)` -- Ingest sessions/LazyOwn_session_report.csv into session_knowledge.parquet.
 - `ParquetDB.annotate` (method) `skills/lazyown_parquet_db.py:405` `def annotate(self, row_id, success, category, outcome)` -- Patch a row in session_knowledge.parquet by its id.
@@ -325,130 +355,144 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_mcp_lazy.py`
 - `verify_coverage` (function) `skills/mcp_tool_generator.py:203` `def verify_coverage(commands, existing_handlers)` -- Compare indexed commands against existing MCP tool coverage.
 - `main` (function) `skills/mcp_tool_generator.py:220` `def main()`
 
-## skills/sessions_watcher.py
-Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_objective.py`
-Imported by: `skills/lazyown_daemon.py`
-- `_Handler.on_created` (method) `skills/sessions_watcher.py:376` `def on_created(self, event)`
-- `_Handler.on_modified` (method) `skills/sessions_watcher.py:380` `def on_modified(self, event)`
-- `main` (function) `skills/sessions_watcher.py:430` `def main()`
+## skills/mcp_tools/__init__.py
+Depends on: `skills/mcp_tools/_context.py`
+Imported by: `skills/lazyown_mcp.py`
+- `iter_tool_modules` (function) `skills/mcp_tools/__init__.py:30` `def iter_tool_modules()` -- Yield every discovered tool module exposing ``TOOL`` and ``handle``.
+- `iter_schemas` (function) `skills/mcp_tools/__init__.py:51` `def iter_schemas()` -- Yield the ``types.Tool`` schema of every discovered tool module.
+- `register_handlers` (function) `skills/mcp_tools/__init__.py:57` `def register_handlers(handlers, ctx)` -- Bind each discovered tool's handler into the shared dispatch table.
 
-## skills/setup.sh
-- `info` (function) `skills/setup.sh:15`
-- `warn` (function) `skills/setup.sh:16`
-- `die` (function) `skills/setup.sh:17`
-- `paths_for_sudo` (function) `skills/setup.sh:61` -- Collect paths that exist on this system
-- `add_nopasswd` (function) `skills/setup.sh:92`
+## skills/mcp_tools/aci_plan.py
+Depends on: `skills/aci_planner.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/aci_plan.py:63` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_aci_plan MCP tool.
 
-## skills/swan_agent.py
-Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
-Imported by: `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
-- `SwanResult.is_success` (method) `skills/swan_agent.py:167` `def is_success(self)`
-- `IResultAggregator.aggregate` (method) `skills/swan_agent.py:209` `def aggregate(self, task_type, goal, votes)` -- Return (synthesis_text, consensus_confidence).
-- `ISwanOrchestrator.run` (method) `skills/swan_agent.py:226` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute with the best single expert and return result.
-- `ISwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:236` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
-- `WeightedTextAggregator.aggregate` (method) `skills/swan_agent.py:264` `def aggregate(self, task_type, goal, votes)`
-- `ExpertExecutor.execute` (method) `skills/swan_agent.py:351` `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)` -- Run the expert and return a SwanResult.
-- `OutcomeEvaluator.evaluate` (method) `skills/swan_agent.py:479` `def evaluate(self, result, task_type)` -- Return (reward, detection_prob).
-- `SwanOrchestrator.__init__` (method) `skills/swan_agent.py:572` `def __init__(self, executor, evaluator, aggregator, api_key)`
-- `SwanOrchestrator.run` (method) `skills/swan_agent.py:592` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute the task with the best single expert selected by the MoE+RL router.
-- `SwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:680` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
-- `SwanOrchestrator.status` (method) `skills/swan_agent.py:763` `def status(self)` -- Return a diagnostic snapshot of the SWAN system.
-- `mcp_swan_run` (function) `skills/swan_agent.py:945` `def mcp_swan_run(task_type, goal, phase)` -- Route and execute a task with the best MoE+RL-selected expert.
-- `mcp_swan_ensemble` (function) `skills/swan_agent.py:968` `def mcp_swan_ensemble(task_type, goal, n_experts, phase)` -- Run top-N experts in parallel and return a synthesized result.
-- `mcp_swan_status` (function) `skills/swan_agent.py:996` `def mcp_swan_status()` -- Return SWAN system status: expert weights, RL epsilon, performance.
-- `mcp_swan_route` (function) `skills/swan_agent.py:1003` `def mcp_swan_route(task_type, goal)` -- Show which expert would be selected for a task without executing.
-- `get_swan` (function) `skills/swan_agent.py:1039` `def get_swan(api_key)` -- Return (or create) the module-level singleton SwanOrchestrator.
+## skills/mcp_tools/aci_replan.py
+Depends on: `skills/aci_planner.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/aci_replan.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_aci_replan MCP tool.
 
-## skills/toposwarm_autonomous.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/reactive_engine.py`, `modules/toposwarm_bridge.py`
-- `PentestState.add_finding` (method) `skills/toposwarm_autonomous.py:145` `def add_finding(self, phase_name, text)`
-- `PentestState.summary` (method) `skills/toposwarm_autonomous.py:149` `def summary(self)`
-- `PentestState.to_dict` (method) `skills/toposwarm_autonomous.py:160` `def to_dict(self)`
-- `AutonomousAgent.__init__` (method) `skills/toposwarm_autonomous.py:310` `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
-- `AutonomousAgent.run` (method) `skills/toposwarm_autonomous.py:432` `def run(self, start_phase)`
-- `main` (function) `skills/toposwarm_autonomous.py:489` `def main(argv)`
+## skills/mcp_tools/aci_status.py
+Depends on: `skills/aci_planner.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/aci_status.py:26` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_aci_status MCP tool.
 
-## skills/unified_orchestrator.py
-Depends on: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
-- `OrchestratorConfig.from_payload` (method) `skills/unified_orchestrator.py:111` `def from_payload(cls, payload)` -- Return a config with ``payload.json`` overrides applied.
-- `OrchestratorGoal.with_defaults` (method) `skills/unified_orchestrator.py:156` `def with_defaults(self, config)` -- Return a copy with empty fields populated from ``config``.
-- `OrchestratorResult.to_dict` (method) `skills/unified_orchestrator.py:197` `def to_dict(self)` -- Return a JSON-serialisable dictionary of the result.
-- `IOrchestratorBackend.available` (method) `skills/unified_orchestrator.py:215` `def available(self)` -- Return ``True`` when this backend can satisfy a request.
-- `IOrchestratorBackend.run` (method) `skills/unified_orchestrator.py:219` `def run(self, goal)` -- Execute ``goal`` and return a normalised :class:`OrchestratorResult`.
-- `EventBus.__init__` (method) `skills/unified_orchestrator.py:233` `def __init__(self, config, root)` -- Bind the bus to the active config.
-- `EventBus.path` (method) `skills/unified_orchestrator.py:252` `def path(self)` -- Return the resolved event file path.
-- `EventBus.emit` (method) `skills/unified_orchestrator.py:256` `def emit(self, event)` -- Append a single sanitised event to the bus.
-- `BackendRegistry.__init__` (method) `skills/unified_orchestrator.py:303` `def __init__(self, backends)` -- Bind the registry to a fixed-order tuple of backends.
-- `BackendRegistry.names` (method) `skills/unified_orchestrator.py:327` `def names(self)` -- Return the registered backend names in declaration order.
-- `BackendRegistry.get` (method) `skills/unified_orchestrator.py:331` `def get(self, name)` -- Return the backend registered as ``name`` or ``None``.
-- `BackendRegistry.available` (method) `skills/unified_orchestrator.py:335` `def available(self)` -- Return every backend that currently reports availability.
-- `RouterPolicy.__init__` (method) `skills/unified_orchestrator.py:347` `def __init__(self, config, registry)` -- Bind the policy to config and backend registry.
-- `RouterPolicy.choose` (method) `skills/unified_orchestrator.py:352` `def choose(self, goal)` -- Return the backend that should execute ``goal``.
-- `DaemonBackend.__init__` (method) `skills/unified_orchestrator.py:413` `def __init__(self, config, factory, payload)` -- Bind to config, optional engine factory and payload mapping.
-- `DaemonBackend.available` (method) `skills/unified_orchestrator.py:435` `def available(self)` -- Return ``True`` when the underlying engine can be imported.
-- `DaemonBackend.run` (method) `skills/unified_orchestrator.py:445` `def run(self, goal)` -- Execute a single-target kill-chain engagement.
-- `DaemonBackend.effective_target` (method) `skills/unified_orchestrator.py:489` `def effective_target(self, goal)` -- Return the daemon target this backend would use for ``goal``.
-- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:610` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
-- `HiveBackend.available` (method) `skills/unified_orchestrator.py:619` `def available(self)` -- Return ``True`` when the hive engine is importable.
-- `HiveBackend.run` (method) `skills/unified_orchestrator.py:629` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
-- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:711` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
-- `SwanBackend.available` (method) `skills/unified_orchestrator.py:720` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
-- `SwanBackend.run` (method) `skills/unified_orchestrator.py:730` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
-- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:814` `def __init__(self, config)` -- Bind the validator to the active configuration.
-- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:818` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
-- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:874` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
-- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:890` `def backends(self)` -- Return the registered backend names in declaration order.
-- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:894` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
-- `build_default_orchestrator` (function) `skills/unified_orchestrator.py:995` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
+## skills/mcp_tools/ack_event.py
+Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/ack_event.py:28` `def handle(arguments, tool_name, ctx)` -- Acknowledge one event by id, reporting whether it was found.
 
-## skills/update_knowledge.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_parquet_db.py`
-- `main` (function) `skills/update_knowledge.py:40` `def main(argv)`
+## skills/mcp_tools/add_rule.py
+Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/add_rule.py:41` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_add_rule MCP tool.
 
-## slack_c2_bot.py
-Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
-- `SecureSessionManager.__init__` (method) `slack_c2_bot.py:29` `def __init__(self)`
-- `SecureSessionManager.register_failed_attempt` (method) `slack_c2_bot.py:34` `def register_failed_attempt(self, user_id)`
-- `SecureSessionManager.check_lockout` (method) `slack_c2_bot.py:42` `def check_lockout(self, user_id)`
-- `SecureSessionManager.check_rate_limit` (method) `slack_c2_bot.py:52` `def check_rate_limit(self, user_id)`
-- `SecureSessionManager.create_session` (method) `slack_c2_bot.py:63` `def create_session(self, user_id)`
-- `SecureSessionManager.validate_session` (method) `slack_c2_bot.py:71` `def validate_session(self, user_id)`
-- `SecureSessionManager.set_client` (method) `slack_c2_bot.py:81` `def set_client(self, user_id, client_id)`
-- `SecureSessionManager.get_client` (method) `slack_c2_bot.py:85` `def get_client(self, user_id)`
-- `capture_shell_output` (function) `slack_c2_bot.py:95` `def capture_shell_output(cmd)`
-- `handle_message` (function) `slack_c2_bot.py:113` `def handle_message(event, say, logger)`
-- `cmd_addcli` (function) `slack_c2_bot.py:177` `def cmd_addcli(ack, respond, command)`
-- `cmd_clients` (function) `slack_c2_bot.py:195` `def cmd_clients(ack, respond, command)`
-- `cmd_download` (function) `slack_c2_bot.py:209` `def cmd_download(ack, respond, command)`
-- `handle_file` (function) `slack_c2_bot.py:240` `def handle_file(event, say, logger)`
-- `mentioned` (function) `slack_c2_bot.py:252` `def mentioned(ack, say, event)`
+## skills/mcp_tools/add_target.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/add_target.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_add_target MCP tool.
 
-## static/hexabot/hexabot-spinner.js
-Depends on: `cli/assign.py`, `core/prompt.py`, `poc_tui/run.py`
-- `rand` (function) `static/hexabot/hexabot-spinner.js:46`
-- `clamp` (function) `static/hexabot/hexabot-spinner.js:47`
-- `Terminal.constructor` (method) `static/hexabot/hexabot-spinner.js:50`
-- `Terminal.push` (method) `static/hexabot/hexabot-spinner.js:84`
-- `Terminal.log` (method) `static/hexabot/hexabot-spinner.js:92`
-- `Terminal.run` (method) `static/hexabot/hexabot-spinner.js:94`
-- `Terminal.setProgress` (method) `static/hexabot/hexabot-spinner.js:96`
-- `Terminal.startCommand` (method) `static/hexabot/hexabot-spinner.js:102`
-- `Terminal.update` (method) `static/hexabot/hexabot-spinner.js:107`
-- `Terminal.colorFor` (method) `static/hexabot/hexabot-spinner.js:139`
-- `Terminal.drawPrompt` (method) `static/hexabot/hexabot-spinner.js:146`
-- `Terminal.draw` (method) `static/hexabot/hexabot-spinner.js:152`
-- `Terminal.dispose` (method) `static/hexabot/hexabot-spinner.js:206`
-- `radialTexture` (function) `static/hexabot/hexabot-spinner.js:209`
-- `createHexabotSpinner` (function) `static/hexabot/hexabot-spinner.js:223`
-- `setHappy` (function) `static/hexabot/hexabot-spinner.js:365`
-- `ndc` (function) `static/hexabot/hexabot-spinner.js:371`
-- `now` (function) `static/hexabot/hexabot-spinner.js:375`
-- `onDown` (function) `static/hexabot/hexabot-spinner.js:377`
-- `onMove` (function) `static/hexabot/hexabot-spinner.js:395`
-- `onUp` (function) `static/hexabot/hexabot-spinner.js:407`
-- `resize` (function) `static/hexabot/hexabot-spinner.js:423`
-- `loop` (function) `static/hexabot/hexabot-spinner.js:439`
+## skills/mcp_tools/agent_result.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/agent_result.py:31` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_agent_result MCP tool.
+
+## skills/mcp_tools/agent_status.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/agent_status.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_agent_status MCP tool.
+
+## skills/mcp_tools/apt_chain.py
+Depends on: `modules/chain_registry.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/apt_chain.py:93` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_apt_chain MCP tool.
+
+## skills/mcp_tools/atomic_clean.py
+Depends on: `modules/atomic_exploit_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/atomic_clean.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_clean MCP tool.
+
+## skills/mcp_tools/atomic_resolve.py
+Depends on: `modules/atomic_enricher.py`, `modules/atomic_resolver.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/atomic_resolve.py:49` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_resolve MCP tool.
+
+## skills/mcp_tools/atomic_search.py
+Depends on: `modules/atomic_enricher.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/atomic_search.py:74` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_search MCP tool.
+
+## skills/mcp_tools/atomic_shell.py
+Depends on: `modules/atomic_exploit_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/atomic_shell.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_shell MCP tool.
+
+## skills/mcp_tools/auto_loop.py
+Depends on: `modules/lazy_engine.py`, `modules/lazy_runner.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/auto_loop.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_auto_loop MCP tool.
+
+## skills/mcp_tools/auto_populate.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/auto_populate.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_auto_populate MCP tool.
+
+## skills/mcp_tools/auto_pwn.py
+Depends on: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/auto_pwn.py:47` `def handle(arguments, tool_name, ctx)` -- Run the full auto-pwn chain and return results with a summary.
+
+## skills/mcp_tools/autonomous_events.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/autonomous_events.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_autonomous_events MCP tool.
+
+## skills/mcp_tools/autonomous_inject.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/autonomous_inject.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_autonomous_inject MCP tool.
+
+## skills/mcp_tools/autonomous_replay.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/autonomous_replay.py:53` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_autonomous_replay MCP tool.
+
+## skills/mcp_tools/autonomous_start.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/autonomous_start.py:40` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_autonomous_start MCP tool.
+
+## skills/mcp_tools/autonomous_status.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/autonomous_status.py:21` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_autonomous_status MCP tool.
+
+## skills/mcp_tools/autonomous_stop.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/autonomous_stop.py:18` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_autonomous_stop MCP tool.
+
+## skills/mcp_tools/bridge_suggest.py
+Depends on: `modules/lazyown_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/bridge_suggest.py:104` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_bridge_suggest MCP tool.
+
+## skills/mcp_tools/c2_adversary.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_adversary.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_adversary MCP tool.
+
+## skills/mcp_tools/c2_command.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_command.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_command MCP tool.
+
+## skills/mcp_tools/c2_notes.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_notes.py:38` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_notes MCP tool.
+
+## skills/mcp_tools/c2_profile.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_profile.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_profile MCP tool.
+
+## skills/mcp_tools/c2_redop.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_redop.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_redop MCP tool.
+
+## skills/mcp_tools/c2_script.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_script.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_script MCP tool.
+
+## skills/mcp_tools/c2_search_agent.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_search_agent.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_search_agent MCP tool.
+
+## skills/mcp_tools/c2_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_status.py:20` `def handle(arguments, tool_name, ctx)` -- Query the C2 dashboard endpoint and return its JSON.
+
+## skills/mcp_tools/c2_vuln_analysis.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_vuln_analysis.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_vuln_analysis MCP tool.
+
+## skills/mcp_tools/campaign.py
+Depends on: `skills/lazyown_campaign.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/campaign.py:46` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_campaign MCP tool.
 
 
 Next: [API_p23.md](API_p23.md)

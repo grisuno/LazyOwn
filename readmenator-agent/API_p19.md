@@ -1,8 +1,30 @@
-# API (page 19 of 26)
+# API (page 19 of 27)
 Previous: [API_p18.md](API_p18.md)
 
+## modules/session_reader.py
+Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
+- `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
+- `ImplantRecord.platform` (method) `modules/session_reader.py:60` `def platform(self)`
+- `ImplantRecord.ip_list` (method) `modules/session_reader.py:69` `def ip_list(self)`
+- `SessionSummary.active_client_ids` (method) `modules/session_reader.py:94` `def active_client_ids(self)`
+- `SessionSummary.privileged_sessions` (method) `modules/session_reader.py:101` `def privileged_sessions(self)`
+- `SessionSummary.unprivileged_sessions` (method) `modules/session_reader.py:108` `def unprivileged_sessions(self)`
+- `SessionSummary.latest_for` (method) `modules/session_reader.py:114` `def latest_for(self, client_id)`
+- `SessionSummary.task_by_status` (method) `modules/session_reader.py:118` `def task_by_status(self, status)`
+- `AbstractReader.read` (method) `modules/session_reader.py:129` `def read(self, sessions_dir)`
+- `ImplantCSVReader.read` (method) `modules/session_reader.py:157` `def read(self, sessions_dir)`
+- `CommandOutputReader.read` (method) `modules/session_reader.py:199` `def read(self, sessions_dir)`
+- `DiscoveredHostReader.read` (method) `modules/session_reader.py:217` `def read(self, sessions_dir)`
+- `TaskReader.read` (method) `modules/session_reader.py:235` `def read(self, sessions_dir)`
+- `TaskWriter.__init__` (method) `modules/session_reader.py:260` `def __init__(self, sessions_dir)`
+- `TaskWriter.append` (method) `modules/session_reader.py:263` `def append(self, title, description, operator, status)`
+- `TaskWriter.update_status` (method) `modules/session_reader.py:288` `def update_status(self, task_id, status)`
+- `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
+- `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
+- `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
+
 ## modules/session_state.py
-Imported by: `modules/recommender.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
+Imported by: `modules/recommender.py`
 - `build_state` (function) `modules/session_state.py:189` `def build_state()` -- Assemble and return the current session state dict.
 - `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
 - `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
@@ -214,14 +236,14 @@ Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
 
 ## modules/threat_model.py
 Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+Imported by: `cli/commands/mcp_bridge.py`
 - `ThreatModelBuilder.build` (method) `modules/threat_model.py:270` `def build(self)`
 - `ThreatModelBuilder.load` (method) `modules/threat_model.py:293` `def load(self)`
 - `get_builder` (function) `modules/threat_model.py:592` `def get_builder()`
 
 ## modules/timeline_narrator.py
 Depends on: `modules/ai_fallback.py`
-Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
+Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/timeline.py`
 - `narrate` (function) `modules/timeline_narrator.py:130` `def narrate(api_key, force)` -- Generate and return the timeline narrative.
 - `load_timeline` (function) `modules/timeline_narrator.py:165` `def load_timeline()` -- Return the last written timeline.md or empty string.
 
@@ -332,7 +354,7 @@ Imported by: `cli/commands/caldera.py`
 
 ## modules/ttpscope_bridge.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
-Imported by: `skills/lazyown_mcp.py`
+Imported by: `skills/mcp_tools/ttp_chain.py`
 - `locate_binary` (function) `modules/ttpscope_bridge.py:82` `def locate_binary()` -- Return the ttpscope binary path, preferring the vendored build.
 - `validate_object_id` (function) `modules/ttpscope_bridge.py:92` `def validate_object_id(raw)` -- Validate an ATT&CK object ID (T1059.001, G0016, S0002, ...).
 - `validate_query` (function) `modules/ttpscope_bridge.py:100` `def validate_query(raw)` -- Validate a free-text search query.
@@ -369,7 +391,7 @@ Imported by: `lazyown.py`
 
 ## modules/unified_dashboard.py
 Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
+Imported by: `skills/mcp_tools/unified_dashboard.py`, `tests/test_unified_dashboard.py`
 - `UnifiedDashboard.__init__` (method) `modules/unified_dashboard.py:44` `def __init__(self, sessions_dir)`
 - `UnifiedDashboard.build_unified_snapshot` (method) `modules/unified_dashboard.py:76` `def build_unified_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
 - `UnifiedDashboard.render_unified` (method) `modules/unified_dashboard.py:170` `def render_unified(self)` -- Render the unified dashboard as a text string for CLI/TUI.
@@ -415,16 +437,16 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
 ## modules/verb_catalog.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
-- `index_commands` (function) `modules/verb_catalog.py:226` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
-- `validate_catalog` (function) `modules/verb_catalog.py:266` `def validate_catalog(data)` -- Validate one raw catalog document.
-- `load` (function) `modules/verb_catalog.py:299` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
-- `entries` (function) `modules/verb_catalog.py:332` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
-- `catalog_enabled` (function) `modules/verb_catalog.py:385` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
-- `catalog_source` (function) `modules/verb_catalog.py:400` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
-- `set_enabled` (function) `modules/verb_catalog.py:414` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
-- `sync` (function) `modules/verb_catalog.py:452` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
-- `stats` (function) `modules/verb_catalog.py:544` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
-- `search` (function) `modules/verb_catalog.py:558` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+- `index_commands` (function) `modules/verb_catalog.py:254` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:294` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:331` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:364` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:420` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:435` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:449` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:487` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:579` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:593` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
 
 ## modules/verb_manifest.py
 Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
@@ -463,32 +485,6 @@ Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
 - `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:297` `def stream_response(self, prompt)`
 - `generate` (function) `modules/vulnbot.py:298` `def generate()`
 - `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:303` `def add_to_knowledge_base(self, prompt, response)` -- Append a prompt/response record in the canonical list format.
-
-## modules/websocket_beacon.py
-Depends on: `core/hardening.py`
-- `WebSocketBeacon.__init__` (method) `modules/websocket_beacon.py:62` `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
-- `WebSocketBeacon.connect` (method) `modules/websocket_beacon.py:122` `def connect(self)` -- Establish WebSocket connection to the C2 server.
-- `WebSocketBeacon.check_in` (method) `modules/websocket_beacon.py:157` `def check_in(self)` -- Send heartbeat and retrieve pending tasks.
-- `WebSocketBeacon.send_result` (method) `modules/websocket_beacon.py:191` `def send_result(self, task_id, output, exit_code)` -- Send command execution result back to C2.
-- `WebSocketBeacon.run` (method) `modules/websocket_beacon.py:214` `def run(self, command_handler)` -- Main beacon loop with check-in and command execution.
-- `WebSocketBeacon.shutdown` (method) `modules/websocket_beacon.py:263` `def shutdown(self)` -- Gracefully shutdown the beacon.
-- `WebSocketC2Handler.__init__` (method) `modules/websocket_beacon.py:288` `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
-- `WebSocketC2Handler.start` (method) `modules/websocket_beacon.py:382` `def start(self)` -- Start the WebSocket C2 server.
-- `WebSocketC2Handler.stop` (method) `modules/websocket_beacon.py:392` `def stop(self)` -- Stop the WebSocket C2 server.
-- `WebSocketC2Handler.start_in_thread` (method) `modules/websocket_beacon.py:399` `def start_in_thread(self)` -- Start the WebSocket C2 server in a background thread.
-- `WebSocketC2Handler.send_task` (method) `modules/websocket_beacon.py:416` `def send_task(self, beacon_id, command)` -- Send a command task to a specific beacon.
-- `WebSocketC2Handler.list_beacons` (method) `modules/websocket_beacon.py:447` `def list_beacons(self)` -- List all connected beacons.
-- `WebSocketC2Handler.remove_stale_beacons` (method) `modules/websocket_beacon.py:464` `def remove_stale_beacons(self, timeout)` -- Remove beacons that have not checked in within the timeout.
-
-## modules/win_rootkit/backup.c
-- `elp` (function) `modules/win_rootkit/backup.c:66` `void elp()`
-- `ensure_pid_file_exists` (function) `modules/win_rootkit/backup.c:86` `void ensure_pid_file_exists()`
-- `ensure_key_file_exists` (function) `modules/win_rootkit/backup.c:123` `void ensure_key_file_exists()`
-- `ensure_hide_file_exists` (function) `modules/win_rootkit/backup.c:150` `void ensure_hide_file_exists()`
-- `infect_command` (function) `modules/win_rootkit/backup.c:179` `void infect_command()`
-- `handle_client` (function) `modules/win_rootkit/backup.c:204` `DWORD WINAPI handle_client(LPVOID client_socket)`
-- `monitor_shell` (function) `modules/win_rootkit/backup.c:430` `DWORD WINAPI monitor_shell(LPVOID data)`
-- `main` (function) `modules/win_rootkit/backup.c:540` `int main()`
 
 
 Next: [API_p20.md](API_p20.md)

@@ -1,4 +1,4 @@
-# Subsystem: tests (page 9 of 24)
+# Subsystem: tests (page 9 of 25)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
 ## tests/test_defense_stages.py
@@ -354,11 +354,11 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_do_engage_method_exists_in_lazyown` (method, line 677) `def test_do_engage_method_exists_in_lazyown(self)`
   - `test_lazyc2_has_engagement_hook_call` (method, line 684) `def test_lazyc2_has_engagement_hook_call(self)`
   - `test_mcp_exposes_four_engage_tools` (method, line 688) `def test_mcp_exposes_four_engage_tools(self)`
-  - `test_daemon_has_engage_subcommand` (method, line 698) `def test_daemon_has_engage_subcommand(self)`
-  - `test_payload_json_auto_approve_key_is_bool_when_present` (method, line 703) `def test_payload_json_auto_approve_key_is_bool_when_present(self)`
-  - `test_approval_gate_defaults_to_true_when_key_missing` (method, line 708) `def test_approval_gate_defaults_to_true_when_key_missing(self, tmp_path)`
-  - `test_engagement_hooks_module_exposes_public_surface` (method, line 726) `def test_engagement_hooks_module_exposes_public_surface(self)`
-  - `test_policy_module_exposes_approval_surface` (method, line 740) `def test_policy_module_exposes_approval_surface(self)`
+  - `test_daemon_has_engage_subcommand` (method, line 701) `def test_daemon_has_engage_subcommand(self)`
+  - `test_payload_json_auto_approve_key_is_bool_when_present` (method, line 706) `def test_payload_json_auto_approve_key_is_bool_when_present(self)`
+  - `test_approval_gate_defaults_to_true_when_key_missing` (method, line 711) `def test_approval_gate_defaults_to_true_when_key_missing(self, tmp_path)`
+  - `test_engagement_hooks_module_exposes_public_surface` (method, line 729) `def test_engagement_hooks_module_exposes_public_surface(self)`
+  - `test_policy_module_exposes_approval_surface` (method, line 743) `def test_policy_module_exposes_approval_surface(self)`
   - `_CountingSink` (class, line 145) `class _CountingSink(INotificationSink)`
   - `_BoomSink` (class, line 165) `class _BoomSink(INotificationSink)`
   - `_GoodSink` (class, line 173) `class _GoodSink(INotificationSink)`

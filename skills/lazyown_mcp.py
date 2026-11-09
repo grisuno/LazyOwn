@@ -9367,7 +9367,18 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             from modules.lazy_engine import LazyEngine as _LazyEngine
 
             _cfg = _load_payload()
-            _target = (arguments.get("target") or _cfg.get("rhost", "") or "127.0.0.1").strip()
+            _explicit_target = (arguments.get("target") or "").strip()
+            if _explicit_target:
+                try:
+                    from types import SimpleNamespace
+
+                    from modules.lazy_runner import bind_target_authority
+
+                    bind_target_authority(SimpleNamespace(params=_cfg), [_explicit_target])
+                    _cfg = _load_payload()
+                except Exception:
+                    pass
+            _target = (_explicit_target or _cfg.get("rhost", "") or "127.0.0.1").strip()
             _goal = (arguments.get("objective") or arguments.get("goal") or "").strip()
             if not _goal and _target:
                 _goal = f"gain initial access on {_target}"

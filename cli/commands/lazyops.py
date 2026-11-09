@@ -2684,7 +2684,7 @@ class LazyCommandSet(LazyOwnCommandSet):
     @cmd2.with_category(ai_category)
     def do_lazy_loop(self, line):
         """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--mode pentest|redteam|ctf] [--view|--plain] [<goal>]"""
-        from modules.lazy_runner import parse_loop_line, run_loop
+        from modules.lazy_runner import bind_target_authority, load_targets_file, parse_loop_line, run_loop
 
         try:
             config = parse_loop_line(line)
@@ -2700,12 +2700,24 @@ class LazyCommandSet(LazyOwnCommandSet):
                     "[--view] [<goal>] "
                 )
             return
+        explicit_targets: list[str] = []
+        if config.targets_file:
+            try:
+                explicit_targets = load_targets_file(config.targets_file)
+            except ValueError as exc:
+                print_error(f"lazy_loop: {exc}")
+                return
+        elif config.target:
+            explicit_targets = [config.target]
         if not config.target:
             config.target = str(self.params.get("rhost", "") or "")
         if not config.goal and not config.task_id and not config.target:
             print_error("Usage: lazy_loop [--task T] <goal>")
             return
-        run_loop(self._resolve_shell(), dict(self.params or {}), config)
+        shell = self._resolve_shell()
+        if explicit_targets:
+            bind_target_authority(shell, explicit_targets)
+        run_loop(shell, dict(self.params or {}), config)
 
     @cmd2.with_category(ai_category)
     def do_lazy_sandbox(self, line):

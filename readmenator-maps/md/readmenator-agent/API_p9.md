@@ -436,7 +436,8 @@ Imported by: `core/command_bridge.py`, `discord_c2.py`, `lazyc2.py`, `poc_tui/ap
 - `connection` (function) `modules/49803.py:106` `def connection()`
 
 ## modules/CVE-2023-28432.py
-- `poc` (function) `modules/CVE-2023-28432.py:12` `def poc(url)`
+- `poc` (function) `modules/CVE-2023-28432.py:13` `def poc(url)`
+- `run_urls` (function) `modules/CVE-2023-28432.py:46` `def run_urls(urls)`
 
 ## modules/LazyOwnExplorer.py
 - `AutocompleteEntry.__init__` (method) `modules/LazyOwnExplorer.py:31` `def __init__(self, get_suggestions_func)`

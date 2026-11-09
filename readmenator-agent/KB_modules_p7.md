@@ -1,6 +1,27 @@
 # Subsystem: modules (page 7 of 18)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/hive_invoke.py
+- Doc: modules/hive_invoke.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_get_toposwarm` (function, line 50) `def _get_toposwarm()`
+  - `_find_claude` (function, line 115) `def _find_claude()`
+  - `_parse_argv` (function, line 120) `def _parse_argv(argv)`
+  - `_run_print_mode` (function, line 150) `def _run_print_mode(prompt, effort, claude_bin)`
+  - `_run_interactive_mode` (function, line 172) `def _run_interactive_mode(prompt, effort, claude_bin)`
+  - `_run_toposwarm_mode` (function, line 205) `def _run_toposwarm_mode(prompt, effort, bridge)`
+  - `main` (function, line 255) `def main(argv)`
+- Depends on: `modules/toposwarm_bridge.py`
+
+## modules/hostdiscover.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `extract_ips_from_arp` (function, line 21)
+  - `extract_listening_ips_from_netstat` (function, line 26)
+
 ## modules/hunt_verify.py
 - Doc: Evidence verdict verification for hunting and chain stages.
 - Layer: utility
@@ -188,7 +209,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `audit_log` (method, line 296) `def audit_log(self, limit)`
   - `attribution` (method, line 301) `def attribution(self)`
 - Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 
 ## modules/internal_discover.sh
 - Layer: utility
@@ -386,7 +407,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `technique_for_phase` (method, line 541) `def technique_for_phase(phase)`
   - `technique_for_vulnclass` (method, line 553) `def technique_for_vulnclass(vulnclass)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
+- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/kivi.py
 - Layer: utility
@@ -462,27 +483,6 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `_tick` (function, line 196) `def _tick()`
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
 - Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
-
-## modules/lazy_autofire.py
-- Doc: Lazy autofire: exploit intelligence closing the loop into chains.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `autofire_armed` (function, line 41) `def autofire_armed(payload)`
-  - `consider_report` (function, line 53) `def consider_report(report, chains_dir, state_path, armed, now)`
-  - `fire_from_file` (function, line 105) `def fire_from_file(target, feed_path)`
-  - `sweep_state` (function, line 127) `def sweep_state(state_path, now)`
-  - `status` (function, line 147) `def status(payload, state_path)`
-  - `_fire_matches` (function, line 166) `def _fire_matches(report)`
-  - `_cooldown_filter` (function, line 180) `def _cooldown_filter(fires, state, target, moment, chains_dir)`
-  - `_existing_chain_tokens` (function, line 215) `def _existing_chain_tokens(chains_dir, slug)`
-  - `_chain_data` (function, line 225) `def _chain_data(target, fires)`
-  - `_load_state` (function, line 281) `def _load_state(path)`
-  - `_save_state` (function, line 291) `def _save_state(path, state)`
-  - `_stamp_cooldown` (function, line 305) `def _stamp_cooldown(state, target, cves, moment)`
-  - `_slug` (function, line 312) `def _slug(text)`
-- Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/lazy_probes.py`
-- Imported by: `tests/test_loop_fire_pending.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

@@ -252,6 +252,14 @@ classDiagram
     TaskArchive : list()
     TaskArchive : restore()
     TaskArchive : stats()
+    class WorkerAgenticMixin
+    WorkerAgenticMixin <|-- Worker
+    class WorkerExecutionMixin
+    WorkerExecutionMixin <|-- Worker
+    class WorkerGatingMixin
+    WorkerGatingMixin <|-- Worker
+    class WorkerMemoryMixin
+    WorkerMemoryMixin <|-- Worker
 ```
 
 ## Call Graph
@@ -325,7 +333,7 @@ flowchart LR
 
 ### `AssetGraph`
 
-`class` | [modules/lazy_loop.py:1066](../../modules/lazy_loop.py#L1066)
+`class` | [modules/lazy_loop.py:1072](../../modules/lazy_loop.py#L1072)
 
 ```python
 class AssetGraph
@@ -353,7 +361,7 @@ Global shared asset truth across tasks.
 
 #### `AssetGraph.__init__`
 
-`constructor` | [modules/lazy_loop.py:1069](../../modules/lazy_loop.py#L1069)
+`constructor` | [modules/lazy_loop.py:1075](../../modules/lazy_loop.py#L1075)
 
 ```python
 def __init__(self) -> None
@@ -369,7 +377,7 @@ Load persisted assets or start empty.
 
 #### `AssetGraph.dedupe_key`
 
-`method` | [modules/lazy_loop.py:1087](../../modules/lazy_loop.py#L1087)
+`method` | [modules/lazy_loop.py:1093](../../modules/lazy_loop.py#L1093)
 
 ```python
 def dedupe_key(self, kind: str, value: str, parent_id: int = 0) -> str
@@ -393,7 +401,7 @@ Compute program-owned dedupe key for an asset.
 
 #### `AssetGraph.insert`
 
-`method` | [modules/lazy_loop.py:1091](../../modules/lazy_loop.py#L1091)
+`method` | [modules/lazy_loop.py:1097](../../modules/lazy_loop.py#L1097)
 
 ```python
 def insert(self, kind: str, value: str, parent_id: int = 0, meta: dict | None = None, task_id: str = '') -> AssetNode
@@ -426,7 +434,7 @@ applies in addition to the global blocklist.
 
 #### `AssetGraph.get`
 
-`method` | [modules/lazy_loop.py:1121](../../modules/lazy_loop.py#L1121)
+`method` | [modules/lazy_loop.py:1127](../../modules/lazy_loop.py#L1127)
 
 ```python
 def get(self, asset_id: int) -> AssetNode | None
@@ -446,7 +454,7 @@ Return asset by id or None.
 
 #### `AssetGraph.list`
 
-`method` | [modules/lazy_loop.py:1125](../../modules/lazy_loop.py#L1125)
+`method` | [modules/lazy_loop.py:1131](../../modules/lazy_loop.py#L1131)
 
 ```python
 def list(self, kind: str = '') -> list[AssetNode]
@@ -466,7 +474,7 @@ List assets optionally filtered by kind.
 
 #### `AssetGraph.mark_tested`
 
-`method` | [modules/lazy_loop.py:1132](../../modules/lazy_loop.py#L1132)
+`method` | [modules/lazy_loop.py:1138](../../modules/lazy_loop.py#L1138)
 
 ```python
 def mark_tested(self, asset_id: int) -> bool
@@ -486,7 +494,7 @@ Flag asset as tested by a worker intent.
 
 #### `AssetGraph.coverage`
 
-`method` | [modules/lazy_loop.py:1142](../../modules/lazy_loop.py#L1142)
+`method` | [modules/lazy_loop.py:1148](../../modules/lazy_loop.py#L1148)
 
 ```python
 def coverage(self, scope: list[dict] | None = None) -> dict
@@ -506,7 +514,7 @@ Compute tested/total coverage, optionally scoped.
 
 #### `AssetGraph.scoped`
 
-`method` | [modules/lazy_loop.py:1158](../../modules/lazy_loop.py#L1158)
+`method` | [modules/lazy_loop.py:1164](../../modules/lazy_loop.py#L1164)
 
 ```python
 def scoped(self, scope: list[dict] | None = None, kind: str = '') -> list[AssetNode]
@@ -531,7 +539,7 @@ no scope the global list returns (non-task contexts stay unfiltered).
 
 #### `AssetGraph.untested`
 
-`method` | [modules/lazy_loop.py:1171](../../modules/lazy_loop.py#L1171)
+`method` | [modules/lazy_loop.py:1177](../../modules/lazy_loop.py#L1177)
 
 ```python
 def untested(self, limit: int = 20) -> list[AssetNode]
@@ -551,7 +559,7 @@ Return oldest untested assets up to limit.
 
 #### `AssetGraph.coverage_for`
 
-`method` | [modules/lazy_loop.py:1176](../../modules/lazy_loop.py#L1176)
+`method` | [modules/lazy_loop.py:1182](../../modules/lazy_loop.py#L1182)
 
 ```python
 def coverage_for(self, graph=None, scope: list[dict] | None = None) -> dict
@@ -575,7 +583,7 @@ global flag polluted by other tasks on the same target.
 
 #### `AssetGraph.untested_for`
 
-`method` | [modules/lazy_loop.py:1204](../../modules/lazy_loop.py#L1204)
+`method` | [modules/lazy_loop.py:1210](../../modules/lazy_loop.py#L1210)
 
 ```python
 def untested_for(self, graph=None, scope: list[dict] | None = None, limit: int = 20) -> list[AssetNode]
@@ -604,7 +612,7 @@ it to a terminal intent.
 
 ### `ExplorationGraph`
 
-`class` | [modules/lazy_loop.py:1229](../../modules/lazy_loop.py#L1229)
+`class` | [modules/lazy_loop.py:1235](../../modules/lazy_loop.py#L1235)
 
 ```python
 class ExplorationGraph
@@ -620,8 +628,8 @@ Per-task exploration graph with anchors into the asset graph.
 | [`add_node`](#explorationgraph-add_node) | method | Append node and return it. |
 | [`get`](#explorationgraph-get) | method | Return node by id or None. |
 | [`persist`](#explorationgraph-persist) | method | Persist in-memory node/edge state to disk (public write path). |
-| [`set_node_state`](#explorationgraph-set_node_state) | method | Transition node state, stamp ``updated`` and persist. |
-| [`set_node_meta`](#explorationgraph-set_node_meta) | method | Replace one node's metadata mapping, stamp ``updated``, persist. |
+| [`set_node_state`](#explorationgraph-set_node_state) | method | Transition node state, stamp `[`updated`](modules.lazy_continuation.py.md#continuationrecord-updated)` and persist. |
+| [`set_node_meta`](#explorationgraph-set_node_meta) | method | Replace one node's metadata mapping, stamp `[`updated`](modules.lazy_continuation.py.md#continuationrecord-updated)`, persist. |
 | [`set_state`](#explorationgraph-set_state) | method | Transition node state and persist. |
 | [`add_edge`](#explorationgraph-add_edge) | method | Link two existing nodes. |
 | [`anchor`](#explorationgraph-anchor) | method | Anchor exploration node to a concrete asset. |
@@ -643,7 +651,7 @@ Per-task exploration graph with anchors into the asset graph.
 
 #### `ExplorationGraph.__init__`
 
-`constructor` | [modules/lazy_loop.py:1232](../../modules/lazy_loop.py#L1232)
+`constructor` | [modules/lazy_loop.py:1238](../../modules/lazy_loop.py#L1238)
 
 ```python
 def __init__(self, task_id: str) -> None
@@ -665,7 +673,7 @@ Load task graph or start empty.
 
 #### `ExplorationGraph.add_node`
 
-`method` | [modules/lazy_loop.py:1266](../../modules/lazy_loop.py#L1266)
+`method` | [modules/lazy_loop.py:1272](../../modules/lazy_loop.py#L1272)
 
 ```python
 def add_node(self, kind: str, text: str, state: str = 'pending', priority: int = DEFAULT_PRIORITY, meta: dict | None = None) -> ExplorationNode
@@ -701,7 +709,7 @@ home for secrets.
 
 #### `ExplorationGraph.get`
 
-`method` | [modules/lazy_loop.py:1294](../../modules/lazy_loop.py#L1294)
+`method` | [modules/lazy_loop.py:1300](../../modules/lazy_loop.py#L1300)
 
 ```python
 def get(self, node_id: int) -> ExplorationNode | None
@@ -723,7 +731,7 @@ Return node by id or None.
 
 #### `ExplorationGraph.persist`
 
-`method` | [modules/lazy_loop.py:1298](../../modules/lazy_loop.py#L1298)
+`method` | [modules/lazy_loop.py:1304](../../modules/lazy_loop.py#L1304)
 
 ```python
 def persist(self) -> None
@@ -735,13 +743,13 @@ Persist in-memory node/edge state to disk (public write path).
 
 #### `ExplorationGraph.set_node_state`
 
-`method` | [modules/lazy_loop.py:1302](../../modules/lazy_loop.py#L1302)
+`method` | [modules/lazy_loop.py:1308](../../modules/lazy_loop.py#L1308)
 
 ```python
 def set_node_state(self, node_id: int, state: str) -> bool
 ```
 
-Transition node state, stamp ``updated`` and persist.
+Transition node state, stamp `[`updated`](modules.lazy_continuation.py.md#continuationrecord-updated)` and persist.
 
 **Parameters**
 
@@ -756,13 +764,13 @@ Transition node state, stamp ``updated`` and persist.
 
 #### `ExplorationGraph.set_node_meta`
 
-`method` | [modules/lazy_loop.py:1321](../../modules/lazy_loop.py#L1321)
+`method` | [modules/lazy_loop.py:1327](../../modules/lazy_loop.py#L1327)
 
 ```python
 def set_node_meta(self, node_id: int, meta: dict) -> bool
 ```
 
-Replace one node's metadata mapping, stamp ``updated``, persist.
+Replace one node's metadata mapping, stamp `[`updated`](modules.lazy_continuation.py.md#continuationrecord-updated)`, persist.
 
 **Parameters**
 
@@ -777,7 +785,7 @@ Replace one node's metadata mapping, stamp ``updated``, persist.
 
 #### `ExplorationGraph.set_state`
 
-`method` | [modules/lazy_loop.py:1340](../../modules/lazy_loop.py#L1340)
+`method` | [modules/lazy_loop.py:1346](../../modules/lazy_loop.py#L1346)
 
 ```python
 def set_state(self, node_id: int, state: str) -> bool
@@ -800,7 +808,7 @@ Transition node state and persist.
 
 #### `ExplorationGraph.add_edge`
 
-`method` | [modules/lazy_loop.py:1351](../../modules/lazy_loop.py#L1351)
+`method` | [modules/lazy_loop.py:1357](../../modules/lazy_loop.py#L1357)
 
 ```python
 def add_edge(self, src: int, dst: int, kind: str) -> bool
@@ -828,7 +836,7 @@ Link two existing nodes.
 
 #### `ExplorationGraph.anchor`
 
-`method` | [modules/lazy_loop.py:1364](../../modules/lazy_loop.py#L1364)
+`method` | [modules/lazy_loop.py:1370](../../modules/lazy_loop.py#L1370)
 
 ```python
 def anchor(self, node_id: int, asset_id: int) -> bool
@@ -851,7 +859,7 @@ Anchor exploration node to a concrete asset.
 
 #### `ExplorationGraph.anchors_for`
 
-`method` | [modules/lazy_loop.py:1375](../../modules/lazy_loop.py#L1375)
+`method` | [modules/lazy_loop.py:1381](../../modules/lazy_loop.py#L1381)
 
 ```python
 def anchors_for(self, node_id: int) -> list[int]
@@ -873,7 +881,7 @@ Return asset ids anchored to node.
 
 #### `ExplorationGraph.anchored_nodes`
 
-`method` | [modules/lazy_loop.py:1379](../../modules/lazy_loop.py#L1379)
+`method` | [modules/lazy_loop.py:1385](../../modules/lazy_loop.py#L1385)
 
 ```python
 def anchored_nodes(self, asset_id: int) -> list[int]
@@ -893,7 +901,7 @@ Return exploration node ids anchored to asset.
 
 #### `ExplorationGraph.list`
 
-`method` | [modules/lazy_loop.py:1383](../../modules/lazy_loop.py#L1383)
+`method` | [modules/lazy_loop.py:1389](../../modules/lazy_loop.py#L1389)
 
 ```python
 def list(self, kind: str = '', state: str = '') -> list[ExplorationNode]
@@ -914,7 +922,7 @@ List nodes optionally filtered by kind/state.
 
 #### `ExplorationGraph.children`
 
-`method` | [modules/lazy_loop.py:1392](../../modules/lazy_loop.py#L1392)
+`method` | [modules/lazy_loop.py:1398](../../modules/lazy_loop.py#L1398)
 
 ```python
 def children(self, node_id: int, kind: str = '') -> list[int]
@@ -937,7 +945,7 @@ Return destination ids of outgoing edges.
 
 #### `ExplorationGraph.parents`
 
-`method` | [modules/lazy_loop.py:1399](../../modules/lazy_loop.py#L1399)
+`method` | [modules/lazy_loop.py:1405](../../modules/lazy_loop.py#L1405)
 
 ```python
 def parents(self, node_id: int, kind: str = '') -> list[int]
@@ -958,7 +966,7 @@ Return source ids of incoming edges.
 
 #### `ExplorationGraph.overview`
 
-`method` | [modules/lazy_loop.py:1406](../../modules/lazy_loop.py#L1406)
+`method` | [modules/lazy_loop.py:1412](../../modules/lazy_loop.py#L1412)
 
 ```python
 def overview(self) -> dict
@@ -972,7 +980,7 @@ Return planner-facing state summary like graph overview.
 
 #### `ExplorationGraph.reload`
 
-`method` | [modules/lazy_loop.py:1429](../../modules/lazy_loop.py#L1429)
+`method` | [modules/lazy_loop.py:1435](../../modules/lazy_loop.py#L1435)
 
 ```python
 def reload(self) -> None
@@ -988,7 +996,7 @@ Reload graph from disk, discarding in-memory state.
 
 #### `ExplorationGraph.compare_and_claim`
 
-`method` | [modules/lazy_loop.py:1453](../../modules/lazy_loop.py#L1453)
+`method` | [modules/lazy_loop.py:1459](../../modules/lazy_loop.py#L1459)
 
 ```python
 def compare_and_claim(self, node_id: int) -> bool
@@ -1012,7 +1020,7 @@ Cross-process safe.
 
 #### `ExplorationGraph.finding_signature`
 
-`method` | [modules/lazy_loop.py:1481](../../modules/lazy_loop.py#L1481)
+`method` | [modules/lazy_loop.py:1487](../../modules/lazy_loop.py#L1487)
 
 ```python
 def finding_signature(self, text: str) -> str
@@ -1034,7 +1042,7 @@ Normalize finding text into dedupe signature.
 
 #### `ExplorationGraph.has_finding`
 
-`method` | [modules/lazy_loop.py:1487](../../modules/lazy_loop.py#L1487)
+`method` | [modules/lazy_loop.py:1493](../../modules/lazy_loop.py#L1493)
 
 ```python
 def has_finding(self, text: str) -> ExplorationNode | None
@@ -1056,7 +1064,7 @@ Return existing finding with same signature or None.
 
 #### `ExplorationGraph.node_detail`
 
-`method` | [modules/lazy_loop.py:1497](../../modules/lazy_loop.py#L1497)
+`method` | [modules/lazy_loop.py:1503](../../modules/lazy_loop.py#L1503)
 
 ```python
 def node_detail(self, node_id: int) -> dict
@@ -1084,7 +1092,7 @@ Full node view: text, state, meta, edges, anchors, trace tail.
 
 #### `ExplorationGraph.list_facts`
 
-`method` | [modules/lazy_loop.py:1513](../../modules/lazy_loop.py#L1513)
+`method` | [modules/lazy_loop.py:1519](../../modules/lazy_loop.py#L1519)
 
 ```python
 def list_facts(self, query: str = '', limit: int = 50, hot_full: bool = False) -> list[ExplorationNode]
@@ -1111,7 +1119,7 @@ hot set returns regardless of ``limit`` (cold views stay capped).
 
 #### `ExplorationGraph.record_fact`
 
-`method` | [modules/lazy_loop.py:1529](../../modules/lazy_loop.py#L1529)
+`method` | [modules/lazy_loop.py:1535](../../modules/lazy_loop.py#L1535)
 
 ```python
 def record_fact(self, text: str, evidence: str = '', confidence: str = 'observed', intent_id: int = 0, asset_ids: list[int] | None = None) -> ExplorationNode
@@ -1139,7 +1147,7 @@ Worker fact write like recordFact: deduped, anchored, done.
 
 ### `Frontier`
 
-`class` | [modules/lazy_loop.py:1551](../../modules/lazy_loop.py#L1551)
+`class` | [modules/lazy_loop.py:1557](../../modules/lazy_loop.py#L1557)
 
 ```python
 class Frontier
@@ -1159,7 +1167,7 @@ Pending-intent queue; workers claim exactly one intent each.
 
 #### `Frontier.__init__`
 
-`constructor` | [modules/lazy_loop.py:1554](../../modules/lazy_loop.py#L1554)
+`constructor` | [modules/lazy_loop.py:1560](../../modules/lazy_loop.py#L1560)
 
 ```python
 def __init__(self, graph: ExplorationGraph) -> None
@@ -1179,7 +1187,7 @@ Bind frontier to a task graph.
 
 #### `Frontier.pending`
 
-`method` | [modules/lazy_loop.py:1559](../../modules/lazy_loop.py#L1559)
+`method` | [modules/lazy_loop.py:1565](../../modules/lazy_loop.py#L1565)
 
 ```python
 def pending(self) -> list[ExplorationNode]
@@ -1195,7 +1203,7 @@ Return pending intents ordered by priority then id.
 
 #### `Frontier.claim_next`
 
-`method` | [modules/lazy_loop.py:1564](../../modules/lazy_loop.py#L1564)
+`method` | [modules/lazy_loop.py:1570](../../modules/lazy_loop.py#L1570)
 
 ```python
 def claim_next(self) -> ExplorationNode | None
@@ -1215,7 +1223,7 @@ Atomically claim highest-priority pending intent (cross-process CAS).
 
 ### `ActivityLog`
 
-`class` | [modules/lazy_loop.py:1579](../../modules/lazy_loop.py#L1579)
+`class` | [modules/lazy_loop.py:1585](../../modules/lazy_loop.py#L1585)
 
 ```python
 class ActivityLog
@@ -1239,7 +1247,7 @@ Per-step worker/planner trace, backing trace exchange.
 
 #### `ActivityLog.__init__`
 
-`constructor` | [modules/lazy_loop.py:1582](../../modules/lazy_loop.py#L1582)
+`constructor` | [modules/lazy_loop.py:1588](../../modules/lazy_loop.py#L1588)
 
 ```python
 def __init__(self, task_id: str) -> None
@@ -1253,13 +1261,13 @@ Bind log to task.
 |---|---|---|---|
 | `task_id` | `str` |  |  |
 
-*Called by:* [`LazyCommandSet.do_lazy_compact`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_compact), [`LazyCommandSet.do_lazy_finding`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_finding), [`LazyCommandSet.do_lazy_planner`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_planner), [`LazyCommandSet.do_lazy_retest`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_retest), [`LazyCommandSet.do_lazy_scheduler`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_scheduler), [`LazyCommandSet.do_lazy_trace`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trace), [`LazyCommandSet.do_lazy_worker`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_worker), [`Guard.lookup`](#guard-lookup), [`IntelMediator.activity_records`](modules.mediation.intel_mediator.py.md#intelmediator-activity_records), [`apply`](modules.sinks.chain_feed.py.md#apply), [`FakeEngine.orchestrate`](modules.tools.loop_smoke.py.md#fakeengine-orchestrate)
+*Called by:* [`LazyCommandSet.do_lazy_compact`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_compact), [`LazyCommandSet.do_lazy_finding`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_finding), [`LazyCommandSet.do_lazy_planner`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_planner), [`LazyCommandSet.do_lazy_retest`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_retest), [`LazyCommandSet.do_lazy_scheduler`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_scheduler), [`LazyCommandSet.do_lazy_trace`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trace), [`LazyCommandSet.do_lazy_worker`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_worker), [`drain`](modules.lazy_drafts.py.md#drain), [`Guard.lookup`](#guard-lookup), [`IntelMediator.activity_records`](modules.mediation.intel_mediator.py.md#intelmediator-activity_records), [`apply`](modules.sinks.chain_feed.py.md#apply), [`FakeEngine.orchestrate`](modules.tools.loop_smoke.py.md#fakeengine-orchestrate)
 
 <a id="activitylog-emit"></a>
 
 #### `ActivityLog.emit`
 
-`method` | [modules/lazy_loop.py:1587](../../modules/lazy_loop.py#L1587)
+`method` | [modules/lazy_loop.py:1593](../../modules/lazy_loop.py#L1593)
 
 ```python
 def emit(self, worker: str, kind: str, text: str, intent_id: int = 0, tool_use_id: str = '') -> dict
@@ -1281,13 +1289,13 @@ Append one activity record and return it.
 
 *Calls:* [`resolve`](modules.finding_lifecycle.py.md#resolve)
 
-*Called by:* [`require_mfa_socket`](lazyc2.py.md#require_mfa_socket), [`apply`](modules.sinks.chain_feed.py.md#apply), [`FakeEngine.orchestrate`](modules.tools.loop_smoke.py.md#fakeengine-orchestrate), [`run`](modules.tools.monitor_smoke.py.md#run)
+*Called by:* [`require_mfa_socket`](lazyc2.py.md#require_mfa_socket), [`drain`](modules.lazy_drafts.py.md#drain), [`apply`](modules.sinks.chain_feed.py.md#apply), [`FakeEngine.orchestrate`](modules.tools.loop_smoke.py.md#fakeengine-orchestrate), [`run`](modules.tools.monitor_smoke.py.md#run)
 
 <a id="activitylog-read"></a>
 
 #### `ActivityLog.read`
 
-`method` | [modules/lazy_loop.py:1612](../../modules/lazy_loop.py#L1612)
+`method` | [modules/lazy_loop.py:1618](../../modules/lazy_loop.py#L1618)
 
 ```python
 def read(self, limit: int = 200) -> list[dict]
@@ -1309,7 +1317,7 @@ Return most recent records up to limit.
 
 #### `ActivityLog.for_intent`
 
-`method` | [modules/lazy_loop.py:1626](../../modules/lazy_loop.py#L1626)
+`method` | [modules/lazy_loop.py:1632](../../modules/lazy_loop.py#L1632)
 
 ```python
 def for_intent(self, intent_id: int) -> list[dict]
@@ -1333,7 +1341,7 @@ Return records for one intent.
 
 #### `ActivityLog.trace`
 
-`method` | [modules/lazy_loop.py:1630](../../modules/lazy_loop.py#L1630)
+`method` | [modules/lazy_loop.py:1636](../../modules/lazy_loop.py#L1636)
 
 ```python
 def trace(self, intent_id: int, query: str = '', step_id: int = 0, limit: int = 50) -> dict
@@ -1368,7 +1376,7 @@ step flow, optionally filtered inline by ``query``.
 
 #### `ActivityLog.search_all`
 
-`method` | [modules/lazy_loop.py:1668](../../modules/lazy_loop.py#L1668)
+`method` | [modules/lazy_loop.py:1674](../../modules/lazy_loop.py#L1674)
 
 ```python
 def search_all(self, query: str, limit: int = 50) -> list[dict]
@@ -1397,7 +1405,7 @@ saw but never wrote into a fact.
 
 #### `ActivityLog.search`
 
-`method` | [modules/lazy_loop.py:1698](../../modules/lazy_loop.py#L1698)
+`method` | [modules/lazy_loop.py:1704](../../modules/lazy_loop.py#L1704)
 
 ```python
 def search(self, query: str, exclude_intent: int = 0) -> list[dict]
@@ -1424,7 +1432,7 @@ Search worker traces by keyword, excluding one intent like the planner.
 
 ### `TrafficLog`
 
-`class` | [modules/lazy_loop.py:1712](../../modules/lazy_loop.py#L1712)
+`class` | [modules/lazy_loop.py:1718](../../modules/lazy_loop.py#L1718)
 
 ```python
 class TrafficLog
@@ -1458,7 +1466,7 @@ Append-only record of every tool execution like the Lazy MITM proxy.
 
 #### `TrafficLog.digest_of`
 
-`staticmethod` | [modules/lazy_loop.py:1718](../../modules/lazy_loop.py#L1718)
+`staticmethod` | [modules/lazy_loop.py:1724](../../modules/lazy_loop.py#L1724)
 
 Decorators: `@staticmethod`
 
@@ -1487,7 +1495,7 @@ true duplicates stay byte-equal.
 
 #### `TrafficLog.__init__`
 
-`constructor` | [modules/lazy_loop.py:1735](../../modules/lazy_loop.py#L1735)
+`constructor` | [modules/lazy_loop.py:1741](../../modules/lazy_loop.py#L1741)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -1507,7 +1515,7 @@ Bind log to task or global stream.
 
 #### `TrafficLog.record`
 
-`method` | [modules/lazy_loop.py:1740](../../modules/lazy_loop.py#L1740)
+`method` | [modules/lazy_loop.py:1746](../../modules/lazy_loop.py#L1746)
 
 ```python
 def record(self, kind: str, command: str, output: str = '', meta: dict | None = None) -> dict
@@ -1532,7 +1540,7 @@ Append one traffic record and return it.
 
 #### `TrafficLog.read`
 
-`method` | [modules/lazy_loop.py:1762](../../modules/lazy_loop.py#L1762)
+`method` | [modules/lazy_loop.py:1768](../../modules/lazy_loop.py#L1768)
 
 ```python
 def read(self, limit: int = 100) -> list[dict]
@@ -1554,7 +1562,7 @@ Return most recent traffic records.
 
 #### `TrafficLog.search`
 
-`method` | [modules/lazy_loop.py:1776](../../modules/lazy_loop.py#L1776)
+`method` | [modules/lazy_loop.py:1782](../../modules/lazy_loop.py#L1782)
 
 ```python
 def search(self, query: str, limit: int = 50) -> list[dict]
@@ -1579,7 +1587,7 @@ Full-text search over command/output like traffic_search.
 
 #### `TrafficLog.search_host`
 
-`method` | [modules/lazy_loop.py:1787](../../modules/lazy_loop.py#L1787)
+`method` | [modules/lazy_loop.py:1793](../../modules/lazy_loop.py#L1793)
 
 ```python
 def search_host(self, host: str, port: str = '', limit: int = 50) -> list[dict]
@@ -1609,7 +1617,7 @@ host matches as a token on any port, but ``10.0.0.1`` never hits
 
 #### `TrafficLog.get`
 
-`method` | [modules/lazy_loop.py:1815](../../modules/lazy_loop.py#L1815)
+`method` | [modules/lazy_loop.py:1821](../../modules/lazy_loop.py#L1821)
 
 ```python
 def get(self, digest: str) -> dict | None
@@ -1633,7 +1641,7 @@ Fetch one exchange by digest like traffic_get.
 
 #### `TrafficLog.recorder_body`
 
-`method` | [modules/lazy_loop.py:1822](../../modules/lazy_loop.py#L1822)
+`method` | [modules/lazy_loop.py:1828](../../modules/lazy_loop.py#L1828)
 
 ```python
 def recorder_body(self, digest: str) -> dict
@@ -1661,7 +1669,7 @@ Return stored request/response bodies for one proxy exchange.
 
 #### `TrafficLog.recorder_blob`
 
-`method` | [modules/lazy_loop.py:1851](../../modules/lazy_loop.py#L1851)
+`method` | [modules/lazy_loop.py:1857](../../modules/lazy_loop.py#L1857)
 
 ```python
 def recorder_blob(self, digest: str, part: str = 'resp', offset: int = 0, length: int = 8192) -> dict
@@ -1692,7 +1700,7 @@ Read a proxy body in ranges like the blob API.
 
 #### `TrafficLog.templates`
 
-`method` | [modules/lazy_loop.py:1882](../../modules/lazy_loop.py#L1882)
+`method` | [modules/lazy_loop.py:1888](../../modules/lazy_loop.py#L1888)
 
 ```python
 def templates(self, limit: int = 50) -> list[dict]
@@ -1716,7 +1724,7 @@ Group exchanges by URL-template with counts like the proxy index.
 
 #### `TrafficLog.by_template`
 
-`method` | [modules/lazy_loop.py:1891](../../modules/lazy_loop.py#L1891)
+`method` | [modules/lazy_loop.py:1897](../../modules/lazy_loop.py#L1897)
 
 ```python
 def by_template(self, template: str, limit: int = 50) -> list[dict]
@@ -1741,7 +1749,7 @@ Return exchanges matching one template substring.
 
 #### `TrafficLog.bind`
 
-`method` | [modules/lazy_loop.py:1896](../../modules/lazy_loop.py#L1896)
+`method` | [modules/lazy_loop.py:1902](../../modules/lazy_loop.py#L1902)
 
 ```python
 def bind(self, finding_id: int, digest: str, graph=None, role: str = 'supporting', note: str = '') -> bool
@@ -1776,7 +1784,7 @@ plain-string refs read back as supporting.
 
 #### `TrafficLog.evidence`
 
-`method` | [modules/lazy_loop.py:1944](../../modules/lazy_loop.py#L1944)
+`method` | [modules/lazy_loop.py:1950](../../modules/lazy_loop.py#L1950)
 
 ```python
 def evidence(self, finding_id: int, graph=None) -> list[dict]
@@ -1803,7 +1811,7 @@ Return a finding's traffic evidences in display order.
 
 #### `TrafficLog.reorder_evidence`
 
-`method` | [modules/lazy_loop.py:1953](../../modules/lazy_loop.py#L1953)
+`method` | [modules/lazy_loop.py:1959](../../modules/lazy_loop.py#L1959)
 
 ```python
 def reorder_evidence(self, finding_id: int, digests: list[str], graph=None) -> bool
@@ -1825,7 +1833,7 @@ Sort a finding's evidences; unlisted ones keep their tail order.
 
 #### `TrafficLog.export`
 
-`method` | [modules/lazy_loop.py:1967](../../modules/lazy_loop.py#L1967)
+`method` | [modules/lazy_loop.py:1973](../../modules/lazy_loop.py#L1973)
 
 ```python
 def export(self, path: str, limit: int = 500) -> str
@@ -1850,7 +1858,7 @@ Dump recent exchanges to a JSON file like traffic archive export.
 
 #### `TrafficLog.archive`
 
-`method` | [modules/lazy_loop.py:1974](../../modules/lazy_loop.py#L1974)
+`method` | [modules/lazy_loop.py:1980](../../modules/lazy_loop.py#L1980)
 
 ```python
 def archive(self, label: str = '') -> str
@@ -1874,7 +1882,7 @@ Snapshot traffic stream into sessions/lazy/traffic_archive_*.
 
 #### `TrafficLog.clear`
 
-`method` | [modules/lazy_loop.py:1980](../../modules/lazy_loop.py#L1980)
+`method` | [modules/lazy_loop.py:1986](../../modules/lazy_loop.py#L1986)
 
 ```python
 def clear(self) -> int
@@ -1894,7 +1902,7 @@ Drop the traffic stream, returning the discarded record count.
 
 ### `Guard`
 
-`class` | [modules/lazy_loop.py:1990](../../modules/lazy_loop.py#L1990)
+`class` | [modules/lazy_loop.py:1996](../../modules/lazy_loop.py#L1996)
 
 ```python
 class Guard
@@ -1919,7 +1927,7 @@ Safety boundary: audit log plus user-configured intercept rules.
 
 #### `Guard.__init__`
 
-`constructor` | [modules/lazy_loop.py:1993](../../modules/lazy_loop.py#L1993)
+`constructor` | [modules/lazy_loop.py:1999](../../modules/lazy_loop.py#L1999)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -1937,7 +1945,7 @@ Load rules and audit trail.
 
 #### `Guard.add_rule`
 
-`method` | [modules/lazy_loop.py:2019](../../modules/lazy_loop.py#L2019)
+`method` | [modules/lazy_loop.py:2025](../../modules/lazy_loop.py#L2025)
 
 ```python
 def add_rule(self, pattern: str, action: str, reason: str = '', priority: int = 0) -> dict
@@ -1966,7 +1974,7 @@ Register an intercept rule; higher priority evaluates first.
 
 #### `Guard.remove_rule`
 
-`method` | [modules/lazy_loop.py:2030](../../modules/lazy_loop.py#L2030)
+`method` | [modules/lazy_loop.py:2036](../../modules/lazy_loop.py#L2036)
 
 ```python
 def remove_rule(self, pattern: str) -> bool
@@ -1988,7 +1996,7 @@ Delete rules matching pattern exactly.
 
 #### `Guard.set_judge`
 
-`method` | [modules/lazy_loop.py:2039](../../modules/lazy_loop.py#L2039)
+`method` | [modules/lazy_loop.py:2045](../../modules/lazy_loop.py#L2045)
 
 ```python
 def set_judge(self, enabled: bool, fail_action: str = 'allow') -> dict
@@ -2015,7 +2023,7 @@ Enable/disable the LLM judge fallback for unmatched commands.
 
 #### `Guard.check`
 
-`method` | [modules/lazy_loop.py:2061](../../modules/lazy_loop.py#L2061)
+`method` | [modules/lazy_loop.py:2067](../../modules/lazy_loop.py#L2067)
 
 ```python
 def check(self, tool: str, command: str, tool_use_id: str = '', source: str = '', intent_id: int = 0) -> dict
@@ -2043,7 +2051,7 @@ approval row jumps back to the exact execution.
 
 #### `Guard.audit`
 
-`method` | [modules/lazy_loop.py:2113](../../modules/lazy_loop.py#L2113)
+`method` | [modules/lazy_loop.py:2119](../../modules/lazy_loop.py#L2119)
 
 ```python
 def audit(self, limit: int = 100, action: str = '', source: str = '', query: str = '') -> list[dict]
@@ -2068,7 +2076,7 @@ Return recent audit entries with optional status/source/text filters.
 
 #### `Guard.lookup`
 
-`method` | [modules/lazy_loop.py:2141](../../modules/lazy_loop.py#L2141)
+`method` | [modules/lazy_loop.py:2147](../../modules/lazy_loop.py#L2147)
 
 ```python
 def lookup(self, tool_use_id: str) -> dict
@@ -2100,7 +2108,7 @@ back to command-digest matching for rows recorded before ids).
 
 #### `Guard.stats`
 
-`method` | [modules/lazy_loop.py:2183](../../modules/lazy_loop.py#L2183)
+`method` | [modules/lazy_loop.py:2189](../../modules/lazy_loop.py#L2189)
 
 ```python
 def stats(self) -> dict
@@ -2120,7 +2128,7 @@ Attribution counters over the audit trail.
 
 ### `AssetGate`
 
-`class` | [modules/lazy_loop.py:2331](../../modules/lazy_loop.py#L2331)
+`class` | [modules/lazy_loop.py:2337](../../modules/lazy_loop.py#L2337)
 
 ```python
 class AssetGate
@@ -2147,7 +2155,7 @@ worker target before tools run.
 
 #### `AssetGate.__init__`
 
-`constructor` | [modules/lazy_loop.py:2340](../../modules/lazy_loop.py#L2340)
+`constructor` | [modules/lazy_loop.py:2346](../../modules/lazy_loop.py#L2346)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -2167,7 +2175,7 @@ Bind global list plus optional per-task lists.
 
 #### `AssetGate.add`
 
-`method` | [modules/lazy_loop.py:2367](../../modules/lazy_loop.py#L2367)
+`method` | [modules/lazy_loop.py:2373](../../modules/lazy_loop.py#L2373)
 
 ```python
 def add(self, kind: str, pattern: str, note: str = '', action: str = 'block') -> dict
@@ -2196,7 +2204,7 @@ Register a block (global or task) or allow (task only) rule.
 
 #### `AssetGate.remove`
 
-`method` | [modules/lazy_loop.py:2388](../../modules/lazy_loop.py#L2388)
+`method` | [modules/lazy_loop.py:2394](../../modules/lazy_loop.py#L2394)
 
 ```python
 def remove(self, rule_id: int, action: str = 'block') -> bool
@@ -2219,7 +2227,7 @@ Delete a rule by id; returns True when something was removed.
 
 #### `AssetGate.list`
 
-`method` | [modules/lazy_loop.py:2406](../../modules/lazy_loop.py#L2406)
+`method` | [modules/lazy_loop.py:2412](../../modules/lazy_loop.py#L2412)
 
 ```python
 def list(self) -> dict
@@ -2233,7 +2241,7 @@ Return global block plus per-task block/allow rules.
 
 #### `AssetGate.evaluate`
 
-`method` | [modules/lazy_loop.py:2410](../../modules/lazy_loop.py#L2410)
+`method` | [modules/lazy_loop.py:2416](../../modules/lazy_loop.py#L2416)
 
 ```python
 def evaluate(self, target: str) -> dict
@@ -2257,7 +2265,7 @@ Gate one target: allowed flag plus human-readable reason.
 
 ### `Budget`
 
-`class` | [modules/lazy_loop.py:2425](../../modules/lazy_loop.py#L2425)
+`class` | [modules/lazy_loop.py:2431](../../modules/lazy_loop.py#L2431)
 
 ```python
 class Budget
@@ -2281,7 +2289,7 @@ Three-level budget: rounds, toolcalls, findings, task deadline.
 
 #### `Budget.__init__`
 
-`constructor` | [modules/lazy_loop.py:2428](../../modules/lazy_loop.py#L2428)
+`constructor` | [modules/lazy_loop.py:2434](../../modules/lazy_loop.py#L2434)
 
 ```python
 def __init__(self, store=None) -> None
@@ -2301,7 +2309,7 @@ Bind budget counters to task store.
 
 #### `Budget.limits`
 
-`method` | [modules/lazy_loop.py:2432](../../modules/lazy_loop.py#L2432)
+`method` | [modules/lazy_loop.py:2438](../../modules/lazy_loop.py#L2438)
 
 ```python
 def limits(self, task_id: str) -> dict
@@ -2323,7 +2331,7 @@ Return effective limits for task.
 
 #### `Budget.set_limits`
 
-`method` | [modules/lazy_loop.py:2443](../../modules/lazy_loop.py#L2443)
+`method` | [modules/lazy_loop.py:2449](../../modules/lazy_loop.py#L2449)
 
 ```python
 def set_limits(self, task_id: str, **kwargs) -> dict
@@ -2346,7 +2354,7 @@ Persist budget limits for task.
 
 #### `Budget.usage`
 
-`method` | [modules/lazy_loop.py:2456](../../modules/lazy_loop.py#L2456)
+`method` | [modules/lazy_loop.py:2462](../../modules/lazy_loop.py#L2462)
 
 ```python
 def usage(self, task_id: str) -> dict
@@ -2368,7 +2376,7 @@ Return consumed toolcalls/findings/rounds.
 
 #### `Budget.record_toolcall`
 
-`method` | [modules/lazy_loop.py:2466](../../modules/lazy_loop.py#L2466)
+`method` | [modules/lazy_loop.py:2472](../../modules/lazy_loop.py#L2472)
 
 ```python
 def record_toolcall(self, task_id: str, intent_id: int = 0) -> None
@@ -2387,7 +2395,7 @@ Count one executed tool call.
 
 #### `Budget.record_round`
 
-`method` | [modules/lazy_loop.py:2478](../../modules/lazy_loop.py#L2478)
+`method` | [modules/lazy_loop.py:2484](../../modules/lazy_loop.py#L2484)
 
 ```python
 def record_round(self, task_id: str) -> None
@@ -2407,7 +2415,7 @@ Count one orchestrator round.
 
 #### `Budget.check`
 
-`method` | [modules/lazy_loop.py:2496](../../modules/lazy_loop.py#L2496)
+`method` | [modules/lazy_loop.py:2502](../../modules/lazy_loop.py#L2502)
 
 ```python
 def check(self, task_id: str) -> dict
@@ -2433,7 +2441,7 @@ Return ok/exceeded decision with reason.
 
 ### `RuntimeTracker`
 
-`class` | [modules/lazy_loop.py:2509](../../modules/lazy_loop.py#L2509)
+`class` | [modules/lazy_loop.py:2515](../../modules/lazy_loop.py#L2515)
 
 ```python
 class RuntimeTracker
@@ -2455,7 +2463,7 @@ Observable runtime: abort cause, workers, heartbeat, watermarks.
 
 #### `RuntimeTracker.__init__`
 
-`constructor` | [modules/lazy_loop.py:2512](../../modules/lazy_loop.py#L2512)
+`constructor` | [modules/lazy_loop.py:2518](../../modules/lazy_loop.py#L2518)
 
 ```python
 def __init__(self, store=None) -> None
@@ -2475,7 +2483,7 @@ Bind runtime to task store.
 
 #### `RuntimeTracker.heartbeat`
 
-`method` | [modules/lazy_loop.py:2516](../../modules/lazy_loop.py#L2516)
+`method` | [modules/lazy_loop.py:2522](../../modules/lazy_loop.py#L2522)
 
 ```python
 def heartbeat(self, task_id: str) -> dict
@@ -2497,7 +2505,7 @@ Return live runtime snapshot.
 
 #### `RuntimeTracker.beat`
 
-`method` | [modules/lazy_loop.py:2534](../../modules/lazy_loop.py#L2534)
+`method` | [modules/lazy_loop.py:2540](../../modules/lazy_loop.py#L2540)
 
 ```python
 def beat(self, task_id: str, workers: int = 0) -> None
@@ -2516,7 +2524,7 @@ Stamp heartbeat.
 
 #### `RuntimeTracker.abort`
 
-`method` | [modules/lazy_loop.py:2549](../../modules/lazy_loop.py#L2549)
+`method` | [modules/lazy_loop.py:2555](../../modules/lazy_loop.py#L2555)
 
 ```python
 def abort(self, task_id: str, cause: str, detail: str = '') -> bool
@@ -2544,7 +2552,7 @@ Stamp abort cause like typed AbortCause.
 
 #### `RuntimeTracker.note_trigger`
 
-`method` | [modules/lazy_loop.py:2565](../../modules/lazy_loop.py#L2565)
+`method` | [modules/lazy_loop.py:2571](../../modules/lazy_loop.py#L2571)
 
 ```python
 def note_trigger(self, task_id: str, trigger_id: int) -> None
@@ -2565,7 +2573,7 @@ Advance scheduler watermark so restarts never re-fire.
 
 ### `InterceptQueue`
 
-`class` | [modules/lazy_loop.py:2577](../../modules/lazy_loop.py#L2577)
+`class` | [modules/lazy_loop.py:2583](../../modules/lazy_loop.py#L2583)
 
 ```python
 class InterceptQueue
@@ -2588,7 +2596,7 @@ Pending ask-queue with decide + timeout, priority ordered.
 
 #### `InterceptQueue.__init__`
 
-`constructor` | [modules/lazy_loop.py:2606](../../modules/lazy_loop.py#L2606)
+`constructor` | [modules/lazy_loop.py:2612](../../modules/lazy_loop.py#L2612)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -2608,7 +2616,7 @@ Bind queue to task.
 
 #### `InterceptQueue.request`
 
-`method` | [modules/lazy_loop.py:2620](../../modules/lazy_loop.py#L2620)
+`method` | [modules/lazy_loop.py:2626](../../modules/lazy_loop.py#L2626)
 
 ```python
 def request(self, tool: str, command: str, reason: str = '', tool_use_id: str = '') -> dict
@@ -2631,7 +2639,7 @@ Enqueue one ask decision and return pending entry.
 
 #### `InterceptQueue.pending`
 
-`method` | [modules/lazy_loop.py:2638](../../modules/lazy_loop.py#L2638)
+`method` | [modules/lazy_loop.py:2644](../../modules/lazy_loop.py#L2644)
 
 ```python
 def pending(self) -> list[dict]
@@ -2647,7 +2655,7 @@ Return pending entries ordered by id.
 
 #### `InterceptQueue.history`
 
-`method` | [modules/lazy_loop.py:2642](../../modules/lazy_loop.py#L2642)
+`method` | [modules/lazy_loop.py:2648](../../modules/lazy_loop.py#L2648)
 
 ```python
 def history(self, page: int = 1, per_page: int = 20, states: list[str] | None = None, query: str = '') -> dict
@@ -2676,7 +2684,7 @@ plus the complete pending list and its count.
 
 #### `InterceptQueue.decide`
 
-`method` | [modules/lazy_loop.py:2694](../../modules/lazy_loop.py#L2694)
+`method` | [modules/lazy_loop.py:2700](../../modules/lazy_loop.py#L2700)
 
 ```python
 def decide(self, item_id: int, verdict: str) -> bool
@@ -2703,7 +2711,7 @@ Approve or deny one pending entry and wake its waiter.
 
 #### `InterceptQueue.wait`
 
-`method` | [modules/lazy_loop.py:2708](../../modules/lazy_loop.py#L2708)
+`method` | [modules/lazy_loop.py:2714](../../modules/lazy_loop.py#L2714)
 
 ```python
 def wait(self, item_id: int, timeout_sec: float = INTERCEPT_TIMEOUT_SEC) -> str
@@ -2731,7 +2739,7 @@ shell), which cannot signal this process's events.
 
 ### `TodoStore`
 
-`class` | [modules/lazy_loop.py:2737](../../modules/lazy_loop.py#L2737)
+`class` | [modules/lazy_loop.py:2743](../../modules/lazy_loop.py#L2743)
 
 ```python
 class TodoStore
@@ -2753,7 +2761,7 @@ Per-task shared planner scratchpad for serial exploit chains.
 
 #### `TodoStore.__init__`
 
-`constructor` | [modules/lazy_loop.py:2740](../../modules/lazy_loop.py#L2740)
+`constructor` | [modules/lazy_loop.py:2746](../../modules/lazy_loop.py#L2746)
 
 ```python
 def __init__(self, task_id: str) -> None
@@ -2773,7 +2781,7 @@ Load persisted todos.
 
 #### `TodoStore.add`
 
-`method` | [modules/lazy_loop.py:2751](../../modules/lazy_loop.py#L2751)
+`method` | [modules/lazy_loop.py:2757](../../modules/lazy_loop.py#L2757)
 
 ```python
 def add(self, text: str) -> dict
@@ -2795,7 +2803,7 @@ Append a serial step and return it.
 
 #### `TodoStore.complete`
 
-`method` | [modules/lazy_loop.py:2758](../../modules/lazy_loop.py#L2758)
+`method` | [modules/lazy_loop.py:2764](../../modules/lazy_loop.py#L2764)
 
 ```python
 def complete(self, item_id: int) -> bool
@@ -2817,7 +2825,7 @@ Mark step done.
 
 #### `TodoStore.next_pending`
 
-`method` | [modules/lazy_loop.py:2767](../../modules/lazy_loop.py#L2767)
+`method` | [modules/lazy_loop.py:2773](../../modules/lazy_loop.py#L2773)
 
 ```python
 def next_pending(self) -> dict | None
@@ -2831,7 +2839,7 @@ Return first pending step.
 
 #### `TodoStore.as_list`
 
-`method` | [modules/lazy_loop.py:2774](../../modules/lazy_loop.py#L2774)
+`method` | [modules/lazy_loop.py:2780](../../modules/lazy_loop.py#L2780)
 
 ```python
 def as_list(self) -> list[dict]
@@ -2849,7 +2857,7 @@ Return all steps.
 
 ### `TaskStore`
 
-`class` | [modules/lazy_loop.py:2779](../../modules/lazy_loop.py#L2779)
+`class` | [modules/lazy_loop.py:2785](../../modules/lazy_loop.py#L2785)
 
 ```python
 class TaskStore
@@ -2891,7 +2899,7 @@ Registry of tasks, goals, constraints, hints, scope, findings.
 
 #### `TaskStore.__init__`
 
-`constructor` | [modules/lazy_loop.py:2782](../../modules/lazy_loop.py#L2782)
+`constructor` | [modules/lazy_loop.py:2788](../../modules/lazy_loop.py#L2788)
 
 ```python
 def __init__(self) -> None
@@ -2905,7 +2913,7 @@ Load task registry.
 
 #### `TaskStore.create`
 
-`method` | [modules/lazy_loop.py:2791](../../modules/lazy_loop.py#L2791)
+`method` | [modules/lazy_loop.py:2797](../../modules/lazy_loop.py#L2797)
 
 ```python
 def create(self, goal: str, description: str = '') -> LazyTask
@@ -2928,7 +2936,7 @@ Create task record and return it.
 
 #### `TaskStore.get`
 
-`method` | [modules/lazy_loop.py:2802](../../modules/lazy_loop.py#L2802)
+`method` | [modules/lazy_loop.py:2808](../../modules/lazy_loop.py#L2808)
 
 ```python
 def get(self, task_id: str) -> dict | None
@@ -2950,7 +2958,7 @@ Return raw task record or None.
 
 #### `TaskStore.list`
 
-`method` | [modules/lazy_loop.py:2806](../../modules/lazy_loop.py#L2806)
+`method` | [modules/lazy_loop.py:2812](../../modules/lazy_loop.py#L2812)
 
 ```python
 def list(self) -> list[dict]
@@ -2964,7 +2972,7 @@ Return all task records.
 
 #### `TaskStore.set_status`
 
-`method` | [modules/lazy_loop.py:2810](../../modules/lazy_loop.py#L2810)
+`method` | [modules/lazy_loop.py:2816](../../modules/lazy_loop.py#L2816)
 
 ```python
 def set_status(self, task_id: str, status: str) -> bool
@@ -2993,7 +3001,7 @@ Update task status.
 
 #### `TaskStore.pause`
 
-`method` | [modules/lazy_loop.py:2822](../../modules/lazy_loop.py#L2822)
+`method` | [modules/lazy_loop.py:2828](../../modules/lazy_loop.py#L2828)
 
 ```python
 def pause(self, task_id: str) -> bool
@@ -3017,7 +3025,7 @@ Pause planner and workers like the planner Engine.Pause.
 
 #### `TaskStore.resume`
 
-`method` | [modules/lazy_loop.py:2826](../../modules/lazy_loop.py#L2826)
+`method` | [modules/lazy_loop.py:2832](../../modules/lazy_loop.py#L2832)
 
 ```python
 def resume(self, task_id: str) -> bool
@@ -3041,7 +3049,7 @@ Resume a paused task back to running like the planner resumeTask.
 
 #### `TaskStore.delete`
 
-`method` | [modules/lazy_loop.py:2835](../../modules/lazy_loop.py#L2835)
+`method` | [modules/lazy_loop.py:2841](../../modules/lazy_loop.py#L2841)
 
 ```python
 def delete(self, task_id: str) -> bool
@@ -3061,7 +3069,7 @@ Remove task record; per-task graph files are cleaned by caller.
 
 #### `TaskStore.active_count`
 
-`method` | [modules/lazy_loop.py:2844](../../modules/lazy_loop.py#L2844)
+`method` | [modules/lazy_loop.py:2850](../../modules/lazy_loop.py#L2850)
 
 ```python
 def active_count(self, exclude: str = '') -> int
@@ -3081,7 +3089,7 @@ Return how many tasks are currently running.
 
 #### `TaskStore.queue`
 
-`method` | [modules/lazy_loop.py:2848](../../modules/lazy_loop.py#L2848)
+`method` | [modules/lazy_loop.py:2854](../../modules/lazy_loop.py#L2854)
 
 ```python
 def queue(self) -> list[dict]
@@ -3097,7 +3105,7 @@ Return queued tasks in FIFO arrival order.
 
 #### `TaskStore.enqueue`
 
-`method` | [modules/lazy_loop.py:2853](../../modules/lazy_loop.py#L2853)
+`method` | [modules/lazy_loop.py:2859](../../modules/lazy_loop.py#L2859)
 
 ```python
 def enqueue(self, task_id: str) -> bool
@@ -3119,7 +3127,7 @@ Mark a task queued with its arrival stamp.
 
 #### `TaskStore.dequeue_next`
 
-`method` | [modules/lazy_loop.py:2864](../../modules/lazy_loop.py#L2864)
+`method` | [modules/lazy_loop.py:2870](../../modules/lazy_loop.py#L2870)
 
 ```python
 def dequeue_next(self) -> dict | None
@@ -3135,7 +3143,7 @@ Pop the oldest queued task and mark it running.
 
 #### `TaskStore.set_llm_chain`
 
-`method` | [modules/lazy_loop.py:2879](../../modules/lazy_loop.py#L2879)
+`method` | [modules/lazy_loop.py:2885](../../modules/lazy_loop.py#L2885)
 
 ```python
 def set_llm_chain(self, task_id: str, members: list[dict], active: int = 0) -> dict
@@ -3163,7 +3171,7 @@ Bind a per-task LLM chain with a failover cursor.
 
 #### `TaskStore.llm_state`
 
-`method` | [modules/lazy_loop.py:2907](../../modules/lazy_loop.py#L2907)
+`method` | [modules/lazy_loop.py:2913](../../modules/lazy_loop.py#L2913)
 
 ```python
 def llm_state(self, task_id: str) -> dict
@@ -3187,7 +3195,7 @@ Return the task LLM chain state (empty when unbound).
 
 #### `TaskStore.advance_llm`
 
-`method` | [modules/lazy_loop.py:2913](../../modules/lazy_loop.py#L2913)
+`method` | [modules/lazy_loop.py:2919](../../modules/lazy_loop.py#L2919)
 
 ```python
 def advance_llm(self, task_id: str) -> dict
@@ -3209,7 +3217,7 @@ Advance the per-task active member after quota exhaustion.
 
 #### `TaskStore.set_skills`
 
-`method` | [modules/lazy_loop.py:2937](../../modules/lazy_loop.py#L2937)
+`method` | [modules/lazy_loop.py:2943](../../modules/lazy_loop.py#L2943)
 
 ```python
 def set_skills(self, task_id: str, names: list[str], auto: bool | None = None) -> dict
@@ -3237,7 +3245,7 @@ Pin skills for prompt injection and optionally toggle auto-match.
 
 #### `TaskStore.set_deadline`
 
-`method` | [modules/lazy_loop.py:2962](../../modules/lazy_loop.py#L2962)
+`method` | [modules/lazy_loop.py:2968](../../modules/lazy_loop.py#L2968)
 
 ```python
 def set_deadline(self, task_id: str, timeout_sec: float) -> bool
@@ -3260,7 +3268,7 @@ Stamp absolute deadline like the planner deadline coordinator.
 
 #### `TaskStore.expired`
 
-`method` | [modules/lazy_loop.py:2972](../../modules/lazy_loop.py#L2972)
+`method` | [modules/lazy_loop.py:2978](../../modules/lazy_loop.py#L2978)
 
 ```python
 def expired(self, task_id: str) -> bool
@@ -3282,7 +3290,7 @@ Report whether task deadline passed.
 
 #### `TaskStore.add_constraint`
 
-`method` | [modules/lazy_loop.py:2978](../../modules/lazy_loop.py#L2978)
+`method` | [modules/lazy_loop.py:2984](../../modules/lazy_loop.py#L2984)
 
 ```python
 def add_constraint(self, task_id: str, ctype: str, text: str, scope: str = 'both') -> dict
@@ -3315,7 +3323,7 @@ both (default). Reads take effect immediately each round.
 
 #### `TaskStore.add_scope`
 
-`method` | [modules/lazy_loop.py:2997](../../modules/lazy_loop.py#L2997)
+`method` | [modules/lazy_loop.py:3003](../../modules/lazy_loop.py#L3003)
 
 ```python
 def add_scope(self, task_id: str, kind: str, value: str, reason: str = '') -> dict
@@ -3344,7 +3352,7 @@ Register authorized asset scope like the planner add_task_scope.
 
 #### `TaskStore.steer`
 
-`method` | [modules/lazy_loop.py:3008](../../modules/lazy_loop.py#L3008)
+`method` | [modules/lazy_loop.py:3014](../../modules/lazy_loop.py#L3014)
 
 ```python
 def steer(self, task_id: str, intent_id: int, message: str) -> bool
@@ -3370,7 +3378,7 @@ Attach mid-run correction to a running intent like steer_work.
 
 #### `TaskStore.kill`
 
-`method` | [modules/lazy_loop.py:3017](../../modules/lazy_loop.py#L3017)
+`method` | [modules/lazy_loop.py:3023](../../modules/lazy_loop.py#L3023)
 
 ```python
 def kill(self, task_id: str, intent_id: int) -> bool
@@ -3395,7 +3403,7 @@ Flag a running intent for termination like kill_work.
 
 #### `TaskStore.steer_for`
 
-`method` | [modules/lazy_loop.py:3028](../../modules/lazy_loop.py#L3028)
+`method` | [modules/lazy_loop.py:3034](../../modules/lazy_loop.py#L3034)
 
 ```python
 def steer_for(self, task_id: str, intent_id: int) -> str
@@ -3418,7 +3426,7 @@ Return pending steer message for intent if any.
 
 #### `TaskStore.clear_steer`
 
-`method` | [modules/lazy_loop.py:3033](../../modules/lazy_loop.py#L3033)
+`method` | [modules/lazy_loop.py:3039](../../modules/lazy_loop.py#L3039)
 
 ```python
 def clear_steer(self, task_id: str, intent_id: int) -> bool
@@ -3441,7 +3449,7 @@ Drop the pending steer message for an intent after delivery.
 
 #### `TaskStore.killed`
 
-`method` | [modules/lazy_loop.py:3046](../../modules/lazy_loop.py#L3046)
+`method` | [modules/lazy_loop.py:3052](../../modules/lazy_loop.py#L3052)
 
 ```python
 def killed(self, task_id: str, intent_id: int) -> bool
@@ -3466,7 +3474,7 @@ Report whether intent was flagged for termination.
 
 ### `Planner`
 
-`class` | [modules/lazy_loop.py:3288](../../modules/lazy_loop.py#L3288)
+`class` | [modules/lazy_loop.py:3294](../../modules/lazy_loop.py#L3294)
 
 ```python
 class Planner
@@ -3487,7 +3495,7 @@ Sole intent generator, woken on every graph change like the planner planner.
 
 #### `Planner.__init__`
 
-`constructor` | [modules/lazy_loop.py:3291](../../modules/lazy_loop.py#L3291)
+`constructor` | [modules/lazy_loop.py:3297](../../modules/lazy_loop.py#L3297)
 
 ```python
 def __init__(self, task_id: str, assets: AssetGraph, graph: ExplorationGraph, activity: ActivityLog, store: TaskStore) -> None
@@ -3513,7 +3521,7 @@ Bind planner to task collaborators.
 
 #### `Planner.plan`
 
-`method` | [modules/lazy_loop.py:3319](../../modules/lazy_loop.py#L3319)
+`method` | [modules/lazy_loop.py:3325](../../modules/lazy_loop.py#L3325)
 
 ```python
 def plan(self, triggers: list[dict] | None = None) -> list[ExplorationNode]
@@ -3542,7 +3550,7 @@ the tool catalog gates intent/goal writing per agent lane.
 
 #### `Planner.refine`
 
-`method` | [modules/lazy_loop.py:3398](../../modules/lazy_loop.py#L3398)
+`method` | [modules/lazy_loop.py:3404](../../modules/lazy_loop.py#L3404)
 
 ```python
 def refine(self) -> dict
@@ -3562,7 +3570,7 @@ the dataset see what the re-plan changed.
 
 #### `Planner.finalize`
 
-`method` | [modules/lazy_loop.py:3883](../../modules/lazy_loop.py#L3883)
+`method` | [modules/lazy_loop.py:3969](../../modules/lazy_loop.py#L3969)
 
 ```python
 def finalize(self, reason: str = 'task ending') -> dict
@@ -3589,11 +3597,13 @@ for the audit trail.
 
 ### `Worker`
 
-`class` | [modules/lazy_loop.py:4006](../../modules/lazy_loop.py#L4006)
+`class` | [modules/lazy_loop.py:4092](../../modules/lazy_loop.py#L4092)
 
 ```python
-class Worker
+class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, WorkerMemoryMixin)
 ```
+
+Bases: [`WorkerAgenticMixin`](modules.loop.worker_agentic.py.md#workeragenticmixin), [`WorkerExecutionMixin`](modules.loop.worker_execution.py.md#workerexecutionmixin), [`WorkerGatingMixin`](modules.loop.worker_gating.py.md#workergatingmixin), [`WorkerMemoryMixin`](modules.loop.worker_memory.py.md#workermemorymixin)
 
 Executes exactly ONE claimed intent with real tools.
 
@@ -3610,7 +3620,7 @@ Executes exactly ONE claimed intent with real tools.
 
 #### `Worker.__init__`
 
-`constructor` | [modules/lazy_loop.py:4009](../../modules/lazy_loop.py#L4009)
+`constructor` | [modules/lazy_loop.py:4095](../../modules/lazy_loop.py#L4095)
 
 ```python
 def __init__(self, name: str, task_id: str, assets: AssetGraph, graph: ExplorationGraph, activity: ActivityLog, traffic: TrafficLog, guard: Guard, store: TaskStore, shell=None, ephemeral: bool = True) -> None
@@ -3633,7 +3643,7 @@ Bind worker to task collaborators.
 | `shell` |  | `None` | Optional live shell handle for steering. |
 | `ephemeral` | `bool` | `True` | When True the worker closes its shell and unregisters itself in ``_finish`` (one-shot use). Pool workers pass False and live until `[`close`](#worker-close)`. |
 
-*Calls:* [`EdrPacer.__init__`](modules.loop_guardrails.py.md#edrpacer-__init__), [`RepeatDetector.__init__`](modules.loop_guardrails.py.md#repeatdetector-__init__)
+*Calls:* [`EdrPacer.from_config`](modules.loop_guardrails.py.md#edrpacer-from_config), [`RepeatDetector.__init__`](modules.loop_guardrails.py.md#repeatdetector-__init__)
 
 *Called by:* [`LazyCommandSet.do_lazy_worker`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_worker)
 
@@ -3641,7 +3651,7 @@ Bind worker to task collaborators.
 
 #### `Worker.rebind`
 
-`method` | [modules/lazy_loop.py:4057](../../modules/lazy_loop.py#L4057)
+`method` | [modules/lazy_loop.py:4143](../../modules/lazy_loop.py#L4143)
 
 ```python
 def rebind(self, assets: AssetGraph, graph: ExplorationGraph, activity: ActivityLog, traffic: TrafficLog, guard: Guard, store: TaskStore, shell=None) -> None
@@ -3669,7 +3679,7 @@ in-memory generation never leaks between rounds.
 
 #### `Worker.close`
 
-`method` | [modules/lazy_loop.py:4081](../../modules/lazy_loop.py#L4081)
+`method` | [modules/lazy_loop.py:4167](../../modules/lazy_loop.py#L4167)
 
 ```python
 def close(self) -> None
@@ -3681,7 +3691,7 @@ Release the worker's shell session and shutdown registration.
 
 #### `Worker.execute`
 
-`method` | [modules/lazy_loop.py:4177](../../modules/lazy_loop.py#L4177)
+`method` | [modules/lazy_loop.py:4202](../../modules/lazy_loop.py#L4202)
 
 ```python
 def execute(self, intent: ExplorationNode, executor=None, timeout_sec: float = 0.0) -> dict
@@ -3699,7 +3709,7 @@ Run one intent to completion and write facts back.
 
 **Returns:** `dict`
 
-*Calls:* [`resolve`](modules.finding_lifecycle.py.md#resolve), [`Budget.__init__`](#budget-__init__), [`Budget.check`](#budget-check), [`InterceptQueue.__init__`](#interceptqueue-__init__), [`LlmPool.__init__`](#llmpool-__init__), [`LlmPool.complete`](#llmpool-complete), [`LlmPool.members`](#llmpool-members), [`RuntimeTracker.__init__`](#runtimetracker-__init__), [`RuntimeTracker.abort`](#runtimetracker-abort), [`ToolCatalog.__init__`](#toolcatalog-__init__), [`ToolCatalog.bindings`](#toolcatalog-bindings), [`EdrPacer.decay`](modules.loop_guardrails.py.md#edrpacer-decay) and 5 more
+*Calls:* [`resolve`](modules.finding_lifecycle.py.md#resolve), [`Budget.__init__`](#budget-__init__), [`Budget.check`](#budget-check), [`InterceptQueue.__init__`](#interceptqueue-__init__), [`LlmPool.__init__`](#llmpool-__init__), [`LlmPool.complete`](#llmpool-complete), [`LlmPool.members`](#llmpool-members), [`RuntimeTracker.__init__`](#runtimetracker-__init__), [`RuntimeTracker.abort`](#runtimetracker-abort), [`ToolCatalog.__init__`](#toolcatalog-__init__), [`ToolCatalog.bindings`](#toolcatalog-bindings), [`RepeatDetector.last_commands`](modules.loop_guardrails.py.md#repeatdetector-last_commands) and 1 more
 
 *Called by:* [`LazyCommandSet.do_lazy_worker`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_worker)
 
@@ -3709,7 +3719,7 @@ Run one intent to completion and write facts back.
 
 ### `Retester`
 
-`class` | [modules/lazy_loop.py:6121](../../modules/lazy_loop.py#L6121)
+`class` | [modules/lazy_loop.py:5282](../../modules/lazy_loop.py#L5282)
 
 ```python
 class Retester
@@ -3729,7 +3739,7 @@ Replay finding evidence to a verdict like the Lazy retester agent.
 
 #### `Retester.__init__`
 
-`constructor` | [modules/lazy_loop.py:6124](../../modules/lazy_loop.py#L6124)
+`constructor` | [modules/lazy_loop.py:5285](../../modules/lazy_loop.py#L5285)
 
 ```python
 def __init__(self, graph: ExplorationGraph, activity: ActivityLog, traffic: TrafficLog) -> None
@@ -3751,7 +3761,7 @@ Bind retester to task collaborators.
 
 #### `Retester.retest`
 
-`method` | [modules/lazy_loop.py:6130](../../modules/lazy_loop.py#L6130)
+`method` | [modules/lazy_loop.py:5291](../../modules/lazy_loop.py#L5291)
 
 ```python
 def retest(self, finding_id: int, executor=None, note: str = '') -> dict
@@ -3783,7 +3793,7 @@ unreachable, thin evidence) — one failed request never proves fixed.
 
 #### `Retester.retest_context`
 
-`method` | [modules/lazy_loop.py:6294](../../modules/lazy_loop.py#L6294)
+`method` | [modules/lazy_loop.py:5455](../../modules/lazy_loop.py#L5455)
 
 ```python
 def retest_context(self, finding_id: int) -> dict
@@ -3811,7 +3821,7 @@ Return finding + PoC + assets + constraints like get_finding_retest_context.
 
 ### `ColdCompactor`
 
-`class` | [modules/lazy_loop.py:6308](../../modules/lazy_loop.py#L6308)
+`class` | [modules/lazy_loop.py:5469](../../modules/lazy_loop.py#L5469)
 
 ```python
 class ColdCompactor
@@ -3843,7 +3853,7 @@ planner rounds plus connectivity grouping with same-parent rescue.
 
 #### `ColdCompactor.__init__`
 
-`constructor` | [modules/lazy_loop.py:6316](../../modules/lazy_loop.py#L6316)
+`constructor` | [modules/lazy_loop.py:5477](../../modules/lazy_loop.py#L5477)
 
 ```python
 def __init__(self, graph: ExplorationGraph, activity: ActivityLog) -> None
@@ -3864,7 +3874,7 @@ Bind compactor to task graph.
 
 #### `ColdCompactor.noa_archives`
 
-`method` | [modules/lazy_loop.py:6426](../../modules/lazy_loop.py#L6426)
+`method` | [modules/lazy_loop.py:5587](../../modules/lazy_loop.py#L5587)
 
 ```python
 def noa_archives(self, limit: int = 50) -> list[dict]
@@ -3886,7 +3896,7 @@ List NOA raw archives for this task (newest first).
 
 #### `ColdCompactor.hot_set`
 
-`method` | [modules/lazy_loop.py:6485](../../modules/lazy_loop.py#L6485)
+`method` | [modules/lazy_loop.py:5646](../../modules/lazy_loop.py#L5646)
 
 ```python
 def hot_set(self) -> set[int]
@@ -3900,7 +3910,7 @@ Compute hot nodes by reverse reachability from live intents.
 
 #### `ColdCompactor.structural_cold`
 
-`method` | [modules/lazy_loop.py:6507](../../modules/lazy_loop.py#L6507)
+`method` | [modules/lazy_loop.py:5668](../../modules/lazy_loop.py#L5668)
 
 ```python
 def structural_cold(self, hot: set[int]) -> set[int]
@@ -3920,7 +3930,7 @@ Return foldable non-hot nodes before debounce.
 
 #### `ColdCompactor.covered_members`
 
-`method` | [modules/lazy_loop.py:6592](../../modules/lazy_loop.py#L6592)
+`method` | [modules/lazy_loop.py:5753](../../modules/lazy_loop.py#L5753)
 
 ```python
 def covered_members(self) -> set[int]
@@ -3934,7 +3944,7 @@ Return node ids already folded under active digests.
 
 #### `ColdCompactor.on_planner_round`
 
-`method` | [modules/lazy_loop.py:6604](../../modules/lazy_loop.py#L6604)
+`method` | [modules/lazy_loop.py:5765](../../modules/lazy_loop.py#L5765)
 
 ```python
 def on_planner_round(self) -> dict
@@ -3948,7 +3958,7 @@ Advance round, maintain stamps, trigger background compaction.
 
 #### `ColdCompactor.compact`
 
-`method` | [modules/lazy_loop.py:6645](../../modules/lazy_loop.py#L6645)
+`method` | [modules/lazy_loop.py:5806](../../modules/lazy_loop.py#L5806)
 
 ```python
 def compact(self, threshold: int = DEFAULT_COLD_THRESHOLD, mode: str = 'minor', debounce_sec: float = DEFAULT_COLD_DEBOUNCE_SEC) -> dict
@@ -3977,7 +3987,7 @@ compatibility, fresh nodes inside the debounce window stay hot.
 
 #### `ColdCompactor.expand`
 
-`method` | [modules/lazy_loop.py:6772](../../modules/lazy_loop.py#L6772)
+`method` | [modules/lazy_loop.py:5933](../../modules/lazy_loop.py#L5933)
 
 ```python
 def expand(self, digest_id: int, role: str = 'planner') -> list[int]
@@ -4005,7 +4015,7 @@ Restore digest members like expandDigest.
 
 #### `ColdCompactor.cold_index`
 
-`method` | [modules/lazy_loop.py:6796](../../modules/lazy_loop.py#L6796)
+`method` | [modules/lazy_loop.py:5957](../../modules/lazy_loop.py#L5957)
 
 ```python
 def cold_index(self) -> list[dict]
@@ -4019,7 +4029,7 @@ Group active digests by anchored asset.
 
 #### `ColdCompactor.unfolded`
 
-`method` | [modules/lazy_loop.py:6814](../../modules/lazy_loop.py#L6814)
+`method` | [modules/lazy_loop.py:5975](../../modules/lazy_loop.py#L5975)
 
 ```python
 def unfolded(self, limit: int = 60) -> dict
@@ -4043,7 +4053,7 @@ the tail.
 
 #### `ColdCompactor.digest_overview`
 
-`method` | [modules/lazy_loop.py:6830](../../modules/lazy_loop.py#L6830)
+`method` | [modules/lazy_loop.py:5991](../../modules/lazy_loop.py#L5991)
 
 ```python
 def digest_overview(self) -> dict
@@ -4063,7 +4073,7 @@ folded under a digest (lineage coverage).
 
 ### `FindingService`
 
-`class` | [modules/lazy_loop.py:7123](../../modules/lazy_loop.py#L7123)
+`class` | [modules/lazy_loop.py:6284](../../modules/lazy_loop.py#L6284)
 
 ```python
 class FindingService
@@ -4086,7 +4096,7 @@ Finding lifecycle: report/status/bind like finding_workflow.
 
 #### `FindingService.__init__`
 
-`constructor` | [modules/lazy_loop.py:7126](../../modules/lazy_loop.py#L7126)
+`constructor` | [modules/lazy_loop.py:6287](../../modules/lazy_loop.py#L6287)
 
 ```python
 def __init__(self, task_id: str, graph: ExplorationGraph, activity: ActivityLog, store=None) -> None
@@ -4109,7 +4119,7 @@ Bind service to task collaborators.
 
 #### `FindingService.report`
 
-`method` | [modules/lazy_loop.py:7159](../../modules/lazy_loop.py#L7159)
+`method` | [modules/lazy_loop.py:6320](../../modules/lazy_loop.py#L6320)
 
 ```python
 def report(self, name: str, summary: str = '', poc: str = '', severity: str = '', vulnclass: str = '', intent_id: int = 0, asset_ids: list[int] | None = None, traffic_refs: list[str] | None = None) -> ExplorationNode
@@ -4142,7 +4152,7 @@ Register a finding with severity/evidence/dedupe like report_finding.
 
 #### `FindingService.apply_drafts`
 
-`method` | [modules/lazy_loop.py:7359](../../modules/lazy_loop.py#L7359)
+`method` | [modules/lazy_loop.py:6520](../../modules/lazy_loop.py#L6520)
 
 ```python
 def apply_drafts(self) -> int
@@ -4160,7 +4170,7 @@ finding never inherits a stale report.
 
 #### `FindingService.set_status`
 
-`method` | [modules/lazy_loop.py:7396](../../modules/lazy_loop.py#L7396)
+`method` | [modules/lazy_loop.py:6557](../../modules/lazy_loop.py#L6557)
 
 ```python
 def set_status(self, finding_id: int, status: str) -> bool
@@ -4187,7 +4197,7 @@ Transition finding status like the workflow disposition.
 
 #### `FindingService.update_report`
 
-`method` | [modules/lazy_loop.py:7413](../../modules/lazy_loop.py#L7413)
+`method` | [modules/lazy_loop.py:6574](../../modules/lazy_loop.py#L6574)
 
 ```python
 def update_report(self, finding_id: int, report: str) -> int
@@ -4210,7 +4220,7 @@ Write the narrative report and bump the evidence version.
 
 #### `FindingService.ranked`
 
-`method` | [modules/lazy_loop.py:7435](../../modules/lazy_loop.py#L7435)
+`method` | [modules/lazy_loop.py:6596](../../modules/lazy_loop.py#L6596)
 
 ```python
 def ranked(self) -> list[ExplorationNode]
@@ -4228,7 +4238,7 @@ Findings ordered critical-first like the Markdown renderer.
 
 ### `EvidenceStore`
 
-`class` | [modules/lazy_loop.py:7442](../../modules/lazy_loop.py#L7442)
+`class` | [modules/lazy_loop.py:6603](../../modules/lazy_loop.py#L6603)
 
 ```python
 class EvidenceStore
@@ -4252,7 +4262,7 @@ Durable PoC/evidence vault per task like evidence/store.
 
 #### `EvidenceStore.__init__`
 
-`constructor` | [modules/lazy_loop.py:7445](../../modules/lazy_loop.py#L7445)
+`constructor` | [modules/lazy_loop.py:6606](../../modules/lazy_loop.py#L6606)
 
 ```python
 def __init__(self, task_id: str) -> None
@@ -4270,7 +4280,7 @@ Bind vault to task.
 
 #### `EvidenceStore.add`
 
-`method` | [modules/lazy_loop.py:7454](../../modules/lazy_loop.py#L7454)
+`method` | [modules/lazy_loop.py:6615](../../modules/lazy_loop.py#L6615)
 
 ```python
 def add(self, finding_id: int, kind: str, body: str) -> dict
@@ -4298,7 +4308,7 @@ can re-check the artefact on disk.
 
 #### `EvidenceStore.verify`
 
-`method` | [modules/lazy_loop.py:7478](../../modules/lazy_loop.py#L7478)
+`method` | [modules/lazy_loop.py:6639](../../modules/lazy_loop.py#L6639)
 
 ```python
 def verify(self) -> list[int]
@@ -4319,7 +4329,7 @@ provenance binding. Only copies matching neither persist as bad.
 
 #### `EvidenceStore.gc`
 
-`method` | [modules/lazy_loop.py:7498](../../modules/lazy_loop.py#L7498)
+`method` | [modules/lazy_loop.py:6659](../../modules/lazy_loop.py#L6659)
 
 ```python
 def gc(self, valid_findings: set[int] | None = None) -> int
@@ -4341,7 +4351,7 @@ Drop evidence for findings no longer present; returns removed.
 
 #### `EvidenceStore.for_finding`
 
-`method` | [modules/lazy_loop.py:7514](../../modules/lazy_loop.py#L7514)
+`method` | [modules/lazy_loop.py:6675](../../modules/lazy_loop.py#L6675)
 
 ```python
 def for_finding(self, finding_id: int) -> list[dict]
@@ -4363,7 +4373,7 @@ Return evidence attached to one finding.
 
 #### `EvidenceStore.read`
 
-`method` | [modules/lazy_loop.py:7518](../../modules/lazy_loop.py#L7518)
+`method` | [modules/lazy_loop.py:6679](../../modules/lazy_loop.py#L6679)
 
 ```python
 def read(self, evidence_id: int, offset: int = 0, length: int = 8192) -> dict
@@ -4394,7 +4404,7 @@ length and chunk.
 
 #### `EvidenceStore.export`
 
-`method` | [modules/lazy_loop.py:7555](../../modules/lazy_loop.py#L7555)
+`method` | [modules/lazy_loop.py:6716](../../modules/lazy_loop.py#L6716)
 
 ```python
 def export(self, path: str) -> str
@@ -4418,7 +4428,7 @@ Dump vault to a file for the report pipeline.
 
 ### `Notifier`
 
-`class` | [modules/lazy_loop.py:7563](../../modules/lazy_loop.py#L7563)
+`class` | [modules/lazy_loop.py:6724](../../modules/lazy_loop.py#L6724)
 
 ```python
 class Notifier
@@ -4440,7 +4450,7 @@ Finding event fan-out like notify/ (log + webhook, stateless).
 
 #### `Notifier.__init__`
 
-`constructor` | [modules/lazy_loop.py:7566](../../modules/lazy_loop.py#L7566)
+`constructor` | [modules/lazy_loop.py:6727](../../modules/lazy_loop.py#L6727)
 
 ```python
 def __init__(self, store=None) -> None
@@ -4458,7 +4468,7 @@ Bind optional channel config from task store.
 
 #### `Notifier.channels`
 
-`method` | [modules/lazy_loop.py:7570](../../modules/lazy_loop.py#L7570)
+`method` | [modules/lazy_loop.py:6731](../../modules/lazy_loop.py#L6731)
 
 ```python
 def channels(self) -> list[dict]
@@ -4474,7 +4484,7 @@ Return configured channels (empty = log only).
 
 #### `Notifier.add_channel`
 
-`method` | [modules/lazy_loop.py:7578](../../modules/lazy_loop.py#L7578)
+`method` | [modules/lazy_loop.py:6739](../../modules/lazy_loop.py#L6739)
 
 ```python
 def add_channel(self, kind: str, target: str, min_severity: str = '', extra: dict | None = None) -> dict
@@ -4503,7 +4513,7 @@ Register a channel: log|webhook|file|slack|email with severity floor.
 
 #### `Notifier.remove_channel`
 
-`method` | [modules/lazy_loop.py:7625](../../modules/lazy_loop.py#L7625)
+`method` | [modules/lazy_loop.py:6786](../../modules/lazy_loop.py#L6786)
 
 ```python
 def remove_channel(self, index: int) -> bool
@@ -4525,7 +4535,7 @@ Remove one channel by its 1-based list position.
 
 #### `Notifier.emit`
 
-`method` | [modules/lazy_loop.py:7676](../../modules/lazy_loop.py#L7676)
+`method` | [modules/lazy_loop.py:6837](../../modules/lazy_loop.py#L6837)
 
 ```python
 def emit(self, task_id: str, event: str, data: dict) -> int
@@ -4554,7 +4564,7 @@ email (SMTP with optional STARTTLS/login).
 
 ### `LlmPool`
 
-`class` | [modules/lazy_loop.py:7732](../../modules/lazy_loop.py#L7732)
+`class` | [modules/lazy_loop.py:6893](../../modules/lazy_loop.py#L6893)
 
 ```python
 class LlmPool
@@ -4597,7 +4607,7 @@ head member is skipped instead of retried every round.
 
 #### `LlmPool.__init__`
 
-`constructor` | [modules/lazy_loop.py:7749](../../modules/lazy_loop.py#L7749)
+`constructor` | [modules/lazy_loop.py:6910](../../modules/lazy_loop.py#L6910)
 
 ```python
 def __init__(self) -> None
@@ -4611,7 +4621,7 @@ Load member list and usage ledger paths.
 
 #### `LlmPool.members`
 
-`method` | [modules/lazy_loop.py:7784](../../modules/lazy_loop.py#L7784)
+`method` | [modules/lazy_loop.py:6945](../../modules/lazy_loop.py#L6945)
 
 ```python
 def members(self) -> list[dict]
@@ -4627,7 +4637,7 @@ Return configured chain in order, seeding defaults on first use.
 
 #### `LlmPool.add_member`
 
-`method` | [modules/lazy_loop.py:7789](../../modules/lazy_loop.py#L7789)
+`method` | [modules/lazy_loop.py:6950](../../modules/lazy_loop.py#L6950)
 
 ```python
 def add_member(self, name: str, model: str = '', priority: int = 0) -> dict
@@ -4651,7 +4661,7 @@ Append a chain member backed by llm_factory at call time.
 
 #### `LlmPool.remove_member`
 
-`method` | [modules/lazy_loop.py:7798](../../modules/lazy_loop.py#L7798)
+`method` | [modules/lazy_loop.py:6959](../../modules/lazy_loop.py#L6959)
 
 ```python
 def remove_member(self, name: str) -> bool
@@ -4673,7 +4683,7 @@ Drop a chain member.
 
 #### `LlmPool.set_priority`
 
-`method` | [modules/lazy_loop.py:7808](../../modules/lazy_loop.py#L7808)
+`method` | [modules/lazy_loop.py:6969](../../modules/lazy_loop.py#L6969)
 
 ```python
 def set_priority(self, name: str, priority: int) -> bool
@@ -4696,7 +4706,7 @@ Change one member's failover rank, keeping the rest untouched.
 
 #### `LlmPool.usage`
 
-`method` | [modules/lazy_loop.py:7821](../../modules/lazy_loop.py#L7821)
+`method` | [modules/lazy_loop.py:6982](../../modules/lazy_loop.py#L6982)
 
 ```python
 def usage(self) -> dict
@@ -4712,7 +4722,7 @@ Return per-member call ledger like llm_usage.
 
 #### `LlmPool.record_call`
 
-`method` | [modules/lazy_loop.py:7831](../../modules/lazy_loop.py#L7831)
+`method` | [modules/lazy_loop.py:6992](../../modules/lazy_loop.py#L6992)
 
 ```python
 def record_call(self, member: str, ok: bool, text: str = '') -> None
@@ -4736,7 +4746,7 @@ chain executor, the C2 bots) record outcomes into the same
 
 #### `LlmPool.complete`
 
-`method` | [modules/lazy_loop.py:7940](../../modules/lazy_loop.py#L7940)
+`method` | [modules/lazy_loop.py:7101](../../modules/lazy_loop.py#L7101)
 
 ```python
 def complete(self, prompt: str, max_tokens: int = 800, empty_retries: int = LLM_EMPTY_RETRIES, members: list[dict] | None = None, task_id: str = '', on_delta=None) -> str
@@ -4769,7 +4779,7 @@ health registry, so a dead head is cooled down, not hammered.
 
 #### `LlmPool.health`
 
-`method` | [modules/lazy_loop.py:8105](../../modules/lazy_loop.py#L8105)
+`method` | [modules/lazy_loop.py:7266](../../modules/lazy_loop.py#L7266)
 
 ```python
 def health(self) -> dict
@@ -4785,7 +4795,7 @@ Return per-member health state for lazy_llm health.
 
 #### `LlmPool.context_budget`
 
-`method` | [modules/lazy_loop.py:8116](../../modules/lazy_loop.py#L8116)
+`method` | [modules/lazy_loop.py:7277](../../modules/lazy_loop.py#L7277)
 
 ```python
 def context_budget(self) -> int
@@ -4801,7 +4811,7 @@ Return the prompt context character budget (default 2000).
 
 #### `LlmPool.record_raw`
 
-`method` | [modules/lazy_loop.py:8121](../../modules/lazy_loop.py#L8121)
+`method` | [modules/lazy_loop.py:7282](../../modules/lazy_loop.py#L7282)
 
 ```python
 def record_raw(self) -> bool
@@ -4817,7 +4827,7 @@ Return whether raw prompt/response recording is enabled.
 
 #### `LlmPool.set_record_raw`
 
-`method` | [modules/lazy_loop.py:8126](../../modules/lazy_loop.py#L8126)
+`method` | [modules/lazy_loop.py:7287](../../modules/lazy_loop.py#L7287)
 
 ```python
 def set_record_raw(self, enabled: bool) -> bool
@@ -4839,7 +4849,7 @@ Toggle raw prompt/response recording in the pool ledger.
 
 #### `LlmPool.raw_entries`
 
-`method` | [modules/lazy_loop.py:8133](../../modules/lazy_loop.py#L8133)
+`method` | [modules/lazy_loop.py:7294](../../modules/lazy_loop.py#L7294)
 
 ```python
 def raw_entries(self, limit: int = 10) -> list[dict]
@@ -4861,7 +4871,7 @@ Return the most recent raw LLM exchanges.
 
 #### `LlmPool.raw_entries_for_task`
 
-`method` | [modules/lazy_loop.py:8147](../../modules/lazy_loop.py#L8147)
+`method` | [modules/lazy_loop.py:7308](../../modules/lazy_loop.py#L7308)
 
 ```python
 def raw_entries_for_task(self, task_id: str, limit: int = RAW_LOG_TASK_LIMIT) -> list[dict]
@@ -4888,7 +4898,7 @@ in the returned list.
 
 #### `LlmPool.set_context_budget`
 
-`method` | [modules/lazy_loop.py:8210](../../modules/lazy_loop.py#L8210)
+`method` | [modules/lazy_loop.py:7371](../../modules/lazy_loop.py#L7371)
 
 ```python
 def set_context_budget(self, chars: int) -> int
@@ -4912,7 +4922,7 @@ Persist the prompt context character budget.
 
 ### `ToolCatalog`
 
-`class` | [modules/lazy_loop.py:8225](../../modules/lazy_loop.py#L8225)
+`class` | [modules/lazy_loop.py:7386](../../modules/lazy_loop.py#L7386)
 
 ```python
 class ToolCatalog
@@ -4933,7 +4943,7 @@ Per-agent tool bindings like agent/toolcatalog (DB-overridable).
 
 #### `ToolCatalog.__init__`
 
-`constructor` | [modules/lazy_loop.py:8228](../../modules/lazy_loop.py#L8228)
+`constructor` | [modules/lazy_loop.py:7389](../../modules/lazy_loop.py#L7389)
 
 ```python
 def __init__(self) -> None
@@ -4947,7 +4957,7 @@ Load binding table.
 
 #### `ToolCatalog.bindings`
 
-`method` | [modules/lazy_loop.py:8245](../../modules/lazy_loop.py#L8245)
+`method` | [modules/lazy_loop.py:7406](../../modules/lazy_loop.py#L7406)
 
 ```python
 def bindings(self, agent: str = '') -> dict
@@ -4969,7 +4979,7 @@ Return bindings for one agent or the whole table.
 
 #### `ToolCatalog.bind`
 
-`method` | [modules/lazy_loop.py:8250](../../modules/lazy_loop.py#L8250)
+`method` | [modules/lazy_loop.py:7411](../../modules/lazy_loop.py#L7411)
 
 ```python
 def bind(self, agent: str, tool: str) -> list[str]
@@ -4992,7 +5002,7 @@ Opt a tool into an agent lane.
 
 #### `ToolCatalog.unbind`
 
-`method` | [modules/lazy_loop.py:8259](../../modules/lazy_loop.py#L8259)
+`method` | [modules/lazy_loop.py:7420](../../modules/lazy_loop.py#L7420)
 
 ```python
 def unbind(self, agent: str, tool: str) -> list[str]
@@ -5017,7 +5027,7 @@ Remove a tool from an agent lane.
 
 ### `SideQuestions`
 
-`class` | [modules/lazy_loop.py:8269](../../modules/lazy_loop.py#L8269)
+`class` | [modules/lazy_loop.py:7430](../../modules/lazy_loop.py#L7430)
 
 ```python
 class SideQuestions
@@ -5047,7 +5057,7 @@ out of the mainline transcript.
 
 #### `SideQuestions.ask`
 
-`method` | [modules/lazy_loop.py:8279](../../modules/lazy_loop.py#L8279)
+`method` | [modules/lazy_loop.py:7440](../../modules/lazy_loop.py#L7440)
 
 ```python
 def ask(self, task_id: str, question: str, pool: LlmPool | None = None, session: str = 'btw') -> dict
@@ -5072,7 +5082,7 @@ Answer from graph overview + recent trace within a char budget.
 
 #### `SideQuestions.history`
 
-`method` | [modules/lazy_loop.py:8325](../../modules/lazy_loop.py#L8325)
+`method` | [modules/lazy_loop.py:7486](../../modules/lazy_loop.py#L7486)
 
 ```python
 def history(self, task_id: str, session: str = '', limit: int = 50) -> list[dict]
@@ -5096,7 +5106,7 @@ Return persisted side exchanges, optionally one session only.
 
 #### `SideQuestions.sessions`
 
-`method` | [modules/lazy_loop.py:8333](../../modules/lazy_loop.py#L8333)
+`method` | [modules/lazy_loop.py:7494](../../modules/lazy_loop.py#L7494)
 
 ```python
 def sessions(self, task_id: str) -> list[str]
@@ -5118,7 +5128,7 @@ Return side-question session names for a task.
 
 ### `CompanyScope`
 
-`class` | [modules/lazy_loop.py:8343](../../modules/lazy_loop.py#L8343)
+`class` | [modules/lazy_loop.py:7504](../../modules/lazy_loop.py#L7504)
 
 ```python
 class CompanyScope
@@ -5139,7 +5149,7 @@ Company asset-range registry like db/companies + company_scope.
 
 #### `CompanyScope.__init__`
 
-`constructor` | [modules/lazy_loop.py:8346](../../modules/lazy_loop.py#L8346)
+`constructor` | [modules/lazy_loop.py:7507](../../modules/lazy_loop.py#L7507)
 
 ```python
 def __init__(self) -> None
@@ -5153,7 +5163,7 @@ Load company table.
 
 #### `CompanyScope.add`
 
-`method` | [modules/lazy_loop.py:8354](../../modules/lazy_loop.py#L8354)
+`method` | [modules/lazy_loop.py:7515](../../modules/lazy_loop.py#L7515)
 
 ```python
 def add(self, name: str, scope: str = '') -> dict
@@ -5176,7 +5186,7 @@ Register a company with an optional scope pattern.
 
 #### `CompanyScope.list`
 
-`method` | [modules/lazy_loop.py:8363](../../modules/lazy_loop.py#L8363)
+`method` | [modules/lazy_loop.py:7524](../../modules/lazy_loop.py#L7524)
 
 ```python
 def list(self) -> list[dict]
@@ -5190,7 +5200,7 @@ Return companies with asset counts.
 
 #### `CompanyScope.match`
 
-`method` | [modules/lazy_loop.py:8367](../../modules/lazy_loop.py#L8367)
+`method` | [modules/lazy_loop.py:7528](../../modules/lazy_loop.py#L7528)
 
 ```python
 def match(self, value: str) -> list[dict]
@@ -5214,7 +5224,7 @@ Return companies whose scope substring hits the value.
 
 ### `TaskArchive`
 
-`class` | [modules/lazy_loop.py:8373](../../modules/lazy_loop.py#L8373)
+`class` | [modules/lazy_loop.py:7534](../../modules/lazy_loop.py#L7534)
 
 ```python
 class TaskArchive
@@ -5235,7 +5245,7 @@ Task snapshot vault like task_archives: save/list/restore/stats.
 
 #### `TaskArchive.save`
 
-`method` | [modules/lazy_loop.py:8376](../../modules/lazy_loop.py#L8376)
+`method` | [modules/lazy_loop.py:7537](../../modules/lazy_loop.py#L7537)
 
 ```python
 def save(self, task_id: str) -> dict
@@ -5257,7 +5267,7 @@ Snapshot task record + graph + activity tail into one archive.
 
 #### `TaskArchive.list`
 
-`method` | [modules/lazy_loop.py:8397](../../modules/lazy_loop.py#L8397)
+`method` | [modules/lazy_loop.py:7558](../../modules/lazy_loop.py#L7558)
 
 ```python
 def list(self) -> list[dict]
@@ -5271,7 +5281,7 @@ Return archive snapshots with task + node counts.
 
 #### `TaskArchive.restore`
 
-`method` | [modules/lazy_loop.py:8419](../../modules/lazy_loop.py#L8419)
+`method` | [modules/lazy_loop.py:7580](../../modules/lazy_loop.py#L7580)
 
 ```python
 def restore(self, path: str) -> str
@@ -5297,7 +5307,7 @@ authorization surface of the archived one (nothing is dropped).
 
 #### `TaskArchive.stats`
 
-`method` | [modules/lazy_loop.py:8486](../../modules/lazy_loop.py#L8486)
+`method` | [modules/lazy_loop.py:7647](../../modules/lazy_loop.py#L7647)
 
 ```python
 def stats(self) -> dict
@@ -5315,7 +5325,7 @@ Aggregate counts across archives like archive aggregate stats.
 
 ### `TaskTemplate`
 
-`class` | [modules/lazy_loop.py:8492](../../modules/lazy_loop.py#L8492)
+`class` | [modules/lazy_loop.py:7653](../../modules/lazy_loop.py#L7653)
 
 ```python
 class TaskTemplate
@@ -5337,7 +5347,7 @@ Named goal templates like task_templates: list/add/use/remove.
 
 #### `TaskTemplate.__init__`
 
-`constructor` | [modules/lazy_loop.py:8495](../../modules/lazy_loop.py#L8495)
+`constructor` | [modules/lazy_loop.py:7656](../../modules/lazy_loop.py#L7656)
 
 ```python
 def __init__(self) -> None
@@ -5351,7 +5361,7 @@ Bind template table.
 
 #### `TaskTemplate.list`
 
-`method` | [modules/lazy_loop.py:8503](../../modules/lazy_loop.py#L8503)
+`method` | [modules/lazy_loop.py:7664](../../modules/lazy_loop.py#L7664)
 
 ```python
 def list(self) -> list[dict]
@@ -5365,7 +5375,7 @@ Return all templates.
 
 #### `TaskTemplate.add`
 
-`method` | [modules/lazy_loop.py:8507](../../modules/lazy_loop.py#L8507)
+`method` | [modules/lazy_loop.py:7668](../../modules/lazy_loop.py#L7668)
 
 ```python
 def add(self, name: str, goal: str) -> dict
@@ -5388,7 +5398,7 @@ Register a template; names are unique (overwrite on clash).
 
 #### `TaskTemplate.remove`
 
-`method` | [modules/lazy_loop.py:8517](../../modules/lazy_loop.py#L8517)
+`method` | [modules/lazy_loop.py:7678](../../modules/lazy_loop.py#L7678)
 
 ```python
 def remove(self, name: str) -> bool
@@ -5410,7 +5420,7 @@ Delete a template by name.
 
 #### `TaskTemplate.get`
 
-`method` | [modules/lazy_loop.py:8527](../../modules/lazy_loop.py#L8527)
+`method` | [modules/lazy_loop.py:7688](../../modules/lazy_loop.py#L7688)
 
 ```python
 def get(self, name: str) -> dict | None
@@ -5434,7 +5444,7 @@ Return one template by name or None.
 
 ### `TaskCategory`
 
-`class` | [modules/lazy_loop.py:8535](../../modules/lazy_loop.py#L8535)
+`class` | [modules/lazy_loop.py:7696](../../modules/lazy_loop.py#L7696)
 
 ```python
 class TaskCategory
@@ -5455,7 +5465,7 @@ Per-task labels like task_categories: set/list.
 
 #### `TaskCategory.__init__`
 
-`constructor` | [modules/lazy_loop.py:8538](../../modules/lazy_loop.py#L8538)
+`constructor` | [modules/lazy_loop.py:7699](../../modules/lazy_loop.py#L7699)
 
 ```python
 def __init__(self, store=None) -> None
@@ -5475,7 +5485,7 @@ Bind optional task store.
 
 #### `TaskCategory.set`
 
-`method` | [modules/lazy_loop.py:8543](../../modules/lazy_loop.py#L8543)
+`method` | [modules/lazy_loop.py:7704](../../modules/lazy_loop.py#L7704)
 
 ```python
 def set(self, task_id: str, category: str) -> dict
@@ -5496,7 +5506,7 @@ Label a task; returns the mapping.
 
 #### `TaskCategory.get`
 
-`method` | [modules/lazy_loop.py:8550](../../modules/lazy_loop.py#L8550)
+`method` | [modules/lazy_loop.py:7711](../../modules/lazy_loop.py#L7711)
 
 ```python
 def get(self, task_id: str) -> str
@@ -5516,7 +5526,7 @@ Return the category for a task or empty string.
 
 #### `TaskCategory.list`
 
-`method` | [modules/lazy_loop.py:8554](../../modules/lazy_loop.py#L8554)
+`method` | [modules/lazy_loop.py:7715](../../modules/lazy_loop.py#L7715)
 
 ```python
 def list(self, category: str = '') -> list[dict]
@@ -5538,7 +5548,7 @@ Return task->category rows, optionally filtered.
 
 ### `TaskChat`
 
-`class` | [modules/lazy_loop.py:8562](../../modules/lazy_loop.py#L8562)
+`class` | [modules/lazy_loop.py:7723](../../modules/lazy_loop.py#L7723)
 
 ```python
 class TaskChat
@@ -5562,7 +5572,7 @@ independent dialogue sessions that never interleave.
 
 #### `TaskChat.say`
 
-`method` | [modules/lazy_loop.py:8569](../../modules/lazy_loop.py#L8569)
+`method` | [modules/lazy_loop.py:7730](../../modules/lazy_loop.py#L7730)
 
 ```python
 def say(self, task_id: str, text: str, pool=None, session: str = 'main') -> dict
@@ -5591,7 +5601,7 @@ Append a human turn and answer from task context; returns both.
 
 #### `TaskChat.log`
 
-`method` | [modules/lazy_loop.py:8612](../../modules/lazy_loop.py#L8612)
+`method` | [modules/lazy_loop.py:7773](../../modules/lazy_loop.py#L7773)
 
 ```python
 def log(self, task_id: str, limit: int = 20, session: str = '') -> list[dict]
@@ -5615,7 +5625,7 @@ Return recent conversation turns, optionally one session only.
 
 #### `TaskChat.sessions`
 
-`method` | [modules/lazy_loop.py:8628](../../modules/lazy_loop.py#L8628)
+`method` | [modules/lazy_loop.py:7789](../../modules/lazy_loop.py#L7789)
 
 ```python
 def sessions(self, task_id: str) -> list[str]
@@ -5637,7 +5647,7 @@ Return session names active in a task.
 
 #### `TaskChat.clear`
 
-`method` | [modules/lazy_loop.py:8637](../../modules/lazy_loop.py#L8637)
+`method` | [modules/lazy_loop.py:7798](../../modules/lazy_loop.py#L7798)
 
 ```python
 def clear(self, task_id: str, session: str = '') -> bool
@@ -5662,7 +5672,7 @@ Drop one session's turns, or the whole log when session is empty.
 
 ### `LazyLoopEngine`
 
-`class` | [modules/lazy_loop.py:8667](../../modules/lazy_loop.py#L8667)
+`class` | [modules/lazy_loop.py:7828](../../modules/lazy_loop.py#L7828)
 
 ```python
 class LazyLoopEngine
@@ -5741,7 +5751,7 @@ tools, traffic, finding, retest, compaction, trace, report.
 
 #### `LazyLoopEngine.__init__`
 
-`constructor` | [modules/lazy_loop.py:8692](../../modules/lazy_loop.py#L8692)
+`constructor` | [modules/lazy_loop.py:7853](../../modules/lazy_loop.py#L7853)
 
 ```python
 def __init__(self, shell=None) -> None
@@ -5759,7 +5769,7 @@ Load shared stores.
 
 #### `LazyLoopEngine.apply_profile`
 
-`method` | [modules/lazy_loop.py:8727](../../modules/lazy_loop.py#L8727)
+`method` | [modules/lazy_loop.py:7890](../../modules/lazy_loop.py#L7890)
 
 ```python
 def apply_profile(self, name: str = '') -> dict
@@ -5781,7 +5791,7 @@ Apply one orchestrator profile to this engine.
 
 #### `LazyLoopEngine.bind_shell`
 
-`method` | [modules/lazy_loop.py:8768](../../modules/lazy_loop.py#L8768)
+`method` | [modules/lazy_loop.py:7967](../../modules/lazy_loop.py#L7967)
 
 ```python
 def bind_shell(self, shell) -> None
@@ -5799,7 +5809,7 @@ Attach the live shell so workers route auto/addon verbs via it.
 
 #### `LazyLoopEngine.ensure_target`
 
-`method` | [modules/lazy_loop.py:8852](../../modules/lazy_loop.py#L8852)
+`method` | [modules/lazy_loop.py:8051](../../modules/lazy_loop.py#L8051)
 
 ```python
 def ensure_target(self, task_id: str, target: str, reason: str = '') -> dict
@@ -5823,7 +5833,7 @@ Register scope + asset for target like lazy_scope/lazy_asset.
 
 #### `LazyLoopEngine.orchestrate`
 
-`method` | [modules/lazy_loop.py:8879](../../modules/lazy_loop.py#L8879)
+`method` | [modules/lazy_loop.py:8078](../../modules/lazy_loop.py#L8078)
 
 ```python
 def orchestrate(self, goal: str = '', task_id: str = '', target: str = '', max_rounds: int = DEFAULT_MAX_ROUNDS, workers: int = DEFAULT_WORKERS, timeout_sec: float = 0.0, executor=None) -> dict
@@ -5849,7 +5859,7 @@ Single entry for lazy_loop + auto_loop: create, scope, run, report.
 
 #### `LazyLoopEngine.create_task`
 
-`method` | [modules/lazy_loop.py:8907](../../modules/lazy_loop.py#L8907)
+`method` | [modules/lazy_loop.py:8106](../../modules/lazy_loop.py#L8106)
 
 ```python
 def create_task(self, goal: str, description: str = '') -> dict
@@ -5872,7 +5882,7 @@ Create task, decompose goals, register scope, return summary.
 
 #### `LazyLoopEngine.spawn_task`
 
-`method` | [modules/lazy_loop.py:8936](../../modules/lazy_loop.py#L8936)
+`method` | [modules/lazy_loop.py:8135](../../modules/lazy_loop.py#L8135)
 
 ```python
 def spawn_task(self, goal: str, source_task_ids: list[str] | None = None, description: str = '') -> dict
@@ -5898,7 +5908,7 @@ without ever mutating the parents.
 
 #### `LazyLoopEngine.list_tasks`
 
-`method` | [modules/lazy_loop.py:8986](../../modules/lazy_loop.py#L8986)
+`method` | [modules/lazy_loop.py:8185](../../modules/lazy_loop.py#L8185)
 
 ```python
 def list_tasks(self) -> list[dict]
@@ -5916,7 +5926,7 @@ touching each task's store by hand.
 
 #### `LazyLoopEngine.pause_task`
 
-`method` | [modules/lazy_loop.py:9014](../../modules/lazy_loop.py#L9014)
+`method` | [modules/lazy_loop.py:8213](../../modules/lazy_loop.py#L8213)
 
 ```python
 def pause_task(self, task_id: str, reason: str = 'operator') -> bool
@@ -5941,7 +5951,7 @@ Pause another task from here (cross-task control).
 
 #### `LazyLoopEngine.resume_task`
 
-`method` | [modules/lazy_loop.py:9025](../../modules/lazy_loop.py#L9025)
+`method` | [modules/lazy_loop.py:8224](../../modules/lazy_loop.py#L8224)
 
 ```python
 def resume_task(self, task_id: str) -> bool
@@ -5965,7 +5975,7 @@ Resume a paused task from here (cross-task control).
 
 #### `LazyLoopEngine.task_graph`
 
-`method` | [modules/lazy_loop.py:9035](../../modules/lazy_loop.py#L9035)
+`method` | [modules/lazy_loop.py:8234](../../modules/lazy_loop.py#L8234)
 
 ```python
 def task_graph(self, task_id: str) -> dict
@@ -5989,7 +5999,7 @@ Graph overview of another task (get_task_graph parity).
 
 #### `LazyLoopEngine.task_findings`
 
-`method` | [modules/lazy_loop.py:9041](../../modules/lazy_loop.py#L9041)
+`method` | [modules/lazy_loop.py:8240](../../modules/lazy_loop.py#L8240)
 
 ```python
 def task_findings(self, task_id: str) -> list[dict]
@@ -6013,7 +6023,7 @@ Findings of another task with severity, status and report size.
 
 #### `LazyLoopEngine.task_traces`
 
-`method` | [modules/lazy_loop.py:9060](../../modules/lazy_loop.py#L9060)
+`method` | [modules/lazy_loop.py:8259](../../modules/lazy_loop.py#L8259)
 
 ```python
 def task_traces(self, task_id: str, query: str = '', limit: int = 50) -> list[dict]
@@ -6039,7 +6049,7 @@ Worker traces of another task, keyword-filtered when asked.
 
 #### `LazyLoopEngine.task_node_detail`
 
-`method` | [modules/lazy_loop.py:9069](../../modules/lazy_loop.py#L9069)
+`method` | [modules/lazy_loop.py:8268](../../modules/lazy_loop.py#L8268)
 
 ```python
 def task_node_detail(self, task_id: str, node_id: int) -> dict
@@ -6064,7 +6074,7 @@ Full node view of another task (get_task_node_detail parity).
 
 #### `LazyLoopEngine.update_finding_report`
 
-`method` | [modules/lazy_loop.py:9075](../../modules/lazy_loop.py#L9075)
+`method` | [modules/lazy_loop.py:8274](../../modules/lazy_loop.py#L8274)
 
 ```python
 def update_finding_report(self, task_id: str, finding_id: int, report: str) -> int
@@ -6090,7 +6100,7 @@ Write the narrative report of another task's finding.
 
 #### `LazyLoopEngine.broadcast_events`
 
-`method` | [modules/lazy_loop.py:9087](../../modules/lazy_loop.py#L9087)
+`method` | [modules/lazy_loop.py:8286](../../modules/lazy_loop.py#L8286)
 
 ```python
 def broadcast_events(self, task_id: str, cursor: int = 0, batch: int = 500) -> dict
@@ -6116,7 +6126,7 @@ which only ever appends, so an SSE client that reconnects with
 
 #### `LazyLoopEngine.add_hint`
 
-`method` | [modules/lazy_loop.py:9120](../../modules/lazy_loop.py#L9120)
+`method` | [modules/lazy_loop.py:8319](../../modules/lazy_loop.py#L8319)
 
 ```python
 def add_hint(self, task_id: str, text: str) -> ExplorationNode
@@ -6141,7 +6151,7 @@ leaving the planner to discover the hint inside the overview.
 
 #### `LazyLoopEngine.add_intent`
 
-`method` | [modules/lazy_loop.py:9138](../../modules/lazy_loop.py#L9138)
+`method` | [modules/lazy_loop.py:8337](../../modules/lazy_loop.py#L8337)
 
 ```python
 def add_intent(self, task_id: str, summary: str, asset_ids: list[int] | None = None, parent_ids: list[int] | None = None, priority: int = DEFAULT_PRIORITY) -> ExplorationNode
@@ -6169,7 +6179,7 @@ Directly inject high-priority intent like the planner main-agent add_intent.
 
 #### `LazyLoopEngine.set_goals`
 
-`method` | [modules/lazy_loop.py:9163](../../modules/lazy_loop.py#L9163)
+`method` | [modules/lazy_loop.py:8362](../../modules/lazy_loop.py#L8362)
 
 ```python
 def set_goals(self, task_id: str, specs: list[dict]) -> list[ExplorationNode]
@@ -6190,7 +6200,7 @@ Replace/append decomposed objectives like set_goals; wakes the task.
 
 #### `LazyLoopEngine.edit_goal`
 
-`method` | [modules/lazy_loop.py:9180](../../modules/lazy_loop.py#L9180)
+`method` | [modules/lazy_loop.py:8379](../../modules/lazy_loop.py#L8379)
 
 ```python
 def edit_goal(self, task_id: str, goal_id: int, text: str) -> bool
@@ -6212,7 +6222,7 @@ Edit a goal node like the goals manager.
 
 #### `LazyLoopEngine.delete_goal`
 
-`method` | [modules/lazy_loop.py:9192](../../modules/lazy_loop.py#L9192)
+`method` | [modules/lazy_loop.py:8391](../../modules/lazy_loop.py#L8391)
 
 ```python
 def delete_goal(self, task_id: str, goal_id: int) -> bool
@@ -6233,7 +6243,7 @@ Delete a goal node; done tasks with no goals left stay done.
 
 #### `LazyLoopEngine.preview_delete_intent`
 
-`method` | [modules/lazy_loop.py:9203](../../modules/lazy_loop.py#L9203)
+`method` | [modules/lazy_loop.py:8402](../../modules/lazy_loop.py#L8402)
 
 ```python
 def preview_delete_intent(self, task_id: str, intent_id: int) -> dict
@@ -6258,7 +6268,7 @@ Estimate hard-delete cascade without mutating anything.
 
 #### `LazyLoopEngine.delete_intent`
 
-`method` | [modules/lazy_loop.py:9226](../../modules/lazy_loop.py#L9226)
+`method` | [modules/lazy_loop.py:8425](../../modules/lazy_loop.py#L8425)
 
 ```python
 def delete_intent(self, task_id: str, intent_id: int, mode: str = 'soft', reason: str = '') -> dict
@@ -6292,7 +6302,7 @@ to replan without it.
 
 #### `LazyLoopEngine.pause_intent`
 
-`method` | [modules/lazy_loop.py:9371](../../modules/lazy_loop.py#L9371)
+`method` | [modules/lazy_loop.py:8570](../../modules/lazy_loop.py#L8570)
 
 ```python
 def pause_intent(self, task_id: str, intent_id: int) -> bool
@@ -6320,7 +6330,7 @@ intent back up via resume or a direct operator message.
 
 #### `LazyLoopEngine.resume_intent`
 
-`method` | [modules/lazy_loop.py:9396](../../modules/lazy_loop.py#L9396)
+`method` | [modules/lazy_loop.py:8595](../../modules/lazy_loop.py#L8595)
 
 ```python
 def resume_intent(self, task_id: str, intent_id: int) -> bool
@@ -6345,7 +6355,7 @@ Resume a paused intent back to the claimable queue.
 
 #### `LazyLoopEngine.send_worker_message`
 
-`method` | [modules/lazy_loop.py:9419](../../modules/lazy_loop.py#L9419)
+`method` | [modules/lazy_loop.py:8618](../../modules/lazy_loop.py#L8618)
 
 ```python
 def send_worker_message(self, task_id: str, intent_id: int, message: str, request_id: str = '') -> dict
@@ -6378,7 +6388,7 @@ the planner gets an explicit trigger naming it.
 
 #### `LazyLoopEngine.goal_met`
 
-`method` | [modules/lazy_loop.py:9467](../../modules/lazy_loop.py#L9467)
+`method` | [modules/lazy_loop.py:8666](../../modules/lazy_loop.py#L8666)
 
 ```python
 def goal_met(self, task_id: str, reason: str = '') -> bool
@@ -6399,7 +6409,7 @@ Declare the whole task complete like goal_met (weighted, audited).
 
 #### `LazyLoopEngine.record_fact`
 
-`method` | [modules/lazy_loop.py:9477](../../modules/lazy_loop.py#L9477)
+`method` | [modules/lazy_loop.py:8676](../../modules/lazy_loop.py#L8676)
 
 ```python
 def record_fact(self, task_id: str, text: str, evidence: str = '', intent_id: int = 0) -> ExplorationNode
@@ -6422,7 +6432,7 @@ Operator-visible fact write like recordFact.
 
 #### `LazyLoopEngine.record_verdict`
 
-`method` | [modules/lazy_loop.py:9484](../../modules/lazy_loop.py#L9484)
+`method` | [modules/lazy_loop.py:8683](../../modules/lazy_loop.py#L8683)
 
 ```python
 def record_verdict(self, task_id: str, finding_id: int, verdict: str, note: str = '') -> dict
@@ -6450,7 +6460,7 @@ Record an operator retest verdict on one finding.
 
 #### `LazyLoopEngine.run_round`
 
-`method` | [modules/lazy_loop.py:9634](../../modules/lazy_loop.py#L9634)
+`method` | [modules/lazy_loop.py:8833](../../modules/lazy_loop.py#L8833)
 
 ```python
 def run_round(self, task_id: str, workers: int = DEFAULT_WORKERS, executor=None, pool: dict[int, Worker] | None = None) -> dict
@@ -6478,7 +6488,7 @@ minor/major, evidence/traffic archive, notify fan-out.
 
 #### `LazyLoopEngine.run`
 
-`method` | [modules/lazy_loop.py:10139](../../modules/lazy_loop.py#L10139)
+`method` | [modules/lazy_loop.py:9456](../../modules/lazy_loop.py#L9456)
 
 ```python
 def run(self, task_id: str, max_rounds: int = DEFAULT_MAX_ROUNDS, workers: int = DEFAULT_WORKERS, executor=None, timeout_sec: float = 0.0) -> dict
@@ -6502,7 +6512,7 @@ Drive rounds until goals met, frontier drains, or budget exhausts.
 
 #### `LazyLoopEngine.prove_goal`
 
-`method` | [modules/lazy_loop.py:10418](../../modules/lazy_loop.py#L10418)
+`method` | [modules/lazy_loop.py:9739](../../modules/lazy_loop.py#L9739)
 
 ```python
 def prove_goal(self, task_id: str, goal_id: int, evidence_id: int, reason: str) -> bool
@@ -6528,7 +6538,7 @@ overview actually satisfies them — never stamp early.
 
 #### `LazyLoopEngine.delete_task`
 
-`method` | [modules/lazy_loop.py:10567](../../modules/lazy_loop.py#L10567)
+`method` | [modules/lazy_loop.py:9888](../../modules/lazy_loop.py#L9888)
 
 ```python
 def delete_task(self, task_id: str) -> dict
@@ -6555,7 +6565,7 @@ Matches file names carrying the task id as a full token so
 
 #### `LazyLoopEngine.proxy_start`
 
-`method` | [modules/lazy_loop.py:10601](../../modules/lazy_loop.py#L10601)
+`method` | [modules/lazy_loop.py:9922](../../modules/lazy_loop.py#L9922)
 
 ```python
 def proxy_start(self, host: str = '', port: int = 0, task_id: str = '', trust: bool = True, upstream: str = '') -> dict
@@ -6579,7 +6589,7 @@ Start the shared recorder proxy and apply its trust environment.
 
 #### `LazyLoopEngine.proxy_stop`
 
-`method` | [modules/lazy_loop.py:10637](../../modules/lazy_loop.py#L10637)
+`method` | [modules/lazy_loop.py:9958](../../modules/lazy_loop.py#L9958)
 
 ```python
 def proxy_stop(self) -> dict
@@ -6593,7 +6603,7 @@ Stop the recorder proxy and clear its trust environment.
 
 #### `LazyLoopEngine.proxy_status`
 
-`method` | [modules/lazy_loop.py:10645](../../modules/lazy_loop.py#L10645)
+`method` | [modules/lazy_loop.py:9966](../../modules/lazy_loop.py#L9966)
 
 ```python
 def proxy_status(self) -> dict
@@ -6607,7 +6617,7 @@ Return recorder proxy state (running, address, CA, exchanges).
 
 #### `LazyLoopEngine.proxy_env`
 
-`method` | [modules/lazy_loop.py:10651](../../modules/lazy_loop.py#L10651)
+`method` | [modules/lazy_loop.py:9972](../../modules/lazy_loop.py#L9972)
 
 ```python
 def proxy_env(self) -> dict
@@ -6621,7 +6631,7 @@ Return the environment overrides that route tools via proxy.
 
 #### `LazyLoopEngine.set_concurrency`
 
-`method` | [modules/lazy_loop.py:10660](../../modules/lazy_loop.py#L10660)
+`method` | [modules/lazy_loop.py:9981](../../modules/lazy_loop.py#L9981)
 
 ```python
 def set_concurrency(self, limit: int) -> int
@@ -6641,7 +6651,7 @@ Cap concurrently running tasks; 0 disables admission control.
 
 #### `LazyLoopEngine.admission_check`
 
-`method` | [modules/lazy_loop.py:10681](../../modules/lazy_loop.py#L10681)
+`method` | [modules/lazy_loop.py:10002](../../modules/lazy_loop.py#L10002)
 
 ```python
 def admission_check(self, task_id: str) -> dict
@@ -6661,7 +6671,7 @@ Return whether a task may run now, queueing it when capped.
 
 #### `LazyLoopEngine.drain_queue`
 
-`method` | [modules/lazy_loop.py:10700](../../modules/lazy_loop.py#L10700)
+`method` | [modules/lazy_loop.py:10021](../../modules/lazy_loop.py#L10021)
 
 ```python
 def drain_queue(self, max_tasks: int = 3) -> list[dict]
@@ -6681,7 +6691,7 @@ Run queued tasks FIFO while the concurrency cap allows.
 
 #### `LazyLoopEngine.ingest_proxy_traffic`
 
-`method` | [modules/lazy_loop.py:10728](../../modules/lazy_loop.py#L10728)
+`method` | [modules/lazy_loop.py:10049](../../modules/lazy_loop.py#L10049)
 
 ```python
 def ingest_proxy_traffic(self, task_id: str, limit: int = 200) -> int
@@ -6706,7 +6716,7 @@ fetch stored request/response bodies from the proxy store.
 
 #### `LazyLoopEngine.search_proxy_body`
 
-`method` | [modules/lazy_loop.py:10782](../../modules/lazy_loop.py#L10782)
+`method` | [modules/lazy_loop.py:10103](../../modules/lazy_loop.py#L10103)
 
 ```python
 def search_proxy_body(self, task_id: str, query: str, limit: int = 20) -> list[dict]
@@ -6728,7 +6738,7 @@ Full-text search proxy bodies scoped to one task's exchanges.
 
 #### `LazyLoopEngine.export_task_traffic`
 
-`method` | [modules/lazy_loop.py:10874](../../modules/lazy_loop.py#L10874)
+`method` | [modules/lazy_loop.py:10195](../../modules/lazy_loop.py#L10195)
 
 ```python
 def export_task_traffic(self, task_id: str) -> dict
@@ -6748,7 +6758,7 @@ Export the task's proxy exchanges next to its archive.
 
 #### `LazyLoopEngine.export_evidence`
 
-`method` | [modules/lazy_loop.py:10903](../../modules/lazy_loop.py#L10903)
+`method` | [modules/lazy_loop.py:10224](../../modules/lazy_loop.py#L10224)
 
 ```python
 def export_evidence(self, task_id: str, dest: str | Path | None = None) -> dict
@@ -6777,7 +6787,7 @@ prove the package was not altered after export.
 
 #### `LazyLoopEngine.export_findings_report`
 
-`method` | [modules/lazy_loop.py:10962](../../modules/lazy_loop.py#L10962)
+`method` | [modules/lazy_loop.py:10283](../../modules/lazy_loop.py#L10283)
 
 ```python
 def export_findings_report(self, task_id: str, path: str = '', fmt: str = 'md') -> dict
@@ -6799,7 +6809,7 @@ Render the severity-ranked report to Markdown, JSON or CSV.
 
 #### `LazyLoopEngine.status`
 
-`method` | [modules/lazy_loop.py:11077](../../modules/lazy_loop.py#L11077)
+`method` | [modules/lazy_loop.py:10398](../../modules/lazy_loop.py#L10398)
 
 ```python
 def status(self, task_id: str) -> dict
@@ -6819,7 +6829,7 @@ Return full inspectable state for one task.
 
 #### `LazyLoopEngine.graph_overview`
 
-`method` | [modules/lazy_loop.py:11097](../../modules/lazy_loop.py#L11097)
+`method` | [modules/lazy_loop.py:10418](../../modules/lazy_loop.py#L10418)
 
 ```python
 def graph_overview(self, task_id: str) -> dict
@@ -6843,7 +6853,7 @@ an extra list call; host lists stay collapsed to a count.
 
 #### `LazyLoopEngine.broadcast`
 
-`method` | [modules/lazy_loop.py:11159](../../modules/lazy_loop.py#L11159)
+`method` | [modules/lazy_loop.py:10480](../../modules/lazy_loop.py#L10480)
 
 ```python
 def broadcast(self, task_id: str, kinds: list[str] | None = None, query: str = '', order: str = 'desc', page: int = 1, per_page: int = 20, states: list[str] | None = None) -> dict
@@ -6873,7 +6883,7 @@ Search matches text, source and ``#id`` / plain-id forms.
 
 #### `LazyLoopEngine.loop_graph`
 
-`method` | [modules/lazy_loop.py:11283](../../modules/lazy_loop.py#L11283)
+`method` | [modules/lazy_loop.py:10604](../../modules/lazy_loop.py#L10604)
 
 ```python
 def loop_graph(self, task_id: str) -> dict
@@ -6900,7 +6910,7 @@ ranks on.
 
 #### `LazyLoopEngine.graph_context`
 
-`method` | [modules/lazy_loop.py:11352](../../modules/lazy_loop.py#L11352)
+`method` | [modules/lazy_loop.py:10673](../../modules/lazy_loop.py#L10673)
 
 ```python
 def graph_context(self, task_id: str, top: int = 8) -> dict
@@ -6931,7 +6941,7 @@ order. Mirrors the ForceGraph hub/island lenses.
 
 ### `extract_scope_items`
 
-`function` | [modules/lazy_loop.py:3052](../../modules/lazy_loop.py#L3052)
+`function` | [modules/lazy_loop.py:3058](../../modules/lazy_loop.py#L3058)
 
 ```python
 def extract_scope_items(goal_text: str, description: str = '') -> list[dict]
@@ -6959,7 +6969,7 @@ Bare IP/CIDR wins over domains; full hostname wins over root domain.
 
 ### `extract_constraint_items`
 
-`function` | [modules/lazy_loop.py:3084](../../modules/lazy_loop.py#L3084)
+`function` | [modules/lazy_loop.py:3090](../../modules/lazy_loop.py#L3090)
 
 ```python
 def extract_constraint_items(goal_text: str, description: str = '') -> list[dict]
@@ -6982,7 +6992,7 @@ Lift explicit allow/deny operation bounds like the planner goals decomposer.
 
 ### `load_intel_scores`
 
-`function` | [modules/lazy_loop.py:3176](../../modules/lazy_loop.py#L3176)
+`function` | [modules/lazy_loop.py:3182](../../modules/lazy_loop.py#L3182)
 
 ```python
 def load_intel_scores() -> dict
@@ -7005,7 +7015,7 @@ from [`modules.lazy_hostscore`](modules.lazy_hostscore.py.md)). Both degrade to 
 
 ### `resolve_target`
 
-`function` | [modules/lazy_loop.py:3205](../../modules/lazy_loop.py#L3205)
+`function` | [modules/lazy_loop.py:3211](../../modules/lazy_loop.py#L3211)
 
 ```python
 def resolve_target(task_id: str, store=None, graph=None) -> str
@@ -7031,7 +7041,7 @@ Resolve concrete target for worker commands from scope, assets, goal.
 
 ### `decompose_goals`
 
-`function` | [modules/lazy_loop.py:3228](../../modules/lazy_loop.py#L3228)
+`function` | [modules/lazy_loop.py:3234](../../modules/lazy_loop.py#L3234)
 
 ```python
 def decompose_goals(goal_text: str, description: str = '') -> list[dict]
@@ -7054,7 +7064,7 @@ Split goal text into verifiable objectives like the planner DecomposeGoals.
 
 ### `enrich_asset`
 
-`function` | [modules/lazy_loop.py:3265](../../modules/lazy_loop.py#L3265)
+`function` | [modules/lazy_loop.py:3271](../../modules/lazy_loop.py#L3271)
 
 ```python
 def enrich_asset(value: str) -> dict
@@ -7078,7 +7088,7 @@ Synchronously enrich one asset with DNS and HTTP like the planner enrich.
 
 ### `constraint_block`
 
-`function` | [modules/lazy_loop.py:6877](../../modules/lazy_loop.py#L6877)
+`function` | [modules/lazy_loop.py:6038](../../modules/lazy_loop.py#L6038)
 
 ```python
 def constraint_block(constraints: list[dict], scope: str = '') -> str
@@ -7105,7 +7115,7 @@ which constraints inject (planner/worker); empty keeps all (both).
 
 ### `finding_severity`
 
-`function` | [modules/lazy_loop.py:7091](../../modules/lazy_loop.py#L7091)
+`function` | [modules/lazy_loop.py:6252](../../modules/lazy_loop.py#L6252)
 
 ```python
 def finding_severity(text: str, evidence: str = '') -> str
@@ -7130,7 +7140,7 @@ Rank finding severity like the report renderer (critical first).
 
 ### `TOOL_DEFAULTS`
 
-`constant` | [modules/lazy_loop.py:761](../../modules/lazy_loop.py#L761)
+`constant` | [modules/lazy_loop.py:767](../../modules/lazy_loop.py#L767)
 
 ```python
 TOOL_DEFAULTS: dict[str, dict]
@@ -7142,7 +7152,7 @@ TOOL_DEFAULTS: dict[str, dict]
 
 ### `EVIDENCE_ROLES`
 
-`constant` | [modules/lazy_loop.py:2195](../../modules/lazy_loop.py#L2195)
+`constant` | [modules/lazy_loop.py:2201](../../modules/lazy_loop.py#L2201)
 
 ```python
 EVIDENCE_ROLES = ('baseline', 'proof', 'verification', 'supporting', 'request', 'response')

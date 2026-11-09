@@ -41,7 +41,13 @@
     "cli/commands/exfiltration.py",
     "cli/commands/exploit.py",
     "cli/commands/exploit_migrated.py",
+    "cli/commands/exploitdb.py",
     "cli/commands/exploitgym.py",
+    "cli/commands/exposure_autofire.py",
+    "cli/commands/exposure_intel.py",
+    "cli/commands/exposure_inventory.py",
+    "cli/commands/exposure_sentinel.py",
+    "cli/commands/exposure_timeline.py",
     "cli/commands/golden_paths.py",
     "cli/commands/gym_matrix.py",
     "cli/commands/help_ui.py",
@@ -53,6 +59,7 @@
     "cli/commands/lazy_dorks.py",
     "cli/commands/lazy_oob.py",
     "cli/commands/lazy_passgen.py",
+    "cli/commands/lazy_poc.py",
     "cli/commands/lazyloop.py",
     "cli/commands/lazyops.py",
     "cli/commands/marketplace.py",
@@ -99,7 +106,7 @@
     "cli/commands/winbox_gym.py"
   ],
   "source_sha256": {
-    "lazyown.py": "29cb8dfe35b4cb3c397f3fb8e5e4cf3c281d6e47c931ce78f652a4167f11ef0a",
+    "lazyown.py": "e899ca4493834458639e50b1cfdbcf51ffafd834aa51fd785975f066b9b0ff64",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -119,7 +126,7 @@
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
     "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
     "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
-    "cli/commands/command_and_control_migrated.py": "4db11471d22f726f83ae05c12d81f20dffb3180daaf96d4e5a5d88a15c3ed744",
+    "cli/commands/command_and_control_migrated.py": "d3f0832d1765ccd48188835130fb8cb7dbcd5c49c0b96ea72daf57d6321ea0b4",
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ec230e5bc167bbb40c58dbd8dbdf0c9e9a3da1fde773345167f1bd357b2ed054",
     "cli/commands/cred_migrated.py": "b05636924991f9b44d22baa8aafdceaa5a6af31501a4d53d5a98d5579d9a22c3",
@@ -139,7 +146,13 @@
     "cli/commands/exfiltration.py": "7827063ebf33e0ab47ff2ba1f6c6802a9d5bbbd73c63d87ea63bb49a54235edc",
     "cli/commands/exploit.py": "008a79702a5adb4e26736a369fe52508dfb02932bc8e4971f5017e88d27567a7",
     "cli/commands/exploit_migrated.py": "5246d09aafa2009df6cf5f20b06a255d30f00a322d916ba051d7cc808acc9318",
+    "cli/commands/exploitdb.py": "a9a589f309d61fc88268172f2c20c05b7e7ff9f45dae9ee21b0d47ceedbb202b",
     "cli/commands/exploitgym.py": "365c98a1002f589c8d2143f605e0ed8d6d8668417fe14a5b1f8fd475d4398831",
+    "cli/commands/exposure_autofire.py": "d3993337a4967326583ba72b19ca34ee50c173bea2135bb6b3378e2eea4c5ad2",
+    "cli/commands/exposure_intel.py": "e70a73a8a3f8de983ac8caf11989ad96b7a9a515c4bd3a21a9a22b11bd5b55a6",
+    "cli/commands/exposure_inventory.py": "06273d7c09887c6a0a8fdb74cc67a158ded178ddd6c923693e8cd5edc8c543d0",
+    "cli/commands/exposure_sentinel.py": "652a6843d420b609d18b5ba53bba9e8ff1dc05966d33c9133ca2b0da7748d733",
+    "cli/commands/exposure_timeline.py": "647faf91aa0208fa6d93e47ade702e8e58a19ea9d7865e8a6a865696d85c3975",
     "cli/commands/golden_paths.py": "8ec2324e99a1734b3c8307925ee40e6c2f0e37171f21eb63a5fe877e5d1e44e2",
     "cli/commands/gym_matrix.py": "e18c5b606430984abb1c4db6f2669571b84a327b132edc037b4d0a61cd15281e",
     "cli/commands/help_ui.py": "a841a890187be73bf0c85e666b39c14407ede6f34b85d5a68d49170105f1bd37",
@@ -147,12 +160,13 @@
     "cli/commands/lab.py": "33dcff322795c822bbc77b6e119b7d797d4050b0725f831ecfc9df475bb6ac81",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
-    "cli/commands/lazy_creds.py": "201186b17a1c3da837176573b3a43c66a483c1203c6e5208288548b73408784a",
+    "cli/commands/lazy_creds.py": "8e5464a585b3e19b4ef9de603f0af46abc6e81916e9f794d1515a335cb170e67",
     "cli/commands/lazy_dorks.py": "60cb2c3701b576300be073a784bd5f5959b82b5bfbf1696358bf45ca4f603016",
     "cli/commands/lazy_oob.py": "d047fd30056cdab907b887871a441d7a321ec948a352d76431f454012e92dc67",
     "cli/commands/lazy_passgen.py": "b1a66e83f193dbeabda267552a0b79741555d1a4cfeb801a4c8143920c9e2a09",
+    "cli/commands/lazy_poc.py": "4b45fa1e8a9cddb168fd72cc129dfb6663fe3d5d96eb7e71ca37ca9c1b019685",
     "cli/commands/lazyloop.py": "661aafd0c89b4580f05b378dbdc04ee5521009e21634bac7480a7bf2bf141f86",
-    "cli/commands/lazyops.py": "7f45409e0089a0b444d139a1b13f158b02cb65570c16c3e420a9a983f167d7cb",
+    "cli/commands/lazyops.py": "558757429e7acd01109e2de39892fc4687067daba76804177e94b8cd9fe06e03",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "4fd4c7d186c0550580c7f4cc04d3cb49a1627ea7520f2a62b3fdd66d72a6329f",
     "cli/commands/misc_migrated.py": "af46cb9c05dd52a910ff121088196ed05f491ab50222ff5268157432f84ba02a",
@@ -197,9 +211,9 @@
     "cli/commands/winbox_gym.py": "6f0ff45231887ec483f315b0362bbd9a5c250d244bacda9ae631f2c8da52fcc0"
   },
   "totals": {
-    "method_definitions": 849,
-    "unique_commands": 849,
-    "duplicates": 0,
+    "method_definitions": 865,
+    "unique_commands": 863,
+    "duplicates": 2,
     "phases": 14,
     "categories": 18
   },
@@ -272,6 +286,12 @@
       "do_evasive",
       "do_evasive_payload",
       "do_event_log",
+      "do_exploitdb_ccompile",
+      "do_exploitdb_cscan",
+      "do_exploitdb_gen",
+      "do_exploitdb_run",
+      "do_exploitdb_scan",
+      "do_exploitdb_sync",
       "do_facts_show",
       "do_forensic_clean",
       "do_form",
@@ -323,9 +343,11 @@
       "do_lazy_node",
       "do_lazy_notify",
       "do_lazy_overview",
+      "do_lazy_pacing",
       "do_lazy_pause",
       "do_lazy_payload_keys",
       "do_lazy_planner",
+      "do_lazy_poc",
       "do_lazy_report",
       "do_lazy_resume",
       "do_lazy_retest",
@@ -510,11 +532,17 @@
       "do_killchain",
       "do_l00t",
       "do_lab",
+      "do_lazyautofire",
       "do_lazycreds",
       "do_lazydork",
+      "do_lazyintel",
+      "do_lazyinventory",
       "do_lazyoob",
       "do_lazypassgen",
       "do_lazyscript",
+      "do_lazysearch",
+      "do_lazysentinel",
+      "do_lazytimeline",
       "do_links",
       "do_list",
       "do_listaliases",
@@ -1189,11 +1217,17 @@
       "do_killchain",
       "do_l00t",
       "do_lab",
+      "do_lazyautofire",
       "do_lazycreds",
       "do_lazydork",
+      "do_lazyintel",
+      "do_lazyinventory",
       "do_lazyoob",
       "do_lazypassgen",
       "do_lazyscript",
+      "do_lazysearch",
+      "do_lazysentinel",
+      "do_lazytimeline",
       "do_links",
       "do_list",
       "do_listaliases",
@@ -1773,7 +1807,38 @@
       "do_route"
     ]
   },
-  "duplicates": [],
+  "duplicates": [
+    {
+      "name": "do_exploitdb_ccompile",
+      "occurrences": [
+        {
+          "line": 87,
+          "source_file": "cli/commands/exploitdb.py",
+          "class_name": "ExploitdbCommands"
+        },
+        {
+          "line": 110,
+          "source_file": "cli/commands/exploitdb.py",
+          "class_name": "ExploitdbCCommands"
+        }
+      ]
+    },
+    {
+      "name": "do_exploitdb_cscan",
+      "occurrences": [
+        {
+          "line": 76,
+          "source_file": "cli/commands/exploitdb.py",
+          "class_name": "ExploitdbCommands"
+        },
+        {
+          "line": 99,
+          "source_file": "cli/commands/exploitdb.py",
+          "class_name": "ExploitdbCCommands"
+        }
+      ]
+    }
+  ],
   "commands": [
     {
       "name": "do_kerberos_ticket",
@@ -3207,7 +3272,7 @@
     },
     {
       "name": "do_chain_distill",
-      "line": 2056,
+      "line": 2059,
       "summary": "Turn one autonomous-loop trace into a reusable chain YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3218,7 +3283,7 @@
     },
     {
       "name": "do_apt_playbook",
-      "line": 2106,
+      "line": 2109,
       "summary": "List, validate, and run APT playbooks based on public threat reports.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3229,7 +3294,7 @@
     },
     {
       "name": "do_mitre_test",
-      "line": 2226,
+      "line": 2229,
       "summary": "Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3240,7 +3305,7 @@
     },
     {
       "name": "do_generate_playbook",
-      "line": 2329,
+      "line": 2332,
       "summary": "Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3251,7 +3316,7 @@
     },
     {
       "name": "do_my_playbook",
-      "line": 2508,
+      "line": 2511,
       "summary": "Generates a playbook from your custom technique database.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3262,7 +3327,7 @@
     },
     {
       "name": "do_caldera",
-      "line": 2565,
+      "line": 2568,
       "summary": "Installs and starts the Caldera server.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3273,7 +3338,7 @@
     },
     {
       "name": "do_caldera_import",
-      "line": 2614,
+      "line": 2617,
       "summary": "Import CALDERA abilities into LazyOwn playbooks.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3284,7 +3349,7 @@
     },
     {
       "name": "do_caldera_export",
-      "line": 2706,
+      "line": 2709,
       "summary": "Export a LazyOwn playbook to CALDERA ability YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5384,6 +5449,94 @@
       "duplicate_of": null
     },
     {
+      "name": "do_exploitdb_sync",
+      "line": 19,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCommands",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_exploitdb_scan",
+      "line": 33,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCommands",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_exploitdb_gen",
+      "line": 45,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCommands",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_exploitdb_cscan",
+      "line": 76,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCommands",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_exploitdb_ccompile",
+      "line": 87,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCommands",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_exploitdb_cscan",
+      "line": 99,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCCommands",
+      "community": null,
+      "duplicate_of": "do_exploitdb_cscan"
+    },
+    {
+      "name": "do_exploitdb_ccompile",
+      "line": 110,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCCommands",
+      "community": null,
+      "duplicate_of": "do_exploitdb_ccompile"
+    },
+    {
+      "name": "do_exploitdb_run",
+      "line": 124,
+      "summary": "",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/exploitdb.py",
+      "class_name": "ExploitdbCCommands",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_exploitgym",
       "line": 43,
       "summary": "ExploitGym — real-world exploit benchmark via containerised tasks.",
@@ -5391,6 +5544,72 @@
       "phase": "misc",
       "source_file": "cli/commands/exploitgym.py",
       "class_name": "ExploitGymCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazyautofire",
+      "line": 20,
+      "summary": "Turn fire exposure into read-only confirmation chains.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/exposure_autofire.py",
+      "class_name": "AutoFireCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazyintel",
+      "line": 39,
+      "summary": "Rank discovered services against local exploit intelligence.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/exposure_intel.py",
+      "class_name": "LazyIntelCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazysearch",
+      "line": 30,
+      "summary": "Query the engagement database with the saved-search grammar.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/exposure_inventory.py",
+      "class_name": "IntelOpsCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazyinventory",
+      "line": 69,
+      "summary": "Collect and ingest host-reported packages (source=host).",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/exposure_inventory.py",
+      "class_name": "IntelOpsCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazysentinel",
+      "line": 21,
+      "summary": "Run the internal sentinel lifecycle.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/exposure_sentinel.py",
+      "class_name": "SentinelCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazytimeline",
+      "line": 31,
+      "summary": "Record world-model snapshots and read their diffs.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/exposure_timeline.py",
+      "class_name": "TimelineCommandSet",
       "community": null,
       "duplicate_of": null
     },
@@ -5952,6 +6171,17 @@
       "phase": "misc",
       "source_file": "cli/commands/lazy_passgen.py",
       "class_name": "LazyPassGenCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_poc",
+      "line": 25,
+      "summary": "Operate the PoC verb registry.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazy_poc.py",
+      "class_name": "LazyPocCommandSet",
       "community": null,
       "duplicate_of": null
     },
@@ -6551,7 +6781,7 @@
     },
     {
       "name": "do_lazy_notify",
-      "line": 2121,
+      "line": 2122,
       "summary": "Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test [severity]. Us…",
       "category": null,
       "phase": "uncategorized",
@@ -6562,7 +6792,7 @@
     },
     {
       "name": "do_lazy_trigger",
-      "line": 2169,
+      "line": 2170,
       "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync. Usage: lazy_trigger ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6573,7 +6803,7 @@
     },
     {
       "name": "do_lazy_llm",
-      "line": 2258,
+      "line": 2259,
       "summary": "LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--rol…",
       "category": null,
       "phase": "uncategorized",
@@ -6584,7 +6814,7 @@
     },
     {
       "name": "do_lazy_compact",
-      "line": 2395,
+      "line": 2396,
       "summary": "Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6595,7 +6825,7 @@
     },
     {
       "name": "do_lazy_status",
-      "line": 2467,
+      "line": 2468,
       "summary": "Full task status. Usage: lazy_status [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6606,7 +6836,7 @@
     },
     {
       "name": "do_lazy_overview",
-      "line": 2491,
+      "line": 2492,
       "summary": "Alias of lazy_graph. Usage: lazy_overview [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6617,7 +6847,7 @@
     },
     {
       "name": "do_lazy_archive",
-      "line": 2496,
+      "line": 2497,
       "summary": "Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ...",
       "category": null,
       "phase": "uncategorized",
@@ -6628,7 +6858,7 @@
     },
     {
       "name": "do_lazy_template",
-      "line": 2527,
+      "line": 2528,
       "summary": "Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ...",
       "category": null,
       "phase": "uncategorized",
@@ -6639,7 +6869,7 @@
     },
     {
       "name": "do_lazy_category",
-      "line": 2558,
+      "line": 2559,
       "summary": "Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ...",
       "category": null,
       "phase": "uncategorized",
@@ -6650,7 +6880,7 @@
     },
     {
       "name": "do_lazy_chat",
-      "line": 2579,
+      "line": 2580,
       "summary": "Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6661,7 +6891,7 @@
     },
     {
       "name": "do_lazy_scheduler",
-      "line": 2612,
+      "line": 2613,
       "summary": "Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6672,7 +6902,7 @@
     },
     {
       "name": "do_lazy_gate",
-      "line": 2639,
+      "line": 2640,
       "summary": "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ... [--task…",
       "category": null,
       "phase": "uncategorized",
@@ -6683,7 +6913,7 @@
     },
     {
       "name": "do_lazy_loop",
-      "line": 2684,
+      "line": 2685,
       "summary": "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [-…",
       "category": null,
       "phase": "uncategorized",
@@ -6694,7 +6924,7 @@
     },
     {
       "name": "do_lazy_sandbox",
-      "line": 2710,
+      "line": 2711,
       "summary": "Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...",
       "category": null,
       "phase": "uncategorized",
@@ -6705,8 +6935,19 @@
     },
     {
       "name": "do_lazy_install",
-      "line": 2773,
+      "line": 2774,
       "summary": "Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ...",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_pacing",
+      "line": 2812,
+      "summary": "Show or set loop pacing knobs. Usage: lazy_pacing [list|set <key> <value>]",
       "category": null,
       "phase": "uncategorized",
       "source_file": "cli/commands/lazyops.py",
@@ -11072,7 +11313,7 @@
     },
     {
       "name": "do_set",
-      "line": 908,
+      "line": 914,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -11083,7 +11324,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4629,
+      "line": 4635,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -11094,7 +11335,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4659,
+      "line": 4665,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -11105,7 +11346,7 @@
     },
     {
       "name": "do_route",
-      "line": 4698,
+      "line": 4704,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

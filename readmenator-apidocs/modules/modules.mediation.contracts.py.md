@@ -23,6 +23,7 @@ classDiagram
     MediationDomains : FEEDBACK
     MediationDomains : TELEMETRY
     MediationDomains : CHAIN
+    MediationDomains : ENGINES
     MediationDomains : tuple[str, ] ALL
     MediationDomains : is_known()
     class ActivityLogPort
@@ -74,7 +75,8 @@ Domain keys used to route mediating requests.
 | [`FEEDBACK`](#mediationdomains-feedback) |  | `'loop.feedback'` |  |
 | [`TELEMETRY`](#mediationdomains-telemetry) |  | `'loop.telemetry'` |  |
 | [`CHAIN`](#mediationdomains-chain) |  | `'chain'` |  |
-| [`ALL`](#mediationdomains-all) | `tuple[str, ...]` | `(INTEL, FEEDBACK, TELEMETRY, CHAIN)` |  |
+| [`ENGINES`](#mediationdomains-engines) |  | `'loop.engines'` |  |
+| [`ALL`](#mediationdomains-all) | `tuple[str, ...]` | `(INTEL, FEEDBACK, TELEMETRY, CHAIN, ENGINES)` |  |
 
 **Members**
 
@@ -86,7 +88,7 @@ Domain keys used to route mediating requests.
 
 #### `MediationDomains.is_known`
 
-`classmethod` | [modules/mediation/contracts.py:23](../../modules/mediation/contracts.py#L23)
+`classmethod` | [modules/mediation/contracts.py:24](../../modules/mediation/contracts.py#L24)
 
 Decorators: `@classmethod`
 
@@ -112,7 +114,7 @@ Check whether a domain key is registered in the default set.
 
 ### `ActivityLogPort`
 
-`protocol` | [modules/mediation/contracts.py:35](../../modules/mediation/contracts.py#L35)
+`protocol` | [modules/mediation/contracts.py:36](../../modules/mediation/contracts.py#L36)
 
 ```python
 class ActivityLogPort(Protocol)
@@ -137,7 +139,7 @@ directly.
 
 #### `ActivityLogPort.read`
 
-`method` | [modules/mediation/contracts.py:44](../../modules/mediation/contracts.py#L44)
+`method` | [modules/mediation/contracts.py:45](../../modules/mediation/contracts.py#L45)
 
 ```python
 def read(self, limit: int = 200) -> list[dict]
@@ -159,7 +161,7 @@ Return the latest activity records oldest-first.
 
 ### `LlmCompletionPort`
 
-`protocol` | [modules/mediation/contracts.py:57](../../modules/mediation/contracts.py#L57)
+`protocol` | [modules/mediation/contracts.py:58](../../modules/mediation/contracts.py#L58)
 
 Decorators: `@runtime_checkable`
 
@@ -182,7 +184,7 @@ Request-port for LLM pool completion used by the chain pipeline.
 
 #### `LlmCompletionPort.complete`
 
-`method` | [modules/mediation/contracts.py:60](../../modules/mediation/contracts.py#L60)
+`method` | [modules/mediation/contracts.py:61](../../modules/mediation/contracts.py#L61)
 
 ```python
 def complete(self, prompt: str, max_tokens: int = 300, task_id: str = '') -> str
@@ -204,7 +206,7 @@ Complete one prompt with the configured LLM pool.
 
 #### `LlmCompletionPort.has_members`
 
-`method` | [modules/mediation/contracts.py:78](../../modules/mediation/contracts.py#L78)
+`method` | [modules/mediation/contracts.py:79](../../modules/mediation/contracts.py#L79)
 
 ```python
 def has_members(self) -> bool
@@ -220,7 +222,7 @@ Report whether any LLM member is configured.
 
 ### `MediatorContract`
 
-`protocol` | [modules/mediation/contracts.py:84](../../modules/mediation/contracts.py#L84)
+`protocol` | [modules/mediation/contracts.py:85](../../modules/mediation/contracts.py#L85)
 
 Decorators: `@runtime_checkable`
 
@@ -248,7 +250,7 @@ Interface every specialised mediator implements.
 
 #### `MediatorContract.describe`
 
-`method` | [modules/mediation/contracts.py:89](../../modules/mediation/contracts.py#L89)
+`method` | [modules/mediation/contracts.py:90](../../modules/mediation/contracts.py#L90)
 
 ```python
 def describe(self) -> dict[str, Any]
@@ -264,7 +266,7 @@ Return introspection metadata for diagnostics.
 
 ### `MediationHubContract`
 
-`protocol` | [modules/mediation/contracts.py:95](../../modules/mediation/contracts.py#L95)
+`protocol` | [modules/mediation/contracts.py:96](../../modules/mediation/contracts.py#L96)
 
 Decorators: `@runtime_checkable`
 
@@ -286,7 +288,7 @@ Interface the routing hub exposes to consumers.
 
 #### `MediationHubContract.mediator_for`
 
-`method` | [modules/mediation/contracts.py:98](../../modules/mediation/contracts.py#L98)
+`method` | [modules/mediation/contracts.py:99](../../modules/mediation/contracts.py#L99)
 
 ```python
 def mediator_for(self, domain: str) -> MediatorContract | None
@@ -310,7 +312,7 @@ Return the mediator registered for a domain key, or None.
 
 ### `resolve`
 
-`function` | [modules/mediation/contracts.py:103](../../modules/mediation/contracts.py#L103)
+`function` | [modules/mediation/contracts.py:104](../../modules/mediation/contracts.py#L104)
 
 ```python
 def resolve(domain: str) -> MediatorContract

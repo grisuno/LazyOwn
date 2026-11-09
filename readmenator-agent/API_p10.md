@@ -29,7 +29,7 @@ Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_str
 
 ## modules/ai_exploit_chain.py
 Depends on: `modules/autonomous_exploit_engine.py`
-Imported by: `cli/commands/pwn.py`, `skills/lazyown_mcp.py`
+Imported by: `cli/commands/pwn.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_engine_mediator.py`
 - `AIExploitChainer.__init__` (method) `modules/ai_exploit_chain.py:259` `def __init__(self)`
 - `AIExploitChainer.reason` (method) `modules/ai_exploit_chain.py:285` `def reason(self, context)` -- Analyze context failures and produce the next best exploit candidate.
 - `AIExploitChainer.evaluate_failure` (method) `modules/ai_exploit_chain.py:306` `def evaluate_failure(result)` -- Classify the reason for an exploit failure by output pattern matching.
@@ -93,15 +93,15 @@ Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `module
 
 ## modules/apt_playbooks.py
 Depends on: `core/console.py`, `modules/atomic_resolver.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_selectors_capabilities.py`
-- `AptPlaybook.from_dict` (method) `modules/apt_playbooks.py:74` `def from_dict(cls, data)`
-- `AptPlaybook.to_summary` (method) `modules/apt_playbooks.py:99` `def to_summary(self)`
-- `AptPlaybookEngine.__init__` (method) `modules/apt_playbooks.py:114` `def __init__(self, playbook_dir)`
-- `AptPlaybookEngine.list_playbooks` (method) `modules/apt_playbooks.py:131` `def list_playbooks(self)`
-- `AptPlaybookEngine.get` (method) `modules/apt_playbooks.py:134` `def get(self, name)`
-- `AptPlaybookEngine.validate` (method) `modules/apt_playbooks.py:138` `def validate(self, pb, atomic_path)` -- Validate that all referenced atomic tests exist locally.
-- `AptPlaybookEngine.generate_attack_plan` (method) `modules/apt_playbooks.py:213` `def generate_attack_plan(self, pb, output_path)` -- Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
-- `AptPlaybookEngine.report_json` (method) `modules/apt_playbooks.py:230` `def report_json(self, pb, output_path)` -- Write a structured JSON report of the playbook for the operator.
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_playbook_chain.py`, `tests/test_selectors_capabilities.py`
+- `AptPlaybook.from_dict` (method) `modules/apt_playbooks.py:137` `def from_dict(cls, data)`
+- `AptPlaybook.to_summary` (method) `modules/apt_playbooks.py:163` `def to_summary(self)`
+- `AptPlaybookEngine.__init__` (method) `modules/apt_playbooks.py:179` `def __init__(self, playbook_dir)`
+- `AptPlaybookEngine.list_playbooks` (method) `modules/apt_playbooks.py:196` `def list_playbooks(self)`
+- `AptPlaybookEngine.get` (method) `modules/apt_playbooks.py:199` `def get(self, name)`
+- `AptPlaybookEngine.validate` (method) `modules/apt_playbooks.py:203` `def validate(self, pb, atomic_path)` -- Validate that all referenced atomic tests exist locally.
+- `AptPlaybookEngine.generate_attack_plan` (method) `modules/apt_playbooks.py:278` `def generate_attack_plan(self, pb, output_path)` -- Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
+- `AptPlaybookEngine.report_json` (method) `modules/apt_playbooks.py:295` `def report_json(self, pb, output_path)` -- Write a structured JSON report of the playbook for the operator.
 
 ## modules/asset_graph.py
 Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
@@ -199,7 +199,7 @@ Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph
 - `refresh_summary` (function) `modules/attack_surface3d.py:480` `def refresh_summary(graph, sessions_dir)` -- Score exposure into intel_summary.json for the autonomous loop.
 
 ## modules/auto_loop_memory.py
-Imported by: `modules/lazy_loop.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
+Imported by: `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
 - `FailureMemory.__init__` (method) `modules/auto_loop_memory.py:56` `def __init__(self, filepath)`
 - `FailureMemory.path` (method) `modules/auto_loop_memory.py:63` `def path(self)` -- Backing file path for administrative inspection.
 - `FailureMemory.make_key` (method) `modules/auto_loop_memory.py:68` `def make_key(target, category, command)` -- Build the storage key; raises on empty target or command.
@@ -265,36 +265,36 @@ Imported by: `cli/commands/purple_team.py`
 
 ## modules/auto_registry.py
 Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_selection_wiring.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:67` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
-- `verb_enabled` (function) `modules/auto_registry.py:309` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `binary_available` (function) `modules/auto_registry.py:419` `def binary_available(name)` -- Return True when a command token can actually execute here.
-- `missing_binary` (function) `modules/auto_registry.py:435` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
-- `verb_gap` (function) `modules/auto_registry.py:447` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
-- `verb_available` (function) `modules/auto_registry.py:459` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
-- `service_tokens` (function) `modules/auto_registry.py:464` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
-- `iter_addon_triggers` (function) `modules/auto_registry.py:506` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
-- `iter_tool_triggers` (function) `modules/auto_registry.py:542` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
-- `addon_hits_for` (function) `modules/auto_registry.py:565` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
-- `propose_addon_intents` (function) `modules/auto_registry.py:591` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
-- `is_routable_command` (function) `modules/auto_registry.py:635` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
-- `verbs` (function) `modules/auto_registry.py:653` `def verbs()` -- Return every canonical automation verb name.
-- `is_shell_verb` (function) `modules/auto_registry.py:658` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
-- `build_command` (function) `modules/auto_registry.py:682` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
-- `verbs_for` (function) `modules/auto_registry.py:693` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
-- `propose_intents` (function) `modules/auto_registry.py:699` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
-- `steps_for` (function) `modules/auto_registry.py:813` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:953` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:958` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:971` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1081` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1086` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1091` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1114` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+- `verb_enabled` (function) `modules/auto_registry.py:313` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `binary_available` (function) `modules/auto_registry.py:423` `def binary_available(name)` -- Return True when a command token can actually execute here.
+- `missing_binary` (function) `modules/auto_registry.py:439` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
+- `verb_gap` (function) `modules/auto_registry.py:451` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
+- `verb_available` (function) `modules/auto_registry.py:463` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
+- `service_tokens` (function) `modules/auto_registry.py:468` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
+- `iter_addon_triggers` (function) `modules/auto_registry.py:510` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
+- `iter_tool_triggers` (function) `modules/auto_registry.py:546` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
+- `addon_hits_for` (function) `modules/auto_registry.py:569` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
+- `propose_addon_intents` (function) `modules/auto_registry.py:595` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
+- `is_routable_command` (function) `modules/auto_registry.py:639` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
+- `verbs` (function) `modules/auto_registry.py:657` `def verbs()` -- Return every canonical automation verb name.
+- `is_shell_verb` (function) `modules/auto_registry.py:662` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
+- `build_command` (function) `modules/auto_registry.py:686` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `verbs_for` (function) `modules/auto_registry.py:697` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
+- `propose_intents` (function) `modules/auto_registry.py:703` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `steps_for` (function) `modules/auto_registry.py:824` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:997` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:1002` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:1015` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1125` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1130` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1135` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1158` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`
+Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
 - `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:114` `def __init__(self)`
 - `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:134` `def get_instance(cls)`
 - `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:145` `def hunt(self, target, max_exploits, profile)` -- Execute a full autonomous exploitation chain against a target.

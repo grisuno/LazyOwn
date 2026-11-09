@@ -353,3 +353,54 @@ def test_runner_captures_verb_stdout():
     result = ChainRunner(chain, shell=FakeShell(), retry_backoff=0).run()
     assert result.steps[0].status == "ok"
     assert "noted hello" in result.steps[0].captured
+
+
+def test_runner_step_sleep_jitter_applies():
+    """Given a step declaring sleep and jitter, When it succeeds, Then the
+    inserted delay stays within the declared band (dry-free, real clock)."""
+    import threading
+
+    started = time.time()
+    chain = _chain(
+        [
+            ChainStep(id="probe", run="probe", sleep=0.2, jitter=50.0),
+            ChainStep(id="after", run="after"),
+        ]
+    )
+
+    def executor(command: str) -> str:
+        return "ok"
+
+    result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
+    elapsed = time.time() - started
+    assert result.ok is True
+    assert 0.1 <= elapsed < 1.0
+
+
+def test_runner_step_sleep_skipped_on_failure():
+    """Given a failing step with sleep, When it runs, Then no delay applies."""
+    started = time.time()
+    chain = _chain([ChainStep(id="boom", run="boom", sleep=0.5, continue_on_error=True)])
+
+    def executor(command: str) -> str:
+        raise RuntimeError("nope")
+
+    result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
+    assert result.ok is False
+    assert time.time() - started < 0.4
+
+
+def test_runner_validate_rejects_parallel_sleep():
+    """Given a parallel step declaring sleep, When validated, Then rejected."""
+    errors = validate_chain(
+        {
+            "name": "demo",
+            "steps": [
+                {"id": "one", "run": "probe", "parallel": True, "sleep": 2},
+                {"id": "two", "run": "probe2", "parallel": True, "jitter": 5},
+            ],
+        },
+        filename="demo",
+    )
+    assert any("sleep" in error for error in errors)
+    assert any("jitter" in error for error in errors)

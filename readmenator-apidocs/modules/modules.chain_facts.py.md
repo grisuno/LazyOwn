@@ -35,7 +35,7 @@ Persist one chain run's outputs and ingest them as facts.
 |---|---|---|---|
 | `result` | `ChainRunResult` |  | Completed [`ChainRunResult`](modules.chain_runner.py.md#chainrunresult) to bridge. |
 | `sessions_dir` | `str \| Path \| None` | `None` | Sessions directory override; defaults to ``sessions/``. |
-| `fact_store_factory` | `Callable[[], object] \| None` | `None` | Optional factory returning an object with `[`ingest_text`](skills.lazyown_facts.py.md#factstore-ingest_text)` and ``save``; used for tests to isolate I/O. |
+| `fact_store_factory` | `Callable[[], object] \| None` | `None` | Optional factory returning an object with `[`ingest_text`](skills.lazyown_facts.py.md#factstore-ingest_text)` and `[`save`](modules.lazy_continuation.py.md#save)`; used for tests to isolate I/O. |
 
 **Returns:** `int` - Total number of facts deduplicated into the FactStore.
 

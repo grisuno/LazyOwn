@@ -1,25 +1,6 @@
 # Subsystem: modules (page 12 of 18)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
-## modules/lazyvpnshield.sh
-- Doc: Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `save_current_rules` (function, line 29)
-  - `show_current_rules` (function, line 37)
-  - `apply_vpn_rules` (function, line 45)
-  - `undo_and_restore_rules` (function, line 86)
-  - `main` (function, line 113)
-  - `ctrl_c` (function, line 11)
-  - `check_sudo` (function, line 16)
-
-## modules/lazywps.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `ctrl_c` (function, line 9)
-
 ## modules/lesson_ingestor.py
 - Doc: Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter.
 - Layer: utility
@@ -424,43 +405,89 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `Fact` (class, line 73) `class Fact`
-  - `RepeatDetector` (class, line 82) `class RepeatDetector`
-  - `EdrPacer` (class, line 178) `class EdrPacer`
-  - `TargetLimiter` (class, line 260) `class TargetLimiter`
-  - `FactVectorStore` (class, line 330) `class FactVectorStore`
-  - `__init__` (method, line 98) `def __init__(self, window)`
-  - `record` (method, line 104) `def record(self, command)`
-  - `_update_oscillation` (method, line 120) `def _update_oscillation(self)`
-  - `_strict_alternating` (method, line 134) `def _strict_alternating(entries)`
-  - `stuck` (method, line 139) `def stuck(self)`
-  - `_alternating` (method, line 155) `def _alternating(self)`
-  - `oscillation_pair` (method, line 163) `def oscillation_pair(self)`
-  - `last_commands` (method, line 167) `def last_commands(self)`
-  - `reset` (method, line 171) `def reset(self)`
-  - `__init__` (method, line 187) `def __init__(self, duration_threshold)`
-  - `observe` (method, line 193) `def observe(self, command, duration_sec, output)`
-  - `decay` (method, line 215) `def decay(self, factor)`
-  - `level` (method, line 221) `def level(self)`
-  - `signal` (method, line 231) `def signal(self)`
-  - `inter_step_delay` (method, line 236) `def inter_step_delay(self)`
-  - `quieten` (method, line 244) `def quieten(self, command)`
-  - `__init__` (method, line 268) `def __init__(self, max_concurrent)`
-  - `max_concurrent` (method, line 275) `def max_concurrent(self)`
-  - `active_targets` (method, line 280) `def active_targets(self)`
-  - `slot` (method, line 286) `def slot(self, target)`
-  - `__init__` (method, line 338) `def __init__(self, path, max_facts)`
-  - `path` (method, line 346) `def path(self)`
-  - `__len__` (method, line 350) `def __len__(self)`
-  - `_tokenize` (method, line 354) `def _tokenize(text)`
-  - `_vectorize` (method, line 359) `def _vectorize(tokens)`
-  - `add` (method, line 367) `def add(self, text, meta)`
-  - `search` (method, line 401) `def search(self, query, k)`
-  - `search_block` (method, line 431) `def search_block(self, query, k, max_chars)`
-  - `clear` (method, line 440) `def clear(self)`
-  - `save` (method, line 446) `def save(self)`
-  - `_load` (method, line 467) `def _load(self)`
-- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
+  - `Fact` (class, line 85) `class Fact`
+  - `RepeatDetector` (class, line 94) `class RepeatDetector`
+  - `EdrPacer` (class, line 190) `class EdrPacer`
+  - `TargetLimiter` (class, line 467) `class TargetLimiter`
+  - `FactVectorStore` (class, line 537) `class FactVectorStore`
+  - `__init__` (method, line 110) `def __init__(self, window)`
+  - `record` (method, line 116) `def record(self, command)`
+  - `_update_oscillation` (method, line 132) `def _update_oscillation(self)`
+  - `_strict_alternating` (method, line 146) `def _strict_alternating(entries)`
+  - `stuck` (method, line 151) `def stuck(self)`
+  - `_alternating` (method, line 167) `def _alternating(self)`
+  - `oscillation_pair` (method, line 175) `def oscillation_pair(self)`
+  - `last_commands` (method, line 179) `def last_commands(self)`
+  - `reset` (method, line 183) `def reset(self)`
+  - `__init__` (method, line 206) `def __init__(self, duration_threshold)`
+  - `parse_windows` (method, line 252) `def parse_windows(raw)`
+  - `from_config` (method, line 274) `def from_config(cls)`
+  - `observe` (method, line 305) `def observe(self, command, duration_sec, output)`
+  - `decay` (method, line 327) `def decay(self, factor)`
+  - `level` (method, line 333) `def level(self)`
+  - `signal` (method, line 343) `def signal(self)`
+  - `_window_seconds_until_end` (method, line 349) `def _window_seconds_until_end(windows, now)`
+  - `in_sleeper_window` (method, line 374) `def in_sleeper_window(self, now)`
+  - `windows_delay` (method, line 380) `def windows_delay(windows, now)`
+  - `sleeper_delay` (method, line 407) `def sleeper_delay(self, now)`
+  - `inter_step_delay` (method, line 420) `def inter_step_delay(self)`
+  - `quieten` (method, line 437) `def quieten(self, command)`
+  - `describe` (method, line 452) `def describe(self)`
+  - `__init__` (method, line 475) `def __init__(self, max_concurrent)`
+  - `max_concurrent` (method, line 482) `def max_concurrent(self)`
+  - `active_targets` (method, line 487) `def active_targets(self)`
+  - `slot` (method, line 493) `def slot(self, target)`
+  - `__init__` (method, line 545) `def __init__(self, path, max_facts)`
+  - `path` (method, line 553) `def path(self)`
+  - `__len__` (method, line 557) `def __len__(self)`
+  - `_tokenize` (method, line 561) `def _tokenize(text)`
+  - `_vectorize` (method, line 566) `def _vectorize(tokens)`
+  - `add` (method, line 574) `def add(self, text, meta)`
+  - `search` (method, line 608) `def search(self, query, k)`
+  - `search_block` (method, line 638) `def search_block(self, query, k, max_chars)`
+  - `clear` (method, line 647) `def clear(self)`
+  - `save` (method, line 653) `def save(self)`
+  - `_load` (method, line 674) `def _load(self)`
+- Depends on: `modules/__init__.py`
+- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
+
+## modules/loop_manager.py
+- Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LoopValidationError` (class, line 87) `class LoopValidationError(ValueError)`
+  - `LoopNotFoundError` (class, line 96) `class LoopNotFoundError(KeyError)`
+  - `validate_target` (function, line 100) `def validate_target(raw)`
+  - `sanitize_goal` (function, line 123) `def sanitize_goal(raw)`
+  - `clamp_int` (function, line 150) `def clamp_int(raw, field, default, minimum, maximum)`
+  - `clamp_float` (function, line 175) `def clamp_float(raw, field, default, minimum, maximum)`
+  - `validate_loop_id` (function, line 200) `def validate_loop_id(loop_id)`
+  - `_now_iso` (function, line 217) `def _now_iso()`
+  - `_process_start_ticks` (function, line 222) `def _process_start_ticks(pid)`
+  - `_pid_alive` (function, line 246) `def _pid_alive(pid, start_ticks)`
+  - `LoopSpec` (class, line 264) `class LoopSpec`
+  - `_loop_command` (function, line 284) `def _loop_command(spec)`
+  - `LoopManager` (class, line 316) `class LoopManager`
+  - `__init__` (method, line 90) `def __init__(self, field, message)`
+  - `__init__` (method, line 327) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
+  - `loops_dir` (method, line 349) `def loops_dir(self)`
+  - `start` (method, line 353) `def start(self, spec, operator)`
+  - `_spawn_locked` (method, line 394) `def _spawn_locked(self, spec, operator)`
+  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
+  - `list_loops` (method, line 493) `def list_loops(self)`
+  - `_refresh_log_bytes` (method, line 517) `def _refresh_log_bytes(self, record)`
+  - `get_loop` (method, line 528) `def get_loop(self, loop_id)`
+  - `read_log` (method, line 547) `def read_log(self, loop_id, offset)`
+  - `_resolve_log_path` (method, line 588) `def _resolve_log_path(self, record)`
+  - `stop` (method, line 614) `def stop(self, loop_id)`
+  - `_update_status_locked` (method, line 662) `def _update_status_locked(self, loop_id, status)`
+  - `summary` (method, line 679) `def summary(self)`
+  - `_prune_locked` (method, line 715) `def _prune_locked(self)`
+  - `_remove_workspace` (method, line 740) `def _remove_workspace(self, loop_id)`
+  - `_load_registry_locked` (method, line 764) `def _load_registry_locked(self)`
+  - `_save_registry_locked` (method, line 779) `def _save_registry_locked(self, records)`
+- Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

@@ -30,6 +30,14 @@ File: `config/orchestrator.yaml`
 - `profiles.<name>.playbook`: default APT playbook key.
 - `profiles.<name>.sinks`: boolean fan-out toggles consumed by the
   outcome bus contract.
+- `profiles.<name>.pacing`: defense-aware pacing knobs consumed by
+  `EdrPacer` and the engine round loop. Known keys are `enabled`,
+  `jitter_pct_min`, `jitter_pct_max` (signed percentages that scale the
+  drawn delay), `max_delay_sec`, `round_sleep_sec` (added to the wake
+  debounce between engine rounds) and `sleeper_windows` (a list of
+  `HH:MM-HH:MM` quiet windows during which every inter-step and
+  inter-round sleep extends to the window end). `edr_pause_ranges` maps
+  a defense level to a `[low, high]` quiet-period range in seconds.
 
 ## Precedence
 
@@ -50,6 +58,10 @@ File: `config/orchestrator.yaml`
 - `limits()` returns the resolved numeric limits.
 - `stage_params(name)` returns the resolved stage parameters.
 - `chain_defaults()` returns the resolved chain and playbook defaults.
+- `pacing()` returns the resolved pacing knobs (fallbacks < YAML profile
+  < payload `orchestrator.pacing`).
+- `set_pacing(key, value)` persists one pacing override in the payload
+  section and raises `KeyError` for an unknown key.
 - `validate_config(data)` returns human-readable schema errors.
 
 ## Acceptance
@@ -59,6 +71,7 @@ File: `config/orchestrator.yaml`
   condition and parameters.
 - Switching the profile changes the engine limits without touching code.
 - Unknown stages and unknown profiles never crash the loop.
-- The admin console lists profiles and switches the active one.
-- Tests: `tests/test_orchestrator_yaml.py`.
+- The shipped `default` and `stealth` profiles declare a `pacing` block
+  and `lazy_pacing list` renders the resolved knobs.
+- Tests: `tests/test_orchestrator_yaml.py` and `tests/test_pacing.py`.
 - Mutation: `tests/run_mutation_orchestrator_yaml.py` kills every mutant.

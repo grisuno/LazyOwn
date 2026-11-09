@@ -1,6 +1,6 @@
 # `modules.loop_guardrails`
 
-> Source: [modules/loop_guardrails.py:1](../../modules/loop_guardrails.py#L1) | language `py` | coverage 93.1% | [API index](../index.md)
+> Source: [modules/loop_guardrails.py:1](../../modules/loop_guardrails.py#L1) | language `py` | coverage 97.1% | [API index](../index.md)
 
 Adaptive guardrails for the autonomous loop.
 
@@ -45,12 +45,18 @@ classDiagram
     RepeatDetector : reset()
     class EdrPacer
     EdrPacer : __init__()
+    EdrPacer : parse_windows()
+    EdrPacer : from_config()
     EdrPacer : observe()
     EdrPacer : decay()
     EdrPacer : level()
     EdrPacer : signal()
+    EdrPacer : in_sleeper_window()
+    EdrPacer : windows_delay()
+    EdrPacer : sleeper_delay()
     EdrPacer : inter_step_delay()
     EdrPacer : quieten()
+    EdrPacer : describe()
     class TargetLimiter
     TargetLimiter : __init__()
     TargetLimiter : max_concurrent()
@@ -72,14 +78,29 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_modules_loop_guardrails_py__EdrPacer___init__(["EdrPacer.__init__"])
+    n_modules_loop_guardrails_py__EdrPacer_parse_windows(["EdrPacer.parse_windows"])
+    n_modules_loop_guardrails_py__EdrPacer_windows_delay(["EdrPacer.windows_delay"])
+    n_modules_loop_guardrails_py__EdrPacer_inter_step_delay(["EdrPacer.inter_step_delay"])
+    n_modules_loop_guardrails_py__EdrPacer_sleeper_delay(["EdrPacer.sleeper_delay"])
+    n_modules_loop_guardrails_py__EdrPacer_describe(["EdrPacer.describe"])
+    n_modules_loop_guardrails_py__EdrPacer_in_sleeper_window(["EdrPacer.in_sleeper_window"])
     n_modules_loop_guardrails_py__FactVectorStore_add(["FactVectorStore.add"])
     n_modules_loop_guardrails_py__FactVectorStore_save(["FactVectorStore.save"])
     n_modules_loop_guardrails_py__FactVectorStore_search_block(["FactVectorStore.search_block"])
     n_modules_loop_guardrails_py__FactVectorStore_search(["FactVectorStore.search"])
     n_modules_loop_guardrails_py__FactVectorStore_clear(["FactVectorStore.clear"])
+    n_modules_loop_guardrails_py__EdrPacer_from_config(["EdrPacer.from_config"])
+    n_modules_orchestrator_config_py__pacing["orchestrator_config.pacing"]
+    n_modules_loop_guardrails_py__EdrPacer___init__ --> n_modules_loop_guardrails_py__EdrPacer_parse_windows
+    n_modules_loop_guardrails_py__EdrPacer_windows_delay --> n_modules_loop_guardrails_py__EdrPacer_parse_windows
+    n_modules_loop_guardrails_py__EdrPacer_inter_step_delay --> n_modules_loop_guardrails_py__EdrPacer_sleeper_delay
+    n_modules_loop_guardrails_py__EdrPacer_describe --> n_modules_loop_guardrails_py__EdrPacer_in_sleeper_window
     n_modules_loop_guardrails_py__FactVectorStore_add --> n_modules_loop_guardrails_py__FactVectorStore_save
     n_modules_loop_guardrails_py__FactVectorStore_search_block --> n_modules_loop_guardrails_py__FactVectorStore_search
     n_modules_loop_guardrails_py__FactVectorStore_clear --> n_modules_loop_guardrails_py__FactVectorStore_save
+    n_modules_loop_guardrails_py__EdrPacer_from_config -.-> n_modules_orchestrator_config_py__pacing
+    n_modules_loop_guardrails_py__EdrPacer_windows_delay -.-> n_modules_orchestrator_config_py__pacing
 ```
 
 ## Classes
@@ -88,7 +109,7 @@ flowchart LR
 
 ### `RepeatDetector`
 
-`class` | [modules/loop_guardrails.py:82](../../modules/loop_guardrails.py#L82)
+`class` | [modules/loop_guardrails.py:94](../../modules/loop_guardrails.py#L94)
 
 ```python
 class RepeatDetector
@@ -123,7 +144,7 @@ Two stuck-loop shapes are recognised:
 
 #### `RepeatDetector.__init__`
 
-`constructor` | [modules/loop_guardrails.py:98](../../modules/loop_guardrails.py#L98)
+`constructor` | [modules/loop_guardrails.py:110](../../modules/loop_guardrails.py#L110)
 
 ```python
 def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None
@@ -141,7 +162,7 @@ def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None
 
 #### `RepeatDetector.record`
 
-`method` | [modules/loop_guardrails.py:104](../../modules/loop_guardrails.py#L104)
+`method` | [modules/loop_guardrails.py:116](../../modules/loop_guardrails.py#L116)
 
 ```python
 def record(self, command: str) -> bool
@@ -163,7 +184,7 @@ Add one executed command; returns True when the window fills.
 
 #### `RepeatDetector.stuck`
 
-`property` | [modules/loop_guardrails.py:139](../../modules/loop_guardrails.py#L139)
+`property` | [modules/loop_guardrails.py:151](../../modules/loop_guardrails.py#L151)
 
 Decorators: `@property`
 
@@ -183,7 +204,7 @@ exactly two commands alternating (ABABAB).
 
 #### `RepeatDetector.oscillation_pair`
 
-`method` | [modules/loop_guardrails.py:163](../../modules/loop_guardrails.py#L163)
+`method` | [modules/loop_guardrails.py:175](../../modules/loop_guardrails.py#L175)
 
 ```python
 def oscillation_pair(self) -> tuple[str, str]
@@ -197,7 +218,7 @@ Return the detected alternating pair, ('', '') when none.
 
 #### `RepeatDetector.last_commands`
 
-`method` | [modules/loop_guardrails.py:167](../../modules/loop_guardrails.py#L167)
+`method` | [modules/loop_guardrails.py:179](../../modules/loop_guardrails.py#L179)
 
 ```python
 def last_commands(self) -> list[str]
@@ -213,7 +234,7 @@ Snapshot of the recent command window (oldest first).
 
 #### `RepeatDetector.reset`
 
-`method` | [modules/loop_guardrails.py:171](../../modules/loop_guardrails.py#L171)
+`method` | [modules/loop_guardrails.py:183](../../modules/loop_guardrails.py#L183)
 
 ```python
 def reset(self) -> None
@@ -227,7 +248,7 @@ Clear the window (operator intervention acknowledged).
 
 ### `EdrPacer`
 
-`class` | [modules/loop_guardrails.py:178](../../modules/loop_guardrails.py#L178)
+`class` | [modules/loop_guardrails.py:190](../../modules/loop_guardrails.py#L190)
 
 ```python
 class EdrPacer
@@ -240,33 +261,107 @@ feeds one executed command with its wall-clock duration and output;
 the internal score decays over time so a single anomaly does not
 permanently slow the loop.
 
+Delays are fully configurable through the orchestrator `[`pacing`](modules.orchestrator_config.py.md#pacing)`
+block (see ``orchestrator_config.pacing``): per-level quiet ranges,
+a jitter percentage applied to every drawn delay and ``HH:MM-HH:MM``
+sleeper windows during which the recommended delay extends to the
+window end (clamped to ``max_delay_sec`` so callers re-check the
+window instead of oversleeping a cancellation).
+
 **Members**
 
 | Member | Kind | Summary |
 |---|---|---|
-| [`__init__`](#edrpacer-__init__) | constructor |  |
+| [`__init__`](#edrpacer-__init__) | constructor | Configure the pacer. |
+| [`parse_windows`](#edrpacer-parse_windows) | staticmethod | Parse ``HH:MM-HH:MM`` window strings into minute tuples. |
+| [`from_config`](#edrpacer-from_config) | classmethod | Build a pacer from the orchestrator pacing configuration. |
 | [`observe`](#edrpacer-observe) | method | Feed one executed step and update the telemetry estimate. |
 | [`decay`](#edrpacer-decay) | method | Cool the estimate down (call once per completed step). |
 | [`level`](#edrpacer-level) | property | Current pacing level: 0 calm, 1 cautious, 2 stealth. |
 | [`signal`](#edrpacer-signal) | property | Human-readable reason for the current level (may be empty). |
+| [`in_sleeper_window`](#edrpacer-in_sleeper_window) | method | True when local time falls inside a configured quiet window. |
+| [`windows_delay`](#edrpacer-windows_delay) | staticmethod | Static quiet-window delay for callers without a pacer instance. |
+| [`sleeper_delay`](#edrpacer-sleeper_delay) | method | Recommended sleep because of a quiet window (0 when outside). |
 | [`inter_step_delay`](#edrpacer-inter_step_delay) | method | Recommended sleep before the next step at the current level. |
 | [`quieten`](#edrpacer-quieten) | method | Return a quieter variant of the command at the current level. |
+| [`describe`](#edrpacer-describe) | method | Return a snapshot of the pacer state for admin surfaces. |
 
 <a id="edrpacer-__init__"></a>
 
 #### `EdrPacer.__init__`
 
-`constructor` | [modules/loop_guardrails.py:187](../../modules/loop_guardrails.py#L187)
+`constructor` | [modules/loop_guardrails.py:206](../../modules/loop_guardrails.py#L206)
 
 ```python
-def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC) -> None
+def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC, *, pause_ranges: dict[int, tuple[float, float]] | None = None, jitter_pct: tuple[float, float] = (0.0, 0.0), max_delay_sec: float = _PAUSE_MAX_DELAY_SEC, sleeper_windows: tuple[str, ...] | list[str] = (), clock: Callable[[], float] | None = None, rng: Callable[[float, float], float] | None = None) -> None
 ```
+
+Configure the pacer.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `duration_threshold` | `float` | `_EDR_DURATION_THRESHOLD_SEC` |  |
+| `duration_threshold` | `float` | `_EDR_DURATION_THRESHOLD_SEC` | Seconds after which a step counts as slow. |
+| `pause_ranges` | `dict[int, tuple[float, float]] \| None` | `None` | Per-level ``(low, high)`` quiet ranges; None keeps the built-in table. An empty mapping disables level-based pauses entirely. |
+| `jitter_pct` | `tuple[float, float]` | `(0.0, 0.0)` | ``(min, max)`` percentage applied to every drawn pause, e.g. ``(-30, 60)`` shrinks or stretches the delay. |
+| `max_delay_sec` | `float` | `_PAUSE_MAX_DELAY_SEC` | Upper clamp for any recommended delay. |
+| `sleeper_windows` | `tuple[str, ...] \| list[str]` | `()` | ``HH:MM-HH:MM`` quiet windows (local time). |
+| `clock` | `Callable[[], float] \| None` | `None` | Injectable wall clock (epoch seconds) for tests. |
+| `rng` | `Callable[[float, float], float] \| None` | `None` | Injectable ``uniform(low, high)`` sampler for tests. |
+
+*Calls:* [`EdrPacer.parse_windows`](#edrpacer-parse_windows)
+
+<a id="edrpacer-parse_windows"></a>
+
+#### `EdrPacer.parse_windows`
+
+`staticmethod` | [modules/loop_guardrails.py:252](../../modules/loop_guardrails.py#L252)
+
+Decorators: `@staticmethod`
+
+```python
+def parse_windows(raw: tuple[str, ...] | list[str] | None) -> tuple[tuple[int, int, int, int], ...]
+```
+
+Parse ``HH:MM-HH:MM`` window strings into minute tuples.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `raw` | `tuple[str, ...] \| list[str] \| None` |  | Raw window declarations; invalid entries are skipped. |
+
+**Returns:** `tuple[tuple[int, int, int, int], ...]` - Tuples of ``(start_h, start_m, end_h, end_m)`` in 24h local
+time.
+
+*Called by:* [`EdrPacer.__init__`](#edrpacer-__init__), [`EdrPacer.windows_delay`](#edrpacer-windows_delay)
+
+<a id="edrpacer-from_config"></a>
+
+#### `EdrPacer.from_config`
+
+`classmethod` | [modules/loop_guardrails.py:274](../../modules/loop_guardrails.py#L274)
+
+Decorators: `@classmethod`
+
+```python
+def from_config(cls, **overrides: Any) -> 'EdrPacer'
+```
+
+Build a pacer from the orchestrator pacing configuration.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `**overrides` | `Any` |  | Forwarded to the constructor verbatim, winning over the configuration (used by callers that clamp). |
+
+**Returns:** `'EdrPacer'` - A configured pacer; when the orchestrator config is absent
+or unreadable the built-in defaults apply, and
+``pacing.enabled = false`` yields an inert pacer.
+
+*Calls:* [`pacing`](modules.orchestrator_config.py.md#pacing)
 
 *Called by:* [`ChainRunner.__init__`](modules.chain_runner.py.md#chainrunner-__init__), [`Worker.__init__`](modules.lazy_loop.py.md#worker-__init__)
 
@@ -274,7 +369,7 @@ def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC) -> N
 
 #### `EdrPacer.observe`
 
-`method` | [modules/loop_guardrails.py:193](../../modules/loop_guardrails.py#L193)
+`method` | [modules/loop_guardrails.py:305](../../modules/loop_guardrails.py#L305)
 
 ```python
 def observe(self, command: str, duration_sec: float, output: str) -> None
@@ -290,13 +385,11 @@ Feed one executed step and update the telemetry estimate.
 | `duration_sec` | `float` |  | Wall-clock seconds the command took. |
 | `output` | `str` |  | Captured output (scan for reset/timeout markers). |
 
-*Called by:* [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
-
 <a id="edrpacer-decay"></a>
 
 #### `EdrPacer.decay`
 
-`method` | [modules/loop_guardrails.py:215](../../modules/loop_guardrails.py#L215)
+`method` | [modules/loop_guardrails.py:327](../../modules/loop_guardrails.py#L327)
 
 ```python
 def decay(self, factor: float = _EDR_DECAY) -> None
@@ -310,13 +403,11 @@ Cool the estimate down (call once per completed step).
 |---|---|---|---|
 | `factor` | `float` | `_EDR_DECAY` |  |
 
-*Called by:* [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
-
 <a id="edrpacer-level"></a>
 
 #### `EdrPacer.level`
 
-`property` | [modules/loop_guardrails.py:221](../../modules/loop_guardrails.py#L221)
+`property` | [modules/loop_guardrails.py:333](../../modules/loop_guardrails.py#L333)
 
 Decorators: `@property`
 
@@ -332,7 +423,7 @@ Current pacing level: 0 calm, 1 cautious, 2 stealth.
 
 #### `EdrPacer.signal`
 
-`property` | [modules/loop_guardrails.py:231](../../modules/loop_guardrails.py#L231)
+`property` | [modules/loop_guardrails.py:343](../../modules/loop_guardrails.py#L343)
 
 Decorators: `@property`
 
@@ -346,11 +437,85 @@ Human-readable reason for the current level (may be empty).
 
 *Called by:* [`main`](modules.rootkit.mr.c.md#main)
 
+<a id="edrpacer-in_sleeper_window"></a>
+
+#### `EdrPacer.in_sleeper_window`
+
+`method` | [modules/loop_guardrails.py:374](../../modules/loop_guardrails.py#L374)
+
+```python
+def in_sleeper_window(self, now: float | None = None) -> bool
+```
+
+True when local time falls inside a configured quiet window.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `now` | `float \| None` | `None` |  |
+
+**Returns:** `bool`
+
+*Called by:* [`EdrPacer.describe`](#edrpacer-describe)
+
+<a id="edrpacer-windows_delay"></a>
+
+#### `EdrPacer.windows_delay`
+
+`staticmethod` | [modules/loop_guardrails.py:380](../../modules/loop_guardrails.py#L380)
+
+Decorators: `@staticmethod`
+
+```python
+def windows_delay(windows: tuple[str, ...] | list[str], now: float | None = None) -> float
+```
+
+Static quiet-window delay for callers without a pacer instance.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `windows` | `tuple[str, ...] \| list[str]` |  | ``HH:MM-HH:MM`` window declarations. |
+| `now` | `float \| None` | `None` | Injectable epoch seconds (None uses the real clock). |
+
+**Returns:** `float` - Seconds until the active window ends, clamped to the
+configured maximum; 0 when outside every window.
+
+*Calls:* [`EdrPacer.parse_windows`](#edrpacer-parse_windows), [`pacing`](modules.orchestrator_config.py.md#pacing)
+
+<a id="edrpacer-sleeper_delay"></a>
+
+#### `EdrPacer.sleeper_delay`
+
+`method` | [modules/loop_guardrails.py:407](../../modules/loop_guardrails.py#L407)
+
+```python
+def sleeper_delay(self, now: float | None = None) -> float
+```
+
+Recommended sleep because of a quiet window (0 when outside).
+
+The delay is the time until the window end, clamped to
+``max_delay_sec`` so long windows sleep in bounded chunks and
+every caller re-checks cancellation between chunks.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `now` | `float \| None` | `None` |  |
+
+**Returns:** `float`
+
+*Called by:* [`EdrPacer.inter_step_delay`](#edrpacer-inter_step_delay)
+
 <a id="edrpacer-inter_step_delay"></a>
 
 #### `EdrPacer.inter_step_delay`
 
-`method` | [modules/loop_guardrails.py:236](../../modules/loop_guardrails.py#L236)
+`method` | [modules/loop_guardrails.py:420](../../modules/loop_guardrails.py#L420)
 
 ```python
 def inter_step_delay(self) -> float
@@ -358,15 +523,19 @@ def inter_step_delay(self) -> float
 
 Recommended sleep before the next step at the current level.
 
+Combines the level's quiet range (scaled by the configured
+jitter percentage) with the sleeper-window delay, taking the
+larger of the two and clamping to ``max_delay_sec``.
+
 **Returns:** `float`
 
-*Called by:* [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
+*Calls:* [`EdrPacer.sleeper_delay`](#edrpacer-sleeper_delay)
 
 <a id="edrpacer-quieten"></a>
 
 #### `EdrPacer.quieten`
 
-`method` | [modules/loop_guardrails.py:244](../../modules/loop_guardrails.py#L244)
+`method` | [modules/loop_guardrails.py:437](../../modules/loop_guardrails.py#L437)
 
 ```python
 def quieten(self, command: str) -> str
@@ -386,7 +555,21 @@ unchanged.
 
 **Returns:** `str`
 
-*Called by:* [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
+<a id="edrpacer-describe"></a>
+
+#### `EdrPacer.describe`
+
+`method` | [modules/loop_guardrails.py:452](../../modules/loop_guardrails.py#L452)
+
+```python
+def describe(self) -> dict[str, Any]
+```
+
+Return a snapshot of the pacer state for admin surfaces.
+
+**Returns:** `dict[str, Any]`
+
+*Calls:* [`EdrPacer.in_sleeper_window`](#edrpacer-in_sleeper_window)
 
 ---
 
@@ -394,7 +577,7 @@ unchanged.
 
 ### `TargetLimiter`
 
-`class` | [modules/loop_guardrails.py:260](../../modules/loop_guardrails.py#L260)
+`class` | [modules/loop_guardrails.py:467](../../modules/loop_guardrails.py#L467)
 
 ```python
 class TargetLimiter
@@ -421,7 +604,7 @@ Per-target concurrency cap shared by every loop worker.
 
 #### `TargetLimiter.__init__`
 
-`constructor` | [modules/loop_guardrails.py:268](../../modules/loop_guardrails.py#L268)
+`constructor` | [modules/loop_guardrails.py:475](../../modules/loop_guardrails.py#L475)
 
 ```python
 def __init__(self, max_concurrent: int = DEFAULT_TARGET_LIMIT) -> None
@@ -437,7 +620,7 @@ def __init__(self, max_concurrent: int = DEFAULT_TARGET_LIMIT) -> None
 
 #### `TargetLimiter.max_concurrent`
 
-`property` | [modules/loop_guardrails.py:275](../../modules/loop_guardrails.py#L275)
+`property` | [modules/loop_guardrails.py:482](../../modules/loop_guardrails.py#L482)
 
 Decorators: `@property`
 
@@ -453,7 +636,7 @@ Configured upper bound of simultaneous targets.
 
 #### `TargetLimiter.active_targets`
 
-`property` | [modules/loop_guardrails.py:280](../../modules/loop_guardrails.py#L280)
+`property` | [modules/loop_guardrails.py:487](../../modules/loop_guardrails.py#L487)
 
 Decorators: `@property`
 
@@ -469,7 +652,7 @@ How many distinct targets currently hold a slot.
 
 #### `TargetLimiter.slot`
 
-`method` `generator` | [modules/loop_guardrails.py:286](../../modules/loop_guardrails.py#L286)
+`method` `generator` | [modules/loop_guardrails.py:493](../../modules/loop_guardrails.py#L493)
 
 Decorators: `@contextmanager`
 
@@ -495,7 +678,7 @@ target never blocks on itself.
 
 ### `FactVectorStore`
 
-`class` | [modules/loop_guardrails.py:330](../../modules/loop_guardrails.py#L330)
+`class` | [modules/loop_guardrails.py:537](../../modules/loop_guardrails.py#L537)
 
 ```python
 class FactVectorStore
@@ -523,7 +706,7 @@ dedupe by content hash, persist atomically and trim to
 
 #### `FactVectorStore.__init__`
 
-`constructor` | [modules/loop_guardrails.py:338](../../modules/loop_guardrails.py#L338)
+`constructor` | [modules/loop_guardrails.py:545](../../modules/loop_guardrails.py#L545)
 
 ```python
 def __init__(self, path: str | Path, max_facts: int = DEFAULT_MAX_FACTS) -> None
@@ -540,7 +723,7 @@ def __init__(self, path: str | Path, max_facts: int = DEFAULT_MAX_FACTS) -> None
 
 #### `FactVectorStore.path`
 
-`property` | [modules/loop_guardrails.py:346](../../modules/loop_guardrails.py#L346)
+`property` | [modules/loop_guardrails.py:553](../../modules/loop_guardrails.py#L553)
 
 Decorators: `@property`
 
@@ -556,7 +739,7 @@ Backing file path.
 
 #### `FactVectorStore.add`
 
-`method` | [modules/loop_guardrails.py:367](../../modules/loop_guardrails.py#L367)
+`method` | [modules/loop_guardrails.py:574](../../modules/loop_guardrails.py#L574)
 
 ```python
 def add(self, text: str, meta: dict | None = None) -> bool
@@ -579,7 +762,7 @@ Embed and store one fact; returns False for duplicates.
 
 #### `FactVectorStore.search`
 
-`method` | [modules/loop_guardrails.py:401](../../modules/loop_guardrails.py#L401)
+`method` | [modules/loop_guardrails.py:608](../../modules/loop_guardrails.py#L608)
 
 ```python
 def search(self, query: str, k: int = DEFAULT_SEARCH_RESULTS) -> list[dict]
@@ -602,7 +785,7 @@ Return the ``k`` facts most similar to the query.
 
 #### `FactVectorStore.search_block`
 
-`method` | [modules/loop_guardrails.py:431](../../modules/loop_guardrails.py#L431)
+`method` | [modules/loop_guardrails.py:638](../../modules/loop_guardrails.py#L638)
 
 ```python
 def search_block(self, query: str, k: int = DEFAULT_SEARCH_RESULTS, max_chars: int = 1200) -> str
@@ -626,7 +809,7 @@ Render retrieved facts as a prompt-ready block (may be empty).
 
 #### `FactVectorStore.clear`
 
-`method` | [modules/loop_guardrails.py:440](../../modules/loop_guardrails.py#L440)
+`method` | [modules/loop_guardrails.py:647](../../modules/loop_guardrails.py#L647)
 
 ```python
 def clear(self) -> None
@@ -640,7 +823,7 @@ Drop every fact (manual reset path).
 
 #### `FactVectorStore.save`
 
-`method` | [modules/loop_guardrails.py:446](../../modules/loop_guardrails.py#L446)
+`method` | [modules/loop_guardrails.py:653](../../modules/loop_guardrails.py#L653)
 
 ```python
 def save(self) -> None
@@ -658,7 +841,7 @@ Persist atomically; I/O errors never surface to the loop.
 
 ### `DEFAULT_REPEAT_WINDOW`
 
-`constant` | [modules/loop_guardrails.py:42](../../modules/loop_guardrails.py#L42)
+`constant` | [modules/loop_guardrails.py:43](../../modules/loop_guardrails.py#L43)
 
 ```python
 DEFAULT_REPEAT_WINDOW = 5
@@ -670,7 +853,7 @@ DEFAULT_REPEAT_WINDOW = 5
 
 ### `DEFAULT_TARGET_LIMIT`
 
-`constant` | [modules/loop_guardrails.py:43](../../modules/loop_guardrails.py#L43)
+`constant` | [modules/loop_guardrails.py:44](../../modules/loop_guardrails.py#L44)
 
 ```python
 DEFAULT_TARGET_LIMIT = 3

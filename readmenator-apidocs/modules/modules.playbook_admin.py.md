@@ -61,7 +61,7 @@ flowchart LR
 
 ### `PlaybookEntry`
 
-`class` `dataclass` | [modules/playbook_admin.py:40](../../modules/playbook_admin.py#L40)
+`class` `dataclass` | [modules/playbook_admin.py:41](../../modules/playbook_admin.py#L41)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -94,7 +94,7 @@ One playbook file rendered for the admin table.
 
 ### `slugify`
 
-`function` | [modules/playbook_admin.py:62](../../modules/playbook_admin.py#L62)
+`function` | [modules/playbook_admin.py:63](../../modules/playbook_admin.py#L63)
 
 ```python
 def slugify(value: str) -> str
@@ -118,7 +118,7 @@ Return a safe playbook filename stem.
 
 ### `playbook_path`
 
-`function` | [modules/playbook_admin.py:75](../../modules/playbook_admin.py#L75)
+`function` | [modules/playbook_admin.py:76](../../modules/playbook_admin.py#L76)
 
 ```python
 def playbook_path(filename: str, directory: Path | str | None = None) -> Path
@@ -147,7 +147,7 @@ Resolve one playbook file inside the playbooks root.
 
 ### `load_playbook`
 
-`function` | [modules/playbook_admin.py:102](../../modules/playbook_admin.py#L102)
+`function` | [modules/playbook_admin.py:103](../../modules/playbook_admin.py#L103)
 
 ```python
 def load_playbook(path: Path | str) -> dict[str, Any]
@@ -176,7 +176,7 @@ Read one playbook YAML mapping.
 
 ### `playbook_kind`
 
-`function` | [modules/playbook_admin.py:123](../../modules/playbook_admin.py#L123)
+`function` | [modules/playbook_admin.py:124](../../modules/playbook_admin.py#L124)
 
 ```python
 def playbook_kind(data: dict[str, Any]) -> str
@@ -200,7 +200,7 @@ Return ``apt``, ``plan``, ``mixed`` or `[`unknown`](skills.lazyown_policy.py.md#
 
 ### `validate_playbook`
 
-`function` | [modules/playbook_admin.py:136](../../modules/playbook_admin.py#L136)
+`function` | [modules/playbook_admin.py:137](../../modules/playbook_admin.py#L137)
 
 ```python
 def validate_playbook(data: Any) -> list[str]
@@ -224,7 +224,7 @@ Validate the minimal shape shared by both playbook formats.
 
 ### `summarize`
 
-`function` | [modules/playbook_admin.py:197](../../modules/playbook_admin.py#L197)
+`function` | [modules/playbook_admin.py:227](../../modules/playbook_admin.py#L227)
 
 ```python
 def summarize(path: Path | str) -> PlaybookEntry
@@ -250,7 +250,7 @@ Build the admin-table row for one file without raising.
 
 ### `scan_playbooks`
 
-`function` | [modules/playbook_admin.py:231](../../modules/playbook_admin.py#L231)
+`function` | [modules/playbook_admin.py:261](../../modules/playbook_admin.py#L261)
 
 ```python
 def scan_playbooks(directory: Path | str | None = None) -> list[PlaybookEntry]
@@ -276,7 +276,7 @@ Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
 
 ### `preview_playbook`
 
-`function` | [modules/playbook_admin.py:251](../../modules/playbook_admin.py#L251)
+`function` | [modules/playbook_admin.py:281](../../modules/playbook_admin.py#L281)
 
 ```python
 def preview_playbook(path: Path | str, limit: int = _PREVIEW_LINES) -> str
@@ -301,7 +301,7 @@ Return a bounded, sanitized text preview for the detail pane.
 
 ### `playbook_template`
 
-`function` | [modules/playbook_admin.py:265](../../modules/playbook_admin.py#L265)
+`function` | [modules/playbook_admin.py:295](../../modules/playbook_admin.py#L295)
 
 ```python
 def playbook_template(name: str, description: str = '', platforms: tuple[str, ...] | list[str] = ('linux',)) -> dict[str, Any]
@@ -327,7 +327,7 @@ Return a minimal APT playbook mapping ready for ``yaml.safe_dump``.
 
 ### `create_playbook`
 
-`function` | [modules/playbook_admin.py:297](../../modules/playbook_admin.py#L297)
+`function` | [modules/playbook_admin.py:327](../../modules/playbook_admin.py#L327)
 
 ```python
 def create_playbook(filename: str, *, name: str = '', description: str = '', platforms: tuple[str, ...] | list[str] = ('linux',), directory: Path | str | None = None, overwrite: bool = False) -> Path
@@ -363,7 +363,7 @@ Create one APT playbook file.
 
 ### `update_playbook`
 
-`function` | [modules/playbook_admin.py:350](../../modules/playbook_admin.py#L350)
+`function` | [modules/playbook_admin.py:380](../../modules/playbook_admin.py#L380)
 
 ```python
 def update_playbook(path: Path | str, data: dict[str, Any], directory: Path | str | None = None) -> Path
@@ -396,7 +396,7 @@ Validate and atomically rewrite one playbook.
 
 ### `save_playbook_yaml`
 
-`function` | [modules/playbook_admin.py:377](../../modules/playbook_admin.py#L377)
+`function` | [modules/playbook_admin.py:407](../../modules/playbook_admin.py#L407)
 
 ```python
 def save_playbook_yaml(path: Path | str, text: str, directory: Path | str | None = None) -> Path
@@ -429,7 +429,7 @@ Parse, validate and write a raw YAML document.
 
 ### `delete_playbook`
 
-`function` | [modules/playbook_admin.py:406](../../modules/playbook_admin.py#L406)
+`function` | [modules/playbook_admin.py:436](../../modules/playbook_admin.py#L436)
 
 ```python
 def delete_playbook(path: Path | str, directory: Path | str | None = None) -> bool

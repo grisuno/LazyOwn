@@ -1,5 +1,87 @@
-# Subsystem: tests (page 3 of 23)
+# Subsystem: tests (page 3 of 24)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
+
+## tests/test_attack_surface_addons.py
+- Doc: tests/test_attack_surface_addons.py  BDD: Validate cloud, supply-chain, and web attack-surface...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load` (function, line 36) `def _load(path)`
+  - `_param_names` (function, line 41) `def _param_names(addon)`
+  - `_yaml_text` (function, line 45) `def _yaml_text(path)`
+  - `_all_addon_data` (function, line 54) `def _all_addon_data()`
+  - `_loaded` (function, line 59) `def _loaded(name)`
+  - `TestAddonExists` (class, line 68) `class TestAddonExists`
+  - `TestRequiredFields` (class, line 88) `class TestRequiredFields`
+  - `TestToolSection` (class, line 118) `class TestToolSection`
+  - `TestParams` (class, line 151) `class TestParams`
+  - `TestPathSafety` (class, line 180) `class TestPathSafety`
+  - `TestNoHardcodedSecrets` (class, line 207) `class TestNoHardcodedSecrets`
+  - `TestCommandTemplates` (class, line 234) `class TestCommandTemplates`
+  - `TestScoutSuiteSpecific` (class, line 251) `class TestScoutSuiteSpecific`
+  - `TestProwlerSpecific` (class, line 273) `class TestProwlerSpecific`
+  - `TestCloudSploitSpecific` (class, line 294) `class TestCloudSploitSpecific`
+  - `TestTrivySpecific` (class, line 309) `class TestTrivySpecific`
+  - `TestGrypeSpecific` (class, line 333) `class TestGrypeSpecific`
+  - `TestReportFullSpecific` (class, line 353) `class TestReportFullSpecific`
+  - `TestFuzzAddonStructure` (class, line 384) `class TestFuzzAddonStructure`
+  - `TestResultReview` (class, line 418) `class TestResultReview`
+  - `test_file_present` (method, line 72) `def test_file_present(self, name, path)`
+  - `test_yaml_parses` (method, line 76) `def test_yaml_parses(self, name, path)`
+  - `test_has_required_fields` (method, line 92) `def test_has_required_fields(self, name, addon)`
+  - `test_name_is_string` (method, line 97) `def test_name_is_string(self, name, addon)`
+  - `test_description_is_string` (method, line 101) `def test_description_is_string(self, name, addon)`
+  - `test_enabled_is_true` (method, line 107) `def test_enabled_is_true(self, name, addon)`
+  - `test_tool_is_dict` (method, line 122) `def test_tool_is_dict(self, name, addon)`
+  - `test_tool_required_keys` (method, line 126) `def test_tool_required_keys(self, name, addon)`
+  - `test_repo_url_ends_with_git` (method, line 131) `def test_repo_url_ends_with_git(self, name, addon)`
+  - `test_repo_url_is_https` (method, line 136) `def test_repo_url_is_https(self, name, addon)`
+  - `test_execute_command_is_string` (method, line 141) `def test_execute_command_is_string(self, name, addon)`
+  - `test_params_is_list_when_present` (method, line 155) `def test_params_is_list_when_present(self, name, addon)`
+  - `test_each_param_has_name` (method, line 160) `def test_each_param_has_name(self, name, addon)`
+  - `test_each_param_has_description` (method, line 165) `def test_each_param_has_description(self, name, addon)`
+  - `no_duplicate_param_names` (method, line 170) `def no_duplicate_param_names(self, name, addon)`
+  - `test_install_path_contained` (method, line 184) `def test_install_path_contained(self, name, addon)`
+  - `test_install_path_no_dot_dot_prefix` (method, line 190) `def test_install_path_no_dot_dot_prefix(self, name, addon)`
+  - `test_no_tilde_in_paths` (method, line 197) `def test_no_tilde_in_paths(self, name, addon)`
+  - `test_no_hardcoded_ip` (method, line 211) `def test_no_hardcoded_ip(self, name, addon)`
+  - `test_no_well_known_ports` (method, line 217) `def test_no_well_known_ports(self, name, addon)`
+  - `test_no_password_literals` (method, line 223) `def test_no_password_literals(self, name, addon)`
+  - `test_execute_has_at_least_one_placeholder` (method, line 238) `def test_execute_has_at_least_one_placeholder(self, name, addon)`
+  - `addon` (method, line 255) `def addon(self)`
+  - `test_name` (method, line 258) `def test_name(self, addon)`
+  - `test_os_is_iaas` (method, line 261) `def test_os_is_iaas(self, addon)`
+  - `test_has_region_param` (method, line 264) `def test_has_region_param(self, addon)`
+  - `test_has_provider_param` (method, line 267) `def test_has_provider_param(self, addon)`
+  - `addon` (method, line 277) `def addon(self)`
+  - `test_name` (method, line 280) `def test_name(self, addon)`
+  - `test_os_is_iaas` (method, line 283) `def test_os_is_iaas(self, addon)`
+  - `test_has_provider_param` (method, line 286) `def test_has_provider_param(self, addon)`
+  - `test_category_is_recon_or_scan` (method, line 290) `def test_category_is_recon_or_scan(self, addon)`
+  - `addon` (method, line 298) `def addon(self)`
+  - `test_name` (method, line 301) `def test_name(self, addon)`
+  - `test_has_cloud_param` (method, line 304) `def test_has_cloud_param(self, addon)`
+  - `addon` (method, line 313) `def addon(self)`
+  - `test_name` (method, line 316) `def test_name(self, addon)`
+  - `test_os_is_containers` (method, line 319) `def test_os_is_containers(self, addon)`
+  - `test_has_target_param` (method, line 322) `def test_has_target_param(self, addon)`
+  - `test_triggers_docker` (method, line 328) `def test_triggers_docker(self, addon)`
+  - `addon` (method, line 337) `def addon(self)`
+  - `test_name` (method, line 340) `def test_name(self, addon)`
+  - `test_has_target_param` (method, line 343) `def test_has_target_param(self, addon)`
+  - `test_description_mentions_vulnerability` (method, line 349) `def test_description_mentions_vulnerability(self, addon)`
+  - `addon` (method, line 357) `def addon(self)`
+  - `test_name` (method, line 360) `def test_name(self, addon)`
+  - `test_category_is_reporting` (method, line 363) `def test_category_is_reporting(self, addon)`
+  - `test_install_path_is_dot` (method, line 366) `def test_install_path_is_dot(self, addon)`
+  - `test_execute_calls_report_generator` (method, line 371) `def test_execute_calls_report_generator(self, addon)`
+  - `test_repo_url_points_to_lazyown` (method, line 375) `def test_repo_url_points_to_lazyown(self, addon)`
+  - `test_name_no_spaces` (method, line 388) `def test_name_no_spaces(self, name, addon)`
+  - `test_name_lowercase` (method, line 392) `def test_name_lowercase(self, name, addon)`
+  - `test_category_falls_in_known_range` (method, line 396) `def test_category_falls_in_known_range(self, name, addon)`
+  - `test_trigger_is_list_when_present` (method, line 402) `def test_trigger_is_list_when_present(self, name, addon)`
+  - `test_os_is_known_value` (method, line 407) `def test_os_is_known_value(self, name, addon)`
+  - `test_summary_table` (method, line 421) `def test_summary_table(self)`
 
 ## tests/test_audit_remediation.py
 - Doc: Audit-remediation contract tests (P0-P4).
@@ -412,72 +494,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_rerun_is_idempotent_for_hosts_and_services` (method, line 114) `def test_rerun_is_idempotent_for_hosts_and_services(self)`
   - `test_noop_without_data_and_without_ip` (method, line 124) `def test_noop_without_data_and_without_ip(self)`
 - Depends on: `modules/beacon_recon.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-
-## tests/test_blacksandbeacon_addon.py
-- Doc: tests/test_blacksandbeacon_addon.py  Validation suite for the blacksandbeacon and...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load` (function, line 26) `def _load(path)`
-  - `beacon` (function, line 32) `def beacon()`
-  - `bof` (function, line 37) `def bof()`
-  - `TestBeaconYamlExists` (class, line 41) `class TestBeaconYamlExists`
-  - `TestBeaconRequiredFields` (class, line 55) `class TestBeaconRequiredFields`
-  - `TestBeaconToolSection` (class, line 67) `class TestBeaconToolSection`
-  - `TestBeaconPathSafety` (class, line 97) `class TestBeaconPathSafety`
-  - `TestBeaconCategory` (class, line 111) `class TestBeaconCategory`
-  - `TestBeaconEnabled` (class, line 119) `class TestBeaconEnabled`
-  - `TestBeaconParams` (class, line 127) `class TestBeaconParams`
-  - `TestBeaconCommandTemplates` (class, line 157) `class TestBeaconCommandTemplates`
-  - `TestBeaconDescriptionQuality` (class, line 192) `class TestBeaconDescriptionQuality`
-  - `TestBeaconNoHardcodedSecrets` (class, line 217) `class TestBeaconNoHardcodedSecrets`
-  - `test_beacon_yaml_present` (method, line 42) `def test_beacon_yaml_present(self)`
-  - `test_bof_yaml_present` (method, line 45) `def test_bof_yaml_present(self)`
-  - `test_beacon_yaml_parses` (method, line 48) `def test_beacon_yaml_parses(self, beacon)`
-  - `test_bof_yaml_parses` (method, line 51) `def test_bof_yaml_parses(self, bof)`
-  - `test_beacon_has_field` (method, line 59) `def test_beacon_has_field(self, beacon, field)`
-  - `test_bof_has_field` (method, line 63) `def test_bof_has_field(self, bof, field)`
-  - `test_beacon_tool_has_key` (method, line 71) `def test_beacon_tool_has_key(self, beacon, key)`
-  - `test_bof_tool_has_key` (method, line 75) `def test_bof_tool_has_key(self, bof, key)`
-  - `test_beacon_repo_url` (method, line 78) `def test_beacon_repo_url(self, beacon)`
-  - `test_bof_repo_url` (method, line 81) `def test_bof_repo_url(self, bof)`
-  - `test_beacon_install_path` (method, line 84) `def test_beacon_install_path(self, beacon)`
-  - `test_bof_install_path` (method, line 87) `def test_bof_install_path(self, bof)`
-  - `test_beacon_install_command_is_make` (method, line 90) `def test_beacon_install_command_is_make(self, beacon)`
-  - `test_bof_install_command_is_make` (method, line 93) `def test_bof_install_command_is_make(self, bof)`
-  - `test_beacon_install_path_no_traversal` (method, line 100) `def test_beacon_install_path_no_traversal(self, beacon)`
-  - `test_bof_install_path_no_traversal` (method, line 105) `def test_bof_install_path_no_traversal(self, bof)`
-  - `test_beacon_category` (method, line 112) `def test_beacon_category(self, beacon)`
-  - `test_bof_category` (method, line 115) `def test_bof_category(self, bof)`
-  - `test_beacon_enabled` (method, line 120) `def test_beacon_enabled(self, beacon)`
-  - `test_bof_enabled` (method, line 123) `def test_bof_enabled(self, bof)`
-  - `_param_names` (method, line 130) `def _param_names(self, addon)`
-  - `test_beacon_has_lhost_param` (method, line 133) `def test_beacon_has_lhost_param(self, beacon)`
-  - `test_beacon_has_lport_param` (method, line 136) `def test_beacon_has_lport_param(self, beacon)`
-  - `test_beacon_has_c2_port_param` (method, line 139) `def test_beacon_has_c2_port_param(self, beacon)`
-  - `test_bof_has_lhost_param` (method, line 142) `def test_bof_has_lhost_param(self, bof)`
-  - `test_bof_has_lport_param` (method, line 145) `def test_bof_has_lport_param(self, bof)`
-  - `test_beacon_lhost_required` (method, line 148) `def test_beacon_lhost_required(self, beacon)`
-  - `test_bof_lhost_required` (method, line 152) `def test_bof_lhost_required(self, bof)`
-  - `test_beacon_lazycommand_has_lhost` (method, line 160) `def test_beacon_lazycommand_has_lhost(self, beacon)`
-  - `test_beacon_lazycommand_has_c2_port` (method, line 164) `def test_beacon_lazycommand_has_c2_port(self, beacon)`
-  - `test_bof_lazycommand_has_lhost` (method, line 168) `def test_bof_lazycommand_has_lhost(self, bof)`
-  - `test_bof_lazycommand_has_lport` (method, line 172) `def test_bof_lazycommand_has_lport(self, bof)`
-  - `test_beacon_execute_stages_to_sessions` (method, line 176) `def test_beacon_execute_stages_to_sessions(self, beacon)`
-  - `test_bof_execute_stages_to_sessions` (method, line 180) `def test_bof_execute_stages_to_sessions(self, bof)`
-  - `test_beacon_execute_resets_before_pull` (method, line 183) `def test_beacon_execute_resets_before_pull(self, beacon)`
-  - `test_bof_execute_resets_before_pull` (method, line 187) `def test_bof_execute_resets_before_pull(self, bof)`
-  - `test_beacon_description_mentions_bof` (method, line 195) `def test_beacon_description_mentions_bof(self, beacon)`
-  - `test_beacon_description_mentions_linux` (method, line 199) `def test_beacon_description_mentions_linux(self, beacon)`
-  - `test_bof_description_mentions_linux_bof` (method, line 202) `def test_bof_description_mentions_linux_bof(self, bof)`
-  - `test_bof_description_mentions_elf` (method, line 206) `def test_bof_description_mentions_elf(self, bof)`
-  - `test_beacon_name_is_correct` (method, line 210) `def test_beacon_name_is_correct(self, beacon)`
-  - `test_bof_name_is_correct` (method, line 213) `def test_bof_name_is_correct(self, bof)`
-  - `_yaml_text` (method, line 220) `def _yaml_text(self, path)`
-  - `test_beacon_no_hardcoded_ip` (method, line 223) `def test_beacon_no_hardcoded_ip(self)`
-  - `test_bof_no_hardcoded_ip` (method, line 230) `def test_bof_no_hardcoded_ip(self)`
-  - `test_beacon_no_hardcoded_port_numbers` (method, line 237) `def test_beacon_no_hardcoded_port_numbers(self)`
-  - `test_bof_no_hardcoded_port_numbers` (method, line 241) `def test_bof_no_hardcoded_port_numbers(self)`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

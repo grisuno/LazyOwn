@@ -1,6 +1,46 @@
 # Subsystem: modules (page 5 of 18)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/domain_dominance.py
+- Doc: Domain Dominance Engine — automated Active Directory takeover.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `DomainInfo` (class, line 49) `class DomainInfo`
+  - `CredentialStash` (class, line 65) `class CredentialStash`
+  - `DominanceResult` (class, line 75) `class DominanceResult`
+  - `DomainDominance` (class, line 89) `class DomainDominance`
+  - `__init__` (method, line 103) `def __init__(self)`
+  - `get_instance` (method, line 110) `def get_instance(cls)`
+  - `dominate` (method, line 121) `def dominate(self, domain, dc_ip, username, password, ntlm_hash)`
+  - `enumerate_domain` (method, line 194) `def enumerate_domain(self, domain, dc_ip)`
+  - `extract_credentials` (method, line 227) `def extract_credentials(self, domain_info, known_creds)`
+  - `escalate` (method, line 260) `def escalate(self, domain_info, stash)`
+  - `persist` (method, line 314) `def persist(self, domain_info)`
+  - `_discover_dc` (method, line 340) `def _discover_dc(self, domain, dns_servers)`
+  - `_find_dcs` (method, line 366) `def _find_dcs(self, domain, dc_ip)`
+  - `_find_domain_admins` (method, line 392) `def _find_domain_admins(self, domain, dc_ip)`
+  - `_enumerate_users` (method, line 426) `def _enumerate_users(self, dc_ip)`
+  - `_enumerate_computers` (method, line 469) `def _enumerate_computers(self, dc_ip)`
+  - `_enumerate_groups` (method, line 495) `def _enumerate_groups(self, dc_ip)`
+  - `_enumerate_spns` (method, line 516) `def _enumerate_spns(self, dc_ip)`
+  - `_enumerate_trusts` (method, line 546) `def _enumerate_trusts(self, domain, dc_ip)`
+  - `_asrep_roast` (method, line 575) `def _asrep_roast(self, domain_info)`
+  - `_kerberoast` (method, line 625) `def _kerberoast(self, domain_info)`
+  - `_psexec_session` (method, line 666) `def _psexec_session(self, target, domain, user, password)`
+  - `_wmiexec_session` (method, line 697) `def _wmiexec_session(self, target, domain, user, password)`
+  - `_pth_session` (method, line 728) `def _pth_session(self, target, domain, user, ntlm_hash)`
+  - `_attempt_dcsync` (method, line 768) `def _attempt_dcsync(self, dc_ip)`
+  - `_load_config` (method, line 827) `def _load_config(self)`
+  - `_domain_to_dn` (method, line 838) `def _domain_to_dn(self, domain)`
+  - `_seal_loot_secret` (method, line 850) `def _seal_loot_secret(secret)`
+  - `_unseal_loot_secret` (method, line 871) `def _unseal_loot_secret(stored)`
+  - `_save_credential` (method, line 890) `def _save_credential(self, username, secret, secret_type, source)`
+  - `_save_session` (method, line 924) `def _save_session(self, session_id, target, method, user)`
+  - `_save_dominance_report` (method, line 944) `def _save_dominance_report(self)`
+- Depends on: `core/hardening.py`
+- Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
+
 ## modules/dotnet_payload.py
 - Doc: .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.
 - Layer: utility

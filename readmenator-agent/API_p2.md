@@ -250,6 +250,17 @@ Imported by: `tests/test_chain_list_command.py`, `tests/test_lazy_runner.py`
 - `ExploitMigratedCommandSet.do_chain` (method) `cli/commands/exploit_migrated.py:2641` `def do_chain(self, line)` -- Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
 - `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2771` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
 
+## cli/commands/exploitdb.py
+Depends on: `modules/__init__.py`
+- `ExploitdbCommands.do_exploitdb_sync` (method) `cli/commands/exploitdb.py:19` `def do_exploitdb_sync(self, args)`
+- `ExploitdbCommands.do_exploitdb_scan` (method) `cli/commands/exploitdb.py:33` `def do_exploitdb_scan(self, args)`
+- `ExploitdbCommands.do_exploitdb_gen` (method) `cli/commands/exploitdb.py:45` `def do_exploitdb_gen(self, args)`
+- `ExploitdbCommands.do_exploitdb_cscan` (method) `cli/commands/exploitdb.py:76` `def do_exploitdb_cscan(self, args)`
+- `ExploitdbCommands.do_exploitdb_ccompile` (method) `cli/commands/exploitdb.py:87` `def do_exploitdb_ccompile(self, args)`
+- `ExploitdbCCommands.do_exploitdb_cscan` (method) `cli/commands/exploitdb.py:99` `def do_exploitdb_cscan(self, args)`
+- `ExploitdbCCommands.do_exploitdb_ccompile` (method) `cli/commands/exploitdb.py:110` `def do_exploitdb_ccompile(self, args)`
+- `ExploitdbCCommands.do_exploitdb_run` (method) `cli/commands/exploitdb.py:124` `def do_exploitdb_run(self, args)`
+
 ## cli/commands/exploitgym.py
 Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
 Imported by: `tests/test_exploitgym_gym.py`
@@ -364,6 +375,10 @@ Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 - `LazyPassGenCommandSet.do_lazypassgen` (method) `cli/commands/lazy_passgen.py:21` `def do_lazypassgen(self, line)` -- Generate a target-aware candidate wordlist.
 
+## cli/commands/lazy_poc.py
+Depends on: `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/__init__.py`, `utils.py`
+- `LazyPocCommandSet.do_lazy_poc` (method) `cli/commands/lazy_poc.py:25` `def do_lazy_poc(self, line)` -- Operate the PoC verb registry.
+
 ## cli/commands/lazyloop.py
 Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `modules/sinks/findings.py`, `utils.py`
 Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
@@ -447,6 +462,7 @@ Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test
 - `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2685` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
 - `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2711` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
 - `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2774` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
+- `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2812` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
 
 ## cli/commands/marketplace.py
 Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/addon_updater.py`, `modules/module_registry.py`, `utils.py`

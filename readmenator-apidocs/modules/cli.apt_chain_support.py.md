@@ -66,7 +66,7 @@ flowchart LR
 
 ### `ChainArgs`
 
-`class` `dataclass` | [cli/apt_chain_support.py:51](../../cli/apt_chain_support.py#L51)
+`class` `dataclass` | [cli/apt_chain_support.py:83](../../cli/apt_chain_support.py#L83)
 
 Decorators: `@dataclass`
 
@@ -98,6 +98,7 @@ Parsed ``apt_chain`` invocation.
 | [`resume_run_id`](#chainargs-resume_run_id) | `str` | `''` |  |
 | [`playbook`](#chainargs-playbook) | `str` | `''` |  |
 | [`chain_override`](#chainargs-chain_override) | `str` | `''` |  |
+| [`techniques`](#chainargs-techniques) | `list[str]` | `field(default_factory=list)` |  |
 | [`errors`](#chainargs-errors) | `list[str]` | `field(default_factory=list)` |  |
 
 ---
@@ -108,7 +109,7 @@ Parsed ``apt_chain`` invocation.
 
 ### `parse_chain_args`
 
-`function` | [cli/apt_chain_support.py:75](../../cli/apt_chain_support.py#L75)
+`function` | [cli/apt_chain_support.py:108](../../cli/apt_chain_support.py#L108)
 
 ```python
 def parse_chain_args(line: str) -> ChainArgs
@@ -129,7 +130,7 @@ hid operator intent and is gone.
 
 *Calls:* [`ChainArgs`](#chainargs)
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`parse_chain_invocation`](modules.chain_loop.py.md#parse_chain_invocation)
 
 ---
 
@@ -137,7 +138,7 @@ hid operator intent and is gone.
 
 ### `resolve_admin`
 
-`function` | [cli/apt_chain_support.py:172](../../cli/apt_chain_support.py#L172)
+`function` | [cli/apt_chain_support.py:231](../../cli/apt_chain_support.py#L231)
 
 ```python
 def resolve_admin(args: ChainArgs) -> dict[str, Any]
@@ -163,7 +164,7 @@ Execute an admin action against the registry and checkpoint store.
 
 ### `select_step_ids`
 
-`function` | [cli/apt_chain_support.py:291](../../cli/apt_chain_support.py#L291)
+`function` | [cli/apt_chain_support.py:353](../../cli/apt_chain_support.py#L353)
 
 ```python
 def select_step_ids(chain: Chain, args: ChainArgs) -> tuple[set[str] | None, list[str]]
@@ -188,7 +189,7 @@ Resolve --step/--from-step/--to-step into one id set.
 
 ### `render_result`
 
-`function` | [cli/apt_chain_support.py:331](../../cli/apt_chain_support.py#L331)
+`function` | [cli/apt_chain_support.py:393](../../cli/apt_chain_support.py#L393)
 
 ```python
 def render_result(result: ChainRunResult) -> list[str]
@@ -212,7 +213,7 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 ### `build_cli_approver`
 
-`function` | [cli/apt_chain_support.py:364](../../cli/apt_chain_support.py#L364)
+`function` | [cli/apt_chain_support.py:426](../../cli/apt_chain_support.py#L426)
 
 ```python
 def build_cli_approver(printer, input_fn=None)
@@ -238,7 +239,7 @@ the decision; interactive mode asks the operator failure-closed.
 
 ### `build_reactive_replanner`
 
-`function` | [cli/apt_chain_support.py:386](../../cli/apt_chain_support.py#L386)
+`function` | [cli/apt_chain_support.py:448](../../cli/apt_chain_support.py#L448)
 
 ```python
 def build_reactive_replanner()
@@ -256,7 +257,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:470](../../cli/apt_chain_support.py#L470)
+`function` | [cli/apt_chain_support.py:532](../../cli/apt_chain_support.py#L532)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None
@@ -267,7 +268,7 @@ Ask the LLM pool for a temporary recovery chain after a failed run.
 The prompt carries the original objective shape (chain name and
 target), the steps that already succeeded and the failed steps with
 their last errors. The model proposes up to three alternative shell
-commands; each becomes a `[`continue_on_error`](modules.chain_registry.py.md#chainstep-continue_on_error)` step so one bad
+commands; each becomes a ``continue_on_error`` step so one bad
 suggestion cannot abort the whole recovery. Returns None when the
 pool is unavailable or replies nothing usable.
 

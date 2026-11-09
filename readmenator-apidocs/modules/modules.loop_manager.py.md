@@ -17,7 +17,7 @@ Invariants:
    a subprocess: the target must parse as an IP address, the goal must
    match a fixed safe charset, and numeric knobs are clamped to the
    ranges supported by [`modules.lazy_runner`](modules.lazy_runner.py.md).
-2. Subprocesses are never started through a shell. ``argv`` lists only,
+2. Subprocesses are never started through a shell. `[`argv`](modules.poc_registry.py.md#renderedpoc-argv)` lists only,
    ``shell=False``, ``stdin=DEVNULL`` and ``start_new_session=True`` so
    a loop can be stopped as a whole process group.
 3. Log reads are path-safe: the loop id must match a strict hex pattern

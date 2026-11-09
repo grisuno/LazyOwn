@@ -38,7 +38,7 @@ flowchart LR
 
 ### `AdversarySelector`
 
-`class` | [modules/selection/adversary.py:117](../../modules/selection/adversary.py#L117)
+`class` | [modules/selection/adversary.py:118](../../modules/selection/adversary.py#L118)
 
 ```python
 class AdversarySelector
@@ -63,7 +63,7 @@ Propose ``adversary_yaml <id> l`` when the goal names a profile.
 
 #### `AdversarySelector.__init__`
 
-`constructor` | [modules/selection/adversary.py:122](../../modules/selection/adversary.py#L122)
+`constructor` | [modules/selection/adversary.py:123](../../modules/selection/adversary.py#L123)
 
 ```python
 def __init__(self, adversaries_dir: str | Path | None = None, confirm: str = 'l') -> None
@@ -82,7 +82,7 @@ Bind the profile directory and the execution confirmation word.
 
 #### `AdversarySelector.propose`
 
-`method` | [modules/selection/adversary.py:135](../../modules/selection/adversary.py#L135)
+`method` | [modules/selection/adversary.py:136](../../modules/selection/adversary.py#L136)
 
 ```python
 def propose(self, ctx: SelectionContext) -> ActionDecision | None
@@ -108,7 +108,7 @@ Return the emulation action when the goal names a profile.
 
 ### `load_profiles`
 
-`function` | [modules/selection/adversary.py:25](../../modules/selection/adversary.py#L25)
+`function` | [modules/selection/adversary.py:26](../../modules/selection/adversary.py#L26)
 
 ```python
 def load_profiles(adversaries_dir: str | Path | None = None) -> list[dict]
@@ -136,7 +136,7 @@ usable row onto ``{"id", "file", "slug", "name"}``.
 
 ### `resolve_profile`
 
-`function` | [modules/selection/adversary.py:79](../../modules/selection/adversary.py#L79)
+`function` | [modules/selection/adversary.py:80](../../modules/selection/adversary.py#L80)
 
 ```python
 def resolve_profile(goal: str, adversaries_dir: str | Path | None = None) -> dict | None
@@ -173,7 +173,7 @@ over any profile that merely shares the word ``implant``.
 
 ### `DEFAULT_ADVERSARIES_DIR`
 
-`constant` | [modules/selection/adversary.py:19](../../modules/selection/adversary.py#L19)
+`constant` | [modules/selection/adversary.py:20](../../modules/selection/adversary.py#L20)
 
 ```python
 DEFAULT_ADVERSARIES_DIR = BASE_DIR / 'lazyadversaries'

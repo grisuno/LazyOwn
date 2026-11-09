@@ -93,7 +93,7 @@ flowchart LR
 
 ### `ChainStep`
 
-`class` `dataclass` | [modules/chain_registry.py:102](../../modules/chain_registry.py#L102)
+`class` `dataclass` | [modules/chain_registry.py:104](../../modules/chain_registry.py#L104)
 
 Decorators: `@dataclass`
 
@@ -108,7 +108,9 @@ Hunting fields (v3) turn a step into a chain-of-evidence node:
 `[`required_fields`](#chainstep-required_fields)` verifies field presence in captured evidence,
 `[`benign_alternatives`](#chainstep-benign_alternatives)` annotates benign explanations, `[`budget`](modules.orchestrator_config.py.md#budget)`
 caps attempts and wall time, and `[`evidence_sha256`](#chainstep-evidence_sha256)` pins artefact
-integrity across re-runs.
+integrity across re-runs. `[`sleep`](#chainstep-sleep)` forces a fixed pre-next-step
+delay and `[`jitter`](#chainstep-jitter)` (percentage) randomises it on top of the
+orchestrator pacing.
 
 **Attributes**
 
@@ -145,6 +147,8 @@ integrity across re-runs.
 | [`evidence`](#chainstep-evidence) | `list[str]` | `field(default_factory=list)` |  |
 | [`evidence_sha256`](#chainstep-evidence_sha256) | `dict[str, str]` | `field(default_factory=dict)` |  |
 | [`budget`](#chainstep-budget) | `dict[str, int]` | `field(default_factory=dict)` |  |
+| [`sleep`](#chainstep-sleep) | `float` | `0.0` |  |
+| [`jitter`](#chainstep-jitter) | `float` | `0.0` |  |
 
 **Members**
 
@@ -156,7 +160,7 @@ integrity across re-runs.
 
 #### `ChainStep.identifier`
 
-`property` | [modules/chain_registry.py:146](../../modules/chain_registry.py#L146)
+`property` | [modules/chain_registry.py:152](../../modules/chain_registry.py#L152)
 
 Decorators: `@property`
 
@@ -174,7 +178,7 @@ Return the declared id or a stable generated one.
 
 ### `Chain`
 
-`class` `dataclass` | [modules/chain_registry.py:152](../../modules/chain_registry.py#L152)
+`class` `dataclass` | [modules/chain_registry.py:158](../../modules/chain_registry.py#L158)
 
 Decorators: `@dataclass`
 
@@ -213,7 +217,7 @@ A validated chain with defaults, variables and ordered steps.
 
 #### `Chain.resolve`
 
-`method` | [modules/chain_registry.py:170](../../modules/chain_registry.py#L170)
+`method` | [modules/chain_registry.py:176](../../modules/chain_registry.py#L176)
 
 ```python
 def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]
@@ -245,7 +249,7 @@ resolution after every capture so later steps see earlier output.
 
 ### `evaluate_when`
 
-`function` | [modules/chain_registry.py:291](../../modules/chain_registry.py#L291)
+`function` | [modules/chain_registry.py:297](../../modules/chain_registry.py#L297)
 
 ```python
 def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool
@@ -274,7 +278,7 @@ arithmetic are rejected. Undefined names resolve to an empty string.
 
 ### `validate_chain`
 
-`function` | [modules/chain_registry.py:356](../../modules/chain_registry.py#L356)
+`function` | [modules/chain_registry.py:362](../../modules/chain_registry.py#L362)
 
 ```python
 def validate_chain(data: Any, filename: str = '', chains_dir: Path | str | None = None) -> list[str]
@@ -292,7 +296,7 @@ Validate raw YAML data against the chain schema.
 
 **Returns:** `list[str]`
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`distill`](modules.chain_distill.py.md#distill), [`load_all`](#load_all), [`scan_all`](#scan_all), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`distill`](modules.chain_distill.py.md#distill), [`load_all`](#load_all), [`scan_all`](#scan_all), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain), [`playbook_to_chain`](modules.playbook_chain.py.md#playbook_to_chain)
 
 ---
 
@@ -300,7 +304,7 @@ Validate raw YAML data against the chain schema.
 
 ### `load_all`
 
-`function` | [modules/chain_registry.py:576](../../modules/chain_registry.py#L576)
+`function` | [modules/chain_registry.py:591](../../modules/chain_registry.py#L591)
 
 ```python
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]
@@ -330,7 +334,7 @@ Load every valid, enabled chain file (skips the rest loudly).
 
 ### `get`
 
-`function` | [modules/chain_registry.py:721](../../modules/chain_registry.py#L721)
+`function` | [modules/chain_registry.py:749](../../modules/chain_registry.py#L749)
 
 ```python
 def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None
@@ -355,7 +359,7 @@ Return one chain by name, or None.
 
 ### `scan_all`
 
-`function` | [modules/chain_registry.py:726](../../modules/chain_registry.py#L726)
+`function` | [modules/chain_registry.py:754](../../modules/chain_registry.py#L754)
 
 ```python
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]
@@ -385,7 +389,7 @@ List every chain file including disabled ones (for administration).
 
 ### `set_enabled`
 
-`function` | [modules/chain_registry.py:786](../../modules/chain_registry.py#L786)
+`function` | [modules/chain_registry.py:814](../../modules/chain_registry.py#L814)
 
 ```python
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool
@@ -415,7 +419,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 ### `generate_for_playbook`
 
-`function` | [modules/chain_registry.py:809](../../modules/chain_registry.py#L809)
+`function` | [modules/chain_registry.py:837](../../modules/chain_registry.py#L837)
 
 ```python
 def generate_for_playbook(engine_key: str, apt_display: str = '', description: str = '', chains_dir: Path | str = CHAINS_DIR, overwrite: bool = False) -> Path

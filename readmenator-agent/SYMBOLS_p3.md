@@ -1,13 +1,31 @@
-# Symbols (page 3 of 49)
+# Symbols (page 3 of 50)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_stormbreaker` | method | `cli/commands/lateral_migrated.py:777` | `def do_stormbreaker(self, line)` |
+| `do_targetedKerberoas` | method | `cli/commands/lateral_migrated.py:871` | `def do_targetedKerberoas(self, line)` |
+| `do_tord` | method | `cli/commands/lateral_migrated.py:369` | `def do_tord(self, line)` |
+| `do_upload_c2` | method | `cli/commands/lateral_migrated.py:1002` | `def do_upload_c2(self, line)` |
+| `do_vpn` | method | `cli/commands/lateral_migrated.py:29` | `def do_vpn(self, line)` |
+| `do_wifipass` | method | `cli/commands/lateral_migrated.py:199` | `def do_wifipass(self, line)` |
+| `do_wmiexecpro` | method | `cli/commands/lateral_migrated.py:1031` | `def do_wmiexecpro(self, line)` |
+| `install_wmiexecpro` | function | `cli/commands/lateral_migrated.py:1070` | `def install_wmiexecpro()` |
+| `LazyCredsCommandSet` | class | `cli/commands/lazy_creds.py:21` | `class LazyCredsCommandSet(LazyOwnCommandSet)` |
+| `do_lazycreds` | method | `cli/commands/lazy_creds.py:28` | `def do_lazycreds(self, line)` |
+| `LazyDorksCommandSet` | class | `cli/commands/lazy_dorks.py:30` | `class LazyDorksCommandSet(LazyOwnCommandSet)` |
+| `_slug` | function | `cli/commands/lazy_dorks.py:18` | `def _slug(domain)` |
 | `do_lazydork` | method | `cli/commands/lazy_dorks.py:37` | `def do_lazydork(self, line)` |
 | `LazyOobCommandSet` | class | `cli/commands/lazy_oob.py:22` | `class LazyOobCommandSet(LazyOwnCommandSet)` |
 | `do_lazyoob` | method | `cli/commands/lazy_oob.py:29` | `def do_lazyoob(self, line)` |
 | `LazyPassGenCommandSet` | class | `cli/commands/lazy_passgen.py:14` | `class LazyPassGenCommandSet(LazyOwnCommandSet)` |
 | `do_lazypassgen` | method | `cli/commands/lazy_passgen.py:21` | `def do_lazypassgen(self, line)` |
+| `LazyPocCommandSet` | class | `cli/commands/lazy_poc.py:20` | `class LazyPocCommandSet(LazyOwnCommandSet)` |
+| `_info` | method | `cli/commands/lazy_poc.py:82` | `def _info(self, registry, name)` |
+| `_list` | method | `cli/commands/lazy_poc.py:67` | `def _list(self, registry)` |
+| `_log_run` | method | `cli/commands/lazy_poc.py:155` | `def _log_run(self, verb, rendered, output, returncode)` |
+| `_run` | method | `cli/commands/lazy_poc.py:105` | `def _run(self, registry, name, target, overrides)` |
+| `do_lazy_poc` | method | `cli/commands/lazy_poc.py:25` | `def do_lazy_poc(self, line)` |
 | `LazyQueueCommandSet` | class | `cli/commands/lazyloop.py:29` | `class LazyQueueCommandSet(LazyOwnCommandSet)` |
 | `_engine` | function | `cli/commands/lazyloop.py:22` | `def _engine()` |
 | `do_lazy_approve` | method | `cli/commands/lazyloop.py:248` | `def do_lazy_approve(self, line)` |
@@ -63,6 +81,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_node` | method | `cli/commands/lazyops.py:1427` | `def do_lazy_node(self, line)` |
 | `do_lazy_notify` | method | `cli/commands/lazyops.py:2122` | `def do_lazy_notify(self, line)` |
 | `do_lazy_overview` | method | `cli/commands/lazyops.py:2492` | `def do_lazy_overview(self, line)` |
+| `do_lazy_pacing` | method | `cli/commands/lazyops.py:2812` | `def do_lazy_pacing(self, line)` |
 | `do_lazy_pause` | method | `cli/commands/lazyops.py:1303` | `def do_lazy_pause(self, line)` |
 | `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1387` | `def do_lazy_payload_keys(self, line)` |
 | `do_lazy_planner` | method | `cli/commands/lazyops.py:484` | `def do_lazy_planner(self, line)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_dmitry` | method | `cli/commands/scan.py:213` | `def do_dmitry(self, line)` |
 | `do_feroxbuster` | method | `cli/commands/scan.py:248` | `def do_feroxbuster(self, line)` |
 | `do_gobuster` | method | `cli/commands/scan.py:56` | `def do_gobuster(self, line)` |
-| `do_hostdiscover` | method | `cli/commands/scan.py:606` | `def do_hostdiscover(self, line)` |
-| `do_magicrecon` | method | `cli/commands/scan.py:548` | `def do_magicrecon(self, line)` |
-| `do_nmapscript` | method | `cli/commands/scan.py:316` | `def do_nmapscript(self, line)` |
-| `do_nuclei` | method | `cli/commands/scan.py:350` | `def do_nuclei(self, line)` |
-| `do_osmedeus` | method | `cli/commands/scan.py:473` | `def do_osmedeus(self, line)` |
-| `do_portdiscover` | method | `cli/commands/scan.py:664` | `def do_portdiscover(self, line)` |
-| `do_portservicediscover` | method | `cli/commands/scan.py:724` | `def do_portservicediscover(self, line)` |
-| `do_skipfish` | method | `cli/commands/scan.py:789` | `def do_skipfish(self, line)` |
-| `do_vscan` | method | `cli/commands/scan.py:839` | `def do_vscan(self, line)` |
-| `ScanMigratedCommandSet` | class | `cli/commands/scan_migrated.py:32` | `class ScanMigratedCommandSet(LazyOwnCommandSet)` |
-| `conficker_exploit` | function | `cli/commands/scan_migrated.py:582` | `def conficker_exploit(config_file, host, lhost, lport)` |
-| `do_ad_ldap_enum` | method | `cli/commands/scan_migrated.py:2715` | `def do_ad_ldap_enum(self, line)` |
-| `do_allin` | method | `cli/commands/scan_migrated.py:1241` | `def do_allin(self, line)` |
-| `do_arjun` | method | `cli/commands/scan_migrated.py:1501` | `def do_arjun(self, line)` |
-| `do_blazy` | method | `cli/commands/scan_migrated.py:1722` | `def do_blazy(self, line)` |
-| `do_bloodhound` | method | `cli/commands/scan_migrated.py:218` | `def do_bloodhound(self, line)` |
-| `do_breacher` | method | `cli/commands/scan_migrated.py:1840` | `def do_breacher(self, line)` |
-| `do_certipy` | method | `cli/commands/scan_migrated.py:2584` | `def do_certipy(self, line)` |
-| `do_certipy_ad` | method | `cli/commands/scan_migrated.py:2520` | `def do_certipy_ad(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

@@ -20,10 +20,12 @@ import pytest
 @pytest.fixture()
 def store(tmp_path, monkeypatch):
     """Sandbox the lazy store for every test in this module."""
+    import core.config as core_config
     import modules.lazy_loop as loop
 
     monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+    monkeypatch.setattr(core_config, "load_payload", lambda *a, **k: {})
     return tmp_path
 
 
@@ -1416,7 +1418,7 @@ def test_lazynmap_routing_and_steps(store):
         engine.store,
         shell=_Shell(),
     )
-    assert worker._steps_for(intent) == ["ping -c 1 -W 2 127.0.0.1 2>&1", "lazynmap 127.0.0.1"]
+    assert worker._steps_for(intent) == ["ping 127.0.0.1", "lazynmap 127.0.0.1"]
     output = worker._run("lazynmap 127.0.0.1", None)
     assert "scanned" in output
     assert seen == ["lazynmap 127.0.0.1"]

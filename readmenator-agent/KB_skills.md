@@ -125,25 +125,27 @@ Pages: [KB_skills.md](KB_skills.md), [KB_skills_p2.md](KB_skills_p2.md), [KB_ski
   - `mcp_engage_list_pending` (function, line 4307) `def mcp_engage_list_pending()`
   - `cmd_engage` (function, line 4325) `def cmd_engage(target, max_switches_per_step, detach)`
   - `_write_status` (function, line 4353) `def _write_status()`
-  - `objective_loop` (function, line 4364) `def objective_loop(max_steps, loop)`
-  - `world_model_watcher` (function, line 4507) `def world_model_watcher(loop)`
-  - `heartbeat_loop` (function, line 4700) `def heartbeat_loop()`
-  - `_main_async` (function, line 4748) `def _main_async(max_steps)`
-  - `_write_pid` (function, line 4799) `def _write_pid()`
-  - `_clear_pid` (function, line 4804) `def _clear_pid()`
-  - `_read_pid` (function, line 4809) `def _read_pid()`
-  - `_is_running` (function, line 4816) `def _is_running()`
-  - `cmd_run` (function, line 4827) `def cmd_run(max_steps)`
-  - `cmd_start` (function, line 4836) `def cmd_start(max_steps)`
-  - `cmd_stop` (function, line 4866) `def cmd_stop()`
-  - `cmd_status` (function, line 4883) `def cmd_status()`
-  - `cmd_inject` (function, line 4899) `def cmd_inject(text, priority)`
-  - `mcp_autonomous_start` (function, line 4933) `def mcp_autonomous_start(max_steps, backend)`
-  - `mcp_autonomous_stop` (function, line 4975) `def mcp_autonomous_stop()`
-  - `mcp_autonomous_status` (function, line 4991) `def mcp_autonomous_status()`
-  - `mcp_autonomous_inject` (function, line 5004) `def mcp_autonomous_inject(text, priority, target)`
-  - `mcp_autonomous_events` (function, line 5048) `def mcp_autonomous_events(last_n)`
-  - `_dispatch_pipeline` (function, line 5079) `def _dispatch_pipeline(args)`
+  - `_build_drafts_engine` (function, line 4364) `def _build_drafts_engine()`
+  - `_drain_drafts` (function, line 4381) `def _drain_drafts(engine)`
+  - `objective_loop` (function, line 4401) `def objective_loop(max_steps, loop)`
+  - `world_model_watcher` (function, line 4548) `def world_model_watcher(loop)`
+  - `heartbeat_loop` (function, line 4741) `def heartbeat_loop()`
+  - `_main_async` (function, line 4789) `def _main_async(max_steps)`
+  - `_write_pid` (function, line 4840) `def _write_pid()`
+  - `_clear_pid` (function, line 4845) `def _clear_pid()`
+  - `_read_pid` (function, line 4850) `def _read_pid()`
+  - `_is_running` (function, line 4857) `def _is_running()`
+  - `cmd_run` (function, line 4868) `def cmd_run(max_steps)`
+  - `cmd_start` (function, line 4877) `def cmd_start(max_steps)`
+  - `cmd_stop` (function, line 4907) `def cmd_stop()`
+  - `cmd_status` (function, line 4924) `def cmd_status()`
+  - `cmd_inject` (function, line 4940) `def cmd_inject(text, priority)`
+  - `mcp_autonomous_start` (function, line 4974) `def mcp_autonomous_start(max_steps, backend)`
+  - `mcp_autonomous_stop` (function, line 5016) `def mcp_autonomous_stop()`
+  - `mcp_autonomous_status` (function, line 5032) `def mcp_autonomous_status()`
+  - `mcp_autonomous_inject` (function, line 5045) `def mcp_autonomous_inject(text, priority, target)`
+  - `mcp_autonomous_events` (function, line 5089) `def mcp_autonomous_events(last_n)`
+  - `_dispatch_pipeline` (function, line 5120) `def _dispatch_pipeline(args)`
   - `run` (method, line 431) `def run(self, command, timeout)`
   - `name` (method, line 436) `def name(self)`
   - `name` (method, line 487) `def name(self)`
@@ -211,10 +213,10 @@ Pages: [KB_skills.md](KB_skills.md), [KB_skills_p2.md](KB_skills_p2.md), [KB_ski
   - `_execute` (method, line 4059) `def _execute(self, command, timeout_s)`
   - `_step_succeeded` (method, line 4065) `def _step_succeeded(command, output)`
   - `_worker` (function, line 4220) `def _worker()`
-  - `_run` (function, line 4947) `def _run()`
+  - `_run` (function, line 4988) `def _run()`
   - `_ask_via` (function, line 933) `def _ask_via(_backend, _goal, _key)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/goals.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/orchestrator_config.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
-- Imported by: `cli/commands/database.py`, `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_chain_selector.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_engage_orchestrator.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/goals.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_engine.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/orchestrator_config.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
+- Imported by: `cli/commands/database.py`, `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_chain_selector.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_engage_orchestrator.py`, `tests/test_loop_objective_wiring.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
 
 ## skills/autonomous_replay.py
 - Doc: Deterministic replay of past autonomous-daemon runs.

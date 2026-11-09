@@ -44,11 +44,11 @@ classDiagram
     OrchestratorAssetsMixin : generate_chain()
     OrchestratorAssetsMixin : remove_chain()
     OrchestratorAssetsMixin : on_data_table_row_highlighted()
+    OrchestratorAssetsMixin : seed_triggers_from_yaml()
     OrchestratorAssetsMixin : toggle_trigger()
     OrchestratorAssetsMixin : remove_trigger()
     OrchestratorAssetsMixin : add_trigger()
     OrchestratorAssetsMixin : trigger_kind_options()
-    OrchestratorAssetsMixin : save_config()
 ```
 
 ## Call Graph
@@ -146,7 +146,7 @@ One editable payload knob.
 
 ### `OrchestratorAssetsMixin`
 
-`class` | [cli/orchestrator_assets_tabs.py:71](../../cli/orchestrator_assets_tabs.py#L71)
+`class` | [cli/orchestrator_assets_tabs.py:104](../../cli/orchestrator_assets_tabs.py#L104)
 
 ```python
 class OrchestratorAssetsMixin
@@ -179,6 +179,7 @@ Tab controllers for Playbooks, Gyms, Chains and Profiles tabs.
 | [`generate_chain`](#orchestratorassetsmixin-generate_chain) | method | Generate chains/apt_<slug>.yaml from a playbook engine key. |
 | [`remove_chain`](#orchestratorassetsmixin-remove_chain) | method | Delete a chain file unless others extend it or it is the base. |
 | [`on_data_table_row_highlighted`](#orchestratorassetsmixin-on_data_table_row_highlighted) | method | Refresh the detail pane when the cursor moves. |
+| [`seed_triggers_from_yaml`](#orchestratorassetsmixin-seed_triggers_from_yaml) | method | Seed triggers from config/orchestrator.yaml into the store. |
 | [`toggle_trigger`](#orchestratorassetsmixin-toggle_trigger) | method | Flip one trigger's enabled flag in the store. |
 | [`remove_trigger`](#orchestratorassetsmixin-remove_trigger) | method | Delete one trigger from the store. |
 | [`add_trigger`](#orchestratorassetsmixin-add_trigger) | method | Add a scheduler trigger entered from the picker form. |
@@ -198,7 +199,7 @@ Tab controllers for Playbooks, Gyms, Chains and Profiles tabs.
 
 #### `OrchestratorAssetsMixin.playbook_rows`
 
-`method` | [cli/orchestrator_assets_tabs.py:82](../../cli/orchestrator_assets_tabs.py#L82)
+`method` | [cli/orchestrator_assets_tabs.py:115](../../cli/orchestrator_assets_tabs.py#L115)
 
 ```python
 def playbook_rows(self) -> list[dict]
@@ -216,7 +217,7 @@ Return one row per playbook file, including invalid ones.
 
 #### `OrchestratorAssetsMixin.playbook_preview`
 
-`method` | [cli/orchestrator_assets_tabs.py:106](../../cli/orchestrator_assets_tabs.py#L106)
+`method` | [cli/orchestrator_assets_tabs.py:139](../../cli/orchestrator_assets_tabs.py#L139)
 
 ```python
 def playbook_preview(self, filename: str, limit: int = 18) -> str
@@ -239,7 +240,7 @@ Return a bounded YAML preview for one playbook file.
 
 #### `OrchestratorAssetsMixin.create_playbook_file`
 
-`method` | [cli/orchestrator_assets_tabs.py:115](../../cli/orchestrator_assets_tabs.py#L115)
+`method` | [cli/orchestrator_assets_tabs.py:148](../../cli/orchestrator_assets_tabs.py#L148)
 
 ```python
 def create_playbook_file(self, filename: str, name: str = '', description: str = '', platforms: str = 'linux') -> str
@@ -266,7 +267,7 @@ Create one playbook YAML and repaint the table.
 
 #### `OrchestratorAssetsMixin.save_playbook_text`
 
-`method` | [cli/orchestrator_assets_tabs.py:136](../../cli/orchestrator_assets_tabs.py#L136)
+`method` | [cli/orchestrator_assets_tabs.py:169](../../cli/orchestrator_assets_tabs.py#L169)
 
 ```python
 def save_playbook_text(self, filename: str, text: str) -> bool
@@ -289,7 +290,7 @@ Validate and persist raw YAML edited by the operator.
 
 #### `OrchestratorAssetsMixin.delete_playbook_file`
 
-`method` | [cli/orchestrator_assets_tabs.py:148](../../cli/orchestrator_assets_tabs.py#L148)
+`method` | [cli/orchestrator_assets_tabs.py:181](../../cli/orchestrator_assets_tabs.py#L181)
 
 ```python
 def delete_playbook_file(self, filename: str) -> bool
@@ -313,7 +314,7 @@ Delete one playbook YAML after the operator confirms.
 
 #### `OrchestratorAssetsMixin.playbook_candidates`
 
-`method` | [cli/orchestrator_assets_tabs.py:156](../../cli/orchestrator_assets_tabs.py#L156)
+`method` | [cli/orchestrator_assets_tabs.py:189](../../cli/orchestrator_assets_tabs.py#L189)
 
 ```python
 def playbook_candidates(self) -> list[tuple[str, str]]
@@ -331,7 +332,7 @@ Return ``(engine_key, summary)`` pairs for chain generation.
 
 #### `OrchestratorAssetsMixin.gym_rows`
 
-`method` | [cli/orchestrator_assets_tabs.py:239](../../cli/orchestrator_assets_tabs.py#L239)
+`method` | [cli/orchestrator_assets_tabs.py:272](../../cli/orchestrator_assets_tabs.py#L272)
 
 ```python
 def gym_rows(self) -> list[dict]
@@ -349,7 +350,7 @@ Return one row per gym definition with its active-run count.
 
 #### `OrchestratorAssetsMixin.gym_preview`
 
-`method` | [cli/orchestrator_assets_tabs.py:276](../../cli/orchestrator_assets_tabs.py#L276)
+`method` | [cli/orchestrator_assets_tabs.py:309](../../cli/orchestrator_assets_tabs.py#L309)
 
 ```python
 def gym_preview(self, gym_id: str, limit: int = 16) -> str
@@ -372,7 +373,7 @@ Return a bounded YAML preview for one gym definition.
 
 #### `OrchestratorAssetsMixin.start_gym`
 
-`method` | [cli/orchestrator_assets_tabs.py:344](../../cli/orchestrator_assets_tabs.py#L344)
+`method` | [cli/orchestrator_assets_tabs.py:377](../../cli/orchestrator_assets_tabs.py#L377)
 
 ```python
 def start_gym(self, gym_id: str, target: str = '') -> dict
@@ -397,7 +398,7 @@ Start one gym and repaint the table.
 
 #### `OrchestratorAssetsMixin.stop_gym`
 
-`method` | [cli/orchestrator_assets_tabs.py:352](../../cli/orchestrator_assets_tabs.py#L352)
+`method` | [cli/orchestrator_assets_tabs.py:385](../../cli/orchestrator_assets_tabs.py#L385)
 
 ```python
 def stop_gym(self, selector: str = '') -> dict
@@ -421,7 +422,7 @@ Stop one gym (or every gym when selector is empty) and repaint.
 
 #### `OrchestratorAssetsMixin.toggle_gym`
 
-`method` | [cli/orchestrator_assets_tabs.py:360](../../cli/orchestrator_assets_tabs.py#L360)
+`method` | [cli/orchestrator_assets_tabs.py:393](../../cli/orchestrator_assets_tabs.py#L393)
 
 ```python
 def toggle_gym(self, gym_id: str) -> dict
@@ -445,7 +446,7 @@ Start the selected gym, or stop its active runs when already active.
 
 #### `OrchestratorAssetsMixin.profile_rows`
 
-`method` | [cli/orchestrator_assets_tabs.py:402](../../cli/orchestrator_assets_tabs.py#L402)
+`method` | [cli/orchestrator_assets_tabs.py:435](../../cli/orchestrator_assets_tabs.py#L435)
 
 ```python
 def profile_rows(self) -> list[dict]
@@ -459,7 +460,7 @@ Return one row per orchestrator profile with the active marker.
 
 #### `OrchestratorAssetsMixin.activate_profile`
 
-`method` | [cli/orchestrator_assets_tabs.py:427](../../cli/orchestrator_assets_tabs.py#L427)
+`method` | [cli/orchestrator_assets_tabs.py:460](../../cli/orchestrator_assets_tabs.py#L460)
 
 ```python
 def activate_profile(self, name: str) -> bool
@@ -481,7 +482,7 @@ Persist one profile as active and repaint the profile table.
 
 #### `OrchestratorAssetsMixin.chain_rows`
 
-`method` | [cli/orchestrator_assets_tabs.py:487](../../cli/orchestrator_assets_tabs.py#L487)
+`method` | [cli/orchestrator_assets_tabs.py:520](../../cli/orchestrator_assets_tabs.py#L520)
 
 ```python
 def chain_rows(self) -> list[dict]
@@ -497,7 +498,7 @@ Return one row per chain file, including disabled ones.
 
 #### `OrchestratorAssetsMixin.chain_steps_preview`
 
-`method` | [cli/orchestrator_assets_tabs.py:496](../../cli/orchestrator_assets_tabs.py#L496)
+`method` | [cli/orchestrator_assets_tabs.py:529](../../cli/orchestrator_assets_tabs.py#L529)
 
 ```python
 def chain_steps_preview(self, name: str, limit: int = 10) -> str
@@ -520,7 +521,7 @@ Return the resolved step lines of a chain for the detail pane.
 
 #### `OrchestratorAssetsMixin.toggle_chain`
 
-`method` | [cli/orchestrator_assets_tabs.py:513](../../cli/orchestrator_assets_tabs.py#L513)
+`method` | [cli/orchestrator_assets_tabs.py:546](../../cli/orchestrator_assets_tabs.py#L546)
 
 ```python
 def toggle_chain(self, name: str) -> bool
@@ -544,7 +545,7 @@ Flip a chain's enabled flag in its YAML file.
 
 #### `OrchestratorAssetsMixin.generate_chain`
 
-`method` | [cli/orchestrator_assets_tabs.py:524](../../cli/orchestrator_assets_tabs.py#L524)
+`method` | [cli/orchestrator_assets_tabs.py:557](../../cli/orchestrator_assets_tabs.py#L557)
 
 ```python
 def generate_chain(self, playbook_key: str) -> str
@@ -568,7 +569,7 @@ Generate chains/apt_<slug>.yaml from a playbook engine key.
 
 #### `OrchestratorAssetsMixin.remove_chain`
 
-`method` | [cli/orchestrator_assets_tabs.py:538](../../cli/orchestrator_assets_tabs.py#L538)
+`method` | [cli/orchestrator_assets_tabs.py:571](../../cli/orchestrator_assets_tabs.py#L571)
 
 ```python
 def remove_chain(self, name: str) -> bool
@@ -595,7 +596,7 @@ for any parent with children — edit or disable those instead.
 
 #### `OrchestratorAssetsMixin.on_data_table_row_highlighted`
 
-`method` | [cli/orchestrator_assets_tabs.py:594](../../cli/orchestrator_assets_tabs.py#L594)
+`method` | [cli/orchestrator_assets_tabs.py:627](../../cli/orchestrator_assets_tabs.py#L627)
 
 ```python
 def on_data_table_row_highlighted(self, event: DataTable.RowHighlighted) -> None
@@ -609,11 +610,29 @@ Refresh the detail pane when the cursor moves.
 |---|---|---|---|
 | `event` | `DataTable.RowHighlighted` |  |  |
 
+<a id="orchestratorassetsmixin-seed_triggers_from_yaml"></a>
+
+#### `OrchestratorAssetsMixin.seed_triggers_from_yaml`
+
+`method` | [cli/orchestrator_assets_tabs.py:668](../../cli/orchestrator_assets_tabs.py#L668)
+
+```python
+def seed_triggers_from_yaml(self) -> dict
+```
+
+Seed triggers from config/orchestrator.yaml into the store.
+
+**Returns:** `dict`
+
+*Calls:* [`TriggerStore.__init__`](modules.loop_triggers.py.md#triggerstore-__init__), [`read_policy`](modules.trigger_policy.py.md#read_policy), [`seed_store`](modules.trigger_policy.py.md#seed_store)
+
+*Called by:* [`LazyOrchestratorApp.action_seed_triggers`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-action_seed_triggers)
+
 <a id="orchestratorassetsmixin-toggle_trigger"></a>
 
 #### `OrchestratorAssetsMixin.toggle_trigger`
 
-`method` | [cli/orchestrator_assets_tabs.py:648](../../cli/orchestrator_assets_tabs.py#L648)
+`method` | [cli/orchestrator_assets_tabs.py:694](../../cli/orchestrator_assets_tabs.py#L694)
 
 ```python
 def toggle_trigger(self, trigger_id: int) -> bool
@@ -637,7 +656,7 @@ Flip one trigger's enabled flag in the store.
 
 #### `OrchestratorAssetsMixin.remove_trigger`
 
-`method` | [cli/orchestrator_assets_tabs.py:658](../../cli/orchestrator_assets_tabs.py#L658)
+`method` | [cli/orchestrator_assets_tabs.py:704](../../cli/orchestrator_assets_tabs.py#L704)
 
 ```python
 def remove_trigger(self, trigger_id: int) -> bool
@@ -661,7 +680,7 @@ Delete one trigger from the store.
 
 #### `OrchestratorAssetsMixin.add_trigger`
 
-`method` | [cli/orchestrator_assets_tabs.py:666](../../cli/orchestrator_assets_tabs.py#L666)
+`method` | [cli/orchestrator_assets_tabs.py:712](../../cli/orchestrator_assets_tabs.py#L712)
 
 ```python
 def add_trigger(self, kind: str, every_sec: str = '', arg: str = '') -> dict
@@ -687,7 +706,7 @@ Add a scheduler trigger entered from the picker form.
 
 #### `OrchestratorAssetsMixin.trigger_kind_options`
 
-`method` | [cli/orchestrator_assets_tabs.py:678](../../cli/orchestrator_assets_tabs.py#L678)
+`method` | [cli/orchestrator_assets_tabs.py:724](../../cli/orchestrator_assets_tabs.py#L724)
 
 ```python
 def trigger_kind_options(self) -> list[tuple[str, str]]
@@ -703,7 +722,7 @@ Return selectable trigger kinds for the add form.
 
 #### `OrchestratorAssetsMixin.save_config`
 
-`method` | [cli/orchestrator_assets_tabs.py:745](../../cli/orchestrator_assets_tabs.py#L745)
+`method` | [cli/orchestrator_assets_tabs.py:791](../../cli/orchestrator_assets_tabs.py#L791)
 
 ```python
 def save_config(self, values: dict) -> dict
@@ -727,7 +746,7 @@ Merge the given keys into the payload and persist it.
 
 #### `OrchestratorAssetsMixin.add_model_member`
 
-`method` | [cli/orchestrator_assets_tabs.py:767](../../cli/orchestrator_assets_tabs.py#L767)
+`method` | [cli/orchestrator_assets_tabs.py:813](../../cli/orchestrator_assets_tabs.py#L813)
 
 ```python
 def add_model_member(self, name: str, model: str, priority: str = '0') -> str
@@ -753,7 +772,7 @@ Append one LLM chain member; returns the stored name.
 
 #### `OrchestratorAssetsMixin.remove_model_member`
 
-`method` | [cli/orchestrator_assets_tabs.py:775](../../cli/orchestrator_assets_tabs.py#L775)
+`method` | [cli/orchestrator_assets_tabs.py:821](../../cli/orchestrator_assets_tabs.py#L821)
 
 ```python
 def remove_model_member(self, name: str) -> bool
@@ -777,7 +796,7 @@ Drop one LLM chain member by name.
 
 #### `OrchestratorAssetsMixin.set_model_priority`
 
-`method` | [cli/orchestrator_assets_tabs.py:783](../../cli/orchestrator_assets_tabs.py#L783)
+`method` | [cli/orchestrator_assets_tabs.py:829](../../cli/orchestrator_assets_tabs.py#L829)
 
 ```python
 def set_model_priority(self, name: str, priority: str = '0') -> bool
@@ -802,7 +821,7 @@ Change one LLM member's failover rank and repaint the table.
 
 #### `OrchestratorAssetsMixin.set_harness`
 
-`method` | [cli/orchestrator_assets_tabs.py:795](../../cli/orchestrator_assets_tabs.py#L795)
+`method` | [cli/orchestrator_assets_tabs.py:841](../../cli/orchestrator_assets_tabs.py#L841)
 
 ```python
 def set_harness(self, enabled: bool) -> dict
@@ -827,7 +846,7 @@ form with ``{"error": "..."}`` when persistence fails.
 
 #### `OrchestratorAssetsMixin.add_guard_rule`
 
-`method` | [cli/orchestrator_assets_tabs.py:820](../../cli/orchestrator_assets_tabs.py#L820)
+`method` | [cli/orchestrator_assets_tabs.py:866](../../cli/orchestrator_assets_tabs.py#L866)
 
 ```python
 def add_guard_rule(self, pattern: str, action: str = 'ask', reason: str = '') -> bool
@@ -853,7 +872,7 @@ Register one guard intercept rule.
 
 #### `OrchestratorAssetsMixin.remove_guard_rule`
 
-`method` | [cli/orchestrator_assets_tabs.py:828](../../cli/orchestrator_assets_tabs.py#L828)
+`method` | [cli/orchestrator_assets_tabs.py:874](../../cli/orchestrator_assets_tabs.py#L874)
 
 ```python
 def remove_guard_rule(self, pattern: str) -> bool
@@ -877,7 +896,7 @@ Delete one guard rule by exact pattern.
 
 #### `OrchestratorAssetsMixin.save_guardrails`
 
-`method` | [cli/orchestrator_assets_tabs.py:879](../../cli/orchestrator_assets_tabs.py#L879)
+`method` | [cli/orchestrator_assets_tabs.py:925](../../cli/orchestrator_assets_tabs.py#L925)
 
 ```python
 def save_guardrails(self, values: dict) -> dict
@@ -899,7 +918,7 @@ Merge harness settings into payload and reconfigure the harness.
 
 #### `OrchestratorAssetsMixin.warm_restart_harness`
 
-`method` | [cli/orchestrator_assets_tabs.py:925](../../cli/orchestrator_assets_tabs.py#L925)
+`method` | [cli/orchestrator_assets_tabs.py:971](../../cli/orchestrator_assets_tabs.py#L971)
 
 ```python
 def warm_restart_harness(self) -> dict
@@ -917,7 +936,7 @@ Run the harness warm restart and repaint the table.
 
 #### `OrchestratorAssetsMixin.rearm_harness`
 
-`method` | [cli/orchestrator_assets_tabs.py:937](../../cli/orchestrator_assets_tabs.py#L937)
+`method` | [cli/orchestrator_assets_tabs.py:983](../../cli/orchestrator_assets_tabs.py#L983)
 
 ```python
 def rearm_harness(self) -> dict

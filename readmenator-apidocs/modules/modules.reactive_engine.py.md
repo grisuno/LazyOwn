@@ -965,7 +965,7 @@ def get_engine() -> ReactiveEngine
 
 *Calls:* [`ReactiveEngine.__init__`](#reactiveengine-__init__)
 
-*Called by:* [`build_reactive_replanner`](cli.apt_chain_support.py.md#build_reactive_replanner)
+*Called by:* [`build_reactive_replanner`](cli.apt_chain_support.py.md#build_reactive_replanner), [`EngineMediator.analyse`](modules.mediation.engine_mediator.py.md#enginemediator-analyse)
 
 ---
 

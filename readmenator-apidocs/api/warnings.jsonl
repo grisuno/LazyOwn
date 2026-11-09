@@ -111,6 +111,17 @@
 {"code":"DOC003","uid":"cli/commands/exploit_migrated.py::ExploitMigratedCommandSet.do_unicode_WAFbypass","file":"cli/commands/exploit_migrated.py","line":1869,"message":"documented parameter 'ip_address' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass"}
 {"code":"DOC003","uid":"cli/commands/exploit_migrated.py::ExploitMigratedCommandSet.do_unicode_WAFbypass","file":"cli/commands/exploit_migrated.py","line":1869,"message":"documented parameter 'port' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass"}
 {"code":"DOC003","uid":"cli/commands/exploit_migrated.py::ExploitMigratedCommandSet.do_unicode_WAFbypass","file":"cli/commands/exploit_migrated.py","line":1869,"message":"documented parameter 'ssh_public_key' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py","file":"cli/commands/exploitdb.py","line":1,"message":"module cli/commands/exploitdb.py is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands","file":"cli/commands/exploitdb.py","line":11,"message":"class ExploitdbCommands is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_sync","file":"cli/commands/exploitdb.py","line":19,"message":"method ExploitdbCommands.do_exploitdb_sync is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_scan","file":"cli/commands/exploitdb.py","line":33,"message":"method ExploitdbCommands.do_exploitdb_scan is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_gen","file":"cli/commands/exploitdb.py","line":45,"message":"method ExploitdbCommands.do_exploitdb_gen is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_cscan","file":"cli/commands/exploitdb.py","line":76,"message":"method ExploitdbCommands.do_exploitdb_cscan is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_ccompile","file":"cli/commands/exploitdb.py","line":87,"message":"method ExploitdbCommands.do_exploitdb_ccompile is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands","file":"cli/commands/exploitdb.py","line":94,"message":"class ExploitdbCCommands is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_cscan","file":"cli/commands/exploitdb.py","line":99,"message":"method ExploitdbCCommands.do_exploitdb_cscan is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_ccompile","file":"cli/commands/exploitdb.py","line":110,"message":"method ExploitdbCCommands.do_exploitdb_ccompile is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_run","file":"cli/commands/exploitdb.py","line":124,"message":"method ExploitdbCCommands.do_exploitdb_run is not documented"}
 {"code":"DOC001","uid":"cli/commands/lateral_migrated.py::LateralMigratedCommandSet","file":"cli/commands/lateral_migrated.py","line":24,"message":"class LateralMigratedCommandSet is not documented"}
 {"code":"DOC001","uid":"cli/commands/lazyops.py::LazyCommandSet.do_lazy_intent","file":"cli/commands/lazyops.py","line":655,"message":"method LazyCommandSet.do_lazy_intent is not documented"}
 {"code":"DOC001","uid":"cli/commands/lazyops.py::LazyCommandSet.do_lazy_finding","file":"cli/commands/lazyops.py","line":1195,"message":"method LazyCommandSet.do_lazy_finding is not documented"}
@@ -465,6 +476,9 @@
 {"code":"DOC001","uid":"discord_c2.py::c2","file":"discord_c2.py","line":283,"message":"function c2 is not documented"}
 {"code":"DOC001","uid":"fast_run_as_r00t.sh::spin","file":"fast_run_as_r00t.sh","line":60,"message":"function spin is not documented"}
 {"code":"DOC001","uid":"fast_run_as_r00t.sh::err_box","file":"fast_run_as_r00t.sh","line":61,"message":"function err_box is not documented"}
+{"code":"DOC001","uid":"gyms/docker/php2shell/src/index.php","file":"gyms/docker/php2shell/src/index.php","line":1,"message":"module gyms/docker/php2shell/src/index.php is not documented"}
+{"code":"DOC001","uid":"gyms/docker/php2shell/src/info.php","file":"gyms/docker/php2shell/src/info.php","line":1,"message":"module gyms/docker/php2shell/src/info.php is not documented"}
+{"code":"DOC001","uid":"gyms/docker/php2shell/www/index.php","file":"gyms/docker/php2shell/www/index.php","line":1,"message":"module gyms/docker/php2shell/www/index.php is not documented"}
 {"code":"DOC001","uid":"install.sh::usage","file":"install.sh","line":49,"message":"function usage is not documented"}
 {"code":"DOC001","uid":"install.sh::log","file":"install.sh","line":88,"message":"function log is not documented"}
 {"code":"DOC001","uid":"install.sh::spin_run","file":"install.sh","line":98,"message":"function spin_run is not documented"}
@@ -720,7 +734,8 @@
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
 {"code":"DOC001","uid":"modules/CVE-2018-15133.php","file":"modules/CVE-2018-15133.php","line":1,"message":"module modules/CVE-2018-15133.php is not documented"}
 {"code":"DOC001","uid":"modules/CVE-2023-28432.py","file":"modules/CVE-2023-28432.py","line":1,"message":"module modules/CVE-2023-28432.py is not documented"}
-{"code":"DOC001","uid":"modules/CVE-2023-28432.py::poc","file":"modules/CVE-2023-28432.py","line":12,"message":"function poc is not documented"}
+{"code":"DOC001","uid":"modules/CVE-2023-28432.py::poc","file":"modules/CVE-2023-28432.py","line":13,"message":"function poc is not documented"}
+{"code":"DOC001","uid":"modules/CVE-2023-28432.py::run_urls","file":"modules/CVE-2023-28432.py","line":46,"message":"function run_urls is not documented"}
 {"code":"DOC001","uid":"modules/LazyOwnExplorer.py::AutocompleteEntry","file":"modules/LazyOwnExplorer.py","line":30,"message":"class AutocompleteEntry is not documented"}
 {"code":"DOC001","uid":"modules/LazyOwnExplorer.py::AutocompleteEntry.__init__","file":"modules/LazyOwnExplorer.py","line":31,"message":"constructor AutocompleteEntry.__init__ is not documented"}
 {"code":"DOC001","uid":"modules/LazyOwnExplorer.py::AutocompleteEntry.changed","file":"modules/LazyOwnExplorer.py","line":45,"message":"method AutocompleteEntry.changed is not documented"}
@@ -766,12 +781,12 @@
 {"code":"DOC001","uid":"modules/amt_auth_bypass.py::BlankAuthResponse.request","file":"modules/amt_auth_bypass.py","line":11,"message":"method BlankAuthResponse.request is not documented"}
 {"code":"DOC001","uid":"modules/apt_playbooks.py::AtomicTestRef","file":"modules/apt_playbooks.py","line":41,"message":"class AtomicTestRef is not documented"}
 {"code":"DOC001","uid":"modules/apt_playbooks.py::CalderaAbilityRef","file":"modules/apt_playbooks.py","line":48,"message":"class CalderaAbilityRef is not documented"}
-{"code":"DOC001","uid":"modules/apt_playbooks.py::PhaseStep","file":"modules/apt_playbooks.py","line":54,"message":"class PhaseStep is not documented"}
-{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybook","file":"modules/apt_playbooks.py","line":65,"message":"class AptPlaybook is not documented"}
-{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybook.from_dict","file":"modules/apt_playbooks.py","line":74,"message":"classmethod AptPlaybook.from_dict is not documented"}
-{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybook.to_summary","file":"modules/apt_playbooks.py","line":99,"message":"method AptPlaybook.to_summary is not documented"}
-{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybookEngine.list_playbooks","file":"modules/apt_playbooks.py","line":131,"message":"method AptPlaybookEngine.list_playbooks is not documented"}
-{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybookEngine.get","file":"modules/apt_playbooks.py","line":134,"message":"method AptPlaybookEngine.get is not documented"}
+{"code":"DOC001","uid":"modules/apt_playbooks.py::PhaseStep","file":"modules/apt_playbooks.py","line":116,"message":"class PhaseStep is not documented"}
+{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybook","file":"modules/apt_playbooks.py","line":128,"message":"class AptPlaybook is not documented"}
+{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybook.from_dict","file":"modules/apt_playbooks.py","line":137,"message":"classmethod AptPlaybook.from_dict is not documented"}
+{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybook.to_summary","file":"modules/apt_playbooks.py","line":163,"message":"method AptPlaybook.to_summary is not documented"}
+{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybookEngine.list_playbooks","file":"modules/apt_playbooks.py","line":196,"message":"method AptPlaybookEngine.list_playbooks is not documented"}
+{"code":"DOC001","uid":"modules/apt_playbooks.py::AptPlaybookEngine.get","file":"modules/apt_playbooks.py","line":199,"message":"method AptPlaybookEngine.get is not documented"}
 {"code":"DOC004","uid":"modules/atomic_exploit_bridge.py::rank","file":"modules/atomic_exploit_bridge.py","line":476,"message":"return value of rank is not documented"}
 {"code":"DOC004","uid":"modules/atomic_resolver.py::normalize_guid","file":"modules/atomic_resolver.py","line":93,"message":"return value of normalize_guid is not documented"}
 {"code":"DOC004","uid":"modules/atomic_resolver.py::normalize_platform","file":"modules/atomic_resolver.py","line":118,"message":"return value of normalize_platform is not documented"}
@@ -806,7 +821,7 @@
 {"code":"DOC001","uid":"modules/auto_purple.py::IPurpleEvaluator.category_accuracy","file":"modules/auto_purple.py","line":217,"message":"method IPurpleEvaluator.category_accuracy is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.last_results","file":"modules/auto_purple.py","line":596,"message":"method PurpleTeamLoop.last_results is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.category_accuracy","file":"modules/auto_purple.py","line":599,"message":"method PurpleTeamLoop.category_accuracy is not documented"}
-{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":971,"message":"return value of execute_shell_verb is not documented"}
+{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1015,"message":"return value of execute_shell_verb is not documented"}
 {"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":134,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/aws_attacks.py::AWSAttackEngine.summary","file":"modules/aws_attacks.py","line":293,"message":"method AWSAttackEngine.summary is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c","file":"modules/backdoor/backdoor.c","line":1,"message":"module modules/backdoor/backdoor.c is not documented"}
@@ -832,7 +847,7 @@
 {"code":"DOC001","uid":"modules/cal.sh","file":"modules/cal.sh","line":1,"message":"module modules/cal.sh is not documented"}
 {"code":"DOC001","uid":"modules/cgi-bin/lazywebshell.py","file":"modules/cgi-bin/lazywebshell.py","line":1,"message":"module modules/cgi-bin/lazywebshell.py is not documented"}
 {"code":"DOC001","uid":"modules/cgi-bin/lazywebshell.sh","file":"modules/cgi-bin/lazywebshell.sh","line":1,"message":"module modules/cgi-bin/lazywebshell.sh is not documented"}
-{"code":"DOC004","uid":"modules/chain_synth.py::synth_chain_data","file":"modules/chain_synth.py","line":89,"message":"return value of synth_chain_data is not documented"}
+{"code":"DOC004","uid":"modules/chain_synth.py::synth_chain_data","file":"modules/chain_synth.py","line":91,"message":"return value of synth_chain_data is not documented"}
 {"code":"DOC001","uid":"modules/cicd_enumerator.py::CICDFinding","file":"modules/cicd_enumerator.py","line":33,"message":"class CICDFinding is not documented"}
 {"code":"DOC001","uid":"modules/collab_bp.py::ColabEvent","file":"modules/collab_bp.py","line":163,"message":"class ColabEvent is not documented"}
 {"code":"DOC001","uid":"modules/collab_bp.py::ColabEvent.to_sse","file":"modules/collab_bp.py","line":170,"message":"method ColabEvent.to_sse is not documented"}
@@ -1002,6 +1017,16 @@
 {"code":"DOC001","uid":"modules/exploit_recommender.py::ExploitMatch","file":"modules/exploit_recommender.py","line":37,"message":"class ExploitMatch is not documented"}
 {"code":"DOC001","uid":"modules/exploit_recommender.py::ExploitRecommender.set_world_model","file":"modules/exploit_recommender.py","line":129,"message":"method ExploitRecommender.set_world_model is not documented"}
 {"code":"DOC001","uid":"modules/exploit_recommender.py::ExploitRecommender.set_nvd_api_key","file":"modules/exploit_recommender.py","line":132,"message":"method ExploitRecommender.set_nvd_api_key is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_bridge.py","file":"modules/exploitdb_bridge.py","line":1,"message":"module modules/exploitdb_bridge.py is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_bridge.py::scan_tier0","file":"modules/exploitdb_bridge.py","line":105,"message":"function scan_tier0 is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_bridge.py::gen_yaml","file":"modules/exploitdb_bridge.py","line":151,"message":"function gen_yaml is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_bridge.py::sync_tier0","file":"modules/exploitdb_bridge.py","line":194,"message":"function sync_tier0 is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_c_bridge.py","file":"modules/exploitdb_c_bridge.py","line":1,"message":"module modules/exploitdb_c_bridge.py is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_c_bridge.py::scan_c","file":"modules/exploitdb_c_bridge.py","line":32,"message":"function scan_c is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_c_bridge.py::gen_c_yaml_compile_on_use","file":"modules/exploitdb_c_bridge.py","line":89,"message":"function gen_c_yaml_compile_on_use is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_c_bridge.py::gen_batch","file":"modules/exploitdb_c_bridge.py","line":134,"message":"function gen_batch is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_c_bridge.py::compile_batch","file":"modules/exploitdb_c_bridge.py","line":148,"message":"function compile_batch is not documented"}
+{"code":"DOC001","uid":"modules/exploitdb_c_bridge.py::gen_c_yaml","file":"modules/exploitdb_c_bridge.py","line":152,"message":"function gen_c_yaml is not documented"}
 {"code":"DOC001","uid":"modules/fast_run_service.sh::log_info","file":"modules/fast_run_service.sh","line":73,"message":"function log_info is not documented"}
 {"code":"DOC001","uid":"modules/fast_run_service.sh::log_warn","file":"modules/fast_run_service.sh","line":77,"message":"function log_warn is not documented"}
 {"code":"DOC001","uid":"modules/fast_run_service.sh::log_error","file":"modules/fast_run_service.sh","line":81,"message":"function log_error is not documented"}
@@ -1070,16 +1095,16 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1630,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7940,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9203,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9226,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9226,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":9371,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":9396,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9419,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9419,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10567,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1636,"message":"ActivityLog.trace raises KeyError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7101,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8402,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8425,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8425,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8570,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8595,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8618,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8618,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9888,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -1238,7 +1263,12 @@
 {"code":"DOC001","uid":"modules/logging_config.py::ColoredFormatter.format","file":"modules/logging_config.py","line":39,"message":"method ColoredFormatter.format is not documented"}
 {"code":"DOC001","uid":"modules/logging_config.py::JsonFormatter.format","file":"modules/logging_config.py","line":72,"message":"method JsonFormatter.format is not documented"}
 {"code":"DOC001","uid":"modules/logging_config.py::CorrelationFilter.filter","file":"modules/logging_config.py","line":94,"message":"method CorrelationFilter.filter is not documented"}
-{"code":"DOC004","uid":"modules/loop_guardrails.py::TargetLimiter.slot","file":"modules/loop_guardrails.py","line":286,"message":"return value of TargetLimiter.slot is not documented"}
+{"code":"DOC001","uid":"modules/loop/__init__.py","file":"modules/loop/__init__.py","line":1,"message":"module modules/loop/__init__.py is not documented"}
+{"code":"DOC001","uid":"modules/loop/worker_agentic.py","file":"modules/loop/worker_agentic.py","line":1,"message":"module modules/loop/worker_agentic.py is not documented"}
+{"code":"DOC001","uid":"modules/loop/worker_execution.py","file":"modules/loop/worker_execution.py","line":1,"message":"module modules/loop/worker_execution.py is not documented"}
+{"code":"DOC001","uid":"modules/loop/worker_gating.py","file":"modules/loop/worker_gating.py","line":1,"message":"module modules/loop/worker_gating.py is not documented"}
+{"code":"DOC001","uid":"modules/loop/worker_memory.py","file":"modules/loop/worker_memory.py","line":1,"message":"module modules/loop/worker_memory.py is not documented"}
+{"code":"DOC004","uid":"modules/loop_guardrails.py::TargetLimiter.slot","file":"modules/loop_guardrails.py","line":493,"message":"return value of TargetLimiter.slot is not documented"}
 {"code":"DOC001","uid":"modules/mario.py","file":"modules/mario.py","line":1,"message":"module modules/mario.py is not documented"}
 {"code":"DOC001","uid":"modules/mario.py::check_collision","file":"modules/mario.py","line":105,"message":"function check_collision is not documented"}
 {"code":"DOC001","uid":"modules/mcp_agent_bridge.py::GroqAgentWorker","file":"modules/mcp_agent_bridge.py","line":234,"message":"class GroqAgentWorker is not documented"}
@@ -1346,7 +1376,6 @@
 {"code":"DOC001","uid":"modules/obs_parser.py::Observation.by_type","file":"modules/obs_parser.py","line":114,"message":"method Observation.by_type is not documented"}
 {"code":"DOC001","uid":"modules/obs_parser.py::Observation.has","file":"modules/obs_parser.py","line":117,"message":"method Observation.has is not documented"}
 {"code":"DOC004","uid":"modules/obs_parser.py::ObsParser.parse","file":"modules/obs_parser.py","line":485,"message":"return value of ObsParser.parse is not documented"}
-{"code":"DOC001","uid":"modules/ooficesod0woodo.py","file":"modules/ooficesod0woodo.py","line":1,"message":"module modules/ooficesod0woodo.py is not documented"}
 {"code":"DOC001","uid":"modules/operation.py::OperationStatus","file":"modules/operation.py","line":42,"message":"enum OperationStatus is not documented"}
 {"code":"DOC001","uid":"modules/operation.py::OpEvent","file":"modules/operation.py","line":52,"message":"class OpEvent is not documented"}
 {"code":"DOC001","uid":"modules/operation.py::OperationStep","file":"modules/operation.py","line":63,"message":"class OperationStep is not documented"}
@@ -1392,6 +1421,7 @@
 {"code":"DOC004","uid":"modules/playbook_engine.py::PlaybookEngine.execute","file":"modules/playbook_engine.py","line":529,"message":"return value of PlaybookEngine.execute is not documented"}
 {"code":"DOC001","uid":"modules/playbook_executor.py::PlaybookRunResult.to_dict","file":"modules/playbook_executor.py","line":74,"message":"method PlaybookRunResult.to_dict is not documented"}
 {"code":"DOC001","uid":"modules/playbook_executor.py::PlaybookEngine.loader","file":"modules/playbook_executor.py","line":350,"message":"property PlaybookEngine.loader is not documented"}
+{"code":"DOC002","uid":"modules/poc_registry.py::propose_intents","file":"modules/poc_registry.py","line":409,"message":"parameter 'catalog_path' of propose_intents is not documented"}
 {"code":"DOC001","uid":"modules/reactive_engine.py::AbstractSignalMatcher","file":"modules/reactive_engine.py","line":97,"message":"class AbstractSignalMatcher is not documented"}
 {"code":"DOC001","uid":"modules/reactive_engine.py::AbstractSignalMatcher.match","file":"modules/reactive_engine.py","line":99,"message":"method AbstractSignalMatcher.match is not documented"}
 {"code":"DOC001","uid":"modules/reactive_engine.py::AVBlockedMatcher.match","file":"modules/reactive_engine.py","line":128,"message":"method AVBlockedMatcher.match is not documented"}
@@ -1590,6 +1620,8 @@
 {"code":"DOC005","uid":"modules/security_sanitizers.py::BindAddressResolver.__init__","file":"modules/security_sanitizers.py","line":269,"message":"BindAddressResolver.__init__ raises TypeError but does not document it"}
 {"code":"DOC005","uid":"modules/security_sanitizers.py::CommandRedactor.__init__","file":"modules/security_sanitizers.py","line":333,"message":"CommandRedactor.__init__ raises TypeError but does not document it"}
 {"code":"DOC005","uid":"modules/security_sanitizers.py::OutputSanitizer.__init__","file":"modules/security_sanitizers.py","line":418,"message":"OutputSanitizer.__init__ raises TypeError but does not document it"}
+{"code":"DOC001","uid":"modules/selection/edb.py","file":"modules/selection/edb.py","line":1,"message":"module modules/selection/edb.py is not documented"}
+{"code":"DOC001","uid":"modules/selection/edb.py::EDBSelector.propose","file":"modules/selection/edb.py","line":11,"message":"method EDBSelector.propose is not documented"}
 {"code":"DOC001","uid":"modules/session_rag.py::SessionRAG.stats","file":"modules/session_rag.py","line":509,"message":"method SessionRAG.stats is not documented"}
 {"code":"DOC001","uid":"modules/session_rag.py::get_rag","file":"modules/session_rag.py","line":535,"message":"function get_rag is not documented"}
 {"code":"DOC001","uid":"modules/session_reader.py::ImplantRecord.is_privileged","file":"modules/session_reader.py","line":55,"message":"property ImplantRecord.is_privileged is not documented"}
@@ -2115,6 +2147,31 @@
 {"code":"DOC001","uid":"slack_c2_bot.py::cmd_download","file":"slack_c2_bot.py","line":209,"message":"function cmd_download is not documented"}
 {"code":"DOC001","uid":"slack_c2_bot.py::handle_file","file":"slack_c2_bot.py","line":240,"message":"function handle_file is not documented"}
 {"code":"DOC001","uid":"slack_c2_bot.py::mentioned","file":"slack_c2_bot.py","line":252,"message":"function mentioned is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js","file":"static/hexabot/hexabot-spinner.js","line":1,"message":"module static/hexabot/hexabot-spinner.js is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::rand","file":"static/hexabot/hexabot-spinner.js","line":46,"message":"function rand is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::clamp","file":"static/hexabot/hexabot-spinner.js","line":47,"message":"function clamp is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal","file":"static/hexabot/hexabot-spinner.js","line":49,"message":"class Terminal is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.constructor","file":"static/hexabot/hexabot-spinner.js","line":50,"message":"method Terminal.constructor is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.push","file":"static/hexabot/hexabot-spinner.js","line":84,"message":"method Terminal.push is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.log","file":"static/hexabot/hexabot-spinner.js","line":92,"message":"method Terminal.log is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.run","file":"static/hexabot/hexabot-spinner.js","line":94,"message":"method Terminal.run is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.setProgress","file":"static/hexabot/hexabot-spinner.js","line":96,"message":"method Terminal.setProgress is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.startCommand","file":"static/hexabot/hexabot-spinner.js","line":102,"message":"method Terminal.startCommand is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.update","file":"static/hexabot/hexabot-spinner.js","line":107,"message":"method Terminal.update is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.colorFor","file":"static/hexabot/hexabot-spinner.js","line":139,"message":"method Terminal.colorFor is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.drawPrompt","file":"static/hexabot/hexabot-spinner.js","line":146,"message":"method Terminal.drawPrompt is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.draw","file":"static/hexabot/hexabot-spinner.js","line":152,"message":"method Terminal.draw is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::Terminal.dispose","file":"static/hexabot/hexabot-spinner.js","line":206,"message":"method Terminal.dispose is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::radialTexture","file":"static/hexabot/hexabot-spinner.js","line":209,"message":"function radialTexture is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::createHexabotSpinner","file":"static/hexabot/hexabot-spinner.js","line":223,"message":"function createHexabotSpinner is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::setHappy","file":"static/hexabot/hexabot-spinner.js","line":365,"message":"function setHappy is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::ndc","file":"static/hexabot/hexabot-spinner.js","line":371,"message":"function ndc is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::now","file":"static/hexabot/hexabot-spinner.js","line":375,"message":"function now is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::onDown","file":"static/hexabot/hexabot-spinner.js","line":377,"message":"function onDown is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::onMove","file":"static/hexabot/hexabot-spinner.js","line":395,"message":"function onMove is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::onUp","file":"static/hexabot/hexabot-spinner.js","line":407,"message":"function onUp is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::resize","file":"static/hexabot/hexabot-spinner.js","line":423,"message":"function resize is not documented"}
+{"code":"DOC001","uid":"static/hexabot/hexabot-spinner.js::loop","file":"static/hexabot/hexabot-spinner.js","line":439,"message":"function loop is not documented"}
 {"code":"DOC001","uid":"static/js/particles.js::pJS","file":"static/js/particles.js","line":10,"message":"function pJS is not documented"}
 {"code":"DOC001","uid":"static/js/particles.js::draw","file":"static/js/particles.js","line":463,"message":"function draw is not documented"}
 {"code":"DOC001","uid":"static/js/particles.js::d","file":"static/js/particles.js","line":513,"message":"function d is not documented"}

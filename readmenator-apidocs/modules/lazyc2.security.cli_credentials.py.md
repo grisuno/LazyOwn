@@ -95,7 +95,7 @@ is left untouched so corrupted operator state is never overwritten.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `store` |  |  | RBAC store exposing `[`find_by_username`](modules.lazy_rbac.py.md#rbacstore-find_by_username)`/``save``/ `[`create_user`](modules.lazy_rbac.py.md#rbacstore-create_user)`. |
+| `store` |  |  | RBAC store exposing `[`find_by_username`](modules.lazy_rbac.py.md#rbacstore-find_by_username)`/`[`save`](modules.lazy_continuation.py.md#save)`/ `[`create_user`](modules.lazy_rbac.py.md#rbacstore-create_user)`. |
 | `username` | `str` |  | Effective boot username. |
 | `password` | `str` |  | Effective boot password (plain). |
 | `hash_password` |  |  | Callable turning a plain password into a hash. |

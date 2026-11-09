@@ -1,6 +1,6 @@
 # Audit Report
 
-*Project: LazyOwn | 2026-10-31 | offline, deterministic*
+*Project: LazyOwn | 2026-11-09 | offline, deterministic*
 
 ## Confidence Trail
 
@@ -8,16 +8,16 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 | Confidence | Count | Meaning |
 |------------|-------|---------|
-| EXTRACTED | 5610 | Resolved import edges parsed from source |
-| EXTRACTED | 12481 | Raw import statements (may include externals) |
+| EXTRACTED | 5784 | Resolved import edges parsed from source |
+| EXTRACTED | 12761 | Raw import statements (may include externals) |
 | INFERRED | 5 | Surprising cross-community bridges |
 | AMBIGUOUS | 0 | No uncertain edges are emitted by the static scanner |
 
 ## Coverage
 
-- Files: 1309, communities: 29
-- File doc coverage: 1183/1309
-- Orphans (no docs at any level): 101
+- Files: 1345, communities: 30
+- File doc coverage: 1207/1345
+- Orphans (no docs at any level): 108
 - Layers detected: 6
 - Security findings: 0
 - Large files (>256KB, maybe generated): 9 (lazyc2.py, lazy_loop.py, lazyown_mcp.py, mcp_generated_tools.py, 3d-force-graph-1.73.4.min.js)
@@ -31,7 +31,7 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 ## Token Benchmark
 
-- Wiki index plus community pages estimate: ~915525 tokens (chars/4).
+- Wiki index plus community pages estimate: ~929282 tokens (chars/4).
 - Full re-read of every source file would cost strictly more on any non-trivial project; this wiki is the cheaper entry point.
 - Generation cost: $0, offline, no network calls.
 

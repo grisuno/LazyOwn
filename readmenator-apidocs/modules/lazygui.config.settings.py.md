@@ -57,7 +57,7 @@ Read/write wrapper around the persisted settings JSON document.
 | [`load`](#appsettings-load) | classmethod | Load settings from disk, returning empty defaults if absent. |
 | [`save`](#appsettings-save) | method | Persist the current document to disk atomically. |
 | [`get`](#appsettings-get) | method | Generic accessor for a slash-separated settings key. |
-| [`set`](#appsettings-set) | method | Assign ``value`` to `[`key`](key.py.md)` without persisting; call [`save`](#appsettings-save). |
+| [`set`](#appsettings-set) | method | Assign ``value`` to `[`key`](key.py.md)` without persisting; call [`save`](modules.lazy_continuation.py.md#save). |
 | [`theme_id`](#appsettings-theme_id) | property |  |
 | [`theme_id`](#appsettings-theme_id) | property |  |
 | [`last_backend_id`](#appsettings-last_backend_id) | property |  |
@@ -142,7 +142,7 @@ Generic accessor for a slash-separated settings key.
 def set(self, key: str, value: Any) -> None
 ```
 
-Assign ``value`` to `[`key`](key.py.md)` without persisting; call [`save`](#appsettings-save).
+Assign ``value`` to `[`key`](key.py.md)` without persisting; call [`save`](modules.lazy_continuation.py.md#save).
 
 **Parameters**
 

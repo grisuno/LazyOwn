@@ -13,7 +13,7 @@ explanations of every value.
 
 Design contract:
   - Zero imports from lazyown.py or lazyc2.py (Dependency Inversion).
-  - The `[`run`](#run)` function takes a ``params`` dict and a ``save`` callable; it
+  - The `[`run`](#run)` function takes a ``params`` dict and a `[`save`](modules.lazy_continuation.py.md#save)` callable; it
     never touches payload.json directly.
   - All output goes through rich so colours work on all terminals.
   - Ctrl-C at any prompt exits the wizard cleanly without saving partial state.

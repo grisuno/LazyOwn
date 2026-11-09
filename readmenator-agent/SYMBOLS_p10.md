@@ -1,8 +1,32 @@
-# Symbols (page 10 of 49)
+# Symbols (page 10 of 50)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TimingConstants` | class | `lazygui/config/constants.py:34` | `class TimingConstants` |
+| `WindowConstants` | class | `lazygui/config/constants.py:18` | `class WindowConstants` |
+| `panel_labels` | method | `lazygui/config/constants.py:239` | `def panel_labels(self)` |
+| `AppPaths` | class | `lazygui/config/paths.py:19` | `class AppPaths` |
+| `_detect_project_root` | function | `lazygui/config/paths.py:79` | `def _detect_project_root()` |
+| `c2_credentials_path` | method | `lazygui/config/paths.py:59` | `def c2_credentials_path(self)` |
+| `config_dir` | method | `lazygui/config/paths.py:32` | `def config_dir(self)` |
+| `ensure_config_dir` | method | `lazygui/config/paths.py:73` | `def ensure_config_dir(self)` |
+| `layout_file` | method | `lazygui/config/paths.py:44` | `def layout_file(self)` |
+| `lazyc2_script` | method | `lazygui/config/paths.py:54` | `def lazyc2_script(self)` |
+| `project_run_script` | method | `lazygui/config/paths.py:49` | `def project_run_script(self)` |
+| `sessions_dir` | method | `lazygui/config/paths.py:69` | `def sessions_dir(self)` |
+| `settings_file` | method | `lazygui/config/paths.py:39` | `def settings_file(self)` |
+| `AppSettings` | class | `lazygui/config/settings.py:27` | `class AppSettings` |
+| `c2_credentials_loaded` | method | `lazygui/config/settings.py:120` | `def c2_credentials_loaded(self)` |
+| `c2_credentials_loaded` | method | `lazygui/config/settings.py:125` | `def c2_credentials_loaded(self, value)` |
+| `get` | method | `lazygui/config/settings.py:55` | `def get(self, key, default)` |
+| `last_backend_id` | method | `lazygui/config/settings.py:73` | `def last_backend_id(self)` |
+| `last_backend_id` | method | `lazygui/config/settings.py:78` | `def last_backend_id(self, value)` |
+| `last_operator_name` | method | `lazygui/config/settings.py:98` | `def last_operator_name(self)` |
+| `last_operator_name` | method | `lazygui/config/settings.py:107` | `def last_operator_name(self, value)` |
+| `last_teamserver_password` | method | `lazygui/config/settings.py:111` | `def last_teamserver_password(self)` |
+| `last_teamserver_password` | method | `lazygui/config/settings.py:116` | `def last_teamserver_password(self, value)` |
+| `last_teamserver_url` | method | `lazygui/config/settings.py:84` | `def last_teamserver_url(self)` |
 | `last_teamserver_url` | method | `lazygui/config/settings.py:94` | `def last_teamserver_url(self, value)` |
 | `load` | method | `lazygui/config/settings.py:35` | `def load(cls, constants, paths)` |
 | `save` | method | `lazygui/config/settings.py:47` | `def save(self)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `run_lazymetaextract0r` | method | `lazyown.py:3191` | `def run_lazymetaextract0r(self)` |
 | `run_lazymsfvenom` | method | `lazyown.py:3695` | `def run_lazymsfvenom(self)` |
 | `run_lazynetbios` | method | `lazyown.py:3023` | `def run_lazynetbios(self)` |
-| `run_lazynmap` | method | `lazyown.py:2765` | `def run_lazynmap(self)` |
-| `run_lazynmapdiscovery` | method | `lazyown.py:2913` | `def run_lazynmapdiscovery(self)` |
-| `run_lazyown` | method | `lazyown.py:2709` | `def run_lazyown(self)` |
-| `run_lazypathhijacking` | method | `lazyown.py:3919` | `def run_lazypathhijacking(self)` |
-| `run_lazyreverse_shell` | method | `lazyown.py:3536` | `def run_lazyreverse_shell(self)` |
-| `run_lazysearch` | method | `lazyown.py:2662` | `def run_lazysearch(self)` |
-| `run_lazysearch_bot` | method | `lazyown.py:3140` | `def run_lazysearch_bot(self)` |
-| `run_lazysearch_gui` | method | `lazyown.py:2679` | `def run_lazysearch_gui(self)` |
-| `run_lazysniff` | method | `lazyown.py:2928` | `def run_lazysniff(self)` |
-| `run_lazyssh77enum` | method | `lazyown.py:3360` | `def run_lazyssh77enum(self)` |
-| `run_lazywerkzeugdebug` | method | `lazyown.py:2824` | `def run_lazywerkzeugdebug(self)` |
-| `run_script` | method | `lazyown.py:3952` | `def run_script(self, script_name)` |
-| `run_update_db` | method | `lazyown.py:2735` | `def run_update_db(self)` |
-| `save_user_command` | method | `lazyown.py:1888` | `def save_user_command(self, alias, command)` |
-| `scripts` | method | `lazyown.py:884` | `def scripts(self)` |
-| `tool_wrapper` | function | `lazyown.py:1966` | `def tool_wrapper(arg)` |
-| `upload_file_to_c2` | method | `lazyown.py:4069` | `def upload_file_to_c2(self, file_path, clientid)` |
-| `view_code` | method | `lazyown.py:4292` | `def view_code(self, stdscr)` |
-| `wrapper` | function | `lazyown.py:2067` | `def wrapper(arg)` |
-| `wrapper_yaml` | function | `lazyown.py:2183` | `def wrapper_yaml(arg)` |
-| `auth` | function | `modules/49803.py:43` | `def auth()` |
-| `connection` | function | `modules/49803.py:106` | `def connection()` |
-| `injection` | function | `modules/49803.py:69` | `def injection()` |
-| `poc` | function | `modules/CVE-2023-28432.py:12` | `def poc(url)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

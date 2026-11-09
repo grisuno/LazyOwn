@@ -776,6 +776,9 @@ Usage:
     apt_chain enable <chain> | disable <chain>
     apt_chain checkpoints               - resumable runs
     apt_chain resume <run_id> [target]  - continue a checkpointed run
+    apt_chain synth [playbook] [target] - synthesise a chain from facts
+        [--techniques T1059.001,T1003]  - stage atomic_tests steps
+        [--playbook NAME]               - lower a playbook into a chain
 
 Run options:
     --dry-run                resolve without executing
@@ -812,7 +815,7 @@ automatically when the fact store knows the target.
 
 #### `CommandAndControlMigratedCommandSet.do_chain_distill`
 
-`method` | [cli/commands/command_and_control_migrated.py:2056](../../cli/commands/command_and_control_migrated.py#L2056)
+`method` | [cli/commands/command_and_control_migrated.py:2059](../../cli/commands/command_and_control_migrated.py#L2059)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -845,7 +848,7 @@ Generated chains start disabled; the operator owns the file.
 
 #### `CommandAndControlMigratedCommandSet.do_apt_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2106](../../cli/commands/command_and_control_migrated.py#L2106)
+`method` | [cli/commands/command_and_control_migrated.py:2109](../../cli/commands/command_and_control_migrated.py#L2109)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -882,7 +885,7 @@ apt_playbook run apt28
 
 #### `CommandAndControlMigratedCommandSet.do_mitre_test`
 
-`method` | [cli/commands/command_and_control_migrated.py:2226](../../cli/commands/command_and_control_migrated.py#L2226)
+`method` | [cli/commands/command_and_control_migrated.py:2229](../../cli/commands/command_and_control_migrated.py#L2229)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -913,7 +916,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_generate_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2329](../../cli/commands/command_and_control_migrated.py#L2329)
+`method` | [cli/commands/command_and_control_migrated.py:2332](../../cli/commands/command_and_control_migrated.py#L2332)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -962,7 +965,7 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 
 #### `CommandAndControlMigratedCommandSet.do_my_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2508](../../cli/commands/command_and_control_migrated.py#L2508)
+`method` | [cli/commands/command_and_control_migrated.py:2511](../../cli/commands/command_and_control_migrated.py#L2511)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -986,7 +989,7 @@ Usage: my_playbook <name> [filter] Example: my_playbook KerberosAttack password 
 
 #### `CommandAndControlMigratedCommandSet.do_caldera`
 
-`method` | [cli/commands/command_and_control_migrated.py:2565](../../cli/commands/command_and_control_migrated.py#L2565)
+`method` | [cli/commands/command_and_control_migrated.py:2568](../../cli/commands/command_and_control_migrated.py#L2568)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1021,7 +1024,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_import`
 
-`method` | [cli/commands/command_and_control_migrated.py:2614](../../cli/commands/command_and_control_migrated.py#L2614)
+`method` | [cli/commands/command_and_control_migrated.py:2617](../../cli/commands/command_and_control_migrated.py#L2617)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1054,7 +1057,7 @@ caldera_import all
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_export`
 
-`method` | [cli/commands/command_and_control_migrated.py:2706](../../cli/commands/command_and_control_migrated.py#L2706)
+`method` | [cli/commands/command_and_control_migrated.py:2709](../../cli/commands/command_and_control_migrated.py#L2709)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 

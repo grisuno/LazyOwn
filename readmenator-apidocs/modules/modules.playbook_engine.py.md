@@ -1,6 +1,6 @@
 # `modules.playbook_engine`
 
-> Source: [modules/playbook_engine.py:1](../../modules/playbook_engine.py#L1) | language `py` | coverage 52.9% | [API index](../index.md)
+> Source: [modules/playbook_engine.py:1](../../modules/playbook_engine.py#L1) | language `py` | coverage 55.6% | [API index](../index.md)
 
 modules/playbook_engine.py =========================== Bridges MITRE ATT&CK (STIX2), Atomic Red Team, WorldModel, and LLMClient into a closed autonomous execution cycle.
 
@@ -45,7 +45,7 @@ Usage
 ## Contents
 
 - **Classes:** [`PlaybookStep`](#playbookstep), [`Playbook`](#playbook), [`StepResult`](#stepresult), [`PlaybookResult`](#playbookresult), [`PlaybookEngine`](#playbookengine)
-- **Functions:** [`get_engine`](#get_engine)
+- **Functions:** [`get_engine`](#get_engine), [`phase_techniques`](#phase_techniques)
 - **Constants:** [`PHASE_TACTIC_MAP`](#phase_tactic_map)
 
 ## Type Diagram
@@ -113,6 +113,7 @@ flowchart LR
     n_modules_playbook_engine_py__PlaybookEngine_load(["PlaybookEngine.load"])
     n_modules_playbook_engine_py__get_engine(["get_engine"])
     n_modules_playbook_engine_py__PlaybookEngine___init__(["PlaybookEngine.__init__"])
+    n_modules_playbook_engine_py__phase_techniques(["phase_techniques"])
     n_modules_emulation_runner_py__EmulationRunner___init__["emulation_runner.EmulationRunner.__init__"]
     n_modules_emulation_runner_py__EmulationRunner_run_steps["emulation_runner.EmulationRunner.run_steps"]
     n_modules_emulation_runner_py__EmulationStep["emulation_runner.EmulationStep"]
@@ -126,6 +127,7 @@ flowchart LR
     n_modules_playbook_engine_py__PlaybookEngine_load --> n_modules_playbook_engine_py__PlaybookStep
     n_modules_playbook_engine_py__PlaybookEngine_load --> n_modules_playbook_engine_py__PlaybookStep_from_dict
     n_modules_playbook_engine_py__get_engine --> n_modules_playbook_engine_py__PlaybookEngine___init__
+    n_modules_playbook_engine_py__phase_techniques --> n_modules_playbook_engine_py__get_engine
     n_modules_playbook_engine_py__PlaybookEngine_execute -.-> n_modules_emulation_runner_py__EmulationRunner___init__
     n_modules_playbook_engine_py__PlaybookEngine_execute -.-> n_modules_emulation_runner_py__EmulationRunner_run_steps
     n_modules_playbook_engine_py__PlaybookEngine_execute -.-> n_modules_emulation_runner_py__EmulationStep
@@ -522,6 +524,39 @@ Return (or create) the module-level singleton PlaybookEngine.
 **Returns:** `PlaybookEngine`
 
 *Calls:* [`PlaybookEngine.__init__`](#playbookengine-__init__)
+
+*Called by:* [`phase_techniques`](#phase_techniques)
+
+---
+
+<a id="phase_techniques"></a>
+
+### `phase_techniques`
+
+`function` | [modules/playbook_engine.py:696](../../modules/playbook_engine.py#L696)
+
+```python
+def phase_techniques(phase: str, platform: str = '', top_n: int = 8) -> list[dict]
+```
+
+Return candidate ATT&CK techniques for one canonical loop phase.
+
+Resolution order: STIX enterprise bundle (tactic-scoped), then the
+local Atomic index (platform-scoped best effort). Never raises.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `phase` | `str` |  | Canonical kill-chain phase (``recon``, ``exploit``, ...). |
+| `platform` | `str` | `''` | OS hint (``linux``/``windows``/``macos``), blank for any. |
+| `top_n` | `int` | `8` | Maximum number of techniques returned. |
+
+**Returns:** `list[dict]` - List of dicts with `[`technique_id`](#playbookstep-technique_id)` and `[`name`](#playbookstep-name)` keys, possibly empty.
+
+*Calls:* [`get_engine`](#get_engine)
+
+*Called by:* [`TechniqueSelector.propose`](modules.selection.technique.py.md#techniqueselector-propose)
 
 ---
 

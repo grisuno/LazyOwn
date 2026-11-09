@@ -1,5 +1,128 @@
-# Subsystem: tests (page 6 of 23)
+# Subsystem: tests (page 6 of 24)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
+
+## tests/test_chain_v24_core.py
+- Doc: Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 20) `def _chain(steps)`
+  - `test_runner_captures_regex_named_groups_for_later_steps` (function, line 25) `def test_runner_captures_regex_named_groups_for_later_steps()`
+  - `test_runner_captures_json_fields_from_output` (function, line 48) `def test_runner_captures_json_fields_from_output()`
+  - `test_runner_verify_fails_a_step_when_probe_fails` (function, line 68) `def test_runner_verify_fails_a_step_when_probe_fails()`
+  - `test_runner_verify_may_consume_capture` (function, line 85) `def test_runner_verify_may_consume_capture()`
+  - `test_runner_expect_exit_accepts_configured_codes_only` (function, line 106) `def test_runner_expect_exit_accepts_configured_codes_only()`
+  - `test_runner_on_fail_routes_to_fallback_step` (function, line 113) `def test_runner_on_fail_routes_to_fallback_step()`
+  - `test_runner_on_success_reorders_execution` (function, line 138) `def test_runner_on_success_reorders_execution()`
+  - `test_runner_loop_guard_blocks_infinite_branching` (function, line 160) `def test_runner_loop_guard_blocks_infinite_branching()`
+  - `test_runner_total_timeout_stops_pending_steps` (function, line 180) `def test_runner_total_timeout_stops_pending_steps()`
+  - `test_runner_confirm_requires_approver_failure_closed` (function, line 195) `def test_runner_confirm_requires_approver_failure_closed()`
+  - `test_runner_confirm_approval_grants_or_denies` (function, line 203) `def test_runner_confirm_approval_grants_or_denies()`
+  - `test_runner_checkpoints_enable_resume` (function, line 226) `def test_runner_checkpoints_enable_resume(tmp_path, monkeypatch)`
+  - `test_runner_replanner_sets_vars_and_inserts_steps` (function, line 271) `def test_runner_replanner_sets_vars_and_inserts_steps()`
+  - `test_runner_replanner_skip_rest_ends_early` (function, line 302) `def test_runner_replanner_skip_rest_ends_early()`
+  - `test_checkpoint_state_round_trip` (function, line 322) `def test_checkpoint_state_round_trip(tmp_path)`
+  - `test_schema_v24_accepts_and_rejects_new_fields` (function, line 333) `def test_schema_v24_accepts_and_rejects_new_fields()`
+  - `test_validated_shipped_chains_still_load` (function, line 382) `def test_validated_shipped_chains_still_load()`
+  - `executor` (function, line 29) `def executor(command)`
+  - `executor` (function, line 51) `def executor(command)`
+  - `executor` (function, line 72) `def executor(command)`
+  - `executor` (function, line 89) `def executor(command)`
+  - `executor` (function, line 117) `def executor(command)`
+  - `executor` (function, line 142) `def executor(command)`
+  - `executor` (function, line 164) `def executor(command)`
+  - `executor` (function, line 184) `def executor(command)`
+  - `record` (function, line 217) `def record(command)`
+  - `executor` (function, line 231) `def executor(command)`
+  - `resumed_executor` (function, line 252) `def resumed_executor(command)`
+  - `executor` (function, line 275) `def executor(command)`
+  - `replanner` (function, line 279) `def replanner(context)`
+  - `executor` (function, line 305) `def executor(command)`
+  - `replanner` (function, line 308) `def replanner(context)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
+
+## tests/test_ci_strict.py
+- Doc: Contract tests for the strict CI workflow.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_strict_workflow_exists` (function, line 21) `def test_strict_workflow_exists()`
+  - `test_strict_workflow_contains_no_swallow_flags` (function, line 26) `def test_strict_workflow_contains_no_swallow_flags()`
+  - `test_strict_workflow_runs_lint` (function, line 38) `def test_strict_workflow_runs_lint()`
+  - `test_strict_workflow_runs_type_check` (function, line 44) `def test_strict_workflow_runs_type_check()`
+  - `test_strict_workflow_runs_security_scan` (function, line 50) `def test_strict_workflow_runs_security_scan()`
+  - `test_strict_workflow_runs_pytest` (function, line 56) `def test_strict_workflow_runs_pytest()`
+  - `test_strict_workflow_targets_main_branch` (function, line 62) `def test_strict_workflow_targets_main_branch()`
+  - `test_old_swallow_workflow_is_removed` (function, line 68) `def test_old_swallow_workflow_is_removed()`
+  - `test_ci_workflow_has_no_swallowed_quality_gate` (function, line 83) `def test_ci_workflow_has_no_swallowed_quality_gate()`
+  - `test_ci_workflow_gates_severity_and_types` (function, line 91) `def test_ci_workflow_gates_severity_and_types()`
+
+## tests/test_claudemd_consistency.py
+- Doc: Guard against drift between CLAUDE.md numeric claims and reality.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `claude_md_text` (function, line 22) `def claude_md_text()`
+  - `test_claude_md_reports_actual_test_file_count` (function, line 28) `def test_claude_md_reports_actual_test_file_count(claude_md_text)`
+  - `test_claude_md_does_not_reference_deduplicated_config` (function, line 41) `def test_claude_md_does_not_reference_deduplicated_config(claude_md_text)`
+
+## tests/test_claudemd_size.py
+- Doc: Enforce a hard cap on ``CLAUDE.md`` size.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_claude_md_under_size_budget` (function, line 22) `def test_claude_md_under_size_budget()`
+
+## tests/test_cli_assign.py
+- Doc: ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 29) `def _add_repo_root_to_syspath()`
+  - `TestApplyAssign` (class, line 34) `class TestApplyAssign`
+  - `TestAssignLineParsing` (class, line 101) `class TestAssignLineParsing`
+  - `TestFormatPayload` (class, line 139) `class TestFormatPayload`
+  - `TestLazyOwnAssignWiring` (class, line 197) `class TestLazyOwnAssignWiring`
+  - `TestCompleteAssignBehaviour` (class, line 264) `class TestCompleteAssignBehaviour`
+  - `test_returns_true_when_key_exists` (method, line 35) `def test_returns_true_when_key_exists(self)`
+  - `test_returns_false_when_key_missing` (method, line 42) `def test_returns_false_when_key_missing(self)`
+  - `test_does_not_invoke_save_on_failure` (method, line 49) `def test_does_not_invoke_save_on_failure(self)`
+  - `test_invokes_save_on_success` (method, line 57) `def test_invokes_save_on_success(self)`
+  - `test_save_receives_mutated_dict` (method, line 66) `def test_save_receives_mutated_dict(self)`
+  - `test_save_optional` (method, line 78) `def test_save_optional(self)`
+  - `test_allows_windows_path_backslashes` (method, line 85) `def test_allows_windows_path_backslashes(self)`
+  - `test_rejects_shell_operators_and_escapes` (method, line 92) `def test_rejects_shell_operators_and_escapes(self)`
+  - `test_posix_false_parses_preserve_backslashes` (method, line 102) `def test_posix_false_parses_preserve_backslashes(self)`
+  - `test_strip_shell_quotes_variants` (method, line 111) `def test_strip_shell_quotes_variants(self)`
+  - `test_persists_to_disk_via_save_payload` (method, line 119) `def test_persists_to_disk_via_save_payload(self, tmp_path)`
+  - `test_empty_payload_returns_empty_string` (method, line 140) `def test_empty_payload_returns_empty_string(self)`
+  - `test_renders_keys_sorted` (method, line 145) `def test_renders_keys_sorted(self)`
+  - `test_aligns_column_to_widest_key` (method, line 154) `def test_aligns_column_to_widest_key(self)`
+  - `test_none_values_render_as_empty` (method, line 164) `def test_none_values_render_as_empty(self)`
+  - `test_keys_whitelist_filters_output` (method, line 170) `def test_keys_whitelist_filters_output(self)`
+  - `test_missing_whitelist_keys_render_as_empty` (method, line 177) `def test_missing_whitelist_keys_render_as_empty(self)`
+  - `test_int_value_rendered_as_string` (method, line 184) `def test_int_value_rendered_as_string(self)`
+  - `test_no_ansi_codes` (method, line 190) `def test_no_ansi_codes(self)`
+  - `src` (method, line 199) `def src(self)`
+  - `migrated_src` (method, line 203) `def migrated_src(self)`
+  - `test_imports_apply_assign` (method, line 211) `def test_imports_apply_assign(self, migrated_src)`
+  - `test_imports_save_payload_from_core` (method, line 214) `def test_imports_save_payload_from_core(self, migrated_src)`
+  - `test_imports_format_payload` (method, line 217) `def test_imports_format_payload(self, migrated_src)`
+  - `test_do_assign_calls_apply_assign` (method, line 220) `def test_do_assign_calls_apply_assign(self, migrated_src)`
+  - `test_do_assign_refreshes_aliases` (method, line 225) `def test_do_assign_refreshes_aliases(self, migrated_src)`
+  - `test_do_assign_no_longer_directly_mutates_params` (method, line 230) `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)`
+  - `test_complete_assign_defined` (method, line 236) `def test_complete_assign_defined(self, src)`
+  - `test_complete_assign_reads_self_params` (method, line 239) `def test_complete_assign_reads_self_params(self, src)`
+  - `test_do_show_uses_format_payload` (method, line 243) `def test_do_show_uses_format_payload(self, migrated_src)`
+  - `test_do_payload_refreshes_aliases` (method, line 247) `def test_do_payload_refreshes_aliases(self, migrated_src)`
+  - `_extract_method_body` (method, line 253) `def _extract_method_body(src, name)`
+  - `test_returns_keys_starting_with_text` (method, line 267) `def test_returns_keys_starting_with_text(self)`
+  - `test_no_completion_for_value_position` (method, line 284) `def test_no_completion_for_value_position(self)`
+  - `test_refuses_null_on_required` (method, line 293) `def test_refuses_null_on_required(self)`
+  - `test_warn_saves_invalid_but_present` (method, line 302) `def test_warn_saves_invalid_but_present(self)`
+  - `test_auto_populate_refuses_shell_less_save` (method, line 310) `def test_auto_populate_refuses_shell_less_save(self)`
+  - `saver` (function, line 72) `def saver(p)`
+- Depends on: `cli/assign.py`, `cli/commands/mcp_bridge.py`, `cli/commands/session_ops.py`, `cli/show.py`, `core/config.py`
 
 ## tests/test_cli_auth_remember.py
 - Doc: Remember-me token comparison must be timing-safe.
@@ -355,35 +478,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_stale_glob_counting_removed` (method, line 70) `def test_stale_glob_counting_removed(self)`
   - `test_atomic_agent_extension_from_latest_script` (method, line 76) `def test_atomic_agent_extension_from_latest_script(self)`
 - Depends on: `cli/commands/command_and_control_migrated.py`
-
-## tests/test_command_form.py
-- Doc: Tests for cli/command_form.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_index` (function, line 23) `def _index()`
-  - `test_fields_default_set_when_command_unknown` (function, line 32) `def test_fields_default_set_when_command_unknown()`
-  - `test_fields_specific_set_for_known_command` (function, line 44) `def test_fields_specific_set_for_known_command()`
-  - `test_initial_values_come_from_payload` (function, line 57) `def test_initial_values_come_from_payload()`
-  - `test_overrides_lists_diverging_field_payload_pairs` (function, line 70) `def test_overrides_lists_diverging_field_payload_pairs()`
-  - `test_overrides_empty_when_values_match_payload` (function, line 84) `def test_overrides_empty_when_values_match_payload()`
-  - `test_verb_line_returns_just_verb_without_extras` (function, line 96) `def test_verb_line_returns_just_verb_without_extras()`
-  - `test_build_command_preview_renders_annotations_and_verb` (function, line 109) `def test_build_command_preview_renders_annotations_and_verb()`
-  - `test_is_valid_true_when_command_known` (function, line 124) `def test_is_valid_true_when_command_known()`
-  - `test_is_valid_false_for_unknown_command` (function, line 136) `def test_is_valid_false_for_unknown_command()`
-  - `test_launch_form_runner_returns_state` (function, line 147) `def test_launch_form_runner_returns_state()`
-  - `test_build_state_loads_from_default_index` (function, line 162) `def test_build_state_loads_from_default_index(monkeypatch)`
-  - `runner` (function, line 151) `def runner(context)`
-- Depends on: `cli/command_form.py`
-
-## tests/test_command_namespace_uniqueness.py
-- Doc: Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_is_command_set` (function, line 19) `def _is_command_set(node)`
-  - `_command_definitions` (function, line 28) `def _command_definitions()`
-  - `test_no_command_defined_by_two_command_sets` (function, line 42) `def test_no_command_defined_by_two_command_sets()`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

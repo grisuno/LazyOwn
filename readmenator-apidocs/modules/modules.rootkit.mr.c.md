@@ -240,6 +240,8 @@ char *generate_random_string()
 
 **Returns:** `char *`
 
+*Calls:* [`rand`](static.hexabot.hexabot-spinner.js.md#rand)
+
 *Called by:* [`kde_plasma`](#kde_plasma), [`xdg`](#xdg)
 
 ---

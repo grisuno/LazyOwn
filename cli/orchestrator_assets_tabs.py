@@ -48,6 +48,11 @@ CONFIG_FIELDS = (
     ConfigField("sleep_activation_delay_max", "Activation delay max", "0s"),
     ConfigField("persistence_cron_schedule", "Persistence cron schedule", "*/5 * * * *"),
     ConfigField("persistence_service_name", "Persistence service name", "sysmaint"),
+    ConfigField("orchestrator.pacing.enabled", "Loop pacing enabled", "true"),
+    ConfigField("orchestrator.pacing.jitter_pct_min", "Loop jitter min pct", "0"),
+    ConfigField("orchestrator.pacing.jitter_pct_max", "Loop jitter max pct", "10"),
+    ConfigField("orchestrator.pacing.max_delay_sec", "Loop max delay sec", "300"),
+    ConfigField("orchestrator.pacing.round_sleep_sec", "Loop round sleep sec", "0"),
 )
 
 
@@ -66,6 +71,34 @@ def _coerce(raw) -> object:
         return float(text)
     except ValueError:
         return raw
+
+
+def _payload_value(payload: dict, key: str):
+    """Read one payload value by plain or dotted key."""
+    node: object = payload
+    for part in key.split("."):
+        if not isinstance(node, dict) or part not in node:
+            return None
+        node = node[part]
+    return node
+
+
+def _payload_assign(payload: dict, key: str, value: object) -> None:
+    """Write one payload value by plain or dotted key."""
+    parts = key.split(".")
+    node = payload
+    for part in parts[:-1]:
+        child = node.get(part)
+        if not isinstance(child, dict):
+            child = {}
+            node[part] = child
+        node = child
+    node[parts[-1]] = value
+
+
+def _widget_id(key: str) -> str:
+    """Return a textual-safe widget id for one config key."""
+    return f"cfg-{key.replace('.', '-')}"
 
 
 class OrchestratorAssetsMixin:
@@ -645,8 +678,8 @@ class OrchestratorAssetsMixin:
 
     def _update_trigger_detail(self) -> None:
         """Show a summary of the declarative seed policy."""
-        from modules.trigger_policy import read_policy
         from modules.loop_triggers import TriggerStore
+        from modules.trigger_policy import read_policy
 
         try:
             panel = self.query_one("#triggers-detail", Static)
@@ -748,9 +781,9 @@ class OrchestratorAssetsMixin:
         """Fill the config inputs with the current payload values."""
         payload = self._load_payload()
         for spec in CONFIG_FIELDS:
-            value = payload.get(spec.key, "")
+            value = _payload_value(payload, spec.key)
             try:
-                widget = self.query_one(f"#cfg-{spec.key}", Input)
+                widget = self.query_one(f"#{_widget_id(spec.key)}", Input)
                 widget.value = "" if value is None else str(value)
             except Exception:
                 continue
@@ -770,7 +803,7 @@ class OrchestratorAssetsMixin:
         for key, raw in values.items():
             if raw == "":
                 continue
-            payload[key] = _coerce(raw)
+            _payload_assign(payload, key, _coerce(raw))
         if self._payload_path:
             save_payload(payload, self._payload_path)
         else:

@@ -1,8 +1,32 @@
-# Symbols (page 8 of 49)
+# Symbols (page 8 of 50)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `core/errors.py:61` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:81` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:88` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:95` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:102` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:109` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:116` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:123` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:130` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:137` | `def __init__(self, message, error_code)` |
+| `__str__` | method | `core/errors.py:74` | `def __str__(self)` |
+| `to_dict` | method | `core/errors.py:66` | `def to_dict(self)` |
+| `_validate_input` | function | `core/executor.py:41` | `def _validate_input(command)` |
+| `_validate_timeout` | function | `core/executor.py:75` | `def _validate_timeout(timeout)` |
+| `run_shell` | function | `core/executor.py:149` | `def run_shell(cmd)` |
+| `safe_run` | function | `core/executor.py:96` | `def safe_run(command)` |
+| `safe_run` | function | `core/executor.py:98` | `def safe_run(command)` |
+| `safe_run` | function | `core/executor.py:101` | `def safe_run(command)` |
+| `SecurityViolation` | class | `core/hardening.py:133` | `class SecurityViolation(PermissionError)` |
+| `_is_emoji_codepoint` | function | `core/hardening.py:714` | `def _is_emoji_codepoint(code)` |
+| `_mask` | function | `core/hardening.py:853` | `def _mask(match)` |
+| `_seal_key` | function | `core/hardening.py:756` | `def _seal_key(sessions_dir)` |
+| `build_sshpass_command` | function | `core/hardening.py:250` | `def build_sshpass_command(password, ssh_args)` |
+| `contains_emoji` | function | `core/hardening.py:722` | `def contains_emoji(text)` |
 | `defused_xml_parse` | function | `core/hardening.py:412` | `def defused_xml_parse(source)` |
 | `escape_html_content` | function | `core/hardening.py:298` | `def escape_html_content(value)` |
 | `escape_powershell_single_quoted` | function | `core/hardening.py:112` | `def escape_powershell_single_quoted(value)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `api_listeners_delete` | function | `lazyc2.py:8876` | `def api_listeners_delete(listener_id)` |
 | `api_listeners_start` | function | `lazyc2.py:8860` | `def api_listeners_start(listener_id)` |
 | `api_listeners_stop` | function | `lazyc2.py:8868` | `def api_listeners_stop(listener_id)` |
-| `api_loop_broadcast` | function | `lazyc2.py:7879` | `def api_loop_broadcast()` |
-| `api_loop_broadcast_stream` | function | `lazyc2.py:7821` | `def api_loop_broadcast_stream()` |
-| `api_loop_graph` | function | `lazyc2.py:8037` | `def api_loop_graph()` |
-| `api_loop_log` | function | `lazyc2.py:7071` | `def api_loop_log(loop_id)` |
-| `api_loop_stop` | function | `lazyc2.py:7094` | `def api_loop_stop(loop_id)` |
-| `api_loops_list` | function | `lazyc2.py:7059` | `def api_loops_list()` |
-| `api_loops_start` | function | `lazyc2.py:7010` | `def api_loops_start()` |
-| `api_surface_live` | function | `lazyc2.py:7661` | `def api_surface_live()` |
-| `attack3d_view` | function | `lazyc2.py:7717` | `def attack3d_view()` |
-| `attack_bundle_view` | function | `lazyc2.py:7736` | `def attack_bundle_view()` |
-| `aumentar_elo` | function | `lazyc2.py:1150` | `def aumentar_elo(user_id, cantidad)` |
-| `aumentar_elo_route` | function | `lazyc2.py:6600` | `def aumentar_elo_route(user_id)` |
-| `authenticate` | function | `lazyc2.py:1502` | `def authenticate()` |
-| `banners` | function | `lazyc2.py:6616` | `def banners()` |
-| `broadcast_view` | function | `lazyc2.py:7807` | `def broadcast_view()` |
-| `campaign_report` | function | `lazyc2.py:8415` | `def campaign_report(campaign_id)` |
-| `capture_audio` | function | `lazyc2.py:7622` | `def capture_audio()` |
-| `capture_image` | function | `lazyc2.py:7596` | `def capture_image()` |
-| `change_password` | function | `lazyc2.py:6534` | `def change_password()` |
-| `chatbot` | function | `lazyc2.py:5336` | `def chatbot()` |
-| `check_auth` | function | `lazyc2.py:1487` | `def check_auth(username, password)` |
-| `clean_expired_tokens` | function | `lazyc2.py:648` | `def clean_expired_tokens()` |
-| `clean_json` | function | `lazyc2.py:656` | `def clean_json(text)` |
-| `compliance_add_evidence` | function | `lazyc2.py:6777` | `def compliance_add_evidence()` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

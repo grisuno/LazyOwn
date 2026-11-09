@@ -31,7 +31,7 @@ flowchart LR
 
 ### `default_selectors`
 
-`function` | [modules/selection/registry.py:46](../../modules/selection/registry.py#L46)
+`function` | [modules/selection/registry.py:57](../../modules/selection/registry.py#L57)
 
 ```python
 def default_selectors() -> list[Selector]
@@ -53,19 +53,21 @@ runtimes honour one administration point without their own switches.
 
 ### `propose_next`
 
-`function` | [modules/selection/registry.py:61](../../modules/selection/registry.py#L61)
+`function` | [modules/selection/registry.py:72](../../modules/selection/registry.py#L72)
 
 ```python
 def propose_next(ctx: SelectionContext, selectors: Iterable[Selector] | None = None) -> ActionDecision | None
 ```
 
-Return the first concrete decision from the cascade, or None.
+Return the best concrete decision from the cascade, or None.
 
 Resolution is two-pass: any decision graded urgent (``priority`` <= 2)
-wins over the ordinary order, so pending intelligence or credential
-spraying (new, evidence-backed signals) outrank generic chain runs;
-otherwise the ordered list decides, with objective-named capabilities
-(actor, adversary profile, technique) ahead of the generic chain.
+wins immediately, so pending intelligence or credential spraying (new,
+evidence-backed signals) outrank everything. Otherwise every ordinary
+decision competes on priority: the lowest ``priority`` number wins
+(lower is more urgent), cascade order breaking ties, so a service-matched
+chain (priority 3) outranks a generic refresh (priority 6) even when the
+refresh sits earlier in the cascade.
 
 **Parameters**
 

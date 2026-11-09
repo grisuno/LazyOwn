@@ -114,7 +114,7 @@ Default-deny shell runner used by the LazyOwn framework.
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#saferunner-__init__) | constructor |  |
-| [`run`](#saferunner-run) | method | Execute ``argv`` without invoking a shell. |
+| [`run`](#saferunner-run) | method | Execute `[`argv`](modules.poc_registry.py.md#renderedpoc-argv)` without invoking a shell. |
 | [`run_shell`](#saferunner-run_shell) | method | Execute ``command`` through the system shell, gated by policy. |
 
 <a id="saferunner-__init__"></a>
@@ -145,7 +145,7 @@ def __init__(self, audit_log_path: str | Path | None = None) -> None
 def run(self, argv: Sequence[str], *, timeout: float | None = None) -> SafeRunResult
 ```
 
-Execute ``argv`` without invoking a shell.
+Execute `[`argv`](modules.poc_registry.py.md#renderedpoc-argv)` without invoking a shell.
 
 **Parameters**
 

@@ -2,6 +2,33 @@
 Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 
 ## External Imports (continued)
+- `tests/test_lazy_continuation.py` -> __future__, inspect, pathlib
+- `tests/test_lazy_creds.py` -> __future__, pathlib, tempfile, unittest
+- `tests/test_lazy_engine.py` -> __future__, pytest
+- `tests/test_lazy_evidence.py` -> __future__, hashlib, json, sqlite3, zipfile
+- `tests/test_lazy_exposure.py` -> __future__, json
+- `tests/test_lazy_feedmatch.py` -> __future__, json, os, pytest
+- `tests/test_lazy_finalizer.py` -> __future__
+- `tests/test_lazy_findings.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_lazy_hostscore.py` -> __future__, json, pathlib
+- `tests/test_lazy_intel_wiring.py` -> __future__, pathlib, time
+- `tests/test_lazy_inventory.py` -> __future__
+- `tests/test_lazy_ledger.py` -> __future__, pathlib
+- `tests/test_lazy_loop.py` -> __future__, ast, json, pathlib, re, smtplib, subprocess, time, urllib.parse
+- `tests/test_lazy_match_policy.py` -> __future__, pathlib
+- `tests/test_lazy_netattack.py` -> __future__, pytest
+- `tests/test_lazy_oob.py` -> __future__, pathlib, tempfile, unittest, unittest.mock, urllib.request
+- `tests/test_lazy_orchestrator.py` -> __future__, asyncio, json, pytest, shutil, textual.widgets, yaml
+- `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
+- `tests/test_lazy_probes.py` -> __future__
+- `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
+- `tests/test_lazy_reaper.py` -> __future__, typing
+- `tests/test_lazy_runner.py` -> __future__, ast, builtins, contextlib, io, json, os, pathlib, pytest, queue, subprocess, sys, threading, time, types
+- `tests/test_lazy_runner_fallback.py` -> __future__, pytest
+- `tests/test_lazy_scope.py` -> __future__, pathlib
+- `tests/test_lazy_search.py` -> __future__
+- `tests/test_lazy_sentinel.py` -> __future__, pytest, shlex
+- `tests/test_lazy_streaming.py` -> __future__, types
 - `tests/test_lazy_timeline.py` -> __future__, json
 - `tests/test_lazy_triage.py` -> __future__, pathlib
 - `tests/test_lazy_worker_safety.py` -> __future__, pytest, types
@@ -43,6 +70,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `tests/test_loop_mentions.py` -> __future__
 - `tests/test_loop_multi_target.py` -> __future__, pytest
 - `tests/test_loop_nmap_guard.py` -> __future__
+- `tests/test_loop_objective_wiring.py` -> __future__, datetime, json
 - `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
 - `tests/test_loop_scope_traffic_evidence.py` -> __future__
 - `tests/test_loop_spawn_side.py` -> __future__
@@ -79,6 +107,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
 - `tests/test_orchestrator_yaml.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_outcome_bus.py` -> __future__, concurrent.futures, json, modules.sinks.report, pathlib
+- `tests/test_pacing.py` -> __future__, time
 - `tests/test_packaging.py` -> ast, pathlib, pytest, re, subprocess, sys, tomllib, yaml
 - `tests/test_palette_overlay.py` -> __future__, pathlib, sys
 - `tests/test_param_registry.py` -> __future__, json, pathlib, pytest, re, yaml
@@ -91,8 +120,10 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
 - `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
 - `tests/test_playbook_admin.py` -> __future__, yaml
+- `tests/test_playbook_chain.py` -> __future__, os, yaml
 - `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
 - `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_poc_registry.py` -> __future__, pathlib, yaml
 - `tests/test_policy_planner_signal.py` -> __future__, pathlib
 - `tests/test_profiles.py` -> __future__, pathlib, pytest
 - `tests/test_progress_ledger.py` -> __future__, pathlib, pytest, tempfile
@@ -130,6 +161,8 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
+- `tests/test_selection_module.py` -> __future__, pytest
+- `tests/test_selection_technique.py` -> __future__, pytest
 - `tests/test_selection_wiring.py` -> __future__
 - `tests/test_selectors_base.py` -> __future__
 - `tests/test_selectors_capabilities.py` -> __future__

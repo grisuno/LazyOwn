@@ -1,10 +1,127 @@
-# Symbols (page 21 of 49)
+# Symbols (page 21 of 50)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
+| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
+| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
+| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
+| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
+| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
+| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
+| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
+| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
+| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
+| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
+| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
+| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
+| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
+| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
+| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
+| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
+| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
+| `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
+| `loader` | method | `modules/pipeline_engine.py:942` | `def loader(self)` |
+| `mcp_pipeline_list` | function | `modules/pipeline_engine.py:1368` | `def mcp_pipeline_list()` |
+| `mcp_pipeline_run` | function | `modules/pipeline_engine.py:1314` | `def mcp_pipeline_run(name, target, background, onecmd)` |
+| `mcp_pipeline_status` | function | `modules/pipeline_engine.py:1414` | `def mcp_pipeline_status(last_n)` |
+| `mcp_pipeline_validate` | function | `modules/pipeline_engine.py:1385` | `def mcp_pipeline_validate(name)` |
+| `narrate` | method | `modules/pipeline_engine.py:852` | `def narrate(self, kind, target, message, payload, severity)` |
+| `narrate` | method | `modules/pipeline_engine.py:864` | `def narrate(self)` |
+| `narrate` | method | `modules/pipeline_engine.py:881` | `def narrate(self, kind, target, message, payload, severity)` |
+| `open_run` | method | `modules/pipeline_engine.py:785` | `def open_run(self, pipeline_name, run_id)` |
+| `pipelines_dir` | method | `modules/pipeline_engine.py:642` | `def pipelines_dir(self)` |
+| `register` | method | `modules/pipeline_engine.py:389` | `def register(cls, command, deriver)` |
+| `render` | method | `modules/pipeline_engine.py:278` | `def render(self, template)` |
+| `resolve` | method | `modules/pipeline_engine.py:289` | `def resolve(self, dotted_path)` |
+| `resolve_path` | method | `modules/pipeline_engine.py:658` | `def resolve_path(self, name)` |
+| `run` | method | `modules/pipeline_engine.py:513` | `def run(self, command, args, target, timeout_s)` |
+| `run` | method | `modules/pipeline_engine.py:548` | `def run(self, command, args, target, timeout_s)` |
+| `run` | method | `modules/pipeline_engine.py:949` | `def run(self, name, target, nesting_stack)` |
+| `runs_dir` | method | `modules/pipeline_engine.py:782` | `def runs_dir(self)` |
+| `to_context` | method | `modules/pipeline_engine.py:180` | `def to_context(self)` |
+| `to_dict` | method | `modules/pipeline_engine.py:213` | `def to_dict(self)` |
+| `validate` | method | `modules/pipeline_engine.py:352` | `def validate(predicate, output)` |
+| `validate` | method | `modules/pipeline_engine.py:945` | `def validate(self, name)` |
+| `write_plan` | method | `modules/pipeline_engine.py:797` | `def write_plan(self, run_dir, spec)` |
+| `write_step` | method | `modules/pipeline_engine.py:814` | `def write_step(self, run_dir, result)` |
+| `write_summary` | method | `modules/pipeline_engine.py:828` | `def write_summary(self, run_dir, run)` |
+| `Frontier` | class | `modules/planner.py:505` | `class Frontier` |
+| `PlanCandidate` | class | `modules/planner.py:41` | `class PlanCandidate` |
+| `PlanResult` | class | `modules/planner.py:54` | `class PlanResult` |
+| `Planner` | class | `modules/planner.py:260` | `class Planner` |
+| `TodoItem` | class | `modules/planner.py:452` | `class TodoItem` |
+| `TodoList` | class | `modules/planner.py:460` | `class TodoList` |
+| `__init__` | method | `modules/planner.py:269` | `def __init__(self, world_model, obs_parser, api_key)` |
+| `__init__` | method | `modules/planner.py:468` | `def __init__(self)` |
+| `__init__` | method | `modules/planner.py:514` | `def __init__(self, planner, todos)` |
+| `__len__` | method | `modules/planner.py:560` | `def __len__(self)` |
+| `_build_rationale` | method | `modules/planner.py:374` | `def _build_rationale(chosen, facts, target)` |
+| `_gather_facts` | function | `modules/planner.py:64` | `def _gather_facts(world_model, obs_parser)` |
+| `_llm_tiebreak` | method | `modules/planner.py:387` | `def _llm_tiebreak(self, target, facts, candidates)` |
+| `_parser` | method | `modules/planner.py:294` | `def _parser(self)` |
+| `_risk_for` | function | `modules/planner.py:160` | `def _risk_for(technique_id)` |
+| `_score_step` | function | `modules/planner.py:225` | `def _score_step(step, facts)` |
+| `_wm` | method | `modules/planner.py:279` | `def _wm(self)` |
+| `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
+| `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
+| `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
+| `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
+| `pop` | method | `modules/planner.py:551` | `def pop(self)` |
+| `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
+| `to_dict` | method | `modules/planner.py:413` | `def to_dict(self, result)` |
+| `todo_add` | method | `modules/planner.py:472` | `def todo_add(self, name, requires)` |
+| `todo_done` | method | `modules/planner.py:478` | `def todo_done(self, name)` |
+| `todos` | method | `modules/planner.py:523` | `def todos(self)` |
+| `tried` | method | `modules/planner.py:528` | `def tried(self)` |
+| `PlaybookEntry` | class | `modules/playbook_admin.py:41` | `class PlaybookEntry` |
+| `_count_steps` | function | `modules/playbook_admin.py:210` | `def _count_steps(data)` |
+| `_target_for_write` | function | `modules/playbook_admin.py:367` | `def _target_for_write(path, directory)` |
+| `_write_atomic` | function | `modules/playbook_admin.py:312` | `def _write_atomic(target, data)` |
+| `_yaml_module` | function | `modules/playbook_admin.py:56` | `def _yaml_module()` |
+| `create_playbook` | function | `modules/playbook_admin.py:327` | `def create_playbook(filename)` |
+| `delete_playbook` | function | `modules/playbook_admin.py:436` | `def delete_playbook(path, directory)` |
+| `load_playbook` | function | `modules/playbook_admin.py:103` | `def load_playbook(path)` |
+| `playbook_kind` | function | `modules/playbook_admin.py:124` | `def playbook_kind(data)` |
+| `playbook_path` | function | `modules/playbook_admin.py:76` | `def playbook_path(filename, directory)` |
+| `playbook_template` | function | `modules/playbook_admin.py:295` | `def playbook_template(name, description, platforms)` |
+| `preview_playbook` | function | `modules/playbook_admin.py:281` | `def preview_playbook(path, limit)` |
+| `save_playbook_yaml` | function | `modules/playbook_admin.py:407` | `def save_playbook_yaml(path, text, directory)` |
+| `scan_playbooks` | function | `modules/playbook_admin.py:261` | `def scan_playbooks(directory)` |
+| `slugify` | function | `modules/playbook_admin.py:63` | `def slugify(value)` |
+| `summarize` | function | `modules/playbook_admin.py:227` | `def summarize(path)` |
+| `update_playbook` | function | `modules/playbook_admin.py:380` | `def update_playbook(path, data, directory)` |
+| `validate_playbook` | function | `modules/playbook_admin.py:137` | `def validate_playbook(data)` |
+| `_action_to_step` | function | `modules/playbook_chain.py:35` | `def _action_to_step(action, phase_name, index)` |
+| `_chain_to_raw` | function | `modules/playbook_chain.py:123` | `def _chain_to_raw(chain)` |
+| `playbook_to_chain` | function | `modules/playbook_chain.py:69` | `def playbook_to_chain(playbook, target, playbook_dir)` |
+| `slugify` | function | `modules/playbook_chain.py:29` | `def slugify(name)` |
+| `write_playbook_chain` | function | `modules/playbook_chain.py:152` | `def write_playbook_chain(chain, chains_dir)` |
+| `Playbook` | class | `modules/playbook_engine.py:133` | `class Playbook` |
+| `PlaybookEngine` | class | `modules/playbook_engine.py:375` | `class PlaybookEngine` |
+| `PlaybookResult` | class | `modules/playbook_engine.py:173` | `class PlaybookResult` |
+| `PlaybookStep` | class | `modules/playbook_engine.py:101` | `class PlaybookStep` |
+| `StepResult` | class | `modules/playbook_engine.py:165` | `class StepResult` |
+| `_AtomicIndex` | class | `modules/playbook_engine.py:254` | `class _AtomicIndex` |
+| `_StixLoader` | class | `modules/playbook_engine.py:185` | `class _StixLoader` |
+| `_TechniqueSelector` | class | `modules/playbook_engine.py:311` | `class _TechniqueSelector` |
+| `__init__` | method | `modules/playbook_engine.py:188` | `def __init__(self, json_path)` |
+| `__init__` | method | `modules/playbook_engine.py:260` | `def __init__(self, atomics_path)` |
+| `__init__` | method | `modules/playbook_engine.py:387` | `def __init__(self, world_model, obs_parser, api_key, top_n)` |
+| `_local_executor` | function | `modules/playbook_engine.py:792` | `def _local_executor(command, host)` |
+| `_obs_parser` | method | `modules/playbook_engine.py:415` | `def _obs_parser(self)` |
+| `_world_model` | method | `modules/playbook_engine.py:404` | `def _world_model(self)` |
+| `available` | method | `modules/playbook_engine.py:192` | `def available(self)` |
+| `available` | method | `modules/playbook_engine.py:264` | `def available(self)` |
+| `build` | method | `modules/playbook_engine.py:267` | `def build(self)` |
+| `derive` | method | `modules/playbook_engine.py:427` | `def derive(self, target, phase, platform, apt_name)` |
+| `execute` | method | `modules/playbook_engine.py:529` | `def execute(self, playbook, executor, dry_run)` |
+| `from_dict` | method | `modules/playbook_engine.py:128` | `def from_dict(cls, d)` |
+| `from_dict` | method | `modules/playbook_engine.py:152` | `def from_dict(cls, d)` |
 | `get_engine` | function | `modules/playbook_engine.py:669` | `def get_engine(api_key)` |
 | `load` | method | `modules/playbook_engine.py:611` | `def load(self, path)` |
+| `phase_techniques` | function | `modules/playbook_engine.py:696` | `def phase_techniques(phase, platform, top_n)` |
 | `result_summary` | method | `modules/playbook_engine.py:640` | `def result_summary(self, result)` |
 | `save` | method | `modules/playbook_engine.py:599` | `def save(self, playbook, path)` |
 | `select` | method | `modules/playbook_engine.py:317` | `def select(self, candidates, world_context, target, phase, api_key, top_n)` |
@@ -38,6 +155,22 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `resolve` | method | `modules/playbook_executor.py:185` | `def resolve(self, technique_id, atomic_test, platform)` |
 | `run` | method | `modules/playbook_executor.py:390` | `def run(self, name, platform, target, onecmd)` |
 | `to_dict` | method | `modules/playbook_executor.py:74` | `def to_dict(self)` |
+| `PocArg` | class | `modules/poc_registry.py:77` | `class PocArg` |
+| `PocVerb` | class | `modules/poc_registry.py:95` | `class PocVerb` |
+| `RenderedPoc` | class | `modules/poc_registry.py:152` | `class RenderedPoc` |
+| `_load_catalog` | function | `modules/poc_registry.py:257` | `def _load_catalog(path)` |
+| `_parse_args` | function | `modules/poc_registry.py:196` | `def _parse_args(raw)` |
+| `_parse_verb` | function | `modules/poc_registry.py:213` | `def _parse_verb(name, raw)` |
+| `_placeholder_names` | function | `modules/poc_registry.py:168` | `def _placeholder_names(template)` |
+| `_resolve_placeholder` | function | `modules/poc_registry.py:173` | `def _resolve_placeholder(name, overrides, params)` |
+| `get_poc` | function | `modules/poc_registry.py:312` | `def get_poc(name, catalog_path)` |
+| `interpreter_argv` | function | `modules/poc_registry.py:325` | `def interpreter_argv(verb)` |
+| `missing_requirements` | function | `modules/poc_registry.py:392` | `def missing_requirements(verb)` |
+| `poc_verbs` | function | `modules/poc_registry.py:283` | `def poc_verbs(catalog_path)` |
+| `propose_intents` | function | `modules/poc_registry.py:409` | `def propose_intents(service_texts, target, limit, catalog_path)` |
+| `render_argv` | function | `modules/poc_registry.py:337` | `def render_argv(verb, params, target, overrides)` |
+| `to_dict` | method | `modules/poc_registry.py:129` | `def to_dict(self)` |
+| `verbs_summary` | function | `modules/poc_registry.py:449` | `def verbs_summary(catalog_path)` |
 | `MutationConfig` | class | `modules/polymorphic_engine.py:93` | `class MutationConfig` |
 | `MutationResult` | class | `modules/polymorphic_engine.py:126` | `class MutationResult` |
 | `PolymorphicEngine` | class | `modules/polymorphic_engine.py:146` | `class PolymorphicEngine` |
@@ -363,138 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:182` | `char* get_username_from_pid(pid_t pid)` |
 | `getdents` | function | `modules/rootkit/mrhyde.c:561` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
 | `getdents64` | function | `modules/rootkit/mrhyde.c:622` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde.c:129` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:552` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:97` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:77` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde.c:463` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde.c:682` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde.c:331` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde.c:375` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:55` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde.c:226` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde.c:149` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde.c:216` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:201` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde.c:419` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde.c:117` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde.c:161` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
-| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde2.c:33` | `#define HIDDEN_FILE1` |
-| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde2.c:34` | `#define HIDDEN_FILE2` |
-| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde2.c:35` | `#define HIDDEN_FILE3` |
-| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde2.c:36` | `#define HIDDEN_FILE4` |
-| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde2.c:37` | `#define HIDDEN_FILE5` |
-| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde2.c:38` | `#define HIDDEN_FILE6` |
-| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde2.c:39` | `#define HIDDEN_FILE7` |
-| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde2.c:40` | `#define HIDDEN_FILE8` |
-| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde2.c:41` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:48` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:50` | `#define MAX_HIDE_PIDS` |
-| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:51` | `#define PID_FILE_PATH` |
-| `fopen` | function | `modules/rootkit/mrhyde2.c:242` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde2.c:427` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:152` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde2.c:474` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde2.c:531` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde2.c:99` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:465` | `` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:67` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde2.c:390` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde2.c:587` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde2.c:279` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde2.c:316` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:52` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde2.c:186` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde2.c:119` | `int remove(const char *pathname)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:171` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde2.c:353` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde2.c:87` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde2.c:131` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:57` | `#define C2_PORT` |
-| `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:56` | `#define C2_SERVER_IP` |
-| `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:58` | `#define CQE_TIMEOUT_MS` |
-| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:53` | `#define FILE_HIDE_PATH` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde3.c:33` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde3.c:34` | `#define HIDDEN_FILE` |
-| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde3.c:35` | `#define HIDDEN_FILE1` |
-| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde3.c:36` | `#define HIDDEN_FILE2` |
-| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde3.c:37` | `#define HIDDEN_FILE3` |
-| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde3.c:38` | `#define HIDDEN_FILE4` |
-| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde3.c:39` | `#define HIDDEN_FILE5` |
-| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde3.c:40` | `#define HIDDEN_FILE6` |
-| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde3.c:41` | `#define HIDDEN_FILE7` |
-| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde3.c:42` | `#define HIDDEN_FILE8` |
-| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde3.c:43` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:49` | `#define HIDE_USER` |
-| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:55` | `#define IO_URING_BUFFER_SIZE` |
-| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:54` | `#define IO_URING_QUEUE_DEPTH` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:51` | `#define MAX_HIDE_PIDS` |
-| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:52` | `#define PID_FILE_PATH` |
-| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
-| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
-| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:84` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
-| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:77` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
-| `fopen` | function | `modules/rootkit/mrhyde3.c:411` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde3.c:539` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:301` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde3.c:573` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde3.c:609` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
-| `init_root_ring` | function | `modules/rootkit/mrhyde3.c:180` | `static int init_root_ring(void)` |
-| `io_uring` | struct | `modules/rootkit/mrhyde3.c:69` | `` |
-| `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
-| `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
-| `kill` | function | `modules/rootkit/mrhyde3.c:377` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:564` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:286` | `void load_hidden_files(void)` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:272` | `void load_hidden_pids(void)` |
-| `lstat` | function | `modules/rootkit/mrhyde3.c:515` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `open` | function | `modules/rootkit/mrhyde3.c:434` | `int open(const char *pathname, int flags, ...)` |
-| `openat` | function | `modules/rootkit/mrhyde3.c:462` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:316` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde3.c:340` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde3.c:387` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde3.c:333` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:324` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde3.c:491` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:257` | `static char *traditional_read_file(const char *path)` |
-| `unlink` | function | `modules/rootkit/mrhyde3.c:371` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde3.c:393` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:167` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
-| `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:134` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
-| `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:89` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
-| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:201` | `static char *uring_read_whole_file(const char *path)` |
-| `uring_submit` | function | `modules/rootkit/mrhyde3.c:145` | `static int uring_submit(struct io_uring *ring)` |
-| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:153` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
-| `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
-| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:33` | `#define HIDDEN_FILE_NAME` |
-| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:30` | `#define HIDDEN_PROCESS_NAME` |
-| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:36` | `#define LISTENER_IP` |
-| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:39` | `#define LISTENER_PORT` |
-| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:42` | `#define SPECIAL_STRING` |
-| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:45` | `#define SPECIAL_STRING_PORT` |
-| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:192` | `static void disable_module_signature_verification(void)` |
-| `hook_syscalls` | function | `modules/rootkit/rootkit.c:206` | `static int __init hook_syscalls(void)` |
-| `hooked_getdents` | function | `modules/rootkit/rootkit.c:86` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:112` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_read` | function | `modules/rootkit/rootkit.c:138` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `regs_override_return` | function | `modules/rootkit/rootkit.c:54` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
-| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:219` | `static void __exit unhook_syscalls(void)` |
-| `SaaSAttackEngine` | class | `modules/saas_attacks.py:152` | `class SaaSAttackEngine` |
-| `SaaSConfig` | class | `modules/saas_attacks.py:49` | `class SaaSConfig` |
-| `SaaSEnumerationTools` | class | `modules/saas_attacks.py:71` | `class SaaSEnumerationTools` |
-| `__init__` | method | `modules/saas_attacks.py:163` | `def __init__(self, config)` |
-| `detect_external_sharing` | method | `modules/saas_attacks.py:327` | `def detect_external_sharing(self)` |
-| `enumerate_all` | method | `modules/saas_attacks.py:166` | `def enumerate_all(self)` |
-| `google_workspace_commands` | method | `modules/saas_attacks.py:100` | `def google_workspace_commands()` |
-| `google_workspace_domain_wide_delegation` | method | `modules/saas_attacks.py:228` | `def google_workspace_domain_wide_delegation(self)` |
-| `m365_ews_mail_search` | method | `modules/saas_attacks.py:179` | `def m365_ews_mail_search(self, search_term)` |
-| `microsoft365_commands` | method | `modules/saas_attacks.py:75` | `def microsoft365_commands()` |
-| `salesforce_commands` | method | `modules/saas_attacks.py:118` | `def salesforce_commands()` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

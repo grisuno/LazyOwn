@@ -180,3 +180,42 @@ def test_alias_parameter_is_preserved_after_dynamic_expansion():
 
     shell.onecmd_plus_hooks("rm_wm_host 127.0.0.1")
     assert captured["line"] == "python3 -m modules.world_model remove-host 127.0.0.1"
+
+
+class TestExplicitTargetCheck:
+    """Commands taking the victim as an argument are vetted on that argument."""
+
+    def test_enforce_blocks_explicit_out_of_scope_target(self):
+        story = "apt_chain with an explicit out-of-scope target is blocked even when rhost is in scope"
+        stub = _make_stub(
+            {"scope": ["10.10.10.0/24"], "scope_enforcement": "enforce", "rhost": "127.0.0.1"},
+            offensive=set(),
+            confirm=False,
+        )
+        assert Shell._scope_check(stub, "apt_chain", target="127.0.0.1", force_offensive=True) is False, story
+
+    def test_enforce_allows_explicit_in_scope_target(self):
+        story = "the explicit target inside the scope runs through"
+        stub = _make_stub(
+            {"scope": ["10.10.10.0/24"], "scope_enforcement": "enforce", "rhost": "127.0.0.1"},
+            offensive=set(),
+            confirm=False,
+        )
+        assert Shell._scope_check(stub, "apt_chain", target="10.10.10.5", force_offensive=True) is True, story
+
+    def test_warn_annotates_explicit_out_of_scope_target(self, capsys):
+        story = "warn mode keeps annotating but never blocks"
+        stub = _make_stub(
+            {"scope": ["10.10.10.0/24"], "scope_enforcement": "warn", "rhost": "127.0.0.1"},
+            offensive=set(),
+        )
+        assert Shell._scope_check(stub, "apt_chain", target="127.0.0.1", force_offensive=True) is True, story
+        assert "OUTSIDE the authorized scope" in capsys.readouterr().out, story
+
+    def test_default_classification_kept_without_force(self):
+        story = "without force_offensive the benign classification allows the broad verb"
+        stub = _make_stub(
+            {"scope": ["10.10.10.0/24"], "scope_enforcement": "enforce", "rhost": "127.0.0.1"},
+            offensive=set(),
+        )
+        assert Shell._scope_check(stub, "apt_chain", target="127.0.0.1") is True, story

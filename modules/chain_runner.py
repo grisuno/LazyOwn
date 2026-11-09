@@ -17,6 +17,7 @@ import glob
 import hashlib
 import json
 import os
+import random
 import re
 import shlex
 import subprocess
@@ -35,6 +36,7 @@ _MAX_CAPTURE_CHARS = 2000
 _DEFAULT_TIMEOUT = 300.0
 _MAX_RETRIES = 5
 _MAX_TOTAL_TIMEOUT = 86_400.0
+_MAX_STEP_JITTER_PCT = 100.0
 _VERIFY_TIMEOUT = 120.0
 _MAX_STEP_RUNS = 3
 _MAX_REPLAN_INSERTS = 3
@@ -300,36 +302,48 @@ class ChainRunner:
             try:
                 from modules.loop_guardrails import EdrPacer
 
-                self._pacer = EdrPacer()
+                self._pacer = EdrPacer.from_config()
             except Exception:
                 self._pacer = None
 
-    def _pace_after(self, outcome: StepOutcome, started: float) -> None:
-        """Feed one executed step to the pacer and sleep if detection is high.
+    def _pace_after(self, outcome: StepOutcome, started: float, step: ChainStep | None = None) -> None:
+        """Feed one executed step to the pacer and sleep if required.
 
-        The pacer scores slow steps and reset/timeout markers, so a calm
-        chain never sleeps. Any inserted delay is clamped to the remaining
-        whole-chain budget so pacing never pushes a run past its timeout.
+        Two delay sources combine (larger wins): the step's own
+        ``sleep``/``jitter`` declaration and the shared EdrPacer, which
+        scores slow steps and reset/timeout markers so a calm chain
+        never sleeps. Any inserted delay is clamped to the remaining
+        whole-chain budget so pacing never pushes a run past its
+        timeout.
 
         Args:
             outcome: The step just delivered.
             started: Monotonic start time of the whole run.
+            step: The executed step (per-step pacing overrides); None
+                skips the per-step path (parallel groups).
         """
-        if self._pacer is None or self.dry_run or outcome.status != "ok":
+        if self.dry_run or outcome.status != "ok":
             return
-        try:
-            self._pacer.observe(outcome.run, outcome.duration_ms / 1000.0, outcome.captured or outcome.output)
-            delay = self._pacer.inter_step_delay()
-            self._pacer.decay()
-            if delay <= 0.0:
-                return
-            if self.total_timeout:
-                remaining = self.total_timeout - (time.time() - started)
-                delay = min(delay, max(0.0, remaining))
-            if delay > 0.0:
-                time.sleep(delay)
-        except Exception:
+        delay = 0.0
+        if step is not None and (step.sleep > 0.0 or step.jitter > 0.0):
+            delay = float(step.sleep)
+            if step.jitter > 0.0 and delay > 0.0:
+                spread = min(_MAX_STEP_JITTER_PCT, max(0.0, step.jitter)) / 100.0
+                delay *= random.uniform(max(0.0, 1.0 - spread), 1.0 + spread)
+        if self._pacer is not None:
+            try:
+                self._pacer.observe(outcome.run, outcome.duration_ms / 1000.0, outcome.captured or outcome.output)
+                delay = max(delay, self._pacer.inter_step_delay())
+                self._pacer.decay()
+            except Exception:
+                pass
+        if delay <= 0.0:
             return
+        if self.total_timeout:
+            remaining = self.total_timeout - (time.time() - started)
+            delay = min(delay, max(0.0, remaining))
+        if delay > 0.0:
+            time.sleep(delay)
 
     def run(self) -> ChainRunResult:
         """Execute the chain in order and return every step outcome."""
@@ -439,7 +453,7 @@ class ChainRunner:
                 if artifact and artifact not in result.artifacts:
                     result.artifacts.append(artifact)
             self._deliver(outcome)
-            self._pace_after(outcome, started)
+            self._pace_after(outcome, started, step)
             replan_skip = self._apply_replanner(result, index, outcome, steps, step_index, variables, captured_keys)
             self._save_checkpoint(result, variables, captured_keys, index + 1, "running", verdicts)
             if replan_skip:

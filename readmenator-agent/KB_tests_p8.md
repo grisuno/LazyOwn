@@ -1,5 +1,32 @@
-# Subsystem: tests (page 8 of 23)
+# Subsystem: tests (page 8 of 24)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
+
+## tests/test_core_defaults.py
+- Doc: Build-time defaults are data, not literals.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
+  - `TestLoader` (class, line 28) `class TestLoader`
+  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
+  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
+  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
+  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
+  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
+  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
+  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
+  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
+  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
+  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
+  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
+  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
+  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
+  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
+  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
+  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
+  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
+  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
+- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
 
 ## tests/test_core_executor.py
 - Doc: Tests for core.executor — safe_run and run_shell subprocess wrappers.
@@ -56,73 +83,72 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_c2_profile_builtins` (function, line 340) `def test_c2_profile_builtins()`
   - `test_c2_profile_jitter` (function, line 351) `def test_c2_profile_jitter()`
   - `test_c2_profile_save_load` (function, line 359) `def test_c2_profile_save_load(tmp_path)`
-  - `test_config_store` (function, line 370) `def test_config_store(tmp_path)`
-  - `test_mcp_tools_registered` (function, line 391) `def test_mcp_tools_registered()`
-  - `test_bridge_catalog_phases` (function, line 417) `def test_bridge_catalog_phases()`
-  - `test_bridge_by_phase` (function, line 429) `def test_bridge_by_phase()`
-  - `test_bridge_service_match` (function, line 439) `def test_bridge_service_match()`
-  - `test_bridge_build_command` (function, line 448) `def test_bridge_build_command()`
-  - `test_bridge_suggest` (function, line 464) `def test_bridge_suggest()`
-  - `test_bridge_suggest_with_services` (function, line 475) `def test_bridge_suggest_with_services()`
-  - `test_bridge_suggest_excluded` (function, line 485) `def test_bridge_suggest_excluded()`
-  - `test_bridge_list_all_phases` (function, line 497) `def test_bridge_list_all_phases()`
-  - `test_bridge_phase_mapper` (function, line 508) `def test_bridge_phase_mapper()`
-  - `test_bridge_full_catalog_count` (function, line 522) `def test_bridge_full_catalog_count()`
-  - `test_bridge_all_phases_populated` (function, line 529) `def test_bridge_all_phases_populated()`
-  - `test_bridge_suggest_sequence` (function, line 550) `def test_bridge_suggest_sequence()`
-  - `test_bridge_tag_selector` (function, line 561) `def test_bridge_tag_selector()`
-  - `test_bridge_suggest_kerberos_phase` (function, line 571) `def test_bridge_suggest_kerberos_phase()`
-  - `test_bridge_suggest_windows_os` (function, line 579) `def test_bridge_suggest_windows_os()`
-  - `test_bridge_suggest_linux_os` (function, line 589) `def test_bridge_suggest_linux_os()`
-  - `test_bridge_catalog_summary_has_all_phases` (function, line 599) `def test_bridge_catalog_summary_has_all_phases()`
-  - `test_session_reader_empty` (function, line 614) `def test_session_reader_empty(tmp_path)`
-  - `test_session_reader_implant_csv` (function, line 625) `def test_session_reader_implant_csv(tmp_path)`
-  - `test_session_reader_privileged_sessions` (function, line 642) `def test_session_reader_privileged_sessions(tmp_path)`
-  - `test_session_reader_tasks` (function, line 663) `def test_session_reader_tasks(tmp_path)`
-  - `test_session_reader_discovered_hosts` (function, line 679) `def test_session_reader_discovered_hosts(tmp_path)`
-  - `test_session_reader_skips_non_implant_logs` (function, line 688) `def test_session_reader_skips_non_implant_logs(tmp_path)`
-  - `test_reactive_engine_av_detection` (function, line 702) `def test_reactive_engine_av_detection()`
-  - `test_reactive_engine_privesc_sudo` (function, line 717) `def test_reactive_engine_privesc_sudo()`
-  - `test_reactive_engine_credential_found` (function, line 728) `def test_reactive_engine_credential_found()`
-  - `test_reactive_engine_new_host` (function, line 737) `def test_reactive_engine_new_host()`
-  - `test_reactive_engine_shell_error` (function, line 746) `def test_reactive_engine_shell_error()`
-  - `test_reactive_engine_no_signal` (function, line 755) `def test_reactive_engine_no_signal()`
-  - `test_reactive_engine_priority_ordering` (function, line 766) `def test_reactive_engine_priority_ordering()`
-  - `test_session_rag_init` (function, line 778) `def test_session_rag_init()`
-  - `test_session_rag_stats` (function, line 785) `def test_session_rag_stats()`
-  - `test_session_rag_chunk_text` (function, line 796) `def test_session_rag_chunk_text()`
-  - `test_session_rag_index_new` (function, line 807) `def test_session_rag_index_new()`
-  - `test_session_rag_query_returns_list` (function, line 817) `def test_session_rag_query_returns_list()`
-  - `test_session_rag_context_for_step` (function, line 828) `def test_session_rag_context_for_step()`
-  - `test_threat_model_builder_init` (function, line 840) `def test_threat_model_builder_init()`
-  - `test_threat_model_build` (function, line 847) `def test_threat_model_build()`
-  - `test_threat_model_summary_fields` (function, line 860) `def test_threat_model_summary_fields()`
-  - `test_threat_model_ttps_have_required_fields` (function, line 872) `def test_threat_model_ttps_have_required_fields()`
-  - `test_threat_model_detection_rules_structure` (function, line 885) `def test_threat_model_detection_rules_structure()`
-  - `test_threat_model_load_after_build` (function, line 898) `def test_threat_model_load_after_build()`
-  - `test_threat_model_ioc_types` (function, line 908) `def test_threat_model_ioc_types()`
-  - `test_session_rag_fallback_persistence` (function, line 919) `def test_session_rag_fallback_persistence(tmp_path)`
-  - `test_session_rag_fallback_dedup` (function, line 939) `def test_session_rag_fallback_dedup()`
-  - `test_session_rag_fallback_ring_buffer` (function, line 949) `def test_session_rag_fallback_ring_buffer()`
-  - `test_threat_model_has_purple_team` (function, line 971) `def test_threat_model_has_purple_team()`
-  - `test_threat_model_purple_team_structure` (function, line 980) `def test_threat_model_purple_team_structure()`
-  - `test_threat_model_purple_gaps_sorted_first` (function, line 996) `def test_threat_model_purple_gaps_sorted_first()`
-  - `test_threat_model_purple_coverage_field` (function, line 1013) `def test_threat_model_purple_coverage_field()`
-  - `test_atomic_enricher_builds` (function, line 1028) `def test_atomic_enricher_builds()`
-  - `test_atomic_enricher_complexity_values` (function, line 1045) `def test_atomic_enricher_complexity_values()`
-  - `test_atomic_enricher_scope_values` (function, line 1055) `def test_atomic_enricher_scope_values()`
-  - `test_atomic_query_keyword` (function, line 1065) `def test_atomic_query_keyword()`
-  - `test_atomic_query_mitre_prefix` (function, line 1081) `def test_atomic_query_mitre_prefix()`
-  - `test_atomic_query_platform_filter` (function, line 1092) `def test_atomic_query_platform_filter()`
-  - `test_atomic_query_no_prereqs` (function, line 1104) `def test_atomic_query_no_prereqs()`
-  - `test_atomic_query_include_command` (function, line 1115) `def test_atomic_query_include_command()`
-  - `test_atomic_query_empty_returns_list` (function, line 1127) `def test_atomic_query_empty_returns_list()`
-  - `test_parquet_db_query_atomic` (function, line 1139) `def test_parquet_db_query_atomic()`
-  - `test_session_rag_index_parquet_sources` (function, line 1150) `def test_session_rag_index_parquet_sources()`
+  - `test_mcp_tools_registered` (function, line 370) `def test_mcp_tools_registered()`
+  - `test_bridge_catalog_phases` (function, line 396) `def test_bridge_catalog_phases()`
+  - `test_bridge_by_phase` (function, line 408) `def test_bridge_by_phase()`
+  - `test_bridge_service_match` (function, line 418) `def test_bridge_service_match()`
+  - `test_bridge_build_command` (function, line 427) `def test_bridge_build_command()`
+  - `test_bridge_suggest` (function, line 443) `def test_bridge_suggest()`
+  - `test_bridge_suggest_with_services` (function, line 454) `def test_bridge_suggest_with_services()`
+  - `test_bridge_suggest_excluded` (function, line 464) `def test_bridge_suggest_excluded()`
+  - `test_bridge_list_all_phases` (function, line 476) `def test_bridge_list_all_phases()`
+  - `test_bridge_phase_mapper` (function, line 487) `def test_bridge_phase_mapper()`
+  - `test_bridge_full_catalog_count` (function, line 501) `def test_bridge_full_catalog_count()`
+  - `test_bridge_all_phases_populated` (function, line 508) `def test_bridge_all_phases_populated()`
+  - `test_bridge_suggest_sequence` (function, line 529) `def test_bridge_suggest_sequence()`
+  - `test_bridge_tag_selector` (function, line 540) `def test_bridge_tag_selector()`
+  - `test_bridge_suggest_kerberos_phase` (function, line 550) `def test_bridge_suggest_kerberos_phase()`
+  - `test_bridge_suggest_windows_os` (function, line 558) `def test_bridge_suggest_windows_os()`
+  - `test_bridge_suggest_linux_os` (function, line 568) `def test_bridge_suggest_linux_os()`
+  - `test_bridge_catalog_summary_has_all_phases` (function, line 578) `def test_bridge_catalog_summary_has_all_phases()`
+  - `test_session_reader_empty` (function, line 593) `def test_session_reader_empty(tmp_path)`
+  - `test_session_reader_implant_csv` (function, line 604) `def test_session_reader_implant_csv(tmp_path)`
+  - `test_session_reader_privileged_sessions` (function, line 621) `def test_session_reader_privileged_sessions(tmp_path)`
+  - `test_session_reader_tasks` (function, line 642) `def test_session_reader_tasks(tmp_path)`
+  - `test_session_reader_discovered_hosts` (function, line 658) `def test_session_reader_discovered_hosts(tmp_path)`
+  - `test_session_reader_skips_non_implant_logs` (function, line 667) `def test_session_reader_skips_non_implant_logs(tmp_path)`
+  - `test_reactive_engine_av_detection` (function, line 681) `def test_reactive_engine_av_detection()`
+  - `test_reactive_engine_privesc_sudo` (function, line 696) `def test_reactive_engine_privesc_sudo()`
+  - `test_reactive_engine_credential_found` (function, line 707) `def test_reactive_engine_credential_found()`
+  - `test_reactive_engine_new_host` (function, line 716) `def test_reactive_engine_new_host()`
+  - `test_reactive_engine_shell_error` (function, line 725) `def test_reactive_engine_shell_error()`
+  - `test_reactive_engine_no_signal` (function, line 734) `def test_reactive_engine_no_signal()`
+  - `test_reactive_engine_priority_ordering` (function, line 745) `def test_reactive_engine_priority_ordering()`
+  - `test_session_rag_init` (function, line 757) `def test_session_rag_init()`
+  - `test_session_rag_stats` (function, line 764) `def test_session_rag_stats()`
+  - `test_session_rag_chunk_text` (function, line 775) `def test_session_rag_chunk_text()`
+  - `test_session_rag_index_new` (function, line 786) `def test_session_rag_index_new()`
+  - `test_session_rag_query_returns_list` (function, line 796) `def test_session_rag_query_returns_list()`
+  - `test_session_rag_context_for_step` (function, line 807) `def test_session_rag_context_for_step()`
+  - `test_threat_model_builder_init` (function, line 819) `def test_threat_model_builder_init()`
+  - `test_threat_model_build` (function, line 826) `def test_threat_model_build()`
+  - `test_threat_model_summary_fields` (function, line 839) `def test_threat_model_summary_fields()`
+  - `test_threat_model_ttps_have_required_fields` (function, line 851) `def test_threat_model_ttps_have_required_fields()`
+  - `test_threat_model_detection_rules_structure` (function, line 864) `def test_threat_model_detection_rules_structure()`
+  - `test_threat_model_load_after_build` (function, line 877) `def test_threat_model_load_after_build()`
+  - `test_threat_model_ioc_types` (function, line 887) `def test_threat_model_ioc_types()`
+  - `test_session_rag_fallback_persistence` (function, line 898) `def test_session_rag_fallback_persistence(tmp_path)`
+  - `test_session_rag_fallback_dedup` (function, line 918) `def test_session_rag_fallback_dedup()`
+  - `test_session_rag_fallback_ring_buffer` (function, line 928) `def test_session_rag_fallback_ring_buffer()`
+  - `test_threat_model_has_purple_team` (function, line 950) `def test_threat_model_has_purple_team()`
+  - `test_threat_model_purple_team_structure` (function, line 959) `def test_threat_model_purple_team_structure()`
+  - `test_threat_model_purple_gaps_sorted_first` (function, line 975) `def test_threat_model_purple_gaps_sorted_first()`
+  - `test_threat_model_purple_coverage_field` (function, line 992) `def test_threat_model_purple_coverage_field()`
+  - `test_atomic_enricher_builds` (function, line 1007) `def test_atomic_enricher_builds()`
+  - `test_atomic_enricher_complexity_values` (function, line 1024) `def test_atomic_enricher_complexity_values()`
+  - `test_atomic_enricher_scope_values` (function, line 1034) `def test_atomic_enricher_scope_values()`
+  - `test_atomic_query_keyword` (function, line 1044) `def test_atomic_query_keyword()`
+  - `test_atomic_query_mitre_prefix` (function, line 1060) `def test_atomic_query_mitre_prefix()`
+  - `test_atomic_query_platform_filter` (function, line 1071) `def test_atomic_query_platform_filter()`
+  - `test_atomic_query_no_prereqs` (function, line 1083) `def test_atomic_query_no_prereqs()`
+  - `test_atomic_query_include_command` (function, line 1094) `def test_atomic_query_include_command()`
+  - `test_atomic_query_empty_returns_list` (function, line 1106) `def test_atomic_query_empty_returns_list()`
+  - `test_parquet_db_query_atomic` (function, line 1118) `def test_parquet_db_query_atomic()`
+  - `test_session_rag_index_parquet_sources` (function, line 1129) `def test_session_rag_index_parquet_sources()`
   - `_User` (class, line 295) `class _User(UserMixin)`
   - `load_user` (function, line 305) `def load_user(user_id)`
   - `__init__` (method, line 296) `def __init__(self, uid)`
-- Depends on: `modules/atomic_enricher.py`, `modules/collab_bp.py`, `modules/config_store.py`, `modules/cve_matcher.py`, `modules/dashboard_bp.py`, `modules/integrations/misp_export.py`, `modules/integrations/searchsploit.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/memory_store.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_parquet_db.py`
+- Depends on: `modules/atomic_enricher.py`, `modules/collab_bp.py`, `modules/cve_matcher.py`, `modules/dashboard_bp.py`, `modules/integrations/misp_export.py`, `modules/integrations/searchsploit.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/memory_store.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_parquet_db.py`
 
 ## tests/test_cors_behavior.py
 - Doc: BDD behavior scenarios for the CORS policy contract.
@@ -466,21 +492,6 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_malformed_logs_raise` (function, line 105) `def test_malformed_logs_raise()`
   - `test_oversized_rule_rejected` (function, line 111) `def test_oversized_rule_rejected()`
 - Depends on: `modules/defense_eval.py`
-
-## tests/test_defense_stages.py
-- Doc: Defense stages: orchestrator-managed runners and YAML stage visibility.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_new_stages_declared` (function, line 29) `def test_new_stages_declared()`
-  - `test_yaml_profiles_load` (function, line 36) `def test_yaml_profiles_load(tmp_path)`
-  - `_set_stage_params` (function, line 43) `def _set_stage_params(monkeypatch, stage, params)`
-  - `test_defense_validate_writes_result` (function, line 51) `def test_defense_validate_writes_result(tmp_path, monkeypatch)`
-  - `test_defense_validate_skips_without_rule` (function, line 77) `def test_defense_validate_skips_without_rule(monkeypatch)`
-  - `test_closedloop_tune_writes_comparison` (function, line 83) `def test_closedloop_tune_writes_comparison(tmp_path, monkeypatch)`
-  - `test_hunt_verify_writes_verification` (function, line 111) `def test_hunt_verify_writes_verification(tmp_path, monkeypatch)`
-  - `test_hunt_verify_skips_without_files` (function, line 141) `def test_hunt_verify_skips_without_files(monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/defense_eval.py`, `modules/defense_stages.py`
 
 
 Next: [KB_tests_p9.md](KB_tests_p9.md)

@@ -61,6 +61,7 @@ classDiagram
     ChainRunResult : str fallback_used
     ChainRunResult : int fallback_depth
     ChainRunResult : dict[str, str] verdicts
+    ChainRunResult : dict[str, Any] finalization
     ChainRunResult : to_dict()
     ChainRunResult : chain_proven()
     class ReplanContext
@@ -91,13 +92,13 @@ flowchart LR
     n_modules_chain_runner_py__StepOutcome(["StepOutcome"])
     n_modules_chain_runner_py__render_text(["render_text"])
     n_modules_chain_runner_py__ChainRunner___init__(["ChainRunner.__init__"])
-    n_modules_loop_guardrails_py__EdrPacer___init__["loop_guardrails.EdrPacer.__init__"]
+    n_modules_loop_guardrails_py__EdrPacer_from_config["loop_guardrails.EdrPacer.from_config"]
     n_modules_chain_state_py__new_run_id["chain_state.new_run_id"]
     n_modules_verb_manifest_py__plan_check["verb_manifest.plan_check"]
     n_modules_chain_runner_py__ChainRunner_run --> n_modules_chain_runner_py__ChainRunResult
     n_modules_chain_runner_py__ChainRunner_run --> n_modules_chain_runner_py__StepOutcome
     n_modules_chain_runner_py__ChainRunner_run --> n_modules_chain_runner_py__render_text
-    n_modules_chain_runner_py__ChainRunner___init__ -.-> n_modules_loop_guardrails_py__EdrPacer___init__
+    n_modules_chain_runner_py__ChainRunner___init__ -.-> n_modules_loop_guardrails_py__EdrPacer_from_config
     n_modules_chain_runner_py__ChainRunner_run -.-> n_modules_chain_state_py__new_run_id
     n_modules_chain_runner_py__ChainRunner_run -.-> n_modules_verb_manifest_py__plan_check
 ```
@@ -108,7 +109,7 @@ flowchart LR
 
 ### `StepOutcome`
 
-`class` `dataclass` | [modules/chain_runner.py:54](../../modules/chain_runner.py#L54)
+`class` `dataclass` | [modules/chain_runner.py:56](../../modules/chain_runner.py#L56)
 
 Decorators: `@dataclass`
 
@@ -156,7 +157,7 @@ required field present in the captured evidence), ``insufficient_data``
 
 #### `StepOutcome.ok`
 
-`property` | [modules/chain_runner.py:82](../../modules/chain_runner.py#L82)
+`property` | [modules/chain_runner.py:84](../../modules/chain_runner.py#L84)
 
 Decorators: `@property`
 
@@ -172,7 +173,7 @@ Return True for success, dry-run and skipped steps.
 
 #### `StepOutcome.to_dict`
 
-`method` | [modules/chain_runner.py:86](../../modules/chain_runner.py#L86)
+`method` | [modules/chain_runner.py:88](../../modules/chain_runner.py#L88)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -188,7 +189,7 @@ Return a JSON-serializable view.
 
 ### `ChainRunResult`
 
-`class` `dataclass` | [modules/chain_runner.py:110](../../modules/chain_runner.py#L110)
+`class` `dataclass` | [modules/chain_runner.py:112](../../modules/chain_runner.py#L112)
 
 Decorators: `@dataclass`
 
@@ -219,6 +220,7 @@ Structured result of one chain execution.
 | [`fallback_used`](#chainrunresult-fallback_used) | `str` | `''` |  |
 | [`fallback_depth`](#chainrunresult-fallback_depth) | `int` | `0` |  |
 | [`verdicts`](#chainrunresult-verdicts) | `dict[str, str]` | `field(default_factory=dict)` |  |
+| [`finalization`](#chainrunresult-finalization) | `dict[str, Any]` | `field(default_factory=dict)` |  |
 
 **Members**
 
@@ -231,7 +233,7 @@ Structured result of one chain execution.
 
 #### `ChainRunResult.to_dict`
 
-`method` | [modules/chain_runner.py:131](../../modules/chain_runner.py#L131)
+`method` | [modules/chain_runner.py:134](../../modules/chain_runner.py#L134)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -245,7 +247,7 @@ Return a JSON-serializable view.
 
 #### `ChainRunResult.chain_proven`
 
-`property` | [modules/chain_runner.py:155](../../modules/chain_runner.py#L155)
+`property` | [modules/chain_runner.py:159](../../modules/chain_runner.py#L159)
 
 Decorators: `@property`
 
@@ -263,7 +265,7 @@ Return whether every declared hunting dependency is observed.
 
 ### `ReplanContext`
 
-`class` `dataclass` | [modules/chain_runner.py:161](../../modules/chain_runner.py#L161)
+`class` `dataclass` | [modules/chain_runner.py:165](../../modules/chain_runner.py#L165)
 
 Decorators: `@dataclass`
 
@@ -302,7 +304,7 @@ source cannot break the chain invariants.
 
 #### `ReplanContext.set_var`
 
-`method` | [modules/chain_runner.py:178](../../modules/chain_runner.py#L178)
+`method` | [modules/chain_runner.py:182](../../modules/chain_runner.py#L182)
 
 ```python
 def set_var(self, name: str, value: str) -> None
@@ -321,7 +323,7 @@ Record a variable the next steps should see.
 
 #### `ReplanContext.insert_step`
 
-`method` | [modules/chain_runner.py:183](../../modules/chain_runner.py#L183)
+`method` | [modules/chain_runner.py:187](../../modules/chain_runner.py#L187)
 
 ```python
 def insert_step(self, step: ChainStep) -> None
@@ -341,7 +343,7 @@ Record one step to execute right after the finished step.
 
 #### `ReplanContext.skip_rest`
 
-`method` | [modules/chain_runner.py:188](../../modules/chain_runner.py#L188)
+`method` | [modules/chain_runner.py:192](../../modules/chain_runner.py#L192)
 
 ```python
 def skip_rest(self) -> None
@@ -353,7 +355,7 @@ Record that remaining steps must not execute.
 
 #### `ReplanContext.applied_vars`
 
-`property` | [modules/chain_runner.py:193](../../modules/chain_runner.py#L193)
+`property` | [modules/chain_runner.py:197](../../modules/chain_runner.py#L197)
 
 Decorators: `@property`
 
@@ -369,7 +371,7 @@ Return recorded variable changes.
 
 #### `ReplanContext.inserted`
 
-`property` | [modules/chain_runner.py:198](../../modules/chain_runner.py#L198)
+`property` | [modules/chain_runner.py:202](../../modules/chain_runner.py#L202)
 
 Decorators: `@property`
 
@@ -385,7 +387,7 @@ Return recorded steps to insert.
 
 #### `ReplanContext.skip_rest_flag`
 
-`property` | [modules/chain_runner.py:203](../../modules/chain_runner.py#L203)
+`property` | [modules/chain_runner.py:207](../../modules/chain_runner.py#L207)
 
 Decorators: `@property`
 
@@ -403,7 +405,7 @@ Return True when remaining steps should be skipped.
 
 ### `ChainRunner`
 
-`class` | [modules/chain_runner.py:216](../../modules/chain_runner.py#L216)
+`class` | [modules/chain_runner.py:220](../../modules/chain_runner.py#L220)
 
 ```python
 class ChainRunner
@@ -422,7 +424,7 @@ Execute one chain with per-step policy and structured outcomes.
 
 #### `ChainRunner.__init__`
 
-`constructor` | [modules/chain_runner.py:219](../../modules/chain_runner.py#L219)
+`constructor` | [modules/chain_runner.py:223](../../modules/chain_runner.py#L223)
 
 ```python
 def __init__(self, chain: Chain, tokens: dict[str, str] | None = None, shell: Any = None, executor: Callable[[str], str] | None = None, default_timeout: float = _DEFAULT_TIMEOUT, dry_run: bool = False, on_step: Callable[[StepOutcome], None] | None = None, retry_backoff: float = 0.5, total_timeout: float = 0.0, approver: Callable[[str, str], bool] | None = None, checkpoint_dir: str | os.PathLike | None = None, run_id: str = '', resume_state: dict[str, Any] | None = None, step_filter: set[str] | None = None, replanner: Callable[[ReplanContext], None] | None = None, command_filter: Callable[[str], str] | None = None, fallback_loader: Callable[[str], Chain | None] | None = None, max_fallback_depth: int = _MAX_FALLBACK_DEPTH, fallback_depth: int = 0, pace: bool = True) -> None
@@ -455,7 +457,7 @@ Bind the chain, the execution primitive and operator switches.
 | `fallback_depth` | `int` | `0` | Current fallback depth (internal). |
 | `pace` | `bool` | `True` | Enable defense-aware inter-step pacing. The shared EdrPacer stays inert until a step runs slowly or its output shows reset/timeout markers, then it inserts a bounded quiet period before the next step, matching the autonomous loop's OPSEC behaviour. Dry runs never pace. |
 
-*Calls:* [`EdrPacer.__init__`](modules.loop_guardrails.py.md#edrpacer-__init__)
+*Calls:* [`EdrPacer.from_config`](modules.loop_guardrails.py.md#edrpacer-from_config)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain), [`run_matrix`](modules.gym_matrix_runner.py.md#run_matrix)
 
@@ -463,7 +465,7 @@ Bind the chain, the execution primitive and operator switches.
 
 #### `ChainRunner.run`
 
-`method` | [modules/chain_runner.py:332](../../modules/chain_runner.py#L332)
+`method` | [modules/chain_runner.py:348](../../modules/chain_runner.py#L348)
 
 ```python
 def run(self) -> ChainRunResult
@@ -485,7 +487,7 @@ Execute the chain in order and return every step outcome.
 
 ### `render_text`
 
-`function` | [modules/chain_runner.py:208](../../modules/chain_runner.py#L208)
+`function` | [modules/chain_runner.py:212](../../modules/chain_runner.py#L212)
 
 ```python
 def render_text(template: str, variables: dict[str, str]) -> str

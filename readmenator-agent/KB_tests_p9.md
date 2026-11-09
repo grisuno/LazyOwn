@@ -1,5 +1,20 @@
-# Subsystem: tests (page 9 of 23)
+# Subsystem: tests (page 9 of 24)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
+
+## tests/test_defense_stages.py
+- Doc: Defense stages: orchestrator-managed runners and YAML stage visibility.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_new_stages_declared` (function, line 29) `def test_new_stages_declared()`
+  - `test_yaml_profiles_load` (function, line 36) `def test_yaml_profiles_load(tmp_path)`
+  - `_set_stage_params` (function, line 43) `def _set_stage_params(monkeypatch, stage, params)`
+  - `test_defense_validate_writes_result` (function, line 51) `def test_defense_validate_writes_result(tmp_path, monkeypatch)`
+  - `test_defense_validate_skips_without_rule` (function, line 77) `def test_defense_validate_skips_without_rule(monkeypatch)`
+  - `test_closedloop_tune_writes_comparison` (function, line 83) `def test_closedloop_tune_writes_comparison(tmp_path, monkeypatch)`
+  - `test_hunt_verify_writes_verification` (function, line 111) `def test_hunt_verify_writes_verification(tmp_path, monkeypatch)`
+  - `test_hunt_verify_skips_without_files` (function, line 141) `def test_hunt_verify_skips_without_files(monkeypatch)`
+- Depends on: `modules/__init__.py`, `modules/defense_eval.py`, `modules/defense_stages.py`
 
 ## tests/test_dependencies.py
 - Doc: Tests for ``core.dependencies`` graceful optional-import handling.
@@ -445,56 +460,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_purges_and_persists` (method, line 190) `def test_purges_and_persists(self, tmp_path)`
   - `test_idempotent_on_clean_state` (method, line 207) `def test_idempotent_on_clean_state(self, tmp_path)`
 - Depends on: `cli/engagement_hooks.py`
-
-## tests/test_engagement_elo_and_methodology.py
-- Doc: Tests for the ELO + karma + methodology extensions of cli/engagement_hooks.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_no_cli_operator` (function, line 31) `def _no_cli_operator(monkeypatch)`
-  - `_redirect_paths` (function, line 48) `def _redirect_paths(tmp_path)`
-  - `_restore_paths` (function, line 76) `def _restore_paths(saved)`
-  - `TestGetKarmaName` (class, line 88) `class TestGetKarmaName`
-  - `TestAwardElo` (class, line 119) `class TestAwardElo`
-  - `TestSyncUserElo` (class, line 179) `class TestSyncUserElo`
-  - `TestPersistNotification` (class, line 252) `class TestPersistNotification`
-  - `TestMethodologyRewards` (class, line 313) `class TestMethodologyRewards`
-  - `TestKarmaUp` (class, line 425) `class TestKarmaUp`
-  - `TestRenderEngagementHookIntegration` (class, line 463) `class TestRenderEngagementHookIntegration`
-  - `TestStateSnapshot` (class, line 524) `class TestStateSnapshot`
-  - `test_thresholds` (method, line 110) `def test_thresholds(self, elo, expected)`
-  - `test_base_only_for_unknown_command_and_phase` (method, line 120) `def test_base_only_for_unknown_command_and_phase(self)`
-  - `test_high_value_bonus_applied` (method, line 125) `def test_high_value_bonus_applied(self)`
-  - `test_phase_bonus_applied` (method, line 131) `def test_phase_bonus_applied(self)`
-  - `test_first_time_bonus` (method, line 137) `def test_first_time_bonus(self)`
-  - `test_new_phase_bonus` (method, line 143) `def test_new_phase_bonus(self)`
-  - `test_all_bonuses_stack` (method, line 149) `def test_all_bonuses_stack(self)`
-  - `test_do_prefix_is_stripped` (method, line 169) `def test_do_prefix_is_stripped(self)`
-  - `test_patches_matching_username` (method, line 180) `def test_patches_matching_username(self, tmp_path)`
-  - `test_silent_when_payload_missing` (method, line 199) `def test_silent_when_payload_missing(self, tmp_path)`
-  - `test_silent_when_username_not_found` (method, line 211) `def test_silent_when_username_not_found(self, tmp_path)`
-  - `test_ignores_non_positive_delta` (method, line 224) `def test_ignores_non_positive_delta(self, tmp_path)`
-  - `test_atomic_rename_leaves_no_tmp` (method, line 234) `def test_atomic_rename_leaves_no_tmp(self, tmp_path)`
-  - `test_creates_file_on_first_call` (method, line 253) `def test_creates_file_on_first_call(self, tmp_path)`
-  - `test_appends_to_existing_file` (method, line 264) `def test_appends_to_existing_file(self, tmp_path)`
-  - `test_ring_cap_drops_oldest` (method, line 277) `def test_ring_cap_drops_oldest(self, tmp_path)`
-  - `test_recovers_from_corrupt_file` (method, line 297) `def test_recovers_from_corrupt_file(self, tmp_path)`
-  - `test_task_reward_silent_when_no_file` (method, line 314) `def test_task_reward_silent_when_no_file(self, tmp_path, capsys)`
-  - `test_task_reward_renders_pending_match` (method, line 324) `def test_task_reward_renders_pending_match(self, tmp_path, capsys)`
-  - `test_task_reward_silent_when_all_done` (method, line 344) `def test_task_reward_silent_when_all_done(self, tmp_path, capsys)`
-  - `test_objective_reward_uses_phase_to_next_cmd` (method, line 361) `def test_objective_reward_uses_phase_to_next_cmd(self, tmp_path, capsys)`
-  - `test_objective_reward_silent_when_no_pending` (method, line 379) `def test_objective_reward_silent_when_no_pending(self, tmp_path, capsys)`
-  - `test_note_reward_renders_latest` (method, line 391) `def test_note_reward_renders_latest(self, tmp_path, capsys)`
-  - `test_note_reward_silent_when_empty` (method, line 412) `def test_note_reward_silent_when_empty(self, tmp_path, capsys)`
-  - `test_fires_on_threshold_crossing` (method, line 426) `def test_fires_on_threshold_crossing(self, tmp_path, capsys)`
-  - `test_idempotent_when_no_threshold_cross` (method, line 440) `def test_idempotent_when_no_threshold_cross(self, capsys)`
-  - `test_persists_notification` (method, line 447) `def test_persists_notification(self, tmp_path)`
-  - `test_elo_accumulates_across_commands` (method, line 464) `def test_elo_accumulates_across_commands(self, tmp_path)`
-  - `test_first_time_bonus_only_once_per_command` (method, line 479) `def test_first_time_bonus_only_once_per_command(self, tmp_path)`
-  - `test_users_json_syncd_when_payload_present` (method, line 493) `def test_users_json_syncd_when_payload_present(self, tmp_path)`
-  - `test_disabled_flag_is_noop` (method, line 508) `def test_disabled_flag_is_noop(self, tmp_path, capsys)`
-  - `test_returns_required_keys` (method, line 525) `def test_returns_required_keys(self, tmp_path)`
-- Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

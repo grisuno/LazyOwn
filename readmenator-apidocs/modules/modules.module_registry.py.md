@@ -202,6 +202,8 @@ Return the singleton registry instance.
 
 **Returns:** `ModuleRegistry`
 
+*Called by:* [`ModuleSelector.propose`](modules.selection.module.py.md#moduleselector-propose)
+
 <a id="moduleregistry-scan"></a>
 
 #### `ModuleRegistry.scan`

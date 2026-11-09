@@ -1,4 +1,4 @@
-# Subsystem: tests (page 2 of 23)
+# Subsystem: tests (page 2 of 24)
 Previous: [KB_tests.md](KB_tests.md)
 
 ## tests/test_addon_creator.py
@@ -269,9 +269,15 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_playbook_overrides_base_chain` (function, line 282) `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)`
   - `test_step_filtering_drops_out_of_scope_steps` (function, line 295) `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)`
   - `test_unknown_run_flags_fail_loudly` (function, line 318) `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)`
+  - `TestSynthFlags` (class, line 327) `class TestSynthFlags`
   - `_Set` (class, line 27) `class _Set(CommandAndControlMigratedCommandSet)`
   - `_Shell` (class, line 30) `class _Shell(Cmd)`
   - `FakeStore` (class, line 253) `class FakeStore`
+  - `test_techniques_parsed` (method, line 330) `def test_techniques_parsed(self)`
+  - `test_playbook_flag_parsed` (method, line 338) `def test_playbook_flag_parsed(self)`
+  - `test_missing_value_errors` (method, line 346) `def test_missing_value_errors(self)`
+  - `test_unknown_admin_flag_still_loud` (method, line 351) `def test_unknown_admin_flag_still_loud(self)`
+  - `test_positional_only_unchanged` (method, line 356) `def test_positional_only_unchanged(self)`
   - `__init__` (method, line 33) `def __init__(self)`
   - `__init__` (method, line 256) `def __init__(self)`
   - `parse_all` (method, line 260) `def parse_all()`
@@ -413,88 +419,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_attack_menu_entry_and_routes` (function, line 129) `def test_attack_menu_entry_and_routes()`
   - `test_new_endpoints_require_login_and_decoy` (function, line 144) `def test_new_endpoints_require_login_and_decoy()`
 - Depends on: `modules/attack_surface3d.py`, `modules/intel_fusion.py`
-
-## tests/test_attack_surface_addons.py
-- Doc: tests/test_attack_surface_addons.py  BDD: Validate cloud, supply-chain, and web attack-surface...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load` (function, line 36) `def _load(path)`
-  - `_param_names` (function, line 41) `def _param_names(addon)`
-  - `_yaml_text` (function, line 45) `def _yaml_text(path)`
-  - `_all_addon_data` (function, line 54) `def _all_addon_data()`
-  - `_loaded` (function, line 59) `def _loaded(name)`
-  - `TestAddonExists` (class, line 68) `class TestAddonExists`
-  - `TestRequiredFields` (class, line 88) `class TestRequiredFields`
-  - `TestToolSection` (class, line 118) `class TestToolSection`
-  - `TestParams` (class, line 151) `class TestParams`
-  - `TestPathSafety` (class, line 180) `class TestPathSafety`
-  - `TestNoHardcodedSecrets` (class, line 207) `class TestNoHardcodedSecrets`
-  - `TestCommandTemplates` (class, line 234) `class TestCommandTemplates`
-  - `TestScoutSuiteSpecific` (class, line 251) `class TestScoutSuiteSpecific`
-  - `TestProwlerSpecific` (class, line 273) `class TestProwlerSpecific`
-  - `TestCloudSploitSpecific` (class, line 294) `class TestCloudSploitSpecific`
-  - `TestTrivySpecific` (class, line 309) `class TestTrivySpecific`
-  - `TestGrypeSpecific` (class, line 333) `class TestGrypeSpecific`
-  - `TestReportFullSpecific` (class, line 353) `class TestReportFullSpecific`
-  - `TestFuzzAddonStructure` (class, line 384) `class TestFuzzAddonStructure`
-  - `TestResultReview` (class, line 418) `class TestResultReview`
-  - `test_file_present` (method, line 72) `def test_file_present(self, name, path)`
-  - `test_yaml_parses` (method, line 76) `def test_yaml_parses(self, name, path)`
-  - `test_has_required_fields` (method, line 92) `def test_has_required_fields(self, name, addon)`
-  - `test_name_is_string` (method, line 97) `def test_name_is_string(self, name, addon)`
-  - `test_description_is_string` (method, line 101) `def test_description_is_string(self, name, addon)`
-  - `test_enabled_is_true` (method, line 107) `def test_enabled_is_true(self, name, addon)`
-  - `test_tool_is_dict` (method, line 122) `def test_tool_is_dict(self, name, addon)`
-  - `test_tool_required_keys` (method, line 126) `def test_tool_required_keys(self, name, addon)`
-  - `test_repo_url_ends_with_git` (method, line 131) `def test_repo_url_ends_with_git(self, name, addon)`
-  - `test_repo_url_is_https` (method, line 136) `def test_repo_url_is_https(self, name, addon)`
-  - `test_execute_command_is_string` (method, line 141) `def test_execute_command_is_string(self, name, addon)`
-  - `test_params_is_list_when_present` (method, line 155) `def test_params_is_list_when_present(self, name, addon)`
-  - `test_each_param_has_name` (method, line 160) `def test_each_param_has_name(self, name, addon)`
-  - `test_each_param_has_description` (method, line 165) `def test_each_param_has_description(self, name, addon)`
-  - `no_duplicate_param_names` (method, line 170) `def no_duplicate_param_names(self, name, addon)`
-  - `test_install_path_contained` (method, line 184) `def test_install_path_contained(self, name, addon)`
-  - `test_install_path_no_dot_dot_prefix` (method, line 190) `def test_install_path_no_dot_dot_prefix(self, name, addon)`
-  - `test_no_tilde_in_paths` (method, line 197) `def test_no_tilde_in_paths(self, name, addon)`
-  - `test_no_hardcoded_ip` (method, line 211) `def test_no_hardcoded_ip(self, name, addon)`
-  - `test_no_well_known_ports` (method, line 217) `def test_no_well_known_ports(self, name, addon)`
-  - `test_no_password_literals` (method, line 223) `def test_no_password_literals(self, name, addon)`
-  - `test_execute_has_at_least_one_placeholder` (method, line 238) `def test_execute_has_at_least_one_placeholder(self, name, addon)`
-  - `addon` (method, line 255) `def addon(self)`
-  - `test_name` (method, line 258) `def test_name(self, addon)`
-  - `test_os_is_iaas` (method, line 261) `def test_os_is_iaas(self, addon)`
-  - `test_has_region_param` (method, line 264) `def test_has_region_param(self, addon)`
-  - `test_has_provider_param` (method, line 267) `def test_has_provider_param(self, addon)`
-  - `addon` (method, line 277) `def addon(self)`
-  - `test_name` (method, line 280) `def test_name(self, addon)`
-  - `test_os_is_iaas` (method, line 283) `def test_os_is_iaas(self, addon)`
-  - `test_has_provider_param` (method, line 286) `def test_has_provider_param(self, addon)`
-  - `test_category_is_recon_or_scan` (method, line 290) `def test_category_is_recon_or_scan(self, addon)`
-  - `addon` (method, line 298) `def addon(self)`
-  - `test_name` (method, line 301) `def test_name(self, addon)`
-  - `test_has_cloud_param` (method, line 304) `def test_has_cloud_param(self, addon)`
-  - `addon` (method, line 313) `def addon(self)`
-  - `test_name` (method, line 316) `def test_name(self, addon)`
-  - `test_os_is_containers` (method, line 319) `def test_os_is_containers(self, addon)`
-  - `test_has_target_param` (method, line 322) `def test_has_target_param(self, addon)`
-  - `test_triggers_docker` (method, line 328) `def test_triggers_docker(self, addon)`
-  - `addon` (method, line 337) `def addon(self)`
-  - `test_name` (method, line 340) `def test_name(self, addon)`
-  - `test_has_target_param` (method, line 343) `def test_has_target_param(self, addon)`
-  - `test_description_mentions_vulnerability` (method, line 349) `def test_description_mentions_vulnerability(self, addon)`
-  - `addon` (method, line 357) `def addon(self)`
-  - `test_name` (method, line 360) `def test_name(self, addon)`
-  - `test_category_is_reporting` (method, line 363) `def test_category_is_reporting(self, addon)`
-  - `test_install_path_is_dot` (method, line 366) `def test_install_path_is_dot(self, addon)`
-  - `test_execute_calls_report_generator` (method, line 371) `def test_execute_calls_report_generator(self, addon)`
-  - `test_repo_url_points_to_lazyown` (method, line 375) `def test_repo_url_points_to_lazyown(self, addon)`
-  - `test_name_no_spaces` (method, line 388) `def test_name_no_spaces(self, name, addon)`
-  - `test_name_lowercase` (method, line 392) `def test_name_lowercase(self, name, addon)`
-  - `test_category_falls_in_known_range` (method, line 396) `def test_category_falls_in_known_range(self, name, addon)`
-  - `test_trigger_is_list_when_present` (method, line 402) `def test_trigger_is_list_when_present(self, name, addon)`
-  - `test_os_is_known_value` (method, line 407) `def test_os_is_known_value(self, name, addon)`
-  - `test_summary_table` (method, line 421) `def test_summary_table(self)`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

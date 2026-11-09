@@ -40,7 +40,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from cli.orchestrator_assets_tabs import CONFIG_FIELDS, OrchestratorAssetsMixin
+from cli.orchestrator_assets_tabs import CONFIG_FIELDS, OrchestratorAssetsMixin, _widget_id
 from cli.tui_forms import (
     ConfirmModal,
     FormModal,
@@ -225,7 +225,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                 with VerticalScroll():
                     for spec in CONFIG_FIELDS:
                         yield Static(spec.label, classes="modal-label")
-                        yield Input(placeholder=spec.placeholder, id=f"cfg-{spec.key}")
+                        yield Input(placeholder=spec.placeholder, id=_widget_id(spec.key))
                     yield Button("Save config", id="config-save", variant="primary")
                     yield Static("", id="config-status")
             with TabPane("Pipeline", id="tab-pipeline"):
@@ -466,7 +466,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         values = {}
         for spec in CONFIG_FIELDS:
             try:
-                values[spec.key] = str(self.query_one(f"#cfg-{spec.key}", Input).value).strip()
+                values[spec.key] = str(self.query_one(f"#{_widget_id(spec.key)}", Input).value).strip()
             except Exception:
                 continue
         self.save_config(values)
@@ -692,7 +692,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         values = {}
         for spec in CONFIG_FIELDS:
             try:
-                values[spec.key] = str(self.query_one(f"#cfg-{spec.key}", Input).value).strip()
+                values[spec.key] = str(self.query_one(f"#{_widget_id(spec.key)}", Input).value).strip()
             except Exception:
                 continue
         self.save_config(values)

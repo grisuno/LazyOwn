@@ -16,10 +16,12 @@ from modules.selection.atomic import AtomicSelector
 from modules.selection.base import ActionDecision, SelectionContext, Selector
 from modules.selection.chain import ChainSelector
 from modules.selection.cred_spray import CredentialSpraySelector
+from modules.selection.edb import EDBSelector
 from modules.selection.intel import IntelSelector
+from modules.selection.module import ModuleSelector
 from modules.selection.playbook import PlaybookSelector
 from modules.selection.poc import PoCSelector
-from modules.selection.edb import EDBSelector
+from modules.selection.technique import TechniqueSelector
 
 _URGENT_PRIORITY = 2
 
@@ -45,7 +47,10 @@ def all_selectors() -> list[Selector]:
         AdversarySelector(),
         IntelSelector(),
         PoCSelector(),
+        EDBSelector(),
         AtomicSelector(),
+        TechniqueSelector(),
+        ModuleSelector(),
         ChainSelector(allow_lab=allow_lab),
     ]
 

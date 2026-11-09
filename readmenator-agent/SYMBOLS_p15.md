@@ -1,8 +1,66 @@
-# Symbols (page 15 of 49)
+# Symbols (page 15 of 50)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `tail` | method | `modules/guardrails/advisories.py:49` | `def tail(self, limit)` |
+| `tail_locked` | method | `modules/guardrails/advisories.py:66` | `def tail_locked(self, limit)` |
+| `CapacityEnvelope` | class | `modules/guardrails/budget.py:25` | `class CapacityEnvelope` |
+| `__init__` | method | `modules/guardrails/budget.py:28` | `def __init__(self, capacities, threshold)` |
+| `_default_capacities` | method | `modules/guardrails/budget.py:42` | `def _default_capacities()` |
+| `_snapshot_locked` | method | `modules/guardrails/budget.py:176` | `def _snapshot_locked(self)` |
+| `_usage_ratio` | method | `modules/guardrails/budget.py:171` | `def _usage_ratio(self, tier)` |
+| `account` | method | `modules/guardrails/budget.py:109` | `def account(self, task_class, units)` |
+| `admit` | method | `modules/guardrails/budget.py:78` | `def admit(self, task_class, units)` |
+| `capacity` | method | `modules/guardrails/budget.py:147` | `def capacity(self, task_class)` |
+| `configure` | method | `modules/guardrails/budget.py:50` | `def configure(self, capacities, threshold)` |
+| `describe` | method | `modules/guardrails/budget.py:166` | `def describe(self)` |
+| `purge` | method | `modules/guardrails/budget.py:126` | `def purge(self, task_class)` |
+| `reclaim` | method | `modules/guardrails/budget.py:136` | `def reclaim(self)` |
+| `release` | method | `modules/guardrails/budget.py:118` | `def release(self, task_class, units)` |
+| `saturated` | method | `modules/guardrails/budget.py:154` | `def saturated(self, task_class)` |
+| `threshold` | method | `modules/guardrails/budget.py:161` | `def threshold(self)` |
+| `usage` | method | `modules/guardrails/budget.py:140` | `def usage(self, task_class)` |
+| `CheckpointLedger` | class | `modules/guardrails/checkpoints.py:18` | `class CheckpointLedger` |
+| `__init__` | method | `modules/guardrails/checkpoints.py:21` | `def __init__(self, history)` |
+| `capture` | method | `modules/guardrails/checkpoints.py:33` | `def capture(self, key, state)` |
+| `describe` | method | `modules/guardrails/checkpoints.py:92` | `def describe(self)` |
+| `keys` | method | `modules/guardrails/checkpoints.py:59` | `def keys(self)` |
+| `restore` | method | `modules/guardrails/checkpoints.py:51` | `def restore(self, key)` |
+| `warm_restart` | method | `modules/guardrails/checkpoints.py:64` | `def warm_restart(self, core_key)` |
+| `GuardrailContract` | class | `modules/guardrails/contracts.py:49` | `class GuardrailContract(Protocol)` |
+| `HarnessAdminPort` | class | `modules/guardrails/contracts.py:73` | `class HarnessAdminPort(Protocol)` |
+| `RunTicket` | class | `modules/guardrails/contracts.py:40` | `class RunTicket` |
+| `TaskClass` | class | `modules/guardrails/contracts.py:19` | `class TaskClass(IntEnum)` |
+| `configure` | method | `modules/guardrails/contracts.py:76` | `def configure(self, settings)` |
+| `describe` | method | `modules/guardrails/contracts.py:52` | `def describe(self)` |
+| `is_known` | method | `modules/guardrails/contracts.py:31` | `def is_known(cls, value)` |
+| `rearm` | method | `modules/guardrails/contracts.py:80` | `def rearm(self)` |
+| `run_guarded` | method | `modules/guardrails/contracts.py:56` | `def run_guarded(self, task_class, fn)` |
+| `warm_restart` | method | `modules/guardrails/contracts.py:68` | `def warm_restart(self)` |
+| `GuardHarness` | class | `modules/guardrails/harness.py:25` | `class GuardHarness` |
+| `__init__` | method | `modules/guardrails/harness.py:28` | `def __init__(self, threshold, capacities)` |
+| `_on_failure` | method | `modules/guardrails/harness.py:174` | `def _on_failure(self, tier, ticket, key, fn, args, kwargs, exc)` |
+| `configure` | method | `modules/guardrails/harness.py:48` | `def configure(self, settings)` |
+| `describe` | method | `modules/guardrails/harness.py:165` | `def describe(self)` |
+| `global_harness` | function | `modules/guardrails/harness.py:232` | `def global_harness()` |
+| `rearm` | method | `modules/guardrails/harness.py:153` | `def rearm(self)` |
+| `reset_global_harness` | function | `modules/guardrails/harness.py:241` | `def reset_global_harness()` |
+| `run_guarded` | method | `modules/guardrails/harness.py:63` | `def run_guarded(self, task_class, fn)` |
+| `suspend` | method | `modules/guardrails/harness.py:138` | `def suspend(self, feature, reason)` |
+| `warm_restart` | method | `modules/guardrails/harness.py:124` | `def warm_restart(self, core_key)` |
+| `has` | function | `modules/gui_askpass.sh:22` | `` |
+| `try_kdialog` | function | `modules/gui_askpass.sh:40` | `` |
+| `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
+| `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
+| `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
+| `cleanup_enabled` | function | `modules/gym_cleanup.py:21` | `def cleanup_enabled()` |
+| `cleanup_gym_machines` | function | `modules/gym_cleanup.py:35` | `def cleanup_gym_machines(verbose)` |
+| `_catalogue` | function | `modules/gym_matrix_runner.py:36` | `def _catalogue(catalogue)` |
+| `_persist` | function | `modules/gym_matrix_runner.py:236` | `def _persist(summary_result, sessions_dir)` |
+| `_stats` | function | `modules/gym_matrix_runner.py:220` | `def _stats(runs)` |
+| `load_matrix` | function | `modules/gym_matrix_runner.py:252` | `def load_matrix(sessions_dir)` |
+| `plan_matrix` | function | `modules/gym_matrix_runner.py:49` | `def plan_matrix(target, sessions_dir, only, top_k, catalogue)` |
 | `run_matrix` | function | `modules/gym_matrix_runner.py:104` | `def run_matrix(target)` |
 | `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
 | `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
@@ -438,63 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `technique_for_phase` | method | `modules/killchain.py:541` | `def technique_for_phase(phase)` |
 | `technique_for_phase` | function | `modules/killchain.py:571` | `def technique_for_phase(phase)` |
 | `technique_for_vulnclass` | method | `modules/killchain.py:553` | `def technique_for_vulnclass(vulnclass)` |
-| `technique_for_vulnclass` | function | `modules/killchain.py:576` | `def technique_for_vulnclass(vulnclass)` |
-| `world_model_path` | method | `modules/killchain.py:177` | `def world_model_path(self)` |
-| `ReverseShellApp` | class | `modules/kivi.py:11` | `class ReverseShellApp(App)` |
-| `build` | method | `modules/kivi.py:12` | `def build(self)` |
-| `connect_to_server` | method | `modules/kivi.py:27` | `def connect_to_server(self, instance)` |
-| `_docker` | function | `modules/lab_runtime.py:107` | `def _docker()` |
-| `_docker_compose` | function | `modules/lab_runtime.py:412` | `def _docker_compose(args)` |
-| `_ensure_ad_lab` | function | `modules/lab_runtime.py:197` | `def _ensure_ad_lab(scenario, name)` |
-| `apply_gym_migrations` | function | `modules/lab_runtime.py:242` | `def apply_gym_migrations(name)` |
-| `container_ip` | function | `modules/lab_runtime.py:169` | `def container_ip(container_name)` |
-| `container_name` | function | `modules/lab_runtime.py:164` | `def container_name(scenario)` |
-| `docker_available` | function | `modules/lab_runtime.py:93` | `def docker_available()` |
-| `ensure_range_secret` | function | `modules/lab_runtime.py:420` | `def ensure_range_secret(profile_dir)` |
-| `ensure_web` | function | `modules/lab_runtime.py:183` | `def ensure_web(scenario, name)` |
-| `existing_containers` | function | `modules/lab_runtime.py:131` | `def existing_containers()` |
-| `range_compose` | function | `modules/lab_runtime.py:340` | `def range_compose(profile)` |
-| `running_containers` | function | `modules/lab_runtime.py:115` | `def running_containers()` |
-| `running_range_containers` | function | `modules/lab_runtime.py:148` | `def running_range_containers()` |
-| `start` | function | `modules/lab_runtime.py:250` | `def start(scenario)` |
-| `start_range` | function | `modules/lab_runtime.py:349` | `def start_range(profile)` |
-| `stop` | function | `modules/lab_runtime.py:304` | `def stop(scenario)` |
-| `stop_all` | function | `modules/lab_runtime.py:322` | `def stop_all()` |
-| `stop_range` | function | `modules/lab_runtime.py:368` | `def stop_range(profile)` |
-| `stop_ranges` | function | `modules/lab_runtime.py:379` | `def stop_ranges()` |
-| `ConversationStore` | class | `modules/lazy_agent.py:261` | `class ConversationStore` |
-| `ObservableAgentRunner` | class | `modules/lazy_agent.py:145` | `class ObservableAgentRunner(AgentRunner)` |
-| `__init__` | method | `modules/lazy_agent.py:148` | `def __init__(self, model, system_prompt, max_iterations, on_event)` |
-| `__init__` | method | `modules/lazy_agent.py:264` | `def __init__(self, task_id)` |
-| `_call_model` | method | `modules/lazy_agent.py:174` | `def _call_model(self)` |
-| `_deep_clean` | function | `modules/lazy_agent.py:237` | `def _deep_clean(value, _depth)` |
-| `_enable_streaming` | function | `modules/lazy_agent.py:123` | `def _enable_streaming(runner, on_event)` |
-| `_invoke` | function | `modules/lazy_agent.py:190` | `def _invoke()` |
-| `_json_default` | function | `modules/lazy_agent.py:221` | `def _json_default(value)` |
-| `_json_safe` | function | `modules/lazy_agent.py:253` | `def _json_safe(messages)` |
-| `_kill` | function | `modules/lazy_agent.py:583` | `def _kill()` |
-| `_load` | method | `modules/lazy_agent.py:269` | `def _load(self)` |
-| `_process_tool_call` | method | `modules/lazy_agent.py:159` | `def _process_tool_call(self, tool_call)` |
-| `_process_watchdog` | function | `modules/lazy_agent.py:578` | `def _process_watchdog(timeout_sec, process)` |
-| `_session_from_line` | function | `modules/lazy_agent.py:556` | `def _session_from_line(line)` |
-| `_tick` | function | `modules/lazy_agent.py:196` | `def _tick()` |
-| `intent_messages` | method | `modules/lazy_agent.py:273` | `def intent_messages(self, intent_id)` |
-| `max_iterations` | function | `modules/lazy_agent.py:72` | `def max_iterations()` |
-| `model_timeout_sec` | function | `modules/lazy_agent.py:41` | `def model_timeout_sec()` |
-| `register_tools` | function | `modules/lazy_agent.py:322` | `def register_tools(runner, specs)` |
-| `reset_intents` | method | `modules/lazy_agent.py:315` | `def reset_intents(self)` |
-| `resolve_agentic_model` | function | `modules/lazy_agent.py:83` | `def resolve_agentic_model(exclude)` |
-| `run` | method | `modules/lazy_agent.py:168` | `def run(self, user_input)` |
-| `run_external_hermes` | function | `modules/lazy_agent.py:472` | `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` |
-| `run_external_opencode` | function | `modules/lazy_agent.py:396` | `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` |
-| `run_main_session` | function | `modules/lazy_agent.py:374` | `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` |
-| `run_worker_session` | function | `modules/lazy_agent.py:335` | `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)` |
-| `save_intent` | method | `modules/lazy_agent.py:278` | `def save_intent(self, intent_id, messages)` |
-| `save_session` | method | `modules/lazy_agent.py:305` | `def save_session(self, session_id, messages, title)` |
-| `session` | method | `modules/lazy_agent.py:287` | `def session(self, session_id)` |
-| `sessions` | method | `modules/lazy_agent.py:291` | `def sessions(self)` |
-| `tool_calling_enabled` | function | `modules/lazy_agent.py:57` | `def tool_calling_enabled()` |
-| `_chain_data` | function | `modules/lazy_autofire.py:225` | `def _chain_data(target, fires)` |
-| `_cooldown_filter` | function | `modules/lazy_autofire.py:180` | `def _cooldown_filter(fires, state, target, moment, chains_dir)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -34,6 +34,7 @@ MAX_PLAYBOOK_BYTES = 500_000
 _PREVIEW_LINES = 60
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
 _SUFFIXES = (".yaml", ".yml")
+PLAYBOOK_ACTION_KINDS: tuple[str, ...] = ("atomic", "command", "lazyscript", "lua", "plugin", "lazyaddon", "chain")
 
 
 @dataclass(frozen=True)
@@ -169,6 +170,32 @@ def validate_playbook(data: Any) -> list[str]:
         atomic_tests = phase.get("atomic_tests")
         if atomic_tests is not None and not isinstance(atomic_tests, list):
             errors.append(f"phase #{index} atomic_tests must be a list")
+        actions = phase.get("steps")
+        if actions is not None and not isinstance(actions, list):
+            errors.append(f"phase #{index} steps must be a list")
+        for action_index, action in enumerate(actions or [], 1):
+            if not isinstance(action, dict):
+                errors.append(f"phase #{index} step #{action_index} must be a mapping")
+                continue
+            kind = str(action.get("kind", "") or "").strip().lower() or "command"
+            if kind not in PLAYBOOK_ACTION_KINDS:
+                errors.append(
+                    f"phase #{index} step #{action_index} kind must be one of "
+                    f"{'/'.join(PLAYBOOK_ACTION_KINDS)} (got {kind!r})"
+                )
+            if not str(action.get("run", "") or "").strip():
+                errors.append(f"phase #{index} step #{action_index} run is required")
+            for key in ("timeout", "sleep", "jitter"):
+                value = action.get(key)
+                if value is None:
+                    continue
+                if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+                    errors.append(f"phase #{index} step #{action_index} {key} must be a non-negative number")
+            if "continue_on_error" in action and not isinstance(action["continue_on_error"], bool):
+                errors.append(f"phase #{index} step #{action_index} continue_on_error must be a boolean")
+            sinks = action.get("sinks")
+            if sinks is not None and not isinstance(sinks, list):
+                errors.append(f"phase #{index} step #{action_index} sinks must be a list")
     steps = data.get("steps")
     if steps is not None and not isinstance(steps, list):
         errors.append("steps must be a list")
@@ -191,6 +218,9 @@ def _count_steps(data: dict[str, Any]) -> int:
             continue
         atomic_tests = phase.get("atomic_tests")
         total += len(atomic_tests) if isinstance(atomic_tests, list) else 1
+        actions = phase.get("steps")
+        if isinstance(actions, list):
+            total += len(actions)
     return total
 
 

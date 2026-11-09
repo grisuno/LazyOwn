@@ -1735,6 +1735,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             apt_chain enable <chain> | disable <chain>
             apt_chain checkpoints               - resumable runs
             apt_chain resume <run_id> [target]  - continue a checkpointed run
+            apt_chain synth [playbook] [target] - synthesise a chain from facts
+                [--techniques T1059.001,T1003]  - stage atomic_tests steps
+                [--playbook NAME]               - lower a playbook into a chain
 
         Run options:
             --dry-run                resolve without executing
@@ -1897,6 +1900,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             target = (args.target or target).strip()
         if not target:
             print_warn("Usage: apt_chain [chain] [target] (no target and rhost unset).")
+            return
+        try:
+            scope_check = getattr(self._resolve_shell() or self, "_scope_check", None)
+        except Exception:
+            scope_check = None
+        if callable(scope_check) and not scope_check("apt_chain", target=target, force_offensive=True):
             return
 
         try:

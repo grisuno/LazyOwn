@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 158 files (c, py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 137 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -8,24 +8,17 @@ graph LR
     contrib["contrib"]
     core["core"]
     modules["modules"]
-    poc_tui["poc_tui"]
     root["root"]
     tests["tests"]
-    cli -- "calls into" --> contrib
     cli -- "calls into" --> core
     cli -- "calls into" --> modules
     cli -- "calls into" --> root
-    contrib -- "calls into" --> cli
-    contrib -- "depends on" --> modules
-    core -- "calls into" --> contrib
+    contrib -- "depends on" --> root
     modules -- "depends on" --> cli
-    modules -- "calls into" --> contrib
-    modules -- "depends on" --> core
+    modules -- "calls into" --> core
     modules -- "calls into" --> root
-    poc_tui -- "depends on" --> cli
     root -- "calls into" --> cli
     root -- "depends on" --> core
-    root -- "depends on" --> modules
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
     tests -- "calls into" --> modules
@@ -34,43 +27,41 @@ graph LR
 
 ## cli (2.1)
 
-cli groups 80 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Configurable Neon Box banner for the LazyOwn interactive shell.
+cli groups 83 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Configurable Neon Box banner for the LazyOwn interactive shell.
 
 ## contrib (2.2)
 
-contrib groups 2 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, launch_html, exploit_js.
+contrib groups 1 files (py) around check_sudo, start_smb_server, start_smb_relay, CustomSMBRelayServer, __init__.
 
 ## core (2.3)
 
-core groups 9 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Symmetric primitives used by the framework.
+core groups 3 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
 
 ## modules (2.4)
 
-modules groups 26 files (c, py) around main, ContainerResource, ContainerFinding, DockerEnumerator, __init__. Beacon configuration builder — wires profile engines into beacon compile-time config.
+modules groups 23 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Git update contract for lazyaddons.
 
-## poc_tui (2.5)
-
-poc_tui groups 4 files (py) around ShellBackend, __init__, import_shell_class, start, run. Entry point: python3 -m poc_tui
-
-## root (2.6)
+## root (2.5)
 
 root groups 2 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## tests (2.7)
+## tests (2.6)
 
-tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key_is_not_hardcoded_none, test_params_api_key_binds_config_attr, test_class_attribute_api_key_reads_payload, TestReplaceCommandPlaceholders. API-key resolution contract tests.
+tests groups 25 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
 
 **Files**:
 
 - banner.py
 - cli/banner_config.py
 - cli/commands/_base.py
+- cli/commands/ai.py
 - cli/commands/anti_forensics.py
 - cli/commands/applocker_bypass.py
 - cli/commands/bitm.py
 - cli/commands/bof_registry.py
 - cli/commands/c2_profile.py
 - cli/commands/c2_session.py
+- cli/commands/caldera.py
 - cli/commands/campaign.py
 - cli/commands/catalog.py
 - cli/commands/cicd.py
@@ -82,7 +73,6 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
 - cli/commands/crystal_ball.py
-- cli/commands/daemon_ctl.py
 - cli/commands/database.py
 - cli/commands/defaults.py
 - cli/commands/demo.py
@@ -95,6 +85,7 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/evasive_payload.py
 - cli/commands/exfiltration.py
 - cli/commands/exploit.py
+- cli/commands/exploitgym.py
 - cli/commands/exposure_autofire.py
 - cli/commands/exposure_intel.py
 - cli/commands/exposure_inventory.py
@@ -113,6 +104,7 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/marketplace.py
 - cli/commands/mobile_macos.py
 - cli/commands/module_manager.py
+- cli/commands/netattack.py
 - cli/commands/nethelpers.py
 - cli/commands/payload_generation.py
 - cli/commands/persist.py
@@ -121,7 +113,7 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/commands/postexp.py
 - cli/commands/postexp_migrated.py
 - cli/commands/privilege_escalation.py
-- cli/commands/recon_migrated.py
+- cli/commands/purple_team.py
 - cli/commands/resource_scripting.py
 - cli/commands/retry_ops.py
 - cli/commands/scan.py
@@ -140,21 +132,14 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - cli/graph_overlay.py
 - cli/output_mode.py
 - cli/plugin_tiers.py
+- cli/purple_tui.py
 - cli/scope_guard.py
 - cli/session_hud.py
-- cli/surface_tui.py
-- contrib/legacy/lazygalazy.py
-- contrib/legacy/lazyhttpreverseshell.py
-- core/crypto.py
+- contrib/legacy/lazysmbrelay.py
 - core/defaults.py
-- core/hardening.py
-- core/host_policy.py
-- core/protocols.py
-- core/reverse_shell_secret.py
 - core/safe_import.py
-- core/safe_subprocess.py
 - core/validators.py
-- modules/backdoor/server.c
+- modules/addon_updater.py
 - modules/beacon_config_builder.py
 - modules/bitm_engine.py
 - modules/bof_registry.py
@@ -163,60 +148,43 @@ tests groups 35 files (py) around TestApiKeyWiredIntoParams, test_params_api_key
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
-- modules/domain_dominance.py
 - modules/dpapi_harvester.py
 - modules/edr_detector.py
 - modules/evasion_engine.py
 - modules/evasive_payloads.py
+- modules/exploitgym_gym.py
 - modules/lab_runtime.py
-- modules/lazy_findings.py
-- modules/lazy_oob.py
 - modules/lazycloud.py
 - modules/lazyk8s.py
 - modules/mfa_bypass.py
-- modules/phishing_orchestrator.py
 - modules/professional_report.py
-- modules/resource_script.py
 - modules/sleep_obfuscation.py
 - modules/socks_proxy.py
-- modules/websocket_beacon.py
-- poc_tui/__main__.py
-- poc_tui/app.py
-- poc_tui/run.py
-- poc_tui/test_app.py
+- modules/ttp_coverage.py
+- modules/yara_scanner.py
+- tests/test_addon_updater.py
 - tests/test_api_key_resolution.py
 - tests/test_banner_config.py
 - tests/test_bdd_infra_range_report.py
 - tests/test_beacon_config_builder.py
 - tests/test_bof_registry.py
+- tests/test_boyscout_contracts.py
 - tests/test_c2_profile_engine.py
 - tests/test_campaign_import_safety.py
 - tests/test_categories.py
-- tests/test_core.py
 - tests/test_credentials_rotation.py
-- tests/test_findings_gate.py
+- tests/test_exploitgym_gym.py
 - tests/test_fuzzy_picker.py
 - tests/test_graph_overlay.py
-- tests/test_host_policy.py
 - tests/test_implant_session_secrets.py
 - tests/test_infra_disposable.py
 - tests/test_input_fuzz.py
 - tests/test_lab_target_visibility.py
-- tests/test_lazy_findings.py
 - tests/test_plugin_tiers.py
 - tests/test_prompt_readline_markers.py
 - tests/test_prompt_refresh.py
 - tests/test_require_guards.py
-- tests/test_resource_script.py
-- tests/test_safe_subprocess.py
-- tests/test_safe_subprocess_behavior.py
 - tests/test_scope_guard.py
-- tests/test_security_alerts_fix.py
-- tests/test_security_hardening.py
-- tests/test_security_hardening_v3.py
-- tests/test_security_hardening_v5.py
-- tests/test_shell_semantics.py
 - tests/test_sleep_obfuscation.py
 - tests/test_socks_proxy.py
-- tests/test_winbox_gym.py
 - utils.py

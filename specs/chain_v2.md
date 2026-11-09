@@ -46,6 +46,22 @@ Step fields:
 - `capture` updates the variable map before the next step.
 - `resolve_newest` updates the variable map before rendering.
 - `apt_chain <chain> <target> --dry-run` resolves and skips execution.
+- Step-level `sleep` and `jitter` (seconds and percentage) pace the
+  sequential chain after each step; `EdrPacer` scales the drawn delay.
+- Hybrid execution: `payload.json -> orchestrator.chain_mode` selects
+  `auto` (stepwise in-process when every step is loop-routable,
+  subprocess otherwise), `stepwise` (forces in-process; blocks
+  non-routable chains) or `subprocess` (legacy one-shot). Stepwise runs
+  each step through the loop worker guard with `chain_step` telemetry
+  (`modules/chain_loop.py`).
+
+## Synthesis
+
+`apt_chain synth [playbook] [target]` composes a host-specific chain
+from the fact store (`modules/chain_synth.py`). `--techniques
+T1059.001,T1003` stages one routable `atomic_tests` step per technique.
+`--playbook NAME` lowers a playbook declared with `phases[].steps[]`
+actions into a validated chain file (`modules/playbook_chain.py`).
 
 ## Acceptance
 
@@ -58,3 +74,4 @@ Step fields:
 - Tests: `tests/test_chain_runner.py`, `tests/test_chain_registry.py`,
   `tests/test_apt_chain_integration.py`.
 - Mutation: `tests/run_mutation_chain_v2.py` kills every mutant.
+- Hybrid and synth: `tests/test_chain_loop.py`, `tests/test_chain_synth.py`, `tests/test_playbook_chain.py`.

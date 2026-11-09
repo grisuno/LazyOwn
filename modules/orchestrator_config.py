@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import copy
 import logging
+import re
 import threading
 import time
 from pathlib import Path
@@ -119,6 +120,18 @@ FALLBACK_SINKS: dict[str, bool] = {
     "findings": True,
 }
 
+FALLBACK_PACING: dict[str, Any] = {
+    "enabled": True,
+    "jitter_pct_min": 0.0,
+    "jitter_pct_max": 0.0,
+    "edr_pause_ranges": {1: [2.0, 5.0], 2: [5.0, 15.0]},
+    "max_delay_sec": 300.0,
+    "sleeper_windows": [],
+    "round_sleep_sec": 0.0,
+}
+
+SLEEPER_WINDOW_RE = re.compile(r"^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$")
+
 DEFAULT_STAGES: dict[str, bool] = {name: bool(data["enabled"]) for name, data in FALLBACK_STAGES.items()}
 
 _CACHE_LOCK = threading.Lock()
@@ -194,6 +207,7 @@ def _fallback_profile() -> dict[str, Any]:
         "stages": copy.deepcopy(FALLBACK_STAGES),
         "limits": dict(FALLBACK_LIMITS),
         "budget": dict(FALLBACK_BUDGET),
+        "pacing": copy.deepcopy(FALLBACK_PACING),
         "chain": "apt_chain",
         "playbook": "rocke",
         "sinks": dict(FALLBACK_SINKS),
@@ -226,7 +240,7 @@ def _merge_profile(parent: dict, child: dict) -> dict:
     for name, override in (child.get("stages") or {}).items():
         stages[name] = _merge_stage(stages.get(name, {}), override)
     merged["stages"] = stages
-    for key in ("limits", "budget", "sinks", "findings", "progress"):
+    for key in ("limits", "budget", "sinks", "findings", "progress", "pacing"):
         value = dict(merged.get(key) or {})
         value.update(child.get(key) or {})
         merged[key] = value
@@ -414,6 +428,84 @@ def progress_config() -> dict[str, Any]:
     else:
         merged["exploit_classes"] = FALLBACK_PROGRESS["exploit_classes"]
     return merged
+
+
+_PACING_NONNEGATIVE_KEYS = ("max_delay_sec", "round_sleep_sec")
+_PACING_SIGNED_KEYS = ("jitter_pct_min", "jitter_pct_max")
+_PACING_NUMERIC_KEYS = _PACING_NONNEGATIVE_KEYS + _PACING_SIGNED_KEYS
+
+
+def pacing() -> dict[str, Any]:
+    """Return resolved pacing settings for the active profile.
+
+    Precedence: module fallbacks < YAML profile ``pacing`` < payload
+    ``orchestrator.pacing``. ``edr_pause_ranges`` maps a defense level
+    to a ``[low, high]`` quiet-period range in seconds; ``jitter_pct_*``
+    scales the drawn delay (signed percentages allowed, e.g. -30..60);
+    ``sleeper_windows`` lists ``HH:MM-HH:MM`` quiet windows during which
+    every inter-step and inter-round sleep extends to the window end.
+
+    Returns:
+        Mapping with the merged pacing knobs.
+    """
+    merged = copy.deepcopy(FALLBACK_PACING)
+    merged.update(profile_config().get("pacing") or {})
+    merged.update(_section().get("pacing") or {})
+    for key in _PACING_NONNEGATIVE_KEYS:
+        try:
+            merged[key] = max(0.0, float(merged.get(key, 0.0) or 0.0))
+        except (TypeError, ValueError):
+            merged[key] = FALLBACK_PACING[key]
+    for key in _PACING_SIGNED_KEYS:
+        try:
+            merged[key] = float(merged.get(key, 0.0) or 0.0)
+        except (TypeError, ValueError):
+            merged[key] = FALLBACK_PACING[key]
+    ranges = merged.get("edr_pause_ranges")
+    if isinstance(ranges, dict):
+        normalized: dict[int, tuple[float, float]] = {}
+        for level, bounds in ranges.items():
+            try:
+                low, high = float(bounds[0]), float(bounds[1])
+            except (TypeError, ValueError, IndexError):
+                continue
+            if 0 <= low <= high:
+                normalized[int(level)] = (low, high)
+        merged["edr_pause_ranges"] = normalized
+    else:
+        merged["edr_pause_ranges"] = dict(FALLBACK_PACING["edr_pause_ranges"])
+    windows = merged.get("sleeper_windows")
+    if isinstance(windows, (list, tuple)):
+        merged["sleeper_windows"] = tuple(str(window) for window in windows)
+    else:
+        merged["sleeper_windows"] = ()
+    merged["enabled"] = bool(merged.get("enabled", True))
+    return merged
+
+
+def set_pacing(key: str, value: Any) -> dict[str, Any]:
+    """Persist one pacing override in the payload section.
+
+    Args:
+        key: Pacing knob declared in :data:`FALLBACK_PACING`.
+        value: New value (persisted verbatim; readers coerce).
+
+    Returns:
+        The resolved pacing mapping after persisting.
+
+    Raises:
+        KeyError: Unknown pacing key.
+    """
+    if key not in FALLBACK_PACING:
+        raise KeyError(f"unknown pacing key: {key}")
+    payload = _payload()
+    section = dict(payload.get("orchestrator") or {})
+    pacing_section = dict(section.get("pacing") or {})
+    pacing_section[key] = value
+    section["pacing"] = pacing_section
+    payload["orchestrator"] = section
+    _save(payload)
+    return pacing()
 
 
 def engagement_mode() -> str:
@@ -807,7 +899,7 @@ def validate_config(data: Any) -> list[str]:
         parent = str(profile.get("extends", "") or "")
         if parent and parent not in profiles:
             errors.append(f"profile {name} extends unknown profile {parent!r}")
-        for key in ("limits", "budget", "sinks", "findings", "progress"):
+        for key in ("limits", "budget", "sinks", "findings", "progress", "pacing"):
             if key in profile and not isinstance(profile[key], dict):
                 errors.append(f"profile {name} {key} must be a mapping")
         for key, value in (profile.get("findings") or {}).items():
@@ -839,6 +931,52 @@ def validate_config(data: Any) -> list[str]:
         for key, value in (profile.get("sinks") or {}).items():
             if not isinstance(value, bool):
                 errors.append(f"profile {name} sink {key} must be a boolean")
+        pacing = profile.get("pacing") or {}
+        if isinstance(pacing, dict) and pacing:
+            if "enabled" in pacing and not isinstance(pacing["enabled"], bool):
+                errors.append(f"profile {name} pacing enabled must be a boolean")
+            for key in _PACING_NONNEGATIVE_KEYS:
+                value = pacing.get(key)
+                if value is None:
+                    continue
+                if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+                    errors.append(f"profile {name} pacing {key} must be a non-negative number")
+            for key in _PACING_SIGNED_KEYS:
+                value = pacing.get(key)
+                if value is None:
+                    continue
+                if isinstance(value, bool) or not isinstance(value, (int, float)):
+                    errors.append(f"profile {name} pacing {key} must be a number")
+            windows = pacing.get("sleeper_windows")
+            if windows is not None:
+                if not isinstance(windows, list) or any(
+                    not isinstance(window, str) or not SLEEPER_WINDOW_RE.match(window.strip() or "")
+                    for window in windows
+                ):
+                    errors.append(
+                        f"profile {name} pacing sleeper_windows must be a list of HH:MM-HH:MM strings"
+                    )
+            ranges = pacing.get("edr_pause_ranges")
+            if ranges is not None:
+                if not isinstance(ranges, dict):
+                    errors.append(f"profile {name} pacing edr_pause_ranges must be a mapping")
+                else:
+                    for level, bounds in ranges.items():
+                        ok = (
+                            not isinstance(level, bool)
+                            and isinstance(bounds, (list, tuple))
+                            and len(bounds) == 2
+                            and all(
+                                not isinstance(bound, bool) and isinstance(bound, (int, float)) and bound >= 0
+                                for bound in bounds
+                            )
+                            and float(bounds[0]) <= float(bounds[1])
+                        )
+                        if not ok:
+                            errors.append(
+                                f"profile {name} pacing edr_pause_ranges level {level!r} "
+                                "must be [low, high] non-negative numbers"
+                            )
         for stage_name in (profile.get("stages") or {}):
             if stage_name not in known_stages:
                 errors.append(f"profile {name} references unknown stage {stage_name!r}")
@@ -858,6 +996,7 @@ __all__ = [
     "FALLBACK_FINDINGS",
     "FALLBACK_LIMITS",
     "FALLBACK_MODE",
+    "FALLBACK_PACING",
     "FALLBACK_PROGRESS",
     "FALLBACK_SINKS",
     "FALLBACK_STAGES",
@@ -870,6 +1009,7 @@ __all__ = [
     "engagement_mode",
     "findings_config",
     "limits",
+    "pacing",
     "profiles",
     "profile_config",
     "progress_config",
@@ -877,6 +1017,7 @@ __all__ = [
     "remove_verb",
     "reset",
     "set_engagement_mode",
+    "set_pacing",
     "set_profile",
     "set_stage",
     "sinks",

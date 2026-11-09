@@ -1,5 +1,71 @@
-# Subsystem: tests (page 4 of 23)
+# Subsystem: tests (page 4 of 24)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
+
+## tests/test_blacksandbeacon_addon.py
+- Doc: tests/test_blacksandbeacon_addon.py  Validation suite for the blacksandbeacon and...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load` (function, line 26) `def _load(path)`
+  - `beacon` (function, line 32) `def beacon()`
+  - `bof` (function, line 37) `def bof()`
+  - `TestBeaconYamlExists` (class, line 41) `class TestBeaconYamlExists`
+  - `TestBeaconRequiredFields` (class, line 55) `class TestBeaconRequiredFields`
+  - `TestBeaconToolSection` (class, line 67) `class TestBeaconToolSection`
+  - `TestBeaconPathSafety` (class, line 97) `class TestBeaconPathSafety`
+  - `TestBeaconCategory` (class, line 111) `class TestBeaconCategory`
+  - `TestBeaconEnabled` (class, line 119) `class TestBeaconEnabled`
+  - `TestBeaconParams` (class, line 127) `class TestBeaconParams`
+  - `TestBeaconCommandTemplates` (class, line 157) `class TestBeaconCommandTemplates`
+  - `TestBeaconDescriptionQuality` (class, line 192) `class TestBeaconDescriptionQuality`
+  - `TestBeaconNoHardcodedSecrets` (class, line 217) `class TestBeaconNoHardcodedSecrets`
+  - `test_beacon_yaml_present` (method, line 42) `def test_beacon_yaml_present(self)`
+  - `test_bof_yaml_present` (method, line 45) `def test_bof_yaml_present(self)`
+  - `test_beacon_yaml_parses` (method, line 48) `def test_beacon_yaml_parses(self, beacon)`
+  - `test_bof_yaml_parses` (method, line 51) `def test_bof_yaml_parses(self, bof)`
+  - `test_beacon_has_field` (method, line 59) `def test_beacon_has_field(self, beacon, field)`
+  - `test_bof_has_field` (method, line 63) `def test_bof_has_field(self, bof, field)`
+  - `test_beacon_tool_has_key` (method, line 71) `def test_beacon_tool_has_key(self, beacon, key)`
+  - `test_bof_tool_has_key` (method, line 75) `def test_bof_tool_has_key(self, bof, key)`
+  - `test_beacon_repo_url` (method, line 78) `def test_beacon_repo_url(self, beacon)`
+  - `test_bof_repo_url` (method, line 81) `def test_bof_repo_url(self, bof)`
+  - `test_beacon_install_path` (method, line 84) `def test_beacon_install_path(self, beacon)`
+  - `test_bof_install_path` (method, line 87) `def test_bof_install_path(self, bof)`
+  - `test_beacon_install_command_is_make` (method, line 90) `def test_beacon_install_command_is_make(self, beacon)`
+  - `test_bof_install_command_is_make` (method, line 93) `def test_bof_install_command_is_make(self, bof)`
+  - `test_beacon_install_path_no_traversal` (method, line 100) `def test_beacon_install_path_no_traversal(self, beacon)`
+  - `test_bof_install_path_no_traversal` (method, line 105) `def test_bof_install_path_no_traversal(self, bof)`
+  - `test_beacon_category` (method, line 112) `def test_beacon_category(self, beacon)`
+  - `test_bof_category` (method, line 115) `def test_bof_category(self, bof)`
+  - `test_beacon_enabled` (method, line 120) `def test_beacon_enabled(self, beacon)`
+  - `test_bof_enabled` (method, line 123) `def test_bof_enabled(self, bof)`
+  - `_param_names` (method, line 130) `def _param_names(self, addon)`
+  - `test_beacon_has_lhost_param` (method, line 133) `def test_beacon_has_lhost_param(self, beacon)`
+  - `test_beacon_has_lport_param` (method, line 136) `def test_beacon_has_lport_param(self, beacon)`
+  - `test_beacon_has_c2_port_param` (method, line 139) `def test_beacon_has_c2_port_param(self, beacon)`
+  - `test_bof_has_lhost_param` (method, line 142) `def test_bof_has_lhost_param(self, bof)`
+  - `test_bof_has_lport_param` (method, line 145) `def test_bof_has_lport_param(self, bof)`
+  - `test_beacon_lhost_required` (method, line 148) `def test_beacon_lhost_required(self, beacon)`
+  - `test_bof_lhost_required` (method, line 152) `def test_bof_lhost_required(self, bof)`
+  - `test_beacon_lazycommand_has_lhost` (method, line 160) `def test_beacon_lazycommand_has_lhost(self, beacon)`
+  - `test_beacon_lazycommand_has_c2_port` (method, line 164) `def test_beacon_lazycommand_has_c2_port(self, beacon)`
+  - `test_bof_lazycommand_has_lhost` (method, line 168) `def test_bof_lazycommand_has_lhost(self, bof)`
+  - `test_bof_lazycommand_has_lport` (method, line 172) `def test_bof_lazycommand_has_lport(self, bof)`
+  - `test_beacon_execute_stages_to_sessions` (method, line 176) `def test_beacon_execute_stages_to_sessions(self, beacon)`
+  - `test_bof_execute_stages_to_sessions` (method, line 180) `def test_bof_execute_stages_to_sessions(self, bof)`
+  - `test_beacon_execute_resets_before_pull` (method, line 183) `def test_beacon_execute_resets_before_pull(self, beacon)`
+  - `test_bof_execute_resets_before_pull` (method, line 187) `def test_bof_execute_resets_before_pull(self, bof)`
+  - `test_beacon_description_mentions_bof` (method, line 195) `def test_beacon_description_mentions_bof(self, beacon)`
+  - `test_beacon_description_mentions_linux` (method, line 199) `def test_beacon_description_mentions_linux(self, beacon)`
+  - `test_bof_description_mentions_linux_bof` (method, line 202) `def test_bof_description_mentions_linux_bof(self, bof)`
+  - `test_bof_description_mentions_elf` (method, line 206) `def test_bof_description_mentions_elf(self, bof)`
+  - `test_beacon_name_is_correct` (method, line 210) `def test_beacon_name_is_correct(self, beacon)`
+  - `test_bof_name_is_correct` (method, line 213) `def test_bof_name_is_correct(self, bof)`
+  - `_yaml_text` (method, line 220) `def _yaml_text(self, path)`
+  - `test_beacon_no_hardcoded_ip` (method, line 223) `def test_beacon_no_hardcoded_ip(self)`
+  - `test_bof_no_hardcoded_ip` (method, line 230) `def test_bof_no_hardcoded_ip(self)`
+  - `test_beacon_no_hardcoded_port_numbers` (method, line 237) `def test_beacon_no_hardcoded_port_numbers(self)`
+  - `test_bof_no_hardcoded_port_numbers` (method, line 241) `def test_bof_no_hardcoded_port_numbers(self)`
 
 ## tests/test_bof_registry.py
 - Doc: Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
@@ -417,60 +483,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_no_raw_extractall_on_import` (method, line 97) `def test_no_raw_extractall_on_import(self)`
   - `test_uses_safe_helpers` (method, line 108) `def test_uses_safe_helpers(self)`
 - Depends on: `core/safe_import.py`
-
-## tests/test_categories.py
-- Doc: Tests for modules/categories.py — category constants and look-up tables.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestCategoryConstants` (class, line 28) `class TestCategoryConstants`
-  - `TestShortToCategory` (class, line 78) `class TestShortToCategory`
-  - `TestCategoryToShort` (class, line 128) `class TestCategoryToShort`
-  - `TestAllCategories` (class, line 154) `class TestAllCategories`
-  - `TestBijectionInvariant` (class, line 172) `class TestBijectionInvariant`
-  - `test_all_recon_values` (method, line 29) `def test_all_recon_values(self)`
-  - `test_all_scanning_values` (method, line 32) `def test_all_scanning_values(self)`
-  - `test_all_exploitation_values` (method, line 35) `def test_all_exploitation_values(self)`
-  - `test_all_post_exploitation_values` (method, line 38) `def test_all_post_exploitation_values(self)`
-  - `test_all_persistence_values` (method, line 41) `def test_all_persistence_values(self)`
-  - `test_all_privesc_values` (method, line 44) `def test_all_privesc_values(self)`
-  - `test_all_cred_access_values` (method, line 47) `def test_all_cred_access_values(self)`
-  - `test_all_lateral_values` (method, line 50) `def test_all_lateral_values(self)`
-  - `test_all_exfil_values` (method, line 53) `def test_all_exfil_values(self)`
-  - `test_all_c2_values` (method, line 56) `def test_all_c2_values(self)`
-  - `test_all_reporting_values` (method, line 59) `def test_all_reporting_values(self)`
-  - `test_all_misc_values` (method, line 62) `def test_all_misc_values(self)`
-  - `test_all_lua_values` (method, line 65) `def test_all_lua_values(self)`
-  - `test_all_ai_values` (method, line 68) `def test_all_ai_values(self)`
-  - `test_all_cloud_values` (method, line 71) `def test_all_cloud_values(self)`
-  - `test_all_container_values` (method, line 74) `def test_all_container_values(self)`
-  - `test_recon_to_category` (method, line 79) `def test_recon_to_category(self)`
-  - `test_scanning_to_category` (method, line 82) `def test_scanning_to_category(self)`
-  - `test_enum_to_scanning_category` (method, line 85) `def test_enum_to_scanning_category(self)`
-  - `test_exploit_to_category` (method, line 88) `def test_exploit_to_category(self)`
-  - `test_post_to_category` (method, line 91) `def test_post_to_category(self)`
-  - `test_persistence_to_category` (method, line 94) `def test_persistence_to_category(self)`
-  - `test_privesc_to_category` (method, line 97) `def test_privesc_to_category(self)`
-  - `test_credential_to_category` (method, line 100) `def test_credential_to_category(self)`
-  - `test_lateral_to_category` (method, line 103) `def test_lateral_to_category(self)`
-  - `test_exfil_to_category` (method, line 106) `def test_exfil_to_category(self)`
-  - `test_c2_to_category` (method, line 109) `def test_c2_to_category(self)`
-  - `test_reporting_to_category` (method, line 112) `def test_reporting_to_category(self)`
-  - `test_misc_to_category` (method, line 115) `def test_misc_to_category(self)`
-  - `test_ai_to_category` (method, line 118) `def test_ai_to_category(self)`
-  - `test_unknown_short_name_raises_key_error` (method, line 121) `def test_unknown_short_name_raises_key_error(self)`
-  - `test_recon_reverse_lookup` (method, line 129) `def test_recon_reverse_lookup(self)`
-  - `test_exploitation_reverse_lookup` (method, line 132) `def test_exploitation_reverse_lookup(self)`
-  - `test_privesc_reverse_lookup` (method, line 135) `def test_privesc_reverse_lookup(self)`
-  - `test_c2_reverse_lookup` (method, line 138) `def test_c2_reverse_lookup(self)`
-  - `test_reverse_lookup_roundtrip` (method, line 141) `def test_reverse_lookup_roundtrip(self)`
-  - `test_reverse_lookup_less_than_or_equal_forward` (method, line 150) `def test_reverse_lookup_less_than_or_equal_forward(self)`
-  - `test_every_short_key_in_all_categories` (method, line 155) `def test_every_short_key_in_all_categories(self)`
-  - `test_all_categories_non_empty` (method, line 161) `def test_all_categories_non_empty(self)`
-  - `test_no_duplicate_all_categories` (method, line 165) `def test_no_duplicate_all_categories(self)`
-  - `test_all_categories_count` (method, line 168) `def test_all_categories_count(self)`
-  - `test_forward_and_reverse_match` (method, line 173) `def test_forward_and_reverse_match(self)`
-- Depends on: `modules/categories.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

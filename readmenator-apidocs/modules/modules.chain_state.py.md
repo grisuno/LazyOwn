@@ -76,7 +76,7 @@ Return a collision-resistant run id for one chain execution.
 
 **Returns:** `str`
 
-*Called by:* [`ChainRunner.run`](modules.chain_runner.py.md#chainrunner-run)
+*Called by:* [`run_chain_stepwise`](modules.chain_loop.py.md#run_chain_stepwise), [`ChainRunner.run`](modules.chain_runner.py.md#chainrunner-run)
 
 ---
 

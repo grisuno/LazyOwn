@@ -124,7 +124,7 @@ empty mappings when the file or section is unavailable.
 
 *Calls:* [`seeds`](#seeds), [`validate_triggers`](#validate_triggers)
 
-*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`seed_store`](#seed_store)
+*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`OrchestratorAssetsMixin.seed_triggers_from_yaml`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-seed_triggers_from_yaml), [`seed_store`](#seed_store)
 
 ---
 
@@ -156,7 +156,7 @@ added later by the operator are never touched.
 
 *Calls:* [`TriggerStore.__init__`](modules.loop_triggers.py.md#triggerstore-__init__), [`TriggerStore.upsert_defaults`](modules.loop_triggers.py.md#triggerstore-upsert_defaults), [`read_policy`](#read_policy)
 
-*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`triggers_seed`](lazyc2.blueprints.orchestrator.py.md#triggers_seed)
+*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`OrchestratorAssetsMixin.seed_triggers_from_yaml`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-seed_triggers_from_yaml), [`triggers_seed`](lazyc2.blueprints.orchestrator.py.md#triggers_seed)
 
 ---
 

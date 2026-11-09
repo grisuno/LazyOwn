@@ -44,7 +44,7 @@ Execute the ``tui_theme`` command.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `args` | `Sequence[str]` |  | Argument list (excluding the verb itself). Empty list lists themes; one positional argument switches or moves the active theme; ``reset`` clears back to default. |
-| `payload` | `MutableMapping[str, object]` |  | Live payload mapping. Mutated in place on theme changes; the operator's selection persists across shell restarts because `save` writes the JSON. |
+| `payload` | `MutableMapping[str, object]` |  | Live payload mapping. Mutated in place on theme changes; the operator's selection persists across shell restarts because [`save`](modules.lazy_continuation.py.md#save) writes the JSON. |
 | `save` | `Callable[[MutableMapping[str, object]], None]` |  | Callable invoked after every mutation so the on-disk ``payload.json`` matches the in-memory state. The shell binds this to the existing payload writer; tests pass a no-op recorder. |
 
 **Returns:** `str` - Human-readable result string. Always a single block of text

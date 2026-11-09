@@ -6,12 +6,15 @@ Orchestrator admin console for the autonomous loop.
 
 A Textual TUI in the spirit of the marketplace configurator:
 
-- Now: what the loop is executing right now (task, stages, live activity
-  tail, per-worker current command);
+- Now: kill-chain phase + current loop stage + what the loop is executing
+  right now (task, workers, live activity tail);
 - Config: every payload knob the runner reads (rounds, workers,
   heartbeat, verb timeout, agentic flags, NOA, proxy);
+- Pipeline: orchestrator stages with enable/disable toggles;
 - Verbs: auto-verb registry with a searchable command picker;
-- Playbooks/Gyms/Chains/Profiles: YAML asset tabs managed by the `[`OrchestratorAssetsMixin`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin)`; the Models and Guard rules live here.
+- Triggers: scheduler triggers with YAML seeds + runtime controls;
+- Playbooks/Gyms/Chains/Profiles: YAML asset tabs managed by the
+  `[`OrchestratorAssetsMixin`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin)`; Models and Guard rules live here.
 - Models: the LLM failover chain (add/remove members);
 - Guard: the intercept rules (add/remove).
 
@@ -41,6 +44,7 @@ classDiagram
     LazyOrchestratorApp : remove_auto_verb()
     LazyOrchestratorApp : on_button_pressed()
     LazyOrchestratorApp : action_refresh()
+    LazyOrchestratorApp : action_seed_triggers()
     LazyOrchestratorApp : create_param()
     LazyOrchestratorApp : update_param()
     LazyOrchestratorApp : delete_param()
@@ -84,13 +88,13 @@ flowchart LR
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_on_button_pressed(["LazyOrchestratorApp.on_button_pressed"])
     n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_rearm_harness["orchestrator_assets_tabs.OrchestratorAssetsMixin.rearm_harness"]
     n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_warm_restart_harness["orchestrator_assets_tabs.OrchestratorAssetsMixin.warm_restart_harness"]
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_seed_triggers(["LazyOrchestratorApp.action_seed_triggers"])
+    n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_seed_triggers_from_yaml["orchestrator_assets_tabs.OrchestratorAssetsMixin.seed_triggers_from_yaml"]
     n_core_param_registry_py__sync_shell_params["param_registry.sync_shell_params"]
     n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_activate_profile["orchestrator_assets_tabs.OrchestratorAssetsMixin.activate_profile"]
     n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_toggle_chain["orchestrator_assets_tabs.OrchestratorAssetsMixin.toggle_chain"]
     n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_toggle_gym["orchestrator_assets_tabs.OrchestratorAssetsMixin.toggle_gym"]
     n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_toggle_trigger["orchestrator_assets_tabs.OrchestratorAssetsMixin.toggle_trigger"]
-    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_save_config(["LazyOrchestratorApp.action_save_config"])
-    n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_save_config["orchestrator_assets_tabs.OrchestratorAssetsMixin.save_config"]
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_stage
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_toggle_verb
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_add_item --> n_cli_lazy_orchestrator_py__LazyOrchestratorApp_add_auto_verb
@@ -109,12 +113,12 @@ flowchart LR
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_remove_auto_verb -.-> n_modules_orchestrator_config_py__remove_verb
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_on_button_pressed -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_rearm_harness
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_on_button_pressed -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_warm_restart_harness
+    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_seed_triggers -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_seed_triggers_from_yaml
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_create_param -.-> n_core_param_registry_py__sync_shell_params
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_activate_profile
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_toggle_chain
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_toggle_gym
     n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_toggle_item -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_toggle_trigger
-    n_cli_lazy_orchestrator_py__LazyOrchestratorApp_action_save_config -.-> n_cli_orchestrator_assets_tabs_py__OrchestratorAssetsMixin_save_config
 ```
 
 ## Classes
@@ -123,7 +127,7 @@ flowchart LR
 
 ### `LazyOrchestratorApp`
 
-`class` | [cli/lazy_orchestrator.py:144](../../cli/lazy_orchestrator.py#L144)
+`class` | [cli/lazy_orchestrator.py:147](../../cli/lazy_orchestrator.py#L147)
 
 ```python
 class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None])
@@ -137,8 +141,8 @@ Admin console: Now / Config / Verbs / Chains / Models / Guard / Harness.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| [`CSS`](#lazyorchestratorapp-css) |  | `'\n #now-status { height: 6; border: round $accent; padding: 0 1; }\n #now-log { height: 1fr; border: round $primary; }\n #config-status { height: 3; color: $text-muted; }\n #chains-detail, #profiles-detail, #playbooks-detail, #gyms-detail { height: 10;\n border: round $secondary; padding: 0 1; }\n DataTable { height: 1fr; }\n .modal-box { width: 70; height: auto; padding: 1 2; background: $surface;\n border: round $accent; }\n .modal-box-wide { width: 100; height: 38; padding: 1 2; background: $surface;\n border: round $accent; }\n .modal-title { text-style: bold; padding-bottom: 1; }\n .modal-label { padding-top: 1; }\n .modal-hint { color: $text-muted; padding-top: 1; }\n .modal-error { color: $error; padding-top: 1; }\n '` |  |
-| [`BINDINGS`](#lazyorchestratorapp-bindings) |  | `[Binding('q', 'quit', 'Quit'), Binding('r', 'refresh', 'Refresh'), Binding('s', 'save_config', 'Save config'), Binding('space', 'toggle_item', 'Toggle'), Binding('a', 'add_item', 'Add'), Binding('e', 'edit_item', 'Edit'), Binding('d', 'delete_item', 'Delete')]` |  |
+| [`CSS`](#lazyorchestratorapp-css) |  | `'\n #now-killchain { height: 3; border: round $accent; padding: 0 1; }\n #now-stage { height: 3; border: round $warning; padding: 0 1; }\n #now-status { height: 5; border: round $primary; padding: 0 1; }\n #now-log { height: 1fr; border: round $primary; }\n #config-status { height: 3; color: $text-muted; }\n #chains-detail, #profiles-detail, #playbooks-detail, #gyms-detail { height: 10;\n border: round $secondary; padding: 0 1; }\n DataTable { height: 1fr; }\n .modal-box { width: 70; height: auto; padding: 1 2; background: $surface;\n border: round $accent; }\n .modal-box-wide { width: 100; height: 38; padding: 1 2; background: $surface;\n border: round $accent; }\n .modal-title { text-style: bold; padding-bottom: 1; }\n .modal-label { padding-top: 1; }\n .modal-hint { color: $text-muted; padding-top: 1; }\n .modal-error { color: $error; padding-top: 1; }\n '` |  |
+| [`BINDINGS`](#lazyorchestratorapp-bindings) |  | `[Binding('q', 'quit', 'Quit'), Binding('r', 'refresh', 'Refresh'), Binding('s', 'save_config', 'Save config'), Binding('t', 'seed_triggers', 'Seed triggers'), Binding('space', 'toggle_item', 'Toggle'), Binding('a', 'add_item', 'Add'), Binding('e', 'edit_item', 'Edit'), Binding('d', 'delete_item', 'Delete')]` |  |
 
 **Members**
 
@@ -153,6 +157,7 @@ Admin console: Now / Config / Verbs / Chains / Models / Guard / Harness.
 | [`remove_auto_verb`](#lazyorchestratorapp-remove_auto_verb) | method | Delete a custom verb, or disable a built-in one. |
 | [`on_button_pressed`](#lazyorchestratorapp-on_button_pressed) | method | Handle the config and harness buttons. |
 | [`action_refresh`](#lazyorchestratorapp-action_refresh) | method | Reload tables and form from disk. |
+| [`action_seed_triggers`](#lazyorchestratorapp-action_seed_triggers) | method | Seed triggers from config/orchestrator.yaml. |
 | [`create_param`](#lazyorchestratorapp-create_param) | method | Declare a reusable parameter and publish it to the live shell. |
 | [`update_param`](#lazyorchestratorapp-update_param) | method | Update a declared parameter and repaint the table. |
 | [`delete_param`](#lazyorchestratorapp-delete_param) | method | Delete an operator parameter and drop it from the live shell. |
@@ -166,7 +171,7 @@ Admin console: Now / Config / Verbs / Chains / Models / Guard / Harness.
 
 #### `LazyOrchestratorApp.__init__`
 
-`constructor` | [cli/lazy_orchestrator.py:174](../../cli/lazy_orchestrator.py#L174)
+`constructor` | [cli/lazy_orchestrator.py:180](../../cli/lazy_orchestrator.py#L180)
 
 ```python
 def __init__(self, payload_path: str | Path | None = None, task_id: str = '', shell: object | None = None, param_root: str | Path | None = None) -> None
@@ -189,7 +194,7 @@ Bind the console to a payload file and an optional task.
 
 #### `LazyOrchestratorApp.compose`
 
-`method` `generator` | [cli/lazy_orchestrator.py:208](../../cli/lazy_orchestrator.py#L208)
+`method` `generator` | [cli/lazy_orchestrator.py:214](../../cli/lazy_orchestrator.py#L214)
 
 ```python
 def compose(self) -> ComposeResult
@@ -203,7 +208,7 @@ Build the four panes.
 
 #### `LazyOrchestratorApp.on_mount`
 
-`method` | [cli/lazy_orchestrator.py:274](../../cli/lazy_orchestrator.py#L274)
+`method` | [cli/lazy_orchestrator.py:282](../../cli/lazy_orchestrator.py#L282)
 
 ```python
 def on_mount(self) -> None
@@ -215,7 +220,7 @@ Load the payload into the form and refresh the data tables.
 
 #### `LazyOrchestratorApp.toggle_stage`
 
-`method` | [cli/lazy_orchestrator.py:292](../../cli/lazy_orchestrator.py#L292)
+`method` | [cli/lazy_orchestrator.py:300](../../cli/lazy_orchestrator.py#L300)
 
 ```python
 def toggle_stage(self, name: str) -> bool
@@ -239,7 +244,7 @@ Flip one pipeline stage on/off and persist it.
 
 #### `LazyOrchestratorApp.toggle_verb`
 
-`method` | [cli/lazy_orchestrator.py:301](../../cli/lazy_orchestrator.py#L301)
+`method` | [cli/lazy_orchestrator.py:309](../../cli/lazy_orchestrator.py#L309)
 
 ```python
 def toggle_verb(self, name: str) -> bool
@@ -263,7 +268,7 @@ Flip one auto verb on/off and persist it in its owning layer.
 
 #### `LazyOrchestratorApp.add_auto_verb`
 
-`method` | [cli/lazy_orchestrator.py:317](../../cli/lazy_orchestrator.py#L317)
+`method` | [cli/lazy_orchestrator.py:325](../../cli/lazy_orchestrator.py#L325)
 
 ```python
 def add_auto_verb(self, name: str, keywords: str = '', needs_target: str = 'true', description: str = '', phases: str = '') -> dict
@@ -291,7 +296,7 @@ Register a new operator-defined auto verb.
 
 #### `LazyOrchestratorApp.remove_auto_verb`
 
-`method` | [cli/lazy_orchestrator.py:340](../../cli/lazy_orchestrator.py#L340)
+`method` | [cli/lazy_orchestrator.py:348](../../cli/lazy_orchestrator.py#L348)
 
 ```python
 def remove_auto_verb(self, name: str) -> bool
@@ -315,7 +320,7 @@ Delete a custom verb, or disable a built-in one.
 
 #### `LazyOrchestratorApp.on_button_pressed`
 
-`method` | [cli/lazy_orchestrator.py:401](../../cli/lazy_orchestrator.py#L401)
+`method` | [cli/lazy_orchestrator.py:450](../../cli/lazy_orchestrator.py#L450)
 
 ```python
 def on_button_pressed(self, event: Button.Pressed) -> None
@@ -335,7 +340,7 @@ Handle the config and harness buttons.
 
 #### `LazyOrchestratorApp.action_refresh`
 
-`method` | [cli/lazy_orchestrator.py:454](../../cli/lazy_orchestrator.py#L454)
+`method` | [cli/lazy_orchestrator.py:503](../../cli/lazy_orchestrator.py#L503)
 
 ```python
 def action_refresh(self) -> None
@@ -343,11 +348,25 @@ def action_refresh(self) -> None
 
 Reload tables and form from disk.
 
+<a id="lazyorchestratorapp-action_seed_triggers"></a>
+
+#### `LazyOrchestratorApp.action_seed_triggers`
+
+`method` | [cli/lazy_orchestrator.py:517](../../cli/lazy_orchestrator.py#L517)
+
+```python
+def action_seed_triggers(self) -> None
+```
+
+Seed triggers from config/orchestrator.yaml.
+
+*Calls:* [`OrchestratorAssetsMixin.seed_triggers_from_yaml`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-seed_triggers_from_yaml)
+
 <a id="lazyorchestratorapp-create_param"></a>
 
 #### `LazyOrchestratorApp.create_param`
 
-`method` | [cli/lazy_orchestrator.py:491](../../cli/lazy_orchestrator.py#L491)
+`method` | [cli/lazy_orchestrator.py:556](../../cli/lazy_orchestrator.py#L556)
 
 ```python
 def create_param(self, name: str, kind: str = 'string', default: str = '', description: str = '', category: str = 'general') -> dict
@@ -375,7 +394,7 @@ Declare a reusable parameter and publish it to the live shell.
 
 #### `LazyOrchestratorApp.update_param`
 
-`method` | [cli/lazy_orchestrator.py:531](../../cli/lazy_orchestrator.py#L531)
+`method` | [cli/lazy_orchestrator.py:596](../../cli/lazy_orchestrator.py#L596)
 
 ```python
 def update_param(self, name: str, default: str | None = None, description: str | None = None) -> dict
@@ -399,7 +418,7 @@ Update a declared parameter and repaint the table.
 
 #### `LazyOrchestratorApp.delete_param`
 
-`method` | [cli/lazy_orchestrator.py:563](../../cli/lazy_orchestrator.py#L563)
+`method` | [cli/lazy_orchestrator.py:628](../../cli/lazy_orchestrator.py#L628)
 
 ```python
 def delete_param(self, name: str) -> bool
@@ -421,7 +440,7 @@ Delete an operator parameter and drop it from the live shell.
 
 #### `LazyOrchestratorApp.action_toggle_item`
 
-`method` | [cli/lazy_orchestrator.py:595](../../cli/lazy_orchestrator.py#L595)
+`method` | [cli/lazy_orchestrator.py:660](../../cli/lazy_orchestrator.py#L660)
 
 ```python
 def action_toggle_item(self) -> None
@@ -435,7 +454,7 @@ Toggle the selected stage, auto verb, or chain.
 
 #### `LazyOrchestratorApp.action_save_config`
 
-`method` | [cli/lazy_orchestrator.py:625](../../cli/lazy_orchestrator.py#L625)
+`method` | [cli/lazy_orchestrator.py:690](../../cli/lazy_orchestrator.py#L690)
 
 ```python
 def action_save_config(self) -> None
@@ -449,7 +468,7 @@ Save the form values (keyboard shortcut).
 
 #### `LazyOrchestratorApp.action_add_item`
 
-`method` | [cli/lazy_orchestrator.py:642](../../cli/lazy_orchestrator.py#L642)
+`method` | [cli/lazy_orchestrator.py:707](../../cli/lazy_orchestrator.py#L707)
 
 ```python
 def action_add_item(self) -> None
@@ -463,7 +482,7 @@ Open the add modal for the active tab.
 
 #### `LazyOrchestratorApp.action_edit_item`
 
-`method` | [cli/lazy_orchestrator.py:874](../../cli/lazy_orchestrator.py#L874)
+`method` | [cli/lazy_orchestrator.py:939](../../cli/lazy_orchestrator.py#L939)
 
 ```python
 def action_edit_item(self) -> None
@@ -477,7 +496,7 @@ Edit the selected playbook YAML, LLM member priority or parameter.
 
 #### `LazyOrchestratorApp.action_delete_item`
 
-`method` | [cli/lazy_orchestrator.py:953](../../cli/lazy_orchestrator.py#L953)
+`method` | [cli/lazy_orchestrator.py:1018](../../cli/lazy_orchestrator.py#L1018)
 
 ```python
 def action_delete_item(self) -> None
@@ -495,7 +514,7 @@ Delete the selected row in the active tab.
 
 ### `run_orchestrator_console`
 
-`function` | [cli/lazy_orchestrator.py:1045](../../cli/lazy_orchestrator.py#L1045)
+`function` | [cli/lazy_orchestrator.py:1110](../../cli/lazy_orchestrator.py#L1110)
 
 ```python
 def run_orchestrator_console(task_id: str = '', shell: object | None = None) -> None

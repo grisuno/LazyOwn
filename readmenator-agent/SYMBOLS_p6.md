@@ -1,8 +1,32 @@
-# Symbols (page 6 of 49)
+# Symbols (page 6 of 50)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `latest_hint` | function | `cli/reasoning_stream.py:229` | `def latest_hint(events_path)` |
+| `latest_reasoning` | function | `cli/reasoning_stream.py:216` | `def latest_reasoning(path, limit)` |
+| `read_raw_events` | function | `cli/reasoning_stream.py:91` | `def read_raw_events(path, limit)` |
+| `CategoryResolver` | class | `cli/recommendation.py:192` | `class CategoryResolver` |
+| `EngineWeights` | class | `cli/recommendation.py:67` | `class EngineWeights` |
+| `Proposal` | class | `cli/recommendation.py:123` | `class Proposal` |
+| `Recommendation` | class | `cli/recommendation.py:150` | `class Recommendation` |
+| `RecommendationContext` | class | `cli/recommendation.py:101` | `class RecommendationContext` |
+| `RecommendationEngine` | class | `cli/recommendation.py:232` | `class RecommendationEngine` |
+| `RecommendationSignal` | class | `cli/recommendation.py:177` | `class RecommendationSignal(Protocol)` |
+| `_Accumulator` | class | `cli/recommendation.py:362` | `class _Accumulator` |
+| `__init__` | method | `cli/recommendation.py:201` | `def __init__(self, index_path, loader)` |
+| `__init__` | method | `cli/recommendation.py:240` | `def __init__(self, signals, resolver, weights)` |
+| `_build_category_priors` | method | `cli/recommendation.py:287` | `def _build_category_priors(self, collected)` |
+| `_category_recommendations` | method | `cli/recommendation.py:331` | `def _category_recommendations(self, collected, concrete)` |
+| `_clamp01` | function | `cli/recommendation.py:400` | `def _clamp01(value)` |
+| `_fuse_concrete_actions` | method | `cli/recommendation.py:302` | `def _fuse_concrete_actions(self, collected, priors)` |
+| `_load_command_index` | function | `cli/recommendation.py:422` | `def _load_command_index(path)` |
+| `_non_negative` | function | `cli/recommendation.py:412` | `def _non_negative(value)` |
+| `_safe_propose` | method | `cli/recommendation.py:280` | `def _safe_propose(signal, ctx)` |
+| `add` | method | `cli/recommendation.py:374` | `def add(self, source, contribution, proposal)` |
+| `build` | method | `cli/recommendation.py:386` | `def build(self)` |
+| `category_for` | method | `cli/recommendation.py:227` | `def category_for(self, action)` |
+| `propose` | method | `cli/recommendation.py:187` | `def propose(self, ctx)` |
 | `recommend` | method | `cli/recommendation.py:258` | `def recommend(self, ctx)` |
 | `GraphSignal` | class | `cli/recommendation_signals.py:111` | `class GraphSignal` |
 | `GraphTopologySignal` | class | `cli/recommendation_signals.py:533` | `class GraphTopologySignal` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_check_llm` | function | `cli/wizard.py:887` | `def _check_llm()` |
 | `_collect_values` | function | `cli/wizard.py:419` | `def _collect_values(params)` |
 | `_detect_device` | function | `cli/wizard.py:1120` | `def _detect_device()` |
-| `_detect_lhost` | function | `cli/wizard.py:1098` | `def _detect_lhost()` |
-| `_find_seclists_root` | function | `cli/wizard.py:1133` | `def _find_seclists_root()` |
-| `_group_by_category` | function | `cli/wizard.py:988` | `def _group_by_category(statuses)` |
-| `_info` | function | `cli/wizard.py:1169` | `def _info(msg)` |
-| `_is_default` | function | `cli/wizard.py:322` | `def _is_default(value)` |
-| `_is_weak` | function | `cli/wizard.py:325` | `def _is_weak(value)` |
-| `_mask_secret` | function | `cli/wizard.py:606` | `def _mask_secret(value)` |
-| `_normalize_provider_answer` | function | `cli/wizard.py:585` | `def _normalize_provider_answer(raw)` |
-| `_ok` | function | `cli/wizard.py:1161` | `def _ok(msg)` |
-| `_ping` | function | `cli/wizard.py:1141` | `def _ping(ip)` |
-| `_print_binary_report` | function | `cli/wizard.py:997` | `def _print_binary_report(statuses)` |
-| `_print_glossary_panel` | function | `cli/wizard.py:379` | `def _print_glossary_panel()` |
-| `_print_header` | function | `cli/wizard.py:364` | `def _print_header()` |
-| `_print_long_help` | function | `cli/wizard.py:412` | `def _print_long_help(key)` |
-| `_print_next_steps` | function | `cli/wizard.py:1035` | `def _print_next_steps(params)` |
-| `_print_readiness` | function | `cli/wizard.py:927` | `def _print_readiness(items)` |
-| `_print_secret_rotation` | function | `cli/wizard.py:348` | `def _print_secret_rotation(rotated)` |
-| `_print_validation_summary` | function | `cli/wizard.py:1059` | `def _print_validation_summary(params)` |
-| `_prompt` | function | `cli/wizard.py:1154` | `def _prompt(message)` |
-| `_rotate_default_secrets` | function | `cli/wizard.py:300` | `def _rotate_default_secrets(params, save)` |
-| `_spec_long_help` | function | `cli/wizard.py:404` | `def _spec_long_help(key)` |
-| `_warn` | function | `cli/wizard.py:1165` | `def _warn(msg)` |
-| `_wizard_login_flow` | function | `cli/wizard.py:786` | `def _wizard_login_flow()` |
-| `_wizard_register_flow` | function | `cli/wizard.py:809` | `def _wizard_register_flow()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

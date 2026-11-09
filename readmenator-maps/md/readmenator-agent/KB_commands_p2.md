@@ -298,6 +298,22 @@ Previous: [KB_commands.md](KB_commands.md)
 - Depends on: `cli/commands/_base.py`, `core/autonomous.py`, `modules/adcs_attacks.py`, `modules/chain_registry.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `tests/test_chain_list_command.py`, `tests/test_lazy_runner.py`
 
+## cli/commands/exploitdb.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitdbCommands` (class, line 11) `class ExploitdbCommands`
+  - `ExploitdbCCommands` (class, line 94) `class ExploitdbCCommands`
+  - `do_exploitdb_sync` (method, line 19) `def do_exploitdb_sync(self, args)`
+  - `do_exploitdb_scan` (method, line 33) `def do_exploitdb_scan(self, args)`
+  - `do_exploitdb_gen` (method, line 45) `def do_exploitdb_gen(self, args)`
+  - `do_exploitdb_cscan` (method, line 76) `def do_exploitdb_cscan(self, args)`
+  - `do_exploitdb_ccompile` (method, line 87) `def do_exploitdb_ccompile(self, args)`
+  - `do_exploitdb_cscan` (method, line 99) `def do_exploitdb_cscan(self, args)`
+  - `do_exploitdb_ccompile` (method, line 110) `def do_exploitdb_ccompile(self, args)`
+  - `do_exploitdb_run` (method, line 124) `def do_exploitdb_run(self, args)`
+- Depends on: `modules/__init__.py`
+
 ## cli/commands/exploitgym.py
 - Doc: ExploitGym CLI command set — real-world exploit benchmark harness.
 - Layer: utility
@@ -460,39 +476,6 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_infra_status` (method, line 447) `def _infra_status(self)`
 - Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `utils.py`
 - Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-
-## cli/commands/lab.py
-- Doc: Lab environment commands -- spin up vulnerable practice targets.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LabCommandSet` (class, line 27) `class LabCommandSet(LazyOwnCommandSet)`
-  - `_docker_available` (method, line 33) `def _docker_available(self)`
-  - `_running_containers` (method, line 37) `def _running_containers(self)`
-  - `_running_range_containers` (method, line 41) `def _running_range_containers(self)`
-  - `_container_name` (method, line 45) `def _container_name(self, scenario)`
-  - `_container_ip` (method, line 49) `def _container_ip(self, container_name)`
-  - `_lab_ensure_web` (method, line 53) `def _lab_ensure_web(self, scenario, container_name)`
-  - `_print_lab_target` (method, line 57) `def _print_lab_target(self, scenario, container_name, ports)`
-  - `_lab_migrate` (method, line 78) `def _lab_migrate(self, scenario, container_name)`
-  - `do_lab` (method, line 93) `def do_lab(self, line)`
-  - `_lab_list` (method, line 145) `def _lab_list(self)`
-  - `_lab_start` (method, line 159) `def _lab_start(self, scenario)`
-  - `_lab_stop` (method, line 205) `def _lab_stop(self, scenario)`
-  - `_range_dispatch` (method, line 218) `def _range_dispatch(self, args)`
-  - `_range_list` (method, line 250) `def _range_list(self)`
-  - `_range_start` (method, line 259) `def _range_start(self, profile)`
-  - `_range_container_state` (method, line 296) `def _range_container_state(self, container)`
-  - `_range_wait_healthy` (method, line 321) `def _range_wait_healthy(self, compose, timeout)`
-  - `_range_verify` (method, line 353) `def _range_verify(self, profile)`
-  - `_tcp_reachable` (method, line 390) `def _tcp_reachable(host, port, timeout)`
-  - `_range_container_ip` (method, line 407) `def _range_container_ip(self, container)`
-  - `_range_stop` (method, line 418) `def _range_stop(self, profile)`
-  - `_range_status` (method, line 431) `def _range_status(self)`
-  - `_lab_container_state` (method, line 442) `def _lab_container_state(self, container_name)`
-  - `_lab_status` (method, line 456) `def _lab_status(self)`
-- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-- Imported by: `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
 
 
 Next: [KB_commands_p3.md](KB_commands_p3.md)

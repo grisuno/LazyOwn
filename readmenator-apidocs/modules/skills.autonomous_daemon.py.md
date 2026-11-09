@@ -2209,7 +2209,7 @@ CLI helper bound to the `engage <ip>` daemon subcommand.
 
 ### `objective_loop`
 
-`function` `async` | [skills/autonomous_daemon.py:4364](../../skills/autonomous_daemon.py#L4364)
+`function` `async` | [skills/autonomous_daemon.py:4401](../../skills/autonomous_daemon.py#L4401)
 
 ```python
 async def objective_loop(max_steps: int, loop: asyncio.AbstractEventLoop) -> None
@@ -2232,7 +2232,7 @@ Root autonomous loop: takes pending objectives from objectives.jsonl and execute
 
 ### `world_model_watcher`
 
-`function` `async` | [skills/autonomous_daemon.py:4507](../../skills/autonomous_daemon.py#L4507)
+`function` `async` | [skills/autonomous_daemon.py:4548](../../skills/autonomous_daemon.py#L4548)
 
 ```python
 async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None
@@ -2256,7 +2256,7 @@ When the phase changes, new hosts appear, new service versions are found, or act
 
 ### `heartbeat_loop`
 
-`function` `async` | [skills/autonomous_daemon.py:4700](../../skills/autonomous_daemon.py#L4700)
+`function` `async` | [skills/autonomous_daemon.py:4741](../../skills/autonomous_daemon.py#L4741)
 
 ```python
 async def heartbeat_loop() -> None
@@ -2270,7 +2270,7 @@ Emit heartbeat and write status every HEARTBEAT_S seconds.
 
 ### `cmd_run`
 
-`function` | [skills/autonomous_daemon.py:4827](../../skills/autonomous_daemon.py#L4827)
+`function` | [skills/autonomous_daemon.py:4868](../../skills/autonomous_daemon.py#L4868)
 
 ```python
 def cmd_run(max_steps: int = MAX_STEPS_DEFAULT) -> None
@@ -2290,7 +2290,7 @@ Run daemon in foreground (debug mode).
 
 ### `cmd_start`
 
-`function` | [skills/autonomous_daemon.py:4836](../../skills/autonomous_daemon.py#L4836)
+`function` | [skills/autonomous_daemon.py:4877](../../skills/autonomous_daemon.py#L4877)
 
 ```python
 def cmd_start(max_steps: int = MAX_STEPS_DEFAULT) -> None
@@ -2310,7 +2310,7 @@ Fork, detach, and run daemon in background.
 
 ### `cmd_stop`
 
-`function` | [skills/autonomous_daemon.py:4866](../../skills/autonomous_daemon.py#L4866)
+`function` | [skills/autonomous_daemon.py:4907](../../skills/autonomous_daemon.py#L4907)
 
 ```python
 def cmd_stop() -> None
@@ -2324,7 +2324,7 @@ Send SIGTERM to the running daemon.
 
 ### `cmd_status`
 
-`function` | [skills/autonomous_daemon.py:4883](../../skills/autonomous_daemon.py#L4883)
+`function` | [skills/autonomous_daemon.py:4924](../../skills/autonomous_daemon.py#L4924)
 
 ```python
 def cmd_status() -> None
@@ -2338,7 +2338,7 @@ Print current daemon status to stdout.
 
 ### `cmd_inject`
 
-`function` | [skills/autonomous_daemon.py:4899](../../skills/autonomous_daemon.py#L4899)
+`function` | [skills/autonomous_daemon.py:4940](../../skills/autonomous_daemon.py#L4940)
 
 ```python
 def cmd_inject(text: str, priority: str = 'high') -> None
@@ -2359,7 +2359,7 @@ Inject an objective from the CLI, split into verifiable sub-goals.
 
 ### `mcp_autonomous_start`
 
-`function` | [skills/autonomous_daemon.py:4933](../../skills/autonomous_daemon.py#L4933)
+`function` | [skills/autonomous_daemon.py:4974](../../skills/autonomous_daemon.py#L4974)
 
 ```python
 def mcp_autonomous_start(max_steps: int = MAX_STEPS_DEFAULT, backend: str = HIVE_BACKEND) -> str
@@ -2382,7 +2382,7 @@ Start the autonomous daemon in a background thread (for MCP calls).
 
 ### `mcp_autonomous_stop`
 
-`function` | [skills/autonomous_daemon.py:4975](../../skills/autonomous_daemon.py#L4975)
+`function` | [skills/autonomous_daemon.py:5016](../../skills/autonomous_daemon.py#L5016)
 
 ```python
 def mcp_autonomous_stop() -> str
@@ -2398,7 +2398,7 @@ Stop the autonomous daemon.
 
 ### `mcp_autonomous_status`
 
-`function` | [skills/autonomous_daemon.py:4991](../../skills/autonomous_daemon.py#L4991)
+`function` | [skills/autonomous_daemon.py:5032](../../skills/autonomous_daemon.py#L5032)
 
 ```python
 def mcp_autonomous_status() -> str
@@ -2414,7 +2414,7 @@ Current daemon state: objectives, steps, drones, phase.
 
 ### `mcp_autonomous_inject`
 
-`function` | [skills/autonomous_daemon.py:5004](../../skills/autonomous_daemon.py#L5004)
+`function` | [skills/autonomous_daemon.py:5045](../../skills/autonomous_daemon.py#L5045)
 
 ```python
 def mcp_autonomous_inject(text: str, priority: str = 'high', target: str = '') -> str
@@ -2438,7 +2438,7 @@ Inject an objective into the daemon queue and into sessions/tasks.json.
 
 ### `mcp_autonomous_events`
 
-`function` | [skills/autonomous_daemon.py:5048](../../skills/autonomous_daemon.py#L5048)
+`function` | [skills/autonomous_daemon.py:5089](../../skills/autonomous_daemon.py#L5089)
 
 ```python
 def mcp_autonomous_events(last_n: int = 20) -> str

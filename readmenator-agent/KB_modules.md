@@ -18,7 +18,8 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `poc` (function, line 12) `def poc(url)`
+  - `poc` (function, line 13) `def poc(url)`
+  - `run_urls` (function, line 46) `def run_urls(urls)`
 
 ## modules/LazyOwnExplorer.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
@@ -52,7 +53,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazyops.py`, `cli/commands/netattack.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_intel_selector.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_autofire.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_intel_wiring.py`, `tests/test_lazy_inventory.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_search.py`, `tests/test_lazy_sentinel.py`, `tests/test_lazy_timeline.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_mentions.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_selection_wiring.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/exploitdb.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyops.py`, `cli/commands/netattack.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/chain_runner.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_gating.py`, `modules/loop_guardrails.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/edb.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/verb_catalog.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_intel_selector.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_autofire.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_finalizer.py`, `tests/test_lazy_intel_wiring.py`, `tests/test_lazy_inventory.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_search.py`, `tests/test_lazy_sentinel.py`, `tests/test_lazy_timeline.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_mentions.py`, `tests/test_loop_objective_wiring.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_selection_module.py`, `tests/test_selection_wiring.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
 
 ## modules/ad_gym.py
 - Doc: AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
@@ -173,7 +174,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `_ensure` (method, line 487) `def _ensure(context, strategy)`
   - `_parse_shell_hints` (method, line 492) `def _parse_shell_hints(self, output, context)`
 - Depends on: `modules/autonomous_exploit_engine.py`
-- Imported by: `cli/commands/pwn.py`, `skills/lazyown_mcp.py`
+- Imported by: `cli/commands/pwn.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_engine_mediator.py`
 
 ## modules/ai_fallback.py
 - Doc: LazyOwn AI Fallback Chain
@@ -273,21 +274,23 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Symbols:
   - `AtomicTestRef` (class, line 41) `class AtomicTestRef`
   - `CalderaAbilityRef` (class, line 48) `class CalderaAbilityRef`
-  - `PhaseStep` (class, line 54) `class PhaseStep`
-  - `AptPlaybook` (class, line 65) `class AptPlaybook`
-  - `AptPlaybookEngine` (class, line 111) `class AptPlaybookEngine`
-  - `from_dict` (method, line 74) `def from_dict(cls, data)`
-  - `to_summary` (method, line 99) `def to_summary(self)`
-  - `__init__` (method, line 114) `def __init__(self, playbook_dir)`
-  - `_load_all` (method, line 119) `def _load_all(self)`
-  - `list_playbooks` (method, line 131) `def list_playbooks(self)`
-  - `get` (method, line 134) `def get(self, name)`
-  - `validate` (method, line 138) `def validate(self, pb, atomic_path)`
-  - `_build_atomic_index` (method, line 199) `def _build_atomic_index(self, atomic_yaml_path)`
-  - `generate_attack_plan` (method, line 213) `def generate_attack_plan(self, pb, output_path)`
-  - `report_json` (method, line 230) `def report_json(self, pb, output_path)`
+  - `PlaybookAction` (class, line 65) `class PlaybookAction`
+  - `_actions_from_raw` (function, line 88) `def _actions_from_raw(raw)`
+  - `PhaseStep` (class, line 116) `class PhaseStep`
+  - `AptPlaybook` (class, line 128) `class AptPlaybook`
+  - `AptPlaybookEngine` (class, line 176) `class AptPlaybookEngine`
+  - `from_dict` (method, line 137) `def from_dict(cls, data)`
+  - `to_summary` (method, line 163) `def to_summary(self)`
+  - `__init__` (method, line 179) `def __init__(self, playbook_dir)`
+  - `_load_all` (method, line 184) `def _load_all(self)`
+  - `list_playbooks` (method, line 196) `def list_playbooks(self)`
+  - `get` (method, line 199) `def get(self, name)`
+  - `validate` (method, line 203) `def validate(self, pb, atomic_path)`
+  - `_build_atomic_index` (method, line 264) `def _build_atomic_index(self, atomic_yaml_path)`
+  - `generate_attack_plan` (method, line 278) `def generate_attack_plan(self, pb, output_path)`
+  - `report_json` (method, line 295) `def report_json(self, pb, output_path)`
 - Depends on: `core/console.py`, `modules/atomic_resolver.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_selectors_capabilities.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_playbook_chain.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/asset_graph.py
 - Doc: Global asset truth store joined to per-task exploration chains.
@@ -481,7 +484,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `__len__` (method, line 241) `def __len__(self)`
   - `save` (method, line 244) `def save(self)`
   - `_load` (method, line 262) `def _load(self)`
-- Imported by: `modules/lazy_loop.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
+- Imported by: `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

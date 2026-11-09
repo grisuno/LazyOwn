@@ -211,4 +211,4 @@
   - `LISTENER_PORT` (macro, line 39) `#define LISTENER_PORT`
   - `SPECIAL_STRING` (macro, line 42) `#define SPECIAL_STRING`
   - `SPECIAL_STRING_PORT` (macro, line 45) `#define SPECIAL_STRING_PORT`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`, `modules/selection/module.py`

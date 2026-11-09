@@ -1,6 +1,6 @@
 # `modules.apt_playbooks`
 
-> Source: [modules/apt_playbooks.py:1](../../modules/apt_playbooks.py#L1) | language `py` | coverage 35.7% | [API index](../index.md)
+> Source: [modules/apt_playbooks.py:1](../../modules/apt_playbooks.py#L1) | language `py` | coverage 40.0% | [API index](../index.md)
 
 APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.
 
@@ -28,7 +28,8 @@ Playbook schema (enriched):
 
 ## Contents
 
-- **Classes:** [`AtomicTestRef`](#atomictestref), [`CalderaAbilityRef`](#calderaabilityref), [`PhaseStep`](#phasestep), [`AptPlaybook`](#aptplaybook), [`AptPlaybookEngine`](#aptplaybookengine)
+- **Classes:** [`AtomicTestRef`](#atomictestref), [`CalderaAbilityRef`](#calderaabilityref), [`PlaybookAction`](#playbookaction), [`PhaseStep`](#phasestep), [`AptPlaybook`](#aptplaybook), [`AptPlaybookEngine`](#aptplaybookengine)
+- **Constants:** [`ACTION_KINDS`](#action_kinds)
 
 ## Type Diagram
 
@@ -42,6 +43,18 @@ classDiagram
     class CalderaAbilityRef
     CalderaAbilityRef : str ability_id
     CalderaAbilityRef : str name
+    class PlaybookAction
+    PlaybookAction : str kind
+    PlaybookAction : str run
+    PlaybookAction : str technique_id
+    PlaybookAction : str name
+    PlaybookAction : int timeout
+    PlaybookAction : float sleep
+    PlaybookAction : float jitter
+    PlaybookAction : bool continue_on_error
+    PlaybookAction : str capture
+    PlaybookAction : str when
+    PlaybookAction : list[str] sinks
     class PhaseStep
     PhaseStep : str name
     PhaseStep : str technique_id
@@ -50,6 +63,7 @@ classDiagram
     PhaseStep : list[AtomicTestRef] atomic_tests
     PhaseStep : list[CalderaAbilityRef] caldera_abilities
     PhaseStep : list[str] detection_hints
+    PhaseStep : list[PlaybookAction] steps
     class AptPlaybook
     AptPlaybook : str apt_name
     AptPlaybook : list[str] aliases
@@ -140,11 +154,49 @@ class CalderaAbilityRef
 
 ---
 
+<a id="playbookaction"></a>
+
+### `PlaybookAction`
+
+`class` `dataclass` | [modules/apt_playbooks.py:65](../../modules/apt_playbooks.py#L65)
+
+Decorators: `@dataclass`
+
+```python
+class PlaybookAction
+```
+
+One executable step inside a playbook phase.
+
+`[`kind`](#playbookaction-kind)` selects the executor contract: ``atomic`` emulates the
+phase technique through Atomic Red Team, ``command`` runs a shell
+line, ``lazyscript`` a ``lazyscripts/`` script, ``lua``/``plugin``
+a plugin-registered verb, ``lazyaddon`` a registered addon via
+``lazy_addon run`` and ``chain`` nests another ``apt_chain``.
+
+**Attributes**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| [`kind`](#playbookaction-kind) | `str` | `'command'` |  |
+| [`run`](#playbookaction-run) | `str` | `''` |  |
+| [`technique_id`](#playbookaction-technique_id) | `str` | `''` |  |
+| [`name`](#playbookaction-name) | `str` | `''` |  |
+| [`timeout`](#playbookaction-timeout) | `int` | `0` |  |
+| [`sleep`](#playbookaction-sleep) | `float` | `0.0` |  |
+| [`jitter`](#playbookaction-jitter) | `float` | `0.0` |  |
+| [`continue_on_error`](#playbookaction-continue_on_error) | `bool` | `False` |  |
+| [`capture`](#playbookaction-capture) | `str` | `''` |  |
+| [`when`](#playbookaction-when) | `str` | `''` |  |
+| [`sinks`](#playbookaction-sinks) | `list[str]` | `field(default_factory=list)` |  |
+
+---
+
 <a id="phasestep"></a>
 
 ### `PhaseStep`
 
-`class` `dataclass` | [modules/apt_playbooks.py:54](../../modules/apt_playbooks.py#L54)
+`class` `dataclass` | [modules/apt_playbooks.py:116](../../modules/apt_playbooks.py#L116)
 
 Decorators: `@dataclass`
 
@@ -163,6 +215,7 @@ class PhaseStep
 | [`atomic_tests`](#phasestep-atomic_tests) | `list[AtomicTestRef]` | `field(default_factory=list)` |  |
 | [`caldera_abilities`](#phasestep-caldera_abilities) | `list[CalderaAbilityRef]` | `field(default_factory=list)` |  |
 | [`detection_hints`](#phasestep-detection_hints) | `list[str]` | `field(default_factory=list)` |  |
+| [`steps`](#phasestep-steps) | `list[PlaybookAction]` | `field(default_factory=list)` |  |
 
 ---
 
@@ -170,7 +223,7 @@ class PhaseStep
 
 ### `AptPlaybook`
 
-`class` `dataclass` | [modules/apt_playbooks.py:65](../../modules/apt_playbooks.py#L65)
+`class` `dataclass` | [modules/apt_playbooks.py:128](../../modules/apt_playbooks.py#L128)
 
 Decorators: `@dataclass`
 
@@ -200,7 +253,7 @@ class AptPlaybook
 
 #### `AptPlaybook.from_dict`
 
-`classmethod` | [modules/apt_playbooks.py:74](../../modules/apt_playbooks.py#L74)
+`classmethod` | [modules/apt_playbooks.py:137](../../modules/apt_playbooks.py#L137)
 
 Decorators: `@classmethod`
 
@@ -224,7 +277,7 @@ def from_dict(cls, data: dict[str, Any]) -> AptPlaybook
 
 #### `AptPlaybook.to_summary`
 
-`method` | [modules/apt_playbooks.py:99](../../modules/apt_playbooks.py#L99)
+`method` | [modules/apt_playbooks.py:163](../../modules/apt_playbooks.py#L163)
 
 ```python
 def to_summary(self) -> dict[str, Any]
@@ -238,7 +291,7 @@ def to_summary(self) -> dict[str, Any]
 
 ### `AptPlaybookEngine`
 
-`class` | [modules/apt_playbooks.py:111](../../modules/apt_playbooks.py#L111)
+`class` | [modules/apt_playbooks.py:176](../../modules/apt_playbooks.py#L176)
 
 ```python
 class AptPlaybookEngine
@@ -261,7 +314,7 @@ Load, list, validate and execute APT playbooks.
 
 #### `AptPlaybookEngine.__init__`
 
-`constructor` | [modules/apt_playbooks.py:114](../../modules/apt_playbooks.py#L114)
+`constructor` | [modules/apt_playbooks.py:179](../../modules/apt_playbooks.py#L179)
 
 ```python
 def __init__(self, playbook_dir: str = 'playbooks')
@@ -279,7 +332,7 @@ def __init__(self, playbook_dir: str = 'playbooks')
 
 #### `AptPlaybookEngine.list_playbooks`
 
-`method` | [modules/apt_playbooks.py:131](../../modules/apt_playbooks.py#L131)
+`method` | [modules/apt_playbooks.py:196](../../modules/apt_playbooks.py#L196)
 
 ```python
 def list_playbooks(self) -> list[dict[str, Any]]
@@ -293,7 +346,7 @@ def list_playbooks(self) -> list[dict[str, Any]]
 
 #### `AptPlaybookEngine.get`
 
-`method` | [modules/apt_playbooks.py:134](../../modules/apt_playbooks.py#L134)
+`method` | [modules/apt_playbooks.py:199](../../modules/apt_playbooks.py#L199)
 
 ```python
 def get(self, name: str) -> AptPlaybook | None
@@ -313,7 +366,7 @@ def get(self, name: str) -> AptPlaybook | None
 
 #### `AptPlaybookEngine.validate`
 
-`method` | [modules/apt_playbooks.py:138](../../modules/apt_playbooks.py#L138)
+`method` | [modules/apt_playbooks.py:203](../../modules/apt_playbooks.py#L203)
 
 ```python
 def validate(self, pb: AptPlaybook, atomic_path: str | None = None) -> dict[str, Any]
@@ -343,7 +396,7 @@ Atomic index. Unknown formats are reported missing, never crash.
 
 #### `AptPlaybookEngine.generate_attack_plan`
 
-`method` | [modules/apt_playbooks.py:213](../../modules/apt_playbooks.py#L213)
+`method` | [modules/apt_playbooks.py:278](../../modules/apt_playbooks.py#L278)
 
 ```python
 def generate_attack_plan(self, pb: AptPlaybook, output_path: str) -> None
@@ -366,7 +419,7 @@ Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
 
 #### `AptPlaybookEngine.report_json`
 
-`method` | [modules/apt_playbooks.py:230](../../modules/apt_playbooks.py#L230)
+`method` | [modules/apt_playbooks.py:295](../../modules/apt_playbooks.py#L295)
 
 ```python
 def report_json(self, pb: AptPlaybook, output_path: str) -> None
@@ -384,5 +437,19 @@ Write a structured JSON report of the playbook for the operator.
 *Calls:* [`print_succ`](core.console.py.md#print_succ)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook)
+
+---
+
+## Constants
+
+<a id="action_kinds"></a>
+
+### `ACTION_KINDS`
+
+`constant` | [modules/apt_playbooks.py:53](../../modules/apt_playbooks.py#L53)
+
+```python
+ACTION_KINDS: tuple[str, ...] = ('atomic', 'command', 'lazyscript', 'lua', 'plugin', 'lazyaddon', 'chain')
+```
 
 ---

@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
-
 from modules.chain_synth import facts_for_target, synth_chain_data, write_generated_chain
 
 
@@ -83,3 +81,26 @@ class TestFactsForTarget:
         story = "no invented services"
         profile = facts_for_target("203.0.113.77")
         assert profile["services"] == [] and profile["os_hint"] == "", story
+
+
+class TestTechniqueSynth:
+    """--techniques stages atomic_tests steps for the named MITRE ids."""
+
+    def test_technique_steps_staged(self):
+        """Given technique ids, Then routable atomic_tests steps appear."""
+        story = "technique ids become atomic_tests steps"
+        data, _n = synth_chain_data(
+            "", "10.5.5.7", [], techniques=["t1059.001", "T1003", "bogus"]
+        )
+        ids = [s["id"] for s in data["steps"]]
+        assert "tech_t1059_001" in ids and "tech_t1003" in ids, story
+        assert "tech_bogus" not in ids, story
+        runs = [s["run"] for s in data["steps"] if s["id"].startswith("tech_")]
+        assert runs == ["atomic_tests T1059.001 --non-interactive", "atomic_tests T1003 --non-interactive"], story
+
+    def test_no_techniques_unchanged(self):
+        """Given no techniques, Then the chain matches the legacy spine."""
+        story = "default synthesis stays stable"
+        legacy, _ = synth_chain_data("rocke", "10.5.5.8", [])
+        fresh, _n = synth_chain_data("rocke", "10.5.5.8", [], techniques=None)
+        assert [s["id"] for s in legacy["steps"]] == [s["id"] for s in fresh["steps"]], story

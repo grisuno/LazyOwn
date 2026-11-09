@@ -1,8 +1,32 @@
-# Symbols (page 7 of 49)
+# Symbols (page 7 of 50)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_detect_lhost` | function | `cli/wizard.py:1098` | `def _detect_lhost()` |
+| `_find_seclists_root` | function | `cli/wizard.py:1133` | `def _find_seclists_root()` |
+| `_group_by_category` | function | `cli/wizard.py:988` | `def _group_by_category(statuses)` |
+| `_info` | function | `cli/wizard.py:1169` | `def _info(msg)` |
+| `_is_default` | function | `cli/wizard.py:322` | `def _is_default(value)` |
+| `_is_weak` | function | `cli/wizard.py:325` | `def _is_weak(value)` |
+| `_mask_secret` | function | `cli/wizard.py:606` | `def _mask_secret(value)` |
+| `_normalize_provider_answer` | function | `cli/wizard.py:585` | `def _normalize_provider_answer(raw)` |
+| `_ok` | function | `cli/wizard.py:1161` | `def _ok(msg)` |
+| `_ping` | function | `cli/wizard.py:1141` | `def _ping(ip)` |
+| `_print_binary_report` | function | `cli/wizard.py:997` | `def _print_binary_report(statuses)` |
+| `_print_glossary_panel` | function | `cli/wizard.py:379` | `def _print_glossary_panel()` |
+| `_print_header` | function | `cli/wizard.py:364` | `def _print_header()` |
+| `_print_long_help` | function | `cli/wizard.py:412` | `def _print_long_help(key)` |
+| `_print_next_steps` | function | `cli/wizard.py:1035` | `def _print_next_steps(params)` |
+| `_print_readiness` | function | `cli/wizard.py:927` | `def _print_readiness(items)` |
+| `_print_secret_rotation` | function | `cli/wizard.py:348` | `def _print_secret_rotation(rotated)` |
+| `_print_validation_summary` | function | `cli/wizard.py:1059` | `def _print_validation_summary(params)` |
+| `_prompt` | function | `cli/wizard.py:1154` | `def _prompt(message)` |
+| `_rotate_default_secrets` | function | `cli/wizard.py:300` | `def _rotate_default_secrets(params, save)` |
+| `_spec_long_help` | function | `cli/wizard.py:404` | `def _spec_long_help(key)` |
+| `_warn` | function | `cli/wizard.py:1165` | `def _warn(msg)` |
+| `_wizard_login_flow` | function | `cli/wizard.py:786` | `def _wizard_login_flow()` |
+| `_wizard_register_flow` | function | `cli/wizard.py:809` | `def _wizard_register_flow()` |
 | `check_binaries` | function | `cli/wizard.py:947` | `def check_binaries(specs, which)` |
 | `run` | function | `cli/wizard.py:169` | `def run(params, save)` |
 | `run_non_interactive` | function | `cli/wizard.py:234` | `def run_non_interactive(params, save, values)` |
@@ -472,29 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `TargetError` | class | `core/errors.py:85` | `class TargetError(LazyOwnError)` |
 | `ToolError` | class | `core/errors.py:99` | `class ToolError(LazyOwnError)` |
 | `ValidationError` | class | `core/errors.py:134` | `class ValidationError(LazyOwnError)` |
-| `__init__` | method | `core/errors.py:61` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:81` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:88` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:95` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:102` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:109` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:116` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:123` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:130` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:137` | `def __init__(self, message, error_code)` |
-| `__str__` | method | `core/errors.py:74` | `def __str__(self)` |
-| `to_dict` | method | `core/errors.py:66` | `def to_dict(self)` |
-| `_validate_input` | function | `core/executor.py:41` | `def _validate_input(command)` |
-| `_validate_timeout` | function | `core/executor.py:75` | `def _validate_timeout(timeout)` |
-| `run_shell` | function | `core/executor.py:149` | `def run_shell(cmd)` |
-| `safe_run` | function | `core/executor.py:96` | `def safe_run(command)` |
-| `safe_run` | function | `core/executor.py:98` | `def safe_run(command)` |
-| `safe_run` | function | `core/executor.py:101` | `def safe_run(command)` |
-| `SecurityViolation` | class | `core/hardening.py:133` | `class SecurityViolation(PermissionError)` |
-| `_is_emoji_codepoint` | function | `core/hardening.py:714` | `def _is_emoji_codepoint(code)` |
-| `_mask` | function | `core/hardening.py:853` | `def _mask(match)` |
-| `_seal_key` | function | `core/hardening.py:756` | `def _seal_key(sessions_dir)` |
-| `build_sshpass_command` | function | `core/hardening.py:250` | `def build_sshpass_command(password, ssh_args)` |
-| `contains_emoji` | function | `core/hardening.py:722` | `def contains_emoji(text)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

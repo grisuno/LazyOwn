@@ -10,7 +10,7 @@ owning task's activity log and, for failures the chain cannot resolve
 itself (the event carries ``metadata.steer``), plants a pending hint
 node so the planner proposes an approach around the blocker on the next
 wake. Failures already handled by the chain (`[`on_fail`](modules.chain_registry.py.md#chainstep-on_fail)` branches,
-`[`continue_on_error`](modules.chain_registry.py.md#chainstep-continue_on_error)` steps, benign alternatives) never steer: the chain
+``continue_on_error`` steps, benign alternatives) never steer: the chain
 keeps navigating them locally.
 
 ## Contents

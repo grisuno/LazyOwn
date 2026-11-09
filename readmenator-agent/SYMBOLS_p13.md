@@ -1,8 +1,50 @@
-# Symbols (page 13 of 49)
+# Symbols (page 13 of 50)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `decorator` | function | `modules/collab_bp.py:139` | `def decorator(f)` |
+| `generate` | function | `modules/collab_bp.py:424` | `def generate()` |
+| `get_event_bus` | function | `modules/collab_bp.py:370` | `def get_event_bus()` |
+| `get_lock_manager` | function | `modules/collab_bp.py:374` | `def get_lock_manager()` |
+| `get_operator_registry` | function | `modules/collab_bp.py:378` | `def get_operator_registry()` |
+| `heartbeat` | method | `modules/collab_bp.py:334` | `def heartbeat(self, name)` |
+| `history` | function | `modules/collab_bp.py:537` | `def history()` |
+| `join` | method | `modules/collab_bp.py:323` | `def join(self, name)` |
+| `leave` | method | `modules/collab_bp.py:340` | `def leave(self, name)` |
+| `lock` | function | `modules/collab_bp.py:483` | `def lock()` |
+| `locks` | function | `modules/collab_bp.py:522` | `def locks()` |
+| `login_required` | function | `modules/collab_bp.py:80` | `def login_required(f)` |
+| `operators` | function | `modules/collab_bp.py:458` | `def operators()` |
+| `publish` | method | `modules/collab_bp.py:219` | `def publish(self, event)` |
+| `publish` | function | `modules/collab_bp.py:470` | `def publish()` |
+| `publish_event` | function | `modules/collab_bp.py:382` | `def publish_event(type, payload, operator)` |
+| `recent` | method | `modules/collab_bp.py:234` | `def recent(self, n)` |
+| `release` | method | `modules/collab_bp.py:279` | `def release(self, target, operator)` |
+| `reset` | method | `modules/collab_bp.py:238` | `def reset(self)` |
+| `reset` | method | `modules/collab_bp.py:304` | `def reset(self)` |
+| `reset` | method | `modules/collab_bp.py:356` | `def reset(self)` |
+| `status` | method | `modules/collab_bp.py:287` | `def status(self, target)` |
+| `stream` | function | `modules/collab_bp.py:411` | `def stream()` |
+| `subscribe` | method | `modules/collab_bp.py:203` | `def subscribe(self, subscriber_id)` |
+| `to_sse` | method | `modules/collab_bp.py:170` | `def to_sse(self)` |
+| `unlock` | function | `modules/collab_bp.py:504` | `def unlock()` |
+| `unsubscribe` | method | `modules/collab_bp.py:215` | `def unsubscribe(self, subscriber_id)` |
+| `delete_lines` | function | `modules/colors.py:68` | `def delete_lines(content, to_delete)` |
+| `no_html` | function | `modules/colors.py:74` | `def no_html(content)` |
+| `retModel` | function | `modules/colors.py:40` | `def retModel()` |
+| `CommandExecutor` | class | `modules/command_executor.py:106` | `class CommandExecutor` |
+| `ExecutionResult` | class | `modules/command_executor.py:97` | `class ExecutionResult` |
+| `__init__` | method | `modules/command_executor.py:118` | `def __init__(self)` |
+| `_argv` | method | `modules/command_executor.py:173` | `def _argv(self, command)` |
+| `_default_writer` | method | `modules/command_executor.py:291` | `def _default_writer(line)` |
+| `_fire_hooks` | method | `modules/command_executor.py:394` | `def _fire_hooks(self, result)` |
+| `_kill_process_group` | function | `modules/command_executor.py:77` | `def _kill_process_group(proc)` |
+| `_needs_shell` | method | `modules/command_executor.py:165` | `def _needs_shell(self, command)` |
+| `_publish_event` | method | `modules/command_executor.py:401` | `def _publish_event(self, result)` |
+| `_run_capture` | method | `modules/command_executor.py:296` | `def _run_capture(self, command, timeout)` |
+| `_run_stream` | method | `modules/command_executor.py:321` | `def _run_stream(self, command, timeout)` |
+| `add_hook` | method | `modules/command_executor.py:127` | `def add_hook(self, hook)` |
 | `clear_thread_stdin_devnull` | function | `modules/command_executor.py:64` | `def clear_thread_stdin_devnull()` |
 | `clear_thread_timeout` | function | `modules/command_executor.py:46` | `def clear_thread_timeout()` |
 | `get_executor` | function | `modules/command_executor.py:426` | `def get_executor()` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `deliver` | method | `modules/engagement_hooks.py:216` | `def deliver(self, event)` |
 | `deliver` | method | `modules/engagement_hooks.py:258` | `def deliver(self, event)` |
 | `deliver` | method | `modules/engagement_hooks.py:370` | `def deliver(self, event)` |
-| `get_default_narrator` | function | `modules/engagement_hooks.py:482` | `def get_default_narrator()` |
-| `is_valid_target` | function | `modules/engagement_hooks.py:626` | `def is_valid_target(value)` |
-| `list_pending_approvals` | function | `modules/engagement_hooks.py:575` | `def list_pending_approvals()` |
-| `name` | method | `modules/engagement_hooks.py:155` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:178` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:213` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
-| `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
-| `now` | method | `modules/engagement_hooks.py:124` | `def now(cls, kind, target, message, payload, severity)` |
-| `publish_shell_obtained` | function | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
-| `render_line` | method | `modules/engagement_hooks.py:143` | `def render_line(self)` |
-| `resolve_approval` | function | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
-| `EnrichEngine` | class | `modules/enrich.py:100` | `class EnrichEngine` |
-| `EnrichResult` | class | `modules/enrich.py:30` | `class EnrichResult` |
-| `__init__` | method | `modules/enrich.py:103` | `def __init__(self, max_workers)` |
-| `_run` | method | `modules/enrich.py:121` | `def _run(self, target)` |
-| `fetch_http` | function | `modules/enrich.py:86` | `def fetch_http(target, timeout)` |
-| `resolve_dns` | function | `modules/enrich.py:73` | `def resolve_dns(target, timeout)` |
-| `scan_files_for` | function | `modules/enrich.py:40` | `def scan_files_for(sessions_dir, target)` |
-| `shared_engine` | function | `modules/enrich.py:137` | `def shared_engine()` |
-| `should_rescan` | function | `modules/enrich.py:57` | `def should_rescan(sessions_dir, target, fresh_sec)` |
-| `shutdown` | method | `modules/enrich.py:128` | `def shutdown(self, wait)` |
-| `submit` | method | `modules/enrich.py:108` | `def submit(self, target)` |
-| `EntraIDAttackEngine` | class | `modules/entra_id_attacks.py:81` | `class EntraIDAttackEngine` |
-| `EntraIDConfig` | class | `modules/entra_id_attacks.py:57` | `class EntraIDConfig` |
-| `__init__` | method | `modules/entra_id_attacks.py:92` | `def __init__(self, config)` |
-| `conditional_access_bypass` | method | `modules/entra_id_attacks.py:307` | `def conditional_access_bypass(self)` |
-| `device_code_phish` | method | `modules/entra_id_attacks.py:96` | `def device_code_phish(self, scope)` |
-| `entra_connect_sync_abuse` | method | `modules/entra_id_attacks.py:266` | `def entra_connect_sync_abuse(self)` |
-| `enumerate_tenant` | method | `modules/entra_id_attacks.py:345` | `def enumerate_tenant(self)` |
-| `managed_identity_abuse` | method | `modules/entra_id_attacks.py:235` | `def managed_identity_abuse(self, resource)` |
-| `oauth_consent_grant` | method | `modules/entra_id_attacks.py:166` | `def oauth_consent_grant(self, redirect_uri)` |
-| `poll_device_code` | method | `modules/entra_id_attacks.py:129` | `def poll_device_code(self, device_code, interval, timeout)` |
-| `service_principal_credential_theft` | method | `modules/entra_id_attacks.py:203` | `def service_principal_credential_theft(self)` |
-| `summary` | method | `modules/entra_id_attacks.py:368` | `def summary(self)` |
-| `_from_raw` | function | `modules/estorides_fusion.py:142` | `def _from_raw(document)` |
-| `_norm` | function | `modules/estorides_fusion.py:123` | `def _norm(value)` |
-| `community_for` | function | `modules/estorides_fusion.py:180` | `def community_for(kind, value)` |
-| `estorides_checkout` | function | `modules/estorides_fusion.py:48` | `def estorides_checkout()` |
-| `find_export` | function | `modules/estorides_fusion.py:68` | `def find_export(sessions_dir)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

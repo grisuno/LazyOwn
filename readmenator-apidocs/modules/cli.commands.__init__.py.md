@@ -35,6 +35,7 @@ Active CommandSets (27)
 - `[`cli.commands.containers`](cli.commands.containers.py.md)` — 5 commands (docker_enum, k8s_enum,
   container_escape, k8s_pods, k8s_secrets)
 - `[`cli.commands.database`](cli.commands.database.py.md)` — DB management commands
+- `[`cli.commands.lazy_poc`](cli.commands.lazy_poc.py.md)` — ``lazy_poc`` catalogued PoC verb runner
 - `[`cli.commands.caldera`](cli.commands.caldera.py.md)` — CALDERA integration
 - `[`cli.commands.ai`](cli.commands.ai.py.md)` — AI/LLM commands
 - `[`cli.commands.audit`](cli.commands.audit.py.md)` — Audit commands
@@ -51,3 +52,4 @@ Active CommandSets (27)
 - `[`cli.commands.purple_team`](cli.commands.purple_team.py.md)` — Purple team closed-loop: exec+measure, score, report, dashboard (purple_exec, purple_test, purple_score, purple_report, purple_dashboard)
 - `[`cli.commands.lazy_dorks`](cli.commands.lazy_dorks.py.md)` — Target-aware Google/GitHub dork playbook generator (lazydork)
 - `[`cli.commands.lazy_passgen`](cli.commands.lazy_passgen.py.md)` — Target-aware weak-password wordlist generator (lazypassgen)
+- `[`cli.commands.exploitdb`](cli.commands.exploitdb.py.md)` — ExploitDB Tier0 sync/generate (exploitdb_sync|exploitdb_scan|exploitdb_gen)

@@ -1,6 +1,38 @@
 # API (page 13 of 26)
 Previous: [API_p12.md](API_p12.md)
 
+## modules/guardrails/advisories.py
+Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
+- `AdvisoryLedger.__init__` (method) `modules/guardrails/advisories.py:20` `def __init__(self, limit)` -- Create an empty ledger.
+- `AdvisoryLedger.notice` (method) `modules/guardrails/advisories.py:31` `def notice(self, code, message)` -- Record one advisory without blocking the caller.
+- `AdvisoryLedger.tail` (method) `modules/guardrails/advisories.py:49` `def tail(self, limit)` -- Return the newest notices up to the limit.
+- `AdvisoryLedger.clear` (method) `modules/guardrails/advisories.py:54` `def clear(self)` -- Drop every notice, returning the discarded count.
+- `AdvisoryLedger.describe` (method) `modules/guardrails/advisories.py:61` `def describe(self)` -- Return the ledger summary for the admin console.
+- `AdvisoryLedger.tail_locked` (method) `modules/guardrails/advisories.py:66` `def tail_locked(self, limit)` -- Tail helper used by describe; caller holds the lock.
+- `FeatureGate.__init__` (method) `modules/guardrails/advisories.py:74` `def __init__(self, features)` -- Create a gate limited to the known optional features.
+- `FeatureGate.suspend` (method) `modules/guardrails/advisories.py:84` `def suspend(self, feature, reason)` -- Suspend one optional feature.
+- `FeatureGate.resume` (method) `modules/guardrails/advisories.py:102` `def resume(self, feature)` -- Resume one suspended feature, returning True when it changed.
+- `FeatureGate.resume_all` (method) `modules/guardrails/advisories.py:108` `def resume_all(self)` -- Resume every suspended feature, returning the resumed count.
+- `FeatureGate.is_suspended` (method) `modules/guardrails/advisories.py:115` `def is_suspended(self, feature)` -- Return True when the feature is currently suspended.
+- `FeatureGate.suspended` (method) `modules/guardrails/advisories.py:120` `def suspended(self)` -- Return the suspended feature map (feature -> reason).
+- `FeatureGate.describe` (method) `modules/guardrails/advisories.py:125` `def describe(self)` -- Return the gate state for the admin console.
+
+## modules/guardrails/budget.py
+Depends on: `modules/guardrails/contracts.py`
+Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
+- `CapacityEnvelope.__init__` (method) `modules/guardrails/budget.py:28` `def __init__(self, capacities, threshold)` -- Seed capacities and the saturation threshold.
+- `CapacityEnvelope.configure` (method) `modules/guardrails/budget.py:50` `def configure(self, capacities, threshold)` -- Apply capacity and threshold settings, clamping invalid values.
+- `CapacityEnvelope.admit` (method) `modules/guardrails/budget.py:78` `def admit(self, task_class, units)` -- Reserve units for one tier honouring the priority contract.
+- `CapacityEnvelope.account` (method) `modules/guardrails/budget.py:109` `def account(self, task_class, units)` -- Record consumed units for one tier (idempotent on refusal).
+- `CapacityEnvelope.release` (method) `modules/guardrails/budget.py:118` `def release(self, task_class, units)` -- Return units to a tier ledger once an execution finishes.
+- `CapacityEnvelope.purge` (method) `modules/guardrails/budget.py:126` `def purge(self, task_class)` -- Zero one tier ledger, returning the freed unit count.
+- `CapacityEnvelope.reclaim` (method) `modules/guardrails/budget.py:136` `def reclaim(self)` -- Purge SUPPORT allocations, returning the freed unit count.
+- `CapacityEnvelope.usage` (method) `modules/guardrails/budget.py:140` `def usage(self, task_class)` -- Return current consumed units for one tier.
+- `CapacityEnvelope.capacity` (method) `modules/guardrails/budget.py:147` `def capacity(self, task_class)` -- Return configured capacity for one tier.
+- `CapacityEnvelope.saturated` (method) `modules/guardrails/budget.py:154` `def saturated(self, task_class)` -- Return True when the tier usage ratio reaches the threshold.
+- `CapacityEnvelope.threshold` (method) `modules/guardrails/budget.py:161` `def threshold(self)` -- Return the configured saturation threshold.
+- `CapacityEnvelope.describe` (method) `modules/guardrails/budget.py:166` `def describe(self)` -- Return a per-tier usage snapshot for the admin console.
+
 ## modules/guardrails/checkpoints.py
 Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
 - `CheckpointLedger.__init__` (method) `modules/guardrails/checkpoints.py:21` `def __init__(self, history)` -- Create an empty ledger.
@@ -83,7 +115,7 @@ Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_registry.py
 
 ## modules/harness.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
-Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `skills/lazyown_mcp_opencode.py`
+Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop/worker_agentic.py`, `skills/lazyown_mcp_opencode.py`
 - `harness_enabled` (function) `modules/harness.py:30` `def harness_enabled()` -- Return True when the deterministic harness is active.
 - `gate` (function) `modules/harness.py:65` `def gate(name)` -- Return whether one decision surface may remain stochastic.
 
@@ -250,7 +282,7 @@ Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `tests/test_
 
 ## modules/intercept.py
 Depends on: `cli/commands/enum.py`
-Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 - `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
 - `builtin_rules` (function) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
 - `scope_blocked` (function) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
@@ -354,7 +386,7 @@ Imported by: `lazyc2.py`
 
 ## modules/killchain.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
 - `KillChainConfig.world_model_path` (method) `modules/killchain.py:177` `def world_model_path(self)` -- Return the resolved path to world_model.json.
 - `KillChainConfig.phase_index` (method) `modules/killchain.py:181` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
 - `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:188` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
@@ -457,29 +489,6 @@ Imported by: `tests/test_lazy_checks.py`
 - `extract_version` (function) `modules/lazy_checks.py:30` `def extract_version(text)` -- Pull the most version-like token from check output.
 - `extract_cve` (function) `modules/lazy_checks.py:51` `def extract_cve(text)` -- Pull the uppercased CVE id from a finding text, or ''.
 - `interpret_checks` (function) `modules/lazy_checks.py:57` `def interpret_checks(checks, cve, stored_version, ranges)` -- Re-read check results through the stored version range.
-
-## modules/lazy_cli_bridge.py
-Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
-- `cli_verbs` (function) `modules/lazy_cli_bridge.py:106` `def cli_verbs()` -- Return every discovered shell verb, cached by source mtime.
-- `is_cli_verb` (function) `modules/lazy_cli_bridge.py:125` `def is_cli_verb(name)` -- Return True when name is a real shell command.
-- `phase_for` (function) `modules/lazy_cli_bridge.py:131` `def phase_for(verb)` -- Map a verb to its kill-chain phase via keyword affinity.
-- `risk_for` (function) `modules/lazy_cli_bridge.py:140` `def risk_for(verb)` -- Classify a verb as safe, exploit or high risk.
-- `needs_target_for` (function) `modules/lazy_cli_bridge.py:150` `def needs_target_for(verb)` -- Return whether the verb usually carries a target argument.
-- `build_cli_command` (function) `modules/lazy_cli_bridge.py:158` `def build_cli_command(verb, target)` -- Build a shell line for any CLI verb bound to target.
-- `search_cli_verbs` (function) `modules/lazy_cli_bridge.py:185` `def search_cli_verbs(query, phase, limit)` -- Search the full CLI catalog by keyword and phase.
-- `cli_catalog_for_phase` (function) `modules/lazy_cli_bridge.py:211` `def cli_catalog_for_phase(phase, limit)` -- Return a compact verb list for LLM prompt injection.
-- `catalog_cli_for_phase` (function) `modules/lazy_cli_bridge.py:219` `def catalog_cli_for_phase(limit)` -- Return enabled catalog commands for the current kill-chain phase.
-- `full_cli_enabled` (function) `modules/lazy_cli_bridge.py:253` `def full_cli_enabled()` -- Return whether the loop may route any CLI verb.
-- `set_full_cli` (function) `modules/lazy_cli_bridge.py:276` `def set_full_cli(enabled)` -- Persist the full-CLI routing flag and return the new value.
-
-## modules/lazy_creds.py
-- `load` (function) `modules/lazy_creds.py:39` `def load()` -- Load the CSV knowledge base once per process.
-- `search` (function) `modules/lazy_creds.py:63` `def search(query)` -- Return rows whose vendor or username contains the query.
-- `candidates` (function) `modules/lazy_creds.py:79` `def candidates(limit)` -- Return the most repeated (username, password) pairs for spraying.
-- `count` (function) `modules/lazy_creds.py:96` `def count()` -- Return the total number of knowledge-base rows.
-- `as_lines` (function) `modules/lazy_creds.py:101` `def as_lines(rows)` -- Render rows as aligned ``vendor,username,password`` lines.
-- `export_pairs` (function) `modules/lazy_creds.py:106` `def export_pairs(path, limit)` -- Export ``username:password`` pairs for spray tools.
 
 
 Next: [API_p14.md](API_p14.md)

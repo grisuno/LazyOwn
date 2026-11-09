@@ -40,10 +40,10 @@ flowchart LR
 
 ### `synth_chain_data`
 
-`function` | [modules/chain_synth.py:89](../../modules/chain_synth.py#L89)
+`function` | [modules/chain_synth.py:91](../../modules/chain_synth.py#L91)
 
 ```python
-def synth_chain_data(playbook: str, target: str, services: list[dict], has_creds: bool = False, os_hint: str = '', include_c2: bool = True) -> tuple[dict[str, Any], list[str]]
+def synth_chain_data(playbook: str, target: str, services: list[dict], has_creds: bool = False, os_hint: str = '', include_c2: bool = True, techniques: list[str] | None = None) -> tuple[dict[str, Any], list[str]]
 ```
 
 Compose the chain dict for a host; (data, notes).
@@ -58,6 +58,7 @@ Compose the chain dict for a host; (data, notes).
 | `has_creds` | `bool` | `False` | Whether credentials exist for the host already. |
 | `os_hint` | `str` | `''` | OS string from the fact store. |
 | `include_c2` | `bool` | `True` | Whether C2 deploy/loot steps are included. |
+| `techniques` | `list[str] \| None` | `None` | Optional MITRE technique ids staged as atomic_tests steps. |
 
 **Returns:** `tuple[dict[str, Any], list[str]]`
 
@@ -69,7 +70,7 @@ Compose the chain dict for a host; (data, notes).
 
 ### `facts_for_target`
 
-`function` | [modules/chain_synth.py:224](../../modules/chain_synth.py#L224)
+`function` | [modules/chain_synth.py:243](../../modules/chain_synth.py#L243)
 
 ```python
 def facts_for_target(target: str) -> dict[str, Any]
@@ -96,7 +97,7 @@ when nothing about the target is known.
 
 ### `write_generated_chain`
 
-`function` | [modules/chain_synth.py:253](../../modules/chain_synth.py#L253)
+`function` | [modules/chain_synth.py:272](../../modules/chain_synth.py#L272)
 
 ```python
 def write_generated_chain(data: dict[str, Any], chains_dir: Path | str | None = None) -> tuple[Path | None, list[str]]

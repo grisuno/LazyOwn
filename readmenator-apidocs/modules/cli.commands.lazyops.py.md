@@ -190,6 +190,7 @@ Lazy double-graph autonomous loop: planner, workers, guard, retest.
 | [`do_lazy_loop`](#lazycommandset-do_lazy_loop) | method | Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. |
 | [`do_lazy_sandbox`](#lazycommandset-do_lazy_sandbox) | method | Per-task Docker sandbox: status [--task T]\|up --task T [--image I]\|down --task T\|build\|exec --task T <verb...>. |
 | [`do_lazy_install`](#lazycommandset-do_lazy_install) | method | Capability installer: <tool> [--dry-run]\|on\|off\|list. |
+| [`do_lazy_pacing`](#lazycommandset-do_lazy_pacing) | method | Show or set loop pacing knobs. |
 
 <a id="lazycommandset-do_lazy_dispatch"></a>
 
@@ -1579,5 +1580,29 @@ Usage: lazy_install ...
 | `line` |  |  |  |
 
 *Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`install_command_for`](modules.lazy_installer.py.md#install_command_for), [`installer_enabled`](modules.lazy_installer.py.md#installer_enabled), [`set_installer_enabled`](modules.lazy_installer.py.md#set_installer_enabled)
+
+<a id="lazycommandset-do_lazy_pacing"></a>
+
+#### `LazyCommandSet.do_lazy_pacing`
+
+`method` | [cli/commands/lazyops.py:2812](../../cli/commands/lazyops.py#L2812)
+
+Decorators: `@cmd2.with_category(ai_category)`
+
+```python
+def do_lazy_pacing(self, line)
+```
+
+Show or set loop pacing knobs.
+
+Usage: lazy_pacing [list|set <key> <value>]
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`active_profile`](modules.orchestrator_config.py.md#active_profile), [`pacing`](modules.orchestrator_config.py.md#pacing), [`set_pacing`](modules.orchestrator_config.py.md#set_pacing)
 
 ---

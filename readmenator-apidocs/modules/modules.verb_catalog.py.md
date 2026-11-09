@@ -61,7 +61,7 @@ flowchart LR
 
 ### `VerbCatalogConfig`
 
-`class` `dataclass` | [modules/verb_catalog.py:76](../../modules/verb_catalog.py#L76)
+`class` `dataclass` | [modules/verb_catalog.py:77](../../modules/verb_catalog.py#L77)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -78,6 +78,7 @@ Centralised paths and limits for the catalog subsystem.
 | `catalog_path` | `Path` | `field(default=DEFAULT_CATALOG_PATH)` | YAML file holding the operator catalog. |
 | `index_path` | `Path` | `field(default=DEFAULT_INDEX_PATH)` | Pre-built command index JSON. |
 | `addons_dir` | `Path \| None` | `None` | Directory of lazyaddon YAML manifests; ``None`` keeps the sweep off so unit sandboxes stay single-surface tests. |
+| `poc_catalog_path` | `Path \| None` | `None` |  |
 | `version` | `int` | `1` | Schema version this module reads and writes. |
 | `default_enabled` | `bool` | `False` | Enabled flag for newly discovered commands. |
 | `max_yaml_bytes` | `int` | `1000000` | Safety cap so a corrupt file cannot stall reads. |
@@ -90,6 +91,7 @@ Centralised paths and limits for the catalog subsystem.
 | [`catalog_path`](#verbcatalogconfig-catalog_path) | `Path` | `field(default=DEFAULT_CATALOG_PATH)` |  |
 | [`index_path`](#verbcatalogconfig-index_path) | `Path` | `field(default=DEFAULT_INDEX_PATH)` |  |
 | [`addons_dir`](#verbcatalogconfig-addons_dir) | `Path \| None` | `None` |  |
+| [`poc_catalog_path`](#verbcatalogconfig-poc_catalog_path) | `Path \| None` | `None` |  |
 | [`version`](#verbcatalogconfig-version) | `int` | `1` |  |
 | [`default_enabled`](#verbcatalogconfig-default_enabled) | `bool` | `False` |  |
 | [`max_yaml_bytes`](#verbcatalogconfig-max_yaml_bytes) | `int` | `1000000` |  |
@@ -103,7 +105,7 @@ Centralised paths and limits for the catalog subsystem.
 
 ### `index_commands`
 
-`function` | [modules/verb_catalog.py:190](../../modules/verb_catalog.py#L190)
+`function` | [modules/verb_catalog.py:226](../../modules/verb_catalog.py#L226)
 
 ```python
 def index_commands(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, str]]
@@ -131,7 +133,7 @@ never loses a command that exists in the shell.
 
 ### `validate_catalog`
 
-`function` | [modules/verb_catalog.py:230](../../modules/verb_catalog.py#L230)
+`function` | [modules/verb_catalog.py:266](../../modules/verb_catalog.py#L266)
 
 ```python
 def validate_catalog(data: Any) -> list[str]
@@ -155,7 +157,7 @@ Validate one raw catalog document.
 
 ### `load`
 
-`function` | [modules/verb_catalog.py:263](../../modules/verb_catalog.py#L263)
+`function` | [modules/verb_catalog.py:299](../../modules/verb_catalog.py#L299)
 
 ```python
 def load(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]]
@@ -182,7 +184,7 @@ is missing, oversized, or invalid.
 
 ### `entries`
 
-`function` | [modules/verb_catalog.py:296](../../modules/verb_catalog.py#L296)
+`function` | [modules/verb_catalog.py:332](../../modules/verb_catalog.py#L332)
 
 ```python
 def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]]
@@ -209,7 +211,7 @@ Return the catalog with defaults filled in, cached briefly.
 
 ### `catalog_enabled`
 
-`function` | [modules/verb_catalog.py:349](../../modules/verb_catalog.py#L349)
+`function` | [modules/verb_catalog.py:385](../../modules/verb_catalog.py#L385)
 
 ```python
 def catalog_enabled(name: str, config: VerbCatalogConfig | None = None) -> bool | None
@@ -237,7 +239,7 @@ caller can apply its own fallback.
 
 ### `set_enabled`
 
-`function` | [modules/verb_catalog.py:378](../../modules/verb_catalog.py#L378)
+`function` | [modules/verb_catalog.py:414](../../modules/verb_catalog.py#L414)
 
 ```python
 def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = None) -> dict[str, Any]
@@ -270,7 +272,7 @@ Flip one verb in the YAML catalog atomically.
 
 ### `sync`
 
-`function` | [modules/verb_catalog.py:415](../../modules/verb_catalog.py#L415)
+`function` | [modules/verb_catalog.py:452](../../modules/verb_catalog.py#L452)
 
 ```python
 def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]
@@ -300,7 +302,7 @@ command lands disabled. Commands that no longer exist are pruned.
 
 ### `stats`
 
-`function` | [modules/verb_catalog.py:502](../../modules/verb_catalog.py#L502)
+`function` | [modules/verb_catalog.py:544](../../modules/verb_catalog.py#L544)
 
 ```python
 def stats(config: VerbCatalogConfig | None = None) -> dict[str, int]
@@ -326,7 +328,7 @@ Summarise the catalog for the brief and the HTTP API.
 
 ### `search`
 
-`function` | [modules/verb_catalog.py:516](../../modules/verb_catalog.py#L516)
+`function` | [modules/verb_catalog.py:558](../../modules/verb_catalog.py#L558)
 
 ```python
 def search(query: str = '', config: VerbCatalogConfig | None = None, phase: str = '', enabled: bool | None = None, limit: int | None = None) -> list[dict[str, Any]]

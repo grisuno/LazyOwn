@@ -404,7 +404,11 @@ For two critical security advisories that helped us harden the framework and fix
 
 ### KitPloit.com
 
-We, the people who dedicate time to LazyOwn, are flattered by that excellent review on [Kitploit](https://x.com/KitPloit/status/2105568661779907031). Thank you so much, it helps us reach a wider community. [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
+We, the people who dedicate time to LazyOwn, are flattered by that excellent review on [Kitploit](https://x.com/KitPloit/status/2105568661779907031). Thank you so much, it helps us reach a wider community. 
+
+- [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
+- [https://kitploit.com/en/tools/github/grisuno/blacksandbeacon](https://kitploit.com/en/tools/github/grisuno/blacksandbeacon)
+- [kitploit.com/en/tools/github/grisuno/cve-2022-22077](kitploit.com/en/tools/github/grisuno/cve-2022-22077)
 
 ### Spook.news
 
@@ -428,7 +432,7 @@ Thanks to cmd2 for making this tool possible through their great work, and we lo
 
 ## ZONE.CI 全球网
 
-Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their review, but they failed to check some repositories before confirming that we're missing capabilities announced in the readme. They're not in the repo, but they load as lazy add-ons ;) [blacksandbeacon](https://github.com/grisuno/blacksandbeacon) [win beacon](https://github.com/grisuno/beacon)
+Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their review, but they failed to check some repositories before confirming that we're missing capabilities announced in the readme. They're not in the repo, but they load as lazy add-ons ;) [blacksandbeacon](https://github.com/grisuno/blacksandbeacon) event [kiploit](https://kitploit.com/en/tools/github/grisuno/blacksandbeacon) known  [win beacon](https://github.com/grisuno/beacon)
 
 [https://zone.ci/secarticles/wx/587776.html](https://zone.ci/secarticles/wx/587776.html?utm_source=lazyown_redteam)
 
@@ -451,6 +455,16 @@ Some echoes of Zone.ci, in any case we appreciate their words, they were not in 
 
 Thank you so much for your work compiling bofs, it's incredible! We are proud to be indexed in your magnificent list
 [https://chryzsh.github.io/awesome-bof/site/](https://chryzsh.github.io/awesome-bof/site/)
+
+## LibHunt
+
+Great comparison! We love that the community does these benchmarks so that at the end of the day each operator can choose the best option. Thank you very much, LibHunt.
+[https://www.libhunt.com/compare-LazyOwn-vs-tor-rootkit](https://www.libhunt.com/compare-LazyOwn-vs-tor-rootkit)
+
+## Hacktricks
+
+Honestly, the team is speechless, and I think I speak for everyone when I say that when I started, I was reading everything on Hacktricks, and now being on one of their pages fills us with love. Thank you so much, Hacktricks, for your amazing work!
+[https://hacktricks.wiki/en/linux-hardening/post-exploitation/linux-fileless-execution.html](https://hacktricks.wiki/en/linux-hardening/post-exploitation/linux-fileless-execution.html)
 
 ## Star History
 

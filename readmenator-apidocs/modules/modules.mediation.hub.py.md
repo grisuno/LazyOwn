@@ -108,7 +108,7 @@ Return high-level metadata for every registered mediator.
 
 ### `default_hub`
 
-`function` | [modules/mediation/hub.py:73](../../modules/mediation/hub.py#L73)
+`function` | [modules/mediation/hub.py:75](../../modules/mediation/hub.py#L75)
 
 ```python
 def default_hub() -> MediationHub
@@ -124,7 +124,7 @@ Return a fresh default-configured hub (test-safe, no singleton).
 
 ### `get_hub`
 
-`function` | [modules/mediation/hub.py:78](../../modules/mediation/hub.py#L78)
+`function` | [modules/mediation/hub.py:80](../../modules/mediation/hub.py#L80)
 
 ```python
 def get_hub() -> MediationHub

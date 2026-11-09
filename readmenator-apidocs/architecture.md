@@ -4,9 +4,9 @@
 
 ## Architecture Overview
 
-40 components stacked in 11 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 43 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
+40 components stacked in 10 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 45 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
 
-Upward dependencies to fix first: `cli/commands` -> `modules: lazy_loop` (37 imports); `modules: autonomous_daemon` -> `modules: lazyown_mcp` (33 imports); `modules: chain_runner` -> `modules: lazyown_mcp` (26 imports); `static/js` -> `cli` (23 imports); `cli/commands` -> `cli` (22 imports); `cli` -> `modules: lazyown_mcp` (22 imports); `modules: chain_runner` -> `modules: lazy_loop` (22 imports); `cli` -> `modules: lazy_loop` (20 imports); `modules: lazy_loop` -> `modules: lazyown_mcp` (19 imports); `cli/commands` -> `modules: lazyown_mcp` (18 imports); `modules: autonomous_daemon` -> `modules: lazy_loop` (16 imports); `modules: llm_budget` -> `modules: lazyown_mcp` (15 imports); `cli/commands` -> `static/js` (14 imports); `static/js` -> `modules: lazyown_mcp` (12 imports); `modules: llm_budget` -> `modules: lazy_loop` (12 imports); `cli/commands` -> `modules: chain_runner` (9 imports); `cli/commands` -> `lazyc2/security` (9 imports); `modules: exploit_migrated` -> `modules: lazyown_mcp` (7 imports); `cli` -> `lazyc2/security` (7 imports); `static/js` -> `modules: lazy_loop` (7 imports); `modules: lazyown_mcp` -> `lazyc2/security` (6 imports); `cli/commands` -> `modules: llm_budget` (4 imports); `modules: autonomous_daemon` -> `modules: llm_budget` (4 imports); `skills/claude_md_orchestrator` -> `cli/commands` (3 imports); `skills/claude_md_orchestrator` -> `static/js` (3 imports); `cli` -> `modules: chain_runner` (3 imports); `cli` -> `modules: llm_budget` (3 imports); `modules: autonomous_daemon` -> `modules: chain_runner` (3 imports); `modules: autonomous_daemon` -> `static/js` (3 imports); `skills/claude_md_orchestrator` -> `modules: lazyown_mcp` (2 imports); `modules: autonomous_daemon` -> `cli` (2 imports); `modules: autonomous_daemon` -> `lazyc2/security` (2 imports); `modules: lazy_loop` -> `modules: exploit_migrated` (1 imports); `modules: lazy_loop` -> `lazyc2/security` (1 imports); `skills/claude_md_orchestrator` -> `modules: llm_budget` (1 imports); `modules: defense_eval` -> `modules: lazy_loop` (1 imports); `modules: defense_eval` -> `modules: lazyown_mcp` (1 imports); `cli` -> `modules: exploit_migrated` (1 imports); `static/js` -> `modules: chain_runner` (1 imports); `static/js` -> `lazyc2/security` (1 imports); `static/js` -> `modules: llm_budget` (1 imports); `modules: autonomous_daemon` -> `cli/commands` (1 imports)
+Upward dependencies to fix first: `cli/commands` -> `modules: lazyown` (36 imports); `modules: lazyown` -> `cli` (30 imports); `cli/commands` -> `modules: autonomous_daemon` (28 imports); `modules: lazy_loop` -> `modules: lazyown` (27 imports); `modules: autonomous_daemon` -> `modules: lazyown` (21 imports); `modules: chain_runner` -> `modules: autonomous_daemon` (21 imports); `modules/mediation` -> `modules: autonomous_daemon` (17 imports); `modules: lazy_loop` -> `modules: autonomous_daemon` (17 imports); `modules: world_model` -> `modules: autonomous_daemon` (17 imports); `modules: chain_runner` -> `modules: lazyown` (14 imports); `modules: llm_budget` -> `modules: autonomous_daemon` (14 imports); `modules: chain_runner` -> `modules: lazy_loop` (13 imports); `cli/commands` -> `cli` (12 imports); `cli/commands` -> `lazyc2/security` (11 imports); `modules: lazy_loop` -> `cli/commands` (9 imports); `modules: autonomous_daemon` -> `cli` (8 imports); `modules: world_model` -> `cli/commands` (8 imports); `modules: world_model` -> `cli` (8 imports); `modules: chain_runner` -> `cli/commands` (8 imports); `modules/mediation` -> `cli/commands` (7 imports); `modules/mediation` -> `modules: lazy_loop` (6 imports); `modules: world_model` -> `modules: lazy_loop` (6 imports); `modules: lazyown` -> `lazyc2/security` (6 imports); `modules: autonomous_daemon` -> `lazyc2/security` (5 imports); `modules/selection` -> `modules: lazy_loop` (5 imports); `modules: llm_budget` -> `modules: lazy_loop` (5 imports); `modules: lazy_loop` -> `cli` (4 imports); `modules: chain_runner` -> `cli` (4 imports); `modules: lazy_loop` -> `lazyc2/security` (3 imports); `modules: world_model` -> `modules: chain_runner` (3 imports); `modules: llm_budget` -> `modules: lazyown` (3 imports); `modules/selection` -> `modules: autonomous_daemon` (2 imports); `modules/mediation` -> `modules: lazyown` (2 imports); `modules: opsec_scorer` -> `modules: autonomous_daemon` (2 imports); `modules: world_model` -> `modules: lazyown` (2 imports); `lazyc2/security` -> `cli` (2 imports); `modules/mediation` -> `cli` (1 imports); `skills/claude_md_orchestrator` -> `cli/commands` (1 imports); `skills/claude_md_orchestrator` -> `modules: lazyown` (1 imports); `modules: opsec_scorer` -> `modules: lazyown` (1 imports); `modules: defense_eval` -> `modules: autonomous_daemon` (1 imports); `modules: defense_eval` -> `modules: lazy_loop` (1 imports); `modules/guardrails` -> `cli/commands` (1 imports); `modules: world_model` -> `modules/mediation` (1 imports); `modules: chain_runner` -> `modules/mediation` (1 imports); `modules: chain_runner` -> `lazyc2/security` (1 imports); `modules: llm_budget` -> `cli/commands` (1 imports); `modules: llm_budget` -> `cli` (1 imports)
 
 ```mermaid
 flowchart TB
@@ -15,149 +15,153 @@ flowchart TB
     classDef entry fill:#0e7490,stroke:#22d3ee,color:#ecfeff,stroke-width:2px;
     subgraph lane_0["Tier 1 - entry / orchestration"]
         direction LR
-        n_c13["modules: kerberos_core<br/>7 files, 138 symbols<br/>Core / utility"]:::default
-        n_c14["modules: saas_attacks<br/>7 files, 77 symbols<br/>Core / utility"]:::default
-        n_c15["skills/hermes-lazyown<br/>7 files, 120 symbols<br/>Core / utility"]:::default
-        n_c16["modules: polymorphic_engine<br/>6 files, 89 symbols<br/>Core / utility"]:::default
-        n_c6["lazygui/panels<br/>51 files, 405 symbols<br/>Core / utility"]:::entry
+        n_c15["modules: kerberos_core<br/>7 files, 138 symbols<br/>Core / utility"]:::default
+        n_c16["modules: saas_attacks<br/>7 files, 77 symbols<br/>Core / utility"]:::default
+        n_c17["modules: polymorphic_engine<br/>6 files, 89 symbols<br/>Core / utility"]:::default
+        n_c8["lazygui/panels<br/>51 files, 405 symbols<br/>Core / utility"]:::entry
+        n_c3["cli<br/>70 files, 1233 symbols<br/>Core / utility"]:::entry
         n_d_tools["tools<br/>4 files, 15 symbols<br/>Core / utility"]:::default
         n_d_tests["tests<br/>3 files, 9 symbols<br/>Presentation / entry"]:::default
         n_d_static["static<br/>2 files, 4 symbols<br/>Core / utility"]:::default
         n_d_skills["skills<br/>5 files, 659 symbols<br/>Core / utility"]:::default
         n_d_scripts["scripts<br/>24 files, 125 symbols<br/>Core / utility"]:::default
         n_d_plugins["plugins<br/>26 files, 45 symbols<br/>Infrastructure"]:::default
-        n_d_modules["modules<br/>73 files, 598 symbols<br/>Core / utility"]:::default
+        n_d_modules["modules<br/>76 files, 637 symbols<br/>Core / utility"]:::default
         n_d_lazyown_docker["lazyown-docker<br/>3 files, 14 symbols<br/>Core / utility"]:::entry
-        n_d_deploy["deploy<br/>1 files, 2 symbols<br/>Core / utility"]:::default
+        n_d_gyms["gyms<br/>2 files, 0 symbols<br/>Core / utility"]:::entry
         n_d_contrib["contrib<br/>19 files, 109 symbols<br/>Core / utility"]:::default
-        n_d__claude[".claude<br/>1 files, 0 symbols<br/>Infrastructure"]:::default
         n_d__root_["(root)<br/>13 files, 61 symbols<br/>Core / utility"]:::entry
-        n_c27["tools<br/>2 files, 4 symbols<br/>Core / utility"]:::default
-        n_c26["scripts: migrate_lazyown<br/>1 files, 6 symbols<br/>Core / utility"]:::default
-        n_c25["scripts: check_contract_manifest<br/>1 files, 13 symbols<br/>Core / utility"]:::default
-        n_c24["poc_tui<br/>2 files, 33 symbols<br/>Infrastructure"]:::default
-        n_c23["modules: lazy_triage<br/>1 files, 10 symbols<br/>Core / utility"]:::default
-        n_c22["modules: lazy_netattack<br/>1 files, 12 symbols<br/>Core / utility"]:::default
-        n_c21["modules/backdoor<br/>2 files, 7 symbols<br/>Core / utility"]:::default
-        n_c20["scripts: journal<br/>2 files, 16 symbols<br/>Core / utility"]:::default
-        n_c19["tests<br/>1 files, 1 symbols<br/>Business logic"]:::default
+        n_c28["tools<br/>2 files, 4 symbols<br/>Core / utility"]:::default
+        n_c27["scripts: migrate_lazyown<br/>1 files, 6 symbols<br/>Core / utility"]:::default
+        n_c26["scripts: check_contract_manifest<br/>1 files, 13 symbols<br/>Core / utility"]:::default
+        n_c25["poc_tui<br/>2 files, 33 symbols<br/>Infrastructure"]:::default
+        n_c24["modules: lazy_triage<br/>1 files, 10 symbols<br/>Core / utility"]:::default
+        n_c23["modules: lazy_netattack<br/>1 files, 12 symbols<br/>Core / utility"]:::default
+        n_c22["modules/backdoor<br/>2 files, 7 symbols<br/>Core / utility"]:::default
+        n_c21["scripts: journal<br/>2 files, 16 symbols<br/>Core / utility"]:::default
+        n_c20["tests<br/>1 files, 1 symbols<br/>Business logic"]:::default
     end
     subgraph lane_1["Tier 2"]
         direction LR
-        n_c5["lazyc2/security<br/>33 files, 705 symbols<br/>Core / utility"]:::cycle
+        n_c7["lazyc2/security<br/>50 files, 916 symbols<br/>Core / utility"]:::entry
     end
     subgraph lane_2["Tier 3"]
         direction LR
-        n_c2["modules: lazyown_mcp<br/>117 files, 2416 symbols<br/>Core / utility"]:::cycle
+        n_c5["modules: lazyown<br/>47 files, 991 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_3["Tier 4"]
         direction LR
-        n_c11["modules: exploit_migrated<br/>15 files, 185 symbols<br/>Core / utility"]:::cycle
+        n_c0["modules: autonomous_daemon<br/>119 files, 2938 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_4["Tier 5"]
         direction LR
-        n_c0["modules: lazy_loop<br/>91 files, 1972 symbols<br/>Core / utility"]:::cycle
+        n_c13["modules: opsec_scorer<br/>7 files, 93 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_5["Tier 6"]
         direction LR
-        n_c9["modules: llm_budget<br/>29 files, 567 symbols<br/>Core / utility"]:::cycle
+        n_c1["cli/commands<br/>112 files, 1686 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_6["Tier 7"]
         direction LR
-        n_c4["modules: chain_runner<br/>45 files, 588 symbols<br/>Core / utility"]:::cycle
+        n_c12["skills/claude_md_orchestrator<br/>13 files, 152 symbols<br/>Core / utility"]:::cycle
+        n_c2["modules: lazy_loop<br/>60 files, 1338 symbols<br/>Core / utility"]:::cycle
+        n_c19["contrib/legacy<br/>4 files, 15 symbols<br/>Core / utility"]:::default
     end
     subgraph lane_7["Tier 8"]
         direction LR
-        n_c17["modules/guardrails<br/>6 files, 59 symbols<br/>Core / utility"]:::cycle
-        n_c3["cli<br/>74 files, 1571 symbols<br/>Core / utility"]:::cycle
-        n_c12["modules: defense_eval<br/>4 files, 51 symbols<br/>Core / utility"]:::cycle
+        n_c10["modules/selection<br/>16 files, 81 symbols<br/>Core / utility"]:::cycle
+        n_c11["modules/mediation<br/>19 files, 229 symbols<br/>Core / utility"]:::cycle
+        n_c9["modules: llm_budget<br/>25 files, 482 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_8["Tier 9"]
         direction LR
-        n_c7["static/js<br/>28 files, 538 symbols<br/>Core / utility"]:::cycle
+        n_c6["modules: chain_runner<br/>35 files, 543 symbols<br/>Core / utility"]:::cycle
     end
-    subgraph lane_9["Tier 10"]
+    subgraph lane_9["Tier 10 - foundation"]
         direction LR
-        n_c1["cli/commands<br/>122 files, 1877 symbols<br/>Core / utility"]:::entry
+        n_c4["modules: world_model<br/>55 files, 886 symbols<br/>Core / utility"]:::cycle
+        n_c14["modules: defense_eval<br/>4 files, 51 symbols<br/>Core / utility"]:::cycle
+        n_c18["modules/guardrails<br/>6 files, 59 symbols<br/>Core / utility"]:::cycle
     end
-    subgraph lane_10["Tier 11 - foundation"]
-        direction LR
-        n_c8["modules: autonomous_daemon<br/>25 files, 579 symbols<br/>Core / utility"]:::cycle
-        n_c10["skills/claude_md_orchestrator<br/>22 files, 321 symbols<br/>Core / utility"]:::cycle
-        n_c18["contrib/legacy<br/>4 files, 15 symbols<br/>Core / utility"]:::default
-    end
-    n_c0 ==>|"20"| n_c9
-    n_c1 -->|"1"| n_c10
-    n_c1 -->|"1"| n_c18
-    n_c1 ==>|"11"| n_c8
-    n_c11 ==>|"7"| n_c0
-    n_c13 -->|"1"| n_c1
-    n_c14 -->|"1"| n_c1
-    n_c15 -->|"1"| n_c3
+    n_c0 -->|"1"| n_c13
+    n_c1 -->|"1"| n_c12
+    n_c1 -->|"1"| n_c19
+    n_c1 ==>|"28"| n_c2
+    n_c10 -->|"3"| n_c6
+    n_c11 ==>|"13"| n_c6
+    n_c12 -->|"1"| n_c9
+    n_c13 -->|"2"| n_c1
+    n_c15 -->|"1"| n_c1
     n_c16 -->|"1"| n_c1
     n_c17 -->|"1"| n_c1
-    n_c2 ==>|"7"| n_c11
-    n_c3 ==>|"19"| n_c7
-    n_c4 -->|"1"| n_c12
-    n_c4 -->|"1"| n_c17
-    n_c4 -->|"5"| n_c3
-    n_c5 ==>|"35"| n_c2
-    n_c6 -->|"1"| n_c5
-    n_c7 ==>|"20"| n_c1
-    n_c9 -->|"1"| n_c4
-    n_c11 <-.-|"1 upward"| n_c0
-    n_c2 <-.-|"19 upward"| n_c0
-    n_c5 <-.-|"1 upward"| n_c0
-    n_c0 <-.-|"37 upward"| n_c1
-    n_c2 <-.-|"18 upward"| n_c1
-    n_c3 <-.-|"22 upward"| n_c1
-    n_c4 <-.-|"9 upward"| n_c1
-    n_c5 <-.-|"9 upward"| n_c1
-    n_c7 <-.-|"14 upward"| n_c1
-    n_c9 <-.-|"4 upward"| n_c1
-    n_c1 <-.-|"3 upward"| n_c10
-    n_c2 <-.-|"2 upward"| n_c10
-    n_c7 <-.-|"3 upward"| n_c10
-    n_c9 <-.-|"1 upward"| n_c10
-    n_c2 <-.-|"7 upward"| n_c11
-    n_c0 <-.-|"1 upward"| n_c12
-    n_c2 <-.-|"1 upward"| n_c12
-    n_c5 <-.-|"6 upward"| n_c2
-    n_c0 <-.-|"20 upward"| n_c3
-    n_c11 <-.-|"1 upward"| n_c3
-    n_c2 <-.-|"22 upward"| n_c3
-    n_c4 <-.-|"3 upward"| n_c3
-    n_c5 <-.-|"7 upward"| n_c3
-    n_c9 <-.-|"3 upward"| n_c3
-    n_c0 <-.-|"22 upward"| n_c4
-    n_c2 <-.-|"26 upward"| n_c4
-    n_c0 <-.-|"7 upward"| n_c7
-    n_c2 <-.-|"12 upward"| n_c7
-    n_c3 <-.-|"23 upward"| n_c7
-    n_c4 <-.-|"1 upward"| n_c7
-    n_c5 <-.-|"1 upward"| n_c7
-    n_c9 <-.-|"1 upward"| n_c7
-    n_c0 <-.-|"16 upward"| n_c8
-    n_c1 <-.-|"1 upward"| n_c8
-    n_c2 <-.-|"33 upward"| n_c8
-    n_c3 <-.-|"2 upward"| n_c8
-    n_c4 <-.-|"3 upward"| n_c8
-    n_c5 <-.-|"2 upward"| n_c8
-    n_c7 <-.-|"3 upward"| n_c8
-    n_c9 <-.-|"4 upward"| n_c8
-    n_c0 <-.-|"12 upward"| n_c9
-    n_c2 <-.-|"15 upward"| n_c9
-    linkStyle 19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60 stroke:#f87171,stroke-width:2px;
-    n_c13 ~~~ n_c5
-    n_c5 ~~~ n_c2
-    n_c2 ~~~ n_c11
-    n_c11 ~~~ n_c0
-    n_c0 ~~~ n_c9
-    n_c9 ~~~ n_c4
-    n_c4 ~~~ n_c17
-    n_c17 ~~~ n_c7
-    n_c7 ~~~ n_c1
-    n_c1 ~~~ n_c8
+    n_c2 -->|"3"| n_c10
+    n_c2 ==>|"21"| n_c11
+    n_c2 -->|"6"| n_c9
+    n_c3 -->|"2"| n_c7
+    n_c5 ==>|"26"| n_c0
+    n_c6 -->|"1"| n_c14
+    n_c6 -->|"1"| n_c18
+    n_c6 ==>|"10"| n_c4
+    n_c7 ==>|"20"| n_c5
+    n_c8 -->|"1"| n_c7
+    n_c3 <-.-|"8 upward"| n_c0
+    n_c5 <-.-|"21 upward"| n_c0
+    n_c7 <-.-|"5 upward"| n_c0
+    n_c0 <-.-|"28 upward"| n_c1
+    n_c3 <-.-|"12 upward"| n_c1
+    n_c5 <-.-|"36 upward"| n_c1
+    n_c7 <-.-|"11 upward"| n_c1
+    n_c0 <-.-|"2 upward"| n_c10
+    n_c2 <-.-|"5 upward"| n_c10
+    n_c0 <-.-|"17 upward"| n_c11
+    n_c1 <-.-|"7 upward"| n_c11
+    n_c2 <-.-|"6 upward"| n_c11
+    n_c3 <-.-|"1 upward"| n_c11
+    n_c5 <-.-|"2 upward"| n_c11
+    n_c1 <-.-|"1 upward"| n_c12
+    n_c5 <-.-|"1 upward"| n_c12
+    n_c0 <-.-|"2 upward"| n_c13
+    n_c5 <-.-|"1 upward"| n_c13
+    n_c0 <-.-|"1 upward"| n_c14
+    n_c2 <-.-|"1 upward"| n_c14
+    n_c1 <-.-|"1 upward"| n_c18
+    n_c0 <-.-|"17 upward"| n_c2
+    n_c1 <-.-|"9 upward"| n_c2
+    n_c3 <-.-|"4 upward"| n_c2
+    n_c5 <-.-|"27 upward"| n_c2
+    n_c7 <-.-|"3 upward"| n_c2
+    n_c0 <-.-|"17 upward"| n_c4
+    n_c1 <-.-|"8 upward"| n_c4
+    n_c11 <-.-|"1 upward"| n_c4
+    n_c2 <-.-|"6 upward"| n_c4
+    n_c3 <-.-|"8 upward"| n_c4
+    n_c5 <-.-|"2 upward"| n_c4
+    n_c6 <-.-|"3 upward"| n_c4
+    n_c3 <-.-|"30 upward"| n_c5
+    n_c7 <-.-|"6 upward"| n_c5
+    n_c0 <-.-|"21 upward"| n_c6
+    n_c1 <-.-|"8 upward"| n_c6
+    n_c11 <-.-|"1 upward"| n_c6
+    n_c2 <-.-|"13 upward"| n_c6
+    n_c3 <-.-|"4 upward"| n_c6
+    n_c5 <-.-|"14 upward"| n_c6
+    n_c7 <-.-|"1 upward"| n_c6
+    n_c3 <-.-|"2 upward"| n_c7
+    n_c0 <-.-|"14 upward"| n_c9
+    n_c1 <-.-|"1 upward"| n_c9
+    n_c2 <-.-|"5 upward"| n_c9
+    n_c3 <-.-|"1 upward"| n_c9
+    n_c5 <-.-|"3 upward"| n_c9
+    linkStyle 21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68 stroke:#f87171,stroke-width:2px;
+    n_c15 ~~~ n_c7
+    n_c7 ~~~ n_c5
+    n_c5 ~~~ n_c0
+    n_c0 ~~~ n_c13
+    n_c13 ~~~ n_c1
+    n_c1 ~~~ n_c12
+    n_c12 ~~~ n_c10
+    n_c10 ~~~ n_c6
+    n_c6 ~~~ n_c4
 ```
 
 ---
@@ -177,9 +181,9 @@ flowchart LR
     classDef entry fill:#0e7490,stroke:#22d3ee,color:#ecfeff,stroke-width:2px;
     classDef external fill:#1a1530,stroke:#a78bfa,color:#ede9fe;
     n_modules_backdoor_server_c__main["server.main<br/>server.c:10"]:::entry
-    n_modules_lazy_loop_py__bind["lazy_loop.TrafficLog.bind<br/>Attach traffic digest to a finding like bind_...<br/>lazy_loop.py:1896"]:::external
-    n_modules_lazy_loop_py___normalize_refs["lazy_loop.TrafficLog._normalize_refs<br/>Upgrade legacy string refs to role/note dicts...<br/>lazy_loop.py:1927"]:::external
-    n_modules_lazy_loop_py___now["lazy_loop._now<br/>Return current epoch seconds.<br/>lazy_loop.py:781"]:::external
+    n_modules_lazy_loop_py__bind["lazy_loop.TrafficLog.bind<br/>Attach traffic digest to a finding like bind_...<br/>lazy_loop.py:1902"]:::external
+    n_modules_lazy_loop_py___normalize_refs["lazy_loop.TrafficLog._normalize_refs<br/>Upgrade legacy string refs to role/note dicts...<br/>lazy_loop.py:1933"]:::external
+    n_modules_lazy_loop_py___now["lazy_loop._now<br/>Return current epoch seconds.<br/>lazy_loop.py:787"]:::external
     n_cli_autosuggest_py__accept["autosuggest.AutoSuggestEngine.accept<br/>Return the active command string and clear th...<br/>autosuggest.py:309"]:::external
     n_modules_backdoor_backdoor_c__bzero["backdoor.bzero<br/>backdoor.c:14"]:::external
     n_modules_backdoor_server_c__main -.->|"recursion"| n_modules_backdoor_server_c__main

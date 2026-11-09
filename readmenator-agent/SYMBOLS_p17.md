@@ -1,205 +1,243 @@
-# Symbols (page 17 of 49)
+# Symbols (page 17 of 50)
 Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `edit_goal` | method | `modules/lazy_loop.py:9180` | `def edit_goal(self, task_id, goal_id, text)` |
-| `emit` | method | `modules/lazy_loop.py:1587` | `def emit(self, worker, kind, text, intent_id, tool_use_id)` |
-| `emit` | method | `modules/lazy_loop.py:7676` | `def emit(self, task_id, event, data)` |
-| `enqueue` | method | `modules/lazy_loop.py:2853` | `def enqueue(self, task_id)` |
-| `enrich_asset` | function | `modules/lazy_loop.py:3265` | `def enrich_asset(value)` |
-| `ensure_target` | method | `modules/lazy_loop.py:8852` | `def ensure_target(self, task_id, target, reason)` |
-| `evaluate` | method | `modules/lazy_loop.py:2410` | `def evaluate(self, target)` |
-| `evidence` | method | `modules/lazy_loop.py:1944` | `def evidence(self, finding_id, graph)` |
-| `execute` | method | `modules/lazy_loop.py:4177` | `def execute(self, intent, executor, timeout_sec)` |
-| `expand` | method | `modules/lazy_loop.py:6772` | `def expand(self, digest_id, role)` |
-| `expired` | method | `modules/lazy_loop.py:2972` | `def expired(self, task_id)` |
-| `export` | method | `modules/lazy_loop.py:1967` | `def export(self, path, limit)` |
-| `export` | method | `modules/lazy_loop.py:7555` | `def export(self, path)` |
-| `export_evidence` | method | `modules/lazy_loop.py:10903` | `def export_evidence(self, task_id, dest)` |
-| `export_findings_report` | method | `modules/lazy_loop.py:10962` | `def export_findings_report(self, task_id, path, fmt)` |
-| `export_task_traffic` | method | `modules/lazy_loop.py:10874` | `def export_task_traffic(self, task_id)` |
-| `extract_constraint_items` | function | `modules/lazy_loop.py:3084` | `def extract_constraint_items(goal_text, description)` |
-| `extract_scope_items` | function | `modules/lazy_loop.py:3052` | `def extract_scope_items(goal_text, description)` |
-| `finalize` | method | `modules/lazy_loop.py:3883` | `def finalize(self, reason)` |
-| `finding_severity` | function | `modules/lazy_loop.py:7091` | `def finding_severity(text, evidence)` |
-| `finding_signature` | method | `modules/lazy_loop.py:1481` | `def finding_signature(self, text)` |
-| `for_finding` | method | `modules/lazy_loop.py:7514` | `def for_finding(self, finding_id)` |
-| `for_intent` | method | `modules/lazy_loop.py:1626` | `def for_intent(self, intent_id)` |
-| `gc` | method | `modules/lazy_loop.py:7498` | `def gc(self, valid_findings)` |
-| `get` | method | `modules/lazy_loop.py:1121` | `def get(self, asset_id)` |
-| `get` | method | `modules/lazy_loop.py:1294` | `def get(self, node_id)` |
-| `get` | method | `modules/lazy_loop.py:1815` | `def get(self, digest)` |
-| `get` | method | `modules/lazy_loop.py:2802` | `def get(self, task_id)` |
-| `get` | method | `modules/lazy_loop.py:8527` | `def get(self, name)` |
-| `get` | method | `modules/lazy_loop.py:8550` | `def get(self, task_id)` |
-| `goal_met` | method | `modules/lazy_loop.py:9467` | `def goal_met(self, task_id, reason)` |
-| `graph_context` | method | `modules/lazy_loop.py:11352` | `def graph_context(self, task_id, top)` |
-| `graph_overview` | method | `modules/lazy_loop.py:11097` | `def graph_overview(self, task_id)` |
-| `graph_state` | function | `modules/lazy_loop.py:5245` | `def graph_state()` |
-| `has_finding` | method | `modules/lazy_loop.py:1487` | `def has_finding(self, text)` |
-| `health` | method | `modules/lazy_loop.py:8105` | `def health(self)` |
-| `heartbeat` | method | `modules/lazy_loop.py:2516` | `def heartbeat(self, task_id)` |
-| `history` | method | `modules/lazy_loop.py:2642` | `def history(self, page, per_page, states, query)` |
-| `history` | method | `modules/lazy_loop.py:8325` | `def history(self, task_id, session, limit)` |
-| `hot_set` | method | `modules/lazy_loop.py:6485` | `def hot_set(self)` |
-| `ingest_proxy_traffic` | method | `modules/lazy_loop.py:10728` | `def ingest_proxy_traffic(self, task_id, limit)` |
-| `insert` | method | `modules/lazy_loop.py:1091` | `def insert(self, kind, value, parent_id, meta, task_id)` |
-| `job_output` | function | `modules/lazy_loop.py:5276` | `def job_output(job_id)` |
-| `job_status` | function | `modules/lazy_loop.py:5268` | `def job_status(job_id)` |
-| `judge_command` | function | `modules/lazy_loop.py:976` | `def judge_command(command, background, fail_action)` |
-| `kill` | method | `modules/lazy_loop.py:3017` | `def kill(self, task_id, intent_id)` |
-| `killed` | method | `modules/lazy_loop.py:3046` | `def killed(self, task_id, intent_id)` |
-| `limits` | method | `modules/lazy_loop.py:2432` | `def limits(self, task_id)` |
-| `list` | method | `modules/lazy_loop.py:1125` | `def list(self, kind)` |
-| `list` | method | `modules/lazy_loop.py:1383` | `def list(self, kind, state)` |
-| `list` | method | `modules/lazy_loop.py:2406` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:2806` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:8363` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:8397` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:8503` | `def list(self)` |
-| `list` | method | `modules/lazy_loop.py:8554` | `def list(self, category)` |
-| `list_facts` | method | `modules/lazy_loop.py:1513` | `def list_facts(self, query, limit, hot_full)` |
-| `list_tasks` | method | `modules/lazy_loop.py:8986` | `def list_tasks(self)` |
-| `llm_state` | method | `modules/lazy_loop.py:2907` | `def llm_state(self, task_id)` |
-| `load_intel_scores` | function | `modules/lazy_loop.py:3176` | `def load_intel_scores()` |
-| `log` | method | `modules/lazy_loop.py:8612` | `def log(self, task_id, limit, session)` |
-| `looks_like_prose` | function | `modules/lazy_loop.py:193` | `def looks_like_prose(command)` |
-| `lookup` | method | `modules/lazy_loop.py:2141` | `def lookup(self, tool_use_id)` |
-| `loop_exiting` | function | `modules/lazy_loop.py:471` | `def loop_exiting()` |
-| `loop_graph` | method | `modules/lazy_loop.py:11283` | `def loop_graph(self, task_id)` |
-| `mark_tested` | method | `modules/lazy_loop.py:1132` | `def mark_tested(self, asset_id)` |
-| `match` | method | `modules/lazy_loop.py:8367` | `def match(self, value)` |
-| `members` | method | `modules/lazy_loop.py:7784` | `def members(self)` |
-| `next_pending` | method | `modules/lazy_loop.py:2767` | `def next_pending(self)` |
-| `noa_archives` | method | `modules/lazy_loop.py:6426` | `def noa_archives(self, limit)` |
-| `node_detail` | method | `modules/lazy_loop.py:1497` | `def node_detail(self, node_id)` |
-| `note_trigger` | method | `modules/lazy_loop.py:2565` | `def note_trigger(self, task_id, trigger_id)` |
-| `on_planner_round` | method | `modules/lazy_loop.py:6604` | `def on_planner_round(self)` |
-| `orchestrate` | method | `modules/lazy_loop.py:8879` | `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` |
-| `overview` | method | `modules/lazy_loop.py:1406` | `def overview(self)` |
-| `parents` | method | `modules/lazy_loop.py:1399` | `def parents(self, node_id, kind)` |
-| `parse_judge_output` | function | `modules/lazy_loop.py:948` | `def parse_judge_output(raw)` |
-| `pause` | method | `modules/lazy_loop.py:2822` | `def pause(self, task_id)` |
-| `pause_intent` | method | `modules/lazy_loop.py:9371` | `def pause_intent(self, task_id, intent_id)` |
-| `pause_task` | method | `modules/lazy_loop.py:9014` | `def pause_task(self, task_id, reason)` |
-| `pending` | method | `modules/lazy_loop.py:1559` | `def pending(self)` |
-| `pending` | method | `modules/lazy_loop.py:2638` | `def pending(self)` |
-| `persist` | method | `modules/lazy_loop.py:1298` | `def persist(self)` |
-| `plan` | method | `modules/lazy_loop.py:3319` | `def plan(self, triggers)` |
-| `plausible_command` | function | `modules/lazy_loop.py:169` | `def plausible_command(command)` |
-| `preview_delete_intent` | method | `modules/lazy_loop.py:9203` | `def preview_delete_intent(self, task_id, intent_id)` |
-| `prove_goal` | method | `modules/lazy_loop.py:10418` | `def prove_goal(self, task_id, goal_id, evidence_id, reason)` |
-| `proxy_env` | method | `modules/lazy_loop.py:10651` | `def proxy_env(self)` |
-| `proxy_start` | method | `modules/lazy_loop.py:10601` | `def proxy_start(self, host, port, task_id, trust, upstream)` |
-| `proxy_status` | method | `modules/lazy_loop.py:10645` | `def proxy_status(self)` |
-| `proxy_stop` | method | `modules/lazy_loop.py:10637` | `def proxy_stop(self)` |
-| `queue` | method | `modules/lazy_loop.py:2848` | `def queue(self)` |
-| `ranked` | method | `modules/lazy_loop.py:7435` | `def ranked(self)` |
-| `raw_entries` | method | `modules/lazy_loop.py:8133` | `def raw_entries(self, limit)` |
-| `raw_entries_for_task` | method | `modules/lazy_loop.py:8147` | `def raw_entries_for_task(self, task_id, limit)` |
-| `read` | method | `modules/lazy_loop.py:1612` | `def read(self, limit)` |
-| `read` | method | `modules/lazy_loop.py:1762` | `def read(self, limit)` |
-| `read` | method | `modules/lazy_loop.py:7518` | `def read(self, evidence_id, offset, length)` |
-| `rebind` | method | `modules/lazy_loop.py:4057` | `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` |
-| `record` | method | `modules/lazy_loop.py:1740` | `def record(self, kind, command, output, meta)` |
-| `record_call` | method | `modules/lazy_loop.py:7831` | `def record_call(self, member, ok, text)` |
-| `record_fact` | method | `modules/lazy_loop.py:1529` | `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)` |
-| `record_fact` | function | `modules/lazy_loop.py:5212` | `def record_fact(text)` |
-| `record_fact` | method | `modules/lazy_loop.py:9477` | `def record_fact(self, task_id, text, evidence, intent_id)` |
-| `record_raw` | method | `modules/lazy_loop.py:8121` | `def record_raw(self)` |
-| `record_round` | method | `modules/lazy_loop.py:2478` | `def record_round(self, task_id)` |
-| `record_toolcall` | method | `modules/lazy_loop.py:2466` | `def record_toolcall(self, task_id, intent_id)` |
-| `record_verdict` | method | `modules/lazy_loop.py:9484` | `def record_verdict(self, task_id, finding_id, verdict, note)` |
-| `record_worker_traces` | function | `modules/lazy_loop.py:804` | `def record_worker_traces(task_id, worker, intent_id, transcripts, state, path)` |
-| `recorder_blob` | method | `modules/lazy_loop.py:1851` | `def recorder_blob(self, digest, part, offset, length)` |
-| `recorder_body` | method | `modules/lazy_loop.py:1822` | `def recorder_body(self, digest)` |
-| `refine` | method | `modules/lazy_loop.py:3398` | `def refine(self)` |
-| `register_worker` | function | `modules/lazy_loop.py:641` | `def register_worker(worker)` |
-| `reload` | method | `modules/lazy_loop.py:1429` | `def reload(self)` |
-| `remove` | method | `modules/lazy_loop.py:2388` | `def remove(self, rule_id, action)` |
-| `remove` | method | `modules/lazy_loop.py:8517` | `def remove(self, name)` |
-| `remove_channel` | method | `modules/lazy_loop.py:7625` | `def remove_channel(self, index)` |
-| `remove_member` | method | `modules/lazy_loop.py:7798` | `def remove_member(self, name)` |
-| `remove_rule` | method | `modules/lazy_loop.py:2030` | `def remove_rule(self, pattern)` |
-| `reorder_evidence` | method | `modules/lazy_loop.py:1953` | `def reorder_evidence(self, finding_id, digests, graph)` |
-| `repair_worker_command` | function | `modules/lazy_loop.py:341` | `def repair_worker_command(command, target)` |
-| `report` | method | `modules/lazy_loop.py:7159` | `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` |
-| `report_finding` | function | `modules/lazy_loop.py:5221` | `def report_finding(name, evidence, severity)` |
-| `request` | method | `modules/lazy_loop.py:2620` | `def request(self, tool, command, reason, tool_use_id)` |
-| `resolve_target` | function | `modules/lazy_loop.py:3205` | `def resolve_target(task_id, store, graph)` |
-| `restore` | method | `modules/lazy_loop.py:8419` | `def restore(self, path)` |
-| `resume` | method | `modules/lazy_loop.py:2826` | `def resume(self, task_id)` |
-| `resume_intent` | method | `modules/lazy_loop.py:9396` | `def resume_intent(self, task_id, intent_id)` |
-| `resume_task` | method | `modules/lazy_loop.py:9025` | `def resume_task(self, task_id)` |
-| `retest` | method | `modules/lazy_loop.py:6130` | `def retest(self, finding_id, executor, note)` |
-| `retest_context` | method | `modules/lazy_loop.py:6294` | `def retest_context(self, finding_id)` |
-| `run` | method | `modules/lazy_loop.py:10139` | `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` |
-| `run_command` | function | `modules/lazy_loop.py:5186` | `def run_command(command, background)` |
-| `run_round` | method | `modules/lazy_loop.py:9634` | `def run_round(self, task_id, workers, executor, pool)` |
-| `save` | method | `modules/lazy_loop.py:8376` | `def save(self, task_id)` |
-| `say` | method | `modules/lazy_loop.py:8569` | `def say(self, task_id, text, pool, session)` |
-| `scoped` | method | `modules/lazy_loop.py:1158` | `def scoped(self, scope, kind)` |
-| `scrub_secrets` | function | `modules/lazy_loop.py:511` | `def scrub_secrets(text)` |
-| `search` | method | `modules/lazy_loop.py:1698` | `def search(self, query, exclude_intent)` |
-| `search` | method | `modules/lazy_loop.py:1776` | `def search(self, query, limit)` |
-| `search_all` | method | `modules/lazy_loop.py:1668` | `def search_all(self, query, limit)` |
-| `search_host` | method | `modules/lazy_loop.py:1787` | `def search_host(self, host, port, limit)` |
-| `search_proxy_body` | method | `modules/lazy_loop.py:10782` | `def search_proxy_body(self, task_id, query, limit)` |
-| `send_worker_message` | method | `modules/lazy_loop.py:9419` | `def send_worker_message(self, task_id, intent_id, message, request_id)` |
-| `sessions` | method | `modules/lazy_loop.py:8333` | `def sessions(self, task_id)` |
-| `sessions` | method | `modules/lazy_loop.py:8628` | `def sessions(self, task_id)` |
-| `set` | method | `modules/lazy_loop.py:8543` | `def set(self, task_id, category)` |
-| `set_concurrency` | method | `modules/lazy_loop.py:10660` | `def set_concurrency(self, limit)` |
-| `set_context_budget` | method | `modules/lazy_loop.py:8210` | `def set_context_budget(self, chars)` |
-| `set_deadline` | method | `modules/lazy_loop.py:2962` | `def set_deadline(self, task_id, timeout_sec)` |
-| `set_goals` | method | `modules/lazy_loop.py:9163` | `def set_goals(self, task_id, specs)` |
-| `set_judge` | method | `modules/lazy_loop.py:2039` | `def set_judge(self, enabled, fail_action)` |
-| `set_limits` | method | `modules/lazy_loop.py:2443` | `def set_limits(self, task_id)` |
-| `set_llm_chain` | method | `modules/lazy_loop.py:2879` | `def set_llm_chain(self, task_id, members, active)` |
-| `set_node_meta` | method | `modules/lazy_loop.py:1321` | `def set_node_meta(self, node_id, meta)` |
-| `set_node_state` | method | `modules/lazy_loop.py:1302` | `def set_node_state(self, node_id, state)` |
-| `set_priority` | method | `modules/lazy_loop.py:7808` | `def set_priority(self, name, priority)` |
-| `set_record_raw` | method | `modules/lazy_loop.py:8126` | `def set_record_raw(self, enabled)` |
-| `set_skills` | method | `modules/lazy_loop.py:2937` | `def set_skills(self, task_id, names, auto)` |
-| `set_state` | method | `modules/lazy_loop.py:1340` | `def set_state(self, node_id, state)` |
-| `set_status` | method | `modules/lazy_loop.py:2810` | `def set_status(self, task_id, status)` |
-| `set_status` | method | `modules/lazy_loop.py:7396` | `def set_status(self, finding_id, status)` |
-| `settlement_prompt` | function | `modules/lazy_loop.py:6911` | `def settlement_prompt(agent, reason)` |
-| `shell_open` | function | `modules/lazy_loop.py:5260` | `def shell_open()` |
-| `shell_send` | function | `modules/lazy_loop.py:5264` | `def shell_send(command)` |
-| `shutdown_loop_runtime` | function | `modules/lazy_loop.py:653` | `def shutdown_loop_runtime(reason)` |
-| `sink` | function | `modules/lazy_loop.py:3903` | `def sink(text)` |
-| `sink` | function | `modules/lazy_loop.py:5739` | `def sink(text)` |
-| `spawn_task` | method | `modules/lazy_loop.py:8936` | `def spawn_task(self, goal, source_task_ids, description)` |
-| `stage_enabled` | function | `modules/lazy_loop.py:9685` | `def stage_enabled(_name)` |
-| `stats` | method | `modules/lazy_loop.py:2183` | `def stats(self)` |
-| `stats` | method | `modules/lazy_loop.py:8486` | `def stats(self)` |
-| `status` | method | `modules/lazy_loop.py:11077` | `def status(self, task_id)` |
-| `steer` | method | `modules/lazy_loop.py:3008` | `def steer(self, task_id, intent_id, message)` |
-| `steer_for` | method | `modules/lazy_loop.py:3028` | `def steer_for(self, task_id, intent_id)` |
-| `structural_cold` | method | `modules/lazy_loop.py:6507` | `def structural_cold(self, hot)` |
-| `task_findings` | method | `modules/lazy_loop.py:9041` | `def task_findings(self, task_id)` |
-| `task_graph` | method | `modules/lazy_loop.py:9035` | `def task_graph(self, task_id)` |
-| `task_llm_chain` | function | `modules/lazy_loop.py:938` | `def task_llm_chain(store, task_id)` |
-| `task_node_detail` | method | `modules/lazy_loop.py:9069` | `def task_node_detail(self, task_id, node_id)` |
-| `task_traces` | method | `modules/lazy_loop.py:9060` | `def task_traces(self, task_id, query, limit)` |
-| `templates` | method | `modules/lazy_loop.py:1882` | `def templates(self, limit)` |
-| `terminal_hint` | function | `modules/lazy_loop.py:6972` | `def terminal_hint(reason, state)` |
-| `trace` | method | `modules/lazy_loop.py:1630` | `def trace(self, intent_id, query, step_id, limit)` |
-| `traffic_search` | function | `modules/lazy_loop.py:5232` | `def traffic_search(query)` |
-| `unbind` | method | `modules/lazy_loop.py:8259` | `def unbind(self, agent, tool)` |
-| `unfolded` | method | `modules/lazy_loop.py:6814` | `def unfolded(self, limit)` |
-| `unregister_worker` | function | `modules/lazy_loop.py:647` | `def unregister_worker(worker)` |
-| `untested` | method | `modules/lazy_loop.py:1171` | `def untested(self, limit)` |
-| `untested_for` | method | `modules/lazy_loop.py:1204` | `def untested_for(self, graph, scope, limit)` |
-| `update_finding_report` | method | `modules/lazy_loop.py:9075` | `def update_finding_report(self, task_id, finding_id, report)` |
-| `update_report` | method | `modules/lazy_loop.py:7413` | `def update_report(self, finding_id, report)` |
-| `usage` | method | `modules/lazy_loop.py:2456` | `def usage(self, task_id)` |
-| `usage` | method | `modules/lazy_loop.py:7821` | `def usage(self)` |
-| `verify` | method | `modules/lazy_loop.py:7478` | `def verify(self)` |
-| `wait` | method | `modules/lazy_loop.py:2708` | `def wait(self, item_id, timeout_sec)` |
-| `wake_task` | function | `modules/lazy_loop.py:607` | `def wake_task(task_id)` |
+| `apply_profile` | method | `modules/lazy_loop.py:7890` | `def apply_profile(self, name)` |
+| `archive` | method | `modules/lazy_loop.py:1980` | `def archive(self, label)` |
+| `arm_exit_watchdog` | function | `modules/lazy_loop.py:494` | `def arm_exit_watchdog(seconds)` |
+| `as_list` | method | `modules/lazy_loop.py:2780` | `def as_list(self)` |
+| `ask` | method | `modules/lazy_loop.py:7440` | `def ask(self, task_id, question, pool, session)` |
+| `audit` | method | `modules/lazy_loop.py:2119` | `def audit(self, limit, action, source, query)` |
+| `beat` | method | `modules/lazy_loop.py:2540` | `def beat(self, task_id, workers)` |
+| `bind` | method | `modules/lazy_loop.py:1902` | `def bind(self, finding_id, digest, graph, role, note)` |
+| `bind` | method | `modules/lazy_loop.py:7411` | `def bind(self, agent, tool)` |
+| `bind_shell` | method | `modules/lazy_loop.py:7967` | `def bind_shell(self, shell)` |
+| `bindings` | method | `modules/lazy_loop.py:7406` | `def bindings(self, agent)` |
+| `broadcast` | method | `modules/lazy_loop.py:10480` | `def broadcast(self, task_id, kinds, query, order, page, per_page, states)` |
+| `broadcast_events` | method | `modules/lazy_loop.py:8286` | `def broadcast_events(self, task_id, cursor, batch)` |
+| `build_prompt_context` | function | `modules/lazy_loop.py:6163` | `def build_prompt_context(task_id, graph, assets, store, budget, top)` |
+| `by_template` | method | `modules/lazy_loop.py:1897` | `def by_template(self, template, limit)` |
+| `channels` | method | `modules/lazy_loop.py:6731` | `def channels(self)` |
+| `check` | method | `modules/lazy_loop.py:2067` | `def check(self, tool, command, tool_use_id, source, intent_id)` |
+| `check` | method | `modules/lazy_loop.py:2502` | `def check(self, task_id)` |
+| `children` | method | `modules/lazy_loop.py:1398` | `def children(self, node_id, kind)` |
+| `claim_next` | method | `modules/lazy_loop.py:1570` | `def claim_next(self)` |
+| `clear` | method | `modules/lazy_loop.py:1986` | `def clear(self)` |
+| `clear` | method | `modules/lazy_loop.py:7798` | `def clear(self, task_id, session)` |
+| `clear_steer` | method | `modules/lazy_loop.py:3039` | `def clear_steer(self, task_id, intent_id)` |
+| `close` | method | `modules/lazy_loop.py:4167` | `def close(self)` |
+| `cold_index` | method | `modules/lazy_loop.py:5957` | `def cold_index(self)` |
+| `compact` | method | `modules/lazy_loop.py:5806` | `def compact(self, threshold, mode, debounce_sec)` |
+| `compare_and_claim` | method | `modules/lazy_loop.py:1459` | `def compare_and_claim(self, node_id)` |
+| `complete` | method | `modules/lazy_loop.py:2764` | `def complete(self, item_id)` |
+| `complete` | method | `modules/lazy_loop.py:7101` | `def complete(self, prompt, max_tokens, empty_retries, members, task_id, on_delta)` |
+| `constraint_block` | function | `modules/lazy_loop.py:6038` | `def constraint_block(constraints, scope)` |
+| `context_budget` | method | `modules/lazy_loop.py:7277` | `def context_budget(self)` |
+| `coverage` | method | `modules/lazy_loop.py:1148` | `def coverage(self, scope)` |
+| `coverage_for` | method | `modules/lazy_loop.py:1182` | `def coverage_for(self, graph, scope)` |
+| `covered_members` | method | `modules/lazy_loop.py:5753` | `def covered_members(self)` |
+| `create` | method | `modules/lazy_loop.py:2797` | `def create(self, goal, description)` |
+| `create_task` | method | `modules/lazy_loop.py:8106` | `def create_task(self, goal, description)` |
+| `decide` | method | `modules/lazy_loop.py:2700` | `def decide(self, item_id, verdict)` |
+| `decompose_goals` | function | `modules/lazy_loop.py:3234` | `def decompose_goals(goal_text, description)` |
+| `dedupe_key` | method | `modules/lazy_loop.py:1093` | `def dedupe_key(self, kind, value, parent_id)` |
+| `delete` | method | `modules/lazy_loop.py:2841` | `def delete(self, task_id)` |
+| `delete_goal` | method | `modules/lazy_loop.py:8391` | `def delete_goal(self, task_id, goal_id)` |
+| `delete_intent` | method | `modules/lazy_loop.py:8425` | `def delete_intent(self, task_id, intent_id, mode, reason)` |
+| `delete_task` | method | `modules/lazy_loop.py:9888` | `def delete_task(self, task_id)` |
+| `dequeue_next` | method | `modules/lazy_loop.py:2870` | `def dequeue_next(self)` |
+| `digest_of` | method | `modules/lazy_loop.py:1724` | `def digest_of(command, output)` |
+| `digest_overview` | method | `modules/lazy_loop.py:5991` | `def digest_overview(self)` |
+| `drain_queue` | method | `modules/lazy_loop.py:10021` | `def drain_queue(self, max_tasks)` |
+| `edit_goal` | method | `modules/lazy_loop.py:8379` | `def edit_goal(self, task_id, goal_id, text)` |
+| `emit` | method | `modules/lazy_loop.py:1593` | `def emit(self, worker, kind, text, intent_id, tool_use_id)` |
+| `emit` | method | `modules/lazy_loop.py:6837` | `def emit(self, task_id, event, data)` |
+| `enqueue` | method | `modules/lazy_loop.py:2859` | `def enqueue(self, task_id)` |
+| `enrich_asset` | function | `modules/lazy_loop.py:3271` | `def enrich_asset(value)` |
+| `ensure_target` | method | `modules/lazy_loop.py:8051` | `def ensure_target(self, task_id, target, reason)` |
+| `evaluate` | method | `modules/lazy_loop.py:2416` | `def evaluate(self, target)` |
+| `evidence` | method | `modules/lazy_loop.py:1950` | `def evidence(self, finding_id, graph)` |
+| `execute` | method | `modules/lazy_loop.py:4202` | `def execute(self, intent, executor, timeout_sec)` |
+| `expand` | method | `modules/lazy_loop.py:5933` | `def expand(self, digest_id, role)` |
+| `expired` | method | `modules/lazy_loop.py:2978` | `def expired(self, task_id)` |
+| `export` | method | `modules/lazy_loop.py:1973` | `def export(self, path, limit)` |
+| `export` | method | `modules/lazy_loop.py:6716` | `def export(self, path)` |
+| `export_evidence` | method | `modules/lazy_loop.py:10224` | `def export_evidence(self, task_id, dest)` |
+| `export_findings_report` | method | `modules/lazy_loop.py:10283` | `def export_findings_report(self, task_id, path, fmt)` |
+| `export_task_traffic` | method | `modules/lazy_loop.py:10195` | `def export_task_traffic(self, task_id)` |
+| `extract_constraint_items` | function | `modules/lazy_loop.py:3090` | `def extract_constraint_items(goal_text, description)` |
+| `extract_scope_items` | function | `modules/lazy_loop.py:3058` | `def extract_scope_items(goal_text, description)` |
+| `finalize` | method | `modules/lazy_loop.py:3969` | `def finalize(self, reason)` |
+| `finding_severity` | function | `modules/lazy_loop.py:6252` | `def finding_severity(text, evidence)` |
+| `finding_signature` | method | `modules/lazy_loop.py:1487` | `def finding_signature(self, text)` |
+| `for_finding` | method | `modules/lazy_loop.py:6675` | `def for_finding(self, finding_id)` |
+| `for_intent` | method | `modules/lazy_loop.py:1632` | `def for_intent(self, intent_id)` |
+| `gc` | method | `modules/lazy_loop.py:6659` | `def gc(self, valid_findings)` |
+| `get` | method | `modules/lazy_loop.py:1127` | `def get(self, asset_id)` |
+| `get` | method | `modules/lazy_loop.py:1300` | `def get(self, node_id)` |
+| `get` | method | `modules/lazy_loop.py:1821` | `def get(self, digest)` |
+| `get` | method | `modules/lazy_loop.py:2808` | `def get(self, task_id)` |
+| `get` | method | `modules/lazy_loop.py:7688` | `def get(self, name)` |
+| `get` | method | `modules/lazy_loop.py:7711` | `def get(self, task_id)` |
+| `goal_met` | method | `modules/lazy_loop.py:8666` | `def goal_met(self, task_id, reason)` |
+| `graph_context` | method | `modules/lazy_loop.py:10673` | `def graph_context(self, task_id, top)` |
+| `graph_overview` | method | `modules/lazy_loop.py:10418` | `def graph_overview(self, task_id)` |
+| `has_finding` | method | `modules/lazy_loop.py:1493` | `def has_finding(self, text)` |
+| `health` | method | `modules/lazy_loop.py:7266` | `def health(self)` |
+| `heartbeat` | method | `modules/lazy_loop.py:2522` | `def heartbeat(self, task_id)` |
+| `history` | method | `modules/lazy_loop.py:2648` | `def history(self, page, per_page, states, query)` |
+| `history` | method | `modules/lazy_loop.py:7486` | `def history(self, task_id, session, limit)` |
+| `hot_set` | method | `modules/lazy_loop.py:5646` | `def hot_set(self)` |
+| `ingest_proxy_traffic` | method | `modules/lazy_loop.py:10049` | `def ingest_proxy_traffic(self, task_id, limit)` |
+| `insert` | method | `modules/lazy_loop.py:1097` | `def insert(self, kind, value, parent_id, meta, task_id)` |
+| `judge_command` | function | `modules/lazy_loop.py:982` | `def judge_command(command, background, fail_action)` |
+| `kill` | method | `modules/lazy_loop.py:3023` | `def kill(self, task_id, intent_id)` |
+| `killed` | method | `modules/lazy_loop.py:3052` | `def killed(self, task_id, intent_id)` |
+| `limits` | method | `modules/lazy_loop.py:2438` | `def limits(self, task_id)` |
+| `list` | method | `modules/lazy_loop.py:1131` | `def list(self, kind)` |
+| `list` | method | `modules/lazy_loop.py:1389` | `def list(self, kind, state)` |
+| `list` | method | `modules/lazy_loop.py:2412` | `def list(self)` |
+| `list` | method | `modules/lazy_loop.py:2812` | `def list(self)` |
+| `list` | method | `modules/lazy_loop.py:7524` | `def list(self)` |
+| `list` | method | `modules/lazy_loop.py:7558` | `def list(self)` |
+| `list` | method | `modules/lazy_loop.py:7664` | `def list(self)` |
+| `list` | method | `modules/lazy_loop.py:7715` | `def list(self, category)` |
+| `list_facts` | method | `modules/lazy_loop.py:1519` | `def list_facts(self, query, limit, hot_full)` |
+| `list_tasks` | method | `modules/lazy_loop.py:8185` | `def list_tasks(self)` |
+| `llm_state` | method | `modules/lazy_loop.py:2913` | `def llm_state(self, task_id)` |
+| `load_intel_scores` | function | `modules/lazy_loop.py:3182` | `def load_intel_scores()` |
+| `log` | method | `modules/lazy_loop.py:7773` | `def log(self, task_id, limit, session)` |
+| `looks_like_prose` | function | `modules/lazy_loop.py:199` | `def looks_like_prose(command)` |
+| `lookup` | method | `modules/lazy_loop.py:2147` | `def lookup(self, tool_use_id)` |
+| `loop_exiting` | function | `modules/lazy_loop.py:477` | `def loop_exiting()` |
+| `loop_graph` | method | `modules/lazy_loop.py:10604` | `def loop_graph(self, task_id)` |
+| `mark_tested` | method | `modules/lazy_loop.py:1138` | `def mark_tested(self, asset_id)` |
+| `match` | method | `modules/lazy_loop.py:7528` | `def match(self, value)` |
+| `members` | method | `modules/lazy_loop.py:6945` | `def members(self)` |
+| `next_pending` | method | `modules/lazy_loop.py:2773` | `def next_pending(self)` |
+| `noa_archives` | method | `modules/lazy_loop.py:5587` | `def noa_archives(self, limit)` |
+| `node_detail` | method | `modules/lazy_loop.py:1503` | `def node_detail(self, node_id)` |
+| `note_trigger` | method | `modules/lazy_loop.py:2571` | `def note_trigger(self, task_id, trigger_id)` |
+| `on_planner_round` | method | `modules/lazy_loop.py:5765` | `def on_planner_round(self)` |
+| `orchestrate` | method | `modules/lazy_loop.py:8078` | `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` |
+| `overview` | method | `modules/lazy_loop.py:1412` | `def overview(self)` |
+| `parents` | method | `modules/lazy_loop.py:1405` | `def parents(self, node_id, kind)` |
+| `parse_judge_output` | function | `modules/lazy_loop.py:954` | `def parse_judge_output(raw)` |
+| `pause` | method | `modules/lazy_loop.py:2828` | `def pause(self, task_id)` |
+| `pause_intent` | method | `modules/lazy_loop.py:8570` | `def pause_intent(self, task_id, intent_id)` |
+| `pause_task` | method | `modules/lazy_loop.py:8213` | `def pause_task(self, task_id, reason)` |
+| `pending` | method | `modules/lazy_loop.py:1565` | `def pending(self)` |
+| `pending` | method | `modules/lazy_loop.py:2644` | `def pending(self)` |
+| `persist` | method | `modules/lazy_loop.py:1304` | `def persist(self)` |
+| `plan` | method | `modules/lazy_loop.py:3325` | `def plan(self, triggers)` |
+| `plausible_command` | function | `modules/lazy_loop.py:175` | `def plausible_command(command)` |
+| `preview_delete_intent` | method | `modules/lazy_loop.py:8402` | `def preview_delete_intent(self, task_id, intent_id)` |
+| `prove_goal` | method | `modules/lazy_loop.py:9739` | `def prove_goal(self, task_id, goal_id, evidence_id, reason)` |
+| `proxy_env` | method | `modules/lazy_loop.py:9972` | `def proxy_env(self)` |
+| `proxy_start` | method | `modules/lazy_loop.py:9922` | `def proxy_start(self, host, port, task_id, trust, upstream)` |
+| `proxy_status` | method | `modules/lazy_loop.py:9966` | `def proxy_status(self)` |
+| `proxy_stop` | method | `modules/lazy_loop.py:9958` | `def proxy_stop(self)` |
+| `queue` | method | `modules/lazy_loop.py:2854` | `def queue(self)` |
+| `ranked` | method | `modules/lazy_loop.py:6596` | `def ranked(self)` |
+| `raw_entries` | method | `modules/lazy_loop.py:7294` | `def raw_entries(self, limit)` |
+| `raw_entries_for_task` | method | `modules/lazy_loop.py:7308` | `def raw_entries_for_task(self, task_id, limit)` |
+| `read` | method | `modules/lazy_loop.py:1618` | `def read(self, limit)` |
+| `read` | method | `modules/lazy_loop.py:1768` | `def read(self, limit)` |
+| `read` | method | `modules/lazy_loop.py:6679` | `def read(self, evidence_id, offset, length)` |
+| `rebind` | method | `modules/lazy_loop.py:4143` | `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` |
+| `record` | method | `modules/lazy_loop.py:1746` | `def record(self, kind, command, output, meta)` |
+| `record_call` | method | `modules/lazy_loop.py:6992` | `def record_call(self, member, ok, text)` |
+| `record_fact` | method | `modules/lazy_loop.py:1535` | `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)` |
+| `record_fact` | method | `modules/lazy_loop.py:8676` | `def record_fact(self, task_id, text, evidence, intent_id)` |
+| `record_raw` | method | `modules/lazy_loop.py:7282` | `def record_raw(self)` |
+| `record_round` | method | `modules/lazy_loop.py:2484` | `def record_round(self, task_id)` |
+| `record_toolcall` | method | `modules/lazy_loop.py:2472` | `def record_toolcall(self, task_id, intent_id)` |
+| `record_verdict` | method | `modules/lazy_loop.py:8683` | `def record_verdict(self, task_id, finding_id, verdict, note)` |
+| `record_worker_traces` | function | `modules/lazy_loop.py:810` | `def record_worker_traces(task_id, worker, intent_id, transcripts, state, path)` |
+| `recorder_blob` | method | `modules/lazy_loop.py:1857` | `def recorder_blob(self, digest, part, offset, length)` |
+| `recorder_body` | method | `modules/lazy_loop.py:1828` | `def recorder_body(self, digest)` |
+| `refine` | method | `modules/lazy_loop.py:3404` | `def refine(self)` |
+| `register_worker` | function | `modules/lazy_loop.py:647` | `def register_worker(worker)` |
+| `reload` | method | `modules/lazy_loop.py:1435` | `def reload(self)` |
+| `remove` | method | `modules/lazy_loop.py:2394` | `def remove(self, rule_id, action)` |
+| `remove` | method | `modules/lazy_loop.py:7678` | `def remove(self, name)` |
+| `remove_channel` | method | `modules/lazy_loop.py:6786` | `def remove_channel(self, index)` |
+| `remove_member` | method | `modules/lazy_loop.py:6959` | `def remove_member(self, name)` |
+| `remove_rule` | method | `modules/lazy_loop.py:2036` | `def remove_rule(self, pattern)` |
+| `reorder_evidence` | method | `modules/lazy_loop.py:1959` | `def reorder_evidence(self, finding_id, digests, graph)` |
+| `repair_worker_command` | function | `modules/lazy_loop.py:347` | `def repair_worker_command(command, target)` |
+| `report` | method | `modules/lazy_loop.py:6320` | `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` |
+| `request` | method | `modules/lazy_loop.py:2626` | `def request(self, tool, command, reason, tool_use_id)` |
+| `resolve_target` | function | `modules/lazy_loop.py:3211` | `def resolve_target(task_id, store, graph)` |
+| `restore` | method | `modules/lazy_loop.py:7580` | `def restore(self, path)` |
+| `resume` | method | `modules/lazy_loop.py:2832` | `def resume(self, task_id)` |
+| `resume_intent` | method | `modules/lazy_loop.py:8595` | `def resume_intent(self, task_id, intent_id)` |
+| `resume_task` | method | `modules/lazy_loop.py:8224` | `def resume_task(self, task_id)` |
+| `retest` | method | `modules/lazy_loop.py:5291` | `def retest(self, finding_id, executor, note)` |
+| `retest_context` | method | `modules/lazy_loop.py:5455` | `def retest_context(self, finding_id)` |
+| `run` | method | `modules/lazy_loop.py:9456` | `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` |
+| `run_round` | method | `modules/lazy_loop.py:8833` | `def run_round(self, task_id, workers, executor, pool)` |
+| `save` | method | `modules/lazy_loop.py:7537` | `def save(self, task_id)` |
+| `say` | method | `modules/lazy_loop.py:7730` | `def say(self, task_id, text, pool, session)` |
+| `scoped` | method | `modules/lazy_loop.py:1164` | `def scoped(self, scope, kind)` |
+| `scrub_secrets` | function | `modules/lazy_loop.py:517` | `def scrub_secrets(text)` |
+| `search` | method | `modules/lazy_loop.py:1704` | `def search(self, query, exclude_intent)` |
+| `search` | method | `modules/lazy_loop.py:1782` | `def search(self, query, limit)` |
+| `search_all` | method | `modules/lazy_loop.py:1674` | `def search_all(self, query, limit)` |
+| `search_host` | method | `modules/lazy_loop.py:1793` | `def search_host(self, host, port, limit)` |
+| `search_proxy_body` | method | `modules/lazy_loop.py:10103` | `def search_proxy_body(self, task_id, query, limit)` |
+| `send_worker_message` | method | `modules/lazy_loop.py:8618` | `def send_worker_message(self, task_id, intent_id, message, request_id)` |
+| `sessions` | method | `modules/lazy_loop.py:7494` | `def sessions(self, task_id)` |
+| `sessions` | method | `modules/lazy_loop.py:7789` | `def sessions(self, task_id)` |
+| `set` | method | `modules/lazy_loop.py:7704` | `def set(self, task_id, category)` |
+| `set_concurrency` | method | `modules/lazy_loop.py:9981` | `def set_concurrency(self, limit)` |
+| `set_context_budget` | method | `modules/lazy_loop.py:7371` | `def set_context_budget(self, chars)` |
+| `set_deadline` | method | `modules/lazy_loop.py:2968` | `def set_deadline(self, task_id, timeout_sec)` |
+| `set_goals` | method | `modules/lazy_loop.py:8362` | `def set_goals(self, task_id, specs)` |
+| `set_judge` | method | `modules/lazy_loop.py:2045` | `def set_judge(self, enabled, fail_action)` |
+| `set_limits` | method | `modules/lazy_loop.py:2449` | `def set_limits(self, task_id)` |
+| `set_llm_chain` | method | `modules/lazy_loop.py:2885` | `def set_llm_chain(self, task_id, members, active)` |
+| `set_node_meta` | method | `modules/lazy_loop.py:1327` | `def set_node_meta(self, node_id, meta)` |
+| `set_node_state` | method | `modules/lazy_loop.py:1308` | `def set_node_state(self, node_id, state)` |
+| `set_priority` | method | `modules/lazy_loop.py:6969` | `def set_priority(self, name, priority)` |
+| `set_record_raw` | method | `modules/lazy_loop.py:7287` | `def set_record_raw(self, enabled)` |
+| `set_skills` | method | `modules/lazy_loop.py:2943` | `def set_skills(self, task_id, names, auto)` |
+| `set_state` | method | `modules/lazy_loop.py:1346` | `def set_state(self, node_id, state)` |
+| `set_status` | method | `modules/lazy_loop.py:2816` | `def set_status(self, task_id, status)` |
+| `set_status` | method | `modules/lazy_loop.py:6557` | `def set_status(self, finding_id, status)` |
+| `settlement_prompt` | function | `modules/lazy_loop.py:6072` | `def settlement_prompt(agent, reason)` |
+| `shutdown_loop_runtime` | function | `modules/lazy_loop.py:659` | `def shutdown_loop_runtime(reason)` |
+| `sink` | function | `modules/lazy_loop.py:3989` | `def sink(text)` |
+| `sink` | function | `modules/lazy_loop.py:4950` | `def sink(text)` |
+| `spawn_task` | method | `modules/lazy_loop.py:8135` | `def spawn_task(self, goal, source_task_ids, description)` |
+| `stage_enabled` | function | `modules/lazy_loop.py:8884` | `def stage_enabled(_name)` |
+| `stats` | method | `modules/lazy_loop.py:2189` | `def stats(self)` |
+| `stats` | method | `modules/lazy_loop.py:7647` | `def stats(self)` |
+| `status` | method | `modules/lazy_loop.py:10398` | `def status(self, task_id)` |
+| `steer` | method | `modules/lazy_loop.py:3014` | `def steer(self, task_id, intent_id, message)` |
+| `steer_for` | method | `modules/lazy_loop.py:3034` | `def steer_for(self, task_id, intent_id)` |
+| `structural_cold` | method | `modules/lazy_loop.py:5668` | `def structural_cold(self, hot)` |
+| `task_findings` | method | `modules/lazy_loop.py:8240` | `def task_findings(self, task_id)` |
+| `task_graph` | method | `modules/lazy_loop.py:8234` | `def task_graph(self, task_id)` |
+| `task_llm_chain` | function | `modules/lazy_loop.py:944` | `def task_llm_chain(store, task_id)` |
+| `task_node_detail` | method | `modules/lazy_loop.py:8268` | `def task_node_detail(self, task_id, node_id)` |
+| `task_traces` | method | `modules/lazy_loop.py:8259` | `def task_traces(self, task_id, query, limit)` |
+| `templates` | method | `modules/lazy_loop.py:1888` | `def templates(self, limit)` |
+| `terminal_hint` | function | `modules/lazy_loop.py:6133` | `def terminal_hint(reason, state)` |
+| `trace` | method | `modules/lazy_loop.py:1636` | `def trace(self, intent_id, query, step_id, limit)` |
+| `unbind` | method | `modules/lazy_loop.py:7420` | `def unbind(self, agent, tool)` |
+| `unfolded` | method | `modules/lazy_loop.py:5975` | `def unfolded(self, limit)` |
+| `unregister_worker` | function | `modules/lazy_loop.py:653` | `def unregister_worker(worker)` |
+| `untested` | method | `modules/lazy_loop.py:1177` | `def untested(self, limit)` |
+| `untested_for` | method | `modules/lazy_loop.py:1210` | `def untested_for(self, graph, scope, limit)` |
+| `update_finding_report` | method | `modules/lazy_loop.py:8274` | `def update_finding_report(self, task_id, finding_id, report)` |
+| `update_report` | method | `modules/lazy_loop.py:6574` | `def update_report(self, finding_id, report)` |
+| `usage` | method | `modules/lazy_loop.py:2462` | `def usage(self, task_id)` |
+| `usage` | method | `modules/lazy_loop.py:6982` | `def usage(self)` |
+| `verify` | method | `modules/lazy_loop.py:6639` | `def verify(self)` |
+| `wait` | method | `modules/lazy_loop.py:2714` | `def wait(self, item_id, timeout_sec)` |
+| `wake_task` | function | `modules/lazy_loop.py:613` | `def wake_task(task_id)` |
 | `MatchStore` | class | `modules/lazy_match_policy.py:124` | `class MatchStore` |
 | `__init__` | method | `modules/lazy_match_policy.py:127` | `def __init__(self, sessions_dir)` |
 | `_key` | method | `modules/lazy_match_policy.py:170` | `def _key(identity)` |
@@ -241,6 +279,15 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `as_dict` | method | `modules/lazy_netattack.py:107` | `def as_dict(self)` |
 | `hint_text` | function | `modules/lazy_netattack.py:311` | `def hint_text(verdict)` |
 | `surface_decision` | function | `modules/lazy_netattack.py:184` | `def surface_decision(evidence)` |
+| `ObjectiveCandidate` | class | `modules/lazy_objective_queue.py:35` | `class ObjectiveCandidate` |
+| `_load_records` | function | `modules/lazy_objective_queue.py:66` | `def _load_records(path)` |
+| `_objectives_path` | function | `modules/lazy_objective_queue.py:49` | `def _objectives_path()` |
+| `_save_records` | function | `modules/lazy_objective_queue.py:91` | `def _save_records(path, records)` |
+| `_update_status` | function | `modules/lazy_objective_queue.py:153` | `def _update_status(objective_id, status, notes)` |
+| `mark_started` | function | `modules/lazy_objective_queue.py:177` | `def mark_started(objective_id, task_id)` |
+| `objective_ids_from_text` | function | `modules/lazy_objective_queue.py:235` | `def objective_ids_from_text(text)` |
+| `pending_objectives` | function | `modules/lazy_objective_queue.py:105` | `def pending_objectives(limit, target)` |
+| `settle` | function | `modules/lazy_objective_queue.py:196` | `def settle(objective_id, task_id, success)` |
 | `OobHit` | class | `modules/lazy_oob.py:41` | `class OobHit` |
 | `_CanaryHandler` | class | `modules/lazy_oob.py:63` | `class _CanaryHandler(BaseHTTPRequestHandler)` |
 | `_configured_lhost` | function | `modules/lazy_oob.py:172` | `def _configured_lhost()` |
@@ -449,52 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_expire` | function | `modules/lazy_reaper.py:92` | `def _expire(store, task_id)` |
 | `_log` | function | `modules/lazy_reaper.py:115` | `def _log(log_path, row)` |
 | `reap` | function | `modules/lazy_reaper.py:30` | `def reap(store, log_path, now, stale_seconds)` |
-| `conformance` | function | `modules/lazy_roles.py:154` | `def conformance(role)` |
-| `list_roles` | function | `modules/lazy_roles.py:100` | `def list_roles()` |
-| `role_prompt` | function | `modules/lazy_roles.py:109` | `def role_prompt(role, goal, context)` |
-| `roles_for_phase` | function | `modules/lazy_roles.py:134` | `def roles_for_phase(phase)` |
-| `LoopRunConfig` | class | `modules/lazy_runner.py:94` | `class LoopRunConfig` |
-| `ThreadStdoutRouter` | class | `modules/lazy_runner.py:45` | `class ThreadStdoutRouter(TextIOBase)` |
-| `__init__` | method | `modules/lazy_runner.py:55` | `def __init__(self, main_stream, spool)` |
-| `_abort_run` | function | `modules/lazy_runner.py:411` | `def _abort_run(engine, task_id, reason)` |
-| `_apply_budget` | function | `modules/lazy_runner.py:613` | `def _apply_budget(engine, task_id, budget)` |
-| `_bootstrap` | function | `modules/lazy_runner.py:592` | `def _bootstrap(scan_target, executor)` |
-| `_budget_declined` | function | `modules/lazy_runner.py:626` | `def _budget_declined(config)` |
-| `_dump_thread_stacks` | function | `modules/lazy_runner.py:772` | `def _dump_thread_stacks()` |
-| `_executor` | function | `modules/lazy_runner.py:363` | `def _executor(command)` |
-| `_format_activity` | function | `modules/lazy_runner.py:758` | `def _format_activity(record)` |
-| `_limited` | function | `modules/lazy_runner.py:1150` | `def _limited()` |
-| `_maybe_phishing_fallback` | function | `modules/lazy_runner.py:475` | `def _maybe_phishing_fallback(result, config, params)` |
-| `_overview` | function | `modules/lazy_runner.py:748` | `def _overview(task_id)` |
-| `_poll_progress` | function | `modules/lazy_runner.py:801` | `def _poll_progress(engine, config, progress, transcript, worker)` |
-| `_prepare_engine` | function | `modules/lazy_runner.py:430` | `def _prepare_engine(engine, shell, config, params)` |
-| `_print_handoff` | function | `modules/lazy_runner.py:567` | `def _print_handoff(handoff)` |
-| `_resolve_alias` | function | `modules/lazy_runner.py:355` | `def _resolve_alias(command)` |
-| `_run` | function | `modules/lazy_runner.py:694` | `def _run()` |
-| `_run_plain` | function | `modules/lazy_runner.py:919` | `def _run_plain(engine, config)` |
-| `_run_targets_file` | function | `modules/lazy_runner.py:1124` | `def _run_targets_file(shell, params, config)` |
-| `_run_with_progress` | function | `modules/lazy_runner.py:642` | `def _run_with_progress(engine, config)` |
-| `_stall_thresholds` | function | `modules/lazy_runner.py:787` | `def _stall_thresholds(verb_timeout)` |
-| `_start_proxy` | function | `modules/lazy_runner.py:450` | `def _start_proxy(engine, params)` |
-| `_terminal_stream` | function | `modules/lazy_runner.py:897` | `def _terminal_stream()` |
-| `_to_float` | function | `modules/lazy_runner.py:164` | `def _to_float(raw, default)` |
-| `_to_int` | function | `modules/lazy_runner.py:156` | `def _to_int(raw, default)` |
-| `_tty_available` | function | `modules/lazy_runner.py:1111` | `def _tty_available()` |
-| `_work_one` | function | `modules/lazy_runner.py:1147` | `def _work_one(target)` |
-| `_write` | function | `modules/lazy_runner.py:909` | `def _write(text)` |
-| `build_executor` | function | `modules/lazy_runner.py:338` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
-| `clamped` | method | `modules/lazy_runner.py:120` | `def clamped(self)` |
-| `encoding` | method | `modules/lazy_runner.py:80` | `def encoding(self)` |
-| `flush` | method | `modules/lazy_runner.py:72` | `def flush(self)` |
-| `isatty` | method | `modules/lazy_runner.py:84` | `def isatty(self)` |
-| `load_targets_file` | function | `modules/lazy_runner.py:954` | `def load_targets_file(path)` |
-| `parse_loop_line` | function | `modules/lazy_runner.py:172` | `def parse_loop_line(line)` |
-| `report_result` | function | `modules/lazy_runner.py:521` | `def report_result(result)` |
-| `resolve_loop_defaults` | function | `modules/lazy_runner.py:302` | `def resolve_loop_defaults(config)` |
-| `run_loop` | function | `modules/lazy_runner.py:1009` | `def run_loop(shell, params, config)` |
-| `stream` | function | `modules/lazy_runner.py:657` | `def stream(text)` |
-| `write` | method | `modules/lazy_runner.py:61` | `def write(self, data)` |
-| `_payload_value` | function | `modules/lazy_sandbox.py:41` | `def _payload_value(key, default)` |
-| `_sandbox_executor` | function | `modules/lazy_sandbox.py:265` | `def _sandbox_executor(command)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

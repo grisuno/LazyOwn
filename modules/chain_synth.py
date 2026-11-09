@@ -24,6 +24,8 @@ _PAYLOADE_PATH = Path(__file__).resolve().parent.parent / "payload.json"
 _WORDLIST_FALLBACK = "/usr/share/wordlists/rockyou.txt"
 _SLUG_PORT_TOKEN = "{port}"
 _GEN_TAG = " (generated)"
+_TECHNIQUE_ID_RE = re.compile(r"^T\d{4}(?:\.\d{3})?$")
+_TECH_STEP_TIMEOUT = 900
 
 
 def _slug(name: str) -> str:
@@ -93,6 +95,7 @@ def synth_chain_data(
     has_creds: bool = False,
     os_hint: str = "",
     include_c2: bool = True,
+    techniques: list[str] | None = None,
 ) -> tuple[dict[str, Any], list[str]]:
     """Compose the chain dict for a host; (data, notes).
 
@@ -103,6 +106,7 @@ def synth_chain_data(
         has_creds: Whether credentials exist for the host already.
         os_hint: OS string from the fact store.
         include_c2: Whether C2 deploy/loot steps are included.
+        techniques: Optional MITRE technique ids staged as atomic_tests steps.
     """
     host = target.strip()
     name = f"apt_{_slug(playbook) or _slug(host)}_gen"
@@ -189,6 +193,21 @@ def synth_chain_data(
             "timeout": 1800,
         }
     )
+    for raw_tid in techniques or []:
+        tid = str(raw_tid or "").strip().upper()
+        if not _TECHNIQUE_ID_RE.match(tid):
+            continue
+        slug = tid.lower().replace(".", "_")
+        steps.append(
+            {
+                "id": f"tech_{slug}",
+                "phase": "exploit",
+                "description": f"Emulate {tid} via Atomic Red Team.",
+                "run": f"atomic_tests {tid} --non-interactive",
+                "timeout": _TECH_STEP_TIMEOUT,
+                "continue_on_error": True,
+            }
+        )
     if playbook:
         steps.append(
             {

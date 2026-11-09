@@ -8,6 +8,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/__init__.py` -> `cli/registry.py`
 - `cli/aliases.py` -> `core/config.py`
 - `cli/apt_chain_support.py` -> `modules/__init__.py`
+- `cli/apt_chain_support.py` -> `modules/apt_playbooks.py`
 - `cli/apt_chain_support.py` -> `modules/chain_approval.py`
 - `cli/apt_chain_support.py` -> `modules/chain_registry.py`
 - `cli/apt_chain_support.py` -> `modules/chain_runner.py`
@@ -15,6 +16,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/apt_chain_support.py` -> `modules/chain_synth.py`
 - `cli/apt_chain_support.py` -> `modules/guardrails/__init__.py`
 - `cli/apt_chain_support.py` -> `modules/mediation/__init__.py`
+- `cli/apt_chain_support.py` -> `modules/playbook_chain.py`
 - `cli/apt_chain_support.py` -> `modules/reactive_engine.py`
 - `cli/assign.py` -> `core/payload_schema.py`
 - `cli/auto_crypto.py` -> `core/crypto.py`
@@ -213,6 +215,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/exploit_migrated.py` -> `modules/exploit_recommender.py`
 - `cli/commands/exploit_migrated.py` -> `modules/world_model.py`
 - `cli/commands/exploit_migrated.py` -> `utils.py`
+- `cli/commands/exploitdb.py` -> `modules/__init__.py`
 - `cli/commands/exploitgym.py` -> `cli/commands/_base.py`
 - `cli/commands/exploitgym.py` -> `modules/exploitgym_gym.py`
 - `cli/commands/exploitgym.py` -> `utils.py`
@@ -280,6 +283,11 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazy_passgen.py` -> `cli/commands/_base.py`
 - `cli/commands/lazy_passgen.py` -> `modules/__init__.py`
 - `cli/commands/lazy_passgen.py` -> `utils.py`
+- `cli/commands/lazy_poc.py` -> `cli/commands/_base.py`
+- `cli/commands/lazy_poc.py` -> `core/config.py`
+- `cli/commands/lazy_poc.py` -> `core/hardening.py`
+- `cli/commands/lazy_poc.py` -> `modules/__init__.py`
+- `cli/commands/lazy_poc.py` -> `utils.py`
 - `cli/commands/lazyloop.py` -> `cli/commands/_base.py`
 - `cli/commands/lazyloop.py` -> `cli/lazy_monitor.py`
 - `cli/commands/lazyloop.py` -> `cli/lazy_orchestrator.py`
@@ -488,13 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/session_ops.py` -> `modules/lazy_rbac.py`
 - `cli/commands/session_ops.py` -> `modules/module_registry.py`
 - `cli/commands/session_ops.py` -> `modules/payload_factory.py`
-- `cli/commands/session_ops.py` -> `modules/pipeline_engine.py`
-- `cli/commands/session_ops.py` -> `modules/planner.py`
-- `cli/commands/session_ops.py` -> `skills/autonomous_daemon.py`
-- `cli/commands/session_ops.py` -> `utils.py`
-- `cli/commands/shellsys.py` -> `cli/commands/_base.py`
-- `cli/commands/shellsys.py` -> `core/safe_exec.py`
-- `cli/commands/shellsys.py` -> `core/session_secrets.py`
-- `cli/commands/shellsys.py` -> `utils.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

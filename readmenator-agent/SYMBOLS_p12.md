@@ -1,8 +1,36 @@
-# Symbols (page 12 of 49)
+# Symbols (page 12 of 50)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2145` | `def _run_windows_privesc_checks(self, profile, session_id)` |
+| `_scorer` | method | `modules/autonomous_exploit_engine.py:1073` | `def _scorer(self, exploit, service, product, version)` |
+| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:2048` | `def chain_privesc(self, profile, session_id)` |
+| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2604` | `def enable_stealth(self, stealth_level)` |
+| `execute_candidate` | method | `modules/autonomous_exploit_engine.py:412` | `def execute_candidate(self, candidate, profile)` |
+| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2668` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
+| `get_instance` | method | `modules/autonomous_exploit_engine.py:134` | `def get_instance(cls)` |
+| `hunt` | method | `modules/autonomous_exploit_engine.py:145` | `def hunt(self, target, max_exploits, profile)` |
+| `profile` | method | `modules/autonomous_exploit_engine.py:328` | `def profile(self, target)` |
+| `rank_exploits` | method | `modules/autonomous_exploit_engine.py:389` | `def rank_exploits(self, profile)` |
+| `retry_with_credentials` | method | `modules/autonomous_exploit_engine.py:184` | `def retry_with_credentials(self, target, credentials)` |
+| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1733` | `def scan_vulnerabilities(self, profile)` |
+| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2478` | `def trigger_pivot(self, profile, session_id)` |
+| `AWSAttackEngine` | class | `modules/aws_attacks.py:80` | `class AWSAttackEngine` |
+| `AWSConfig` | class | `modules/aws_attacks.py:58` | `class AWSConfig` |
+| `__init__` | method | `modules/aws_attacks.py:91` | `def __init__(self, config)` |
+| `cloudformation_drift` | method | `modules/aws_attacks.py:242` | `def cloudformation_drift(self)` |
+| `ec2_ssm_session_abuse` | method | `modules/aws_attacks.py:274` | `def ec2_ssm_session_abuse(self)` |
+| `ec2_user_data_exfil` | method | `modules/aws_attacks.py:181` | `def ec2_user_data_exfil(self)` |
+| `enumerate_iam_permissions` | method | `modules/aws_attacks.py:95` | `def enumerate_iam_permissions(self)` |
+| `lambda_backdoor` | method | `modules/aws_attacks.py:127` | `def lambda_backdoor(self, function_name)` |
+| `s3_enumeration` | method | `modules/aws_attacks.py:206` | `def s3_enumeration(self)` |
+| `sts_role_chain` | method | `modules/aws_attacks.py:155` | `def sts_role_chain(self, target_role_arn)` |
+| `summary` | method | `modules/aws_attacks.py:293` | `def summary(self)` |
+| `RUNKEY_NAME` | macro | `modules/backdoor/backdoor.c:17` | `#define RUNKEY_NAME` |
+| `Shell` | function | `modules/backdoor/backdoor.c:88` | `void Shell()` |
+| `WinMain` | function | `modules/backdoor/backdoor.c:129` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
+| `bootRun` | function | `modules/backdoor/backdoor.c:22` | `int bootRun()` |
 | `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
 | `str_cut` | function | `modules/backdoor/backdoor.c:53` | `char * str_cut(char str[], int slice_from, int slice_to)` |
 | `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
@@ -290,6 +318,18 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_default_store` | function | `modules/chain_facts.py:73` | `def _default_store()` |
 | `_host_hint` | function | `modules/chain_facts.py:84` | `def _host_hint(output, phase, target_hint)` |
 | `spool_chain_outputs` | function | `modules/chain_facts.py:24` | `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` |
+| `ChainStepBlocked` | class | `modules/chain_loop.py:138` | `class ChainStepBlocked(RuntimeError)` |
+| `__init__` | method | `modules/chain_loop.py:141` | `def __init__(self, status, detail)` |
+| `_build_runner` | function | `modules/chain_loop.py:270` | `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)` |
+| `_render_summary` | function | `modules/chain_loop.py:313` | `def _render_summary(result, chain_name)` |
+| `_spool` | function | `modules/chain_loop.py:303` | `def _spool(result)` |
+| `chain_mode` | function | `modules/chain_loop.py:34` | `def chain_mode()` |
+| `guarded` | function | `modules/chain_loop.py:225` | `def guarded(step_command)` |
+| `is_chain_command` | function | `modules/chain_loop.py:52` | `def is_chain_command(command)` |
+| `on_step` | function | `modules/chain_loop.py:282` | `def on_step(outcome)` |
+| `parse_chain_invocation` | function | `modules/chain_loop.py:57` | `def parse_chain_invocation(command)` |
+| `run_chain_stepwise` | function | `modules/chain_loop.py:153` | `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` |
+| `stepwise_eligible` | function | `modules/chain_loop.py:108` | `def stepwise_eligible(chain, routable)` |
 | `best_chain` | function | `modules/chain_match.py:139` | `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` |
 | `load_rows` | function | `modules/chain_match.py:109` | `def load_rows(allow_lab, ttl)` |
 | `normalize_tags` | function | `modules/chain_match.py:49` | `def normalize_tags(tags)` |
@@ -297,81 +337,83 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `reset_cache` | function | `modules/chain_match.py:101` | `def reset_cache()` |
 | `score` | function | `modules/chain_match.py:86` | `def score(tags, phase, svc_tokens)` |
 | `service_tokens` | function | `modules/chain_match.py:65` | `def service_tokens(services)` |
-| `Chain` | class | `modules/chain_registry.py:152` | `class Chain` |
-| `ChainStep` | class | `modules/chain_registry.py:102` | `class ChainStep` |
-| `_eval` | function | `modules/chain_registry.py:313` | `def _eval(node)` |
-| `_materialize` | function | `modules/chain_registry.py:610` | `def _materialize(name, raw, stack)` |
-| `_nonneg_int` | function | `modules/chain_registry.py:657` | `def _nonneg_int(raw)` |
-| `_render` | function | `modules/chain_registry.py:235` | `def _render(template, variables)` |
-| `_step_from_raw` | function | `modules/chain_registry.py:666` | `def _step_from_raw(item)` |
-| `_when_tree` | function | `modules/chain_registry.py:264` | `def _when_tree(expression)` |
-| `evaluate_when` | function | `modules/chain_registry.py:291` | `def evaluate_when(expression, variables)` |
-| `generate_for_playbook` | function | `modules/chain_registry.py:809` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
-| `get` | function | `modules/chain_registry.py:721` | `def get(name, chains_dir)` |
-| `identifier` | method | `modules/chain_registry.py:146` | `def identifier(self)` |
-| `load_all` | function | `modules/chain_registry.py:576` | `def load_all(chains_dir)` |
-| `render_text_token_braces` | function | `modules/chain_registry.py:571` | `def render_text_token_braces(text)` |
-| `resolve` | method | `modules/chain_registry.py:170` | `def resolve(self, tokens)` |
-| `scan_all` | function | `modules/chain_registry.py:726` | `def scan_all(chains_dir)` |
-| `set_enabled` | function | `modules/chain_registry.py:786` | `def set_enabled(name, enabled, chains_dir)` |
-| `skip_pending` | function | `modules/chain_registry.py:67` | `def skip_pending(path, max_age, now)` |
-| `validate_chain` | function | `modules/chain_registry.py:356` | `def validate_chain(data, filename, chains_dir)` |
-| `ChainRunResult` | class | `modules/chain_runner.py:110` | `class ChainRunResult` |
-| `ChainRunner` | class | `modules/chain_runner.py:216` | `class ChainRunner` |
-| `ReplanContext` | class | `modules/chain_runner.py:161` | `class ReplanContext` |
-| `StepOutcome` | class | `modules/chain_runner.py:54` | `class StepOutcome` |
-| `__init__` | method | `modules/chain_runner.py:219` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
-| `_all_json_objects` | function | `modules/chain_runner.py:1377` | `def _all_json_objects(text)` |
-| `_apply_replanner` | method | `modules/chain_runner.py:830` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
-| `_ask_approval` | method | `modules/chain_runner.py:1129` | `def _ask_approval(self, step_id, command)` |
-| `_call` | method | `modules/chain_runner.py:1357` | `def _call(callback, timeout)` |
-| `_deliver` | method | `modules/chain_runner.py:691` | `def _deliver(self, outcome)` |
-| `_dependency_block` | method | `modules/chain_runner.py:1062` | `def _dependency_block(step, prior_verdicts)` |
-| `_execute` | method | `modules/chain_runner.py:1239` | `def _execute(self, command, timeout, expect_exits)` |
-| `_first_json` | method | `modules/chain_runner.py:1200` | `def _first_json(output)` |
-| `_is_verb` | method | `modules/chain_runner.py:1274` | `def _is_verb(self, command)` |
-| `_load_json_events` | function | `modules/chain_runner.py:1398` | `def _load_json_events(path)` |
-| `_notify` | method | `modules/chain_runner.py:821` | `def _notify(self, outcome)` |
-| `_pace_after` | method | `modules/chain_runner.py:305` | `def _pace_after(self, outcome, started)` |
-| `_pre_check_timeout` | method | `modules/chain_runner.py:1144` | `def _pre_check_timeout(self, step)` |
-| `_promoted_sinks` | method | `modules/chain_runner.py:696` | `def _promoted_sinks(self, outcome)` |
-| `_publish_step` | method | `modules/chain_runner.py:721` | `def _publish_step(self, outcome)` |
-| `_raise_timeout` | function | `modules/chain_runner.py:1320` | `def _raise_timeout(_signum, _frame)` |
-| `_record_verdict` | method | `modules/chain_runner.py:917` | `def _record_verdict(verdicts, outcome)` |
-| `_render_command` | method | `modules/chain_runner.py:1214` | `def _render_command(self, template, variables, captured_keys)` |
-| `_run_fallback_chain` | method | `modules/chain_runner.py:620` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
-| `_run_parallel_group` | method | `modules/chain_runner.py:526` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
-| `_run_raw` | method | `modules/chain_runner.py:1340` | `def _run_raw(self, command, timeout, allowed)` |
-| `_run_shell_verb` | method | `modules/chain_runner.py:1285` | `def _run_shell_verb(self, command, timeout)` |
-| `_run_step` | method | `modules/chain_runner.py:924` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
-| `_save_checkpoint` | method | `modules/chain_runner.py:879` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
-| `_skip_remaining` | method | `modules/chain_runner.py:511` | `def _skip_remaining(self, steps, start, reason)` |
-| `_store_capture` | method | `modules/chain_runner.py:1148` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
-| `_verify_evidence` | method | `modules/chain_runner.py:1084` | `def _verify_evidence(self, step, outcome, variables)` |
-| `_verify_timeout` | method | `modules/chain_runner.py:1138` | `def _verify_timeout(self, step)` |
-| `applied_vars` | method | `modules/chain_runner.py:193` | `def applied_vars(self)` |
-| `chain_proven` | method | `modules/chain_runner.py:155` | `def chain_proven(self)` |
-| `insert_step` | method | `modules/chain_runner.py:183` | `def insert_step(self, step)` |
-| `inserted` | method | `modules/chain_runner.py:198` | `def inserted(self)` |
-| `ok` | method | `modules/chain_runner.py:82` | `def ok(self)` |
-| `render_text` | function | `modules/chain_runner.py:208` | `def render_text(template, variables)` |
-| `run` | method | `modules/chain_runner.py:332` | `def run(self)` |
-| `set_var` | method | `modules/chain_runner.py:178` | `def set_var(self, name, value)` |
-| `skip_rest` | method | `modules/chain_runner.py:188` | `def skip_rest(self)` |
-| `skip_rest_flag` | method | `modules/chain_runner.py:203` | `def skip_rest_flag(self)` |
-| `to_dict` | method | `modules/chain_runner.py:86` | `def to_dict(self)` |
-| `to_dict` | method | `modules/chain_runner.py:131` | `def to_dict(self)` |
+| `Chain` | class | `modules/chain_registry.py:158` | `class Chain` |
+| `ChainStep` | class | `modules/chain_registry.py:104` | `class ChainStep` |
+| `_eval` | function | `modules/chain_registry.py:319` | `def _eval(node)` |
+| `_materialize` | function | `modules/chain_registry.py:625` | `def _materialize(name, raw, stack)` |
+| `_nonneg_float` | function | `modules/chain_registry.py:681` | `def _nonneg_float(raw, ceiling)` |
+| `_nonneg_int` | function | `modules/chain_registry.py:672` | `def _nonneg_int(raw)` |
+| `_render` | function | `modules/chain_registry.py:241` | `def _render(template, variables)` |
+| `_step_from_raw` | function | `modules/chain_registry.py:692` | `def _step_from_raw(item)` |
+| `_when_tree` | function | `modules/chain_registry.py:270` | `def _when_tree(expression)` |
+| `evaluate_when` | function | `modules/chain_registry.py:297` | `def evaluate_when(expression, variables)` |
+| `generate_for_playbook` | function | `modules/chain_registry.py:837` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
+| `get` | function | `modules/chain_registry.py:749` | `def get(name, chains_dir)` |
+| `identifier` | method | `modules/chain_registry.py:152` | `def identifier(self)` |
+| `load_all` | function | `modules/chain_registry.py:591` | `def load_all(chains_dir)` |
+| `render_text_token_braces` | function | `modules/chain_registry.py:586` | `def render_text_token_braces(text)` |
+| `resolve` | method | `modules/chain_registry.py:176` | `def resolve(self, tokens)` |
+| `scan_all` | function | `modules/chain_registry.py:754` | `def scan_all(chains_dir)` |
+| `set_enabled` | function | `modules/chain_registry.py:814` | `def set_enabled(name, enabled, chains_dir)` |
+| `skip_pending` | function | `modules/chain_registry.py:69` | `def skip_pending(path, max_age, now)` |
+| `validate_chain` | function | `modules/chain_registry.py:362` | `def validate_chain(data, filename, chains_dir)` |
+| `ChainRunResult` | class | `modules/chain_runner.py:112` | `class ChainRunResult` |
+| `ChainRunner` | class | `modules/chain_runner.py:220` | `class ChainRunner` |
+| `ReplanContext` | class | `modules/chain_runner.py:165` | `class ReplanContext` |
+| `StepOutcome` | class | `modules/chain_runner.py:56` | `class StepOutcome` |
+| `__init__` | method | `modules/chain_runner.py:223` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
+| `_all_json_objects` | function | `modules/chain_runner.py:1431` | `def _all_json_objects(text)` |
+| `_apply_replanner` | method | `modules/chain_runner.py:884` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
+| `_ask_approval` | method | `modules/chain_runner.py:1183` | `def _ask_approval(self, step_id, command)` |
+| `_call` | method | `modules/chain_runner.py:1411` | `def _call(callback, timeout)` |
+| `_deliver` | method | `modules/chain_runner.py:745` | `def _deliver(self, outcome)` |
+| `_dependency_block` | method | `modules/chain_runner.py:1116` | `def _dependency_block(step, prior_verdicts)` |
+| `_execute` | method | `modules/chain_runner.py:1293` | `def _execute(self, command, timeout, expect_exits)` |
+| `_finalize_verdict` | method | `modules/chain_runner.py:528` | `def _finalize_verdict(self, result)` |
+| `_first_json` | method | `modules/chain_runner.py:1254` | `def _first_json(output)` |
+| `_is_verb` | method | `modules/chain_runner.py:1328` | `def _is_verb(self, command)` |
+| `_load_json_events` | function | `modules/chain_runner.py:1452` | `def _load_json_events(path)` |
+| `_notify` | method | `modules/chain_runner.py:875` | `def _notify(self, outcome)` |
+| `_pace_after` | method | `modules/chain_runner.py:309` | `def _pace_after(self, outcome, started, step)` |
+| `_pre_check_timeout` | method | `modules/chain_runner.py:1198` | `def _pre_check_timeout(self, step)` |
+| `_promoted_sinks` | method | `modules/chain_runner.py:750` | `def _promoted_sinks(self, outcome)` |
+| `_publish_step` | method | `modules/chain_runner.py:775` | `def _publish_step(self, outcome)` |
+| `_raise_timeout` | function | `modules/chain_runner.py:1374` | `def _raise_timeout(_signum, _frame)` |
+| `_record_verdict` | method | `modules/chain_runner.py:971` | `def _record_verdict(verdicts, outcome)` |
+| `_render_command` | method | `modules/chain_runner.py:1268` | `def _render_command(self, template, variables, captured_keys)` |
+| `_run_fallback_chain` | method | `modules/chain_runner.py:674` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
+| `_run_parallel_group` | method | `modules/chain_runner.py:580` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
+| `_run_raw` | method | `modules/chain_runner.py:1394` | `def _run_raw(self, command, timeout, allowed)` |
+| `_run_shell_verb` | method | `modules/chain_runner.py:1339` | `def _run_shell_verb(self, command, timeout)` |
+| `_run_step` | method | `modules/chain_runner.py:978` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
+| `_save_checkpoint` | method | `modules/chain_runner.py:933` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
+| `_skip_remaining` | method | `modules/chain_runner.py:565` | `def _skip_remaining(self, steps, start, reason)` |
+| `_store_capture` | method | `modules/chain_runner.py:1202` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
+| `_verify_evidence` | method | `modules/chain_runner.py:1138` | `def _verify_evidence(self, step, outcome, variables)` |
+| `_verify_timeout` | method | `modules/chain_runner.py:1192` | `def _verify_timeout(self, step)` |
+| `applied_vars` | method | `modules/chain_runner.py:197` | `def applied_vars(self)` |
+| `chain_proven` | method | `modules/chain_runner.py:159` | `def chain_proven(self)` |
+| `insert_step` | method | `modules/chain_runner.py:187` | `def insert_step(self, step)` |
+| `inserted` | method | `modules/chain_runner.py:202` | `def inserted(self)` |
+| `ok` | method | `modules/chain_runner.py:84` | `def ok(self)` |
+| `render_text` | function | `modules/chain_runner.py:212` | `def render_text(template, variables)` |
+| `run` | method | `modules/chain_runner.py:348` | `def run(self)` |
+| `set_var` | method | `modules/chain_runner.py:182` | `def set_var(self, name, value)` |
+| `skip_rest` | method | `modules/chain_runner.py:192` | `def skip_rest(self)` |
+| `skip_rest_flag` | method | `modules/chain_runner.py:207` | `def skip_rest_flag(self)` |
+| `to_dict` | method | `modules/chain_runner.py:88` | `def to_dict(self)` |
+| `to_dict` | method | `modules/chain_runner.py:134` | `def to_dict(self)` |
 | `checkpoint_dir` | function | `modules/chain_state.py:26` | `def checkpoint_dir(base_dir)` |
 | `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit, chain)` |
 | `load_checkpoint` | function | `modules/chain_state.py:65` | `def load_checkpoint(directory, run_id)` |
 | `new_run_id` | function | `modules/chain_state.py:33` | `def new_run_id(chain_name)` |
 | `write_checkpoint` | function | `modules/chain_state.py:39` | `def write_checkpoint(directory, state)` |
-| `_service_steps` | function | `modules/chain_synth.py:42` | `def _service_steps(host, services)` |
-| `_slug` | function | `modules/chain_synth.py:29` | `def _slug(name)` |
-| `_wordlist` | function | `modules/chain_synth.py:33` | `def _wordlist(param, fallback)` |
-| `facts_for_target` | function | `modules/chain_synth.py:224` | `def facts_for_target(target)` |
-| `synth_chain_data` | function | `modules/chain_synth.py:89` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)` |
-| `write_generated_chain` | function | `modules/chain_synth.py:253` | `def write_generated_chain(data, chains_dir)` |
+| `_service_steps` | function | `modules/chain_synth.py:44` | `def _service_steps(host, services)` |
+| `_slug` | function | `modules/chain_synth.py:31` | `def _slug(name)` |
+| `_wordlist` | function | `modules/chain_synth.py:35` | `def _wordlist(param, fallback)` |
+| `facts_for_target` | function | `modules/chain_synth.py:243` | `def facts_for_target(target)` |
+| `synth_chain_data` | function | `modules/chain_synth.py:91` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` |
+| `write_generated_chain` | function | `modules/chain_synth.py:272` | `def write_generated_chain(data, chains_dir)` |
 | `_candidate_files` | function | `modules/chain_tokens.py:120` | `def _candidate_files()` |
 | `_load_host_facts` | function | `modules/chain_tokens.py:77` | `def _load_host_facts(host)` |
 | `_mentions` | function | `modules/chain_tokens.py:130` | `def _mentions(path, needle)` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `decorated` | function | `modules/collab_bp.py:84` | `def decorated()` |
 | `decorated` | function | `modules/collab_bp.py:124` | `def decorated()` |
 | `decorated` | function | `modules/collab_bp.py:141` | `def decorated()` |
-| `decorator` | function | `modules/collab_bp.py:139` | `def decorator(f)` |
-| `generate` | function | `modules/collab_bp.py:424` | `def generate()` |
-| `get_event_bus` | function | `modules/collab_bp.py:370` | `def get_event_bus()` |
-| `get_lock_manager` | function | `modules/collab_bp.py:374` | `def get_lock_manager()` |
-| `get_operator_registry` | function | `modules/collab_bp.py:378` | `def get_operator_registry()` |
-| `heartbeat` | method | `modules/collab_bp.py:334` | `def heartbeat(self, name)` |
-| `history` | function | `modules/collab_bp.py:537` | `def history()` |
-| `join` | method | `modules/collab_bp.py:323` | `def join(self, name)` |
-| `leave` | method | `modules/collab_bp.py:340` | `def leave(self, name)` |
-| `lock` | function | `modules/collab_bp.py:483` | `def lock()` |
-| `locks` | function | `modules/collab_bp.py:522` | `def locks()` |
-| `login_required` | function | `modules/collab_bp.py:80` | `def login_required(f)` |
-| `operators` | function | `modules/collab_bp.py:458` | `def operators()` |
-| `publish` | method | `modules/collab_bp.py:219` | `def publish(self, event)` |
-| `publish` | function | `modules/collab_bp.py:470` | `def publish()` |
-| `publish_event` | function | `modules/collab_bp.py:382` | `def publish_event(type, payload, operator)` |
-| `recent` | method | `modules/collab_bp.py:234` | `def recent(self, n)` |
-| `release` | method | `modules/collab_bp.py:279` | `def release(self, target, operator)` |
-| `reset` | method | `modules/collab_bp.py:238` | `def reset(self)` |
-| `reset` | method | `modules/collab_bp.py:304` | `def reset(self)` |
-| `reset` | method | `modules/collab_bp.py:356` | `def reset(self)` |
-| `status` | method | `modules/collab_bp.py:287` | `def status(self, target)` |
-| `stream` | function | `modules/collab_bp.py:411` | `def stream()` |
-| `subscribe` | method | `modules/collab_bp.py:203` | `def subscribe(self, subscriber_id)` |
-| `to_sse` | method | `modules/collab_bp.py:170` | `def to_sse(self)` |
-| `unlock` | function | `modules/collab_bp.py:504` | `def unlock()` |
-| `unsubscribe` | method | `modules/collab_bp.py:215` | `def unsubscribe(self, subscriber_id)` |
-| `delete_lines` | function | `modules/colors.py:68` | `def delete_lines(content, to_delete)` |
-| `no_html` | function | `modules/colors.py:74` | `def no_html(content)` |
-| `retModel` | function | `modules/colors.py:40` | `def retModel()` |
-| `CommandExecutor` | class | `modules/command_executor.py:106` | `class CommandExecutor` |
-| `ExecutionResult` | class | `modules/command_executor.py:97` | `class ExecutionResult` |
-| `__init__` | method | `modules/command_executor.py:118` | `def __init__(self)` |
-| `_argv` | method | `modules/command_executor.py:173` | `def _argv(self, command)` |
-| `_default_writer` | method | `modules/command_executor.py:291` | `def _default_writer(line)` |
-| `_fire_hooks` | method | `modules/command_executor.py:394` | `def _fire_hooks(self, result)` |
-| `_kill_process_group` | function | `modules/command_executor.py:77` | `def _kill_process_group(proc)` |
-| `_needs_shell` | method | `modules/command_executor.py:165` | `def _needs_shell(self, command)` |
-| `_publish_event` | method | `modules/command_executor.py:401` | `def _publish_event(self, result)` |
-| `_run_capture` | method | `modules/command_executor.py:296` | `def _run_capture(self, command, timeout)` |
-| `_run_stream` | method | `modules/command_executor.py:321` | `def _run_stream(self, command, timeout)` |
-| `add_hook` | method | `modules/command_executor.py:127` | `def add_hook(self, hook)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

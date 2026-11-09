@@ -209,6 +209,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ChainRunResult`](modules/modules.chain_runner.py.md#chainrunresult) class in `modules.chain_runner`
 - [`ChainSelector`](modules/modules.selection.chain.py.md#chainselector) class in `modules.selection.chain`
 - [`ChainStep`](modules/modules.chain_registry.py.md#chainstep) class in `modules.chain_registry`
+- [`ChainStepBlocked`](modules/modules.chain_loop.py.md#chainstepblocked) exception in `modules.chain_loop`(RuntimeError)
 - [`ChainSuggestion`](modules/cli.chain_mode.py.md#chainsuggestion) class in `cli.chain_mode`
 - [`Channel`](modules/modules.notify.py.md#channel) class in `modules.notify`
 - [`CheckpointLedger`](modules/modules.guardrails.checkpoints.py.md#checkpointledger) class in `modules.guardrails.checkpoints`
@@ -310,6 +311,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ContextResolver`](modules/cli.banner_config.py.md#contextresolver) class in `cli.banner_config`
 - [`ContextualHelp`](modules/cli.contextual_help.py.md#contextualhelp) class in `cli.contextual_help`
 - [`ContextualHelpConfig`](modules/cli.contextual_help.py.md#contextualhelpconfig) class in `cli.contextual_help`
+- [`ContinuationRecord`](modules/modules.lazy_continuation.py.md#continuationrecord) class in `modules.lazy_continuation`
 - [`Contract`](modules/skills.claude_md_orchestrator.models.py.md#contract) class in `skills.claude_md_orchestrator.models`
 - [`ControlState`](modules/skills.daemon_control.py.md#controlstate) class in `skills.daemon_control`
 - [`ConversationStore`](modules/modules.lazy_agent.py.md#conversationstore) class in `modules.lazy_agent`
@@ -394,6 +396,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`DroneStateStore`](modules/skills.hive_mind.py.md#dronestatestore) class in `skills.hive_mind`
 - [`DynamicNextResolver`](modules/cli.command_chain.py.md#dynamicnextresolver) class in `cli.command_chain`
 - [`P.S.a.a.a.c.c.c.c.d.d.e`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e) class in `static/js/xterm.js`(a.Disposable)
+- [`EDBSelector`](modules/modules.selection.edb.py.md#edbselector) class in `modules.selection.edb`
 - [`EDRDetector`](modules/modules.edr_detector.py.md#edrdetector) class in `modules.edr_detector`
 - [`EDRFinding`](modules/modules.edr_detector.py.md#edrfinding) class in `modules.edr_detector`
 - [`EdrPacer`](modules/modules.loop_guardrails.py.md#edrpacer) class in `modules.loop_guardrails`
@@ -410,6 +413,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`EngagementPhase`](modules/modules.world_model.py.md#engagementphase) enum in `modules.world_model`(StrEnum)
 - [`EngagementState`](modules/cli.engagement_hooks.py.md#engagementstate) class in `cli.engagement_hooks`
 - [`EngageOrchestrator`](modules/skills.autonomous_daemon.py.md#engageorchestrator) class in `skills.autonomous_daemon`
+- [`EngineMediator`](modules/modules.mediation.engine_mediator.py.md#enginemediator) class in `modules.mediation.engine_mediator`
 - [`EnginePhaseResult`](modules/skills.autonomous_daemon.py.md#enginephaseresult) class in `skills.autonomous_daemon`
 - [`EnginePhaseStep`](modules/skills.autonomous_daemon.py.md#enginephasestep) class in `skills.autonomous_daemon`
 - [`EngineWeights`](modules/cli.recommendation.py.md#engineweights) class in `cli.recommendation`
@@ -463,12 +467,15 @@ Project types nested under the project types they derive from. External bases ar
 - [`ExploitChain`](modules/modules.exploit_chain.py.md#exploitchain) class in `modules.exploit_chain`
 - [`ExploitChainContext`](modules/modules.ai_exploit_chain.py.md#exploitchaincontext) class in `modules.ai_exploit_chain`
 - [`ExploitCommand`](modules/modules.atomic_exploit_bridge.py.md#exploitcommand) class in `modules.atomic_exploit_bridge`
+- [`ExploitdbCCommands`](modules/cli.commands.exploitdb.py.md#exploitdbccommands) class in `cli.commands.exploitdb`
+- [`ExploitdbCommands`](modules/cli.commands.exploitdb.py.md#exploitdbcommands) class in `cli.commands.exploitdb`
 - [`ExploitEntry`](modules/modules.integrations.searchsploit.py.md#exploitentry) class in `modules.integrations.searchsploit`
 - [`ExploitHit`](modules/cli.exploit_advisor.py.md#exploithit) class in `cli.exploit_advisor`
 - [`ExploitMatch`](modules/modules.exploit_recommender.py.md#exploitmatch) class in `modules.exploit_recommender`
 - [`ExploitRecommender`](modules/modules.exploit_recommender.py.md#exploitrecommender) class in `modules.exploit_recommender`
 - [`ExploitResult`](modules/modules.autonomous_exploit_engine.py.md#exploitresult) class in `modules.autonomous_exploit_engine`
 - [`ExploitResult`](modules/modules.exploit_chain.py.md#exploitresult) class in `modules.exploit_chain`
+- [`ExploitRetryPort`](modules/modules.mediation.engine_mediator.py.md#exploitretryport) protocol in `modules.mediation.engine_mediator`(Protocol)
 - [`ExploitSighting`](modules/modules.lazy_feedmatch.py.md#exploitsighting) class in `modules.lazy_feedmatch`
 - [`ExploitSource`](modules/modules.integrations.searchsploit.py.md#exploitsource) class in `modules.integrations.searchsploit`(ABC)
   - [`ExploitDBAPI`](modules/modules.integrations.searchsploit.py.md#exploitdbapi) class in `modules.integrations.searchsploit`
@@ -523,6 +530,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`FileSystemReader`](modules/cli.status_bar.py.md#filesystemreader) class in `cli.status_bar`
 - [`FileTimestamps`](modules/modules.timestomper.py.md#filetimestamps) class in `modules.timestomper`
 - [`FilterBar`](modules/lazygui.widgets.filter_bar.py.md#filterbar) class in `lazygui.widgets.filter_bar`(QWidget)
+- [`FinalizerDecision`](modules/modules.lazy_finalizer.py.md#finalizerdecision) class in `modules.lazy_finalizer`
 - [`Finding`](modules/modules.obs_parser.py.md#finding) class in `modules.obs_parser`
 - [`Finding`](modules/skills.claude_md_orchestrator.models.py.md#finding) class in `skills.claude_md_orchestrator.models`
 - [`FindingMapper`](modules/modules.integrations.misp_export.py.md#findingmapper) class in `modules.integrations.misp_export`(ABC)
@@ -835,6 +843,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`LazyDorksCommandSet`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset) class in `cli.commands.lazy_dorks`
   - [`LazyOobCommandSet`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset) class in `cli.commands.lazy_oob`
   - [`LazyPassGenCommandSet`](modules/cli.commands.lazy_passgen.py.md#lazypassgencommandset) class in `cli.commands.lazy_passgen`
+  - [`LazyPocCommandSet`](modules/cli.commands.lazy_poc.py.md#lazypoccommandset) class in `cli.commands.lazy_poc`
   - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
   - [`LazyCommandSet`](modules/cli.commands.lazyops.py.md#lazycommandset) class in `cli.commands.lazyops`
   - [`MarketplaceCommandSet`](modules/cli.commands.marketplace.py.md#marketplacecommandset) class in `cli.commands.marketplace`
@@ -980,6 +989,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ModelPrice`](modules/core.llm_budget.py.md#modelprice) class in `core.llm_budget`
 - [`ModuleInfo`](modules/modules.module_registry.py.md#moduleinfo) class in `modules.module_registry`
 - [`ModuleRegistry`](modules/modules.module_registry.py.md#moduleregistry) class in `modules.module_registry`
+- [`ModuleSelector`](modules/modules.selection.module.py.md#moduleselector) class in `modules.selection.module`
 - [`MoERouter`](modules/modules.moe_router.py.md#moerouter) class in `modules.moe_router`
 - [`MorseConfig`](modules/modules.morse.py.md#morseconfig) class in `modules.morse`
 - [`Msg`](modules/modules.exp.c.md#msg) struct in `modules/exp.c`
@@ -1021,6 +1031,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o) class in `static/js/xterm.js`(a.Disposable)
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o) class in `static/js/xterm.js`(a.Disposable)
 - [`Objective`](modules/skills.lazyown_objective.py.md#objective) class in `skills.lazyown_objective`
+- [`ObjectiveCandidate`](modules/modules.lazy_objective_queue.py.md#objectivecandidate) class in `modules.lazy_objective_queue`
 - [`ObjectiveStore`](modules/skills.lazyown_objective.py.md#objectivestore) class in `skills.lazyown_objective`
 - [`ObjectiveTodoSync`](modules/skills.hermes-lazyown.hermes_sync.py.md#objectivetodosync) class in `skills.hermes-lazyown.hermes_sync`
 - [`Observation`](modules/modules.hunt_verify.py.md#observation) class in `modules.hunt_verify`
@@ -1156,6 +1167,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Planner`](modules/modules.planner.py.md#planner) class in `modules.planner`
 - [`PlanResult`](modules/modules.planner.py.md#planresult) class in `modules.planner`
 - [`Playbook`](modules/modules.playbook_engine.py.md#playbook) class in `modules.playbook_engine`
+- [`PlaybookAction`](modules/modules.apt_playbooks.py.md#playbookaction) class in `modules.apt_playbooks`
 - [`PlaybookEngine`](modules/modules.playbook_engine.py.md#playbookengine) class in `modules.playbook_engine`
 - [`PlaybookEngine`](modules/modules.playbook_executor.py.md#playbookengine) class in `modules.playbook_executor`
 - [`PlaybookEntry`](modules/modules.playbook_admin.py.md#playbookentry) class in `modules.playbook_admin`
@@ -1170,6 +1182,9 @@ Project types nested under the project types they derive from. External bases ar
 - [`PluginBrowser`](modules/poc_tui.app.py.md#pluginbrowser) class in `poc_tui.app`(Static)
 - [`PluginLoader`](modules/poc_tui.plugin_loader.py.md#pluginloader) class in `poc_tui.plugin_loader`
 - [`PluginSpec`](modules/poc_tui.plugin_loader.py.md#pluginspec) class in `poc_tui.plugin_loader`
+- [`PocArg`](modules/modules.poc_registry.py.md#pocarg) class in `modules.poc_registry`
+- [`PoCSelector`](modules/modules.selection.poc.py.md#pocselector) class in `modules.selection.poc`
+- [`PocVerb`](modules/modules.poc_registry.py.md#pocverb) class in `modules.poc_registry`
 - [`PolicyAdvisor`](modules/skills.lazyown_policy.py.md#policyadvisor) class in `skills.lazyown_policy`
 - [`PolicyEngine`](modules/skills.lazyown_policy.py.md#policyengine) class in `skills.lazyown_policy`
 - [`PolicySignal`](modules/cli.recommendation_signals.py.md#policysignal) class in `cli.recommendation_signals`
@@ -1218,10 +1233,12 @@ Project types nested under the project types they derive from. External bases ar
 - [`RBACStore`](modules/modules.lazy_rbac.py.md#rbacstore) class in `modules.lazy_rbac`
 - [`RBACUser`](modules/modules.lazy_rbac.py.md#rbacuser) class in `modules.lazy_rbac`
 - [`ReactionPick`](modules/modules.reaction_bridge.py.md#reactionpick) class in `modules.reaction_bridge`
+- [`ReactionPort`](modules/modules.mediation.engine_mediator.py.md#reactionport) protocol in `modules.mediation.engine_mediator`(Protocol)
 - [`ReactiveDecision`](modules/modules.reactive_engine.py.md#reactivedecision) class in `modules.reactive_engine`
 - [`ReactiveEngine`](modules/modules.reactive_engine.py.md#reactiveengine) class in `modules.reactive_engine`
 - [`ReadlineBridge`](modules/cli.fuzzy_picker.py.md#readlinebridge) class in `cli.fuzzy_picker`
 - [`ReasoningEntry`](modules/cli.reasoning_stream.py.md#reasoningentry) class in `cli.reasoning_stream`
+- [`ReasoningPort`](modules/modules.mediation.engine_mediator.py.md#reasoningport) protocol in `modules.mediation.engine_mediator`(Protocol)
 - [`Recommendation`](modules/cli.recommendation.py.md#recommendation) class in `cli.recommendation`
 - [`RecommendationContext`](modules/cli.recommendation.py.md#recommendationcontext) class in `cli.recommendation`
 - [`RecommendationEngine`](modules/cli.recommendation.py.md#recommendationengine) class in `cli.recommendation`
@@ -1238,6 +1255,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ReleaseArtifact`](modules/modules.selfupdate.py.md#releaseartifact) class in `modules.selfupdate`
 - [`RenderContext`](modules/cli.banner_config.py.md#rendercontext) class in `cli.banner_config`
 - [`RenderedCheck`](modules/modules.lazy_probes.py.md#renderedcheck) class in `modules.lazy_probes`
+- [`RenderedPoc`](modules/modules.poc_registry.py.md#renderedpoc) class in `modules.poc_registry`
 - [`RepeatDetector`](modules/modules.loop_guardrails.py.md#repeatdetector) class in `modules.loop_guardrails`
 - [`ReplanContext`](modules/modules.chain_runner.py.md#replancontext) class in `modules.chain_runner`
 - [`ReplayDispatcher`](modules/skills.autonomous_replay.py.md#replaydispatcher) class in `skills.autonomous_replay`
@@ -1478,6 +1496,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TddResult`](modules/skills.claude_md_orchestrator.tdd_agent.py.md#tddresult) class in `skills.claude_md_orchestrator.tdd_agent`
 - [`TeamserverCredentials`](modules/lazygui.services.teamserver_backend.py.md#teamservercredentials) class in `lazygui.services.teamserver_backend`
 - [`TechniqueRisk`](modules/modules.sleep_obfuscation.py.md#techniquerisk) enum in `modules.sleep_obfuscation`(str, Enum)
+- [`TechniqueSelector`](modules/modules.selection.technique.py.md#techniqueselector) class in `modules.selection.technique`
 - [`TelegramNotificationSink`](modules/modules.engagement_hooks.py.md#telegramnotificationsink) class in `modules.engagement_hooks`(_OutboundHTTPSink)
 - [`TelemetryConfig`](modules/cli.palette_telemetry.py.md#telemetryconfig) class in `cli.palette_telemetry`
 - [`TelemetryIndex`](modules/cli.palette_telemetry.py.md#telemetryindex) class in `cli.palette_telemetry`
@@ -1488,6 +1507,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`LocalTemplateIndex`](modules/modules.integrations.nuclei_bridge.py.md#localtemplateindex) class in `modules.integrations.nuclei_bridge`
 - [`TenantConfig`](modules/modules.lazy_rbac.py.md#tenantconfig) class in `modules.lazy_rbac`
 - [`TenantManager`](modules/modules.lazy_rbac.py.md#tenantmanager) class in `modules.lazy_rbac`
+- [`Terminal`](modules/static.hexabot.hexabot-spinner.js.md#terminal) class in `static/hexabot/hexabot-spinner.js`
 - [`TerminalGuard`](modules/core.terminal_guard.py.md#terminalguard) class in `core.terminal_guard`
 - [`TerminalIO`](modules/cli.cli_enhancements.py.md#terminalio) protocol in `cli.cli_enhancements`(Protocol)
 - [`TerminalView`](modules/lazygui.widgets.terminal_view.py.md#terminalview) class in `lazygui.widgets.terminal_view`(QPlainTextEdit)
@@ -1582,7 +1602,11 @@ Project types nested under the project types they derive from. External bases ar
 - [`WizardResult`](modules/cli.wizard.py.md#wizardresult) class in `cli.wizard`
 - [`WizardScope`](modules/cli.wizard_scope.py.md#wizardscope) class in `cli.wizard_scope`
 - [`WizardScopeConfig`](modules/cli.wizard_scope.py.md#wizardscopeconfig) class in `cli.wizard_scope`
-- [`Worker`](modules/modules.lazy_loop.py.md#worker) class in `modules.lazy_loop`
+- [`WorkerAgenticMixin`](modules/modules.loop.worker_agentic.py.md#workeragenticmixin) class in `modules.loop.worker_agentic`
+  - [`Worker`](modules/modules.lazy_loop.py.md#worker) class in `modules.lazy_loop`
+- [`WorkerExecutionMixin`](modules/modules.loop.worker_execution.py.md#workerexecutionmixin) class in `modules.loop.worker_execution`
+- [`WorkerGatingMixin`](modules/modules.loop.worker_gating.py.md#workergatingmixin) class in `modules.loop.worker_gating`
+- [`WorkerMemoryMixin`](modules/modules.loop.worker_memory.py.md#workermemorymixin) class in `modules.loop.worker_memory`
 - [`WorldModel`](modules/modules.world_model.py.md#worldmodel) class in `modules.world_model`
 - [`WorldModelPhaseSource`](modules/cli.status_bar.py.md#worldmodelphasesource) class in `cli.status_bar`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t.t.t.t.tt.u.u.w.wt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t-t-t-t-tt-u-u-w-wt) class in `static/js/quill-2.0.3.js`(Error, yt)

@@ -1,6 +1,67 @@
 # Subsystem: commands (page 4 of 5)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/persist_migrated.py
+- Doc: persist commands migrated from lazyown.py.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PersistMigratedCommandSet` (class, line 32) `class PersistMigratedCommandSet(LazyOwnCommandSet)`
+  - `generate_backdoor_username` (method, line 37) `def generate_backdoor_username()`
+  - `generate_backdoor_password` (method, line 43) `def generate_backdoor_password()`
+  - `resolve_backdoor_creds` (method, line 53) `def resolve_backdoor_creds(params)`
+  - `_ensure_backdoor_creds` (method, line 68) `def _ensure_backdoor_creds(self)`
+  - `do_pwncat` (method, line 91) `def do_pwncat(self, line)`
+  - `do_ftp` (method, line 135) `def do_ftp(self, line)`
+  - `do_rdp` (method, line 194) `def do_rdp(self, line)`
+  - `do_grisun0` (method, line 268) `def do_grisun0(self, line)`
+  - `do_grisun0w` (method, line 312) `def do_grisun0w(self, line)`
+  - `do_asprevbase64` (method, line 354) `def do_asprevbase64(self, line)`
+  - `do_weevelygen` (method, line 392) `def do_weevelygen(self, line)`
+  - `do_weevely` (method, line 432) `def do_weevely(self, line)`
+  - `do_backdoor_factory` (method, line 478) `def do_backdoor_factory(self, line)`
+  - `do_msfpc` (method, line 524) `def do_msfpc(self, line)`
+  - `do_ivy` (method, line 605) `def do_ivy(self, line)`
+  - `do_veil` (method, line 705) `def do_veil(self, line)`
+  - `do_scarecrow` (method, line 779) `def do_scarecrow(self, line)`
+  - `do_generate_revshell` (method, line 897) `def do_generate_revshell(self, line)`
+  - `do_dr0p1t` (method, line 963) `def do_dr0p1t(self, line)`
+  - `do_paranoid_meterpreter` (method, line 1026) `def do_paranoid_meterpreter(self, line)`
+  - `do_setoolKits` (method, line 1114) `def do_setoolKits(self, line)`
+  - `do_darkarmour` (method, line 1147) `def do_darkarmour(self, line)`
+  - `do_knokknok` (method, line 1215) `def do_knokknok(self, line)`
+  - `do_listener_go` (method, line 1250) `def do_listener_go(self, line)`
+  - `do_listener_py` (method, line 1317) `def do_listener_py(self, line)`
+  - `do_service` (method, line 1384) `def do_service(self, line)`
+  - `do_toctoc` (method, line 1457) `def do_toctoc(self, line)`
+  - `do_beaconcfg` (method, line 1480) `def do_beaconcfg(self, line)`
+- Depends on: `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
+- Imported by: `tests/test_backdoor_random.py`
+
+## cli/commands/phishing_wizard.py
+- Doc: Phishing Wizard command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PhishingWizardCommandSet` (class, line 183) `class PhishingWizardCommandSet(LazyOwnCommandSet)`
+  - `_profile_targets` (function, line 510) `def _profile_targets(domain)`
+  - `_save_targets` (function, line 522) `def _save_targets(campaign_dir, targets)`
+  - `_log_click` (function, line 533) `def _log_click(campaign_dir, ip, user_agent)`
+  - `_ensure_session_key` (function, line 551) `def _ensure_session_key()`
+  - `_log_credentials` (function, line 569) `def _log_credentials(campaign_dir, email, password, ip)`
+  - `_send_smtp_email` (function, line 603) `def _send_smtp_email(server, port, username, password, to_email, from_addr, subject, html_body)`
+  - `_extract_flag` (function, line 702) `def _extract_flag(args, flag)`
+  - `do_phish_wizard` (method, line 190) `def do_phish_wizard(self, line)`
+  - `do_phish_serve` (method, line 361) `def do_phish_serve(self, line)`
+  - `do_phish_report` (method, line 443) `def do_phish_report(self, line)`
+  - `do_phisher` (function, line 637) `def do_phisher(self, line)`
+  - `PhishingHandler` (class, line 388) `class PhishingHandler(BaseHTTPRequestHandler)`
+  - `log_message` (method, line 389) `def log_message(self, format)`
+  - `do_GET` (method, line 392) `def do_GET(self)`
+  - `do_POST` (method, line 407) `def do_POST(self)`
+  - `do_OPTIONS` (method, line 427) `def do_OPTIONS(self)`
+- Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
+
 ## cli/commands/pivoting.py
 - Doc: Intelligent Pivoting command set.
 - Layer: utility
@@ -431,63 +492,6 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_sleep_info` (method, line 50) `def do_sleep_info(self, line)`
   - `do_sleep_configure` (method, line 82) `def do_sleep_configure(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
-
-## cli/commands/socks_proxy.py
-- Doc: SOCKS proxy CommandSet — beacon tunneling configuration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SocksProxyCommandSet` (class, line 18) `class SocksProxyCommandSet(LazyOwnCommandSet)`
-  - `do_socks_config` (method, line 25) `def do_socks_config(self, line)`
-  - `do_socks_sessions` (method, line 75) `def do_socks_sessions(self, line)`
-  - `do_socks_export` (method, line 94) `def do_socks_export(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/socks_proxy.py`, `utils.py`
-
-## cli/commands/supply_chain.py
-- Doc: Supply Chain Attack command set.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SupplyChainCommandSet` (class, line 88) `class SupplyChainCommandSet(LazyOwnCommandSet)`
-  - `_parse_requirements` (function, line 282) `def _parse_requirements(filepath)`
-  - `_parse_package_json` (function, line 307) `def _parse_package_json(filepath)`
-  - `_parse_gemfile` (function, line 328) `def _parse_gemfile(filepath)`
-  - `_parse_cargo_toml` (function, line 348) `def _parse_cargo_toml(filepath)`
-  - `_parse_go_mod` (function, line 377) `def _parse_go_mod(filepath)`
-  - `_parse_pom_xml` (function, line 397) `def _parse_pom_xml(filepath)`
-  - `_pypi_exists` (function, line 425) `def _pypi_exists(package_name)`
-  - `is_internal_name` (function, line 450) `def is_internal_name(name)`
-  - `_extract_flag` (function, line 475) `def _extract_flag(args, flag)`
-  - `do_depconfuse` (method, line 95) `def do_depconfuse(self, line)`
-  - `do_package_squat` (method, line 140) `def do_package_squat(self, line)`
-  - `do_depscan` (method, line 216) `def do_depscan(self, line)`
-- Depends on: `cli/commands/_base.py`, `utils.py`
-
-## cli/commands/surface.py
-- Doc: Attack-surface operations: confirmed discovery scans, estorides fusion.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SurfaceCommandSet` (class, line 36) `class SurfaceCommandSet(LazyOwnCommandSet)`
-  - `do_scandiscovery` (method, line 43) `def do_scandiscovery(self, line)`
-  - `do_estorides_intel` (method, line 86) `def do_estorides_intel(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
-
-## cli/commands/ux.py
-- Doc: Usability commands: hud, undo, config_diff, cheat, suggest.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `UxCommandSet` (class, line 39) `class UxCommandSet(LazyOwnCommandSet)`
-  - `do_hud` (method, line 46) `def do_hud(self, line)`
-  - `do_undo` (method, line 85) `def do_undo(self, line)`
-  - `do_config_diff` (method, line 115) `def do_config_diff(self, line)`
-  - `do_cheat` (method, line 140) `def do_cheat(self, line)`
-  - `do_toast` (method, line 167) `def do_toast(self, line)`
-  - `do_suggest` (method, line 261) `def do_suggest(self, line)`
-  - `_candidate_commands` (method, line 281) `def _candidate_commands(self)`
-  - `_find_cheat_section` (method, line 298) `def _find_cheat_section(query)`
-- Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
 
 
 Next: [KB_commands_p5.md](KB_commands_p5.md)

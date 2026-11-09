@@ -118,6 +118,32 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Depends on: `lazygui/version.py`, `modules/world_model.py`
 - Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
 
+## modules/exploitdb_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_csv` (function, line 23) `def _load_csv()`
+  - `_read_src` (function, line 30) `def _read_src(edb_file)`
+  - `_find_cve` (function, line 40) `def _find_cve(text)`
+  - `_infer_runner` (function, line 47) `def _infer_runner(ext)`
+  - `_guess_commands` (function, line 61) `def _guess_commands(edb_id, edb_file, ext, desc, src, port)`
+  - `scan_tier0` (function, line 105) `def scan_tier0(limit, platform, only_cve)`
+  - `gen_yaml` (function, line 151) `def gen_yaml(item, outdir)`
+  - `sync_tier0` (function, line 194) `def sync_tier0(limit, platform, only_cve, outdir)`
+
+## modules/exploitdb_c_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_csv` (function, line 17) `def _load_csv()`
+  - `_read` (function, line 24) `def _read(edb_file)`
+  - `scan_c` (function, line 32) `def scan_c(limit, platform, skip_existing)`
+  - `_flags` (function, line 74) `def _flags(src)`
+  - `gen_c_yaml_compile_on_use` (function, line 89) `def gen_c_yaml_compile_on_use(item)`
+  - `gen_batch` (function, line 134) `def gen_batch(limit)`
+  - `compile_batch` (function, line 148) `def compile_batch(limit)`
+  - `gen_c_yaml` (function, line 152) `def gen_c_yaml(item, binpath, wrapper)`
+
 ## modules/exploitgym_gym.py
 - Doc: ExploitGym integration — real-world vulnerability-to-exploit benchmark.
 - Layer: utility
@@ -434,7 +460,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `harness_enabled` (function, line 30) `def harness_enabled()`
   - `gate` (function, line 65) `def gate(name)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
-- Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `skills/lazyown_mcp_opencode.py`
+- Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop/worker_agentic.py`, `skills/lazyown_mcp_opencode.py`
 
 ## modules/hash_cracker.py
 - Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
@@ -460,27 +486,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_parse_john_show` (method, line 686) `def _parse_john_show(show_output, original)`
 - Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
 - Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
-
-## modules/hive_invoke.py
-- Doc: modules/hive_invoke.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_get_toposwarm` (function, line 50) `def _get_toposwarm()`
-  - `_find_claude` (function, line 115) `def _find_claude()`
-  - `_parse_argv` (function, line 120) `def _parse_argv(argv)`
-  - `_run_print_mode` (function, line 150) `def _run_print_mode(prompt, effort, claude_bin)`
-  - `_run_interactive_mode` (function, line 172) `def _run_interactive_mode(prompt, effort, claude_bin)`
-  - `_run_toposwarm_mode` (function, line 205) `def _run_toposwarm_mode(prompt, effort, bridge)`
-  - `main` (function, line 255) `def main(argv)`
-- Depends on: `modules/toposwarm_bridge.py`
-
-## modules/hostdiscover.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `extract_ips_from_arp` (function, line 21)
-  - `extract_listening_ips_from_netstat` (function, line 26)
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

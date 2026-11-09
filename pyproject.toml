@@ -159,6 +159,9 @@ ignore = [
 "modules/*" = ["S"]
 "modules/report_templates.py" = ["S", "UP031"]
 "skills/*" = ["S", "E402", "I001"]
+# One-file-per-tool modules: security-only ignores, same rationale as skills/*
+# (pentest tooling runs xml parsing, chmod and shell by design).
+"skills/mcp_tools/*" = ["S"]
 "plugins/*" = ["S"]
 # Tier 3: god classes still need broad ignores during refactor
 "lazyown.py" = ["S", "B", "UP", "F841"]

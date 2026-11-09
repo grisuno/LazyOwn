@@ -1,7 +1,8 @@
 """Tests for the lazyown_rea MCP tool (REA reverse-engineering skill).
 
 Covers tool registration, argument validation and argv construction for
-skills.lazyown_mcp._h_rea without requiring Hopper, Ghidra or network.
+the one-file-per-tool handler ``mcp_tools.rea.handle`` without requiring
+Hopper, Ghidra or network.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -69,18 +71,53 @@ except (ImportError, AttributeError):
     _stub_mcp_sdk()
     import lazyown_mcp  # noqa: E402
 
+from mcp_tools import rea  # noqa: E402
+from mcp_tools._context import MCPContext  # noqa: E402
 
-def _call(arguments: dict, monkeypatch: pytest.MonkeyPatch) -> dict:
-    """Invoke the rea handler and parse its JSON envelope."""
-    monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
+
+def _ctx(payload: dict | None = None) -> MCPContext:
+    """Build a minimal injection context for the rea handler."""
+
+    def _text(_tool_name: str, content: str) -> list:
+        return [SimpleNamespace(text=content)]
+
+    return MCPContext(
+        text=_text,
+        load_payload=lambda: dict(payload or {}),
+        save_payload=lambda data: "",
+        lazyown_dir=_ROOT,
+        sessions_dir=_ROOT / "sessions",
+        modules_dir=_ROOT / "modules",
+        skills_dir=_ROOT / "skills",
+        run_command=lambda command, timeout: "",
+        c2_request=lambda path, method="GET", body=None: {},
+        get_policy=lambda: None,
+        get_transcript=lambda: None,
+        get_perm_system=lambda: None,
+        get_hooks=lambda: None,
+        get_claudemd=lambda: None,
+        job_store=None,
+        list_tools=lambda: [],
+        sitrep_recommendations=lambda *a, **k: [],
+    )
+
+
+def _invoke(arguments: dict, payload: dict | None = None) -> list:
+    """Run the rea handler and return its TextContent list."""
+    return asyncio.run(rea.handle(arguments, "lazyown_rea", _ctx(payload)))
+
+
+def _call(arguments: dict, monkeypatch: pytest.MonkeyPatch, payload: dict | None = None) -> dict:
+    """Invoke the rea handler with stubbed CLI and parse its JSON envelope."""
+    monkeypatch.setattr(rea.shutil, "which", lambda _: "/usr/bin/rea")
     seen: dict = {}
 
     def _fake_run(argv, **kwargs):
         seen["argv"] = argv
         return subprocess.CompletedProcess(argv, 0, b'{"ok": true}', b"")
 
-    monkeypatch.setattr(lazyown_mcp.subprocess, "run", _fake_run)
-    out = asyncio.run(lazyown_mcp._h_rea(arguments, "lazyown_rea"))
+    monkeypatch.setattr(rea.subprocess, "run", _fake_run)
+    out = _invoke(arguments, payload)
     assert len(out) == 1
     envelope = json.loads(out[0].text)
     envelope["_argv"] = seen.get("argv")
@@ -97,14 +134,14 @@ def test_list_tools_has_rea() -> None:
 
 
 def test_unknown_action_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
-    out = asyncio.run(lazyown_mcp._h_rea({"action": "pwn"}, "lazyown_rea"))
+    monkeypatch.setattr(rea.shutil, "which", lambda _: "/usr/bin/rea")
+    out = _invoke({"action": "pwn"})
     assert "Unknown REA action" in json.loads(out[0].text)["error"]
 
 
 def test_missing_binary(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: None)
-    out = asyncio.run(lazyown_mcp._h_rea({"action": "doctor"}, "lazyown_rea"))
+    monkeypatch.setattr(rea.shutil, "which", lambda _: None)
+    out = _invoke({"action": "doctor"})
     envelope = json.loads(out[0].text)
     assert "not found" in envelope["error"]
     assert "npm install" in envelope["remediation"]
@@ -132,14 +169,14 @@ def test_inspect_artifact_argv(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) 
 def test_large_output_survives_compaction(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     target = tmp_path / "libucnet.so"
     target.write_bytes(b"\x7fELF")
-    monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
+    monkeypatch.setattr(rea.shutil, "which", lambda _: "/usr/bin/rea")
     big = b'{"evidence": "' + b"x" * 9000 + b'"}'
 
     def _fake_run(argv, **kwargs):
         return subprocess.CompletedProcess(argv, 0, big, b"")
 
-    monkeypatch.setattr(lazyown_mcp.subprocess, "run", _fake_run)
-    out = asyncio.run(lazyown_mcp._h_rea({"action": "inspect-artifact", "target": str(target)}, "lazyown_rea"))
+    monkeypatch.setattr(rea.subprocess, "run", _fake_run)
+    out = _invoke({"action": "inspect-artifact", "target": str(target)})
     envelope = json.loads(out[0].text)
     assert envelope["truncated"] is True
     assert envelope["output"] in big.decode()
@@ -153,21 +190,16 @@ def test_analyze_uses_explicit_target(tmp_path: Path, monkeypatch: pytest.Monkey
 
 
 def test_analyze_missing_target(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
-    monkeypatch.setattr(
-        lazyown_mcp,
-        "_load_payload",
-        lambda: {"target": ""},
-    )
-    out = asyncio.run(lazyown_mcp._h_rea({"action": "analyze"}, "lazyown_rea"))
+    monkeypatch.setattr(rea.shutil, "which", lambda _: "/usr/bin/rea")
+    out = _invoke({"action": "analyze"}, payload={"target": ""})
     envelope = json.loads(out[0].text)
     assert "target" in envelope["error"].lower()
     assert "lazyown_set_config" in envelope["remediation"]
 
 
 def test_target_flag_injection_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
-    out = asyncio.run(lazyown_mcp._h_rea({"action": "analyze", "target": "--provider hopper"}, "lazyown_rea"))
+    monkeypatch.setattr(rea.shutil, "which", lambda _: "/usr/bin/rea")
+    out = _invoke({"action": "analyze", "target": "--provider hopper"})
     assert "error" in json.loads(out[0].text)
 
 

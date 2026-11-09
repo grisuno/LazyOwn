@@ -746,7 +746,10 @@ class TestWiring:
         assert len(found) == 1, f"expected one do_pipeline command, found {found}"
 
     def test_mcp_exposes_four_pipeline_tools(self):
-        src = (REPO_ROOT / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")
+        _sk = REPO_ROOT / "skills"
+        src = (_sk / "lazyown_mcp.py").read_text(encoding="utf-8") + "".join(
+            p.read_text(encoding="utf-8") for p in (_sk / "mcp_tools").glob("*.py")
+        )
         for name in (
             "lazyown_pipeline_run",
             "lazyown_pipeline_list",

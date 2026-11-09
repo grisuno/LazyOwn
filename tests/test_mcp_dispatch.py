@@ -17,7 +17,17 @@ SRC = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp.py").rea
     encoding="utf-8"
 )
 
-MIGRATED = ["lazyown_ack_event", "lazyown_c2_status"]
+import sys  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "skills"))
+
+import mcp_tools  # noqa: E402
+
+MIGRATED = ["lazyown_run_command", "lazyown_get_config", "lazyown_rea"]
+
+
+def _package_names() -> set[str]:
+    return {module.TOOL.name for module in mcp_tools.iter_tool_modules()}
 
 
 def _registered() -> set[str]:
@@ -54,39 +64,43 @@ class TestRegistryDispatch:
         assert not overlap, f"unreachable duplicate branches: {sorted(overlap)}"
 
     def test_migrated_handlers_registered(self) -> None:
-        registered = _registered()
+        package = _package_names()
         for name in MIGRATED:
-            assert name in registered, f"{name} must be registry-dispatched"
+            assert name in package, f"{name} must be served by the mcp_tools package"
 
     def test_migrated_handlers_absent_from_fallback(self) -> None:
         branches = _fallback_branches()
+        registered = _registered()
         for name in MIGRATED:
             assert name not in branches, f"{name} elif must be removed"
+            assert name not in registered, f"{name} must not remain a god-file handler"
 
 
 def test_set_config_refuses_null_values():
     """set_config must never null out payload keys (static contract).
 
     The handler runs inside MCP server processes where a live-file
-    round-trip test is unsafe; assert the fail-closed branch exists.
+    round-trip test is unsafe; assert the fail-closed branch exists. The
+    handler now lives in the one-file-per-tool package, so the contract is
+    asserted against that module.
     """
-    tree = ast.parse(SRC)
+    set_config_src = (
+        Path(__file__).resolve().parent.parent / "skills" / "mcp_tools" / "set_config.py"
+    ).read_text(encoding="utf-8")
+    tree = ast.parse(set_config_src)
     for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == "_h_set_config":
-            src = ast.get_source_segment(SRC, node) or ""
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == "handle":
+            src = ast.get_source_segment(set_config_src, node) or ""
             assert "Refused" in src and "coerced is None" in src
             return
-    raise AssertionError("_h_set_config not found")
+    raise AssertionError("set_config handle not found")
 
 
 def test_new_chain_shell_tools_have_defs_and_handlers():
-    """apt_chain/atomic_shell/atomic_clean: Tool def + elif handler each."""
-    import re as _re
-
-    tools = set(_re.findall(r'name="(lazyown_apt_chain|lazyown_atomic_shell|lazyown_atomic_clean)"', SRC))
-    assert tools == {"lazyown_apt_chain", "lazyown_atomic_shell", "lazyown_atomic_clean"}
-    branches = _fallback_branches()
-    assert {"lazyown_apt_chain", "lazyown_atomic_shell", "lazyown_atomic_clean"} <= branches
+    """apt_chain/atomic_shell/atomic_clean are served by the package registry."""
+    expected = {"lazyown_apt_chain", "lazyown_atomic_shell", "lazyown_atomic_clean"}
+    package = _package_names()
+    assert expected <= package, f"missing from package: {expected - package}"
 
 
 def test_opencode_bridge_curates_loop_and_chain():
@@ -105,15 +119,14 @@ def test_opencode_bridge_curates_loop_and_chain():
 
 
 def test_mcp_never_offers_interactive_repl():
-    """No MCP path may request an interactive shell session."""
-    tree = ast.parse(SRC)
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in (
-            "_h_run_command",
-        ):
-            continue
-    segment_start = SRC.find('elif name == "lazyown_atomic_shell"')
-    assert segment_start != -1
-    segment = SRC[segment_start : segment_start + 2000]
-    assert "interactive=False" in segment
-    assert "interactive=True" not in segment
+    """No MCP path may request an interactive shell session.
+
+    The atomic_shell tool now lives in the one-file-per-tool package; the
+    security contract (interactive=False, never interactive=True) is
+    asserted against that module.
+    """
+    atomic_shell_src = (
+        Path(__file__).resolve().parent.parent / "skills" / "mcp_tools" / "atomic_shell.py"
+    ).read_text(encoding="utf-8")
+    assert "interactive=False" in atomic_shell_src
+    assert "interactive=True" not in atomic_shell_src

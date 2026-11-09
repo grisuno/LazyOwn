@@ -130,6 +130,34 @@ def _phase_fallback(verb: str) -> str:
         return "other"
 
 
+def _phases_for(stored: dict[str, Any], phase: str) -> tuple[str, ...]:
+    """Return the ordered kill-chain phases a verb is valid in.
+
+    A verb may declare an explicit ``phases`` list to be routable in more
+    than one kill-chain phase (for example a chaining verb valid across
+    every post-foothold phase). When absent or empty, the single ``phase``
+    is the sole member, so legacy single-phase entries behave unchanged.
+
+    Args:
+        stored: The verb's stored catalog entry.
+        phase: The resolved single phase used as the fallback member.
+
+    Returns:
+        A deduplicated tuple of lowercased phase names, always non-empty.
+    """
+    raw = stored.get("phases")
+    out: list[str] = []
+    if isinstance(raw, (list, tuple)):
+        for item in raw:
+            name = str(item or "").strip().lower()
+            if name and name not in out:
+                out.append(name)
+    if not out:
+        fallback = str(phase or "").strip().lower()
+        out = [fallback] if fallback else []
+    return tuple(out)
+
+
 def _risk_fallback(verb: str) -> str:
     """Return the risk class for a verb absent from the index."""
     try:
@@ -293,6 +321,10 @@ def validate_catalog(data: Any) -> list[str]:
         for key in ("phase", "risk", "description", "source"):
             if key in entry and not isinstance(entry[key], str):
                 errors.append(f"verb {name} {key} must be a string")
+        phases = entry.get("phases")
+        if phases is not None:
+            if not isinstance(phases, list) or not all(isinstance(item, str) for item in phases):
+                errors.append(f"verb {name} phases must be a list of strings")
     return errors
 
 
@@ -361,6 +393,7 @@ def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]
         merged[name] = {
             "enabled": bool(stored.get("enabled", cfg.default_enabled)),
             "phase": phase,
+            "phases": _phases_for(stored, phase),
             "risk": str(stored.get("risk") or _risk_fallback(name)),
             "description": str(stored.get("description") or meta.get("summary") or ""),
             "source": str(stored.get("source") or ("addon" if name.startswith(ADDON_VERB_PREFIX) else "cli")),
@@ -368,9 +401,11 @@ def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]
     for name, stored in raw.items():
         if name in merged:
             continue
+        resolved_phase = str(stored.get("phase") or "") or _phase_fallback(name)
         merged[name] = {
             "enabled": bool(stored.get("enabled", cfg.default_enabled)),
-            "phase": str(stored.get("phase") or "") or _phase_fallback(name),
+            "phase": resolved_phase,
+            "phases": _phases_for(stored, resolved_phase),
             "risk": str(stored.get("risk") or _risk_fallback(name)),
             "description": str(stored.get("description") or ""),
             "source": str(stored.get("source") or "cli"),

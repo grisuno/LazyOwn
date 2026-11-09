@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
+| `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
+| `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
+| `deliver` | method | `modules/engagement_hooks.py:159` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:181` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:216` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:258` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:370` | `def deliver(self, event)` |
 | `get_default_narrator` | function | `modules/engagement_hooks.py:482` | `def get_default_narrator()` |
 | `is_valid_target` | function | `modules/engagement_hooks.py:626` | `def is_valid_target(value)` |
 | `list_pending_approvals` | function | `modules/engagement_hooks.py:575` | `def list_pending_approvals()` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `__init__` | method | `modules/guardrails/advisories.py:20` | `def __init__(self, limit)` |
 | `__init__` | method | `modules/guardrails/advisories.py:74` | `def __init__(self, features)` |
 | `clear` | method | `modules/guardrails/advisories.py:54` | `def clear(self)` |
-| `describe` | method | `modules/guardrails/advisories.py:61` | `def describe(self)` |
-| `describe` | method | `modules/guardrails/advisories.py:125` | `def describe(self)` |
-| `is_suspended` | method | `modules/guardrails/advisories.py:115` | `def is_suspended(self, feature)` |
-| `notice` | method | `modules/guardrails/advisories.py:31` | `def notice(self, code, message)` |
-| `resume` | method | `modules/guardrails/advisories.py:102` | `def resume(self, feature)` |
-| `resume_all` | method | `modules/guardrails/advisories.py:108` | `def resume_all(self)` |
-| `suspend` | method | `modules/guardrails/advisories.py:84` | `def suspend(self, feature, reason)` |
-| `suspended` | method | `modules/guardrails/advisories.py:120` | `def suspended(self)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

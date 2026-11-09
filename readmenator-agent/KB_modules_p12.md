@@ -187,7 +187,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `compute_metrics` (method, line 200) `def compute_metrics(self, session_id)`
   - `quality_report` (method, line 241) `def quality_report(self, session_id)`
   - `export_finetuning_dataset` (method, line 256) `def export_finetuning_dataset(self, path)`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `skills/mcp_tools/eval_quality.py`, `tests/test_core_modules.py`
 
 ## modules/llm_factory.py
 - Doc: LLM backend factory and selection utilities.
@@ -449,7 +449,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `save` (method, line 653) `def save(self)`
   - `_load` (method, line 674) `def _load(self)`
 - Depends on: `modules/__init__.py`
-- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
+- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_orchestrator_pacing.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
 
 ## modules/loop_manager.py
 - Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.

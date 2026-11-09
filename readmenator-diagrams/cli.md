@@ -1,82 +1,54 @@
 # cli
 
-cli groups 126 files (c, js, php, py, sh) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 114 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
     cli["cli"]
     core["core"]
-    gyms["gyms"]
-    lazyc2["lazyc2"]
-    lazyown_docker["lazyown-docker"]
     modules["modules"]
-    poc_tui["poc_tui"]
     root["root"]
-    static["static"]
+    skills["skills"]
     tests["tests"]
-    cli -- "calls into" --> tests
     cli -- "calls into" --> core
-    cli -- "calls into" --> static
-    tests -- "calls into" --> cli
-    tests -- "calls into" --> core
+    cli -- "calls into" --> tests
     core -- "calls into" --> tests
     modules -- "depends on" --> core
-    poc_tui -- "calls into" --> static
+    root -- "calls into" --> cli
     root -- "depends on" --> core
-    static -- "depends on" --> cli
-    static -- "calls into" --> tests
-    static -- "depends on" --> core
-    static -- "depends on" --> gyms
-    static -- "depends on" --> lazyc2
-    static -- "depends on" --> lazyown_docker
-    static -- "depends on" --> modules
-    static -- "depends on" --> poc_tui
+    skills -- "calls into" --> cli
+    tests -- "calls into" --> cli
+    tests -- "calls into" --> core
+    tests -- "calls into" --> skills
 ```
 
 ## cli (4.1)
 
-cli groups 43 files (py) around Theme, get_theme, theme_from_payload, apply_assign, PendingCommandSet. LazyOwn CLI infrastructure.
+cli groups 46 files (py) around Theme, get_theme, theme_from_payload, PendingCommandSet, is_pending. LazyOwn CLI infrastructure.
 
 ## core (4.2)
 
-core groups 12 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Core primitives for the LazyOwn framework.
+core groups 10 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Core primitives for the LazyOwn framework.
 
-## gyms (4.3)
+## modules (4.3)
 
-gyms groups 1 files (php).
+modules groups 1 files (py) around PrivescVector, SystemProfile, _parse_kernel_version, _parse_version_from_range, parse_linpeas_output. Crystal Ball — privilege escalation vector prediction engine.
 
-## lazyc2 (4.4)
+## root (4.4)
 
-lazyc2 groups 1 files (py). Global C2 server state — namespace for shared mutable objects.
+root groups 1 files (py) around sanitize_content, RAGManager, __init__, initialize_cache_table, get_cache_key. RAGManager: Manages RAG functionality with CAG caching for document processing and...
 
-## lazyown-docker (4.5)
+## skills (4.5)
 
-lazyown-docker groups 1 files (sh).
+skills groups 6 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain).
 
-## modules (4.6)
+## tests (4.6)
 
-modules groups 3 files (c, py) around _GNU_SOURCE, MQUEUE_NUM, INBOUND, OUTBOUND, DESC_MAX. gcc exp.c -o exp -l mnl -l nftnl -w
-
-## poc_tui (4.7)
-
-poc_tui groups 4 files (py) around ShellBackend, __init__, import_shell_class, start, run. Entry point: python3 -m poc_tui
-
-## root (4.8)
-
-root groups 1 files (py) around main.
-
-## static (4.9)
-
-static groups 16 files (js) around rand, clamp, Terminal, constructor, push. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
-
-## tests (4.10)
-
-tests groups 44 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
+tests groups 50 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 
 **Files**:
 
 - cli/__init__.py
-- cli/assign.py
 - cli/autosuggest.py
 - cli/chain_mode.py
 - cli/command_explorer.py
@@ -87,14 +59,19 @@ tests groups 44 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - cli/commands/misc_migrated.py
 - cli/commands/orchestration.py
 - cli/commands/recon.py
-- cli/commands/session_ops.py
 - cli/config_status.py
 - cli/contextual_help.py
+- cli/dashboard_layout.py
+- cli/dashboard_tui.py
 - cli/doctor.py
 - cli/exploit_advisor.py
 - cli/exploration_view.py
+- cli/graph_advisor.py
+- cli/graph_overlay.py
+- cli/killchain.py
 - cli/marketplace_config.py
 - cli/noise_verbs.py
+- cli/palette.py
 - cli/palette_command.py
 - cli/palette_graph.py
 - cli/palette_overlay.py
@@ -103,13 +80,12 @@ tests groups 44 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - cli/protips.py
 - cli/reactive_hints.py
 - cli/reasoning_stream.py
+- cli/recommendation.py
+- cli/recommendation_signals.py
 - cli/registry.py
-- cli/session_resumer.py
 - cli/sessions_browser.py
-- cli/show.py
 - cli/splash.py
 - cli/status_bar.py
-- cli/style.py
 - cli/themes.py
 - cli/timeline_browser.py
 - cli/tips_engine.py
@@ -125,64 +101,49 @@ tests groups 44 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - core/errors.py
 - core/http.py
 - core/network.py
-- core/process.py
 - core/profiles.py
-- core/prompt.py
 - core/safe_console.py
 - core/text_utils.py
-- gyms/docker/php2shell/src/info.php
-- key.py
-- lazyc2/state.py
-- lazyown-docker/init.sh
-- modules/exp.c
-- modules/lazy_verify.py
-- modules/search.py
-- poc_tui/__main__.py
-- poc_tui/app.py
-- poc_tui/run.py
-- poc_tui/test_app.py
-- static/hexabot/hexabot-spinner.js
-- static/js/3d-force-graph-1.73.4.min.js
-- static/js/bootstrap-4.5.2.min.js
-- static/js/bootstrap-5.3.0.bundle.min.js
-- static/js/chart.min.js
-- static/js/force-graph-1.43.5.min.js
-- static/js/html2pdf.bundle.min.js
-- static/js/jquery-3.5.1.slim.min.js
-- static/js/particles.js
-- static/js/popper-2.5.4.min.js
-- static/js/quill-2.0.3.js
-- static/js/showdown-2.1.0.min.js
-- static/js/tippy-6.js
-- static/js/vis-network-9.1.2.min.js
-- static/js/vis-network.min.js
-- static/js/xterm.js
-- tests/test_auto_crypto.py
+- lazy_sentinel4.py
+- modules/privesc_predictor.py
+- skills/mcp_tools/graph_neighbors.py
+- skills/mcp_tools/graph_search.py
+- skills/mcp_tools/graph_suggest_next.py
+- skills/mcp_tools/graph_summary.py
+- skills/mcp_tools/palette.py
+- skills/unified_orchestrator.py
 - tests/test_autosuggest.py
 - tests/test_chain_mode.py
-- tests/test_cli_assign.py
 - tests/test_command_form.py
 - tests/test_command_palette.py
 - tests/test_command_set_migration.py
 - tests/test_console_stdio.py
+- tests/test_core_defaults.py
 - tests/test_daemon_ctl_command_set.py
+- tests/test_dashboard_tui.py
 - tests/test_dependencies.py
 - tests/test_doctor.py
 - tests/test_encoding_command_set.py
 - tests/test_evidence_hints.py
 - tests/test_exploration_and_addons.py
 - tests/test_exposure_command_sets.py
+- tests/test_graph_advisor.py
+- tests/test_graph_overlay.py
 - tests/test_help_ui_command_set.py
 - tests/test_improvements_spec.py
+- tests/test_killchain.py
 - tests/test_killchain_auto_refresh.py
+- tests/test_killchain_gap_signal.py
 - tests/test_marketplace_config.py
 - tests/test_nethelpers_command_set.py
 - tests/test_palette_overlay.py
+- tests/test_phase1_data_gaps.py
 - tests/test_phase_labels.py
 - tests/test_profiles.py
 - tests/test_reactive_hints.py
 - tests/test_reactive_hints_expanded.py
 - tests/test_reasoning_stream.py
+- tests/test_recommendation.py
 - tests/test_safe_console.py
 - tests/test_scope_deny_priority.py
 - tests/test_scope_guard_integration.py

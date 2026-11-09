@@ -246,7 +246,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`CommandCatalog`](modules/modules.lazyown_bridge.py.md#commandcatalog) class in `modules.lazyown_bridge`
 - [`CommandChain`](modules/cli.command_chain.py.md#commandchain) class in `cli.command_chain`
 - [`CommandDecision`](modules/lazyc2.security.command_allowlist.py.md#commanddecision) class in `lazyc2.security.command_allowlist`
-- [`CommandDecision`](modules/skills.autonomous_daemon.py.md#commanddecision) class in `skills.autonomous_daemon`
 - [`CommandExecutor`](modules/modules.command_executor.py.md#commandexecutor) class in `modules.command_executor`
 - [`CommandExplorer`](modules/cli.command_explorer.py.md#commandexplorer) class in `cli.command_explorer`
 - [`CommandFieldSet`](modules/cli.command_form.py.md#commandfieldset) class in `cli.command_form`
@@ -907,6 +906,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`LazyOwnShell`](modules/lazyown.py.md#lazyownshell) class in `lazyown`(cmd2.Cmd)
 - [`LazyOwnShellBridge`](modules/contrib.legacy.lazyllmchat.py.md#lazyownshellbridge) class in `contrib.legacy.lazyllmchat`
 - [`LazyOwnShellWrapper`](modules/modules.agent_runner.py.md#lazyownshellwrapper) class in `modules.agent_runner`
+- [`LazyscriptSelector`](modules/modules.selection.lazyscript.py.md#lazyscriptselector) class in `modules.selection.lazyscript`
 - [`LazySentinel`](modules/lazy_sentinel4.py.md#lazysentinel) class in `lazy_sentinel4`
 - [`LazySentinelHandler`](modules/lazy_sentinel4.py.md#lazysentinelhandler) class in `lazy_sentinel4`(FileSystemEventHandler)
 - [`leak`](modules/modules.exp.c.md#leak) struct in `modules/exp.c`
@@ -963,6 +963,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
 - [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
 - [`MatchStore`](modules/modules.lazy_match_policy.py.md#matchstore) class in `modules.lazy_match_policy`
+- [`MCPContext`](modules/skills.mcp_tools._context.py.md#mcpcontext) class in `skills.mcp_tools._context`
 - [`MediationDomains`](modules/modules.mediation.contracts.py.md#mediationdomains) class in `modules.mediation.contracts`
 - [`MediationHub`](modules/modules.mediation.hub.py.md#mediationhub) class in `modules.mediation.hub`
 - [`MediationHubContract`](modules/modules.mediation.contracts.py.md#mediationhubcontract) protocol in `modules.mediation.contracts`(Protocol)
@@ -1495,6 +1496,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TaskWriter`](modules/modules.session_reader.py.md#taskwriter) class in `modules.session_reader`
 - [`TddResult`](modules/skills.claude_md_orchestrator.tdd_agent.py.md#tddresult) class in `skills.claude_md_orchestrator.tdd_agent`
 - [`TeamserverCredentials`](modules/lazygui.services.teamserver_backend.py.md#teamservercredentials) class in `lazygui.services.teamserver_backend`
+- [`TechniqueChainSelector`](modules/modules.selection.technique_chain.py.md#techniquechainselector) class in `modules.selection.technique_chain`
 - [`TechniqueRisk`](modules/modules.sleep_obfuscation.py.md#techniquerisk) enum in `modules.sleep_obfuscation`(str, Enum)
 - [`TechniqueSelector`](modules/modules.selection.technique.py.md#techniqueselector) class in `modules.selection.technique`
 - [`TelegramNotificationSink`](modules/modules.engagement_hooks.py.md#telegramnotificationsink) class in `modules.engagement_hooks`(_OutboundHTTPSink)

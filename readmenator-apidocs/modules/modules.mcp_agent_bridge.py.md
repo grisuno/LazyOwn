@@ -249,7 +249,7 @@ Public: returns current status dict for an agent.
 
 **Returns:** `dict`
 
-*Called by:* [`get_agent_result`](#get_agent_result), [`list_agents`](#list_agents), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`get_agent_result`](#get_agent_result), [`list_agents`](#list_agents), [`handle`](skills.mcp_tools.agent_status.py.md#handle)
 
 ---
 
@@ -275,7 +275,7 @@ Public: returns final result + full action log.
 
 *Calls:* [`get_agent_status`](#get_agent_status)
 
-*Called by:* [`UnifiedBridge.delegate`](modules.unified_bridge.py.md#unifiedbridge-delegate), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`UnifiedBridge.delegate`](modules.unified_bridge.py.md#unifiedbridge-delegate), [`handle`](skills.mcp_tools.agent_result.py.md#handle)
 
 ---
 
@@ -301,7 +301,7 @@ List recent agents sorted by start time.
 
 *Calls:* [`get_agent_status`](#get_agent_status)
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`handle`](skills.mcp_tools.list_agents.py.md#handle)
 
 ---
 

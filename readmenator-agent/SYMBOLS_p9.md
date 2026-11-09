@@ -3,6 +3,13 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `api_killchain` | function | `lazyc2.py:6948` | `def api_killchain()` |
+| `api_lazy_mentions` | function | `lazyc2.py:8068` | `def api_lazy_mentions()` |
+| `api_listeners` | function | `lazyc2.py:8837` | `def api_listeners()` |
+| `api_listeners_create` | function | `lazyc2.py:8844` | `def api_listeners_create()` |
+| `api_listeners_delete` | function | `lazyc2.py:8876` | `def api_listeners_delete(listener_id)` |
+| `api_listeners_start` | function | `lazyc2.py:8860` | `def api_listeners_start(listener_id)` |
+| `api_listeners_stop` | function | `lazyc2.py:8868` | `def api_listeners_stop(listener_id)` |
 | `api_loop_broadcast` | function | `lazyc2.py:7879` | `def api_loop_broadcast()` |
 | `api_loop_broadcast_stream` | function | `lazyc2.py:7821` | `def api_loop_broadcast_stream()` |
 | `api_loop_graph` | function | `lazyc2.py:8037` | `def api_loop_graph()` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `BackendConstants` | class | `lazygui/config/constants.py:176` | `class BackendConstants` |
 | `CommandPaletteConstants` | class | `lazygui/config/constants.py:214` | `class CommandPaletteConstants` |
 | `EventLogConstants` | class | `lazygui/config/constants.py:205` | `class EventLogConstants` |
-| `FontConstants` | class | `lazygui/config/constants.py:99` | `class FontConstants` |
-| `IdentifierConstants` | class | `lazygui/config/constants.py:142` | `class IdentifierConstants` |
-| `KeybindingConstants` | class | `lazygui/config/constants.py:124` | `class KeybindingConstants` |
-| `NetworkConstants` | class | `lazygui/config/constants.py:48` | `class NetworkConstants` |
-| `PanelConstants` | class | `lazygui/config/constants.py:185` | `class PanelConstants` |
-| `PtyConstants` | class | `lazygui/config/constants.py:86` | `class PtyConstants` |
-| `ThemeConstants` | class | `lazygui/config/constants.py:161` | `class ThemeConstants` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

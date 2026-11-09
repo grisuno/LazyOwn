@@ -29,7 +29,7 @@
   - `AtomicSelector` (class, line 20) `class AtomicSelector`
   - `propose` (method, line 25) `def propose(self, ctx)`
 - Depends on: `modules/selection/base.py`
-- Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `tests/test_selectors_capabilities.py`
+- Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/selection/base.py
 - Doc: The one shared contract for autonomous action selection.
@@ -40,7 +40,7 @@
   - `ActionDecision` (class, line 44) `class ActionDecision`
   - `Selector` (class, line 63) `class Selector(Protocol)`
   - `propose` (method, line 73) `def propose(self, ctx)`
-- Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+- Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/selection/chain.py
 - Doc: Chain selector: propose a vetted ``apt_chain`` when one fits the state.
@@ -88,6 +88,19 @@
 - Depends on: `modules/selection/base.py`
 - Imported by: `modules/selection/registry.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`
 
+## modules/selection/lazyscript.py
+- Doc: Lazyscript selector: propose an operator-authored .ls recipe when it fits.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_tokens` (function, line 27) `def _tokens(text)`
+  - `LazyscriptSelector` (class, line 36) `class LazyscriptSelector`
+  - `__init__` (method, line 41) `def __init__(self, scripts_dir)`
+  - `_catalogue` (method, line 45) `def _catalogue(self)`
+  - `propose` (method, line 56) `def propose(self, ctx)`
+- Depends on: `modules/selection/base.py`
+- Imported by: `modules/selection/registry.py`, `tests/test_selection_lazyscript.py`
+
 ## modules/selection/module.py
 - Doc: Module selector: map goal/service mentions onto runnable registry modules.
 - Layer: utility
@@ -128,10 +141,10 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `all_selectors` (function, line 29) `def all_selectors()`
-  - `default_selectors` (function, line 57) `def default_selectors()`
-  - `propose_next` (function, line 72) `def propose_next(ctx, selectors)`
-- Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`
+  - `all_selectors` (function, line 31) `def all_selectors()`
+  - `default_selectors` (function, line 61) `def default_selectors()`
+  - `propose_next` (function, line 76) `def propose_next(ctx, selectors)`
+- Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`
 - Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/selection/technique.py
@@ -143,3 +156,14 @@
   - `propose` (method, line 23) `def propose(self, ctx)`
 - Depends on: `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
 - Imported by: `modules/selection/registry.py`, `tests/test_selection_technique.py`
+
+## modules/selection/technique_chain.py
+- Doc: Technique-chain selector: compile the phase's techniques into one paced chain.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TechniqueChainSelector` (class, line 24) `class TechniqueChainSelector`
+  - `_ordered_techniques` (method, line 29) `def _ordered_techniques(self, ctx)`
+  - `propose` (method, line 53) `def propose(self, ctx)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_synth.py`, `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
+- Imported by: `modules/selection/registry.py`, `tests/test_selection_technique_chain.py`

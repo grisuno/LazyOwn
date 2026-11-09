@@ -1,4 +1,4 @@
-# API (page 13 of 26)
+# API (page 13 of 27)
 Previous: [API_p12.md](API_p12.md)
 
 ## modules/guardrails/advisories.py
@@ -179,7 +179,7 @@ Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
 ## modules/integrations/misp_export.py
 Depends on: `core/logging.py`
-Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_single_source_of_truth.py`
+Imported by: `modules/integrations/__init__.py`, `tests/test_single_source_of_truth.py`
 - `FindingMapper.map` (method) `modules/integrations/misp_export.py:90` `def map(self, finding)` -- Convert *finding* to a MISPAttribute.
 - `IPMapper.map` (method) `modules/integrations/misp_export.py:106` `def map(self, finding)`
 - `CredentialMapper.map` (method) `modules/integrations/misp_export.py:126` `def map(self, finding)`
@@ -227,7 +227,7 @@ Imported by: `modules/intelligence_engine.py`, `tests/test_nuclei_parser.py`
 
 ## modules/integrations/searchsploit.py
 Depends on: `core/logging.py`
-Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
+Imported by: `modules/integrations/__init__.py`
 - `ExploitSource.search_cve` (method) `modules/integrations/searchsploit.py:80` `def search_cve(self, cve_id)` -- Return exploits matching *cve_id* (e.g. 'CVE-2021-41773').
 - `ExploitSource.search_service` (method) `modules/integrations/searchsploit.py:84` `def search_service(self, name, version)` -- Return exploits matching the service *name* and optional *version*.
 - `SearchsploitCLI.__init__` (method) `modules/integrations/searchsploit.py:102` `def __init__(self)`
@@ -386,7 +386,7 @@ Imported by: `lazyc2.py`
 
 ## modules/killchain.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
 - `KillChainConfig.world_model_path` (method) `modules/killchain.py:177` `def world_model_path(self)` -- Return the resolved path to world_model.json.
 - `KillChainConfig.phase_index` (method) `modules/killchain.py:181` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
 - `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:188` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
@@ -467,7 +467,7 @@ Imported by: `tests/test_loop_fire_pending.py`
 
 ## modules/lazy_bridge.py
 Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
-Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
+Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/mcp_tools/lazy_status.py`, `skills/mcp_tools/lazy_sync.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
 - `lazy_tasks` (function) `modules/lazy_bridge.py:92` `def lazy_tasks()` -- Load LAZY task registry.
 - `lazy_assets` (function) `modules/lazy_bridge.py:103` `def lazy_assets()` -- Load LAZY asset nodes.
 - `lazy_graph` (function) `modules/lazy_bridge.py:114` `def lazy_graph(task_id)` -- Load experiment graph for a task.

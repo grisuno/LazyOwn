@@ -1,5 +1,57 @@
-# Subsystem: tests (page 18 of 24)
+# Subsystem: tests (page 18 of 25)
 Previous: [KB_tests_p17.md](KB_tests_p17.md)
+
+## tests/test_module_registry.py
+- Doc: Tests for modules.module_registry — ModuleInfo, ModuleRegistry, search, summary.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestClassify` (class, line 20) `class TestClassify`
+  - `TestModuleInfo` (class, line 36) `class TestModuleInfo`
+  - `TestModuleRegistry` (class, line 75) `class TestModuleRegistry`
+  - `TestFormatFunctions` (class, line 185) `class TestFormatFunctions`
+  - `test_known_categories` (method, line 21) `def test_known_categories(self)`
+  - `test_unknown_category_defaults_to_auxiliary` (method, line 27) `def test_unknown_category_defaults_to_auxiliary(self)`
+  - `test_empty_string` (method, line 31) `def test_empty_string(self)`
+  - `test_minimal_construction` (method, line 37) `def test_minimal_construction(self)`
+  - `test_full_construction` (method, line 44) `def test_full_construction(self)`
+  - `test_to_dict` (method, line 62) `def test_to_dict(self)`
+  - `test_repr` (method, line 70) `def test_repr(self)`
+  - `test_singleton` (method, line 76) `def test_singleton(self)`
+  - `test_singleton_with_base_dir` (method, line 82) `def test_singleton_with_base_dir(self)`
+  - `test_initial_state_not_scanned` (method, line 87) `def test_initial_state_not_scanned(self)`
+  - `test_scan_returns_list` (method, line 92) `def test_scan_returns_list(self)`
+  - `test_scan_is_idempotent` (method, line 99) `def test_scan_is_idempotent(self)`
+  - `test_rescan_forces_refresh` (method, line 106) `def test_rescan_forces_refresh(self)`
+  - `test_search_returns_list` (method, line 115) `def test_search_returns_list(self)`
+  - `test_search_by_module_type` (method, line 121) `def test_search_by_module_type(self)`
+  - `test_search_by_category` (method, line 127) `def test_search_by_category(self)`
+  - `test_get_known_module` (method, line 133) `def test_get_known_module(self)`
+  - `test_get_unknown_returns_none` (method, line 145) `def test_get_unknown_returns_none(self)`
+  - `test_summary_returns_counts` (method, line 149) `def test_summary_returns_counts(self)`
+  - `test_by_type_shorthand` (method, line 159) `def test_by_type_shorthand(self)`
+  - `test_search_enabled_only_filters_disabled` (method, line 164) `def test_search_enabled_only_filters_disabled(self)`
+  - `test_format_module_table_empty` (method, line 186) `def test_format_module_table_empty(self)`
+  - `test_format_module_table_with_data` (method, line 190) `def test_format_module_table_with_data(self)`
+  - `test_format_module_detail` (method, line 201) `def test_format_module_detail(self)`
+  - `test_format_module_detail_minimal` (method, line 217) `def test_format_module_detail_minimal(self)`
+- Depends on: `modules/module_registry.py`
+
+## tests/test_module_registry_bridge.py
+- Doc: Module-registry loop bridge: corpus mentions enter planning as intents.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registry` (function, line 15) `def _registry(tmp_path)`
+  - `_registry_with_extras` (function, line 43) `def _registry_with_extras(tmp_path)`
+  - `_empty_osinfer` (function, line 51) `def _empty_osinfer(monkeypatch)`
+  - `test_name_mentions_propose_runnable_intents` (function, line 58) `def test_name_mentions_propose_runnable_intents(tmp_path, monkeypatch)`
+  - `test_playbook_mentions_map_to_apt_playbook` (function, line 66) `def test_playbook_mentions_map_to_apt_playbook(tmp_path, monkeypatch)`
+  - `test_incompatible_os_is_gated` (function, line 74) `def test_incompatible_os_is_gated(tmp_path, monkeypatch)`
+  - `test_fillers_and_nonrunnable_sources_propose_nothing` (function, line 85) `def test_fillers_and_nonrunnable_sources_propose_nothing(tmp_path, monkeypatch)`
+  - `test_limit_caps_results` (function, line 93) `def test_limit_caps_results(tmp_path, monkeypatch)`
+  - `test_planner_appends_registry_candidates_last` (function, line 107) `def test_planner_appends_registry_candidates_last(tmp_path, monkeypatch)`
+- Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/module_registry.py`
 
 ## tests/test_moe_rl_swan.py
 - Doc: tests/test_moe_rl_swan.py
@@ -61,7 +113,7 @@ Previous: [KB_tests_p17.md](KB_tests_p17.md)
   - `test_auto_relation_on_service_add` (method, line 645) `def test_auto_relation_on_service_add(self, tmp_path)`
   - `test_pivot_candidates_sorted_by_centrality` (method, line 656) `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)`
   - `test_swan_tools_registered_in_mcp` (method, line 676) `def test_swan_tools_registered_in_mcp(self)`
-  - `test_hive_tools_registered_in_mcp` (method, line 685) `def test_hive_tools_registered_in_mcp(self)`
+  - `test_hive_tools_registered_in_mcp` (method, line 688) `def test_hive_tools_registered_in_mcp(self)`
   - `_ep` (function, line 199) `def _ep(eid, w)`
   - `_make_trainer` (function, line 285) `def _make_trainer(suffix)`
   - `_result` (function, line 421) `def _result(task_type)`
@@ -259,6 +311,25 @@ Previous: [KB_tests_p17.md](KB_tests_p17.md)
   - `_write` (function, line 131) `def _write(payload)`
 - Depends on: `core/api_authz.py`, `lazyc2/blueprints/orchestrator.py`, `modules/__init__.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`
 
+## tests/test_orchestrator_pacing.py
+- Doc: Pacing tab: jitter and sleeper controls round-trip through set_pacing.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `pacing_store` (function, line 24) `def pacing_store(monkeypatch)`
+  - `_saver` (function, line 41) `def _saver()`
+  - `test_parse_sleeper_windows_splits_valid_and_invalid` (function, line 46) `def test_parse_sleeper_windows_splits_valid_and_invalid()`
+  - `test_format_sleeper_windows_round_trips` (function, line 52) `def test_format_sleeper_windows_round_trips()`
+  - `test_parse_edr_pause_ranges_accepts_level_low_high` (function, line 56) `def test_parse_edr_pause_ranges_accepts_level_low_high()`
+  - `test_parse_edr_pause_ranges_rejects_inverted_and_garbage` (function, line 62) `def test_parse_edr_pause_ranges_rejects_inverted_and_garbage()`
+  - `test_format_edr_pause_ranges_round_trips` (function, line 68) `def test_format_edr_pause_ranges_round_trips()`
+  - `test_save_pacing_persists_valid_sleeper_windows` (function, line 72) `def test_save_pacing_persists_valid_sleeper_windows(pacing_store)`
+  - `test_save_pacing_persists_edr_pause_ranges` (function, line 87) `def test_save_pacing_persists_edr_pause_ranges(pacing_store)`
+  - `test_save_pacing_rejects_malformed_window` (function, line 96) `def test_save_pacing_rejects_malformed_window(pacing_store)`
+  - `test_saved_windows_reach_edr_pacer` (function, line 104) `def test_saved_windows_reach_edr_pacer(pacing_store)`
+  - `_save` (function, line 31) `def _save(payload)`
+- Depends on: `cli/orchestrator_assets_tabs.py`, `modules/__init__.py`, `modules/loop_guardrails.py`
+
 ## tests/test_orchestrator_triggers.py
 - Doc: BDD tests for the orchestrator Triggers tab.
 - Layer: testing
@@ -417,84 +488,6 @@ Previous: [KB_tests_p17.md](KB_tests_p17.md)
   - `test_installs_from_pinned_lock` (method, line 363) `def test_installs_from_pinned_lock(self, text)`
   - `test_no_absolute_modules_ext_path` (method, line 366) `def test_no_absolute_modules_ext_path(self, text)`
   - `test_parses` (method, line 374) `def test_parses(self, filename)`
-
-## tests/test_palette_overlay.py
-- Doc: Tests for cli/palette_overlay.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fake_index` (function, line 24) `def _fake_index()`
-  - `test_rows_returns_all_commands_when_query_empty` (function, line 36) `def test_rows_returns_all_commands_when_query_empty()`
-  - `test_rows_filter_by_substring` (function, line 44) `def test_rows_filter_by_substring()`
-  - `test_rows_rank_recents_above_substrings` (function, line 52) `def test_rows_rank_recents_above_substrings()`
-  - `test_rows_respect_max_rows` (function, line 65) `def test_rows_respect_max_rows()`
-  - `test_build_state_returns_none_when_index_missing` (function, line 73) `def test_build_state_returns_none_when_index_missing(monkeypatch)`
-  - `test_launch_overlay_uses_runner_for_tests` (function, line 79) `def test_launch_overlay_uses_runner_for_tests()`
-  - `test_truncate_summary_uses_truncation_suffix` (function, line 90) `def test_truncate_summary_uses_truncation_suffix()`
-  - `test_set_query_strips_whitespace` (function, line 106) `def test_set_query_strips_whitespace()`
-  - `runner` (function, line 83) `def runner(context)`
-- Depends on: `cli/palette_overlay.py`
-
-## tests/test_param_registry.py
-- Doc: tests/test_param_registry.py  Contract suite for the shared parameter registry.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `root` (function, line 42) `def root(tmp_path)`
-  - `FakeShell` (class, line 48) `class FakeShell`
-  - `TestRegistryFileFormat` (class, line 56) `class TestRegistryFileFormat`
-  - `TestRegistryCrud` (class, line 93) `class TestRegistryCrud`
-  - `TestRegistryProjections` (class, line 151) `class TestRegistryProjections`
-  - `TestSchemaProjection` (class, line 188) `class TestSchemaProjection`
-  - `TestShellIntegration` (class, line 222) `class TestShellIntegration`
-  - `TestParamCommand` (class, line 247) `class TestParamCommand`
-  - `TestOrchestratorParamsTab` (class, line 267) `class TestOrchestratorParamsTab`
-  - `TestSkillPolicy` (class, line 303) `class TestSkillPolicy`
-  - `TestSharedCatalogMigration` (class, line 313) `class TestSharedCatalogMigration`
-  - `__init__` (method, line 51) `def __init__(self)`
-  - `test_registry_path_is_under_params` (method, line 57) `def test_registry_path_is_under_params(self, root)`
-  - `test_create_writes_the_declared_entry` (method, line 60) `def test_create_writes_the_declared_entry(self, root)`
-  - `test_registry_keeps_the_documentation_header` (method, line 73) `def test_registry_keeps_the_documentation_header(self, root)`
-  - `test_missing_registry_reads_as_empty` (method, line 78) `def test_missing_registry_reads_as_empty(self, root)`
-  - `test_illegal_keys_are_skipped` (method, line 81) `def test_illegal_keys_are_skipped(self, root)`
-  - `test_broken_registry_does_not_raise` (method, line 88) `def test_broken_registry_does_not_raise(self, root)`
-  - `test_create_returns_the_parameter` (method, line 94) `def test_create_returns_the_parameter(self, root)`
-  - `test_create_rejects_illegal_names` (method, line 100) `def test_create_rejects_illegal_names(self, root)`
-  - `test_create_rejects_duplicates` (method, line 105) `def test_create_rejects_duplicates(self, root)`
-  - `test_create_rejects_long_description` (method, line 110) `def test_create_rejects_long_description(self, root)`
-  - `test_update_changes_default_and_description` (method, line 114) `def test_update_changes_default_and_description(self, root)`
-  - `test_update_keeps_untouched_fields` (method, line 121) `def test_update_keeps_untouched_fields(self, root)`
-  - `test_update_unknown_raises` (method, line 126) `def test_update_unknown_raises(self, root)`
-  - `test_delete_removes_the_entry` (method, line 130) `def test_delete_removes_the_entry(self, root)`
-  - `test_delete_unknown_raises` (method, line 135) `def test_delete_unknown_raises(self, root)`
-  - `test_normalise_kind` (method, line 139) `def test_normalise_kind(self)`
-  - `test_effective_value_rules` (method, line 145) `def test_effective_value_rules(self)`
-  - `test_operator_specs_carry_kind_and_default` (method, line 152) `def test_operator_specs_carry_kind_and_default(self, root)`
-  - `test_list_params_marks_the_source` (method, line 159) `def test_list_params_marks_the_source(self, root)`
-  - `test_list_params_filters_by_keyword` (method, line 166) `def test_list_params_filters_by_keyword(self, root)`
-  - `test_sync_shell_params_publishes_the_default` (method, line 171) `def test_sync_shell_params_publishes_the_default(self, root)`
-  - `test_sync_shell_params_keeps_a_live_value` (method, line 177) `def test_sync_shell_params_keeps_a_live_value(self, root)`
-  - `test_sync_shell_params_without_shell_is_a_noop` (method, line 184) `def test_sync_shell_params_without_shell_is_a_noop(self, root)`
-  - `test_operator_param_lands_in_the_schema` (method, line 189) `def test_operator_param_lands_in_the_schema(self, root)`
-  - `test_builtin_keys_are_never_overridden` (method, line 201) `def test_builtin_keys_are_never_overridden(self)`
-  - `test_validator_allowlist_includes_operator_params` (method, line 212) `def test_validator_allowlist_includes_operator_params(self, root)`
-  - `test_flat_param_entries_keep_their_value` (method, line 223) `def test_flat_param_entries_keep_their_value(self)`
-  - `test_repo_registry_file_is_valid_yaml` (method, line 229) `def test_repo_registry_file_is_valid_yaml(self)`
-  - `test_live_params_do_not_drift_from_the_registry` (method, line 236) `def test_live_params_do_not_drift_from_the_registry(self)`
-  - `test_command_set_is_discovered` (method, line 248) `def test_command_set_is_discovered(self)`
-  - `test_command_exposes_do_param` (method, line 254) `def test_command_exposes_do_param(self)`
-  - `test_command_documents_the_verbs` (method, line 259) `def test_command_documents_the_verbs(self)`
-  - `test_app_exposes_the_param_tab` (method, line 268) `def test_app_exposes_the_param_tab(self)`
-  - `test_app_create_publishes_to_the_shell` (method, line 277) `def test_app_create_publishes_to_the_shell(self, root)`
-  - `test_app_delete_removes_the_parameter` (method, line 286) `def test_app_delete_removes_the_parameter(self, root)`
-  - `test_app_refuses_to_delete_a_builtin` (method, line 296) `def test_app_refuses_to_delete_a_builtin(self, root)`
-  - `test_skill_documents_the_registry` (method, line 304) `def test_skill_documents_the_registry(self)`
-  - `test_skill_forbids_branded_placeholders` (method, line 308) `def test_skill_forbids_branded_placeholders(self)`
-  - `test_exploit_profile_is_an_operator_parameter` (method, line 316) `def test_exploit_profile_is_an_operator_parameter(self)`
-  - `test_exploit_profile_is_not_a_hardcoded_builtin` (method, line 323) `def test_exploit_profile_is_not_a_hardcoded_builtin(self)`
-  - `test_exploit_profile_is_declared_once` (method, line 331) `def test_exploit_profile_is_declared_once(self)`
-  - `test_skill_key_list_drops_the_migrated_parameter` (method, line 339) `def test_skill_key_list_drops_the_migrated_parameter(self)`
-- Depends on: `cli/commands/params_ops.py`, `cli/lazy_orchestrator.py`, `cli/registry.py`, `core/param_registry.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`
 
 
 Next: [KB_tests_p19.md](KB_tests_p19.md)

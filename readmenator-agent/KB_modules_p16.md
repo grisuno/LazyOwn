@@ -132,7 +132,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `context_for_step` (method, line 489) `def context_for_step(self, phase, target, cmd, n)`
   - `stats` (method, line 509) `def stats(self)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/rag_index.py`, `skills/mcp_tools/rag_query.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
 
 ## modules/session_reader.py
 - Doc: modules/session_reader.py
@@ -168,7 +168,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `update_status` (method, line 288) `def update_status(self, task_id, status)`
   - `__init__` (method, line 319) `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
   - `aggregate` (method, line 331) `def aggregate(self, sessions_dir)`
-- Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
 
 ## modules/session_state.py
 - Doc: LazyOwn Session State
@@ -184,7 +184,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `build_state` (function, line 189) `def build_state()`
   - `refresh` (function, line 240) `def refresh()`
   - `load` (function, line 251) `def load()`
-- Imported by: `modules/recommender.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
+- Imported by: `modules/recommender.py`
 
 ## modules/sidequestion.py
 - Doc: Isolated side-question answering against immutable snapshots.
@@ -430,7 +430,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `_save` (method, line 578) `def _save(self, model)`
   - `_add` (function, line 448) `def _add(ioc)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `cli/commands/mcp_bridge.py`
 
 ## modules/timeline_narrator.py
 - Doc: LazyOwn Timeline Narrator
@@ -444,7 +444,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `narrate` (function, line 130) `def narrate(api_key, force)`
   - `load_timeline` (function, line 165) `def load_timeline()`
 - Depends on: `modules/ai_fallback.py`
-- Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
+- Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/timeline.py`
 
 ## modules/timestomper.py
 - Doc: Filesystem timestomping — MACB timestamp manipulation for stealth.

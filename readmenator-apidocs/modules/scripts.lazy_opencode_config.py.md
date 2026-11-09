@@ -42,6 +42,8 @@ Merge the llamacpp provider into the opencode config.
 
 **Returns:** `dict` - Summary with changed flag, backup path and path. Never raises.
 
+*Called by:* [`handle`](skills.mcp_tools.opencode_config.py.md#handle)
+
 ---
 
 <a id="patch_hermes"></a>
@@ -68,5 +70,7 @@ is rewritten only when a required value actually differs.
 | `host` | `str` | `LLAMACPP_HOST` | Server base URL (``.../v1``). |
 
 **Returns:** `dict` - Summary with changed flag, backup path and path. Never raises.
+
+*Called by:* [`handle`](skills.mcp_tools.opencode_config.py.md#handle)
 
 ---

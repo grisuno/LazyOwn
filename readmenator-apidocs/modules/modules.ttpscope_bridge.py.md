@@ -353,7 +353,7 @@ for MCP agents and the autonomous loop to emulate the technique.
 
 *Calls:* [`get_resolver`](modules.atomic_resolver.py.md#get_resolver), [`do_show`](#do_show), [`validate_object_id`](#validate_object_id), [`get_pdb`](skills.lazyown_parquet_db.py.md#get_pdb)
 
-*Called by:* [`run_action`](#run_action)
+*Called by:* [`run_action`](#run_action), [`handle`](skills.mcp_tools.ttp_chain.py.md#handle)
 
 ---
 

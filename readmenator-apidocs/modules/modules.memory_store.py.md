@@ -675,7 +675,7 @@ def get_memory_store() -> MemoryStore
 
 *Calls:* [`MemoryStore.__init__`](#memorystore-__init__), [`VectorSQLiteBackend`](#vectorsqlitebackend)
 
-*Called by:* [`recall`](#recall), [`recall_hybrid`](#recall_hybrid), [`remember`](#remember)
+*Called by:* [`recall`](#recall), [`recall_hybrid`](#recall_hybrid), [`remember`](#remember), [`handle`](skills.mcp_tools.memory_recall.py.md#handle), [`handle`](skills.mcp_tools.memory_store.py.md#handle)
 
 ---
 

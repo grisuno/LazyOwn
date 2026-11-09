@@ -1,4 +1,4 @@
-# API (page 3 of 26)
+# API (page 3 of 27)
 Previous: [API_p2.md](API_p2.md)
 
 ## cli/commands/misc_migrated.py

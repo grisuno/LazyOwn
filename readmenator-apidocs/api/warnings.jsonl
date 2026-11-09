@@ -727,8 +727,8 @@
 {"code":"DOC001","uid":"lazyown-docker/init.sh","file":"lazyown-docker/init.sh","line":1,"message":"module lazyown-docker/init.sh is not documented"}
 {"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1348,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
 {"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1348,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
-{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2289,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
-{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4727,"message":"function main is not documented"}
+{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2295,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
+{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4733,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::auth","file":"modules/49803.py","line":43,"message":"function auth is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::injection","file":"modules/49803.py","line":69,"message":"function injection is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
@@ -1096,15 +1096,15 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
 {"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1636,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7101,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8402,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8425,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8425,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8570,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8595,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8618,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8618,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9888,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7135,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8446,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8469,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8469,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8614,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8639,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8662,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8662,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9932,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -2078,9 +2078,9 @@
 {"code":"DOC001","uid":"skills/lazyown_llm.py::LLMBridge.register_tool","file":"skills/lazyown_llm.py","line":118,"message":"method LLMBridge.register_tool is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_llm.py::LLMBridge.ask","file":"skills/lazyown_llm.py","line":127,"message":"method LLMBridge.ask is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_llm.py::main","file":"skills/lazyown_llm.py","line":493,"message":"function main is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::list_tools","file":"skills/lazyown_mcp.py","line":2298,"message":"function list_tools is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6942,"message":"function call_tool is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":12158,"message":"function main is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::list_tools","file":"skills/lazyown_mcp.py","line":897,"message":"function list_tools is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":1326,"message":"function call_tool is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":2477,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.status","file":"skills/lazyown_mcp_helpers.py","line":727,"message":"method JobStore.status is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.list","file":"skills/lazyown_mcp_helpers.py","line":732,"message":"method JobStore.list is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_opencode.py::main","file":"skills/lazyown_mcp_opencode.py","line":213,"message":"function main is not documented"}

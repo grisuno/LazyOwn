@@ -210,7 +210,7 @@ def __init__(self, path: Path | None = None) -> None
 |---|---|---|---|
 | `path` | `Path \| None` | `None` |  |
 
-*Called by:* [`push_objectives`](modules.golden_path.py.md#push_objectives), [`full_context_for_claude`](#full_context_for_claude), [`main`](#main)
+*Called by:* [`push_objectives`](modules.golden_path.py.md#push_objectives), [`full_context_for_claude`](#full_context_for_claude), [`main`](#main), [`handle`](skills.mcp_tools.inject_objective.py.md#handle)
 
 <a id="objectivestore-cleanup"></a>
 
@@ -254,7 +254,7 @@ def inject(self, text: str, priority: str = 'medium', source: str = 'claude', co
 
 *Calls:* [`Objective`](#objective), [`ObjectiveStore.cleanup`](#objectivestore-cleanup)
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.inject_objective.py.md#handle)
 
 <a id="objectivestore-complete"></a>
 
@@ -367,7 +367,7 @@ def list_pending(self, limit: int = 10) -> list[Objective]
 
 **Returns:** `list[Objective]`
 
-*Called by:* [`full_context_for_claude`](#full_context_for_claude)
+*Called by:* [`full_context_for_claude`](#full_context_for_claude), [`handle`](skills.mcp_tools.inject_objective.py.md#handle)
 
 <a id="objectivestore-list_all"></a>
 

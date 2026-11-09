@@ -1,5 +1,156 @@
-# Subsystem: tests (page 23 of 24)
+# Subsystem: tests (page 23 of 25)
 Previous: [KB_tests_p22.md](KB_tests_p22.md)
+
+## tests/test_sessions_browser.py
+- Doc: Tests for cli/sessions_browser.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_populate` (function, line 24) `def _populate(tmp_path)`
+  - `test_index_groups_known_files` (function, line 34) `def test_index_groups_known_files(tmp_path)`
+  - `test_index_other_bucket_contains_unmatched_files` (function, line 47) `def test_index_other_bucket_contains_unmatched_files(tmp_path)`
+  - `test_preview_returns_text_for_text_files` (function, line 56) `def test_preview_returns_text_for_text_files(tmp_path)`
+  - `test_preview_flags_binary_files` (function, line 64) `def test_preview_flags_binary_files(tmp_path)`
+  - `test_preview_rejects_path_traversal` (function, line 71) `def test_preview_rejects_path_traversal(tmp_path)`
+  - `test_state_filter_keeps_matching_entries` (function, line 79) `def test_state_filter_keeps_matching_entries(tmp_path)`
+  - `test_category_label_for_known_identifier` (function, line 89) `def test_category_label_for_known_identifier(tmp_path)`
+- Depends on: `cli/sessions_browser.py`
+
+## tests/test_shell_semantics.py
+- Doc: Contract tests for shell-semantics detection and colored child output.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_needs_shell_detects_control_and_expansion` (function, line 17) `def test_needs_shell_detects_control_and_expansion()`
+  - `test_needs_shell_accepts_plain_argv` (function, line 32) `def test_needs_shell_accepts_plain_argv()`
+  - `test_run_command_interprets_semicolon` (function, line 38) `def test_run_command_interprets_semicolon()`
+  - `test_run_command_expands_tilde_and_glob` (function, line 45) `def test_run_command_expands_tilde_and_glob(tmp_path, monkeypatch)`
+  - `test_terminal_env_forces_color` (function, line 53) `def test_terminal_env_forces_color(monkeypatch)`
+  - `test_terminal_env_respects_no_color` (function, line 61) `def test_terminal_env_respects_no_color(monkeypatch)`
+  - `test_linpeas_http_server_is_detached` (function, line 69) `def test_linpeas_http_server_is_detached(monkeypatch)`
+  - `test_safe_runner_interprets_shell_syntax` (function, line 87) `def test_safe_runner_interprets_shell_syntax()`
+  - `_FakePopen` (class, line 75) `class _FakePopen`
+  - `__init__` (method, line 76) `def __init__(self, argv)`
+- Depends on: `cli/commands/privilege_escalation.py`, `core/hardening.py`, `core/process.py`, `core/safe_exec.py`, `core/safe_subprocess.py`
+
+## tests/test_shellsys_command_set.py
+- Doc: Shell/sys command set extraction tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
+  - `ShellsysSuiteConfig` (class, line 38) `class ShellsysSuiteConfig`
+  - `_methods_of` (function, line 61) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 73) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_shellsys_cluster` (function, line 82) `def test_target_exposes_full_shellsys_cluster()`
+  - `test_target_phase_metadata` (function, line 89) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 95) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 101) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 108) `def test_no_command_collisions_with_source()`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/shellsys.py`, `cli/registry.py`
+
+## tests/test_short_url_file_containment.py
+- Doc: Containment contract for short-URL file serving.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sessions_dir` (function, line 26) `def sessions_dir(tmp_path, monkeypatch)`
+  - `TestContainedPaths` (class, line 36) `class TestContainedPaths`
+  - `TestRejectedPaths` (class, line 51) `class TestRejectedPaths`
+  - `TestRouteStatusContract` (class, line 78) `class TestRouteStatusContract`
+  - `TestBlueprintRouteContainment` (class, line 105) `class TestBlueprintRouteContainment`
+  - `test_bare_relative_inside_base` (method, line 37) `def test_bare_relative_inside_base(self, sessions_dir)`
+  - `test_absolute_inside_base` (method, line 41) `def test_absolute_inside_base(self, sessions_dir)`
+  - `test_file_scheme_inside_base` (method, line 45) `def test_file_scheme_inside_base(self, sessions_dir)`
+  - `test_remote_url_rejected` (method, line 52) `def test_remote_url_rejected(self, sessions_dir)`
+  - `test_absolute_outside_rejected` (method, line 55) `def test_absolute_outside_rejected(self, sessions_dir)`
+  - `test_file_scheme_outside_rejected` (method, line 58) `def test_file_scheme_outside_rejected(self, sessions_dir)`
+  - `test_traversal_rejected` (method, line 61) `def test_traversal_rejected(self, sessions_dir)`
+  - `test_symlink_escape_rejected` (method, line 64) `def test_symlink_escape_rejected(self, sessions_dir, tmp_path)`
+  - `test_empty_rejected` (method, line 74) `def test_empty_rejected(self, sessions_dir)`
+  - `test_abort_propagates` (method, line 86) `def test_abort_propagates(self)`
+  - `test_blueprint_redirect_uses_contained_resolver` (method, line 112) `def test_blueprint_redirect_uses_contained_resolver(self)`
+- Depends on: `lazyc2/security/validators.py`
+
+## tests/test_single_implementation.py
+- Doc: Single-implementation rule for extracted helpers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestDeadForkRemoved` (class, line 54) `class TestDeadForkRemoved`
+  - `test_no_divergent_copies_in_core_parsers` (method, line 55) `def test_no_divergent_copies_in_core_parsers(self)`
+  - `test_no_divergent_copies_in_core_namespace` (method, line 59) `def test_no_divergent_copies_in_core_namespace(self)`
+  - `test_shared_kernel_still_available` (method, line 63) `def test_shared_kernel_still_available(self)`
+  - `test_live_utils_implementations_intact` (method, line 68) `def test_live_utils_implementations_intact(self)`
+- Depends on: `core/__init__.py`, `core/parsers.py`, `utils.py`
+
+## tests/test_single_source_of_truth.py
+- Doc: Single-source-of-truth contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write` (function, line 26) `def _write(path, data)`
+  - `AdvancePhaseSingleWriterSpec` (class, line 31) `class AdvancePhaseSingleWriterSpec(TestCase)`
+  - `LazynmapPostSingleWriterSpec` (class, line 99) `class LazynmapPostSingleWriterSpec(TestCase)`
+  - `StateManagerMergeSpec` (class, line 137) `class StateManagerMergeSpec(TestCase)`
+  - `FactsIoCanonicalSpec` (class, line 201) `class FactsIoCanonicalSpec(TestCase)`
+  - `ConsumePolicyFactsSpec` (class, line 273) `class ConsumePolicyFactsSpec(TestCase)`
+  - `IntelligenceFactstoreSpec` (class, line 305) `class IntelligenceFactstoreSpec(TestCase)`
+  - `ComplianceFactsSpec` (class, line 337) `class ComplianceFactsSpec(TestCase)`
+  - `MispFactRecordsSpec` (class, line 365) `class MispFactRecordsSpec(TestCase)`
+  - `_host_map_facts` (function, line 401) `def _host_map_facts()`
+  - `test_extras_and_unknown_keys_are_preserved` (method, line 34) `def test_extras_and_unknown_keys_are_preserved(self)`
+  - `test_extras_reapplied_after_host_advance` (method, line 56) `def test_extras_reapplied_after_host_advance(self)`
+  - `test_invalid_phase_leaves_file_untouched` (method, line 89) `def test_invalid_phase_leaves_file_untouched(self)`
+  - `test_post_scan_bumps_phase_via_killchain` (method, line 102) `def test_post_scan_bumps_phase_via_killchain(self)`
+  - `_make_manager` (method, line 140) `def _make_manager(self, tmp)`
+  - `test_sync_preserves_network_graph_and_campaign_fields` (method, line 153) `def test_sync_preserves_network_graph_and_campaign_fields(self)`
+  - `test_canonical_passes_through` (method, line 242) `def test_canonical_passes_through(self)`
+  - `test_legacy_wrapped_shape_resolves` (method, line 245) `def test_legacy_wrapped_shape_resolves(self)`
+  - `test_flat_records_derive_observables` (method, line 253) `def test_flat_records_derive_observables(self)`
+  - `test_load_reads_real_file` (method, line 266) `def test_load_reads_real_file(self)`
+  - `test_consume_ingests_real_shape` (method, line 276) `def test_consume_ingests_real_shape(self)`
+  - `test_collects_creds_and_vulns_from_canonical` (method, line 308) `def test_collects_creds_and_vulns_from_canonical(self)`
+  - `test_findings_from_canonical` (method, line 340) `def test_findings_from_canonical(self)`
+  - `test_fact_records_produce_findings` (method, line 368) `def test_fact_records_produce_findings(self)`
+  - `test_cve_record` (method, line 373) `def test_cve_record(self)`
+  - `test_host_map_resolves_nested_records` (method, line 383) `def test_host_map_resolves_nested_records(self)`
+- Depends on: `cli/lazynmap_post.py`, `modules/compliance.py`, `modules/factsio.py`, `modules/integrations/misp_export.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/state_manager.py`, `modules/world_model.py`
+
+## tests/test_sink_chain_feed.py
+- Doc: Chain-feed sink contract: live step visibility and unhandled-failure steering.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_store_dir` (function, line 16) `def _store_dir(monkeypatch, tmp_path)`
+  - `_step_event` (function, line 27) `def _step_event(steer)`
+  - `test_ignores_out_of_scope_events` (function, line 44) `def test_ignores_out_of_scope_events(tmp_path)`
+  - `test_rejects_unsafe_task_ids` (function, line 54) `def test_rejects_unsafe_task_ids(tmp_path)`
+  - `test_trace_record_wakes_and_appends` (function, line 63) `def test_trace_record_wakes_and_appends(monkeypatch, tmp_path)`
+  - `test_unhandled_failure_plants_one_pending_hint` (function, line 77) `def test_unhandled_failure_plants_one_pending_hint(monkeypatch, tmp_path)`
+  - `test_steer_hint_dedupe_is_per_run` (function, line 95) `def test_steer_hint_dedupe_is_per_run(monkeypatch, tmp_path)`
+  - `test_chain_step_activity_maps_to_planner_trigger` (function, line 111) `def test_chain_step_activity_maps_to_planner_trigger(monkeypatch, tmp_path)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/outcome_bus.py`, `modules/sinks/chain_feed.py`
+
+## tests/test_sink_lazy_intel.py
+- Doc: BDD tests for the dedicated lazy_intel sink.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_event` (function, line 15) `def _event(host, cve)`
+  - `rigged` (function, line 47) `def rigged(monkeypatch, tmp_path)`
+  - `TestSinkRouting` (class, line 61) `class TestSinkRouting`
+  - `TestWorldMirror` (class, line 73) `class TestWorldMirror`
+  - `TestDbMirror` (class, line 94) `class TestDbMirror`
+  - `fake_get_db` (function, line 54) `def fake_get_db(_path)`
+  - `test_other_kinds_ignored` (method, line 62) `def test_other_kinds_ignored(self, rigged)`
+  - `test_missing_host_ignored` (method, line 66) `def test_missing_host_ignored(self, rigged)`
+  - `test_fire_match_becomes_vulnerability` (method, line 74) `def test_fire_match_becomes_vulnerability(self, rigged)`
+  - `test_dedupe_second_event` (method, line 84) `def test_dedupe_second_event(self, rigged)`
+  - `test_vuln_row_inserted_with_refs` (method, line 95) `def test_vuln_row_inserted_with_refs(self, rigged)`
+  - `test_db_dedupe` (method, line 106) `def test_db_dedupe(self, rigged)`
+  - `test_severity_follows_tier` (method, line 114) `def test_severity_follows_tier(self, rigged)`
+- Depends on: `modules/db.py`, `modules/outcome_bus.py`, `modules/sinks/__init__.py`, `modules/world_model.py`
 
 ## tests/test_sleep_obfuscation.py
 - Doc: Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig...
@@ -334,157 +485,6 @@ Previous: [KB_tests_p22.md](KB_tests_p22.md)
   - `__init__` (method, line 76) `def __init__(self)`
   - `print` (method, line 79) `def print(self, message, style)`
 - Depends on: `cli/toast_bus.py`
-
-## tests/test_trigger_policy.py
-- Doc: BDD contract tests for the declarative trigger policy.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_validate_policy_rejects_bad_documents` (function, line 18) `def test_validate_policy_rejects_bad_documents()`
-  - `test_seeds_coerce_and_skip_unknown_kinds` (function, line 26) `def test_seeds_coerce_and_skip_unknown_kinds()`
-  - `test_yaml_seeds_read_from_orchestrator_document` (function, line 40) `def test_yaml_seeds_read_from_orchestrator_document()`
-  - `test_seed_store_is_idempotent` (function, line 48) `def test_seed_store_is_idempotent(tmp_path, monkeypatch)`
-  - `test_seed_store_keeps_runtime_triggers` (function, line 66) `def test_seed_store_keeps_runtime_triggers(tmp_path, monkeypatch)`
-  - `test_orchestrator_yaml_declares_trigger_seeds` (function, line 82) `def test_orchestrator_yaml_declares_trigger_seeds()`
-  - `test_seed_store_drops_unknown_kinds` (function, line 89) `def test_seed_store_drops_unknown_kinds(tmp_path, monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`, `modules/loop_triggers.py`
-
-## tests/test_trusted_proxy.py
-- Doc: TDD tests for the trusted proxy resolver contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestNoProxy` (class, line 22) `class TestNoProxy`
-  - `TestTrustedProxy` (class, line 43) `class TestTrustedProxy`
-  - `TestIsOperator` (class, line 99) `class TestIsOperator`
-  - `test_remote_addr_returned` (method, line 25) `def test_remote_addr_returned(self)`
-  - `test_no_header_falls_back_to_remote` (method, line 38) `def test_no_header_falls_back_to_remote(self)`
-  - `test_single_proxy_returns_leftmost` (method, line 46) `def test_single_proxy_returns_leftmost(self)`
-  - `test_two_proxies_returns_leftmost` (method, line 59) `def test_two_proxies_returns_leftmost(self)`
-  - `test_insufficient_chain_falls_back` (method, line 72) `def test_insufficient_chain_falls_back(self)`
-  - `test_empty_header_falls_back` (method, line 85) `def test_empty_header_falls_back(self)`
-  - `test_match` (method, line 102) `def test_match(self)`
-  - `test_no_match` (method, line 109) `def test_no_match(self)`
-- Depends on: `lazyc2/security/trusted_proxy.py`
-
-## tests/test_ttpscope_bridge.py
-- Doc: TTPScope bridge contract: validators, fallbacks, addon schema.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_object_id_validation` (function, line 18) `def test_object_id_validation()`
-  - `test_query_and_platform_validation` (function, line 27) `def test_query_and_platform_validation()`
-  - `test_unknown_action_rejected` (function, line 40) `def test_unknown_action_rejected()`
-  - `test_search_fallback_needs_no_binary` (function, line 48) `def test_search_fallback_needs_no_binary(monkeypatch)`
-  - `test_show_fallback_technique` (function, line 56) `def test_show_fallback_technique(monkeypatch)`
-  - `test_matrix_fallback_groups` (function, line 65) `def test_matrix_fallback_groups(monkeypatch)`
-  - `test_notes_roundtrip_without_binary` (function, line 73) `def test_notes_roundtrip_without_binary(monkeypatch, tmp_path)`
-  - `test_chain_needs_no_binary` (function, line 85) `def test_chain_needs_no_binary(monkeypatch)`
-  - `test_addon_schema_agent_friendly` (function, line 95) `def test_addon_schema_agent_friendly()`
-- Depends on: `modules/__init__.py`
-
-## tests/test_tui_splash.py
-- Doc: Tests for cli.splash — the animated first-run overlay.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_console` (function, line 19) `def _console()`
-  - `SplashInstantEffectTests` (class, line 30) `class SplashInstantEffectTests(TestCase)`
-  - `SplashTypewriterEffectTests` (class, line 67) `class SplashTypewriterEffectTests(TestCase)`
-  - `SplashDispatchTests` (class, line 81) `class SplashDispatchTests(TestCase)`
-  - `SplashEdgeCaseTests` (class, line 145) `class SplashEdgeCaseTests(TestCase)`
-  - `test_instant_renders_every_line` (method, line 31) `def test_instant_renders_every_line(self)`
-  - `test_instant_does_not_block` (method, line 44) `def test_instant_does_not_block(self)`
-  - `test_instant_emits_ansi_for_known_tokens` (method, line 56) `def test_instant_emits_ansi_for_known_tokens(self)`
-  - `test_typewriter_renders_all_lines_when_total_seconds_high` (method, line 68) `def test_typewriter_renders_all_lines_when_total_seconds_high(self)`
-  - `test_render_splash_dispatches_instant_for_zero_seconds` (method, line 82) `def test_render_splash_dispatches_instant_for_zero_seconds(self)`
-  - `test_render_splash_dispatches_instant_when_explicit` (method, line 92) `def test_render_splash_dispatches_instant_when_explicit(self)`
-  - `test_render_splash_unknown_effect_falls_back_to_instant` (method, line 103) `def test_render_splash_unknown_effect_falls_back_to_instant(self)`
-  - `test_render_splash_uses_payload_theme_when_provided` (method, line 114) `def test_render_splash_uses_payload_theme_when_provided(self)`
-  - `test_render_splash_clear_after_emits_clear_escape` (method, line 124) `def test_render_splash_clear_after_emits_clear_escape(self)`
-  - `test_render_splash_no_clear_when_disabled` (method, line 134) `def test_render_splash_no_clear_when_disabled(self)`
-  - `test_empty_lines_is_noop` (method, line 146) `def test_empty_lines_is_noop(self)`
-  - `test_lines_with_brackets_render_verbatim` (method, line 156) `def test_lines_with_brackets_render_verbatim(self)`
-- Depends on: `cli/splash.py`, `core/console.py`
-
-## tests/test_tui_style.py
-- Doc: Tests for the cli/style semantic token layer.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `StyleTokenTests` (class, line 14) `class StyleTokenTests(TestCase)`
-  - `test_known_token_returns_theme_attribute` (method, line 15) `def test_known_token_returns_theme_attribute(self)`
-  - `test_unknown_token_falls_back_to_white` (method, line 21) `def test_unknown_token_falls_back_to_white(self)`
-  - `test_active_tokens_covers_every_key` (method, line 25) `def test_active_tokens_covers_every_key(self)`
-  - `test_active_tokens_honours_payload` (method, line 32) `def test_active_tokens_honours_payload(self)`
-  - `test_paint_returns_rich_text_with_style` (method, line 39) `def test_paint_returns_rich_text_with_style(self)`
-  - `test_render_prompt_emits_segments_separated_by_bar` (method, line 44) `def test_render_prompt_emits_segments_separated_by_bar(self)`
-  - `test_render_prompt_empty_is_noop` (method, line 59) `def test_render_prompt_empty_is_noop(self)`
-- Depends on: `cli/__init__.py`, `cli/themes.py`, `core/console.py`
-
-## tests/test_tui_theme_command.py
-- Doc: Tests for the cli.tui_theme command logic.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `RecordingSave` (class, line 11) `class RecordingSave`
-  - `_payload` (function, line 21) `def _payload()`
-  - `TuiThemeListingTests` (class, line 28) `class TuiThemeListingTests(TestCase)`
-  - `TuiThemeSwitchTests` (class, line 46) `class TuiThemeSwitchTests(TestCase)`
-  - `TuiThemeCycleTests` (class, line 78) `class TuiThemeCycleTests(TestCase)`
-  - `TuiThemeRegistrationConsistencyTests` (class, line 105) `class TuiThemeRegistrationConsistencyTests(TestCase)`
-  - `__init__` (method, line 14) `def __init__(self)`
-  - `__call__` (method, line 17) `def __call__(self, payload)`
-  - `test_empty_args_lists_every_registered_theme` (method, line 29) `def test_empty_args_lists_every_registered_theme(self)`
-  - `test_listing_marks_current_theme` (method, line 38) `def test_listing_marks_current_theme(self)`
-  - `test_known_name_switches_and_persists` (method, line 47) `def test_known_name_switches_and_persists(self)`
-  - `test_unknown_name_does_not_mutate` (method, line 55) `def test_unknown_name_does_not_mutate(self)`
-  - `test_case_insensitive_lookup` (method, line 63) `def test_case_insensitive_lookup(self)`
-  - `test_reset_returns_to_default` (method, line 70) `def test_reset_returns_to_default(self)`
-  - `test_cycle_advances_in_theme_order` (method, line 79) `def test_cycle_advances_in_theme_order(self)`
-  - `test_cycle_wraps_around` (method, line 87) `def test_cycle_wraps_around(self)`
-  - `test_prev_walks_backwards_and_wraps` (method, line 94) `def test_prev_walks_backwards_and_wraps(self)`
-  - `test_theme_order_covers_every_registered_theme` (method, line 106) `def test_theme_order_covers_every_registered_theme(self)`
-  - `test_theme_order_has_no_duplicates` (method, line 109) `def test_theme_order_has_no_duplicates(self)`
-- Depends on: `cli/__init__.py`, `cli/themes.py`
-
-## tests/test_tui_themes.py
-- Doc: Tests for the four new themes added on top of the original four.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `NewThemeRegistrationTests` (class, line 39) `class NewThemeRegistrationTests(TestCase)`
-  - `NewThemeRenderTests` (class, line 86) `class NewThemeRenderTests(TestCase)`
-  - `ThemeOrderTests` (class, line 130) `class ThemeOrderTests(TestCase)`
-  - `test_every_new_theme_is_registered` (method, line 40) `def test_every_new_theme_is_registered(self)`
-  - `test_original_themes_remain_registered` (method, line 45) `def test_original_themes_remain_registered(self)`
-  - `test_get_theme_resolves_every_new_name` (method, line 50) `def test_get_theme_resolves_every_new_name(self)`
-  - `test_get_theme_uses_case_insensitive_lookup` (method, line 55) `def test_get_theme_uses_case_insensitive_lookup(self)`
-  - `test_unknown_name_falls_back_to_default` (method, line 59) `def test_unknown_name_falls_back_to_default(self)`
-  - `test_theme_from_payload_picks_each_new_theme` (method, line 64) `def test_theme_from_payload_picks_each_new_theme(self)`
-  - `test_new_themes_have_unique_color_palettes` (method, line 72) `def test_new_themes_have_unique_color_palettes(self)`
-  - `test_new_themes_have_non_empty_token_values` (method, line 76) `def test_new_themes_have_non_empty_token_values(self)`
-  - `test_every_token_renders_with_ansi_escapes` (method, line 95) `def test_every_token_renders_with_ansi_escapes(self)`
-  - `test_every_token_renders_with_ansi_escapes_in_256color` (method, line 112) `def test_every_token_renders_with_ansi_escapes_in_256color(self)`
-  - `test_order_covers_every_registered_theme_exactly_once` (method, line 131) `def test_order_covers_every_registered_theme_exactly_once(self)`
-  - `test_order_is_reexported_by_tui_theme_command` (method, line 135) `def test_order_is_reexported_by_tui_theme_command(self)`
-- Depends on: `cli/__init__.py`, `cli/themes.py`, `core/console.py`
-
-## tests/test_unified_bridge_delegate.py
-- Doc: Contract tests for UnifiedBridge.delegate agent polling.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `unified_bridge` (function, line 16) `def unified_bridge(monkeypatch)`
-  - `_patch_bridge_api` (function, line 25) `def _patch_bridge_api(monkeypatch, statuses, result)`
-  - `test_delegate_polls_until_completion` (function, line 40) `def test_delegate_polls_until_completion(monkeypatch, unified_bridge)`
-  - `test_delegate_times_out_when_agent_never_finishes` (function, line 55) `def test_delegate_times_out_when_agent_never_finishes(monkeypatch, unified_bridge)`
-  - `test_delegate_reports_agent_failure` (function, line 66) `def test_delegate_reports_agent_failure(monkeypatch, unified_bridge)`
-  - `test_delegate_surfaces_missing_agent` (function, line 77) `def test_delegate_surfaces_missing_agent(monkeypatch, unified_bridge)`
-  - `test_delegate_wraps_start_errors` (function, line 87) `def test_delegate_wraps_start_errors(monkeypatch, unified_bridge)`
-  - `fake_start` (function, line 30) `def fake_start(goal, backend, runner, max_iterations)`
-  - `boom` (function, line 90) `def boom()`
-- Depends on: `modules/__init__.py`
 
 
 Next: [KB_tests_p24.md](KB_tests_p24.md)

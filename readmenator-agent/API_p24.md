@@ -1,500 +1,375 @@
-# API (page 24 of 26)
+# API (page 24 of 27)
 Previous: [API_p23.md](API_p23.md)
 
-## static/js/html2pdf.bundle.min.js
-Depends on: `cli/assign.py`, `lazygui/services/factory.py`, `lazyown-docker/init.sh`
-- `commonjsRequire` (function) `static/js/html2pdf.bundle.min.js:14`
-- `unwrapExports` (function) `static/js/html2pdf.bundle.min.js:18`
-- `createCommonjsModule` (function) `static/js/html2pdf.bundle.min.js:22`
-- `e` (function) `static/js/html2pdf.bundle.min.js:27`
-- `c` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `I` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `C` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `T` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `F` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `P` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `E` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `q` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `O` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `B` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `R` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `j` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `D` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `M` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `U` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `d` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `n` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `h` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `c` (function) `static/js/html2pdf.bundle.min.js:62` -- jsPDF AcroForm Plugin Copyright (c) 2016 Alexander Weidt, https://github.com/BiggA94  Licensed under the MIT...
-- `r` (function) `static/js/html2pdf.bundle.min.js:70` -- jsPDF Canvas PlugIn Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  steven@twelvetone.tv  Licensed under the MIT...
-- `r` (function) `static/js/html2pdf.bundle.min.js:70` -- jsPDF Canvas PlugIn Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  steven@twelvetone.tv  Licensed under the MIT...
-- `C` (function) `static/js/html2pdf.bundle.min.js:78` -- jsPDF Outline PlugIn Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  steven@twelvetone.tv  Licensed under the...
-- `n` (function) `static/js/html2pdf.bundle.min.js:94` -- jsPDF bmp Support PlugIn Copyright (c) 2018 Aras Abbasi  Licensed under the MIT License....
-- `v` (function) `static/js/html2pdf.bundle.min.js:94` -- jsPDF bmp Support PlugIn Copyright (c) 2018 Aras Abbasi  Licensed under the MIT License....
-- `r` (function) `static/js/html2pdf.bundle.min.js:115` -- @preserve jsPDF SVG plugin Copyright (c) 2012 Willow Systems Corporation, willow-systems.com
-- `c` (function) `static/js/html2pdf.bundle.min.js:115` -- @preserve jsPDF SVG plugin Copyright (c) 2012 Willow Systems Corporation, willow-systems.com
-- `s` (function) `static/js/html2pdf.bundle.min.js:115` -- @preserve jsPDF SVG plugin Copyright (c) 2012 Willow Systems Corporation, willow-systems.com
-- `a` (function) `static/js/html2pdf.bundle.min.js:146`
-- `s` (function) `static/js/html2pdf.bundle.min.js:146`
-- `o` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `n` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `i` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `T` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `r` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `u` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `d` (function) `static/js/html2pdf.bundle.min.js:201` -- 3.
-- `p` (function) `static/js/html2pdf.bundle.min.js:217` -- Extracted from pdf.js https://github.com/andreasgal/pdf.js  Copyright (c) 2011 Mozilla Foundation  Contributors...
-- `w` (function) `static/js/html2pdf.bundle.min.js:217` -- Extracted from pdf.js https://github.com/andreasgal/pdf.js  Copyright (c) 2011 Mozilla Foundation  Contributors...
-- `y` (function) `static/js/html2pdf.bundle.min.js:217` -- Extracted from pdf.js https://github.com/andreasgal/pdf.js  Copyright (c) 2011 Mozilla Foundation  Contributors...
-- `St` (function) `static/js/html2pdf.bundle.min.js:217` -- Extracted from pdf.js https://github.com/andreasgal/pdf.js  Copyright (c) 2011 Mozilla Foundation  Contributors...
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:244`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:246`
-- `hex3` (function) `static/js/html2pdf.bundle.min.js:251`
-- `hex3` (function) `static/js/html2pdf.bundle.min.js:251`
-- `hex6` (function) `static/js/html2pdf.bundle.min.js:260`
-- `hex6` (function) `static/js/html2pdf.bundle.min.js:260`
-- `rgb` (function) `static/js/html2pdf.bundle.min.js:269`
-- `rgb` (function) `static/js/html2pdf.bundle.min.js:269`
-- `rgba` (function) `static/js/html2pdf.bundle.min.js:278`
-- `rgba` (function) `static/js/html2pdf.bundle.min.js:278`
-- `fromArray` (function) `static/js/html2pdf.bundle.min.js:286`
-- `fromArray` (function) `static/js/html2pdf.bundle.min.js:286`
-- `namedColor` (function) `static/js/html2pdf.bundle.min.js:290`
-- `namedColor` (function) `static/js/html2pdf.bundle.min.js:290`
-- `Color` (function) `static/js/html2pdf.bundle.min.js:295`
-- `Color` (function) `static/js/html2pdf.bundle.min.js:296`
-- `isTransparent` (function) `static/js/html2pdf.bundle.min.js:314`
-- `toString` (function) `static/js/html2pdf.bundle.min.js:319`
-- `parseLine` (function) `static/js/html2pdf.bundle.min.js:519`
-- `parseLine` (function) `static/js/html2pdf.bundle.min.js:519`
-- `parseTextDecorationLine` (function) `static/js/html2pdf.bundle.min.js:531`
-- `parseTextDecorationLine` (function) `static/js/html2pdf.bundle.min.js:531`
-- `parseTextDecorationStyle` (function) `static/js/html2pdf.bundle.min.js:539`
-- `parseTextDecorationStyle` (function) `static/js/html2pdf.bundle.min.js:539`
-- `parseTextDecoration` (function) `static/js/html2pdf.bundle.min.js:553`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:581`
-- `addColorStops` (function) `static/js/html2pdf.bundle.min.js:589`
-- `addColorStops` (function) `static/js/html2pdf.bundle.min.js:589`
-- `CanvasRenderer` (function) `static/js/html2pdf.bundle.min.js:599`
-- `CanvasRenderer` (function) `static/js/html2pdf.bundle.min.js:600`
-- `render` (function) `static/js/html2pdf.bundle.min.js:608`
-- `clip` (function) `static/js/html2pdf.bundle.min.js:623`
-- `drawImage` (function) `static/js/html2pdf.bundle.min.js:642`
-- `drawShape` (function) `static/js/html2pdf.bundle.min.js:647`
-- `fill` (function) `static/js/html2pdf.bundle.min.js:654`
-- `getTarget` (function) `static/js/html2pdf.bundle.min.js:660`
-- `path` (function) `static/js/html2pdf.bundle.min.js:666`
-- `rectangle` (function) `static/js/html2pdf.bundle.min.js:691`
-- `renderLinearGradient` (function) `static/js/html2pdf.bundle.min.js:697`
-- `renderRadialGradient` (function) `static/js/html2pdf.bundle.min.js:706`
-- `renderRepeat` (function) `static/js/html2pdf.bundle.min.js:736`
-- `renderTextNode` (function) `static/js/html2pdf.bundle.min.js:745`
-- `resizeImage` (function) `static/js/html2pdf.bundle.min.js:795`
-- `setOpacity` (function) `static/js/html2pdf.bundle.min.js:809`
-- `transform` (function) `static/js/html2pdf.bundle.min.js:814`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:839`
-- `Logger` (function) `static/js/html2pdf.bundle.min.js:843`
-- `Logger` (function) `static/js/html2pdf.bundle.min.js:844`
-- `child` (function) `static/js/html2pdf.bundle.min.js:854`
-- `log` (function) `static/js/html2pdf.bundle.min.js:862`
-- `error` (function) `static/js/html2pdf.bundle.min.js:876`
-- `contains` (function) `static/js/html2pdf.bundle.min.js:899`
-- `distance` (function) `static/js/html2pdf.bundle.min.js:903`
-- `copyCSSStyles` (function) `static/js/html2pdf.bundle.min.js:907`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:934`
-- `Length` (function) `static/js/html2pdf.bundle.min.js:949`
-- `Length` (function) `static/js/html2pdf.bundle.min.js:950`
-- `isPercentage` (function) `static/js/html2pdf.bundle.min.js:960`
-- `getAbsoluteValue` (function) `static/js/html2pdf.bundle.min.js:965`
-- `create` (function) `static/js/html2pdf.bundle.min.js:970`
-- `getRootFontSize` (function) `static/js/html2pdf.bundle.min.js:981`
-- `getRootFontSize` (function) `static/js/html2pdf.bundle.min.js:981`
-- `calculateLengthFromValueWithUnit` (function) `static/js/html2pdf.bundle.min.js:986`
-- `Size` (function) `static/js/html2pdf.bundle.min.js:1014`
-- `Size` (function) `static/js/html2pdf.bundle.min.js:1014`
-- `Vector` (function) `static/js/html2pdf.bundle.min.js:1035`
-- `Vector` (function) `static/js/html2pdf.bundle.min.js:1035`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:1054`
-- `lerp` (function) `static/js/html2pdf.bundle.min.js:1066`
-- `lerp` (function) `static/js/html2pdf.bundle.min.js:1066`
-- `BezierCurve` (function) `static/js/html2pdf.bundle.min.js:1070`
-- `BezierCurve` (function) `static/js/html2pdf.bundle.min.js:1071`
-- `subdivide` (function) `static/js/html2pdf.bundle.min.js:1083`
-- `reverse` (function) `static/js/html2pdf.bundle.min.js:1094`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:1113`
-- `Bounds` (function) `static/js/html2pdf.bundle.min.js:1136`
-- `fromClientRect` (function) `static/js/html2pdf.bundle.min.js:1147`
-- `parseBounds` (function) `static/js/html2pdf.bundle.min.js:1155`
-- `calculatePaddingBox` (function) `static/js/html2pdf.bundle.min.js:1159`
-- `calculateContentBox` (function) `static/js/html2pdf.bundle.min.js:1163`
-- `parseDocumentSize` (function) `static/js/html2pdf.bundle.min.js:1173`
-- `parsePathForBorder` (function) `static/js/html2pdf.bundle.min.js:1187`
-- `createPathFromCurves` (function) `static/js/html2pdf.bundle.min.js:1201`
-- `createPathFromCurves` (function) `static/js/html2pdf.bundle.min.js:1201`
-- `calculateBorderBoxPath` (function) `static/js/html2pdf.bundle.min.js:1230`
-- `calculatePaddingBoxPath` (function) `static/js/html2pdf.bundle.min.js:1234`
-- `parseBoundCurves` (function) `static/js/html2pdf.bundle.min.js:1238`
-- `getCurvePoints` (function) `static/js/html2pdf.bundle.min.js:1290`
-- `getCurvePoints` (function) `static/js/html2pdf.bundle.min.js:1290`
-- `parsePadding` (function) `static/js/html2pdf.bundle.min.js:1343`
-- `BackgroundSize` (function) `static/js/html2pdf.bundle.min.js:1408`
-- `BackgroundSize` (function) `static/js/html2pdf.bundle.min.js:1408`
-- `calculateBackgroundSize` (function) `static/js/html2pdf.bundle.min.js:1426`
-- `calculateGradientBackgroundSize` (function) `static/js/html2pdf.bundle.min.js:1455`
-- `calculateBackgroungPaintingArea` (function) `static/js/html2pdf.bundle.min.js:1465`
-- `calculateBackgroungPositioningArea` (function) `static/js/html2pdf.bundle.min.js:1475`
-- `paddingBox` (function) `static/js/html2pdf.bundle.min.js:1476`
-- `calculateBackgroundPosition` (function) `static/js/html2pdf.bundle.min.js:1493`
-- `calculateBackgroundRepeatPath` (function) `static/js/html2pdf.bundle.min.js:1497`
-- `parseBackground` (function) `static/js/html2pdf.bundle.min.js:1511`
-- `parseBackgroundClip` (function) `static/js/html2pdf.bundle.min.js:1520`
-- `parseBackgroundClip` (function) `static/js/html2pdf.bundle.min.js:1520`
-- `parseBackgroundOrigin` (function) `static/js/html2pdf.bundle.min.js:1530`
-- `parseBackgroundOrigin` (function) `static/js/html2pdf.bundle.min.js:1530`
-- `parseBackgroundRepeat` (function) `static/js/html2pdf.bundle.min.js:1540`
-- `parseBackgroundRepeat` (function) `static/js/html2pdf.bundle.min.js:1540`
-- `parseBackgroundImages` (function) `static/js/html2pdf.bundle.min.js:1557`
-- `parseBackgroundImages` (function) `static/js/html2pdf.bundle.min.js:1557`
-- `size` (function) `static/js/html2pdf.bundle.min.js:1570`
-- `position` (function) `static/js/html2pdf.bundle.min.js:1571`
-- `parseBackgroundSize` (function) `static/js/html2pdf.bundle.min.js:1582`
-- `parseBackgroundSize` (function) `static/js/html2pdf.bundle.min.js:1582`
-- `parseBackgoundPosition` (function) `static/js/html2pdf.bundle.min.js:1586`
-- `parseBackgoundPosition` (function) `static/js/html2pdf.bundle.min.js:1586`
-- `parseBackgroundImage` (function) `static/js/html2pdf.bundle.min.js:1600`
-- `appendResult` (function) `static/js/html2pdf.bundle.min.js:1611`
-- `appendResult` (function) `static/js/html2pdf.bundle.min.js:1611`
-- `parseBorderStyle` (function) `static/js/html2pdf.bundle.min.js:1746`
-- `parseBorderStyle` (function) `static/js/html2pdf.bundle.min.js:1746`
-- `parseBorder` (function) `static/js/html2pdf.bundle.min.js:1754`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:1779`
-- `parseBorderRadius` (function) `static/js/html2pdf.bundle.min.js:1789`
-- `parseDisplayValue` (function) `static/js/html2pdf.bundle.min.js:1843`
-- `parseDisplayValue` (function) `static/js/html2pdf.bundle.min.js:1843`
-- `setDisplayBit` (function) `static/js/html2pdf.bundle.min.js:1908`
-- `setDisplayBit` (function) `static/js/html2pdf.bundle.min.js:1908`
-- `parseDisplay` (function) `static/js/html2pdf.bundle.min.js:1912`
-- `parseCSSFloat` (function) `static/js/html2pdf.bundle.min.js:1933`
-- `parseFontWeight` (function) `static/js/html2pdf.bundle.min.js:1958`
-- `parseFontWeight` (function) `static/js/html2pdf.bundle.min.js:1958`
-- `parseFont` (function) `static/js/html2pdf.bundle.min.js:1970`
-- `parseLetterSpacing` (function) `static/js/html2pdf.bundle.min.js:1994`
-- `parseLineBreak` (function) `static/js/html2pdf.bundle.min.js:2015`
-- `parseListStyleType` (function) `static/js/html2pdf.bundle.min.js:2100`
-- `parseListStyle` (function) `static/js/html2pdf.bundle.min.js:2214`
-- `listStyleImage` (function) `static/js/html2pdf.bundle.min.js:2215`
-- `parseListStylePosition` (function) `static/js/html2pdf.bundle.min.js:2223`
-- `parseListStylePosition` (function) `static/js/html2pdf.bundle.min.js:2223`
-- `parseMargin` (function) `static/js/html2pdf.bundle.min.js:2254`
-- `parseOverflow` (function) `static/js/html2pdf.bundle.min.js:2275`
-- `parseOverflowWrap` (function) `static/js/html2pdf.bundle.min.js:2303`
-- `parsePosition` (function) `static/js/html2pdf.bundle.min.js:2330`
-- `parseTextShadow` (function) `static/js/html2pdf.bundle.min.js:2364`
-- `appendValue` (function) `static/js/html2pdf.bundle.min.js:2376`
-- `appendValue` (function) `static/js/html2pdf.bundle.min.js:2376`
-- `appendShadow` (function) `static/js/html2pdf.bundle.min.js:2388`
-- `appendShadow` (function) `static/js/html2pdf.bundle.min.js:2388`
-- `parseTextTransform` (function) `static/js/html2pdf.bundle.min.js:2460`
-- `toFloat` (function) `static/js/html2pdf.bundle.min.js:2490`
-- `toFloat` (function) `static/js/html2pdf.bundle.min.js:2490`
-- `parseTransform` (function) `static/js/html2pdf.bundle.min.js:2496`
-- `parseTransformOrigin` (function) `static/js/html2pdf.bundle.min.js:2517` -- $FlowFixMe
-- `parseTransformOrigin` (function) `static/js/html2pdf.bundle.min.js:2517` -- $FlowFixMe
-- `parseTransformMatrix` (function) `static/js/html2pdf.bundle.min.js:2527` -- $FlowFixMe
-- `parseTransformMatrix` (function) `static/js/html2pdf.bundle.min.js:2527` -- $FlowFixMe
-- `parseVisibility` (function) `static/js/html2pdf.bundle.min.js:2559`
-- `parseWordBreak` (function) `static/js/html2pdf.bundle.min.js:2586`
-- `parseZIndex` (function) `static/js/html2pdf.bundle.min.js:2607`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:2624`
-- `ForeignObjectRenderer` (function) `static/js/html2pdf.bundle.min.js:2628`
-- `ForeignObjectRenderer` (function) `static/js/html2pdf.bundle.min.js:2629`
-- `render` (function) `static/js/html2pdf.bundle.min.js:2637`
-- `createForeignObjectSVG` (function) `static/js/html2pdf.bundle.min.js:2667`
-- `loadSerializedSVG` (function) `static/js/html2pdf.bundle.min.js:2686`
-- `testRangeBounds` (function) `static/js/html2pdf.bundle.min.js:2710`
-- `testRangeBounds` (function) `static/js/html2pdf.bundle.min.js:2710`
-- `testBase64` (function) `static/js/html2pdf.bundle.min.js:2735` -- iOS 10.3 taints canvas with base64 images unless crossOrigin = 'anonymous'
-- `testBase64` (function) `static/js/html2pdf.bundle.min.js:2735` -- iOS 10.3 taints canvas with base64 images unless crossOrigin = 'anonymous'
-- `onload` (function) `static/js/html2pdf.bundle.min.js:2744`
-- `onload` (function) `static/js/html2pdf.bundle.min.js:2744`
-- `as.setTimeout` (method) `static/js/html2pdf.bundle.min.js:2761`
-- `testCORS` (function) `static/js/html2pdf.bundle.min.js:2768`
-- `testCORS` (function) `static/js/html2pdf.bundle.min.js:2768`
-- `testResponseType` (function) `static/js/html2pdf.bundle.min.js:2772`
-- `testResponseType` (function) `static/js/html2pdf.bundle.min.js:2772`
-- `testSVG` (function) `static/js/html2pdf.bundle.min.js:2776`
-- `testSVG` (function) `static/js/html2pdf.bundle.min.js:2776`
-- `isGreenPixel` (function) `static/js/html2pdf.bundle.min.js:2791`
-- `isGreenPixel` (function) `static/js/html2pdf.bundle.min.js:2791`
-- `testForeignObject` (function) `static/js/html2pdf.bundle.min.js:2795`
-- `testForeignObject` (function) `static/js/html2pdf.bundle.min.js:2795`
-- `svg` (function) `static/js/html2pdf.bundle.min.js:2807`
-- `as.SUPPORT_RANGE_BOUNDS` (method) `static/js/html2pdf.bundle.min.js:2833` -- $FlowFixMe - get/set properties not yet supported
-- `as.SUPPORT_SVG_DRAWING` (method) `static/js/html2pdf.bundle.min.js:2839` -- $FlowFixMe - get/set properties not yet supported
-- `as.SUPPORT_BASE64_DRAWING` (method) `static/js/html2pdf.bundle.min.js:2845` -- $FlowFixMe - get/set properties not yet supported
-- `value` (function) `static/js/html2pdf.bundle.min.js:2848`
-- `as.SUPPORT_FOREIGNOBJECT_DRAWING` (method) `static/js/html2pdf.bundle.min.js:2855` -- $FlowFixMe - get/set properties not yet supported
-- `as.SUPPORT_CORS_IMAGES` (method) `static/js/html2pdf.bundle.min.js:2861` -- $FlowFixMe - get/set properties not yet supported
-- `as.SUPPORT_RESPONSE_TYPE` (method) `static/js/html2pdf.bundle.min.js:2867` -- $FlowFixMe - get/set properties not yet supported
-- `as.SUPPORT_CORS_XHR` (method) `static/js/html2pdf.bundle.min.js:2873` -- $FlowFixMe - get/set properties not yet supported
-- `toCodePoints` (function) `static/js/html2pdf.bundle.min.js:2889`
-- `fromCodePoint` (function) `static/js/html2pdf.bundle.min.js:2910`
-- `decode` (function) `static/js/html2pdf.bundle.min.js:2948`
-- `polyUint16Array` (function) `static/js/html2pdf.bundle.min.js:2982`
-- `polyUint32Array` (function) `static/js/html2pdf.bundle.min.js:2991`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:3014`
-- `createTrieFromBase64` (function) `static/js/html2pdf.bundle.min.js:3087`
-- `buffer` (function) `static/js/html2pdf.bundle.min.js:3088`
-- `Trie` (function) `static/js/html2pdf.bundle.min.js:3100`
-- `get` (function) `static/js/html2pdf.bundle.min.js:3121`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:3195`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:3197`
-- `codePointsToCharacterClasses` (function) `static/js/html2pdf.bundle.min.js:3323`
-- `isAdjacentWithSpaceIgnored` (function) `static/js/html2pdf.bundle.min.js:3395`
-- `isAdjacentWithSpaceIgnored` (function) `static/js/html2pdf.bundle.min.js:3395`
-- `previousNonSpaceClassType` (function) `static/js/html2pdf.bundle.min.js:3444`
-- `previousNonSpaceClassType` (function) `static/js/html2pdf.bundle.min.js:3444`
-- `lineBreakAtIndex` (function) `static/js/html2pdf.bundle.min.js:3686`
-- `cssFormattedClasses` (function) `static/js/html2pdf.bundle.min.js:3705`
-- `cssFormattedClasses` (function) `static/js/html2pdf.bundle.min.js:3705`
-- `inlineBreakOpportunities` (function) `static/js/html2pdf.bundle.min.js:3729`
-- `codePoints` (function) `static/js/html2pdf.bundle.min.js:3730`
-- `Break` (function) `static/js/html2pdf.bundle.min.js:3746`
-- `Break` (function) `static/js/html2pdf.bundle.min.js:3747`
-- `slice` (function) `static/js/html2pdf.bundle.min.js:3758`
-- `LineBreaker` (function) `static/js/html2pdf.bundle.min.js:3766`
-- `codePoints` (function) `static/js/html2pdf.bundle.min.js:3767`
-- `next` (function) `static/js/html2pdf.bundle.min.js:3780`
-- `get` (function) `static/js/html2pdf.bundle.min.js:3820`
-- `get` (function) `static/js/html2pdf.bundle.min.js:3826`
-- `get` (function) `static/js/html2pdf.bundle.min.js:3835`
-- `get` (function) `static/js/html2pdf.bundle.min.js:3853`
-- `get` (function) `static/js/html2pdf.bundle.min.js:3859`
-- `breakWords` (function) `static/js/html2pdf.bundle.min.js:3872`
-- `breaker` (function) `static/js/html2pdf.bundle.min.js:3873`
-- `TextBounds` (function) `static/js/html2pdf.bundle.min.js:3914`
-- `parseTextBounds` (function) `static/js/html2pdf.bundle.min.js:3921`
-- `getWrapperBounds` (function) `static/js/html2pdf.bundle.min.js:3950`
-- `getWrapperBounds` (function) `static/js/html2pdf.bundle.min.js:3950`
-- `bounds` (function) `static/js/html2pdf.bundle.min.js:3956`
-- `getRangeBounds` (function) `static/js/html2pdf.bundle.min.js:3965`
-- `getRangeBounds` (function) `static/js/html2pdf.bundle.min.js:3965`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:3982`
-- `TextContainer` (function) `static/js/html2pdf.bundle.min.js:3990`
-- `TextContainer` (function) `static/js/html2pdf.bundle.min.js:3991`
-- `fromTextNode` (function) `static/js/html2pdf.bundle.min.js:4001`
-- `transform` (function) `static/js/html2pdf.bundle.min.js:4015`
-- `transform` (function) `static/js/html2pdf.bundle.min.js:4015`
-- `capitalize` (function) `static/js/html2pdf.bundle.min.js:4028`
-- `Circle` (function) `static/js/html2pdf.bundle.min.js:4048`
-- `Circle` (function) `static/js/html2pdf.bundle.min.js:4048`
-- `getInputBorderRadius` (function) `static/js/html2pdf.bundle.min.js:4125`
-- `inlineInputElement` (function) `static/js/html2pdf.bundle.min.js:4129`
-- `inlineTextAreaElement` (function) `static/js/html2pdf.bundle.min.js:4140`
-- `inlineSelectElement` (function) `static/js/html2pdf.bundle.min.js:4144`
-- `reformatInputBounds` (function) `static/js/html2pdf.bundle.min.js:4149`
-- `inlineFormElement` (function) `static/js/html2pdf.bundle.min.js:4160`
-- `inlineFormElement` (function) `static/js/html2pdf.bundle.min.js:4160`
-- `getInputValue` (function) `static/js/html2pdf.bundle.min.js:4179`
-- `getInputValue` (function) `static/js/html2pdf.bundle.min.js:4179`
-- `getListOwner` (function) `static/js/html2pdf.bundle.min.js:4223`
-- `inlineListItemElement` (function) `static/js/html2pdf.bundle.min.js:4240`
-- `createAdditiveCounter` (function) `static/js/html2pdf.bundle.min.js:4326`
-- `createAdditiveCounter` (function) `static/js/html2pdf.bundle.min.js:4326`
-- `createCounterStyleWithSymbolResolver` (function) `static/js/html2pdf.bundle.min.js:4340`
-- `createCounterStyleWithSymbolResolver` (function) `static/js/html2pdf.bundle.min.js:4340`
-- `createCounterStyleFromRange` (function) `static/js/html2pdf.bundle.min.js:4354`
-- `createCounterStyleFromRange` (function) `static/js/html2pdf.bundle.min.js:4354`
-- `createCounterStyleFromSymbols` (function) `static/js/html2pdf.bundle.min.js:4362`
-- `createCounterStyleFromSymbols` (function) `static/js/html2pdf.bundle.min.js:4362`
-- `createCJKCounter` (function) `static/js/html2pdf.bundle.min.js:4376`
-- `createCJKCounter` (function) `static/js/html2pdf.bundle.min.js:4376`
-- `createCounterText` (function) `static/js/html2pdf.bundle.min.js:4408`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:4524`
-- `NodeContainer` (function) `static/js/html2pdf.bundle.min.js:4586`
-- `NodeContainer` (function) `static/js/html2pdf.bundle.min.js:4587`
-- `listOwner` (function) `static/js/html2pdf.bundle.min.js:4642`
-- `getClipPaths` (function) `static/js/html2pdf.bundle.min.js:4666`
-- `isInFlow` (function) `static/js/html2pdf.bundle.min.js:4674`
-- `isVisible` (function) `static/js/html2pdf.bundle.min.js:4679`
-- `isAbsolutelyPositioned` (function) `static/js/html2pdf.bundle.min.js:4684`
-- `isPositioned` (function) `static/js/html2pdf.bundle.min.js:4689`
-- `isFloating` (function) `static/js/html2pdf.bundle.min.js:4694`
-- `isRootElement` (function) `static/js/html2pdf.bundle.min.js:4699`
-- `isTransformed` (function) `static/js/html2pdf.bundle.min.js:4704`
-- `isPositionedWithZIndex` (function) `static/js/html2pdf.bundle.min.js:4709`
-- `isInlineLevel` (function) `static/js/html2pdf.bundle.min.js:4714`
-- `isInlineBlockOrInlineTable` (function) `static/js/html2pdf.bundle.min.js:4719`
-- `getImage` (function) `static/js/html2pdf.bundle.min.js:4730`
-- `getImage` (function) `static/js/html2pdf.bundle.min.js:4730`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:4763`
-- `StackingContext` (function) `static/js/html2pdf.bundle.min.js:4775`
-- `StackingContext` (function) `static/js/html2pdf.bundle.min.js:4776`
-- `getOpacity` (function) `static/js/html2pdf.bundle.min.js:4788`
-- `getRealParentStackingContext` (function) `static/js/html2pdf.bundle.min.js:4793`
-- `NodeParser` (function) `static/js/html2pdf.bundle.min.js:4832`
-- `parseNodeTree` (function) `static/js/html2pdf.bundle.min.js:4845`
-- `parseNodeTree` (function) `static/js/html2pdf.bundle.min.js:4845`
-- `createsRealStackingContext` (function) `static/js/html2pdf.bundle.min.js:4905`
-- `createsRealStackingContext` (function) `static/js/html2pdf.bundle.min.js:4905`
-- `createsStackingContext` (function) `static/js/html2pdf.bundle.min.js:4909`
-- `createsStackingContext` (function) `static/js/html2pdf.bundle.min.js:4909`
-- `isBodyWithTransparentRoot` (function) `static/js/html2pdf.bundle.min.js:4913`
-- `isBodyWithTransparentRoot` (function) `static/js/html2pdf.bundle.min.js:4913`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:4927`
-- `FontMetrics` (function) `static/js/html2pdf.bundle.min.js:4936`
-- `getMetrics` (function) `static/js/html2pdf.bundle.min.js:4995`
-- `parseAngle` (function) `static/js/html2pdf.bundle.min.js:5018`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:5048`
-- `LinearGradient` (function) `static/js/html2pdf.bundle.min.js:5094`
-- `RadialGradient` (function) `static/js/html2pdf.bundle.min.js:5102`
-- `parseGradient` (function) `static/js/html2pdf.bundle.min.js:5112`
-- `parseColorStops` (function) `static/js/html2pdf.bundle.min.js:5129`
-- `parseColorStops` (function) `static/js/html2pdf.bundle.min.js:5129`
-- `stepSize` (function) `static/js/html2pdf.bundle.min.js:5165`
-- `parseLinearGradient` (function) `static/js/html2pdf.bundle.min.js:5178`
-- `parseLinearGradient` (function) `static/js/html2pdf.bundle.min.js:5178`
-- `angle` (function) `static/js/html2pdf.bundle.min.js:5179`
-- `parseRadialGradient` (function) `static/js/html2pdf.bundle.min.js:5193`
-- `parseRadialGradient` (function) `static/js/html2pdf.bundle.min.js:5193`
-- `calculateGradientDirection` (function) `static/js/html2pdf.bundle.min.js:5234`
-- `calculateGradientDirection` (function) `static/js/html2pdf.bundle.min.js:5234`
-- `parseTopRight` (function) `static/js/html2pdf.bundle.min.js:5250`
-- `parseTopRight` (function) `static/js/html2pdf.bundle.min.js:5250`
-- `parseSideOrCorner` (function) `static/js/html2pdf.bundle.min.js:5254`
-- `parseSideOrCorner` (function) `static/js/html2pdf.bundle.min.js:5254`
-- `parsePercentageAngle` (function) `static/js/html2pdf.bundle.min.js:5292`
-- `parsePercentageAngle` (function) `static/js/html2pdf.bundle.min.js:5292`
-- `findCorner` (function) `static/js/html2pdf.bundle.min.js:5303`
-- `findCorner` (function) `static/js/html2pdf.bundle.min.js:5303`
-- `d` (function) `static/js/html2pdf.bundle.min.js:5308`
-- `calculateRadius` (function) `static/js/html2pdf.bundle.min.js:5323`
-- `calculateRadius` (function) `static/js/html2pdf.bundle.min.js:5323`
-- `transformWebkitRadialGradientArgs` (function) `static/js/html2pdf.bundle.min.js:5392`
-- `transformObsoleteColorStops` (function) `static/js/html2pdf.bundle.min.js:5465`
-- `transformObsoleteColorStops` (function) `static/js/html2pdf.bundle.min.js:5465`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:5503`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:5505`
-- `Renderer` (function) `static/js/html2pdf.bundle.min.js:5525`
-- `Renderer` (function) `static/js/html2pdf.bundle.min.js:5526`
-- `renderNode` (function) `static/js/html2pdf.bundle.min.js:5536`
-- `renderNodeContent` (function) `static/js/html2pdf.bundle.min.js:5544`
-- `callback` (function) `static/js/html2pdf.bundle.min.js:5547`
-- `callback` (function) `static/js/html2pdf.bundle.min.js:5547`
-- `contentBox` (function) `static/js/html2pdf.bundle.min.js:5562`
-- `renderNodeBackgroundAndBorders` (function) `static/js/html2pdf.bundle.min.js:5582`
-- `callback` (function) `static/js/html2pdf.bundle.min.js:5591`
-- `callback` (function) `static/js/html2pdf.bundle.min.js:5591`
-- `backgroundPaintingArea` (function) `static/js/html2pdf.bundle.min.js:5592`
-- `renderBackgroundImage` (function) `static/js/html2pdf.bundle.min.js:5622`
-- `renderBackgroundRepeat` (function) `static/js/html2pdf.bundle.min.js:5635`
-- `backgroundPositioningArea` (function) `static/js/html2pdf.bundle.min.js:5638`
-- `backgroundImageSize` (function) `static/js/html2pdf.bundle.min.js:5639`
-- `position` (function) `static/js/html2pdf.bundle.min.js:5640`
-- `renderBackgroundGradient` (function) `static/js/html2pdf.bundle.min.js:5650`
-- `backgroundPositioningArea` (function) `static/js/html2pdf.bundle.min.js:5651`
-- `backgroundImageSize` (function) `static/js/html2pdf.bundle.min.js:5652`
-- `position` (function) `static/js/html2pdf.bundle.min.js:5653`
-- `gradient` (function) `static/js/html2pdf.bundle.min.js:5656`
-- `renderBorder` (function) `static/js/html2pdf.bundle.min.js:5672`
-- `renderStack` (function) `static/js/html2pdf.bundle.min.js:5677`
-- `renderStackContent` (function) `static/js/html2pdf.bundle.min.js:5699`
-- `render` (function) `static/js/html2pdf.bundle.min.js:5748`
-- `splitDescendants` (function) `static/js/html2pdf.bundle.min.js:5764`
-- `splitDescendants` (function) `static/js/html2pdf.bundle.min.js:5764`
-- `splitStackingContexts` (function) `static/js/html2pdf.bundle.min.js:5780`
-- `splitStackingContexts` (function) `static/js/html2pdf.bundle.min.js:5780`
-- `sortByZIndex` (function) `static/js/html2pdf.bundle.min.js:5808`
-- `sortByZIndex` (function) `static/js/html2pdf.bundle.min.js:5808`
-- `Proxy` (function) `static/js/html2pdf.bundle.min.js:5833`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:5896`
-- `ResourceLoader` (function) `static/js/html2pdf.bundle.min.js:5908`
-- `ResourceLoader` (function) `static/js/html2pdf.bundle.min.js:5909`
-- `loadImage` (function) `static/js/html2pdf.bundle.min.js:5922`
-- `inlineImage` (function) `static/js/html2pdf.bundle.min.js:5950`
-- `xhrImage` (function) `static/js/html2pdf.bundle.min.js:5969`
-- `loadCanvas` (function) `static/js/html2pdf.bundle.min.js:6010`
-- `hasResourceInCache` (function) `static/js/html2pdf.bundle.min.js:6017`
-- `addImage` (function) `static/js/html2pdf.bundle.min.js:6022`
-- `imageLoadHandler` (function) `static/js/html2pdf.bundle.min.js:6025`
-- `imageLoadHandler` (function) `static/js/html2pdf.bundle.min.js:6025`
-- `as.setTimeout` (method) `static/js/html2pdf.bundle.min.js:6040` -- Inline XML images may fail to parse, throwing an Error later on
-- `as.setTimeout` (method) `static/js/html2pdf.bundle.min.js:6046`
-- `isSameOrigin` (function) `static/js/html2pdf.bundle.min.js:6059`
-- `getOrigin` (function) `static/js/html2pdf.bundle.min.js:6064`
-- `ready` (function) `static/js/html2pdf.bundle.min.js:6072`
-- `ResourceStore` (function) `static/js/html2pdf.bundle.min.js:6093`
-- `get` (function) `static/js/html2pdf.bundle.min.js:6102`
-- `isInlineImage` (function) `static/js/html2pdf.bundle.min.js:6115`
-- `isInlineImage` (function) `static/js/html2pdf.bundle.min.js:6115`
-- `isInlineBase64Image` (function) `static/js/html2pdf.bundle.min.js:6118`
-- `isInlineBase64Image` (function) `static/js/html2pdf.bundle.min.js:6118`
-- `isBlobImage` (function) `static/js/html2pdf.bundle.min.js:6121`
-- `isBlobImage` (function) `static/js/html2pdf.bundle.min.js:6121`
-- `isSVG` (function) `static/js/html2pdf.bundle.min.js:6125`
-- `isSVG` (function) `static/js/html2pdf.bundle.min.js:6125`
-- `as.setTimeout` (method) `static/js/html2pdf.bundle.min.js:6139` -- Inline XML images may fail to parse, throwing an Error later on
-- `as.setTimeout` (method) `static/js/html2pdf.bundle.min.js:6144`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:6161`
-- `parseCounterReset` (function) `static/js/html2pdf.bundle.min.js:6182`
-- `popCounters` (function) `static/js/html2pdf.bundle.min.js:6208`
-- `resolvePseudoContent` (function) `static/js/html2pdf.bundle.min.js:6215`
-- `parseContent` (function) `static/js/html2pdf.bundle.min.js:6295`
-- `addOtherToken` (function) `static/js/html2pdf.bundle.min.js:6442`
-- `addOtherToken` (function) `static/js/html2pdf.bundle.min.js:6442`
-- `getQuote` (function) `static/js/html2pdf.bundle.min.js:6453`
-- `getQuote` (function) `static/js/html2pdf.bundle.min.js:6453`
-- `formatCounterValue` (function) `static/js/html2pdf.bundle.min.js:6465`
-- `formatCounterValue` (function) `static/js/html2pdf.bundle.min.js:6465`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:6494`
-- `defineProperties` (function) `static/js/html2pdf.bundle.min.js:6496`
-- `DocumentCloner` (function) `static/js/html2pdf.bundle.min.js:6523`
-- `inlineAllImages` (function) `static/js/html2pdf.bundle.min.js:6544`
-- `clonedChild` (function) `static/js/html2pdf.bundle.min.js:6570`
-- `inlineFonts` (function) `static/js/html2pdf.bundle.min.js:6581`
-- `createElementClone` (function) `static/js/html2pdf.bundle.min.js:6627`
-- `cloneNode` (function) `static/js/html2pdf.bundle.min.js:6709`
-- `counters` (function) `static/js/html2pdf.bundle.min.js:6725`
-- `contentBefore` (function) `static/js/html2pdf.bundle.min.js:6726`
-- `contentAfter` (function) `static/js/html2pdf.bundle.min.js:6740`
-- `getSheetFonts` (function) `static/js/html2pdf.bundle.min.js:6776`
-- `getSheetFonts` (function) `static/js/html2pdf.bundle.min.js:6776`
-- `src` (function) `static/js/html2pdf.bundle.min.js:6781`
-- `createStyleSheetFontsFromText` (function) `static/js/html2pdf.bundle.min.js:6813`
-- `createStyleSheetFontsFromText` (function) `static/js/html2pdf.bundle.min.js:6813`
-- `restoreOwnerScroll` (function) `static/js/html2pdf.bundle.min.js:6831`
-- `restoreOwnerScroll` (function) `static/js/html2pdf.bundle.min.js:6831`
-- `cloneCanvasContents` (function) `static/js/html2pdf.bundle.min.js:6837`
-- `cloneCanvasContents` (function) `static/js/html2pdf.bundle.min.js:6837`
-- `inlinePseudoElement` (function) `static/js/html2pdf.bundle.min.js:6853`
-- `inlinePseudoElement` (function) `static/js/html2pdf.bundle.min.js:6853`
-- `createPseudoHideStyles` (function) `static/js/html2pdf.bundle.min.js:6897`
-- `createPseudoHideStyles` (function) `static/js/html2pdf.bundle.min.js:6897`
-- `createStyles` (function) `static/js/html2pdf.bundle.min.js:6901`
-- `createStyles` (function) `static/js/html2pdf.bundle.min.js:6901`
-- `initNode` (function) `static/js/html2pdf.bundle.min.js:6907`
-- `initNode` (function) `static/js/html2pdf.bundle.min.js:6907`
-- `generateIframeKey` (function) `static/js/html2pdf.bundle.min.js:6917`
-- `generateIframeKey` (function) `static/js/html2pdf.bundle.min.js:6917`
-- `getIframeDocumentElement` (function) `static/js/html2pdf.bundle.min.js:6923`
-- `getIframeDocumentElement` (function) `static/js/html2pdf.bundle.min.js:6923`
-- `createIframeContainer` (function) `static/js/html2pdf.bundle.min.js:6952`
-- `createIframeContainer` (function) `static/js/html2pdf.bundle.min.js:6952`
-- `iframeLoader` (function) `static/js/html2pdf.bundle.min.js:6974`
-- `iframeLoader` (function) `static/js/html2pdf.bundle.min.js:6974`
-- `cloneWindow` (function) `static/js/html2pdf.bundle.min.js:6990`
-- `serializeDoctype` (function) `static/js/html2pdf.bundle.min.js:7034`
-- `serializeDoctype` (function) `static/js/html2pdf.bundle.min.js:7034`
-- `sliceIterator` (function) `static/js/html2pdf.bundle.min.js:7071`
-- `renderElement` (function) `static/js/html2pdf.bundle.min.js:7103`
-- `stack` (function) `static/js/html2pdf.bundle.min.js:7154`
-- `html2canvas` (function) `static/js/html2pdf.bundle.min.js:7227`
-- `html2canvas` (function) `static/js/html2pdf.bundle.min.js:7227`
-- `result` (function) `static/js/html2pdf.bundle.min.js:7256`
-- `objType` (function) `static/js/html2pdf.bundle.min.js:7309` -- Determine the type of a variable/object.
-- `objType` (function) `static/js/html2pdf.bundle.min.js:7309` -- Determine the type of a variable/object.
-- `createElement` (function) `static/js/html2pdf.bundle.min.js:7315` -- Create an HTML element with optional className, innerHTML, and style.
-- `createElement` (function) `static/js/html2pdf.bundle.min.js:7315` -- Create an HTML element with optional className, innerHTML, and style.
-- `cloneNode` (function) `static/js/html2pdf.bundle.min.js:7332` -- Deep-clone a node and preserve contents/properties.
+## skills/mcp_tools/swan_status.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_status MCP tool.
+
+## skills/mcp_tools/target_context.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/target_context.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_target_context MCP tool.
+
+## skills/mcp_tools/tasks_cleanup.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/tasks_cleanup.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_tasks_cleanup MCP tool.
+
+## skills/mcp_tools/threat_model.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/threat_model.py:44` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_threat_model MCP tool.
+
+## skills/mcp_tools/timeline.py
+Depends on: `modules/timeline_narrator.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/timeline.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_timeline MCP tool.
+
+## skills/mcp_tools/ttp_chain.py
+Depends on: `modules/atomic_resolver.py`, `modules/ttpscope_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/ttp_chain.py:47` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_ttp_chain MCP tool.
+
+## skills/mcp_tools/unified_dashboard.py
+Depends on: `modules/unified_dashboard.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/unified_dashboard.py:34` `def handle(arguments, tool_name, ctx)` -- Render the unified dashboard as text, or JSON when requested.
+
+## skills/mcp_tools/winbox_eventlogs.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_eventlogs.py:36` `def handle(arguments, tool_name, ctx)` -- Query Windows event logs inside the WinBox guest.
+
+## skills/mcp_tools/winbox_exec.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_exec.py:38` `def handle(arguments, tool_name, ctx)` -- Execute a command inside the WinBox guest as SYSTEM or a local user.
+
+## skills/mcp_tools/winbox_gym_list.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_gym_list.py:21` `def handle(arguments, tool_name, ctx)` -- List WinBox gym vectors and validate the index/exploit/chain matrix.
+
+## skills/mcp_tools/winbox_gym_plan.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_gym_plan.py:32` `def handle(arguments, tool_name, ctx)` -- Build the ordered WinBox gym attack plan for a target.
+
+## skills/mcp_tools/winbox_gym_run.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_gym_run.py:33` `def handle(arguments, tool_name, ctx)` -- Run the WinBox gym matrix against the lab VM and verify captures.
+
+## skills/mcp_tools/winbox_snapshot.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_snapshot.py:29` `def handle(arguments, tool_name, ctx)` -- Manage WinBox snapshots: list, create or restore a rollback point.
+
+## skills/mcp_tools/winbox_status.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_status.py:22` `def handle(arguments, tool_name, ctx)` -- Report WinBox lab readiness, VM state and autonomous-loop attackability.
+
+## skills/mcp_tools/winbox_tools.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_tools.py:29` `def handle(arguments, tool_name, ctx)` -- Manage tools staged into the WinBox guest (list, add, remove).
+
+## skills/mcp_tools/winbox_vm.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/winbox_vm.py:36` `def handle(arguments, tool_name, ctx)` -- Drive WinBox VM lifecycle: bootstrap, up, down, suspend, status.
+
+## skills/sessions_watcher.py
+Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_objective.py`
+Imported by: `skills/lazyown_daemon.py`
+- `_Handler.on_created` (method) `skills/sessions_watcher.py:376` `def on_created(self, event)`
+- `_Handler.on_modified` (method) `skills/sessions_watcher.py:380` `def on_modified(self, event)`
+- `main` (function) `skills/sessions_watcher.py:430` `def main()`
+
+## skills/setup.sh
+- `info` (function) `skills/setup.sh:15`
+- `warn` (function) `skills/setup.sh:16`
+- `die` (function) `skills/setup.sh:17`
+- `paths_for_sudo` (function) `skills/setup.sh:61` -- Collect paths that exist on this system
+- `add_nopasswd` (function) `skills/setup.sh:92`
+
+## skills/swan_agent.py
+Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
+Imported by: `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/swan_ensemble.py`, `skills/mcp_tools/swan_route.py`, `skills/mcp_tools/swan_run.py`, `skills/mcp_tools/swan_status.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
+- `SwanResult.is_success` (method) `skills/swan_agent.py:167` `def is_success(self)`
+- `IResultAggregator.aggregate` (method) `skills/swan_agent.py:209` `def aggregate(self, task_type, goal, votes)` -- Return (synthesis_text, consensus_confidence).
+- `ISwanOrchestrator.run` (method) `skills/swan_agent.py:226` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute with the best single expert and return result.
+- `ISwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:236` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
+- `WeightedTextAggregator.aggregate` (method) `skills/swan_agent.py:264` `def aggregate(self, task_type, goal, votes)`
+- `ExpertExecutor.execute` (method) `skills/swan_agent.py:351` `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)` -- Run the expert and return a SwanResult.
+- `OutcomeEvaluator.evaluate` (method) `skills/swan_agent.py:479` `def evaluate(self, result, task_type)` -- Return (reward, detection_prob).
+- `SwanOrchestrator.__init__` (method) `skills/swan_agent.py:572` `def __init__(self, executor, evaluator, aggregator, api_key)`
+- `SwanOrchestrator.run` (method) `skills/swan_agent.py:592` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute the task with the best single expert selected by the MoE+RL router.
+- `SwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:680` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
+- `SwanOrchestrator.status` (method) `skills/swan_agent.py:763` `def status(self)` -- Return a diagnostic snapshot of the SWAN system.
+- `mcp_swan_run` (function) `skills/swan_agent.py:945` `def mcp_swan_run(task_type, goal, phase)` -- Route and execute a task with the best MoE+RL-selected expert.
+- `mcp_swan_ensemble` (function) `skills/swan_agent.py:968` `def mcp_swan_ensemble(task_type, goal, n_experts, phase)` -- Run top-N experts in parallel and return a synthesized result.
+- `mcp_swan_status` (function) `skills/swan_agent.py:996` `def mcp_swan_status()` -- Return SWAN system status: expert weights, RL epsilon, performance.
+- `mcp_swan_route` (function) `skills/swan_agent.py:1003` `def mcp_swan_route(task_type, goal)` -- Show which expert would be selected for a task without executing.
+- `get_swan` (function) `skills/swan_agent.py:1039` `def get_swan(api_key)` -- Return (or create) the module-level singleton SwanOrchestrator.
+
+## skills/toposwarm_autonomous.py
+Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/reactive_engine.py`, `modules/toposwarm_bridge.py`
+- `PentestState.add_finding` (method) `skills/toposwarm_autonomous.py:145` `def add_finding(self, phase_name, text)`
+- `PentestState.summary` (method) `skills/toposwarm_autonomous.py:149` `def summary(self)`
+- `PentestState.to_dict` (method) `skills/toposwarm_autonomous.py:160` `def to_dict(self)`
+- `AutonomousAgent.__init__` (method) `skills/toposwarm_autonomous.py:310` `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
+- `AutonomousAgent.run` (method) `skills/toposwarm_autonomous.py:432` `def run(self, start_phase)`
+- `main` (function) `skills/toposwarm_autonomous.py:489` `def main(argv)`
+
+## skills/unified_orchestrator.py
+Depends on: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
+- `OrchestratorConfig.from_payload` (method) `skills/unified_orchestrator.py:111` `def from_payload(cls, payload)` -- Return a config with ``payload.json`` overrides applied.
+- `OrchestratorGoal.with_defaults` (method) `skills/unified_orchestrator.py:156` `def with_defaults(self, config)` -- Return a copy with empty fields populated from ``config``.
+- `OrchestratorResult.to_dict` (method) `skills/unified_orchestrator.py:197` `def to_dict(self)` -- Return a JSON-serialisable dictionary of the result.
+- `IOrchestratorBackend.available` (method) `skills/unified_orchestrator.py:215` `def available(self)` -- Return ``True`` when this backend can satisfy a request.
+- `IOrchestratorBackend.run` (method) `skills/unified_orchestrator.py:219` `def run(self, goal)` -- Execute ``goal`` and return a normalised :class:`OrchestratorResult`.
+- `EventBus.__init__` (method) `skills/unified_orchestrator.py:233` `def __init__(self, config, root)` -- Bind the bus to the active config.
+- `EventBus.path` (method) `skills/unified_orchestrator.py:252` `def path(self)` -- Return the resolved event file path.
+- `EventBus.emit` (method) `skills/unified_orchestrator.py:256` `def emit(self, event)` -- Append a single sanitised event to the bus.
+- `BackendRegistry.__init__` (method) `skills/unified_orchestrator.py:303` `def __init__(self, backends)` -- Bind the registry to a fixed-order tuple of backends.
+- `BackendRegistry.names` (method) `skills/unified_orchestrator.py:327` `def names(self)` -- Return the registered backend names in declaration order.
+- `BackendRegistry.get` (method) `skills/unified_orchestrator.py:331` `def get(self, name)` -- Return the backend registered as ``name`` or ``None``.
+- `BackendRegistry.available` (method) `skills/unified_orchestrator.py:335` `def available(self)` -- Return every backend that currently reports availability.
+- `RouterPolicy.__init__` (method) `skills/unified_orchestrator.py:347` `def __init__(self, config, registry)` -- Bind the policy to config and backend registry.
+- `RouterPolicy.choose` (method) `skills/unified_orchestrator.py:352` `def choose(self, goal)` -- Return the backend that should execute ``goal``.
+- `DaemonBackend.__init__` (method) `skills/unified_orchestrator.py:413` `def __init__(self, config, factory, payload)` -- Bind to config, optional engine factory and payload mapping.
+- `DaemonBackend.available` (method) `skills/unified_orchestrator.py:435` `def available(self)` -- Return ``True`` when the underlying engine can be imported.
+- `DaemonBackend.run` (method) `skills/unified_orchestrator.py:445` `def run(self, goal)` -- Execute a single-target kill-chain engagement.
+- `DaemonBackend.effective_target` (method) `skills/unified_orchestrator.py:489` `def effective_target(self, goal)` -- Return the daemon target this backend would use for ``goal``.
+- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:610` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
+- `HiveBackend.available` (method) `skills/unified_orchestrator.py:619` `def available(self)` -- Return ``True`` when the hive engine is importable.
+- `HiveBackend.run` (method) `skills/unified_orchestrator.py:629` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
+- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:711` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
+- `SwanBackend.available` (method) `skills/unified_orchestrator.py:720` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
+- `SwanBackend.run` (method) `skills/unified_orchestrator.py:730` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
+- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:814` `def __init__(self, config)` -- Bind the validator to the active configuration.
+- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:818` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
+- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:874` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
+- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:890` `def backends(self)` -- Return the registered backend names in declaration order.
+- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:894` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
+- `build_default_orchestrator` (function) `skills/unified_orchestrator.py:995` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
+
+## skills/update_knowledge.py
+Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_parquet_db.py`
+- `main` (function) `skills/update_knowledge.py:40` `def main(argv)`
+
+## slack_c2_bot.py
+Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
+- `SecureSessionManager.__init__` (method) `slack_c2_bot.py:29` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `slack_c2_bot.py:34` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `slack_c2_bot.py:42` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `slack_c2_bot.py:52` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `slack_c2_bot.py:63` `def create_session(self, user_id)`
+- `SecureSessionManager.validate_session` (method) `slack_c2_bot.py:71` `def validate_session(self, user_id)`
+- `SecureSessionManager.set_client` (method) `slack_c2_bot.py:81` `def set_client(self, user_id, client_id)`
+- `SecureSessionManager.get_client` (method) `slack_c2_bot.py:85` `def get_client(self, user_id)`
+- `capture_shell_output` (function) `slack_c2_bot.py:95` `def capture_shell_output(cmd)`
+- `handle_message` (function) `slack_c2_bot.py:113` `def handle_message(event, say, logger)`
+- `cmd_addcli` (function) `slack_c2_bot.py:177` `def cmd_addcli(ack, respond, command)`
+- `cmd_clients` (function) `slack_c2_bot.py:195` `def cmd_clients(ack, respond, command)`
+- `cmd_download` (function) `slack_c2_bot.py:209` `def cmd_download(ack, respond, command)`
+- `handle_file` (function) `slack_c2_bot.py:240` `def handle_file(event, say, logger)`
+- `mentioned` (function) `slack_c2_bot.py:252` `def mentioned(ack, say, event)`
+
+## static/hexabot/hexabot-spinner.js
+Depends on: `cli/assign.py`, `core/prompt.py`, `poc_tui/run.py`
+- `rand` (function) `static/hexabot/hexabot-spinner.js:46`
+- `clamp` (function) `static/hexabot/hexabot-spinner.js:47`
+- `Terminal.constructor` (method) `static/hexabot/hexabot-spinner.js:50`
+- `Terminal.push` (method) `static/hexabot/hexabot-spinner.js:84`
+- `Terminal.log` (method) `static/hexabot/hexabot-spinner.js:92`
+- `Terminal.run` (method) `static/hexabot/hexabot-spinner.js:94`
+- `Terminal.setProgress` (method) `static/hexabot/hexabot-spinner.js:96`
+- `Terminal.startCommand` (method) `static/hexabot/hexabot-spinner.js:102`
+- `Terminal.update` (method) `static/hexabot/hexabot-spinner.js:107`
+- `Terminal.colorFor` (method) `static/hexabot/hexabot-spinner.js:139`
+- `Terminal.drawPrompt` (method) `static/hexabot/hexabot-spinner.js:146`
+- `Terminal.draw` (method) `static/hexabot/hexabot-spinner.js:152`
+- `Terminal.dispose` (method) `static/hexabot/hexabot-spinner.js:206`
+- `radialTexture` (function) `static/hexabot/hexabot-spinner.js:209`
+- `createHexabotSpinner` (function) `static/hexabot/hexabot-spinner.js:223`
+- `setHappy` (function) `static/hexabot/hexabot-spinner.js:365`
+- `ndc` (function) `static/hexabot/hexabot-spinner.js:371`
+- `now` (function) `static/hexabot/hexabot-spinner.js:375`
+- `onDown` (function) `static/hexabot/hexabot-spinner.js:377`
+- `onMove` (function) `static/hexabot/hexabot-spinner.js:395`
+- `onUp` (function) `static/hexabot/hexabot-spinner.js:407`
+- `resize` (function) `static/hexabot/hexabot-spinner.js:423`
+- `loop` (function) `static/hexabot/hexabot-spinner.js:439`
+
+## static/js/3d-force-graph-1.73.4.min.js
+Depends on: `cli/assign.py`, `lazyown-docker/init.sh`, `modules/exp.c`
+- `is` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `newNode` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `update` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `insertBodies` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `insert` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `isSamePosition` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `updateBoundingBox` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `resetBoundingBox` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Te` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `c` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Vr` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `l` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `u` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `g` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `c` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `b` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `u` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `differentBody` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `coefficient` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `h` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `v` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `l` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `hh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `a` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Hh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Jh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `uu` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `that` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `i` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `ld` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `pd` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `I` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `Md` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `cf` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `Ef` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+
+## static/js/bootstrap-4.5.2.min.js
+Depends on: `cli/show.py`
+- `r` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `n` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `s` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `d` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `h` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+
+## static/js/bootstrap-5.3.0.bundle.min.js
+Depends on: `cli/assign.py`, `cli/show.py`
+- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `i` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `o` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `a` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `r` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `i` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `h` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+- `M` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
+
+## static/js/chart.min.js
+Depends on: `cli/assign.py`, `cli/show.py`, `lazyown-docker/init.sh`, `modules/notify.py`
+- `i` (function) `static/js/chart.min.js:7` -- !
+- `h` (function) `static/js/chart.min.js:7` -- !
+- `r` (function) `static/js/chart.min.js:7` -- !
+- `it` (function) `static/js/chart.min.js:7` -- !
+- `yt` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `ye` (function) `static/js/chart.min.js:13`
+- `o` (function) `static/js/chart.min.js:13`
+- `m` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `Ue` (function) `static/js/chart.min.js:13`
+- `Ge` (function) `static/js/chart.min.js:13`
+- `i` (function) `static/js/chart.min.js:13`
+- `y` (function) `static/js/chart.min.js:13`
+- `a` (function) `static/js/chart.min.js:13`
+- `Xs` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `a` (function) `static/js/chart.min.js:13`
+- `bn` (function) `static/js/chart.min.js:13`
+- `a` (function) `static/js/chart.min.js:13`
+- `l` (function) `static/js/chart.min.js:13`
+- `o` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `t` (function) `static/js/chart.min.js:13`
+- `p` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `a` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `Se` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `r` (function) `static/js/chart.min.js:13`
+- `i` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `d` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `e` (function) `static/js/chart.min.js:13`
+- `n` (function) `static/js/chart.min.js:13`
+- `o` (function) `static/js/chart.min.js:13`
+- `s` (function) `static/js/chart.min.js:13`
+- `n` (function) `static/js/chart.min.js:13`
+- `o` (function) `static/js/chart.min.js:13`
+- `y` (function) `static/js/chart.min.js:13`
+- `g` (function) `static/js/chart.min.js:13`
+- `p` (function) `static/js/chart.min.js:13`
+
+## static/js/force-graph-1.43.5.min.js
+Depends on: `cli/assign.py`, `cli/style.py`, `modules/exp.c`
+- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `Cn` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `Tr` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `o` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `ti` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `e` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
+- `t` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `u` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `y` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `l` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `b` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `s` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `f` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `i` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `Fi` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `sa` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `ha` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `v` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `o` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `c` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+
 
 Next: [API_p25.md](API_p25.md)

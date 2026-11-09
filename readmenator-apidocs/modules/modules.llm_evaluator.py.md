@@ -511,7 +511,7 @@ def get_evaluator() -> LLMEvaluator
 
 *Calls:* [`JSONLRecorder.__init__`](#jsonlrecorder-__init__), [`LLMEvaluator.__init__`](#llmevaluator-__init__)
 
-*Called by:* [`record_decision`](#record_decision), [`record_outcome`](#record_outcome)
+*Called by:* [`record_decision`](#record_decision), [`record_outcome`](#record_outcome), [`handle`](skills.mcp_tools.eval_quality.py.md#handle)
 
 ---
 

@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 903,
-  "entities": 16452,
+  "modules": 1079,
+  "entities": 16993,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 7,
    "lua": 26,
    "php": 4,
-   "py": 786,
+   "py": 962,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4580,
-   "class": 1481,
+   "attribute": 4593,
+   "class": 1483,
    "classmethod": 85,
-   "constant": 1568,
-   "constructor": 537,
+   "constant": 1733,
+   "constructor": 538,
    "enum": 39,
    "exception": 43,
-   "function": 3053,
+   "function": 3234,
    "macro": 114,
-   "method": 3687,
-   "module": 903,
+   "method": 3690,
+   "module": 1079,
    "property": 206,
    "protocol": 24,
    "staticmethod": 96,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 442,
+  "skipped_files": 447,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7813,
-   "total": 10292,
-   "percent": 75.9
+   "documented": 8176,
+   "total": 10655,
+   "percent": 76.7
   },
   "by_kind": {
    "class": {
-    "documented": 1291,
-    "total": 1481,
+    "documented": 1293,
+    "total": 1483,
     "percent": 87.2
    },
    "classmethod": {
@@ -57,9 +57,9 @@
     "percent": 69.4
    },
    "constructor": {
-    "documented": 216,
-    "total": 537,
-    "percent": 40.2
+    "documented": 217,
+    "total": 538,
+    "percent": 40.3
    },
    "enum": {
     "documented": 30,
@@ -72,9 +72,9 @@
     "percent": 95.3
    },
    "function": {
-    "documented": 2127,
-    "total": 3053,
-    "percent": 69.7
+    "documented": 2308,
+    "total": 3234,
+    "percent": 71.4
    },
    "macro": {
     "documented": 2,
@@ -82,14 +82,14 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2998,
-    "total": 3687,
+    "documented": 3001,
+    "total": 3690,
     "percent": 81.3
    },
    "module": {
-    "documented": 775,
-    "total": 903,
-    "percent": 85.8
+    "documented": 951,
+    "total": 1079,
+    "percent": 88.1
    },
    "property": {
     "documented": 162,
@@ -824,8 +824,8 @@
     "percent": 100.0
    },
    "cli/orchestrator_assets_tabs.py": {
-    "documented": 37,
-    "total": 37,
+    "documented": 42,
+    "total": 42,
     "percent": 100.0
    },
    "cli/output_mode.py": {
@@ -2169,8 +2169,8 @@
     "percent": 100.0
    },
    "modules/chain_synth.py": {
-    "documented": 4,
-    "total": 4,
+    "documented": 5,
+    "total": 5,
     "percent": 100.0
    },
    "modules/chain_tokens.py": {
@@ -2854,8 +2854,8 @@
     "percent": 100.0
    },
    "modules/lazy_runner.py": {
-    "documented": 9,
-    "total": 9,
+    "documented": 10,
+    "total": 10,
     "percent": 100.0
    },
    "modules/lazy_sandbox.py": {
@@ -3568,6 +3568,11 @@
     "total": 6,
     "percent": 100.0
    },
+   "modules/selection/lazyscript.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
    "modules/selection/module.py": {
     "documented": 3,
     "total": 3,
@@ -3589,6 +3594,11 @@
     "percent": 100.0
    },
    "modules/selection/technique.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/selection/technique_chain.py": {
     "documented": 3,
     "total": 3,
     "percent": 100.0
@@ -4264,9 +4274,9 @@
     "percent": 100.0
    },
    "skills/autonomous_daemon.py": {
-    "documented": 84,
-    "total": 96,
-    "percent": 87.5
+    "documented": 83,
+    "total": 95,
+    "percent": 87.4
    },
    "skills/autonomous_replay.py": {
     "documented": 15,
@@ -4502,6 +4512,876 @@
     "documented": 7,
     "total": 9,
     "percent": 77.8
+   },
+   "skills/mcp_tools/__init__.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/_context.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/aci_plan.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/aci_replan.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/aci_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/ack_event.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/add_rule.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/add_target.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/agent_result.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/agent_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/apt_chain.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/atomic_clean.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/atomic_resolve.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/atomic_search.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/atomic_shell.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/auto_loop.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/auto_populate.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/auto_pwn.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/autonomous_events.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/autonomous_inject.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/autonomous_replay.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/autonomous_start.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/autonomous_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/autonomous_stop.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/bridge_suggest.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_adversary.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_command.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_notes.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_profile.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_redop.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_script.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_search_agent.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/c2_vuln_analysis.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/campaign.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/campaign_lessons.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/campaign_sitrep.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/campaign_tasks.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/collab_publish.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/command_help.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/command_next.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/command_prev.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/create_addon.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/create_param.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/credentials.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/cron_schedule.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/cve_search.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_approve.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_focus.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_mode.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_pause.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_resume.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/daemon_veto.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/dashboard_snapshot.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/db.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/delete_param.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/deploy_beacon.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/discover_commands.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/engage_approve.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/engage_list_pending.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/engage_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/engage_target.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/eval_quality.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/evasion_generate.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/evasion_rotate.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/evidence_grep.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/exploit_chain.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/exploit_recommend.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/exploitgym_list.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/exploitgym_run.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/exploitgym_score.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/exploitgym_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/facts_show.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/fast_run.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/generate_report.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/get_beacons.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/get_config.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/get_llm_budget.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/graph_neighbors.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/graph_search.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/graph_suggest_next.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/graph_summary.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/groq_agent.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/heartbeat_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_collect.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_forget.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_plan.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_recall.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_recover.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_result.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_spawn.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/hive_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/inject_objective.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_addon.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_board.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_compact.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_delete.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_finding.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_hint.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_intel.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_mention.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_proxy.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_sync.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_trace.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazy_workspace.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lazysearch.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_addons.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_agents.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_event_rules.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_modules.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_params.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_plugins.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_sessions.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/list_targets.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/llm_ask.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lolbas_list.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/lolbas_use.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/loop_smoke.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/memory_recall.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/memory_store.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/metrics_summary.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/misp_export.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/next_objective.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/opencode_config.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/palette.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/parquet_annotate.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/parquet_query.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/phase_guide.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/pipeline_list.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/pipeline_run.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/pipeline_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/pipeline_validate.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/pivot_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/playbook_generate.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/poll_events.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/rag_index.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/rag_query.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/rea.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/reactive_suggest.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/read_prompt.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/read_session_file.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/rich_tui_snapshot.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/run_api.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/run_command.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/searchsploit.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/session_diff.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/session_state.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/session_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/set_active_target.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/set_config.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/soul.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/stealth.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/swan_ensemble.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/swan_route.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/swan_run.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/swan_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/target_context.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/tasks_cleanup.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/threat_model.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/timeline.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/ttp_chain.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/unified_dashboard.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_eventlogs.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_exec.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_gym_list.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_gym_plan.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_gym_run.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_snapshot.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_tools.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/winbox_vm.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
    },
    "skills/sessions_watcher.py": {
     "documented": 1,
@@ -5344,7 +6224,7 @@
   {
    "uid": "cli/orchestrator_assets_tabs.py",
    "path": "modules/cli.orchestrator_assets_tabs.py.jsonl",
-   "entities": 42
+   "entities": 48
   },
   {
    "uid": "cli/output_mode.py",
@@ -6689,7 +7569,7 @@
   {
    "uid": "modules/chain_synth.py",
    "path": "modules/modules.chain_synth.py.jsonl",
-   "entities": 4
+   "entities": 5
   },
   {
    "uid": "modules/chain_tokens.py",
@@ -7374,7 +8254,7 @@
   {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 32
+   "entities": 33
   },
   {
    "uid": "modules/lazy_sandbox.py",
@@ -8087,6 +8967,11 @@
    "entities": 7
   },
   {
+   "uid": "modules/selection/lazyscript.py",
+   "path": "modules/modules.selection.lazyscript.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "modules/selection/module.py",
    "path": "modules/modules.selection.module.py.jsonl",
    "entities": 4
@@ -8109,6 +8994,11 @@
   {
    "uid": "modules/selection/technique.py",
    "path": "modules/modules.selection.technique.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/selection/technique_chain.py",
+   "path": "modules/modules.selection.technique_chain.py.jsonl",
    "entities": 4
   },
   {
@@ -8784,7 +9674,7 @@
   {
    "uid": "skills/autonomous_daemon.py",
    "path": "modules/skills.autonomous_daemon.py.jsonl",
-   "entities": 155
+   "entities": 148
   },
   {
    "uid": "skills/autonomous_replay.py",
@@ -8964,7 +9854,7 @@
   {
    "uid": "skills/lazyown_mcp.py",
    "path": "modules/skills.lazyown_mcp.py.jsonl",
-   "entities": 21
+   "entities": 12
   },
   {
    "uid": "skills/lazyown_mcp_helpers.py",
@@ -9020,6 +9910,876 @@
    "uid": "skills/mcp_tool_generator.py",
    "path": "modules/skills.mcp_tool_generator.py.jsonl",
    "entities": 13
+  },
+  {
+   "uid": "skills/mcp_tools/__init__.py",
+   "path": "modules/skills.mcp_tools.__init__.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "skills/mcp_tools/_context.py",
+   "path": "modules/skills.mcp_tools._context.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "skills/mcp_tools/aci_plan.py",
+   "path": "modules/skills.mcp_tools.aci_plan.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/aci_replan.py",
+   "path": "modules/skills.mcp_tools.aci_replan.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/aci_status.py",
+   "path": "modules/skills.mcp_tools.aci_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/ack_event.py",
+   "path": "modules/skills.mcp_tools.ack_event.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/add_rule.py",
+   "path": "modules/skills.mcp_tools.add_rule.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/add_target.py",
+   "path": "modules/skills.mcp_tools.add_target.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/agent_result.py",
+   "path": "modules/skills.mcp_tools.agent_result.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/agent_status.py",
+   "path": "modules/skills.mcp_tools.agent_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/apt_chain.py",
+   "path": "modules/skills.mcp_tools.apt_chain.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/atomic_clean.py",
+   "path": "modules/skills.mcp_tools.atomic_clean.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/atomic_resolve.py",
+   "path": "modules/skills.mcp_tools.atomic_resolve.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/atomic_search.py",
+   "path": "modules/skills.mcp_tools.atomic_search.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/atomic_shell.py",
+   "path": "modules/skills.mcp_tools.atomic_shell.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/auto_loop.py",
+   "path": "modules/skills.mcp_tools.auto_loop.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/auto_populate.py",
+   "path": "modules/skills.mcp_tools.auto_populate.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/auto_pwn.py",
+   "path": "modules/skills.mcp_tools.auto_pwn.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/autonomous_events.py",
+   "path": "modules/skills.mcp_tools.autonomous_events.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/autonomous_inject.py",
+   "path": "modules/skills.mcp_tools.autonomous_inject.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/autonomous_replay.py",
+   "path": "modules/skills.mcp_tools.autonomous_replay.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/autonomous_start.py",
+   "path": "modules/skills.mcp_tools.autonomous_start.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/autonomous_status.py",
+   "path": "modules/skills.mcp_tools.autonomous_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/autonomous_stop.py",
+   "path": "modules/skills.mcp_tools.autonomous_stop.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/bridge_suggest.py",
+   "path": "modules/skills.mcp_tools.bridge_suggest.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_adversary.py",
+   "path": "modules/skills.mcp_tools.c2_adversary.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_command.py",
+   "path": "modules/skills.mcp_tools.c2_command.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_notes.py",
+   "path": "modules/skills.mcp_tools.c2_notes.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_profile.py",
+   "path": "modules/skills.mcp_tools.c2_profile.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_redop.py",
+   "path": "modules/skills.mcp_tools.c2_redop.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_script.py",
+   "path": "modules/skills.mcp_tools.c2_script.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_search_agent.py",
+   "path": "modules/skills.mcp_tools.c2_search_agent.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_status.py",
+   "path": "modules/skills.mcp_tools.c2_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/c2_vuln_analysis.py",
+   "path": "modules/skills.mcp_tools.c2_vuln_analysis.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/campaign.py",
+   "path": "modules/skills.mcp_tools.campaign.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/campaign_lessons.py",
+   "path": "modules/skills.mcp_tools.campaign_lessons.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/campaign_sitrep.py",
+   "path": "modules/skills.mcp_tools.campaign_sitrep.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/campaign_tasks.py",
+   "path": "modules/skills.mcp_tools.campaign_tasks.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/collab_publish.py",
+   "path": "modules/skills.mcp_tools.collab_publish.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/command_help.py",
+   "path": "modules/skills.mcp_tools.command_help.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/command_next.py",
+   "path": "modules/skills.mcp_tools.command_next.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/command_prev.py",
+   "path": "modules/skills.mcp_tools.command_prev.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/create_addon.py",
+   "path": "modules/skills.mcp_tools.create_addon.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/create_param.py",
+   "path": "modules/skills.mcp_tools.create_param.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/credentials.py",
+   "path": "modules/skills.mcp_tools.credentials.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/cron_schedule.py",
+   "path": "modules/skills.mcp_tools.cron_schedule.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/cve_search.py",
+   "path": "modules/skills.mcp_tools.cve_search.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon.py",
+   "path": "modules/skills.mcp_tools.daemon.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_approve.py",
+   "path": "modules/skills.mcp_tools.daemon_approve.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_focus.py",
+   "path": "modules/skills.mcp_tools.daemon_focus.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_mode.py",
+   "path": "modules/skills.mcp_tools.daemon_mode.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_pause.py",
+   "path": "modules/skills.mcp_tools.daemon_pause.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_resume.py",
+   "path": "modules/skills.mcp_tools.daemon_resume.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_status.py",
+   "path": "modules/skills.mcp_tools.daemon_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/daemon_veto.py",
+   "path": "modules/skills.mcp_tools.daemon_veto.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/dashboard_snapshot.py",
+   "path": "modules/skills.mcp_tools.dashboard_snapshot.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/db.py",
+   "path": "modules/skills.mcp_tools.db.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/delete_param.py",
+   "path": "modules/skills.mcp_tools.delete_param.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/deploy_beacon.py",
+   "path": "modules/skills.mcp_tools.deploy_beacon.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/discover_commands.py",
+   "path": "modules/skills.mcp_tools.discover_commands.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/engage_approve.py",
+   "path": "modules/skills.mcp_tools.engage_approve.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/engage_list_pending.py",
+   "path": "modules/skills.mcp_tools.engage_list_pending.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/engage_status.py",
+   "path": "modules/skills.mcp_tools.engage_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/engage_target.py",
+   "path": "modules/skills.mcp_tools.engage_target.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/eval_quality.py",
+   "path": "modules/skills.mcp_tools.eval_quality.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/evasion_generate.py",
+   "path": "modules/skills.mcp_tools.evasion_generate.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/evasion_rotate.py",
+   "path": "modules/skills.mcp_tools.evasion_rotate.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/evidence_grep.py",
+   "path": "modules/skills.mcp_tools.evidence_grep.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/exploit_chain.py",
+   "path": "modules/skills.mcp_tools.exploit_chain.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/exploit_recommend.py",
+   "path": "modules/skills.mcp_tools.exploit_recommend.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/exploitgym_list.py",
+   "path": "modules/skills.mcp_tools.exploitgym_list.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/exploitgym_run.py",
+   "path": "modules/skills.mcp_tools.exploitgym_run.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/exploitgym_score.py",
+   "path": "modules/skills.mcp_tools.exploitgym_score.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/exploitgym_status.py",
+   "path": "modules/skills.mcp_tools.exploitgym_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/facts_show.py",
+   "path": "modules/skills.mcp_tools.facts_show.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/fast_run.py",
+   "path": "modules/skills.mcp_tools.fast_run.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/generate_report.py",
+   "path": "modules/skills.mcp_tools.generate_report.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/get_beacons.py",
+   "path": "modules/skills.mcp_tools.get_beacons.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/get_config.py",
+   "path": "modules/skills.mcp_tools.get_config.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/get_llm_budget.py",
+   "path": "modules/skills.mcp_tools.get_llm_budget.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/graph_neighbors.py",
+   "path": "modules/skills.mcp_tools.graph_neighbors.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/graph_search.py",
+   "path": "modules/skills.mcp_tools.graph_search.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/graph_suggest_next.py",
+   "path": "modules/skills.mcp_tools.graph_suggest_next.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/graph_summary.py",
+   "path": "modules/skills.mcp_tools.graph_summary.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/groq_agent.py",
+   "path": "modules/skills.mcp_tools.groq_agent.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/heartbeat_status.py",
+   "path": "modules/skills.mcp_tools.heartbeat_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_collect.py",
+   "path": "modules/skills.mcp_tools.hive_collect.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_forget.py",
+   "path": "modules/skills.mcp_tools.hive_forget.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_plan.py",
+   "path": "modules/skills.mcp_tools.hive_plan.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_recall.py",
+   "path": "modules/skills.mcp_tools.hive_recall.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_recover.py",
+   "path": "modules/skills.mcp_tools.hive_recover.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_result.py",
+   "path": "modules/skills.mcp_tools.hive_result.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_spawn.py",
+   "path": "modules/skills.mcp_tools.hive_spawn.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/hive_status.py",
+   "path": "modules/skills.mcp_tools.hive_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/inject_objective.py",
+   "path": "modules/skills.mcp_tools.inject_objective.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_addon.py",
+   "path": "modules/skills.mcp_tools.lazy_addon.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_board.py",
+   "path": "modules/skills.mcp_tools.lazy_board.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_compact.py",
+   "path": "modules/skills.mcp_tools.lazy_compact.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_delete.py",
+   "path": "modules/skills.mcp_tools.lazy_delete.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_finding.py",
+   "path": "modules/skills.mcp_tools.lazy_finding.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_hint.py",
+   "path": "modules/skills.mcp_tools.lazy_hint.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_intel.py",
+   "path": "modules/skills.mcp_tools.lazy_intel.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_mention.py",
+   "path": "modules/skills.mcp_tools.lazy_mention.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_proxy.py",
+   "path": "modules/skills.mcp_tools.lazy_proxy.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_status.py",
+   "path": "modules/skills.mcp_tools.lazy_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_sync.py",
+   "path": "modules/skills.mcp_tools.lazy_sync.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_trace.py",
+   "path": "modules/skills.mcp_tools.lazy_trace.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazy_workspace.py",
+   "path": "modules/skills.mcp_tools.lazy_workspace.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lazysearch.py",
+   "path": "modules/skills.mcp_tools.lazysearch.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_addons.py",
+   "path": "modules/skills.mcp_tools.list_addons.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_agents.py",
+   "path": "modules/skills.mcp_tools.list_agents.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_event_rules.py",
+   "path": "modules/skills.mcp_tools.list_event_rules.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_modules.py",
+   "path": "modules/skills.mcp_tools.list_modules.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_params.py",
+   "path": "modules/skills.mcp_tools.list_params.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_plugins.py",
+   "path": "modules/skills.mcp_tools.list_plugins.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_sessions.py",
+   "path": "modules/skills.mcp_tools.list_sessions.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/list_targets.py",
+   "path": "modules/skills.mcp_tools.list_targets.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/llm_ask.py",
+   "path": "modules/skills.mcp_tools.llm_ask.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lolbas_list.py",
+   "path": "modules/skills.mcp_tools.lolbas_list.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/lolbas_use.py",
+   "path": "modules/skills.mcp_tools.lolbas_use.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/loop_smoke.py",
+   "path": "modules/skills.mcp_tools.loop_smoke.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/memory_recall.py",
+   "path": "modules/skills.mcp_tools.memory_recall.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/memory_store.py",
+   "path": "modules/skills.mcp_tools.memory_store.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/metrics_summary.py",
+   "path": "modules/skills.mcp_tools.metrics_summary.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/misp_export.py",
+   "path": "modules/skills.mcp_tools.misp_export.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/next_objective.py",
+   "path": "modules/skills.mcp_tools.next_objective.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/opencode_config.py",
+   "path": "modules/skills.mcp_tools.opencode_config.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/palette.py",
+   "path": "modules/skills.mcp_tools.palette.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/parquet_annotate.py",
+   "path": "modules/skills.mcp_tools.parquet_annotate.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/parquet_query.py",
+   "path": "modules/skills.mcp_tools.parquet_query.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/phase_guide.py",
+   "path": "modules/skills.mcp_tools.phase_guide.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/pipeline_list.py",
+   "path": "modules/skills.mcp_tools.pipeline_list.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/pipeline_run.py",
+   "path": "modules/skills.mcp_tools.pipeline_run.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/pipeline_status.py",
+   "path": "modules/skills.mcp_tools.pipeline_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/pipeline_validate.py",
+   "path": "modules/skills.mcp_tools.pipeline_validate.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/pivot_status.py",
+   "path": "modules/skills.mcp_tools.pivot_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/playbook_generate.py",
+   "path": "modules/skills.mcp_tools.playbook_generate.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/poll_events.py",
+   "path": "modules/skills.mcp_tools.poll_events.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/rag_index.py",
+   "path": "modules/skills.mcp_tools.rag_index.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/rag_query.py",
+   "path": "modules/skills.mcp_tools.rag_query.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/rea.py",
+   "path": "modules/skills.mcp_tools.rea.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/reactive_suggest.py",
+   "path": "modules/skills.mcp_tools.reactive_suggest.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/read_prompt.py",
+   "path": "modules/skills.mcp_tools.read_prompt.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/read_session_file.py",
+   "path": "modules/skills.mcp_tools.read_session_file.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/rich_tui_snapshot.py",
+   "path": "modules/skills.mcp_tools.rich_tui_snapshot.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/run_api.py",
+   "path": "modules/skills.mcp_tools.run_api.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/run_command.py",
+   "path": "modules/skills.mcp_tools.run_command.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/searchsploit.py",
+   "path": "modules/skills.mcp_tools.searchsploit.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/session_diff.py",
+   "path": "modules/skills.mcp_tools.session_diff.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/session_state.py",
+   "path": "modules/skills.mcp_tools.session_state.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/session_status.py",
+   "path": "modules/skills.mcp_tools.session_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/set_active_target.py",
+   "path": "modules/skills.mcp_tools.set_active_target.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/set_config.py",
+   "path": "modules/skills.mcp_tools.set_config.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/soul.py",
+   "path": "modules/skills.mcp_tools.soul.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/stealth.py",
+   "path": "modules/skills.mcp_tools.stealth.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/swan_ensemble.py",
+   "path": "modules/skills.mcp_tools.swan_ensemble.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/swan_route.py",
+   "path": "modules/skills.mcp_tools.swan_route.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/swan_run.py",
+   "path": "modules/skills.mcp_tools.swan_run.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/swan_status.py",
+   "path": "modules/skills.mcp_tools.swan_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/target_context.py",
+   "path": "modules/skills.mcp_tools.target_context.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/tasks_cleanup.py",
+   "path": "modules/skills.mcp_tools.tasks_cleanup.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/threat_model.py",
+   "path": "modules/skills.mcp_tools.threat_model.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/timeline.py",
+   "path": "modules/skills.mcp_tools.timeline.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/ttp_chain.py",
+   "path": "modules/skills.mcp_tools.ttp_chain.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/unified_dashboard.py",
+   "path": "modules/skills.mcp_tools.unified_dashboard.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_eventlogs.py",
+   "path": "modules/skills.mcp_tools.winbox_eventlogs.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_exec.py",
+   "path": "modules/skills.mcp_tools.winbox_exec.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_gym_list.py",
+   "path": "modules/skills.mcp_tools.winbox_gym_list.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_gym_plan.py",
+   "path": "modules/skills.mcp_tools.winbox_gym_plan.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_gym_run.py",
+   "path": "modules/skills.mcp_tools.winbox_gym_run.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_snapshot.py",
+   "path": "modules/skills.mcp_tools.winbox_snapshot.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_status.py",
+   "path": "modules/skills.mcp_tools.winbox_status.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_tools.py",
+   "path": "modules/skills.mcp_tools.winbox_tools.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/winbox_vm.py",
+   "path": "modules/skills.mcp_tools.winbox_vm.py.jsonl",
+   "entities": 3
   },
   {
    "uid": "skills/sessions_watcher.py",

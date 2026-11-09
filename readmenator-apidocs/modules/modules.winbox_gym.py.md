@@ -388,7 +388,7 @@ per-stage `[`stages`](modules.orchestrator_config.py.md#stages)` detail mapping.
 
 *Calls:* [`ensure_installed`](#ensure_installed), [`ensure_prereqs`](#ensure_prereqs), [`ensure_vm_running`](#ensure_vm_running), [`resolve_target`](#resolve_target), [`run_cli`](#run_cli), [`vm_ip`](#vm_ip), [`vm_status`](#vm_status)
 
-*Called by:* [`run_matrix`](modules.gym_winbox_runner.py.md#run_matrix)
+*Called by:* [`run_matrix`](modules.gym_winbox_runner.py.md#run_matrix), [`handle`](skills.mcp_tools.winbox_vm.py.md#handle)
 
 ---
 
@@ -422,7 +422,7 @@ stream timed out) `[`timed_out`](modules.auto_registry.py.md#shellresult-timed_o
 
 *Calls:* [`safe_subprocess_run`](core.hardening.py.md#safe_subprocess_run), [`binary_path`](#binary_path), [`record_artifact`](#record_artifact)
 
-*Called by:* [`ensure_lab_ready`](#ensure_lab_ready), [`ensure_vm_running`](#ensure_vm_running)
+*Called by:* [`ensure_lab_ready`](#ensure_lab_ready), [`ensure_vm_running`](#ensure_vm_running), [`handle`](skills.mcp_tools.winbox_eventlogs.py.md#handle), [`handle`](skills.mcp_tools.winbox_exec.py.md#handle), [`handle`](skills.mcp_tools.winbox_snapshot.py.md#handle), [`handle`](skills.mcp_tools.winbox_tools.py.md#handle), [`handle`](skills.mcp_tools.winbox_vm.py.md#handle)
 
 ---
 
@@ -449,7 +449,7 @@ the CLI is unavailable.
 
 *Calls:* [`safe_subprocess_run`](core.hardening.py.md#safe_subprocess_run), [`binary_path`](#binary_path)
 
-*Called by:* [`check_readiness`](#check_readiness), [`ensure_lab_ready`](#ensure_lab_ready), [`ensure_vm_running`](#ensure_vm_running), [`vm_ip`](#vm_ip)
+*Called by:* [`check_readiness`](#check_readiness), [`ensure_lab_ready`](#ensure_lab_ready), [`ensure_vm_running`](#ensure_vm_running), [`vm_ip`](#vm_ip), [`handle`](skills.mcp_tools.winbox_vm.py.md#handle)
 
 ---
 
@@ -469,7 +469,7 @@ Return the lab VM IPv4 address, or an empty string.
 
 *Calls:* [`vm_status`](#vm_status)
 
-*Called by:* [`ensure_lab_ready`](#ensure_lab_ready), [`ensure_vm_running`](#ensure_vm_running), [`resolve_target`](#resolve_target)
+*Called by:* [`ensure_lab_ready`](#ensure_lab_ready), [`ensure_vm_running`](#ensure_vm_running), [`resolve_target`](#resolve_target), [`handle`](skills.mcp_tools.winbox_vm.py.md#handle)
 
 ---
 
@@ -568,6 +568,8 @@ Report whether the autonomous loop can attack the lab right now.
 ``reasons`` listing what is missing.
 
 *Calls:* [`check_readiness`](#check_readiness)
+
+*Called by:* [`handle`](skills.mcp_tools.winbox_status.py.md#handle)
 
 ---
 

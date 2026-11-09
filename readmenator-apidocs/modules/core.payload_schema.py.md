@@ -341,7 +341,7 @@ use inside the ``assign`` command without surprising operators.
 **Returns:** `Any` - The coerced value, or ``raw`` unchanged when no coercion is
 defined for the field's kind.
 
-*Called by:* [`apply_assign`](cli.assign.py.md#apply_assign), [`run`](cli.wizard.py.md#run), [`run_non_interactive`](cli.wizard.py.md#run_non_interactive), [`validate_value`](#validate_value), [`check_calls`](scripts.devtools.core_smoke.py.md#check_calls)
+*Called by:* [`apply_assign`](cli.assign.py.md#apply_assign), [`run`](cli.wizard.py.md#run), [`run_non_interactive`](cli.wizard.py.md#run_non_interactive), [`validate_value`](#validate_value), [`check_calls`](scripts.devtools.core_smoke.py.md#check_calls), [`handle`](skills.mcp_tools.set_config.py.md#handle)
 
 ---
 

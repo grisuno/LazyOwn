@@ -105,7 +105,7 @@ Centralised paths and limits for the catalog subsystem.
 
 ### `index_commands`
 
-`function` | [modules/verb_catalog.py:226](../../modules/verb_catalog.py#L226)
+`function` | [modules/verb_catalog.py:254](../../modules/verb_catalog.py#L254)
 
 ```python
 def index_commands(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, str]]
@@ -133,7 +133,7 @@ never loses a command that exists in the shell.
 
 ### `validate_catalog`
 
-`function` | [modules/verb_catalog.py:266](../../modules/verb_catalog.py#L266)
+`function` | [modules/verb_catalog.py:294](../../modules/verb_catalog.py#L294)
 
 ```python
 def validate_catalog(data: Any) -> list[str]
@@ -157,7 +157,7 @@ Validate one raw catalog document.
 
 ### `load`
 
-`function` | [modules/verb_catalog.py:299](../../modules/verb_catalog.py#L299)
+`function` | [modules/verb_catalog.py:331](../../modules/verb_catalog.py#L331)
 
 ```python
 def load(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]]
@@ -184,7 +184,7 @@ is missing, oversized, or invalid.
 
 ### `entries`
 
-`function` | [modules/verb_catalog.py:332](../../modules/verb_catalog.py#L332)
+`function` | [modules/verb_catalog.py:364](../../modules/verb_catalog.py#L364)
 
 ```python
 def entries(config: VerbCatalogConfig | None = None) -> dict[str, dict[str, Any]]
@@ -211,7 +211,7 @@ Return the catalog with defaults filled in, cached briefly.
 
 ### `catalog_enabled`
 
-`function` | [modules/verb_catalog.py:385](../../modules/verb_catalog.py#L385)
+`function` | [modules/verb_catalog.py:420](../../modules/verb_catalog.py#L420)
 
 ```python
 def catalog_enabled(name: str, config: VerbCatalogConfig | None = None) -> bool | None
@@ -239,7 +239,7 @@ caller can apply its own fallback.
 
 ### `set_enabled`
 
-`function` | [modules/verb_catalog.py:414](../../modules/verb_catalog.py#L414)
+`function` | [modules/verb_catalog.py:449](../../modules/verb_catalog.py#L449)
 
 ```python
 def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = None) -> dict[str, Any]
@@ -272,7 +272,7 @@ Flip one verb in the YAML catalog atomically.
 
 ### `sync`
 
-`function` | [modules/verb_catalog.py:452](../../modules/verb_catalog.py#L452)
+`function` | [modules/verb_catalog.py:487](../../modules/verb_catalog.py#L487)
 
 ```python
 def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]
@@ -302,7 +302,7 @@ command lands disabled. Commands that no longer exist are pruned.
 
 ### `stats`
 
-`function` | [modules/verb_catalog.py:544](../../modules/verb_catalog.py#L544)
+`function` | [modules/verb_catalog.py:579](../../modules/verb_catalog.py#L579)
 
 ```python
 def stats(config: VerbCatalogConfig | None = None) -> dict[str, int]
@@ -328,7 +328,7 @@ Summarise the catalog for the brief and the HTTP API.
 
 ### `search`
 
-`function` | [modules/verb_catalog.py:558](../../modules/verb_catalog.py#L558)
+`function` | [modules/verb_catalog.py:593](../../modules/verb_catalog.py#L593)
 
 ```python
 def search(query: str = '', config: VerbCatalogConfig | None = None, phase: str = '', enabled: bool | None = None, limit: int | None = None) -> list[dict[str, Any]]

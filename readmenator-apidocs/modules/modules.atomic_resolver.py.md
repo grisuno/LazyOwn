@@ -588,7 +588,7 @@ Return the module-level resolver singleton.
 
 *Calls:* [`AtomicResolver.__init__`](#atomicresolver-__init__)
 
-*Called by:* [`AptPlaybookEngine.validate`](modules.apt_playbooks.py.md#aptplaybookengine-validate), [`resolve_chain`](#resolve_chain), [`resolve_technique`](#resolve_technique), [`do_chain`](modules.ttpscope_bridge.py.md#do_chain)
+*Called by:* [`AptPlaybookEngine.validate`](modules.apt_playbooks.py.md#aptplaybookengine-validate), [`resolve_chain`](#resolve_chain), [`resolve_technique`](#resolve_technique), [`do_chain`](modules.ttpscope_bridge.py.md#do_chain), [`handle`](skills.mcp_tools.atomic_resolve.py.md#handle), [`handle`](skills.mcp_tools.ttp_chain.py.md#handle)
 
 ---
 

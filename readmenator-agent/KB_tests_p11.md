@@ -1,4 +1,4 @@
-# Subsystem: tests (page 11 of 24)
+# Subsystem: tests (page 11 of 25)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
 ## tests/test_guardrails.py

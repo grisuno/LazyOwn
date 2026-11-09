@@ -370,7 +370,7 @@ def __init__(self, world_model=None, obs_parser=None, api_key: str = '', top_n: 
 | `api_key` | `str` | `''` |  |
 | `top_n` | `int` | `5` |  |
 
-*Called by:* [`CalderaCommandSet.do_plan_apply`](cli.commands.caldera.py.md#calderacommandset-do_plan_apply), [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run), [`OperationManager.plan_from_apt`](modules.operation.py.md#operationmanager-plan_from_apt), [`Planner.plan`](modules.planner.py.md#planner-plan), [`get_engine`](#get_engine)
+*Called by:* [`CalderaCommandSet.do_plan_apply`](cli.commands.caldera.py.md#calderacommandset-do_plan_apply), [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run), [`OperationManager.plan_from_apt`](modules.operation.py.md#operationmanager-plan_from_apt), [`Planner.plan`](modules.planner.py.md#planner-plan), [`get_engine`](#get_engine), [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`handle`](skills.mcp_tools.playbook_generate.py.md#handle)
 
 <a id="playbookengine-derive"></a>
 
@@ -400,7 +400,7 @@ If platform is None, infers from WorldModel os_hint.
 
 *Calls:* [`Playbook`](#playbook), [`PlaybookStep`](#playbookstep)
 
-*Called by:* [`CalderaCommandSet.do_plan_apply`](cli.commands.caldera.py.md#calderacommandset-do_plan_apply), [`OperationManager.plan_from_apt`](modules.operation.py.md#operationmanager-plan_from_apt), [`Planner.plan`](modules.planner.py.md#planner-plan)
+*Called by:* [`CalderaCommandSet.do_plan_apply`](cli.commands.caldera.py.md#calderacommandset-do_plan_apply), [`OperationManager.plan_from_apt`](modules.operation.py.md#operationmanager-plan_from_apt), [`Planner.plan`](modules.planner.py.md#planner-plan), [`handle`](skills.mcp_tools.playbook_generate.py.md#handle)
 
 <a id="playbookengine-execute"></a>
 
@@ -426,7 +426,7 @@ Execute a Playbook step by step.
 
 *Calls:* [`EmulationRunner.__init__`](modules.emulation_runner.py.md#emulationrunner-__init__), [`EmulationRunner.run_steps`](modules.emulation_runner.py.md#emulationrunner-run_steps), [`EmulationStep`](modules.emulation_runner.py.md#emulationstep), [`PlaybookResult`](#playbookresult), [`StepResult`](#stepresult)
 
-*Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run)
+*Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
 
 <a id="playbookengine-save"></a>
 
@@ -450,6 +450,8 @@ Persist playbook to YAML (compatible with existing playbooks/ format).
 **Returns:** `Path`
 
 *Calls:* [`Playbook.to_dict`](#playbook-to_dict)
+
+*Called by:* [`handle`](skills.mcp_tools.playbook_generate.py.md#handle)
 
 <a id="playbookengine-load"></a>
 
@@ -475,7 +477,7 @@ Supports both new extended format and legacy format.
 
 *Calls:* [`Playbook`](#playbook), [`PlaybookStep`](#playbookstep), [`PlaybookStep.from_dict`](#playbookstep-from_dict)
 
-*Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run)
+*Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
 
 <a id="playbookengine-result_summary"></a>
 
@@ -497,7 +499,7 @@ Return a human-readable / LLM-readable summary of a PlaybookResult.
 
 **Returns:** `str`
 
-*Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run)
+*Called by:* [`McpBridgeCommandSet.do_playbook_run`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_playbook_run), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
 
 ---
 

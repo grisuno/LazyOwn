@@ -84,7 +84,7 @@ def __init__(self, sessions_dir: Path | None = None) -> None
 |---|---|---|---|
 | `sessions_dir` | `Path \| None` | `None` |  |
 
-*Called by:* [`get_unified_dashboard`](#get_unified_dashboard)
+*Called by:* [`get_unified_dashboard`](#get_unified_dashboard), [`handle`](skills.mcp_tools.unified_dashboard.py.md#handle)
 
 <a id="unifieddashboard-build_unified_snapshot"></a>
 
@@ -119,6 +119,8 @@ Render the unified dashboard as a text string for CLI/TUI.
 
 *Calls:* [`UnifiedDashboard.build_unified_snapshot`](#unifieddashboard-build_unified_snapshot)
 
+*Called by:* [`handle`](skills.mcp_tools.unified_dashboard.py.md#handle)
+
 <a id="unifieddashboard-export_json"></a>
 
 #### `UnifiedDashboard.export_json`
@@ -134,6 +136,8 @@ Export the unified snapshot as a JSON string.
 **Returns:** `str`
 
 *Calls:* [`UnifiedDashboard.build_unified_snapshot`](#unifieddashboard-build_unified_snapshot)
+
+*Called by:* [`handle`](skills.mcp_tools.unified_dashboard.py.md#handle)
 
 ---
 

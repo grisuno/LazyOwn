@@ -14,7 +14,7 @@ never poisons the registry; the operator owns the file afterwards.
 
 ## Contents
 
-- **Functions:** [`synth_chain_data`](#synth_chain_data), [`facts_for_target`](#facts_for_target), [`write_generated_chain`](#write_generated_chain)
+- **Functions:** [`synth_chain_data`](#synth_chain_data), [`facts_for_target`](#facts_for_target), [`synth_technique_chain_data`](#synth_technique_chain_data), [`write_generated_chain`](#write_generated_chain)
 
 ## Call Graph
 
@@ -93,11 +93,45 @@ when nothing about the target is known.
 
 ---
 
+<a id="synth_technique_chain_data"></a>
+
+### `synth_technique_chain_data`
+
+`function` | [modules/chain_synth.py:272](../../modules/chain_synth.py#L272)
+
+```python
+def synth_technique_chain_data(target: str, techniques: list[str], os_hint: str = '') -> tuple[dict[str, Any], list[str]]
+```
+
+Compose a focused chain of ordered MITRE/atomic technique steps.
+
+Unlike [`synth_chain_data`](#synth_chain_data), this produces no scan, C2 or service
+spine: it binds the target then emulates each supplied technique in
+order as its own ``atomic_tests`` step, so the ChainRunner's shared
+EdrPacer applies the configured jitter and sleeper windows between
+techniques. Only well-formed technique ids are kept, deduplicated and
+uppercased; a bad id can never abort the chain.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `target` | `str` |  | Host the chain binds to. |
+| `techniques` | `list[str]` |  | Ordered MITRE technique ids (``T1059``, ``T1059.001``). |
+| `os_hint` | `str` | `''` | OS string recorded in the chain description. |
+
+**Returns:** `tuple[dict[str, Any], list[str]]` - A ``(data, techniques_used)`` pair. ``data`` is empty with the
+reason in ``techniques_used`` when fewer than two valid ids remain.
+
+*Called by:* [`TechniqueChainSelector.propose`](modules.selection.technique_chain.py.md#techniquechainselector-propose)
+
+---
+
 <a id="write_generated_chain"></a>
 
 ### `write_generated_chain`
 
-`function` | [modules/chain_synth.py:272](../../modules/chain_synth.py#L272)
+`function` | [modules/chain_synth.py:339](../../modules/chain_synth.py#L339)
 
 ```python
 def write_generated_chain(data: dict[str, Any], chains_dir: Path | str | None = None) -> tuple[Path | None, list[str]]
@@ -118,6 +152,6 @@ Invalid data is never written: errors come back instead either way.
 
 *Calls:* [`validate_chain`](modules.chain_registry.py.md#validate_chain)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`consider_report`](modules.lazy_autofire.py.md#consider_report)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`consider_report`](modules.lazy_autofire.py.md#consider_report), [`TechniqueChainSelector.propose`](modules.selection.technique_chain.py.md#techniquechainselector-propose)
 
 ---

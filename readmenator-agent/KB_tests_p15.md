@@ -1,4 +1,4 @@
-# Subsystem: tests (page 15 of 24)
+# Subsystem: tests (page 15 of 25)
 Previous: [KB_tests_p14.md](KB_tests_p14.md)
 
 ## tests/test_lazygui_backend.py

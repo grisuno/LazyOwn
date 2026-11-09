@@ -336,13 +336,13 @@ with no foothold.
 |---|---|---|---|
 | `line` | `str` |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`parse_loop_line`](modules.lazy_runner.py.md#parse_loop_line), [`run_loop`](modules.lazy_runner.py.md#run_loop)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`bind_target_authority`](modules.lazy_runner.py.md#bind_target_authority), [`load_targets_file`](modules.lazy_runner.py.md#load_targets_file), [`parse_loop_line`](modules.lazy_runner.py.md#parse_loop_line), [`run_loop`](modules.lazy_runner.py.md#run_loop)
 
 <a id="mcpbridgecommandset-do_session_state"></a>
 
 #### `McpBridgeCommandSet.do_session_state`
 
-`method` | [cli/commands/mcp_bridge.py:534](../../cli/commands/mcp_bridge.py#L534)
+`method` | [cli/commands/mcp_bridge.py:546](../../cli/commands/mcp_bridge.py#L546)
 
 Decorators: `@with_category(ai_category)`
 
@@ -362,7 +362,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 
 #### `McpBridgeCommandSet.do_campaign_sitrep`
 
-`method` | [cli/commands/mcp_bridge.py:539](../../cli/commands/mcp_bridge.py#L539)
+`method` | [cli/commands/mcp_bridge.py:551](../../cli/commands/mcp_bridge.py#L551)
 
 Decorators: `@with_category(ai_category)`
 
@@ -382,7 +382,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 
 #### `McpBridgeCommandSet.do_timeline`
 
-`method` | [cli/commands/mcp_bridge.py:544](../../cli/commands/mcp_bridge.py#L544)
+`method` | [cli/commands/mcp_bridge.py:556](../../cli/commands/mcp_bridge.py#L556)
 
 Decorators: `@with_category(ai_category)`
 

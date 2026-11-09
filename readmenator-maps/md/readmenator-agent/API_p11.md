@@ -1,4 +1,4 @@
-# API (page 11 of 26)
+# API (page 11 of 27)
 Previous: [API_p10.md](API_p10.md)
 
 ## modules/c2_profile_engine.py
@@ -113,7 +113,7 @@ Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `test
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 - `skip_pending` (function) `modules/chain_registry.py:69` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
 - `ChainStep.identifier` (method) `modules/chain_registry.py:152` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:176` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
@@ -153,10 +153,11 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 
 ## modules/chain_synth.py
 Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
-Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `tests/test_chain_synth.py`
+Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
 - `synth_chain_data` (function) `modules/chain_synth.py:91` `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` -- Compose the chain dict for a host; (data, notes).
 - `facts_for_target` (function) `modules/chain_synth.py:243` `def facts_for_target(target)` -- Pull host facts from the FactStore for synthesis inputs.
-- `write_generated_chain` (function) `modules/chain_synth.py:272` `def write_generated_chain(data, chains_dir)` -- Validate and persist the generated chain file; returns (path, errors).
+- `synth_technique_chain_data` (function) `modules/chain_synth.py:272` `def synth_technique_chain_data(target, techniques, os_hint)` -- Compose a focused chain of ordered MITRE/atomic technique steps.
+- `write_generated_chain` (function) `modules/chain_synth.py:339` `def write_generated_chain(data, chains_dir)` -- Validate and persist the generated chain file; returns (path, errors).
 
 ## modules/chain_tokens.py
 Depends on: `skills/lazyown_facts.py`
@@ -205,7 +206,7 @@ Imported by: `cli/commands/cloud.py`
 
 ## modules/collab_bp.py
 Depends on: `core/logging.py`, `modules/lazy_rbac.py`
-Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
+Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/mcp_tools/collab_publish.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
 - `login_required` (function) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
 - `decorated` (function) `modules/collab_bp.py:84` `def decorated()`
 - `decorated` (function) `modules/collab_bp.py:124` `def decorated()`
@@ -359,7 +360,7 @@ Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_ru
 
 ## modules/cve_matcher.py
 Depends on: `core/logging.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
 - `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
 - `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
 - `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
@@ -385,7 +386,7 @@ Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_ro
 - `dashboard_timeline` (function) `modules/dashboard_bp.py:1017` `def dashboard_timeline()` -- Render the campaign timeline: commands and events, newest first.
 
 ## modules/dashboard_engine.py
-Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
 - `DashboardEngine.__init__` (method) `modules/dashboard_engine.py:139` `def __init__(self, world_model)`
 - `DashboardEngine.set_world_model` (method) `modules/dashboard_engine.py:148` `def set_world_model(self, model)`
 - `DashboardEngine.set_exploit_recommender` (method) `modules/dashboard_engine.py:151` `def set_exploit_recommender(self, recommender)`
@@ -400,7 +401,7 @@ Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dash
 
 ## modules/db.py
 Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
 - `LazyOwnDB.__init__` (method) `modules/db.py:159` `def __init__(self, db_path)`
 - `LazyOwnDB.db_path` (method) `modules/db.py:182` `def db_path(self)` -- Path to the SQLite database file.
 - `LazyOwnDB.migration_status` (method) `modules/db.py:222` `def migration_status(self)` -- Return the current and latest migration versions.

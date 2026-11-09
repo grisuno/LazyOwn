@@ -593,7 +593,6 @@
 - [`arg_template`](modules/modules.lazyown_bridge.py.md#catalogentry-arg_template) attribute of `CatalogEntry` in `modules.lazyown_bridge`
 - [`argmax`](modules/modules.rl_trainer.py.md#qvaluestore-argmax) method of `QValueStore` in `modules.rl_trainer`
 - [`argparser_commands`](modules/scripts.devtools.command_audit.py.md#argparser_commands) function in `scripts.devtools.command_audit`
-- [`args`](modules/skills.autonomous_daemon.py.md#commanddecision-args) attribute of `CommandDecision` in `skills.autonomous_daemon`
 - [`args`](modules/modules.verb_manifest.py.md#factpredicate-args) method of `FactPredicate` in `modules.verb_manifest`
 - [`args`](modules/modules.metrics.py.md#metricrecord-args) attribute of `MetricRecord` in `modules.metrics`
 - [`args`](modules/modules.pipeline_engine.py.md#pipelinestep-args) attribute of `PipelineStep` in `modules.pipeline_engine`
@@ -992,6 +991,7 @@
 - [`bind_shell`](modules/modules.tools.loop_smoke.py.md#fakeengine-bind_shell) method of `FakeEngine` in `modules.tools.loop_smoke`
 - [`bind_shell`](modules/modules.lazy_loop.py.md#lazyloopengine-bind_shell) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`bind_sighting`](modules/modules.lazy_feedmatch.py.md#bind_sighting) function in `modules.lazy_feedmatch`
+- [`bind_target_authority`](modules/modules.lazy_runner.py.md#bind_target_authority) function in `modules.lazy_runner`
 - [`bind_unspecified_address`](modules/modules.security_sanitizers.py.md#securityconfig-bind_unspecified_address) attribute of `SecurityConfig` in `modules.security_sanitizers`
 - [`BindAddressResolver`](modules/modules.security_sanitizers.py.md#bindaddressresolver) class in `modules.security_sanitizers`
 - [`BINDINGS`](modules/cli.tui_forms.py.md#confirmmodal-bindings) attribute of `ConfirmModal` in `cli.tui_forms`
@@ -1263,6 +1263,7 @@
 - [`c2_port`](modules/lazyown.py.md#lazyownshell-c2_port) attribute of `LazyOwnShell` in `lazyown`
 - [`c2_port`](modules/modules.operator_profiles.py.md#operatorprofile-c2_port) attribute of `OperatorProfile` in `modules.operator_profiles`
 - [`C2_PROFILES`](modules/modules.c2_builder.py.md#c2_profiles) constant in `modules.c2_builder`
+- [`c2_request`](modules/skills.mcp_tools._context.py.md#mcpcontext-c2_request) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`c2_request`](modules/telegram_hermes.py.md#c2_request) function in `telegram_hermes`
 - [`C2_SERVER_IP`](modules/modules.rootkit.mrhyde3.c.md#c2_server_ip) macro in `modules/rootkit/mrhyde3.c`
 - [`c2_url`](modules/modules.beacon_config_builder.py.md#beaconconfig-c2_url) attribute of `BeaconConfig` in `modules.beacon_config_builder`
@@ -2027,7 +2028,6 @@
 - [`Command`](modules/modules.rootkit.mr.c.md#command) struct in `modules/rootkit/mr.c`
 - [`Command`](modules/modules.win_rootkit.backup.c.md#command) struct in `modules/win_rootkit/backup.c`
 - [`Command`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#command) struct in `modules/win_rootkit/win_ring3_rootkit.c`
-- [`command`](modules/skills.autonomous_daemon.py.md#commanddecision-command) attribute of `CommandDecision` in `skills.autonomous_daemon`
 - [`command`](modules/cli.command_form.py.md#commandfieldset-command) attribute of `CommandFieldSet` in `cli.command_form`
 - [`command`](modules/modules.detection_oracle.py.md#detectionassessment-command) attribute of `DetectionAssessment` in `modules.detection_oracle`
 - [`command`](modules/modules.emulation_runner.py.md#emulationresult-command) attribute of `EmulationResult` in `modules.emulation_runner`
@@ -2104,7 +2104,6 @@
 - [`CommandCatalog`](modules/modules.lazyown_bridge.py.md#commandcatalog) class in `modules.lazyown_bridge`
 - [`CommandChain`](modules/cli.command_chain.py.md#commandchain) class in `cli.command_chain`
 - [`CommandDecision`](modules/lazyc2.security.command_allowlist.py.md#commanddecision) class in `lazyc2.security.command_allowlist`
-- [`CommandDecision`](modules/skills.autonomous_daemon.py.md#commanddecision) class in `skills.autonomous_daemon`
 - [`CommandExecutor`](modules/modules.command_executor.py.md#commandexecutor) class in `modules.command_executor`
 - [`CommandExplorer`](modules/cli.command_explorer.py.md#commandexplorer) class in `cli.command_explorer`
 - [`CommandFieldSet`](modules/cli.command_form.py.md#commandfieldset) class in `cli.command_form`
@@ -5541,6 +5540,7 @@
 - [`format`](modules/cli.toast_bus.py.md#toastformatter-format) method of `ToastFormatter` in `cli.toast_bus`
 - [`format_budget_status`](modules/core.llm_budget.py.md#format_budget_status) function in `core.llm_budget`
 - [`format_crystal_ball_output`](modules/modules.privesc_predictor.py.md#format_crystal_ball_output) function in `modules.privesc_predictor`
+- [`format_edr_pause_ranges`](modules/cli.orchestrator_assets_tabs.py.md#format_edr_pause_ranges) function in `cli.orchestrator_assets_tabs`
 - [`format_elapsed`](modules/cli.session_hud.py.md#format_elapsed) function in `cli.session_hud`
 - [`format_ephemeral`](modules/cli.toast_bus.py.md#toastformatter-format_ephemeral) method of `ToastFormatter` in `cli.toast_bus`
 - [`format_for_cli`](modules/modules.dashboard_engine.py.md#dashboardengine-format_for_cli) method of `DashboardEngine` in `modules.dashboard_engine`
@@ -5563,6 +5563,7 @@
 - [`format_report`](modules/core.dependencies.py.md#format_report) function in `core.dependencies`
 - [`format_rsa_key`](modules/utils.py.md#format_rsa_key) function in `utils`
 - [`format_search_table`](modules/cli.graph_advisor.py.md#format_search_table) function in `cli.graph_advisor`
+- [`format_sleeper_windows`](modules/cli.orchestrator_assets_tabs.py.md#format_sleeper_windows) function in `cli.orchestrator_assets_tabs`
 - [`format_suggestions`](modules/cli.graph_advisor.py.md#format_suggestions) function in `cli.graph_advisor`
 - [`formatted_item`](modules/modules.nmap2csv.py.md#formatted_item) function in `modules.nmap2csv`
 - [`FormField`](modules/cli.cli_enhancements.py.md#formfield) class in `cli.cli_enhancements`
@@ -5917,6 +5918,7 @@
 - [`get_cdn_fronting_hosts`](modules/modules.traffic_morpher.py.md#trafficmorpher-get_cdn_fronting_hosts) method of `TrafficMorpher` in `modules.traffic_morpher`
 - [`get_chain_digest`](modules/modules.compliance.py.md#evidencechain-get_chain_digest) method of `EvidenceChain` in `modules.compliance`
 - [`get_cipher_suites`](modules/modules.c2_profile_engine.py.md#tlsprofile-get_cipher_suites) method of `TlsProfile` in `modules.c2_profile_engine`
+- [`get_claudemd`](modules/skills.mcp_tools._context.py.md#mcpcontext-get_claudemd) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`get_client`](modules/modules.c2_messaging_base.py.md#securesessionmanager-get_client) method of `SecureSessionManager` in `modules.c2_messaging_base`
 - [`get_client`](modules/slack_c2_bot.py.md#securesessionmanager-get_client) method of `SecureSessionManager` in `slack_c2_bot`
 - [`get_client`](modules/modules.integrations.searchsploit.py.md#get_client) function in `modules.integrations.searchsploit`
@@ -5976,6 +5978,7 @@
 - [`get_history_text`](modules/contrib.legacy.lazyllmchat.py.md#llmengine-get_history_text) method of `LLMEngine` in `contrib.legacy.lazyllmchat`
 - [`get_hive`](modules/skills.hive_mind.py.md#get_hive) function in `skills.hive_mind`
 - [`get_hook_engine`](modules/modules.conditional_hooks.py.md#get_hook_engine) function in `modules.conditional_hooks`
+- [`get_hooks`](modules/skills.mcp_tools._context.py.md#mcpcontext-get_hooks) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`get_host`](modules/skills.lazyown_facts.py.md#factstore-get_host) method of `FactStore` in `skills.lazyown_facts`
 - [`get_host`](modules/modules.state_manager.py.md#statemanager-get_host) method of `StateManager` in `modules.state_manager`
 - [`get_host`](modules/modules.world_model.py.md#worldmodel-get_host) method of `WorldModel` in `modules.world_model`
@@ -6042,9 +6045,11 @@
 - [`get_parser`](modules/modules.obs_parser.py.md#get_parser) function in `modules.obs_parser`
 - [`get_payload_for_tenant`](modules/modules.lazy_rbac.py.md#tenantmanager-get_payload_for_tenant) method of `TenantManager` in `modules.lazy_rbac`
 - [`get_pdb`](modules/skills.lazyown_parquet_db.py.md#get_pdb) function in `skills.lazyown_parquet_db`
+- [`get_perm_system`](modules/skills.mcp_tools._context.py.md#mcpcontext-get_perm_system) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`get_phase`](modules/modules.world_model.py.md#worldmodel-get_phase) method of `WorldModel` in `modules.world_model`
 - [`get_planner`](modules/modules.planner.py.md#get_planner) function in `modules.planner`
 - [`get_poc`](modules/modules.poc_registry.py.md#get_poc) function in `modules.poc_registry`
+- [`get_policy`](modules/skills.mcp_tools._context.py.md#mcpcontext-get_policy) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`get_pool`](modules/skills.lazyown_groq_agents.py.md#get_pool) function in `skills.lazyown_groq_agents`
 - [`get_port_list`](modules/modules.nmap2csv.py.md#host-get_port_list) method of `Host` in `modules.nmap2csv`
 - [`get_port_number_list`](modules/modules.nmap2csv.py.md#host-get_port_number_list) method of `Host` in `modules.nmap2csv`
@@ -6110,6 +6115,7 @@
 - [`get_tool`](modules/modules.custom_tools.py.md#get_tool) function in `modules.custom_tools`
 - [`get_tools_for_api`](modules/modules.agent_runner.py.md#agentrunner-get_tools_for_api) method of `AgentRunner` in `modules.agent_runner`
 - [`get_trainer`](modules/modules.rl_trainer.py.md#get_trainer) function in `modules.rl_trainer`
+- [`get_transcript`](modules/skills.mcp_tools._context.py.md#mcpcontext-get_transcript) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`get_transcript`](modules/skills.lazyown_session.py.md#get_transcript) function in `skills.lazyown_session`
 - [`get_trend`](modules/modules.opsec_scorer.py.md#opsecscorerv2-get_trend) method of `OpsecScorerV2` in `modules.opsec_scorer`
 - [`get_unified_dashboard`](modules/modules.unified_dashboard.py.md#get_unified_dashboard) function in `modules.unified_dashboard`
@@ -6367,6 +6373,178 @@
 - [`halted_at`](modules/skills.claude_md_orchestrator.orchestrator.py.md#cyclesummary-halted_at) attribute of `CycleSummary` in `skills.claude_md_orchestrator.orchestrator`
 - [`handle`](modules/skills.autonomous_daemon.py.md#executionengine-handle) method of `ExecutionEngine` in `skills.autonomous_daemon`
 - [`handle`](modules/skills.autonomous_daemon.py.md#iobjectivehandler-handle) method of `IObjectiveHandler` in `skills.autonomous_daemon`
+- [`handle`](modules/skills.mcp_tools.aci_plan.py.md#handle) function in `skills.mcp_tools.aci_plan`
+- [`handle`](modules/skills.mcp_tools.aci_replan.py.md#handle) function in `skills.mcp_tools.aci_replan`
+- [`handle`](modules/skills.mcp_tools.aci_status.py.md#handle) function in `skills.mcp_tools.aci_status`
+- [`handle`](modules/skills.mcp_tools.ack_event.py.md#handle) function in `skills.mcp_tools.ack_event`
+- [`handle`](modules/skills.mcp_tools.add_rule.py.md#handle) function in `skills.mcp_tools.add_rule`
+- [`handle`](modules/skills.mcp_tools.add_target.py.md#handle) function in `skills.mcp_tools.add_target`
+- [`handle`](modules/skills.mcp_tools.agent_result.py.md#handle) function in `skills.mcp_tools.agent_result`
+- [`handle`](modules/skills.mcp_tools.agent_status.py.md#handle) function in `skills.mcp_tools.agent_status`
+- [`handle`](modules/skills.mcp_tools.apt_chain.py.md#handle) function in `skills.mcp_tools.apt_chain`
+- [`handle`](modules/skills.mcp_tools.atomic_clean.py.md#handle) function in `skills.mcp_tools.atomic_clean`
+- [`handle`](modules/skills.mcp_tools.atomic_resolve.py.md#handle) function in `skills.mcp_tools.atomic_resolve`
+- [`handle`](modules/skills.mcp_tools.atomic_search.py.md#handle) function in `skills.mcp_tools.atomic_search`
+- [`handle`](modules/skills.mcp_tools.atomic_shell.py.md#handle) function in `skills.mcp_tools.atomic_shell`
+- [`handle`](modules/skills.mcp_tools.auto_loop.py.md#handle) function in `skills.mcp_tools.auto_loop`
+- [`handle`](modules/skills.mcp_tools.auto_populate.py.md#handle) function in `skills.mcp_tools.auto_populate`
+- [`handle`](modules/skills.mcp_tools.auto_pwn.py.md#handle) function in `skills.mcp_tools.auto_pwn`
+- [`handle`](modules/skills.mcp_tools.autonomous_events.py.md#handle) function in `skills.mcp_tools.autonomous_events`
+- [`handle`](modules/skills.mcp_tools.autonomous_inject.py.md#handle) function in `skills.mcp_tools.autonomous_inject`
+- [`handle`](modules/skills.mcp_tools.autonomous_replay.py.md#handle) function in `skills.mcp_tools.autonomous_replay`
+- [`handle`](modules/skills.mcp_tools.autonomous_start.py.md#handle) function in `skills.mcp_tools.autonomous_start`
+- [`handle`](modules/skills.mcp_tools.autonomous_status.py.md#handle) function in `skills.mcp_tools.autonomous_status`
+- [`handle`](modules/skills.mcp_tools.autonomous_stop.py.md#handle) function in `skills.mcp_tools.autonomous_stop`
+- [`handle`](modules/skills.mcp_tools.bridge_suggest.py.md#handle) function in `skills.mcp_tools.bridge_suggest`
+- [`handle`](modules/skills.mcp_tools.c2_adversary.py.md#handle) function in `skills.mcp_tools.c2_adversary`
+- [`handle`](modules/skills.mcp_tools.c2_command.py.md#handle) function in `skills.mcp_tools.c2_command`
+- [`handle`](modules/skills.mcp_tools.c2_notes.py.md#handle) function in `skills.mcp_tools.c2_notes`
+- [`handle`](modules/skills.mcp_tools.c2_profile.py.md#handle) function in `skills.mcp_tools.c2_profile`
+- [`handle`](modules/skills.mcp_tools.c2_redop.py.md#handle) function in `skills.mcp_tools.c2_redop`
+- [`handle`](modules/skills.mcp_tools.c2_script.py.md#handle) function in `skills.mcp_tools.c2_script`
+- [`handle`](modules/skills.mcp_tools.c2_search_agent.py.md#handle) function in `skills.mcp_tools.c2_search_agent`
+- [`handle`](modules/skills.mcp_tools.c2_status.py.md#handle) function in `skills.mcp_tools.c2_status`
+- [`handle`](modules/skills.mcp_tools.c2_vuln_analysis.py.md#handle) function in `skills.mcp_tools.c2_vuln_analysis`
+- [`handle`](modules/skills.mcp_tools.campaign.py.md#handle) function in `skills.mcp_tools.campaign`
+- [`handle`](modules/skills.mcp_tools.campaign_lessons.py.md#handle) function in `skills.mcp_tools.campaign_lessons`
+- [`handle`](modules/skills.mcp_tools.campaign_sitrep.py.md#handle) function in `skills.mcp_tools.campaign_sitrep`
+- [`handle`](modules/skills.mcp_tools.campaign_tasks.py.md#handle) function in `skills.mcp_tools.campaign_tasks`
+- [`handle`](modules/skills.mcp_tools.collab_publish.py.md#handle) function in `skills.mcp_tools.collab_publish`
+- [`handle`](modules/skills.mcp_tools.command_help.py.md#handle) function in `skills.mcp_tools.command_help`
+- [`handle`](modules/skills.mcp_tools.command_next.py.md#handle) function in `skills.mcp_tools.command_next`
+- [`handle`](modules/skills.mcp_tools.command_prev.py.md#handle) function in `skills.mcp_tools.command_prev`
+- [`handle`](modules/skills.mcp_tools.create_addon.py.md#handle) function in `skills.mcp_tools.create_addon`
+- [`handle`](modules/skills.mcp_tools.create_param.py.md#handle) function in `skills.mcp_tools.create_param`
+- [`handle`](modules/skills.mcp_tools.credentials.py.md#handle) function in `skills.mcp_tools.credentials`
+- [`handle`](modules/skills.mcp_tools.cron_schedule.py.md#handle) function in `skills.mcp_tools.cron_schedule`
+- [`handle`](modules/skills.mcp_tools.cve_search.py.md#handle) function in `skills.mcp_tools.cve_search`
+- [`handle`](modules/skills.mcp_tools.daemon.py.md#handle) function in `skills.mcp_tools.daemon`
+- [`handle`](modules/skills.mcp_tools.daemon_approve.py.md#handle) function in `skills.mcp_tools.daemon_approve`
+- [`handle`](modules/skills.mcp_tools.daemon_focus.py.md#handle) function in `skills.mcp_tools.daemon_focus`
+- [`handle`](modules/skills.mcp_tools.daemon_mode.py.md#handle) function in `skills.mcp_tools.daemon_mode`
+- [`handle`](modules/skills.mcp_tools.daemon_pause.py.md#handle) function in `skills.mcp_tools.daemon_pause`
+- [`handle`](modules/skills.mcp_tools.daemon_resume.py.md#handle) function in `skills.mcp_tools.daemon_resume`
+- [`handle`](modules/skills.mcp_tools.daemon_status.py.md#handle) function in `skills.mcp_tools.daemon_status`
+- [`handle`](modules/skills.mcp_tools.daemon_veto.py.md#handle) function in `skills.mcp_tools.daemon_veto`
+- [`handle`](modules/skills.mcp_tools.dashboard_snapshot.py.md#handle) function in `skills.mcp_tools.dashboard_snapshot`
+- [`handle`](modules/skills.mcp_tools.db.py.md#handle) function in `skills.mcp_tools.db`
+- [`handle`](modules/skills.mcp_tools.delete_param.py.md#handle) function in `skills.mcp_tools.delete_param`
+- [`handle`](modules/skills.mcp_tools.deploy_beacon.py.md#handle) function in `skills.mcp_tools.deploy_beacon`
+- [`handle`](modules/skills.mcp_tools.discover_commands.py.md#handle) function in `skills.mcp_tools.discover_commands`
+- [`handle`](modules/skills.mcp_tools.engage_approve.py.md#handle) function in `skills.mcp_tools.engage_approve`
+- [`handle`](modules/skills.mcp_tools.engage_list_pending.py.md#handle) function in `skills.mcp_tools.engage_list_pending`
+- [`handle`](modules/skills.mcp_tools.engage_status.py.md#handle) function in `skills.mcp_tools.engage_status`
+- [`handle`](modules/skills.mcp_tools.engage_target.py.md#handle) function in `skills.mcp_tools.engage_target`
+- [`handle`](modules/skills.mcp_tools.eval_quality.py.md#handle) function in `skills.mcp_tools.eval_quality`
+- [`handle`](modules/skills.mcp_tools.evasion_generate.py.md#handle) function in `skills.mcp_tools.evasion_generate`
+- [`handle`](modules/skills.mcp_tools.evasion_rotate.py.md#handle) function in `skills.mcp_tools.evasion_rotate`
+- [`handle`](modules/skills.mcp_tools.evidence_grep.py.md#handle) function in `skills.mcp_tools.evidence_grep`
+- [`handle`](modules/skills.mcp_tools.exploit_chain.py.md#handle) function in `skills.mcp_tools.exploit_chain`
+- [`handle`](modules/skills.mcp_tools.exploit_recommend.py.md#handle) function in `skills.mcp_tools.exploit_recommend`
+- [`handle`](modules/skills.mcp_tools.exploitgym_list.py.md#handle) function in `skills.mcp_tools.exploitgym_list`
+- [`handle`](modules/skills.mcp_tools.exploitgym_run.py.md#handle) function in `skills.mcp_tools.exploitgym_run`
+- [`handle`](modules/skills.mcp_tools.exploitgym_score.py.md#handle) function in `skills.mcp_tools.exploitgym_score`
+- [`handle`](modules/skills.mcp_tools.exploitgym_status.py.md#handle) function in `skills.mcp_tools.exploitgym_status`
+- [`handle`](modules/skills.mcp_tools.facts_show.py.md#handle) function in `skills.mcp_tools.facts_show`
+- [`handle`](modules/skills.mcp_tools.fast_run.py.md#handle) function in `skills.mcp_tools.fast_run`
+- [`handle`](modules/skills.mcp_tools.generate_report.py.md#handle) function in `skills.mcp_tools.generate_report`
+- [`handle`](modules/skills.mcp_tools.get_beacons.py.md#handle) function in `skills.mcp_tools.get_beacons`
+- [`handle`](modules/skills.mcp_tools.get_config.py.md#handle) function in `skills.mcp_tools.get_config`
+- [`handle`](modules/skills.mcp_tools.get_llm_budget.py.md#handle) function in `skills.mcp_tools.get_llm_budget`
+- [`handle`](modules/skills.mcp_tools.graph_neighbors.py.md#handle) function in `skills.mcp_tools.graph_neighbors`
+- [`handle`](modules/skills.mcp_tools.graph_search.py.md#handle) function in `skills.mcp_tools.graph_search`
+- [`handle`](modules/skills.mcp_tools.graph_suggest_next.py.md#handle) function in `skills.mcp_tools.graph_suggest_next`
+- [`handle`](modules/skills.mcp_tools.graph_summary.py.md#handle) function in `skills.mcp_tools.graph_summary`
+- [`handle`](modules/skills.mcp_tools.groq_agent.py.md#handle) function in `skills.mcp_tools.groq_agent`
+- [`handle`](modules/skills.mcp_tools.heartbeat_status.py.md#handle) function in `skills.mcp_tools.heartbeat_status`
+- [`handle`](modules/skills.mcp_tools.hive_collect.py.md#handle) function in `skills.mcp_tools.hive_collect`
+- [`handle`](modules/skills.mcp_tools.hive_forget.py.md#handle) function in `skills.mcp_tools.hive_forget`
+- [`handle`](modules/skills.mcp_tools.hive_plan.py.md#handle) function in `skills.mcp_tools.hive_plan`
+- [`handle`](modules/skills.mcp_tools.hive_recall.py.md#handle) function in `skills.mcp_tools.hive_recall`
+- [`handle`](modules/skills.mcp_tools.hive_recover.py.md#handle) function in `skills.mcp_tools.hive_recover`
+- [`handle`](modules/skills.mcp_tools.hive_result.py.md#handle) function in `skills.mcp_tools.hive_result`
+- [`handle`](modules/skills.mcp_tools.hive_spawn.py.md#handle) function in `skills.mcp_tools.hive_spawn`
+- [`handle`](modules/skills.mcp_tools.hive_status.py.md#handle) function in `skills.mcp_tools.hive_status`
+- [`handle`](modules/skills.mcp_tools.inject_objective.py.md#handle) function in `skills.mcp_tools.inject_objective`
+- [`handle`](modules/skills.mcp_tools.lazy_addon.py.md#handle) function in `skills.mcp_tools.lazy_addon`
+- [`handle`](modules/skills.mcp_tools.lazy_board.py.md#handle) function in `skills.mcp_tools.lazy_board`
+- [`handle`](modules/skills.mcp_tools.lazy_compact.py.md#handle) function in `skills.mcp_tools.lazy_compact`
+- [`handle`](modules/skills.mcp_tools.lazy_delete.py.md#handle) function in `skills.mcp_tools.lazy_delete`
+- [`handle`](modules/skills.mcp_tools.lazy_finding.py.md#handle) function in `skills.mcp_tools.lazy_finding`
+- [`handle`](modules/skills.mcp_tools.lazy_hint.py.md#handle) function in `skills.mcp_tools.lazy_hint`
+- [`handle`](modules/skills.mcp_tools.lazy_intel.py.md#handle) function in `skills.mcp_tools.lazy_intel`
+- [`handle`](modules/skills.mcp_tools.lazy_mention.py.md#handle) function in `skills.mcp_tools.lazy_mention`
+- [`handle`](modules/skills.mcp_tools.lazy_proxy.py.md#handle) function in `skills.mcp_tools.lazy_proxy`
+- [`handle`](modules/skills.mcp_tools.lazy_status.py.md#handle) function in `skills.mcp_tools.lazy_status`
+- [`handle`](modules/skills.mcp_tools.lazy_sync.py.md#handle) function in `skills.mcp_tools.lazy_sync`
+- [`handle`](modules/skills.mcp_tools.lazy_trace.py.md#handle) function in `skills.mcp_tools.lazy_trace`
+- [`handle`](modules/skills.mcp_tools.lazy_workspace.py.md#handle) function in `skills.mcp_tools.lazy_workspace`
+- [`handle`](modules/skills.mcp_tools.lazysearch.py.md#handle) function in `skills.mcp_tools.lazysearch`
+- [`handle`](modules/skills.mcp_tools.list_addons.py.md#handle) function in `skills.mcp_tools.list_addons`
+- [`handle`](modules/skills.mcp_tools.list_agents.py.md#handle) function in `skills.mcp_tools.list_agents`
+- [`handle`](modules/skills.mcp_tools.list_event_rules.py.md#handle) function in `skills.mcp_tools.list_event_rules`
+- [`handle`](modules/skills.mcp_tools.list_modules.py.md#handle) function in `skills.mcp_tools.list_modules`
+- [`handle`](modules/skills.mcp_tools.list_params.py.md#handle) function in `skills.mcp_tools.list_params`
+- [`handle`](modules/skills.mcp_tools.list_plugins.py.md#handle) function in `skills.mcp_tools.list_plugins`
+- [`handle`](modules/skills.mcp_tools.list_sessions.py.md#handle) function in `skills.mcp_tools.list_sessions`
+- [`handle`](modules/skills.mcp_tools.list_targets.py.md#handle) function in `skills.mcp_tools.list_targets`
+- [`handle`](modules/skills.mcp_tools.llm_ask.py.md#handle) function in `skills.mcp_tools.llm_ask`
+- [`handle`](modules/skills.mcp_tools.lolbas_list.py.md#handle) function in `skills.mcp_tools.lolbas_list`
+- [`handle`](modules/skills.mcp_tools.lolbas_use.py.md#handle) function in `skills.mcp_tools.lolbas_use`
+- [`handle`](modules/skills.mcp_tools.loop_smoke.py.md#handle) function in `skills.mcp_tools.loop_smoke`
+- [`handle`](modules/skills.mcp_tools.memory_recall.py.md#handle) function in `skills.mcp_tools.memory_recall`
+- [`handle`](modules/skills.mcp_tools.memory_store.py.md#handle) function in `skills.mcp_tools.memory_store`
+- [`handle`](modules/skills.mcp_tools.metrics_summary.py.md#handle) function in `skills.mcp_tools.metrics_summary`
+- [`handle`](modules/skills.mcp_tools.misp_export.py.md#handle) function in `skills.mcp_tools.misp_export`
+- [`handle`](modules/skills.mcp_tools.next_objective.py.md#handle) function in `skills.mcp_tools.next_objective`
+- [`handle`](modules/skills.mcp_tools.opencode_config.py.md#handle) function in `skills.mcp_tools.opencode_config`
+- [`handle`](modules/skills.mcp_tools.palette.py.md#handle) function in `skills.mcp_tools.palette`
+- [`handle`](modules/skills.mcp_tools.parquet_annotate.py.md#handle) function in `skills.mcp_tools.parquet_annotate`
+- [`handle`](modules/skills.mcp_tools.parquet_query.py.md#handle) function in `skills.mcp_tools.parquet_query`
+- [`handle`](modules/skills.mcp_tools.phase_guide.py.md#handle) function in `skills.mcp_tools.phase_guide`
+- [`handle`](modules/skills.mcp_tools.pipeline_list.py.md#handle) function in `skills.mcp_tools.pipeline_list`
+- [`handle`](modules/skills.mcp_tools.pipeline_run.py.md#handle) function in `skills.mcp_tools.pipeline_run`
+- [`handle`](modules/skills.mcp_tools.pipeline_status.py.md#handle) function in `skills.mcp_tools.pipeline_status`
+- [`handle`](modules/skills.mcp_tools.pipeline_validate.py.md#handle) function in `skills.mcp_tools.pipeline_validate`
+- [`handle`](modules/skills.mcp_tools.pivot_status.py.md#handle) function in `skills.mcp_tools.pivot_status`
+- [`handle`](modules/skills.mcp_tools.playbook_generate.py.md#handle) function in `skills.mcp_tools.playbook_generate`
+- [`handle`](modules/skills.mcp_tools.poll_events.py.md#handle) function in `skills.mcp_tools.poll_events`
+- [`handle`](modules/skills.mcp_tools.rag_index.py.md#handle) function in `skills.mcp_tools.rag_index`
+- [`handle`](modules/skills.mcp_tools.rag_query.py.md#handle) function in `skills.mcp_tools.rag_query`
+- [`handle`](modules/skills.mcp_tools.rea.py.md#handle) function in `skills.mcp_tools.rea`
+- [`handle`](modules/skills.mcp_tools.reactive_suggest.py.md#handle) function in `skills.mcp_tools.reactive_suggest`
+- [`handle`](modules/skills.mcp_tools.read_prompt.py.md#handle) function in `skills.mcp_tools.read_prompt`
+- [`handle`](modules/skills.mcp_tools.read_session_file.py.md#handle) function in `skills.mcp_tools.read_session_file`
+- [`handle`](modules/skills.mcp_tools.rich_tui_snapshot.py.md#handle) function in `skills.mcp_tools.rich_tui_snapshot`
+- [`handle`](modules/skills.mcp_tools.run_api.py.md#handle) function in `skills.mcp_tools.run_api`
+- [`handle`](modules/skills.mcp_tools.run_command.py.md#handle) function in `skills.mcp_tools.run_command`
+- [`handle`](modules/skills.mcp_tools.searchsploit.py.md#handle) function in `skills.mcp_tools.searchsploit`
+- [`handle`](modules/skills.mcp_tools.session_diff.py.md#handle) function in `skills.mcp_tools.session_diff`
+- [`handle`](modules/skills.mcp_tools.session_state.py.md#handle) function in `skills.mcp_tools.session_state`
+- [`handle`](modules/skills.mcp_tools.session_status.py.md#handle) function in `skills.mcp_tools.session_status`
+- [`handle`](modules/skills.mcp_tools.set_active_target.py.md#handle) function in `skills.mcp_tools.set_active_target`
+- [`handle`](modules/skills.mcp_tools.set_config.py.md#handle) function in `skills.mcp_tools.set_config`
+- [`handle`](modules/skills.mcp_tools.soul.py.md#handle) function in `skills.mcp_tools.soul`
+- [`handle`](modules/skills.mcp_tools.stealth.py.md#handle) function in `skills.mcp_tools.stealth`
+- [`handle`](modules/skills.mcp_tools.swan_ensemble.py.md#handle) function in `skills.mcp_tools.swan_ensemble`
+- [`handle`](modules/skills.mcp_tools.swan_route.py.md#handle) function in `skills.mcp_tools.swan_route`
+- [`handle`](modules/skills.mcp_tools.swan_run.py.md#handle) function in `skills.mcp_tools.swan_run`
+- [`handle`](modules/skills.mcp_tools.swan_status.py.md#handle) function in `skills.mcp_tools.swan_status`
+- [`handle`](modules/skills.mcp_tools.target_context.py.md#handle) function in `skills.mcp_tools.target_context`
+- [`handle`](modules/skills.mcp_tools.tasks_cleanup.py.md#handle) function in `skills.mcp_tools.tasks_cleanup`
+- [`handle`](modules/skills.mcp_tools.threat_model.py.md#handle) function in `skills.mcp_tools.threat_model`
+- [`handle`](modules/skills.mcp_tools.timeline.py.md#handle) function in `skills.mcp_tools.timeline`
+- [`handle`](modules/skills.mcp_tools.ttp_chain.py.md#handle) function in `skills.mcp_tools.ttp_chain`
+- [`handle`](modules/skills.mcp_tools.unified_dashboard.py.md#handle) function in `skills.mcp_tools.unified_dashboard`
+- [`handle`](modules/skills.mcp_tools.winbox_eventlogs.py.md#handle) function in `skills.mcp_tools.winbox_eventlogs`
+- [`handle`](modules/skills.mcp_tools.winbox_exec.py.md#handle) function in `skills.mcp_tools.winbox_exec`
+- [`handle`](modules/skills.mcp_tools.winbox_gym_list.py.md#handle) function in `skills.mcp_tools.winbox_gym_list`
+- [`handle`](modules/skills.mcp_tools.winbox_gym_plan.py.md#handle) function in `skills.mcp_tools.winbox_gym_plan`
+- [`handle`](modules/skills.mcp_tools.winbox_gym_run.py.md#handle) function in `skills.mcp_tools.winbox_gym_run`
+- [`handle`](modules/skills.mcp_tools.winbox_snapshot.py.md#handle) function in `skills.mcp_tools.winbox_snapshot`
+- [`handle`](modules/skills.mcp_tools.winbox_status.py.md#handle) function in `skills.mcp_tools.winbox_status`
+- [`handle`](modules/skills.mcp_tools.winbox_tools.py.md#handle) function in `skills.mcp_tools.winbox_tools`
+- [`handle`](modules/skills.mcp_tools.winbox_vm.py.md#handle) function in `skills.mcp_tools.winbox_vm`
 - [`handle`](modules/utils.py.md#handle) function in `utils`
 - [`handle_backdoor`](modules/contrib.legacy.lazyvsftp.py.md#handle_backdoor) function in `contrib.legacy.lazyvsftp`
 - [`handle_client`](modules/lazyc2.py.md#handle_client) function in `lazyc2`
@@ -7183,6 +7361,7 @@
 - [`__init__`](modules/poc_tui.app.py.md#lazyowntui-__init__) constructor of `LazyOwnTUI` in `poc_tui.app`
 - [`__init__`](modules/lazy_sentinel4.py.md#lazysentinel-__init__) constructor of `LazySentinel` in `lazy_sentinel4`
 - [`__init__`](modules/lazy_sentinel4.py.md#lazysentinelhandler-__init__) constructor of `LazySentinelHandler` in `lazy_sentinel4`
+- [`__init__`](modules/modules.selection.lazyscript.py.md#lazyscriptselector-__init__) constructor of `LazyscriptSelector` in `modules.selection.lazyscript`
 - [`__init__`](modules/modules.lesson_ingestor.py.md#lessoningestor-__init__) constructor of `LessonIngestor` in `modules.lesson_ingestor`
 - [`__init__`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedpayloadfactory-__init__) constructor of `LinuxAdvancedPayloadFactory` in `modules.linux_advanced_payloads`
 - [`__init__`](modules/modules.listener_manager.py.md#listenermanager-__init__) constructor of `ListenerManager` in `modules.listener_manager`
@@ -7719,6 +7898,8 @@
 - [`iter_emoji_spans`](modules/core.hardening.py.md#iter_emoji_spans) function in `core.hardening`
 - [`iter_flat_facts`](modules/modules.factsio.py.md#iter_flat_facts) function in `modules.factsio`
 - [`iter_host_records`](modules/modules.factsio.py.md#iter_host_records) function in `modules.factsio`
+- [`iter_schemas`](modules/skills.mcp_tools.__init__.py.md#iter_schemas) function in `skills.mcp_tools`
+- [`iter_tool_modules`](modules/skills.mcp_tools.__init__.py.md#iter_tool_modules) function in `skills.mcp_tools`
 - [`iter_tool_triggers`](modules/modules.auto_registry.py.md#iter_tool_triggers) function in `modules.auto_registry`
 - [`iterations`](modules/skills.hive_mind.py.md#dronestate-iterations) attribute of `DroneState` in `skills.hive_mind`
 - [`ITextOutputParser`](modules/skills.lazyown_facts.py.md#itextoutputparser) class in `skills.lazyown_facts`
@@ -7744,6 +7925,7 @@
 - [`jitter_ms_min`](modules/modules.evasion_engine.py.md#trafficmorphconfig-jitter_ms_min) attribute of `TrafficMorphConfig` in `modules.evasion_engine`
 - [`jitter_pct`](modules/modules.c2_profile.py.md#sleepconfig-jitter_pct) attribute of `SleepConfig` in `modules.c2_profile`
 - [`job_id`](modules/skills.lazyown_mcp_helpers.py.md#jobrecord-job_id) attribute of `JobRecord` in `skills.lazyown_mcp_helpers`
+- [`job_store`](modules/skills.mcp_tools._context.py.md#mcpcontext-job_store) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`JobRecord`](modules/skills.lazyown_mcp_helpers.py.md#jobrecord) class in `skills.lazyown_mcp_helpers`
 - [`JobStore`](modules/skills.lazyown_mcp_helpers.py.md#jobstore) class in `skills.lazyown_mcp_helpers`
 - [`john_format`](modules/modules.hash_cracker.py.md#hashidentifier-john_format) attribute of `HashIdentifier` in `modules.hash_cracker`
@@ -8140,6 +8322,7 @@
 - [`LAZYOWN_DIR`](modules/skills.swan_agent.py.md#lazyown_dir) constant in `skills.swan_agent`
 - [`LAZYOWN_DIR`](modules/skills.update_knowledge.py.md#lazyown_dir) constant in `skills.update_knowledge`
 - [`LAZYOWN_DIR`](modules/telegram_hermes.py.md#lazyown_dir) constant in `telegram_hermes`
+- [`lazyown_dir`](modules/skills.mcp_tools._context.py.md#mcpcontext-lazyown_dir) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`lazyown_dir`](modules/skills.hermes-lazyown.constants.py.md#paths-lazyown_dir) staticmethod of `Paths` in `skills.hermes-lazyown.constants`
 - [`LAZYOWN_ENV_PREFIX`](modules/core.config.py.md#lazyown_env_prefix) constant in `core.config`
 - [`LAZYOWN_EXPORT`](modules/modules.estorides_fusion.py.md#lazyown_export) constant in `modules.estorides_fusion`
@@ -8168,6 +8351,7 @@
 - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
 - [`lazyreport`](modules/lazyc2.py.md#lazyreport) function in `lazyc2`
 - [`lazyreport_view`](modules/lazyc2.py.md#lazyreport_view) function in `lazyc2`
+- [`LazyscriptSelector`](modules/modules.selection.lazyscript.py.md#lazyscriptselector) class in `modules.selection.lazyscript`
 - [`LazySentinel`](modules/lazy_sentinel4.py.md#lazysentinel) class in `lazy_sentinel4`
 - [`LazySentinelHandler`](modules/lazy_sentinel4.py.md#lazysentinelhandler) class in `lazy_sentinel4`
 - [`LD_PRELOAD_FUNCTIONS`](modules/modules.linux_advanced_payloads.py.md#ld_preload_functions) constant in `modules.linux_advanced_payloads`
@@ -8344,6 +8528,7 @@
 - [`list_templates`](modules/modules.dotnet_payload.py.md#dotnetpayloadfactory-list_templates) staticmethod of `DotNetPayloadFactory` in `modules.dotnet_payload`
 - [`list_templates`](modules/modules.integrations.nuclei_bridge.py.md#nucleibridge-list_templates) method of `NucleiBridge` in `modules.integrations.nuclei_bridge`
 - [`list_tenants`](modules/modules.lazy_rbac.py.md#tenantmanager-list_tenants) method of `TenantManager` in `modules.lazy_rbac`
+- [`list_tools`](modules/skills.mcp_tools._context.py.md#mcpcontext-list_tools) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`list_tools`](modules/lazyc2.py.md#list_tools) function in `lazyc2`
 - [`list_tools`](modules/modules.custom_tools.py.md#list_tools) function in `modules.custom_tools`
 - [`list_tools`](modules/skills.hermes-lazyown.mcp_server.py.md#list_tools) function in `skills.hermes-lazyown.mcp_server`
@@ -8498,6 +8683,7 @@
 - [`load_notifications`](modules/lazyc2.py.md#load_notifications) function in `lazyc2`
 - [`load_notifications`](modules/lazyc2.extensions.storage.py.md#load_notifications) function in `lazyc2.extensions.storage`
 - [`load_parquet_files`](modules/modules.LazyOwnExplorer.py.md#lazyowngui-load_parquet_files) method of `LazyOwnGUI` in `modules.LazyOwnExplorer`
+- [`load_payload`](modules/skills.mcp_tools._context.py.md#mcpcontext-load_payload) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`load_payload`](modules/modules.yaml_generator.py.md#yamlpromptgenerator-load_payload) method of `YAMLPromptGenerator` in `modules.yaml_generator`
 - [`load_payload`](modules/contrib.legacy.lazyseo.py.md#load_payload) function in `contrib.legacy.lazyseo`
 - [`load_payload`](modules/core.config.py.md#load_payload) function in `core.config`
@@ -9043,6 +9229,7 @@
 - [`mcp_tools`](modules/skills.lazyown_automapper.py.md#automapper-mcp_tools) method of `AutoMapper` in `skills.lazyown_automapper`
 - [`McpBridgeCommandSet`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset) class in `cli.commands.mcp_bridge`
 - [`MCPCommandRunner`](modules/skills.autonomous_daemon.py.md#mcpcommandrunner) class in `skills.autonomous_daemon`
+- [`MCPContext`](modules/skills.mcp_tools._context.py.md#mcpcontext) class in `skills.mcp_tools._context`
 - [`MEAN_INTERVAL`](modules/cli.engagement_hooks.py.md#mean_interval) constant in `cli.engagement_hooks`
 - [`mean_interval`](modules/cli.tips_engine.py.md#tipsconfig-mean_interval) attribute of `TipsConfig` in `cli.tips_engine`
 - [`measure_only`](modules/modules.auto_purple.py.md#ipurpleloop-measure_only) method of `IPurpleLoop` in `modules.auto_purple`
@@ -9186,7 +9373,6 @@
 - [`mitm`](modules/contrib.legacy.lazymidm.py.md#mitm) function in `contrib.legacy.lazymidm`
 - [`mitre`](modules/modules.selection.base.py.md#actiondecision-mitre) attribute of `ActionDecision` in `modules.selection.base`
 - [`mitre`](modules/modules.cicd_enumerator.py.md#cicdfinding-mitre) attribute of `CICDFinding` in `modules.cicd_enumerator`
-- [`mitre`](modules/skills.autonomous_daemon.py.md#commanddecision-mitre) attribute of `CommandDecision` in `skills.autonomous_daemon`
 - [`mitre`](modules/cli.recommendation.py.md#proposal-mitre) attribute of `Proposal` in `cli.recommendation`
 - [`mitre`](modules/cli.recommendation.py.md#recommendation-mitre) attribute of `Recommendation` in `cli.recommendation`
 - [`mitre`](modules/modules.verb_manifest.py.md#verbmanifest-mitre) attribute of `VerbManifest` in `modules.verb_manifest`
@@ -9248,6 +9434,7 @@
 - [`ModuleInfo`](modules/modules.module_registry.py.md#moduleinfo) class in `modules.module_registry`
 - [`ModuleManagerCommandSet`](modules/cli.commands.module_manager.py.md#modulemanagercommandset) class in `cli.commands.module_manager`
 - [`ModuleRegistry`](modules/modules.module_registry.py.md#moduleregistry) class in `modules.module_registry`
+- [`modules_dir`](modules/skills.mcp_tools._context.py.md#mcpcontext-modules_dir) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`MODULES_DIR`](modules/skills.autonomous_daemon.py.md#modules_dir) constant in `skills.autonomous_daemon`
 - [`MODULES_DIR`](modules/skills.lazyown_daemon.py.md#modules_dir) constant in `skills.lazyown_daemon`
 - [`MODULES_DIR`](modules/skills.lazyown_mcp.py.md#modules_dir) constant in `skills.lazyown_mcp`
@@ -9369,6 +9556,7 @@
 - [`name`](modules/cli.recommendation_signals.py.md#killchainsignal-name) attribute of `KillChainSignal` in `cli.recommendation_signals`
 - [`name`](modules/cli.recommendation_signals.py.md#killchaingapsignal-name) attribute of `KillchainGapSignal` in `cli.recommendation_signals`
 - [`name`](modules/skills.lazyown_llm.py.md#llmtool-name) attribute of `LLMTool` in `skills.lazyown_llm`
+- [`name`](modules/modules.selection.lazyscript.py.md#lazyscriptselector-name) attribute of `LazyscriptSelector` in `modules.selection.lazyscript`
 - [`name`](modules/skills.autonomous_daemon.py.md#mcpcommandrunner-name) property of `MCPCommandRunner` in `skills.autonomous_daemon`
 - [`name`](modules/modules.selection.module.py.md#moduleselector-name) attribute of `ModuleSelector` in `modules.selection.module`
 - [`name`](modules/cli.command_chain.py.md#nextstep-name) attribute of `NextStep` in `cli.command_chain`
@@ -9416,6 +9604,7 @@
 - [`name`](modules/modules.engagement_hooks.py.md#streameventsink-name) property of `StreamEventSink` in `modules.engagement_hooks`
 - [`name`](modules/skills.unified_orchestrator.py.md#swanbackend-name) attribute of `SwanBackend` in `skills.unified_orchestrator`
 - [`name`](modules/modules.ttp_coverage.py.md#ttprow-name) attribute of `TTPRow` in `modules.ttp_coverage`
+- [`name`](modules/modules.selection.technique_chain.py.md#techniquechainselector-name) attribute of `TechniqueChainSelector` in `modules.selection.technique_chain`
 - [`name`](modules/modules.selection.technique.py.md#techniqueselector-name) attribute of `TechniqueSelector` in `modules.selection.technique`
 - [`name`](modules/modules.engagement_hooks.py.md#telegramnotificationsink-name) property of `TelegramNotificationSink` in `modules.engagement_hooks`
 - [`name`](modules/modules.lazy_rbac.py.md#tenantconfig-name) attribute of `TenantConfig` in `modules.lazy_rbac`
@@ -9979,8 +10168,10 @@
 - [`PAC_SIGNATURE_TYPES`](modules/modules.kerberos_core.py.md#pac_signature_types) constant in `modules.kerberos_core`
 - [`PACInfo`](modules/modules.kerberos_core.py.md#pacinfo) class in `modules.kerberos_core`
 - [`pacing`](modules/modules.orchestrator_config.py.md#pacing) function in `modules.orchestrator_config`
+- [`PACING_FIELDS`](modules/cli.orchestrator_assets_tabs.py.md#pacing_fields) constant in `cli.orchestrator_assets_tabs`
 - [`pack_apk`](modules/scripts.dirtyinit_drive.sh.md#pack_apk) function in `scripts/dirtyinit_drive.sh`
 - [`PACKAGE_NAME`](modules/cli.registry.py.md#package_name) constant in `cli.registry`
+- [`PACKAGE_NAME`](modules/skills.mcp_tools.__init__.py.md#package_name) constant in `skills.mcp_tools`
 - [`PACKAGE_VERSION`](modules/cli.commands.campaign.py.md#package_version) constant in `cli.commands.campaign`
 - [`PackageSpec`](modules/cli.doctor.py.md#packagespec) class in `cli.doctor`
 - [`packet_callback`](modules/modules.ia_network_analysis.py.md#packet_callback) function in `modules.ia_network_analysis`
@@ -10103,6 +10294,7 @@
 - [`parse_deepseek_response`](modules/lazy_sentinel4.py.md#lazysentinel-parse_deepseek_response) method of `LazySentinel` in `lazy_sentinel4`
 - [`parse_discovered_ips`](modules/modules.beacon_recon.py.md#parse_discovered_ips) function in `modules.beacon_recon`
 - [`parse_distro_revision`](modules/modules.lazy_heat.py.md#parse_distro_revision) function in `modules.lazy_heat`
+- [`parse_edr_pause_ranges`](modules/cli.orchestrator_assets_tabs.py.md#parse_edr_pause_ranges) function in `cli.orchestrator_assets_tabs`
 - [`parse_error`](modules/modules.kerberos_core.py.md#kerberoserrorparser-parse_error) staticmethod of `KerberosErrorParser` in `modules.kerberos_core`
 - [`parse_execution_log`](modules/lazyc2.py.md#parse_execution_log) function in `lazyc2`
 - [`parse_exports`](modules/modules.reflective_dll.py.md#peparser-parse_exports) method of `PEParser` in `modules.reflective_dll`
@@ -10145,6 +10337,7 @@
 - [`parse_scope`](modules/cli.wizard_scope.py.md#parse_scope) function in `cli.wizard_scope`
 - [`parse_sections`](modules/modules.reflective_dll.py.md#peparser-parse_sections) method of `PEParser` in `modules.reflective_dll`
 - [`parse_sib`](modules/contrib.legacy.lazydisassebler.py.md#x64disassembler-parse_sib) method of `X64Disassembler` in `contrib.legacy.lazydisassebler`
+- [`parse_sleeper_windows`](modules/cli.orchestrator_assets_tabs.py.md#parse_sleeper_windows) function in `cli.orchestrator_assets_tabs`
 - [`parse_task_value`](modules/skills.lazyown_mcp_helpers.py.md#parse_task_value) function in `skills.lazyown_mcp_helpers`
 - [`parse_text`](modules/modules.integrations.nuclei_parser.py.md#nucleiparser-parse_text) method of `NucleiParser` in `modules.integrations.nuclei_parser`
 - [`parse_tgs_rep`](modules/modules.kerberos_core.py.md#kerberoscore-parse_tgs_rep) method of `KerberosCore` in `modules.kerberos_core`
@@ -10812,7 +11005,6 @@
 - [`print_warn`](modules/core.console.py.md#print_warn) function in `core.console`
 - [`priority`](modules/modules.selection.base.py.md#actiondecision-priority) attribute of `ActionDecision` in `modules.selection.base`
 - [`priority`](modules/modules.lazyown_bridge.py.md#catalogentry-priority) attribute of `CatalogEntry` in `modules.lazyown_bridge`
-- [`priority`](modules/skills.autonomous_daemon.py.md#commanddecision-priority) attribute of `CommandDecision` in `skills.autonomous_daemon`
 - [`priority`](modules/modules.intercept.py.md#interceptrule-priority) attribute of `InterceptRule` in `modules.intercept`
 - [`priority`](modules/skills.lazyown_objective.py.md#objective-priority) attribute of `Objective` in `skills.lazyown_objective`
 - [`priority`](modules/modules.lazy_objective_queue.py.md#objectivecandidate-priority) attribute of `ObjectiveCandidate` in `modules.lazy_objective_queue`
@@ -10959,6 +11151,7 @@
 - [`propose`](modules/modules.selection.intel.py.md#intelselector-propose) method of `IntelSelector` in `modules.selection.intel`
 - [`propose`](modules/cli.recommendation_signals.py.md#killchainsignal-propose) method of `KillChainSignal` in `cli.recommendation_signals`
 - [`propose`](modules/cli.recommendation_signals.py.md#killchaingapsignal-propose) method of `KillchainGapSignal` in `cli.recommendation_signals`
+- [`propose`](modules/modules.selection.lazyscript.py.md#lazyscriptselector-propose) method of `LazyscriptSelector` in `modules.selection.lazyscript`
 - [`propose`](modules/modules.selection.module.py.md#moduleselector-propose) method of `ModuleSelector` in `modules.selection.module`
 - [`propose`](modules/modules.selection.playbook.py.md#playbookselector-propose) method of `PlaybookSelector` in `modules.selection.playbook`
 - [`propose`](modules/cli.recommendation_signals.py.md#playbooksignal-propose) method of `PlaybookSignal` in `cli.recommendation_signals`
@@ -10967,6 +11160,7 @@
 - [`propose`](modules/cli.recommendation.py.md#recommendationsignal-propose) method of `RecommendationSignal` in `cli.recommendation`
 - [`propose`](modules/cli.recommendation_signals.py.md#reconplansignal-propose) method of `ReconPlanSignal` in `cli.recommendation_signals`
 - [`propose`](modules/modules.selection.base.py.md#selector-propose) method of `Selector` in `modules.selection.base`
+- [`propose`](modules/modules.selection.technique_chain.py.md#techniquechainselector-propose) method of `TechniqueChainSelector` in `modules.selection.technique_chain`
 - [`propose`](modules/modules.selection.technique.py.md#techniqueselector-propose) method of `TechniqueSelector` in `modules.selection.technique`
 - [`propose_addon_intents`](modules/modules.auto_registry.py.md#propose_addon_intents) function in `modules.auto_registry`
 - [`propose_intents`](modules/modules.auto_registry.py.md#propose_intents) function in `modules.auto_registry`
@@ -11169,15 +11363,6 @@
 - [`RBACStore`](modules/modules.lazy_rbac.py.md#rbacstore) class in `modules.lazy_rbac`
 - [`RBACUser`](modules/modules.lazy_rbac.py.md#rbacuser) class in `modules.lazy_rbac`
 - [`RCU_HEAD_LEN`](modules/modules.exp.c.md#rcu_head_len) macro in `modules/exp.c`
-- [`REA_ADDRESS_ACTIONS`](modules/skills.lazyown_mcp.py.md#rea_address_actions) constant in `skills.lazyown_mcp`
-- [`REA_BINARY`](modules/skills.lazyown_mcp.py.md#rea_binary) constant in `skills.lazyown_mcp`
-- [`REA_OUTPUT_LIMIT`](modules/skills.lazyown_mcp.py.md#rea_output_limit) constant in `skills.lazyown_mcp`
-- [`REA_PROVIDERS`](modules/skills.lazyown_mcp.py.md#rea_providers) constant in `skills.lazyown_mcp`
-- [`REA_QUERY_ACTIONS`](modules/skills.lazyown_mcp.py.md#rea_query_actions) constant in `skills.lazyown_mcp`
-- [`REA_SUPPORTED_ACTIONS`](modules/skills.lazyown_mcp.py.md#rea_supported_actions) constant in `skills.lazyown_mcp`
-- [`REA_TARGET_ACTIONS`](modules/skills.lazyown_mcp.py.md#rea_target_actions) constant in `skills.lazyown_mcp`
-- [`REA_TIMEOUT_DEFAULT`](modules/skills.lazyown_mcp.py.md#rea_timeout_default) constant in `skills.lazyown_mcp`
-- [`REA_TIMEOUT_MAX`](modules/skills.lazyown_mcp.py.md#rea_timeout_max) constant in `skills.lazyown_mcp`
 - [`reachable_hosts`](modules/modules.auto_pivot.py.md#pivotnode-reachable_hosts) attribute of `PivotNode` in `modules.auto_pivot`
 - [`REACT_SYSTEM`](modules/modules.mcp_agent_bridge.py.md#react_system) constant in `modules.mcp_agent_bridge`
 - [`ReactionPick`](modules/modules.reaction_bridge.py.md#reactionpick) class in `modules.reaction_bridge`
@@ -11282,7 +11467,6 @@
 - [`reason`](modules/cli.chain_mode.py.md#chainsuggestion-reason) attribute of `ChainSuggestion` in `cli.chain_mode`
 - [`reason`](modules/skills.lazyown_policy.py.md#classificationresult-reason) attribute of `ClassificationResult` in `skills.lazyown_policy`
 - [`reason`](modules/lazyc2.security.command_allowlist.py.md#commanddecision-reason) attribute of `CommandDecision` in `lazyc2.security.command_allowlist`
-- [`reason`](modules/skills.autonomous_daemon.py.md#commanddecision-reason) attribute of `CommandDecision` in `skills.autonomous_daemon`
 - [`reason`](modules/modules.mediation.engine_mediator.py.md#enginemediator-reason) method of `EngineMediator` in `modules.mediation.engine_mediator`
 - [`reason`](modules/cli.reactive_hints.py.md#evidencehint-reason) attribute of `EvidenceHint` in `cli.reactive_hints`
 - [`reason`](modules/cli.command_chain.py.md#nextstep-reason) attribute of `NextStep` in `cli.command_chain`
@@ -11534,6 +11718,7 @@
 - [`register_failed_attempt`](modules/telegram_c2.py.md#securesessionmanager-register_failed_attempt) method of `SecureSessionManager` in `telegram_c2`
 - [`register_failed_attempt`](modules/telegram_hermes.py.md#securesessionmanager-register_failed_attempt) method of `SecureSessionManager` in `telegram_hermes`
 - [`register_handler`](modules/skills.lazyown_mcp.py.md#register_handler) function in `skills.lazyown_mcp`
+- [`register_handlers`](modules/skills.mcp_tools.__init__.py.md#register_handlers) function in `skills.mcp_tools`
 - [`register_llm_port`](modules/modules.mediation.chain_mediator.py.md#chainmediator-register_llm_port) method of `ChainMediator` in `modules.mediation.chain_mediator`
 - [`register_loot_event`](modules/modules.c2_surfaces.py.md#register_loot_event) function in `modules.c2_surfaces`
 - [`register_many`](modules/modules.bof_registry.py.md#bofcatalog-register_many) method of `BofCatalog` in `modules.bof_registry`
@@ -12242,6 +12427,7 @@
 - [`run_cmd_write`](modules/contrib.legacy.lazymitmap.py.md#run_cmd_write) function in `contrib.legacy.lazymitmap`
 - [`run_command`](modules/cli.headless.py.md#headlessrunner-run_command) method of `HeadlessRunner` in `cli.headless`
 - [`run_command`](modules/lazyown.py.md#lazyownshell-run_command) method of `LazyOwnShell` in `lazyown`
+- [`run_command`](modules/skills.mcp_tools._context.py.md#mcpcontext-run_command) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`run_command`](modules/modules.resource_script.py.md#scriptcontext-run_command) method of `ScriptContext` in `modules.resource_script`
 - [`run_command`](modules/core.process.py.md#run_command) function in `core.process`
 - [`run_command`](modules/lazyc2.py.md#run_command) function in `lazyc2`
@@ -12467,6 +12653,8 @@
 - [`save_knowledge_base`](modules/contrib.legacy.lazysearch_bot.py.md#save_knowledge_base) function in `contrib.legacy.lazysearch_bot`
 - [`save_note`](modules/lazyc2.py.md#save_note) function in `lazyc2`
 - [`save_note`](modules/lazyc2.extensions.storage.py.md#save_note) function in `lazyc2.extensions.storage`
+- [`save_pacing`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_pacing) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
+- [`save_payload`](modules/skills.mcp_tools._context.py.md#mcpcontext-save_payload) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`save_payload`](modules/core.config.py.md#save_payload) function in `core.config`
 - [`save_playbook`](modules/utils.py.md#save_playbook) function in `utils`
 - [`save_playbook_text`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_playbook_text) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
@@ -12922,6 +13110,7 @@
 - [`sessions_dir`](modules/modules.intelligence_engine.py.md#intelligenceconfig-sessions_dir) attribute of `IntelligenceConfig` in `modules.intelligence_engine`
 - [`sessions_dir`](modules/modules.killchain.py.md#killchainconfig-sessions_dir) attribute of `KillChainConfig` in `modules.killchain`
 - [`sessions_dir`](modules/modules.llm_prompts.py.md#llmpromptconfig-sessions_dir) attribute of `LlmPromptConfig` in `modules.llm_prompts`
+- [`sessions_dir`](modules/skills.mcp_tools._context.py.md#mcpcontext-sessions_dir) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`sessions_dir`](modules/skills.unified_orchestrator.py.md#orchestratorconfig-sessions_dir) attribute of `OrchestratorConfig` in `skills.unified_orchestrator`
 - [`sessions_dir`](modules/skills.hermes-lazyown.constants.py.md#paths-sessions_dir) staticmethod of `Paths` in `skills.hermes-lazyown.constants`
 - [`sessions_dir`](modules/cli.lazynmap_post.py.md#postscanconfig-sessions_dir) attribute of `PostScanConfig` in `cli.lazynmap_post`
@@ -13282,6 +13471,7 @@
 - [`SIPStatus`](modules/modules.venator.py.md#sipstatus) function in `modules.venator`
 - [`sitrep`](modules/cli.ops_commands.py.md#sitrep) function in `cli.ops_commands`
 - [`sitrep`](modules/telegram_hermes.py.md#sitrep) function in `telegram_hermes`
+- [`sitrep_recommendations`](modules/skills.mcp_tools._context.py.md#mcpcontext-sitrep_recommendations) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`size`](modules/modules.reflective_dll.py.md#datadirectory-size) attribute of `DataDirectory` in `modules.reflective_dll`
 - [`size`](modules/skills.lazyown_facts.py.md#discoveredpath-size) attribute of `DiscoveredPath` in `skills.lazyown_facts`
 - [`size_bytes`](modules/modules.compliance.py.md#evidenceentry-size_bytes) attribute of `EvidenceEntry` in `modules.compliance`
@@ -13292,6 +13482,7 @@
 - [`size_ratio`](modules/modules.polymorphic_engine.py.md#mutationresult-size_ratio) attribute of `MutationResult` in `modules.polymorphic_engine`
 - [`SkeletonKeyInjector`](modules/modules.kerberos_tickets.py.md#skeletonkeyinjector) class in `modules.kerberos_tickets`
 - [`skills_context`](modules/modules.lazy_skills.py.md#skills_context) function in `modules.lazy_skills`
+- [`skills_dir`](modules/skills.mcp_tools._context.py.md#mcpcontext-skills_dir) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`SKILLS_DIR`](modules/modules.lazy_skills.py.md#skills_dir) constant in `modules.lazy_skills`
 - [`SKILLS_DIR`](modules/skills.autonomous_daemon.py.md#skills_dir) constant in `skills.autonomous_daemon`
 - [`SKILLS_DIR`](modules/skills.heartbeat.py.md#skills_dir) constant in `skills.heartbeat`
@@ -13424,7 +13615,6 @@
 - [`source`](modules/modules.chain_registry.py.md#chain-source) attribute of `Chain` in `modules.chain_registry`
 - [`source`](modules/cli.chain_mode.py.md#chainsuggestion-source) attribute of `ChainSuggestion` in `cli.chain_mode`
 - [`source`](modules/modules.intelligence_engine.py.md#collectedfact-source) attribute of `CollectedFact` in `modules.intelligence_engine`
-- [`source`](modules/skills.autonomous_daemon.py.md#commanddecision-source) attribute of `CommandDecision` in `skills.autonomous_daemon`
 - [`source`](modules/modules.hash_cracker.py.md#crackresult-source) attribute of `CrackResult` in `modules.hash_cracker`
 - [`source`](modules/modules.dpapi_harvester.py.md#dpapicredential-source) attribute of `DPAPICredential` in `modules.dpapi_harvester`
 - [`source`](modules/modules.dashboard_engine.py.md#dashboardedge-source) attribute of `DashboardEdge` in `modules.dashboard_engine`
@@ -14128,6 +14318,7 @@
 - [`sync_shell_params`](modules/core.param_registry.py.md#sync_shell_params) function in `core.param_registry`
 - [`sync_tier0`](modules/modules.exploitdb_bridge.py.md#sync_tier0) function in `modules.exploitdb_bridge`
 - [`synth_chain_data`](modules/modules.chain_synth.py.md#synth_chain_data) function in `modules.chain_synth`
+- [`synth_technique_chain_data`](modules/modules.chain_synth.py.md#synth_technique_chain_data) function in `modules.chain_synth`
 - [`synthesis`](modules/skills.swan_agent.py.md#ensembleresult-synthesis) attribute of `EnsembleResult` in `skills.swan_agent`
 - [`synthesize`](modules/skills.hive_mind.py.md#queenbrain-synthesize) method of `QueenBrain` in `skills.hive_mind`
 - [`SYSLIB_BYPASS_TEMPLATES`](modules/modules.evasive_payloads.py.md#evasivepayloadgenerator-syslib_bypass_templates) attribute of `EvasivePayloadGenerator` in `modules.evasive_payloads`
@@ -14345,6 +14536,7 @@
 - [`technique_name`](modules/modules.playbook_executor.py.md#playbooktechnique-technique_name) attribute of `PlaybookTechnique` in `modules.playbook_executor`
 - [`technique_name`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig-technique_name) attribute of `SleepObfuscationConfig` in `modules.sleep_obfuscation`
 - [`TECHNIQUE_PATTERN`](modules/modules.lazy_findings.py.md#technique_pattern) constant in `modules.lazy_findings`
+- [`TechniqueChainSelector`](modules/modules.selection.technique_chain.py.md#techniquechainselector) class in `modules.selection.technique_chain`
 - [`TechniqueRisk`](modules/modules.sleep_obfuscation.py.md#techniquerisk) enum in `modules.sleep_obfuscation`
 - [`techniques`](modules/skills.aci_planner.py.md#attackphase-techniques) attribute of `AttackPhase` in `skills.aci_planner`
 - [`techniques`](modules/cli.apt_chain_support.py.md#chainargs-techniques) attribute of `ChainArgs` in `cli.apt_chain_support`
@@ -14412,6 +14604,7 @@
 - [`text`](modules/modules.asset_graph.py.md#explorationnode-text) attribute of `ExplorationNode` in `modules.asset_graph`
 - [`text`](modules/lazygui.widgets.filter_bar.py.md#filterbar-text) method of `FilterBar` in `lazygui.widgets.filter_bar`
 - [`text`](modules/modules.goals.py.md#goalspec-text) attribute of `GoalSpec` in `modules.goals`
+- [`text`](modules/skills.mcp_tools._context.py.md#mcpcontext-text) attribute of `MCPContext` in `skills.mcp_tools._context`
 - [`text`](modules/skills.lazyown_objective.py.md#objective-text) attribute of `Objective` in `skills.lazyown_objective`
 - [`text`](modules/modules.lazy_objective_queue.py.md#objectivecandidate-text) attribute of `ObjectiveCandidate` in `modules.lazy_objective_queue`
 - [`text`](modules/modules.llm_orchestrator.py.md#orchestratorresult-text) attribute of `OrchestratorResult` in `modules.llm_orchestrator`
@@ -14737,6 +14930,178 @@
 - [`tool`](modules/modules.intercept.py.md#pendingapproval-tool) attribute of `PendingApproval` in `modules.intercept`
 - [`tool`](modules/modules.lazy_probes.py.md#renderedcheck-tool) attribute of `RenderedCheck` in `modules.lazy_probes`
 - [`tool`](modules/modules.unified_bridge.py.md#routeresult-tool) attribute of `RouteResult` in `modules.unified_bridge`
+- [`TOOL`](modules/skills.mcp_tools.aci_plan.py.md#tool) constant in `skills.mcp_tools.aci_plan`
+- [`TOOL`](modules/skills.mcp_tools.aci_replan.py.md#tool) constant in `skills.mcp_tools.aci_replan`
+- [`TOOL`](modules/skills.mcp_tools.aci_status.py.md#tool) constant in `skills.mcp_tools.aci_status`
+- [`TOOL`](modules/skills.mcp_tools.ack_event.py.md#tool) constant in `skills.mcp_tools.ack_event`
+- [`TOOL`](modules/skills.mcp_tools.add_rule.py.md#tool) constant in `skills.mcp_tools.add_rule`
+- [`TOOL`](modules/skills.mcp_tools.add_target.py.md#tool) constant in `skills.mcp_tools.add_target`
+- [`TOOL`](modules/skills.mcp_tools.agent_result.py.md#tool) constant in `skills.mcp_tools.agent_result`
+- [`TOOL`](modules/skills.mcp_tools.agent_status.py.md#tool) constant in `skills.mcp_tools.agent_status`
+- [`TOOL`](modules/skills.mcp_tools.apt_chain.py.md#tool) constant in `skills.mcp_tools.apt_chain`
+- [`TOOL`](modules/skills.mcp_tools.atomic_clean.py.md#tool) constant in `skills.mcp_tools.atomic_clean`
+- [`TOOL`](modules/skills.mcp_tools.atomic_resolve.py.md#tool) constant in `skills.mcp_tools.atomic_resolve`
+- [`TOOL`](modules/skills.mcp_tools.atomic_search.py.md#tool) constant in `skills.mcp_tools.atomic_search`
+- [`TOOL`](modules/skills.mcp_tools.atomic_shell.py.md#tool) constant in `skills.mcp_tools.atomic_shell`
+- [`TOOL`](modules/skills.mcp_tools.auto_loop.py.md#tool) constant in `skills.mcp_tools.auto_loop`
+- [`TOOL`](modules/skills.mcp_tools.auto_populate.py.md#tool) constant in `skills.mcp_tools.auto_populate`
+- [`TOOL`](modules/skills.mcp_tools.auto_pwn.py.md#tool) constant in `skills.mcp_tools.auto_pwn`
+- [`TOOL`](modules/skills.mcp_tools.autonomous_events.py.md#tool) constant in `skills.mcp_tools.autonomous_events`
+- [`TOOL`](modules/skills.mcp_tools.autonomous_inject.py.md#tool) constant in `skills.mcp_tools.autonomous_inject`
+- [`TOOL`](modules/skills.mcp_tools.autonomous_replay.py.md#tool) constant in `skills.mcp_tools.autonomous_replay`
+- [`TOOL`](modules/skills.mcp_tools.autonomous_start.py.md#tool) constant in `skills.mcp_tools.autonomous_start`
+- [`TOOL`](modules/skills.mcp_tools.autonomous_status.py.md#tool) constant in `skills.mcp_tools.autonomous_status`
+- [`TOOL`](modules/skills.mcp_tools.autonomous_stop.py.md#tool) constant in `skills.mcp_tools.autonomous_stop`
+- [`TOOL`](modules/skills.mcp_tools.bridge_suggest.py.md#tool) constant in `skills.mcp_tools.bridge_suggest`
+- [`TOOL`](modules/skills.mcp_tools.c2_adversary.py.md#tool) constant in `skills.mcp_tools.c2_adversary`
+- [`TOOL`](modules/skills.mcp_tools.c2_command.py.md#tool) constant in `skills.mcp_tools.c2_command`
+- [`TOOL`](modules/skills.mcp_tools.c2_notes.py.md#tool) constant in `skills.mcp_tools.c2_notes`
+- [`TOOL`](modules/skills.mcp_tools.c2_profile.py.md#tool) constant in `skills.mcp_tools.c2_profile`
+- [`TOOL`](modules/skills.mcp_tools.c2_redop.py.md#tool) constant in `skills.mcp_tools.c2_redop`
+- [`TOOL`](modules/skills.mcp_tools.c2_script.py.md#tool) constant in `skills.mcp_tools.c2_script`
+- [`TOOL`](modules/skills.mcp_tools.c2_search_agent.py.md#tool) constant in `skills.mcp_tools.c2_search_agent`
+- [`TOOL`](modules/skills.mcp_tools.c2_status.py.md#tool) constant in `skills.mcp_tools.c2_status`
+- [`TOOL`](modules/skills.mcp_tools.c2_vuln_analysis.py.md#tool) constant in `skills.mcp_tools.c2_vuln_analysis`
+- [`TOOL`](modules/skills.mcp_tools.campaign.py.md#tool) constant in `skills.mcp_tools.campaign`
+- [`TOOL`](modules/skills.mcp_tools.campaign_lessons.py.md#tool) constant in `skills.mcp_tools.campaign_lessons`
+- [`TOOL`](modules/skills.mcp_tools.campaign_sitrep.py.md#tool) constant in `skills.mcp_tools.campaign_sitrep`
+- [`TOOL`](modules/skills.mcp_tools.campaign_tasks.py.md#tool) constant in `skills.mcp_tools.campaign_tasks`
+- [`TOOL`](modules/skills.mcp_tools.collab_publish.py.md#tool) constant in `skills.mcp_tools.collab_publish`
+- [`TOOL`](modules/skills.mcp_tools.command_help.py.md#tool) constant in `skills.mcp_tools.command_help`
+- [`TOOL`](modules/skills.mcp_tools.command_next.py.md#tool) constant in `skills.mcp_tools.command_next`
+- [`TOOL`](modules/skills.mcp_tools.command_prev.py.md#tool) constant in `skills.mcp_tools.command_prev`
+- [`TOOL`](modules/skills.mcp_tools.create_addon.py.md#tool) constant in `skills.mcp_tools.create_addon`
+- [`TOOL`](modules/skills.mcp_tools.create_param.py.md#tool) constant in `skills.mcp_tools.create_param`
+- [`TOOL`](modules/skills.mcp_tools.credentials.py.md#tool) constant in `skills.mcp_tools.credentials`
+- [`TOOL`](modules/skills.mcp_tools.cron_schedule.py.md#tool) constant in `skills.mcp_tools.cron_schedule`
+- [`TOOL`](modules/skills.mcp_tools.cve_search.py.md#tool) constant in `skills.mcp_tools.cve_search`
+- [`TOOL`](modules/skills.mcp_tools.daemon.py.md#tool) constant in `skills.mcp_tools.daemon`
+- [`TOOL`](modules/skills.mcp_tools.daemon_approve.py.md#tool) constant in `skills.mcp_tools.daemon_approve`
+- [`TOOL`](modules/skills.mcp_tools.daemon_focus.py.md#tool) constant in `skills.mcp_tools.daemon_focus`
+- [`TOOL`](modules/skills.mcp_tools.daemon_mode.py.md#tool) constant in `skills.mcp_tools.daemon_mode`
+- [`TOOL`](modules/skills.mcp_tools.daemon_pause.py.md#tool) constant in `skills.mcp_tools.daemon_pause`
+- [`TOOL`](modules/skills.mcp_tools.daemon_resume.py.md#tool) constant in `skills.mcp_tools.daemon_resume`
+- [`TOOL`](modules/skills.mcp_tools.daemon_status.py.md#tool) constant in `skills.mcp_tools.daemon_status`
+- [`TOOL`](modules/skills.mcp_tools.daemon_veto.py.md#tool) constant in `skills.mcp_tools.daemon_veto`
+- [`TOOL`](modules/skills.mcp_tools.dashboard_snapshot.py.md#tool) constant in `skills.mcp_tools.dashboard_snapshot`
+- [`TOOL`](modules/skills.mcp_tools.db.py.md#tool) constant in `skills.mcp_tools.db`
+- [`TOOL`](modules/skills.mcp_tools.delete_param.py.md#tool) constant in `skills.mcp_tools.delete_param`
+- [`TOOL`](modules/skills.mcp_tools.deploy_beacon.py.md#tool) constant in `skills.mcp_tools.deploy_beacon`
+- [`TOOL`](modules/skills.mcp_tools.discover_commands.py.md#tool) constant in `skills.mcp_tools.discover_commands`
+- [`TOOL`](modules/skills.mcp_tools.engage_approve.py.md#tool) constant in `skills.mcp_tools.engage_approve`
+- [`TOOL`](modules/skills.mcp_tools.engage_list_pending.py.md#tool) constant in `skills.mcp_tools.engage_list_pending`
+- [`TOOL`](modules/skills.mcp_tools.engage_status.py.md#tool) constant in `skills.mcp_tools.engage_status`
+- [`TOOL`](modules/skills.mcp_tools.engage_target.py.md#tool) constant in `skills.mcp_tools.engage_target`
+- [`TOOL`](modules/skills.mcp_tools.eval_quality.py.md#tool) constant in `skills.mcp_tools.eval_quality`
+- [`TOOL`](modules/skills.mcp_tools.evasion_generate.py.md#tool) constant in `skills.mcp_tools.evasion_generate`
+- [`TOOL`](modules/skills.mcp_tools.evasion_rotate.py.md#tool) constant in `skills.mcp_tools.evasion_rotate`
+- [`TOOL`](modules/skills.mcp_tools.evidence_grep.py.md#tool) constant in `skills.mcp_tools.evidence_grep`
+- [`TOOL`](modules/skills.mcp_tools.exploit_chain.py.md#tool) constant in `skills.mcp_tools.exploit_chain`
+- [`TOOL`](modules/skills.mcp_tools.exploit_recommend.py.md#tool) constant in `skills.mcp_tools.exploit_recommend`
+- [`TOOL`](modules/skills.mcp_tools.exploitgym_list.py.md#tool) constant in `skills.mcp_tools.exploitgym_list`
+- [`TOOL`](modules/skills.mcp_tools.exploitgym_run.py.md#tool) constant in `skills.mcp_tools.exploitgym_run`
+- [`TOOL`](modules/skills.mcp_tools.exploitgym_score.py.md#tool) constant in `skills.mcp_tools.exploitgym_score`
+- [`TOOL`](modules/skills.mcp_tools.exploitgym_status.py.md#tool) constant in `skills.mcp_tools.exploitgym_status`
+- [`TOOL`](modules/skills.mcp_tools.facts_show.py.md#tool) constant in `skills.mcp_tools.facts_show`
+- [`TOOL`](modules/skills.mcp_tools.fast_run.py.md#tool) constant in `skills.mcp_tools.fast_run`
+- [`TOOL`](modules/skills.mcp_tools.generate_report.py.md#tool) constant in `skills.mcp_tools.generate_report`
+- [`TOOL`](modules/skills.mcp_tools.get_beacons.py.md#tool) constant in `skills.mcp_tools.get_beacons`
+- [`TOOL`](modules/skills.mcp_tools.get_config.py.md#tool) constant in `skills.mcp_tools.get_config`
+- [`TOOL`](modules/skills.mcp_tools.get_llm_budget.py.md#tool) constant in `skills.mcp_tools.get_llm_budget`
+- [`TOOL`](modules/skills.mcp_tools.graph_neighbors.py.md#tool) constant in `skills.mcp_tools.graph_neighbors`
+- [`TOOL`](modules/skills.mcp_tools.graph_search.py.md#tool) constant in `skills.mcp_tools.graph_search`
+- [`TOOL`](modules/skills.mcp_tools.graph_suggest_next.py.md#tool) constant in `skills.mcp_tools.graph_suggest_next`
+- [`TOOL`](modules/skills.mcp_tools.graph_summary.py.md#tool) constant in `skills.mcp_tools.graph_summary`
+- [`TOOL`](modules/skills.mcp_tools.groq_agent.py.md#tool) constant in `skills.mcp_tools.groq_agent`
+- [`TOOL`](modules/skills.mcp_tools.heartbeat_status.py.md#tool) constant in `skills.mcp_tools.heartbeat_status`
+- [`TOOL`](modules/skills.mcp_tools.hive_collect.py.md#tool) constant in `skills.mcp_tools.hive_collect`
+- [`TOOL`](modules/skills.mcp_tools.hive_forget.py.md#tool) constant in `skills.mcp_tools.hive_forget`
+- [`TOOL`](modules/skills.mcp_tools.hive_plan.py.md#tool) constant in `skills.mcp_tools.hive_plan`
+- [`TOOL`](modules/skills.mcp_tools.hive_recall.py.md#tool) constant in `skills.mcp_tools.hive_recall`
+- [`TOOL`](modules/skills.mcp_tools.hive_recover.py.md#tool) constant in `skills.mcp_tools.hive_recover`
+- [`TOOL`](modules/skills.mcp_tools.hive_result.py.md#tool) constant in `skills.mcp_tools.hive_result`
+- [`TOOL`](modules/skills.mcp_tools.hive_spawn.py.md#tool) constant in `skills.mcp_tools.hive_spawn`
+- [`TOOL`](modules/skills.mcp_tools.hive_status.py.md#tool) constant in `skills.mcp_tools.hive_status`
+- [`TOOL`](modules/skills.mcp_tools.inject_objective.py.md#tool) constant in `skills.mcp_tools.inject_objective`
+- [`TOOL`](modules/skills.mcp_tools.lazy_addon.py.md#tool) constant in `skills.mcp_tools.lazy_addon`
+- [`TOOL`](modules/skills.mcp_tools.lazy_board.py.md#tool) constant in `skills.mcp_tools.lazy_board`
+- [`TOOL`](modules/skills.mcp_tools.lazy_compact.py.md#tool) constant in `skills.mcp_tools.lazy_compact`
+- [`TOOL`](modules/skills.mcp_tools.lazy_delete.py.md#tool) constant in `skills.mcp_tools.lazy_delete`
+- [`TOOL`](modules/skills.mcp_tools.lazy_finding.py.md#tool) constant in `skills.mcp_tools.lazy_finding`
+- [`TOOL`](modules/skills.mcp_tools.lazy_hint.py.md#tool) constant in `skills.mcp_tools.lazy_hint`
+- [`TOOL`](modules/skills.mcp_tools.lazy_intel.py.md#tool) constant in `skills.mcp_tools.lazy_intel`
+- [`TOOL`](modules/skills.mcp_tools.lazy_mention.py.md#tool) constant in `skills.mcp_tools.lazy_mention`
+- [`TOOL`](modules/skills.mcp_tools.lazy_proxy.py.md#tool) constant in `skills.mcp_tools.lazy_proxy`
+- [`TOOL`](modules/skills.mcp_tools.lazy_status.py.md#tool) constant in `skills.mcp_tools.lazy_status`
+- [`TOOL`](modules/skills.mcp_tools.lazy_sync.py.md#tool) constant in `skills.mcp_tools.lazy_sync`
+- [`TOOL`](modules/skills.mcp_tools.lazy_trace.py.md#tool) constant in `skills.mcp_tools.lazy_trace`
+- [`TOOL`](modules/skills.mcp_tools.lazy_workspace.py.md#tool) constant in `skills.mcp_tools.lazy_workspace`
+- [`TOOL`](modules/skills.mcp_tools.lazysearch.py.md#tool) constant in `skills.mcp_tools.lazysearch`
+- [`TOOL`](modules/skills.mcp_tools.list_addons.py.md#tool) constant in `skills.mcp_tools.list_addons`
+- [`TOOL`](modules/skills.mcp_tools.list_agents.py.md#tool) constant in `skills.mcp_tools.list_agents`
+- [`TOOL`](modules/skills.mcp_tools.list_event_rules.py.md#tool) constant in `skills.mcp_tools.list_event_rules`
+- [`TOOL`](modules/skills.mcp_tools.list_modules.py.md#tool) constant in `skills.mcp_tools.list_modules`
+- [`TOOL`](modules/skills.mcp_tools.list_params.py.md#tool) constant in `skills.mcp_tools.list_params`
+- [`TOOL`](modules/skills.mcp_tools.list_plugins.py.md#tool) constant in `skills.mcp_tools.list_plugins`
+- [`TOOL`](modules/skills.mcp_tools.list_sessions.py.md#tool) constant in `skills.mcp_tools.list_sessions`
+- [`TOOL`](modules/skills.mcp_tools.list_targets.py.md#tool) constant in `skills.mcp_tools.list_targets`
+- [`TOOL`](modules/skills.mcp_tools.llm_ask.py.md#tool) constant in `skills.mcp_tools.llm_ask`
+- [`TOOL`](modules/skills.mcp_tools.lolbas_list.py.md#tool) constant in `skills.mcp_tools.lolbas_list`
+- [`TOOL`](modules/skills.mcp_tools.lolbas_use.py.md#tool) constant in `skills.mcp_tools.lolbas_use`
+- [`TOOL`](modules/skills.mcp_tools.loop_smoke.py.md#tool) constant in `skills.mcp_tools.loop_smoke`
+- [`TOOL`](modules/skills.mcp_tools.memory_recall.py.md#tool) constant in `skills.mcp_tools.memory_recall`
+- [`TOOL`](modules/skills.mcp_tools.memory_store.py.md#tool) constant in `skills.mcp_tools.memory_store`
+- [`TOOL`](modules/skills.mcp_tools.metrics_summary.py.md#tool) constant in `skills.mcp_tools.metrics_summary`
+- [`TOOL`](modules/skills.mcp_tools.misp_export.py.md#tool) constant in `skills.mcp_tools.misp_export`
+- [`TOOL`](modules/skills.mcp_tools.next_objective.py.md#tool) constant in `skills.mcp_tools.next_objective`
+- [`TOOL`](modules/skills.mcp_tools.opencode_config.py.md#tool) constant in `skills.mcp_tools.opencode_config`
+- [`TOOL`](modules/skills.mcp_tools.palette.py.md#tool) constant in `skills.mcp_tools.palette`
+- [`TOOL`](modules/skills.mcp_tools.parquet_annotate.py.md#tool) constant in `skills.mcp_tools.parquet_annotate`
+- [`TOOL`](modules/skills.mcp_tools.parquet_query.py.md#tool) constant in `skills.mcp_tools.parquet_query`
+- [`TOOL`](modules/skills.mcp_tools.phase_guide.py.md#tool) constant in `skills.mcp_tools.phase_guide`
+- [`TOOL`](modules/skills.mcp_tools.pipeline_list.py.md#tool) constant in `skills.mcp_tools.pipeline_list`
+- [`TOOL`](modules/skills.mcp_tools.pipeline_run.py.md#tool) constant in `skills.mcp_tools.pipeline_run`
+- [`TOOL`](modules/skills.mcp_tools.pipeline_status.py.md#tool) constant in `skills.mcp_tools.pipeline_status`
+- [`TOOL`](modules/skills.mcp_tools.pipeline_validate.py.md#tool) constant in `skills.mcp_tools.pipeline_validate`
+- [`TOOL`](modules/skills.mcp_tools.pivot_status.py.md#tool) constant in `skills.mcp_tools.pivot_status`
+- [`TOOL`](modules/skills.mcp_tools.playbook_generate.py.md#tool) constant in `skills.mcp_tools.playbook_generate`
+- [`TOOL`](modules/skills.mcp_tools.poll_events.py.md#tool) constant in `skills.mcp_tools.poll_events`
+- [`TOOL`](modules/skills.mcp_tools.rag_index.py.md#tool) constant in `skills.mcp_tools.rag_index`
+- [`TOOL`](modules/skills.mcp_tools.rag_query.py.md#tool) constant in `skills.mcp_tools.rag_query`
+- [`TOOL`](modules/skills.mcp_tools.rea.py.md#tool) constant in `skills.mcp_tools.rea`
+- [`TOOL`](modules/skills.mcp_tools.reactive_suggest.py.md#tool) constant in `skills.mcp_tools.reactive_suggest`
+- [`TOOL`](modules/skills.mcp_tools.read_prompt.py.md#tool) constant in `skills.mcp_tools.read_prompt`
+- [`TOOL`](modules/skills.mcp_tools.read_session_file.py.md#tool) constant in `skills.mcp_tools.read_session_file`
+- [`TOOL`](modules/skills.mcp_tools.rich_tui_snapshot.py.md#tool) constant in `skills.mcp_tools.rich_tui_snapshot`
+- [`TOOL`](modules/skills.mcp_tools.run_api.py.md#tool) constant in `skills.mcp_tools.run_api`
+- [`TOOL`](modules/skills.mcp_tools.run_command.py.md#tool) constant in `skills.mcp_tools.run_command`
+- [`TOOL`](modules/skills.mcp_tools.searchsploit.py.md#tool) constant in `skills.mcp_tools.searchsploit`
+- [`TOOL`](modules/skills.mcp_tools.session_diff.py.md#tool) constant in `skills.mcp_tools.session_diff`
+- [`TOOL`](modules/skills.mcp_tools.session_state.py.md#tool) constant in `skills.mcp_tools.session_state`
+- [`TOOL`](modules/skills.mcp_tools.session_status.py.md#tool) constant in `skills.mcp_tools.session_status`
+- [`TOOL`](modules/skills.mcp_tools.set_active_target.py.md#tool) constant in `skills.mcp_tools.set_active_target`
+- [`TOOL`](modules/skills.mcp_tools.set_config.py.md#tool) constant in `skills.mcp_tools.set_config`
+- [`TOOL`](modules/skills.mcp_tools.soul.py.md#tool) constant in `skills.mcp_tools.soul`
+- [`TOOL`](modules/skills.mcp_tools.stealth.py.md#tool) constant in `skills.mcp_tools.stealth`
+- [`TOOL`](modules/skills.mcp_tools.swan_ensemble.py.md#tool) constant in `skills.mcp_tools.swan_ensemble`
+- [`TOOL`](modules/skills.mcp_tools.swan_route.py.md#tool) constant in `skills.mcp_tools.swan_route`
+- [`TOOL`](modules/skills.mcp_tools.swan_run.py.md#tool) constant in `skills.mcp_tools.swan_run`
+- [`TOOL`](modules/skills.mcp_tools.swan_status.py.md#tool) constant in `skills.mcp_tools.swan_status`
+- [`TOOL`](modules/skills.mcp_tools.target_context.py.md#tool) constant in `skills.mcp_tools.target_context`
+- [`TOOL`](modules/skills.mcp_tools.tasks_cleanup.py.md#tool) constant in `skills.mcp_tools.tasks_cleanup`
+- [`TOOL`](modules/skills.mcp_tools.threat_model.py.md#tool) constant in `skills.mcp_tools.threat_model`
+- [`TOOL`](modules/skills.mcp_tools.timeline.py.md#tool) constant in `skills.mcp_tools.timeline`
+- [`TOOL`](modules/skills.mcp_tools.ttp_chain.py.md#tool) constant in `skills.mcp_tools.ttp_chain`
+- [`TOOL`](modules/skills.mcp_tools.unified_dashboard.py.md#tool) constant in `skills.mcp_tools.unified_dashboard`
+- [`TOOL`](modules/skills.mcp_tools.winbox_eventlogs.py.md#tool) constant in `skills.mcp_tools.winbox_eventlogs`
+- [`TOOL`](modules/skills.mcp_tools.winbox_exec.py.md#tool) constant in `skills.mcp_tools.winbox_exec`
+- [`TOOL`](modules/skills.mcp_tools.winbox_gym_list.py.md#tool) constant in `skills.mcp_tools.winbox_gym_list`
+- [`TOOL`](modules/skills.mcp_tools.winbox_gym_plan.py.md#tool) constant in `skills.mcp_tools.winbox_gym_plan`
+- [`TOOL`](modules/skills.mcp_tools.winbox_gym_run.py.md#tool) constant in `skills.mcp_tools.winbox_gym_run`
+- [`TOOL`](modules/skills.mcp_tools.winbox_snapshot.py.md#tool) constant in `skills.mcp_tools.winbox_snapshot`
+- [`TOOL`](modules/skills.mcp_tools.winbox_status.py.md#tool) constant in `skills.mcp_tools.winbox_status`
+- [`TOOL`](modules/skills.mcp_tools.winbox_tools.py.md#tool) constant in `skills.mcp_tools.winbox_tools`
+- [`TOOL`](modules/skills.mcp_tools.winbox_vm.py.md#tool) constant in `skills.mcp_tools.winbox_vm`
 - [`tool_calling_enabled`](modules/modules.lazy_agent.py.md#tool_calling_enabled) function in `modules.lazy_agent`
 - [`tool_calls`](modules/modules.loop_progress.py.md#loopsnapshot-tool_calls) attribute of `LoopSnapshot` in `modules.loop_progress`
 - [`tool_class_yields`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-tool_class_yields) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`

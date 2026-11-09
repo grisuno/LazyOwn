@@ -185,7 +185,7 @@
   - `patch_opencode` (function, line 46) `def patch_opencode(set_default, host)`
   - `patch_hermes` (function, line 93) `def patch_hermes(host)`
   - `main` (function, line 150) `def main(argv)`
-- Imported by: `skills/lazyown_mcp.py`
+- Imported by: `skills/mcp_tools/opencode_config.py`
 
 ## scripts/mcp_call.py
 - Doc: Call one LazyOwn MCP tool over stdio and print its text content.

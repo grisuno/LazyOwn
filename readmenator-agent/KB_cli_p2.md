@@ -356,7 +356,7 @@ Previous: [KB_cli.md](KB_cli.md)
   - `_iter_all_edges` (method, line 665) `def _iter_all_edges(index)`
   - `_ensure_index` (method, line 675) `def _ensure_index(self)`
   - `_missing_reason` (method, line 684) `def _missing_reason(self)`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/test_graph_advisor.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/graph_neighbors.py`, `skills/mcp_tools/graph_search.py`, `skills/mcp_tools/graph_suggest_next.py`, `skills/mcp_tools/graph_summary.py`, `tests/test_graph_advisor.py`
 
 ## cli/graph_overlay.py
 - Doc: Textual overlay over :mod:`cli.graph_advisor`.

@@ -183,6 +183,8 @@ def __init__(self, config: Any = None) -> None
 |---|---|---|---|
 | `config` | `Any` | `None` |  |
 
+*Called by:* [`handle`](skills.mcp_tools.pivot_status.py.md#handle)
+
 <a id="autopivotengine-set_config"></a>
 
 #### `AutoPivotEngine.set_config`
@@ -297,6 +299,8 @@ def generate_proxychains_config(self, chain_id: str | None = None) -> str
 
 **Returns:** `str`
 
+*Called by:* [`handle`](skills.mcp_tools.pivot_status.py.md#handle)
+
 <a id="autopivotengine-generate_sshuttle_command"></a>
 
 #### `AutoPivotEngine.generate_sshuttle_command`
@@ -400,6 +404,8 @@ def get_active_routes(self) -> list[dict[str, Any]]
 
 **Returns:** `list[dict[str, Any]]`
 
+*Called by:* [`handle`](skills.mcp_tools.pivot_status.py.md#handle)
+
 <a id="autopivotengine-get_reachable_hosts"></a>
 
 #### `AutoPivotEngine.get_reachable_hosts`
@@ -463,6 +469,8 @@ def suggest_next_pivot(self) -> dict[str, Any] | None
 ```
 
 **Returns:** `dict[str, Any] | None`
+
+*Called by:* [`handle`](skills.mcp_tools.pivot_status.py.md#handle)
 
 ---
 

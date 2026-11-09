@@ -1,5 +1,15 @@
-# API (page 5 of 26)
+# API (page 5 of 27)
 Previous: [API_p4.md](API_p4.md)
+
+## cli/palette_telemetry.py
+Imported by: `cli/palette_command.py`, `cli/palette_overlay.py`, `tests/test_command_palette.py`
+- `load_telemetry` (function) `cli/palette_telemetry.py:186` `def load_telemetry(path)` -- Return the parsed telemetry index, cached per resolved path.
+- `safe_load_telemetry` (function) `cli/palette_telemetry.py:204` `def safe_load_telemetry(path)` -- Best-effort variant of :func:`load_telemetry`.
+- `command_stats` (function) `cli/palette_telemetry.py:216` `def command_stats(telemetry, command_name)` -- Return aggregated stats for ``command_name`` or ``None`` when unseen.
+- `runs_after` (function) `cli/palette_telemetry.py:239` `def runs_after(telemetry, command_name)` -- Return commands that frequently run after ``command_name``.
+- `recents` (function) `cli/palette_telemetry.py:259` `def recents(telemetry)` -- Return the most-recently invoked unique ``do_*`` commands.
+- `enrich_detail` (function) `cli/palette_telemetry.py:275` `def enrich_detail(telemetry, entry)` -- Attach ``runs``, ``last_seen`` and ``runs_after`` to a detail entry.
+- `enrich_commands` (function) `cli/palette_telemetry.py:300` `def enrich_commands(telemetry, rows)` -- Enrich every entry of ``rows`` with telemetry data.
 
 ## cli/phase_labels.py
 Imported by: `cli/contextual_help.py`, `cli/tips_engine.py`, `tests/test_phase_labels.py`
@@ -480,19 +490,6 @@ Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/
 - `transform_knowledge_base` (function) `contrib/legacy/lazygptcli.py:141` `def transform_knowledge_base(client)`
 - `cleanup_temp_files` (function) `contrib/legacy/lazygptcli.py:164` `def cleanup_temp_files()`
 - `main` (function) `contrib/legacy/lazygptcli.py:177` `def main()`
-
-## contrib/legacy/lazygptcli_unified.py
-Depends on: `core/logging.py`, `modules/colors.py`
-Imported by: `contrib/legacy/lazygptcli.py`
-- `truncate_message` (function) `contrib/legacy/lazygptcli_unified.py:53` `def truncate_message(message, max_chars)`
-- `process_prompt` (function) `contrib/legacy/lazygptcli_unified.py:318` `def process_prompt(client, prompt, debug)` -- Generate a single-line shell command from a user prompt.
-- `process_prompt_script` (function) `contrib/legacy/lazygptcli_unified.py:323` `def process_prompt_script(client, prompt, debug)` -- Generate a full script from a user prompt.
-- `process_prompt_adversary` (function) `contrib/legacy/lazygptcli_unified.py:328` `def process_prompt_adversary(client, prompt, debug)` -- Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
-- `process_prompt_general` (function) `contrib/legacy/lazygptcli_unified.py:333` `def process_prompt_general(client, prompt, debug)` -- General red team assistant with payload.json context and DeepSeek fallback.
-- `process_prompt_search` (function) `contrib/legacy/lazygptcli_unified.py:341` `def process_prompt_search(client, prompt, debug)` -- Research and threat intelligence analysis.
-- `process_prompt_task` (function) `contrib/legacy/lazygptcli_unified.py:346` `def process_prompt_task(client, prompt, debug)` -- Analyze task assessment JSON for completion status and next commands.
-- `process_prompt_vuln` (function) `contrib/legacy/lazygptcli_unified.py:356` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and generate penetration test action plan.
-- `process_prompt_redop` (function) `contrib/legacy/lazygptcli_unified.py:382` `def process_prompt_redop(client, prompt, debug)` -- Evaluate Red Team operation status from JSON database params.
 
 
 Next: [API_p6.md](API_p6.md)

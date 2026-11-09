@@ -21,8 +21,8 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `parse_mentions` (function, line 237) `def parse_mentions(message)`
   - `compose_message` (function, line 268) `def compose_message(message)`
   - `_load_snapshot` (function, line 296) `def _load_snapshot(kind, ref_id)`
-- Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/lazyown_mcp.py`, `tests/test_security_codeql_batch.py`
+- Depends on: `modules/lazy_loop.py`, `skills/mcp_tools/lazy_finding.py`
+- Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/mcp_tools/lazy_mention.py`, `tests/test_security_codeql_batch.py`
 
 ## modules/lazy_netattack.py
 - Doc: Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay.
@@ -361,10 +361,11 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_poll_progress` (function, line 801) `def _poll_progress(engine, config, progress, transcript, worker)`
   - `_terminal_stream` (function, line 897) `def _terminal_stream()`
   - `_run_plain` (function, line 919) `def _run_plain(engine, config)`
-  - `load_targets_file` (function, line 954) `def load_targets_file(path)`
-  - `run_loop` (function, line 1009) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 1111) `def _tty_available()`
-  - `_run_targets_file` (function, line 1124) `def _run_targets_file(shell, params, config)`
+  - `bind_target_authority` (function, line 954) `def bind_target_authority(shell, targets)`
+  - `load_targets_file` (function, line 1014) `def load_targets_file(path)`
+  - `run_loop` (function, line 1069) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 1171) `def _tty_available()`
+  - `_run_targets_file` (function, line 1184) `def _run_targets_file(shell, params, config)`
   - `__init__` (method, line 55) `def __init__(self, main_stream, spool)`
   - `write` (method, line 61) `def write(self, data)`
   - `flush` (method, line 72) `def flush(self)`
@@ -376,10 +377,10 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `stream` (function, line 657) `def stream(text)`
   - `_run` (function, line 694) `def _run()`
   - `_write` (function, line 909) `def _write(text)`
-  - `_work_one` (function, line 1147) `def _work_one(target)`
-  - `_limited` (function, line 1150) `def _limited()`
-- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
+  - `_work_one` (function, line 1207) `def _work_one(target)`
+  - `_limited` (function, line 1210) `def _limited()`
+- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/config.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `skills/mcp_tools/auto_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_target_authority.py`, `tests/test_orchestrator_yaml.py`
 
 ## modules/lazy_sandbox.py
 - Doc: Per-task Docker sandbox for the Lazy autonomous loop.
@@ -439,7 +440,7 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_searchable` (function, line 233) `def _searchable(row, is_host)`
   - `_canon` (function, line 250) `def _canon(key, value)`
 - Depends on: `modules/db.py`
-- Imported by: `skills/lazyown_mcp.py`
+- Imported by: `skills/mcp_tools/lazysearch.py`
 
 ## modules/lazy_sentinel.py
 - Doc: Internal-network sentinel for LazyOwn.

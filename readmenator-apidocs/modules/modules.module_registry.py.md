@@ -202,7 +202,7 @@ Return the singleton registry instance.
 
 **Returns:** `ModuleRegistry`
 
-*Called by:* [`ModuleSelector.propose`](modules.selection.module.py.md#moduleselector-propose)
+*Called by:* [`ModuleSelector.propose`](modules.selection.module.py.md#moduleselector-propose), [`handle`](skills.mcp_tools.list_modules.py.md#handle)
 
 <a id="moduleregistry-scan"></a>
 

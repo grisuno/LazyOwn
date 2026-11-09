@@ -833,7 +833,7 @@ operator. Keys are stable across releases.
 
 *Calls:* [`BudgetLedger`](#budgetledger), [`BudgetLedger.calls_today`](#budgetledger-calls_today), [`BudgetLedger.spent_today`](#budgetledger-spent_today), [`load_budget_config`](#load_budget_config)
 
-*Called by:* [`AiCommandSet.do_llm_budget`](cli.commands.ai.py.md#aicommandset-do_llm_budget)
+*Called by:* [`AiCommandSet.do_llm_budget`](cli.commands.ai.py.md#aicommandset-do_llm_budget), [`handle`](skills.mcp_tools.get_llm_budget.py.md#handle)
 
 ---
 

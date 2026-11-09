@@ -411,7 +411,7 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `_worker` (function, line 1344) `def _worker()`
   - `_replace` (function, line 282) `def _replace(match)`
 - Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
-- Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
+- Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/pipeline_list.py`, `skills/mcp_tools/pipeline_run.py`, `skills/mcp_tools/pipeline_status.py`, `skills/mcp_tools/pipeline_validate.py`, `tests/test_pipeline_engine.py`
 
 ## modules/planner.py
 - Doc: Fact-based planner — decides the next ability to run.

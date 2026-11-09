@@ -1,4 +1,4 @@
-# Subsystem: tests (page 16 of 24)
+# Subsystem: tests (page 16 of 25)
 Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
 ## tests/test_llm_orchestrator.py
@@ -243,6 +243,7 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
   - `test_catalog_cli_for_phase_lists_enabled_only` (function, line 56) `def test_catalog_cli_for_phase_lists_enabled_only(sandbox)`
   - `test_prompt_context_carries_allowed_commands` (function, line 66) `def test_prompt_context_carries_allowed_commands(sandbox)`
   - `test_missing_catalog_view_adds_nothing` (function, line 79) `def test_missing_catalog_view_adds_nothing(tmp_path, monkeypatch)`
+  - `test_multi_phase_verb_visible_in_each_declared_phase` (function, line 101) `def test_multi_phase_verb_visible_in_each_declared_phase(sandbox, monkeypatch)`
   - `_default` (function, line 47) `def _default(cfg)`
   - `_broken` (function, line 90) `def _broken()`
 - Depends on: `modules/__init__.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/verb_catalog.py`, `modules/world_model.py`

@@ -255,7 +255,7 @@ Return a compact verb list for LLM prompt injection.
 
 ### `full_cli_enabled`
 
-`function` | [modules/lazy_cli_bridge.py:253](../../modules/lazy_cli_bridge.py#L253)
+`function` | [modules/lazy_cli_bridge.py:274](../../modules/lazy_cli_bridge.py#L274)
 
 ```python
 def full_cli_enabled() -> bool
@@ -279,7 +279,7 @@ the loop silently in the wrong direction.
 
 ### `set_full_cli`
 
-`function` | [modules/lazy_cli_bridge.py:276](../../modules/lazy_cli_bridge.py#L276)
+`function` | [modules/lazy_cli_bridge.py:297](../../modules/lazy_cli_bridge.py#L297)
 
 ```python
 def set_full_cli(enabled: bool) -> bool

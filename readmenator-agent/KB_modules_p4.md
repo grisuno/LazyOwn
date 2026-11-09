@@ -220,7 +220,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_rate_limit` (method, line 121) `def _rate_limit(self)`
   - `_query` (method, line 128) `def _query(self)`
 - Depends on: `core/logging.py`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
 
 ## modules/dacl_abuse.py
 - Doc: DACL/SACL abuse module — ACL manipulation for AD privilege escalation.
@@ -285,7 +285,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `export_json` (method, line 408) `def export_json(self, snapshot)`
   - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
   - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
-- Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+- Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
 
 ## modules/db.py
 - Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
@@ -330,7 +330,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `status` (method, line 775) `def status(self, workspace_id)`
   - `close` (method, line 804) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
 
 ## modules/defense_eval.py
 - Doc: Detection rule replay over recorded attack and control logs.

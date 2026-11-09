@@ -1,4 +1,4 @@
-# API (page 10 of 26)
+# API (page 10 of 27)
 Previous: [API_p9.md](API_p9.md)
 
 ## modules/agent_runner.py
@@ -29,7 +29,7 @@ Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_str
 
 ## modules/ai_exploit_chain.py
 Depends on: `modules/autonomous_exploit_engine.py`
-Imported by: `cli/commands/pwn.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_engine_mediator.py`
+Imported by: `cli/commands/pwn.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/exploit_chain.py`, `tests/test_engine_mediator.py`
 - `AIExploitChainer.__init__` (method) `modules/ai_exploit_chain.py:259` `def __init__(self)`
 - `AIExploitChainer.reason` (method) `modules/ai_exploit_chain.py:285` `def reason(self, context)` -- Analyze context failures and produce the next best exploit candidate.
 - `AIExploitChainer.evaluate_failure` (method) `modules/ai_exploit_chain.py:306` `def evaluate_failure(result)` -- Classify the reason for an exploit failure by output pattern matching.
@@ -127,14 +127,14 @@ Imported by: `cli/commands/command_and_control_migrated.py`
 
 ## modules/atomic_enricher.py
 Depends on: `core/logging.py`
-Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`
+Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_parquet_db.py`, `skills/mcp_tools/atomic_resolve.py`, `skills/mcp_tools/atomic_search.py`, `tests/test_core_modules.py`
 - `enrich` (function) `modules/atomic_enricher.py:173` `def enrich(force)` -- Build enriched parquet.
 - `load_enriched` (function) `modules/atomic_enricher.py:215` `def load_enriched()` -- Load enriched parquet, building it first if it doesn't exist.
 - `query_atomic` (function) `modules/atomic_enricher.py:232` `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` -- Structured query over the enriched Atomic Red Team technique catalogue.
 
 ## modules/atomic_exploit_bridge.py
 Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_loop.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_loop.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 - `shell_output_evidence` (function) `modules/atomic_exploit_bridge.py:83` `def shell_output_evidence(output)` -- Return True only when output carries genuine interactive-shell evidence.
 - `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:137` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
 - `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:141` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -165,7 +165,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`
 
 ## modules/atomic_resolver.py
 Depends on: `core/logging.py`, `core/safe_exec.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/emulation_runner.py`, `modules/ttpscope_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_atomic_resolver.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/emulation_runner.py`, `modules/ttpscope_bridge.py`, `skills/mcp_tools/atomic_resolve.py`, `skills/mcp_tools/ttp_chain.py`, `tests/test_atomic_loop.py`, `tests/test_atomic_resolver.py`
 - `normalize_mitre_id` (function) `modules/atomic_resolver.py:66` `def normalize_mitre_id(raw)` -- Normalize and validate a MITRE technique ID.
 - `is_mitre_id` (function) `modules/atomic_resolver.py:84` `def is_mitre_id(raw)` -- Return True when *raw* looks like a MITRE technique ID.
 - `normalize_guid` (function) `modules/atomic_resolver.py:93` `def normalize_guid(raw)` -- Normalize and validate an Atomic test GUID.
@@ -221,7 +221,7 @@ Imported by: `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, 
 - `DecisionPersistence.save` (method) `modules/auto_loop_memory.py:244` `def save(self)`
 
 ## modules/auto_pivot.py
-Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
+Imported by: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/pivot_status.py`
 - `AutoPivotEngine.__init__` (method) `modules/auto_pivot.py:73` `def __init__(self, config)`
 - `AutoPivotEngine.set_config` (method) `modules/auto_pivot.py:82` `def set_config(self, config)`
 - `AutoPivotEngine.add_pivot_node` (method) `modules/auto_pivot.py:90` `def add_pivot_node(self, ip, access_type, credential_id, hostname)`
@@ -265,7 +265,7 @@ Imported by: `cli/commands/purple_team.py`
 
 ## modules/auto_registry.py
 Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:67` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
 - `verb_enabled` (function) `modules/auto_registry.py:313` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
 - `binary_available` (function) `modules/auto_registry.py:423` `def binary_available(name)` -- Return True when a command token can actually execute here.
@@ -294,7 +294,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyo
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
+Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
 - `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:114` `def __init__(self)`
 - `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:134` `def get_instance(cls)`
 - `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:145` `def hunt(self, target, max_exploits, profile)` -- Execute a full autonomous exploitation chain against a target.

@@ -499,7 +499,7 @@ Wire collaborators together using the supplied configuration.
 
 *Calls:* [`ChainConfig`](#chainconfig), [`DynamicNextResolver.__init__`](#dynamicnextresolver-__init__), [`PrerequisiteRegistry.__init__`](#prerequisiteregistry-__init__)
 
-*Called by:* [`MiscMigratedCommandSet.do_prev`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_prev)
+*Called by:* [`MiscMigratedCommandSet.do_prev`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_prev), [`handle`](skills.mcp_tools.command_next.py.md#handle), [`handle`](skills.mcp_tools.command_prev.py.md#handle)
 
 <a id="commandchain-prev"></a>
 
@@ -521,7 +521,7 @@ Return the ordered prerequisite commands for `[`cmd`](lazyown.py.md#lazyownshell
 
 **Returns:** `list[str]`
 
-*Called by:* [`CommandChain.chain`](#commandchain-chain), [`MiscMigratedCommandSet.do_prev`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_prev)
+*Called by:* [`CommandChain.chain`](#commandchain-chain), [`MiscMigratedCommandSet.do_prev`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_prev), [`handle`](skills.mcp_tools.command_prev.py.md#handle)
 
 <a id="commandchain-missing_prerequisites"></a>
 

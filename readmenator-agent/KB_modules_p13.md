@@ -104,7 +104,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `run` (method, line 478) `def run(self)`
   - `dummy_runner` (function, line 531) `def dummy_runner(cmd)`
 - Depends on: `core/logging.py`, `modules/llm_factory.py`
-- Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
+- Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`
 
 ## modules/memory_cleaner.py
 - Doc: Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear.
@@ -178,7 +178,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `save` (method, line 320) `def save(self, entry)`
   - `search_semantic` (method, line 328) `def search_semantic(self, query, top_k)`
 - Depends on: `modules/memory_embeddings.py`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
+- Imported by: `tests/test_memory_semantics.py`
 
 ## modules/metasploitable_gym.py
 - Doc: Metasploitable 2 gym catalogue loader and matrix validator.
@@ -240,7 +240,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `summarize` (method, line 416) `def summarize(self, window_seconds)`
   - `tail` (method, line 430) `def tail(self, n)`
 - Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/metrics_summary.py`, `tests/test_metrics.py`
 
 ## modules/mfa_bypass.py
 - Doc: MFA Bypass Toolkit — techniques for circumventing multi-factor authentication.
@@ -300,7 +300,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `__iter__` (method, line 655) `def __iter__(self)`
   - `__contains__` (method, line 660) `def __contains__(self, name)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
+- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
 
 ## modules/moe_router.py
 - Doc: modules/moe_router.py

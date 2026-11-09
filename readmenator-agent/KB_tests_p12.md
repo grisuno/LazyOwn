@@ -1,4 +1,4 @@
-# Subsystem: tests (page 12 of 24)
+# Subsystem: tests (page 12 of 25)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
 
 ## tests/test_improvements_spec.py

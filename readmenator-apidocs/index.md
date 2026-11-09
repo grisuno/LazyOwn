@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 903 modules, 16452 documented entities, documentation coverage 75.9% (7813/10292 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 1079 modules, 16993 documented entities, documentation coverage 76.7% (8176/10655 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), py (786), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), py (962), sh (61)
 
 ## Modules
 
@@ -83,7 +83,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | 5 | 40 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | Canonical non-actionable verb registry for post-command surfaces. | 0 | 0 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans. | 1 | 24 | 100.0% |
-| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | Asset administration tabs for the orchestrator console. | 2 | 34 | 100.0% |
+| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | Asset administration tabs for the orchestrator console. | 2 | 39 | 100.0% |
 | [`cli.output_mode`](modules/cli.output_mode.py.md) | Structured output modes and dry-run rendering for CLI commands. | 2 | 4 | 100.0% |
 | [`cli.palette`](modules/cli.palette.py.md) | Read-only loader for ``cli/command_index.json``. | 1 | 10 | 100.0% |
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | Pure logic for the operator-facing ``palette`` command. | 11 | 29 | 87.8% |
@@ -540,7 +540,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 13 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
-| [`modules.chain_synth`](modules/modules.chain_synth.py.md) | Runtime chain synthesis from fact-store evidence. | 0 | 3 | 100.0% |
+| [`modules.chain_synth`](modules/modules.chain_synth.py.md) | Runtime chain synthesis from fact-store evidence. | 0 | 4 | 100.0% |
 | [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | Engagement-state tokens for YAML chains. | 0 | 2 | 100.0% |
 | [`modules.cicd_enumerator`](modules/modules.cicd_enumerator.py.md) | CI/CD Pipeline Enumeration Module. | 2 | 5 | 87.5% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | CLI authentication module — login against users.json with remember-me. | 0 | 10 | 100.0% |
@@ -666,7 +666,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
 | [`modules.lazy_reaper`](modules/modules.lazy_reaper.py.md) | Reaper: expire lazy-loop tasks whose process proves dead. | 0 | 1 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
-| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 7 | 100.0% |
+| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 8 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | Lab-only default scope for autonomous loop targets. | 1 | 8 | 100.0% |
 | [`modules.lazy_search`](modules/modules.lazy_search.py.md) | Lazy saved-search grammar over the engagement database. | 2 | 2 | 100.0% |
@@ -916,11 +916,13 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.selection.cred_spray`](modules/modules.selection.cred_spray.py.md) | Credential-spray selector: reuse known credentials against open services. | 1 | 1 | 100.0% |
 | [`modules.selection.edb`](modules/modules.selection.edb.py.md) |  | 1 | 1 | 33.3% |
 | [`modules.selection.intel`](modules/modules.selection.intel.py.md) | Intel selector: feed exploitation intelligence into the autonomous loop. | 1 | 4 | 100.0% |
+| [`modules.selection.lazyscript`](modules/modules.selection.lazyscript.py.md) | Lazyscript selector: propose an operator-authored .ls recipe when it fits. | 1 | 2 | 100.0% |
 | [`modules.selection.module`](modules/modules.selection.module.py.md) | Module selector: map goal/service mentions onto runnable registry modules. | 1 | 1 | 100.0% |
 | [`modules.selection.playbook`](modules/modules.selection.playbook.py.md) | Playbook selector: run an APT actor emulation named by the objective. | 1 | 2 | 100.0% |
 | [`modules.selection.poc`](modules/modules.selection.poc.py.md) | PoC selector: propose catalogued PoC verbs when services match. | 1 | 1 | 100.0% |
 | [`modules.selection.registry`](modules/modules.selection.registry.py.md) | Assemble and run the shared selector cascade. | 0 | 2 | 100.0% |
 | [`modules.selection.technique`](modules/modules.selection.technique.py.md) | Technique selector: propose MITRE technique emulation for the phase. | 1 | 1 | 100.0% |
+| [`modules.selection.technique_chain`](modules/modules.selection.technique_chain.py.md) | Technique-chain selector: compile the phase's techniques into one paced chain. | 1 | 1 | 100.0% |
 
 ### `modules/sinks`
 
@@ -1047,7 +1049,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`skills.aci_planner`](modules/skills.aci_planner.py.md) | Autonomous Campaign Intelligence (ACI) Planner =============================================== Decomposes a natural-language engagement goal into a MITRE... | 6 | 19 | 100.0% |
-| [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon ================================================================== Bridges LazyOwn... | 28 | 67 | 87.5% |
+| [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon ================================================================== Bridges LazyOwn... | 27 | 67 | 87.4% |
 | [`skills.autonomous_replay`](modules/skills.autonomous_replay.py.md) | Deterministic replay of past autonomous-daemon runs. | 5 | 9 | 100.0% |
 | [`skills.daemon_control`](modules/skills.daemon_control.py.md) | Operator steering layer for the LazyOwn autonomous daemon. | 3 | 23 | 100.0% |
 | [`skills.daemon_health`](modules/skills.daemon_health.py.md) | Daemon health monitor — watchdog for the autonomous daemon and C2 listeners. | 1 | 12 | 83.3% |
@@ -1111,6 +1113,185 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`skills.hermes-lazyown.hermes_sync`](modules/skills.hermes-lazyown.hermes_sync.py.md) | Hermes-native synchronization layer. | 4 | 10 | 86.7% |
 | [`skills.hermes-lazyown.mcp_server`](modules/skills.hermes-lazyown.mcp_server.py.md) | Hermes-native MCP server for LazyOwn. | 0 | 3 | 50.0% |
 | [`skills.hermes-lazyown.output_compactor`](modules/skills.hermes-lazyown.output_compactor.py.md) | Phase-aware output compaction for the Hermes-LazyOwn integration. | 8 | 11 | 85.0% |
+
+### `skills/mcp_tools`
+
+| Module | Summary | Types | Callables | Coverage |
+|---|---|---|---|---|
+| [`skills.mcp_tools`](modules/skills.mcp_tools.__init__.py.md) | Auto-discovered one-file-per-tool registry for the LazyOwn MCP server. | 0 | 3 | 100.0% |
+| [`skills.mcp_tools._context`](modules/skills.mcp_tools._context.py.md) | Dependency-injection context handed to every ``mcp_tools`` handler. | 1 | 0 | 100.0% |
+| [`skills.mcp_tools.aci_plan`](modules/skills.mcp_tools.aci_plan.py.md) | MCP tool ``lazyown_aci_plan`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.aci_replan`](modules/skills.mcp_tools.aci_replan.py.md) | MCP tool ``lazyown_aci_replan`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.aci_status`](modules/skills.mcp_tools.aci_status.py.md) | MCP tool ``lazyown_aci_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.ack_event`](modules/skills.mcp_tools.ack_event.py.md) | MCP tool ``lazyown_ack_event``: mark an event as processed. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.add_rule`](modules/skills.mcp_tools.add_rule.py.md) | MCP tool ``lazyown_add_rule`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.add_target`](modules/skills.mcp_tools.add_target.py.md) | MCP tool ``lazyown_add_target`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.agent_result`](modules/skills.mcp_tools.agent_result.py.md) | MCP tool ``lazyown_agent_result`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.agent_status`](modules/skills.mcp_tools.agent_status.py.md) | MCP tool ``lazyown_agent_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.apt_chain`](modules/skills.mcp_tools.apt_chain.py.md) | MCP tool ``lazyown_apt_chain`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.atomic_clean`](modules/skills.mcp_tools.atomic_clean.py.md) | MCP tool ``lazyown_atomic_clean`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.atomic_resolve`](modules/skills.mcp_tools.atomic_resolve.py.md) | MCP tool ``lazyown_atomic_resolve`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.atomic_search`](modules/skills.mcp_tools.atomic_search.py.md) | MCP tool ``lazyown_atomic_search`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.atomic_shell`](modules/skills.mcp_tools.atomic_shell.py.md) | MCP tool ``lazyown_atomic_shell`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.auto_loop`](modules/skills.mcp_tools.auto_loop.py.md) | MCP tool ``lazyown_auto_loop`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.auto_populate`](modules/skills.mcp_tools.auto_populate.py.md) | MCP tool ``lazyown_auto_populate`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.auto_pwn`](modules/skills.mcp_tools.auto_pwn.py.md) | MCP tool ``lazyown_auto_pwn``: run the full autonomous exploitation chain. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.autonomous_events`](modules/skills.mcp_tools.autonomous_events.py.md) | MCP tool ``lazyown_autonomous_events`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.autonomous_inject`](modules/skills.mcp_tools.autonomous_inject.py.md) | MCP tool ``lazyown_autonomous_inject`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.autonomous_replay`](modules/skills.mcp_tools.autonomous_replay.py.md) | MCP tool ``lazyown_autonomous_replay`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.autonomous_start`](modules/skills.mcp_tools.autonomous_start.py.md) | MCP tool ``lazyown_autonomous_start`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.autonomous_status`](modules/skills.mcp_tools.autonomous_status.py.md) | MCP tool ``lazyown_autonomous_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.autonomous_stop`](modules/skills.mcp_tools.autonomous_stop.py.md) | MCP tool ``lazyown_autonomous_stop`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.bridge_suggest`](modules/skills.mcp_tools.bridge_suggest.py.md) | MCP tool ``lazyown_bridge_suggest`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_adversary`](modules/skills.mcp_tools.c2_adversary.py.md) | MCP tool ``lazyown_c2_adversary`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_command`](modules/skills.mcp_tools.c2_command.py.md) | MCP tool ``lazyown_c2_command`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_notes`](modules/skills.mcp_tools.c2_notes.py.md) | MCP tool ``lazyown_c2_notes`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_profile`](modules/skills.mcp_tools.c2_profile.py.md) | MCP tool ``lazyown_c2_profile`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_redop`](modules/skills.mcp_tools.c2_redop.py.md) | MCP tool ``lazyown_c2_redop`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_script`](modules/skills.mcp_tools.c2_script.py.md) | MCP tool ``lazyown_c2_script`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_search_agent`](modules/skills.mcp_tools.c2_search_agent.py.md) | MCP tool ``lazyown_c2_search_agent`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_status`](modules/skills.mcp_tools.c2_status.py.md) | MCP tool ``lazyown_c2_status``: check C2 reachability and dashboard data. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.c2_vuln_analysis`](modules/skills.mcp_tools.c2_vuln_analysis.py.md) | MCP tool ``lazyown_c2_vuln_analysis`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.campaign`](modules/skills.mcp_tools.campaign.py.md) | MCP tool ``lazyown_campaign`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.campaign_lessons`](modules/skills.mcp_tools.campaign_lessons.py.md) | MCP tool ``lazyown_campaign_lessons`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.campaign_sitrep`](modules/skills.mcp_tools.campaign_sitrep.py.md) | MCP tool ``lazyown_campaign_sitrep`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.campaign_tasks`](modules/skills.mcp_tools.campaign_tasks.py.md) | MCP tool ``lazyown_campaign_tasks`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.collab_publish`](modules/skills.mcp_tools.collab_publish.py.md) | MCP tool ``lazyown_collab_publish`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.command_help`](modules/skills.mcp_tools.command_help.py.md) | MCP tool ``lazyown_command_help`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.command_next`](modules/skills.mcp_tools.command_next.py.md) | MCP tool ``lazyown_command_next`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.command_prev`](modules/skills.mcp_tools.command_prev.py.md) | MCP tool ``lazyown_command_prev`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.create_addon`](modules/skills.mcp_tools.create_addon.py.md) | MCP tool ``lazyown_create_addon`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.create_param`](modules/skills.mcp_tools.create_param.py.md) | MCP tool ``lazyown_create_param`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.credentials`](modules/skills.mcp_tools.credentials.py.md) | MCP tool ``lazyown_credentials``: aggregate captured credentials. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.cron_schedule`](modules/skills.mcp_tools.cron_schedule.py.md) | MCP tool ``lazyown_cron_schedule`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.cve_search`](modules/skills.mcp_tools.cve_search.py.md) | MCP tool ``lazyown_cve_search`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon`](modules/skills.mcp_tools.daemon.py.md) | MCP tool ``lazyown_daemon`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_approve`](modules/skills.mcp_tools.daemon_approve.py.md) | MCP tool ``lazyown_daemon_approve`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_focus`](modules/skills.mcp_tools.daemon_focus.py.md) | MCP tool ``lazyown_daemon_focus`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_mode`](modules/skills.mcp_tools.daemon_mode.py.md) | MCP tool ``lazyown_daemon_mode`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_pause`](modules/skills.mcp_tools.daemon_pause.py.md) | MCP tool ``lazyown_daemon_pause`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_resume`](modules/skills.mcp_tools.daemon_resume.py.md) | MCP tool ``lazyown_daemon_resume`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_status`](modules/skills.mcp_tools.daemon_status.py.md) | MCP tool ``lazyown_daemon_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.daemon_veto`](modules/skills.mcp_tools.daemon_veto.py.md) | MCP tool ``lazyown_daemon_veto`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.dashboard_snapshot`](modules/skills.mcp_tools.dashboard_snapshot.py.md) | MCP tool ``lazyown_dashboard_snapshot``: render the live network map. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.db`](modules/skills.mcp_tools.db.py.md) | MCP tool ``lazyown_db``: query and mutate the LazyOwn SQLite database. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.delete_param`](modules/skills.mcp_tools.delete_param.py.md) | MCP tool ``lazyown_delete_param`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.deploy_beacon`](modules/skills.mcp_tools.deploy_beacon.py.md) | MCP tool ``lazyown_deploy_beacon`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.discover_commands`](modules/skills.mcp_tools.discover_commands.py.md) | MCP tool ``lazyown_discover_commands`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.engage_approve`](modules/skills.mcp_tools.engage_approve.py.md) | MCP tool ``lazyown_engage_approve`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.engage_list_pending`](modules/skills.mcp_tools.engage_list_pending.py.md) | MCP tool ``lazyown_engage_list_pending`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.engage_status`](modules/skills.mcp_tools.engage_status.py.md) | MCP tool ``lazyown_engage_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.engage_target`](modules/skills.mcp_tools.engage_target.py.md) | MCP tool ``lazyown_engage_target`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.eval_quality`](modules/skills.mcp_tools.eval_quality.py.md) | MCP tool ``lazyown_eval_quality`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.evasion_generate`](modules/skills.mcp_tools.evasion_generate.py.md) | MCP tool ``lazyown_evasion_generate``: generate a C2 malleable profile. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.evasion_rotate`](modules/skills.mcp_tools.evasion_rotate.py.md) | MCP tool ``lazyown_evasion_rotate``: rotate to a fresh evasion profile. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.evidence_grep`](modules/skills.mcp_tools.evidence_grep.py.md) | MCP tool ``lazyown_evidence_grep`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.exploit_chain`](modules/skills.mcp_tools.exploit_chain.py.md) | MCP tool ``lazyown_exploit_chain``: AI-driven multi-step exploit chaining. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.exploit_recommend`](modules/skills.mcp_tools.exploit_recommend.py.md) | MCP tool ``lazyown_exploit_recommend``: rank exploits from the world model. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.exploitgym_list`](modules/skills.mcp_tools.exploitgym_list.py.md) | MCP tool ``lazyown_exploitgym_list``: list ExploitGym tasks. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.exploitgym_run`](modules/skills.mcp_tools.exploitgym_run.py.md) | MCP tool ``lazyown_exploitgym_run``: run the agent against a task. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.exploitgym_score`](modules/skills.mcp_tools.exploitgym_score.py.md) | MCP tool ``lazyown_exploitgym_score``: award gym ELO for a task outcome. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.exploitgym_status`](modules/skills.mcp_tools.exploitgym_status.py.md) | MCP tool ``lazyown_exploitgym_status``: report ExploitGym readiness. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.facts_show`](modules/skills.mcp_tools.facts_show.py.md) | MCP tool ``lazyown_facts_show``: show structured facts from the session. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.fast_run`](modules/skills.mcp_tools.fast_run.py.md) | MCP tool ``lazyown_fast_run`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.generate_report`](modules/skills.mcp_tools.generate_report.py.md) | MCP tool ``lazyown_generate_report`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.get_beacons`](modules/skills.mcp_tools.get_beacons.py.md) | MCP tool ``lazyown_get_beacons``: list connected C2 beacons. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.get_config`](modules/skills.mcp_tools.get_config.py.md) | MCP tool ``lazyown_get_config``: read the current payload.json config. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.get_llm_budget`](modules/skills.mcp_tools.get_llm_budget.py.md) | MCP tool ``lazyown_get_llm_budget``: read the LLM cost budget status. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.graph_neighbors`](modules/skills.mcp_tools.graph_neighbors.py.md) | MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.graph_search`](modules/skills.mcp_tools.graph_search.py.md) | MCP tool ``lazyown_graph_search`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.graph_suggest_next`](modules/skills.mcp_tools.graph_suggest_next.py.md) | MCP tool ``lazyown_graph_suggest_next`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.graph_summary`](modules/skills.mcp_tools.graph_summary.py.md) | MCP tool ``lazyown_graph_summary`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.groq_agent`](modules/skills.mcp_tools.groq_agent.py.md) | MCP tool ``lazyown_groq_agent`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.heartbeat_status`](modules/skills.mcp_tools.heartbeat_status.py.md) | MCP tool ``lazyown_heartbeat_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_collect`](modules/skills.mcp_tools.hive_collect.py.md) | MCP tool ``lazyown_hive_collect`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_forget`](modules/skills.mcp_tools.hive_forget.py.md) | MCP tool ``lazyown_hive_forget`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_plan`](modules/skills.mcp_tools.hive_plan.py.md) | MCP tool ``lazyown_hive_plan`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_recall`](modules/skills.mcp_tools.hive_recall.py.md) | MCP tool ``lazyown_hive_recall`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_recover`](modules/skills.mcp_tools.hive_recover.py.md) | MCP tool ``lazyown_hive_recover`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_result`](modules/skills.mcp_tools.hive_result.py.md) | MCP tool ``lazyown_hive_result`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_spawn`](modules/skills.mcp_tools.hive_spawn.py.md) | MCP tool ``lazyown_hive_spawn`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.hive_status`](modules/skills.mcp_tools.hive_status.py.md) | MCP tool ``lazyown_hive_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.inject_objective`](modules/skills.mcp_tools.inject_objective.py.md) | MCP tool ``lazyown_inject_objective``: queue a new attack objective. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_addon`](modules/skills.mcp_tools.lazy_addon.py.md) | MCP tool ``lazyown_lazy_addon``: list or match lazyaddon triggers. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_board`](modules/skills.mcp_tools.lazy_board.py.md) | MCP tool ``lazyown_lazy_board``: paginated broadcast board view. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_compact`](modules/skills.mcp_tools.lazy_compact.py.md) | MCP tool ``lazyown_lazy_compact``: manage cold-compaction digests. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_delete`](modules/skills.mcp_tools.lazy_delete.py.md) | MCP tool ``lazyown_lazy_delete``: soft/hard delete a task intent. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_finding`](modules/skills.mcp_tools.lazy_finding.py.md) | MCP tool ``lazyown_lazy_finding``: report a finding into the loop engine. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_hint`](modules/skills.mcp_tools.lazy_hint.py.md) | MCP tool ``lazyown_lazy_hint``: add a hint node to a task. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_intel`](modules/skills.mcp_tools.lazy_intel.py.md) | MCP tool ``lazyown_lazy_intel`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_mention`](modules/skills.mcp_tools.lazy_mention.py.md) | MCP tool ``lazyown_lazy_mention``: search mention sources, paginated. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_proxy`](modules/skills.mcp_tools.lazy_proxy.py.md) | MCP tool ``lazyown_lazy_proxy``: control the lazy-engine proxy. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_status`](modules/skills.mcp_tools.lazy_status.py.md) | MCP tool ``lazyown_lazy_status``: report lazy-bridge status. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_sync`](modules/skills.mcp_tools.lazy_sync.py.md) | MCP tool ``lazyown_lazy_sync``: sync all lazy-bridge sources. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_trace`](modules/skills.mcp_tools.lazy_trace.py.md) | MCP tool ``lazyown_lazy_trace``: search a task activity log. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazy_workspace`](modules/skills.mcp_tools.lazy_workspace.py.md) | MCP tool ``lazyown_lazy_workspace``: list/read/write workspace files. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lazysearch`](modules/skills.mcp_tools.lazysearch.py.md) | MCP tool ``lazyown_lazysearch`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_addons`](modules/skills.mcp_tools.list_addons.py.md) | MCP tool ``lazyown_list_addons`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_agents`](modules/skills.mcp_tools.list_agents.py.md) | MCP tool ``lazyown_list_agents`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_event_rules`](modules/skills.mcp_tools.list_event_rules.py.md) | MCP tool ``lazyown_list_event_rules`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_modules`](modules/skills.mcp_tools.list_modules.py.md) | MCP tool ``lazyown_list_modules``: list modules and scripts in modules/. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_params`](modules/skills.mcp_tools.list_params.py.md) | MCP tool ``lazyown_list_params`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_plugins`](modules/skills.mcp_tools.list_plugins.py.md) | MCP tool ``lazyown_list_plugins`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_sessions`](modules/skills.mcp_tools.list_sessions.py.md) | MCP tool ``lazyown_list_sessions`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.list_targets`](modules/skills.mcp_tools.list_targets.py.md) | MCP tool ``lazyown_list_targets`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.llm_ask`](modules/skills.mcp_tools.llm_ask.py.md) | MCP tool ``lazyown_llm_ask`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lolbas_list`](modules/skills.mcp_tools.lolbas_list.py.md) | MCP tool ``lazyown_lolbas_list``: list LOLBAS techniques from plugins. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.lolbas_use`](modules/skills.mcp_tools.lolbas_use.py.md) | MCP tool ``lazyown_lolbas_use``: execute one LOLBAS technique. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.loop_smoke`](modules/skills.mcp_tools.loop_smoke.py.md) | MCP tool ``lazyown_loop_smoke``: single-leg autonomous loop smoke test. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.memory_recall`](modules/skills.mcp_tools.memory_recall.py.md) | MCP tool ``lazyown_memory_recall`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.memory_store`](modules/skills.mcp_tools.memory_store.py.md) | MCP tool ``lazyown_memory_store`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.metrics_summary`](modules/skills.mcp_tools.metrics_summary.py.md) | MCP tool ``lazyown_metrics_summary`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.misp_export`](modules/skills.mcp_tools.misp_export.py.md) | MCP tool ``lazyown_misp_export`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.next_objective`](modules/skills.mcp_tools.next_objective.py.md) | MCP tool ``lazyown_next_objective`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.opencode_config`](modules/skills.mcp_tools.opencode_config.py.md) | MCP tool ``lazyown_opencode_config``: point opencode/hermes at llama.cpp. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.palette`](modules/skills.mcp_tools.palette.py.md) | MCP tool ``lazyown_palette`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.parquet_annotate`](modules/skills.mcp_tools.parquet_annotate.py.md) | MCP tool ``lazyown_parquet_annotate`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.parquet_query`](modules/skills.mcp_tools.parquet_query.py.md) | MCP tool ``lazyown_parquet_query`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.phase_guide`](modules/skills.mcp_tools.phase_guide.py.md) | MCP tool ``lazyown_phase_guide`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.pipeline_list`](modules/skills.mcp_tools.pipeline_list.py.md) | MCP tool ``lazyown_pipeline_list`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.pipeline_run`](modules/skills.mcp_tools.pipeline_run.py.md) | MCP tool ``lazyown_pipeline_run`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.pipeline_status`](modules/skills.mcp_tools.pipeline_status.py.md) | MCP tool ``lazyown_pipeline_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.pipeline_validate`](modules/skills.mcp_tools.pipeline_validate.py.md) | MCP tool ``lazyown_pipeline_validate`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.pivot_status`](modules/skills.mcp_tools.pivot_status.py.md) | MCP tool ``lazyown_pivot_status``: view pivot routes and suggestions. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.playbook_generate`](modules/skills.mcp_tools.playbook_generate.py.md) | MCP tool ``lazyown_playbook_generate`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.poll_events`](modules/skills.mcp_tools.poll_events.py.md) | MCP tool ``lazyown_poll_events`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.rag_index`](modules/skills.mcp_tools.rag_index.py.md) | MCP tool ``lazyown_rag_index`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.rag_query`](modules/skills.mcp_tools.rag_query.py.md) | MCP tool ``lazyown_rag_query`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.rea`](modules/skills.mcp_tools.rea.py.md) | MCP tool ``lazyown_rea``: reverse-engineer a local artifact via the REA CLI. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.reactive_suggest`](modules/skills.mcp_tools.reactive_suggest.py.md) | MCP tool ``lazyown_reactive_suggest`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.read_prompt`](modules/skills.mcp_tools.read_prompt.py.md) | MCP tool ``lazyown_read_prompt`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.read_session_file`](modules/skills.mcp_tools.read_session_file.py.md) | MCP tool ``lazyown_read_session_file`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.rich_tui_snapshot`](modules/skills.mcp_tools.rich_tui_snapshot.py.md) | MCP tool ``lazyown_rich_tui_snapshot``: non-blocking Rich TUI snapshot. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.run_api`](modules/skills.mcp_tools.run_api.py.md) | MCP tool ``lazyown_run_api`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.run_command`](modules/skills.mcp_tools.run_command.py.md) | MCP tool ``lazyown_run_command``: execute LazyOwn shell commands. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.searchsploit`](modules/skills.mcp_tools.searchsploit.py.md) | MCP tool ``lazyown_searchsploit`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.session_diff`](modules/skills.mcp_tools.session_diff.py.md) | MCP tool ``lazyown_session_diff`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.session_state`](modules/skills.mcp_tools.session_state.py.md) | MCP tool ``lazyown_session_state`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.session_status`](modules/skills.mcp_tools.session_status.py.md) | MCP tool ``lazyown_session_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.set_active_target`](modules/skills.mcp_tools.set_active_target.py.md) | MCP tool ``lazyown_set_active_target`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.set_config`](modules/skills.mcp_tools.set_config.py.md) | MCP tool ``lazyown_set_config``: set one key in payload.json. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.soul`](modules/skills.mcp_tools.soul.py.md) | MCP tool ``lazyown_soul`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.stealth`](modules/skills.mcp_tools.stealth.py.md) | MCP tool ``lazyown_stealth``: toggle stealth mode for later operations. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.swan_ensemble`](modules/skills.mcp_tools.swan_ensemble.py.md) | MCP tool ``lazyown_swan_ensemble`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.swan_route`](modules/skills.mcp_tools.swan_route.py.md) | MCP tool ``lazyown_swan_route`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.swan_run`](modules/skills.mcp_tools.swan_run.py.md) | MCP tool ``lazyown_swan_run`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.swan_status`](modules/skills.mcp_tools.swan_status.py.md) | MCP tool ``lazyown_swan_status`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.target_context`](modules/skills.mcp_tools.target_context.py.md) | MCP tool ``lazyown_target_context`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.tasks_cleanup`](modules/skills.mcp_tools.tasks_cleanup.py.md) | MCP tool ``lazyown_tasks_cleanup`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.threat_model`](modules/skills.mcp_tools.threat_model.py.md) | MCP tool ``lazyown_threat_model`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.timeline`](modules/skills.mcp_tools.timeline.py.md) | MCP tool ``lazyown_timeline`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.ttp_chain`](modules/skills.mcp_tools.ttp_chain.py.md) | MCP tool ``lazyown_ttp_chain`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.unified_dashboard`](modules/skills.mcp_tools.unified_dashboard.py.md) | MCP tool ``lazyown_unified_dashboard``: combined campaign dashboard. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_eventlogs`](modules/skills.mcp_tools.winbox_eventlogs.py.md) | MCP tool ``lazyown_winbox_eventlogs``: query guest Windows event logs. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_exec`](modules/skills.mcp_tools.winbox_exec.py.md) | MCP tool ``lazyown_winbox_exec``: run a command inside the WinBox guest. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_gym_list`](modules/skills.mcp_tools.winbox_gym_list.py.md) | MCP tool ``lazyown_winbox_gym_list``: list and validate WinBox gym vectors. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_gym_plan`](modules/skills.mcp_tools.winbox_gym_plan.py.md) | MCP tool ``lazyown_winbox_gym_plan``: build the WinBox gym attack plan. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_gym_run`](modules/skills.mcp_tools.winbox_gym_run.py.md) | MCP tool ``lazyown_winbox_gym_run``: run the WinBox gym matrix on the lab. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_snapshot`](modules/skills.mcp_tools.winbox_snapshot.py.md) | MCP tool ``lazyown_winbox_snapshot``: manage WinBox lab snapshots. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_status`](modules/skills.mcp_tools.winbox_status.py.md) | MCP tool ``lazyown_winbox_status``: report WinBox lab readiness. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_tools`](modules/skills.mcp_tools.winbox_tools.py.md) | MCP tool ``lazyown_winbox_tools``: manage tools staged in the WinBox guest. | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.winbox_vm`](modules/skills.mcp_tools.winbox_vm.py.md) | MCP tool ``lazyown_winbox_vm``: drive the WinBox lab VM lifecycle. | 0 | 1 | 100.0% |
 
 ### `source`
 

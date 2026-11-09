@@ -604,7 +604,7 @@ Module-level convenience for other modules to broadcast events.
 
 *Calls:* [`ColabEvent`](#colabevent)
 
-*Called by:* [`CollaborationCommandSet.do_share_finding`](cli.commands.collaboration.py.md#collaborationcommandset-do_share_finding), [`CollaborationCommandSet.do_team_chat`](cli.commands.collaboration.py.md#collaborationcommandset-do_team_chat)
+*Called by:* [`CollaborationCommandSet.do_share_finding`](cli.commands.collaboration.py.md#collaborationcommandset-do_share_finding), [`CollaborationCommandSet.do_team_chat`](cli.commands.collaboration.py.md#collaborationcommandset-do_team_chat), [`handle`](skills.mcp_tools.collab_publish.py.md#handle)
 
 ---
 

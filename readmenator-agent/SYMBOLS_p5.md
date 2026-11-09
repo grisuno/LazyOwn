@@ -79,50 +79,51 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `run_monitor_session` | function | `cli/lazy_monitor.py:589` | `def run_monitor_session(engine, config, params)` |
 | `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:147` | `class LazyOrchestratorApp(OrchestratorAssetsMixin)` |
 | `__init__` | method | `cli/lazy_orchestrator.py:180` | `def __init__(self, payload_path, task_id, shell, param_root)` |
-| `_active_tab` | method | `cli/lazy_orchestrator.py:700` | `def _active_tab(self)` |
-| `_confirmed` | function | `cli/lazy_orchestrator.py:1046` | `def _confirmed(answer)` |
-| `_confirmed_gym` | function | `cli/lazy_orchestrator.py:1059` | `def _confirmed_gym(answer)` |
-| `_confirmed_param` | function | `cli/lazy_orchestrator.py:1083` | `def _confirmed_param(answer)` |
-| `_confirmed_trigger` | function | `cli/lazy_orchestrator.py:1100` | `def _confirmed_trigger(answer)` |
-| `_done` | function | `cli/lazy_orchestrator.py:741` | `def _done(values)` |
-| `_done` | function | `cli/lazy_orchestrator.py:997` | `def _done(values)` |
-| `_done_chain` | function | `cli/lazy_orchestrator.py:926` | `def _done_chain(playbook)` |
-| `_done_new` | function | `cli/lazy_orchestrator.py:851` | `def _done_new(values)` |
-| `_done_new_gym` | function | `cli/lazy_orchestrator.py:879` | `def _done_new_gym(values)` |
-| `_done_param` | function | `cli/lazy_orchestrator.py:758` | `def _done_param(values)` |
-| `_done_param` | function | `cli/lazy_orchestrator.py:970` | `def _done_param(values)` |
-| `_done_rule` | function | `cli/lazy_orchestrator.py:788` | `def _done_rule(values)` |
-| `_done_trigger` | function | `cli/lazy_orchestrator.py:716` | `def _done_trigger(values)` |
-| `_done_verb` | function | `cli/lazy_orchestrator.py:809` | `def _done_verb(values)` |
+| `_active_tab` | method | `cli/lazy_orchestrator.py:734` | `def _active_tab(self)` |
+| `_confirmed` | function | `cli/lazy_orchestrator.py:1080` | `def _confirmed(answer)` |
+| `_confirmed_gym` | function | `cli/lazy_orchestrator.py:1093` | `def _confirmed_gym(answer)` |
+| `_confirmed_param` | function | `cli/lazy_orchestrator.py:1117` | `def _confirmed_param(answer)` |
+| `_confirmed_trigger` | function | `cli/lazy_orchestrator.py:1134` | `def _confirmed_trigger(answer)` |
+| `_done` | function | `cli/lazy_orchestrator.py:775` | `def _done(values)` |
+| `_done` | function | `cli/lazy_orchestrator.py:1031` | `def _done(values)` |
+| `_done_chain` | function | `cli/lazy_orchestrator.py:960` | `def _done_chain(playbook)` |
+| `_done_new` | function | `cli/lazy_orchestrator.py:885` | `def _done_new(values)` |
+| `_done_new_gym` | function | `cli/lazy_orchestrator.py:913` | `def _done_new_gym(values)` |
+| `_done_param` | function | `cli/lazy_orchestrator.py:792` | `def _done_param(values)` |
+| `_done_param` | function | `cli/lazy_orchestrator.py:1004` | `def _done_param(values)` |
+| `_done_rule` | function | `cli/lazy_orchestrator.py:822` | `def _done_rule(values)` |
+| `_done_trigger` | function | `cli/lazy_orchestrator.py:750` | `def _done_trigger(values)` |
+| `_done_verb` | function | `cli/lazy_orchestrator.py:843` | `def _done_verb(values)` |
 | `_param_root` | method | `cli/lazy_orchestrator.py:210` | `def _param_root(self)` |
-| `_picked` | function | `cli/lazy_orchestrator.py:805` | `def _picked(value)` |
-| `_picked_kind` | function | `cli/lazy_orchestrator.py:712` | `def _picked_kind(value)` |
-| `_poll_now` | method | `cli/lazy_orchestrator.py:374` | `def _poll_now(self)` |
-| `_refresh_params` | method | `cli/lazy_orchestrator.py:533` | `def _refresh_params(self)` |
-| `_resolve_task` | method | `cli/lazy_orchestrator.py:356` | `def _resolve_task(self)` |
-| `_selected_row` | method | `cli/lazy_orchestrator.py:651` | `def _selected_row(self, table_id)` |
-| `_submit_config_save` | method | `cli/lazy_orchestrator.py:464` | `def _submit_config_save(self)` |
-| `_submit_harness_save` | method | `cli/lazy_orchestrator.py:480` | `def _submit_harness_save(self)` |
-| `action_add_item` | method | `cli/lazy_orchestrator.py:707` | `def action_add_item(self)` |
-| `action_delete_item` | method | `cli/lazy_orchestrator.py:1018` | `def action_delete_item(self)` |
-| `action_edit_item` | method | `cli/lazy_orchestrator.py:939` | `def action_edit_item(self)` |
-| `action_refresh` | method | `cli/lazy_orchestrator.py:503` | `def action_refresh(self)` |
-| `action_save_config` | method | `cli/lazy_orchestrator.py:690` | `def action_save_config(self)` |
-| `action_seed_triggers` | method | `cli/lazy_orchestrator.py:517` | `def action_seed_triggers(self)` |
-| `action_toggle_item` | method | `cli/lazy_orchestrator.py:660` | `def action_toggle_item(self)` |
-| `add_auto_verb` | method | `cli/lazy_orchestrator.py:325` | `def add_auto_verb(self, name, keywords, needs_target, description, phases)` |
+| `_picked` | function | `cli/lazy_orchestrator.py:839` | `def _picked(value)` |
+| `_picked_kind` | function | `cli/lazy_orchestrator.py:746` | `def _picked_kind(value)` |
+| `_poll_now` | method | `cli/lazy_orchestrator.py:385` | `def _poll_now(self)` |
+| `_refresh_params` | method | `cli/lazy_orchestrator.py:567` | `def _refresh_params(self)` |
+| `_resolve_task` | method | `cli/lazy_orchestrator.py:367` | `def _resolve_task(self)` |
+| `_selected_row` | method | `cli/lazy_orchestrator.py:685` | `def _selected_row(self, table_id)` |
+| `_submit_config_save` | method | `cli/lazy_orchestrator.py:478` | `def _submit_config_save(self)` |
+| `_submit_harness_save` | method | `cli/lazy_orchestrator.py:514` | `def _submit_harness_save(self)` |
+| `_submit_pacing_save` | method | `cli/lazy_orchestrator.py:494` | `def _submit_pacing_save(self)` |
+| `action_add_item` | method | `cli/lazy_orchestrator.py:741` | `def action_add_item(self)` |
+| `action_delete_item` | method | `cli/lazy_orchestrator.py:1052` | `def action_delete_item(self)` |
+| `action_edit_item` | method | `cli/lazy_orchestrator.py:973` | `def action_edit_item(self)` |
+| `action_refresh` | method | `cli/lazy_orchestrator.py:537` | `def action_refresh(self)` |
+| `action_save_config` | method | `cli/lazy_orchestrator.py:724` | `def action_save_config(self)` |
+| `action_seed_triggers` | method | `cli/lazy_orchestrator.py:551` | `def action_seed_triggers(self)` |
+| `action_toggle_item` | method | `cli/lazy_orchestrator.py:694` | `def action_toggle_item(self)` |
+| `add_auto_verb` | method | `cli/lazy_orchestrator.py:336` | `def add_auto_verb(self, name, keywords, needs_target, description, phases)` |
 | `command_descriptions` | function | `cli/lazy_orchestrator.py:102` | `def command_descriptions()` |
 | `compose` | method | `cli/lazy_orchestrator.py:214` | `def compose(self)` |
-| `create_param` | method | `cli/lazy_orchestrator.py:556` | `def create_param(self, name, kind, default, description, category)` |
-| `delete_param` | method | `cli/lazy_orchestrator.py:628` | `def delete_param(self, name)` |
+| `create_param` | method | `cli/lazy_orchestrator.py:590` | `def create_param(self, name, kind, default, description, category)` |
+| `delete_param` | method | `cli/lazy_orchestrator.py:662` | `def delete_param(self, name)` |
 | `discover_shell_commands` | function | `cli/lazy_orchestrator.py:69` | `def discover_shell_commands()` |
-| `on_button_pressed` | method | `cli/lazy_orchestrator.py:450` | `def on_button_pressed(self, event)` |
-| `on_mount` | method | `cli/lazy_orchestrator.py:282` | `def on_mount(self)` |
-| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:348` | `def remove_auto_verb(self, name)` |
-| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:1110` | `def run_orchestrator_console(task_id, shell)` |
-| `toggle_stage` | method | `cli/lazy_orchestrator.py:300` | `def toggle_stage(self, name)` |
-| `toggle_verb` | method | `cli/lazy_orchestrator.py:309` | `def toggle_verb(self, name)` |
-| `update_param` | method | `cli/lazy_orchestrator.py:596` | `def update_param(self, name, default, description)` |
+| `on_button_pressed` | method | `cli/lazy_orchestrator.py:461` | `def on_button_pressed(self, event)` |
+| `on_mount` | method | `cli/lazy_orchestrator.py:293` | `def on_mount(self)` |
+| `remove_auto_verb` | method | `cli/lazy_orchestrator.py:359` | `def remove_auto_verb(self, name)` |
+| `run_orchestrator_console` | function | `cli/lazy_orchestrator.py:1144` | `def run_orchestrator_console(task_id, shell)` |
+| `toggle_stage` | method | `cli/lazy_orchestrator.py:311` | `def toggle_stage(self, name)` |
+| `toggle_verb` | method | `cli/lazy_orchestrator.py:320` | `def toggle_verb(self, name)` |
+| `update_param` | method | `cli/lazy_orchestrator.py:630` | `def update_param(self, name, default, description)` |
 | `verb_candidates` | function | `cli/lazy_orchestrator.py:116` | `def verb_candidates()` |
 | `PostScanConfig` | class | `cli/lazynmap_post.py:57` | `class PostScanConfig` |
 | `PostScanResult` | class | `cli/lazynmap_post.py:76` | `class PostScanResult` |
@@ -253,71 +254,77 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `value` | method | `cli/ops_commands.py:568` | `def value(self)` |
 | `write_phase` | function | `cli/ops_commands.py:302` | `def write_phase(phase)` |
 | `ConfigField` | class | `cli/orchestrator_assets_tabs.py:21` | `class ConfigField` |
-| `OrchestratorAssetsMixin` | class | `cli/orchestrator_assets_tabs.py:104` | `class OrchestratorAssetsMixin` |
-| `_chains_dir` | method | `cli/orchestrator_assets_tabs.py:512` | `def _chains_dir(self)` |
-| `_coerce` | function | `cli/orchestrator_assets_tabs.py:59` | `def _coerce(raw)` |
-| `_edit_gym` | method | `cli/orchestrator_assets_tabs.py:401` | `def _edit_gym(self, gym_id)` |
-| `_edit_playbook` | method | `cli/orchestrator_assets_tabs.py:242` | `def _edit_playbook(self, filename)` |
-| `_load_guardrails_into_form` | method | `cli/orchestrator_assets_tabs.py:994` | `def _load_guardrails_into_form(self)` |
-| `_load_payload` | method | `cli/orchestrator_assets_tabs.py:770` | `def _load_payload(self)` |
-| `_load_payload_into_form` | method | `cli/orchestrator_assets_tabs.py:780` | `def _load_payload_into_form(self)` |
-| `_payload_assign` | function | `cli/orchestrator_assets_tabs.py:86` | `def _payload_assign(payload, key, value)` |
-| `_payload_value` | function | `cli/orchestrator_assets_tabs.py:76` | `def _payload_value(payload, key)` |
-| `_playbooks_dir` | method | `cli/orchestrator_assets_tabs.py:107` | `def _playbooks_dir(self)` |
-| `_refresh_chains` | method | `cli/orchestrator_assets_tabs.py:597` | `def _refresh_chains(self)` |
-| `_refresh_guard` | method | `cli/orchestrator_assets_tabs.py:903` | `def _refresh_guard(self)` |
-| `_refresh_gyms` | method | `cli/orchestrator_assets_tabs.py:323` | `def _refresh_gyms(self)` |
-| `_refresh_harness` | method | `cli/orchestrator_assets_tabs.py:1014` | `def _refresh_harness(self)` |
-| `_refresh_models` | method | `cli/orchestrator_assets_tabs.py:882` | `def _refresh_models(self)` |
-| `_refresh_playbooks` | method | `cli/orchestrator_assets_tabs.py:207` | `def _refresh_playbooks(self)` |
-| `_refresh_profiles` | method | `cli/orchestrator_assets_tabs.py:471` | `def _refresh_profiles(self)` |
-| `_refresh_stages` | method | `cli/orchestrator_assets_tabs.py:730` | `def _refresh_stages(self)` |
-| `_refresh_triggers` | method | `cli/orchestrator_assets_tabs.py:647` | `def _refresh_triggers(self)` |
-| `_refresh_verbs` | method | `cli/orchestrator_assets_tabs.py:746` | `def _refresh_verbs(self)` |
-| `_saved` | function | `cli/orchestrator_assets_tabs.py:266` | `def _saved(raw)` |
-| `_saved` | function | `cli/orchestrator_assets_tabs.py:422` | `def _saved(raw)` |
-| `_update_chains_detail` | method | `cli/orchestrator_assets_tabs.py:620` | `def _update_chains_detail(self, name)` |
-| `_update_gyms_detail` | method | `cli/orchestrator_assets_tabs.py:345` | `def _update_gyms_detail(self, gym_id)` |
-| `_update_playbooks_detail` | method | `cli/orchestrator_assets_tabs.py:229` | `def _update_playbooks_detail(self, filename)` |
-| `_update_profile_detail` | method | `cli/orchestrator_assets_tabs.py:492` | `def _update_profile_detail(self, name)` |
-| `_update_trigger_detail` | method | `cli/orchestrator_assets_tabs.py:679` | `def _update_trigger_detail(self)` |
-| `_validate` | function | `cli/orchestrator_assets_tabs.py:255` | `def _validate(raw)` |
-| `_validate` | function | `cli/orchestrator_assets_tabs.py:411` | `def _validate(raw)` |
-| `_widget_id` | function | `cli/orchestrator_assets_tabs.py:99` | `def _widget_id(key)` |
-| `activate_profile` | method | `cli/orchestrator_assets_tabs.py:460` | `def activate_profile(self, name)` |
-| `add_guard_rule` | method | `cli/orchestrator_assets_tabs.py:866` | `def add_guard_rule(self, pattern, action, reason)` |
-| `add_model_member` | method | `cli/orchestrator_assets_tabs.py:813` | `def add_model_member(self, name, model, priority)` |
-| `add_trigger` | method | `cli/orchestrator_assets_tabs.py:712` | `def add_trigger(self, kind, every_sec, arg)` |
-| `chain_rows` | method | `cli/orchestrator_assets_tabs.py:520` | `def chain_rows(self)` |
-| `chain_steps_preview` | method | `cli/orchestrator_assets_tabs.py:529` | `def chain_steps_preview(self, name, limit)` |
-| `create_playbook_file` | method | `cli/orchestrator_assets_tabs.py:148` | `def create_playbook_file(self, filename, name, description, platforms)` |
-| `delete_playbook_file` | method | `cli/orchestrator_assets_tabs.py:181` | `def delete_playbook_file(self, filename)` |
-| `generate_chain` | method | `cli/orchestrator_assets_tabs.py:557` | `def generate_chain(self, playbook_key)` |
-| `gym_preview` | method | `cli/orchestrator_assets_tabs.py:309` | `def gym_preview(self, gym_id, limit)` |
-| `gym_rows` | method | `cli/orchestrator_assets_tabs.py:272` | `def gym_rows(self)` |
-| `on_data_table_row_highlighted` | method | `cli/orchestrator_assets_tabs.py:627` | `def on_data_table_row_highlighted(self, event)` |
-| `playbook_candidates` | method | `cli/orchestrator_assets_tabs.py:189` | `def playbook_candidates(self)` |
-| `playbook_preview` | method | `cli/orchestrator_assets_tabs.py:139` | `def playbook_preview(self, filename, limit)` |
-| `playbook_rows` | method | `cli/orchestrator_assets_tabs.py:115` | `def playbook_rows(self)` |
-| `profile_rows` | method | `cli/orchestrator_assets_tabs.py:435` | `def profile_rows(self)` |
-| `rearm_harness` | method | `cli/orchestrator_assets_tabs.py:983` | `def rearm_harness(self)` |
-| `remove_chain` | method | `cli/orchestrator_assets_tabs.py:571` | `def remove_chain(self, name)` |
-| `remove_guard_rule` | method | `cli/orchestrator_assets_tabs.py:874` | `def remove_guard_rule(self, pattern)` |
-| `remove_model_member` | method | `cli/orchestrator_assets_tabs.py:821` | `def remove_model_member(self, name)` |
-| `remove_trigger` | method | `cli/orchestrator_assets_tabs.py:704` | `def remove_trigger(self, trigger_id)` |
-| `save_config` | method | `cli/orchestrator_assets_tabs.py:791` | `def save_config(self, values)` |
-| `save_guardrails` | method | `cli/orchestrator_assets_tabs.py:925` | `def save_guardrails(self, values)` |
-| `save_playbook_text` | method | `cli/orchestrator_assets_tabs.py:169` | `def save_playbook_text(self, filename, text)` |
-| `seed_triggers_from_yaml` | method | `cli/orchestrator_assets_tabs.py:668` | `def seed_triggers_from_yaml(self)` |
-| `set_harness` | method | `cli/orchestrator_assets_tabs.py:841` | `def set_harness(self, enabled)` |
-| `set_model_priority` | method | `cli/orchestrator_assets_tabs.py:829` | `def set_model_priority(self, name, priority)` |
-| `start_gym` | method | `cli/orchestrator_assets_tabs.py:377` | `def start_gym(self, gym_id, target)` |
-| `stop_gym` | method | `cli/orchestrator_assets_tabs.py:385` | `def stop_gym(self, selector)` |
-| `toggle_chain` | method | `cli/orchestrator_assets_tabs.py:546` | `def toggle_chain(self, name)` |
-| `toggle_gym` | method | `cli/orchestrator_assets_tabs.py:393` | `def toggle_gym(self, gym_id)` |
-| `toggle_trigger` | method | `cli/orchestrator_assets_tabs.py:694` | `def toggle_trigger(self, trigger_id)` |
-| `trigger_kind_options` | method | `cli/orchestrator_assets_tabs.py:724` | `def trigger_kind_options(self)` |
-| `warm_restart_harness` | method | `cli/orchestrator_assets_tabs.py:971` | `def warm_restart_harness(self)` |
+| `OrchestratorAssetsMixin` | class | `cli/orchestrator_assets_tabs.py:206` | `class OrchestratorAssetsMixin` |
+| `_chains_dir` | method | `cli/orchestrator_assets_tabs.py:614` | `def _chains_dir(self)` |
+| `_coerce` | function | `cli/orchestrator_assets_tabs.py:75` | `def _coerce(raw)` |
+| `_edit_gym` | method | `cli/orchestrator_assets_tabs.py:503` | `def _edit_gym(self, gym_id)` |
+| `_edit_playbook` | method | `cli/orchestrator_assets_tabs.py:344` | `def _edit_playbook(self, filename)` |
+| `_load_guardrails_into_form` | method | `cli/orchestrator_assets_tabs.py:1164` | `def _load_guardrails_into_form(self)` |
+| `_load_pacing_into_form` | method | `cli/orchestrator_assets_tabs.py:894` | `def _load_pacing_into_form(self)` |
+| `_load_payload` | method | `cli/orchestrator_assets_tabs.py:872` | `def _load_payload(self)` |
+| `_load_payload_into_form` | method | `cli/orchestrator_assets_tabs.py:882` | `def _load_payload_into_form(self)` |
+| `_payload_assign` | function | `cli/orchestrator_assets_tabs.py:188` | `def _payload_assign(payload, key, value)` |
+| `_payload_value` | function | `cli/orchestrator_assets_tabs.py:178` | `def _payload_value(payload, key)` |
+| `_playbooks_dir` | method | `cli/orchestrator_assets_tabs.py:209` | `def _playbooks_dir(self)` |
+| `_refresh_chains` | method | `cli/orchestrator_assets_tabs.py:699` | `def _refresh_chains(self)` |
+| `_refresh_guard` | method | `cli/orchestrator_assets_tabs.py:1073` | `def _refresh_guard(self)` |
+| `_refresh_gyms` | method | `cli/orchestrator_assets_tabs.py:425` | `def _refresh_gyms(self)` |
+| `_refresh_harness` | method | `cli/orchestrator_assets_tabs.py:1184` | `def _refresh_harness(self)` |
+| `_refresh_models` | method | `cli/orchestrator_assets_tabs.py:1052` | `def _refresh_models(self)` |
+| `_refresh_playbooks` | method | `cli/orchestrator_assets_tabs.py:309` | `def _refresh_playbooks(self)` |
+| `_refresh_profiles` | method | `cli/orchestrator_assets_tabs.py:573` | `def _refresh_profiles(self)` |
+| `_refresh_stages` | method | `cli/orchestrator_assets_tabs.py:832` | `def _refresh_stages(self)` |
+| `_refresh_triggers` | method | `cli/orchestrator_assets_tabs.py:749` | `def _refresh_triggers(self)` |
+| `_refresh_verbs` | method | `cli/orchestrator_assets_tabs.py:848` | `def _refresh_verbs(self)` |
+| `_saved` | function | `cli/orchestrator_assets_tabs.py:368` | `def _saved(raw)` |
+| `_saved` | function | `cli/orchestrator_assets_tabs.py:524` | `def _saved(raw)` |
+| `_update_chains_detail` | method | `cli/orchestrator_assets_tabs.py:722` | `def _update_chains_detail(self, name)` |
+| `_update_gyms_detail` | method | `cli/orchestrator_assets_tabs.py:447` | `def _update_gyms_detail(self, gym_id)` |
+| `_update_playbooks_detail` | method | `cli/orchestrator_assets_tabs.py:331` | `def _update_playbooks_detail(self, filename)` |
+| `_update_profile_detail` | method | `cli/orchestrator_assets_tabs.py:594` | `def _update_profile_detail(self, name)` |
+| `_update_trigger_detail` | method | `cli/orchestrator_assets_tabs.py:781` | `def _update_trigger_detail(self)` |
+| `_validate` | function | `cli/orchestrator_assets_tabs.py:357` | `def _validate(raw)` |
+| `_validate` | function | `cli/orchestrator_assets_tabs.py:513` | `def _validate(raw)` |
+| `_widget_id` | function | `cli/orchestrator_assets_tabs.py:201` | `def _widget_id(key)` |
+| `activate_profile` | method | `cli/orchestrator_assets_tabs.py:562` | `def activate_profile(self, name)` |
+| `add_guard_rule` | method | `cli/orchestrator_assets_tabs.py:1036` | `def add_guard_rule(self, pattern, action, reason)` |
+| `add_model_member` | method | `cli/orchestrator_assets_tabs.py:983` | `def add_model_member(self, name, model, priority)` |
+| `add_trigger` | method | `cli/orchestrator_assets_tabs.py:814` | `def add_trigger(self, kind, every_sec, arg)` |
+| `chain_rows` | method | `cli/orchestrator_assets_tabs.py:622` | `def chain_rows(self)` |
+| `chain_steps_preview` | method | `cli/orchestrator_assets_tabs.py:631` | `def chain_steps_preview(self, name, limit)` |
+| `create_playbook_file` | method | `cli/orchestrator_assets_tabs.py:250` | `def create_playbook_file(self, filename, name, description, platforms)` |
+| `delete_playbook_file` | method | `cli/orchestrator_assets_tabs.py:283` | `def delete_playbook_file(self, filename)` |
+| `format_edr_pause_ranges` | function | `cli/orchestrator_assets_tabs.py:161` | `def format_edr_pause_ranges(value)` |
+| `format_sleeper_windows` | function | `cli/orchestrator_assets_tabs.py:121` | `def format_sleeper_windows(value)` |
+| `generate_chain` | method | `cli/orchestrator_assets_tabs.py:659` | `def generate_chain(self, playbook_key)` |
+| `gym_preview` | method | `cli/orchestrator_assets_tabs.py:411` | `def gym_preview(self, gym_id, limit)` |
+| `gym_rows` | method | `cli/orchestrator_assets_tabs.py:374` | `def gym_rows(self)` |
+| `on_data_table_row_highlighted` | method | `cli/orchestrator_assets_tabs.py:729` | `def on_data_table_row_highlighted(self, event)` |
+| `parse_edr_pause_ranges` | function | `cli/orchestrator_assets_tabs.py:128` | `def parse_edr_pause_ranges(raw)` |
+| `parse_sleeper_windows` | function | `cli/orchestrator_assets_tabs.py:92` | `def parse_sleeper_windows(raw)` |
+| `playbook_candidates` | method | `cli/orchestrator_assets_tabs.py:291` | `def playbook_candidates(self)` |
+| `playbook_preview` | method | `cli/orchestrator_assets_tabs.py:241` | `def playbook_preview(self, filename, limit)` |
+| `playbook_rows` | method | `cli/orchestrator_assets_tabs.py:217` | `def playbook_rows(self)` |
+| `profile_rows` | method | `cli/orchestrator_assets_tabs.py:537` | `def profile_rows(self)` |
+| `rearm_harness` | method | `cli/orchestrator_assets_tabs.py:1153` | `def rearm_harness(self)` |
+| `remove_chain` | method | `cli/orchestrator_assets_tabs.py:673` | `def remove_chain(self, name)` |
+| `remove_guard_rule` | method | `cli/orchestrator_assets_tabs.py:1044` | `def remove_guard_rule(self, pattern)` |
+| `remove_model_member` | method | `cli/orchestrator_assets_tabs.py:991` | `def remove_model_member(self, name)` |
+| `remove_trigger` | method | `cli/orchestrator_assets_tabs.py:806` | `def remove_trigger(self, trigger_id)` |
+| `save_config` | method | `cli/orchestrator_assets_tabs.py:961` | `def save_config(self, values)` |
+| `save_guardrails` | method | `cli/orchestrator_assets_tabs.py:1095` | `def save_guardrails(self, values)` |
+| `save_pacing` | method | `cli/orchestrator_assets_tabs.py:916` | `def save_pacing(self, values)` |
+| `save_playbook_text` | method | `cli/orchestrator_assets_tabs.py:271` | `def save_playbook_text(self, filename, text)` |
+| `seed_triggers_from_yaml` | method | `cli/orchestrator_assets_tabs.py:770` | `def seed_triggers_from_yaml(self)` |
+| `set_harness` | method | `cli/orchestrator_assets_tabs.py:1011` | `def set_harness(self, enabled)` |
+| `set_model_priority` | method | `cli/orchestrator_assets_tabs.py:999` | `def set_model_priority(self, name, priority)` |
+| `start_gym` | method | `cli/orchestrator_assets_tabs.py:479` | `def start_gym(self, gym_id, target)` |
+| `stop_gym` | method | `cli/orchestrator_assets_tabs.py:487` | `def stop_gym(self, selector)` |
+| `toggle_chain` | method | `cli/orchestrator_assets_tabs.py:648` | `def toggle_chain(self, name)` |
+| `toggle_gym` | method | `cli/orchestrator_assets_tabs.py:495` | `def toggle_gym(self, gym_id)` |
+| `toggle_trigger` | method | `cli/orchestrator_assets_tabs.py:796` | `def toggle_trigger(self, trigger_id)` |
+| `trigger_kind_options` | method | `cli/orchestrator_assets_tabs.py:826` | `def trigger_kind_options(self)` |
+| `warm_restart_harness` | method | `cli/orchestrator_assets_tabs.py:1141` | `def warm_restart_harness(self)` |
 | `OutputMode` | class | `cli/output_mode.py:33` | `class OutputMode` |
 | `OutputModeConfig` | class | `cli/output_mode.py:20` | `class OutputModeConfig` |
 | `dry_run_line` | function | `cli/output_mode.py:98` | `def dry_run_line(command)` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `render_command_hints` | function | `cli/reactive_hints.py:515` | `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` |
 | `render_evidence_hints` | function | `cli/reactive_hints.py:401` | `def render_evidence_hints(hints)` |
 | `render_inline_hints` | function | `cli/reactive_hints.py:221` | `def render_inline_hints(advisor, last_command, limit, enabled)` |
-| `ReasoningEntry` | class | `cli/reasoning_stream.py:66` | `class ReasoningEntry` |
-| `_extract_reward` | function | `cli/reasoning_stream.py:175` | `def _extract_reward(payload)` |
-| `_format_size` | function | `cli/reasoning_stream.py:134` | `def _format_size(num_bytes)` |
-| `_format_time` | function | `cli/reasoning_stream.py:127` | `def _format_time(ts)` |
-| `_summarize` | function | `cli/reasoning_stream.py:148` | `def _summarize(kind, payload)` |
-| `_truncate` | function | `cli/reasoning_stream.py:141` | `def _truncate(text, limit)` |
-| `event_to_entry` | function | `cli/reasoning_stream.py:183` | `def event_to_entry(event)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

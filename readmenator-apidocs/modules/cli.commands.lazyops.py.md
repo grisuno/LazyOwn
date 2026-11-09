@@ -1531,13 +1531,13 @@ Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`parse_loop_line`](modules.lazy_runner.py.md#parse_loop_line), [`run_loop`](modules.lazy_runner.py.md#run_loop)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`bind_target_authority`](modules.lazy_runner.py.md#bind_target_authority), [`load_targets_file`](modules.lazy_runner.py.md#load_targets_file), [`parse_loop_line`](modules.lazy_runner.py.md#parse_loop_line), [`run_loop`](modules.lazy_runner.py.md#run_loop)
 
 <a id="lazycommandset-do_lazy_sandbox"></a>
 
 #### `LazyCommandSet.do_lazy_sandbox`
 
-`method` | [cli/commands/lazyops.py:2711](../../cli/commands/lazyops.py#L2711)
+`method` | [cli/commands/lazyops.py:2723](../../cli/commands/lazyops.py#L2723)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1561,7 +1561,7 @@ Usage: lazy_sandbox ...
 
 #### `LazyCommandSet.do_lazy_install`
 
-`method` | [cli/commands/lazyops.py:2774](../../cli/commands/lazyops.py#L2774)
+`method` | [cli/commands/lazyops.py:2786](../../cli/commands/lazyops.py#L2786)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1585,7 +1585,7 @@ Usage: lazy_install ...
 
 #### `LazyCommandSet.do_lazy_pacing`
 
-`method` | [cli/commands/lazyops.py:2812](../../cli/commands/lazyops.py#L2812)
+`method` | [cli/commands/lazyops.py:2824](../../cli/commands/lazyops.py#L2824)
 
 Decorators: `@cmd2.with_category(ai_category)`
 

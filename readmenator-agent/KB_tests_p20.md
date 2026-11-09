@@ -1,5 +1,96 @@
-# Subsystem: tests (page 20 of 24)
+# Subsystem: tests (page 20 of 25)
 Previous: [KB_tests_p19.md](KB_tests_p19.md)
+
+## tests/test_poc_registry.py
+- Doc: PoC verb registry contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestCatalog` (class, line 23) `class TestCatalog`
+  - `TestRendering` (class, line 41) `class TestRendering`
+  - `TestProposals` (class, line 96) `class TestProposals`
+  - `TestPoCSelector` (class, line 114) `class TestPoCSelector`
+  - `TestRouting` (class, line 142) `class TestRouting`
+  - `TestVerbCatalogSurfaces` (class, line 169) `class TestVerbCatalogSurfaces`
+  - `test_catalog_loads_every_declared_poc` (method, line 26) `def test_catalog_loads_every_declared_poc(self)`
+  - `test_every_verb_has_script_and_interpreter` (method, line 31) `def test_every_verb_has_script_and_interpreter(self)`
+  - `test_unknown_verb_is_none` (method, line 37) `def test_unknown_verb_is_none(self)`
+  - `test_minio_renders_url_from_target_and_override` (method, line 44) `def test_minio_renders_url_from_target_and_override(self)`
+  - `test_openplc_renders_all_five_placeholders` (method, line 52) `def test_openplc_renders_all_five_placeholders(self)`
+  - `test_unresolved_placeholder_without_default_is_refused` (method, line 70) `def test_unresolved_placeholder_without_default_is_refused(self)`
+  - `test_default_applies_when_placeholder_unresolved` (method, line 76) `def test_default_applies_when_placeholder_unresolved(self)`
+  - `test_mitmdump_addon_form` (method, line 82) `def test_mitmdump_addon_form(self)`
+  - `test_positional_php_args_render` (method, line 89) `def test_positional_php_args_render(self)`
+  - `test_minio_service_proposes_intent_with_port_override` (method, line 99) `def test_minio_service_proposes_intent_with_port_override(self)`
+  - `test_non_matching_service_yields_nothing` (method, line 103) `def test_non_matching_service_yields_nothing(self)`
+  - `test_disabled_verb_is_never_proposed` (method, line 106) `def test_disabled_verb_is_never_proposed(self, tmp_path)`
+  - `_ctx` (method, line 117) `def _ctx(self, target, services, exclude)`
+  - `test_selector_proposes_minio_verb` (method, line 120) `def test_selector_proposes_minio_verb(self)`
+  - `test_selector_excludes_already_proposed_verb` (method, line 126) `def test_selector_excludes_already_proposed_verb(self)`
+  - `test_selector_abstains_without_target` (method, line 132) `def test_selector_abstains_without_target(self)`
+  - `test_selector_in_default_cascade` (method, line 135) `def test_selector_in_default_cascade(self)`
+  - `test_lazy_poc_is_routable` (method, line 145) `def test_lazy_poc_is_routable(self)`
+  - `test_auto_poc_verb_builds_run_line` (method, line 150) `def test_auto_poc_verb_builds_run_line(self)`
+  - `test_auto_poc_unknown_verb_is_none` (method, line 156) `def test_auto_poc_unknown_verb_is_none(self)`
+  - `test_target_extraction_from_lazy_poc_line` (method, line 161) `def test_target_extraction_from_lazy_poc_line(self)`
+  - `test_poc_pseudo_verbs_in_discoveries` (method, line 172) `def test_poc_pseudo_verbs_in_discoveries(self, tmp_path)`
+  - `test_sandbox_config_has_no_poc_discoveries` (method, line 185) `def test_sandbox_config_has_no_poc_discoveries(self, tmp_path)`
+- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/selection/__init__.py`, `modules/selection/base.py`, `modules/selection/poc.py`, `modules/verb_catalog.py`
+
+## tests/test_policy_planner_signal.py
+- Doc: Policy planner signal contract: ranked categories become safe intents.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_StubPolicy` (class, line 15) `class _StubPolicy`
+  - `test_mapped_categories_emit_registry_verbs` (function, line 27) `def test_mapped_categories_emit_registry_verbs()`
+  - `test_unmapped_categories_are_skipped` (function, line 39) `def test_unmapped_categories_are_skipped()`
+  - `test_duplicate_rows_dedupe` (function, line 50) `def test_duplicate_rows_dedupe()`
+  - `test_policy_failure_degrades_to_empty` (function, line 61) `def test_policy_failure_degrades_to_empty()`
+  - `test_load_intel_scores_fuses_host_scores` (function, line 73) `def test_load_intel_scores_fuses_host_scores(tmp_path, monkeypatch)`
+  - `__init__` (method, line 18) `def __init__(self, rows)`
+  - `get_recommendations` (method, line 22) `def get_recommendations(self, target)`
+  - `_Broken` (class, line 63) `class _Broken(_StubPolicy)`
+  - `get_recommendations` (method, line 66) `def get_recommendations(self, target)`
+- Depends on: `modules/lazy_loop.py`
+
+## tests/test_profiles.py
+- Doc: Tests for runtime install profiles (``core.profiles``).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Spec` (class, line 26) `class _Spec`
+  - `test_default_profile_is_full` (function, line 31) `def test_default_profile_is_full(monkeypatch)`
+  - `test_light_profile_selected` (function, line 37) `def test_light_profile_selected(monkeypatch)`
+  - `test_profile_value_is_case_insensitive` (function, line 43) `def test_profile_value_is_case_insensitive(monkeypatch)`
+  - `test_unknown_profile_raises` (function, line 48) `def test_unknown_profile_raises(monkeypatch)`
+  - `test_full_profile_keeps_every_spec` (function, line 54) `def test_full_profile_keeps_every_spec(monkeypatch)`
+  - `test_light_profile_skips_analytics_and_ai` (function, line 60) `def test_light_profile_skips_analytics_and_ai(monkeypatch)`
+  - `_pinned_names` (function, line 68) `def _pinned_names(path)`
+  - `test_light_lock_is_a_subset_of_full_lock` (function, line 79) `def test_light_lock_is_a_subset_of_full_lock()`
+  - `test_light_lock_drops_analytics_and_ai` (function, line 88) `def test_light_lock_drops_analytics_and_ai()`
+  - `__init__` (method, line 27) `def __init__(self, import_name)`
+- Depends on: `core/profiles.py`
+
+## tests/test_progress_ledger.py
+- Doc: Tests for modules.progress_ledger — objective-progress strike rule.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `ledger_module` (function, line 22) `def ledger_module()`
+  - `tmp_base` (function, line 29) `def tmp_base()`
+  - `TestPolicy` (class, line 34) `class TestPolicy`
+  - `TestObserve` (class, line 46) `class TestObserve`
+  - `TestPersistence` (class, line 92) `class TestPersistence`
+  - `test_clamp` (method, line 35) `def test_clamp(self, ledger_module)`
+  - `test_engagement_confined` (method, line 40) `def test_engagement_confined(self, ledger_module, tmp_base)`
+  - `test_hypothesis_only_strikes` (method, line 47) `def test_hypothesis_only_strikes(self, ledger_module, tmp_base)`
+  - `test_idle_round_strikes` (method, line 56) `def test_idle_round_strikes(self, ledger_module, tmp_base)`
+  - `test_progress_resets` (method, line 64) `def test_progress_resets(self, ledger_module, tmp_base)`
+  - `test_reproduced_verdict_counts` (method, line 75) `def test_reproduced_verdict_counts(self, ledger_module, tmp_base)`
+  - `test_cap_disabled_keeps_strike` (method, line 85) `def test_cap_disabled_keeps_strike(self, ledger_module, tmp_base)`
+  - `test_reload_keeps_strikes` (method, line 93) `def test_reload_keeps_strikes(self, ledger_module, tmp_base)`
+- Depends on: `modules/progress_ledger.py`
 
 ## tests/test_prompt_readline_markers.py
 - Doc: Regression tests for readline marker handling in the Neon Box prompt.
@@ -51,31 +142,34 @@ Previous: [KB_tests_p19.md](KB_tests_p19.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_stub_mcp_sdk` (function, line 21) `def _stub_mcp_sdk()`
-  - `_call` (function, line 73) `def _call(arguments, monkeypatch)`
-  - `test_list_tools_has_rea` (function, line 90) `def test_list_tools_has_rea()`
-  - `test_unknown_action_rejected` (function, line 99) `def test_unknown_action_rejected(monkeypatch)`
-  - `test_missing_binary` (function, line 105) `def test_missing_binary(monkeypatch)`
-  - `test_doctor_argv` (function, line 113) `def test_doctor_argv(monkeypatch)`
-  - `test_inspect_artifact_argv` (function, line 119) `def test_inspect_artifact_argv(tmp_path, monkeypatch)`
-  - `test_large_output_survives_compaction` (function, line 132) `def test_large_output_survives_compaction(tmp_path, monkeypatch)`
-  - `test_analyze_uses_explicit_target` (function, line 148) `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)`
-  - `test_analyze_missing_target` (function, line 155) `def test_analyze_missing_target(monkeypatch)`
-  - `test_target_flag_injection_rejected` (function, line 168) `def test_target_flag_injection_rejected(monkeypatch)`
-  - `test_decompile_needs_valid_address` (function, line 174) `def test_decompile_needs_valid_address(tmp_path, monkeypatch)`
-  - `test_search_needs_query` (function, line 189) `def test_search_needs_query(tmp_path, monkeypatch)`
-  - `test_provider_flag_appended` (function, line 201) `def test_provider_flag_appended(tmp_path, monkeypatch)`
-  - `Tool` (class, line 35) `class Tool`
-  - `TextContent` (class, line 39) `class TextContent`
-  - `Server` (class, line 46) `class Server`
-  - `_fake_run` (function, line 78) `def _fake_run(argv)`
-  - `_fake_run` (function, line 138) `def _fake_run(argv)`
-  - `__init__` (method, line 36) `def __init__(self)`
-  - `__init__` (method, line 40) `def __init__(self)`
-  - `__init__` (method, line 47) `def __init__(self)`
-  - `list_tools` (method, line 50) `def list_tools(self)`
-  - `call_tool` (method, line 53) `def call_tool(self)`
-- Depends on: `skills/lazyown_mcp.py`
+  - `_stub_mcp_sdk` (function, line 23) `def _stub_mcp_sdk()`
+  - `_ctx` (function, line 78) `def _ctx(payload)`
+  - `_invoke` (function, line 105) `def _invoke(arguments, payload)`
+  - `_call` (function, line 110) `def _call(arguments, monkeypatch, payload)`
+  - `test_list_tools_has_rea` (function, line 127) `def test_list_tools_has_rea()`
+  - `test_unknown_action_rejected` (function, line 136) `def test_unknown_action_rejected(monkeypatch)`
+  - `test_missing_binary` (function, line 142) `def test_missing_binary(monkeypatch)`
+  - `test_doctor_argv` (function, line 150) `def test_doctor_argv(monkeypatch)`
+  - `test_inspect_artifact_argv` (function, line 156) `def test_inspect_artifact_argv(tmp_path, monkeypatch)`
+  - `test_large_output_survives_compaction` (function, line 169) `def test_large_output_survives_compaction(tmp_path, monkeypatch)`
+  - `test_analyze_uses_explicit_target` (function, line 185) `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)`
+  - `test_analyze_missing_target` (function, line 192) `def test_analyze_missing_target(monkeypatch)`
+  - `test_target_flag_injection_rejected` (function, line 200) `def test_target_flag_injection_rejected(monkeypatch)`
+  - `test_decompile_needs_valid_address` (function, line 206) `def test_decompile_needs_valid_address(tmp_path, monkeypatch)`
+  - `test_search_needs_query` (function, line 221) `def test_search_needs_query(tmp_path, monkeypatch)`
+  - `test_provider_flag_appended` (function, line 233) `def test_provider_flag_appended(tmp_path, monkeypatch)`
+  - `Tool` (class, line 37) `class Tool`
+  - `TextContent` (class, line 41) `class TextContent`
+  - `Server` (class, line 48) `class Server`
+  - `_text` (function, line 81) `def _text(_tool_name, content)`
+  - `_fake_run` (function, line 115) `def _fake_run(argv)`
+  - `_fake_run` (function, line 175) `def _fake_run(argv)`
+  - `__init__` (method, line 38) `def __init__(self)`
+  - `__init__` (method, line 42) `def __init__(self)`
+  - `__init__` (method, line 49) `def __init__(self)`
+  - `list_tools` (method, line 52) `def list_tools(self)`
+  - `call_tool` (method, line 55) `def call_tool(self)`
+- Depends on: `skills/lazyown_mcp.py`, `skills/mcp_tools/_context.py`
 
 ## tests/test_reaction_bridge.py
 - Doc: BDD tests for the reaction bridge (planner injections + cred reuse).
@@ -382,116 +476,6 @@ Previous: [KB_tests_p19.md](KB_tests_p19.md)
   - `test_invalid_values_rejected` (method, line 35) `def test_invalid_values_rejected(self, capsys)`
   - `test_equivalent_to_checkers_on_present_values` (method, line 41) `def test_equivalent_to_checkers_on_present_values(self, capsys)`
 - Depends on: `core/validators.py`
-
-## tests/test_resource_script.py
-- Doc: Tests for modules/resource_script.py — ScriptContext and ResourceScriptEngine.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestResourceScript` (class, line 10) `class TestResourceScript`
-  - `_execute` (method, line 14) `def _execute(script)`
-  - `test_set_and_get` (method, line 25) `def test_set_and_get(self)`
-  - `test_setg_and_get` (method, line 31) `def test_setg_and_get(self)`
-  - `test_unset_removes_var` (method, line 37) `def test_unset_removes_var(self)`
-  - `test_var_substitution` (method, line 46) `def test_var_substitution(self)`
-  - `test_builtin_timestamp` (method, line 53) `def test_builtin_timestamp(self)`
-  - `test_resolve_unresolved` (method, line 60) `def test_resolve_unresolved(self)`
-  - `test_eval_condition_equals` (method, line 66) `def test_eval_condition_equals(self)`
-  - `test_eval_condition_not_equals` (method, line 72) `def test_eval_condition_not_equals(self)`
-  - `test_eval_condition_regex` (method, line 77) `def test_eval_condition_regex(self)`
-  - `test_eval_condition_numeric` (method, line 83) `def test_eval_condition_numeric(self)`
-  - `test_eval_condition_contains` (method, line 91) `def test_eval_condition_contains(self)`
-  - `test_eval_condition_defined` (method, line 97) `def test_eval_condition_defined(self)`
-  - `test_eval_condition_fallback_falsy` (method, line 104) `def test_eval_condition_fallback_falsy(self)`
-  - `test_eval_condition_fallback_truthy` (method, line 110) `def test_eval_condition_fallback_truthy(self)`
-  - `test_dry_run_mode` (method, line 116) `def test_dry_run_mode(self)`
-  - `test_skip_depth` (method, line 125) `def test_skip_depth(self)`
-  - `test_if_else_endif_true` (method, line 143) `def test_if_else_endif_true(self)`
-  - `test_if_else_endif_false` (method, line 153) `def test_if_else_endif_false(self)`
-  - `test_set_and_echo` (method, line 163) `def test_set_and_echo(self)`
-  - `test_for_loop` (method, line 170) `def test_for_loop(self)`
-  - `test_for_loop_empty` (method, line 178) `def test_for_loop_empty(self)`
-  - `test_while_loop` (method, line 187) `def test_while_loop(self)`
-  - `test_break` (method, line 197) `def test_break(self)`
-  - `test_continue` (method, line 208) `def test_continue(self)`
-  - `test_comment` (method, line 219) `def test_comment(self)`
-  - `test_macro_and_call` (method, line 228) `def test_macro_and_call(self)`
-  - `test_spool` (method, line 238) `def test_spool(self, tmp_path)`
-  - `test_undefined_macro_raises` (method, line 253) `def test_undefined_macro_raises(self)`
-  - `test_unset_variable` (method, line 258) `def test_unset_variable(self)`
-  - `test_nested_if` (method, line 267) `def test_nested_if(self)`
-- Depends on: `modules/resource_script.py`
-
-## tests/test_retry_session.py
-- Doc: BDD tests for retry sessions, support relaunch and the retry command set.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `clean_session` (function, line 24) `def clean_session(monkeypatch, tmp_path)`
-  - `checkpoint` (function, line 35) `def checkpoint(tmp_path, monkeypatch)`
-  - `TestElevatedSession` (class, line 57) `class TestElevatedSession`
-  - `TestConsent` (class, line 96) `class TestConsent`
-  - `TestCheckpointSelectionRun` (class, line 126) `class TestCheckpointSelectionRun`
-  - `TestRunnerCommandFilter` (class, line 201) `class TestRunnerCommandFilter`
-  - `TestUtilsGate` (class, line 220) `class TestUtilsGate`
-  - `TestRetryStatus` (class, line 238) `class TestRetryStatus`
-  - `test_arm_and_gate` (method, line 60) `def test_arm_and_gate(self)`
-  - `test_clear_revokes` (method, line 72) `def test_clear_revokes(self)`
-  - `test_empty_secret_refused` (method, line 80) `def test_empty_secret_refused(self)`
-  - `test_apply_sudo_askpass_rewrite` (method, line 85) `def test_apply_sudo_askpass_rewrite(self)`
-  - `test_no_flag_no_consent` (method, line 99) `def test_no_flag_no_consent(self)`
-  - `test_no_tty_refuses` (method, line 106) `def test_no_tty_refuses(self)`
-  - `test_wrong_answer_refuses` (method, line 113) `def test_wrong_answer_refuses(self)`
-  - `test_warning_mentions_destructive_steps` (method, line 120) `def test_warning_mentions_destructive_steps(self)`
-  - `test_chain_filter_selection` (method, line 129) `def test_chain_filter_selection(self, tmp_path)`
-  - `test_retry_chain_resume_respects_completed_steps` (method, line 164) `def test_retry_chain_resume_respects_completed_steps(self, checkpoint, monkeypatch)`
-  - `test_retry_chain_disabled_chain_hint` (method, line 187) `def test_retry_chain_disabled_chain_hint(self, checkpoint, monkeypatch)`
-  - `test_filter_applies` (method, line 204) `def test_filter_applies(self)`
-  - `test_retry_gate_overrides_cached_probe` (method, line 223) `def test_retry_gate_overrides_cached_probe(self, monkeypatch)`
-  - `test_snapshot_digs_past_finished_rows` (method, line 241) `def test_snapshot_digs_past_finished_rows(self, checkpoint, tmp_path)`
-  - `test_snapshot_shape` (method, line 260) `def test_snapshot_shape(self, checkpoint)`
-  - `fake_scan` (function, line 193) `def fake_scan(chains_dir)`
-  - `capture` (function, line 208) `def capture(command)`
-- Depends on: `cli/retry_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/retry_session.py`, `utils.py`
-
-## tests/test_safe_console.py
-- Doc: Terminal-safe console: colors and glyphs degrade, never leak.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_glyphs_degrade_to_ascii` (function, line 20) `def test_glyphs_degrade_to_ascii(monkeypatch)`
-  - `test_glyphs_unicode_on_utf8` (function, line 32) `def test_glyphs_unicode_on_utf8(monkeypatch, capsys)`
-  - `test_console_never_forces_color` (function, line 41) `def test_console_never_forces_color()`
-  - `test_panel_box_ascii_fallback` (function, line 52) `def test_panel_box_ascii_fallback(monkeypatch)`
-- Depends on: `core/safe_console.py`
-
-## tests/test_safe_subprocess.py
-- Doc: TDD tests for the safe subprocess runner contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestRunArgv` (class, line 35) `class TestRunArgv`
-  - `TestRunShellDefaultDeny` (class, line 53) `class TestRunShellDefaultDeny`
-  - `TestRunShellAllowed` (class, line 71) `class TestRunShellAllowed`
-  - `test_run_returns_completed_result` (method, line 38) `def test_run_returns_completed_result(self)`
-  - `test_run_does_not_audit` (method, line 46) `def test_run_does_not_audit(self, tmp_path)`
-  - `test_default_deny_raises` (method, line 56) `def test_default_deny_raises(self)`
-  - `test_deny_audit_logged` (method, line 61) `def test_deny_audit_logged(self, tmp_path)`
-  - `test_allowed_executes` (method, line 74) `def test_allowed_executes(self)`
-  - `test_allowed_is_audited` (method, line 84) `def test_allowed_is_audited(self, tmp_path)`
-  - `test_empty_reason_rejected` (method, line 94) `def test_empty_reason_rejected(self)`
-  - `test_failed_command_returns_nonzero` (method, line 99) `def test_failed_command_returns_nonzero(self)`
-- Depends on: `core/safe_subprocess.py`
-
-## tests/test_safe_subprocess_behavior.py
-- Doc: BDD behavior scenarios for the safe subprocess contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_given_argv_when_run_then_executes_without_audit` (function, line 12) `def test_given_argv_when_run_then_executes_without_audit(tmp_path)`
-  - `test_given_shell_without_allow_when_called_then_denied` (function, line 22) `def test_given_shell_without_allow_when_called_then_denied(tmp_path)`
-  - `test_given_shell_with_allow_and_reason_when_called_then_executes` (function, line 36) `def test_given_shell_with_allow_and_reason_when_called_then_executes(tmp_path)`
-- Depends on: `core/safe_subprocess.py`
 
 
 Next: [KB_tests_p21.md](KB_tests_p21.md)

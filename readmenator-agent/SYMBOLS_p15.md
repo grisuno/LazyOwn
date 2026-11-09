@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `describe` | method | `modules/guardrails/advisories.py:61` | `def describe(self)` |
+| `describe` | method | `modules/guardrails/advisories.py:125` | `def describe(self)` |
+| `is_suspended` | method | `modules/guardrails/advisories.py:115` | `def is_suspended(self, feature)` |
+| `notice` | method | `modules/guardrails/advisories.py:31` | `def notice(self, code, message)` |
+| `resume` | method | `modules/guardrails/advisories.py:102` | `def resume(self, feature)` |
+| `resume_all` | method | `modules/guardrails/advisories.py:108` | `def resume_all(self)` |
+| `suspend` | method | `modules/guardrails/advisories.py:84` | `def suspend(self, feature, reason)` |
+| `suspended` | method | `modules/guardrails/advisories.py:120` | `def suspended(self)` |
 | `tail` | method | `modules/guardrails/advisories.py:49` | `def tail(self, limit)` |
 | `tail_locked` | method | `modules/guardrails/advisories.py:66` | `def tail_locked(self, limit)` |
 | `CapacityEnvelope` | class | `modules/guardrails/budget.py:25` | `class CapacityEnvelope` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `phase_colors` | method | `modules/killchain.py:230` | `def phase_colors()` |
 | `phase_index` | method | `modules/killchain.py:181` | `def phase_index(self, phase)` |
 | `phase_index` | method | `modules/killchain.py:496` | `def phase_index(phase)` |
-| `phase_labels` | method | `modules/killchain.py:225` | `def phase_labels()` |
-| `phase_rich_colors` | method | `modules/killchain.py:235` | `def phase_rich_colors()` |
-| `phases` | method | `modules/killchain.py:220` | `def phases()` |
-| `phases_for_display` | method | `modules/killchain.py:485` | `def phases_for_display()` |
-| `snapshot` | method | `modules/killchain.py:501` | `def snapshot(world_model_path)` |
-| `technique_for_phase` | method | `modules/killchain.py:541` | `def technique_for_phase(phase)` |
-| `technique_for_phase` | function | `modules/killchain.py:571` | `def technique_for_phase(phase)` |
-| `technique_for_vulnclass` | method | `modules/killchain.py:553` | `def technique_for_vulnclass(vulnclass)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -1,4 +1,4 @@
-# Subsystem: tests (page 6 of 24)
+# Subsystem: tests (page 6 of 25)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
 ## tests/test_chain_v24_core.py

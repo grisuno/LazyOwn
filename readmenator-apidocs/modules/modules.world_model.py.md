@@ -759,7 +759,7 @@ def __init__(self, path: str | Path = _DEFAULT_PATH) -> None
 
 *Calls:* [`NetworkGraph.__init__`](#networkgraph-__init__)
 
-*Called by:* [`ExploitMigratedCommandSet.do_exploit_recommend`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_exploit_recommend), [`PwnCommandSet.do_rich_tui`](cli.commands.pwn.py.md#pwncommandset-do_rich_tui), [`build`](modules.golden_path.py.md#build), [`NucleiParser.enrich_world_model`](modules.integrations.nuclei_parser.py.md#nucleiparser-enrich_world_model), [`StateManager.load_world_model`](modules.state_manager.py.md#statemanager-load_world_model), [`get_world_model`](#get_world_model)
+*Called by:* [`ExploitMigratedCommandSet.do_exploit_recommend`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_exploit_recommend), [`PwnCommandSet.do_rich_tui`](cli.commands.pwn.py.md#pwncommandset-do_rich_tui), [`build`](modules.golden_path.py.md#build), [`NucleiParser.enrich_world_model`](modules.integrations.nuclei_parser.py.md#nucleiparser-enrich_world_model), [`StateManager.load_world_model`](modules.state_manager.py.md#statemanager-load_world_model), [`get_world_model`](#get_world_model), [`handle`](skills.mcp_tools.bridge_suggest.py.md#handle), [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle), [`handle`](skills.mcp_tools.exploit_recommend.py.md#handle), [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
 
 <a id="worldmodel-add_host"></a>
 
@@ -1289,6 +1289,8 @@ Return a plain-dict snapshot (for JSON serialisation).
 **Returns:** `dict`
 
 *Calls:* [`NetworkGraph.pivot_candidates`](#networkgraph-pivot_candidates), [`WorldModel.get_phase`](#worldmodel-get_phase)
+
+*Called by:* [`handle`](skills.mcp_tools.bridge_suggest.py.md#handle)
 
 <a id="worldmodel-read_section"></a>
 

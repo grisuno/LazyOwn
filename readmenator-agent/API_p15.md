@@ -1,4 +1,4 @@
-# API (page 15 of 26)
+# API (page 15 of 27)
 Previous: [API_p14.md](API_p14.md)
 
 ## modules/lazy_oob.py
@@ -152,8 +152,8 @@ Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`
 - `conformance` (function) `modules/lazy_roles.py:154` `def conformance(role)` -- Probe every pool member with role prompts, like provider conformance.
 
 ## modules/lazy_runner.py
-Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
-Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
+Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/config.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
+Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `skills/mcp_tools/auto_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_target_authority.py`, `tests/test_orchestrator_yaml.py`
 - `ThreadStdoutRouter.__init__` (method) `modules/lazy_runner.py:55` `def __init__(self, main_stream, spool)` -- Bind the real stream and the worker spool queue.
 - `ThreadStdoutRouter.write` (method) `modules/lazy_runner.py:61` `def write(self, data)` -- Route main-thread writes to the terminal, worker writes to spool.
 - `ThreadStdoutRouter.flush` (method) `modules/lazy_runner.py:72` `def flush(self)` -- Flush the real stream; the spool needs no flushing.
@@ -165,8 +165,9 @@ Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/comma
 - `build_executor` (function) `modules/lazy_runner.py:338` `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` -- Build the worker executor: shell verbs, custom tools, safe bash.
 - `report_result` (function) `modules/lazy_runner.py:521` `def report_result(result)` -- Print the final outcome of one loop run.
 - `stream` (function) `modules/lazy_runner.py:657` `def stream(text)`
-- `load_targets_file` (function) `modules/lazy_runner.py:954` `def load_targets_file(path)` -- Read and validate one target per line from a scope file.
-- `run_loop` (function) `modules/lazy_runner.py:1009` `def run_loop(shell, params, config)` -- Execute one complete loop run and return its summary.
+- `bind_target_authority` (function) `modules/lazy_runner.py:954` `def bind_target_authority(shell, targets)` -- Make the run's target(s) authoritative over payload rhost and scope.
+- `load_targets_file` (function) `modules/lazy_runner.py:1014` `def load_targets_file(path)` -- Read and validate one target per line from a scope file.
+- `run_loop` (function) `modules/lazy_runner.py:1069` `def run_loop(shell, params, config)` -- Execute one complete loop run and return its summary.
 
 ## modules/lazy_sandbox.py
 Depends on: `core/config.py`
@@ -197,7 +198,7 @@ Imported by: `modules/chain_distill.py`
 
 ## modules/lazy_search.py
 Depends on: `modules/db.py`
-Imported by: `skills/lazyown_mcp.py`
+Imported by: `skills/mcp_tools/lazysearch.py`
 - `parse` (function) `modules/lazy_search.py:94` `def parse(query)` -- Parse the grammar tokens.
 - `execute` (function) `modules/lazy_search.py:132` `def execute(db, query, workspace_name, db_path)` -- Run a parsed query against the engagement database.
 
@@ -424,7 +425,7 @@ Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
 
 ## modules/lazyown_bridge.py
 Depends on: `modules/killchain.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
 - `CatalogEntry.build_command` (method) `modules/lazyown_bridge.py:63` `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` -- Return 'command [args]' with known values substituted.
 - `CatalogEntry.matches_service` (method) `modules/lazyown_bridge.py:94` `def matches_service(self, services)`
 - `CatalogEntry.matches_os` (method) `modules/lazyown_bridge.py:104` `def matches_os(self, os_hint)`
@@ -492,9 +493,6 @@ Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phis
 - `fresh_access_token` (function) `modules/lazypoophish.py:34` `def fresh_access_token(target)` -- Return the current access level token for a target.
 - `fallback_ready` (function) `modules/lazypoophish.py:52` `def fallback_ready(target)` -- Return True when the target still lacks a foothold.
 - `run_fallback` (function) `modules/lazypoophish.py:71` `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` -- Stage the phishing-fallback handoff for one failed loop run.
-
-## modules/lazypsexec.sh
-- `execute_psexec` (function) `modules/lazypsexec.sh:15` -- Función para ejecutar psexec y verificar la salida
 
 
 Next: [API_p16.md](API_p16.md)

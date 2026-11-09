@@ -321,7 +321,7 @@ Persist one pacing override in the payload section.
 
 *Calls:* [`pacing`](#pacing)
 
-*Called by:* [`LazyCommandSet.do_lazy_pacing`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_pacing)
+*Called by:* [`LazyCommandSet.do_lazy_pacing`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_pacing), [`OrchestratorAssetsMixin.save_pacing`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_pacing)
 
 ---
 

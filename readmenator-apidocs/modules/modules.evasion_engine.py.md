@@ -174,7 +174,7 @@ def __init__(self, config: Any = None) -> None
 |---|---|---|---|
 | `config` | `Any` | `None` |  |
 
-*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion)
+*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion), [`handle`](skills.mcp_tools.evasion_generate.py.md#handle), [`handle`](skills.mcp_tools.evasion_rotate.py.md#handle)
 
 <a id="evasionengine-set_config"></a>
 
@@ -212,7 +212,7 @@ def generate_profile(self, os_family: str = 'windows') -> MalleableProfile
 
 *Calls:* [`MalleableProfile`](#malleableprofile)
 
-*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion), [`EvasionEngine.get_beacon_config`](#evasionengine-get_beacon_config), [`EvasionEngine.rotate_profile`](#evasionengine-rotate_profile)
+*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion), [`EvasionEngine.get_beacon_config`](#evasionengine-get_beacon_config), [`EvasionEngine.rotate_profile`](#evasionengine-rotate_profile), [`handle`](skills.mcp_tools.evasion_generate.py.md#handle)
 
 <a id="evasionengine-rotate_profile"></a>
 
@@ -234,7 +234,7 @@ def rotate_profile(self, os_family: str | None = None) -> MalleableProfile
 
 *Calls:* [`EvasionEngine.generate_profile`](#evasionengine-generate_profile)
 
-*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion)
+*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion), [`handle`](skills.mcp_tools.evasion_rotate.py.md#handle)
 
 <a id="evasionengine-get_active_profile"></a>
 
@@ -318,7 +318,7 @@ def profile_to_json(self, profile: MalleableProfile | None = None) -> str
 
 **Returns:** `str`
 
-*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion)
+*Called by:* [`EvasivePayloadCommandSet.do_evasion`](cli.commands.evasive_payload.py.md#evasivepayloadcommandset-do_evasion), [`handle`](skills.mcp_tools.evasion_generate.py.md#handle), [`handle`](skills.mcp_tools.evasion_rotate.py.md#handle)
 
 ---
 

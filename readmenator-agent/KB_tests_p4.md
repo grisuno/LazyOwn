@@ -1,4 +1,4 @@
-# Subsystem: tests (page 4 of 24)
+# Subsystem: tests (page 4 of 25)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_blacksandbeacon_addon.py

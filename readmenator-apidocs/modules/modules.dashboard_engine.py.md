@@ -169,7 +169,7 @@ def __init__(self, world_model: Any = None) -> None
 |---|---|---|---|
 | `world_model` | `Any` | `None` |  |
 
-*Called by:* [`PwnCommandSet.do_rich_tui`](cli.commands.pwn.py.md#pwncommandset-do_rich_tui), [`RichDashboard.__init__`](modules.rich_tui.py.md#richdashboard-__init__)
+*Called by:* [`PwnCommandSet.do_rich_tui`](cli.commands.pwn.py.md#pwncommandset-do_rich_tui), [`RichDashboard.__init__`](modules.rich_tui.py.md#richdashboard-__init__), [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle), [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
 
 <a id="dashboardengine-set_world_model"></a>
 
@@ -203,7 +203,7 @@ def set_exploit_recommender(self, recommender: Any) -> None
 |---|---|---|---|
 | `recommender` | `Any` |  |  |
 
-*Called by:* [`PwnCommandSet.do_rich_tui`](cli.commands.pwn.py.md#pwncommandset-do_rich_tui)
+*Called by:* [`PwnCommandSet.do_rich_tui`](cli.commands.pwn.py.md#pwncommandset-do_rich_tui), [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle), [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
 
 <a id="dashboardengine-set_auto_pivot"></a>
 
@@ -251,7 +251,7 @@ Build a complete dashboard snapshot from all data sources.
 
 **Returns:** `dict[str, Any]` - Dict with keys: nodes, edges, stats, recommendations, pivots, beacons.
 
-*Called by:* [`DashboardEngine.export_json`](#dashboardengine-export_json), [`DashboardEngine.format_for_cli`](#dashboardengine-format_for_cli), [`DashboardEngine.persist_snapshot`](#dashboardengine-persist_snapshot), [`DashboardEngine.render_ascii_topology`](#dashboardengine-render_ascii_topology), [`DashboardEngine.render_text_map`](#dashboardengine-render_text_map)
+*Called by:* [`DashboardEngine.export_json`](#dashboardengine-export_json), [`DashboardEngine.format_for_cli`](#dashboardengine-format_for_cli), [`DashboardEngine.persist_snapshot`](#dashboardengine-persist_snapshot), [`DashboardEngine.render_ascii_topology`](#dashboardengine-render_ascii_topology), [`DashboardEngine.render_text_map`](#dashboardengine-render_text_map), [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle), [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
 
 <a id="dashboardengine-render_text_map"></a>
 
@@ -275,6 +275,8 @@ Render a text-based network map from a dashboard snapshot.
 
 *Calls:* [`DashboardEngine.build_snapshot`](#dashboardengine-build_snapshot)
 
+*Called by:* [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle), [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
+
 <a id="dashboardengine-render_ascii_topology"></a>
 
 #### `DashboardEngine.render_ascii_topology`
@@ -296,6 +298,8 @@ Render an ASCII-art topology tree from a snapshot.
 **Returns:** `str` - Multi-line ASCII topology string.
 
 *Calls:* [`DashboardEngine.build_snapshot`](#dashboardengine-build_snapshot)
+
+*Called by:* [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle), [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
 
 <a id="dashboardengine-export_json"></a>
 
@@ -341,6 +345,8 @@ Persist dashboard snapshot to sessions/dashboard_snapshot.json.
 
 *Calls:* [`DashboardEngine.build_snapshot`](#dashboardengine-build_snapshot)
 
+*Called by:* [`handle`](skills.mcp_tools.dashboard_snapshot.py.md#handle)
+
 <a id="dashboardengine-format_for_cli"></a>
 
 #### `DashboardEngine.format_for_cli`
@@ -362,6 +368,8 @@ Compact single-line status for CLI prompt integration.
 **Returns:** `str` - Short status string: "[H:3 S:12 R:5 P:2 B:1]"
 
 *Calls:* [`DashboardEngine.build_snapshot`](#dashboardengine-build_snapshot)
+
+*Called by:* [`handle`](skills.mcp_tools.rich_tui_snapshot.py.md#handle)
 
 ---
 

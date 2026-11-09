@@ -45,7 +45,7 @@ Load rules from event_rules.json, creating it with defaults if missing.
 
 *Calls:* [`save_rules`](#save_rules)
 
-*Called by:* [`add_rule`](#add_rule), [`process_new_rows`](#process_new_rows)
+*Called by:* [`add_rule`](#add_rule), [`process_new_rows`](#process_new_rows), [`handle`](skills.mcp_tools.add_rule.py.md#handle), [`handle`](skills.mcp_tools.heartbeat_status.py.md#handle)
 
 ---
 
@@ -93,6 +93,8 @@ Returns 'added' or 'updated'.
 
 *Calls:* [`load_rules`](#load_rules), [`save_rules`](#save_rules)
 
+*Called by:* [`handle`](skills.mcp_tools.add_rule.py.md#handle)
+
 ---
 
 <a id="process_new_rows"></a>
@@ -138,7 +140,7 @@ Return up to `limit` events matching `status` (pending/processed/all).
 
 **Returns:** `list[dict]`
 
-*Called by:* [`run_loop`](skills.heartbeat.py.md#run_loop)
+*Called by:* [`run_loop`](skills.heartbeat.py.md#run_loop), [`handle`](skills.mcp_tools.poll_events.py.md#handle)
 
 ---
 
@@ -163,6 +165,8 @@ Returns True if found.
 | `event_id` | `str` |  |  |
 
 **Returns:** `bool`
+
+*Called by:* [`handle`](skills.mcp_tools.ack_event.py.md#handle)
 
 ---
 

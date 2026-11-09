@@ -1566,7 +1566,7 @@ def __init__(self, cfg: Config | None = None) -> None
 
 *Calls:* [`get_logger`](core.logging.py.md#get_logger), [`configure`](modules.logging_config.py.md#configure), [`Config.default`](#config-default), [`CrackMapExecParser`](#crackmapexecparser), [`Enum4linuxParser`](#enum4linuxparser), [`GenericOutputParser`](#genericoutputparser), [`GobusterFfufParser`](#gobusterffufparser), [`INmapXmlParser`](#inmapxmlparser), [`KerbruteParser`](#kerbruteparser), [`LdapParser`](#ldapparser), [`NiktoParser`](#niktoparser), [`NucleiParser`](#nucleiparser) and 3 more
 
-*Called by:* [`McpBridgeCommandSet.do_facts_show`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target)
+*Called by:* [`McpBridgeCommandSet.do_facts_show`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_facts_show), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target), [`handle`](skills.mcp_tools.facts_show.py.md#handle)
 
 <a id="factstore-save"></a>
 

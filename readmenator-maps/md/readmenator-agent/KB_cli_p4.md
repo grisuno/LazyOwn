@@ -1,6 +1,27 @@
 # Subsystem: cli (page 4 of 5)
 Previous: [KB_cli_p3.md](KB_cli_p3.md)
 
+## cli/protips.py
+- Doc: Pro tips system for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ProTip` (class, line 34) `class ProTip`
+  - `_os_linux` (function, line 43) `def _os_linux(ctx)`
+  - `_os_windows` (function, line 47) `def _os_windows(ctx)`
+  - `_has_rhost` (function, line 51) `def _has_rhost(ctx)`
+  - `_has_domain` (function, line 55) `def _has_domain(ctx)`
+  - `_has_api_key` (function, line 59) `def _has_api_key(ctx)`
+  - `_phase_in` (function, line 63) `def _phase_in(ctx)`
+  - `_last_cmd_is` (function, line 67) `def _last_cmd_is(ctx)`
+  - `_after` (function, line 75) `def _after(ctx)`
+  - `get_session_tip` (function, line 307) `def get_session_tip(ctx)`
+  - `render_contextual_tip` (function, line 333) `def render_contextual_tip(last_cmd, ctx)`
+  - `print_session_tip` (function, line 363) `def print_session_tip(ctx)`
+  - `_safe_trigger` (function, line 375) `def _safe_trigger(tip, ctx)`
+- Depends on: `cli/noise_verbs.py`, `core/console.py`
+- Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
+
 ## cli/purple_tui.py
 - Doc: Purple Team Dashboard — Textual TUI for engagement monitoring.
 - Layer: utility
@@ -450,43 +471,6 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `_is_ipv4` (method, line 616) `def _is_ipv4(value)`
   - `_client_label` (method, line 622) `def _client_label(client_id, meta)`
 - Imported by: `cli/surface_tui.py`, `modules/attack_surface3d.py`, `tests/test_surface_graph.py`
-
-## cli/surface_tui.py
-- Doc: Terminal renderer for the LazyOwn network surface graph.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TextualNotInstalled` (class, line 61) `class TextualNotInstalled(RuntimeError)`
-  - `render_static` (function, line 65) `def render_static(graph, sessions_dir, payload_path, console)`
-  - `render_json` (function, line 92) `def render_json(graph, sessions_dir, payload_path)`
-  - `launch_tui` (function, line 112) `def launch_tui(sessions_dir, payload_path)`
-  - `_build_rich_tree` (function, line 214) `def _build_rich_tree(graph)`
-  - `_attach_children` (function, line 223) `def _attach_children(parent, graph, parent_id, seen)`
-  - `_styled_label` (function, line 232) `def _styled_label(node)`
-  - `_stats_table` (function, line 241) `def _stats_table(graph)`
-  - `_render_node_detail` (function, line 260) `def _render_node_detail(data)`
-  - `SurfaceExplorer` (class, line 130) `class SurfaceExplorer(App)`
-  - `__init__` (method, line 148) `def __init__(self, sessions_dir, payload_path)`
-  - `compose` (method, line 154) `def compose(self)`
-  - `on_mount` (method, line 161) `def on_mount(self)`
-  - `action_refresh` (method, line 164) `def action_refresh(self)`
-  - `action_expand_all` (method, line 168) `def action_expand_all(self)`
-  - `action_collapse_all` (method, line 172) `def action_collapse_all(self)`
-  - `on_tree_node_selected` (method, line 176) `def on_tree_node_selected(self, event)`
-  - `_reload_graph` (method, line 185) `def _reload_graph(self)`
-  - `_add_children` (method, line 205) `def _add_children(self, parent_node, graph, parent_id)`
-- Depends on: `cli/commands/containers.py`, `cli/surface_graph.py`, `core/console.py`
-- Imported by: `cli/commands/recon_migrated.py`
-
-## cli/themes.py
-- Doc: Theme registry for the LazyOwn TUI surfaces.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `Theme` (class, line 31) `class Theme`
-  - `get_theme` (function, line 222) `def get_theme(name)`
-  - `theme_from_payload` (function, line 238) `def theme_from_payload(payload)`
-- Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/session_brief.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
 
 
 Next: [KB_cli_p5.md](KB_cli_p5.md)

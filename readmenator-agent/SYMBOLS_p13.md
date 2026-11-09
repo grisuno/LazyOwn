@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_expire` | method | `modules/collab_bp.py:350` | `def _expire(self)` |
+| `acquire` | method | `modules/collab_bp.py:267` | `def acquire(self, target, operator, ttl_secs)` |
+| `active_operators` | method | `modules/collab_bp.py:345` | `def active_operators(self)` |
+| `all_locks` | method | `modules/collab_bp.py:292` | `def all_locks(self)` |
+| `collab_ui` | function | `modules/collab_bp.py:396` | `def collab_ui()` |
+| `decorated` | function | `modules/collab_bp.py:84` | `def decorated()` |
+| `decorated` | function | `modules/collab_bp.py:124` | `def decorated()` |
+| `decorated` | function | `modules/collab_bp.py:141` | `def decorated()` |
 | `decorator` | function | `modules/collab_bp.py:139` | `def decorator(f)` |
 | `generate` | function | `modules/collab_bp.py:424` | `def generate()` |
 | `get_event_bus` | function | `modules/collab_bp.py:370` | `def get_event_bus()` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
 | `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
 | `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
-| `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
-| `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
-| `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
-| `deliver` | method | `modules/engagement_hooks.py:159` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:181` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:216` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:258` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:370` | `def deliver(self, event)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

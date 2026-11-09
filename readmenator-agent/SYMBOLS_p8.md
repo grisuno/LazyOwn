@@ -3,6 +3,13 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `LazyOwnError` | class | `core/errors.py:58` | `class LazyOwnError(Exception)` |
+| `NetworkError` | class | `core/errors.py:120` | `class NetworkError(LazyOwnError)` |
+| `PayloadError` | class | `core/errors.py:106` | `class PayloadError(LazyOwnError)` |
+| `PermissionError` | class | `core/errors.py:127` | `class PermissionError(LazyOwnError)` |
+| `TargetError` | class | `core/errors.py:85` | `class TargetError(LazyOwnError)` |
+| `ToolError` | class | `core/errors.py:99` | `class ToolError(LazyOwnError)` |
+| `ValidationError` | class | `core/errors.py:134` | `class ValidationError(LazyOwnError)` |
 | `__init__` | method | `core/errors.py:61` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:81` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:88` | `def __init__(self, message, error_code)` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `api_guard_audit` | function | `lazyc2.py:7922` | `def api_guard_audit()` |
 | `api_intel_bundle` | function | `lazyc2.py:8104` | `def api_intel_bundle()` |
 | `api_intel_graph` | function | `lazyc2.py:7751` | `def api_intel_graph()` |
-| `api_killchain` | function | `lazyc2.py:6948` | `def api_killchain()` |
-| `api_lazy_mentions` | function | `lazyc2.py:8068` | `def api_lazy_mentions()` |
-| `api_listeners` | function | `lazyc2.py:8837` | `def api_listeners()` |
-| `api_listeners_create` | function | `lazyc2.py:8844` | `def api_listeners_create()` |
-| `api_listeners_delete` | function | `lazyc2.py:8876` | `def api_listeners_delete(listener_id)` |
-| `api_listeners_start` | function | `lazyc2.py:8860` | `def api_listeners_start(listener_id)` |
-| `api_listeners_stop` | function | `lazyc2.py:8868` | `def api_listeners_stop(listener_id)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

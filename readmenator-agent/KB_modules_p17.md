@@ -155,7 +155,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `main` (function, line 679) `def main()`
   - `_as_list` (function, line 460) `def _as_list(value)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
-- Imported by: `skills/lazyown_mcp.py`
+- Imported by: `skills/mcp_tools/ttp_chain.py`
 
 ## modules/unified_bridge.py
 - Doc: UnifiedBridge — single API over all LazyOwn bridges and routing engines.
@@ -215,7 +215,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `render_unified` (method, line 170) `def render_unified(self)`
   - `export_json` (method, line 251) `def export_json(self)`
 - Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
+- Imported by: `skills/mcp_tools/unified_dashboard.py`, `tests/test_unified_dashboard.py`
 
 ## modules/update_db.sh
 - Doc: Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico...
@@ -270,22 +270,23 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `_default_config` (function, line 101) `def _default_config()`
   - `_builtin_names` (function, line 111) `def _builtin_names()`
   - `_phase_fallback` (function, line 123) `def _phase_fallback(verb)`
-  - `_risk_fallback` (function, line 133) `def _risk_fallback(verb)`
-  - `_addon_discoveries` (function, line 143) `def _addon_discoveries(config)`
-  - `_poc_discoveries` (function, line 187) `def _poc_discoveries(config)`
-  - `_all_discoveries` (function, line 214) `def _all_discoveries(config)`
-  - `index_commands` (function, line 226) `def index_commands(config)`
-  - `validate_catalog` (function, line 266) `def validate_catalog(data)`
-  - `load` (function, line 299) `def load(config)`
-  - `entries` (function, line 332) `def entries(config)`
-  - `catalog_enabled` (function, line 385) `def catalog_enabled(name, config)`
-  - `catalog_source` (function, line 400) `def catalog_source(name, config)`
-  - `set_enabled` (function, line 414) `def set_enabled(name, enabled, config)`
-  - `sync` (function, line 452) `def sync(config)`
-  - `_write` (function, line 512) `def _write(cfg, verbs)`
-  - `_drop_cache` (function, line 536) `def _drop_cache(path_key)`
-  - `stats` (function, line 544) `def stats(config)`
-  - `search` (function, line 558) `def search(query, config, phase, enabled, limit)`
+  - `_phases_for` (function, line 133) `def _phases_for(stored, phase)`
+  - `_risk_fallback` (function, line 161) `def _risk_fallback(verb)`
+  - `_addon_discoveries` (function, line 171) `def _addon_discoveries(config)`
+  - `_poc_discoveries` (function, line 215) `def _poc_discoveries(config)`
+  - `_all_discoveries` (function, line 242) `def _all_discoveries(config)`
+  - `index_commands` (function, line 254) `def index_commands(config)`
+  - `validate_catalog` (function, line 294) `def validate_catalog(data)`
+  - `load` (function, line 331) `def load(config)`
+  - `entries` (function, line 364) `def entries(config)`
+  - `catalog_enabled` (function, line 420) `def catalog_enabled(name, config)`
+  - `catalog_source` (function, line 435) `def catalog_source(name, config)`
+  - `set_enabled` (function, line 449) `def set_enabled(name, enabled, config)`
+  - `sync` (function, line 487) `def sync(config)`
+  - `_write` (function, line 547) `def _write(cfg, verbs)`
+  - `_drop_cache` (function, line 571) `def _drop_cache(path_key)`
+  - `stats` (function, line 579) `def stats(config)`
+  - `search` (function, line 593) `def search(query, config, phase, enabled, limit)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 - Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
 

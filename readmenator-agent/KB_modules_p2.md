@@ -29,7 +29,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_persist_state` (method, line 277) `def _persist_state(self)`
   - `_load_state` (method, line 314) `def _load_state(self)`
   - `suggest_next_pivot` (method, line 352) `def suggest_next_pivot(self)`
-- Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
+- Imported by: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/pivot_status.py`
 
 ## modules/auto_purple.py
 - Doc: Purple Team Closed-Loop — honest measurement of offensive detection.
@@ -130,7 +130,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_target` (function, line 1049) `def _target()`
   - `_kill` (function, line 1190) `def _kill()`
 - Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -184,7 +184,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `full_auto_pwn` (method, line 2668) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
 - Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
 - Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.

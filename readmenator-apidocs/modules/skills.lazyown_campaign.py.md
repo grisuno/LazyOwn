@@ -371,7 +371,7 @@ def __init__(self, campaign_file: Path = CAMPAIGN_FILE) -> None
 |---|---|---|---|
 | `campaign_file` | `Path` | `CAMPAIGN_FILE` |  |
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 <a id="campaignstore-load"></a>
 
@@ -415,7 +415,7 @@ Create and persist a brand-new campaign.
 
 *Calls:* [`Campaign`](#campaign)
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 <a id="campaignstore-complete"></a>
 
@@ -446,7 +446,7 @@ Mark the active campaign as completed and optionally run reflection.
 
 *Calls:* [`EpisodeReflectionEngine.__init__`](#episodereflectionengine-__init__), [`EpisodeReflectionEngine.reflect`](#episodereflectionengine-reflect)
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 <a id="campaignstore-update_phase"></a>
 
@@ -467,7 +467,7 @@ Set (or update) the attack phase for *host*.
 | `host` | `str` |  | Target IP address or hostname. |
 | `phase` | `str` |  | Phase label (e.g. ``"recon"``, ``"exploit"``). |
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 <a id="campaignstore-add_milestone"></a>
 
@@ -489,7 +489,7 @@ Record a milestone achievement for *host*.
 | `milestone_type` | `str` |  | Short label such as ``"initial_foothold"``, ``"priv_esc"``, ``"data_exfil"``, ``"lateral_movement"``. |
 | `notes` | `str` | `''` | Optional freeform description of how the milestone was reached. |
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 <a id="campaignstore-add_to_scope"></a>
 
@@ -509,7 +509,7 @@ Append *ip_or_cidr* to the campaign scope (idempotent).
 |---|---|---|---|
 | `ip_or_cidr` | `str` |  | A CIDR range (``10.10.10.0/24``) or individual address / hostname to add. |
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 <a id="campaignstore-in_scope"></a>
 
@@ -549,7 +549,7 @@ Return a human-readable multi-line summary of the campaign.
 
 *Calls:* [`CampaignStore.load`](#campaignstore-load)
 
-*Called by:* [`main`](#main)
+*Called by:* [`main`](#main), [`handle`](skills.mcp_tools.campaign.py.md#handle)
 
 ---
 

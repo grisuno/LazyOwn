@@ -1,4 +1,4 @@
-# API (page 14 of 26)
+# API (page 14 of 27)
 Previous: [API_p13.md](API_p13.md)
 
 ## modules/lazy_cli_bridge.py
@@ -12,9 +12,9 @@ Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/cha
 - `build_cli_command` (function) `modules/lazy_cli_bridge.py:158` `def build_cli_command(verb, target)` -- Build a shell line for any CLI verb bound to target.
 - `search_cli_verbs` (function) `modules/lazy_cli_bridge.py:185` `def search_cli_verbs(query, phase, limit)` -- Search the full CLI catalog by keyword and phase.
 - `cli_catalog_for_phase` (function) `modules/lazy_cli_bridge.py:211` `def cli_catalog_for_phase(phase, limit)` -- Return a compact verb list for LLM prompt injection.
-- `catalog_cli_for_phase` (function) `modules/lazy_cli_bridge.py:219` `def catalog_cli_for_phase(limit)` -- Return enabled catalog commands for the current kill-chain phase.
-- `full_cli_enabled` (function) `modules/lazy_cli_bridge.py:253` `def full_cli_enabled()` -- Return whether the loop may route any CLI verb.
-- `set_full_cli` (function) `modules/lazy_cli_bridge.py:276` `def set_full_cli(enabled)` -- Persist the full-CLI routing flag and return the new value.
+- `catalog_cli_for_phase` (function) `modules/lazy_cli_bridge.py:240` `def catalog_cli_for_phase(limit)` -- Return enabled catalog commands for the current kill-chain phase.
+- `full_cli_enabled` (function) `modules/lazy_cli_bridge.py:274` `def full_cli_enabled()` -- Return whether the loop may route any CLI verb.
+- `set_full_cli` (function) `modules/lazy_cli_bridge.py:297` `def set_full_cli(enabled)` -- Persist the full-CLI routing flag and return the new value.
 
 ## modules/lazy_continuation.py
 - `record_path` (function) `modules/lazy_continuation.py:71` `def record_path(target)` -- Return the continuation record path for one target.
@@ -53,7 +53,7 @@ Imported by: `tests/test_loop_objective_wiring.py`
 
 ## modules/lazy_exposure.py
 Depends on: `modules/__init__.py`, `modules/lazy_feedmatch.py`, `modules/lazy_heat.py`, `modules/lazy_probes.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_exposure.py`
+Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/mcp_tools/lazy_intel.py`, `tests/test_lazy_exposure.py`
 - `ensure_report` (function) `modules/lazy_exposure.py:56` `def ensure_report(target, entries, refresh)` -- Create the target exposure report if absent (loop bootstrap path).
 - `read_sightings` (function) `modules/lazy_exposure.py:97` `def read_sightings(target, state_path)` -- Extract observed service sightings from the encrypted world model.
 - `generate_report` (function) `modules/lazy_exposure.py:129` `def generate_report(target, entries, sightings)` -- Build the exposure report for one target.
@@ -175,7 +175,7 @@ Imported by: `modules/lazy_loop.py`, `modules/sinks/routing.py`, `tests/test_laz
 
 ## modules/lazy_loop.py
 Depends on: `core/config.py`, `core/crypto.py`, `core/hardening.py`, `core/logging.py`, `core/process.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_registry.py`, `modules/chain_loop.py`, `modules/custom_tools.py`, `modules/defense_stages.py`, `modules/digest.py`, `modules/finding_lifecycle.py`, `modules/guardrails/__init__.py`, `modules/harness.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/lazy_orchestrator_feedback.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_skills.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop/__init__.py`, `modules/loop_ai_bridge.py`, `modules/loop_guardrails.py`, `modules/loop_triggers.py`, `modules/mediation/__init__.py`, `modules/module_registry.py`, `modules/notify.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/progress_ledger.py`, `modules/reaction_bridge.py`, `modules/selection/base.py`, `modules/selection/registry.py`, `modules/selfupdate.py`, `modules/sinks/findings.py`, `modules/traffic_recorder.py`, `modules/trigger_policy.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_drafts.py`, `modules/lazy_engine.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_objective_queue.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_engine_mediator.py`, `tests/test_failure_memory_veto.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_policy_planner_signal.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_trigger_policy.py`, `tests/test_world_diff_retest.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_drafts.py`, `modules/lazy_engine.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_objective_queue.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/mcp_tools/lazy_compact.py`, `skills/mcp_tools/lazy_delete.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_engine_mediator.py`, `tests/test_failure_memory_veto.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_policy_planner_signal.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_trigger_policy.py`, `tests/test_world_diff_retest.py`
 - `plausible_command` (function) `modules/lazy_loop.py:175` `def plausible_command(command)` -- Reject obvious hallucinations such as ``nmap --block``.
 - `looks_like_prose` (function) `modules/lazy_loop.py:199` `def looks_like_prose(command)` -- Return True when a line is natural-language prose, not a shell command.
 - `repair_worker_command` (function) `modules/lazy_loop.py:347` `def repair_worker_command(command, target)` -- Normalize one LLM-proposed worker command.
@@ -311,153 +311,153 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cl
 - `TaskStore.steer_for` (method) `modules/lazy_loop.py:3034` `def steer_for(self, task_id, intent_id)` -- Return pending steer message for intent if any.
 - `TaskStore.clear_steer` (method) `modules/lazy_loop.py:3039` `def clear_steer(self, task_id, intent_id)` -- Drop the pending steer message for an intent after delivery.
 - `TaskStore.killed` (method) `modules/lazy_loop.py:3052` `def killed(self, task_id, intent_id)` -- Report whether intent was flagged for termination.
-- `extract_scope_items` (function) `modules/lazy_loop.py:3058` `def extract_scope_items(goal_text, description)` -- Lift explicit asset scope from goal like the planner goalsScopeTail.
-- `extract_constraint_items` (function) `modules/lazy_loop.py:3090` `def extract_constraint_items(goal_text, description)` -- Lift explicit allow/deny operation bounds like the planner goals decomposer.
-- `load_intel_scores` (function) `modules/lazy_loop.py:3182` `def load_intel_scores()` -- Return host exposure scores for plan prioritisation.
-- `resolve_target` (function) `modules/lazy_loop.py:3211` `def resolve_target(task_id, store, graph)` -- Resolve concrete target for worker commands from scope, assets, goal.
-- `decompose_goals` (function) `modules/lazy_loop.py:3234` `def decompose_goals(goal_text, description)` -- Split goal text into verifiable objectives like the planner DecomposeGoals.
-- `enrich_asset` (function) `modules/lazy_loop.py:3271` `def enrich_asset(value)` -- Synchronously enrich one asset with DNS and HTTP like the planner enrich.
-- `Planner.__init__` (method) `modules/lazy_loop.py:3297` `def __init__(self, task_id, assets, graph, activity, store)` -- Bind planner to task collaborators.
-- `Planner.plan` (method) `modules/lazy_loop.py:3325` `def plan(self, triggers)` -- Emit 0..N intents from current situation; most wakeups emit zero.
-- `Planner.refine` (method) `modules/lazy_loop.py:3404` `def refine(self)` -- Re-plan pending intents against fresh outcomes, like plan refinement.
-- `Planner.finalize` (method) `modules/lazy_loop.py:3969` `def finalize(self, reason)` -- Final planner round: park open intents and record the wrap-up.
-- `sink` (function) `modules/lazy_loop.py:3989` `def sink(text)`
-- `Worker.__init__` (method) `modules/lazy_loop.py:4095` `def __init__(self, name, task_id, assets, graph, activity, traffic, guard, store, shell, ephemeral)` -- Bind worker to task collaborators.
-- `Worker.rebind` (method) `modules/lazy_loop.py:4143` `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` -- Point a pooled worker at the collaborators of the current round.
-- `Worker.close` (method) `modules/lazy_loop.py:4167` `def close(self)` -- Release the worker's shell session and shutdown registration.
-- `Worker.execute` (method) `modules/lazy_loop.py:4202` `def execute(self, intent, executor, timeout_sec)` -- Run one intent to completion and write facts back.
-- `sink` (function) `modules/lazy_loop.py:4950` `def sink(text)`
-- `Retester.__init__` (method) `modules/lazy_loop.py:5285` `def __init__(self, graph, activity, traffic)` -- Bind retester to task collaborators.
-- `Retester.retest` (method) `modules/lazy_loop.py:5291` `def retest(self, finding_id, executor, note)` -- Re-execute finding evidence to reproduced/fixed/inconclusive.
-- `Retester.retest_context` (method) `modules/lazy_loop.py:5455` `def retest_context(self, finding_id)` -- Return finding + PoC + assets + constraints like get_finding_retest_context.
-- `ColdCompactor.__init__` (method) `modules/lazy_loop.py:5477` `def __init__(self, graph, activity)` -- Bind compactor to task graph.
-- `ColdCompactor.noa_archives` (method) `modules/lazy_loop.py:5587` `def noa_archives(self, limit)` -- List NOA raw archives for this task (newest first).
-- `ColdCompactor.hot_set` (method) `modules/lazy_loop.py:5646` `def hot_set(self)` -- Compute hot nodes by reverse reachability from live intents.
-- `ColdCompactor.structural_cold` (method) `modules/lazy_loop.py:5668` `def structural_cold(self, hot)` -- Return foldable non-hot nodes before debounce.
-- `ColdCompactor.covered_members` (method) `modules/lazy_loop.py:5753` `def covered_members(self)` -- Return node ids already folded under active digests.
-- `ColdCompactor.on_planner_round` (method) `modules/lazy_loop.py:5765` `def on_planner_round(self)` -- Advance round, maintain stamps, trigger background compaction.
-- `ColdCompactor.compact` (method) `modules/lazy_loop.py:5806` `def compact(self, threshold, mode, debounce_sec)` -- Fold cold facts into digests like coldgraph minor/major.
-- `ColdCompactor.expand` (method) `modules/lazy_loop.py:5933` `def expand(self, digest_id, role)` -- Restore digest members like expandDigest.
-- `ColdCompactor.cold_index` (method) `modules/lazy_loop.py:5957` `def cold_index(self)` -- Group active digests by anchored asset.
-- `ColdCompactor.unfolded` (method) `modules/lazy_loop.py:5975` `def unfolded(self, limit)` -- Return cold facts unfolded up to cap with a truncated flag.
-- `ColdCompactor.digest_overview` (method) `modules/lazy_loop.py:5991` `def digest_overview(self)` -- Digest index: every digest with expandable members plus cold index.
-- `constraint_block` (function) `modules/lazy_loop.py:6038` `def constraint_block(constraints, scope)` -- Render allow/deny bounds as highest-priority prompt block.
-- `settlement_prompt` (function) `modules/lazy_loop.py:6072` `def settlement_prompt(agent, reason)` -- Build the wrap-up instruction used when a run budget ends.
-- `terminal_hint` (function) `modules/lazy_loop.py:6133` `def terminal_hint(reason, state)` -- Return a one-line operator explanation for a terminal disposition.
-- `build_prompt_context` (function) `modules/lazy_loop.py:6163` `def build_prompt_context(task_id, graph, assets, store, budget, top)` -- Assemble a bounded prompt context for planner/worker LLM calls.
-- `finding_severity` (function) `modules/lazy_loop.py:6252` `def finding_severity(text, evidence)` -- Rank finding severity like the report renderer (critical first).
-- `FindingService.__init__` (method) `modules/lazy_loop.py:6287` `def __init__(self, task_id, graph, activity, store)` -- Bind service to task collaborators.
-- `FindingService.report` (method) `modules/lazy_loop.py:6320` `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` -- Register a finding with severity/evidence/dedupe like report_finding.
-- `FindingService.apply_drafts` (method) `modules/lazy_loop.py:6520` `def apply_drafts(self)` -- Commit finished background reporter drafts onto their findings.
-- `FindingService.set_status` (method) `modules/lazy_loop.py:6557` `def set_status(self, finding_id, status)` -- Transition finding status like the workflow disposition.
-- `FindingService.update_report` (method) `modules/lazy_loop.py:6574` `def update_report(self, finding_id, report)` -- Write the narrative report and bump the evidence version.
-- `FindingService.ranked` (method) `modules/lazy_loop.py:6596` `def ranked(self)` -- Findings ordered critical-first like the Markdown renderer.
-- `EvidenceStore.__init__` (method) `modules/lazy_loop.py:6606` `def __init__(self, task_id)` -- Bind vault to task.
-- `EvidenceStore.add` (method) `modules/lazy_loop.py:6615` `def add(self, finding_id, kind, body)` -- Attach evidence to a finding and return the record.
-- `EvidenceStore.verify` (method) `modules/lazy_loop.py:6639` `def verify(self)` -- Return ids whose body fails the sha256 integrity check.
-- `EvidenceStore.gc` (method) `modules/lazy_loop.py:6659` `def gc(self, valid_findings)` -- Drop evidence for findings no longer present; returns removed.
-- `EvidenceStore.for_finding` (method) `modules/lazy_loop.py:6675` `def for_finding(self, finding_id)` -- Return evidence attached to one finding.
-- `EvidenceStore.read` (method) `modules/lazy_loop.py:6679` `def read(self, evidence_id, offset, length)` -- Read one evidence body in bounded byte ranges.
-- `EvidenceStore.export` (method) `modules/lazy_loop.py:6716` `def export(self, path)` -- Dump vault to a file for the report pipeline.
-- `Notifier.__init__` (method) `modules/lazy_loop.py:6727` `def __init__(self, store)` -- Bind optional channel config from task store.
-- `Notifier.channels` (method) `modules/lazy_loop.py:6731` `def channels(self)` -- Return configured channels (empty = log only).
-- `Notifier.add_channel` (method) `modules/lazy_loop.py:6739` `def add_channel(self, kind, target, min_severity, extra)` -- Register a channel: log|webhook|file|slack|email with severity floor.
-- `Notifier.remove_channel` (method) `modules/lazy_loop.py:6786` `def remove_channel(self, index)` -- Remove one channel by its 1-based list position.
-- `Notifier.emit` (method) `modules/lazy_loop.py:6837` `def emit(self, task_id, event, data)` -- Fan out finding/status/task events; returns deliveries.
-- `LlmPool.__init__` (method) `modules/lazy_loop.py:6910` `def __init__(self)` -- Load member list and usage ledger paths.
-- `LlmPool.members` (method) `modules/lazy_loop.py:6945` `def members(self)` -- Return configured chain in order, seeding defaults on first use.
-- `LlmPool.add_member` (method) `modules/lazy_loop.py:6950` `def add_member(self, name, model, priority)` -- Append a chain member backed by llm_factory at call time.
-- `LlmPool.remove_member` (method) `modules/lazy_loop.py:6959` `def remove_member(self, name)` -- Drop a chain member.
-- `LlmPool.set_priority` (method) `modules/lazy_loop.py:6969` `def set_priority(self, name, priority)` -- Change one member's failover rank, keeping the rest untouched.
-- `LlmPool.usage` (method) `modules/lazy_loop.py:6982` `def usage(self)` -- Return per-member call ledger like llm_usage.
-- `LlmPool.record_call` (method) `modules/lazy_loop.py:6992` `def record_call(self, member, ok, text)` -- Append one ledger row for external failover callers.
-- `LlmPool.complete` (method) `modules/lazy_loop.py:7101` `def complete(self, prompt, max_tokens, empty_retries, members, task_id, on_delta)` -- Fail over across members; empty string when no backend answers.
-- `LlmPool.health` (method) `modules/lazy_loop.py:7266` `def health(self)` -- Return per-member health state for lazy_llm health.
-- `LlmPool.context_budget` (method) `modules/lazy_loop.py:7277` `def context_budget(self)` -- Return the prompt context character budget (default 2000).
-- `LlmPool.record_raw` (method) `modules/lazy_loop.py:7282` `def record_raw(self)` -- Return whether raw prompt/response recording is enabled.
-- `LlmPool.set_record_raw` (method) `modules/lazy_loop.py:7287` `def set_record_raw(self, enabled)` -- Toggle raw prompt/response recording in the pool ledger.
-- `LlmPool.raw_entries` (method) `modules/lazy_loop.py:7294` `def raw_entries(self, limit)` -- Return the most recent raw LLM exchanges.
-- `LlmPool.raw_entries_for_task` (method) `modules/lazy_loop.py:7308` `def raw_entries_for_task(self, task_id, limit)` -- Return the most recent raw LLM exchanges recorded for one task.
-- `LlmPool.set_context_budget` (method) `modules/lazy_loop.py:7371` `def set_context_budget(self, chars)` -- Persist the prompt context character budget.
-- `ToolCatalog.__init__` (method) `modules/lazy_loop.py:7389` `def __init__(self)` -- Load binding table.
-- `ToolCatalog.bindings` (method) `modules/lazy_loop.py:7406` `def bindings(self, agent)` -- Return bindings for one agent or the whole table.
-- `ToolCatalog.bind` (method) `modules/lazy_loop.py:7411` `def bind(self, agent, tool)` -- Opt a tool into an agent lane.
-- `ToolCatalog.unbind` (method) `modules/lazy_loop.py:7420` `def unbind(self, agent, tool)` -- Remove a tool from an agent lane.
-- `SideQuestions.ask` (method) `modules/lazy_loop.py:7440` `def ask(self, task_id, question, pool, session)` -- Answer from graph overview + recent trace within a char budget.
-- `SideQuestions.history` (method) `modules/lazy_loop.py:7486` `def history(self, task_id, session, limit)` -- Return persisted side exchanges, optionally one session only.
-- `SideQuestions.sessions` (method) `modules/lazy_loop.py:7494` `def sessions(self, task_id)` -- Return side-question session names for a task.
-- `CompanyScope.__init__` (method) `modules/lazy_loop.py:7507` `def __init__(self)` -- Load company table.
-- `CompanyScope.add` (method) `modules/lazy_loop.py:7515` `def add(self, name, scope)` -- Register a company with an optional scope pattern.
-- `CompanyScope.list` (method) `modules/lazy_loop.py:7524` `def list(self)` -- Return companies with asset counts.
-- `CompanyScope.match` (method) `modules/lazy_loop.py:7528` `def match(self, value)` -- Return companies whose scope substring hits the value.
-- `TaskArchive.save` (method) `modules/lazy_loop.py:7537` `def save(self, task_id)` -- Snapshot task record + graph + activity tail into one archive.
-- `TaskArchive.list` (method) `modules/lazy_loop.py:7558` `def list(self)` -- Return archive snapshots with task + node counts.
-- `TaskArchive.restore` (method) `modules/lazy_loop.py:7580` `def restore(self, path)` -- Restore one archive as a NEW task; returns the new task id.
-- `TaskArchive.stats` (method) `modules/lazy_loop.py:7647` `def stats(self)` -- Aggregate counts across archives like archive aggregate stats.
-- `TaskTemplate.__init__` (method) `modules/lazy_loop.py:7656` `def __init__(self)` -- Bind template table.
-- `TaskTemplate.list` (method) `modules/lazy_loop.py:7664` `def list(self)` -- Return all templates.
-- `TaskTemplate.add` (method) `modules/lazy_loop.py:7668` `def add(self, name, goal)` -- Register a template; names are unique (overwrite on clash).
-- `TaskTemplate.remove` (method) `modules/lazy_loop.py:7678` `def remove(self, name)` -- Delete a template by name.
-- `TaskTemplate.get` (method) `modules/lazy_loop.py:7688` `def get(self, name)` -- Return one template by name or None.
-- `TaskCategory.__init__` (method) `modules/lazy_loop.py:7699` `def __init__(self, store)` -- Bind optional task store.
-- `TaskCategory.set` (method) `modules/lazy_loop.py:7704` `def set(self, task_id, category)` -- Label a task; returns the mapping.
-- `TaskCategory.get` (method) `modules/lazy_loop.py:7711` `def get(self, task_id)` -- Return the category for a task or empty string.
-- `TaskCategory.list` (method) `modules/lazy_loop.py:7715` `def list(self, category)` -- Return task->category rows, optionally filtered.
-- `TaskChat.say` (method) `modules/lazy_loop.py:7730` `def say(self, task_id, text, pool, session)` -- Append a human turn and answer from task context; returns both.
-- `TaskChat.log` (method) `modules/lazy_loop.py:7773` `def log(self, task_id, limit, session)` -- Return recent conversation turns, optionally one session only.
-- `TaskChat.sessions` (method) `modules/lazy_loop.py:7789` `def sessions(self, task_id)` -- Return session names active in a task.
-- `TaskChat.clear` (method) `modules/lazy_loop.py:7798` `def clear(self, task_id, session)` -- Drop one session's turns, or the whole log when session is empty.
-- `LazyLoopEngine.__init__` (method) `modules/lazy_loop.py:7853` `def __init__(self, shell)` -- Load shared stores.
-- `LazyLoopEngine.apply_profile` (method) `modules/lazy_loop.py:7890` `def apply_profile(self, name)` -- Apply one orchestrator profile to this engine.
-- `LazyLoopEngine.bind_shell` (method) `modules/lazy_loop.py:7967` `def bind_shell(self, shell)` -- Attach the live shell so workers route auto/addon verbs via it.
-- `LazyLoopEngine.ensure_target` (method) `modules/lazy_loop.py:8051` `def ensure_target(self, task_id, target, reason)` -- Register scope + asset for target like lazy_scope/lazy_asset.
-- `LazyLoopEngine.orchestrate` (method) `modules/lazy_loop.py:8078` `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` -- Single entry for lazy_loop + auto_loop: create, scope, run, report.
-- `LazyLoopEngine.create_task` (method) `modules/lazy_loop.py:8106` `def create_task(self, goal, description)` -- Create task, decompose goals, register scope, return summary.
-- `LazyLoopEngine.spawn_task` (method) `modules/lazy_loop.py:8135` `def spawn_task(self, goal, source_task_ids, description)` -- Create a task read-only inheriting assets and findings.
-- `LazyLoopEngine.list_tasks` (method) `modules/lazy_loop.py:8185` `def list_tasks(self)` -- Fleet view: every task with live intent/fact/finding counters.
-- `LazyLoopEngine.pause_task` (method) `modules/lazy_loop.py:8213` `def pause_task(self, task_id, reason)` -- Pause another task from here (cross-task control).
-- `LazyLoopEngine.resume_task` (method) `modules/lazy_loop.py:8224` `def resume_task(self, task_id)` -- Resume a paused task from here (cross-task control).
-- `LazyLoopEngine.task_graph` (method) `modules/lazy_loop.py:8234` `def task_graph(self, task_id)` -- Graph overview of another task (get_task_graph parity).
-- `LazyLoopEngine.task_findings` (method) `modules/lazy_loop.py:8240` `def task_findings(self, task_id)` -- Findings of another task with severity, status and report size.
-- `LazyLoopEngine.task_traces` (method) `modules/lazy_loop.py:8259` `def task_traces(self, task_id, query, limit)` -- Worker traces of another task, keyword-filtered when asked.
-- `LazyLoopEngine.task_node_detail` (method) `modules/lazy_loop.py:8268` `def task_node_detail(self, task_id, node_id)` -- Full node view of another task (get_task_node_detail parity).
-- `LazyLoopEngine.update_finding_report` (method) `modules/lazy_loop.py:8274` `def update_finding_report(self, task_id, finding_id, report)` -- Write the narrative report of another task's finding.
-- `LazyLoopEngine.broadcast_events` (method) `modules/lazy_loop.py:8286` `def broadcast_events(self, task_id, cursor, batch)` -- Return activity records after a line cursor (SSE resume parity).
-- `LazyLoopEngine.add_hint` (method) `modules/lazy_loop.py:8319` `def add_hint(self, task_id, text)` -- Inject human steering hint read by the next planner round.
-- `LazyLoopEngine.add_intent` (method) `modules/lazy_loop.py:8337` `def add_intent(self, task_id, summary, asset_ids, parent_ids, priority)` -- Directly inject high-priority intent like the planner main-agent add_intent.
-- `LazyLoopEngine.set_goals` (method) `modules/lazy_loop.py:8362` `def set_goals(self, task_id, specs)` -- Replace/append decomposed objectives like set_goals; wakes the task.
-- `LazyLoopEngine.edit_goal` (method) `modules/lazy_loop.py:8379` `def edit_goal(self, task_id, goal_id, text)` -- Edit a goal node like the goals manager.
-- `LazyLoopEngine.delete_goal` (method) `modules/lazy_loop.py:8391` `def delete_goal(self, task_id, goal_id)` -- Delete a goal node; done tasks with no goals left stay done.
-- `LazyLoopEngine.preview_delete_intent` (method) `modules/lazy_loop.py:8402` `def preview_delete_intent(self, task_id, intent_id)` -- Estimate hard-delete cascade without mutating anything.
-- `LazyLoopEngine.delete_intent` (method) `modules/lazy_loop.py:8425` `def delete_intent(self, task_id, intent_id, mode, reason)` -- Delete an intent in soft (fake) or hard (true) mode.
-- `LazyLoopEngine.pause_intent` (method) `modules/lazy_loop.py:8570` `def pause_intent(self, task_id, intent_id)` -- Pause a runnable intent like the lazy worker interrupt.
-- `LazyLoopEngine.resume_intent` (method) `modules/lazy_loop.py:8595` `def resume_intent(self, task_id, intent_id)` -- Resume a paused intent back to the claimable queue.
-- `LazyLoopEngine.send_worker_message` (method) `modules/lazy_loop.py:8618` `def send_worker_message(self, task_id, intent_id, message, request_id)` -- Continue a paused worker intent with a human message.
-- `LazyLoopEngine.goal_met` (method) `modules/lazy_loop.py:8666` `def goal_met(self, task_id, reason)` -- Declare the whole task complete like goal_met (weighted, audited).
-- `LazyLoopEngine.record_fact` (method) `modules/lazy_loop.py:8676` `def record_fact(self, task_id, text, evidence, intent_id)` -- Operator-visible fact write like recordFact.
-- `LazyLoopEngine.record_verdict` (method) `modules/lazy_loop.py:8683` `def record_verdict(self, task_id, finding_id, verdict, note)` -- Record an operator retest verdict on one finding.
-- `LazyLoopEngine.run_round` (method) `modules/lazy_loop.py:8833` `def run_round(self, task_id, workers, executor, pool)` -- Run one orchestrated round invoking every subsystem in order.
-- `stage_enabled` (function) `modules/lazy_loop.py:8884` `def stage_enabled(_name)`
-- `LazyLoopEngine.run` (method) `modules/lazy_loop.py:9456` `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` -- Drive rounds until goals met, frontier drains, or budget exhausts.
-- `LazyLoopEngine.prove_goal` (method) `modules/lazy_loop.py:9739` `def prove_goal(self, task_id, goal_id, evidence_id, reason)` -- Mark goal met with finding/fact evidence like the planner prove_goal.
-- `LazyLoopEngine.delete_task` (method) `modules/lazy_loop.py:9888` `def delete_task(self, task_id)` -- Delete a task record plus every store file scoped to it.
-- `LazyLoopEngine.proxy_start` (method) `modules/lazy_loop.py:9922` `def proxy_start(self, host, port, task_id, trust, upstream)` -- Start the shared recorder proxy and apply its trust environment.
-- `LazyLoopEngine.proxy_stop` (method) `modules/lazy_loop.py:9958` `def proxy_stop(self)` -- Stop the recorder proxy and clear its trust environment.
-- `LazyLoopEngine.proxy_status` (method) `modules/lazy_loop.py:9966` `def proxy_status(self)` -- Return recorder proxy state (running, address, CA, exchanges).
-- `LazyLoopEngine.proxy_env` (method) `modules/lazy_loop.py:9972` `def proxy_env(self)` -- Return the environment overrides that route tools via proxy.
-- `LazyLoopEngine.set_concurrency` (method) `modules/lazy_loop.py:9981` `def set_concurrency(self, limit)` -- Cap concurrently running tasks; 0 disables admission control.
-- `LazyLoopEngine.admission_check` (method) `modules/lazy_loop.py:10002` `def admission_check(self, task_id)` -- Return whether a task may run now, queueing it when capped.
-- `LazyLoopEngine.drain_queue` (method) `modules/lazy_loop.py:10021` `def drain_queue(self, max_tasks)` -- Run queued tasks FIFO while the concurrency cap allows.
-- `LazyLoopEngine.ingest_proxy_traffic` (method) `modules/lazy_loop.py:10049` `def ingest_proxy_traffic(self, task_id, limit)` -- Mirror new recorder exchanges into the task traffic log.
-- `LazyLoopEngine.search_proxy_body` (method) `modules/lazy_loop.py:10103` `def search_proxy_body(self, task_id, query, limit)` -- Full-text search proxy bodies scoped to one task's exchanges.
-- `LazyLoopEngine.export_task_traffic` (method) `modules/lazy_loop.py:10195` `def export_task_traffic(self, task_id)` -- Export the task's proxy exchanges next to its archive.
-- `LazyLoopEngine.export_evidence` (method) `modules/lazy_loop.py:10224` `def export_evidence(self, task_id, dest)` -- Freeze every task artefact into a hash-manifested zip package.
-- `LazyLoopEngine.export_findings_report` (method) `modules/lazy_loop.py:10283` `def export_findings_report(self, task_id, path, fmt)` -- Render the severity-ranked report to Markdown, JSON or CSV.
-- `LazyLoopEngine.status` (method) `modules/lazy_loop.py:10398` `def status(self, task_id)` -- Return full inspectable state for one task.
-- `LazyLoopEngine.graph_overview` (method) `modules/lazy_loop.py:10418` `def graph_overview(self, task_id)` -- Return planner-facing overview plus coverage and scope.
-- `LazyLoopEngine.broadcast` (method) `modules/lazy_loop.py:10480` `def broadcast(self, task_id, kinds, query, order, page, per_page, states)` -- Paginated exploration timeline like the lazy broadcast board.
-- `LazyLoopEngine.loop_graph` (method) `modules/lazy_loop.py:10604` `def loop_graph(self, task_id)` -- Return task graphs as ForceGraph-ready nodes/links.
-- `LazyLoopEngine.graph_context` (method) `modules/lazy_loop.py:10673` `def graph_context(self, task_id, top)` -- Rank exploration topology to steer planner actions.
+- `extract_scope_items` (function) `modules/lazy_loop.py:3092` `def extract_scope_items(goal_text, description)` -- Lift explicit asset scope from goal like the planner goalsScopeTail.
+- `extract_constraint_items` (function) `modules/lazy_loop.py:3124` `def extract_constraint_items(goal_text, description)` -- Lift explicit allow/deny operation bounds like the planner goals decomposer.
+- `load_intel_scores` (function) `modules/lazy_loop.py:3216` `def load_intel_scores()` -- Return host exposure scores for plan prioritisation.
+- `resolve_target` (function) `modules/lazy_loop.py:3245` `def resolve_target(task_id, store, graph)` -- Resolve concrete target for worker commands from scope, assets, goal.
+- `decompose_goals` (function) `modules/lazy_loop.py:3268` `def decompose_goals(goal_text, description)` -- Split goal text into verifiable objectives like the planner DecomposeGoals.
+- `enrich_asset` (function) `modules/lazy_loop.py:3305` `def enrich_asset(value)` -- Synchronously enrich one asset with DNS and HTTP like the planner enrich.
+- `Planner.__init__` (method) `modules/lazy_loop.py:3331` `def __init__(self, task_id, assets, graph, activity, store)` -- Bind planner to task collaborators.
+- `Planner.plan` (method) `modules/lazy_loop.py:3359` `def plan(self, triggers)` -- Emit 0..N intents from current situation; most wakeups emit zero.
+- `Planner.refine` (method) `modules/lazy_loop.py:3438` `def refine(self)` -- Re-plan pending intents against fresh outcomes, like plan refinement.
+- `Planner.finalize` (method) `modules/lazy_loop.py:4003` `def finalize(self, reason)` -- Final planner round: park open intents and record the wrap-up.
+- `sink` (function) `modules/lazy_loop.py:4023` `def sink(text)`
+- `Worker.__init__` (method) `modules/lazy_loop.py:4129` `def __init__(self, name, task_id, assets, graph, activity, traffic, guard, store, shell, ephemeral)` -- Bind worker to task collaborators.
+- `Worker.rebind` (method) `modules/lazy_loop.py:4177` `def rebind(self, assets, graph, activity, traffic, guard, store, shell)` -- Point a pooled worker at the collaborators of the current round.
+- `Worker.close` (method) `modules/lazy_loop.py:4201` `def close(self)` -- Release the worker's shell session and shutdown registration.
+- `Worker.execute` (method) `modules/lazy_loop.py:4236` `def execute(self, intent, executor, timeout_sec)` -- Run one intent to completion and write facts back.
+- `sink` (function) `modules/lazy_loop.py:4984` `def sink(text)`
+- `Retester.__init__` (method) `modules/lazy_loop.py:5319` `def __init__(self, graph, activity, traffic)` -- Bind retester to task collaborators.
+- `Retester.retest` (method) `modules/lazy_loop.py:5325` `def retest(self, finding_id, executor, note)` -- Re-execute finding evidence to reproduced/fixed/inconclusive.
+- `Retester.retest_context` (method) `modules/lazy_loop.py:5489` `def retest_context(self, finding_id)` -- Return finding + PoC + assets + constraints like get_finding_retest_context.
+- `ColdCompactor.__init__` (method) `modules/lazy_loop.py:5511` `def __init__(self, graph, activity)` -- Bind compactor to task graph.
+- `ColdCompactor.noa_archives` (method) `modules/lazy_loop.py:5621` `def noa_archives(self, limit)` -- List NOA raw archives for this task (newest first).
+- `ColdCompactor.hot_set` (method) `modules/lazy_loop.py:5680` `def hot_set(self)` -- Compute hot nodes by reverse reachability from live intents.
+- `ColdCompactor.structural_cold` (method) `modules/lazy_loop.py:5702` `def structural_cold(self, hot)` -- Return foldable non-hot nodes before debounce.
+- `ColdCompactor.covered_members` (method) `modules/lazy_loop.py:5787` `def covered_members(self)` -- Return node ids already folded under active digests.
+- `ColdCompactor.on_planner_round` (method) `modules/lazy_loop.py:5799` `def on_planner_round(self)` -- Advance round, maintain stamps, trigger background compaction.
+- `ColdCompactor.compact` (method) `modules/lazy_loop.py:5840` `def compact(self, threshold, mode, debounce_sec)` -- Fold cold facts into digests like coldgraph minor/major.
+- `ColdCompactor.expand` (method) `modules/lazy_loop.py:5967` `def expand(self, digest_id, role)` -- Restore digest members like expandDigest.
+- `ColdCompactor.cold_index` (method) `modules/lazy_loop.py:5991` `def cold_index(self)` -- Group active digests by anchored asset.
+- `ColdCompactor.unfolded` (method) `modules/lazy_loop.py:6009` `def unfolded(self, limit)` -- Return cold facts unfolded up to cap with a truncated flag.
+- `ColdCompactor.digest_overview` (method) `modules/lazy_loop.py:6025` `def digest_overview(self)` -- Digest index: every digest with expandable members plus cold index.
+- `constraint_block` (function) `modules/lazy_loop.py:6072` `def constraint_block(constraints, scope)` -- Render allow/deny bounds as highest-priority prompt block.
+- `settlement_prompt` (function) `modules/lazy_loop.py:6106` `def settlement_prompt(agent, reason)` -- Build the wrap-up instruction used when a run budget ends.
+- `terminal_hint` (function) `modules/lazy_loop.py:6167` `def terminal_hint(reason, state)` -- Return a one-line operator explanation for a terminal disposition.
+- `build_prompt_context` (function) `modules/lazy_loop.py:6197` `def build_prompt_context(task_id, graph, assets, store, budget, top)` -- Assemble a bounded prompt context for planner/worker LLM calls.
+- `finding_severity` (function) `modules/lazy_loop.py:6286` `def finding_severity(text, evidence)` -- Rank finding severity like the report renderer (critical first).
+- `FindingService.__init__` (method) `modules/lazy_loop.py:6321` `def __init__(self, task_id, graph, activity, store)` -- Bind service to task collaborators.
+- `FindingService.report` (method) `modules/lazy_loop.py:6354` `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` -- Register a finding with severity/evidence/dedupe like report_finding.
+- `FindingService.apply_drafts` (method) `modules/lazy_loop.py:6554` `def apply_drafts(self)` -- Commit finished background reporter drafts onto their findings.
+- `FindingService.set_status` (method) `modules/lazy_loop.py:6591` `def set_status(self, finding_id, status)` -- Transition finding status like the workflow disposition.
+- `FindingService.update_report` (method) `modules/lazy_loop.py:6608` `def update_report(self, finding_id, report)` -- Write the narrative report and bump the evidence version.
+- `FindingService.ranked` (method) `modules/lazy_loop.py:6630` `def ranked(self)` -- Findings ordered critical-first like the Markdown renderer.
+- `EvidenceStore.__init__` (method) `modules/lazy_loop.py:6640` `def __init__(self, task_id)` -- Bind vault to task.
+- `EvidenceStore.add` (method) `modules/lazy_loop.py:6649` `def add(self, finding_id, kind, body)` -- Attach evidence to a finding and return the record.
+- `EvidenceStore.verify` (method) `modules/lazy_loop.py:6673` `def verify(self)` -- Return ids whose body fails the sha256 integrity check.
+- `EvidenceStore.gc` (method) `modules/lazy_loop.py:6693` `def gc(self, valid_findings)` -- Drop evidence for findings no longer present; returns removed.
+- `EvidenceStore.for_finding` (method) `modules/lazy_loop.py:6709` `def for_finding(self, finding_id)` -- Return evidence attached to one finding.
+- `EvidenceStore.read` (method) `modules/lazy_loop.py:6713` `def read(self, evidence_id, offset, length)` -- Read one evidence body in bounded byte ranges.
+- `EvidenceStore.export` (method) `modules/lazy_loop.py:6750` `def export(self, path)` -- Dump vault to a file for the report pipeline.
+- `Notifier.__init__` (method) `modules/lazy_loop.py:6761` `def __init__(self, store)` -- Bind optional channel config from task store.
+- `Notifier.channels` (method) `modules/lazy_loop.py:6765` `def channels(self)` -- Return configured channels (empty = log only).
+- `Notifier.add_channel` (method) `modules/lazy_loop.py:6773` `def add_channel(self, kind, target, min_severity, extra)` -- Register a channel: log|webhook|file|slack|email with severity floor.
+- `Notifier.remove_channel` (method) `modules/lazy_loop.py:6820` `def remove_channel(self, index)` -- Remove one channel by its 1-based list position.
+- `Notifier.emit` (method) `modules/lazy_loop.py:6871` `def emit(self, task_id, event, data)` -- Fan out finding/status/task events; returns deliveries.
+- `LlmPool.__init__` (method) `modules/lazy_loop.py:6944` `def __init__(self)` -- Load member list and usage ledger paths.
+- `LlmPool.members` (method) `modules/lazy_loop.py:6979` `def members(self)` -- Return configured chain in order, seeding defaults on first use.
+- `LlmPool.add_member` (method) `modules/lazy_loop.py:6984` `def add_member(self, name, model, priority)` -- Append a chain member backed by llm_factory at call time.
+- `LlmPool.remove_member` (method) `modules/lazy_loop.py:6993` `def remove_member(self, name)` -- Drop a chain member.
+- `LlmPool.set_priority` (method) `modules/lazy_loop.py:7003` `def set_priority(self, name, priority)` -- Change one member's failover rank, keeping the rest untouched.
+- `LlmPool.usage` (method) `modules/lazy_loop.py:7016` `def usage(self)` -- Return per-member call ledger like llm_usage.
+- `LlmPool.record_call` (method) `modules/lazy_loop.py:7026` `def record_call(self, member, ok, text)` -- Append one ledger row for external failover callers.
+- `LlmPool.complete` (method) `modules/lazy_loop.py:7135` `def complete(self, prompt, max_tokens, empty_retries, members, task_id, on_delta)` -- Fail over across members; empty string when no backend answers.
+- `LlmPool.health` (method) `modules/lazy_loop.py:7300` `def health(self)` -- Return per-member health state for lazy_llm health.
+- `LlmPool.context_budget` (method) `modules/lazy_loop.py:7311` `def context_budget(self)` -- Return the prompt context character budget (default 2000).
+- `LlmPool.record_raw` (method) `modules/lazy_loop.py:7316` `def record_raw(self)` -- Return whether raw prompt/response recording is enabled.
+- `LlmPool.set_record_raw` (method) `modules/lazy_loop.py:7321` `def set_record_raw(self, enabled)` -- Toggle raw prompt/response recording in the pool ledger.
+- `LlmPool.raw_entries` (method) `modules/lazy_loop.py:7328` `def raw_entries(self, limit)` -- Return the most recent raw LLM exchanges.
+- `LlmPool.raw_entries_for_task` (method) `modules/lazy_loop.py:7342` `def raw_entries_for_task(self, task_id, limit)` -- Return the most recent raw LLM exchanges recorded for one task.
+- `LlmPool.set_context_budget` (method) `modules/lazy_loop.py:7405` `def set_context_budget(self, chars)` -- Persist the prompt context character budget.
+- `ToolCatalog.__init__` (method) `modules/lazy_loop.py:7423` `def __init__(self)` -- Load binding table.
+- `ToolCatalog.bindings` (method) `modules/lazy_loop.py:7440` `def bindings(self, agent)` -- Return bindings for one agent or the whole table.
+- `ToolCatalog.bind` (method) `modules/lazy_loop.py:7445` `def bind(self, agent, tool)` -- Opt a tool into an agent lane.
+- `ToolCatalog.unbind` (method) `modules/lazy_loop.py:7454` `def unbind(self, agent, tool)` -- Remove a tool from an agent lane.
+- `SideQuestions.ask` (method) `modules/lazy_loop.py:7474` `def ask(self, task_id, question, pool, session)` -- Answer from graph overview + recent trace within a char budget.
+- `SideQuestions.history` (method) `modules/lazy_loop.py:7520` `def history(self, task_id, session, limit)` -- Return persisted side exchanges, optionally one session only.
+- `SideQuestions.sessions` (method) `modules/lazy_loop.py:7528` `def sessions(self, task_id)` -- Return side-question session names for a task.
+- `CompanyScope.__init__` (method) `modules/lazy_loop.py:7541` `def __init__(self)` -- Load company table.
+- `CompanyScope.add` (method) `modules/lazy_loop.py:7549` `def add(self, name, scope)` -- Register a company with an optional scope pattern.
+- `CompanyScope.list` (method) `modules/lazy_loop.py:7558` `def list(self)` -- Return companies with asset counts.
+- `CompanyScope.match` (method) `modules/lazy_loop.py:7562` `def match(self, value)` -- Return companies whose scope substring hits the value.
+- `TaskArchive.save` (method) `modules/lazy_loop.py:7571` `def save(self, task_id)` -- Snapshot task record + graph + activity tail into one archive.
+- `TaskArchive.list` (method) `modules/lazy_loop.py:7592` `def list(self)` -- Return archive snapshots with task + node counts.
+- `TaskArchive.restore` (method) `modules/lazy_loop.py:7614` `def restore(self, path)` -- Restore one archive as a NEW task; returns the new task id.
+- `TaskArchive.stats` (method) `modules/lazy_loop.py:7681` `def stats(self)` -- Aggregate counts across archives like archive aggregate stats.
+- `TaskTemplate.__init__` (method) `modules/lazy_loop.py:7690` `def __init__(self)` -- Bind template table.
+- `TaskTemplate.list` (method) `modules/lazy_loop.py:7698` `def list(self)` -- Return all templates.
+- `TaskTemplate.add` (method) `modules/lazy_loop.py:7702` `def add(self, name, goal)` -- Register a template; names are unique (overwrite on clash).
+- `TaskTemplate.remove` (method) `modules/lazy_loop.py:7712` `def remove(self, name)` -- Delete a template by name.
+- `TaskTemplate.get` (method) `modules/lazy_loop.py:7722` `def get(self, name)` -- Return one template by name or None.
+- `TaskCategory.__init__` (method) `modules/lazy_loop.py:7733` `def __init__(self, store)` -- Bind optional task store.
+- `TaskCategory.set` (method) `modules/lazy_loop.py:7738` `def set(self, task_id, category)` -- Label a task; returns the mapping.
+- `TaskCategory.get` (method) `modules/lazy_loop.py:7745` `def get(self, task_id)` -- Return the category for a task or empty string.
+- `TaskCategory.list` (method) `modules/lazy_loop.py:7749` `def list(self, category)` -- Return task->category rows, optionally filtered.
+- `TaskChat.say` (method) `modules/lazy_loop.py:7764` `def say(self, task_id, text, pool, session)` -- Append a human turn and answer from task context; returns both.
+- `TaskChat.log` (method) `modules/lazy_loop.py:7807` `def log(self, task_id, limit, session)` -- Return recent conversation turns, optionally one session only.
+- `TaskChat.sessions` (method) `modules/lazy_loop.py:7823` `def sessions(self, task_id)` -- Return session names active in a task.
+- `TaskChat.clear` (method) `modules/lazy_loop.py:7832` `def clear(self, task_id, session)` -- Drop one session's turns, or the whole log when session is empty.
+- `LazyLoopEngine.__init__` (method) `modules/lazy_loop.py:7887` `def __init__(self, shell)` -- Load shared stores.
+- `LazyLoopEngine.apply_profile` (method) `modules/lazy_loop.py:7924` `def apply_profile(self, name)` -- Apply one orchestrator profile to this engine.
+- `LazyLoopEngine.bind_shell` (method) `modules/lazy_loop.py:8001` `def bind_shell(self, shell)` -- Attach the live shell so workers route auto/addon verbs via it.
+- `LazyLoopEngine.ensure_target` (method) `modules/lazy_loop.py:8085` `def ensure_target(self, task_id, target, reason)` -- Register scope + asset for target like lazy_scope/lazy_asset.
+- `LazyLoopEngine.orchestrate` (method) `modules/lazy_loop.py:8112` `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)` -- Single entry for lazy_loop + auto_loop: create, scope, run, report.
+- `LazyLoopEngine.create_task` (method) `modules/lazy_loop.py:8140` `def create_task(self, goal, description)` -- Create task, decompose goals, register scope, return summary.
+- `LazyLoopEngine.spawn_task` (method) `modules/lazy_loop.py:8179` `def spawn_task(self, goal, source_task_ids, description)` -- Create a task read-only inheriting assets and findings.
+- `LazyLoopEngine.list_tasks` (method) `modules/lazy_loop.py:8229` `def list_tasks(self)` -- Fleet view: every task with live intent/fact/finding counters.
+- `LazyLoopEngine.pause_task` (method) `modules/lazy_loop.py:8257` `def pause_task(self, task_id, reason)` -- Pause another task from here (cross-task control).
+- `LazyLoopEngine.resume_task` (method) `modules/lazy_loop.py:8268` `def resume_task(self, task_id)` -- Resume a paused task from here (cross-task control).
+- `LazyLoopEngine.task_graph` (method) `modules/lazy_loop.py:8278` `def task_graph(self, task_id)` -- Graph overview of another task (get_task_graph parity).
+- `LazyLoopEngine.task_findings` (method) `modules/lazy_loop.py:8284` `def task_findings(self, task_id)` -- Findings of another task with severity, status and report size.
+- `LazyLoopEngine.task_traces` (method) `modules/lazy_loop.py:8303` `def task_traces(self, task_id, query, limit)` -- Worker traces of another task, keyword-filtered when asked.
+- `LazyLoopEngine.task_node_detail` (method) `modules/lazy_loop.py:8312` `def task_node_detail(self, task_id, node_id)` -- Full node view of another task (get_task_node_detail parity).
+- `LazyLoopEngine.update_finding_report` (method) `modules/lazy_loop.py:8318` `def update_finding_report(self, task_id, finding_id, report)` -- Write the narrative report of another task's finding.
+- `LazyLoopEngine.broadcast_events` (method) `modules/lazy_loop.py:8330` `def broadcast_events(self, task_id, cursor, batch)` -- Return activity records after a line cursor (SSE resume parity).
+- `LazyLoopEngine.add_hint` (method) `modules/lazy_loop.py:8363` `def add_hint(self, task_id, text)` -- Inject human steering hint read by the next planner round.
+- `LazyLoopEngine.add_intent` (method) `modules/lazy_loop.py:8381` `def add_intent(self, task_id, summary, asset_ids, parent_ids, priority)` -- Directly inject high-priority intent like the planner main-agent add_intent.
+- `LazyLoopEngine.set_goals` (method) `modules/lazy_loop.py:8406` `def set_goals(self, task_id, specs)` -- Replace/append decomposed objectives like set_goals; wakes the task.
+- `LazyLoopEngine.edit_goal` (method) `modules/lazy_loop.py:8423` `def edit_goal(self, task_id, goal_id, text)` -- Edit a goal node like the goals manager.
+- `LazyLoopEngine.delete_goal` (method) `modules/lazy_loop.py:8435` `def delete_goal(self, task_id, goal_id)` -- Delete a goal node; done tasks with no goals left stay done.
+- `LazyLoopEngine.preview_delete_intent` (method) `modules/lazy_loop.py:8446` `def preview_delete_intent(self, task_id, intent_id)` -- Estimate hard-delete cascade without mutating anything.
+- `LazyLoopEngine.delete_intent` (method) `modules/lazy_loop.py:8469` `def delete_intent(self, task_id, intent_id, mode, reason)` -- Delete an intent in soft (fake) or hard (true) mode.
+- `LazyLoopEngine.pause_intent` (method) `modules/lazy_loop.py:8614` `def pause_intent(self, task_id, intent_id)` -- Pause a runnable intent like the lazy worker interrupt.
+- `LazyLoopEngine.resume_intent` (method) `modules/lazy_loop.py:8639` `def resume_intent(self, task_id, intent_id)` -- Resume a paused intent back to the claimable queue.
+- `LazyLoopEngine.send_worker_message` (method) `modules/lazy_loop.py:8662` `def send_worker_message(self, task_id, intent_id, message, request_id)` -- Continue a paused worker intent with a human message.
+- `LazyLoopEngine.goal_met` (method) `modules/lazy_loop.py:8710` `def goal_met(self, task_id, reason)` -- Declare the whole task complete like goal_met (weighted, audited).
+- `LazyLoopEngine.record_fact` (method) `modules/lazy_loop.py:8720` `def record_fact(self, task_id, text, evidence, intent_id)` -- Operator-visible fact write like recordFact.
+- `LazyLoopEngine.record_verdict` (method) `modules/lazy_loop.py:8727` `def record_verdict(self, task_id, finding_id, verdict, note)` -- Record an operator retest verdict on one finding.
+- `LazyLoopEngine.run_round` (method) `modules/lazy_loop.py:8877` `def run_round(self, task_id, workers, executor, pool)` -- Run one orchestrated round invoking every subsystem in order.
+- `stage_enabled` (function) `modules/lazy_loop.py:8928` `def stage_enabled(_name)`
+- `LazyLoopEngine.run` (method) `modules/lazy_loop.py:9500` `def run(self, task_id, max_rounds, workers, executor, timeout_sec)` -- Drive rounds until goals met, frontier drains, or budget exhausts.
+- `LazyLoopEngine.prove_goal` (method) `modules/lazy_loop.py:9783` `def prove_goal(self, task_id, goal_id, evidence_id, reason)` -- Mark goal met with finding/fact evidence like the planner prove_goal.
+- `LazyLoopEngine.delete_task` (method) `modules/lazy_loop.py:9932` `def delete_task(self, task_id)` -- Delete a task record plus every store file scoped to it.
+- `LazyLoopEngine.proxy_start` (method) `modules/lazy_loop.py:9966` `def proxy_start(self, host, port, task_id, trust, upstream)` -- Start the shared recorder proxy and apply its trust environment.
+- `LazyLoopEngine.proxy_stop` (method) `modules/lazy_loop.py:10002` `def proxy_stop(self)` -- Stop the recorder proxy and clear its trust environment.
+- `LazyLoopEngine.proxy_status` (method) `modules/lazy_loop.py:10010` `def proxy_status(self)` -- Return recorder proxy state (running, address, CA, exchanges).
+- `LazyLoopEngine.proxy_env` (method) `modules/lazy_loop.py:10016` `def proxy_env(self)` -- Return the environment overrides that route tools via proxy.
+- `LazyLoopEngine.set_concurrency` (method) `modules/lazy_loop.py:10025` `def set_concurrency(self, limit)` -- Cap concurrently running tasks; 0 disables admission control.
+- `LazyLoopEngine.admission_check` (method) `modules/lazy_loop.py:10046` `def admission_check(self, task_id)` -- Return whether a task may run now, queueing it when capped.
+- `LazyLoopEngine.drain_queue` (method) `modules/lazy_loop.py:10065` `def drain_queue(self, max_tasks)` -- Run queued tasks FIFO while the concurrency cap allows.
+- `LazyLoopEngine.ingest_proxy_traffic` (method) `modules/lazy_loop.py:10093` `def ingest_proxy_traffic(self, task_id, limit)` -- Mirror new recorder exchanges into the task traffic log.
+- `LazyLoopEngine.search_proxy_body` (method) `modules/lazy_loop.py:10147` `def search_proxy_body(self, task_id, query, limit)` -- Full-text search proxy bodies scoped to one task's exchanges.
+- `LazyLoopEngine.export_task_traffic` (method) `modules/lazy_loop.py:10239` `def export_task_traffic(self, task_id)` -- Export the task's proxy exchanges next to its archive.
+- `LazyLoopEngine.export_evidence` (method) `modules/lazy_loop.py:10268` `def export_evidence(self, task_id, dest)` -- Freeze every task artefact into a hash-manifested zip package.
+- `LazyLoopEngine.export_findings_report` (method) `modules/lazy_loop.py:10327` `def export_findings_report(self, task_id, path, fmt)` -- Render the severity-ranked report to Markdown, JSON or CSV.
+- `LazyLoopEngine.status` (method) `modules/lazy_loop.py:10442` `def status(self, task_id)` -- Return full inspectable state for one task.
+- `LazyLoopEngine.graph_overview` (method) `modules/lazy_loop.py:10462` `def graph_overview(self, task_id)` -- Return planner-facing overview plus coverage and scope.
+- `LazyLoopEngine.broadcast` (method) `modules/lazy_loop.py:10524` `def broadcast(self, task_id, kinds, query, order, page, per_page, states)` -- Paginated exploration timeline like the lazy broadcast board.
+- `LazyLoopEngine.loop_graph` (method) `modules/lazy_loop.py:10648` `def loop_graph(self, task_id)` -- Return task graphs as ForceGraph-ready nodes/links.
+- `LazyLoopEngine.graph_context` (method) `modules/lazy_loop.py:10717` `def graph_context(self, task_id, top)` -- Rank exploration topology to steer planner actions.
 
 ## modules/lazy_match_policy.py
 Depends on: `modules/lazy_heat.py`
@@ -473,8 +473,8 @@ Imported by: `tests/test_lazy_match_policy.py`
 - `MatchStore.closed_reason` (method) `modules/lazy_match_policy.py:196` `def closed_reason(self, identity)` -- Return the persisted closure reason, or '' when open or unknown.
 
 ## modules/lazy_mentions.py
-Depends on: `modules/lazy_loop.py`
-Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/lazyown_mcp.py`, `tests/test_security_codeql_batch.py`
+Depends on: `modules/lazy_loop.py`, `skills/mcp_tools/lazy_finding.py`
+Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/mcp_tools/lazy_mention.py`, `tests/test_security_codeql_batch.py`
 - `search_mentions_page` (function) `modules/lazy_mentions.py:193` `def search_mentions_page(kind, query, cursor)` -- Search one scroll page of mention candidates.
 - `parse_mentions` (function) `modules/lazy_mentions.py:237` `def parse_mentions(message)` -- Parse @[kind#id] tokens trusting type plus numeric id only.
 - `compose_message` (function) `modules/lazy_mentions.py:268` `def compose_message(message)` -- Append server-read snapshots for referenced records as data.

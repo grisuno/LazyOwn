@@ -49,7 +49,7 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `sync_all` (function, line 566) `def sync_all(progress)`
   - `_record_sync` (function, line 592) `def _record_sync(action, summary)`
 - Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
-- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
+- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/mcp_tools/lazy_status.py`, `skills/mcp_tools/lazy_sync.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
 
 ## modules/lazy_checks.py
 - Doc: Validation plans as data: re-read observed checks through version math.
@@ -79,9 +79,10 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `build_cli_command` (function, line 158) `def build_cli_command(verb, target)`
   - `search_cli_verbs` (function, line 185) `def search_cli_verbs(query, phase, limit)`
   - `cli_catalog_for_phase` (function, line 211) `def cli_catalog_for_phase(phase, limit)`
-  - `catalog_cli_for_phase` (function, line 219) `def catalog_cli_for_phase(limit)`
-  - `full_cli_enabled` (function, line 253) `def full_cli_enabled()`
-  - `set_full_cli` (function, line 276) `def set_full_cli(enabled)`
+  - `_verb_in_phase` (function, line 219) `def _verb_in_phase(row, phase)`
+  - `catalog_cli_for_phase` (function, line 240) `def catalog_cli_for_phase(limit)`
+  - `full_cli_enabled` (function, line 274) `def full_cli_enabled()`
+  - `set_full_cli` (function, line 297) `def set_full_cli(enabled)`
 - Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 
@@ -162,7 +163,7 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Symbols:
   - `LazyEngine` (class, line 56) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/auto_loop.py`, `skills/mcp_tools/lazy_board.py`, `skills/mcp_tools/lazy_finding.py`, `skills/mcp_tools/lazy_hint.py`, `skills/mcp_tools/lazy_proxy.py`, `skills/mcp_tools/lazy_trace.py`, `skills/mcp_tools/loop_smoke.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
 
 ## modules/lazy_exposure.py
 - Doc: Target exposure report for LazyOwn.
@@ -184,7 +185,7 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `_int` (function, line 410) `def _int(value, fallback)`
   - `refresh_if_stale` (function, line 418) `def refresh_if_stale(target, entries)`
 - Depends on: `modules/__init__.py`, `modules/lazy_feedmatch.py`, `modules/lazy_heat.py`, `modules/lazy_probes.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_exposure.py`
+- Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/mcp_tools/lazy_intel.py`, `tests/test_lazy_exposure.py`
 
 ## modules/lazy_feedmatch.py
 - Doc: Exploit feed matching for LazyOwn.

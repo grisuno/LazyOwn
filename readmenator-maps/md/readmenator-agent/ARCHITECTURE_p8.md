@@ -494,7 +494,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/lazy_ledger.py` -> __future__, json, pathlib, time, typing
 - `modules/lazy_loop.py` -> __future__, base64, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, re, shlex, smtplib, socket, threading, time, urllib.request, zipfile
 - `modules/lazy_match_policy.py` -> __future__, json, pathlib, time, typing
-- `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, modules.lazy_finding, pathlib, re
+- `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, pathlib, re
 - `modules/lazy_netattack.py` -> __future__, dataclasses, typing
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

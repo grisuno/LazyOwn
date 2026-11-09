@@ -1,5 +1,18 @@
-# API (page 6 of 26)
+# API (page 6 of 27)
 Previous: [API_p5.md](API_p5.md)
+
+## contrib/legacy/lazygptcli_unified.py
+Depends on: `core/logging.py`, `modules/colors.py`
+Imported by: `contrib/legacy/lazygptcli.py`
+- `truncate_message` (function) `contrib/legacy/lazygptcli_unified.py:53` `def truncate_message(message, max_chars)`
+- `process_prompt` (function) `contrib/legacy/lazygptcli_unified.py:318` `def process_prompt(client, prompt, debug)` -- Generate a single-line shell command from a user prompt.
+- `process_prompt_script` (function) `contrib/legacy/lazygptcli_unified.py:323` `def process_prompt_script(client, prompt, debug)` -- Generate a full script from a user prompt.
+- `process_prompt_adversary` (function) `contrib/legacy/lazygptcli_unified.py:328` `def process_prompt_adversary(client, prompt, debug)` -- Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
+- `process_prompt_general` (function) `contrib/legacy/lazygptcli_unified.py:333` `def process_prompt_general(client, prompt, debug)` -- General red team assistant with payload.json context and DeepSeek fallback.
+- `process_prompt_search` (function) `contrib/legacy/lazygptcli_unified.py:341` `def process_prompt_search(client, prompt, debug)` -- Research and threat intelligence analysis.
+- `process_prompt_task` (function) `contrib/legacy/lazygptcli_unified.py:346` `def process_prompt_task(client, prompt, debug)` -- Analyze task assessment JSON for completion status and next commands.
+- `process_prompt_vuln` (function) `contrib/legacy/lazygptcli_unified.py:356` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and generate penetration test action plan.
+- `process_prompt_redop` (function) `contrib/legacy/lazygptcli_unified.py:382` `def process_prompt_redop(client, prompt, debug)` -- Evaluate Red Team operation status from JSON database params.
 
 ## contrib/legacy/lazyhoneypot.py
 Depends on: `core/logging.py`
@@ -288,7 +301,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/lazy_poc.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/chain_loop.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `tests/test_session_secrets.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/lazy_poc.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/chain_loop.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `tests/test_session_secrets.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:224` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:239` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:249` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -439,7 +452,7 @@ Imported by: `core/__init__.py`
 - `inject_payloads` (function) `core/http.py:211` `def inject_payloads(urls, payload_url, request_timeout)` -- Attempt to inject a payload URL into a list of target URLs.
 
 ## core/llm_budget.py
-Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/lazyown_mcp.py`, `tests/test_llm_budget.py`
+Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/mcp_tools/get_llm_budget.py`, `tests/test_llm_budget.py`
 - `LLMBackendLike.generate` (method) `core/llm_budget.py:61` `def generate(self, prompt)`
 - `LLMBackendLike.stream_generate` (method) `core/llm_budget.py:63` `def stream_generate(self, prompt)`
 - `LLMBackendLike.complete` (method) `core/llm_budget.py:65` `def complete(self, system, user, max_tokens, temperature)`
@@ -474,18 +487,6 @@ Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`,
 - `get_logger` (function) `core/logging.py:231` `def get_logger(name)` -- Return a cached :class:`StructuredLogger` for *name*.
 - `install_json_handler` (function) `core/logging.py:251` `def install_json_handler(name, config)` -- Install a JSON-lines file handler on *name*, preserving existing handlers.
 - `reconfigure` (function) `core/logging.py:300` `def reconfigure(config)` -- Replace the cached configuration globally.
-
-## core/network.py
-Depends on: `core/console.py`
-Imported by: `core/__init__.py`
-- `parse_ip_mac` (function) `core/network.py:18` `def parse_ip_mac(input_string)` -- Extract IP and MAC from a formatted string.
-- `create_arp_packet` (function) `core/network.py:33` `def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)` -- Build a raw ARP request/reply packet.
-- `send_packet` (function) `core/network.py:66` `def send_packet(packet, iface)` -- Send a raw packet on a given network interface.
-- `parse_proc_net_file` (function) `core/network.py:78` `def parse_proc_net_file(file_path)` -- Parse a ``/proc/net/*`` file and extract (ip, port) pairs.
-- `get_open_ports` (function) `core/network.py:105` `def get_open_ports()` -- Discover listening TCP ports from ``/proc/net/tcp`` and ``tcp6``.
-- `is_port_in_use` (function) `core/network.py:120` `def is_port_in_use(port, host)` -- Check whether a TCP port is already bound.
-- `get_banner` (function) `core/network.py:134` `def get_banner(ip, port)` -- Grab a TCP banner from the given host and port.
-- `get_network_info` (function) `core/network.py:154` `def get_network_info()` -- Collect local network information.
 
 
 Next: [API_p7.md](API_p7.md)

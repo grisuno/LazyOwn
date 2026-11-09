@@ -289,7 +289,7 @@ Return the parameters visible to the operator.
 
 *Calls:* [`OperatorParam`](#operatorparam), [`load_entries`](#load_entries)
 
-*Called by:* [`ParamCommandSet.do_param`](cli.commands.params_ops.py.md#paramcommandset-do_param), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`ParamCommandSet.do_param`](cli.commands.params_ops.py.md#paramcommandset-do_param), [`handle`](skills.mcp_tools.list_params.py.md#handle)
 
 ---
 
@@ -324,7 +324,7 @@ Create an operator parameter and persist it in the registry.
 
 *Calls:* [`OperatorParam`](#operatorparam), [`apply_to_schema`](#apply_to_schema), [`load_entries`](#load_entries), [`normalise_kind`](#normalise_kind)
 
-*Called by:* [`ParamCommandSet.do_param`](cli.commands.params_ops.py.md#paramcommandset-do_param), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`ParamCommandSet.do_param`](cli.commands.params_ops.py.md#paramcommandset-do_param), [`handle`](skills.mcp_tools.create_param.py.md#handle)
 
 ---
 
@@ -389,7 +389,7 @@ Delete an operator parameter from the registry.
 
 *Calls:* [`apply_to_schema`](#apply_to_schema), [`load_entries`](#load_entries)
 
-*Called by:* [`ParamCommandSet.do_param`](cli.commands.params_ops.py.md#paramcommandset-do_param), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`ParamCommandSet.do_param`](cli.commands.params_ops.py.md#paramcommandset-do_param), [`handle`](skills.mcp_tools.delete_param.py.md#handle)
 
 ---
 

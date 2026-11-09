@@ -128,7 +128,7 @@ def __init__(self, api_key: str = '', cache_dir: str | Path | None = None) -> No
 | `api_key` | `str` | `''` |  |
 | `cache_dir` | `str \| Path \| None` | `None` |  |
 
-*Called by:* [`get_matcher`](#get_matcher)
+*Called by:* [`get_matcher`](#get_matcher), [`handle`](skills.mcp_tools.cve_search.py.md#handle)
 
 <a id="cvematcher-search"></a>
 
@@ -150,6 +150,8 @@ Search CVEs by product / version keywords.
 | `max_results` | `int` | `10` |  |
 
 **Returns:** `list[CVEResult]`
+
+*Called by:* [`handle`](skills.mcp_tools.cve_search.py.md#handle)
 
 <a id="cvematcher-search_by_cpe"></a>
 

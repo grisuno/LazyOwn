@@ -1,4 +1,4 @@
-# API (page 17 of 26)
+# API (page 17 of 27)
 Previous: [API_p16.md](API_p16.md)
 
 ## modules/metasploitable_gym.py
@@ -21,7 +21,7 @@ Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
 
 ## modules/metrics.py
 Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
+Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/metrics_summary.py`, `tests/test_metrics.py`
 - `MetricsRegistry.__init__` (method) `modules/metrics.py:63` `def __init__(self)` -- Create an empty registry with its own lock.
 - `MetricsRegistry.inc` (method) `modules/metrics.py:69` `def inc(self, name, labels, value)` -- Increment the named counter for the given labels.
 - `MetricsRegistry.get` (method) `modules/metrics.py:87` `def get(self, name, labels)` -- Return the current value of a counter.
@@ -51,7 +51,7 @@ Imported by: `cli/commands/cicd.py`
 
 ## modules/module_registry.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
+Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
 - `ModuleInfo.__init__` (method) `modules/module_registry.py:216` `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
 - `ModuleInfo.to_dict` (method) `modules/module_registry.py:246` `def to_dict(self)`
 - `ModuleRegistry.__init__` (method) `modules/module_registry.py:279` `def __init__(self, base_dir)`
@@ -375,7 +375,7 @@ Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `test
 
 ## modules/pipeline_engine.py
 Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
-Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
+Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/pipeline_list.py`, `skills/mcp_tools/pipeline_run.py`, `skills/mcp_tools/pipeline_status.py`, `skills/mcp_tools/pipeline_validate.py`, `tests/test_pipeline_engine.py`
 - `StepResult.to_context` (method) `modules/pipeline_engine.py:180` `def to_context(self)` -- Render the step result as a dict for template lookups.
 - `PipelineRun.to_dict` (method) `modules/pipeline_engine.py:213` `def to_dict(self)` -- Return a JSON-friendly representation of the full run.
 - `TemplateResolver.__init__` (method) `modules/pipeline_engine.py:275` `def __init__(self, context)`
@@ -457,7 +457,7 @@ Imported by: `cli/apt_chain_support.py`, `tests/test_playbook_chain.py`
 
 ## modules/playbook_engine.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/playbook_generate.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
 - `PlaybookStep.to_dict` (method) `modules/playbook_engine.py:113` `def to_dict(self)`
 - `PlaybookStep.from_dict` (method) `modules/playbook_engine.py:128` `def from_dict(cls, d)`
 - `Playbook.to_dict` (method) `modules/playbook_engine.py:141` `def to_dict(self)`

@@ -3,6 +3,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
+- `modules/lazy_mentions.py` -> `skills/mcp_tools/lazy_finding.py`
 - `modules/lazy_objective_queue.py` -> `modules/lazy_loop.py`
 - `modules/lazy_oob.py` -> `modules/backdoor/server.c`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_cli_bridge.py`
@@ -21,6 +22,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/lazy_roles.py` -> `modules/lazy_loop.py`
 - `modules/lazy_runner.py` -> `cli/lazy_monitor.py`
 - `modules/lazy_runner.py` -> `core/autonomous.py`
+- `modules/lazy_runner.py` -> `core/config.py`
 - `modules/lazy_runner.py` -> `core/hardening.py`
 - `modules/lazy_runner.py` -> `core/terminal_guard.py`
 - `modules/lazy_runner.py` -> `modules/__init__.py`
@@ -236,6 +238,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/selection/edb.py` -> `modules/__init__.py`
 - `modules/selection/edb.py` -> `modules/selection/base.py`
 - `modules/selection/intel.py` -> `modules/selection/base.py`
+- `modules/selection/lazyscript.py` -> `modules/selection/base.py`
 - `modules/selection/module.py` -> `modules/module_registry.py`
 - `modules/selection/module.py` -> `modules/selection/base.py`
 - `modules/selection/playbook.py` -> `modules/apt_playbooks.py`
@@ -251,13 +254,20 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/selection/registry.py` -> `modules/selection/cred_spray.py`
 - `modules/selection/registry.py` -> `modules/selection/edb.py`
 - `modules/selection/registry.py` -> `modules/selection/intel.py`
+- `modules/selection/registry.py` -> `modules/selection/lazyscript.py`
 - `modules/selection/registry.py` -> `modules/selection/module.py`
 - `modules/selection/registry.py` -> `modules/selection/playbook.py`
 - `modules/selection/registry.py` -> `modules/selection/poc.py`
 - `modules/selection/registry.py` -> `modules/selection/technique.py`
+- `modules/selection/registry.py` -> `modules/selection/technique_chain.py`
 - `modules/selection/technique.py` -> `modules/playbook_engine.py`
 - `modules/selection/technique.py` -> `modules/selection/atomic.py`
 - `modules/selection/technique.py` -> `modules/selection/base.py`
+- `modules/selection/technique_chain.py` -> `modules/chain_registry.py`
+- `modules/selection/technique_chain.py` -> `modules/chain_synth.py`
+- `modules/selection/technique_chain.py` -> `modules/playbook_engine.py`
+- `modules/selection/technique_chain.py` -> `modules/selection/atomic.py`
+- `modules/selection/technique_chain.py` -> `modules/selection/base.py`
 - `modules/session_rag.py` -> `core/logging.py`
 - `modules/sinks/attack_graph.py` -> `modules/attack_surface3d.py`
 - `modules/sinks/attack_graph.py` -> `modules/outcome_bus.py`
@@ -457,7 +467,6 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `skills/claude_md_orchestrator/validators.py` -> `core/hardening.py`
 - `skills/claude_md_orchestrator/validators.py` -> `skills/claude_md_orchestrator/models.py`
 - `skills/heartbeat.py` -> `modules/event_engine.py`
-- `skills/heartbeat.py` -> `modules/session_state.py`
 - `skills/heartbeat.py` -> `modules/timeline_narrator.py`
 - `skills/hermes-lazyown/claudemd_rules.py` -> `skills/hermes-lazyown/constants.py`
 - `skills/hermes-lazyown/config_bridge.py` -> `skills/hermes-lazyown/constants.py`
@@ -484,17 +493,8 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `skills/lazyown_daemon.py` -> `core/logging.py`
 - `skills/lazyown_daemon.py` -> `modules/event_engine.py`
 - `skills/lazyown_daemon.py` -> `modules/logging_config.py`
-- `skills/lazyown_daemon.py` -> `modules/session_state.py`
 - `skills/lazyown_daemon.py` -> `modules/timeline_narrator.py`
 - `skills/lazyown_daemon.py` -> `skills/sessions_watcher.py`
 - `skills/lazyown_facts.py` -> `core/logging.py`
-- `skills/lazyown_facts.py` -> `modules/logging_config.py`
-- `skills/lazyown_groq_agents.py` -> `modules/atomic_enricher.py`
-- `skills/lazyown_groq_agents.py` -> `modules/lazyown_bridge.py`
-- `skills/lazyown_groq_agents.py` -> `modules/reactive_engine.py`
-- `skills/lazyown_groq_agents.py` -> `modules/session_rag.py`
-- `skills/lazyown_groq_agents.py` -> `modules/session_reader.py`
-- `skills/lazyown_groq_agents.py` -> `modules/threat_model.py`
-- `skills/lazyown_groq_agents.py` -> `skills/lazyown_facts.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

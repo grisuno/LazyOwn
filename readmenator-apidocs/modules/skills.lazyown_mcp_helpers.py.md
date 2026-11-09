@@ -256,7 +256,7 @@ Score whether a string is plausibly a real credential.
 - hex strings of hash length score 0.6 (could be hash).
 - everything else scores 0.3 (unknown).
 
-*Called by:* [`audit_tasks`](#audit_tasks), [`build_target_context`](#build_target_context)
+*Called by:* [`audit_tasks`](#audit_tasks), [`build_target_context`](#build_target_context), [`handle`](skills.mcp_tools.campaign_sitrep.py.md#handle)
 
 ---
 
@@ -283,7 +283,7 @@ Return age + stale flag for an evidence file.
 **Returns:** `dict[str, Any]` - {exists, size, mtime, age_seconds, age_human, stale, threshold_seconds}.
 If the file does not exist all numeric fields are 0 and exists=False.
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`build_target_context`](#build_target_context)
+*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`build_target_context`](#build_target_context), [`handle`](skills.mcp_tools.campaign_sitrep.py.md#handle)
 
 ---
 
@@ -342,7 +342,7 @@ are flagged drop. Generic recon and objective tasks are kept.
 
 *Calls:* [`TaskAudit`](#taskaudit), [`is_likely_credential`](#is_likely_credential), [`parse_task_value`](#parse_task_value)
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`handle`](skills.mcp_tools.tasks_cleanup.py.md#handle)
 
 ---
 
@@ -400,7 +400,7 @@ Grep through session artefacts.
 
 **Returns:** `dict[str, Any]` - {pattern, scope, scanned, truncated, matches: [{path, line_no, line}]}.
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`handle`](skills.mcp_tools.evidence_grep.py.md#handle)
 
 ---
 
@@ -462,7 +462,7 @@ when an LLM is deciding on next steps for a target.
 
 *Calls:* [`collect_pwntomate_evidence`](#collect_pwntomate_evidence), [`evidence_freshness`](#evidence_freshness), [`find_credential_provenance`](#find_credential_provenance), [`is_likely_credential`](#is_likely_credential)
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`handle`](skills.mcp_tools.target_context.py.md#handle)
 
 ---
 
@@ -493,6 +493,8 @@ Used by lazyown_run_command(dry_run=True) and the CLI dry-run alias.
 
 **Returns:** `dict[str, Any]`
 
+*Called by:* [`handle`](skills.mcp_tools.run_command.py.md#handle)
+
 ---
 
 <a id="take_snapshot"></a>
@@ -521,7 +523,7 @@ plus credential/task counts so a later diff can show what changed.
 
 **Returns:** `dict[str, Any]`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`handle`](skills.mcp_tools.session_diff.py.md#handle)
 
 ---
 
@@ -551,7 +553,7 @@ can choose whether to take one and report nothing.
 
 **Returns:** `dict[str, Any]`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`handle`](skills.mcp_tools.session_diff.py.md#handle)
 
 ---
 
@@ -576,7 +578,7 @@ Return True if tool should require an explicit confirm=True flag.
 
 **Returns:** `bool`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`handle`](skills.mcp_tools.run_command.py.md#handle)
 
 ---
 

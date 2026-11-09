@@ -3,6 +3,13 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ReasoningEntry` | class | `cli/reasoning_stream.py:66` | `class ReasoningEntry` |
+| `_extract_reward` | function | `cli/reasoning_stream.py:175` | `def _extract_reward(payload)` |
+| `_format_size` | function | `cli/reasoning_stream.py:134` | `def _format_size(num_bytes)` |
+| `_format_time` | function | `cli/reasoning_stream.py:127` | `def _format_time(ts)` |
+| `_summarize` | function | `cli/reasoning_stream.py:148` | `def _summarize(kind, payload)` |
+| `_truncate` | function | `cli/reasoning_stream.py:141` | `def _truncate(text, limit)` |
+| `event_to_entry` | function | `cli/reasoning_stream.py:183` | `def event_to_entry(event)` |
 | `latest_hint` | function | `cli/reasoning_stream.py:229` | `def latest_hint(events_path)` |
 | `latest_reasoning` | function | `cli/reasoning_stream.py:216` | `def latest_reasoning(path, limit)` |
 | `read_raw_events` | function | `cli/reasoning_stream.py:91` | `def read_raw_events(path, limit)` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_ask_marketplace_config` | function | `cli/wizard.py:852` | `def _ask_marketplace_config()` |
 | `_ask_operator_login` | function | `cli/wizard.py:724` | `def _ask_operator_login(params)` |
 | `_ask_os_id` | function | `cli/wizard.py:563` | `def _ask_os_id(current)` |
-| `_ask_rhost` | function | `cli/wizard.py:457` | `def _ask_rhost(current)` |
-| `_ask_wordlists` | function | `cli/wizard.py:692` | `def _ask_wordlists(params)` |
-| `_build_readiness` | function | `cli/wizard.py:875` | `def _build_readiness(params)` |
-| `_check` | function | `cli/wizard.py:878` | `def _check(key, label, hint)` |
-| `_check_llm` | function | `cli/wizard.py:887` | `def _check_llm()` |
-| `_collect_values` | function | `cli/wizard.py:419` | `def _collect_values(params)` |
-| `_detect_device` | function | `cli/wizard.py:1120` | `def _detect_device()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

@@ -14,7 +14,7 @@ summary.
 ## Contents
 
 - **Classes:** [`LoopRunConfig`](#looprunconfig)
-- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`report_result`](#report_result), [`load_targets_file`](#load_targets_file), [`run_loop`](#run_loop)
+- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`report_result`](#report_result), [`bind_target_authority`](#bind_target_authority), [`load_targets_file`](#load_targets_file), [`run_loop`](#run_loop)
 - **Constants:** [`ENGAGEMENT_MODES`](#engagement_modes)
 
 ## Call Graph
@@ -41,12 +41,12 @@ flowchart LR
     n_core_console_py__print_error["console.print_error"]
     n_core_console_py__print_msg["console.print_msg"]
     n_core_console_py__print_warn["console.print_warn"]
+    n_modules_lazy_runner_py__bind_target_authority(["bind_target_authority"])
+    n_core_config_py__save_payload["config.save_payload"]
     n_modules_lazy_runner_py__load_targets_file(["load_targets_file"])
     n_core_hardening_py__validate_host["hardening.validate_host"]
     n_cli_lazy_monitor_py__run_monitor_session["lazy_monitor.run_monitor_session"]
     n_core_autonomous_py__autonomous_mode["autonomous.autonomous_mode"]
-    n_core_terminal_guard_py__TerminalGuard___init__["terminal_guard.TerminalGuard.__init__"]
-    n_modules_lazy_engine_py__LazyEngine["lazy_engine.LazyEngine"]
     n_modules_lazy_runner_py__parse_loop_line --> n_modules_lazy_runner_py__LoopRunConfig
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__LoopRunConfig_clamped
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__report_result
@@ -62,15 +62,15 @@ flowchart LR
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_error
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_msg
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_warn
+    n_modules_lazy_runner_py__bind_target_authority -.-> n_core_config_py__save_payload
+    n_modules_lazy_runner_py__bind_target_authority -.-> n_core_console_py__print_msg
+    n_modules_lazy_runner_py__bind_target_authority -.-> n_core_console_py__print_warn
     n_modules_lazy_runner_py__load_targets_file -.-> n_core_console_py__print_warn
     n_modules_lazy_runner_py__load_targets_file -.-> n_core_hardening_py__validate_host
     n_modules_lazy_runner_py__run_loop -.-> n_cli_lazy_monitor_py__run_monitor_session
     n_modules_lazy_runner_py__run_loop -.-> n_core_autonomous_py__autonomous_mode
     n_modules_lazy_runner_py__run_loop -.-> n_core_console_py__print_error
     n_modules_lazy_runner_py__run_loop -.-> n_core_console_py__print_msg
-    n_modules_lazy_runner_py__run_loop -.-> n_core_console_py__print_warn
-    n_modules_lazy_runner_py__run_loop -.-> n_core_terminal_guard_py__TerminalGuard___init__
-    n_modules_lazy_runner_py__run_loop -.-> n_modules_lazy_engine_py__LazyEngine
 ```
 
 ## Classes
@@ -270,11 +270,49 @@ vectors, next decision) prints when present.
 
 ---
 
+<a id="bind_target_authority"></a>
+
+### `bind_target_authority`
+
+`function` | [modules/lazy_runner.py:954](../../modules/lazy_runner.py#L954)
+
+```python
+def bind_target_authority(shell, targets: list[str]) -> dict
+```
+
+Make the run's target(s) authoritative over payload rhost and scope.
+
+The loop binds a target to the task, but offensive verbs and the scope
+guard read ``rhost`` and ``scope`` from ``payload.json``. When those
+are stale, a run can act against a host the operator never named: a
+verb falls back to a stale ``rhost`` or the planner wanders onto a
+stale but still-in-scope host. This binds ``rhost`` to the primary
+target and replaces the authorized scope with exactly the run's
+targets, so the loop can only touch what was requested. Writes go
+through the shell's single payload writer; the enforcement posture is
+left untouched.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `shell` |  |  | The live LazyOwn shell whose params back the payload. |
+| `targets` | `list[str]` |  | The validated run target(s); the first is the primary ``rhost`` and the full list becomes the authorized scope. |
+
+**Returns:** `dict` - A summary mapping (``bound``, ``rhost``, ``scope``, and the prior
+values) or ``{"bound": False}`` when there is nothing to bind.
+
+*Calls:* [`save_payload`](core.config.py.md#save_payload), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
+
+*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop), [`handle`](skills.mcp_tools.auto_loop.py.md#handle)
+
+---
+
 <a id="load_targets_file"></a>
 
 ### `load_targets_file`
 
-`function` | [modules/lazy_runner.py:954](../../modules/lazy_runner.py#L954)
+`function` | [modules/lazy_runner.py:1014](../../modules/lazy_runner.py#L1014)
 
 ```python
 def load_targets_file(path: str) -> list[str]
@@ -301,13 +339,15 @@ else goes through the shared host policy.
 
 *Calls:* [`print_warn`](core.console.py.md#print_warn), [`validate_host`](core.hardening.py.md#validate_host)
 
+*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop)
+
 ---
 
 <a id="run_loop"></a>
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:1009](../../modules/lazy_runner.py#L1009)
+`function` | [modules/lazy_runner.py:1069](../../modules/lazy_runner.py#L1069)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict

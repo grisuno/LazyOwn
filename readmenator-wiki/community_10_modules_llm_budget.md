@@ -1,31 +1,31 @@
 # modules: llm_budget
 
-*Community 10 | 37 files | cohesion 0.43*
+*Community 10 | 41 files | cohesion 0.44*
 
 ## Definition
 
-This community groups 37 file(s) rooted at `modules` with dominant language py (cohesion 0.43). Central symbols: `AIModel`, `AIResult`, `ASTToolExtractor`, `AgentRunner`, `AgentTool`, `AiCommandSet`, `AnthropicModel`, `BudgetConfig`. Core file: `tests/test_llm_orchestrator.py` (88 symbols). Documented purpose: Artificial Intelligence command set.  Covers the ``do_ask``, ``do_groq``, ``do_ai_playbook`` and ``do_ai_toggle`` commands. ``ask`` answers through the configur.
+This community groups 41 file(s) rooted at `modules` with dominant language py (cohesion 0.44). Central symbols: `AIModel`, `AIResult`, `ASTToolExtractor`, `AgentRunner`, `AgentTool`, `AiCommandSet`, `AnthropicModel`, `BudgetConfig`. Core file: `tests/test_llm_orchestrator.py` (88 symbols). Documented purpose: Artificial Intelligence command set.  Covers the ``do_ask``, ``do_groq``, ``do_ai_playbook`` and ``do_ai_toggle`` commands. ``ask`` answers through the configur.
 
 ## Files
 
-### `modules` (16 files)
+### `modules` (18 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/agent_runner.py` | py | utility | 38 | yes |
 | `modules/ai_fallback.py` | py | utility | 12 | yes |
 | `modules/ai_model.py` | py | business_logic | 39 | yes |
-| `modules/lazy_agent.py` | py | utility | 32 | yes |
-| `modules/llm_adapter.py` | py | infrastructure | 16 | yes |
+| `modules/detection_feed.py` | py | utility | 13 | yes |
+| `modules/detection_oracle.py` | py | utility | 18 | yes |
 
-### `tests` (10 files)
+### `tests` (12 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/conftest.py` | py | testing | 12 | yes |
 | `tests/test_ai_commands_llm.py` | py | testing | 18 | yes |
-| `tests/test_lazy_streaming.py` | py | testing | 17 | yes |
-| `tests/test_llm_adapter_parity.py` | py | testing | 42 | yes |
+| `tests/test_detection_dampening.py` | py | testing | 5 | yes |
+| `tests/test_detection_feed.py` | py | testing | 19 | yes |
 
 ### `.` (4 files)
 
@@ -63,7 +63,7 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `skills/mcp_tools/get_llm_budget.py` | py | utility | 1 | yes |
 
-*... and 17 more files in this community.*
+*... and 21 more files in this community.*
 
 
 ## Key Symbols
@@ -101,8 +101,8 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 124
-- Cross-boundary resolved imports (EXTRACTED): 155
+- Internal resolved imports (EXTRACTED): 134
+- Cross-boundary resolved imports (EXTRACTED): 171
 
 ## Connections
 
@@ -114,10 +114,6 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_orchestrator.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/ai_model.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
@@ -127,13 +123,17 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 - [cycle] `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/config.py`
 - [cycle] `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
+- [cycle] `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_orchestrator.py`
+- [cycle] `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_orchestrator.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazyllmchat.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` be broken with an interface?
 - What would break if the most connected file in modules: llm_budget changed?
-- Should modules: llm_budget be split, given cohesion 0.43?
+- Should modules: llm_budget be split, given cohesion 0.44?
 
 ## Sources
 
@@ -147,6 +147,8 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 - `modules/agent_runner.py`
 - `modules/ai_fallback.py`
 - `modules/ai_model.py`
+- `modules/detection_feed.py`
+- `modules/detection_oracle.py`
 - `modules/lazy_agent.py`
 - `modules/llm_adapter.py`
 - `modules/llm_client.py`
@@ -155,6 +157,4 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 - `modules/llm_prompts.py`
 - `modules/loop_ai_bridge.py`
 - `modules/recommender.py`
-- `modules/session_state.py`
-- `modules/sidequestion.py`
-- *... and 17 more*
+- *... and 21 more*

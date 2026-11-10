@@ -1,0 +1,14 @@
+name: is_sudo
+description: >-
+  Check whether the current user belongs to the sudo or wheel group
+author: LazyOwn
+url: https://github.com/grisuno/blacksandbeacon
+source_file: bof/is_sudo/bof.c
+client: blacksandbeacon
+platform: linux
+category: reconnaissance
+client_artifact: build/bof/is_sudo.x64.o
+required_args: []
+optional_args: []
+mitre_technique: T1082
+enabled: true

@@ -453,3 +453,13 @@ vulnerabilities:
   confidence: 0.4
   exploit: ms2_vnc_info
   chain: gym_metasploitable_ms2_vnc_info
+- id: ms2_beacon_bofs
+  name: Beacon delivery and BOF sweep via vsftpd backdoor foothold
+  cve: CVE-2011-2523
+  mitre: T1059
+  port: '21'
+  service: ftp
+  severity: critical
+  confidence: 0.9
+  exploit: vsftpd_backdoor
+  chain: gym_metasploitable_ms2_beacon_bofs

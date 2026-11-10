@@ -7,11 +7,11 @@ graph LR
     modules_lazy_loop["modules: lazy_loop"]
     modules_lazyown["modules: lazyown"]
     modules_chain_runner["modules: chain_runner"]
-    modules_atomic_exploit_bridge["modules: atomic_exploit_bridge"]
+    modules_intel_fusion["modules: intel_fusion"]
     lazygui_panels["lazygui/panels"]
     static_js["static/js"]
     modules_llm_budget["modules: llm_budget"]
-    modules_guardrails["modules/guardrails"]
+    modules_bof_registry["modules: bof_registry"]
     modules_dashboard_engine["modules: dashboard_engine"]
     skills_claude_md_orchestrator["skills/claude_md_orchestrator"]
     modules_defense_eval["modules: defense_eval"]
@@ -32,7 +32,7 @@ graph LR
     tools["tools"]
     skills_mcp_tools -- "calls into" --> static_js
     skills_mcp_tools -- "calls into" --> modules_llm_budget
-    skills_mcp_tools -- "calls into" --> modules_guardrails
+    skills_mcp_tools -- "calls into" --> modules_bof_registry
     skills_mcp_tools -- "calls into" --> skills_claude_md_orchestrator
     skills_mcp_tools -- "calls into" --> modules_kerberos_core
     skills_mcp_tools -- "calls into" --> modules_polymorphic_engine
@@ -45,11 +45,11 @@ graph LR
     skills_mcp_tools -- "calls into" --> modules_lazy_loop
     skills_mcp_tools -- "calls into" --> modules_lazyown
     skills_mcp_tools -- "calls into" --> modules_chain_runner
-    skills_mcp_tools -- "calls into" --> modules_atomic_exploit_bridge
+    skills_mcp_tools -- "calls into" --> modules_intel_fusion
     skills_mcp_tools -- "calls into" --> lazygui_panels
     static_js -- "depends on" --> skills_mcp_tools
     static_js -- "calls into" --> modules_llm_budget
-    static_js -- "depends on" --> modules_guardrails
+    static_js -- "depends on" --> modules_bof_registry
     static_js -- "calls into" --> skills_claude_md_orchestrator
     static_js -- "calls into" --> modules_polymorphic_engine
     static_js -- "calls into" --> cli_commands
@@ -59,11 +59,11 @@ graph LR
     static_js -- "calls into" --> modules_lazy_loop
     static_js -- "calls into" --> modules_lazyown
     static_js -- "calls into" --> modules_chain_runner
-    static_js -- "depends on" --> modules_atomic_exploit_bridge
+    static_js -- "depends on" --> modules_intel_fusion
     static_js -- "calls into" --> lazygui_panels
     modules_llm_budget -- "calls into" --> skills_mcp_tools
     modules_llm_budget -- "calls into" --> static_js
-    modules_llm_budget -- "calls into" --> modules_guardrails
+    modules_llm_budget -- "calls into" --> modules_bof_registry
     modules_llm_budget -- "calls into" --> skills_claude_md_orchestrator
     modules_llm_budget -- "calls into" --> modules_polymorphic_engine
     modules_llm_budget -- "calls into" --> cli_commands
@@ -74,15 +74,18 @@ graph LR
     modules_llm_budget -- "calls into" --> modules_lazy_loop
     modules_llm_budget -- "calls into" --> modules_lazyown
     modules_llm_budget -- "calls into" --> modules_chain_runner
-    modules_llm_budget -- "calls into" --> modules_atomic_exploit_bridge
-    modules_guardrails -- "calls into" --> skills_mcp_tools
-    modules_guardrails -- "calls into" --> static_js
-    modules_guardrails -- "calls into" --> modules_polymorphic_engine
-    modules_guardrails -- "calls into" --> cli_commands
-    modules_guardrails -- "calls into" --> poc_tui
-    modules_guardrails -- "depends on" --> modules_lazyc2
-    modules_guardrails -- "calls into" --> cli
-    modules_guardrails -- "calls into" --> modules_chain_runner
+    modules_llm_budget -- "calls into" --> modules_intel_fusion
+    modules_llm_budget -- "calls into" --> lazygui_panels
+    modules_bof_registry -- "calls into" --> skills_mcp_tools
+    modules_bof_registry -- "calls into" --> static_js
+    modules_bof_registry -- "calls into" --> modules_polymorphic_engine
+    modules_bof_registry -- "calls into" --> cli_commands
+    modules_bof_registry -- "calls into" --> poc_tui
+    modules_bof_registry -- "calls into" --> modules_lazyc2
+    modules_bof_registry -- "calls into" --> cli
+    modules_bof_registry -- "depends on" --> modules_lazyown
+    modules_bof_registry -- "calls into" --> modules_chain_runner
+    modules_bof_registry -- "calls into" --> lazygui_panels
     modules_dashboard_engine -- "depends on" --> skills_mcp_tools
     modules_dashboard_engine -- "calls into" --> modules_llm_budget
     modules_dashboard_engine -- "depends on" --> cli_commands
@@ -95,7 +98,7 @@ graph LR
     modules_dashboard_engine -- "calls into" --> modules_chain_runner
     modules_dashboard_engine -- "calls into" --> lazygui_panels
     skills_claude_md_orchestrator -- "calls into" --> modules_llm_budget
-    skills_claude_md_orchestrator -- "depends on" --> modules_guardrails
+    skills_claude_md_orchestrator -- "depends on" --> modules_bof_registry
     skills_claude_md_orchestrator -- "calls into" --> modules_polymorphic_engine
     skills_claude_md_orchestrator -- "calls into" --> cli_commands
     skills_claude_md_orchestrator -- "calls into" --> scripts_journal
@@ -135,7 +138,7 @@ graph LR
     cli_commands -- "calls into" --> skills_mcp_tools
     cli_commands -- "calls into" --> static_js
     cli_commands -- "calls into" --> modules_llm_budget
-    cli_commands -- "calls into" --> modules_guardrails
+    cli_commands -- "calls into" --> modules_bof_registry
     cli_commands -- "calls into" --> skills_claude_md_orchestrator
     cli_commands -- "calls into" --> modules_polymorphic_engine
     cli_commands -- "calls into" --> contrib_legacy
@@ -148,7 +151,7 @@ graph LR
     cli_commands -- "calls into" --> modules_lazy_loop
     cli_commands -- "calls into" --> modules_lazyown
     cli_commands -- "calls into" --> modules_chain_runner
-    cli_commands -- "calls into" --> modules_atomic_exploit_bridge
+    cli_commands -- "calls into" --> modules_intel_fusion
     cli_commands -- "calls into" --> lazygui_panels
     contrib_legacy -- "calls into" --> poc_tui
     contrib_legacy -- "calls into" --> modules_lazy_loop
@@ -174,7 +177,7 @@ graph LR
     modules_lazyc2 -- "calls into" --> skills_mcp_tools
     modules_lazyc2 -- "calls into" --> static_js
     modules_lazyc2 -- "calls into" --> modules_llm_budget
-    modules_lazyc2 -- "depends on" --> modules_guardrails
+    modules_lazyc2 -- "depends on" --> modules_bof_registry
     modules_lazyc2 -- "depends on" --> modules_dashboard_engine
     modules_lazyc2 -- "calls into" --> skills_claude_md_orchestrator
     modules_lazyc2 -- "calls into" --> modules_polymorphic_engine
@@ -186,12 +189,12 @@ graph LR
     modules_lazyc2 -- "calls into" --> modules_lazy_loop
     modules_lazyc2 -- "calls into" --> modules_lazyown
     modules_lazyc2 -- "calls into" --> modules_chain_runner
-    modules_lazyc2 -- "calls into" --> modules_atomic_exploit_bridge
+    modules_lazyc2 -- "depends on" --> modules_intel_fusion
     modules_lazyc2 -- "calls into" --> lazygui_panels
     cli -- "calls into" --> skills_mcp_tools
     cli -- "calls into" --> static_js
     cli -- "calls into" --> modules_llm_budget
-    cli -- "calls into" --> modules_guardrails
+    cli -- "calls into" --> modules_bof_registry
     cli -- "calls into" --> skills_claude_md_orchestrator
     cli -- "calls into" --> modules_polymorphic_engine
     cli -- "calls into" --> cli_commands
@@ -202,12 +205,12 @@ graph LR
     cli -- "calls into" --> modules_lazy_loop
     cli -- "calls into" --> modules_lazyown
     cli -- "calls into" --> modules_chain_runner
-    cli -- "depends on" --> modules_atomic_exploit_bridge
+    cli -- "depends on" --> modules_intel_fusion
     cli -- "calls into" --> lazygui_panels
     modules_lazy_loop -- "calls into" --> skills_mcp_tools
     modules_lazy_loop -- "calls into" --> static_js
     modules_lazy_loop -- "calls into" --> modules_llm_budget
-    modules_lazy_loop -- "depends on" --> modules_guardrails
+    modules_lazy_loop -- "depends on" --> modules_bof_registry
     modules_lazy_loop -- "calls into" --> modules_dashboard_engine
     modules_lazy_loop -- "calls into" --> skills_claude_md_orchestrator
     modules_lazy_loop -- "depends on" --> modules_defense_eval
@@ -219,12 +222,12 @@ graph LR
     modules_lazy_loop -- "calls into" --> cli
     modules_lazy_loop -- "calls into" --> modules_lazyown
     modules_lazy_loop -- "calls into" --> modules_chain_runner
-    modules_lazy_loop -- "depends on" --> modules_atomic_exploit_bridge
+    modules_lazy_loop -- "calls into" --> modules_intel_fusion
     modules_lazy_loop -- "calls into" --> lazygui_panels
     modules_lazyown -- "calls into" --> skills_mcp_tools
     modules_lazyown -- "depends on" --> static_js
     modules_lazyown -- "calls into" --> modules_llm_budget
-    modules_lazyown -- "calls into" --> modules_guardrails
+    modules_lazyown -- "calls into" --> modules_bof_registry
     modules_lazyown -- "calls into" --> skills_claude_md_orchestrator
     modules_lazyown -- "calls into" --> modules_polymorphic_engine
     modules_lazyown -- "calls into" --> cli_commands
@@ -236,12 +239,12 @@ graph LR
     modules_lazyown -- "calls into" --> cli
     modules_lazyown -- "calls into" --> modules_lazy_loop
     modules_lazyown -- "calls into" --> modules_chain_runner
-    modules_lazyown -- "calls into" --> modules_atomic_exploit_bridge
+    modules_lazyown -- "depends on" --> modules_intel_fusion
     modules_lazyown -- "calls into" --> lazygui_panels
     modules_chain_runner -- "calls into" --> skills_mcp_tools
     modules_chain_runner -- "calls into" --> static_js
     modules_chain_runner -- "calls into" --> modules_llm_budget
-    modules_chain_runner -- "calls into" --> modules_guardrails
+    modules_chain_runner -- "calls into" --> modules_bof_registry
     modules_chain_runner -- "calls into" --> skills_claude_md_orchestrator
     modules_chain_runner -- "calls into" --> modules_defense_eval
     modules_chain_runner -- "calls into" --> modules_polymorphic_engine
@@ -253,25 +256,25 @@ graph LR
     modules_chain_runner -- "calls into" --> cli
     modules_chain_runner -- "calls into" --> modules_lazy_loop
     modules_chain_runner -- "calls into" --> modules_lazyown
-    modules_chain_runner -- "calls into" --> modules_atomic_exploit_bridge
+    modules_chain_runner -- "calls into" --> modules_intel_fusion
     modules_chain_runner -- "calls into" --> lazygui_panels
-    modules_atomic_exploit_bridge -- "depends on" --> skills_mcp_tools
-    modules_atomic_exploit_bridge -- "calls into" --> static_js
-    modules_atomic_exploit_bridge -- "depends on" --> modules_llm_budget
-    modules_atomic_exploit_bridge -- "calls into" --> skills_claude_md_orchestrator
-    modules_atomic_exploit_bridge -- "calls into" --> modules_polymorphic_engine
-    modules_atomic_exploit_bridge -- "depends on" --> cli_commands
-    modules_atomic_exploit_bridge -- "calls into" --> scripts_journal
-    modules_atomic_exploit_bridge -- "calls into" --> poc_tui
-    modules_atomic_exploit_bridge -- "calls into" --> modules_lazyc2
-    modules_atomic_exploit_bridge -- "calls into" --> cli
-    modules_atomic_exploit_bridge -- "calls into" --> modules_lazy_loop
-    modules_atomic_exploit_bridge -- "calls into" --> modules_lazyown
-    modules_atomic_exploit_bridge -- "calls into" --> modules_chain_runner
-    modules_atomic_exploit_bridge -- "calls into" --> lazygui_panels
+    modules_intel_fusion -- "depends on" --> skills_mcp_tools
+    modules_intel_fusion -- "calls into" --> static_js
+    modules_intel_fusion -- "depends on" --> modules_llm_budget
+    modules_intel_fusion -- "calls into" --> skills_claude_md_orchestrator
+    modules_intel_fusion -- "calls into" --> modules_polymorphic_engine
+    modules_intel_fusion -- "depends on" --> cli_commands
+    modules_intel_fusion -- "calls into" --> scripts_journal
+    modules_intel_fusion -- "calls into" --> poc_tui
+    modules_intel_fusion -- "calls into" --> modules_lazyc2
+    modules_intel_fusion -- "calls into" --> cli
+    modules_intel_fusion -- "calls into" --> modules_lazy_loop
+    modules_intel_fusion -- "calls into" --> modules_lazyown
+    modules_intel_fusion -- "calls into" --> modules_chain_runner
+    modules_intel_fusion -- "calls into" --> lazygui_panels
     lazygui_panels -- "calls into" --> skills_mcp_tools
     lazygui_panels -- "calls into" --> static_js
-    lazygui_panels -- "depends on" --> modules_guardrails
+    lazygui_panels -- "depends on" --> modules_bof_registry
     lazygui_panels -- "calls into" --> skills_claude_md_orchestrator
     lazygui_panels -- "calls into" --> modules_polymorphic_engine
     lazygui_panels -- "calls into" --> cli_commands
@@ -283,7 +286,7 @@ graph LR
     lazygui_panels -- "calls into" --> modules_lazy_loop
     lazygui_panels -- "calls into" --> modules_lazyown
     lazygui_panels -- "calls into" --> modules_chain_runner
-    lazygui_panels -- "calls into" --> modules_atomic_exploit_bridge
+    lazygui_panels -- "calls into" --> modules_intel_fusion
     click skills_mcp_tools href "./skills_mcp_tools.md" "Details"
     click cli_commands href "./cli_commands.md" "Details"
     click modules_lazyc2 href "./modules_lazyc2.md" "Details"
@@ -291,11 +294,11 @@ graph LR
     click modules_lazy_loop href "./modules_lazy_loop.md" "Details"
     click modules_lazyown href "./modules_lazyown.md" "Details"
     click modules_chain_runner href "./modules_chain_runner.md" "Details"
-    click modules_atomic_exploit_bridge href "./modules_atomic_exploit_bridge.md" "Details"
+    click modules_intel_fusion href "./modules_intel_fusion.md" "Details"
     click lazygui_panels href "./lazygui_panels.md" "Details"
     click static_js href "./static_js.md" "Details"
     click modules_llm_budget href "./modules_llm_budget.md" "Details"
-    click modules_guardrails href "./modules_guardrails.md" "Details"
+    click modules_bof_registry href "./modules_bof_registry.md" "Details"
     click modules_dashboard_engine href "./modules_dashboard_engine.md" "Details"
     click skills_claude_md_orchestrator href "./skills_claude_md_orchestrator.md" "Details"
     click modules_defense_eval href "./modules_defense_eval.md" "Details"
@@ -307,11 +310,11 @@ graph LR
 
 ## Details
 
-Static architecture map of 1526 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 30 components: skills/mcp_tools, cli/commands, modules: lazyc2, cli, modules: lazy_loop, modules: lazyown, modules: chain_runner, modules: atomic_exploit_bridge. Structure is extracted statically without LLM calls; component prose may be enriched locally.
+Static architecture map of 1545 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 30 components: skills/mcp_tools, cli/commands, modules: lazyc2, cli, modules: lazy_loop, modules: lazyown, modules: chain_runner, modules: intel_fusion. Structure is extracted statically without LLM calls; component prose may be enriched locally.
 
 ### skills/mcp_tools (1)
 
-skills/mcp_tools groups 222 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+skills/mcp_tools groups 235 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 **Related Classes/Methods**:
 
@@ -326,7 +329,7 @@ skills/mcp_tools groups 222 files (py) around MCPContext, _try_import, _update_t
 
 ### cli/commands (2)
 
-cli/commands groups 166 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 162 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 **Related Classes/Methods**:
 
@@ -341,7 +344,7 @@ cli/commands groups 166 files (py) around lazyown_set_config, needs_sudo, sudo_a
 
 ### modules: lazyc2 (3)
 
-modules: lazyc2 groups 141 files (c, js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 138 files (c, js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 **Related Classes/Methods**:
 
@@ -356,7 +359,7 @@ modules: lazyc2 groups 141 files (c, js, py) around StructuredLogConfig, _JsonLi
 
 ### cli (4)
 
-cli groups 114 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 115 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 **Related Classes/Methods**:
 
@@ -386,7 +389,7 @@ modules: lazy_loop groups 110 files (py) around plausible_command, looks_like_pr
 
 ### modules: lazyown (6)
 
-modules: lazyown groups 109 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Declarative cmd2 alias loader.
+modules: lazyown groups 106 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Declarative cmd2 alias loader.
 
 **Related Classes/Methods**:
 
@@ -401,7 +404,7 @@ modules: lazyown groups 109 files (py) around _apply_env_overrides, _coerce_env_
 
 ### modules: chain_runner (7)
 
-modules: chain_runner groups 90 files (c, js, py) around skip_pending, ChainStep, identifier, Chain, resolve. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: chain_runner groups 98 files (c, js, py) around skip_pending, ChainStep, identifier, Chain, resolve. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 **Related Classes/Methods**:
 
@@ -414,9 +417,9 @@ modules: chain_runner groups 90 files (c, js, py) around skip_pending, ChainStep
 - <a href="../modules/chain_registry.py#L270-L296">modules/chain_registry.py::_when_tree</a>
 - <a href="../modules/chain_registry.py#L297-L318">modules/chain_registry.py::evaluate_when</a>
 
-### modules: atomic_exploit_bridge (8)
+### modules: intel_fusion (8)
 
-modules: atomic_exploit_bridge groups 73 files (py) around OutcomeEvent, host_value, key, to_dict, OutcomeBus. Attack-surface operations: confirmed discovery scans, estorides fusion.
+modules: intel_fusion groups 66 files (py) around OutcomeEvent, host_value, key, to_dict, OutcomeBus. Attack-surface operations: confirmed discovery scans, estorides fusion.
 
 **Related Classes/Methods**:
 
@@ -461,7 +464,7 @@ static/js groups 49 files (c, js, php, py, sh) around FieldKind, Severity, Field
 
 ### modules: llm_budget (11)
 
-modules: llm_budget groups 37 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
+modules: llm_budget groups 41 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
 
 **Related Classes/Methods**:
 
@@ -474,9 +477,9 @@ modules: llm_budget groups 37 files (py) around is_model_missing_error, groq_mod
 - <a href="../modules/llm_factory.py#L266-L290">modules/llm_factory.py::api_key_config_key</a>
 - <a href="../modules/llm_factory.py#L291-L308">modules/llm_factory.py::backend_requires_api_key</a>
 
-### modules/guardrails (12)
+### modules: bof_registry (12)
 
-modules/guardrails groups 22 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Enumeration command set.
+modules: bof_registry groups 32 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
 
 **Related Classes/Methods**:
 

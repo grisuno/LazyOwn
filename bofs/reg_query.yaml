@@ -1,0 +1,14 @@
+name: reg_query
+description: >-
+  Query Windows registry keys and values remotely or locally
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/reg_query/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: ['key']
+optional_args: ['value', 'server']
+mitre_technique: T1012
+enabled: true

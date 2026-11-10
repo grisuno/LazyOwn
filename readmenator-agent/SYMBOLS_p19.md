@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
+| `process_file` | method | `modules/lilsplunky.py:257` | `def process_file(self, file_path)` |
+| `search_logs` | function | `modules/lilsplunky.py:382` | `def search_logs(query, file_path)` |
+| `simple_parse_log_line` | function | `modules/lilsplunky.py:69` | `def simple_parse_log_line(line, file_path)` |
+| `start_monitoring` | function | `modules/lilsplunky.py:413` | `def start_monitoring(log_dir, mode)` |
+| `store_event` | function | `modules/lilsplunky.py:108` | `def store_event(event_data)` |
+| `LinuxAdvancedConfig` | class | `modules/linux_advanced_payloads.py:64` | `class LinuxAdvancedConfig` |
+| `LinuxAdvancedPayloadFactory` | class | `modules/linux_advanced_payloads.py:92` | `class LinuxAdvancedPayloadFactory` |
+| `__init__` | method | `modules/linux_advanced_payloads.py:105` | `def __init__(self, config, output_dir)` |
+| `_ip_to_hex` | method | `modules/linux_advanced_payloads.py:305` | `def _ip_to_hex(ip_str)` |
+| `compile_c_source` | method | `modules/linux_advanced_payloads.py:707` | `def compile_c_source(self, source, output_name, shared)` |
+| `generate_all` | method | `modules/linux_advanced_payloads.py:749` | `def generate_all(self)` |
+| `generate_ebpf_payload` | method | `modules/linux_advanced_payloads.py:235` | `def generate_ebpf_payload(self)` |
+| `generate_kernel_module` | method | `modules/linux_advanced_payloads.py:519` | `def generate_kernel_module(self)` |
+| `generate_ld_preload_rootkit` | method | `modules/linux_advanced_payloads.py:110` | `def generate_ld_preload_rootkit(self)` |
+| `generate_motd_backdoor` | method | `modules/linux_advanced_payloads.py:689` | `def generate_motd_backdoor(self)` |
+| `generate_pam_backdoor` | method | `modules/linux_advanced_payloads.py:311` | `def generate_pam_backdoor(self)` |
+| `generate_process_masquerade` | method | `modules/linux_advanced_payloads.py:632` | `def generate_process_masquerade(self)` |
+| `generate_ssh_persistence` | method | `modules/linux_advanced_payloads.py:458` | `def generate_ssh_persistence(self)` |
+| `generate_systemd_persistence` | method | `modules/linux_advanced_payloads.py:398` | `def generate_systemd_persistence(self)` |
+| `generate_udev_persistence` | method | `modules/linux_advanced_payloads.py:676` | `def generate_udev_persistence(self)` |
+| `list_hook_functions` | method | `modules/linux_advanced_payloads.py:793` | `def list_hook_functions()` |
+| `list_persistence_methods` | method | `modules/linux_advanced_payloads.py:797` | `def list_persistence_methods()` |
+| `Listener` | class | `modules/listener_manager.py:141` | `class Listener` |
+| `ListenerManager` | class | `modules/listener_manager.py:172` | `class ListenerManager` |
+| `__init__` | method | `modules/listener_manager.py:179` | `def __init__(self, app, sessions_dir, payload)` |
+| `_bind_address` | method | `modules/listener_manager.py:191` | `def _bind_address(self, port)` |
+| `_collect_listener_bind_candidates` | function | `modules/listener_manager.py:35` | `def _collect_listener_bind_candidates(payload)` |
+| `_listeners_path` | method | `modules/listener_manager.py:201` | `def _listeners_path(self)` |
+| `_load` | method | `modules/listener_manager.py:204` | `def _load(self)` |
+| `_probe_listener_bind` | function | `modules/listener_manager.py:72` | `def _probe_listener_bind(address, port)` |
+| `_resolve_listener_bind_address` | function | `modules/listener_manager.py:110` | `def _resolve_listener_bind_address(payload, port)` |
+| `_save` | method | `modules/listener_manager.py:217` | `def _save(self)` |
+| `_stop` | method | `modules/listener_manager.py:343` | `def _stop(self, listener)` |
+| `add` | method | `modules/listener_manager.py:229` | `def add(self, port, ssl, listener_id)` |
+| `from_dict` | method | `modules/listener_manager.py:162` | `def from_dict(cls, data)` |
+| `get_default_port` | method | `modules/listener_manager.py:379` | `def get_default_port(self, fallback)` |
+| `remove` | method | `modules/listener_manager.py:242` | `def remove(self, listener_id)` |
+| `set_payload` | method | `modules/listener_manager.py:187` | `def set_payload(self, payload)` |
+| `start` | method | `modules/listener_manager.py:255` | `def start(self, listener_id)` |
+| `start_all` | method | `modules/listener_manager.py:356` | `def start_all(self)` |
+| `status` | method | `modules/listener_manager.py:367` | `def status(self)` |
+| `stop` | method | `modules/listener_manager.py:335` | `def stop(self, listener_id)` |
+| `stop_all` | method | `modules/listener_manager.py:362` | `def stop_all(self)` |
+| `to_dict` | method | `modules/listener_manager.py:152` | `def to_dict(self)` |
+| `_emit_edge` | function | `modules/live_surface.py:126` | `def _emit_edge(source, target, relation, weight)` |
+| `_emit_node` | function | `modules/live_surface.py:106` | `def _emit_node(node_id, state, title)` |
+| `_group_for` | function | `modules/live_surface.py:55` | `def _group_for(node_id)` |
+| `_is_compromised` | function | `modules/live_surface.py:45` | `def _is_compromised(state)` |
+| `_label_for` | function | `modules/live_surface.py:64` | `def _label_for(node_id)` |
+| `_node_value` | function | `modules/live_surface.py:50` | `def _node_value(centrality)` |
+| `build_live_graph` | function | `modules/live_surface.py:72` | `def build_live_graph(world)` |
+| `_complete` | function | `modules/llm_adapter.py:89` | `def _complete(client, full_prompt, model)` |
+| `_configure_logging` | function | `modules/llm_adapter.py:72` | `def _configure_logging(debug)` |
+| `_orchestrated` | function | `modules/llm_adapter.py:124` | `def _orchestrated(full_prompt, prompt, store, primary_error)` |
+| `_process` | function | `modules/llm_adapter.py:103` | `def _process(client, prompt, debug, template, config)` |
+| `_read_error` | function | `modules/llm_adapter.py:85` | `def _read_error(prompt)` |
+| `_read_prompt_file` | function | `modules/llm_adapter.py:77` | `def _read_prompt_file(prompt)` |
+| `ask_general` | function | `modules/llm_adapter.py:290` | `def ask_general(prompt, debug)` |
+| `process_prompt` | function | `modules/llm_adapter.py:155` | `def process_prompt(client, prompt, debug)` |
+| `process_prompt_adversary` | function | `modules/llm_adapter.py:183` | `def process_prompt_adversary(client, prompt, debug)` |
+| `process_prompt_general` | function | `modules/llm_adapter.py:197` | `def process_prompt_general(client, prompt, debug)` |
+| `process_prompt_redop` | function | `modules/llm_adapter.py:273` | `def process_prompt_redop(client, prompt, debug)` |
+| `process_prompt_script` | function | `modules/llm_adapter.py:169` | `def process_prompt_script(client, prompt, debug)` |
+| `process_prompt_search` | function | `modules/llm_adapter.py:211` | `def process_prompt_search(client, prompt, debug)` |
+| `process_prompt_task` | function | `modules/llm_adapter.py:225` | `def process_prompt_task(client, prompt, debug)` |
+| `process_prompt_vuln` | function | `modules/llm_adapter.py:242` | `def process_prompt_vuln(client, prompt, debug, event)` |
+| `safe_groq_client` | function | `modules/llm_adapter.py:55` | `def safe_groq_client(api_key)` |
+| `LLMClient` | class | `modules/llm_client.py:45` | `class LLMClient` |
+| `__init__` | method | `modules/llm_client.py:63` | `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)` |
+| `_ask_groq` | method | `modules/llm_client.py:179` | `def _ask_groq(self, prompt, model, system, temperature)` |
+| `_ask_llamacpp` | method | `modules/llm_client.py:242` | `def _ask_llamacpp(self, prompt, model, system)` |
+| `_ask_ollama` | method | `modules/llm_client.py:220` | `def _ask_ollama(self, prompt, model)` |
+| `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
 | `ask` | function | `modules/llm_client.py:276` | `def ask(prompt)` |
 | `classify` | method | `modules/llm_client.py:130` | `def classify(self, output)` |
 | `classify` | function | `modules/llm_client.py:288` | `def classify(output)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `mediator_for` | method | `modules/mediation/hub.py:35` | `def mediator_for(self, domain)` |
 | `register` | method | `modules/mediation/hub.py:26` | `def register(self, mediator)` |
 | `snapshot` | method | `modules/mediation/hub.py:46` | `def snapshot(self)` |
-| `IntelMediator` | class | `modules/mediation/intel_mediator.py:13` | `class IntelMediator` |
-| `__init__` | method | `modules/mediation/intel_mediator.py:18` | `def __init__(self)` |
-| `activity_records` | method | `modules/mediation/intel_mediator.py:39` | `def activity_records(self, task_id, limit)` |
-| `describe` | method | `modules/mediation/intel_mediator.py:32` | `def describe(self)` |
-| `mask_configured` | method | `modules/mediation/intel_mediator.py:133` | `def mask_configured(self, text)` |
-| `record_routing_decision` | method | `modules/mediation/intel_mediator.py:64` | `def record_routing_decision(self, task_id, intent_id, command, intent_text, target, stack)` |
-| `record_routing_outcome` | method | `modules/mediation/intel_mediator.py:97` | `def record_routing_outcome(self, task_id, intent_id, command, state, facts, findings, stack)` |
-| `register_activity_log_factory` | method | `modules/mediation/intel_mediator.py:22` | `def register_activity_log_factory(self, factory)` |
-| `stack_signature` | method | `modules/mediation/intel_mediator.py:149` | `def stack_signature(self, assets)` |
-| `TelemetryMediator` | class | `modules/mediation/telemetry_mediator.py:14` | `class TelemetryMediator` |
-| `annotate_detection` | method | `modules/mediation/telemetry_mediator.py:43` | `def annotate_detection(self, command)` |
-| `assess_opsec` | method | `modules/mediation/telemetry_mediator.py:59` | `def assess_opsec(self, command, rhost)` |
-| `describe` | method | `modules/mediation/telemetry_mediator.py:19` | `def describe(self)` |
-| `moe_record_outcome` | method | `modules/mediation/telemetry_mediator.py:203` | `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` |
-| `moe_route` | method | `modules/mediation/telemetry_mediator.py:162` | `def moe_route(self, task_type)` |
-| `publish_event` | method | `modules/mediation/telemetry_mediator.py:23` | `def publish_event(self, task_id, worker, kind, text, severity)` |
-| `record_outcome_quality` | method | `modules/mediation/telemetry_mediator.py:77` | `def record_outcome_quality(self, worker, intent_summary, facts, findings)` |
-| `record_step` | method | `modules/mediation/telemetry_mediator.py:111` | `def record_step(self, task_id, worker, command, output, detection_prob)` |
-| `rl_select` | method | `modules/mediation/telemetry_mediator.py:178` | `def rl_select(self, task_type, phase, candidates, deterministic)` |
-| `rl_update` | method | `modules/mediation/telemetry_mediator.py:219` | `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` |
-| `swan_available` | method | `modules/mediation/telemetry_mediator.py:128` | `def swan_available(self)` |
-| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:137` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
-| `tool_class_yields` | method | `modules/mediation/telemetry_mediator.py:93` | `def tool_class_yields(self, summaries, phase)` |
-| `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
-| `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
-| `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
-| `generate_on_exit_script` | method | `modules/memory_cleaner.py:255` | `def generate_on_exit_script(self)` |
-| `linux_memory_cleanup` | method | `modules/memory_cleaner.py:151` | `def linux_memory_cleanup(self)` |
-| `macos_memory_cleanup` | method | `modules/memory_cleaner.py:206` | `def macos_memory_cleanup(self)` |
-| `windows_memory_cleanup` | method | `modules/memory_cleaner.py:64` | `def windows_memory_cleanup(self)` |
-| `EmbeddingError` | class | `modules/memory_embeddings.py:30` | `class EmbeddingError(ValueError)` |
-| `_fnv1a` | function | `modules/memory_embeddings.py:34` | `def _fnv1a(data)` |
-| `_tokens` | function | `modules/memory_embeddings.py:41` | `def _tokens(text)` |
-| `as_floats` | function | `modules/memory_embeddings.py:109` | `def as_floats(blob)` |
-| `cosine` | function | `modules/memory_embeddings.py:75` | `def cosine(a, b)` |
-| `embed` | function | `modules/memory_embeddings.py:50` | `def embed(text)` |
-| `semantic_top_k` | function | `modules/memory_embeddings.py:85` | `def semantic_top_k(query, candidates, top_k)` |
-| `MemoryEntry` | class | `modules/memory_store.py:84` | `class MemoryEntry` |
-| `MemoryStore` | class | `modules/memory_store.py:237` | `class MemoryStore` |
-| `SQLiteBackend` | class | `modules/memory_store.py:132` | `class SQLiteBackend(StorageBackend)` |
-| `StorageBackend` | class | `modules/memory_store.py:97` | `class StorageBackend(ABC)` |
-| `VectorSQLiteBackend` | class | `modules/memory_store.py:315` | `class VectorSQLiteBackend(SQLiteBackend)` |
-| `__init__` | method | `modules/memory_store.py:133` | `def __init__(self, db_path)` |
-| `__init__` | method | `modules/memory_store.py:240` | `def __init__(self, backend)` |
-| `_cli` | function | `modules/memory_store.py:381` | `def _cli()` |
-| `_connect` | method | `modules/memory_store.py:139` | `def _connect(self)` |
-| `_fetch` | method | `modules/memory_store.py:175` | `def _fetch(self, sql, params)` |
-| `_print_entries` | function | `modules/memory_store.py:368` | `def _print_entries(entries)` |
-| `_row_to_entry` | function | `modules/memory_store.py:117` | `def _row_to_entry(row)` |
-| `all_entries` | method | `modules/memory_store.py:111` | `def all_entries(self, limit)` |
-| `all_entries` | method | `modules/memory_store.py:215` | `def all_entries(self, limit)` |
-| `by_host` | method | `modules/memory_store.py:105` | `def by_host(self, host, top_k)` |
-| `by_host` | method | `modules/memory_store.py:192` | `def by_host(self, host, top_k)` |
-| `by_service` | method | `modules/memory_store.py:108` | `def by_service(self, service, top_k)` |
-| `by_service` | method | `modules/memory_store.py:203` | `def by_service(self, service, top_k)` |
-| `close` | method | `modules/memory_store.py:114` | `def close(self)` |
-| `close` | method | `modules/memory_store.py:232` | `def close(self)` |
-| `export_finetuning_dataset` | method | `modules/memory_store.py:300` | `def export_finetuning_dataset(self, path)` |
-| `get_memory_store` | function | `modules/memory_store.py:339` | `def get_memory_store()` |
-| `recall` | method | `modules/memory_store.py:270` | `def recall(self, query, top_k)` |
-| `recall` | function | `modules/memory_store.py:360` | `def recall(query, top_k)` |
-| `recall_by_host` | method | `modules/memory_store.py:273` | `def recall_by_host(self, host, top_k)` |
-| `recall_for_service` | method | `modules/memory_store.py:276` | `def recall_for_service(self, service_name, top_k)` |
-| `recall_hybrid` | method | `modules/memory_store.py:279` | `def recall_hybrid(self, query, top_k)` |
-| `recall_hybrid` | function | `modules/memory_store.py:364` | `def recall_hybrid(query, top_k)` |
-| `remember` | method | `modules/memory_store.py:243` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
-| `remember` | function | `modules/memory_store.py:348` | `def remember(session_id, host, tool, command, output, findings, success)` |
-| `save` | method | `modules/memory_store.py:99` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:148` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:320` | `def save(self, entry)` |
-| `search` | method | `modules/memory_store.py:102` | `def search(self, query, top_k)` |
-| `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
-| `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
-| `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

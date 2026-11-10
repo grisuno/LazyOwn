@@ -153,23 +153,26 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Depends on: `cli/commands/_base.py`, `modules/bitm_engine.py`, `utils.py`
 
 ## cli/commands/bof_registry.py
-- Doc: BOF marketplace CommandSet — Beacon Object File discovery, install, and execution.
+- Doc: BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `BofMarketplaceCommandSet` (class, line 29) `class BofMarketplaceCommandSet(LazyOwnCommandSet)`
-  - `_ensure_staging_dir` (method, line 36) `def _ensure_staging_dir()`
-  - `_find_bof_object` (method, line 42) `def _find_bof_object(bof_name)`
-  - `_stage_bof` (method, line 71) `def _stage_bof(self, bof_name)`
-  - `_queue_command_on_c2` (method, line 89) `def _queue_command_on_c2(self, client_id, command)`
-  - `do_bof_search` (method, line 142) `def do_bof_search(self, line)`
-  - `do_bof_info` (method, line 163) `def do_bof_info(self, line)`
-  - `do_bof_install` (method, line 196) `def do_bof_install(self, line)`
-  - `do_bof_run` (method, line 226) `def do_bof_run(self, line)`
-  - `do_bof_uninstall` (method, line 267) `def do_bof_uninstall(self, line)`
-  - `do_bof_list` (method, line 289) `def do_bof_list(self, line)`
-  - `do_bof_catalog` (method, line 321) `def do_bof_catalog(self, line)`
-- Depends on: `cli/commands/_base.py`, `core/config.py`, `modules/beacon_config_builder.py`, `modules/bof_registry.py`, `utils.py`
+  - `BofMarketplaceCommandSet` (class, line 44) `class BofMarketplaceCommandSet(LazyOwnCommandSet)`
+  - `_ensure_staging_dir` (method, line 51) `def _ensure_staging_dir()`
+  - `_stage_bof` (method, line 56) `def _stage_bof(self, bof_name)`
+  - `do_bof_search` (method, line 87) `def do_bof_search(self, line)`
+  - `do_bof_info` (method, line 108) `def do_bof_info(self, line)`
+  - `do_bof_install` (method, line 143) `def do_bof_install(self, line)`
+  - `do_bof_stage` (method, line 171) `def do_bof_stage(self, line)`
+  - `do_bof_run` (method, line 191) `def do_bof_run(self, line)`
+  - `do_bof_train` (method, line 247) `def do_bof_train(self, line)`
+  - `do_bof_deploy` (method, line 309) `def do_bof_deploy(self, line)`
+  - `do_bof_beacons` (method, line 358) `def do_bof_beacons(self, line)`
+  - `do_bof_results` (method, line 377) `def do_bof_results(self, line)`
+  - `do_bof_uninstall` (method, line 409) `def do_bof_uninstall(self, line)`
+  - `do_bof_list` (method, line 431) `def do_bof_list(self, line)`
+  - `do_bof_catalog` (method, line 463) `def do_bof_catalog(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `utils.py`
 
 ## cli/commands/c2_profile.py
 - Doc: C2 profile CommandSet — extended malleable C2 profiles (TLS, DNS, SMB, WS).

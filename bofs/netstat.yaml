@@ -1,0 +1,14 @@
+name: netstat
+description: >-
+  Enumerate active TCP and UDP connections with owning process IDs
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: bofs/netstat.c
+client: beacon
+platform: windows
+category: reconnaissance
+client_artifact: 
+required_args: []
+optional_args: []
+mitre_technique: T1049
+enabled: true

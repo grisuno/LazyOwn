@@ -1,5 +1,22 @@
-# Subsystem: mcp_tools (page 2 of 3)
+# Subsystem: mcp_tools (page 2 of 4)
 Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
+
+## skills/mcp_tools/deploy_beacon.py
+- Doc: MCP tool ``lazyown_deploy_beacon`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 40) `def handle(arguments, tool_name, ctx)`
+  - `_deploy_beacon_sync` (function, line 45) `def _deploy_beacon_sync()`
+- Depends on: `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/discover_commands.py
+- Doc: MCP tool ``lazyown_discover_commands`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 52) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/lazyown_bridge.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/engage_approve.py
 - Doc: MCP tool ``lazyown_engage_approve`` (migrated from the call_tool dispatch chain).
@@ -205,6 +222,14 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
   - `_blocking_run` (function, line 110) `def _blocking_run()`
 - Depends on: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/_context.py`
 
+## skills/mcp_tools/harness_status.py
+- Doc: MCP tool ``lazyown_harness_status`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 23) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/heartbeat_status.py
 - Doc: MCP tool ``lazyown_heartbeat_status`` (migrated from the call_tool dispatch chain).
 - Layer: utility
@@ -284,6 +309,14 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 - Symbols:
   - `handle` (function, line 52) `def handle(arguments, tool_name, ctx)`
 - Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/job_status.py
+- Doc: MCP tool ``lazyown_job_status`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 37) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/lazy_addon.py
 - Doc: MCP tool ``lazyown_lazy_addon``: list or match lazyaddon triggers.
@@ -461,38 +494,6 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 - Symbols:
   - `handle` (function, line 30) `def handle(arguments, tool_name, ctx)`
 - Depends on: `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/llm_ask.py
-- Doc: MCP tool ``lazyown_llm_ask`` (migrated from the call_tool dispatch chain).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 67) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/lazyown_llm.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/lolbas_list.py
-- Doc: MCP tool ``lazyown_lolbas_list``: list LOLBAS techniques from plugins.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 34) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/lolbas_use.py
-- Doc: MCP tool ``lazyown_lolbas_use``: execute one LOLBAS technique.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 44) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/loop_smoke.py
-- Doc: MCP tool ``lazyown_loop_smoke``: single-leg autonomous loop smoke test.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 65) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
 
 
 Next: [KB_mcp_tools_p3.md](KB_mcp_tools_p3.md)

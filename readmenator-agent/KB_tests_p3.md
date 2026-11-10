@@ -435,22 +435,26 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `TestBeaconConfig` (class, line 22) `class TestBeaconConfig`
-  - `TestBeaconConfigBuilder` (class, line 141) `class TestBeaconConfigBuilder`
-  - `TestGenerateBofExecutionCommand` (class, line 205) `class TestGenerateBofExecutionCommand`
-  - `test_default_construction` (method, line 23) `def test_default_construction(self)`
-  - `test_to_gen_beacon_args` (method, line 36) `def test_to_gen_beacon_args(self)`
-  - `test_to_go_implant_vars` (method, line 59) `def test_to_go_implant_vars(self)`
-  - `test_to_config_json` (method, line 85) `def test_to_config_json(self)`
-  - `test_to_dict_serialization` (method, line 113) `def test_to_dict_serialization(self)`
-  - `test_build_minimal` (method, line 142) `def test_build_minimal(self)`
-  - `test_build_with_malleable_route` (method, line 157) `def test_build_with_malleable_route(self)`
-  - `test_build_injects_tls_from_payload` (method, line 170) `def test_build_injects_tls_from_payload(self)`
-  - `test_build_injects_dns_from_payload` (method, line 183) `def test_build_injects_dns_from_payload(self)`
-  - `test_build_falls_back_on_missing_engines` (method, line 197) `def test_build_falls_back_on_missing_engines(self)`
-  - `test_basic_bof_command` (method, line 206) `def test_basic_bof_command(self)`
-  - `test_bof_with_args` (method, line 214) `def test_bof_with_args(self)`
-  - `test_custom_bofs_dir` (method, line 224) `def test_custom_bofs_dir(self)`
+  - `TestBeaconConfig` (class, line 24) `class TestBeaconConfig`
+  - `TestBeaconConfigBuilder` (class, line 143) `class TestBeaconConfigBuilder`
+  - `TestGenerateBofExecutionCommand` (class, line 207) `class TestGenerateBofExecutionCommand`
+  - `test_default_construction` (method, line 25) `def test_default_construction(self)`
+  - `test_to_gen_beacon_args` (method, line 38) `def test_to_gen_beacon_args(self)`
+  - `test_to_go_implant_vars` (method, line 61) `def test_to_go_implant_vars(self)`
+  - `test_to_config_json` (method, line 87) `def test_to_config_json(self)`
+  - `test_to_dict_serialization` (method, line 115) `def test_to_dict_serialization(self)`
+  - `test_build_minimal` (method, line 144) `def test_build_minimal(self)`
+  - `test_build_with_malleable_route` (method, line 159) `def test_build_with_malleable_route(self)`
+  - `test_build_injects_tls_from_payload` (method, line 172) `def test_build_injects_tls_from_payload(self)`
+  - `test_build_injects_dns_from_payload` (method, line 185) `def test_build_injects_dns_from_payload(self)`
+  - `test_build_falls_back_on_missing_engines` (method, line 199) `def test_build_falls_back_on_missing_engines(self)`
+  - `test_basic_bof_command` (method, line 208) `def test_basic_bof_command(self)`
+  - `test_bof_with_args_space_separated` (method, line 215) `def test_bof_with_args_space_separated(self)`
+  - `test_bof_command_has_no_colon_between_url_and_args` (method, line 223) `def test_bof_command_has_no_colon_between_url_and_args(self)`
+  - `test_custom_bofs_dir` (method, line 232) `def test_custom_bofs_dir(self)`
+  - `test_empty_args_arg_only_blank_rejected` (method, line 240) `def test_empty_args_arg_only_blank_rejected(self)`
+  - `test_rejects_newline_in_bof_name` (method, line 244) `def test_rejects_newline_in_bof_name(self)`
+  - `test_rejects_space_in_bof_name` (method, line 248) `def test_rejects_space_in_bof_name(self)`
 - Depends on: `modules/beacon_config_builder.py`
 
 ## tests/test_beacon_history.py
@@ -469,31 +473,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_missing_history_reads_empty` (method, line 72) `def test_missing_history_reads_empty(self, tmp_path)`
   - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
 - Depends on: `modules/beacon_history.py`
-
-## tests/test_beacon_recon_sink.py
-- Doc: Beacon recon ingest tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fresh_world_model` (function, line 26) `def _fresh_world_model(tmp)`
-  - `ParseDiscoveredIpsSpec` (class, line 30) `class ParseDiscoveredIpsSpec(TestCase)`
-  - `ParseBeaconPortscanSpec` (class, line 49) `class ParseBeaconPortscanSpec(TestCase)`
-  - `IngestBeaconReconSpec` (class, line 75) `class IngestBeaconReconSpec(TestCase)`
-  - `test_flat_string` (method, line 31) `def test_flat_string(self)`
-  - `test_dict_with_list_values` (method, line 37) `def test_dict_with_list_values(self)`
-  - `test_skips_non_ips` (method, line 40) `def test_skips_non_ips(self)`
-  - `test_empty_values` (method, line 43) `def test_empty_values(self)`
-  - `test_flat_string_credits_default_host` (method, line 50) `def test_flat_string_credits_default_host(self)`
-  - `test_go_map_string` (method, line 54) `def test_go_map_string(self)`
-  - `test_dict_payload` (method, line 58) `def test_dict_payload(self)`
-  - `test_noise_and_bounds` (method, line 62) `def test_noise_and_bounds(self)`
-  - `test_host_prefix_string` (method, line 66) `def test_host_prefix_string(self)`
-  - `test_empty_values` (method, line 70) `def test_empty_values(self)`
-  - `_run` (method, line 76) `def _run(self, tmp, wm, discovered, portscan)`
-  - `test_hosts_services_ledger_and_outcome` (method, line 96) `def test_hosts_services_ledger_and_outcome(self)`
-  - `test_rerun_is_idempotent_for_hosts_and_services` (method, line 114) `def test_rerun_is_idempotent_for_hosts_and_services(self)`
-  - `test_noop_without_data_and_without_ip` (method, line 124) `def test_noop_without_data_and_without_ip(self)`
-- Depends on: `modules/beacon_recon.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

@@ -2,6 +2,8 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, pathlib, re
+- `modules/lazy_netattack.py` -> __future__, dataclasses, typing
 - `modules/lazy_objective_queue.py` -> __future__, dataclasses, datetime, json, os, pathlib, re
 - `modules/lazy_oob.py` -> __future__, dataclasses, json, pathlib, secrets, threading, time, typing
 - `modules/lazy_orchestrator_feedback.py` -> __future__, json, pathlib, threading, time
@@ -263,7 +265,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/lazyown_groq_agents.py` -> __future__, argparse, collections.abc, dataclasses, datetime, json, os, pathlib, pprint, subprocess, sys, threading, threat_model, typing, urllib.request, uuid
 - `skills/lazyown_hooks.py` -> collections.abc, datetime, json, pathlib, re, time
 - `skills/lazyown_llm.py` -> __future__, argparse, collections.abc, dataclasses, glob, json, os, pathlib, re, sys, typing, urllib.error, urllib.request
-- `skills/lazyown_mcp.py` -> asyncio, base64, fcntl, glob, ipaddress, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, select, session_state, shlex, shutil, signal, ssl, starlette.applications, struct, subprocess, sys, termios, threading, time, typing, urllib.error, urllib.request, uvicorn
+- `skills/lazyown_mcp.py` -> asyncio, base64, fcntl, ipaddress, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, select, session_state, shlex, shutil, signal, ssl, starlette.applications, struct, subprocess, sys, termios, threading, time, typing, urllib.error, urllib.request, uvicorn
 - `skills/lazyown_mcp_helpers.py` -> __future__, csv, dataclasses, datetime, json, os, pathlib, re, shutil, threading, time, typing, uuid
 - `skills/lazyown_mcp_opencode.py` -> asyncio, json, mcp, mcp.server.stdio, pathlib, sys, typing
 - `skills/lazyown_objective.py` -> __future__, argparse, dataclasses, datetime, hashlib, json, pathlib, re, secrets
@@ -312,12 +314,14 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/mcp_tools/campaign_lessons.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/campaign_sitrep.py` -> __future__, csv, glob, json, mcp, pathlib, typing
 - `skills/mcp_tools/campaign_tasks.py` -> __future__, mcp, sys, typing
+- `skills/mcp_tools/claudemd.py` -> __future__, mcp, typing
 - `skills/mcp_tools/collab_publish.py` -> __future__, json, mcp, sys, typing
 - `skills/mcp_tools/command_help.py` -> __future__, ast, asyncio, mcp, textwrap, typing, warnings, yaml
 - `skills/mcp_tools/command_next.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/command_prev.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/create_addon.py` -> __future__, mcp, typing
 - `skills/mcp_tools/create_param.py` -> __future__, mcp, typing
+- `skills/mcp_tools/create_tool.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/credentials.py` -> __future__, glob, json, mcp, pathlib, typing
 - `skills/mcp_tools/cron_schedule.py` -> __future__, json, mcp, os, pathlib, re, typing, uuid
 - `skills/mcp_tools/cve_search.py` -> __future__, asyncio, mcp, sys, typing
@@ -359,6 +363,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/mcp_tools/graph_suggest_next.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/graph_summary.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/groq_agent.py` -> __future__, asyncio, mcp, os, sys, typing
+- `skills/mcp_tools/harness_status.py` -> __future__, mcp, typing
 - `skills/mcp_tools/heartbeat_status.py` -> __future__, asyncio, json, mcp, typing
 - `skills/mcp_tools/hive_collect.py` -> __future__, mcp, typing
 - `skills/mcp_tools/hive_forget.py` -> __future__, mcp, typing
@@ -369,6 +374,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/mcp_tools/hive_spawn.py` -> __future__, mcp, typing
 - `skills/mcp_tools/hive_status.py` -> __future__, mcp, typing
 - `skills/mcp_tools/inject_objective.py` -> __future__, asyncio, mcp, typing
+- `skills/mcp_tools/job_status.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/lazy_addon.py` -> __future__, asyncio, json, mcp, typing
 - `skills/mcp_tools/lazy_board.py` -> __future__, asyncio, json, mcp, typing
 - `skills/mcp_tools/lazy_compact.py` -> __future__, asyncio, json, mcp, typing
@@ -395,6 +401,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/mcp_tools/lolbas_list.py` -> __future__, json, mcp, typing, yaml
 - `skills/mcp_tools/lolbas_use.py` -> __future__, json, mcp, typing, yaml
 - `skills/mcp_tools/loop_smoke.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/manage_permissions.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/memory_recall.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/memory_store.py` -> __future__, mcp, sys, typing, uuid
 - `skills/mcp_tools/metrics_summary.py` -> __future__, json, mcp, sys, typing
@@ -411,6 +418,8 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/mcp_tools/pipeline_validate.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/pivot_status.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/playbook_generate.py` -> __future__, asyncio, mcp, sys, typing
+- `skills/mcp_tools/playbook_run.py` -> __future__, asyncio, mcp, pathlib, shlex, subprocess, sys, typing
+- `skills/mcp_tools/policy_status.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/poll_events.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/rag_index.py` -> __future__, asyncio, mcp, sys, typing
 - `skills/mcp_tools/rag_query.py` -> __future__, asyncio, mcp, sys, typing
@@ -418,17 +427,24 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `skills/mcp_tools/reactive_suggest.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/read_prompt.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/read_session_file.py` -> __future__, mcp, typing
+- `skills/mcp_tools/recommend_next.py` -> __future__, asyncio, mcp, os, typing
 - `skills/mcp_tools/rich_tui_snapshot.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/run_agent.py` -> __future__, asyncio, mcp, os, typing
 - `skills/mcp_tools/run_api.py` -> __future__, asyncio, json, mcp, typing
 - `skills/mcp_tools/run_command.py` -> __future__, asyncio, event_bus, json, mcp, typing
+- `skills/mcp_tools/run_command_async.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/search_tools.py` -> __future__, mcp, typing
 - `skills/mcp_tools/searchsploit.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/session_diff.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/session_init.py` -> __future__, json, mcp, pathlib, sys, typing
+- `skills/mcp_tools/session_resume.py` -> __future__, mcp, typing
 - `skills/mcp_tools/session_state.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/session_status.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/set_active_target.py` -> __future__, datetime, mcp, typing
 - `skills/mcp_tools/set_config.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/soul.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/stealth.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/subagent_run.py` -> __future__, asyncio, mcp, os, typing
 - `skills/mcp_tools/swan_ensemble.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/swan_route.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/swan_run.py` -> __future__, mcp, sys, typing
@@ -480,21 +496,5 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/run_mutation_autonomous_ops.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_beacon_dispatch.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_c2_route_auth.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_chain_v2.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_contract_manifest.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_emulation_runner.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_infra_report.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_intel_svg.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_killchain.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_lazy_scope.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_llm.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_llm_orchestrator.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_loop_cli_catalog.py` -> __future__, pathlib, sys
-- `tests/run_mutation_no_shell.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_opsec.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_orchestrator_yaml.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_outcome_bus.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_phase1.py` -> __future__, pathlib, subprocess, sys
-- `tests/run_mutation_shell_semantics.py` -> __future__, pathlib, subprocess, sys
 
 Next: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)

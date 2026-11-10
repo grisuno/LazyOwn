@@ -1,6 +1,75 @@
 # API (page 24 of 27)
 Previous: [API_p23.md](API_p23.md)
 
+## skills/mcp_tools/run_command.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_command.py:82` `def handle(arguments, tool_name, ctx)` -- Pre-flight, confirm, execute and record one or more shell commands.
+
+## skills/mcp_tools/run_command_async.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_command_async.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_command_async MCP tool.
+
+## skills/mcp_tools/search_tools.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/search_tools.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_search_tools MCP tool.
+
+## skills/mcp_tools/searchsploit.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/searchsploit.py:79` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_searchsploit MCP tool.
+
+## skills/mcp_tools/session_diff.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_diff.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_diff MCP tool.
+
+## skills/mcp_tools/session_init.py
+Depends on: `modules/killchain.py`, `modules/lazyown_bridge.py`, `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_init.py:59` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_init MCP tool.
+
+## skills/mcp_tools/session_resume.py
+Depends on: `skills/lazyown_session.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_resume.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_resume MCP tool.
+
+## skills/mcp_tools/session_state.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_state.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_state MCP tool.
+
+## skills/mcp_tools/session_status.py
+Depends on: `modules/session_reader.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_status.py:43` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_status MCP tool.
+
+## skills/mcp_tools/set_active_target.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/set_active_target.py:35` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_set_active_target MCP tool.
+
+## skills/mcp_tools/set_config.py
+Depends on: `core/payload_schema.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/set_config.py:36` `def handle(arguments, tool_name, ctx)` -- Coerce and persist one payload key, refusing to null an existing value.
+- `coerce_value` (function) `skills/mcp_tools/set_config.py:46` `def coerce_value(coerce_key, coerce_value_in)`
+
+## skills/mcp_tools/soul.py
+Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/soul.py:42` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_soul MCP tool.
+
+## skills/mcp_tools/stealth.py
+Depends on: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/stealth.py:35` `def handle(arguments, tool_name, ctx)` -- Set the stealth level on the exploit engine and persist it to config.
+
+## skills/mcp_tools/subagent_run.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/lazyown_session.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/subagent_run.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_subagent_run MCP tool.
+
+## skills/mcp_tools/swan_ensemble.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_ensemble.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_ensemble MCP tool.
+
+## skills/mcp_tools/swan_route.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_route.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_route MCP tool.
+
+## skills/mcp_tools/swan_run.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_run.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_run MCP tool.
+
 ## skills/mcp_tools/swan_status.py
 Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
 - `handle` (function) `skills/mcp_tools/swan_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_status MCP tool.

@@ -1,0 +1,14 @@
+name: schedtask_create
+description: >-
+  Create a scheduled task for persistence on Windows targets
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/schedtask_create/entry.c
+client: beacon
+platform: windows
+category: persistence
+client_artifact: 
+required_args: ['taskname', 'command']
+optional_args: ['server', 'username', 'password', 'interval']
+mitre_technique: T1053
+enabled: true

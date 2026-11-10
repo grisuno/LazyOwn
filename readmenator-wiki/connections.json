@@ -112,10 +112,10 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 5,
-    "community_b": 11,
+    "community_a": 11,
+    "community_b": 1,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/bof_registry.py imports modules/bof_registry.py.",
+    "explanation": "Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },

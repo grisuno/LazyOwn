@@ -1,6 +1,31 @@
 # API (page 14 of 27)
 Previous: [API_p13.md](API_p13.md)
 
+## modules/lazy_bridge.py
+Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
+Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/mcp_tools/lazy_status.py`, `skills/mcp_tools/lazy_sync.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
+- `lazy_tasks` (function) `modules/lazy_bridge.py:92` `def lazy_tasks()` -- Load LAZY task registry.
+- `lazy_assets` (function) `modules/lazy_bridge.py:103` `def lazy_assets()` -- Load LAZY asset nodes.
+- `lazy_graph` (function) `modules/lazy_bridge.py:114` `def lazy_graph(task_id)` -- Load experiment graph for a task.
+- `lazy_activity` (function) `modules/lazy_bridge.py:127` `def lazy_activity(task_id)` -- Load activity transcript for a task.
+- `lazy_traffic` (function) `modules/lazy_bridge.py:139` `def lazy_traffic(task_id)` -- Load traffic log for a task.
+- `lazy_guard_audit` (function) `modules/lazy_bridge.py:151` `def lazy_guard_audit(task_id)` -- Load guard audit for a task.
+- `bridge_status` (function) `modules/lazy_bridge.py:163` `def bridge_status()` -- Summarize LAZY universe and last sync cursor.
+- `pull_to_world_model` (function) `modules/lazy_bridge.py:221` `def pull_to_world_model()` -- Sync LAZY graphs and assets into LazyOwn world model.
+- `pull_to_objectives` (function) `modules/lazy_bridge.py:298` `def pull_to_objectives()` -- Inject open LAZY tasks as LazyOwn objectives without duplicates.
+- `pull_findings_to_lifecycle` (function) `modules/lazy_bridge.py:333` `def pull_findings_to_lifecycle()` -- Confirm LAZY finding nodes in LazyOwn finding lifecycle.
+- `pull_traffic_to_recorder` (function) `modules/lazy_bridge.py:408` `def pull_traffic_to_recorder(progress)` -- Mirror new LAZY traffic rows into the LazyOwn recorder index.
+- `push_objective_to_lazy` (function) `modules/lazy_bridge.py:476` `def push_objective_to_lazy(goal, scope)` -- Export a LazyOwn objective as an LAZY-compatible task draft.
+- `push_tasks_to_c2` (function) `modules/lazy_bridge.py:501` `def push_tasks_to_c2(only)` -- Mirror loop tasks into the lazyc2 Kanban board (sessions/tasks.json).
+- `sync_all` (function) `modules/lazy_bridge.py:566` `def sync_all(progress)` -- Run full bidirectional pull plus lifecycle, traffic and board mirror.
+
+## modules/lazy_checks.py
+Depends on: `modules/lazy_heat.py`
+Imported by: `tests/test_lazy_checks.py`
+- `extract_version` (function) `modules/lazy_checks.py:30` `def extract_version(text)` -- Pull the most version-like token from check output.
+- `extract_cve` (function) `modules/lazy_checks.py:51` `def extract_cve(text)` -- Pull the uppercased CVE id from a finding text, or ''.
+- `interpret_checks` (function) `modules/lazy_checks.py:57` `def interpret_checks(checks, cve, stored_version, ranges)` -- Re-read check results through the stored version range.
+
 ## modules/lazy_cli_bridge.py
 Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
@@ -458,39 +483,6 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cl
 - `LazyLoopEngine.broadcast` (method) `modules/lazy_loop.py:10524` `def broadcast(self, task_id, kinds, query, order, page, per_page, states)` -- Paginated exploration timeline like the lazy broadcast board.
 - `LazyLoopEngine.loop_graph` (method) `modules/lazy_loop.py:10648` `def loop_graph(self, task_id)` -- Return task graphs as ForceGraph-ready nodes/links.
 - `LazyLoopEngine.graph_context` (method) `modules/lazy_loop.py:10717` `def graph_context(self, task_id, top)` -- Rank exploration topology to steer planner actions.
-
-## modules/lazy_match_policy.py
-Depends on: `modules/lazy_heat.py`
-Imported by: `tests/test_lazy_match_policy.py`
-- `strand_from_sighting` (function) `modules/lazy_match_policy.py:37` `def strand_from_sighting(sighting)` -- Classify one product sighting per the doctrine.
-- `is_os_sighting` (function) `modules/lazy_match_policy.py:79` `def is_os_sighting(product, cpe)` -- Return True when the sighting names an operating system.
-- `strand_rank` (function) `modules/lazy_match_policy.py:102` `def strand_rank(strand)` -- Return the merge precedence of a strand.
-- `has_standing` (function) `modules/lazy_match_policy.py:107` `def has_standing(match)` -- Return True when humans or durable evidence touched a match.
-- `MatchStore.__init__` (method) `modules/lazy_match_policy.py:127` `def __init__(self, sessions_dir)` -- Bind the store file under sessions/lazy.
-- `MatchStore.upsert` (method) `modules/lazy_match_policy.py:132` `def upsert(self, identity, sighting, now)` -- Record one sighting under the dedupe identity.
-- `MatchStore.rows` (method) `modules/lazy_match_policy.py:177` `def rows(self)` -- Return every stored row.
-- `MatchStore.close` (method) `modules/lazy_match_policy.py:181` `def close(self, identity, reason, now)` -- Close one row, keeping its reason and reopening block.
-- `MatchStore.closed_reason` (method) `modules/lazy_match_policy.py:196` `def closed_reason(self, identity)` -- Return the persisted closure reason, or '' when open or unknown.
-
-## modules/lazy_mentions.py
-Depends on: `modules/lazy_loop.py`, `skills/mcp_tools/lazy_finding.py`
-Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/mcp_tools/lazy_mention.py`, `tests/test_security_codeql_batch.py`
-- `search_mentions_page` (function) `modules/lazy_mentions.py:193` `def search_mentions_page(kind, query, cursor)` -- Search one scroll page of mention candidates.
-- `parse_mentions` (function) `modules/lazy_mentions.py:237` `def parse_mentions(message)` -- Parse @[kind#id] tokens trusting type plus numeric id only.
-- `compose_message` (function) `modules/lazy_mentions.py:268` `def compose_message(message)` -- Append server-read snapshots for referenced records as data.
-
-## modules/lazy_netattack.py
-Imported by: `tests/test_lazy_netattack.py`
-- `AttackVectorVerdict.as_dict` (method) `modules/lazy_netattack.py:107` `def as_dict(self)` -- Return one JSON-safe view.
-- `surface_decision` (function) `modules/lazy_netattack.py:184` `def surface_decision(evidence)` -- Grade the Windows network-attack families from evidence bags.
-- `hint_text` (function) `modules/lazy_netattack.py:311` `def hint_text(verdict)` -- Shape one loop hint line for a verdict.
-
-## modules/lazy_objective_queue.py
-Depends on: `modules/lazy_loop.py`
-- `pending_objectives` (function) `modules/lazy_objective_queue.py:105` `def pending_objectives(limit, target)` -- Return pending objectives shaped as planner candidates.
-- `mark_started` (function) `modules/lazy_objective_queue.py:177` `def mark_started(objective_id, task_id)` -- Mark an objective ``in_progress`` when a task claims it.
-- `settle` (function) `modules/lazy_objective_queue.py:196` `def settle(objective_id, task_id, success)` -- Complete a done objective or requeue an unfinished one.
-- `objective_ids_from_text` (function) `modules/lazy_objective_queue.py:235` `def objective_ids_from_text(text)` -- Extract the objective id embedded in an intent summary prefix.
 
 
 Next: [API_p15.md](API_p15.md)

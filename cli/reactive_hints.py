@@ -106,6 +106,12 @@ _KILL_CHAIN_NEXT: dict[str, list[str]] = {
     "auditd_disable": ["log_tamper", "forensic_clean", "network_opsec"],
     "sysmon_disable": ["log_tamper", "forensic_clean", "network_opsec"],
     "winbox": ["lazynmap", "auto_populate", "apt_chain"],
+    "bof_stage": ["bof_run", "bof_train", "bof_deploy"],
+    "bof_deploy": ["bof_train", "bof_results", "bof_beacons"],
+    "bof_train": ["bof_results", "bof_beacons", "bof_deploy"],
+    "bof_run": ["bof_results", "bof_train", "bof_beacons"],
+    "bof_beacons": ["bof_deploy", "bof_train"],
+    "bof_results": ["bof_train", "bof_run"],
 }
 
 _PHASE_PRIORITY: dict[str, list[str]] = {
@@ -190,6 +196,9 @@ _PHASE_PRIORITY: dict[str, list[str]] = {
         "forensic_clean",
         "timestomp",
         "memory_clean",
+        "bof_deploy",
+        "bof_train",
+        "bof_results",
     ],
     "exfil": ["download_c2", "nc", "curl", "scp", "rsync", "l00t", "encrypt", "network_opsec"],
     "persist": [

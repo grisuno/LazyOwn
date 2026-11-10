@@ -3,6 +3,95 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `u` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `uE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `v` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `v` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `vE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `vp` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `yk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `zo` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `A` | function | `static/js/vis-network.min.js:33` | `` |
+| `A` | function | `static/js/vis-network.min.js:33` | `` |
+| `Bk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Bx` | function | `static/js/vis-network.min.js:33` | `` |
+| `C` | function | `static/js/vis-network.min.js:26` | `` |
+| `C` | function | `static/js/vis-network.min.js:33` | `` |
+| `CE` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ek` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ew` | function | `static/js/vis-network.min.js:33` | `` |
+| `Fk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Fx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Hk` | function | `static/js/vis-network.min.js:33` | `` |
+| `I` | function | `static/js/vis-network.min.js:33` | `` |
+| `I` | function | `static/js/vis-network.min.js:48` | `` |
+| `LO` | function | `static/js/vis-network.min.js:48` | `` |
+| `Lk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Lx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Nk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Nu` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ow` | function | `static/js/vis-network.min.js:33` | `` |
+| `Pc` | function | `static/js/vis-network.min.js:33` | `` |
+| `Pk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Px` | function | `static/js/vis-network.min.js:33` | `` |
+| `Qk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Tk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Tx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Vk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Vx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Wu` | function | `static/js/vis-network.min.js:33` | `` |
+| `Xu` | function | `static/js/vis-network.min.js:33` | `` |
+| `ZO` | function | `static/js/vis-network.min.js:48` | `` |
+| `Zk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Zx` | function | `static/js/vis-network.min.js:33` | `` |
+| `a` | function | `static/js/vis-network.min.js:48` | `` |
+| `as` | class | `static/js/vis-network.min.js:26` | `` |
+| `as` | class | `static/js/vis-network.min.js:48` | `` |
+| `bO` | function | `static/js/vis-network.min.js:48` | `` |
+| `bk` | function | `static/js/vis-network.min.js:33` | `` |
+| `cO` | function | `static/js/vis-network.min.js:48` | `` |
+| `d` | function | `static/js/vis-network.min.js:33` | `` |
+| `dE` | function | `static/js/vis-network.min.js:33` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:48` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `fO` | function | `static/js/vis-network.min.js:48` | `` |
+| `fk` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:26` | `` |
+| `g` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `gE` | function | `static/js/vis-network.min.js:33` | `` |
+| `gp` | function | `static/js/vis-network.min.js:33` | `` |
+| `h` | function | `static/js/vis-network.min.js:33` | `` |
+| `has` | function | `static/js/vis-network.min.js:48` | `` |
+| `i` | function | `static/js/vis-network.min.js:33` | `` |
+| `ik` | function | `static/js/vis-network.min.js:33` | `` |
+| `in` | function | `static/js/vis-network.min.js:33` | `` |
+| `kk` | function | `static/js/vis-network.min.js:33` | `` |
+| `ku` | function | `static/js/vis-network.min.js:33` | `` |
 | `kw` | function | `static/js/vis-network.min.js:33` | `` |
 | `l` | function | `static/js/vis-network.min.js:33` | `` |
 | `l` | function | `static/js/vis-network.min.js:48` | `` |
@@ -407,94 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `test_should_replan_false_below_threshold` | method | `tests/test_aci_planner.py:487` | `def test_should_replan_false_below_threshold(self, tmp_path)` |
 | `test_should_replan_false_for_completed_plan` | method | `tests/test_aci_planner.py:507` | `def test_should_replan_false_for_completed_plan(self, tmp_path)` |
 | `test_should_replan_false_when_no_plan` | method | `tests/test_aci_planner.py:483` | `def test_should_replan_false_when_no_plan(self, tmp_path)` |
-| `test_should_replan_true_at_threshold` | method | `tests/test_aci_planner.py:496` | `def test_should_replan_true_at_threshold(self, tmp_path)` |
-| `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:451` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
-| `test_status_command_no_plan` | method | `tests/test_aci_planner.py:926` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
-| `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:444` | `def test_status_completion_zero_at_start(self, tmp_path)` |
-| `test_status_has_active_phase` | method | `tests/test_aci_planner.py:437` | `def test_status_has_active_phase(self, tmp_path)` |
-| `test_status_no_plan` | method | `tests/test_aci_planner.py:422` | `def test_status_no_plan(self, tmp_path)` |
-| `test_status_with_plan` | method | `tests/test_aci_planner.py:427` | `def test_status_with_plan(self, tmp_path)` |
-| `test_subsequent_phases_are_pending` | method | `tests/test_aci_planner.py:262` | `def test_subsequent_phases_are_pending(self, tmp_path)` |
-| `test_to_dict_has_completion_pct` | method | `tests/test_aci_planner.py:225` | `def test_to_dict_has_completion_pct(self)` |
-| `test_to_dict_round_trip` | method | `tests/test_aci_planner.py:135` | `def test_to_dict_round_trip(self)` |
-| `AdLabCaptureSpec` | class | `tests/test_ad_lab_gym.py:57` | `class AdLabCaptureSpec(TestCase)` |
-| `AdLabCatalogueSpec` | class | `tests/test_ad_lab_gym.py:30` | `class AdLabCatalogueSpec(TestCase)` |
-| `AdLabGymDefinitionsSpec` | class | `tests/test_ad_lab_gym.py:187` | `class AdLabGymDefinitionsSpec(TestCase)` |
-| `AdLabRuntimeSpec` | class | `tests/test_ad_lab_gym.py:114` | `class AdLabRuntimeSpec(TestCase)` |
-| `fake_docker` | function | `tests/test_ad_lab_gym.py:143` | `def fake_docker()` |
-| `fake_docker` | function | `tests/test_ad_lab_gym.py:164` | `def fake_docker()` |
-| `fake_docker2` | function | `tests/test_ad_lab_gym.py:148` | `def fake_docker2()` |
-| `fake_docker2` | function | `tests/test_ad_lab_gym.py:171` | `def fake_docker2()` |
-| `test_ad_domain_enum_definition_valid` | method | `tests/test_ad_lab_gym.py:196` | `def test_ad_domain_enum_definition_valid(self)` |
-| `test_ad_lab_apt_definition_valid` | method | `tests/test_ad_lab_gym.py:190` | `def test_ad_lab_apt_definition_valid(self)` |
-| `test_all_vectors_resolve` | method | `tests/test_ad_lab_gym.py:42` | `def test_all_vectors_resolve(self)` |
-| `test_credentials_capture_for_default_creds` | method | `tests/test_ad_lab_gym.py:89` | `def test_credentials_capture_for_default_creds(self)` |
-| `test_domain_enum_capture` | method | `tests/test_ad_lab_gym.py:65` | `def test_domain_enum_capture(self)` |
-| `test_ensure_ad_lab_creates_fixture_once` | method | `tests/test_ad_lab_gym.py:139` | `def test_ensure_ad_lab_creates_fixture_once(self)` |
-| `test_ensure_ad_lab_probe_failure_is_quiet` | method | `tests/test_ad_lab_gym.py:129` | `def test_ensure_ad_lab_probe_failure_is_quiet(self)` |
-| `test_ensure_ad_lab_skips_existing_fixture` | method | `tests/test_ad_lab_gym.py:160` | `def test_ensure_ad_lab_skips_existing_fixture(self)` |
-| `test_get_unknown_is_none` | method | `tests/test_ad_lab_gym.py:53` | `def test_get_unknown_is_none(self)` |
-| `test_kerberos_ticket_checker_direct` | method | `tests/test_ad_lab_gym.py:60` | `def test_kerberos_ticket_checker_direct(self)` |
-| `test_matrix_validates` | method | `tests/test_ad_lab_gym.py:33` | `def test_matrix_validates(self)` |
-| `test_readiness_without_docker` | method | `tests/test_ad_lab_gym.py:180` | `def test_readiness_without_docker(self)` |
-| `test_samr_enum_capture` | method | `tests/test_ad_lab_gym.py:101` | `def test_samr_enum_capture(self)` |
-| `test_scenario_targets_samba_image` | method | `tests/test_ad_lab_gym.py:117` | `def test_scenario_targets_samba_image(self)` |
-| `test_smb_shares_capture` | method | `tests/test_ad_lab_gym.py:77` | `def test_smb_shares_capture(self)` |
-| `test_start_rejects_unknown_scenario` | method | `tests/test_ad_lab_gym.py:124` | `def test_start_rejects_unknown_scenario(self)` |
-| `test_summary_shape` | method | `tests/test_ad_lab_gym.py:36` | `def test_summary_shape(self)` |
-| `TestAddonStore` | class | `tests/test_addon_creator.py:328` | `class TestAddonStore` |
-| `TestBlueprint` | class | `tests/test_addon_creator.py:591` | `class TestBlueprint` |
-| `TestConfig` | class | `tests/test_addon_creator.py:86` | `class TestConfig` |
-| `TestParseAddonForm` | class | `tests/test_addon_creator.py:460` | `class TestParseAddonForm` |
-| `TestTemplateSanity` | class | `tests/test_addon_creator.py:805` | `class TestTemplateSanity` |
-| `TestValidator` | class | `tests/test_addon_creator.py:117` | `class TestValidator` |
-| `TestYamlRenderer` | class | `tests/test_addon_creator.py:263` | `class TestYamlRenderer` |
-| `_FakeOperator` | class | `tests/test_addon_creator.py:570` | `class _FakeOperator(UserMixin)` |
-| `_build_test_app` | function | `tests/test_addon_creator.py:521` | `def _build_test_app(tmp_path)` |
-| `_csrf_token` | method | `tests/test_addon_creator.py:650` | `def _csrf_token(self, client)` |
-| `_form_data` | method | `tests/test_addon_creator.py:626` | `def _form_data(self)` |
-| `_load_user` | function | `tests/test_addon_creator.py:577` | `def _load_user(user_id)` |
-| `_login` | function | `tests/test_addon_creator.py:585` | `def _login(client)` |
-| `_valid_draft` | function | `tests/test_addon_creator.py:45` | `def _valid_draft()` |
-| `test_bad_repo_url_reports_issue` | method | `tests/test_addon_creator.py:205` | `def test_bad_repo_url_reports_issue(self)` |
-| `test_boolean_default_whitelist` | method | `tests/test_addon_creator.py:232` | `def test_boolean_default_whitelist(self)` |
-| `test_create_form_issues_csrf_cookie` | method | `tests/test_addon_creator.py:602` | `def test_create_form_issues_csrf_cookie(self, tmp_path)` |
-| `test_creator_template_forbids_emojis_and_console_spam` | method | `tests/test_addon_creator.py:816` | `def test_creator_template_forbids_emojis_and_console_spam(self)` |
-| `test_creator_template_has_help_affordances` | method | `tests/test_addon_creator.py:808` | `def test_creator_template_has_help_affordances(self)` |
-| `test_declared_param_placeholder_is_allowed` | method | `tests/test_addon_creator.py:186` | `def test_declared_param_placeholder_is_allowed(self)` |
-| `test_default_author_and_version_applied` | method | `tests/test_addon_creator.py:315` | `def test_default_author_and_version_applied(self)` |
-| `test_delete_legacy_uppercase_addon` | method | `tests/test_addon_creator.py:774` | `def test_delete_legacy_uppercase_addon(self, tmp_path)` |
-| `test_delete_rejects_unsafe_existing_names` | method | `tests/test_addon_creator.py:425` | `def test_delete_rejects_unsafe_existing_names(self, tmp_path)` |
-| `test_delete_removes_addon` | method | `tests/test_addon_creator.py:722` | `def test_delete_removes_addon(self, tmp_path)` |
-| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
-| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
-| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
-| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
-| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
-| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
-| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
-| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
-| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
-| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
-| `test_list_all_reports_file_stem_as_filename` | method | `tests/test_addon_creator.py:400` | `def test_list_all_reports_file_stem_as_filename(self, tmp_path)` |
-| `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
-| `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:764` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
-| `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:710` | `def test_list_page_shows_created_addon(self, tmp_path)` |
-| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
-| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
-| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
-| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
-| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
-| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
-| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
-| `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
-| `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
-| `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
-| `test_missing_optional_fields_become_empty` | method | `tests/test_addon_creator.py:509` | `def test_missing_optional_fields_become_empty(self)` |
-| `test_name_pattern_rejects_traversal` | method | `tests/test_addon_creator.py:89` | `def test_name_pattern_rejects_traversal(self)` |
-| `test_nested_brace_placeholder_reports_issue` | method | `tests/test_addon_creator.py:180` | `def test_nested_brace_placeholder_reports_issue(self)` |
-| `test_optional_fields_are_dropped` | method | `tests/test_addon_creator.py:295` | `def test_optional_fields_are_dropped(self)` |
-| `test_os_options_cover_mitre_platforms` | method | `tests/test_addon_creator.py:105` | `def test_os_options_cover_mitre_platforms(self)` |
-| `test_param_without_description_reports_issue` | method | `tests/test_addon_creator.py:218` | `def test_param_without_description_reports_issue(self)` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

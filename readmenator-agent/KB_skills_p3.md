@@ -155,7 +155,7 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
   - `fork` (method, line 227) `def fork(self, new_id)`
   - `status_text` (method, line 257) `def status_text(self)`
 - Depends on: `skills/lazyown_context.py`
-- Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
+- Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/session_resume.py`, `skills/mcp_tools/subagent_run.py`, `skills/tests/test_harness_e2e.py`
 
 
 Next: [KB_skills_p4.md](KB_skills_p4.md)

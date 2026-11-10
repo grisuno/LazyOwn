@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_harvest_credential_manager` | method | `modules/dpapi_harvester.py:120` | `def _harvest_credential_manager(self)` |
+| `_harvest_edge` | method | `modules/dpapi_harvester.py:198` | `def _harvest_edge(self)` |
+| `_harvest_master_keys` | method | `modules/dpapi_harvester.py:105` | `def _harvest_master_keys(self)` |
+| `_harvest_rdp` | method | `modules/dpapi_harvester.py:250` | `def _harvest_rdp(self)` |
+| `_harvest_wifi` | method | `modules/dpapi_harvester.py:210` | `def _harvest_wifi(self)` |
+| `_harvest_windows_vault` | method | `modules/dpapi_harvester.py:262` | `def _harvest_windows_vault(self)` |
+| `export_credentials` | method | `modules/dpapi_harvester.py:367` | `def export_credentials(self)` |
+| `harvest_all` | method | `modules/dpapi_harvester.py:90` | `def harvest_all(self)` |
+| `masterkey_report` | method | `modules/dpapi_harvester.py:386` | `def masterkey_report(self)` |
+| `EDRDetector` | class | `modules/edr_detector.py:191` | `class EDRDetector` |
+| `EDRFinding` | class | `modules/edr_detector.py:174` | `class EDRFinding` |
+| `EDRProfile` | class | `modules/edr_detector.py:182` | `class EDRProfile` |
+| `_generate_recommendations` | method | `modules/edr_detector.py:370` | `def _generate_recommendations(profile)` |
+| `_local_drivers` | method | `modules/edr_detector.py:322` | `def _local_drivers()` |
+| `_local_processes` | method | `modules/edr_detector.py:292` | `def _local_processes()` |
+| `_local_services` | method | `modules/edr_detector.py:305` | `def _local_services()` |
+| `_match_signatures` | method | `modules/edr_detector.py:335` | `def _match_signatures(profile)` |
+| `_severity` | method | `modules/edr_detector.py:428` | `def _severity(profile)` |
+| `detect_local` | method | `modules/edr_detector.py:202` | `def detect_local()` |
+| `detect_remote_commands` | method | `modules/edr_detector.py:221` | `def detect_remote_commands(remote_type)` |
+| `generate_edr_check_script` | method | `modules/edr_detector.py:440` | `def generate_edr_check_script(remote_type)` |
+| `init_board` | function | `modules/eegg.sh:26` | `` |
+| `move_black_pawns` | function | `modules/eegg.sh:78` | `` |
+| `move_white_pawns` | function | `modules/eegg.sh:61` | `` |
+| `show_board` | function | `modules/eegg.sh:40` | `` |
+| `EmulationReport` | class | `modules/emulation_runner.py:69` | `class EmulationReport` |
+| `EmulationResult` | class | `modules/emulation_runner.py:40` | `class EmulationResult` |
+| `EmulationRunner` | class | `modules/emulation_runner.py:105` | `class EmulationRunner` |
+| `EmulationStep` | class | `modules/emulation_runner.py:28` | `class EmulationStep` |
+| `__init__` | method | `modules/emulation_runner.py:108` | `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...` |
+| `_detect` | method | `modules/emulation_runner.py:159` | `def _detect(self, spec, output)` |
+| `_exec` | method | `modules/emulation_runner.py:151` | `def _exec(self, spec, target, command, lhost)` |
+| `_open_shell` | method | `modules/emulation_runner.py:143` | `def _open_shell(self, target, services, lhost, exploits_dir)` |
+| `_playbook` | method | `modules/emulation_runner.py:135` | `def _playbook(self, name)` |
+| `_publish` | method | `modules/emulation_runner.py:450` | `def _publish(self, result, target, source, dry_run, sessions)` |
+| `_record` | method | `modules/emulation_runner.py:170` | `def _record(self)` |
+| `_resolver_obj` | method | `modules/emulation_runner.py:127` | `def _resolver_obj(self)` |
+| `_run_test` | method | `modules/emulation_runner.py:399` | `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)` |
+| `_stage` | method | `modules/emulation_runner.py:482` | `def _stage(self, report, sessions)` |
+| `executed` | method | `modules/emulation_runner.py:81` | `def executed(self)` |
+| `run` | method | `modules/emulation_runner.py:202` | `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...` |
+| `run_steps` | method | `modules/emulation_runner.py:321` | `def run_steps(self, steps, target, executor, platform, dry_run, source)` |
+| `shell` | method | `modules/emulation_runner.py:86` | `def shell(self)` |
+| `techniques_for_playbook` | method | `modules/emulation_runner.py:182` | `def techniques_for_playbook(self, playbook, platform)` |
+| `to_dict` | method | `modules/emulation_runner.py:53` | `def to_dict(self)` |
+| `to_dict` | method | `modules/emulation_runner.py:90` | `def to_dict(self)` |
+| `detail_for` | function | `modules/engage_summary.py:98` | `def detail_for(tool, text, target, sessions_dir)` |
+| `full_output` | function | `modules/engage_summary.py:51` | `def full_output(step, sessions_dir)` |
+| `held_scan_ports` | function | `modules/engage_summary.py:64` | `def held_scan_ports(target, sessions_dir)` |
+| `marker_lines` | function | `modules/engage_summary.py:35` | `def marker_lines(text, limit)` |
+| `next_actions` | function | `modules/engage_summary.py:150` | `def next_actions(target, sessions_dir, limit)` |
+| `render_markdown` | function | `modules/engage_summary.py:210` | `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` |
+| `render_text` | function | `modules/engage_summary.py:175` | `def render_text(engagement_id, target, shell, steps, sessions_dir)` |
+| `write_report` | function | `modules/engage_summary.py:247` | `def write_report(engagement_id, target, shell, steps, sessions_dir)` |
+| `CollabNotificationSink` | class | `modules/engagement_hooks.py:204` | `class CollabNotificationSink(INotificationSink)` |
+| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:311` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
+| `EngagementEvent` | class | `modules/engagement_hooks.py:101` | `class EngagementEvent` |
+| `EngagementNarrator` | class | `modules/engagement_hooks.py:382` | `class EngagementNarrator` |
+| `INotificationSink` | class | `modules/engagement_hooks.py:150` | `class INotificationSink(ABC)` |
+| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:336` | `class NotificationBroadcaster` |
+| `StreamEventSink` | class | `modules/engagement_hooks.py:167` | `class StreamEventSink(INotificationSink)` |
+| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:278` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
+| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:242` | `class _OutboundHTTPSink(INotificationSink)` |
+| `__init__` | method | `modules/engagement_hooks.py:349` | `def __init__(self, sinks)` |
+| `__init__` | method | `modules/engagement_hooks.py:393` | `def __init__(self, broadcaster)` |
+| `_build_request` | method | `modules/engagement_hooks.py:255` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:291` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:323` | `def _build_request(self, event)` |
+| `_load_payload` | function | `modules/engagement_hooks.py:88` | `def _load_payload()` |
+| `_load_seen_beacons` | function | `modules/engagement_hooks.py:444` | `def _load_seen_beacons()` |
+| `_persist` | method | `modules/engagement_hooks.py:417` | `def _persist(self, event)` |
+| `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
+| `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
+| `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
 | `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
 | `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
 | `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `record` | function | `modules/finding_lifecycle.py:270` | `def record(db, workspace, host, title, severity, summary, poc)` |
 | `reject` | function | `modules/finding_lifecycle.py:123` | `def reject(finding_id, reason, sessions_dir, by)` |
 | `render_markdown` | function | `modules/finding_lifecycle.py:439` | `def render_markdown(db, workspace, title)` |
-| `request_retest` | function | `modules/finding_lifecycle.py:354` | `def request_retest(db, finding_id, sessions_dir)` |
-| `resolve` | function | `modules/finding_lifecycle.py:162` | `def resolve(node, sessions_dir)` |
-| `resolve_retest` | function | `modules/finding_lifecycle.py:374` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
-| `set_status` | function | `modules/finding_lifecycle.py:300` | `def set_status(db, finding_id, status)` |
-| `suppressed_values` | function | `modules/finding_lifecycle.py:156` | `def suppressed_values(sessions_dir)` |
-| `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
-| `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
-| `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
-| `amcache_parse` | method | `modules/forensic_cleaner.py:259` | `def amcache_parse(self)` |
-| `linux_cleanup` | method | `modules/forensic_cleaner.py:165` | `def linux_cleanup(self)` |
-| `macos_cleanup` | method | `modules/forensic_cleaner.py:193` | `def macos_cleanup(self)` |
-| `windows_cleanup` | method | `modules/forensic_cleaner.py:70` | `def windows_cleanup(self)` |
-| `windows_prefetch_parse` | method | `modules/forensic_cleaner.py:221` | `def windows_prefetch_parse(self, prefetch_path)` |
-| `GCPAttackEngine` | class | `modules/gcp_attacks.py:77` | `class GCPAttackEngine` |
-| `GCPConfig` | class | `modules/gcp_attacks.py:57` | `class GCPConfig` |
-| `__init__` | method | `modules/gcp_attacks.py:90` | `def __init__(self, config)` |
-| `cloud_functions_backdoor` | method | `modules/gcp_attacks.py:144` | `def cloud_functions_backdoor(self)` |
-| `cloudbuild_abuse` | method | `modules/gcp_attacks.py:230` | `def cloudbuild_abuse(self)` |
-| `compute_engine_metadata_exfil` | method | `modules/gcp_attacks.py:173` | `def compute_engine_metadata_exfil(self)` |
-| `enumerate_iam_policy` | method | `modules/gcp_attacks.py:93` | `def enumerate_iam_policy(self, resource)` |
-| `gcs_enumeration` | method | `modules/gcp_attacks.py:194` | `def gcs_enumeration(self)` |
-| `organization_escalation` | method | `modules/gcp_attacks.py:261` | `def organization_escalation(self)` |
-| `service_account_impersonation` | method | `modules/gcp_attacks.py:119` | `def service_account_impersonation(self)` |
-| `summary` | method | `modules/gcp_attacks.py:297` | `def summary(self)` |
-| `extract_cmd2_tools` | function | `modules/generate_tools.py:6` | `def extract_cmd2_tools(script_path)` |
-| `GoalSpec` | class | `modules/goals.py:20` | `class GoalSpec` |
-| `GoalTracker` | class | `modules/goals.py:117` | `class GoalTracker` |
-| `TaskConstraints` | class | `modules/goals.py:29` | `class TaskConstraints` |
-| `__init__` | method | `modules/goals.py:120` | `def __init__(self, goals)` |
-| `all_achieved` | method | `modules/goals.py:148` | `def all_achieved(self)` |
-| `blocked` | method | `modules/goals.py:35` | `def blocked(self, command)` |
-| `constraint_block_text` | function | `modules/goals.py:103` | `def constraint_block_text(constraints)` |
-| `decompose_rule_based` | function | `modules/goals.py:63` | `def decompose_rule_based(objective_text, max_goals)` |
-| `goal_met` | method | `modules/goals.py:140` | `def goal_met(self, opt_in)` |
-| `goals` | method | `modules/goals.py:125` | `def goals(self)` |
-| `load_constraints` | function | `modules/goals.py:83` | `def load_constraints(payload)` |
-| `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
-| `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
-| `_action_for` | function | `modules/golden_path.py:113` | `def _action_for(relation)` |
-| `_add` | function | `modules/golden_path.py:167` | `def _add(src, dst, relation, weight, evidence, cost)` |
-| `_bare` | function | `modules/golden_path.py:78` | `def _bare(node)` |
-| `_cost_for_relation` | function | `modules/golden_path.py:135` | `def _cost_for_relation(relation, weight)` |
-| `_diijkstra` | function | `modules/golden_path.py:244` | `def _diijkstra(adjacency, source)` |
-| `_host_node` | function | `modules/golden_path.py:66` | `def _host_node(ip)` |
-| `_label` | function | `modules/golden_path.py:97` | `def _label(node)` |
-| `_persist` | function | `modules/golden_path.py:381` | `def _persist(result, sessions_dir)` |
-| `_source_hosts` | function | `modules/golden_path.py:227` | `def _source_hosts(snapshot)` |
-| `build` | function | `modules/golden_path.py:350` | `def build(world_model_path, top_k, sessions_dir)` |
-| `build_edges` | function | `modules/golden_path.py:155` | `def build_edges(snapshot)` |
-| `load_artifact` | function | `modules/golden_path.py:401` | `def load_artifact(sessions_dir)` |
-| `priority_for` | function | `modules/golden_path.py:418` | `def priority_for(cost)` |
-| `push_objectives` | function | `modules/golden_path.py:433` | `def push_objectives(paths, store_path)` |
-| `resolve_paths` | function | `modules/golden_path.py:274` | `def resolve_paths(snapshot, top_k, source)` |
-| `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
-| `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
-| `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
-| `__init__` | method | `modules/gpo_abuse.py:118` | `def __init__(self, domain, dc_ip)` |
-| `detect_risky_gpos` | method | `modules/gpo_abuse.py:406` | `def detect_risky_gpos(self)` |
-| `generate_all_plans` | method | `modules/gpo_abuse.py:382` | `def generate_all_plans(self, command, username)` |
-| `parse_bloodhound_gpos` | method | `modules/gpo_abuse.py:160` | `def parse_bloodhound_gpos(self, bloodhound_nodes)` |
-| `parse_gpo_list` | method | `modules/gpo_abuse.py:124` | `def parse_gpo_list(self, raw_gpo_output)` |
-| `plan_local_admin_addition` | method | `modules/gpo_abuse.py:266` | `def plan_local_admin_addition(self, gpo, username, group)` |
-| `plan_logon_script` | method | `modules/gpo_abuse.py:238` | `def plan_logon_script(self, gpo, command)` |
-| `plan_registry_preference` | method | `modules/gpo_abuse.py:322` | `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` |
-| `plan_scheduled_task` | method | `modules/gpo_abuse.py:182` | `def plan_scheduled_task(self, gpo, command, task_name)` |
-| `plan_service_installation` | method | `modules/gpo_abuse.py:356` | `def plan_service_installation(self, gpo, service_name, binary_path)` |
-| `plan_startup_script` | method | `modules/gpo_abuse.py:208` | `def plan_startup_script(self, gpo, script_content, script_name)` |
-| `plan_wmi_filter_abuse` | method | `modules/gpo_abuse.py:293` | `def plan_wmi_filter_abuse(self, gpo, wmi_query)` |
-| `summary` | method | `modules/gpo_abuse.py:434` | `def summary(self)` |
-| `AdvisoryLedger` | class | `modules/guardrails/advisories.py:17` | `class AdvisoryLedger` |
-| `FeatureGate` | class | `modules/guardrails/advisories.py:71` | `class FeatureGate` |
-| `__init__` | method | `modules/guardrails/advisories.py:20` | `def __init__(self, limit)` |
-| `__init__` | method | `modules/guardrails/advisories.py:74` | `def __init__(self, features)` |
-| `clear` | method | `modules/guardrails/advisories.py:54` | `def clear(self)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

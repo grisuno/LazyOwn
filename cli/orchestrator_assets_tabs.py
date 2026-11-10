@@ -619,6 +619,173 @@ class OrchestratorAssetsMixin:
 
         return CHAINS_DIR
 
+    def _bofs_dir(self) -> Path:
+        """BOF configuration root (overrideable for sandboxed tests)."""
+        if self._bofs_dir_override is not None:
+            return self._bofs_dir_override
+        from modules.bof_admin import BOFS_DIR
+
+        return BOFS_DIR
+
+    def bof_rows(self) -> list[dict]:
+        """Return one row per BOF YAML configuration file, invalid ones included."""
+        from modules.bof_admin import scan_bofs
+
+        try:
+            entries = scan_bofs(self._bofs_dir())
+        except Exception:
+            return []
+        return [
+            {
+                "file": entry.file,
+                "path": entry.path,
+                "name": entry.name,
+                "client": entry.client,
+                "platform": entry.platform,
+                "category": entry.category,
+                "artifact": entry.artifact,
+                "staged": entry.staged,
+                "valid": entry.valid,
+                "error": entry.error,
+            }
+            for entry in entries
+        ]
+
+    def bof_preview(self, filename: str, limit: int = 18) -> str:
+        """Return a bounded YAML preview for one BOF file."""
+        from modules.bof_admin import preview_bof
+
+        row = next((item for item in self.bof_rows() if item["file"] == filename), None)
+        if row is None:
+            return "bof not found"
+        return preview_bof(row["path"], limit=limit)
+
+    def create_bof_file(
+        self,
+        filename: str,
+        name: str = "",
+        description: str = "",
+        client: str = "blacksandbeacon",
+    ) -> str:
+        """Create one BOF YAML and repaint the table."""
+        from modules.bof_admin import create_bof
+
+        path = create_bof(
+            filename,
+            name=name,
+            description=description,
+            client=client or "blacksandbeacon",
+            directory=self._bofs_dir(),
+        )
+        self._refresh_bofs()
+        return str(path)
+
+    def save_bof_text(self, filename: str, text: str) -> bool:
+        """Validate and persist raw YAML edited by the operator."""
+        from modules.bof_admin import save_bof_yaml
+
+        try:
+            save_bof_yaml(filename, text, directory=self._bofs_dir())
+        except (OSError, ValueError) as exc:
+            self.notify(f"bof not saved: {exc}", severity="error")
+            return False
+        self._refresh_bofs()
+        return True
+
+    def delete_bof_file(self, filename: str) -> bool:
+        """Delete one BOF YAML after the operator confirms."""
+        from modules.bof_admin import delete_bof
+
+        removed = delete_bof(filename, directory=self._bofs_dir())
+        self._refresh_bofs()
+        return bool(removed)
+
+    def stage_bof_file(self, filename: str) -> bool:
+        """Stage the compiled artifact of one BOF for beacon delivery."""
+        from modules.bof_delivery import stage_bof
+
+        stem = str(filename or "").rsplit(".", 1)[0]
+        try:
+            staged = stage_bof(stem)
+        except (KeyError, ValueError) as exc:
+            self.notify(f"bof not staged: {exc}", severity="error")
+            return False
+        if staged is None:
+            self.notify(f"no compiled artifact for {stem}", severity="warning")
+            return False
+        self._refresh_bofs()
+        self.notify(f"staged {stem}", severity="information")
+        return True
+
+    def _refresh_bofs(self) -> None:
+        """Render the BOF table with per-file contract state."""
+        try:
+            table = self.query_one("#bofs-table", DataTable)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("bof", "client", "platform", "category", "artifact", "staged", "status")
+        for row in self.bof_rows():
+            state = "ok" if row["valid"] else f"invalid ({row['error'][:40]})"
+            table.add_row(
+                row["file"],
+                row["client"],
+                row["platform"],
+                row["category"],
+                row["artifact"][:44],
+                "yes" if row["staged"] else "no",
+                state,
+                key=row["file"],
+            )
+        self._update_bofs_detail(self._selected_row("bofs-table"))
+
+    def _update_bofs_detail(self, filename: str) -> None:
+        """Show the selected BOF YAML in the detail pane."""
+        try:
+            panel = self.query_one("#bofs-detail", Static)
+        except Exception:
+            return
+        if not filename:
+            panel.update("select a BOF to preview it")
+            return
+        row = next((item for item in self.bof_rows() if item["file"] == filename), None)
+        header = (
+            f"{filename}  client={row['client']}  platform={row['platform']}  staged={row['staged']}"
+            if row
+            else filename
+        )
+        panel.update(Text(f"{header}\n{self.bof_preview(filename)}"))
+
+    def _edit_bof(self, filename: str) -> None:
+        """Open the raw YAML editor for one BOF file."""
+        from modules.bof_admin import validate_bof
+
+        row = next((item for item in self.bof_rows() if item["file"] == filename), None)
+        if row is None:
+            return
+        try:
+            text = Path(row["path"]).read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            self.notify(f"bof unreadable: {exc}", severity="error")
+            return
+
+        def _validate(raw: str) -> None:
+            import yaml as _yaml
+
+            try:
+                data = _yaml.safe_load(raw)
+            except Exception as exc:
+                raise ValueError(f"invalid YAML: {exc}") from exc
+            errors = validate_bof(data)
+            if errors:
+                raise ValueError("; ".join(errors))
+
+        def _saved(raw: str | None) -> None:
+            if raw is not None:
+                self.save_bof_text(filename, raw)
+
+        self.push_screen(YamlEditorModal(f"Edit {filename}", text, validator=_validate), _saved)
+
     def chain_rows(self) -> list[dict]:
         """Return one row per chain file, including disabled ones."""
         from modules.chain_registry import scan_all
@@ -745,6 +912,8 @@ class OrchestratorAssetsMixin:
             self._update_playbooks_detail(value)
         elif control_id == "gyms-table":
             self._update_gyms_detail(value)
+        elif control_id == "bofs-table":
+            self._update_bofs_detail(value)
 
     def _refresh_triggers(self) -> None:
         """Render scheduler triggers from the persistent store."""
@@ -791,7 +960,11 @@ class OrchestratorAssetsMixin:
         seeds = policy.get("seeds") or []
         on = sum(1 for item in seeds if item["enabled"])
         runtime = len(TriggerStore("").list())
-        panel.update(Text(f"YAML seeds: {len(seeds)} ({on} on) | runtime: {runtime} | use [s] or actions to seed/toggle/add/remove"))
+        panel.update(
+            Text(
+                f"YAML seeds: {len(seeds)} ({on} on) | runtime: {runtime} | use [s] or actions to seed/toggle/add/remove"
+            )
+        )
 
     def toggle_trigger(self, trigger_id: int) -> bool:
         """Flip one trigger's enabled flag in the store."""

@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 166 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 162 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -38,7 +38,7 @@ core groups 9 files (py) around check_rhost, check_lhost, check_lport, check_por
 
 ## modules (2.3)
 
-modules groups 27 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
+modules groups 25 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
 
 ## root (2.4)
 
@@ -50,7 +50,7 @@ skills groups 1 files (py) around handle. MCP tool ``lazyown_list_modules``: lis
 
 ## tests (2.6)
 
-tests groups 51 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
+tests groups 49 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
 
 **Files**:
 
@@ -146,7 +146,6 @@ tests groups 51 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
-- modules/command_executor.py
 - modules/dns_beacon.py
 - modules/domain_dominance.py
 - modules/dpapi_harvester.py
@@ -159,7 +158,6 @@ tests groups 51 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/lazypoophish.py
 - modules/lazyshortener.py
 - modules/loop/worker_gating.py
-- modules/metasploitable_migrations.py
 - modules/mfa_bypass.py
 - modules/module_registry.py
 - modules/phishing_orchestrator.py
@@ -178,7 +176,6 @@ tests groups 51 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_categories.py
 - tests/test_core.py
 - tests/test_credentials_rotation.py
-- tests/test_executor_kernel.py
 - tests/test_findings_gate.py
 - tests/test_fuzzy_picker.py
 - tests/test_group_kill.py
@@ -199,7 +196,6 @@ tests groups 51 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_lazypoophish.py
 - tests/test_lazyshortener.py
 - tests/test_loop_mentions.py
-- tests/test_metasploitable_migrations.py
 - tests/test_module_registry.py
 - tests/test_module_registry_bridge.py
 - tests/test_plugin_tiers.py

@@ -1,0 +1,14 @@
+name: env_enum
+description: >-
+  Enumerate environment variables for recon and credential discovery
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: bofs/env_enum.c
+client: beacon
+platform: windows
+category: reconnaissance
+client_artifact: 
+required_args: []
+optional_args: []
+mitre_technique: T1082
+enabled: true

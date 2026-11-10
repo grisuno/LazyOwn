@@ -87,48 +87,48 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_looks_like_target` (function, line 38) `def _looks_like_target(value)`
   - `auto_verb_target` (function, line 67) `def auto_verb_target(command)`
   - `AutoVerb` (class, line 107) `class AutoVerb`
-  - `_os_default_for_verb` (function, line 251) `def _os_default_for_verb(verb)`
-  - `_verb_rows` (function, line 259) `def _verb_rows()`
-  - `_verb_row` (function, line 304) `def _verb_row(name)`
-  - `verb_enabled` (function, line 313) `def verb_enabled(name)`
-  - `_cli_verb_allowed` (function, line 388) `def _cli_verb_allowed(name)`
-  - `_repo_base` (function, line 416) `def _repo_base()`
-  - `binary_available` (function, line 423) `def binary_available(name)`
-  - `missing_binary` (function, line 439) `def missing_binary(command)`
-  - `verb_gap` (function, line 451) `def verb_gap(verb)`
-  - `verb_available` (function, line 463) `def verb_available(verb)`
-  - `service_tokens` (function, line 468) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 479) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 510) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 546) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 569) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 595) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 639) `def is_routable_command(line)`
-  - `verbs` (function, line 657) `def verbs()`
-  - `is_shell_verb` (function, line 662) `def is_shell_verb(token)`
-  - `build_command` (function, line 686) `def build_command(verb, target)`
-  - `verbs_for` (function, line 697) `def verbs_for(text)`
-  - `propose_intents` (function, line 703) `def propose_intents(goal, target, finding_texts)`
-  - `_atomic_steps` (function, line 728) `def _atomic_steps(verb, text)`
-  - `_playbook_steps` (function, line 747) `def _playbook_steps(text)`
-  - `_apt_chain_steps` (function, line 762) `def _apt_chain_steps(embedded, target, strict)`
-  - `_chain_name_for_playbook` (function, line 791) `def _chain_name_for_playbook(playbook)`
-  - `steps_for` (function, line 824) `def steps_for(text, target)`
-  - `ShellResult` (class, line 980) `class ShellResult`
-  - `_TeeCapture` (class, line 987) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 1015) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1113) `def _register_process(process)`
-  - `_unregister_process` (function, line 1119) `def _unregister_process(process)`
-  - `track_process` (function, line 1125) `def track_process(process)`
-  - `untrack_process` (function, line 1130) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1135) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1158) `def execute_streaming(command, on_output, timeout_sec)`
-  - `_exploitdb_steps` (function, line 1266) `def _exploitdb_steps(embedded, target)`
-  - `__init__` (method, line 997) `def __init__(self, observer)`
-  - `write` (method, line 1002) `def write(self, data)`
-  - `_invoke` (function, line 1038) `def _invoke()`
-  - `_target` (function, line 1049) `def _target()`
-  - `_kill` (function, line 1190) `def _kill()`
+  - `_os_default_for_verb` (function, line 290) `def _os_default_for_verb(verb)`
+  - `_verb_rows` (function, line 298) `def _verb_rows()`
+  - `_verb_row` (function, line 343) `def _verb_row(name)`
+  - `verb_enabled` (function, line 352) `def verb_enabled(name)`
+  - `_cli_verb_allowed` (function, line 439) `def _cli_verb_allowed(name)`
+  - `_repo_base` (function, line 467) `def _repo_base()`
+  - `binary_available` (function, line 474) `def binary_available(name)`
+  - `missing_binary` (function, line 490) `def missing_binary(command)`
+  - `verb_gap` (function, line 502) `def verb_gap(verb)`
+  - `verb_available` (function, line 514) `def verb_available(verb)`
+  - `service_tokens` (function, line 519) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 530) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 561) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 597) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 620) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 646) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 690) `def is_routable_command(line)`
+  - `verbs` (function, line 708) `def verbs()`
+  - `is_shell_verb` (function, line 713) `def is_shell_verb(token)`
+  - `build_command` (function, line 737) `def build_command(verb, target)`
+  - `verbs_for` (function, line 748) `def verbs_for(text)`
+  - `propose_intents` (function, line 754) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 779) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 798) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 813) `def _apt_chain_steps(embedded, target, strict)`
+  - `_chain_name_for_playbook` (function, line 842) `def _chain_name_for_playbook(playbook)`
+  - `steps_for` (function, line 875) `def steps_for(text, target)`
+  - `ShellResult` (class, line 1033) `class ShellResult`
+  - `_TeeCapture` (class, line 1040) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 1068) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1166) `def _register_process(process)`
+  - `_unregister_process` (function, line 1172) `def _unregister_process(process)`
+  - `track_process` (function, line 1178) `def track_process(process)`
+  - `untrack_process` (function, line 1183) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1188) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1211) `def execute_streaming(command, on_output, timeout_sec)`
+  - `_exploitdb_steps` (function, line 1319) `def _exploitdb_steps(embedded, target)`
+  - `__init__` (method, line 1050) `def __init__(self, observer)`
+  - `write` (method, line 1055) `def write(self, data)`
+  - `_invoke` (function, line 1091) `def _invoke()`
+  - `_target` (function, line 1102) `def _target()`
+  - `_kill` (function, line 1243) `def _kill()`
 - Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
@@ -209,22 +209,24 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `BeaconConfig` (class, line 44) `class BeaconConfig`
-  - `BeaconConfigBuilder` (class, line 237) `class BeaconConfigBuilder`
-  - `generate_bof_execution_command` (function, line 416) `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)`
-  - `to_gen_beacon_args` (method, line 117) `def to_gen_beacon_args(self)`
-  - `to_go_implant_vars` (method, line 137) `def to_go_implant_vars(self)`
-  - `to_config_json` (method, line 160) `def to_config_json(self)`
-  - `to_dict` (method, line 185) `def to_dict(self)`
-  - `__init__` (method, line 245) `def __init__(self, payload)`
-  - `build` (method, line 248) `def build(self, name)`
-  - `_inject_profile_engine` (method, line 318) `def _inject_profile_engine(self, config)`
-  - `_inject_sleep_engine` (method, line 366) `def _inject_sleep_engine(self, config)`
-  - `_inject_socks_engine` (method, line 385) `def _inject_socks_engine(self, config)`
-  - `from_payload` (method, line 403) `def from_payload(cls, payload)`
-  - `from_payload_file` (method, line 408) `def from_payload_file(cls, path)`
+  - `BeaconConfig` (class, line 46) `class BeaconConfig`
+  - `BeaconConfigBuilder` (class, line 239) `class BeaconConfigBuilder`
+  - `sanitize_client_id` (function, line 425) `def sanitize_client_id(client_id)`
+  - `generate_bof_execution_command` (function, line 449) `def generate_bof_execution_command(bof_name, c2_url, args, bofs_dir)`
+  - `_validate_bof_token` (function, line 489) `def _validate_bof_token(token, label)`
+  - `to_gen_beacon_args` (method, line 119) `def to_gen_beacon_args(self)`
+  - `to_go_implant_vars` (method, line 139) `def to_go_implant_vars(self)`
+  - `to_config_json` (method, line 162) `def to_config_json(self)`
+  - `to_dict` (method, line 187) `def to_dict(self)`
+  - `__init__` (method, line 247) `def __init__(self, payload)`
+  - `build` (method, line 250) `def build(self, name)`
+  - `_inject_profile_engine` (method, line 320) `def _inject_profile_engine(self, config)`
+  - `_inject_sleep_engine` (method, line 368) `def _inject_sleep_engine(self, config)`
+  - `_inject_socks_engine` (method, line 387) `def _inject_socks_engine(self, config)`
+  - `from_payload` (method, line 405) `def from_payload(cls, payload)`
+  - `from_payload_file` (method, line 410) `def from_payload_file(cls, path)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-- Imported by: `cli/commands/bof_registry.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`
+- Imported by: `modules/bof_delivery.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`, `tests/test_bof_delivery.py`
 
 ## modules/beacon_history.py
 - Doc: Persistent beacon command/result history storage.
@@ -239,7 +241,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `sessions_dir` (method, line 39) `def sessions_dir(self)`
   - `records_path` (method, line 43) `def records_path(self, client_id)`
 - Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/bof_delivery.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
 
 ## modules/beacon_recon.py
 - Doc: Beacon recon ingest — post-foothold discovery feeds the world model.
@@ -287,56 +289,126 @@ Previous: [KB_modules.md](KB_modules.md)
   - `main` (function, line 661) `def main()`
 - Imported by: `cli/commands/bitm.py`
 
+## modules/bof_admin.py
+- Doc: Safe CRUD for the BOF YAML configurations under ``bofs/``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BofEntryRow` (class, line 50) `class BofEntryRow`
+  - `_yaml_module` (function, line 65) `def _yaml_module()`
+  - `slugify` (function, line 72) `def slugify(value)`
+  - `bof_path` (function, line 85) `def bof_path(filename, directory)`
+  - `load_bof` (function, line 110) `def load_bof(path)`
+  - `validate_bof` (function, line 132) `def validate_bof(data)`
+  - `scan_bofs` (function, line 179) `def scan_bofs(directory, sessions_dir)`
+  - `bof_template` (function, line 224) `def bof_template(name, description, client)`
+  - `_write_atomic` (function, line 243) `def _write_atomic(target, data)`
+  - `create_bof` (function, line 257) `def create_bof(filename)`
+  - `update_bof` (function, line 300) `def update_bof(path, data, directory)`
+  - `save_bof_yaml` (function, line 332) `def save_bof_yaml(path, text, directory)`
+  - `preview_bof` (function, line 370) `def preview_bof(path, limit)`
+  - `delete_bof` (function, line 391) `def delete_bof(path, directory)`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/bof_registry.py`, `tests/test_bof_admin.py`, `tests/test_bof_repo_contract.py`
+
+## modules/bof_delivery.py
+- Doc: BOF delivery through the lazyaddon beacon clients.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BofDeliveryConfig` (class, line 87) `class BofDeliveryConfig`
+  - `ClientAddon` (class, line 108) `class ClientAddon`
+  - `load_client_addon` (function, line 126) `def load_client_addon(client, config)`
+  - `staging_dir` (function, line 167) `def staging_dir(config)`
+  - `stage_bof` (function, line 182) `def stage_bof(name, config)`
+  - `beacon_runtime_config` (function, line 201) `def beacon_runtime_config(client, client_id, config, payload)`
+  - `write_client_config` (function, line 273) `def write_client_config(client, client_id, config, payload)`
+  - `stage_client` (function, line 315) `def stage_client(client, config, payload)`
+  - `_raw_stage_for_implant_serving` (function, line 382) `def _raw_stage_for_implant_serving(addon_name, binary_path, config)`
+  - `_apply_upstream_report_patch` (function, line 434) `def _apply_upstream_report_patch(addon, config)`
+  - `key_missing_from_error` (function, line 565) `def key_missing_from_error(exc)`
+  - `delivery_command` (function, line 579) `def delivery_command(bof_name, c2_url, args, bofs_dir)`
+  - `_c2_channel_base` (function, line 605) `def _c2_channel_base(cfg, payload)`
+  - `queue_to_beacon` (function, line 627) `def queue_to_beacon(client_id, command, config, payload)`
+  - `recent_beacons` (function, line 690) `def recent_beacons(config, payload)`
+  - `_beacons_from_history` (function, line 730) `def _beacons_from_history(config)`
+  - `wait_for_beacon` (function, line 756) `def wait_for_beacon(client_id, since, timeout, config, payload)`
+  - `_record_after` (function, line 810) `def _record_after(row, since)`
+  - `c2_reachable` (function, line 834) `def c2_reachable(config, payload)`
+  - `run_bof` (function, line 869) `def run_bof(bof_name, client_id, args)`
+  - `run_bof_train` (function, line 908) `def run_bof_train(client_id, names, args)`
+  - `_deploy_paths` (function, line 945) `def _deploy_paths(addon)`
+  - `deploy_client` (function, line 974) `def deploy_client(client, target)`
+  - `_DockerSession` (class, line 1063) `class _DockerSession`
+  - `_docker_session_for` (function, line 1117) `def _docker_session_for(target)`
+  - `_atomic_session` (function, line 1164) `def _atomic_session(target)`
+  - `_shell_bearing_specs` (function, line 1214) `def _shell_bearing_specs(target)`
+  - `config_sessions_dir` (function, line 1246) `def config_sessions_dir()`
+  - `_history_config` (function, line 1251) `def _history_config(config)`
+  - `bof_results` (function, line 1267) `def bof_results(client_id, limit, config)`
+  - `__init__` (method, line 1071) `def __init__(self, container)`
+  - `alive` (method, line 1075) `def alive(self, timeout)`
+  - `run` (method, line 1095) `def run(self, command, timeout)`
+- Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
+- Imported by: `cli/commands/bof_registry.py`, `cli/orchestrator_assets_tabs.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`
+
 ## modules/bof_registry.py
 - Doc: Beacon Object File (BOF) registry and marketplace for LazyOwn.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `BofPlatform` (class, line 61) `class BofPlatform(str, Enum)`
-  - `BofCategory` (class, line 68) `class BofCategory(str, Enum)`
-  - `BofEntry` (class, line 85) `class BofEntry`
-  - `BofCatalog` (class, line 157) `class BofCatalog`
-  - `_build_default_catalog` (function, line 265) `def _build_default_catalog()`
-  - `BofValidator` (class, line 506) `class BofValidator`
-  - `BofRegistry` (class, line 552) `class BofRegistry`
-  - `BofMarketplace` (class, line 639) `class BofMarketplace`
-  - `to_dict` (method, line 118) `def to_dict(self)`
-  - `from_dict` (method, line 137) `def from_dict(cls, raw)`
-  - `register` (method, line 167) `def register(self, entry)`
-  - `register_many` (method, line 172) `def register_many(self, entries)`
-  - `get` (method, line 177) `def get(self, name)`
-  - `search` (method, line 188) `def search(self, query)`
-  - `list_by_category` (method, line 221) `def list_by_category(self, category)`
-  - `list_by_platform` (method, line 225) `def list_by_platform(self, platform)`
-  - `list_all` (method, line 229) `def list_all(self)`
-  - `to_dict` (method, line 233) `def to_dict(self)`
-  - `from_dict` (method, line 241) `def from_dict(cls, raw)`
-  - `load` (method, line 249) `def load(cls, path)`
-  - `save` (method, line 257) `def save(self, path)`
-  - `compute_sha256` (method, line 515) `def compute_sha256(filepath)`
-  - `verify_entry` (method, line 524) `def verify_entry(entry, filepath)`
-  - `validate_args` (method, line 540) `def validate_args(entry, args)`
-  - `__init__` (method, line 559) `def __init__(self, sessions_dir)`
-  - `install_dir` (method, line 565) `def install_dir(self)`
-  - `_load_manifest` (method, line 569) `def _load_manifest(self)`
-  - `_save_manifest` (method, line 580) `def _save_manifest(self, manifest)`
-  - `is_installed` (method, line 585) `def is_installed(self, name)`
-  - `install` (method, line 590) `def install(self, entry)`
-  - `uninstall` (method, line 611) `def uninstall(self, name, remove_files)`
-  - `list_installed` (method, line 628) `def list_installed(self)`
-  - `get_install_info` (method, line 633) `def get_install_info(self, name)`
-  - `__init__` (method, line 651) `def __init__(self, sessions_dir, catalog)`
-  - `catalog` (method, line 662) `def catalog(self)`
-  - `registry` (method, line 667) `def registry(self)`
-  - `search` (method, line 671) `def search(self, query)`
-  - `info` (method, line 690) `def info(self, name)`
-  - `install` (method, line 707) `def install(self, name)`
-  - `uninstall` (method, line 736) `def uninstall(self, name)`
-  - `list_installed` (method, line 749) `def list_installed(self)`
-  - `list_missing_dependencies` (method, line 761) `def list_missing_dependencies(self, name)`
-  - `bulk_install` (method, line 769) `def bulk_install(self, names)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
+  - `BofPlatform` (class, line 71) `class BofPlatform(str, Enum)`
+  - `BofCategory` (class, line 78) `class BofCategory(str, Enum)`
+  - `BofEntry` (class, line 95) `class BofEntry`
+  - `BofCatalog` (class, line 173) `class BofCatalog`
+  - `BofYamlStore` (class, line 281) `class BofYamlStore`
+  - `_build_default_catalog` (function, line 349) `def _build_default_catalog()`
+  - `find_client_artifact` (function, line 362) `def find_client_artifact(entry)`
+  - `client_addon_install_path` (function, line 415) `def client_addon_install_path(client, addons_dir)`
+  - `stage_entry_bof` (function, line 441) `def stage_entry_bof(entry, sessions_dir)`
+  - `BofValidator` (class, line 473) `class BofValidator`
+  - `BofRegistry` (class, line 519) `class BofRegistry`
+  - `BofMarketplace` (class, line 606) `class BofMarketplace`
+  - `to_dict` (method, line 130) `def to_dict(self)`
+  - `from_dict` (method, line 151) `def from_dict(cls, raw)`
+  - `register` (method, line 183) `def register(self, entry)`
+  - `register_many` (method, line 188) `def register_many(self, entries)`
+  - `get` (method, line 193) `def get(self, name)`
+  - `search` (method, line 204) `def search(self, query)`
+  - `list_by_category` (method, line 237) `def list_by_category(self, category)`
+  - `list_by_platform` (method, line 241) `def list_by_platform(self, platform)`
+  - `list_all` (method, line 245) `def list_all(self)`
+  - `to_dict` (method, line 249) `def to_dict(self)`
+  - `from_dict` (method, line 257) `def from_dict(cls, raw)`
+  - `load` (method, line 265) `def load(cls, path)`
+  - `save` (method, line 273) `def save(self, path)`
+  - `__init__` (method, line 290) `def __init__(self, directory)`
+  - `directory` (method, line 299) `def directory(self)`
+  - `load_entries` (method, line 303) `def load_entries(self)`
+  - `load_catalog` (method, line 342) `def load_catalog(self)`
+  - `compute_sha256` (method, line 482) `def compute_sha256(filepath)`
+  - `verify_entry` (method, line 491) `def verify_entry(entry, filepath)`
+  - `validate_args` (method, line 507) `def validate_args(entry, args)`
+  - `__init__` (method, line 526) `def __init__(self, sessions_dir)`
+  - `install_dir` (method, line 532) `def install_dir(self)`
+  - `_load_manifest` (method, line 536) `def _load_manifest(self)`
+  - `_save_manifest` (method, line 547) `def _save_manifest(self, manifest)`
+  - `is_installed` (method, line 552) `def is_installed(self, name)`
+  - `install` (method, line 557) `def install(self, entry)`
+  - `uninstall` (method, line 578) `def uninstall(self, name, remove_files)`
+  - `list_installed` (method, line 595) `def list_installed(self)`
+  - `get_install_info` (method, line 600) `def get_install_info(self, name)`
+  - `__init__` (method, line 618) `def __init__(self, sessions_dir, catalog)`
+  - `catalog` (method, line 629) `def catalog(self)`
+  - `registry` (method, line 634) `def registry(self)`
+  - `search` (method, line 638) `def search(self, query)`
+  - `info` (method, line 657) `def info(self, name)`
+  - `install` (method, line 674) `def install(self, name)`
+  - `uninstall` (method, line 703) `def uninstall(self, name)`
+  - `list_installed` (method, line 716) `def list_installed(self)`
+  - `list_missing_dependencies` (method, line 728) `def list_missing_dependencies(self, name)`
+  - `bulk_install` (method, line 736) `def bulk_install(self, names)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
+- Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
 
 ## modules/c2_agent.py
 - Doc: Malleable C2 client lifecycle for lab targets.
@@ -415,45 +487,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `__init__` (method, line 124) `def __init__(self, config_dict)`
   - `__getitem__` (method, line 129) `def __getitem__(self, key)`
   - `get` (method, line 132) `def get(self, key, default)`
-
-## modules/c2_profile.py
-- Doc: modules/c2_profile.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SleepConfig` (class, line 54) `class SleepConfig`
-  - `HttpConfig` (class, line 62) `class HttpConfig`
-  - `StagerConfig` (class, line 72) `class StagerConfig`
-  - `C2Profile` (class, line 81) `class C2Profile`
-  - `ProfileValidator` (class, line 155) `class ProfileValidator`
-  - `ProfileLoader` (class, line 187) `class ProfileLoader`
-  - `_make_default_profile` (function, line 308) `def _make_default_profile()`
-  - `_make_stealth_profile` (function, line 339) `def _make_stealth_profile()`
-  - `_make_aggressive_profile` (function, line 385) `def _make_aggressive_profile()`
-  - `_make_debug_profile` (function, line 410) `def _make_debug_profile()`
-  - `ProfileRegistry` (class, line 449) `class ProfileRegistry`
-  - `ProfileApplier` (class, line 520) `class ProfileApplier`
-  - `get_registry` (function, line 595) `def get_registry()`
-  - `get_profile` (function, line 620) `def get_profile(name)`
-  - `list_profiles` (function, line 625) `def list_profiles()`
-  - `jitter_delay` (method, line 101) `def jitter_delay(self)`
-  - `get_uri` (method, line 117) `def get_uri(self, method)`
-  - `build_headers` (method, line 128) `def build_headers(self, method)`
-  - `_config_for` (method, line 144) `def _config_for(self, method)`
-  - `validate` (method, line 162) `def validate(self, profile)`
-  - `from_yaml` (method, line 200) `def from_yaml(path)`
-  - `from_dict` (method, line 215) `def from_dict(d)`
-  - `to_dict` (method, line 254) `def to_dict(profile)`
-  - `save` (method, line 282) `def save(profile, path)`
-  - `__init__` (method, line 457) `def __init__(self)`
-  - `register` (method, line 464) `def register(self, name, profile)`
-  - `get` (method, line 473) `def get(self, name)`
-  - `list_names` (method, line 485) `def list_names(self)`
-  - `load_from_directory` (method, line 493) `def load_from_directory(self, path)`
-  - `apply_to_response` (method, line 529) `def apply_to_response(profile, response)`
-  - `apply_to_session` (method, line 554) `def apply_to_session(profile, session)`
-  - `get_beacon_config` (method, line 567) `def get_beacon_config(profile)`
-- Depends on: `core/logging.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

@@ -1,6 +1,6 @@
 # modules: lazyown
 
-modules: lazyown groups 109 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Declarative cmd2 alias loader.
+modules: lazyown groups 106 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Declarative cmd2 alias loader.
 
 ```mermaid
 graph LR
@@ -39,7 +39,7 @@ graph LR
 
 ## cli (6.1)
 
-cli groups 24 files (py) around EngagementState, _load_state, _save_state, _load_index, _normalize_command. Declarative cmd2 alias loader.
+cli groups 23 files (py) around EngagementState, _load_state, _save_state, _load_index, _normalize_command. Declarative cmd2 alias loader.
 
 ## core (6.2)
 
@@ -51,7 +51,7 @@ lazyc2 groups 4 files (py) around HealthConfig, _health_status, _listener_alive,
 
 ## modules (6.4)
 
-modules groups 27 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 26 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Purple Team Closed-Loop — honest measurement of offensive detection.
 
 ## root (6.5)
 
@@ -67,7 +67,7 @@ skills groups 4 files (py) around _sync_harness, _harness_result, _call_harness_
 
 ## tests (6.8)
 
-tests groups 43 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
+tests groups 42 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
 
 **Files**:
 
@@ -76,7 +76,6 @@ tests groups 43 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - cli/cli_enhancements.py
 - cli/command_chain.py
 - cli/commands/audit.py
-- cli/commands/bof_registry.py
 - cli/commands/defaults.py
 - cli/commands/diagnostics.py
 - cli/commands/lazyloop.py
@@ -106,9 +105,7 @@ tests groups 43 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - lazyc2/extensions/__init__.py
 - lazyown.py
 - modules/auto_purple.py
-- modules/beacon_config_builder.py
 - modules/c2_builder.py
-- modules/c2_profile_engine.py
 - modules/cli_auth.py
 - modules/golden_path.py
 - modules/gym_cleanup.py
@@ -122,6 +119,7 @@ tests groups 43 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - modules/lazy_surface_diff.py
 - modules/lazy_timeline.py
 - modules/loop_triggers.py
+- modules/metasploitable_migrations.py
 - modules/metrics.py
 - modules/opsec_scorer.py
 - modules/orchestrator_config.py
@@ -141,9 +139,7 @@ tests groups 43 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - tests/test_api_authz.py
 - tests/test_audit_remediation.py
 - tests/test_bdd_infra_range_report.py
-- tests/test_beacon_config_builder.py
 - tests/test_c2_agent.py
-- tests/test_c2_profile_engine.py
 - tests/test_cli_auth_remember.py
 - tests/test_cli_command_sets.py
 - tests/test_cli_enhancements.py
@@ -169,6 +165,7 @@ tests groups 43 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - tests/test_lazy_orchestrator.py
 - tests/test_lazynmap_post.py
 - tests/test_loop_trigger_hints.py
+- tests/test_metasploitable_migrations.py
 - tests/test_metrics.py
 - tests/test_opencode_mcp_harness.py
 - tests/test_ops_loot_phase.py

@@ -1,6 +1,6 @@
-# modules/guardrails
+# modules: bof_registry
 
-modules/guardrails groups 22 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Enumeration command set.
+modules: bof_registry groups 32 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
 
 ```mermaid
 graph LR
@@ -9,6 +9,7 @@ graph LR
     modules["modules"]
     skills["skills"]
     tests["tests"]
+    cli -- "calls into" --> modules
     lazyc2 -- "depends on" --> cli
     modules -- "depends on" --> cli
     skills -- "depends on" --> cli
@@ -19,7 +20,7 @@ graph LR
 
 ## cli (12.1)
 
-cli groups 2 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Enumeration command set.
+cli groups 3 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
 
 ## lazyc2 (12.2)
 
@@ -27,7 +28,7 @@ lazyc2 groups 1 files (py) around CommandRejectionReason, CommandDecision, to_di
 
 ## modules (12.3)
 
-modules groups 9 files (py) around TaskClass, is_known, RunTicket, GuardrailContract, describe. Beacon Object File (BOF) registry and marketplace for LazyOwn.
+modules groups 13 files (py) around TaskClass, is_known, RunTicket, GuardrailContract, describe. Beacon configuration builder — wires profile engines into beacon compile-time config.
 
 ## skills (12.4)
 
@@ -35,14 +36,19 @@ skills groups 4 files (py) around HookEvent, HookRegistry, __init__, register, r
 
 ## tests (12.5)
 
-tests groups 6 files (py) around catalog, tmp_sessions, TestBofEntry, test_construction_and_properties, test_immutability. Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
+tests groups 11 files (py) around TestBeaconConfig, test_default_construction, test_to_gen_beacon_args, test_to_go_implant_vars, test_to_config_json. Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and...
 
 **Files**:
 
+- cli/commands/bof_registry.py
 - cli/commands/enum.py
 - cli/scope_guard.py
 - lazyc2/security/command_allowlist.py
+- modules/beacon_config_builder.py
+- modules/bof_admin.py
+- modules/bof_delivery.py
 - modules/bof_registry.py
+- modules/c2_profile_engine.py
 - modules/guardrails/__init__.py
 - modules/guardrails/advisories.py
 - modules/guardrails/budget.py
@@ -55,7 +61,12 @@ tests groups 6 files (py) around catalog, tmp_sessions, TestBofEntry, test_const
 - skills/lazyown_hooks.py
 - skills/lazyown_permissions.py
 - skills/tests/test_harness_e2e.py
+- tests/test_beacon_config_builder.py
+- tests/test_bof_admin.py
+- tests/test_bof_delivery.py
 - tests/test_bof_registry.py
+- tests/test_bof_repo_contract.py
+- tests/test_c2_profile_engine.py
 - tests/test_command_allowlist.py
 - tests/test_command_allowlist_behavior.py
 - tests/test_scope_guard.py

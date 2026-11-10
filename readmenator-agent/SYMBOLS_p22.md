@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `EpsilonTracker` | class | `modules/rl_trainer.py:215` | `class EpsilonTracker` |
+| `IStateEncoder` | class | `modules/rl_trainer.py:101` | `class IStateEncoder(ABC)` |
+| `QValueStore` | class | `modules/rl_trainer.py:150` | `class QValueStore` |
+| `RLConfig` | class | `modules/rl_trainer.py:84` | `class RLConfig` |
+| `RLTrainer` | class | `modules/rl_trainer.py:267` | `class RLTrainer` |
+| `__init__` | method | `modules/rl_trainer.py:156` | `def __init__(self, path, optimistic_init)` |
+| `__init__` | method | `modules/rl_trainer.py:218` | `def __init__(self, start, minimum, decay, path)` |
+| `__init__` | method | `modules/rl_trainer.py:284` | `def __init__(self, config, state_encoder, q_store, epsilon_tracker)` |
+| `_load` | method | `modules/rl_trainer.py:200` | `def _load(self)` |
+| `_load` | method | `modules/rl_trainer.py:250` | `def _load(self)` |
+| `_penalize` | method | `modules/rl_trainer.py:407` | `def _penalize(self, reward, detection_prob)` |
+| `_persist` | method | `modules/rl_trainer.py:192` | `def _persist(self)` |
+| `_save` | method | `modules/rl_trainer.py:241` | `def _save(self)` |
+| `argmax` | method | `modules/rl_trainer.py:182` | `def argmax(self, state, candidates)` |
+| `best_expert_for_state` | method | `modules/rl_trainer.py:389` | `def best_expert_for_state(self, state, candidates)` |
+| `encode` | method | `modules/rl_trainer.py:105` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
+| `encode` | method | `modules/rl_trainer.py:131` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
+| `encode_state` | method | `modules/rl_trainer.py:304` | `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` |
+| `epsilon` | method | `modules/rl_trainer.py:233` | `def epsilon(self)` |
+| `epsilon` | method | `modules/rl_trainer.py:402` | `def epsilon(self)` |
+| `get` | method | `modules/rl_trainer.py:168` | `def get(self, state, action)` |
+| `get_trainer` | function | `modules/rl_trainer.py:425` | `def get_trainer(config)` |
+| `max_q` | method | `modules/rl_trainer.py:176` | `def max_q(self, state, candidates)` |
+| `q_values_for_state` | method | `modules/rl_trainer.py:393` | `def q_values_for_state(self, state, candidates)` |
+| `save` | method | `modules/rl_trainer.py:188` | `def save(self)` |
+| `save` | method | `modules/rl_trainer.py:397` | `def save(self)` |
+| `select_action` | method | `modules/rl_trainer.py:313` | `def select_action(self, state, candidates, force_exploit)` |
+| `set` | method | `modules/rl_trainer.py:172` | `def set(self, state, action, value)` |
+| `step` | method | `modules/rl_trainer.py:236` | `def step(self)` |
+| `update` | method | `modules/rl_trainer.py:347` | `def update(self, state, action, reward, next_state, candidates, detection_prob)` |
+| `BUFFER_SIZE` | macro | `modules/rootkit/mr.c:32` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/rootkit/mr.c:43` | `` |
+| `DESIRED_LD_PRELOAD` | macro | `modules/rootkit/mr.c:34` | `#define DESIRED_LD_PRELOAD` |
+| `HIDE_FILE` | macro | `modules/rootkit/mr.c:36` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/rootkit/mr.c:37` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/rootkit/mr.c:33` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/rootkit/mr.c:39` | `#define PASSWORD` |
+| `PATH_MAX` | macro | `modules/rootkit/mr.c:41` | `#define PATH_MAX` |
+| `PID_FILE` | macro | `modules/rootkit/mr.c:35` | `#define PID_FILE` |
+| `PORT` | macro | `modules/rootkit/mr.c:31` | `#define PORT` |
+| `VirtualFile` | struct | `modules/rootkit/mr.c:49` | `` |
+| `check_elevate` | function | `modules/rootkit/mr.c:136` | `int check_elevate()` |
+| `copy_binary` | function | `modules/rootkit/mr.c:215` | `void copy_binary(const char *source, const char *destination)` |
+| `crontab` | function | `modules/rootkit/mr.c:156` | `void crontab(const char *path)` |
+| `ensure_hide_file_exists` | function | `modules/rootkit/mr.c:271` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/rootkit/mr.c:253` | `void ensure_key_file_exists()` |
+| `ensure_ld_preload` | function | `modules/rootkit/mr.c:100` | `void ensure_ld_preload()` |
+| `ensure_pid_file_exists` | function | `modules/rootkit/mr.c:117` | `void ensure_pid_file_exists()` |
+| `generate_random_string` | function | `modules/rootkit/mr.c:168` | `char *generate_random_string()` |
+| `get_ld_preload` | function | `modules/rootkit/mr.c:84` | `char *get_ld_preload()` |
+| `handle_client` | function | `modules/rootkit/mr.c:321` | `void *handle_client(void *client_socket)` |
+| `infect_command` | function | `modules/rootkit/mr.c:289` | `void infect_command()` |
+| `kde_plasma` | function | `modules/rootkit/mr.c:200` | `void kde_plasma(const char *path)` |
+| `load_rootkit` | function | `modules/rootkit/mr.c:303` | `void load_rootkit()` |
+| `main` | function | `modules/rootkit/mr.c:639` | `int main()` |
+| `mon_shell` | function | `modules/rootkit/mr.c:521` | `void *mon_shell(void *data)` |
+| `persist` | function | `modules/rootkit/mr.c:234` | `void persist(const char *path)` |
+| `reboot_system` | function | `modules/rootkit/mr.c:615` | `void reboot_system()` |
+| `set_ld_preload` | function | `modules/rootkit/mr.c:87` | `void set_ld_preload(const char *ld_preload)` |
+| `signal_handler` | function | `modules/rootkit/mr.c:609` | `void signal_handler(int signum)` |
+| `unload_rootkit` | function | `modules/rootkit/mr.c:314` | `void unload_rootkit()` |
+| `write_file` | function | `modules/rootkit/mr.c:145` | `void write_file(const char *path, const char *content, mode_t mode)` |
+| `xdg` | function | `modules/rootkit/mr.c:178` | `void xdg(const char *path, int admin)` |
+| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde.c:54` | `#define FILE_HIDE_PATH` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde.c:33` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde.c:34` | `#define HIDDEN_FILE` |
+| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde.c:35` | `#define HIDDEN_FILE1` |
+| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde.c:36` | `#define HIDDEN_FILE2` |
+| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde.c:37` | `#define HIDDEN_FILE3` |
+| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde.c:38` | `#define HIDDEN_FILE4` |
+| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde.c:39` | `#define HIDDEN_FILE5` |
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde.c:40` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
 | `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
 | `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_DIR` |
 | `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:50` | `#define HIDE_USER` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `HostSummary` | class | `modules/state_manager.py:65` | `class HostSummary` |
 | `SessionSnapshot` | class | `modules/state_manager.py:76` | `class SessionSnapshot` |
 | `StateManager` | class | `modules/state_manager.py:92` | `class StateManager` |
-| `__init__` | method | `modules/state_manager.py:107` | `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)` |
-| `_cred_list_for_host` | method | `modules/state_manager.py:192` | `def _cred_list_for_host(self, host_id)` |
-| `_ensure_workspace` | method | `modules/state_manager.py:151` | `def _ensure_workspace(self)` |
-| `_find_host` | method | `modules/state_manager.py:184` | `def _find_host(self, address)` |
-| `_load_existing_world_model` | method | `modules/state_manager.py:586` | `def _load_existing_world_model(self)` |
-| `_load_json` | function | `modules/state_manager.py:43` | `def _load_json(path)` |
-| `_merge_world_model` | method | `modules/state_manager.py:599` | `def _merge_world_model(existing, hosts_data, all_creds, all_vulns)` |
-| `_publish` | method | `modules/state_manager.py:169` | `def _publish(self, category, event_type, payload)` |
-| `_save_json` | function | `modules/state_manager.py:53` | `def _save_json(path, data)` |
-| `_sync_world_model_cache` | method | `modules/state_manager.py:556` | `def _sync_world_model_cache(self)` |
-| `_vuln_list_for_host` | method | `modules/state_manager.py:197` | `def _vuln_list_for_host(self, host_id)` |
-| `_write_world_model` | method | `modules/state_manager.py:657` | `def _write_world_model(self, data)` |
-| `add_credential` | method | `modules/state_manager.py:328` | `def add_credential(self, host_address, username, password, realm, cred_type, origin)` |
-| `add_host` | method | `modules/state_manager.py:213` | `def add_host(self, address, mac, hostname, os, state)` |
-| `add_loot` | method | `modules/state_manager.py:411` | `def add_loot(self, name, loot_type, path, notes, host_address)` |
-| `add_note` | method | `modules/state_manager.py:450` | `def add_note(self, data, note_type, host_address)` |
-| `add_service` | method | `modules/state_manager.py:287` | `def add_service(self, host_address, port, protocol, name, product, version, state)` |
-| `add_vulnerability` | method | `modules/state_manager.py:373` | `def add_vulnerability(self, host_address, name, severity, description, refs)` |
-| `advance_host` | method | `modules/state_manager.py:249` | `def advance_host(self, address, new_state)` |
-| `close` | method | `modules/state_manager.py:202` | `def close(self)` |
-| `db` | method | `modules/state_manager.py:137` | `def db(self)` |
-| `delete_host` | method | `modules/state_manager.py:275` | `def delete_host(self, address)` |
-| `export_csv` | method | `modules/state_manager.py:817` | `def export_csv(self, table)` |
-| `export_summary` | method | `modules/state_manager.py:821` | `def export_summary(self)` |
-| `get_host` | method | `modules/state_manager.py:236` | `def get_host(self, address)` |
-| `get_state_manager` | function | `modules/state_manager.py:836` | `def get_state_manager()` |
-| `get_world_model_cache` | method | `modules/state_manager.py:666` | `def get_world_model_cache(self)` |
-| `import_nmap_from_facts` | method | `modules/state_manager.py:495` | `def import_nmap_from_facts(self, facts)` |
-| `import_nmap_xml` | method | `modules/state_manager.py:479` | `def import_nmap_xml(self, xml_path)` |
-| `instance` | method | `modules/state_manager.py:129` | `def instance(cls)` |
-| `list_credentials` | method | `modules/state_manager.py:362` | `def list_credentials(self, host_address)` |
-| `list_hosts` | method | `modules/state_manager.py:245` | `def list_hosts(self)` |
-| `list_loot` | method | `modules/state_manager.py:444` | `def list_loot(self)` |
-| `list_notes` | method | `modules/state_manager.py:473` | `def list_notes(self)` |
-| `list_services` | method | `modules/state_manager.py:319` | `def list_services(self, host_address)` |
-| `list_vulnerabilities` | method | `modules/state_manager.py:398` | `def list_vulnerabilities(self, host_address, severity)` |
-| `load_world_model` | method | `modules/state_manager.py:672` | `def load_world_model(self)` |
-| `session_snapshot` | method | `modules/state_manager.py:713` | `def session_snapshot(self)` |
-| `set_payload` | method | `modules/state_manager.py:165` | `def set_payload(self, payload)` |
-| `status` | method | `modules/state_manager.py:550` | `def status(self)` |
-| `workspace_id` | method | `modules/state_manager.py:146` | `def workspace_id(self)` |
-| `decode` | function | `modules/stego_video.py:93` | `def decode(stego_video, output_zip)` |
-| `default_output` | function | `modules/stego_video.py:113` | `def default_output(zip_path)` |
-| `encode` | function | `modules/stego_video.py:75` | `def encode(zip_path, output_video)` |
-| `generate_carrier` | function | `modules/stego_video.py:61` | `def generate_carrier(output)` |
-| `is_video` | function | `modules/stego_video.py:40` | `def is_video(path)` |
-| `is_zip` | function | `modules/stego_video.py:36` | `def is_zip(path)` |
-| `load_payload_file` | function | `modules/stego_video.py:26` | `def load_payload_file()` |
-| `main` | function | `modules/stego_video.py:118` | `def main(argv)` |
-| `prompt_path` | function | `modules/stego_video.py:44` | `def prompt_path(message)` |
-| `resolve_path` | function | `modules/stego_video.py:52` | `def resolve_path(arg_path, payload_file, validator, kind)` |
-| `get_controlling_tty` | function | `modules/sudo_tiocsti.py:52` | `def get_controlling_tty()` |
-| `get_sudo_pids_on_tty` | function | `modules/sudo_tiocsti.py:102` | `def get_sudo_pids_on_tty(tty_path)` |
-| `inject_byte` | function | `modules/sudo_tiocsti.py:64` | `def inject_byte(fd, byte_char)` |
-| `inject_payload` | function | `modules/sudo_tiocsti.py:79` | `def inject_payload(fd, payload, char_delay)` |
-| `main` | function | `modules/sudo_tiocsti.py:198` | `def main()` |
-| `mode_cache` | function | `modules/sudo_tiocsti.py:185` | `def mode_cache(fd)` |
-| `mode_poll` | function | `modules/sudo_tiocsti.py:149` | `def mode_poll(fd, tty_path)` |
-| `mode_prefill` | function | `modules/sudo_tiocsti.py:175` | `def mode_prefill(fd)` |
-| `sudo_cache_valid` | function | `modules/sudo_tiocsti.py:139` | `def sudo_cache_valid()` |
-| `discovery_targets` | function | `modules/surface_ops.py:31` | `def discovery_targets(sessions_dir)` |
-| `is_ipv4` | function | `modules/surface_ops.py:18` | `def is_ipv4(value)` |
-| `parse_confirm` | function | `modules/surface_ops.py:26` | `def parse_confirm(answer)` |
-| `write_world_model_hosts` | function | `modules/surface_ops.py:50` | `def write_world_model_hosts(document, sessions)` |
-| `ThreatModelBuilder` | class | `modules/threat_model.py:267` | `class ThreatModelBuilder` |
-| `_add` | function | `modules/threat_model.py:448` | `def _add(ioc)` |
-| `_build_assets` | method | `modules/threat_model.py:318` | `def _build_assets(self, rows)` |
-| `_build_detection_rules` | method | `modules/threat_model.py:475` | `def _build_detection_rules(self, ttps)` |
-| `_build_iocs` | method | `modules/threat_model.py:444` | `def _build_iocs(self, rows)` |
-| `_build_purple_team` | method | `modules/threat_model.py:505` | `def _build_purple_team(self, ttps, detection_rules)` |
-| `_build_summary` | method | `modules/threat_model.py:560` | `def _build_summary(self, rows, assets, ttps)` |
-| `_build_ttps` | method | `modules/threat_model.py:404` | `def _build_ttps(self, rows)` |
-| `_compromise_indicators` | method | `modules/threat_model.py:388` | `def _compromise_indicators(self, commands)` |
-| `_extract_iocs` | function | `modules/threat_model.py:245` | `def _extract_iocs(text, first_seen)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

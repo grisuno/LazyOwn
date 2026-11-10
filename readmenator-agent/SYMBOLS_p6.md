@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on_mount` | method | `cli/purple_tui.py:108` | `def on_mount(self)` |
+| `refresh_data` | method | `cli/purple_tui.py:115` | `def refresh_data(self)` |
+| `EvidenceHint` | class | `cli/reactive_hints.py:309` | `class EvidenceHint` |
+| `_clean_reason` | function | `cli/reactive_hints.py:353` | `def _clean_reason(reasons)` |
+| `_collect_command_hints` | function | `cli/reactive_hints.py:486` | `def _collect_command_hints(cmd, phase, already_run, limit)` |
+| `_extract_labels` | function | `cli/reactive_hints.py:277` | `def _extract_labels(suggestions, limit)` |
+| `_first_token` | function | `cli/reactive_hints.py:272` | `def _first_token(raw)` |
+| `_render` | function | `cli/reactive_hints.py:294` | `def _render(labels)` |
+| `_truncate` | function | `cli/reactive_hints.py:288` | `def _truncate(value, max_len)` |
+| `build_evidence_hint_lines` | function | `cli/reactive_hints.py:426` | `def build_evidence_hint_lines(hints)` |
+| `build_evidence_hints` | function | `cli/reactive_hints.py:372` | `def build_evidence_hints(recommendations, limit)` |
+| `command_hints` | function | `cli/reactive_hints.py:559` | `def command_hints(last_command, phase, sessions_dir, limit)` |
+| `confidence_from_score` | function | `cli/reactive_hints.py:331` | `def confidence_from_score(score)` |
+| `read_run_commands` | function | `cli/reactive_hints.py:453` | `def read_run_commands(sessions_dir)` |
+| `render_command_hints` | function | `cli/reactive_hints.py:524` | `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` |
+| `render_evidence_hints` | function | `cli/reactive_hints.py:410` | `def render_evidence_hints(hints)` |
+| `render_inline_hints` | function | `cli/reactive_hints.py:230` | `def render_inline_hints(advisor, last_command, limit, enabled)` |
 | `ReasoningEntry` | class | `cli/reasoning_stream.py:66` | `class ReasoningEntry` |
 | `_extract_reward` | function | `cli/reasoning_stream.py:175` | `def _extract_reward(payload)` |
 | `_format_size` | function | `cli/reasoning_stream.py:134` | `def _format_size(num_bytes)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_set_theme` | function | `cli/tui_theme.py:30` | `def _set_theme(payload, name)` |
 | `run` | function | `cli/tui_theme.py:87` | `def run(args, payload, save)` |
 | `TutorialConfig` | class | `cli/tutorial.py:76` | `class TutorialConfig` |
-| `is_done` | function | `cli/tutorial.py:83` | `def is_done(config)` |
-| `mark_done` | function | `cli/tutorial.py:89` | `def mark_done(config)` |
-| `render_header` | function | `cli/tutorial.py:96` | `def render_header()` |
-| `render_phase_table` | function | `cli/tutorial.py:113` | `def render_phase_table()` |
-| `run` | function | `cli/tutorial.py:185` | `def run(params, command_runner)` |
-| `run_step` | function | `cli/tutorial.py:128` | `def run_step(index, command, description, why, params, command_runner)` |
-| `BinarySpec` | class | `cli/wizard.py:90` | `class BinarySpec` |
-| `BinaryStatus` | class | `cli/wizard.py:141` | `class BinaryStatus` |
-| `ReadinessItem` | class | `cli/wizard.py:150` | `class ReadinessItem` |
-| `WizardResult` | class | `cli/wizard.py:160` | `class WizardResult` |
-| `_ask_device` | function | `cli/wizard.py:537` | `def _ask_device(current)` |
-| `_ask_domain` | function | `cli/wizard.py:515` | `def _ask_domain(current)` |
-| `_ask_lhost` | function | `cli/wizard.py:484` | `def _ask_lhost(current)` |
-| `_ask_llm` | function | `cli/wizard.py:621` | `def _ask_llm(params)` |
-| `_ask_marketplace_config` | function | `cli/wizard.py:852` | `def _ask_marketplace_config()` |
-| `_ask_operator_login` | function | `cli/wizard.py:724` | `def _ask_operator_login(params)` |
-| `_ask_os_id` | function | `cli/wizard.py:563` | `def _ask_os_id(current)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

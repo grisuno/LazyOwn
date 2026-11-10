@@ -1858,10 +1858,10 @@ verbs:
     enabled: true
     phase: c2
     phases:
-      - exploit
-      - privesc
-      - lateral
-      - exfil
+    - exploit
+    - privesc
+    - lateral
+    - exfil
     risk: safe
     description: Run a fully YAML-administered APT chain with one command.
     source: builtin
@@ -1938,10 +1938,10 @@ verbs:
     enabled: true
     phase: c2
     phases:
-      - exploit
-      - privesc
-      - lateral
-      - exfil
+    - exploit
+    - privesc
+    - lateral
+    - exfil
     risk: safe
     description: Execute emulation tests on the target through a working shell.
     source: cli
@@ -1955,10 +1955,10 @@ verbs:
     enabled: true
     phase: postexp
     phases:
-      - exploit
-      - privesc
-      - lateral
-      - exfil
+    - exploit
+    - privesc
+    - lateral
+    - exfil
     risk: safe
     description: Execute atomic red-team tests via LazyOwn.
     source: cli
@@ -1972,10 +1972,10 @@ verbs:
     enabled: true
     phase: c2
     phases:
-      - exploit
-      - privesc
-      - lateral
-      - exfil
+    - exploit
+    - privesc
+    - lateral
+    - exfil
     risk: safe
     description: Stage an Atomic Red Team test by MITRE technique ID or GUID.
     source: builtin
@@ -2143,12 +2143,24 @@ verbs:
     description: Execute the bloodyAD.py command for a specific user or all users
       listed in the users.txt file.
     source: cli
+  bof_beacons:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: List beacons currently seen by the C2.
+    source: cli
   bof_catalog:
     enabled: false
     phase: uncategorized
     risk: safe
     description: List all BOFs available in the curated catalog.
     source: cli
+  bof_deploy:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Deliver a staged beacon client onto a target and await check-in.
+    source: builtin
   bof_info:
     enabled: false
     phase: uncategorized
@@ -2167,6 +2179,12 @@ verbs:
     risk: safe
     description: List all installed and staged BOFs.
     source: cli
+  bof_results:
+    enabled: false
+    phase: c2
+    risk: safe
+    description: Show BOF execution history for one beacon.
+    source: cli
   bof_run:
     enabled: false
     phase: uncategorized
@@ -2179,6 +2197,18 @@ verbs:
     risk: safe
     description: Search the BOF catalog by keyword.
     source: cli
+  bof_stage:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Stage a BOF artifact through its lazyaddon beacon client.
+    source: builtin
+  bof_train:
+    enabled: true
+    phase: c2
+    risk: safe
+    description: Run a sequence of BOFs over one beacon, awaiting each result.
+    source: builtin
   bof_uninstall:
     enabled: false
     phase: uncategorized
@@ -3374,6 +3404,42 @@ verbs:
     description: "AI-powered exploit recommendation \u2014 matches discovered services\
       \ to CVEs."
     source: cli
+  exploitdb_ccompile:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: ''
+    source: cli
+  exploitdb_cscan:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: ''
+    source: cli
+  exploitdb_gen:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: ''
+    source: cli
+  exploitdb_run:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: ''
+    source: cli
+  exploitdb_scan:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: ''
+    source: cli
+  exploitdb_sync:
+    enabled: false
+    phase: uncategorized
+    risk: exploit
+    description: ''
+    source: cli
   exploitgym:
     enabled: false
     phase: misc
@@ -4442,6 +4508,13 @@ verbs:
     risk: safe
     description: 'Alias of lazy_graph. Usage: lazy_overview [--task T]'
     source: cli
+  lazy_pacing:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Show or set loop pacing knobs. Usage: lazy_pacing [list|set <key>
+      <value>]'
+    source: cli
   lazy_pause:
     enabled: false
     phase: uncategorized
@@ -4461,6 +4534,12 @@ verbs:
     risk: safe
     description: 'Run one planner wakeup (emits 0..N intents). Usage: lazy_planner
       [--task T]'
+    source: cli
+  lazy_poc:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Operate the PoC verb registry.
     source: cli
   lazy_report:
     enabled: false
@@ -4636,6 +4715,12 @@ verbs:
     description: 'Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir
       <path>|rm <path>|path. Usage: lazy_workspace ...'
     source: cli
+  lazyautofire:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Turn fire exposure into read-only confirmation chains.
+    source: cli
   lazycreds:
     enabled: true
     phase: cred
@@ -4647,6 +4732,18 @@ verbs:
     phase: misc
     risk: safe
     description: Search the dork grammar for one target.
+    source: cli
+  lazyintel:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Rank discovered services against local exploit intelligence.
+    source: cli
+  lazyinventory:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Collect and ingest host-reported packages (source=host).
     source: cli
   lazynmap:
     enabled: true
@@ -4682,14 +4779,32 @@ verbs:
     enabled: true
     phase: misc
     phases:
-      - recon
-      - scan
-      - enum
-      - exploit
-      - privesc
-      - lateral
+    - recon
+    - scan
+    - enum
+    - exploit
+    - privesc
+    - lateral
     risk: safe
     description: Executes commands defined in a lazyscript file.
+    source: cli
+  lazysearch:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Query the engagement database with the saved-search grammar.
+    source: cli
+  lazysentinel:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Run the internal sentinel lifecycle.
+    source: cli
+  lazytimeline:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Record world-model snapshots and read their diffs.
     source: cli
   lazywebshell:
     enabled: false

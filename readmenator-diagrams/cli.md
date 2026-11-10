@@ -1,6 +1,6 @@
 # cli
 
-cli groups 114 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 115 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -40,7 +40,7 @@ root groups 1 files (py) around sanitize_content, RAGManager, __init__, initiali
 
 ## skills (4.5)
 
-skills groups 6 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain).
+skills groups 7 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain).
 
 ## tests (4.6)
 
@@ -111,6 +111,7 @@ tests groups 50 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - skills/mcp_tools/graph_suggest_next.py
 - skills/mcp_tools/graph_summary.py
 - skills/mcp_tools/palette.py
+- skills/mcp_tools/recommend_next.py
 - skills/unified_orchestrator.py
 - tests/test_autosuggest.py
 - tests/test_chain_mode.py

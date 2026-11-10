@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 141 files (c, js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 138 files (c, js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -28,7 +28,6 @@ graph LR
     root -- "depends on" --> skills
     skills -- "calls into" --> core
     skills -- "calls into" --> modules
-    skills -- "calls into" --> root
     static -- "depends on" --> lazyc2
     static -- "calls into" --> modules
     tests -- "calls into" --> core
@@ -55,7 +54,7 @@ lazyc2 groups 24 files (py) around CorsConfigError, CorsPolicy, __init__, env, r
 
 ## modules (3.5)
 
-modules groups 47 files (c, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
+modules groups 48 files (c, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
 
 ## root (3.6)
 
@@ -63,7 +62,7 @@ root groups 2 files (py) around _env_tag, is_insecure_credential, _listen_addres
 
 ## skills (3.7)
 
-skills groups 19 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
+skills groups 14 files (py) around ConfigKeys, EnvKeys, Defaults, PhaseNames, Paths. Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
 
 ## static (3.8)
 
@@ -71,7 +70,7 @@ static groups 2 files (js) around as, as, as, as, as. as: !
 
 ## tests (3.9)
 
-tests groups 30 files (py) around _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values, test_os_options_cover_mitre_platforms. Tests for the LazyAddon creator contract and C2 blueprint.
+tests groups 31 files (py) around _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values, test_os_options_cover_mitre_platforms. Tests for the LazyAddon creator contract and C2 blueprint.
 
 **Files**:
 
@@ -124,6 +123,7 @@ tests groups 30 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - modules/c2_profile.py
 - modules/collab_bp.py
 - modules/colors.py
+- modules/command_executor.py
 - modules/compliance.py
 - modules/conditional_hooks.py
 - modules/config_store.py
@@ -174,15 +174,10 @@ tests groups 30 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - skills/hermes-lazyown/mcp_server.py
 - skills/hermes-lazyown/output_compactor.py
 - skills/lazyown_campaign.py
-- skills/lazyown_daemon.py
-- skills/lazyown_facts.py
 - skills/mcp_tools/campaign.py
 - skills/mcp_tools/collab_publish.py
 - skills/mcp_tools/db.py
-- skills/mcp_tools/facts_show.py
 - skills/mcp_tools/lazysearch.py
-- skills/sessions_watcher.py
-- skills/tests/test_facts.py
 - skills/toposwarm_autonomous.py
 - static/js/socket.io-4.0.0.min.js
 - static/js/socket.io-4.3.2.min.js
@@ -201,6 +196,7 @@ tests groups 30 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - tests/test_csrf_policy.py
 - tests/test_dashboard_routes.py
 - tests/test_db.py
+- tests/test_executor_kernel.py
 - tests/test_html_sanitizer.py
 - tests/test_https_redirect.py
 - tests/test_intelligence_engine.py

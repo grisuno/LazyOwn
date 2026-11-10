@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/panels/sessions_panel.py` -> `lazygui/panels/base.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/services/models.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/widgets/filter_bar.py`
@@ -210,8 +211,17 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/beacon_recon.py` -> `core/logging.py`
 - `modules/beacon_recon.py` -> `modules/outcome_bus.py`
 - `modules/beacon_recon.py` -> `modules/world_model.py`
+- `modules/bof_delivery.py` -> `core/config.py`
+- `modules/bof_delivery.py` -> `core/logging.py`
+- `modules/bof_delivery.py` -> `core/safe_exec.py`
+- `modules/bof_delivery.py` -> `modules/__init__.py`
+- `modules/bof_delivery.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/bof_delivery.py` -> `modules/beacon_config_builder.py`
+- `modules/bof_delivery.py` -> `modules/beacon_history.py`
+- `modules/bof_delivery.py` -> `modules/bof_registry.py`
 - `modules/bof_registry.py` -> `cli/commands/enum.py`
 - `modules/bof_registry.py` -> `core/logging.py`
+- `modules/bof_registry.py` -> `modules/bof_admin.py`
 - `modules/c2_agent.py` -> `core/logging.py`
 - `modules/c2_agent.py` -> `core/session_secrets.py`
 - `modules/c2_agent.py` -> `lazyc2/security/services.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/orchestrator_config.py`
 - `modules/lazy_loop.py` -> `modules/outcome_bus.py`
 - `modules/lazy_loop.py` -> `modules/progress_ledger.py`
-- `modules/lazy_loop.py` -> `modules/reaction_bridge.py`
-- `modules/lazy_loop.py` -> `modules/selection/base.py`
-- `modules/lazy_loop.py` -> `modules/selection/registry.py`
-- `modules/lazy_loop.py` -> `modules/selfupdate.py`
-- `modules/lazy_loop.py` -> `modules/sinks/findings.py`
-- `modules/lazy_loop.py` -> `modules/traffic_recorder.py`
-- `modules/lazy_loop.py` -> `modules/trigger_policy.py`
-- `modules/lazy_loop.py` -> `modules/world_model.py`
-- `modules/lazy_loop.py` -> `skills/lazyown_policy.py`
-- `modules/lazy_match_policy.py` -> `modules/lazy_heat.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

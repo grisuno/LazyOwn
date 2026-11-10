@@ -1,0 +1,14 @@
+name: netview
+description: >-
+  Enumerate network resources: shares, sessions, connected clients, open files
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/netview/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: []
+optional_args: ['server']
+mitre_technique: T1046
+enabled: true

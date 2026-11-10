@@ -1,6 +1,40 @@
 # API (page 16 of 27)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/lazyown_metaextract0r.py
+- `signal_handler` (function) `modules/lazyown_metaextract0r.py:42` `def signal_handler(sig, frame)`
+- `extract_pdf_metadata` (function) `modules/lazyown_metaextract0r.py:51` `def extract_pdf_metadata(file_path)`
+- `extract_docx_metadata` (function) `modules/lazyown_metaextract0r.py:62` `def extract_docx_metadata(file_path)`
+- `extract_ole_metadata` (function) `modules/lazyown_metaextract0r.py:73` `def extract_ole_metadata(file_path)`
+- `extract_image_metadata` (function) `modules/lazyown_metaextract0r.py:85` `def extract_image_metadata(file_path)`
+- `extract_metadata` (function) `modules/lazyown_metaextract0r.py:96` `def extract_metadata(file_path)`
+- `find_and_extract_metadata` (function) `modules/lazyown_metaextract0r.py:109` `def find_and_extract_metadata(directory, output_file)`
+- `parse_arguments` (function) `modules/lazyown_metaextract0r.py:130` `def parse_arguments()` -- Parse command-line arguments.
+- `main` (function) `modules/lazyown_metaextract0r.py:140` `def main()`
+
+## modules/lazyown_parquet_tool.py
+- `highlight_term` (function) `modules/lazyown_parquet_tool.py:34` `def highlight_term(text, term)` -- Highlight the search term in the given text.
+- `search_in_parquet` (function) `modules/lazyown_parquet_tool.py:39` `def search_in_parquet(term, parquet_files)` -- Search for a term in the given Parquet files and return matching rows.
+- `buscar_binarios` (function) `modules/lazyown_parquet_tool.py:53` `def buscar_binarios(args)` -- Search for binaries with special permissions and generate a results CSV.
+- `ejecutar_opciones` (function) `modules/lazyown_parquet_tool.py:136` `def ejecutar_opciones()` -- Execute options based on the found data.
+
+## modules/lazyownerweb.py
+Depends on: `core/logging.py`, `modules/logging_config.py`
+- `send_request` (function) `modules/lazyownerweb.py:36` `def send_request(url, params, method)`
+- `test_injection` (function) `modules/lazyownerweb.py:49` `def test_injection(url, payloads, param_name, detection_strings, method)`
+- `main` (function) `modules/lazyownerweb.py:59` `def main()`
+
+## modules/lazypassgen.py
+Depends on: `modules/__init__.py`
+- `generate` (function) `modules/lazypassgen.py:115` `def generate(target)` -- Generate the candidate set for one target entity.
+- `export` (function) `modules/lazypassgen.py:135` `def export(target, path)` -- Write the generated wordlist as one password per line.
+
+## modules/lazypoophish.py
+Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phishing_orchestrator.py`
+- `fresh_access_token` (function) `modules/lazypoophish.py:34` `def fresh_access_token(target)` -- Return the current access level token for a target.
+- `fallback_ready` (function) `modules/lazypoophish.py:52` `def fallback_ready(target)` -- Return True when the target still lacks a foothold.
+- `run_fallback` (function) `modules/lazypoophish.py:71` `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` -- Stage the phishing-fallback handoff for one failed loop run.
+
 ## modules/lazypsexec.sh
 - `execute_psexec` (function) `modules/lazypsexec.sh:15` -- Función para ejecutar psexec y verificar la salida
 
@@ -358,7 +392,7 @@ Imported by: `cli/commands/payload_arsenal.py`
 
 ## modules/mcp_agent_bridge.py
 Depends on: `core/logging.py`, `modules/llm_factory.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`
+Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`, `skills/mcp_tools/run_agent.py`, `skills/mcp_tools/subagent_run.py`
 - `get_agent_status` (function) `modules/mcp_agent_bridge.py:163` `def get_agent_status(agent_id)` -- Public: returns current status dict for an agent.
 - `get_agent_result` (function) `modules/mcp_agent_bridge.py:188` `def get_agent_result(agent_id)` -- Public: returns final result + full action log.
 - `list_agents` (function) `modules/mcp_agent_bridge.py:211` `def list_agents(limit)` -- List recent agents sorted by start time.
@@ -455,45 +489,6 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `MemoryCleaner.linux_memory_cleanup` (method) `modules/memory_cleaner.py:151` `def linux_memory_cleanup(self)` -- Generate Linux memory artifact cleanup commands.
 - `MemoryCleaner.macos_memory_cleanup` (method) `modules/memory_cleaner.py:206` `def macos_memory_cleanup(self)` -- Generate macOS memory artifact cleanup commands.
 - `MemoryCleaner.generate_on_exit_script` (method) `modules/memory_cleaner.py:255` `def generate_on_exit_script(self)` -- Generate an on-exit cleanup script for beacons.
-
-## modules/memory_embeddings.py
-Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
-- `embed` (function) `modules/memory_embeddings.py:50` `def embed(text)` -- Map text to a normalised 512-float histogram BLOB.
-- `cosine` (function) `modules/memory_embeddings.py:75` `def cosine(a, b)` -- Cosine similarity of two embedding BLOBs; legacy/partial input -> 0.0.
-- `semantic_top_k` (function) `modules/memory_embeddings.py:85` `def semantic_top_k(query, candidates, top_k)` -- Rank candidate (id, embedding) pairs against the query.
-- `as_floats` (function) `modules/memory_embeddings.py:109` `def as_floats(blob)` -- Decode a BLOB into a mutable float array (diagnostics/tests).
-
-## modules/memory_store.py
-Depends on: `modules/memory_embeddings.py`
-Imported by: `tests/test_memory_semantics.py`
-- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
-- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
-- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
-- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
-- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
-- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
-- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
-- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
-- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
-- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
-- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
-- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
-- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
-- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
-- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
-- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
-- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
-- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
-- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
-- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
-- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
-- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
-- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
-- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
-- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
-- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
-- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
-- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
 
 
 Next: [API_p17.md](API_p17.md)

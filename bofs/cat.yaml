@@ -1,0 +1,14 @@
+name: cat
+description: >-
+  Read a file on the target using the beacon datap API and return its contents
+author: LazyOwn
+url: https://github.com/grisuno/blacksandbeacon
+source_file: bof/cat/bof.c
+client: blacksandbeacon
+platform: linux
+category: collection
+client_artifact: build/bof/cat.x64.o
+required_args: ['path']
+optional_args: []
+mitre_technique: T1005
+enabled: true

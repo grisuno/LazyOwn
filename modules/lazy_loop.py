@@ -42,7 +42,14 @@ from modules.loop import (
     WorkerGatingMixin,
     WorkerMemoryMixin,
 )
-from modules.loop_guardrails import EdrPacer, FactVectorStore, RepeatDetector, TargetLimiter
+from modules.loop_guardrails import (
+    EdrPacer,
+    FactVectorStore,
+    ListingNoiseDetector,
+    RepeatDetector,
+    TargetLimiter,
+    listing_forbidden,
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STORE_DIR = BASE_DIR / "sessions" / "lazy"
@@ -4170,7 +4177,8 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         self._shell_session = None
         self._shell_queue = None
         self._pacer = EdrPacer.from_config()
-        self._repeats = RepeatDetector(window=8)
+        self._repeats = RepeatDetector(window=16)
+        self._listing_noise = ListingNoiseDetector()
         self._fact_store: FactVectorStore | None = None
         register_worker(self)
 
@@ -4480,8 +4488,21 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 self.activity.emit(
                     self.name,
                     "stalled",
-                    f"worker {self.name} ran the same command {self._repeats.last_commands()[0][:100]!r} "
-                    f"{len(self._repeats.last_commands())}x with no progress; pausing for operator review",
+                    f"worker {self.name} observed {self._repeats.describe()} "
+                    f"over {len(self._repeats.last_commands())} executed step(s) with no progress; "
+                    "pausing for operator review",
+                    intent_id=intent.node_id,
+                )
+                self.activity.emit(self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id)
+                self._settle_partial(intent, transcripts, reason="stalled")
+                outcome["state"] = "exhausted"
+                break
+            if self._listing_noise.observe(command, output):
+                self.activity.emit(
+                    self.name,
+                    "stalled",
+                    f"worker {self.name} step {command[:80]!r} produced a listing-only wall "
+                    f"({len(output.splitlines())} line(s), no intel); pausing for operator review",
                     intent_id=intent.node_id,
                 )
                 self.activity.emit(self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id)
@@ -4628,6 +4649,15 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 intent_id=intent.node_id,
             )
             return "", "blocked", "prose"
+        listing_reason = listing_forbidden(command)
+        if listing_reason:
+            self.activity.emit(
+                self.name,
+                "block",
+                f"listing-policy: {command[:120]}",
+                intent_id=intent.node_id,
+            )
+            return "", "blocked", "listing-policy"
         target = self._target_for(intent)
         if target and _is_host_like_target(target) and not self._scope_allows_target(target):
             self.activity.emit(
@@ -5159,10 +5189,13 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
     ) -> dict:
         """Write one aggregated fact plus assets/findings atomically with dedupe."""
         wrote = {"facts": 0, "assets": 0, "findings": 0}
+        listing_noise = ListingNoiseDetector()
         useful = [
             (cmd, (out or "").strip())
             for cmd, out in transcripts
-            if (out or "").strip() and not (out or "").startswith("execution failed:")
+            if (out or "").strip()
+            and not (out or "").startswith("execution failed:")
+            and not listing_noise.observe(cmd, out or "")
         ]
         if not useful:
             return wrote
@@ -5265,7 +5298,7 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
             try:
                 for record in self.traffic.read(3):
                     digest = str(record.get("digest", ""))
-                    if digest:
+                    if digest and not listing_noise.observe(str(record.get("command", "")), str(record.get("output", ""))):
                         self.traffic.bind(finding.node_id, digest, self.graph, role="supporting", note="auto-bound")
             except Exception:
                 pass

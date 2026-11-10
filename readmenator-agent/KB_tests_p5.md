@@ -1,6 +1,147 @@
 # Subsystem: tests (page 5 of 25)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
 
+## tests/test_c2_profile_engine.py
+- Doc: Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestTlsProfile` (class, line 34) `class TestTlsProfile`
+  - `TestDnsProfile` (class, line 99) `class TestDnsProfile`
+  - `TestSmbProfile` (class, line 154) `class TestSmbProfile`
+  - `TestWebSocketProfile` (class, line 183) `class TestWebSocketProfile`
+  - `TestProfileRotator` (class, line 214) `class TestProfileRotator`
+  - `TestProfileValidator` (class, line 291) `class TestProfileValidator`
+  - `TestProfileEngine` (class, line 397) `class TestProfileEngine`
+  - `test_default_construction` (method, line 35) `def test_default_construction(self)`
+  - `test_get_cipher_suites_returns_library_defaults` (method, line 44) `def test_get_cipher_suites_returns_library_defaults(self)`
+  - `test_get_cipher_suites_returns_custom_when_set` (method, line 50) `def test_get_cipher_suites_returns_custom_when_set(self)`
+  - `test_get_cipher_suites_unknown_library_falls_back_to_generic` (method, line 55) `def test_get_cipher_suites_unknown_library_falls_back_to_generic(self)`
+  - `test_get_ja3_hash_produces_stable_output` (method, line 61) `def test_get_ja3_hash_produces_stable_output(self)`
+  - `test_get_ja3_hash_with_grease_produces_variable_output` (method, line 72) `def test_get_ja3_hash_with_grease_produces_variable_output(self)`
+  - `test_serialization_roundtrip` (method, line 77) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 90) `def test_from_dict_empty(self)`
+  - `test_disabled_profile` (method, line 94) `def test_disabled_profile(self)`
+  - `test_default_construction` (method, line 100) `def test_default_construction(self)`
+  - `test_build_query_subdomain_base64` (method, line 107) `def test_build_query_subdomain_base64(self)`
+  - `test_build_query_subdomain_base32` (method, line 113) `def test_build_query_subdomain_base32(self)`
+  - `test_build_query_subdomain_hex` (method, line 119) `def test_build_query_subdomain_hex(self)`
+  - `test_build_query_subdomain_truncates_to_max_length` (method, line 124) `def test_build_query_subdomain_truncates_to_max_length(self)`
+  - `test_build_query_subdomain_ttl_cache_bypass_disabled` (method, line 130) `def test_build_query_subdomain_ttl_cache_bypass_disabled(self)`
+  - `test_serialization_roundtrip` (method, line 135) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 148) `def test_from_dict_empty(self)`
+  - `test_default_construction` (method, line 155) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 161) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 178) `def test_from_dict_empty(self)`
+  - `test_default_construction` (method, line 184) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 191) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 208) `def test_from_dict_empty(self)`
+  - `test_requires_at_least_one_slot` (method, line 215) `def test_requires_at_least_one_slot(self)`
+  - `test_single_slot_always_active` (method, line 219) `def test_single_slot_always_active(self)`
+  - `test_rotation_cycles_through_slots` (method, line 226) `def test_rotation_cycles_through_slots(self)`
+  - `test_rotation_skips_cooldown_slots` (method, line 238) `def test_rotation_skips_cooldown_slots(self)`
+  - `test_rotation_resets_all_cooldowns_when_all_busy` (method, line 252) `def test_rotation_resets_all_cooldowns_when_all_busy(self)`
+  - `test_list_slots` (method, line 263) `def test_list_slots(self)`
+  - `test_is_available_fresh_slot` (method, line 274) `def test_is_available_fresh_slot(self)`
+  - `test_is_available_after_touch` (method, line 278) `def test_is_available_after_touch(self)`
+  - `test_current_slot_identity` (method, line 283) `def test_current_slot_identity(self)`
+  - `test_validate_tls_valid` (method, line 292) `def test_validate_tls_valid(self)`
+  - `test_validate_tls_disabled_skips` (method, line 297) `def test_validate_tls_disabled_skips(self)`
+  - `test_validate_tls_invalid_version` (method, line 302) `def test_validate_tls_invalid_version(self)`
+  - `test_validate_tls_missing_key_with_cert` (method, line 308) `def test_validate_tls_missing_key_with_cert(self)`
+  - `test_validate_tls_unknown_library` (method, line 318) `def test_validate_tls_unknown_library(self)`
+  - `test_validate_dns_enabled_missing_domain` (method, line 327) `def test_validate_dns_enabled_missing_domain(self)`
+  - `test_validate_dns_invalid_encoding` (method, line 333) `def test_validate_dns_invalid_encoding(self)`
+  - `test_validate_dns_disabled_skips` (method, line 339) `def test_validate_dns_disabled_skips(self)`
+  - `test_validate_dns_invalid_domain_format` (method, line 344) `def test_validate_dns_invalid_domain_format(self)`
+  - `test_validate_smb_missing_pipe_name` (method, line 350) `def test_validate_smb_missing_pipe_name(self)`
+  - `test_validate_smb_disabled_skips` (method, line 356) `def test_validate_smb_disabled_skips(self)`
+  - `test_validate_smb_username_without_domain` (method, line 361) `def test_validate_smb_username_without_domain(self)`
+  - `test_validate_websocket_invalid_protocol` (method, line 372) `def test_validate_websocket_invalid_protocol(self)`
+  - `test_validate_websocket_disabled_skips` (method, line 378) `def test_validate_websocket_disabled_skips(self)`
+  - `test_validate_all_returns_dict` (method, line 383) `def test_validate_all_returns_dict(self)`
+  - `test_default_engine_has_http_slot` (method, line 398) `def test_default_engine_has_http_slot(self)`
+  - `test_engine_with_all_transports` (method, line 402) `def test_engine_with_all_transports(self)`
+  - `test_engine_validate_returns_errors_for_invalid_dns` (method, line 412) `def test_engine_validate_returns_errors_for_invalid_dns(self)`
+  - `test_engine_rotate_through_transports` (method, line 420) `def test_engine_rotate_through_transports(self)`
+  - `test_engine_get_active_profile_dict` (method, line 427) `def test_engine_get_active_profile_dict(self)`
+  - `test_engine_get_all_profiles_dict` (method, line 433) `def test_engine_get_all_profiles_dict(self)`
+  - `test_engine_from_dict` (method, line 442) `def test_engine_from_dict(self)`
+  - `test_engine_from_payload` (method, line 455) `def test_engine_from_payload(self)`
+  - `test_engine_empty_payload_falls_back_to_defaults` (method, line 465) `def test_engine_empty_payload_falls_back_to_defaults(self)`
+- Depends on: `modules/c2_profile_engine.py`
+
+## tests/test_c2_route_auth.py
+- Doc: Guard the C2 route-level auth boundaries.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_route_decorators` (function, line 75) `def _route_decorators()`
+  - `routes` (function, line 106) `def routes()`
+  - `test_protected_endpoints_require_auth` (function, line 110) `def test_protected_endpoints_require_auth(routes)`
+  - `test_public_endpoints_stay_open` (function, line 115) `def test_public_endpoints_stay_open(routes)`
+  - `test_all_protected_endpoints_exist` (function, line 120) `def test_all_protected_endpoints_exist(routes)`
+
+## tests/test_c2_shell_lazy.py
+- Doc: The C2 must not build the CLI shell at module load.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_module_tree` (function, line 21) `def _module_tree()`
+  - `_load_proxy_class` (function, line 25) `def _load_proxy_class()`
+  - `TestNoEagerCliBuild` (class, line 62) `class TestNoEagerCliBuild`
+  - `TestLazyShellProxy` (class, line 103) `class TestLazyShellProxy`
+  - `_FakeShell` (class, line 40) `class _FakeShell`
+  - `_init_shell` (function, line 51) `def _init_shell()`
+  - `test_no_lazyown_import_at_top_level` (method, line 63) `def test_no_lazyown_import_at_top_level(self)`
+  - `test_no_eager_shell_build` (method, line 76) `def test_no_eager_shell_build(self)`
+  - `test_lazy_accessor_with_boot_sequence` (method, line 88) `def test_lazy_accessor_with_boot_sequence(self)`
+  - `test_reads_forward_and_share_target` (method, line 104) `def test_reads_forward_and_share_target(self)`
+  - `test_writes_forward` (method, line 111) `def test_writes_forward(self)`
+  - `test_shell_output_attribute` (method, line 118) `def test_shell_output_attribute(self)`
+  - `__init__` (method, line 41) `def __init__(self)`
+  - `one_cmd` (method, line 45) `def one_cmd(self, command)`
+
+## tests/test_c2_surfaces.py
+- Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 23) `def _sandbox(tmp_path)`
+  - `test_publish_banner_dedupes` (function, line 30) `def test_publish_banner_dedupes(tmp_path)`
+  - `test_publish_cve_validates_and_dedupes` (function, line 42) `def test_publish_cve_validates_and_dedupes(tmp_path)`
+  - `test_append_note_never_clobbers` (function, line 56) `def test_append_note_never_clobbers(tmp_path)`
+  - `test_register_loot_event_dedupes_and_rejects_traversal` (function, line 66) `def test_register_loot_event_dedupes_and_rejects_traversal(tmp_path)`
+  - `test_group_tasks_unique_hits` (function, line 77) `def test_group_tasks_unique_hits(tmp_path)`
+  - `test_record_outcome_feeds_c2_surfaces` (function, line 95) `def test_record_outcome_feeds_c2_surfaces(tmp_path, monkeypatch)`
+  - `test_lazyreport_errors_are_actionable` (function, line 122) `def test_lazyreport_errors_are_actionable(monkeypatch)`
+  - `_StubWM` (class, line 103) `class _StubWM`
+  - `_refused` (function, line 132) `def _refused()`
+  - `_slow` (function, line 141) `def _slow()`
+  - `update_from_findings` (method, line 104) `def update_from_findings(self, findings)`
+- Depends on: `contrib/legacy/lazydeepseekcli.py`, `modules/atomic_exploit_bridge.py`, `modules/c2_surfaces.py`
+
+## tests/test_campaign_import_safety.py
+- Doc: Campaign import trust boundaries hold against hostile packages.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_make_evil_zip` (function, line 27) `def _make_evil_zip(path)`
+  - `TestZipSlip` (class, line 35) `class TestZipSlip`
+  - `TestColumnFiltering` (class, line 55) `class TestColumnFiltering`
+  - `TestCopyTree` (class, line 80) `class TestCopyTree`
+  - `TestCampaignRoutesThroughHelpers` (class, line 96) `class TestCampaignRoutesThroughHelpers`
+  - `test_evil_members_skipped` (method, line 36) `def test_evil_members_skipped(self, tmp_path)`
+  - `test_legit_tree_extracted` (method, line 46) `def test_legit_tree_extracted(self, tmp_path)`
+  - `test_identifier_policy` (method, line 56) `def test_identifier_policy(self)`
+  - `test_unknown_and_hostile_dropped` (method, line 62) `def test_unknown_and_hostile_dropped(self)`
+  - `test_order_preserved` (method, line 67) `def test_order_preserved(self)`
+  - `test_filtered_insert_roundtrip` (method, line 70) `def test_filtered_insert_roundtrip(self, tmp_path)`
+  - `test_symlinks_not_followed` (method, line 81) `def test_symlinks_not_followed(self, tmp_path)`
+  - `test_no_raw_extractall_on_import` (method, line 97) `def test_no_raw_extractall_on_import(self)`
+  - `test_uses_safe_helpers` (method, line 108) `def test_uses_safe_helpers(self)`
+- Depends on: `core/safe_import.py`
+
 ## tests/test_categories.py
 - Doc: Tests for modules/categories.py — category constants and look-up tables.
 - Layer: testing
@@ -333,147 +474,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_disabled_chains_skip_but_stay_visible` (function, line 124) `def test_disabled_chains_skip_but_stay_visible(tmp_path)`
   - `test_generate_for_playbook_roundtrip` (function, line 143) `def test_generate_for_playbook_roundtrip(tmp_path)`
 - Depends on: `modules/chain_registry.py`
-
-## tests/test_chain_runner.py
-- Doc: Chain v2 BDD contract: safe conditions, retries, capture and error policy.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 16) `def _chain(steps)`
-  - `test_when_evaluator_is_safe_and_expressive` (function, line 21) `def test_when_evaluator_is_safe_and_expressive()`
-  - `test_runner_captures_output_for_later_steps` (function, line 35) `def test_runner_captures_output_for_later_steps()`
-  - `test_runner_retries_then_succeeds` (function, line 58) `def test_runner_retries_then_succeeds()`
-  - `test_runner_aborts_unless_continue_on_error` (function, line 75) `def test_runner_aborts_unless_continue_on_error()`
-  - `test_runner_continues_when_policy_allows` (function, line 97) `def test_runner_continues_when_policy_allows()`
-  - `test_runner_dry_run_never_executes` (function, line 120) `def test_runner_dry_run_never_executes()`
-  - `test_runner_skips_when_and_unresolved_and_checks_expect` (function, line 131) `def test_runner_skips_when_and_unresolved_and_checks_expect()`
-  - `test_runner_resolves_newest_and_skip_if_exists` (function, line 153) `def test_runner_resolves_newest_and_skip_if_exists(tmp_path, monkeypatch)`
-  - `test_v2_schema_accepts_policy_and_rejects_bad_values` (function, line 180) `def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path)`
-  - `test_runner_falls_back_to_os_commands` (function, line 222) `def test_runner_falls_back_to_os_commands()`
-  - `test_runner_executes_python_module_commands` (function, line 236) `def test_runner_executes_python_module_commands()`
-  - `test_runner_keeps_verbs_on_calling_thread` (function, line 247) `def test_runner_keeps_verbs_on_calling_thread()`
-  - `test_runner_fails_on_nonzero_exit` (function, line 269) `def test_runner_fails_on_nonzero_exit()`
-  - `test_runner_routes_known_verb_through_shell` (function, line 280) `def test_runner_routes_known_verb_through_shell()`
-  - `test_runner_timeout_marks_step_timeout` (function, line 300) `def test_runner_timeout_marks_step_timeout()`
-  - `test_when_evaluator_accepts_list_literals` (function, line 308) `def test_when_evaluator_accepts_list_literals()`
-  - `test_validate_rejects_malformed_when` (function, line 315) `def test_validate_rejects_malformed_when()`
-  - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 323) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
-  - `test_runner_captures_verb_stdout` (function, line 341) `def test_runner_captures_verb_stdout()`
-  - `test_runner_step_sleep_jitter_applies` (function, line 358) `def test_runner_step_sleep_jitter_applies()`
-  - `test_runner_step_sleep_skipped_on_failure` (function, line 380) `def test_runner_step_sleep_skipped_on_failure()`
-  - `test_runner_validate_rejects_parallel_sleep` (function, line 393) `def test_runner_validate_rejects_parallel_sleep()`
-  - `executor` (function, line 39) `def executor(command)`
-  - `executor` (function, line 62) `def executor(command)`
-  - `executor` (function, line 79) `def executor(command)`
-  - `executor` (function, line 101) `def executor(command)`
-  - `executor` (function, line 135) `def executor(command)`
-  - `Shell` (class, line 224) `class Shell`
-  - `Shell` (class, line 238) `class Shell`
-  - `Shell` (class, line 251) `class Shell`
-  - `Shell` (class, line 271) `class Shell`
-  - `Shell` (class, line 284) `class Shell`
-  - `executor` (function, line 327) `def executor(command)`
-  - `FakeShell` (class, line 343) `class FakeShell`
-  - `executor` (function, line 371) `def executor(command)`
-  - `executor` (function, line 385) `def executor(command)`
-  - `do_echo` (method, line 227) `def do_echo(self, line)`
-  - `do_assign` (method, line 254) `def do_assign(self, line)`
-  - `onecmd` (method, line 257) `def onecmd(self, command)`
-  - `do_assign` (method, line 287) `def do_assign(self, line)`
-  - `onecmd` (method, line 290) `def onecmd(self, command)`
-  - `do_lazy_note` (method, line 346) `def do_lazy_note(self, line)`
-  - `onecmd` (method, line 349) `def onecmd(self, command)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_selector.py
-- Doc: Tests for ``ChainSelector`` in ``skills/autonomous_daemon.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_rows` (function, line 30) `def _rows()`
-  - `_selector` (function, line 42) `def _selector(monkeypatch, rows)`
-  - `test_non_strategic_phase_returns_none` (function, line 54) `def test_non_strategic_phase_returns_none(monkeypatch)`
-  - `test_service_match_proposes_apt_chain` (function, line 60) `def test_service_match_proposes_apt_chain(monkeypatch)`
-  - `test_platform_mismatch_excludes_chain` (function, line 71) `def test_platform_mismatch_excludes_chain(monkeypatch)`
-  - `test_platform_match_for_windows_ad` (function, line 78) `def test_platform_match_for_windows_ad(monkeypatch)`
-  - `test_lab_chains_excluded_when_flag_off` (function, line 86) `def test_lab_chains_excluded_when_flag_off(monkeypatch)`
-  - `test_lab_chains_allowed_when_flag_set` (function, line 93) `def test_lab_chains_allowed_when_flag_set(monkeypatch)`
-  - `test_no_match_returns_none` (function, line 105) `def test_no_match_returns_none(monkeypatch)`
-  - `test_each_pair_proposed_once` (function, line 111) `def test_each_pair_proposed_once(monkeypatch)`
-  - `test_master_switch_off_is_inert` (function, line 121) `def test_master_switch_off_is_inert(monkeypatch)`
-  - `test_disabled_and_invalid_chains_ignored` (function, line 128) `def test_disabled_and_invalid_chains_ignored(monkeypatch)`
-- Depends on: `modules/chain_match.py`, `skills/autonomous_daemon.py`
-
-## tests/test_chain_step_streaming.py
-- Doc: Chain step streaming contract: chain_step events reach the bus per step.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 16) `def _chain(steps)`
-  - `_capture_events` (function, line 21) `def _capture_events(monkeypatch)`
-  - `_chain_steps_for` (function, line 35) `def _chain_steps_for(captured)`
-  - `test_dry_run_never_publishes` (function, line 40) `def test_dry_run_never_publishes(monkeypatch)`
-  - `test_every_executed_step_publishes_one_event` (function, line 48) `def test_every_executed_step_publishes_one_event(monkeypatch)`
-  - `_failing_executor` (function, line 80) `def _failing_executor(prefixes)`
-  - `test_unhandled_failure_sets_steer_but_handled_failure_does_not` (function, line 92) `def test_unhandled_failure_sets_steer_but_handled_failure_does_not(monkeypatch)`
-  - `test_alternatives_do_not_resolve_failures` (function, line 111) `def test_alternatives_do_not_resolve_failures(monkeypatch)`
-  - `test_denied_never_steers` (function, line 127) `def test_denied_never_steers(monkeypatch)`
-  - `test_publication_failure_never_blocks_the_chain` (function, line 141) `def test_publication_failure_never_blocks_the_chain(monkeypatch)`
-  - `test_calm_chain_never_paces` (function, line 159) `def test_calm_chain_never_paces(monkeypatch)`
-  - `test_edr_signal_triggers_inter_step_pacing` (function, line 173) `def test_edr_signal_triggers_inter_step_pacing(monkeypatch)`
-  - `test_pace_disabled_never_sleeps` (function, line 187) `def test_pace_disabled_never_sleeps(monkeypatch)`
-  - `_capture_with_sinks` (function, line 202) `def _capture_with_sinks(monkeypatch)`
-  - `test_successful_step_promotes_declared_state_sinks` (function, line 216) `def test_successful_step_promotes_declared_state_sinks(monkeypatch)`
-  - `test_failed_step_never_promotes_state_sinks` (function, line 236) `def test_failed_step_never_promotes_state_sinks(monkeypatch)`
-  - `test_step_without_declared_sinks_does_not_promote` (function, line 249) `def test_step_without_declared_sinks_does_not_promote(monkeypatch)`
-  - `test_event_bus_receives_chain_step_for_dashboard` (function, line 262) `def test_event_bus_receives_chain_step_for_dashboard(tmp_path, monkeypatch)`
-  - `fake_record` (function, line 25) `def fake_record(event, sinks)`
-  - `executor` (function, line 53) `def executor(command)`
-  - `execute` (function, line 83) `def execute(command)`
-  - `boom` (function, line 145) `def boom(event, sinks)`
-  - `fake_record` (function, line 206) `def fake_record(event, sinks)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/outcome_bus.py`
-
-## tests/test_chain_synth.py
-- Doc: BDD tests for runtime chain synthesis.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSynthData` (class, line 10) `class TestSynthData`
-  - `json_text` (function, line 50) `def json_text(data)`
-  - `TestGeneratedFile` (class, line 56) `class TestGeneratedFile`
-  - `TestFactsForTarget` (class, line 76) `class TestFactsForTarget`
-  - `TestTechniqueSynth` (class, line 86) `class TestTechniqueSynth`
-  - `test_spine_steps_present` (method, line 13) `def test_spine_steps_present(self)`
-  - `test_service_variants` (method, line 25) `def test_service_variants(self)`
-  - `test_cred_reuse_and_c2_flags` (method, line 41) `def test_cred_reuse_and_c2_flags(self)`
-  - `test_write_ok_then_registry_sees_it` (method, line 59) `def test_write_ok_then_registry_sees_it(self, tmp_path)`
-  - `test_invalid_data_never_written` (method, line 67) `def test_invalid_data_never_written(self, tmp_path)`
-  - `test_unknown_target_empty` (method, line 79) `def test_unknown_target_empty(self)`
-  - `test_technique_steps_staged` (method, line 89) `def test_technique_steps_staged(self)`
-  - `test_no_techniques_unchanged` (method, line 101) `def test_no_techniques_unchanged(self)`
-- Depends on: `modules/chain_synth.py`
-
-## tests/test_chain_token_hardening.py
-- Doc: Shell-metacharacter containment contract for chain tokens.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 17) `def _chain(steps)`
-  - `test_static_defaults_with_metachars_fail_validation` (function, line 22) `def test_static_defaults_with_metachars_fail_validation()`
-  - `test_raw_vars_declares_operator_intent` (function, line 35) `def test_raw_vars_declares_operator_intent()`
-  - `test_runner_shellquotes_token_values_with_metachars` (function, line 49) `def test_runner_shellquotes_token_values_with_metachars()`
-  - `test_runner_raw_vars_option_outs_quoting` (function, line 61) `def test_runner_raw_vars_option_outs_quoting()`
-  - `test_runner_verb_templates_keep_verbatim_values` (function, line 73) `def test_runner_verb_templates_keep_verbatim_values()`
-  - `test_captured_values_remain_quoted_in_raw_steps` (function, line 89) `def test_captured_values_remain_quoted_in_raw_steps()`
-  - `test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars` (function, line 110) `def test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars()`
-  - `chain_file` (function, line 120) `def chain_file(stem)`
-  - `executor` (function, line 52) `def executor(command)`
-  - `executor` (function, line 64) `def executor(command)`
-  - `Shell` (class, line 77) `class Shell`
-  - `executor` (function, line 92) `def executor(command)`
-  - `do_lazynmap` (method, line 80) `def do_lazynmap(self, line)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

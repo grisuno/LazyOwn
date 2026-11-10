@@ -4,11 +4,11 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `skills/mcp_tools/_context.py` (score: 352.10, imported by 176 files)
-- `core/logging.py` (score: 319.20, imported by 159 files)
+- `skills/mcp_tools/_context.py` (score: 380.10, imported by 190 files)
+- `core/logging.py` (score: 321.20, imported by 160 files)
 - `modules/lazy_loop.py` (score: 299.80, imported by 82 files)
 - `utils.py` (score: 262.60, imported by 112 files)
-- `modules/__init__.py` (score: 260.00, imported by 130 files)
+- `modules/__init__.py` (score: 262.00, imported by 131 files)
 - `cli/commands/_base.py` (score: 218.70, imported by 107 files)
 - `modules/world_model.py` (score: 183.00, imported by 83 files)
 - `lazyc2.py` (score: 147.30)
@@ -19,16 +19,16 @@ These files have the most connections. Changes here have high blast radius.
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `skills/mcp_tools/_context.py` -- 50 direct, 176 total dependents
-- `core/logging.py` -- 50 direct, 159 total dependents
-- `modules/backdoor/server.c` -- 13 direct, 132 total dependents
-- `modules/__init__.py` -- 50 direct, 130 total dependents
+- `skills/mcp_tools/_context.py` -- 50 direct, 190 total dependents
+- `core/logging.py` -- 50 direct, 160 total dependents
+- `core/process.py` -- 13 direct, 134 total dependents
+- `modules/__init__.py` -- 50 direct, 131 total dependents
+- `modules/backdoor/server.c` -- 13 direct, 130 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 128 total dependents
+- `cli/commands/enum.py` -- 25 direct, 127 total dependents
 - `core/safe_subprocess.py` -- 6 direct, 126 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 126 total dependents
 - `cli/banner_config.py` -- 6 direct, 123 total dependents
-- `core/parsers.py` -- 9 direct, 123 total dependents
-- `core/validators.py` -- 12 direct, 122 total dependents
 
 ## Hotspots (complexity + centrality)
 

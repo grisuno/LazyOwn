@@ -1,0 +1,14 @@
+name: portscan
+description: >-
+  Lightweight TCP connect port scan from within beacon process
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: bofs/portscan.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: ['target', 'ports']
+optional_args: ['timeout_ms']
+mitre_technique: T1046
+enabled: true

@@ -2,7 +2,6 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
-- `cli/commands/session_ops.py` -> `modules/pipeline_engine.py`
 - `cli/commands/session_ops.py` -> `modules/planner.py`
 - `cli/commands/session_ops.py` -> `skills/autonomous_daemon.py`
 - `cli/commands/session_ops.py` -> `utils.py`
@@ -98,6 +97,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/orchestrator_assets_tabs.py` -> `core/config.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/__init__.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/apt_playbooks.py`
+- `cli/orchestrator_assets_tabs.py` -> `modules/bof_admin.py`
+- `cli/orchestrator_assets_tabs.py` -> `modules/bof_delivery.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/chain_registry.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/guardrails/__init__.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/gym_registry.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/registry.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/registry.py` -> `lazygui/services/event_log.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/config/constants.py`
-- `lazygui/panels/sessions_panel.py` -> `lazygui/panels/base.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

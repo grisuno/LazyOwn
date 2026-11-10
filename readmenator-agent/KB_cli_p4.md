@@ -15,10 +15,10 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `_phase_in` (function, line 63) `def _phase_in(ctx)`
   - `_last_cmd_is` (function, line 67) `def _last_cmd_is(ctx)`
   - `_after` (function, line 75) `def _after(ctx)`
-  - `get_session_tip` (function, line 307) `def get_session_tip(ctx)`
-  - `render_contextual_tip` (function, line 333) `def render_contextual_tip(last_cmd, ctx)`
-  - `print_session_tip` (function, line 363) `def print_session_tip(ctx)`
-  - `_safe_trigger` (function, line 375) `def _safe_trigger(tip, ctx)`
+  - `get_session_tip` (function, line 313) `def get_session_tip(ctx)`
+  - `render_contextual_tip` (function, line 339) `def render_contextual_tip(last_cmd, ctx)`
+  - `print_session_tip` (function, line 369) `def print_session_tip(ctx)`
+  - `_safe_trigger` (function, line 381) `def _safe_trigger(tip, ctx)`
 - Depends on: `cli/noise_verbs.py`, `core/console.py`
 - Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
 
@@ -50,21 +50,21 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `render_inline_hints` (function, line 221) `def render_inline_hints(advisor, last_command, limit, enabled)`
-  - `_first_token` (function, line 263) `def _first_token(raw)`
-  - `_extract_labels` (function, line 268) `def _extract_labels(suggestions, limit)`
-  - `_truncate` (function, line 279) `def _truncate(value, max_len)`
-  - `_render` (function, line 285) `def _render(labels)`
-  - `EvidenceHint` (class, line 300) `class EvidenceHint`
-  - `confidence_from_score` (function, line 322) `def confidence_from_score(score)`
-  - `_clean_reason` (function, line 344) `def _clean_reason(reasons)`
-  - `build_evidence_hints` (function, line 363) `def build_evidence_hints(recommendations, limit)`
-  - `render_evidence_hints` (function, line 401) `def render_evidence_hints(hints)`
-  - `build_evidence_hint_lines` (function, line 417) `def build_evidence_hint_lines(hints)`
-  - `read_run_commands` (function, line 444) `def read_run_commands(sessions_dir)`
-  - `_collect_command_hints` (function, line 477) `def _collect_command_hints(cmd, phase, already_run, limit)`
-  - `render_command_hints` (function, line 515) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
-  - `command_hints` (function, line 550) `def command_hints(last_command, phase, sessions_dir, limit)`
+  - `render_inline_hints` (function, line 230) `def render_inline_hints(advisor, last_command, limit, enabled)`
+  - `_first_token` (function, line 272) `def _first_token(raw)`
+  - `_extract_labels` (function, line 277) `def _extract_labels(suggestions, limit)`
+  - `_truncate` (function, line 288) `def _truncate(value, max_len)`
+  - `_render` (function, line 294) `def _render(labels)`
+  - `EvidenceHint` (class, line 309) `class EvidenceHint`
+  - `confidence_from_score` (function, line 331) `def confidence_from_score(score)`
+  - `_clean_reason` (function, line 353) `def _clean_reason(reasons)`
+  - `build_evidence_hints` (function, line 372) `def build_evidence_hints(recommendations, limit)`
+  - `render_evidence_hints` (function, line 410) `def render_evidence_hints(hints)`
+  - `build_evidence_hint_lines` (function, line 426) `def build_evidence_hint_lines(hints)`
+  - `read_run_commands` (function, line 453) `def read_run_commands(sessions_dir)`
+  - `_collect_command_hints` (function, line 486) `def _collect_command_hints(cmd, phase, already_run, limit)`
+  - `render_command_hints` (function, line 524) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
+  - `command_hints` (function, line 559) `def command_hints(last_command, phase, sessions_dir, limit)`
 - Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
 - Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
 
@@ -113,7 +113,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `_category_recommendations` (method, line 331) `def _category_recommendations(self, collected, concrete)`
   - `add` (method, line 374) `def add(self, source, contribution, proposal)`
   - `build` (method, line 386) `def build(self)`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/mcp_tools/recommend_next.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
 
 ## cli/recommendation_signals.py
 - Doc: Concrete :class:`cli.recommendation.RecommendationSignal` adapters.
@@ -158,7 +158,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `propose` (method, line 547) `def propose(self, ctx)`
   - `_compute_centrality` (method, line 605) `def _compute_centrality(graph_data)`
 - Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/mcp_tools/recommend_next.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
 
 ## cli/recon_plan.py
 - Doc: Reconnaissance plan generator built on top of :mod:`cli.exploration`.

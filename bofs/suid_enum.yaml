@@ -1,0 +1,14 @@
+name: suid_enum
+description: >-
+  Enumerate SUID/SGID binaries on the target filesystem for privesc
+author: LazyOwn
+url: https://github.com/grisuno/blacksandbeacon
+source_file: bof/suid_enum/bof.c
+client: blacksandbeacon
+platform: linux
+category: privilege_escalation
+client_artifact: build/bof/suid_enum.x64.o
+required_args: []
+optional_args: []
+mitre_technique: T1088
+enabled: true

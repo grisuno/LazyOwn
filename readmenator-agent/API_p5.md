@@ -28,9 +28,9 @@ Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/t
 ## cli/protips.py
 Depends on: `cli/noise_verbs.py`, `core/console.py`
 Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
-- `get_session_tip` (function) `cli/protips.py:307` `def get_session_tip(ctx)` -- Return a single tip to show at session start.
-- `render_contextual_tip` (function) `cli/protips.py:333` `def render_contextual_tip(last_cmd, ctx)` -- Print a single dim tip line when the last command triggers one.
-- `print_session_tip` (function) `cli/protips.py:363` `def print_session_tip(ctx)` -- Print the session-start tip (called once after the banner).
+- `get_session_tip` (function) `cli/protips.py:313` `def get_session_tip(ctx)` -- Return a single tip to show at session start.
+- `render_contextual_tip` (function) `cli/protips.py:339` `def render_contextual_tip(last_cmd, ctx)` -- Print a single dim tip line when the last command triggers one.
+- `print_session_tip` (function) `cli/protips.py:369` `def print_session_tip(ctx)` -- Print the session-start tip (called once after the banner).
 
 ## cli/purple_tui.py
 Depends on: `cli/commands/containers.py`
@@ -44,14 +44,14 @@ Imported by: `cli/commands/purple_team.py`
 ## cli/reactive_hints.py
 Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
 Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
-- `render_inline_hints` (function) `cli/reactive_hints.py:221` `def render_inline_hints(advisor, last_command, limit, enabled)` -- Print a single dim hint line below the command output and return immediately.
-- `confidence_from_score` (function) `cli/reactive_hints.py:322` `def confidence_from_score(score)` -- Map an unbounded fused recommendation score to a 0-100 display confidence.
-- `build_evidence_hints` (function) `cli/reactive_hints.py:363` `def build_evidence_hints(recommendations, limit)` -- Convert fused recommendations into display-ready evidence hints.
-- `render_evidence_hints` (function) `cli/reactive_hints.py:401` `def render_evidence_hints(hints)` -- Print evidence-backed hint lines: verb, confidence, reason, provenance.
-- `build_evidence_hint_lines` (function) `cli/reactive_hints.py:417` `def build_evidence_hint_lines(hints)` -- Build evidence-backed hint lines as Rich Text objects.
-- `read_run_commands` (function) `cli/reactive_hints.py:444` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
-- `render_command_hints` (function) `cli/reactive_hints.py:515` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
-- `command_hints` (function) `cli/reactive_hints.py:550` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
+- `render_inline_hints` (function) `cli/reactive_hints.py:230` `def render_inline_hints(advisor, last_command, limit, enabled)` -- Print a single dim hint line below the command output and return immediately.
+- `confidence_from_score` (function) `cli/reactive_hints.py:331` `def confidence_from_score(score)` -- Map an unbounded fused recommendation score to a 0-100 display confidence.
+- `build_evidence_hints` (function) `cli/reactive_hints.py:372` `def build_evidence_hints(recommendations, limit)` -- Convert fused recommendations into display-ready evidence hints.
+- `render_evidence_hints` (function) `cli/reactive_hints.py:410` `def render_evidence_hints(hints)` -- Print evidence-backed hint lines: verb, confidence, reason, provenance.
+- `build_evidence_hint_lines` (function) `cli/reactive_hints.py:426` `def build_evidence_hint_lines(hints)` -- Build evidence-backed hint lines as Rich Text objects.
+- `read_run_commands` (function) `cli/reactive_hints.py:453` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
+- `render_command_hints` (function) `cli/reactive_hints.py:524` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
+- `command_hints` (function) `cli/reactive_hints.py:559` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
 
 ## cli/reasoning_stream.py
 Depends on: `core/text_utils.py`
@@ -62,7 +62,7 @@ Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/tes
 - `latest_hint` (function) `cli/reasoning_stream.py:229` `def latest_hint(events_path)` -- Return the newest human-readable reasoning line for spinners.
 
 ## cli/recommendation.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/mcp_tools/recommend_next.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
 - `RecommendationSignal.propose` (method) `cli/recommendation.py:187` `def propose(self, ctx)` -- Return zero or more :class:`Proposal` objects for ``ctx``.
 - `CategoryResolver.__init__` (method) `cli/recommendation.py:201` `def __init__(self, index_path, loader)` -- Build the resolver from the command index.
 - `CategoryResolver.category_for` (method) `cli/recommendation.py:227` `def category_for(self, action)` -- Return the kill-chain category for ``action`` or an empty string.
@@ -73,7 +73,7 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `
 
 ## cli/recommendation_signals.py
 Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/mcp_tools/recommend_next.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
 - `GraphSignal.__init__` (method) `cli/recommendation_signals.py:116` `def __init__(self, advisor)` -- Store the graph advisor facade.
 - `GraphSignal.propose` (method) `cli/recommendation_signals.py:126` `def propose(self, ctx)` -- Return graph-adjacent command proposals for ``ctx``.
 - `PolicySignal.__init__` (method) `cli/recommendation_signals.py:154` `def __init__(self, policy)` -- Store the policy integration facade.

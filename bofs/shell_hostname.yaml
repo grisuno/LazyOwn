@@ -1,0 +1,14 @@
+name: shell_hostname
+description: >-
+  Execute a command via cmd.exe and return captured output
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/shell_hostname/entry.c
+client: beacon
+platform: windows
+category: execution
+client_artifact: 
+required_args: ['command']
+optional_args: []
+mitre_technique: T1059
+enabled: true

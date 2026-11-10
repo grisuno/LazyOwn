@@ -1,10 +1,10 @@
 # cli
 
-*Community 3 | 114 files | cohesion 0.55*
+*Community 3 | 115 files | cohesion 0.56*
 
 ## Definition
 
-This community groups 114 file(s) rooted at `tests` with dominant language py (cohesion 0.55). Central symbols: `AddonInfo`, `AddonRegistry`, `Alert`, `App`, `AuthError`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
+This community groups 115 file(s) rooted at `tests` with dominant language py (cohesion 0.56). Central symbols: `AddonInfo`, `AddonRegistry`, `Alert`, `App`, `AuthError`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
 
 ## Files
 
@@ -42,7 +42,7 @@ This community groups 114 file(s) rooted at `tests` with dominant language py (c
 | `cli/commands/_dormancy.py` | py | utility | 2 | yes |
 | `cli/commands/help_ui.py` | py | presentation | 16 | yes |
 
-### `skills/mcp_tools` (5 files)
+### `skills/mcp_tools` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -68,7 +68,7 @@ This community groups 114 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/unified_orchestrator.py` | py | utility | 59 | yes |
 
-*... and 94 more files in this community.*
+*... and 95 more files in this community.*
 
 
 ## Key Symbols
@@ -106,7 +106,7 @@ This community groups 114 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 383
+- Internal resolved imports (EXTRACTED): 385
 - Cross-boundary resolved imports (EXTRACTED): 270
 
 ## Connections
@@ -118,6 +118,7 @@ This community groups 114 file(s) rooted at `tests` with dominant language py (c
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `core/console.py` via `subprocess` (5 hops)
 - [layer strict] `tests/test_core_defaults.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
 - [layer strict] `tests/test_exploration_and_addons.py` (testing) -> `cli/exploration_view.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
@@ -131,7 +132,7 @@ This community groups 114 file(s) rooted at `tests` with dominant language py (c
 
 - Why do 1 file(s) lack file-level docs (e.g. `lazy_sentinel4.py`)? What purpose do they serve?
 - What would break if the most connected file in cli changed?
-- Should cli be split, given cohesion 0.55?
+- Should cli be split, given cohesion 0.56?
 
 ## Sources
 
@@ -155,4 +156,4 @@ This community groups 114 file(s) rooted at `tests` with dominant language py (c
 - `cli/exploration_view.py`
 - `cli/graph_advisor.py`
 - `cli/graph_overlay.py`
-- *... and 94 more*
+- *... and 95 more*

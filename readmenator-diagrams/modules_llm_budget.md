@@ -1,6 +1,6 @@
 # modules: llm_budget
 
-modules: llm_budget groups 37 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
+modules: llm_budget groups 41 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
 
 ```mermaid
 graph LR
@@ -38,7 +38,7 @@ core groups 2 files (py) around strip_ansi, BudgetExceeded, LLMBackendLike, gene
 
 ## modules (11.4)
 
-modules groups 16 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
+modules groups 18 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
 
 ## root (11.5)
 
@@ -50,7 +50,7 @@ skills groups 1 files (py) around handle. MCP tool ``lazyown_get_llm_budget``: r
 
 ## tests (11.7)
 
-tests groups 10 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _reset_guard_harness. Global pytest isolation hooks.
+tests groups 12 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _reset_guard_harness. Global pytest isolation hooks.
 
 **Files**:
 
@@ -64,6 +64,8 @@ tests groups 10 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/agent_runner.py
 - modules/ai_fallback.py
 - modules/ai_model.py
+- modules/detection_feed.py
+- modules/detection_oracle.py
 - modules/lazy_agent.py
 - modules/llm_adapter.py
 - modules/llm_client.py
@@ -83,6 +85,8 @@ tests groups 10 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - telegram_hermes.py
 - tests/conftest.py
 - tests/test_ai_commands_llm.py
+- tests/test_detection_dampening.py
+- tests/test_detection_feed.py
 - tests/test_lazy_streaming.py
 - tests/test_llm_adapter_parity.py
 - tests/test_llm_budget.py

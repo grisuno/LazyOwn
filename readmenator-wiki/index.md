@@ -1,13 +1,13 @@
 # Second Brain
 
-*Last synthesized: 2026-11-09 | 1526 files | 31 concept pages | offline, zero tokens*
+*Last synthesized: 2026-11-09 | 1545 files | 31 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
 
 ## Vault Overview
 
-The codebase centres on `_context.py`, `logging.py`, `lazy_loop.py`. Architecturally it is 6 layers, dominant utility (937 files) across 31 import-based communities. Recorded risk surface: 0 security findings and 118 dependency cycles.
+The codebase centres on `_context.py`, `logging.py`, `lazy_loop.py`. Architecturally it is 6 layers, dominant utility (952 files) across 31 import-based communities. Recorded risk surface: 0 security findings and 118 dependency cycles.
 
 Surprising tissue lives between skills/mcp_tools, cli/commands, modules: lazyc2: 20 extracted cross-community imports and 0 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
@@ -17,14 +17,14 @@ Open work clusters around documentation (91% file coverage), 0 security findings
 
 | Metric | Value |
 |--------|-------|
-| Files | 1526 |
-| Symbols | 24470 |
-| Resolved imports | 6016 |
+| Files | 1545 |
+| Symbols | 24622 |
+| Resolved imports | 6080 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
 | Communities | 31 |
-| Doc coverage | 91% (1388/1526 files) |
+| Doc coverage | 91% (1407/1545 files) |
 | Security findings | 0 |
-| Estimated read cost | ~941213 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~948130 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 8: `lazyc2.py`, `lazy_loop.py`, `mcp_generated_tools.py`, `3d-force-graph-1.73.4.min.js`, `html2pdf.bundle.min.js` (+3 more) |
 
 ## Reading Order
@@ -40,18 +40,18 @@ readmenator query "<question>" --target LazyOwn
 
 ## Concept Wiki
 
-- [skills/mcp_tools (222 files, cohesion 0.61)](./community_0_skills_mcp_tools.md)
-- [cli/commands (166 files, cohesion 0.48)](./community_1_cli_commands.md)
-- [modules: lazyc2 (141 files, cohesion 0.48)](./community_2_modules_lazyc2.md)
-- [cli (114 files, cohesion 0.55)](./community_3_cli.md)
+- [skills/mcp_tools (235 files, cohesion 0.63)](./community_0_skills_mcp_tools.md)
+- [cli/commands (162 files, cohesion 0.48)](./community_1_cli_commands.md)
+- [modules: lazyc2 (138 files, cohesion 0.47)](./community_2_modules_lazyc2.md)
+- [cli (115 files, cohesion 0.56)](./community_3_cli.md)
 - [modules: lazy_loop (110 files, cohesion 0.46)](./community_4_modules_lazy_loop.md)
-- [modules: lazyown (109 files, cohesion 0.35)](./community_5_modules_lazyown.md)
-- [modules: chain_runner (90 files, cohesion 0.60)](./community_6_modules_chain_runner.md)
-- [modules: atomic_exploit_bridge (73 files, cohesion 0.45)](./community_7_modules_atomic_exploit_bridge.md)
+- [modules: lazyown (106 files, cohesion 0.35)](./community_5_modules_lazyown.md)
+- [modules: chain_runner (98 files, cohesion 0.58)](./community_6_modules_chain_runner.md)
+- [modules: intel_fusion (66 files, cohesion 0.45)](./community_7_modules_intel_fusion.md)
 - [lazygui/panels (54 files, cohesion 0.94)](./community_8_lazygui_panels.md)
 - [static/js (49 files, cohesion 0.47)](./community_9_static_js.md)
-- [modules: llm_budget (37 files, cohesion 0.43)](./community_10_modules_llm_budget.md)
-- [modules/guardrails (22 files, cohesion 0.40)](./community_11_modules_guardrails.md)
+- [modules: llm_budget (41 files, cohesion 0.44)](./community_10_modules_llm_budget.md)
+- [modules: bof_registry (32 files, cohesion 0.45)](./community_11_modules_bof_registry.md)
 - [modules: dashboard_engine (17 files, cohesion 0.44)](./community_12_modules_dashboard_engine.md)
 - [skills/claude_md_orchestrator (14 files, cohesion 0.68)](./community_13_skills_claude_md_orchestrator.md)
 - [modules: defense_eval (8 files, cohesion 0.64)](./community_14_modules_defense_eval.md)
@@ -76,11 +76,11 @@ readmenator query "<question>" --target LazyOwn
 
 | File | Score |
 |------|-------|
-| `skills/mcp_tools/_context.py` | 352.1 |
-| `core/logging.py` | 319.2 |
+| `skills/mcp_tools/_context.py` | 380.1 |
+| `core/logging.py` | 321.2 |
 | `modules/lazy_loop.py` | 299.8 (large, maybe generated) |
 | `utils.py` | 262.6 |
-| `modules/__init__.py` | 260.0 |
+| `modules/__init__.py` | 262.0 |
 
 ## Strongest Connections
 

@@ -3,6 +3,9 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_ttp_show` | method | `cli/commands/caldera.py:309` | `def do_ttp_show(self, line)` |
+| `CampaignCommandSet` | class | `cli/commands/campaign.py:38` | `class CampaignCommandSet(LazyOwnCommandSet)` |
+| `_campaign_export` | method | `cli/commands/campaign.py:130` | `def _campaign_export(self, name)` |
 | `_campaign_import` | method | `cli/commands/campaign.py:179` | `def _campaign_import(self, package_path)` |
 | `_campaign_list` | method | `cli/commands/campaign.py:300` | `def _campaign_list(self)` |
 | `_campaign_status` | method | `cli/commands/campaign.py:332` | `def _campaign_status(self)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_mssqlcli` | method | `cli/commands/lateral_migrated.py:613` | `def do_mssqlcli(self, line)` |
 | `do_penelope` | method | `cli/commands/lateral_migrated.py:666` | `def do_penelope(self, line)` |
 | `do_regeorg` | method | `cli/commands/lateral_migrated.py:823` | `def do_regeorg(self, line)` |
-| `do_rnc` | method | `cli/commands/lateral_migrated.py:477` | `def do_rnc(self, line)` |
-| `do_shadowsocks` | method | `cli/commands/lateral_migrated.py:404` | `def do_shadowsocks(self, line)` |
-| `do_sshd` | method | `cli/commands/lateral_migrated.py:172` | `def do_sshd(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

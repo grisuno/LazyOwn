@@ -3,6 +3,25 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_security_codeql_batch.py` | SDD regression tests for the CodeQL security batch. | tests | 37 | 0 |
+| `tests/test_security_hardening.py` | SDD+TDD+BDD tests for security hardening contracts. | tests | 36 | 0 |
+| `tests/test_security_hardening_v2.py` | SDD+TDD+BDD tests for security hardening batch v2. | tests | 39 | 0 |
+| `tests/test_security_hardening_v3.py` | Security hardening tests — SDD+TDD+BDD for all boy-scout fixes. | tests | 63 | 0 |
+| `tests/test_security_hardening_v4.py` | SDD+TDD+BDD tests for security hardening v4 — command execution, URL injection, and path traversal. | tests | 67 | 0 |
+| `tests/test_security_hardening_v5.py` | SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS. | tests | 40 | 0 |
+| `tests/test_security_lazyc2.py` | Security tests for the LazyOwn C2 web layer. | tests | 58 | 0 |
+| `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
+| `tests/test_selection_lazyscript.py` | Tests for the LazyscriptSelector. | tests | 10 | 0 |
+| `tests/test_selection_module.py` | Tests for the ModuleSelector over the shared module registry bridge. | tests | 10 | 0 |
+| `tests/test_selection_technique.py` | Tests for the TechniqueSelector and its playbook_engine helper. | tests | 21 | 0 |
+| `tests/test_selection_technique_chain.py` | Tests for TechniqueChainSelector and the focused technique-chain synth. | tests | 16 | 0 |
+| `tests/test_selection_wiring.py` | Vertical wiring tests: playbooks, adversaries and apt_chain through the loop. | tests | 13 | 0 |
+| `tests/test_selectors_base.py` | Shared selector brain contract: base types, chain selector and cascade. | tests | 9 | 0 |
+| `tests/test_selectors_capabilities.py` | Capability selector contracts: playbook, adversary and atomic strategies. | tests | 12 | 0 |
+| `tests/test_session_brief.py` | BDD tests for the consolidated session-start brief. | tests | 6 | 0 |
+| `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
+| `tests/test_session_secrets.py` | SessionSecretsSpec: Contract for session-scoped secret rotation. | tests | 8 | 0 |
+| `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
 | `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |

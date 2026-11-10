@@ -446,18 +446,21 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_bitm_status` | method | `cli/commands/bitm.py:191` | `def _bitm_status(self)` |
 | `_bitm_stop` | method | `cli/commands/bitm.py:168` | `def _bitm_stop(self)` |
 | `do_bitm` | method | `cli/commands/bitm.py:31` | `def do_bitm(self, line)` |
-| `BofMarketplaceCommandSet` | class | `cli/commands/bof_registry.py:29` | `class BofMarketplaceCommandSet(LazyOwnCommandSet)` |
-| `_ensure_staging_dir` | method | `cli/commands/bof_registry.py:36` | `def _ensure_staging_dir()` |
-| `_find_bof_object` | method | `cli/commands/bof_registry.py:42` | `def _find_bof_object(bof_name)` |
-| `_queue_command_on_c2` | method | `cli/commands/bof_registry.py:89` | `def _queue_command_on_c2(self, client_id, command)` |
-| `_stage_bof` | method | `cli/commands/bof_registry.py:71` | `def _stage_bof(self, bof_name)` |
-| `do_bof_catalog` | method | `cli/commands/bof_registry.py:321` | `def do_bof_catalog(self, line)` |
-| `do_bof_info` | method | `cli/commands/bof_registry.py:163` | `def do_bof_info(self, line)` |
-| `do_bof_install` | method | `cli/commands/bof_registry.py:196` | `def do_bof_install(self, line)` |
-| `do_bof_list` | method | `cli/commands/bof_registry.py:289` | `def do_bof_list(self, line)` |
-| `do_bof_run` | method | `cli/commands/bof_registry.py:226` | `def do_bof_run(self, line)` |
-| `do_bof_search` | method | `cli/commands/bof_registry.py:142` | `def do_bof_search(self, line)` |
-| `do_bof_uninstall` | method | `cli/commands/bof_registry.py:267` | `def do_bof_uninstall(self, line)` |
+| `BofMarketplaceCommandSet` | class | `cli/commands/bof_registry.py:44` | `class BofMarketplaceCommandSet(LazyOwnCommandSet)` |
+| `_ensure_staging_dir` | method | `cli/commands/bof_registry.py:51` | `def _ensure_staging_dir()` |
+| `_stage_bof` | method | `cli/commands/bof_registry.py:56` | `def _stage_bof(self, bof_name)` |
+| `do_bof_beacons` | method | `cli/commands/bof_registry.py:358` | `def do_bof_beacons(self, line)` |
+| `do_bof_catalog` | method | `cli/commands/bof_registry.py:463` | `def do_bof_catalog(self, line)` |
+| `do_bof_deploy` | method | `cli/commands/bof_registry.py:309` | `def do_bof_deploy(self, line)` |
+| `do_bof_info` | method | `cli/commands/bof_registry.py:108` | `def do_bof_info(self, line)` |
+| `do_bof_install` | method | `cli/commands/bof_registry.py:143` | `def do_bof_install(self, line)` |
+| `do_bof_list` | method | `cli/commands/bof_registry.py:431` | `def do_bof_list(self, line)` |
+| `do_bof_results` | method | `cli/commands/bof_registry.py:377` | `def do_bof_results(self, line)` |
+| `do_bof_run` | method | `cli/commands/bof_registry.py:191` | `def do_bof_run(self, line)` |
+| `do_bof_search` | method | `cli/commands/bof_registry.py:87` | `def do_bof_search(self, line)` |
+| `do_bof_stage` | method | `cli/commands/bof_registry.py:171` | `def do_bof_stage(self, line)` |
+| `do_bof_train` | method | `cli/commands/bof_registry.py:247` | `def do_bof_train(self, line)` |
+| `do_bof_uninstall` | method | `cli/commands/bof_registry.py:409` | `def do_bof_uninstall(self, line)` |
 | `C2ProfileCommandSet` | class | `cli/commands/c2_profile.py:18` | `class C2ProfileCommandSet(LazyOwnCommandSet)` |
 | `do_c2_dns` | method | `cli/commands/c2_profile.py:69` | `def do_c2_dns(self, line)` |
 | `do_c2_profiles` | method | `cli/commands/c2_profile.py:25` | `def do_c2_profiles(self, line)` |
@@ -493,8 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_plan_detail` | method | `cli/commands/caldera.py:364` | `def do_plan_detail(self, line)` |
 | `do_ttp_matrix` | method | `cli/commands/caldera.py:290` | `def do_ttp_matrix(self, line)` |
 | `do_ttp_rebuild` | method | `cli/commands/caldera.py:299` | `def do_ttp_rebuild(self, line)` |
-| `do_ttp_show` | method | `cli/commands/caldera.py:309` | `def do_ttp_show(self, line)` |
-| `CampaignCommandSet` | class | `cli/commands/campaign.py:38` | `class CampaignCommandSet(LazyOwnCommandSet)` |
-| `_campaign_export` | method | `cli/commands/campaign.py:130` | `def _campaign_export(self, name)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

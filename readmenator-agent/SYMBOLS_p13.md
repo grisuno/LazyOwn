@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_candidate_files` | function | `modules/chain_tokens.py:120` | `def _candidate_files()` |
+| `_load_host_facts` | function | `modules/chain_tokens.py:77` | `def _load_host_facts(host)` |
+| `_mentions` | function | `modules/chain_tokens.py:130` | `def _mentions(path, needle)` |
+| `_newest_creds_file` | function | `modules/chain_tokens.py:93` | `def _newest_creds_file(host)` |
+| `build_tokens` | function | `modules/chain_tokens.py:29` | `def build_tokens(target, params)` |
+| `token_keys` | function | `modules/chain_tokens.py:24` | `def token_keys()` |
+| `CICDEnumerator` | class | `modules/cicd_enumerator.py:43` | `class CICDEnumerator` |
+| `CICDFinding` | class | `modules/cicd_enumerator.py:33` | `class CICDFinding` |
+| `__init__` | method | `modules/cicd_enumerator.py:54` | `def __init__(self, target_url, sessions_dir)` |
+| `_check_azure_devops` | method | `modules/cicd_enumerator.py:230` | `def _check_azure_devops(self)` |
+| `_check_bitbucket` | method | `modules/cicd_enumerator.py:266` | `def _check_bitbucket(self)` |
+| `_check_github_actions` | method | `modules/cicd_enumerator.py:189` | `def _check_github_actions(self)` |
+| `_check_gitlab` | method | `modules/cicd_enumerator.py:120` | `def _check_gitlab(self)` |
+| `_check_jenkins` | method | `modules/cicd_enumerator.py:73` | `def _check_jenkins(self)` |
+| `export_findings` | method | `modules/cicd_enumerator.py:387` | `def export_findings(self)` |
+| `generate_ci_attack_matrix` | method | `modules/cicd_enumerator.py:322` | `def generate_ci_attack_matrix(self)` |
+| `scan` | method | `modules/cicd_enumerator.py:60` | `def scan(self)` |
+| `scan_build_log` | method | `modules/cicd_enumerator.py:297` | `def scan_build_log(self, log_content, source)` |
+| `_clear_cli_session` | function | `modules/cli_auth.py:478` | `def _clear_cli_session()` |
+| `_load_payload` | function | `modules/cli_auth.py:85` | `def _load_payload()` |
+| `_load_users` | function | `modules/cli_auth.py:34` | `def _load_users()` |
+| `_read_cli_session` | function | `modules/cli_auth.py:429` | `def _read_cli_session()` |
+| `_save_payload` | function | `modules/cli_auth.py:100` | `def _save_payload(payload)` |
+| `_save_users` | function | `modules/cli_auth.py:52` | `def _save_users(users)` |
+| `_write_cli_session` | function | `modules/cli_auth.py:444` | `def _write_cli_session(username, elo, role)` |
+| `_write_cli_session_raw` | function | `modules/cli_auth.py:462` | `def _write_cli_session_raw(data)` |
+| `get_current_operator` | function | `modules/cli_auth.py:396` | `def get_current_operator()` |
+| `login` | function | `modules/cli_auth.py:240` | `def login(username, password, remember)` |
+| `logout` | function | `modules/cli_auth.py:293` | `def logout()` |
+| `needs_login` | function | `modules/cli_auth.py:487` | `def needs_login()` |
+| `register` | function | `modules/cli_auth.py:145` | `def register(username, password)` |
+| `sync_elo_from_session` | function | `modules/cli_auth.py:408` | `def sync_elo_from_session(elo)` |
+| `try_auto_login` | function | `modules/cli_auth.py:328` | `def try_auto_login()` |
+| `user_exists` | function | `modules/cli_auth.py:122` | `def user_exists(username)` |
+| `verify_password` | function | `modules/cli_auth.py:214` | `def verify_password(username, password)` |
+| `whoami` | function | `modules/cli_auth.py:366` | `def whoami()` |
+| `Comparison` | class | `modules/closedloop.py:55` | `class Comparison` |
+| `RuleMetrics` | class | `modules/closedloop.py:32` | `class RuleMetrics` |
+| `_metrics_for` | function | `modules/closedloop.py:77` | `def _metrics_for(result)` |
+| `compare_rules` | function | `modules/closedloop.py:90` | `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)` |
+| `suggest_tuning` | function | `modules/closedloop.py:136` | `def suggest_tuning(candidate, baseline)` |
+| `to_dict` | method | `modules/closedloop.py:42` | `def to_dict(self)` |
+| `to_dict` | method | `modules/closedloop.py:66` | `def to_dict(self)` |
+| `CloudEnumerator` | class | `modules/cloud_enum.py:23` | `class CloudEnumerator` |
+| `__init__` | method | `modules/cloud_enum.py:34` | `def __init__(self, provider, session, timeout)` |
+| `_check_aws_privesc` | method | `modules/cloud_enum.py:526` | `def _check_aws_privesc(data)` |
+| `_enumerate_aws_iam` | method | `modules/cloud_enum.py:390` | `def _enumerate_aws_iam(self)` |
+| `_enumerate_aws_metadata` | method | `modules/cloud_enum.py:96` | `def _enumerate_aws_metadata(self)` |
+| `_enumerate_azure_iam` | method | `modules/cloud_enum.py:421` | `def _enumerate_azure_iam(self)` |
+| `_enumerate_azure_metadata` | method | `modules/cloud_enum.py:146` | `def _enumerate_azure_metadata(self)` |
+| `_enumerate_azure_storage` | method | `modules/cloud_enum.py:316` | `def _enumerate_azure_storage(self, target_bucket)` |
+| `_enumerate_gcp_iam` | method | `modules/cloud_enum.py:477` | `def _enumerate_gcp_iam(self)` |
+| `_enumerate_gcp_metadata` | method | `modules/cloud_enum.py:193` | `def _enumerate_gcp_metadata(self)` |
+| `_enumerate_gcs` | method | `modules/cloud_enum.py:350` | `def _enumerate_gcs(self, target_bucket)` |
+| `_enumerate_s3` | method | `modules/cloud_enum.py:274` | `def _enumerate_s3(self, target_bucket)` |
+| `detect_provider` | method | `modules/cloud_enum.py:47` | `def detect_provider(self)` |
+| `enumerate_iam` | method | `modules/cloud_enum.py:372` | `def enumerate_iam(self)` |
+| `enumerate_metadata` | method | `modules/cloud_enum.py:75` | `def enumerate_metadata(self)` |
+| `enumerate_storage` | method | `modules/cloud_enum.py:251` | `def enumerate_storage(self, target_bucket)` |
+| `full_enumeration` | method | `modules/cloud_enum.py:576` | `def full_enumeration(self)` |
+| `ColabEvent` | class | `modules/collab_bp.py:163` | `class ColabEvent` |
+| `EventBus` | class | `modules/collab_bp.py:188` | `class EventBus` |
+| `LockManager` | class | `modules/collab_bp.py:257` | `class LockManager` |
+| `OperatorInfo` | class | `modules/collab_bp.py:176` | `class OperatorInfo` |
+| `OperatorRegistry` | class | `modules/collab_bp.py:314` | `class OperatorRegistry` |
+| `TargetLock` | class | `modules/collab_bp.py:250` | `class TargetLock` |
+| `__init__` | method | `modules/collab_bp.py:198` | `def __init__(self)` |
+| `__init__` | method | `modules/collab_bp.py:263` | `def __init__(self)` |
+| `__init__` | method | `modules/collab_bp.py:319` | `def __init__(self)` |
+| `_authenticated_operator` | function | `modules/collab_bp.py:90` | `def _authenticated_operator()` |
+| `_check_collab_permission` | function | `modules/collab_bp.py:100` | `def _check_collab_permission(perm_name)` |
+| `_collab_login_required` | function | `modules/collab_bp.py:120` | `def _collab_login_required(f)` |
+| `_collab_permission_required` | function | `modules/collab_bp.py:136` | `def _collab_permission_required(perm_name)` |
+| `_expire` | method | `modules/collab_bp.py:297` | `def _expire(self)` |
 | `_expire` | method | `modules/collab_bp.py:350` | `def _expire(self)` |
 | `acquire` | method | `modules/collab_bp.py:267` | `def acquire(self, target, operator, ttl_secs)` |
 | `active_operators` | method | `modules/collab_bp.py:345` | `def active_operators(self)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_extract_sid_from_file` | method | `modules/dpapi_harvester.py:355` | `def _extract_sid_from_file(filepath)` |
 | `_harvest_chrome` | method | `modules/dpapi_harvester.py:143` | `def _harvest_chrome(self)` |
 | `_harvest_chrome_offline` | method | `modules/dpapi_harvester.py:188` | `def _harvest_chrome_offline(self)` |
-| `_harvest_credential_manager` | method | `modules/dpapi_harvester.py:120` | `def _harvest_credential_manager(self)` |
-| `_harvest_edge` | method | `modules/dpapi_harvester.py:198` | `def _harvest_edge(self)` |
-| `_harvest_master_keys` | method | `modules/dpapi_harvester.py:105` | `def _harvest_master_keys(self)` |
-| `_harvest_rdp` | method | `modules/dpapi_harvester.py:250` | `def _harvest_rdp(self)` |
-| `_harvest_wifi` | method | `modules/dpapi_harvester.py:210` | `def _harvest_wifi(self)` |
-| `_harvest_windows_vault` | method | `modules/dpapi_harvester.py:262` | `def _harvest_windows_vault(self)` |
-| `export_credentials` | method | `modules/dpapi_harvester.py:367` | `def export_credentials(self)` |
-| `harvest_all` | method | `modules/dpapi_harvester.py:90` | `def harvest_all(self)` |
-| `masterkey_report` | method | `modules/dpapi_harvester.py:386` | `def masterkey_report(self)` |
-| `EDRDetector` | class | `modules/edr_detector.py:191` | `class EDRDetector` |
-| `EDRFinding` | class | `modules/edr_detector.py:174` | `class EDRFinding` |
-| `EDRProfile` | class | `modules/edr_detector.py:182` | `class EDRProfile` |
-| `_generate_recommendations` | method | `modules/edr_detector.py:370` | `def _generate_recommendations(profile)` |
-| `_local_drivers` | method | `modules/edr_detector.py:322` | `def _local_drivers()` |
-| `_local_processes` | method | `modules/edr_detector.py:292` | `def _local_processes()` |
-| `_local_services` | method | `modules/edr_detector.py:305` | `def _local_services()` |
-| `_match_signatures` | method | `modules/edr_detector.py:335` | `def _match_signatures(profile)` |
-| `_severity` | method | `modules/edr_detector.py:428` | `def _severity(profile)` |
-| `detect_local` | method | `modules/edr_detector.py:202` | `def detect_local()` |
-| `detect_remote_commands` | method | `modules/edr_detector.py:221` | `def detect_remote_commands(remote_type)` |
-| `generate_edr_check_script` | method | `modules/edr_detector.py:440` | `def generate_edr_check_script(remote_type)` |
-| `init_board` | function | `modules/eegg.sh:26` | `` |
-| `move_black_pawns` | function | `modules/eegg.sh:78` | `` |
-| `move_white_pawns` | function | `modules/eegg.sh:61` | `` |
-| `show_board` | function | `modules/eegg.sh:40` | `` |
-| `EmulationReport` | class | `modules/emulation_runner.py:69` | `class EmulationReport` |
-| `EmulationResult` | class | `modules/emulation_runner.py:40` | `class EmulationResult` |
-| `EmulationRunner` | class | `modules/emulation_runner.py:105` | `class EmulationRunner` |
-| `EmulationStep` | class | `modules/emulation_runner.py:28` | `class EmulationStep` |
-| `__init__` | method | `modules/emulation_runner.py:108` | `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...` |
-| `_detect` | method | `modules/emulation_runner.py:159` | `def _detect(self, spec, output)` |
-| `_exec` | method | `modules/emulation_runner.py:151` | `def _exec(self, spec, target, command, lhost)` |
-| `_open_shell` | method | `modules/emulation_runner.py:143` | `def _open_shell(self, target, services, lhost, exploits_dir)` |
-| `_playbook` | method | `modules/emulation_runner.py:135` | `def _playbook(self, name)` |
-| `_publish` | method | `modules/emulation_runner.py:450` | `def _publish(self, result, target, source, dry_run, sessions)` |
-| `_record` | method | `modules/emulation_runner.py:170` | `def _record(self)` |
-| `_resolver_obj` | method | `modules/emulation_runner.py:127` | `def _resolver_obj(self)` |
-| `_run_test` | method | `modules/emulation_runner.py:399` | `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)` |
-| `_stage` | method | `modules/emulation_runner.py:482` | `def _stage(self, report, sessions)` |
-| `executed` | method | `modules/emulation_runner.py:81` | `def executed(self)` |
-| `run` | method | `modules/emulation_runner.py:202` | `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...` |
-| `run_steps` | method | `modules/emulation_runner.py:321` | `def run_steps(self, steps, target, executor, platform, dry_run, source)` |
-| `shell` | method | `modules/emulation_runner.py:86` | `def shell(self)` |
-| `techniques_for_playbook` | method | `modules/emulation_runner.py:182` | `def techniques_for_playbook(self, playbook, platform)` |
-| `to_dict` | method | `modules/emulation_runner.py:53` | `def to_dict(self)` |
-| `to_dict` | method | `modules/emulation_runner.py:90` | `def to_dict(self)` |
-| `detail_for` | function | `modules/engage_summary.py:98` | `def detail_for(tool, text, target, sessions_dir)` |
-| `full_output` | function | `modules/engage_summary.py:51` | `def full_output(step, sessions_dir)` |
-| `held_scan_ports` | function | `modules/engage_summary.py:64` | `def held_scan_ports(target, sessions_dir)` |
-| `marker_lines` | function | `modules/engage_summary.py:35` | `def marker_lines(text, limit)` |
-| `next_actions` | function | `modules/engage_summary.py:150` | `def next_actions(target, sessions_dir, limit)` |
-| `render_markdown` | function | `modules/engage_summary.py:210` | `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` |
-| `render_text` | function | `modules/engage_summary.py:175` | `def render_text(engagement_id, target, shell, steps, sessions_dir)` |
-| `write_report` | function | `modules/engage_summary.py:247` | `def write_report(engagement_id, target, shell, steps, sessions_dir)` |
-| `CollabNotificationSink` | class | `modules/engagement_hooks.py:204` | `class CollabNotificationSink(INotificationSink)` |
-| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:311` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
-| `EngagementEvent` | class | `modules/engagement_hooks.py:101` | `class EngagementEvent` |
-| `EngagementNarrator` | class | `modules/engagement_hooks.py:382` | `class EngagementNarrator` |
-| `INotificationSink` | class | `modules/engagement_hooks.py:150` | `class INotificationSink(ABC)` |
-| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:336` | `class NotificationBroadcaster` |
-| `StreamEventSink` | class | `modules/engagement_hooks.py:167` | `class StreamEventSink(INotificationSink)` |
-| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:278` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
-| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:242` | `class _OutboundHTTPSink(INotificationSink)` |
-| `__init__` | method | `modules/engagement_hooks.py:349` | `def __init__(self, sinks)` |
-| `__init__` | method | `modules/engagement_hooks.py:393` | `def __init__(self, broadcaster)` |
-| `_build_request` | method | `modules/engagement_hooks.py:255` | `def _build_request(self, event)` |
-| `_build_request` | method | `modules/engagement_hooks.py:291` | `def _build_request(self, event)` |
-| `_build_request` | method | `modules/engagement_hooks.py:323` | `def _build_request(self, event)` |
-| `_load_payload` | function | `modules/engagement_hooks.py:88` | `def _load_payload()` |
-| `_load_seen_beacons` | function | `modules/engagement_hooks.py:444` | `def _load_seen_beacons()` |
-| `_persist` | method | `modules/engagement_hooks.py:417` | `def _persist(self, event)` |
-| `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
-| `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
-| `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

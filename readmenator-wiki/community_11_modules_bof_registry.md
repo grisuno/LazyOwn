@@ -1,12 +1,30 @@
-# modules/guardrails
+# modules: bof_registry
 
-*Community 11 | 22 files | cohesion 0.40*
+*Community 11 | 32 files | cohesion 0.45*
 
 ## Definition
 
-This community groups 22 file(s) rooted at `modules/guardrails` with dominant language py (cohesion 0.40). Central symbols: `AdvisoryLedger`, `BofCatalog`, `BofCategory`, `BofEntry`, `BofMarketplace`, `BofPlatform`, `BofRegistry`, `BofValidator`. Core file: `tests/test_socks_proxy.py` (52 symbols). Documented purpose: Enumeration command set.  Service enumeration commands: SMB, RPC, LDAP quick checks, and related impacket tools..
+This community groups 32 file(s) rooted at `tests` with dominant language py (cohesion 0.45). Central symbols: `AdvisoryLedger`, `BeaconConfig`, `BeaconConfigBuilder`, `BofCatalog`, `BofCategory`, `BofDeliveryConfig`, `BofEntry`, `BofEntryRow`. Core file: `tests/test_c2_profile_engine.py` (63 symbols). Documented purpose: BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.  Exposes :mod:`modules.bof_registry` and :mod:`modules.bof_delivery` through th.
 
 ## Files
+
+### `tests` (11 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_beacon_config_builder.py` | py | testing | 20 | yes |
+| `tests/test_bof_admin.py` | py | testing | 27 | yes |
+| `tests/test_bof_delivery.py` | py | testing | 26 | yes |
+| `tests/test_bof_registry.py` | py | testing | 51 | yes |
+
+### `modules` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/beacon_config_builder.py` | py | infrastructure | 16 | yes |
+| `modules/bof_admin.py` | py | utility | 14 | yes |
+| `modules/bof_delivery.py` | py | utility | 33 | yes |
+| `modules/bof_registry.py` | py | utility | 51 | yes |
 
 ### `modules/guardrails` (6 files)
 
@@ -16,25 +34,6 @@ This community groups 22 file(s) rooted at `modules/guardrails` with dominant la
 | `modules/guardrails/advisories.py` | py | utility | 15 | yes |
 | `modules/guardrails/budget.py` | py | utility | 16 | yes |
 | `modules/guardrails/checkpoints.py` | py | utility | 7 | yes |
-| `modules/guardrails/contracts.py` | py | utility | 10 | yes |
-
-### `tests` (6 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_bof_registry.py` | py | testing | 51 | yes |
-| `tests/test_command_allowlist.py` | py | testing | 14 | yes |
-| `tests/test_command_allowlist_behavior.py` | py | testing | 3 | yes |
-| `tests/test_scope_guard.py` | py | testing | 46 | yes |
-| `tests/test_sleep_obfuscation.py` | py | testing | 41 | yes |
-
-### `modules` (3 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/bof_registry.py` | py | utility | 43 | yes |
-| `modules/sleep_obfuscation.py` | py | utility | 28 | yes |
-| `modules/socks_proxy.py` | py | utility | 31 | yes |
 
 ### `skills` (3 files)
 
@@ -44,17 +43,18 @@ This community groups 22 file(s) rooted at `modules/guardrails` with dominant la
 | `skills/lazyown_hooks.py` | py | utility | 14 | yes |
 | `skills/lazyown_permissions.py` | py | utility | 16 | yes |
 
+### `cli/commands` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/bof_registry.py` | py | utility | 15 | yes |
+| `cli/commands/enum.py` | py | utility | 11 | yes |
+
 ### `cli` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/scope_guard.py` | py | utility | 13 | yes |
-
-### `cli/commands` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/commands/enum.py` | py | utility | 11 | yes |
 
 ### `lazyc2/security` (1 files)
 
@@ -68,11 +68,26 @@ This community groups 22 file(s) rooted at `modules/guardrails` with dominant la
 |------|----------|-------|---------|-----|
 | `skills/tests/test_harness_e2e.py` | py | testing | 10 | yes |
 
-*... and 2 more files in this community.*
+*... and 12 more files in this community.*
 
 
 ## Key Symbols
 
+- `BofMarketplaceCommandSet` (class, `cli/commands/bof_registry.py:44`) `class BofMarketplaceCommandSet(LazyOwnCommandSet)` - BOF marketplace: search, install, stage, deploy and run BOFs on beacons.
+- `_ensure_staging_dir` (method, `cli/commands/bof_registry.py:51`) `def _ensure_staging_dir()` - Create and return the BOF staging directory path.
+- `_stage_bof` (method, `cli/commands/bof_registry.py:56`) `def _stage_bof(self, bof_name)` - Stage a compiled BOF via the delivery service.
+- `do_bof_search` (method, `cli/commands/bof_registry.py:87`) `def do_bof_search(self, line)` - Search the BOF catalog by keyword.
+- `do_bof_info` (method, `cli/commands/bof_registry.py:108`) `def do_bof_info(self, line)` - Show detailed information about a BOF.
+- `do_bof_install` (method, `cli/commands/bof_registry.py:143`) `def do_bof_install(self, line)` - Install and stage BOFs for beacon delivery.
+- `do_bof_stage` (method, `cli/commands/bof_registry.py:171`) `def do_bof_stage(self, line)` - Stage a BOF artifact through its lazyaddon beacon client.
+- `do_bof_run` (method, `cli/commands/bof_registry.py:191`) `def do_bof_run(self, line)` - Execute a BOF on a connected beacon.
+- `do_bof_train` (method, `cli/commands/bof_registry.py:247`) `def do_bof_train(self, line)` - Run a sequence of BOFs over one beacon, awaiting each result.
+- `do_bof_deploy` (method, `cli/commands/bof_registry.py:309`) `def do_bof_deploy(self, line)` - Deliver a staged beacon client onto a target and await check-in.
+- `do_bof_beacons` (method, `cli/commands/bof_registry.py:358`) `def do_bof_beacons(self, line)` - List beacons currently seen by the C2.
+- `do_bof_results` (method, `cli/commands/bof_registry.py:377`) `def do_bof_results(self, line)` - Show BOF execution history for one beacon.
+- `do_bof_uninstall` (method, `cli/commands/bof_registry.py:409`) `def do_bof_uninstall(self, line)` - Uninstall a BOF and remove its staged file.
+- `do_bof_list` (method, `cli/commands/bof_registry.py:431`) `def do_bof_list(self, line)` - List all installed and staged BOFs.
+- `do_bof_catalog` (method, `cli/commands/bof_registry.py:463`) `def do_bof_catalog(self, line)` - List all BOFs available in the curated catalog.
 - `EnumCommandSet` (class, `cli/commands/enum.py:31`) `class EnumCommandSet(LazyOwnCommandSet)` - Enumeration phase commands.
 - `do_smbclient` (method, `cli/commands/enum.py:38`) `def do_smbclient(self, line)` - Interacts with SMB shares using the `smbclient` command to perform the following operations:
 - `do_smbclient_impacket` (method, `cli/commands/enum.py:108`) `def do_smbclient_impacket(self, line)` - Interacts with SMB shares using the `smbclient` command to perform the following operations:
@@ -88,31 +103,16 @@ This community groups 22 file(s) rooted at `modules/guardrails` with dominant la
 - `from_value` (method, `cli/scope_guard.py:105`) `def from_value(cls, value)` - Coerce an arbitrary payload value into a :class:`ScopeMode`.
 - `ScopeDecision` (class, `cli/scope_guard.py:125`) `class ScopeDecision` - Outcome of a single scope evaluation.
 - `build_offensive_commands` (function, `cli/scope_guard.py:147`) `def build_offensive_commands(command_categories)` - Select the command names whose category is offensive.
-- `normalize_scope` (function, `cli/scope_guard.py:163`) `def normalize_scope(entries)` - Coerce a scope specification into a tuple of entry strings.
-- `_parse_ip` (function, `cli/scope_guard.py:195`) `def _parse_ip(value)`
-- `_parse_network` (function, `cli/scope_guard.py:202`) `def _parse_network(value)`
-- `_hostname_match` (function, `cli/scope_guard.py:209`) `def _hostname_match(target, entry)`
-- `target_in_scope` (function, `cli/scope_guard.py:218`) `def target_in_scope(target, entries)` - Return whether *target* falls within any of the scope *entries*.
-- `target_in_deny` (function, `cli/scope_guard.py:254`) `def target_in_deny(target, entries)` - Return whether *target* is explicitly denied.
-- `ScopeGuard` (class, `cli/scope_guard.py:271`) `class ScopeGuard` - Decides whether an offensive command may run against the active target.
-- `__init__` (method, `cli/scope_guard.py:280`) `def __init__(self, scope_entries, mode, is_offensive, deny_entries)` - Initialise the guard.
-- `evaluate` (method, `cli/scope_guard.py:304`) `def evaluate(self, command, target)` - Evaluate a single command against the active target.
-- `CommandRejectionReason` (class, `lazyc2/security/command_allowlist.py:36`) `class CommandRejectionReason(StrEnum)` - Why a command was rejected by :class:`CommandAllowlist`.
-- `CommandDecision` (class, `lazyc2/security/command_allowlist.py:48`) `class CommandDecision` - The outcome of a single command allowlist check.
-- `to_dict` (method, `lazyc2/security/command_allowlist.py:61`) `def to_dict(self)` - Return a JSON-serializable dict for the audit log.
-- `CommandAllowlist` (class, `lazyc2/security/command_allowlist.py:70`) `class CommandAllowlist` - Allowlist gate for the ``/api/run`` endpoint.
-- `__init__` (method, `lazyc2/security/command_allowlist.py:82`) `def __init__(self, allowed, audit_log_path)`
-- `allowed` (method, `lazyc2/security/command_allowlist.py:94`) `def allowed(self)` - Return the immutable set of allowed first tokens (lowercased).
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 33
-- Cross-boundary resolved imports (EXTRACTED): 64
+- Internal resolved imports (EXTRACTED): 63
+- Cross-boundary resolved imports (EXTRACTED): 92
 
 ## Connections
 
 - [EXTRACTED] depends_on community 6 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
-- [EXTRACTED] depends_on community 5 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports modules/bof_registry.py.
+- [EXTRACTED] depends_on community 11 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -123,15 +123,20 @@ This community groups 22 file(s) rooted at `modules/guardrails` with dominant la
 ## Open Questions
 
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
-- What would break if the most connected file in modules/guardrails changed?
-- Should modules/guardrails be split, given cohesion 0.40?
+- What would break if the most connected file in modules: bof_registry changed?
+- Should modules: bof_registry be split, given cohesion 0.45?
 
 ## Sources
 
+- `cli/commands/bof_registry.py`
 - `cli/commands/enum.py`
 - `cli/scope_guard.py`
 - `lazyc2/security/command_allowlist.py`
+- `modules/beacon_config_builder.py`
+- `modules/bof_admin.py`
+- `modules/bof_delivery.py`
 - `modules/bof_registry.py`
+- `modules/c2_profile_engine.py`
 - `modules/guardrails/__init__.py`
 - `modules/guardrails/advisories.py`
 - `modules/guardrails/budget.py`
@@ -143,9 +148,4 @@ This community groups 22 file(s) rooted at `modules/guardrails` with dominant la
 - `skills/lazyown_claudemd.py`
 - `skills/lazyown_hooks.py`
 - `skills/lazyown_permissions.py`
-- `skills/tests/test_harness_e2e.py`
-- `tests/test_bof_registry.py`
-- `tests/test_command_allowlist.py`
-- `tests/test_command_allowlist_behavior.py`
-- `tests/test_scope_guard.py`
-- *... and 2 more*
+- *... and 12 more*

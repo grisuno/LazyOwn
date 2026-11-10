@@ -1,6 +1,165 @@
 # Subsystem: tests (page 11 of 25)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
+## tests/test_failure_memory_veto.py
+- Doc: Failure-memory veto contract: exhausted commands stop burning rounds.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_block_threshold_and_recovery` (function, line 15) `def test_block_threshold_and_recovery(tmp_path)`
+  - `test_memory_survives_restart` (function, line 30) `def test_memory_survives_restart(tmp_path)`
+  - `test_clear_target_releases` (function, line 41) `def test_clear_target_releases(tmp_path)`
+  - `test_worker_helper_redirects_and_degrades` (function, line 52) `def test_worker_helper_redirects_and_degrades(tmp_path, monkeypatch)`
+- Depends on: `modules/auto_loop_memory.py`, `modules/lazy_loop.py`
+
+## tests/test_finding_lifecycle.py
+- Doc: Finding confirmation lifecycle + keyless OSINT enrichment.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_finding` (function, line 24) `def _finding(fid, sources)`
+  - `test_pending_by_default` (function, line 30) `def test_pending_by_default(tmp_path)`
+  - `test_multi_source_auto_confirms` (function, line 35) `def test_multi_source_auto_confirms(tmp_path)`
+  - `test_explicit_confirm_with_evidence` (function, line 41) `def test_explicit_confirm_with_evidence(tmp_path)`
+  - `test_reject_beats_auto_confirm` (function, line 49) `def test_reject_beats_auto_confirm(tmp_path)`
+  - `test_dead_end_suppresses_value` (function, line 57) `def test_dead_end_suppresses_value(tmp_path)`
+  - `test_apply_confirmation_stamps_nodes` (function, line 65) `def test_apply_confirmation_stamps_nodes(tmp_path)`
+  - `test_enrich_evidence_appends_keyless_verdicts` (function, line 75) `def test_enrich_evidence_appends_keyless_verdicts(tmp_path, monkeypatch)`
+  - `test_enrich_evidence_never_fails_offline` (function, line 85) `def test_enrich_evidence_never_fails_offline(tmp_path, monkeypatch)`
+  - `_boom` (function, line 87) `def _boom(cve, sessions)`
+- Depends on: `modules/finding_lifecycle.py`, `modules/osint_enrich.py`
+
+## tests/test_findings_gate.py
+- Doc: Chain-to-findings gate contract: insufficient verdicts never confirm.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain_payload` (function, line 14) `def _chain_payload(gate)`
+  - `test_open_gate_confirms_with_evidence` (function, line 31) `def test_open_gate_confirms_with_evidence()`
+  - `test_blocked_gate_stays_partial_with_reason` (function, line 37) `def test_blocked_gate_stays_partial_with_reason()`
+  - `test_default_payload_unaffected` (function, line 45) `def test_default_payload_unaffected()`
+- Depends on: `modules/lazy_findings.py`
+
+## tests/test_fuzzy_picker.py
+- Doc: Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeView` (class, line 35) `class _FakeView(PickerView)`
+  - `scorer` (function, line 54) `def scorer()`
+  - `sample_items` (function, line 59) `def sample_items()`
+  - `test_empty_query_returns_all_items_in_order` (function, line 72) `def test_empty_query_returns_all_items_in_order(scorer, sample_items)`
+  - `test_exact_match_scores_highest` (function, line 78) `def test_exact_match_scores_highest(scorer, sample_items)`
+  - `test_prefix_match_outranks_substring` (function, line 84) `def test_prefix_match_outranks_substring(scorer)`
+  - `test_subsequence_match_emits_positions` (function, line 90) `def test_subsequence_match_emits_positions(scorer, sample_items)`
+  - `test_similarity_floor_excludes_unrelated_text` (function, line 98) `def test_similarity_floor_excludes_unrelated_text(scorer)`
+  - `test_subsequence_positions_helper_returns_empty_when_no_match` (function, line 104) `def test_subsequence_positions_helper_returns_empty_when_no_match()`
+  - `test_config_from_payload_respects_known_overrides` (function, line 112) `def test_config_from_payload_respects_known_overrides()`
+  - `test_config_from_payload_ignores_unknown_keys` (function, line 119) `def test_config_from_payload_ignores_unknown_keys()`
+  - `test_config_from_payload_returns_defaults_when_no_block` (function, line 124) `def test_config_from_payload_returns_defaults_when_no_block()`
+  - `test_picker_short_circuits_single_item` (function, line 132) `def test_picker_short_circuits_single_item()`
+  - `test_picker_routes_through_view_for_multiple_items` (function, line 138) `def test_picker_routes_through_view_for_multiple_items(sample_items)`
+  - `test_picker_cancel_returns_none` (function, line 146) `def test_picker_cancel_returns_none(sample_items)`
+  - `test_picker_empty_input_returns_none` (function, line 152) `def test_picker_empty_input_returns_none()`
+  - `test_strip_ansi_removes_csi_sequences` (function, line 160) `def test_strip_ansi_removes_csi_sequences()`
+  - `test_strip_ansi_passes_through_plain_text` (function, line 165) `def test_strip_ansi_passes_through_plain_text()`
+  - `_collect_string_constants` (function, line 174) `def _collect_string_constants(source)`
+  - `_collect_runtime_strings` (function, line 198) `def _collect_runtime_strings()`
+  - `test_lazyown_runtime_strings_preserve_shell_payload` (function, line 260) `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)`
+  - `test_lazyown_source_has_no_invalid_escape_warning` (function, line 265) `def test_lazyown_source_has_no_invalid_escape_warning()`
+  - `test_getprompt_renders_three_lines_and_includes_payload_segments` (function, line 280) `def test_getprompt_renders_three_lines_and_includes_payload_segments()`
+  - `__init__` (method, line 38) `def __init__(self, selection_index)`
+  - `run` (method, line 43) `def run(self, items, initial_query)`
+- Depends on: `cli/banner_config.py`, `cli/fuzzy_picker.py`, `utils.py`
+
+## tests/test_golden_path.py
+- Doc: Contract tests for the deterministic golden-path solver.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_snapshot` (function, line 13) `def _snapshot()`
+  - `ResolvePathsSpec` (class, line 45) `class ResolvePathsSpec(TestCase)`
+  - `ArtifactSpec` (class, line 86) `class ArtifactSpec(TestCase)`
+  - `PushObjectivesSpec` (class, line 114) `class PushObjectivesSpec(TestCase)`
+  - `test_anchor_excluded_from_targets` (method, line 48) `def test_anchor_excluded_from_targets(self)`
+  - `test_critical_exploit_ranked_first_with_severity_cost` (method, line 54) `def test_critical_exploit_ranked_first_with_severity_cost(self)`
+  - `test_confirmed_credential_beats_unconfirmed` (method, line 62) `def test_confirmed_credential_beats_unconfirmed(self)`
+  - `test_lateral_relation_via_anchor` (method, line 67) `def test_lateral_relation_via_anchor(self)`
+  - `test_runs_service_edges_ignored` (method, line 73) `def test_runs_service_edges_ignored(self)`
+  - `test_deterministic_and_stable` (method, line 79) `def test_deterministic_and_stable(self)`
+  - `test_build_writes_artifact_from_world_model` (method, line 89) `def test_build_writes_artifact_from_world_model(self)`
+  - `test_load_artifact_tolerant_when_missing` (method, line 109) `def test_load_artifact_tolerant_when_missing(self)`
+  - `test_push_and_dedupe` (method, line 117) `def test_push_and_dedupe(self)`
+  - `test_priority_bands` (method, line 136) `def test_priority_bands(self)`
+- Depends on: `modules/__init__.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
+
+## tests/test_graph_advisor.py
+- Doc: Tests for cli/graph_advisor.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `small_graph_data` (function, line 34) `def small_graph_data()`
+  - `small_graph_path` (function, line 126) `def small_graph_path(tmp_path, small_graph_data)`
+  - `advisor` (function, line 133) `def advisor(small_graph_path)`
+  - `test_loader_resolves_explicit_path` (function, line 138) `def test_loader_resolves_explicit_path(tmp_path, small_graph_data)`
+  - `test_loader_returns_none_when_missing` (function, line 147) `def test_loader_returns_none_when_missing(tmp_path)`
+  - `test_index_builds_adjacency_and_degree` (function, line 153) `def test_index_builds_adjacency_and_degree(small_graph_data)`
+  - `test_scorer_prefers_prefix_match` (function, line 174) `def test_scorer_prefers_prefix_match(small_graph_data)`
+  - `test_scorer_returns_empty_for_unrelated_query` (function, line 182) `def test_scorer_returns_empty_for_unrelated_query(small_graph_data)`
+  - `test_advisor_summary_reports_topology` (function, line 188) `def test_advisor_summary_reports_topology(advisor)`
+  - `test_advisor_summary_flags_empty_graph` (function, line 199) `def test_advisor_summary_flags_empty_graph(tmp_path)`
+  - `test_advisor_summary_flags_stale_graph` (function, line 212) `def test_advisor_summary_flags_stale_graph(tmp_path)`
+  - `test_advisor_search_returns_ranked_nodes` (function, line 231) `def test_advisor_search_returns_ranked_nodes(advisor)`
+  - `test_advisor_neighbors_returns_layered_walk` (function, line 239) `def test_advisor_neighbors_returns_layered_walk(advisor)`
+  - `test_advisor_neighbors_respects_depth` (function, line 248) `def test_advisor_neighbors_respects_depth(advisor)`
+  - `test_advisor_god_nodes_ranks_by_degree` (function, line 254) `def test_advisor_god_nodes_ranks_by_degree(advisor)`
+  - `test_advisor_suggest_next_walks_from_recent` (function, line 260) `def test_advisor_suggest_next_walks_from_recent(advisor)`
+  - `test_advisor_did_you_mean_returns_close_labels` (function, line 268) `def test_advisor_did_you_mean_returns_close_labels(advisor)`
+  - `test_advisor_truncate_respects_token_budget` (function, line 274) `def test_advisor_truncate_respects_token_budget(advisor)`
+  - `test_advisor_handles_missing_graph_gracefully` (function, line 280) `def test_advisor_handles_missing_graph_gracefully(tmp_path)`
+  - `test_advisor_reads_recent_commands_from_csv` (function, line 292) `def test_advisor_reads_recent_commands_from_csv(tmp_path, advisor)`
+  - `test_format_search_table_renders_rows` (function, line 309) `def test_format_search_table_renders_rows(advisor)`
+  - `test_format_neighbors_renders_when_match_found` (function, line 316) `def test_format_neighbors_renders_when_match_found(advisor)`
+  - `test_format_god_nodes_handles_empty` (function, line 322) `def test_format_god_nodes_handles_empty()`
+  - `test_format_suggestions_handles_empty` (function, line 326) `def test_format_suggestions_handles_empty()`
+  - `test_real_graph_summary_when_available` (function, line 333) `def test_real_graph_summary_when_available()`
+- Depends on: `cli/graph_advisor.py`
+
+## tests/test_graph_overlay.py
+- Doc: Tests for cli/graph_overlay.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeAdvisor` (class, line 25) `class _FakeAdvisor`
+  - `test_is_available_returns_false_when_advisor_missing` (function, line 55) `def test_is_available_returns_false_when_advisor_missing()`
+  - `test_god_nodes_view_returns_hubs` (function, line 61) `def test_god_nodes_view_returns_hubs()`
+  - `test_focus_switches_to_neighbors_view` (function, line 72) `def test_focus_switches_to_neighbors_view()`
+  - `test_focus_unknown_returns_no_match_message` (function, line 85) `def test_focus_unknown_returns_no_match_message()`
+  - `test_unavailable_advisor_returns_no_graph_message` (function, line 97) `def test_unavailable_advisor_returns_no_graph_message()`
+  - `test_toggle_view_round_trip` (function, line 108) `def test_toggle_view_round_trip()`
+  - `test_launch_overlay_uses_runner` (function, line 122) `def test_launch_overlay_uses_runner()`
+  - `test_build_state_uses_default_factory_signature` (function, line 135) `def test_build_state_uses_default_factory_signature()`
+  - `__init__` (method, line 26) `def __init__(self, available)`
+  - `is_available` (method, line 29) `def is_available(self)`
+  - `god_nodes` (method, line 32) `def god_nodes(self, limit)`
+  - `neighbors` (method, line 39) `def neighbors(self, query, depth, limit)`
+  - `runner` (function, line 129) `def runner(context)`
+- Depends on: `cli/graph_overlay.py`
+
+## tests/test_group_kill.py
+- Doc: Process-group containment contract: timeouts must not leave orphans.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_orphan_count` (function, line 19) `def _orphan_count()`
+  - `test_safe_run_shell_timeout_kills_group` (function, line 30) `def test_safe_run_shell_timeout_kills_group()`
+  - `test_safe_run_argv_timeout_kills_group` (function, line 44) `def test_safe_run_argv_timeout_kills_group()`
+  - `test_safe_run_shell_normal_completion_unchanged` (function, line 53) `def test_safe_run_shell_normal_completion_unchanged()`
+  - `test_safe_run_argv_normal_completion_unchanged` (function, line 59) `def test_safe_run_argv_normal_completion_unchanged()`
+  - `test_safe_run_argv_check_contract` (function, line 65) `def test_safe_run_argv_check_contract()`
+  - `test_safe_run_argv_stdout_disabled` (function, line 71) `def test_safe_run_argv_stdout_disabled()`
+- Depends on: `core/safe_exec.py`
+
 ## tests/test_guardrails.py
 - Doc: Guardrail harness tests: tiers, capacity, warm restart, wiring.
 - Layer: testing

@@ -20,7 +20,6 @@ from __future__ import annotations
 import contextlib
 import io
 import os
-from pathlib import Path
 import queue
 import re
 import shlex
@@ -29,6 +28,7 @@ import signal
 import subprocess
 import threading
 from dataclasses import dataclass
+from pathlib import Path
 
 DEFAULT_SHELL_TIMEOUT_SEC = 600.0
 
@@ -245,6 +245,45 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
         extra_args="",
         description="soft-clean target artefacts, or --hard tear down the gym",
     ),
+    AutoVerb(
+        verb="bof_deploy",
+        phases=("exploit", "c2"),
+        keywords=(
+            "deliver beacon",
+            "deliver the beacon",
+            "deploy beacon",
+            "beacon delivery",
+            "beacon deploy",
+        ),
+        needs_target=True,
+        extra_args="--wait 45",
+        os="linux",
+        description="stage and deliver the lazyaddon client beacon over a live foothold, wait for check-in",
+    ),
+    AutoVerb(
+        verb="bof_train",
+        phases=("c2",),
+        keywords=("bof train", "bof sweep", "run bofs", "beacon object file train"),
+        needs_target=False,
+        extra_args="",
+        description="run a comma-separated BOF train over a live beacon and aggregate its outputs",
+    ),
+    AutoVerb(
+        verb="bof_stage",
+        phases=("c2",),
+        keywords=("stage bof", "stage the bof", "compile bof", "bof stage"),
+        needs_target=False,
+        extra_args="",
+        description="stage a BOF artifact through its lazyaddon beacon client for delivery",
+    ),
+    AutoVerb(
+        verb="bof_run",
+        phases=("c2",),
+        keywords=("run bof", "execute bof", "beacon object file", "bof run"),
+        needs_target=False,
+        extra_args="",
+        description="queue one bof: command for a connected beacon with optional --wait",
+    ),
 )
 
 
@@ -382,7 +421,19 @@ SHELL_TIMEOUT_MESSAGE = "TIMEOUT"
 
 ROUTABLE_PREFIXES = ("lazy_addon ", "custom tool ", "lazy_workspace ")
 
-ROUTABLE_VERBS = frozenset({"lazynmap", "ping", "lazyintel", "lazyautofire", "lazytimeline", "lazysearch", "lazy_poc", "exploitdb", "atomic_exploit"})
+ROUTABLE_VERBS = frozenset(
+    {
+        "lazynmap",
+        "ping",
+        "lazyintel",
+        "lazyautofire",
+        "lazytimeline",
+        "lazysearch",
+        "lazy_poc",
+        "exploitdb",
+        "atomic_exploit",
+    }
+)
 
 
 def _cli_verb_allowed(name: str) -> bool:
@@ -860,19 +911,21 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
                 return None
             tail = " ".join(parts[2:]).strip() or (target or "").strip()
             return [f"lazy_poc run {poc} {tail}".strip()]
-        if verb in ("exploitdb","edb"):
+        if verb in ("exploitdb", "edb"):
             embedded = " ".join(parts[2:]).strip()
             tgt = target or embedded
             # try to find id in any position
             import re
-            m=re.findall(r"(?:edb[-_]?(?:c[-_]?)?)(\d+)", f"{verb} {embedded} {tgt}", re.I)
+
+            m = re.findall(r"(?:edb[-_]?(?:c[-_]?)?)(\d+)", f"{verb} {embedded} {tgt}", re.I)
             if m:
-                eid=m[0]
+                eid = m[0]
                 from pathlib import Path
-                base=Path(__file__).resolve().parent.parent/"exploits"
-                if (base/f"edb_c_{eid}.yaml").exists():
+
+                base = Path(__file__).resolve().parent.parent / "exploits"
+                if (base / f"edb_c_{eid}.yaml").exists():
                     return [f"atomic_exploit run --id edb_c_{eid} --rhost {tgt}".strip()]
-                if (base/f"edb_{eid}.yaml").exists():
+                if (base / f"edb_{eid}.yaml").exists():
                     return [f"atomic_exploit run --id edb_{eid} --rhost {tgt}".strip()]
             return _exploitdb_steps(f"{verb} {embedded}".strip(), tgt)
         if verb == "atomic_exploit":
@@ -1267,6 +1320,7 @@ def _exploitdb_steps(embedded: str, target: str) -> list[str]:
     text = str(embedded or "").lower()
     import re
     from pathlib import Path
+
     base = Path(__file__).resolve().parent.parent / "exploits"
     m = re.findall(r"(?:edb[-_]?(?:c[-_]?)?)(\d+)", text)
     if m:
@@ -1274,9 +1328,15 @@ def _exploitdb_steps(embedded: str, target: str) -> list[str]:
         t = target or ""
         # check c first
         if (base / f"edb_c_{eid}.yaml").exists():
-            return [f"atomic_exploit run --id edb_c_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_c_{eid}"]
+            return [
+                f"atomic_exploit run --id edb_c_{eid} --rhost {t}".strip()
+                if t
+                else f"atomic_exploit run --id edb_c_{eid}"
+            ]
         if (base / f"edb_{eid}.yaml").exists():
-            return [f"atomic_exploit run --id edb_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_{eid}"]
+            return [
+                f"atomic_exploit run --id edb_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_{eid}"
+            ]
         return [f"atomic_exploit run --id edb_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_{eid}"]
     if "exploitdb" in text or re.search(r"\bedb\b", text):
         return [f"atomic_exploit auto --target {target}".strip() if target else "atomic_exploit auto"]

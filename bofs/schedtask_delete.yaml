@@ -1,0 +1,14 @@
+name: schedtask_delete
+description: >-
+  Delete a scheduled task to clean up persistence artifacts
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/schedtask_delete/entry.c
+client: beacon
+platform: windows
+category: persistence
+client_artifact: 
+required_args: ['taskname']
+optional_args: ['server']
+mitre_technique: T1053
+enabled: true

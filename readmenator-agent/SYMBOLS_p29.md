@@ -3,6 +3,95 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `handle` | function | `skills/mcp_tools/hive_recall.py:29` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_recover.py:31` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_result.py:22` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_spawn.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_status.py:21` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/inject_objective.py:52` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/job_status.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_addon.py:27` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_board.py:36` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_compact.py:35` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_delete.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_finding.py:34` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_hint.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_intel.py:53` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_mention.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_proxy.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_status.py:19` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_sync.py:19` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_trace.py:29` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazy_workspace.py:30` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lazysearch.py:48` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_addons.py:20` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_agents.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_event_rules.py:25` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_modules.py:27` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_params.py:36` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_plugins.py:17` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_sessions.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/list_targets.py:30` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/llm_ask.py:67` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lolbas_list.py:34` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/lolbas_use.py:44` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/loop_smoke.py:65` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/manage_permissions.py:56` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/memory_recall.py:43` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/memory_store.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/metrics_summary.py:40` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/misp_export.py:38` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/next_objective.py:29` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/opencode_config.py:38` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/palette.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/parquet_annotate.py:51` | `def handle(arguments, tool_name, ctx)` |
+| `_run_parquet_query` | function | `skills/mcp_tools/parquet_query.py:105` | `def _run_parquet_query()` |
+| `handle` | function | `skills/mcp_tools/parquet_query.py:87` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/phase_guide.py:64` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/pipeline_list.py:18` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/pipeline_run.py:46` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/pipeline_status.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/pipeline_validate.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/pivot_status.py:27` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/playbook_generate.py:52` | `def handle(arguments, tool_name, ctx)` |
+| `_mcp_executor` | function | `skills/mcp_tools/playbook_run.py:94` | `def _mcp_executor(command, target)` |
+| `_substitute_playbook_target` | function | `skills/mcp_tools/playbook_run.py:16` | `def _substitute_playbook_target(command, target)` |
+| `handle` | function | `skills/mcp_tools/playbook_run.py:55` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/policy_status.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/poll_events.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/rag_index.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/rag_query.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `_fail` | function | `skills/mcp_tools/rea.py:107` | `def _fail(message, remediation)` |
+| `_run_rea` | function | `skills/mcp_tools/rea.py:181` | `def _run_rea()` |
+| `handle` | function | `skills/mcp_tools/rea.py:95` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/reactive_suggest.py:50` | `def handle(arguments, tool_name, ctx)` |
+| `_read_prompt` | function | `skills/mcp_tools/read_prompt.py:46` | `def _read_prompt()` |
+| `handle` | function | `skills/mcp_tools/read_prompt.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/read_session_file.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `_fused_recommendations` | function | `skills/mcp_tools/recommend_next.py:32` | `def _fused_recommendations()` |
+| `handle` | function | `skills/mcp_tools/recommend_next.py:25` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/rich_tui_snapshot.py:30` | `def handle(arguments, tool_name, ctx)` |
+| `_runner` | function | `skills/mcp_tools/run_agent.py:68` | `def _runner(cmd)` |
+| `handle` | function | `skills/mcp_tools/run_agent.py:50` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/run_api.py:30` | `def handle(arguments, tool_name, ctx)` |
+| `_publish_command_event` | function | `skills/mcp_tools/run_command.py:61` | `def _publish_command_event(command, output, operator, target)` |
+| `_run_with_fallback` | function | `skills/mcp_tools/run_command.py:102` | `def _run_with_fallback(cmd, to)` |
+| `handle` | function | `skills/mcp_tools/run_command.py:82` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/run_command_async.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/search_tools.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/searchsploit.py:79` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_diff.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_init.py:59` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_resume.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_state.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_status.py:43` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/set_active_target.py:35` | `def handle(arguments, tool_name, ctx)` |
+| `coerce_value` | function | `skills/mcp_tools/set_config.py:46` | `def coerce_value(coerce_key, coerce_value_in)` |
+| `handle` | function | `skills/mcp_tools/set_config.py:36` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/soul.py:42` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/stealth.py:35` | `def handle(arguments, tool_name, ctx)` |
+| `_isolated_runner` | function | `skills/mcp_tools/subagent_run.py:86` | `def _isolated_runner(cmd)` |
+| `handle` | function | `skills/mcp_tools/subagent_run.py:45` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/swan_ensemble.py:48` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/swan_route.py:37` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/swan_run.py:45` | `def handle(arguments, tool_name, ctx)` |
@@ -407,94 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
 | `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
 | `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
-| `OrchestratorGoal` | class | `skills/unified_orchestrator.py:143` | `class OrchestratorGoal` |
-| `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
-| `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
-| `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
-| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
-| `__init__` | method | `skills/unified_orchestrator.py:233` | `def __init__(self, config, root)` |
-| `__init__` | method | `skills/unified_orchestrator.py:303` | `def __init__(self, backends)` |
-| `__init__` | method | `skills/unified_orchestrator.py:347` | `def __init__(self, config, registry)` |
-| `__init__` | method | `skills/unified_orchestrator.py:413` | `def __init__(self, config, factory, payload)` |
-| `__init__` | method | `skills/unified_orchestrator.py:610` | `def __init__(self, config, factory)` |
-| `__init__` | method | `skills/unified_orchestrator.py:711` | `def __init__(self, config, factory)` |
-| `__init__` | method | `skills/unified_orchestrator.py:814` | `def __init__(self, config)` |
-| `__init__` | method | `skills/unified_orchestrator.py:874` | `def __init__(self, config, registry, router, validator, bus)` |
-| `_artefacts` | method | `skills/unified_orchestrator.py:585` | `def _artefacts(raw)` |
-| `_artefacts` | method | `skills/unified_orchestrator.py:795` | `def _artefacts(swan_result)` |
-| `_build` | method | `skills/unified_orchestrator.py:513` | `def _build(self, goal, target)` |
-| `_build` | method | `skills/unified_orchestrator.py:677` | `def _build(self)` |
-| `_build` | method | `skills/unified_orchestrator.py:772` | `def _build(self, api_key)` |
-| `_emit` | method | `skills/unified_orchestrator.py:948` | `def _emit(self, result, mode, goal)` |
-| `_import_class` | method | `skills/unified_orchestrator.py:535` | `def _import_class()` |
-| `_import_factory` | method | `skills/unified_orchestrator.py:687` | `def _import_factory()` |
-| `_import_factory` | method | `skills/unified_orchestrator.py:779` | `def _import_factory()` |
-| `_keyword_score` | method | `skills/unified_orchestrator.py:404` | `def _keyword_score(text, keywords)` |
-| `_make_result` | function | `skills/unified_orchestrator.py:968` | `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)` |
-| `_new_request_id` | function | `skills/unified_orchestrator.py:963` | `def _new_request_id()` |
-| `_score` | method | `skills/unified_orchestrator.py:367` | `def _score(self, goal, backend)` |
-| `_summarise` | method | `skills/unified_orchestrator.py:541` | `def _summarise(raw, target)` |
-| `_summarise` | method | `skills/unified_orchestrator.py:698` | `def _summarise(tasks, synthesis)` |
-| `_summarise` | method | `skills/unified_orchestrator.py:785` | `def _summarise(swan_result)` |
-| `_target_from_metadata` | method | `skills/unified_orchestrator.py:502` | `def _target_from_metadata(self, goal)` |
-| `available` | method | `skills/unified_orchestrator.py:215` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:335` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:435` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:619` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:720` | `def available(self)` |
-| `backends` | method | `skills/unified_orchestrator.py:890` | `def backends(self)` |
-| `build_default_orchestrator` | function | `skills/unified_orchestrator.py:995` | `def build_default_orchestrator(payload, sessions_dir)` |
-| `choose` | method | `skills/unified_orchestrator.py:352` | `def choose(self, goal)` |
-| `effective_target` | method | `skills/unified_orchestrator.py:489` | `def effective_target(self, goal)` |
-| `emit` | method | `skills/unified_orchestrator.py:256` | `def emit(self, event)` |
-| `execute` | method | `skills/unified_orchestrator.py:894` | `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
-| `from_payload` | method | `skills/unified_orchestrator.py:111` | `def from_payload(cls, payload)` |
-| `get` | method | `skills/unified_orchestrator.py:331` | `def get(self, name)` |
-| `names` | method | `skills/unified_orchestrator.py:327` | `def names(self)` |
-| `path` | method | `skills/unified_orchestrator.py:252` | `def path(self)` |
-| `run` | method | `skills/unified_orchestrator.py:219` | `def run(self, goal)` |
-| `run` | method | `skills/unified_orchestrator.py:445` | `def run(self, goal)` |
-| `run` | method | `skills/unified_orchestrator.py:629` | `def run(self, goal)` |
-| `run` | method | `skills/unified_orchestrator.py:730` | `def run(self, goal)` |
-| `to_dict` | method | `skills/unified_orchestrator.py:197` | `def to_dict(self)` |
-| `validate` | method | `skills/unified_orchestrator.py:818` | `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
-| `with_defaults` | method | `skills/unified_orchestrator.py:156` | `def with_defaults(self, config)` |
-| `main` | function | `skills/update_knowledge.py:40` | `def main(argv)` |
-| `SecureSessionManager` | class | `slack_c2_bot.py:28` | `class SecureSessionManager` |
-| `__init__` | method | `slack_c2_bot.py:29` | `def __init__(self)` |
-| `capture_shell_output` | function | `slack_c2_bot.py:95` | `def capture_shell_output(cmd)` |
-| `check_lockout` | method | `slack_c2_bot.py:42` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `slack_c2_bot.py:52` | `def check_rate_limit(self, user_id)` |
-| `cmd_addcli` | function | `slack_c2_bot.py:177` | `def cmd_addcli(ack, respond, command)` |
-| `cmd_clients` | function | `slack_c2_bot.py:195` | `def cmd_clients(ack, respond, command)` |
-| `cmd_download` | function | `slack_c2_bot.py:209` | `def cmd_download(ack, respond, command)` |
-| `create_session` | method | `slack_c2_bot.py:63` | `def create_session(self, user_id)` |
-| `get_client` | method | `slack_c2_bot.py:85` | `def get_client(self, user_id)` |
-| `handle_file` | function | `slack_c2_bot.py:240` | `def handle_file(event, say, logger)` |
-| `handle_message` | function | `slack_c2_bot.py:113` | `def handle_message(event, say, logger)` |
-| `mentioned` | function | `slack_c2_bot.py:252` | `def mentioned(ack, say, event)` |
-| `register_failed_attempt` | method | `slack_c2_bot.py:34` | `def register_failed_attempt(self, user_id)` |
-| `set_client` | method | `slack_c2_bot.py:81` | `def set_client(self, user_id, client_id)` |
-| `validate_session` | method | `slack_c2_bot.py:71` | `def validate_session(self, user_id)` |
-| `Terminal` | class | `static/hexabot/hexabot-spinner.js:49` | `` |
-| `clamp` | function | `static/hexabot/hexabot-spinner.js:47` | `` |
-| `colorFor` | method | `static/hexabot/hexabot-spinner.js:139` | `` |
-| `constructor` | method | `static/hexabot/hexabot-spinner.js:50` | `` |
-| `createHexabotSpinner` | function | `static/hexabot/hexabot-spinner.js:223` | `` |
-| `dispose` | method | `static/hexabot/hexabot-spinner.js:206` | `` |
-| `draw` | method | `static/hexabot/hexabot-spinner.js:152` | `` |
-| `drawPrompt` | method | `static/hexabot/hexabot-spinner.js:146` | `` |
-| `log` | method | `static/hexabot/hexabot-spinner.js:92` | `` |
-| `loop` | function | `static/hexabot/hexabot-spinner.js:439` | `` |
-| `ndc` | function | `static/hexabot/hexabot-spinner.js:371` | `` |
-| `now` | function | `static/hexabot/hexabot-spinner.js:375` | `` |
-| `onDown` | function | `static/hexabot/hexabot-spinner.js:377` | `` |
-| `onMove` | function | `static/hexabot/hexabot-spinner.js:395` | `` |
-| `onUp` | function | `static/hexabot/hexabot-spinner.js:407` | `` |
-| `push` | method | `static/hexabot/hexabot-spinner.js:84` | `` |
-| `radialTexture` | function | `static/hexabot/hexabot-spinner.js:209` | `` |
-| `rand` | function | `static/hexabot/hexabot-spinner.js:46` | `` |
-| `resize` | function | `static/hexabot/hexabot-spinner.js:423` | `` |
-| `run` | method | `static/hexabot/hexabot-spinner.js:94` | `` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

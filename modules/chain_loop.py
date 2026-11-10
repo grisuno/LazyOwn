@@ -22,7 +22,8 @@ executes, ``chain_facts`` spools, ``chain_state`` names runs.
 from __future__ import annotations
 
 import threading
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 CHAIN_COMMAND_PREFIX = "apt_chain"
 _MAX_CHAIN_NESTING = 2
@@ -289,6 +290,13 @@ def _build_runner(
             intent_id=intent.node_id,
         )
 
+    replanners: list[Any] = []
+    try:
+        from cli.apt_chain_support import build_adaptive_replanner, compose_replanners
+
+        replanners.append(build_adaptive_replanner())
+    except Exception:
+        replanners = []
     return ChainRunner(
         chain,
         tokens=tokens,
@@ -297,6 +305,7 @@ def _build_runner(
         total_timeout=total_timeout,
         run_id=run_id,
         on_step=on_step,
+        replanner=compose_replanners(replanners),
     )
 
 

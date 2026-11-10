@@ -58,7 +58,9 @@ class IntelOpsCommandSet(LazyOwnCommandSet):
         for host in hosts[:10]:
             print_msg(f"  host {host.get('address')} os={host.get('os') or '?'} state={host.get('state') or '?'}")
         for service in services[:10]:
-            product = " ".join(part for part in (service.get("name"), service.get("product"), service.get("version")) if part)
+            product = " ".join(
+                part for part in (service.get("name"), service.get("product"), service.get("version")) if part
+            )
             print_msg(f"  svc {service.get('host')}:{service.get('port')} {product}")
         for vuln in vulns[:10]:
             print_msg(f"  vuln {vuln.get('name')} sev={vuln.get('severity')} host={vuln.get('address') or '?'}")
@@ -143,7 +145,9 @@ class IntelOpsCommandSet(LazyOwnCommandSet):
             return
         print_succ(f"{len(entries)} host-reported packages for {target}")
         for match in report.get("matches") or []:
-            print_msg(f"  {match['tier'].upper():<5} {match['cve_id']:<16} {match['product']:<22} v{match['version']:<10} src={match.get('source', 'scanner')}")
+            print_msg(
+                f"  {match['tier'].upper():<5} {match['cve_id']:<16} {match['product']:<22} v{match['version']:<10} src={match.get('source', 'scanner')}"
+            )
         for learn in report.get("version_unknown") or []:
             print_msg(f"  review {learn['cve_id']} (unbounded) on port {learn['port']}")
         for lead in report.get("leads") or []:

@@ -147,3 +147,57 @@ def test_fact_vector_store_search_block_rendering(tmp_path):
     assert block.startswith("- ")
     empty = FactVectorStore(tmp_path / "empty.json")
     assert empty.search_block("anything") == ""
+
+
+def test_listing_noise_flags_recursive_session_dump():
+    """Given an ls -R step whose output is a 300-entry session wall,
+    When observed, Then flagged as listing-only noise."""
+    from modules.loop_guardrails import ListingNoiseDetector
+
+    wall = "\n".join(f"sessions/lazy/artifact_{index}.json" for index in range(300))
+    assert ListingNoiseDetector().observe("ls -R", wall)
+
+
+def test_listing_noise_ignores_real_postexp_find_output():
+    """Given a GTFOBins-style find chain with a short output, When observed,
+    Then never flagged."""
+    from modules.loop_guardrails import ListingNoiseDetector
+
+    output = "\n".join(f"/usr/bin/tool_{index}" for index in range(10))
+    assert not ListingNoiseDetector().observe("find / -perm -4000 -name python", output)
+
+
+def test_listing_noise_ignores_small_and_banner_outputs():
+    """Given a small listing or a tool banner, When observed, Then not flagged."""
+    from modules.loop_guardrails import ListingNoiseDetector
+
+    detector = ListingNoiseDetector()
+    assert not detector.observe("ls -la", "a.json\nb.json\n")
+    banner = "\n".join("A" * 200 for _ in range(200))
+    assert not detector.observe("ls -la", banner)
+    assert not detector.observe("gobuster dir -u t", "\n" * 400)
+
+
+def test_listing_policy_vetoes_ls_family():
+    """Given the operator listing policy, When the loop proposes ls variants,
+    Then every variant is vetoed with the refusal sentence."""
+    from modules.loop_guardrails import LS_REFUSAL, listing_forbidden
+
+    for command in ("ls", "ls -R", "ls -la /", "dir", "tree", "du -sh", "ls -R . | wc -l"):
+        assert listing_forbidden(command) == LS_REFUSAL, command
+
+
+def test_listing_policy_allows_find_with_filters_and_work():
+    """Given real work, When proposed, Then the veto stays silent."""
+    from modules.loop_guardrails import listing_forbidden
+
+    assert not listing_forbidden("find / -perm -4000 -name python 2>/dev/null")
+    assert not listing_forbidden("nmap -sV 127.0.0.1")
+    assert not listing_forbidden("stats")
+
+
+def test_listing_policy_rejects_bare_find():
+    """Given a bare find chain (no exploit filter), When proposed, Then vetoed."""
+    from modules.loop_guardrails import LS_REFUSAL, listing_forbidden
+
+    assert listing_forbidden("find . -type f") == LS_REFUSAL

@@ -1186,6 +1186,12 @@ verbs:
     risk: safe
     description: Dumping LAPS from Python
     source: addon
+  addon:lazy_adaptive:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: LazyAdaptive - failure-verdict-driven adaptive fallback for apt_chain.
+    source: addon
   addon:lazy_hermes:
     enabled: false
     phase: exploit
@@ -4221,6 +4227,12 @@ verbs:
     description: "Searches for packages on Launchpad based on the provided search\
       \ term and extracts codenames from the results. The distribution is extracted\
       \ from the search ter\u2026"
+    source: cli
+  lazy_adaptive:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: LazyAdaptive policy inspector.
     source: cli
   lazy_addon:
     enabled: false

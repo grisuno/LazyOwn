@@ -21,7 +21,7 @@ from modules.chain_state import list_checkpoints
 
 _TOKEN_NAME_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")
 _VAR_PREFIXES = ("--var",)
-_FLAGS_NO_VALUE = frozenset({"--dry-run", "--json", "--continue", "--replan", "--no-checkpoint"})
+_FLAGS_NO_VALUE = frozenset({"--dry-run", "--json", "--continue", "--replan", "--adaptive", "--no-checkpoint"})
 _FLAGS_WITH_VALUE = frozenset(
     {
         "--target",
@@ -90,6 +90,7 @@ class ChainArgs:
     json_out: bool = False
     continue_all: bool = False
     replan: bool = False
+    adaptive: bool = False
     no_checkpoint: bool = False
     target: str = ""
     timeout: float = 0.0
@@ -148,6 +149,8 @@ def parse_chain_args(line: str) -> ChainArgs:
                 args.continue_all = True
             elif token == "--replan":
                 args.replan = True
+            elif token == "--adaptive":
+                args.adaptive = True
             elif token == "--no-checkpoint":
                 args.no_checkpoint = True
             index += 1
@@ -392,6 +395,8 @@ def adversarial_continue(chain: Chain) -> Chain:
 
 def render_result(result: ChainRunResult) -> list[str]:
     """Render one chain result as operator lines (JSON mode prints dict)."""
+    from modules.failure_verdict import classify_outcome
+
     lines = [f"[apt_chain] chain={result.name} target={result.target} run_id={result.run_id or '-'}"]
     for outcome in result.steps:
         if outcome.status in ("skipped", "dry-run"):
@@ -405,6 +410,12 @@ def render_result(result: ChainRunResult) -> list[str]:
                 lines.extend(f"    {part[:220]}" for part in outcome.output.splitlines()[:24])
         else:
             lines.append(f"[apt_chain] {outcome.status}: {outcome.run} ({outcome.reason})")
+            if outcome.status in ("failed", "timeout"):
+                verdict = classify_outcome(outcome)
+                hint = " stop: no further attempts" if verdict.is_hard_stop else ""
+                lines.append(
+                    f"    classified {verdict.failure_class.value} -> {verdict.action.value} ({verdict.reason}){hint}"
+                )
     for branch in result.branches:
         lines.append(f"[apt_chain] branch: {branch}")
     if result.aborted:
@@ -443,6 +454,102 @@ def build_cli_approver(printer, input_fn=None):
         return str(answer).strip().lower() in ("y", "yes")
 
     return approve
+
+
+def _step_from_alternative(alternative: Any, outcome: Any, target: str) -> ChainStep:
+    """Build one safe replan step from an adaptive fallback alternative."""
+    outcome_slug = "".join(char if char.isalnum() else "_" for char in str(getattr(outcome, "id", "") or "step"))
+    technique_slug = "_".join(part for part in re.split(r"[^a-z0-9_]+", str(alternative.technique_id).lower()) if part)
+    step_id = f"lazyalt_{outcome_slug}_{technique_slug}"[:64].rstrip("_") or "lazyalt_step"
+    safe_target = "".join(char for char in target if char.isalnum() or char in "._-")[:120]
+    command = f"python3 modules/atomic_exploit_bridge.py run --id {alternative.technique_id} --rhost {safe_target}"
+    return ChainStep(
+        run=command[:300],
+        id=step_id,
+        phase="replan",
+        description=f"lazy adaptive: {str(alternative.reason)[:80]} [{alternative.technique_id}]",
+        timeout=300,
+        continue_on_error=True,
+    )
+
+
+def _observed_conditions(target: str) -> tuple[frozenset[str] | None, bool | None]:
+    """Read observed services and credential evidence for one host.
+
+    Returns:
+        ``(services, has_credentials)``; ``(None, None)`` means the fact
+        store is unavailable, which fails every gated candidate closed.
+    """
+    try:
+        from skills.lazyown_facts import FactStore
+
+        facts = FactStore().get_host(target)
+    except Exception:
+        return None, None
+    if facts is None:
+        return frozenset(), False
+    services = frozenset(
+        str(service.service).lower() for service in facts.services if getattr(service, "state", "") == "open"
+    )
+    return services, bool(facts.credentials)
+
+
+def build_adaptive_replanner():
+    """Return a replanner driven by ``modules.lazy_fallback``.
+
+    On a fallback-eligible step failure the arbiter proposes the next
+    untried Atomic technique whose service and credential prerequisites
+    are observable; the runner's insert cap bounds total churn. Lockout
+    and scope verdicts insert nothing, by contract.
+    """
+    from modules.failure_verdict import classify_outcome
+    from modules.lazy_fallback import AdaptiveFallbackArbiter
+
+    arbiter = AdaptiveFallbackArbiter()
+
+    def replan(context: ReplanContext) -> None:
+        outcome = context.outcome
+        if outcome is None or outcome.status not in ("failed", "timeout"):
+            return
+        verdict = classify_outcome(outcome)
+        if not verdict.is_fallback_eligible:
+            return
+        target = str(context.variables.get("target", "") or "").strip()
+        if not target:
+            return
+        services, has_credentials = _observed_conditions(target)
+        alternative = arbiter.suggest(
+            outcome.run,
+            verdict,
+            services=services,
+            has_credentials=has_credentials,
+        )
+        if alternative is None:
+            return
+        step = _step_from_alternative(alternative, outcome, target)
+        context.insert_step(step)
+
+    return replan
+
+
+def compose_replanners(replanners: list):
+    """Return one replanner running every non-None replanner in order.
+
+    Args:
+        replanners: List of replanner callables or None entries.
+
+    Returns:
+        A composed callable; None when the list has no replanner.
+    """
+    active = [replanner for replanner in replanners if callable(replanner)]
+    if not active:
+        return None
+
+    def composed(context: ReplanContext) -> None:
+        for replanner in active:
+            replanner(context)
+
+    return composed
 
 
 def build_reactive_replanner():
@@ -619,10 +726,12 @@ def _platform() -> str:
 __all__ = [
     "ChainArgs",
     "approval_backend",
+    "build_adaptive_replanner",
     "build_c2_approver",
     "build_cli_approver",
     "build_llm_recovery_chain",
     "build_reactive_replanner",
+    "compose_replanners",
     "parse_chain_args",
     "render_result",
     "resolve_admin",

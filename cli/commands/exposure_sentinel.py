@@ -139,7 +139,8 @@ class SentinelCommandSet(LazyOwnCommandSet):
             print_error("Usage: lazysentinel checks <target> [--feed <path>]")
             return
         sightings = [
-            item for item in lazy_sentinel.load_sightings(_latest_sightings_path())
+            item
+            for item in lazy_sentinel.load_sightings(_latest_sightings_path())
             if target in item.host and item.version
         ]
         if not sightings:
@@ -153,17 +154,25 @@ class SentinelCommandSet(LazyOwnCommandSet):
 
     def _print_brief(self, report: dict) -> None:
         """One-line-per-match exposure print."""
-        print_msg(f"{CYAN}sentinel host {report.get('target')}{RESET} "
-                  f"temperature={report.get('temperature')} score={report.get('score')}")
+        print_msg(
+            f"{CYAN}sentinel host {report.get('target')}{RESET} "
+            f"temperature={report.get('temperature')} score={report.get('score')}"
+        )
         for match in report.get("matches") or []:
-            print_msg(f"  {match['tier'].upper():<5} {match['cve_id']:<16} {match['product']:<20} v{match['version']:<9} port {match['port']}")
+            print_msg(
+                f"  {match['tier'].upper():<5} {match['cve_id']:<16} {match['product']:<20} v{match['version']:<9} port {match['port']}"
+            )
 
     def _autofire_hook(self, reports: list[dict]):
         """Consider the strongest report for autofire when armed."""
         from modules import lazy_autofire
 
         armed = bool(self.params.get("autofire"))
-        best = max(reports, key=lambda item: lazy_autofire.MAX_FIRE_STEPS if item.get("temperature") == "hot" else 0, default=None)
+        best = max(
+            reports,
+            key=lambda item: lazy_autofire.MAX_FIRE_STEPS if item.get("temperature") == "hot" else 0,
+            default=None,
+        )
         if best is None or best.get("temperature") != "hot":
             return None
         return lazy_autofire.consider_report(best, armed=armed)

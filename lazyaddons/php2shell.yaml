@@ -1,7 +1,15 @@
 name: php2shell
 description: |
-  PHP 8.4.26 / mod_php exploit framework targeting session upload progress heap leaks and fake zend_string chain to get code execution.
-author: murrez
+  PHP 8.4.26 mod_php exploit: session upload progress heap leak plus a
+  fake zend_string chain for code execution (bypass ASLR). First use:
+
+    assign url http://target/index.php
+    lazy addon php2shell
+
+  Installs to external/.exploit/php2shell and runs exploit.py against
+  the configured URL with the shared exploit_profile calibration
+  (bookworm / lab / auto) resolved from params/operator.yaml.
+author: LazyOwn
 version: "1.0"
 enabled: true
 os: linux
@@ -9,21 +17,18 @@ trigger: [http, https]
 category: "03. Exploitation"
 module_type: exploit
 params:
-  - name: url
-    type: string
-    required: true
-    description: Target URL (e.g. http://target/index.php)
-  - name: cmd
-    type: string
-    required: false
-    description: Command to execute (default id>/out/p1)
-  - name: profile
-    type: string
-    required: false
-    description: Profile lab/bookworm/auto (default auto)
+- name: url
+  type: string
+  required: true
+  description: Target URL (e.g. http://target/index.php)
+- name: exploit_profile
+  type: string
+  required: false
+  default: bookworm
+  description: Calibration profile from params/operator.yaml (bookworm/lab/auto)
 tool:
-  name: php2shell
-  repo_url: https://github.com/murrez/php2shell.git
+  name: php2shell exploit
+  repo_url: https://github.com/9bie/php2shell-bypass-aslr-exp.git
   install_path: external/.exploit/php2shell
-  install_command: pip install -r requirements.txt 2>&1 | tail -2
-  execute_command: python exploit.py -u {url} -c "{cmd}"
+  install_command: pip install -r requirements.txt 2>&1 | tail -2 && mkdir -p out
+  execute_command: python3 exploit.py -u {url} --profile {exploit_profile}

@@ -392,6 +392,10 @@ Output chains are plain `ChainRunner` YAML — run them again with
 Three schema fields make `apt_chain` self-recovering; all optional,
 backwards compatible with v1/v2 files:
 
+> The autonomous loop's chain runs (`chain_loop`) always carry the
+> LazyAdaptive replanner, so a loop-driven `apt_chain <name>` step also
+> gets the failure-verdict fallback alternatives for free.
+
 - **`parallel: true` (per step)** — consecutive parallel steps execute
   concurrently through a thread pool and the runner waits for the whole
   group before the next sequential step. Typical use: independent scans
@@ -435,6 +439,22 @@ steps:
   Together with `--continue` (every step continues on error) and the
   reactive per-step replanner, this closes the loop between a failing
   chain and the adaptive engine: attempt, detect, replan, recover.
+
+- **Adaptive fallback policy (LazyAdaptive)** — with
+  `apt_chain ... --adaptive` (which implies `--continue`), every failed
+  step is first classified by `modules/failure_verdict` into a verdict
+  (lockout, scope, auth, permission, tool_missing, timeout, network)
+  with one action: abort, skip, retry or fallback. Fallback-eligible
+  failures then consult the curated alternative graph in
+  `modules/lazy_fallback`: the next untried Atomic technique whose
+  service and credential prerequisites are observable on the target is
+  inserted as a `continue_on_error` replan step (the runner's insert cap
+  bounds churn; one alternative per attempt ever). A lockout verdict
+  never gets an alternative — spraying past a locked account stops the
+  spray family outright. `--adaptive --replan` combines both replanners.
+  Inspect the policy with `lazy_adaptive` and the graph with
+  `lazy_adaptive graph`; the verdict of every failed step shows in the
+  rendered result.
 
 ## Verb catalog and lazyaddon verbs
 

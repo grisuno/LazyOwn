@@ -454,6 +454,19 @@ SCHEMA: dict[str, FieldSpec] = {
             category="network",
         ),
         _spec(
+            "targets",
+            FieldKind.JSON_BLOB,
+            [],
+            "Active target list (hosts or CIDRs) shared by the CLI and the MCP tools.",
+            long_help=(
+                "Each entry is a host, an IP or a CIDR the operator authorized. "
+                "The daemon focus tools, the MCP target pickers and the "
+                "session-state sync read it; scope enforcement still gates "
+                "every offensive command."
+            ),
+            category="network",
+        ),
+        _spec(
             "domain",
             FieldKind.HOSTNAME,
             "localhost",
@@ -628,6 +641,28 @@ SCHEMA: dict[str, FieldSpec] = {
             sensitive=True,
         ),
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
+        _spec("enable_c2_debug", FieldKind.BOOL, False, "Run the C2 dashboard with debug logging.", category="c2"),
+        _spec(
+            "c2_daily_limit", FieldKind.STRING, "1000 per day", "C2 auth brute-force daily threshold.", category="c2"
+        ),
+        _spec(
+            "c2_hour_limit", FieldKind.STRING, "200 per hour", "C2 auth brute-force hourly threshold.", category="c2"
+        ),
+        _spec("c2_login_limit", FieldKind.INT, 0, "C2 auth login failure threshold before lockout.", category="c2"),
+        _spec(
+            "beacon_scan_ports",
+            FieldKind.JSON_BLOB,
+            [],
+            "Ports the beacon scans when it collects the target posture.",
+            category="c2",
+        ),
+        _spec(
+            "run_in_memory",
+            FieldKind.BOOL,
+            False,
+            "Execute implant loaders without dropping artifacts to disk.",
+            category="evasion",
+        ),
         _spec(
             "enable_chainmode",
             FieldKind.BOOL,
@@ -650,6 +685,31 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
         _spec(
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
+        ),
+        _spec("enable_telegram_c2", FieldKind.BOOL, False, "Enable the Telegram C2 bot channel.", category="c2"),
+        _spec("enable_discord_c2", FieldKind.BOOL, False, "Enable the Discord C2 bot channel.", category="c2"),
+        _spec(
+            "telegram_token",
+            FieldKind.STRING,
+            "",
+            "Telegram bot token for the Telegram C2 channel.",
+            example="123456789:AA*************************************************",
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
+            "discord_token",
+            FieldKind.STRING,
+            "",
+            "Discord bot token for the Discord C2 channel.",
+            example="********.***************.*******************",
+            category="c2",
+            sensitive=True,
+        ),
+        _spec("enable_ia", FieldKind.BOOL, False, "Let the C2 bot channels answer with LLM assistance.", category="ai"),
+        _spec("enable_deepseek", FieldKind.BOOL, False, "Prefer the DeepSeek backend for the AI stack.", category="ai"),
+        _spec(
+            "enable_nc", FieldKind.BOOL, False, "Treat `nc` usage flags in the banner tips as enabled.", category="cli"
         ),
         _spec(
             "c2_fallback_urls",

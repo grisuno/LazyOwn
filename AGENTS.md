@@ -251,6 +251,25 @@ C2 pending list; the default keeps the interactive CLI approver, and
 `decided_by=c2`). Unknown or already-decided ids answer 404; malformed ids and
 verdicts answer 400. **Tests:** `tests/test_chain_approval_c2.py` (15 tests).
 
+### `modules/failure_verdict.py` + `modules/lazy_fallback.py` — LazyAdaptive (rebranded from ARES)
+
+**Contract:** every failed step (chain, retry, loop) classifies into one
+typed verdict (`modules/failure_verdict`: lockout/scope/auth/permission/
+tool_missing/timeout/network -> abort/skip/retry/fallback over captured
+output, never I/O). Fallback-eligible failures then ask
+`modules/lazy_fallback.AdaptiveFallbackArbiter` for the next untried
+alternative in `FALLBACK_GRAPH` over the Atomic technique catalogue
+(`exploits/*.yaml`), gated on observed services (FactStore) and
+credentials — unknown evidence fails closed; a lockout verdict never
+gets an alternative.
+
+**Surfaces:** `apt_chain ... --adaptive` arms the replanner (implies
+`--continue`); `--adaptive --replan` composes both replanners
+(`compose_replanners`); `chain_loop` (autonomous loop chain steps) always
+carries it. Every rendered failed step shows `classified <class> ->
+<action>`. CLI inspector: `lazy_adaptive [graph]`, lazyaddon
+`lazyaddons/lazy_adaptive.yaml` (trigger-only over the built-in).
+
 ### `cli/tips_engine.py` — Unified post-command tips engine
 
 **Contract:** Coordinate all suggestion surfaces (kill-chain hints, protips,

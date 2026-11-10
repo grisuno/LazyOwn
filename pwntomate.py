@@ -79,7 +79,7 @@ with open("payload.json", "r") as file:
     config = json.load(file)
     rhost = config.get("rhost")
     domain = config.get("domain")
-    dirworlist = config.get("dirworlist") or "/usr/share/wordlists/dirb/common.txt"
+    dirworlist = config.get("dirwordlist") or config.get("dirworlist") or "/usr/share/wordlists/dirb/common.txt"
     usrwordlist = config.get("usrwordlist") or ""
     dnswordlist = config.get("dnswordlist") or ""
 

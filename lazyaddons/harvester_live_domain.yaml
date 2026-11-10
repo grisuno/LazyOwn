@@ -1,3 +1,5 @@
+os: any
+trigger: []
 name: harvester_live_domain
 description: Harvest AWS AKIA/ASIA keys from JS files of a live domain
 category: recon
@@ -11,7 +13,7 @@ tags:
 tool:
   execute_command: curl -sL "{target}" | grep -oP 'https?://[^"\x27]+\.js' | xargs -I{} curl -sL {} 2>/dev/null | grep -oP '\bA[KS]IA[0-9A-Z]{16}\b' | sort -u
 params:
-  target:
-    type: str
-    required: true
-    description: Target URL (e.g. https://example.com)
+- name: target
+  type: string
+  required: true
+  description: Target URL (e.g. https://example.com)

@@ -35,10 +35,11 @@ import tempfile
 import threading
 import time
 from collections import deque
+from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 DEFAULT_REPEAT_WINDOW = 5
 DEFAULT_TARGET_LIMIT = 3
@@ -92,26 +93,34 @@ class Fact:
 
 
 class RepeatDetector:
-    """Sliding-window detector for identical and alternating repeats.
+    """Sliding-window detector for identical, alternating and cyclic repeats.
 
-    Two stuck-loop shapes are recognised:
+    Three stuck-loop shapes are recognised:
 
     - AAAA: every command in the window is identical.
     - ABABAB: the window alternates between exactly two commands with at
       least two repetitions each, the oscillation the legacy loop vetoed.
+    - ABCDEF twice: the newest ``2p`` entries are two identical rounds of
+      a cycle of ``p >=`` :data:`_CYCLE_MIN_PERIOD` distinct commands — the
+      shape a full recon family produces round after round, where no pair
+      ever alternates and no window is all-identical.
 
     Args:
-        window: How many recent commands to watch (minimum 6 for the
-            alternating pattern).
+        window: How many recent commands a single stuck shape may span.
+            The internal ring holds twice that so a cycle of up to
+            ``window`` commands can be caught over two full rounds.
     """
 
     _OSCILLATION_MIN = 6
+    _CYCLE_MIN_PERIOD = 3
 
     def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None:
         self._window = max(2, int(window))
-        self._recent: deque[str] = deque(maxlen=self._window)
+        ring = max(self._window * 2, self._window)
+        self._recent: deque[str] = deque(maxlen=ring)
         self._oscillation_a = ""
         self._oscillation_b = ""
+        self._cycle: tuple[str, ...] = ()
 
     def record(self, command: str) -> bool:
         """Add one executed command; returns True when the window fills.
@@ -127,6 +136,7 @@ class RepeatDetector:
             return False
         self._recent.append(text)
         self._update_oscillation()
+        self._cycle = self._periodic_cycle(list(self._recent))
         return self.stuck
 
     def _update_oscillation(self) -> None:
@@ -147,22 +157,59 @@ class RepeatDetector:
         """Return True when consecutive entries always differ."""
         return all(entries[i] != entries[i + 1] for i in range(len(entries) - 1))
 
+    @staticmethod
+    def _periodic_cycle(entries: list[str]) -> tuple[str, ...]:
+        """Return the repeating command block over two identical rounds.
+
+        Args:
+            entries: Recent commands, oldest first.
+
+        Returns:
+            The repeating cycle block (length >= ``_CYCLE_MIN_PERIOD``,
+            at least three distinct commands) or an empty tuple when the
+            newest records are not two identical rounds of one cycle.
+        """
+        for period in range(len(entries) // 2, RepeatDetector._CYCLE_MIN_PERIOD - 1, -1):
+            recent = entries[-period * 2 :]
+            first, second = recent[:period], recent[period:]
+            if len(set(second)) < RepeatDetector._CYCLE_MIN_PERIOD:
+                continue
+            if first == second:
+                return tuple(second)
+        return ()
+
     @property
     def stuck(self) -> bool:
         """True when the loop is visibly not progressing.
 
-        Either the window is all one identical command (AAAA), or the
-        window is at least :data:`_OSCILLATION_MIN` long and holds
-        exactly two commands alternating (ABABAB).
+        One of: an all-identical window (AAAA), a two-command
+        oscillation (ABABAB), or two identical rounds of a cycle of at
+        least three distinct commands (ABCDEF twice).
         """
         entries = list(self._recent)
         if len(entries) < 2:
             return False
+        if self._periodic_cycle(entries):
+            return True
         if len(entries) >= self._OSCILLATION_MIN and self._alternating():
             return True
         if all(entry == entries[0] for entry in entries):
             return len(entries) >= self._window
         return False
+
+    def describe(self) -> str:
+        """Human sentence of the stuck shape for activity lines."""
+        entries = list(self._recent)
+        if self._cycle:
+            block = " -> ".join(command[:60] for command in self._cycle)
+            return f"a cycle of {len(self._cycle)} commands x2: {block}"
+        if self._alternating():
+            return f"alternating between {self._oscillation_a[:60]!r} and {self._oscillation_b[:60]!r}"
+        if entries and all(entry == entries[0] for entry in entries):
+            return f"the same command {entries[0][:100]!r}"
+        if entries[0:]:
+            return f"{entries[0][:100]!r}"
+        return "repeating steps"
 
     def _alternating(self) -> bool:
         """True when the window holds an exact two-command oscillation."""
@@ -176,6 +223,10 @@ class RepeatDetector:
         """Return the detected alternating pair, ('', '') when none."""
         return self._oscillation_a, self._oscillation_b
 
+    def cycle(self) -> tuple[str, ...]:
+        """Return the detected repeating block, empty when none."""
+        return self._cycle
+
     def last_commands(self) -> list[str]:
         """Snapshot of the recent command window (oldest first)."""
         return list(self._recent)
@@ -185,6 +236,7 @@ class RepeatDetector:
         self._recent.clear()
         self._oscillation_a = ""
         self._oscillation_b = ""
+        self._cycle = ()
 
 
 class EdrPacer:
@@ -271,7 +323,7 @@ class EdrPacer:
         return tuple(parsed)
 
     @classmethod
-    def from_config(cls, **overrides: Any) -> "EdrPacer":
+    def from_config(cls, **overrides: Any) -> EdrPacer:
         """Build a pacer from the orchestrator pacing configuration.
 
         Args:
@@ -696,11 +748,84 @@ class FactVectorStore:
             self._facts = self._facts[-self._max :]
 
 
+_LISTING_HEADS = frozenset({"ls", "dir", "du", "tree"})
+_LISTING_MIN_LINES = 120
+_LISTING_MAX_AVG_LINE = 80
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
+_LISTING_LEGIT_FIND_FLAGS = (" -perm ", " -name ", " -exec ", " -ok ")
+LS_REFUSAL = "listing command forbidden in the autonomous loop; the loop already knows its environment: use the structured verbs (auto_populate, facts_show, lazy_scope, lazy_traffic) or the guard evidence search"
+
+
+def listing_forbidden(command: str) -> str:
+    """Return the listing veto reason, empty when the command may run.
+
+    Contract (operator policy): the autonomous loop never pages the
+    operator filesystem. ``ls/dir/du/tree`` are rejected with any
+    arguments; bare ``find`` is rejected too — only find chains with a
+    post-exploitation filter (``-perm``/``-name``/``-exec``/``-ok``,
+    SUID hunting and friends) pass. The call sites are the loop
+    chokepoints; an operator terminal running LazyOwn itself is not
+    affected.
+
+    Args:
+        command: The command line proposed by the model.
+
+    Returns:
+        Refusal text when the family is vetoed, otherwise ``""``.
+    """
+    head, _, rest = (str(command or "").strip()).partition(" ")
+    stripped = head.lower().strip("-").strip("./")
+    if stripped in _LISTING_HEADS:
+        return LS_REFUSAL
+    if stripped == "find":
+        lowered = str(rest or "").lower()
+        if not any(flag in lowered for flag in _LISTING_LEGIT_FIND_FLAGS):
+            return LS_REFUSAL
+    return ""
+
+
+class ListingNoiseDetector:
+    """Detect enumeration-only steps whose output carries no intel.
+
+    An ``ls``/``dir``/``du``/``tree`` step whose output is one very long
+    wall of path entries (a session-artifact inventory) is the shape
+    behind a self-amplifying loop: the listing gets recorded as traffic,
+    the recorder mirror writes new artifact files for it, and the next
+    listing looks like fresh work. The detector only recommends; callers
+    decide to settle the intent instead of feeding the wall back.
+    """
+
+    def observe(self, command: str, output: str) -> bool:
+        """Return True when the step is a pure directory listing dump.
+
+        Args:
+            command: The executed command line; only the pure enumeration
+                heads count (``ls/dir/du/tree``, bare ``find`` excluded
+                because find chains often are real post-exploitation
+                logic).
+            output: Captured step output.
+
+        Returns:
+            True for a long listing-shaped wall, False otherwise.
+        """
+        head = (str(command or "").split() or [""])[0].lower().strip("./")
+        if head not in _LISTING_HEADS:
+            return False
+        text = _ANSI_RE.sub("", str(output or ""))
+        lines = [line for line in text.splitlines() if line.strip()]
+        if len(lines) < _LISTING_MIN_LINES:
+            return False
+        average = sum(len(line) for line in lines) / len(lines)
+        return average <= _LISTING_MAX_AVG_LINE
+
+
 __all__ = [
     "DEFAULT_REPEAT_WINDOW",
-    "DEFAULT_TARGET_LIMIT",
     "EdrPacer",
+    "Fact",
     "FactVectorStore",
+    "ListingNoiseDetector",
     "RepeatDetector",
     "TargetLimiter",
+    "listing_forbidden",
 ]

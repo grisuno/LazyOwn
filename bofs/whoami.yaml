@@ -1,0 +1,14 @@
+name: whoami
+description: >-
+  Extended whoami: privileges, groups, tokens, session info, UAC flags
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/whoami/entry.c
+client: beacon
+platform: windows
+category: reconnaissance
+client_artifact: bof/whoami/whoami.x64.o
+required_args: []
+optional_args: []
+mitre_technique: T1033
+enabled: true

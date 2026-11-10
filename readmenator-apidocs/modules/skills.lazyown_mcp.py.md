@@ -26,42 +26,8 @@ Solid arrows stay in this module, dashed arrows leave it.
 ```mermaid
 flowchart LR
     n_skills_lazyown_mcp_py__call_tool(["call_tool"])
-    n_skills_lazyown_mcp_py__list_tools(["list_tools"])
-    n_skills_lazyown_mcp_py__substitute_playbook_target(["substitute_playbook_target"])
-    n_cli_recommendation_signals_py__build_context["recommendation_signals.build_context"]
-    n_cli_recommendation_signals_py__build_default_engine["recommendation_signals.build_default_engine"]
     n_lazygui_widgets_filter_bar_py__FilterBar_text["filter_bar.FilterBar.text"]
-    n_modules_killchain_py__KillChain_current_phase["killchain.KillChain.current_phase"]
-    n_modules_mcp_agent_bridge_py__start_agent["mcp_agent_bridge.start_agent"]
-    n_modules_playbook_engine_py__PlaybookEngine___init__["playbook_engine.PlaybookEngine.__init__"]
-    n_modules_playbook_engine_py__PlaybookEngine_execute["playbook_engine.PlaybookEngine.execute"]
-    n_modules_playbook_engine_py__PlaybookEngine_load["playbook_engine.PlaybookEngine.load"]
-    n_modules_playbook_engine_py__PlaybookEngine_result_summary["playbook_engine.PlaybookEngine.result_summary"]
-    n_skills_lazyown_mcp_helpers_py__evidence_freshness["lazyown_mcp_helpers.evidence_freshness"]
-    n_skills_lazyown_mcp_helpers_py__needs_confirmation["lazyown_mcp_helpers.needs_confirmation"]
-    n_skills_lazyown_mcp_helpers_py__take_snapshot["lazyown_mcp_helpers.take_snapshot"]
-    n_skills_lazyown_session_py__SessionTranscript___init__["lazyown_session.SessionTranscript.__init__"]
-    n_skills_lazyown_session_py__SessionTranscript_append["lazyown_session.SessionTranscript.append"]
-    n_skills_lazyown_session_py__SessionTranscript_count["lazyown_session.SessionTranscript.count"]
-    n_skills_lazyown_session_py__SessionTranscript_get_recent["lazyown_session.SessionTranscript.get_recent"]
-    n_skills_lazyown_mcp_py__call_tool --> n_skills_lazyown_mcp_py__list_tools
-    n_skills_lazyown_mcp_py__call_tool --> n_skills_lazyown_mcp_py__substitute_playbook_target
-    n_skills_lazyown_mcp_py__call_tool -.-> n_cli_recommendation_signals_py__build_context
-    n_skills_lazyown_mcp_py__call_tool -.-> n_cli_recommendation_signals_py__build_default_engine
     n_skills_lazyown_mcp_py__call_tool -.-> n_lazygui_widgets_filter_bar_py__FilterBar_text
-    n_skills_lazyown_mcp_py__call_tool -.-> n_modules_killchain_py__KillChain_current_phase
-    n_skills_lazyown_mcp_py__call_tool -.-> n_modules_mcp_agent_bridge_py__start_agent
-    n_skills_lazyown_mcp_py__call_tool -.-> n_modules_playbook_engine_py__PlaybookEngine___init__
-    n_skills_lazyown_mcp_py__call_tool -.-> n_modules_playbook_engine_py__PlaybookEngine_execute
-    n_skills_lazyown_mcp_py__call_tool -.-> n_modules_playbook_engine_py__PlaybookEngine_load
-    n_skills_lazyown_mcp_py__call_tool -.-> n_modules_playbook_engine_py__PlaybookEngine_result_summary
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_mcp_helpers_py__evidence_freshness
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_mcp_helpers_py__needs_confirmation
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_mcp_helpers_py__take_snapshot
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_session_py__SessionTranscript___init__
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_session_py__SessionTranscript_append
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_session_py__SessionTranscript_count
-    n_skills_lazyown_mcp_py__call_tool -.-> n_skills_lazyown_session_py__SessionTranscript_get_recent
 ```
 
 ## Functions
@@ -103,15 +69,13 @@ async def list_tools() -> list[types.Tool]
 
 **Returns:** `list[types.Tool]`
 
-*Called by:* [`call_tool`](#call_tool)
-
 ---
 
 <a id="substitute_playbook_target"></a>
 
 ### `substitute_playbook_target`
 
-`function` | [skills/lazyown_mcp.py:1308](../../skills/lazyown_mcp.py#L1308)
+`function` | [skills/lazyown_mcp.py:921](../../skills/lazyown_mcp.py#L921)
 
 ```python
 def substitute_playbook_target(command: str, target: str) -> str
@@ -132,15 +96,13 @@ preserved because only the substituted value is quoted.
 
 **Returns:** `str` - Command with the quoted target in place of the token.
 
-*Called by:* [`call_tool`](#call_tool)
-
 ---
 
 <a id="call_tool"></a>
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp.py:1326](../../skills/lazyown_mcp.py#L1326)
+`function` `async` | [skills/lazyown_mcp.py:939](../../skills/lazyown_mcp.py#L939)
 
 Decorators: `@server.call_tool()`
 
@@ -157,7 +119,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 **Returns:** `list[types.TextContent]`
 
-*Calls:* [`build_context`](cli.recommendation_signals.py.md#build_context), [`build_default_engine`](cli.recommendation_signals.py.md#build_default_engine), [`FilterBar.text`](lazygui.widgets.filter_bar.py.md#filterbar-text), [`KillChain.current_phase`](modules.killchain.py.md#killchain-current_phase), [`start_agent`](modules.mcp_agent_bridge.py.md#start_agent), [`PlaybookEngine.__init__`](modules.playbook_engine.py.md#playbookengine-__init__), [`PlaybookEngine.execute`](modules.playbook_engine.py.md#playbookengine-execute), [`PlaybookEngine.load`](modules.playbook_engine.py.md#playbookengine-load), [`PlaybookEngine.result_summary`](modules.playbook_engine.py.md#playbookengine-result_summary), [`list_tools`](#list_tools), [`substitute_playbook_target`](#substitute_playbook_target), [`evidence_freshness`](skills.lazyown_mcp_helpers.py.md#evidence_freshness) and 6 more
+*Calls:* [`FilterBar.text`](lazygui.widgets.filter_bar.py.md#filterbar-text)
 
 ---
 
@@ -165,7 +127,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp.py:2477](../../skills/lazyown_mcp.py#L2477)
+`function` `async` | [skills/lazyown_mcp.py:1049](../../skills/lazyown_mcp.py#L1049)
 
 ```python
 async def main()

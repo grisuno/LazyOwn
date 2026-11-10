@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_dmitry` | method | `cli/commands/scan.py:213` | `def do_dmitry(self, line)` |
+| `do_feroxbuster` | method | `cli/commands/scan.py:248` | `def do_feroxbuster(self, line)` |
+| `do_gobuster` | method | `cli/commands/scan.py:56` | `def do_gobuster(self, line)` |
 | `do_hostdiscover` | method | `cli/commands/scan.py:606` | `def do_hostdiscover(self, line)` |
 | `do_magicrecon` | method | `cli/commands/scan.py:548` | `def do_magicrecon(self, line)` |
 | `do_nmapscript` | method | `cli/commands/scan.py:316` | `def do_nmapscript(self, line)` |
@@ -295,38 +298,38 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `render_report` | function | `cli/doctor.py:406` | `def render_report(report, console)` |
 | `run` | function | `cli/doctor.py:451` | `def run(root, console)` |
 | `warnings` | method | `cli/doctor.py:124` | `def warnings(self)` |
-| `EngagementState` | class | `cli/engagement_hooks.py:244` | `class EngagementState` |
-| `_award_elo` | function | `cli/engagement_hooks.py:736` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
-| `_check_badges` | function | `cli/engagement_hooks.py:1011` | `def _check_badges(cmd, first_time)` |
-| `_check_karma_up` | function | `cli/engagement_hooks.py:866` | `def _check_karma_up(state)` |
-| `_commands_in_phase` | function | `cli/engagement_hooks.py:411` | `def _commands_in_phase(phase, index)` |
-| `_fire_vri_reward` | function | `cli/engagement_hooks.py:674` | `def _fire_vri_reward(state, ctx)` |
-| `_is_recordable_command` | function | `cli/engagement_hooks.py:308` | `def _is_recordable_command(cmd)` |
-| `_load_index` | function | `cli/engagement_hooks.py:292` | `def _load_index()` |
-| `_load_state` | function | `cli/engagement_hooks.py:262` | `def _load_state()` |
-| `_next_threshold` | function | `cli/engagement_hooks.py:396` | `def _next_threshold(current)` |
-| `_normalize_command` | function | `cli/engagement_hooks.py:303` | `def _normalize_command(cmd)` |
-| `_persist_notification` | function | `cli/engagement_hooks.py:830` | `def _persist_notification(html)` |
-| `_phase_for_cmd` | function | `cli/engagement_hooks.py:402` | `def _phase_for_cmd(cmd, index)` |
-| `_print_badge` | function | `cli/engagement_hooks.py:1058` | `def _print_badge(name, description)` |
-| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:538` | `def _render_arsenal_tip(ctx)` |
-| `_render_exploration` | function | `cli/engagement_hooks.py:490` | `def _render_exploration(ctx)` |
-| `_render_hidden_feature` | function | `cli/engagement_hooks.py:524` | `def _render_hidden_feature(ctx)` |
-| `_render_methodology_note` | function | `cli/engagement_hooks.py:632` | `def _render_methodology_note(ctx)` |
-| `_render_methodology_objective` | function | `cli/engagement_hooks.py:585` | `def _render_methodology_objective(ctx)` |
-| `_render_methodology_task` | function | `cli/engagement_hooks.py:546` | `def _render_methodology_task(ctx)` |
-| `_render_phase_badge` | function | `cli/engagement_hooks.py:508` | `def _render_phase_badge(ctx)` |
-| `_render_streak` | function | `cli/engagement_hooks.py:461` | `def _render_streak(ctx)` |
-| `_run_curiosity` | function | `cli/engagement_hooks.py:433` | `def _run_curiosity(cmd, state, index)` |
-| `_sanitize_seen` | function | `cli/engagement_hooks.py:334` | `def _sanitize_seen(names, known)` |
-| `_save_state` | function | `cli/engagement_hooks.py:282` | `def _save_state(state)` |
-| `_summary_for_cmd` | function | `cli/engagement_hooks.py:416` | `def _summary_for_cmd(cmd, index)` |
-| `_sync_user_elo` | function | `cli/engagement_hooks.py:762` | `def _sync_user_elo(delta)` |
-| `get_karma_name` | function | `cli/engagement_hooks.py:718` | `def get_karma_name(elo)` |
-| `get_state_snapshot` | function | `cli/engagement_hooks.py:980` | `def get_state_snapshot()` |
-| `heal_commands_seen` | function | `cli/engagement_hooks.py:367` | `def heal_commands_seen(known)` |
-| `render_engagement_hook` | function | `cli/engagement_hooks.py:900` | `def render_engagement_hook(cmd, phase, enabled)` |
-| `reset_session` | function | `cli/engagement_hooks.py:1068` | `def reset_session()` |
+| `EngagementState` | class | `cli/engagement_hooks.py:250` | `class EngagementState` |
+| `_award_elo` | function | `cli/engagement_hooks.py:742` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
+| `_check_badges` | function | `cli/engagement_hooks.py:1017` | `def _check_badges(cmd, first_time)` |
+| `_check_karma_up` | function | `cli/engagement_hooks.py:872` | `def _check_karma_up(state)` |
+| `_commands_in_phase` | function | `cli/engagement_hooks.py:417` | `def _commands_in_phase(phase, index)` |
+| `_fire_vri_reward` | function | `cli/engagement_hooks.py:680` | `def _fire_vri_reward(state, ctx)` |
+| `_is_recordable_command` | function | `cli/engagement_hooks.py:314` | `def _is_recordable_command(cmd)` |
+| `_load_index` | function | `cli/engagement_hooks.py:298` | `def _load_index()` |
+| `_load_state` | function | `cli/engagement_hooks.py:268` | `def _load_state()` |
+| `_next_threshold` | function | `cli/engagement_hooks.py:402` | `def _next_threshold(current)` |
+| `_normalize_command` | function | `cli/engagement_hooks.py:309` | `def _normalize_command(cmd)` |
+| `_persist_notification` | function | `cli/engagement_hooks.py:836` | `def _persist_notification(html)` |
+| `_phase_for_cmd` | function | `cli/engagement_hooks.py:408` | `def _phase_for_cmd(cmd, index)` |
+| `_print_badge` | function | `cli/engagement_hooks.py:1064` | `def _print_badge(name, description)` |
+| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:544` | `def _render_arsenal_tip(ctx)` |
+| `_render_exploration` | function | `cli/engagement_hooks.py:496` | `def _render_exploration(ctx)` |
+| `_render_hidden_feature` | function | `cli/engagement_hooks.py:530` | `def _render_hidden_feature(ctx)` |
+| `_render_methodology_note` | function | `cli/engagement_hooks.py:638` | `def _render_methodology_note(ctx)` |
+| `_render_methodology_objective` | function | `cli/engagement_hooks.py:591` | `def _render_methodology_objective(ctx)` |
+| `_render_methodology_task` | function | `cli/engagement_hooks.py:552` | `def _render_methodology_task(ctx)` |
+| `_render_phase_badge` | function | `cli/engagement_hooks.py:514` | `def _render_phase_badge(ctx)` |
+| `_render_streak` | function | `cli/engagement_hooks.py:467` | `def _render_streak(ctx)` |
+| `_run_curiosity` | function | `cli/engagement_hooks.py:439` | `def _run_curiosity(cmd, state, index)` |
+| `_sanitize_seen` | function | `cli/engagement_hooks.py:340` | `def _sanitize_seen(names, known)` |
+| `_save_state` | function | `cli/engagement_hooks.py:288` | `def _save_state(state)` |
+| `_summary_for_cmd` | function | `cli/engagement_hooks.py:422` | `def _summary_for_cmd(cmd, index)` |
+| `_sync_user_elo` | function | `cli/engagement_hooks.py:768` | `def _sync_user_elo(delta)` |
+| `get_karma_name` | function | `cli/engagement_hooks.py:724` | `def get_karma_name(elo)` |
+| `get_state_snapshot` | function | `cli/engagement_hooks.py:986` | `def get_state_snapshot()` |
+| `heal_commands_seen` | function | `cli/engagement_hooks.py:373` | `def heal_commands_seen(known)` |
+| `render_engagement_hook` | function | `cli/engagement_hooks.py:906` | `def render_engagement_hook(cmd, phase, enabled)` |
+| `reset_session` | function | `cli/engagement_hooks.py:1074` | `def reset_session()` |
 | `ExploitHit` | class | `cli/exploit_advisor.py:144` | `class ExploitHit` |
 | `ServiceInfo` | class | `cli/exploit_advisor.py:111` | `class ServiceInfo` |
 | `ServiceResult` | class | `cli/exploit_advisor.py:153` | `class ServiceResult` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `GraphOverlayState` | class | `cli/graph_overlay.py:69` | `class GraphOverlayState` |
 | `GraphOverlayView` | class | `cli/graph_overlay.py:33` | `class GraphOverlayView(StrEnum)` |
 | `_GraphOverlayApp` | class | `cli/graph_overlay.py:246` | `class _GraphOverlayApp(App)` |
-| `__init__` | method | `cli/graph_overlay.py:260` | `def __init__(self)` |
-| `_advisor` | method | `cli/graph_overlay.py:174` | `def _advisor(self)` |
-| `_build_app` | function | `cli/graph_overlay.py:235` | `def _build_app(state, theme)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

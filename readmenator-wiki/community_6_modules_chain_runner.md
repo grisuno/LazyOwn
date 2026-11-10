@@ -1,14 +1,14 @@
 # modules: chain_runner
 
-*Community 6 | 90 files | cohesion 0.60*
+*Community 6 | 98 files | cohesion 0.58*
 
 ## Definition
 
-This community groups 90 file(s) rooted at `tests` with dominant language py (cohesion 0.60). Central symbols: `ActionDecision`, `AdversarySelector`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicSelector`, `AtomicTest`, `AtomicTestRef`. Core file: `tests/test_lazy_loop.py` (48 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
+This community groups 98 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ActionDecision`, `AdversarySelector`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicSelector`, `AtomicTest`, `AtomicTestRef`. Core file: `tests/test_lazy_loop.py` (48 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
 
 ## Files
 
-### `tests` (40 files)
+### `tests` (41 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -17,14 +17,14 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 | `tests/test_atomic_loop.py` | py | testing | 17 | yes |
 | `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
 
-### `modules` (27 files)
+### `modules` (31 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `modules/ad_gym.py` | py | utility | 10 | yes |
 | `modules/apt_playbooks.py` | py | utility | 17 | yes |
+| `modules/atomic_exploit_bridge.py` | py | utility | 39 | yes |
 | `modules/atomic_resolver.py` | py | utility | 27 | yes |
-| `modules/auto_registry.py` | py | utility | 45 | yes |
-| `modules/chain_approval.py` | py | utility | 18 | yes |
 
 ### `modules/selection` (15 files)
 
@@ -33,7 +33,14 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 | `modules/selection/__init__.py` | py | utility | 0 | yes |
 | `modules/selection/adversary.py` | py | utility | 6 | yes |
 | `modules/selection/atomic.py` | py | utility | 2 | yes |
-| `modules/selection/base.py` | py | utility | 4 | yes |
+
+### `skills/mcp_tools` (5 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/mcp_tools/apt_chain.py` | py | utility | 1 | yes |
+| `skills/mcp_tools/atomic_clean.py` | py | utility | 1 | yes |
+| `skills/mcp_tools/atomic_shell.py` | py | utility | 1 | yes |
 
 ### `cli` (2 files)
 
@@ -41,13 +48,6 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `cli/apt_chain_support.py` | py | utility | 19 | yes |
 | `cli/retry_support.py` | py | utility | 10 | yes |
-
-### `skills/mcp_tools` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/mcp_tools/apt_chain.py` | py | utility | 1 | yes |
-| `skills/mcp_tools/ttp_chain.py` | py | utility | 1 | yes |
 
 ### `cli/commands` (1 files)
 
@@ -73,7 +73,7 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `static/js/select2-4.1.0.min.js` | js | utility | 3 | yes |
 
-*... and 70 more files in this community.*
+*... and 78 more files in this community.*
 
 
 ## Key Symbols
@@ -111,8 +111,8 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 290
-- Cross-boundary resolved imports (EXTRACTED): 265
+- Internal resolved imports (EXTRACTED): 318
+- Cross-boundary resolved imports (EXTRACTED): 303
 
 ## Connections
 
@@ -146,14 +146,16 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 - Why do 3 file(s) lack file-level docs (e.g. `modules/loop/worker_execution.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` be broken with an interface?
 - What would break if the most connected file in modules: chain_runner changed?
-- Should modules: chain_runner be split, given cohesion 0.60?
+- Should modules: chain_runner be split, given cohesion 0.58?
 
 ## Sources
 
 - `cli/apt_chain_support.py`
 - `cli/commands/command_and_control_migrated.py`
 - `cli/retry_support.py`
+- `modules/ad_gym.py`
 - `modules/apt_playbooks.py`
+- `modules/atomic_exploit_bridge.py`
 - `modules/atomic_resolver.py`
 - `modules/auto_registry.py`
 - `modules/chain_approval.py`
@@ -166,8 +168,6 @@ This community groups 90 file(s) rooted at `tests` with dominant language py (co
 - `modules/chain_state.py`
 - `modules/chain_synth.py`
 - `modules/chain_tokens.py`
+- `modules/ctf_capture.py`
 - `modules/custom_tools.py`
-- `modules/emulation_runner.py`
-- `modules/gym_matrix_runner.py`
-- `modules/lazy_autofire.py`
-- *... and 70 more*
+- *... and 78 more*

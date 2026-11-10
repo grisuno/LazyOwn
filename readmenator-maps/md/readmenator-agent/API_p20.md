@@ -1,6 +1,25 @@
 # API (page 20 of 27)
 Previous: [API_p19.md](API_p19.md)
 
+## modules/vulnbot.py
+Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
+Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
+- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:38` `def __init__(self, provider, mode, debug, script_path)`
+- `list_files` (function) `modules/vulnbot.py:149` `def list_files(directory)` -- Lista archivos en un directorio
+- `read_file` (function) `modules/vulnbot.py:153` `def read_file(path)` -- Lee contenido de un archivo
+- `edit_file` (function) `modules/vulnbot.py:158` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
+- `generate` (function) `modules/vulnbot.py:202` `def generate()`
+- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:208` `def load_knowledge_base(self)` -- Load the knowledge base in any known shape.
+- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:224` `def save_knowledge_base(self, kb)`
+- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:228` `def get_relevant_knowledge(self, prompt)` -- Return knowledge responses whose text shares keywords with the prompt.
+- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:251` `def create_complex_prompt(self, base_prompt, history, knowledge)`
+- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:267` `def read_file_content(self, file_path)`
+- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:273` `def load_event_config(self)`
+- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:281` `def process_with_context(self, file_path, event)`
+- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:297` `def stream_response(self, prompt)`
+- `generate` (function) `modules/vulnbot.py:298` `def generate()`
+- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:303` `def add_to_knowledge_base(self, prompt, response)` -- Append a prompt/response record in the canonical list format.
+
 ## modules/websocket_beacon.py
 Depends on: `core/hardening.py`
 - `WebSocketBeacon.__init__` (method) `modules/websocket_beacon.py:62` `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
@@ -476,23 +495,6 @@ Imported by: `skills/mcp_tools/opencode_config.py`
 ## scripts/migrate_commandsets.py
 - `merge_phase` (function) `scripts/migrate_commandsets.py:117` `def merge_phase(phase, dry_run)` -- Merge one phase's migrated methods into its clean file.
 - `main` (function) `scripts/migrate_commandsets.py:158` `def main()`
-
-## scripts/migrate_lazyown.py
-Imported by: `tests/test_migrate_lazyown_generator.py`
-- `extract_method` (function) `scripts/migrate_lazyown.py:88` `def extract_method(source, node)` -- Return the raw source text of a function definition.
-- `rewrite_globals` (function) `scripts/migrate_lazyown.py:96` `def rewrite_globals(method_source)` -- Replace bare module-global names with ``self.params[...]``.
-- `build_migrated_module` (function) `scripts/migrate_lazyown.py:124` `def build_migrated_module(phase, category, methods)` -- Return the source text of a migrated ``CommandSet`` module.
-- `main` (function) `scripts/migrate_lazyown.py:173` `def main()`
-
-## scripts/mutate.sh
-- `runners` (function) `scripts/mutate.sh:29`
-- `changed_sources` (function) `scripts/mutate.sh:33`
-- `usage` (function) `scripts/mutate.sh:40`
-
-## scripts/mutation_gate.py
-- `discover_runners` (function) `scripts/mutation_gate.py:25` `def discover_runners()` -- Return sorted curated mutation runners.
-- `run_runner` (function) `scripts/mutation_gate.py:34` `def run_runner(path, timeout_s)` -- Execute one mutation runner.
-- `main` (function) `scripts/mutation_gate.py:63` `def main(argv)` -- Entry point for the mutation gate.
 
 
 Next: [API_p21.md](API_p21.md)

@@ -159,11 +159,14 @@ Project types nested under the project types they derive from. External bases ar
 - [`BlankAuthResponse`](modules/modules.amt_auth_bypass.py.md#blankauthresponse) class in `modules.amt_auth_bypass`
 - [`BofCatalog`](modules/modules.bof_registry.py.md#bofcatalog) class in `modules.bof_registry`
 - [`BofCategory`](modules/modules.bof_registry.py.md#bofcategory) enum in `modules.bof_registry`(str, Enum)
+- [`BofDeliveryConfig`](modules/modules.bof_delivery.py.md#bofdeliveryconfig) class in `modules.bof_delivery`
 - [`BofEntry`](modules/modules.bof_registry.py.md#bofentry) class in `modules.bof_registry`
+- [`BofEntryRow`](modules/modules.bof_admin.py.md#bofentryrow) class in `modules.bof_admin`
 - [`BofMarketplace`](modules/modules.bof_registry.py.md#bofmarketplace) class in `modules.bof_registry`
 - [`BofPlatform`](modules/modules.bof_registry.py.md#bofplatform) enum in `modules.bof_registry`(str, Enum)
 - [`BofRegistry`](modules/modules.bof_registry.py.md#bofregistry) class in `modules.bof_registry`
 - [`BofValidator`](modules/modules.bof_registry.py.md#bofvalidator) class in `modules.bof_registry`
+- [`BofYamlStore`](modules/modules.bof_registry.py.md#bofyamlstore) class in `modules.bof_registry`
 - [`BridgeCatalog`](modules/core.protocols.py.md#bridgecatalog) protocol in `core.protocols`(Protocol)
 - [`BridgeDispatcher`](modules/modules.lazyown_bridge.py.md#bridgedispatcher) class in `modules.lazyown_bridge`
 - [`Budget`](modules/modules.lazy_loop.py.md#budget) class in `modules.lazy_loop`
@@ -223,6 +226,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`CicleStateFile`](modules/skills.claude_md_orchestrator.models.py.md#ciclestatefile) class in `skills.claude_md_orchestrator.models`
 - [`ClassificationResult`](modules/skills.lazyown_policy.py.md#classificationresult) class in `skills.lazyown_policy`
 - [`ClaudeMdLoader`](modules/skills.lazyown_claudemd.py.md#claudemdloader) class in `skills.lazyown_claudemd`
+- [`ClientAddon`](modules/modules.bof_delivery.py.md#clientaddon) class in `modules.bof_delivery`
 - [`CloudBucketEnumerator`](modules/modules.lazycloud.py.md#cloudbucketenumerator) class in `modules.lazycloud`
 - [`CloudEnumerator`](modules/modules.cloud_enum.py.md#cloudenumerator) class in `modules.cloud_enum`
 - [`CloudFinding`](modules/modules.lazycloud.py.md#cloudfinding) class in `modules.lazycloud`

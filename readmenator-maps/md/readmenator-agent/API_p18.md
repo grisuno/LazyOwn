@@ -1,6 +1,31 @@
 # API (page 18 of 27)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/playbook_engine.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/mcp_tools/playbook_generate.py`, `skills/mcp_tools/playbook_run.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
+- `PlaybookStep.to_dict` (method) `modules/playbook_engine.py:113` `def to_dict(self)`
+- `PlaybookStep.from_dict` (method) `modules/playbook_engine.py:128` `def from_dict(cls, d)`
+- `Playbook.to_dict` (method) `modules/playbook_engine.py:141` `def to_dict(self)`
+- `Playbook.from_dict` (method) `modules/playbook_engine.py:152` `def from_dict(cls, d)`
+- `_StixLoader.__init__` (method) `modules/playbook_engine.py:188` `def __init__(self, json_path)`
+- `_StixLoader.available` (method) `modules/playbook_engine.py:192` `def available(self)`
+- `_StixLoader.store` (method) `modules/playbook_engine.py:195` `def store(self)`
+- `_StixLoader.techniques_for_tactics` (method) `modules/playbook_engine.py:210` `def techniques_for_tactics(self, tactic_shortnames, platform)` -- Return ATT&CK techniques matching the given tactic shortnames.
+- `_AtomicIndex.__init__` (method) `modules/playbook_engine.py:260` `def __init__(self, atomics_path)`
+- `_AtomicIndex.available` (method) `modules/playbook_engine.py:264` `def available(self)`
+- `_AtomicIndex.build` (method) `modules/playbook_engine.py:267` `def build(self)`
+- `_AtomicIndex.tests_for_technique` (method) `modules/playbook_engine.py:300` `def tests_for_technique(self, technique_id, platform)`
+- `_TechniqueSelector.select` (method) `modules/playbook_engine.py:317` `def select(self, candidates, world_context, target, phase, api_key, top_n)`
+- `PlaybookEngine.__init__` (method) `modules/playbook_engine.py:387` `def __init__(self, world_model, obs_parser, api_key, top_n)`
+- `PlaybookEngine.derive` (method) `modules/playbook_engine.py:427` `def derive(self, target, phase, platform, apt_name)` -- Generate a Playbook for *target* at the given *phase*.
+- `PlaybookEngine.execute` (method) `modules/playbook_engine.py:529` `def execute(self, playbook, executor, dry_run)` -- Execute a Playbook step by step.
+- `PlaybookEngine.save` (method) `modules/playbook_engine.py:599` `def save(self, playbook, path)` -- Persist playbook to YAML (compatible with existing playbooks/ format).
+- `PlaybookEngine.load` (method) `modules/playbook_engine.py:611` `def load(self, path)` -- Load a playbook from YAML.
+- `PlaybookEngine.result_summary` (method) `modules/playbook_engine.py:640` `def result_summary(self, result)` -- Return a human-readable / LLM-readable summary of a PlaybookResult.
+- `get_engine` (function) `modules/playbook_engine.py:669` `def get_engine(api_key)` -- Return (or create) the module-level singleton PlaybookEngine.
+- `phase_techniques` (function) `modules/playbook_engine.py:696` `def phase_techniques(phase, platform, top_n)` -- Return candidate ATT&CK techniques for one canonical loop phase.
+
 ## modules/playbook_executor.py
 Depends on: `modules/pipeline_engine.py`
 - `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
@@ -118,7 +143,7 @@ Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`,
 
 ## modules/recommender.py
 Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
-Imported by: `skills/lazyown_mcp.py`
+Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/recommend_next.py`
 - `recommend` (function) `modules/recommender.py:143` `def recommend(state, api_key)` -- Return ranked recommendations without writing to disk.
 - `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
 
@@ -460,27 +485,6 @@ Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
 - `find_cloudflared_pids` (function) `modules/session_cleanup.py:28` `def find_cloudflared_pids(ps_output)` -- Extract PIDs of ``cloudflared tunnel`` processes from ps output.
 - `stop_cloudflared_processes` (function) `modules/session_cleanup.py:94` `def stop_cloudflared_processes()` -- Terminate stray ``cloudflared tunnel`` host processes.
 - `cleanup_ephemeral_infra` (function) `modules/session_cleanup.py:120` `def cleanup_ephemeral_infra()` -- Stop all disposable infrastructure owned by this checkout.
-
-## modules/session_rag.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/rag_index.py`, `skills/mcp_tools/rag_query.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
-- `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
-- `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
-- `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
-- `_KeywordFallback.add` (method) `modules/session_rag.py:136` `def add(self, doc_id, text, meta)`
-- `_KeywordFallback.query` (method) `modules/session_rag.py:146` `def query(self, query_text, n)`
-- `_KeywordFallback.count` (method) `modules/session_rag.py:156` `def count(self)`
-- `_KeywordFallback.reset` (method) `modules/session_rag.py:159` `def reset(self)`
-- `_RagState.load` (method) `modules/session_rag.py:172` `def load(cls)`
-- `_RagState.save` (method) `modules/session_rag.py:181` `def save(self)`
-- `SessionRAG.__init__` (method) `modules/session_rag.py:191` `def __init__(self)`
-- `SessionRAG.index_new` (method) `modules/session_rag.py:301` `def index_new(self)` -- Incrementally index only new or changed files.
-- `SessionRAG.index_parquet_sources` (method) `modules/session_rag.py:322` `def index_parquet_sources(self, force)` -- Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index) into the RAG store.
-- `SessionRAG.index_all` (method) `modules/session_rag.py:411` `def index_all(self)` -- Full re-index from scratch.
-- `SessionRAG.query` (method) `modules/session_rag.py:439` `def query(self, query_text, n, collection)` -- Return top-n relevant chunks as dicts with keys: text, source, chunk, score.
-- `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
-- `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
-- `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
 
 
 Next: [API_p19.md](API_p19.md)

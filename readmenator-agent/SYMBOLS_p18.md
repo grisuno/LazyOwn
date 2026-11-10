@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TenantManager` | class | `modules/lazy_rbac.py:394` | `class TenantManager` |
+| `_UsersFileUnreadable` | class | `modules/lazy_rbac.py:115` | `class _UsersFileUnreadable(Exception)` |
+| `__init__` | method | `modules/lazy_rbac.py:213` | `def __init__(self, users_path)` |
+| `__init__` | method | `modules/lazy_rbac.py:397` | `def __init__(self, payloads_dir, config_path, default_payload)` |
+| `_bits_to_bytes` | function | `modules/lazy_rbac.py:903` | `def _bits_to_bytes(bits, data_bits)` |
+| `_generate_recovery_codes` | function | `modules/lazy_rbac.py:356` | `def _generate_recovery_codes(count)` |
+| `_get_rbac_store` | function | `modules/lazy_rbac.py:632` | `def _get_rbac_store()` |
+| `_get_rbac_user` | function | `modules/lazy_rbac.py:619` | `def _get_rbac_user(flask_user)` |
+| `_load_config` | method | `modules/lazy_rbac.py:410` | `def _load_config(self)` |
+| `_qr_add_format_info` | function | `modules/lazy_rbac.py:836` | `def _qr_add_format_info(modules, size, ecl_bits, mask)` |
+| `_qr_apply_mask` | function | `modules/lazy_rbac.py:963` | `def _qr_apply_mask(modules, size, mask)` |
+| `_qr_best_mask` | function | `modules/lazy_rbac.py:950` | `def _qr_best_mask(modules, size)` |
+| `_qr_blank_matrix` | function | `modules/lazy_rbac.py:823` | `def _qr_blank_matrix(version)` |
+| `_qr_choose_version` | function | `modules/lazy_rbac.py:744` | `def _qr_choose_version(data)` |
+| `_qr_data_bits_for_version` | function | `modules/lazy_rbac.py:812` | `def _qr_data_bits_for_version(version)` |
+| `_qr_data_bits_positions` | function | `modules/lazy_rbac.py:884` | `def _qr_data_bits_positions(matrix, size)` |
+| `_qr_ec_codewords` | function | `modules/lazy_rbac.py:752` | `def _qr_ec_codewords(version)` |
+| `_qr_encode_alphanumeric` | function | `modules/lazy_rbac.py:757` | `def _qr_encode_alphanumeric(data, version)` |
+| `_qr_penalty` | function | `modules/lazy_rbac.py:996` | `def _qr_penalty(modules, size)` |
+| `_qr_place_dark_module` | function | `modules/lazy_rbac.py:832` | `def _qr_place_dark_module(matrix, size, version)` |
+| `_qr_place_finders` | function | `modules/lazy_rbac.py:869` | `def _qr_place_finders(matrix, size)` |
+| `_qr_place_timing` | function | `modules/lazy_rbac.py:878` | `def _qr_place_timing(matrix, size)` |
+| `_qr_render_svg` | function | `modules/lazy_rbac.py:1058` | `def _qr_render_svg(modules, size, modules_per_pixel)` |
+| `_qr_svg_error` | function | `modules/lazy_rbac.py:860` | `def _qr_svg_error(msg)` |
+| `_read_users` | method | `modules/lazy_rbac.py:217` | `def _read_users(self)` |
+| `_reed_solomon_encode` | function | `modules/lazy_rbac.py:914` | `def _reed_solomon_encode(data, ec_words)` |
+| `_save_config` | method | `modules/lazy_rbac.py:421` | `def _save_config(self)` |
+| `_slugify` | function | `modules/lazy_rbac.py:514` | `def _slugify(name)` |
+| `_write_users` | method | `modules/lazy_rbac.py:232` | `def _write_users(self, users)` |
+| `can_manage_role` | method | `modules/lazy_rbac.py:174` | `def can_manage_role(self, target_role)` |
+| `check_cli_permission` | function | `modules/lazy_rbac.py:660` | `def check_cli_permission(username, permission)` |
+| `consume_recovery_code` | method | `modules/lazy_rbac.py:200` | `def consume_recovery_code(self, code)` |
+| `consume_recovery_code` | method | `modules/lazy_rbac.py:334` | `def consume_recovery_code(self, user_id, code)` |
+| `create_tenant` | method | `modules/lazy_rbac.py:457` | `def create_tenant(self, name, base_payload)` |
+| `create_user` | method | `modules/lazy_rbac.py:274` | `def create_user(self, username, password_hash, role, tenant_id)` |
+| `decorated` | function | `modules/lazy_rbac.py:544` | `def decorated()` |
+| `decorated` | function | `modules/lazy_rbac.py:570` | `def decorated()` |
+| `decorated` | function | `modules/lazy_rbac.py:600` | `def decorated()` |
+| `decorator` | function | `modules/lazy_rbac.py:542` | `def decorator(f)` |
+| `decorator` | function | `modules/lazy_rbac.py:568` | `def decorator(f)` |
+| `delete_tenant` | method | `modules/lazy_rbac.py:495` | `def delete_tenant(self, tenant_id)` |
+| `delete_user` | method | `modules/lazy_rbac.py:295` | `def delete_user(self, user_id)` |
+| `disable_mfa` | method | `modules/lazy_rbac.py:324` | `def disable_mfa(self, user_id)` |
+| `enable_mfa` | method | `modules/lazy_rbac.py:314` | `def enable_mfa(self, user_id)` |
+| `ensure_admin` | method | `modules/lazy_rbac.py:343` | `def ensure_admin(self, username, password_hash)` |
+| `ensure_default_tenant` | method | `modules/lazy_rbac.py:504` | `def ensure_default_tenant(self)` |
+| `find_by_id` | method | `modules/lazy_rbac.py:249` | `def find_by_id(self, user_id)` |
+| `find_by_username` | method | `modules/lazy_rbac.py:255` | `def find_by_username(self, username)` |
+| `from_dict` | method | `modules/lazy_rbac.py:140` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/lazy_rbac.py:390` | `def from_dict(cls, data)` |
+| `from_payload` | method | `modules/lazy_rbac.py:377` | `def from_payload(cls, tenant_id, name, payload_path)` |
+| `generate_mfa_qr_url` | function | `modules/lazy_rbac.py:680` | `def generate_mfa_qr_url(secret, username)` |
+| `generate_qr_svg` | function | `modules/lazy_rbac.py:689` | `def generate_qr_svg(data)` |
+| `get_active` | method | `modules/lazy_rbac.py:434` | `def get_active(self)` |
+| `get_active_payload_path` | method | `modules/lazy_rbac.py:439` | `def get_active_payload_path(self)` |
+| `get_active_sessions_dir` | method | `modules/lazy_rbac.py:445` | `def get_active_sessions_dir(self)` |
+| `get_mfa_provisioning_uri` | method | `modules/lazy_rbac.py:182` | `def get_mfa_provisioning_uri(self)` |
+| `get_payload_for_tenant` | method | `modules/lazy_rbac.py:451` | `def get_payload_for_tenant(self, tenant_id)` |
+| `get_rbac_store` | function | `modules/lazy_rbac.py:639` | `def get_rbac_store()` |
+| `get_role` | method | `modules/lazy_rbac.py:164` | `def get_role(self)` |
+| `get_tenant_manager` | function | `modules/lazy_rbac.py:648` | `def get_tenant_manager()` |
+| `get_user_role` | function | `modules/lazy_rbac.py:672` | `def get_user_role(username)` |
+| `gf_mul` | function | `modules/lazy_rbac.py:927` | `def gf_mul(a, b)` |
+| `has_permission` | method | `modules/lazy_rbac.py:170` | `def has_permission(self, permission)` |
+| `init_rbac_store` | function | `modules/lazy_rbac.py:523` | `def init_rbac_store(users_path)` |
+| `init_tenant_manager` | function | `modules/lazy_rbac.py:527` | `def init_tenant_manager(payloads_dir, config_path, default_payload)` |
+| `list_tenants` | method | `modules/lazy_rbac.py:431` | `def list_tenants(self)` |
+| `load_all` | method | `modules/lazy_rbac.py:245` | `def load_all(self)` |
+| `require_mfa` | function | `modules/lazy_rbac.py:596` | `def require_mfa(f)` |
+| `require_permission` | function | `modules/lazy_rbac.py:565` | `def require_permission()` |
+| `require_role` | function | `modules/lazy_rbac.py:539` | `def require_role()` |
+| `save` | method | `modules/lazy_rbac.py:261` | `def save(self, user)` |
+| `set_rbac_store` | function | `modules/lazy_rbac.py:643` | `def set_rbac_store(store)` |
+| `set_tenant_manager` | function | `modules/lazy_rbac.py:655` | `def set_tenant_manager(tm)` |
 | `switch_tenant` | method | `modules/lazy_rbac.py:486` | `def switch_tenant(self, tenant_id)` |
 | `to_dict` | method | `modules/lazy_rbac.py:136` | `def to_dict(self)` |
 | `to_dict` | method | `modules/lazy_rbac.py:386` | `def to_dict(self)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
 | `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
 | `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
-| `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
-| `process_file` | method | `modules/lilsplunky.py:257` | `def process_file(self, file_path)` |
-| `search_logs` | function | `modules/lilsplunky.py:382` | `def search_logs(query, file_path)` |
-| `simple_parse_log_line` | function | `modules/lilsplunky.py:69` | `def simple_parse_log_line(line, file_path)` |
-| `start_monitoring` | function | `modules/lilsplunky.py:413` | `def start_monitoring(log_dir, mode)` |
-| `store_event` | function | `modules/lilsplunky.py:108` | `def store_event(event_data)` |
-| `LinuxAdvancedConfig` | class | `modules/linux_advanced_payloads.py:64` | `class LinuxAdvancedConfig` |
-| `LinuxAdvancedPayloadFactory` | class | `modules/linux_advanced_payloads.py:92` | `class LinuxAdvancedPayloadFactory` |
-| `__init__` | method | `modules/linux_advanced_payloads.py:105` | `def __init__(self, config, output_dir)` |
-| `_ip_to_hex` | method | `modules/linux_advanced_payloads.py:305` | `def _ip_to_hex(ip_str)` |
-| `compile_c_source` | method | `modules/linux_advanced_payloads.py:707` | `def compile_c_source(self, source, output_name, shared)` |
-| `generate_all` | method | `modules/linux_advanced_payloads.py:749` | `def generate_all(self)` |
-| `generate_ebpf_payload` | method | `modules/linux_advanced_payloads.py:235` | `def generate_ebpf_payload(self)` |
-| `generate_kernel_module` | method | `modules/linux_advanced_payloads.py:519` | `def generate_kernel_module(self)` |
-| `generate_ld_preload_rootkit` | method | `modules/linux_advanced_payloads.py:110` | `def generate_ld_preload_rootkit(self)` |
-| `generate_motd_backdoor` | method | `modules/linux_advanced_payloads.py:689` | `def generate_motd_backdoor(self)` |
-| `generate_pam_backdoor` | method | `modules/linux_advanced_payloads.py:311` | `def generate_pam_backdoor(self)` |
-| `generate_process_masquerade` | method | `modules/linux_advanced_payloads.py:632` | `def generate_process_masquerade(self)` |
-| `generate_ssh_persistence` | method | `modules/linux_advanced_payloads.py:458` | `def generate_ssh_persistence(self)` |
-| `generate_systemd_persistence` | method | `modules/linux_advanced_payloads.py:398` | `def generate_systemd_persistence(self)` |
-| `generate_udev_persistence` | method | `modules/linux_advanced_payloads.py:676` | `def generate_udev_persistence(self)` |
-| `list_hook_functions` | method | `modules/linux_advanced_payloads.py:793` | `def list_hook_functions()` |
-| `list_persistence_methods` | method | `modules/linux_advanced_payloads.py:797` | `def list_persistence_methods()` |
-| `Listener` | class | `modules/listener_manager.py:141` | `class Listener` |
-| `ListenerManager` | class | `modules/listener_manager.py:172` | `class ListenerManager` |
-| `__init__` | method | `modules/listener_manager.py:179` | `def __init__(self, app, sessions_dir, payload)` |
-| `_bind_address` | method | `modules/listener_manager.py:191` | `def _bind_address(self, port)` |
-| `_collect_listener_bind_candidates` | function | `modules/listener_manager.py:35` | `def _collect_listener_bind_candidates(payload)` |
-| `_listeners_path` | method | `modules/listener_manager.py:201` | `def _listeners_path(self)` |
-| `_load` | method | `modules/listener_manager.py:204` | `def _load(self)` |
-| `_probe_listener_bind` | function | `modules/listener_manager.py:72` | `def _probe_listener_bind(address, port)` |
-| `_resolve_listener_bind_address` | function | `modules/listener_manager.py:110` | `def _resolve_listener_bind_address(payload, port)` |
-| `_save` | method | `modules/listener_manager.py:217` | `def _save(self)` |
-| `_stop` | method | `modules/listener_manager.py:343` | `def _stop(self, listener)` |
-| `add` | method | `modules/listener_manager.py:229` | `def add(self, port, ssl, listener_id)` |
-| `from_dict` | method | `modules/listener_manager.py:162` | `def from_dict(cls, data)` |
-| `get_default_port` | method | `modules/listener_manager.py:379` | `def get_default_port(self, fallback)` |
-| `remove` | method | `modules/listener_manager.py:242` | `def remove(self, listener_id)` |
-| `set_payload` | method | `modules/listener_manager.py:187` | `def set_payload(self, payload)` |
-| `start` | method | `modules/listener_manager.py:255` | `def start(self, listener_id)` |
-| `start_all` | method | `modules/listener_manager.py:356` | `def start_all(self)` |
-| `status` | method | `modules/listener_manager.py:367` | `def status(self)` |
-| `stop` | method | `modules/listener_manager.py:335` | `def stop(self, listener_id)` |
-| `stop_all` | method | `modules/listener_manager.py:362` | `def stop_all(self)` |
-| `to_dict` | method | `modules/listener_manager.py:152` | `def to_dict(self)` |
-| `_emit_edge` | function | `modules/live_surface.py:126` | `def _emit_edge(source, target, relation, weight)` |
-| `_emit_node` | function | `modules/live_surface.py:106` | `def _emit_node(node_id, state, title)` |
-| `_group_for` | function | `modules/live_surface.py:55` | `def _group_for(node_id)` |
-| `_is_compromised` | function | `modules/live_surface.py:45` | `def _is_compromised(state)` |
-| `_label_for` | function | `modules/live_surface.py:64` | `def _label_for(node_id)` |
-| `_node_value` | function | `modules/live_surface.py:50` | `def _node_value(centrality)` |
-| `build_live_graph` | function | `modules/live_surface.py:72` | `def build_live_graph(world)` |
-| `_complete` | function | `modules/llm_adapter.py:89` | `def _complete(client, full_prompt, model)` |
-| `_configure_logging` | function | `modules/llm_adapter.py:72` | `def _configure_logging(debug)` |
-| `_orchestrated` | function | `modules/llm_adapter.py:124` | `def _orchestrated(full_prompt, prompt, store, primary_error)` |
-| `_process` | function | `modules/llm_adapter.py:103` | `def _process(client, prompt, debug, template, config)` |
-| `_read_error` | function | `modules/llm_adapter.py:85` | `def _read_error(prompt)` |
-| `_read_prompt_file` | function | `modules/llm_adapter.py:77` | `def _read_prompt_file(prompt)` |
-| `ask_general` | function | `modules/llm_adapter.py:290` | `def ask_general(prompt, debug)` |
-| `process_prompt` | function | `modules/llm_adapter.py:155` | `def process_prompt(client, prompt, debug)` |
-| `process_prompt_adversary` | function | `modules/llm_adapter.py:183` | `def process_prompt_adversary(client, prompt, debug)` |
-| `process_prompt_general` | function | `modules/llm_adapter.py:197` | `def process_prompt_general(client, prompt, debug)` |
-| `process_prompt_redop` | function | `modules/llm_adapter.py:273` | `def process_prompt_redop(client, prompt, debug)` |
-| `process_prompt_script` | function | `modules/llm_adapter.py:169` | `def process_prompt_script(client, prompt, debug)` |
-| `process_prompt_search` | function | `modules/llm_adapter.py:211` | `def process_prompt_search(client, prompt, debug)` |
-| `process_prompt_task` | function | `modules/llm_adapter.py:225` | `def process_prompt_task(client, prompt, debug)` |
-| `process_prompt_vuln` | function | `modules/llm_adapter.py:242` | `def process_prompt_vuln(client, prompt, debug, event)` |
-| `safe_groq_client` | function | `modules/llm_adapter.py:55` | `def safe_groq_client(api_key)` |
-| `LLMClient` | class | `modules/llm_client.py:45` | `class LLMClient` |
-| `__init__` | method | `modules/llm_client.py:63` | `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)` |
-| `_ask_groq` | method | `modules/llm_client.py:179` | `def _ask_groq(self, prompt, model, system, temperature)` |
-| `_ask_llamacpp` | method | `modules/llm_client.py:242` | `def _ask_llamacpp(self, prompt, model, system)` |
-| `_ask_ollama` | method | `modules/llm_client.py:220` | `def _ask_ollama(self, prompt, model)` |
-| `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

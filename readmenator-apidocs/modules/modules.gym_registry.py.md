@@ -212,7 +212,7 @@ Return one row per YAML file, including invalid files.
 |---|---|---|---|
 | `directory` | `Path \| str \| None` | `None` | Override for tests; defaults to [`GYMS_DIR`](#gyms_dir). |
 
-**Returns:** `list[dict[str, Any]]` - Rows with `[`file`](modules.playbook_admin.py.md#playbookentry-file)`, ``path``, ``id``, ``name`` and ``error``.
+**Returns:** `list[dict[str, Any]]` - Rows with ``file``, ``path``, ``id``, ``name`` and ``error``.
 
 *Calls:* [`validate_definition`](#validate_definition)
 

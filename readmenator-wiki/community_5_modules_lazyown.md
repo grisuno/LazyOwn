@@ -1,26 +1,26 @@
 # modules: lazyown
 
-*Community 5 | 109 files | cohesion 0.35*
+*Community 5 | 106 files | cohesion 0.35*
 
 ## Definition
 
-This community groups 109 file(s) rooted at `tests` with dominant language py (cohesion 0.35). Central symbols: `AddonCatalog`, `AddonEntry`, `AddonHotReloader`, `AliasResolver`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `ArtifactSpec`. Core file: `lazyown.py` (124 symbols). Documented purpose: Declarative cmd2 alias loader.  Reads ``cli/aliases.yaml`` and substitutes ``{name}`` placeholders against a payload dict (typically loaded from ``payload.json`.
+This community groups 106 file(s) rooted at `tests` with dominant language py (cohesion 0.35). Central symbols: `AddonCatalog`, `AddonEntry`, `AddonHotReloader`, `AliasResolver`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `ArtifactSpec`. Core file: `lazyown.py` (124 symbols). Documented purpose: Declarative cmd2 alias loader.  Reads ``cli/aliases.yaml`` and substitutes ``{name}`` placeholders against a payload dict (typically loaded from ``payload.json`.
 
 ## Files
 
-### `tests` (43 files)
+### `tests` (42 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_aes_key_propagation.py` | py | testing | 12 | yes |
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
 
-### `modules` (26 files)
+### `modules` (25 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/auto_purple.py` | py | utility | 40 | yes |
-| `modules/beacon_config_builder.py` | py | infrastructure | 14 | yes |
+| `modules/c2_builder.py` | py | infrastructure | 23 | yes |
 
 ### `cli` (15 files)
 
@@ -29,12 +29,12 @@ This community groups 109 file(s) rooted at `tests` with dominant language py (c
 | `cli/aliases.py` | py | utility | 8 | yes |
 | `cli/auto_crypto.py` | py | utility | 13 | yes |
 
-### `cli/commands` (9 files)
+### `cli/commands` (8 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/audit.py` | py | utility | 16 | yes |
-| `cli/commands/bof_registry.py` | py | utility | 12 | yes |
+| `cli/commands/defaults.py` | py | utility | 4 | yes |
 
 ### `core` (5 files)
 
@@ -93,7 +93,7 @@ This community groups 109 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 6 | yes |
 
-*... and 89 more files in this community.*
+*... and 86 more files in this community.*
 
 
 ## Key Symbols
@@ -131,7 +131,7 @@ This community groups 109 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 502
+- Internal resolved imports (EXTRACTED): 496
 - Cross-boundary resolved imports (EXTRACTED): 661
 
 ## Connections
@@ -140,13 +140,12 @@ This community groups 109 file(s) rooted at `tests` with dominant language py (c
 - [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
 - [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
 - [EXTRACTED] depends_on community 10 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 5 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports modules/bof_registry.py.
 - [EXTRACTED] depends_on community 6 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
@@ -175,7 +174,6 @@ This community groups 109 file(s) rooted at `tests` with dominant language py (c
 - `cli/cli_enhancements.py`
 - `cli/command_chain.py`
 - `cli/commands/audit.py`
-- `cli/commands/bof_registry.py`
 - `cli/commands/defaults.py`
 - `cli/commands/diagnostics.py`
 - `cli/commands/lazyloop.py`
@@ -190,4 +188,5 @@ This community groups 109 file(s) rooted at `tests` with dominant language py (c
 - `cli/lazynmap_post.py`
 - `cli/ops_commands.py`
 - `cli/orchestrator_assets_tabs.py`
-- *... and 89 more*
+- `cli/purple_tui.py`
+- *... and 86 more*

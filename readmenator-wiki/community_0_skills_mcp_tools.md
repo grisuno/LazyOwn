@@ -1,14 +1,14 @@
 # skills/mcp_tools
 
-*Community 0 | 222 files | cohesion 0.61*
+*Community 0 | 235 files | cohesion 0.63*
 
 ## Definition
 
-This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant language py (cohesion 0.61). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`. Core file: `skills/autonomous_daemon.py` (158 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant language py (cohesion 0.63). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`. Core file: `skills/autonomous_daemon.py` (158 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `skills/mcp_tools` (130 files)
+### `skills/mcp_tools` (143 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -17,7 +17,7 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `skills/mcp_tools/aci_plan.py` | py | utility | 1 | yes |
 | `skills/mcp_tools/aci_replan.py` | py | utility | 1 | yes |
 
-### `modules` (33 files)
+### `modules` (31 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -25,7 +25,7 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `modules/atomic_enricher.py` | py | utility | 9 | yes |
 | `modules/cve_matcher.py` | py | utility | 12 | yes |
 
-### `tests` (31 files)
+### `tests` (29 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -33,7 +33,7 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `tests/test_aci_planner.py` | py | testing | 95 | yes |
 | `tests/test_autonomous_ops.py` | py | testing | 17 | yes |
 
-### `skills` (19 files)
+### `skills` (22 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -41,13 +41,13 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `skills/autonomous_daemon.py` | py | utility | 158 | yes |
 | `skills/autonomous_replay.py` | py | utility | 19 | yes |
 
-### `skills/tests` (5 files)
+### `skills/tests` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/tests/test_autonomous_daemon.py` | py | testing | 88 | yes |
+| `skills/tests/test_facts.py` | py | testing | 37 | yes |
 | `skills/tests/test_hive_mind.py` | py | testing | 95 | yes |
-| `skills/tests/test_mcp_smoke.py` | py | testing | 5 | yes |
 
 ### `cli/commands` (3 files)
 
@@ -63,7 +63,7 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 202 more files in this community.*
+*... and 215 more files in this community.*
 
 
 ## Key Symbols
@@ -101,8 +101,8 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 795
-- Cross-boundary resolved imports (EXTRACTED): 298
+- Internal resolved imports (EXTRACTED): 807
+- Cross-boundary resolved imports (EXTRACTED): 304
 
 ## Connections
 
@@ -133,7 +133,7 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 - Why do 1 file(s) lack file-level docs (e.g. `tests/integration_autonomous_flow.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` be broken with an interface?
 - What would break if the most connected file in skills/mcp_tools changed?
-- Should skills/mcp_tools be split, given cohesion 0.61?
+- Should skills/mcp_tools be split, given cohesion 0.63?
 
 ## Sources
 
@@ -143,8 +143,6 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 - `modules/asset_graph.py`
 - `modules/atomic_enricher.py`
 - `modules/cve_matcher.py`
-- `modules/detection_feed.py`
-- `modules/detection_oracle.py`
 - `modules/engage_summary.py`
 - `modules/enrich.py`
 - `modules/evasion_engine.py`
@@ -157,4 +155,6 @@ This community groups 222 file(s) rooted at `skills/mcp_tools` with dominant lan
 - `modules/lesson_ingestor.py`
 - `modules/llm_evaluator.py`
 - `modules/llm_pool.py`
-- *... and 202 more*
+- `modules/mcp_agent_bridge.py`
+- `modules/moe_router.py`
+- *... and 215 more*

@@ -99,7 +99,7 @@ live file, staging writes beside it first, and rollback restores the
 |---|---|---|
 | [`__init__`](#updater-__init__) | constructor | Bind the updater to the binary that may be replaced. |
 | [`verify`](#updater-verify) | method | Return True when the payload matches its recorded digest. |
-| [`stage`](#updater-stage) | method | Write a verified payload into ``directory``. |
+| [`stage`](#updater-stage) | method | Write a verified payload into `[`directory`](modules.bof_registry.py.md#bofyamlstore-directory)`. |
 | [`rollback`](#updater-rollback) | method | Restore the ``<name>.old`` snapshot over the live binary. |
 
 <a id="updater-__init__"></a>
@@ -152,7 +152,7 @@ Return True when the payload matches its recorded digest.
 def stage(self, artifact: ReleaseArtifact, directory: str | Path) -> str
 ```
 
-Write a verified payload into ``directory``.
+Write a verified payload into `[`directory`](modules.bof_registry.py.md#bofyamlstore-directory)`.
 
 **Parameters**
 

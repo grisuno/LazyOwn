@@ -3,6 +3,8 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/ia_code_analysis.py` | CodeAnalyzer: Analyzes source code in a directory and its subdirectories. | modules | 8 | 0 |
+| `modules/ia_logs_analysis.py` | Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: AGPL v3... | modules | 7 | 0 |
 | `modules/ia_network_analysis.py` | Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: AGPL v3  Descripción: Bot de monitoreo de... | modules | 4 | 0 |
 | `modules/img2bin.py` | - | modules | 2 | 0 |
 | `modules/integrations/__init__.py` | LazyOwn integrations — bridges to external platforms and tools. | integrations | 0 | 0 |
@@ -125,7 +127,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 16 | 8 |
 | `modules/macos_payloads.py` | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | modules | 16 | 1 |
 | `modules/mario.py` | - | modules | 1 | 0 |
-| `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 5 |
+| `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 7 |
 | `modules/mediation/__init__.py` | Mediation layer for LazyOwn cross-module coordination. | mediation | 0 | 5 |
 | `modules/mediation/chain_mediator.py` | Specialised mediator for the APT chain pipeline. | mediation | 8 | 3 |
 | `modules/mediation/contracts.py` | Mediation contracts: the abstractions every participant depends on. | mediation | 12 | 5 |
@@ -174,7 +176,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/r.sh` | Obtener la versión del kernel actual | modules | 1 | 9 |
 | `modules/reaction_bridge.py` | Reaction bridge between the reactive engine and the loop planner. | modules | 9 | 3 |
 | `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 10 |
-| `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
+| `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 2 |
 | `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 30 | 8 |
 | `modules/reflective_dll.py` | Reflective DLL loading — load PE from memory without touching disk. | modules | 27 | 0 |
 | `modules/resource_script.py` | Enhanced resource script engine — variables, conditionals, loops, macros. | modules | 21 | 3 |
@@ -379,24 +381,24 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_claudemd.py` | LazyOwn CLAUDE.md Hierarchical Loader (Claude Code style)  4-level hierarchy (highest → lowest... | skills | 8 | 2 |
 | `skills/lazyown_context.py` | LazyOwn Context Compaction Pipeline — 5-layer graduated compression (Claude Code style)  Layers: 1. | skills | 11 | 3 |
 | `skills/lazyown_daemon.py` | LazyOwn Unified Daemon | skills | 24 | 0 |
-| `skills/lazyown_facts.py` | LazyOwn FactStore | skills | 79 | 11 |
+| `skills/lazyown_facts.py` | LazyOwn FactStore | skills | 79 | 12 |
 | `skills/lazyown_groq_agents.py` | skills/lazyown_groq_agents.py | skills | 40 | 4 |
 | `skills/lazyown_hooks.py` | LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. | skills | 14 | 2 |
 | `skills/lazyown_llm.py` | LazyOwn LLM Bridge — MCP Edition | skills | 21 | 5 |
-| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 65 | 9 |
-| `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 10 |
+| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 61 | 9 |
+| `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 12 |
 | `skills/lazyown_mcp_opencode.py` | LazyOwn MCP OpenCode bridge. | skills | 6 | 1 |
 | `skills/lazyown_objective.py` | LazyOwn Objective Store | skills | 36 | 12 |
 | `skills/lazyown_parquet_db.py` | LazyOwn Parquet Knowledge Base | skills | 21 | 10 |
 | `skills/lazyown_permissions.py` | LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS... | skills | 16 | 2 |
 | `skills/lazyown_policy.py` | LazyOwn Policy Engine | skills | 126 | 10 |
-| `skills/lazyown_session.py` | LazyOwn Append-Only Session Transcripts (Claude Code style)  All writes are append-only JSONL. | skills | 14 | 2 |
+| `skills/lazyown_session.py` | LazyOwn Append-Only Session Transcripts (Claude Code style)  All writes are append-only JSONL. | skills | 14 | 4 |
 | `skills/mcp_generated_tools.py` | Auto-generated MCP tool handlers from command_index.json. | skills | 645 | 0 |
 | `skills/mcp_lazy.py` | Single helper behind every lazy optional import of the MCP server. | skills | 1 | 2 |
 | `skills/mcp_restart.sh` | LazyOwn MCP restart helper  Kills ALL lazyown_mcp instances (stdio + SSE) and relaunches the SSE... | skills | 0 | 0 |
 | `skills/mcp_tool_generator.py` | Auto-generate MCP tool handlers from cli/command_index.json. | skills | 9 | 0 |
 | `skills/mcp_tools/__init__.py` | Auto-discovered one-file-per-tool registry for the LazyOwn MCP server. | mcp_tools | 5 | 1 |
-| `skills/mcp_tools/_context.py` | Dependency-injection context handed to every ``mcp_tools`` handler. | mcp_tools | 1 | 176 |
+| `skills/mcp_tools/_context.py` | Dependency-injection context handed to every ``mcp_tools`` handler. | mcp_tools | 1 | 190 |
 | `skills/mcp_tools/aci_plan.py` | MCP tool ``lazyown_aci_plan`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/aci_replan.py` | MCP tool ``lazyown_aci_replan`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/aci_status.py` | MCP tool ``lazyown_aci_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -433,12 +435,14 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/campaign_lessons.py` | MCP tool ``lazyown_campaign_lessons`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/campaign_sitrep.py` | MCP tool ``lazyown_campaign_sitrep`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/campaign_tasks.py` | MCP tool ``lazyown_campaign_tasks`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/claudemd.py` | MCP tool ``lazyown_claudemd`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/collab_publish.py` | MCP tool ``lazyown_collab_publish`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/command_help.py` | MCP tool ``lazyown_command_help`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/command_next.py` | MCP tool ``lazyown_command_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/command_prev.py` | MCP tool ``lazyown_command_prev`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/create_addon.py` | MCP tool ``lazyown_create_addon`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/create_param.py` | MCP tool ``lazyown_create_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/create_tool.py` | MCP tool ``lazyown_create_tool`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/credentials.py` | MCP tool ``lazyown_credentials``: aggregate captured credentials. | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/cron_schedule.py` | MCP tool ``lazyown_cron_schedule`` (migrated from the call_tool dispatch chain). | mcp_tools | 3 | 0 |
 | `skills/mcp_tools/cve_search.py` | MCP tool ``lazyown_cve_search`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -480,6 +484,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/graph_suggest_next.py` | MCP tool ``lazyown_graph_suggest_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/graph_summary.py` | MCP tool ``lazyown_graph_summary`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/groq_agent.py` | MCP tool ``lazyown_groq_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/harness_status.py` | MCP tool ``lazyown_harness_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/heartbeat_status.py` | MCP tool ``lazyown_heartbeat_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/hive_collect.py` | MCP tool ``lazyown_hive_collect`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/hive_forget.py` | MCP tool ``lazyown_hive_forget`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -490,11 +495,6 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/hive_spawn.py` | MCP tool ``lazyown_hive_spawn`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/hive_status.py` | MCP tool ``lazyown_hive_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/inject_objective.py` | MCP tool ``lazyown_inject_objective``: queue a new attack objective. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/lazy_addon.py` | MCP tool ``lazyown_lazy_addon``: list or match lazyaddon triggers. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/lazy_board.py` | MCP tool ``lazyown_lazy_board``: paginated broadcast board view. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/lazy_compact.py` | MCP tool ``lazyown_lazy_compact``: manage cold-compaction digests. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/lazy_delete.py` | MCP tool ``lazyown_lazy_delete``: soft/hard delete a task intent. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/lazy_finding.py` | MCP tool ``lazyown_lazy_finding``: report a finding into the loop engine. | mcp_tools | 1 | 1 |
-| `skills/mcp_tools/lazy_hint.py` | MCP tool ``lazyown_lazy_hint``: add a hint node to a task. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/job_status.py` | MCP tool ``lazyown_job_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

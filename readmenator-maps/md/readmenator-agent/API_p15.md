@@ -1,6 +1,39 @@
 # API (page 15 of 27)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/lazy_match_policy.py
+Depends on: `modules/lazy_heat.py`
+Imported by: `tests/test_lazy_match_policy.py`
+- `strand_from_sighting` (function) `modules/lazy_match_policy.py:37` `def strand_from_sighting(sighting)` -- Classify one product sighting per the doctrine.
+- `is_os_sighting` (function) `modules/lazy_match_policy.py:79` `def is_os_sighting(product, cpe)` -- Return True when the sighting names an operating system.
+- `strand_rank` (function) `modules/lazy_match_policy.py:102` `def strand_rank(strand)` -- Return the merge precedence of a strand.
+- `has_standing` (function) `modules/lazy_match_policy.py:107` `def has_standing(match)` -- Return True when humans or durable evidence touched a match.
+- `MatchStore.__init__` (method) `modules/lazy_match_policy.py:127` `def __init__(self, sessions_dir)` -- Bind the store file under sessions/lazy.
+- `MatchStore.upsert` (method) `modules/lazy_match_policy.py:132` `def upsert(self, identity, sighting, now)` -- Record one sighting under the dedupe identity.
+- `MatchStore.rows` (method) `modules/lazy_match_policy.py:177` `def rows(self)` -- Return every stored row.
+- `MatchStore.close` (method) `modules/lazy_match_policy.py:181` `def close(self, identity, reason, now)` -- Close one row, keeping its reason and reopening block.
+- `MatchStore.closed_reason` (method) `modules/lazy_match_policy.py:196` `def closed_reason(self, identity)` -- Return the persisted closure reason, or '' when open or unknown.
+
+## modules/lazy_mentions.py
+Depends on: `modules/lazy_loop.py`, `skills/mcp_tools/lazy_finding.py`
+Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/mcp_tools/lazy_mention.py`, `tests/test_security_codeql_batch.py`
+- `search_mentions_page` (function) `modules/lazy_mentions.py:193` `def search_mentions_page(kind, query, cursor)` -- Search one scroll page of mention candidates.
+- `parse_mentions` (function) `modules/lazy_mentions.py:237` `def parse_mentions(message)` -- Parse @[kind#id] tokens trusting type plus numeric id only.
+- `compose_message` (function) `modules/lazy_mentions.py:268` `def compose_message(message)` -- Append server-read snapshots for referenced records as data.
+
+## modules/lazy_netattack.py
+Imported by: `tests/test_lazy_netattack.py`
+- `AttackVectorVerdict.as_dict` (method) `modules/lazy_netattack.py:107` `def as_dict(self)` -- Return one JSON-safe view.
+- `surface_decision` (function) `modules/lazy_netattack.py:184` `def surface_decision(evidence)` -- Grade the Windows network-attack families from evidence bags.
+- `hint_text` (function) `modules/lazy_netattack.py:311` `def hint_text(verdict)` -- Shape one loop hint line for a verdict.
+
+## modules/lazy_objective_queue.py
+Depends on: `modules/lazy_loop.py`
+- `pending_objectives` (function) `modules/lazy_objective_queue.py:105` `def pending_objectives(limit, target)` -- Return pending objectives shaped as planner candidates.
+- `mark_started` (function) `modules/lazy_objective_queue.py:177` `def mark_started(objective_id, task_id)` -- Mark an objective ``in_progress`` when a task claims it.
+- `settle` (function) `modules/lazy_objective_queue.py:196` `def settle(objective_id, task_id, success)` -- Complete a done objective or requeue an unfinished one.
+- `objective_ids_from_text` (function) `modules/lazy_objective_queue.py:235` `def objective_ids_from_text(text)` -- Extract the objective id embedded in an intent summary prefix.
+
 ## modules/lazy_oob.py
 Depends on: `modules/backdoor/server.c`
 - `OobHit.as_dict` (method) `modules/lazy_oob.py:51` `def as_dict(self)` -- Return the JSON-serialisable row.
@@ -425,7 +458,7 @@ Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
 
 ## modules/lazyown_bridge.py
 Depends on: `modules/killchain.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
 - `CatalogEntry.build_command` (method) `modules/lazyown_bridge.py:63` `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` -- Return 'command [args]' with known values substituted.
 - `CatalogEntry.matches_service` (method) `modules/lazyown_bridge.py:94` `def matches_service(self, services)`
 - `CatalogEntry.matches_os` (method) `modules/lazyown_bridge.py:104` `def matches_os(self, os_hint)`
@@ -459,40 +492,6 @@ Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skil
 - `BridgeDispatcher.catalog_count` (method) `modules/lazyown_bridge.py:4395` `def catalog_count(self)`
 - `BridgeDispatcher.phase_kill_chain` (method) `modules/lazyown_bridge.py:4398` `def phase_kill_chain(self)`
 - `get_dispatcher` (function) `modules/lazyown_bridge.py:4409` `def get_dispatcher()`
-
-## modules/lazyown_metaextract0r.py
-- `signal_handler` (function) `modules/lazyown_metaextract0r.py:42` `def signal_handler(sig, frame)`
-- `extract_pdf_metadata` (function) `modules/lazyown_metaextract0r.py:51` `def extract_pdf_metadata(file_path)`
-- `extract_docx_metadata` (function) `modules/lazyown_metaextract0r.py:62` `def extract_docx_metadata(file_path)`
-- `extract_ole_metadata` (function) `modules/lazyown_metaextract0r.py:73` `def extract_ole_metadata(file_path)`
-- `extract_image_metadata` (function) `modules/lazyown_metaextract0r.py:85` `def extract_image_metadata(file_path)`
-- `extract_metadata` (function) `modules/lazyown_metaextract0r.py:96` `def extract_metadata(file_path)`
-- `find_and_extract_metadata` (function) `modules/lazyown_metaextract0r.py:109` `def find_and_extract_metadata(directory, output_file)`
-- `parse_arguments` (function) `modules/lazyown_metaextract0r.py:130` `def parse_arguments()` -- Parse command-line arguments.
-- `main` (function) `modules/lazyown_metaextract0r.py:140` `def main()`
-
-## modules/lazyown_parquet_tool.py
-- `highlight_term` (function) `modules/lazyown_parquet_tool.py:34` `def highlight_term(text, term)` -- Highlight the search term in the given text.
-- `search_in_parquet` (function) `modules/lazyown_parquet_tool.py:39` `def search_in_parquet(term, parquet_files)` -- Search for a term in the given Parquet files and return matching rows.
-- `buscar_binarios` (function) `modules/lazyown_parquet_tool.py:53` `def buscar_binarios(args)` -- Search for binaries with special permissions and generate a results CSV.
-- `ejecutar_opciones` (function) `modules/lazyown_parquet_tool.py:136` `def ejecutar_opciones()` -- Execute options based on the found data.
-
-## modules/lazyownerweb.py
-Depends on: `core/logging.py`, `modules/logging_config.py`
-- `send_request` (function) `modules/lazyownerweb.py:36` `def send_request(url, params, method)`
-- `test_injection` (function) `modules/lazyownerweb.py:49` `def test_injection(url, payloads, param_name, detection_strings, method)`
-- `main` (function) `modules/lazyownerweb.py:59` `def main()`
-
-## modules/lazypassgen.py
-Depends on: `modules/__init__.py`
-- `generate` (function) `modules/lazypassgen.py:115` `def generate(target)` -- Generate the candidate set for one target entity.
-- `export` (function) `modules/lazypassgen.py:135` `def export(target, path)` -- Write the generated wordlist as one password per line.
-
-## modules/lazypoophish.py
-Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phishing_orchestrator.py`
-- `fresh_access_token` (function) `modules/lazypoophish.py:34` `def fresh_access_token(target)` -- Return the current access level token for a target.
-- `fallback_ready` (function) `modules/lazypoophish.py:52` `def fallback_ready(target)` -- Return True when the target still lacks a foothold.
-- `run_fallback` (function) `modules/lazypoophish.py:71` `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` -- Stage the phishing-fallback handoff for one failed loop run.
 
 
 Next: [API_p16.md](API_p16.md)

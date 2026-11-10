@@ -24,7 +24,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `cli/commands/audit.py` -> __future__, cmd2, json, pathlib, shlex, typing
 - `cli/commands/automation.py` -> __future__, cmd2, json, typing
 - `cli/commands/bitm.py` -> __future__, cmd2, shlex
-- `cli/commands/bof_registry.py` -> __future__, base64, cmd2, os, shutil, ssl, urllib.error, urllib.parse, urllib.request
+- `cli/commands/bof_registry.py` -> __future__, cmd2, os, shlex, shutil
 - `cli/commands/c2_profile.py` -> __future__, cmd2, json
 - `cli/commands/c2_session.py` -> __future__, cmd2, json, pathlib, requests, secrets, string, sys, time
 - `cli/commands/caldera.py` -> __future__, cmd2, shlex, time
@@ -356,12 +356,14 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/aws_attacks.py` -> __future__, boto3, dataclasses, typing
 - `modules/backdoor/backdoor.c` -> stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, unistd.h, windows.h, windowsx.h, wininet.h, winsock2.h, winuser.h
 - `modules/backdoor/server.c` -> arpa/inet.h, netinet/in.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/types.h, unistd.h
-- `modules/beacon_config_builder.py` -> __future__, dataclasses, json, typing
+- `modules/beacon_config_builder.py` -> __future__, dataclasses, json, re, typing
 - `modules/beacon_history.py` -> __future__, dataclasses, json, pathlib, typing
 - `modules/beacon_recon.py` -> __future__, ipaddress, json, pathlib, typing
 - `modules/bin2img.py` -> PIL, numpy, sys
 - `modules/bitm_engine.py` -> __future__, dataclasses, json, os, pathlib, shutil, signal, subprocess, time, typing
-- `modules/bof_registry.py` -> __future__, dataclasses, datetime, hashlib, json, pathlib, shutil, typing
+- `modules/bof_admin.py` -> __future__, dataclasses, os, pathlib, re, typing, yaml
+- `modules/bof_delivery.py` -> __future__, base64, dataclasses, datetime, json, os, pathlib, shutil, ssl, time, typing, urllib.error, urllib.parse, urllib.request, yaml
+- `modules/bof_registry.py` -> __future__, dataclasses, datetime, hashlib, json, os, pathlib, shutil, typing, yaml
 - `modules/c2_agent.py` -> __future__, base64, datetime, hashlib, json, os, pathlib, re, secrets, signal, ssl, subprocess, sys, time, typing, urllib.request
 - `modules/c2_builder.py` -> __future__, base64, collections.abc, contextlib, dataclasses, datetime, json, os, pathlib, re, shutil, subprocess, tempfile, time, typing
 - `modules/c2_messaging_base.py` -> time, typing
@@ -494,7 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/lazy_ledger.py` -> __future__, json, pathlib, time, typing
 - `modules/lazy_loop.py` -> __future__, base64, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, re, shlex, smtplib, socket, threading, time, urllib.request, zipfile
 - `modules/lazy_match_policy.py` -> __future__, json, pathlib, time, typing
-- `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, pathlib, re
-- `modules/lazy_netattack.py` -> __future__, dataclasses, typing
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

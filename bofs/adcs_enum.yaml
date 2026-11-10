@@ -1,0 +1,14 @@
+name: adcs_enum
+description: >-
+  Enumerate Active Directory Certificate Services: templates, enrollment rights, ESC vulnerabilities
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/adcs_enum/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: ['domain']
+optional_args: ['server']
+mitre_technique: T1649
+enabled: true

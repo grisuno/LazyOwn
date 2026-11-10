@@ -1,0 +1,14 @@
+name: inject_apc
+description: >-
+  Inject shellcode into a remote process via Early Bird APC queuing
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/inject_apc/entry.c
+client: beacon
+platform: windows
+category: execution
+client_artifact: 
+required_args: ['pid', 'shellcode_file']
+optional_args: ['spoofed_parent']
+mitre_technique: T1055
+enabled: true

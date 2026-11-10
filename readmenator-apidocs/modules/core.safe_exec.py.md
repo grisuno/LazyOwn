@@ -209,7 +209,7 @@ termination signals leaves no orphans behind.
 
 *Calls:* [`PermissionError.__init__`](core.errors.py.md#permissionerror-__init__)
 
-*Called by:* [`PwnCommandSet.do_lolbas_use`](cli.commands.pwn.py.md#pwncommandset-do_lolbas_use), [`ensure_session`](modules.atomic_exploit_bridge.py.md#ensure_session), [`run_spec`](modules.atomic_exploit_bridge.py.md#run_spec), [`DNSBeacon.run`](modules.dns_beacon.py.md#dnsbeacon-run)
+*Called by:* [`PwnCommandSet.do_lolbas_use`](cli.commands.pwn.py.md#pwncommandset-do_lolbas_use), [`ensure_session`](modules.atomic_exploit_bridge.py.md#ensure_session), [`run_spec`](modules.atomic_exploit_bridge.py.md#run_spec), [`stage_client`](modules.bof_delivery.py.md#stage_client), [`DNSBeacon.run`](modules.dns_beacon.py.md#dnsbeacon-run)
 
 ---
 

@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/lazy_loop.py` -> `modules/reaction_bridge.py`
+- `modules/lazy_loop.py` -> `modules/selection/base.py`
+- `modules/lazy_loop.py` -> `modules/selection/registry.py`
+- `modules/lazy_loop.py` -> `modules/selfupdate.py`
+- `modules/lazy_loop.py` -> `modules/sinks/findings.py`
+- `modules/lazy_loop.py` -> `modules/traffic_recorder.py`
+- `modules/lazy_loop.py` -> `modules/trigger_policy.py`
+- `modules/lazy_loop.py` -> `modules/world_model.py`
+- `modules/lazy_loop.py` -> `skills/lazyown_policy.py`
+- `modules/lazy_match_policy.py` -> `modules/lazy_heat.py`
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_mentions.py` -> `skills/mcp_tools/lazy_finding.py`
 - `modules/lazy_objective_queue.py` -> `modules/lazy_loop.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py`
 - `skills/hive_mind.py` -> `skills/lazyown_llm.py`
 - `skills/hive_mind.py` -> `skills/lazyown_parquet_db.py`
-- `skills/lazyown_automapper.py` -> `core/logging.py`
-- `skills/lazyown_campaign.py` -> `core/logging.py`
-- `skills/lazyown_campaign.py` -> `modules/lesson_ingestor.py`
-- `skills/lazyown_campaign.py` -> `modules/logging_config.py`
-- `skills/lazyown_daemon.py` -> `core/logging.py`
-- `skills/lazyown_daemon.py` -> `modules/event_engine.py`
-- `skills/lazyown_daemon.py` -> `modules/logging_config.py`
-- `skills/lazyown_daemon.py` -> `modules/timeline_narrator.py`
-- `skills/lazyown_daemon.py` -> `skills/sessions_watcher.py`
-- `skills/lazyown_facts.py` -> `core/logging.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

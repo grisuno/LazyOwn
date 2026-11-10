@@ -1,6 +1,27 @@
 # API (page 19 of 27)
 Previous: [API_p18.md](API_p18.md)
 
+## modules/session_rag.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/rag_index.py`, `skills/mcp_tools/rag_query.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
+- `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
+- `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
+- `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
+- `_KeywordFallback.add` (method) `modules/session_rag.py:136` `def add(self, doc_id, text, meta)`
+- `_KeywordFallback.query` (method) `modules/session_rag.py:146` `def query(self, query_text, n)`
+- `_KeywordFallback.count` (method) `modules/session_rag.py:156` `def count(self)`
+- `_KeywordFallback.reset` (method) `modules/session_rag.py:159` `def reset(self)`
+- `_RagState.load` (method) `modules/session_rag.py:172` `def load(cls)`
+- `_RagState.save` (method) `modules/session_rag.py:181` `def save(self)`
+- `SessionRAG.__init__` (method) `modules/session_rag.py:191` `def __init__(self)`
+- `SessionRAG.index_new` (method) `modules/session_rag.py:301` `def index_new(self)` -- Incrementally index only new or changed files.
+- `SessionRAG.index_parquet_sources` (method) `modules/session_rag.py:322` `def index_parquet_sources(self, force)` -- Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index) into the RAG store.
+- `SessionRAG.index_all` (method) `modules/session_rag.py:411` `def index_all(self)` -- Full re-index from scratch.
+- `SessionRAG.query` (method) `modules/session_rag.py:439` `def query(self, query_text, n, collection)` -- Return top-n relevant chunks as dicts with keys: text, source, chunk, score.
+- `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
+- `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
+- `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
+
 ## modules/session_reader.py
 Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
 - `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
@@ -466,25 +487,6 @@ Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_
 Depends on: `modules/vulnbot.py`
 - `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
 - `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
-
-## modules/vulnbot.py
-Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
-Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
-- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:38` `def __init__(self, provider, mode, debug, script_path)`
-- `list_files` (function) `modules/vulnbot.py:149` `def list_files(directory)` -- Lista archivos en un directorio
-- `read_file` (function) `modules/vulnbot.py:153` `def read_file(path)` -- Lee contenido de un archivo
-- `edit_file` (function) `modules/vulnbot.py:158` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
-- `generate` (function) `modules/vulnbot.py:202` `def generate()`
-- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:208` `def load_knowledge_base(self)` -- Load the knowledge base in any known shape.
-- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:224` `def save_knowledge_base(self, kb)`
-- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:228` `def get_relevant_knowledge(self, prompt)` -- Return knowledge responses whose text shares keywords with the prompt.
-- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:251` `def create_complex_prompt(self, base_prompt, history, knowledge)`
-- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:267` `def read_file_content(self, file_path)`
-- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:273` `def load_event_config(self)`
-- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:281` `def process_with_context(self, file_path, event)`
-- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:297` `def stream_response(self, prompt)`
-- `generate` (function) `modules/vulnbot.py:298` `def generate()`
-- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:303` `def add_to_knowledge_base(self, prompt, response)` -- Append a prompt/response record in the canonical list format.
 
 
 Next: [API_p20.md](API_p20.md)

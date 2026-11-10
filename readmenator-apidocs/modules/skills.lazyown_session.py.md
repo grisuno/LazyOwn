@@ -99,7 +99,7 @@ def __init__(self, sessions_dir: Path, session_id: str | None = None)
 | `sessions_dir` | `Path` |  |  |
 | `session_id` | `str \| None` | `None` |  |
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`SessionTranscript.fork`](#sessiontranscript-fork), [`get_transcript`](#get_transcript), [`reset_transcript`](#reset_transcript)
+*Called by:* [`SessionTranscript.fork`](#sessiontranscript-fork), [`get_transcript`](#get_transcript), [`reset_transcript`](#reset_transcript), [`handle`](skills.mcp_tools.session_resume.py.md#handle), [`handle`](skills.mcp_tools.subagent_run.py.md#handle)
 
 <a id="sessiontranscript-append"></a>
 
@@ -130,7 +130,7 @@ first write.
 
 **Returns:** `str`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`SessionTranscript.add_compact_boundary`](#sessiontranscript-add_compact_boundary), [`SessionTranscript.fork`](#sessiontranscript-fork)
+*Called by:* [`SessionTranscript.add_compact_boundary`](#sessiontranscript-add_compact_boundary), [`SessionTranscript.fork`](#sessiontranscript-fork), [`handle`](skills.mcp_tools.subagent_run.py.md#handle)
 
 <a id="sessiontranscript-get_recent"></a>
 
@@ -152,7 +152,7 @@ Return the last n events.
 
 **Returns:** `list[dict]`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`SessionTranscript.fork`](#sessiontranscript-fork), [`SessionTranscript.get_all`](#sessiontranscript-get_all), [`SessionTranscript.maybe_auto_compact`](#sessiontranscript-maybe_auto_compact), [`SessionTranscript.status_text`](#sessiontranscript-status_text)
+*Called by:* [`SessionTranscript.fork`](#sessiontranscript-fork), [`SessionTranscript.get_all`](#sessiontranscript-get_all), [`SessionTranscript.maybe_auto_compact`](#sessiontranscript-maybe_auto_compact), [`SessionTranscript.status_text`](#sessiontranscript-status_text), [`handle`](skills.mcp_tools.session_resume.py.md#handle)
 
 <a id="sessiontranscript-get_all"></a>
 
@@ -180,7 +180,7 @@ def count(self) -> int
 
 **Returns:** `int`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`handle`](skills.mcp_tools.session_resume.py.md#handle)
 
 <a id="sessiontranscript-maybe_auto_compact"></a>
 

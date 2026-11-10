@@ -1,0 +1,14 @@
+name: sam_dump
+description: >-
+  Dump SAM, SYSTEM, and SECURITY registry hives for offline cracking
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: bofs/sam_dump.c
+client: beacon
+platform: windows
+category: credential_access
+client_artifact: 
+required_args: []
+optional_args: ['output_dir']
+mitre_technique: T1003
+enabled: true

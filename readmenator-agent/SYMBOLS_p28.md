@@ -3,6 +3,76 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_gym` | function | `skills/mcp_generated_tools.py:2858` | `def _gen_gym(arguments, tool_name, _cmd)` |
+| `_gen_h` | function | `skills/mcp_generated_tools.py:2866` | `def _gen_h(arguments, tool_name, _cmd)` |
+| `_gen_hashcat` | function | `skills/mcp_generated_tools.py:2874` | `def _gen_hashcat(arguments, tool_name, _cmd)` |
+| `_gen_hex2shellcode` | function | `skills/mcp_generated_tools.py:2882` | `def _gen_hex2shellcode(arguments, tool_name, _cmd)` |
+| `_gen_hex_to_plaintext` | function | `skills/mcp_generated_tools.py:2890` | `def _gen_hex_to_plaintext(arguments, tool_name, _cmd)` |
+| `_gen_hooks` | function | `skills/mcp_generated_tools.py:2898` | `def _gen_hooks(arguments, tool_name, _cmd)` |
+| `_gen_hooks_add` | function | `skills/mcp_generated_tools.py:2906` | `def _gen_hooks_add(arguments, tool_name, _cmd)` |
+| `_gen_hooks_enable` | function | `skills/mcp_generated_tools.py:2914` | `def _gen_hooks_enable(arguments, tool_name, _cmd)` |
+| `_gen_hooks_fire` | function | `skills/mcp_generated_tools.py:2922` | `def _gen_hooks_fire(arguments, tool_name, _cmd)` |
+| `_gen_hooks_list` | function | `skills/mcp_generated_tools.py:2930` | `def _gen_hooks_list(arguments, tool_name, _cmd)` |
+| `_gen_hooks_remove` | function | `skills/mcp_generated_tools.py:2938` | `def _gen_hooks_remove(arguments, tool_name, _cmd)` |
+| `_gen_hostdiscover` | function | `skills/mcp_generated_tools.py:2946` | `def _gen_hostdiscover(arguments, tool_name, _cmd)` |
+| `_gen_hound` | function | `skills/mcp_generated_tools.py:2954` | `def _gen_hound(arguments, tool_name, _cmd)` |
+| `_gen_http_exfil_server` | function | `skills/mcp_generated_tools.py:2962` | `def _gen_http_exfil_server(arguments, tool_name, _cmd)` |
+| `_gen_httprobe` | function | `skills/mcp_generated_tools.py:2970` | `def _gen_httprobe(arguments, tool_name, _cmd)` |
+| `_gen_hunt` | function | `skills/mcp_generated_tools.py:2978` | `def _gen_hunt(arguments, tool_name, _cmd)` |
+| `_gen_hydra` | function | `skills/mcp_generated_tools.py:2986` | `def _gen_hydra(arguments, tool_name, _cmd)` |
+| `_gen_id_rsa` | function | `skills/mcp_generated_tools.py:2994` | `def _gen_id_rsa(arguments, tool_name, _cmd)` |
+| `_gen_ignorearp` | function | `skills/mcp_generated_tools.py:3002` | `def _gen_ignorearp(arguments, tool_name, _cmd)` |
+| `_gen_ignoreicmp` | function | `skills/mcp_generated_tools.py:3010` | `def _gen_ignoreicmp(arguments, tool_name, _cmd)` |
+| `_gen_iis_webdav_upload_asp` | function | `skills/mcp_generated_tools.py:3018` | `def _gen_iis_webdav_upload_asp(arguments, tool_name, _cmd)` |
+| `_gen_img2cookie` | function | `skills/mcp_generated_tools.py:3026` | `def _gen_img2cookie(arguments, tool_name, _cmd)` |
+| `_gen_img2vid` | function | `skills/mcp_generated_tools.py:3034` | `def _gen_img2vid(arguments, tool_name, _cmd)` |
+| `_gen_internet_proxy` | function | `skills/mcp_generated_tools.py:3042` | `def _gen_internet_proxy(arguments, tool_name, _cmd)` |
+| `_gen_ip` | function | `skills/mcp_generated_tools.py:3050` | `def _gen_ip(arguments, tool_name, _cmd)` |
+| `_gen_ip2asn` | function | `skills/mcp_generated_tools.py:3058` | `def _gen_ip2asn(arguments, tool_name, _cmd)` |
+| `_gen_ip2hex` | function | `skills/mcp_generated_tools.py:3066` | `def _gen_ip2hex(arguments, tool_name, _cmd)` |
+| `_gen_ipinfo` | function | `skills/mcp_generated_tools.py:3074` | `def _gen_ipinfo(arguments, tool_name, _cmd)` |
+| `_gen_ipp` | function | `skills/mcp_generated_tools.py:3082` | `def _gen_ipp(arguments, tool_name, _cmd)` |
+| `_gen_issue_command_to_c2` | function | `skills/mcp_generated_tools.py:3090` | `def _gen_issue_command_to_c2(arguments, tool_name, _cmd)` |
+| `_gen_ivy` | function | `skills/mcp_generated_tools.py:3098` | `def _gen_ivy(arguments, tool_name, _cmd)` |
+| `_gen_jenkins_enum` | function | `skills/mcp_generated_tools.py:3106` | `def _gen_jenkins_enum(arguments, tool_name, _cmd)` |
+| `_gen_john2hash` | function | `skills/mcp_generated_tools.py:3114` | `def _gen_john2hash(arguments, tool_name, _cmd)` |
+| `_gen_john2keepas` | function | `skills/mcp_generated_tools.py:3122` | `def _gen_john2keepas(arguments, tool_name, _cmd)` |
+| `_gen_john2zip` | function | `skills/mcp_generated_tools.py:3130` | `def _gen_john2zip(arguments, tool_name, _cmd)` |
+| `_gen_jwt_tool` | function | `skills/mcp_generated_tools.py:3138` | `def _gen_jwt_tool(arguments, tool_name, _cmd)` |
+| `_gen_k8s_enum` | function | `skills/mcp_generated_tools.py:3146` | `def _gen_k8s_enum(arguments, tool_name, _cmd)` |
+| `_gen_k8s_pods` | function | `skills/mcp_generated_tools.py:3154` | `def _gen_k8s_pods(arguments, tool_name, _cmd)` |
+| `_gen_k8s_secrets` | function | `skills/mcp_generated_tools.py:3162` | `def _gen_k8s_secrets(arguments, tool_name, _cmd)` |
+| `_gen_karma` | function | `skills/mcp_generated_tools.py:3170` | `def _gen_karma(arguments, tool_name, _cmd)` |
+| `_gen_keepass` | function | `skills/mcp_generated_tools.py:3178` | `def _gen_keepass(arguments, tool_name, _cmd)` |
+| `_gen_kerbrute` | function | `skills/mcp_generated_tools.py:3186` | `def _gen_kerbrute(arguments, tool_name, _cmd)` |
+| `_gen_kick` | function | `skills/mcp_generated_tools.py:3194` | `def _gen_kick(arguments, tool_name, _cmd)` |
+| `_gen_knokknok` | function | `skills/mcp_generated_tools.py:3202` | `def _gen_knokknok(arguments, tool_name, _cmd)` |
+| `_gen_krbrelayx_py` | function | `skills/mcp_generated_tools.py:3210` | `def _gen_krbrelayx_py(arguments, tool_name, _cmd)` |
+| `_gen_kusa` | function | `skills/mcp_generated_tools.py:3218` | `def _gen_kusa(arguments, tool_name, _cmd)` |
+| `_gen_l00t` | function | `skills/mcp_generated_tools.py:3226` | `def _gen_l00t(arguments, tool_name, _cmd)` |
+| `_gen_lab` | function | `skills/mcp_generated_tools.py:3234` | `def _gen_lab(arguments, tool_name, _cmd)` |
+| `_gen_lateral_mov_lin` | function | `skills/mcp_generated_tools.py:3242` | `def _gen_lateral_mov_lin(arguments, tool_name, _cmd)` |
+| `_gen_launchpad` | function | `skills/mcp_generated_tools.py:3250` | `def _gen_launchpad(arguments, tool_name, _cmd)` |
+| `_gen_lazy_payload_keys` | function | `skills/mcp_generated_tools.py:3258` | `def _gen_lazy_payload_keys(arguments, tool_name, _cmd)` |
+| `_gen_lazy_runtime` | function | `skills/mcp_generated_tools.py:3266` | `def _gen_lazy_runtime(arguments, tool_name, _cmd)` |
+| `_gen_lazynmap` | function | `skills/mcp_generated_tools.py:3274` | `def _gen_lazynmap(arguments, tool_name, _cmd)` |
+| `_gen_lazypwn` | function | `skills/mcp_generated_tools.py:3282` | `def _gen_lazypwn(arguments, tool_name, _cmd)` |
+| `_gen_lazyreport` | function | `skills/mcp_generated_tools.py:3290` | `def _gen_lazyreport(arguments, tool_name, _cmd)` |
+| `_gen_lazyscript` | function | `skills/mcp_generated_tools.py:3298` | `def _gen_lazyscript(arguments, tool_name, _cmd)` |
+| `_gen_lazywebshell` | function | `skills/mcp_generated_tools.py:3306` | `def _gen_lazywebshell(arguments, tool_name, _cmd)` |
+| `_gen_ldapdomaindump` | function | `skills/mcp_generated_tools.py:3314` | `def _gen_ldapdomaindump(arguments, tool_name, _cmd)` |
+| `_gen_ldapsearch` | function | `skills/mcp_generated_tools.py:3322` | `def _gen_ldapsearch(arguments, tool_name, _cmd)` |
+| `_gen_les` | function | `skills/mcp_generated_tools.py:3330` | `def _gen_les(arguments, tool_name, _cmd)` |
+| `_gen_lfi` | function | `skills/mcp_generated_tools.py:3338` | `def _gen_lfi(arguments, tool_name, _cmd)` |
+| `_gen_ligolo` | function | `skills/mcp_generated_tools.py:3346` | `def _gen_ligolo(arguments, tool_name, _cmd)` |
+| `_gen_links` | function | `skills/mcp_generated_tools.py:3354` | `def _gen_links(arguments, tool_name, _cmd)` |
+| `_gen_linpeas` | function | `skills/mcp_generated_tools.py:3362` | `def _gen_linpeas(arguments, tool_name, _cmd)` |
+| `_gen_list` | function | `skills/mcp_generated_tools.py:3370` | `def _gen_list(arguments, tool_name, _cmd)` |
+| `_gen_listaliases` | function | `skills/mcp_generated_tools.py:3378` | `def _gen_listaliases(arguments, tool_name, _cmd)` |
+| `_gen_listener` | function | `skills/mcp_generated_tools.py:3386` | `def _gen_listener(arguments, tool_name, _cmd)` |
+| `_gen_listener_go` | function | `skills/mcp_generated_tools.py:3394` | `def _gen_listener_go(arguments, tool_name, _cmd)` |
+| `_gen_listener_py` | function | `skills/mcp_generated_tools.py:3402` | `def _gen_listener_py(arguments, tool_name, _cmd)` |
+| `_gen_llm_budget` | function | `skills/mcp_generated_tools.py:3410` | `def _gen_llm_budget(arguments, tool_name, _cmd)` |
 | `_gen_load_session` | function | `skills/mcp_generated_tools.py:3418` | `def _gen_load_session(arguments, tool_name, _cmd)` |
 | `_gen_lock_target` | function | `skills/mcp_generated_tools.py:3426` | `def _gen_lock_target(arguments, tool_name, _cmd)` |
 | `_gen_login` | function | `skills/mcp_generated_tools.py:3434` | `def _gen_login(arguments, tool_name, _cmd)` |
@@ -361,6 +431,7 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `handle` | function | `skills/mcp_tools/campaign_lessons.py:39` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/campaign_sitrep.py:46` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/campaign_tasks.py:66` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/claudemd.py:43` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/collab_publish.py:41` | `def handle(arguments, tool_name, ctx)` |
 | `_read_docstring` | function | `skills/mcp_tools/command_help.py:42` | `def _read_docstring(cmd_name)` |
 | `handle` | function | `skills/mcp_tools/command_help.py:31` | `def handle(arguments, tool_name, ctx)` |
@@ -368,6 +439,7 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `handle` | function | `skills/mcp_tools/command_prev.py:31` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/create_addon.py:115` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/create_param.py:47` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/create_tool.py:55` | `def handle(arguments, tool_name, ctx)` |
 | `_add` | function | `skills/mcp_tools/credentials.py:37` | `def _add(user, secret, host, source, confirmed)` |
 | `handle` | function | `skills/mcp_tools/credentials.py:32` | `def handle(arguments, tool_name, ctx)` |
 | `_load_crons` | function | `skills/mcp_tools/cron_schedule.py:60` | `def _load_crons()` |
@@ -419,82 +491,10 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `handle` | function | `skills/mcp_tools/graph_summary.py:25` | `def handle(arguments, tool_name, ctx)` |
 | `_blocking_run` | function | `skills/mcp_tools/groq_agent.py:110` | `def _blocking_run()` |
 | `handle` | function | `skills/mcp_tools/groq_agent.py:70` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/harness_status.py:23` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/heartbeat_status.py:20` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/hive_collect.py:28` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/hive_forget.py:25` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/hive_plan.py:28` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/hive_recall.py:29` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/hive_recover.py:31` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/hive_result.py:22` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/hive_spawn.py:39` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/hive_status.py:21` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/inject_objective.py:52` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_addon.py:27` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_board.py:36` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_compact.py:35` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_delete.py:33` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_finding.py:34` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_hint.py:26` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_intel.py:53` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_mention.py:28` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_proxy.py:39` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_status.py:19` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_sync.py:19` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_trace.py:29` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazy_workspace.py:30` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lazysearch.py:48` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_addons.py:20` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_agents.py:28` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_event_rules.py:25` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_modules.py:27` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_params.py:36` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_plugins.py:17` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_sessions.py:26` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/list_targets.py:30` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/llm_ask.py:67` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lolbas_list.py:34` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/lolbas_use.py:44` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/loop_smoke.py:65` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/memory_recall.py:43` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/memory_store.py:32` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/metrics_summary.py:40` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/misp_export.py:38` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/next_objective.py:29` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/opencode_config.py:38` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/palette.py:41` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/parquet_annotate.py:51` | `def handle(arguments, tool_name, ctx)` |
-| `_run_parquet_query` | function | `skills/mcp_tools/parquet_query.py:105` | `def _run_parquet_query()` |
-| `handle` | function | `skills/mcp_tools/parquet_query.py:87` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/phase_guide.py:64` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/pipeline_list.py:18` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/pipeline_run.py:46` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/pipeline_status.py:28` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/pipeline_validate.py:28` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/pivot_status.py:27` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/playbook_generate.py:52` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/poll_events.py:39` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/rag_index.py:37` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/rag_query.py:39` | `def handle(arguments, tool_name, ctx)` |
-| `_fail` | function | `skills/mcp_tools/rea.py:107` | `def _fail(message, remediation)` |
-| `_run_rea` | function | `skills/mcp_tools/rea.py:181` | `def _run_rea()` |
-| `handle` | function | `skills/mcp_tools/rea.py:95` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/reactive_suggest.py:50` | `def handle(arguments, tool_name, ctx)` |
-| `_read_prompt` | function | `skills/mcp_tools/read_prompt.py:46` | `def _read_prompt()` |
-| `handle` | function | `skills/mcp_tools/read_prompt.py:41` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/read_session_file.py:26` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/rich_tui_snapshot.py:30` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/run_api.py:30` | `def handle(arguments, tool_name, ctx)` |
-| `_publish_command_event` | function | `skills/mcp_tools/run_command.py:61` | `def _publish_command_event(command, output, operator, target)` |
-| `_run_with_fallback` | function | `skills/mcp_tools/run_command.py:102` | `def _run_with_fallback(cmd, to)` |
-| `handle` | function | `skills/mcp_tools/run_command.py:82` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/searchsploit.py:79` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_diff.py:32` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_state.py:33` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_status.py:43` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/set_active_target.py:35` | `def handle(arguments, tool_name, ctx)` |
-| `coerce_value` | function | `skills/mcp_tools/set_config.py:46` | `def coerce_value(coerce_key, coerce_value_in)` |
-| `handle` | function | `skills/mcp_tools/set_config.py:36` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/soul.py:42` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/stealth.py:35` | `def handle(arguments, tool_name, ctx)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

@@ -212,6 +212,12 @@ TIPS: list[ProTip] = [
         trigger=lambda ctx: _after(ctx, "lazynmap", "nmap") and _has_rhost(ctx),
         category="automation",
     ),
+    ProTip(
+        text="Deliver a BOF-capable beacon from the foothold: bof_deploy blacksandbeacon <target>, then bof_train.",
+        command="bof_deploy",
+        trigger=lambda ctx: _phase_in(ctx, "exploit", "c2", "postexp"),
+        category="automation",
+    ),
     # Security
     ProTip(
         text="Encrypt sensitive session data when stepping away: encrypt.",

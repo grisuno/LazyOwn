@@ -1,0 +1,14 @@
+name: userenum
+description: >-
+  Enumerate local users from /etc/passwd with login shells and home dirs
+author: LazyOwn
+url: https://github.com/grisuno/blacksandbeacon
+source_file: bof/userenum/bof.c
+client: blacksandbeacon
+platform: linux
+category: reconnaissance
+client_artifact: build/bof/userenum.x64.o
+required_args: []
+optional_args: []
+mitre_technique: T1087
+enabled: true

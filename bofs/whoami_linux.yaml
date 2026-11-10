@@ -1,0 +1,14 @@
+name: whoami_linux
+description: >-
+  whoami with uid, gid, supplementary groups, tty and effective user
+author: LazyOwn
+url: https://github.com/grisuno/blacksandbeacon
+source_file: bof/whoami/whoami.c
+client: blacksandbeacon
+platform: linux
+category: reconnaissance
+client_artifact: build/bof/whoami.x64.o
+required_args: []
+optional_args: []
+mitre_technique: T1033
+enabled: true

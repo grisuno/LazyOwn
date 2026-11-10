@@ -39,7 +39,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `result_summary` (method, line 640) `def result_summary(self, result)`
   - `_local_executor` (function, line 792) `def _local_executor(command, host)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/playbook_generate.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/mcp_tools/playbook_generate.py`, `skills/mcp_tools/playbook_run.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
 
 ## modules/playbook_executor.py
 - Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.
@@ -287,7 +287,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `recommend` (function, line 143) `def recommend(state, api_key)`
   - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
 - Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
-- Imported by: `skills/lazyown_mcp.py`
+- Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/recommend_next.py`
 
 ## modules/redteam_gym.py
 - Doc: Red Team Gym — gamified pentest training mode.

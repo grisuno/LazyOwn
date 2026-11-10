@@ -75,8 +75,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/bitm.py` -> `modules/bitm_engine.py`
 - `cli/commands/bitm.py` -> `utils.py`
 - `cli/commands/bof_registry.py` -> `cli/commands/_base.py`
-- `cli/commands/bof_registry.py` -> `core/config.py`
-- `cli/commands/bof_registry.py` -> `modules/beacon_config_builder.py`
+- `cli/commands/bof_registry.py` -> `modules/bof_delivery.py`
 - `cli/commands/bof_registry.py` -> `modules/bof_registry.py`
 - `cli/commands/bof_registry.py` -> `utils.py`
 - `cli/commands/c2_profile.py` -> `cli/commands/_base.py`
@@ -496,5 +495,6 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/session_ops.py` -> `modules/lazy_rbac.py`
 - `cli/commands/session_ops.py` -> `modules/module_registry.py`
 - `cli/commands/session_ops.py` -> `modules/payload_factory.py`
+- `cli/commands/session_ops.py` -> `modules/pipeline_engine.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

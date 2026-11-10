@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `request_retest` | function | `modules/finding_lifecycle.py:354` | `def request_retest(db, finding_id, sessions_dir)` |
+| `resolve` | function | `modules/finding_lifecycle.py:162` | `def resolve(node, sessions_dir)` |
+| `resolve_retest` | function | `modules/finding_lifecycle.py:374` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
+| `set_status` | function | `modules/finding_lifecycle.py:300` | `def set_status(db, finding_id, status)` |
+| `suppressed_values` | function | `modules/finding_lifecycle.py:156` | `def suppressed_values(sessions_dir)` |
+| `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
+| `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
+| `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
+| `amcache_parse` | method | `modules/forensic_cleaner.py:259` | `def amcache_parse(self)` |
+| `linux_cleanup` | method | `modules/forensic_cleaner.py:165` | `def linux_cleanup(self)` |
+| `macos_cleanup` | method | `modules/forensic_cleaner.py:193` | `def macos_cleanup(self)` |
+| `windows_cleanup` | method | `modules/forensic_cleaner.py:70` | `def windows_cleanup(self)` |
+| `windows_prefetch_parse` | method | `modules/forensic_cleaner.py:221` | `def windows_prefetch_parse(self, prefetch_path)` |
+| `GCPAttackEngine` | class | `modules/gcp_attacks.py:77` | `class GCPAttackEngine` |
+| `GCPConfig` | class | `modules/gcp_attacks.py:57` | `class GCPConfig` |
+| `__init__` | method | `modules/gcp_attacks.py:90` | `def __init__(self, config)` |
+| `cloud_functions_backdoor` | method | `modules/gcp_attacks.py:144` | `def cloud_functions_backdoor(self)` |
+| `cloudbuild_abuse` | method | `modules/gcp_attacks.py:230` | `def cloudbuild_abuse(self)` |
+| `compute_engine_metadata_exfil` | method | `modules/gcp_attacks.py:173` | `def compute_engine_metadata_exfil(self)` |
+| `enumerate_iam_policy` | method | `modules/gcp_attacks.py:93` | `def enumerate_iam_policy(self, resource)` |
+| `gcs_enumeration` | method | `modules/gcp_attacks.py:194` | `def gcs_enumeration(self)` |
+| `organization_escalation` | method | `modules/gcp_attacks.py:261` | `def organization_escalation(self)` |
+| `service_account_impersonation` | method | `modules/gcp_attacks.py:119` | `def service_account_impersonation(self)` |
+| `summary` | method | `modules/gcp_attacks.py:297` | `def summary(self)` |
+| `extract_cmd2_tools` | function | `modules/generate_tools.py:6` | `def extract_cmd2_tools(script_path)` |
+| `GoalSpec` | class | `modules/goals.py:20` | `class GoalSpec` |
+| `GoalTracker` | class | `modules/goals.py:117` | `class GoalTracker` |
+| `TaskConstraints` | class | `modules/goals.py:29` | `class TaskConstraints` |
+| `__init__` | method | `modules/goals.py:120` | `def __init__(self, goals)` |
+| `all_achieved` | method | `modules/goals.py:148` | `def all_achieved(self)` |
+| `blocked` | method | `modules/goals.py:35` | `def blocked(self, command)` |
+| `constraint_block_text` | function | `modules/goals.py:103` | `def constraint_block_text(constraints)` |
+| `decompose_rule_based` | function | `modules/goals.py:63` | `def decompose_rule_based(objective_text, max_goals)` |
+| `goal_met` | method | `modules/goals.py:140` | `def goal_met(self, opt_in)` |
+| `goals` | method | `modules/goals.py:125` | `def goals(self)` |
+| `load_constraints` | function | `modules/goals.py:83` | `def load_constraints(payload)` |
+| `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
+| `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
+| `_action_for` | function | `modules/golden_path.py:113` | `def _action_for(relation)` |
+| `_add` | function | `modules/golden_path.py:167` | `def _add(src, dst, relation, weight, evidence, cost)` |
+| `_bare` | function | `modules/golden_path.py:78` | `def _bare(node)` |
+| `_cost_for_relation` | function | `modules/golden_path.py:135` | `def _cost_for_relation(relation, weight)` |
+| `_diijkstra` | function | `modules/golden_path.py:244` | `def _diijkstra(adjacency, source)` |
+| `_host_node` | function | `modules/golden_path.py:66` | `def _host_node(ip)` |
+| `_label` | function | `modules/golden_path.py:97` | `def _label(node)` |
+| `_persist` | function | `modules/golden_path.py:381` | `def _persist(result, sessions_dir)` |
+| `_source_hosts` | function | `modules/golden_path.py:227` | `def _source_hosts(snapshot)` |
+| `build` | function | `modules/golden_path.py:350` | `def build(world_model_path, top_k, sessions_dir)` |
+| `build_edges` | function | `modules/golden_path.py:155` | `def build_edges(snapshot)` |
+| `load_artifact` | function | `modules/golden_path.py:401` | `def load_artifact(sessions_dir)` |
+| `priority_for` | function | `modules/golden_path.py:418` | `def priority_for(cost)` |
+| `push_objectives` | function | `modules/golden_path.py:433` | `def push_objectives(paths, store_path)` |
+| `resolve_paths` | function | `modules/golden_path.py:274` | `def resolve_paths(snapshot, top_k, source)` |
+| `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
+| `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
+| `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
+| `__init__` | method | `modules/gpo_abuse.py:118` | `def __init__(self, domain, dc_ip)` |
+| `detect_risky_gpos` | method | `modules/gpo_abuse.py:406` | `def detect_risky_gpos(self)` |
+| `generate_all_plans` | method | `modules/gpo_abuse.py:382` | `def generate_all_plans(self, command, username)` |
+| `parse_bloodhound_gpos` | method | `modules/gpo_abuse.py:160` | `def parse_bloodhound_gpos(self, bloodhound_nodes)` |
+| `parse_gpo_list` | method | `modules/gpo_abuse.py:124` | `def parse_gpo_list(self, raw_gpo_output)` |
+| `plan_local_admin_addition` | method | `modules/gpo_abuse.py:266` | `def plan_local_admin_addition(self, gpo, username, group)` |
+| `plan_logon_script` | method | `modules/gpo_abuse.py:238` | `def plan_logon_script(self, gpo, command)` |
+| `plan_registry_preference` | method | `modules/gpo_abuse.py:322` | `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` |
+| `plan_scheduled_task` | method | `modules/gpo_abuse.py:182` | `def plan_scheduled_task(self, gpo, command, task_name)` |
+| `plan_service_installation` | method | `modules/gpo_abuse.py:356` | `def plan_service_installation(self, gpo, service_name, binary_path)` |
+| `plan_startup_script` | method | `modules/gpo_abuse.py:208` | `def plan_startup_script(self, gpo, script_content, script_name)` |
+| `plan_wmi_filter_abuse` | method | `modules/gpo_abuse.py:293` | `def plan_wmi_filter_abuse(self, gpo, wmi_query)` |
+| `summary` | method | `modules/gpo_abuse.py:434` | `def summary(self)` |
+| `AdvisoryLedger` | class | `modules/guardrails/advisories.py:17` | `class AdvisoryLedger` |
+| `FeatureGate` | class | `modules/guardrails/advisories.py:71` | `class FeatureGate` |
+| `__init__` | method | `modules/guardrails/advisories.py:20` | `def __init__(self, limit)` |
+| `__init__` | method | `modules/guardrails/advisories.py:74` | `def __init__(self, features)` |
+| `clear` | method | `modules/guardrails/advisories.py:54` | `def clear(self)` |
 | `describe` | method | `modules/guardrails/advisories.py:61` | `def describe(self)` |
 | `describe` | method | `modules/guardrails/advisories.py:125` | `def describe(self)` |
 | `is_suspended` | method | `modules/guardrails/advisories.py:115` | `def is_suspended(self, feature)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `_build_pa_enc_timestamp` | method | `modules/kerberos_core.py:640` | `def _build_pa_enc_timestamp(self, key, etype, timestamp)` |
 | `_parse_kdc_rep` | method | `modules/kerberos_core.py:653` | `def _parse_kdc_rep(self, data, key, etype, rep_type)` |
 | `_parse_pac_buffer` | method | `modules/kerberos_core.py:622` | `def _parse_pac_buffer(pac, buf_type, buf_data)` |
-| `_rc4_decrypt` | method | `modules/kerberos_core.py:676` | `def _rc4_decrypt(key, data, usage)` |
-| `_rc4_encrypt` | method | `modules/kerberos_core.py:667` | `def _rc4_encrypt(key, data, usage)` |
-| `aes_decrypt` | method | `modules/kerberos_core.py:361` | `def aes_decrypt(self, key, ciphertext, usage)` |
-| `aes_encrypt` | method | `modules/kerberos_core.py:329` | `def aes_encrypt(self, key, plaintext, usage)` |
-| `build_as_req` | method | `modules/kerberos_core.py:435` | `def build_as_req(self, username, domain, password, etype)` |
-| `build_tgs_req` | method | `modules/kerberos_core.py:489` | `def build_tgs_req(self, params)` |
-| `compute_checksum` | method | `modules/kerberos_core.py:389` | `def compute_checksum(key, data, etype)` |
-| `decrypt_ticket` | method | `modules/kerberos_core.py:563` | `def decrypt_ticket(self, ticket_data, key, etype)` |
-| `derive_aes_key` | method | `modules/kerberos_core.py:282` | `def derive_aes_key(password, salt, etype)` |
-| `derive_rc4_key` | method | `modules/kerberos_core.py:318` | `def derive_rc4_key(password)` |
-| `get_supported_etypes` | method | `modules/kerberos_core.py:427` | `def get_supported_etypes(self)` |
-| `has_flag` | method | `modules/kerberos_core.py:207` | `def has_flag(self, flag_name)` |
-| `is_expired` | method | `modules/kerberos_core.py:706` | `def is_expired(endtime, grace_period)` |
-| `parse_as_rep` | method | `modules/kerberos_core.py:534` | `def parse_as_rep(self, as_rep_data, key, etype)` |
-| `parse_error` | method | `modules/kerberos_core.py:687` | `def parse_error(error_data)` |
-| `parse_pac` | method | `modules/kerberos_core.py:588` | `def parse_pac(self, pac_data)` |
-| `parse_tgs_rep` | method | `modules/kerberos_core.py:550` | `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` |
-| `to_string` | method | `modules/kerberos_core.py:152` | `def to_string(self)` |
-| `validate_flags` | method | `modules/kerberos_core.py:719` | `def validate_flags(ticket, required_flags)` |
-| `validate_pac_checksums` | method | `modules/kerberos_core.py:735` | `def validate_pac_checksums(pac)` |
-| `DiamondTicketConfig` | class | `modules/kerberos_tickets.py:94` | `class DiamondTicketConfig` |
-| `DiamondTicketForger` | class | `modules/kerberos_tickets.py:397` | `class DiamondTicketForger` |
-| `GoldenTicketConfig` | class | `modules/kerberos_tickets.py:65` | `class GoldenTicketConfig` |
-| `GoldenTicketForger` | class | `modules/kerberos_tickets.py:265` | `class GoldenTicketForger` |
-| `SapphireTicketForger` | class | `modules/kerberos_tickets.py:462` | `class SapphireTicketForger` |
-| `SilverTicketConfig` | class | `modules/kerberos_tickets.py:36` | `class SilverTicketConfig` |
-| `SilverTicketForger` | class | `modules/kerberos_tickets.py:124` | `class SilverTicketForger` |
-| `SkeletonKeyInjector` | class | `modules/kerberos_tickets.py:567` | `class SkeletonKeyInjector` |
-| `__init__` | method | `modules/kerberos_tickets.py:131` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_tickets.py:272` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_tickets.py:405` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_tickets.py:469` | `def __init__(self, kerberos_core)` |
-| `_assemble_tgt` | method | `modules/kerberos_tickets.py:368` | `def _assemble_tgt(self, config, flags, enc_part)` |
-| `_build_diamond_pac` | method | `modules/kerberos_tickets.py:446` | `def _build_diamond_pac(self, config)` |
-| `_build_enc_ticket_part` | method | `modules/kerberos_tickets.py:206` | `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)` |
-| `_build_golden_enc_part` | method | `modules/kerberos_tickets.py:346` | `def _build_golden_enc_part(self, config, start, end, flags, key)` |
-| `_build_golden_pac` | method | `modules/kerberos_tickets.py:339` | `def _build_golden_pac(self, config)` |
-| `_build_kirbi` | method | `modules/kerberos_tickets.py:235` | `def _build_kirbi(self, ticket, enc_part, etype)` |
-| `_build_silver_pac` | method | `modules/kerberos_tickets.py:200` | `def _build_silver_pac(self, config, start, end)` |
-| `_build_ticket_structure` | method | `modules/kerberos_tickets.py:225` | `def _build_ticket_structure(self, config, flags, enc_part)` |
-| `_impacket_command` | method | `modules/kerberos_tickets.py:254` | `def _impacket_command(self, config)` |
-| `_impacket_command` | method | `modules/kerberos_tickets.py:388` | `def _impacket_command(self, config)` |
-| `_mimikatz_command` | method | `modules/kerberos_tickets.py:379` | `def _mimikatz_command(self, config)` |
-| `_mimikatz_inject_command` | method | `modules/kerberos_tickets.py:244` | `def _mimikatz_inject_command(self, config)` |
-| `_resolve_key` | method | `modules/kerberos_tickets.py:190` | `def _resolve_key(self, config)` |
-| `_resolve_krbtgt_key` | method | `modules/kerberos_tickets.py:324` | `def _resolve_krbtgt_key(self, config)` |
-| `cleanup_command` | method | `modules/kerberos_tickets.py:612` | `def cleanup_command()` |
-| `detect_skeleton_key` | method | `modules/kerberos_tickets.py:578` | `def detect_skeleton_key(target_host, domain, dc_ip)` |
-| `forge` | method | `modules/kerberos_tickets.py:134` | `def forge(self, config)` |
-| `forge` | method | `modules/kerberos_tickets.py:275` | `def forge(self, config)` |
-| `forge` | method | `modules/kerberos_tickets.py:408` | `def forge(self, config)` |
-| `forge_rbcd` | method | `modules/kerberos_tickets.py:530` | `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` |
-| `forge_s4u2self` | method | `modules/kerberos_tickets.py:472` | `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` |
-| `inject_command` | method | `modules/kerberos_tickets.py:600` | `def inject_command(target_host)` |
-| `_build_svg` | function | `modules/kill_chain_viz.py:34` | `def _build_svg(phases)` |
-| `_load_phases` | function | `modules/kill_chain_viz.py:20` | `def _load_phases(sessions)` |
-| `_read_target` | function | `modules/kill_chain_viz.py:27` | `def _read_target()` |
-| `generate_html` | function | `modules/kill_chain_viz.py:69` | `def generate_html(target, sessions)` |
-| `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
-| `KillChain` | class | `modules/killchain.py:206` | `class KillChain` |
-| `KillChainConfig` | class | `modules/killchain.py:99` | `class KillChainConfig` |
-| `PhaseStatus` | class | `modules/killchain.py:197` | `class PhaseStatus` |
-| `advance_phase` | method | `modules/killchain.py:312` | `def advance_phase(new_phase, world_model_path, host, extras)` |
-| `cli_phase_to_host_state` | method | `modules/killchain.py:252` | `def cli_phase_to_host_state(phase)` |
-| `compact_progress` | method | `modules/killchain.py:465` | `def compact_progress(current_phase, phases_entered)` |
-| `config` | method | `modules/killchain.py:215` | `def config()` |
-| `current_phase` | method | `modules/killchain.py:265` | `def current_phase(world_model_path)` |
-| `engagement_phase_to_cli` | method | `modules/killchain.py:240` | `def engagement_phase_to_cli(engagement_value)` |
-| `get_killchain` | function | `modules/killchain.py:566` | `def get_killchain()` |
-| `get_progress` | method | `modules/killchain.py:416` | `def get_progress(world_model_path)` |
-| `is_valid_phase` | method | `modules/killchain.py:188` | `def is_valid_phase(self, phase)` |
-| `phase_colors` | method | `modules/killchain.py:230` | `def phase_colors()` |
-| `phase_index` | method | `modules/killchain.py:181` | `def phase_index(self, phase)` |
-| `phase_index` | method | `modules/killchain.py:496` | `def phase_index(phase)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -1,0 +1,14 @@
+name: ldap_enum
+description: >-
+  Enumerate Active Directory via LDAP: users, groups, computers, OUs, GPOs, ACLs
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/ldap_enum/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: ['domain']
+optional_args: ['server', 'username', 'password']
+mitre_technique: T1087
+enabled: true

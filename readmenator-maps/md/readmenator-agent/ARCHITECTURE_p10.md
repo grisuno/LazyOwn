@@ -2,6 +2,22 @@
 Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 
 ## External Imports (continued)
+- `tests/run_mutation_chain_v2.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_contract_manifest.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_emulation_runner.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_infra_report.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_intel_svg.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_killchain.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_lazy_scope.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_llm.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_llm_orchestrator.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_loop_cli_catalog.py` -> __future__, pathlib, sys
+- `tests/run_mutation_no_shell.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_opsec.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_orchestrator_yaml.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_outcome_bus.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_phase1.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_shell_semantics.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_tests.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_trigger_hints.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_trigger_policy.py` -> __future__, pathlib, sys
@@ -36,11 +52,14 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `tests/test_backdoor_random.py` -> __future__, pathlib, sys, types
 - `tests/test_banner_config.py` -> __future__, pathlib, pytest, sys, unittest
 - `tests/test_bdd_infra_range_report.py` -> __future__, json, pathlib, tempfile, unittest.mock
-- `tests/test_beacon_config_builder.py` -> __future__
+- `tests/test_beacon_config_builder.py` -> __future__, pytest
 - `tests/test_beacon_history.py` -> __future__
 - `tests/test_beacon_recon_sink.py` -> __future__, json, pathlib, tempfile, unittest, unittest.mock
 - `tests/test_blacksandbeacon_addon.py` -> pathlib, pytest, re, yaml
+- `tests/test_bof_admin.py` -> __future__, pathlib, pytest
+- `tests/test_bof_delivery.py` -> __future__, pytest
 - `tests/test_bof_registry.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_bof_repo_contract.py` -> __future__, pathlib
 - `tests/test_bootstrap_installer.py` -> __future__, os, pathlib, pytest, shutil, stat, subprocess
 - `tests/test_boyscout_contracts.py` -> __future__, ast, pathlib, pytest, re, sys, types
 - `tests/test_bridge_catalog_filtered.py` -> __future__, pathlib, pytest, sys

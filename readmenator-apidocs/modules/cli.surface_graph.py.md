@@ -12,7 +12,7 @@ running the Flask server.
 The graph has the same five-node taxonomy as the web UI:
 
 * `[`c2`](discord_c2.py.md#c2)`      — the LazyOwn operator station (root).
-* `[`client`](modules.professional_report.py.md#reportmetadata-client)`  — an active implant (one ``sessions/<client_id>.log`` file).
+* ``client``  — an active implant (one ``sessions/<client_id>.log`` file).
 * ``host``    — a discovered remote host (from ``hostsdiscovery.txt`` or
                  ``scan_discovery*.csv``, or surfaced via an implant's
                  ``discovered_ips`` column).
@@ -125,7 +125,7 @@ A node in the network surface graph.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `id` | `str` |  | Stable string identifier (e.g. ``host-10-0-0-1``). |
-| `kind` | `str` |  | One of `[`c2`](discord_c2.py.md#c2)`, `[`client`](modules.professional_report.py.md#reportmetadata-client)`, ``host``, ``port``, ``service``. |
+| `kind` | `str` |  | One of `[`c2`](discord_c2.py.md#c2)`, ``client``, ``host``, ``port``, ``service``. |
 | `label` | `str` |  | Human-readable label rendered in the TUI. |
 | `metadata` | `dict[str, Any]` | `field(default_factory=dict)` | Free-form structured attributes from the source file. |
 

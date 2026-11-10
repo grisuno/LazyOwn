@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 1079,
-  "entities": 16993,
+  "modules": 1095,
+  "entities": 17111,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 7,
    "lua": 26,
    "php": 4,
-   "py": 962,
+   "py": 978,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4593,
-   "class": 1483,
+   "attribute": 4616,
+   "class": 1487,
    "classmethod": 85,
-   "constant": 1733,
-   "constructor": 538,
+   "constant": 1751,
+   "constructor": 539,
    "enum": 39,
    "exception": 43,
-   "function": 3234,
+   "function": 3276,
    "macro": 114,
-   "method": 3690,
-   "module": 1079,
-   "property": 206,
+   "method": 3703,
+   "module": 1095,
+   "property": 207,
    "protocol": 24,
    "staticmethod": 96,
    "struct": 20,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 447,
+  "skipped_files": 450,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 8176,
-   "total": 10655,
-   "percent": 76.7
+   "documented": 8253,
+   "total": 10732,
+   "percent": 76.9
   },
   "by_kind": {
    "class": {
-    "documented": 1293,
-    "total": 1483,
+    "documented": 1297,
+    "total": 1487,
     "percent": 87.2
    },
    "classmethod": {
@@ -57,9 +57,9 @@
     "percent": 69.4
    },
    "constructor": {
-    "documented": 217,
-    "total": 538,
-    "percent": 40.3
+    "documented": 218,
+    "total": 539,
+    "percent": 40.4
    },
    "enum": {
     "documented": 30,
@@ -72,9 +72,9 @@
     "percent": 95.3
    },
    "function": {
-    "documented": 2308,
-    "total": 3234,
-    "percent": 71.4
+    "documented": 2350,
+    "total": 3276,
+    "percent": 71.7
    },
    "macro": {
     "documented": 2,
@@ -82,19 +82,19 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 3001,
-    "total": 3690,
-    "percent": 81.3
+    "documented": 3014,
+    "total": 3703,
+    "percent": 81.4
    },
    "module": {
-    "documented": 951,
-    "total": 1079,
-    "percent": 88.1
+    "documented": 967,
+    "total": 1095,
+    "percent": 88.3
    },
    "property": {
-    "documented": 162,
-    "total": 206,
-    "percent": 78.6
+    "documented": 163,
+    "total": 207,
+    "percent": 78.7
    },
    "protocol": {
     "documented": 24,
@@ -254,8 +254,8 @@
     "percent": 100.0
    },
    "cli/commands/bof_registry.py": {
-    "documented": 9,
-    "total": 9,
+    "documented": 14,
+    "total": 14,
     "percent": 100.0
    },
    "cli/commands/c2_profile.py": {
@@ -824,8 +824,8 @@
     "percent": 100.0
    },
    "cli/orchestrator_assets_tabs.py": {
-    "documented": 42,
-    "total": 42,
+    "documented": 48,
+    "total": 48,
     "percent": 100.0
    },
    "cli/output_mode.py": {
@@ -2049,9 +2049,9 @@
     "percent": 0.0
    },
    "modules/beacon_config_builder.py": {
-    "documented": 11,
-    "total": 12,
-    "percent": 91.7
+    "documented": 12,
+    "total": 13,
+    "percent": 92.3
    },
    "modules/beacon_history.py": {
     "documented": 8,
@@ -2073,10 +2073,20 @@
     "total": 8,
     "percent": 100.0
    },
+   "modules/bof_admin.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "modules/bof_delivery.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
    "modules/bof_registry.py": {
-    "documented": 39,
-    "total": 41,
-    "percent": 95.1
+    "documented": 47,
+    "total": 49,
+    "percent": 95.9
    },
    "modules/c2_agent.py": {
     "documented": 13,
@@ -4703,6 +4713,11 @@
     "total": 2,
     "percent": 100.0
    },
+   "skills/mcp_tools/claudemd.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "skills/mcp_tools/collab_publish.py": {
     "documented": 2,
     "total": 2,
@@ -4729,6 +4744,11 @@
     "percent": 100.0
    },
    "skills/mcp_tools/create_param.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/create_tool.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -4938,6 +4958,11 @@
     "total": 2,
     "percent": 100.0
    },
+   "skills/mcp_tools/harness_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "skills/mcp_tools/heartbeat_status.py": {
     "documented": 2,
     "total": 2,
@@ -4984,6 +5009,11 @@
     "percent": 100.0
    },
    "skills/mcp_tools/inject_objective.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/job_status.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -5118,6 +5148,11 @@
     "total": 2,
     "percent": 100.0
    },
+   "skills/mcp_tools/manage_permissions.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "skills/mcp_tools/memory_recall.py": {
     "documented": 2,
     "total": 2,
@@ -5198,6 +5233,16 @@
     "total": 2,
     "percent": 100.0
    },
+   "skills/mcp_tools/playbook_run.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/policy_status.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "skills/mcp_tools/poll_events.py": {
     "documented": 2,
     "total": 2,
@@ -5233,7 +5278,17 @@
     "total": 2,
     "percent": 100.0
    },
+   "skills/mcp_tools/recommend_next.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "skills/mcp_tools/rich_tui_snapshot.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/run_agent.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -5248,12 +5303,32 @@
     "total": 2,
     "percent": 100.0
    },
+   "skills/mcp_tools/run_command_async.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/search_tools.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "skills/mcp_tools/searchsploit.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
    },
    "skills/mcp_tools/session_diff.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/session_init.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/session_resume.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -5284,6 +5359,11 @@
     "percent": 100.0
    },
    "skills/mcp_tools/stealth.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "skills/mcp_tools/subagent_run.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -5654,7 +5734,7 @@
   {
    "uid": "cli/commands/bof_registry.py",
    "path": "modules/cli.commands.bof_registry.py.jsonl",
-   "entities": 11
+   "entities": 16
   },
   {
    "uid": "cli/commands/c2_profile.py",
@@ -6224,7 +6304,7 @@
   {
    "uid": "cli/orchestrator_assets_tabs.py",
    "path": "modules/cli.orchestrator_assets_tabs.py.jsonl",
-   "entities": 48
+   "entities": 54
   },
   {
    "uid": "cli/output_mode.py",
@@ -7449,7 +7529,7 @@
   {
    "uid": "modules/beacon_config_builder.py",
    "path": "modules/modules.beacon_config_builder.py.jsonl",
-   "entities": 67
+   "entities": 68
   },
   {
    "uid": "modules/beacon_history.py",
@@ -7472,9 +7552,19 @@
    "entities": 22
   },
   {
+   "uid": "modules/bof_admin.py",
+   "path": "modules/modules.bof_admin.py.jsonl",
+   "entities": 27
+  },
+  {
+   "uid": "modules/bof_delivery.py",
+   "path": "modules/modules.bof_delivery.py.jsonl",
+   "entities": 27
+  },
+  {
    "uid": "modules/bof_registry.py",
    "path": "modules/modules.bof_registry.py.jsonl",
-   "entities": 68
+   "entities": 78
   },
   {
    "uid": "modules/c2_agent.py",
@@ -10102,6 +10192,11 @@
    "entities": 3
   },
   {
+   "uid": "skills/mcp_tools/claudemd.py",
+   "path": "modules/skills.mcp_tools.claudemd.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "skills/mcp_tools/collab_publish.py",
    "path": "modules/skills.mcp_tools.collab_publish.py.jsonl",
    "entities": 3
@@ -10129,6 +10224,11 @@
   {
    "uid": "skills/mcp_tools/create_param.py",
    "path": "modules/skills.mcp_tools.create_param.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/create_tool.py",
+   "path": "modules/skills.mcp_tools.create_tool.py.jsonl",
    "entities": 3
   },
   {
@@ -10337,6 +10437,11 @@
    "entities": 3
   },
   {
+   "uid": "skills/mcp_tools/harness_status.py",
+   "path": "modules/skills.mcp_tools.harness_status.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "skills/mcp_tools/heartbeat_status.py",
    "path": "modules/skills.mcp_tools.heartbeat_status.py.jsonl",
    "entities": 3
@@ -10384,6 +10489,11 @@
   {
    "uid": "skills/mcp_tools/inject_objective.py",
    "path": "modules/skills.mcp_tools.inject_objective.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/job_status.py",
+   "path": "modules/skills.mcp_tools.job_status.py.jsonl",
    "entities": 3
   },
   {
@@ -10517,6 +10627,11 @@
    "entities": 3
   },
   {
+   "uid": "skills/mcp_tools/manage_permissions.py",
+   "path": "modules/skills.mcp_tools.manage_permissions.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "skills/mcp_tools/memory_recall.py",
    "path": "modules/skills.mcp_tools.memory_recall.py.jsonl",
    "entities": 3
@@ -10597,6 +10712,16 @@
    "entities": 3
   },
   {
+   "uid": "skills/mcp_tools/playbook_run.py",
+   "path": "modules/skills.mcp_tools.playbook_run.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/policy_status.py",
+   "path": "modules/skills.mcp_tools.policy_status.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "skills/mcp_tools/poll_events.py",
    "path": "modules/skills.mcp_tools.poll_events.py.jsonl",
    "entities": 3
@@ -10632,8 +10757,18 @@
    "entities": 3
   },
   {
+   "uid": "skills/mcp_tools/recommend_next.py",
+   "path": "modules/skills.mcp_tools.recommend_next.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "skills/mcp_tools/rich_tui_snapshot.py",
    "path": "modules/skills.mcp_tools.rich_tui_snapshot.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/run_agent.py",
+   "path": "modules/skills.mcp_tools.run_agent.py.jsonl",
    "entities": 3
   },
   {
@@ -10647,6 +10782,16 @@
    "entities": 3
   },
   {
+   "uid": "skills/mcp_tools/run_command_async.py",
+   "path": "modules/skills.mcp_tools.run_command_async.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/search_tools.py",
+   "path": "modules/skills.mcp_tools.search_tools.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "skills/mcp_tools/searchsploit.py",
    "path": "modules/skills.mcp_tools.searchsploit.py.jsonl",
    "entities": 3
@@ -10654,6 +10799,16 @@
   {
    "uid": "skills/mcp_tools/session_diff.py",
    "path": "modules/skills.mcp_tools.session_diff.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/session_init.py",
+   "path": "modules/skills.mcp_tools.session_init.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/session_resume.py",
+   "path": "modules/skills.mcp_tools.session_resume.py.jsonl",
    "entities": 3
   },
   {
@@ -10684,6 +10839,11 @@
   {
    "uid": "skills/mcp_tools/stealth.py",
    "path": "modules/skills.mcp_tools.stealth.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "skills/mcp_tools/subagent_run.py",
+   "path": "modules/skills.mcp_tools.subagent_run.py.jsonl",
    "entities": 3
   },
   {
@@ -10914,7 +11074,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2320
+  "total": 2321
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

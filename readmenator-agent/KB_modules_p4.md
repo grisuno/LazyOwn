@@ -1,6 +1,16 @@
 # Subsystem: modules (page 4 of 18)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/colors.py
+- Doc: retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `retModel` (function, line 40) `def retModel()`
+  - `delete_lines` (function, line 68) `def delete_lines(content, to_delete)`
+  - `no_html` (function, line 74) `def no_html(content)`
+- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
+
 ## modules/command_executor.py
 - Doc: UnifiedCommandExecutor — shared shell command execution service.
 - Layer: utility

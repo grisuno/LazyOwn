@@ -3,6 +3,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `skills/mcp_tools/lazy_addon.py` | MCP tool ``lazyown_lazy_addon``: list or match lazyaddon triggers. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_board.py` | MCP tool ``lazyown_lazy_board``: paginated broadcast board view. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_compact.py` | MCP tool ``lazyown_lazy_compact``: manage cold-compaction digests. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_delete.py` | MCP tool ``lazyown_lazy_delete``: soft/hard delete a task intent. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazy_finding.py` | MCP tool ``lazyown_lazy_finding``: report a finding into the loop engine. | mcp_tools | 1 | 1 |
+| `skills/mcp_tools/lazy_hint.py` | MCP tool ``lazyown_lazy_hint``: add a hint node to a task. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lazy_intel.py` | MCP tool ``lazyown_lazy_intel`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lazy_mention.py` | MCP tool ``lazyown_lazy_mention``: search mention sources, paginated. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lazy_proxy.py` | MCP tool ``lazyown_lazy_proxy``: control the lazy-engine proxy. | mcp_tools | 1 | 0 |
@@ -23,6 +29,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `skills/mcp_tools/lolbas_list.py` | MCP tool ``lazyown_lolbas_list``: list LOLBAS techniques from plugins. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lolbas_use.py` | MCP tool ``lazyown_lolbas_use``: execute one LOLBAS technique. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/loop_smoke.py` | MCP tool ``lazyown_loop_smoke``: single-leg autonomous loop smoke test. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/manage_permissions.py` | MCP tool ``lazyown_manage_permissions`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/memory_recall.py` | MCP tool ``lazyown_memory_recall`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/memory_store.py` | MCP tool ``lazyown_memory_store`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 1 |
 | `skills/mcp_tools/metrics_summary.py` | MCP tool ``lazyown_metrics_summary`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -39,6 +46,8 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `skills/mcp_tools/pipeline_validate.py` | MCP tool ``lazyown_pipeline_validate`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/pivot_status.py` | MCP tool ``lazyown_pivot_status``: view pivot routes and suggestions. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/playbook_generate.py` | MCP tool ``lazyown_playbook_generate`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/playbook_run.py` | MCP tool ``lazyown_playbook_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 3 | 0 |
+| `skills/mcp_tools/policy_status.py` | MCP tool ``lazyown_policy_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/poll_events.py` | MCP tool ``lazyown_poll_events`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/rag_index.py` | MCP tool ``lazyown_rag_index`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/rag_query.py` | MCP tool ``lazyown_rag_query`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -46,17 +55,24 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `skills/mcp_tools/reactive_suggest.py` | MCP tool ``lazyown_reactive_suggest`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/read_prompt.py` | MCP tool ``lazyown_read_prompt`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/read_session_file.py` | MCP tool ``lazyown_read_session_file`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/recommend_next.py` | MCP tool ``lazyown_recommend_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/rich_tui_snapshot.py` | MCP tool ``lazyown_rich_tui_snapshot``: non-blocking Rich TUI snapshot. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/run_agent.py` | MCP tool ``lazyown_run_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/run_api.py` | MCP tool ``lazyown_run_api`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/run_command.py` | MCP tool ``lazyown_run_command``: execute LazyOwn shell commands. | mcp_tools | 3 | 0 |
+| `skills/mcp_tools/run_command_async.py` | MCP tool ``lazyown_run_command_async`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/search_tools.py` | MCP tool ``lazyown_search_tools`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/searchsploit.py` | MCP tool ``lazyown_searchsploit`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/session_diff.py` | MCP tool ``lazyown_session_diff`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/session_init.py` | MCP tool ``lazyown_session_init`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/session_resume.py` | MCP tool ``lazyown_session_resume`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/session_state.py` | MCP tool ``lazyown_session_state`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/session_status.py` | MCP tool ``lazyown_session_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/set_active_target.py` | MCP tool ``lazyown_set_active_target`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/set_config.py` | MCP tool ``lazyown_set_config``: set one key in payload.json. | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/soul.py` | MCP tool ``lazyown_soul`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/stealth.py` | MCP tool ``lazyown_stealth``: toggle stealth mode for later operations. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/subagent_run.py` | MCP tool ``lazyown_subagent_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/swan_ensemble.py` | MCP tool ``lazyown_swan_ensemble`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/swan_route.py` | MCP tool ``lazyown_swan_route`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/swan_run.py` | MCP tool ``lazyown_swan_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -180,11 +196,14 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_backdoor_random.py` | Backdoor credentials: random like C2 operators, persisted via assign. | tests | 5 | 0 |
 | `tests/test_banner_config.py` | Tests for cli/banner_config.py — registry, settings, renderer, wizard. | tests | 45 | 0 |
 | `tests/test_bdd_infra_range_report.py` | BDD scenarios for disposable infra, range, and executive reporting. | tests | 5 | 0 |
-| `tests/test_beacon_config_builder.py` | Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and... | tests | 16 | 0 |
+| `tests/test_beacon_config_builder.py` | Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and... | tests | 20 | 0 |
 | `tests/test_beacon_history.py` | BDD-style tests for persistent beacon command/result history storage. | tests | 10 | 0 |
 | `tests/test_beacon_recon_sink.py` | Beacon recon ingest tests. | tests | 18 | 0 |
 | `tests/test_blacksandbeacon_addon.py` | tests/test_blacksandbeacon_addon.py  Validation suite for the blacksandbeacon and... | tests | 60 | 0 |
+| `tests/test_bof_admin.py` | Tests for modules/bof_admin.py — BOF YAML configuration CRUD. | tests | 27 | 0 |
+| `tests/test_bof_delivery.py` | Tests for modules/bof_delivery.py — client articulation and delivery. | tests | 26 | 0 |
 | `tests/test_bof_registry.py` | Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace... | tests | 51 | 0 |
+| `tests/test_bof_repo_contract.py` | Repository-level BOF.yaml consistency for the lazyaddon beacon clients. | tests | 6 | 0 |
 | `tests/test_bootstrap_installer.py` | Integration tests for the installer scripts (no network, no apt). | tests | 14 | 0 |
 | `tests/test_boyscout_contracts.py` | Boy-scout contracts for critical shared surfaces. | tests | 15 | 0 |
 | `tests/test_bridge_catalog_filtered.py` | tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``... | tests | 20 | 0 |
@@ -477,24 +496,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_scope_guard.py` | Test suite for cli/scope_guard.py. | tests | 46 | 0 |
 | `tests/test_scope_guard_integration.py` | Integration tests for the scope guard wired into LazyOwnShell. | tests | 30 | 0 |
 | `tests/test_security_alerts_fix.py` | Regression tests for CodeQL alerts #941-#972 (SSRF, TLS, clear-text, ReDoS, paths). | tests | 24 | 0 |
-| `tests/test_security_codeql_batch.py` | SDD regression tests for the CodeQL security batch. | tests | 37 | 0 |
-| `tests/test_security_hardening.py` | SDD+TDD+BDD tests for security hardening contracts. | tests | 36 | 0 |
-| `tests/test_security_hardening_v2.py` | SDD+TDD+BDD tests for security hardening batch v2. | tests | 39 | 0 |
-| `tests/test_security_hardening_v3.py` | Security hardening tests — SDD+TDD+BDD for all boy-scout fixes. | tests | 63 | 0 |
-| `tests/test_security_hardening_v4.py` | SDD+TDD+BDD tests for security hardening v4 — command execution, URL injection, and path traversal. | tests | 67 | 0 |
-| `tests/test_security_hardening_v5.py` | SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS. | tests | 40 | 0 |
-| `tests/test_security_lazyc2.py` | Security tests for the LazyOwn C2 web layer. | tests | 58 | 0 |
-| `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
-| `tests/test_selection_lazyscript.py` | Tests for the LazyscriptSelector. | tests | 10 | 0 |
-| `tests/test_selection_module.py` | Tests for the ModuleSelector over the shared module registry bridge. | tests | 10 | 0 |
-| `tests/test_selection_technique.py` | Tests for the TechniqueSelector and its playbook_engine helper. | tests | 21 | 0 |
-| `tests/test_selection_technique_chain.py` | Tests for TechniqueChainSelector and the focused technique-chain synth. | tests | 16 | 0 |
-| `tests/test_selection_wiring.py` | Vertical wiring tests: playbooks, adversaries and apt_chain through the loop. | tests | 13 | 0 |
-| `tests/test_selectors_base.py` | Shared selector brain contract: base types, chain selector and cascade. | tests | 9 | 0 |
-| `tests/test_selectors_capabilities.py` | Capability selector contracts: playbook, adversary and atomic strategies. | tests | 12 | 0 |
-| `tests/test_session_brief.py` | BDD tests for the consolidated session-start brief. | tests | 6 | 0 |
-| `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
-| `tests/test_session_secrets.py` | SessionSecretsSpec: Contract for session-scoped secret rotation. | tests | 8 | 0 |
-| `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
 
 Next: [INDEX_p4.md](INDEX_p4.md)

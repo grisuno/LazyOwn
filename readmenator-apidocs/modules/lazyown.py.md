@@ -1607,7 +1607,7 @@ Manual execution:
     `python3 modules/legacy/lazylfi2rce.py --rhost <rhost> --rport <rport> --lhost <lhost> --lport <lport> --field <field> --wordlist <wordlist>`
 
 Example:
-    To run the lazylfi2rce with [`rhost`](#lazyownshell-rhost) assign to `192.168.1.1`, `rport` assign to `80`, [`lhost`](#lazyownshell-lhost) assign to `192.168.1.2`, [`lport`](#lazyownshell-lport) assign to `8080`, `field` assign to [`file`](modules.playbook_admin.py.md#playbookentry-file), and `wordlist` assign to `path/to/wordlist.txt`, set:
+    To run the lazylfi2rce with [`rhost`](#lazyownshell-rhost) assign to `192.168.1.1`, `rport` assign to `80`, [`lhost`](#lazyownshell-lhost) assign to `192.168.1.2`, [`lport`](#lazyownshell-lport) assign to `8080`, `field` assign to `file`, and `wordlist` assign to `path/to/wordlist.txt`, set:
     `self.params["rhost"] = "192.168.1.1"`
     `self.params["rport"] = 80`
     `self.params["lhost"] = "192.168.1.2"`

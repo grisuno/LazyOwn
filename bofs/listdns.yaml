@@ -1,0 +1,14 @@
+name: listdns
+description: >-
+  List DNS A records from a domain controller via LDAP
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/listdns/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: []
+optional_args: ['domain']
+mitre_technique: T1590
+enabled: true

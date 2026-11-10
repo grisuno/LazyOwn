@@ -1,0 +1,14 @@
+name: sc_enum
+description: >-
+  Enumerate Windows services: name, display name, state, start type, binary path
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/sc_enum/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: []
+optional_args: []
+mitre_technique: T1007
+enabled: true

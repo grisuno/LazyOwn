@@ -1,5 +1,45 @@
-# Subsystem: mcp_tools (page 3 of 3)
+# Subsystem: mcp_tools (page 3 of 4)
 Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
+
+## skills/mcp_tools/llm_ask.py
+- Doc: MCP tool ``lazyown_llm_ask`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 67) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/lazyown_llm.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/lolbas_list.py
+- Doc: MCP tool ``lazyown_lolbas_list``: list LOLBAS techniques from plugins.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 34) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/lolbas_use.py
+- Doc: MCP tool ``lazyown_lolbas_use``: execute one LOLBAS technique.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 44) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/loop_smoke.py
+- Doc: MCP tool ``lazyown_loop_smoke``: single-leg autonomous loop smoke test.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 65) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/manage_permissions.py
+- Doc: MCP tool ``lazyown_manage_permissions`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 56) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/memory_recall.py
 - Doc: MCP tool ``lazyown_memory_recall`` (migrated from the call_tool dispatch chain).
@@ -131,6 +171,24 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
   - `handle` (function, line 52) `def handle(arguments, tool_name, ctx)`
 - Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
 
+## skills/mcp_tools/playbook_run.py
+- Doc: MCP tool ``lazyown_playbook_run`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_substitute_playbook_target` (function, line 16) `def _substitute_playbook_target(command, target)`
+  - `handle` (function, line 55) `def handle(arguments, tool_name, ctx)`
+  - `_mcp_executor` (function, line 94) `def _mcp_executor(command, target)`
+- Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/policy_status.py
+- Doc: MCP tool ``lazyown_policy_status`` (migrated from the call_tool dispatch chain).
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `handle` (function, line 33) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/poll_events.py
 - Doc: MCP tool ``lazyown_poll_events`` (migrated from the call_tool dispatch chain).
 - Layer: infrastructure
@@ -190,6 +248,15 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
   - `handle` (function, line 26) `def handle(arguments, tool_name, ctx)`
 - Depends on: `skills/mcp_tools/_context.py`
 
+## skills/mcp_tools/recommend_next.py
+- Doc: MCP tool ``lazyown_recommend_next`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 25) `def handle(arguments, tool_name, ctx)`
+  - `_fused_recommendations` (function, line 32) `def _fused_recommendations()`
+- Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `modules/recommender.py`, `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/rich_tui_snapshot.py
 - Doc: MCP tool ``lazyown_rich_tui_snapshot``: non-blocking Rich TUI snapshot.
 - Layer: utility
@@ -197,6 +264,15 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Symbols:
   - `handle` (function, line 30) `def handle(arguments, tool_name, ctx)`
 - Depends on: `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/run_agent.py
+- Doc: MCP tool ``lazyown_run_agent`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 50) `def handle(arguments, tool_name, ctx)`
+  - `_runner` (function, line 68) `def _runner(cmd)`
+- Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/run_api.py
 - Doc: MCP tool ``lazyown_run_api`` (migrated from the call_tool dispatch chain).
@@ -216,6 +292,22 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
   - `_run_with_fallback` (function, line 102) `def _run_with_fallback(cmd, to)`
 - Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
 
+## skills/mcp_tools/run_command_async.py
+- Doc: MCP tool ``lazyown_run_command_async`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 39) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/search_tools.py
+- Doc: MCP tool ``lazyown_search_tools`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 37) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/searchsploit.py
 - Doc: MCP tool ``lazyown_searchsploit`` (migrated from the call_tool dispatch chain).
 - Layer: utility
@@ -231,6 +323,22 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Symbols:
   - `handle` (function, line 32) `def handle(arguments, tool_name, ctx)`
 - Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/session_init.py
+- Doc: MCP tool ``lazyown_session_init`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 59) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/killchain.py`, `modules/lazyown_bridge.py`, `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/session_resume.py
+- Doc: MCP tool ``lazyown_session_resume`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 37) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/lazyown_session.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/session_state.py
 - Doc: MCP tool ``lazyown_session_state`` (migrated from the call_tool dispatch chain).
@@ -280,6 +388,15 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Symbols:
   - `handle` (function, line 35) `def handle(arguments, tool_name, ctx)`
 - Depends on: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/subagent_run.py
+- Doc: MCP tool ``lazyown_subagent_run`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 45) `def handle(arguments, tool_name, ctx)`
+  - `_isolated_runner` (function, line 86) `def _isolated_runner(cmd)`
+- Depends on: `modules/mcp_agent_bridge.py`, `skills/lazyown_session.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/swan_ensemble.py
 - Doc: MCP tool ``lazyown_swan_ensemble`` (migrated from the call_tool dispatch chain).
@@ -377,59 +494,5 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
   - `handle` (function, line 38) `def handle(arguments, tool_name, ctx)`
 - Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
 
-## skills/mcp_tools/winbox_gym_list.py
-- Doc: MCP tool ``lazyown_winbox_gym_list``: list and validate WinBox gym vectors.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 21) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
 
-## skills/mcp_tools/winbox_gym_plan.py
-- Doc: MCP tool ``lazyown_winbox_gym_plan``: build the WinBox gym attack plan.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 32) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_gym_run.py
-- Doc: MCP tool ``lazyown_winbox_gym_run``: run the WinBox gym matrix on the lab.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 33) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_snapshot.py
-- Doc: MCP tool ``lazyown_winbox_snapshot``: manage WinBox lab snapshots.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 29) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_status.py
-- Doc: MCP tool ``lazyown_winbox_status``: report WinBox lab readiness.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 22) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_tools.py
-- Doc: MCP tool ``lazyown_winbox_tools``: manage tools staged in the WinBox guest.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 29) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_vm.py
-- Doc: MCP tool ``lazyown_winbox_vm``: drive the WinBox lab VM lifecycle.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 36) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
+Next: [KB_mcp_tools_p4.md](KB_mcp_tools_p4.md)

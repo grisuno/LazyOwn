@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ensure_prereqs` | function | `modules/winbox_gym.py:453` | `def ensure_prereqs(timeout)` |
+| `ensure_vm_running` | function | `modules/winbox_gym.py:1184` | `def ensure_vm_running(timeout)` |
+| `exploit_for` | function | `modules/winbox_gym.py:252` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/winbox_gym.py:233` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/winbox_gym.py:222` | `def load_index(path)` |
+| `main` | function | `modules/winbox_gym.py:1262` | `def main()` |
+| `record_artifact` | function | `modules/winbox_gym.py:1211` | `def record_artifact(name, output)` |
+| `resolve_target` | function | `modules/winbox_gym.py:1170` | `def resolve_target()` |
+| `run_cli` | function | `modules/winbox_gym.py:924` | `def run_cli(args, timeout)` |
+| `summary` | function | `modules/winbox_gym.py:311` | `def summary(path)` |
+| `validate_matrix` | function | `modules/winbox_gym.py:262` | `def validate_matrix(path)` |
+| `vm_ip` | function | `modules/winbox_gym.py:1148` | `def vm_ip()` |
+| `vm_status` | function | `modules/winbox_gym.py:1113` | `def vm_status(timeout)` |
+| `vulnerabilities` | function | `modules/winbox_gym.py:227` | `def vulnerabilities(path)` |
+| `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
+| `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
+| `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
+| `remove` | function | `modules/workspace.py:90` | `def remove(rel)` |
+| `resolve` | function | `modules/workspace.py:27` | `def resolve(rel)` |
+| `root` | function | `modules/workspace.py:21` | `def root()` |
+| `write_text` | function | `modules/workspace.py:72` | `def write_text(rel, content)` |
+| `CredentialEntry` | class | `modules/world_model.py:412` | `class CredentialEntry` |
+| `DomainEntry` | class | `modules/world_model.py:438` | `class DomainEntry` |
+| `EmailEntry` | class | `modules/world_model.py:430` | `class EmailEntry` |
+| `EngagementPhase` | class | `modules/world_model.py:391` | `class EngagementPhase(StrEnum)` |
+| `HostEntry` | class | `modules/world_model.py:588` | `class HostEntry` |
+| `HostState` | class | `modules/world_model.py:375` | `class HostState(StrEnum)` |
+| `NetworkGraph` | class | `modules/world_model.py:468` | `class NetworkGraph` |
+| `NetworkRelation` | class | `modules/world_model.py:446` | `class NetworkRelation` |
+| `ServiceInfo` | class | `modules/world_model.py:403` | `class ServiceInfo` |
+| `VulnerabilityEntry` | class | `modules/world_model.py:421` | `class VulnerabilityEntry` |
+| `WorldModel` | class | `modules/world_model.py:769` | `class WorldModel` |
+| `_PhaseDeriver` | class | `modules/world_model.py:644` | `class _PhaseDeriver` |
+| `__init__` | method | `modules/world_model.py:491` | `def __init__(self)` |
+| `__init__` | method | `modules/world_model.py:777` | `def __init__(self, path)` |
+| `_cred_value` | method | `modules/world_model.py:1206` | `def _cred_value(cred)` |
+| `_decrypt_payload_text` | function | `modules/world_model.py:220` | `def _decrypt_payload_text(text, password, salt)` |
+| `_derive_crypto_key` | function | `modules/world_model.py:78` | `def _derive_crypto_key(password, salt)` |
+| `_encrypt_payload` | function | `modules/world_model.py:200` | `def _encrypt_payload(payload, password, salt)` |
+| `_load` | method | `modules/world_model.py:1339` | `def _load(self)` |
+| `_load_or_create_salt` | function | `modules/world_model.py:157` | `def _load_or_create_salt(salt_path)` |
+| `_machine_password` | function | `modules/world_model.py:87` | `def _machine_password()` |
+| `_master_password` | function | `modules/world_model.py:128` | `def _master_password()` |
+| `_read_encrypted_dict` | function | `modules/world_model.py:259` | `def _read_encrypted_dict(path)` |
+| `_save` | method | `modules/world_model.py:1320` | `def _save(self)` |
+| `add_credential` | method | `modules/world_model.py:897` | `def add_credential(self, value, host, service)` |
+| `add_domain` | method | `modules/world_model.py:992` | `def add_domain(self, domain, host, context)` |
+| `add_email` | method | `modules/world_model.py:986` | `def add_email(self, address, host, context)` |
+| `add_host` | method | `modules/world_model.py:793` | `def add_host(self, ip)` |
+| `add_note` | method | `modules/world_model.py:853` | `def add_note(self, ip, note)` |
+| `add_relation` | method | `modules/world_model.py:498` | `def add_relation(self, relation)` |
+| `add_relation` | method | `modules/world_model.py:1218` | `def add_relation(self, source, target, relation, weight)` |
+| `add_service` | method | `modules/world_model.py:597` | `def add_service(self, svc)` |
+| `add_service` | method | `modules/world_model.py:836` | `def add_service(self, ip, port, name, version, protocol)` |
+| `add_vulnerability` | method | `modules/world_model.py:980` | `def add_vulnerability(self, description, host, cve, severity)` |
+| `advance` | method | `modules/world_model.py:601` | `def advance(self, new_state)` |
+| `advance_host` | method | `modules/world_model.py:827` | `def advance_host(self, ip, new_state)` |
+| `can_advance_to` | method | `modules/world_model.py:387` | `def can_advance_to(self, next_state)` |
+| `consume_policy_facts` | method | `modules/world_model.py:1079` | `def consume_policy_facts(self, facts_path)` |
+| `degree_centrality` | method | `modules/world_model.py:518` | `def degree_centrality(self)` |
+| `derive` | method | `modules/world_model.py:658` | `def derive(self, hosts)` |
+| `from_dict` | method | `modules/world_model.py:572` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/world_model.py:621` | `def from_dict(cls, d)` |
+| `get_host` | method | `modules/world_model.py:874` | `def get_host(self, ip)` |
+| `get_hosts_summary` | method | `modules/world_model.py:886` | `def get_hosts_summary(self)` |
+| `get_phase` | method | `modules/world_model.py:1254` | `def get_phase(self)` |
+| `get_suggested_tools` | method | `modules/world_model.py:1258` | `def get_suggested_tools(self)` |
+| `get_world_model` | function | `modules/world_model.py:1457` | `def get_world_model(path)` |
+| `graph_snapshot` | method | `modules/world_model.py:1247` | `def graph_snapshot(self)` |
+| `in_degree` | method | `modules/world_model.py:510` | `def in_degree(self, node)` |
+| `link_credential_to_failure` | method | `modules/world_model.py:950` | `def link_credential_to_failure(self, value, host)` |
+| `link_credential_to_success` | method | `modules/world_model.py:929` | `def link_credential_to_success(self, value, host)` |
+| `neighbors` | method | `modules/world_model.py:506` | `def neighbors(self, node)` |
+| `out_degree` | method | `modules/world_model.py:514` | `def out_degree(self, node)` |
 | `pivot_candidates` | method | `modules/world_model.py:533` | `def pivot_candidates(self, top_k)` |
 | `pivot_candidates` | method | `modules/world_model.py:1239` | `def pivot_candidates(self, top_k)` |
 | `rank` | method | `modules/world_model.py:384` | `def rank(self)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `ACIGoal` | class | `skills/aci_planner.py:146` | `class ACIGoal` |
 | `ACIPlan` | class | `skills/aci_planner.py:182` | `class ACIPlan` |
 | `ACIPlanner` | class | `skills/aci_planner.py:451` | `class ACIPlanner` |
-| `ACIReflector` | class | `skills/aci_planner.py:789` | `class ACIReflector` |
-| `AttackPhase` | class | `skills/aci_planner.py:157` | `class AttackPhase` |
-| `__init__` | method | `skills/aci_planner.py:463` | `def __init__(self, api_key, objectives_file, plan_file)` |
-| `__init__` | method | `skills/aci_planner.py:606` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
-| `__init__` | method | `skills/aci_planner.py:799` | `def __init__(self, lessons_file)` |
-| `_archive_plan` | function | `skills/aci_planner.py:258` | `def _archive_plan(plan, history_file)` |
-| `_build_parser` | function | `skills/aci_planner.py:980` | `def _build_parser()` |
-| `_build_phases_from_llm` | method | `skills/aci_planner.py:511` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
-| `_build_phases_static` | method | `skills/aci_planner.py:536` | `def _build_phases_static(self, goal, phase_filter)` |
-| `_count_blocked` | method | `skills/aci_planner.py:775` | `def _count_blocked(self, plan)` |
-| `_count_objectives_by_status` | function | `skills/aci_planner.py:287` | `def _count_objectives_by_status(obj_ids, objectives_file)` |
-| `_inject_all_objectives` | method | `skills/aci_planner.py:564` | `def _inject_all_objectives(self, plan)` |
-| `_llm_decompose` | function | `skills/aci_planner.py:337` | `def _llm_decompose(goal, api_key)` |
-| `_llm_replan` | function | `skills/aci_planner.py:402` | `def _llm_replan(plan, reason, api_key)` |
-| `_load_payload` | function | `skills/aci_planner.py:267` | `def _load_payload()` |
-| `_load_plan` | function | `skills/aci_planner.py:245` | `def _load_plan(plan_file)` |
-| `_load_world_model` | function | `skills/aci_planner.py:276` | `def _load_world_model()` |
-| `_now_iso` | function | `skills/aci_planner.py:231` | `def _now_iso()` |
-| `_persist_lessons` | method | `skills/aci_planner.py:854` | `def _persist_lessons(self, lessons)` |
-| `_save_plan` | function | `skills/aci_planner.py:235` | `def _save_plan(plan, plan_file)` |
-| `_sync_phase_statuses` | method | `skills/aci_planner.py:756` | `def _sync_phase_statuses(self, plan)` |
-| `_write_objective` | method | `skills/aci_planner.py:573` | `def _write_objective(self, text, phase, target)` |
-| `active_phase` | method | `skills/aci_planner.py:199` | `def active_phase(self)` |
-| `complete` | method | `skills/aci_planner.py:743` | `def complete(self)` |
-| `completion_pct` | method | `skills/aci_planner.py:207` | `def completion_pct(self)` |
-| `from_dict` | method | `skills/aci_planner.py:176` | `def from_dict(cls, d)` |
-| `from_dict` | method | `skills/aci_planner.py:221` | `def from_dict(cls, d)` |
-| `main` | function | `skills/aci_planner.py:1005` | `def main(argv)` |
-| `mcp_aci_plan` | function | `skills/aci_planner.py:867` | `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` |
-| `mcp_aci_replan` | function | `skills/aci_planner.py:942` | `def mcp_aci_replan(reason)` |
-| `mcp_aci_status` | function | `skills/aci_planner.py:925` | `def mcp_aci_status()` |
-| `plan` | method | `skills/aci_planner.py:473` | `def plan(self, goal, phase_filter)` |
-| `reflect` | method | `skills/aci_planner.py:802` | `def reflect(self, plan)` |
-| `replan` | method | `skills/aci_planner.py:673` | `def replan(self, reason)` |
-| `should_replan` | method | `skills/aci_planner.py:660` | `def should_replan(self, plan)` |
-| `status` | method | `skills/aci_planner.py:620` | `def status(self)` |
-| `to_dict` | method | `skills/aci_planner.py:171` | `def to_dict(self)` |
-| `to_dict` | method | `skills/aci_planner.py:214` | `def to_dict(self)` |
-| `BridgeFallbackResolver` | class | `skills/autonomous_daemon.py:3312` | `class BridgeFallbackResolver(IToolFallbackResolver)` |
-| `BridgeSelector` | class | `skills/autonomous_daemon.py:787` | `class BridgeSelector(ICommandSelector)` |
-| `CascadeStrategy` | class | `skills/autonomous_daemon.py:1432` | `class CascadeStrategy` |
-| `ChainSelector` | class | `skills/autonomous_daemon.py:1379` | `class ChainSelector(ICommandSelector)` |
-| `CommandRunnerChain` | class | `skills/autonomous_daemon.py:589` | `class CommandRunnerChain(ICommandRunner)` |
-| `CredentialSpraySelector` | class | `skills/autonomous_daemon.py:1331` | `class CredentialSpraySelector(ICommandSelector)` |
-| `DroneCoordinator` | class | `skills/autonomous_daemon.py:2956` | `class DroneCoordinator` |
-| `EngageOrchestrator` | class | `skills/autonomous_daemon.py:3451` | `class EngageOrchestrator` |
-| `EnginePhaseResult` | class | `skills/autonomous_daemon.py:3261` | `class EnginePhaseResult` |
-| `EnginePhaseStep` | class | `skills/autonomous_daemon.py:3244` | `class EnginePhaseStep` |
-| `ExecutionEngine` | class | `skills/autonomous_daemon.py:1570` | `class ExecutionEngine(IObjectiveHandler)` |
-| `FallbackSelector` | class | `skills/autonomous_daemon.py:1026` | `class FallbackSelector(ICommandSelector)` |
-| `ICommandRunner` | class | `skills/autonomous_daemon.py:428` | `class ICommandRunner(ABC)` |
-| `ICommandSelector` | class | `skills/autonomous_daemon.py:682` | `class ICommandSelector(ABC)` |
-| `IObjectiveHandler` | class | `skills/autonomous_daemon.py:1556` | `class IObjectiveHandler(ABC)` |
-| `IToolFallbackResolver` | class | `skills/autonomous_daemon.py:3278` | `class IToolFallbackResolver(ABC)` |
-| `LLMSelector` | class | `skills/autonomous_daemon.py:856` | `class LLMSelector(ICommandSelector)` |
-| `MCPCommandRunner` | class | `skills/autonomous_daemon.py:481` | `class MCPCommandRunner(ICommandRunner)` |
-| `MetricsAwareSelector` | class | `skills/autonomous_daemon.py:1049` | `class MetricsAwareSelector(ICommandSelector)` |
-| `PTYCommandRunner` | class | `skills/autonomous_daemon.py:500` | `class PTYCommandRunner(ICommandRunner)` |
-| `ParquetSelector` | class | `skills/autonomous_daemon.py:741` | `class ParquetSelector(ICommandSelector)` |
-| `ReactiveSelector` | class | `skills/autonomous_daemon.py:695` | `class ReactiveSelector(ICommandSelector)` |
-| `SWANSelector` | class | `skills/autonomous_daemon.py:956` | `class SWANSelector(ICommandSelector)` |
-| `StaticFallbackResolver` | class | `skills/autonomous_daemon.py:3291` | `class StaticFallbackResolver(IToolFallbackResolver)` |
-| `StepResult` | class | `skills/autonomous_daemon.py:1544` | `class StepResult` |
-| `StrategyEngine` | class | `skills/autonomous_daemon.py:1463` | `class StrategyEngine` |
-| `UnifiedBrainSelector` | class | `skills/autonomous_daemon.py:1280` | `class UnifiedBrainSelector(ICommandSelector)` |
-| `_ShellDetector` | class | `skills/autonomous_daemon.py:3360` | `class _ShellDetector` |
-| `__init__` | method | `skills/autonomous_daemon.py:598` | `def __init__(self, runners)` |
-| `__init__` | method | `skills/autonomous_daemon.py:701` | `def __init__(self, reactive_engine)` |
-| `__init__` | method | `skills/autonomous_daemon.py:747` | `def __init__(self, pdb, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:793` | `def __init__(self, dispatcher, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1070` | `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1293` | `def __init__(self)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1341` | `def __init__(self, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1399` | `def __init__(self)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

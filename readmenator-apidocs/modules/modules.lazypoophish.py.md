@@ -124,7 +124,7 @@ shortener and writes the handoff artefact.
 | `shorten` | `bool` | `True` | When False the raw campaign URL stays in the lure. |
 
 **Returns:** `dict[str, Any]` - Summary mapping with ``campaign_id``, `[`ok`](scripts.top_tier_check.py.md#ok)`, ``short_url``,
-``artifact`` and ``error``; never raises.
+`[`artifact`](modules.bof_admin.py.md#bofentryrow-artifact)` and ``error``; never raises.
 
 *Calls:* [`PhishingOrchestrator.get_instance`](modules.phishing_orchestrator.py.md#phishingorchestrator-get_instance)
 

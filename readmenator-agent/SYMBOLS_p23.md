@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/state_manager.py:107` | `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)` |
+| `_cred_list_for_host` | method | `modules/state_manager.py:192` | `def _cred_list_for_host(self, host_id)` |
+| `_ensure_workspace` | method | `modules/state_manager.py:151` | `def _ensure_workspace(self)` |
+| `_find_host` | method | `modules/state_manager.py:184` | `def _find_host(self, address)` |
+| `_load_existing_world_model` | method | `modules/state_manager.py:586` | `def _load_existing_world_model(self)` |
+| `_load_json` | function | `modules/state_manager.py:43` | `def _load_json(path)` |
+| `_merge_world_model` | method | `modules/state_manager.py:599` | `def _merge_world_model(existing, hosts_data, all_creds, all_vulns)` |
+| `_publish` | method | `modules/state_manager.py:169` | `def _publish(self, category, event_type, payload)` |
+| `_save_json` | function | `modules/state_manager.py:53` | `def _save_json(path, data)` |
+| `_sync_world_model_cache` | method | `modules/state_manager.py:556` | `def _sync_world_model_cache(self)` |
+| `_vuln_list_for_host` | method | `modules/state_manager.py:197` | `def _vuln_list_for_host(self, host_id)` |
+| `_write_world_model` | method | `modules/state_manager.py:657` | `def _write_world_model(self, data)` |
+| `add_credential` | method | `modules/state_manager.py:328` | `def add_credential(self, host_address, username, password, realm, cred_type, origin)` |
+| `add_host` | method | `modules/state_manager.py:213` | `def add_host(self, address, mac, hostname, os, state)` |
+| `add_loot` | method | `modules/state_manager.py:411` | `def add_loot(self, name, loot_type, path, notes, host_address)` |
+| `add_note` | method | `modules/state_manager.py:450` | `def add_note(self, data, note_type, host_address)` |
+| `add_service` | method | `modules/state_manager.py:287` | `def add_service(self, host_address, port, protocol, name, product, version, state)` |
+| `add_vulnerability` | method | `modules/state_manager.py:373` | `def add_vulnerability(self, host_address, name, severity, description, refs)` |
+| `advance_host` | method | `modules/state_manager.py:249` | `def advance_host(self, address, new_state)` |
+| `close` | method | `modules/state_manager.py:202` | `def close(self)` |
+| `db` | method | `modules/state_manager.py:137` | `def db(self)` |
+| `delete_host` | method | `modules/state_manager.py:275` | `def delete_host(self, address)` |
+| `export_csv` | method | `modules/state_manager.py:817` | `def export_csv(self, table)` |
+| `export_summary` | method | `modules/state_manager.py:821` | `def export_summary(self)` |
+| `get_host` | method | `modules/state_manager.py:236` | `def get_host(self, address)` |
+| `get_state_manager` | function | `modules/state_manager.py:836` | `def get_state_manager()` |
+| `get_world_model_cache` | method | `modules/state_manager.py:666` | `def get_world_model_cache(self)` |
+| `import_nmap_from_facts` | method | `modules/state_manager.py:495` | `def import_nmap_from_facts(self, facts)` |
+| `import_nmap_xml` | method | `modules/state_manager.py:479` | `def import_nmap_xml(self, xml_path)` |
+| `instance` | method | `modules/state_manager.py:129` | `def instance(cls)` |
+| `list_credentials` | method | `modules/state_manager.py:362` | `def list_credentials(self, host_address)` |
+| `list_hosts` | method | `modules/state_manager.py:245` | `def list_hosts(self)` |
+| `list_loot` | method | `modules/state_manager.py:444` | `def list_loot(self)` |
+| `list_notes` | method | `modules/state_manager.py:473` | `def list_notes(self)` |
+| `list_services` | method | `modules/state_manager.py:319` | `def list_services(self, host_address)` |
+| `list_vulnerabilities` | method | `modules/state_manager.py:398` | `def list_vulnerabilities(self, host_address, severity)` |
+| `load_world_model` | method | `modules/state_manager.py:672` | `def load_world_model(self)` |
+| `session_snapshot` | method | `modules/state_manager.py:713` | `def session_snapshot(self)` |
+| `set_payload` | method | `modules/state_manager.py:165` | `def set_payload(self, payload)` |
+| `status` | method | `modules/state_manager.py:550` | `def status(self)` |
+| `workspace_id` | method | `modules/state_manager.py:146` | `def workspace_id(self)` |
+| `decode` | function | `modules/stego_video.py:93` | `def decode(stego_video, output_zip)` |
+| `default_output` | function | `modules/stego_video.py:113` | `def default_output(zip_path)` |
+| `encode` | function | `modules/stego_video.py:75` | `def encode(zip_path, output_video)` |
+| `generate_carrier` | function | `modules/stego_video.py:61` | `def generate_carrier(output)` |
+| `is_video` | function | `modules/stego_video.py:40` | `def is_video(path)` |
+| `is_zip` | function | `modules/stego_video.py:36` | `def is_zip(path)` |
+| `load_payload_file` | function | `modules/stego_video.py:26` | `def load_payload_file()` |
+| `main` | function | `modules/stego_video.py:118` | `def main(argv)` |
+| `prompt_path` | function | `modules/stego_video.py:44` | `def prompt_path(message)` |
+| `resolve_path` | function | `modules/stego_video.py:52` | `def resolve_path(arg_path, payload_file, validator, kind)` |
+| `get_controlling_tty` | function | `modules/sudo_tiocsti.py:52` | `def get_controlling_tty()` |
+| `get_sudo_pids_on_tty` | function | `modules/sudo_tiocsti.py:102` | `def get_sudo_pids_on_tty(tty_path)` |
+| `inject_byte` | function | `modules/sudo_tiocsti.py:64` | `def inject_byte(fd, byte_char)` |
+| `inject_payload` | function | `modules/sudo_tiocsti.py:79` | `def inject_payload(fd, payload, char_delay)` |
+| `main` | function | `modules/sudo_tiocsti.py:198` | `def main()` |
+| `mode_cache` | function | `modules/sudo_tiocsti.py:185` | `def mode_cache(fd)` |
+| `mode_poll` | function | `modules/sudo_tiocsti.py:149` | `def mode_poll(fd, tty_path)` |
+| `mode_prefill` | function | `modules/sudo_tiocsti.py:175` | `def mode_prefill(fd)` |
+| `sudo_cache_valid` | function | `modules/sudo_tiocsti.py:139` | `def sudo_cache_valid()` |
+| `discovery_targets` | function | `modules/surface_ops.py:31` | `def discovery_targets(sessions_dir)` |
+| `is_ipv4` | function | `modules/surface_ops.py:18` | `def is_ipv4(value)` |
+| `parse_confirm` | function | `modules/surface_ops.py:26` | `def parse_confirm(answer)` |
+| `write_world_model_hosts` | function | `modules/surface_ops.py:50` | `def write_world_model_hosts(document, sessions)` |
+| `ThreatModelBuilder` | class | `modules/threat_model.py:267` | `class ThreatModelBuilder` |
+| `_add` | function | `modules/threat_model.py:448` | `def _add(ioc)` |
+| `_build_assets` | method | `modules/threat_model.py:318` | `def _build_assets(self, rows)` |
+| `_build_detection_rules` | method | `modules/threat_model.py:475` | `def _build_detection_rules(self, ttps)` |
+| `_build_iocs` | method | `modules/threat_model.py:444` | `def _build_iocs(self, rows)` |
+| `_build_purple_team` | method | `modules/threat_model.py:505` | `def _build_purple_team(self, ttps, detection_rules)` |
+| `_build_summary` | method | `modules/threat_model.py:560` | `def _build_summary(self, rows, assets, ttps)` |
+| `_build_ttps` | method | `modules/threat_model.py:404` | `def _build_ttps(self, rows)` |
+| `_compromise_indicators` | method | `modules/threat_model.py:388` | `def _compromise_indicators(self, commands)` |
+| `_extract_iocs` | function | `modules/threat_model.py:245` | `def _extract_iocs(text, first_seen)` |
 | `_load_csv` | method | `modules/threat_model.py:305` | `def _load_csv(self)` |
 | `_risk_score` | method | `modules/threat_model.py:352` | `def _risk_score(self, commands, ports)` |
 | `_save` | method | `modules/threat_model.py:578` | `def _save(self, model)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `check_readiness` | function | `modules/winbox_gym.py:412` | `def check_readiness(params)` |
 | `ensure_installed` | function | `modules/winbox_gym.py:340` | `def ensure_installed(params, timeout)` |
 | `ensure_lab_ready` | function | `modules/winbox_gym.py:822` | `def ensure_lab_ready(params)` |
-| `ensure_prereqs` | function | `modules/winbox_gym.py:453` | `def ensure_prereqs(timeout)` |
-| `ensure_vm_running` | function | `modules/winbox_gym.py:1184` | `def ensure_vm_running(timeout)` |
-| `exploit_for` | function | `modules/winbox_gym.py:252` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/winbox_gym.py:233` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/winbox_gym.py:222` | `def load_index(path)` |
-| `main` | function | `modules/winbox_gym.py:1262` | `def main()` |
-| `record_artifact` | function | `modules/winbox_gym.py:1211` | `def record_artifact(name, output)` |
-| `resolve_target` | function | `modules/winbox_gym.py:1170` | `def resolve_target()` |
-| `run_cli` | function | `modules/winbox_gym.py:924` | `def run_cli(args, timeout)` |
-| `summary` | function | `modules/winbox_gym.py:311` | `def summary(path)` |
-| `validate_matrix` | function | `modules/winbox_gym.py:262` | `def validate_matrix(path)` |
-| `vm_ip` | function | `modules/winbox_gym.py:1148` | `def vm_ip()` |
-| `vm_status` | function | `modules/winbox_gym.py:1113` | `def vm_status(timeout)` |
-| `vulnerabilities` | function | `modules/winbox_gym.py:227` | `def vulnerabilities(path)` |
-| `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
-| `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
-| `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
-| `remove` | function | `modules/workspace.py:90` | `def remove(rel)` |
-| `resolve` | function | `modules/workspace.py:27` | `def resolve(rel)` |
-| `root` | function | `modules/workspace.py:21` | `def root()` |
-| `write_text` | function | `modules/workspace.py:72` | `def write_text(rel, content)` |
-| `CredentialEntry` | class | `modules/world_model.py:412` | `class CredentialEntry` |
-| `DomainEntry` | class | `modules/world_model.py:438` | `class DomainEntry` |
-| `EmailEntry` | class | `modules/world_model.py:430` | `class EmailEntry` |
-| `EngagementPhase` | class | `modules/world_model.py:391` | `class EngagementPhase(StrEnum)` |
-| `HostEntry` | class | `modules/world_model.py:588` | `class HostEntry` |
-| `HostState` | class | `modules/world_model.py:375` | `class HostState(StrEnum)` |
-| `NetworkGraph` | class | `modules/world_model.py:468` | `class NetworkGraph` |
-| `NetworkRelation` | class | `modules/world_model.py:446` | `class NetworkRelation` |
-| `ServiceInfo` | class | `modules/world_model.py:403` | `class ServiceInfo` |
-| `VulnerabilityEntry` | class | `modules/world_model.py:421` | `class VulnerabilityEntry` |
-| `WorldModel` | class | `modules/world_model.py:769` | `class WorldModel` |
-| `_PhaseDeriver` | class | `modules/world_model.py:644` | `class _PhaseDeriver` |
-| `__init__` | method | `modules/world_model.py:491` | `def __init__(self)` |
-| `__init__` | method | `modules/world_model.py:777` | `def __init__(self, path)` |
-| `_cred_value` | method | `modules/world_model.py:1206` | `def _cred_value(cred)` |
-| `_decrypt_payload_text` | function | `modules/world_model.py:220` | `def _decrypt_payload_text(text, password, salt)` |
-| `_derive_crypto_key` | function | `modules/world_model.py:78` | `def _derive_crypto_key(password, salt)` |
-| `_encrypt_payload` | function | `modules/world_model.py:200` | `def _encrypt_payload(payload, password, salt)` |
-| `_load` | method | `modules/world_model.py:1339` | `def _load(self)` |
-| `_load_or_create_salt` | function | `modules/world_model.py:157` | `def _load_or_create_salt(salt_path)` |
-| `_machine_password` | function | `modules/world_model.py:87` | `def _machine_password()` |
-| `_master_password` | function | `modules/world_model.py:128` | `def _master_password()` |
-| `_read_encrypted_dict` | function | `modules/world_model.py:259` | `def _read_encrypted_dict(path)` |
-| `_save` | method | `modules/world_model.py:1320` | `def _save(self)` |
-| `add_credential` | method | `modules/world_model.py:897` | `def add_credential(self, value, host, service)` |
-| `add_domain` | method | `modules/world_model.py:992` | `def add_domain(self, domain, host, context)` |
-| `add_email` | method | `modules/world_model.py:986` | `def add_email(self, address, host, context)` |
-| `add_host` | method | `modules/world_model.py:793` | `def add_host(self, ip)` |
-| `add_note` | method | `modules/world_model.py:853` | `def add_note(self, ip, note)` |
-| `add_relation` | method | `modules/world_model.py:498` | `def add_relation(self, relation)` |
-| `add_relation` | method | `modules/world_model.py:1218` | `def add_relation(self, source, target, relation, weight)` |
-| `add_service` | method | `modules/world_model.py:597` | `def add_service(self, svc)` |
-| `add_service` | method | `modules/world_model.py:836` | `def add_service(self, ip, port, name, version, protocol)` |
-| `add_vulnerability` | method | `modules/world_model.py:980` | `def add_vulnerability(self, description, host, cve, severity)` |
-| `advance` | method | `modules/world_model.py:601` | `def advance(self, new_state)` |
-| `advance_host` | method | `modules/world_model.py:827` | `def advance_host(self, ip, new_state)` |
-| `can_advance_to` | method | `modules/world_model.py:387` | `def can_advance_to(self, next_state)` |
-| `consume_policy_facts` | method | `modules/world_model.py:1079` | `def consume_policy_facts(self, facts_path)` |
-| `degree_centrality` | method | `modules/world_model.py:518` | `def degree_centrality(self)` |
-| `derive` | method | `modules/world_model.py:658` | `def derive(self, hosts)` |
-| `from_dict` | method | `modules/world_model.py:572` | `def from_dict(cls, data)` |
-| `from_dict` | method | `modules/world_model.py:621` | `def from_dict(cls, d)` |
-| `get_host` | method | `modules/world_model.py:874` | `def get_host(self, ip)` |
-| `get_hosts_summary` | method | `modules/world_model.py:886` | `def get_hosts_summary(self)` |
-| `get_phase` | method | `modules/world_model.py:1254` | `def get_phase(self)` |
-| `get_suggested_tools` | method | `modules/world_model.py:1258` | `def get_suggested_tools(self)` |
-| `get_world_model` | function | `modules/world_model.py:1457` | `def get_world_model(path)` |
-| `graph_snapshot` | method | `modules/world_model.py:1247` | `def graph_snapshot(self)` |
-| `in_degree` | method | `modules/world_model.py:510` | `def in_degree(self, node)` |
-| `link_credential_to_failure` | method | `modules/world_model.py:950` | `def link_credential_to_failure(self, value, host)` |
-| `link_credential_to_success` | method | `modules/world_model.py:929` | `def link_credential_to_success(self, value, host)` |
-| `neighbors` | method | `modules/world_model.py:506` | `def neighbors(self, node)` |
-| `out_degree` | method | `modules/world_model.py:514` | `def out_degree(self, node)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

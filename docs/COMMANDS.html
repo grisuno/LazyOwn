@@ -186,7 +186,7 @@ cli/command_index.json.</p>
 commands)</li>
 <li><a href="#02-scanning-&amp;-enumeration">02. Scanning &amp;
 Enumeration</a> (75 commands)</li>
-<li><a href="#03-exploitation">03. Exploitation</a> (78 commands)</li>
+<li><a href="#03-exploitation">03. Exploitation</a> (79 commands)</li>
 <li><a href="#04-post-exploitation">04. Post-Exploitation</a> (45
 commands)</li>
 <li><a href="#05-persistence">05. Persistence</a> (33 commands)</li>
@@ -199,12 +199,12 @@ commands)</li>
 <li><a href="#09-data-exfiltration">09. Data Exfiltration</a> (35
 commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
-(34 commands)</li>
+(46 commands)</li>
 <li><a href="#11-reporting">11. Reporting</a> (27 commands)</li>
-<li><a href="#12-miscellaneous">12. Miscellaneous</a> (192
+<li><a href="#12-miscellaneous">12. Miscellaneous</a> (202
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (205 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (208 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -903,6 +903,10 @@ delegation abuse.</p>
 Cross-task fleet: list | graph
 <task>
 <div class="line-block">findings</div>
+<h3 id="lazy_handoff"><code>lazy_handoff</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/lazyloop.py</code></p>
+<p>Print the operator handoff for a finished loop task.</p>
 <h3 id="lazy_intents"><code>lazy_intents</code></h3>
 <p><strong>Phase:</strong> exploit | <strong>Source:</strong>
 <code>cli/commands/lazyloop.py</code></p>
@@ -2024,6 +2028,54 @@ reports.</p>
 <p>Try to check if Vulnerable using the module passed by argument of
 lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use
 in metasploit</p>
+<h3 id="bof_beacons"><code>bof_beacons</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>List beacons currently seen by the C2.</p>
+<h3 id="bof_catalog"><code>bof_catalog</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>List all BOFs available in the curated catalog.</p>
+<h3 id="bof_deploy"><code>bof_deploy</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Deliver a staged beacon client onto a target and await check-in.</p>
+<h3 id="bof_info"><code>bof_info</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Show detailed information about a BOF.</p>
+<h3 id="bof_install"><code>bof_install</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Install and stage BOFs for beacon delivery.</p>
+<h3 id="bof_list"><code>bof_list</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>List all installed and staged BOFs.</p>
+<h3 id="bof_results"><code>bof_results</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Show BOF execution history for one beacon.</p>
+<h3 id="bof_run"><code>bof_run</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Execute a BOF on a connected beacon.</p>
+<h3 id="bof_search"><code>bof_search</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Search the BOF catalog by keyword.</p>
+<h3 id="bof_stage"><code>bof_stage</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Stage a BOF artifact through its lazyaddon beacon client.</p>
+<h3 id="bof_train"><code>bof_train</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Run a sequence of BOFs over one beacon, awaiting each result.</p>
+<h3 id="bof_uninstall"><code>bof_uninstall</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Uninstall a BOF and remove its staged file.</p>
 <h3 id="c2"><code>c2</code></h3>
 <p><strong>Phase:</strong> c2 | <strong>Source:</strong>
 <code>cli/commands/command_and_control_migrated.py</code></p>
@@ -2669,10 +2721,50 @@ address with a given MAC address.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/lab.py</code></p>
 <p>Manage local CTF practice labs.</p>
+<h3 id="lazyautofire"><code>lazyautofire</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/exposure_autofire.py</code></p>
+<p>Turn fire exposure into read-only confirmation chains.</p>
+<h3 id="lazycreds"><code>lazycreds</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/lazy_creds.py</code></p>
+<p>Search the default-credential knowledge base.</p>
+<h3 id="lazydork"><code>lazydork</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/lazy_dorks.py</code></p>
+<p>Search the dork grammar for one target.</p>
+<h3 id="lazyintel"><code>lazyintel</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/exposure_intel.py</code></p>
+<p>Rank discovered services against local exploit intelligence.</p>
+<h3 id="lazyinventory"><code>lazyinventory</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/exposure_inventory.py</code></p>
+<p>Collect and ingest host-reported packages (source=host).</p>
+<h3 id="lazyoob"><code>lazyoob</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/lazy_oob.py</code></p>
+<p>Run a local HTTP callback canary.</p>
+<h3 id="lazypassgen"><code>lazypassgen</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/lazy_passgen.py</code></p>
+<p>Generate a target-aware candidate wordlist.</p>
 <h3 id="lazyscript"><code>lazyscript</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/session_ops.py</code></p>
 <p>Executes commands defined in a lazyscript file.</p>
+<h3 id="lazysearch"><code>lazysearch</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/exposure_inventory.py</code></p>
+<p>Query the engagement database with the saved-search grammar.</p>
+<h3 id="lazysentinel"><code>lazysentinel</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/exposure_sentinel.py</code></p>
+<p>Run the internal sentinel lifecycle.</p>
+<h3 id="lazytimeline"><code>lazytimeline</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/exposure_timeline.py</code></p>
+<p>Record world-model snapshots and read their diffs.</p>
 <h3 id="links"><code>links</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
@@ -3173,34 +3265,6 @@ lazy_loop).</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/cloud_attacks.py</code></p>
 <p>AWS privilege escalation and enumeration.</p>
-<h3 id="bof_catalog"><code>bof_catalog</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>List all BOFs available in the curated catalog.</p>
-<h3 id="bof_info"><code>bof_info</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>Show detailed information about a BOF.</p>
-<h3 id="bof_install"><code>bof_install</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>Install and compile a BOF, staging it for beacon delivery.</p>
-<h3 id="bof_list"><code>bof_list</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>List all installed and staged BOFs.</p>
-<h3 id="bof_run"><code>bof_run</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>Execute a BOF on a connected beacon.</p>
-<h3 id="bof_search"><code>bof_search</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>Search the BOF catalog by keyword.</p>
-<h3 id="bof_uninstall"><code>bof_uninstall</code></h3>
-<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
-<code>cli/commands/bof_registry.py</code></p>
-<p>Uninstall a BOF and remove its staged file.</p>
 <h3 id="c2_deploy"><code>c2_deploy</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/c2_session.py</code></p>
@@ -3363,6 +3427,30 @@ strategies.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>lazyown.py</code></p>
 <p>Show recent EventBus events. Usage: event_log [N] [category]</p>
+<h3 id="exploitdb_ccompile"><code>exploitdb_ccompile</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/exploitdb.py</code></p>
+<p>No description available.</p>
+<h3 id="exploitdb_cscan"><code>exploitdb_cscan</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/exploitdb.py</code></p>
+<p>No description available.</p>
+<h3 id="exploitdb_gen"><code>exploitdb_gen</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/exploitdb.py</code></p>
+<p>No description available.</p>
+<h3 id="exploitdb_run"><code>exploitdb_run</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/exploitdb.py</code></p>
+<p>No description available.</p>
+<h3 id="exploitdb_scan"><code>exploitdb_scan</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/exploitdb.py</code></p>
+<p>No description available.</p>
+<h3 id="exploitdb_sync"><code>exploitdb_sync</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/exploitdb.py</code></p>
+<p>No description available.</p>
 <h3 id="facts_show"><code>facts_show</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
@@ -3592,7 +3680,18 @@ scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/
 Usage: lazy_loop [–task T] [–rounds N] [–workers N] [–timeout S]
 [–targets-from-file F] [–max-concurrent N] [–budget
 rounds=N,toolcalls=N,findings=N,timeout_sec=N] [–budget-confirm]
-[–sandbox [image]] [–view|–plain] [<goal>]</p>
+[–sandbox [image]] [–mode pentest|redteam|ctf] [–view|–plain]
+[<goal>]</p>
+<h3 id="lazy_mode"><code>lazy_mode</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Engagement mode + findings/progress admin. Usage: lazy_mode
+[&lt;pentest|redteam|ctf&gt;] [progress|findings]</p>
+<h3 id="lazy_netattack"><code>lazy_netattack</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/netattack.py</code></p>
+<p>Windows net-attack surface: grade + exact commands; never
+executes.</p>
 <h3 id="lazy_node"><code>lazy_node</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3607,6 +3706,11 @@ rounds=N,toolcalls=N,findings=N,timeout_sec=N] [–budget-confirm]
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
 <p>Alias of lazy_graph. Usage: lazy_overview [–task T]</p>
+<h3 id="lazy_pacing"><code>lazy_pacing</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Show or set loop pacing knobs. Usage: lazy_pacing [list|set <key>
+<value>]</p>
 <h3 id="lazy_pause"><code>lazy_pause</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3621,6 +3725,10 @@ lazy_payload_keys [tool]</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Run one planner wakeup (emits 0..N intents). Usage: lazy_planner
 [–task T]</p>
+<h3 id="lazy_poc"><code>lazy_poc</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazy_poc.py</code></p>
+<p>Operate the PoC verb registry.</p>
 <h3 id="lazy_report"><code>lazy_report</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>

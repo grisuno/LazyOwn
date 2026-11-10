@@ -191,7 +191,7 @@ Environment variable overrides
 - `FileNotFoundError`: if neither the payload nor the example exists.
 - `json.JSONDecodeError`: if the payload is not valid JSON.
 
-*Called by:* [`load_aliases`](cli.aliases.py.md#load_aliases), [`BofMarketplaceCommandSet.do_bof_run`](cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_run), [`MiscMigratedCommandSet.do_config_banner`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_config_banner), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_opsec`](cli.commands.security.py.md#securitycommandset-do_opsec), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`ensure_rat_key`](#ensure_rat_key), [`load_and_validate`](#load_and_validate), [`ensure_session_secrets`](core.session_secrets.py.md#ensure_session_secrets), [`rotate_session_secrets`](core.session_secrets.py.md#rotate_session_secrets) and 20 more
+*Called by:* [`load_aliases`](cli.aliases.py.md#load_aliases), [`MiscMigratedCommandSet.do_config_banner`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_config_banner), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_opsec`](cli.commands.security.py.md#securitycommandset-do_opsec), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`ensure_rat_key`](#ensure_rat_key), [`load_and_validate`](#load_and_validate), [`ensure_session_secrets`](core.session_secrets.py.md#ensure_session_secrets), [`rotate_session_secrets`](core.session_secrets.py.md#rotate_session_secrets), [`get_defaults`](lazyc2.blueprints.api.py.md#get_defaults) and 25 more
 
 ---
 
@@ -219,7 +219,7 @@ Validation never raises: problems are collected in the ``warnings`` and
 
 **Returns:** `dict[str, Any]` - A dict with keys:
 - ``payload`` (``dict``): the loaded configuration dictionary.
-- `[`valid`](modules.playbook_admin.py.md#playbookentry-valid)` (``bool``): ``True`` when no errors were found.
+- ``valid`` (``bool``): ``True`` when no errors were found.
 - ``warnings`` (``list[str]``): advisory issues (schema warnings,
   unresolved placeholders, default-looking values).
 - ``errors`` (``list[str]``): blocking issues from schema

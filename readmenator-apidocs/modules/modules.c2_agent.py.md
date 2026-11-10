@@ -336,7 +336,7 @@ launch, so a low-priv agent on the same box keeps running.
 | `sleep` | `int` | `10` | Beacon sleep seconds (clamped 2..300). |
 | `privilege` | `str` | `LOW_PRIVILEGE` | ``lowpriv`` (default) or `[`root`](modules.workspace.py.md#root)` profile. |
 
-**Returns:** `dict[str, Any]` - Deployment dict: ``deployed``, ``client_id``, `[`via`](modules.emulation_runner.py.md#emulationreport-via)`, `[`staged`](modules.emulation_runner.py.md#emulationreport-staged)`,
+**Returns:** `dict[str, Any]` - Deployment dict: ``deployed``, ``client_id``, `[`via`](modules.emulation_runner.py.md#emulationreport-via)`, ``staged``,
 ``size_ok``, ``agent_running`` and snippets.
 
 **Raises**

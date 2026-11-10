@@ -119,6 +119,12 @@ ELO_HIGH_VALUE_CMDS: dict[str, int] = {
     "dashboard": 5,
     "marketplace": 5,
     "winbox": 12,
+    "bof_stage": 10,
+    "bof_run": 15,
+    "bof_train": 25,
+    "bof_deploy": 30,
+    "bof_beacons": 5,
+    "bof_results": 5,
 }
 
 # Engagement ELO and label tables. Canonical kill-chain phases are defined

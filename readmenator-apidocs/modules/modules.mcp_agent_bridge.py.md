@@ -332,7 +332,7 @@ Returns the agent_id for polling.
 
 *Calls:* [`AgentBridgeWorker.__init__`](#agentbridgeworker-__init__)
 
-*Called by:* [`UnifiedBridge.delegate`](modules.unified_bridge.py.md#unifiedbridge-delegate), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`UnifiedBridge.delegate`](modules.unified_bridge.py.md#unifiedbridge-delegate), [`handle`](skills.mcp_tools.run_agent.py.md#handle), [`handle`](skills.mcp_tools.subagent_run.py.md#handle)
 
 ---
 

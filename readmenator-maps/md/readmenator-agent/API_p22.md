@@ -1,6 +1,17 @@
 # API (page 22 of 27)
 Previous: [API_p21.md](API_p21.md)
 
+## skills/lazyown_automapper.py
+Depends on: `core/logging.py`
+Imported by: `skills/lazyown_mcp.py`
+- `AutoMapper.__init__` (method) `skills/lazyown_automapper.py:341` `def __init__(self, lazyown_dir)`
+- `AutoMapper.rescan` (method) `skills/lazyown_automapper.py:364` `def rescan(self)` -- Force a rescan of all source directories.
+- `AutoMapper.mcp_tools` (method) `skills/lazyown_automapper.py:368` `def mcp_tools(self)` -- Return list of mcp types.Tool objects for all discovered extensions.
+- `AutoMapper.dispatch` (method) `skills/lazyown_automapper.py:389` `def dispatch(self, name, arguments, config, run_command_fn)` -- Execute a dynamic tool.
+- `AutoMapper.update_skills_md` (method) `skills/lazyown_automapper.py:524` `def update_skills_md(self, skills_md_path)` -- Append / replace the auto-discovered section in skills/lazyown.md.
+- `AutoMapper.stats` (method) `skills/lazyown_automapper.py:571` `def stats(self)`
+- `AutoMapper.list_specs` (method) `skills/lazyown_automapper.py:581` `def list_specs(self)` -- Return raw spec dicts (useful for debugging / reporting).
+
 ## skills/lazyown_campaign.py
 Depends on: `core/logging.py`, `modules/lesson_ingestor.py`, `modules/logging_config.py`
 Imported by: `skills/mcp_tools/campaign.py`
@@ -61,7 +72,7 @@ Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_confi
 
 ## skills/lazyown_facts.py
 Depends on: `core/logging.py`, `modules/logging_config.py`
-Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
+Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/create_tool.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
 - `Config.default` (method) `skills/lazyown_facts.py:45` `def default(cls)`
 - `HostFacts.highest_access` (method) `skills/lazyown_facts.py:145` `def highest_access(self)`
 - `HostFacts.open_ports` (method) `skills/lazyown_facts.py:156` `def open_ports(self)`
@@ -155,17 +166,17 @@ Imported by: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyo
 - `main` (function) `skills/lazyown_llm.py:493` `def main()`
 
 ## skills/lazyown_mcp.py
-Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/killchain.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/playbook_engine.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
+Depends on: `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/mcp_agent_bridge.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
 Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
 - `register_handler` (function) `skills/lazyown_mcp.py:604` `def register_handler(tool_name)` -- Decorator that registers an async handler for *tool_name*.
 - `list_tools` (function) `skills/lazyown_mcp.py:897` `def list_tools()`
-- `substitute_playbook_target` (function) `skills/lazyown_mcp.py:1308` `def substitute_playbook_target(command, target)` -- Substitute the {target} token in a playbook step command.
-- `call_tool` (function) `skills/lazyown_mcp.py:1326` `def call_tool(name, arguments)`
-- `text` (function) `skills/lazyown_mcp.py:1328` `def text(content)`
-- `main` (function) `skills/lazyown_mcp.py:2477` `def main()`
+- `substitute_playbook_target` (function) `skills/lazyown_mcp.py:921` `def substitute_playbook_target(command, target)` -- Substitute the {target} token in a playbook step command.
+- `call_tool` (function) `skills/lazyown_mcp.py:939` `def call_tool(name, arguments)`
+- `text` (function) `skills/lazyown_mcp.py:941` `def text(content)`
+- `main` (function) `skills/lazyown_mcp.py:1049` `def main()`
 
 ## skills/lazyown_mcp_helpers.py
-Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/evidence_grep.py`, `skills/mcp_tools/run_command.py`, `skills/mcp_tools/session_diff.py`, `skills/mcp_tools/target_context.py`, `skills/mcp_tools/tasks_cleanup.py`, `tests/test_mcp_improvements.py`
+Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/evidence_grep.py`, `skills/mcp_tools/run_command.py`, `skills/mcp_tools/run_command_async.py`, `skills/mcp_tools/session_diff.py`, `skills/mcp_tools/session_init.py`, `skills/mcp_tools/target_context.py`, `skills/mcp_tools/tasks_cleanup.py`, `tests/test_mcp_improvements.py`
 - `is_likely_credential` (function) `skills/lazyown_mcp_helpers.py:37` `def is_likely_credential(value)` -- Score whether a string is plausibly a real credential.
 - `evidence_freshness` (function) `skills/lazyown_mcp_helpers.py:67` `def evidence_freshness(path, threshold_seconds, now)` -- Return age + stale flag for an evidence file.
 - `parse_task_value` (function) `skills/lazyown_mcp_helpers.py:125` `def parse_task_value(title)` -- Extract the embedded JSON-ish payload from a task title.
@@ -324,7 +335,7 @@ Imported by: `cli/recommendation_signals.py`, `modules/lazy_loop.py`, `modules/u
 
 ## skills/lazyown_session.py
 Depends on: `skills/lazyown_context.py`
-Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
+Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/session_resume.py`, `skills/mcp_tools/subagent_run.py`, `skills/tests/test_harness_e2e.py`
 - `SessionTranscript.__init__` (method) `skills/lazyown_session.py:82` `def __init__(self, sessions_dir, session_id)`
 - `SessionTranscript.append` (method) `skills/lazyown_session.py:106` `def append(self, event_type, data)` -- Append a single event.
 - `SessionTranscript.get_recent` (method) `skills/lazyown_session.py:143` `def get_recent(self, n)` -- Return the last n events.
@@ -481,18 +492,6 @@ Depends on: `skills/mcp_tools/_context.py`
 ## skills/mcp_tools/c2_search_agent.py
 Depends on: `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/c2_search_agent.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_search_agent MCP tool.
-
-## skills/mcp_tools/c2_status.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/c2_status.py:20` `def handle(arguments, tool_name, ctx)` -- Query the C2 dashboard endpoint and return its JSON.
-
-## skills/mcp_tools/c2_vuln_analysis.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/c2_vuln_analysis.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_vuln_analysis MCP tool.
-
-## skills/mcp_tools/campaign.py
-Depends on: `skills/lazyown_campaign.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/campaign.py:46` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_campaign MCP tool.
 
 
 Next: [API_p23.md](API_p23.md)

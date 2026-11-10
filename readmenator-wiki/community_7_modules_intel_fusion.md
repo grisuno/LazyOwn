@@ -1,23 +1,14 @@
-# modules: atomic_exploit_bridge
+# modules: intel_fusion
 
-*Community 7 | 73 files | cohesion 0.45*
+*Community 7 | 66 files | cohesion 0.45*
 
 ## Definition
 
-This community groups 73 file(s) rooted at `modules` with dominant language py (cohesion 0.45). Central symbols: `CustomPayload`, `DynamicShellcodePayload`, `ExploitCommand`, `ExploitSighting`, `ExploitSpec`, `FeedEntry`, `FindingRecord`, `IngestBeaconReconSpec`. Core file: `modules/atomic_exploit_bridge.py` (39 symbols). Documented purpose: Attack-surface operations: confirmed discovery scans, estorides fusion.  ``scandiscovery`` lists every IP found in the sessions discovery files and only launche.
+This community groups 66 file(s) rooted at `tests` with dominant language py (cohesion 0.45). Central symbols: `CustomPayload`, `DynamicShellcodePayload`, `ExploitSighting`, `FeedEntry`, `FindingRecord`, `IngestBeaconReconSpec`, `MatchStore`, `MinimalPayload`. Core file: `modules/intel_fusion.py` (35 symbols). Documented purpose: Attack-surface operations: confirmed discovery scans, estorides fusion.  ``scandiscovery`` lists every IP found in the sessions discovery files and only launche.
 
 ## Files
 
-### `modules` (27 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/ad_gym.py` | py | utility | 10 | yes |
-| `modules/atomic_exploit_bridge.py` | py | utility | 39 | yes |
-| `modules/attack_surface3d.py` | py | utility | 11 | yes |
-| `modules/beacon_recon.py` | py | utility | 6 | yes |
-
-### `tests` (25 files)
+### `tests` (24 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -25,6 +16,15 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 | `tests/test_attack_surface3d.py` | py | testing | 8 | yes |
 | `tests/test_beacon_recon_sink.py` | py | testing | 18 | yes |
 | `tests/test_c2_surfaces.py` | py | testing | 12 | yes |
+
+### `modules` (23 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/attack_surface3d.py` | py | utility | 11 | yes |
+| `modules/beacon_recon.py` | py | utility | 6 | yes |
+| `modules/c2_surfaces.py` | py | utility | 11 | yes |
+| `modules/estorides_fusion.py` | py | utility | 11 | yes |
 
 ### `modules/sinks` (11 files)
 
@@ -35,13 +35,13 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 | `modules/sinks/beacon_dispatch.py` | py | utility | 3 | yes |
 | `modules/sinks/c2_surfaces.py` | py | utility | 1 | yes |
 
-### `skills/mcp_tools` (5 files)
+### `skills/mcp_tools` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `skills/mcp_tools/atomic_clean.py` | py | utility | 1 | yes |
-| `skills/mcp_tools/atomic_shell.py` | py | utility | 1 | yes |
 | `skills/mcp_tools/lazy_intel.py` | py | utility | 1 | yes |
+| `skills/mcp_tools/lazy_status.py` | py | utility | 1 | yes |
+| `skills/mcp_tools/lazy_sync.py` | py | utility | 1 | yes |
 
 ### `cli` (2 files)
 
@@ -68,7 +68,7 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `scripts/devtools/core_smoke.py` | py | utility | 4 | yes |
 
-*... and 53 more files in this community.*
+*... and 46 more files in this community.*
 
 
 ## Key Symbols
@@ -106,8 +106,8 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 144
-- Cross-boundary resolved imports (EXTRACTED): 215
+- Internal resolved imports (EXTRACTED): 125
+- Cross-boundary resolved imports (EXTRACTED): 164
 
 ## Connections
 
@@ -115,21 +115,15 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 
 ## Risks
 
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py` -> `core/config.py`
 - [cycle] `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/sinks/routing.py` -> `modules/lazy_ledger.py` -> `modules/lazy_loop.py`
 - [cycle] `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/sinks/routing.py` -> `modules/lazy_intel.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
 - [layer strict] `tests/test_c2_surfaces.py` (testing) -> `contrib/legacy/lazydeepseekcli.py` (presentation)
 
 ## Open Questions
 
-- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py` be broken with an interface?
-- What would break if the most connected file in modules: atomic_exploit_bridge changed?
-- Should modules: atomic_exploit_bridge be split, given cohesion 0.45?
+- Can the cycle `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/sinks/routing.py` -> `modules/lazy_ledger.py` be broken with an interface?
+- What would break if the most connected file in modules: intel_fusion changed?
+- Should modules: intel_fusion be split, given cohesion 0.45?
 
 ## Sources
 
@@ -137,12 +131,9 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 - `cli/surface_graph.py`
 - `cli/surface_tui.py`
 - `contrib/legacy/lazydeepseekcli.py`
-- `modules/ad_gym.py`
-- `modules/atomic_exploit_bridge.py`
 - `modules/attack_surface3d.py`
 - `modules/beacon_recon.py`
 - `modules/c2_surfaces.py`
-- `modules/ctf_capture.py`
 - `modules/estorides_fusion.py`
 - `modules/finding_lifecycle.py`
 - `modules/intel_fusion.py`
@@ -153,4 +144,7 @@ This community groups 73 file(s) rooted at `modules` with dominant language py (
 - `modules/lazy_feedmatch.py`
 - `modules/lazy_heat.py`
 - `modules/lazy_hostscore.py`
-- *... and 53 more*
+- `modules/lazy_inventory.py`
+- `modules/lazy_ledger.py`
+- `modules/lazy_match_policy.py`
+- *... and 46 more*

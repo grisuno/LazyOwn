@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `WindowsReverseShellPayload` | class | `modules/payload_factory.py:290` | `class WindowsReverseShellPayload(PayloadTemplate)` |
+| `__init__` | method | `modules/payload_factory.py:222` | `def __init__(self, name, platform, arch, description, options)` |
+| `__init__` | method | `modules/payload_factory.py:254` | `def __init__(self)` |
+| `__init__` | method | `modules/payload_factory.py:293` | `def __init__(self)` |
+| `__init__` | method | `modules/payload_factory.py:325` | `def __init__(self, name, platform, arch)` |
+| `__init__` | method | `modules/payload_factory.py:374` | `def __init__(self, name, platform, arch, description, escaped_hex, patcher)` |
+| `__init__` | method | `modules/payload_factory.py:416` | `def __init__(self, name, platform, arch, description, builder)` |
+| `__init__` | method | `modules/payload_factory.py:464` | `def __init__(self)` |
+| `_apply_format` | method | `modules/payload_factory.py:575` | `def _apply_format(data, fmt)` |
+| `_build_linux_x64_reverse_tcp` | function | `modules/payload_factory.py:118` | `def _build_linux_x64_reverse_tcp(lhost, lport)` |
+| `_parse_escaped_hex` | function | `modules/payload_factory.py:442` | `def _parse_escaped_hex(escaped)` |
+| `_patch_shellcode_x64` | function | `modules/payload_factory.py:190` | `def _patch_shellcode_x64(raw, lhost, lport)` |
+| `_register_builtins` | method | `modules/payload_factory.py:468` | `def _register_builtins(self)` |
+| `format_payload_table` | function | `modules/payload_factory.py:672` | `def format_payload_table(payloads)` |
+| `generate` | method | `modules/payload_factory.py:237` | `def generate(self)` |
+| `generate` | method | `modules/payload_factory.py:272` | `def generate(self)` |
+| `generate` | method | `modules/payload_factory.py:305` | `def generate(self)` |
+| `generate` | method | `modules/payload_factory.py:337` | `def generate(self)` |
+| `generate` | method | `modules/payload_factory.py:397` | `def generate(self)` |
+| `generate` | method | `modules/payload_factory.py:436` | `def generate(self)` |
+| `generate` | method | `modules/payload_factory.py:529` | `def generate(self, name, format, output)` |
+| `get` | method | `modules/payload_factory.py:525` | `def get(self, name)` |
+| `list` | method | `modules/payload_factory.py:516` | `def list(self, platform)` |
+| `list_formats` | method | `modules/payload_factory.py:664` | `def list_formats()` |
+| `register` | method | `modules/payload_factory.py:512` | `def register(self, template)` |
+| `to_dict` | method | `modules/payload_factory.py:241` | `def to_dict(self)` |
+| `CampaignResult` | class | `modules/phishing_orchestrator.py:167` | `class CampaignResult` |
+| `CampaignTarget` | class | `modules/phishing_orchestrator.py:139` | `class CampaignTarget` |
+| `PhishingOrchestrator` | class | `modules/phishing_orchestrator.py:180` | `class PhishingOrchestrator` |
+| `PhishingTemplate` | class | `modules/phishing_orchestrator.py:154` | `class PhishingTemplate` |
+| `__init__` | method | `modules/phishing_orchestrator.py:399` | `def __init__(self)` |
+| `_decrypt_credential` | function | `modules/phishing_orchestrator.py:100` | `def _decrypt_credential(encrypted_b64)` |
+| `_derive_credential_key` | function | `modules/phishing_orchestrator.py:57` | `def _derive_credential_key()` |
+| `_encrypt_credential` | function | `modules/phishing_orchestrator.py:84` | `def _encrypt_credential(plaintext)` |
+| `_generate_landing_page` | method | `modules/phishing_orchestrator.py:766` | `def _generate_landing_page(self, template, target_domain, campaign_id)` |
+| `_hash_credential_for_log` | function | `modules/phishing_orchestrator.py:116` | `def _hash_credential_for_log(plaintext)` |
+| `_inject_harvester` | method | `modules/phishing_orchestrator.py:852` | `def _inject_harvester(self, html, page_id)` |
+| `_load_config` | method | `modules/phishing_orchestrator.py:891` | `def _load_config(self)` |
+| `_load_targets_from_file` | method | `modules/phishing_orchestrator.py:727` | `def _load_targets_from_file(self, filepath)` |
+| `_send_email` | method | `modules/phishing_orchestrator.py:818` | `def _send_email(self, to_email, subject, html_body, smtp_config)` |
+| `_setup_harvesting_endpoint` | method | `modules/phishing_orchestrator.py:806` | `def _setup_harvesting_endpoint(self, campaign_id)` |
+| `clone_landing_page` | method | `modules/phishing_orchestrator.py:616` | `def clone_landing_page(self, url)` |
+| `generate_template` | method | `modules/phishing_orchestrator.py:569` | `def generate_template(self, name, target_domain, context)` |
+| `get_instance` | method | `modules/phishing_orchestrator.py:404` | `def get_instance(cls)` |
+| `get_results` | method | `modules/phishing_orchestrator.py:643` | `def get_results(self, campaign_id)` |
+| `launch` | method | `modules/phishing_orchestrator.py:415` | `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` |
+| `profile_targets` | method | `modules/phishing_orchestrator.py:524` | `def profile_targets(self, domain)` |
+| `record_click` | method | `modules/phishing_orchestrator.py:667` | `def record_click(self, campaign_id, email)` |
+| `record_credentials` | method | `modules/phishing_orchestrator.py:688` | `def record_credentials(self, campaign_id, email, password)` |
+| `ConditionEvaluator` | class | `modules/pipeline_engine.py:326` | `class ConditionEvaluator` |
+| `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:868` | `class EngagementNarratorAdapter(INarratorAdapter)` |
+| `INarratorAdapter` | class | `modules/pipeline_engine.py:848` | `class INarratorAdapter(ABC)` |
+| `IStepRunner` | class | `modules/pipeline_engine.py:509` | `class IStepRunner(ABC)` |
+| `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:523` | `class LazyOwnStepRunner(IStepRunner)` |
+| `PipelineCycleError` | class | `modules/pipeline_engine.py:101` | `class PipelineCycleError(PipelineError)` |
+| `PipelineEngine` | class | `modules/pipeline_engine.py:908` | `class PipelineEngine` |
+| `PipelineError` | class | `modules/pipeline_engine.py:89` | `class PipelineError(Exception)` |
+| `PipelineLoader` | class | `modules/pipeline_engine.py:626` | `class PipelineLoader` |
+| `PipelineNotFoundError` | class | `modules/pipeline_engine.py:97` | `class PipelineNotFoundError(PipelineError)` |
+| `PipelineRun` | class | `modules/pipeline_engine.py:199` | `class PipelineRun` |
+| `PipelineSchemaError` | class | `modules/pipeline_engine.py:93` | `class PipelineSchemaError(PipelineError)` |
+| `PipelineSpec` | class | `modules/pipeline_engine.py:152` | `class PipelineSpec` |
+| `PipelineStep` | class | `modules/pipeline_engine.py:111` | `class PipelineStep` |
+| `RunArtifactStore` | class | `modules/pipeline_engine.py:769` | `class RunArtifactStore` |
+| `StepDerivers` | class | `modules/pipeline_engine.py:375` | `class StepDerivers` |
+| `StepResult` | class | `modules/pipeline_engine.py:163` | `class StepResult` |
+| `StepValidator` | class | `modules/pipeline_engine.py:341` | `class StepValidator` |
+| `TemplateResolver` | class | `modules/pipeline_engine.py:260` | `class TemplateResolver` |
+| `_SilentNarrator` | class | `modules/pipeline_engine.py:863` | `class _SilentNarrator(INarratorAdapter)` |
+| `__init__` | method | `modules/pipeline_engine.py:275` | `def __init__(self, context)` |
+| `__init__` | method | `modules/pipeline_engine.py:537` | `def __init__(self, runner, onecmd)` |
+| `__init__` | method | `modules/pipeline_engine.py:638` | `def __init__(self, pipelines_dir)` |
+| `__init__` | method | `modules/pipeline_engine.py:778` | `def __init__(self, runs_dir)` |
+| `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
 | `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
 | `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
 | `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `run` | method | `modules/rich_tui.py:96` | `def run(self)` |
 | `stop` | method | `modules/rich_tui.py:132` | `def stop(self)` |
 | `BucketedStateEncoder` | class | `modules/rl_trainer.py:114` | `class BucketedStateEncoder(IStateEncoder)` |
-| `EpsilonTracker` | class | `modules/rl_trainer.py:215` | `class EpsilonTracker` |
-| `IStateEncoder` | class | `modules/rl_trainer.py:101` | `class IStateEncoder(ABC)` |
-| `QValueStore` | class | `modules/rl_trainer.py:150` | `class QValueStore` |
-| `RLConfig` | class | `modules/rl_trainer.py:84` | `class RLConfig` |
-| `RLTrainer` | class | `modules/rl_trainer.py:267` | `class RLTrainer` |
-| `__init__` | method | `modules/rl_trainer.py:156` | `def __init__(self, path, optimistic_init)` |
-| `__init__` | method | `modules/rl_trainer.py:218` | `def __init__(self, start, minimum, decay, path)` |
-| `__init__` | method | `modules/rl_trainer.py:284` | `def __init__(self, config, state_encoder, q_store, epsilon_tracker)` |
-| `_load` | method | `modules/rl_trainer.py:200` | `def _load(self)` |
-| `_load` | method | `modules/rl_trainer.py:250` | `def _load(self)` |
-| `_penalize` | method | `modules/rl_trainer.py:407` | `def _penalize(self, reward, detection_prob)` |
-| `_persist` | method | `modules/rl_trainer.py:192` | `def _persist(self)` |
-| `_save` | method | `modules/rl_trainer.py:241` | `def _save(self)` |
-| `argmax` | method | `modules/rl_trainer.py:182` | `def argmax(self, state, candidates)` |
-| `best_expert_for_state` | method | `modules/rl_trainer.py:389` | `def best_expert_for_state(self, state, candidates)` |
-| `encode` | method | `modules/rl_trainer.py:105` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
-| `encode` | method | `modules/rl_trainer.py:131` | `def encode(self, task_type, engagement_phase, recent_reward_ema)` |
-| `encode_state` | method | `modules/rl_trainer.py:304` | `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` |
-| `epsilon` | method | `modules/rl_trainer.py:233` | `def epsilon(self)` |
-| `epsilon` | method | `modules/rl_trainer.py:402` | `def epsilon(self)` |
-| `get` | method | `modules/rl_trainer.py:168` | `def get(self, state, action)` |
-| `get_trainer` | function | `modules/rl_trainer.py:425` | `def get_trainer(config)` |
-| `max_q` | method | `modules/rl_trainer.py:176` | `def max_q(self, state, candidates)` |
-| `q_values_for_state` | method | `modules/rl_trainer.py:393` | `def q_values_for_state(self, state, candidates)` |
-| `save` | method | `modules/rl_trainer.py:188` | `def save(self)` |
-| `save` | method | `modules/rl_trainer.py:397` | `def save(self)` |
-| `select_action` | method | `modules/rl_trainer.py:313` | `def select_action(self, state, candidates, force_exploit)` |
-| `set` | method | `modules/rl_trainer.py:172` | `def set(self, state, action, value)` |
-| `step` | method | `modules/rl_trainer.py:236` | `def step(self)` |
-| `update` | method | `modules/rl_trainer.py:347` | `def update(self, state, action, reward, next_state, candidates, detection_prob)` |
-| `BUFFER_SIZE` | macro | `modules/rootkit/mr.c:32` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/rootkit/mr.c:43` | `` |
-| `DESIRED_LD_PRELOAD` | macro | `modules/rootkit/mr.c:34` | `#define DESIRED_LD_PRELOAD` |
-| `HIDE_FILE` | macro | `modules/rootkit/mr.c:36` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/rootkit/mr.c:37` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/rootkit/mr.c:33` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/rootkit/mr.c:39` | `#define PASSWORD` |
-| `PATH_MAX` | macro | `modules/rootkit/mr.c:41` | `#define PATH_MAX` |
-| `PID_FILE` | macro | `modules/rootkit/mr.c:35` | `#define PID_FILE` |
-| `PORT` | macro | `modules/rootkit/mr.c:31` | `#define PORT` |
-| `VirtualFile` | struct | `modules/rootkit/mr.c:49` | `` |
-| `check_elevate` | function | `modules/rootkit/mr.c:136` | `int check_elevate()` |
-| `copy_binary` | function | `modules/rootkit/mr.c:215` | `void copy_binary(const char *source, const char *destination)` |
-| `crontab` | function | `modules/rootkit/mr.c:156` | `void crontab(const char *path)` |
-| `ensure_hide_file_exists` | function | `modules/rootkit/mr.c:271` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/rootkit/mr.c:253` | `void ensure_key_file_exists()` |
-| `ensure_ld_preload` | function | `modules/rootkit/mr.c:100` | `void ensure_ld_preload()` |
-| `ensure_pid_file_exists` | function | `modules/rootkit/mr.c:117` | `void ensure_pid_file_exists()` |
-| `generate_random_string` | function | `modules/rootkit/mr.c:168` | `char *generate_random_string()` |
-| `get_ld_preload` | function | `modules/rootkit/mr.c:84` | `char *get_ld_preload()` |
-| `handle_client` | function | `modules/rootkit/mr.c:321` | `void *handle_client(void *client_socket)` |
-| `infect_command` | function | `modules/rootkit/mr.c:289` | `void infect_command()` |
-| `kde_plasma` | function | `modules/rootkit/mr.c:200` | `void kde_plasma(const char *path)` |
-| `load_rootkit` | function | `modules/rootkit/mr.c:303` | `void load_rootkit()` |
-| `main` | function | `modules/rootkit/mr.c:639` | `int main()` |
-| `mon_shell` | function | `modules/rootkit/mr.c:521` | `void *mon_shell(void *data)` |
-| `persist` | function | `modules/rootkit/mr.c:234` | `void persist(const char *path)` |
-| `reboot_system` | function | `modules/rootkit/mr.c:615` | `void reboot_system()` |
-| `set_ld_preload` | function | `modules/rootkit/mr.c:87` | `void set_ld_preload(const char *ld_preload)` |
-| `signal_handler` | function | `modules/rootkit/mr.c:609` | `void signal_handler(int signum)` |
-| `unload_rootkit` | function | `modules/rootkit/mr.c:314` | `void unload_rootkit()` |
-| `write_file` | function | `modules/rootkit/mr.c:145` | `void write_file(const char *path, const char *content, mode_t mode)` |
-| `xdg` | function | `modules/rootkit/mr.c:178` | `void xdg(const char *path, int admin)` |
-| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde.c:54` | `#define FILE_HIDE_PATH` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde.c:33` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde.c:34` | `#define HIDDEN_FILE` |
-| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde.c:35` | `#define HIDDEN_FILE1` |
-| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde.c:36` | `#define HIDDEN_FILE2` |
-| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde.c:37` | `#define HIDDEN_FILE3` |
-| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde.c:38` | `#define HIDDEN_FILE4` |
-| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde.c:39` | `#define HIDDEN_FILE5` |
-| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde.c:40` | `#define HIDDEN_FILE6` |
-| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
-| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

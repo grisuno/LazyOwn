@@ -134,7 +134,7 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_parquet_db.py`, `s
 
 ## modules/atomic_exploit_bridge.py
 Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_loop.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_loop.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 - `shell_output_evidence` (function) `modules/atomic_exploit_bridge.py:83` `def shell_output_evidence(output)` -- Return True only when output carries genuine interactive-shell evidence.
 - `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:137` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
 - `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:141` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -267,30 +267,30 @@ Imported by: `cli/commands/purple_team.py`
 Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:67` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
-- `verb_enabled` (function) `modules/auto_registry.py:313` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `binary_available` (function) `modules/auto_registry.py:423` `def binary_available(name)` -- Return True when a command token can actually execute here.
-- `missing_binary` (function) `modules/auto_registry.py:439` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
-- `verb_gap` (function) `modules/auto_registry.py:451` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
-- `verb_available` (function) `modules/auto_registry.py:463` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
-- `service_tokens` (function) `modules/auto_registry.py:468` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
-- `iter_addon_triggers` (function) `modules/auto_registry.py:510` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
-- `iter_tool_triggers` (function) `modules/auto_registry.py:546` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
-- `addon_hits_for` (function) `modules/auto_registry.py:569` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
-- `propose_addon_intents` (function) `modules/auto_registry.py:595` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
-- `is_routable_command` (function) `modules/auto_registry.py:639` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
-- `verbs` (function) `modules/auto_registry.py:657` `def verbs()` -- Return every canonical automation verb name.
-- `is_shell_verb` (function) `modules/auto_registry.py:662` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
-- `build_command` (function) `modules/auto_registry.py:686` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
-- `verbs_for` (function) `modules/auto_registry.py:697` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
-- `propose_intents` (function) `modules/auto_registry.py:703` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
-- `steps_for` (function) `modules/auto_registry.py:824` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:997` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:1002` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:1015` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1125` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1130` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1135` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1158` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+- `verb_enabled` (function) `modules/auto_registry.py:352` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `binary_available` (function) `modules/auto_registry.py:474` `def binary_available(name)` -- Return True when a command token can actually execute here.
+- `missing_binary` (function) `modules/auto_registry.py:490` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
+- `verb_gap` (function) `modules/auto_registry.py:502` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
+- `verb_available` (function) `modules/auto_registry.py:514` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
+- `service_tokens` (function) `modules/auto_registry.py:519` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
+- `iter_addon_triggers` (function) `modules/auto_registry.py:561` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
+- `iter_tool_triggers` (function) `modules/auto_registry.py:597` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
+- `addon_hits_for` (function) `modules/auto_registry.py:620` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
+- `propose_addon_intents` (function) `modules/auto_registry.py:646` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
+- `is_routable_command` (function) `modules/auto_registry.py:690` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
+- `verbs` (function) `modules/auto_registry.py:708` `def verbs()` -- Return every canonical automation verb name.
+- `is_shell_verb` (function) `modules/auto_registry.py:713` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
+- `build_command` (function) `modules/auto_registry.py:737` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `verbs_for` (function) `modules/auto_registry.py:748` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
+- `propose_intents` (function) `modules/auto_registry.py:754` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `steps_for` (function) `modules/auto_registry.py:875` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:1050` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:1055` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:1068` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1178` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1183` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1188` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1211` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
@@ -338,20 +338,21 @@ Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `co
 
 ## modules/beacon_config_builder.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-Imported by: `cli/commands/bof_registry.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`
-- `BeaconConfig.to_gen_beacon_args` (method) `modules/beacon_config_builder.py:117` `def to_gen_beacon_args(self)` -- Produce CLI arguments for gen_beacon.sh.
-- `BeaconConfig.to_go_implant_vars` (method) `modules/beacon_config_builder.py:137` `def to_go_implant_vars(self)` -- Produce template variables for the Go implant builder.
-- `BeaconConfig.to_config_json` (method) `modules/beacon_config_builder.py:160` `def to_config_json(self)` -- Produce the config.json that beacons fetch on startup.
-- `BeaconConfig.to_dict` (method) `modules/beacon_config_builder.py:185` `def to_dict(self)` -- Full serialization of beacon config.
-- `BeaconConfigBuilder.__init__` (method) `modules/beacon_config_builder.py:245` `def __init__(self, payload)`
-- `BeaconConfigBuilder.build` (method) `modules/beacon_config_builder.py:248` `def build(self, name)` -- Build a complete BeaconConfig.
-- `BeaconConfigBuilder.from_payload` (method) `modules/beacon_config_builder.py:403` `def from_payload(cls, payload)` -- Build a BeaconConfigBuilder from a payload dictionary.
-- `BeaconConfigBuilder.from_payload_file` (method) `modules/beacon_config_builder.py:408` `def from_payload_file(cls, path)` -- Build a BeaconConfigBuilder by loading payload.json from disk.
-- `generate_bof_execution_command` (function) `modules/beacon_config_builder.py:416` `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` -- Generate a ``bof:<url>`` command that the C beacon executes.
+Imported by: `modules/bof_delivery.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`, `tests/test_bof_delivery.py`
+- `BeaconConfig.to_gen_beacon_args` (method) `modules/beacon_config_builder.py:119` `def to_gen_beacon_args(self)` -- Produce CLI arguments for gen_beacon.sh.
+- `BeaconConfig.to_go_implant_vars` (method) `modules/beacon_config_builder.py:139` `def to_go_implant_vars(self)` -- Produce template variables for the Go implant builder.
+- `BeaconConfig.to_config_json` (method) `modules/beacon_config_builder.py:162` `def to_config_json(self)` -- Produce the config.json that beacons fetch on startup.
+- `BeaconConfig.to_dict` (method) `modules/beacon_config_builder.py:187` `def to_dict(self)` -- Full serialization of beacon config.
+- `BeaconConfigBuilder.__init__` (method) `modules/beacon_config_builder.py:247` `def __init__(self, payload)`
+- `BeaconConfigBuilder.build` (method) `modules/beacon_config_builder.py:250` `def build(self, name)` -- Build a complete BeaconConfig.
+- `BeaconConfigBuilder.from_payload` (method) `modules/beacon_config_builder.py:405` `def from_payload(cls, payload)` -- Build a BeaconConfigBuilder from a payload dictionary.
+- `BeaconConfigBuilder.from_payload_file` (method) `modules/beacon_config_builder.py:410` `def from_payload_file(cls, path)` -- Build a BeaconConfigBuilder by loading payload.json from disk.
+- `sanitize_client_id` (function) `modules/beacon_config_builder.py:425` `def sanitize_client_id(client_id)` -- Return a strict beacon client id safe for URLs and file paths.
+- `generate_bof_execution_command` (function) `modules/beacon_config_builder.py:449` `def generate_bof_execution_command(bof_name, c2_url, args, bofs_dir)` -- Generate a ``bof:<url>[ <args>]`` command that a beacon executes.
 
 ## modules/beacon_history.py
 Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/bof_delivery.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
 - `BeaconHistoryConfig.sessions_dir` (method) `modules/beacon_history.py:39` `def sessions_dir(self)` -- Return the resolved sessions directory under the base dir.
 - `BeaconHistoryConfig.records_path` (method) `modules/beacon_history.py:43` `def records_path(self, client_id)` -- Resolve the history file path for a sanitised beacon client id.
 - `sanitize_client_id` (function) `modules/beacon_history.py:70` `def sanitize_client_id(client_id)` -- Sanitise a beacon id to only URL/file-safe characters.
@@ -380,42 +381,87 @@ Imported by: `cli/commands/bitm.py`
 - `bitm_cleanup` (function) `modules/bitm_engine.py:642` `def bitm_cleanup()` -- Force-kill all BitM processes and remove the state file.
 - `main` (function) `modules/bitm_engine.py:661` `def main()` -- CLI entry point — display BitM status from command line.
 
+## modules/bof_admin.py
+Imported by: `cli/orchestrator_assets_tabs.py`, `modules/bof_registry.py`, `tests/test_bof_admin.py`, `tests/test_bof_repo_contract.py`
+- `slugify` (function) `modules/bof_admin.py:72` `def slugify(value)` -- Return a safe BOF filename stem.
+- `bof_path` (function) `modules/bof_admin.py:85` `def bof_path(filename, directory)` -- Resolve one BOF file inside the bofs root.
+- `load_bof` (function) `modules/bof_admin.py:110` `def load_bof(path)` -- Read one BOF YAML mapping.
+- `validate_bof` (function) `modules/bof_admin.py:132` `def validate_bof(data)` -- Validate one BOF mapping against the delivery contract.
+- `scan_bofs` (function) `modules/bof_admin.py:179` `def scan_bofs(directory, sessions_dir)` -- Scan the bofs directory, returning admin rows for every file.
+- `bof_template` (function) `modules/bof_admin.py:224` `def bof_template(name, description, client)` -- Return a minimal BOF mapping ready for ``yaml.safe_dump``.
+- `create_bof` (function) `modules/bof_admin.py:257` `def create_bof(filename)` -- Create one BOF configuration file.
+- `update_bof` (function) `modules/bof_admin.py:300` `def update_bof(path, data, directory)` -- Validate and atomically rewrite one BOF configuration.
+- `save_bof_yaml` (function) `modules/bof_admin.py:332` `def save_bof_yaml(path, text, directory)` -- Validate raw YAML text and atomically write it to the bofs root.
+- `preview_bof` (function) `modules/bof_admin.py:370` `def preview_bof(path, limit)` -- Return a bounded YAML preview for one BOF file.
+- `delete_bof` (function) `modules/bof_admin.py:391` `def delete_bof(path, directory)` -- Delete one BOF configuration file after validation.
+
+## modules/bof_delivery.py
+Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
+Imported by: `cli/commands/bof_registry.py`, `cli/orchestrator_assets_tabs.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`
+- `load_client_addon` (function) `modules/bof_delivery.py:126` `def load_client_addon(client, config)` -- Resolve one beacon client lazyaddon manifest.
+- `staging_dir` (function) `modules/bof_delivery.py:167` `def staging_dir(config)` -- Return (and create) the BOF staging directory.
+- `stage_bof` (function) `modules/bof_delivery.py:182` `def stage_bof(name, config)` -- Stage one catalog BOF for delivery through its client.
+- `beacon_runtime_config` (function) `modules/bof_delivery.py:201` `def beacon_runtime_config(client, client_id, config, payload)` -- Build the C2-aligned beacon runtime configuration.
+- `write_client_config` (function) `modules/bof_delivery.py:273` `def write_client_config(client, client_id, config, payload)` -- Write the generated runtime config into the addon checkout and staging dir.
+- `stage_client` (function) `modules/bof_delivery.py:315` `def stage_client(client, config, payload)` -- Compile and stage a beacon client through its lazyaddon tool.
+- `key_missing_from_error` (function) `modules/bof_delivery.py:565` `def key_missing_from_error(exc)` -- Return True when the error text points at a missing AES key.
+- `delivery_command` (function) `modules/bof_delivery.py:579` `def delivery_command(bof_name, c2_url, args, bofs_dir)` -- Build the ``bof:`` delivery command for one BOF.
+- `queue_to_beacon` (function) `modules/bof_delivery.py:627` `def queue_to_beacon(client_id, command, config, payload)` -- Queue one command for a connected beacon through the C2 API.
+- `recent_beacons` (function) `modules/bof_delivery.py:690` `def recent_beacons(config, payload)` -- Return the beacons currently seen by the C2.
+- `wait_for_beacon` (function) `modules/bof_delivery.py:756` `def wait_for_beacon(client_id, since, timeout, config, payload)` -- Wait until a beacon answers, then return its latest record.
+- `c2_reachable` (function) `modules/bof_delivery.py:834` `def c2_reachable(config, payload)` -- Return True when the C2 answers an authenticated API query.
+- `run_bof` (function) `modules/bof_delivery.py:869` `def run_bof(bof_name, client_id, args)` -- Queue one BOF execution on a live beacon and optionally await output.
+- `run_bof_train` (function) `modules/bof_delivery.py:908` `def run_bof_train(client_id, names, args)` -- Run a sequence of BOFs over one beacon, waiting for each in turn.
+- `deploy_client` (function) `modules/bof_delivery.py:974` `def deploy_client(client, target)` -- Deliver a staged beacon client onto a target and await check-in.
+- `_DockerSession.__init__` (method) `modules/bof_delivery.py:1071` `def __init__(self, container)` -- Bind the adapter to one container name.
+- `_DockerSession.alive` (method) `modules/bof_delivery.py:1075` `def alive(self, timeout)` -- Return True while the container answers ``echo``.
+- `_DockerSession.run` (method) `modules/bof_delivery.py:1095` `def run(self, command, timeout)` -- Execute one shell line inside the container.
+- `config_sessions_dir` (function) `modules/bof_delivery.py:1246` `def config_sessions_dir()` -- Return the sessions directory of the default delivery config.
+- `bof_results` (function) `modules/bof_delivery.py:1267` `def bof_results(client_id, limit, config)` -- Read the last beacon history records for one client.
+
 ## modules/bof_registry.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
-- `BofEntry.to_dict` (method) `modules/bof_registry.py:118` `def to_dict(self)` -- Serialize to dictionary.
-- `BofEntry.from_dict` (method) `modules/bof_registry.py:137` `def from_dict(cls, raw)` -- Build from a dictionary.
-- `BofCatalog.register` (method) `modules/bof_registry.py:167` `def register(self, entry)` -- Register a BOF entry in the catalog.
-- `BofCatalog.register_many` (method) `modules/bof_registry.py:172` `def register_many(self, entries)` -- Register multiple BOF entries at once.
-- `BofCatalog.get` (method) `modules/bof_registry.py:177` `def get(self, name)` -- Retrieve a BOF entry by name.
-- `BofCatalog.search` (method) `modules/bof_registry.py:188` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
-- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:221` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
-- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:225` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
-- `BofCatalog.list_all` (method) `modules/bof_registry.py:229` `def list_all(self)` -- Return all catalog entries sorted by name.
-- `BofCatalog.to_dict` (method) `modules/bof_registry.py:233` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
-- `BofCatalog.from_dict` (method) `modules/bof_registry.py:241` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
-- `BofCatalog.load` (method) `modules/bof_registry.py:249` `def load(cls, path)` -- Load a catalog from a JSON file.
-- `BofCatalog.save` (method) `modules/bof_registry.py:257` `def save(self, path)` -- Save the catalog to a JSON file.
-- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:515` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
-- `BofValidator.verify_entry` (method) `modules/bof_registry.py:524` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
-- `BofValidator.validate_args` (method) `modules/bof_registry.py:540` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
-- `BofRegistry.__init__` (method) `modules/bof_registry.py:559` `def __init__(self, sessions_dir)`
-- `BofRegistry.install_dir` (method) `modules/bof_registry.py:565` `def install_dir(self)` -- Return the BOF installation directory.
-- `BofRegistry.is_installed` (method) `modules/bof_registry.py:585` `def is_installed(self, name)` -- Return True if a BOF is installed.
-- `BofRegistry.install` (method) `modules/bof_registry.py:590` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
-- `BofRegistry.uninstall` (method) `modules/bof_registry.py:611` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
-- `BofRegistry.list_installed` (method) `modules/bof_registry.py:628` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
-- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:633` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
-- `BofMarketplace.__init__` (method) `modules/bof_registry.py:651` `def __init__(self, sessions_dir, catalog)`
-- `BofMarketplace.catalog` (method) `modules/bof_registry.py:662` `def catalog(self)` -- Return the catalog.
-- `BofMarketplace.registry` (method) `modules/bof_registry.py:667` `def registry(self)` -- Return the registry.
-- `BofMarketplace.search` (method) `modules/bof_registry.py:671` `def search(self, query)` -- Search the catalog and return enriched results with install status.
-- `BofMarketplace.info` (method) `modules/bof_registry.py:690` `def info(self, name)` -- Get detailed information about a BOF by name.
-- `BofMarketplace.install` (method) `modules/bof_registry.py:707` `def install(self, name)` -- Install a BOF from the catalog by name.
-- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:736` `def uninstall(self, name)` -- Uninstall a BOF by name.
-- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:749` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
-- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:761` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
-- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:769` `def bulk_install(self, names)` -- Install multiple BOFs at once.
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
+Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
+- `BofEntry.to_dict` (method) `modules/bof_registry.py:130` `def to_dict(self)` -- Serialize to dictionary.
+- `BofEntry.from_dict` (method) `modules/bof_registry.py:151` `def from_dict(cls, raw)` -- Build from a dictionary.
+- `BofCatalog.register` (method) `modules/bof_registry.py:183` `def register(self, entry)` -- Register a BOF entry in the catalog.
+- `BofCatalog.register_many` (method) `modules/bof_registry.py:188` `def register_many(self, entries)` -- Register multiple BOF entries at once.
+- `BofCatalog.get` (method) `modules/bof_registry.py:193` `def get(self, name)` -- Retrieve a BOF entry by name.
+- `BofCatalog.search` (method) `modules/bof_registry.py:204` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
+- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:237` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
+- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:241` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
+- `BofCatalog.list_all` (method) `modules/bof_registry.py:245` `def list_all(self)` -- Return all catalog entries sorted by name.
+- `BofCatalog.to_dict` (method) `modules/bof_registry.py:249` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
+- `BofCatalog.from_dict` (method) `modules/bof_registry.py:257` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
+- `BofCatalog.load` (method) `modules/bof_registry.py:265` `def load(cls, path)` -- Load a catalog from a JSON file.
+- `BofCatalog.save` (method) `modules/bof_registry.py:273` `def save(self, path)` -- Save the catalog to a JSON file.
+- `BofYamlStore.__init__` (method) `modules/bof_registry.py:290` `def __init__(self, directory)` -- Bind the store to a directory.
+- `BofYamlStore.directory` (method) `modules/bof_registry.py:299` `def directory(self)` -- Return the directory bound to this store.
+- `BofYamlStore.load_entries` (method) `modules/bof_registry.py:303` `def load_entries(self)` -- Parse every YAML file into :class:`BofEntry` objects.
+- `BofYamlStore.load_catalog` (method) `modules/bof_registry.py:342` `def load_catalog(self)` -- Build a :class:`BofCatalog` from the YAML configuration files.
+- `find_client_artifact` (function) `modules/bof_registry.py:362` `def find_client_artifact(entry)` -- Resolve the compiled object file of a BOF across all known source trees.
+- `client_addon_install_path` (function) `modules/bof_registry.py:415` `def client_addon_install_path(client, addons_dir)` -- Read the ``tool.install_path`` of one beacon client lazyaddon.
+- `stage_entry_bof` (function) `modules/bof_registry.py:441` `def stage_entry_bof(entry, sessions_dir)` -- Stage a compiled BOF object for beacon delivery.
+- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:482` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
+- `BofValidator.verify_entry` (method) `modules/bof_registry.py:491` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
+- `BofValidator.validate_args` (method) `modules/bof_registry.py:507` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
+- `BofRegistry.__init__` (method) `modules/bof_registry.py:526` `def __init__(self, sessions_dir)`
+- `BofRegistry.install_dir` (method) `modules/bof_registry.py:532` `def install_dir(self)` -- Return the BOF installation directory.
+- `BofRegistry.is_installed` (method) `modules/bof_registry.py:552` `def is_installed(self, name)` -- Return True if a BOF is installed.
+- `BofRegistry.install` (method) `modules/bof_registry.py:557` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
+- `BofRegistry.uninstall` (method) `modules/bof_registry.py:578` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
+- `BofRegistry.list_installed` (method) `modules/bof_registry.py:595` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
+- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:600` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
+- `BofMarketplace.__init__` (method) `modules/bof_registry.py:618` `def __init__(self, sessions_dir, catalog)`
+- `BofMarketplace.catalog` (method) `modules/bof_registry.py:629` `def catalog(self)` -- Return the catalog.
+- `BofMarketplace.registry` (method) `modules/bof_registry.py:634` `def registry(self)` -- Return the registry.
+- `BofMarketplace.search` (method) `modules/bof_registry.py:638` `def search(self, query)` -- Search the catalog and return enriched results with install status.
+- `BofMarketplace.info` (method) `modules/bof_registry.py:657` `def info(self, name)` -- Get detailed information about a BOF by name.
+- `BofMarketplace.install` (method) `modules/bof_registry.py:674` `def install(self, name)` -- Install a BOF from the catalog by name.
+- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:703` `def uninstall(self, name)` -- Uninstall a BOF by name.
+- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:716` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
+- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:728` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
+- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:736` `def bulk_install(self, names)` -- Install multiple BOFs at once.
 
 ## modules/c2_agent.py
 Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
@@ -438,40 +484,6 @@ Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `
 Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
 - `C2Builder.__init__` (method) `modules/c2_builder.py:452` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
 - `C2Builder.run` (method) `modules/c2_builder.py:510` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
-
-## modules/c2_messaging_base.py
-- `SecureSessionManager.__init__` (method) `modules/c2_messaging_base.py:22` `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
-- `SecureSessionManager.register_failed_attempt` (method) `modules/c2_messaging_base.py:37` `def register_failed_attempt(self, user_id)` -- Record a failed authentication attempt for a user.
-- `SecureSessionManager.check_lockout` (method) `modules/c2_messaging_base.py:46` `def check_lockout(self, user_id)` -- Check if a user is currently locked out due to failed attempts.
-- `SecureSessionManager.check_rate_limit` (method) `modules/c2_messaging_base.py:61` `def check_rate_limit(self, user_id)` -- Check if a user has exceeded the command rate limit.
-- `SecureSessionManager.create_session` (method) `modules/c2_messaging_base.py:79` `def create_session(self, user_id, client_id)` -- Create a new authenticated session for a user.
-- `SecureSessionManager.validate_session` (method) `modules/c2_messaging_base.py:89` `def validate_session(self, user_id)` -- Check if a user session is still valid and refresh activity timestamp.
-- `SecureSessionManager.set_client` (method) `modules/c2_messaging_base.py:106` `def set_client(self, user_id, client_id)` -- Assign a target C2 client to a user session.
-- `SecureSessionManager.get_client` (method) `modules/c2_messaging_base.py:111` `def get_client(self, user_id)` -- Get the target C2 client assigned to a user session.
-- `PayloadConfigAdapter.__init__` (method) `modules/c2_messaging_base.py:124` `def __init__(self, config_dict)`
-- `PayloadConfigAdapter.get` (method) `modules/c2_messaging_base.py:132` `def get(self, key, default)`
-
-## modules/c2_profile.py
-Depends on: `core/logging.py`
-- `C2Profile.jitter_delay` (method) `modules/c2_profile.py:101` `def jitter_delay(self)` -- Return the next sleep delay as a float in seconds.
-- `C2Profile.get_uri` (method) `modules/c2_profile.py:117` `def get_uri(self, method)` -- Pick a random URI path from the appropriate HttpConfig.
-- `C2Profile.build_headers` (method) `modules/c2_profile.py:128` `def build_headers(self, method)` -- Return the headers dict for the given HTTP method.
-- `ProfileValidator.validate` (method) `modules/c2_profile.py:162` `def validate(self, profile)`
-- `ProfileLoader.from_yaml` (method) `modules/c2_profile.py:200` `def from_yaml(path)` -- Load a C2Profile from a YAML file at *path*.
-- `ProfileLoader.from_dict` (method) `modules/c2_profile.py:215` `def from_dict(d)` -- Construct a C2Profile from a plain Python dictionary.
-- `ProfileLoader.to_dict` (method) `modules/c2_profile.py:254` `def to_dict(profile)` -- Convert a C2Profile to a plain Python dictionary.
-- `ProfileLoader.save` (method) `modules/c2_profile.py:282` `def save(profile, path)` -- Serialise *profile* to a YAML file and return the written path.
-- `ProfileRegistry.__init__` (method) `modules/c2_profile.py:457` `def __init__(self)`
-- `ProfileRegistry.register` (method) `modules/c2_profile.py:464` `def register(self, name, profile)` -- Register *profile* under *name*, overwriting any previous entry.
-- `ProfileRegistry.get` (method) `modules/c2_profile.py:473` `def get(self, name)` -- Return the profile registered under *name*.
-- `ProfileRegistry.list_names` (method) `modules/c2_profile.py:485` `def list_names(self)` -- Return a sorted list of all registered profile names.
-- `ProfileRegistry.load_from_directory` (method) `modules/c2_profile.py:493` `def load_from_directory(self, path)` -- Scan *path* for *.yaml files and register each as a profile.
-- `ProfileApplier.apply_to_response` (method) `modules/c2_profile.py:529` `def apply_to_response(profile, response)` -- Patch the headers of a Flask response object to match the profile.
-- `ProfileApplier.apply_to_session` (method) `modules/c2_profile.py:554` `def apply_to_session(profile, session)` -- Configure a requests.Session to mimic the profile's HTTP GET behavior.
-- `ProfileApplier.get_beacon_config` (method) `modules/c2_profile.py:567` `def get_beacon_config(profile)` -- Return a JSON-serialisable dict suitable for embedding in a beacon handshake response.
-- `get_registry` (function) `modules/c2_profile.py:595` `def get_registry()` -- Return the module-level singleton ProfileRegistry.
-- `get_profile` (function) `modules/c2_profile.py:620` `def get_profile(name)` -- Return the named profile from the module singleton registry.
-- `list_profiles` (function) `modules/c2_profile.py:625` `def list_profiles()` -- Return a sorted list of all registered profile names.
 
 
 Next: [API_p11.md](API_p11.md)

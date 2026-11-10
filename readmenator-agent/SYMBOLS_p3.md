@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_rnc` | method | `cli/commands/lateral_migrated.py:477` | `def do_rnc(self, line)` |
+| `do_shadowsocks` | method | `cli/commands/lateral_migrated.py:404` | `def do_shadowsocks(self, line)` |
+| `do_sshd` | method | `cli/commands/lateral_migrated.py:172` | `def do_sshd(self, line)` |
 | `do_stormbreaker` | method | `cli/commands/lateral_migrated.py:777` | `def do_stormbreaker(self, line)` |
 | `do_targetedKerberoas` | method | `cli/commands/lateral_migrated.py:871` | `def do_targetedKerberoas(self, line)` |
 | `do_tord` | method | `cli/commands/lateral_migrated.py:369` | `def do_tord(self, line)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_arpscan` | method | `cli/commands/scan.py:129` | `def do_arpscan(self, line)` |
 | `do_bbot` | method | `cli/commands/scan.py:422` | `def do_bbot(self, line)` |
 | `do_dirsearch` | method | `cli/commands/scan.py:170` | `def do_dirsearch(self, line)` |
-| `do_dmitry` | method | `cli/commands/scan.py:213` | `def do_dmitry(self, line)` |
-| `do_feroxbuster` | method | `cli/commands/scan.py:248` | `def do_feroxbuster(self, line)` |
-| `do_gobuster` | method | `cli/commands/scan.py:56` | `def do_gobuster(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

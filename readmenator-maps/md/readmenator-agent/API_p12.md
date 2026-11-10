@@ -1,6 +1,37 @@
 # API (page 12 of 27)
 Previous: [API_p11.md](API_p11.md)
 
+## modules/detailed_search.py
+- `obtener_informacion` (function) `modules/detailed_search.py:40` `def obtener_informacion(url)`
+
+## modules/detection_feed.py
+Depends on: `core/logging.py`, `modules/detection_oracle.py`
+Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
+- `DetectionFeed.__init__` (method) `modules/detection_feed.py:83` `def __init__(self, cache_dir, sources)`
+- `DetectionFeed.update_rules` (method) `modules/detection_feed.py:92` `def update_rules(self, source)` -- Download and parse rules from the given source.
+- `DetectionFeed.load_cached_rules` (method) `modules/detection_feed.py:246` `def load_cached_rules(self, source)` -- Load previously cached rules from disk.
+- `DetectionFeed.adjust_from_feedback` (method) `modules/detection_feed.py:270` `def adjust_from_feedback(self, feedback_file)` -- Adjust rule probabilities based on historical detection feedback.
+- `get_feed` (function) `modules/detection_feed.py:326` `def get_feed()` -- Return a module-level :class:`DetectionFeed` singleton.
+
+## modules/detection_oracle.py
+Depends on: `core/logging.py`, `modules/detection_feed.py`
+Imported by: `modules/auto_purple.py`, `modules/chain_runner.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_dampening.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
+- `DetectionAssessment.is_high_risk` (method) `modules/detection_oracle.py:76` `def is_high_risk(self)` -- Return True when detection probability is 70% or higher.
+- `DetectionAssessment.is_critical_risk` (method) `modules/detection_oracle.py:81` `def is_critical_risk(self)` -- Return True when detection probability is 90% or higher.
+- `IDetectionOracle.assess` (method) `modules/detection_oracle.py:95` `def assess(self, command, args, action_category, benign_alternatives)` -- Return a full DetectionAssessment for the given action.
+- `IDetectionOracle.probability` (method) `modules/detection_oracle.py:105` `def probability(self, command, args, action_category, benign_alternatives)` -- Return only the probability score in [0.0, 1.0].
+- `DetectionOracle.__init__` (method) `modules/detection_oracle.py:372` `def __init__(self, rules, feed)`
+- `DetectionOracle.refresh` (method) `modules/detection_oracle.py:376` `def refresh(self)` -- Update rules from the detection feed (if available).
+- `DetectionOracle.assess` (method) `modules/detection_oracle.py:411` `def assess(self, command, args, action_category, benign_alternatives)` -- Assess the detection risk of a command, dampened by benign twins.
+- `DetectionOracle.probability` (method) `modules/detection_oracle.py:460` `def probability(self, command, args, action_category, benign_alternatives)` -- Return the detection probability, honouring benign alternatives.
+- `get_oracle` (function) `modules/detection_oracle.py:553` `def get_oracle()` -- Return (or create) the module-level singleton DetectionOracle.
+
+## modules/digest.py
+Imported by: `modules/lazy_loop.py`
+- `build_engine_digest` (function) `modules/digest.py:20` `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` -- Render the engine-loop markdown digest.
+- `write_digest` (function) `modules/digest.py:71` `def write_digest(task_id, body, root)` -- Persist the digest beside the archives; returns the written path.
+- `worker_results_digest` (function) `modules/digest.py:82` `def worker_results_digest(rows)` -- Extract displayed step lines and blocked bases from result dicts.
+
 ## modules/dns_beacon.py
 Depends on: `core/safe_exec.py`
 Imported by: `cli/commands/dns_exfil.py`
@@ -458,31 +489,6 @@ Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests
 - `GoalTracker.goal_met` (method) `modules/goals.py:140` `def goal_met(self, opt_in)` -- End the whole task; requires explicit opt-in (default unbound).
 - `GoalTracker.all_achieved` (method) `modules/goals.py:148` `def all_achieved(self)` -- Return True when every goal is achieved.
 - `GoalTracker.open_goals` (method) `modules/goals.py:152` `def open_goals(self)` -- Return goals still open.
-
-## modules/golden_path.py
-Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
-- `build_edges` (function) `modules/golden_path.py:155` `def build_edges(snapshot)` -- Build the weighted adjacency map from a world-model snapshot.
-- `resolve_paths` (function) `modules/golden_path.py:274` `def resolve_paths(snapshot, top_k, source)` -- Solve shortest attack paths toward every reachable host.
-- `build` (function) `modules/golden_path.py:350` `def build(world_model_path, top_k, sessions_dir)` -- Load the live world model, solve paths, and persist the result.
-- `load_artifact` (function) `modules/golden_path.py:401` `def load_artifact(sessions_dir)` -- Read the persisted attack-path artifact.
-- `priority_for` (function) `modules/golden_path.py:418` `def priority_for(cost)` -- Map a path cost to an objective priority band.
-- `push_objectives` (function) `modules/golden_path.py:433` `def push_objectives(paths, store_path)` -- Inject one objective per solved path into the objective store.
-
-## modules/gpo_abuse.py
-Imported by: `cli/commands/active_directory.py`
-- `GPOAbuseEngine.__init__` (method) `modules/gpo_abuse.py:118` `def __init__(self, domain, dc_ip)`
-- `GPOAbuseEngine.parse_gpo_list` (method) `modules/gpo_abuse.py:124` `def parse_gpo_list(self, raw_gpo_output)` -- Parse Get-GPO or ldapsearch output for GPO information.
-- `GPOAbuseEngine.parse_bloodhound_gpos` (method) `modules/gpo_abuse.py:160` `def parse_bloodhound_gpos(self, bloodhound_nodes)` -- Parse BloodHound GPO nodes for abusable policies.
-- `GPOAbuseEngine.plan_scheduled_task` (method) `modules/gpo_abuse.py:182` `def plan_scheduled_task(self, gpo, command, task_name)` -- Plan a GPO-backed scheduled task for immediate code execution.
-- `GPOAbuseEngine.plan_startup_script` (method) `modules/gpo_abuse.py:208` `def plan_startup_script(self, gpo, script_content, script_name)` -- Plan a GPO startup script for persistence via SYSVOL.
-- `GPOAbuseEngine.plan_logon_script` (method) `modules/gpo_abuse.py:238` `def plan_logon_script(self, gpo, command)` -- Plan a GPO user logon script for user-triggered code execution.
-- `GPOAbuseEngine.plan_local_admin_addition` (method) `modules/gpo_abuse.py:266` `def plan_local_admin_addition(self, gpo, username, group)` -- Plan adding a user to the local Administrators group via GPO preferences.
-- `GPOAbuseEngine.plan_wmi_filter_abuse` (method) `modules/gpo_abuse.py:293` `def plan_wmi_filter_abuse(self, gpo, wmi_query)` -- Plan WMI filter abuse for targeted GPO scope control.
-- `GPOAbuseEngine.plan_registry_preference` (method) `modules/gpo_abuse.py:322` `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` -- Plan a registry modification via GPO preferences.
-- `GPOAbuseEngine.plan_service_installation` (method) `modules/gpo_abuse.py:356` `def plan_service_installation(self, gpo, service_name, binary_path)` -- Plan a service installation via GPO for SYSTEM-level persistence.
-- `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
-- `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
-- `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
 
 
 Next: [API_p13.md](API_p13.md)

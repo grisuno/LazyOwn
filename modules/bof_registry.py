@@ -42,12 +42,22 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import os
 import shutil
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any
+
+import yaml
+
+from modules.bof_admin import (
+    BOF_CLIENTS,
+    BOFS_DIR,
+    load_bof,
+    validate_bof,
+)
 
 log = logging.getLogger("bof_registry")
 
@@ -114,6 +124,8 @@ class BofEntry:
     sha256: str = ""
     min_beacon_version: str = "1.0"
     dependencies: list[str] = field(default_factory=list)
+    client: str = ""
+    client_artifact: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize to dictionary."""
@@ -131,6 +143,8 @@ class BofEntry:
             "sha256": self.sha256,
             "min_beacon_version": self.min_beacon_version,
             "dependencies": self.dependencies,
+            "client": self.client,
+            "client_artifact": self.client_artifact,
         }
 
     @classmethod
@@ -150,6 +164,8 @@ class BofEntry:
             sha256=str(raw.get("sha256", "")),
             min_beacon_version=str(raw.get("min_beacon_version", "1.0")),
             dependencies=list(raw.get("dependencies", [])),
+            client=str(raw.get("client", "") or ""),
+            client_artifact=str(raw.get("client_artifact", "") or ""),
         )
 
 
@@ -262,245 +278,196 @@ class BofCatalog:
             json.dump(self.to_dict(), fh, indent=2)
 
 
-def _build_default_catalog() -> BofCatalog:
-    """Build the default curated BOF catalog.
+class BofYamlStore:
+    """Load BOF catalog entries from the ``bofs/*.yaml`` configuration files.
 
-    This catalog includes well-known open-source BOFs compatible with
-    the TrustedSec SA BOF API. Maintainers should add verified entries
-    to this function.
+    Every YAML file is one delivery contract: the BOF capability plus the
+    lazyaddon beacon client (``beacon`` or ``blacksandbeacon``) that
+    delivers it. Invalid files are skipped with a logged warning so a
+    broken draft can never empty the operator's catalog.
     """
-    catalog = BofCatalog()
-    default_entries = [
-        BofEntry(
-            name="ldap_enum",
-            description="Enumerate Active Directory via LDAP: users, groups, computers, OUs, GPOs, ACLs",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/ldap_enum/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            required_args=["domain"],
-            optional_args=["server", "username", "password"],
-            mitre_technique="T1087",
-        ),
-        BofEntry(
-            name="adcs_enum",
-            description="Enumerate Active Directory Certificate Services: templates, enrollment rights, ESC vulnerabilities",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/adcs_enum/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            required_args=["domain"],
-            optional_args=["server"],
-            mitre_technique="T1649",
-        ),
-        BofEntry(
-            name="enum_filter",
-            description="Enumerate LDAP search filters to extract high-value targets",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/enum_filter/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            required_args=["domain", "filter"],
-            optional_args=["server"],
-            mitre_technique="T1087",
-        ),
-        BofEntry(
-            name="whoami",
-            description="Extended whoami: privileges, groups, tokens, session info, UAC flags",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/whoami/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.RECON,
-            mitre_technique="T1033",
-        ),
-        BofEntry(
-            name="sc_enum",
-            description="Enumerate Windows services: name, display name, state, start type, binary path",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/sc_enum/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            mitre_technique="T1007",
-        ),
-        BofEntry(
-            name="netuser",
-            description="Query detailed local and domain user account information",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/netuser/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.RECON,
-            required_args=["username"],
-            optional_args=["domain"],
-            mitre_technique="T1087",
-        ),
-        BofEntry(
-            name="netview",
-            description="Enumerate network resources: shares, sessions, connected clients, open files",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/netview/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            optional_args=["server"],
-            mitre_technique="T1046",
-        ),
-        BofEntry(
-            name="listdns",
-            description="List DNS A records from a domain controller via LDAP",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/listdns/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            optional_args=["domain"],
-            mitre_technique="T1590",
-        ),
-        BofEntry(
-            name="reg_query",
-            description="Query Windows registry keys and values remotely or locally",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/reg_query/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            required_args=["key"],
-            optional_args=["value", "server"],
-            mitre_technique="T1012",
-        ),
-        BofEntry(
-            name="schedtask_create",
-            description="Create a scheduled task for persistence on Windows targets",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/schedtask_create/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.PERSIST,
-            required_args=["taskname", "command"],
-            optional_args=["server", "username", "password", "interval"],
-            mitre_technique="T1053",
-        ),
-        BofEntry(
-            name="schedtask_delete",
-            description="Delete a scheduled task to clean up persistence artifacts",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/schedtask_delete/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.PERSIST,
-            required_args=["taskname"],
-            optional_args=["server"],
-            mitre_technique="T1053",
-        ),
-        BofEntry(
-            name="service_create",
-            description="Create a Windows service for persistence or lateral movement",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/service_create/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.PERSIST,
-            required_args=["servicename", "binarypath"],
-            optional_args=["displayname", "server"],
-            mitre_technique="T1543",
-        ),
-        BofEntry(
-            name="spawn_job",
-            description="Spawn a long-running job: keylogger, screenshot daemon, process monitor",
-            author="LazyOwn",
-            url="https://github.com/anomalyco/LazyOwn",
-            source_file="bofs/spawn_job.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.EXEC,
-            required_args=["jobtype"],
-            optional_args=["interval_ms", "output_file"],
-            mitre_technique="T1059",
-        ),
-        BofEntry(
-            name="shell_hostname",
-            description="Execute a command via cmd.exe and return captured output",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/shell_hostname/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.EXEC,
-            required_args=["command"],
-            mitre_technique="T1059",
-        ),
-        BofEntry(
-            name="inject_apc",
-            description="Inject shellcode into a remote process via Early Bird APC queuing",
-            author="TrustedSec",
-            url="https://github.com/trustedsec/CS-Situational-Awareness-BOF",
-            source_file="SA/inject_apc/entry.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.EXEC,
-            required_args=["pid", "shellcode_file"],
-            optional_args=["spoofed_parent"],
-            mitre_technique="T1055",
-        ),
-        BofEntry(
-            name="netstat",
-            description="Enumerate active TCP and UDP connections with owning process IDs",
-            author="LazyOwn",
-            url="https://github.com/anomalyco/LazyOwn",
-            source_file="bofs/netstat.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.RECON,
-            mitre_technique="T1049",
-        ),
-        BofEntry(
-            name="portscan",
-            description="Lightweight TCP connect port scan from within beacon process",
-            author="LazyOwn",
-            url="https://github.com/anomalyco/LazyOwn",
-            source_file="bofs/portscan.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.ENUM,
-            required_args=["target", "ports"],
-            optional_args=["timeout_ms"],
-            mitre_technique="T1046",
-        ),
-        BofEntry(
-            name="lsass_dump",
-            description="Dump LSASS process memory to disk for offline credential extraction",
-            author="LazyOwn",
-            url="https://github.com/anomalyco/LazyOwn",
-            source_file="bofs/lsass_dump.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.CRED,
-            optional_args=["output_path", "method"],
-            mitre_technique="T1003",
-        ),
-        BofEntry(
-            name="sam_dump",
-            description="Dump SAM, SYSTEM, and SECURITY registry hives for offline cracking",
-            author="LazyOwn",
-            url="https://github.com/anomalyco/LazyOwn",
-            source_file="bofs/sam_dump.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.CRED,
-            optional_args=["output_dir"],
-            mitre_technique="T1003",
-        ),
-        BofEntry(
-            name="env_enum",
-            description="Enumerate environment variables for recon and credential discovery",
-            author="LazyOwn",
-            url="https://github.com/anomalyco/LazyOwn",
-            source_file="bofs/env_enum.c",
-            platform=BofPlatform.WINDOWS,
-            category=BofCategory.RECON,
-            mitre_technique="T1082",
-        ),
-    ]
-    catalog.register_many(default_entries)
-    return catalog
+
+    def __init__(self, directory: str | Path = BOFS_DIR) -> None:
+        """Bind the store to a directory.
+
+        Args:
+            directory: Root folder with one ``.yaml`` file per BOF.
+        """
+        self._directory = Path(directory)
+
+    @property
+    def directory(self) -> Path:
+        """Return the directory bound to this store."""
+        return self._directory
+
+    def load_entries(self) -> list[BofEntry]:
+        """Parse every YAML file into :class:`BofEntry` objects.
+
+        Returns:
+            Ordered entries; unreadable or invalid files are skipped.
+        """
+        entries: list[BofEntry] = []
+        for path in sorted(self._directory.glob("*.yaml")):
+            try:
+                raw = load_bof(path)
+            except Exception as exc:
+                log.warning("BOF config unreadable at %s: %s", path, exc)
+                continue
+            if not raw:
+                continue
+            errors = validate_bof(raw)
+            if errors:
+                log.warning("BOF config invalid at %s: %s", path, "; ".join(errors))
+                continue
+            if not bool(raw.get("enabled", True)):
+                continue
+            entries.append(
+                BofEntry(
+                    name=str(raw["name"]).strip(),
+                    description=str(raw.get("description", "")).strip(),
+                    author=str(raw.get("author", "Unknown")).strip(),
+                    url=str(raw.get("url", "")).strip(),
+                    source_file=str(raw.get("source_file", "")).strip(),
+                    platform=BofPlatform(str(raw.get("platform", "windows")).strip().lower()),
+                    category=BofCategory(str(raw.get("category", "general")).strip().lower()),
+                    required_args=list(raw.get("required_args") or []),
+                    optional_args=list(raw.get("optional_args") or []),
+                    mitre_technique=str(raw.get("mitre_technique", "") or "").strip(),
+                    client=str(raw.get("client", "") or "").strip().lower(),
+                    client_artifact=str(raw.get("client_artifact", "") or "").strip(),
+                )
+            )
+        return entries
+
+    def load_catalog(self) -> BofCatalog:
+        """Build a :class:`BofCatalog` from the YAML configuration files."""
+        catalog = BofCatalog()
+        catalog.register_many(self.load_entries())
+        return catalog
+
+
+def _build_default_catalog() -> BofCatalog:
+    """Build the catalog from the ``bofs/*.yaml`` configuration files.
+
+    The YAML store is authoritative: it declares every BOF with the
+    lazyaddon beacon client that delivers it. When the directory is
+    missing or empty the catalog degrades to empty instead of failing.
+
+    Returns:
+        The loaded catalog.
+    """
+    return BofYamlStore().load_catalog()
+
+
+def find_client_artifact(
+    entry: BofEntry,
+    *,
+    external_root: str | Path = "external/.exploit",
+) -> str | None:
+    """Resolve the compiled object file of a BOF across all known source trees.
+
+    Resolution order:
+        1. The client lazyaddon's ``tool.install_path`` (repo-relative
+           checkout) joined with the entry's ``client_artifact``.
+        2. The client's canonical compiled layout
+           (``<checkout>/build/bof/<name>.x64.o``, ``.o``).
+        3. A repository-wide search under ``external/.exploit`` (plus the
+           Windows beacon canonical ``bof`` layouts).
+
+    Args:
+        entry: Catalog entry (client and client_artifact honoured).
+        external_root: Repository root holding the checked-out beacons.
+
+    Returns:
+        The path to the compiled object, or None when none is found.
+    """
+    candidates: list[str] = []
+    if entry.client in BOF_CLIENTS:
+        addon_path = client_addon_install_path(entry.client) or ""
+        if addon_path:
+            checkout = Path(addon_path)
+            if not checkout.is_dir():
+                checkout = Path(external_root) / addon_path
+            if entry.client_artifact:
+                candidates.append(str(checkout / entry.client_artifact))
+            candidates.extend(str(checkout / "build" / "bof" / f"{entry.name}{suffix}") for suffix in (".x64.o", ".o"))
+            candidates.append(str(checkout / "bof" / entry.name / f"{entry.name}.o"))
+            candidates.append(str(checkout / "bof" / entry.name / "bof.o"))
+    candidates.extend(
+        [
+            str(Path(external_root) / "beacon" / "bof" / f"{entry.name}.o"),
+            str(Path(external_root) / "beacon" / "bof" / entry.name / f"{entry.name}.o"),
+            str(Path(external_root) / "beacon" / "bof" / entry.name / "bof.o"),
+            str(Path(external_root) / "beacon" / "bof" / entry.name / "entry.o"),
+            str(Path(external_root) / "beacon" / "bof" / entry.name / "main.o"),
+        ]
+    )
+    for candidate in candidates:
+        if os.path.isfile(candidate):
+            return candidate
+    for root, _dirs, files in os.walk(external_root):
+        for name in files:
+            if name in (f"{entry.name}.o", f"{entry.name}.x64.o"):
+                return os.path.join(root, name)
+    return None
+
+
+def client_addon_install_path(client: str, addons_dir: str | Path = "lazyaddons") -> str | None:
+    """Read the ``tool.install_path`` of one beacon client lazyaddon.
+
+    Args:
+        client: Lazyaddon name (``beacon`` or ``blacksandbeacon``).
+        addons_dir: Directory with the lazyaddon YAML manifests.
+
+    Returns:
+        The relative install path, or None when the addon is missing.
+    """
+    if client not in BOF_CLIENTS:
+        return None
+    path = Path(addons_dir) / f"{client}.yaml"
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            data = yaml.safe_load(handle) or {}
+    except Exception as exc:
+        log.warning("lazyaddon %s unreadable: %s", path, exc)
+        return None
+    tool = data.get("tool") if isinstance(data, dict) else None
+    if not isinstance(tool, dict):
+        return None
+    value = str(tool.get("install_path", "") or "").strip()
+    return value or None
+
+
+def stage_entry_bof(
+    entry: BofEntry,
+    sessions_dir: str | Path = "sessions",
+) -> str | None:
+    """Stage a compiled BOF object for beacon delivery.
+
+    Copies the resolved artifact to ``<sessions>/temp_uploads/bofs/<name>``
+    where the C2 ``/download/bofs/<name>`` endpoint serves it to beacons.
+
+    Args:
+        entry: Catalog entry to stage.
+        sessions_dir: State root holding ``temp_uploads/``.
+
+    Returns:
+        The staged path, or None when no compiled object exists.
+    """
+    artifact = find_client_artifact(entry)
+    if artifact is None:
+        log.warning(
+            "No compiled object for BOF '%s' (client=%s); check external/.exploit/",
+            entry.name,
+            entry.client or "unknown",
+        )
+        return None
+    staging_dir = Path(sessions_dir) / "temp_uploads" / "bofs"
+    staging_dir.mkdir(parents=True, exist_ok=True)
+    dest = staging_dir / entry.name
+    shutil.copy2(artifact, dest)
+    log.info("Staged BOF '%s': %s -> %s", entry.name, artifact, dest)
+    return str(dest)
 
 
 class BofValidator:
@@ -785,5 +752,9 @@ __all__ = [
     "BofValidator",
     "BofPlatform",
     "BofCategory",
+    "BofYamlStore",
+    "client_addon_install_path",
+    "find_client_artifact",
+    "stage_entry_bof",
     "_build_default_catalog",
 ]

@@ -1,0 +1,14 @@
+name: enum_filter
+description: >-
+  Enumerate LDAP search filters to extract high-value targets
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/enum_filter/entry.c
+client: beacon
+platform: windows
+category: enumeration
+client_artifact: 
+required_args: ['domain', 'filter']
+optional_args: ['server']
+mitre_technique: T1087
+enabled: true

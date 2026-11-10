@@ -383,7 +383,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `catalog_count` (method, line 4395) `def catalog_count(self)`
   - `phase_kill_chain` (method, line 4398) `def phase_kill_chain(self)`
 - Depends on: `modules/killchain.py`
-- Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+- Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
 
 ## modules/lazyown_metaextract0r.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...

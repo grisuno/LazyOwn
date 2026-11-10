@@ -1,6 +1,45 @@
 # Subsystem: modules (page 3 of 18)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
+## modules/c2_profile.py
+- Doc: modules/c2_profile.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SleepConfig` (class, line 54) `class SleepConfig`
+  - `HttpConfig` (class, line 62) `class HttpConfig`
+  - `StagerConfig` (class, line 72) `class StagerConfig`
+  - `C2Profile` (class, line 81) `class C2Profile`
+  - `ProfileValidator` (class, line 155) `class ProfileValidator`
+  - `ProfileLoader` (class, line 187) `class ProfileLoader`
+  - `_make_default_profile` (function, line 308) `def _make_default_profile()`
+  - `_make_stealth_profile` (function, line 339) `def _make_stealth_profile()`
+  - `_make_aggressive_profile` (function, line 385) `def _make_aggressive_profile()`
+  - `_make_debug_profile` (function, line 410) `def _make_debug_profile()`
+  - `ProfileRegistry` (class, line 449) `class ProfileRegistry`
+  - `ProfileApplier` (class, line 520) `class ProfileApplier`
+  - `get_registry` (function, line 595) `def get_registry()`
+  - `get_profile` (function, line 620) `def get_profile(name)`
+  - `list_profiles` (function, line 625) `def list_profiles()`
+  - `jitter_delay` (method, line 101) `def jitter_delay(self)`
+  - `get_uri` (method, line 117) `def get_uri(self, method)`
+  - `build_headers` (method, line 128) `def build_headers(self, method)`
+  - `_config_for` (method, line 144) `def _config_for(self, method)`
+  - `validate` (method, line 162) `def validate(self, profile)`
+  - `from_yaml` (method, line 200) `def from_yaml(path)`
+  - `from_dict` (method, line 215) `def from_dict(d)`
+  - `to_dict` (method, line 254) `def to_dict(profile)`
+  - `save` (method, line 282) `def save(profile, path)`
+  - `__init__` (method, line 457) `def __init__(self)`
+  - `register` (method, line 464) `def register(self, name, profile)`
+  - `get` (method, line 473) `def get(self, name)`
+  - `list_names` (method, line 485) `def list_names(self)`
+  - `load_from_directory` (method, line 493) `def load_from_directory(self, path)`
+  - `apply_to_response` (method, line 529) `def apply_to_response(profile, response)`
+  - `apply_to_session` (method, line 554) `def apply_to_session(profile, session)`
+  - `get_beacon_config` (method, line 567) `def get_beacon_config(profile)`
+- Depends on: `core/logging.py`
+
 ## modules/c2_profile_engine.py
 - Doc: Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports.
 - Layer: utility
@@ -218,7 +257,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `resolve` (method, line 176) `def resolve(self, tokens)`
   - `_eval` (function, line 319) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
@@ -455,16 +494,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `decorated` (function, line 84) `def decorated()`
 - Depends on: `core/logging.py`, `modules/lazy_rbac.py`
 - Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/mcp_tools/collab_publish.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
-
-## modules/colors.py
-- Doc: retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `retModel` (function, line 40) `def retModel()`
-  - `delete_lines` (function, line 68) `def delete_lines(content, to_delete)`
-  - `no_html` (function, line 74) `def no_html(content)`
-- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

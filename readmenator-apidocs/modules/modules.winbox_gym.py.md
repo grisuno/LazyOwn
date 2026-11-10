@@ -311,7 +311,7 @@ Report WinBox lab readiness without installing anything.
 | `params` | `dict[str, Any] \| None` | `None` | Live shell params (payload.json plus params/*.yaml). |
 
 **Returns:** `dict[str, Any]` - Mapping with `[`ready`](core.command_bridge.py.md#commandbridge-ready)`, ``binary``, ``prereqs``, ``vm_built``,
-``guest_os``, `[`install_path`](lazyc2.addon_creator.py.md#addondraft-install_path)` and ``vm`` state when queryable.
+``guest_os``, ``install_path`` and ``vm`` state when queryable.
 
 *Calls:* [`binary_path`](#binary_path), [`vm_status`](#vm_status)
 

@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,16 +8,16 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1293 | 1483 | 87.2% |
+| class | 1297 | 1487 | 87.2% |
 | classmethod | 59 | 85 | 69.4% |
-| constructor | 217 | 538 | 40.3% |
+| constructor | 218 | 539 | 40.4% |
 | enum | 30 | 39 | 76.9% |
 | exception | 41 | 43 | 95.3% |
-| function | 2308 | 3234 | 71.4% |
+| function | 2350 | 3276 | 71.7% |
 | macro | 2 | 114 | 1.8% |
-| method | 3001 | 3690 | 81.3% |
-| module | 951 | 1079 | 88.1% |
-| property | 162 | 206 | 78.6% |
+| method | 3014 | 3703 | 81.4% |
+| module | 967 | 1095 | 88.3% |
+| property | 163 | 207 | 78.7% |
 | protocol | 24 | 24 | 100.0% |
 | staticmethod | 84 | 96 | 87.5% |
 | struct | 1 | 20 | 5.0% |
@@ -359,12 +359,12 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`modules.planner`](modules/modules.planner.py.md) | 20 | 22 | 90.9% |
 | [`modules.professional_report`](modules/modules.professional_report.py.md) | 10 | 11 | 90.9% |
 | [`cli.exploit_advisor`](modules/cli.exploit_advisor.py.md) | 11 | 12 | 91.7% |
-| [`modules.beacon_config_builder`](modules/modules.beacon_config_builder.py.md) | 11 | 12 | 91.7% |
 | [`modules.dacl_abuse`](modules/modules.dacl_abuse.py.md) | 11 | 12 | 91.7% |
 | [`modules.staged_delivery`](modules/modules.staged_delivery.py.md) | 11 | 12 | 91.7% |
 | [`modules.timestomper`](modules/modules.timestomper.py.md) | 11 | 12 | 91.7% |
 | [`modules.traffic_morpher`](modules/modules.traffic_morpher.py.md) | 11 | 12 | 91.7% |
 | [`cli.recommendation_signals`](modules/cli.recommendation_signals.py.md) | 24 | 26 | 92.3% |
+| [`modules.beacon_config_builder`](modules/modules.beacon_config_builder.py.md) | 12 | 13 | 92.3% |
 | [`modules.delegation_attacks`](modules/modules.delegation_attacks.py.md) | 12 | 13 | 92.3% |
 | [`modules.exploit_chain`](modules/modules.exploit_chain.py.md) | 12 | 13 | 92.3% |
 | [`skills.hermes-lazyown.config_bridge`](modules/skills.hermes-lazyown.config_bridge.py.md) | 12 | 13 | 92.3% |
@@ -381,10 +381,10 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`modules.gpo_abuse`](modules/modules.gpo_abuse.py.md) | 16 | 17 | 94.1% |
 | [`cli.doctor`](modules/cli.doctor.py.md) | 19 | 20 | 95.0% |
 | [`modules.intelligence_engine`](modules/modules.intelligence_engine.py.md) | 19 | 20 | 95.0% |
-| [`modules.bof_registry`](modules/modules.bof_registry.py.md) | 39 | 41 | 95.1% |
 | [`cli.commands.lateral_migrated`](modules/cli.commands.lateral_migrated.py.md) | 22 | 23 | 95.7% |
 | [`modules.c2_profile_engine`](modules/modules.c2_profile_engine.py.md) | 45 | 47 | 95.7% |
 | [`cli.commands.cred_migrated`](modules/cli.commands.cred_migrated.py.md) | 23 | 24 | 95.8% |
+| [`modules.bof_registry`](modules/modules.bof_registry.py.md) | 47 | 49 | 95.9% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | 25 | 26 | 96.2% |
 | [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 26 | 27 | 96.3% |
 | [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 28 | 29 | 96.6% |
@@ -418,7 +418,7 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`cli.commands.applocker_bypass`](modules/cli.commands.applocker_bypass.py.md) | 9 | 9 | 100.0% |
 | [`cli.commands.automation`](modules/cli.commands.automation.py.md) | 14 | 14 | 100.0% |
 | [`cli.commands.bitm`](modules/cli.commands.bitm.py.md) | 3 | 3 | 100.0% |
-| [`cli.commands.bof_registry`](modules/cli.commands.bof_registry.py.md) | 9 | 9 | 100.0% |
+| [`cli.commands.bof_registry`](modules/cli.commands.bof_registry.py.md) | 14 | 14 | 100.0% |
 | [`cli.commands.c2_profile`](modules/cli.commands.c2_profile.py.md) | 6 | 6 | 100.0% |
 | [`cli.commands.c2_session`](modules/cli.commands.c2_session.py.md) | 7 | 7 | 100.0% |
 | [`cli.commands.caldera`](modules/cli.commands.caldera.py.md) | 18 | 18 | 100.0% |
@@ -514,7 +514,7 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | 46 | 46 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | 1 | 1 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | 26 | 26 | 100.0% |
-| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | 42 | 42 | 100.0% |
+| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | 48 | 48 | 100.0% |
 | [`cli.output_mode`](modules/cli.output_mode.py.md) | 7 | 7 | 100.0% |
 | [`cli.palette`](modules/cli.palette.py.md) | 12 | 12 | 100.0% |
 | [`cli.palette_graph`](modules/cli.palette_graph.py.md) | 10 | 10 | 100.0% |
@@ -673,6 +673,8 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`modules.beacon_history`](modules/modules.beacon_history.py.md) | 8 | 8 | 100.0% |
 | [`modules.beacon_recon`](modules/modules.beacon_recon.py.md) | 4 | 4 | 100.0% |
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | 8 | 8 | 100.0% |
+| [`modules.bof_admin`](modules/modules.bof_admin.py.md) | 13 | 13 | 100.0% |
+| [`modules.bof_delivery`](modules/modules.bof_delivery.py.md) | 16 | 16 | 100.0% |
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
 | [`modules.chain_approval`](modules/modules.chain_approval.py.md) | 11 | 11 | 100.0% |
@@ -963,12 +965,14 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`skills.mcp_tools.campaign_lessons`](modules/skills.mcp_tools.campaign_lessons.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.campaign_sitrep`](modules/skills.mcp_tools.campaign_sitrep.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.campaign_tasks`](modules/skills.mcp_tools.campaign_tasks.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.claudemd`](modules/skills.mcp_tools.claudemd.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.collab_publish`](modules/skills.mcp_tools.collab_publish.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.command_help`](modules/skills.mcp_tools.command_help.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.command_next`](modules/skills.mcp_tools.command_next.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.command_prev`](modules/skills.mcp_tools.command_prev.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.create_addon`](modules/skills.mcp_tools.create_addon.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.create_param`](modules/skills.mcp_tools.create_param.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.create_tool`](modules/skills.mcp_tools.create_tool.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.credentials`](modules/skills.mcp_tools.credentials.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.cron_schedule`](modules/skills.mcp_tools.cron_schedule.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.cve_search`](modules/skills.mcp_tools.cve_search.py.md) | 2 | 2 | 100.0% |
@@ -1010,6 +1014,7 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`skills.mcp_tools.graph_suggest_next`](modules/skills.mcp_tools.graph_suggest_next.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.graph_summary`](modules/skills.mcp_tools.graph_summary.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.groq_agent`](modules/skills.mcp_tools.groq_agent.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.harness_status`](modules/skills.mcp_tools.harness_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.heartbeat_status`](modules/skills.mcp_tools.heartbeat_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.hive_collect`](modules/skills.mcp_tools.hive_collect.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.hive_forget`](modules/skills.mcp_tools.hive_forget.py.md) | 2 | 2 | 100.0% |
@@ -1020,6 +1025,7 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`skills.mcp_tools.hive_spawn`](modules/skills.mcp_tools.hive_spawn.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.hive_status`](modules/skills.mcp_tools.hive_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.inject_objective`](modules/skills.mcp_tools.inject_objective.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.job_status`](modules/skills.mcp_tools.job_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.lazy_addon`](modules/skills.mcp_tools.lazy_addon.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.lazy_board`](modules/skills.mcp_tools.lazy_board.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.lazy_compact`](modules/skills.mcp_tools.lazy_compact.py.md) | 2 | 2 | 100.0% |
@@ -1046,6 +1052,7 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`skills.mcp_tools.lolbas_list`](modules/skills.mcp_tools.lolbas_list.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.lolbas_use`](modules/skills.mcp_tools.lolbas_use.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.loop_smoke`](modules/skills.mcp_tools.loop_smoke.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.manage_permissions`](modules/skills.mcp_tools.manage_permissions.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.memory_recall`](modules/skills.mcp_tools.memory_recall.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.memory_store`](modules/skills.mcp_tools.memory_store.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.metrics_summary`](modules/skills.mcp_tools.metrics_summary.py.md) | 2 | 2 | 100.0% |
@@ -1062,6 +1069,8 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`skills.mcp_tools.pipeline_validate`](modules/skills.mcp_tools.pipeline_validate.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.pivot_status`](modules/skills.mcp_tools.pivot_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.playbook_generate`](modules/skills.mcp_tools.playbook_generate.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.playbook_run`](modules/skills.mcp_tools.playbook_run.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.policy_status`](modules/skills.mcp_tools.policy_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.poll_events`](modules/skills.mcp_tools.poll_events.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.rag_index`](modules/skills.mcp_tools.rag_index.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.rag_query`](modules/skills.mcp_tools.rag_query.py.md) | 2 | 2 | 100.0% |
@@ -1069,17 +1078,24 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 | [`skills.mcp_tools.reactive_suggest`](modules/skills.mcp_tools.reactive_suggest.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.read_prompt`](modules/skills.mcp_tools.read_prompt.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.read_session_file`](modules/skills.mcp_tools.read_session_file.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.recommend_next`](modules/skills.mcp_tools.recommend_next.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.rich_tui_snapshot`](modules/skills.mcp_tools.rich_tui_snapshot.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.run_agent`](modules/skills.mcp_tools.run_agent.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.run_api`](modules/skills.mcp_tools.run_api.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.run_command`](modules/skills.mcp_tools.run_command.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.run_command_async`](modules/skills.mcp_tools.run_command_async.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.search_tools`](modules/skills.mcp_tools.search_tools.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.searchsploit`](modules/skills.mcp_tools.searchsploit.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.session_diff`](modules/skills.mcp_tools.session_diff.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.session_init`](modules/skills.mcp_tools.session_init.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.session_resume`](modules/skills.mcp_tools.session_resume.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.session_state`](modules/skills.mcp_tools.session_state.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.session_status`](modules/skills.mcp_tools.session_status.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.set_active_target`](modules/skills.mcp_tools.set_active_target.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.set_config`](modules/skills.mcp_tools.set_config.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.soul`](modules/skills.mcp_tools.soul.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.stealth`](modules/skills.mcp_tools.stealth.py.md) | 2 | 2 | 100.0% |
+| [`skills.mcp_tools.subagent_run`](modules/skills.mcp_tools.subagent_run.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.swan_ensemble`](modules/skills.mcp_tools.swan_ensemble.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.swan_route`](modules/skills.mcp_tools.swan_route.py.md) | 2 | 2 | 100.0% |
 | [`skills.mcp_tools.swan_run`](modules/skills.mcp_tools.swan_run.py.md) | 2 | 2 | 100.0% |
@@ -1111,7 +1127,7 @@ Overall: **76.7%** (8176 of 10655 public modules, types, and callables). Data me
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2196, DOC002: 10, DOC003: 21, DOC004: 47, DOC005: 46
+DOC001: 2196, DOC002: 9, DOC003: 21, DOC004: 47, DOC005: 48
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1613,4 +1629,4 @@ DOC001: 2196, DOC002: 10, DOC003: 21, DOC004: 47, DOC005: 46
 - DOC001 `key.py:1` module key.py is not documented
 - DOC001 `key.py:10` function main is not documented
 - DOC001 `lazy_sentinel4.py:1` module lazy_sentinel4.py is not documented
-- ... 1820 more in `api/warnings.jsonl`
+- ... 1821 more in `api/warnings.jsonl`

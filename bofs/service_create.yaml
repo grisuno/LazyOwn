@@ -1,0 +1,14 @@
+name: service_create
+description: >-
+  Create a Windows service for persistence or lateral movement
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/service_create/entry.c
+client: beacon
+platform: windows
+category: persistence
+client_artifact: 
+required_args: ['servicename', 'binarypath']
+optional_args: ['displayname', 'server']
+mitre_technique: T1543
+enabled: true

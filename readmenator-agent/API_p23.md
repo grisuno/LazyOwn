@@ -1,6 +1,18 @@
 # API (page 23 of 27)
 Previous: [API_p22.md](API_p22.md)
 
+## skills/mcp_tools/c2_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_status.py:20` `def handle(arguments, tool_name, ctx)` -- Query the C2 dashboard endpoint and return its JSON.
+
+## skills/mcp_tools/c2_vuln_analysis.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/c2_vuln_analysis.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_c2_vuln_analysis MCP tool.
+
+## skills/mcp_tools/campaign.py
+Depends on: `skills/lazyown_campaign.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/campaign.py:46` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_campaign MCP tool.
+
 ## skills/mcp_tools/campaign_lessons.py
 Depends on: `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/campaign_lessons.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_campaign_lessons MCP tool.
@@ -12,6 +24,10 @@ Depends on: `modules/killchain.py`, `skills/lazyown_mcp_helpers.py`, `skills/mcp
 ## skills/mcp_tools/campaign_tasks.py
 Depends on: `modules/session_reader.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/campaign_tasks.py:66` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_campaign_tasks MCP tool.
+
+## skills/mcp_tools/claudemd.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/claudemd.py:43` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_claudemd MCP tool.
 
 ## skills/mcp_tools/collab_publish.py
 Depends on: `modules/collab_bp.py`, `skills/mcp_tools/_context.py`
@@ -36,6 +52,10 @@ Depends on: `skills/mcp_tools/_context.py`
 ## skills/mcp_tools/create_param.py
 Depends on: `core/param_registry.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/create_param.py:47` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_create_param MCP tool.
+
+## skills/mcp_tools/create_tool.py
+Depends on: `skills/lazyown_facts.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/create_tool.py:55` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_create_tool MCP tool.
 
 ## skills/mcp_tools/credentials.py
 Depends on: `skills/mcp_tools/_context.py`
@@ -201,6 +221,10 @@ Depends on: `cli/graph_advisor.py`, `skills/mcp_tools/_context.py`
 Depends on: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/groq_agent.py:70` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_groq_agent MCP tool.
 
+## skills/mcp_tools/harness_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/harness_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_harness_status MCP tool.
+
 ## skills/mcp_tools/heartbeat_status.py
 Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/heartbeat_status.py:20` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_heartbeat_status MCP tool.
@@ -240,6 +264,10 @@ Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
 ## skills/mcp_tools/inject_objective.py
 Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/inject_objective.py:52` `def handle(arguments, tool_name, ctx)` -- Inject one objective into the queue and report the new pending count.
+
+## skills/mcp_tools/job_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/job_status.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_job_status MCP tool.
 
 ## skills/mcp_tools/lazy_addon.py
 Depends on: `modules/auto_registry.py`, `skills/mcp_tools/_context.py`
@@ -346,6 +374,10 @@ Depends on: `skills/mcp_tools/_context.py`
 Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/loop_smoke.py:65` `def handle(arguments, tool_name, ctx)` -- Run a one-leg loop smoke test and return the goal verdict.
 
+## skills/mcp_tools/manage_permissions.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/manage_permissions.py:56` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_manage_permissions MCP tool.
+
 ## skills/mcp_tools/memory_recall.py
 Depends on: `skills/mcp_tools/_context.py`, `skills/mcp_tools/memory_store.py`
 - `handle` (function) `skills/mcp_tools/memory_recall.py:43` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_memory_recall MCP tool.
@@ -411,6 +443,14 @@ Depends on: `modules/auto_pivot.py`, `skills/mcp_tools/_context.py`
 Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/playbook_generate.py:52` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_playbook_generate MCP tool.
 
+## skills/mcp_tools/playbook_run.py
+Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/playbook_run.py:55` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_playbook_run MCP tool.
+
+## skills/mcp_tools/policy_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/policy_status.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_policy_status MCP tool.
+
 ## skills/mcp_tools/poll_events.py
 Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/poll_events.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_poll_events MCP tool.
@@ -439,62 +479,21 @@ Depends on: `skills/mcp_tools/_context.py`
 Depends on: `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/read_session_file.py:26` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_read_session_file MCP tool.
 
+## skills/mcp_tools/recommend_next.py
+Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `modules/recommender.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/recommend_next.py:25` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_recommend_next MCP tool.
+
 ## skills/mcp_tools/rich_tui_snapshot.py
 Depends on: `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/rich_tui_snapshot.py:30` `def handle(arguments, tool_name, ctx)` -- Return a non-interactive snapshot of the Rich TUI dashboard as JSON.
 
+## skills/mcp_tools/run_agent.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_agent.py:50` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_agent MCP tool.
+
 ## skills/mcp_tools/run_api.py
 Depends on: `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/run_api.py:30` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_api MCP tool.
-
-## skills/mcp_tools/run_command.py
-Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/run_command.py:82` `def handle(arguments, tool_name, ctx)` -- Pre-flight, confirm, execute and record one or more shell commands.
-
-## skills/mcp_tools/searchsploit.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/searchsploit.py:79` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_searchsploit MCP tool.
-
-## skills/mcp_tools/session_diff.py
-Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/session_diff.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_diff MCP tool.
-
-## skills/mcp_tools/session_state.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/session_state.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_state MCP tool.
-
-## skills/mcp_tools/session_status.py
-Depends on: `modules/session_reader.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/session_status.py:43` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_status MCP tool.
-
-## skills/mcp_tools/set_active_target.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/set_active_target.py:35` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_set_active_target MCP tool.
-
-## skills/mcp_tools/set_config.py
-Depends on: `core/payload_schema.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/set_config.py:36` `def handle(arguments, tool_name, ctx)` -- Coerce and persist one payload key, refusing to null an existing value.
-- `coerce_value` (function) `skills/mcp_tools/set_config.py:46` `def coerce_value(coerce_key, coerce_value_in)`
-
-## skills/mcp_tools/soul.py
-Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/soul.py:42` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_soul MCP tool.
-
-## skills/mcp_tools/stealth.py
-Depends on: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/stealth.py:35` `def handle(arguments, tool_name, ctx)` -- Set the stealth level on the exploit engine and persist it to config.
-
-## skills/mcp_tools/swan_ensemble.py
-Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
-- `handle` (function) `skills/mcp_tools/swan_ensemble.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_ensemble MCP tool.
-
-## skills/mcp_tools/swan_route.py
-Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
-- `handle` (function) `skills/mcp_tools/swan_route.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_route MCP tool.
-
-## skills/mcp_tools/swan_run.py
-Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
-- `handle` (function) `skills/mcp_tools/swan_run.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_run MCP tool.
 
 
 Next: [API_p24.md](API_p24.md)

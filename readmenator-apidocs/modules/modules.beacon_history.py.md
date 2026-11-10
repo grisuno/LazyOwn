@@ -191,7 +191,7 @@ Read the ordered JSONL history for a beacon client id (oldest first).
 
 *Calls:* [`BeaconHistoryConfig.records_path`](#beaconhistoryconfig-records_path)
 
-*Called by:* [`results`](lazyc2.blueprints.api_v1.py.md#results)
+*Called by:* [`results`](lazyc2.blueprints.api_v1.py.md#results), [`bof_results`](modules.bof_delivery.py.md#bof_results), [`wait_for_beacon`](modules.bof_delivery.py.md#wait_for_beacon)
 
 ---
 

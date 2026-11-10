@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1526 files at commit `b597c3dbb844`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1545 files at commit `298c33e68949`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `modules` (561), `one` (560), `lazy` (542), `command` (539), `file` (503), `run` (485), `path` (458), `not` (455), `json` (436), `name` (428), `without` (427), `all` (424), `own` (399), `cli` (394), `chain` (379)
-- Subsystem `skills/mcp_tools`: 222 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 166 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazyc2`: 141 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `cli`: 114 files, core `cli/marketplace_config.py`: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
+- Domain vocabulary (term, files): `modules` (565), `one` (564), `lazy` (544), `command` (543), `file` (507), `run` (491), `path` (461), `not` (456), `json` (437), `name` (432), `without` (429), `all` (425), `own` (400), `cli` (396), `chain` (394)
+- Subsystem `skills/mcp_tools`: 235 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Subsystem `cli/commands`: 162 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyc2`: 138 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `cli`: 115 files, core `cli/marketplace_config.py`: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
 - Subsystem `modules: lazy_loop`: 110 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: lazyown`: 109 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: chain_runner`: 90 files, core `modules/chain_runner.py`: Single execution engine for YAML orchestration chains.
-- Subsystem `modules: atomic_exploit_bridge`: 73 files, core `modules/atomic_exploit_bridge.py`: Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``.
+- Subsystem `modules: lazyown`: 106 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: chain_runner`: 98 files, core `modules/chain_runner.py`: Single execution engine for YAML orchestration chains.
+- Subsystem `modules: intel_fusion`: 66 files, core `modules/intel_fusion.py`: Sessions attack-intel fusion: data -> information -> intelligence.
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1391 files, 22193 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 161 lines, max 10838.
+- py: 1410 files, 22345 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 160 lines, max 10838.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 22 files, 1630 symbols; docstrings on 48% of symbols; functions snake_case (46%); types PascalCase (27%); median file 6 lines, max 9358.
-- Tests: 431 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 434 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -139,4 +139,5 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-10-31 [decision] Single-path tier canon enforced per operator request: modules/lazy_threat.py DELETED (duplicate of lazy_heat); the one vocabulary is now modules/lazy_heat hot/warm/cold (added host_heat, hottest, heat_of_severity, heat_rank, SEVERITY_LEVEL_HEAT glue there). lazy_feedmatch now composes lazy_heat parse_version/version_in_range/classify_heat/match_heat/product_token/token_matches (local feed mode) and keeps the live adapter to lazy_cve_feed; lazy_exposure/autofire/sink/selector/CLIs all speak ho...
 - 2026-10-31 [decision] Wired the three remaining shared selectors for the auto_loop: (1) PlaybookSelector rewritten — binding is now chain-side truth (chains/apt_<slug> defaults.playbook == engine playbook key), matching whole-word or >=4-char prefix on apt_name+aliases; base chain apt_chain excluded from the binding because it hardcodes 'playbook: rocke'; examples: 'emulate lazarus (hidden cobra)' -> apt_chain apt_lazarusgroup <target>, 'run apt29 chain' -> apt_apt29, 'emulate lockbit' -> apt_lockbit, 'emulate roc...
 - 2026-10-31 [decision] Closed _SHELL_PHASES and the loop evidence gaps: (1) Worker._guard_step now publishes one exploit outcome (kind=exploit, shell=True) through the outcome bus the instant a step output carries genuine interactive-shell evidence, reusing the one canonical detector modules/atomic_exploit_bridge.shell_output_evidence (never the old junk-banner substring list); the killchain sink advances phase+host state -> world model phase becomes exploit -> AtomicSelector _SHELL_PHASES and ChainSelector strateg...
+- 2026-11-09 [decision] BOF delivery articulated through lazyaddons beacon/blacksandbeacon clients: bofs/*.yaml contracts, modules/bof_admin+bof_delivery, CLI bof_* verbs, gym_metasploitable_ms2_beacon_bofs chain, lazy_orchestrator BOFs tab
 <!-- readmenator:memory:notes:end -->

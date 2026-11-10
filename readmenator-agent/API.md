@@ -332,14 +332,19 @@ Depends on: `cli/commands/_base.py`, `modules/bitm_engine.py`, `utils.py`
 - `BitMCommandSet.do_bitm` (method) `cli/commands/bitm.py:31` `def do_bitm(self, line)` -- Browser-in-the-Middle attack manager.
 
 ## cli/commands/bof_registry.py
-Depends on: `cli/commands/_base.py`, `core/config.py`, `modules/beacon_config_builder.py`, `modules/bof_registry.py`, `utils.py`
-- `BofMarketplaceCommandSet.do_bof_search` (method) `cli/commands/bof_registry.py:142` `def do_bof_search(self, line)` -- Search the BOF catalog by keyword.
-- `BofMarketplaceCommandSet.do_bof_info` (method) `cli/commands/bof_registry.py:163` `def do_bof_info(self, line)` -- Show detailed information about a BOF.
-- `BofMarketplaceCommandSet.do_bof_install` (method) `cli/commands/bof_registry.py:196` `def do_bof_install(self, line)` -- Install and compile a BOF, staging it for beacon delivery.
-- `BofMarketplaceCommandSet.do_bof_run` (method) `cli/commands/bof_registry.py:226` `def do_bof_run(self, line)` -- Execute a BOF on a connected beacon.
-- `BofMarketplaceCommandSet.do_bof_uninstall` (method) `cli/commands/bof_registry.py:267` `def do_bof_uninstall(self, line)` -- Uninstall a BOF and remove its staged file.
-- `BofMarketplaceCommandSet.do_bof_list` (method) `cli/commands/bof_registry.py:289` `def do_bof_list(self, line)` -- List all installed and staged BOFs.
-- `BofMarketplaceCommandSet.do_bof_catalog` (method) `cli/commands/bof_registry.py:321` `def do_bof_catalog(self, line)` -- List all BOFs available in the curated catalog.
+Depends on: `cli/commands/_base.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `utils.py`
+- `BofMarketplaceCommandSet.do_bof_search` (method) `cli/commands/bof_registry.py:87` `def do_bof_search(self, line)` -- Search the BOF catalog by keyword.
+- `BofMarketplaceCommandSet.do_bof_info` (method) `cli/commands/bof_registry.py:108` `def do_bof_info(self, line)` -- Show detailed information about a BOF.
+- `BofMarketplaceCommandSet.do_bof_install` (method) `cli/commands/bof_registry.py:143` `def do_bof_install(self, line)` -- Install and stage BOFs for beacon delivery.
+- `BofMarketplaceCommandSet.do_bof_stage` (method) `cli/commands/bof_registry.py:171` `def do_bof_stage(self, line)` -- Stage a BOF artifact through its lazyaddon beacon client.
+- `BofMarketplaceCommandSet.do_bof_run` (method) `cli/commands/bof_registry.py:191` `def do_bof_run(self, line)` -- Execute a BOF on a connected beacon.
+- `BofMarketplaceCommandSet.do_bof_train` (method) `cli/commands/bof_registry.py:247` `def do_bof_train(self, line)` -- Run a sequence of BOFs over one beacon, awaiting each result.
+- `BofMarketplaceCommandSet.do_bof_deploy` (method) `cli/commands/bof_registry.py:309` `def do_bof_deploy(self, line)` -- Deliver a staged beacon client onto a target and await check-in.
+- `BofMarketplaceCommandSet.do_bof_beacons` (method) `cli/commands/bof_registry.py:358` `def do_bof_beacons(self, line)` -- List beacons currently seen by the C2.
+- `BofMarketplaceCommandSet.do_bof_results` (method) `cli/commands/bof_registry.py:377` `def do_bof_results(self, line)` -- Show BOF execution history for one beacon.
+- `BofMarketplaceCommandSet.do_bof_uninstall` (method) `cli/commands/bof_registry.py:409` `def do_bof_uninstall(self, line)` -- Uninstall a BOF and remove its staged file.
+- `BofMarketplaceCommandSet.do_bof_list` (method) `cli/commands/bof_registry.py:431` `def do_bof_list(self, line)` -- List all installed and staged BOFs.
+- `BofMarketplaceCommandSet.do_bof_catalog` (method) `cli/commands/bof_registry.py:463` `def do_bof_catalog(self, line)` -- List all BOFs available in the curated catalog.
 
 ## cli/commands/c2_profile.py
 Depends on: `cli/commands/_base.py`, `modules/c2_profile_engine.py`, `utils.py`

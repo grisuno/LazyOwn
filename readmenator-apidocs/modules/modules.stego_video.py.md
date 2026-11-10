@@ -55,7 +55,7 @@ flowchart LR
 def load_payload_file()
 ```
 
-Return the `[`file`](modules.playbook_admin.py.md#playbookentry-file)` value from payload.json, or None.
+Return the ``file`` value from payload.json, or None.
 
 *Called by:* [`main`](#main)
 

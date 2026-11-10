@@ -283,7 +283,7 @@ Return age + stale flag for an evidence file.
 **Returns:** `dict[str, Any]` - {exists, size, mtime, age_seconds, age_human, stale, threshold_seconds}.
 If the file does not exist all numeric fields are 0 and exists=False.
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`build_target_context`](#build_target_context), [`handle`](skills.mcp_tools.campaign_sitrep.py.md#handle)
+*Called by:* [`build_target_context`](#build_target_context), [`handle`](skills.mcp_tools.campaign_sitrep.py.md#handle), [`handle`](skills.mcp_tools.session_init.py.md#handle)
 
 ---
 
@@ -523,7 +523,7 @@ plus credential/task counts so a later diff can show what changed.
 
 **Returns:** `dict[str, Any]`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`handle`](skills.mcp_tools.session_diff.py.md#handle)
+*Called by:* [`handle`](skills.mcp_tools.session_diff.py.md#handle), [`handle`](skills.mcp_tools.session_init.py.md#handle)
 
 ---
 
@@ -578,7 +578,7 @@ Return True if tool should require an explicit confirm=True flag.
 
 **Returns:** `bool`
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool), [`handle`](skills.mcp_tools.run_command.py.md#handle)
+*Called by:* [`handle`](skills.mcp_tools.run_command.py.md#handle), [`handle`](skills.mcp_tools.run_command_async.py.md#handle)
 
 ---
 

@@ -1,6 +1,40 @@
 # API (page 11 of 27)
 Previous: [API_p10.md](API_p10.md)
 
+## modules/c2_messaging_base.py
+- `SecureSessionManager.__init__` (method) `modules/c2_messaging_base.py:22` `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
+- `SecureSessionManager.register_failed_attempt` (method) `modules/c2_messaging_base.py:37` `def register_failed_attempt(self, user_id)` -- Record a failed authentication attempt for a user.
+- `SecureSessionManager.check_lockout` (method) `modules/c2_messaging_base.py:46` `def check_lockout(self, user_id)` -- Check if a user is currently locked out due to failed attempts.
+- `SecureSessionManager.check_rate_limit` (method) `modules/c2_messaging_base.py:61` `def check_rate_limit(self, user_id)` -- Check if a user has exceeded the command rate limit.
+- `SecureSessionManager.create_session` (method) `modules/c2_messaging_base.py:79` `def create_session(self, user_id, client_id)` -- Create a new authenticated session for a user.
+- `SecureSessionManager.validate_session` (method) `modules/c2_messaging_base.py:89` `def validate_session(self, user_id)` -- Check if a user session is still valid and refresh activity timestamp.
+- `SecureSessionManager.set_client` (method) `modules/c2_messaging_base.py:106` `def set_client(self, user_id, client_id)` -- Assign a target C2 client to a user session.
+- `SecureSessionManager.get_client` (method) `modules/c2_messaging_base.py:111` `def get_client(self, user_id)` -- Get the target C2 client assigned to a user session.
+- `PayloadConfigAdapter.__init__` (method) `modules/c2_messaging_base.py:124` `def __init__(self, config_dict)`
+- `PayloadConfigAdapter.get` (method) `modules/c2_messaging_base.py:132` `def get(self, key, default)`
+
+## modules/c2_profile.py
+Depends on: `core/logging.py`
+- `C2Profile.jitter_delay` (method) `modules/c2_profile.py:101` `def jitter_delay(self)` -- Return the next sleep delay as a float in seconds.
+- `C2Profile.get_uri` (method) `modules/c2_profile.py:117` `def get_uri(self, method)` -- Pick a random URI path from the appropriate HttpConfig.
+- `C2Profile.build_headers` (method) `modules/c2_profile.py:128` `def build_headers(self, method)` -- Return the headers dict for the given HTTP method.
+- `ProfileValidator.validate` (method) `modules/c2_profile.py:162` `def validate(self, profile)`
+- `ProfileLoader.from_yaml` (method) `modules/c2_profile.py:200` `def from_yaml(path)` -- Load a C2Profile from a YAML file at *path*.
+- `ProfileLoader.from_dict` (method) `modules/c2_profile.py:215` `def from_dict(d)` -- Construct a C2Profile from a plain Python dictionary.
+- `ProfileLoader.to_dict` (method) `modules/c2_profile.py:254` `def to_dict(profile)` -- Convert a C2Profile to a plain Python dictionary.
+- `ProfileLoader.save` (method) `modules/c2_profile.py:282` `def save(profile, path)` -- Serialise *profile* to a YAML file and return the written path.
+- `ProfileRegistry.__init__` (method) `modules/c2_profile.py:457` `def __init__(self)`
+- `ProfileRegistry.register` (method) `modules/c2_profile.py:464` `def register(self, name, profile)` -- Register *profile* under *name*, overwriting any previous entry.
+- `ProfileRegistry.get` (method) `modules/c2_profile.py:473` `def get(self, name)` -- Return the profile registered under *name*.
+- `ProfileRegistry.list_names` (method) `modules/c2_profile.py:485` `def list_names(self)` -- Return a sorted list of all registered profile names.
+- `ProfileRegistry.load_from_directory` (method) `modules/c2_profile.py:493` `def load_from_directory(self, path)` -- Scan *path* for *.yaml files and register each as a profile.
+- `ProfileApplier.apply_to_response` (method) `modules/c2_profile.py:529` `def apply_to_response(profile, response)` -- Patch the headers of a Flask response object to match the profile.
+- `ProfileApplier.apply_to_session` (method) `modules/c2_profile.py:554` `def apply_to_session(profile, session)` -- Configure a requests.Session to mimic the profile's HTTP GET behavior.
+- `ProfileApplier.get_beacon_config` (method) `modules/c2_profile.py:567` `def get_beacon_config(profile)` -- Return a JSON-serialisable dict suitable for embedding in a beacon handshake response.
+- `get_registry` (function) `modules/c2_profile.py:595` `def get_registry()` -- Return the module-level singleton ProfileRegistry.
+- `get_profile` (function) `modules/c2_profile.py:620` `def get_profile(name)` -- Return the named profile from the module singleton registry.
+- `list_profiles` (function) `modules/c2_profile.py:625` `def list_profiles()` -- Return a sorted list of all registered profile names.
+
 ## modules/c2_profile_engine.py
 Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
 Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
@@ -113,7 +147,7 @@ Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `test
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 - `skip_pending` (function) `modules/chain_registry.py:69` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
 - `ChainStep.identifier` (method) `modules/chain_registry.py:152` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:176` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
@@ -461,37 +495,6 @@ Imported by: `cli/commands/active_directory.py`
 - `DelegationEnumerator.find_dc_targets` (method) `modules/delegation_attacks.py:205` `def find_dc_targets(self)` -- Return domain controllers with delegation configured.
 - `DelegationEnumerator.compute_attack_paths` (method) `modules/delegation_attacks.py:215` `def compute_attack_paths(self)` -- Compute delegation-based attack paths.
 - `DelegationEnumerator.summary` (method) `modules/delegation_attacks.py:296` `def summary(self)` -- Return a summary of all delegation findings.
-
-## modules/detailed_search.py
-- `obtener_informacion` (function) `modules/detailed_search.py:40` `def obtener_informacion(url)`
-
-## modules/detection_feed.py
-Depends on: `core/logging.py`, `modules/detection_oracle.py`
-Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
-- `DetectionFeed.__init__` (method) `modules/detection_feed.py:83` `def __init__(self, cache_dir, sources)`
-- `DetectionFeed.update_rules` (method) `modules/detection_feed.py:92` `def update_rules(self, source)` -- Download and parse rules from the given source.
-- `DetectionFeed.load_cached_rules` (method) `modules/detection_feed.py:246` `def load_cached_rules(self, source)` -- Load previously cached rules from disk.
-- `DetectionFeed.adjust_from_feedback` (method) `modules/detection_feed.py:270` `def adjust_from_feedback(self, feedback_file)` -- Adjust rule probabilities based on historical detection feedback.
-- `get_feed` (function) `modules/detection_feed.py:326` `def get_feed()` -- Return a module-level :class:`DetectionFeed` singleton.
-
-## modules/detection_oracle.py
-Depends on: `core/logging.py`, `modules/detection_feed.py`
-Imported by: `modules/auto_purple.py`, `modules/chain_runner.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_dampening.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
-- `DetectionAssessment.is_high_risk` (method) `modules/detection_oracle.py:76` `def is_high_risk(self)` -- Return True when detection probability is 70% or higher.
-- `DetectionAssessment.is_critical_risk` (method) `modules/detection_oracle.py:81` `def is_critical_risk(self)` -- Return True when detection probability is 90% or higher.
-- `IDetectionOracle.assess` (method) `modules/detection_oracle.py:95` `def assess(self, command, args, action_category, benign_alternatives)` -- Return a full DetectionAssessment for the given action.
-- `IDetectionOracle.probability` (method) `modules/detection_oracle.py:105` `def probability(self, command, args, action_category, benign_alternatives)` -- Return only the probability score in [0.0, 1.0].
-- `DetectionOracle.__init__` (method) `modules/detection_oracle.py:372` `def __init__(self, rules, feed)`
-- `DetectionOracle.refresh` (method) `modules/detection_oracle.py:376` `def refresh(self)` -- Update rules from the detection feed (if available).
-- `DetectionOracle.assess` (method) `modules/detection_oracle.py:411` `def assess(self, command, args, action_category, benign_alternatives)` -- Assess the detection risk of a command, dampened by benign twins.
-- `DetectionOracle.probability` (method) `modules/detection_oracle.py:460` `def probability(self, command, args, action_category, benign_alternatives)` -- Return the detection probability, honouring benign alternatives.
-- `get_oracle` (function) `modules/detection_oracle.py:553` `def get_oracle()` -- Return (or create) the module-level singleton DetectionOracle.
-
-## modules/digest.py
-Imported by: `modules/lazy_loop.py`
-- `build_engine_digest` (function) `modules/digest.py:20` `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` -- Render the engine-loop markdown digest.
-- `write_digest` (function) `modules/digest.py:71` `def write_digest(task_id, body, root)` -- Persist the digest beside the archives; returns the written path.
-- `worker_results_digest` (function) `modules/digest.py:82` `def worker_results_digest(rows)` -- Extract displayed step lines and blocked bases from result dicts.
 
 
 Next: [API_p12.md](API_p12.md)

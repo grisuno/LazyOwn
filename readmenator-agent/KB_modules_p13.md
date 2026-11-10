@@ -104,7 +104,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `run` (method, line 478) `def run(self)`
   - `dummy_runner` (function, line 531) `def dummy_runner(cmd)`
 - Depends on: `core/logging.py`, `modules/llm_factory.py`
-- Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`
+- Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`, `skills/mcp_tools/run_agent.py`, `skills/mcp_tools/subagent_run.py`
 
 ## modules/memory_cleaner.py
 - Doc: Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear.

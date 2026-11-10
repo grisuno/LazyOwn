@@ -1,6 +1,31 @@
 # API (page 13 of 27)
 Previous: [API_p12.md](API_p12.md)
 
+## modules/golden_path.py
+Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
+- `build_edges` (function) `modules/golden_path.py:155` `def build_edges(snapshot)` -- Build the weighted adjacency map from a world-model snapshot.
+- `resolve_paths` (function) `modules/golden_path.py:274` `def resolve_paths(snapshot, top_k, source)` -- Solve shortest attack paths toward every reachable host.
+- `build` (function) `modules/golden_path.py:350` `def build(world_model_path, top_k, sessions_dir)` -- Load the live world model, solve paths, and persist the result.
+- `load_artifact` (function) `modules/golden_path.py:401` `def load_artifact(sessions_dir)` -- Read the persisted attack-path artifact.
+- `priority_for` (function) `modules/golden_path.py:418` `def priority_for(cost)` -- Map a path cost to an objective priority band.
+- `push_objectives` (function) `modules/golden_path.py:433` `def push_objectives(paths, store_path)` -- Inject one objective per solved path into the objective store.
+
+## modules/gpo_abuse.py
+Imported by: `cli/commands/active_directory.py`
+- `GPOAbuseEngine.__init__` (method) `modules/gpo_abuse.py:118` `def __init__(self, domain, dc_ip)`
+- `GPOAbuseEngine.parse_gpo_list` (method) `modules/gpo_abuse.py:124` `def parse_gpo_list(self, raw_gpo_output)` -- Parse Get-GPO or ldapsearch output for GPO information.
+- `GPOAbuseEngine.parse_bloodhound_gpos` (method) `modules/gpo_abuse.py:160` `def parse_bloodhound_gpos(self, bloodhound_nodes)` -- Parse BloodHound GPO nodes for abusable policies.
+- `GPOAbuseEngine.plan_scheduled_task` (method) `modules/gpo_abuse.py:182` `def plan_scheduled_task(self, gpo, command, task_name)` -- Plan a GPO-backed scheduled task for immediate code execution.
+- `GPOAbuseEngine.plan_startup_script` (method) `modules/gpo_abuse.py:208` `def plan_startup_script(self, gpo, script_content, script_name)` -- Plan a GPO startup script for persistence via SYSVOL.
+- `GPOAbuseEngine.plan_logon_script` (method) `modules/gpo_abuse.py:238` `def plan_logon_script(self, gpo, command)` -- Plan a GPO user logon script for user-triggered code execution.
+- `GPOAbuseEngine.plan_local_admin_addition` (method) `modules/gpo_abuse.py:266` `def plan_local_admin_addition(self, gpo, username, group)` -- Plan adding a user to the local Administrators group via GPO preferences.
+- `GPOAbuseEngine.plan_wmi_filter_abuse` (method) `modules/gpo_abuse.py:293` `def plan_wmi_filter_abuse(self, gpo, wmi_query)` -- Plan WMI filter abuse for targeted GPO scope control.
+- `GPOAbuseEngine.plan_registry_preference` (method) `modules/gpo_abuse.py:322` `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` -- Plan a registry modification via GPO preferences.
+- `GPOAbuseEngine.plan_service_installation` (method) `modules/gpo_abuse.py:356` `def plan_service_installation(self, gpo, service_name, binary_path)` -- Plan a service installation via GPO for SYSTEM-level persistence.
+- `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
+- `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
+- `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
+
 ## modules/guardrails/advisories.py
 Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
 - `AdvisoryLedger.__init__` (method) `modules/guardrails/advisories.py:20` `def __init__(self, limit)` -- Create an empty ledger.
@@ -386,7 +411,7 @@ Imported by: `lazyc2.py`
 
 ## modules/killchain.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
 - `KillChainConfig.world_model_path` (method) `modules/killchain.py:177` `def world_model_path(self)` -- Return the resolved path to world_model.json.
 - `KillChainConfig.phase_index` (method) `modules/killchain.py:181` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
 - `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:188` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
@@ -464,31 +489,6 @@ Imported by: `tests/test_loop_fire_pending.py`
 - `fire_from_file` (function) `modules/lazy_autofire.py:105` `def fire_from_file(target, feed_path)` -- Consider the saved exposure report of one target.
 - `sweep_state` (function) `modules/lazy_autofire.py:127` `def sweep_state(state_path, now)` -- Drop expired cooldown entries to keep the state file small.
 - `status` (function) `modules/lazy_autofire.py:147` `def status(payload, state_path)` -- Summarize autofire for the operator surfaces.
-
-## modules/lazy_bridge.py
-Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
-Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/mcp_tools/lazy_status.py`, `skills/mcp_tools/lazy_sync.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
-- `lazy_tasks` (function) `modules/lazy_bridge.py:92` `def lazy_tasks()` -- Load LAZY task registry.
-- `lazy_assets` (function) `modules/lazy_bridge.py:103` `def lazy_assets()` -- Load LAZY asset nodes.
-- `lazy_graph` (function) `modules/lazy_bridge.py:114` `def lazy_graph(task_id)` -- Load experiment graph for a task.
-- `lazy_activity` (function) `modules/lazy_bridge.py:127` `def lazy_activity(task_id)` -- Load activity transcript for a task.
-- `lazy_traffic` (function) `modules/lazy_bridge.py:139` `def lazy_traffic(task_id)` -- Load traffic log for a task.
-- `lazy_guard_audit` (function) `modules/lazy_bridge.py:151` `def lazy_guard_audit(task_id)` -- Load guard audit for a task.
-- `bridge_status` (function) `modules/lazy_bridge.py:163` `def bridge_status()` -- Summarize LAZY universe and last sync cursor.
-- `pull_to_world_model` (function) `modules/lazy_bridge.py:221` `def pull_to_world_model()` -- Sync LAZY graphs and assets into LazyOwn world model.
-- `pull_to_objectives` (function) `modules/lazy_bridge.py:298` `def pull_to_objectives()` -- Inject open LAZY tasks as LazyOwn objectives without duplicates.
-- `pull_findings_to_lifecycle` (function) `modules/lazy_bridge.py:333` `def pull_findings_to_lifecycle()` -- Confirm LAZY finding nodes in LazyOwn finding lifecycle.
-- `pull_traffic_to_recorder` (function) `modules/lazy_bridge.py:408` `def pull_traffic_to_recorder(progress)` -- Mirror new LAZY traffic rows into the LazyOwn recorder index.
-- `push_objective_to_lazy` (function) `modules/lazy_bridge.py:476` `def push_objective_to_lazy(goal, scope)` -- Export a LazyOwn objective as an LAZY-compatible task draft.
-- `push_tasks_to_c2` (function) `modules/lazy_bridge.py:501` `def push_tasks_to_c2(only)` -- Mirror loop tasks into the lazyc2 Kanban board (sessions/tasks.json).
-- `sync_all` (function) `modules/lazy_bridge.py:566` `def sync_all(progress)` -- Run full bidirectional pull plus lifecycle, traffic and board mirror.
-
-## modules/lazy_checks.py
-Depends on: `modules/lazy_heat.py`
-Imported by: `tests/test_lazy_checks.py`
-- `extract_version` (function) `modules/lazy_checks.py:30` `def extract_version(text)` -- Pull the most version-like token from check output.
-- `extract_cve` (function) `modules/lazy_checks.py:51` `def extract_cve(text)` -- Pull the uppercased CVE id from a finding text, or ''.
-- `interpret_checks` (function) `modules/lazy_checks.py:57` `def interpret_checks(checks, cve, stored_version, ranges)` -- Re-read check results through the stored version range.
 
 
 Next: [API_p14.md](API_p14.md)

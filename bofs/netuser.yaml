@@ -1,0 +1,14 @@
+name: netuser
+description: >-
+  Query detailed local and domain user account information
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: SA/netuser/entry.c
+client: beacon
+platform: windows
+category: reconnaissance
+client_artifact: 
+required_args: ['username']
+optional_args: ['domain']
+mitre_technique: T1087
+enabled: true

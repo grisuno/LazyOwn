@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `is_done` | function | `cli/tutorial.py:83` | `def is_done(config)` |
+| `mark_done` | function | `cli/tutorial.py:89` | `def mark_done(config)` |
+| `render_header` | function | `cli/tutorial.py:96` | `def render_header()` |
+| `render_phase_table` | function | `cli/tutorial.py:113` | `def render_phase_table()` |
+| `run` | function | `cli/tutorial.py:185` | `def run(params, command_runner)` |
+| `run_step` | function | `cli/tutorial.py:128` | `def run_step(index, command, description, why, params, command_runner)` |
+| `BinarySpec` | class | `cli/wizard.py:90` | `class BinarySpec` |
+| `BinaryStatus` | class | `cli/wizard.py:141` | `class BinaryStatus` |
+| `ReadinessItem` | class | `cli/wizard.py:150` | `class ReadinessItem` |
+| `WizardResult` | class | `cli/wizard.py:160` | `class WizardResult` |
+| `_ask_device` | function | `cli/wizard.py:537` | `def _ask_device(current)` |
+| `_ask_domain` | function | `cli/wizard.py:515` | `def _ask_domain(current)` |
+| `_ask_lhost` | function | `cli/wizard.py:484` | `def _ask_lhost(current)` |
+| `_ask_llm` | function | `cli/wizard.py:621` | `def _ask_llm(params)` |
+| `_ask_marketplace_config` | function | `cli/wizard.py:852` | `def _ask_marketplace_config()` |
+| `_ask_operator_login` | function | `cli/wizard.py:724` | `def _ask_operator_login(params)` |
+| `_ask_os_id` | function | `cli/wizard.py:563` | `def _ask_os_id(current)` |
 | `_ask_rhost` | function | `cli/wizard.py:457` | `def _ask_rhost(current)` |
 | `_ask_wordlists` | function | `cli/wizard.py:692` | `def _ask_wordlists(params)` |
 | `_build_readiness` | function | `cli/wizard.py:875` | `def _build_readiness(params)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `__len__` | method | `core/dependencies.py:148` | `def __len__(self)` |
 | `_raise` | method | `core/dependencies.py:123` | `def _raise(self)` |
 | `_spec_for` | function | `core/dependencies.py:157` | `def _spec_for(import_name, pip_package, feature)` |
-| `collect_dependency_report` | function | `core/dependencies.py:312` | `def collect_dependency_report()` |
-| `format_report` | function | `core/dependencies.py:323` | `def format_report(report)` |
-| `main` | function | `core/dependencies.py:368` | `def main()` |
-| `missing` | method | `core/dependencies.py:278` | `def missing(self)` |
-| `ok` | method | `core/dependencies.py:283` | `def ok(self)` |
-| `optional_attr` | function | `core/dependencies.py:209` | `def optional_attr(import_name, attr)` |
-| `optional_import` | function | `core/dependencies.py:183` | `def optional_import(import_name)` |
-| `probe_python_dependency` | function | `core/dependencies.py:288` | `def probe_python_dependency(spec)` |
-| `ErrorAdvice` | class | `core/error_advice.py:27` | `class ErrorAdvice` |
-| `ErrorAdviceConfig` | class | `core/error_advice.py:16` | `class ErrorAdviceConfig` |
-| `docs_url` | method | `core/error_advice.py:35` | `def docs_url(self, config)` |
-| `get_advice` | function | `core/error_advice.py:74` | `def get_advice(key)` |
-| `render_advice` | function | `core/error_advice.py:86` | `def render_advice(key, config)` |
-| `AuthError` | class | `core/errors.py:92` | `class AuthError(LazyOwnError)` |
-| `ConfigError` | class | `core/errors.py:78` | `class ConfigError(LazyOwnError)` |
-| `DatabaseError` | class | `core/errors.py:113` | `class DatabaseError(LazyOwnError)` |
-| `ErrorCode` | class | `core/errors.py:10` | `class ErrorCode(IntEnum)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

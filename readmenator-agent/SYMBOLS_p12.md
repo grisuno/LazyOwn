@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:241` | `def _credential_aware_rank(self, profile, credentials)` |
+| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1609` | `def _detect_os_from_payload(self)` |
+| `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1421` | `def _detect_shell(self, output)` |
+| `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1441` | `def _determine_access_level(self, ip, credentials)` |
+| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2543` | `def _discover_internal_interfaces(self, profile)` |
+| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2378` | `def _execute_privesc(self, technique, profile, session_id)` |
+| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1794` | `def _extract_cves_from_text(self, text)` |
+| `_filter_placeholder_creds` | method | `modules/autonomous_exploit_engine.py:284` | `def _filter_placeholder_creds(credentials)` |
+| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1706` | `def _get_os_type(self, profile)` |
+| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2649` | `def _get_stealth_scan_flags(self)` |
+| `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:512` | `def _heuristic_match(self, service, product, version)` |
+| `_is_placeholder` | function | `modules/autonomous_exploit_engine.py:299` | `def _is_placeholder(value)` |
+| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1627` | `def _load_from_nmap_xml(self, target)` |
+| `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1499` | `def _load_payload_config(self)` |
+| `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1510` | `def _load_world_model(self, target)` |
+| `_match_by_port` | method | `modules/autonomous_exploit_engine.py:1016` | `def _match_by_port(self, port, os_type)` |
+| `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:474` | `def _match_exploit_db(self, service, product, version)` |
 | `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2188` | `def _match_privesc_techniques(self, findings, os_type)` |
 | `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1842` | `def _match_service_banners(self, profile)` |
 | `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1759` | `def _parse_nse_output(self, target_ip)` |
@@ -42,20 +59,22 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `str_cut` | function | `modules/backdoor/backdoor.c:53` | `char * str_cut(char str[], int slice_from, int slice_to)` |
 | `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
 | `main` | function | `modules/backdoor/server.c:10` | `int main()` |
-| `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
-| `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:237` | `class BeaconConfigBuilder` |
-| `__init__` | method | `modules/beacon_config_builder.py:245` | `def __init__(self, payload)` |
-| `_inject_profile_engine` | method | `modules/beacon_config_builder.py:318` | `def _inject_profile_engine(self, config)` |
-| `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:366` | `def _inject_sleep_engine(self, config)` |
-| `_inject_socks_engine` | method | `modules/beacon_config_builder.py:385` | `def _inject_socks_engine(self, config)` |
-| `build` | method | `modules/beacon_config_builder.py:248` | `def build(self, name)` |
-| `from_payload` | method | `modules/beacon_config_builder.py:403` | `def from_payload(cls, payload)` |
-| `from_payload_file` | method | `modules/beacon_config_builder.py:408` | `def from_payload_file(cls, path)` |
-| `generate_bof_execution_command` | function | `modules/beacon_config_builder.py:416` | `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` |
-| `to_config_json` | method | `modules/beacon_config_builder.py:160` | `def to_config_json(self)` |
-| `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
-| `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
-| `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
+| `BeaconConfig` | class | `modules/beacon_config_builder.py:46` | `class BeaconConfig` |
+| `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:239` | `class BeaconConfigBuilder` |
+| `__init__` | method | `modules/beacon_config_builder.py:247` | `def __init__(self, payload)` |
+| `_inject_profile_engine` | method | `modules/beacon_config_builder.py:320` | `def _inject_profile_engine(self, config)` |
+| `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:368` | `def _inject_sleep_engine(self, config)` |
+| `_inject_socks_engine` | method | `modules/beacon_config_builder.py:387` | `def _inject_socks_engine(self, config)` |
+| `_validate_bof_token` | function | `modules/beacon_config_builder.py:489` | `def _validate_bof_token(token, label)` |
+| `build` | method | `modules/beacon_config_builder.py:250` | `def build(self, name)` |
+| `from_payload` | method | `modules/beacon_config_builder.py:405` | `def from_payload(cls, payload)` |
+| `from_payload_file` | method | `modules/beacon_config_builder.py:410` | `def from_payload_file(cls, path)` |
+| `generate_bof_execution_command` | function | `modules/beacon_config_builder.py:449` | `def generate_bof_execution_command(bof_name, c2_url, args, bofs_dir)` |
+| `sanitize_client_id` | function | `modules/beacon_config_builder.py:425` | `def sanitize_client_id(client_id)` |
+| `to_config_json` | method | `modules/beacon_config_builder.py:162` | `def to_config_json(self)` |
+| `to_dict` | method | `modules/beacon_config_builder.py:187` | `def to_dict(self)` |
+| `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:119` | `def to_gen_beacon_args(self)` |
+| `to_go_implant_vars` | method | `modules/beacon_config_builder.py:139` | `def to_go_implant_vars(self)` |
 | `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
 | `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
 | `read_records` | function | `modules/beacon_history.py:116` | `def read_records(client_id, config)` |
@@ -89,49 +108,104 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `bitm_status` | function | `modules/bitm_engine.py:539` | `def bitm_status()` |
 | `bitm_stop` | function | `modules/bitm_engine.py:481` | `def bitm_stop()` |
 | `main` | function | `modules/bitm_engine.py:661` | `def main()` |
-| `BofCatalog` | class | `modules/bof_registry.py:157` | `class BofCatalog` |
-| `BofCategory` | class | `modules/bof_registry.py:68` | `class BofCategory(str, Enum)` |
-| `BofEntry` | class | `modules/bof_registry.py:85` | `class BofEntry` |
-| `BofMarketplace` | class | `modules/bof_registry.py:639` | `class BofMarketplace` |
-| `BofPlatform` | class | `modules/bof_registry.py:61` | `class BofPlatform(str, Enum)` |
-| `BofRegistry` | class | `modules/bof_registry.py:552` | `class BofRegistry` |
-| `BofValidator` | class | `modules/bof_registry.py:506` | `class BofValidator` |
-| `__init__` | method | `modules/bof_registry.py:559` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `modules/bof_registry.py:651` | `def __init__(self, sessions_dir, catalog)` |
-| `_build_default_catalog` | function | `modules/bof_registry.py:265` | `def _build_default_catalog()` |
-| `_load_manifest` | method | `modules/bof_registry.py:569` | `def _load_manifest(self)` |
-| `_save_manifest` | method | `modules/bof_registry.py:580` | `def _save_manifest(self, manifest)` |
-| `bulk_install` | method | `modules/bof_registry.py:769` | `def bulk_install(self, names)` |
-| `catalog` | method | `modules/bof_registry.py:662` | `def catalog(self)` |
-| `compute_sha256` | method | `modules/bof_registry.py:515` | `def compute_sha256(filepath)` |
-| `from_dict` | method | `modules/bof_registry.py:137` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/bof_registry.py:241` | `def from_dict(cls, raw)` |
-| `get` | method | `modules/bof_registry.py:177` | `def get(self, name)` |
-| `get_install_info` | method | `modules/bof_registry.py:633` | `def get_install_info(self, name)` |
-| `info` | method | `modules/bof_registry.py:690` | `def info(self, name)` |
-| `install` | method | `modules/bof_registry.py:590` | `def install(self, entry)` |
-| `install` | method | `modules/bof_registry.py:707` | `def install(self, name)` |
-| `install_dir` | method | `modules/bof_registry.py:565` | `def install_dir(self)` |
-| `is_installed` | method | `modules/bof_registry.py:585` | `def is_installed(self, name)` |
-| `list_all` | method | `modules/bof_registry.py:229` | `def list_all(self)` |
-| `list_by_category` | method | `modules/bof_registry.py:221` | `def list_by_category(self, category)` |
-| `list_by_platform` | method | `modules/bof_registry.py:225` | `def list_by_platform(self, platform)` |
-| `list_installed` | method | `modules/bof_registry.py:628` | `def list_installed(self)` |
-| `list_installed` | method | `modules/bof_registry.py:749` | `def list_installed(self)` |
-| `list_missing_dependencies` | method | `modules/bof_registry.py:761` | `def list_missing_dependencies(self, name)` |
-| `load` | method | `modules/bof_registry.py:249` | `def load(cls, path)` |
-| `register` | method | `modules/bof_registry.py:167` | `def register(self, entry)` |
-| `register_many` | method | `modules/bof_registry.py:172` | `def register_many(self, entries)` |
-| `registry` | method | `modules/bof_registry.py:667` | `def registry(self)` |
-| `save` | method | `modules/bof_registry.py:257` | `def save(self, path)` |
-| `search` | method | `modules/bof_registry.py:188` | `def search(self, query)` |
-| `search` | method | `modules/bof_registry.py:671` | `def search(self, query)` |
-| `to_dict` | method | `modules/bof_registry.py:118` | `def to_dict(self)` |
-| `to_dict` | method | `modules/bof_registry.py:233` | `def to_dict(self)` |
-| `uninstall` | method | `modules/bof_registry.py:611` | `def uninstall(self, name, remove_files)` |
-| `uninstall` | method | `modules/bof_registry.py:736` | `def uninstall(self, name)` |
-| `validate_args` | method | `modules/bof_registry.py:540` | `def validate_args(entry, args)` |
-| `verify_entry` | method | `modules/bof_registry.py:524` | `def verify_entry(entry, filepath)` |
+| `BofEntryRow` | class | `modules/bof_admin.py:50` | `class BofEntryRow` |
+| `_write_atomic` | function | `modules/bof_admin.py:243` | `def _write_atomic(target, data)` |
+| `_yaml_module` | function | `modules/bof_admin.py:65` | `def _yaml_module()` |
+| `bof_path` | function | `modules/bof_admin.py:85` | `def bof_path(filename, directory)` |
+| `bof_template` | function | `modules/bof_admin.py:224` | `def bof_template(name, description, client)` |
+| `create_bof` | function | `modules/bof_admin.py:257` | `def create_bof(filename)` |
+| `delete_bof` | function | `modules/bof_admin.py:391` | `def delete_bof(path, directory)` |
+| `load_bof` | function | `modules/bof_admin.py:110` | `def load_bof(path)` |
+| `preview_bof` | function | `modules/bof_admin.py:370` | `def preview_bof(path, limit)` |
+| `save_bof_yaml` | function | `modules/bof_admin.py:332` | `def save_bof_yaml(path, text, directory)` |
+| `scan_bofs` | function | `modules/bof_admin.py:179` | `def scan_bofs(directory, sessions_dir)` |
+| `slugify` | function | `modules/bof_admin.py:72` | `def slugify(value)` |
+| `update_bof` | function | `modules/bof_admin.py:300` | `def update_bof(path, data, directory)` |
+| `validate_bof` | function | `modules/bof_admin.py:132` | `def validate_bof(data)` |
+| `BofDeliveryConfig` | class | `modules/bof_delivery.py:87` | `class BofDeliveryConfig` |
+| `ClientAddon` | class | `modules/bof_delivery.py:108` | `class ClientAddon` |
+| `_DockerSession` | class | `modules/bof_delivery.py:1063` | `class _DockerSession` |
+| `__init__` | method | `modules/bof_delivery.py:1071` | `def __init__(self, container)` |
+| `_apply_upstream_report_patch` | function | `modules/bof_delivery.py:434` | `def _apply_upstream_report_patch(addon, config)` |
+| `_atomic_session` | function | `modules/bof_delivery.py:1164` | `def _atomic_session(target)` |
+| `_beacons_from_history` | function | `modules/bof_delivery.py:730` | `def _beacons_from_history(config)` |
+| `_c2_channel_base` | function | `modules/bof_delivery.py:605` | `def _c2_channel_base(cfg, payload)` |
+| `_deploy_paths` | function | `modules/bof_delivery.py:945` | `def _deploy_paths(addon)` |
+| `_docker_session_for` | function | `modules/bof_delivery.py:1117` | `def _docker_session_for(target)` |
+| `_history_config` | function | `modules/bof_delivery.py:1251` | `def _history_config(config)` |
+| `_raw_stage_for_implant_serving` | function | `modules/bof_delivery.py:382` | `def _raw_stage_for_implant_serving(addon_name, binary_path, config)` |
+| `_record_after` | function | `modules/bof_delivery.py:810` | `def _record_after(row, since)` |
+| `_shell_bearing_specs` | function | `modules/bof_delivery.py:1214` | `def _shell_bearing_specs(target)` |
+| `alive` | method | `modules/bof_delivery.py:1075` | `def alive(self, timeout)` |
+| `beacon_runtime_config` | function | `modules/bof_delivery.py:201` | `def beacon_runtime_config(client, client_id, config, payload)` |
+| `bof_results` | function | `modules/bof_delivery.py:1267` | `def bof_results(client_id, limit, config)` |
+| `c2_reachable` | function | `modules/bof_delivery.py:834` | `def c2_reachable(config, payload)` |
+| `config_sessions_dir` | function | `modules/bof_delivery.py:1246` | `def config_sessions_dir()` |
+| `delivery_command` | function | `modules/bof_delivery.py:579` | `def delivery_command(bof_name, c2_url, args, bofs_dir)` |
+| `deploy_client` | function | `modules/bof_delivery.py:974` | `def deploy_client(client, target)` |
+| `key_missing_from_error` | function | `modules/bof_delivery.py:565` | `def key_missing_from_error(exc)` |
+| `load_client_addon` | function | `modules/bof_delivery.py:126` | `def load_client_addon(client, config)` |
+| `queue_to_beacon` | function | `modules/bof_delivery.py:627` | `def queue_to_beacon(client_id, command, config, payload)` |
+| `recent_beacons` | function | `modules/bof_delivery.py:690` | `def recent_beacons(config, payload)` |
+| `run` | method | `modules/bof_delivery.py:1095` | `def run(self, command, timeout)` |
+| `run_bof` | function | `modules/bof_delivery.py:869` | `def run_bof(bof_name, client_id, args)` |
+| `run_bof_train` | function | `modules/bof_delivery.py:908` | `def run_bof_train(client_id, names, args)` |
+| `stage_bof` | function | `modules/bof_delivery.py:182` | `def stage_bof(name, config)` |
+| `stage_client` | function | `modules/bof_delivery.py:315` | `def stage_client(client, config, payload)` |
+| `staging_dir` | function | `modules/bof_delivery.py:167` | `def staging_dir(config)` |
+| `wait_for_beacon` | function | `modules/bof_delivery.py:756` | `def wait_for_beacon(client_id, since, timeout, config, payload)` |
+| `write_client_config` | function | `modules/bof_delivery.py:273` | `def write_client_config(client, client_id, config, payload)` |
+| `BofCatalog` | class | `modules/bof_registry.py:173` | `class BofCatalog` |
+| `BofCategory` | class | `modules/bof_registry.py:78` | `class BofCategory(str, Enum)` |
+| `BofEntry` | class | `modules/bof_registry.py:95` | `class BofEntry` |
+| `BofMarketplace` | class | `modules/bof_registry.py:606` | `class BofMarketplace` |
+| `BofPlatform` | class | `modules/bof_registry.py:71` | `class BofPlatform(str, Enum)` |
+| `BofRegistry` | class | `modules/bof_registry.py:519` | `class BofRegistry` |
+| `BofValidator` | class | `modules/bof_registry.py:473` | `class BofValidator` |
+| `BofYamlStore` | class | `modules/bof_registry.py:281` | `class BofYamlStore` |
+| `__init__` | method | `modules/bof_registry.py:290` | `def __init__(self, directory)` |
+| `__init__` | method | `modules/bof_registry.py:526` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/bof_registry.py:618` | `def __init__(self, sessions_dir, catalog)` |
+| `_build_default_catalog` | function | `modules/bof_registry.py:349` | `def _build_default_catalog()` |
+| `_load_manifest` | method | `modules/bof_registry.py:536` | `def _load_manifest(self)` |
+| `_save_manifest` | method | `modules/bof_registry.py:547` | `def _save_manifest(self, manifest)` |
+| `bulk_install` | method | `modules/bof_registry.py:736` | `def bulk_install(self, names)` |
+| `catalog` | method | `modules/bof_registry.py:629` | `def catalog(self)` |
+| `client_addon_install_path` | function | `modules/bof_registry.py:415` | `def client_addon_install_path(client, addons_dir)` |
+| `compute_sha256` | method | `modules/bof_registry.py:482` | `def compute_sha256(filepath)` |
+| `directory` | method | `modules/bof_registry.py:299` | `def directory(self)` |
+| `find_client_artifact` | function | `modules/bof_registry.py:362` | `def find_client_artifact(entry)` |
+| `from_dict` | method | `modules/bof_registry.py:151` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/bof_registry.py:257` | `def from_dict(cls, raw)` |
+| `get` | method | `modules/bof_registry.py:193` | `def get(self, name)` |
+| `get_install_info` | method | `modules/bof_registry.py:600` | `def get_install_info(self, name)` |
+| `info` | method | `modules/bof_registry.py:657` | `def info(self, name)` |
+| `install` | method | `modules/bof_registry.py:557` | `def install(self, entry)` |
+| `install` | method | `modules/bof_registry.py:674` | `def install(self, name)` |
+| `install_dir` | method | `modules/bof_registry.py:532` | `def install_dir(self)` |
+| `is_installed` | method | `modules/bof_registry.py:552` | `def is_installed(self, name)` |
+| `list_all` | method | `modules/bof_registry.py:245` | `def list_all(self)` |
+| `list_by_category` | method | `modules/bof_registry.py:237` | `def list_by_category(self, category)` |
+| `list_by_platform` | method | `modules/bof_registry.py:241` | `def list_by_platform(self, platform)` |
+| `list_installed` | method | `modules/bof_registry.py:595` | `def list_installed(self)` |
+| `list_installed` | method | `modules/bof_registry.py:716` | `def list_installed(self)` |
+| `list_missing_dependencies` | method | `modules/bof_registry.py:728` | `def list_missing_dependencies(self, name)` |
+| `load` | method | `modules/bof_registry.py:265` | `def load(cls, path)` |
+| `load_catalog` | method | `modules/bof_registry.py:342` | `def load_catalog(self)` |
+| `load_entries` | method | `modules/bof_registry.py:303` | `def load_entries(self)` |
+| `register` | method | `modules/bof_registry.py:183` | `def register(self, entry)` |
+| `register_many` | method | `modules/bof_registry.py:188` | `def register_many(self, entries)` |
+| `registry` | method | `modules/bof_registry.py:634` | `def registry(self)` |
+| `save` | method | `modules/bof_registry.py:273` | `def save(self, path)` |
+| `search` | method | `modules/bof_registry.py:204` | `def search(self, query)` |
+| `search` | method | `modules/bof_registry.py:638` | `def search(self, query)` |
+| `stage_entry_bof` | function | `modules/bof_registry.py:441` | `def stage_entry_bof(entry, sessions_dir)` |
+| `to_dict` | method | `modules/bof_registry.py:130` | `def to_dict(self)` |
+| `to_dict` | method | `modules/bof_registry.py:249` | `def to_dict(self)` |
+| `uninstall` | method | `modules/bof_registry.py:578` | `def uninstall(self, name, remove_files)` |
+| `uninstall` | method | `modules/bof_registry.py:703` | `def uninstall(self, name)` |
+| `validate_args` | method | `modules/bof_registry.py:507` | `def validate_args(entry, args)` |
+| `verify_entry` | method | `modules/bof_registry.py:491` | `def verify_entry(entry, filepath)` |
 | `C2Server` | class | `modules/c2_agent.py:711` | `class C2Server` |
 | `__init__` | method | `modules/c2_agent.py:714` | `def __init__(self, port, user, password)` |
 | `_api` | function | `modules/c2_agent.py:825` | `def _api(path, data)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `synth_chain_data` | function | `modules/chain_synth.py:91` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` |
 | `synth_technique_chain_data` | function | `modules/chain_synth.py:272` | `def synth_technique_chain_data(target, techniques, os_hint)` |
 | `write_generated_chain` | function | `modules/chain_synth.py:339` | `def write_generated_chain(data, chains_dir)` |
-| `_candidate_files` | function | `modules/chain_tokens.py:120` | `def _candidate_files()` |
-| `_load_host_facts` | function | `modules/chain_tokens.py:77` | `def _load_host_facts(host)` |
-| `_mentions` | function | `modules/chain_tokens.py:130` | `def _mentions(path, needle)` |
-| `_newest_creds_file` | function | `modules/chain_tokens.py:93` | `def _newest_creds_file(host)` |
-| `build_tokens` | function | `modules/chain_tokens.py:29` | `def build_tokens(target, params)` |
-| `token_keys` | function | `modules/chain_tokens.py:24` | `def token_keys()` |
-| `CICDEnumerator` | class | `modules/cicd_enumerator.py:43` | `class CICDEnumerator` |
-| `CICDFinding` | class | `modules/cicd_enumerator.py:33` | `class CICDFinding` |
-| `__init__` | method | `modules/cicd_enumerator.py:54` | `def __init__(self, target_url, sessions_dir)` |
-| `_check_azure_devops` | method | `modules/cicd_enumerator.py:230` | `def _check_azure_devops(self)` |
-| `_check_bitbucket` | method | `modules/cicd_enumerator.py:266` | `def _check_bitbucket(self)` |
-| `_check_github_actions` | method | `modules/cicd_enumerator.py:189` | `def _check_github_actions(self)` |
-| `_check_gitlab` | method | `modules/cicd_enumerator.py:120` | `def _check_gitlab(self)` |
-| `_check_jenkins` | method | `modules/cicd_enumerator.py:73` | `def _check_jenkins(self)` |
-| `export_findings` | method | `modules/cicd_enumerator.py:387` | `def export_findings(self)` |
-| `generate_ci_attack_matrix` | method | `modules/cicd_enumerator.py:322` | `def generate_ci_attack_matrix(self)` |
-| `scan` | method | `modules/cicd_enumerator.py:60` | `def scan(self)` |
-| `scan_build_log` | method | `modules/cicd_enumerator.py:297` | `def scan_build_log(self, log_content, source)` |
-| `_clear_cli_session` | function | `modules/cli_auth.py:478` | `def _clear_cli_session()` |
-| `_load_payload` | function | `modules/cli_auth.py:85` | `def _load_payload()` |
-| `_load_users` | function | `modules/cli_auth.py:34` | `def _load_users()` |
-| `_read_cli_session` | function | `modules/cli_auth.py:429` | `def _read_cli_session()` |
-| `_save_payload` | function | `modules/cli_auth.py:100` | `def _save_payload(payload)` |
-| `_save_users` | function | `modules/cli_auth.py:52` | `def _save_users(users)` |
-| `_write_cli_session` | function | `modules/cli_auth.py:444` | `def _write_cli_session(username, elo, role)` |
-| `_write_cli_session_raw` | function | `modules/cli_auth.py:462` | `def _write_cli_session_raw(data)` |
-| `get_current_operator` | function | `modules/cli_auth.py:396` | `def get_current_operator()` |
-| `login` | function | `modules/cli_auth.py:240` | `def login(username, password, remember)` |
-| `logout` | function | `modules/cli_auth.py:293` | `def logout()` |
-| `needs_login` | function | `modules/cli_auth.py:487` | `def needs_login()` |
-| `register` | function | `modules/cli_auth.py:145` | `def register(username, password)` |
-| `sync_elo_from_session` | function | `modules/cli_auth.py:408` | `def sync_elo_from_session(elo)` |
-| `try_auto_login` | function | `modules/cli_auth.py:328` | `def try_auto_login()` |
-| `user_exists` | function | `modules/cli_auth.py:122` | `def user_exists(username)` |
-| `verify_password` | function | `modules/cli_auth.py:214` | `def verify_password(username, password)` |
-| `whoami` | function | `modules/cli_auth.py:366` | `def whoami()` |
-| `Comparison` | class | `modules/closedloop.py:55` | `class Comparison` |
-| `RuleMetrics` | class | `modules/closedloop.py:32` | `class RuleMetrics` |
-| `_metrics_for` | function | `modules/closedloop.py:77` | `def _metrics_for(result)` |
-| `compare_rules` | function | `modules/closedloop.py:90` | `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)` |
-| `suggest_tuning` | function | `modules/closedloop.py:136` | `def suggest_tuning(candidate, baseline)` |
-| `to_dict` | method | `modules/closedloop.py:42` | `def to_dict(self)` |
-| `to_dict` | method | `modules/closedloop.py:66` | `def to_dict(self)` |
-| `CloudEnumerator` | class | `modules/cloud_enum.py:23` | `class CloudEnumerator` |
-| `__init__` | method | `modules/cloud_enum.py:34` | `def __init__(self, provider, session, timeout)` |
-| `_check_aws_privesc` | method | `modules/cloud_enum.py:526` | `def _check_aws_privesc(data)` |
-| `_enumerate_aws_iam` | method | `modules/cloud_enum.py:390` | `def _enumerate_aws_iam(self)` |
-| `_enumerate_aws_metadata` | method | `modules/cloud_enum.py:96` | `def _enumerate_aws_metadata(self)` |
-| `_enumerate_azure_iam` | method | `modules/cloud_enum.py:421` | `def _enumerate_azure_iam(self)` |
-| `_enumerate_azure_metadata` | method | `modules/cloud_enum.py:146` | `def _enumerate_azure_metadata(self)` |
-| `_enumerate_azure_storage` | method | `modules/cloud_enum.py:316` | `def _enumerate_azure_storage(self, target_bucket)` |
-| `_enumerate_gcp_iam` | method | `modules/cloud_enum.py:477` | `def _enumerate_gcp_iam(self)` |
-| `_enumerate_gcp_metadata` | method | `modules/cloud_enum.py:193` | `def _enumerate_gcp_metadata(self)` |
-| `_enumerate_gcs` | method | `modules/cloud_enum.py:350` | `def _enumerate_gcs(self, target_bucket)` |
-| `_enumerate_s3` | method | `modules/cloud_enum.py:274` | `def _enumerate_s3(self, target_bucket)` |
-| `detect_provider` | method | `modules/cloud_enum.py:47` | `def detect_provider(self)` |
-| `enumerate_iam` | method | `modules/cloud_enum.py:372` | `def enumerate_iam(self)` |
-| `enumerate_metadata` | method | `modules/cloud_enum.py:75` | `def enumerate_metadata(self)` |
-| `enumerate_storage` | method | `modules/cloud_enum.py:251` | `def enumerate_storage(self, target_bucket)` |
-| `full_enumeration` | method | `modules/cloud_enum.py:576` | `def full_enumeration(self)` |
-| `ColabEvent` | class | `modules/collab_bp.py:163` | `class ColabEvent` |
-| `EventBus` | class | `modules/collab_bp.py:188` | `class EventBus` |
-| `LockManager` | class | `modules/collab_bp.py:257` | `class LockManager` |
-| `OperatorInfo` | class | `modules/collab_bp.py:176` | `class OperatorInfo` |
-| `OperatorRegistry` | class | `modules/collab_bp.py:314` | `class OperatorRegistry` |
-| `TargetLock` | class | `modules/collab_bp.py:250` | `class TargetLock` |
-| `__init__` | method | `modules/collab_bp.py:198` | `def __init__(self)` |
-| `__init__` | method | `modules/collab_bp.py:263` | `def __init__(self)` |
-| `__init__` | method | `modules/collab_bp.py:319` | `def __init__(self)` |
-| `_authenticated_operator` | function | `modules/collab_bp.py:90` | `def _authenticated_operator()` |
-| `_check_collab_permission` | function | `modules/collab_bp.py:100` | `def _check_collab_permission(perm_name)` |
-| `_collab_login_required` | function | `modules/collab_bp.py:120` | `def _collab_login_required(f)` |
-| `_collab_permission_required` | function | `modules/collab_bp.py:136` | `def _collab_permission_required(perm_name)` |
-| `_expire` | method | `modules/collab_bp.py:297` | `def _expire(self)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

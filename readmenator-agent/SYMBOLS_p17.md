@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_policy_proposals` | function | `modules/lazy_loop.py:3188` | `def _policy_proposals(policy, target)` |
+| `_prior_steps` | method | `modules/lazy_loop.py:4212` | `def _prior_steps(self, intent)` |
+| `_publish_shell_proof` | method | `modules/lazy_loop.py:4885` | `def _publish_shell_proof(self, intent, target, command, output)` |
+| `_record` | method | `modules/lazy_loop.py:7020` | `def _record(self, member, ok, text)` |
+| `_record_ai_outcome` | method | `modules/lazy_loop.py:7120` | `def _record_ai_outcome(self, member, ok, live_log)` |
+| `_record_raw` | method | `modules/lazy_loop.py:7375` | `def _record_raw(self, member, prompt, reply, ok, task_id, model_spec)` |
+| `_refresh` | method | `modules/lazy_loop.py:2881` | `def _refresh(self)` |
+| `_register_guardrails` | method | `modules/lazy_loop.py:8016` | `def _register_guardrails(self)` |
+| `_register_loop_executor` | function | `modules/lazy_loop.py:482` | `def _register_loop_executor(executor)` |
+| `_register_mediators` | method | `modules/lazy_loop.py:8005` | `def _register_mediators(self)` |
+| `_reorder_with_ai` | method | `modules/lazy_loop.py:7078` | `def _reorder_with_ai(self, chain, live_log)` |
+| `_reporter_reply` | method | `modules/lazy_loop.py:6520` | `def _reporter_reply(self, pool, chain, entry)` |
+| `_request_bodies` | method | `modules/lazy_loop.py:5540` | `def _request_bodies(self, blocks, cold)` |
+| `_restrict_file` | function | `modules/lazy_loop.py:533` | `def _restrict_file(path)` |
+| `_rl_rank` | method | `modules/lazy_loop.py:3945` | `def _rl_rank(self, out)` |
+| `_rotated_chain` | method | `modules/lazy_loop.py:7049` | `def _rotated_chain(self, chain)` |
+| `_run_chained` | method | `modules/lazy_loop.py:4853` | `def _run_chained(self, intent, command, executor, budget, intercept, retry_state)` |
+| `_run_one` | function | `modules/lazy_loop.py:8997` | `def _run_one(index_node)` |
+| `_run_round_guarded` | method | `modules/lazy_loop.py:8034` | `def _run_round_guarded(self, task_id, round_index, workers, executor)` |
+| `_run_worker_guarded` | method | `modules/lazy_loop.py:8064` | `def _run_worker_guarded(self, worker, node, executor)` |
+| `_sanitize_step` | method | `modules/lazy_loop.py:5022` | `def _sanitize_step(self, intent, command)` |
+| `_save` | method | `modules/lazy_loop.py:2622` | `def _save(self, payload)` |
+| `_save_bodies` | method | `modules/lazy_loop.py:5536` | `def _save_bodies(self, payload)` |
+| `_save_cold` | method | `modules/lazy_loop.py:5524` | `def _save_cold(self, payload)` |
+| `_save_global` | method | `modules/lazy_loop.py:2364` | `def _save_global(self, block)` |
+| `_save_json` | function | `modules/lazy_loop.py:885` | `def _save_json(path, payload)` |
+| `_save_task` | method | `modules/lazy_loop.py:2368` | `def _save_task(self, payload)` |
+| `_scope_covers` | function | `modules/lazy_loop.py:2214` | `def _scope_covers(scope_kind, scope_value, asset)` |
+| `_scope_host` | function | `modules/lazy_loop.py:2204` | `def _scope_host(value)` |
+| `_seed_defaults` | method | `modules/lazy_loop.py:6955` | `def _seed_defaults(self)` |
+| `_selector_candidates` | method | `modules/lazy_loop.py:3584` | `def _selector_candidates(self)` |
+| `_send_email` | method | `modules/lazy_loop.py:6833` | `def _send_email(channel, line, event)` |
+| `_settle_objectives` | method | `modules/lazy_loop.py:9279` | `def _settle_objectives(self, task_id)` |
+| `_settle_partial` | method | `modules/lazy_loop.py:4934` | `def _settle_partial(self, intent, transcripts, reason)` |
+| `_signature` | function | `modules/lazy_loop.py:3452` | `def _signature(text)` |
+| `_sleeper_round` | method | `modules/lazy_loop.py:7976` | `def _sleeper_round(self, activity)` |
+| `_slug` | function | `modules/lazy_loop.py:900` | `def _slug(value)` |
+| `_split_exclusive` | method | `modules/lazy_loop.py:8593` | `def _split_exclusive(self, graph, reachable)` |
+| `_stage_enabled` | function | `modules/lazy_loop.py:9617` | `def _stage_enabled(_name)` |
+| `_stall_intent` | method | `modules/lazy_loop.py:4100` | `def _stall_intent(self, existing)` |
+| `_steps_for` | method | `modules/lazy_loop.py:5087` | `def _steps_for(self, intent)` |
+| `_store_path` | function | `modules/lazy_loop.py:792` | `def _store_path(name)` |
+| `_structured_verdict` | method | `modules/lazy_loop.py:5436` | `def _structured_verdict(self, finding)` |
+| `_sudo_unavailable` | function | `modules/lazy_loop.py:312` | `def _sudo_unavailable(output)` |
+| `_sync_c2_board` | method | `modules/lazy_loop.py:10037` | `def _sync_c2_board(self, task_ids)` |
+| `_sync_intel` | method | `modules/lazy_loop.py:8800` | `def _sync_intel(self, task_id, activity, force)` |
+| `_target_as_asset` | function | `modules/lazy_loop.py:2264` | `def _target_as_asset(value)` |
+| `_target_for` | method | `modules/lazy_loop.py:4596` | `def _target_for(self, intent)` |
+| `_target_services` | method | `modules/lazy_loop.py:3552` | `def _target_services(self, target)` |
+| `_task_executed_commands` | method | `modules/lazy_loop.py:4999` | `def _task_executed_commands(self)` |
+| `_technique_for` | method | `modules/lazy_loop.py:6329` | `def _technique_for(vulnclass, text)` |
+| `_traffic_template` | function | `modules/lazy_loop.py:905` | `def _traffic_template(command)` |
+| `_union` | function | `modules/lazy_loop.py:5741` | `def _union(left, right)` |
+| `_unregister_loop_executor` | function | `modules/lazy_loop.py:488` | `def _unregister_loop_executor(executor)` |
+| `_valid_nmap_port_spec` | function | `modules/lazy_loop.py:332` | `def _valid_nmap_port_spec(value)` |
+| `_wake_event` | function | `modules/lazy_loop.py:627` | `def _wake_event(task_id)` |
+| `_work` | function | `modules/lazy_loop.py:6499` | `def _work()` |
+| `_worker` | function | `modules/lazy_loop.py:5561` | `def _worker(work)` |
+| `_wrapup_summary` | method | `modules/lazy_loop.py:9352` | `def _wrapup_summary(self, task_id, reason)` |
+| `_write_continuation` | method | `modules/lazy_loop.py:9310` | `def _write_continuation(self, task_id, status)` |
+| `_write_draft` | method | `modules/lazy_loop.py:6536` | `def _write_draft(self, finding_id, report, evidence_version)` |
+| `_writeback` | method | `modules/lazy_loop.py:5157` | `def _writeback(self, intent, transcripts, allow_finding)` |
+| `abort` | method | `modules/lazy_loop.py:2555` | `def abort(self, task_id, cause, detail)` |
+| `active_count` | method | `modules/lazy_loop.py:2850` | `def active_count(self, exclude)` |
+| `add` | method | `modules/lazy_loop.py:2373` | `def add(self, kind, pattern, note, action)` |
+| `add` | method | `modules/lazy_loop.py:2757` | `def add(self, text)` |
+| `add` | method | `modules/lazy_loop.py:6649` | `def add(self, finding_id, kind, body)` |
+| `add` | method | `modules/lazy_loop.py:7549` | `def add(self, name, scope)` |
+| `add` | method | `modules/lazy_loop.py:7702` | `def add(self, name, goal)` |
+| `add_channel` | method | `modules/lazy_loop.py:6773` | `def add_channel(self, kind, target, min_severity, extra)` |
+| `add_constraint` | method | `modules/lazy_loop.py:2984` | `def add_constraint(self, task_id, ctype, text, scope)` |
+| `add_edge` | method | `modules/lazy_loop.py:1357` | `def add_edge(self, src, dst, kind)` |
+| `add_hint` | method | `modules/lazy_loop.py:8363` | `def add_hint(self, task_id, text)` |
+| `add_intent` | method | `modules/lazy_loop.py:8381` | `def add_intent(self, task_id, summary, asset_ids, parent_ids, priority)` |
 | `add_member` | method | `modules/lazy_loop.py:6984` | `def add_member(self, name, model, priority)` |
 | `add_node` | method | `modules/lazy_loop.py:1272` | `def add_node(self, kind, text, state, priority, meta)` |
 | `add_rule` | method | `modules/lazy_loop.py:2025` | `def add_rule(self, pattern, action, reason, priority)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `RBACUser` | class | `modules/lazy_rbac.py:124` | `class RBACUser` |
 | `Role` | class | `modules/lazy_rbac.py:55` | `class Role(Enum)` |
 | `TenantConfig` | class | `modules/lazy_rbac.py:368` | `class TenantConfig` |
-| `TenantManager` | class | `modules/lazy_rbac.py:394` | `class TenantManager` |
-| `_UsersFileUnreadable` | class | `modules/lazy_rbac.py:115` | `class _UsersFileUnreadable(Exception)` |
-| `__init__` | method | `modules/lazy_rbac.py:213` | `def __init__(self, users_path)` |
-| `__init__` | method | `modules/lazy_rbac.py:397` | `def __init__(self, payloads_dir, config_path, default_payload)` |
-| `_bits_to_bytes` | function | `modules/lazy_rbac.py:903` | `def _bits_to_bytes(bits, data_bits)` |
-| `_generate_recovery_codes` | function | `modules/lazy_rbac.py:356` | `def _generate_recovery_codes(count)` |
-| `_get_rbac_store` | function | `modules/lazy_rbac.py:632` | `def _get_rbac_store()` |
-| `_get_rbac_user` | function | `modules/lazy_rbac.py:619` | `def _get_rbac_user(flask_user)` |
-| `_load_config` | method | `modules/lazy_rbac.py:410` | `def _load_config(self)` |
-| `_qr_add_format_info` | function | `modules/lazy_rbac.py:836` | `def _qr_add_format_info(modules, size, ecl_bits, mask)` |
-| `_qr_apply_mask` | function | `modules/lazy_rbac.py:963` | `def _qr_apply_mask(modules, size, mask)` |
-| `_qr_best_mask` | function | `modules/lazy_rbac.py:950` | `def _qr_best_mask(modules, size)` |
-| `_qr_blank_matrix` | function | `modules/lazy_rbac.py:823` | `def _qr_blank_matrix(version)` |
-| `_qr_choose_version` | function | `modules/lazy_rbac.py:744` | `def _qr_choose_version(data)` |
-| `_qr_data_bits_for_version` | function | `modules/lazy_rbac.py:812` | `def _qr_data_bits_for_version(version)` |
-| `_qr_data_bits_positions` | function | `modules/lazy_rbac.py:884` | `def _qr_data_bits_positions(matrix, size)` |
-| `_qr_ec_codewords` | function | `modules/lazy_rbac.py:752` | `def _qr_ec_codewords(version)` |
-| `_qr_encode_alphanumeric` | function | `modules/lazy_rbac.py:757` | `def _qr_encode_alphanumeric(data, version)` |
-| `_qr_penalty` | function | `modules/lazy_rbac.py:996` | `def _qr_penalty(modules, size)` |
-| `_qr_place_dark_module` | function | `modules/lazy_rbac.py:832` | `def _qr_place_dark_module(matrix, size, version)` |
-| `_qr_place_finders` | function | `modules/lazy_rbac.py:869` | `def _qr_place_finders(matrix, size)` |
-| `_qr_place_timing` | function | `modules/lazy_rbac.py:878` | `def _qr_place_timing(matrix, size)` |
-| `_qr_render_svg` | function | `modules/lazy_rbac.py:1058` | `def _qr_render_svg(modules, size, modules_per_pixel)` |
-| `_qr_svg_error` | function | `modules/lazy_rbac.py:860` | `def _qr_svg_error(msg)` |
-| `_read_users` | method | `modules/lazy_rbac.py:217` | `def _read_users(self)` |
-| `_reed_solomon_encode` | function | `modules/lazy_rbac.py:914` | `def _reed_solomon_encode(data, ec_words)` |
-| `_save_config` | method | `modules/lazy_rbac.py:421` | `def _save_config(self)` |
-| `_slugify` | function | `modules/lazy_rbac.py:514` | `def _slugify(name)` |
-| `_write_users` | method | `modules/lazy_rbac.py:232` | `def _write_users(self, users)` |
-| `can_manage_role` | method | `modules/lazy_rbac.py:174` | `def can_manage_role(self, target_role)` |
-| `check_cli_permission` | function | `modules/lazy_rbac.py:660` | `def check_cli_permission(username, permission)` |
-| `consume_recovery_code` | method | `modules/lazy_rbac.py:200` | `def consume_recovery_code(self, code)` |
-| `consume_recovery_code` | method | `modules/lazy_rbac.py:334` | `def consume_recovery_code(self, user_id, code)` |
-| `create_tenant` | method | `modules/lazy_rbac.py:457` | `def create_tenant(self, name, base_payload)` |
-| `create_user` | method | `modules/lazy_rbac.py:274` | `def create_user(self, username, password_hash, role, tenant_id)` |
-| `decorated` | function | `modules/lazy_rbac.py:544` | `def decorated()` |
-| `decorated` | function | `modules/lazy_rbac.py:570` | `def decorated()` |
-| `decorated` | function | `modules/lazy_rbac.py:600` | `def decorated()` |
-| `decorator` | function | `modules/lazy_rbac.py:542` | `def decorator(f)` |
-| `decorator` | function | `modules/lazy_rbac.py:568` | `def decorator(f)` |
-| `delete_tenant` | method | `modules/lazy_rbac.py:495` | `def delete_tenant(self, tenant_id)` |
-| `delete_user` | method | `modules/lazy_rbac.py:295` | `def delete_user(self, user_id)` |
-| `disable_mfa` | method | `modules/lazy_rbac.py:324` | `def disable_mfa(self, user_id)` |
-| `enable_mfa` | method | `modules/lazy_rbac.py:314` | `def enable_mfa(self, user_id)` |
-| `ensure_admin` | method | `modules/lazy_rbac.py:343` | `def ensure_admin(self, username, password_hash)` |
-| `ensure_default_tenant` | method | `modules/lazy_rbac.py:504` | `def ensure_default_tenant(self)` |
-| `find_by_id` | method | `modules/lazy_rbac.py:249` | `def find_by_id(self, user_id)` |
-| `find_by_username` | method | `modules/lazy_rbac.py:255` | `def find_by_username(self, username)` |
-| `from_dict` | method | `modules/lazy_rbac.py:140` | `def from_dict(cls, data)` |
-| `from_dict` | method | `modules/lazy_rbac.py:390` | `def from_dict(cls, data)` |
-| `from_payload` | method | `modules/lazy_rbac.py:377` | `def from_payload(cls, tenant_id, name, payload_path)` |
-| `generate_mfa_qr_url` | function | `modules/lazy_rbac.py:680` | `def generate_mfa_qr_url(secret, username)` |
-| `generate_qr_svg` | function | `modules/lazy_rbac.py:689` | `def generate_qr_svg(data)` |
-| `get_active` | method | `modules/lazy_rbac.py:434` | `def get_active(self)` |
-| `get_active_payload_path` | method | `modules/lazy_rbac.py:439` | `def get_active_payload_path(self)` |
-| `get_active_sessions_dir` | method | `modules/lazy_rbac.py:445` | `def get_active_sessions_dir(self)` |
-| `get_mfa_provisioning_uri` | method | `modules/lazy_rbac.py:182` | `def get_mfa_provisioning_uri(self)` |
-| `get_payload_for_tenant` | method | `modules/lazy_rbac.py:451` | `def get_payload_for_tenant(self, tenant_id)` |
-| `get_rbac_store` | function | `modules/lazy_rbac.py:639` | `def get_rbac_store()` |
-| `get_role` | method | `modules/lazy_rbac.py:164` | `def get_role(self)` |
-| `get_tenant_manager` | function | `modules/lazy_rbac.py:648` | `def get_tenant_manager()` |
-| `get_user_role` | function | `modules/lazy_rbac.py:672` | `def get_user_role(username)` |
-| `gf_mul` | function | `modules/lazy_rbac.py:927` | `def gf_mul(a, b)` |
-| `has_permission` | method | `modules/lazy_rbac.py:170` | `def has_permission(self, permission)` |
-| `init_rbac_store` | function | `modules/lazy_rbac.py:523` | `def init_rbac_store(users_path)` |
-| `init_tenant_manager` | function | `modules/lazy_rbac.py:527` | `def init_tenant_manager(payloads_dir, config_path, default_payload)` |
-| `list_tenants` | method | `modules/lazy_rbac.py:431` | `def list_tenants(self)` |
-| `load_all` | method | `modules/lazy_rbac.py:245` | `def load_all(self)` |
-| `require_mfa` | function | `modules/lazy_rbac.py:596` | `def require_mfa(f)` |
-| `require_permission` | function | `modules/lazy_rbac.py:565` | `def require_permission()` |
-| `require_role` | function | `modules/lazy_rbac.py:539` | `def require_role()` |
-| `save` | method | `modules/lazy_rbac.py:261` | `def save(self, user)` |
-| `set_rbac_store` | function | `modules/lazy_rbac.py:643` | `def set_rbac_store(store)` |
-| `set_tenant_manager` | function | `modules/lazy_rbac.py:655` | `def set_tenant_manager(tm)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

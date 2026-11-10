@@ -1,0 +1,14 @@
+name: spawn_job
+description: >-
+  Spawn a long-running job: keylogger, screenshot daemon, process monitor
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: bofs/spawn_job.c
+client: beacon
+platform: windows
+category: execution
+client_artifact: 
+required_args: ['jobtype']
+optional_args: ['interval_ms', 'output_file']
+mitre_technique: T1059
+enabled: true

@@ -3088,7 +3088,14 @@ if _RBAC_AVAILABLE:
         app.config["SESSIONS_DIR"] = os.path.realpath(SESSIONS_DIR)
 GROQ_API_KEY = config.api_key
 ALLOWED_EXTENSIONS = {"txt", "enc", "exe", "sh"}
-IMPLANT_STAGE_FILES = {"stub", "stub.exe", "r", "beacon.enc"}
+IMPLANT_STAGE_FILES = {
+    "stub",
+    "stub.exe",
+    "r",
+    "beacon.enc",
+    "blacksandbeacon",
+    "blacksandbeacon_config",
+}
 app.config["ALLOWED_EXTENSIONS"] = ALLOWED_EXTENSIONS
 BINARY_HEADERS = [
     b"\x7fELF",

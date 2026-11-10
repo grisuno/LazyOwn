@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_configure_qt_application_metadata` | method | `lazygui/app.py:218` | `def _configure_qt_application_metadata(self)` |
+| `_configure_qt_attributes` | method | `lazygui/app.py:213` | `def _configure_qt_attributes(self)` |
+| `_discover_credentials` | method | `lazygui/app.py:73` | `def _discover_credentials(self)` |
+| `_resolve_teamserver_credentials` | method | `lazygui/app.py:150` | `def _resolve_teamserver_credentials(self)` |
+| `_start_backend` | method | `lazygui/app.py:194` | `def _start_backend(self, backend)` |
+| `_swap_backend` | method | `lazygui/app.py:175` | `def _swap_backend(self, new_backend)` |
+| `_sync_credentials_to_settings` | method | `lazygui/app.py:89` | `def _sync_credentials_to_settings(self, credentials)` |
+| `run` | method | `lazygui/app.py:65` | `def run(self)` |
+| `show_connect_dialog` | method | `lazygui/app.py:100` | `def show_connect_dialog(self)` |
+| `C2Credentials` | class | `lazygui/config/c2_credentials.py:24` | `class C2Credentials` |
+| `empty` | method | `lazygui/config/c2_credentials.py:33` | `def empty(cls)` |
+| `load_c2_credentials` | function | `lazygui/config/c2_credentials.py:71` | `def load_c2_credentials(project_root)` |
+| `load_c2_credentials_from_file` | function | `lazygui/config/c2_credentials.py:38` | `def load_c2_credentials_from_file(file_path)` |
+| `AppConstants` | class | `lazygui/config/constants.py:223` | `class AppConstants` |
+| `BackendConstants` | class | `lazygui/config/constants.py:176` | `class BackendConstants` |
+| `CommandPaletteConstants` | class | `lazygui/config/constants.py:214` | `class CommandPaletteConstants` |
+| `EventLogConstants` | class | `lazygui/config/constants.py:205` | `class EventLogConstants` |
 | `FontConstants` | class | `lazygui/config/constants.py:99` | `class FontConstants` |
 | `IdentifierConstants` | class | `lazygui/config/constants.py:142` | `class IdentifierConstants` |
 | `KeybindingConstants` | class | `lazygui/config/constants.py:124` | `class KeybindingConstants` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `logcsv` | method | `lazyown.py:1307` | `def logcsv(self, line, start_time, end_time, duration_ms)` |
 | `main` | function | `lazyown.py:4733` | `def main()` |
 | `make_wrapper` | function | `lazyown.py:1971` | `def make_wrapper(cmd_template, tname, default_target)` |
-| `one_cmd` | method | `lazyown.py:1811` | `def one_cmd(self, command)` |
-| `onecmd_plus_hooks` | method | `lazyown.py:1440` | `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` |
-| `postloop` | method | `lazyown.py:2534` | `def postloop(self)` |
-| `postparsing_precmd` | method | `lazyown.py:2506` | `def postparsing_precmd(self, statement)` |
-| `preloop` | method | `lazyown.py:2362` | `def preloop(self)` |
-| `process_scan_csv` | method | `lazyown.py:4486` | `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` |
-| `process_vuln_csv` | method | `lazyown.py:4509` | `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` |
-| `refresh_prompt` | method | `lazyown.py:903` | `def refresh_prompt(self)` |
-| `register_all_adversary_commands` | method | `lazyown.py:2295` | `def register_all_adversary_commands(self)` |
-| `register_tool_commands` | method | `lazyown.py:1912` | `def register_tool_commands(self)` |
-| `register_yaml_plugin` | method | `lazyown.py:2149` | `def register_yaml_plugin(self, plugin_data)` |
-| `run_command` | method | `lazyown.py:3990` | `def run_command(self, command)` |
-| `run_lazyarpspoofing` | method | `lazyown.py:3592` | `def run_lazyarpspoofing(self)` |
-| `run_lazyaslrcheck` | method | `lazyown.py:3878` | `def run_lazyaslrcheck(self)` |
-| `run_lazyattack` | method | `lazyown.py:3646` | `def run_lazyattack(self)` |
-| `run_lazyburpfuzzer` | method | `lazyown.py:3416` | `def run_lazyburpfuzzer(self)` |
-| `run_lazyftpsniff` | method | `lazyown.py:2983` | `def run_lazyftpsniff(self)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

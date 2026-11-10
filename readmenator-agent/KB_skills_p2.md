@@ -150,7 +150,7 @@ Previous: [KB_skills.md](KB_skills.md)
   - `context_for_command` (method, line 896) `def context_for_command(self, host, category)`
   - `summary` (method, line 986) `def summary(self, host)`
 - Depends on: `core/logging.py`, `modules/logging_config.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/create_tool.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
 
 ## skills/lazyown_groq_agents.py
 - Doc: skills/lazyown_groq_agents.py
@@ -287,10 +287,10 @@ Previous: [KB_skills.md](KB_skills.md)
   - `_run_lazyown_command` (function, line 738) `def _run_lazyown_command(command, timeout)`
   - `_registry_schemas` (function, line 883) `def _registry_schemas()`
   - `list_tools` (function, line 897) `def list_tools()`
-  - `substitute_playbook_target` (function, line 1308) `def substitute_playbook_target(command, target)`
-  - `call_tool` (function, line 1326) `def call_tool(name, arguments)`
-  - `_handle_sighup` (function, line 2466) `def _handle_sighup(signum, frame)`
-  - `main` (function, line 2477) `def main()`
+  - `substitute_playbook_target` (function, line 921) `def substitute_playbook_target(command, target)`
+  - `call_tool` (function, line 939) `def call_tool(name, arguments)`
+  - `_handle_sighup` (function, line 1038) `def _handle_sighup(signum, frame)`
+  - `main` (function, line 1049) `def main()`
   - `_load` (function, line 82) `def _load(ns)`
   - `_load` (function, line 100) `def _load(ns)`
   - `_load` (function, line 115) `def _load(ns)`
@@ -310,18 +310,14 @@ Previous: [KB_skills.md](KB_skills.md)
   - `_decorator` (function, line 611) `def _decorator(func)`
   - `_policy_integration_or_none` (function, line 844) `def _policy_integration_or_none()`
   - `_all_tools` (function, line 848) `def _all_tools()`
-  - `text` (function, line 1328) `def text(content)`
+  - `text` (function, line 941) `def text(content)`
   - `_iter_registry_schemas` (function, line 878) `def _iter_registry_schemas()`
-  - `_runner` (function, line 1419) `def _runner(cmd)`
-  - `_isolated_runner` (function, line 2371) `def _isolated_runner(cmd)`
-  - `_handle_sse` (function, line 2495) `def _handle_sse(request)`
-  - `_handle_messages` (function, line 2499) `def _handle_messages(scope, receive, send)`
+  - `_handle_sse` (function, line 1067) `def _handle_sse(request)`
+  - `_handle_messages` (function, line 1071) `def _handle_messages(scope, receive, send)`
   - `_create_tool_file` (function, line 200) `def _create_tool_file()`
   - `_get_pdb` (function, line 258) `def _get_pdb(_)`
   - `_compact_output_fn` (function, line 408) `def _compact_output_fn(c, t)`
-  - `_fused_recommendations` (function, line 1930) `def _fused_recommendations()`
-  - `_mcp_executor` (function, line 2039) `def _mcp_executor(command, target)`
-- Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/killchain.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/playbook_engine.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/mcp_agent_bridge.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
 - Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
 
 ## skills/lazyown_mcp_helpers.py
@@ -350,7 +346,7 @@ Previous: [KB_skills.md](KB_skills.md)
   - `status` (method, line 727) `def status(self, job_id)`
   - `list` (method, line 732) `def list(self, limit)`
   - `_worker` (function, line 709) `def _worker()`
-- Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/evidence_grep.py`, `skills/mcp_tools/run_command.py`, `skills/mcp_tools/session_diff.py`, `skills/mcp_tools/target_context.py`, `skills/mcp_tools/tasks_cleanup.py`, `tests/test_mcp_improvements.py`
+- Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/evidence_grep.py`, `skills/mcp_tools/run_command.py`, `skills/mcp_tools/run_command_async.py`, `skills/mcp_tools/session_diff.py`, `skills/mcp_tools/session_init.py`, `skills/mcp_tools/target_context.py`, `skills/mcp_tools/tasks_cleanup.py`, `tests/test_mcp_improvements.py`
 
 ## skills/lazyown_mcp_opencode.py
 - Doc: LazyOwn MCP OpenCode bridge.

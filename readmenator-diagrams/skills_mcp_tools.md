@@ -1,6 +1,6 @@
 # skills/mcp_tools
 
-skills/mcp_tools groups 222 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+skills/mcp_tools groups 235 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -26,7 +26,7 @@ cli groups 3 files (py) around DaemonControlCommandSet, do_daemon_mode, do_daemo
 
 ## modules (1.2)
 
-modules groups 33 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. Global asset truth store joined to per-task exploration chains.
+modules groups 31 files (py) around PipelineError, PipelineSchemaError, PipelineNotFoundError, PipelineCycleError, PipelineStep. Global asset truth store joined to per-task exploration chains.
 
 ## scripts (1.3)
 
@@ -34,11 +34,11 @@ scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_
 
 ## skills (1.4)
 
-skills groups 154 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 171 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
 
 ## tests (1.5)
 
-tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 29 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
@@ -48,8 +48,6 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/cve_matcher.py
-- modules/detection_feed.py
-- modules/detection_oracle.py
 - modules/engage_summary.py
 - modules/enrich.py
 - modules/evasion_engine.py
@@ -87,6 +85,8 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/hive_mind.py
 - skills/lazyown_automapper.py
 - skills/lazyown_context.py
+- skills/lazyown_daemon.py
+- skills/lazyown_facts.py
 - skills/lazyown_groq_agents.py
 - skills/lazyown_llm.py
 - skills/lazyown_mcp.py
@@ -128,8 +128,10 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/campaign_lessons.py
 - skills/mcp_tools/campaign_sitrep.py
 - skills/mcp_tools/campaign_tasks.py
+- skills/mcp_tools/claudemd.py
 - skills/mcp_tools/command_help.py
 - skills/mcp_tools/create_addon.py
+- skills/mcp_tools/create_tool.py
 - skills/mcp_tools/credentials.py
 - skills/mcp_tools/cron_schedule.py
 - skills/mcp_tools/cve_search.py
@@ -155,11 +157,13 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/exploitgym_run.py
 - skills/mcp_tools/exploitgym_score.py
 - skills/mcp_tools/exploitgym_status.py
+- skills/mcp_tools/facts_show.py
 - skills/mcp_tools/fast_run.py
 - skills/mcp_tools/generate_report.py
 - skills/mcp_tools/get_beacons.py
 - skills/mcp_tools/get_config.py
 - skills/mcp_tools/groq_agent.py
+- skills/mcp_tools/harness_status.py
 - skills/mcp_tools/heartbeat_status.py
 - skills/mcp_tools/hive_collect.py
 - skills/mcp_tools/hive_forget.py
@@ -170,7 +174,7 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/hive_spawn.py
 - skills/mcp_tools/hive_status.py
 - skills/mcp_tools/inject_objective.py
-- skills/mcp_tools/lazy_addon.py
+- skills/mcp_tools/job_status.py
 - skills/mcp_tools/lazy_workspace.py
 - skills/mcp_tools/list_addons.py
 - skills/mcp_tools/list_agents.py
@@ -181,6 +185,7 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/llm_ask.py
 - skills/mcp_tools/lolbas_list.py
 - skills/mcp_tools/lolbas_use.py
+- skills/mcp_tools/manage_permissions.py
 - skills/mcp_tools/memory_recall.py
 - skills/mcp_tools/memory_store.py
 - skills/mcp_tools/misp_export.py
@@ -194,6 +199,8 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/pipeline_status.py
 - skills/mcp_tools/pipeline_validate.py
 - skills/mcp_tools/playbook_generate.py
+- skills/mcp_tools/playbook_run.py
+- skills/mcp_tools/policy_status.py
 - skills/mcp_tools/poll_events.py
 - skills/mcp_tools/rag_index.py
 - skills/mcp_tools/rag_query.py
@@ -201,14 +208,20 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/reactive_suggest.py
 - skills/mcp_tools/read_prompt.py
 - skills/mcp_tools/read_session_file.py
+- skills/mcp_tools/run_agent.py
 - skills/mcp_tools/run_api.py
 - skills/mcp_tools/run_command.py
+- skills/mcp_tools/run_command_async.py
+- skills/mcp_tools/search_tools.py
 - skills/mcp_tools/searchsploit.py
 - skills/mcp_tools/session_diff.py
+- skills/mcp_tools/session_init.py
+- skills/mcp_tools/session_resume.py
 - skills/mcp_tools/session_state.py
 - skills/mcp_tools/session_status.py
 - skills/mcp_tools/set_active_target.py
 - skills/mcp_tools/soul.py
+- skills/mcp_tools/subagent_run.py
 - skills/mcp_tools/swan_ensemble.py
 - skills/mcp_tools/swan_route.py
 - skills/mcp_tools/swan_run.py
@@ -226,8 +239,10 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/mcp_tools/winbox_status.py
 - skills/mcp_tools/winbox_tools.py
 - skills/mcp_tools/winbox_vm.py
+- skills/sessions_watcher.py
 - skills/swan_agent.py
 - skills/tests/test_autonomous_daemon.py
+- skills/tests/test_facts.py
 - skills/tests/test_hive_mind.py
 - skills/tests/test_mcp_smoke.py
 - skills/tests/test_objectives.py
@@ -243,8 +258,6 @@ tests groups 31 files (py) around test_autonomous_flow_integration, _make_goal, 
 - tests/test_core_modules.py
 - tests/test_daemon_control.py
 - tests/test_daemon_loop.py
-- tests/test_detection_dampening.py
-- tests/test_detection_feed.py
 - tests/test_engage_gates.py
 - tests/test_engage_orchestrator.py
 - tests/test_engage_summary.py

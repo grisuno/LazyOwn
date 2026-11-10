@@ -1,0 +1,14 @@
+name: lsass_dump
+description: >-
+  Dump LSASS process memory to disk for offline credential extraction
+author: TrustedSec
+url: https://github.com/trustedsec/CS-Situational-Awareness-BOF
+source_file: bofs/lsass_dump.c
+client: beacon
+platform: windows
+category: credential_access
+client_artifact: 
+required_args: []
+optional_args: ['output_path', 'method']
+mitre_technique: T1003
+enabled: true

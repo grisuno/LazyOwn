@@ -153,7 +153,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
     #now-status { height: 5; border: round $primary; padding: 0 1; }
     #now-log { height: 1fr; border: round $primary; }
     #config-status { height: 3; color: $text-muted; }
-    #chains-detail, #profiles-detail, #playbooks-detail, #gyms-detail { height: 10;
+    #chains-detail, #profiles-detail, #playbooks-detail, #gyms-detail, #bofs-detail { height: 10;
         border: round $secondary; padding: 0 1; }
     DataTable { height: 1fr; }
     .modal-box { width: 70; height: auto; padding: 1 2; background: $surface;
@@ -199,6 +199,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._payload_path = Path(payload_path) if payload_path else None
         self._chains_dir_override: Path | None = None
         self._playbooks_dir_override: Path | None = None
+        self._bofs_dir_override: Path | None = None
         self._param_root_override: Path | None = Path(param_root) if param_root else None
         self.task_id = task_id
         self.shell = shell
@@ -259,6 +260,13 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                 with Vertical():
                     yield DataTable(id="chains-table")
                     yield Static("select a chain to preview its steps", id="chains-detail")
+            with TabPane("BOFs", id="tab-bofs"):
+                with Vertical():
+                    yield DataTable(id="bofs-table")
+                    yield Static(
+                        "BOF YAML contracts; space stages the compiled artifact",
+                        id="bofs-detail",
+                    )
             with TabPane("Profiles", id="tab-profiles"):
                 with Vertical():
                     yield DataTable(id="profiles-table")
@@ -300,6 +308,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._refresh_playbooks()
         self._refresh_gyms()
         self._refresh_chains()
+        self._refresh_bofs()
         self._refresh_profiles()
         self._refresh_models()
         self._refresh_params()
@@ -419,8 +428,39 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             elif kind in ("finish", "settle"):
                 self._worker_command.pop(worker, None)
             low = text.lower()
-            if not stage_name and any(s in low for s in ("lazy_scope", "lazy_asset", "lazy_enrich", "lazy_planner", "lazy_frontier", "lazy_worker", "lazy_guard", "lazy_traffic", "lazy_finding", "lazy_retest", "lazy_compact", "lazy_trace", "lazy_report")):
-                for s in ("lazy_scope", "lazy_asset", "lazy_enrich", "lazy_planner", "lazy_frontier", "lazy_worker", "lazy_guard", "lazy_traffic", "lazy_finding", "lazy_retest", "lazy_compact", "lazy_trace", "lazy_report"):
+            if not stage_name and any(
+                s in low
+                for s in (
+                    "lazy_scope",
+                    "lazy_asset",
+                    "lazy_enrich",
+                    "lazy_planner",
+                    "lazy_frontier",
+                    "lazy_worker",
+                    "lazy_guard",
+                    "lazy_traffic",
+                    "lazy_finding",
+                    "lazy_retest",
+                    "lazy_compact",
+                    "lazy_trace",
+                    "lazy_report",
+                )
+            ):
+                for s in (
+                    "lazy_scope",
+                    "lazy_asset",
+                    "lazy_enrich",
+                    "lazy_planner",
+                    "lazy_frontier",
+                    "lazy_worker",
+                    "lazy_guard",
+                    "lazy_traffic",
+                    "lazy_finding",
+                    "lazy_retest",
+                    "lazy_compact",
+                    "lazy_trace",
+                    "lazy_report",
+                ):
                     if s in low:
                         stage_name = s
                         break
@@ -542,6 +582,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._refresh_playbooks()
         self._refresh_gyms()
         self._refresh_chains()
+        self._refresh_bofs()
         self._refresh_profiles()
         self._refresh_models()
         self._refresh_params()
@@ -720,6 +761,10 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             name = self._selected_row("profiles-table")
             if name:
                 self.activate_profile(name)
+        elif tab == "tab-bofs":
+            name = self._selected_row("bofs-table")
+            if name:
+                self.stage_bof_file(name)
 
     def action_save_config(self) -> None:
         """Save the form values (keyboard shortcut)."""
@@ -969,6 +1014,34 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                 ),
                 _done_chain,
             )
+        elif tab == "tab-bofs":
+
+            def _done_bof(values: dict | None) -> None:
+                if not (values and values.get("filename")):
+                    return
+                try:
+                    self.create_bof_file(
+                        values["filename"],
+                        values.get("name", ""),
+                        values.get("description", ""),
+                        values.get("client", "blacksandbeacon"),
+                    )
+                except (FileExistsError, ValueError) as exc:
+                    self.notify(f"bof not created: {exc}", severity="error")
+
+            self.push_screen(
+                FormModal(
+                    "New BOF configuration",
+                    [
+                        ("filename", "File name (e.g. my_bof)", "my_bof"),
+                        ("name", "BOF name", "my_bof"),
+                        ("description", "Capability description", "BOF capability"),
+                        ("client", "Delivering client (beacon|blacksandbeacon)", "blacksandbeacon"),
+                    ],
+                    defaults={"client": "blacksandbeacon"},
+                ),
+                _done_bof,
+            )
 
     def action_edit_item(self) -> None:
         """Edit the selected playbook YAML, LLM member priority or parameter."""
@@ -977,6 +1050,11 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             filename = self._selected_row("playbooks-table")
             if filename:
                 self._edit_playbook(filename)
+            return
+        if tab == "tab-bofs":
+            filename = self._selected_row("bofs-table")
+            if filename:
+                self._edit_bof(filename)
             return
         if tab == "tab-gyms":
             gym_id = self._selected_row("gyms-table")
@@ -1084,6 +1162,19 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
             self.push_screen(
                 ConfirmModal(f"Delete {filename}?", "The YAML file is removed from playbooks/."),
                 _confirmed,
+            )
+        elif tab == "tab-bofs":
+            filename = self._selected_row("bofs-table")
+            if not filename:
+                return
+
+            def _confirmed_bof(answer: bool | None) -> None:
+                if answer:
+                    self.delete_bof_file(filename)
+
+            self.push_screen(
+                ConfirmModal(f"Delete {filename}?", "The YAML file is removed from bofs/."),
+                _confirmed_bof,
             )
         elif tab == "tab-gyms":
             gym_id = self._selected_row("gyms-table")

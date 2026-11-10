@@ -3,6 +3,80 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ACIReflector` | class | `skills/aci_planner.py:789` | `class ACIReflector` |
+| `AttackPhase` | class | `skills/aci_planner.py:157` | `class AttackPhase` |
+| `__init__` | method | `skills/aci_planner.py:463` | `def __init__(self, api_key, objectives_file, plan_file)` |
+| `__init__` | method | `skills/aci_planner.py:606` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
+| `__init__` | method | `skills/aci_planner.py:799` | `def __init__(self, lessons_file)` |
+| `_archive_plan` | function | `skills/aci_planner.py:258` | `def _archive_plan(plan, history_file)` |
+| `_build_parser` | function | `skills/aci_planner.py:980` | `def _build_parser()` |
+| `_build_phases_from_llm` | method | `skills/aci_planner.py:511` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
+| `_build_phases_static` | method | `skills/aci_planner.py:536` | `def _build_phases_static(self, goal, phase_filter)` |
+| `_count_blocked` | method | `skills/aci_planner.py:775` | `def _count_blocked(self, plan)` |
+| `_count_objectives_by_status` | function | `skills/aci_planner.py:287` | `def _count_objectives_by_status(obj_ids, objectives_file)` |
+| `_inject_all_objectives` | method | `skills/aci_planner.py:564` | `def _inject_all_objectives(self, plan)` |
+| `_llm_decompose` | function | `skills/aci_planner.py:337` | `def _llm_decompose(goal, api_key)` |
+| `_llm_replan` | function | `skills/aci_planner.py:402` | `def _llm_replan(plan, reason, api_key)` |
+| `_load_payload` | function | `skills/aci_planner.py:267` | `def _load_payload()` |
+| `_load_plan` | function | `skills/aci_planner.py:245` | `def _load_plan(plan_file)` |
+| `_load_world_model` | function | `skills/aci_planner.py:276` | `def _load_world_model()` |
+| `_now_iso` | function | `skills/aci_planner.py:231` | `def _now_iso()` |
+| `_persist_lessons` | method | `skills/aci_planner.py:854` | `def _persist_lessons(self, lessons)` |
+| `_save_plan` | function | `skills/aci_planner.py:235` | `def _save_plan(plan, plan_file)` |
+| `_sync_phase_statuses` | method | `skills/aci_planner.py:756` | `def _sync_phase_statuses(self, plan)` |
+| `_write_objective` | method | `skills/aci_planner.py:573` | `def _write_objective(self, text, phase, target)` |
+| `active_phase` | method | `skills/aci_planner.py:199` | `def active_phase(self)` |
+| `complete` | method | `skills/aci_planner.py:743` | `def complete(self)` |
+| `completion_pct` | method | `skills/aci_planner.py:207` | `def completion_pct(self)` |
+| `from_dict` | method | `skills/aci_planner.py:176` | `def from_dict(cls, d)` |
+| `from_dict` | method | `skills/aci_planner.py:221` | `def from_dict(cls, d)` |
+| `main` | function | `skills/aci_planner.py:1005` | `def main(argv)` |
+| `mcp_aci_plan` | function | `skills/aci_planner.py:867` | `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` |
+| `mcp_aci_replan` | function | `skills/aci_planner.py:942` | `def mcp_aci_replan(reason)` |
+| `mcp_aci_status` | function | `skills/aci_planner.py:925` | `def mcp_aci_status()` |
+| `plan` | method | `skills/aci_planner.py:473` | `def plan(self, goal, phase_filter)` |
+| `reflect` | method | `skills/aci_planner.py:802` | `def reflect(self, plan)` |
+| `replan` | method | `skills/aci_planner.py:673` | `def replan(self, reason)` |
+| `should_replan` | method | `skills/aci_planner.py:660` | `def should_replan(self, plan)` |
+| `status` | method | `skills/aci_planner.py:620` | `def status(self)` |
+| `to_dict` | method | `skills/aci_planner.py:171` | `def to_dict(self)` |
+| `to_dict` | method | `skills/aci_planner.py:214` | `def to_dict(self)` |
+| `BridgeFallbackResolver` | class | `skills/autonomous_daemon.py:3312` | `class BridgeFallbackResolver(IToolFallbackResolver)` |
+| `BridgeSelector` | class | `skills/autonomous_daemon.py:787` | `class BridgeSelector(ICommandSelector)` |
+| `CascadeStrategy` | class | `skills/autonomous_daemon.py:1432` | `class CascadeStrategy` |
+| `ChainSelector` | class | `skills/autonomous_daemon.py:1379` | `class ChainSelector(ICommandSelector)` |
+| `CommandRunnerChain` | class | `skills/autonomous_daemon.py:589` | `class CommandRunnerChain(ICommandRunner)` |
+| `CredentialSpraySelector` | class | `skills/autonomous_daemon.py:1331` | `class CredentialSpraySelector(ICommandSelector)` |
+| `DroneCoordinator` | class | `skills/autonomous_daemon.py:2956` | `class DroneCoordinator` |
+| `EngageOrchestrator` | class | `skills/autonomous_daemon.py:3451` | `class EngageOrchestrator` |
+| `EnginePhaseResult` | class | `skills/autonomous_daemon.py:3261` | `class EnginePhaseResult` |
+| `EnginePhaseStep` | class | `skills/autonomous_daemon.py:3244` | `class EnginePhaseStep` |
+| `ExecutionEngine` | class | `skills/autonomous_daemon.py:1570` | `class ExecutionEngine(IObjectiveHandler)` |
+| `FallbackSelector` | class | `skills/autonomous_daemon.py:1026` | `class FallbackSelector(ICommandSelector)` |
+| `ICommandRunner` | class | `skills/autonomous_daemon.py:428` | `class ICommandRunner(ABC)` |
+| `ICommandSelector` | class | `skills/autonomous_daemon.py:682` | `class ICommandSelector(ABC)` |
+| `IObjectiveHandler` | class | `skills/autonomous_daemon.py:1556` | `class IObjectiveHandler(ABC)` |
+| `IToolFallbackResolver` | class | `skills/autonomous_daemon.py:3278` | `class IToolFallbackResolver(ABC)` |
+| `LLMSelector` | class | `skills/autonomous_daemon.py:856` | `class LLMSelector(ICommandSelector)` |
+| `MCPCommandRunner` | class | `skills/autonomous_daemon.py:481` | `class MCPCommandRunner(ICommandRunner)` |
+| `MetricsAwareSelector` | class | `skills/autonomous_daemon.py:1049` | `class MetricsAwareSelector(ICommandSelector)` |
+| `PTYCommandRunner` | class | `skills/autonomous_daemon.py:500` | `class PTYCommandRunner(ICommandRunner)` |
+| `ParquetSelector` | class | `skills/autonomous_daemon.py:741` | `class ParquetSelector(ICommandSelector)` |
+| `ReactiveSelector` | class | `skills/autonomous_daemon.py:695` | `class ReactiveSelector(ICommandSelector)` |
+| `SWANSelector` | class | `skills/autonomous_daemon.py:956` | `class SWANSelector(ICommandSelector)` |
+| `StaticFallbackResolver` | class | `skills/autonomous_daemon.py:3291` | `class StaticFallbackResolver(IToolFallbackResolver)` |
+| `StepResult` | class | `skills/autonomous_daemon.py:1544` | `class StepResult` |
+| `StrategyEngine` | class | `skills/autonomous_daemon.py:1463` | `class StrategyEngine` |
+| `UnifiedBrainSelector` | class | `skills/autonomous_daemon.py:1280` | `class UnifiedBrainSelector(ICommandSelector)` |
+| `_ShellDetector` | class | `skills/autonomous_daemon.py:3360` | `class _ShellDetector` |
+| `__init__` | method | `skills/autonomous_daemon.py:598` | `def __init__(self, runners)` |
+| `__init__` | method | `skills/autonomous_daemon.py:701` | `def __init__(self, reactive_engine)` |
+| `__init__` | method | `skills/autonomous_daemon.py:747` | `def __init__(self, pdb, fail_counts)` |
+| `__init__` | method | `skills/autonomous_daemon.py:793` | `def __init__(self, dispatcher, fail_counts)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1070` | `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1293` | `def __init__(self)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1341` | `def __init__(self, fail_counts)` |
+| `__init__` | method | `skills/autonomous_daemon.py:1399` | `def __init__(self)` |
 | `__init__` | method | `skills/autonomous_daemon.py:1439` | `def __init__(self, selectors)` |
 | `__init__` | method | `skills/autonomous_daemon.py:1477` | `def __init__(self, runner, selectors)` |
 | `__init__` | method | `skills/autonomous_daemon.py:1582` | `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `execute` | method | `skills/hermes-lazyown/executor.py:77` | `def execute(self, command, timeout)` |
 | `execute_batch` | method | `skills/hermes-lazyown/executor.py:98` | `def execute_batch(self, commands, timeout)` |
 | `success` | method | `skills/hermes-lazyown/executor.py:47` | `def success(self)` |
-| `CheckpointSerializer` | class | `skills/hermes-lazyown/hermes_sync.py:27` | `class CheckpointSerializer` |
-| `DelegationPlanner` | class | `skills/hermes-lazyown/hermes_sync.py:145` | `class DelegationPlanner` |
-| `HermesSyncError` | class | `skills/hermes-lazyown/hermes_sync.py:21` | `class HermesSyncError(Exception)` |
-| `ObjectiveTodoSync` | class | `skills/hermes-lazyown/hermes_sync.py:73` | `class ObjectiveTodoSync` |
-| `__init__` | method | `skills/hermes-lazyown/hermes_sync.py:33` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `skills/hermes-lazyown/hermes_sync.py:82` | `def __init__(self, objectives_path)` |
-| `clear` | method | `skills/hermes-lazyown/hermes_sync.py:64` | `def clear(self)` |
-| `inject_objective` | method | `skills/hermes-lazyown/hermes_sync.py:127` | `def inject_objective(self, text, priority, notes)` |
-| `mark_done` | method | `skills/hermes-lazyown/hermes_sync.py:106` | `def mark_done(self, objective_text)` |
-| `pending_objectives` | method | `skills/hermes-lazyown/hermes_sync.py:85` | `def pending_objectives(self)` |
-| `plan_for_credential` | method | `skills/hermes-lazyown/hermes_sync.py:233` | `def plan_for_credential(self, cred_type, value, rhost)` |
-| `plan_for_service` | method | `skills/hermes-lazyown/hermes_sync.py:154` | `def plan_for_service(self, service, port, rhost)` |
-| `read` | method | `skills/hermes-lazyown/hermes_sync.py:49` | `def read(self)` |
-| `write` | method | `skills/hermes-lazyown/hermes_sync.py:37` | `def write(self, state)` |
-| `_auto_inject_objective` | function | `skills/hermes-lazyown/mcp_server.py:611` | `def _auto_inject_objective(arguments)` |
-| `_auto_loop` | function | `skills/hermes-lazyown/mcp_server.py:591` | `def _auto_loop(arguments)` |
-| `_c2_get_beacons` | function | `skills/hermes-lazyown/mcp_server.py:727` | `def _c2_get_beacons()` |
-| `_c2_status` | function | `skills/hermes-lazyown/mcp_server.py:706` | `def _c2_status()` |
-| `_compact` | function | `skills/hermes-lazyown/mcp_server.py:92` | `def _compact(result, phase, tool_name)` |
-| `_core_command_help` | function | `skills/hermes-lazyown/mcp_server.py:480` | `def _core_command_help(arguments)` |
-| `_core_run_command` | function | `skills/hermes-lazyown/mcp_server.py:464` | `def _core_run_command(arguments)` |
-| `_core_session_init` | function | `skills/hermes-lazyown/mcp_server.py:395` | `def _core_session_init(arguments)` |
-| `_core_set_config` | function | `skills/hermes-lazyown/mcp_server.py:441` | `def _core_set_config(arguments)` |
-| `_desc` | function | `skills/hermes-lazyown/mcp_server.py:120` | `def _desc(base)` |
-| `_get_checkpoint_serializer` | function | `skills/hermes-lazyown/mcp_server.py:68` | `def _get_checkpoint_serializer()` |
-| `_get_compactor` | function | `skills/hermes-lazyown/mcp_server.py:52` | `def _get_compactor()` |
-| `_get_config` | function | `skills/hermes-lazyown/mcp_server.py:45` | `def _get_config()` |
-| `_get_delegation_planner` | function | `skills/hermes-lazyown/mcp_server.py:82` | `def _get_delegation_planner()` |
-| `_get_executor` | function | `skills/hermes-lazyown/mcp_server.py:60` | `def _get_executor()` |
-| `_get_objective_sync` | function | `skills/hermes-lazyown/mcp_server.py:75` | `def _get_objective_sync()` |
-| `_handle_tool` | function | `skills/hermes-lazyown/mcp_server.py:346` | `def _handle_tool(name, arguments)` |
-| `_hermes_checkpoint_read` | function | `skills/hermes-lazyown/mcp_server.py:648` | `def _hermes_checkpoint_read()` |
-| `_hermes_checkpoint_write` | function | `skills/hermes-lazyown/mcp_server.py:638` | `def _hermes_checkpoint_write(arguments)` |
-| `_hermes_delegate_plan` | function | `skills/hermes-lazyown/mcp_server.py:677` | `def _hermes_delegate_plan(arguments)` |
-| `_hermes_rules_generate` | function | `skills/hermes-lazyown/mcp_server.py:659` | `def _hermes_rules_generate(arguments)` |
-| `_intel_facts_show` | function | `skills/hermes-lazyown/mcp_server.py:512` | `def _intel_facts_show(arguments)` |
-| `_intel_recommend_next` | function | `skills/hermes-lazyown/mcp_server.py:546` | `def _intel_recommend_next()` |
-| `_intel_searchsploit` | function | `skills/hermes-lazyown/mcp_server.py:562` | `def _intel_searchsploit(arguments)` |
-| `_try_import_lazyown_module` | function | `skills/hermes-lazyown/mcp_server.py:101` | `def _try_import_lazyown_module(module_name)` |
-| `call_tool` | function | `skills/hermes-lazyown/mcp_server.py:334` | `def call_tool(name, arguments)` |
-| `list_tools` | function | `skills/hermes-lazyown/mcp_server.py:329` | `def list_tools()` |
-| `main` | function | `skills/hermes-lazyown/mcp_server.py:751` | `def main()` |
-| `CompactionResult` | class | `skills/hermes-lazyown/output_compactor.py:17` | `class CompactionResult` |
-| `CompactionStrategy` | class | `skills/hermes-lazyown/output_compactor.py:36` | `class CompactionStrategy(ABC)` |
-| `DefaultCompaction` | class | `skills/hermes-lazyown/output_compactor.py:162` | `class DefaultCompaction(CompactionStrategy)` |
-| `EnumCompaction` | class | `skills/hermes-lazyown/output_compactor.py:80` | `class EnumCompaction(CompactionStrategy)` |
-| `ExploitCompaction` | class | `skills/hermes-lazyown/output_compactor.py:111` | `class ExploitCompaction(CompactionStrategy)` |
-| `OutputCompactor` | class | `skills/hermes-lazyown/output_compactor.py:179` | `class OutputCompactor` |
-| `PrivescCompaction` | class | `skills/hermes-lazyown/output_compactor.py:140` | `class PrivescCompaction(CompactionStrategy)` |
-| `ReconCompaction` | class | `skills/hermes-lazyown/output_compactor.py:45` | `class ReconCompaction(CompactionStrategy)` |
-| `__init__` | method | `skills/hermes-lazyown/output_compactor.py:20` | `def __init__(self, compacted, original_lines, compacted_lines)` |
-| `__init__` | method | `skills/hermes-lazyown/output_compactor.py:165` | `def __init__(self, max_lines)` |
-| `__init__` | method | `skills/hermes-lazyown/output_compactor.py:196` | `def __init__(self, default_max_lines)` |
-| `__str__` | method | `skills/hermes-lazyown/output_compactor.py:32` | `def __str__(self)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:40` | `def compact(self, raw_output, tool_name)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:55` | `def compact(self, raw_output, tool_name)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:93` | `def compact(self, raw_output, tool_name)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:124` | `def compact(self, raw_output, tool_name)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:151` | `def compact(self, raw_output, tool_name)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:168` | `def compact(self, raw_output, tool_name)` |
-| `compact` | method | `skills/hermes-lazyown/output_compactor.py:200` | `def compact(self, raw_output, phase, tool_name)` |
-| `reduction_ratio` | method | `skills/hermes-lazyown/output_compactor.py:26` | `def reduction_ratio(self)` |
-| `ConsensusProtocol` | class | `skills/hive_mind.py:911` | `class ConsensusProtocol` |
-| `ConsensusVote` | class | `skills/hive_mind.py:902` | `class ConsensusVote` |
-| `DroneAgent` | class | `skills/hive_mind.py:1083` | `class DroneAgent` |
-| `DronePool` | class | `skills/hive_mind.py:1661` | `class DronePool` |
-| `DroneState` | class | `skills/hive_mind.py:1066` | `class DroneState` |
-| `DroneStateStore` | class | `skills/hive_mind.py:1481` | `class DroneStateStore` |
-| `EpisodicStore` | class | `skills/hive_mind.py:189` | `class EpisodicStore(IMemoryStore)` |
-| `HiveBus` | class | `skills/hive_mind.py:728` | `class HiveBus` |
-| `HiveMemory` | class | `skills/hive_mind.py:571` | `class HiveMemory` |
-| `HiveMessage` | class | `skills/hive_mind.py:717` | `class HiveMessage` |
-| `HiveMind` | class | `skills/hive_mind.py:1812` | `class HiveMind` |
-| `ICommandRunner` | class | `skills/hive_mind.py:171` | `class ICommandRunner(ABC)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

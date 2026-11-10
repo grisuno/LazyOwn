@@ -1,21 +1,21 @@
 # modules: lazyc2
 
-*Community 2 | 141 files | cohesion 0.48*
+*Community 2 | 138 files | cohesion 0.47*
 
 ## Definition
 
-This community groups 141 file(s) rooted at `modules` with dominant language py (cohesion 0.48). Central symbols: `AESKeyManager`, `AccessFact`, `AddonUpdateResult`, `AdvancePhaseSingleWriterSpec`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`, `BeaconHistoryConfig`. Core file: `lazyc2.py` (313 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 138 file(s) rooted at `modules` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `AdvancePhaseSingleWriterSpec`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`, `BeaconHistoryConfig`, `BindAddressResolver`. Core file: `lazyc2.py` (313 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
-### `modules` (39 files)
+### `modules` (40 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/addon_updater.py` | py | utility | 10 | yes |
 | `modules/beacon_history.py` | py | utility | 7 | yes |
 
-### `tests` (30 files)
+### `tests` (31 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -27,6 +27,7 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
+| `contrib/legacy/lazygptcli.py` | py | utility | 14 | yes |
 
 ### `lazyc2/security` (10 files)
 
@@ -46,12 +47,6 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `skills/hermes-lazyown/claudemd_rules.py` | py | business_logic | 14 | yes |
 
-### `skills` (6 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/daemon_health.py` | py | utility | 16 | yes |
-
 ### `core` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -64,17 +59,23 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/integrations/__init__.py` | py | utility | 0 | yes |
 
-### `skills/mcp_tools` (5 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/mcp_tools/campaign.py` | py | utility | 2 | yes |
-
 ### `lazyc2/extensions` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/extensions/decoy.py` | py | presentation | 1 | yes |
+
+### `skills/mcp_tools` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/mcp_tools/campaign.py` | py | utility | 2 | yes |
+
+### `skills` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/daemon_health.py` | py | utility | 16 | yes |
 
 ### `.` (2 files)
 
@@ -112,13 +113,7 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/backdoor/server.c` | c | utility | 1 | no |
 
-### `skills/tests` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/tests/test_facts.py` | py | testing | 37 | yes |
-
-*... and 121 more files in this community.*
+*... and 118 more files in this community.*
 
 
 ## Key Symbols
@@ -156,8 +151,8 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 359
-- Cross-boundary resolved imports (EXTRACTED): 339
+- Internal resolved imports (EXTRACTED): 351
+- Cross-boundary resolved imports (EXTRACTED): 345
 
 ## Connections
 
@@ -167,16 +162,16 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
+- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
+- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
 - [layer strict] `tests/test_api_v1.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_v1.py` (testing) -> `lazyc2/blueprints/api_v1.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
-- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
@@ -188,7 +183,7 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 - Why do 14 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.48?
+- Should modules: lazyc2 be split, given cohesion 0.47?
 
 ## Sources
 
@@ -212,4 +207,4 @@ This community groups 141 file(s) rooted at `modules` with dominant language py 
 - `lazyc2.py`
 - `lazyc2/__init__.py`
 - `lazyc2/blueprints/__init__.py`
-- *... and 121 more*
+- *... and 118 more*

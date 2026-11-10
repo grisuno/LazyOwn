@@ -641,7 +641,7 @@ Assemble a [`RecommendationContext`](cli.recommendation.py.md#recommendationcont
 
 *Calls:* [`RecommendationContext`](cli.recommendation.py.md#recommendationcontext), [`read_recent_commands`](#read_recent_commands)
 
-*Called by:* [`MiscMigratedCommandSet.do_recommend_next`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_recommend_next), [`recommend_with_evidence`](#recommend_with_evidence), [`next_actions`](modules.engage_summary.py.md#next_actions), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`MiscMigratedCommandSet.do_recommend_next`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_recommend_next), [`recommend_with_evidence`](#recommend_with_evidence), [`next_actions`](modules.engage_summary.py.md#next_actions), [`handle`](skills.mcp_tools.recommend_next.py.md#handle)
 
 ---
 
@@ -675,7 +675,7 @@ signal is unconditional because its tables ship with the framework.
 
 *Calls:* [`CategoryResolver.__init__`](cli.recommendation.py.md#categoryresolver-__init__), [`RecommendationEngine.__init__`](cli.recommendation.py.md#recommendationengine-__init__), [`GraphTopologySignal.__init__`](#graphtopologysignal-__init__), [`KillchainGapSignal.__init__`](#killchaingapsignal-__init__)
 
-*Called by:* [`recommend_with_evidence`](#recommend_with_evidence), [`next_actions`](modules.engage_summary.py.md#next_actions), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`recommend_with_evidence`](#recommend_with_evidence), [`next_actions`](modules.engage_summary.py.md#next_actions), [`handle`](skills.mcp_tools.recommend_next.py.md#handle)
 
 ---
 

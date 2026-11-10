@@ -1,6 +1,23 @@
 # API (page 21 of 27)
 Previous: [API_p20.md](API_p20.md)
 
+## scripts/migrate_lazyown.py
+Imported by: `tests/test_migrate_lazyown_generator.py`
+- `extract_method` (function) `scripts/migrate_lazyown.py:88` `def extract_method(source, node)` -- Return the raw source text of a function definition.
+- `rewrite_globals` (function) `scripts/migrate_lazyown.py:96` `def rewrite_globals(method_source)` -- Replace bare module-global names with ``self.params[...]``.
+- `build_migrated_module` (function) `scripts/migrate_lazyown.py:124` `def build_migrated_module(phase, category, methods)` -- Return the source text of a migrated ``CommandSet`` module.
+- `main` (function) `scripts/migrate_lazyown.py:173` `def main()`
+
+## scripts/mutate.sh
+- `runners` (function) `scripts/mutate.sh:29`
+- `changed_sources` (function) `scripts/mutate.sh:33`
+- `usage` (function) `scripts/mutate.sh:40`
+
+## scripts/mutation_gate.py
+- `discover_runners` (function) `scripts/mutation_gate.py:25` `def discover_runners()` -- Return sorted curated mutation runners.
+- `run_runner` (function) `scripts/mutation_gate.py:34` `def run_runner(path, timeout_s)` -- Execute one mutation runner.
+- `main` (function) `scripts/mutation_gate.py:63` `def main(argv)` -- Entry point for the mutation gate.
+
 ## scripts/publish_wiki.sh
 - `log` (function) `scripts/publish_wiki.sh:37`
 - `fail` (function) `scripts/publish_wiki.sh:38`
@@ -475,17 +492,6 @@ Imported by: `modules/loop_ai_bridge.py`, `modules/unified_dashboard.py`, `skill
 - `mcp_hive_collect` (function) `skills/hive_mind.py:2010` `def mcp_hive_collect(drone_ids_csv, goal)` -- Wait for drones to finish and return synthesized result. drone_ids_csv: comma-separated drone IDs.
 - `mcp_hive_forget` (function) `skills/hive_mind.py:2021` `def mcp_hive_forget(older_than_hours, topic)` -- Prune hive memory.
 - `mcp_hive_recover` (function) `skills/hive_mind.py:2027` `def mcp_hive_recover(backend, api_key, max_iterations)` -- Re-queue all drones that were interrupted by a previous process crash/restart.
-
-## skills/lazyown_automapper.py
-Depends on: `core/logging.py`
-Imported by: `skills/lazyown_mcp.py`
-- `AutoMapper.__init__` (method) `skills/lazyown_automapper.py:341` `def __init__(self, lazyown_dir)`
-- `AutoMapper.rescan` (method) `skills/lazyown_automapper.py:364` `def rescan(self)` -- Force a rescan of all source directories.
-- `AutoMapper.mcp_tools` (method) `skills/lazyown_automapper.py:368` `def mcp_tools(self)` -- Return list of mcp types.Tool objects for all discovered extensions.
-- `AutoMapper.dispatch` (method) `skills/lazyown_automapper.py:389` `def dispatch(self, name, arguments, config, run_command_fn)` -- Execute a dynamic tool.
-- `AutoMapper.update_skills_md` (method) `skills/lazyown_automapper.py:524` `def update_skills_md(self, skills_md_path)` -- Append / replace the auto-discovered section in skills/lazyown.md.
-- `AutoMapper.stats` (method) `skills/lazyown_automapper.py:571` `def stats(self)`
-- `AutoMapper.list_specs` (method) `skills/lazyown_automapper.py:581` `def list_specs(self)` -- Return raw spec dicts (useful for debugging / reporting).
 
 
 Next: [API_p22.md](API_p22.md)

@@ -6,8 +6,6 @@ import shlex
 from datetime import UTC, datetime
 from pathlib import Path
 
-import cmd2
-
 from cli.commands._base import LazyOwnCommandSet
 from core.hardening import safe_subprocess_run
 from utils import CYAN, GREEN, RESET, print_error, print_msg, print_succ, print_warn
@@ -21,6 +19,7 @@ class LazyPocCommandSet(LazyOwnCommandSet):
     """Run catalogued proof-of-concept scripts as loop-routable verbs."""
 
     phase = "exploit"
+    category = "12. Miscellaneous"
 
     def do_lazy_poc(self, line):
         """Operate the PoC verb registry.
@@ -94,9 +93,7 @@ class LazyPocCommandSet(LazyOwnCommandSet):
         if verb.requires:
             print_msg(f"  requires    {', '.join(verb.requires)}")
         if verb.args:
-            rendered = " ".join(
-                f"{arg.flag} {arg.value}".strip() for arg in verb.args if arg.flag or arg.value
-            )
+            rendered = " ".join(f"{arg.flag} {arg.value}".strip() for arg in verb.args if arg.flag or arg.value)
             print_msg(f"  args        {rendered}")
         missing = registry.missing_requirements(verb)
         if missing:

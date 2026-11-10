@@ -1771,9 +1771,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         from cli.apt_chain_support import (
             adversarial_continue,
+            build_adaptive_replanner,
             build_cli_approver,
             build_llm_recovery_chain,
             build_reactive_replanner,
+            compose_replanners,
             parse_chain_args,
             render_result,
             resolve_admin,
@@ -1921,7 +1923,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_error(f"[apt_chain] {problem}")
         if wanted_errors:
             return
-        if args.continue_all:
+        if args.continue_all or args.adaptive:
             chain = adversarial_continue(chain)
 
         try:
@@ -1976,7 +1978,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             run_id=args.resume_run_id,
             resume_state=resume_state,
             step_filter=wanted_ids,
-            replanner=build_reactive_replanner() if args.replan else None,
+            replanner=compose_replanners(
+                [
+                    build_adaptive_replanner() if args.adaptive else None,
+                    build_reactive_replanner() if args.replan else None,
+                ]
+            ),
         )
         result = runner.run()
         if not args.dry_run:

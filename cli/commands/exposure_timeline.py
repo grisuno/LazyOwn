@@ -63,7 +63,12 @@ class TimelineCommandSet(LazyOwnCommandSet):
 
     def _record(self, engine, args: list[str], json_out: bool) -> None:
         """Snapshot now, with optional DNS tracking and state override."""
-        dns_domains = [value for index, item in enumerate(args) if item == "--dns" and index + 1 < len(args) for value in [args[index + 1]]]
+        dns_domains = [
+            value
+            for index, item in enumerate(args)
+            if item == "--dns" and index + 1 < len(args)
+            for value in [args[index + 1]]
+        ]
         directory = extract_flag(args, "--dir")
         state_path = extract_flag(args, "--state")
         resolved = engine.resolve_hostnames(dns_domains) if dns_domains else {}

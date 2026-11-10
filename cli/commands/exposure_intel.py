@@ -55,9 +55,7 @@ class LazyIntelCommandSet(LazyOwnCommandSet):
         if not check_rhost(target):
             print_error(f"lazyintel: invalid target {target}")
             return
-        feed_path = self._flag(args, "--feed") or str(
-            self.params.get("intel_feed") or lazy_feedmatch.DEFAULT_FEED_PATH
-        )
+        feed_path = self._flag(args, "--feed") or str(self.params.get("intel_feed") or lazy_feedmatch.DEFAULT_FEED_PATH)
         show_json = "--json" in args
         quiet = "--quiet" in args
         wants_checks = "--check" in args
@@ -86,7 +84,9 @@ class LazyIntelCommandSet(LazyOwnCommandSet):
                 print_succ(f"autofire: confirmation chain at {fired.get('path')}")
             elif fired.get("action") == "proposed" and fired.get("chain"):
                 print_msg("autofire: proposal ready (assign autofire true to write it)")
-            print_msg(f"autofire: {fired.get('action')} — {engine.status(dict(self.params)).get('cooldown')} cooldown entries")
+            print_msg(
+                f"autofire: {fired.get('action')} — {engine.status(dict(self.params)).get('cooldown')} cooldown entries"
+            )
         if path is not None and not quiet:
             print_succ(f"report at {path}")
 

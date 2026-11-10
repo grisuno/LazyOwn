@@ -98,11 +98,13 @@ def test_stack_priors_prefer_same_stack(tmp_path, monkeypatch):
 
 def test_prompt_context_masks_configured_only(tmp_path, monkeypatch):
     """BDD: payload secrets never reach cloud backends, loot still does."""
+    import core.config as core_config
     import modules.lazy_loop as loop
-    from core.config import load_payload
+
+    secret = "Sup3rS3cretOperatorPass"
+    monkeypatch.setattr(core_config, "load_payload", lambda *a, **k: {"start_pass": secret})
 
     engine = _patched_engine(tmp_path, monkeypatch)
-    secret = str((load_payload() or {}).get("start_pass", "") or "")
     assert len(secret) >= 6
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     graph = loop.ExplorationGraph(task_id)

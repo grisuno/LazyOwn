@@ -1,0 +1,30 @@
+name: lazy_adaptive
+description: |
+  LazyAdaptive - failure-verdict-driven adaptive fallback for apt_chain.
+
+  Classifies every failed chain step into a verdict (lockout, scope,
+  auth, permission, tool_missing, timeout, network) and requests one
+  engine action: abort, skip, retry, or fallback. With the policy armed
+  (`apt_chain <chain> <target> --adaptive`), a fallback-eligible failure
+  proposes the next untried Atomic technique alternative whose service
+  and credential prerequisites are actually observable on the target;
+  the runner insert cap bounds churn. A lockout verdict never gets an
+  alternative: spraying past a locked account is how engagements die.
+
+  First-class shell command (also registered trigger-only for the verb
+  catalog):
+    lazy_adaptive                  verdict taxonomy and action matrix
+    lazy_adaptive graph            curated fallback graph + catalogue marks
+    apt_chain <chain> <target> --adaptive   arm the adaptive replanner
+    apt_chain <chain> <target> --adaptive --replan   adaptive + LLM replan
+author: LazyOwn
+version: '1.0'
+enabled: true
+update: true
+os: any
+trigger: []
+category: 12. Miscellaneous
+module_type: auxiliary
+tool:
+  name: LazyAdaptive Replanner
+  execute_command: lazy_adaptive graph

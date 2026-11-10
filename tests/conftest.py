@@ -179,4 +179,20 @@ def _isolated_payload_scope(tmp_path, monkeypatch):
         import core.config as core_config
     except Exception:
         return
-    monkeypatch.setattr(core_config, "load_payload", lambda *a, **k: {})
+    real_load_payload = core_config.load_payload
+
+    def _scoped_load_payload(*args, **kwargs):
+        """Real payload only for explicit paths; empty for the ambient read.
+
+        Tests that carry their own ``tmp_path`` file (core.config
+        round-trips) must see their real content, while every ambient
+        ``load_payload()`` consumer keeps the previous empty default so
+        the operator checkout never leaks into loop tests.
+        """
+        if "path" in kwargs:
+            return real_load_payload(**kwargs)
+        if args:
+            return real_load_payload(args[0], *args[1:])
+        return {}
+
+    monkeypatch.setattr(core_config, "load_payload", _scoped_load_payload)

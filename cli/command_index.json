@@ -55,6 +55,7 @@
     "cli/commands/lab.py",
     "cli/commands/lateral.py",
     "cli/commands/lateral_migrated.py",
+    "cli/commands/lazy_adaptive.py",
     "cli/commands/lazy_creds.py",
     "cli/commands/lazy_dorks.py",
     "cli/commands/lazy_oob.py",
@@ -126,7 +127,7 @@
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
     "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
     "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
-    "cli/commands/command_and_control_migrated.py": "535d8de5b4cfeaa7783b9ba92c5ef5650eeb1c6918b659b2fea236ea2a1839cc",
+    "cli/commands/command_and_control_migrated.py": "504919fc12b08c99515dadc183ab3a6da3530d4cc0c5aa0b3b1ed05b9101e118",
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ec230e5bc167bbb40c58dbd8dbdf0c9e9a3da1fde773345167f1bd357b2ed054",
     "cli/commands/cred_migrated.py": "b05636924991f9b44d22baa8aafdceaa5a6af31501a4d53d5a98d5579d9a22c3",
@@ -146,13 +147,13 @@
     "cli/commands/exfiltration.py": "7827063ebf33e0ab47ff2ba1f6c6802a9d5bbbd73c63d87ea63bb49a54235edc",
     "cli/commands/exploit.py": "008a79702a5adb4e26736a369fe52508dfb02932bc8e4971f5017e88d27567a7",
     "cli/commands/exploit_migrated.py": "5246d09aafa2009df6cf5f20b06a255d30f00a322d916ba051d7cc808acc9318",
-    "cli/commands/exploitdb.py": "a9a589f309d61fc88268172f2c20c05b7e7ff9f45dae9ee21b0d47ceedbb202b",
+    "cli/commands/exploitdb.py": "2f77c549403bf3d0471e3087a2f53ad69264be0670159751226e84eddde0726d",
     "cli/commands/exploitgym.py": "365c98a1002f589c8d2143f605e0ed8d6d8668417fe14a5b1f8fd475d4398831",
     "cli/commands/exposure_autofire.py": "d3993337a4967326583ba72b19ca34ee50c173bea2135bb6b3378e2eea4c5ad2",
-    "cli/commands/exposure_intel.py": "e70a73a8a3f8de983ac8caf11989ad96b7a9a515c4bd3a21a9a22b11bd5b55a6",
-    "cli/commands/exposure_inventory.py": "06273d7c09887c6a0a8fdb74cc67a158ded178ddd6c923693e8cd5edc8c543d0",
-    "cli/commands/exposure_sentinel.py": "652a6843d420b609d18b5ba53bba9e8ff1dc05966d33c9133ca2b0da7748d733",
-    "cli/commands/exposure_timeline.py": "647faf91aa0208fa6d93e47ade702e8e58a19ea9d7865e8a6a865696d85c3975",
+    "cli/commands/exposure_intel.py": "4f5faf5441befb164fa1af70ca21092b31a7ab2fb6b666f3ff483b34bfd8c30c",
+    "cli/commands/exposure_inventory.py": "9061415bb349cf259b3cc99c481ecad9025a73e3851d3819f72010f653646afc",
+    "cli/commands/exposure_sentinel.py": "3d73a3d6655d373e636f164196f85da3afee5dcdf0a62f1da5d23b53982544e4",
+    "cli/commands/exposure_timeline.py": "5927d89f5275516085b8639f413888508f130fa6f51b86d2b308f49f2f5be458",
     "cli/commands/golden_paths.py": "8ec2324e99a1734b3c8307925ee40e6c2f0e37171f21eb63a5fe877e5d1e44e2",
     "cli/commands/gym_matrix.py": "e18c5b606430984abb1c4db6f2669571b84a327b132edc037b4d0a61cd15281e",
     "cli/commands/help_ui.py": "a841a890187be73bf0c85e666b39c14407ede6f34b85d5a68d49170105f1bd37",
@@ -160,11 +161,12 @@
     "cli/commands/lab.py": "33dcff322795c822bbc77b6e119b7d797d4050b0725f831ecfc9df475bb6ac81",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
+    "cli/commands/lazy_adaptive.py": "03fc1f467dc0459a0a068ec7b9dbf8b2ed825fb471a4f6c8490c5f07a5e48ff9",
     "cli/commands/lazy_creds.py": "8e5464a585b3e19b4ef9de603f0af46abc6e81916e9f794d1515a335cb170e67",
     "cli/commands/lazy_dorks.py": "60cb2c3701b576300be073a784bd5f5959b82b5bfbf1696358bf45ca4f603016",
     "cli/commands/lazy_oob.py": "d047fd30056cdab907b887871a441d7a321ec948a352d76431f454012e92dc67",
     "cli/commands/lazy_passgen.py": "b1a66e83f193dbeabda267552a0b79741555d1a4cfeb801a4c8143920c9e2a09",
-    "cli/commands/lazy_poc.py": "4b45fa1e8a9cddb168fd72cc129dfb6663fe3d5d96eb7e71ca37ca9c1b019685",
+    "cli/commands/lazy_poc.py": "9035714b0dc3a90e9f7bf7ac238c34d1db5a1c4cf232d67419a49badda317f02",
     "cli/commands/lazyloop.py": "661aafd0c89b4580f05b378dbdc04ee5521009e21634bac7480a7bf2bf141f86",
     "cli/commands/lazyops.py": "8b33e2408bd200280459d85095982a14c69b4968044bfd41737250981c2c5975",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
@@ -211,8 +213,8 @@
     "cli/commands/winbox_gym.py": "6f0ff45231887ec483f315b0362bbd9a5c250d244bacda9ae631f2c8da52fcc0"
   },
   "totals": {
-    "method_definitions": 870,
-    "unique_commands": 868,
+    "method_definitions": 871,
+    "unique_commands": 869,
     "duplicates": 2,
     "phases": 14,
     "categories": 18
@@ -302,6 +304,7 @@
       "do_k8s_secrets",
       "do_kerberoast",
       "do_kerberos_ticket",
+      "do_lazy_adaptive",
       "do_lazy_addon",
       "do_lazy_agent",
       "do_lazy_archive",
@@ -1829,12 +1832,12 @@
       "name": "do_exploitdb_ccompile",
       "occurrences": [
         {
-          "line": 87,
+          "line": 91,
           "source_file": "cli/commands/exploitdb.py",
           "class_name": "ExploitdbCommands"
         },
         {
-          "line": 110,
+          "line": 117,
           "source_file": "cli/commands/exploitdb.py",
           "class_name": "ExploitdbCCommands"
         }
@@ -1844,12 +1847,12 @@
       "name": "do_exploitdb_cscan",
       "occurrences": [
         {
-          "line": 76,
+          "line": 79,
           "source_file": "cli/commands/exploitdb.py",
           "class_name": "ExploitdbCommands"
         },
         {
-          "line": 99,
+          "line": 105,
           "source_file": "cli/commands/exploitdb.py",
           "class_name": "ExploitdbCCommands"
         }
@@ -3344,7 +3347,7 @@
     },
     {
       "name": "do_chain_distill",
-      "line": 2065,
+      "line": 2072,
       "summary": "Turn one autonomous-loop trace into a reusable chain YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3355,7 +3358,7 @@
     },
     {
       "name": "do_apt_playbook",
-      "line": 2115,
+      "line": 2122,
       "summary": "List, validate, and run APT playbooks based on public threat reports.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3366,7 +3369,7 @@
     },
     {
       "name": "do_mitre_test",
-      "line": 2235,
+      "line": 2242,
       "summary": "Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3377,7 +3380,7 @@
     },
     {
       "name": "do_generate_playbook",
-      "line": 2338,
+      "line": 2345,
       "summary": "Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3388,7 +3391,7 @@
     },
     {
       "name": "do_my_playbook",
-      "line": 2517,
+      "line": 2524,
       "summary": "Generates a playbook from your custom technique database.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3399,7 +3402,7 @@
     },
     {
       "name": "do_caldera",
-      "line": 2574,
+      "line": 2581,
       "summary": "Installs and starts the Caldera server.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3410,7 +3413,7 @@
     },
     {
       "name": "do_caldera_import",
-      "line": 2623,
+      "line": 2630,
       "summary": "Import CALDERA abilities into LazyOwn playbooks.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3421,7 +3424,7 @@
     },
     {
       "name": "do_caldera_export",
-      "line": 2715,
+      "line": 2722,
       "summary": "Export a LazyOwn playbook to CALDERA ability YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5522,7 +5525,7 @@
     },
     {
       "name": "do_exploitdb_sync",
-      "line": 19,
+      "line": 22,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5533,7 +5536,7 @@
     },
     {
       "name": "do_exploitdb_scan",
-      "line": 33,
+      "line": 36,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5544,7 +5547,7 @@
     },
     {
       "name": "do_exploitdb_gen",
-      "line": 45,
+      "line": 48,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5555,7 +5558,7 @@
     },
     {
       "name": "do_exploitdb_cscan",
-      "line": 76,
+      "line": 79,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5566,7 +5569,7 @@
     },
     {
       "name": "do_exploitdb_ccompile",
-      "line": 87,
+      "line": 91,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5577,7 +5580,7 @@
     },
     {
       "name": "do_exploitdb_cscan",
-      "line": 99,
+      "line": 105,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5588,7 +5591,7 @@
     },
     {
       "name": "do_exploitdb_ccompile",
-      "line": 110,
+      "line": 117,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5599,7 +5602,7 @@
     },
     {
       "name": "do_exploitdb_run",
-      "line": 124,
+      "line": 131,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -5654,7 +5657,7 @@
     },
     {
       "name": "do_lazyinventory",
-      "line": 69,
+      "line": 71,
       "summary": "Collect and ingest host-reported packages (source=host).",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6203,6 +6206,17 @@
       "duplicate_of": null
     },
     {
+      "name": "do_lazy_adaptive",
+      "line": 24,
+      "summary": "LazyAdaptive policy inspector.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazy_adaptive.py",
+      "class_name": "LazyAdaptiveCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_lazycreds",
       "line": 28,
       "summary": "Search the default-credential knowledge base.",
@@ -6248,7 +6262,7 @@
     },
     {
       "name": "do_lazy_poc",
-      "line": 25,
+      "line": 24,
       "summary": "Operate the PoC verb registry.",
       "category": null,
       "phase": "uncategorized",

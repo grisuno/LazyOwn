@@ -37,6 +37,25 @@ PROMPT = "suggest one probe"
 SYSTEM = "You are a red team assistant."
 
 
+@pytest.fixture(autouse=True)
+def _restore_groq_env():
+    """Snapshot GROQ_API_KEY around every test.
+
+    The factory publishes real payload keys into ``os.environ`` and some
+    scenarios assert that publish; without a restore point one scenario's
+    published key leaks into the next scenario's resolver readings and
+    turns the placeholder suite order-dependent.
+    """
+    import os
+
+    original = os.environ.get("GROQ_API_KEY")
+    yield
+    if original is None:
+        os.environ.pop("GROQ_API_KEY", None)
+    else:
+        os.environ["GROQ_API_KEY"] = original
+
+
 class _StubHealth:
     """Health registry stub with injectable parked members."""
 
@@ -583,9 +602,11 @@ class TestAdapterWiring:
         banner = "Error code: 401 - {'error': {'code': 'invalid_api_key'}}"
         client = SimpleNamespace(
             chat=SimpleNamespace(
-                completions=SimpleNamespace(create=lambda **kwargs: SimpleNamespace(
-                    choices=[SimpleNamespace(message=SimpleNamespace(content=banner))]
-                ))
+                completions=SimpleNamespace(
+                    create=lambda **kwargs: SimpleNamespace(
+                        choices=[SimpleNamespace(message=SimpleNamespace(content=banner))]
+                    )
+                )
             )
         )
         answer = patched.process_prompt(client, "goal")
@@ -601,9 +622,11 @@ class TestAdapterWiring:
         banner = "Error code: 401 - {'error': {'code': 'invalid_api_key'}}"
         client = SimpleNamespace(
             chat=SimpleNamespace(
-                completions=SimpleNamespace(create=lambda **kwargs: SimpleNamespace(
-                    choices=[SimpleNamespace(message=SimpleNamespace(content=banner))]
-                ))
+                completions=SimpleNamespace(
+                    create=lambda **kwargs: SimpleNamespace(
+                        choices=[SimpleNamespace(message=SimpleNamespace(content=banner))]
+                    )
+                )
             )
         )
         assert patched.process_prompt(client, "goal") == banner
@@ -749,7 +772,6 @@ class TestErrorDetection:
         )
         assert result.text == "plan"
         assert result.backend == "ollama"
-
 
     def test_placeholder_groq_leg_refused_without_doomed_call(self, monkeypatch):
         """BDD: Given a placeholder env key and a groq member, When the

@@ -1,0 +1,55 @@
+name: apt_redis
+description: 'Redis scenario chain: unauthenticated probe, INFO/nmap scripts, keyspace
+  and credential sweep; stops at the first SHELL.'
+enabled: true
+platforms:
+- linux
+steps:
+- id: bind
+  phase: recon
+  run: assign target {target}
+  description: bind the box into payload params
+  timeout: 300
+- id: ports_redis
+  phase: recon
+  run: nmap -Pn -p 6379,6380,16379,26379 -sV {target}
+  description: fast scan over redis ports
+  timeout: 600
+- id: redis_unauth
+  phase: enum
+  run: redis-cli -h {target} -p 6379 INFO server
+  description: probe unauthenticated INFO (no-auth CVE-2025-era posture)
+  timeout: 120
+  capture: redis_info
+  continue_on_error: true
+- id: redis_scripts
+  phase: enum
+  run: nmap -Pn -p 6379 --script redis-info,redis-brute {target}
+  description: nmap redis info and community brute
+  timeout: 600
+  capture: redis_nmap
+  continue_on_error: true
+- id: redis_keys
+  phase: enum
+  run: redis-cli -h {target} -p 6379 --scan --count 500
+  description: keyspace scan when unauth works
+  timeout: 300
+  capture: redis_keys
+  continue_on_error: true
+- id: sweep
+  phase: exploit
+  run: atomic_exploit
+  description: yaml exploit sweep from scan triggers; stops at the first SHELL
+  timeout: 1800
+- id: session_attempt
+  phase: post_exploitation
+  run: create_session_json
+  description: record the session when a shell landed
+  timeout: 300
+  continue_on_error: true
+tags:
+- redis
+- http
+- cve
+total_timeout: 2400
+version: 2

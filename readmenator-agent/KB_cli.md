@@ -32,24 +32,31 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `_parse_admin_flags` (function, line 46) `def _parse_admin_flags(args, tokens)`
   - `_token_name_ok` (function, line 77) `def _token_name_ok(name)`
   - `ChainArgs` (class, line 83) `class ChainArgs`
-  - `parse_chain_args` (function, line 108) `def parse_chain_args(line)`
-  - `_set_value` (function, line 174) `def _set_value(args, flag, value)`
-  - `_synth_from_playbook` (function, line 202) `def _synth_from_playbook(playbook, target)`
-  - `resolve_admin` (function, line 231) `def resolve_admin(args)`
-  - `select_step_ids` (function, line 353) `def select_step_ids(chain, args)`
-  - `adversarial_continue` (function, line 385) `def adversarial_continue(chain)`
-  - `render_result` (function, line 393) `def render_result(result)`
-  - `build_cli_approver` (function, line 426) `def build_cli_approver(printer, input_fn)`
-  - `build_reactive_replanner` (function, line 448) `def build_reactive_replanner()`
-  - `_decision_command` (function, line 473) `def _decision_command(decision)`
-  - `_step_from_decision` (function, line 482) `def _step_from_decision(command, outcome, executed_count)`
-  - `_recent_changes_block` (function, line 504) `def _recent_changes_block(target)`
-  - `build_llm_recovery_chain` (function, line 532) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 606) `def _platform()`
-  - `approve` (function, line 434) `def approve(step_id, command)`
-  - `replan` (function, line 451) `def replan(context)`
-- Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_approval.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`, `tests/test_playbook_chain.py`
+  - `parse_chain_args` (function, line 109) `def parse_chain_args(line)`
+  - `_set_value` (function, line 177) `def _set_value(args, flag, value)`
+  - `_synth_from_playbook` (function, line 205) `def _synth_from_playbook(playbook, target)`
+  - `resolve_admin` (function, line 234) `def resolve_admin(args)`
+  - `select_step_ids` (function, line 369) `def select_step_ids(chain, args)`
+  - `adversarial_continue` (function, line 401) `def adversarial_continue(chain)`
+  - `render_result` (function, line 409) `def render_result(result)`
+  - `render_admin` (function, line 450) `def render_admin(payload, action)`
+  - `build_cli_approver` (function, line 528) `def build_cli_approver(printer, input_fn)`
+  - `_step_from_alternative` (function, line 550) `def _step_from_alternative(alternative, outcome, target)`
+  - `_observed_conditions` (function, line 567) `def _observed_conditions(target)`
+  - `build_adaptive_replanner` (function, line 588) `def build_adaptive_replanner()`
+  - `compose_replanners` (function, line 626) `def compose_replanners(replanners)`
+  - `build_reactive_replanner` (function, line 646) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 671) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 680) `def _step_from_decision(command, outcome, executed_count)`
+  - `_recent_changes_block` (function, line 702) `def _recent_changes_block(target)`
+  - `build_llm_recovery_chain` (function, line 730) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 804) `def _platform()`
+  - `approve` (function, line 536) `def approve(step_id, command)`
+  - `replan` (function, line 601) `def replan(context)`
+  - `composed` (function, line 639) `def composed(context)`
+  - `replan` (function, line 649) `def replan(context)`
+- Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_approval.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/failure_verdict.py`, `modules/guardrails/__init__.py`, `modules/lazy_fallback.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`, `skills/lazyown_facts.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_playbook_chain.py`
 
 ## cli/assign.py
 - Doc: ``assign`` business logic.
@@ -476,24 +483,6 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `_read_line` (function, line 20) `def _read_line(prompt)`
   - `confirm` (function, line 27) `def confirm(question, default, yes_values)`
 - Imported by: `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/infra.py`
-
-## cli/contextual_help.py
-- Doc: Contextual help system for the LazyOwn shell.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CommandInfo` (class, line 62) `class CommandInfo`
-  - `ContextualHelpConfig` (class, line 78) `class ContextualHelpConfig`
-  - `_load_command_index` (function, line 85) `def _load_command_index(path)`
-  - `_build_command_lookup` (function, line 97) `def _build_command_lookup(index)`
-  - `ContextualHelp` (class, line 167) `class ContextualHelp`
-  - `__init__` (method, line 176) `def __init__(self, aliases, params, config)`
-  - `get_command_info` (method, line 188) `def get_command_info(self, name)`
-  - `render_command_help` (method, line 208) `def render_command_help(self, name)`
-  - `render_phase_commands` (method, line 261) `def render_phase_commands(self, phase)`
-  - `render_requirements_status` (method, line 281) `def render_requirements_status(self)`
-- Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
-- Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
 
 
 Next: [KB_cli_p2.md](KB_cli_p2.md)

@@ -9,11 +9,11 @@ graph LR
     cli -- "calls into" --> modules
 ```
 
-## cli (18.1)
+## cli (17.1)
 
 cli groups 1 files (py) around OpsecCleanupCommandSet, do_opsec_score, do_log_tamper, do_forensic_clean, do_timestomp. OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory...
 
-## modules (18.2)
+## modules (17.2)
 
 modules groups 5 files (py) around LogTamperConfig, LogTamper, __init__, windows_clear_commands, linux_clear_commands. Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
 

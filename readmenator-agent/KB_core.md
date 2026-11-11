@@ -298,10 +298,12 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Layer: business_logic
 - Language: py
 - Symbols:
-  - `rejects_shell_meta` (function, line 20) `def rejects_shell_meta(value)`
-  - `is_valid_cidr` (function, line 32) `def is_valid_cidr(value)`
-  - `is_valid_host` (function, line 48) `def is_valid_host(value)`
-- Imported by: `core/hardening.py`, `core/validators.py`, `tests/test_host_policy.py`
+  - `rejects_shell_meta` (function, line 24) `def rejects_shell_meta(value)`
+  - `is_valid_cidr` (function, line 36) `def is_valid_cidr(value)`
+  - `is_valid_host` (function, line 52) `def is_valid_host(value)`
+  - `is_file_like` (function, line 77) `def is_file_like(value)`
+  - `is_engagement_target` (function, line 95) `def is_engagement_target(value)`
+- Imported by: `core/hardening.py`, `core/validators.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `tests/test_host_policy.py`
 
 ## core/http.py
 - Doc: HTTP and API utilities for the LazyOwn framework.
@@ -373,6 +375,30 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `complete` (method, line 435) `def complete(self, system, user, max_tokens, temperature)`
 - Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/mcp_tools/get_llm_budget.py`, `tests/test_llm_budget.py`
 
+## core/llm_key_pool.py
+- Doc: Per-backend LLM API key pool with round-robin rotation and quota cooldown.  sapper-v2 keeps a...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_is_real_key` (function, line 39) `def _is_real_key(value)`
+  - `_dedupe` (function, line 55) `def _dedupe(keys)`
+  - `KeyPool` (class, line 67) `class KeyPool`
+  - `_pool_entries` (function, line 179) `def _pool_entries(raw)`
+  - `build_from_config` (function, line 208) `def build_from_config(config, pool)`
+  - `get_key_pool` (function, line 238) `def get_key_pool()`
+  - `refresh_from_config` (function, line 243) `def refresh_from_config(config)`
+  - `resolve_pooled_key` (function, line 249) `def resolve_pooled_key(backend, config, fallback)`
+  - `note_quota_error` (function, line 274) `def note_quota_error(backend, key)`
+  - `__init__` (method, line 76) `def __init__(self, cooldown_sec)`
+  - `set_keys` (method, line 88) `def set_keys(self, backend, keys)`
+  - `has_pool` (method, line 107) `def has_pool(self, backend)`
+  - `size` (method, line 112) `def size(self, backend)`
+  - `next_key` (method, line 117) `def next_key(self, backend, now)`
+  - `mark_exhausted` (method, line 149) `def mark_exhausted(self, backend, key, now)`
+  - `available` (method, line 163) `def available(self, backend, now)`
+  - `reset` (method, line 171) `def reset(self)`
+- Imported by: `modules/llm_factory.py`, `tests/test_llm_key_pool.py`
+
 ## core/logging.py
 - Doc: Structured JSON-lines logging for the LazyOwn framework.
 - Layer: infrastructure
@@ -390,7 +416,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `format` (method, line 78) `def format(self, record)`
   - `format` (method, line 132) `def format(self, record)`
   - `makeRecord` (method, line 148) `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)`
-- Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/param_registry.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `core/session_secrets.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazyc2/security/cli_credentials.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/addon_updater.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_cli.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/beacon_recon.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `modules/c2_agent.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/c2_surfaces.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/ctf_capture.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/defense_stages.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/emulation_runner.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/factsio.py`, `modules/golden_path.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_registry.py`, `modules/gym_winbox_runner.py`, `modules/harness.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metasploitable_gym.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sinks/findings.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/trigger_policy.py`, `modules/ttp_coverage.py`, `modules/ttpscope_bridge.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/verb_catalog.py`, `modules/verb_manifest.py`, `modules/vulnbot.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/param_registry.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `core/session_secrets.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazyc2/security/cli_credentials.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/addon_updater.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_cli.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/beacon_recon.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `modules/bsb_compat.py`, `modules/c2_agent.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/c2_surfaces.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/ctf_capture.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/defense_stages.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/emulation_runner.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/factsio.py`, `modules/golden_path.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_registry.py`, `modules/gym_winbox_runner.py`, `modules/harness.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metasploitable_gym.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sinks/findings.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/trigger_policy.py`, `modules/ttp_coverage.py`, `modules/ttpscope_bridge.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/verb_catalog.py`, `modules/verb_manifest.py`, `modules/vulnbot.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`, `utils.py`
 
 ## core/network.py
 - Doc: Network primitives for the LazyOwn framework.
@@ -440,44 +466,6 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Symbols:
   - `strip_ansi` (function, line 15) `def strip_ansi(text)`
 - Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `tests/test_single_implementation.py`, `utils.py`
-
-## core/payload_schema.py
-- Doc: Declarative schema and validation for ``payload.json``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `FieldKind` (class, line 77) `class FieldKind(StrEnum)`
-  - `Severity` (class, line 95) `class Severity(StrEnum)`
-  - `FieldSpec` (class, line 104) `class FieldSpec`
-  - `ValidationIssue` (class, line 146) `class ValidationIssue`
-  - `_validate_string` (function, line 169) `def _validate_string(value)`
-  - `_validate_int` (function, line 175) `def _validate_int(value)`
-  - `_validate_port` (function, line 189) `def _validate_port(value)`
-  - `_validate_bool` (function, line 199) `def _validate_bool(value)`
-  - `_validate_ip` (function, line 216) `def _validate_ip(value)`
-  - `_validate_hostname` (function, line 224) `def _validate_hostname(value)`
-  - `_validate_url` (function, line 236) `def _validate_url(value)`
-  - `_validate_path` (function, line 244) `def _validate_path(value)`
-  - `_validate_interface` (function, line 250) `def _validate_interface(value)`
-  - `_validate_hex` (function, line 258) `def _validate_hex(value)`
-  - `_validate_os_id` (function, line 266) `def _validate_os_id(value)`
-  - `_validate_json_blob` (function, line 272) `def _validate_json_blob(value)`
-  - `_validate_opaque` (function, line 284) `def _validate_opaque(_value)`
-  - `_coerce_int` (function, line 305) `def _coerce_int(raw)`
-  - `_coerce_bool` (function, line 320) `def _coerce_bool(raw)`
-  - `_spec` (function, line 339) `def _spec(name, kind, default, description)`
-  - `register_specs` (function, line 1862) `def register_specs(specs)`
-  - `unregister_specs` (function, line 1885) `def unregister_specs(keys)`
-  - `field_for` (function, line 1903) `def field_for(key)`
-  - `coerce_value` (function, line 1908) `def coerce_value(key, raw)`
-  - `validate_value` (function, line 1931) `def validate_value(key, value)`
-  - `validate_payload` (function, line 2005) `def validate_payload(payload)`
-  - `format_issue` (function, line 2040) `def format_issue(issue)`
-  - `default_payload` (function, line 2058) `def default_payload()`
-  - `categories` (function, line 2066) `def categories()`
-  - `_load_operator_specs` (function, line 2078) `def _load_operator_specs()`
-- Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
-- Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
 
 
 Next: [KB_core_p2.md](KB_core_p2.md)

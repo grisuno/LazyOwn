@@ -1,5 +1,296 @@
-# API (page 16 of 27)
+# API (page 16 of 28)
 Previous: [API_p15.md](API_p15.md)
+
+## modules/lazy_sandbox.py
+Depends on: `core/config.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_runner.py`
+- `image_name` (function) `modules/lazy_sandbox.py:52` `def image_name(configured)` -- Resolve the sandbox image name.
+- `container_name` (function) `modules/lazy_sandbox.py:67` `def container_name(task_id)` -- Return the deterministic container name for one task.
+- `docker_available` (function) `modules/lazy_sandbox.py:73` `def docker_available()` -- Return True when the docker CLI is on PATH.
+- `image_available` (function) `modules/lazy_sandbox.py:78` `def image_available(image)` -- Return True when the sandbox image exists locally.
+- `container_running` (function) `modules/lazy_sandbox.py:94` `def container_running(task_id)` -- Return the container name when it is up, else empty string.
+- `ensure_container` (function) `modules/lazy_sandbox.py:112` `def ensure_container(task_id, image)` -- Start the per-task container when needed, return its name or error.
+- `exec_command` (function) `modules/lazy_sandbox.py:180` `def exec_command(task_id, command, timeout_sec, image)` -- Run one Lazy shell verb inside the task container.
+- `remove_container` (function) `modules/lazy_sandbox.py:214` `def remove_container(task_id)` -- Stop and remove the task container.
+- `status` (function) `modules/lazy_sandbox.py:223` `def status(task_id)` -- Describe sandbox readiness and containers.
+- `executor_for` (function) `modules/lazy_sandbox.py:251` `def executor_for(task_id, image)` -- Build a worker executor routing shell verbs into the sandbox.
+
+## modules/lazy_scope.py
+Imported by: `modules/chain_distill.py`
+- `_ResolveCache.get` (method) `modules/lazy_scope.py:70` `def get(self, name, now)` -- Return cached addresses when fresh.
+- `_ResolveCache.put` (method) `modules/lazy_scope.py:89` `def put(self, name, values, now)` -- Store resolution results.
+- `is_lab_address` (function) `modules/lazy_scope.py:105` `def is_lab_address(address)` -- Classify one address as lab-local.
+- `extract_hosts` (function) `modules/lazy_scope.py:130` `def extract_hosts(text)` -- Pull IP literals and plausible hostnames out of free text.
+- `resolve_addresses` (function) `modules/lazy_scope.py:164` `def resolve_addresses(name, now)` -- Resolve a hostname to all of its addresses.
+- `read_scope_file` (function) `modules/lazy_scope.py:209` `def read_scope_file(name, sessions_dir)` -- Load operator entries from a scope list file.
+- `read_allowlist` (function) `modules/lazy_scope.py:231` `def read_allowlist(sessions_dir)` -- Load operator-approved extra lab hosts.
+- `read_denylist` (function) `modules/lazy_scope.py:243` `def read_denylist(sessions_dir)` -- Load explicitly denied hosts and networks.
+- `scope_verdict` (function) `modules/lazy_scope.py:255` `def scope_verdict(target, resolver, allowlist, denylist)` -- Decide whether one target is inside the default lab scope.
+- `command_scope_verdict` (function) `modules/lazy_scope.py:351` `def command_scope_verdict(command, resolver, allowlist, denylist)` -- Check every host mentioned in a command line.
+
+## modules/lazy_search.py
+Depends on: `modules/db.py`
+Imported by: `skills/mcp_tools/lazysearch.py`
+- `parse` (function) `modules/lazy_search.py:94` `def parse(query)` -- Parse the grammar tokens.
+- `execute` (function) `modules/lazy_search.py:132` `def execute(db, query, workspace_name, db_path)` -- Run a parsed query against the engagement database.
+
+## modules/lazy_sentinel.py
+Depends on: `modules/lazy_feedmatch.py`
+- `ingest_spool` (function) `modules/lazy_sentinel.py:45` `def ingest_spool(path)` -- Parse a sentinel spool artefact back into queryable sightings.
+- `validate_ranges` (function) `modules/lazy_sentinel.py:123` `def validate_ranges(ranges)` -- Reject unbounded or non-private targets for the sentinel blob.
+- `provision_blob` (function) `modules/lazy_sentinel.py:152` `def provision_blob(ranges, spool_path, spool_dir)` -- Build the copy-paste sentinel sweep blob.
+- `dispatch_line` (function) `modules/lazy_sentinel.py:203` `def dispatch_line(client_id, blob)` -- Render the ``c2_exec`` line that runs the blob through one beacon.
+- `save_sightings` (function) `modules/lazy_sentinel.py:252` `def save_sightings(sightings, path)` -- Persist parsed sightings for the report/check surfaces.
+- `load_sightings` (function) `modules/lazy_sentinel.py:282` `def load_sightings(path)` -- Reload a previous ``save_sightings`` artefact.
+
+## modules/lazy_skill_mirror.py
+Imported by: `cli/commands/lazyops.py`
+- `available_skills` (function) `modules/lazy_skill_mirror.py:67` `def available_skills()` -- Return repo skill names that ship a SKILL.md.
+- `mirror_skill` (function) `modules/lazy_skill_mirror.py:78` `def mirror_skill(name)` -- Write the Hermes mirror of one skill.
+- `mirror_all` (function) `modules/lazy_skill_mirror.py:106` `def mirror_all()` -- Mirror every repo skill; return per-skill summaries.
+- `register_external_dirs` (function) `modules/lazy_skill_mirror.py:117` `def register_external_dirs()` -- Register the repo skills tree in the hermes config.
+
+## modules/lazy_skills.py
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+- `list_skills` (function) `modules/lazy_skills.py:85` `def list_skills()` -- Return every parsed skill sorted by name.
+- `get_skill` (function) `modules/lazy_skills.py:91` `def get_skill(name)` -- Find one skill by exact or case-insensitive name.
+- `match_skills` (function) `modules/lazy_skills.py:102` `def match_skills(text, limit)` -- Rank skills whose keywords appear in the text, best first.
+- `skills_context` (function) `modules/lazy_skills.py:118` `def skills_context(text, explicit, auto, budget)` -- Render pinned plus auto-matched skills as one prompt section.
+
+## modules/lazy_summarizer.py
+- `should_compact` (function) `modules/lazy_summarizer.py:35` `def should_compact(used_chars, budget_chars)` -- Return True when context exceeds the usable budget.
+- `summarize_chain` (function) `modules/lazy_summarizer.py:50` `def summarize_chain(records, budget_chars, complete)` -- Bound a record chain to budget, digesting the oldest pairs.
+
+## modules/lazy_surface_diff.py
+Depends on: `modules/world_model.py`
+- `snapshot_host` (function) `modules/lazy_surface_diff.py:52` `def snapshot_host(host)` -- Canonical snapshot of one host row.
+- `fingerprint` (function) `modules/lazy_surface_diff.py:79` `def fingerprint(state)` -- Hash of the canonical snapshot; os text normalised case-insensitively.
+- `diff_hosts` (function) `modules/lazy_surface_diff.py:93` `def diff_hosts(before, after)` -- Pure diff of two host snapshot maps.
+- `current_snapshots` (function) `modules/lazy_surface_diff.py:160` `def current_snapshots(world)` -- Snapshot every host of the current world model view.
+- `refresh` (function) `modules/lazy_surface_diff.py:186` `def refresh(world, sessions_dir)` -- Diff the current surface against the stored snapshot and persist.
+- `last_diff` (function) `modules/lazy_surface_diff.py:234` `def last_diff(sessions_dir)` -- Read the last stored diff without recomputing.
+- `changed_hosts` (function) `modules/lazy_surface_diff.py:253` `def changed_hosts(limit, sessions_dir)` -- Distinct hosts touched by the last diff, most-recent first.
+
+## modules/lazy_timeline.py
+Depends on: `modules/world_model.py`
+Imported by: `lazyown.py`, `modules/lazy_loop.py`, `tests/test_lazy_intel_wiring.py`
+- `resolve_hostnames` (function) `modules/lazy_timeline.py:36` `def resolve_hostnames(names, resolver)` -- Resolve candidate hostnames for the snapshot DNS record.
+- `record` (function) `modules/lazy_timeline.py:66` `def record(state_path, snaps_dir, keep, dns)` -- Snapshot the current world model (internally, never raises).
+- `record_quiet` (function) `modules/lazy_timeline.py:111` `def record_quiet(state_path, snaps_dir, keep, dns)` -- Snapshot for the autonomous loop: same as record(), never raises.
+- `find_snapshots` (function) `modules/lazy_timeline.py:135` `def find_snapshots(snaps_dir)` -- List snapshot files oldest first.
+- `diff` (function) `modules/lazy_timeline.py:151` `def diff(_old, _new)` -- Diff two world-model snapshots.
+- `show` (function) `modules/lazy_timeline.py:180` `def show(snaps_dir, last)` -- Summarize the newest snapshots.
+
+## modules/lazy_triage.py
+Imported by: `tests/test_lazy_triage.py`
+- `rank` (function) `modules/lazy_triage.py:42` `def rank(verdict)` -- Return the comparison rank of a triage verdict.
+- `hard_evidence` (function) `modules/lazy_triage.py:47` `def hard_evidence(kind, facts)` -- Classify one finding from its deterministic evidence floor.
+- `apply_rules` (function) `modules/lazy_triage.py:80` `def apply_rules(verdict, kind, facts)` -- Constrain a (model or operator) verdict by the evidence floor.
+- `signature_for` (function) `modules/lazy_triage.py:108` `def signature_for(kind, fields)` -- Return the evidence signature of one classification request.
+- `SignatureStore.__init__` (method) `modules/lazy_triage.py:138` `def __init__(self, sessions_dir, ttl)` -- Bind the store file under sessions/lazy.
+- `SignatureStore.fresh_signature` (method) `modules/lazy_triage.py:144` `def fresh_signature(self, signature, now)` -- Return the previous signature row when it is inside the TTL window.
+- `SignatureStore.reset` (method) `modules/lazy_triage.py:162` `def reset(self)` -- Drop every signature row.
+
+## modules/lazy_verify.py
+Depends on: `core/process.py`
+- `plan_checks` (function) `modules/lazy_verify.py:84` `def plan_checks(finding_text, poc)` -- Build the read-only check list for one finding.
+- `run_check` (function) `modules/lazy_verify.py:143` `def run_check(check, executor)` -- Run one read-only check and classify its result.
+- `verdict_from_checks` (function) `modules/lazy_verify.py:214` `def verdict_from_checks(checks_results)` -- Deterministic verdict from a list of check results.
+- `verify_finding` (function) `modules/lazy_verify.py:232` `def verify_finding(finding_text, poc, executor)` -- Plan, run and judge the read-only checks for one finding.
+
+## modules/lazy_world_diff.py
+Depends on: `modules/world_model.py`
+Imported by: `modules/intel_fusion.py`, `modules/lazy_hostscore.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`, `tests/test_world_diff_retest.py`
+- `host_snapshot` (function) `modules/lazy_world_diff.py:78` `def host_snapshot(world, ip)` -- Read one host out of a world-model dict as a canonical snapshot.
+- `snapshot_fingerprint` (function) `modules/lazy_world_diff.py:119` `def snapshot_fingerprint(state)` -- Hash one snapshot canonically; key order never matters.
+- `diff_snapshots` (function) `modules/lazy_world_diff.py:131` `def diff_snapshots(before, after)` -- Deterministic change list between two host snapshots.
+- `record_changes` (function) `modules/lazy_world_diff.py:200` `def record_changes(changes, sessions_dir, now)` -- Append changes to the campaign change log, deduped and bounded.
+- `recent_changes` (function) `modules/lazy_world_diff.py:260` `def recent_changes(sessions_dir, days, host)` -- Change rows newest-first within the window, optionally per host.
+- `prune_changes` (function) `modules/lazy_world_diff.py:270` `def prune_changes(sessions_dir, keep_days)` -- Drop change rows older than ``keep_days``; returns how many.
+- `load_host_snapshots` (function) `modules/lazy_world_diff.py:290` `def load_host_snapshots(sessions_dir)` -- Stored per-host snapshots keyed by ip.
+- `save_host_snapshots` (function) `modules/lazy_world_diff.py:301` `def save_host_snapshots(snapshots, sessions_dir)` -- Persist per-host snapshots atomically-enough (best effort).
+- `campaign_snapshots` (function) `modules/lazy_world_diff.py:312` `def campaign_snapshots(sessions_dir)` -- Snapshot every world-model host, then diff against stored ones.
+- `ghost_endpoints` (function) `modules/lazy_world_diff.py:366` `def ghost_endpoints(snapshot, limit)` -- Web endpoints (ip, port, scheme) a snapshot last had open.
+- `name_resolves` (function) `modules/lazy_world_diff.py:395` `def name_resolves(host, resolver)` -- Whether a hostname still resolves (injectable for tests).
+- `load_ghosts` (function) `modules/lazy_world_diff.py:435` `def load_ghosts(sessions_dir)` -- The ghost store ``{"hosts": {...}}`` tolerant of corruption.
+- `ghost_state_apply` (function) `modules/lazy_world_diff.py:447` `def ghost_state_apply(host, answers, sessions_dir, now)` -- Record one ghost observation and return the host's ghost record.
+- `find_ghost_hosts` (function) `modules/lazy_world_diff.py:489` `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)` -- Which candidate hostnames are ghosts: unresolvable yet answering.
+- `snapshot_engagement` (function) `modules/lazy_world_diff.py:528` `def snapshot_engagement(sessions_dir, now, world)` -- Append one daily campaign snapshot when the cooldown allows.
+
+## modules/lazyatack.sh
+- `mostrar_ayuda` (function) `modules/lazyatack.sh:21` -- Función para mostrar ayuda
+- `validar_ip` (function) `modules/lazyatack.sh:33` -- Función para validar una dirección IP
+- `validar_url` (function) `modules/lazyatack.sh:49` -- Función para validar URL
+- `descargar_seclists` (function) `modules/lazyatack.sh:107` -- Función para descargar y extraer SecLists
+- `escanear_puertos` (function) `modules/lazyatack.sh:115` -- Función para ejecutar escaneo de puertos con nmap
+- `escanear_puertos_especificos` (function) `modules/lazyatack.sh:121` -- Función para escanear puertos específicos
+- `enumerar_http` (function) `modules/lazyatack.sh:127` -- Función para enumerar servicios HTTP
+- `iniciar_servidor_http` (function) `modules/lazyatack.sh:133` -- Función para iniciar servidor HTTP con Python
+- `configurar_netcat` (function) `modules/lazyatack.sh:139` -- Función para configurar netcat
+- `enviar_archivo_netcat` (function) `modules/lazyatack.sh:145` -- Función para enviar archivo mediante bash a netcat
+- `verificar_conectividad` (function) `modules/lazyatack.sh:151` -- Función para verificar conectividad con ping y tcpdump
+- `verificar_curl` (function) `modules/lazyatack.sh:158` -- Función para verificar conectividad con curl
+- `configurar_shell_reversa` (function) `modules/lazyatack.sh:165` -- Función para configurar una shell reversa
+- `escuchar_shell` (function) `modules/lazyatack.sh:171` -- Función para escuchar shell con netcat
+- `monitorear_procesos` (function) `modules/lazyatack.sh:177` -- Función para monitorear procesos
+- `ejecutar_wfuzz` (function) `modules/lazyatack.sh:188` -- Función para ejecutar wfuzz
+- `comprobar_sudo` (function) `modules/lazyatack.sh:194` -- Función para comprobar permisos sudo
+- `explotar_lfi` (function) `modules/lazyatack.sh:200` -- Función para explotar LFI
+- `configurar_tty` (function) `modules/lazyatack.sh:206` -- Función para configurar TTY
+- `eliminar_archivos` (function) `modules/lazyatack.sh:217` -- Función para eliminar archivos de forma segura
+- `obtener_root_shell` (function) `modules/lazyatack.sh:223` -- Función para obtener root shell mediante Docker
+- `enumerar_suid` (function) `modules/lazyatack.sh:230` -- Función para enumerar archivos con SUID
+- `listar_timers` (function) `modules/lazyatack.sh:236` -- Función para listar timers de systemd
+- `comprobar_rutas` (function) `modules/lazyatack.sh:242` -- Función para comprobar rutas de comandos
+- `abusar_tar` (function) `modules/lazyatack.sh:248` -- Función para abusar de tar
+- `enumerar_puertos` (function) `modules/lazyatack.sh:254` -- Función para enumerar puertos abiertos
+- `eliminar_contenedores_docker` (function) `modules/lazyatack.sh:260` -- Función para eliminar contenedores Docker
+- `escanear_red` (function) `modules/lazyatack.sh:266` -- Función para escanear red
+- `menu_servidor` (function) `modules/lazyatack.sh:272` -- Función para mostrar menú en modo servidor
+- `menu_cliente` (function) `modules/lazyatack.sh:307` -- Función para mostrar menú en modo cliente
+
+## modules/lazycloud.py
+Imported by: `cli/commands/cloud.py`
+- `CloudMetadataHarvester.__init__` (method) `modules/lazycloud.py:111` `def __init__(self, timeout)`
+- `CloudMetadataHarvester.session` (method) `modules/lazycloud.py:116` `def session(self)`
+- `CloudMetadataHarvester.harvest_aws` (method) `modules/lazycloud.py:139` `def harvest_aws(self)` -- Harvest AWS EC2 instance metadata (IMDSv2 capable).
+- `CloudMetadataHarvester.harvest_azure` (method) `modules/lazycloud.py:184` `def harvest_azure(self)` -- Harvest Azure instance metadata.
+- `CloudMetadataHarvester.harvest_gcp` (method) `modules/lazycloud.py:208` `def harvest_gcp(self)` -- Harvest GCP instance metadata.
+- `CloudMetadataHarvester.harvest_all` (method) `modules/lazycloud.py:231` `def harvest_all(self)` -- Try all three cloud providers sequentially.
+- `CloudBucketEnumerator.__init__` (method) `modules/lazycloud.py:251` `def __init__(self, timeout)`
+- `CloudBucketEnumerator.session` (method) `modules/lazycloud.py:256` `def session(self)`
+- `CloudBucketEnumerator.enumerate_s3` (method) `modules/lazycloud.py:278` `def enumerate_s3(self, prefix, buckets)` -- Enumerate S3 buckets derived from a prefix.
+- `CloudBucketEnumerator.enumerate_azure_storage` (method) `modules/lazycloud.py:303` `def enumerate_azure_storage(self, prefix, accounts)` -- Enumerate Azure Blob Storage accounts.
+- `CloudBucketEnumerator.enumerate_gcp_storage` (method) `modules/lazycloud.py:321` `def enumerate_gcp_storage(self, prefix, buckets)` -- Enumerate GCP Storage buckets.
+- `CloudIAMEnumerator.enumerate_aws_iam` (method) `modules/lazycloud.py:345` `def enumerate_aws_iam(self, access_key, secret_key, session_token)` -- Enumerate AWS IAM (requires valid credentials).
+- `CloudScanner.__init__` (method) `modules/lazycloud.py:393` `def __init__(self, target_domain, timeout)`
+- `CloudScanner.full_scan` (method) `modules/lazycloud.py:400` `def full_scan(self, target_prefix, sessions_dir)` -- Perform a comprehensive cloud security scan.
+- `CloudScanner.quick_metadata` (method) `modules/lazycloud.py:456` `def quick_metadata(self)` -- Fast metadata-only harvest (no bucket enumeration).
+- `CloudScanner.quick_buckets` (method) `modules/lazycloud.py:460` `def quick_buckets(self, prefix)` -- Fast S3-only bucket check.
+
+## modules/lazycurl.sh
+- `ctrl_c` (function) `modules/lazycurl.sh:23`
+- `show_help` (function) `modules/lazycurl.sh:29` -- Función para mostrar la ayuda
+- `execute_curl` (function) `modules/lazycurl.sh:52` -- Función para ejecutar el comando CURL
+
+## modules/lazydorks.py
+- `categories` (function) `modules/lazydorks.py:96` `def categories()` -- Return every supported dork category.
+- `queries` (function) `modules/lazydorks.py:101` `def queries(category, domain, org)` -- Render the dork queries for one category against one target.
+- `all_queries` (function) `modules/lazydorks.py:123` `def all_queries(domain, org)` -- Render the full grammar for one target.
+- `write_report` (function) `modules/lazydorks.py:137` `def write_report(path, domain, org)` -- Persist the rendered dorks as a markdown playbook.
+
+## modules/lazyencoder_decoder.py
+Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
+- `base64_encode` (function) `modules/lazyencoder_decoder.py:4` `def base64_encode(data)`
+- `base64_decode` (function) `modules/lazyencoder_decoder.py:8` `def base64_decode(data)`
+- `caesar_cipher` (function) `modules/lazyencoder_decoder.py:13` `def caesar_cipher(text, shift)`
+- `caesar_decipher` (function) `modules/lazyencoder_decoder.py:27` `def caesar_decipher(text, shift)`
+- `key_substitution` (function) `modules/lazyencoder_decoder.py:31` `def key_substitution(text, key)`
+- `key_substitution_reverse` (function) `modules/lazyencoder_decoder.py:47` `def key_substitution_reverse(text, key)`
+- `encode` (function) `modules/lazyencoder_decoder.py:63` `def encode(data, shift, key)`
+- `encode_string` (function) `modules/lazyencoder_decoder.py:75` `def encode_string(data, shift, key)`
+- `decode` (function) `modules/lazyencoder_decoder.py:82` `def decode(data, shift, key)`
+- `decode_string` (function) `modules/lazyencoder_decoder.py:94` `def decode_string(data, shift, key)`
+
+## modules/lazyevilwimrm.sh
+- `execute_evil_winrm` (function) `modules/lazyevilwimrm.sh:14` -- Función para ejecutar evil-winrm y verificar la salida
+
+## modules/lazyk8s.py
+Imported by: `cli/commands/containers.py`
+- `DockerEnumerator.__init__` (method) `modules/lazyk8s.py:44` `def __init__(self, socket_path)`
+- `DockerEnumerator.is_socket_accessible` (method) `modules/lazyk8s.py:47` `def is_socket_accessible(self)` -- Check if the Docker socket is readable/writable.
+- `DockerEnumerator.list_containers` (method) `modules/lazyk8s.py:70` `def list_containers(self)` -- List all containers with extended information.
+- `DockerEnumerator.list_images` (method) `modules/lazyk8s.py:94` `def list_images(self)` -- List all Docker images.
+- `DockerEnumerator.inspect_container` (method) `modules/lazyk8s.py:118` `def inspect_container(self, container_id)` -- Get detailed configuration of a container (privileged, mounts, capabilities).
+- `DockerEnumerator.check_privileged_containers` (method) `modules/lazyk8s.py:137` `def check_privileged_containers(self)` -- Find containers running with --privileged flag.
+- `DockerEnumerator.check_sensitive_mounts` (method) `modules/lazyk8s.py:162` `def check_sensitive_mounts(self)` -- Find containers with sensitive host path mounts.
+- `DockerEnumerator.check_docker_socket_mount` (method) `modules/lazyk8s.py:196` `def check_docker_socket_mount(self)` -- Find containers with the Docker socket mounted (escape vector).
+- `DockerEnumerator.check_capabilities` (method) `modules/lazyk8s.py:217` `def check_capabilities(self)` -- Find containers with dangerous Linux capabilities.
+- `DockerEnumerator.full_check` (method) `modules/lazyk8s.py:250` `def full_check(self)` -- Execute all Docker security checks and return aggregated results.
+- `K8sEnumerator.__init__` (method) `modules/lazyk8s.py:267` `def __init__(self, kubeconfig, token, api_server)`
+- `K8sEnumerator.list_pods` (method) `modules/lazyk8s.py:366` `def list_pods(self, namespace)` -- List pods in all namespaces or a specific namespace.
+- `K8sEnumerator.list_namespaces` (method) `modules/lazyk8s.py:390` `def list_namespaces(self)` -- List all namespaces.
+- `K8sEnumerator.list_secrets` (method) `modules/lazyk8s.py:410` `def list_secrets(self, namespace)` -- List secrets (without decoding values by default).
+- `K8sEnumerator.list_service_accounts` (method) `modules/lazyk8s.py:462` `def list_service_accounts(self, namespace)` -- List service accounts and their attached roles.
+- `K8sEnumerator.check_rbac` (method) `modules/lazyk8s.py:498` `def check_rbac(self)` -- Check current user's RBAC permissions.
+- `K8sEnumerator.check_pod_escape_vectors` (method) `modules/lazyk8s.py:530` `def check_pod_escape_vectors(self)` -- Check for pod escape vectors in the current pod.
+- `K8sEnumerator.full_check` (method) `modules/lazyk8s.py:582` `def full_check(self, sessions_dir)` -- Execute all Kubernetes security checks.
+- `ContainerEscapeTechniques.detect_current_environment` (method) `modules/lazyk8s.py:684` `def detect_current_environment()` -- Detect if running inside a container and identify escape opportunities.
+- `ContainerRuntimeDetector.detect_runtime` (method) `modules/lazyk8s.py:803` `def detect_runtime()` -- Detect container runtime from multiple indicators.
+- `ContainerRuntimeDetector.detect_mounts` (method) `modules/lazyk8s.py:874` `def detect_mounts()` -- Detect dangerous mounts in the current container.
+- `ContainerRuntimeDetector.detect_dangerous_capabilities` (method) `modules/lazyk8s.py:921` `def detect_dangerous_capabilities()` -- Detect dangerous Linux capabilities in the current container.
+- `ContainerRuntimeDetector.auto_detect_all` (method) `modules/lazyk8s.py:992` `def auto_detect_all()` -- Run comprehensive container escape auto-detection.
+
+## modules/lazylynis.sh
+- `check_sudo` (function) `modules/lazylynis.sh:32` -- Función para verificar y relanzar con sudo si es necesario
+
+## modules/lazymasscan.sh
+- `ctrl_c` (function) `modules/lazymasscan.sh:20`
+- `extract_ports_info` (function) `modules/lazymasscan.sh:74`
+- `run_masscan_script` (function) `modules/lazymasscan.sh:94`
+- `print_row` (function) `modules/lazymasscan.sh:117`
+
+## modules/lazynmap.sh
+- `cleanup` (function) `modules/lazynmap.sh:29`
+- `ctrl_c` (function) `modules/lazynmap.sh:38`
+- `fix_sessions_owner` (function) `modules/lazynmap.sh:74` -- Best-effort ownership fixup: scans run under sudo leave root-owned files behind, and only root can chown those.
+- `nmaptest` (function) `modules/lazynmap.sh:129`
+- `discover_network` (function) `modules/lazynmap.sh:149`
+- `extract_ports_info` (function) `modules/lazynmap.sh:818`
+- `run_nmap_script` (function) `modules/lazynmap.sh:844`
+- `print_row` (function) `modules/lazynmap.sh:877`
+
+## modules/lazyown_bprfuzzer.py
+Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
+- `load_headers_from_file` (function) `modules/lazyown_bprfuzzer.py:93` `def load_headers_from_file(file_path)`
+- `load_data_from_file` (function) `modules/lazyown_bprfuzzer.py:99` `def load_data_from_file(file_path)`
+- `signal_handler` (function) `modules/lazyown_bprfuzzer.py:105` `def signal_handler(sig, frame)`
+- `ProxyHandler.do_GET` (method) `modules/lazyown_bprfuzzer.py:115` `def do_GET(self)`
+- `ProxyHandler.do_POST` (method) `modules/lazyown_bprfuzzer.py:118` `def do_POST(self)`
+- `run_proxy` (function) `modules/lazyown_bprfuzzer.py:162` `def run_proxy(port)`
+- `edit_file_with_nano` (function) `modules/lazyown_bprfuzzer.py:169` `def edit_file_with_nano(content)`
+- `send_request` (function) `modules/lazyown_bprfuzzer.py:179` `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` -- Envía una solicitud HTTP y devuelve la respuesta.
+- `repeater` (function) `modules/lazyown_bprfuzzer.py:203` `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` -- Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con posibilidad de modificación.
+- `lazyfuzz` (function) `modules/lazyown_bprfuzzer.py:233` `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` -- Funcionalidad de fuzzing que reemplaza LAZYFUZZ con palabras de una wordlist.
+- `parse_arguments` (function) `modules/lazyown_bprfuzzer.py:278` `def parse_arguments()` -- Parsear los argumentos de la línea de comandos.
+- `main` (function) `modules/lazyown_bprfuzzer.py:302` `def main()`
+
+## modules/lazyown_bridge.py
+Depends on: `modules/killchain.py`
+Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+- `CatalogEntry.build_command` (method) `modules/lazyown_bridge.py:63` `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` -- Return 'command [args]' with known values substituted.
+- `CatalogEntry.matches_service` (method) `modules/lazyown_bridge.py:94` `def matches_service(self, services)`
+- `CatalogEntry.matches_os` (method) `modules/lazyown_bridge.py:104` `def matches_os(self, os_hint)`
+- `CommandCatalog.__init__` (method) `modules/lazyown_bridge.py:118` `def __init__(self)`
+- `CommandCatalog.by_phase` (method) `modules/lazyown_bridge.py:3946` `def by_phase(self, phase)`
+- `CommandCatalog.by_mitre` (method) `modules/lazyown_bridge.py:3952` `def by_mitre(self, technique_id)`
+- `CommandCatalog.by_service` (method) `modules/lazyown_bridge.py:3956` `def by_service(self, service_name)`
+- `CommandCatalog.by_tag` (method) `modules/lazyown_bridge.py:3960` `def by_tag(self, tag)`
+- `CommandCatalog.by_os` (method) `modules/lazyown_bridge.py:3963` `def by_os(self, os_hint)`
+- `CommandCatalog.all_phases` (method) `modules/lazyown_bridge.py:3966` `def all_phases(self)`
+- `CommandCatalog.get` (method) `modules/lazyown_bridge.py:3969` `def get(self, command)`
+- `CommandCatalog.count` (method) `modules/lazyown_bridge.py:3975` `def count(self)`
+- `AbstractSelector.select` (method) `modules/lazyown_bridge.py:3986` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+- `ServiceAwareSelector.select` (method) `modules/lazyown_bridge.py:4005` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+- `MitreAlignedSelector.__init__` (method) `modules/lazyown_bridge.py:4045` `def __init__(self, technique_id)`
+- `MitreAlignedSelector.select` (method) `modules/lazyown_bridge.py:4049` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+- `TagSelector.__init__` (method) `modules/lazyown_bridge.py:4074` `def __init__(self, tag)`
+- `TagSelector.select` (method) `modules/lazyown_bridge.py:4078` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+- `ContextEnricher.enrich` (method) `modules/lazyown_bridge.py:4106` `def enrich(self, entry, target, world_snapshot)`
+- `PhaseMapper.canonical_kill_chain_order` (method) `modules/lazyown_bridge.py:4204` `def canonical_kill_chain_order()` -- Return the canonical 8-phase order from KillChain (single source of truth).
+- `PhaseMapper.to_bridge_phase` (method) `modules/lazyown_bridge.py:4210` `def to_bridge_phase(self, wm_phase)`
+- `PhaseMapper.kill_chain_order` (method) `modules/lazyown_bridge.py:4223` `def kill_chain_order(self)` -- Ordered list of bridge phases following the kill chain.
+- `BridgeDispatcher.__init__` (method) `modules/lazyown_bridge.py:4239` `def __init__(self, catalog, selector, enricher, phase_mapper)`
+- `BridgeDispatcher.suggest` (method) `modules/lazyown_bridge.py:4251` `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` -- Return (command_string, entry) or None.
+- `BridgeDispatcher.suggest_sequence` (method) `modules/lazyown_bridge.py:4296` `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` -- Return up to `limit` non-excluded suggestions for the phase.
+- `BridgeDispatcher.suggest_for_wm_phase` (method) `modules/lazyown_bridge.py:4325` `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)`
+- `BridgeDispatcher.list_phase` (method) `modules/lazyown_bridge.py:4343` `def list_phase(self, phase)`
+- `BridgeDispatcher.all_phases` (method) `modules/lazyown_bridge.py:4347` `def all_phases(self)`
+- `BridgeDispatcher.catalog_summary` (method) `modules/lazyown_bridge.py:4350` `def catalog_summary(self)`
+- `BridgeDispatcher.catalog_summary_filtered` (method) `modules/lazyown_bridge.py:4358` `def catalog_summary_filtered(self, phase, os_hint)` -- Return a kill-chain summary restricted to a phase and target OS.
+- `BridgeDispatcher.catalog_count` (method) `modules/lazyown_bridge.py:4395` `def catalog_count(self)`
+- `BridgeDispatcher.phase_kill_chain` (method) `modules/lazyown_bridge.py:4398` `def phase_kill_chain(self)`
+- `get_dispatcher` (function) `modules/lazyown_bridge.py:4409` `def get_dispatcher()`
 
 ## modules/lazyown_metaextract0r.py
 - `signal_handler` (function) `modules/lazyown_metaextract0r.py:42` `def signal_handler(sig, frame)`
@@ -171,7 +462,7 @@ Imported by: `skills/mcp_tools/eval_quality.py`, `tests/test_core_modules.py`
 - `record_outcome` (function) `modules/llm_evaluator.py:313` `def record_outcome(decision_id, actual_outcome, findings_count, success)`
 
 ## modules/llm_factory.py
-Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+Depends on: `core/llm_budget.py`, `core/llm_key_pool.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
 Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
 - `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
 - `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
@@ -180,11 +471,11 @@ Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.
 - `api_key_config_key` (function) `modules/llm_factory.py:266` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
 - `backend_requires_api_key` (function) `modules/llm_factory.py:291` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
 - `load_payload` (function) `modules/llm_factory.py:309` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
-- `get_llm_backend` (function) `modules/llm_factory.py:653` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
-- `get_llm_backend_raw` (function) `modules/llm_factory.py:749` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
-- `try_get_llm_backend` (function) `modules/llm_factory.py:771` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
-- `stream_complete` (function) `modules/llm_factory.py:848` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
-- `complete` (function) `modules/llm_factory.py:919` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+- `get_llm_backend` (function) `modules/llm_factory.py:676` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:772` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:794` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:871` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:942` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
 
 ## modules/llm_orchestrator.py
 Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`
@@ -197,298 +488,6 @@ Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `m
 - `is_error_reply` (function) `modules/llm_orchestrator.py:192` `def is_error_reply(text)` -- Return True when a reply is a backend error banner, not content.
 - `is_placeholder_key` (function) `modules/llm_orchestrator.py:211` `def is_placeholder_key(value)` -- Return True when a key value is a shipped placeholder, not a secret.
 - `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
-
-## modules/llm_pool.py
-Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
-- `shared_registry` (function) `modules/llm_pool.py:50` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
-- `HealthRegistry.__init__` (method) `modules/llm_pool.py:83` `def __init__(self, config)` -- Initialize counters from the persisted breaker state.
-- `HealthRegistry.report_success` (method) `modules/llm_pool.py:135` `def report_success(self, member_id)` -- Clear failure state for a member.
-- `HealthRegistry.report_failure` (method) `modules/llm_pool.py:143` `def report_failure(self, member_id, error)` -- Record a failure; auth/quota errors trip immediately.
-- `HealthRegistry.healthy` (method) `modules/llm_pool.py:163` `def healthy(self, member_id)` -- Return True when a member may serve traffic.
-- `LLMPool.__init__` (method) `modules/llm_pool.py:179` `def __init__(self, members, health, config)` -- Order members by descending rank (RR within equal rank).
-- `LLMPool.members` (method) `modules/llm_pool.py:192` `def members(self)` -- Return chain members in order.
-- `LLMPool.session_key` (method) `modules/llm_pool.py:196` `def session_key(self, conversation_id, role, index)` -- Build a sticky session header (LAZY session_header parity).
-- `LLMPool.complete` (method) `modules/llm_pool.py:237` `def complete(self, prompt, max_tokens, session_key, overflow_dir)` -- Complete a prompt with pre-token failover across members.
-
-## modules/llm_prompts.py
-Depends on: `modules/colors.py`
-Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_llm_prompts.py`
-- `default_project_root` (function) `modules/llm_prompts.py:67` `def default_project_root()` -- Return the repository root that owns the LLM prompt configuration.
-- `resolve_model` (function) `modules/llm_prompts.py:76` `def resolve_model(model)` -- Resolve an explicit model or fall back to the randomized Groq model.
-- `truncate_message` (function) `modules/llm_prompts.py:95` `def truncate_message(message, max_chars)` -- Truncate a message with an ellipsis marker when it exceeds the limit.
-- `LlmPromptConfig.from_defaults` (method) `modules/llm_prompts.py:130` `def from_defaults(cls, project_root)` -- Build a config rooted at the given project root.
-- `LlmPromptConfig.knowledge_base_path` (method) `modules/llm_prompts.py:150` `def knowledge_base_path(self, domain)` -- Return the absolute path for a knowledge-base domain file.
-- `LlmPromptConfig.load_payload_context` (method) `modules/llm_prompts.py:161` `def load_payload_context(self)` -- Load the operator context keyed by :data:`PAYLOAD_KEY_ORDER`.
-- `LlmPromptConfig.load_event_tool_output` (method) `modules/llm_prompts.py:176` `def load_event_tool_output(self, event_name)` -- Load tool output attached to a named event in event_config.json.
-- `LlmPromptConfig.load_plan_history` (method) `modules/llm_prompts.py:203` `def load_plan_history(self)` -- Load the session plan history text if present.
-- `LlmPromptConfig.load_report_context` (method) `modules/llm_prompts.py:218` `def load_report_context(self)` -- Load the JSON artefacts consumed by the report template.
-- `LlmPromptConfig.knowledge_store` (method) `modules/llm_prompts.py:238` `def knowledge_store(self, domain)` -- Build a knowledge store bound to a domain file.
-- `LlmPromptConfig.render` (method) `modules/llm_prompts.py:249` `def render(self, template, base_prompt)` -- Render a named template with shared knowledge and context.
-- `render_kb_tail` (function) `modules/llm_prompts.py:271` `def render_kb_tail(lines)` -- Join the most recent knowledge lines for embedding into a prompt.
-- `KnowledgeStore.__init__` (method) `modules/llm_prompts.py:289` `def __init__(self, path)` -- Initialize a store bound to a single JSON file.
-- `KnowledgeStore.load` (method) `modules/llm_prompts.py:297` `def load(self)` -- Load the knowledge-base records from disk.
-- `KnowledgeStore.save` (method) `modules/llm_prompts.py:312` `def save(self, records)` -- Persist a full record list to disk, creating parent directories.
-- `KnowledgeStore.add` (method) `modules/llm_prompts.py:324` `def add(self, prompt, response)` -- Append a prompt/response record to the knowledge base.
-- `KnowledgeStore.relevant` (method) `modules/llm_prompts.py:335` `def relevant(self, prompt, limit)` -- Return knowledge responses whose text shares keywords with the prompt.
-
-## modules/log_tamper.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `LogTamper.__init__` (method) `modules/log_tamper.py:105` `def __init__(self, config)`
-- `LogTamper.windows_clear_commands` (method) `modules/log_tamper.py:108` `def windows_clear_commands(self)` -- Generate Windows Event Log clearing commands.
-- `LogTamper.linux_clear_commands` (method) `modules/log_tamper.py:176` `def linux_clear_commands(self)` -- Generate Linux log clearing commands.
-- `LogTamper.macos_clear_commands` (method) `modules/log_tamper.py:243` `def macos_clear_commands(self)` -- Generate macOS log clearing commands.
-- `LogTamper.generate_all` (method) `modules/log_tamper.py:295` `def generate_all(self)` -- Generate log tampering commands for all platforms.
-- `LogTamper.auditd_disable_commands` (method) `modules/log_tamper.py:307` `def auditd_disable_commands(self)` -- Commands to temporarily disable or reconfigure auditd on Linux.
-- `LogTamper.sysmon_disable_commands` (method) `modules/log_tamper.py:341` `def sysmon_disable_commands(self)` -- Commands to disable or degrade Sysmon on Windows.
-
-## modules/logging_config.py
-Depends on: `core/logging.py`
-Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
-- `ColoredFormatter.format` (method) `modules/logging_config.py:39` `def format(self, record)`
-- `JsonFormatter.format` (method) `modules/logging_config.py:72` `def format(self, record)`
-- `CorrelationFilter.filter` (method) `modules/logging_config.py:94` `def filter(self, record)`
-- `ResilientRotatingFileHandler.emit` (method) `modules/logging_config.py:116` `def emit(self, record)` -- Write one record, no-op after the file has become unwritable.
-- `ResilientRotatingFileHandler.handleError` (method) `modules/logging_config.py:122` `def handleError(self, record)` -- Suppress the default per-record traceback; notify once via stderr.
-- `set_correlation_id` (function) `modules/logging_config.py:134` `def set_correlation_id(cid)` -- Set the correlation ID for the current async/task context.
-- `get_correlation_id` (function) `modules/logging_config.py:139` `def get_correlation_id()` -- Return the current correlation ID, or None.
-- `clear_correlation_id` (function) `modules/logging_config.py:144` `def clear_correlation_id()` -- Reset the correlation ID for the current context.
-- `configure` (function) `modules/logging_config.py:244` `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)` -- Configure LazyOwn's centralized logging system.
-- `get_logger` (function) `modules/logging_config.py:328` `def get_logger(name, level)` -- Get a logger with the given name.
-- `set_level` (function) `modules/logging_config.py:357` `def set_level(name, level)` -- Set the log level for a specific logger.
-- `set_quiet` (function) `modules/logging_config.py:367` `def set_quiet()` -- Silence all logging below WARNING level.
-- `set_verbose` (function) `modules/logging_config.py:373` `def set_verbose()` -- Enable DEBUG level logging.
-- `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
-- `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
-
-## modules/loop/worker_agentic.py
-Depends on: `modules/__init__.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`
-Imported by: `modules/loop/__init__.py`
-- `run_command` (function) `modules/loop/worker_agentic.py:94` `def run_command(command, background)` -- Run one shell probe/verb through scope, guard and audit.
-- `record_fact` (function) `modules/loop/worker_agentic.py:120` `def record_fact(text)` -- Persist one observed or inferred fact on the exploration graph.
-- `report_finding` (function) `modules/loop/worker_agentic.py:129` `def report_finding(name, evidence, severity)` -- Record a verified vulnerability with its evidence.
-- `traffic_search` (function) `modules/loop/worker_agentic.py:140` `def traffic_search(query)` -- Search captured command/traffic records by keyword.
-- `graph_state` (function) `modules/loop/worker_agentic.py:153` `def graph_state()` -- Compact exploration overview: intents, facts, findings.
-- `shell_open` (function) `modules/loop/worker_agentic.py:168` `def shell_open()` -- Open a persistent bash session for multi-step shell work.
-- `shell_send` (function) `modules/loop/worker_agentic.py:172` `def shell_send(command)` -- Run one guarded command in the persistent shell session.
-- `job_status` (function) `modules/loop/worker_agentic.py:176` `def job_status(job_id)` -- Report whether one background job is still running.
-- `job_output` (function) `modules/loop/worker_agentic.py:184` `def job_output(job_id)` -- Return the tail of one background job's output.
-
-## modules/loop_ai_bridge.py
-Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
-- `publish_loop_event` (function) `modules/loop_ai_bridge.py:74` `def publish_loop_event(task_id, worker, kind, text, severity)` -- Publish one loop activity to the unified bus and Hive memory.
-- `assess_opsec` (function) `modules/loop_ai_bridge.py:125` `def assess_opsec(command, rhost)` -- Return a pre-execution OPSEC gate assessment, or None when unavailable.
-- `intent_tool_class` (function) `modules/loop_ai_bridge.py:169` `def intent_tool_class(summary)` -- Return the coarse tool class an intent summary belongs to.
-- `record_outcome_quality` (function) `modules/loop_ai_bridge.py:213` `def record_outcome_quality(worker, intent_summary, facts, findings)` -- Feed one intent's net yield back to MoE/RL as a decision-quality reward.
-- `tool_class_yields` (function) `modules/loop_ai_bridge.py:240` `def tool_class_yields(summaries, phase)` -- Return the learned decision-quality yield for each candidate summary.
-- `annotate_detection` (function) `modules/loop_ai_bridge.py:280` `def annotate_detection(command, action_category)` -- Return oracle details for one command, or None when unavailable.
-- `moe_route` (function) `modules/loop_ai_bridge.py:304` `def moe_route(task_type, goal)` -- Return the MoE router's preferred expert for a task type, or None.
-- `moe_record_outcome` (function) `modules/loop_ai_bridge.py:321` `def moe_record_outcome(expert_id, task_type, reward, detection_prob)` -- Feed one execution outcome back to the MoE performance store.
-- `rl_select` (function) `modules/loop_ai_bridge.py:340` `def rl_select(task_type, phase, candidates, deterministic)` -- Pick an expert with the RL policy; first candidate when unavailable.
-- `rl_update` (function) `modules/loop_ai_bridge.py:362` `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
-- `rl_save` (function) `modules/loop_ai_bridge.py:385` `def rl_save()` -- Persist the RL tables after a run.
-- `record_step` (function) `modules/loop_ai_bridge.py:404` `def record_step(task_id, worker, command, output, detection_prob)` -- Feed one executed command outcome to MoE and the RL trainer.
-- `swan_available` (function) `modules/loop_ai_bridge.py:419` `def swan_available()` -- Return True when the SWAN orchestrator can be constructed.
-- `swan_consult` (function) `modules/loop_ai_bridge.py:432` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
-- `stream_enabled` (function) `modules/loop_ai_bridge.py:459` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
-- `ai_snapshot` (function) `modules/loop_ai_bridge.py:469` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
-
-## modules/loop_guardrails.py
-Depends on: `modules/__init__.py`
-Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_orchestrator_pacing.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
-- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:110` `def __init__(self, window)`
-- `RepeatDetector.record` (method) `modules/loop_guardrails.py:116` `def record(self, command)` -- Add one executed command; returns True when the window fills.
-- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:151` `def stuck(self)` -- True when the loop is visibly not progressing.
-- `RepeatDetector.oscillation_pair` (method) `modules/loop_guardrails.py:175` `def oscillation_pair(self)` -- Return the detected alternating pair, ('', '') when none.
-- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:179` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
-- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:183` `def reset(self)` -- Clear the window (operator intervention acknowledged).
-- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:206` `def __init__(self, duration_threshold)` -- Configure the pacer.
-- `EdrPacer.parse_windows` (method) `modules/loop_guardrails.py:252` `def parse_windows(raw)` -- Parse ``HH:MM-HH:MM`` window strings into minute tuples.
-- `EdrPacer.from_config` (method) `modules/loop_guardrails.py:274` `def from_config(cls)` -- Build a pacer from the orchestrator pacing configuration.
-- `EdrPacer.observe` (method) `modules/loop_guardrails.py:305` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
-- `EdrPacer.decay` (method) `modules/loop_guardrails.py:327` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
-- `EdrPacer.level` (method) `modules/loop_guardrails.py:333` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
-- `EdrPacer.signal` (method) `modules/loop_guardrails.py:343` `def signal(self)` -- Human-readable reason for the current level (may be empty).
-- `EdrPacer.in_sleeper_window` (method) `modules/loop_guardrails.py:374` `def in_sleeper_window(self, now)` -- True when local time falls inside a configured quiet window.
-- `EdrPacer.windows_delay` (method) `modules/loop_guardrails.py:380` `def windows_delay(windows, now)` -- Static quiet-window delay for callers without a pacer instance.
-- `EdrPacer.sleeper_delay` (method) `modules/loop_guardrails.py:407` `def sleeper_delay(self, now)` -- Recommended sleep because of a quiet window (0 when outside).
-- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:420` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
-- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:437` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
-- `EdrPacer.describe` (method) `modules/loop_guardrails.py:452` `def describe(self)` -- Return a snapshot of the pacer state for admin surfaces.
-- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:475` `def __init__(self, max_concurrent)`
-- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:482` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
-- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:487` `def active_targets(self)` -- How many distinct targets currently hold a slot.
-- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:493` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
-- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:545` `def __init__(self, path, max_facts)`
-- `FactVectorStore.path` (method) `modules/loop_guardrails.py:553` `def path(self)` -- Backing file path.
-- `FactVectorStore.add` (method) `modules/loop_guardrails.py:574` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
-- `FactVectorStore.search` (method) `modules/loop_guardrails.py:608` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
-- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:638` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
-- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:647` `def clear(self)` -- Drop every fact (manual reset path).
-- `FactVectorStore.save` (method) `modules/loop_guardrails.py:653` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
-
-## modules/loop_manager.py
-Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
-- `LoopValidationError.__init__` (method) `modules/loop_manager.py:90` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
-- `validate_target` (function) `modules/loop_manager.py:100` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
-- `sanitize_goal` (function) `modules/loop_manager.py:123` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
-- `clamp_int` (function) `modules/loop_manager.py:150` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
-- `clamp_float` (function) `modules/loop_manager.py:175` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
-- `validate_loop_id` (function) `modules/loop_manager.py:200` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
-- `LoopManager.__init__` (method) `modules/loop_manager.py:327` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
-- `LoopManager.loops_dir` (method) `modules/loop_manager.py:349` `def loops_dir(self)` -- Return the root directory for loop workspaces.
-- `LoopManager.start` (method) `modules/loop_manager.py:353` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
-- `LoopManager.list_loops` (method) `modules/loop_manager.py:493` `def list_loops(self)` -- Return every registry record with refreshed live status.
-- `LoopManager.get_loop` (method) `modules/loop_manager.py:528` `def get_loop(self, loop_id)` -- Return one registry record by id.
-- `LoopManager.read_log` (method) `modules/loop_manager.py:547` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
-- `LoopManager.stop` (method) `modules/loop_manager.py:614` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
-- `LoopManager.summary` (method) `modules/loop_manager.py:679` `def summary(self)` -- Return an aggregate view of loop activity for the report.
-
-## modules/loop_progress.py
-Depends on: `core/safe_console.py`
-Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
-- `snapshot_from_overview` (function) `modules/loop_progress.py:99` `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` -- Build a snapshot from a graph overview dict plus task record.
-- `snap_to_states` (function) `modules/loop_progress.py:123` `def snap_to_states(snapshot)` -- Infer done/active/pending per chain stage from a snapshot.
-- `sanitize_line` (function) `modules/loop_progress.py:151` `def sanitize_line(line, keep_ansi)` -- Strip ANSI codes and carriage returns from a transcript line.
-- `LoopProgress.live_mode` (method) `modules/loop_progress.py:195` `def live_mode(self)` -- True only when the sink supports a real live region.
-- `LoopProgress.start` (method) `modules/loop_progress.py:202` `def start(self)` -- Open the Live display, or print the header in line mode.
-- `LoopProgress.stop` (method) `modules/loop_progress.py:229` `def stop(self)` -- Freeze the final panel on screen (both modes).
-- `LoopProgress.refresh` (method) `modules/loop_progress.py:246` `def refresh(self, snapshot)` -- Re-render milestones from a fresh snapshot (thread-safe).
-- `LoopProgress.emit` (method) `modules/loop_progress.py:268` `def emit(self, line)` -- Print a transcript line above the live panel, colors preserved.
-
-## modules/loop_triggers.py
-Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_heat.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
-Imported by: `cli/commands/netattack.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
-- `hint_fingerprint` (function) `modules/loop_triggers.py:28` `def hint_fingerprint(row)` -- Return the evidence signature of one hot-CVE candidate.
-- `prune_hint_fingerprints` (function) `modules/loop_triggers.py:60` `def prune_hint_fingerprints(store, now, ttl)` -- Return only the fresh fingerprints of a stored fingerprint map.
-- `TriggerStore.__init__` (method) `modules/loop_triggers.py:91` `def __init__(self, task_id)` -- Bind trigger table (global when task_id empty).
-- `TriggerStore.add` (method) `modules/loop_triggers.py:101` `def add(self, kind, arg, every_sec)` -- Register a trigger; interval needs every_sec, events fire on new rows.
-- `TriggerStore.upsert_defaults` (method) `modules/loop_triggers.py:123` `def upsert_defaults(self, seeds)` -- Merge declarative seeds without duplicating or re-enabling.
-- `TriggerStore.remove` (method) `modules/loop_triggers.py:165` `def remove(self, trigger_id)` -- Delete a trigger.
-- `TriggerStore.set_enabled` (method) `modules/loop_triggers.py:176` `def set_enabled(self, trigger_id, enabled)` -- Flip one trigger's enabled flag in place.
-- `TriggerStore.list` (method) `modules/loop_triggers.py:190` `def list(self)` -- Return all triggers.
-- `TriggerStore.ensure_service_trigger` (method) `modules/loop_triggers.py:194` `def ensure_service_trigger(self)` -- Register the catalog trigger once so services fire the loop.
-- `TriggerStore.ensure_cve_hot_trigger` (method) `modules/loop_triggers.py:207` `def ensure_cve_hot_trigger(self)` -- Register the hot-CVE trigger once so fresh intel fires the loop.
-- `TriggerStore.ensure_ad_surface_trigger` (method) `modules/loop_triggers.py:220` `def ensure_ad_surface_trigger(self)` -- Register the AD-surface trigger once so Windows identity fires it.
-- `TriggerStore.due` (method) `modules/loop_triggers.py:233` `def due(self, task_id, graph, activity, assets, store)` -- Evaluate triggers like the scheduler tick; fires at most once each.
-- `read_signing_evidence` (function) `modules/loop_triggers.py:499` `def read_signing_evidence(store_dir)` -- Load operator-attested SMB signing evidence per host.
-
-## modules/macos_payloads.py
-Imported by: `cli/commands/payload_arsenal.py`
-- `MacOSPayloadFactory.__init__` (method) `modules/macos_payloads.py:111` `def __init__(self, config, output_dir)`
-- `MacOSPayloadFactory.generate_app_bundle` (method) `modules/macos_payloads.py:137` `def generate_app_bundle(self)` -- Generate a macOS .app bundle with embedded reverse shell.
-- `MacOSPayloadFactory.generate_launchd_persistence` (method) `modules/macos_payloads.py:212` `def generate_launchd_persistence(self)` -- Generate a LaunchDaemon or LaunchAgent plist for persistence.
-- `MacOSPayloadFactory.generate_tcc_bypass` (method) `modules/macos_payloads.py:268` `def generate_tcc_bypass(self)` -- Generate a TCC bypass script targeting common permissions.
-- `MacOSPayloadFactory.generate_osascript_dropper` (method) `modules/macos_payloads.py:314` `def generate_osascript_dropper(self)` -- Generate an AppleScript-based dropper that downloads and executes a stage.
-- `MacOSPayloadFactory.generate_swift_stager` (method) `modules/macos_payloads.py:335` `def generate_swift_stager(self)` -- Generate a Swift reverse shell stager.
-- `MacOSPayloadFactory.generate_persistence_scripts` (method) `modules/macos_payloads.py:398` `def generate_persistence_scripts(self)` -- Generate all available macOS persistence scripts.
-- `MacOSPayloadFactory.generate_phishing_dialog` (method) `modules/macos_payloads.py:447` `def generate_phishing_dialog(self)` -- Generate an AppleScript credential phishing dialog.
-- `MacOSPayloadFactory.generate_all` (method) `modules/macos_payloads.py:470` `def generate_all(self)` -- Generate all macOS payload artifacts.
-- `MacOSPayloadFactory.list_tcc_services` (method) `modules/macos_payloads.py:517` `def list_tcc_services()` -- Return the list of known TCC service identifiers.
-- `MacOSPayloadFactory.list_persistence_methods` (method) `modules/macos_payloads.py:522` `def list_persistence_methods()` -- Return the list of available persistence methods for macOS.
-
-## modules/mario.py
-- `check_collision` (function) `modules/mario.py:105` `def check_collision(x, y, layer)`
-
-## modules/mcp_agent_bridge.py
-Depends on: `core/logging.py`, `modules/llm_factory.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/agent_result.py`, `skills/mcp_tools/agent_status.py`, `skills/mcp_tools/list_agents.py`, `skills/mcp_tools/run_agent.py`, `skills/mcp_tools/subagent_run.py`
-- `get_agent_status` (function) `modules/mcp_agent_bridge.py:163` `def get_agent_status(agent_id)` -- Public: returns current status dict for an agent.
-- `get_agent_result` (function) `modules/mcp_agent_bridge.py:188` `def get_agent_result(agent_id)` -- Public: returns final result + full action log.
-- `list_agents` (function) `modules/mcp_agent_bridge.py:211` `def list_agents(limit)` -- List recent agents sorted by start time.
-- `GroqAgentWorker.__init__` (method) `modules/mcp_agent_bridge.py:235` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-- `GroqAgentWorker.run` (method) `modules/mcp_agent_bridge.py:264` `def run(self)`
-- `OllamaReActWorker.__init__` (method) `modules/mcp_agent_bridge.py:368` `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-- `OllamaReActWorker.run` (method) `modules/mcp_agent_bridge.py:389` `def run(self)`
-- `AgentBridgeWorker.__init__` (method) `modules/mcp_agent_bridge.py:471` `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)`
-- `AgentBridgeWorker.run` (method) `modules/mcp_agent_bridge.py:478` `def run(self)`
-- `start_agent` (function) `modules/mcp_agent_bridge.py:508` `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` -- Start an agent in a background thread.
-- `dummy_runner` (function) `modules/mcp_agent_bridge.py:531` `def dummy_runner(cmd)`
-
-## modules/mediation/chain_mediator.py
-Depends on: `modules/lazy_loop.py`
-Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`, `tests/test_guardrails.py`
-- `LlmPoolPort.complete` (method) `modules/mediation/chain_mediator.py:16` `def complete(self, prompt, max_tokens, task_id)` -- Complete one prompt through the LLM pool.
-- `LlmPoolPort.has_members` (method) `modules/mediation/chain_mediator.py:34` `def has_members(self)` -- Report whether any LLM member is configured.
-- `ChainMediator.__init__` (method) `modules/mediation/chain_mediator.py:53` `def __init__(self)` -- Start with the default pool port.
-- `ChainMediator.register_llm_port` (method) `modules/mediation/chain_mediator.py:57` `def register_llm_port(self, port)` -- Replace the completion port (injection point for tests/gyms).
-- `ChainMediator.llm` (method) `modules/mediation/chain_mediator.py:65` `def llm(self)` -- Return the completion port for pipeline requests.
-- `ChainMediator.describe` (method) `modules/mediation/chain_mediator.py:73` `def describe(self)` -- Return mediator metadata for diagnostics.
-
-## modules/mediation/contracts.py
-Depends on: `modules/mediation/hub.py`
-Imported by: `modules/loop/worker_memory.py`, `modules/mediation/__init__.py`, `modules/mediation/engine_mediator.py`, `modules/mediation/hub.py`, `tests/test_engine_mediator.py`
-- `MediationDomains.is_known` (method) `modules/mediation/contracts.py:24` `def is_known(cls, domain)` -- Check whether a domain key is registered in the default set.
-- `ActivityLogPort.read` (method) `modules/mediation/contracts.py:45` `def read(self, limit)` -- Return the latest activity records oldest-first.
-- `LlmCompletionPort.complete` (method) `modules/mediation/contracts.py:61` `def complete(self, prompt, max_tokens, task_id)` -- Complete one prompt with the configured LLM pool.
-- `LlmCompletionPort.has_members` (method) `modules/mediation/contracts.py:79` `def has_members(self)` -- Report whether any LLM member is configured.
-- `MediatorContract.describe` (method) `modules/mediation/contracts.py:90` `def describe(self)` -- Return introspection metadata for diagnostics.
-- `MediationHubContract.mediator_for` (method) `modules/mediation/contracts.py:99` `def mediator_for(self, domain)` -- Return the mediator registered for a domain key, or None.
-- `resolve` (function) `modules/mediation/contracts.py:104` `def resolve(domain)` -- Return the default-hub mediator for a domain key.
-
-## modules/mediation/engine_mediator.py
-Depends on: `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/mediation/contracts.py`, `modules/reactive_engine.py`
-Imported by: `modules/mediation/hub.py`, `tests/test_engine_mediator.py`
-- `ExploitRetryPort.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:37` `def retry_with_credentials(self, target, credentials)` -- Queue one retry attempt per captured credential pair.
-- `ReactionPort.analyse` (method) `modules/mediation/engine_mediator.py:54` `def analyse(self, output, command, platform)` -- Analyse one command's output for next-action decisions.
-- `ReasoningPort.reason` (method) `modules/mediation/engine_mediator.py:72` `def reason(self, target)` -- Return the next exploit strategy for a target.
-- `EngineMediator.describe` (method) `modules/mediation/engine_mediator.py:89` `def describe(self)` -- Return introspection metadata for diagnostics.
-- `EngineMediator.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:97` `def retry_with_credentials(self, target, credentials)` -- Queue captured credentials into the exploit engine's retry loop.
-- `EngineMediator.analyse` (method) `modules/mediation/engine_mediator.py:118` `def analyse(self, output, command, platform)` -- Run reactive-engine analysis over one step's output.
-- `EngineMediator.reason` (method) `modules/mediation/engine_mediator.py:136` `def reason(self, target)` -- Return the exploit-chain strategy for a target.
-
-## modules/mediation/feedback_mediator.py
-Depends on: `modules/lazy_orchestrator_feedback.py`
-Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`
-- `FeedbackMediator.describe` (method) `modules/mediation/feedback_mediator.py:18` `def describe(self)` -- Return mediator metadata for diagnostics.
-- `FeedbackMediator.order_steps` (method) `modules/mediation/feedback_mediator.py:22` `def order_steps(self, steps, stack)` -- Reorder worker steps with cross-task priors.
-
-## modules/mediation/hub.py
-Depends on: `modules/mediation/chain_mediator.py`, `modules/mediation/contracts.py`, `modules/mediation/engine_mediator.py`, `modules/mediation/feedback_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/mediation/telemetry_mediator.py`
-Imported by: `modules/loop/worker_memory.py`, `modules/mediation/__init__.py`, `modules/mediation/contracts.py`, `tests/test_mediation.py`
-- `MediationHub.__init__` (method) `modules/mediation/hub.py:22` `def __init__(self)` -- Start with an empty registry.
-- `MediationHub.register` (method) `modules/mediation/hub.py:26` `def register(self, mediator)` -- Register a mediator under its declared domain.
-- `MediationHub.mediator_for` (method) `modules/mediation/hub.py:35` `def mediator_for(self, domain)` -- Return the mediator registered for a domain key, or None.
-- `MediationHub.snapshot` (method) `modules/mediation/hub.py:46` `def snapshot(self)` -- Return high-level metadata for every registered mediator.
-- `default_hub` (function) `modules/mediation/hub.py:75` `def default_hub()` -- Return a fresh default-configured hub (test-safe, no singleton).
-- `get_hub` (function) `modules/mediation/hub.py:80` `def get_hub()` -- Return the process-wide hub, building it on first use.
-
-## modules/mediation/intel_mediator.py
-Depends on: `modules/lazy_intel.py`, `modules/lazy_loop.py`
-Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`
-- `IntelMediator.__init__` (method) `modules/mediation/intel_mediator.py:18` `def __init__(self)` -- Start with no registered activity-log factory.
-- `IntelMediator.register_activity_log_factory` (method) `modules/mediation/intel_mediator.py:22` `def register_activity_log_factory(self, factory)` -- Register the loop-side activity log factory.
-- `IntelMediator.describe` (method) `modules/mediation/intel_mediator.py:32` `def describe(self)` -- Return mediator metadata for diagnostics.
-- `IntelMediator.activity_records` (method) `modules/mediation/intel_mediator.py:39` `def activity_records(self, task_id, limit)` -- Return loop activity records for one task.
-- `IntelMediator.record_routing_decision` (method) `modules/mediation/intel_mediator.py:64` `def record_routing_decision(self, task_id, intent_id, command, intent_text, target, stack)` -- Record which verb the loop chose for one intent.
-- `IntelMediator.record_routing_outcome` (method) `modules/mediation/intel_mediator.py:97` `def record_routing_outcome(self, task_id, intent_id, command, state, facts, findings, stack)` -- Record the terminal outcome of one executed command.
-- `IntelMediator.mask_configured` (method) `modules/mediation/intel_mediator.py:133` `def mask_configured(self, text)` -- Strip operator-configured secrets from LLM-bound context.
-- `IntelMediator.stack_signature` (method) `modules/mediation/intel_mediator.py:149` `def stack_signature(self, assets)` -- Return the target stack fingerprint string.
-
-## modules/mediation/telemetry_mediator.py
-Depends on: `modules/loop_ai_bridge.py`
-Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`
-- `TelemetryMediator.describe` (method) `modules/mediation/telemetry_mediator.py:19` `def describe(self)` -- Return mediator metadata for diagnostics.
-- `TelemetryMediator.publish_event` (method) `modules/mediation/telemetry_mediator.py:23` `def publish_event(self, task_id, worker, kind, text, severity)` -- Publish one loop activity event to listeners.
-- `TelemetryMediator.annotate_detection` (method) `modules/mediation/telemetry_mediator.py:43` `def annotate_detection(self, command)` -- Return the detection annotation for one command.
-- `TelemetryMediator.assess_opsec` (method) `modules/mediation/telemetry_mediator.py:59` `def assess_opsec(self, command, rhost)` -- Return the pre-execution OPSEC gate assessment for one command.
-- `TelemetryMediator.record_outcome_quality` (method) `modules/mediation/telemetry_mediator.py:77` `def record_outcome_quality(self, worker, intent_summary, facts, findings)` -- Record one intent's net yield as a decision-quality reward.
-- `TelemetryMediator.tool_class_yields` (method) `modules/mediation/telemetry_mediator.py:93` `def tool_class_yields(self, summaries, phase)` -- Return learned decision-quality yields for candidate summaries.
-- `TelemetryMediator.record_step` (method) `modules/mediation/telemetry_mediator.py:111` `def record_step(self, task_id, worker, command, output, detection_prob)` -- Record one executed step for learning stores.
-- `TelemetryMediator.swan_available` (method) `modules/mediation/telemetry_mediator.py:128` `def swan_available(self)` -- Return True when the SWAN ensemble is ready.
-- `TelemetryMediator.swan_consult` (method) `modules/mediation/telemetry_mediator.py:137` `def swan_consult(self, prompt, task_type, phase, timeout)` -- Consult the SWAN ensemble with one prompt.
-- `TelemetryMediator.moe_route` (method) `modules/mediation/telemetry_mediator.py:162` `def moe_route(self, task_type)` -- Return the preferred MoE expert for a task type.
-- `TelemetryMediator.rl_select` (method) `modules/mediation/telemetry_mediator.py:178` `def rl_select(self, task_type, phase, candidates, deterministic)` -- Return the RL-preferred candidate name.
-- `TelemetryMediator.moe_record_outcome` (method) `modules/mediation/telemetry_mediator.py:203` `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` -- Record one MoE outcome for learning.
-- `TelemetryMediator.rl_update` (method) `modules/mediation/telemetry_mediator.py:219` `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
-
-## modules/memory_cleaner.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `MemoryCleaner.__init__` (method) `modules/memory_cleaner.py:61` `def __init__(self, config)`
-- `MemoryCleaner.windows_memory_cleanup` (method) `modules/memory_cleaner.py:64` `def windows_memory_cleanup(self)` -- Generate Windows memory artifact cleanup commands.
-- `MemoryCleaner.linux_memory_cleanup` (method) `modules/memory_cleaner.py:151` `def linux_memory_cleanup(self)` -- Generate Linux memory artifact cleanup commands.
-- `MemoryCleaner.macos_memory_cleanup` (method) `modules/memory_cleaner.py:206` `def macos_memory_cleanup(self)` -- Generate macOS memory artifact cleanup commands.
-- `MemoryCleaner.generate_on_exit_script` (method) `modules/memory_cleaner.py:255` `def generate_on_exit_script(self)` -- Generate an on-exit cleanup script for beacons.
 
 
 Next: [API_p17.md](API_p17.md)

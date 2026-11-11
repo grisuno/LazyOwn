@@ -1,6 +1,44 @@
 # Subsystem: modules (page 15 of 18)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/playbook_admin.py
+- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookEntry` (class, line 41) `class PlaybookEntry`
+  - `_yaml_module` (function, line 56) `def _yaml_module()`
+  - `slugify` (function, line 63) `def slugify(value)`
+  - `playbook_path` (function, line 76) `def playbook_path(filename, directory)`
+  - `load_playbook` (function, line 103) `def load_playbook(path)`
+  - `playbook_kind` (function, line 124) `def playbook_kind(data)`
+  - `validate_playbook` (function, line 137) `def validate_playbook(data)`
+  - `_count_steps` (function, line 210) `def _count_steps(data)`
+  - `summarize` (function, line 227) `def summarize(path)`
+  - `scan_playbooks` (function, line 261) `def scan_playbooks(directory)`
+  - `preview_playbook` (function, line 281) `def preview_playbook(path, limit)`
+  - `playbook_template` (function, line 295) `def playbook_template(name, description, platforms)`
+  - `_write_atomic` (function, line 312) `def _write_atomic(target, data)`
+  - `create_playbook` (function, line 327) `def create_playbook(filename)`
+  - `_target_for_write` (function, line 367) `def _target_for_write(path, directory)`
+  - `update_playbook` (function, line 380) `def update_playbook(path, data, directory)`
+  - `save_playbook_yaml` (function, line 407) `def save_playbook_yaml(path, text, directory)`
+  - `delete_playbook` (function, line 436) `def delete_playbook(path, directory)`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
+
+## modules/playbook_chain.py
+- Doc: Playbook to chain lowering: one contract, one destination.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `slugify` (function, line 29) `def slugify(name)`
+  - `_action_to_step` (function, line 35) `def _action_to_step(action, phase_name, index)`
+  - `playbook_to_chain` (function, line 69) `def playbook_to_chain(playbook, target, playbook_dir)`
+  - `_chain_to_raw` (function, line 123) `def _chain_to_raw(chain)`
+  - `write_playbook_chain` (function, line 152) `def write_playbook_chain(chain, chains_dir)`
+- Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`
+- Imported by: `cli/apt_chain_support.py`, `tests/test_playbook_chain.py`
+
 ## modules/playbook_engine.py
 - Doc: modules/playbook_engine.py
 - Layer: utility
@@ -444,45 +482,6 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `_render_shortcuts` (method, line 413) `def _render_shortcuts(self)`
 - Depends on: `core/console.py`, `modules/dashboard_engine.py`
 - Imported by: `cli/commands/pwn.py`
-
-## modules/rl_trainer.py
-- Doc: modules/rl_trainer.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RLConfig` (class, line 84) `class RLConfig`
-  - `IStateEncoder` (class, line 101) `class IStateEncoder(ABC)`
-  - `BucketedStateEncoder` (class, line 114) `class BucketedStateEncoder(IStateEncoder)`
-  - `QValueStore` (class, line 150) `class QValueStore`
-  - `EpsilonTracker` (class, line 215) `class EpsilonTracker`
-  - `RLTrainer` (class, line 267) `class RLTrainer`
-  - `get_trainer` (function, line 425) `def get_trainer(config)`
-  - `encode` (method, line 105) `def encode(self, task_type, engagement_phase, recent_reward_ema)`
-  - `encode` (method, line 131) `def encode(self, task_type, engagement_phase, recent_reward_ema)`
-  - `__init__` (method, line 156) `def __init__(self, path, optimistic_init)`
-  - `get` (method, line 168) `def get(self, state, action)`
-  - `set` (method, line 172) `def set(self, state, action, value)`
-  - `max_q` (method, line 176) `def max_q(self, state, candidates)`
-  - `argmax` (method, line 182) `def argmax(self, state, candidates)`
-  - `save` (method, line 188) `def save(self)`
-  - `_persist` (method, line 192) `def _persist(self)`
-  - `_load` (method, line 200) `def _load(self)`
-  - `__init__` (method, line 218) `def __init__(self, start, minimum, decay, path)`
-  - `epsilon` (method, line 233) `def epsilon(self)`
-  - `step` (method, line 236) `def step(self)`
-  - `_save` (method, line 241) `def _save(self)`
-  - `_load` (method, line 250) `def _load(self)`
-  - `__init__` (method, line 284) `def __init__(self, config, state_encoder, q_store, epsilon_tracker)`
-  - `encode_state` (method, line 304) `def encode_state(self, task_type, engagement_phase, recent_reward_ema)`
-  - `select_action` (method, line 313) `def select_action(self, state, candidates, force_exploit)`
-  - `update` (method, line 347) `def update(self, state, action, reward, next_state, candidates, detection_prob)`
-  - `best_expert_for_state` (method, line 389) `def best_expert_for_state(self, state, candidates)`
-  - `q_values_for_state` (method, line 393) `def q_values_for_state(self, state, candidates)`
-  - `save` (method, line 397) `def save(self)`
-  - `epsilon` (method, line 402) `def epsilon(self)`
-  - `_penalize` (method, line 407) `def _penalize(self, reward, detection_prob)`
-- Depends on: `core/logging.py`
-- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

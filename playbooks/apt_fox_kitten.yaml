@@ -1,0 +1,88 @@
+apt_name: Fox Kitten
+aliases:
+- Pioneer Kitten
+- RUBIDIUM
+- Cobalt Illusion
+source_urls:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+- https://www.fbi.gov/news/press-releases/fbi-and-cisa-release-advisory-on-iranian-cyber-actors-exploiting-cves-for-initial-access
+description: Fox Kitten is an Iranian government-sponsored actor exploiting public-facing
+  appliances (Palo Alto, Fortinet, Citrix, F5) for initial access, then selling access
+  and running ransomware-adjacent operations. Known for fast CVE adoption and scanning
+  at scale.
+platforms:
+- windows
+- linux
+- network
+phases:
+- name: reconnaissance
+  technique_id: T1595.002
+  technique_name: Vulnerability Scanning
+  description: At-scale scanning for appliance CVEs (GlobalProtect, FortiOS, Citrix
+    ADC, F5 BIG-IP).
+  atomic_tests:
+  - atomic_id: T1595.002
+    name: Mass scan for Fortinet and Palo Alto CVE fingerprints
+    manual: true
+  detection_hints:
+  - Wide-range scanning for appliance-specific paths
+  - TLS client anomalies across many subnets
+- name: initial_access
+  technique_id: T1190
+  technique_name: Exploit Public-Facing Application
+  description: Exploit of CVE-2024-3400 (PAN-OS), CVE-2018-13379/CVE-2023-27997 (FortiOS),
+    CVE-2023-35195 (Citrix).
+  atomic_tests:
+  - atomic_id: T1190
+    name: Exploit PAN-OS or FortiOS appliance CVE for foothold
+    manual: true
+  detection_hints:
+  - Unexpected appliance config dumps
+  - Arbitrary-file-write indicators on edge devices
+- name: credential_access
+  technique_id: T1552.001
+  technique_name: 'Unsecured Credentials: Credentials In Files'
+  description: Harvest credentials from appliance configs, VPN session stores and
+    leaked files.
+  atomic_tests:
+  - atomic_id: T1552.001
+    name: Harvest credentials from appliance configuration stores
+    manual: true
+  detection_hints:
+  - Config exports leaving the appliance
+  - Bulk downloads of session or config files
+- name: persistence
+  technique_id: T1136.002
+  technique_name: 'Create Account: Domain Account'
+  description: Create or repurpose domain accounts and VPN accounts for durable access.
+  atomic_tests:
+  - atomic_id: T1136.002
+    name: Create or modify domain and VPN accounts for persistence
+    manual: true
+  detection_hints:
+  - New accounts in protected groups
+  - VPN logins from new account set
+- name: lateral_movement
+  technique_id: T1021.001
+  technique_name: Remote Desktop Protocol
+  description: RDP lateral movement with harvested credentials plus RMM tools (AnyDesk
+    ScreenConnect).
+  atomic_tests:
+  - atomic_id: T1021.001
+    name: RDP and RMM-tool lateral movement with harvested creds
+    manual: true
+  detection_hints:
+  - RMM tool installs on servers
+  - RDP logons with plaintext-cred pattern
+- name: impact
+  technique_id: T1486
+  technique_name: Data Encrypted for Impact
+  description: Ransomware-adjacent impact through partner eCrime affiliates (GoodWill,
+    NoEscape).
+  atomic_tests:
+  - atomic_id: T1486
+    name: Ransomware impact through affiliate operations
+    manual: true
+  detection_hints:
+  - Mass file extension changes
+  - Shadow copy deletion events

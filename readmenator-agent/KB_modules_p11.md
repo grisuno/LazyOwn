@@ -1,6 +1,34 @@
 # Subsystem: modules (page 11 of 18)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/lazy_skill_mirror.py
+- Doc: Mirror LazyOwn skills for Hermes discovery.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_split_frontmatter` (function, line 30) `def _split_frontmatter(text)`
+  - `_hermes_frontmatter` (function, line 45) `def _hermes_frontmatter(name, fields)`
+  - `available_skills` (function, line 67) `def available_skills()`
+  - `mirror_skill` (function, line 78) `def mirror_skill(name)`
+  - `mirror_all` (function, line 106) `def mirror_all()`
+  - `_hermes_config_path` (function, line 112) `def _hermes_config_path()`
+  - `register_external_dirs` (function, line 117) `def register_external_dirs()`
+- Imported by: `cli/commands/lazyops.py`
+
+## modules/lazy_skills.py
+- Doc: Skill context injection for planner/worker prompts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_frontmatter` (function, line 28) `def _frontmatter(text)`
+  - `_skill_files` (function, line 42) `def _skill_files()`
+  - `_load` (function, line 53) `def _load(path)`
+  - `list_skills` (function, line 85) `def list_skills()`
+  - `get_skill` (function, line 91) `def get_skill(name)`
+  - `match_skills` (function, line 102) `def match_skills(text, limit)`
+  - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+
 ## modules/lazy_summarizer.py
 - Doc: Bounded chain summarizer for the Lazy autonomous loop.
 - Layer: utility
@@ -459,35 +487,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 ## modules/lazyrtpflood.sh
 - Layer: utility
 - Language: sh
-
-## modules/lazyshortener.py
-- Doc: LazyShortener: URL shortener bridge for LazyOwn phishing delivery.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `providers` (function, line 30) `def providers()`
-  - `shorten` (function, line 35) `def shorten(url, provider, timeout)`
-- Depends on: `core/safe_exec.py`
-- Imported by: `modules/lazypoophish.py`
-
-## modules/lazyvpnshield.sh
-- Doc: Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `save_current_rules` (function, line 29)
-  - `show_current_rules` (function, line 37)
-  - `apply_vpn_rules` (function, line 45)
-  - `undo_and_restore_rules` (function, line 86)
-  - `main` (function, line 113)
-  - `ctrl_c` (function, line 11)
-  - `check_sudo` (function, line 16)
-
-## modules/lazywps.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `ctrl_c` (function, line 9)
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

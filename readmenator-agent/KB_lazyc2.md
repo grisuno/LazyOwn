@@ -11,44 +11,44 @@
 - Language: py
 - Symbols:
   - `AddonCreatorConfig` (class, line 71) `class AddonCreatorConfig`
-  - `ParamSpec` (class, line 393) `class ParamSpec`
-  - `AddonDraft` (class, line 426) `class AddonDraft`
-  - `ValidationIssue` (class, line 453) `class ValidationIssue`
-  - `AddonValidationError` (class, line 460) `class AddonValidationError(ValueError)`
-  - `AddonValidator` (class, line 473) `class AddonValidator`
-  - `AddonYamlRenderer` (class, line 776) `class AddonYamlRenderer`
-  - `AddonStore` (class, line 861) `class AddonStore`
-  - `_multi_values` (function, line 1083) `def _multi_values(form, key)`
-  - `_first_value` (function, line 1104) `def _first_value(form, key)`
-  - `_parse_bool` (function, line 1115) `def _parse_bool(value)`
-  - `parse_addon_form` (function, line 1128) `def parse_addon_form(form)`
-  - `_parse_param_rows` (function, line 1167) `def _parse_param_rows(form)`
-  - `live_placeholders` (method, line 370) `def live_placeholders(cls)`
-  - `to_dict` (method, line 411) `def to_dict(self)`
-  - `__init__` (method, line 467) `def __init__(self, issues)`
-  - `__init__` (method, line 480) `def __init__(self, draft, config)`
-  - `validate` (method, line 494) `def validate(self)`
-  - `is_valid` (method, line 508) `def is_valid(self)`
-  - `_check_identity` (method, line 512) `def _check_identity(self)`
-  - `_check_targeting` (method, line 556) `def _check_targeting(self)`
-  - `_check_tool` (method, line 603) `def _check_tool(self)`
-  - `_check_params` (method, line 654) `def _check_params(self)`
-  - `_check_placeholders` (method, line 727) `def _check_placeholders(self, text, field)`
-  - `_is_valid_repo_url` (method, line 767) `def _is_valid_repo_url(value)`
-  - `__init__` (method, line 779) `def __init__(self, config)`
-  - `render` (method, line 787) `def render(self, draft)`
-  - `to_document` (method, line 805) `def to_document(self, draft)`
-  - `_render_tool` (method, line 835) `def _render_tool(self, draft)`
-  - `__init__` (method, line 870) `def __init__(self, config, base_dir)`
-  - `resolve_path` (method, line 885) `def resolve_path(self, name)`
-  - `resolve_existing_path` (method, line 900) `def resolve_existing_path(self, name)`
-  - `_resolve_target` (method, line 922) `def _resolve_target(self, name, pattern)`
-  - `exists` (method, line 944) `def exists(self, name)`
-  - `save` (method, line 955) `def save(self, name, yaml_text)`
-  - `_atomic_write` (method, line 979) `def _atomic_write(self, target, text)`
-  - `load` (method, line 1009) `def load(self, name)`
-  - `delete` (method, line 1032) `def delete(self, name)`
-  - `list_all` (method, line 1048) `def list_all(self)`
+  - `ParamSpec` (class, line 409) `class ParamSpec`
+  - `AddonDraft` (class, line 442) `class AddonDraft`
+  - `ValidationIssue` (class, line 469) `class ValidationIssue`
+  - `AddonValidationError` (class, line 476) `class AddonValidationError(ValueError)`
+  - `AddonValidator` (class, line 489) `class AddonValidator`
+  - `AddonYamlRenderer` (class, line 792) `class AddonYamlRenderer`
+  - `AddonStore` (class, line 877) `class AddonStore`
+  - `_multi_values` (function, line 1099) `def _multi_values(form, key)`
+  - `_first_value` (function, line 1120) `def _first_value(form, key)`
+  - `_parse_bool` (function, line 1131) `def _parse_bool(value)`
+  - `parse_addon_form` (function, line 1144) `def parse_addon_form(form)`
+  - `_parse_param_rows` (function, line 1183) `def _parse_param_rows(form)`
+  - `live_placeholders` (method, line 386) `def live_placeholders(cls)`
+  - `to_dict` (method, line 427) `def to_dict(self)`
+  - `__init__` (method, line 483) `def __init__(self, issues)`
+  - `__init__` (method, line 496) `def __init__(self, draft, config)`
+  - `validate` (method, line 510) `def validate(self)`
+  - `is_valid` (method, line 524) `def is_valid(self)`
+  - `_check_identity` (method, line 528) `def _check_identity(self)`
+  - `_check_targeting` (method, line 572) `def _check_targeting(self)`
+  - `_check_tool` (method, line 619) `def _check_tool(self)`
+  - `_check_params` (method, line 670) `def _check_params(self)`
+  - `_check_placeholders` (method, line 743) `def _check_placeholders(self, text, field)`
+  - `_is_valid_repo_url` (method, line 783) `def _is_valid_repo_url(value)`
+  - `__init__` (method, line 795) `def __init__(self, config)`
+  - `render` (method, line 803) `def render(self, draft)`
+  - `to_document` (method, line 821) `def to_document(self, draft)`
+  - `_render_tool` (method, line 851) `def _render_tool(self, draft)`
+  - `__init__` (method, line 886) `def __init__(self, config, base_dir)`
+  - `resolve_path` (method, line 901) `def resolve_path(self, name)`
+  - `resolve_existing_path` (method, line 916) `def resolve_existing_path(self, name)`
+  - `_resolve_target` (method, line 938) `def _resolve_target(self, name, pattern)`
+  - `exists` (method, line 960) `def exists(self, name)`
+  - `save` (method, line 971) `def save(self, name, yaml_text)`
+  - `_atomic_write` (method, line 995) `def _atomic_write(self, target, text)`
+  - `load` (method, line 1025) `def load(self, name)`
+  - `delete` (method, line 1048) `def delete(self, name)`
+  - `list_all` (method, line 1064) `def list_all(self)`
 - Depends on: `core/param_registry.py`
 - Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`, `tests/test_param_registry.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
 

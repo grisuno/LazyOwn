@@ -37,6 +37,8 @@ import urllib.request
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from modules.lazy_blindspot import BlindspotFinding, BlindspotReview  # noqa: F401 (BlindspotFinding re-exported)
+from modules.lazy_deviations import DeviationLedger
 from modules.loop import (
     EngineProxyMixin,
     WorkerAgenticMixin,
@@ -52,6 +54,22 @@ from modules.loop_guardrails import (
     TargetLimiter,
     listing_forbidden,
 )
+
+
+def _record_deviation(scope: str, planned: str, actual: str, reason: str, source: str) -> None:
+    """Append one loop deviation to the shared ledger; never raises.
+
+    Args:
+        scope: Grouping key, e.g. ``loop:<task_id>``.
+        planned: Planned command or value.
+        actual: What replaced it.
+        reason: Why the plan changed.
+        source: Recording subsystem name.
+    """
+    try:
+        DeviationLedger().record(scope, planned=planned, actual=actual, reason=reason, source=source)
+    except Exception:
+        pass
 
 _LOG = logging.getLogger("modules.lazy_loop")
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,6 +125,7 @@ DEFAULT_MAX_FINDINGS = 50
 LLM_EMPTY_RETRIES = 2
 LLM_CONNECT_RETRIES = 2
 LLM_CONNECT_BACKOFF_SEC = 0.5
+BLINDSPOT_ROUND_INTERVAL = 10
 RAW_LOG_TASK_LIMIT = 50
 RAW_LOG_SCAN_LINES = 5000
 
@@ -5076,6 +5095,13 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 f"{reason}: {command[:140]}",
                 intent_id=intent.node_id,
             )
+            _record_deviation(
+                f"loop:{self.task_id}",
+                planned=command,
+                actual=repaired,
+                reason=reason,
+                source="loop:sanitize",
+            )
         return repaired
 
     def _auto_bind_body_hits(self, finding: ExplorationNode, seed: str) -> int:
@@ -7988,6 +8014,16 @@ class LazyLoopEngine(EngineProxyMixin):
         except Exception:
             self.triage_enabled = False
             self.triage = None
+        self.blindspot_enabled = False
+        try:
+            from core.config import load_payload as _load_payload_blindspot
+
+            self.blindspot_enabled = bool(
+                (_load_payload_blindspot() or {}).get("loop_blindspot_enabled", False)
+            )
+        except Exception:
+            self.blindspot_enabled = False
+        self._blindspot_last_round: dict[str, int] = {}
 
     def apply_profile(self, name: str = "") -> dict:
         """Apply one orchestrator profile to this engine.
@@ -8445,6 +8481,66 @@ class LazyLoopEngine(EngineProxyMixin):
             f"human added 1 strategic hint: {text[:200]}; this round fires on new hint #{node.node_id}",
         )
         return node
+
+    def blindspot_review(self, task_id: str) -> dict:
+        """Run one blindspot review over the task and apply findings as hints.
+
+        The review is one LLM pass over the task goal and bounded graph
+        context (modules.lazy_blindspot). Every parsed finding becomes a
+        hint through ``add_hint``, so the planner reads it the round
+        after; goals and intents are never mutated. Never raises.
+
+        Args:
+            task_id: Task to review.
+
+        Returns:
+            Dict with ``findings`` (applied findings as dicts) and a
+            short ``summary`` line; empty findings when the pool has no
+            members, the reply does not parse or nothing is missing.
+        """
+        graph = ExplorationGraph(task_id)
+        activity = ActivityLog(task_id)
+        summary = "review skipped: no LLM members configured"
+        applied: list[BlindspotFinding] = []
+        try:
+            pool = LlmPool()
+            chain = task_llm_chain(self.store, task_id)
+            if pool.members() or chain:
+                record = self.store.get(task_id) or {}
+                context = build_prompt_context(
+                    task_id,
+                    graph,
+                    self.assets,
+                    self.store,
+                    budget=pool.context_budget(),
+                )
+
+                def _complete(prompt: str, max_tokens: int) -> str:
+                    return pool.complete(
+                        prompt,
+                        max_tokens=max_tokens,
+                        members=chain or None,
+                        task_id=task_id,
+                    )
+
+                review = BlindspotReview(_complete, lambda text: self.add_hint(task_id, text))
+                applied = review.run(str(record.get("goal", "")), context)
+                summary = f"review applied {len(applied)} hint(s)"
+        except Exception as exc:
+            summary = f"review failed: {str(exc)[:200]}"
+        activity.emit("planner", "blindspot", summary)
+        return {
+            "findings": [
+                {
+                    "area": finding.area,
+                    "risk": finding.risk,
+                    "question": finding.question,
+                    "suggestion": finding.suggestion,
+                }
+                for finding in applied
+            ],
+            "summary": summary,
+        }
 
     def add_intent(
         self,
@@ -9043,6 +9139,7 @@ class LazyLoopEngine(EngineProxyMixin):
         planner = Planner(task_id, self.assets, graph, activity, self.store)
         new_intents = planner.plan(triggers=triggers) if stage_enabled("planner") else []
         refined = planner.refine() if stage_enabled("planner") else {"dupe": 0, "covered": 0, "denied": 0, "capped": 0}
+        self._maybe_blindspot(task_id, activity, stage_enabled, len(new_intents))
         frontier = Frontier(graph)
         claimed = []
         if stage_enabled("workers"):
@@ -9218,6 +9315,47 @@ class LazyLoopEngine(EngineProxyMixin):
             "steps": steps,
             "overview": ExplorationGraph(task_id).overview(),
         }
+
+    def _maybe_blindspot(
+        self,
+        task_id: str,
+        activity: ActivityLog,
+        stage_enabled,
+        new_intents: int,
+    ) -> None:
+        """Run the blindspot review when the planner went quiet for a while.
+
+        Fired only when the payload flag ``loop_blindspot_enabled`` is on,
+        the blindspot stage is enabled and the planner proposed no new
+        intents, at most once per ``BLINDSPOT_ROUND_INTERVAL`` rounds. A
+        review adds hints through the same path ``lazy_hint`` uses, so the
+        planner reads them the round after; it never mutates goals.
+
+        Args:
+            task_id: Task being orchestrated.
+            activity: Task activity log.
+            stage_enabled: Stage toggle resolver from orchestrator config.
+            new_intents: Intents the planner proposed this round.
+        """
+        if not self.blindspot_enabled or new_intents:
+            return
+        try:
+            if not stage_enabled("blindspot"):
+                return
+        except Exception:
+            pass
+        rounds = self.budget.usage(task_id)["rounds"]
+        last = self._blindspot_last_round.get(task_id, -1)
+        if last >= 0 and rounds - last < BLINDSPOT_ROUND_INTERVAL:
+            return
+        self._blindspot_last_round[task_id] = rounds
+        if activity is not None:
+            activity.emit(
+                "planner",
+                "blindspot",
+                f"planner went quiet; running the blindspot review (round {rounds})",
+            )
+        self.blindspot_review(task_id)
 
     def _drain_triggers(self, task_id: str, graph: ExplorationGraph) -> list[dict]:
         """Build planner triggers from activity after scheduler watermark."""
@@ -9415,9 +9553,34 @@ class LazyLoopEngine(EngineProxyMixin):
                 findings=findings,
                 next_steps=next_steps[:6],
                 credentials=credentials,
+                deviations=self._handover_deviations(task_id),
             )
         except Exception:
             return
+
+    @staticmethod
+    def _handover_deviations(task_id: str) -> list[str]:
+        """Render recent loop deviations for the successor handover.
+
+        Sapper-v2 appends a deviations section to every explore result so
+        a successor honors how the plan actually moved instead of
+        re-deriving it. This surfaces the same notes from the shared
+        ledger (modules.lazy_deviations) for this task's scope. Never
+        raises.
+
+        Args:
+            task_id: Task whose loop-scope deviations are rendered.
+
+        Returns:
+            Up to six ``planned -> actual (reason)`` lines, newest first.
+        """
+        try:
+            from modules.lazy_deviations import DeviationLedger
+
+            records = DeviationLedger().list(f"loop:{task_id}", limit=6)
+            return [f"{row.planned} -> {row.actual} ({row.reason})" for row in records]
+        except Exception:
+            return []
 
     @staticmethod
     def _handover_credentials(settlement: str, findings: list[str]) -> list[str]:
@@ -10125,9 +10288,12 @@ class LazyLoopEngine(EngineProxyMixin):
         args = dict(self._run_defaults or {})
         previous = self._in_drain
         self._in_drain = True
-        order = None
-        if self.triage_enabled and self.triage is not None:
-            order = lambda items: self.triage.order(items, deadline_near=deadline_near)
+
+        def order(items: list) -> list:
+            if self.triage_enabled and self.triage is not None:
+                return self.triage.order(items, deadline_near=deadline_near)
+            return items
+
         try:
             for _ in range(max(1, int(max_tasks))):
                 cap = int(self.max_concurrent or 0)

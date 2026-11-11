@@ -1,8 +1,114 @@
-# Symbols (page 19 of 50)
+# Symbols (page 19 of 51)
 Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `load_headers_from_file` | function | `modules/lazyown_bprfuzzer.py:93` | `def load_headers_from_file(file_path)` |
+| `main` | function | `modules/lazyown_bprfuzzer.py:302` | `def main()` |
+| `parse_arguments` | function | `modules/lazyown_bprfuzzer.py:278` | `def parse_arguments()` |
+| `repeater` | function | `modules/lazyown_bprfuzzer.py:203` | `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` |
+| `run_proxy` | function | `modules/lazyown_bprfuzzer.py:162` | `def run_proxy(port)` |
+| `send_request` | function | `modules/lazyown_bprfuzzer.py:179` | `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` |
+| `signal_handler` | function | `modules/lazyown_bprfuzzer.py:105` | `def signal_handler(sig, frame)` |
+| `AbstractSelector` | class | `modules/lazyown_bridge.py:3984` | `class AbstractSelector(ABC)` |
+| `BridgeDispatcher` | class | `modules/lazyown_bridge.py:4233` | `class BridgeDispatcher` |
+| `CatalogEntry` | class | `modules/lazyown_bridge.py:48` | `class CatalogEntry` |
+| `CommandCatalog` | class | `modules/lazyown_bridge.py:115` | `class CommandCatalog` |
+| `ContextEnricher` | class | `modules/lazyown_bridge.py:4103` | `class ContextEnricher` |
+| `MitreAlignedSelector` | class | `modules/lazyown_bridge.py:4042` | `class MitreAlignedSelector(AbstractSelector)` |
+| `PhaseMapper` | class | `modules/lazyown_bridge.py:4153` | `class PhaseMapper` |
+| `ServiceAwareSelector` | class | `modules/lazyown_bridge.py:4002` | `class ServiceAwareSelector(AbstractSelector)` |
+| `TagSelector` | class | `modules/lazyown_bridge.py:4071` | `class TagSelector(AbstractSelector)` |
+| `__init__` | method | `modules/lazyown_bridge.py:118` | `def __init__(self)` |
+| `__init__` | method | `modules/lazyown_bridge.py:4045` | `def __init__(self, technique_id)` |
+| `__init__` | method | `modules/lazyown_bridge.py:4074` | `def __init__(self, tag)` |
+| `__init__` | method | `modules/lazyown_bridge.py:4239` | `def __init__(self, catalog, selector, enricher, phase_mapper)` |
+| `_populate` | method | `modules/lazyown_bridge.py:122` | `def _populate(self)` |
+| `all_phases` | method | `modules/lazyown_bridge.py:3966` | `def all_phases(self)` |
+| `all_phases` | method | `modules/lazyown_bridge.py:4347` | `def all_phases(self)` |
+| `build_command` | method | `modules/lazyown_bridge.py:63` | `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` |
+| `by_mitre` | method | `modules/lazyown_bridge.py:3952` | `def by_mitre(self, technique_id)` |
+| `by_os` | method | `modules/lazyown_bridge.py:3963` | `def by_os(self, os_hint)` |
+| `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
+| `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
+| `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
+| `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
+| `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
+| `catalog_summary` | method | `modules/lazyown_bridge.py:4350` | `def catalog_summary(self)` |
+| `catalog_summary_filtered` | method | `modules/lazyown_bridge.py:4358` | `def catalog_summary_filtered(self, phase, os_hint)` |
+| `count` | method | `modules/lazyown_bridge.py:3975` | `def count(self)` |
+| `enrich` | method | `modules/lazyown_bridge.py:4106` | `def enrich(self, entry, target, world_snapshot)` |
+| `get` | method | `modules/lazyown_bridge.py:3969` | `def get(self, command)` |
+| `get_dispatcher` | function | `modules/lazyown_bridge.py:4409` | `def get_dispatcher()` |
+| `kill_chain_order` | method | `modules/lazyown_bridge.py:4223` | `def kill_chain_order(self)` |
+| `list_phase` | method | `modules/lazyown_bridge.py:4343` | `def list_phase(self, phase)` |
+| `matches_os` | method | `modules/lazyown_bridge.py:104` | `def matches_os(self, os_hint)` |
+| `matches_service` | method | `modules/lazyown_bridge.py:94` | `def matches_service(self, services)` |
+| `phase_kill_chain` | method | `modules/lazyown_bridge.py:4398` | `def phase_kill_chain(self)` |
+| `select` | method | `modules/lazyown_bridge.py:3986` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4005` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4049` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `select` | method | `modules/lazyown_bridge.py:4078` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
+| `suggest` | method | `modules/lazyown_bridge.py:4251` | `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` |
+| `suggest_for_wm_phase` | method | `modules/lazyown_bridge.py:4325` | `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)` |
+| `suggest_sequence` | method | `modules/lazyown_bridge.py:4296` | `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` |
+| `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
+| `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
+| `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
+| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
+| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
+| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
+| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
+| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
+| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
+| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
+| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
+| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
+| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
+| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
+| `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
+| `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
+| `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
+| `_leetspeak` | function | `modules/lazypassgen.py:62` | `def _leetspeak(word)` |
+| `_mutations` | function | `modules/lazypassgen.py:77` | `def _mutations(words)` |
+| `_split_entities` | function | `modules/lazypassgen.py:45` | `def _split_entities(target)` |
+| `export` | function | `modules/lazypassgen.py:135` | `def export(target, path)` |
+| `generate` | function | `modules/lazypassgen.py:115` | `def generate(target)` |
+| `fallback_ready` | function | `modules/lazypoophish.py:52` | `def fallback_ready(target)` |
+| `fresh_access_token` | function | `modules/lazypoophish.py:34` | `def fresh_access_token(target)` |
+| `run_fallback` | function | `modules/lazypoophish.py:71` | `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` |
+| `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
+| `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
+| `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
+| `providers` | function | `modules/lazyshortener.py:30` | `def providers()` |
+| `shorten` | function | `modules/lazyshortener.py:35` | `def shorten(url, provider, timeout)` |
+| `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
+| `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
+| `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
+| `main` | function | `modules/lazyvpnshield.sh:113` | `` |
+| `save_current_rules` | function | `modules/lazyvpnshield.sh:29` | `` |
+| `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
+| `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
+| `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
+| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
+| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
+| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
+| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
+| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
+| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
+| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
+| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
+| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
+| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
+| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
+| `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
+| `display_record` | function | `modules/lilsplunky.py:346` | `def display_record(record)` |
+| `initialize_file_positions` | method | `modules/lilsplunky.py:229` | `def initialize_file_positions(self)` |
+| `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
+| `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
+| `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
 | `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
 | `process_file` | method | `modules/lilsplunky.py:257` | `def process_file(self, file_path)` |
 | `search_logs` | function | `modules/lilsplunky.py:382` | `def search_logs(query, file_path)` |
@@ -113,34 +219,35 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
 | `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:194` | `class LLMBackendNotSupportedError(ValueError)` |
 | `LLMBackendUnavailableError` | class | `modules/llm_factory.py:190` | `class LLMBackendUnavailableError(RuntimeError)` |
-| `_build_anthropic` | function | `modules/llm_factory.py:544` | `def _build_anthropic(config)` |
-| `_build_backend` | function | `modules/llm_factory.py:705` | `def _build_backend(normalized, resolved_config)` |
-| `_build_deepseek` | function | `modules/llm_factory.py:566` | `def _build_deepseek(config)` |
-| `_build_groq` | function | `modules/llm_factory.py:472` | `def _build_groq(config)` |
-| `_build_llamacpp` | function | `modules/llm_factory.py:508` | `def _build_llamacpp(config)` |
-| `_build_ollama` | function | `modules/llm_factory.py:494` | `def _build_ollama(config)` |
-| `_build_openai` | function | `modules/llm_factory.py:522` | `def _build_openai(config)` |
+| `_build_anthropic` | function | `modules/llm_factory.py:567` | `def _build_anthropic(config)` |
+| `_build_backend` | function | `modules/llm_factory.py:728` | `def _build_backend(normalized, resolved_config)` |
+| `_build_deepseek` | function | `modules/llm_factory.py:589` | `def _build_deepseek(config)` |
+| `_build_groq` | function | `modules/llm_factory.py:495` | `def _build_groq(config)` |
+| `_build_llamacpp` | function | `modules/llm_factory.py:531` | `def _build_llamacpp(config)` |
+| `_build_ollama` | function | `modules/llm_factory.py:517` | `def _build_ollama(config)` |
+| `_build_openai` | function | `modules/llm_factory.py:545` | `def _build_openai(config)` |
 | `_is_placeholder_key` | function | `modules/llm_factory.py:333` | `def _is_placeholder_key(value)` |
-| `_normalize_backend` | function | `modules/llm_factory.py:407` | `def _normalize_backend(backend)` |
-| `_pi_complete` | function | `modules/llm_factory.py:807` | `def _pi_complete(model, prompt, max_tokens)` |
-| `_pi_timeout` | function | `modules/llm_factory.py:795` | `def _pi_timeout()` |
-| `_require_cloud_allowed` | function | `modules/llm_factory.py:440` | `def _require_cloud_allowed(normalized)` |
+| `_normalize_backend` | function | `modules/llm_factory.py:430` | `def _normalize_backend(backend)` |
+| `_pi_complete` | function | `modules/llm_factory.py:830` | `def _pi_complete(model, prompt, max_tokens)` |
+| `_pi_timeout` | function | `modules/llm_factory.py:818` | `def _pi_timeout()` |
+| `_pooled_key` | function | `modules/llm_factory.py:376` | `def _pooled_key(backend, config, fallback)` |
+| `_require_cloud_allowed` | function | `modules/llm_factory.py:463` | `def _require_cloud_allowed(normalized)` |
 | `_resolve_api_key` | function | `modules/llm_factory.py:353` | `def _resolve_api_key(config)` |
-| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:376` | `def _resolve_api_key_for_backend(backend, config)` |
-| `_resolve_model_identifier` | function | `modules/llm_factory.py:588` | `def _resolve_model_identifier(backend_identifier, config)` |
-| `_wrap_with_budget` | function | `modules/llm_factory.py:615` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:399` | `def _resolve_api_key_for_backend(backend, config)` |
+| `_resolve_model_identifier` | function | `modules/llm_factory.py:611` | `def _resolve_model_identifier(backend_identifier, config)` |
+| `_wrap_with_budget` | function | `modules/llm_factory.py:638` | `def _wrap_with_budget(backend, config, backend_identifier)` |
 | `api_key_config_key` | function | `modules/llm_factory.py:266` | `def api_key_config_key(backend)` |
 | `backend_requires_api_key` | function | `modules/llm_factory.py:291` | `def backend_requires_api_key(backend)` |
-| `complete` | function | `modules/llm_factory.py:919` | `def complete(model, prompt, max_tokens)` |
+| `complete` | function | `modules/llm_factory.py:942` | `def complete(model, prompt, max_tokens)` |
 | `default_model_for` | function | `modules/llm_factory.py:224` | `def default_model_for(backend)` |
-| `get_llm_backend` | function | `modules/llm_factory.py:653` | `def get_llm_backend(config, backend)` |
-| `get_llm_backend_raw` | function | `modules/llm_factory.py:749` | `def get_llm_backend_raw(config, backend)` |
+| `get_llm_backend` | function | `modules/llm_factory.py:676` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | function | `modules/llm_factory.py:772` | `def get_llm_backend_raw(config, backend)` |
 | `groq_model_chain` | function | `modules/llm_factory.py:141` | `def groq_model_chain(config)` |
 | `is_model_missing_error` | function | `modules/llm_factory.py:121` | `def is_model_missing_error(message)` |
 | `load_payload` | function | `modules/llm_factory.py:309` | `def load_payload(payload_path)` |
 | `model_config_key` | function | `modules/llm_factory.py:245` | `def model_config_key(backend)` |
-| `stream_complete` | function | `modules/llm_factory.py:848` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
-| `try_get_llm_backend` | function | `modules/llm_factory.py:771` | `def try_get_llm_backend(config, backend)` |
+| `stream_complete` | function | `modules/llm_factory.py:871` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
+| `try_get_llm_backend` | function | `modules/llm_factory.py:794` | `def try_get_llm_backend(config, backend)` |
 | `OrchestratorResult` | class | `modules/llm_orchestrator.py:92` | `class OrchestratorResult` |
 | `_bare_model_name` | function | `modules/llm_orchestrator.py:423` | `def _bare_model_name(model_spec)` |
 | `_blank_error` | function | `modules/llm_orchestrator.py:87` | `def _blank_error(message)` |
@@ -240,6 +347,25 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `set_quiet` | function | `modules/logging_config.py:367` | `def set_quiet()` |
 | `set_verbose` | function | `modules/logging_config.py:373` | `def set_verbose()` |
 | `silence_module` | function | `modules/logging_config.py:379` | `def silence_module(name)` |
+| `EngineProxyMixin` | class | `modules/loop/engine_proxy.py:4` | `class EngineProxyMixin` |
+| `_maybe_proxy_gc` | method | `modules/loop/engine_proxy.py:157` | `def _maybe_proxy_gc(self)` |
+| `ingest_proxy_traffic` | method | `modules/loop/engine_proxy.py:75` | `def ingest_proxy_traffic(self, task_id, limit)` |
+| `proxy_env` | method | `modules/loop/engine_proxy.py:66` | `def proxy_env(self)` |
+| `proxy_start` | method | `modules/loop/engine_proxy.py:16` | `def proxy_start(self, host, port, task_id, trust, upstream)` |
+| `proxy_status` | method | `modules/loop/engine_proxy.py:60` | `def proxy_status(self)` |
+| `proxy_stop` | method | `modules/loop/engine_proxy.py:52` | `def proxy_stop(self)` |
+| `search_proxy_body` | method | `modules/loop/engine_proxy.py:130` | `def search_proxy_body(self, task_id, query, limit)` |
+| `TriageScheduler` | class | `modules/loop/triage_scheduler.py:73` | `class TriageScheduler` |
+| `__init__` | method | `modules/loop/triage_scheduler.py:80` | `def __init__(self, stop_loss_attempts, salvage_progress, hard_threshold)` |
+| `_clamp01` | function | `modules/loop/triage_scheduler.py:30` | `def _clamp01(value)` |
+| `_item` | function | `modules/loop/triage_scheduler.py:61` | `def _item(record)` |
+| `estimate_difficulty` | function | `modules/loop/triage_scheduler.py:35` | `def estimate_difficulty(facts)` |
+| `normal_key` | function | `modules/loop/triage_scheduler.py:144` | `def normal_key(record)` |
+| `order` | method | `modules/loop/triage_scheduler.py:121` | `def order(self, records)` |
+| `pick_next` | method | `modules/loop/triage_scheduler.py:160` | `def pick_next(self, records)` |
+| `route` | method | `modules/loop/triage_scheduler.py:110` | `def route(self, record)` |
+| `salvage_key` | function | `modules/loop/triage_scheduler.py:151` | `def salvage_key(record)` |
+| `should_stop` | method | `modules/loop/triage_scheduler.py:98` | `def should_stop(self, record)` |
 | `WorkerAgenticMixin` | class | `modules/loop/worker_agentic.py:11` | `class WorkerAgenticMixin` |
 | `_agent_checkpoint` | method | `modules/loop/worker_agentic.py:21` | `def _agent_checkpoint(self, intent)` |
 | `_agent_preflight` | method | `modules/loop/worker_agentic.py:49` | `def _agent_preflight(self, intent, command)` |
@@ -311,49 +437,55 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `swan_available` | function | `modules/loop_ai_bridge.py:419` | `def swan_available()` |
 | `swan_consult` | function | `modules/loop_ai_bridge.py:432` | `def swan_consult(prompt, task_type, phase, timeout)` |
 | `tool_class_yields` | function | `modules/loop_ai_bridge.py:240` | `def tool_class_yields(summaries, phase)` |
-| `EdrPacer` | class | `modules/loop_guardrails.py:190` | `class EdrPacer` |
-| `Fact` | class | `modules/loop_guardrails.py:85` | `class Fact` |
-| `FactVectorStore` | class | `modules/loop_guardrails.py:537` | `class FactVectorStore` |
-| `RepeatDetector` | class | `modules/loop_guardrails.py:94` | `class RepeatDetector` |
-| `TargetLimiter` | class | `modules/loop_guardrails.py:467` | `class TargetLimiter` |
-| `__init__` | method | `modules/loop_guardrails.py:110` | `def __init__(self, window)` |
-| `__init__` | method | `modules/loop_guardrails.py:206` | `def __init__(self, duration_threshold)` |
-| `__init__` | method | `modules/loop_guardrails.py:475` | `def __init__(self, max_concurrent)` |
-| `__init__` | method | `modules/loop_guardrails.py:545` | `def __init__(self, path, max_facts)` |
-| `__len__` | method | `modules/loop_guardrails.py:557` | `def __len__(self)` |
-| `_alternating` | method | `modules/loop_guardrails.py:167` | `def _alternating(self)` |
-| `_load` | method | `modules/loop_guardrails.py:674` | `def _load(self)` |
-| `_strict_alternating` | method | `modules/loop_guardrails.py:146` | `def _strict_alternating(entries)` |
-| `_tokenize` | method | `modules/loop_guardrails.py:561` | `def _tokenize(text)` |
-| `_update_oscillation` | method | `modules/loop_guardrails.py:132` | `def _update_oscillation(self)` |
-| `_vectorize` | method | `modules/loop_guardrails.py:566` | `def _vectorize(tokens)` |
-| `_window_seconds_until_end` | method | `modules/loop_guardrails.py:349` | `def _window_seconds_until_end(windows, now)` |
-| `active_targets` | method | `modules/loop_guardrails.py:487` | `def active_targets(self)` |
-| `add` | method | `modules/loop_guardrails.py:574` | `def add(self, text, meta)` |
-| `clear` | method | `modules/loop_guardrails.py:647` | `def clear(self)` |
-| `decay` | method | `modules/loop_guardrails.py:327` | `def decay(self, factor)` |
-| `describe` | method | `modules/loop_guardrails.py:452` | `def describe(self)` |
-| `from_config` | method | `modules/loop_guardrails.py:274` | `def from_config(cls)` |
-| `in_sleeper_window` | method | `modules/loop_guardrails.py:374` | `def in_sleeper_window(self, now)` |
-| `inter_step_delay` | method | `modules/loop_guardrails.py:420` | `def inter_step_delay(self)` |
-| `last_commands` | method | `modules/loop_guardrails.py:179` | `def last_commands(self)` |
-| `level` | method | `modules/loop_guardrails.py:333` | `def level(self)` |
-| `max_concurrent` | method | `modules/loop_guardrails.py:482` | `def max_concurrent(self)` |
-| `observe` | method | `modules/loop_guardrails.py:305` | `def observe(self, command, duration_sec, output)` |
-| `oscillation_pair` | method | `modules/loop_guardrails.py:175` | `def oscillation_pair(self)` |
-| `parse_windows` | method | `modules/loop_guardrails.py:252` | `def parse_windows(raw)` |
-| `path` | method | `modules/loop_guardrails.py:553` | `def path(self)` |
-| `quieten` | method | `modules/loop_guardrails.py:437` | `def quieten(self, command)` |
-| `record` | method | `modules/loop_guardrails.py:116` | `def record(self, command)` |
-| `reset` | method | `modules/loop_guardrails.py:183` | `def reset(self)` |
-| `save` | method | `modules/loop_guardrails.py:653` | `def save(self)` |
-| `search` | method | `modules/loop_guardrails.py:608` | `def search(self, query, k)` |
-| `search_block` | method | `modules/loop_guardrails.py:638` | `def search_block(self, query, k, max_chars)` |
-| `signal` | method | `modules/loop_guardrails.py:343` | `def signal(self)` |
-| `sleeper_delay` | method | `modules/loop_guardrails.py:407` | `def sleeper_delay(self, now)` |
-| `slot` | method | `modules/loop_guardrails.py:493` | `def slot(self, target)` |
-| `stuck` | method | `modules/loop_guardrails.py:151` | `def stuck(self)` |
-| `windows_delay` | method | `modules/loop_guardrails.py:380` | `def windows_delay(windows, now)` |
+| `EdrPacer` | class | `modules/loop_guardrails.py:242` | `class EdrPacer` |
+| `Fact` | class | `modules/loop_guardrails.py:86` | `class Fact` |
+| `FactVectorStore` | class | `modules/loop_guardrails.py:589` | `class FactVectorStore` |
+| `ListingNoiseDetector` | class | `modules/loop_guardrails.py:787` | `class ListingNoiseDetector` |
+| `RepeatDetector` | class | `modules/loop_guardrails.py:95` | `class RepeatDetector` |
+| `TargetLimiter` | class | `modules/loop_guardrails.py:519` | `class TargetLimiter` |
+| `__init__` | method | `modules/loop_guardrails.py:117` | `def __init__(self, window)` |
+| `__init__` | method | `modules/loop_guardrails.py:258` | `def __init__(self, duration_threshold)` |
+| `__init__` | method | `modules/loop_guardrails.py:527` | `def __init__(self, max_concurrent)` |
+| `__init__` | method | `modules/loop_guardrails.py:597` | `def __init__(self, path, max_facts)` |
+| `__len__` | method | `modules/loop_guardrails.py:609` | `def __len__(self)` |
+| `_alternating` | method | `modules/loop_guardrails.py:214` | `def _alternating(self)` |
+| `_load` | method | `modules/loop_guardrails.py:726` | `def _load(self)` |
+| `_periodic_cycle` | method | `modules/loop_guardrails.py:161` | `def _periodic_cycle(entries)` |
+| `_strict_alternating` | method | `modules/loop_guardrails.py:156` | `def _strict_alternating(entries)` |
+| `_tokenize` | method | `modules/loop_guardrails.py:613` | `def _tokenize(text)` |
+| `_update_oscillation` | method | `modules/loop_guardrails.py:142` | `def _update_oscillation(self)` |
+| `_vectorize` | method | `modules/loop_guardrails.py:618` | `def _vectorize(tokens)` |
+| `_window_seconds_until_end` | method | `modules/loop_guardrails.py:401` | `def _window_seconds_until_end(windows, now)` |
+| `active_targets` | method | `modules/loop_guardrails.py:539` | `def active_targets(self)` |
+| `add` | method | `modules/loop_guardrails.py:626` | `def add(self, text, meta)` |
+| `clear` | method | `modules/loop_guardrails.py:699` | `def clear(self)` |
+| `cycle` | method | `modules/loop_guardrails.py:226` | `def cycle(self)` |
+| `decay` | method | `modules/loop_guardrails.py:379` | `def decay(self, factor)` |
+| `describe` | method | `modules/loop_guardrails.py:200` | `def describe(self)` |
+| `describe` | method | `modules/loop_guardrails.py:504` | `def describe(self)` |
+| `from_config` | method | `modules/loop_guardrails.py:326` | `def from_config(cls)` |
+| `in_sleeper_window` | method | `modules/loop_guardrails.py:426` | `def in_sleeper_window(self, now)` |
+| `inter_step_delay` | method | `modules/loop_guardrails.py:472` | `def inter_step_delay(self)` |
+| `last_commands` | method | `modules/loop_guardrails.py:230` | `def last_commands(self)` |
+| `level` | method | `modules/loop_guardrails.py:385` | `def level(self)` |
+| `listing_forbidden` | function | `modules/loop_guardrails.py:759` | `def listing_forbidden(command)` |
+| `max_concurrent` | method | `modules/loop_guardrails.py:534` | `def max_concurrent(self)` |
+| `observe` | method | `modules/loop_guardrails.py:357` | `def observe(self, command, duration_sec, output)` |
+| `observe` | method | `modules/loop_guardrails.py:798` | `def observe(self, command, output)` |
+| `oscillation_pair` | method | `modules/loop_guardrails.py:222` | `def oscillation_pair(self)` |
+| `parse_windows` | method | `modules/loop_guardrails.py:304` | `def parse_windows(raw)` |
+| `path` | method | `modules/loop_guardrails.py:605` | `def path(self)` |
+| `quieten` | method | `modules/loop_guardrails.py:489` | `def quieten(self, command)` |
+| `record` | method | `modules/loop_guardrails.py:125` | `def record(self, command)` |
+| `reset` | method | `modules/loop_guardrails.py:234` | `def reset(self)` |
+| `save` | method | `modules/loop_guardrails.py:705` | `def save(self)` |
+| `search` | method | `modules/loop_guardrails.py:660` | `def search(self, query, k)` |
+| `search_block` | method | `modules/loop_guardrails.py:690` | `def search_block(self, query, k, max_chars)` |
+| `signal` | method | `modules/loop_guardrails.py:395` | `def signal(self)` |
+| `sleeper_delay` | method | `modules/loop_guardrails.py:459` | `def sleeper_delay(self, now)` |
+| `slot` | method | `modules/loop_guardrails.py:545` | `def slot(self, target)` |
+| `stuck` | method | `modules/loop_guardrails.py:182` | `def stuck(self)` |
+| `windows_delay` | method | `modules/loop_guardrails.py:432` | `def windows_delay(windows, now)` |
 | `LoopManager` | class | `modules/loop_manager.py:316` | `class LoopManager` |
 | `LoopNotFoundError` | class | `modules/loop_manager.py:96` | `class LoopNotFoundError(KeyError)` |
 | `LoopSpec` | class | `modules/loop_manager.py:264` | `class LoopSpec` |
@@ -364,137 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_loop_command` | function | `modules/loop_manager.py:284` | `def _loop_command(spec)` |
 | `_now_iso` | function | `modules/loop_manager.py:217` | `def _now_iso()` |
 | `_pid_alive` | function | `modules/loop_manager.py:246` | `def _pid_alive(pid, start_ticks)` |
-| `_process_start_ticks` | function | `modules/loop_manager.py:222` | `def _process_start_ticks(pid)` |
-| `_prune_locked` | method | `modules/loop_manager.py:715` | `def _prune_locked(self)` |
-| `_reap` | method | `modules/loop_manager.py:470` | `def _reap(self, loop_id, process)` |
-| `_refresh_log_bytes` | method | `modules/loop_manager.py:517` | `def _refresh_log_bytes(self, record)` |
-| `_remove_workspace` | method | `modules/loop_manager.py:740` | `def _remove_workspace(self, loop_id)` |
-| `_resolve_log_path` | method | `modules/loop_manager.py:588` | `def _resolve_log_path(self, record)` |
-| `_save_registry_locked` | method | `modules/loop_manager.py:779` | `def _save_registry_locked(self, records)` |
-| `_spawn_locked` | method | `modules/loop_manager.py:394` | `def _spawn_locked(self, spec, operator)` |
-| `_update_status_locked` | method | `modules/loop_manager.py:662` | `def _update_status_locked(self, loop_id, status)` |
-| `clamp_float` | function | `modules/loop_manager.py:175` | `def clamp_float(raw, field, default, minimum, maximum)` |
-| `clamp_int` | function | `modules/loop_manager.py:150` | `def clamp_int(raw, field, default, minimum, maximum)` |
-| `get_loop` | method | `modules/loop_manager.py:528` | `def get_loop(self, loop_id)` |
-| `list_loops` | method | `modules/loop_manager.py:493` | `def list_loops(self)` |
-| `loops_dir` | method | `modules/loop_manager.py:349` | `def loops_dir(self)` |
-| `read_log` | method | `modules/loop_manager.py:547` | `def read_log(self, loop_id, offset)` |
-| `sanitize_goal` | function | `modules/loop_manager.py:123` | `def sanitize_goal(raw)` |
-| `start` | method | `modules/loop_manager.py:353` | `def start(self, spec, operator)` |
-| `stop` | method | `modules/loop_manager.py:614` | `def stop(self, loop_id)` |
-| `summary` | method | `modules/loop_manager.py:679` | `def summary(self)` |
-| `validate_loop_id` | function | `modules/loop_manager.py:200` | `def validate_loop_id(loop_id)` |
-| `validate_target` | function | `modules/loop_manager.py:100` | `def validate_target(raw)` |
-| `LoopProgress` | class | `modules/loop_progress.py:169` | `class LoopProgress` |
-| `LoopSnapshot` | class | `modules/loop_progress.py:80` | `class LoopSnapshot` |
-| `__post_init__` | method | `modules/loop_progress.py:182` | `def __post_init__(self)` |
-| `_footer` | method | `modules/loop_progress.py:306` | `def _footer(self, snapshot, elapsed)` |
-| `_header` | method | `modules/loop_progress.py:282` | `def _header(self)` |
-| `_milestone_line` | method | `modules/loop_progress.py:289` | `def _milestone_line(self, snapshot, states, current)` |
-| `_render` | method | `modules/loop_progress.py:324` | `def _render(self, snapshot)` |
-| `emit` | method | `modules/loop_progress.py:268` | `def emit(self, line)` |
-| `live_mode` | method | `modules/loop_progress.py:195` | `def live_mode(self)` |
-| `refresh` | method | `modules/loop_progress.py:246` | `def refresh(self, snapshot)` |
-| `sanitize_line` | function | `modules/loop_progress.py:151` | `def sanitize_line(line, keep_ansi)` |
-| `snap_to_states` | function | `modules/loop_progress.py:123` | `def snap_to_states(snapshot)` |
-| `snapshot_from_overview` | function | `modules/loop_progress.py:99` | `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` |
-| `start` | method | `modules/loop_progress.py:202` | `def start(self)` |
-| `stop` | method | `modules/loop_progress.py:229` | `def stop(self)` |
-| `TriggerStore` | class | `modules/loop_triggers.py:88` | `class TriggerStore` |
-| `__init__` | method | `modules/loop_triggers.py:91` | `def __init__(self, task_id)` |
-| `_core` | function | `modules/loop_triggers.py:81` | `def _core()` |
-| `_load` | method | `modules/loop_triggers.py:97` | `def _load(self)` |
-| `add` | method | `modules/loop_triggers.py:101` | `def add(self, kind, arg, every_sec)` |
-| `due` | method | `modules/loop_triggers.py:233` | `def due(self, task_id, graph, activity, assets, store)` |
-| `ensure_ad_surface_trigger` | method | `modules/loop_triggers.py:220` | `def ensure_ad_surface_trigger(self)` |
-| `ensure_cve_hot_trigger` | method | `modules/loop_triggers.py:207` | `def ensure_cve_hot_trigger(self)` |
-| `ensure_service_trigger` | method | `modules/loop_triggers.py:194` | `def ensure_service_trigger(self)` |
-| `hint_fingerprint` | function | `modules/loop_triggers.py:28` | `def hint_fingerprint(row)` |
-| `list` | method | `modules/loop_triggers.py:190` | `def list(self)` |
-| `prune_hint_fingerprints` | function | `modules/loop_triggers.py:60` | `def prune_hint_fingerprints(store, now, ttl)` |
-| `read_signing_evidence` | function | `modules/loop_triggers.py:499` | `def read_signing_evidence(store_dir)` |
-| `remove` | method | `modules/loop_triggers.py:165` | `def remove(self, trigger_id)` |
-| `set_enabled` | method | `modules/loop_triggers.py:176` | `def set_enabled(self, trigger_id, enabled)` |
-| `upsert_defaults` | method | `modules/loop_triggers.py:123` | `def upsert_defaults(self, seeds)` |
-| `MacOSPayloadConfig` | class | `modules/macos_payloads.py:60` | `class MacOSPayloadConfig` |
-| `MacOSPayloadFactory` | class | `modules/macos_payloads.py:88` | `class MacOSPayloadFactory` |
-| `__init__` | method | `modules/macos_payloads.py:111` | `def __init__(self, config, output_dir)` |
-| `_adho_codesign` | method | `modules/macos_payloads.py:192` | `def _adho_codesign(self, app_dir)` |
-| `_obfuscate_shell` | method | `modules/macos_payloads.py:116` | `def _obfuscate_shell(self, code)` |
-| `_reverse_shell_command` | method | `modules/macos_payloads.py:122` | `def _reverse_shell_command(self)` |
-| `generate_all` | method | `modules/macos_payloads.py:470` | `def generate_all(self)` |
-| `generate_app_bundle` | method | `modules/macos_payloads.py:137` | `def generate_app_bundle(self)` |
-| `generate_launchd_persistence` | method | `modules/macos_payloads.py:212` | `def generate_launchd_persistence(self)` |
-| `generate_osascript_dropper` | method | `modules/macos_payloads.py:314` | `def generate_osascript_dropper(self)` |
-| `generate_persistence_scripts` | method | `modules/macos_payloads.py:398` | `def generate_persistence_scripts(self)` |
-| `generate_phishing_dialog` | method | `modules/macos_payloads.py:447` | `def generate_phishing_dialog(self)` |
-| `generate_swift_stager` | method | `modules/macos_payloads.py:335` | `def generate_swift_stager(self)` |
-| `generate_tcc_bypass` | method | `modules/macos_payloads.py:268` | `def generate_tcc_bypass(self)` |
-| `list_persistence_methods` | method | `modules/macos_payloads.py:522` | `def list_persistence_methods()` |
-| `list_tcc_services` | method | `modules/macos_payloads.py:517` | `def list_tcc_services()` |
-| `check_collision` | function | `modules/mario.py:105` | `def check_collision(x, y, layer)` |
-| `AgentBridgeWorker` | class | `modules/mcp_agent_bridge.py:468` | `class AgentBridgeWorker` |
-| `GroqAgentWorker` | class | `modules/mcp_agent_bridge.py:234` | `class GroqAgentWorker` |
-| `OllamaReActWorker` | class | `modules/mcp_agent_bridge.py:367` | `class OllamaReActWorker` |
-| `__init__` | method | `modules/mcp_agent_bridge.py:235` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
-| `__init__` | method | `modules/mcp_agent_bridge.py:368` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
-| `__init__` | method | `modules/mcp_agent_bridge.py:471` | `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)` |
-| `_agent_file` | function | `modules/mcp_agent_bridge.py:141` | `def _agent_file(agent_id)` |
-| `_make_client` | function | `modules/mcp_agent_bridge.py:39` | `def _make_client(backend)` |
-| `_ollama_chat` | function | `modules/mcp_agent_bridge.py:92` | `def _ollama_chat(model, messages, max_tokens, timeout)` |
-| `_parse` | method | `modules/mcp_agent_bridge.py:381` | `def _parse(self, text)` |
-| `_read_log` | function | `modules/mcp_agent_bridge.py:150` | `def _read_log(agent_id)` |
-| `_tools` | method | `modules/mcp_agent_bridge.py:248` | `def _tools(self)` |
-| `_write_log` | function | `modules/mcp_agent_bridge.py:145` | `def _write_log(agent_id, entry)` |
-| `dummy_runner` | function | `modules/mcp_agent_bridge.py:531` | `def dummy_runner(cmd)` |
-| `get_agent_result` | function | `modules/mcp_agent_bridge.py:188` | `def get_agent_result(agent_id)` |
-| `get_agent_status` | function | `modules/mcp_agent_bridge.py:163` | `def get_agent_status(agent_id)` |
-| `list_agents` | function | `modules/mcp_agent_bridge.py:211` | `def list_agents(limit)` |
-| `run` | method | `modules/mcp_agent_bridge.py:264` | `def run(self)` |
-| `run` | method | `modules/mcp_agent_bridge.py:389` | `def run(self)` |
-| `run` | method | `modules/mcp_agent_bridge.py:478` | `def run(self)` |
-| `start_agent` | function | `modules/mcp_agent_bridge.py:508` | `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` |
-| `ChainMediator` | class | `modules/mediation/chain_mediator.py:48` | `class ChainMediator` |
-| `LlmPoolPort` | class | `modules/mediation/chain_mediator.py:13` | `class LlmPoolPort` |
-| `__init__` | method | `modules/mediation/chain_mediator.py:53` | `def __init__(self)` |
-| `complete` | method | `modules/mediation/chain_mediator.py:16` | `def complete(self, prompt, max_tokens, task_id)` |
-| `describe` | method | `modules/mediation/chain_mediator.py:73` | `def describe(self)` |
-| `has_members` | method | `modules/mediation/chain_mediator.py:34` | `def has_members(self)` |
-| `llm` | method | `modules/mediation/chain_mediator.py:65` | `def llm(self)` |
-| `register_llm_port` | method | `modules/mediation/chain_mediator.py:57` | `def register_llm_port(self, port)` |
-| `ActivityLogPort` | class | `modules/mediation/contracts.py:36` | `class ActivityLogPort(Protocol)` |
-| `LlmCompletionPort` | class | `modules/mediation/contracts.py:58` | `class LlmCompletionPort(Protocol)` |
-| `MediationDomains` | class | `modules/mediation/contracts.py:12` | `class MediationDomains` |
-| `MediationHubContract` | class | `modules/mediation/contracts.py:96` | `class MediationHubContract(Protocol)` |
-| `MediatorContract` | class | `modules/mediation/contracts.py:85` | `class MediatorContract(Protocol)` |
-| `complete` | method | `modules/mediation/contracts.py:61` | `def complete(self, prompt, max_tokens, task_id)` |
-| `describe` | method | `modules/mediation/contracts.py:90` | `def describe(self)` |
-| `has_members` | method | `modules/mediation/contracts.py:79` | `def has_members(self)` |
-| `is_known` | method | `modules/mediation/contracts.py:24` | `def is_known(cls, domain)` |
-| `mediator_for` | method | `modules/mediation/contracts.py:99` | `def mediator_for(self, domain)` |
-| `read` | method | `modules/mediation/contracts.py:45` | `def read(self, limit)` |
-| `resolve` | function | `modules/mediation/contracts.py:104` | `def resolve(domain)` |
-| `EngineMediator` | class | `modules/mediation/engine_mediator.py:84` | `class EngineMediator` |
-| `ExploitRetryPort` | class | `modules/mediation/engine_mediator.py:34` | `class ExploitRetryPort(Protocol)` |
-| `ReactionPort` | class | `modules/mediation/engine_mediator.py:51` | `class ReactionPort(Protocol)` |
-| `ReasoningPort` | class | `modules/mediation/engine_mediator.py:69` | `class ReasoningPort(Protocol)` |
-| `analyse` | method | `modules/mediation/engine_mediator.py:54` | `def analyse(self, output, command, platform)` |
-| `analyse` | method | `modules/mediation/engine_mediator.py:118` | `def analyse(self, output, command, platform)` |
-| `describe` | method | `modules/mediation/engine_mediator.py:89` | `def describe(self)` |
-| `reason` | method | `modules/mediation/engine_mediator.py:72` | `def reason(self, target)` |
-| `reason` | method | `modules/mediation/engine_mediator.py:136` | `def reason(self, target)` |
-| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:37` | `def retry_with_credentials(self, target, credentials)` |
-| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:97` | `def retry_with_credentials(self, target, credentials)` |
-| `FeedbackMediator` | class | `modules/mediation/feedback_mediator.py:13` | `class FeedbackMediator` |
-| `describe` | method | `modules/mediation/feedback_mediator.py:18` | `def describe(self)` |
-| `order_steps` | method | `modules/mediation/feedback_mediator.py:22` | `def order_steps(self, steps, stack)` |
-| `MediationHub` | class | `modules/mediation/hub.py:19` | `class MediationHub` |
-| `__init__` | method | `modules/mediation/hub.py:22` | `def __init__(self)` |
-| `_build_default` | function | `modules/mediation/hub.py:55` | `def _build_default()` |
-| `default_hub` | function | `modules/mediation/hub.py:75` | `def default_hub()` |
-| `get_hub` | function | `modules/mediation/hub.py:80` | `def get_hub()` |
-| `mediator_for` | method | `modules/mediation/hub.py:35` | `def mediator_for(self, domain)` |
-| `register` | method | `modules/mediation/hub.py:26` | `def register(self, mediator)` |
-| `snapshot` | method | `modules/mediation/hub.py:46` | `def snapshot(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

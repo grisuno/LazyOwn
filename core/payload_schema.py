@@ -658,6 +658,22 @@ SCHEMA: dict[str, FieldSpec] = {
             category="ai",
         ),
         _spec(
+            "loop_blindspot_enabled",
+            FieldKind.BOOL,
+            False,
+            "Review graph blindspots into planner hints when the loop stalls.",
+            long_help=(
+                "When true, LazyLoopEngine.run_round runs the blindspot "
+                "review (modules.lazy_blindspot) whenever the planner "
+                "proposed no new intents, at most once every ten rounds. "
+                "The review is one LLM pass over the task goal and graph "
+                "context that asks what the campaign is overlooking; every "
+                "finding becomes a hint the planner reads next round. "
+                "Default keeps the review off."
+            ),
+            category="ai",
+        ),
+        _spec(
             "c2_daily_limit", FieldKind.STRING, "1000 per day", "C2 auth brute-force daily threshold.", category="c2"
         ),
         _spec(

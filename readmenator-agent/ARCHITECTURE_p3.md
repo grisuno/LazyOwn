@@ -1,7 +1,21 @@
-# Architecture (page 3 of 10)
+# Architecture (page 3 of 11)
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/panels/registry.py` -> `lazygui/panels/campaign_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/credentials_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/cve_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/event_log_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/graph_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/history_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/killchain_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/listeners_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/marketplace_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/sessions_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/panels/terminal_panel.py`
+- `lazygui/panels/registry.py` -> `lazygui/services/backend.py`
+- `lazygui/panels/registry.py` -> `lazygui/services/event_log.py`
+- `lazygui/panels/sessions_panel.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/panels/base.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/sessions_panel.py` -> `lazygui/services/models.py`
@@ -187,6 +201,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/auto_purple.py` -> `core/logging.py`
 - `modules/auto_purple.py` -> `core/process.py`
 - `modules/auto_purple.py` -> `modules/detection_oracle.py`
+- `modules/auto_registry.py` -> `core/host_policy.py`
 - `modules/auto_registry.py` -> `modules/__init__.py`
 - `modules/auto_registry.py` -> `modules/chain_registry.py`
 - `modules/auto_registry.py` -> `modules/command_executor.py`
@@ -222,6 +237,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/bof_registry.py` -> `cli/commands/enum.py`
 - `modules/bof_registry.py` -> `core/logging.py`
 - `modules/bof_registry.py` -> `modules/bof_admin.py`
+- `modules/bsb_compat.py` -> `core/logging.py`
 - `modules/c2_agent.py` -> `core/logging.py`
 - `modules/c2_agent.py` -> `core/session_secrets.py`
 - `modules/c2_agent.py` -> `lazyc2/security/services.py`
@@ -246,6 +262,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/chain_facts.py` -> `core/logging.py`
 - `modules/chain_facts.py` -> `modules/chain_runner.py`
 - `modules/chain_facts.py` -> `skills/lazyown_facts.py`
+- `modules/chain_family.py` -> `modules/lazy_loop.py`
 - `modules/chain_loop.py` -> `cli/apt_chain_support.py`
 - `modules/chain_loop.py` -> `core/config.py`
 - `modules/chain_loop.py` -> `modules/auto_registry.py`
@@ -255,12 +272,14 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/chain_loop.py` -> `modules/chain_state.py`
 - `modules/chain_match.py` -> `modules/chain_registry.py`
 - `modules/chain_registry.py` -> `core/logging.py`
+- `modules/chain_runner.py` -> `core/logging.py`
 - `modules/chain_runner.py` -> `core/safe_exec.py`
 - `modules/chain_runner.py` -> `modules/__init__.py`
 - `modules/chain_runner.py` -> `modules/chain_registry.py`
 - `modules/chain_runner.py` -> `modules/chain_state.py`
 - `modules/chain_runner.py` -> `modules/detection_oracle.py`
 - `modules/chain_runner.py` -> `modules/hunt_verify.py`
+- `modules/chain_runner.py` -> `modules/lazy_deviations.py`
 - `modules/chain_runner.py` -> `modules/loop_guardrails.py`
 - `modules/chain_runner.py` -> `modules/outcome_bus.py`
 - `modules/chain_runner.py` -> `modules/verb_manifest.py`
@@ -334,6 +353,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/exploit_recommender.py` -> `modules/world_model.py`
 - `modules/exploitgym_gym.py` -> `modules/redteam_gym.py`
 - `modules/factsio.py` -> `core/logging.py`
+- `modules/failure_verdict.py` -> `cli/commands/enum.py`
 - `modules/finding_lifecycle.py` -> `modules/osint_enrich.py`
 - `modules/golden_path.py` -> `core/logging.py`
 - `modules/golden_path.py` -> `modules/world_model.py`
@@ -438,6 +458,8 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_exposure.py` -> `modules/lazy_probes.py`
 - `modules/lazy_exposure.py` -> `modules/outcome_bus.py`
 - `modules/lazy_exposure.py` -> `modules/world_model.py`
+- `modules/lazy_fallback.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/lazy_fallback.py` -> `modules/failure_verdict.py`
 - `modules/lazy_feedmatch.py` -> `modules/lazy_cve_feed.py`
 - `modules/lazy_feedmatch.py` -> `modules/lazy_heat.py`
 - `modules/lazy_findings.py` -> `core/hardening.py`
@@ -456,6 +478,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `core/config.py`
 - `modules/lazy_loop.py` -> `core/crypto.py`
 - `modules/lazy_loop.py` -> `core/hardening.py`
+- `modules/lazy_loop.py` -> `core/host_policy.py`
 - `modules/lazy_loop.py` -> `core/logging.py`
 - `modules/lazy_loop.py` -> `core/process.py`
 - `modules/lazy_loop.py` -> `modules/__init__.py`
@@ -470,31 +493,8 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/harness.py`
 - `modules/lazy_loop.py` -> `modules/intercept.py`
 - `modules/lazy_loop.py` -> `modules/killchain.py`
+- `modules/lazy_loop.py` -> `modules/lazy_blindspot.py`
 - `modules/lazy_loop.py` -> `modules/lazy_bridge.py`
 - `modules/lazy_loop.py` -> `modules/lazy_cli_bridge.py`
-- `modules/lazy_loop.py` -> `modules/lazy_engine.py`
-- `modules/lazy_loop.py` -> `modules/lazy_exposure.py`
-- `modules/lazy_loop.py` -> `modules/lazy_hostscore.py`
-- `modules/lazy_loop.py` -> `modules/lazy_installer.py`
-- `modules/lazy_loop.py` -> `modules/lazy_intel.py`
-- `modules/lazy_loop.py` -> `modules/lazy_ledger.py`
-- `modules/lazy_loop.py` -> `modules/lazy_orchestrator_feedback.py`
-- `modules/lazy_loop.py` -> `modules/lazy_reaper.py`
-- `modules/lazy_loop.py` -> `modules/lazy_roles.py`
-- `modules/lazy_loop.py` -> `modules/lazy_skills.py`
-- `modules/lazy_loop.py` -> `modules/lazy_timeline.py`
-- `modules/lazy_loop.py` -> `modules/lazy_world_diff.py`
-- `modules/lazy_loop.py` -> `modules/llm_factory.py`
-- `modules/lazy_loop.py` -> `modules/llm_pool.py`
-- `modules/lazy_loop.py` -> `modules/loop/__init__.py`
-- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py`
-- `modules/lazy_loop.py` -> `modules/loop_guardrails.py`
-- `modules/lazy_loop.py` -> `modules/loop_triggers.py`
-- `modules/lazy_loop.py` -> `modules/mediation/__init__.py`
-- `modules/lazy_loop.py` -> `modules/module_registry.py`
-- `modules/lazy_loop.py` -> `modules/notify.py`
-- `modules/lazy_loop.py` -> `modules/orchestrator_config.py`
-- `modules/lazy_loop.py` -> `modules/outcome_bus.py`
-- `modules/lazy_loop.py` -> `modules/progress_ledger.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

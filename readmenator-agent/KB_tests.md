@@ -19,6 +19,7 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_isolated_path` (function, line 32) `def _isolated_path()`
   - `_offline` (function, line 108) `def _offline(model, prompt, max_tokens)`
   - `_HealthyRegistry` (class, line 113) `class _HealthyRegistry`
+  - `_scoped_load_payload` (function, line 184) `def _scoped_load_payload()`
   - `healthy` (method, line 116) `def healthy(self, name)`
   - `report_failure` (method, line 119) `def report_failure(self, name, reason)`
   - `report_success` (method, line 122) `def report_success(self, name)`

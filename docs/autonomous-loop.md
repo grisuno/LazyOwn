@@ -387,6 +387,52 @@ Output chains are plain `ChainRunner` YAML — run them again with
 `modules/chain_distill.py`; CLI in
 `cli/commands/command_and_control_migrated.py`.
 
+## Blindspot reviews and the deviation ledger
+
+Two sapper-v2-derived contracts keep the loop honest about what it does not
+know and about how its plan actually moved:
+
+- **Blindspot review** (`modules/lazy_blindspot.py`, command
+  `lazy_blindspot [--task T]`): one LLM pass over the task goal and bounded
+  graph context that asks what the campaign is overlooking. Every finding
+  becomes a `[blindspot/<risk>]` hint through the same path `lazy_hint`
+  uses, so the planner reads it next round. Off by default — enable with
+  the payload flag `loop_blindspot_enabled`; the loop then reviews at most
+  once every ten rounds and only when the planner proposed nothing new.
+  Reviews never mutate goals or intents.
+- **Deviation ledger** (`modules/lazy_deviations.py`, command
+  `lazy_deviations [scope] [--limit N] [--md]`): an append-only
+  planned-versus-actual ledger in `sessions/lazy/deviations.jsonl`. The
+  loop sanitizer records every command it repaired, the `apt_chain`
+  replanner records inserted steps, rebound variables and skip-rest
+  decisions, and finished loop handovers surface the recent notes in the
+  successor playbook (`lazy_handoff`). Scope keys: `loop:<task_id>` and
+  `chain:<name>:<run_id>`.
+
+## Fleet commander
+
+Several loop tasks alive at once need an allocator, not just a drain
+queue. The fleet commander (`modules/lazy_commander.py`, command
+`lazy_commander [--minutes N] [--slices N] [--workers N]`) runs a
+slot-clock allocation round over every active task:
+
+1. Read the board (`lazy_fleet list` shape: status, pending intents,
+   facts, findings, slices already spent).
+2. One LLM pass picks the next slice — `work` (slice on a task),
+   `hire` (slice with extra workers), `fire` (pause a stalled task) or
+   `stop`. The board content is fenced as UNTRUSTED data, same as the
+   blindspot prompt.
+3. Without LLM members (or with unusable replies) it falls back to
+   least-worked-first fairness: fewest slices spent, stalest activity
+   first.
+4. Guardrails: an explicit `accepted:false` reply counts toward a
+   three-strike no-op limit; targets paused this round stay out of the
+   pool even if the board still lists them; the wall-clock deadline and
+   the slice cap both end the round.
+
+It spends slices and pauses work only — it never edits goals, scope or
+tasks, matching the levers an operator already has by hand.
+
 ## Adaptive chain execution
 
 Three schema fields make `apt_chain` self-recovering; all optional,

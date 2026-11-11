@@ -20,3 +20,9 @@ exploit_profile:
   description: Calibration profile of the target build. php2shell expects 'bookworm'
     (official php:8.4.26-apache image) or 'lab' (Apache 2.4.68 build).
   kind: string
+graph_store:
+  category: general
+  default: sessions/lazygraph
+  description: Engagement fact-graph store path shared by the lazygraph addon and
+    handoff surfaces. Relative paths resolve from the repo root.
+  kind: path

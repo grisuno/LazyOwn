@@ -1,5 +1,427 @@
-# API (page 24 of 27)
+# API (page 24 of 28)
 Previous: [API_p23.md](API_p23.md)
+
+## skills/mcp_tools/daemon_approve.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_approve.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_approve MCP tool.
+
+## skills/mcp_tools/daemon_focus.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_focus.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_focus MCP tool.
+
+## skills/mcp_tools/daemon_mode.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_mode.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_mode MCP tool.
+
+## skills/mcp_tools/daemon_pause.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_pause.py:21` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_pause MCP tool.
+
+## skills/mcp_tools/daemon_resume.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_resume.py:20` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_resume MCP tool.
+
+## skills/mcp_tools/daemon_status.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_status.py:22` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_status MCP tool.
+
+## skills/mcp_tools/daemon_veto.py
+Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon_veto.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_veto MCP tool.
+
+## skills/mcp_tools/dashboard_snapshot.py
+Depends on: `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/dashboard_snapshot.py:28` `def handle(arguments, tool_name, ctx)` -- Build and persist a dashboard snapshot, returning map and topology.
+
+## skills/mcp_tools/db.py
+Depends on: `modules/db.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/db.py:62` `def handle(arguments, tool_name, ctx)` -- Dispatch one SQLite campaign-database operation and return its result.
+
+## skills/mcp_tools/delete_param.py
+Depends on: `core/param_registry.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/delete_param.py:26` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_delete_param MCP tool.
+
+## skills/mcp_tools/deploy_beacon.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/deploy_beacon.py:40` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_deploy_beacon MCP tool.
+
+## skills/mcp_tools/discover_commands.py
+Depends on: `modules/lazyown_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/discover_commands.py:52` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_discover_commands MCP tool.
+
+## skills/mcp_tools/engage_approve.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/engage_approve.py:40` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_engage_approve MCP tool.
+
+## skills/mcp_tools/engage_list_pending.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/engage_list_pending.py:21` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_engage_list_pending MCP tool.
+
+## skills/mcp_tools/engage_status.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/engage_status.py:31` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_engage_status MCP tool.
+
+## skills/mcp_tools/engage_target.py
+Depends on: `skills/autonomous_daemon.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/engage_target.py:57` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_engage_target MCP tool.
+
+## skills/mcp_tools/eval_quality.py
+Depends on: `modules/llm_evaluator.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/eval_quality.py:38` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_eval_quality MCP tool.
+
+## skills/mcp_tools/evasion_generate.py
+Depends on: `modules/evasion_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/evasion_generate.py:36` `def handle(arguments, tool_name, ctx)` -- Generate an evasion profile for the requested OS family as JSON.
+
+## skills/mcp_tools/evasion_rotate.py
+Depends on: `modules/evasion_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/evasion_rotate.py:27` `def handle(arguments, tool_name, ctx)` -- Rotate the active evasion profile and return it as JSON.
+
+## skills/mcp_tools/evidence_grep.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/evidence_grep.py:47` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_evidence_grep MCP tool.
+
+## skills/mcp_tools/exploit_chain.py
+Depends on: `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/exploit_chain.py:41` `def handle(arguments, tool_name, ctx)` -- Build and run an adaptive exploit chain, returning plan and results.
+
+## skills/mcp_tools/exploit_recommend.py
+Depends on: `modules/exploit_recommender.py`, `modules/world_model.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/exploit_recommend.py:44` `def handle(arguments, tool_name, ctx)` -- Rank exploit matches for discovered services and return them as JSON.
+
+## skills/mcp_tools/exploitgym_list.py
+Depends on: `modules/exploitgym_gym.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/exploitgym_list.py:39` `def handle(arguments, tool_name, ctx)` -- List ExploitGym tasks, optionally filtered by domain.
+
+## skills/mcp_tools/exploitgym_run.py
+Depends on: `modules/exploitgym_gym.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/exploitgym_run.py:48` `def handle(arguments, tool_name, ctx)` -- Run the agent against an ExploitGym task (containerised only).
+
+## skills/mcp_tools/exploitgym_score.py
+Depends on: `modules/exploitgym_gym.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/exploitgym_score.py:41` `def handle(arguments, tool_name, ctx)` -- Award Red Team Gym ELO for an ExploitGym task outcome.
+
+## skills/mcp_tools/exploitgym_status.py
+Depends on: `modules/exploitgym_gym.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/exploitgym_status.py:26` `def handle(arguments, tool_name, ctx)` -- Report ExploitGym harness readiness without installing anything.
+
+## skills/mcp_tools/facts_show.py
+Depends on: `skills/lazyown_facts.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/facts_show.py:39` `def handle(arguments, tool_name, ctx)` -- Return the fact-store summary for a target, optionally re-parsing first.
+
+## skills/mcp_tools/fast_run.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/fast_run.py:49` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_fast_run MCP tool.
+
+## skills/mcp_tools/generate_report.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/generate_report.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_generate_report MCP tool.
+
+## skills/mcp_tools/get_beacons.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/get_beacons.py:20` `def handle(arguments, tool_name, ctx)` -- Query the C2 for connected clients and return the JSON list.
+
+## skills/mcp_tools/get_config.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/get_config.py:26` `def handle(arguments, tool_name, ctx)` -- Return the full ``payload.json`` as pretty-printed JSON text.
+
+## skills/mcp_tools/get_llm_budget.py
+Depends on: `core/llm_budget.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/get_llm_budget.py:26` `def handle(arguments, tool_name, ctx)` -- Return the LLM budget status, or an unavailable marker on failure.
+
+## skills/mcp_tools/graph_neighbors.py
+Depends on: `cli/graph_advisor.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/graph_neighbors.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_graph_neighbors MCP tool.
+
+## skills/mcp_tools/graph_search.py
+Depends on: `cli/graph_advisor.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/graph_search.py:36` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_graph_search MCP tool.
+
+## skills/mcp_tools/graph_suggest_next.py
+Depends on: `cli/graph_advisor.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/graph_suggest_next.py:35` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_graph_suggest_next MCP tool.
+
+## skills/mcp_tools/graph_summary.py
+Depends on: `cli/graph_advisor.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/graph_summary.py:25` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_graph_summary MCP tool.
+
+## skills/mcp_tools/groq_agent.py
+Depends on: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/groq_agent.py:70` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_groq_agent MCP tool.
+
+## skills/mcp_tools/harness_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/harness_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_harness_status MCP tool.
+
+## skills/mcp_tools/heartbeat_status.py
+Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/heartbeat_status.py:20` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_heartbeat_status MCP tool.
+
+## skills/mcp_tools/hive_collect.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_collect.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_collect MCP tool.
+
+## skills/mcp_tools/hive_forget.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_forget.py:25` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_forget MCP tool.
+
+## skills/mcp_tools/hive_plan.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_plan.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_plan MCP tool.
+
+## skills/mcp_tools/hive_recall.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_recall.py:29` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_recall MCP tool.
+
+## skills/mcp_tools/hive_recover.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_recover.py:31` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_recover MCP tool.
+
+## skills/mcp_tools/hive_result.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_result.py:22` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_result MCP tool.
+
+## skills/mcp_tools/hive_spawn.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_spawn.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_spawn MCP tool.
+
+## skills/mcp_tools/hive_status.py
+Depends on: `skills/hive_mind.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/hive_status.py:21` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_hive_status MCP tool.
+
+## skills/mcp_tools/inject_objective.py
+Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/inject_objective.py:52` `def handle(arguments, tool_name, ctx)` -- Inject one objective into the queue and report the new pending count.
+
+## skills/mcp_tools/job_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/job_status.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_job_status MCP tool.
+
+## skills/mcp_tools/lazy_addon.py
+Depends on: `modules/auto_registry.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_addon.py:27` `def handle(arguments, tool_name, ctx)` -- List addon triggers or return matches for a service as JSON.
+
+## skills/mcp_tools/lazy_board.py
+Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_board.py:36` `def handle(arguments, tool_name, ctx)` -- Return one page of the broadcast board as JSON.
+
+## skills/mcp_tools/lazy_compact.py
+Depends on: `modules/lazy_loop.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_compact.py:35` `def handle(arguments, tool_name, ctx)` -- Dispatch the compaction action and return its result as JSON.
+
+## skills/mcp_tools/lazy_delete.py
+Depends on: `modules/lazy_loop.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_delete.py:33` `def handle(arguments, tool_name, ctx)` -- Delete or preview-delete an intent and return the result as JSON.
+
+## skills/mcp_tools/lazy_finding.py
+Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+Imported by: `modules/lazy_mentions.py`
+- `handle` (function) `skills/mcp_tools/lazy_finding.py:34` `def handle(arguments, tool_name, ctx)` -- Persist a finding node and return its record as JSON.
+
+## skills/mcp_tools/lazy_hint.py
+Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_hint.py:26` `def handle(arguments, tool_name, ctx)` -- Create a hint node and return its record as JSON.
+
+## skills/mcp_tools/lazy_intel.py
+Depends on: `modules/__init__.py`, `modules/lazy_exposure.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_intel.py:53` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_lazy_intel MCP tool.
+
+## skills/mcp_tools/lazy_mention.py
+Depends on: `modules/lazy_mentions.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_mention.py:28` `def handle(arguments, tool_name, ctx)` -- Return one page of mention items plus the next cursor as JSON.
+
+## skills/mcp_tools/lazy_proxy.py
+Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_proxy.py:39` `def handle(arguments, tool_name, ctx)` -- Dispatch the proxy action and return its status as JSON.
+
+## skills/mcp_tools/lazy_status.py
+Depends on: `modules/lazy_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_status.py:19` `def handle(arguments, tool_name, ctx)` -- Return the lazy-bridge status snapshot as JSON.
+
+## skills/mcp_tools/lazy_sync.py
+Depends on: `modules/lazy_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_sync.py:19` `def handle(arguments, tool_name, ctx)` -- Run a full lazy-bridge sync and return its result as JSON.
+
+## skills/mcp_tools/lazy_trace.py
+Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_trace.py:29` `def handle(arguments, tool_name, ctx)` -- Return up to the hit cap of matching activity-log entries as JSON.
+
+## skills/mcp_tools/lazy_workspace.py
+Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazy_workspace.py:30` `def handle(arguments, tool_name, ctx)` -- Dispatch the workspace action and return its result as JSON.
+
+## skills/mcp_tools/lazysearch.py
+Depends on: `modules/lazy_search.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lazysearch.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_lazysearch MCP tool.
+
+## skills/mcp_tools/list_addons.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_addons.py:20` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_addons MCP tool.
+
+## skills/mcp_tools/list_agents.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_agents.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_agents MCP tool.
+
+## skills/mcp_tools/list_event_rules.py
+Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_event_rules.py:25` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_event_rules MCP tool.
+
+## skills/mcp_tools/list_modules.py
+Depends on: `modules/module_registry.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_modules.py:27` `def handle(arguments, tool_name, ctx)` -- Return discovered modules as JSON, optionally filtered by type.
+
+## skills/mcp_tools/list_params.py
+Depends on: `core/param_registry.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_params.py:36` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_params MCP tool.
+
+## skills/mcp_tools/list_plugins.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_plugins.py:17` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_plugins MCP tool.
+
+## skills/mcp_tools/list_sessions.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_sessions.py:26` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_sessions MCP tool.
+
+## skills/mcp_tools/list_targets.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/list_targets.py:30` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_list_targets MCP tool.
+
+## skills/mcp_tools/llm_ask.py
+Depends on: `skills/lazyown_llm.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/llm_ask.py:67` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_llm_ask MCP tool.
+
+## skills/mcp_tools/lolbas_list.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lolbas_list.py:34` `def handle(arguments, tool_name, ctx)` -- Return LOLBAS techniques discovered in plugin YAML files as JSON.
+
+## skills/mcp_tools/lolbas_use.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/lolbas_use.py:44` `def handle(arguments, tool_name, ctx)` -- Resolve and run one LOLBAS technique, returning command and output.
+
+## skills/mcp_tools/loop_smoke.py
+Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/loop_smoke.py:65` `def handle(arguments, tool_name, ctx)` -- Run a one-leg loop smoke test and return the goal verdict.
+
+## skills/mcp_tools/manage_permissions.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/manage_permissions.py:56` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_manage_permissions MCP tool.
+
+## skills/mcp_tools/memory_recall.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/mcp_tools/memory_store.py`
+- `handle` (function) `skills/mcp_tools/memory_recall.py:43` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_memory_recall MCP tool.
+
+## skills/mcp_tools/memory_store.py
+Depends on: `skills/mcp_tools/_context.py`
+Imported by: `skills/mcp_tools/memory_recall.py`
+- `handle` (function) `skills/mcp_tools/memory_store.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_memory_store MCP tool.
+
+## skills/mcp_tools/metrics_summary.py
+Depends on: `modules/metrics.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/metrics_summary.py:40` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_metrics_summary MCP tool.
+
+## skills/mcp_tools/misp_export.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/misp_export.py:38` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_misp_export MCP tool.
+
+## skills/mcp_tools/next_objective.py
+Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/next_objective.py:29` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_next_objective MCP tool.
+
+## skills/mcp_tools/opencode_config.py
+Depends on: `scripts/lazy_opencode_config.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/opencode_config.py:38` `def handle(arguments, tool_name, ctx)` -- Patch opencode/hermes configs to the local llama.cpp server.
+
+## skills/mcp_tools/palette.py
+Depends on: `cli/palette.py`, `cli/palette_command.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/palette.py:41` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_palette MCP tool.
+
+## skills/mcp_tools/parquet_annotate.py
+Depends on: `skills/lazyown_parquet_db.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/parquet_annotate.py:51` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_parquet_annotate MCP tool.
+
+## skills/mcp_tools/parquet_query.py
+Depends on: `skills/lazyown_parquet_db.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/parquet_query.py:87` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_parquet_query MCP tool.
+
+## skills/mcp_tools/phase_guide.py
+Depends on: `modules/lazyown_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/phase_guide.py:64` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_phase_guide MCP tool.
+
+## skills/mcp_tools/pipeline_list.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_list.py:18` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_list MCP tool.
+
+## skills/mcp_tools/pipeline_run.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_run.py:46` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_run MCP tool.
+
+## skills/mcp_tools/pipeline_status.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_status.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_status MCP tool.
+
+## skills/mcp_tools/pipeline_validate.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_validate.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_validate MCP tool.
+
+## skills/mcp_tools/pivot_status.py
+Depends on: `modules/auto_pivot.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pivot_status.py:27` `def handle(arguments, tool_name, ctx)` -- Return active routes, proxychains config and next-pivot suggestion.
+
+## skills/mcp_tools/playbook_generate.py
+Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/playbook_generate.py:52` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_playbook_generate MCP tool.
+
+## skills/mcp_tools/playbook_run.py
+Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/playbook_run.py:55` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_playbook_run MCP tool.
+
+## skills/mcp_tools/policy_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/policy_status.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_policy_status MCP tool.
+
+## skills/mcp_tools/poll_events.py
+Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/poll_events.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_poll_events MCP tool.
+
+## skills/mcp_tools/rag_index.py
+Depends on: `modules/session_rag.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rag_index.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_rag_index MCP tool.
+
+## skills/mcp_tools/rag_query.py
+Depends on: `modules/session_rag.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rag_query.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_rag_query MCP tool.
+
+## skills/mcp_tools/rea.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rea.py:95` `def handle(arguments, tool_name, ctx)` -- Run one REA CLI action against a local artifact and return a JSON envelope.
+
+## skills/mcp_tools/reactive_suggest.py
+Depends on: `modules/reactive_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/reactive_suggest.py:50` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_reactive_suggest MCP tool.
+
+## skills/mcp_tools/read_prompt.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/read_prompt.py:41` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_read_prompt MCP tool.
+
+## skills/mcp_tools/read_session_file.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/read_session_file.py:26` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_read_session_file MCP tool.
+
+## skills/mcp_tools/recommend_next.py
+Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `modules/recommender.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/recommend_next.py:25` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_recommend_next MCP tool.
+
+## skills/mcp_tools/rich_tui_snapshot.py
+Depends on: `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rich_tui_snapshot.py:30` `def handle(arguments, tool_name, ctx)` -- Return a non-interactive snapshot of the Rich TUI dashboard as JSON.
+
+## skills/mcp_tools/run_agent.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_agent.py:50` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_agent MCP tool.
+
+## skills/mcp_tools/run_api.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_api.py:30` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_api MCP tool.
 
 ## skills/mcp_tools/run_command.py
 Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
@@ -73,372 +495,6 @@ Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
 ## skills/mcp_tools/swan_status.py
 Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
 - `handle` (function) `skills/mcp_tools/swan_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_status MCP tool.
-
-## skills/mcp_tools/target_context.py
-Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/target_context.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_target_context MCP tool.
-
-## skills/mcp_tools/tasks_cleanup.py
-Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/tasks_cleanup.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_tasks_cleanup MCP tool.
-
-## skills/mcp_tools/threat_model.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/threat_model.py:44` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_threat_model MCP tool.
-
-## skills/mcp_tools/timeline.py
-Depends on: `modules/timeline_narrator.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/timeline.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_timeline MCP tool.
-
-## skills/mcp_tools/ttp_chain.py
-Depends on: `modules/atomic_resolver.py`, `modules/ttpscope_bridge.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/ttp_chain.py:47` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_ttp_chain MCP tool.
-
-## skills/mcp_tools/unified_dashboard.py
-Depends on: `modules/unified_dashboard.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/unified_dashboard.py:34` `def handle(arguments, tool_name, ctx)` -- Render the unified dashboard as text, or JSON when requested.
-
-## skills/mcp_tools/winbox_eventlogs.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_eventlogs.py:36` `def handle(arguments, tool_name, ctx)` -- Query Windows event logs inside the WinBox guest.
-
-## skills/mcp_tools/winbox_exec.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_exec.py:38` `def handle(arguments, tool_name, ctx)` -- Execute a command inside the WinBox guest as SYSTEM or a local user.
-
-## skills/mcp_tools/winbox_gym_list.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_gym_list.py:21` `def handle(arguments, tool_name, ctx)` -- List WinBox gym vectors and validate the index/exploit/chain matrix.
-
-## skills/mcp_tools/winbox_gym_plan.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_gym_plan.py:32` `def handle(arguments, tool_name, ctx)` -- Build the ordered WinBox gym attack plan for a target.
-
-## skills/mcp_tools/winbox_gym_run.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_gym_run.py:33` `def handle(arguments, tool_name, ctx)` -- Run the WinBox gym matrix against the lab VM and verify captures.
-
-## skills/mcp_tools/winbox_snapshot.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_snapshot.py:29` `def handle(arguments, tool_name, ctx)` -- Manage WinBox snapshots: list, create or restore a rollback point.
-
-## skills/mcp_tools/winbox_status.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_status.py:22` `def handle(arguments, tool_name, ctx)` -- Report WinBox lab readiness, VM state and autonomous-loop attackability.
-
-## skills/mcp_tools/winbox_tools.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_tools.py:29` `def handle(arguments, tool_name, ctx)` -- Manage tools staged into the WinBox guest (list, add, remove).
-
-## skills/mcp_tools/winbox_vm.py
-Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/winbox_vm.py:36` `def handle(arguments, tool_name, ctx)` -- Drive WinBox VM lifecycle: bootstrap, up, down, suspend, status.
-
-## skills/sessions_watcher.py
-Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_objective.py`
-Imported by: `skills/lazyown_daemon.py`
-- `_Handler.on_created` (method) `skills/sessions_watcher.py:376` `def on_created(self, event)`
-- `_Handler.on_modified` (method) `skills/sessions_watcher.py:380` `def on_modified(self, event)`
-- `main` (function) `skills/sessions_watcher.py:430` `def main()`
-
-## skills/setup.sh
-- `info` (function) `skills/setup.sh:15`
-- `warn` (function) `skills/setup.sh:16`
-- `die` (function) `skills/setup.sh:17`
-- `paths_for_sudo` (function) `skills/setup.sh:61` -- Collect paths that exist on this system
-- `add_nopasswd` (function) `skills/setup.sh:92`
-
-## skills/swan_agent.py
-Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
-Imported by: `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/swan_ensemble.py`, `skills/mcp_tools/swan_route.py`, `skills/mcp_tools/swan_run.py`, `skills/mcp_tools/swan_status.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
-- `SwanResult.is_success` (method) `skills/swan_agent.py:167` `def is_success(self)`
-- `IResultAggregator.aggregate` (method) `skills/swan_agent.py:209` `def aggregate(self, task_type, goal, votes)` -- Return (synthesis_text, consensus_confidence).
-- `ISwanOrchestrator.run` (method) `skills/swan_agent.py:226` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute with the best single expert and return result.
-- `ISwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:236` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
-- `WeightedTextAggregator.aggregate` (method) `skills/swan_agent.py:264` `def aggregate(self, task_type, goal, votes)`
-- `ExpertExecutor.execute` (method) `skills/swan_agent.py:351` `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)` -- Run the expert and return a SwanResult.
-- `OutcomeEvaluator.evaluate` (method) `skills/swan_agent.py:479` `def evaluate(self, result, task_type)` -- Return (reward, detection_prob).
-- `SwanOrchestrator.__init__` (method) `skills/swan_agent.py:572` `def __init__(self, executor, evaluator, aggregator, api_key)`
-- `SwanOrchestrator.run` (method) `skills/swan_agent.py:592` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute the task with the best single expert selected by the MoE+RL router.
-- `SwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:680` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
-- `SwanOrchestrator.status` (method) `skills/swan_agent.py:763` `def status(self)` -- Return a diagnostic snapshot of the SWAN system.
-- `mcp_swan_run` (function) `skills/swan_agent.py:945` `def mcp_swan_run(task_type, goal, phase)` -- Route and execute a task with the best MoE+RL-selected expert.
-- `mcp_swan_ensemble` (function) `skills/swan_agent.py:968` `def mcp_swan_ensemble(task_type, goal, n_experts, phase)` -- Run top-N experts in parallel and return a synthesized result.
-- `mcp_swan_status` (function) `skills/swan_agent.py:996` `def mcp_swan_status()` -- Return SWAN system status: expert weights, RL epsilon, performance.
-- `mcp_swan_route` (function) `skills/swan_agent.py:1003` `def mcp_swan_route(task_type, goal)` -- Show which expert would be selected for a task without executing.
-- `get_swan` (function) `skills/swan_agent.py:1039` `def get_swan(api_key)` -- Return (or create) the module-level singleton SwanOrchestrator.
-
-## skills/toposwarm_autonomous.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/reactive_engine.py`, `modules/toposwarm_bridge.py`
-- `PentestState.add_finding` (method) `skills/toposwarm_autonomous.py:145` `def add_finding(self, phase_name, text)`
-- `PentestState.summary` (method) `skills/toposwarm_autonomous.py:149` `def summary(self)`
-- `PentestState.to_dict` (method) `skills/toposwarm_autonomous.py:160` `def to_dict(self)`
-- `AutonomousAgent.__init__` (method) `skills/toposwarm_autonomous.py:310` `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
-- `AutonomousAgent.run` (method) `skills/toposwarm_autonomous.py:432` `def run(self, start_phase)`
-- `main` (function) `skills/toposwarm_autonomous.py:489` `def main(argv)`
-
-## skills/unified_orchestrator.py
-Depends on: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
-- `OrchestratorConfig.from_payload` (method) `skills/unified_orchestrator.py:111` `def from_payload(cls, payload)` -- Return a config with ``payload.json`` overrides applied.
-- `OrchestratorGoal.with_defaults` (method) `skills/unified_orchestrator.py:156` `def with_defaults(self, config)` -- Return a copy with empty fields populated from ``config``.
-- `OrchestratorResult.to_dict` (method) `skills/unified_orchestrator.py:197` `def to_dict(self)` -- Return a JSON-serialisable dictionary of the result.
-- `IOrchestratorBackend.available` (method) `skills/unified_orchestrator.py:215` `def available(self)` -- Return ``True`` when this backend can satisfy a request.
-- `IOrchestratorBackend.run` (method) `skills/unified_orchestrator.py:219` `def run(self, goal)` -- Execute ``goal`` and return a normalised :class:`OrchestratorResult`.
-- `EventBus.__init__` (method) `skills/unified_orchestrator.py:233` `def __init__(self, config, root)` -- Bind the bus to the active config.
-- `EventBus.path` (method) `skills/unified_orchestrator.py:252` `def path(self)` -- Return the resolved event file path.
-- `EventBus.emit` (method) `skills/unified_orchestrator.py:256` `def emit(self, event)` -- Append a single sanitised event to the bus.
-- `BackendRegistry.__init__` (method) `skills/unified_orchestrator.py:303` `def __init__(self, backends)` -- Bind the registry to a fixed-order tuple of backends.
-- `BackendRegistry.names` (method) `skills/unified_orchestrator.py:327` `def names(self)` -- Return the registered backend names in declaration order.
-- `BackendRegistry.get` (method) `skills/unified_orchestrator.py:331` `def get(self, name)` -- Return the backend registered as ``name`` or ``None``.
-- `BackendRegistry.available` (method) `skills/unified_orchestrator.py:335` `def available(self)` -- Return every backend that currently reports availability.
-- `RouterPolicy.__init__` (method) `skills/unified_orchestrator.py:347` `def __init__(self, config, registry)` -- Bind the policy to config and backend registry.
-- `RouterPolicy.choose` (method) `skills/unified_orchestrator.py:352` `def choose(self, goal)` -- Return the backend that should execute ``goal``.
-- `DaemonBackend.__init__` (method) `skills/unified_orchestrator.py:413` `def __init__(self, config, factory, payload)` -- Bind to config, optional engine factory and payload mapping.
-- `DaemonBackend.available` (method) `skills/unified_orchestrator.py:435` `def available(self)` -- Return ``True`` when the underlying engine can be imported.
-- `DaemonBackend.run` (method) `skills/unified_orchestrator.py:445` `def run(self, goal)` -- Execute a single-target kill-chain engagement.
-- `DaemonBackend.effective_target` (method) `skills/unified_orchestrator.py:489` `def effective_target(self, goal)` -- Return the daemon target this backend would use for ``goal``.
-- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:610` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
-- `HiveBackend.available` (method) `skills/unified_orchestrator.py:619` `def available(self)` -- Return ``True`` when the hive engine is importable.
-- `HiveBackend.run` (method) `skills/unified_orchestrator.py:629` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
-- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:711` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
-- `SwanBackend.available` (method) `skills/unified_orchestrator.py:720` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
-- `SwanBackend.run` (method) `skills/unified_orchestrator.py:730` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
-- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:814` `def __init__(self, config)` -- Bind the validator to the active configuration.
-- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:818` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
-- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:874` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
-- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:890` `def backends(self)` -- Return the registered backend names in declaration order.
-- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:894` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
-- `build_default_orchestrator` (function) `skills/unified_orchestrator.py:995` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
-
-## skills/update_knowledge.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_parquet_db.py`
-- `main` (function) `skills/update_knowledge.py:40` `def main(argv)`
-
-## slack_c2_bot.py
-Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
-- `SecureSessionManager.__init__` (method) `slack_c2_bot.py:29` `def __init__(self)`
-- `SecureSessionManager.register_failed_attempt` (method) `slack_c2_bot.py:34` `def register_failed_attempt(self, user_id)`
-- `SecureSessionManager.check_lockout` (method) `slack_c2_bot.py:42` `def check_lockout(self, user_id)`
-- `SecureSessionManager.check_rate_limit` (method) `slack_c2_bot.py:52` `def check_rate_limit(self, user_id)`
-- `SecureSessionManager.create_session` (method) `slack_c2_bot.py:63` `def create_session(self, user_id)`
-- `SecureSessionManager.validate_session` (method) `slack_c2_bot.py:71` `def validate_session(self, user_id)`
-- `SecureSessionManager.set_client` (method) `slack_c2_bot.py:81` `def set_client(self, user_id, client_id)`
-- `SecureSessionManager.get_client` (method) `slack_c2_bot.py:85` `def get_client(self, user_id)`
-- `capture_shell_output` (function) `slack_c2_bot.py:95` `def capture_shell_output(cmd)`
-- `handle_message` (function) `slack_c2_bot.py:113` `def handle_message(event, say, logger)`
-- `cmd_addcli` (function) `slack_c2_bot.py:177` `def cmd_addcli(ack, respond, command)`
-- `cmd_clients` (function) `slack_c2_bot.py:195` `def cmd_clients(ack, respond, command)`
-- `cmd_download` (function) `slack_c2_bot.py:209` `def cmd_download(ack, respond, command)`
-- `handle_file` (function) `slack_c2_bot.py:240` `def handle_file(event, say, logger)`
-- `mentioned` (function) `slack_c2_bot.py:252` `def mentioned(ack, say, event)`
-
-## static/hexabot/hexabot-spinner.js
-Depends on: `cli/assign.py`, `core/prompt.py`, `poc_tui/run.py`
-- `rand` (function) `static/hexabot/hexabot-spinner.js:46`
-- `clamp` (function) `static/hexabot/hexabot-spinner.js:47`
-- `Terminal.constructor` (method) `static/hexabot/hexabot-spinner.js:50`
-- `Terminal.push` (method) `static/hexabot/hexabot-spinner.js:84`
-- `Terminal.log` (method) `static/hexabot/hexabot-spinner.js:92`
-- `Terminal.run` (method) `static/hexabot/hexabot-spinner.js:94`
-- `Terminal.setProgress` (method) `static/hexabot/hexabot-spinner.js:96`
-- `Terminal.startCommand` (method) `static/hexabot/hexabot-spinner.js:102`
-- `Terminal.update` (method) `static/hexabot/hexabot-spinner.js:107`
-- `Terminal.colorFor` (method) `static/hexabot/hexabot-spinner.js:139`
-- `Terminal.drawPrompt` (method) `static/hexabot/hexabot-spinner.js:146`
-- `Terminal.draw` (method) `static/hexabot/hexabot-spinner.js:152`
-- `Terminal.dispose` (method) `static/hexabot/hexabot-spinner.js:206`
-- `radialTexture` (function) `static/hexabot/hexabot-spinner.js:209`
-- `createHexabotSpinner` (function) `static/hexabot/hexabot-spinner.js:223`
-- `setHappy` (function) `static/hexabot/hexabot-spinner.js:365`
-- `ndc` (function) `static/hexabot/hexabot-spinner.js:371`
-- `now` (function) `static/hexabot/hexabot-spinner.js:375`
-- `onDown` (function) `static/hexabot/hexabot-spinner.js:377`
-- `onMove` (function) `static/hexabot/hexabot-spinner.js:395`
-- `onUp` (function) `static/hexabot/hexabot-spinner.js:407`
-- `resize` (function) `static/hexabot/hexabot-spinner.js:423`
-- `loop` (function) `static/hexabot/hexabot-spinner.js:439`
-
-## static/js/3d-force-graph-1.73.4.min.js
-Depends on: `cli/assign.py`, `lazyown-docker/init.sh`, `modules/exp.c`
-- `is` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `newNode` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `update` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `insertBodies` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `insert` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `isSamePosition` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `updateBoundingBox` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `resetBoundingBox` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `Te` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `c` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `Vr` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `l` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `u` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `g` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `c` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `b` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `u` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `differentBody` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `coefficient` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `h` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `v` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `l` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `hh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `a` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `Hh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `Jh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `uu` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
-- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `that` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `i` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `ld` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `pd` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `I` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `Md` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `cf` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `Ef` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-
-## static/js/bootstrap-4.5.2.min.js
-Depends on: `cli/show.py`
-- `r` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-- `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-- `n` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-- `s` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-- `d` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-- `h` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-- `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
-
-## static/js/bootstrap-5.3.0.bundle.min.js
-Depends on: `cli/assign.py`, `cli/show.py`
-- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `i` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `o` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `a` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `r` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `i` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `h` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-- `M` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-
-## static/js/chart.min.js
-Depends on: `cli/assign.py`, `cli/show.py`, `lazyown-docker/init.sh`, `modules/notify.py`
-- `i` (function) `static/js/chart.min.js:7` -- !
-- `h` (function) `static/js/chart.min.js:7` -- !
-- `r` (function) `static/js/chart.min.js:7` -- !
-- `it` (function) `static/js/chart.min.js:7` -- !
-- `yt` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `ye` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `m` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `Ue` (function) `static/js/chart.min.js:13`
-- `Ge` (function) `static/js/chart.min.js:13`
-- `i` (function) `static/js/chart.min.js:13`
-- `y` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `Xs` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `bn` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `l` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `t` (function) `static/js/chart.min.js:13`
-- `p` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `Se` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `r` (function) `static/js/chart.min.js:13`
-- `i` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `d` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `n` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `n` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `y` (function) `static/js/chart.min.js:13`
-- `g` (function) `static/js/chart.min.js:13`
-- `p` (function) `static/js/chart.min.js:13`
-
-## static/js/force-graph-1.43.5.min.js
-Depends on: `cli/assign.py`, `cli/style.py`, `modules/exp.c`
-- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `Cn` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `Tr` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `o` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `ti` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `e` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `t` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `u` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `y` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `l` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `b` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `s` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `f` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `i` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `Fi` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `r` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `sa` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `ha` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `v` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `o` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `c` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
 
 
 Next: [API_p25.md](API_p25.md)

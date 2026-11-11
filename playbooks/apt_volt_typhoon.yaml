@@ -1,0 +1,112 @@
+apt_name: Volt Typhoon
+aliases:
+- Vanguard Panda
+- BRONZE SILHOUETTE
+- Insidious Panda
+source_urls:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-144a
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targeting-critical-infrastructure-with-living-off-the-land-techniques/
+description: 'Volt Typhoon is a state-sponsored actor focused on espionage against
+  critical infrastructure (communications, energy, water). hallmark: living-off-the-land
+  binaries (LOLBin-only), custom KV-botnet routers, no implants on disk, hands-on-keyboard
+  over proxied edge devices (SOHO/PAN/FortiGate).'
+platforms:
+- linux
+- windows
+- network
+- soho
+phases:
+- name: reconnaissance
+  technique_id: T1595.002
+  technique_name: Vulnerability Scanning
+  description: Edge-device CVE fingerprinting of exposed VPN/appliance portals.
+  atomic_tests:
+  - atomic_id: T1595.002
+    name: Scan edge appliances for CVE-2023-35195 / CVE-2024-21762 fingerprints
+    manual: true
+  detection_hints:
+  - Handshake anomalies against SSL VPN endpoints
+  - Scanner UA strings from residential proxies
+- name: initial_access
+  technique_id: T1190
+  technique_name: Exploit Public-Facing Application
+  description: CVE exploitation of internet-facing SOHO routers, firewalls and SSL
+    VPN appliances for a zero-payload foothold.
+  atomic_tests:
+  - atomic_id: T1190
+    name: Exploit edge appliance CVE and drop no implant
+    manual: true
+  detection_hints:
+  - Web shell or process crash on appliance
+  - Unexpected HTTPS POST to management interface
+- name: execution
+  technique_id: T1059.001
+  technique_name: 'Command and Scripting Interpreter: PowerShell'
+  description: 'Living-off-the-land: powershell.exe with encoded commands, never custom
+    binaries.'
+  atomic_tests:
+  - atomic_id: T1059.001
+    name: Encodedcommand powershell recon using only native binaries
+    manual: true
+  detection_hints:
+  - powershell.exe with -encodedcommand
+  - Native binaries spawning from IIS/w3wp or spoolsv
+- name: discovery
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  description: 'LOLBin discovery sweeps: nltest, net, adfind-equivalent via PowerShell,
+    wmic.'
+  atomic_tests:
+  - atomic_id: T1018
+    name: Domain discovery sweep with nltest and net commands
+    manual: true
+  detection_hints:
+  - Burst of nltest/net/wmic from a single host
+  - LDAP queries from unusual source IPs
+- name: credential_access
+  technique_id: T1003.003
+  technique_name: NTDS
+  description: NTDS.dit copy via ntdsutil or vssadmin (LOLBin only) once DC access
+    exists.
+  atomic_tests:
+  - atomic_id: T1003.003
+    name: NTDS.dit extraction through ntdsutil IFM or vssadmin shadows
+    manual: true
+  detection_hints:
+  - ntdsutil or vssadmin spawning from unexpected parents
+  - Shadow copy creation on DCs
+- name: lateral_movement
+  technique_id: T1021.006
+  technique_name: Windows Remote Management
+  description: WinRM lateral movement over proxies with valid creds; RDP rarely used.
+  atomic_tests:
+  - atomic_id: T1021.006
+    name: WinRM lateral sweep with harvested credentials
+    manual: true
+  detection_hints:
+  - winrm/hosted wsmprovhost spawns across many hosts
+  - Kerberos TGS bursts for HOST/SPNs
+- name: persistence
+  technique_id: T1098.001
+  technique_name: Additional Cloud Credentials
+  description: 'Cloud persistence: additional application credentials and federated
+    identity trust in Entra ID.'
+  atomic_tests:
+  - atomic_id: T1098.001
+    name: Add application credentials in cloud tenant
+    manual: true
+  detection_hints:
+  - New enterprise app credentials added outside change windows
+  - Trust changes to identity federation
+- name: command_and_control
+  technique_id: T1090.001
+  technique_name: Internal Proxy
+  description: Proxy chains through compromised SOHO devices and internal pivots;
+    beacon traffic morphed into normal TLS.
+  atomic_tests:
+  - atomic_id: T1090.001
+    name: Chain C2 through internal and edge proxies
+    manual: true
+  detection_hints:
+  - Long-lived TLS sessions to residential-like IPs
+  - Certificate anomalies on outbound TLS

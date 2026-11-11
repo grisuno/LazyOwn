@@ -366,11 +366,34 @@ def _resolve_api_key(config: Mapping[str, Any]) -> str | None:
     """
     candidate = config.get(CONFIG_KEY_API_KEY)
     if isinstance(candidate, str) and not _is_placeholder_key(candidate):
-        return candidate
+        return _pooled_key(BACKEND_GROQ, config, candidate)
     env_value = os.environ.get(ENV_GROQ_API_KEY)
     if env_value and not _is_placeholder_key(env_value):
-        return env_value
+        return _pooled_key(BACKEND_GROQ, config, env_value)
     return None
+
+
+def _pooled_key(backend: str, config: Mapping[str, Any], fallback: str | None) -> str | None:
+    """Return a round-robin pooled key for a backend, or the fallback.
+
+    When ``llm_key_pool`` configures two or more keys for the backend the
+    shared :mod:`core.llm_key_pool` rotates them; otherwise the resolved
+    fallback key is returned unchanged.
+
+    Args:
+        backend: Normalized backend identifier.
+        config: A mapping derived from ``payload.json``.
+        fallback: The key resolved by the normal path.
+
+    Returns:
+        A usable key string, or the fallback on any pool failure.
+    """
+    try:
+        from core.llm_key_pool import resolve_pooled_key
+
+        return resolve_pooled_key(backend, config, fallback)
+    except Exception:
+        return fallback
 
 
 def _resolve_api_key_for_backend(
@@ -396,11 +419,11 @@ def _resolve_api_key_for_backend(
     if config_key:
         candidate = config.get(config_key)
         if isinstance(candidate, str) and not _is_placeholder_key(candidate):
-            return candidate
+            return _pooled_key(backend, config, candidate)
     if env_var:
         env_value = os.environ.get(env_var)
         if env_value and not _is_placeholder_key(env_value):
-            return env_value
+            return _pooled_key(backend, config, env_value)
     return None
 
 

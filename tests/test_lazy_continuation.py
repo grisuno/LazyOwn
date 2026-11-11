@@ -7,8 +7,6 @@ target recalls the open work as planner wake candidates.
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from modules import lazy_continuation
 
 
@@ -36,6 +34,40 @@ class TestSaveLoad:
         assert record.task_id == "t1"
         assert record.status == "exhausted"
         assert record.next_steps == ["spray creds against ssh"]
+
+    def test_credentials_round_trip_for_successor(self, monkeypatch, tmp_path):
+        _install_sessions_dir(monkeypatch, tmp_path)
+        lazy_continuation.save(
+            "10.10.11.5",
+            task_id="t1",
+            status="exhausted",
+            credentials=["admin:hunter2", "root:toor"],
+        )
+        record = lazy_continuation.load("10.10.11.5")
+        assert record is not None
+        assert record.credentials == ["admin:hunter2", "root:toor"]
+
+    def test_handover_brief_renders_playbook(self, monkeypatch, tmp_path):
+        _install_sessions_dir(monkeypatch, tmp_path)
+        lazy_continuation.save(
+            "10.10.11.5",
+            task_id="t1",
+            goal="pwn minio",
+            status="exhausted",
+            settlement="found minio creds",
+            findings=["minio root creds dumped"],
+            next_steps=["spray creds against ssh"],
+            credentials=["admin:hunter2"],
+        )
+        brief = lazy_continuation.handover_brief("10.10.11.5")
+        assert "# Handover for 10.10.11.5" in brief
+        assert "pwn minio" in brief
+        assert "spray creds against ssh" in brief
+        assert "admin:hunter2" in brief
+
+    def test_handover_brief_missing_target_is_empty(self, monkeypatch, tmp_path):
+        _install_sessions_dir(monkeypatch, tmp_path)
+        assert lazy_continuation.handover_brief("10.10.11.99") == ""
 
     def test_load_missing_target_is_none(self, monkeypatch, tmp_path):
         _install_sessions_dir(monkeypatch, tmp_path)

@@ -27,6 +27,7 @@ DEFAULT_DIR = REPO_ROOT / "sessions" / "continuations"
 _MAX_RECORDS = 40
 _MAX_TEXT_CHARS = 2000
 _MAX_NEXT_STEPS = 6
+_MAX_CREDENTIALS = 10
 _SLUG_SAFE = re.compile(r"[^a-z0-9_.-]+")
 
 
@@ -42,6 +43,7 @@ class ContinuationRecord:
         settlement: Wrap-up settlement text.
         findings: Confirmed finding texts.
         next_steps: Unfinished work the next task should try.
+        credentials: Reusable ``user:pass`` or hash hints for the successor.
         updated: ISO timestamp of the last write.
     """
 
@@ -52,6 +54,7 @@ class ContinuationRecord:
     settlement: str = ""
     findings: list[str] = field(default_factory=list)
     next_steps: list[str] = field(default_factory=list)
+    credentials: list[str] = field(default_factory=list)
     updated: str = ""
 
 
@@ -88,6 +91,7 @@ def save(
     settlement: str = "",
     findings: list[str] | None = None,
     next_steps: list[str] | None = None,
+    credentials: list[str] | None = None,
 ) -> bool:
     """Write one target's continuation record atomically.
 
@@ -99,6 +103,7 @@ def save(
         settlement: Wrap-up settlement summary.
         findings: Confirmed finding texts.
         next_steps: Unfinished next steps for the follow-up task.
+        credentials: Reusable ``user:pass`` or hash hints for the successor.
 
     Returns:
         True when persisted; False on I/O failure.
@@ -117,6 +122,7 @@ def save(
         "next_steps": [str(item)[:400] for item in (next_steps or []) if str(item).strip()][
             :_MAX_NEXT_STEPS
         ],
+        "credentials": [str(item)[:200] for item in (credentials or []) if str(item).strip()][:_MAX_CREDENTIALS],
         "updated": datetime.datetime.now(datetime.UTC).isoformat(),
     }
     path = record_path(target)
@@ -152,8 +158,47 @@ def load(target: str) -> ContinuationRecord | None:
         settlement=str(data.get("settlement", "") or ""),
         findings=[str(item) for item in (data.get("findings") or [])][:10],
         next_steps=[str(item) for item in (data.get("next_steps") or [])][:_MAX_NEXT_STEPS],
+        credentials=[str(item) for item in (data.get("credentials") or [])][:_MAX_CREDENTIALS],
         updated=str(data.get("updated", "") or ""),
     )
+
+
+def handover_brief(target: str) -> str:
+    """Render a target's continuation record as a successor-ready playbook.
+
+    sapper-v2 has a saturating worker leave a written playbook for its
+    replacement. This renders the same handover from the persisted record:
+    goal, terminal status, the wrap-up settlement, confirmed findings, the
+    open next steps and any reusable credentials, so a fresh worker resumes
+    with knowledge instead of a cold graph.
+
+    Args:
+        target: Host whose record is rendered.
+
+    Returns:
+        A formatted multi-line brief, or an empty string when no record
+        exists for the target.
+    """
+    record = load(target)
+    if record is None:
+        return ""
+    lines = [
+        f"# Handover for {record.target}",
+        f"goal: {record.goal or '(none)'}",
+        f"last status: {record.status or '(unknown)'} (task {record.task_id or '-'})",
+    ]
+    if record.settlement:
+        lines.append(f"settlement: {record.settlement}")
+    if record.findings:
+        lines.append("confirmed findings:")
+        lines.extend(f"  - {item}" for item in record.findings)
+    if record.next_steps:
+        lines.append("next steps:")
+        lines.extend(f"  - {item}" for item in record.next_steps)
+    if record.credentials:
+        lines.append("reusable credentials:")
+        lines.extend(f"  - {item}" for item in record.credentials)
+    return "\n".join(lines)
 
 
 def recall_candidates(target: str, limit: int = 3) -> list[tuple[str, str]]:
@@ -186,4 +231,4 @@ def recall_candidates(target: str, limit: int = 3) -> list[tuple[str, str]]:
     return out
 
 
-__all__ = ["ContinuationRecord", "load", "recall_candidates", "record_path", "save"]
+__all__ = ["ContinuationRecord", "handover_brief", "load", "recall_candidates", "record_path", "save"]

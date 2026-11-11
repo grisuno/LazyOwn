@@ -1949,6 +1949,15 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     print_msg(f"[apt_chain] spooled {spooled} new fact(s) from captured output")
             except Exception as spool_exc:
                 print_msg(f"[apt_chain] fact spool skip: {spool_exc}")
+            if getattr(result, "chain_proven", False) and target:
+                try:
+                    from modules.chain_family import default_registry, family_signature
+                    from modules.chain_synth import facts_for_target
+
+                    registry = default_registry()
+                    registry.record_win(family_signature(facts_for_target(target)), chain_name, target)
+                except Exception:
+                    pass
         if args.json_out:
             print(json.dumps(result.to_dict(), indent=2, default=str))
         else:

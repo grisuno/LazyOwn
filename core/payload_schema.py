@@ -643,6 +643,21 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
         _spec("enable_c2_debug", FieldKind.BOOL, False, "Run the C2 dashboard with debug logging.", category="c2"),
         _spec(
+            "loop_triage_enabled",
+            FieldKind.BOOL,
+            False,
+            "Order the multi-target loop queue easy-first with stop-loss.",
+            long_help=(
+                "When true, LazyLoopEngine.drain_queue uses the difficulty "
+                "triage scheduler (modules.loop.triage_scheduler): targets are "
+                "drained easy-first, partial solves are salvaged first near a "
+                "deadline, and targets that exhaust their attempt budget "
+                "without progress are abandoned (stop-loss). Default keeps "
+                "plain FIFO draining."
+            ),
+            category="ai",
+        ),
+        _spec(
             "c2_daily_limit", FieldKind.STRING, "1000 per day", "C2 auth brute-force daily threshold.", category="c2"
         ),
         _spec(
@@ -1134,6 +1149,23 @@ SCHEMA: dict[str, FieldSpec] = {
             example="ollama",
             category="ai",
             allowed=tuple(SUPPORTED_BACKENDS),
+        ),
+        _spec(
+            "llm_key_pool",
+            FieldKind.OPAQUE,
+            [],
+            "Extra LLM API keys rotated round-robin on quota exhaustion.",
+            long_help=(
+                "A flat list of extra keys for the default cloud backend "
+                "(groq), or a mapping {backend: [keys, ...]}. The backend's "
+                "primary key (api_key/openai_api_key/...) is always tried "
+                "first; core.llm_key_pool rotates to the next key when a "
+                "provider returns an explicit quota/credit error. Empty keeps "
+                "single-key behaviour."
+            ),
+            example='["gsk_second_key", "gsk_third_key"]',
+            category="ai",
+            sensitive=True,
         ),
         _spec(
             "llm_model_groq",

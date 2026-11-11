@@ -266,11 +266,24 @@ def resolve_admin(args: ChainArgs) -> dict[str, Any]:
             os_hint=str(facts.get("os_hint", "")),
             techniques=args.techniques,
         )
+        notes = list(notes)
+        chain_name = str(data.get("name", ""))
+        try:
+            from modules.chain_family import default_registry, family_signature
+
+            registry = default_registry()
+            transfer = registry.transfer_note(facts)
+            if transfer:
+                notes.insert(0, transfer)
+            if chain_name:
+                registry.record_association(family_signature(facts), chain_name, target)
+        except Exception:
+            pass
         file_path, errors = write_generated_chain(data, CHAINS_DIR)
         return {
             "ok": file_path is not None,
             "action": "synth",
-            "name": str(data.get("name", "")),
+            "name": chain_name,
             "path": str(file_path) if file_path else "",
             "steps": len(data.get("steps", [])),
             "errors": errors,

@@ -18,6 +18,7 @@ that bind to the host object through `self` and carry no state of their own.
 | `worker_execution.py` | `WorkerExecutionMixin`: command dispatch through the executor or registry, tracked background jobs, the persistent bash session, alias resolution and the deny/auto-approve/missing-binary admissibility helpers. |
 | `worker_agentic.py` | `WorkerAgenticMixin`: the guard-enforced tool catalogue, the agent system prompt, the multi-attempt tool-calling session, operator-steer drainage, stop-reason checkpoints and the deterministic LLM step suggestions. |
 | `engine_proxy.py` | `EngineProxyMixin`: the `LazyLoopEngine` recorder-proxy lifecycle (`proxy_start`/`stop`/`status`/`env`), per-task traffic ingestion, body search and the retention sweep. |
+| `triage_scheduler.py` | `TriageScheduler` + `estimate_difficulty`: difficulty-triage scheduling for the multi-target queue (easy-first ordering, deadline salvage of partials, stop-loss). Pure; `LazyLoopEngine.drain_queue` uses it when `loop_triage_enabled` is set. |
 
 ## How it works
 

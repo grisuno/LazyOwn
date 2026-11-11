@@ -17,6 +17,23 @@ def _patched_engine(tmp_path, monkeypatch):
     return LazyEngine()
 
 
+def test_task_store_dequeue_honours_order_callback(tmp_path, monkeypatch):
+    """BDD: an order callback reorders the queue, else draining stays FIFO."""
+    import modules.lazy_loop as loop
+
+    monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
+    monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+    store = loop.TaskStore()
+    for name in ("first", "second", "third"):
+        store.enqueue(store.create(name).task_id)
+
+    newest_first = store.dequeue_next(order=lambda items: list(reversed(items)))
+    assert newest_first["goal"] == "third"
+    fifo = store.dequeue_next()
+    assert fifo["goal"] == "first"
+
+
 def test_planner_queues_retest_after_world_change(tmp_path, monkeypatch):
     """BDD: a recent world change drives a re-test intent on the changed host."""
     import modules.lazy_loop as loop

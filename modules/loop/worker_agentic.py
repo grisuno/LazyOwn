@@ -649,6 +649,7 @@ class WorkerAgenticMixin:
             return []
         candidates = _extract_llm_commands(reply)
         blocked_verbs = self._blocked_verbs()
+        guard = self._guard_rules()
         out: list[str] = []
         seen: set[str] = set()
         filtered: list[tuple[str, str]] = []
@@ -660,6 +661,9 @@ class WorkerAgenticMixin:
             if command.split(maxsplit=1)[0] == "sudo":
                 sudo_skipped += 1
                 filtered.append((command, "sudo-no-tty"))
+                continue
+            if guard is not None and guard.blocks_command(command):
+                filtered.append((command, "guard-rule"))
                 continue
             if blocked_verbs and _verb_of(command) in blocked_verbs:
                 filtered.append((command, "attrib-blocked"))
@@ -718,6 +722,24 @@ class WorkerAgenticMixin:
             return AttributionLedger(self.task_id).blocked_verbs()
         except Exception:
             return set()
+
+    def _guard_rules(self):
+        """Return the seeded guard ruleset for this task, or None on failure.
+
+        Guard rules arm the planner filter from the first round with a baseline
+        of commands an unattended loop must never emit, before any attribution
+        data has accrued. Any failure returns None so the guard can only ever
+        add safety, never gate the loop into silence.
+
+        Returns:
+            A :class:`~modules.guard_rules.GuardRules` instance, or None.
+        """
+        try:
+            from modules.guard_rules import GuardRules
+
+            return GuardRules(self.task_id)
+        except Exception:
+            return None
 
     def _record_llm_decision(
         self,

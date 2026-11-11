@@ -9,6 +9,7 @@ instead of carrying private selection logic.
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Iterable
 
 from modules.selection.adversary import AdversarySelector
@@ -26,6 +27,7 @@ from modules.selection.technique import TechniqueSelector
 from modules.selection.technique_chain import TechniqueChainSelector
 
 _URGENT_PRIORITY = 2
+_log = logging.getLogger(__name__)
 
 
 def all_selectors() -> list[Selector]:
@@ -101,7 +103,12 @@ def propose_next(
     for selector in cascade:
         try:
             decision = selector.propose(ctx)
-        except Exception:
+        except Exception as exc:
+            _log.warning(
+                "selector %s crashed and was treated as abstention: %s",
+                getattr(selector, "name", selector.__class__.__name__),
+                exc,
+            )
             decision = None
         if decision is None or not str(decision.command or "").strip():
             continue

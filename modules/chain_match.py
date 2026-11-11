@@ -158,7 +158,10 @@ def best_chain(
 
     Returns:
         The highest-scoring eligible chain as ``(name, reason)``, or None when
-        the phase is non-strategic or nothing scores on a service match.
+        the phase is non-strategic or nothing scores on a service match. A
+        score tie is broken by chain name ascending, so the winner is
+        independent of registry row order and the same state always picks the
+        same chain.
     """
     if phase not in STRATEGIC_PHASES:
         return None
@@ -168,6 +171,7 @@ def best_chain(
         return None
     candidates = rows if rows is not None else load_rows(allow_lab=allow_lab, ttl=ttl)
     best: dict | None = None
+    best_name = ""
     best_score = 0
     for row in candidates:
         name = str(row.get("name", "") or "")
@@ -176,8 +180,10 @@ def best_chain(
         if not platform_ok(row.get("platforms"), os_hint):
             continue
         row_score = score(set(normalize_tags(row.get("tags"))), phase, svc_tokens)
-        if row_score > best_score:
-            best, best_score = row, row_score
+        if row_score < 1:
+            continue
+        if row_score > best_score or (row_score == best_score and (best_name == "" or name < best_name)):
+            best, best_name, best_score = row, name, row_score
     if best is None or best_score < 1:
         return None
     name = str(best["name"])

@@ -64,6 +64,7 @@ class WorkerMemoryMixin:
         if not output or len(output) < 20:
             return
         self._remember_fact(intent, command, output)
+        self._attribute_outcome(intent, command, output)
         target = self._target_for(intent)
         try:
             from modules.mediation.contracts import MediationDomains
@@ -116,3 +117,31 @@ class WorkerMemoryMixin:
                 )
         except Exception:
             pass
+
+    def _attribute_outcome(self, intent, command: str, output: str) -> None:
+        """Classify a step as ok/blocked/error and tally it per verb.
+
+        A target that answers with a WAF or rate limiter is a strategy signal,
+        not a dead end: recording the block lets the planner demote the verb on
+        the next round and pivot instead of re-issuing it. Any failure here is
+        swallowed so attribution never disturbs the execution path.
+
+        Args:
+            intent: Owning intent (for the activity trace).
+            command: Executed command line.
+            output: Captured output.
+        """
+        try:
+            from modules.outcome_attribution import BLOCKED, AttributionLedger, classify
+
+            classification = classify(output)
+            verb = AttributionLedger(self.task_id).record(command, classification)
+            if classification == BLOCKED and verb:
+                self.activity.emit(
+                    self.name,
+                    "attribution",
+                    f"target blocked verb '{verb}'; planner will demote it next round",
+                    intent_id=intent.node_id,
+                )
+        except Exception:
+            return

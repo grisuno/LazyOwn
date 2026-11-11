@@ -138,7 +138,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_enum4linux` (method, line 528) `def do_enum4linux(self, line)`
   - `do_rpcclient` (method, line 558) `def do_rpcclient(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
-- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/guardrails/contracts.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/failure_verdict.py`, `modules/guardrails/contracts.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
 
 ## cli/commands/estorides.py
 - Doc: Estorides integration commands — bidirectional feedback loop with passive OSINT.
@@ -302,16 +302,16 @@ Previous: [KB_commands.md](KB_commands.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitdbCommands` (class, line 11) `class ExploitdbCommands`
-  - `ExploitdbCCommands` (class, line 94) `class ExploitdbCCommands`
-  - `do_exploitdb_sync` (method, line 19) `def do_exploitdb_sync(self, args)`
-  - `do_exploitdb_scan` (method, line 33) `def do_exploitdb_scan(self, args)`
-  - `do_exploitdb_gen` (method, line 45) `def do_exploitdb_gen(self, args)`
-  - `do_exploitdb_cscan` (method, line 76) `def do_exploitdb_cscan(self, args)`
-  - `do_exploitdb_ccompile` (method, line 87) `def do_exploitdb_ccompile(self, args)`
-  - `do_exploitdb_cscan` (method, line 99) `def do_exploitdb_cscan(self, args)`
-  - `do_exploitdb_ccompile` (method, line 110) `def do_exploitdb_ccompile(self, args)`
-  - `do_exploitdb_run` (method, line 124) `def do_exploitdb_run(self, args)`
+  - `ExploitdbCommands` (class, line 14) `class ExploitdbCommands`
+  - `ExploitdbCCommands` (class, line 100) `class ExploitdbCCommands`
+  - `do_exploitdb_sync` (method, line 22) `def do_exploitdb_sync(self, args)`
+  - `do_exploitdb_scan` (method, line 36) `def do_exploitdb_scan(self, args)`
+  - `do_exploitdb_gen` (method, line 48) `def do_exploitdb_gen(self, args)`
+  - `do_exploitdb_cscan` (method, line 79) `def do_exploitdb_cscan(self, args)`
+  - `do_exploitdb_ccompile` (method, line 91) `def do_exploitdb_ccompile(self, args)`
+  - `do_exploitdb_cscan` (method, line 105) `def do_exploitdb_cscan(self, args)`
+  - `do_exploitdb_ccompile` (method, line 117) `def do_exploitdb_ccompile(self, args)`
+  - `do_exploitdb_run` (method, line 131) `def do_exploitdb_run(self, args)`
 - Depends on: `modules/__init__.py`
 
 ## cli/commands/exploitgym.py
@@ -362,11 +362,11 @@ Previous: [KB_commands.md](KB_commands.md)
 - Language: py
 - Symbols:
   - `IntelOpsCommandSet` (class, line 16) `class IntelOpsCommandSet(LazyOwnCommandSet)`
-  - `_merge_port_sightings` (function, line 166) `def _merge_port_sightings(engine, target, host_rows)`
+  - `_merge_port_sightings` (function, line 170) `def _merge_port_sightings(engine, target, host_rows)`
   - `do_lazysearch` (method, line 30) `def do_lazysearch(self, line)`
-  - `do_lazyinventory` (method, line 69) `def do_lazyinventory(self, line)`
-  - `_ingest` (method, line 109) `def _ingest(self, engine, rest)`
-  - `_fill_platform` (method, line 154) `def _fill_platform(self, engine, entries, capture_text)`
+  - `do_lazyinventory` (method, line 71) `def do_lazyinventory(self, line)`
+  - `_ingest` (method, line 111) `def _ingest(self, engine, rest)`
+  - `_fill_platform` (method, line 158) `def _fill_platform(self, engine, entries, capture_text)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/exposure_sentinel.py
@@ -375,15 +375,15 @@ Previous: [KB_commands.md](KB_commands.md)
 - Language: py
 - Symbols:
   - `SentinelCommandSet` (class, line 14) `class SentinelCommandSet(LazyOwnCommandSet)`
-  - `_latest_sightings_path` (function, line 183) `def _latest_sightings_path()`
+  - `_latest_sightings_path` (function, line 192) `def _latest_sightings_path()`
   - `do_lazysentinel` (method, line 21) `def do_lazysentinel(self, line)`
   - `_provision` (method, line 53) `def _provision(self, rest)`
   - `_dispatch` (method, line 69) `def _dispatch(self, rest)`
   - `_ingest` (method, line 91) `def _ingest(self, rest)`
   - `_checks` (method, line 131) `def _checks(self, rest)`
-  - `_print_brief` (method, line 154) `def _print_brief(self, report)`
-  - `_autofire_hook` (method, line 161) `def _autofire_hook(self, reports)`
-  - `_provision_record` (method, line 171) `def _provision_record(self, record_id)`
+  - `_print_brief` (method, line 155) `def _print_brief(self, report)`
+  - `_autofire_hook` (method, line 166) `def _autofire_hook(self, reports)`
+  - `_provision_record` (method, line 180) `def _provision_record(self, record_id)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/exposure_timeline.py
@@ -394,9 +394,9 @@ Previous: [KB_commands.md](KB_commands.md)
   - `TimelineCommandSet` (class, line 24) `class TimelineCommandSet(LazyOwnCommandSet)`
   - `do_lazytimeline` (method, line 31) `def do_lazytimeline(self, line)`
   - `_record` (method, line 64) `def _record(self, engine, args, json_out)`
-  - `_show` (method, line 82) `def _show(self, engine, args, json_out)`
-  - `_diff` (method, line 95) `def _diff(self, engine, args, json_out)`
-  - `_zombie` (method, line 122) `def _zombie(self, engine, json_out, args)`
+  - `_show` (method, line 87) `def _show(self, engine, args, json_out)`
+  - `_diff` (method, line 100) `def _diff(self, engine, args, json_out)`
+  - `_zombie` (method, line 127) `def _zombie(self, engine, json_out, args)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/golden_paths.py

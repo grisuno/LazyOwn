@@ -920,7 +920,7 @@ Bind config, sources, renderer and a payload mapping.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `config` | `StatusBarConfig` |  | Active configuration. |
-| `sources` | `Mapping[str, IStatusSource]` |  | Mapping with mandatory keys `[`target`](#statuscontext-target)`, `[`phase`](#statuscontext-phase)`, ``finding``, ``suggestion``. Each value must be an [`IStatusSource`](#istatussource). |
+| `sources` | `Mapping[str, IStatusSource]` |  | Mapping with mandatory keys `[`target`](#statuscontext-target)`, `[`phase`](#statuscontext-phase)`, ``finding``, `[`suggestion`](modules.lazy_blindspot.py.md#blindspotfinding-suggestion)`. Each value must be an [`IStatusSource`](#istatussource). |
 | `renderer` | `StatusBarRenderer` |  | Renderer instance. |
 | `payload` | `Mapping[str, Any] \| None` | `None` | Optional ``payload.json`` mapping used to evaluate the enabled flag. |
 

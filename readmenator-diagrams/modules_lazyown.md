@@ -1,6 +1,6 @@
 # modules: lazyown
 
-modules: lazyown groups 106 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Declarative cmd2 alias loader.
+modules: lazyown groups 103 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Declarative cmd2 alias loader.
 
 ```mermaid
 graph LR
@@ -39,7 +39,7 @@ graph LR
 
 ## cli (6.1)
 
-cli groups 23 files (py) around EngagementState, _load_state, _save_state, _load_index, _normalize_command. Declarative cmd2 alias loader.
+cli groups 21 files (py) around EngagementState, _load_state, _save_state, _load_index, _normalize_command. Declarative cmd2 alias loader.
 
 ## core (6.2)
 
@@ -51,7 +51,7 @@ lazyc2 groups 4 files (py) around HealthConfig, _health_status, _listener_alive,
 
 ## modules (6.4)
 
-modules groups 26 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 25 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. C2 agent builder with profile-driven compilation and safe templating.
 
 ## root (6.5)
 
@@ -79,7 +79,6 @@ tests groups 42 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - cli/commands/defaults.py
 - cli/commands/diagnostics.py
 - cli/commands/lazyloop.py
-- cli/commands/purple_team.py
 - cli/commands/recon_migrated.py
 - cli/commands/redteam_gym.py
 - cli/commands/security.py
@@ -90,7 +89,6 @@ tests groups 42 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - cli/lazynmap_post.py
 - cli/ops_commands.py
 - cli/orchestrator_assets_tabs.py
-- cli/purple_tui.py
 - cli/recon_plan.py
 - cli/session_brief.py
 - cli/tui_forms.py
@@ -104,7 +102,6 @@ tests groups 42 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - lazyc2/blueprints/orchestrator.py
 - lazyc2/extensions/__init__.py
 - lazyown.py
-- modules/auto_purple.py
 - modules/c2_builder.py
 - modules/cli_auth.py
 - modules/golden_path.py

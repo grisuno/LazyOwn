@@ -1,5 +1,18 @@
-# API (page 4 of 27)
+# API (page 4 of 28)
 Previous: [API_p3.md](API_p3.md)
+
+## cli/commands/ux.py
+Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
+- `UxCommandSet.do_hud` (method) `cli/commands/ux.py:46` `def do_hud(self, line)` -- Session counters: elapsed time, commands run, material captured.
+- `UxCommandSet.do_undo` (method) `cli/commands/ux.py:85` `def do_undo(self, line)` -- Revert the last assign/set configuration change.
+- `UxCommandSet.do_config_diff` (method) `cli/commands/ux.py:115` `def do_config_diff(self, line)` -- Show what changed since the session started.
+- `UxCommandSet.do_cheat` (method) `cli/commands/ux.py:140` `def do_cheat(self, line)` -- Render a cheatsheet section inside the shell.
+- `UxCommandSet.do_toast` (method) `cli/commands/ux.py:167` `def do_toast(self, line)` -- Raise a toast notification inside the cmd2 shell.
+- `UxCommandSet.do_suggest` (method) `cli/commands/ux.py:261` `def do_suggest(self, line)` -- Fuzzy command suggestion for typos and fragments.
+
+## cli/commands/verb_admin.py
+Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
+- `VerbCommandSet.do_verb` (method) `cli/commands/verb_admin.py:52` `def do_verb(self, line)` -- Manage the autonomous-loop verb catalog.
 
 ## cli/commands/winbox_gym.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
@@ -478,22 +491,6 @@ Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
 - `related_commands` (function) `cli/palette_graph.py:226` `def related_commands(graph, command_name)` -- Return ``do_*`` commands that share helper functions with this one.
 - `enrich_detail` (function) `cli/palette_graph.py:287` `def enrich_detail(graph, entry)` -- Attach ``calls`` and ``related`` lists to a palette detail entry.
 - `enrich_commands` (function) `cli/palette_graph.py:309` `def enrich_commands(graph, rows)` -- Enrich every entry of ``rows`` with neighbour data.
-
-## cli/palette_overlay.py
-Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
-Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
-- `PaletteOverlayState.set_query` (method) `cli/palette_overlay.py:83` `def set_query(self, value)` -- Replace the active query with ``value`` (trimmed).
-- `PaletteOverlayState.rows` (method) `cli/palette_overlay.py:87` `def rows(self)` -- Return the ranked, truncated rows for the current query.
-- `build_state` (function) `cli/palette_overlay.py:162` `def build_state(payload, index, recents, config)` -- Wire the canonical state used by :func:`launch_overlay`.
-- `launch_overlay` (function) `cli/palette_overlay.py:188` `def launch_overlay(payload, state, runner)` -- Open the Textual overlay and return the selected command verb.
-- `_PaletteOverlayApp.__init__` (method) `cli/palette_overlay.py:255` `def __init__(self)`
-- `_PaletteOverlayApp.compose` (method) `cli/palette_overlay.py:261` `def compose(self)`
-- `_PaletteOverlayApp.on_mount` (method) `cli/palette_overlay.py:269` `def on_mount(self)`
-- `_PaletteOverlayApp.on_input_changed` (method) `cli/palette_overlay.py:272` `def on_input_changed(self, event)`
-- `_PaletteOverlayApp.on_input_submitted` (method) `cli/palette_overlay.py:276` `def on_input_submitted(self, event)`
-- `_PaletteOverlayApp.on_list_view_selected` (method) `cli/palette_overlay.py:279` `def on_list_view_selected(self, event)`
-- `_PaletteOverlayApp.action_cancel` (method) `cli/palette_overlay.py:282` `def action_cancel(self)`
-- `_PaletteOverlayApp.action_select_current` (method) `cli/palette_overlay.py:285` `def action_select_current(self)`
 
 
 Next: [API_p5.md](API_p5.md)

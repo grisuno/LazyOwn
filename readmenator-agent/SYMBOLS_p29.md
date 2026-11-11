@@ -1,8 +1,140 @@
-# Symbols (page 29 of 50)
+# Symbols (page 29 of 51)
 Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_wizard` | function | `skills/mcp_generated_tools.py:5748` | `def _gen_wizard(arguments, tool_name, _cmd)` |
+| `_gen_wmi_lateral` | function | `skills/mcp_generated_tools.py:5756` | `def _gen_wmi_lateral(arguments, tool_name, _cmd)` |
+| `_gen_wmi_persist` | function | `skills/mcp_generated_tools.py:5764` | `def _gen_wmi_persist(arguments, tool_name, _cmd)` |
+| `_gen_wmi_scheduled_task` | function | `skills/mcp_generated_tools.py:5772` | `def _gen_wmi_scheduled_task(arguments, tool_name, _cmd)` |
+| `_gen_wmiexec` | function | `skills/mcp_generated_tools.py:5780` | `def _gen_wmiexec(arguments, tool_name, _cmd)` |
+| `_gen_wmiexecpro` | function | `skills/mcp_generated_tools.py:5788` | `def _gen_wmiexecpro(arguments, tool_name, _cmd)` |
+| `_gen_wpscan` | function | `skills/mcp_generated_tools.py:5796` | `def _gen_wpscan(arguments, tool_name, _cmd)` |
+| `_gen_wrapper` | function | `skills/mcp_generated_tools.py:5804` | `def _gen_wrapper(arguments, tool_name, _cmd)` |
+| `_gen_www` | function | `skills/mcp_generated_tools.py:5812` | `def _gen_www(arguments, tool_name, _cmd)` |
+| `_gen_xss` | function | `skills/mcp_generated_tools.py:5820` | `def _gen_xss(arguments, tool_name, _cmd)` |
+| `_gen_xsstrike` | function | `skills/mcp_generated_tools.py:5828` | `def _gen_xsstrike(arguments, tool_name, _cmd)` |
+| `_gen_yara_scan` | function | `skills/mcp_generated_tools.py:5836` | `def _gen_yara_scan(arguments, tool_name, _cmd)` |
+| `get_generated_tool_definitions` | function | `skills/mcp_generated_tools.py:659` | `def get_generated_tool_definitions()` |
+| `register_all_generated_handlers` | function | `skills/mcp_generated_tools.py:684` | `def register_all_generated_handlers(register_handler_fn, make_text_fn, run_lazyown_cmd_fn)` |
+| `ensure_optional` | function | `skills/mcp_lazy.py:18` | `def ensure_optional(namespace, flag, loader)` |
+| `_build_tool_schema` | function | `skills/mcp_tool_generator.py:91` | `def _build_tool_schema(command_param_name)` |
+| `extract_commands` | function | `skills/mcp_tool_generator.py:34` | `def extract_commands(index)` |
+| `extract_existing_handlers` | function | `skills/mcp_tool_generator.py:55` | `def extract_existing_handlers()` |
+| `generate_module` | function | `skills/mcp_tool_generator.py:106` | `def generate_module(commands, existing_handlers, limit)` |
+| `load_command_index` | function | `skills/mcp_tool_generator.py:29` | `def load_command_index()` |
+| `main` | function | `skills/mcp_tool_generator.py:220` | `def main()` |
+| `sanitize_description` | function | `skills/mcp_tool_generator.py:72` | `def sanitize_description(summary, max_len)` |
+| `sanitize_docstring` | function | `skills/mcp_tool_generator.py:85` | `def sanitize_docstring(text)` |
+| `verify_coverage` | function | `skills/mcp_tool_generator.py:203` | `def verify_coverage(commands, existing_handlers)` |
+| `_async_wrap` | function | `skills/mcp_tools/__init__.py:79` | `def _async_wrap(arguments, tool_name, _handle)` |
+| `_sync_wrap` | function | `skills/mcp_tools/__init__.py:85` | `def _sync_wrap(arguments, tool_name, _handle)` |
+| `iter_schemas` | function | `skills/mcp_tools/__init__.py:51` | `def iter_schemas()` |
+| `iter_tool_modules` | function | `skills/mcp_tools/__init__.py:30` | `def iter_tool_modules()` |
+| `register_handlers` | function | `skills/mcp_tools/__init__.py:57` | `def register_handlers(handlers, ctx)` |
+| `MCPContext` | class | `skills/mcp_tools/_context.py:21` | `class MCPContext` |
+| `handle` | function | `skills/mcp_tools/aci_plan.py:63` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/aci_replan.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/aci_status.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/ack_event.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/add_rule.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/add_target.py:48` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/agent_result.py:31` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/agent_status.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/apt_chain.py:93` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/atomic_clean.py:45` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/atomic_resolve.py:49` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/atomic_search.py:74` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/atomic_shell.py:34` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/auto_loop.py:48` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/auto_populate.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/auto_pwn.py:47` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/autonomous_events.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/autonomous_inject.py:34` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/autonomous_replay.py:53` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/autonomous_start.py:40` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/autonomous_status.py:21` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/autonomous_stop.py:18` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/bridge_suggest.py:104` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_adversary.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_command.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_notes.py:38` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_profile.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_redop.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_script.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_search_agent.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_status.py:20` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/c2_vuln_analysis.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `_run_campaign` | function | `skills/mcp_tools/campaign.py:50` | `def _run_campaign()` |
+| `handle` | function | `skills/mcp_tools/campaign.py:46` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/campaign_lessons.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/campaign_sitrep.py:46` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/campaign_tasks.py:66` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/claudemd.py:43` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/collab_publish.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `_read_docstring` | function | `skills/mcp_tools/command_help.py:42` | `def _read_docstring(cmd_name)` |
+| `handle` | function | `skills/mcp_tools/command_help.py:31` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/command_next.py:45` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/command_prev.py:31` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/create_addon.py:115` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/create_param.py:47` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/create_tool.py:55` | `def handle(arguments, tool_name, ctx)` |
+| `_add` | function | `skills/mcp_tools/credentials.py:37` | `def _add(user, secret, host, source, confirmed)` |
+| `handle` | function | `skills/mcp_tools/credentials.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `_load_crons` | function | `skills/mcp_tools/cron_schedule.py:60` | `def _load_crons()` |
+| `_save_crons` | function | `skills/mcp_tools/cron_schedule.py:71` | `def _save_crons(entries)` |
+| `handle` | function | `skills/mcp_tools/cron_schedule.py:55` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/cve_search.py:42` | `def handle(arguments, tool_name, ctx)` |
+| `_run_daemon` | function | `skills/mcp_tools/daemon.py:38` | `def _run_daemon()` |
+| `handle` | function | `skills/mcp_tools/daemon.py:34` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_approve.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_focus.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_mode.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_pause.py:21` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_resume.py:20` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_status.py:22` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/daemon_veto.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/dashboard_snapshot.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `_result` | function | `skills/mcp_tools/db.py:84` | `def _result(payload)` |
+| `handle` | function | `skills/mcp_tools/db.py:62` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/delete_param.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `_deploy_beacon_sync` | function | `skills/mcp_tools/deploy_beacon.py:45` | `def _deploy_beacon_sync()` |
+| `handle` | function | `skills/mcp_tools/deploy_beacon.py:40` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/discover_commands.py:52` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/engage_approve.py:40` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/engage_list_pending.py:21` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/engage_status.py:31` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/engage_target.py:57` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/eval_quality.py:38` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/evasion_generate.py:36` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/evasion_rotate.py:27` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/evidence_grep.py:47` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/exploit_chain.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `_has_data` | function | `skills/mcp_tools/exploit_recommend.py:17` | `def _has_data(path)` |
+| `handle` | function | `skills/mcp_tools/exploit_recommend.py:44` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/exploitgym_list.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/exploitgym_run.py:48` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/exploitgym_score.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/exploitgym_status.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `_do_facts` | function | `skills/mcp_tools/facts_show.py:49` | `def _do_facts()` |
+| `handle` | function | `skills/mcp_tools/facts_show.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `_launch` | function | `skills/mcp_tools/fast_run.py:89` | `def _launch()` |
+| `handle` | function | `skills/mcp_tools/fast_run.py:49` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/generate_report.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/get_beacons.py:20` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/get_config.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/get_llm_budget.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/graph_neighbors.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/graph_search.py:36` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/graph_suggest_next.py:35` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/graph_summary.py:25` | `def handle(arguments, tool_name, ctx)` |
+| `_blocking_run` | function | `skills/mcp_tools/groq_agent.py:110` | `def _blocking_run()` |
+| `handle` | function | `skills/mcp_tools/groq_agent.py:70` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/harness_status.py:23` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/heartbeat_status.py:20` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_collect.py:28` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_forget.py:25` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/hive_plan.py:28` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/hive_recall.py:29` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/hive_recover.py:31` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/hive_result.py:22` | `def handle(arguments, tool_name, ctx)` |
@@ -364,137 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `test_forget_delegates_to_episodic` | method | `skills/tests/test_hive_mind.py:277` | `def test_forget_delegates_to_episodic(self)` |
 | `test_forget_old_events` | method | `skills/tests/test_hive_mind.py:121` | `def test_forget_old_events(self)` |
 | `test_forget_returns_int` | method | `skills/tests/test_hive_mind.py:563` | `def test_forget_returns_int(self)` |
-| `test_get_state_returns_drone_state` | method | `skills/tests/test_hive_mind.py:374` | `def test_get_state_returns_drone_state(self)` |
-| `test_get_state_unknown_id_returns_none` | method | `skills/tests/test_hive_mind.py:386` | `def test_get_state_unknown_id_returns_none(self)` |
-| `test_instantiation` | method | `skills/tests/test_hive_mind.py:162` | `def test_instantiation(self)` |
-| `test_list_all_includes_history` | method | `skills/tests/test_hive_mind.py:844` | `def test_list_all_includes_history(self)` |
-| `test_list_all_includes_spawned_drone` | method | `skills/tests/test_hive_mind.py:392` | `def test_list_all_includes_spawned_drone(self)` |
-| `test_load_all_empty_db` | method | `skills/tests/test_hive_mind.py:759` | `def test_load_all_empty_db(self)` |
-| `test_load_interrupted_returns_only_interrupted` | method | `skills/tests/test_hive_mind.py:737` | `def test_load_interrupted_returns_only_interrupted(self)` |
-| `test_mark_interrupted_targets_queued_and_running` | method | `skills/tests/test_hive_mind.py:722` | `def test_mark_interrupted_targets_queued_and_running(self)` |
-| `test_mcp_hive_collect_no_ids` | method | `skills/tests/test_hive_mind.py:660` | `def test_mcp_hive_collect_no_ids(self)` |
-| `test_mcp_hive_forget_returns_pruned_count` | method | `skills/tests/test_hive_mind.py:636` | `def test_mcp_hive_forget_returns_pruned_count(self)` |
-| `test_mcp_hive_plan_returns_parseable_string` | method | `skills/tests/test_hive_mind.py:610` | `def test_mcp_hive_plan_returns_parseable_string(self)` |
-| `test_mcp_hive_recall_no_results` | method | `skills/tests/test_hive_mind.py:629` | `def test_mcp_hive_recall_no_results(self)` |
-| `test_mcp_hive_recover_no_interrupted` | method | `skills/tests/test_hive_mind.py:862` | `def test_mcp_hive_recover_no_interrupted(self)` |
-| `test_mcp_hive_result_unknown_drone` | method | `skills/tests/test_hive_mind.py:652` | `def test_mcp_hive_result_unknown_drone(self)` |
-| `test_mcp_hive_spawn_single` | method | `skills/tests/test_hive_mind.py:643` | `def test_mcp_hive_spawn_single(self)` |
-| `test_mcp_hive_status_contains_fields` | method | `skills/tests/test_hive_mind.py:619` | `def test_mcp_hive_status_contains_fields(self)` |
-| `test_pending_count_after_publish` | method | `skills/tests/test_hive_mind.py:321` | `def test_pending_count_after_publish(self)` |
-| `test_plan_ad_goal` | method | `skills/tests/test_hive_mind.py:461` | `def test_plan_ad_goal(self)` |
-| `test_plan_enum_returns_multiple_tasks` | method | `skills/tests/test_hive_mind.py:446` | `def test_plan_enum_returns_multiple_tasks(self)` |
-| `test_plan_exploit_goal` | method | `skills/tests/test_hive_mind.py:454` | `def test_plan_exploit_goal(self)` |
-| `test_plan_generic_goal` | method | `skills/tests/test_hive_mind.py:468` | `def test_plan_generic_goal(self)` |
-| `test_plan_n_drones_pads_to_requested` | method | `skills/tests/test_hive_mind.py:474` | `def test_plan_n_drones_pads_to_requested(self)` |
-| `test_publish_and_receive` | method | `skills/tests/test_hive_mind.py:301` | `def test_publish_and_receive(self)` |
-| `test_recall_deduplication` | method | `skills/tests/test_hive_mind.py:244` | `def test_recall_deduplication(self)` |
-| `test_recall_from_memory_after_store` | method | `skills/tests/test_hive_mind.py:542` | `def test_recall_from_memory_after_store(self)` |
-| `test_recall_fts_multiple_hits` | method | `skills/tests/test_hive_mind.py:104` | `def test_recall_fts_multiple_hits(self)` |
-| `test_recall_keyword_found` | method | `skills/tests/test_hive_mind.py:89` | `def test_recall_keyword_found(self)` |
-| `test_recall_keyword_not_found` | method | `skills/tests/test_hive_mind.py:97` | `def test_recall_keyword_not_found(self)` |
-| `test_recall_with_mock_chroma` | method | `skills/tests/test_hive_mind.py:192` | `def test_recall_with_mock_chroma(self)` |
-| `test_receive_drains_direct_mailbox` | method | `skills/tests/test_hive_mind.py:329` | `def test_receive_drains_direct_mailbox(self)` |
-| `test_recover_from_store_marks_interrupted` | method | `skills/tests/test_hive_mind.py:798` | `def test_recover_from_store_marks_interrupted(self)` |
-| `test_requeue_interrupted_respawns_drones` | method | `skills/tests/test_hive_mind.py:825` | `def test_requeue_interrupted_respawns_drones(self)` |
-| `test_spawn_persists_initial_state` | method | `skills/tests/test_hive_mind.py:789` | `def test_spawn_persists_initial_state(self)` |
-| `test_spawn_returns_drone_id` | method | `skills/tests/test_hive_mind.py:365` | `def test_spawn_returns_drone_id(self)` |
-| `test_spawn_single_drone` | method | `skills/tests/test_hive_mind.py:534` | `def test_spawn_single_drone(self)` |
-| `test_stats_contains_expected_keys` | method | `skills/tests/test_hive_mind.py:269` | `def test_stats_contains_expected_keys(self)` |
-| `test_stats_counts_rows` | method | `skills/tests/test_hive_mind.py:112` | `def test_stats_counts_rows(self)` |
-| `test_status_contains_expected_fields` | method | `skills/tests/test_hive_mind.py:549` | `def test_status_contains_expected_fields(self)` |
-| `test_store_and_recall` | method | `skills/tests/test_hive_mind.py:236` | `def test_store_and_recall(self)` |
-| `test_store_returns_id` | method | `skills/tests/test_hive_mind.py:169` | `def test_store_returns_id(self)` |
-| `test_store_returns_nonempty_id` | method | `skills/tests/test_hive_mind.py:82` | `def test_store_returns_nonempty_id(self)` |
-| `test_synthesize_structure` | method | `skills/tests/test_hive_mind.py:489` | `def test_synthesize_structure(self)` |
-| `test_upsert_and_load_all` | method | `skills/tests/test_hive_mind.py:700` | `def test_upsert_and_load_all(self)` |
-| `test_upsert_updates_existing` | method | `skills/tests/test_hive_mind.py:709` | `def test_upsert_updates_existing(self)` |
-| `check` | function | `skills/tests/test_mcp_smoke.py:23` | `def check(label, cond, hint)` |
-| `main` | function | `skills/tests/test_mcp_smoke.py:96` | `def main()` |
-| `test_list_tools_returns_tools` | function | `skills/tests/test_mcp_smoke.py:61` | `def test_list_tools_returns_tools(mcp)` |
-| `test_mcp_module_imports` | function | `skills/tests/test_mcp_smoke.py:34` | `def test_mcp_module_imports()` |
-| `test_mcp_wellknown_symbols` | function | `skills/tests/test_mcp_smoke.py:47` | `def test_mcp_wellknown_symbols(mcp)` |
-| `TestObjectiveStore` | class | `skills/tests/test_objectives.py:51` | `class TestObjectiveStore` |
-| `TestSoulUpdater` | class | `skills/tests/test_objectives.py:204` | `class TestSoulUpdater` |
-| `_soul_updater` | function | `skills/tests/test_objectives.py:36` | `def _soul_updater(tmp_path)` |
-| `_store` | function | `skills/tests/test_objectives.py:31` | `def _store(tmp_path)` |
-| `test_block` | method | `skills/tests/test_objectives.py:129` | `def test_block(self, tmp_path)` |
-| `test_cleanup_critical_never_expires` | method | `skills/tests/test_objectives.py:182` | `def test_cleanup_critical_never_expires(self, tmp_path)` |
-| `test_cleanup_medium_72h_ttl` | method | `skills/tests/test_objectives.py:166` | `def test_cleanup_medium_72h_ttl(self, tmp_path)` |
-| `test_complete` | method | `skills/tests/test_objectives.py:119` | `def test_complete(self, tmp_path)` |
-| `test_dedup` | method | `skills/tests/test_objectives.py:62` | `def test_dedup(self, tmp_path)` |
-| `test_inject_basic` | method | `skills/tests/test_objectives.py:52` | `def test_inject_basic(self, tmp_path)` |
-| `test_inject_invalid_priority_defaults_medium` | method | `skills/tests/test_objectives.py:140` | `def test_inject_invalid_priority_defaults_medium(self, tmp_path)` |
-| `test_list_pending_empty` | method | `skills/tests/test_objectives.py:146` | `def test_list_pending_empty(self, tmp_path)` |
-| `test_next_pending_fifo_same_priority` | method | `skills/tests/test_objectives.py:109` | `def test_next_pending_fifo_same_priority(self, tmp_path)` |
-| `test_next_pending_none_when_empty` | method | `skills/tests/test_objectives.py:151` | `def test_next_pending_none_when_empty(self, tmp_path)` |
-| `test_next_pending_priority` | method | `skills/tests/test_objectives.py:99` | `def test_next_pending_priority(self, tmp_path)` |
-| `test_objectives_persist_on_disk` | method | `skills/tests/test_objectives.py:156` | `def test_objectives_persist_on_disk(self, tmp_path)` |
-| `test_soul_updater_appends_new_section` | method | `skills/tests/test_objectives.py:293` | `def test_soul_updater_appends_new_section(self, tmp_path)` |
-| `test_soul_updater_credentials_hash` | method | `skills/tests/test_objectives.py:231` | `def test_soul_updater_credentials_hash(self, tmp_path)` |
-| `test_soul_updater_credentials_username_only` | method | `skills/tests/test_objectives.py:241` | `def test_soul_updater_credentials_username_only(self, tmp_path)` |
-| `test_soul_updater_empty_creds_noop` | method | `skills/tests/test_objectives.py:285` | `def test_soul_updater_empty_creds_noop(self, tmp_path)` |
-| `test_soul_updater_patch_line` | method | `skills/tests/test_objectives.py:205` | `def test_soul_updater_patch_line(self, tmp_path)` |
-| `test_soul_updater_patch_replaces_existing` | method | `skills/tests/test_objectives.py:274` | `def test_soul_updater_patch_replaces_existing(self, tmp_path)` |
-| `test_soul_updater_section` | method | `skills/tests/test_objectives.py:223` | `def test_soul_updater_section(self, tmp_path)` |
-| `test_soul_updater_section_access` | method | `skills/tests/test_objectives.py:257` | `def test_soul_updater_section_access(self, tmp_path)` |
-| `test_soul_updater_section_os` | method | `skills/tests/test_objectives.py:249` | `def test_soul_updater_section_os(self, tmp_path)` |
-| `test_soul_updater_target_line` | method | `skills/tests/test_objectives.py:216` | `def test_soul_updater_target_line(self, tmp_path)` |
-| `test_soul_updater_vulnerabilities` | method | `skills/tests/test_objectives.py:265` | `def test_soul_updater_vulnerabilities(self, tmp_path)` |
-| `test_ttl_expiry` | method | `skills/tests/test_objectives.py:74` | `def test_ttl_expiry(self, tmp_path)` |
-| `TestParquetDBAnnotate` | class | `skills/tests/test_parquet_db.py:177` | `class TestParquetDBAnnotate` |
-| `TestParquetDBQueryKnowledge` | class | `skills/tests/test_parquet_db.py:351` | `class TestParquetDBQueryKnowledge` |
-| `TestParquetDBQuerySession` | class | `skills/tests/test_parquet_db.py:276` | `class TestParquetDBQuerySession` |
-| `TestParquetDBSync` | class | `skills/tests/test_parquet_db.py:91` | `class TestParquetDBSync` |
-| `TestStableId` | class | `skills/tests/test_parquet_db.py:401` | `class TestStableId` |
-| `_make_db` | function | `skills/tests/test_parquet_db.py:67` | `def _make_db(tmp_path)` |
-| `_setup_two_phases` | method | `skills/tests/test_parquet_db.py:277` | `def _setup_two_phases(self, tmp_path)` |
-| `_setup_with_one_row` | method | `skills/tests/test_parquet_db.py:178` | `def _setup_with_one_row(self, tmp_path)` |
-| `_write_csv` | function | `skills/tests/test_parquet_db.py:56` | `def _write_csv(path, rows)` |
-| `test_annotate` | method | `skills/tests/test_parquet_db.py:198` | `def test_annotate(self, tmp_path)` |
-| `test_annotate_category` | method | `skills/tests/test_parquet_db.py:208` | `def test_annotate_category(self, tmp_path)` |
-| `test_annotate_missing_id` | method | `skills/tests/test_parquet_db.py:217` | `def test_annotate_missing_id(self, tmp_path)` |
-| `test_annotate_rich_explicit_finding_type` | method | `skills/tests/test_parquet_db.py:265` | `def test_annotate_rich_explicit_finding_type(self, tmp_path)` |
-| `test_annotate_rich_finding_type_credential` | method | `skills/tests/test_parquet_db.py:223` | `def test_annotate_rich_finding_type_credential(self, tmp_path)` |
-| `test_annotate_rich_finding_type_hash` | method | `skills/tests/test_parquet_db.py:243` | `def test_annotate_rich_finding_type_hash(self, tmp_path)` |
-| `test_annotate_rich_finding_type_vulnerability` | method | `skills/tests/test_parquet_db.py:233` | `def test_annotate_rich_finding_type_vulnerability(self, tmp_path)` |
-| `test_annotate_rich_output_snippet_truncated` | method | `skills/tests/test_parquet_db.py:256` | `def test_annotate_rich_output_snippet_truncated(self, tmp_path)` |
-| `test_query_knowledge_keyword_binarios` | method | `skills/tests/test_parquet_db.py:390` | `def test_query_knowledge_keyword_binarios(self, tmp_path)` |
-| `test_query_knowledge_no_match` | method | `skills/tests/test_parquet_db.py:370` | `def test_query_knowledge_no_match(self, tmp_path)` |
-| `test_query_knowledge_session_parquet` | method | `skills/tests/test_parquet_db.py:352` | `def test_query_knowledge_session_parquet(self, tmp_path)` |
-| `test_query_session_empty` | method | `skills/tests/test_parquet_db.py:328` | `def test_query_session_empty(self, tmp_path)` |
-| `test_query_session_filter` | method | `skills/tests/test_parquet_db.py:306` | `def test_query_session_filter(self, tmp_path)` |
-| `test_query_session_no_filter` | method | `skills/tests/test_parquet_db.py:322` | `def test_query_session_no_filter(self, tmp_path)` |
-| `test_query_session_scanning_filter` | method | `skills/tests/test_parquet_db.py:314` | `def test_query_session_scanning_filter(self, tmp_path)` |
-| `test_query_session_target_filter` | method | `skills/tests/test_parquet_db.py:334` | `def test_query_session_target_filter(self, tmp_path)` |
-| `test_schema_cols` | method | `skills/tests/test_parquet_db.py:155` | `def test_schema_cols(self, tmp_path)` |
-| `test_stable_id_deterministic` | method | `skills/tests/test_parquet_db.py:402` | `def test_stable_id_deterministic(self)` |
-| `test_stable_id_different_inputs` | method | `skills/tests/test_parquet_db.py:408` | `def test_stable_id_different_inputs(self)` |
-| `test_stable_id_length` | method | `skills/tests/test_parquet_db.py:414` | `def test_stable_id_length(self)` |
-| `test_sync_from_csv` | method | `skills/tests/test_parquet_db.py:92` | `def test_sync_from_csv(self, tmp_path)` |
-| `test_sync_idempotent` | method | `skills/tests/test_parquet_db.py:140` | `def test_sync_idempotent(self, tmp_path)` |
-| `test_sync_missing_csv` | method | `skills/tests/test_parquet_db.py:170` | `def test_sync_missing_csv(self, tmp_path)` |
-| `test_sync_skips_empty_command` | method | `skills/tests/test_parquet_db.py:121` | `def test_sync_skips_empty_command(self, tmp_path)` |
-| `AutonomousAgent` | class | `skills/toposwarm_autonomous.py:309` | `class AutonomousAgent` |
-| `PentestState` | class | `skills/toposwarm_autonomous.py:127` | `class PentestState` |
-| `__init__` | method | `skills/toposwarm_autonomous.py:310` | `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)` |
-| `_enum_goals` | function | `skills/toposwarm_autonomous.py:286` | `def _enum_goals(state)` |
-| `_execute_goal` | method | `skills/toposwarm_autonomous.py:347` | `def _execute_goal(self, goal, phase_name)` |
-| `_load_payload` | function | `skills/toposwarm_autonomous.py:479` | `def _load_payload()` |
-| `_parse_output` | function | `skills/toposwarm_autonomous.py:181` | `def _parse_output(output, state, phase_name)` |
-| `_phase_goals` | function | `skills/toposwarm_autonomous.py:233` | `def _phase_goals(phase_idx, state, effort)` |
-| `_run_phase` | method | `skills/toposwarm_autonomous.py:386` | `def _run_phase(self, phase_idx)` |
-| `_save_state` | method | `skills/toposwarm_autonomous.py:418` | `def _save_state(self)` |
-| `add_finding` | method | `skills/toposwarm_autonomous.py:145` | `def add_finding(self, phase_name, text)` |
-| `main` | function | `skills/toposwarm_autonomous.py:489` | `def main(argv)` |
-| `run` | method | `skills/toposwarm_autonomous.py:432` | `def run(self, start_phase)` |
-| `summary` | method | `skills/toposwarm_autonomous.py:149` | `def summary(self)` |
-| `to_dict` | method | `skills/toposwarm_autonomous.py:160` | `def to_dict(self)` |
-| `BackendRegistry` | class | `skills/unified_orchestrator.py:300` | `class BackendRegistry` |
-| `DaemonBackend` | class | `skills/unified_orchestrator.py:408` | `class DaemonBackend` |
-| `EventBus` | class | `skills/unified_orchestrator.py:224` | `class EventBus` |
-| `GoalValidator` | class | `skills/unified_orchestrator.py:806` | `class GoalValidator` |
-| `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
-| `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
-| `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

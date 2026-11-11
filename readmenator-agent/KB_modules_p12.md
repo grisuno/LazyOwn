@@ -1,6 +1,35 @@
 # Subsystem: modules (page 12 of 18)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/lazyshortener.py
+- Doc: LazyShortener: URL shortener bridge for LazyOwn phishing delivery.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `providers` (function, line 30) `def providers()`
+  - `shorten` (function, line 35) `def shorten(url, provider, timeout)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `modules/lazypoophish.py`
+
+## modules/lazyvpnshield.sh
+- Doc: Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `save_current_rules` (function, line 29)
+  - `show_current_rules` (function, line 37)
+  - `apply_vpn_rules` (function, line 45)
+  - `undo_and_restore_rules` (function, line 86)
+  - `main` (function, line 113)
+  - `ctrl_c` (function, line 11)
+  - `check_sudo` (function, line 16)
+
+## modules/lazywps.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `ctrl_c` (function, line 9)
+
 ## modules/lesson_ingestor.py
 - Doc: Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter.
 - Layer: utility
@@ -205,26 +234,27 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `load_payload` (function, line 309) `def load_payload(payload_path)`
   - `_is_placeholder_key` (function, line 333) `def _is_placeholder_key(value)`
   - `_resolve_api_key` (function, line 353) `def _resolve_api_key(config)`
-  - `_resolve_api_key_for_backend` (function, line 376) `def _resolve_api_key_for_backend(backend, config)`
-  - `_normalize_backend` (function, line 407) `def _normalize_backend(backend)`
-  - `_require_cloud_allowed` (function, line 440) `def _require_cloud_allowed(normalized)`
-  - `_build_groq` (function, line 472) `def _build_groq(config)`
-  - `_build_ollama` (function, line 494) `def _build_ollama(config)`
-  - `_build_llamacpp` (function, line 508) `def _build_llamacpp(config)`
-  - `_build_openai` (function, line 522) `def _build_openai(config)`
-  - `_build_anthropic` (function, line 544) `def _build_anthropic(config)`
-  - `_build_deepseek` (function, line 566) `def _build_deepseek(config)`
-  - `_resolve_model_identifier` (function, line 588) `def _resolve_model_identifier(backend_identifier, config)`
-  - `_wrap_with_budget` (function, line 615) `def _wrap_with_budget(backend, config, backend_identifier)`
-  - `get_llm_backend` (function, line 653) `def get_llm_backend(config, backend)`
-  - `_build_backend` (function, line 705) `def _build_backend(normalized, resolved_config)`
-  - `get_llm_backend_raw` (function, line 749) `def get_llm_backend_raw(config, backend)`
-  - `try_get_llm_backend` (function, line 771) `def try_get_llm_backend(config, backend)`
-  - `_pi_timeout` (function, line 795) `def _pi_timeout()`
-  - `_pi_complete` (function, line 807) `def _pi_complete(model, prompt, max_tokens)`
-  - `stream_complete` (function, line 848) `def stream_complete(model, prompt, max_tokens, on_delta)`
-  - `complete` (function, line 919) `def complete(model, prompt, max_tokens)`
-- Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+  - `_pooled_key` (function, line 376) `def _pooled_key(backend, config, fallback)`
+  - `_resolve_api_key_for_backend` (function, line 399) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (function, line 430) `def _normalize_backend(backend)`
+  - `_require_cloud_allowed` (function, line 463) `def _require_cloud_allowed(normalized)`
+  - `_build_groq` (function, line 495) `def _build_groq(config)`
+  - `_build_ollama` (function, line 517) `def _build_ollama(config)`
+  - `_build_llamacpp` (function, line 531) `def _build_llamacpp(config)`
+  - `_build_openai` (function, line 545) `def _build_openai(config)`
+  - `_build_anthropic` (function, line 567) `def _build_anthropic(config)`
+  - `_build_deepseek` (function, line 589) `def _build_deepseek(config)`
+  - `_resolve_model_identifier` (function, line 611) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (function, line 638) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (function, line 676) `def get_llm_backend(config, backend)`
+  - `_build_backend` (function, line 728) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (function, line 772) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (function, line 794) `def try_get_llm_backend(config, backend)`
+  - `_pi_timeout` (function, line 818) `def _pi_timeout()`
+  - `_pi_complete` (function, line 830) `def _pi_complete(model, prompt, max_tokens)`
+  - `stream_complete` (function, line 871) `def stream_complete(model, prompt, max_tokens, on_delta)`
+  - `complete` (function, line 942) `def complete(model, prompt, max_tokens)`
+- Depends on: `core/llm_budget.py`, `core/llm_key_pool.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
 - Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
 
 ## modules/llm_orchestrator.py
@@ -405,89 +435,57 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `Fact` (class, line 85) `class Fact`
-  - `RepeatDetector` (class, line 94) `class RepeatDetector`
-  - `EdrPacer` (class, line 190) `class EdrPacer`
-  - `TargetLimiter` (class, line 467) `class TargetLimiter`
-  - `FactVectorStore` (class, line 537) `class FactVectorStore`
-  - `__init__` (method, line 110) `def __init__(self, window)`
-  - `record` (method, line 116) `def record(self, command)`
-  - `_update_oscillation` (method, line 132) `def _update_oscillation(self)`
-  - `_strict_alternating` (method, line 146) `def _strict_alternating(entries)`
-  - `stuck` (method, line 151) `def stuck(self)`
-  - `_alternating` (method, line 167) `def _alternating(self)`
-  - `oscillation_pair` (method, line 175) `def oscillation_pair(self)`
-  - `last_commands` (method, line 179) `def last_commands(self)`
-  - `reset` (method, line 183) `def reset(self)`
-  - `__init__` (method, line 206) `def __init__(self, duration_threshold)`
-  - `parse_windows` (method, line 252) `def parse_windows(raw)`
-  - `from_config` (method, line 274) `def from_config(cls)`
-  - `observe` (method, line 305) `def observe(self, command, duration_sec, output)`
-  - `decay` (method, line 327) `def decay(self, factor)`
-  - `level` (method, line 333) `def level(self)`
-  - `signal` (method, line 343) `def signal(self)`
-  - `_window_seconds_until_end` (method, line 349) `def _window_seconds_until_end(windows, now)`
-  - `in_sleeper_window` (method, line 374) `def in_sleeper_window(self, now)`
-  - `windows_delay` (method, line 380) `def windows_delay(windows, now)`
-  - `sleeper_delay` (method, line 407) `def sleeper_delay(self, now)`
-  - `inter_step_delay` (method, line 420) `def inter_step_delay(self)`
-  - `quieten` (method, line 437) `def quieten(self, command)`
-  - `describe` (method, line 452) `def describe(self)`
-  - `__init__` (method, line 475) `def __init__(self, max_concurrent)`
-  - `max_concurrent` (method, line 482) `def max_concurrent(self)`
-  - `active_targets` (method, line 487) `def active_targets(self)`
-  - `slot` (method, line 493) `def slot(self, target)`
-  - `__init__` (method, line 545) `def __init__(self, path, max_facts)`
-  - `path` (method, line 553) `def path(self)`
-  - `__len__` (method, line 557) `def __len__(self)`
-  - `_tokenize` (method, line 561) `def _tokenize(text)`
-  - `_vectorize` (method, line 566) `def _vectorize(tokens)`
-  - `add` (method, line 574) `def add(self, text, meta)`
-  - `search` (method, line 608) `def search(self, query, k)`
-  - `search_block` (method, line 638) `def search_block(self, query, k, max_chars)`
-  - `clear` (method, line 647) `def clear(self)`
-  - `save` (method, line 653) `def save(self)`
-  - `_load` (method, line 674) `def _load(self)`
+  - `Fact` (class, line 86) `class Fact`
+  - `RepeatDetector` (class, line 95) `class RepeatDetector`
+  - `EdrPacer` (class, line 242) `class EdrPacer`
+  - `TargetLimiter` (class, line 519) `class TargetLimiter`
+  - `FactVectorStore` (class, line 589) `class FactVectorStore`
+  - `listing_forbidden` (function, line 759) `def listing_forbidden(command)`
+  - `ListingNoiseDetector` (class, line 787) `class ListingNoiseDetector`
+  - `__init__` (method, line 117) `def __init__(self, window)`
+  - `record` (method, line 125) `def record(self, command)`
+  - `_update_oscillation` (method, line 142) `def _update_oscillation(self)`
+  - `_strict_alternating` (method, line 156) `def _strict_alternating(entries)`
+  - `_periodic_cycle` (method, line 161) `def _periodic_cycle(entries)`
+  - `stuck` (method, line 182) `def stuck(self)`
+  - `describe` (method, line 200) `def describe(self)`
+  - `_alternating` (method, line 214) `def _alternating(self)`
+  - `oscillation_pair` (method, line 222) `def oscillation_pair(self)`
+  - `cycle` (method, line 226) `def cycle(self)`
+  - `last_commands` (method, line 230) `def last_commands(self)`
+  - `reset` (method, line 234) `def reset(self)`
+  - `__init__` (method, line 258) `def __init__(self, duration_threshold)`
+  - `parse_windows` (method, line 304) `def parse_windows(raw)`
+  - `from_config` (method, line 326) `def from_config(cls)`
+  - `observe` (method, line 357) `def observe(self, command, duration_sec, output)`
+  - `decay` (method, line 379) `def decay(self, factor)`
+  - `level` (method, line 385) `def level(self)`
+  - `signal` (method, line 395) `def signal(self)`
+  - `_window_seconds_until_end` (method, line 401) `def _window_seconds_until_end(windows, now)`
+  - `in_sleeper_window` (method, line 426) `def in_sleeper_window(self, now)`
+  - `windows_delay` (method, line 432) `def windows_delay(windows, now)`
+  - `sleeper_delay` (method, line 459) `def sleeper_delay(self, now)`
+  - `inter_step_delay` (method, line 472) `def inter_step_delay(self)`
+  - `quieten` (method, line 489) `def quieten(self, command)`
+  - `describe` (method, line 504) `def describe(self)`
+  - `__init__` (method, line 527) `def __init__(self, max_concurrent)`
+  - `max_concurrent` (method, line 534) `def max_concurrent(self)`
+  - `active_targets` (method, line 539) `def active_targets(self)`
+  - `slot` (method, line 545) `def slot(self, target)`
+  - `__init__` (method, line 597) `def __init__(self, path, max_facts)`
+  - `path` (method, line 605) `def path(self)`
+  - `__len__` (method, line 609) `def __len__(self)`
+  - `_tokenize` (method, line 613) `def _tokenize(text)`
+  - `_vectorize` (method, line 618) `def _vectorize(tokens)`
+  - `add` (method, line 626) `def add(self, text, meta)`
+  - `search` (method, line 660) `def search(self, query, k)`
+  - `search_block` (method, line 690) `def search_block(self, query, k, max_chars)`
+  - `clear` (method, line 699) `def clear(self)`
+  - `save` (method, line 705) `def save(self)`
+  - `_load` (method, line 726) `def _load(self)`
+  - `observe` (method, line 798) `def observe(self, command, output)`
 - Depends on: `modules/__init__.py`
-- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_orchestrator_pacing.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`
-
-## modules/loop_manager.py
-- Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LoopValidationError` (class, line 87) `class LoopValidationError(ValueError)`
-  - `LoopNotFoundError` (class, line 96) `class LoopNotFoundError(KeyError)`
-  - `validate_target` (function, line 100) `def validate_target(raw)`
-  - `sanitize_goal` (function, line 123) `def sanitize_goal(raw)`
-  - `clamp_int` (function, line 150) `def clamp_int(raw, field, default, minimum, maximum)`
-  - `clamp_float` (function, line 175) `def clamp_float(raw, field, default, minimum, maximum)`
-  - `validate_loop_id` (function, line 200) `def validate_loop_id(loop_id)`
-  - `_now_iso` (function, line 217) `def _now_iso()`
-  - `_process_start_ticks` (function, line 222) `def _process_start_ticks(pid)`
-  - `_pid_alive` (function, line 246) `def _pid_alive(pid, start_ticks)`
-  - `LoopSpec` (class, line 264) `class LoopSpec`
-  - `_loop_command` (function, line 284) `def _loop_command(spec)`
-  - `LoopManager` (class, line 316) `class LoopManager`
-  - `__init__` (method, line 90) `def __init__(self, field, message)`
-  - `__init__` (method, line 327) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
-  - `loops_dir` (method, line 349) `def loops_dir(self)`
-  - `start` (method, line 353) `def start(self, spec, operator)`
-  - `_spawn_locked` (method, line 394) `def _spawn_locked(self, spec, operator)`
-  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
-  - `list_loops` (method, line 493) `def list_loops(self)`
-  - `_refresh_log_bytes` (method, line 517) `def _refresh_log_bytes(self, record)`
-  - `get_loop` (method, line 528) `def get_loop(self, loop_id)`
-  - `read_log` (method, line 547) `def read_log(self, loop_id, offset)`
-  - `_resolve_log_path` (method, line 588) `def _resolve_log_path(self, record)`
-  - `stop` (method, line 614) `def stop(self, loop_id)`
-  - `_update_status_locked` (method, line 662) `def _update_status_locked(self, loop_id, status)`
-  - `summary` (method, line 679) `def summary(self)`
-  - `_prune_locked` (method, line 715) `def _prune_locked(self)`
-  - `_remove_workspace` (method, line 740) `def _remove_workspace(self, loop_id)`
-  - `_load_registry_locked` (method, line 764) `def _load_registry_locked(self)`
-  - `_save_registry_locked` (method, line 779) `def _save_registry_locked(self, records)`
-- Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
+- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_orchestrator_pacing.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`, `tests/test_writeback_hygiene.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

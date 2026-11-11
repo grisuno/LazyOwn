@@ -107,7 +107,7 @@
     "cli/commands/winbox_gym.py"
   ],
   "source_sha256": {
-    "lazyown.py": "0140df45df1dd590ce4c669241a88a2f84e1db0439aea87fb7324d7751f389d0",
+    "lazyown.py": "2849873336addce00cb98cba2ede0e952632600b9a4eca208ab6258f95b62e14",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -127,7 +127,7 @@
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
     "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
     "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
-    "cli/commands/command_and_control_migrated.py": "504919fc12b08c99515dadc183ab3a6da3530d4cc0c5aa0b3b1ed05b9101e118",
+    "cli/commands/command_and_control_migrated.py": "d7c76541bf7e1b376098fdab1c4e5d1eaf30f4d4a36093fbb0b56a8046381f59",
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ec230e5bc167bbb40c58dbd8dbdf0c9e9a3da1fde773345167f1bd357b2ed054",
     "cli/commands/cred_migrated.py": "b05636924991f9b44d22baa8aafdceaa5a6af31501a4d53d5a98d5579d9a22c3",
@@ -168,7 +168,7 @@
     "cli/commands/lazy_passgen.py": "b1a66e83f193dbeabda267552a0b79741555d1a4cfeb801a4c8143920c9e2a09",
     "cli/commands/lazy_poc.py": "9035714b0dc3a90e9f7bf7ac238c34d1db5a1c4cf232d67419a49badda317f02",
     "cli/commands/lazyloop.py": "661aafd0c89b4580f05b378dbdc04ee5521009e21634bac7480a7bf2bf141f86",
-    "cli/commands/lazyops.py": "8b33e2408bd200280459d85095982a14c69b4968044bfd41737250981c2c5975",
+    "cli/commands/lazyops.py": "f92dfa0bf08bf4eb21074e7ce70e0793e7b87e5823c13460660dfc35325bbd8f",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "6630a08b8e9f97be88893ef85c8001279b40b96bbcd35804e4e7d2237dd72cf5",
     "cli/commands/misc_migrated.py": "af46cb9c05dd52a910ff121088196ed05f491ab50222ff5268157432f84ba02a",
@@ -192,7 +192,7 @@
     "cli/commands/pwn.py": "9960e3f6aac315ff1e5a8855bf5f034b8e08d78cc292fd20bd892c4ab534c05d",
     "cli/commands/recon.py": "55cf493d15e87115fe6bead797df5b60da244f180d87d37e50aa24860573bbe4",
     "cli/commands/recon_migrated.py": "b4d3fe069b028c2e21bb8d34117389cf2ea3a584757d1f332b32a6eff6b5eceb",
-    "cli/commands/redteam_gym.py": "099bbcbb7d24991c77b038f6f7d7ee29d6e88025e6751ecfcac26d151d5fd590",
+    "cli/commands/redteam_gym.py": "d6905fa56eabc11931dc16e3e58725e310aa082d4f936513f1973e6a2e0d1ff1",
     "cli/commands/report.py": "4045e672ec29aa8840ade8ba5e53cfa61a99a90d4e65c82bbd63b912c32a5415",
     "cli/commands/report_enhanced.py": "98a90162b98fde872a6fca66c6c474e3184c27cbf5325de5bb12fbc77a73ac94",
     "cli/commands/report_migrated.py": "b3233c56eacc37c807f385b2f61c7ab8c171f5c880f3a07569ff7d17b07ab3ce",
@@ -213,8 +213,8 @@
     "cli/commands/winbox_gym.py": "6f0ff45231887ec483f315b0362bbd9a5c250d244bacda9ae631f2c8da52fcc0"
   },
   "totals": {
-    "method_definitions": 871,
-    "unique_commands": 869,
+    "method_definitions": 874,
+    "unique_commands": 872,
     "duplicates": 2,
     "phases": 14,
     "categories": 18
@@ -310,13 +310,16 @@
       "do_lazy_archive",
       "do_lazy_ask",
       "do_lazy_asset",
+      "do_lazy_blindspot",
       "do_lazy_broadcast",
       "do_lazy_category",
       "do_lazy_chat",
+      "do_lazy_commander",
       "do_lazy_compact",
       "do_lazy_company",
       "do_lazy_constraint",
       "do_lazy_context",
+      "do_lazy_deviations",
       "do_lazy_dispatch",
       "do_lazy_enrich",
       "do_lazy_evidence",
@@ -3347,7 +3350,7 @@
     },
     {
       "name": "do_chain_distill",
-      "line": 2072,
+      "line": 2035,
       "summary": "Turn one autonomous-loop trace into a reusable chain YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3358,7 +3361,7 @@
     },
     {
       "name": "do_apt_playbook",
-      "line": 2122,
+      "line": 2085,
       "summary": "List, validate, and run APT playbooks based on public threat reports.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3369,7 +3372,7 @@
     },
     {
       "name": "do_mitre_test",
-      "line": 2242,
+      "line": 2205,
       "summary": "Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3380,7 +3383,7 @@
     },
     {
       "name": "do_generate_playbook",
-      "line": 2345,
+      "line": 2308,
       "summary": "Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3391,7 +3394,7 @@
     },
     {
       "name": "do_my_playbook",
-      "line": 2524,
+      "line": 2487,
       "summary": "Generates a playbook from your custom technique database.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3402,7 +3405,7 @@
     },
     {
       "name": "do_caldera",
-      "line": 2581,
+      "line": 2544,
       "summary": "Installs and starts the Caldera server.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3413,7 +3416,7 @@
     },
     {
       "name": "do_caldera_import",
-      "line": 2630,
+      "line": 2593,
       "summary": "Import CALDERA abilities into LazyOwn playbooks.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3424,7 +3427,7 @@
     },
     {
       "name": "do_caldera_export",
-      "line": 2722,
+      "line": 2685,
       "summary": "Export a LazyOwn playbook to CALDERA ability YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6394,7 +6397,7 @@
     },
     {
       "name": "do_lazy_dispatch",
-      "line": 88,
+      "line": 95,
       "summary": "Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N] [--run-budget S] [--timeout S] <task...>. Usage: lazy_…",
       "category": null,
       "phase": "uncategorized",
@@ -6405,7 +6408,7 @@
     },
     {
       "name": "do_lazy_task",
-      "line": 147,
+      "line": 154,
       "summary": "Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks. Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|delete [--tas…",
       "category": null,
       "phase": "uncategorized",
@@ -6416,7 +6419,7 @@
     },
     {
       "name": "do_lazy_graph",
-      "line": 269,
+      "line": 276,
       "summary": "Show planner-facing graph overview. Usage: lazy_graph [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6427,7 +6430,7 @@
     },
     {
       "name": "do_lazy_context",
-      "line": 298,
+      "line": 305,
       "summary": "Render the bounded prompt context the planner/worker LLMs receive. Usage: lazy_context [--task T] [--budget N]",
       "category": null,
       "phase": "uncategorized",
@@ -6438,7 +6441,7 @@
     },
     {
       "name": "do_lazy_skill",
-      "line": 319,
+      "line": 326,
       "summary": "Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes. Usage: lazy_skill ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6449,7 +6452,7 @@
     },
     {
       "name": "do_lazy_workspace",
-      "line": 403,
+      "line": 410,
       "summary": "Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path. Usage: lazy_workspace ...",
       "category": null,
       "phase": "uncategorized",
@@ -6460,7 +6463,7 @@
     },
     {
       "name": "do_lazy_selfupdate",
-      "line": 456,
+      "line": 463,
       "summary": "Self-update: check [--branch B]|apply [--yes] [--branch B]. Usage: lazy_selfupdate ...",
       "category": null,
       "phase": "uncategorized",
@@ -6471,7 +6474,7 @@
     },
     {
       "name": "do_lazy_planner",
-      "line": 484,
+      "line": 491,
       "summary": "Run one planner wakeup (emits 0..N intents). Usage: lazy_planner [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6482,7 +6485,7 @@
     },
     {
       "name": "do_lazy_frontier",
-      "line": 503,
+      "line": 510,
       "summary": "Show pending intent queue. Usage: lazy_frontier [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6493,7 +6496,7 @@
     },
     {
       "name": "do_lazy_worker",
-      "line": 515,
+      "line": 522,
       "summary": "Claim ONE intent and execute it with real tools. Usage: lazy_worker [--task T] [--intent N]",
       "category": null,
       "phase": "uncategorized",
@@ -6504,7 +6507,7 @@
     },
     {
       "name": "do_lazy_trace",
-      "line": 555,
+      "line": 562,
       "summary": "Worker trace exchange. Usage: lazy_trace list|search <q>|search-all <q>|get <intent>|steps <intent> [--q Q]|step <intent> <n> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6515,7 +6518,7 @@
     },
     {
       "name": "do_lazy_broadcast",
-      "line": 608,
+      "line": 615,
       "summary": "Exploration timeline. Usage: lazy_broadcast [--task T] [--kind K] [--q Q] [--asc] [--page N] [--limit N]",
       "category": null,
       "phase": "uncategorized",
@@ -6525,8 +6528,41 @@
       "duplicate_of": null
     },
     {
+      "name": "do_lazy_commander",
+      "line": 650,
+      "summary": "Allocate work slices across the task fleet. Usage: lazy_commander [--minutes N] [--slices N] [--workers N]",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_deviations",
+      "line": 698,
+      "summary": "List planned-versus-actual deviations. Usage: lazy_deviations [scope] [--limit N] [--md]",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_blindspot",
+      "line": 736,
+      "summary": "Review graph blindspots into hints. Usage: lazy_blindspot [--task T]",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_lazy_hint",
-      "line": 643,
+      "line": 762,
       "summary": "Inject steering hint. Usage: lazy_hint <text> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6537,7 +6573,7 @@
     },
     {
       "name": "do_lazy_intent",
-      "line": 655,
+      "line": 774,
       "summary": "Inject high-priority intent. Usage: lazy_intent <summary> [--task T] [--priority N]",
       "category": null,
       "phase": "uncategorized",
@@ -6548,7 +6584,7 @@
     },
     {
       "name": "do_lazy_intent_delete",
-      "line": 680,
+      "line": 799,
       "summary": "Delete an intent. Usage: lazy_intent_delete <id> --reason <text> [--hard] [--task T] [--yes]",
       "category": null,
       "phase": "uncategorized",
@@ -6559,7 +6595,7 @@
     },
     {
       "name": "do_lazy_goal",
-      "line": 723,
+      "line": 842,
       "summary": "Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>. Usage: lazy_goal ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6570,7 +6606,7 @@
     },
     {
       "name": "do_lazy_constraint",
-      "line": 762,
+      "line": 881,
       "summary": "Constraints: add <allow|deny> <text> | list. Usage: lazy_constraint ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6581,7 +6617,7 @@
     },
     {
       "name": "do_lazy_scope",
-      "line": 780,
+      "line": 899,
       "summary": "Scope: add <kind> <value> [reason] | list. Usage: lazy_scope ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6592,7 +6628,7 @@
     },
     {
       "name": "do_lazy_todo",
-      "line": 798,
+      "line": 917,
       "summary": "Serial chain todos: add <text> | done <id> | list. Usage: lazy_todo ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6603,7 +6639,7 @@
     },
     {
       "name": "do_lazy_asset",
-      "line": 820,
+      "line": 939,
       "summary": "Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested. Usage: lazy_asset ...",
       "category": null,
       "phase": "uncategorized",
@@ -6614,7 +6650,7 @@
     },
     {
       "name": "do_lazy_enrich",
-      "line": 861,
+      "line": 980,
       "summary": "Enrich asset with DNS/HTTP. Usage: lazy_enrich <host-or-url>",
       "category": null,
       "phase": "uncategorized",
@@ -6625,7 +6661,7 @@
     },
     {
       "name": "do_lazy_traffic",
-      "line": 873,
+      "line": 992,
       "summary": "Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp] [--offset N] [--length N]|search-body <q>|tem…",
       "category": null,
       "phase": "uncategorized",
@@ -6636,7 +6672,7 @@
     },
     {
       "name": "do_lazy_guard",
-      "line": 1094,
+      "line": 1213,
       "summary": "Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail allow|deny] | judge fail <allow|deny> | judge | au…",
       "category": null,
       "phase": "uncategorized",
@@ -6647,7 +6683,7 @@
     },
     {
       "name": "do_lazy_finding",
-      "line": 1195,
+      "line": 1314,
       "summary": "Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>. Usage: lazy_finding ... [--task T] [--severity…",
       "category": null,
       "phase": "uncategorized",
@@ -6658,7 +6694,7 @@
     },
     {
       "name": "do_lazy_retest",
-      "line": 1260,
+      "line": 1379,
       "summary": "Retest finding to reproduced/fixed/inconclusive. Usage: lazy_retest <finding_id> [--task T] [--note TEXT]",
       "category": null,
       "phase": "uncategorized",
@@ -6669,7 +6705,7 @@
     },
     {
       "name": "do_lazy_steer",
-      "line": 1279,
+      "line": 1398,
       "summary": "Mid-run correction. Usage: lazy_steer <intent> <message> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6680,7 +6716,7 @@
     },
     {
       "name": "do_lazy_kill",
-      "line": 1291,
+      "line": 1410,
       "summary": "Terminate running intent. Usage: lazy_kill <intent> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6691,7 +6727,7 @@
     },
     {
       "name": "do_lazy_pause",
-      "line": 1303,
+      "line": 1422,
       "summary": "Pause task loops. Usage: lazy_pause [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6702,7 +6738,7 @@
     },
     {
       "name": "do_lazy_resume",
-      "line": 1313,
+      "line": 1432,
       "summary": "Resume paused task. Usage: lazy_resume [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6713,7 +6749,7 @@
     },
     {
       "name": "do_lazy_report",
-      "line": 1323,
+      "line": 1442,
       "summary": "Export severity-ranked report. Usage: lazy_report [--task T] [--format md|json|csv] [--out PATH]",
       "category": null,
       "phase": "uncategorized",
@@ -6724,7 +6760,7 @@
     },
     {
       "name": "do_lazy_runtime",
-      "line": 1340,
+      "line": 1459,
       "summary": "Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text. Usage: lazy_runtime show [--task T] | lazy_runtime budget <max_toolcalls> <m…",
       "category": null,
       "phase": "uncategorized",
@@ -6735,7 +6771,7 @@
     },
     {
       "name": "do_lazy_payload_keys",
-      "line": 1387,
+      "line": 1506,
       "summary": "Show worker tool defaults injected into every probe. Usage: lazy_payload_keys [tool]",
       "category": null,
       "phase": "uncategorized",
@@ -6746,7 +6782,7 @@
     },
     {
       "name": "do_lazy_fact",
-      "line": 1399,
+      "line": 1518,
       "summary": "Facts: list [query] [--hot|--cold]|add <text>. Usage: lazy_fact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6757,7 +6793,7 @@
     },
     {
       "name": "do_lazy_node",
-      "line": 1427,
+      "line": 1546,
       "summary": "Full node detail. Usage: lazy_node <id> [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6768,7 +6804,7 @@
     },
     {
       "name": "do_lazy_evidence",
-      "line": 1447,
+      "line": 1566,
       "summary": "Evidence vault and frozen package.",
       "category": null,
       "phase": "uncategorized",
@@ -6779,7 +6815,7 @@
     },
     {
       "name": "do_lazy_ask",
-      "line": 1514,
+      "line": 1633,
       "summary": "Bounded side question over task context. Usage: lazy_ask <question> [--task T] [--session S] | lazy_ask history [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6790,7 +6826,7 @@
     },
     {
       "name": "do_lazy_agent",
-      "line": 1668,
+      "line": 1787,
       "summary": "Main agent with full tool calling (native backend or opencode). Usage: lazy_agent new [--title T]|list|show <sid>|say <prompt...> [--session S] [--continue] [-…",
       "category": null,
       "phase": "uncategorized",
@@ -6801,7 +6837,7 @@
     },
     {
       "name": "do_lazy_company",
-      "line": 1769,
+      "line": 1888,
       "summary": "Company scope: add <name> [scope]|list|match <value>. Usage: lazy_company ...",
       "category": null,
       "phase": "uncategorized",
@@ -6812,7 +6848,7 @@
     },
     {
       "name": "do_lazy_tool",
-      "line": 1791,
+      "line": 1910,
       "summary": "Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D] [--method M] [--body B] [--timeout S] [--trig…",
       "category": null,
       "phase": "uncategorized",
@@ -6823,7 +6859,7 @@
     },
     {
       "name": "do_lazy_verb",
-      "line": 1863,
+      "line": 1982,
       "summary": "Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target] [--desc D]|remove <verb>|full-cli [on|off]. U…",
       "category": null,
       "phase": "uncategorized",
@@ -6834,7 +6870,7 @@
     },
     {
       "name": "do_lazy_stage",
-      "line": 1961,
+      "line": 2080,
       "summary": "Loop stage admin: list|enable|disable <stage>|reset. Usage: lazy_stage ...",
       "category": null,
       "phase": "uncategorized",
@@ -6845,7 +6881,7 @@
     },
     {
       "name": "do_lazy_mode",
-      "line": 1989,
+      "line": 2108,
       "summary": "Engagement mode + findings/progress admin. Usage: lazy_mode [<pentest|redteam|ctf>] [progress|findings]",
       "category": null,
       "phase": "uncategorized",
@@ -6856,7 +6892,7 @@
     },
     {
       "name": "do_lazy_addon",
-      "line": 2015,
+      "line": 2134,
       "summary": "Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run].",
       "category": null,
       "phase": "uncategorized",
@@ -6867,7 +6903,7 @@
     },
     {
       "name": "do_lazy_notify",
-      "line": 2122,
+      "line": 2241,
       "summary": "Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test [severity]. Us…",
       "category": null,
       "phase": "uncategorized",
@@ -6878,7 +6914,7 @@
     },
     {
       "name": "do_lazy_trigger",
-      "line": 2170,
+      "line": 2289,
       "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync. Usage: lazy_trigger ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6889,7 +6925,7 @@
     },
     {
       "name": "do_lazy_llm",
-      "line": 2259,
+      "line": 2378,
       "summary": "LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--rol…",
       "category": null,
       "phase": "uncategorized",
@@ -6900,7 +6936,7 @@
     },
     {
       "name": "do_lazy_compact",
-      "line": 2396,
+      "line": 2515,
       "summary": "Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6911,7 +6947,7 @@
     },
     {
       "name": "do_lazy_status",
-      "line": 2468,
+      "line": 2587,
       "summary": "Full task status. Usage: lazy_status [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6922,7 +6958,7 @@
     },
     {
       "name": "do_lazy_overview",
-      "line": 2492,
+      "line": 2611,
       "summary": "Alias of lazy_graph. Usage: lazy_overview [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6933,7 +6969,7 @@
     },
     {
       "name": "do_lazy_archive",
-      "line": 2497,
+      "line": 2616,
       "summary": "Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ...",
       "category": null,
       "phase": "uncategorized",
@@ -6944,7 +6980,7 @@
     },
     {
       "name": "do_lazy_template",
-      "line": 2528,
+      "line": 2647,
       "summary": "Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ...",
       "category": null,
       "phase": "uncategorized",
@@ -6955,7 +6991,7 @@
     },
     {
       "name": "do_lazy_category",
-      "line": 2559,
+      "line": 2678,
       "summary": "Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ...",
       "category": null,
       "phase": "uncategorized",
@@ -6966,7 +7002,7 @@
     },
     {
       "name": "do_lazy_chat",
-      "line": 2580,
+      "line": 2699,
       "summary": "Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6977,7 +7013,7 @@
     },
     {
       "name": "do_lazy_scheduler",
-      "line": 2613,
+      "line": 2732,
       "summary": "Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6988,7 +7024,7 @@
     },
     {
       "name": "do_lazy_gate",
-      "line": 2640,
+      "line": 2759,
       "summary": "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ... [--task…",
       "category": null,
       "phase": "uncategorized",
@@ -6999,7 +7035,7 @@
     },
     {
       "name": "do_lazy_loop",
-      "line": 2685,
+      "line": 2804,
       "summary": "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [-…",
       "category": null,
       "phase": "uncategorized",
@@ -7010,7 +7046,7 @@
     },
     {
       "name": "do_lazy_sandbox",
-      "line": 2723,
+      "line": 2842,
       "summary": "Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...",
       "category": null,
       "phase": "uncategorized",
@@ -7021,7 +7057,7 @@
     },
     {
       "name": "do_lazy_install",
-      "line": 2786,
+      "line": 2905,
       "summary": "Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ...",
       "category": null,
       "phase": "uncategorized",
@@ -7032,7 +7068,7 @@
     },
     {
       "name": "do_lazy_pacing",
-      "line": 2824,
+      "line": 2943,
       "summary": "Show or set loop pacing knobs. Usage: lazy_pacing [list|set <key> <value>]",
       "category": null,
       "phase": "uncategorized",
@@ -9595,7 +9631,7 @@
     },
     {
       "name": "do_gym",
-      "line": 40,
+      "line": 41,
       "summary": "Red Team Gym — gamified pentest training with ELO scoring.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -9606,7 +9642,7 @@
     },
     {
       "name": "do_gym_ms2",
-      "line": 92,
+      "line": 138,
       "summary": "Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain <vuln>.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -11410,7 +11446,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4641,
+      "line": 4646,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -11421,7 +11457,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4671,
+      "line": 4676,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -11432,7 +11468,7 @@
     },
     {
       "name": "do_route",
-      "line": 4710,
+      "line": 4715,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

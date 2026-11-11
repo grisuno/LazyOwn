@@ -89,7 +89,7 @@ when nothing about the target is known.
 
 *Calls:* [`FactStore.__init__`](skills.lazyown_facts.py.md#factstore-__init__), [`FactStore.get_host`](skills.lazyown_facts.py.md#factstore-get_host), [`FactStore.parse_all`](skills.lazyown_facts.py.md#factstore-parse_all)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
 
 ---
 

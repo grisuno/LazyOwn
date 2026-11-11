@@ -67,7 +67,7 @@ flowchart LR
 
 ### `ChainStepBlocked`
 
-`exception` | [modules/chain_loop.py:138](../../modules/chain_loop.py#L138)
+`exception` | [modules/chain_loop.py:139](../../modules/chain_loop.py#L139)
 
 ```python
 class ChainStepBlocked(RuntimeError)
@@ -87,7 +87,7 @@ A chain step was refused by the worker guardrails (blocked/skipped).
 
 #### `ChainStepBlocked.__init__`
 
-`constructor` | [modules/chain_loop.py:141](../../modules/chain_loop.py#L141)
+`constructor` | [modules/chain_loop.py:142](../../modules/chain_loop.py#L142)
 
 ```python
 def __init__(self, status: str, detail: str) -> None
@@ -112,7 +112,7 @@ Record the guard status and reason.
 
 ### `chain_mode`
 
-`function` | [modules/chain_loop.py:34](../../modules/chain_loop.py#L34)
+`function` | [modules/chain_loop.py:35](../../modules/chain_loop.py#L35)
 
 ```python
 def chain_mode() -> str
@@ -134,7 +134,7 @@ Return the configured chain transport mode for loop runs.
 
 ### `is_chain_command`
 
-`function` | [modules/chain_loop.py:52](../../modules/chain_loop.py#L52)
+`function` | [modules/chain_loop.py:53](../../modules/chain_loop.py#L53)
 
 ```python
 def is_chain_command(command: str) -> bool
@@ -156,7 +156,7 @@ True when the command line invokes the apt_chain verb.
 
 ### `parse_chain_invocation`
 
-`function` | [modules/chain_loop.py:57](../../modules/chain_loop.py#L57)
+`function` | [modules/chain_loop.py:58](../../modules/chain_loop.py#L58)
 
 ```python
 def parse_chain_invocation(command: str) -> tuple[str, str, dict[str, str]]
@@ -187,7 +187,7 @@ in `[`run_chain_stepwise`](#run_chain_stepwise)`).
 
 ### `stepwise_eligible`
 
-`function` | [modules/chain_loop.py:108](../../modules/chain_loop.py#L108)
+`function` | [modules/chain_loop.py:109](../../modules/chain_loop.py#L109)
 
 ```python
 def stepwise_eligible(chain: Any, routable: Callable[[str], bool] | None = None) -> tuple[bool, str]
@@ -216,7 +216,7 @@ steps are allowed: the worker's intercept queue gates them.
 
 ### `run_chain_stepwise`
 
-`function` | [modules/chain_loop.py:153](../../modules/chain_loop.py#L153)
+`function` | [modules/chain_loop.py:154](../../modules/chain_loop.py#L154)
 
 ```python
 def run_chain_stepwise(worker: Any, intent: Any, command: str, executor: Callable[[str], str], budget: Any, intercept: Any, retry_state: dict) -> tuple[str, str, str] | None
@@ -256,7 +256,7 @@ subprocess mode, or an ineligible chain in auto mode).
 
 ### `CHAIN_COMMAND_PREFIX`
 
-`constant` | [modules/chain_loop.py:27](../../modules/chain_loop.py#L27)
+`constant` | [modules/chain_loop.py:28](../../modules/chain_loop.py#L28)
 
 ```python
 CHAIN_COMMAND_PREFIX = 'apt_chain'

@@ -12,7 +12,7 @@ unknown flag fails loudly instead of being silently swallowed.
 ## Contents
 
 - **Classes:** [`ChainArgs`](#chainargs)
-- **Functions:** [`parse_chain_args`](#parse_chain_args), [`resolve_admin`](#resolve_admin), [`select_step_ids`](#select_step_ids), [`render_result`](#render_result), [`build_cli_approver`](#build_cli_approver), [`build_reactive_replanner`](#build_reactive_replanner), [`build_llm_recovery_chain`](#build_llm_recovery_chain)
+- **Functions:** [`parse_chain_args`](#parse_chain_args), [`resolve_admin`](#resolve_admin), [`select_step_ids`](#select_step_ids), [`render_result`](#render_result), [`render_admin`](#render_admin), [`build_cli_approver`](#build_cli_approver), [`build_adaptive_replanner`](#build_adaptive_replanner), [`compose_replanners`](#compose_replanners), [`build_reactive_replanner`](#build_reactive_replanner), [`build_llm_recovery_chain`](#build_llm_recovery_chain)
 
 ## Call Graph
 
@@ -26,6 +26,8 @@ flowchart LR
     n_modules_chain_approval_py__PendingStore___init__["chain_approval.PendingStore.__init__"]
     n_modules_chain_approval_py__PendingStore_decide["chain_approval.PendingStore.decide"]
     n_modules_chain_approval_py__PendingStore_expire_stale["chain_approval.PendingStore.expire_stale"]
+    n_modules_chain_family_py__default_registry["chain_family.default_registry"]
+    n_modules_chain_family_py__family_signature["chain_family.family_signature"]
     n_modules_chain_registry_py__scan_all["chain_registry.scan_all"]
     n_modules_chain_registry_py__set_enabled["chain_registry.set_enabled"]
     n_modules_chain_registry_py__validate_chain["chain_registry.validate_chain"]
@@ -33,8 +35,12 @@ flowchart LR
     n_modules_chain_synth_py__facts_for_target["chain_synth.facts_for_target"]
     n_modules_chain_synth_py__synth_chain_data["chain_synth.synth_chain_data"]
     n_modules_chain_synth_py__write_generated_chain["chain_synth.write_generated_chain"]
-    n_cli_apt_chain_support_py__build_reactive_replanner(["build_reactive_replanner"])
+    n_cli_apt_chain_support_py__render_result(["render_result"])
+    n_modules_failure_verdict_py__classify_outcome["failure_verdict.classify_outcome"]
+    n_cli_apt_chain_support_py__build_adaptive_replanner(["build_adaptive_replanner"])
     n_modules_chain_runner_py__ReplanContext_insert_step["chain_runner.ReplanContext.insert_step"]
+    n_modules_lazy_fallback_py__AdaptiveFallbackArbiter___init__["lazy_fallback.AdaptiveFallbackArbiter.__init__"]
+    n_cli_apt_chain_support_py__build_reactive_replanner(["build_reactive_replanner"])
     n_modules_reactive_engine_py__get_engine["reactive_engine.get_engine"]
     n_cli_apt_chain_support_py__build_llm_recovery_chain(["build_llm_recovery_chain"])
     n_modules_chain_registry_py__Chain["chain_registry.Chain"]
@@ -45,6 +51,8 @@ flowchart LR
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_approval_py__PendingStore___init__
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_approval_py__PendingStore_decide
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_approval_py__PendingStore_expire_stale
+    n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_family_py__default_registry
+    n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_family_py__family_signature
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__scan_all
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__set_enabled
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__validate_chain
@@ -52,6 +60,10 @@ flowchart LR
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__facts_for_target
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__synth_chain_data
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__write_generated_chain
+    n_cli_apt_chain_support_py__render_result -.-> n_modules_failure_verdict_py__classify_outcome
+    n_cli_apt_chain_support_py__build_adaptive_replanner -.-> n_modules_chain_runner_py__ReplanContext_insert_step
+    n_cli_apt_chain_support_py__build_adaptive_replanner -.-> n_modules_failure_verdict_py__classify_outcome
+    n_cli_apt_chain_support_py__build_adaptive_replanner -.-> n_modules_lazy_fallback_py__AdaptiveFallbackArbiter___init__
     n_cli_apt_chain_support_py__build_reactive_replanner -.-> n_modules_chain_runner_py__ReplanContext_insert_step
     n_cli_apt_chain_support_py__build_reactive_replanner -.-> n_modules_reactive_engine_py__get_engine
     n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_chain_registry_py__Chain
@@ -87,6 +99,7 @@ Parsed ``apt_chain`` invocation.
 | [`json_out`](#chainargs-json_out) | `bool` | `False` |  |
 | [`continue_all`](#chainargs-continue_all) | `bool` | `False` |  |
 | [`replan`](#chainargs-replan) | `bool` | `False` |  |
+| [`adaptive`](#chainargs-adaptive) | `bool` | `False` |  |
 | [`no_checkpoint`](#chainargs-no_checkpoint) | `bool` | `False` |  |
 | [`target`](#chainargs-target) | `str` | `''` |  |
 | [`timeout`](#chainargs-timeout) | `float` | `0.0` |  |
@@ -109,7 +122,7 @@ Parsed ``apt_chain`` invocation.
 
 ### `parse_chain_args`
 
-`function` | [cli/apt_chain_support.py:108](../../cli/apt_chain_support.py#L108)
+`function` | [cli/apt_chain_support.py:109](../../cli/apt_chain_support.py#L109)
 
 ```python
 def parse_chain_args(line: str) -> ChainArgs
@@ -138,7 +151,7 @@ hid operator intent and is gone.
 
 ### `resolve_admin`
 
-`function` | [cli/apt_chain_support.py:231](../../cli/apt_chain_support.py#L231)
+`function` | [cli/apt_chain_support.py:234](../../cli/apt_chain_support.py#L234)
 
 ```python
 def resolve_admin(args: ChainArgs) -> dict[str, Any]
@@ -154,7 +167,7 @@ Execute an admin action against the registry and checkpoint store.
 
 **Returns:** `dict[str, Any]`
 
-*Calls:* [`PendingStore.__init__`](modules.chain_approval.py.md#pendingstore-__init__), [`PendingStore.decide`](modules.chain_approval.py.md#pendingstore-decide), [`PendingStore.expire_stale`](modules.chain_approval.py.md#pendingstore-expire_stale), [`scan_all`](modules.chain_registry.py.md#scan_all), [`set_enabled`](modules.chain_registry.py.md#set_enabled), [`validate_chain`](modules.chain_registry.py.md#validate_chain), [`list_checkpoints`](modules.chain_state.py.md#list_checkpoints), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target), [`synth_chain_data`](modules.chain_synth.py.md#synth_chain_data), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
+*Calls:* [`PendingStore.__init__`](modules.chain_approval.py.md#pendingstore-__init__), [`PendingStore.decide`](modules.chain_approval.py.md#pendingstore-decide), [`PendingStore.expire_stale`](modules.chain_approval.py.md#pendingstore-expire_stale), [`default_registry`](modules.chain_family.py.md#default_registry), [`family_signature`](modules.chain_family.py.md#family_signature), [`scan_all`](modules.chain_registry.py.md#scan_all), [`set_enabled`](modules.chain_registry.py.md#set_enabled), [`validate_chain`](modules.chain_registry.py.md#validate_chain), [`list_checkpoints`](modules.chain_state.py.md#list_checkpoints), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target), [`synth_chain_data`](modules.chain_synth.py.md#synth_chain_data), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
 
@@ -164,7 +177,7 @@ Execute an admin action against the registry and checkpoint store.
 
 ### `select_step_ids`
 
-`function` | [cli/apt_chain_support.py:353](../../cli/apt_chain_support.py#L353)
+`function` | [cli/apt_chain_support.py:369](../../cli/apt_chain_support.py#L369)
 
 ```python
 def select_step_ids(chain: Chain, args: ChainArgs) -> tuple[set[str] | None, list[str]]
@@ -189,7 +202,7 @@ Resolve --step/--from-step/--to-step into one id set.
 
 ### `render_result`
 
-`function` | [cli/apt_chain_support.py:393](../../cli/apt_chain_support.py#L393)
+`function` | [cli/apt_chain_support.py:409](../../cli/apt_chain_support.py#L409)
 
 ```python
 def render_result(result: ChainRunResult) -> list[str]
@@ -205,6 +218,37 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 **Returns:** `list[str]`
 
+*Calls:* [`classify_outcome`](modules.failure_verdict.py.md#classify_outcome)
+
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+
+---
+
+<a id="render_admin"></a>
+
+### `render_admin`
+
+`function` | [cli/apt_chain_support.py:450](../../cli/apt_chain_support.py#L450)
+
+```python
+def render_admin(payload: dict[str, Any], action: str) -> list[tuple[str, str]]
+```
+
+Render an ``apt_chain`` admin payload as severity-tagged operator lines.
+
+Keeps table and summary formatting out of the command handler. Each entry
+is a ``(level, text)`` pair where level is one of `[`msg`](modules.exp.c.md#msg)`, ``warn``,
+``error`` or ``succ`` so the caller maps it to the matching printer.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `payload` | `dict[str, Any]` |  | The dict returned by [`resolve_admin`](#resolve_admin). |
+| `action` | `str` |  | The admin verb that produced the payload. |
+
+**Returns:** `list[tuple[str, str]]` - Ordered ``(level, text)`` lines ready for the caller to print.
+
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
 
 ---
@@ -213,7 +257,7 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 ### `build_cli_approver`
 
-`function` | [cli/apt_chain_support.py:426](../../cli/apt_chain_support.py#L426)
+`function` | [cli/apt_chain_support.py:528](../../cli/apt_chain_support.py#L528)
 
 ```python
 def build_cli_approver(printer, input_fn=None)
@@ -235,11 +279,58 @@ the decision; interactive mode asks the operator failure-closed.
 
 ---
 
+<a id="build_adaptive_replanner"></a>
+
+### `build_adaptive_replanner`
+
+`function` | [cli/apt_chain_support.py:588](../../cli/apt_chain_support.py#L588)
+
+```python
+def build_adaptive_replanner()
+```
+
+Return a replanner driven by `[`modules.lazy_fallback`](modules.lazy_fallback.py.md)`.
+
+On a fallback-eligible step failure the arbiter proposes the next
+untried Atomic technique whose service and credential prerequisites
+are observable; the runner's insert cap bounds total churn. Lockout
+and scope verdicts insert nothing, by contract.
+
+*Calls:* [`ReplanContext.insert_step`](modules.chain_runner.py.md#replancontext-insert_step), [`classify_outcome`](modules.failure_verdict.py.md#classify_outcome), [`AdaptiveFallbackArbiter.__init__`](modules.lazy_fallback.py.md#adaptivefallbackarbiter-__init__)
+
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+
+---
+
+<a id="compose_replanners"></a>
+
+### `compose_replanners`
+
+`function` | [cli/apt_chain_support.py:626](../../cli/apt_chain_support.py#L626)
+
+```python
+def compose_replanners(replanners: list)
+```
+
+Return one replanner running every non-None replanner in order.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `replanners` | `list` |  | List of replanner callables or None entries. |
+
+**Returns:** A composed callable; None when the list has no replanner.
+
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
+
+---
+
 <a id="build_reactive_replanner"></a>
 
 ### `build_reactive_replanner`
 
-`function` | [cli/apt_chain_support.py:448](../../cli/apt_chain_support.py#L448)
+`function` | [cli/apt_chain_support.py:646](../../cli/apt_chain_support.py#L646)
 
 ```python
 def build_reactive_replanner()
@@ -257,7 +348,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:532](../../cli/apt_chain_support.py#L532)
+`function` | [cli/apt_chain_support.py:730](../../cli/apt_chain_support.py#L730)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None

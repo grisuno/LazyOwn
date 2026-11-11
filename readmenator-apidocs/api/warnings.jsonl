@@ -112,19 +112,19 @@
 {"code":"DOC003","uid":"cli/commands/exploit_migrated.py::ExploitMigratedCommandSet.do_unicode_WAFbypass","file":"cli/commands/exploit_migrated.py","line":1869,"message":"documented parameter 'port' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass"}
 {"code":"DOC003","uid":"cli/commands/exploit_migrated.py::ExploitMigratedCommandSet.do_unicode_WAFbypass","file":"cli/commands/exploit_migrated.py","line":1869,"message":"documented parameter 'ssh_public_key' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass"}
 {"code":"DOC001","uid":"cli/commands/exploitdb.py","file":"cli/commands/exploitdb.py","line":1,"message":"module cli/commands/exploitdb.py is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands","file":"cli/commands/exploitdb.py","line":11,"message":"class ExploitdbCommands is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_sync","file":"cli/commands/exploitdb.py","line":19,"message":"method ExploitdbCommands.do_exploitdb_sync is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_scan","file":"cli/commands/exploitdb.py","line":33,"message":"method ExploitdbCommands.do_exploitdb_scan is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_gen","file":"cli/commands/exploitdb.py","line":45,"message":"method ExploitdbCommands.do_exploitdb_gen is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_cscan","file":"cli/commands/exploitdb.py","line":76,"message":"method ExploitdbCommands.do_exploitdb_cscan is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_ccompile","file":"cli/commands/exploitdb.py","line":87,"message":"method ExploitdbCommands.do_exploitdb_ccompile is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands","file":"cli/commands/exploitdb.py","line":94,"message":"class ExploitdbCCommands is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_cscan","file":"cli/commands/exploitdb.py","line":99,"message":"method ExploitdbCCommands.do_exploitdb_cscan is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_ccompile","file":"cli/commands/exploitdb.py","line":110,"message":"method ExploitdbCCommands.do_exploitdb_ccompile is not documented"}
-{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_run","file":"cli/commands/exploitdb.py","line":124,"message":"method ExploitdbCCommands.do_exploitdb_run is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands","file":"cli/commands/exploitdb.py","line":14,"message":"class ExploitdbCommands is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_sync","file":"cli/commands/exploitdb.py","line":22,"message":"method ExploitdbCommands.do_exploitdb_sync is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_scan","file":"cli/commands/exploitdb.py","line":36,"message":"method ExploitdbCommands.do_exploitdb_scan is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_gen","file":"cli/commands/exploitdb.py","line":48,"message":"method ExploitdbCommands.do_exploitdb_gen is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_cscan","file":"cli/commands/exploitdb.py","line":79,"message":"method ExploitdbCommands.do_exploitdb_cscan is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCommands.do_exploitdb_ccompile","file":"cli/commands/exploitdb.py","line":91,"message":"method ExploitdbCommands.do_exploitdb_ccompile is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands","file":"cli/commands/exploitdb.py","line":100,"message":"class ExploitdbCCommands is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_cscan","file":"cli/commands/exploitdb.py","line":105,"message":"method ExploitdbCCommands.do_exploitdb_cscan is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_ccompile","file":"cli/commands/exploitdb.py","line":117,"message":"method ExploitdbCCommands.do_exploitdb_ccompile is not documented"}
+{"code":"DOC001","uid":"cli/commands/exploitdb.py::ExploitdbCCommands.do_exploitdb_run","file":"cli/commands/exploitdb.py","line":131,"message":"method ExploitdbCCommands.do_exploitdb_run is not documented"}
 {"code":"DOC001","uid":"cli/commands/lateral_migrated.py::LateralMigratedCommandSet","file":"cli/commands/lateral_migrated.py","line":24,"message":"class LateralMigratedCommandSet is not documented"}
-{"code":"DOC001","uid":"cli/commands/lazyops.py::LazyCommandSet.do_lazy_intent","file":"cli/commands/lazyops.py","line":655,"message":"method LazyCommandSet.do_lazy_intent is not documented"}
-{"code":"DOC001","uid":"cli/commands/lazyops.py::LazyCommandSet.do_lazy_finding","file":"cli/commands/lazyops.py","line":1195,"message":"method LazyCommandSet.do_lazy_finding is not documented"}
+{"code":"DOC001","uid":"cli/commands/lazyops.py::LazyCommandSet.do_lazy_intent","file":"cli/commands/lazyops.py","line":774,"message":"method LazyCommandSet.do_lazy_intent is not documented"}
+{"code":"DOC001","uid":"cli/commands/lazyops.py::LazyCommandSet.do_lazy_finding","file":"cli/commands/lazyops.py","line":1314,"message":"method LazyCommandSet.do_lazy_finding is not documented"}
 {"code":"DOC001","uid":"cli/commands/misc_migrated.py::MiscMigratedCommandSet","file":"cli/commands/misc_migrated.py","line":87,"message":"class MiscMigratedCommandSet is not documented"}
 {"code":"DOC001","uid":"cli/commands/persist_migrated.py::PersistMigratedCommandSet","file":"cli/commands/persist_migrated.py","line":32,"message":"class PersistMigratedCommandSet is not documented"}
 {"code":"DOC002","uid":"cli/commands/persist_migrated.py::PersistMigratedCommandSet.do_setoolKits","file":"cli/commands/persist_migrated.py","line":1114,"message":"parameter 'line' of PersistMigratedCommandSet.do_setoolKits is not documented"}
@@ -572,120 +572,120 @@
 {"code":"DOC001","uid":"lazyc2.py::encrypt_data","file":"lazyc2.py","line":2112,"message":"function encrypt_data is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::decrypt_data","file":"lazyc2.py","line":2121,"message":"function decrypt_data is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::get_local_ip_addresses","file":"lazyc2.py","line":2207,"message":"function get_local_ip_addresses is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::User","file":"lazyc2.py","line":3255,"message":"class User is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::User.__init__","file":"lazyc2.py","line":3256,"message":"constructor User.__init__ is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::load_users","file":"lazyc2.py","line":3278,"message":"function load_users is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::save_users","file":"lazyc2.py","line":3288,"message":"function save_users is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::load_data","file":"lazyc2.py","line":3299,"message":"function load_data is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::load_user","file":"lazyc2.py","line":3316,"message":"function load_user is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::index","file":"lazyc2.py","line":3338,"message":"function index is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::send_command","file":"lazyc2.py","line":3489,"message":"function send_command is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::receive_result","file":"lazyc2.py","line":3687,"message":"function receive_result is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::issue_command","file":"lazyc2.py","line":4246,"message":"function issue_command is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::upload","file":"lazyc2.py","line":4260,"message":"function upload is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::download_file","file":"lazyc2.py","line":4297,"message":"function download_file is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::api_data","file":"lazyc2.py","line":4671,"message":"function api_data is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::update_short_url","file":"lazyc2.py","line":4886,"message":"function update_short_url is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::redirect_to_file","file":"lazyc2.py","line":4913,"message":"function redirect_to_file is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::view_yaml","file":"lazyc2.py","line":5013,"message":"function view_yaml is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_output","file":"lazyc2.py","line":5176,"message":"function get_output is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::run_shellcode","file":"lazyc2.py","line":5203,"message":"function run_shellcode is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_results","file":"lazyc2.py","line":5212,"message":"function get_results is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::send_lcommand","file":"lazyc2.py","line":5310,"message":"function send_lcommand is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::chatbot","file":"lazyc2.py","line":5343,"message":"function chatbot is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::vuln","file":"lazyc2.py","line":5359,"message":"function vuln is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::taskbot","file":"lazyc2.py","line":5398,"message":"function taskbot is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::search","file":"lazyc2.py","line":5414,"message":"function search is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::script","file":"lazyc2.py","line":5430,"message":"function script is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::redop","file":"lazyc2.py","line":5446,"message":"function redop is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::adversary","file":"lazyc2.py","line":5465,"message":"function adversary is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::generalbot","file":"lazyc2.py","line":5481,"message":"function generalbot is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::csv_to_html","file":"lazyc2.py","line":5497,"message":"function csv_to_html is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::search_results","file":"lazyc2.py","line":5548,"message":"function search_results is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::graph","file":"lazyc2.py","line":5596,"message":"function graph is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::task","file":"lazyc2.py","line":5605,"message":"function task is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_tasks","file":"lazyc2.py","line":5620,"message":"function get_tasks is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::tasks","file":"lazyc2.py","line":5630,"message":"function tasks is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::edit_task","file":"lazyc2.py","line":5659,"message":"function edit_task is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::cves","file":"lazyc2.py","line":5693,"message":"function cves is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::cve","file":"lazyc2.py","line":5719,"message":"function cve is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::edit_cve","file":"lazyc2.py","line":5734,"message":"function edit_cve is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::edit_notes","file":"lazyc2.py","line":5768,"message":"function edit_notes is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_notes","file":"lazyc2.py","line":5786,"message":"function get_notes is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::view_note","file":"lazyc2.py","line":5796,"message":"function view_note is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::push_notification","file":"lazyc2.py","line":5806,"message":"function push_notification is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::edit_event","file":"lazyc2.py","line":5833,"message":"function edit_event is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_event_config","file":"lazyc2.py","line":5868,"message":"function get_event_config is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_event_config_view","file":"lazyc2.py","line":5875,"message":"function get_event_config_view is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::aicmd_view","file":"lazyc2.py","line":5910,"message":"function aicmd_view is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_events","file":"lazyc2.py","line":5935,"message":"function get_events is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::list_tools","file":"lazyc2.py","line":5967,"message":"function list_tools is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_tool","file":"lazyc2.py","line":5977,"message":"function create_tool is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::view_tool","file":"lazyc2.py","line":6004,"message":"function view_tool is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::update_tool","file":"lazyc2.py","line":6035,"message":"function update_tool is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::delete_tool","file":"lazyc2.py","line":6083,"message":"function delete_tool is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::register","file":"lazyc2.py","line":6118,"message":"function register is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::login","file":"lazyc2.py","line":6177,"message":"function login is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::mfa_setup","file":"lazyc2.py","line":6229,"message":"function mfa_setup is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::mfa_verify","file":"lazyc2.py","line":6325,"message":"function mfa_verify is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_users","file":"lazyc2.py","line":6378,"message":"function admin_users is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_set_role","file":"lazyc2.py","line":6393,"message":"function admin_set_role is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_reset_mfa","file":"lazyc2.py","line":6415,"message":"function admin_reset_mfa is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_delete_user","file":"lazyc2.py","line":6427,"message":"function admin_delete_user is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_tenants","file":"lazyc2.py","line":6445,"message":"function admin_tenants is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_create_tenant","file":"lazyc2.py","line":6466,"message":"function admin_create_tenant is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::admin_switch_tenant","file":"lazyc2.py","line":6486,"message":"function admin_switch_tenant is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::profile","file":"lazyc2.py","line":6501,"message":"function profile is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::logout","file":"lazyc2.py","line":6525,"message":"function logout is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::aumentar_elo_route","file":"lazyc2.py","line":6607,"message":"function aumentar_elo_route is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::banners","file":"lazyc2.py","line":6623,"message":"function banners is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::mitre","file":"lazyc2.py","line":6659,"message":"function mitre is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_connected_clients","file":"lazyc2.py","line":6704,"message":"function get_connected_clients is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::lazybot","file":"lazyc2.py","line":6715,"message":"function lazybot is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::compliance_dashboard","file":"lazyc2.py","line":6732,"message":"function compliance_dashboard is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::compliance_report","file":"lazyc2.py","line":6754,"message":"function compliance_report is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::compliance_add_evidence","file":"lazyc2.py","line":6784,"message":"function compliance_add_evidence is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::compliance_verify_evidence","file":"lazyc2.py","line":6820,"message":"function compliance_verify_evidence is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::compliance_export","file":"lazyc2.py","line":6834,"message":"function compliance_export is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::lazyreport","file":"lazyc2.py","line":6864,"message":"function lazyreport is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::teamserver","file":"lazyc2.py","line":6883,"message":"function teamserver is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::report","file":"lazyc2.py","line":6912,"message":"function report is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::lazyreport_view","file":"lazyc2.py","line":6919,"message":"function lazyreport_view is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::killchain_view","file":"lazyc2.py","line":6925,"message":"function killchain_view is not documented"}
-{"code":"DOC004","uid":"lazyc2.py::api_loop_log","file":"lazyc2.py","line":7078,"message":"return value of api_loop_log is not documented"}
-{"code":"DOC004","uid":"lazyc2.py::api_loop_stop","file":"lazyc2.py","line":7101,"message":"return value of api_loop_stop is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::connect","file":"lazyc2.py","line":7292,"message":"function connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener","file":"lazyc2.py","line":7298,"message":"function listener is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener_connect","file":"lazyc2.py","line":7305,"message":"function listener_connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener_disconnect","file":"lazyc2.py","line":7316,"message":"function listener_disconnect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::pty_input","file":"lazyc2.py","line":7327,"message":"function pty_input is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::resize","file":"lazyc2.py","line":7342,"message":"function resize is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::pty_connect","file":"lazyc2.py","line":7356,"message":"function pty_connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::handle_input","file":"lazyc2.py","line":7388,"message":"function handle_input is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener_command","file":"lazyc2.py","line":7413,"message":"function listener_command is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal","file":"lazyc2.py","line":7427,"message":"function terminal is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_connect","file":"lazyc2.py","line":7437,"message":"function terminal_connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_disconnect","file":"lazyc2.py","line":7447,"message":"function terminal_disconnect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_input","file":"lazyc2.py","line":7458,"message":"function terminal_input is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_command","file":"lazyc2.py","line":7472,"message":"function terminal_command is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_resize","file":"lazyc2.py","line":7488,"message":"function terminal_resize is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::start_reverse_shell","file":"lazyc2.py","line":7496,"message":"function start_reverse_shell is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::page_not_found","file":"lazyc2.py","line":7567,"message":"function page_not_found is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::internal_server_error","file":"lazyc2.py","line":7575,"message":"function internal_server_error is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::capture_image","file":"lazyc2.py","line":7603,"message":"function capture_image is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::capture_audio","file":"lazyc2.py","line":7629,"message":"function capture_audio is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::surface","file":"lazyc2.py","line":7647,"message":"function surface is not documented"}
-{"code":"DOC004","uid":"lazyc2.py::api_chain_approvals_decide","file":"lazyc2.py","line":8003,"message":"return value of api_chain_approvals_decide is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_data","file":"lazyc2.py","line":8226,"message":"function get_data is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::list_campaigns","file":"lazyc2.py","line":8293,"message":"function list_campaigns is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_campaign","file":"lazyc2.py","line":8306,"message":"function create_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::lazyphishingai","file":"lazyc2.py","line":8384,"message":"function lazyphishingai is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::campaign_report","file":"lazyc2.py","line":8422,"message":"function campaign_report is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::orchestrate_campaign","file":"lazyc2.py","line":8504,"message":"function orchestrate_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":8551,"message":"function create_multivector_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8703,"message":"function serve_landing_page is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::User","file":"lazyc2.py","line":3268,"message":"class User is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::User.__init__","file":"lazyc2.py","line":3269,"message":"constructor User.__init__ is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::load_users","file":"lazyc2.py","line":3291,"message":"function load_users is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::save_users","file":"lazyc2.py","line":3301,"message":"function save_users is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::load_data","file":"lazyc2.py","line":3312,"message":"function load_data is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::load_user","file":"lazyc2.py","line":3329,"message":"function load_user is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::index","file":"lazyc2.py","line":3351,"message":"function index is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::send_command","file":"lazyc2.py","line":3519,"message":"function send_command is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::receive_result","file":"lazyc2.py","line":3717,"message":"function receive_result is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::issue_command","file":"lazyc2.py","line":4286,"message":"function issue_command is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::upload","file":"lazyc2.py","line":4300,"message":"function upload is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::download_file","file":"lazyc2.py","line":4337,"message":"function download_file is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::api_data","file":"lazyc2.py","line":4711,"message":"function api_data is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::update_short_url","file":"lazyc2.py","line":4926,"message":"function update_short_url is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::redirect_to_file","file":"lazyc2.py","line":4953,"message":"function redirect_to_file is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::view_yaml","file":"lazyc2.py","line":5053,"message":"function view_yaml is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_output","file":"lazyc2.py","line":5216,"message":"function get_output is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::run_shellcode","file":"lazyc2.py","line":5243,"message":"function run_shellcode is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_results","file":"lazyc2.py","line":5252,"message":"function get_results is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::send_lcommand","file":"lazyc2.py","line":5350,"message":"function send_lcommand is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::chatbot","file":"lazyc2.py","line":5383,"message":"function chatbot is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::vuln","file":"lazyc2.py","line":5399,"message":"function vuln is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::taskbot","file":"lazyc2.py","line":5438,"message":"function taskbot is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::search","file":"lazyc2.py","line":5454,"message":"function search is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::script","file":"lazyc2.py","line":5470,"message":"function script is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::redop","file":"lazyc2.py","line":5486,"message":"function redop is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::adversary","file":"lazyc2.py","line":5505,"message":"function adversary is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::generalbot","file":"lazyc2.py","line":5521,"message":"function generalbot is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::csv_to_html","file":"lazyc2.py","line":5537,"message":"function csv_to_html is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::search_results","file":"lazyc2.py","line":5588,"message":"function search_results is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::graph","file":"lazyc2.py","line":5636,"message":"function graph is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::task","file":"lazyc2.py","line":5645,"message":"function task is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_tasks","file":"lazyc2.py","line":5660,"message":"function get_tasks is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::tasks","file":"lazyc2.py","line":5670,"message":"function tasks is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::edit_task","file":"lazyc2.py","line":5699,"message":"function edit_task is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::cves","file":"lazyc2.py","line":5733,"message":"function cves is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::cve","file":"lazyc2.py","line":5759,"message":"function cve is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::edit_cve","file":"lazyc2.py","line":5774,"message":"function edit_cve is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::edit_notes","file":"lazyc2.py","line":5808,"message":"function edit_notes is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_notes","file":"lazyc2.py","line":5826,"message":"function get_notes is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::view_note","file":"lazyc2.py","line":5836,"message":"function view_note is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::push_notification","file":"lazyc2.py","line":5846,"message":"function push_notification is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::edit_event","file":"lazyc2.py","line":5873,"message":"function edit_event is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_event_config","file":"lazyc2.py","line":5908,"message":"function get_event_config is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_event_config_view","file":"lazyc2.py","line":5915,"message":"function get_event_config_view is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::aicmd_view","file":"lazyc2.py","line":5950,"message":"function aicmd_view is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_events","file":"lazyc2.py","line":5975,"message":"function get_events is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::list_tools","file":"lazyc2.py","line":6007,"message":"function list_tools is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_tool","file":"lazyc2.py","line":6017,"message":"function create_tool is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::view_tool","file":"lazyc2.py","line":6044,"message":"function view_tool is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::update_tool","file":"lazyc2.py","line":6075,"message":"function update_tool is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::delete_tool","file":"lazyc2.py","line":6123,"message":"function delete_tool is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::register","file":"lazyc2.py","line":6158,"message":"function register is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::login","file":"lazyc2.py","line":6217,"message":"function login is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::mfa_setup","file":"lazyc2.py","line":6269,"message":"function mfa_setup is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::mfa_verify","file":"lazyc2.py","line":6365,"message":"function mfa_verify is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_users","file":"lazyc2.py","line":6418,"message":"function admin_users is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_set_role","file":"lazyc2.py","line":6433,"message":"function admin_set_role is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_reset_mfa","file":"lazyc2.py","line":6455,"message":"function admin_reset_mfa is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_delete_user","file":"lazyc2.py","line":6467,"message":"function admin_delete_user is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_tenants","file":"lazyc2.py","line":6485,"message":"function admin_tenants is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_create_tenant","file":"lazyc2.py","line":6506,"message":"function admin_create_tenant is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::admin_switch_tenant","file":"lazyc2.py","line":6526,"message":"function admin_switch_tenant is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::profile","file":"lazyc2.py","line":6541,"message":"function profile is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::logout","file":"lazyc2.py","line":6565,"message":"function logout is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::aumentar_elo_route","file":"lazyc2.py","line":6647,"message":"function aumentar_elo_route is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::banners","file":"lazyc2.py","line":6663,"message":"function banners is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::mitre","file":"lazyc2.py","line":6699,"message":"function mitre is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_connected_clients","file":"lazyc2.py","line":6744,"message":"function get_connected_clients is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::lazybot","file":"lazyc2.py","line":6755,"message":"function lazybot is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::compliance_dashboard","file":"lazyc2.py","line":6772,"message":"function compliance_dashboard is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::compliance_report","file":"lazyc2.py","line":6794,"message":"function compliance_report is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::compliance_add_evidence","file":"lazyc2.py","line":6824,"message":"function compliance_add_evidence is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::compliance_verify_evidence","file":"lazyc2.py","line":6860,"message":"function compliance_verify_evidence is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::compliance_export","file":"lazyc2.py","line":6874,"message":"function compliance_export is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::lazyreport","file":"lazyc2.py","line":6904,"message":"function lazyreport is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::teamserver","file":"lazyc2.py","line":6923,"message":"function teamserver is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::report","file":"lazyc2.py","line":6952,"message":"function report is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::lazyreport_view","file":"lazyc2.py","line":6959,"message":"function lazyreport_view is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::killchain_view","file":"lazyc2.py","line":6965,"message":"function killchain_view is not documented"}
+{"code":"DOC004","uid":"lazyc2.py::api_loop_log","file":"lazyc2.py","line":7118,"message":"return value of api_loop_log is not documented"}
+{"code":"DOC004","uid":"lazyc2.py::api_loop_stop","file":"lazyc2.py","line":7141,"message":"return value of api_loop_stop is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::connect","file":"lazyc2.py","line":7332,"message":"function connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener","file":"lazyc2.py","line":7338,"message":"function listener is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener_connect","file":"lazyc2.py","line":7345,"message":"function listener_connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener_disconnect","file":"lazyc2.py","line":7356,"message":"function listener_disconnect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::pty_input","file":"lazyc2.py","line":7367,"message":"function pty_input is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::resize","file":"lazyc2.py","line":7382,"message":"function resize is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::pty_connect","file":"lazyc2.py","line":7396,"message":"function pty_connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::handle_input","file":"lazyc2.py","line":7428,"message":"function handle_input is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener_command","file":"lazyc2.py","line":7453,"message":"function listener_command is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal","file":"lazyc2.py","line":7467,"message":"function terminal is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_connect","file":"lazyc2.py","line":7477,"message":"function terminal_connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_disconnect","file":"lazyc2.py","line":7487,"message":"function terminal_disconnect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_input","file":"lazyc2.py","line":7498,"message":"function terminal_input is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_command","file":"lazyc2.py","line":7512,"message":"function terminal_command is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_resize","file":"lazyc2.py","line":7528,"message":"function terminal_resize is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::start_reverse_shell","file":"lazyc2.py","line":7536,"message":"function start_reverse_shell is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::page_not_found","file":"lazyc2.py","line":7607,"message":"function page_not_found is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::internal_server_error","file":"lazyc2.py","line":7615,"message":"function internal_server_error is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::capture_image","file":"lazyc2.py","line":7643,"message":"function capture_image is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::capture_audio","file":"lazyc2.py","line":7669,"message":"function capture_audio is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::surface","file":"lazyc2.py","line":7687,"message":"function surface is not documented"}
+{"code":"DOC004","uid":"lazyc2.py::api_chain_approvals_decide","file":"lazyc2.py","line":8043,"message":"return value of api_chain_approvals_decide is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_data","file":"lazyc2.py","line":8266,"message":"function get_data is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::list_campaigns","file":"lazyc2.py","line":8333,"message":"function list_campaigns is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_campaign","file":"lazyc2.py","line":8346,"message":"function create_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::lazyphishingai","file":"lazyc2.py","line":8424,"message":"function lazyphishingai is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::campaign_report","file":"lazyc2.py","line":8462,"message":"function campaign_report is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::orchestrate_campaign","file":"lazyc2.py","line":8544,"message":"function orchestrate_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":8591,"message":"function create_multivector_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8743,"message":"function serve_landing_page is not documented"}
 {"code":"DOC001","uid":"lazyc2/__init__.py","file":"lazyc2/__init__.py","line":1,"message":"module lazyc2/__init__.py is not documented"}
-{"code":"DOC004","uid":"lazyc2/addon_creator.py::AddonStore.exists","file":"lazyc2/addon_creator.py","line":944,"message":"return value of AddonStore.exists is not documented"}
+{"code":"DOC004","uid":"lazyc2/addon_creator.py::AddonStore.exists","file":"lazyc2/addon_creator.py","line":960,"message":"return value of AddonStore.exists is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::register","file":"lazyc2/blueprints/auth.py","line":128,"message":"function register is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::login","file":"lazyc2/blueprints/auth.py","line":187,"message":"function login is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::mfa_setup","file":"lazyc2/blueprints/auth.py","line":237,"message":"function mfa_setup is not documented"}
@@ -821,7 +821,7 @@
 {"code":"DOC001","uid":"modules/auto_purple.py::IPurpleEvaluator.category_accuracy","file":"modules/auto_purple.py","line":217,"message":"method IPurpleEvaluator.category_accuracy is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.last_results","file":"modules/auto_purple.py","line":596,"message":"method PurpleTeamLoop.last_results is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.category_accuracy","file":"modules/auto_purple.py","line":599,"message":"method PurpleTeamLoop.category_accuracy is not documented"}
-{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1068,"message":"return value of execute_shell_verb is not documented"}
+{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1056,"message":"return value of execute_shell_verb is not documented"}
 {"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":134,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/aws_attacks.py::AWSAttackEngine.summary","file":"modules/aws_attacks.py","line":293,"message":"method AWSAttackEngine.summary is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c","file":"modules/backdoor/backdoor.c","line":1,"message":"module modules/backdoor/backdoor.c is not documented"}
@@ -1096,16 +1096,16 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1636,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7135,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8446,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8469,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8469,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8614,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8639,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8662,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8662,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9932,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1662,"message":"ActivityLog.trace raises KeyError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7216,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8610,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8633,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8633,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8778,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8803,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8826,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8826,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10197,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -1265,11 +1265,12 @@
 {"code":"DOC001","uid":"modules/logging_config.py::JsonFormatter.format","file":"modules/logging_config.py","line":72,"message":"method JsonFormatter.format is not documented"}
 {"code":"DOC001","uid":"modules/logging_config.py::CorrelationFilter.filter","file":"modules/logging_config.py","line":94,"message":"method CorrelationFilter.filter is not documented"}
 {"code":"DOC001","uid":"modules/loop/__init__.py","file":"modules/loop/__init__.py","line":1,"message":"module modules/loop/__init__.py is not documented"}
+{"code":"DOC001","uid":"modules/loop/engine_proxy.py","file":"modules/loop/engine_proxy.py","line":1,"message":"module modules/loop/engine_proxy.py is not documented"}
 {"code":"DOC001","uid":"modules/loop/worker_agentic.py","file":"modules/loop/worker_agentic.py","line":1,"message":"module modules/loop/worker_agentic.py is not documented"}
 {"code":"DOC001","uid":"modules/loop/worker_execution.py","file":"modules/loop/worker_execution.py","line":1,"message":"module modules/loop/worker_execution.py is not documented"}
 {"code":"DOC001","uid":"modules/loop/worker_gating.py","file":"modules/loop/worker_gating.py","line":1,"message":"module modules/loop/worker_gating.py is not documented"}
 {"code":"DOC001","uid":"modules/loop/worker_memory.py","file":"modules/loop/worker_memory.py","line":1,"message":"module modules/loop/worker_memory.py is not documented"}
-{"code":"DOC004","uid":"modules/loop_guardrails.py::TargetLimiter.slot","file":"modules/loop_guardrails.py","line":493,"message":"return value of TargetLimiter.slot is not documented"}
+{"code":"DOC004","uid":"modules/loop_guardrails.py::TargetLimiter.slot","file":"modules/loop_guardrails.py","line":545,"message":"return value of TargetLimiter.slot is not documented"}
 {"code":"DOC001","uid":"modules/mario.py","file":"modules/mario.py","line":1,"message":"module modules/mario.py is not documented"}
 {"code":"DOC001","uid":"modules/mario.py::check_collision","file":"modules/mario.py","line":105,"message":"function check_collision is not documented"}
 {"code":"DOC001","uid":"modules/mcp_agent_bridge.py::GroqAgentWorker","file":"modules/mcp_agent_bridge.py","line":234,"message":"class GroqAgentWorker is not documented"}

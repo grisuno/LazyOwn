@@ -17,11 +17,18 @@ from __future__ import annotations
 
 import json
 import shlex
+import time
 from uuid import uuid4
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet, extract_flag
+from modules.lazy_commander import (
+    DEFAULT_COMMANDER_MINUTES,
+    DEFAULT_COMMANDER_SLICES,
+    DEFAULT_COMMANDER_WORKERS,
+    LazyCommander,
+)
 from utils import ai_category, print_error, print_msg, print_warn
 
 
@@ -638,6 +645,118 @@ class LazyCommandSet(LazyOwnCommandSet):
             f"page {result['page']} ({len(result['items'])}/{result['total']})"
             + (" more" if result["has_more"] else " end")
         )
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_commander(self, line):
+        """Allocate work slices across the task fleet. Usage: lazy_commander [--minutes N] [--slices N] [--workers N]
+
+        Slot-clock commander over every active loop task: one LLM pass
+        picks which task gets the next slice (work/hire/fire/stop);
+        without LLM members it falls back to least-worked-first fairness.
+        """
+        args = shlex.split(line) if line.strip() else []
+        minutes_raw = extract_flag(args, "--minutes") or ""
+        slices_raw = extract_flag(args, "--slices") or ""
+        workers_raw = extract_flag(args, "--workers") or ""
+        try:
+            minutes = max(1.0, float(minutes_raw)) if minutes_raw else DEFAULT_COMMANDER_MINUTES
+            slices = max(1, int(slices_raw)) if slices_raw else DEFAULT_COMMANDER_SLICES
+            workers = max(1, int(workers_raw)) if workers_raw else DEFAULT_COMMANDER_WORKERS
+        except ValueError:
+            print_error("Usage: lazy_commander [--minutes N] [--slices N] [--workers N]")
+            return
+        engine = _engine()
+
+        def _complete(prompt: str, max_tokens: int) -> str:
+            from modules.lazy_loop import LlmPool
+
+            pool = LlmPool()
+            if not pool.members():
+                return ""
+            return pool.complete(prompt, max_tokens=max_tokens) or ""
+
+        commander = LazyCommander(
+            engine.list_tasks,
+            _complete,
+            lambda task_id, workers_count: engine.run(task_id, workers=workers_count),
+            engine.pause_task,
+        )
+        try:
+            summary = commander.run(minutes=minutes, max_slices=slices, base_workers=workers)
+        except Exception as exc:
+            print_error(f"commander failed: {exc}")
+            return
+        print_msg(f"[commander] {summary['slices']} slice(s) - {summary['reason']}")
+        for decision in summary["decisions"]:
+            target = decision.get("target") or "-"
+            print_msg(f"  {decision.get('action', '?')} {target} - {str(decision.get('note', ''))[:120]}")
+        worked = summary["worked"]
+        if worked:
+            print_msg("slices per task: " + " ".join(f"{k}={v}" for k, v in worked.items()))
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_deviations(self, line):
+        """List planned-versus-actual deviations. Usage: lazy_deviations [scope] [--limit N] [--md]
+
+        Scope examples: ``loop:t0001`` for one loop task,
+        ``chain:<name>:<run_id>`` for one chain run. Empty scope lists
+        every recorded deviation, newest first.
+        """
+        args = shlex.split(line) if line.strip() else []
+        scope = ""
+        if args and not args[0].startswith("--"):
+            scope = args.pop(0)
+        limit_raw = extract_flag(args, "--limit") or ""
+        try:
+            limit = max(1, min(200, int(limit_raw)))
+        except ValueError:
+            limit = 25
+        try:
+            from modules.lazy_deviations import DeviationLedger
+
+            ledger = DeviationLedger()
+            records = ledger.list(scope, limit=limit)
+        except Exception as exc:
+            print_error(f"deviation ledger unavailable: {exc}")
+            return
+        if not records:
+            print_msg(f"no deviations recorded{' for ' + scope if scope else ''}")
+            return
+        print_msg(f"{len(records)} deviation(s)" + (f" in {scope}" if scope else ""))
+        for row in records:
+            stamp = time.strftime("%m-%d %H:%M", time.localtime(row.ts))
+            print_msg(
+                f"  {stamp} [{row.source or '-'}] {row.planned[:90]}"
+                f" -> {row.actual[:90]} ({row.reason[:90]})"
+            )
+        if "--md" in args:
+            print_msg(ledger.render_markdown(records))
+
+    @cmd2.with_category(ai_category)
+    def do_lazy_blindspot(self, line):
+        """Review graph blindspots into hints. Usage: lazy_blindspot [--task T]"""
+        args = shlex.split(line) if line.strip() else []
+        task_id = self._require_task(args)
+        if not task_id:
+            return
+        try:
+            result = _engine().blindspot_review(task_id)
+        except Exception as exc:
+            print_error(f"blindspot review failed: {exc}")
+            return
+        findings = result.get("findings", [])
+        print_msg(f"[blindspot] {result.get('summary', '')}")
+        for finding in findings:
+            risk = str(finding.get("risk", "medium"))
+            area = str(finding.get("area", "unknown"))
+            question = str(finding.get("question", ""))
+            suggestion = str(finding.get("suggestion", ""))
+            line_text = f"  [{risk}] {area}: {question[:120]}"
+            if suggestion:
+                line_text += f" - {suggestion[:120]}"
+            print_msg(line_text)
+        if not findings:
+            print_msg("[blindspot] no findings surfaced (reviewer unavailable or nothing missing)")
 
     @cmd2.with_category(ai_category)
     def do_lazy_hint(self, line):

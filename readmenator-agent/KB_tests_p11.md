@@ -12,6 +12,27 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_worker_helper_redirects_and_degrades` (function, line 52) `def test_worker_helper_redirects_and_degrades(tmp_path, monkeypatch)`
 - Depends on: `modules/auto_loop_memory.py`, `modules/lazy_loop.py`
 
+## tests/test_failure_verdict.py
+- Doc: Failure verdict contract: classification, action hints and hard stops.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_lockout_output_aborts` (function, line 17) `def test_lockout_output_aborts()`
+  - `test_out_of_scope_aborts_before_everything` (function, line 27) `def test_out_of_scope_aborts_before_everything()`
+  - `test_auth_failure_is_fallback_eligible` (function, line 35) `def test_auth_failure_is_fallback_eligible()`
+  - `test_permission_wall_requests_fallback` (function, line 46) `def test_permission_wall_requests_fallback()`
+  - `test_missing_tool_skips` (function, line 54) `def test_missing_tool_skips()`
+  - `test_timeout_with_clean_output_retries` (function, line 62) `def test_timeout_with_clean_output_retries()`
+  - `test_network_markers_retry` (function, line 70) `def test_network_markers_retry()`
+  - `test_unknown_output_keeps_default_retry` (function, line 78) `def test_unknown_output_keeps_default_retry()`
+  - `test_success_and_skipped_outcomes_never_classify_as_fallback` (function, line 86) `def test_success_and_skipped_outcomes_never_classify_as_fallback()`
+  - `test_failed_outcome_object_classifies_from_output` (function, line 101) `def test_failed_outcome_object_classifies_from_output()`
+  - `test_action_matrix_is_total` (function, line 117) `def test_action_matrix_is_total()`
+  - `test_lockout_marker_is_case_insensitive` (function, line 125) `def test_lockout_marker_is_case_insensitive()`
+  - `FakeOutcome` (class, line 90) `class FakeOutcome`
+  - `FakeOutcome` (class, line 105) `class FakeOutcome`
+- Depends on: `modules/failure_verdict.py`
+
 ## tests/test_finding_lifecycle.py
 - Doc: Finding confirmation lifecycle + keyless OSINT enrichment.
 - Layer: testing
@@ -472,21 +493,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_caps_enforced` (function, line 118) `def test_caps_enforced()`
   - `test_field_present_helper` (function, line 126) `def test_field_present_helper()`
 - Depends on: `modules/hunt_verify.py`
-
-## tests/test_implant_session_secrets.py
-- Doc: ImplantSessionSecretsSpec: Contract: lab Go implant templates bind rotating session secrets.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `ImplantSessionSecretsSpec` (class, line 22) `class ImplantSessionSecretsSpec(TestCase)`
-  - `test_implant_binds_sleep_and_persistence_placeholders` (method, line 25) `def test_implant_binds_sleep_and_persistence_placeholders(self)`
-  - `test_implant_uses_obfuscated_sleep_and_jitter_bounds` (method, line 30) `def test_implant_uses_obfuscated_sleep_and_jitter_bounds(self)`
-  - `test_implant_uses_utls_for_real_tls_fingerprint` (method, line 38) `def test_implant_uses_utls_for_real_tls_fingerprint(self)`
-  - `test_listener_and_monrevlin_bind_session_magic` (method, line 45) `def test_listener_and_monrevlin_bind_session_magic(self)`
-  - `test_rootkit_listener_default_is_neutral` (method, line 53) `def test_rootkit_listener_default_is_neutral(self)`
-  - `test_lkm_makefile_carries_deployment_values` (method, line 57) `def test_lkm_makefile_carries_deployment_values(self)`
-  - `test_url_traffic_template_keys_match_builder_context` (method, line 64) `def test_url_traffic_template_keys_match_builder_context(self)`
-- Depends on: `modules/c2_builder.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

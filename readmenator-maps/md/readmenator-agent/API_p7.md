@@ -1,5 +1,58 @@
-# API (page 7 of 27)
+# API (page 7 of 28)
 Previous: [API_p6.md](API_p6.md)
+
+## core/llm_budget.py
+Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/mcp_tools/get_llm_budget.py`, `tests/test_llm_budget.py`
+- `LLMBackendLike.generate` (method) `core/llm_budget.py:61` `def generate(self, prompt)`
+- `LLMBackendLike.stream_generate` (method) `core/llm_budget.py:63` `def stream_generate(self, prompt)`
+- `LLMBackendLike.complete` (method) `core/llm_budget.py:65` `def complete(self, system, user, max_tokens, temperature)`
+- `ModelPrice.from_mapping` (method) `core/llm_budget.py:81` `def from_mapping(cls, data)` -- Build a ModelPrice from a JSON friendly mapping.
+- `BudgetLedger.record` (method) `core/llm_budget.py:232` `def record(self, entry)` -- Append a charge to the ledger and persist the new state.
+- `BudgetLedger.spent_today` (method) `core/llm_budget.py:251` `def spent_today(self)` -- Return the dollar amount the ledger charged for the current day.
+- `BudgetLedger.calls_today` (method) `core/llm_budget.py:256` `def calls_today(self)` -- Return the number of calls the ledger recorded for the current day.
+- `BudgetLedger.reset` (method) `core/llm_budget.py:261` `def reset(self)` -- Clear the ledger for the current day and persist the empty state.
+- `TokenEstimator.__init__` (method) `core/llm_budget.py:278` `def __init__(self, encoding_name)`
+- `TokenEstimator.count` (method) `core/llm_budget.py:292` `def count(self, text)` -- Return the number of tokens the input text contains.
+- `BudgetGuard.__init__` (method) `core/llm_budget.py:319` `def __init__(self, config, estimator, ledger)`
+- `BudgetGuard.price_for` (method) `core/llm_budget.py:329` `def price_for(self, model)` -- Return the price the guard applies to a model identifier.
+- `BudgetGuard.estimate_cost` (method) `core/llm_budget.py:343` `def estimate_cost(self, model, input_tokens, output_tokens)` -- Return the dollar cost the guard would charge for a call.
+- `BudgetGuard.estimate_and_check` (method) `core/llm_budget.py:356` `def estimate_and_check(self, prompt, model, output_tokens)` -- Check the budget and record a charge when the call fits.
+- `BudgetedBackend.__init__` (method) `core/llm_budget.py:417` `def __init__(self, inner, guard, model)`
+- `BudgetedBackend.generate` (method) `core/llm_budget.py:422` `def generate(self, prompt)` -- Forward a non streaming call and record a charge.
+- `BudgetedBackend.stream_generate` (method) `core/llm_budget.py:430` `def stream_generate(self, prompt)` -- Forward a streaming call.
+- `BudgetedBackend.complete` (method) `core/llm_budget.py:435` `def complete(self, system, user, max_tokens, temperature)` -- Forward a role aware call.
+- `default_model_prices` (function) `core/llm_budget.py:442` `def default_model_prices()` -- Return the default price table the guard ships with.
+- `default_sessions_dir` (function) `core/llm_budget.py:461` `def default_sessions_dir()` -- Return the directory the ledger writes to by default.
+- `load_budget_config` (function) `core/llm_budget.py:552` `def load_budget_config(payload, sessions_dir)` -- Build a BudgetConfig from a payload mapping.
+- `read_budget_status` (function) `core/llm_budget.py:585` `def read_budget_status(payload, sessions_dir)` -- Return a structured snapshot of the current budget.
+- `format_budget_status` (function) `core/llm_budget.py:616` `def format_budget_status(config, ledger)` -- Render the budget status as a human readable block.
+- `wrap_backend_with_budget` (function) `core/llm_budget.py:657` `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` -- Wrap a concrete backend with a budgeted proxy.
+
+## core/llm_key_pool.py
+Imported by: `modules/llm_factory.py`, `tests/test_llm_key_pool.py`
+- `KeyPool.__init__` (method) `core/llm_key_pool.py:76` `def __init__(self, cooldown_sec)` -- Initialize an empty pool.
+- `KeyPool.set_keys` (method) `core/llm_key_pool.py:88` `def set_keys(self, backend, keys)` -- Replace the key list for one backend.
+- `KeyPool.has_pool` (method) `core/llm_key_pool.py:107` `def has_pool(self, backend)` -- Return True when more than one key is configured for the backend.
+- `KeyPool.size` (method) `core/llm_key_pool.py:112` `def size(self, backend)` -- Return the number of keys configured for the backend.
+- `KeyPool.next_key` (method) `core/llm_key_pool.py:117` `def next_key(self, backend, now)` -- Return the next usable key for a backend, advancing the cursor.
+- `KeyPool.mark_exhausted` (method) `core/llm_key_pool.py:149` `def mark_exhausted(self, backend, key, now)` -- Park a key for the cooldown window after an explicit quota error.
+- `KeyPool.available` (method) `core/llm_key_pool.py:163` `def available(self, backend, now)` -- Return how many keys are not currently cooling down.
+- `KeyPool.reset` (method) `core/llm_key_pool.py:171` `def reset(self)` -- Clear every backend's keys, cursors and cooldowns.
+- `build_from_config` (function) `core/llm_key_pool.py:208` `def build_from_config(config, pool)` -- Build or refresh a :class:`KeyPool` from a payload-derived mapping.
+- `get_key_pool` (function) `core/llm_key_pool.py:238` `def get_key_pool()` -- Return the process-wide key pool singleton.
+- `refresh_from_config` (function) `core/llm_key_pool.py:243` `def refresh_from_config(config)` -- Refresh and return the global pool from a payload-derived mapping.
+- `resolve_pooled_key` (function) `core/llm_key_pool.py:249` `def resolve_pooled_key(backend, config, fallback)` -- Return the next pooled key for a backend, or ``fallback`` when no pool.
+- `note_quota_error` (function) `core/llm_key_pool.py:274` `def note_quota_error(backend, key)` -- Park a key on the global pool after an explicit provider quota error.
+
+## core/logging.py
+Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/param_registry.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `core/session_secrets.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazyc2/security/cli_credentials.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/addon_updater.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_cli.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/beacon_recon.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `modules/bsb_compat.py`, `modules/c2_agent.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/c2_surfaces.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/ctf_capture.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/defense_stages.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/emulation_runner.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/factsio.py`, `modules/golden_path.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_registry.py`, `modules/gym_winbox_runner.py`, `modules/harness.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metasploitable_gym.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sinks/findings.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/trigger_policy.py`, `modules/ttp_coverage.py`, `modules/ttpscope_bridge.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/verb_catalog.py`, `modules/verb_manifest.py`, `modules/vulnbot.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`, `utils.py`
+- `_JsonLineFormatter.__init__` (method) `core/logging.py:74` `def __init__(self, redacted_fields)`
+- `_JsonLineFormatter.format` (method) `core/logging.py:78` `def format(self, record)`
+- `_ConsoleFormatter.format` (method) `core/logging.py:132` `def format(self, record)`
+- `StructuredLogger.makeRecord` (method) `core/logging.py:148` `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)`
+- `get_logger` (function) `core/logging.py:231` `def get_logger(name)` -- Return a cached :class:`StructuredLogger` for *name*.
+- `install_json_handler` (function) `core/logging.py:251` `def install_json_handler(name, config)` -- Install a JSON-lines file handler on *name*, preserving existing handlers.
+- `reconfigure` (function) `core/logging.py:300` `def reconfigure(config)` -- Replace the cached configuration globally.
 
 ## core/network.py
 Depends on: `core/console.py`
@@ -38,15 +91,15 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
 Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
-- `register_specs` (function) `core/payload_schema.py:1862` `def register_specs(specs)` -- Register (or replace) field specs at runtime.
-- `unregister_specs` (function) `core/payload_schema.py:1885` `def unregister_specs(keys)` -- Remove runtime-registered specs from the schema.
-- `field_for` (function) `core/payload_schema.py:1903` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `coerce_value` (function) `core/payload_schema.py:1908` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `validate_value` (function) `core/payload_schema.py:1931` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `validate_payload` (function) `core/payload_schema.py:2005` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `format_issue` (function) `core/payload_schema.py:2040` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `default_payload` (function) `core/payload_schema.py:2058` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `categories` (function) `core/payload_schema.py:2066` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
+- `register_specs` (function) `core/payload_schema.py:1970` `def register_specs(specs)` -- Register (or replace) field specs at runtime.
+- `unregister_specs` (function) `core/payload_schema.py:1993` `def unregister_specs(keys)` -- Remove runtime-registered specs from the schema.
+- `field_for` (function) `core/payload_schema.py:2011` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `coerce_value` (function) `core/payload_schema.py:2016` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
+- `validate_value` (function) `core/payload_schema.py:2039` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
+- `validate_payload` (function) `core/payload_schema.py:2113` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
+- `format_issue` (function) `core/payload_schema.py:2148` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
+- `default_payload` (function) `core/payload_schema.py:2166` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
+- `categories` (function) `core/payload_schema.py:2174` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`

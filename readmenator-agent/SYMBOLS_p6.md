@@ -1,8 +1,23 @@
-# Symbols (page 6 of 50)
+# Symbols (page 6 of 51)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `print_session_tip` | function | `cli/protips.py:369` | `def print_session_tip(ctx)` |
+| `render_contextual_tip` | function | `cli/protips.py:339` | `def render_contextual_tip(last_cmd, ctx)` |
+| `PurpleDashboard` | class | `cli/purple_tui.py:79` | `class PurpleDashboard(App)` |
+| `_color_rate` | function | `cli/purple_tui.py:70` | `def _color_rate(rate)` |
+| `_dataset_stats` | function | `cli/purple_tui.py:56` | `def _dataset_stats()` |
+| `_load_recent_results` | function | `cli/purple_tui.py:42` | `def _load_recent_results(n)` |
+| `_load_score` | function | `cli/purple_tui.py:33` | `def _load_score()` |
+| `_make_bar` | function | `cli/purple_tui.py:65` | `def _make_bar(value, width)` |
+| `_render_actions` | method | `cli/purple_tui.py:173` | `def _render_actions(self, results)` |
+| `_render_methods` | method | `cli/purple_tui.py:157` | `def _render_methods(self, score)` |
+| `_render_score` | method | `cli/purple_tui.py:125` | `def _render_score(self, score)` |
+| `_render_stats` | method | `cli/purple_tui.py:205` | `def _render_stats(self, score, ds)` |
+| `action_refresh` | method | `cli/purple_tui.py:112` | `def action_refresh(self)` |
+| `compose` | method | `cli/purple_tui.py:98` | `def compose(self)` |
+| `launch` | function | `cli/purple_tui.py:233` | `def launch()` |
 | `on_mount` | method | `cli/purple_tui.py:108` | `def on_mount(self)` |
 | `refresh_data` | method | `cli/purple_tui.py:115` | `def refresh_data(self)` |
 | `EvidenceHint` | class | `cli/reactive_hints.py:309` | `class EvidenceHint` |
@@ -481,20 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `compose` | method | `cli/tui_forms.py:262` | `def compose(self)` |
 | `compose` | method | `cli/tui_forms.py:314` | `def compose(self)` |
 | `filter_candidates` | function | `cli/tui_forms.py:27` | `def filter_candidates(query, options, limit)` |
-| `on_button_pressed` | method | `cli/tui_forms.py:102` | `def on_button_pressed(self, event)` |
-| `on_button_pressed` | method | `cli/tui_forms.py:239` | `def on_button_pressed(self, event)` |
-| `on_button_pressed` | method | `cli/tui_forms.py:276` | `def on_button_pressed(self, event)` |
-| `on_button_pressed` | method | `cli/tui_forms.py:338` | `def on_button_pressed(self, event)` |
-| `on_input_changed` | method | `cli/tui_forms.py:201` | `def on_input_changed(self, event)` |
-| `on_input_submitted` | method | `cli/tui_forms.py:107` | `def on_input_submitted(self, event)` |
-| `on_input_submitted` | method | `cli/tui_forms.py:206` | `def on_input_submitted(self, event)` |
-| `on_key` | method | `cli/tui_forms.py:220` | `def on_key(self, event)` |
-| `on_mount` | method | `cli/tui_forms.py:147` | `def on_mount(self)` |
-| `on_option_list_option_selected` | method | `cli/tui_forms.py:211` | `def on_option_list_option_selected(self, event)` |
-| `_cycle` | function | `cli/tui_theme.py:65` | `def _cycle(payload, direction)` |
-| `_format_listing` | function | `cli/tui_theme.py:45` | `def _format_listing(current)` |
-| `_set_theme` | function | `cli/tui_theme.py:30` | `def _set_theme(payload, name)` |
-| `run` | function | `cli/tui_theme.py:87` | `def run(args, payload, save)` |
-| `TutorialConfig` | class | `cli/tutorial.py:76` | `class TutorialConfig` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

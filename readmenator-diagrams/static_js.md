@@ -34,47 +34,47 @@ graph LR
     skills -- "depends on" --> core
 ```
 
-## cli (10.1)
+## cli (11.1)
 
 cli groups 6 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
 
-## core (10.2)
+## core (11.2)
 
 core groups 4 files (py) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. Operator-managed parameter registry.
 
-## gyms (10.3)
+## gyms (11.3)
 
 gyms groups 1 files (php).
 
-## lazyc2 (10.4)
+## lazyc2 (11.4)
 
 lazyc2 groups 2 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
 
-## lazyown-docker (10.5)
+## lazyown-docker (11.5)
 
 lazyown-docker groups 1 files (sh).
 
-## modules (10.6)
+## modules (11.6)
 
 modules groups 3 files (c, py) around _GNU_SOURCE, MQUEUE_NUM, INBOUND, OUTBOUND, DESC_MAX. gcc exp.c -o exp -l mnl -l nftnl -w
 
-## poc_tui (10.7)
+## poc_tui (11.7)
 
 poc_tui groups 4 files (py) around ShellBackend, __init__, import_shell_class, start, run. Entry point: python3 -m poc_tui
 
-## root (10.8)
+## root (11.8)
 
 root groups 1 files (py) around main.
 
-## skills (10.9)
+## skills (11.9)
 
 skills groups 4 files (py) around handle, handle, handle, handle, coerce_value. MCP tool ``lazyown_create_param`` (migrated from the call_tool dispatch chain).
 
-## static (10.10)
+## static (11.10)
 
 static groups 16 files (js) around rand, clamp, Terminal, constructor, push. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
 
-## tests (10.11)
+## tests (11.11)
 
 tests groups 7 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
 

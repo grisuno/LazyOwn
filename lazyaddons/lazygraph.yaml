@@ -1,0 +1,26 @@
+name: lazygraph
+description: |
+  Engagement fact graph: facts are nodes, intents are hyperedges that
+  produce typed facts (host, cred, vuln, loot, flag) while a
+  reason-explore-verify loop drives the graph to its goal edge. Recall,
+  leases, hints and an offline technique KB included. First run clones
+  the tool (pure Python stdlib) and opens the graph at {graph_store};
+  repoint with `assign graph_store sessions/<name>`. Free args append
+  after status; other subcommands run from external/.exploit/sapper-v2.
+author: N1nEmAn
+version: "1.0"
+enabled: true
+params:
+  - name: graph_store
+    type: string
+    required: true
+    description: Fact-graph store path under the repo. Set with `assign graph_store`.
+os: any
+trigger: []
+category: "16. Artificial Intelligence"
+module_type: auxiliary
+tool:
+  name: LazyGraph Engagement Fact Graph
+  repo_url: https://github.com/N1nEmAn/sapper-v2.git
+  install_path: external/.exploit/sapper-v2
+  execute_command: python3 lib/sapper.py --store {graph_store} status

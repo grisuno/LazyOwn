@@ -16,9 +16,11 @@ flowchart LR
     n_plugins_validate_shellcode_lua__esc_hex_to_bytes(["esc_hex_to_bytes"])
     n_plugins_validate_shellcode_lua__hex_list_to_byte_values(["hex_list_to_byte_values"])
     n_plugins_validate_shellcode_lua__hex_to_bytes(["hex_to_bytes"])
+    n_modules_loop_triage_scheduler_py__TriageScheduler_order["triage_scheduler.TriageScheduler.order"]
     n_plugins_validate_shellcode_lua__validate_shellcode --> n_plugins_validate_shellcode_lua__esc_hex_to_bytes
     n_plugins_validate_shellcode_lua__validate_shellcode --> n_plugins_validate_shellcode_lua__hex_list_to_byte_values
     n_plugins_validate_shellcode_lua__validate_shellcode --> n_plugins_validate_shellcode_lua__hex_to_bytes
+    n_plugins_validate_shellcode_lua__validate_shellcode -.-> n_modules_loop_triage_scheduler_py__TriageScheduler_order
 ```
 
 ## Functions
@@ -107,6 +109,6 @@ The main plugin function Receives arguments as separate strings via varargs (...
 |---|---|---|---|
 | `...` |  |  |  |
 
-*Calls:* [`esc_hex_to_bytes`](#esc_hex_to_bytes), [`hex_list_to_byte_values`](#hex_list_to_byte_values), [`hex_to_bytes`](#hex_to_bytes)
+*Calls:* [`TriageScheduler.order`](modules.loop.triage_scheduler.py.md#triagescheduler-order), [`esc_hex_to_bytes`](#esc_hex_to_bytes), [`hex_list_to_byte_values`](#hex_list_to_byte_values), [`hex_to_bytes`](#hex_to_bytes)
 
 ---

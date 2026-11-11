@@ -1,5 +1,341 @@
-# API (page 20 of 27)
+# API (page 20 of 28)
 Previous: [API_p19.md](API_p19.md)
+
+## modules/socks_proxy.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`
+Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
+- `SocksReply.message` (method) `modules/socks_proxy.py:103` `def message(self)` -- Return a human-readable message for this reply code.
+- `SocksSession.elapsed_seconds` (method) `modules/socks_proxy.py:144` `def elapsed_seconds(self)` -- Return seconds since session creation.
+- `SocksSession.to_dict` (method) `modules/socks_proxy.py:150` `def to_dict(self)` -- Serialize session to dictionary.
+- `SocksProxyConfig.to_dict` (method) `modules/socks_proxy.py:199` `def to_dict(self)` -- Serialize config to dictionary.
+- `SocksProxyConfig.from_dict` (method) `modules/socks_proxy.py:218` `def from_dict(cls, raw)` -- Build config from dictionary.
+- `SocksValidator.validate_config` (method) `modules/socks_proxy.py:253` `def validate_config(config)` -- Validate a SocksProxyConfig and return error messages.
+- `SocksValidator.validate_request` (method) `modules/socks_proxy.py:300` `def validate_request(command, address_type, host, port, config)` -- Validate a SOCKS5 request against the proxy configuration.
+- `SocksProxyEngine.__init__` (method) `modules/socks_proxy.py:381` `def __init__(self, config)`
+- `SocksProxyEngine.config` (method) `modules/socks_proxy.py:387` `def config(self)` -- Return the current proxy configuration.
+- `SocksProxyEngine.sessions` (method) `modules/socks_proxy.py:392` `def sessions(self)` -- Return active proxied sessions.
+- `SocksProxyEngine.session_count` (method) `modules/socks_proxy.py:397` `def session_count(self)` -- Return the number of active sessions.
+- `SocksProxyEngine.validate` (method) `modules/socks_proxy.py:401` `def validate(self, config)` -- Validate the configuration.
+- `SocksProxyEngine.build_spec` (method) `modules/socks_proxy.py:413` `def build_spec(self)` -- Build a JSON-serializable proxy specification for beacon delivery.
+- `SocksProxyEngine.create_session` (method) `modules/socks_proxy.py:436` `def create_session(self, session_id, target_host, target_port, beacon_client_id)` -- Create and track a new proxied session.
+- `SocksProxyEngine.remove_session` (method) `modules/socks_proxy.py:475` `def remove_session(self, session_id)` -- Remove a session by ID.
+- `SocksProxyEngine.get_session` (method) `modules/socks_proxy.py:482` `def get_session(self, session_id)` -- Return a session by ID, or None.
+- `SocksProxyEngine.add_bytes` (method) `modules/socks_proxy.py:486` `def add_bytes(self, session_id, sent, received)` -- Update byte counters for a session.
+- `SocksProxyEngine.cleanup_expired` (method) `modules/socks_proxy.py:497` `def cleanup_expired(self)` -- Remove sessions that have exceeded the timeout.
+- `SocksProxyEngine.list_sessions` (method) `modules/socks_proxy.py:511` `def list_sessions(self)` -- Return a list of all active sessions as dictionaries.
+- `SocksProxyEngine.from_dict` (method) `modules/socks_proxy.py:522` `def from_dict(cls, raw)` -- Build a SocksProxyEngine from a configuration dictionary.
+- `SocksProxyEngine.from_payload` (method) `modules/socks_proxy.py:528` `def from_payload(cls, payload)` -- Build a SocksProxyEngine from a LazyOwn payload configuration.
+
+## modules/staged_delivery.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `StagedDeliveryFactory.__init__` (method) `modules/staged_delivery.py:83` `def __init__(self, config, output_dir)`
+- `StagedDeliveryFactory.generate_hta` (method) `modules/staged_delivery.py:134` `def generate_hta(self)` -- Generate an HTA (HTML Application) dropper.
+- `StagedDeliveryFactory.generate_vba_macro` (method) `modules/staged_delivery.py:171` `def generate_vba_macro(self)` -- Generate a VBA macro for Office documents (Word/Excel).
+- `StagedDeliveryFactory.generate_xlm_macro` (method) `modules/staged_delivery.py:219` `def generate_xlm_macro(self)` -- Generate an Excel 4.0 (XLM) macro for legacy macro execution.
+- `StagedDeliveryFactory.generate_lnk` (method) `modules/staged_delivery.py:237` `def generate_lnk(self)` -- Generate a Windows .lnk shortcut file with embedded command execution.
+- `StagedDeliveryFactory.generate_iso` (method) `modules/staged_delivery.py:301` `def generate_iso(self, inner_files)` -- Generate an ISO 9660 image with an embedded payload autorun.
+- `StagedDeliveryFactory.generate_vhd` (method) `modules/staged_delivery.py:370` `def generate_vhd(self, inner_files)` -- Generate a VHD (Virtual Hard Disk) image with embedded payloads.
+- `StagedDeliveryFactory.generate_all` (method) `modules/staged_delivery.py:420` `def generate_all(self)` -- Generate all delivery formats for the current configuration.
+- `StagedDeliveryFactory.generate_phishing_page` (method) `modules/staged_delivery.py:460` `def generate_phishing_page(self, template)` -- Generate a credential harvesting HTML page.
+
+## modules/state_manager.py
+Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`, `tests/test_single_source_of_truth.py`
+- `StateManager.__init__` (method) `modules/state_manager.py:107` `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
+- `StateManager.instance` (method) `modules/state_manager.py:129` `def instance(cls)`
+- `StateManager.db` (method) `modules/state_manager.py:137` `def db(self)`
+- `StateManager.workspace_id` (method) `modules/state_manager.py:146` `def workspace_id(self)`
+- `StateManager.set_payload` (method) `modules/state_manager.py:165` `def set_payload(self, payload)`
+- `StateManager.close` (method) `modules/state_manager.py:202` `def close(self)`
+- `StateManager.add_host` (method) `modules/state_manager.py:213` `def add_host(self, address, mac, hostname, os, state)`
+- `StateManager.get_host` (method) `modules/state_manager.py:236` `def get_host(self, address)`
+- `StateManager.list_hosts` (method) `modules/state_manager.py:245` `def list_hosts(self)`
+- `StateManager.advance_host` (method) `modules/state_manager.py:249` `def advance_host(self, address, new_state)`
+- `StateManager.delete_host` (method) `modules/state_manager.py:275` `def delete_host(self, address)`
+- `StateManager.add_service` (method) `modules/state_manager.py:287` `def add_service(self, host_address, port, protocol, name, product, version, state)`
+- `StateManager.list_services` (method) `modules/state_manager.py:319` `def list_services(self, host_address)`
+- `StateManager.add_credential` (method) `modules/state_manager.py:328` `def add_credential(self, host_address, username, password, realm, cred_type, origin)`
+- `StateManager.list_credentials` (method) `modules/state_manager.py:362` `def list_credentials(self, host_address)`
+- `StateManager.add_vulnerability` (method) `modules/state_manager.py:373` `def add_vulnerability(self, host_address, name, severity, description, refs)`
+- `StateManager.list_vulnerabilities` (method) `modules/state_manager.py:398` `def list_vulnerabilities(self, host_address, severity)`
+- `StateManager.add_loot` (method) `modules/state_manager.py:411` `def add_loot(self, name, loot_type, path, notes, host_address)`
+- `StateManager.list_loot` (method) `modules/state_manager.py:444` `def list_loot(self)`
+- `StateManager.add_note` (method) `modules/state_manager.py:450` `def add_note(self, data, note_type, host_address)`
+- `StateManager.list_notes` (method) `modules/state_manager.py:473` `def list_notes(self)`
+- `StateManager.import_nmap_xml` (method) `modules/state_manager.py:479` `def import_nmap_xml(self, xml_path)`
+- `StateManager.import_nmap_from_facts` (method) `modules/state_manager.py:495` `def import_nmap_from_facts(self, facts)` -- Import hosts and services from a FactStore-style facts dict into DB.
+- `StateManager.status` (method) `modules/state_manager.py:550` `def status(self)`
+- `StateManager.get_world_model_cache` (method) `modules/state_manager.py:666` `def get_world_model_cache(self)`
+- `StateManager.load_world_model` (method) `modules/state_manager.py:672` `def load_world_model(self)` -- Return a WorldModel instance populated from DB state.
+- `StateManager.session_snapshot` (method) `modules/state_manager.py:713` `def session_snapshot(self)`
+- `StateManager.export_csv` (method) `modules/state_manager.py:817` `def export_csv(self, table)`
+- `StateManager.export_summary` (method) `modules/state_manager.py:821` `def export_summary(self)`
+- `get_state_manager` (function) `modules/state_manager.py:836` `def get_state_manager()`
+
+## modules/stego_video.py
+- `load_payload_file` (function) `modules/stego_video.py:26` `def load_payload_file()` -- Return the ``file`` value from payload.json, or None.
+- `is_zip` (function) `modules/stego_video.py:36` `def is_zip(path)`
+- `is_video` (function) `modules/stego_video.py:40` `def is_video(path)`
+- `prompt_path` (function) `modules/stego_video.py:44` `def prompt_path(message)`
+- `resolve_path` (function) `modules/stego_video.py:52` `def resolve_path(arg_path, payload_file, validator, kind)` -- Resolve the target path using argument -> payload.json -> interactive prompt.
+- `generate_carrier` (function) `modules/stego_video.py:61` `def generate_carrier(output)` -- Generate a silent carrier video with ffmpeg.
+- `encode` (function) `modules/stego_video.py:75` `def encode(zip_path, output_video)` -- Hide zip_path inside output_video.
+- `decode` (function) `modules/stego_video.py:93` `def decode(stego_video, output_zip)` -- Extract the hidden zip from stego_video into output_zip.
+- `default_output` (function) `modules/stego_video.py:113` `def default_output(zip_path)`
+- `main` (function) `modules/stego_video.py:118` `def main(argv)`
+
+## modules/sudo_tiocsti.py
+Depends on: `core/logging.py`
+- `get_controlling_tty` (function) `modules/sudo_tiocsti.py:52` `def get_controlling_tty()` -- Return (file_descriptor, tty_path) for the controlling terminal.
+- `inject_byte` (function) `modules/sudo_tiocsti.py:64` `def inject_byte(fd, byte_char)` -- Inject a single byte via TIOCSTI; return success status.
+- `inject_payload` (function) `modules/sudo_tiocsti.py:79` `def inject_payload(fd, payload, char_delay)` -- Inject a multi‑character payload.
+- `get_sudo_pids_on_tty` (function) `modules/sudo_tiocsti.py:102` `def get_sudo_pids_on_tty(tty_path)` -- Return a list of PIDs that are running 'sudo' and have the same controlling terminal as the given tty_path.
+- `sudo_cache_valid` (function) `modules/sudo_tiocsti.py:139` `def sudo_cache_valid()` -- Return True if sudo credentials are cached (i.e., sudo -n succeeds).
+- `mode_poll` (function) `modules/sudo_tiocsti.py:149` `def mode_poll(fd, tty_path)` -- Poll for sudo processes; inject payload when sudo exits.
+- `mode_prefill` (function) `modules/sudo_tiocsti.py:175` `def mode_prefill(fd)` -- Inject payload repeatedly, regardless of sudo state.
+- `mode_cache` (function) `modules/sudo_tiocsti.py:185` `def mode_cache(fd)` -- Check sudo cache; if valid, inject sudo -i once.
+- `main` (function) `modules/sudo_tiocsti.py:198` `def main()`
+
+## modules/surface_ops.py
+Depends on: `modules/world_model.py`
+Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
+- `is_ipv4` (function) `modules/surface_ops.py:18` `def is_ipv4(value)` -- Return True for dotted-quad IPv4 literals with 0-255 octets.
+- `parse_confirm` (function) `modules/surface_ops.py:26` `def parse_confirm(answer)` -- Return True for an affirmative scan confirmation answer.
+- `discovery_targets` (function) `modules/surface_ops.py:31` `def discovery_targets(sessions_dir)` -- List every discovery IP across the sessions discovery files.
+- `write_world_model_hosts` (function) `modules/surface_ops.py:50` `def write_world_model_hosts(document, sessions)` -- Append unknown estorides host IPs to world_model.json hosts.
+
+## modules/threat_model.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/mcp_bridge.py`
+- `ThreatModelBuilder.build` (method) `modules/threat_model.py:270` `def build(self)`
+- `ThreatModelBuilder.load` (method) `modules/threat_model.py:293` `def load(self)`
+- `get_builder` (function) `modules/threat_model.py:592` `def get_builder()`
+
+## modules/timeline_narrator.py
+Depends on: `modules/ai_fallback.py`
+Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/timeline.py`
+- `narrate` (function) `modules/timeline_narrator.py:130` `def narrate(api_key, force)` -- Generate and return the timeline narrative.
+- `load_timeline` (function) `modules/timeline_narrator.py:165` `def load_timeline()` -- Return the last written timeline.md or empty string.
+
+## modules/timestomper.py
+Imported by: `cli/commands/opsec_cleanup.py`
+- `Timestomper.__init__` (method) `modules/timestomper.py:106` `def __init__(self, config)`
+- `Timestomper.windows_timestomp_powershell` (method) `modules/timestomper.py:110` `def windows_timestomp_powershell(self)` -- Generate PowerShell commands for Windows file timestomping.
+- `Timestomper.windows_timestomp_c` (method) `modules/timestomper.py:152` `def windows_timestomp_c(self)` -- Generate C code for Windows timestomping via SetFileTime API.
+- `Timestomper.linux_timestomp_commands` (method) `modules/timestomper.py:200` `def linux_timestomp_commands(self)` -- Generate Linux commands for file timestomping.
+- `Timestomper.macos_timestomp_commands` (method) `modules/timestomper.py:241` `def macos_timestomp_commands(self)` -- Generate macOS commands for file timestomping.
+- `Timestomper.generate_random_timestamps` (method) `modules/timestomper.py:280` `def generate_random_timestamps(self, reference_ts, window_days)` -- Generate randomized timestamps within a window around the reference.
+- `Timestomper.verify_timestamps` (method) `modules/timestomper.py:300` `def verify_timestamps(self, target_paths)` -- Verify timestamps on target files after modification.
+- `Timestomper.summary` (method) `modules/timestomper.py:326` `def summary(self)` -- Return a summary of available timestomping capabilities.
+
+## modules/tools/loop_smoke.py
+Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`
+- `FakeShell.onecmd_plus_hooks` (method) `modules/tools/loop_smoke.py:25` `def onecmd_plus_hooks(self, command)` -- Emit recognizable output for every routed verb.
+- `FakeEngine.__init__` (method) `modules/tools/loop_smoke.py:36` `def __init__(self)` -- Bind a sandboxed task store and runtime tracker.
+- `FakeEngine.bind_shell` (method) `modules/tools/loop_smoke.py:44` `def bind_shell(self, shell)` -- Record the bound shell (runner contract).
+- `FakeEngine.set_concurrency` (method) `modules/tools/loop_smoke.py:48` `def set_concurrency(self, value)` -- Accept the concurrency knob without scheduling anything.
+- `FakeEngine.create_task` (method) `modules/tools/loop_smoke.py:52` `def create_task(self, goal, description)` -- Create the task record and return its id.
+- `FakeEngine.orchestrate` (method) `modules/tools/loop_smoke.py:56` `def orchestrate(self)` -- Run the injected executor once and report a done summary.
+- `run` (function) `modules/tools/loop_smoke.py:77` `def run()` -- Run the smoke and return ``{"ok": bool, "checks": {...}, "result": {...}}``.
+- `main` (function) `modules/tools/loop_smoke.py:114` `def main()` -- CLI entry point: print the checks and exit 0/1.
+
+## modules/tools/monitor_smoke.py
+Depends on: `cli/lazy_monitor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
+- `run` (function) `modules/tools/monitor_smoke.py:20` `def run()` -- Run the monitor smoke and return ``{"ok": bool, "checks": {...}}``.
+- `main` (function) `modules/tools/monitor_smoke.py:59` `def main()` -- CLI entry point: print the checks and exit 0/1.
+
+## modules/toolset.py
+Imported by: `skills/autonomous_daemon.py`
+- `builtin_seeds` (function) `modules/toolset.py:35` `def builtin_seeds()` -- Return the default graph-tool catalog (handlers stay in code).
+- `resolve` (function) `modules/toolset.py:72` `def resolve(agent, tool_key)` -- Return the seed when bound to agent, else None (LAZY ToolResolve).
+- `extract_tool` (function) `modules/toolset.py:105` `def extract_tool(command)` -- Split tool name with shlex; flag shell metacharacters.
+- `validate_shell` (function) `modules/toolset.py:128` `def validate_shell(role, command)` -- Check a shell command against the role allowlist.
+
+## modules/toposwarm_bridge.py
+Depends on: `core/logging.py`
+Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_factory.py`, `modules/moe_router.py`, `modules/unified_bridge.py`, `skills/toposwarm_autonomous.py`
+- `RoutedCall.lazyown_command` (method) `modules/toposwarm_bridge.py:81` `def lazyown_command(self)` -- Return the LazyOwn shell command string to execute this tool call.
+- `OnlineFeedbackLoop.__init__` (method) `modules/toposwarm_bridge.py:296` `def __init__(self, maxsize)`
+- `OnlineFeedbackLoop.register` (method) `modules/toposwarm_bridge.py:303` `def register(self, result, hidden)` -- Register a routing result as pending feedback.
+- `OnlineFeedbackLoop.feedback` (method) `modules/toposwarm_bridge.py:318` `def feedback(self, result_id, good, comment, routing_head)` -- Apply feedback for a routing decision.
+- `OnlineFeedbackLoop.pending_count` (method) `modules/toposwarm_bridge.py:379` `def pending_count(self)`
+- `OnlineFeedbackLoop.stats` (method) `modules/toposwarm_bridge.py:382` `def stats(self)`
+- `OnlineFeedbackLoop.load_feedback_for_training` (method) `modules/toposwarm_bridge.py:389` `def load_feedback_for_training(self)` -- Load persisted feedback for --finetune.
+- `TopoSwarmBridge.__init__` (method) `modules/toposwarm_bridge.py:432` `def __init__(self)`
+- `TopoSwarmBridge.available` (method) `modules/toposwarm_bridge.py:444` `def available(self)` -- True if TopoSwarm directory exists (even if model not loaded).
+- `TopoSwarmBridge.model_loaded` (method) `modules/toposwarm_bridge.py:449` `def model_loaded(self)`
+- `TopoSwarmBridge.feedback` (method) `modules/toposwarm_bridge.py:562` `def feedback(self, result_id, good, comment)` -- Optional user feedback on a routing decision.
+- `TopoSwarmBridge.route` (method) `modules/toposwarm_bridge.py:586` `def route(self, prompt)` -- Route an operator prompt to a LazyOwn tool call.
+- `TopoSwarmBridge.execute_via_orchestrator` (method) `modules/toposwarm_bridge.py:613` `def execute_via_orchestrator(self, prompt, no_model)` -- Execute a prompt through the full TopoSwarm orchestrator (subprocess).
+- `get_bridge` (function) `modules/toposwarm_bridge.py:645` `def get_bridge()` -- Return the module-level TopoSwarmBridge singleton (lazy init).
+
+## modules/traffic_morpher.py
+Imported by: `cli/commands/persist_migrated.py`
+- `TrafficMorpher.__init__` (method) `modules/traffic_morpher.py:77` `def __init__(self)`
+- `TrafficMorpher.get_random_http_headers` (method) `modules/traffic_morpher.py:81` `def get_random_http_headers(self)` -- Return a randomized set of HTTP headers mimicking a real browser.
+- `TrafficMorpher.get_cdn_fronting_hosts` (method) `modules/traffic_morpher.py:91` `def get_cdn_fronting_hosts(self, provider, count)` -- Return CDN domains suitable for domain fronting.
+- `TrafficMorpher.generate_traffic_padding` (method) `modules/traffic_morpher.py:108` `def generate_traffic_padding(self, min_bytes, max_bytes)` -- Generate random padding bytes to normalize packet sizes.
+- `TrafficMorpher.generate_jitter` (method) `modules/traffic_morpher.py:125` `def generate_jitter(self, base_delay, jitter_pct)` -- Calculate a sleep delay with jitter.
+- `TrafficMorpher.generate_dns_tunnel_payload` (method) `modules/traffic_morpher.py:138` `def generate_dns_tunnel_payload(self, data, domain)` -- Encode data as DNS query subdomains for tunneling.
+- `TrafficMorpher.generate_icmp_exfil_payload` (method) `modules/traffic_morpher.py:164` `def generate_icmp_exfil_payload(self, data, chunk_size)` -- Generate ICMP echo payloads for data exfiltration.
+- `TrafficMorpher.generate_websocket_masking` (method) `modules/traffic_morpher.py:190` `def generate_websocket_masking(self, data)` -- Apply WebSocket frame masking with random key.
+- `TrafficMorpher.generate_cloudflare_worker_proxy_config` (method) `modules/traffic_morpher.py:205` `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` -- Generate a Cloudflare Worker script that proxies C2 traffic.
+- `TrafficMorpher.generate_beacon_profile` (method) `modules/traffic_morpher.py:270` `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` -- Generate a complete C2 beacon profile configuration.
+
+## modules/traffic_recorder.py
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/loop/engine_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
+- `url_template` (function) `modules/traffic_recorder.py:69` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
+- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:94` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
+- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:138` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
+- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:230` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
+- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:247` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
+- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:253` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
+- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:275` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
+- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:284` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
+- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:317` `def count(self)` -- Return the total number of recorded exchanges.
+- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:343` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
+- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:382` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
+- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:451` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
+- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:493` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
+- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:554` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
+- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:587` `def gc(self, older_than_sec)` -- Delete exchanges older than a cut-off with their bodies and index rows.
+
+## modules/trigger_policy.py
+Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
+Imported by: `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`
+- `validate_triggers` (function) `modules/trigger_policy.py:40` `def validate_triggers(raw)` -- Validate the raw ``triggers`` section of the orchestrator YAML.
+- `seeds` (function) `modules/trigger_policy.py:87` `def seeds(raw)` -- Coerce validated trigger rows into seed dicts for the store.
+- `read_policy` (function) `modules/trigger_policy.py:120` `def read_policy(path)` -- Read the shipped orchestrator YAML triggers section.
+- `seed_store` (function) `modules/trigger_policy.py:146` `def seed_store(policy, store, task_id)` -- Merge declarative seeds into a persistent TriggerStore.
+- `export_store` (function) `modules/trigger_policy.py:171` `def export_store(task_id)` -- Return the current store rows for TUI and API surfaces.
+- `remove_seed` (function) `modules/trigger_policy.py:185` `def remove_seed(kind, arg, task_id)` -- Drop the first runtime trigger matching a declarative signature.
+
+## modules/ttp_coverage.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/caldera.py`
+- `TTPCoverage.__init__` (method) `modules/ttp_coverage.py:68` `def __init__(self)`
+- `TTPCoverage.rebuild_from_operations` (method) `modules/ttp_coverage.py:76` `def rebuild_from_operations(self)` -- Re-walk every operation on disk and refresh the matrix.
+- `TTPCoverage.add` (method) `modules/ttp_coverage.py:125` `def add(self, technique_id, name, tactic, status, operation_id)`
+- `TTPCoverage.compute_ready` (method) `modules/ttp_coverage.py:149` `def compute_ready(self, available_facts)` -- Return the techniques that could run given available facts.
+- `TTPCoverage.matrix` (method) `modules/ttp_coverage.py:190` `def matrix(self)` -- Render a coloured-by-tactic table of all techniques.
+- `TTPCoverage.status_by_id` (method) `modules/ttp_coverage.py:231` `def status_by_id(self, technique_id)`
+- `TTPCoverage.to_dict` (method) `modules/ttp_coverage.py:234` `def to_dict(self)`
+- `get_coverage` (function) `modules/ttp_coverage.py:260` `def get_coverage()` -- Return a fresh :class:`TTPCoverage`.
+
+## modules/ttpscope_bridge.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
+Imported by: `skills/mcp_tools/ttp_chain.py`
+- `locate_binary` (function) `modules/ttpscope_bridge.py:82` `def locate_binary()` -- Return the ttpscope binary path, preferring the vendored build.
+- `validate_object_id` (function) `modules/ttpscope_bridge.py:92` `def validate_object_id(raw)` -- Validate an ATT&CK object ID (T1059.001, G0016, S0002, ...).
+- `validate_query` (function) `modules/ttpscope_bridge.py:100` `def validate_query(raw)` -- Validate a free-text search query.
+- `validate_platform` (function) `modules/ttpscope_bridge.py:112` `def validate_platform(raw)` -- Validate a matrix platform filter (empty means all).
+- `do_sync` (function) `modules/ttpscope_bridge.py:497` `def do_sync()` -- Download the Enterprise ATT&CK bundle via ttpscope sync.
+- `do_search` (function) `modules/ttpscope_bridge.py:508` `def do_search(query)` -- Search IDs, names, aliases and descriptions.
+- `do_show` (function) `modules/ttpscope_bridge.py:520` `def do_show(object_id)` -- Show one ATT&CK object and its relationships.
+- `do_matrix` (function) `modules/ttpscope_bridge.py:535` `def do_matrix(platform)` -- Render the Enterprise matrix, optionally filtered by platform.
+- `do_note` (function) `modules/ttpscope_bridge.py:551` `def do_note(object_id, text)` -- Append a timestamped research note.
+- `do_notes` (function) `modules/ttpscope_bridge.py:570` `def do_notes(object_id)` -- Read research notes for an object.
+- `do_chain` (function) `modules/ttpscope_bridge.py:582` `def do_chain(object_id, platform, limit)` -- Join ttpscope context with Atomic tests and parquet techniques.
+- `run_action` (function) `modules/ttpscope_bridge.py:652` `def run_action(action)` -- Dispatch a validated action (used by CLI addons and MCP).
+- `main` (function) `modules/ttpscope_bridge.py:679` `def main()` -- CLI entry point for the lazyaddon execute_command.
+
+## modules/unified_bridge.py
+Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
+Imported by: `lazyown.py`
+- `RouteBackend.available` (method) `modules/unified_bridge.py:69` `def available(self)`
+- `RouteBackend.route` (method) `modules/unified_bridge.py:72` `def route(self, prompt, context)`
+- `KeywordBackend.available` (method) `modules/unified_bridge.py:102` `def available(self)`
+- `KeywordBackend.route` (method) `modules/unified_bridge.py:105` `def route(self, prompt, context)`
+- `LazyownBridgeBackend.available` (method) `modules/unified_bridge.py:126` `def available(self)`
+- `LazyownBridgeBackend.route` (method) `modules/unified_bridge.py:134` `def route(self, prompt, context)`
+- `TopoSwarmBackend.available` (method) `modules/unified_bridge.py:164` `def available(self)`
+- `TopoSwarmBackend.route` (method) `modules/unified_bridge.py:173` `def route(self, prompt, context)`
+- `UnifiedBridge.__init__` (method) `modules/unified_bridge.py:214` `def __init__(self)`
+- `UnifiedBridge.get` (method) `modules/unified_bridge.py:225` `def get(cls)`
+- `UnifiedBridge.set_publish_callback` (method) `modules/unified_bridge.py:230` `def set_publish_callback(self, cb)`
+- `UnifiedBridge.route` (method) `modules/unified_bridge.py:253` `def route(self, prompt, context)` -- Route a natural-language prompt to the best LazyOwn tool.
+- `UnifiedBridge.delegate` (method) `modules/unified_bridge.py:300` `def delegate(self, goal, backend, timeout, max_iterations)` -- Delegate a complex task to an internal AI agent.
+- `UnifiedBridge.list_backends` (method) `modules/unified_bridge.py:461` `def list_backends(self)`
+- `route_prompt` (function) `modules/unified_bridge.py:483` `def route_prompt(prompt, context)` -- Convenience: route a prompt without instantiating UnifiedBridge.
+- `delegate_task` (function) `modules/unified_bridge.py:488` `def delegate_task(goal, backend)` -- Convenience: delegate a task to an AI agent.
+
+## modules/unified_dashboard.py
+Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
+Imported by: `skills/mcp_tools/unified_dashboard.py`, `tests/test_unified_dashboard.py`
+- `UnifiedDashboard.__init__` (method) `modules/unified_dashboard.py:44` `def __init__(self, sessions_dir)`
+- `UnifiedDashboard.build_unified_snapshot` (method) `modules/unified_dashboard.py:76` `def build_unified_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
+- `UnifiedDashboard.render_unified` (method) `modules/unified_dashboard.py:170` `def render_unified(self)` -- Render the unified dashboard as a text string for CLI/TUI.
+- `UnifiedDashboard.export_json` (method) `modules/unified_dashboard.py:251` `def export_json(self)` -- Export the unified snapshot as a JSON string.
+- `get_unified_dashboard` (function) `modules/unified_dashboard.py:256` `def get_unified_dashboard(sessions_dir)` -- Return a module-level :class:`UnifiedDashboard` singleton.
+
+## modules/venator.py
+- `getUUID` (function) `modules/venator.py:38` `def getUUID()`
+- `io_key` (function) `modules/venator.py:49` `def io_key(keyname)`
+- `getSystemInfo` (function) `modules/venator.py:66` `def getSystemInfo(output_file)`
+- `getVTResult` (function) `modules/venator.py:83` `def getVTResult(fileHash)`
+- `getHash` (function) `modules/venator.py:112` `def getHash(file, ignoreVFlag)`
+- `checkSignature` (function) `modules/venator.py:132` `def checkSignature(file, bundle)`
+- `datetime_handler` (function) `modules/venator.py:210` `def datetime_handler(x)`
+- `parseAgentsDaemons` (function) `modules/venator.py:215` `def parseAgentsDaemons(item, path)`
+- `getLaunchAgents` (function) `modules/venator.py:287` `def getLaunchAgents(path, output_file, ignoreVFlag)`
+- `getLaunchDaemons` (function) `modules/venator.py:302` `def getLaunchDaemons(path, output_file, ignoreVFlag)`
+- `getUsers` (function) `modules/venator.py:317` `def getUsers(output_file)`
+- `getSafariExtensions` (function) `modules/venator.py:338` `def getSafariExtensions(path, output_file)`
+- `getChromeExtensions` (function) `modules/venator.py:357` `def getChromeExtensions(path, output_file)`
+- `getChromeDownloads` (function) `modules/venator.py:388` `def getChromeDownloads(chromeHistoryDbPath, output_file)`
+- `getFirefoxExtensions` (function) `modules/venator.py:442` `def getFirefoxExtensions(path, output_file)`
+- `getInstallHistory` (function) `modules/venator.py:477` `def getInstallHistory(output_file)`
+- `getCronJobs` (function) `modules/venator.py:494` `def getCronJobs(users, output_file)`
+- `getEmond` (function) `modules/venator.py:513` `def getEmond(output_file)`
+- `getKext` (function) `modules/venator.py:530` `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
+- `getEnv` (function) `modules/venator.py:577` `def getEnv(output_file)`
+- `getPeriodicScripts` (function) `modules/venator.py:592` `def getPeriodicScripts(output_file)`
+- `getConnections` (function) `modules/venator.py:609` `def getConnections(output_file)`
+- `SIPStatus` (function) `modules/venator.py:637` `def SIPStatus(output_file)`
+- `GatekeeperStatus` (function) `modules/venator.py:651` `def GatekeeperStatus(output_file)`
+- `parseApp` (function) `modules/venator.py:663` `def parseApp(app, ignoreVFlag)`
+- `getLoginItems` (function) `modules/venator.py:706` `def getLoginItems(path, output_file, ignoreVFlag)`
+- `getApps` (function) `modules/venator.py:741` `def getApps(path, output_file, ignoreVFlag)`
+- `getEventTaps` (function) `modules/venator.py:763` `def getEventTaps(output_file)`
+- `getBashHistory` (function) `modules/venator.py:786` `def getBashHistory(output_file, users)`
+- `getShellStartupScripts` (function) `modules/venator.py:804` `def getShellStartupScripts(users, output_file)`
+- `hmac_sha256` (function) `modules/venator.py:842` `def hmac_sha256(key, data)`
+- `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
+- `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
+- `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
+
+## modules/verb_catalog.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
+- `index_commands` (function) `modules/verb_catalog.py:254` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:294` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:331` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:364` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:420` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:435` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:449` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:487` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:579` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:593` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+
+## modules/verb_manifest.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
+- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
+- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
+- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
+- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
+- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
+- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
+- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
+- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
+- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
+
+## modules/vuln_bot_cli.py
+Depends on: `modules/vulnbot.py`
+- `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
+- `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
 
 ## modules/vulnbot.py
 Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
@@ -127,374 +463,6 @@ Imported by: `tests/test_lazy_loop.py`
 - `write_text` (function) `modules/workspace.py:72` `def write_text(rel, content)` -- Write one file, creating parents; returns the character count.
 - `make_dir` (function) `modules/workspace.py:83` `def make_dir(rel)` -- Create one directory (parents included).
 - `remove` (function) `modules/workspace.py:90` `def remove(rel)` -- Delete a file or directory tree inside the workspace.
-
-## modules/world_model.py
-Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_model_extended.py`
-- `read_state_dict` (function) `modules/world_model.py:292` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
-- `write_state_dict` (function) `modules/world_model.py:327` `def write_state_dict(path, data)` -- Atomically write a world-model state dict encrypted at rest.
-- `HostState.rank` (method) `modules/world_model.py:384` `def rank(self)`
-- `HostState.can_advance_to` (method) `modules/world_model.py:387` `def can_advance_to(self, next_state)`
-- `NetworkGraph.__init__` (method) `modules/world_model.py:491` `def __init__(self)`
-- `NetworkGraph.add_relation` (method) `modules/world_model.py:498` `def add_relation(self, relation)` -- Add a directed edge.
-- `NetworkGraph.neighbors` (method) `modules/world_model.py:506` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
-- `NetworkGraph.in_degree` (method) `modules/world_model.py:510` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
-- `NetworkGraph.out_degree` (method) `modules/world_model.py:514` `def out_degree(self, node)` -- Count edges leaving *node*.
-- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:518` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
-- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:533` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
-- `NetworkGraph.to_dict` (method) `modules/world_model.py:555` `def to_dict(self)`
-- `NetworkGraph.from_dict` (method) `modules/world_model.py:572` `def from_dict(cls, data)`
-- `HostEntry.add_service` (method) `modules/world_model.py:597` `def add_service(self, svc)`
-- `HostEntry.advance` (method) `modules/world_model.py:601` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
-- `HostEntry.to_dict` (method) `modules/world_model.py:609` `def to_dict(self)`
-- `HostEntry.from_dict` (method) `modules/world_model.py:621` `def from_dict(cls, d)`
-- `_PhaseDeriver.derive` (method) `modules/world_model.py:658` `def derive(self, hosts)`
-- `WorldModel.__init__` (method) `modules/world_model.py:777` `def __init__(self, path)`
-- `WorldModel.add_host` (method) `modules/world_model.py:793` `def add_host(self, ip)`
-- `WorldModel.reset_host` (method) `modules/world_model.py:801` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
-- `WorldModel.remove_host` (method) `modules/world_model.py:811` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
-- `WorldModel.advance_host` (method) `modules/world_model.py:827` `def advance_host(self, ip, new_state)`
-- `WorldModel.add_service` (method) `modules/world_model.py:836` `def add_service(self, ip, port, name, version, protocol)`
-- `WorldModel.add_note` (method) `modules/world_model.py:853` `def add_note(self, ip, note)`
-- `WorldModel.set_os_hint` (method) `modules/world_model.py:860` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
-- `WorldModel.get_host` (method) `modules/world_model.py:874` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
-- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:886` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
-- `WorldModel.add_credential` (method) `modules/world_model.py:897` `def add_credential(self, value, host, service)`
-- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:929` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
-- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:950` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
-- `WorldModel.add_vulnerability` (method) `modules/world_model.py:980` `def add_vulnerability(self, description, host, cve, severity)`
-- `WorldModel.add_email` (method) `modules/world_model.py:986` `def add_email(self, address, host, context)`
-- `WorldModel.add_domain` (method) `modules/world_model.py:992` `def add_domain(self, domain, host, context)`
-- `WorldModel.update_from_findings` (method) `modules/world_model.py:1006` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
-- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:1079` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
-- `WorldModel.add_relation` (method) `modules/world_model.py:1218` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
-- `WorldModel.pivot_candidates` (method) `modules/world_model.py:1239` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
-- `WorldModel.graph_snapshot` (method) `modules/world_model.py:1247` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
-- `WorldModel.get_phase` (method) `modules/world_model.py:1254` `def get_phase(self)`
-- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:1258` `def get_suggested_tools(self)`
-- `WorldModel.to_context_string` (method) `modules/world_model.py:1261` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
-- `WorldModel.reload` (method) `modules/world_model.py:1369` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
-- `WorldModel.reset` (method) `modules/world_model.py:1385` `def reset(self)` -- Clear all state and delete the persisted file.
-- `WorldModel.snapshot` (method) `modules/world_model.py:1396` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
-- `WorldModel.read_section` (method) `modules/world_model.py:1412` `def read_section(self, key)` -- Return one allowlisted passthrough section.
-- `WorldModel.write_section` (method) `modules/world_model.py:1429` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
-- `get_world_model` (function) `modules/world_model.py:1457` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
-
-## modules/yaml_generator.py
-Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
-- `YAMLPromptGenerator.__init__` (method) `modules/yaml_generator.py:18` `def __init__(self, provider, api_key)`
-- `YAMLPromptGenerator.load_payload` (method) `modules/yaml_generator.py:25` `def load_payload(self)` -- Carga las variables desde payload.json
-- `YAMLPromptGenerator.generate_prompt` (method) `modules/yaml_generator.py:54` `def generate_prompt(self, user_request)` -- Genera el prompt para la IA en inglés
-- `YAMLPromptGenerator.extract_yaml_from_markdown` (method) `modules/yaml_generator.py:100` `def extract_yaml_from_markdown(self, text)` -- Extrae el primer bloque YAML entre ```yaml y ```
-- `YAMLPromptGenerator.create_yaml_addon` (method) `modules/yaml_generator.py:109` `def create_yaml_addon(self, user_request, output_dir)` -- Genera el YAML y lo guarda en disco
-- `main` (function) `modules/yaml_generator.py:141` `def main()`
-
-## modules/yara_scanner.py
-Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
-- `YaraScanner.__init__` (method) `modules/yara_scanner.py:31` `def __init__(self, rules_dir, auto_compile)`
-- `YaraScanner.ensure_directory` (method) `modules/yara_scanner.py:41` `def ensure_directory(self)` -- Create the YARA rules directory if it does not exist.
-- `YaraScanner.compile_all` (method) `modules/yara_scanner.py:54` `def compile_all(self)` -- Compile all .yar files in the rules directory.
-- `YaraScanner.scan_file` (method) `modules/yara_scanner.py:98` `def scan_file(self, filepath, timeout)` -- Scan a single file with all compiled YARA rules.
-- `target` (function) `modules/yara_scanner.py:137` `def target()`
-- `YaraScanner.scan_directory` (method) `modules/yara_scanner.py:187` `def scan_directory(self, directory, recursive, extensions, max_files)` -- Scan all files in a directory recursively.
-- `YaraScanner.add_rule` (method) `modules/yara_scanner.py:258` `def add_rule(self, name, content)` -- Add a new YARA rule to the rules directory.
-- `YaraScanner.list_rules` (method) `modules/yara_scanner.py:277` `def list_rules(self)` -- List all YARA rules in the rules directory.
-- `YaraScanner.download_community_rules` (method) `modules/yara_scanner.py:300` `def download_community_rules(self)` -- Attempt to download community YARA rules from popular repositories.
-- `YaraScanner.ioc_scan` (method) `modules/yara_scanner.py:328` `def ioc_scan(self, target_path, iocs)` -- Scan for IOCs (hashes, strings, registry keys) in a file/directory.
-- `create_default_rules` (function) `modules/yara_scanner.py:371` `def create_default_rules()` -- Create a set of default YARA rules for common threats.
-
-## plugins/generate_c_reverse_shell.lua
-- `generate_c_reverse_shell` (function) `plugins/generate_c_reverse_shell.lua:1`
-- `all` (function) `plugins/generate_c_reverse_shell.lua:108`
-
-## plugins/generate_cleanup_commands.lua
-- `generate_cleanup_commands` (function) `plugins/generate_cleanup_commands.lua:3`
-
-## plugins/generate_html_payload.lua
-- `generate_html_payload` (function) `plugins/generate_html_payload.lua:1`
-
-## plugins/generate_lateral_command.lua
-- `generate_lateral_command` (function) `plugins/generate_lateral_command.lua:4`
-
-## plugins/generate_linux_asm_reverse_shell.lua
-- `generate_linux_asm_reverse_shell` (function) `plugins/generate_linux_asm_reverse_shell.lua:1`
-- `all` (function) `plugins/generate_linux_asm_reverse_shell.lua:121`
-
-## plugins/generate_linux_raw_shellcode.lua
-- `generate_linux_raw_shellcode` (function) `plugins/generate_linux_raw_shellcode.lua:1`
-
-## plugins/generate_lolbird.lua
-- `write_file` (function) `plugins/generate_lolbird.lua:4`
-- `read_file` (function) `plugins/generate_lolbird.lua:12`
-- `xor_hex_string` (function) `plugins/generate_lolbird.lua:21`
-- `xor_string` (function) `plugins/generate_lolbird.lua:31`
-- `generate_lolbird_ps1` (function) `plugins/generate_lolbird.lua:44`
-- `Xor` (function) `plugins/generate_lolbird.lua:64`
-
-## plugins/generate_msfvenom_loader.lua
-- `execute_command_to_file` (function) `plugins/generate_msfvenom_loader.lua:2`
-- `read_file` (function) `plugins/generate_msfvenom_loader.lua:7`
-- `hex_to_nasm` (function) `plugins/generate_msfvenom_loader.lua:18`
-- `generate_loader` (function) `plugins/generate_msfvenom_loader.lua:49`
-- `generate_msfvenom_loader` (function) `plugins/generate_msfvenom_loader.lua:104`
-
-## plugins/generate_msfvenom_loader_windows.lua
-- `generate_msfvenom_loader_windows` (function) `plugins/generate_msfvenom_loader_windows.lua:2`
-
-## plugins/generate_reverse_shell.lua
-- `generate_reverse_shell` (function) `plugins/generate_reverse_shell.lua:1`
-
-## plugins/generate_stub.lua
-- `write_file` (function) `plugins/generate_stub.lua:4`
-- `read_file` (function) `plugins/generate_stub.lua:12`
-- `xor_data` (function) `plugins/generate_stub.lua:21`
-- `xor_string` (function) `plugins/generate_stub.lua:30`
-- `generate_stub_ps1` (function) `plugins/generate_stub.lua:43`
-
-## plugins/init_plugins.lua
-- `load_plugin` (function) `plugins/init_plugins.lua:6`
-
-## plugins/kerberos_harvest.lua
-- `kerberos_harvest` (function) `plugins/kerberos_harvest.lua:1`
-
-## plugins/lolbas_certutil_download_exec.lua
-- `write_file` (function) `plugins/lolbas_certutil_download_exec.lua:5`
-- `read_file` (function) `plugins/lolbas_certutil_download_exec.lua:13`
-- `xor_data` (function) `plugins/lolbas_certutil_download_exec.lua:21`
-
-## plugins/lolbas_certutil_exe.lua
-- `run_msfvenom` (function) `plugins/lolbas_certutil_exe.lua:2`
-
-## plugins/lolbas_wmic_xsl_execution.lua
-- `write_file` (function) `plugins/lolbas_wmic_xsl_execution.lua:4`
-
-## plugins/parse_nmap_with_xmlstarlet.lua
-- `parse_nmap_with_xmlstarlet` (function) `plugins/parse_nmap_with_xmlstarlet.lua:1`
-
-## plugins/run_nuclei_on_nmap_files.lua
-- `run_nuclei_on_nmap_files` (function) `plugins/run_nuclei_on_nmap_files.lua:1`
-
-## plugins/run_python_rev_c2.lua
-- `run_python_rev_c2` (function) `plugins/run_python_rev_c2.lua:2`
-
-## plugins/rundll32_sct_from_url.lua
-- `write_file` (function) `plugins/rundll32_sct_from_url.lua:4`
-- `read_file` (function) `plugins/rundll32_sct_from_url.lua:12`
-- `base64_encode` (function) `plugins/rundll32_sct_from_url.lua:22`
-- `generate_sct` (function) `plugins/rundll32_sct_from_url.lua:58`
-
-## plugins/validate_shellcode.lua
-- `hex_to_bytes` (function) `plugins/validate_shellcode.lua:2`
-- `esc_hex_to_bytes` (function) `plugins/validate_shellcode.lua:21`
-- `hex_list_to_byte_values` (function) `plugins/validate_shellcode.lua:65`
-- `validate_shellcode` (function) `plugins/validate_shellcode.lua:81`
-
-## plugins/visualize_network.lua
-- `visualize_network` (function) `plugins/visualize_network.lua:1`
-
-## poc_tui/app.py
-Depends on: `cli/commands/containers.py`, `lazyown.py`
-Imported by: `poc_tui/__main__.py`, `poc_tui/run.py`, `poc_tui/test_app.py`
-- `ShellBackend.__init__` (method) `poc_tui/app.py:47` `def __init__(self, base_dir)`
-- `ShellBackend.import_shell_class` (method) `poc_tui/app.py:53` `def import_shell_class(self)` -- Import LazyOwnShell in the main thread (required for signal handlers).
-- `ShellBackend.start` (method) `poc_tui/app.py:71` `def start(self)` -- Instantiate LazyOwnShell (must be called from main thread).
-- `ShellBackend.run` (method) `poc_tui/app.py:83` `def run(self, cmd)` -- Execute a command and return its captured output.
-- `ShellBackend.get_commands` (method) `poc_tui/app.py:106` `def get_commands(self)` -- Return {command_name: help_text} from the live shell.
-- `ShellBackend.get_aliases` (method) `poc_tui/app.py:119` `def get_aliases(self)`
-- `ShellBackend.stop` (method) `poc_tui/app.py:124` `def stop(self)`
-- `DashboardPanel.__init__` (method) `poc_tui/app.py:140` `def __init__(self, base_dir)`
-- `DashboardPanel.compose` (method) `poc_tui/app.py:144` `def compose(self)`
-- `DashboardPanel.refresh_data` (method) `poc_tui/app.py:165` `def refresh_data(self, backend, cmd_count)` -- Pull latest state from the LIVE shell params (not stale disk file).
-- `PluginBrowser.__init__` (method) `poc_tui/app.py:198` `def __init__(self)`
-- `PluginBrowser.compose` (method) `poc_tui/app.py:201` `def compose(self)`
-- `PluginBrowser.update_commands` (method) `poc_tui/app.py:207` `def update_commands(self, commands)`
-- `OutputPanel.__init__` (method) `poc_tui/app.py:248` `def __init__(self)`
-- `OutputPanel.compose` (method) `poc_tui/app.py:252` `def compose(self)`
-- `OutputPanel.write_renderable` (method) `poc_tui/app.py:258` `def write_renderable(self, renderable)` -- Write a Rich renderable (no markup parsing applied).
-- `OutputPanel.write_markup` (method) `poc_tui/app.py:263` `def write_markup(self, text)` -- Write a trusted internal string with Rich markup.
-- `OutputPanel.append_command` (method) `poc_tui/app.py:268` `def append_command(self, cmd)`
-- `OutputPanel.append_result` (method) `poc_tui/app.py:273` `def append_result(self, text, success)` -- Write real shell output, converting ANSI — never markup-parsed.
-- `OutputPanel.append_error` (method) `poc_tui/app.py:283` `def append_error(self, text)` -- Write a TUI-side error message (plain, no markup from unsafe text).
-- `OutputPanel.append_system` (method) `poc_tui/app.py:287` `def append_system(self, text)` -- Write a TUI-side status message.
-- `LazyOwnTUI.__init__` (method) `poc_tui/app.py:394` `def __init__(self, base_dir)`
-- `LazyOwnTUI.compose` (method) `poc_tui/app.py:405` `def compose(self)`
-- `LazyOwnTUI.on_mount` (method) `poc_tui/app.py:418` `def on_mount(self)` -- Start the real cmd2 shell backend.
-- `LazyOwnTUI.execute_command` (method) `poc_tui/app.py:470` `def execute_command(self, cmd_str)` -- Send command to real cmd2 shell, display captured output.
-- `LazyOwnTUI.action_clear_output` (method) `poc_tui/app.py:539` `def action_clear_output(self)`
-- `LazyOwnTUI.action_tab_complete` (method) `poc_tui/app.py:544` `def action_tab_complete(self)`
-- `LazyOwnTUI.action_toggle_sidebar` (method) `poc_tui/app.py:549` `def action_toggle_sidebar(self)`
-- `LazyOwnTUI.action_refresh_dashboard` (method) `poc_tui/app.py:555` `def action_refresh_dashboard(self)`
-- `LazyOwnTUI.action_quit` (method) `poc_tui/app.py:561` `def action_quit(self)` -- Clean shutdown: drop the queue, stop the shell, exit the app.
-- `LazyOwnTUI.on_command_submitted` (method) `poc_tui/app.py:577` `def on_command_submitted(self, event)`
-- `LazyOwnTUI.on_key` (method) `poc_tui/app.py:586` `def on_key(self, event)`
-- `main` (function) `poc_tui/app.py:629` `def main()`
-
-## poc_tui/config.py
-Imported by: `poc_tui/plugin_loader.py`
-- `PayloadConfig.reload` (method) `poc_tui/config.py:21` `def reload(self)` -- Re-read payload.json from disk.
-- `PayloadConfig.save` (method) `poc_tui/config.py:28` `def save(self)` -- Persist current state back to payload.json.
-- `PayloadConfig.get` (method) `poc_tui/config.py:35` `def get(self, key, default)`
-- `PayloadConfig.set` (method) `poc_tui/config.py:38` `def set(self, key, value)`
-- `PayloadConfig.keys` (method) `poc_tui/config.py:41` `def keys(self)`
-- `PayloadConfig.items` (method) `poc_tui/config.py:44` `def items(self)`
-
-## poc_tui/plugin_loader.py
-Depends on: `poc_tui/config.py`
-- `PluginLoader.__init__` (method) `poc_tui/plugin_loader.py:91` `def __init__(self, config, base_dir)`
-- `wrapper` (function) `poc_tui/plugin_loader.py:117` `def wrapper(arg)`
-- `PluginLoader.load_all` (method) `poc_tui/plugin_loader.py:139` `def load_all(self)` -- Load yaml addons, lua plugins, and .tool files.
-- `wrapper` (function) `poc_tui/plugin_loader.py:172` `def wrapper(arg)`
-- `wrapper` (function) `poc_tui/plugin_loader.py:269` `def wrapper(arg)`
-- `_LuaAppProxy.__init__` (method) `poc_tui/plugin_loader.py:294` `def __init__(self, config)`
-- `_LuaAppProxy.params` (method) `poc_tui/plugin_loader.py:298` `def params(self)`
-- `_LuaAppProxy.one_cmd` (method) `poc_tui/plugin_loader.py:301` `def one_cmd(self, cmd)`
-
-## poc_tui/run.py
-Depends on: `poc_tui/app.py`
-Imported by: `static/hexabot/hexabot-spinner.js`
-- `main` (function) `poc_tui/run.py:9` `def main()`
-
-## readmeneitor.py
-- `normalize_trailing_newline` (function) `readmeneitor.py:74` `def normalize_trailing_newline(output_path)` -- Collapse a generated file tail to exactly one newline.
-- `load_command_index` (function) `readmeneitor.py:83` `def load_command_index(index_path)` -- Load and parse the command index JSON file.
-- `build_command_map` (function) `readmeneitor.py:104` `def build_command_map(index_data)` -- Build a lookup dict from command name to its metadata.
-- `extract_docstrings_from_file` (function) `readmeneitor.py:132` `def extract_docstrings_from_file(filepath)` -- Parse a single Python file with AST and extract docstrings of ``do_*`` methods.
-- `extract_docstrings_from_dir` (function) `readmeneitor.py:161` `def extract_docstrings_from_dir(dirpath)` -- Recursively scan a directory for Python files and extract all ``do_*`` docstrings.
-- `group_commands_by_phase` (function) `readmeneitor.py:187` `def group_commands_by_phase(cmd_map)` -- Group command names by their kill-chain phase.
-- `extract_functions_from_file` (function) `readmeneitor.py:209` `def extract_functions_from_file(filepath)` -- Parse a Python file with AST and extract docstrings of public functions.
-- `write_utils_md` (function) `readmeneitor.py:241` `def write_utils_md(functions, output_path)` -- Generate UTILS.md with a helper-function reference for ``utils.py``.
-- `write_commands_md` (function) `readmeneitor.py:276` `def write_commands_md(cmd_map, docstrings, groups, output_path)` -- Generate COMMANDS.md with a table of contents and per-phase command reference.
-- `convert_to_html` (function) `readmeneitor.py:343` `def convert_to_html(md_path, html_path)` -- Convert the generated Markdown file to HTML using pandoc.
-- `main` (function) `readmeneitor.py:379` `def main()` -- Entry point: scan sources, load metadata, and generate reference docs.
-
-## run_topoexploit_agent.sh
-- `banner` (function) `run_topoexploit_agent.sh:29`
-- `start_api` (function) `run_topoexploit_agent.sh:38`
-
-## scripts/activate_migrations.py
-- `find_migrated_sets` (function) `scripts/activate_migrations.py:32` `def find_migrated_sets()` -- Return paths to all *_migrated.py files using PendingCommandSet.
-- `extract_command_names` (function) `scripts/activate_migrations.py:42` `def extract_command_names(migrated_path)` -- Extract do_* method names from a migrated CommandSet file.
-- `find_in_lazyown` (function) `scripts/activate_migrations.py:52` `def find_in_lazyown(command_names)` -- Return {name: (start_line, end_line)} for commands in lazyown.py.
-- `remove_from_lazyown` (function) `scripts/activate_migrations.py:62` `def remove_from_lazyown(locations, dry_run)` -- Remove the specified do_* methods from lazyown.py.
-- `activate_migrated_file` (function) `scripts/activate_migrations.py:75` `def activate_migrated_file(migrated_path, dry_run)` -- Change PendingCommandSet to LazyOwnCommandSet in the migrated file.
-- `main` (function) `scripts/activate_migrations.py:88` `def main()`
-
-## scripts/backfill_addon_os_trigger.py
-- `classify_os` (function) `scripts/backfill_addon_os_trigger.py:104` `def classify_os(filename)` -- Return a MITRE-platform string for the addon based on filename.
-- `known_trigger` (function) `scripts/backfill_addon_os_trigger.py:121` `def known_trigger(name)` -- Return the curated trigger tuple for an addon, or ``()``.
-- `render_trigger` (function) `scripts/backfill_addon_os_trigger.py:127` `def render_trigger(trigger)` -- Render the trigger field as inline YAML matching the project style.
-- `patch` (function) `scripts/backfill_addon_os_trigger.py:141` `def patch(path)` -- Return the new file content with ``os`` and ``trigger`` inserted.
-- `main` (function) `scripts/backfill_addon_os_trigger.py:175` `def main()` -- Walk every addon and rewrite files that need backfilling.
-
-## scripts/broadcom_wps_drive.sh
-- `log` (function) `scripts/broadcom_wps_drive.sh:53`
-- `warn` (function) `scripts/broadcom_wps_drive.sh:54`
-- `die` (function) `scripts/broadcom_wps_drive.sh:55`
-- `usage` (function) `scripts/broadcom_wps_drive.sh:57`
-- `payload_value` (function) `scripts/broadcom_wps_drive.sh:61`
-- `parse_flags` (function) `scripts/broadcom_wps_drive.sh:81`
-- `detect_interface` (function) `scripts/broadcom_wps_drive.sh:151`
-- `is_wireless` (function) `scripts/broadcom_wps_drive.sh:162`
-- `apply_interface` (function) `scripts/broadcom_wps_drive.sh:166`
-- `resolve_interface` (function) `scripts/broadcom_wps_drive.sh:170`
-- `is_root` (function) `scripts/broadcom_wps_drive.sh:190`
-- `have_sudo` (function) `scripts/broadcom_wps_drive.sh:194`
-- `elevate` (function) `scripts/broadcom_wps_drive.sh:200`
-- `interface_mode` (function) `scripts/broadcom_wps_drive.sh:210`
-- `interface_up` (function) `scripts/broadcom_wps_drive.sh:216`
-- `python_bin` (function) `scripts/broadcom_wps_drive.sh:227`
-- `has_scapy` (function) `scripts/broadcom_wps_drive.sh:231`
-- `do_monitor` (function) `scripts/broadcom_wps_drive.sh:235`
-- `do_unmonitor` (function) `scripts/broadcom_wps_drive.sh:247`
-- `ensure_monitor_mode` (function) `scripts/broadcom_wps_drive.sh:259`
-- `run_fingerprint` (function) `scripts/broadcom_wps_drive.sh:268`
-- `run_yara` (function) `scripts/broadcom_wps_drive.sh:308`
-- `do_status` (function) `scripts/broadcom_wps_drive.sh:325`
-- `do_doctor` (function) `scripts/broadcom_wps_drive.sh:348`
-- `main` (function) `scripts/broadcom_wps_drive.sh:404`
-
-## scripts/check_contract_manifest.py
-Imported by: `tests/test_contract_manifest.py`
-- `check_manifest` (function) `scripts/check_contract_manifest.py:176` `def check_manifest(config)` -- Return the list of documented contracts that are missing on disk.
-- `main` (function) `scripts/check_contract_manifest.py:229` `def main(argv)` -- Run the manifest check and return the process exit code.
-
-## scripts/devtools/command_audit.py
-Depends on: `lazyown.py`
-- `argparser_commands` (function) `scripts/devtools/command_audit.py:40` `def argparser_commands(config)` -- Return the command names decorated with ``@with_argparser``.
-- `audit` (function) `scripts/devtools/command_audit.py:65` `def audit(config)` -- Run the dispatch and parser audit.
-- `main` (function) `scripts/devtools/command_audit.py:105` `def main(argv)` -- Run the audit and return the process exit code.
-
-## scripts/devtools/core_smoke.py
-Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `modules/killchain.py`, `modules/payload_factory.py`
-- `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
-- `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
-- `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
-
-## scripts/dirtyinit_drive.sh
-- `log` (function) `scripts/dirtyinit_drive.sh:65`
-- `warn` (function) `scripts/dirtyinit_drive.sh:66`
-- `die` (function) `scripts/dirtyinit_drive.sh:67`
-- `payload_value` (function) `scripts/dirtyinit_drive.sh:69`
-- `parse_flags` (function) `scripts/dirtyinit_drive.sh:89`
-- `require_adb` (function) `scripts/dirtyinit_drive.sh:130`
-- `require_device` (function) `scripts/dirtyinit_drive.sh:134`
-- `find_sdk` (function) `scripts/dirtyinit_drive.sh:141`
-- `find_ndk` (function) `scripts/dirtyinit_drive.sh:152`
-- `find_build_tools` (function) `scripts/dirtyinit_drive.sh:166`
-- `find_android_jar` (function) `scripts/dirtyinit_drive.sh:173`
-- `find_ndk_clang` (function) `scripts/dirtyinit_drive.sh:185`
-- `find_java_tool` (function) `scripts/dirtyinit_drive.sh:201`
-- `pack_apk` (function) `scripts/dirtyinit_drive.sh:211`
-- `compile_activity` (function) `scripts/dirtyinit_drive.sh:255`
-- `do_build` (function) `scripts/dirtyinit_drive.sh:265`
-- `do_install` (function) `scripts/dirtyinit_drive.sh:329`
-- `do_launch` (function) `scripts/dirtyinit_drive.sh:340`
-- `tap_button` (function) `scripts/dirtyinit_drive.sh:348`
-- `do_auto` (function) `scripts/dirtyinit_drive.sh:382`
-- `do_extract` (function) `scripts/dirtyinit_drive.sh:393`
-- `do_stage` (function) `scripts/dirtyinit_drive.sh:402`
-- `do_run` (function) `scripts/dirtyinit_drive.sh:412`
-- `do_logs` (function) `scripts/dirtyinit_drive.sh:418`
-- `do_status` (function) `scripts/dirtyinit_drive.sh:423`
-- `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
-- `do_help` (function) `scripts/dirtyinit_drive.sh:525`
-- `main` (function) `scripts/dirtyinit_drive.sh:529`
-
-## scripts/generate_sbom.py
-- `parse_requirement` (function) `scripts/generate_sbom.py:25` `def parse_requirement(line)` -- Split one requirements line into (name, pinned_version|None).
-- `collect_components` (function) `scripts/generate_sbom.py:37` `def collect_components(with_ml)` -- Parse requirements files into CycloneDX components, deduplicated.
-- `project_version` (function) `scripts/generate_sbom.py:68` `def project_version()` -- Read the package version from pyproject.toml.
-- `build_sbom` (function) `scripts/generate_sbom.py:74` `def build_sbom(with_ml)` -- Assemble the CycloneDX document.
-- `main` (function) `scripts/generate_sbom.py:92` `def main()` -- CLI entry point.
-
-## scripts/journal.py
-Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
-- `JournalConfig.from_git_remote` (method) `scripts/journal.py:71` `def from_git_remote(cls, remote, category)` -- Build a config from the ``origin`` remote of the current checkout.
-- `Journal.repo_id` (method) `scripts/journal.py:184` `def repo_id(self)` -- The GraphQL node id of the repository.
-- `Journal.category_id` (method) `scripts/journal.py:192` `def category_id(self)` -- The GraphQL node id of the journal category.
-- `Journal.post` (method) `scripts/journal.py:206` `def post(self, title, body)` -- Create a journal entry and return its number, url, and title.
-- `Journal.entries` (method) `scripts/journal.py:223` `def entries(self, limit)` -- Return the most recently updated journal entries.
-- `main` (function) `scripts/journal.py:264` `def main(argv)` -- Run the journal CLI and return the process exit code.
-
-## scripts/lazy_llamacpp_serve.sh
-- `healthy` (function) `scripts/lazy_llamacpp_serve.sh:33`
-
-## scripts/lazy_llamacpp_setup.sh
-- `ask` (function) `scripts/lazy_llamacpp_setup.sh:40`
-
-## scripts/lazy_opencode_config.py
-Imported by: `skills/mcp_tools/opencode_config.py`
-- `patch_opencode` (function) `scripts/lazy_opencode_config.py:46` `def patch_opencode(set_default, host)` -- Merge the llamacpp provider into the opencode config.
-- `patch_hermes` (function) `scripts/lazy_opencode_config.py:93` `def patch_hermes(host)` -- Point the hermes config at the local llama.cpp server.
-- `main` (function) `scripts/lazy_opencode_config.py:150` `def main(argv)` -- CLI entry: ``--target opencode|hermes|both [--set-default]``.
-
-## scripts/mcp_call.py
-- `_ToolAnswer.__init__` (method) `scripts/mcp_call.py:46` `def __init__(self, text, is_error)`
-- `main` (function) `scripts/mcp_call.py:173` `def main(argv)` -- Parse the CLI, execute one MCP tool and print its answer.
-
-## scripts/migrate_commandsets.py
-- `merge_phase` (function) `scripts/migrate_commandsets.py:117` `def merge_phase(phase, dry_run)` -- Merge one phase's migrated methods into its clean file.
-- `main` (function) `scripts/migrate_commandsets.py:158` `def main()`
 
 
 Next: [API_p21.md](API_p21.md)

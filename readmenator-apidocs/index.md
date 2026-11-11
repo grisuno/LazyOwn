@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 1095 modules, 17111 documented entities, documentation coverage 76.9% (8253/10732 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 1106 modules, 17269 documented entities, documentation coverage 77.1% (8352/10832 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), py (978), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), py (989), sh (61)
 
 ## Modules
 
@@ -50,7 +50,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 |---|---|---|---|---|
 | [`cli`](modules/cli.__init__.py.md) | LazyOwn CLI infrastructure. | 0 | 0 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | Declarative cmd2 alias loader. | 0 | 4 | 100.0% |
-| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 7 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 10 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | ``assign`` business logic. | 0 | 1 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | Automatic encryption of sensitive session data on app open/close. | 2 | 7 | 100.0% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | 7 | 18 | 96.2% |
@@ -182,13 +182,14 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | Lab environment commands -- spin up vulnerable practice targets. | 1 | 1 | 100.0% |
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | Lateral Movement command set (pending). | 1 | 8 | 100.0% |
 | [`cli.commands.lateral_migrated`](modules/cli.commands.lateral_migrated.py.md) | lateral commands migrated from lazyown.py. | 1 | 21 | 95.7% |
+| [`cli.commands.lazy_adaptive`](modules/cli.commands.lazy_adaptive.py.md) | LazyAdaptive policy inspector for the ``adaptive`` fallback contract. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_creds`](modules/cli.commands.lazy_creds.py.md) | LazyCreds shell commands: default-credential knowledge base lookups. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_dorks`](modules/cli.commands.lazy_dorks.py.md) | LazyDorks shell command: render target dork playbooks into session artefacts. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_passgen`](modules/cli.commands.lazy_passgen.py.md) | LazyPassGen shell command: target-aware weak password generation. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_poc`](modules/cli.commands.lazy_poc.py.md) | LazyPoc shell commands: catalogued PoC scripts as reusable verbs. | 1 | 1 | 100.0% |
 | [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | Lazy queue and misc command set. | 1 | 11 | 100.0% |
-| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 59 | 96.7% |
+| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 62 | 96.9% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | Plugin/addon marketplace commands. | 1 | 2 | 100.0% |
 | [`cli.commands.mcp_bridge`](modules/cli.commands.mcp_bridge.py.md) | MCP verb bridge — one command language for operators and agents. | 1 | 10 | 100.0% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | misc commands migrated from lazyown.py. | 1 | 29 | 96.8% |
@@ -291,9 +292,10 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`core.errors`](modules/core.errors.py.md) | Error taxonomy for the LazyOwn framework. | 11 | 11 | 56.5% |
 | [`core.executor`](modules/core.executor.py.md) | Centralised subprocess wrapper for the LazyOwn framework. | 0 | 4 | 100.0% |
 | [`core.hardening`](modules/core.hardening.py.md) | Centralized security hardening utilities for the LazyOwn framework. | 1 | 29 | 100.0% |
-| [`core.host_policy`](modules/core.host_policy.py.md) | Single source of truth for host and network shape validation. | 0 | 3 | 100.0% |
+| [`core.host_policy`](modules/core.host_policy.py.md) | Single source of truth for host and network shape validation. | 0 | 5 | 100.0% |
 | [`core.http`](modules/core.http.py.md) | HTTP and API utilities for the LazyOwn framework. | 0 | 10 | 100.0% |
 | [`core.llm_budget`](modules/core.llm_budget.py.md) | LLM budget cap and per call token counter. | 9 | 24 | 82.4% |
+| [`core.llm_key_pool`](modules/core.llm_key_pool.py.md) | Per-backend LLM API key pool with round-robin rotation and quota cooldown. | 1 | 13 | 100.0% |
 | [`core.logging`](modules/core.logging.py.md) | Structured JSON-lines logging for the LazyOwn framework. | 2 | 4 | 85.7% |
 | [`core.network`](modules/core.network.py.md) | Network primitives for the LazyOwn framework. | 0 | 8 | 100.0% |
 | [`core.param_registry`](modules/core.param_registry.py.md) | Operator-managed parameter registry. | 1 | 14 | 100.0% |
@@ -526,6 +528,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.bof_admin`](modules/modules.bof_admin.py.md) | Safe CRUD for the BOF YAML configurations under ``bofs/``. | 1 | 11 | 100.0% |
 | [`modules.bof_delivery`](modules/modules.bof_delivery.py.md) | BOF delivery through the lazyaddon beacon clients. | 2 | 13 | 100.0% |
 | [`modules.bof_registry`](modules/modules.bof_registry.py.md) | Beacon Object File (BOF) registry and marketplace for LazyOwn. | 8 | 40 | 95.9% |
+| [`modules.bsb_compat`](modules/modules.bsb_compat.py.md) | BlackSandBeacon wire-protocol compatibility helpers. | 0 | 3 | 100.0% |
 | [`modules.c2_agent`](modules/modules.c2_agent.py.md) | Malleable C2 client lifecycle for lab targets. | 1 | 12 | 92.9% |
 | [`modules.c2_builder`](modules/modules.c2_builder.py.md) | C2 agent builder with profile-driven compilation and safe templating. | 2 | 2 | 80.0% |
 | [`modules.c2_messaging_base`](modules/modules.c2_messaging_base.py.md) |  | 2 | 10 | 84.6% |
@@ -537,6 +540,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.chain_approval`](modules/modules.chain_approval.py.md) | Human-in-the-loop approval gate for confirm chain steps. | 1 | 9 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | 2 | 7 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | Bridge chain run outputs into the FactStore. | 0 | 1 | 100.0% |
+| [`modules.chain_family`](modules/modules.chain_family.py.md) | Isomorphism transfer: reuse a winning chain across structurally-similar targets. | 1 | 7 | 100.0% |
 | [`modules.chain_loop`](modules/modules.chain_loop.py.md) | Chain-aware loop execution: one contract, two transport modes. | 1 | 6 | 100.0% |
 | [`modules.chain_match`](modules/modules.chain_match.py.md) | Shared selector for the best vetted chain given phase, platform and services. | 0 | 7 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
@@ -598,6 +602,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.exploitdb_c_bridge`](modules/modules.exploitdb_c_bridge.py.md) |  | 0 | 5 | 0.0% |
 | [`modules.exploitgym_gym`](modules/modules.exploitgym_gym.py.md) | ExploitGym integration — real-world vulnerability-to-exploit benchmark. | 0 | 7 | 100.0% |
 | [`modules.factsio`](modules/modules.factsio.py.md) | Canonical reader for the FactStore ``policy_facts.json`` document. | 0 | 4 | 100.0% |
+| [`modules.failure_verdict`](modules/modules.failure_verdict.py.md) | Failure verdict contract: classify one failed execution into an action. | 3 | 4 | 100.0% |
 | [`modules/fast_run_service.sh`](modules/modules.fast_run_service.sh.md) | fast_run_service.sh LazyOwn service-mode orchestrator. | 0 | 39 | 25.0% |
 | [`modules.finding_lifecycle`](modules/modules.finding_lifecycle.py.md) | Finding confirmation lifecycle: pending -> confirmed / rejected. | 2 | 16 | 100.0% |
 | [`modules.forensic_cleaner`](modules/modules.forensic_cleaner.py.md) | Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup. | 2 | 6 | 88.9% |
@@ -637,15 +642,19 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | 0 | 16 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 16 | 100.0% |
 | [`modules.lazy_autofire`](modules/modules.lazy_autofire.py.md) | Lazy autofire: exploit intelligence closing the loop into chains. | 0 | 4 | 100.0% |
+| [`modules.lazy_blindspot`](modules/modules.lazy_blindspot.py.md) | Blindspot review contract for the lazy autonomous loop. | 2 | 6 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | Bidirectional LAZY <-> LazyOwn bridge. | 0 | 14 | 100.0% |
 | [`modules.lazy_checks`](modules/modules.lazy_checks.py.md) | Validation plans as data: re-read observed checks through version math. | 0 | 3 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | Full CLI catalog for the Lazy autonomous loop. | 0 | 10 | 100.0% |
-| [`modules.lazy_continuation`](modules/modules.lazy_continuation.py.md) | Task continuation records: campaign memory that survives loop restarts. | 1 | 4 | 100.0% |
+| [`modules.lazy_commander`](modules/modules.lazy_commander.py.md) | Fleet commander: allocate the next work slice across loop tasks. | 2 | 6 | 100.0% |
+| [`modules.lazy_continuation`](modules/modules.lazy_continuation.py.md) | Task continuation records: campaign memory that survives loop restarts. | 1 | 5 | 100.0% |
 | [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | Default-credential knowledge base for LazyOwn. | 1 | 6 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | Keyless CVE intelligence feeds and version-aware service correlation. | 0 | 10 | 100.0% |
+| [`modules.lazy_deviations`](modules/modules.lazy_deviations.py.md) | Planned-versus-actual deviation ledger for loop and chain runs. | 2 | 5 | 100.0% |
 | [`modules.lazy_drafts`](modules/modules.lazy_drafts.py.md) | Injected objective drafts: close the lazy_drafts handoff loop. | 0 | 1 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
 | [`modules.lazy_exposure`](modules/modules.lazy_exposure.py.md) | Target exposure report for LazyOwn. | 0 | 8 | 100.0% |
+| [`modules.lazy_fallback`](modules/modules.lazy_fallback.py.md) | Adaptive fallback alternatives for failed chain techniques. | 3 | 5 | 100.0% |
 | [`modules.lazy_feedmatch`](modules/modules.lazy_feedmatch.py.md) | Exploit feed matching for LazyOwn. | 3 | 10 | 100.0% |
 | [`modules.lazy_finalizer`](modules/modules.lazy_finalizer.py.md) | Evidence-gated finalization for the autonomous loop and apt_chain. | 1 | 2 | 100.0% |
 | [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | Engagement findings ledger: state machine plus reproducible evidence. | 3 | 20 | 100.0% |
@@ -655,7 +664,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
 | [`modules.lazy_inventory`](modules/modules.lazy_inventory.py.md) | Host-reported inventory for LazyOwn. | 0 | 4 | 100.0% |
 | [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | Freshness ledger: TTL windows per verb and target for the loop worker. | 0 | 5 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 262 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 257 | 100.0% |
 | [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | Match policy doctrine: what may claim a match and what stays a lead. | 1 | 8 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
 | [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | 2 | 3 | 100.0% |
@@ -723,7 +732,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | [`modules.log_tamper`](modules/modules.log_tamper.py.md) | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | 2 | 7 | 90.0% |
 | [`modules.logging_config`](modules/modules.logging_config.py.md) | Centralized logging configuration for the LazyOwn framework. | 4 | 15 | 85.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | Single edge between the autonomous loop and the LazyOwn AI stack. | 0 | 15 | 100.0% |
-| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 4 | 30 | 97.1% |
+| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 6 | 34 | 97.6% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | 4 | 13 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | Rich Live milestone panel for the autonomous loop. | 2 | 9 | 100.0% |
 | [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 13 | 100.0% |
@@ -871,6 +880,8 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (7), lua (26), php (4), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`modules.loop`](modules/modules.loop.__init__.py.md) |  | 0 | 0 | 0.0% |
+| [`modules.loop.engine_proxy`](modules/modules.loop.engine_proxy.py.md) |  | 1 | 6 | 87.5% |
+| [`modules.loop.triage_scheduler`](modules/modules.loop.triage_scheduler.py.md) | Difficulty-triage scheduling for the autonomous multi-target loop. | 1 | 6 | 100.0% |
 | [`modules.loop.worker_agentic`](modules/modules.loop.worker_agentic.py.md) |  | 1 | 0 | 50.0% |
 | [`modules.loop.worker_execution`](modules/modules.loop.worker_execution.py.md) |  | 1 | 0 | 50.0% |
 | [`modules.loop.worker_gating`](modules/modules.loop.worker_gating.py.md) |  | 1 | 0 | 50.0% |

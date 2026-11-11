@@ -1,8 +1,114 @@
-# Symbols (page 18 of 50)
+# Symbols (page 18 of 51)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_dataset_path` | function | `modules/lazy_orchestrator_feedback.py:47` | `def _dataset_path()` |
+| `_key` | function | `modules/lazy_orchestrator_feedback.py:228` | `def _key(line)` |
+| `_load_priors` | function | `modules/lazy_orchestrator_feedback.py:144` | `def _load_priors()` |
+| `_normalize` | function | `modules/lazy_orchestrator_feedback.py:129` | `def _normalize(priors)` |
+| `_priors_path` | function | `modules/lazy_orchestrator_feedback.py:41` | `def _priors_path()` |
+| `_reward_of` | function | `modules/lazy_orchestrator_feedback.py:53` | `def _reward_of(outcome)` |
+| `adjust_from_usage` | function | `modules/lazy_orchestrator_feedback.py:61` | `def adjust_from_usage(limit)` |
+| `export_dataset` | function | `modules/lazy_orchestrator_feedback.py:238` | `def export_dataset(out, limit)` |
+| `order_steps` | function | `modules/lazy_orchestrator_feedback.py:213` | `def order_steps(steps, stack)` |
+| `rank_verbs` | function | `modules/lazy_orchestrator_feedback.py:189` | `def rank_verbs(phase, verbs, stack)` |
+| `verb_prior` | function | `modules/lazy_orchestrator_feedback.py:162` | `def verb_prior(phase, verb, stack)` |
+| `addon_target_os` | function | `modules/lazy_osinfer.py:130` | `def addon_target_os(name)` |
+| `host_os_for_target` | function | `modules/lazy_osinfer.py:239` | `def host_os_for_target(target)` |
+| `infer_from_banner` | function | `modules/lazy_osinfer.py:97` | `def infer_from_banner(text)` |
+| `infer_from_ping_output` | function | `modules/lazy_osinfer.py:72` | `def infer_from_ping_output(output)` |
+| `infer_from_ttl` | function | `modules/lazy_osinfer.py:47` | `def infer_from_ttl(ttl)` |
+| `learn_from_transcripts` | function | `modules/lazy_osinfer.py:330` | `def learn_from_transcripts(target, transcripts)` |
+| `merge_os` | function | `modules/lazy_osinfer.py:118` | `def merge_os(current, new)` |
+| `os_compatible` | function | `modules/lazy_osinfer.py:194` | `def os_compatible(verb_os, host_os)` |
+| `remember_host_os` | function | `modules/lazy_osinfer.py:287` | `def remember_host_os(target, os_name, reason)` |
+| `verb_compatible_with_host` | function | `modules/lazy_osinfer.py:216` | `def verb_compatible_with_host(command, host_os)` |
+| `verb_target_os` | function | `modules/lazy_osinfer.py:157` | `def verb_target_os(command)` |
+| `RenderedCheck` | class | `modules/lazy_probes.py:47` | `class RenderedCheck` |
+| `_need_port` | function | `modules/lazy_probes.py:97` | `def _need_port(params)` |
+| `_render_http_probe` | function | `modules/lazy_probes.py:207` | `def _render_http_probe(params)` |
+| `_render_nse_script` | function | `modules/lazy_probes.py:249` | `def _render_nse_script(params)` |
+| `_render_nuclei_template` | function | `modules/lazy_probes.py:234` | `def _render_nuclei_template(params)` |
+| `_render_package_version` | function | `modules/lazy_probes.py:263` | `def _render_package_version(params)` |
+| `_render_service_state` | function | `modules/lazy_probes.py:290` | `def _render_service_state(params)` |
+| `_render_version_banner` | function | `modules/lazy_probes.py:189` | `def _render_version_banner(params)` |
+| `check_errors` | function | `modules/lazy_probes.py:108` | `def check_errors(kind, params)` |
+| `range_text` | function | `modules/lazy_probes.py:70` | `def range_text(ranges)` |
+| `render_check` | function | `modules/lazy_probes.py:156` | `def render_check(kind, params)` |
+| `render_checks` | function | `modules/lazy_probes.py:177` | `def render_checks(checks)` |
+| `CertificateAuthority` | class | `modules/lazy_proxy.py:623` | `class CertificateAuthority` |
+| `ProxyController` | class | `modules/lazy_proxy.py:803` | `class ProxyController` |
+| `ProxyHandler` | class | `modules/lazy_proxy.py:915` | `class ProxyHandler(BaseHTTPRequestHandler)` |
+| `RecorderServer` | class | `modules/lazy_proxy.py:775` | `class RecorderServer(ThreadingHTTPServer)` |
+| `_PinnedHTTPConnection` | class | `modules/lazy_proxy.py:381` | `class _PinnedHTTPConnection(HTTPConnection)` |
+| `_PinnedHTTPSConnection` | class | `modules/lazy_proxy.py:394` | `class _PinnedHTTPSConnection(HTTPSConnection)` |
+| `__init__` | method | `modules/lazy_proxy.py:384` | `def __init__(self, host, port)` |
+| `__init__` | method | `modules/lazy_proxy.py:397` | `def __init__(self, host, port)` |
+| `__init__` | method | `modules/lazy_proxy.py:626` | `def __init__(self, pki_dir)` |
+| `__init__` | method | `modules/lazy_proxy.py:779` | `def __init__(self, address, handler)` |
+| `__init__` | method | `modules/lazy_proxy.py:806` | `def __init__(self)` |
+| `_cert_stem` | function | `modules/lazy_proxy.py:485` | `def _cert_stem(host)` |
+| `_default_traffic_dir` | function | `modules/lazy_proxy.py:439` | `def _default_traffic_dir()` |
+| `_dial_pinned` | function | `modules/lazy_proxy.py:329` | `def _dial_pinned(ips, port)` |
+| `_ensure_ca` | method | `modules/lazy_proxy.py:638` | `def _ensure_ca(self)` |
+| `_forward_plain` | method | `modules/lazy_proxy.py:989` | `def _forward_plain(self)` |
+| `_handle_websocket` | method | `modules/lazy_proxy.py:1209` | `def _handle_websocket(self, scheme, host, port, path, url, req_headers)` |
+| `_host_syntax_valid` | function | `modules/lazy_proxy.py:153` | `def _host_syntax_valid(host)` |
+| `_https_connection` | function | `modules/lazy_proxy.py:428` | `def _https_connection(host, port)` |
+| `_is_lab_host` | function | `modules/lazy_proxy.py:416` | `def _is_lab_host(host)` |
+| `_is_metadata_hostname` | function | `modules/lazy_proxy.py:141` | `def _is_metadata_hostname(host)` |
+| `_is_metadata_ip` | function | `modules/lazy_proxy.py:127` | `def _is_metadata_ip(value)` |
+| `_make_handler` | function | `modules/lazy_proxy.py:911` | `def _make_handler()` |
+| `_maybe_tls` | method | `modules/lazy_proxy.py:1183` | `def _maybe_tls(sock, scheme, host)` |
+| `_open_target` | method | `modules/lazy_proxy.py:1161` | `def _open_target(self, scheme, host, port)` |
+| `_parse_upstream` | function | `modules/lazy_proxy.py:444` | `def _parse_upstream(spec)` |
+| `_proxy_allow_private` | function | `modules/lazy_proxy.py:105` | `def _proxy_allow_private()` |
+| `_proxy_insecure_tls` | function | `modules/lazy_proxy.py:117` | `def _proxy_insecure_tls()` |
+| `_proxy_trust_ca` | function | `modules/lazy_proxy.py:122` | `def _proxy_trust_ca()` |
+| `_read_headers_from` | method | `modules/lazy_proxy.py:1199` | `def _read_headers_from(sock, limit)` |
+| `_record` | method | `modules/lazy_proxy.py:1294` | `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)` |
+| `_relay` | method | `modules/lazy_proxy.py:1063` | `def _relay(self, scheme, host, port, path, url, headers, body)` |
+| `_resolved_ips` | function | `modules/lazy_proxy.py:169` | `def _resolved_ips(host)` |
+| `_run_root` | function | `modules/lazy_proxy.py:510` | `def _run_root(argv)` |
+| `_safe_send_error` | method | `modules/lazy_proxy.py:971` | `def _safe_send_error(self, code, message)` |
+| `_server_class` | function | `modules/lazy_proxy.py:771` | `def _server_class()` |
+| `_sha256` | function | `modules/lazy_proxy.py:764` | `def _sha256()` |
+| `_upstream_auth_header` | function | `modules/lazy_proxy.py:475` | `def _upstream_auth_header(auth)` |
+| `_upstream_tls_context` | function | `modules/lazy_proxy.py:236` | `def _upstream_tls_context(server_hostname)` |
+| `_utc` | function | `modules/lazy_proxy.py:757` | `def _utc(timestamp)` |
+| `_validate_proxy_target` | function | `modules/lazy_proxy.py:183` | `def _validate_proxy_target(host, port, scheme)` |
+| `_validate_upstream_path` | function | `modules/lazy_proxy.py:265` | `def _validate_upstream_path(path)` |
+| `_write_leaf` | method | `modules/lazy_proxy.py:693` | `def _write_leaf(self, host, cert_path, key_path)` |
+| `apply_env` | function | `modules/lazy_proxy.py:1361` | `def apply_env(ca_path, host, port)` |
+| `ca_path` | method | `modules/lazy_proxy.py:906` | `def ca_path(self)` |
+| `ca_trusted` | function | `modules/lazy_proxy.py:498` | `def ca_trusted(ca_path)` |
+| `connect` | method | `modules/lazy_proxy.py:389` | `def connect(self)` |
+| `connect` | method | `modules/lazy_proxy.py:410` | `def connect(self)` |
+| `connect_pinned` | function | `modules/lazy_proxy.py:355` | `def connect_pinned(host, ips, port, scheme)` |
+| `context_for` | method | `modules/lazy_proxy.py:736` | `def context_for(self, host)` |
+| `detect_nss_profiles` | function | `modules/lazy_proxy.py:517` | `def detect_nss_profiles()` |
+| `detect_trust_target` | function | `modules/lazy_proxy.py:490` | `def detect_trust_target()` |
+| `do_CONNECT` | method | `modules/lazy_proxy.py:925` | `def do_CONNECT(self)` |
+| `do_GET` | method | `modules/lazy_proxy.py:978` | `def do_GET(self)` |
+| `env_for_ca` | function | `modules/lazy_proxy.py:1345` | `def env_for_ca(ca_path, host, port)` |
+| `get_proxy` | function | `modules/lazy_proxy.py:1336` | `def get_proxy()` |
+| `handle_error` | method | `modules/lazy_proxy.py:786` | `def handle_error(self, request, client_address)` |
+| `install_ca_nss` | function | `modules/lazy_proxy.py:532` | `def install_ca_nss(ca_path, runner, profiles)` |
+| `install_ca_trust` | function | `modules/lazy_proxy.py:572` | `def install_ca_trust(ca_path, runner)` |
+| `log_message` | method | `modules/lazy_proxy.py:921` | `def log_message(self, fmt)` |
+| `recorder` | method | `modules/lazy_proxy.py:902` | `def recorder(self)` |
+| `resolve_validated_target` | function | `modules/lazy_proxy.py:282` | `def resolve_validated_target(host, port, scheme)` |
+| `restore_env` | function | `modules/lazy_proxy.py:1368` | `def restore_env(previous)` |
+| `start` | method | `modules/lazy_proxy.py:819` | `def start(self, host, port, task_id, traffic_dir, upstream)` |
+| `status` | method | `modules/lazy_proxy.py:880` | `def status(self)` |
+| `stop` | method | `modules/lazy_proxy.py:864` | `def stop(self)` |
+| `tls_lab_unverified_allowed` | function | `modules/lazy_proxy.py:253` | `def tls_lab_unverified_allowed(host)` |
+| `Permission` | class | `modules/lazy_rbac.py:66` | `class Permission(Enum)` |
+| `RBACStore` | class | `modules/lazy_rbac.py:210` | `class RBACStore` |
+| `RBACUser` | class | `modules/lazy_rbac.py:124` | `class RBACUser` |
+| `Role` | class | `modules/lazy_rbac.py:55` | `class Role(Enum)` |
+| `TenantConfig` | class | `modules/lazy_rbac.py:368` | `class TenantConfig` |
 | `TenantManager` | class | `modules/lazy_rbac.py:394` | `class TenantManager` |
 | `_UsersFileUnreadable` | class | `modules/lazy_rbac.py:115` | `class _UsersFileUnreadable(Exception)` |
 | `__init__` | method | `modules/lazy_rbac.py:213` | `def __init__(self, users_path)` |
@@ -390,111 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `edit_file_with_nano` | function | `modules/lazyown_bprfuzzer.py:169` | `def edit_file_with_nano(content)` |
 | `lazyfuzz` | function | `modules/lazyown_bprfuzzer.py:233` | `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` |
 | `load_data_from_file` | function | `modules/lazyown_bprfuzzer.py:99` | `def load_data_from_file(file_path)` |
-| `load_headers_from_file` | function | `modules/lazyown_bprfuzzer.py:93` | `def load_headers_from_file(file_path)` |
-| `main` | function | `modules/lazyown_bprfuzzer.py:302` | `def main()` |
-| `parse_arguments` | function | `modules/lazyown_bprfuzzer.py:278` | `def parse_arguments()` |
-| `repeater` | function | `modules/lazyown_bprfuzzer.py:203` | `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` |
-| `run_proxy` | function | `modules/lazyown_bprfuzzer.py:162` | `def run_proxy(port)` |
-| `send_request` | function | `modules/lazyown_bprfuzzer.py:179` | `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` |
-| `signal_handler` | function | `modules/lazyown_bprfuzzer.py:105` | `def signal_handler(sig, frame)` |
-| `AbstractSelector` | class | `modules/lazyown_bridge.py:3984` | `class AbstractSelector(ABC)` |
-| `BridgeDispatcher` | class | `modules/lazyown_bridge.py:4233` | `class BridgeDispatcher` |
-| `CatalogEntry` | class | `modules/lazyown_bridge.py:48` | `class CatalogEntry` |
-| `CommandCatalog` | class | `modules/lazyown_bridge.py:115` | `class CommandCatalog` |
-| `ContextEnricher` | class | `modules/lazyown_bridge.py:4103` | `class ContextEnricher` |
-| `MitreAlignedSelector` | class | `modules/lazyown_bridge.py:4042` | `class MitreAlignedSelector(AbstractSelector)` |
-| `PhaseMapper` | class | `modules/lazyown_bridge.py:4153` | `class PhaseMapper` |
-| `ServiceAwareSelector` | class | `modules/lazyown_bridge.py:4002` | `class ServiceAwareSelector(AbstractSelector)` |
-| `TagSelector` | class | `modules/lazyown_bridge.py:4071` | `class TagSelector(AbstractSelector)` |
-| `__init__` | method | `modules/lazyown_bridge.py:118` | `def __init__(self)` |
-| `__init__` | method | `modules/lazyown_bridge.py:4045` | `def __init__(self, technique_id)` |
-| `__init__` | method | `modules/lazyown_bridge.py:4074` | `def __init__(self, tag)` |
-| `__init__` | method | `modules/lazyown_bridge.py:4239` | `def __init__(self, catalog, selector, enricher, phase_mapper)` |
-| `_populate` | method | `modules/lazyown_bridge.py:122` | `def _populate(self)` |
-| `all_phases` | method | `modules/lazyown_bridge.py:3966` | `def all_phases(self)` |
-| `all_phases` | method | `modules/lazyown_bridge.py:4347` | `def all_phases(self)` |
-| `build_command` | method | `modules/lazyown_bridge.py:63` | `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` |
-| `by_mitre` | method | `modules/lazyown_bridge.py:3952` | `def by_mitre(self, technique_id)` |
-| `by_os` | method | `modules/lazyown_bridge.py:3963` | `def by_os(self, os_hint)` |
-| `by_phase` | method | `modules/lazyown_bridge.py:3946` | `def by_phase(self, phase)` |
-| `by_service` | method | `modules/lazyown_bridge.py:3956` | `def by_service(self, service_name)` |
-| `by_tag` | method | `modules/lazyown_bridge.py:3960` | `def by_tag(self, tag)` |
-| `canonical_kill_chain_order` | method | `modules/lazyown_bridge.py:4204` | `def canonical_kill_chain_order()` |
-| `catalog_count` | method | `modules/lazyown_bridge.py:4395` | `def catalog_count(self)` |
-| `catalog_summary` | method | `modules/lazyown_bridge.py:4350` | `def catalog_summary(self)` |
-| `catalog_summary_filtered` | method | `modules/lazyown_bridge.py:4358` | `def catalog_summary_filtered(self, phase, os_hint)` |
-| `count` | method | `modules/lazyown_bridge.py:3975` | `def count(self)` |
-| `enrich` | method | `modules/lazyown_bridge.py:4106` | `def enrich(self, entry, target, world_snapshot)` |
-| `get` | method | `modules/lazyown_bridge.py:3969` | `def get(self, command)` |
-| `get_dispatcher` | function | `modules/lazyown_bridge.py:4409` | `def get_dispatcher()` |
-| `kill_chain_order` | method | `modules/lazyown_bridge.py:4223` | `def kill_chain_order(self)` |
-| `list_phase` | method | `modules/lazyown_bridge.py:4343` | `def list_phase(self, phase)` |
-| `matches_os` | method | `modules/lazyown_bridge.py:104` | `def matches_os(self, os_hint)` |
-| `matches_service` | method | `modules/lazyown_bridge.py:94` | `def matches_service(self, services)` |
-| `phase_kill_chain` | method | `modules/lazyown_bridge.py:4398` | `def phase_kill_chain(self)` |
-| `select` | method | `modules/lazyown_bridge.py:3986` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4005` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4049` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `select` | method | `modules/lazyown_bridge.py:4078` | `def select(self, catalog, phase, services, has_creds, excluded, os_hint)` |
-| `suggest` | method | `modules/lazyown_bridge.py:4251` | `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` |
-| `suggest_for_wm_phase` | method | `modules/lazyown_bridge.py:4325` | `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)` |
-| `suggest_sequence` | method | `modules/lazyown_bridge.py:4296` | `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` |
-| `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
-| `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
-| `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
-| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
-| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
-| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
-| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
-| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
-| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
-| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
-| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
-| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
-| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
-| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
-| `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
-| `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
-| `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
-| `_leetspeak` | function | `modules/lazypassgen.py:62` | `def _leetspeak(word)` |
-| `_mutations` | function | `modules/lazypassgen.py:77` | `def _mutations(words)` |
-| `_split_entities` | function | `modules/lazypassgen.py:45` | `def _split_entities(target)` |
-| `export` | function | `modules/lazypassgen.py:135` | `def export(target, path)` |
-| `generate` | function | `modules/lazypassgen.py:115` | `def generate(target)` |
-| `fallback_ready` | function | `modules/lazypoophish.py:52` | `def fallback_ready(target)` |
-| `fresh_access_token` | function | `modules/lazypoophish.py:34` | `def fresh_access_token(target)` |
-| `run_fallback` | function | `modules/lazypoophish.py:71` | `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` |
-| `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
-| `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
-| `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
-| `providers` | function | `modules/lazyshortener.py:30` | `def providers()` |
-| `shorten` | function | `modules/lazyshortener.py:35` | `def shorten(url, provider, timeout)` |
-| `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
-| `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
-| `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
-| `main` | function | `modules/lazyvpnshield.sh:113` | `` |
-| `save_current_rules` | function | `modules/lazyvpnshield.sh:29` | `` |
-| `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
-| `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
-| `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
-| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
-| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
-| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
-| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
-| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
-| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
-| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
-| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
-| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
-| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
-| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
-| `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
-| `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
-| `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
-| `display_record` | function | `modules/lilsplunky.py:346` | `def display_record(record)` |
-| `initialize_file_positions` | method | `modules/lilsplunky.py:229` | `def initialize_file_positions(self)` |
-| `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
-| `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
-| `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

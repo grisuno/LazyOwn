@@ -321,6 +321,21 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `_execute` (method, line 204) `def _execute(self, command, timeout, expect_exits)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
+## tests/test_chain_family.py
+- Doc: Isomorphism-transfer BDD contract: family signatures and chain reuse.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_signature_ignores_service_order_and_duplicates` (function, line 14) `def test_signature_ignores_service_order_and_duplicates()`
+  - `test_signature_collapses_known_service_aliases` (function, line 21) `def test_signature_collapses_known_service_aliases()`
+  - `test_signature_distinguishes_os_and_creds` (function, line 28) `def test_signature_distinguishes_os_and_creds()`
+  - `test_empty_services_is_the_empty_family` (function, line 35) `def test_empty_services_is_the_empty_family()`
+  - `test_registry_ranks_proven_chain_over_associated` (function, line 40) `def test_registry_ranks_proven_chain_over_associated(tmp_path)`
+  - `test_registry_empty_family_is_never_recorded` (function, line 54) `def test_registry_empty_family_is_never_recorded(tmp_path)`
+  - `test_transfer_note_surfaces_known_chain` (function, line 61) `def test_transfer_note_surfaces_known_chain(tmp_path)`
+  - `test_default_registry_uses_store_path` (function, line 72) `def test_default_registry_uses_store_path(tmp_path, monkeypatch)`
+- Depends on: `modules/chain_family.py`, `modules/lazy_loop.py`
+
 ## tests/test_chain_finalizer.py
 - Doc: Chain finalization contract tests.
 - Layer: testing

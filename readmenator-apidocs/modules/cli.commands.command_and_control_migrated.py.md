@@ -809,13 +809,13 @@ automatically when the fact store knows the target.
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`build_cli_approver`](cli.apt_chain_support.py.md#build_cli_approver), [`build_llm_recovery_chain`](cli.apt_chain_support.py.md#build_llm_recovery_chain), [`build_reactive_replanner`](cli.apt_chain_support.py.md#build_reactive_replanner), [`parse_chain_args`](cli.apt_chain_support.py.md#parse_chain_args), [`render_result`](cli.apt_chain_support.py.md#render_result), [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`select_step_ids`](cli.apt_chain_support.py.md#select_step_ids), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_succ`](core.console.py.md#print_succ), [`print_warn`](core.console.py.md#print_warn), [`approval_backend`](modules.chain_approval.py.md#approval_backend) and 7 more
+*Calls:* [`build_adaptive_replanner`](cli.apt_chain_support.py.md#build_adaptive_replanner), [`build_cli_approver`](cli.apt_chain_support.py.md#build_cli_approver), [`build_llm_recovery_chain`](cli.apt_chain_support.py.md#build_llm_recovery_chain), [`build_reactive_replanner`](cli.apt_chain_support.py.md#build_reactive_replanner), [`compose_replanners`](cli.apt_chain_support.py.md#compose_replanners), [`parse_chain_args`](cli.apt_chain_support.py.md#parse_chain_args), [`render_admin`](cli.apt_chain_support.py.md#render_admin), [`render_result`](cli.apt_chain_support.py.md#render_result), [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`select_step_ids`](cli.apt_chain_support.py.md#select_step_ids), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg) and 12 more
 
 <a id="commandandcontrolmigratedcommandset-do_chain_distill"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_chain_distill`
 
-`method` | [cli/commands/command_and_control_migrated.py:2065](../../cli/commands/command_and_control_migrated.py#L2065)
+`method` | [cli/commands/command_and_control_migrated.py:2035](../../cli/commands/command_and_control_migrated.py#L2035)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -848,7 +848,7 @@ Generated chains start disabled; the operator owns the file.
 
 #### `CommandAndControlMigratedCommandSet.do_apt_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2115](../../cli/commands/command_and_control_migrated.py#L2115)
+`method` | [cli/commands/command_and_control_migrated.py:2085](../../cli/commands/command_and_control_migrated.py#L2085)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -885,7 +885,7 @@ apt_playbook run apt28
 
 #### `CommandAndControlMigratedCommandSet.do_mitre_test`
 
-`method` | [cli/commands/command_and_control_migrated.py:2235](../../cli/commands/command_and_control_migrated.py#L2235)
+`method` | [cli/commands/command_and_control_migrated.py:2205](../../cli/commands/command_and_control_migrated.py#L2205)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -916,7 +916,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_generate_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2338](../../cli/commands/command_and_control_migrated.py#L2338)
+`method` | [cli/commands/command_and_control_migrated.py:2308](../../cli/commands/command_and_control_migrated.py#L2308)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -965,7 +965,7 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 
 #### `CommandAndControlMigratedCommandSet.do_my_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2517](../../cli/commands/command_and_control_migrated.py#L2517)
+`method` | [cli/commands/command_and_control_migrated.py:2487](../../cli/commands/command_and_control_migrated.py#L2487)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -989,7 +989,7 @@ Usage: my_playbook <name> [filter] Example: my_playbook KerberosAttack password 
 
 #### `CommandAndControlMigratedCommandSet.do_caldera`
 
-`method` | [cli/commands/command_and_control_migrated.py:2574](../../cli/commands/command_and_control_migrated.py#L2574)
+`method` | [cli/commands/command_and_control_migrated.py:2544](../../cli/commands/command_and_control_migrated.py#L2544)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1024,7 +1024,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_import`
 
-`method` | [cli/commands/command_and_control_migrated.py:2623](../../cli/commands/command_and_control_migrated.py#L2623)
+`method` | [cli/commands/command_and_control_migrated.py:2593](../../cli/commands/command_and_control_migrated.py#L2593)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1057,7 +1057,7 @@ caldera_import all
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_export`
 
-`method` | [cli/commands/command_and_control_migrated.py:2715](../../cli/commands/command_and_control_migrated.py#L2715)
+`method` | [cli/commands/command_and_control_migrated.py:2685](../../cli/commands/command_and_control_migrated.py#L2685)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 

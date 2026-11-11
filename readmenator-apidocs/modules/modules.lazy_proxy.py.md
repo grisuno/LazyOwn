@@ -12,7 +12,7 @@ request and response bodies are captured for findings/evidence; the CA
 certificate path is exported so curl/requests/python trust it.
 
 Automation contract:
-    `[`LazyLoopEngine.proxy_start`](modules.lazy_loop.py.md#lazyloopengine-proxy_start)` starts one shared recorder
+    ``LazyLoopEngine.proxy_start()`` starts one shared recorder
     instance; ``auto_loop`` starts it when ``proxy_autostart`` is on and
     points the worker environment at it; every round ingests new
     exchanges into the task traffic log so `[`lazy_traffic`](modules.lazy_bridge.py.md#lazy_traffic)` and finding
@@ -236,7 +236,7 @@ Report running state, address, CA path and exchange count.
 
 *Calls:* [`TrafficRecorder.count`](modules.traffic_recorder.py.md#trafficrecorder-count)
 
-*Called by:* [`LazyCommandSet.do_lazy_sandbox`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_sandbox), [`ProxyController.start`](#proxycontroller-start), [`ProxyController.stop`](#proxycontroller-stop)
+*Called by:* [`ProxyController.start`](#proxycontroller-start), [`ProxyController.stop`](#proxycontroller-stop)
 
 <a id="proxycontroller-recorder"></a>
 

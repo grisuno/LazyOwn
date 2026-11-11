@@ -1,0 +1,20 @@
+name: lazyrdp
+description: |
+  Remote Desktop surface probe: nmap RDP scripts (rdp-ntlm-info,
+  rdp-enum-encryption) over 3389, reporting NTLM info and encryption
+  posture. Auto-suggested when a scan reports the ms-wbt-server
+  service. Flow: `assign rhost <ip>`, then `lazyrdp`. Free args append
+  extra nmap args (e.g. `lazyrdp --script-args rdp.username=lab`).
+  crowbar is an optional extra (`apt install crowbar`) for credential
+  checks; without it only the enumeration scripts run.
+author: LazyOwn RedTeam
+version: "1.0"
+enabled: true
+os: windows
+trigger:
+- ms-wbt-server
+category: "02. Scanning & Enumeration"
+module_type: scanner
+tool:
+  name: LazyRDP Surface Probe
+  execute_command: nmap -Pn -p 3389 -sV --script rdp-ntlm-info,rdp-enum-encryption {rhost}

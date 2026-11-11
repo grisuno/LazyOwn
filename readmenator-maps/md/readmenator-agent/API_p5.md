@@ -1,5 +1,21 @@
-# API (page 5 of 27)
+# API (page 5 of 28)
 Previous: [API_p4.md](API_p4.md)
+
+## cli/palette_overlay.py
+Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
+Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
+- `PaletteOverlayState.set_query` (method) `cli/palette_overlay.py:83` `def set_query(self, value)` -- Replace the active query with ``value`` (trimmed).
+- `PaletteOverlayState.rows` (method) `cli/palette_overlay.py:87` `def rows(self)` -- Return the ranked, truncated rows for the current query.
+- `build_state` (function) `cli/palette_overlay.py:162` `def build_state(payload, index, recents, config)` -- Wire the canonical state used by :func:`launch_overlay`.
+- `launch_overlay` (function) `cli/palette_overlay.py:188` `def launch_overlay(payload, state, runner)` -- Open the Textual overlay and return the selected command verb.
+- `_PaletteOverlayApp.__init__` (method) `cli/palette_overlay.py:255` `def __init__(self)`
+- `_PaletteOverlayApp.compose` (method) `cli/palette_overlay.py:261` `def compose(self)`
+- `_PaletteOverlayApp.on_mount` (method) `cli/palette_overlay.py:269` `def on_mount(self)`
+- `_PaletteOverlayApp.on_input_changed` (method) `cli/palette_overlay.py:272` `def on_input_changed(self, event)`
+- `_PaletteOverlayApp.on_input_submitted` (method) `cli/palette_overlay.py:276` `def on_input_submitted(self, event)`
+- `_PaletteOverlayApp.on_list_view_selected` (method) `cli/palette_overlay.py:279` `def on_list_view_selected(self, event)`
+- `_PaletteOverlayApp.action_cancel` (method) `cli/palette_overlay.py:282` `def action_cancel(self)`
+- `_PaletteOverlayApp.action_select_current` (method) `cli/palette_overlay.py:285` `def action_select_current(self)`
 
 ## cli/palette_telemetry.py
 Imported by: `cli/palette_command.py`, `cli/palette_overlay.py`, `tests/test_command_palette.py`
@@ -473,23 +489,6 @@ Depends on: `modules/backdoor/server.c`
 - `SamsungKnoxExploitServer.exploit_js` (method) `contrib/legacy/lazygalazy.py:49` `def exploit_js(self)`
 - `SamsungKnoxExploitServer.rand_word` (method) `contrib/legacy/lazygalazy.py:93` `def rand_word(self)`
 - `main` (function) `contrib/legacy/lazygalazy.py:97` `def main()`
-
-## contrib/legacy/lazygptcli.py
-Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
-- `signal_handler` (function) `contrib/legacy/lazygptcli.py:66` `def signal_handler(sig, frame)`
-- `show_help` (function) `contrib/legacy/lazygptcli.py:73` `def show_help(message)`
-- `check_api_key` (function) `contrib/legacy/lazygptcli.py:77` `def check_api_key()`
-- `configure_logging` (function) `contrib/legacy/lazygptcli.py:83` `def configure_logging(debug)`
-- `parse_args` (function) `contrib/legacy/lazygptcli.py:87` `def parse_args()`
-- `create_complex_prompt` (function) `contrib/legacy/lazygptcli.py:94` `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
-- `execute_command` (function) `contrib/legacy/lazygptcli.py:108` `def execute_command(command)`
-- `load_knowledge_base` (function) `contrib/legacy/lazygptcli.py:118` `def load_knowledge_base(file_path)`
-- `save_knowledge_base` (function) `contrib/legacy/lazygptcli.py:124` `def save_knowledge_base(knowledge_base, file_path)`
-- `add_to_knowledge_base` (function) `contrib/legacy/lazygptcli.py:128` `def add_to_knowledge_base(prompt, command, file_path)`
-- `get_relevant_knowledge` (function) `contrib/legacy/lazygptcli.py:133` `def get_relevant_knowledge(prompt)`
-- `transform_knowledge_base` (function) `contrib/legacy/lazygptcli.py:141` `def transform_knowledge_base(client)`
-- `cleanup_temp_files` (function) `contrib/legacy/lazygptcli.py:164` `def cleanup_temp_files()`
-- `main` (function) `contrib/legacy/lazygptcli.py:177` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

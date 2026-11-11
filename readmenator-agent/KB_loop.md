@@ -3,8 +3,42 @@
 ## modules/loop/__init__.py
 - Layer: utility
 - Language: py
-- Depends on: `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`
+- Depends on: `modules/loop/engine_proxy.py`, `modules/loop/triage_scheduler.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`
 - Imported by: `modules/lazy_loop.py`, `tests/test_lazy_scope.py`
+
+## modules/loop/engine_proxy.py
+- Doc: EngineProxyMixin: Recorder-proxy lifecycle and traffic ingestion for the loop engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EngineProxyMixin` (class, line 4) `class EngineProxyMixin`
+  - `proxy_start` (method, line 16) `def proxy_start(self, host, port, task_id, trust, upstream)`
+  - `proxy_stop` (method, line 52) `def proxy_stop(self)`
+  - `proxy_status` (method, line 60) `def proxy_status(self)`
+  - `proxy_env` (method, line 66) `def proxy_env(self)`
+  - `ingest_proxy_traffic` (method, line 75) `def ingest_proxy_traffic(self, task_id, limit)`
+  - `search_proxy_body` (method, line 130) `def search_proxy_body(self, task_id, query, limit)`
+  - `_maybe_proxy_gc` (method, line 157) `def _maybe_proxy_gc(self)`
+- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`, `modules/traffic_recorder.py`
+- Imported by: `modules/loop/__init__.py`
+
+## modules/loop/triage_scheduler.py
+- Doc: Difficulty-triage scheduling for the autonomous multi-target loop.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_clamp01` (function, line 30) `def _clamp01(value)`
+  - `estimate_difficulty` (function, line 35) `def estimate_difficulty(facts)`
+  - `_item` (function, line 61) `def _item(record)`
+  - `TriageScheduler` (class, line 73) `class TriageScheduler`
+  - `__init__` (method, line 80) `def __init__(self, stop_loss_attempts, salvage_progress, hard_threshold)`
+  - `should_stop` (method, line 98) `def should_stop(self, record)`
+  - `route` (method, line 110) `def route(self, record)`
+  - `order` (method, line 121) `def order(self, records)`
+  - `pick_next` (method, line 160) `def pick_next(self, records)`
+  - `normal_key` (function, line 144) `def normal_key(record)`
+  - `salvage_key` (function, line 151) `def salvage_key(record)`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/__init__.py`, `tests/test_triage_scheduler.py`
 
 ## modules/loop/worker_agentic.py
 - Doc: WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker.

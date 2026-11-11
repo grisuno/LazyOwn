@@ -1,5 +1,5 @@
-# Architecture (page 1 of 10)
-Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md), [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
+# Architecture (page 1 of 11)
+Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md), [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md), [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)
 
 ## Internal Dependencies
 
@@ -10,14 +10,18 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/apt_chain_support.py` -> `modules/__init__.py`
 - `cli/apt_chain_support.py` -> `modules/apt_playbooks.py`
 - `cli/apt_chain_support.py` -> `modules/chain_approval.py`
+- `cli/apt_chain_support.py` -> `modules/chain_family.py`
 - `cli/apt_chain_support.py` -> `modules/chain_registry.py`
 - `cli/apt_chain_support.py` -> `modules/chain_runner.py`
 - `cli/apt_chain_support.py` -> `modules/chain_state.py`
 - `cli/apt_chain_support.py` -> `modules/chain_synth.py`
+- `cli/apt_chain_support.py` -> `modules/failure_verdict.py`
 - `cli/apt_chain_support.py` -> `modules/guardrails/__init__.py`
+- `cli/apt_chain_support.py` -> `modules/lazy_fallback.py`
 - `cli/apt_chain_support.py` -> `modules/mediation/__init__.py`
 - `cli/apt_chain_support.py` -> `modules/playbook_chain.py`
 - `cli/apt_chain_support.py` -> `modules/reactive_engine.py`
+- `cli/apt_chain_support.py` -> `skills/lazyown_facts.py`
 - `cli/assign.py` -> `core/payload_schema.py`
 - `cli/auto_crypto.py` -> `core/crypto.py`
 - `cli/auto_crypto.py` -> `core/logging.py`
@@ -139,9 +143,11 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_approval.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_distill.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_facts.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_family.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_runner.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_state.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_synth.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_tokens.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/listener_manager.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/outcome_bus.py`
@@ -270,6 +276,10 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lateral_migrated.py` -> `core/hardening.py`
 - `cli/commands/lateral_migrated.py` -> `modules/domain_dominance.py`
 - `cli/commands/lateral_migrated.py` -> `utils.py`
+- `cli/commands/lazy_adaptive.py` -> `cli/commands/_base.py`
+- `cli/commands/lazy_adaptive.py` -> `modules/failure_verdict.py`
+- `cli/commands/lazy_adaptive.py` -> `modules/lazy_fallback.py`
+- `cli/commands/lazy_adaptive.py` -> `utils.py`
 - `cli/commands/lazy_creds.py` -> `cli/commands/_base.py`
 - `cli/commands/lazy_creds.py` -> `modules/__init__.py`
 - `cli/commands/lazy_creds.py` -> `utils.py`
@@ -303,8 +313,11 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazyops.py` -> `modules/custom_tools.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_agent.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_cli_bridge.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_commander.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_deviations.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_engine.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_installer.py`
+- `cli/commands/lazyops.py` -> `modules/lazy_loop.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_proxy.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_roles.py`
 - `cli/commands/lazyops.py` -> `modules/lazy_runner.py`
@@ -483,18 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/session_ops.py` -> `cli/autosuggest.py`
 - `cli/commands/session_ops.py` -> `cli/chain_mode.py`
 - `cli/commands/session_ops.py` -> `cli/commands/_base.py`
-- `cli/commands/session_ops.py` -> `cli/config_history.py`
-- `cli/commands/session_ops.py` -> `cli/ops_commands.py`
-- `cli/commands/session_ops.py` -> `cli/session_resumer.py`
-- `cli/commands/session_ops.py` -> `cli/show.py`
-- `cli/commands/session_ops.py` -> `core/config.py`
-- `cli/commands/session_ops.py` -> `core/payload_schema.py`
-- `cli/commands/session_ops.py` -> `modules/autonomous_exploit_engine.py`
-- `cli/commands/session_ops.py` -> `modules/enrich.py`
-- `cli/commands/session_ops.py` -> `modules/lazy_loop.py`
-- `cli/commands/session_ops.py` -> `modules/lazy_rbac.py`
-- `cli/commands/session_ops.py` -> `modules/module_registry.py`
-- `cli/commands/session_ops.py` -> `modules/payload_factory.py`
-- `cli/commands/session_ops.py` -> `modules/pipeline_engine.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

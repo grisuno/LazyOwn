@@ -1,5 +1,19 @@
-# API (page 3 of 27)
+# API (page 3 of 28)
 Previous: [API_p2.md](API_p2.md)
+
+## cli/commands/mcp_bridge.py
+Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
+Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
+- `McpBridgeCommandSet.do_auto_populate` (method) `cli/commands/mcp_bridge.py:151` `def do_auto_populate(self, args)` -- Parse the latest nmap XML scan and auto-populate payload context.
+- `McpBridgeCommandSet.do_facts_show` (method) `cli/commands/mcp_bridge.py:261` `def do_facts_show(self, args)` -- Show structured facts extracted from nmap scans and tool output.
+- `McpBridgeCommandSet.do_rag_query` (method) `cli/commands/mcp_bridge.py:286` `def do_rag_query(self, args)` -- Semantic search over session artefacts (scans, logs, notes).
+- `McpBridgeCommandSet.do_parquet_query` (method) `cli/commands/mcp_bridge.py:316` `def do_parquet_query(self, args)` -- Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).
+- `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:378` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
+- `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:431` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
+- `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:489` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
+- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:546` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
+- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:551` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
+- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:556` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
 
 ## cli/commands/misc_migrated.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
@@ -479,19 +493,6 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
 - `SurfaceCommandSet.do_scandiscovery` (method) `cli/commands/surface.py:43` `def do_scandiscovery(self, line)` -- Scan every discovery IP with operator confirmation.
 - `SurfaceCommandSet.do_estorides_intel` (method) `cli/commands/surface.py:86` `def do_estorides_intel(self, line)` -- Fuse estorides OSINT entities into the campaign intel graphs.
-
-## cli/commands/ux.py
-Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
-- `UxCommandSet.do_hud` (method) `cli/commands/ux.py:46` `def do_hud(self, line)` -- Session counters: elapsed time, commands run, material captured.
-- `UxCommandSet.do_undo` (method) `cli/commands/ux.py:85` `def do_undo(self, line)` -- Revert the last assign/set configuration change.
-- `UxCommandSet.do_config_diff` (method) `cli/commands/ux.py:115` `def do_config_diff(self, line)` -- Show what changed since the session started.
-- `UxCommandSet.do_cheat` (method) `cli/commands/ux.py:140` `def do_cheat(self, line)` -- Render a cheatsheet section inside the shell.
-- `UxCommandSet.do_toast` (method) `cli/commands/ux.py:167` `def do_toast(self, line)` -- Raise a toast notification inside the cmd2 shell.
-- `UxCommandSet.do_suggest` (method) `cli/commands/ux.py:261` `def do_suggest(self, line)` -- Fuzzy command suggestion for typos and fragments.
-
-## cli/commands/verb_admin.py
-Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
-- `VerbCommandSet.do_verb` (method) `cli/commands/verb_admin.py:52` `def do_verb(self, line)` -- Manage the autonomous-loop verb catalog.
 
 
 Next: [API_p4.md](API_p4.md)

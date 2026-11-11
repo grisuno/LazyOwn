@@ -1,8 +1,62 @@
-# Symbols (page 14 of 50)
+# Symbols (page 14 of 51)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `CredentialStash` | class | `modules/domain_dominance.py:65` | `class CredentialStash` |
+| `DomainDominance` | class | `modules/domain_dominance.py:89` | `class DomainDominance` |
+| `DomainInfo` | class | `modules/domain_dominance.py:49` | `class DomainInfo` |
+| `DominanceResult` | class | `modules/domain_dominance.py:75` | `class DominanceResult` |
+| `__init__` | method | `modules/domain_dominance.py:103` | `def __init__(self)` |
+| `_asrep_roast` | method | `modules/domain_dominance.py:575` | `def _asrep_roast(self, domain_info)` |
+| `_attempt_dcsync` | method | `modules/domain_dominance.py:768` | `def _attempt_dcsync(self, dc_ip)` |
+| `_discover_dc` | method | `modules/domain_dominance.py:340` | `def _discover_dc(self, domain, dns_servers)` |
+| `_domain_to_dn` | method | `modules/domain_dominance.py:838` | `def _domain_to_dn(self, domain)` |
+| `_enumerate_computers` | method | `modules/domain_dominance.py:469` | `def _enumerate_computers(self, dc_ip)` |
+| `_enumerate_groups` | method | `modules/domain_dominance.py:495` | `def _enumerate_groups(self, dc_ip)` |
+| `_enumerate_spns` | method | `modules/domain_dominance.py:516` | `def _enumerate_spns(self, dc_ip)` |
+| `_enumerate_trusts` | method | `modules/domain_dominance.py:546` | `def _enumerate_trusts(self, domain, dc_ip)` |
+| `_enumerate_users` | method | `modules/domain_dominance.py:426` | `def _enumerate_users(self, dc_ip)` |
+| `_find_dcs` | method | `modules/domain_dominance.py:366` | `def _find_dcs(self, domain, dc_ip)` |
+| `_find_domain_admins` | method | `modules/domain_dominance.py:392` | `def _find_domain_admins(self, domain, dc_ip)` |
+| `_kerberoast` | method | `modules/domain_dominance.py:625` | `def _kerberoast(self, domain_info)` |
+| `_load_config` | method | `modules/domain_dominance.py:827` | `def _load_config(self)` |
+| `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
+| `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
+| `_save_credential` | method | `modules/domain_dominance.py:890` | `def _save_credential(self, username, secret, secret_type, source)` |
+| `_save_dominance_report` | method | `modules/domain_dominance.py:944` | `def _save_dominance_report(self)` |
+| `_save_session` | method | `modules/domain_dominance.py:924` | `def _save_session(self, session_id, target, method, user)` |
+| `_seal_loot_secret` | method | `modules/domain_dominance.py:850` | `def _seal_loot_secret(secret)` |
+| `_unseal_loot_secret` | method | `modules/domain_dominance.py:871` | `def _unseal_loot_secret(stored)` |
+| `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
+| `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
+| `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
+| `escalate` | method | `modules/domain_dominance.py:260` | `def escalate(self, domain_info, stash)` |
+| `extract_credentials` | method | `modules/domain_dominance.py:227` | `def extract_credentials(self, domain_info, known_creds)` |
+| `get_instance` | method | `modules/domain_dominance.py:110` | `def get_instance(cls)` |
+| `persist` | method | `modules/domain_dominance.py:314` | `def persist(self, domain_info)` |
+| `DotNetPayloadConfig` | class | `modules/dotnet_payload.py:293` | `class DotNetPayloadConfig` |
+| `DotNetPayloadFactory` | class | `modules/dotnet_payload.py:315` | `class DotNetPayloadFactory` |
+| `__init__` | method | `modules/dotnet_payload.py:327` | `def __init__(self, output_dir)` |
+| `_detect_compiler` | method | `modules/dotnet_payload.py:333` | `def _detect_compiler()` |
+| `_resolve_template` | method | `modules/dotnet_payload.py:368` | `def _resolve_template(self, config)` |
+| `compile` | method | `modules/dotnet_payload.py:403` | `def compile(self, config, source_code)` |
+| `generate` | method | `modules/dotnet_payload.py:454` | `def generate(self, config)` |
+| `generate_inline_assembly` | method | `modules/dotnet_payload.py:500` | `def generate_inline_assembly(self, config)` |
+| `generate_powershell_reflective` | method | `modules/dotnet_payload.py:481` | `def generate_powershell_reflective(self, config)` |
+| `generate_source` | method | `modules/dotnet_payload.py:389` | `def generate_source(self, config)` |
+| `list_templates` | method | `modules/dotnet_payload.py:364` | `def list_templates()` |
+| `to_format` | method | `modules/dotnet_payload.py:520` | `def to_format(self, data, fmt)` |
+| `DATA_BLOB` | class | `modules/dpapi_harvester.py:160` | `class DATA_BLOB(Structure)` |
+| `DPAPICredential` | class | `modules/dpapi_harvester.py:44` | `class DPAPICredential` |
+| `DPAPIHarvester` | class | `modules/dpapi_harvester.py:63` | `class DPAPIHarvester` |
+| `DPAPIMasterKey` | class | `modules/dpapi_harvester.py:54` | `class DPAPIMasterKey` |
+| `__init__` | method | `modules/dpapi_harvester.py:79` | `def __init__(self, sessions_dir, masterkey_path)` |
+| `_crack_cookies` | method | `modules/dpapi_harvester.py:320` | `def _crack_cookies(self, cookies_path, key, source)` |
+| `_crack_login_data` | method | `modules/dpapi_harvester.py:286` | `def _crack_login_data(self, login_db_path, key, source)` |
+| `_extract_sid_from_file` | method | `modules/dpapi_harvester.py:355` | `def _extract_sid_from_file(filepath)` |
+| `_harvest_chrome` | method | `modules/dpapi_harvester.py:143` | `def _harvest_chrome(self)` |
+| `_harvest_chrome_offline` | method | `modules/dpapi_harvester.py:188` | `def _harvest_chrome_offline(self)` |
 | `_harvest_credential_manager` | method | `modules/dpapi_harvester.py:120` | `def _harvest_credential_manager(self)` |
 | `_harvest_edge` | method | `modules/dpapi_harvester.py:198` | `def _harvest_edge(self)` |
 | `_harvest_master_keys` | method | `modules/dpapi_harvester.py:105` | `def _harvest_master_keys(self)` |
@@ -435,66 +489,12 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `iter_flat_facts` | function | `modules/factsio.py:93` | `def iter_flat_facts(host_keyed)` |
 | `iter_host_records` | function | `modules/factsio.py:81` | `def iter_host_records(host_keyed)` |
 | `load_policy_facts` | function | `modules/factsio.py:39` | `def load_policy_facts(path)` |
-| `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
-| `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
-| `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
-| `cmd_restart` | function | `modules/fast_run_service.sh:480` | `` |
-| `cmd_start` | function | `modules/fast_run_service.sh:445` | `` |
-| `cmd_status` | function | `modules/fast_run_service.sh:486` | `` |
-| `cmd_stop` | function | `modules/fast_run_service.sh:465` | `` |
-| `config_truthy` | function | `modules/fast_run_service.sh:155` | `` |
-| `ensure_log_file` | function | `modules/fast_run_service.sh:211` | `` |
-| `is_pid_alive` | function | `modules/fast_run_service.sh:189` | `` |
-| `is_service_running` | function | `modules/fast_run_service.sh:194` | `` |
-| `load_config` | function | `modules/fast_run_service.sh:139` | `` |
-| `log_error` | function | `modules/fast_run_service.sh:81` | `` |
-| `log_file_for` | function | `modules/fast_run_service.sh:171` | `` |
-| `log_info` | function | `modules/fast_run_service.sh:73` | `` |
-| `log_timestamp` | function | `modules/fast_run_service.sh:69` | `` |
-| `log_warn` | function | `modules/fast_run_service.sh:77` | `` |
-| `main` | function | `modules/fast_run_service.sh:557` | `` |
-| `managed_services_in_order` | function | `modules/fast_run_service.sh:429` | `` |
-| `pid_file_for` | function | `modules/fast_run_service.sh:166` | `` |
-| `prepare_runtime_dirs` | function | `modules/fast_run_service.sh:126` | `` |
-| `read_pid_value` | function | `modules/fast_run_service.sh:176` | `` |
-| `require_deps` | function | `modules/fast_run_service.sh:97` | `` |
-| `require_paths` | function | `modules/fast_run_service.sh:113` | `` |
-| `require_root` | function | `modules/fast_run_service.sh:89` | `` |
-| `spawn_as_root` | function | `modules/fast_run_service.sh:247` | `` |
-| `spawn_as_target_user` | function | `modules/fast_run_service.sh:228` | `` |
-| `start_chown_watcher` | function | `modules/fast_run_service.sh:315` | `` |
-| `start_cloudflare_service` | function | `modules/fast_run_service.sh:400` | `` |
-| `start_discord_service` | function | `modules/fast_run_service.sh:380` | `` |
-| `start_lazyc2_service` | function | `modules/fast_run_service.sh:342` | `` |
-| `start_ollama_service` | function | `modules/fast_run_service.sh:410` | `` |
-| `start_telegram_service` | function | `modules/fast_run_service.sh:390` | `` |
-| `start_vpn_service` | function | `modules/fast_run_service.sh:363` | `` |
-| `start_www_service` | function | `modules/fast_run_service.sh:356` | `` |
-| `stop_named_service` | function | `modules/fast_run_service.sh:292` | `` |
-| `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
-| `usage` | function | `modules/fast_run_service.sh:528` | `` |
-| `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
-| `FindingRecord` | class | `modules/finding_lifecycle.py:218` | `class FindingRecord` |
-| `RetestRecord` | class | `modules/finding_lifecycle.py:231` | `class RetestRecord` |
-| `_finding_from_row` | function | `modules/finding_lifecycle.py:256` | `def _finding_from_row(row)` |
-| `_load` | function | `modules/finding_lifecycle.py:73` | `def _load(sessions_dir)` |
-| `_load_retests` | function | `modules/finding_lifecycle.py:328` | `def _load_retests(sessions_dir)` |
-| `_retests_path` | function | `modules/finding_lifecycle.py:323` | `def _retests_path(sessions_dir)` |
-| `_save` | function | `modules/finding_lifecycle.py:86` | `def _save(sessions_dir, data)` |
-| `_save_retests` | function | `modules/finding_lifecycle.py:339` | `def _save_retests(sessions_dir, payload)` |
-| `_store_path` | function | `modules/finding_lifecycle.py:68` | `def _store_path(sessions_dir)` |
-| `_token_value` | function | `modules/finding_lifecycle.py:241` | `def _token_value(refs, prefix, default)` |
-| `_with_token` | function | `modules/finding_lifecycle.py:249` | `def _with_token(refs, prefix, value)` |
-| `add_dead_end` | function | `modules/finding_lifecycle.py:137` | `def add_dead_end(kind, value, reason, sessions_dir)` |
-| `apply_confirmation` | function | `modules/finding_lifecycle.py:190` | `def apply_confirmation(nodes, sessions_dir)` |
-| `classify_retest` | function | `modules/finding_lifecycle.py:420` | `def classify_retest(needle, output)` |
-| `confirm` | function | `modules/finding_lifecycle.py:94` | `def confirm(finding_id, evidence, sessions_dir, by)` |
-| `evidence_floor` | function | `modules/finding_lifecycle.py:52` | `def evidence_floor(items)` |
-| `findings_for` | function | `modules/finding_lifecycle.py:295` | `def findings_for(db, workspace)` |
-| `has_running_retest` | function | `modules/finding_lifecycle.py:346` | `def has_running_retest(finding_id, sessions_dir)` |
-| `is_dead_end` | function | `modules/finding_lifecycle.py:149` | `def is_dead_end(kind, value, sessions_dir)` |
-| `record` | function | `modules/finding_lifecycle.py:270` | `def record(db, workspace, host, title, severity, summary, poc)` |
-| `reject` | function | `modules/finding_lifecycle.py:123` | `def reject(finding_id, reason, sessions_dir, by)` |
-| `render_markdown` | function | `modules/finding_lifecycle.py:439` | `def render_markdown(db, workspace, title)` |
+| `FailureClass` | class | `modules/failure_verdict.py:71` | `class FailureClass(str, Enum)` |
+| `FailureVerdict` | class | `modules/failure_verdict.py:118` | `class FailureVerdict` |
+| `FallbackAction` | class | `modules/failure_verdict.py:84` | `class FallbackAction(str, Enum)` |
+| `_marker_hit` | function | `modules/failure_verdict.py:136` | `def _marker_hit(markers, haystack)` |
+| `classify_failure` | function | `modules/failure_verdict.py:144` | `def classify_failure(command, output, exit_code, timed_out)` |
+| `classify_outcome` | function | `modules/failure_verdict.py:192` | `def classify_outcome(outcome)` |
+| `is_fallback_eligible` | method | `modules/failure_verdict.py:131` | `def is_fallback_eligible(self)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

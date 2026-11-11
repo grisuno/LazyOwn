@@ -1,5 +1,22 @@
-# API (page 6 of 27)
+# API (page 6 of 28)
 Previous: [API_p5.md](API_p5.md)
+
+## contrib/legacy/lazygptcli.py
+Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
+- `signal_handler` (function) `contrib/legacy/lazygptcli.py:66` `def signal_handler(sig, frame)`
+- `show_help` (function) `contrib/legacy/lazygptcli.py:73` `def show_help(message)`
+- `check_api_key` (function) `contrib/legacy/lazygptcli.py:77` `def check_api_key()`
+- `configure_logging` (function) `contrib/legacy/lazygptcli.py:83` `def configure_logging(debug)`
+- `parse_args` (function) `contrib/legacy/lazygptcli.py:87` `def parse_args()`
+- `create_complex_prompt` (function) `contrib/legacy/lazygptcli.py:94` `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
+- `execute_command` (function) `contrib/legacy/lazygptcli.py:108` `def execute_command(command)`
+- `load_knowledge_base` (function) `contrib/legacy/lazygptcli.py:118` `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function) `contrib/legacy/lazygptcli.py:124` `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function) `contrib/legacy/lazygptcli.py:128` `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function) `contrib/legacy/lazygptcli.py:133` `def get_relevant_knowledge(prompt)`
+- `transform_knowledge_base` (function) `contrib/legacy/lazygptcli.py:141` `def transform_knowledge_base(client)`
+- `cleanup_temp_files` (function) `contrib/legacy/lazygptcli.py:164` `def cleanup_temp_files()`
+- `main` (function) `contrib/legacy/lazygptcli.py:177` `def main()`
 
 ## contrib/legacy/lazygptcli_unified.py
 Depends on: `core/logging.py`, `modules/colors.py`
@@ -432,10 +449,12 @@ Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/com
 - `redact_text` (function) `core/hardening.py:842` `def redact_text(text)` -- Mask credential-like patterns before persistence or display.
 
 ## core/host_policy.py
-Imported by: `core/hardening.py`, `core/validators.py`, `tests/test_host_policy.py`
-- `rejects_shell_meta` (function) `core/host_policy.py:20` `def rejects_shell_meta(value)` -- Return True when value contains characters usable for shell injection.
-- `is_valid_cidr` (function) `core/host_policy.py:32` `def is_valid_cidr(value)` -- Check value is a valid CIDR block.
-- `is_valid_host` (function) `core/host_policy.py:48` `def is_valid_host(value)` -- Check value is a plain IP, CIDR, or hostname without shell metacharacters.
+Imported by: `core/hardening.py`, `core/validators.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `tests/test_host_policy.py`
+- `rejects_shell_meta` (function) `core/host_policy.py:24` `def rejects_shell_meta(value)` -- Return True when value contains characters usable for shell injection.
+- `is_valid_cidr` (function) `core/host_policy.py:36` `def is_valid_cidr(value)` -- Check value is a valid CIDR block.
+- `is_valid_host` (function) `core/host_policy.py:52` `def is_valid_host(value)` -- Check value is a plain IP, CIDR, or hostname without shell metacharacters.
+- `is_file_like` (function) `core/host_policy.py:77` `def is_file_like(value)` -- Return True when value names a local artefact by extension, not a host.
+- `is_engagement_target` (function) `core/host_policy.py:95` `def is_engagement_target(value)` -- Return True when value is a routable engagement target, not a local file.
 
 ## core/http.py
 Depends on: `core/console.py`
@@ -450,43 +469,6 @@ Imported by: `core/__init__.py`
 - `scrape_news` (function) `core/http.py:174` `def scrape_news()` -- Scrape Hacker News top stories.
 - `display_news` (function) `core/http.py:198` `def display_news(titles, links, scores)` -- Display scraped news in the console.
 - `inject_payloads` (function) `core/http.py:211` `def inject_payloads(urls, payload_url, request_timeout)` -- Attempt to inject a payload URL into a list of target URLs.
-
-## core/llm_budget.py
-Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/mcp_tools/get_llm_budget.py`, `tests/test_llm_budget.py`
-- `LLMBackendLike.generate` (method) `core/llm_budget.py:61` `def generate(self, prompt)`
-- `LLMBackendLike.stream_generate` (method) `core/llm_budget.py:63` `def stream_generate(self, prompt)`
-- `LLMBackendLike.complete` (method) `core/llm_budget.py:65` `def complete(self, system, user, max_tokens, temperature)`
-- `ModelPrice.from_mapping` (method) `core/llm_budget.py:81` `def from_mapping(cls, data)` -- Build a ModelPrice from a JSON friendly mapping.
-- `BudgetLedger.record` (method) `core/llm_budget.py:232` `def record(self, entry)` -- Append a charge to the ledger and persist the new state.
-- `BudgetLedger.spent_today` (method) `core/llm_budget.py:251` `def spent_today(self)` -- Return the dollar amount the ledger charged for the current day.
-- `BudgetLedger.calls_today` (method) `core/llm_budget.py:256` `def calls_today(self)` -- Return the number of calls the ledger recorded for the current day.
-- `BudgetLedger.reset` (method) `core/llm_budget.py:261` `def reset(self)` -- Clear the ledger for the current day and persist the empty state.
-- `TokenEstimator.__init__` (method) `core/llm_budget.py:278` `def __init__(self, encoding_name)`
-- `TokenEstimator.count` (method) `core/llm_budget.py:292` `def count(self, text)` -- Return the number of tokens the input text contains.
-- `BudgetGuard.__init__` (method) `core/llm_budget.py:319` `def __init__(self, config, estimator, ledger)`
-- `BudgetGuard.price_for` (method) `core/llm_budget.py:329` `def price_for(self, model)` -- Return the price the guard applies to a model identifier.
-- `BudgetGuard.estimate_cost` (method) `core/llm_budget.py:343` `def estimate_cost(self, model, input_tokens, output_tokens)` -- Return the dollar cost the guard would charge for a call.
-- `BudgetGuard.estimate_and_check` (method) `core/llm_budget.py:356` `def estimate_and_check(self, prompt, model, output_tokens)` -- Check the budget and record a charge when the call fits.
-- `BudgetedBackend.__init__` (method) `core/llm_budget.py:417` `def __init__(self, inner, guard, model)`
-- `BudgetedBackend.generate` (method) `core/llm_budget.py:422` `def generate(self, prompt)` -- Forward a non streaming call and record a charge.
-- `BudgetedBackend.stream_generate` (method) `core/llm_budget.py:430` `def stream_generate(self, prompt)` -- Forward a streaming call.
-- `BudgetedBackend.complete` (method) `core/llm_budget.py:435` `def complete(self, system, user, max_tokens, temperature)` -- Forward a role aware call.
-- `default_model_prices` (function) `core/llm_budget.py:442` `def default_model_prices()` -- Return the default price table the guard ships with.
-- `default_sessions_dir` (function) `core/llm_budget.py:461` `def default_sessions_dir()` -- Return the directory the ledger writes to by default.
-- `load_budget_config` (function) `core/llm_budget.py:552` `def load_budget_config(payload, sessions_dir)` -- Build a BudgetConfig from a payload mapping.
-- `read_budget_status` (function) `core/llm_budget.py:585` `def read_budget_status(payload, sessions_dir)` -- Return a structured snapshot of the current budget.
-- `format_budget_status` (function) `core/llm_budget.py:616` `def format_budget_status(config, ledger)` -- Render the budget status as a human readable block.
-- `wrap_backend_with_budget` (function) `core/llm_budget.py:657` `def wrap_backend_with_budget(backend, config, estimator, model, ledger)` -- Wrap a concrete backend with a budgeted proxy.
-
-## core/logging.py
-Imported by: `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/tips_engine.py`, `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyhoneypot.py`, `contrib/legacy/lazyopenssh77enum2.py`, `contrib/legacy/lazyphishingai.py`, `contrib/legacy/lazysearch_bot.py`, `contrib/legacy/lazysmbrelay.py`, `contrib/legacy/lazyssh.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/param_registry.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `core/session_secrets.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazyc2/security/cli_credentials.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/addon_updater.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/atomic_cli.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/beacon_recon.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `modules/c2_agent.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/c2_surfaces.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/ctf_capture.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/defense_stages.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/emulation_runner.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/factsio.py`, `modules/golden_path.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_registry.py`, `modules/gym_winbox_runner.py`, `modules/harness.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metasploitable_gym.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sinks/findings.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/trigger_policy.py`, `modules/ttp_coverage.py`, `modules/ttpscope_bridge.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/verb_catalog.py`, `modules/verb_manifest.py`, `modules/vulnbot.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_security_codeql_batch.py`, `tests/test_structured_logging.py`, `utils.py`
-- `_JsonLineFormatter.__init__` (method) `core/logging.py:74` `def __init__(self, redacted_fields)`
-- `_JsonLineFormatter.format` (method) `core/logging.py:78` `def format(self, record)`
-- `_ConsoleFormatter.format` (method) `core/logging.py:132` `def format(self, record)`
-- `StructuredLogger.makeRecord` (method) `core/logging.py:148` `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)`
-- `get_logger` (function) `core/logging.py:231` `def get_logger(name)` -- Return a cached :class:`StructuredLogger` for *name*.
-- `install_json_handler` (function) `core/logging.py:251` `def install_json_handler(name, config)` -- Install a JSON-lines file handler on *name*, preserving existing handlers.
-- `reconfigure` (function) `core/logging.py:300` `def reconfigure(config)` -- Replace the cached configuration globally.
 
 
 Next: [API_p7.md](API_p7.md)

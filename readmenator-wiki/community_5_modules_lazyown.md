@@ -1,10 +1,10 @@
 # modules: lazyown
 
-*Community 5 | 106 files | cohesion 0.35*
+*Community 5 | 103 files | cohesion 0.35*
 
 ## Definition
 
-This community groups 106 file(s) rooted at `tests` with dominant language py (cohesion 0.35). Central symbols: `AddonCatalog`, `AddonEntry`, `AddonHotReloader`, `AliasResolver`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `ArtifactSpec`. Core file: `lazyown.py` (124 symbols). Documented purpose: Declarative cmd2 alias loader.  Reads ``cli/aliases.yaml`` and substitutes ``{name}`` placeholders against a payload dict (typically loaded from ``payload.json`.
+This community groups 103 file(s) rooted at `tests` with dominant language py (cohesion 0.35). Central symbols: `AddonCatalog`, `AddonEntry`, `AddonHotReloader`, `AliasResolver`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `ArtifactSpec`. Core file: `lazyown.py` (124 symbols). Documented purpose: Declarative cmd2 alias loader.  Reads ``cli/aliases.yaml`` and substitutes ``{name}`` placeholders against a payload dict (typically loaded from ``payload.json`.
 
 ## Files
 
@@ -15,21 +15,21 @@ This community groups 106 file(s) rooted at `tests` with dominant language py (c
 | `tests/test_aes_key_propagation.py` | py | testing | 12 | yes |
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
 
-### `modules` (25 files)
+### `modules` (24 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `modules/auto_purple.py` | py | utility | 40 | yes |
 | `modules/c2_builder.py` | py | infrastructure | 23 | yes |
+| `modules/cli_auth.py` | py | utility | 18 | yes |
 
-### `cli` (15 files)
+### `cli` (14 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/aliases.py` | py | utility | 8 | yes |
 | `cli/auto_crypto.py` | py | utility | 13 | yes |
 
-### `cli/commands` (8 files)
+### `cli/commands` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -93,7 +93,7 @@ This community groups 106 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 6 | yes |
 
-*... and 86 more files in this community.*
+*... and 83 more files in this community.*
 
 
 ## Key Symbols
@@ -131,21 +131,20 @@ This community groups 106 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 496
-- Cross-boundary resolved imports (EXTRACTED): 661
+- Internal resolved imports (EXTRACTED): 489
+- Cross-boundary resolved imports (EXTRACTED): 659
 
 ## Connections
 
-- [EXTRACTED] depends_on community 3 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
+- [EXTRACTED] depends_on community 4 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
 - [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
 - [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
-- [EXTRACTED] depends_on community 10 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 6 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.
+- [EXTRACTED] depends_on community 11 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
@@ -177,7 +176,6 @@ This community groups 106 file(s) rooted at `tests` with dominant language py (c
 - `cli/commands/defaults.py`
 - `cli/commands/diagnostics.py`
 - `cli/commands/lazyloop.py`
-- `cli/commands/purple_team.py`
 - `cli/commands/recon_migrated.py`
 - `cli/commands/redteam_gym.py`
 - `cli/commands/security.py`
@@ -188,5 +186,6 @@ This community groups 106 file(s) rooted at `tests` with dominant language py (c
 - `cli/lazynmap_post.py`
 - `cli/ops_commands.py`
 - `cli/orchestrator_assets_tabs.py`
-- `cli/purple_tui.py`
-- *... and 86 more*
+- `cli/recon_plan.py`
+- `cli/session_brief.py`
+- *... and 83 more*

@@ -243,7 +243,7 @@ Severity of a [`ValidationIssue`](#validationissue).
 
 ### `register_specs`
 
-`function` | [core/payload_schema.py:1862](../../core/payload_schema.py#L1862)
+`function` | [core/payload_schema.py:1970](../../core/payload_schema.py#L1970)
 
 ```python
 def register_specs(specs: Mapping[str, FieldSpec]) -> int
@@ -272,7 +272,7 @@ overrides a hardcoded key.
 
 ### `unregister_specs`
 
-`function` | [core/payload_schema.py:1885](../../core/payload_schema.py#L1885)
+`function` | [core/payload_schema.py:1993](../../core/payload_schema.py#L1993)
 
 ```python
 def unregister_specs(keys: Iterable[str]) -> int
@@ -296,7 +296,7 @@ Remove runtime-registered specs from the schema.
 
 ### `field_for`
 
-`function` | [core/payload_schema.py:1903](../../core/payload_schema.py#L1903)
+`function` | [core/payload_schema.py:2011](../../core/payload_schema.py#L2011)
 
 ```python
 def field_for(key: str) -> FieldSpec | None
@@ -318,7 +318,7 @@ Return the [`FieldSpec`](#fieldspec) for `[`key`](key.py.md)` or ``None`` if it 
 
 ### `coerce_value`
 
-`function` | [core/payload_schema.py:1908](../../core/payload_schema.py#L1908)
+`function` | [core/payload_schema.py:2016](../../core/payload_schema.py#L2016)
 
 ```python
 def coerce_value(key: str, raw: Any) -> Any
@@ -349,7 +349,7 @@ defined for the field's kind.
 
 ### `validate_value`
 
-`function` | [core/payload_schema.py:1931](../../core/payload_schema.py#L1931)
+`function` | [core/payload_schema.py:2039](../../core/payload_schema.py#L2039)
 
 ```python
 def validate_value(key: str, value: Any) -> ValidationIssue | None
@@ -381,7 +381,7 @@ caller knows the value will not be type-checked.
 
 ### `validate_payload`
 
-`function` | [core/payload_schema.py:2005](../../core/payload_schema.py#L2005)
+`function` | [core/payload_schema.py:2113](../../core/payload_schema.py#L2113)
 
 ```python
 def validate_payload(payload: Mapping[str, Any]) -> list[ValidationIssue]
@@ -415,7 +415,7 @@ that are missing from the payload entirely are reported with
 
 ### `format_issue`
 
-`function` | [core/payload_schema.py:2040](../../core/payload_schema.py#L2040)
+`function` | [core/payload_schema.py:2148](../../core/payload_schema.py#L2148)
 
 ```python
 def format_issue(issue: ValidationIssue) -> str
@@ -441,7 +441,7 @@ diagnostics (``key: severity: message``) so it grep-friendly.
 
 ### `default_payload`
 
-`function` | [core/payload_schema.py:2058](../../core/payload_schema.py#L2058)
+`function` | [core/payload_schema.py:2166](../../core/payload_schema.py#L2166)
 
 ```python
 def default_payload() -> dict[str, Any]
@@ -459,7 +459,7 @@ Useful for tests and for the wizard when no ``payload.json`` exists.
 
 ### `categories`
 
-`function` | [core/payload_schema.py:2066](../../core/payload_schema.py#L2066)
+`function` | [core/payload_schema.py:2174](../../core/payload_schema.py#L2174)
 
 ```python
 def categories() -> dict[str, list[FieldSpec]]

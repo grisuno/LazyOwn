@@ -1,6 +1,28 @@
 # Subsystem: modules (page 10 of 18)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/lazy_match_policy.py
+- Doc: Match policy doctrine: what may claim a match and what stays a lead.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `strand_from_sighting` (function, line 37) `def strand_from_sighting(sighting)`
+  - `_version_in_range` (function, line 66) `def _version_in_range(version, ranges)`
+  - `is_os_sighting` (function, line 79) `def is_os_sighting(product, cpe)`
+  - `strand_rank` (function, line 102) `def strand_rank(strand)`
+  - `has_standing` (function, line 107) `def has_standing(match)`
+  - `MatchStore` (class, line 124) `class MatchStore`
+  - `__init__` (method, line 127) `def __init__(self, sessions_dir)`
+  - `upsert` (method, line 132) `def upsert(self, identity, sighting, now)`
+  - `_key` (method, line 170) `def _key(identity)`
+  - `rows` (method, line 177) `def rows(self)`
+  - `close` (method, line 181) `def close(self, identity, reason, now)`
+  - `closed_reason` (method, line 196) `def closed_reason(self, identity)`
+  - `_load` (method, line 203) `def _load(self)`
+  - `_save_frame` (method, line 214) `def _save_frame(self, store)`
+- Depends on: `modules/lazy_heat.py`
+- Imported by: `tests/test_lazy_match_policy.py`
+
 ## modules/lazy_mentions.py
 - Doc: LAZY chat mentions with multi-type search and scroll pagination.
 - Layer: utility
@@ -460,34 +482,6 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `load_sightings` (function, line 282) `def load_sightings(path)`
   - `_atomic_json` (function, line 312) `def _atomic_json(path, data)`
 - Depends on: `modules/lazy_feedmatch.py`
-
-## modules/lazy_skill_mirror.py
-- Doc: Mirror LazyOwn skills for Hermes discovery.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_split_frontmatter` (function, line 30) `def _split_frontmatter(text)`
-  - `_hermes_frontmatter` (function, line 45) `def _hermes_frontmatter(name, fields)`
-  - `available_skills` (function, line 67) `def available_skills()`
-  - `mirror_skill` (function, line 78) `def mirror_skill(name)`
-  - `mirror_all` (function, line 106) `def mirror_all()`
-  - `_hermes_config_path` (function, line 112) `def _hermes_config_path()`
-  - `register_external_dirs` (function, line 117) `def register_external_dirs()`
-- Imported by: `cli/commands/lazyops.py`
-
-## modules/lazy_skills.py
-- Doc: Skill context injection for planner/worker prompts.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_frontmatter` (function, line 28) `def _frontmatter(text)`
-  - `_skill_files` (function, line 42) `def _skill_files()`
-  - `_load` (function, line 53) `def _load(path)`
-  - `list_skills` (function, line 85) `def list_skills()`
-  - `get_skill` (function, line 91) `def get_skill(name)`
-  - `match_skills` (function, line 102) `def match_skills(text, limit)`
-  - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

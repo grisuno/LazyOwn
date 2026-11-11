@@ -1,6 +1,6 @@
 # `cli.commands.lazyops`
 
-> Source: [cli/commands/lazyops.py:1](../../cli/commands/lazyops.py#L1) | language `py` | coverage 96.7% | [API index](../index.md)
+> Source: [cli/commands/lazyops.py:1](../../cli/commands/lazyops.py#L1) | language `py` | coverage 96.9% | [API index](../index.md)
 
 Lazy autonomous loop commands (single orchestrator, lazy_* surface).
 
@@ -40,6 +40,9 @@ classDiagram
     LazyCommandSet : do_lazy_worker()
     LazyCommandSet : do_lazy_trace()
     LazyCommandSet : do_lazy_broadcast()
+    LazyCommandSet : do_lazy_commander()
+    LazyCommandSet : do_lazy_deviations()
+    LazyCommandSet : do_lazy_blindspot()
     LazyCommandSet : do_lazy_hint()
     LazyCommandSet : do_lazy_intent()
     LazyCommandSet : do_lazy_intent_delete()
@@ -47,9 +50,6 @@ classDiagram
     LazyCommandSet : do_lazy_constraint()
     LazyCommandSet : do_lazy_scope()
     LazyCommandSet : do_lazy_todo()
-    LazyCommandSet : do_lazy_asset()
-    LazyCommandSet : do_lazy_enrich()
-    LazyCommandSet : do_lazy_traffic()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- LazyCommandSet
 ```
@@ -111,7 +111,7 @@ flowchart LR
 
 ### `LazyCommandSet`
 
-`class` | [cli/commands/lazyops.py:35](../../cli/commands/lazyops.py#L35)
+`class` | [cli/commands/lazyops.py:42](../../cli/commands/lazyops.py#L42)
 
 ```python
 class LazyCommandSet(LazyOwnCommandSet)
@@ -144,6 +144,9 @@ Lazy double-graph autonomous loop: planner, workers, guard, retest.
 | [`do_lazy_worker`](#lazycommandset-do_lazy_worker) | method | Claim ONE intent and execute it with real tools. |
 | [`do_lazy_trace`](#lazycommandset-do_lazy_trace) | method | Worker trace exchange. |
 | [`do_lazy_broadcast`](#lazycommandset-do_lazy_broadcast) | method | Exploration timeline. |
+| [`do_lazy_commander`](#lazycommandset-do_lazy_commander) | method | Allocate work slices across the task fleet. |
+| [`do_lazy_deviations`](#lazycommandset-do_lazy_deviations) | method | List planned-versus-actual deviations. |
+| [`do_lazy_blindspot`](#lazycommandset-do_lazy_blindspot) | method | Review graph blindspots into hints. |
 | [`do_lazy_hint`](#lazycommandset-do_lazy_hint) | method | Inject steering hint. |
 | [`do_lazy_intent`](#lazycommandset-do_lazy_intent) | method |  |
 | [`do_lazy_intent_delete`](#lazycommandset-do_lazy_intent_delete) | method | Delete an intent. |
@@ -196,7 +199,7 @@ Lazy double-graph autonomous loop: planner, workers, guard, retest.
 
 #### `LazyCommandSet.do_lazy_dispatch`
 
-`method` | [cli/commands/lazyops.py:88](../../cli/commands/lazyops.py#L88)
+`method` | [cli/commands/lazyops.py:95](../../cli/commands/lazyops.py#L95)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -220,7 +223,7 @@ Usage: lazy_dispatch ...
 
 #### `LazyCommandSet.do_lazy_task`
 
-`method` | [cli/commands/lazyops.py:147](../../cli/commands/lazyops.py#L147)
+`method` | [cli/commands/lazyops.py:154](../../cli/commands/lazyops.py#L154)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -244,7 +247,7 @@ Usage: lazy_task create <goal> | lazy_task list | lazy_task show|pause|resume|de
 
 #### `LazyCommandSet.do_lazy_graph`
 
-`method` | [cli/commands/lazyops.py:269](../../cli/commands/lazyops.py#L269)
+`method` | [cli/commands/lazyops.py:276](../../cli/commands/lazyops.py#L276)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -270,7 +273,7 @@ Usage: lazy_graph [--task T]
 
 #### `LazyCommandSet.do_lazy_context`
 
-`method` | [cli/commands/lazyops.py:298](../../cli/commands/lazyops.py#L298)
+`method` | [cli/commands/lazyops.py:305](../../cli/commands/lazyops.py#L305)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -294,7 +297,7 @@ Usage: lazy_context [--task T] [--budget N]
 
 #### `LazyCommandSet.do_lazy_skill`
 
-`method` | [cli/commands/lazyops.py:319](../../cli/commands/lazyops.py#L319)
+`method` | [cli/commands/lazyops.py:326](../../cli/commands/lazyops.py#L326)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -318,7 +321,7 @@ Usage: lazy_skill ... [--task T]
 
 #### `LazyCommandSet.do_lazy_workspace`
 
-`method` | [cli/commands/lazyops.py:403](../../cli/commands/lazyops.py#L403)
+`method` | [cli/commands/lazyops.py:410](../../cli/commands/lazyops.py#L410)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -342,7 +345,7 @@ Usage: lazy_workspace ...
 
 #### `LazyCommandSet.do_lazy_selfupdate`
 
-`method` | [cli/commands/lazyops.py:456](../../cli/commands/lazyops.py#L456)
+`method` | [cli/commands/lazyops.py:463](../../cli/commands/lazyops.py#L463)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -366,7 +369,7 @@ Usage: lazy_selfupdate ...
 
 #### `LazyCommandSet.do_lazy_planner`
 
-`method` | [cli/commands/lazyops.py:484](../../cli/commands/lazyops.py#L484)
+`method` | [cli/commands/lazyops.py:491](../../cli/commands/lazyops.py#L491)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -384,13 +387,13 @@ Usage: lazy_planner [--task T]
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`ActivityLog.__init__`](modules.lazy_loop.py.md#activitylog-__init__), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`Planner.plan`](modules.lazy_loop.py.md#planner-plan)
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`ActivityLog.__init__`](modules.lazy_loop.py.md#activitylog-__init__), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`Planner.__init__`](modules.lazy_loop.py.md#planner-__init__), [`Planner.plan`](modules.lazy_loop.py.md#planner-plan)
 
 <a id="lazycommandset-do_lazy_frontier"></a>
 
 #### `LazyCommandSet.do_lazy_frontier`
 
-`method` | [cli/commands/lazyops.py:503](../../cli/commands/lazyops.py#L503)
+`method` | [cli/commands/lazyops.py:510](../../cli/commands/lazyops.py#L510)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -408,13 +411,13 @@ Usage: lazy_frontier [--task T]
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`Frontier.pending`](modules.lazy_loop.py.md#frontier-pending)
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`Frontier.__init__`](modules.lazy_loop.py.md#frontier-__init__), [`Frontier.pending`](modules.lazy_loop.py.md#frontier-pending)
 
 <a id="lazycommandset-do_lazy_worker"></a>
 
 #### `LazyCommandSet.do_lazy_worker`
 
-`method` | [cli/commands/lazyops.py:515](../../cli/commands/lazyops.py#L515)
+`method` | [cli/commands/lazyops.py:522](../../cli/commands/lazyops.py#L522)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -432,13 +435,13 @@ Usage: lazy_worker [--task T] [--intent N]
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`ActivityLog.__init__`](modules.lazy_loop.py.md#activitylog-__init__), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`ExplorationGraph.get`](modules.lazy_loop.py.md#explorationgraph-get), [`ExplorationGraph.set_state`](modules.lazy_loop.py.md#explorationgraph-set_state), [`Frontier.claim_next`](modules.lazy_loop.py.md#frontier-claim_next), [`TrafficLog.__init__`](modules.lazy_loop.py.md#trafficlog-__init__), [`Worker.__init__`](modules.lazy_loop.py.md#worker-__init__), [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`ActivityLog.__init__`](modules.lazy_loop.py.md#activitylog-__init__), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`ExplorationGraph.get`](modules.lazy_loop.py.md#explorationgraph-get), [`ExplorationGraph.set_state`](modules.lazy_loop.py.md#explorationgraph-set_state), [`Frontier.__init__`](modules.lazy_loop.py.md#frontier-__init__), [`Frontier.claim_next`](modules.lazy_loop.py.md#frontier-claim_next), [`Guard.__init__`](modules.lazy_loop.py.md#guard-__init__), [`TrafficLog.__init__`](modules.lazy_loop.py.md#trafficlog-__init__), [`Worker.__init__`](modules.lazy_loop.py.md#worker-__init__) and 1 more
 
 <a id="lazycommandset-do_lazy_trace"></a>
 
 #### `LazyCommandSet.do_lazy_trace`
 
-`method` | [cli/commands/lazyops.py:555](../../cli/commands/lazyops.py#L555)
+`method` | [cli/commands/lazyops.py:562](../../cli/commands/lazyops.py#L562)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -462,7 +465,7 @@ Usage: lazy_trace list|search <q>|search-all <q>|get <intent>|steps <intent> [--
 
 #### `LazyCommandSet.do_lazy_broadcast`
 
-`method` | [cli/commands/lazyops.py:608](../../cli/commands/lazyops.py#L608)
+`method` | [cli/commands/lazyops.py:615](../../cli/commands/lazyops.py#L615)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -482,11 +485,91 @@ Usage: lazy_broadcast [--task T] [--kind K] [--q Q] [--asc] [--page N] [--limit 
 
 *Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_msg`](core.console.py.md#print_msg)
 
+<a id="lazycommandset-do_lazy_commander"></a>
+
+#### `LazyCommandSet.do_lazy_commander`
+
+`method` | [cli/commands/lazyops.py:650](../../cli/commands/lazyops.py#L650)
+
+Decorators: `@cmd2.with_category(ai_category)`
+
+```python
+def do_lazy_commander(self, line)
+```
+
+Allocate work slices across the task fleet.
+
+Usage: lazy_commander [--minutes N] [--slices N] [--workers N]
+
+Slot-clock commander over every active loop task: one LLM pass
+picks which task gets the next slice (work/hire/fire/stop);
+without LLM members it falls back to least-worked-first fairness.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`LazyCommander.__init__`](modules.lazy_commander.py.md#lazycommander-__init__), [`LazyCommander.run`](modules.lazy_commander.py.md#lazycommander-run), [`LlmPool.__init__`](modules.lazy_loop.py.md#llmpool-__init__), [`LlmPool.complete`](modules.lazy_loop.py.md#llmpool-complete), [`LlmPool.members`](modules.lazy_loop.py.md#llmpool-members)
+
+<a id="lazycommandset-do_lazy_deviations"></a>
+
+#### `LazyCommandSet.do_lazy_deviations`
+
+`method` | [cli/commands/lazyops.py:698](../../cli/commands/lazyops.py#L698)
+
+Decorators: `@cmd2.with_category(ai_category)`
+
+```python
+def do_lazy_deviations(self, line)
+```
+
+List planned-versus-actual deviations.
+
+Usage: lazy_deviations [scope] [--limit N] [--md]
+
+Scope examples: ``loop:t0001`` for one loop task,
+``chain:<name>:<run_id>`` for one chain run. Empty scope lists
+every recorded deviation, newest first.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`DeviationLedger.__init__`](modules.lazy_deviations.py.md#deviationledger-__init__), [`DeviationLedger.render_markdown`](modules.lazy_deviations.py.md#deviationledger-render_markdown)
+
+<a id="lazycommandset-do_lazy_blindspot"></a>
+
+#### `LazyCommandSet.do_lazy_blindspot`
+
+`method` | [cli/commands/lazyops.py:736](../../cli/commands/lazyops.py#L736)
+
+Decorators: `@cmd2.with_category(ai_category)`
+
+```python
+def do_lazy_blindspot(self, line)
+```
+
+Review graph blindspots into hints.
+
+Usage: lazy_blindspot [--task T]
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg)
+
 <a id="lazycommandset-do_lazy_hint"></a>
 
 #### `LazyCommandSet.do_lazy_hint`
 
-`method` | [cli/commands/lazyops.py:643](../../cli/commands/lazyops.py#L643)
+`method` | [cli/commands/lazyops.py:762](../../cli/commands/lazyops.py#L762)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -510,7 +593,7 @@ Usage: lazy_hint <text> [--task T]
 
 #### `LazyCommandSet.do_lazy_intent`
 
-`method` | [cli/commands/lazyops.py:655](../../cli/commands/lazyops.py#L655)
+`method` | [cli/commands/lazyops.py:774](../../cli/commands/lazyops.py#L774)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -530,7 +613,7 @@ def do_lazy_intent(self, line)
 
 #### `LazyCommandSet.do_lazy_intent_delete`
 
-`method` | [cli/commands/lazyops.py:680](../../cli/commands/lazyops.py#L680)
+`method` | [cli/commands/lazyops.py:799](../../cli/commands/lazyops.py#L799)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -554,7 +637,7 @@ Usage: lazy_intent_delete <id> --reason <text> [--hard] [--task T] [--yes]
 
 #### `LazyCommandSet.do_lazy_goal`
 
-`method` | [cli/commands/lazyops.py:723](../../cli/commands/lazyops.py#L723)
+`method` | [cli/commands/lazyops.py:842](../../cli/commands/lazyops.py#L842)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -578,7 +661,7 @@ Usage: lazy_goal ... [--task T]
 
 #### `LazyCommandSet.do_lazy_constraint`
 
-`method` | [cli/commands/lazyops.py:762](../../cli/commands/lazyops.py#L762)
+`method` | [cli/commands/lazyops.py:881](../../cli/commands/lazyops.py#L881)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -602,7 +685,7 @@ Usage: lazy_constraint ... [--task T]
 
 #### `LazyCommandSet.do_lazy_scope`
 
-`method` | [cli/commands/lazyops.py:780](../../cli/commands/lazyops.py#L780)
+`method` | [cli/commands/lazyops.py:899](../../cli/commands/lazyops.py#L899)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -626,7 +709,7 @@ Usage: lazy_scope ... [--task T]
 
 #### `LazyCommandSet.do_lazy_todo`
 
-`method` | [cli/commands/lazyops.py:798](../../cli/commands/lazyops.py#L798)
+`method` | [cli/commands/lazyops.py:917](../../cli/commands/lazyops.py#L917)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -650,7 +733,7 @@ Usage: lazy_todo ... [--task T]
 
 #### `LazyCommandSet.do_lazy_asset`
 
-`method` | [cli/commands/lazyops.py:820](../../cli/commands/lazyops.py#L820)
+`method` | [cli/commands/lazyops.py:939](../../cli/commands/lazyops.py#L939)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -674,7 +757,7 @@ Usage: lazy_asset ...
 
 #### `LazyCommandSet.do_lazy_enrich`
 
-`method` | [cli/commands/lazyops.py:861](../../cli/commands/lazyops.py#L861)
+`method` | [cli/commands/lazyops.py:980](../../cli/commands/lazyops.py#L980)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -698,7 +781,7 @@ Usage: lazy_enrich <host-or-url>
 
 #### `LazyCommandSet.do_lazy_traffic`
 
-`method` | [cli/commands/lazyops.py:873](../../cli/commands/lazyops.py#L873)
+`method` | [cli/commands/lazyops.py:992](../../cli/commands/lazyops.py#L992)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -722,7 +805,7 @@ Usage: lazy_traffic ... [--task T] [--limit N]
 
 #### `LazyCommandSet.do_lazy_guard`
 
-`method` | [cli/commands/lazyops.py:1094](../../cli/commands/lazyops.py#L1094)
+`method` | [cli/commands/lazyops.py:1213](../../cli/commands/lazyops.py#L1213)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -740,13 +823,13 @@ Usage: lazy_guard ...
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`Guard.check`](modules.intercept.py.md#guard-check), [`Guard.add_rule`](modules.lazy_loop.py.md#guard-add_rule), [`Guard.audit`](modules.lazy_loop.py.md#guard-audit), [`Guard.lookup`](modules.lazy_loop.py.md#guard-lookup), [`Guard.remove_rule`](modules.lazy_loop.py.md#guard-remove_rule), [`Guard.set_judge`](modules.lazy_loop.py.md#guard-set_judge), [`Guard.stats`](modules.lazy_loop.py.md#guard-stats), [`InterceptQueue.__init__`](modules.lazy_loop.py.md#interceptqueue-__init__), [`InterceptQueue.decide`](modules.lazy_loop.py.md#interceptqueue-decide) and 1 more
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`Guard.check`](modules.intercept.py.md#guard-check), [`Guard.__init__`](modules.lazy_loop.py.md#guard-__init__), [`Guard.add_rule`](modules.lazy_loop.py.md#guard-add_rule), [`Guard.audit`](modules.lazy_loop.py.md#guard-audit), [`Guard.lookup`](modules.lazy_loop.py.md#guard-lookup), [`Guard.remove_rule`](modules.lazy_loop.py.md#guard-remove_rule), [`Guard.set_judge`](modules.lazy_loop.py.md#guard-set_judge), [`Guard.stats`](modules.lazy_loop.py.md#guard-stats), [`InterceptQueue.__init__`](modules.lazy_loop.py.md#interceptqueue-__init__) and 2 more
 
 <a id="lazycommandset-do_lazy_finding"></a>
 
 #### `LazyCommandSet.do_lazy_finding`
 
-`method` | [cli/commands/lazyops.py:1195](../../cli/commands/lazyops.py#L1195)
+`method` | [cli/commands/lazyops.py:1314](../../cli/commands/lazyops.py#L1314)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -766,7 +849,7 @@ def do_lazy_finding(self, line)
 
 #### `LazyCommandSet.do_lazy_retest`
 
-`method` | [cli/commands/lazyops.py:1260](../../cli/commands/lazyops.py#L1260)
+`method` | [cli/commands/lazyops.py:1379](../../cli/commands/lazyops.py#L1379)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -790,7 +873,7 @@ Usage: lazy_retest <finding_id> [--task T] [--note TEXT]
 
 #### `LazyCommandSet.do_lazy_steer`
 
-`method` | [cli/commands/lazyops.py:1279](../../cli/commands/lazyops.py#L1279)
+`method` | [cli/commands/lazyops.py:1398](../../cli/commands/lazyops.py#L1398)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -814,7 +897,7 @@ Usage: lazy_steer <intent> <message> [--task T]
 
 #### `LazyCommandSet.do_lazy_kill`
 
-`method` | [cli/commands/lazyops.py:1291](../../cli/commands/lazyops.py#L1291)
+`method` | [cli/commands/lazyops.py:1410](../../cli/commands/lazyops.py#L1410)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -838,7 +921,7 @@ Usage: lazy_kill <intent> [--task T]
 
 #### `LazyCommandSet.do_lazy_pause`
 
-`method` | [cli/commands/lazyops.py:1303](../../cli/commands/lazyops.py#L1303)
+`method` | [cli/commands/lazyops.py:1422](../../cli/commands/lazyops.py#L1422)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -862,7 +945,7 @@ Usage: lazy_pause [--task T]
 
 #### `LazyCommandSet.do_lazy_resume`
 
-`method` | [cli/commands/lazyops.py:1313](../../cli/commands/lazyops.py#L1313)
+`method` | [cli/commands/lazyops.py:1432](../../cli/commands/lazyops.py#L1432)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -886,7 +969,7 @@ Usage: lazy_resume [--task T]
 
 #### `LazyCommandSet.do_lazy_report`
 
-`method` | [cli/commands/lazyops.py:1323](../../cli/commands/lazyops.py#L1323)
+`method` | [cli/commands/lazyops.py:1442](../../cli/commands/lazyops.py#L1442)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -910,7 +993,7 @@ Usage: lazy_report [--task T] [--format md|json|csv] [--out PATH]
 
 #### `LazyCommandSet.do_lazy_runtime`
 
-`method` | [cli/commands/lazyops.py:1340](../../cli/commands/lazyops.py#L1340)
+`method` | [cli/commands/lazyops.py:1459](../../cli/commands/lazyops.py#L1459)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -934,7 +1017,7 @@ Usage: lazy_runtime show [--task T] | lazy_runtime budget <max_toolcalls> <max_f
 
 #### `LazyCommandSet.do_lazy_payload_keys`
 
-`method` | [cli/commands/lazyops.py:1387](../../cli/commands/lazyops.py#L1387)
+`method` | [cli/commands/lazyops.py:1506](../../cli/commands/lazyops.py#L1506)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -958,7 +1041,7 @@ Usage: lazy_payload_keys [tool]
 
 #### `LazyCommandSet.do_lazy_fact`
 
-`method` | [cli/commands/lazyops.py:1399](../../cli/commands/lazyops.py#L1399)
+`method` | [cli/commands/lazyops.py:1518](../../cli/commands/lazyops.py#L1518)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -982,7 +1065,7 @@ Usage: lazy_fact ... [--task T]
 
 #### `LazyCommandSet.do_lazy_node`
 
-`method` | [cli/commands/lazyops.py:1427](../../cli/commands/lazyops.py#L1427)
+`method` | [cli/commands/lazyops.py:1546](../../cli/commands/lazyops.py#L1546)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1006,7 +1089,7 @@ Usage: lazy_node <id> [--task T]
 
 #### `LazyCommandSet.do_lazy_evidence`
 
-`method` | [cli/commands/lazyops.py:1447](../../cli/commands/lazyops.py#L1447)
+`method` | [cli/commands/lazyops.py:1566](../../cli/commands/lazyops.py#L1566)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1029,13 +1112,13 @@ Usage:
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`EvidenceStore.add`](modules.lazy_loop.py.md#evidencestore-add), [`EvidenceStore.export`](modules.lazy_loop.py.md#evidencestore-export), [`EvidenceStore.for_finding`](modules.lazy_loop.py.md#evidencestore-for_finding), [`EvidenceStore.gc`](modules.lazy_loop.py.md#evidencestore-gc), [`EvidenceStore.verify`](modules.lazy_loop.py.md#evidencestore-verify), [`LazyLoopEngine.export_evidence`](modules.lazy_loop.py.md#lazyloopengine-export_evidence), [`get_proxy`](modules.lazy_proxy.py.md#get_proxy)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`EvidenceStore.__init__`](modules.lazy_loop.py.md#evidencestore-__init__), [`EvidenceStore.add`](modules.lazy_loop.py.md#evidencestore-add), [`EvidenceStore.export`](modules.lazy_loop.py.md#evidencestore-export), [`EvidenceStore.for_finding`](modules.lazy_loop.py.md#evidencestore-for_finding), [`EvidenceStore.gc`](modules.lazy_loop.py.md#evidencestore-gc), [`EvidenceStore.verify`](modules.lazy_loop.py.md#evidencestore-verify), [`LazyLoopEngine.export_evidence`](modules.lazy_loop.py.md#lazyloopengine-export_evidence), [`get_proxy`](modules.lazy_proxy.py.md#get_proxy)
 
 <a id="lazycommandset-do_lazy_ask"></a>
 
 #### `LazyCommandSet.do_lazy_ask`
 
-`method` | [cli/commands/lazyops.py:1514](../../cli/commands/lazyops.py#L1514)
+`method` | [cli/commands/lazyops.py:1633](../../cli/commands/lazyops.py#L1633)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1059,7 +1142,7 @@ Usage: lazy_ask <question> [--task T] [--session S] | lazy_ask history [--task T
 
 #### `LazyCommandSet.do_lazy_agent`
 
-`method` | [cli/commands/lazyops.py:1668](../../cli/commands/lazyops.py#L1668)
+`method` | [cli/commands/lazyops.py:1787](../../cli/commands/lazyops.py#L1787)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1083,7 +1166,7 @@ Usage: lazy_agent new [--title T]|list|show <sid>|say <prompt...> [--session S] 
 
 #### `LazyCommandSet.do_lazy_company`
 
-`method` | [cli/commands/lazyops.py:1769](../../cli/commands/lazyops.py#L1769)
+`method` | [cli/commands/lazyops.py:1888](../../cli/commands/lazyops.py#L1888)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1107,7 +1190,7 @@ Usage: lazy_company ...
 
 #### `LazyCommandSet.do_lazy_tool`
 
-`method` | [cli/commands/lazyops.py:1791](../../cli/commands/lazyops.py#L1791)
+`method` | [cli/commands/lazyops.py:1910](../../cli/commands/lazyops.py#L1910)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1125,13 +1208,13 @@ Usage: lazy_tool ...
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`add_tool`](modules.custom_tools.py.md#add_tool), [`list_tools`](modules.custom_tools.py.md#list_tools), [`remove_tool`](modules.custom_tools.py.md#remove_tool), [`run_tool`](modules.custom_tools.py.md#run_tool), [`ToolCatalog.bind`](modules.lazy_loop.py.md#toolcatalog-bind), [`ToolCatalog.bindings`](modules.lazy_loop.py.md#toolcatalog-bindings), [`ToolCatalog.unbind`](modules.lazy_loop.py.md#toolcatalog-unbind)
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`add_tool`](modules.custom_tools.py.md#add_tool), [`list_tools`](modules.custom_tools.py.md#list_tools), [`remove_tool`](modules.custom_tools.py.md#remove_tool), [`run_tool`](modules.custom_tools.py.md#run_tool), [`ToolCatalog.__init__`](modules.lazy_loop.py.md#toolcatalog-__init__), [`ToolCatalog.bind`](modules.lazy_loop.py.md#toolcatalog-bind), [`ToolCatalog.bindings`](modules.lazy_loop.py.md#toolcatalog-bindings), [`ToolCatalog.unbind`](modules.lazy_loop.py.md#toolcatalog-unbind)
 
 <a id="lazycommandset-do_lazy_verb"></a>
 
 #### `LazyCommandSet.do_lazy_verb`
 
-`method` | [cli/commands/lazyops.py:1863](../../cli/commands/lazyops.py#L1863)
+`method` | [cli/commands/lazyops.py:1982](../../cli/commands/lazyops.py#L1982)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1155,7 +1238,7 @@ Usage: lazy_verb ...
 
 #### `LazyCommandSet.do_lazy_stage`
 
-`method` | [cli/commands/lazyops.py:1961](../../cli/commands/lazyops.py#L1961)
+`method` | [cli/commands/lazyops.py:2080](../../cli/commands/lazyops.py#L2080)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1179,7 +1262,7 @@ Usage: lazy_stage ...
 
 #### `LazyCommandSet.do_lazy_mode`
 
-`method` | [cli/commands/lazyops.py:1989](../../cli/commands/lazyops.py#L1989)
+`method` | [cli/commands/lazyops.py:2108](../../cli/commands/lazyops.py#L2108)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1203,7 +1286,7 @@ Usage: lazy_mode [<pentest|redteam|ctf>] [progress|findings]
 
 #### `LazyCommandSet.do_lazy_addon`
 
-`method` | [cli/commands/lazyops.py:2015](../../cli/commands/lazyops.py#L2015)
+`method` | [cli/commands/lazyops.py:2134](../../cli/commands/lazyops.py#L2134)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1225,7 +1308,7 @@ Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all]
 
 #### `LazyCommandSet.do_lazy_notify`
 
-`method` | [cli/commands/lazyops.py:2122](../../cli/commands/lazyops.py#L2122)
+`method` | [cli/commands/lazyops.py:2241](../../cli/commands/lazyops.py#L2241)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1243,13 +1326,13 @@ Usage: lazy_notify ... [--task T]
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`Notifier.add_channel`](modules.lazy_loop.py.md#notifier-add_channel), [`Notifier.channels`](modules.lazy_loop.py.md#notifier-channels), [`Notifier.emit`](modules.lazy_loop.py.md#notifier-emit), [`Notifier.remove_channel`](modules.lazy_loop.py.md#notifier-remove_channel)
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`Notifier.__init__`](modules.lazy_loop.py.md#notifier-__init__), [`Notifier.add_channel`](modules.lazy_loop.py.md#notifier-add_channel), [`Notifier.channels`](modules.lazy_loop.py.md#notifier-channels), [`Notifier.emit`](modules.lazy_loop.py.md#notifier-emit), [`Notifier.remove_channel`](modules.lazy_loop.py.md#notifier-remove_channel)
 
 <a id="lazycommandset-do_lazy_trigger"></a>
 
 #### `LazyCommandSet.do_lazy_trigger`
 
-`method` | [cli/commands/lazyops.py:2170](../../cli/commands/lazyops.py#L2170)
+`method` | [cli/commands/lazyops.py:2289](../../cli/commands/lazyops.py#L2289)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1273,7 +1356,7 @@ Usage: lazy_trigger ... [--task T]
 
 #### `LazyCommandSet.do_lazy_llm`
 
-`method` | [cli/commands/lazyops.py:2259](../../cli/commands/lazyops.py#L2259)
+`method` | [cli/commands/lazyops.py:2378](../../cli/commands/lazyops.py#L2378)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1297,7 +1380,7 @@ Usage: lazy_llm ...
 
 #### `LazyCommandSet.do_lazy_compact`
 
-`method` | [cli/commands/lazyops.py:2396](../../cli/commands/lazyops.py#L2396)
+`method` | [cli/commands/lazyops.py:2515](../../cli/commands/lazyops.py#L2515)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1321,7 +1404,7 @@ Usage: lazy_compact ... [--task T]
 
 #### `LazyCommandSet.do_lazy_status`
 
-`method` | [cli/commands/lazyops.py:2468](../../cli/commands/lazyops.py#L2468)
+`method` | [cli/commands/lazyops.py:2587](../../cli/commands/lazyops.py#L2587)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1345,7 +1428,7 @@ Usage: lazy_status [--task T]
 
 #### `LazyCommandSet.do_lazy_overview`
 
-`method` | [cli/commands/lazyops.py:2492](../../cli/commands/lazyops.py#L2492)
+`method` | [cli/commands/lazyops.py:2611](../../cli/commands/lazyops.py#L2611)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1369,7 +1452,7 @@ Usage: lazy_overview [--task T]
 
 #### `LazyCommandSet.do_lazy_archive`
 
-`method` | [cli/commands/lazyops.py:2497](../../cli/commands/lazyops.py#L2497)
+`method` | [cli/commands/lazyops.py:2616](../../cli/commands/lazyops.py#L2616)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1393,7 +1476,7 @@ Usage: lazy_archive ...
 
 #### `LazyCommandSet.do_lazy_template`
 
-`method` | [cli/commands/lazyops.py:2528](../../cli/commands/lazyops.py#L2528)
+`method` | [cli/commands/lazyops.py:2647](../../cli/commands/lazyops.py#L2647)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1417,7 +1500,7 @@ Usage: lazy_template ...
 
 #### `LazyCommandSet.do_lazy_category`
 
-`method` | [cli/commands/lazyops.py:2559](../../cli/commands/lazyops.py#L2559)
+`method` | [cli/commands/lazyops.py:2678](../../cli/commands/lazyops.py#L2678)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1441,7 +1524,7 @@ Usage: lazy_category ...
 
 #### `LazyCommandSet.do_lazy_chat`
 
-`method` | [cli/commands/lazyops.py:2580](../../cli/commands/lazyops.py#L2580)
+`method` | [cli/commands/lazyops.py:2699](../../cli/commands/lazyops.py#L2699)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1465,7 +1548,7 @@ Usage: lazy_chat ... [--task T] [--session S]
 
 #### `LazyCommandSet.do_lazy_scheduler`
 
-`method` | [cli/commands/lazyops.py:2613](../../cli/commands/lazyops.py#L2613)
+`method` | [cli/commands/lazyops.py:2732](../../cli/commands/lazyops.py#L2732)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1489,7 +1572,7 @@ Usage: lazy_scheduler ... [--task T]
 
 #### `LazyCommandSet.do_lazy_gate`
 
-`method` | [cli/commands/lazyops.py:2640](../../cli/commands/lazyops.py#L2640)
+`method` | [cli/commands/lazyops.py:2759](../../cli/commands/lazyops.py#L2759)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1513,7 +1596,7 @@ Usage: lazy_gate ... [--task T] (allow-* require --task)
 
 #### `LazyCommandSet.do_lazy_loop`
 
-`method` | [cli/commands/lazyops.py:2685](../../cli/commands/lazyops.py#L2685)
+`method` | [cli/commands/lazyops.py:2804](../../cli/commands/lazyops.py#L2804)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1537,7 +1620,7 @@ Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-
 
 #### `LazyCommandSet.do_lazy_sandbox`
 
-`method` | [cli/commands/lazyops.py:2723](../../cli/commands/lazyops.py#L2723)
+`method` | [cli/commands/lazyops.py:2842](../../cli/commands/lazyops.py#L2842)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1555,13 +1638,13 @@ Usage: lazy_sandbox ...
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`ProxyController.status`](modules.lazy_proxy.py.md#proxycontroller-status), [`container_name`](modules.lazy_sandbox.py.md#container_name), [`ensure_container`](modules.lazy_sandbox.py.md#ensure_container), [`exec_command`](modules.lazy_sandbox.py.md#exec_command), [`image_name`](modules.lazy_sandbox.py.md#image_name), [`remove_container`](modules.lazy_sandbox.py.md#remove_container)
+*Calls:* [`extract_flag`](cli.commands._base.py.md#extract_flag), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`LazyLoopEngine.status`](modules.lazy_loop.py.md#lazyloopengine-status), [`container_name`](modules.lazy_sandbox.py.md#container_name), [`ensure_container`](modules.lazy_sandbox.py.md#ensure_container), [`exec_command`](modules.lazy_sandbox.py.md#exec_command), [`image_name`](modules.lazy_sandbox.py.md#image_name), [`remove_container`](modules.lazy_sandbox.py.md#remove_container)
 
 <a id="lazycommandset-do_lazy_install"></a>
 
 #### `LazyCommandSet.do_lazy_install`
 
-`method` | [cli/commands/lazyops.py:2786](../../cli/commands/lazyops.py#L2786)
+`method` | [cli/commands/lazyops.py:2905](../../cli/commands/lazyops.py#L2905)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1585,7 +1668,7 @@ Usage: lazy_install ...
 
 #### `LazyCommandSet.do_lazy_pacing`
 
-`method` | [cli/commands/lazyops.py:2824](../../cli/commands/lazyops.py#L2824)
+`method` | [cli/commands/lazyops.py:2943](../../cli/commands/lazyops.py#L2943)
 
 Decorators: `@cmd2.with_category(ai_category)`
 

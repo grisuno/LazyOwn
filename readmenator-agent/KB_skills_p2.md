@@ -150,7 +150,7 @@ Previous: [KB_skills.md](KB_skills.md)
   - `context_for_command` (method, line 896) `def context_for_command(self, host, category)`
   - `summary` (method, line 986) `def summary(self, host)`
 - Depends on: `core/logging.py`, `modules/logging_config.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/create_tool.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/create_tool.py`, `skills/mcp_tools/facts_show.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
 
 ## skills/lazyown_groq_agents.py
 - Doc: skills/lazyown_groq_agents.py

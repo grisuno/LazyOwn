@@ -174,7 +174,7 @@ Create storage directories and initialize the index.
 |---|---|---|---|
 | `base_dir` | `str \| Path` |  |  |
 
-*Called by:* [`LazyCommandSet.do_lazy_traffic`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_traffic), [`TrafficLog.recorder_blob`](modules.lazy_loop.py.md#trafficlog-recorder_blob), [`TrafficLog.recorder_body`](modules.lazy_loop.py.md#trafficlog-recorder_body), [`ProxyController.start`](modules.lazy_proxy.py.md#proxycontroller-start)
+*Called by:* [`LazyCommandSet.do_lazy_traffic`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_traffic), [`TrafficLog.recorder_blob`](modules.lazy_loop.py.md#trafficlog-recorder_blob), [`TrafficLog.recorder_body`](modules.lazy_loop.py.md#trafficlog-recorder_body), [`ProxyController.start`](modules.lazy_proxy.py.md#proxycontroller-start), [`EngineProxyMixin.search_proxy_body`](modules.loop.engine_proxy.py.md#engineproxymixin-search_proxy_body)
 
 <a id="trafficrecorder-record"></a>
 
@@ -392,6 +392,8 @@ LIKE scan over the most recent bodies otherwise.
 **Returns:** `list[dict]` - Hits with exchange_id, url, status, host and a snippet.
 
 *Calls:* [`TrafficRecorder.backfill_fts`](#trafficrecorder-backfill_fts)
+
+*Called by:* [`EngineProxyMixin.search_proxy_body`](modules.loop.engine_proxy.py.md#engineproxymixin-search_proxy_body)
 
 <a id="trafficrecorder-export_archive"></a>
 

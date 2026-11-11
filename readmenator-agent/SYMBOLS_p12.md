@@ -1,8 +1,43 @@
-# Symbols (page 12 of 50)
+# Symbols (page 12 of 51)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_verb_row` | function | `modules/auto_registry.py:331` | `def _verb_row(name)` |
+| `_verb_rows` | function | `modules/auto_registry.py:286` | `def _verb_rows()` |
+| `addon_hits_for` | function | `modules/auto_registry.py:608` | `def addon_hits_for(service_text, limit)` |
+| `auto_verb_target` | function | `modules/auto_registry.py:55` | `def auto_verb_target(command)` |
+| `binary_available` | function | `modules/auto_registry.py:462` | `def binary_available(name)` |
+| `build_command` | function | `modules/auto_registry.py:725` | `def build_command(verb, target)` |
+| `cancel_running_commands` | function | `modules/auto_registry.py:1176` | `def cancel_running_commands()` |
+| `execute_shell_verb` | function | `modules/auto_registry.py:1056` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
+| `execute_streaming` | function | `modules/auto_registry.py:1199` | `def execute_streaming(command, on_output, timeout_sec)` |
+| `is_routable_command` | function | `modules/auto_registry.py:678` | `def is_routable_command(line)` |
+| `is_shell_verb` | function | `modules/auto_registry.py:701` | `def is_shell_verb(token)` |
+| `iter_addon_triggers` | function | `modules/auto_registry.py:549` | `def iter_addon_triggers()` |
+| `iter_tool_triggers` | function | `modules/auto_registry.py:585` | `def iter_tool_triggers()` |
+| `missing_binary` | function | `modules/auto_registry.py:478` | `def missing_binary(command)` |
+| `propose_addon_intents` | function | `modules/auto_registry.py:634` | `def propose_addon_intents(service_texts, target, limit)` |
+| `propose_intents` | function | `modules/auto_registry.py:742` | `def propose_intents(goal, target, finding_texts)` |
+| `service_tokens` | function | `modules/auto_registry.py:507` | `def service_tokens(service_text)` |
+| `steps_for` | function | `modules/auto_registry.py:863` | `def steps_for(text, target)` |
+| `track_process` | function | `modules/auto_registry.py:1166` | `def track_process(process)` |
+| `untrack_process` | function | `modules/auto_registry.py:1171` | `def untrack_process(process)` |
+| `verb_available` | function | `modules/auto_registry.py:502` | `def verb_available(verb)` |
+| `verb_enabled` | function | `modules/auto_registry.py:340` | `def verb_enabled(name)` |
+| `verb_gap` | function | `modules/auto_registry.py:490` | `def verb_gap(verb)` |
+| `verbs` | function | `modules/auto_registry.py:696` | `def verbs()` |
+| `verbs_for` | function | `modules/auto_registry.py:736` | `def verbs_for(text)` |
+| `write` | method | `modules/auto_registry.py:1043` | `def write(self, data)` |
+| `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
+| `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
+| `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
+| `TargetProfile` | class | `modules/autonomous_exploit_engine.py:59` | `class TargetProfile` |
+| `__init__` | method | `modules/autonomous_exploit_engine.py:114` | `def __init__(self)` |
+| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1722` | `def _apply_stealth_delay(self)` |
+| `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1176` | `def _build_command_chain(self, candidate, profile)` |
+| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:2022` | `def _check_known_cves(self, profile)` |
+| `_check_success` | method | `modules/autonomous_exploit_engine.py:1328` | `def _check_success(self, output, candidate)` |
 | `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:241` | `def _credential_aware_rank(self, profile, credentials)` |
 | `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1609` | `def _detect_os_from_payload(self)` |
 | `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1421` | `def _detect_shell(self, output)` |
@@ -206,6 +241,9 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `uninstall` | method | `modules/bof_registry.py:703` | `def uninstall(self, name)` |
 | `validate_args` | method | `modules/bof_registry.py:507` | `def validate_args(entry, args)` |
 | `verify_entry` | method | `modules/bof_registry.py:491` | `def verify_entry(entry, filepath)` |
+| `decrypt_bsb_report` | function | `modules/bsb_compat.py:84` | `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` |
+| `derive_bsb_keys` | function | `modules/bsb_compat.py:46` | `def derive_bsb_keys(master_key)` |
+| `encrypt_bsb_command` | function | `modules/bsb_compat.py:133` | `def encrypt_bsb_command(data, master_key)` |
 | `C2Server` | class | `modules/c2_agent.py:711` | `class C2Server` |
 | `__init__` | method | `modules/c2_agent.py:714` | `def __init__(self, port, user, password)` |
 | `_api` | function | `modules/c2_agent.py:825` | `def _api(path, data)` |
@@ -399,18 +437,31 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_default_store` | function | `modules/chain_facts.py:73` | `def _default_store()` |
 | `_host_hint` | function | `modules/chain_facts.py:84` | `def _host_hint(output, phase, target_hint)` |
 | `spool_chain_outputs` | function | `modules/chain_facts.py:24` | `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` |
-| `ChainStepBlocked` | class | `modules/chain_loop.py:138` | `class ChainStepBlocked(RuntimeError)` |
-| `__init__` | method | `modules/chain_loop.py:141` | `def __init__(self, status, detail)` |
-| `_build_runner` | function | `modules/chain_loop.py:270` | `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)` |
-| `_render_summary` | function | `modules/chain_loop.py:313` | `def _render_summary(result, chain_name)` |
-| `_spool` | function | `modules/chain_loop.py:303` | `def _spool(result)` |
-| `chain_mode` | function | `modules/chain_loop.py:34` | `def chain_mode()` |
-| `guarded` | function | `modules/chain_loop.py:225` | `def guarded(step_command)` |
-| `is_chain_command` | function | `modules/chain_loop.py:52` | `def is_chain_command(command)` |
-| `on_step` | function | `modules/chain_loop.py:282` | `def on_step(outcome)` |
-| `parse_chain_invocation` | function | `modules/chain_loop.py:57` | `def parse_chain_invocation(command)` |
-| `run_chain_stepwise` | function | `modules/chain_loop.py:153` | `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` |
-| `stepwise_eligible` | function | `modules/chain_loop.py:108` | `def stepwise_eligible(chain, routable)` |
+| `FamilyRegistry` | class | `modules/chain_family.py:68` | `class FamilyRegistry` |
+| `__init__` | method | `modules/chain_family.py:76` | `def __init__(self, path)` |
+| `_default_registry_path` | function | `modules/chain_family.py:178` | `def _default_registry_path()` |
+| `_load` | method | `modules/chain_family.py:84` | `def _load(self)` |
+| `_normalize_service` | function | `modules/chain_family.py:34` | `def _normalize_service(name)` |
+| `_save` | method | `modules/chain_family.py:90` | `def _save(self, data)` |
+| `_touch` | method | `modules/chain_family.py:96` | `def _touch(self, signature, chain)` |
+| `best` | method | `modules/chain_family.py:123` | `def best(self, signature)` |
+| `default_registry` | function | `modules/chain_family.py:185` | `def default_registry()` |
+| `family_signature` | function | `modules/chain_family.py:41` | `def family_signature(facts)` |
+| `record_association` | method | `modules/chain_family.py:111` | `def record_association(self, signature, chain, target)` |
+| `record_win` | method | `modules/chain_family.py:117` | `def record_win(self, signature, chain, target)` |
+| `transfer_note` | method | `modules/chain_family.py:159` | `def transfer_note(self, facts)` |
+| `ChainStepBlocked` | class | `modules/chain_loop.py:139` | `class ChainStepBlocked(RuntimeError)` |
+| `__init__` | method | `modules/chain_loop.py:142` | `def __init__(self, status, detail)` |
+| `_build_runner` | function | `modules/chain_loop.py:271` | `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)` |
+| `_render_summary` | function | `modules/chain_loop.py:322` | `def _render_summary(result, chain_name)` |
+| `_spool` | function | `modules/chain_loop.py:312` | `def _spool(result)` |
+| `chain_mode` | function | `modules/chain_loop.py:35` | `def chain_mode()` |
+| `guarded` | function | `modules/chain_loop.py:226` | `def guarded(step_command)` |
+| `is_chain_command` | function | `modules/chain_loop.py:53` | `def is_chain_command(command)` |
+| `on_step` | function | `modules/chain_loop.py:283` | `def on_step(outcome)` |
+| `parse_chain_invocation` | function | `modules/chain_loop.py:58` | `def parse_chain_invocation(command)` |
+| `run_chain_stepwise` | function | `modules/chain_loop.py:154` | `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` |
+| `stepwise_eligible` | function | `modules/chain_loop.py:109` | `def stepwise_eligible(chain, routable)` |
 | `best_chain` | function | `modules/chain_match.py:139` | `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` |
 | `load_rows` | function | `modules/chain_match.py:109` | `def load_rows(allow_lab, ttl)` |
 | `normalize_tags` | function | `modules/chain_match.py:49` | `def normalize_tags(tags)` |
@@ -438,63 +489,12 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `set_enabled` | function | `modules/chain_registry.py:814` | `def set_enabled(name, enabled, chains_dir)` |
 | `skip_pending` | function | `modules/chain_registry.py:69` | `def skip_pending(path, max_age, now)` |
 | `validate_chain` | function | `modules/chain_registry.py:362` | `def validate_chain(data, filename, chains_dir)` |
-| `ChainRunResult` | class | `modules/chain_runner.py:112` | `class ChainRunResult` |
-| `ChainRunner` | class | `modules/chain_runner.py:220` | `class ChainRunner` |
-| `ReplanContext` | class | `modules/chain_runner.py:165` | `class ReplanContext` |
-| `StepOutcome` | class | `modules/chain_runner.py:56` | `class StepOutcome` |
-| `__init__` | method | `modules/chain_runner.py:223` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
-| `_all_json_objects` | function | `modules/chain_runner.py:1431` | `def _all_json_objects(text)` |
-| `_apply_replanner` | method | `modules/chain_runner.py:884` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
-| `_ask_approval` | method | `modules/chain_runner.py:1183` | `def _ask_approval(self, step_id, command)` |
-| `_call` | method | `modules/chain_runner.py:1411` | `def _call(callback, timeout)` |
-| `_deliver` | method | `modules/chain_runner.py:745` | `def _deliver(self, outcome)` |
-| `_dependency_block` | method | `modules/chain_runner.py:1116` | `def _dependency_block(step, prior_verdicts)` |
-| `_execute` | method | `modules/chain_runner.py:1293` | `def _execute(self, command, timeout, expect_exits)` |
-| `_finalize_verdict` | method | `modules/chain_runner.py:528` | `def _finalize_verdict(self, result)` |
-| `_first_json` | method | `modules/chain_runner.py:1254` | `def _first_json(output)` |
-| `_is_verb` | method | `modules/chain_runner.py:1328` | `def _is_verb(self, command)` |
-| `_load_json_events` | function | `modules/chain_runner.py:1452` | `def _load_json_events(path)` |
-| `_notify` | method | `modules/chain_runner.py:875` | `def _notify(self, outcome)` |
-| `_pace_after` | method | `modules/chain_runner.py:309` | `def _pace_after(self, outcome, started, step)` |
-| `_pre_check_timeout` | method | `modules/chain_runner.py:1198` | `def _pre_check_timeout(self, step)` |
-| `_promoted_sinks` | method | `modules/chain_runner.py:750` | `def _promoted_sinks(self, outcome)` |
-| `_publish_step` | method | `modules/chain_runner.py:775` | `def _publish_step(self, outcome)` |
-| `_raise_timeout` | function | `modules/chain_runner.py:1374` | `def _raise_timeout(_signum, _frame)` |
-| `_record_verdict` | method | `modules/chain_runner.py:971` | `def _record_verdict(verdicts, outcome)` |
-| `_render_command` | method | `modules/chain_runner.py:1268` | `def _render_command(self, template, variables, captured_keys)` |
-| `_run_fallback_chain` | method | `modules/chain_runner.py:674` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
-| `_run_parallel_group` | method | `modules/chain_runner.py:580` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
-| `_run_raw` | method | `modules/chain_runner.py:1394` | `def _run_raw(self, command, timeout, allowed)` |
-| `_run_shell_verb` | method | `modules/chain_runner.py:1339` | `def _run_shell_verb(self, command, timeout)` |
-| `_run_step` | method | `modules/chain_runner.py:978` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
-| `_save_checkpoint` | method | `modules/chain_runner.py:933` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
-| `_skip_remaining` | method | `modules/chain_runner.py:565` | `def _skip_remaining(self, steps, start, reason)` |
-| `_store_capture` | method | `modules/chain_runner.py:1202` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
-| `_verify_evidence` | method | `modules/chain_runner.py:1138` | `def _verify_evidence(self, step, outcome, variables)` |
-| `_verify_timeout` | method | `modules/chain_runner.py:1192` | `def _verify_timeout(self, step)` |
-| `applied_vars` | method | `modules/chain_runner.py:197` | `def applied_vars(self)` |
-| `chain_proven` | method | `modules/chain_runner.py:159` | `def chain_proven(self)` |
-| `insert_step` | method | `modules/chain_runner.py:187` | `def insert_step(self, step)` |
-| `inserted` | method | `modules/chain_runner.py:202` | `def inserted(self)` |
-| `ok` | method | `modules/chain_runner.py:84` | `def ok(self)` |
-| `render_text` | function | `modules/chain_runner.py:212` | `def render_text(template, variables)` |
-| `run` | method | `modules/chain_runner.py:348` | `def run(self)` |
-| `set_var` | method | `modules/chain_runner.py:182` | `def set_var(self, name, value)` |
-| `skip_rest` | method | `modules/chain_runner.py:192` | `def skip_rest(self)` |
-| `skip_rest_flag` | method | `modules/chain_runner.py:207` | `def skip_rest_flag(self)` |
-| `to_dict` | method | `modules/chain_runner.py:88` | `def to_dict(self)` |
-| `to_dict` | method | `modules/chain_runner.py:134` | `def to_dict(self)` |
-| `checkpoint_dir` | function | `modules/chain_state.py:26` | `def checkpoint_dir(base_dir)` |
-| `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit, chain)` |
-| `load_checkpoint` | function | `modules/chain_state.py:65` | `def load_checkpoint(directory, run_id)` |
-| `new_run_id` | function | `modules/chain_state.py:33` | `def new_run_id(chain_name)` |
-| `write_checkpoint` | function | `modules/chain_state.py:39` | `def write_checkpoint(directory, state)` |
-| `_service_steps` | function | `modules/chain_synth.py:44` | `def _service_steps(host, services)` |
-| `_slug` | function | `modules/chain_synth.py:31` | `def _slug(name)` |
-| `_wordlist` | function | `modules/chain_synth.py:35` | `def _wordlist(param, fallback)` |
-| `facts_for_target` | function | `modules/chain_synth.py:243` | `def facts_for_target(target)` |
-| `synth_chain_data` | function | `modules/chain_synth.py:91` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` |
-| `synth_technique_chain_data` | function | `modules/chain_synth.py:272` | `def synth_technique_chain_data(target, techniques, os_hint)` |
-| `write_generated_chain` | function | `modules/chain_synth.py:339` | `def write_generated_chain(data, chains_dir)` |
+| `ChainRunResult` | class | `modules/chain_runner.py:117` | `class ChainRunResult` |
+| `ChainRunner` | class | `modules/chain_runner.py:225` | `class ChainRunner` |
+| `ReplanContext` | class | `modules/chain_runner.py:170` | `class ReplanContext` |
+| `StepOutcome` | class | `modules/chain_runner.py:61` | `class StepOutcome` |
+| `__init__` | method | `modules/chain_runner.py:228` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
+| `_all_json_objects` | function | `modules/chain_runner.py:1517` | `def _all_json_objects(text)` |
+| `_apply_replanner` | method | `modules/chain_runner.py:889` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

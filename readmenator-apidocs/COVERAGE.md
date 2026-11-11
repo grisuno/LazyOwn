@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **77.1%** (8352 of 10832 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,16 +8,16 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1297 | 1487 | 87.2% |
+| class | 1314 | 1504 | 87.4% |
 | classmethod | 59 | 85 | 69.4% |
-| constructor | 218 | 539 | 40.4% |
-| enum | 30 | 39 | 76.9% |
+| constructor | 225 | 546 | 41.2% |
+| enum | 32 | 41 | 78.0% |
 | exception | 41 | 43 | 95.3% |
-| function | 2350 | 3276 | 71.7% |
+| function | 2377 | 3303 | 72.0% |
 | macro | 2 | 114 | 1.8% |
-| method | 3014 | 3703 | 81.4% |
-| module | 967 | 1095 | 88.3% |
-| property | 163 | 207 | 78.7% |
+| method | 3048 | 3737 | 81.6% |
+| module | 977 | 1106 | 88.3% |
+| property | 165 | 209 | 78.9% |
 | protocol | 24 | 24 | 100.0% |
 | staticmethod | 84 | 96 | 87.5% |
 | struct | 1 | 20 | 5.0% |
@@ -338,6 +338,7 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`modules.cicd_enumerator`](modules/modules.cicd_enumerator.py.md) | 7 | 8 | 87.5% |
 | [`modules.cve_matcher`](modules/modules.cve_matcher.py.md) | 7 | 8 | 87.5% |
 | [`modules.detection_feed`](modules/modules.detection_feed.py.md) | 7 | 8 | 87.5% |
+| [`modules.loop.engine_proxy`](modules/modules.loop.engine_proxy.py.md) | 7 | 8 | 87.5% |
 | [`modules.memory_cleaner`](modules/modules.memory_cleaner.py.md) | 7 | 8 | 87.5% |
 | [`modules.operator_profiles`](modules/modules.operator_profiles.py.md) | 14 | 16 | 87.5% |
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | 36 | 41 | 87.8% |
@@ -389,20 +390,20 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 26 | 27 | 96.3% |
 | [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 28 | 29 | 96.6% |
 | [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 28 | 29 | 96.6% |
-| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 59 | 61 | 96.7% |
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | 29 | 30 | 96.7% |
 | [`modules.socks_proxy`](modules/modules.socks_proxy.py.md) | 29 | 30 | 96.7% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | 30 | 31 | 96.8% |
-| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | 34 | 35 | 97.1% |
+| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 62 | 64 | 96.9% |
 | [`lazyown`](modules/lazyown.py.md) | 70 | 72 | 97.2% |
 | [`cli.commands.postexp_migrated`](modules/cli.commands.postexp_migrated.py.md) | 38 | 39 | 97.4% |
+| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | 40 | 41 | 97.6% |
 | [`cli.commands.scan_migrated`](modules/cli.commands.scan_migrated.py.md) | 46 | 47 | 97.9% |
 | [`cli.commands.exploit_migrated`](modules/cli.commands.exploit_migrated.py.md) | 50 | 51 | 98.0% |
 | [`static/js/quill-2.0.3.js`](modules/static.js.quill-2.0.3.js.md) | 92 | 93 | 98.9% |
 | [`.claude/skills/run-lazyown/driver.sh`](modules/claude.skills.run-lazyown.driver.sh.md) | 1 | 1 | 100.0% |
 | [`cli`](modules/cli.__init__.py.md) | 1 | 1 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | 5 | 5 | 100.0% |
-| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | 9 | 9 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | 12 | 12 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | 2 | 2 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | 10 | 10 | 100.0% |
 | [`cli.chain_mode`](modules/cli.chain_mode.py.md) | 15 | 15 | 100.0% |
@@ -459,6 +460,7 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`cli.commands.infra`](modules/cli.commands.infra.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | 10 | 10 | 100.0% |
+| [`cli.commands.lazy_adaptive`](modules/cli.commands.lazy_adaptive.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazy_creds`](modules/cli.commands.lazy_creds.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazy_dorks`](modules/cli.commands.lazy_dorks.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | 3 | 3 | 100.0% |
@@ -561,8 +563,9 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`core.error_advice`](modules/core.error_advice.py.md) | 6 | 6 | 100.0% |
 | [`core.executor`](modules/core.executor.py.md) | 3 | 3 | 100.0% |
 | [`core.hardening`](modules/core.hardening.py.md) | 31 | 31 | 100.0% |
-| [`core.host_policy`](modules/core.host_policy.py.md) | 4 | 4 | 100.0% |
+| [`core.host_policy`](modules/core.host_policy.py.md) | 6 | 6 | 100.0% |
 | [`core.http`](modules/core.http.py.md) | 11 | 11 | 100.0% |
+| [`core.llm_key_pool`](modules/core.llm_key_pool.py.md) | 15 | 15 | 100.0% |
 | [`core.network`](modules/core.network.py.md) | 9 | 9 | 100.0% |
 | [`core.param_registry`](modules/core.param_registry.py.md) | 16 | 16 | 100.0% |
 | [`core.parsers`](modules/core.parsers.py.md) | 2 | 2 | 100.0% |
@@ -675,11 +678,13 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | 8 | 8 | 100.0% |
 | [`modules.bof_admin`](modules/modules.bof_admin.py.md) | 13 | 13 | 100.0% |
 | [`modules.bof_delivery`](modules/modules.bof_delivery.py.md) | 16 | 16 | 100.0% |
+| [`modules.bsb_compat`](modules/modules.bsb_compat.py.md) | 4 | 4 | 100.0% |
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
 | [`modules.chain_approval`](modules/modules.chain_approval.py.md) | 11 | 11 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | 10 | 10 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | 2 | 2 | 100.0% |
+| [`modules.chain_family`](modules/modules.chain_family.py.md) | 9 | 9 | 100.0% |
 | [`modules.chain_loop`](modules/modules.chain_loop.py.md) | 8 | 8 | 100.0% |
 | [`modules.chain_match`](modules/modules.chain_match.py.md) | 8 | 8 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
@@ -707,6 +712,7 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`modules.evidence`](modules/modules.evidence.py.md) | 10 | 10 | 100.0% |
 | [`modules.exploitgym_gym`](modules/modules.exploitgym_gym.py.md) | 8 | 8 | 100.0% |
 | [`modules.factsio`](modules/modules.factsio.py.md) | 5 | 5 | 100.0% |
+| [`modules.failure_verdict`](modules/modules.failure_verdict.py.md) | 8 | 8 | 100.0% |
 | [`modules.finding_lifecycle`](modules/modules.finding_lifecycle.py.md) | 19 | 19 | 100.0% |
 | [`modules.goals`](modules/modules.goals.py.md) | 14 | 14 | 100.0% |
 | [`modules.golden_path`](modules/modules.golden_path.py.md) | 7 | 7 | 100.0% |
@@ -732,15 +738,19 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | 17 | 17 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 19 | 19 | 100.0% |
 | [`modules.lazy_autofire`](modules/modules.lazy_autofire.py.md) | 5 | 5 | 100.0% |
+| [`modules.lazy_blindspot`](modules/modules.lazy_blindspot.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | 15 | 15 | 100.0% |
 | [`modules.lazy_checks`](modules/modules.lazy_checks.py.md) | 4 | 4 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | 11 | 11 | 100.0% |
-| [`modules.lazy_continuation`](modules/modules.lazy_continuation.py.md) | 6 | 6 | 100.0% |
+| [`modules.lazy_commander`](modules/modules.lazy_commander.py.md) | 9 | 9 | 100.0% |
+| [`modules.lazy_continuation`](modules/modules.lazy_continuation.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | 11 | 11 | 100.0% |
+| [`modules.lazy_deviations`](modules/modules.lazy_deviations.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_drafts`](modules/modules.lazy_drafts.py.md) | 2 | 2 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | 2 | 2 | 100.0% |
 | [`modules.lazy_exposure`](modules/modules.lazy_exposure.py.md) | 9 | 9 | 100.0% |
+| [`modules.lazy_fallback`](modules/modules.lazy_fallback.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_feedmatch`](modules/modules.lazy_feedmatch.py.md) | 14 | 14 | 100.0% |
 | [`modules.lazy_finalizer`](modules/modules.lazy_finalizer.py.md) | 4 | 4 | 100.0% |
 | [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | 24 | 24 | 100.0% |
@@ -750,7 +760,7 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_inventory`](modules/modules.lazy_inventory.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | 6 | 6 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 291 | 291 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 286 | 286 | 100.0% |
 | [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | 6 | 6 | 100.0% |
@@ -795,6 +805,7 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 | [`modules.llm_orchestrator`](modules/modules.llm_orchestrator.py.md) | 8 | 8 | 100.0% |
 | [`modules.llm_pool`](modules/modules.llm_pool.py.md) | 15 | 15 | 100.0% |
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | 20 | 20 | 100.0% |
+| [`modules.loop.triage_scheduler`](modules/modules.loop.triage_scheduler.py.md) | 8 | 8 | 100.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 16 | 16 | 100.0% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | 18 | 18 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | 12 | 12 | 100.0% |
@@ -1127,7 +1138,7 @@ Overall: **76.9%** (8253 of 10732 public modules, types, and callables). Data me
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2196, DOC002: 9, DOC003: 21, DOC004: 47, DOC005: 48
+DOC001: 2197, DOC002: 9, DOC003: 21, DOC004: 47, DOC005: 48
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1243,19 +1254,19 @@ DOC001: 2196, DOC002: 9, DOC003: 21, DOC004: 47, DOC005: 48
 - DOC003 `cli/commands/exploit_migrated.py:1869` documented parameter 'port' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass
 - DOC003 `cli/commands/exploit_migrated.py:1869` documented parameter 'ssh_public_key' is not in the signature of ExploitMigratedCommandSet.do_unicode_WAFbypass
 - DOC001 `cli/commands/exploitdb.py:1` module cli/commands/exploitdb.py is not documented
-- DOC001 `cli/commands/exploitdb.py:11` class ExploitdbCommands is not documented
-- DOC001 `cli/commands/exploitdb.py:19` method ExploitdbCommands.do_exploitdb_sync is not documented
-- DOC001 `cli/commands/exploitdb.py:33` method ExploitdbCommands.do_exploitdb_scan is not documented
-- DOC001 `cli/commands/exploitdb.py:45` method ExploitdbCommands.do_exploitdb_gen is not documented
-- DOC001 `cli/commands/exploitdb.py:76` method ExploitdbCommands.do_exploitdb_cscan is not documented
-- DOC001 `cli/commands/exploitdb.py:87` method ExploitdbCommands.do_exploitdb_ccompile is not documented
-- DOC001 `cli/commands/exploitdb.py:94` class ExploitdbCCommands is not documented
-- DOC001 `cli/commands/exploitdb.py:99` method ExploitdbCCommands.do_exploitdb_cscan is not documented
-- DOC001 `cli/commands/exploitdb.py:110` method ExploitdbCCommands.do_exploitdb_ccompile is not documented
-- DOC001 `cli/commands/exploitdb.py:124` method ExploitdbCCommands.do_exploitdb_run is not documented
+- DOC001 `cli/commands/exploitdb.py:14` class ExploitdbCommands is not documented
+- DOC001 `cli/commands/exploitdb.py:22` method ExploitdbCommands.do_exploitdb_sync is not documented
+- DOC001 `cli/commands/exploitdb.py:36` method ExploitdbCommands.do_exploitdb_scan is not documented
+- DOC001 `cli/commands/exploitdb.py:48` method ExploitdbCommands.do_exploitdb_gen is not documented
+- DOC001 `cli/commands/exploitdb.py:79` method ExploitdbCommands.do_exploitdb_cscan is not documented
+- DOC001 `cli/commands/exploitdb.py:91` method ExploitdbCommands.do_exploitdb_ccompile is not documented
+- DOC001 `cli/commands/exploitdb.py:100` class ExploitdbCCommands is not documented
+- DOC001 `cli/commands/exploitdb.py:105` method ExploitdbCCommands.do_exploitdb_cscan is not documented
+- DOC001 `cli/commands/exploitdb.py:117` method ExploitdbCCommands.do_exploitdb_ccompile is not documented
+- DOC001 `cli/commands/exploitdb.py:131` method ExploitdbCCommands.do_exploitdb_run is not documented
 - DOC001 `cli/commands/lateral_migrated.py:24` class LateralMigratedCommandSet is not documented
-- DOC001 `cli/commands/lazyops.py:655` method LazyCommandSet.do_lazy_intent is not documented
-- DOC001 `cli/commands/lazyops.py:1195` method LazyCommandSet.do_lazy_finding is not documented
+- DOC001 `cli/commands/lazyops.py:774` method LazyCommandSet.do_lazy_intent is not documented
+- DOC001 `cli/commands/lazyops.py:1314` method LazyCommandSet.do_lazy_finding is not documented
 - DOC001 `cli/commands/misc_migrated.py:87` class MiscMigratedCommandSet is not documented
 - DOC001 `cli/commands/persist_migrated.py:32` class PersistMigratedCommandSet is not documented
 - DOC002 `cli/commands/persist_migrated.py:1114` parameter 'line' of PersistMigratedCommandSet.do_setoolKits is not documented
@@ -1629,4 +1640,4 @@ DOC001: 2196, DOC002: 9, DOC003: 21, DOC004: 47, DOC005: 48
 - DOC001 `key.py:1` module key.py is not documented
 - DOC001 `key.py:10` function main is not documented
 - DOC001 `lazy_sentinel4.py:1` module lazy_sentinel4.py is not documented
-- ... 1821 more in `api/warnings.jsonl`
+- ... 1822 more in `api/warnings.jsonl`

@@ -1,8 +1,140 @@
-# Symbols (page 21 of 50)
+# Symbols (page 21 of 51)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `OperatorProfileManager` | class | `modules/operator_profiles.py:77` | `class OperatorProfileManager` |
+| `__init__` | method | `modules/operator_profiles.py:88` | `def __init__(self)` |
+| `_ensure_team_ca` | method | `modules/operator_profiles.py:93` | `def _ensure_team_ca(self)` |
+| `_generate_operator_cert` | method | `modules/operator_profiles.py:130` | `def _generate_operator_cert(self, username)` |
+| `_profile_dir` | method | `modules/operator_profiles.py:124` | `def _profile_dir(self, username)` |
+| `_profile_path` | method | `modules/operator_profiles.py:127` | `def _profile_path(self, username)` |
+| `_save_profile` | method | `modules/operator_profiles.py:255` | `def _save_profile(self, profile)` |
+| `create_profile` | method | `modules/operator_profiles.py:192` | `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` |
+| `delete_profile` | method | `modules/operator_profiles.py:289` | `def delete_profile(self, username)` |
+| `effective_config` | method | `modules/operator_profiles.py:360` | `def effective_config(self, username)` |
+| `get_attribute` | method | `modules/operator_profiles.py:328` | `def get_attribute(self, username, key, default)` |
+| `get_operator_profile_manager` | function | `modules/operator_profiles.py:398` | `def get_operator_profile_manager()` |
+| `list_profiles` | method | `modules/operator_profiles.py:300` | `def list_profiles(self)` |
+| `load_profile` | method | `modules/operator_profiles.py:260` | `def load_profile(self, username)` |
+| `log_action` | method | `modules/operator_profiles.py:335` | `def log_action(self, username, action, details)` |
+| `set_attribute` | method | `modules/operator_profiles.py:319` | `def set_attribute(self, username, key, value)` |
+| `to_dict` | method | `modules/operator_profiles.py:57` | `def to_dict(self)` |
+| `touch_activity` | method | `modules/operator_profiles.py:312` | `def touch_activity(self, username)` |
+| `update_profile` | method | `modules/operator_profiles.py:276` | `def update_profile(self, username)` |
+| `GateAction` | class | `modules/opsec_scorer.py:180` | `class GateAction(IntEnum)` |
+| `GatedOpsecScore` | class | `modules/opsec_scorer.py:303` | `class GatedOpsecScore` |
+| `OpsecContext` | class | `modules/opsec_scorer.py:232` | `class OpsecContext` |
+| `OpsecScore` | class | `modules/opsec_scorer.py:265` | `class OpsecScore` |
+| `OpsecScorer` | class | `modules/opsec_scorer.py:331` | `class OpsecScorer` |
+| `OpsecScorerV2` | class | `modules/opsec_scorer.py:559` | `class OpsecScorerV2` |
+| `RiskLevel` | class | `modules/opsec_scorer.py:170` | `class RiskLevel(IntEnum)` |
+| `__init__` | method | `modules/opsec_scorer.py:343` | `def __init__(self, payload, world_model)` |
+| `__init__` | method | `modules/opsec_scorer.py:617` | `def __init__(self, context)` |
+| `_build_explanation` | method | `modules/opsec_scorer.py:796` | `def _build_explanation(cmd, noise, detects, gate)` |
+| `_build_recommendation` | method | `modules/opsec_scorer.py:544` | `def _build_recommendation(risk_level, mitigations)` |
+| `_detection_risk_label` | method | `modules/opsec_scorer.py:532` | `def _detection_risk_label(detectable, noise)` |
+| `_estimate_noise` | method | `modules/opsec_scorer.py:426` | `def _estimate_noise(self, command)` |
+| `_evasion_reduction` | method | `modules/opsec_scorer.py:498` | `def _evasion_reduction(self, detectable)` |
+| `_find_alternatives` | method | `modules/opsec_scorer.py:777` | `def _find_alternatives(cmd)` |
+| `_gather_mitigations` | method | `modules/opsec_scorer.py:510` | `def _gather_mitigations(self, detectable, noise)` |
+| `_generate_mitigations` | method | `modules/opsec_scorer.py:753` | `def _generate_mitigations(noise, detects)` |
+| `_get_host_purpose` | method | `modules/opsec_scorer.py:479` | `def _get_host_purpose(self, rhost)` |
+| `_noise_to_risk` | method | `modules/opsec_scorer.py:527` | `def _noise_to_risk(noise)` |
+| `_noise_to_risk` | method | `modules/opsec_scorer.py:739` | `def _noise_to_risk(noise)` |
+| `_phase_mismatch_penalty` | method | `modules/opsec_scorer.py:448` | `def _phase_mismatch_penalty(self, tool_phase, override)` |
+| `_risk_bucket` | function | `modules/opsec_scorer.py:189` | `def _risk_bucket(noise)` |
+| `_risk_label` | function | `modules/opsec_scorer.py:207` | `def _risk_label(noise)` |
+| `_risk_level` | function | `modules/opsec_scorer.py:219` | `def _risk_level(noise)` |
+| `_risk_to_gate` | method | `modules/opsec_scorer.py:743` | `def _risk_to_gate(self, risk)` |
+| `_target_sensitivity_bonus` | method | `modules/opsec_scorer.py:470` | `def _target_sensitivity_bonus(self, rhost)` |
+| `assess` | method | `modules/opsec_scorer.py:622` | `def assess(self, command, extra_context)` |
+| `evasion_active` | method | `modules/opsec_scorer.py:352` | `def evasion_active(self)` |
+| `get_trend` | method | `modules/opsec_scorer.py:709` | `def get_trend(self)` |
+| `score` | method | `modules/opsec_scorer.py:365` | `def score(self, command, rhost, phase_override)` |
+| `score_batch` | method | `modules/opsec_scorer.py:413` | `def score_batch(self, commands, rhost)` |
+| `score_command` | function | `modules/opsec_scorer.py:811` | `def score_command(command, payload, rhost)` |
+| `should_allow` | method | `modules/opsec_scorer.py:696` | `def should_allow(self, command)` |
+| `suggest_mitigations` | method | `modules/opsec_scorer.py:417` | `def suggest_mitigations(self, command, detectable_by)` |
+| `to_dict` | method | `modules/opsec_scorer.py:288` | `def to_dict(self)` |
+| `traffic_morphing_active` | method | `modules/opsec_scorer.py:357` | `def traffic_morphing_active(self)` |
+| `_catalog_verbs` | function | `modules/orchestrator_config.py:719` | `def _catalog_verbs(seen, overrides)` |
+| `_default_profile_name` | function | `modules/orchestrator_config.py:285` | `def _default_profile_name(data)` |
+| `_fallback_profile` | function | `modules/orchestrator_config.py:202` | `def _fallback_profile()` |
+| `_invalidate` | function | `modules/orchestrator_config.py:142` | `def _invalidate()` |
+| `_merge_profile` | function | `modules/orchestrator_config.py:233` | `def _merge_profile(parent, child)` |
+| `_merge_stage` | function | `modules/orchestrator_config.py:217` | `def _merge_stage(base, override)` |
+| `_payload` | function | `modules/orchestrator_config.py:155` | `def _payload()` |
+| `_read_yaml` | function | `modules/orchestrator_config.py:178` | `def _read_yaml(path)` |
+| `_resolve_profile` | function | `modules/orchestrator_config.py:255` | `def _resolve_profile(name, raw_profiles, stack)` |
+| `_save` | function | `modules/orchestrator_config.py:170` | `def _save(payload)` |
+| `_section` | function | `modules/orchestrator_config.py:165` | `def _section(payload)` |
+| `active_profile` | function | `modules/orchestrator_config.py:295` | `def active_profile()` |
+| `budget` | function | `modules/orchestrator_config.py:377` | `def budget()` |
+| `chain_defaults` | function | `modules/orchestrator_config.py:552` | `def chain_defaults()` |
+| `effective_verbs` | function | `modules/orchestrator_config.py:664` | `def effective_verbs()` |
+| `engagement_mode` | function | `modules/orchestrator_config.py:511` | `def engagement_mode()` |
+| `findings_config` | function | `modules/orchestrator_config.py:384` | `def findings_config()` |
+| `limits` | function | `modules/orchestrator_config.py:370` | `def limits()` |
+| `pacing` | function | `modules/orchestrator_config.py:438` | `def pacing()` |
+| `profile_config` | function | `modules/orchestrator_config.py:307` | `def profile_config(name)` |
+| `profiles` | function | `modules/orchestrator_config.py:270` | `def profiles()` |
+| `progress_config` | function | `modules/orchestrator_config.py:406` | `def progress_config()` |
+| `reload` | function | `modules/orchestrator_config.py:150` | `def reload()` |
+| `remove_verb` | function | `modules/orchestrator_config.py:828` | `def remove_verb(name)` |
+| `reset` | function | `modules/orchestrator_config.py:849` | `def reset()` |
+| `selector_enabled` | function | `modules/orchestrator_config.py:583` | `def selector_enabled(name)` |
+| `selectors` | function | `modules/orchestrator_config.py:572` | `def selectors()` |
+| `set_engagement_mode` | function | `modules/orchestrator_config.py:529` | `def set_engagement_mode(mode)` |
+| `set_harness` | function | `modules/orchestrator_config.py:338` | `def set_harness(enabled)` |
+| `set_pacing` | function | `modules/orchestrator_config.py:486` | `def set_pacing(key, value)` |
+| `set_profile` | function | `modules/orchestrator_config.py:314` | `def set_profile(name)` |
+| `set_selector` | function | `modules/orchestrator_config.py:588` | `def set_selector(name, enabled)` |
+| `set_stage` | function | `modules/orchestrator_config.py:639` | `def set_stage(name, enabled)` |
+| `sinks` | function | `modules/orchestrator_config.py:561` | `def sinks()` |
+| `stage_enabled` | function | `modules/orchestrator_config.py:628` | `def stage_enabled(name)` |
+| `stage_params` | function | `modules/orchestrator_config.py:634` | `def stage_params(name)` |
+| `stages` | function | `modules/orchestrator_config.py:598` | `def stages()` |
+| `upsert_verb` | function | `modules/orchestrator_config.py:771` | `def upsert_verb(name)` |
+| `validate_config` | function | `modules/orchestrator_config.py:856` | `def validate_config(data)` |
+| `verb_config` | function | `modules/orchestrator_config.py:756` | `def verb_config(name)` |
+| `verb_enabled` | function | `modules/orchestrator_config.py:765` | `def verb_enabled(name)` |
+| `_cache_load` | function | `modules/osint_enrich.py:52` | `def _cache_load(sessions_dir)` |
+| `_cache_path` | function | `modules/osint_enrich.py:47` | `def _cache_path(sessions_dir)` |
+| `_cache_save` | function | `modules/osint_enrich.py:61` | `def _cache_save(sessions_dir, data)` |
+| `_cached` | function | `modules/osint_enrich.py:69` | `def _cached(sessions_dir, key, ttl)` |
+| `_get_json` | function | `modules/osint_enrich.py:84` | `def _get_json(url, params)` |
+| `_get_text` | function | `modules/osint_enrich.py:110` | `def _get_text(url, params)` |
+| `_post_json` | function | `modules/osint_enrich.py:96` | `def _post_json(url, payload)` |
+| `_store` | function | `modules/osint_enrich.py:77` | `def _store(sessions_dir, key, data)` |
+| `cve_lookup` | function | `modules/osint_enrich.py:122` | `def cve_lookup(cve_id, sessions_dir)` |
+| `domain_exposure` | function | `modules/osint_enrich.py:198` | `def domain_exposure(domain, sessions_dir)` |
+| `enrich_evidence` | function | `modules/osint_enrich.py:213` | `def enrich_evidence(items, sessions_dir)` |
+| `host_geo` | function | `modules/osint_enrich.py:183` | `def host_geo(ip, sessions_dir)` |
+| `reverse_dns` | function | `modules/osint_enrich.py:161` | `def reverse_dns(ip, sessions_dir)` |
+| `OutcomeBus` | class | `modules/outcome_bus.py:157` | `class OutcomeBus` |
+| `OutcomeEvent` | class | `modules/outcome_bus.py:78` | `class OutcomeEvent` |
+| `__init__` | method | `modules/outcome_bus.py:160` | `def __init__(self, ledger_path, sink_map)` |
+| `_append_ledger` | method | `modules/outcome_bus.py:252` | `def _append_ledger(self, event, statuses)` |
+| `_enabled_sinks` | method | `modules/outcome_bus.py:194` | `def _enabled_sinks(self, requested)` |
+| `_sink` | method | `modules/outcome_bus.py:179` | `def _sink(self, name)` |
+| `category_for_event` | function | `modules/outcome_bus.py:302` | `def category_for_event(kind)` |
+| `get_bus` | function | `modules/outcome_bus.py:273` | `def get_bus()` |
+| `host_value` | method | `modules/outcome_bus.py:106` | `def host_value(self)` |
+| `key` | method | `modules/outcome_bus.py:110` | `def key(self)` |
+| `record` | method | `modules/outcome_bus.py:205` | `def record(self, event, sinks)` |
+| `record` | function | `modules/outcome_bus.py:287` | `def record(event, sinks)` |
+| `record_event` | function | `modules/outcome_bus.py:292` | `def record_event()` |
+| `reset` | method | `modules/outcome_bus.py:173` | `def reset(self)` |
+| `reset_bus` | function | `modules/outcome_bus.py:282` | `def reset_bus()` |
+| `severity_for_event` | function | `modules/outcome_bus.py:297` | `def severity_for_event(severity)` |
+| `to_dict` | method | `modules/outcome_bus.py:128` | `def to_dict(self)` |
+| `DynamicShellcodePayload` | class | `modules/payload_factory.py:409` | `class DynamicShellcodePayload(PayloadTemplate)` |
+| `MsfvenomPayload` | class | `modules/payload_factory.py:322` | `class MsfvenomPayload(PayloadTemplate)` |
+| `PayloadFactory` | class | `modules/payload_factory.py:457` | `class PayloadFactory` |
+| `PayloadTemplate` | class | `modules/payload_factory.py:216` | `class PayloadTemplate(ABC)` |
+| `ReverseShellPayload` | class | `modules/payload_factory.py:251` | `class ReverseShellPayload(PayloadTemplate)` |
+| `ShellcodePayload` | class | `modules/payload_factory.py:363` | `class ShellcodePayload(PayloadTemplate)` |
 | `WindowsReverseShellPayload` | class | `modules/payload_factory.py:290` | `class WindowsReverseShellPayload(PayloadTemplate)` |
 | `__init__` | method | `modules/payload_factory.py:222` | `def __init__(self, name, platform, arch, description, options)` |
 | `__init__` | method | `modules/payload_factory.py:254` | `def __init__(self)` |
@@ -364,137 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
 | `_default_config_loader` | function | `modules/reactive_engine.py:42` | `def _default_config_loader()` |
 | `_enabled` | method | `modules/reactive_engine.py:697` | `def _enabled(self)` |
-| `_extract_verb` | method | `modules/reactive_engine.py:715` | `def _extract_verb(source)` |
-| `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
-| `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
-| `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
-| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
-| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
-| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
-| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
-| `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
-| `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
-| `suggest` | method | `modules/reactive_engine.py:734` | `def suggest(self, output, command, platform, context)` |
-| `technique_commands_for` | method | `modules/reactive_engine.py:448` | `def technique_commands_for(self, platform, keyword)` |
-| `top_decision` | method | `modules/reactive_engine.py:958` | `def top_decision(self, output, command, platform, context)` |
-| `_build_user_prompt` | function | `modules/recommender.py:55` | `def _build_user_prompt(state)` |
-| `_call_ai` | function | `modules/recommender.py:97` | `def _call_ai(api_key, user_prompt)` |
-| `recommend` | function | `modules/recommender.py:143` | `def recommend(state, api_key)` |
-| `recommend_and_save` | function | `modules/recommender.py:163` | `def recommend_and_save(api_key)` |
-| `GymAttempt` | class | `modules/redteam_gym.py:319` | `class GymAttempt` |
-| `_award_gym_elo` | function | `modules/redteam_gym.py:1014` | `def _award_gym_elo(username, elo_bonus)` |
-| `_calc_speed_score` | function | `modules/redteam_gym.py:911` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
-| `_calc_stealth_score` | function | `modules/redteam_gym.py:932` | `def _calc_stealth_score(techniques, max_bonus)` |
-| `_calc_technique_score` | function | `modules/redteam_gym.py:948` | `def _calc_technique_score(techniques, chal, max_bonus)` |
-| `_ensure_gym_dir` | function | `modules/redteam_gym.py:335` | `def _ensure_gym_dir()` |
-| `_get_rank` | function | `modules/redteam_gym.py:1040` | `def _get_rank(username)` |
-| `_get_username` | function | `modules/redteam_gym.py:367` | `def _get_username()` |
-| `_load_leaderboard` | function | `modules/redteam_gym.py:340` | `def _load_leaderboard()` |
-| `_resolve_active_run` | function | `modules/redteam_gym.py:477` | `def _resolve_active_run(selector, operator)` |
-| `_same_engagement` | function | `modules/redteam_gym.py:811` | `def _same_engagement(ip, target)` |
-| `_save_leaderboard` | function | `modules/redteam_gym.py:356` | `def _save_leaderboard(board)` |
-| `_spin_scenario` | function | `modules/redteam_gym.py:603` | `def _spin_scenario(scenario, notify)` |
-| `_teardown_stopped_scenarios` | function | `modules/redteam_gym.py:777` | `def _teardown_stopped_scenarios(stopped)` |
-| `_update_leaderboard` | function | `modules/redteam_gym.py:970` | `def _update_leaderboard(attempt)` |
-| `create_gym` | function | `modules/redteam_gym.py:399` | `def create_gym(gym_id)` |
-| `definition_rows` | function | `modules/redteam_gym.py:394` | `def definition_rows()` |
-| `delete_gym` | function | `modules/redteam_gym.py:446` | `def delete_gym(gym_id)` |
-| `engagement_context` | function | `modules/redteam_gym.py:838` | `def engagement_context(target)` |
-| `get_active_challenge` | function | `modules/redteam_gym.py:1084` | `def get_active_challenge(run_id)` |
-| `get_active_challenges` | function | `modules/redteam_gym.py:898` | `def get_active_challenges()` |
-| `list_challenges` | function | `modules/redteam_gym.py:454` | `def list_challenges()` |
-| `main` | function | `modules/redteam_gym.py:1169` | `def main()` |
-| `record_external_attempt` | function | `modules/redteam_gym.py:1115` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
-| `reload_challenge_definitions` | function | `modules/redteam_gym.py:300` | `def reload_challenge_definitions(directory)` |
-| `save_gym_yaml` | function | `modules/redteam_gym.py:436` | `def save_gym_yaml(gym_id, text)` |
-| `show_leaderboard` | function | `modules/redteam_gym.py:1057` | `def show_leaderboard(top_n)` |
-| `start_challenge` | function | `modules/redteam_gym.py:495` | `def start_challenge(challenge_id, target, spin_lab, notify)` |
-| `stop_challenges` | function | `modules/redteam_gym.py:756` | `def stop_challenges(selector)` |
-| `submit_challenge` | function | `modules/redteam_gym.py:648` | `def submit_challenge(techniques_used, success, run_id)` |
-| `DataDirectory` | class | `modules/reflective_dll.py:70` | `class DataDirectory` |
-| `ImportDescriptor` | class | `modules/reflective_dll.py:104` | `class ImportDescriptor` |
-| `PEHeader` | class | `modules/reflective_dll.py:37` | `class PEHeader` |
-| `PEParser` | class | `modules/reflective_dll.py:142` | `class PEParser` |
-| `ReflectiveLoader` | class | `modules/reflective_dll.py:464` | `class ReflectiveLoader` |
-| `ReflectiveLoaderConfig` | class | `modules/reflective_dll.py:121` | `class ReflectiveLoaderConfig` |
-| `SectionHeader` | class | `modules/reflective_dll.py:83` | `class SectionHeader` |
-| `__init__` | method | `modules/reflective_dll.py:151` | `def __init__(self, pe_data)` |
-| `__init__` | method | `modules/reflective_dll.py:492` | `def __init__(self, pe_data, config)` |
-| `_parse_thunk_names` | method | `modules/reflective_dll.py:426` | `def _parse_thunk_names(self, thunk_rva, sections)` |
-| `_read_asciiz_at_rva` | method | `modules/reflective_dll.py:417` | `def _read_asciiz_at_rva(self, rva, sections)` |
-| `architecture` | method | `modules/reflective_dll.py:510` | `def architecture(self)` |
-| `generate_c_stub` | method | `modules/reflective_dll.py:588` | `def generate_c_stub(self)` |
-| `generate_powershell_stub` | method | `modules/reflective_dll.py:666` | `def generate_powershell_stub(self)` |
-| `is_64bit` | method | `modules/reflective_dll.py:456` | `def is_64bit(self)` |
-| `parse_data_directories` | method | `modules/reflective_dll.py:243` | `def parse_data_directories(self, num_entries)` |
-| `parse_exports` | method | `modules/reflective_dll.py:374` | `def parse_exports(self, export_dir, sections)` |
-| `parse_file_header` | method | `modules/reflective_dll.py:166` | `def parse_file_header(self)` |
-| `parse_imports` | method | `modules/reflective_dll.py:280` | `def parse_imports(self, import_dir, sections)` |
-| `parse_relocations` | method | `modules/reflective_dll.py:326` | `def parse_relocations(self, reloc_dir, sections)` |
-| `parse_sections` | method | `modules/reflective_dll.py:208` | `def parse_sections(self, num_sections)` |
-| `plan_injection` | method | `modules/reflective_dll.py:526` | `def plan_injection(self)` |
-| `raw_data` | method | `modules/reflective_dll.py:460` | `def raw_data(self)` |
-| `required_imports` | method | `modules/reflective_dll.py:515` | `def required_imports(self)` |
-| `rva_to_offset` | method | `modules/reflective_dll.py:265` | `def rva_to_offset(self, rva, sections)` |
-| `sha256` | method | `modules/reflective_dll.py:505` | `def sha256(self)` |
-| `summarize` | method | `modules/reflective_dll.py:685` | `def summarize(self)` |
-| `ResourceScriptEngine` | class | `modules/resource_script.py:268` | `class ResourceScriptEngine` |
-| `ScriptContext` | class | `modules/resource_script.py:82` | `class ScriptContext` |
-| `ScriptError` | class | `modules/resource_script.py:76` | `class ScriptError(RuntimeError)` |
-| `__init__` | method | `modules/resource_script.py:89` | `def __init__(self, shell_params, on_command, on_print)` |
-| `__init__` | method | `modules/resource_script.py:276` | `def __init__(self, context)` |
-| `_call_macro` | method | `modules/resource_script.py:537` | `def _call_macro(self, name, args)` |
-| `_compare` | method | `modules/resource_script.py:220` | `def _compare(left, op, right)` |
-| `_execute_line` | method | `modules/resource_script.py:347` | `def _execute_line(self, raw)` |
-| `_extract_macros` | method | `modules/resource_script.py:331` | `def _extract_macros(self, lines)` |
-| `_jump_past` | method | `modules/resource_script.py:251` | `def _jump_past(self, open_res, close_re)` |
-| `_lookup` | method | `modules/resource_script.py:168` | `def _lookup(self, name)` |
-| `_repl` | function | `modules/resource_script.py:125` | `def _repl(m)` |
-| `_resolve` | method | `modules/resource_script.py:124` | `def _resolve(self, text)` |
-| `_resolve_operand` | method | `modules/resource_script.py:183` | `def _resolve_operand(self, operand)` |
-| `_skip` | method | `modules/resource_script.py:165` | `def _skip(self)` |
-| `eval_condition` | method | `modules/resource_script.py:191` | `def eval_condition(self, raw_condition)` |
-| `execute` | method | `modules/resource_script.py:279` | `def execute(self, script_path)` |
-| `execute_lines` | method | `modules/resource_script.py:293` | `def execute_lines(self, lines, source)` |
-| `execute_string` | method | `modules/resource_script.py:327` | `def execute_string(self, script)` |
-| `print` | method | `modules/resource_script.py:138` | `def print(self, msg)` |
-| `run_command` | method | `modules/resource_script.py:147` | `def run_command(self, cmd)` |
-| `_rewrite_segment` | function | `modules/retry_session.py:162` | `def _rewrite_segment(segment)` |
-| `_verify_askpass_layout` | function | `modules/retry_session.py:67` | `def _verify_askpass_layout(helper, secret_file)` |
-| `apply_sudo_askpass` | function | `modules/retry_session.py:137` | `def apply_sudo_askpass(command)` |
-| `clear_sudo_secret` | function | `modules/retry_session.py:125` | `def clear_sudo_secret()` |
-| `is_active` | function | `modules/retry_session.py:56` | `def is_active()` |
-| `newest_failed_checkpoint` | function | `modules/retry_session.py:180` | `def newest_failed_checkpoint(chain, run_id)` |
-| `resolve_sudo_consent` | function | `modules/retry_session.py:204` | `def resolve_sudo_consent(confirmer, want_sudo)` |
-| `secret_enabled_path` | function | `modules/retry_session.py:61` | `def secret_enabled_path()` |
-| `set_sudo_secret` | function | `modules/retry_session.py:94` | `def set_sudo_secret(secret)` |
-| `sudo_gate_open` | function | `modules/retry_session.py:79` | `def sudo_gate_open()` |
-| `reverse_shell_exit` | function | `modules/reverse-shell.c:16` | `static void __exit reverse_shell_exit(void)` |
-| `reverse_shell_init` | function | `modules/reverse-shell.c:12` | `static int __init reverse_shell_init(void)` |
-| `DllMain` | function | `modules/revshell.c:10` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `xlAutoOpen` | function | `modules/revshell.c:5` | `void __cdecl xlAutoOpen()` |
-| `RichDashboard` | class | `modules/rich_tui.py:66` | `class RichDashboard` |
-| `__init__` | method | `modules/rich_tui.py:74` | `def __init__(self, dashboard_engine, refresh_interval, live)` |
-| `_keyboard_listener` | method | `modules/rich_tui.py:146` | `def _keyboard_listener(self)` |
-| `_render` | method | `modules/rich_tui.py:137` | `def _render(self)` |
-| `_render_beacons` | method | `modules/rich_tui.py:372` | `def _render_beacons(self, snapshot)` |
-| `_render_header` | method | `modules/rich_tui.py:193` | `def _render_header(self, snapshot)` |
-| `_render_layout` | method | `modules/rich_tui.py:168` | `def _render_layout(self, snapshot)` |
-| `_render_pivots` | method | `modules/rich_tui.py:337` | `def _render_pivots(self, snapshot)` |
-| `_render_pivots_beacons` | method | `modules/rich_tui.py:321` | `def _render_pivots_beacons(self, snapshot)` |
-| `_render_recommendations` | method | `modules/rich_tui.py:261` | `def _render_recommendations(self, snapshot)` |
-| `_render_shortcuts` | method | `modules/rich_tui.py:413` | `def _render_shortcuts(self)` |
-| `_render_topology` | method | `modules/rich_tui.py:221` | `def _render_topology(self, snapshot)` |
-| `run` | method | `modules/rich_tui.py:96` | `def run(self)` |
-| `stop` | method | `modules/rich_tui.py:132` | `def stop(self)` |
-| `BucketedStateEncoder` | class | `modules/rl_trainer.py:114` | `class BucketedStateEncoder(IStateEncoder)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

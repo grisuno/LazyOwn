@@ -1,6 +1,25 @@
 # Subsystem: modules (page 3 of 18)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
+## modules/c2_messaging_base.py
+- Doc: SecureSessionManager: Unified session manager for C2 messaging bots.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SecureSessionManager` (class, line 9) `class SecureSessionManager`
+  - `PayloadConfigAdapter` (class, line 117) `class PayloadConfigAdapter`
+  - `__init__` (method, line 22) `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
+  - `register_failed_attempt` (method, line 37) `def register_failed_attempt(self, user_id)`
+  - `check_lockout` (method, line 46) `def check_lockout(self, user_id)`
+  - `check_rate_limit` (method, line 61) `def check_rate_limit(self, user_id)`
+  - `create_session` (method, line 79) `def create_session(self, user_id, client_id)`
+  - `validate_session` (method, line 89) `def validate_session(self, user_id)`
+  - `set_client` (method, line 106) `def set_client(self, user_id, client_id)`
+  - `get_client` (method, line 111) `def get_client(self, user_id)`
+  - `__init__` (method, line 124) `def __init__(self, config_dict)`
+  - `__getitem__` (method, line 129) `def __getitem__(self, key)`
+  - `get` (method, line 132) `def get(self, key, default)`
+
 ## modules/c2_profile.py
 - Doc: modules/c2_profile.py
 - Layer: utility
@@ -196,23 +215,44 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_loop.py`, `tests/test_f4_hardening.py`
 
+## modules/chain_family.py
+- Doc: Isomorphism transfer: reuse a winning chain across structurally-similar targets.  sapper-v2...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_normalize_service` (function, line 34) `def _normalize_service(name)`
+  - `family_signature` (function, line 41) `def family_signature(facts)`
+  - `FamilyRegistry` (class, line 68) `class FamilyRegistry`
+  - `_default_registry_path` (function, line 178) `def _default_registry_path()`
+  - `default_registry` (function, line 185) `def default_registry()`
+  - `__init__` (method, line 76) `def __init__(self, path)`
+  - `_load` (method, line 84) `def _load(self)`
+  - `_save` (method, line 90) `def _save(self, data)`
+  - `_touch` (method, line 96) `def _touch(self, signature, chain)`
+  - `record_association` (method, line 111) `def record_association(self, signature, chain, target)`
+  - `record_win` (method, line 117) `def record_win(self, signature, chain, target)`
+  - `best` (method, line 123) `def best(self, signature)`
+  - `transfer_note` (method, line 159) `def transfer_note(self, facts)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_family.py`
+
 ## modules/chain_loop.py
 - Doc: Chain-aware loop execution: one contract, two transport modes.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `chain_mode` (function, line 34) `def chain_mode()`
-  - `is_chain_command` (function, line 52) `def is_chain_command(command)`
-  - `parse_chain_invocation` (function, line 57) `def parse_chain_invocation(command)`
-  - `stepwise_eligible` (function, line 108) `def stepwise_eligible(chain, routable)`
-  - `ChainStepBlocked` (class, line 138) `class ChainStepBlocked(RuntimeError)`
-  - `run_chain_stepwise` (function, line 153) `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)`
-  - `_build_runner` (function, line 270) `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
-  - `_spool` (function, line 303) `def _spool(result)`
-  - `_render_summary` (function, line 313) `def _render_summary(result, chain_name)`
-  - `__init__` (method, line 141) `def __init__(self, status, detail)`
-  - `guarded` (function, line 225) `def guarded(step_command)`
-  - `on_step` (function, line 282) `def on_step(outcome)`
+  - `chain_mode` (function, line 35) `def chain_mode()`
+  - `is_chain_command` (function, line 53) `def is_chain_command(command)`
+  - `parse_chain_invocation` (function, line 58) `def parse_chain_invocation(command)`
+  - `stepwise_eligible` (function, line 109) `def stepwise_eligible(chain, routable)`
+  - `ChainStepBlocked` (class, line 139) `class ChainStepBlocked(RuntimeError)`
+  - `run_chain_stepwise` (function, line 154) `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)`
+  - `_build_runner` (function, line 271) `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
+  - `_spool` (function, line 312) `def _spool(result)`
+  - `_render_summary` (function, line 322) `def _render_summary(result, chain_name)`
+  - `__init__` (method, line 142) `def __init__(self, status, detail)`
+  - `guarded` (function, line 226) `def guarded(step_command)`
+  - `on_step` (function, line 283) `def on_step(outcome)`
 - Depends on: `cli/apt_chain_support.py`, `core/config.py`, `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
 - Imported by: `modules/lazy_loop.py`, `tests/test_chain_loop.py`, `tests/test_playbook_chain.py`
 
@@ -257,61 +297,64 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `resolve` (method, line 176) `def resolve(self, tokens)`
   - `_eval` (function, line 319) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `StepOutcome` (class, line 56) `class StepOutcome`
-  - `ChainRunResult` (class, line 112) `class ChainRunResult`
-  - `ReplanContext` (class, line 165) `class ReplanContext`
-  - `render_text` (function, line 212) `def render_text(template, variables)`
-  - `ChainRunner` (class, line 220) `class ChainRunner`
-  - `_all_json_objects` (function, line 1431) `def _all_json_objects(text)`
-  - `_load_json_events` (function, line 1452) `def _load_json_events(path)`
-  - `ok` (method, line 84) `def ok(self)`
-  - `to_dict` (method, line 88) `def to_dict(self)`
-  - `to_dict` (method, line 134) `def to_dict(self)`
-  - `chain_proven` (method, line 159) `def chain_proven(self)`
-  - `set_var` (method, line 182) `def set_var(self, name, value)`
-  - `insert_step` (method, line 187) `def insert_step(self, step)`
-  - `skip_rest` (method, line 192) `def skip_rest(self)`
-  - `applied_vars` (method, line 197) `def applied_vars(self)`
-  - `inserted` (method, line 202) `def inserted(self)`
-  - `skip_rest_flag` (method, line 207) `def skip_rest_flag(self)`
-  - `__init__` (method, line 223) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
-  - `_pace_after` (method, line 309) `def _pace_after(self, outcome, started, step)`
-  - `run` (method, line 348) `def run(self)`
-  - `_finalize_verdict` (method, line 528) `def _finalize_verdict(self, result)`
-  - `_skip_remaining` (method, line 565) `def _skip_remaining(self, steps, start, reason)`
-  - `_run_parallel_group` (method, line 580) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
-  - `_run_fallback_chain` (method, line 674) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
-  - `_deliver` (method, line 745) `def _deliver(self, outcome)`
-  - `_promoted_sinks` (method, line 750) `def _promoted_sinks(self, outcome)`
-  - `_publish_step` (method, line 775) `def _publish_step(self, outcome)`
-  - `_notify` (method, line 875) `def _notify(self, outcome)`
-  - `_apply_replanner` (method, line 884) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
-  - `_save_checkpoint` (method, line 933) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
-  - `_record_verdict` (method, line 971) `def _record_verdict(verdicts, outcome)`
-  - `_run_step` (method, line 978) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
-  - `_dependency_block` (method, line 1116) `def _dependency_block(step, prior_verdicts)`
-  - `_verify_evidence` (method, line 1138) `def _verify_evidence(self, step, outcome, variables)`
-  - `_ask_approval` (method, line 1183) `def _ask_approval(self, step_id, command)`
-  - `_verify_timeout` (method, line 1192) `def _verify_timeout(self, step)`
-  - `_pre_check_timeout` (method, line 1198) `def _pre_check_timeout(self, step)`
-  - `_store_capture` (method, line 1202) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
-  - `_first_json` (method, line 1254) `def _first_json(output)`
-  - `_render_command` (method, line 1268) `def _render_command(self, template, variables, captured_keys)`
-  - `_execute` (method, line 1293) `def _execute(self, command, timeout, expect_exits)`
-  - `_is_verb` (method, line 1328) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 1339) `def _run_shell_verb(self, command, timeout)`
-  - `_run_raw` (method, line 1394) `def _run_raw(self, command, timeout, allowed)`
-  - `_call` (method, line 1411) `def _call(callback, timeout)`
-  - `_raise_timeout` (function, line 1374) `def _raise_timeout(_signum, _frame)`
-- Depends on: `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
+  - `StepOutcome` (class, line 61) `class StepOutcome`
+  - `ChainRunResult` (class, line 117) `class ChainRunResult`
+  - `ReplanContext` (class, line 170) `class ReplanContext`
+  - `render_text` (function, line 217) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 225) `class ChainRunner`
+  - `_all_json_objects` (function, line 1517) `def _all_json_objects(text)`
+  - `_load_json_events` (function, line 1538) `def _load_json_events(path)`
+  - `ok` (method, line 89) `def ok(self)`
+  - `to_dict` (method, line 93) `def to_dict(self)`
+  - `to_dict` (method, line 139) `def to_dict(self)`
+  - `chain_proven` (method, line 164) `def chain_proven(self)`
+  - `set_var` (method, line 187) `def set_var(self, name, value)`
+  - `insert_step` (method, line 192) `def insert_step(self, step)`
+  - `skip_rest` (method, line 197) `def skip_rest(self)`
+  - `applied_vars` (method, line 202) `def applied_vars(self)`
+  - `inserted` (method, line 207) `def inserted(self)`
+  - `skip_rest_flag` (method, line 212) `def skip_rest_flag(self)`
+  - `__init__` (method, line 228) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `_pace_after` (method, line 314) `def _pace_after(self, outcome, started, step)`
+  - `run` (method, line 353) `def run(self)`
+  - `_finalize_verdict` (method, line 533) `def _finalize_verdict(self, result)`
+  - `_skip_remaining` (method, line 570) `def _skip_remaining(self, steps, start, reason)`
+  - `_run_parallel_group` (method, line 585) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
+  - `_run_fallback_chain` (method, line 679) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
+  - `_deliver` (method, line 750) `def _deliver(self, outcome)`
+  - `_promoted_sinks` (method, line 755) `def _promoted_sinks(self, outcome)`
+  - `_publish_step` (method, line 780) `def _publish_step(self, outcome)`
+  - `_notify` (method, line 880) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 889) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_record_replan_deviations` (method, line 939) `def _record_replan_deviations(self, context)`
+  - `_save_checkpoint` (method, line 981) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
+  - `_record_verdict` (method, line 1019) `def _record_verdict(verdicts, outcome)`
+  - `_run_step` (method, line 1026) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
+  - `_dependency_block` (method, line 1164) `def _dependency_block(step, prior_verdicts)`
+  - `_verify_evidence` (method, line 1186) `def _verify_evidence(self, step, outcome, variables)`
+  - `_ask_approval` (method, line 1231) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 1240) `def _verify_timeout(self, step)`
+  - `_pre_check_timeout` (method, line 1246) `def _pre_check_timeout(self, step)`
+  - `_store_capture` (method, line 1250) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 1302) `def _first_json(output)`
+  - `_render_command` (method, line 1316) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 1341) `def _execute(self, command, timeout, expect_exits)`
+  - `_verb_timeout_on_main` (method, line 1371) `def _verb_timeout_on_main(self, limit)`
+  - `_run_verb_bounded` (method, line 1390) `def _run_verb_bounded(self, command, limit)`
+  - `_is_verb` (method, line 1416) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 1427) `def _run_shell_verb(self, command, timeout)`
+  - `_run_raw` (method, line 1480) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 1497) `def _call(callback, timeout)`
+  - `_raise_timeout` (function, line 1460) `def _raise_timeout(_signum, _frame)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
 
 ## modules/chain_state.py
 - Doc: Durable chain checkpoints for pause, resume and audit.
@@ -338,7 +381,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `synth_technique_chain_data` (function, line 272) `def synth_technique_chain_data(target, techniques, os_hint)`
   - `write_generated_chain` (function, line 339) `def write_generated_chain(data, chains_dir)`
 - Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
-- Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
 
 ## modules/chain_tokens.py
 - Doc: Engagement-state tokens for YAML chains.
@@ -437,63 +480,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
   - `full_enumeration` (method, line 576) `def full_enumeration(self)`
 - Imported by: `cli/commands/cloud.py`
-
-## modules/collab_bp.py
-- Doc: modules/collab_bp.py
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `_authenticated_operator` (function, line 90) `def _authenticated_operator()`
-  - `_check_collab_permission` (function, line 100) `def _check_collab_permission(perm_name)`
-  - `_collab_login_required` (function, line 120) `def _collab_login_required(f)`
-  - `_collab_permission_required` (function, line 136) `def _collab_permission_required(perm_name)`
-  - `ColabEvent` (class, line 163) `class ColabEvent`
-  - `OperatorInfo` (class, line 176) `class OperatorInfo`
-  - `EventBus` (class, line 188) `class EventBus`
-  - `TargetLock` (class, line 250) `class TargetLock`
-  - `LockManager` (class, line 257) `class LockManager`
-  - `OperatorRegistry` (class, line 314) `class OperatorRegistry`
-  - `get_event_bus` (function, line 370) `def get_event_bus()`
-  - `get_lock_manager` (function, line 374) `def get_lock_manager()`
-  - `get_operator_registry` (function, line 378) `def get_operator_registry()`
-  - `publish_event` (function, line 382) `def publish_event(type, payload, operator)`
-  - `collab_ui` (function, line 396) `def collab_ui()`
-  - `stream` (function, line 411) `def stream()`
-  - `operators` (function, line 458) `def operators()`
-  - `publish` (function, line 470) `def publish()`
-  - `lock` (function, line 483) `def lock()`
-  - `unlock` (function, line 504) `def unlock()`
-  - `locks` (function, line 522) `def locks()`
-  - `history` (function, line 537) `def history()`
-  - `decorated` (function, line 124) `def decorated()`
-  - `decorator` (function, line 139) `def decorator(f)`
-  - `to_sse` (method, line 170) `def to_sse(self)`
-  - `__init__` (method, line 198) `def __init__(self)`
-  - `subscribe` (method, line 203) `def subscribe(self, subscriber_id)`
-  - `unsubscribe` (method, line 215) `def unsubscribe(self, subscriber_id)`
-  - `publish` (method, line 219) `def publish(self, event)`
-  - `recent` (method, line 234) `def recent(self, n)`
-  - `reset` (method, line 238) `def reset(self)`
-  - `__init__` (method, line 263) `def __init__(self)`
-  - `acquire` (method, line 267) `def acquire(self, target, operator, ttl_secs)`
-  - `release` (method, line 279) `def release(self, target, operator)`
-  - `status` (method, line 287) `def status(self, target)`
-  - `all_locks` (method, line 292) `def all_locks(self)`
-  - `_expire` (method, line 297) `def _expire(self)`
-  - `reset` (method, line 304) `def reset(self)`
-  - `__init__` (method, line 319) `def __init__(self)`
-  - `join` (method, line 323) `def join(self, name)`
-  - `heartbeat` (method, line 334) `def heartbeat(self, name)`
-  - `leave` (method, line 340) `def leave(self, name)`
-  - `active_operators` (method, line 345) `def active_operators(self)`
-  - `_expire` (method, line 350) `def _expire(self)`
-  - `reset` (method, line 356) `def reset(self)`
-  - `generate` (function, line 424) `def generate()`
-  - `login_required` (function, line 80) `def login_required(f)`
-  - `decorated` (function, line 141) `def decorated()`
-  - `decorated` (function, line 84) `def decorated()`
-- Depends on: `core/logging.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/mcp_tools/collab_publish.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

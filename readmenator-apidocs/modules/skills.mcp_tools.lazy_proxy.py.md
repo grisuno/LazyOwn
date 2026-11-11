@@ -17,13 +17,13 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_skills_mcp_tools_lazy_proxy_py__handle(["handle"])
     n_modules_lazy_engine_py__LazyEngine["lazy_engine.LazyEngine"]
-    n_modules_lazy_loop_py__LazyLoopEngine_proxy_env["lazy_loop.LazyLoopEngine.proxy_env"]
-    n_modules_lazy_loop_py__LazyLoopEngine_proxy_start["lazy_loop.LazyLoopEngine.proxy_start"]
-    n_modules_lazy_loop_py__LazyLoopEngine_proxy_status["lazy_loop.LazyLoopEngine.proxy_status"]
+    n_modules_loop_engine_proxy_py__EngineProxyMixin_proxy_env["engine_proxy.EngineProxyMixin.proxy_env"]
+    n_modules_loop_engine_proxy_py__EngineProxyMixin_proxy_start["engine_proxy.EngineProxyMixin.proxy_start"]
+    n_modules_loop_engine_proxy_py__EngineProxyMixin_proxy_status["engine_proxy.EngineProxyMixin.proxy_status"]
     n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_lazy_engine_py__LazyEngine
-    n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_lazy_loop_py__LazyLoopEngine_proxy_env
-    n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_lazy_loop_py__LazyLoopEngine_proxy_start
-    n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_lazy_loop_py__LazyLoopEngine_proxy_status
+    n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_loop_engine_proxy_py__EngineProxyMixin_proxy_env
+    n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_loop_engine_proxy_py__EngineProxyMixin_proxy_start
+    n_skills_mcp_tools_lazy_proxy_py__handle -.-> n_modules_loop_engine_proxy_py__EngineProxyMixin_proxy_status
 ```
 
 ## Functions
@@ -50,7 +50,7 @@ Dispatch the proxy action and return its status as JSON.
 
 **Returns:** `list`
 
-*Calls:* [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`LazyLoopEngine.proxy_env`](modules.lazy_loop.py.md#lazyloopengine-proxy_env), [`LazyLoopEngine.proxy_start`](modules.lazy_loop.py.md#lazyloopengine-proxy_start), [`LazyLoopEngine.proxy_status`](modules.lazy_loop.py.md#lazyloopengine-proxy_status)
+*Calls:* [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`EngineProxyMixin.proxy_env`](modules.loop.engine_proxy.py.md#engineproxymixin-proxy_env), [`EngineProxyMixin.proxy_start`](modules.loop.engine_proxy.py.md#engineproxymixin-proxy_start), [`EngineProxyMixin.proxy_status`](modules.loop.engine_proxy.py.md#engineproxymixin-proxy_status)
 
 ---
 

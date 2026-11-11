@@ -1,5 +1,5 @@
-# Symbols (page 1 of 50)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md), [SYMBOLS_p49.md](SYMBOLS_p49.md), [SYMBOLS_p50.md](SYMBOLS_p50.md)
+# Symbols (page 1 of 51)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md), [SYMBOLS_p49.md](SYMBOLS_p49.md), [SYMBOLS_p50.md](SYMBOLS_p50.md), [SYMBOLS_p51.md](SYMBOLS_p51.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -34,24 +34,31 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `load_aliases` | function | `cli/aliases.py:100` | `def load_aliases(payload, path, lazy)` |
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
 | `ChainArgs` | class | `cli/apt_chain_support.py:83` | `class ChainArgs` |
-| `_decision_command` | function | `cli/apt_chain_support.py:473` | `def _decision_command(decision)` |
+| `_decision_command` | function | `cli/apt_chain_support.py:671` | `def _decision_command(decision)` |
+| `_observed_conditions` | function | `cli/apt_chain_support.py:567` | `def _observed_conditions(target)` |
 | `_parse_admin_flags` | function | `cli/apt_chain_support.py:46` | `def _parse_admin_flags(args, tokens)` |
-| `_platform` | function | `cli/apt_chain_support.py:606` | `def _platform()` |
-| `_recent_changes_block` | function | `cli/apt_chain_support.py:504` | `def _recent_changes_block(target)` |
-| `_set_value` | function | `cli/apt_chain_support.py:174` | `def _set_value(args, flag, value)` |
-| `_step_from_decision` | function | `cli/apt_chain_support.py:482` | `def _step_from_decision(command, outcome, executed_count)` |
-| `_synth_from_playbook` | function | `cli/apt_chain_support.py:202` | `def _synth_from_playbook(playbook, target)` |
+| `_platform` | function | `cli/apt_chain_support.py:804` | `def _platform()` |
+| `_recent_changes_block` | function | `cli/apt_chain_support.py:702` | `def _recent_changes_block(target)` |
+| `_set_value` | function | `cli/apt_chain_support.py:177` | `def _set_value(args, flag, value)` |
+| `_step_from_alternative` | function | `cli/apt_chain_support.py:550` | `def _step_from_alternative(alternative, outcome, target)` |
+| `_step_from_decision` | function | `cli/apt_chain_support.py:680` | `def _step_from_decision(command, outcome, executed_count)` |
+| `_synth_from_playbook` | function | `cli/apt_chain_support.py:205` | `def _synth_from_playbook(playbook, target)` |
 | `_token_name_ok` | function | `cli/apt_chain_support.py:77` | `def _token_name_ok(name)` |
-| `adversarial_continue` | function | `cli/apt_chain_support.py:385` | `def adversarial_continue(chain)` |
-| `approve` | function | `cli/apt_chain_support.py:434` | `def approve(step_id, command)` |
-| `build_cli_approver` | function | `cli/apt_chain_support.py:426` | `def build_cli_approver(printer, input_fn)` |
-| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:532` | `def build_llm_recovery_chain(result, target, task_id)` |
-| `build_reactive_replanner` | function | `cli/apt_chain_support.py:448` | `def build_reactive_replanner()` |
-| `parse_chain_args` | function | `cli/apt_chain_support.py:108` | `def parse_chain_args(line)` |
-| `render_result` | function | `cli/apt_chain_support.py:393` | `def render_result(result)` |
-| `replan` | function | `cli/apt_chain_support.py:451` | `def replan(context)` |
-| `resolve_admin` | function | `cli/apt_chain_support.py:231` | `def resolve_admin(args)` |
-| `select_step_ids` | function | `cli/apt_chain_support.py:353` | `def select_step_ids(chain, args)` |
+| `adversarial_continue` | function | `cli/apt_chain_support.py:401` | `def adversarial_continue(chain)` |
+| `approve` | function | `cli/apt_chain_support.py:536` | `def approve(step_id, command)` |
+| `build_adaptive_replanner` | function | `cli/apt_chain_support.py:588` | `def build_adaptive_replanner()` |
+| `build_cli_approver` | function | `cli/apt_chain_support.py:528` | `def build_cli_approver(printer, input_fn)` |
+| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:730` | `def build_llm_recovery_chain(result, target, task_id)` |
+| `build_reactive_replanner` | function | `cli/apt_chain_support.py:646` | `def build_reactive_replanner()` |
+| `compose_replanners` | function | `cli/apt_chain_support.py:626` | `def compose_replanners(replanners)` |
+| `composed` | function | `cli/apt_chain_support.py:639` | `def composed(context)` |
+| `parse_chain_args` | function | `cli/apt_chain_support.py:109` | `def parse_chain_args(line)` |
+| `render_admin` | function | `cli/apt_chain_support.py:450` | `def render_admin(payload, action)` |
+| `render_result` | function | `cli/apt_chain_support.py:409` | `def render_result(result)` |
+| `replan` | function | `cli/apt_chain_support.py:601` | `def replan(context)` |
+| `replan` | function | `cli/apt_chain_support.py:649` | `def replan(context)` |
+| `resolve_admin` | function | `cli/apt_chain_support.py:234` | `def resolve_admin(args)` |
+| `select_step_ids` | function | `cli/apt_chain_support.py:369` | `def select_step_ids(chain, args)` |
 | `apply_assign` | function | `cli/assign.py:42` | `def apply_assign(params, key, value)` |
 | `AutoCryptoConfig` | class | `cli/auto_crypto.py:48` | `class AutoCryptoConfig` |
 | `AutoCryptoEngine` | class | `cli/auto_crypto.py:77` | `class AutoCryptoEngine` |
@@ -489,12 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_op_resume` | method | `cli/commands/caldera.py:183` | `def do_op_resume(self, line)` |
 | `do_op_start` | method | `cli/commands/caldera.py:141` | `def do_op_start(self, line)` |
 | `do_op_status` | method | `cli/commands/caldera.py:217` | `def do_op_status(self, line)` |
-| `do_op_stop` | method | `cli/commands/caldera.py:200` | `def do_op_stop(self, line)` |
-| `do_op_timeline` | method | `cli/commands/caldera.py:249` | `def do_op_timeline(self, line)` |
-| `do_plan` | method | `cli/commands/caldera.py:336` | `def do_plan(self, line)` |
-| `do_plan_apply` | method | `cli/commands/caldera.py:391` | `def do_plan_apply(self, line)` |
-| `do_plan_detail` | method | `cli/commands/caldera.py:364` | `def do_plan_detail(self, line)` |
-| `do_ttp_matrix` | method | `cli/commands/caldera.py:290` | `def do_ttp_matrix(self, line)` |
-| `do_ttp_rebuild` | method | `cli/commands/caldera.py:299` | `def do_ttp_rebuild(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

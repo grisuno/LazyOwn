@@ -1,5 +1,17 @@
-# API (page 12 of 27)
+# API (page 12 of 28)
 Previous: [API_p11.md](API_p11.md)
+
+## modules/delegation_attacks.py
+Imported by: `cli/commands/active_directory.py`
+- `DelegationEnumerator.__init__` (method) `modules/delegation_attacks.py:98` `def __init__(self, domain, raw_ldap_output)`
+- `DelegationEnumerator.enumerate_from_uac_flags` (method) `modules/delegation_attacks.py:104` `def enumerate_from_uac_flags(self, accounts)` -- Enumerate delegation targets from parsed account data.
+- `DelegationEnumerator.parse_bloodhound_output` (method) `modules/delegation_attacks.py:151` `def parse_bloodhound_output(self, bloodhound_json)` -- Parse BloodHound JSON output for delegation data.
+- `DelegationEnumerator.find_unconstrained_targets` (method) `modules/delegation_attacks.py:181` `def find_unconstrained_targets(self)` -- Return all accounts with unconstrained delegation enabled.
+- `DelegationEnumerator.find_constrained_targets` (method) `modules/delegation_attacks.py:189` `def find_constrained_targets(self)` -- Return all accounts with constrained delegation configured.
+- `DelegationEnumerator.find_rbcd_targets` (method) `modules/delegation_attacks.py:197` `def find_rbcd_targets(self)` -- Return all accounts with RBCD configured.
+- `DelegationEnumerator.find_dc_targets` (method) `modules/delegation_attacks.py:205` `def find_dc_targets(self)` -- Return domain controllers with delegation configured.
+- `DelegationEnumerator.compute_attack_paths` (method) `modules/delegation_attacks.py:215` `def compute_attack_paths(self)` -- Compute delegation-based attack paths.
+- `DelegationEnumerator.summary` (method) `modules/delegation_attacks.py:296` `def summary(self)` -- Return a summary of all delegation findings.
 
 ## modules/detailed_search.py
 - `obtener_informacion` (function) `modules/detailed_search.py:40` `def obtener_informacion(url)`
@@ -392,6 +404,14 @@ Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules
 - `iter_host_records` (function) `modules/factsio.py:81` `def iter_host_records(host_keyed)` -- Yield ``(ip, record)`` pairs from canonical host-keyed facts.
 - `iter_flat_facts` (function) `modules/factsio.py:93` `def iter_flat_facts(host_keyed)` -- Yield one flat record per fact kind found in the host map.
 
+## modules/failure_verdict.py
+Depends on: `cli/commands/enum.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `modules/lazy_fallback.py`, `tests/test_failure_verdict.py`, `tests/test_lazy_fallback.py`
+- `FailureVerdict.is_hard_stop` (method) `modules/failure_verdict.py:126` `def is_hard_stop(self)` -- Return True when the verdict forbids any further attempt.
+- `FailureVerdict.is_fallback_eligible` (method) `modules/failure_verdict.py:131` `def is_fallback_eligible(self)` -- Return True when adaptive alternatives may replace the retry.
+- `classify_failure` (function) `modules/failure_verdict.py:144` `def classify_failure(command, output, exit_code, timed_out)` -- Classify one failed attempt into a verdict with an engine action.
+- `classify_outcome` (function) `modules/failure_verdict.py:192` `def classify_outcome(outcome)` -- Classify one runner outcome object carrying the standard fields.
+
 ## modules/fast_run_service.sh
 - `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
 - `log_info` (function) `modules/fast_run_service.sh:73`
@@ -473,22 +493,6 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `GCPAttackEngine.cloudbuild_abuse` (method) `modules/gcp_attacks.py:230` `def cloudbuild_abuse(self)` -- Abuse Cloud Build for privilege escalation.
 - `GCPAttackEngine.organization_escalation` (method) `modules/gcp_attacks.py:261` `def organization_escalation(self)` -- Escalate from project-level to organization-level access.
 - `GCPAttackEngine.summary` (method) `modules/gcp_attacks.py:297` `def summary(self)`
-
-## modules/generate_tools.py
-- `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
-
-## modules/goals.py
-Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
-- `TaskConstraints.blocked` (method) `modules/goals.py:35` `def blocked(self, command)` -- Return the blocking constraint or empty string.
-- `decompose_rule_based` (function) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
-- `load_constraints` (function) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
-- `constraint_block_text` (function) `modules/goals.py:103` `def constraint_block_text(constraints)` -- Render the constraint block injected at max priority (LAZY parity).
-- `GoalTracker.__init__` (method) `modules/goals.py:120` `def __init__(self, goals)` -- Bind to an initial goal list.
-- `GoalTracker.goals` (method) `modules/goals.py:125` `def goals(self)` -- Return a copy of tracked goals.
-- `GoalTracker.prove_goal` (method) `modules/goals.py:129` `def prove_goal(self, goal_text, evidence)` -- Mark one goal achieved from evidence; return True when found.
-- `GoalTracker.goal_met` (method) `modules/goals.py:140` `def goal_met(self, opt_in)` -- End the whole task; requires explicit opt-in (default unbound).
-- `GoalTracker.all_achieved` (method) `modules/goals.py:148` `def all_achieved(self)` -- Return True when every goal is achieved.
-- `GoalTracker.open_goals` (method) `modules/goals.py:152` `def open_goals(self)` -- Return goals still open.
 
 
 Next: [API_p13.md](API_p13.md)

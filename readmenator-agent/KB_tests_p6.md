@@ -19,16 +19,17 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_runner_falls_back_to_os_commands` (function, line 222) `def test_runner_falls_back_to_os_commands()`
   - `test_runner_executes_python_module_commands` (function, line 236) `def test_runner_executes_python_module_commands()`
   - `test_runner_keeps_verbs_on_calling_thread` (function, line 247) `def test_runner_keeps_verbs_on_calling_thread()`
-  - `test_runner_fails_on_nonzero_exit` (function, line 269) `def test_runner_fails_on_nonzero_exit()`
-  - `test_runner_routes_known_verb_through_shell` (function, line 280) `def test_runner_routes_known_verb_through_shell()`
-  - `test_runner_timeout_marks_step_timeout` (function, line 300) `def test_runner_timeout_marks_step_timeout()`
-  - `test_when_evaluator_accepts_list_literals` (function, line 308) `def test_when_evaluator_accepts_list_literals()`
-  - `test_validate_rejects_malformed_when` (function, line 315) `def test_validate_rejects_malformed_when()`
-  - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 323) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
-  - `test_runner_captures_verb_stdout` (function, line 341) `def test_runner_captures_verb_stdout()`
-  - `test_runner_step_sleep_jitter_applies` (function, line 358) `def test_runner_step_sleep_jitter_applies()`
-  - `test_runner_step_sleep_skipped_on_failure` (function, line 380) `def test_runner_step_sleep_skipped_on_failure()`
-  - `test_runner_validate_rejects_parallel_sleep` (function, line 393) `def test_runner_validate_rejects_parallel_sleep()`
+  - `test_runner_verb_timeout_releases_chain_off_main_thread` (function, line 269) `def test_runner_verb_timeout_releases_chain_off_main_thread()`
+  - `test_runner_fails_on_nonzero_exit` (function, line 299) `def test_runner_fails_on_nonzero_exit()`
+  - `test_runner_routes_known_verb_through_shell` (function, line 310) `def test_runner_routes_known_verb_through_shell()`
+  - `test_runner_timeout_marks_step_timeout` (function, line 330) `def test_runner_timeout_marks_step_timeout()`
+  - `test_when_evaluator_accepts_list_literals` (function, line 338) `def test_when_evaluator_accepts_list_literals()`
+  - `test_validate_rejects_malformed_when` (function, line 345) `def test_validate_rejects_malformed_when()`
+  - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 353) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
+  - `test_runner_captures_verb_stdout` (function, line 371) `def test_runner_captures_verb_stdout()`
+  - `test_runner_step_sleep_jitter_applies` (function, line 388) `def test_runner_step_sleep_jitter_applies()`
+  - `test_runner_step_sleep_skipped_on_failure` (function, line 410) `def test_runner_step_sleep_skipped_on_failure()`
+  - `test_runner_validate_rejects_parallel_sleep` (function, line 423) `def test_runner_validate_rejects_parallel_sleep()`
   - `executor` (function, line 39) `def executor(command)`
   - `executor` (function, line 62) `def executor(command)`
   - `executor` (function, line 79) `def executor(command)`
@@ -37,19 +38,23 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `Shell` (class, line 224) `class Shell`
   - `Shell` (class, line 238) `class Shell`
   - `Shell` (class, line 251) `class Shell`
-  - `Shell` (class, line 271) `class Shell`
-  - `Shell` (class, line 284) `class Shell`
-  - `executor` (function, line 327) `def executor(command)`
-  - `FakeShell` (class, line 343) `class FakeShell`
-  - `executor` (function, line 371) `def executor(command)`
-  - `executor` (function, line 385) `def executor(command)`
+  - `HangingShell` (class, line 274) `class HangingShell`
+  - `_drive` (function, line 288) `def _drive()`
+  - `Shell` (class, line 301) `class Shell`
+  - `Shell` (class, line 314) `class Shell`
+  - `executor` (function, line 357) `def executor(command)`
+  - `FakeShell` (class, line 373) `class FakeShell`
+  - `executor` (function, line 401) `def executor(command)`
+  - `executor` (function, line 415) `def executor(command)`
   - `do_echo` (method, line 227) `def do_echo(self, line)`
   - `do_assign` (method, line 254) `def do_assign(self, line)`
   - `onecmd` (method, line 257) `def onecmd(self, command)`
-  - `do_assign` (method, line 287) `def do_assign(self, line)`
-  - `onecmd` (method, line 290) `def onecmd(self, command)`
-  - `do_lazy_note` (method, line 346) `def do_lazy_note(self, line)`
-  - `onecmd` (method, line 349) `def onecmd(self, command)`
+  - `do_hang` (method, line 277) `def do_hang(self, line)`
+  - `onecmd` (method, line 281) `def onecmd(self, command)`
+  - `do_assign` (method, line 317) `def do_assign(self, line)`
+  - `onecmd` (method, line 320) `def onecmd(self, command)`
+  - `do_lazy_note` (method, line 376) `def do_lazy_note(self, line)`
+  - `onecmd` (method, line 379) `def onecmd(self, command)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## tests/test_chain_selector.py

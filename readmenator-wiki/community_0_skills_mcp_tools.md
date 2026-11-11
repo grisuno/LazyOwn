@@ -1,14 +1,14 @@
 # skills/mcp_tools
 
-*Community 0 | 235 files | cohesion 0.63*
+*Community 0 | 220 files | cohesion 0.61*
 
 ## Definition
 
-This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant language py (cohesion 0.63). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`. Core file: `skills/autonomous_daemon.py` (158 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 220 file(s) rooted at `skills/mcp_tools` with dominant language py (cohesion 0.61). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`. Core file: `skills/autonomous_daemon.py` (158 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `skills/mcp_tools` (143 files)
+### `skills/mcp_tools` (139 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -17,7 +17,7 @@ This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `skills/mcp_tools/aci_plan.py` | py | utility | 1 | yes |
 | `skills/mcp_tools/aci_replan.py` | py | utility | 1 | yes |
 
-### `modules` (31 files)
+### `modules` (28 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -25,15 +25,15 @@ This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `modules/atomic_enricher.py` | py | utility | 9 | yes |
 | `modules/cve_matcher.py` | py | utility | 12 | yes |
 
-### `tests` (29 files)
+### `tests` (23 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `tests/integration_autonomous_flow.py` | py | testing | 1 | no |
 | `tests/test_aci_planner.py` | py | testing | 95 | yes |
 | `tests/test_autonomous_ops.py` | py | testing | 17 | yes |
+| `tests/test_autonomous_replay.py` | py | testing | 18 | yes |
 
-### `skills` (22 files)
+### `skills` (20 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -63,7 +63,7 @@ This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant lan
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 215 more files in this community.*
+*... and 200 more files in this community.*
 
 
 ## Key Symbols
@@ -101,13 +101,13 @@ This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant lan
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 807
-- Cross-boundary resolved imports (EXTRACTED): 304
+- Internal resolved imports (EXTRACTED): 705
+- Cross-boundary resolved imports (EXTRACTED): 310
 
 ## Connections
 
-- [EXTRACTED] depends_on community 6 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 10 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 6 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports skills/lazyown_facts.py.
+- [EXTRACTED] depends_on community 11 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
 - [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 
 ## Risks
@@ -130,10 +130,9 @@ This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant lan
 
 ## Open Questions
 
-- Why do 1 file(s) lack file-level docs (e.g. `tests/integration_autonomous_flow.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` be broken with an interface?
 - What would break if the most connected file in skills/mcp_tools changed?
-- Should skills/mcp_tools be split, given cohesion 0.63?
+- Should skills/mcp_tools be split, given cohesion 0.61?
 
 ## Sources
 
@@ -152,9 +151,9 @@ This community groups 235 file(s) rooted at `skills/mcp_tools` with dominant lan
 - `modules/goals.py`
 - `modules/intercept.py`
 - `modules/lazyown_bridge.py`
-- `modules/lesson_ingestor.py`
 - `modules/llm_evaluator.py`
 - `modules/llm_pool.py`
 - `modules/mcp_agent_bridge.py`
-- `modules/moe_router.py`
-- *... and 215 more*
+- `modules/obs_parser.py`
+- `modules/operation.py`
+- *... and 200 more*

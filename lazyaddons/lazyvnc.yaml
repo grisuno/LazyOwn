@@ -1,0 +1,20 @@
+name: lazyvnc
+description: |
+  VNC surface probe: nmap VNC scripts (vnc-info, realvnc-auth-bypass,
+  vnc-brute against the assigned wordlist) over the common VNC ports.
+  Auto-suggested when a scan reports the vnc service.
+
+  Flow: `assign rhost <ip>`, then `lazyvnc`. Free args append extra
+  nmap script args, e.g. `lazyvnc -p 5902`. No install needed: nmap
+  ships both scripts.
+author: LazyOwn RedTeam
+version: "1.0"
+enabled: true
+os: any
+trigger:
+- vnc
+category: "02. Scanning & Enumeration"
+module_type: scanner
+tool:
+  name: LazyVNC Surface Probe
+  execute_command: nmap -Pn -p 5900,5901,5902 -sV --script vnc-info,realvnc-auth-bypass,vnc-brute --script-args vnc-brute.passdb={wordlist} {rhost}

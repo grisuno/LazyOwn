@@ -114,7 +114,7 @@ column. Every token AND-composed; ``-`` prefix excludes.
 
 #### `IntelOpsCommandSet.do_lazyinventory`
 
-`method` | [cli/commands/exposure_inventory.py:69](../../cli/commands/exposure_inventory.py#L69)
+`method` | [cli/commands/exposure_inventory.py:71](../../cli/commands/exposure_inventory.py#L71)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

@@ -1,6 +1,24 @@
 # Subsystem: cli (page 2 of 5)
 Previous: [KB_cli.md](KB_cli.md)
 
+## cli/contextual_help.py
+- Doc: Contextual help system for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommandInfo` (class, line 62) `class CommandInfo`
+  - `ContextualHelpConfig` (class, line 78) `class ContextualHelpConfig`
+  - `_load_command_index` (function, line 85) `def _load_command_index(path)`
+  - `_build_command_lookup` (function, line 97) `def _build_command_lookup(index)`
+  - `ContextualHelp` (class, line 167) `class ContextualHelp`
+  - `__init__` (method, line 176) `def __init__(self, aliases, params, config)`
+  - `get_command_info` (method, line 188) `def get_command_info(self, name)`
+  - `render_command_help` (method, line 208) `def render_command_help(self, name)`
+  - `render_phase_commands` (method, line 261) `def render_phase_commands(self, phase)`
+  - `render_requirements_status` (method, line 281) `def render_requirements_status(self)`
+- Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
+- Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
+
 ## cli/dashboard_layout.py
 - Doc: Responsive layout decisions for the Textual operator dashboard.
 - Layer: presentation

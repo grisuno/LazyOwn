@@ -22,27 +22,27 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (4.1)
+## cli (5.1)
 
 cli groups 46 files (py) around Theme, get_theme, theme_from_payload, PendingCommandSet, is_pending. LazyOwn CLI infrastructure.
 
-## core (4.2)
+## core (5.2)
 
 core groups 10 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Core primitives for the LazyOwn framework.
 
-## modules (4.3)
+## modules (5.3)
 
 modules groups 1 files (py) around PrivescVector, SystemProfile, _parse_kernel_version, _parse_version_from_range, parse_linpeas_output. Crystal Ball — privilege escalation vector prediction engine.
 
-## root (4.4)
+## root (5.4)
 
 root groups 1 files (py) around sanitize_content, RAGManager, __init__, initialize_cache_table, get_cache_key. RAGManager: Manages RAG functionality with CAG caching for document processing and...
 
-## skills (4.5)
+## skills (5.5)
 
 skills groups 7 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain).
 
-## tests (4.6)
+## tests (5.6)
 
 tests groups 50 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 

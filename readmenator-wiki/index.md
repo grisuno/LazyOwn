@@ -1,13 +1,13 @@
 # Second Brain
 
-*Last synthesized: 2026-11-09 | 1545 files | 31 concept pages | offline, zero tokens*
+*Last synthesized: 2026-11-11 | 1566 files | 30 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
 
 ## Vault Overview
 
-The codebase centres on `_context.py`, `logging.py`, `lazy_loop.py`. Architecturally it is 6 layers, dominant utility (952 files) across 31 import-based communities. Recorded risk surface: 0 security findings and 118 dependency cycles.
+The codebase centres on `_context.py`, `logging.py`, `lazy_loop.py`. Architecturally it is 6 layers, dominant utility (962 files) across 30 import-based communities. Recorded risk surface: 0 security findings and 126 dependency cycles.
 
 Surprising tissue lives between skills/mcp_tools, cli/commands, modules: lazyc2: 20 extracted cross-community imports and 0 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
@@ -17,14 +17,14 @@ Open work clusters around documentation (91% file coverage), 0 security findings
 
 | Metric | Value |
 |--------|-------|
-| Files | 1545 |
-| Symbols | 24622 |
-| Resolved imports | 6080 |
+| Files | 1566 |
+| Symbols | 24930 |
+| Resolved imports | 6156 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
-| Communities | 31 |
-| Doc coverage | 91% (1407/1545 files) |
+| Communities | 30 |
+| Doc coverage | 91% (1427/1566 files) |
 | Security findings | 0 |
-| Estimated read cost | ~948130 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~962325 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 8: `lazyc2.py`, `lazy_loop.py`, `mcp_generated_tools.py`, `3d-force-graph-1.73.4.min.js`, `html2pdf.bundle.min.js` (+3 more) |
 
 ## Reading Order
@@ -40,60 +40,59 @@ readmenator query "<question>" --target LazyOwn
 
 ## Concept Wiki
 
-- [skills/mcp_tools (235 files, cohesion 0.63)](./community_0_skills_mcp_tools.md)
-- [cli/commands (162 files, cohesion 0.48)](./community_1_cli_commands.md)
-- [modules: lazyc2 (138 files, cohesion 0.47)](./community_2_modules_lazyc2.md)
-- [cli (115 files, cohesion 0.56)](./community_3_cli.md)
-- [modules: lazy_loop (110 files, cohesion 0.46)](./community_4_modules_lazy_loop.md)
-- [modules: lazyown (106 files, cohesion 0.35)](./community_5_modules_lazyown.md)
-- [modules: chain_runner (98 files, cohesion 0.58)](./community_6_modules_chain_runner.md)
-- [modules: intel_fusion (66 files, cohesion 0.45)](./community_7_modules_intel_fusion.md)
-- [lazygui/panels (54 files, cohesion 0.94)](./community_8_lazygui_panels.md)
-- [static/js (49 files, cohesion 0.47)](./community_9_static_js.md)
-- [modules: llm_budget (41 files, cohesion 0.44)](./community_10_modules_llm_budget.md)
-- [modules: bof_registry (32 files, cohesion 0.45)](./community_11_modules_bof_registry.md)
+- [skills/mcp_tools (220 files, cohesion 0.61)](./community_0_skills_mcp_tools.md)
+- [cli/commands (162 files, cohesion 0.47)](./community_1_cli_commands.md)
+- [modules: lazyc2 (142 files, cohesion 0.48)](./community_2_modules_lazyc2.md)
+- [modules: lazy_loop (118 files, cohesion 0.47)](./community_3_modules_lazy_loop.md)
+- [cli (115 files, cohesion 0.56)](./community_4_cli.md)
+- [modules: lazyown (103 files, cohesion 0.35)](./community_5_modules_lazyown.md)
+- [modules: chain_runner (100 files, cohesion 0.59)](./community_6_modules_chain_runner.md)
+- [modules: atomic_exploit_bridge (78 files, cohesion 0.46)](./community_7_modules_atomic_exploit_bridge.md)
+- [skills/claude_md_orchestrator (61 files, cohesion 0.55)](./community_8_skills_claude_md_orchestrator.md)
+- [lazygui/panels (54 files, cohesion 0.94)](./community_9_lazygui_panels.md)
+- [static/js (49 files, cohesion 0.47)](./community_10_static_js.md)
+- [modules: llm_budget (39 files, cohesion 0.44)](./community_11_modules_llm_budget.md)
 - [modules: dashboard_engine (17 files, cohesion 0.44)](./community_12_modules_dashboard_engine.md)
-- [skills/claude_md_orchestrator (14 files, cohesion 0.68)](./community_13_skills_claude_md_orchestrator.md)
-- [modules: defense_eval (8 files, cohesion 0.64)](./community_14_modules_defense_eval.md)
-- [modules: kerberos_core (7 files, cohesion 0.88)](./community_15_modules_kerberos_core.md)
-- [modules: saas_attacks (7 files, cohesion 0.86)](./community_16_modules_saas_attacks.md)
-- [modules: network_opsec (6 files, cohesion 0.71)](./community_17_modules_network_opsec.md)
-- [modules: polymorphic_engine (6 files, cohesion 0.83)](./community_18_modules_polymorphic_engine.md)
-- [contrib/legacy (5 files, cohesion 0.80)](./community_19_contrib_legacy.md)
-- [tests (4 files, cohesion 1.00)](./community_20_tests.md)
-- [modules: memory_store (3 files, cohesion 1.00)](./community_21_modules_memory_store.md)
-- [scripts: journal (3 files, cohesion 1.00)](./community_22_scripts_journal.md)
-- [modules/backdoor (2 files, cohesion 1.00)](./community_23_modules_backdoor.md)
-- [modules: lazy_netattack (2 files, cohesion 1.00)](./community_24_modules_lazy_netattack.md)
-- [modules: lazy_triage (2 files, cohesion 1.00)](./community_25_modules_lazy_triage.md)
-- [poc_tui (2 files, cohesion 1.00)](./community_26_poc_tui.md)
-- [scripts: check_contract_manifest (2 files, cohesion 1.00)](./community_27_scripts_check_contract_manifest.md)
-- [scripts: migrate_lazyown (2 files, cohesion 1.00)](./community_28_scripts_migrate_lazyown.md)
-- [tools (2 files, cohesion 1.00)](./community_29_tools.md)
-- [orphans (245 files, cohesion 0.00)](./community_30_orphans.md)
+- [modules: defense_eval (8 files, cohesion 0.64)](./community_13_modules_defense_eval.md)
+- [modules: kerberos_core (7 files, cohesion 0.88)](./community_14_modules_kerberos_core.md)
+- [modules: saas_attacks (7 files, cohesion 0.86)](./community_15_modules_saas_attacks.md)
+- [modules: network_opsec (6 files, cohesion 0.71)](./community_16_modules_network_opsec.md)
+- [modules: polymorphic_engine (6 files, cohesion 0.83)](./community_17_modules_polymorphic_engine.md)
+- [contrib/legacy (5 files, cohesion 0.80)](./community_18_contrib_legacy.md)
+- [tests (4 files, cohesion 1.00)](./community_19_tests.md)
+- [modules: memory_store (3 files, cohesion 1.00)](./community_20_modules_memory_store.md)
+- [scripts: journal (3 files, cohesion 1.00)](./community_21_scripts_journal.md)
+- [modules/backdoor (2 files, cohesion 1.00)](./community_22_modules_backdoor.md)
+- [modules: lazy_netattack (2 files, cohesion 1.00)](./community_23_modules_lazy_netattack.md)
+- [modules: lazy_triage (2 files, cohesion 1.00)](./community_24_modules_lazy_triage.md)
+- [poc_tui (2 files, cohesion 1.00)](./community_25_poc_tui.md)
+- [scripts: check_contract_manifest (2 files, cohesion 1.00)](./community_26_scripts_check_contract_manifest.md)
+- [scripts: migrate_lazyown (2 files, cohesion 1.00)](./community_27_scripts_migrate_lazyown.md)
+- [tools (2 files, cohesion 1.00)](./community_28_tools.md)
+- [orphans (245 files, cohesion 0.00)](./community_29_orphans.md)
 
 ## God Nodes
 
 | File | Score |
 |------|-------|
 | `skills/mcp_tools/_context.py` | 380.1 |
-| `core/logging.py` | 321.2 |
-| `modules/lazy_loop.py` | 299.8 (large, maybe generated) |
-| `utils.py` | 262.6 |
-| `modules/__init__.py` | 262.0 |
+| `core/logging.py` | 325.2 |
+| `modules/lazy_loop.py` | 321.8 (large, maybe generated) |
+| `modules/__init__.py` | 266.0 |
+| `utils.py` | 264.6 |
 
 ## Strongest Connections
 
-- 3 -> 5: depends_on (strength 0.9, EXTRACTED)
-- 6 -> 4: depends_on (strength 0.9, EXTRACTED)
+- 4 -> 5: depends_on (strength 0.9, EXTRACTED)
+- 6 -> 7: depends_on (strength 0.9, EXTRACTED)
+- 6 -> 3: depends_on (strength 0.9, EXTRACTED)
 - 6 -> 0: depends_on (strength 0.9, EXTRACTED)
 - 6 -> 1: depends_on (strength 0.9, EXTRACTED)
-- 6 -> 11: depends_on (strength 0.9, EXTRACTED)
+- 6 -> 8: depends_on (strength 0.9, EXTRACTED)
 - 5 -> 2: depends_on (strength 0.9, EXTRACTED)
 - 5 -> 1: depends_on (strength 0.9, EXTRACTED)
-- 1 -> 10: depends_on (strength 0.9, EXTRACTED)
-- 3 -> 2: depends_on (strength 0.9, EXTRACTED)
-- 3 -> 1: depends_on (strength 0.9, EXTRACTED)
+- 1 -> 11: depends_on (strength 0.9, EXTRACTED)
+- 4 -> 2: depends_on (strength 0.9, EXTRACTED)
 
 ## Navigation Tips
 

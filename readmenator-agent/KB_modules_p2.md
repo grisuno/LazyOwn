@@ -85,51 +85,51 @@ Previous: [KB_modules.md](KB_modules.md)
 - Language: py
 - Symbols:
   - `_looks_like_target` (function, line 38) `def _looks_like_target(value)`
-  - `auto_verb_target` (function, line 67) `def auto_verb_target(command)`
-  - `AutoVerb` (class, line 107) `class AutoVerb`
-  - `_os_default_for_verb` (function, line 290) `def _os_default_for_verb(verb)`
-  - `_verb_rows` (function, line 298) `def _verb_rows()`
-  - `_verb_row` (function, line 343) `def _verb_row(name)`
-  - `verb_enabled` (function, line 352) `def verb_enabled(name)`
-  - `_cli_verb_allowed` (function, line 439) `def _cli_verb_allowed(name)`
-  - `_repo_base` (function, line 467) `def _repo_base()`
-  - `binary_available` (function, line 474) `def binary_available(name)`
-  - `missing_binary` (function, line 490) `def missing_binary(command)`
-  - `verb_gap` (function, line 502) `def verb_gap(verb)`
-  - `verb_available` (function, line 514) `def verb_available(verb)`
-  - `service_tokens` (function, line 519) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 530) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 561) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 597) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 620) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 646) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 690) `def is_routable_command(line)`
-  - `verbs` (function, line 708) `def verbs()`
-  - `is_shell_verb` (function, line 713) `def is_shell_verb(token)`
-  - `build_command` (function, line 737) `def build_command(verb, target)`
-  - `verbs_for` (function, line 748) `def verbs_for(text)`
-  - `propose_intents` (function, line 754) `def propose_intents(goal, target, finding_texts)`
-  - `_atomic_steps` (function, line 779) `def _atomic_steps(verb, text)`
-  - `_playbook_steps` (function, line 798) `def _playbook_steps(text)`
-  - `_apt_chain_steps` (function, line 813) `def _apt_chain_steps(embedded, target, strict)`
-  - `_chain_name_for_playbook` (function, line 842) `def _chain_name_for_playbook(playbook)`
-  - `steps_for` (function, line 875) `def steps_for(text, target)`
-  - `ShellResult` (class, line 1033) `class ShellResult`
-  - `_TeeCapture` (class, line 1040) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 1068) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1166) `def _register_process(process)`
-  - `_unregister_process` (function, line 1172) `def _unregister_process(process)`
-  - `track_process` (function, line 1178) `def track_process(process)`
-  - `untrack_process` (function, line 1183) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1188) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1211) `def execute_streaming(command, on_output, timeout_sec)`
-  - `_exploitdb_steps` (function, line 1319) `def _exploitdb_steps(embedded, target)`
-  - `__init__` (method, line 1050) `def __init__(self, observer)`
-  - `write` (method, line 1055) `def write(self, data)`
-  - `_invoke` (function, line 1091) `def _invoke()`
-  - `_target` (function, line 1102) `def _target()`
-  - `_kill` (function, line 1243) `def _kill()`
-- Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+  - `auto_verb_target` (function, line 55) `def auto_verb_target(command)`
+  - `AutoVerb` (class, line 95) `class AutoVerb`
+  - `_os_default_for_verb` (function, line 278) `def _os_default_for_verb(verb)`
+  - `_verb_rows` (function, line 286) `def _verb_rows()`
+  - `_verb_row` (function, line 331) `def _verb_row(name)`
+  - `verb_enabled` (function, line 340) `def verb_enabled(name)`
+  - `_cli_verb_allowed` (function, line 427) `def _cli_verb_allowed(name)`
+  - `_repo_base` (function, line 455) `def _repo_base()`
+  - `binary_available` (function, line 462) `def binary_available(name)`
+  - `missing_binary` (function, line 478) `def missing_binary(command)`
+  - `verb_gap` (function, line 490) `def verb_gap(verb)`
+  - `verb_available` (function, line 502) `def verb_available(verb)`
+  - `service_tokens` (function, line 507) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 518) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 549) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 585) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 608) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 634) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 678) `def is_routable_command(line)`
+  - `verbs` (function, line 696) `def verbs()`
+  - `is_shell_verb` (function, line 701) `def is_shell_verb(token)`
+  - `build_command` (function, line 725) `def build_command(verb, target)`
+  - `verbs_for` (function, line 736) `def verbs_for(text)`
+  - `propose_intents` (function, line 742) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 767) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 786) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 801) `def _apt_chain_steps(embedded, target, strict)`
+  - `_chain_name_for_playbook` (function, line 830) `def _chain_name_for_playbook(playbook)`
+  - `steps_for` (function, line 863) `def steps_for(text, target)`
+  - `ShellResult` (class, line 1021) `class ShellResult`
+  - `_TeeCapture` (class, line 1028) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 1056) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1154) `def _register_process(process)`
+  - `_unregister_process` (function, line 1160) `def _unregister_process(process)`
+  - `track_process` (function, line 1166) `def track_process(process)`
+  - `untrack_process` (function, line 1171) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1176) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1199) `def execute_streaming(command, on_output, timeout_sec)`
+  - `_exploitdb_steps` (function, line 1307) `def _exploitdb_steps(embedded, target)`
+  - `__init__` (method, line 1038) `def __init__(self, observer)`
+  - `write` (method, line 1043) `def write(self, data)`
+  - `_invoke` (function, line 1079) `def _invoke()`
+  - `_target` (function, line 1090) `def _target()`
+  - `_kill` (function, line 1231) `def _kill()`
+- Depends on: `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
 ## modules/autonomous_exploit_engine.py
@@ -410,6 +410,17 @@ Previous: [KB_modules.md](KB_modules.md)
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
 - Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
 
+## modules/bsb_compat.py
+- Doc: BlackSandBeacon wire-protocol compatibility helpers.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `derive_bsb_keys` (function, line 46) `def derive_bsb_keys(master_key)`
+  - `decrypt_bsb_report` (function, line 84) `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)`
+  - `encrypt_bsb_command` (function, line 133) `def encrypt_bsb_command(data, master_key)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`
+
 ## modules/c2_agent.py
 - Doc: Malleable C2 client lifecycle for lab targets.
 - Layer: utility
@@ -468,25 +479,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_write` (function, line 724) `def _write(path_, content)`
 - Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
-
-## modules/c2_messaging_base.py
-- Doc: SecureSessionManager: Unified session manager for C2 messaging bots.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SecureSessionManager` (class, line 9) `class SecureSessionManager`
-  - `PayloadConfigAdapter` (class, line 117) `class PayloadConfigAdapter`
-  - `__init__` (method, line 22) `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
-  - `register_failed_attempt` (method, line 37) `def register_failed_attempt(self, user_id)`
-  - `check_lockout` (method, line 46) `def check_lockout(self, user_id)`
-  - `check_rate_limit` (method, line 61) `def check_rate_limit(self, user_id)`
-  - `create_session` (method, line 79) `def create_session(self, user_id, client_id)`
-  - `validate_session` (method, line 89) `def validate_session(self, user_id)`
-  - `set_client` (method, line 106) `def set_client(self, user_id, client_id)`
-  - `get_client` (method, line 111) `def get_client(self, user_id)`
-  - `__init__` (method, line 124) `def __init__(self, config_dict)`
-  - `__getitem__` (method, line 129) `def __getitem__(self, key)`
-  - `get` (method, line 132) `def get(self, key, default)`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

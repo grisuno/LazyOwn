@@ -1,8 +1,62 @@
-# Symbols (page 13 of 50)
+# Symbols (page 13 of 51)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_ask_approval` | method | `modules/chain_runner.py:1231` | `def _ask_approval(self, step_id, command)` |
+| `_call` | method | `modules/chain_runner.py:1497` | `def _call(callback, timeout)` |
+| `_deliver` | method | `modules/chain_runner.py:750` | `def _deliver(self, outcome)` |
+| `_dependency_block` | method | `modules/chain_runner.py:1164` | `def _dependency_block(step, prior_verdicts)` |
+| `_execute` | method | `modules/chain_runner.py:1341` | `def _execute(self, command, timeout, expect_exits)` |
+| `_finalize_verdict` | method | `modules/chain_runner.py:533` | `def _finalize_verdict(self, result)` |
+| `_first_json` | method | `modules/chain_runner.py:1302` | `def _first_json(output)` |
+| `_is_verb` | method | `modules/chain_runner.py:1416` | `def _is_verb(self, command)` |
+| `_load_json_events` | function | `modules/chain_runner.py:1538` | `def _load_json_events(path)` |
+| `_notify` | method | `modules/chain_runner.py:880` | `def _notify(self, outcome)` |
+| `_pace_after` | method | `modules/chain_runner.py:314` | `def _pace_after(self, outcome, started, step)` |
+| `_pre_check_timeout` | method | `modules/chain_runner.py:1246` | `def _pre_check_timeout(self, step)` |
+| `_promoted_sinks` | method | `modules/chain_runner.py:755` | `def _promoted_sinks(self, outcome)` |
+| `_publish_step` | method | `modules/chain_runner.py:780` | `def _publish_step(self, outcome)` |
+| `_raise_timeout` | function | `modules/chain_runner.py:1460` | `def _raise_timeout(_signum, _frame)` |
+| `_record_replan_deviations` | method | `modules/chain_runner.py:939` | `def _record_replan_deviations(self, context)` |
+| `_record_verdict` | method | `modules/chain_runner.py:1019` | `def _record_verdict(verdicts, outcome)` |
+| `_render_command` | method | `modules/chain_runner.py:1316` | `def _render_command(self, template, variables, captured_keys)` |
+| `_run_fallback_chain` | method | `modules/chain_runner.py:679` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
+| `_run_parallel_group` | method | `modules/chain_runner.py:585` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
+| `_run_raw` | method | `modules/chain_runner.py:1480` | `def _run_raw(self, command, timeout, allowed)` |
+| `_run_shell_verb` | method | `modules/chain_runner.py:1427` | `def _run_shell_verb(self, command, timeout)` |
+| `_run_step` | method | `modules/chain_runner.py:1026` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
+| `_run_verb_bounded` | method | `modules/chain_runner.py:1390` | `def _run_verb_bounded(self, command, limit)` |
+| `_save_checkpoint` | method | `modules/chain_runner.py:981` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
+| `_skip_remaining` | method | `modules/chain_runner.py:570` | `def _skip_remaining(self, steps, start, reason)` |
+| `_store_capture` | method | `modules/chain_runner.py:1250` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
+| `_verb_timeout_on_main` | method | `modules/chain_runner.py:1371` | `def _verb_timeout_on_main(self, limit)` |
+| `_verify_evidence` | method | `modules/chain_runner.py:1186` | `def _verify_evidence(self, step, outcome, variables)` |
+| `_verify_timeout` | method | `modules/chain_runner.py:1240` | `def _verify_timeout(self, step)` |
+| `applied_vars` | method | `modules/chain_runner.py:202` | `def applied_vars(self)` |
+| `chain_proven` | method | `modules/chain_runner.py:164` | `def chain_proven(self)` |
+| `insert_step` | method | `modules/chain_runner.py:192` | `def insert_step(self, step)` |
+| `inserted` | method | `modules/chain_runner.py:207` | `def inserted(self)` |
+| `ok` | method | `modules/chain_runner.py:89` | `def ok(self)` |
+| `render_text` | function | `modules/chain_runner.py:217` | `def render_text(template, variables)` |
+| `run` | method | `modules/chain_runner.py:353` | `def run(self)` |
+| `set_var` | method | `modules/chain_runner.py:187` | `def set_var(self, name, value)` |
+| `skip_rest` | method | `modules/chain_runner.py:197` | `def skip_rest(self)` |
+| `skip_rest_flag` | method | `modules/chain_runner.py:212` | `def skip_rest_flag(self)` |
+| `to_dict` | method | `modules/chain_runner.py:93` | `def to_dict(self)` |
+| `to_dict` | method | `modules/chain_runner.py:139` | `def to_dict(self)` |
+| `checkpoint_dir` | function | `modules/chain_state.py:26` | `def checkpoint_dir(base_dir)` |
+| `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit, chain)` |
+| `load_checkpoint` | function | `modules/chain_state.py:65` | `def load_checkpoint(directory, run_id)` |
+| `new_run_id` | function | `modules/chain_state.py:33` | `def new_run_id(chain_name)` |
+| `write_checkpoint` | function | `modules/chain_state.py:39` | `def write_checkpoint(directory, state)` |
+| `_service_steps` | function | `modules/chain_synth.py:44` | `def _service_steps(host, services)` |
+| `_slug` | function | `modules/chain_synth.py:31` | `def _slug(name)` |
+| `_wordlist` | function | `modules/chain_synth.py:35` | `def _wordlist(param, fallback)` |
+| `facts_for_target` | function | `modules/chain_synth.py:243` | `def facts_for_target(target)` |
+| `synth_chain_data` | function | `modules/chain_synth.py:91` | `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` |
+| `synth_technique_chain_data` | function | `modules/chain_synth.py:272` | `def synth_technique_chain_data(target, techniques, os_hint)` |
+| `write_generated_chain` | function | `modules/chain_synth.py:339` | `def write_generated_chain(data, chains_dir)` |
 | `_candidate_files` | function | `modules/chain_tokens.py:120` | `def _candidate_files()` |
 | `_load_host_facts` | function | `modules/chain_tokens.py:77` | `def _load_host_facts(host)` |
 | `_mentions` | function | `modules/chain_tokens.py:130` | `def _mentions(path, needle)` |
@@ -442,59 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `run` | method | `modules/dns_beacon.py:171` | `def run(self)` |
 | `send_result` | method | `modules/dns_beacon.py:135` | `def send_result(self, command, output, exit_code)` |
 | `send_task` | method | `modules/dns_beacon.py:239` | `def send_task(self, beacon_id, command)` |
-| `CredentialStash` | class | `modules/domain_dominance.py:65` | `class CredentialStash` |
-| `DomainDominance` | class | `modules/domain_dominance.py:89` | `class DomainDominance` |
-| `DomainInfo` | class | `modules/domain_dominance.py:49` | `class DomainInfo` |
-| `DominanceResult` | class | `modules/domain_dominance.py:75` | `class DominanceResult` |
-| `__init__` | method | `modules/domain_dominance.py:103` | `def __init__(self)` |
-| `_asrep_roast` | method | `modules/domain_dominance.py:575` | `def _asrep_roast(self, domain_info)` |
-| `_attempt_dcsync` | method | `modules/domain_dominance.py:768` | `def _attempt_dcsync(self, dc_ip)` |
-| `_discover_dc` | method | `modules/domain_dominance.py:340` | `def _discover_dc(self, domain, dns_servers)` |
-| `_domain_to_dn` | method | `modules/domain_dominance.py:838` | `def _domain_to_dn(self, domain)` |
-| `_enumerate_computers` | method | `modules/domain_dominance.py:469` | `def _enumerate_computers(self, dc_ip)` |
-| `_enumerate_groups` | method | `modules/domain_dominance.py:495` | `def _enumerate_groups(self, dc_ip)` |
-| `_enumerate_spns` | method | `modules/domain_dominance.py:516` | `def _enumerate_spns(self, dc_ip)` |
-| `_enumerate_trusts` | method | `modules/domain_dominance.py:546` | `def _enumerate_trusts(self, domain, dc_ip)` |
-| `_enumerate_users` | method | `modules/domain_dominance.py:426` | `def _enumerate_users(self, dc_ip)` |
-| `_find_dcs` | method | `modules/domain_dominance.py:366` | `def _find_dcs(self, domain, dc_ip)` |
-| `_find_domain_admins` | method | `modules/domain_dominance.py:392` | `def _find_domain_admins(self, domain, dc_ip)` |
-| `_kerberoast` | method | `modules/domain_dominance.py:625` | `def _kerberoast(self, domain_info)` |
-| `_load_config` | method | `modules/domain_dominance.py:827` | `def _load_config(self)` |
-| `_psexec_session` | method | `modules/domain_dominance.py:666` | `def _psexec_session(self, target, domain, user, password)` |
-| `_pth_session` | method | `modules/domain_dominance.py:728` | `def _pth_session(self, target, domain, user, ntlm_hash)` |
-| `_save_credential` | method | `modules/domain_dominance.py:890` | `def _save_credential(self, username, secret, secret_type, source)` |
-| `_save_dominance_report` | method | `modules/domain_dominance.py:944` | `def _save_dominance_report(self)` |
-| `_save_session` | method | `modules/domain_dominance.py:924` | `def _save_session(self, session_id, target, method, user)` |
-| `_seal_loot_secret` | method | `modules/domain_dominance.py:850` | `def _seal_loot_secret(secret)` |
-| `_unseal_loot_secret` | method | `modules/domain_dominance.py:871` | `def _unseal_loot_secret(stored)` |
-| `_wmiexec_session` | method | `modules/domain_dominance.py:697` | `def _wmiexec_session(self, target, domain, user, password)` |
-| `dominate` | method | `modules/domain_dominance.py:121` | `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` |
-| `enumerate_domain` | method | `modules/domain_dominance.py:194` | `def enumerate_domain(self, domain, dc_ip)` |
-| `escalate` | method | `modules/domain_dominance.py:260` | `def escalate(self, domain_info, stash)` |
-| `extract_credentials` | method | `modules/domain_dominance.py:227` | `def extract_credentials(self, domain_info, known_creds)` |
-| `get_instance` | method | `modules/domain_dominance.py:110` | `def get_instance(cls)` |
-| `persist` | method | `modules/domain_dominance.py:314` | `def persist(self, domain_info)` |
-| `DotNetPayloadConfig` | class | `modules/dotnet_payload.py:293` | `class DotNetPayloadConfig` |
-| `DotNetPayloadFactory` | class | `modules/dotnet_payload.py:315` | `class DotNetPayloadFactory` |
-| `__init__` | method | `modules/dotnet_payload.py:327` | `def __init__(self, output_dir)` |
-| `_detect_compiler` | method | `modules/dotnet_payload.py:333` | `def _detect_compiler()` |
-| `_resolve_template` | method | `modules/dotnet_payload.py:368` | `def _resolve_template(self, config)` |
-| `compile` | method | `modules/dotnet_payload.py:403` | `def compile(self, config, source_code)` |
-| `generate` | method | `modules/dotnet_payload.py:454` | `def generate(self, config)` |
-| `generate_inline_assembly` | method | `modules/dotnet_payload.py:500` | `def generate_inline_assembly(self, config)` |
-| `generate_powershell_reflective` | method | `modules/dotnet_payload.py:481` | `def generate_powershell_reflective(self, config)` |
-| `generate_source` | method | `modules/dotnet_payload.py:389` | `def generate_source(self, config)` |
-| `list_templates` | method | `modules/dotnet_payload.py:364` | `def list_templates()` |
-| `to_format` | method | `modules/dotnet_payload.py:520` | `def to_format(self, data, fmt)` |
-| `DATA_BLOB` | class | `modules/dpapi_harvester.py:160` | `class DATA_BLOB(Structure)` |
-| `DPAPICredential` | class | `modules/dpapi_harvester.py:44` | `class DPAPICredential` |
-| `DPAPIHarvester` | class | `modules/dpapi_harvester.py:63` | `class DPAPIHarvester` |
-| `DPAPIMasterKey` | class | `modules/dpapi_harvester.py:54` | `class DPAPIMasterKey` |
-| `__init__` | method | `modules/dpapi_harvester.py:79` | `def __init__(self, sessions_dir, masterkey_path)` |
-| `_crack_cookies` | method | `modules/dpapi_harvester.py:320` | `def _crack_cookies(self, cookies_path, key, source)` |
-| `_crack_login_data` | method | `modules/dpapi_harvester.py:286` | `def _crack_login_data(self, login_db_path, key, source)` |
-| `_extract_sid_from_file` | method | `modules/dpapi_harvester.py:355` | `def _extract_sid_from_file(filepath)` |
-| `_harvest_chrome` | method | `modules/dpapi_harvester.py:143` | `def _harvest_chrome(self)` |
-| `_harvest_chrome_offline` | method | `modules/dpapi_harvester.py:188` | `def _harvest_chrome_offline(self)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

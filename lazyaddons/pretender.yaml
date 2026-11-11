@@ -17,7 +17,10 @@ params:
   required: false
   description: lhost interface to use in the script
 os: windows
-trigger: [netbios-ssn, microsoft-ds]
+trigger:
+- netbios-ssn
+- microsoft-ds
+- domain
 tool:
   name: pretender
   repo_url: https://github.com/RedTeamPentesting/pretender.git

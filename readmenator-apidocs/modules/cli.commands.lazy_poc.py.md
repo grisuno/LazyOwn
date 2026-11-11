@@ -16,6 +16,7 @@ classDiagram
     direction LR
     class LazyPocCommandSet
     LazyPocCommandSet : phase
+    LazyPocCommandSet : category
     LazyPocCommandSet : do_lazy_poc()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- LazyPocCommandSet
@@ -38,7 +39,7 @@ flowchart LR
 
 ### `LazyPocCommandSet`
 
-`class` | [cli/commands/lazy_poc.py:20](../../cli/commands/lazy_poc.py#L20)
+`class` | [cli/commands/lazy_poc.py:18](../../cli/commands/lazy_poc.py#L18)
 
 ```python
 class LazyPocCommandSet(LazyOwnCommandSet)
@@ -53,6 +54,7 @@ Run catalogued proof-of-concept scripts as loop-routable verbs.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | [`phase`](#lazypoccommandset-phase) |  | `'exploit'` |  |
+| [`category`](#lazypoccommandset-category) |  | `'12. Miscellaneous'` |  |
 
 **Members**
 
@@ -64,7 +66,7 @@ Run catalogued proof-of-concept scripts as loop-routable verbs.
 
 #### `LazyPocCommandSet.do_lazy_poc`
 
-`method` | [cli/commands/lazy_poc.py:25](../../cli/commands/lazy_poc.py#L25)
+`method` | [cli/commands/lazy_poc.py:24](../../cli/commands/lazy_poc.py#L24)
 
 ```python
 def do_lazy_poc(self, line)
@@ -97,7 +99,7 @@ Usage:
 
 ### `SESSIONS_DIR`
 
-`constant` | [cli/commands/lazy_poc.py:15](../../cli/commands/lazy_poc.py#L15)
+`constant` | [cli/commands/lazy_poc.py:13](../../cli/commands/lazy_poc.py#L13)
 
 ```python
 SESSIONS_DIR = Path('sessions')
@@ -109,7 +111,7 @@ SESSIONS_DIR = Path('sessions')
 
 ### `POC_LOG_DIR`
 
-`constant` | [cli/commands/lazy_poc.py:16](../../cli/commands/lazy_poc.py#L16)
+`constant` | [cli/commands/lazy_poc.py:14](../../cli/commands/lazy_poc.py#L14)
 
 ```python
 POC_LOG_DIR = SESSIONS_DIR / 'poc'

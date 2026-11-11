@@ -1,0 +1,21 @@
+name: lazymssql
+description: |
+  MSSQL surface probe: nmap ms-sql-info and ms-sql-empty-password
+  scripts over the default MSSQL ports, reporting version, instance
+  name and the sa empty-password misconfiguration. Auto-suggested when
+  a scan reports the ms-sql-server service.
+
+  Flow: `assign rhost <ip>`, then `lazymssql`. Free args append extra
+  nmap args, e.g. `lazymssql -p 2433`. No install needed: nmap ships
+  both scripts.
+author: LazyOwn RedTeam
+version: "1.0"
+enabled: true
+os: windows
+trigger:
+- ms-sql-server
+category: "02. Scanning & Enumeration"
+module_type: scanner
+tool:
+  name: LazyMSSQL Surface Probe
+  execute_command: nmap -Pn -p 1433,1434,2433 -sV --script ms-sql-info,ms-sql-empty-password {rhost}

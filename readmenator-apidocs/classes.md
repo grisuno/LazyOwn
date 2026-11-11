@@ -53,6 +53,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ActionDecision`](modules/modules.selection.base.py.md#actiondecision) class in `modules.selection.base`
 - [`ActivityLog`](modules/modules.lazy_loop.py.md#activitylog) class in `modules.lazy_loop`
 - [`ActivityLogPort`](modules/modules.mediation.contracts.py.md#activitylogport) protocol in `modules.mediation.contracts`(Protocol)
+- [`AdaptiveFallbackArbiter`](modules/modules.lazy_fallback.py.md#adaptivefallbackarbiter) class in `modules.lazy_fallback`
 - [`ADCSCertipyWrapper`](modules/modules.adcs_attacks.py.md#adcscertipywrapper) class in `modules.adcs_attacks`
 - [`AddonCatalog`](modules/cli.exploration.py.md#addoncatalog) class in `cli.exploration`
 - [`AddonCreatorConfig`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig) class in `lazyc2.addon_creator`
@@ -83,6 +84,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Alert`](modules/lazy_sentinel4.py.md#alert) class in `lazy_sentinel4`
 - [`AliasResolver`](modules/cli.cli_enhancements.py.md#aliasresolver) class in `cli.cli_enhancements`(ABC)
   - [`DynamicAliasResolver`](modules/cli.cli_enhancements.py.md#dynamicaliasresolver) class in `cli.cli_enhancements`
+- [`Alternative`](modules/modules.lazy_fallback.py.md#alternative) class in `modules.lazy_fallback`
 - [`AnalyzerResult`](modules/skills.claude_md_orchestrator.reviewer_agent.py.md#analyzerresult) class in `skills.claude_md_orchestrator.reviewer_agent`
 - [`Anchor`](modules/modules.asset_graph.py.md#anchor) class in `modules.asset_graph`
 - [`ApiAuthzConfig`](modules/core.api_authz.py.md#apiauthzconfig) class in `core.api_authz`
@@ -157,6 +159,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`BindAddressResolver`](modules/modules.security_sanitizers.py.md#bindaddressresolver) class in `modules.security_sanitizers`
 - [`BitMState`](modules/modules.bitm_engine.py.md#bitmstate) class in `modules.bitm_engine`
 - [`BlankAuthResponse`](modules/modules.amt_auth_bypass.py.md#blankauthresponse) class in `modules.amt_auth_bypass`
+- [`BlindspotFinding`](modules/modules.lazy_blindspot.py.md#blindspotfinding) class in `modules.lazy_blindspot`
+- [`BlindspotReview`](modules/modules.lazy_blindspot.py.md#blindspotreview) class in `modules.lazy_blindspot`
 - [`BofCatalog`](modules/modules.bof_registry.py.md#bofcatalog) class in `modules.bof_registry`
 - [`BofCategory`](modules/modules.bof_registry.py.md#bofcategory) enum in `modules.bof_registry`(str, Enum)
 - [`BofDeliveryConfig`](modules/modules.bof_delivery.py.md#bofdeliveryconfig) class in `modules.bof_delivery`
@@ -250,6 +254,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`CommandCatalog`](modules/modules.lazyown_bridge.py.md#commandcatalog) class in `modules.lazyown_bridge`
 - [`CommandChain`](modules/cli.command_chain.py.md#commandchain) class in `cli.command_chain`
 - [`CommandDecision`](modules/lazyc2.security.command_allowlist.py.md#commanddecision) class in `lazyc2.security.command_allowlist`
+- [`CommanderDecision`](modules/modules.lazy_commander.py.md#commanderdecision) class in `modules.lazy_commander`
 - [`CommandExecutor`](modules/modules.command_executor.py.md#commandexecutor) class in `modules.command_executor`
 - [`CommandExplorer`](modules/cli.command_explorer.py.md#commandexplorer) class in `cli.command_explorer`
 - [`CommandFieldSet`](modules/cli.command_form.py.md#commandfieldset) class in `cli.command_form`
@@ -370,6 +375,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`DetectionFeed`](modules/modules.detection_feed.py.md#detectionfeed) class in `modules.detection_feed`
 - [`DetectionMethod`](modules/modules.auto_purple.py.md#detectionmethod) class in `modules.auto_purple`
 - [`DetectionRiskAssessor`](modules/skills.lazyown_policy.py.md#detectionriskassessor) class in `skills.lazyown_policy`
+- [`DeviationLedger`](modules/modules.lazy_deviations.py.md#deviationledger) class in `modules.lazy_deviations`
+- [`DeviationRecord`](modules/modules.lazy_deviations.py.md#deviationrecord) class in `modules.lazy_deviations`
 - [`DiamondTicketConfig`](modules/modules.kerberos_tickets.py.md#diamondticketconfig) class in `modules.kerberos_tickets`
 - [`DiamondTicketForger`](modules/modules.kerberos_tickets.py.md#diamondticketforger) class in `modules.kerberos_tickets`
 - [`DictPayloadProvider`](modules/cli.cli_enhancements.py.md#dictpayloadprovider) class in `cli.cli_enhancements`
@@ -419,6 +426,9 @@ Project types nested under the project types they derive from. External bases ar
 - [`EngineMediator`](modules/modules.mediation.engine_mediator.py.md#enginemediator) class in `modules.mediation.engine_mediator`
 - [`EnginePhaseResult`](modules/skills.autonomous_daemon.py.md#enginephaseresult) class in `skills.autonomous_daemon`
 - [`EnginePhaseStep`](modules/skills.autonomous_daemon.py.md#enginephasestep) class in `skills.autonomous_daemon`
+- [`EngineProxyMixin`](modules/modules.loop.engine_proxy.py.md#engineproxymixin) class in `modules.loop.engine_proxy`
+  - [`LazyLoopEngine`](modules/modules.lazy_loop.py.md#lazyloopengine) class in `modules.lazy_loop`
+    - [`LazyEngine`](modules/modules.lazy_engine.py.md#lazyengine) class in `modules.lazy_engine`
 - [`EngineWeights`](modules/cli.recommendation.py.md#engineweights) class in `cli.recommendation`
 - [`EnrichEngine`](modules/modules.enrich.py.md#enrichengine) class in `modules.enrich`
 - [`EnrichResult`](modules/modules.enrich.py.md#enrichresult) class in `modules.enrich`
@@ -516,12 +526,17 @@ Project types nested under the project types they derive from. External bases ar
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends) class in `static/js/xterm.js`(a.Disposable)
 - [`Extractor`](modules/modules.obs_parser.py.md#extractor) class in `modules.obs_parser`(ABC)
+- [`Fact`](modules/modules.loop_guardrails.py.md#fact) class in `modules.loop_guardrails`
 - [`FactPredicate`](modules/modules.verb_manifest.py.md#factpredicate) class in `modules.verb_manifest`
 - [`FactStore`](modules/skills.lazyown_facts.py.md#factstore) class in `skills.lazyown_facts`
 - [`FactVectorStore`](modules/modules.loop_guardrails.py.md#factvectorstore) class in `modules.loop_guardrails`
+- [`FailureClass`](modules/modules.failure_verdict.py.md#failureclass) enum in `modules.failure_verdict`(str, Enum)
 - [`FailureMemory`](modules/modules.auto_loop_memory.py.md#failurememory) class in `modules.auto_loop_memory`
+- [`FailureVerdict`](modules/modules.failure_verdict.py.md#failureverdict) class in `modules.failure_verdict`
 - [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
 - [`FakeShell`](modules/modules.tools.loop_smoke.py.md#fakeshell) class in `modules.tools.loop_smoke`
+- [`FallbackAction`](modules/modules.failure_verdict.py.md#fallbackaction) enum in `modules.failure_verdict`(str, Enum)
+- [`FamilyRegistry`](modules/modules.chain_family.py.md#familyregistry) class in `modules.chain_family`
 - [`fd_uring`](modules/modules.exp.c.md#fd_uring) struct in `modules/exp.c`
 - [`FeatureGate`](modules/modules.guardrails.advisories.py.md#featuregate) class in `modules.guardrails.advisories`
 - [`FeedbackLoop`](modules/modules.estorides_importer.py.md#feedbackloop) class in `modules.estorides_importer`
@@ -772,6 +787,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`KerberosTicket`](modules/modules.kerberos_core.py.md#kerberosticket) class in `modules.kerberos_core`
 - [`key_serial_t`](modules/modules.exp.c.md#key_serial_t) type_alias in `modules/exp.c`
 - [`KeybindingConstants`](modules/lazygui.config.constants.py.md#keybindingconstants) class in `lazygui.config.constants`
+- [`KeyPool`](modules/core.llm_key_pool.py.md#keypool) class in `core.llm_key_pool`
 - [`keyring_payload`](modules/modules.exp.c.md#keyring_payload) struct in `modules/exp.c`
 - [`KillChain`](modules/modules.killchain.py.md#killchain) class in `modules.killchain`
 - [`KillChainConfig`](modules/modules.killchain.py.md#killchainconfig) class in `modules.killchain`
@@ -783,9 +799,8 @@ Project types nested under the project types they derive from. External bases ar
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l) class in `static/js/xterm.js`(a.Disposable)
 - [`LanBundleReader`](modules/modules.estorides_importer.py.md#lanbundlereader) class in `modules.estorides_importer`
 - [`LastTask`](modules/cli.retry_support.py.md#lasttask) class in `cli.retry_support`
+- [`LazyCommander`](modules/modules.lazy_commander.py.md#lazycommander) class in `modules.lazy_commander`
 - [`LazyEvent`](modules/modules.event_bus.py.md#lazyevent) class in `modules.event_bus`
-- [`LazyLoopEngine`](modules/modules.lazy_loop.py.md#lazyloopengine) class in `modules.lazy_loop`
-  - [`LazyEngine`](modules/modules.lazy_engine.py.md#lazyengine) class in `modules.lazy_engine`
 - [`LazyMention`](modules/modules.lazy_mentions.py.md#lazymention) class in `modules.lazy_mentions`
 - [`LazyMentionPage`](modules/modules.lazy_mentions.py.md#lazymentionpage) class in `modules.lazy_mentions`
 - [`LazyOwnCommandSet`](modules/cli.commands._base.py.md#lazyowncommandset) class in `cli.commands._base`(CommandSet)
@@ -842,6 +857,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`LabCommandSet`](modules/cli.commands.lab.py.md#labcommandset) class in `cli.commands.lab`
   - [`LateralMovementCommandSet`](modules/cli.commands.lateral.py.md#lateralmovementcommandset) class in `cli.commands.lateral`
   - [`LateralMigratedCommandSet`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset) class in `cli.commands.lateral_migrated`
+  - [`LazyAdaptiveCommandSet`](modules/cli.commands.lazy_adaptive.py.md#lazyadaptivecommandset) class in `cli.commands.lazy_adaptive`
   - [`LazyCredsCommandSet`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset) class in `cli.commands.lazy_creds`
   - [`LazyDorksCommandSet`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset) class in `cli.commands.lazy_dorks`
   - [`LazyOobCommandSet`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset) class in `cli.commands.lazy_oob`
@@ -927,6 +943,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Listener`](modules/lazygui.services.models.py.md#listener) class in `lazygui.services.models`
 - [`Listener`](modules/modules.listener_manager.py.md#listener) class in `modules.listener_manager`
 - [`ListenerManager`](modules/modules.listener_manager.py.md#listenermanager) class in `modules.listener_manager`
+- [`ListingNoiseDetector`](modules/modules.loop_guardrails.py.md#listingnoisedetector) class in `modules.loop_guardrails`
 - [`LiveStatusTail`](modules/cli.cli_enhancements.py.md#livestatustail) class in `cli.cli_enhancements`
 - [`LLMBackend`](modules/core.protocols.py.md#llmbackend) protocol in `core.protocols`(Protocol)
 - [`LLMBackendLike`](modules/core.llm_budget.py.md#llmbackendlike) protocol in `core.llm_budget`(Protocol)
@@ -1501,6 +1518,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TddResult`](modules/skills.claude_md_orchestrator.tdd_agent.py.md#tddresult) class in `skills.claude_md_orchestrator.tdd_agent`
 - [`TeamserverCredentials`](modules/lazygui.services.teamserver_backend.py.md#teamservercredentials) class in `lazygui.services.teamserver_backend`
 - [`TechniqueChainSelector`](modules/modules.selection.technique_chain.py.md#techniquechainselector) class in `modules.selection.technique_chain`
+- [`TechniqueFallback`](modules/modules.lazy_fallback.py.md#techniquefallback) class in `modules.lazy_fallback`
 - [`TechniqueRisk`](modules/modules.sleep_obfuscation.py.md#techniquerisk) enum in `modules.sleep_obfuscation`(str, Enum)
 - [`TechniqueSelector`](modules/modules.selection.technique.py.md#techniqueselector) class in `modules.selection.technique`
 - [`TelegramNotificationSink`](modules/modules.engagement_hooks.py.md#telegramnotificationsink) class in `modules.engagement_hooks`(_OutboundHTTPSink)
@@ -1565,6 +1583,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TranscriptStore`](modules/cli.cli_enhancements.py.md#transcriptstore) class in `cli.cli_enhancements`
 - [`TransitionTable`](modules/skills.lazyown_policy.py.md#transitiontable) class in `skills.lazyown_policy`
 - [`TransportType`](modules/modules.c2_profile_engine.py.md#transporttype) enum in `modules.c2_profile_engine`(Enum)
+- [`TriageScheduler`](modules/modules.loop.triage_scheduler.py.md#triagescheduler) class in `modules.loop.triage_scheduler`
 - [`TriggerMatcher`](modules/cli.exploration.py.md#triggermatcher) class in `cli.exploration`
 - [`TriggerStore`](modules/modules.loop_triggers.py.md#triggerstore) class in `modules.loop_triggers`
 - [`TrustedProxyResolver`](modules/lazyc2.security.trusted_proxy.py.md#trustedproxyresolver) class in `lazyc2.security.trusted_proxy`

@@ -1,8 +1,23 @@
-# Symbols (page 4 of 50)
+# Symbols (page 4 of 51)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on_cmd` | function | `cli/commands/resource_scripting.py:35` | `def on_cmd(cmd)` |
+| `on_print` | function | `cli/commands/resource_scripting.py:39` | `def on_print(msg)` |
+| `RetryOpsCommandSet` | class | `cli/commands/retry_ops.py:61` | `class RetryOpsCommandSet(LazyOwnCommandSet)` |
+| `_arm_elevation` | method | `cli/commands/retry_ops.py:111` | `def _arm_elevation(self, rest)` |
+| `_collect_vars` | function | `cli/commands/retry_ops.py:218` | `def _collect_vars(tokens)` |
+| `_confirmer` | function | `cli/commands/retry_ops.py:43` | `def _confirmer(warning)` |
+| `_retry_chain` | method | `cli/commands/retry_ops.py:152` | `def _retry_chain(self, rest)` |
+| `_retry_loop` | method | `cli/commands/retry_ops.py:184` | `def _retry_loop(self, rest)` |
+| `_retry_status` | method | `cli/commands/retry_ops.py:129` | `def _retry_status(self, rest)` |
+| `do_retry` | method | `cli/commands/retry_ops.py:68` | `def do_retry(self, line)` |
+| `ScanCommandSet` | class | `cli/commands/scan.py:49` | `class ScanCommandSet(LazyOwnCommandSet)` |
+| `do_amass` | method | `cli/commands/scan.py:392` | `def do_amass(self, line)` |
+| `do_arpscan` | method | `cli/commands/scan.py:129` | `def do_arpscan(self, line)` |
+| `do_bbot` | method | `cli/commands/scan.py:422` | `def do_bbot(self, line)` |
+| `do_dirsearch` | method | `cli/commands/scan.py:170` | `def do_dirsearch(self, line)` |
 | `do_dmitry` | method | `cli/commands/scan.py:213` | `def do_dmitry(self, line)` |
 | `do_feroxbuster` | method | `cli/commands/scan.py:248` | `def do_feroxbuster(self, line)` |
 | `do_gobuster` | method | `cli/commands/scan.py:56` | `def do_gobuster(self, line)` |
@@ -481,20 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `neighbors` | method | `cli/graph_advisor.py:283` | `def neighbors(self, node_id)` |
 | `neighbors` | method | `cli/graph_advisor.py:456` | `def neighbors(self, node_query, depth, limit)` |
 | `nodes` | method | `cli/graph_advisor.py:277` | `def nodes(self)` |
-| `rank` | method | `cli/graph_advisor.py:307` | `def rank(self, nodes, query)` |
-| `read_recent_commands` | method | `cli/graph_advisor.py:566` | `def read_recent_commands(self, window)` |
-| `reload` | method | `cli/graph_advisor.py:387` | `def reload(self, path)` |
-| `resolve_path` | method | `cli/graph_advisor.py:160` | `def resolve_path(self, override)` |
-| `search` | method | `cli/graph_advisor.py:445` | `def search(self, query, limit)` |
-| `suggest_next` | method | `cli/graph_advisor.py:520` | `def suggest_next(self, recent_commands, limit)` |
-| `summary` | method | `cli/graph_advisor.py:396` | `def summary(self)` |
-| `to_summary` | method | `cli/graph_advisor.py:109` | `def to_summary(self)` |
-| `to_summary` | method | `cli/graph_advisor.py:132` | `def to_summary(self)` |
-| `truncate_to_budget` | method | `cli/graph_advisor.py:605` | `def truncate_to_budget(self, payload, budget_tokens)` |
-| `GraphOverlayConfig` | class | `cli/graph_overlay.py:41` | `class GraphOverlayConfig` |
-| `GraphOverlayItem` | class | `cli/graph_overlay.py:59` | `class GraphOverlayItem` |
-| `GraphOverlayState` | class | `cli/graph_overlay.py:69` | `class GraphOverlayState` |
-| `GraphOverlayView` | class | `cli/graph_overlay.py:33` | `class GraphOverlayView(StrEnum)` |
-| `_GraphOverlayApp` | class | `cli/graph_overlay.py:246` | `class _GraphOverlayApp(App)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

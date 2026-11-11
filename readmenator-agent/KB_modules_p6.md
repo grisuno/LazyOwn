@@ -1,6 +1,70 @@
 # Subsystem: modules (page 6 of 18)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
+## modules/event_consumers.py
+- Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_load_payload` (function, line 43) `def _load_payload()`
+  - `_inject_objective` (function, line 54) `def _inject_objective(text, priority, source)`
+  - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
+  - `_update_soul` (function, line 100) `def _update_soul(phase, credentials, access)`
+  - `PhaseTracker` (class, line 136) `class PhaseTracker`
+  - `AutoRecommender` (class, line 191) `class AutoRecommender`
+  - `CredentialReactor` (class, line 262) `class CredentialReactor`
+  - `SoulSync` (class, line 310) `class SoulSync`
+  - `DashboardPusher` (class, line 348) `class DashboardPusher`
+  - `wire_all_consumers` (function, line 370) `def wire_all_consumers(bus)`
+  - `unwire_all_consumers` (function, line 399) `def unwire_all_consumers(bus)`
+  - `__init__` (method, line 146) `def __init__(self)`
+  - `__call__` (method, line 149) `def __call__(self, event)`
+  - `__init__` (method, line 194) `def __init__(self)`
+  - `__call__` (method, line 197) `def __call__(self, event)`
+  - `__call__` (method, line 272) `def __call__(self, event)`
+  - `__call__` (method, line 313) `def __call__(self, event)`
+  - `__call__` (method, line 351) `def __call__(self, event)`
+- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`, `modules/world_model.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
+
+## modules/event_engine.py
+- Doc: LazyOwn Event Engine
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `load_rules` (function, line 99) `def load_rules()`
+  - `save_rules` (function, line 110) `def save_rules(rules)`
+  - `add_rule` (function, line 114) `def add_rule(rule)`
+  - `_read_watermark` (function, line 130) `def _read_watermark()`
+  - `_write_watermark` (function, line 137) `def _write_watermark(offset)`
+  - `_row_matches` (function, line 144) `def _row_matches(row, trigger)`
+  - `_append_event` (function, line 173) `def _append_event(event)`
+  - `process_new_rows` (function, line 181) `def process_new_rows()`
+  - `read_events` (function, line 250) `def read_events(limit, status)`
+  - `ack_event` (function, line 270) `def ack_event(event_id)`
+- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/ack_event.py`, `skills/mcp_tools/add_rule.py`, `skills/mcp_tools/heartbeat_status.py`, `skills/mcp_tools/list_event_rules.py`, `skills/mcp_tools/poll_events.py`, `skills/sessions_watcher.py`
+
+## modules/evidence.py
+- Doc: Content-addressed evidence vault independent of disposable traffic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvidenceConfig` (class, line 20) `class EvidenceConfig`
+  - `hash_bytes` (function, line 37) `def hash_bytes(data)`
+  - `_validate_hash` (function, line 42) `def _validate_hash(value)`
+  - `EvidenceStore` (class, line 54) `class EvidenceStore`
+  - `__init__` (method, line 57) `def __init__(self, base_dir)`
+  - `blob_path` (method, line 65) `def blob_path(self, content_hash)`
+  - `put` (method, line 70) `def put(self, data)`
+  - `get` (method, line 90) `def get(self, content_hash)`
+  - `exists` (method, line 98) `def exists(self, content_hash)`
+  - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
+- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/evilhttprev.sh
+- Layer: utility
+- Language: sh
+
 ## modules/exp.c
 - Doc: gcc exp.c -o exp -l mnl -l nftnl -w
 - Layer: utility
@@ -186,6 +250,22 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_observable` (function, line 137) `def _observable(record, fact_type)`
 - Depends on: `core/logging.py`
 - Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
+
+## modules/failure_verdict.py
+- Doc: Failure verdict contract: classify one failed execution into an action.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FailureClass` (class, line 71) `class FailureClass(str, Enum)`
+  - `FallbackAction` (class, line 84) `class FallbackAction(str, Enum)`
+  - `FailureVerdict` (class, line 118) `class FailureVerdict`
+  - `_marker_hit` (function, line 136) `def _marker_hit(markers, haystack)`
+  - `classify_failure` (function, line 144) `def classify_failure(command, output, exit_code, timed_out)`
+  - `classify_outcome` (function, line 192) `def classify_outcome(outcome)`
+  - `is_hard_stop` (method, line 126) `def is_hard_stop(self)`
+  - `is_fallback_eligible` (method, line 131) `def is_fallback_eligible(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `modules/lazy_fallback.py`, `tests/test_failure_verdict.py`, `tests/test_lazy_fallback.py`
 
 ## modules/fast_run_service.sh
 - Doc: LazyOwn service-mode orchestrator.
@@ -404,88 +484,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_persist` (function, line 236) `def _persist(summary_result, sessions_dir)`
   - `load_matrix` (function, line 252) `def load_matrix(sessions_dir)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## modules/gym_registry.py
-- Doc: Gym definitions and persistent run state.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_yaml_module` (function, line 85) `def _yaml_module()`
-  - `slugify` (function, line 92) `def slugify(value)`
-  - `validate_definition` (function, line 110) `def validate_definition(data, filename)`
-  - `definition_path` (function, line 155) `def definition_path(gym_id, directory)`
-  - `_read_yaml` (function, line 178) `def _read_yaml(path)`
-  - `_normalize_definition` (function, line 188) `def _normalize_definition(data)`
-  - `load_definitions` (function, line 207) `def load_definitions(directory)`
-  - `scan_definitions` (function, line 239) `def scan_definitions(directory)`
-  - `_write_yaml` (function, line 282) `def _write_yaml(path, data)`
-  - `create_definition` (function, line 300) `def create_definition(gym_id)`
-  - `update_definition_yaml` (function, line 369) `def update_definition_yaml(gym_id, text, directory)`
-  - `delete_definition` (function, line 402) `def delete_definition(gym_id, directory)`
-  - `_empty_state` (function, line 442) `def _empty_state()`
-  - `_world_model` (function, line 447) `def _world_model()`
-  - `_sanitize_state` (function, line 454) `def _sanitize_state(raw)`
-  - `normalize_operator` (function, line 495) `def normalize_operator(value)`
-  - `read_state` (function, line 501) `def read_state()`
-  - `write_state` (function, line 520) `def write_state(state)`
-  - `_merge_legacy` (function, line 532) `def _merge_legacy(state)`
-  - `_next_run_id` (function, line 569) `def _next_run_id(state)`
-  - `start_run` (function, line 579) `def start_run(challenge_id, definitions)`
-  - `_matches` (function, line 625) `def _matches(run, selector)`
-  - `get_active_runs` (function, line 637) `def get_active_runs(selector, operator)`
-  - `select_run` (function, line 663) `def select_run(selector)`
-  - `stop_runs` (function, line 695) `def stop_runs(selector)`
-  - `pop_run` (function, line 724) `def pop_run(selector)`
-  - `state_summary` (function, line 751) `def state_summary()`
-  - `new_run_token` (function, line 761) `def new_run_token()`
-- Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`, `tests/test_winbox_gym.py`
-
-## modules/gym_winbox_runner.py
-- Doc: Ordered WinBox gym matrix runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `plan_matrix` (function, line 21) `def plan_matrix(target, sessions_dir, only, top_k)`
-  - `run_matrix` (function, line 51) `def run_matrix(target)`
-  - `report` (function, line 118) `def report(sessions_dir)`
-  - `chain_available` (function, line 130) `def chain_available(vuln_id)`
-- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_registry.py`
-
-## modules/harness.py
-- Doc: Deterministic harness gate for the LazyOwn loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `harness_enabled` (function, line 30) `def harness_enabled()`
-  - `gate` (function, line 65) `def gate(name)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
-- Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop/worker_agentic.py`, `skills/lazyown_mcp_opencode.py`
-
-## modules/hash_cracker.py
-- Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CrackResult` (class, line 127) `class CrackResult`
-  - `HashIdentifier` (class, line 140) `class HashIdentifier`
-  - `HashCracker` (class, line 151) `class HashCracker`
-  - `crack_secretsdump_output` (function, line 695) `def crack_secretsdump_output(filepath, wordlist, rhost)`
-  - `__init__` (method, line 164) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
-  - `_resolve_wordlist` (method, line 178) `def _resolve_wordlist(self)`
-  - `identify` (method, line 186) `def identify(self, line)`
-  - `identify_file` (method, line 273) `def identify_file(self, filepath)`
-  - `crack_hash` (method, line 295) `def crack_hash(self, hash_value, hash_type, wordlist)`
-  - `crack_file` (method, line 349) `def crack_file(self, filepath, wordlist, hash_types)`
-  - `import_to_db` (method, line 405) `def import_to_db(self, results, rhost, workspace_name)`
-  - `_crack_hashcat` (method, line 454) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_hashcat` (method, line 500) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
-  - `_crack_john` (method, line 560) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_john` (method, line 610) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
-  - `_parse_hashcat_output` (method, line 671) `def _parse_hashcat_output(stdout, stderr, original)`
-  - `_parse_john_show` (method, line 686) `def _parse_john_show(show_output, original)`
-- Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
-- Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

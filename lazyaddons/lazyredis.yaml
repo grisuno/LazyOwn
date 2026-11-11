@@ -1,0 +1,22 @@
+name: lazyredis
+description: |
+  Redis surface probe: unauthenticated INFO, keyspace scan and ACL
+  check with redis-cli, plus dangerous-config detection
+  (CONFIG GET dir/dbfilename). Auto-suggested when a scan reports the
+  redis service.
+
+  Flow: `assign rhost <ip>`, then `lazyredis`. Free args append extra
+  redis-cli args, e.g. `lazyredis -p 6380`. First-time: redis-cli is
+  optional (`apt install redis-tools`); without it the addon warns and
+  exits.
+author: LazyOwn RedTeam
+version: "1.0"
+enabled: true
+os: any
+trigger:
+- redis
+category: "02. Scanning & Enumeration"
+module_type: scanner
+tool:
+  name: LazyRedis Surface Probe
+  execute_command: redis-cli -h {rhost} -p 6379 INFO server && redis-cli -h {rhost} -p 6379 --scan --count 200 && redis-cli -h {rhost} -p 6379 CONFIG GET dir && redis-cli -h {rhost} -p 6379 CONFIG GET dbfilename

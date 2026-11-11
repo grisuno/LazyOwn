@@ -1,4 +1,4 @@
-# API (page 11 of 27)
+# API (page 11 of 28)
 Previous: [API_p10.md](API_p10.md)
 
 ## modules/c2_messaging_base.py
@@ -122,17 +122,28 @@ Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.
 Imported by: `cli/commands/command_and_control_migrated.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_loop.py`, `tests/test_f4_hardening.py`
 - `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
 
+## modules/chain_family.py
+Depends on: `modules/lazy_loop.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_family.py`
+- `family_signature` (function) `modules/chain_family.py:41` `def family_signature(facts)` -- Return a stable structural signature for a target from its facts.
+- `FamilyRegistry.__init__` (method) `modules/chain_family.py:76` `def __init__(self, path)` -- Bind the registry to a JSON file.
+- `FamilyRegistry.record_association` (method) `modules/chain_family.py:111` `def record_association(self, signature, chain, target)` -- Record that ``chain`` was synthesised for a target of this family.
+- `FamilyRegistry.record_win` (method) `modules/chain_family.py:117` `def record_win(self, signature, chain, target)` -- Record that ``chain`` proved a target of this family.
+- `FamilyRegistry.best` (method) `modules/chain_family.py:123` `def best(self, signature)` -- Return the strongest chain recorded for a family, or None.
+- `FamilyRegistry.transfer_note` (method) `modules/chain_family.py:159` `def transfer_note(self, facts)` -- Return an operator note when this family has a known winning chain.
+- `default_registry` (function) `modules/chain_family.py:185` `def default_registry()` -- Return a registry bound to the shared ``chain_families.json``.
+
 ## modules/chain_loop.py
 Depends on: `cli/apt_chain_support.py`, `core/config.py`, `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
 Imported by: `modules/lazy_loop.py`, `tests/test_chain_loop.py`, `tests/test_playbook_chain.py`
-- `chain_mode` (function) `modules/chain_loop.py:34` `def chain_mode()` -- Return the configured chain transport mode for loop runs.
-- `is_chain_command` (function) `modules/chain_loop.py:52` `def is_chain_command(command)` -- True when the command line invokes the apt_chain verb.
-- `parse_chain_invocation` (function) `modules/chain_loop.py:57` `def parse_chain_invocation(command)` -- Split one ``apt_chain`` command line into name, target and vars.
-- `stepwise_eligible` (function) `modules/chain_loop.py:108` `def stepwise_eligible(chain, routable)` -- Decide whether one chain can run stepwise inside the worker.
-- `ChainStepBlocked.__init__` (method) `modules/chain_loop.py:141` `def __init__(self, status, detail)` -- Record the guard status and reason.
-- `run_chain_stepwise` (function) `modules/chain_loop.py:153` `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` -- Run one ``apt_chain`` decision step-by-step inside the worker.
-- `guarded` (function) `modules/chain_loop.py:225` `def guarded(step_command)` -- Route one chain step through the worker's guard path.
-- `on_step` (function) `modules/chain_loop.py:282` `def on_step(outcome)` -- Emit one chain_step telemetry event.
+- `chain_mode` (function) `modules/chain_loop.py:35` `def chain_mode()` -- Return the configured chain transport mode for loop runs.
+- `is_chain_command` (function) `modules/chain_loop.py:53` `def is_chain_command(command)` -- True when the command line invokes the apt_chain verb.
+- `parse_chain_invocation` (function) `modules/chain_loop.py:58` `def parse_chain_invocation(command)` -- Split one ``apt_chain`` command line into name, target and vars.
+- `stepwise_eligible` (function) `modules/chain_loop.py:109` `def stepwise_eligible(chain, routable)` -- Decide whether one chain can run stepwise inside the worker.
+- `ChainStepBlocked.__init__` (method) `modules/chain_loop.py:142` `def __init__(self, status, detail)` -- Record the guard status and reason.
+- `run_chain_stepwise` (function) `modules/chain_loop.py:154` `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` -- Run one ``apt_chain`` decision step-by-step inside the worker.
+- `guarded` (function) `modules/chain_loop.py:226` `def guarded(step_command)` -- Route one chain step through the worker's guard path.
+- `on_step` (function) `modules/chain_loop.py:283` `def on_step(outcome)` -- Emit one chain_step telemetry event.
 
 ## modules/chain_match.py
 Depends on: `modules/chain_registry.py`
@@ -147,7 +158,7 @@ Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `test
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 - `skip_pending` (function) `modules/chain_registry.py:69` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
 - `ChainStep.identifier` (method) `modules/chain_registry.py:152` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:176` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
@@ -161,21 +172,21 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 - `generate_for_playbook` (function) `modules/chain_registry.py:837` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
-Depends on: `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-- `StepOutcome.ok` (method) `modules/chain_runner.py:84` `def ok(self)` -- Return True for success, dry-run and skipped steps.
-- `StepOutcome.to_dict` (method) `modules/chain_runner.py:88` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:134` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:159` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:182` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:187` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:192` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:197` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:202` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:207` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:212` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:223` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:348` `def run(self)` -- Execute the chain in order and return every step outcome.
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
+- `StepOutcome.ok` (method) `modules/chain_runner.py:89` `def ok(self)` -- Return True for success, dry-run and skipped steps.
+- `StepOutcome.to_dict` (method) `modules/chain_runner.py:93` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:139` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:164` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:187` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:192` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:197` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:202` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:207` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:212` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `render_text` (function) `modules/chain_runner.py:217` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:228` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:353` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
@@ -187,7 +198,7 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 
 ## modules/chain_synth.py
 Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
-Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
 - `synth_chain_data` (function) `modules/chain_synth.py:91` `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)` -- Compose the chain dict for a host; (data, notes).
 - `facts_for_target` (function) `modules/chain_synth.py:243` `def facts_for_target(target)` -- Pull host facts from the FactStore for synthesis inputs.
 - `synth_technique_chain_data` (function) `modules/chain_synth.py:272` `def synth_technique_chain_data(target, techniques, os_hint)` -- Compose a focused chain of ordered MITRE/atomic technique steps.
@@ -483,18 +494,6 @@ Imported by: `modules/lazy_loop.py`, `tests/test_defense_stages.py`
 - `run_defense_validate` (function) `modules/defense_stages.py:82` `def run_defense_validate(task_id)` -- Replay the configured detection rule over attack and control logs.
 - `run_closedloop_tune` (function) `modules/defense_stages.py:117` `def run_closedloop_tune(task_id)` -- Compare baseline vs candidate detection rules with suggestions.
 - `run_hunt_verify` (function) `modules/defense_stages.py:151` `def run_hunt_verify(task_id)` -- Verify hunting observations against retained evidence per stage.
-
-## modules/delegation_attacks.py
-Imported by: `cli/commands/active_directory.py`
-- `DelegationEnumerator.__init__` (method) `modules/delegation_attacks.py:98` `def __init__(self, domain, raw_ldap_output)`
-- `DelegationEnumerator.enumerate_from_uac_flags` (method) `modules/delegation_attacks.py:104` `def enumerate_from_uac_flags(self, accounts)` -- Enumerate delegation targets from parsed account data.
-- `DelegationEnumerator.parse_bloodhound_output` (method) `modules/delegation_attacks.py:151` `def parse_bloodhound_output(self, bloodhound_json)` -- Parse BloodHound JSON output for delegation data.
-- `DelegationEnumerator.find_unconstrained_targets` (method) `modules/delegation_attacks.py:181` `def find_unconstrained_targets(self)` -- Return all accounts with unconstrained delegation enabled.
-- `DelegationEnumerator.find_constrained_targets` (method) `modules/delegation_attacks.py:189` `def find_constrained_targets(self)` -- Return all accounts with constrained delegation configured.
-- `DelegationEnumerator.find_rbcd_targets` (method) `modules/delegation_attacks.py:197` `def find_rbcd_targets(self)` -- Return all accounts with RBCD configured.
-- `DelegationEnumerator.find_dc_targets` (method) `modules/delegation_attacks.py:205` `def find_dc_targets(self)` -- Return domain controllers with delegation configured.
-- `DelegationEnumerator.compute_attack_paths` (method) `modules/delegation_attacks.py:215` `def compute_attack_paths(self)` -- Compute delegation-based attack paths.
-- `DelegationEnumerator.summary` (method) `modules/delegation_attacks.py:296` `def summary(self)` -- Return a summary of all delegation findings.
 
 
 Next: [API_p12.md](API_p12.md)

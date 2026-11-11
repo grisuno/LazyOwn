@@ -5,13 +5,13 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `skills/mcp_tools/_context.py` (score: 380.10, imported by 190 files)
-- `core/logging.py` (score: 321.20, imported by 160 files)
-- `modules/lazy_loop.py` (score: 299.80, imported by 82 files)
-- `utils.py` (score: 262.60, imported by 112 files)
-- `modules/__init__.py` (score: 262.00, imported by 131 files)
-- `cli/commands/_base.py` (score: 218.70, imported by 107 files)
+- `core/logging.py` (score: 325.20, imported by 162 files)
+- `modules/lazy_loop.py` (score: 321.80, imported by 89 files)
+- `modules/__init__.py` (score: 266.00, imported by 133 files)
+- `utils.py` (score: 264.60, imported by 113 files)
+- `cli/commands/_base.py` (score: 220.70, imported by 108 files)
 - `modules/world_model.py` (score: 183.00, imported by 83 files)
-- `lazyc2.py` (score: 147.30)
+- `lazyc2.py` (score: 149.40)
 - `core/config.py` (score: 146.00, imported by 70 files)
 - `skills/autonomous_daemon.py` (score: 141.80, imported by 26 files)
 
@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `skills/mcp_tools/_context.py` -- 50 direct, 190 total dependents
-- `core/logging.py` -- 50 direct, 160 total dependents
-- `core/process.py` -- 13 direct, 134 total dependents
-- `modules/__init__.py` -- 50 direct, 131 total dependents
-- `modules/backdoor/server.c` -- 13 direct, 130 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 128 total dependents
-- `cli/commands/enum.py` -- 25 direct, 127 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 126 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 126 total dependents
-- `cli/banner_config.py` -- 6 direct, 123 total dependents
+- `core/logging.py` -- 50 direct, 162 total dependents
+- `modules/__init__.py` -- 50 direct, 133 total dependents
+- `modules/backdoor/server.c` -- 13 direct, 133 total dependents
+- `modules/emulation_runner.py` -- 3 direct, 131 total dependents
+- `modules/moe_router.py` -- 6 direct, 129 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 129 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 127 total dependents
+- `modules/rl_trainer.py` -- 5 direct, 127 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 127 total dependents
 
 ## Hotspots (complexity + centrality)
 

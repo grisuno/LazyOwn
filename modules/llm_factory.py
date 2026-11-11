@@ -939,7 +939,7 @@ def stream_complete(
     return text or complete(model, prompt, max_tokens=max_tokens)
 
 
-def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
+def complete(model: str, prompt: str, max_tokens: int = 800, temperature: float | None = None) -> str:
     """Complete a prompt through one model spec; raise when unanswered.
 
     The ``model`` spec accepts an optional ``backend:`` prefix selecting
@@ -954,6 +954,10 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
         model: Model spec, optionally prefixed with backend.
         prompt: User prompt text.
         max_tokens: Response token cap.
+        temperature: Sampling temperature; ``None`` keeps each backend's own
+            default so callers that do not care about determinism are
+            unaffected, while the autonomous planner pins it to pursue a
+            reproducible next action.
 
     Returns:
         Response text, never empty on success.
@@ -1000,10 +1004,17 @@ def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
         from modules.llm_client import LLMClient as _Client
     except ImportError as exc:
         raise RuntimeError(f"llm client unavailable: {exc}") from exc
+    ask_kwargs: dict[str, Any] = {"provider": provider, "model": name, "max_tokens": max_tokens}
+    if temperature is not None:
+        ask_kwargs["temperature"] = float(temperature)
     try:
-        text = str(_Client().ask(prompt[:6000], provider=provider, model=name, max_tokens=max_tokens) or "")
+        text = str(_Client().ask(prompt[:6000], **ask_kwargs) or "")
     except TypeError:
-        text = str(_Client().ask(prompt[:6000], provider=provider, model=name) or "")
+        ask_kwargs.pop("temperature", None)
+        try:
+            text = str(_Client().ask(prompt[:6000], **ask_kwargs) or "")
+        except TypeError:
+            text = str(_Client().ask(prompt[:6000], provider=provider, model=name) or "")
     if not text.strip():
         raise RuntimeError(f"{provider} leg returned empty reply")
     lowered = text.lower()

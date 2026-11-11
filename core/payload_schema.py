@@ -1200,6 +1200,39 @@ SCHEMA: dict[str, FieldSpec] = {
             category="ai",
         ),
         _spec(
+            "loop_deterministic",
+            FieldKind.BOOL,
+            False,
+            "Run the autonomous loop in fully reproducible mode.",
+            long_help=(
+                "When enabled, the worker prefers its heuristic, evidence-based "
+                "steps and consults the LLM only when the deterministic layer "
+                "produced nothing (missing scope), so an identical engagement "
+                "state replays the same primary action with no model variance. "
+                "Pairs with loop_planner_temperature=0.0 and the decision "
+                "ledger in sessions/decisions.jsonl. Off by default so the loop "
+                "keeps its LLM-augmented exploration."
+            ),
+            category="ai",
+        ),
+        _spec(
+            "loop_planner_temperature",
+            FieldKind.STRING,
+            "0.0",
+            "Sampling temperature for the autonomous loop planner.",
+            long_help=(
+                "Pins the temperature the autonomous planner passes to every "
+                "LLM leg so the same engagement state yields the same next "
+                "action, which is the premise of the reproducible decision "
+                "ledger in sessions/decisions.jsonl. The greedy default (0.0) "
+                "maximises determinism; raise it only to trade reproducibility "
+                "for exploration. Non-planner AI assistants keep their own "
+                "backend defaults."
+            ),
+            example="0.0",
+            category="ai",
+        ),
+        _spec(
             "llm_model_openai",
             FieldKind.STRING,
             DEFAULT_OPENAI_MODEL,

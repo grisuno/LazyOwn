@@ -1233,6 +1233,38 @@ SCHEMA: dict[str, FieldSpec] = {
             category="ai",
         ),
         _spec(
+            "loop_wire_capture",
+            FieldKind.BOOL,
+            True,
+            "Preserve each exchange's full raw output for byte-exact replay.",
+            long_help=(
+                "When enabled, any traffic exchange whose output exceeds the "
+                "inline cutoff is snapshotted in full to sessions/wire/ keyed by "
+                "its traffic digest, so a finding bound to that digest can be "
+                "reproduced to the byte long after the traffic ledger has "
+                "rotated. On by default; turn it off to trade reproducibility "
+                "for disk, leaving only the truncated inline preview."
+            ),
+            category="ai",
+        ),
+        _spec(
+            "loop_guard_rules",
+            FieldKind.STRING,
+            "",
+            "Extra seeded guard rules the planner must never propose.",
+            long_help=(
+                "Augments the built-in safety floor that arms the autonomous "
+                "planner's filter from the first round, before failure "
+                "attribution has demoted anything. Accepts a JSON object with "
+                "'verbs' and 'patterns' lists, a JSON list of patterns, or a "
+                "comma-separated list of substrings; every entry is unioned with "
+                "the built-in floor and persisted to sessions/guard_rules.json. "
+                "A malformed value can only ever add safety, never remove it."
+            ),
+            example='{"patterns": ["curl http://evil"]}',
+            category="ai",
+        ),
+        _spec(
             "llm_model_openai",
             FieldKind.STRING,
             DEFAULT_OPENAI_MODEL,

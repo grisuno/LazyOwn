@@ -126,6 +126,7 @@ LLM_EMPTY_RETRIES = 2
 LLM_CONNECT_RETRIES = 2
 LLM_CONNECT_BACKOFF_SEC = 0.5
 PLANNER_TEMPERATURE_DEFAULT = 0.0
+WIRE_CAPTURE_DEFAULT = True
 
 
 def planner_temperature() -> float:
@@ -149,6 +150,26 @@ def planner_temperature() -> float:
         return max(0.0, float(raw))
     except Exception:
         return PLANNER_TEMPERATURE_DEFAULT
+
+
+def wire_capture_enabled() -> bool:
+    """Return whether raw wire capture is active for traffic exchanges.
+
+    Capturing the full untruncated output of every exchange lets a finding be
+    replayed to the byte, but it also writes to disk, so an operator can turn it
+    off via ``payload.json:loop_wire_capture``. It defaults to
+    :data:`WIRE_CAPTURE_DEFAULT` (on) and never raises.
+
+    Returns:
+        True when raw wire capture should run, the default when unset or
+        malformed.
+    """
+    try:
+        from core.config import load_payload
+
+        return bool((load_payload() or {}).get("loop_wire_capture", WIRE_CAPTURE_DEFAULT))
+    except Exception:
+        return WIRE_CAPTURE_DEFAULT
 BLINDSPOT_ROUND_INTERVAL = 10
 RAW_LOG_TASK_LIMIT = 50
 RAW_LOG_SCAN_LINES = 5000
@@ -1828,7 +1849,76 @@ class TrafficLog:
         }
         with self._path.open("a") as handle:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+        if truncated:
+            self._capture_wire(digest, body)
         return record
+
+    def _wire_store(self):
+        """Return the raw wire store for this task, or None on import failure.
+
+        The store is optional: any failure degrades to the truncated inline
+        copy rather than breaking execution, so raw capture never becomes a
+        hard dependency of the loop.
+        """
+        try:
+            from modules.wire_capture import WireStore
+
+            return WireStore(self._task_id)
+        except Exception:
+            return None
+
+    def _capture_wire(self, digest: str, body: str) -> None:
+        """Snapshot one exchange's full raw output when capture is enabled.
+
+        Only truncated exchanges are captured: a body that fits inline is
+        already preserved in the record. Any failure is swallowed so capture
+        never aborts the execution that produced the output.
+
+        Args:
+            digest: The traffic digest keying the exchange.
+            body: The full, unmodified output to preserve.
+        """
+        if not wire_capture_enabled():
+            return
+        store = self._wire_store()
+        if store is None:
+            return
+        try:
+            store.capture(digest, body)
+        except Exception:
+            return
+
+    def wire(self, digest: str) -> str | None:
+        """Return the full raw output for a digest, reconstructed if needed.
+
+        A small exchange still lives untruncated in its record; a large one is
+        read from the raw wire store, and a rotated-out one falls back to the
+        durable evidence snapshot. The result is the byte-for-byte output when
+        any layer still holds it, otherwise None.
+
+        Args:
+            digest: The traffic digest to retrieve.
+
+        Returns:
+            The full raw output, or None when no layer retains it.
+        """
+        for record in self.read(2000):
+            if record.get("digest") == digest:
+                if not record.get("truncated"):
+                    return str(record.get("output", ""))
+                break
+        store = self._wire_store()
+        if store is not None:
+            try:
+                blob = store.fetch(digest)
+                if blob is not None:
+                    return blob
+            except Exception:
+                pass
+        snapshot = self.get(digest)
+        if snapshot is not None:
+            return str(snapshot.get("output", ""))
+        return None
 
     def read(self, limit: int = 100) -> list[dict]:
         """Return most recent traffic records."""
@@ -2007,7 +2097,26 @@ class TrafficLog:
         node.updated = _now()
         graph._persist()
         self._preserve_evidence(digest)
+        self._enrich_finding(int(finding_id), graph)
         return True
+
+    def _enrich_finding(self, finding_id: int, graph) -> None:
+        """Canonicalise a finding's evidence after a bind, idempotently.
+
+        Enrichment reorders and deduplicates the evidence set so the proof
+        leads and no digest repeats. It is swallowed on any failure because a
+        presentation pass must never break the bind that triggered it.
+
+        Args:
+            finding_id: The finding whose evidence was just extended.
+            graph: The exploration graph holding the finding.
+        """
+        try:
+            from modules.finding_enrich import enrich_finding
+
+            enrich_finding(self, finding_id, graph)
+        except Exception:
+            return
 
     def _preserve_evidence(self, digest: str) -> None:
         """Snapshot a just-bound exchange into the durable evidence store.

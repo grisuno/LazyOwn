@@ -2,10 +2,152 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Mapping
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from modules.lazy_loop import Budget, ExplorationNode, InterceptQueue
+
+_MAX_COMMAND_CHARS = 300
+_LINE_LEAD = re.compile(r"^[\d\-\*\.\)\s]+")
+
+
+def _planner_temperature() -> float:
+    """Return the deterministic planner temperature, defaulting to greedy.
+
+    Delegates to :func:`modules.lazy_loop.planner_temperature` so the pinned
+    value lives in one place; any import or config failure falls back to a
+    fully greedy ``0.0`` rather than reintroducing sampling noise.
+    """
+    try:
+        from modules.lazy_loop import planner_temperature
+
+        return planner_temperature()
+    except Exception:
+        return 0.0
+
+
+def _verb_of(command: str) -> str:
+    """Return the leading verb of a command for attribution demotion."""
+    try:
+        from modules.outcome_attribution import verb_of
+
+        return verb_of(command)
+    except Exception:
+        return ""
+
+
+def _loop_deterministic() -> bool:
+    """Return whether the loop runs in fully reproducible mode.
+
+    In deterministic mode the worker prefers its heuristic, evidence-based
+    steps and only consults the LLM when the deterministic layer produced
+    nothing, so an identical engagement state replays the same primary
+    action without any model variance. The flag is read from
+    ``payload.json:loop_deterministic`` (default off) and never raises.
+    """
+    try:
+        from core.config import load_payload
+
+        return bool((load_payload() or {}).get("loop_deterministic", False))
+    except Exception:
+        return False
+
+
+def _is_placeholder_steps(steps: list[str]) -> bool:
+    """Return True when steps carry no real probe, only a no-target notice.
+
+    The heuristic planner emits a single ``echo no-target`` line when scope is
+    missing; that is not a reproducible action worth preferring over the LLM
+    fallback, so deterministic mode still defers to the model in that case.
+    """
+    if not steps:
+        return True
+    if len(steps) == 1 and steps[0].startswith("echo no-target"):
+        return True
+    return False
+
+
+def _strip_command(raw: str) -> str:
+    """Normalise one proposed command line into a bare shell string."""
+    return _LINE_LEAD.sub("", str(raw or "").strip()).strip("`").strip()
+
+
+def _extract_llm_commands(reply: str) -> list[str]:
+    """Parse planner output into an ordered, de-duplicated command list.
+
+    The planner is asked for a JSON array of ``{"command", "reason", "mitre"}``
+    objects; this honours that contract first so a well-formed reply is parsed
+    exactly. A model that ignores the contract and emits bare lines still
+    degrades gracefully through the legacy line parser, so no backend regresses
+    to zero suggestions. Order is preserved and duplicates collapse, which is
+    what makes the downstream ledger candidate list stable.
+
+    Args:
+        reply: The raw model reply.
+
+    Returns:
+        Up to a bounded set of candidate command strings, in first-seen order.
+    """
+    text = str(reply or "").strip()
+    if not text:
+        return []
+    commands: list[str] = []
+    seen: set[str] = set()
+
+    def _push(value: str) -> None:
+        command = _strip_command(value)
+        if not command or len(command) > _MAX_COMMAND_CHARS:
+            return
+        if command in seen:
+            return
+        seen.add(command)
+        commands.append(command)
+
+    parsed = _try_json_commands(text)
+    if parsed is not None:
+        for item in parsed:
+            _push(item)
+        return commands
+    for line in text.splitlines():
+        _push(line)
+    return commands
+
+
+def _try_json_commands(text: str) -> list[str] | None:
+    """Return command strings from a JSON array reply, or None when not JSON.
+
+    Args:
+        text: The trimmed model reply.
+
+    Returns:
+        The extracted ``command`` fields when the reply is a JSON array of
+        objects (or strings), otherwise ``None`` so the caller can fall back to
+        line parsing. A fenced ```json block is unwrapped first.
+    """
+    candidate = text
+    if candidate.startswith("```"):
+        candidate = re.sub(r"^```[a-zA-Z0-9]*\n?", "", candidate)
+        candidate = re.sub(r"\n?```$", "", candidate).strip()
+    start = candidate.find("[")
+    end = candidate.rfind("]")
+    if start == -1 or end == -1 or end <= start:
+        return None
+    try:
+        data = json.loads(candidate[start : end + 1])
+    except ValueError:
+        return None
+    if not isinstance(data, list):
+        return None
+    out: list[str] = []
+    for item in data:
+        if isinstance(item, Mapping):
+            value = item.get("command") or item.get("cmd") or ""
+            if value:
+                out.append(str(value))
+        elif isinstance(item, str):
+            out.append(item)
+    return out
 
 
 class WorkerAgenticMixin:
@@ -397,9 +539,31 @@ class WorkerAgenticMixin:
         return True
 
     def _with_llm_steps(self, intent: ExplorationNode, steps: list[str], prior_text: str = "") -> list[str]:
-        """Prefix pool-suggested commands while keeping the deterministic fallback."""
+        """Merge pool-suggested commands with the deterministic steps.
+
+        Default mode prefixes the LLM suggestions, keeping the heuristic steps
+        as fallback. Deterministic mode inverts the contract: when the
+        heuristic layer produced real probes it wins outright and the model is
+        not consulted, so the primary action replays identically. The model is
+        still the fallback when scope is missing and the heuristic emitted only
+        a placeholder.
+
+        Args:
+            intent: The intent being expanded into steps.
+            steps: The deterministic steps from :meth:`_steps_for`.
+            prior_text: Prior transcript for the intent, passed to the planner.
+
+        Returns:
+            The ordered, de-duplicated step list, capped at the worker budget.
+        """
         from modules.lazy_loop import MAX_WORKER_STEPS
 
+        if _loop_deterministic() and not _is_placeholder_steps(steps):
+            self.activity.emit(
+                self.name, "deterministic", "deterministic mode: heuristic steps win, model not consulted",
+                intent_id=intent.node_id,
+            )
+            return steps[:MAX_WORKER_STEPS]
         suggested = []
         try:
             from modules.harness import gate as _harness_gate
@@ -410,8 +574,9 @@ class WorkerAgenticMixin:
             suggested = []
         if not suggested:
             return steps
+        order = [*steps, *suggested] if _loop_deterministic() else [*suggested, *steps]
         merged: list[str] = []
-        for command in [*suggested, *steps]:
+        for command in order:
             if command not in merged:
                 merged.append(command)
         return merged[:MAX_WORKER_STEPS]
@@ -460,13 +625,15 @@ class WorkerAgenticMixin:
                 f"{prior_block}"
                 f"{memory_section}"
                 f"Constraints: {constraints}\n"
-                "Propose up to 3 shell commands to advance this intent, one per line, "
-                "no numbering, no explanations. Use only tools installed on this host. "
-                "Never leave the authorized target. Never use sudo: this runs "
-                "unattended without a tty, so sudo commands always fail. "
-                "Prefer lazynmap <target> over raw nmap: it persists XML, post-scan "
-                "artefacts and intel in sessions/ automatically."
+                "Propose up to 3 shell commands to advance this intent. Reply with a "
+                'JSON array of objects, each {"command": "<shell>", "reason": "<why>", '
+                '"mitre": "<Txxxx or empty>"}, and nothing else. Use only tools '
+                "installed on this host. Never leave the authorized target. Never use "
+                "sudo: this runs unattended without a tty, so sudo commands always "
+                "fail. Prefer lazynmap <target> over raw nmap: it persists XML, "
+                "post-scan artefacts and intel in sessions/ automatically."
             )
+            temperature = _planner_temperature()
             reply = (
                 pool.complete(
                     prompt,
@@ -474,38 +641,53 @@ class WorkerAgenticMixin:
                     members=chain or None,
                     task_id=self.task_id,
                     on_delta=self._delta_sink(intent.node_id),
+                    temperature=temperature,
                 )
                 or ""
             )
         except Exception:
             return []
+        candidates = _extract_llm_commands(reply)
+        blocked_verbs = self._blocked_verbs()
         out: list[str] = []
         seen: set[str] = set()
+        filtered: list[tuple[str, str]] = []
         sudo_skipped = 0
-        for raw in reply.splitlines():
-            command = re.sub(r"^[\d\-\*\.\)\s]+", "", raw.strip()).strip("`").strip()
+        for command in candidates:
             if len(command) < 4 or len(command) > 300 or command.startswith("#"):
+                filtered.append((command, "shape"))
                 continue
             if command.split(maxsplit=1)[0] == "sudo":
                 sudo_skipped += 1
+                filtered.append((command, "sudo-no-tty"))
+                continue
+            if blocked_verbs and _verb_of(command) in blocked_verbs:
+                filtered.append((command, "attrib-blocked"))
                 continue
             if command.strip() in ("bash", "sh", "zsh"):
+                filtered.append((command, "bare-shell"))
                 continue
             if not plausible_command(command):
+                filtered.append((command, "implausible"))
                 continue
             if self._missing_tool(command) or self._denied(command):
+                filtered.append((command, "missing-or-denied"))
                 continue
             command = self._sanitize_step(intent, command)
             if not command or command in seen:
+                filtered.append((command, "empty-or-duplicate"))
                 continue
             if self._missing_tool(command) or self._denied(command):
+                filtered.append((command, "missing-or-denied"))
                 continue
             if not self._command_in_scope(command):
+                filtered.append((command, "out-of-scope"))
                 continue
             seen.add(command)
             out.append(command)
             if len(out) >= 3:
                 break
+        self._record_llm_decision(intent, prompt, reply, candidates, out, filtered)
         if sudo_skipped:
             self.activity.emit(
                 self.name,
@@ -518,3 +700,73 @@ class WorkerAgenticMixin:
                 self.name, "llm", f"pool proposed {len(out)} step(s): {' | '.join(out)[:400]}", intent_id=intent.node_id
             )
         return out
+
+    def _blocked_verbs(self) -> set[str]:
+        """Return verbs the target has repeatedly blocked for this task.
+
+        The planner demotes these so a verb the target keeps refusing with a
+        WAF or rate limiter is not re-proposed round after round, which is the
+        strategy-change the failure attribution exists to drive. Any failure
+        returns an empty set so attribution never widens into a hard gate.
+
+        Returns:
+            The set of blocked verbs, empty when none or on error.
+        """
+        try:
+            from modules.outcome_attribution import AttributionLedger
+
+            return AttributionLedger(self.task_id).blocked_verbs()
+        except Exception:
+            return set()
+
+    def _record_llm_decision(
+        self,
+        intent: ExplorationNode,
+        prompt: str,
+        reply: str,
+        candidates: list[str],
+        chosen: list[str],
+        filtered: list[tuple[str, str]],
+    ) -> None:
+        """Append the planner's choice to the reproducible decision ledger.
+
+        The record proves which command the LLM planner committed to, which
+        candidates it rejected and why, and fingerprints the prompt and reply
+        so an identical engagement state can be recognised on replay. Ledger
+        failures never interrupt the loop.
+
+        Args:
+            intent: The intent the planner advanced.
+            prompt: The exact model prompt issued.
+            reply: The raw model reply.
+            candidates: Every command parsed from the reply before filtering.
+            chosen: The commands that survived every gate.
+            filtered: Rejected candidates paired with their reason.
+        """
+        try:
+            from modules.loop import decision_log
+
+            payload: dict = {}
+            try:
+                from core.config import load_payload
+
+                payload = load_payload() or {}
+            except Exception:
+                payload = {}
+            rec = decision_log.DecisionRecord(
+                run_id=f"task:{self.task_id}",
+                step=int(getattr(intent, "node_id", 0) or 0),
+                source="llm",
+                model_fallback=True,
+                chosen=(chosen[0] if chosen else ""),
+                reason=(f"{len(chosen)} of {len(candidates)} candidate(s) accepted"),
+                ctx_digest=decision_log.digest(f"{intent.text}|{self.task_id}"),
+                config_digest=decision_log.config_digest(payload),
+                prompt_digest=decision_log.digest(prompt),
+                reply_digest=decision_log.digest(reply),
+                candidates=tuple(candidates),
+                filtered=decision_log.filtered_rows(filtered),
+            )
+            decision_log.record(rec)
+        except Exception:
+            return

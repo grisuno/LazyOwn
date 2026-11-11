@@ -125,6 +125,30 @@ DEFAULT_MAX_FINDINGS = 50
 LLM_EMPTY_RETRIES = 2
 LLM_CONNECT_RETRIES = 2
 LLM_CONNECT_BACKOFF_SEC = 0.5
+PLANNER_TEMPERATURE_DEFAULT = 0.0
+
+
+def planner_temperature() -> float:
+    """Return the sampling temperature for the autonomous planner.
+
+    A deterministic planner is the premise of the decision ledger: the same
+    engagement state must yield the same next action across runs, which only
+    holds at a pinned temperature. The value is read from
+    ``payload.json:loop_planner_temperature`` so an operator can trade
+    reproducibility for exploration without a code change; it defaults to
+    :data:`PLANNER_TEMPERATURE_DEFAULT` (fully greedy) and never raises.
+
+    Returns:
+        The configured temperature, or the greedy default when unset or
+        malformed.
+    """
+    try:
+        from core.config import load_payload
+
+        raw = (load_payload() or {}).get("loop_planner_temperature", PLANNER_TEMPERATURE_DEFAULT)
+        return max(0.0, float(raw))
+    except Exception:
+        return PLANNER_TEMPERATURE_DEFAULT
 BLINDSPOT_ROUND_INTERVAL = 10
 RAW_LOG_TASK_LIMIT = 50
 RAW_LOG_SCAN_LINES = 5000
@@ -1768,6 +1792,21 @@ class TrafficLog:
         """Bind log to task or global stream."""
         name = f"traffic_{task_id}.jsonl" if task_id else "traffic.jsonl"
         self._path = _store_path(name)
+        self._task_id = str(task_id or "")
+
+    def _evidence_store(self):
+        """Return the durable evidence store for this task, or None.
+
+        The store is optional: any import failure degrades to the legacy
+        traffic-only behaviour rather than breaking a bind, so evidence
+        preservation never becomes a hard dependency of the loop.
+        """
+        try:
+            from modules.evidence_store import EvidenceStore
+
+            return EvidenceStore(self._task_id)
+        except Exception:
+            return None
 
     def record(self, kind: str, command: str, output: str = "", meta: dict | None = None) -> dict:
         """Append one traffic record and return it."""
@@ -1845,10 +1884,24 @@ class TrafficLog:
         return hits[: max(1, int(limit or 50))]
 
     def get(self, digest: str) -> dict | None:
-        """Fetch one exchange by digest like traffic_get."""
+        """Fetch one exchange by digest like traffic_get.
+
+        The live traffic window is searched first; when the exchange has
+        rotated out of it, a durable evidence snapshot (written when the
+        exchange was bound to a finding) answers instead, so a finding's proof
+        stays retrievable for the life of the campaign.
+        """
         for record in self.read(2000):
             if record.get("digest") == digest:
                 return record
+        store = self._evidence_store()
+        if store is not None:
+            try:
+                snapshot = store.fetch(digest)
+                if snapshot:
+                    return snapshot
+            except Exception:
+                return None
         return None
 
     def recorder_body(self, digest: str) -> dict:
@@ -1953,7 +2006,30 @@ class TrafficLog:
         node.meta["evidence_version"] = int(node.meta.get("evidence_version", 1)) + 1
         node.updated = _now()
         graph._persist()
+        self._preserve_evidence(digest)
         return True
+
+    def _preserve_evidence(self, digest: str) -> None:
+        """Snapshot a just-bound exchange into the durable evidence store.
+
+        Binding evidence to a finding is the moment the exchange stops being
+        disposable: it is now proof. The traffic ledger is tail-bounded, so
+        without this the body scrolls out of reach once enough exchanges
+        accrue. Any failure is swallowed so evidence preservation never
+        breaks the bind it accompanies.
+
+        Args:
+            digest: The traffic digest just bound to the finding.
+        """
+        store = self._evidence_store()
+        if store is None:
+            return
+        try:
+            record = self.get(digest)
+            if record:
+                store.preserve(record)
+        except Exception:
+            return
 
     @staticmethod
     def _normalize_refs(raw) -> list[dict]:
@@ -3663,9 +3739,49 @@ class Planner:
         command = decision.command.strip()
         if command in taken:
             return []
+        self._record_selector_decision(ctx, decision, command)
         self.activity.emit("planner", decision.source, f"action {command}: {decision.reason}")
         anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
         return [(f"{marker}{command}", anchors, [], max(1, int(decision.priority)))]
+
+    def _record_selector_decision(self, ctx, decision, command: str) -> None:
+        """Append a deterministic selector choice to the decision ledger.
+
+        A selector decision carries ``model_fallback=False`` and empty prompt
+        and reply digests, so the ledger distinguishes evidence-based picks
+        from LLM-planner picks at a glance. The context digest lets an operator
+        confirm that an identical engagement state produced an identical
+        action. Ledger failures never interrupt planning.
+
+        Args:
+            ctx: The ``SelectionContext`` the cascade scored.
+            decision: The winning ``ActionDecision``.
+            command: The committed command line.
+        """
+        try:
+            from modules.loop import decision_log
+
+            payload: dict = {}
+            try:
+                from core.config import load_payload
+
+                payload = load_payload() or {}
+            except Exception:
+                payload = {}
+            rec = decision_log.DecisionRecord(
+                run_id=f"task:{self.task_id}",
+                step=0,
+                source=str(getattr(decision, "source", "selector")),
+                model_fallback=False,
+                chosen=command,
+                reason=str(getattr(decision, "reason", ""))[:160],
+                ctx_digest=decision_log.context_digest(ctx),
+                config_digest=decision_log.config_digest(payload),
+                candidates=(command,),
+            )
+            decision_log.record(rec)
+        except Exception:
+            return
 
     _OBJECTIVE_MARKER = "objective "
     _CONTINUATION_MARKER = "continuation: "
@@ -7221,6 +7337,7 @@ class LlmPool:
         members: list[dict] | None = None,
         task_id: str = "",
         on_delta=None,
+        temperature: float | None = None,
     ) -> str:
         """Fail over across members; empty string when no backend answers.
 
@@ -7237,6 +7354,10 @@ class LlmPool:
             members: Optional chain override (per-task chain).
             task_id: When set, the task's persisted chain drives member
                 order and explicit quota exhaustion advances its cursor.
+            temperature: Sampling temperature forwarded to each leg; ``None``
+                keeps backend defaults, while a pinned value (the planner
+                passes :data:`PLANNER_TEMPERATURE`) makes the next action
+                reproducible for the decision ledger.
 
         Returns:
             Response text, empty when every member failed.
@@ -7312,7 +7433,13 @@ class LlmPool:
                     else:
                         from modules.llm_factory import complete as _complete
 
-                        text = str(_complete(model_spec, prompt[:6000], max_tokens=max_tokens) or "")
+                        try:
+                            text = str(
+                                _complete(model_spec, prompt[:6000], max_tokens=max_tokens, temperature=temperature)
+                                or ""
+                            )
+                        except TypeError:
+                            text = str(_complete(model_spec, prompt[:6000], max_tokens=max_tokens) or "")
                 except Exception as exc:
                     last_error = str(exc)[:200]
                     if attempt + 1 < max_attempts:

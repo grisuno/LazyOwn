@@ -1,8 +1,43 @@
-# Symbols (page 10 of 50)
+# Symbols (page 10 of 51)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `SafeFileService` | class | `lazyc2/security/services.py:56` | `class SafeFileService` |
+| `SecretKeyManager` | class | `lazyc2/security/services.py:19` | `class SecretKeyManager` |
+| `UploadSizeValidator` | class | `lazyc2/security/services.py:183` | `class UploadSizeValidator` |
+| `__init__` | method | `lazyc2/security/services.py:30` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `lazyc2/security/services.py:63` | `def __init__(self, base_dir)` |
+| `__init__` | method | `lazyc2/security/services.py:158` | `def __init__(self, key_file)` |
+| `__init__` | method | `lazyc2/security/services.py:189` | `def __init__(self, max_size_bytes)` |
+| `_resolve_safe` | method | `lazyc2/security/services.py:68` | `def _resolve_safe(self, relative_path)` |
+| `exists` | method | `lazyc2/security/services.py:136` | `def exists(self, relative_path)` |
+| `get_or_create` | method | `lazyc2/security/services.py:33` | `def get_or_create(self)` |
+| `get_or_generate` | method | `lazyc2/security/services.py:161` | `def get_or_generate(self)` |
+| `read_bytes` | method | `lazyc2/security/services.py:86` | `def read_bytes(self, relative_path)` |
+| `read_text` | method | `lazyc2/security/services.py:102` | `def read_text(self, relative_path, encoding)` |
+| `validate` | method | `lazyc2/security/services.py:192` | `def validate(self, content_length)` |
+| `write_bytes` | method | `lazyc2/security/services.py:119` | `def write_bytes(self, relative_path, data)` |
+| `TrustedProxyResolver` | class | `lazyc2/security/trusted_proxy.py:30` | `class TrustedProxyResolver` |
+| `__init__` | method | `lazyc2/security/trusted_proxy.py:42` | `def __init__(self, trusted_count, operator_allowlist)` |
+| `client_ip` | method | `lazyc2/security/trusted_proxy.py:57` | `def client_ip(self, remote_addr, x_forwarded_for)` |
+| `is_operator` | method | `lazyc2/security/trusted_proxy.py:80` | `def is_operator(self, ip)` |
+| `trusted_count` | method | `lazyc2/security/trusted_proxy.py:53` | `def trusted_count(self)` |
+| `resolve_contained_file_path` | function | `lazyc2/security/validators.py:174` | `def resolve_contained_file_path(raw_url, base_dir)` |
+| `validate_aes_key` | function | `lazyc2/security/validators.py:102` | `def validate_aes_key(key)` |
+| `validate_file_path_within_base` | function | `lazyc2/security/validators.py:150` | `def validate_file_path_within_base(file_path, base_dir)` |
+| `validate_password_length` | function | `lazyc2/security/validators.py:118` | `def validate_password_length(password)` |
+| `validate_request_data` | function | `lazyc2/security/validators.py:86` | `def validate_request_data(data)` |
+| `validate_route_path` | function | `lazyc2/security/validators.py:24` | `def validate_route_path(route_path)` |
+| `validate_template_name` | function | `lazyc2/security/validators.py:46` | `def validate_template_name(template_name)` |
+| `validate_upload_size` | function | `lazyc2/security/validators.py:134` | `def validate_upload_size(content_length)` |
+| `validate_yaml_filename` | function | `lazyc2/security/validators.py:68` | `def validate_yaml_filename(filename)` |
+| `main` | function | `lazygui/__main__.py:14` | `def main()` |
+| `Application` | class | `lazygui/app.py:33` | `class Application` |
+| `__init__` | method | `lazygui/app.py:36` | `def __init__(self, argv)` |
+| `_build_backend_from_request` | method | `lazygui/app.py:167` | `def _build_backend_from_request(self, request)` |
+| `_build_initial_backend` | method | `lazygui/app.py:119` | `def _build_initial_backend(self)` |
+| `_configure_logging` | method | `lazygui/app.py:224` | `def _configure_logging(self)` |
 | `_configure_qt_application_metadata` | method | `lazygui/app.py:218` | `def _configure_qt_application_metadata(self)` |
 | `_configure_qt_attributes` | method | `lazygui/app.py:213` | `def _configure_qt_attributes(self)` |
 | `_discover_credentials` | method | `lazygui/app.py:73` | `def _discover_credentials(self)` |
@@ -461,40 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_scope_save` | method | `lazyown.py:2619` | `def _scope_save(self, entries, mode)` |
 | `_split_and_chain` | method | `lazyown.py:1543` | `def _split_and_chain(raw_input)` |
 | `_sync_c2_credentials` | method | `lazyown.py:4161` | `def _sync_c2_credentials(self)` |
-| `_sync_chain_active` | method | `lazyown.py:1015` | `def _sync_chain_active(self, tips_engine)` |
-| `_toast_hook` | method | `lazyown.py:950` | `def _toast_hook(self, data)` |
-| `_ui_hints_level` | method | `lazyown.py:939` | `def _ui_hints_level(self)` |
-| `_unified_tips_hook` | method | `lazyown.py:979` | `def _unified_tips_hook(self, data)` |
-| `_ux_debug` | function | `lazyown.py:155` | `def _ux_debug(context, exc)` |
-| `cmd` | method | `lazyown.py:1348` | `def cmd(self, line)` |
-| `cmd_wrapper` | function | `lazyown.py:2317` | `def cmd_wrapper(_)` |
-| `complete_assign` | method | `lazyown.py:2583` | `def complete_assign(self, text, line, begidx, endidx)` |
-| `complete_issue_command_to_c2` | method | `lazyown.py:4232` | `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` |
-| `complete_l00t` | method | `lazyown.py:2572` | `def complete_l00t(self, text, line, begidx, endidx)` |
-| `complete_loot` | method | `lazyown.py:2578` | `def complete_loot(self, text, line, begidx, endidx)` |
-| `complete_palette` | method | `lazyown.py:2651` | `def complete_palette(self, text, line, begidx, endidx)` |
-| `complete_phase` | method | `lazyown.py:2567` | `def complete_phase(self, text, line, begidx, endidx)` |
-| `complete_scope` | method | `lazyown.py:2600` | `def complete_scope(self, text, line, begidx, endidx)` |
-| `complete_upload_c2` | method | `lazyown.py:4101` | `def complete_upload_c2(self, text, line, begidx, endidx)` |
-| `completedefault` | method | `lazyown.py:2337` | `def completedefault(self, text, line, begidx, endidx)` |
-| `default` | method | `lazyown.py:855` | `def default(self, line)` |
-| `display_toastr` | method | `lazyown.py:2324` | `def display_toastr(self, message, type)` |
-| `do_event_log` | method | `lazyown.py:4641` | `def do_event_log(self, line)` |
-| `do_route` | method | `lazyown.py:4710` | `def do_route(self, line)` |
-| `do_set` | method | `lazyown.py:914` | `def do_set(self, line)` |
-| `do_state_snapshot` | method | `lazyown.py:4671` | `def do_state_snapshot(self, line)` |
-| `download_file_from_c2` | method | `lazyown.py:4129` | `def download_file_from_c2(self, file_name, clientid)` |
-| `emptyline` | method | `lazyown.py:1857` | `def emptyline(self)` |
-| `get_available_actions` | method | `lazyown.py:4403` | `def get_available_actions(self)` |
-| `get_output` | method | `lazyown.py:4070` | `def get_output(self)` |
-| `issue_command_to_c2` | method | `lazyown.py:4198` | `def issue_command_to_c2(self, command, client_id)` |
-| `list_files_in_directory` | method | `lazyown.py:1906` | `def list_files_in_directory(self, directory)` |
-| `load_plugins` | method | `lazyown.py:2096` | `def load_plugins(self)` |
-| `load_user_commands` | method | `lazyown.py:1882` | `def load_user_commands(self)` |
-| `load_yaml_plugins` | method | `lazyown.py:2126` | `def load_yaml_plugins(self)` |
-| `log_command` | method | `lazyown.py:792` | `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` |
-| `logcsv` | method | `lazyown.py:1307` | `def logcsv(self, line, start_time, end_time, duration_ms)` |
-| `main` | function | `lazyown.py:4733` | `def main()` |
-| `make_wrapper` | function | `lazyown.py:1971` | `def make_wrapper(cmd_template, tname, default_target)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

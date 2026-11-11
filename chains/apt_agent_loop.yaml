@@ -1,0 +1,50 @@
+name: apt_agent_loop
+description: 'Agent orchestration chain: blindspot review, loop rounds, blindspot
+  re-check, fleet commander allocation and a final fleet board. Defaults carry the
+  task id; set with `assign task t0001`.'
+enabled: true
+platforms:
+- linux
+steps:
+- id: blindspot_pre
+  phase: recon
+  run: lazy_blindspot --task {task}
+  description: 'one LLM pass: what is the campaign overlooking'
+  timeout: 300
+  continue_on_error: true
+- id: loop_rounds
+  phase: exploit
+  run: lazy_loop --task {task} --rounds {loop_rounds} --workers {workers}
+  description: autonomous loop rounds over the task
+  timeout: 3600
+- id: blindspot_post
+  phase: enum
+  run: lazy_blindspot --task {task}
+  description: blindspot re-check after the loop worked the graph
+  timeout: 300
+  continue_on_error: true
+- id: commander
+  phase: post_exploitation
+  run: lazy_commander --minutes {commander_minutes} --slices {commander_slices} --workers
+    {workers}
+  description: slot-clock allocation across every live task
+  timeout: 3600
+  continue_on_error: true
+- id: fleet_board
+  phase: report
+  run: lazy_fleet list
+  description: final fleet board for the operator
+  timeout: 120
+tags:
+- agents
+- loop
+- blindspot
+- commander
+defaults:
+  task: t0001
+  loop_rounds: '4'
+  workers: '3'
+  commander_minutes: '40'
+  commander_slices: '6'
+total_timeout: 7200
+version: 2

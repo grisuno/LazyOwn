@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 110 files (py) around plausible_command, looks_like_prose, _is_host_like_target, _sudo_unavailable, _is_ip_literal. exploit commands migrated from lazyown.py.
+modules: lazy_loop groups 118 files (py) around _record_deviation, plausible_command, looks_like_prose, _is_host_like_target, _sudo_unavailable. exploit commands migrated from lazyown.py.
 
 ```mermaid
 graph LR
@@ -22,25 +22,25 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (5.1)
+## cli (4.1)
 
 cli groups 4 files (py) around ExploitMigratedCommandSet, do_cp, do_createcookie, do_py3ttyup, do_pyautomate. exploit commands migrated from lazyown.py.
 
-## core (5.2)
+## core (4.2)
 
 core groups 2 files (py) around is_autonomous, autonomous_mode, _guarded_input, _tty_fd, emit_restore_sequences. Autonomous-run mode for the loop engine.
 
-## modules (5.3)
+## modules (4.3)
 
-modules groups 46 files (py) around plausible_command, looks_like_prose, _is_host_like_target, _sudo_unavailable, _is_ip_literal. Active Directory Certificate Services (AD CS) attack module.
+modules groups 50 files (py) around _record_deviation, plausible_command, looks_like_prose, _is_host_like_target, _sudo_unavailable. Active Directory Certificate Services (AD CS) attack module.
 
-## skills (5.4)
+## skills (4.4)
 
 skills groups 14 files (py) around handle, handle, handle, handle, handle. MCP tool ``lazyown_auto_loop`` (migrated from the call_tool dispatch chain).
 
-## tests (5.5)
+## tests (4.5)
 
-tests groups 44 files (py) around TestFailureMemory, test_counts_persist_across_reload, test_blocked_after_threshold_by_base, test_veto_blocks_immediately_and_persists, test_trims_to_capacity. BDD tests for the auto-loop persistent memory and selector cascade.
+tests groups 48 files (py) around TestFailureMemory, test_counts_persist_across_reload, test_blocked_after_threshold_by_base, test_veto_blocks_immediately_and_persists, test_trims_to_capacity. BDD tests for the auto-loop persistent memory and selector cascade.
 
 **Files**:
 
@@ -58,7 +58,9 @@ tests groups 44 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/digest.py
 - modules/exploit_chain.py
 - modules/jsonl_tail.py
+- modules/lazy_blindspot.py
 - modules/lazy_cli_bridge.py
+- modules/lazy_commander.py
 - modules/lazy_drafts.py
 - modules/lazy_engine.py
 - modules/lazy_installer.py
@@ -75,6 +77,8 @@ tests groups 44 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
 - modules/loop/__init__.py
+- modules/loop/engine_proxy.py
+- modules/loop/triage_scheduler.py
 - modules/loop/worker_agentic.py
 - modules/loop/worker_memory.py
 - modules/loop_guardrails.py
@@ -116,7 +120,9 @@ tests groups 44 files (py) around TestFailureMemory, test_counts_persist_across_
 - tests/test_failure_memory_veto.py
 - tests/test_harness_mode.py
 - tests/test_lazy_agent.py
+- tests/test_lazy_blindspot.py
 - tests/test_lazy_bridge_traffic.py
+- tests/test_lazy_commander.py
 - tests/test_lazy_continuation.py
 - tests/test_lazy_engine.py
 - tests/test_lazy_evidence.py
@@ -153,4 +159,6 @@ tests groups 44 files (py) around TestFailureMemory, test_counts_persist_across_
 - tests/test_reaction_bridge.py
 - tests/test_repeat_shapes.py
 - tests/test_sink_chain_feed.py
+- tests/test_triage_scheduler.py
 - tests/test_trigger_policy.py
+- tests/test_writeback_hygiene.py

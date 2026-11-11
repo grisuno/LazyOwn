@@ -1,8 +1,70 @@
-# Symbols (page 15 of 50)
+# Symbols (page 15 of 51)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `is_hard_stop` | method | `modules/failure_verdict.py:126` | `def is_hard_stop(self)` |
+| `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
+| `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
+| `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
+| `cmd_restart` | function | `modules/fast_run_service.sh:480` | `` |
+| `cmd_start` | function | `modules/fast_run_service.sh:445` | `` |
+| `cmd_status` | function | `modules/fast_run_service.sh:486` | `` |
+| `cmd_stop` | function | `modules/fast_run_service.sh:465` | `` |
+| `config_truthy` | function | `modules/fast_run_service.sh:155` | `` |
+| `ensure_log_file` | function | `modules/fast_run_service.sh:211` | `` |
+| `is_pid_alive` | function | `modules/fast_run_service.sh:189` | `` |
+| `is_service_running` | function | `modules/fast_run_service.sh:194` | `` |
+| `load_config` | function | `modules/fast_run_service.sh:139` | `` |
+| `log_error` | function | `modules/fast_run_service.sh:81` | `` |
+| `log_file_for` | function | `modules/fast_run_service.sh:171` | `` |
+| `log_info` | function | `modules/fast_run_service.sh:73` | `` |
+| `log_timestamp` | function | `modules/fast_run_service.sh:69` | `` |
+| `log_warn` | function | `modules/fast_run_service.sh:77` | `` |
+| `main` | function | `modules/fast_run_service.sh:557` | `` |
+| `managed_services_in_order` | function | `modules/fast_run_service.sh:429` | `` |
+| `pid_file_for` | function | `modules/fast_run_service.sh:166` | `` |
+| `prepare_runtime_dirs` | function | `modules/fast_run_service.sh:126` | `` |
+| `read_pid_value` | function | `modules/fast_run_service.sh:176` | `` |
+| `require_deps` | function | `modules/fast_run_service.sh:97` | `` |
+| `require_paths` | function | `modules/fast_run_service.sh:113` | `` |
+| `require_root` | function | `modules/fast_run_service.sh:89` | `` |
+| `spawn_as_root` | function | `modules/fast_run_service.sh:247` | `` |
+| `spawn_as_target_user` | function | `modules/fast_run_service.sh:228` | `` |
+| `start_chown_watcher` | function | `modules/fast_run_service.sh:315` | `` |
+| `start_cloudflare_service` | function | `modules/fast_run_service.sh:400` | `` |
+| `start_discord_service` | function | `modules/fast_run_service.sh:380` | `` |
+| `start_lazyc2_service` | function | `modules/fast_run_service.sh:342` | `` |
+| `start_ollama_service` | function | `modules/fast_run_service.sh:410` | `` |
+| `start_telegram_service` | function | `modules/fast_run_service.sh:390` | `` |
+| `start_vpn_service` | function | `modules/fast_run_service.sh:363` | `` |
+| `start_www_service` | function | `modules/fast_run_service.sh:356` | `` |
+| `stop_named_service` | function | `modules/fast_run_service.sh:292` | `` |
+| `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
+| `usage` | function | `modules/fast_run_service.sh:528` | `` |
+| `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
+| `FindingRecord` | class | `modules/finding_lifecycle.py:218` | `class FindingRecord` |
+| `RetestRecord` | class | `modules/finding_lifecycle.py:231` | `class RetestRecord` |
+| `_finding_from_row` | function | `modules/finding_lifecycle.py:256` | `def _finding_from_row(row)` |
+| `_load` | function | `modules/finding_lifecycle.py:73` | `def _load(sessions_dir)` |
+| `_load_retests` | function | `modules/finding_lifecycle.py:328` | `def _load_retests(sessions_dir)` |
+| `_retests_path` | function | `modules/finding_lifecycle.py:323` | `def _retests_path(sessions_dir)` |
+| `_save` | function | `modules/finding_lifecycle.py:86` | `def _save(sessions_dir, data)` |
+| `_save_retests` | function | `modules/finding_lifecycle.py:339` | `def _save_retests(sessions_dir, payload)` |
+| `_store_path` | function | `modules/finding_lifecycle.py:68` | `def _store_path(sessions_dir)` |
+| `_token_value` | function | `modules/finding_lifecycle.py:241` | `def _token_value(refs, prefix, default)` |
+| `_with_token` | function | `modules/finding_lifecycle.py:249` | `def _with_token(refs, prefix, value)` |
+| `add_dead_end` | function | `modules/finding_lifecycle.py:137` | `def add_dead_end(kind, value, reason, sessions_dir)` |
+| `apply_confirmation` | function | `modules/finding_lifecycle.py:190` | `def apply_confirmation(nodes, sessions_dir)` |
+| `classify_retest` | function | `modules/finding_lifecycle.py:420` | `def classify_retest(needle, output)` |
+| `confirm` | function | `modules/finding_lifecycle.py:94` | `def confirm(finding_id, evidence, sessions_dir, by)` |
+| `evidence_floor` | function | `modules/finding_lifecycle.py:52` | `def evidence_floor(items)` |
+| `findings_for` | function | `modules/finding_lifecycle.py:295` | `def findings_for(db, workspace)` |
+| `has_running_retest` | function | `modules/finding_lifecycle.py:346` | `def has_running_retest(finding_id, sessions_dir)` |
+| `is_dead_end` | function | `modules/finding_lifecycle.py:149` | `def is_dead_end(kind, value, sessions_dir)` |
+| `record` | function | `modules/finding_lifecycle.py:270` | `def record(db, workspace, host, title, severity, summary, poc)` |
+| `reject` | function | `modules/finding_lifecycle.py:123` | `def reject(finding_id, reason, sessions_dir, by)` |
+| `render_markdown` | function | `modules/finding_lifecycle.py:439` | `def render_markdown(db, workspace, title)` |
 | `request_retest` | function | `modules/finding_lifecycle.py:354` | `def request_retest(db, finding_id, sessions_dir)` |
 | `resolve` | function | `modules/finding_lifecycle.py:162` | `def resolve(node, sessions_dir)` |
 | `resolve_retest` | function | `modules/finding_lifecycle.py:374` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
@@ -434,67 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `add_rule` | method | `modules/intercept.py:177` | `def add_rule(self, rule)` |
 | `approval_status` | method | `modules/intercept.py:249` | `def approval_status(self, approval_id)` |
 | `attribution` | method | `modules/intercept.py:301` | `def attribution(self)` |
-| `audit_log` | method | `modules/intercept.py:296` | `def audit_log(self, limit)` |
-| `builtin_rules` | function | `modules/intercept.py:101` | `def builtin_rules()` |
-| `check` | method | `modules/intercept.py:270` | `def check(self, tool, command)` |
-| `decide` | method | `modules/intercept.py:220` | `def decide(self, approval_id, decision)` |
-| `evaluate` | method | `modules/intercept.py:192` | `def evaluate(self, tool, command)` |
-| `interceptor` | method | `modules/intercept.py:266` | `def interceptor(self)` |
-| `matches` | method | `modules/intercept.py:68` | `def matches(self, tool, command)` |
-| `observe` | method | `modules/intercept.py:282` | `def observe(self, output, source)` |
-| `observe_post_tool` | function | `modules/intercept.py:144` | `def observe_post_tool(output)` |
-| `pending_approvals` | method | `modules/intercept.py:234` | `def pending_approvals(self)` |
-| `record_failure` | method | `modules/intercept.py:291` | `def record_failure(self, source)` |
-| `remove_rule` | method | `modules/intercept.py:183` | `def remove_rule(self, pattern)` |
-| `rules` | method | `modules/intercept.py:172` | `def rules(self)` |
-| `scope_blocked` | function | `modules/intercept.py:131` | `def scope_blocked(target)` |
-| `display_usage` | function | `modules/iptables_portforward.sh:29` | `` |
-| `JsonlTail` | class | `modules/jsonl_tail.py:14` | `class JsonlTail` |
-| `__init__` | method | `modules/jsonl_tail.py:17` | `def __init__(self, path)` |
-| `read_new` | method | `modules/jsonl_tail.py:22` | `def read_new(self, limit)` |
-| `K8SAttackEngine` | class | `modules/k8s_attacks.py:77` | `class K8SAttackEngine` |
-| `K8sConfig` | class | `modules/k8s_attacks.py:57` | `class K8sConfig` |
-| `__init__` | method | `modules/k8s_attacks.py:87` | `def __init__(self, config)` |
-| `enumerate_rbac` | method | `modules/k8s_attacks.py:90` | `def enumerate_rbac(self)` |
-| `etcd_access_exploitation` | method | `modules/k8s_attacks.py:222` | `def etcd_access_exploitation(self)` |
-| `helm_tiller_abuse` | method | `modules/k8s_attacks.py:250` | `def helm_tiller_abuse(self)` |
-| `kubelet_anonymous_auth_abuse` | method | `modules/k8s_attacks.py:198` | `def kubelet_anonymous_auth_abuse(self)` |
-| `persistence_techniques` | method | `modules/k8s_attacks.py:278` | `def persistence_techniques(self)` |
-| `privileged_pod_escape` | method | `modules/k8s_attacks.py:118` | `def privileged_pod_escape(self)` |
-| `service_account_token_theft` | method | `modules/k8s_attacks.py:173` | `def service_account_token_theft(self)` |
-| `summary` | method | `modules/k8s_attacks.py:318` | `def summary(self)` |
-| `KerberoastHash` | class | `modules/kerberoasting.py:59` | `class KerberoastHash` |
-| `KerberoastTarget` | class | `modules/kerberoasting.py:38` | `class KerberoastTarget` |
-| `KerberoastingEngine` | class | `modules/kerberoasting.py:79` | `class KerberoastingEngine` |
-| `__init__` | method | `modules/kerberoasting.py:95` | `def __init__(self, domain, dc_ip, username, password, hash)` |
-| `_build_hash_string` | method | `modules/kerberoasting.py:248` | `def _build_hash_string(self, spn, etype)` |
-| `_hashcat_command` | method | `modules/kerberoasting.py:268` | `def _hashcat_command(hash_str, mode)` |
-| `_prioritize_targets` | method | `modules/kerberoasting.py:169` | `def _prioritize_targets(self)` |
-| `asreproast_check` | method | `modules/kerberoasting.py:306` | `def asreproast_check(self, usernames)` |
-| `build_hashcat_batch` | method | `modules/kerberoasting.py:379` | `def build_hashcat_batch(self, output_path)` |
-| `detect_kerberoasting_activity` | method | `modules/kerberoasting.py:336` | `def detect_kerberoasting_activity(self, event_log)` |
-| `enumerate_spns` | method | `modules/kerberoasting.py:112` | `def enumerate_spns(self, ldap_output, bloodhound_data)` |
-| `extract_hashes_from_pcap` | method | `modules/kerberoasting.py:321` | `def extract_hashes_from_pcap(self, pcap_path)` |
-| `priority` | function | `modules/kerberoasting.py:172` | `def priority(target)` |
-| `request_tgs` | method | `modules/kerberoasting.py:219` | `def request_tgs(self, user_spn, etype)` |
-| `request_tgs_aes_only` | method | `modules/kerberoasting.py:187` | `def request_tgs_aes_only(self, user_spn)` |
-| `request_tgs_rc4` | method | `modules/kerberoasting.py:208` | `def request_tgs_rc4(self, user_spn)` |
-| `summary` | method | `modules/kerberoasting.py:401` | `def summary(self)` |
-| `targeted_kerberoast` | method | `modules/kerberoasting.py:271` | `def targeted_kerberoast(self, high_value_only)` |
-| `EncryptedData` | class | `modules/kerberos_core.py:157` | `class EncryptedData` |
-| `KerberosCore` | class | `modules/kerberos_core.py:407` | `class KerberosCore` |
-| `KerberosCrypto` | class | `modules/kerberos_core.py:271` | `class KerberosCrypto` |
-| `KerberosErrorParser` | class | `modules/kerberos_core.py:683` | `class KerberosErrorParser` |
-| `KerberosPrincipal` | class | `modules/kerberos_core.py:139` | `class KerberosPrincipal` |
-| `KerberosTicket` | class | `modules/kerberos_core.py:172` | `class KerberosTicket` |
-| `PACInfo` | class | `modules/kerberos_core.py:228` | `class PACInfo` |
-| `PACSignature` | class | `modules/kerberos_core.py:213` | `class PACSignature` |
-| `TGSRequest` | class | `modules/kerberos_core.py:249` | `class TGSRequest` |
-| `TicketValidator` | class | `modules/kerberos_core.py:702` | `class TicketValidator` |
-| `__init__` | method | `modules/kerberos_core.py:277` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_core.py:421` | `def __init__(self, domain, dc_host, dc_ip)` |
-| `_build_pa_enc_timestamp` | method | `modules/kerberos_core.py:640` | `def _build_pa_enc_timestamp(self, key, etype, timestamp)` |
-| `_parse_kdc_rep` | method | `modules/kerberos_core.py:653` | `def _parse_kdc_rep(self, data, key, etype, rep_type)` |
-| `_parse_pac_buffer` | method | `modules/kerberos_core.py:622` | `def _parse_pac_buffer(pac, buf_type, buf_data)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

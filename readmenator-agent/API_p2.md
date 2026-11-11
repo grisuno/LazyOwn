@@ -1,5 +1,17 @@
-# API (page 2 of 27)
+# API (page 2 of 28)
 Previous: [API.md](API.md)
+
+## cli/commands/cred.py
+Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+- `CredentialAccessCommandSet.do_hashcat` (method) `cli/commands/cred.py:30` `def do_hashcat(self, line)` -- Run hashcat password cracking.
+- `CredentialAccessCommandSet.do_john2hash` (method) `cli/commands/cred.py:39` `def do_john2hash(self, line)` -- Convert a hash to John the Ripper format.
+- `CredentialAccessCommandSet.do_hydra` (method) `cli/commands/cred.py:47` `def do_hydra(self, line)` -- Run Hydra for online password attacks.
+- `CredentialAccessCommandSet.do_medusa` (method) `cli/commands/cred.py:59` `def do_medusa(self, line)` -- Run Medusa for online password attacks.
+- `CredentialAccessCommandSet.do_crunch` (method) `cli/commands/cred.py:67` `def do_crunch(self, line)` -- Generate wordlists with crunch.
+- `CredentialAccessCommandSet.do_cewl` (method) `cli/commands/cred.py:75` `def do_cewl(self, line)` -- Generate a wordlist from a website with cewl.
+- `CredentialAccessCommandSet.do_sshkey` (method) `cli/commands/cred.py:87` `def do_sshkey(self, line)` -- Generate an SSH key pair.
+- `CredentialAccessCommandSet.do_creds_py` (method) `cli/commands/cred.py:93` `def do_creds_py(self, line)` -- Extract credentials from a file or command output.
+- `CredentialAccessCommandSet.do_spraykatz` (method) `cli/commands/cred.py:98` `def do_spraykatz(self, line)` -- Run SprayKatz for credential spraying.
 
 ## cli/commands/cred_migrated.py
 Depends on: `cli/commands/_base.py`, `core/defaults.py`, `utils.py`
@@ -125,7 +137,7 @@ Imported by: `tests/test_encoding_command_set.py`
 
 ## cli/commands/enum.py
 Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
-Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/guardrails/contracts.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/failure_verdict.py`, `modules/guardrails/contracts.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
 - `EnumCommandSet.do_smbclient` (method) `cli/commands/enum.py:38` `def do_smbclient(self, line)` -- Interacts with SMB shares using the `smbclient` command to perform the following operations:
 - `EnumCommandSet.do_smbclient_impacket` (method) `cli/commands/enum.py:108` `def do_smbclient_impacket(self, line)` -- Interacts with SMB shares using the `smbclient` command to perform the following operations:
 - `EnumCommandSet.do_smbclient_py` (method) `cli/commands/enum.py:178` `def do_smbclient_py(self, line)` -- Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
@@ -252,14 +264,14 @@ Imported by: `tests/test_chain_list_command.py`, `tests/test_lazy_runner.py`
 
 ## cli/commands/exploitdb.py
 Depends on: `modules/__init__.py`
-- `ExploitdbCommands.do_exploitdb_sync` (method) `cli/commands/exploitdb.py:19` `def do_exploitdb_sync(self, args)`
-- `ExploitdbCommands.do_exploitdb_scan` (method) `cli/commands/exploitdb.py:33` `def do_exploitdb_scan(self, args)`
-- `ExploitdbCommands.do_exploitdb_gen` (method) `cli/commands/exploitdb.py:45` `def do_exploitdb_gen(self, args)`
-- `ExploitdbCommands.do_exploitdb_cscan` (method) `cli/commands/exploitdb.py:76` `def do_exploitdb_cscan(self, args)`
-- `ExploitdbCommands.do_exploitdb_ccompile` (method) `cli/commands/exploitdb.py:87` `def do_exploitdb_ccompile(self, args)`
-- `ExploitdbCCommands.do_exploitdb_cscan` (method) `cli/commands/exploitdb.py:99` `def do_exploitdb_cscan(self, args)`
-- `ExploitdbCCommands.do_exploitdb_ccompile` (method) `cli/commands/exploitdb.py:110` `def do_exploitdb_ccompile(self, args)`
-- `ExploitdbCCommands.do_exploitdb_run` (method) `cli/commands/exploitdb.py:124` `def do_exploitdb_run(self, args)`
+- `ExploitdbCommands.do_exploitdb_sync` (method) `cli/commands/exploitdb.py:22` `def do_exploitdb_sync(self, args)`
+- `ExploitdbCommands.do_exploitdb_scan` (method) `cli/commands/exploitdb.py:36` `def do_exploitdb_scan(self, args)`
+- `ExploitdbCommands.do_exploitdb_gen` (method) `cli/commands/exploitdb.py:48` `def do_exploitdb_gen(self, args)`
+- `ExploitdbCommands.do_exploitdb_cscan` (method) `cli/commands/exploitdb.py:79` `def do_exploitdb_cscan(self, args)`
+- `ExploitdbCommands.do_exploitdb_ccompile` (method) `cli/commands/exploitdb.py:91` `def do_exploitdb_ccompile(self, args)`
+- `ExploitdbCCommands.do_exploitdb_cscan` (method) `cli/commands/exploitdb.py:105` `def do_exploitdb_cscan(self, args)`
+- `ExploitdbCCommands.do_exploitdb_ccompile` (method) `cli/commands/exploitdb.py:117` `def do_exploitdb_ccompile(self, args)`
+- `ExploitdbCCommands.do_exploitdb_run` (method) `cli/commands/exploitdb.py:131` `def do_exploitdb_run(self, args)`
 
 ## cli/commands/exploitgym.py
 Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
@@ -277,7 +289,7 @@ Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/lazy_exposu
 ## cli/commands/exposure_inventory.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 - `IntelOpsCommandSet.do_lazysearch` (method) `cli/commands/exposure_inventory.py:30` `def do_lazysearch(self, line)` -- Query the engagement database with the saved-search grammar.
-- `IntelOpsCommandSet.do_lazyinventory` (method) `cli/commands/exposure_inventory.py:69` `def do_lazyinventory(self, line)` -- Collect and ingest host-reported packages (source=host).
+- `IntelOpsCommandSet.do_lazyinventory` (method) `cli/commands/exposure_inventory.py:71` `def do_lazyinventory(self, line)` -- Collect and ingest host-reported packages (source=host).
 
 ## cli/commands/exposure_sentinel.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
@@ -359,6 +371,10 @@ Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_domina
 - `LateralMigratedCommandSet.do_addcli` (method) `cli/commands/lateral_migrated.py:1302` `def do_addcli(self, line)` -- Add a client to execute c2 commands
 - `LateralMigratedCommandSet.do_dominion` (method) `cli/commands/lateral_migrated.py:1317` `def do_dominion(self, line)` -- Execute a fully automated Active Directory domain takeover.
 
+## cli/commands/lazy_adaptive.py
+Depends on: `cli/commands/_base.py`, `modules/failure_verdict.py`, `modules/lazy_fallback.py`, `utils.py`
+- `LazyAdaptiveCommandSet.do_lazy_adaptive` (method) `cli/commands/lazy_adaptive.py:24` `def do_lazy_adaptive(self, line)` -- LazyAdaptive policy inspector.
+
 ## cli/commands/lazy_creds.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 - `LazyCredsCommandSet.do_lazycreds` (method) `cli/commands/lazy_creds.py:28` `def do_lazycreds(self, line)` -- Search the default-credential knowledge base.
@@ -377,7 +393,7 @@ Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/lazy_poc.py
 Depends on: `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/__init__.py`, `utils.py`
-- `LazyPocCommandSet.do_lazy_poc` (method) `cli/commands/lazy_poc.py:25` `def do_lazy_poc(self, line)` -- Operate the PoC verb registry.
+- `LazyPocCommandSet.do_lazy_poc` (method) `cli/commands/lazy_poc.py:24` `def do_lazy_poc(self, line)` -- Operate the PoC verb registry.
 
 ## cli/commands/lazyloop.py
 Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `modules/sinks/findings.py`, `utils.py`
@@ -395,93 +411,82 @@ Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tes
 - `LazyQueueCommandSet.do_lazy_view` (method) `cli/commands/lazyloop.py:364` `def do_lazy_view(self, line)` -- Attach the live worker monitor to a task (or the newest task).
 
 ## cli/commands/lazyops.py
-Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/addon_updater.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/addon_updater.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_commander.py`, `modules/lazy_deviations.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
 Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_runner.py`
-- `LazyCommandSet.do_lazy_dispatch` (method) `cli/commands/lazyops.py:88` `def do_lazy_dispatch(self, line)` -- Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N]...
-- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:147` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
-- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:269` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
-- `LazyCommandSet.do_lazy_context` (method) `cli/commands/lazyops.py:298` `def do_lazy_context(self, line)` -- Render the bounded prompt context the planner/worker LLMs receive.
-- `LazyCommandSet.do_lazy_skill` (method) `cli/commands/lazyops.py:319` `def do_lazy_skill(self, line)` -- Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes.
-- `LazyCommandSet.do_lazy_workspace` (method) `cli/commands/lazyops.py:403` `def do_lazy_workspace(self, line)` -- Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path.
-- `LazyCommandSet.do_lazy_selfupdate` (method) `cli/commands/lazyops.py:456` `def do_lazy_selfupdate(self, line)` -- Self-update: check [--branch B]|apply [--yes] [--branch B].
-- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:484` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
-- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:503` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
-- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:515` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
-- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:555` `def do_lazy_trace(self, line)` -- Worker trace exchange.
-- `LazyCommandSet.do_lazy_broadcast` (method) `cli/commands/lazyops.py:608` `def do_lazy_broadcast(self, line)` -- Exploration timeline.
-- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:643` `def do_lazy_hint(self, line)` -- Inject steering hint.
-- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:655` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
-- `LazyCommandSet.do_lazy_intent_delete` (method) `cli/commands/lazyops.py:680` `def do_lazy_intent_delete(self, line)` -- Delete an intent.
-- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:723` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
-- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:762` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
-- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:780` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
-- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:798` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
-- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:820` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested.
-- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:861` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
-- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:873` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp]...
-- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:1094` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail...
-- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:1195` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>.
-- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:1260` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
-- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:1279` `def do_lazy_steer(self, line)` -- Mid-run correction.
-- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:1291` `def do_lazy_kill(self, line)` -- Terminate running intent.
-- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:1303` `def do_lazy_pause(self, line)` -- Pause task loops.
-- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:1313` `def do_lazy_resume(self, line)` -- Resume paused task.
-- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:1323` `def do_lazy_report(self, line)` -- Export severity-ranked report.
-- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:1340` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text.
-- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:1387` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
-- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:1399` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
-- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:1427` `def do_lazy_node(self, line)` -- Full node detail.
-- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:1447` `def do_lazy_evidence(self, line)` -- Evidence vault and frozen package.
-- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:1514` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
-- `run_command` (function) `cli/commands/lazyops.py:1545` `def run_command(command)` -- Execute one shell command or LazyOwn verb and return its output.
-- `list_tasks` (function) `cli/commands/lazyops.py:1567` `def list_tasks()` -- List every task with status, intents, facts and findings.
-- `task_graph` (function) `cli/commands/lazyops.py:1571` `def task_graph(task)` -- Graph overview of one task (defaults to the active task).
-- `task_findings` (function) `cli/commands/lazyops.py:1575` `def task_findings(task)` -- Findings of one task with severity, status and report size.
-- `campaign_sitrep` (function) `cli/commands/lazyops.py:1579` `def campaign_sitrep()` -- Campaign summary: tasks, findings and phase counters.
-- `add_hint` (function) `cli/commands/lazyops.py:1592` `def add_hint(text)` -- Inject an operator hint into the active task planner.
-- `steer_intent` (function) `cli/commands/lazyops.py:1599` `def steer_intent(intent, message)` -- Send a mid-run course correction to a running intent.
-- `LazyCommandSet.do_lazy_agent` (method) `cli/commands/lazyops.py:1668` `def do_lazy_agent(self, line)` -- Main agent with full tool calling (native backend or opencode).
-- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:1769` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
-- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:1791` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D]...
-- `LazyCommandSet.do_lazy_verb` (method) `cli/commands/lazyops.py:1863` `def do_lazy_verb(self, line)` -- Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target]...
-- `LazyCommandSet.do_lazy_stage` (method) `cli/commands/lazyops.py:1961` `def do_lazy_stage(self, line)` -- Loop stage admin: list|enable|disable <stage>|reset.
-- `LazyCommandSet.do_lazy_mode` (method) `cli/commands/lazyops.py:1989` `def do_lazy_mode(self, line)` -- Engagement mode + findings/progress admin.
-- `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:2015` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run].
-- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:2122` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
-- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:2170` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync.
-- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:2259` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record...
-- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2396` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
-- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2468` `def do_lazy_status(self, line)` -- Full task status.
-- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2492` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
-- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2497` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
-- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2528` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
-- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2559` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
-- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2580` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
-- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2613` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
-- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2640` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
-- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2685` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
-- `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2723` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
-- `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2786` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
-- `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2824` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
+- `LazyCommandSet.do_lazy_dispatch` (method) `cli/commands/lazyops.py:95` `def do_lazy_dispatch(self, line)` -- Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N]...
+- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:154` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
+- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:276` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
+- `LazyCommandSet.do_lazy_context` (method) `cli/commands/lazyops.py:305` `def do_lazy_context(self, line)` -- Render the bounded prompt context the planner/worker LLMs receive.
+- `LazyCommandSet.do_lazy_skill` (method) `cli/commands/lazyops.py:326` `def do_lazy_skill(self, line)` -- Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes.
+- `LazyCommandSet.do_lazy_workspace` (method) `cli/commands/lazyops.py:410` `def do_lazy_workspace(self, line)` -- Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path.
+- `LazyCommandSet.do_lazy_selfupdate` (method) `cli/commands/lazyops.py:463` `def do_lazy_selfupdate(self, line)` -- Self-update: check [--branch B]|apply [--yes] [--branch B].
+- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:491` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
+- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:510` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
+- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:522` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
+- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:562` `def do_lazy_trace(self, line)` -- Worker trace exchange.
+- `LazyCommandSet.do_lazy_broadcast` (method) `cli/commands/lazyops.py:615` `def do_lazy_broadcast(self, line)` -- Exploration timeline.
+- `LazyCommandSet.do_lazy_commander` (method) `cli/commands/lazyops.py:650` `def do_lazy_commander(self, line)` -- Allocate work slices across the task fleet.
+- `LazyCommandSet.do_lazy_deviations` (method) `cli/commands/lazyops.py:698` `def do_lazy_deviations(self, line)` -- List planned-versus-actual deviations.
+- `LazyCommandSet.do_lazy_blindspot` (method) `cli/commands/lazyops.py:736` `def do_lazy_blindspot(self, line)` -- Review graph blindspots into hints.
+- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:762` `def do_lazy_hint(self, line)` -- Inject steering hint.
+- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:774` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
+- `LazyCommandSet.do_lazy_intent_delete` (method) `cli/commands/lazyops.py:799` `def do_lazy_intent_delete(self, line)` -- Delete an intent.
+- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:842` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
+- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:881` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
+- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:899` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
+- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:917` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
+- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:939` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested.
+- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:980` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
+- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:992` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp]...
+- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:1213` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail...
+- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:1314` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>.
+- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:1379` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
+- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:1398` `def do_lazy_steer(self, line)` -- Mid-run correction.
+- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:1410` `def do_lazy_kill(self, line)` -- Terminate running intent.
+- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:1422` `def do_lazy_pause(self, line)` -- Pause task loops.
+- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:1432` `def do_lazy_resume(self, line)` -- Resume paused task.
+- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:1442` `def do_lazy_report(self, line)` -- Export severity-ranked report.
+- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:1459` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text.
+- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:1506` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
+- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:1518` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
+- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:1546` `def do_lazy_node(self, line)` -- Full node detail.
+- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:1566` `def do_lazy_evidence(self, line)` -- Evidence vault and frozen package.
+- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:1633` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
+- `run_command` (function) `cli/commands/lazyops.py:1664` `def run_command(command)` -- Execute one shell command or LazyOwn verb and return its output.
+- `list_tasks` (function) `cli/commands/lazyops.py:1686` `def list_tasks()` -- List every task with status, intents, facts and findings.
+- `task_graph` (function) `cli/commands/lazyops.py:1690` `def task_graph(task)` -- Graph overview of one task (defaults to the active task).
+- `task_findings` (function) `cli/commands/lazyops.py:1694` `def task_findings(task)` -- Findings of one task with severity, status and report size.
+- `campaign_sitrep` (function) `cli/commands/lazyops.py:1698` `def campaign_sitrep()` -- Campaign summary: tasks, findings and phase counters.
+- `add_hint` (function) `cli/commands/lazyops.py:1711` `def add_hint(text)` -- Inject an operator hint into the active task planner.
+- `steer_intent` (function) `cli/commands/lazyops.py:1718` `def steer_intent(intent, message)` -- Send a mid-run course correction to a running intent.
+- `LazyCommandSet.do_lazy_agent` (method) `cli/commands/lazyops.py:1787` `def do_lazy_agent(self, line)` -- Main agent with full tool calling (native backend or opencode).
+- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:1888` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
+- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:1910` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D]...
+- `LazyCommandSet.do_lazy_verb` (method) `cli/commands/lazyops.py:1982` `def do_lazy_verb(self, line)` -- Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target]...
+- `LazyCommandSet.do_lazy_stage` (method) `cli/commands/lazyops.py:2080` `def do_lazy_stage(self, line)` -- Loop stage admin: list|enable|disable <stage>|reset.
+- `LazyCommandSet.do_lazy_mode` (method) `cli/commands/lazyops.py:2108` `def do_lazy_mode(self, line)` -- Engagement mode + findings/progress admin.
+- `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:2134` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run].
+- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:2241` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
+- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:2289` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync.
+- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:2378` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record...
+- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2515` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
+- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2587` `def do_lazy_status(self, line)` -- Full task status.
+- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2611` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
+- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2616` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
+- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2647` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
+- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2678` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
+- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2699` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
+- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2732` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
+- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2759` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
+- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2804` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
+- `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2842` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
+- `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2905` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
+- `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2943` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
 
 ## cli/commands/marketplace.py
 Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/addon_updater.py`, `modules/module_registry.py`, `utils.py`
 - `MarketplaceCommandSet.do_marketplace` (method) `cli/commands/marketplace.py:104` `def do_marketplace(self, line)` -- Discover and install community plugins, addons, and tools.
 - `MarketplaceCommandSet.do_marketplace_config` (method) `cli/commands/marketplace.py:447` `def do_marketplace_config(self, line)` -- Interactive marketplace manager (Textual TUI).
-
-## cli/commands/mcp_bridge.py
-Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
-Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
-- `McpBridgeCommandSet.do_auto_populate` (method) `cli/commands/mcp_bridge.py:151` `def do_auto_populate(self, args)` -- Parse the latest nmap XML scan and auto-populate payload context.
-- `McpBridgeCommandSet.do_facts_show` (method) `cli/commands/mcp_bridge.py:261` `def do_facts_show(self, args)` -- Show structured facts extracted from nmap scans and tool output.
-- `McpBridgeCommandSet.do_rag_query` (method) `cli/commands/mcp_bridge.py:286` `def do_rag_query(self, args)` -- Semantic search over session artefacts (scans, logs, notes).
-- `McpBridgeCommandSet.do_parquet_query` (method) `cli/commands/mcp_bridge.py:316` `def do_parquet_query(self, args)` -- Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).
-- `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:378` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
-- `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:431` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
-- `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:489` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
-- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:546` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
-- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:551` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
-- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:556` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
 
 
 Next: [API_p3.md](API_p3.md)

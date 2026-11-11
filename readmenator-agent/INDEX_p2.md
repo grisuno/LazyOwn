@@ -3,6 +3,11 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/harness.py` | Deterministic harness gate for the LazyOwn loop. | modules | 2 | 4 |
+| `modules/hash_cracker.py` | Hash cracking pipeline — John the Ripper and Hashcat integration. | modules | 17 | 2 |
+| `modules/hive_invoke.py` | modules/hive_invoke.py | modules | 7 | 0 |
+| `modules/hostdiscover.sh` | - | modules | 2 | 0 |
+| `modules/hunt_verify.py` | Evidence verdict verification for hunting and chain stages. | modules | 16 | 3 |
 | `modules/ia_code_analysis.py` | CodeAnalyzer: Analyzes source code in a directory and its subdirectories. | modules | 8 | 0 |
 | `modules/ia_logs_analysis.py` | Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: AGPL v3... | modules | 7 | 0 |
 | `modules/ia_network_analysis.py` | Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: AGPL v3  Descripción: Bot de monitoreo de... | modules | 4 | 0 |
@@ -29,15 +34,19 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 19 | 2 |
 | `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
 | `modules/lazy_autofire.py` | Lazy autofire: exploit intelligence closing the loop into chains. | modules | 13 | 1 |
+| `modules/lazy_blindspot.py` | Blindspot review contract for the lazy autonomous loop. | modules | 10 | 2 |
 | `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 7 |
 | `modules/lazy_checks.py` | Validation plans as data: re-read observed checks through version math. | modules | 4 | 1 |
 | `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 15 | 8 |
-| `modules/lazy_continuation.py` | Task continuation records: campaign memory that survives loop restarts. | modules | 7 | 0 |
+| `modules/lazy_commander.py` | Fleet commander: allocate the next work slice across loop tasks. | modules | 11 | 2 |
+| `modules/lazy_continuation.py` | Task continuation records: campaign memory that survives loop restarts. | modules | 8 | 0 |
 | `modules/lazy_creds.py` | Default-credential knowledge base for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 26 | 5 |
+| `modules/lazy_deviations.py` | Planned-versus-actual deviation ledger for loop and chain runs. | modules | 12 | 4 |
 | `modules/lazy_drafts.py` | Injected objective drafts: close the lazy_drafts handoff loop. | modules | 2 | 1 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 47 |
 | `modules/lazy_exposure.py` | Target exposure report for LazyOwn. | modules | 14 | 5 |
+| `modules/lazy_fallback.py` | Adaptive fallback alternatives for failed chain techniques. | modules | 10 | 3 |
 | `modules/lazy_feedmatch.py` | Exploit feed matching for LazyOwn. | modules | 18 | 6 |
 | `modules/lazy_finalizer.py` | Evidence-gated finalization for the autonomous loop and apt_chain. | modules | 3 | 1 |
 | `modules/lazy_findings.py` | Engagement findings ledger: state machine plus reproducible evidence. | modules | 27 | 2 |
@@ -47,7 +56,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
 | `modules/lazy_inventory.py` | Host-reported inventory for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_ledger.py` | Freshness ledger: TTL windows per verb and target for the loop worker. | modules | 11 | 3 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 458 | 82 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 458 | 89 |
 | `modules/lazy_match_policy.py` | Match policy doctrine: what may claim a match and what stays a lead. | modules | 14 | 1 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_netattack.py` | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | modules | 12 | 1 |
@@ -109,19 +118,21 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/llm_adapter.py` | LLM adapter facade — single import point for all LLM backends used by lazyc2. | modules | 16 | 7 |
 | `modules/llm_client.py` | LazyOwn Unified LLM Client | modules | 12 | 4 |
 | `modules/llm_evaluator.py` | — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning... | modules | 28 | 2 |
-| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 30 | 30 |
+| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 31 | 30 |
 | `modules/llm_orchestrator.py` | Orchestrator-governed LLM failover chain for every AI module. | modules | 21 | 8 |
 | `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 9 |
 | `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 5 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 23 |
 | `modules/loop/__init__.py` | - | loop | 0 | 2 |
+| `modules/loop/engine_proxy.py` | EngineProxyMixin: Recorder-proxy lifecycle and traffic ingestion for the loop engine. | loop | 8 | 1 |
+| `modules/loop/triage_scheduler.py` | Difficulty-triage scheduling for the autonomous multi-target loop. | loop | 11 | 3 |
 | `modules/loop/worker_agentic.py` | WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker. | loop | 18 | 1 |
 | `modules/loop/worker_execution.py` | WorkerExecutionMixin: Command execution, background jobs and persistent-shell lifecycle for a... | loop | 12 | 1 |
 | `modules/loop/worker_gating.py` | WorkerGatingMixin: Scope, operating-system and privilege gates for a loop worker. | loop | 7 | 1 |
 | `modules/loop/worker_memory.py` | WorkerMemoryMixin: Durable and in-session memory behaviour for a loop worker. | loop | 6 | 1 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 28 | 7 |
-| `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 43 | 8 |
+| `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 49 | 9 |
 | `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 31 | 2 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
 | `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 16 | 8 |
@@ -251,7 +262,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/toolset.py` | Typed tool sets per agent role with shell allowlists. | modules | 5 | 1 |
 | `modules/toposwarm_bridge.py` | modules/toposwarm_bridge.py | modules | 22 | 6 |
 | `modules/traffic_morpher.py` | C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping. | modules | 11 | 1 |
-| `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 11 |
+| `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 12 |
 | `modules/trigger_policy.py` | Declarative trigger policy: YAML seeds for the loop TriggerStore. | modules | 8 | 8 |
 | `modules/ttp_coverage.py` | TTP coverage matrix — real-time MITRE ATT&CK technique tracking. | modules | 13 | 1 |
 | `modules/ttpscope_bridge.py` | Secure bridge for the TTPScope MITRE ATT&CK research client. | modules | 33 | 1 |
@@ -381,7 +392,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_claudemd.py` | LazyOwn CLAUDE.md Hierarchical Loader (Claude Code style)  4-level hierarchy (highest → lowest... | skills | 8 | 2 |
 | `skills/lazyown_context.py` | LazyOwn Context Compaction Pipeline — 5-layer graduated compression (Claude Code style)  Layers: 1. | skills | 11 | 3 |
 | `skills/lazyown_daemon.py` | LazyOwn Unified Daemon | skills | 24 | 0 |
-| `skills/lazyown_facts.py` | LazyOwn FactStore | skills | 79 | 12 |
+| `skills/lazyown_facts.py` | LazyOwn FactStore | skills | 79 | 13 |
 | `skills/lazyown_groq_agents.py` | skills/lazyown_groq_agents.py | skills | 40 | 4 |
 | `skills/lazyown_hooks.py` | LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. | skills | 14 | 2 |
 | `skills/lazyown_llm.py` | LazyOwn LLM Bridge — MCP Edition | skills | 21 | 5 |
@@ -485,16 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/graph_summary.py` | MCP tool ``lazyown_graph_summary`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/groq_agent.py` | MCP tool ``lazyown_groq_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/harness_status.py` | MCP tool ``lazyown_harness_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/heartbeat_status.py` | MCP tool ``lazyown_heartbeat_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_collect.py` | MCP tool ``lazyown_hive_collect`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_forget.py` | MCP tool ``lazyown_hive_forget`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_plan.py` | MCP tool ``lazyown_hive_plan`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_recall.py` | MCP tool ``lazyown_hive_recall`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_recover.py` | MCP tool ``lazyown_hive_recover`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_result.py` | MCP tool ``lazyown_hive_result`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_spawn.py` | MCP tool ``lazyown_hive_spawn`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/hive_status.py` | MCP tool ``lazyown_hive_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/inject_objective.py` | MCP tool ``lazyown_inject_objective``: queue a new attack objective. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/job_status.py` | MCP tool ``lazyown_job_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

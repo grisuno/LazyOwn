@@ -8,6 +8,7 @@ the world model and can be started, inspected and stopped by run id.
 
 from __future__ import annotations
 
+import json
 import shlex
 
 import cmd2
@@ -46,6 +47,10 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             gym status [run_id]                   - list active gyms or inspect one
             gym stop [run_id|gym_id|name]         - stop one gym; no argument stops all
             gym submit [run_id] [--failed] [--techniques t1,t2,...]
+            gym collect [scenario] [--target IP] [--json] - sweep the whole gym
+                catalogue (metasploitable|ad_lab|winbox), re-verify every
+                not-yet-captured vector against sessions/ evidence and score
+                them in one scoreboard (sessions/ctf/scoreboard.json)
             gym leaderboard|top [top_n]           - show top players
             gym hint [run_id]                     - hint for an active gym
 
@@ -60,12 +65,13 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             gym status gym0001
             gym stop
             gym submit gym0001 --techniques sqli_manual,csrf_bypass
+            gym collect metasploitable --target 172.17.0.2
             gym leaderboard 10
         """
         args = shlex.split(line)
         if not args:
             print_msg("Red Team Gym - gamified pentest training.")
-            print_msg("Usage: gym <list|start|status|stop|submit|leaderboard|hint> [options]")
+            print_msg("Usage: gym <list|start|status|stop|submit|collect|leaderboard|hint> [options]")
             return
 
         action = args[0].lower()
@@ -77,6 +83,8 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             self._gym_start(rest)
         elif action == "submit":
             self._gym_submit(rest)
+        elif action == "collect":
+            self._gym_collect(rest)
         elif action in ("status", "active"):
             self._gym_status(rest)
         elif action == "stop":
@@ -87,6 +95,44 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             self._gym_hint(rest)
         else:
             print_error(f"Unknown action: {action}")
+
+    def _gym_collect(self, rest: list[str]) -> None:
+        """Sweep a gym scenario and score every vector in one scoreboard."""
+        try:
+            from modules.ctf_signalman import collect, render_scoreboard, save_scoreboard
+        except ImportError as exc:
+            print_error(f"signalman unavailable: {exc}")
+            return
+        scenario = "metasploitable"
+        target = ""
+        dump_json = False
+        remaining: list[str] = []
+        index = 0
+        while index < len(rest):
+            token = rest[index]
+            if token == "--target" and index + 1 < len(rest):
+                target = rest[index + 1]
+                index += 2
+                continue
+            if token == "--json":
+                dump_json = True
+                index += 1
+                continue
+            remaining.append(token)
+            index += 1
+        if remaining:
+            scenario = remaining[0]
+        try:
+            report = collect(scenario, target=target)
+        except ValueError as exc:
+            print_error(str(exc))
+            return
+        if dump_json:
+            print_msg(json.dumps(report, indent=2, default=str)[:3000])
+            return
+        print_msg(render_scoreboard(report))
+        path = save_scoreboard(report)
+        print_msg(f"scoreboard written to {path}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_gym_ms2(self, line):

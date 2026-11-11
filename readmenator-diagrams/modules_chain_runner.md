@@ -1,6 +1,6 @@
 # modules: chain_runner
 
-modules: chain_runner groups 98 files (c, js, py) around skip_pending, ChainStep, identifier, Chain, resolve. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: chain_runner groups 100 files (c, js, py) around skip_pending, ChainStep, identifier, Chain, resolve. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
@@ -10,10 +10,12 @@ graph LR
     static["static"]
     tests["tests"]
     cli -- "calls into" --> modules
+    cli -- "calls into" --> tests
     modules -- "calls into" --> cli
     modules -- "calls into" --> tests
     skills -- "calls into" --> modules
     static -- "depends on" --> modules
+    static -- "calls into" --> tests
     tests -- "calls into" --> cli
     tests -- "calls into" --> modules
 ```
@@ -24,11 +26,11 @@ cli groups 3 files (py) around _parse_admin_flags, _token_name_ok, ChainArgs, pa
 
 ## modules (7.2)
 
-modules groups 48 files (c, py) around skip_pending, ChainStep, identifier, Chain, resolve. AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
+modules groups 50 files (c, py) around skip_pending, ChainStep, identifier, Chain, resolve. APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.
 
 ## skills (7.3)
 
-skills groups 5 files (py) around handle, handle, handle, handle, handle. MCP tool ``lazyown_apt_chain`` (migrated from the call_tool dispatch chain).
+skills groups 3 files (py) around handle, handle, handle. MCP tool ``lazyown_apt_chain`` (migrated from the call_tool dispatch chain).
 
 ## static (7.4)
 
@@ -36,21 +38,20 @@ static groups 1 files (js) around d, e, t. !
 
 ## tests (7.5)
 
-tests groups 41 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
 - cli/apt_chain_support.py
 - cli/commands/command_and_control_migrated.py
 - cli/retry_support.py
-- modules/ad_gym.py
 - modules/apt_playbooks.py
-- modules/atomic_exploit_bridge.py
 - modules/atomic_resolver.py
 - modules/auto_registry.py
 - modules/chain_approval.py
 - modules/chain_distill.py
 - modules/chain_facts.py
+- modules/chain_family.py
 - modules/chain_loop.py
 - modules/chain_match.py
 - modules/chain_registry.py
@@ -58,15 +59,18 @@ tests groups 41 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/chain_state.py
 - modules/chain_synth.py
 - modules/chain_tokens.py
-- modules/ctf_capture.py
 - modules/custom_tools.py
 - modules/emulation_runner.py
 - modules/gym_matrix_runner.py
+- modules/gym_winbox_runner.py
 - modules/lazy_autofire.py
+- modules/lazy_deviations.py
 - modules/lazy_finalizer.py
 - modules/lazy_scope.py
+- modules/lazypoophish.py
+- modules/lazyshortener.py
+- modules/listener_manager.py
 - modules/loop/worker_execution.py
-- modules/metasploitable_gym.py
 - modules/notify.py
 - modules/playbook_admin.py
 - modules/playbook_chain.py
@@ -92,8 +96,6 @@ tests groups 41 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/verb_manifest.py
 - modules/workspace.py
 - skills/mcp_tools/apt_chain.py
-- skills/mcp_tools/atomic_clean.py
-- skills/mcp_tools/atomic_shell.py
 - skills/mcp_tools/lazy_addon.py
 - skills/mcp_tools/ttp_chain.py
 - static/js/select2-4.1.0.min.js
@@ -108,6 +110,7 @@ tests groups 41 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_chain_distill_custody.py
 - tests/test_chain_distill_scope.py
 - tests/test_chain_evidence.py
+- tests/test_chain_family.py
 - tests/test_chain_finalizer.py
 - tests/test_chain_freshness_guard.py
 - tests/test_chain_loop.py
@@ -123,9 +126,10 @@ tests groups 41 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_emulation_runner.py
 - tests/test_f4_hardening.py
 - tests/test_intel_selector.py
+- tests/test_lazy_adaptive_replan.py
+- tests/test_lazy_deviations.py
 - tests/test_lazy_loop.py
 - tests/test_loop_fire_pending.py
-- tests/test_metasploitable_gym.py
 - tests/test_playbook_admin.py
 - tests/test_playbook_chain.py
 - tests/test_poc_registry.py

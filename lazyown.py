@@ -2228,7 +2228,12 @@ class LazyOwnShell(cmd2.Cmd):
                             and not os.path.isabs(binary)
                             and not is_binary_present(binary)
                         ):
-                            install_hint = tool.get("install_command", f"git clone {tool.get('repo_url', '')}")
+                            if tool.get("install_command") and tool.get("repo_url") and tool.get("install_path"):
+                                install_hint = tool["install_command"]
+                            elif tool.get("repo_url"):
+                                install_hint = f"git clone {tool['repo_url']}"
+                            else:
+                                install_hint = "see `help %s` for the install line" % name
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")
                         command_replaced = replace_command_placeholders(execute_command, self.params).strip()

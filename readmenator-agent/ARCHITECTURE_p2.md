@@ -1,7 +1,20 @@
-# Architecture (page 2 of 10)
+# Architecture (page 2 of 11)
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/session_ops.py` -> `cli/config_history.py`
+- `cli/commands/session_ops.py` -> `cli/ops_commands.py`
+- `cli/commands/session_ops.py` -> `cli/session_resumer.py`
+- `cli/commands/session_ops.py` -> `cli/show.py`
+- `cli/commands/session_ops.py` -> `core/config.py`
+- `cli/commands/session_ops.py` -> `core/payload_schema.py`
+- `cli/commands/session_ops.py` -> `modules/autonomous_exploit_engine.py`
+- `cli/commands/session_ops.py` -> `modules/enrich.py`
+- `cli/commands/session_ops.py` -> `modules/lazy_loop.py`
+- `cli/commands/session_ops.py` -> `modules/lazy_rbac.py`
+- `cli/commands/session_ops.py` -> `modules/module_registry.py`
+- `cli/commands/session_ops.py` -> `modules/payload_factory.py`
+- `cli/commands/session_ops.py` -> `modules/pipeline_engine.py`
 - `cli/commands/session_ops.py` -> `modules/planner.py`
 - `cli/commands/session_ops.py` -> `skills/autonomous_daemon.py`
 - `cli/commands/session_ops.py` -> `utils.py`
@@ -310,6 +323,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/backdoor/server.c`
 - `lazyc2.py` -> `modules/beacon_history.py`
 - `lazyc2.py` -> `modules/beacon_recon.py`
+- `lazyc2.py` -> `modules/bsb_compat.py`
 - `lazyc2.py` -> `modules/c2_surfaces.py`
 - `lazyc2.py` -> `modules/chain_approval.py`
 - `lazyc2.py` -> `modules/collab_bp.py`
@@ -482,19 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/marketplace_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/registry.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/registry.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/campaign_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/credentials_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/cve_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/event_log_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/graph_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/history_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/killchain_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/listeners_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/marketplace_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/sessions_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/panels/terminal_panel.py`
-- `lazygui/panels/registry.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/registry.py` -> `lazygui/services/event_log.py`
-- `lazygui/panels/sessions_panel.py` -> `lazygui/config/constants.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

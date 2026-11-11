@@ -1,0 +1,47 @@
+name: apt_snmp
+description: 'SNMP scenario chain: community brute and MIB walk with nmap scripts;
+  feeds the credential store.'
+enabled: true
+platforms:
+- linux
+steps:
+- id: bind
+  phase: recon
+  run: assign target {target}
+  description: bind the box into payload params
+  timeout: 300
+- id: ports_snmp
+  phase: recon
+  run: nmap -Pn -sU -p161,162,10161 --script snmp-info {target}
+  description: UDP snmp service discovery
+  timeout: 600
+- id: snmp_communities
+  phase: enum
+  run: nmap -Pn -sU -p161 --script snmp-brute {target}
+  description: community brute over the default list
+  timeout: 900
+  capture: snmp_brute
+  continue_on_error: true
+- id: snmp_walk
+  phase: enum
+  run: nmap -Pn -sU -p161 --script snmp-sysdescr,snmp-netstat,snmp-processes {target}
+  description: system description, sockets and processes via scripts
+  timeout: 600
+  capture: snmp_walk
+  continue_on_error: true
+- id: sweep
+  phase: exploit
+  run: atomic_exploit
+  description: yaml exploit sweep from scan triggers; stops at the first SHELL
+  timeout: 1800
+- id: session_attempt
+  phase: post_exploitation
+  run: create_session_json
+  description: record the session when a shell landed
+  timeout: 300
+  continue_on_error: true
+tags:
+- snmp
+- udp
+total_timeout: 2400
+version: 2

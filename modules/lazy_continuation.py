@@ -28,6 +28,7 @@ _MAX_RECORDS = 40
 _MAX_TEXT_CHARS = 2000
 _MAX_NEXT_STEPS = 6
 _MAX_CREDENTIALS = 10
+_MAX_DEVIATIONS = 6
 _SLUG_SAFE = re.compile(r"[^a-z0-9_.-]+")
 
 
@@ -44,6 +45,7 @@ class ContinuationRecord:
         findings: Confirmed finding texts.
         next_steps: Unfinished work the next task should try.
         credentials: Reusable ``user:pass`` or hash hints for the successor.
+        deviations: Planned-versus-actual notes the successor must honor.
         updated: ISO timestamp of the last write.
     """
 
@@ -55,6 +57,7 @@ class ContinuationRecord:
     findings: list[str] = field(default_factory=list)
     next_steps: list[str] = field(default_factory=list)
     credentials: list[str] = field(default_factory=list)
+    deviations: list[str] = field(default_factory=list)
     updated: str = ""
 
 
@@ -92,6 +95,7 @@ def save(
     findings: list[str] | None = None,
     next_steps: list[str] | None = None,
     credentials: list[str] | None = None,
+    deviations: list[str] | None = None,
 ) -> bool:
     """Write one target's continuation record atomically.
 
@@ -104,6 +108,7 @@ def save(
         findings: Confirmed finding texts.
         next_steps: Unfinished next steps for the follow-up task.
         credentials: Reusable ``user:pass`` or hash hints for the successor.
+        deviations: Planned-versus-actual notes for the successor.
 
     Returns:
         True when persisted; False on I/O failure.
@@ -123,6 +128,7 @@ def save(
             :_MAX_NEXT_STEPS
         ],
         "credentials": [str(item)[:200] for item in (credentials or []) if str(item).strip()][:_MAX_CREDENTIALS],
+        "deviations": [str(item)[:400] for item in (deviations or []) if str(item).strip()][:_MAX_DEVIATIONS],
         "updated": datetime.datetime.now(datetime.UTC).isoformat(),
     }
     path = record_path(target)
@@ -159,6 +165,7 @@ def load(target: str) -> ContinuationRecord | None:
         findings=[str(item) for item in (data.get("findings") or [])][:10],
         next_steps=[str(item) for item in (data.get("next_steps") or [])][:_MAX_NEXT_STEPS],
         credentials=[str(item) for item in (data.get("credentials") or [])][:_MAX_CREDENTIALS],
+        deviations=[str(item) for item in (data.get("deviations") or [])][:_MAX_DEVIATIONS],
         updated=str(data.get("updated", "") or ""),
     )
 
@@ -198,6 +205,9 @@ def handover_brief(target: str) -> str:
     if record.credentials:
         lines.append("reusable credentials:")
         lines.extend(f"  - {item}" for item in record.credentials)
+    if record.deviations:
+        lines.append("deviations the plan took (honor them, do not re-derive):")
+        lines.extend(f"  - {item}" for item in record.deviations)
     return "\n".join(lines)
 
 

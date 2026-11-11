@@ -82,28 +82,28 @@ stages:
     label: Detection rule replay over attack and control logs
     fires_when: on terminal status when rule_path and log files are configured
     params:
-      rule_path: ""
-      target_glob: "sessions/{task}/traffic/*.jsonl"
-      control_glob: ""
-      output: "sessions/{task}/defense_eval.json"
+      rule_path: ''
+      target_glob: sessions/{task}/traffic/*.jsonl
+      control_glob: ''
+      output: sessions/{task}/defense_eval.json
   closedloop_tune:
     enabled: true
     label: Baseline vs candidate detection rule comparison with tuning suggestions
     fires_when: on terminal status after defense_validate when both rules are configured
     params:
-      baseline_path: ""
-      candidate_path: ""
-      target_glob: "sessions/{task}/traffic/*.jsonl"
-      control_glob: ""
-      output: "sessions/{task}/closedloop.json"
+      baseline_path: ''
+      candidate_path: ''
+      target_glob: sessions/{task}/traffic/*.jsonl
+      control_glob: ''
+      output: sessions/{task}/closedloop.json
   hunt_verify:
     enabled: true
     label: Evidence verdicts per chain stage
     fires_when: on terminal status when a hunt design and evidence file exist
     params:
-      design: "sessions/{task}/hunt_design.json"
-      evidence: "sessions/{task}/hunt_evidence.json"
-      output: "sessions/{task}/hunt_verification.json"
+      design: sessions/{task}/hunt_design.json
+      evidence: sessions/{task}/hunt_evidence.json
+      output: sessions/{task}/hunt_verification.json
   llm_pool:
     enabled: true
     label: LLM provider pool with circuit breaker and backoff ladder
@@ -121,33 +121,36 @@ stages:
     label: Stream model deltas into the activity log
     fires_when: every pool and agent LLM call while streaming is supported
 triggers:
-  - kind: service
-    enabled: true
-  - kind: ad_surface
-    every_sec: 1800
-    enabled: true
+- kind: service
+  enabled: true
+- kind: ad_surface
+  every_sec: 1800
+  enabled: true
+- enabled: true
+  kind: cve_hot
+  every_sec: 3600
 profiles:
   default:
     description: Balanced autonomous engagement.
     stages:
       defense_validate:
         params:
-          rule_path: ""
-          target_glob: "sessions/{task}/traffic/*.jsonl"
-          control_glob: ""
-          output: "sessions/{task}/defense_eval.json"
+          rule_path: ''
+          target_glob: sessions/{task}/traffic/*.jsonl
+          control_glob: ''
+          output: sessions/{task}/defense_eval.json
       closedloop_tune:
         params:
-          baseline_path: ""
-          candidate_path: ""
-          target_glob: "sessions/{task}/traffic/*.jsonl"
-          control_glob: ""
-          output: "sessions/{task}/closedloop.json"
+          baseline_path: ''
+          candidate_path: ''
+          target_glob: sessions/{task}/traffic/*.jsonl
+          control_glob: ''
+          output: sessions/{task}/closedloop.json
       hunt_verify:
         params:
-          design: "sessions/{task}/hunt_design.json"
-          evidence: "sessions/{task}/hunt_evidence.json"
-          output: "sessions/{task}/hunt_verification.json"
+          design: sessions/{task}/hunt_design.json
+          evidence: sessions/{task}/hunt_evidence.json
+          output: sessions/{task}/hunt_verification.json
     limits:
       rounds: 10
       workers: 3
@@ -172,8 +175,12 @@ profiles:
       jitter_pct_max: 10
       max_delay_sec: 300
       edr_pause_ranges:
-        1: [2.0, 5.0]
-        2: [5.0, 15.0]
+        1:
+        - 2.0
+        - 5.0
+        2:
+        - 5.0
+        - 15.0
       sleeper_windows: []
       round_sleep_sec: 0
     findings:
@@ -208,8 +215,12 @@ profiles:
       jitter_pct_max: 60
       max_delay_sec: 120
       edr_pause_ranges:
-        1: [5.0, 10.0]
-        2: [15.0, 45.0]
+        1:
+        - 5.0
+        - 10.0
+        2:
+        - 15.0
+        - 45.0
       sleeper_windows: []
       round_sleep_sec: 30
     stages:
@@ -288,34 +299,36 @@ profiles:
       max_toolcalls: 300
       max_findings: 80
   purple:
-    description: Purple-team engagement with defense validation, closed-loop rule tuning and hunt verification.
+    description: Purple-team engagement with defense validation, closed-loop rule
+      tuning and hunt verification.
     extends: default
     stages:
       defense_validate:
         enabled: true
         params:
-          rule_path: ""
-          target_glob: "sessions/{task}/traffic/*.jsonl"
-          control_glob: "sessions/{task}/traffic/benign/*.jsonl"
-          output: "sessions/{task}/defense_eval.json"
+          rule_path: ''
+          target_glob: sessions/{task}/traffic/*.jsonl
+          control_glob: sessions/{task}/traffic/benign/*.jsonl
+          output: sessions/{task}/defense_eval.json
       closedloop_tune:
         enabled: true
         params:
-          baseline_path: ""
-          candidate_path: ""
-          target_glob: "sessions/{task}/traffic/*.jsonl"
-          control_glob: "sessions/{task}/traffic/benign/*.jsonl"
-          output: "sessions/{task}/closedloop.json"
+          baseline_path: ''
+          candidate_path: ''
+          target_glob: sessions/{task}/traffic/*.jsonl
+          control_glob: sessions/{task}/traffic/benign/*.jsonl
+          output: sessions/{task}/closedloop.json
       hunt_verify:
         enabled: true
         params:
-          design: "sessions/{task}/hunt_design.json"
-          evidence: "sessions/{task}/hunt_evidence.json"
-          output: "sessions/{task}/hunt_verification.json"
+          design: sessions/{task}/hunt_design.json
+          evidence: sessions/{task}/hunt_evidence.json
+          output: sessions/{task}/hunt_verification.json
     chain: apt_chain
     playbook: rocke
   harness:
-    description: Deterministic-only loop (no planner/worker LLM, no SWAN); objectives and chains drive everything.
+    description: Deterministic-only loop (no planner/worker LLM, no SWAN); objectives
+      and chains drive everything.
     extends: default
     harness: true
     stages:
@@ -356,3 +369,193 @@ profiles:
       objectives: true
       event_bus: true
       report: true
+  aggressive:
+    extends: default
+    description: 'High-tempo red team: more workers and intents, faster cadence, full
+      sink fan-out.'
+    mode: redteam
+    chain: apt_chain
+    playbook: rocke
+    limits:
+      enrich_cooldown_sec: 120
+      enrich_limit: 3
+      heartbeat_sec: 300
+      intel_sync_sec: 10
+      max_intents_per_round: 6
+      max_worker_steps: 8
+      retest_limit: 4
+      rounds: 15
+      step_delay_sec: 0.2
+      verb_timeout_sec: 300
+      wake_debounce_sec: 0.4
+      worker_parallel_cap: 5
+      workers: 4
+    budget:
+      max_rounds: 15
+      max_toolcalls: 300
+      max_findings: 80
+    pacing:
+      enabled: true
+      jitter_pct_min: 0
+      jitter_pct_max: 5
+      max_delay_sec: 120
+      round_sleep_sec: 0
+      sleeper_windows: []
+      edr_pause_ranges:
+        1:
+        - 1.0
+        - 3.0
+        2:
+        - 2.0
+        - 8.0
+    progress:
+      max_strikes: 4
+      handoff_on_strikes: true
+  windows:
+    extends: default
+    description: 'Windows / Active Directory engagement: AD surface trigger cadence,
+      ADCS and kerberos flow, chain over the AD golden path.'
+    mode: redteam
+    chain: apt_ad_windows
+    playbook: rocke
+    limits:
+      enrich_cooldown_sec: 180
+      enrich_limit: 2
+      heartbeat_sec: 420
+      intel_sync_sec: 10
+      max_intents_per_round: 5
+      max_worker_steps: 7
+      retest_limit: 3
+      rounds: 12
+      step_delay_sec: 0.5
+      verb_timeout_sec: 300
+      wake_debounce_sec: 0.8
+      worker_parallel_cap: 4
+      workers: 3
+    budget:
+      max_rounds: 12
+      max_toolcalls: 240
+      max_findings: 60
+    stages:
+      hunt_verify:
+        enabled: true
+        params:
+          design: sessions/{task}/hunt_design.json
+          evidence: sessions/{task}/hunt_evidence.json
+          output: sessions/{task}/hunt_verification.json
+    progress:
+      max_strikes: 3
+      handoff_on_strikes: true
+  cloud:
+    extends: default
+    description: 'Cloud engagements (AWS/Azure/GCP/K8s): slower intel sync, cloud
+      enum stages on, defensive validation off.'
+    mode: redteam
+    chain: apt_chain
+    playbook: rocke
+    limits:
+      enrich_cooldown_sec: 600
+      enrich_limit: 2
+      heartbeat_sec: 900
+      intel_sync_sec: 30
+      max_intents_per_round: 3
+      max_worker_steps: 6
+      retest_limit: 2
+      rounds: 10
+      step_delay_sec: 1.0
+      verb_timeout_sec: 600
+      wake_debounce_sec: 1.0
+      worker_parallel_cap: 3
+      workers: 2
+    budget:
+      max_rounds: 10
+      max_toolcalls: 200
+      max_findings: 60
+    stages:
+      llm_stream:
+        enabled: false
+      defense_validate:
+        enabled: false
+      closedloop_tune:
+        enabled: false
+    progress:
+      max_strikes: 3
+      handoff_on_strikes: true
+  external:
+    extends: stealth
+    description: 'External perimeter from stealth: maximum jitter and sleeper windows,
+      minimal intents, no streaming.'
+    mode: pentest
+    chain: apt_chain
+    playbook: rocke
+    limits:
+      enrich_cooldown_sec: 900
+      enrich_limit: 1
+      heartbeat_sec: 1200
+      intel_sync_sec: 45
+      max_intents_per_round: 2
+      max_worker_steps: 4
+      retest_limit: 1
+      rounds: 6
+      step_delay_sec: 4.0
+      verb_timeout_sec: 300
+      wake_debounce_sec: 2.0
+      worker_parallel_cap: 2
+      workers: 2
+    budget:
+      max_rounds: 8
+      max_toolcalls: 140
+      max_findings: 40
+    pacing:
+      enabled: true
+      jitter_pct_min: 40
+      jitter_pct_max: 80
+      max_delay_sec: 240
+      round_sleep_sec: 45
+      sleeper_windows: []
+      edr_pause_ranges:
+        1:
+        - 8.0
+        - 15.0
+        2:
+        - 20.0
+        - 60.0
+    progress:
+      max_strikes: 2
+      handoff_on_strikes: true
+  ctf:
+    extends: gym
+    description: 'CTF flag hunting from the gym profile: no pacing, wide budgets,
+      chains over the generic APT sweep.'
+    mode: ctf
+    chain: apt_chain
+    playbook: rocke
+    limits:
+      enrich_cooldown_sec: 60
+      enrich_limit: 4
+      heartbeat_sec: 240
+      intel_sync_sec: 8
+      max_intents_per_round: 8
+      max_worker_steps: 10
+      retest_limit: 5
+      rounds: 20
+      step_delay_sec: 0.0
+      verb_timeout_sec: 300
+      wake_debounce_sec: 0.3
+      worker_parallel_cap: 5
+      workers: 5
+    budget:
+      max_rounds: 20
+      max_toolcalls: 400
+      max_findings: 120
+    pacing:
+      enabled: false
+      jitter_pct_min: 0
+      jitter_pct_max: 0
+      max_delay_sec: 0
+      round_sleep_sec: 0
+      sleeper_windows: []
+      edr_pause_ranges: {}
+    progress:
+      max_strikes: 5
+      handoff_on_strikes: true

@@ -2874,11 +2874,27 @@ class TaskStore:
         self._persist()
         return True
 
-    def dequeue_next(self) -> dict | None:
-        """Pop the oldest queued task and mark it running."""
+    def dequeue_next(self, order=None) -> dict | None:
+        """Pop one queued task, mark it running and return it.
+
+        Args:
+            order: Optional callable taking the FIFO-ordered queue and
+                returning it reordered; the first element is dequeued. When
+                None the oldest queued task is popped (FIFO).
+
+        Returns:
+            The dequeued task record, or None when the queue is empty.
+        """
         items = self.queue()
         if not items:
             return None
+        if order is not None:
+            try:
+                reordered = list(order(items))
+                if reordered:
+                    items = reordered
+            except Exception:
+                _LOG.debug("queue order callback failed, keeping FIFO order")
         record = items[0]
         record["status"] = "running"
         record["updated"] = _now()
@@ -7959,6 +7975,19 @@ class LazyLoopEngine(EngineProxyMixin):
         self._run_defaults: dict = {}
         self._in_drain = False
         self.selfupdate_interval_sec = 24 * 3600.0
+        self.triage_enabled = False
+        self.triage = None
+        try:
+            from core.config import load_payload
+
+            if bool((load_payload() or {}).get("loop_triage_enabled", False)):
+                from modules.loop.triage_scheduler import TriageScheduler
+
+                self.triage_enabled = True
+                self.triage = TriageScheduler()
+        except Exception:
+            self.triage_enabled = False
+            self.triage = None
 
     def apply_profile(self, name: str = "") -> dict:
         """Apply one orchestrator profile to this engine.
@@ -9376,6 +9405,7 @@ class LazyLoopEngine(EngineProxyMixin):
             todos = TodoStore(task_id)
             next_steps = [str(item.get("text", "")) for item in todos.items if item.get("state") == "pending"]
             next_steps.extend(hint.text for hint in graph.list("hint", "pending"))
+            credentials = self._handover_credentials(settlement, findings)
             lazy_continuation.save(
                 target,
                 task_id=task_id,
@@ -9384,9 +9414,42 @@ class LazyLoopEngine(EngineProxyMixin):
                 settlement=settlement,
                 findings=findings,
                 next_steps=next_steps[:6],
+                credentials=credentials,
             )
         except Exception:
             return
+
+    @staticmethod
+    def _handover_credentials(settlement: str, findings: list[str]) -> list[str]:
+        """Extract reusable ``user:pass`` hints for the successor handover.
+
+        Reuses the shared credential parser over the settlement text and
+        confirmed findings so a saturating worker's replacement inherits any
+        credentials the run proved. Never raises.
+
+        Args:
+            settlement: The wrap-up settlement text.
+            findings: Confirmed finding texts.
+
+        Returns:
+            A deduplicated list of ``user:pass`` strings (possibly empty).
+        """
+        try:
+            from modules.reaction_bridge import find_credentials
+
+            blob = "\n".join([settlement or "", *(findings or [])])
+            seen: list[str] = []
+            for cred in find_credentials(blob):
+                user = str(cred.get("username", "")).strip()
+                password = str(cred.get("password", "")).strip()
+                if not user:
+                    continue
+                pair = f"{user}:{password}" if password else user
+                if pair not in seen:
+                    seen.append(pair)
+            return seen[:10]
+        except Exception:
+            return []
 
     def _wrapup_summary(self, task_id: str, reason: str) -> str:
         """Task-level settlement: one bounded LLM turn persisted as a fact.
@@ -10042,11 +10105,18 @@ class LazyLoopEngine(EngineProxyMixin):
         ActivityLog(task_id).emit("engine", "admission", f"queued: {active}/{cap} task(s) running")
         return {"admitted": False, "queued": True, "active": active, "cap": cap}
 
-    def drain_queue(self, max_tasks: int = 3) -> list[dict]:
-        """Run queued tasks FIFO while the concurrency cap allows.
+    def drain_queue(self, max_tasks: int = 3, deadline_near: bool = False) -> list[dict]:
+        """Run queued tasks while the concurrency cap allows.
+
+        Draining is FIFO by default. When ``loop_triage_enabled`` is set the
+        difficulty-triage scheduler orders the queue easy-first (salvaging
+        partials first near a deadline) and abandons targets that hit the
+        stop-loss limit without progress.
 
         Args:
             max_tasks: Max queued tasks promoted in one pass.
+            deadline_near: When True, the triage scheduler prioritises
+                salvageable partials.
 
         Returns:
             Per-task run summaries.
@@ -10055,15 +10125,22 @@ class LazyLoopEngine(EngineProxyMixin):
         args = dict(self._run_defaults or {})
         previous = self._in_drain
         self._in_drain = True
+        order = None
+        if self.triage_enabled and self.triage is not None:
+            order = lambda items: self.triage.order(items, deadline_near=deadline_near)
         try:
             for _ in range(max(1, int(max_tasks))):
                 cap = int(self.max_concurrent or 0)
                 if cap > 0 and self.store.active_count() >= cap:
                     break
-                record = self.store.dequeue_next()
+                record = self.store.dequeue_next(order=order)
                 if record is None:
                     break
                 task_id = str(record.get("task_id", ""))
+                if self.triage_enabled and self.triage is not None and self.triage.should_stop(record):
+                    self.store.set_status(task_id, "exhausted")
+                    ActivityLog(task_id).emit("engine", "stop-loss", "abandoned: attempts exhausted without progress")
+                    continue
                 ActivityLog(task_id).emit("engine", "admission", "dequeued: running now")
                 results.append(self.run(task_id, **args))
         finally:

@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import os
 import re
 import shlex
@@ -37,6 +38,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from modules.loop import (
+    EngineProxyMixin,
     WorkerAgenticMixin,
     WorkerExecutionMixin,
     WorkerGatingMixin,
@@ -51,6 +53,7 @@ from modules.loop_guardrails import (
     listing_forbidden,
 )
 
+_LOG = logging.getLogger("modules.lazy_loop")
 BASE_DIR = Path(__file__).resolve().parent.parent
 STORE_DIR = BASE_DIR / "sessions" / "lazy"
 SESSIONS_DIR = BASE_DIR / "sessions"
@@ -197,10 +200,6 @@ def plausible_command(command: str) -> bool:
 
 _COMMAND_HEAD_RE = re.compile(r"^[A-Za-z0-9_./-]+$")
 _ASSIGNMENT_HEAD_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
-_FILE_LIKE_SUFFIXES = (
-    ".sh", ".py", ".exe", ".dll", ".ps1", ".bat", ".txt", ".json", ".xml",
-    ".html", ".php", ".jsp", ".bin", ".elf", ".so", ".conf", ".cfg", ".log",
-)
 
 
 def looks_like_prose(command: str) -> bool:
@@ -233,17 +232,13 @@ def looks_like_prose(command: str) -> bool:
 def _is_host_like_target(value: str) -> bool:
     """Return True when a target is a routable host worth scope enforcement.
 
-    Scope enforcement applies to hosts, not to local artefacts. A tool name
-    such as ``linpeas.sh`` superficially matches the hostname grammar
-    (``foo.sh``) yet is never an engagement target, so file-like names are
-    excluded to stop false-positive scope blocks.
+    Scope enforcement applies to hosts, not to local artefacts. Shape and
+    file-exclusion policy are the canonical ones in :mod:`core.host_policy`;
+    single-host scope checks reject CIDR blocks.
     """
-    candidate = str(value or "").strip()
-    if not candidate:
-        return False
-    if candidate.lower().endswith(_FILE_LIKE_SUFFIXES):
-        return False
-    return bool(_is_ip_literal(candidate) or _HOSTNAME_RE.match(candidate) or _host_like_target(candidate))
+    from core.host_policy import is_engagement_target
+
+    return is_engagement_target(value, allow_cidr=False)
 
 
 NETWORK_TOOL_HEADS = frozenset(
@@ -880,12 +875,17 @@ def record_worker_traces(
 
 
 def _load_json(path: Path, default: dict) -> dict:
-    """Load JSON mapping from path or return default copy."""
+    """Load JSON mapping from path or return default copy.
+
+    A corrupt or unreadable file falls back to the default instead of
+    raising, but the failure is logged at debug so hidden state corruption
+    is observable rather than silent.
+    """
     try:
         if path.exists():
             return json.loads(path.read_text())
-    except Exception:
-        pass
+    except Exception as exc:
+        _LOG.debug("corrupt or unreadable JSON store %s, using default: %s", path, exc)
     return json.loads(json.dumps(default))
 
 
@@ -5339,11 +5339,17 @@ def _is_scan_command(command: str) -> bool:
 
 
 def _host_like_target(target: str) -> bool:
-    """Whether a target looks like a host (IP or resolvable name), not a URL."""
+    """Whether a target looks like a host (IP or resolvable name), not a URL or CIDR.
+
+    Delegates shape validation to :mod:`core.host_policy`; a ``/`` (URL path or
+    CIDR block) disqualifies the value for single-host ping gating.
+    """
+    from core.host_policy import is_valid_host
+
     value = str(target or "").strip()
-    if not value or "://" in value or value.startswith("/"):
+    if "/" in value:
         return False
-    return bool(re.match(r"^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$", value, re.IGNORECASE))
+    return is_valid_host(value)
 
 
 class Retester:
@@ -7892,7 +7898,7 @@ class TaskChat:
         return True
 
 
-class LazyLoopEngine:
+class LazyLoopEngine(EngineProxyMixin):
     """Single event-driven orchestrator: planner, workers, guard, enrich, retest.
 
     One human command (lazy_loop / auto_loop) invokes every operator-visible
@@ -9996,65 +10002,6 @@ class LazyLoopEngine:
                 continue
         return {"deleted": True, "removed": removed}
 
-    def proxy_start(
-        self, host: str = "", port: int = 0, task_id: str = "", trust: bool = True, upstream: str = ""
-    ) -> dict:
-        """Start the shared recorder proxy and apply its trust environment.
-
-        Args:
-            host: Bind address (default 127.0.0.1).
-            port: Bind port (default 8899).
-            task_id: Task tag stored with each exchange.
-            trust: Also install the CA into the system trust store,
-                prompting sudo only when the anchor is missing or stale.
-            upstream: Optional ``[user:pass@]host:port`` proxy to chain.
-
-        Returns:
-            Proxy status dict including the CA path and trust outcome.
-        """
-        from modules import lazy_proxy as _proxy
-
-        status = _proxy.get_proxy().start(
-            host=host or _proxy.DEFAULT_PROXY_HOST,
-            port=port or _proxy.DEFAULT_PROXY_PORT,
-            task_id=task_id,
-            upstream=upstream,
-        )
-        _proxy.apply_env(status["ca_path"], status["host"], status["port"])
-        if trust:
-            try:
-                status["trust"] = _proxy.install_ca_trust(status["ca_path"])
-            except Exception as exc:
-                status["trust"] = {"installed": False, "reason": str(exc)[:200], "anchor": ""}
-            try:
-                status["nss"] = _proxy.install_ca_nss(status["ca_path"])
-            except Exception as exc:
-                status["nss"] = {"installed": 0, "profiles": 0, "reason": str(exc)[:200]}
-        return status
-
-    def proxy_stop(self) -> dict:
-        """Stop the recorder proxy and clear its trust environment."""
-        from modules import lazy_proxy as _proxy
-
-        status = _proxy.get_proxy().stop()
-        _proxy.restore_env({key: None for key in _proxy.PROXY_ENV_KEYS})
-        return status
-
-    def proxy_status(self) -> dict:
-        """Return recorder proxy state (running, address, CA, exchanges)."""
-        from modules import lazy_proxy as _proxy
-
-        return _proxy.get_proxy().status()
-
-    def proxy_env(self) -> dict:
-        """Return the environment overrides that route tools via proxy."""
-        from modules import lazy_proxy as _proxy
-
-        status = _proxy.get_proxy().status()
-        if not status.get("running"):
-            return {}
-        return _proxy.env_for_ca(status["ca_path"], status["host"], status["port"])
-
     def set_concurrency(self, limit: int) -> int:
         """Cap concurrently running tasks; 0 disables admission control.
 
@@ -10122,112 +10069,6 @@ class LazyLoopEngine:
         finally:
             self._in_drain = previous
         return results
-
-    def ingest_proxy_traffic(self, task_id: str, limit: int = 200) -> int:
-        """Mirror new recorder exchanges into the task traffic log.
-
-        A per-task rowid watermark keeps repeated rounds cheap; the
-        recorder exchange id rides in meta so ``lazy_traffic body`` can
-        fetch stored request/response bodies from the proxy store.
-
-        Args:
-            task_id: Task receiving the mirrored rows.
-            limit: Max rows per ingest page.
-
-        Returns:
-            Number of freshly ingested exchanges.
-        """
-        from modules import lazy_proxy as _proxy
-
-        recorder = _proxy.get_proxy().recorder()
-        if recorder is None:
-            return 0
-        path = _store_path(f"proxy_ingest_{task_id}.json")
-        watermark = int((_load_json(path, {"rowid": 0}) or {}).get("rowid", 0))
-        try:
-            rows = recorder.since(watermark, limit=limit)
-        except Exception:
-            return 0
-        if not rows:
-            return 0
-        traffic = TrafficLog(task_id)
-        count = 0
-        for row in rows:
-            url = str(row.get("url", ""))
-            command = f"{row.get('method', 'GET')} {url}"
-            output = (
-                f"HTTP {row.get('status', 0)} {row.get('content_type', '')} "
-                f"req={row.get('req_len', 0)}B resp={row.get('resp_len', 0)}B"
-            )
-            traffic.record(
-                "http",
-                command,
-                output,
-                {
-                    "exchange_id": str(row.get("id", "")),
-                    "recorder_path": str(row.get("path", "")),
-                    "host": str(row.get("host", "")),
-                    "status": int(row.get("status", 0) or 0),
-                    "source": "proxy",
-                },
-            )
-            count += 1
-        _save_json(path, {"rowid": int(rows[-1].get("rowid", watermark))})
-        if count:
-            ActivityLog(task_id).emit("engine", "proxy", f"ingested {count} recorder exchange(s)")
-        return count
-
-    def search_proxy_body(self, task_id: str, query: str, limit: int = 20) -> list[dict]:
-        """Full-text search proxy bodies scoped to one task's exchanges.
-
-        Args:
-            task_id: Task whose ingested exchanges are searched.
-            query: Phrase to search for.
-            limit: Max hits.
-
-        Returns:
-            Hits with exchange_id, url, status, host and snippet.
-        """
-        from modules import lazy_proxy as _proxy
-
-        controller = _proxy.get_proxy()
-        recorder = controller.recorder()
-        if recorder is None:
-            from modules.traffic_recorder import TrafficRecorder
-
-            recorder = TrafficRecorder(controller.traffic_dir)
-        wanted = {str((row.get("meta") or {}).get("exchange_id", "")) for row in TrafficLog(task_id).read(2000)}
-        wanted.discard("")
-        if not wanted:
-            return []
-        hits = recorder.search_body(query, limit=max(limit * 4, 40))
-        return [hit for hit in hits if str(hit.get("exchange_id", "")) in wanted][: max(1, limit)]
-
-    def _maybe_proxy_gc(self) -> int:
-        """Sweep recorder exchanges older than the retention window.
-
-        Runs at most once every ``proxy_gc_interval_sec``; the last run
-        stamp lives in the shared lazy store so restarts do not resweep.
-
-        Returns:
-            Removed exchange count (0 when skipped).
-        """
-        from modules import lazy_proxy as _proxy
-
-        recorder = _proxy.get_proxy().recorder()
-        if recorder is None:
-            return 0
-        path = _store_path("proxy_gc.json")
-        state = _load_json(path, {"last_run": 0.0})
-        now = _now()
-        if now - float(state.get("last_run", 0.0) or 0.0) < float(self.proxy_gc_interval_sec):
-            return 0
-        try:
-            removed = recorder.gc(older_than_sec=float(self.proxy_gc_days) * 86400)
-        except Exception:
-            removed = {"removed": 0}
-        _save_json(path, {"last_run": now})
-        return int(removed.get("removed", 0) or 0)
 
     def _maybe_import_inbox(self) -> int:
         """Import traffic archives dropped in the recorder inbox.

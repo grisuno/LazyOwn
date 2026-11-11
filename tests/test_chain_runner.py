@@ -266,6 +266,36 @@ def test_runner_keeps_verbs_on_calling_thread():
     assert seen == [threading.main_thread()]
 
 
+def test_runner_verb_timeout_releases_chain_off_main_thread():
+    """Given a hung verb run off the main thread, When the step timeout
+    elapses, Then the chain reports timeout instead of stalling forever."""
+    started = threading.Event()
+
+    class HangingShell:
+        aliases: dict = {}
+
+        def do_hang(self, line: str) -> None:
+            started.set()
+            time.sleep(30)
+
+        def onecmd(self, command: str) -> None:
+            _verb, _, args = command.partition(" ")
+            getattr(self, f"do_{_verb}")(args)
+
+    chain = _chain([ChainStep(id="verb", run="hang now", timeout=1)])
+    outcome: dict = {}
+
+    def _drive() -> None:
+        outcome["result"] = ChainRunner(chain, shell=HangingShell(), retry_backoff=0).run()
+
+    worker = threading.Thread(target=_drive, daemon=True)
+    worker.start()
+    worker.join(timeout=10)
+    assert not worker.is_alive(), "runner stalled on a hung off-main-thread verb"
+    assert outcome["result"].steps[0].status == "timeout"
+    assert outcome["result"].aborted is True
+
+
 def test_runner_fails_on_nonzero_exit():
     """Given a raw command that exits non-zero, When the chain runs, Then the step fails."""
     class Shell:

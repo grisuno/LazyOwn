@@ -1777,6 +1777,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             build_reactive_replanner,
             compose_replanners,
             parse_chain_args,
+            render_admin,
             render_result,
             resolve_admin,
             select_step_ids,
@@ -1802,61 +1803,14 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             if args.json_out:
                 print(json.dumps(payload, indent=2, default=str))
                 return
-            if not payload.get("ok", False):
-                print_error(f"[apt_chain] {args.admin_action}: {payload.get('error', 'failed')}")
-                if payload.get("errors"):
-                    for error in payload["errors"]:
-                        print_warn(f"    - {error}")
-                return
-            rows = payload.get("rows") or []
-            if payload.get("action") == "list":
-                print_msg(f"{'chain':<44} {'ok':<5} {'on':<4} {'steps':<6} playbook")
-                print_msg("-" * 78)
-                for row in rows:
-                    print_msg(
-                        f"{str(row.get('name', ''))[:43]:<44} {str(row.get('valid', ''))[:4]:<5} "
-                        f"{str(row.get('enabled', ''))[:3]:<4} {str(row.get('steps', ''))[:5]:<6} "
-                        f"{row.get('playbook', '')}"
-                    )
-            elif payload.get("action") == "checkpoints":
-                if not rows:
-                    print_warn("[apt_chain] no checkpoints (runs via apt_chain without --no-checkpoint).")
-                for row in rows:
-                    print_msg(
-                        f"{row.get('run_id', ''):<62} {row.get('chain', ''):<24} state={row.get('state', ''):<10} target={row.get('target', '')}"
-                    )
-            elif payload.get("action") == "show":
-                print_msg(f"[apt_chain] {payload.get('name')}: {payload.get('description') or '(no description)'}")
-                print_msg(f"    extends: {payload.get('extends') or '(base)'}  defaults: {json.dumps(payload.get('defaults', {}))}")
-                for step in payload.get("steps", []) or []:
-                    print_msg(f"    - {step.get('id', step.get('run'))}: {step.get('run', '')}")
-                if payload.get("errors"):
-                    for error in payload["errors"]:
-                        print_warn(f"    - {error}")
-            elif payload.get("action") == "synth":
-                if payload.get("path"):
-                    print_succ(f"[apt_chain] generated {payload.get('name', '')} ({payload.get('steps', 0)} steps)")
-                    print_msg(f"    file: {payload.get('path')}")
-                    print_msg("    run it: apt_chain " + str(payload.get("name", "")))
-                    for note in payload["notes"][:24]:
-                        print_msg(f"    • {note}")
-                else:
-                    print_error(f"[apt_chain] synth failed: {payload.get('error', 'validation')}")
-            elif payload.get("action") == "approvals" and list(payload.get("rows") or []):
-                print_msg(f"{'id':<18} {'status':<9} {'chain':<24} {'step':<20} command")
-                print_msg("-" * 88)
-                for row in payload["rows"]:
-                    print_msg(
-                        f"{str(row.get('id', ''))[:17]:<18} {str(row.get('status', ''))[:8]:<9} "
-                        f"{str(row.get('chain', ''))[:23]:<24} {str(row.get('step_id', ''))[:19]:<20} "
-                        f"{str(row.get('command', ''))[:60]}"
-                    )
-            else:
-                if payload.get("errors"):
-                    for error in payload["errors"]:
-                        print_warn(f"    - {error}")
-                else:
-                    print_succ(f"[apt_chain] {args.admin_action} ok: {payload.get('name', '')}")
+            printers = {
+                "msg": print_msg,
+                "warn": print_warn,
+                "error": print_error,
+                "succ": print_succ,
+            }
+            for level, text in render_admin(payload, args.admin_action):
+                printers.get(level, print_msg)(text)
             return
 
         target = (self.params.get("rhost", "") or "").strip()

@@ -434,6 +434,84 @@ def render_result(result: ChainRunResult) -> list[str]:
     return lines
 
 
+def render_admin(payload: dict[str, Any], action: str) -> list[tuple[str, str]]:
+    """Render an ``apt_chain`` admin payload as severity-tagged operator lines.
+
+    Keeps table and summary formatting out of the command handler. Each entry
+    is a ``(level, text)`` pair where level is one of ``msg``, ``warn``,
+    ``error`` or ``succ`` so the caller maps it to the matching printer.
+
+    Args:
+        payload: The dict returned by :func:`resolve_admin`.
+        action: The admin verb that produced the payload.
+
+    Returns:
+        Ordered ``(level, text)`` lines ready for the caller to print.
+    """
+    import json
+
+    lines: list[tuple[str, str]] = []
+    if not payload.get("ok", False):
+        lines.append(("error", f"[apt_chain] {action}: {payload.get('error', 'failed')}"))
+        for error in payload.get("errors") or []:
+            lines.append(("warn", f"    - {error}"))
+        return lines
+
+    rows = payload.get("rows") or []
+    resolved = payload.get("action")
+    if resolved == "list":
+        lines.append(("msg", f"{'chain':<44} {'ok':<5} {'on':<4} {'steps':<6} playbook"))
+        lines.append(("msg", "-" * 78))
+        for row in rows:
+            lines.append((
+                "msg",
+                f"{str(row.get('name', ''))[:43]:<44} {str(row.get('valid', ''))[:4]:<5} "
+                f"{str(row.get('enabled', ''))[:3]:<4} {str(row.get('steps', ''))[:5]:<6} "
+                f"{row.get('playbook', '')}",
+            ))
+    elif resolved == "checkpoints":
+        if not rows:
+            lines.append(("warn", "[apt_chain] no checkpoints (runs via apt_chain without --no-checkpoint)."))
+        for row in rows:
+            lines.append((
+                "msg",
+                f"{row.get('run_id', ''):<62} {row.get('chain', ''):<24} "
+                f"state={row.get('state', ''):<10} target={row.get('target', '')}",
+            ))
+    elif resolved == "show":
+        lines.append(("msg", f"[apt_chain] {payload.get('name')}: {payload.get('description') or '(no description)'}"))
+        lines.append(("msg", f"    extends: {payload.get('extends') or '(base)'}  defaults: {json.dumps(payload.get('defaults', {}))}"))
+        for step in payload.get("steps", []) or []:
+            lines.append(("msg", f"    - {step.get('id', step.get('run'))}: {step.get('run', '')}"))
+        for error in payload.get("errors") or []:
+            lines.append(("warn", f"    - {error}"))
+    elif resolved == "synth":
+        if payload.get("path"):
+            lines.append(("succ", f"[apt_chain] generated {payload.get('name', '')} ({payload.get('steps', 0)} steps)"))
+            lines.append(("msg", f"    file: {payload.get('path')}"))
+            lines.append(("msg", "    run it: apt_chain " + str(payload.get("name", ""))))
+            for note in (payload.get("notes") or [])[:24]:
+                lines.append(("msg", f"    • {note}"))
+        else:
+            lines.append(("error", f"[apt_chain] synth failed: {payload.get('error', 'validation')}"))
+    elif resolved == "approvals" and rows:
+        lines.append(("msg", f"{'id':<18} {'status':<9} {'chain':<24} {'step':<20} command"))
+        lines.append(("msg", "-" * 88))
+        for row in rows:
+            lines.append((
+                "msg",
+                f"{str(row.get('id', ''))[:17]:<18} {str(row.get('status', ''))[:8]:<9} "
+                f"{str(row.get('chain', ''))[:23]:<24} {str(row.get('step_id', ''))[:19]:<20} "
+                f"{str(row.get('command', ''))[:60]}",
+            ))
+    elif payload.get("errors"):
+        for error in payload["errors"]:
+            lines.append(("warn", f"    - {error}"))
+    else:
+        lines.append(("succ", f"[apt_chain] {action} ok: {payload.get('name', '')}"))
+    return lines
+
+
 def build_cli_approver(printer, input_fn=None):
     """Return an approver baked for interactive operators.
 
@@ -733,6 +811,7 @@ __all__ = [
     "build_reactive_replanner",
     "compose_replanners",
     "parse_chain_args",
+    "render_admin",
     "render_result",
     "resolve_admin",
     "select_step_ids",

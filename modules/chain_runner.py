@@ -16,11 +16,14 @@ import concurrent.futures as futures
 import glob
 import hashlib
 import json
+import logging
 import os
 import random
 import re
 import shlex
+import signal
 import subprocess
+import threading
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -30,6 +33,7 @@ from typing import Any
 from modules.chain_registry import Chain, ChainStep, evaluate_when
 from modules.chain_state import new_run_id, write_checkpoint
 
+_LOG = logging.getLogger("modules.chain_runner")
 _TOKEN_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
 _SHELL_META = re.compile(r"[;&|<>`$]")
 _MAX_CAPTURE_CHARS = 2000
@@ -1304,8 +1308,8 @@ class ChainRunner:
         if self.command_filter is not None:
             try:
                 command = str(self.command_filter(command))
-            except Exception:
-                pass
+            except Exception as exc:
+                _LOG.debug("command_filter failed, using original command: %s", exc)
         limit = float(timeout or self.default_timeout)
         allowed = {
             code
@@ -1317,13 +1321,53 @@ class ChainRunner:
         if self.shell is None:
             return False, "", "no executor or shell"
         if self._is_verb(command):
+            return self._run_verb_bounded(command, limit)
+        return self._call(lambda: self._run_raw(command, limit, allowed), limit)
+
+    def _verb_timeout_on_main(self, limit: float) -> bool:
+        """Return True when a hung verb can be aborted in place via ``SIGALRM``.
+
+        A positive timeout is only enforceable on the calling thread when that
+        thread is the main thread and ``SIGALRM`` exists; those are the two
+        preconditions :meth:`_run_shell_verb` needs to arm its watchdog.
+
+        Args:
+            limit: Wall-clock budget in seconds.
+
+        Returns:
+            True when the in-place SIGALRM watchdog is usable.
+        """
+        return (
+            limit > 0
+            and threading.current_thread() is threading.main_thread()
+            and hasattr(signal, "SIGALRM")
+        )
+
+    def _run_verb_bounded(self, command: str, limit: float) -> tuple[bool, str, str]:
+        """Run a cmd2 verb with a timeout honoured on and off the main thread.
+
+        On the main thread the ``SIGALRM`` watchdog in :meth:`_run_shell_verb`
+        aborts a hung verb in place. Off the main thread ``SIGALRM`` is
+        unavailable, so the verb runs under a single-worker future whose
+        timeout releases the chain instead of stalling it forever (the same
+        guarantee the raw-shell path already provides via :meth:`_call`). A
+        zero budget disables both watchdogs and runs the verb directly.
+
+        Args:
+            command: The rendered verb line to execute.
+            limit: Wall-clock budget in seconds (0 disables the timeout).
+
+        Returns:
+            The ``(ok, output, reason)`` triple expected by :meth:`_execute`.
+        """
+        if limit <= 0 or self._verb_timeout_on_main(limit):
             try:
                 return True, self._run_shell_verb(command, limit), ""
             except TimeoutError as exc:
                 return False, (str(exc) or "verb timeout")[:200], "timeout"
             except Exception as exc:
                 return False, "", str(exc)[:300]
-        return self._call(lambda: self._run_raw(command, limit, allowed), limit)
+        return self._call(lambda: self._run_shell_verb(command, limit), limit)
 
     def _is_verb(self, command: str) -> bool:
         """Return True when the first token is a live cmd2 verb or alias."""
@@ -1361,8 +1405,6 @@ class ChainRunner:
         import contextlib
         import io
         import math
-        import signal
-        import threading
 
         alarm_seconds = max(0, int(math.ceil(float(timeout or 0.0))))
         use_alarm = (

@@ -38,30 +38,18 @@ AUTO_VERB_PARAMS_LOCK = threading.Lock()
 def _looks_like_target(value: str) -> bool:
     """Check whether a token is a plausible network target.
 
+    Shape validation is the canonical policy in :mod:`core.host_policy`
+    (plain IPs, CIDR ranges and hostnames; shell metacharacters rejected).
+
     Args:
         value: Raw command token.
 
     Returns:
         True for IPv4/IPv6 addresses, CIDR ranges, and hostnames.
     """
-    import ipaddress
-    import re
+    from core.host_policy import is_valid_host
 
-    if not value or value.startswith("-"):
-        return False
-    host = value.split("/")[0]
-    try:
-        ipaddress.ip_address(host)
-        return True
-    except ValueError:
-        pass
-    if "/" in value:
-        try:
-            ipaddress.ip_network(value, strict=False)
-            return True
-        except ValueError:
-            return False
-    return bool(re.match(r"^(?=.{1,253}$)[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?$", value))
+    return is_valid_host(value)
 
 
 def auto_verb_target(command: str) -> str:

@@ -14,7 +14,7 @@ from pathlib import Path
 import cmd2
 import yaml
 
-from cli.apt_chain_support import parse_chain_args, select_step_ids
+from cli.apt_chain_support import parse_chain_args, render_admin, select_step_ids
 from modules import chain_registry
 from modules.chain_registry import Chain, ChainStep
 from modules.chain_state import checkpoint_dir, load_checkpoint
@@ -69,6 +69,25 @@ def test_parse_flags_and_unknown_flag_fails_loudly():
     assert any("--foo" in error for error in junk.errors)
     bad_var = parse_chain_args("rocke --var 9bad=1")
     assert any("--var" in error for error in bad_var.errors)
+
+
+def test_render_admin_tags_severity_per_payload():
+    """Given admin payloads, When rendered, Then each line carries its level."""
+    failed = render_admin({"ok": False, "error": "boom", "errors": ["x"]}, "list")
+    assert failed[0] == ("error", "[apt_chain] list: boom")
+    assert ("warn", "    - x") in failed
+
+    listing = render_admin(
+        {"ok": True, "action": "list", "rows": [{"name": "demo", "valid": True, "enabled": True, "steps": 3, "playbook": "rocke"}]},
+        "list",
+    )
+    assert listing[0][0] == "msg"
+    assert any("demo" in text for _level, text in listing)
+
+    synth_ok = render_admin({"ok": True, "action": "synth", "path": "chains/x.yaml", "name": "x", "steps": 2, "notes": ["n"]}, "synth")
+    assert synth_ok[0][0] == "succ"
+    synth_bad = render_admin({"ok": True, "action": "synth", "path": "", "error": "validation"}, "synth")
+    assert synth_bad[0][0] == "error"
 
 
 def test_select_step_ids_supports_step_from_and_to():

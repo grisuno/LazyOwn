@@ -1,12 +1,14 @@
 ---
 name: lazyaddon-creator
-description: "Create a working LazyOwn lazyaddon YAML from a GitHub URL in one shot. Knows the exact schema, placeholder allowlist, install/execute/C2 staging semantics and validation rules."
+description: "Create a working LazyOwn lazyaddon YAML from a GitHub URL in one shot. Knows the exact schema, placeholder allowlist, install/execute/C2 staging semantics and validation rules. Also handles source PoC translation to C (mingw cross-compile) packaged as a lab-tested addon."
 trigger: /lazyaddon-creator
 ---
 
 # /lazyaddon-creator
 
 Given a GitHub URL, write `lazyaddons/<name>.yaml` that registers the tool as a first-class LazyOwn command on the first try. No iteration: fetch facts, pick the archetype, fill the template, run the self-check, write the file.
+
+When the repo is a source PoC that must be **translated and cross-compiled** before it can run on a lab VM (archetype F), follow Steps 11-12 after Step 10: port the source, build with mingw, then validate end-to-end against the WinBox gym.
 
 ## Usage
 
@@ -34,6 +36,7 @@ You need: repo name, owner, primary language, root file list, README usage secti
 | C | C2 stager | Build implant/loader, stage to `sessions/`, deliver via `lazycommand` | `beacon.yaml` |
 | D | C2 remote ops | Push binary to victim, run it there, pull loot back | `CGOblin.yaml` |
 | E | No-clone wrapper | Pure `execute_command`, no `repo_url`/`install_path` (already-installed CLI) | `opencode_agent.yaml` |
+| F | PoC translation + gym test | Source PoC in C/C++/C# not directly mingw-buildable; port it, cross-compile with `x86_64-w64-mingw32-gcc`, stage and execute on the WinBox lab VM (`winbox exec`). Also covers already-translated local PoCs that only need staging + gym execution | `sigdrop.yaml`, `lazy_kernel_increment.yaml` |
 
 ## Step 3 — Fill the template
 
@@ -232,3 +235,106 @@ Plus these manual assertions — every one must hold:
 ## Step 10 — Write and register
 
 Write to `lazyaddons/<name>.yaml`, then inside the LazyOwn shell run `reload_addons` (or restart). Verify with `list_addons` and `help <name>`.
+
+## Step 11 — PoC translation + mingw cross-compile (archetype F)
+
+When the public PoC cannot build with mingw as-is (typical for MSVC/VS projects),
+port it to plain C (or fix it for GCC) and keep the exploit logic byte-for-byte
+equivalent — this is a translation, not a rewrite. Ship the source tree with a
+`Makefile` (targets: `all`, `debug`, `clean`, `install-lab`) and a `README.md`
+documenting every port note plus the measured gym result.
+
+Reference tree: `/home/grisun0/src_note/c/signdrop/` (port of
+MSNightmare/SignDrop `SigDrop.cpp` → `sigdrop.c`).
+
+Port checklist — the recurring MSVC-isms that break mingw builds:
+
+- `#if defined(_M_AMD64)` / `#if _MSC_VER >= 1200` guards hide whole files
+  (MIDL stubs!) from GCC → build with `-D_M_AMD64` (or `-D_M_IX86` for x86).
+- MSVC tolerates `extern const X y;` forward decls followed by
+  `static const X y = ...` definitions; GCC errors → normalize declarations
+  (`sed 's/^extern const /static const /'`) or make definitions non-static.
+- `winternl.h` conflicts with mingw headers → inline the minimal types
+  (`UNICODE_STRING`, `OBJECT_ATTRIBUTES`, `IO_STATUS_BLOCK`, `NTSTATUS`,
+  `FILE_*` create options) and resolve `NtCreateFile` /
+  `RtlInitUnicodeString` / `NtCreateSymbolicLinkObject` via
+  `GetProcAddress(GetModuleHandleW(L"ntdll.dll"), ...)`.
+- `printf("%ws", …)` → `%ls` (mingw printf); `wcscpy_s`/`wcscat_s` →
+  `wcscpy`/`wcscat`; `_wcsicmp` exists in mingw's string.h.
+- Struct field names differ: `FILE_DISPOSITION_INFO.DeleteFileW` →
+  `.DeleteFile`; `StringFromGUID2` wants `REFGUID` → pass `&guid`.
+- `std::wstring` / `std::make_unique` → fixed `wchar_t[MAX_PATH]` buffers +
+  `malloc`; `throw` → return codes.
+- C++ only when unavoidable: `x86_64-w64-mingw32-g++ -std=c++17` also works
+  (see `lazy_kernel_increment.yaml`).
+- MIDL RPC client stubs (`*_c.c`/`*_h.h`): C-compatible once `_M_AMD64` is
+  defined; you must provide `midl_user_allocate`/`midl_user_free`; link
+  `-lrpcrt4 -lole32` (plus the tool's own: `-lktmw32 -lshell32`).
+- Embedded binary payloads: `windres` with a custom type string —
+  `101 "dll" payload.dll` in the `.rc`, then
+  `FindResourceW(NULL, MAKEINTRESOURCEW(101), L"dll")`. Verify the `.rsrc`
+  section size ≈ payload size with `x86_64-w64-mingw32-objdump -h`.
+- Always `fflush(stdout)` after checkpoint `printf`s; debugging silent guest
+  runs without them is guesswork (see Step 12).
+
+## Step 12 — WinBox gym test loop (archetype F)
+
+Validate the packaged addon end-to-end against the isolated lab VM. Never
+against anything outside it.
+
+```bash
+export LC_ALL=C        # CRITICAL: localized virsh output ("ejecutando") breaks
+                       # winbox state parsing -> State: unknown
+virsh -c qemu:///system start winbox   # if libvirt domain exists but winbox sees unknown
+winbox status                          # wait for Agent: responding + IP
+```
+
+Addon shape (reference `lazyaddons/sigdrop.yaml`):
+
+```yaml
+tool:
+  execute_command: >-
+    winbox status &&
+    winbox exec --timeout 15 reg query HKLM\\SYSTEM\\... /v Mode ;   # posture triage
+    winbox av status ;                                              # defense posture
+    cp {poc_binary} "$HOME/.winbox/shared/<name>.exe" &&             # stage -> Z:\
+    winbox exec --timeout {poc_timeout} {poc_exec_opts} "Z:\\<name>.exe"
+```
+
+Shared registry params (already declared in `params/operator.yaml`):
+`poc_binary`, `poc_exec_opts`, `poc_timeout`. Do not re-declare per addon.
+
+Guest-agent exec rules (learned the hard way):
+
+- **No spaces in exec'd commands.** Any command with spaces gets
+  quote-escaped into `"\"...\""` and cmd.exe rejects it. Prefer bare
+  executables (`winbox exec "Z:\poc.exe"`), short-path paths, and run
+  everything the PoC needs itself.
+- **`--user/--password` execs do NOT stream stdout** (only echo artifacts
+  return). For output capture use `winbox exec --bg --log --timeout N …`
+  then `winbox jobs list` / `winbox jobs output <id>`; note a pipe-attached
+  process killed at timeout loses buffered output — fflush everything.
+- **SYSTEM exec (default, no `--user`) is the observable one**; use it for
+  the smoke test. `--user winbox --password 'WinboxP@ss123'` gives the real
+  UAC-filtered medium-integrity token the PoC may require.
+- For a run that produces no output but must be inspected afterwards, use
+  registry/FS state (`winbox exec --timeout 15 reg query ...`).
+- If you need the PoC to take non-trivial args, bake them into a small
+  runner compiled into the PoC or into a wrapper — do not fight the
+  guest-agent quoting.
+
+Posture flips are part of the test: `winbox av enable/disable -y` and
+`winbox applocker enable/disable -y` (bidirectional, gym-sanctioned);
+`winbox snapshot create pre-<name>` for rollback.
+
+Headless validation (no interactive shell needed):
+
+```bash
+cd ~/LazyOwn
+python3 lazyown.py --headless --json-output --run-chain "<name>" 2>/dev/null \
+  | python3 -c "import sys,json; [print(json.loads(l).get('output','')[-1200:]) for l in sys.stdin if l.startswith('{')]"
+```
+
+`--run-chain` takes ~4-5 min of framework boot; budget timeouts accordingly.
+Document the observed verdict (vulnerable / not vulnerable / failed + why)
+in the addon description and the source tree README.

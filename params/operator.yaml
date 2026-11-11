@@ -26,3 +26,21 @@ graph_store:
   description: Engagement fact-graph store path shared by the lazygraph addon and
     handoff surfaces. Relative paths resolve from the repo root.
   kind: path
+poc_binary:
+  category: general
+  default: /home/grisun0/src_note/c/signdrop/sigdrop.exe
+  description: Path to the cross-compiled SignDrop PoC binary staged into
+    the WinBox lab VM by PoC-packaging lazyaddons.
+  kind: path
+poc_exec_opts:
+  category: general
+  default: ''
+  description: Extra winbox exec options for PoC execution (e.g.
+    "--user winbox --password 'WinboxP@ss123'"). Empty means SYSTEM exec,
+    which is the only mode where the guest agent streams stdout.
+  kind: string
+poc_timeout:
+  category: general
+  default: 120
+  description: winbox exec timeout (seconds) for PoC execution.
+  kind: integer

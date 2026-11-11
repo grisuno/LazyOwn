@@ -1,0 +1,47 @@
+name: apt_telnet
+description: 'Telnet scenario chain: banner, encryption posture, default credential
+  probe; stops at the first SHELL.'
+enabled: true
+platforms:
+- linux
+steps:
+- id: bind
+  phase: recon
+  run: assign target {target}
+  description: bind the box into payload params
+  timeout: 300
+- id: ports_telnet
+  phase: recon
+  run: nmap -Pn -p 23,2323,23230 -sV --script telnet-encryption {target}
+  description: telnet banner and encryption posture
+  timeout: 600
+- id: telnet_banner
+  phase: enum
+  run: printf '' | timeout 12 telnet {target} 23
+  description: grab the login banner verbatim
+  timeout: 60
+  capture: telnet_banner
+  continue_on_error: true
+- id: telnet_creds
+  phase: cred
+  run: nmap -Pn -p 23 --script telnet-brute {target}
+  description: bounded telnet default-credential brute
+  timeout: 900
+  capture: telnet_brute
+  continue_on_error: true
+- id: sweep
+  phase: exploit
+  run: atomic_exploit
+  description: yaml exploit sweep from scan triggers; stops at the first SHELL
+  timeout: 1800
+- id: session_attempt
+  phase: post_exploitation
+  run: create_session_json
+  description: record the session when a shell landed
+  timeout: 300
+  continue_on_error: true
+tags:
+- telnet
+- creds
+total_timeout: 2400
+version: 2

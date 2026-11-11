@@ -1,6 +1,138 @@
 # Subsystem: tests (page 17 of 25)
 Previous: [KB_tests_p16.md](KB_tests_p16.md)
 
+## tests/test_loop_intent_delete.py
+- Doc: Intent delete modes regression tests (lazy 0.3.12 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 8) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_soft_delete_keeps_outputs_and_notifies` (function, line 17) `def test_soft_delete_keeps_outputs_and_notifies(tmp_path, monkeypatch)`
+  - `test_soft_delete_requires_reason` (function, line 37) `def test_soft_delete_requires_reason(tmp_path, monkeypatch)`
+  - `test_hard_delete_removes_exclusive_keeps_shared` (function, line 46) `def test_hard_delete_removes_exclusive_keeps_shared(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_loop_llm_resilience.py
+- Doc: LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_empty_reply_replays_before_failover` (function, line 15) `def test_empty_reply_replays_before_failover(tmp_path, monkeypatch)`
+  - `test_empty_budget_exhausted_moves_to_next_member` (function, line 34) `def test_empty_budget_exhausted_moves_to_next_member(tmp_path, monkeypatch)`
+  - `test_error_reply_fails_over_instead_of_becoming_content` (function, line 54) `def test_error_reply_fails_over_instead_of_becoming_content(tmp_path, monkeypatch)`
+  - `test_worker_llm_steps_filtered_by_scope_and_tooling` (function, line 71) `def test_worker_llm_steps_filtered_by_scope_and_tooling(tmp_path, monkeypatch)`
+  - `test_wall_clock_settles_partial_not_hard_kill` (function, line 95) `def test_wall_clock_settles_partial_not_hard_kill(tmp_path, monkeypatch)`
+  - `test_stall_guard_forces_intent_when_nothing_open` (function, line 114) `def test_stall_guard_forces_intent_when_nothing_open(tmp_path, monkeypatch)`
+  - `test_task_llm_chain_quota_failover` (function, line 135) `def test_task_llm_chain_quota_failover(tmp_path, monkeypatch)`
+  - `test_raw_llm_recording_toggle` (function, line 169) `def test_raw_llm_recording_toggle(tmp_path, monkeypatch)`
+  - `test_raw_llm_recording_carries_task_and_model` (function, line 190) `def test_raw_llm_recording_carries_task_and_model(tmp_path, monkeypatch)`
+  - `test_llm_context_budget_roundtrip` (function, line 213) `def test_llm_context_budget_roundtrip(tmp_path, monkeypatch)`
+  - `test_planner_uses_bound_task_chain` (function, line 225) `def test_planner_uses_bound_task_chain(tmp_path, monkeypatch)`
+  - `scripted` (function, line 23) `def scripted(model, prompt, max_tokens)`
+  - `first_empty_then_ok` (function, line 42) `def first_empty_then_ok(model, prompt, max_tokens)`
+  - `error_then_ok` (function, line 61) `def error_then_ok(model, prompt, max_tokens)`
+  - `scripted` (function, line 79) `def scripted(model, prompt, max_tokens)`
+  - `scripted` (function, line 147) `def scripted(model, prompt, max_tokens)`
+  - `scripted_next` (function, line 160) `def scripted_next(model, prompt, max_tokens)`
+  - `scripted` (function, line 236) `def scripted(model, prompt, max_tokens)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
+
+## tests/test_loop_manager.py
+- Doc: Tests for modules.loop_manager — safe autonomous loop orchestration.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `loops_dir` (function, line 37) `def loops_dir()`
+  - `stub_script` (function, line 43) `def stub_script(tmp_path)`
+  - `manager` (function, line 56) `def manager(loops_dir, stub_script)`
+  - `TestValidateTarget` (class, line 64) `class TestValidateTarget`
+  - `TestSanitizeGoal` (class, line 95) `class TestSanitizeGoal`
+  - `TestClampInt` (class, line 123) `class TestClampInt`
+  - `TestValidateLoopId` (class, line 138) `class TestValidateLoopId`
+  - `TestSpawnAndRegistry` (class, line 151) `class TestSpawnAndRegistry`
+  - `TestLogReading` (class, line 222) `class TestLogReading`
+  - `TestStop` (class, line 251) `class TestStop`
+  - `TestLifecycle` (class, line 281) `class TestLifecycle`
+  - `test_accepts_ipv4` (method, line 65) `def test_accepts_ipv4(self)`
+  - `test_accepts_ipv6` (method, line 68) `def test_accepts_ipv6(self)`
+  - `test_strips_whitespace` (method, line 71) `def test_strips_whitespace(self)`
+  - `test_rejects_hostname` (method, line 74) `def test_rejects_hostname(self)`
+  - `test_rejects_command_injection` (method, line 78) `def test_rejects_command_injection(self)`
+  - `test_rejects_metacharacters` (method, line 82) `def test_rejects_metacharacters(self)`
+  - `test_rejects_non_string` (method, line 86) `def test_rejects_non_string(self)`
+  - `test_rejects_empty` (method, line 90) `def test_rejects_empty(self)`
+  - `test_defaults_on_empty` (method, line 96) `def test_defaults_on_empty(self)`
+  - `test_collapses_whitespace` (method, line 100) `def test_collapses_whitespace(self)`
+  - `test_rejects_newlines` (method, line 103) `def test_rejects_newlines(self)`
+  - `test_rejects_quotes` (method, line 107) `def test_rejects_quotes(self)`
+  - `test_rejects_semicolons` (method, line 111) `def test_rejects_semicolons(self)`
+  - `test_rejects_too_long` (method, line 115) `def test_rejects_too_long(self)`
+  - `test_accepts_plain_words` (method, line 119) `def test_accepts_plain_words(self)`
+  - `test_default_on_none` (method, line 124) `def test_default_on_none(self)`
+  - `test_clamps_low` (method, line 127) `def test_clamps_low(self)`
+  - `test_clamps_high` (method, line 130) `def test_clamps_high(self)`
+  - `test_rejects_non_numeric` (method, line 133) `def test_rejects_non_numeric(self)`
+  - `test_accepts_hex32` (method, line 139) `def test_accepts_hex32(self)`
+  - `test_rejects_traversal` (method, line 142) `def test_rejects_traversal(self)`
+  - `test_rejects_non_hex` (method, line 146) `def test_rejects_non_hex(self)`
+  - `test_start_spawns_and_records` (method, line 152) `def test_start_spawns_and_records(self, manager, loops_dir)`
+  - `test_argv_has_no_shell` (method, line 164) `def test_argv_has_no_shell(self, manager)`
+  - `test_invalid_kind_rejected` (method, line 179) `def test_invalid_kind_rejected(self, manager)`
+  - `test_invalid_target_rejected` (method, line 183) `def test_invalid_target_rejected(self, manager)`
+  - `test_concurrency_cap` (method, line 187) `def test_concurrency_cap(self, manager)`
+  - `test_list_loops_sorted_newest_first` (method, line 195) `def test_list_loops_sorted_newest_first(self, manager)`
+  - `test_registry_survives_restart` (method, line 205) `def test_registry_survives_restart(self, manager, loops_dir)`
+  - `test_metadata_written` (method, line 212) `def test_metadata_written(self, manager, loops_dir)`
+  - `test_read_log_chunk` (method, line 223) `def test_read_log_chunk(self, manager, loops_dir)`
+  - `test_read_log_unknown_loop` (method, line 231) `def test_read_log_unknown_loop(self, manager)`
+  - `test_read_log_confinement` (method, line 235) `def test_read_log_confinement(self, manager, loops_dir)`
+  - `test_read_log_offset_beyond_size` (method, line 243) `def test_read_log_offset_beyond_size(self, manager)`
+  - `test_stop_terminates_process` (method, line 252) `def test_stop_terminates_process(self, manager)`
+  - `test_stop_unknown_loop` (method, line 264) `def test_stop_unknown_loop(self, manager)`
+  - `test_stop_finished_loop_rejected` (method, line 268) `def test_stop_finished_loop_rejected(self, manager)`
+  - `test_quick_exit_marks_finished` (method, line 282) `def test_quick_exit_marks_finished(self, loops_dir, tmp_path)`
+  - `test_sigterm_resistant_process_is_killed` (method, line 297) `def test_sigterm_resistant_process_is_killed(self, loops_dir, tmp_path)`
+  - `test_summary_shape` (method, line 314) `def test_summary_shape(self, manager)`
+- Depends on: `modules/loop_manager.py`
+
+## tests/test_loop_mentions.py
+- Doc: Lazy mentions multi-type search and scroll pagination.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_mentions_search_and_cursor` (function, line 6) `def test_mentions_search_and_cursor(tmp_path, monkeypatch)`
+  - `test_mentions_parse_caps_and_trusts_ids` (function, line 16) `def test_mentions_parse_caps_and_trusts_ids()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_loop_multi_target.py
+- Doc: Multi-target loop entry: scope-file parsing, validation and caps.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_parse_loop_line_accepts_targets_file` (function, line 10) `def test_parse_loop_line_accepts_targets_file(tmp_path)`
+  - `test_parse_loop_line_defaults_without_file` (function, line 20) `def test_parse_loop_line_defaults_without_file()`
+  - `test_load_targets_file_skips_comments_and_invalid` (function, line 27) `def test_load_targets_file_skips_comments_and_invalid(tmp_path)`
+  - `test_load_targets_file_caps_batch` (function, line 38) `def test_load_targets_file_caps_batch(tmp_path)`
+  - `test_load_targets_file_missing_raises` (function, line 46) `def test_load_targets_file_missing_raises(tmp_path)`
+  - `test_load_targets_file_empty_raises` (function, line 52) `def test_load_targets_file_empty_raises(tmp_path)`
+- Depends on: `modules/lazy_runner.py`
+
+## tests/test_loop_nmap_guard.py
+- Doc: Loop guardrails: command repair and bounded scanning retests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 8) `def _sandbox(tmp_path, monkeypatch)`
+  - `test_repair_rejects_target_in_port_slot` (function, line 13) `def test_repair_rejects_target_in_port_slot()`
+  - `test_repair_strips_binary_path_for_shell_verb` (function, line 20) `def test_repair_strips_binary_path_for_shell_verb()`
+  - `test_repair_keeps_valid_port_specs` (function, line 27) `def test_repair_keeps_valid_port_specs()`
+  - `test_repair_appends_missing_target` (function, line 35) `def test_repair_appends_missing_target()`
+  - `test_repair_drops_port_flag_without_value` (function, line 41) `def test_repair_drops_port_flag_without_value()`
+  - `test_stall_thresholds_follow_command_timeout` (function, line 48) `def test_stall_thresholds_follow_command_timeout()`
+  - `test_scan_commands_are_not_replayed` (function, line 58) `def test_scan_commands_are_not_replayed(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_loop.py`, `modules/lazy_runner.py`
+
 ## tests/test_loop_objective_wiring.py
 - Doc: Loop wiring fidelity: objective queue and Hermes draft consumption.
 - Layer: testing
@@ -349,122 +481,6 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `complete` (method, line 281) `def complete(self, prompt, max_tokens, task_id)`
   - `has_members` (method, line 285) `def has_members(self)`
 - Depends on: `cli/__init__.py`, `modules/chain_runner.py`, `modules/lazy_intel.py`, `modules/lazy_orchestrator_feedback.py`, `modules/lazy_world_diff.py`, `modules/loop_ai_bridge.py`, `modules/mediation/__init__.py`, `modules/mediation/hub.py`
-
-## tests/test_memory_semantics.py
-- Doc: BDD tests for hashing embeddings and hybrid episodic recall.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_entry` (function, line 14) `def _entry(tool, command, snippet)`
-  - `TestHashingEmbedder` (class, line 27) `class TestHashingEmbedder`
-  - `TestVectorSQLiteBackend` (class, line 62) `class TestVectorSQLiteBackend`
-  - `TestMemoryStoreHybrid` (class, line 90) `class TestMemoryStoreHybrid`
-  - `test_identical_text_full_similarity` (method, line 30) `def test_identical_text_full_similarity(self)`
-  - `test_similar_text_scores_higher_than_unrelated` (method, line 36) `def test_similar_text_scores_higher_than_unrelated(self)`
-  - `test_determinism_across_runs` (method, line 44) `def test_determinism_across_runs(self)`
-  - `test_empty_text_raises` (method, line 49) `def test_empty_text_raises(self)`
-  - `test_unit_length` (method, line 55) `def test_unit_length(self)`
-  - `test_save_gets_embedding` (method, line 65) `def test_save_gets_embedding(self, tmp_path)`
-  - `test_semantic_ranks_relevant_first` (method, line 73) `def test_semantic_ranks_relevant_first(self, tmp_path)`
-  - `test_keyword_query_still_works` (method, line 82) `def test_keyword_query_still_works(self, tmp_path)`
-  - `test_fts_wins_when_present` (method, line 93) `def test_fts_wins_when_present(self, tmp_path)`
-  - `test_hybrid_fallback_after_miss` (method, line 101) `def test_hybrid_fallback_after_miss(self, tmp_path)`
-- Depends on: `modules/memory_embeddings.py`, `modules/memory_store.py`
-
-## tests/test_metasploitable_gym.py
-- Doc: Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_index_covers_the_ms2_vectors` (function, line 23) `def test_index_covers_the_ms2_vectors()`
-  - `test_every_exploit_and_chain_is_loadable` (function, line 50) `def test_every_exploit_and_chain_is_loadable()`
-  - `test_gym_base_ends_with_interactive_shell` (function, line 63) `def test_gym_base_ends_with_interactive_shell()`
-  - `test_every_chain_resolves_without_unresolved_tokens` (function, line 74) `def test_every_chain_resolves_without_unresolved_tokens()`
-  - `test_unknown_vulnerability_returns_none` (function, line 89) `def test_unknown_vulnerability_returns_none()`
-  - `test_invalid_matrix_is_reported` (function, line 96) `def test_invalid_matrix_is_reported(tmp_path)`
-- Depends on: `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `modules/metasploitable_gym.py`
-
-## tests/test_metasploitable_migrations.py
-- Doc: Unit tests for the Metasploitable 2 gym migrations module.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_build_migrations_ordered_and_unique` (function, line 8) `def test_build_migrations_ordered_and_unique()`
-  - `test_dns_fallback_payload_targets_port_53` (function, line 17) `def test_dns_fallback_payload_targets_port_53()`
-  - `test_nfs_fallback_starts_mountd_without_kernel_nfsd` (function, line 28) `def test_nfs_fallback_starts_mountd_without_kernel_nfsd()`
-  - `test_rlogin_trust_sets_rhosts_and_local_allow` (function, line 37) `def test_rlogin_trust_sets_rhosts_and_local_allow()`
-  - `test_hosts_allow_uses_subnet_prefix` (function, line 47) `def test_hosts_allow_uses_subnet_prefix()`
-  - `test_apply_migrations_skips_when_check_passes` (function, line 57) `def test_apply_migrations_skips_when_check_passes(monkeypatch)`
-  - `test_apply_migrations_applies_when_check_fails` (function, line 68) `def test_apply_migrations_applies_when_check_fails(monkeypatch)`
-  - `test_dvwa_dom_page_payload_contains_sink` (function, line 82) `def test_dvwa_dom_page_payload_contains_sink()`
-  - `test_database_mirror_uses_dump_and_restore` (function, line 90) `def test_database_mirror_uses_dump_and_restore()`
-  - `_fake_exec` (function, line 69) `def _fake_exec(container, script, payload, timeout)`
-- Depends on: `modules/metasploitable_migrations.py`
-
-## tests/test_metrics.py
-- Doc: Tests for ``modules/metrics.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_build_recorder` (function, line 35) `def _build_recorder(tmp_path)`
-  - `test_legacy_registry_inc_and_render` (function, line 42) `def test_legacy_registry_inc_and_render()`
-  - `test_recorder_appends_record_line` (function, line 57) `def test_recorder_appends_record_line(tmp_path)`
-  - `test_recorder_clamps_negative_duration` (function, line 83) `def test_recorder_clamps_negative_duration(tmp_path)`
-  - `test_summarize_aggregates_by_command` (function, line 92) `def test_summarize_aggregates_by_command(tmp_path)`
-  - `test_summarize_window_filters_old_records` (function, line 124) `def test_summarize_window_filters_old_records(tmp_path)`
-  - `test_tail_returns_newest_first` (function, line 163) `def test_tail_returns_newest_first(tmp_path)`
-  - `test_concurrent_writes_do_not_corrupt` (function, line 173) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
-  - `test_get_recorder_is_singleton` (function, line 202) `def test_get_recorder_is_singleton(tmp_path)`
-  - `test_aggregator_handles_empty_iterable` (function, line 211) `def test_aggregator_handles_empty_iterable()`
-  - `test_aggregator_skips_malformed_records` (function, line 220) `def test_aggregator_skips_malformed_records()`
-  - `test_p95_uses_nearest_rank` (function, line 227) `def test_p95_uses_nearest_rank()`
-  - `test_metric_record_to_dict_roundtrip` (function, line 234) `def test_metric_record_to_dict_roundtrip()`
-  - `worker` (function, line 180) `def worker(tag)`
-- Depends on: `modules/metrics.py`
-
-## tests/test_metrics_aware_selector.py
-- Doc: Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_StubSelector` (class, line 37) `class _StubSelector(ICommandSelector)`
-  - `_StubMetrics` (class, line 54) `class _StubMetrics`
-  - `_decision` (function, line 71) `def _decision(command)`
-  - `test_passthrough_when_wrapped_returns_none` (function, line 75) `def test_passthrough_when_wrapped_returns_none()`
-  - `test_passthrough_when_insufficient_attempts` (function, line 87) `def test_passthrough_when_insufficient_attempts()`
-  - `test_filters_when_success_rate_below_threshold` (function, line 105) `def test_filters_when_success_rate_below_threshold()`
-  - `test_accepts_when_success_rate_at_threshold` (function, line 122) `def test_accepts_when_success_rate_at_threshold()`
-  - `test_only_filters_named_command_not_whole_decision_object` (function, line 141) `def test_only_filters_named_command_not_whole_decision_object()`
-  - `test_summary_is_cached_within_ttl` (function, line 158) `def test_summary_is_cached_within_ttl()`
-  - `test_summary_forwards_window_seconds` (function, line 188) `def test_summary_forwards_window_seconds()`
-  - `test_zero_window_is_treated_as_unbounded` (function, line 201) `def test_zero_window_is_treated_as_unbounded()`
-  - `test_decorator_degrades_when_metrics_source_unavailable` (function, line 214) `def test_decorator_degrades_when_metrics_source_unavailable()`
-  - `test_wrap_chain_leaves_fallback_unwrapped` (function, line 230) `def test_wrap_chain_leaves_fallback_unwrapped()`
-  - `test_wrap_chain_master_switch_off` (function, line 241) `def test_wrap_chain_master_switch_off()`
-  - `test_wrap_chain_is_idempotent` (function, line 253) `def test_wrap_chain_is_idempotent()`
-  - `test_filtering_emits_skip_event` (function, line 265) `def test_filtering_emits_skip_event(tmp_path, monkeypatch)`
-  - `test_chain_falls_through_to_fallback_when_all_filtered` (function, line 298) `def test_chain_falls_through_to_fallback_when_all_filtered()`
-  - `__init__` (method, line 40) `def __init__(self, decision)`
-  - `select` (method, line 44) `def select(self, target, phase, context)`
-  - `__init__` (method, line 57) `def __init__(self, by_command)`
-  - `summarize` (method, line 62) `def summarize(self, window_seconds)`
-  - `fake_clock` (function, line 169) `def fake_clock()`
-  - `_BrokenSource` (class, line 217) `class _BrokenSource`
-  - `summarize` (method, line 218) `def summarize(self, window_seconds)`
-- Depends on: `skills/autonomous_daemon.py`
-
-## tests/test_migrate_lazyown_generator.py
-- Doc: Regression guard for the ``cli/commands`` migration generator.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_module_all` (function, line 27) `def _module_all(source)`
-  - `test_generated_module_parses` (function, line 57) `def test_generated_module_parses()`
-  - `test_all_is_static_and_matches_class_name` (function, line 62) `def test_all_is_static_and_matches_class_name()`
-  - `test_compound_phase_title_casing` (function, line 68) `def test_compound_phase_title_casing()`
-  - `test_no_unevaluated_fstring_all_literal` (function, line 74) `def test_no_unevaluated_fstring_all_literal()`
-  - `test_method_bodies_are_embedded_in_order` (function, line 81) `def test_method_bodies_are_embedded_in_order()`
-- Depends on: `scripts/migrate_lazyown.py`
 
 
 Next: [KB_tests_p18.md](KB_tests_p18.md)

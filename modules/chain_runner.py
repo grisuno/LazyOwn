@@ -32,6 +32,7 @@ from typing import Any
 
 from modules.chain_registry import Chain, ChainStep, evaluate_when
 from modules.chain_state import new_run_id, write_checkpoint
+from modules.lazy_deviations import DeviationLedger
 
 _LOG = logging.getLogger("modules.chain_runner")
 _TOKEN_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
@@ -909,6 +910,7 @@ class ChainRunner:
             self.replanner(context)
         except Exception:
             return False
+        self._record_replan_deviations(context)
         if context.skip_rest_flag:
             result.steps.extend(self._skip_remaining(steps, index + 1, "skip_rest (replanner)"))
             index_end = len(steps)
@@ -933,6 +935,48 @@ class ChainRunner:
             variables[name] = value
             captured_keys.add(name)
         return False
+
+    def _record_replan_deviations(self, context: ReplanContext) -> None:
+        """Surface what the replanner changed into the shared ledger.
+
+        Sapper-v2 records planned-versus-actual deviations beside every
+        result so successors honor how the plan moved. Here the same
+        notes capture replanner effects: inserted steps, rebound
+        variables and skip-rest decisions land in
+        ``sessions/lazy/deviations.jsonl``. Never raises.
+
+        Args:
+            context: Replanner outcome with the requested changes.
+        """
+        try:
+            ledger = DeviationLedger()
+            scope = f"chain:{self.chain.name}:{self.run_id or context.chain_name}"
+            for inserted in context.inserted:
+                ledger.record(
+                    scope,
+                    planned="continue to next planned step",
+                    actual=f"inserted step {inserted.identifier}",
+                    reason="replanner inserted a step",
+                    source="chain:replanner",
+                )
+            for name, value in context.applied_vars.items():
+                ledger.record(
+                    scope,
+                    planned=f"{{{name}}} from chain defaults",
+                    actual=f"{name}={value}",
+                    reason="replanner rebound a variable",
+                    source="chain:replanner",
+                )
+            if context.skip_rest_flag:
+                ledger.record(
+                    scope,
+                    planned="continue remaining steps",
+                    actual="skip remaining steps",
+                    reason="replanner requested skip_rest",
+                    source="chain:replanner",
+                )
+        except Exception:
+            pass
 
     def _save_checkpoint(
         self,

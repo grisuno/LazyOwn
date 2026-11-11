@@ -1,6 +1,69 @@
 # Subsystem: modules (page 5 of 18)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/detection_oracle.py
+- Doc: modules/detection_oracle.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SigmaRule` (class, line 51) `class SigmaRule`
+  - `DetectionAssessment` (class, line 64) `class DetectionAssessment`
+  - `IDetectionOracle` (class, line 91) `class IDetectionOracle(ABC)`
+  - `_benign_alternative_matches` (function, line 305) `def _benign_alternative_matches(command, args, benign_alternatives)`
+  - `DetectionOracle` (class, line 357) `class DetectionOracle(IDetectionOracle)`
+  - `get_oracle` (function, line 553) `def get_oracle()`
+  - `is_high_risk` (method, line 76) `def is_high_risk(self)`
+  - `is_critical_risk` (method, line 81) `def is_critical_risk(self)`
+  - `assess` (method, line 95) `def assess(self, command, args, action_category, benign_alternatives)`
+  - `probability` (method, line 105) `def probability(self, command, args, action_category, benign_alternatives)`
+  - `__init__` (method, line 372) `def __init__(self, rules, feed)`
+  - `refresh` (method, line 376) `def refresh(self)`
+  - `assess` (method, line 411) `def assess(self, command, args, action_category, benign_alternatives)`
+  - `probability` (method, line 460) `def probability(self, command, args, action_category, benign_alternatives)`
+  - `_match_rules` (method, line 472) `def _match_rules(self, text, action_category)`
+  - `_effective_probability` (method, line 492) `def _effective_probability(rule, action_category)`
+  - `_aggregate_probability` (method, line 502) `def _aggregate_probability(self, matched, action_category)`
+  - `_build_recommendation` (method, line 519) `def _build_recommendation(probability, matched, action_category)`
+- Depends on: `core/logging.py`, `modules/detection_feed.py`
+- Imported by: `modules/auto_purple.py`, `modules/chain_runner.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_dampening.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
+
+## modules/digest.py
+- Doc: Operator digest generation for loop runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `build_engine_digest` (function, line 20) `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)`
+  - `write_digest` (function, line 71) `def write_digest(task_id, body, root)`
+  - `worker_results_digest` (function, line 82) `def worker_results_digest(rows)`
+- Imported by: `modules/lazy_loop.py`
+
+## modules/dns_beacon.py
+- Doc: DNS Beacon — covert C2 channel via DNS tunneling.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DNSBeacon` (class, line 23) `class DNSBeacon`
+  - `DNSC2Server` (class, line 199) `class DNSC2Server`
+  - `__init__` (method, line 38) `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)`
+  - `_ensure_dnspython` (method, line 57) `def _ensure_dnspython(self)`
+  - `_encode` (method, line 63) `def _encode(self, data)`
+  - `_decode` (method, line 70) `def _decode(self, data)`
+  - `_jittered_sleep` (method, line 78) `def _jittered_sleep(self)`
+  - `_dns_query` (method, line 84) `def _dns_query(self, name, qtype)`
+  - `_build_query` (method, line 96) `def _build_query(self, msg_type, payload)`
+  - `check_in` (method, line 105) `def check_in(self)`
+  - `send_result` (method, line 135) `def send_result(self, command, output, exit_code)`
+  - `run` (method, line 171) `def run(self)`
+  - `__init__` (method, line 211) `def __init__(self, domain, log_source, interface)`
+  - `register_beacon` (method, line 225) `def register_beacon(self, beacon_id, hostname)`
+  - `list_beacons` (method, line 235) `def list_beacons(self)`
+  - `send_task` (method, line 239) `def send_task(self, beacon_id, command)`
+  - `process_query_log` (method, line 248) `def process_query_log(self, line)`
+  - `_handle_result` (method, line 294) `def _handle_result(self, labels, query)`
+  - `get_results` (method, line 327) `def get_results(self, beacon_id)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `cli/commands/dns_exfil.py`
+
 ## modules/domain_dominance.py
 - Doc: Domain Dominance Engine — automated Active Directory takeover.
 - Layer: business_logic
@@ -427,70 +490,6 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `history_since` (method, line 564) `def history_since(self, since_ts)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
 - Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/sinks/event_bus.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `tests/test_loop_ai_bridge.py`
-
-## modules/event_consumers.py
-- Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `_load_payload` (function, line 43) `def _load_payload()`
-  - `_inject_objective` (function, line 54) `def _inject_objective(text, priority, source)`
-  - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
-  - `_update_soul` (function, line 100) `def _update_soul(phase, credentials, access)`
-  - `PhaseTracker` (class, line 136) `class PhaseTracker`
-  - `AutoRecommender` (class, line 191) `class AutoRecommender`
-  - `CredentialReactor` (class, line 262) `class CredentialReactor`
-  - `SoulSync` (class, line 310) `class SoulSync`
-  - `DashboardPusher` (class, line 348) `class DashboardPusher`
-  - `wire_all_consumers` (function, line 370) `def wire_all_consumers(bus)`
-  - `unwire_all_consumers` (function, line 399) `def unwire_all_consumers(bus)`
-  - `__init__` (method, line 146) `def __init__(self)`
-  - `__call__` (method, line 149) `def __call__(self, event)`
-  - `__init__` (method, line 194) `def __init__(self)`
-  - `__call__` (method, line 197) `def __call__(self, event)`
-  - `__call__` (method, line 272) `def __call__(self, event)`
-  - `__call__` (method, line 313) `def __call__(self, event)`
-  - `__call__` (method, line 351) `def __call__(self, event)`
-- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`, `modules/world_model.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
-
-## modules/event_engine.py
-- Doc: LazyOwn Event Engine
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `load_rules` (function, line 99) `def load_rules()`
-  - `save_rules` (function, line 110) `def save_rules(rules)`
-  - `add_rule` (function, line 114) `def add_rule(rule)`
-  - `_read_watermark` (function, line 130) `def _read_watermark()`
-  - `_write_watermark` (function, line 137) `def _write_watermark(offset)`
-  - `_row_matches` (function, line 144) `def _row_matches(row, trigger)`
-  - `_append_event` (function, line 173) `def _append_event(event)`
-  - `process_new_rows` (function, line 181) `def process_new_rows()`
-  - `read_events` (function, line 250) `def read_events(limit, status)`
-  - `ack_event` (function, line 270) `def ack_event(event_id)`
-- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/ack_event.py`, `skills/mcp_tools/add_rule.py`, `skills/mcp_tools/heartbeat_status.py`, `skills/mcp_tools/list_event_rules.py`, `skills/mcp_tools/poll_events.py`, `skills/sessions_watcher.py`
-
-## modules/evidence.py
-- Doc: Content-addressed evidence vault independent of disposable traffic.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EvidenceConfig` (class, line 20) `class EvidenceConfig`
-  - `hash_bytes` (function, line 37) `def hash_bytes(data)`
-  - `_validate_hash` (function, line 42) `def _validate_hash(value)`
-  - `EvidenceStore` (class, line 54) `class EvidenceStore`
-  - `__init__` (method, line 57) `def __init__(self, base_dir)`
-  - `blob_path` (method, line 65) `def blob_path(self, content_hash)`
-  - `put` (method, line 70) `def put(self, data)`
-  - `get` (method, line 90) `def get(self, content_hash)`
-  - `exists` (method, line 98) `def exists(self, content_hash)`
-  - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
-- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/evilhttprev.sh
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

@@ -15,7 +15,7 @@ Domain: penetration testing, red teaming, C2 operations
 
 LazyOwn is a professional pentest/red-team framework:
 
-- **CLI** (`lazyown.py`): cmd2 shell with 868 commands and 130 aliases covering the full kill chain.
+- **CLI** (`lazyown.py`): cmd2 shell with 872 commands and 130 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
 - **MCP** (`skills/lazyown_mcp.py`): 0 tools exposing the framework to AI agents.
 - **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
@@ -209,7 +209,7 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
 | `skills/lazyown.md` | ~1600 | Complete 0-tool MCP playbook |
-| `COMMANDS.md` | ~1600 | Full 868-command reference (auto-generated) |
+| `COMMANDS.md` | ~1600 | Full 872-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
 
 ---
@@ -269,6 +269,53 @@ gets an alternative.
 carries it. Every rendered failed step shows `classified <class> ->
 <action>`. CLI inspector: `lazy_adaptive [graph]`, lazyaddon
 `lazyaddons/lazy_adaptive.yaml` (trigger-only over the built-in).
+
+### `modules/lazy_blindspot.py` + `modules/lazy_deviations.py` — Loop self-awareness (rebranded from sapper-v2)
+
+**Contracts:** blindspot review and planned-versus-actual deviations,
+both mined from N1nEmAn/sapper-v2 and reimplemented LazyOwn-native
+(one file per contract, injected I/O, no import cycles).
+
+- `modules/lazy_blindspot.py` — one LLM pass over the task goal plus
+  bounded graph context (untrusted-data fenced) that asks what the
+  campaign is overlooking; every finding becomes a
+  `[blindspot/<risk>]` hint through the same `add_hint` path
+  `lazy_hint` uses. Gated by payload flag `loop_blindspot_enabled`
+  (default off); the loop reviews at most once every
+  `BLINDSPOT_ROUND_INTERVAL` rounds and only when the planner proposed
+  nothing new. Surfaces: `lazy_blindspot [--task T]`,
+  `LazyLoopEngine.blindspot_review(task_id)`.
+  Tests: `tests/test_lazy_blindspot.py`.
+- `modules/lazy_deviations.py` — append-only
+  `sessions/lazy/deviations.jsonl` ledger with
+  `DeviationLedger.record/list/render_markdown`. Writers: the loop
+  sanitizer (`Worker._sanitize_step`, scope `loop:<task_id>`) and the
+  `apt_chain` replanner (`ChainRunner._record_replan_deviations`,
+  scope `chain:<name>:<run_id>`); readers: `lazy_deviations [scope]
+  [--limit N] [--md]` and `LazyLoopEngine._handover_deviations`
+  (successor playbook section). Never raises on I/O; repeats collapse;
+  file capped at 500 rows.
+  Tests: `tests/test_lazy_deviations.py`.
+
+**Companion lazyaddon:** `lazyaddons/lazygraph.yaml` registers the
+upstream fact-graph CLI as `lazygraph` (shared param `graph_store`
+declared once in `params/operator.yaml`).
+
+### `modules/lazy_commander.py` — Fleet commander (rebranded from sapper-v2)
+
+**Contract:** slot-clock allocation of work slices across live loop
+tasks (sapper's field commander, LazyOwn-native, injected I/O, no
+import cycles). Each slice: read the board (`list_tasks` shape), one
+fenced-UNTRUSTED LLM pass choosing `work|hire|fire|stop`, then
+least-worked-first fallback (fewest slices spent, stalest first) when
+the model is unavailable, errors or returns garbage; explicit
+`accepted:false` counts toward a `COMMANDER_NOOP_LIMIT` no-op streak.
+`hire` runs a slice with `COMMANDER_HIRE_WORKERS`; `fire` pauses the
+target out of the pool for the rest of the round. Ends on deadline,
+slice cap, empty board, all-paused pool or stop. Never edits goals,
+scope or tasks. Surfaces: `lazy_commander [--minutes N] [--slices N]
+[--workers N]`, `LazyCommander(board_fn, complete_fn, work_fn,
+pause_fn, clock, sleep)`. Tests: `tests/test_lazy_commander.py`.
 
 ### `cli/tips_engine.py` — Unified post-command tips engine
 

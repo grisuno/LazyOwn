@@ -1,0 +1,63 @@
+name: apt_docker
+description: 'Docker/registry scenario chain: unauth daemon API, registry catalog,
+  socket-escape probes; stops at the first SHELL.'
+enabled: true
+platforms:
+- linux
+steps:
+- id: bind
+  phase: recon
+  run: assign target {target}
+  description: bind the box into payload params
+  timeout: 300
+- id: ports_docker
+  phase: recon
+  run: nmap -Pn -p 2375,2376,2377,2378,4243,5000,9000 -sV {target}
+  description: docker daemon, swarm, registry and portainer ports
+  timeout: 600
+- id: daemon_version
+  phase: enum
+  run: curl -s -m 15 http://{target}:2375/version
+  description: probe the unauthenticated daemon API
+  timeout: 60
+  capture: docker_version
+  continue_on_error: true
+- id: daemon_images
+  phase: enum
+  run: curl -s -m 15 http://{target}:2375/images/json
+  description: list images through the open daemon
+  timeout: 60
+  capture: docker_images
+  continue_on_error: true
+- id: registry_catalog
+  phase: enum
+  run: curl -s -m 15 http://{target}:5000/v2/_catalog
+  description: list private registry repositories
+  timeout: 60
+  capture: registry_catalog
+  continue_on_error: true
+- id: registry_tags
+  phase: enum
+  run: curl -s -m 15 http://{target}:5000/v2/{registry_repo}/tags/list
+  description: tag list for the first catalog repo
+  timeout: 60
+  capture: registry_tags
+  continue_on_error: true
+- id: sweep
+  phase: exploit
+  run: atomic_exploit
+  description: yaml exploit sweep from scan triggers; stops at the first SHELL
+  timeout: 1800
+- id: session_attempt
+  phase: post_exploitation
+  run: create_session_json
+  description: record the session when a shell landed
+  timeout: 300
+  continue_on_error: true
+tags:
+- docker
+- http
+total_timeout: 2400
+version: 2
+defaults:
+  registry_repo: ''

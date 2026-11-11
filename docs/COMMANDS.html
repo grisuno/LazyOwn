@@ -204,7 +204,7 @@ commands)</li>
 <li><a href="#12-miscellaneous">12. Miscellaneous</a> (202
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (208 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (212 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -3524,6 +3524,10 @@ persistence.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/active_directory.py</code></p>
 <p>Forge Kerberos tickets for persistence and lateral movement.</p>
+<h3 id="lazy_adaptive"><code>lazy_adaptive</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazy_adaptive.py</code></p>
+<p>LazyAdaptive policy inspector.</p>
 <h3 id="lazy_addon"><code>lazy_addon</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3550,6 +3554,11 @@ lazy_archive …</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Assets: add <kind> <value> | list [kind] | scoped [–kind K] |
 coverage | untested. Usage: lazy_asset …</p>
+<h3 id="lazy_blindspot"><code>lazy_blindspot</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Review graph blindspots into hints. Usage: lazy_blindspot [–task
+T]</p>
 <h3 id="lazy_broadcast"><code>lazy_broadcast</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3565,6 +3574,11 @@ Q] [–asc] [–page N] [–limit N]</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat …
 [–task T] [–session S]</p>
+<h3 id="lazy_commander"><code>lazy_commander</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>Allocate work slices across the task fleet. Usage: lazy_commander
+[–minutes N] [–slices N] [–workers N]</p>
 <h3 id="lazy_compact"><code>lazy_compact</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>
@@ -3585,6 +3599,11 @@ lazy_constraint … [–task T]</p>
 <code>cli/commands/lazyops.py</code></p>
 <p>Render the bounded prompt context the planner/worker LLMs receive.
 Usage: lazy_context [–task T] [–budget N]</p>
+<h3 id="lazy_deviations"><code>lazy_deviations</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/lazyops.py</code></p>
+<p>List planned-versus-actual deviations. Usage: lazy_deviations [scope]
+[–limit N] [–md]</p>
 <h3 id="lazy_dispatch"><code>lazy_dispatch</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/lazyops.py</code></p>

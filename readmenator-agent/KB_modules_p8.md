@@ -1,6 +1,81 @@
 # Subsystem: modules (page 8 of 18)
 Previous: [KB_modules_p7.md](KB_modules_p7.md)
 
+## modules/kivi.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReverseShellApp` (class, line 11) `class ReverseShellApp(App)`
+  - `build` (method, line 12) `def build(self)`
+  - `connect_to_server` (method, line 27) `def connect_to_server(self, instance)`
+
+## modules/lab_runtime.py
+- Doc: Lab runtime: Docker lifecycle for practice targets and cyber ranges.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `docker_available` (function, line 93) `def docker_available()`
+  - `_docker` (function, line 107) `def _docker()`
+  - `running_containers` (function, line 115) `def running_containers()`
+  - `existing_containers` (function, line 131) `def existing_containers()`
+  - `running_range_containers` (function, line 148) `def running_range_containers()`
+  - `container_name` (function, line 164) `def container_name(scenario)`
+  - `container_ip` (function, line 169) `def container_ip(container_name)`
+  - `ensure_web` (function, line 183) `def ensure_web(scenario, name)`
+  - `_ensure_ad_lab` (function, line 197) `def _ensure_ad_lab(scenario, name)`
+  - `apply_gym_migrations` (function, line 242) `def apply_gym_migrations(name)`
+  - `start` (function, line 250) `def start(scenario)`
+  - `stop` (function, line 304) `def stop(scenario)`
+  - `stop_all` (function, line 322) `def stop_all()`
+  - `range_compose` (function, line 340) `def range_compose(profile)`
+  - `start_range` (function, line 349) `def start_range(profile)`
+  - `stop_range` (function, line 368) `def stop_range(profile)`
+  - `stop_ranges` (function, line 379) `def stop_ranges()`
+  - `_docker_compose` (function, line 412) `def _docker_compose(args)`
+  - `ensure_range_secret` (function, line 420) `def ensure_range_secret(profile_dir)`
+- Depends on: `modules/metasploitable_migrations.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+
+## modules/lazy_agent.py
+- Doc: Agentic tool-calling bridge for the loop and the main agent.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `model_timeout_sec` (function, line 41) `def model_timeout_sec()`
+  - `tool_calling_enabled` (function, line 57) `def tool_calling_enabled()`
+  - `max_iterations` (function, line 72) `def max_iterations()`
+  - `resolve_agentic_model` (function, line 83) `def resolve_agentic_model(exclude)`
+  - `_enable_streaming` (function, line 123) `def _enable_streaming(runner, on_event)`
+  - `ObservableAgentRunner` (class, line 145) `class ObservableAgentRunner(AgentRunner)`
+  - `_json_default` (function, line 221) `def _json_default(value)`
+  - `_deep_clean` (function, line 237) `def _deep_clean(value, _depth)`
+  - `_json_safe` (function, line 253) `def _json_safe(messages)`
+  - `ConversationStore` (class, line 261) `class ConversationStore`
+  - `register_tools` (function, line 322) `def register_tools(runner, specs)`
+  - `run_worker_session` (function, line 335) `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)`
+  - `run_main_session` (function, line 374) `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)`
+  - `run_external_opencode` (function, line 396) `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)`
+  - `run_external_hermes` (function, line 472) `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)`
+  - `_session_from_line` (function, line 556) `def _session_from_line(line)`
+  - `_process_watchdog` (function, line 578) `def _process_watchdog(timeout_sec, process)`
+  - `__init__` (method, line 148) `def __init__(self, model, system_prompt, max_iterations, on_event)`
+  - `_process_tool_call` (method, line 159) `def _process_tool_call(self, tool_call)`
+  - `run` (method, line 168) `def run(self, user_input)`
+  - `_call_model` (method, line 174) `def _call_model(self)`
+  - `__init__` (method, line 264) `def __init__(self, task_id)`
+  - `_load` (method, line 269) `def _load(self)`
+  - `intent_messages` (method, line 273) `def intent_messages(self, intent_id)`
+  - `save_intent` (method, line 278) `def save_intent(self, intent_id, messages)`
+  - `session` (method, line 287) `def session(self, session_id)`
+  - `sessions` (method, line 291) `def sessions(self)`
+  - `save_session` (method, line 305) `def save_session(self, session_id, messages, title)`
+  - `reset_intents` (method, line 315) `def reset_intents(self)`
+  - `_kill` (function, line 583) `def _kill()`
+  - `_invoke` (function, line 190) `def _invoke()`
+  - `_tick` (function, line 196) `def _tick()`
+- Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
+- Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
+
 ## modules/lazy_autofire.py
 - Doc: Lazy autofire: exploit intelligence closing the loop into chains.
 - Layer: utility
@@ -21,6 +96,23 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `_slug` (function, line 312) `def _slug(text)`
 - Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/lazy_probes.py`
 - Imported by: `tests/test_loop_fire_pending.py`
+
+## modules/lazy_blindspot.py
+- Doc: Blindspot review contract for the lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BlindspotFinding` (class, line 55) `class BlindspotFinding`
+  - `parse_blindspots` (function, line 82) `def parse_blindspots(raw)`
+  - `_fence` (function, line 130) `def _fence(text, limit)`
+  - `build_blindspot_prompt` (function, line 145) `def build_blindspot_prompt(goal, context)`
+  - `BlindspotReview` (class, line 159) `class BlindspotReview`
+  - `as_hint` (method, line 70) `def as_hint(self)`
+  - `__init__` (method, line 171) `def __init__(self, complete, add_hint)`
+  - `run` (method, line 176) `def run(self, goal, context)`
+  - `_review` (method, line 190) `def _review(self, goal, context)`
+  - `apply` (method, line 200) `def apply(self, findings)`
+- Imported by: `modules/lazy_loop.py`, `tests/test_lazy_blindspot.py`
 
 ## modules/lazy_bridge.py
 - Doc: Bidirectional LAZY <-> LazyOwn bridge.
@@ -86,18 +178,37 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 
+## modules/lazy_commander.py
+- Doc: Fleet commander: allocate the next work slice across loop tasks.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommanderDecision` (class, line 63) `class CommanderDecision`
+  - `parse_commander_decision` (function, line 77) `def parse_commander_decision(raw)`
+  - `render_board` (function, line 119) `def render_board(rows, worked)`
+  - `build_commander_prompt` (function, line 145) `def build_commander_prompt(board_rows, time_budget, worked)`
+  - `format_commander_budget` (function, line 161) `def format_commander_budget(deadline, now)`
+  - `LazyCommander` (class, line 177) `class LazyCommander`
+  - `__init__` (method, line 190) `def __init__(self, board_fn, complete_fn, work_fn, pause_fn, clock, sleep)`
+  - `run` (method, line 207) `def run(self, minutes, max_slices, base_workers)`
+  - `_rows` (method, line 292) `def _rows(self)`
+  - `_decide` (method, line 300) `def _decide(self, rows, worked, deadline)`
+  - `_least_worked` (method, line 325) `def _least_worked(rows, worked)`
+- Imported by: `cli/commands/lazyops.py`, `tests/test_lazy_commander.py`
+
 ## modules/lazy_continuation.py
 - Doc: Task continuation records: campaign memory that survives loop restarts.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ContinuationRecord` (class, line 34) `class ContinuationRecord`
-  - `_dir` (function, line 58) `def _dir()`
-  - `_slug` (function, line 65) `def _slug(target)`
-  - `record_path` (function, line 71) `def record_path(target)`
-  - `save` (function, line 83) `def save(target, task_id, goal, status, settlement, findings, next_steps)`
-  - `load` (function, line 132) `def load(target)`
-  - `recall_candidates` (function, line 159) `def recall_candidates(target, limit)`
+  - `ContinuationRecord` (class, line 36) `class ContinuationRecord`
+  - `_dir` (function, line 64) `def _dir()`
+  - `_slug` (function, line 71) `def _slug(target)`
+  - `record_path` (function, line 77) `def record_path(target)`
+  - `save` (function, line 89) `def save(target, task_id, goal, status, settlement, findings, next_steps, credentials, deviations)`
+  - `load` (function, line 144) `def load(target)`
+  - `handover_brief` (function, line 173) `def handover_brief(target)`
+  - `recall_candidates` (function, line 214) `def recall_candidates(target, limit)`
 
 ## modules/lazy_creds.py
 - Doc: Default-credential knowledge base for LazyOwn.
@@ -146,6 +257,25 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Depends on: `modules/lazy_heat.py`
 - Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_feedmatch.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
 
+## modules/lazy_deviations.py
+- Doc: Planned-versus-actual deviation ledger for loop and chain runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DeviationRecord` (class, line 35) `class DeviationRecord`
+  - `_clean` (function, line 67) `def _clean(text)`
+  - `DeviationLedger` (class, line 72) `class DeviationLedger`
+  - `as_dict` (method, line 55) `def as_dict(self)`
+  - `__init__` (method, line 80) `def __init__(self, path)`
+  - `record` (method, line 84) `def record(self, scope, planned, actual, reason, source)`
+  - `list` (method, line 124) `def list(self, scope, limit)`
+  - `render_markdown` (method, line 140) `def render_markdown(self, records, title)`
+  - `_last_matches` (method, line 160) `def _last_matches(self, scope, planned, actual, reason)`
+  - `_read` (method, line 172) `def _read(self)`
+  - `_append` (method, line 201) `def _append(self, record)`
+  - `_trim` (method, line 216) `def _trim(self)`
+- Imported by: `cli/commands/lazyops.py`, `modules/chain_runner.py`, `modules/lazy_loop.py`, `tests/test_lazy_deviations.py`
+
 ## modules/lazy_drafts.py
 - Doc: Injected objective drafts: close the lazy_drafts handoff loop.
 - Layer: utility
@@ -186,6 +316,24 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `refresh_if_stale` (function, line 418) `def refresh_if_stale(target, entries)`
 - Depends on: `modules/__init__.py`, `modules/lazy_feedmatch.py`, `modules/lazy_heat.py`, `modules/lazy_probes.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/mcp_tools/lazy_intel.py`, `tests/test_lazy_exposure.py`
+
+## modules/lazy_fallback.py
+- Doc: Adaptive fallback alternatives for failed chain techniques.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Alternative` (class, line 29) `class Alternative`
+  - `TechniqueFallback` (class, line 47) `class TechniqueFallback`
+  - `_service_satisfied` (function, line 172) `def _service_satisfied(required, services)`
+  - `AdaptiveFallbackArbiter` (class, line 185) `class AdaptiveFallbackArbiter`
+  - `catalogue_ids` (function, line 261) `def catalogue_ids()`
+  - `matches` (method, line 61) `def matches(self, command)`
+  - `__init__` (method, line 193) `def __init__(self, graph)`
+  - `suggest` (method, line 203) `def suggest(self, command, verdict, services, has_credentials, catalogue)`
+  - `tried_count` (method, line 246) `def tried_count(self)`
+  - `_bind_family` (method, line 251) `def _bind_family(self, command)`
+- Depends on: `modules/atomic_exploit_bridge.py`, `modules/failure_verdict.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `tests/test_lazy_fallback.py`
 
 ## modules/lazy_feedmatch.py
 - Doc: Exploit feed matching for LazyOwn.
@@ -342,25 +490,6 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `to_sightings` (function, line 133) `def to_sightings(entries, host)`
   - `os_platform_of` (function, line 157) `def os_platform_of(entries)`
 - Depends on: `modules/lazy_feedmatch.py`
-
-## modules/lazy_ledger.py
-- Doc: Freshness ledger: TTL windows per verb and target for the loop worker.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `window_for` (function, line 32) `def window_for(verb)`
-  - `ledger_key` (function, line 53) `def ledger_key(verb, target)`
-  - `key_from_command` (function, line 58) `def key_from_command(command, target)`
-  - `_addon_run_pair` (function, line 89) `def _addon_run_pair(rest)`
-  - `_path` (function, line 114) `def _path(sessions_dir)`
-  - `_load` (function, line 121) `def _load(sessions_dir)`
-  - `json_load` (function, line 133) `def json_load(path)`
-  - `fresh` (function, line 140) `def fresh(verb, target, now, sessions_dir)`
-  - `record` (function, line 164) `def record(verb, target, ok, now, sessions_dir)`
-  - `stale_first` (function, line 191) `def stale_first(catalog, now, sessions_dir)`
-  - `_sort_key` (function, line 209) `def _sort_key(pair)`
-- Depends on: `modules/lazy_loop.py`
-- Imported by: `modules/lazy_loop.py`, `modules/sinks/routing.py`, `tests/test_lazy_ledger.py`
 
 
 Next: [KB_modules_p9.md](KB_modules_p9.md)

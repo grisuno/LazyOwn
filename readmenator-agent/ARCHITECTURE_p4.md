@@ -1,7 +1,33 @@
-# Architecture (page 4 of 10)
+# Architecture (page 4 of 11)
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/lazy_loop.py` -> `modules/lazy_deviations.py`
+- `modules/lazy_loop.py` -> `modules/lazy_engine.py`
+- `modules/lazy_loop.py` -> `modules/lazy_exposure.py`
+- `modules/lazy_loop.py` -> `modules/lazy_hostscore.py`
+- `modules/lazy_loop.py` -> `modules/lazy_installer.py`
+- `modules/lazy_loop.py` -> `modules/lazy_intel.py`
+- `modules/lazy_loop.py` -> `modules/lazy_ledger.py`
+- `modules/lazy_loop.py` -> `modules/lazy_orchestrator_feedback.py`
+- `modules/lazy_loop.py` -> `modules/lazy_reaper.py`
+- `modules/lazy_loop.py` -> `modules/lazy_roles.py`
+- `modules/lazy_loop.py` -> `modules/lazy_skills.py`
+- `modules/lazy_loop.py` -> `modules/lazy_timeline.py`
+- `modules/lazy_loop.py` -> `modules/lazy_world_diff.py`
+- `modules/lazy_loop.py` -> `modules/llm_factory.py`
+- `modules/lazy_loop.py` -> `modules/llm_pool.py`
+- `modules/lazy_loop.py` -> `modules/loop/__init__.py`
+- `modules/lazy_loop.py` -> `modules/loop/triage_scheduler.py`
+- `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py`
+- `modules/lazy_loop.py` -> `modules/loop_guardrails.py`
+- `modules/lazy_loop.py` -> `modules/loop_triggers.py`
+- `modules/lazy_loop.py` -> `modules/mediation/__init__.py`
+- `modules/lazy_loop.py` -> `modules/module_registry.py`
+- `modules/lazy_loop.py` -> `modules/notify.py`
+- `modules/lazy_loop.py` -> `modules/orchestrator_config.py`
+- `modules/lazy_loop.py` -> `modules/outcome_bus.py`
+- `modules/lazy_loop.py` -> `modules/progress_ledger.py`
 - `modules/lazy_loop.py` -> `modules/reaction_bridge.py`
 - `modules/lazy_loop.py` -> `modules/selection/base.py`
 - `modules/lazy_loop.py` -> `modules/selection/registry.py`
@@ -80,6 +106,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/llm_client.py` -> `core/logging.py`
 - `modules/llm_client.py` -> `modules/ai_model.py`
 - `modules/llm_factory.py` -> `core/llm_budget.py`
+- `modules/llm_factory.py` -> `core/llm_key_pool.py`
 - `modules/llm_factory.py` -> `modules/ai_model.py`
 - `modules/llm_factory.py` -> `modules/harness.py`
 - `modules/llm_factory.py` -> `modules/llm_client.py`
@@ -91,10 +118,15 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/llm_orchestrator.py` -> `modules/orchestrator_config.py`
 - `modules/llm_prompts.py` -> `modules/colors.py`
 - `modules/logging_config.py` -> `core/logging.py`
+- `modules/loop/__init__.py` -> `modules/loop/engine_proxy.py`
+- `modules/loop/__init__.py` -> `modules/loop/triage_scheduler.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_execution.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_gating.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_memory.py`
+- `modules/loop/engine_proxy.py` -> `modules/__init__.py`
+- `modules/loop/engine_proxy.py` -> `modules/lazy_loop.py`
+- `modules/loop/engine_proxy.py` -> `modules/traffic_recorder.py`
 - `modules/loop/worker_agentic.py` -> `modules/__init__.py`
 - `modules/loop/worker_agentic.py` -> `modules/harness.py`
 - `modules/loop/worker_agentic.py` -> `modules/lazy_loop.py`
@@ -464,37 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `skills/claude_md_orchestrator/orchestrator.py` -> `skills/claude_md_orchestrator/parser.py`
 - `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/config.py`
 - `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/reviewer_agent.py` -> `skills/claude_md_orchestrator/config.py`
-- `skills/claude_md_orchestrator/reviewer_agent.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/reviewer_agent.py` -> `skills/claude_md_orchestrator/validators.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `modules/llm_factory.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `skills/claude_md_orchestrator/config.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/sdd_agent.py` -> `skills/claude_md_orchestrator/validators.py`
-- `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/config.py`
-- `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/tdd_agent.py` -> `skills/claude_md_orchestrator/validators.py`
-- `skills/claude_md_orchestrator/validators.py` -> `core/hardening.py`
-- `skills/claude_md_orchestrator/validators.py` -> `skills/claude_md_orchestrator/models.py`
-- `skills/heartbeat.py` -> `modules/event_engine.py`
-- `skills/heartbeat.py` -> `modules/timeline_narrator.py`
-- `skills/hermes-lazyown/claudemd_rules.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/config_bridge.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/constants.py` -> `modules/killchain.py`
-- `skills/hermes-lazyown/executor.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/hermes_sync.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `modules/backdoor/server.c`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/claudemd_rules.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/config_bridge.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/executor.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/hermes_sync.py`
-- `skills/hermes-lazyown/mcp_server.py` -> `skills/hermes-lazyown/output_compactor.py`
-- `skills/hermes-lazyown/output_compactor.py` -> `skills/hermes-lazyown/constants.py`
-- `skills/hive_mind.py` -> `core/logging.py`
-- `skills/hive_mind.py` -> `modules/logging_config.py`
-- `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py`
-- `skills/hive_mind.py` -> `skills/lazyown_llm.py`
-- `skills/hive_mind.py` -> `skills/lazyown_parquet_db.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

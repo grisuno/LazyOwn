@@ -258,30 +258,31 @@ Previous: [KB_tests.md](KB_tests.md)
   - `_write_chain` (function, line 41) `def _write_chain(tmp_path, name, steps, enabled)`
   - `_patch_chain_loading` (function, line 49) `def _patch_chain_loading(monkeypatch, tmp_path, enabled_name, chain)`
   - `test_parse_flags_and_unknown_flag_fails_loudly` (function, line 59) `def test_parse_flags_and_unknown_flag_fails_loudly()`
-  - `test_select_step_ids_supports_step_from_and_to` (function, line 74) `def test_select_step_ids_supports_step_from_and_to()`
-  - `test_admin_list_validate_and_enable_disable` (function, line 101) `def test_admin_list_validate_and_enable_disable(tmp_path, monkeypatch, capsys)`
-  - `test_admin_missing_chain_and_bad_input_fail` (function, line 127) `def test_admin_missing_chain_and_bad_input_fail(tmp_path, monkeypatch, capsys)`
-  - `test_run_dry_run_json_output` (function, line 138) `def test_run_dry_run_json_output(tmp_path, monkeypatch, capsys)`
-  - `test_run_checkpoints_and_resume` (function, line 157) `def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys)`
-  - `test_confirm_gate_auto_approves_in_autonomous_mode` (function, line 200) `def test_confirm_gate_auto_approves_in_autonomous_mode(tmp_path, monkeypatch, capsys)`
-  - `test_confirm_gate_denies_when_operator_refuses` (function, line 217) `def test_confirm_gate_denies_when_operator_refuses(tmp_path, monkeypatch, capsys)`
-  - `test_engagement_tokens_resolved_from_fact_store` (function, line 233) `def test_engagement_tokens_resolved_from_fact_store(monkeypatch, tmp_path)`
-  - `test_playbook_overrides_base_chain` (function, line 282) `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)`
-  - `test_step_filtering_drops_out_of_scope_steps` (function, line 295) `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)`
-  - `test_unknown_run_flags_fail_loudly` (function, line 318) `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)`
-  - `TestSynthFlags` (class, line 327) `class TestSynthFlags`
+  - `test_render_admin_tags_severity_per_payload` (function, line 74) `def test_render_admin_tags_severity_per_payload()`
+  - `test_select_step_ids_supports_step_from_and_to` (function, line 93) `def test_select_step_ids_supports_step_from_and_to()`
+  - `test_admin_list_validate_and_enable_disable` (function, line 120) `def test_admin_list_validate_and_enable_disable(tmp_path, monkeypatch, capsys)`
+  - `test_admin_missing_chain_and_bad_input_fail` (function, line 146) `def test_admin_missing_chain_and_bad_input_fail(tmp_path, monkeypatch, capsys)`
+  - `test_run_dry_run_json_output` (function, line 157) `def test_run_dry_run_json_output(tmp_path, monkeypatch, capsys)`
+  - `test_run_checkpoints_and_resume` (function, line 176) `def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys)`
+  - `test_confirm_gate_auto_approves_in_autonomous_mode` (function, line 219) `def test_confirm_gate_auto_approves_in_autonomous_mode(tmp_path, monkeypatch, capsys)`
+  - `test_confirm_gate_denies_when_operator_refuses` (function, line 236) `def test_confirm_gate_denies_when_operator_refuses(tmp_path, monkeypatch, capsys)`
+  - `test_engagement_tokens_resolved_from_fact_store` (function, line 252) `def test_engagement_tokens_resolved_from_fact_store(monkeypatch, tmp_path)`
+  - `test_playbook_overrides_base_chain` (function, line 301) `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)`
+  - `test_step_filtering_drops_out_of_scope_steps` (function, line 314) `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)`
+  - `test_unknown_run_flags_fail_loudly` (function, line 337) `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)`
+  - `TestSynthFlags` (class, line 346) `class TestSynthFlags`
   - `_Set` (class, line 27) `class _Set(CommandAndControlMigratedCommandSet)`
   - `_Shell` (class, line 30) `class _Shell(Cmd)`
-  - `FakeStore` (class, line 253) `class FakeStore`
-  - `test_techniques_parsed` (method, line 330) `def test_techniques_parsed(self)`
-  - `test_playbook_flag_parsed` (method, line 338) `def test_playbook_flag_parsed(self)`
-  - `test_missing_value_errors` (method, line 346) `def test_missing_value_errors(self)`
-  - `test_unknown_admin_flag_still_loud` (method, line 351) `def test_unknown_admin_flag_still_loud(self)`
-  - `test_positional_only_unchanged` (method, line 356) `def test_positional_only_unchanged(self)`
+  - `FakeStore` (class, line 272) `class FakeStore`
+  - `test_techniques_parsed` (method, line 349) `def test_techniques_parsed(self)`
+  - `test_playbook_flag_parsed` (method, line 357) `def test_playbook_flag_parsed(self)`
+  - `test_missing_value_errors` (method, line 365) `def test_missing_value_errors(self)`
+  - `test_unknown_admin_flag_still_loud` (method, line 370) `def test_unknown_admin_flag_still_loud(self)`
+  - `test_positional_only_unchanged` (method, line 375) `def test_positional_only_unchanged(self)`
   - `__init__` (method, line 33) `def __init__(self)`
-  - `__init__` (method, line 256) `def __init__(self)`
-  - `parse_all` (method, line 260) `def parse_all()`
-  - `get_host` (method, line 265) `def get_host(host)`
+  - `__init__` (method, line 275) `def __init__(self)`
+  - `parse_all` (method, line 279) `def parse_all()`
+  - `get_host` (method, line 284) `def get_host(host)`
 - Depends on: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/chain_tokens.py`
 
 ## tests/test_apt_chain_integration.py

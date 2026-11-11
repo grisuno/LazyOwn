@@ -1,10 +1,10 @@
 # cli/commands
 
-*Community 1 | 162 files | cohesion 0.48*
+*Community 1 | 162 files | cohesion 0.47*
 
 ## Definition
 
-This community groups 162 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.48). Central symbols: `AESdecrypt`, `AESencrypt`, `AdLabCaptureSpec`, `AdLabCatalogueSpec`, `AdLabGymDefinitionsSpec`, `AdLabRuntimeSpec`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`. Core file: `utils.py` (126 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Este archivo contiene l.
+This community groups 162 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.47). Central symbols: `AESdecrypt`, `AESencrypt`, `AdLabCaptureSpec`, `AdLabCatalogueSpec`, `AdLabGymDefinitionsSpec`, `AdLabRuntimeSpec`, `AntiForensicsCommandSet`, `AppLockerBypassCommandSet`. Core file: `utils.py` (126 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Este archivo contiene l.
 
 ## Files
 
@@ -17,7 +17,7 @@ This community groups 162 file(s) rooted at `cli/commands` with dominant languag
 | `cli/commands/applocker_bypass.py` | py | utility | 9 | yes |
 | `cli/commands/bitm.py` | py | utility | 8 | yes |
 
-### `tests` (49 files)
+### `tests` (50 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -25,7 +25,7 @@ This community groups 162 file(s) rooted at `cli/commands` with dominant languag
 | `tests/test_api_key_resolution.py` | py | testing | 9 | yes |
 | `tests/test_atomic_exploit_bridge.py` | py | testing | 38 | yes |
 
-### `modules` (24 files)
+### `modules` (23 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -39,7 +39,7 @@ This community groups 162 file(s) rooted at `cli/commands` with dominant languag
 |------|----------|-------|---------|-----|
 | `core/crypto.py` | py | utility | 7 | yes |
 | `core/hardening.py` | py | utility | 34 | yes |
-| `core/host_policy.py` | py | business_logic | 3 | yes |
+| `core/host_policy.py` | py | business_logic | 5 | yes |
 
 ### `cli` (8 files)
 
@@ -107,36 +107,36 @@ This community groups 162 file(s) rooted at `cli/commands` with dominant languag
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 469
-- Cross-boundary resolved imports (EXTRACTED): 560
+- Cross-boundary resolved imports (EXTRACTED): 575
 
 ## Connections
 
 - [EXTRACTED] depends_on community 6 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/__init__.py.
 - [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.
-- [EXTRACTED] depends_on community 1 <-> 10 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
-- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
-- [EXTRACTED] depends_on community 15 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 1 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
+- [EXTRACTED] depends_on community 4 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
+- [EXTRACTED] depends_on community 14 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 11 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/c2_session.py imports modules/c2_surfaces.py.
 - [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 16 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 15 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
-- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `core/param_registry.py` via `subprocess` (4 hops)
 
@@ -146,7 +146,7 @@ This community groups 162 file(s) rooted at `cli/commands` with dominant languag
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/credential_vault.py` be broken with an interface?
 - Is the dangerous import `subprocess` in `cli/banner_config.py` still required, or can it be isolated?
 - What would break if the most connected file in cli/commands changed?
-- Should cli/commands be split, given cohesion 0.48?
+- Should cli/commands be split, given cohesion 0.47?
 
 ## Sources
 

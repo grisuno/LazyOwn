@@ -1,6 +1,41 @@
 # Subsystem: modules (page 17 of 18)
 Previous: [KB_modules_p16.md](KB_modules_p16.md)
 
+## modules/timestomper.py
+- Doc: Filesystem timestomping — MACB timestamp manipulation for stealth.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TimestompConfig` (class, line 24) `class TimestompConfig`
+  - `FileTimestamps` (class, line 51) `class FileTimestamps`
+  - `Timestomper` (class, line 69) `class Timestomper`
+  - `__init__` (method, line 106) `def __init__(self, config)`
+  - `windows_timestomp_powershell` (method, line 110) `def windows_timestomp_powershell(self)`
+  - `windows_timestomp_c` (method, line 152) `def windows_timestomp_c(self)`
+  - `linux_timestomp_commands` (method, line 200) `def linux_timestomp_commands(self)`
+  - `macos_timestomp_commands` (method, line 241) `def macos_timestomp_commands(self)`
+  - `_pick_reference` (method, line 269) `def _pick_reference(self, path, platform)`
+  - `generate_random_timestamps` (method, line 280) `def generate_random_timestamps(self, reference_ts, window_days)`
+  - `verify_timestamps` (method, line 300) `def verify_timestamps(self, target_paths)`
+  - `summary` (method, line 326) `def summary(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
+## modules/tmp.sh
+- Layer: utility
+- Language: sh
+
+## modules/toolset.py
+- Doc: Typed tool sets per agent role with shell allowlists.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ToolSeed` (class, line 27) `class ToolSeed`
+  - `builtin_seeds` (function, line 35) `def builtin_seeds()`
+  - `resolve` (function, line 72) `def resolve(agent, tool_key)`
+  - `extract_tool` (function, line 105) `def extract_tool(command)`
+  - `validate_shell` (function, line 128) `def validate_shell(role, command)`
+- Imported by: `skills/autonomous_daemon.py`
+
 ## modules/toposwarm_bridge.py
 - Doc: modules/toposwarm_bridge.py
 - Layer: utility
@@ -77,7 +112,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `import_archive` (method, line 493) `def import_archive(self, path)`
   - `import_inbox` (method, line 554) `def import_inbox(self, inbox_dir)`
   - `gc` (method, line 587) `def gc(self, older_than_sec)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/loop/engine_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
 
 ## modules/trigger_policy.py
 - Doc: Declarative trigger policy: YAML seeds for the loop TriggerStore.

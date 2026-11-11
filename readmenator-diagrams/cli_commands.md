@@ -38,7 +38,7 @@ core groups 9 files (py) around check_rhost, check_lhost, check_lport, check_por
 
 ## modules (2.3)
 
-modules groups 25 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
+modules groups 24 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
 
 ## root (2.4)
 
@@ -50,7 +50,7 @@ skills groups 1 files (py) around handle. MCP tool ``lazyown_list_modules``: lis
 
 ## tests (2.6)
 
-tests groups 49 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
+tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
 
 **Files**:
 
@@ -146,6 +146,7 @@ tests groups 49 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
+- modules/command_executor.py
 - modules/dns_beacon.py
 - modules/domain_dominance.py
 - modules/dpapi_harvester.py
@@ -155,8 +156,6 @@ tests groups 49 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/lazycloud.py
 - modules/lazyk8s.py
 - modules/lazypassgen.py
-- modules/lazypoophish.py
-- modules/lazyshortener.py
 - modules/loop/worker_gating.py
 - modules/mfa_bypass.py
 - modules/module_registry.py
@@ -176,6 +175,7 @@ tests groups 49 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_categories.py
 - tests/test_core.py
 - tests/test_credentials_rotation.py
+- tests/test_executor_kernel.py
 - tests/test_findings_gate.py
 - tests/test_fuzzy_picker.py
 - tests/test_group_kill.py

@@ -1,5 +1,21 @@
-# API (page 13 of 27)
+# API (page 13 of 28)
 Previous: [API_p12.md](API_p12.md)
+
+## modules/generate_tools.py
+- `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
+
+## modules/goals.py
+Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
+- `TaskConstraints.blocked` (method) `modules/goals.py:35` `def blocked(self, command)` -- Return the blocking constraint or empty string.
+- `decompose_rule_based` (function) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
+- `load_constraints` (function) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
+- `constraint_block_text` (function) `modules/goals.py:103` `def constraint_block_text(constraints)` -- Render the constraint block injected at max priority (LAZY parity).
+- `GoalTracker.__init__` (method) `modules/goals.py:120` `def __init__(self, goals)` -- Bind to an initial goal list.
+- `GoalTracker.goals` (method) `modules/goals.py:125` `def goals(self)` -- Return a copy of tracked goals.
+- `GoalTracker.prove_goal` (method) `modules/goals.py:129` `def prove_goal(self, goal_text, evidence)` -- Mark one goal achieved from evidence; return True when found.
+- `GoalTracker.goal_met` (method) `modules/goals.py:140` `def goal_met(self, opt_in)` -- End the whole task; requires explicit opt-in (default unbound).
+- `GoalTracker.all_achieved` (method) `modules/goals.py:148` `def all_achieved(self)` -- Return True when every goal is achieved.
+- `GoalTracker.open_goals` (method) `modules/goals.py:152` `def open_goals(self)` -- Return goals still open.
 
 ## modules/golden_path.py
 Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
@@ -458,37 +474,6 @@ Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposabl
 - `stop_range` (function) `modules/lab_runtime.py:368` `def stop_range(profile)` -- Stop one cyber range profile (compose down).
 - `stop_ranges` (function) `modules/lab_runtime.py:379` `def stop_ranges()` -- Stop every running cyber range.
 - `ensure_range_secret` (function) `modules/lab_runtime.py:420` `def ensure_range_secret(profile_dir)` -- Generate the DC admin secret file when missing.
-
-## modules/lazy_agent.py
-Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
-- `model_timeout_sec` (function) `modules/lazy_agent.py:41` `def model_timeout_sec()` -- Return the hard per-turn model timeout from configuration.
-- `tool_calling_enabled` (function) `modules/lazy_agent.py:57` `def tool_calling_enabled()` -- Return whether agentic tool calling is enabled by configuration.
-- `max_iterations` (function) `modules/lazy_agent.py:72` `def max_iterations()` -- Return the bounded agent step budget from configuration.
-- `resolve_agentic_model` (function) `modules/lazy_agent.py:83` `def resolve_agentic_model(exclude)` -- Return a raw tool-calling backend for the best pool member, or None.
-- `ObservableAgentRunner.__init__` (method) `modules/lazy_agent.py:148` `def __init__(self, model, system_prompt, max_iterations, on_event)` -- Bind the model and the optional event sink (kind, name, text).
-- `ObservableAgentRunner.run` (method) `modules/lazy_agent.py:168` `def run(self, user_input)` -- Base loop plus final-turn persistence for true resume.
-- `ConversationStore.__init__` (method) `modules/lazy_agent.py:264` `def __init__(self, task_id)` -- Bind the conversation store for one task (``main`` when empty).
-- `ConversationStore.intent_messages` (method) `modules/lazy_agent.py:273` `def intent_messages(self, intent_id)` -- Return the stored messages for one intent (resume seed).
-- `ConversationStore.save_intent` (method) `modules/lazy_agent.py:278` `def save_intent(self, intent_id, messages)` -- Persist the tail of one intent conversation.
-- `ConversationStore.session` (method) `modules/lazy_agent.py:287` `def session(self, session_id)` -- Return one main-agent session payload (empty when unknown).
-- `ConversationStore.sessions` (method) `modules/lazy_agent.py:291` `def sessions(self)` -- List main-agent sessions with title, message count and age.
-- `ConversationStore.save_session` (method) `modules/lazy_agent.py:305` `def save_session(self, session_id, messages, title)` -- Persist one main-agent session conversation tail.
-- `ConversationStore.reset_intents` (method) `modules/lazy_agent.py:315` `def reset_intents(self)` -- Drop every stored intent conversation (fresh agent start).
-- `register_tools` (function) `modules/lazy_agent.py:322` `def register_tools(runner, specs)` -- Register tool specs (name, description, func, parameters, required).
-- `run_worker_session` (function) `modules/lazy_agent.py:335` `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)` -- Run one agentic intent attempt with resume seeding.
-- `run_main_session` (function) `modules/lazy_agent.py:374` `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` -- Run one main-agent turn, resuming the stored session conversation.
-- `run_external_opencode` (function) `modules/lazy_agent.py:396` `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` -- Run one headless ``opencode run`` task with MCP tooling.
-- `run_external_hermes` (function) `modules/lazy_agent.py:472` `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` -- Run one detached ``hermes chat --oneshot`` task.
-
-## modules/lazy_autofire.py
-Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/lazy_probes.py`
-Imported by: `tests/test_loop_fire_pending.py`
-- `autofire_armed` (function) `modules/lazy_autofire.py:41` `def autofire_armed(payload)` -- Whether the operator armed autofire in ``payload.json``.
-- `consider_report` (function) `modules/lazy_autofire.py:53` `def consider_report(report, chains_dir, state_path, armed, now)` -- Turn fire-tier bounded matches into a confirmation chain.
-- `fire_from_file` (function) `modules/lazy_autofire.py:105` `def fire_from_file(target, feed_path)` -- Consider the saved exposure report of one target.
-- `sweep_state` (function) `modules/lazy_autofire.py:127` `def sweep_state(state_path, now)` -- Drop expired cooldown entries to keep the state file small.
-- `status` (function) `modules/lazy_autofire.py:147` `def status(payload, state_path)` -- Summarize autofire for the operator surfaces.
 
 
 Next: [API_p14.md](API_p14.md)

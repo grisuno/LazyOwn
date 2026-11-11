@@ -1,8 +1,23 @@
-# Symbols (page 5 of 50)
+# Symbols (page 5 of 51)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `rank` | method | `cli/graph_advisor.py:307` | `def rank(self, nodes, query)` |
+| `read_recent_commands` | method | `cli/graph_advisor.py:566` | `def read_recent_commands(self, window)` |
+| `reload` | method | `cli/graph_advisor.py:387` | `def reload(self, path)` |
+| `resolve_path` | method | `cli/graph_advisor.py:160` | `def resolve_path(self, override)` |
+| `search` | method | `cli/graph_advisor.py:445` | `def search(self, query, limit)` |
+| `suggest_next` | method | `cli/graph_advisor.py:520` | `def suggest_next(self, recent_commands, limit)` |
+| `summary` | method | `cli/graph_advisor.py:396` | `def summary(self)` |
+| `to_summary` | method | `cli/graph_advisor.py:109` | `def to_summary(self)` |
+| `to_summary` | method | `cli/graph_advisor.py:132` | `def to_summary(self)` |
+| `truncate_to_budget` | method | `cli/graph_advisor.py:605` | `def truncate_to_budget(self, payload, budget_tokens)` |
+| `GraphOverlayConfig` | class | `cli/graph_overlay.py:41` | `class GraphOverlayConfig` |
+| `GraphOverlayItem` | class | `cli/graph_overlay.py:59` | `class GraphOverlayItem` |
+| `GraphOverlayState` | class | `cli/graph_overlay.py:69` | `class GraphOverlayState` |
+| `GraphOverlayView` | class | `cli/graph_overlay.py:33` | `class GraphOverlayView(StrEnum)` |
+| `_GraphOverlayApp` | class | `cli/graph_overlay.py:246` | `class _GraphOverlayApp(App)` |
 | `__init__` | method | `cli/graph_overlay.py:260` | `def __init__(self)` |
 | `_advisor` | method | `cli/graph_overlay.py:174` | `def _advisor(self)` |
 | `_build_app` | function | `cli/graph_overlay.py:235` | `def _build_app(state, theme)` |
@@ -481,20 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_phase_in` | function | `cli/protips.py:63` | `def _phase_in(ctx)` |
 | `_safe_trigger` | function | `cli/protips.py:381` | `def _safe_trigger(tip, ctx)` |
 | `get_session_tip` | function | `cli/protips.py:313` | `def get_session_tip(ctx)` |
-| `print_session_tip` | function | `cli/protips.py:369` | `def print_session_tip(ctx)` |
-| `render_contextual_tip` | function | `cli/protips.py:339` | `def render_contextual_tip(last_cmd, ctx)` |
-| `PurpleDashboard` | class | `cli/purple_tui.py:79` | `class PurpleDashboard(App)` |
-| `_color_rate` | function | `cli/purple_tui.py:70` | `def _color_rate(rate)` |
-| `_dataset_stats` | function | `cli/purple_tui.py:56` | `def _dataset_stats()` |
-| `_load_recent_results` | function | `cli/purple_tui.py:42` | `def _load_recent_results(n)` |
-| `_load_score` | function | `cli/purple_tui.py:33` | `def _load_score()` |
-| `_make_bar` | function | `cli/purple_tui.py:65` | `def _make_bar(value, width)` |
-| `_render_actions` | method | `cli/purple_tui.py:173` | `def _render_actions(self, results)` |
-| `_render_methods` | method | `cli/purple_tui.py:157` | `def _render_methods(self, score)` |
-| `_render_score` | method | `cli/purple_tui.py:125` | `def _render_score(self, score)` |
-| `_render_stats` | method | `cli/purple_tui.py:205` | `def _render_stats(self, score, ds)` |
-| `action_refresh` | method | `cli/purple_tui.py:112` | `def action_refresh(self)` |
-| `compose` | method | `cli/purple_tui.py:98` | `def compose(self)` |
-| `launch` | function | `cli/purple_tui.py:233` | `def launch()` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

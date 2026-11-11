@@ -1,8 +1,23 @@
-# Symbols (page 7 of 50)
+# Symbols (page 7 of 51)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on_button_pressed` | method | `cli/tui_forms.py:102` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:239` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:276` | `def on_button_pressed(self, event)` |
+| `on_button_pressed` | method | `cli/tui_forms.py:338` | `def on_button_pressed(self, event)` |
+| `on_input_changed` | method | `cli/tui_forms.py:201` | `def on_input_changed(self, event)` |
+| `on_input_submitted` | method | `cli/tui_forms.py:107` | `def on_input_submitted(self, event)` |
+| `on_input_submitted` | method | `cli/tui_forms.py:206` | `def on_input_submitted(self, event)` |
+| `on_key` | method | `cli/tui_forms.py:220` | `def on_key(self, event)` |
+| `on_mount` | method | `cli/tui_forms.py:147` | `def on_mount(self)` |
+| `on_option_list_option_selected` | method | `cli/tui_forms.py:211` | `def on_option_list_option_selected(self, event)` |
+| `_cycle` | function | `cli/tui_theme.py:65` | `def _cycle(payload, direction)` |
+| `_format_listing` | function | `cli/tui_theme.py:45` | `def _format_listing(current)` |
+| `_set_theme` | function | `cli/tui_theme.py:30` | `def _set_theme(payload, name)` |
+| `run` | function | `cli/tui_theme.py:87` | `def run(args, payload, save)` |
+| `TutorialConfig` | class | `cli/tutorial.py:76` | `class TutorialConfig` |
 | `is_done` | function | `cli/tutorial.py:83` | `def is_done(config)` |
 | `mark_done` | function | `cli/tutorial.py:89` | `def mark_done(config)` |
 | `render_header` | function | `cli/tutorial.py:96` | `def render_header()` |
@@ -481,20 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `load_defaults` | function | `core/defaults.py:21` | `def load_defaults(path)` |
 | `rockyou_wordlist` | function | `core/defaults.py:81` | `def rockyou_wordlist()` |
 | `sessions_dir` | function | `core/defaults.py:100` | `def sessions_dir()` |
-| `DependencyReport` | class | `core/dependencies.py:268` | `class DependencyReport` |
-| `DependencySpec` | class | `core/dependencies.py:66` | `class DependencySpec` |
-| `DependencyStatus` | class | `core/dependencies.py:253` | `class DependencyStatus` |
-| `MissingDependencyError` | class | `core/dependencies.py:37` | `class MissingDependencyError(ImportError)` |
-| `_DeferredImport` | class | `core/dependencies.py:101` | `class _DeferredImport` |
-| `__bool__` | method | `core/dependencies.py:152` | `def __bool__(self)` |
-| `__call__` | method | `core/dependencies.py:136` | `def __call__(self)` |
-| `__getattr__` | method | `core/dependencies.py:132` | `def __getattr__(self, _name)` |
-| `__getitem__` | method | `core/dependencies.py:140` | `def __getitem__(self, _key)` |
-| `__init__` | method | `core/dependencies.py:45` | `def __init__(self, import_name, pip_package, feature)` |
-| `__init__` | method | `core/dependencies.py:115` | `def __init__(self, spec)` |
-| `__iter__` | method | `core/dependencies.py:144` | `def __iter__(self)` |
-| `__len__` | method | `core/dependencies.py:148` | `def __len__(self)` |
-| `_raise` | method | `core/dependencies.py:123` | `def _raise(self)` |
-| `_spec_for` | function | `core/dependencies.py:157` | `def _spec_for(import_name, pip_package, feature)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

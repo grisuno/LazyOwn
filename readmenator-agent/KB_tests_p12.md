@@ -1,6 +1,21 @@
 # Subsystem: tests (page 12 of 25)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
 
+## tests/test_implant_session_secrets.py
+- Doc: ImplantSessionSecretsSpec: Contract: lab Go implant templates bind rotating session secrets.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `ImplantSessionSecretsSpec` (class, line 22) `class ImplantSessionSecretsSpec(TestCase)`
+  - `test_implant_binds_sleep_and_persistence_placeholders` (method, line 25) `def test_implant_binds_sleep_and_persistence_placeholders(self)`
+  - `test_implant_uses_obfuscated_sleep_and_jitter_bounds` (method, line 30) `def test_implant_uses_obfuscated_sleep_and_jitter_bounds(self)`
+  - `test_implant_uses_utls_for_real_tls_fingerprint` (method, line 38) `def test_implant_uses_utls_for_real_tls_fingerprint(self)`
+  - `test_listener_and_monrevlin_bind_session_magic` (method, line 45) `def test_listener_and_monrevlin_bind_session_magic(self)`
+  - `test_rootkit_listener_default_is_neutral` (method, line 53) `def test_rootkit_listener_default_is_neutral(self)`
+  - `test_lkm_makefile_carries_deployment_values` (method, line 57) `def test_lkm_makefile_carries_deployment_values(self)`
+  - `test_url_traffic_template_keys_match_builder_context` (method, line 64) `def test_url_traffic_template_keys_match_builder_context(self)`
+- Depends on: `modules/c2_builder.py`
+
 ## tests/test_improvements_spec.py
 - Doc: Spec-driven validation of the three priority improvements.
 - Layer: testing
@@ -473,15 +488,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_phase_status_is_immutable` (method, line 414) `def test_phase_status_is_immutable(self)`
   - `test_phase_status_fields_match_config` (method, line 419) `def test_phase_status_fields_match_config(self)`
 - Depends on: `modules/killchain.py`, `modules/world_model.py`
-
-## tests/test_lab_target_visibility.py
-- Doc: Lab target visibility: start/status always show the container IP.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
-  - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
-- Depends on: `cli/commands/lab.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

@@ -28,7 +28,7 @@ verbs:
       escalation in an Active Directory environment.
     source: cli
   ad_ldap_enum:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Executes ad-ldap-enum to enumerate Active Directory objects (users,
@@ -1731,7 +1731,7 @@ verbs:
     description: Generate a PowerShell script to extract Azure AD Connect credentials.
     source: cli
   adsso_spray:
-    enabled: false
+    enabled: true
     phase: cred
     risk: exploit
     description: Performs a password spray attack on Azure Active Directory Seamless
@@ -1892,7 +1892,7 @@ verbs:
       resolution.
     source: cli
   arjun:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Executes an Arjun scan on the specified URL for parameter discovery.
@@ -1929,7 +1929,7 @@ verbs:
     description: assign a parameter value, persist to payload.json and refresh aliases.
     source: cli
   atomic_agent:
-    enabled: false
+    enabled: true
     phase: c2
     risk: safe
     description: Generates and synchronizes atomic agent scripts.
@@ -1986,7 +1986,7 @@ verbs:
     description: Stage an Atomic Red Team test by MITRE technique ID or GUID.
     source: builtin
   attack_plan:
-    enabled: false
+    enabled: true
     phase: c2
     risk: safe
     description: Execute a multi-step APT simulation plan.
@@ -2104,7 +2104,7 @@ verbs:
     description: Executes a BBOT scan to perform various reconnaissance tasks.
     source: cli
   beaconcfg:
-    enabled: false
+    enabled: true
     phase: persist
     risk: safe
     description: Generate a C2 beacon profile with traffic morphing and domain fronting.
@@ -2136,14 +2136,14 @@ verbs:
       application scanning.'
     source: cli
   bloodhound:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Perform LDAP enumeration using bloodhound-python with credentials
       from a file.
     source: cli
   bloodyAD:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Execute the bloodyAD.py command for a specific user or all users
@@ -2222,7 +2222,7 @@ verbs:
     description: Uninstall a BOF and remove its staged file.
     source: cli
   breacher:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: 'Command breacher: Installs and runs Breacher for finding admin login
@@ -2247,7 +2247,7 @@ verbs:
     description: Queue a command for execution on a connected beacon.
     source: cli
   c2_beacons:
-    enabled: false
+    enabled: true
     phase: c2
     risk: safe
     description: List all active beacon sessions with their last-seen timestamps.
@@ -2295,7 +2295,7 @@ verbs:
     description: List all available C2 transport profiles.
     source: cli
   c2_quickstart:
-    enabled: false
+    enabled: true
     phase: c2
     risk: safe
     description: 'Quick C2 setup: generate key, prepare implant dir, print beacon
@@ -2320,7 +2320,7 @@ verbs:
     description: Manage the headless C2 server (lab use).
     source: cli
   c2_status:
-    enabled: false
+    enabled: true
     phase: c2
     risk: safe
     description: 'Show consolidated C2 status: listeners, beacons, implants, and sessions.'
@@ -2387,26 +2387,26 @@ verbs:
     description: Browse the command catalog.
     source: cli
   certipy:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Executes the Certipy tool to interact with Active Directory Certificate
       Services.
     source: cli
   certipy_ad:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Run certipy-ad against Active Directory Certificate Services.
     source: cli
   cewl:
-    enabled: false
+    enabled: true
     phase: cred
     risk: safe
     description: Generate a wordlist from a website with cewl.
     source: cli
   chain:
-    enabled: false
+    enabled: true
     phase: exploit
     risk: safe
     description: 'Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.'
@@ -2443,7 +2443,7 @@ verbs:
       version.
     source: cli
   chisel:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Run chisel for quick tunneling.
@@ -2516,7 +2516,7 @@ verbs:
     description: 'Full cloud security scan: metadata + buckets + IAM enumeration.'
     source: cli
   cme:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Execute CrackMapExec (CME) for SMB enumeration and authentication
@@ -2683,7 +2683,7 @@ verbs:
       tool. thanks to smokeme
     source: cli
   createrevshell:
-    enabled: false
+    enabled: true
     phase: persist
     risk: safe
     description: Create a bash reverse shell script in sessions/.
@@ -2702,7 +2702,7 @@ verbs:
       a dump file.'
     source: cli
   createwebshell:
-    enabled: false
+    enabled: true
     phase: persist
     risk: safe
     description: Create web shells (JPG-disguised PHP, p0wny-shell, ASP).
@@ -2803,7 +2803,7 @@ verbs:
     description: Enumerate and exploit dangerous AD DACL/SACL entries.
     source: cli
   dacledit:
-    enabled: false
+    enabled: true
     phase: cred
     risk: safe
     description: Execute the dacledit.py command for a specific user or all users
@@ -2859,7 +2859,7 @@ verbs:
     description: Launch the full-screen LazyOwn operator dashboard (Textual TUI).
     source: cli
   davtest:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Tests WebDAV server configurations using `davtest`.
@@ -2931,7 +2931,7 @@ verbs:
     description: Manage workspaces (list, create, switch, delete).
     source: cli
   dcomexec:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Executes the Impacket dcomexec tool to run commands on a remote system
@@ -2994,7 +2994,7 @@ verbs:
     description: Generate commands to detect EDR/AV on the target.
     source: cli
   dig:
-    enabled: false
+    enabled: true
     phase: recon
     risk: safe
     description: Executes the `dig` command to query DNS information.
@@ -3007,7 +3007,7 @@ verbs:
       pre-configured settings
     source: cli
   dirsearch:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Runs the `dirsearch` tool to perform directory and file enumeration
@@ -3051,7 +3051,7 @@ verbs:
     description: Executes the DNSChef tool to monitor DNS queries and intercept responses.
     source: cli
   dnsenum:
-    enabled: false
+    enabled: true
     phase: recon
     risk: safe
     description: Performs DNS enumeration using `dnsenum` to identify subdomains for
@@ -3085,7 +3085,7 @@ verbs:
       \ ready."
     source: cli
   dominion:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Execute a fully automated Active Directory domain takeover.
@@ -3097,7 +3097,7 @@ verbs:
     description: Generate a .NET/C# payload.
     source: cli
   download_c2:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Download a file from the C2 implant via the upload command.
@@ -3133,7 +3133,7 @@ verbs:
     description: Decrypt a DPAPI blob offline.
     source: cli
   dpapi_harvest:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Harvest all DPAPI-protected credentials from the local machine.
@@ -3241,7 +3241,7 @@ verbs:
       using `enum4linux`.
     source: cli
   enum4linux_ng:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Performs enumeration of information from a target system using `enum4linux-ng`.
@@ -3307,7 +3307,7 @@ verbs:
     description: 'Show recent EventBus events. Usage: event_log [N] [category]'
     source: cli
   evidence:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Encode the ``sessions/`` tree into a video file or decode one back.
@@ -3319,7 +3319,7 @@ verbs:
     description: Runs evil-ssdp with various options and user-selected templates.
     source: cli
   evilwinrm:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Drive Evil-WinRM through password, hash or kerberos-only auth.
@@ -3356,7 +3356,7 @@ verbs:
     description: Exfiltrate a file via Discord webhook.
     source: cli
   exfil_dns:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Exfiltrate data via DNS tunneling.
@@ -3368,7 +3368,7 @@ verbs:
     description: Upload a file to Google Cloud Storage.
     source: cli
   exfil_http:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Exfiltrate a file via HTTP POST to a controlled server.
@@ -3619,7 +3619,7 @@ verbs:
       ATT&CK techniques.
     source: cli
   generate_revshell:
-    enabled: false
+    enabled: true
     phase: persist
     risk: safe
     description: Generate a reverse shell in various programming languages.
@@ -3632,7 +3632,7 @@ verbs:
       with various combinations.
     source: cli
   getTGT:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Requests a Ticket Granting Ticket (TGT) using the Impacket tool with
@@ -3645,13 +3645,13 @@ verbs:
     description: Get list de supported acctions.
     source: cli
   getadusers:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Run impacket-GetADUsers to enumerate AD accounts on the DC.
     source: cli
   getcap:
-    enabled: false
+    enabled: true
     phase: recon
     risk: safe
     description: Retrieve and display file capabilities on the system.
@@ -3663,7 +3663,7 @@ verbs:
     description: sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt
     source: cli
   getnthash_py:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Recover the NT hash from a Kerberos U2U TGS via PKINITtools.
@@ -3689,7 +3689,7 @@ verbs:
       using Kerberos PKINIT with a PFX or PEM certificate.
     source: cli
   getuserspns:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Run impacket-GetUserSPNs to request roastable service tickets.
@@ -3707,7 +3707,7 @@ verbs:
     description: Enumerate a GitLab instance.
     source: cli
   gmsadumper:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Run gMSADumper to read gMSA password blobs visible to the user.
@@ -3732,7 +3732,7 @@ verbs:
     description: Build, show, or push attack paths from the world model.
     source: cli
   gospherus:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: 'Command gospherus: Clones and uses the Gopherus tool to generate
@@ -3822,7 +3822,7 @@ verbs:
     description: Generate a single-line command through the Groq backend.
     source: cli
   gtfo:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Look up a binary in GTFOBins and LOLBas parquet knowledge bases.
@@ -3854,7 +3854,7 @@ verbs:
       Framework.
     source: cli
   hashcat:
-    enabled: false
+    enabled: true
     phase: cred
     risk: safe
     description: Run hashcat password cracking.
@@ -3954,13 +3954,13 @@ verbs:
     description: 'Session counters: elapsed time, commands run, material captured.'
     source: cli
   hunt:
-    enabled: false
+    enabled: true
     phase: misc
     risk: safe
     description: Run an autonomous exploitation chain against a target.
     source: cli
   hydra:
-    enabled: false
+    enabled: true
     phase: cred
     risk: safe
     description: Run Hydra for online password attacks.
@@ -4059,7 +4059,7 @@ verbs:
       from the `tun0` interface.
     source: cli
   issue_command_to_c2:
-    enabled: false
+    enabled: true
     phase: postexp
     risk: safe
     description: 'Exec command in the client using the C2. download: command you must
@@ -4852,7 +4852,7 @@ verbs:
       crafting
     source: cli
   ligolo:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Run Ligolo-ng for advanced pivoting.
@@ -4865,7 +4865,7 @@ verbs:
       copy a link to the clipboard.
     source: cli
   linpeas:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Serve ``linpeas.sh`` over HTTP and print the target one-liner.
@@ -4889,7 +4889,7 @@ verbs:
     description: List all available aliases.
     source: cli
   listener:
-    enabled: false
+    enabled: true
     phase: c2
     risk: safe
     description: 'Manage C2 listeners: list, add, start, stop, remove.'
@@ -5052,7 +5052,7 @@ verbs:
     description: Interactive marketplace manager (Textual TUI).
     source: cli
   medusa:
-    enabled: false
+    enabled: true
     phase: cred
     risk: safe
     description: Run Medusa for online password attacks.
@@ -5142,7 +5142,7 @@ verbs:
       command or a reverse shell payload.
     source: cli
   mssqlcli:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Attempts to connect to an MSSQL server using the mssqlclient.py tool
@@ -5276,7 +5276,7 @@ verbs:
     description: Synchronizes the system clock with a specified NTP server.
     source: cli
   nuclei:
-    enabled: false
+    enabled: true
     phase: enum
     risk: safe
     description: Executes a Nuclei scan on a specified target URL or host.
@@ -5506,7 +5506,7 @@ verbs:
     description: Decrypts TightVNC passwords using Metasploit.
     source: cli
   passwordspray:
-    enabled: false
+    enabled: true
     phase: cred
     risk: exploit
     description: Perform password spraying using crackmapexec with the provided parameters.
@@ -5717,7 +5717,7 @@ verbs:
     description: Scan all ports on a specified host to identify open ports.
     source: cli
   ports:
-    enabled: false
+    enabled: true
     phase: recon
     risk: safe
     description: Lists all open TCP and UDP ports on the local system.
@@ -5769,13 +5769,13 @@ verbs:
     description: Serve PrintSpoofer over HTTP for Windows privilege escalation.
     source: cli
   privesc_cmd_by_os:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Prepare and send a linpeas/winpeas command to a C2 client.
     source: cli
   privesc_suggest:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Quick alias for crystal_ball --auto.
@@ -5808,7 +5808,7 @@ verbs:
       the specified target.
     source: cli
   pspy:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Serve the ``pspy`` process monitor over HTTP.
@@ -5959,7 +5959,7 @@ verbs:
     description: Recommend the next action via the unified recommendation engine.
     source: cli
   recon:
-    enabled: false
+    enabled: true
     phase: recon
     risk: safe
     description: Performs reconnaissance on a specified self.params['domain'] using
@@ -5979,7 +5979,7 @@ verbs:
     description: Query a remote registry hive with impacket-reg.py over hash auth.
     source: cli
   regeorg:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS proxy.
@@ -6230,14 +6230,14 @@ verbs:
     description: Search for modules by name, description, or author.
     source: cli
   searchhash:
-    enabled: false
+    enabled: true
     phase: cred
     risk: safe
     description: Helps to find hash types in Hashcat by searching through its help
       output.
     source: cli
   secretsdump:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: Run impacket-secretsdump for SAM, credentials, or NTDS payloads.
@@ -6256,7 +6256,7 @@ verbs:
       interface and retrieves the server bindings.'
     source: cli
   service:
-    enabled: false
+    enabled: true
     phase: persist
     risk: safe
     description: Creates a systemd service file for a specified binary and generates
@@ -6294,7 +6294,7 @@ verbs:
     description: "Set a parameter \u2014 the unified ``set``/``assign`` surface."
     source: cli
   set_proxychains:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Configure proxychains for the current session.
@@ -6571,7 +6571,7 @@ verbs:
     description: Search all exploit sources and map findings to the next LazyOwn command.
     source: cli
   ssh:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: SSH to a remote host (custom port).
@@ -6609,7 +6609,7 @@ verbs:
     description: Run an SSL scan on the specified remote host.
     source: cli
   stage:
-    enabled: false
+    enabled: true
     phase: exfil
     risk: safe
     description: 'Stage data for exfiltration: compress, encrypt, and split.'
@@ -6651,7 +6651,7 @@ verbs:
     description: Enable stealth mode for subsequent operations.
     source: cli
   stormbreaker:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: 'Command stormbreaker: Automates the installation and usage of Storm-Breaker
@@ -6664,7 +6664,7 @@ verbs:
     description: Re-launch the framework with root privileges when missing.
     source: cli
   sudo_privesc:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Analyse sudo -l output and cross-reference with GTFOBins.
@@ -6682,7 +6682,7 @@ verbs:
     description: Suggest next commands by walking the graph from recent activity.
     source: cli
   suid_check:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Print SUID/SGID enumeration commands ready to paste on the target.
@@ -6730,7 +6730,7 @@ verbs:
     description: Executes the `lazypyautogui.py` script with optional arguments.
     source: cli
   targetedKerberoas:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Executes the targetedKerberoast tool for extracting Kerberos service
@@ -6941,7 +6941,7 @@ verbs:
       of Upload_Bypass for performing file upload bypass tests.'
     source: cli
   upload_c2:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: upload command in the client using the C2 to upload a file
@@ -7105,7 +7105,7 @@ verbs:
       and appends them
     source: cli
   winpeas:
-    enabled: false
+    enabled: true
     phase: privesc
     risk: safe
     description: Serve a winPEAS variant over HTTP and print the target one-liner.
@@ -7142,7 +7142,7 @@ verbs:
     description: Execute a command on a remote host via WMI.
     source: cli
   wmi_persist:
-    enabled: false
+    enabled: true
     phase: persist
     risk: safe
     description: Create WMI Event Subscription persistence (fileless, no disk write).
@@ -7154,7 +7154,7 @@ verbs:
     description: Create a scheduled task for persistence via WMI.
     source: cli
   wmiexec:
-    enabled: false
+    enabled: true
     phase: lateral
     risk: safe
     description: Execute commands via WMI.

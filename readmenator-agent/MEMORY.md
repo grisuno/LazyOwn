@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1545 files at commit `298c33e68949`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1566 files at commit `a6df91cbbdf5`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `modules` (565), `one` (564), `lazy` (544), `command` (543), `file` (507), `run` (491), `path` (461), `not` (456), `json` (437), `name` (432), `without` (429), `all` (425), `own` (400), `cli` (396), `chain` (394)
-- Subsystem `skills/mcp_tools`: 235 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Domain vocabulary (term, files): `one` (578), `modules` (576), `lazy` (560), `command` (551), `file` (514), `run` (501), `not` (470), `path` (468), `json` (444), `without` (440), `name` (437), `all` (429), `own` (410), `chain` (405), `cli` (397)
+- Subsystem `skills/mcp_tools`: 220 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
 - Subsystem `cli/commands`: 162 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazyc2`: 138 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: lazyc2`: 142 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: lazy_loop`: 118 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
 - Subsystem `cli`: 115 files, core `cli/marketplace_config.py`: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
-- Subsystem `modules: lazy_loop`: 110 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: lazyown`: 106 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: chain_runner`: 98 files, core `modules/chain_runner.py`: Single execution engine for YAML orchestration chains.
-- Subsystem `modules: intel_fusion`: 66 files, core `modules/intel_fusion.py`: Sessions attack-intel fusion: data -> information -> intelligence.
+- Subsystem `modules: lazyown`: 103 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: chain_runner`: 100 files, core `modules/chain_runner.py`: Single execution engine for YAML orchestration chains.
+- Subsystem `modules: atomic_exploit_bridge`: 78 files, core `modules/atomic_exploit_bridge.py`: Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``.
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 118; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 126; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1410 files, 22345 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 160 lines, max 10838.
+- py: 1431 files, 22653 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 161 lines, max 10955.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 22 files, 1630 symbols; docstrings on 48% of symbols; functions snake_case (46%); types PascalCase (27%); median file 6 lines, max 9358.
-- Tests: 434 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 444 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,13 +98,13 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 55%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 118).
+- No new dependency cycles (current: 126).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
 ## 6. Risks to respect
 
-- God nodes (changes ripple widely): `skills/mcp_tools/_context.py`, `core/logging.py`, `modules/lazy_loop.py`, `utils.py`, `modules/__init__.py`
+- God nodes (changes ripple widely): `skills/mcp_tools/_context.py`, `core/logging.py`, `modules/lazy_loop.py`, `modules/__init__.py`, `utils.py`
 - Hotspots (complex and central): `static/js/html2pdf.bundle.min.js`, `static/js/3d-force-graph-1.73.4.min.js`, `skills/mcp_generated_tools.py`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `core/config.py`
@@ -141,4 +141,7 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-10-31 [decision] Closed _SHELL_PHASES and the loop evidence gaps: (1) Worker._guard_step now publishes one exploit outcome (kind=exploit, shell=True) through the outcome bus the instant a step output carries genuine interactive-shell evidence, reusing the one canonical detector modules/atomic_exploit_bridge.shell_output_evidence (never the old junk-banner substring list); the killchain sink advances phase+host state -> world model phase becomes exploit -> AtomicSelector _SHELL_PHASES and ChainSelector strateg...
 - 2026-11-09 [decision] BOF delivery articulated through lazyaddons beacon/blacksandbeacon clients: bofs/*.yaml contracts, modules/bof_admin+bof_delivery, CLI bof_* verbs, gym_metasploitable_ms2_beacon_bofs chain, lazy_orchestrator BOFs tab
 - 2026-11-09 [decision] LazyAdaptive adopted from ARES as one-file-per-contract modules/failure_verdict.py + modules/lazy_fallback.py; apt_chain --adaptive arms replanner and implies --continue; lockout verdict never gets alternatives
+- 2026-11-11 [decision] YAML sharpening wave 1: config/verbs.yaml 24->89 enabled verbs (kill-chain curated: recon/enum/exploit/privesc/lateral/cred/exfil/persist/c2); 11 lazyaddons gained genuine nmap trigger tokens (docker, mysql, domain, imap, pop3, smtp, http, https) raising distinct tokens 18->22; 5 new orchestrator profiles (aggressive/windows/cloud/external/ctf) resolving via extends inheritance; cve_hot trigger seed added to orchestrator triggers list; 6 new scenario chains apt_redis/apt_mssql/apt_docker/apt_...
+- 2026-11-11 [decision] Wave 2 sharpening: gym collect action (modules/ctf_signalman.py - sapper signalman rebrand) sweeps metasploitable/ad_lab/winbox catalogues, re-verifies every uncaptured vector against sessions evidence through the standard checkers and writes sessions/ctf/scoreboard.json; 4 archetype-E addons lazyrdp/lazyvnc/lazyredis/lazymssql (nmap scripts + redis-cli, triggers ms-wbt-server/vnc/redis/ms-sql-server, 202 addons loaded); 9 premium AD/pivot verbs ON (bloodyAD, targetedKerberoas, dominion, getT...
+- 2026-11-11 [decision] lazyown.py wrapper dependency-hint fix: archetype E addons (no repo_url/install_path) now hint 'see help <name> for the install line' instead of a literal empty 'git clone '; clone addons hint their install_command; no-repo addons hint git clone. install_command without install_path is deliberately never executed by the wrapper (install stage runs only on fresh clone) so archetype E must not declare install_command
 <!-- readmenator:memory:notes:end -->

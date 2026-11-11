@@ -1,0 +1,62 @@
+name: apt_tomcat
+description: 'Tomcat scenario chain: fingerprint, manager and examples probes, default-credential
+  check; stops at the first SHELL.'
+enabled: true
+platforms:
+- linux
+steps:
+- id: bind
+  phase: recon
+  run: assign target {target}
+  description: bind the box into payload params
+  timeout: 300
+- id: ports_tomcat
+  phase: recon
+  run: nmap -Pn -p 8080,8443,8009,8180 -sV {target}
+  description: tomcat http, https and ajp ports
+  timeout: 600
+- id: fingerprint
+  phase: recon
+  run: whatweb -a 1 http://{target}:8080
+  description: technology fingerprint
+  timeout: 300
+  capture: tomcat_fp
+  continue_on_error: true
+- id: tomcat_status
+  phase: enum
+  run: curl -s -m 15 http://{target}:8080/manager/status
+  description: manager status page reachability
+  timeout: 60
+  capture: tomcat_status
+  continue_on_error: true
+- id: tomcat_examples
+  phase: enum
+  run: curl -s -m 15 -o /dev/null -w '%{http_code}' http://{target}:8080/examples/jsp/
+  description: sample-apps presence (deploy surface)
+  timeout: 60
+  capture: tomcat_examples
+  continue_on_error: true
+- id: tomcat_manager_brute
+  phase: cred
+  run: nmap -Pn -p 8080 --script http-brute --script-args path=/manager/html {target}
+  description: bounded manager credential brute
+  timeout: 900
+  capture: tomcat_brute
+  continue_on_error: true
+- id: sweep
+  phase: exploit
+  run: atomic_exploit
+  description: yaml exploit sweep from scan triggers; stops at the first SHELL
+  timeout: 1800
+- id: session_attempt
+  phase: post_exploitation
+  run: create_session_json
+  description: record the session when a shell landed
+  timeout: 300
+  continue_on_error: true
+tags:
+- tomcat
+- http
+- java
+total_timeout: 2400
+version: 2

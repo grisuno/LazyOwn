@@ -1,6 +1,88 @@
 # Subsystem: modules (page 7 of 18)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/gym_registry.py
+- Doc: Gym definitions and persistent run state.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_yaml_module` (function, line 85) `def _yaml_module()`
+  - `slugify` (function, line 92) `def slugify(value)`
+  - `validate_definition` (function, line 110) `def validate_definition(data, filename)`
+  - `definition_path` (function, line 155) `def definition_path(gym_id, directory)`
+  - `_read_yaml` (function, line 178) `def _read_yaml(path)`
+  - `_normalize_definition` (function, line 188) `def _normalize_definition(data)`
+  - `load_definitions` (function, line 207) `def load_definitions(directory)`
+  - `scan_definitions` (function, line 239) `def scan_definitions(directory)`
+  - `_write_yaml` (function, line 282) `def _write_yaml(path, data)`
+  - `create_definition` (function, line 300) `def create_definition(gym_id)`
+  - `update_definition_yaml` (function, line 369) `def update_definition_yaml(gym_id, text, directory)`
+  - `delete_definition` (function, line 402) `def delete_definition(gym_id, directory)`
+  - `_empty_state` (function, line 442) `def _empty_state()`
+  - `_world_model` (function, line 447) `def _world_model()`
+  - `_sanitize_state` (function, line 454) `def _sanitize_state(raw)`
+  - `normalize_operator` (function, line 495) `def normalize_operator(value)`
+  - `read_state` (function, line 501) `def read_state()`
+  - `write_state` (function, line 520) `def write_state(state)`
+  - `_merge_legacy` (function, line 532) `def _merge_legacy(state)`
+  - `_next_run_id` (function, line 569) `def _next_run_id(state)`
+  - `start_run` (function, line 579) `def start_run(challenge_id, definitions)`
+  - `_matches` (function, line 625) `def _matches(run, selector)`
+  - `get_active_runs` (function, line 637) `def get_active_runs(selector, operator)`
+  - `select_run` (function, line 663) `def select_run(selector)`
+  - `stop_runs` (function, line 695) `def stop_runs(selector)`
+  - `pop_run` (function, line 724) `def pop_run(selector)`
+  - `state_summary` (function, line 751) `def state_summary()`
+  - `new_run_token` (function, line 761) `def new_run_token()`
+- Depends on: `core/logging.py`, `modules/world_model.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`, `tests/test_winbox_gym.py`
+
+## modules/gym_winbox_runner.py
+- Doc: Ordered WinBox gym matrix runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `plan_matrix` (function, line 21) `def plan_matrix(target, sessions_dir, only, top_k)`
+  - `run_matrix` (function, line 51) `def run_matrix(target)`
+  - `report` (function, line 118) `def report(sessions_dir)`
+  - `chain_available` (function, line 130) `def chain_available(vuln_id)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_registry.py`
+
+## modules/harness.py
+- Doc: Deterministic harness gate for the LazyOwn loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `harness_enabled` (function, line 30) `def harness_enabled()`
+  - `gate` (function, line 65) `def gate(name)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
+- Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop/worker_agentic.py`, `skills/lazyown_mcp_opencode.py`
+
+## modules/hash_cracker.py
+- Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CrackResult` (class, line 127) `class CrackResult`
+  - `HashIdentifier` (class, line 140) `class HashIdentifier`
+  - `HashCracker` (class, line 151) `class HashCracker`
+  - `crack_secretsdump_output` (function, line 695) `def crack_secretsdump_output(filepath, wordlist, rhost)`
+  - `__init__` (method, line 164) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
+  - `_resolve_wordlist` (method, line 178) `def _resolve_wordlist(self)`
+  - `identify` (method, line 186) `def identify(self, line)`
+  - `identify_file` (method, line 273) `def identify_file(self, filepath)`
+  - `crack_hash` (method, line 295) `def crack_hash(self, hash_value, hash_type, wordlist)`
+  - `crack_file` (method, line 349) `def crack_file(self, filepath, wordlist, hash_types)`
+  - `import_to_db` (method, line 405) `def import_to_db(self, results, rhost, workspace_name)`
+  - `_crack_hashcat` (method, line 454) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_hashcat` (method, line 500) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
+  - `_crack_john` (method, line 560) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_john` (method, line 610) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
+  - `_parse_hashcat_output` (method, line 671) `def _parse_hashcat_output(stdout, stderr, original)`
+  - `_parse_john_show` (method, line 686) `def _parse_john_show(show_output, original)`
+- Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
+- Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
+
 ## modules/hive_invoke.py
 - Doc: modules/hive_invoke.py
 - Layer: utility
@@ -408,81 +490,6 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `technique_for_vulnclass` (method, line 553) `def technique_for_vulnclass(vulnclass)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
 - Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
-
-## modules/kivi.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReverseShellApp` (class, line 11) `class ReverseShellApp(App)`
-  - `build` (method, line 12) `def build(self)`
-  - `connect_to_server` (method, line 27) `def connect_to_server(self, instance)`
-
-## modules/lab_runtime.py
-- Doc: Lab runtime: Docker lifecycle for practice targets and cyber ranges.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `docker_available` (function, line 93) `def docker_available()`
-  - `_docker` (function, line 107) `def _docker()`
-  - `running_containers` (function, line 115) `def running_containers()`
-  - `existing_containers` (function, line 131) `def existing_containers()`
-  - `running_range_containers` (function, line 148) `def running_range_containers()`
-  - `container_name` (function, line 164) `def container_name(scenario)`
-  - `container_ip` (function, line 169) `def container_ip(container_name)`
-  - `ensure_web` (function, line 183) `def ensure_web(scenario, name)`
-  - `_ensure_ad_lab` (function, line 197) `def _ensure_ad_lab(scenario, name)`
-  - `apply_gym_migrations` (function, line 242) `def apply_gym_migrations(name)`
-  - `start` (function, line 250) `def start(scenario)`
-  - `stop` (function, line 304) `def stop(scenario)`
-  - `stop_all` (function, line 322) `def stop_all()`
-  - `range_compose` (function, line 340) `def range_compose(profile)`
-  - `start_range` (function, line 349) `def start_range(profile)`
-  - `stop_range` (function, line 368) `def stop_range(profile)`
-  - `stop_ranges` (function, line 379) `def stop_ranges()`
-  - `_docker_compose` (function, line 412) `def _docker_compose(args)`
-  - `ensure_range_secret` (function, line 420) `def ensure_range_secret(profile_dir)`
-- Depends on: `modules/metasploitable_migrations.py`
-- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-
-## modules/lazy_agent.py
-- Doc: Agentic tool-calling bridge for the loop and the main agent.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `model_timeout_sec` (function, line 41) `def model_timeout_sec()`
-  - `tool_calling_enabled` (function, line 57) `def tool_calling_enabled()`
-  - `max_iterations` (function, line 72) `def max_iterations()`
-  - `resolve_agentic_model` (function, line 83) `def resolve_agentic_model(exclude)`
-  - `_enable_streaming` (function, line 123) `def _enable_streaming(runner, on_event)`
-  - `ObservableAgentRunner` (class, line 145) `class ObservableAgentRunner(AgentRunner)`
-  - `_json_default` (function, line 221) `def _json_default(value)`
-  - `_deep_clean` (function, line 237) `def _deep_clean(value, _depth)`
-  - `_json_safe` (function, line 253) `def _json_safe(messages)`
-  - `ConversationStore` (class, line 261) `class ConversationStore`
-  - `register_tools` (function, line 322) `def register_tools(runner, specs)`
-  - `run_worker_session` (function, line 335) `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)`
-  - `run_main_session` (function, line 374) `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)`
-  - `run_external_opencode` (function, line 396) `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)`
-  - `run_external_hermes` (function, line 472) `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)`
-  - `_session_from_line` (function, line 556) `def _session_from_line(line)`
-  - `_process_watchdog` (function, line 578) `def _process_watchdog(timeout_sec, process)`
-  - `__init__` (method, line 148) `def __init__(self, model, system_prompt, max_iterations, on_event)`
-  - `_process_tool_call` (method, line 159) `def _process_tool_call(self, tool_call)`
-  - `run` (method, line 168) `def run(self, user_input)`
-  - `_call_model` (method, line 174) `def _call_model(self)`
-  - `__init__` (method, line 264) `def __init__(self, task_id)`
-  - `_load` (method, line 269) `def _load(self)`
-  - `intent_messages` (method, line 273) `def intent_messages(self, intent_id)`
-  - `save_intent` (method, line 278) `def save_intent(self, intent_id, messages)`
-  - `session` (method, line 287) `def session(self, session_id)`
-  - `sessions` (method, line 291) `def sessions(self)`
-  - `save_session` (method, line 305) `def save_session(self, session_id, messages, title)`
-  - `reset_intents` (method, line 315) `def reset_intents(self)`
-  - `_kill` (function, line 583) `def _kill()`
-  - `_invoke` (function, line 190) `def _invoke()`
-  - `_tick` (function, line 196) `def _tick()`
-- Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-- Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

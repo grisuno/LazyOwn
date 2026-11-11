@@ -1,0 +1,72 @@
+.name: sigdrop
+description: |
+  SignDrop — Windows Common Log File System (CLFS) authentication 0day
+  local privilege escalation (credit MSNightmare/SignDrop, MIT license).
+
+  The C port of the public PoC (SigDrop.cpp → sigdrop.c) is cross-compiled
+  on the operator host with x86_64-w64-mingw32-gcc and staged into the
+  WinBox lab VM through the shared folder, then executed with
+  `winbox exec` as the local medium-integrity user — the context the PoC
+  needs, because it coerces Defender into opening a CLFS container whose
+  ".cnpf" authentication file is then created as SYSTEM, planting a
+  writable hid.dll DLL-hijack payload for the ink directory.
+
+  What it does on the guest:
+    1. reg query of HKLM\SYSTEM\CurrentControlSet\Services\CLFS\Authentication
+       Mode (0/1 = learning/vulnerable, 2/3 = enforcement/not vulnerable).
+    2. winbox av status — the PoC coerces MsMpEng via
+       Proc42_ServerMpUpdateEngineSignature over ncalrpc, so Defender
+       posture is triage evidence.
+    3. Copies sigdrop.exe into Z:\ and executes it with --user/--password
+       so the process runs with a UAC-filtered token instead of SYSTEM.
+
+  Expected outputs: "This machine is not vulnerable." (missing .cnpf),
+  "exploit failed." (5 s directory-watch timeout, e.g. Defender off or
+  engine signature updates not reaching the coerced path), or the payload
+  chain completing with the transacted hid.dll cleanup. The UAC elevation
+  step (runas conhost.exe) surfaces on the guest desktop.
+
+  Lab-only orchestration: never run against anything outside the isolated
+  WinBox gym. Requirements: x86_64-w64-mingw32-gcc on the operator host,
+  a running WinBox lab VM (winbox up), and the staged binary built from
+  the sigdrop source tree.
+author: MSNightmare (PoC), LazyOwn packaging
+version: '1.0'
+enabled: true
+update: false
+os: windows
+trigger: []
+category: 03. Exploitation
+module_type: exploit
+params:
+- name: poc_binary
+  type: string
+  required: false
+  default: ./external.exploit/signdropc/sigdrop.exe
+  description: Path to the cross-compiled PoC binary on the operator host.
+- name: poc_exec_opts
+  type: string
+  required: false
+  default: ''
+  description: Extra winbox exec options, e.g.
+    --user winbox --password 'WinboxP@ss123' for a UAC-filtered token
+    context. Empty by default (SYSTEM exec). Note the winbox guest agent
+    does not stream stdout for --user execs, so leave empty to see PoC
+    output.
+- name: poc_timeout
+  type: string
+  required: false
+  default: '120'
+  description: winbox exec timeout in seconds.
+
+tool:
+  name: SignDrop
+repo_url: https://github.com/grisuno/sigdropc.git
+  install_path: external/.exploit/sigdropc
+  install_command: sudo apt install mingw-w64 make ; sudo apt install gcc build-essential ; make
+  execute_command: >-
+    winbox status &&
+    winbox exec --timeout 15 reg query HKLM\\SYSTEM\\CurrentControlSet\\Services\\CLFS\\Authentication /v Mode ;
+    winbox av status ;
+    cp {poc_binary} "$HOME/.winbox/shared/sigdrop.exe" &&
+    winbox exec --timeout {poc_timeout} {poc_exec_opts} "Z:\\sigdrop.exe"

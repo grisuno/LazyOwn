@@ -70,8 +70,13 @@ def test_runner_raw_vars_option_outs_quoting():
     assert rendered == "show a&b"
 
 
-def test_runner_verb_templates_keep_verbatim_values():
-    """Given a verb command with metachar vars, When rendering, Then the verb stays raw."""
+def test_runner_verb_templates_quote_values_but_route_as_verb():
+    """Given a verb command with metachar vars, When rendering, Then the value is quoted.
+
+    The value is quoted so an injected metacharacter cannot escape onto the raw
+    shell, while the execution route is still taken from the clean template so
+    the step runs as its cmd2 verb, not as a shell line.
+    """
     from modules.chain_runner import ChainRunner as CR
 
     class Shell:
@@ -83,7 +88,43 @@ def test_runner_verb_templates_keep_verbatim_values():
     chain = _chain([ChainStep(id="scan", run="lazynmap {token}")])
     runner = CR(chain, tokens={"target": "10.0.0.9", "token": "a&b"}, shell=Shell())
     rendered = runner._render_command("lazynmap {token}", dict(runner.tokens), set())
-    assert rendered == "lazynmap a&b"
+    assert rendered == f"lazynmap {shlex.quote('a&b')}"
+    assert runner._is_verb("lazynmap {token}") is True
+
+
+def test_verb_step_injection_is_quoted_and_routed_as_verb():
+    """Given a verb template and an injected captured value, Then it is contained.
+
+    This is the command-injection containment contract. Rendering a verb
+    template whose captured value carries shell metacharacters quotes the value,
+    and the route is taken from the clean template, so the step runs as its verb
+    rather than being rerouted onto the raw shell with an unquoted payload.
+    """
+
+    class Shell:
+        aliases: dict = {}
+
+        def do_lazynmap(self, line: str) -> None:
+            return None
+
+    chain = _chain([ChainStep(id="scan", run="lazynmap -p {port}")])
+    runner = ChainRunner(chain, shell=Shell(), retry_backoff=0)
+    rendered = runner._render_command("lazynmap -p {port}", {"port": "80;touch /tmp/PWNED"}, {"port"})
+    assert rendered == f"lazynmap -p {shlex.quote('80;touch /tmp/PWNED')}"
+    assert ";touch" not in rendered.replace(shlex.quote("80;touch /tmp/PWNED"), "")
+    assert runner._is_verb("lazynmap -p {port}") is True
+
+
+def test_captured_key_quoted_even_when_listed_raw():
+    """Given a captured key also in raw_vars, When rendering, Then it is still quoted.
+
+    A captured value originates with the target, so the operator's ``raw_vars``
+    intent, which exempts the operator's own variables, never exempts it.
+    """
+    chain = _chain([ChainStep(id="use", run="use {got}")], raw_vars=("got",))
+    runner = ChainRunner(chain, executor=lambda command: "ok")
+    rendered = runner._render_command("use {got}", {"got": "a; evil"}, {"got"})
+    assert rendered == f"use {shlex.quote('a; evil')}"
 
 
 def test_captured_values_remain_quoted_in_raw_steps():

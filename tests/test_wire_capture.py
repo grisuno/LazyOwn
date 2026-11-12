@@ -38,6 +38,21 @@ def test_capture_bounds_write(tmp_path):
     assert store.fetch("abc123") == "A" * 10
 
 
+def test_capture_flags_truncation(tmp_path):
+    store = WireStore("t1", base_dir=tmp_path)
+    store.capture("abc123", "A" * 100, max_bytes=10)
+    assert store.truncated("abc123") is True
+    store.capture("def456", "short")
+    assert store.truncated("def456") is False
+
+
+def test_digest_case_insensitive_round_trip(tmp_path):
+    store = WireStore("t1", base_dir=tmp_path)
+    store.capture("ABCDEF", "body")
+    assert store.fetch("abcdef") == "body"
+    assert store.has("abcdef") is True
+
+
 def test_fetch_missing_returns_none(tmp_path):
     store = WireStore("t1", base_dir=tmp_path)
     assert store.fetch("deadbeef") is None

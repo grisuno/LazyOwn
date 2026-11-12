@@ -89,6 +89,7 @@ class FieldKind(StrEnum):
     HEX = "hex"
     OS_ID = "os_id"
     JSON_BLOB = "json_blob"
+    LIST = "list"
     OPAQUE = "opaque"
 
 
@@ -281,8 +282,69 @@ def _validate_json_blob(value: Any) -> str | None:
     return None
 
 
+def _validate_list(value: Any) -> str | None:
+    """Accept a native list or a JSON string encoding one.
+
+    Args:
+        value: Raw payload value for the field.
+
+    Returns:
+        ``None`` when the value is a well-formed list, otherwise a
+        human-readable error message.
+    """
+    import json
+
+    if isinstance(value, list):
+        return None
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError:
+            return f"expected list or JSON-encoded list, got non-JSON string {value[:60]!r}"
+        if isinstance(parsed, list):
+            return None
+        return f"expected list, got JSON {type(parsed).__name__}"
+    return f"expected list, got {type(value).__name__}"
+
+
+def _coerce_list(raw: Any) -> Any:
+    """Normalise a JSON-encoded list string into a native list."""
+    import json
+
+    if isinstance(raw, str):
+        try:
+            parsed = json.loads(raw)
+        except json.JSONDecodeError:
+            return raw
+        if isinstance(parsed, list):
+            return parsed
+    return raw
+
+
 def _validate_opaque(_value: Any) -> str | None:
     return None
+
+
+def _validate_c2_tls_verify(value: Any) -> str | None:
+    """Validate the ``c2_tls_verify`` mode accepted by ``lazyown``.
+
+    Args:
+        value: Raw payload value (bool, or string mode / CA path).
+
+    Returns:
+        ``None`` when valid, otherwise a human-readable message.
+    """
+    if isinstance(value, bool):
+        return None
+    if not isinstance(value, str):
+        return f"expected string mode or bool, got {type(value).__name__}"
+    if value.strip().lower() in {"", "auto", "true", "false"}:
+        return None
+    import os
+
+    if os.path.isfile(value):
+        return None
+    return f"{value!r} is not auto, true, false, or an existing CA bundle path"
 
 
 _KIND_VALIDATORS: Mapping[FieldKind, Callable[[Any], str | None]] = {
@@ -298,6 +360,7 @@ _KIND_VALIDATORS: Mapping[FieldKind, Callable[[Any], str | None]] = {
     FieldKind.HEX: _validate_hex,
     FieldKind.OS_ID: _validate_os_id,
     FieldKind.JSON_BLOB: _validate_json_blob,
+    FieldKind.LIST: _validate_list,
     FieldKind.OPAQUE: _validate_opaque,
 }
 
@@ -333,6 +396,7 @@ _KIND_COERCERS: Mapping[FieldKind, Callable[[Any], Any]] = {
     FieldKind.INT: _coerce_int,
     FieldKind.PORT: _coerce_int,
     FieldKind.BOOL: _coerce_bool,
+    FieldKind.LIST: _coerce_list,
 }
 
 
@@ -455,7 +519,7 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
         _spec(
             "targets",
-            FieldKind.JSON_BLOB,
+            FieldKind.LIST,
             [],
             "Active target list (hosts or CIDRs) shared by the CLI and the MCP tools.",
             long_help=(
@@ -679,13 +743,56 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec(
             "c2_hour_limit", FieldKind.STRING, "200 per hour", "C2 auth brute-force hourly threshold.", category="c2"
         ),
-        _spec("c2_login_limit", FieldKind.INT, 0, "C2 auth login failure threshold before lockout.", category="c2"),
+        _spec(
+            "c2_login_limit",
+            FieldKind.STRING,
+            "10 per minute",
+            "Flask-Limiter rate applied to C2 login failures.",
+            long_help=(
+                "Same syntax as c2_daily_limit/c2_hour_limit: a "
+                "flask-limiter rate string such as '10 per minute'. The "
+                "login endpoint consumes it directly; it is not a bare "
+                "counter."
+            ),
+            example="10 per minute",
+            category="c2",
+        ),
         _spec(
             "beacon_scan_ports",
-            FieldKind.JSON_BLOB,
-            [],
+            FieldKind.LIST,
+            [22, 80, 443, 445, 3389, 8080, 8443],
             "Ports the beacon scans when it collects the target posture.",
             category="c2",
+        ),
+        _spec(
+            "c2_tls_verify",
+            FieldKind.STRING,
+            "auto",
+            "CLI-to-C2 HTTPS verification mode for operator channels.",
+            long_help=(
+                "auto (default) pins the repository cert.pem as the trust "
+                "anchor for every CLI-to-C2 HTTPS request. true uses the "
+                "system CA store, false disables verification, and any "
+                "other value is treated as the path to a CA bundle."
+            ),
+            example="auto",
+            category="c2",
+            custom_validator=_validate_c2_tls_verify,
+        ),
+        _spec(
+            "c2_metrics_token",
+            FieldKind.STRING,
+            "",
+            "Bearer token required to scrape /metrics from a remote Prometheus.",
+            long_help=(
+                "When empty, /metrics only answers requests from loopback "
+                "or authenticated operators. Set a token to let a remote "
+                "Prometheus scrape it with "
+                "'Authorization: Bearer <c2_metrics_token>'."
+            ),
+            example="opaque-random-32-hex",
+            category="c2",
+            sensitive=True,
         ),
         _spec(
             "run_in_memory",

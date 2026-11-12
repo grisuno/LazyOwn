@@ -85,6 +85,8 @@ KIND_ALIASES: dict[str, FieldKind] = {
     "hostname": FieldKind.HOSTNAME,
     "hex": FieldKind.HEX,
     "json": FieldKind.JSON_BLOB,
+    "list": FieldKind.LIST,
+    "array": FieldKind.LIST,
     "opaque": FieldKind.OPAQUE,
 }
 

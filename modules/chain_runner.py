@@ -363,6 +363,12 @@ class ChainRunner:
     def run(self) -> ChainRunResult:
         """Execute the chain in order and return every step outcome."""
         started = time.time()
+        try:
+            from modules.browser_sync import ensure_wiring
+
+            ensure_wiring()
+        except Exception:
+            pass
         state = self.resume_state if isinstance(self.resume_state, dict) else {}
         state_variables = {str(key): str(value) for key, value in (state.get("variables") or {}).items()}
         variables = {**self.chain.defaults, **self.chain.vars, **state_variables, **self.tokens}

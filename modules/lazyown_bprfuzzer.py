@@ -34,6 +34,7 @@ _PROJECT_ROOT = os.path.dirname(_MODULE_DIR)
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
+from modules.browser_sync import apply_identity_to_url  # noqa: E402
 from modules.security_sanitizers import (  # noqa: E402
     HeaderValueSanitizer,
     build_default_config,
@@ -138,6 +139,10 @@ class ProxyHandler(BaseHTTPRequestHandler):
         )
 
         try:
+            headers, body = apply_identity_to_url(url, headers, body if body else b"")
+        except Exception:
+            pass
+        try:
             response = requests.request(method, url, headers=headers, data=body)
             self.send_response(response.status_code)
             for key, value in response.headers.items():
@@ -180,6 +185,18 @@ def send_request(url, method="GET", headers=None, params=None, data=None, json_d
     """
     Envía una solicitud HTTP y devuelve la respuesta.
     """
+    headers = dict(headers or {})
+    body_bytes = None
+    if isinstance(data, (bytes, bytearray)):
+        body_bytes = bytes(data)
+    elif isinstance(data, str):
+        body_bytes = data.encode()
+    try:
+        headers, body_bytes = apply_identity_to_url(url, headers, body_bytes)
+    except Exception:
+        pass
+    if body_bytes is not None:
+        data = body_bytes
     try:
         response = requests.request(
             method, url, headers=headers, params=params, data=data, json=json_data, proxies=proxies

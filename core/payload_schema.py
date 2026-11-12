@@ -946,6 +946,49 @@ SCHEMA: dict[str, FieldSpec] = {
             category="c2",
         ),
         _spec(
+            "browser_sync_enabled",
+            FieldKind.BOOL,
+            "True",
+            "Start the browser cookie sync receiver alongside the loop.",
+            long_help=(
+                "The receiver accepts cookie and fingerprint pushes from the "
+                "LazyOwn browser extension (browser_sync_extension/) on a "
+                "loopback port with a runtime token, so the recorder proxy "
+                "can replay the operator's real browser session."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "browser_sync_port",
+            FieldKind.INT,
+            8898,
+            "Loopback port of the browser cookie sync receiver.",
+            long_help=(
+                "Local port where the extension pushes the cookie store; "
+                "binds only on 127.0.0.1 and requires the runtime token."
+            ),
+            example="8898",
+            category="c2",
+            min_value=1,
+            max_value=65535,
+        ),
+        _spec(
+            "browser_sync_inject",
+            FieldKind.BOOL,
+            "True",
+            "Inject synced browser cookies and fingerprint headers into proxied traffic.",
+            long_help=(
+                "When enabled every request forwarded by the recorder proxy "
+                "(auto_loop, apt_chain, auto_pwn and anything routed through "
+                "it) carries the synced cookies, User-Agent and client hints, "
+                "plus the Burp-style Match and Replace rules from "
+                "sessions/browser_sync/rules.json."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
             "max_concurrent",
             FieldKind.INT,
             0,

@@ -968,6 +968,25 @@ def _make_handler():
                 if self.close_connection:
                     break
 
+        @staticmethod
+        def _apply_browser_identity(host, headers, body):
+            """Blend the synced browser identity into one proxied request.
+
+            Args:
+                host: Upstream request host.
+                headers: Mutable request header dict.
+                body: Raw request body bytes.
+
+            Returns:
+                Tuple of (headers, body); a failed sync is anonymous traffic.
+            """
+            try:
+                from modules.browser_sync import apply_identity_headers
+
+                return apply_identity_headers(host, headers, body)
+            except Exception:
+                return headers, body
+
         def _safe_send_error(self, code: int, message: str = "") -> None:
             """Send an HTTP error; a gone client is never an exception."""
             try:
@@ -1028,6 +1047,7 @@ def _make_handler():
             body = self.rfile.read(length) if length else b""
             req_headers = {key: value for key, value in self.headers.items() if key.lower() not in HOP_BY_HOP}
             req_headers.setdefault("Host", host if port in (80, 443) else f"{host}:{port}")
+            req_headers, body = self._apply_browser_identity(host, req_headers, body)
             if "websocket" in str(self.headers.get("Upgrade", "")).lower():
                 ws_headers = {
                     key: value
@@ -1035,6 +1055,7 @@ def _make_handler():
                     if key.lower() not in ("proxy-connection", "proxy-authorization")
                 }
                 ws_headers.setdefault("Host", host if port in (80, 443) else f"{host}:{port}")
+                ws_headers, _ = self._apply_browser_identity(host, ws_headers, b"")
                 self._handle_websocket(scheme, host, port, path, url, ws_headers)
                 return
             status, reason, resp_headers, resp_body, error = self._relay(

@@ -112,7 +112,9 @@ class TestMCPCommandRunner:
                 runner.run("test_command", timeout=5)
 
     def test_delegates_to_mcp_when_available(self):
-        """run() delegates to _run_lazyown_command when import succeeds."""
+        """run() delegates to _run_lazyown_command, wrapping the command in output markers."""
+        import re
+
         from autonomous_daemon import MCPCommandRunner
 
         mock_mcp = MagicMock()
@@ -123,7 +125,11 @@ class TestMCPCommandRunner:
             result = runner.run("ls", timeout=10)
 
         assert result == "mcp output"
-        mock_mcp._run_lazyown_command.assert_called_once_with("ls", 10)
+        mock_mcp._run_lazyown_command.assert_called_once()
+        call = mock_mcp._run_lazyown_command.call_args
+        assert call.args[1] == 10
+        wrapped = call.args[0]
+        assert re.fullmatch(r"!echo (__LZ_[0-9a-f]{8}__)_A\nls\n!echo \1_B", wrapped), wrapped
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -238,6 +244,37 @@ class TestFallbackSelector:
         result = sel.select(target="x", phase="unknown_phase_xyz", context={})
         assert result is not None
         assert result.command
+
+
+class TestPhaseCommandCatalog:
+    """Guards the single-call dispatcher contract of _get_phase_command_catalog."""
+
+    def test_returns_catalog_names_with_dispatcher(self, monkeypatch):
+        """Given an available dispatcher, Then the phase command names are listed.
+
+        Regression: get_dispatcher() returns the dispatcher singleton directly,
+        so it must be called once. A stray second call (``get_dispatcher()()``)
+        raised TypeError that was swallowed, leaving the LLM/SWAN catalogue blank.
+        """
+        import autonomous_daemon as _ad
+
+        class _Entry:
+            def __init__(self, command):
+                self.command = command
+
+        class _Dispatcher:
+            def list_phase(self, phase):
+                return [_Entry("nmap"), _Entry("nikto")]
+
+        monkeypatch.setattr(_ad, "_get_dispatcher", lambda: _Dispatcher())
+        assert _ad._get_phase_command_catalog("recon") == "nmap, nikto"
+
+    def test_returns_blank_without_dispatcher(self, monkeypatch):
+        """Given no dispatcher, Then the catalogue is an empty string."""
+        import autonomous_daemon as _ad
+
+        monkeypatch.setattr(_ad, "_get_dispatcher", None)
+        assert _ad._get_phase_command_catalog("recon") == ""
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -704,7 +741,10 @@ class TestObjectiveLoopUnit:
 
         asyncio.run(_run_loop())
 
-        mock_store.complete.assert_called_once_with(obj.id)
+        mock_store.complete.assert_called_once()
+        complete_call = mock_store.complete.call_args
+        assert complete_call.args[0] == obj.id
+        assert "notes" in complete_call.kwargs
 
         tasks = json.loads(_ad.TASKS_FILE.read_text())
         assert tasks[0]["status"] == "Done"

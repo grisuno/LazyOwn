@@ -41,11 +41,19 @@ def all_selectors() -> list[Selector]:
     and the generic chain: it is narrower than a full chain and broader than
     a named actor. The list grows one file at a time as strategies migrate
     into the package.
+
+    Two environment knobs govern the generic chain selector so a single owner
+    honours them for every runtime that consumes this cascade:
+    ``AUTO_CHAIN_SELECTOR`` (default on) drops the chain selector entirely when
+    falsey, and ``AUTO_CHAIN_SELECTOR_LAB`` (default on) includes lab/gym
+    chains. Real engagements set both to ``0``.
     """
     import os
 
-    allow_lab = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1").strip().lower() not in ("0", "false", "no")
-    return [
+    falsey = ("0", "false", "no", "off")
+    allow_lab = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1").strip().lower() not in falsey
+    chain_enabled = os.environ.get("AUTO_CHAIN_SELECTOR", "1").strip().lower() not in falsey
+    cascade: list[Selector] = [
         CredentialSpraySelector(),
         PlaybookSelector(),
         AdversarySelector(),
@@ -57,8 +65,10 @@ def all_selectors() -> list[Selector]:
         TechniqueSelector(),
         ModuleSelector(),
         LazyscriptSelector(),
-        ChainSelector(allow_lab=allow_lab),
     ]
+    if chain_enabled:
+        cascade.append(ChainSelector(allow_lab=allow_lab))
+    return cascade
 
 def default_selectors() -> list[Selector]:
     """Return the cascade after applying the orchestrator's enable toggles.

@@ -117,10 +117,6 @@ CONTROL_PAUSE_MAX_S = float(os.environ.get("AUTO_PAUSE_MAX", "3600"))
 
 METRICS_BIAS_ENABLED = os.environ.get("AUTO_METRICS_BIAS", "1") not in ("0", "false", "False", "no", "off", "")
 
-_FALSEY = ("0", "false", "False", "no", "off", "")
-CHAIN_SELECTOR_ENABLED = os.environ.get("AUTO_CHAIN_SELECTOR", "1") not in _FALSEY
-CHAIN_SELECTOR_ALLOW_LAB = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1") not in _FALSEY
-CHAIN_SELECTOR_TTL_S = float(os.environ.get("AUTO_CHAIN_SELECTOR_TTL", "60"))
 METRICS_BIAS_WINDOW_S = int(os.environ.get("AUTO_METRICS_WINDOW_S", "1800"))
 METRICS_BIAS_MIN_SUCCESS = float(os.environ.get("AUTO_METRICS_MIN_SUCCESS", "0.25"))
 METRICS_BIAS_MIN_ATTEMPTS = int(os.environ.get("AUTO_METRICS_MIN_ATTEMPTS", "3"))
@@ -1318,107 +1314,6 @@ class UnifiedBrainSelector(ICommandSelector):
         )
         decision = propose_next(ctx)
         if decision is None or not decision.command.strip():
-            return None
-        self._proposed.add(decision.command)
-        return CommandDecision(
-            command=decision.command,
-            source=decision.source,
-            reason=decision.reason,
-            priority=decision.priority,
-        )
-
-
-class CredentialSpraySelector(ICommandSelector):
-    """Daemon adapter over the shared credential-spray selector.
-
-    Delegates service-to-verb selection to
-    :class:`modules.selection.cred_spray.CredentialSpraySelector` (one shared
-    implementation) and keeps the daemon-specific gating: verbs that already
-    failed too often and verbs already sprayed this run are passed as the
-    shared selector's exclude set. Single Responsibility: credential reuse.
-    """
-
-    def __init__(self, fail_counts: dict[str, int]) -> None:
-        self._fail_counts = fail_counts
-        self._sprayed: set = set()
-
-    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
-        """Return a spray command when credentials + matching service are available."""
-        payload = _load_payload()
-        has_creds = bool(
-            str(payload.get("start_user", "") or "").strip()
-            and str(payload.get("start_pass", "") or payload.get("hash", "") or "").strip()
-        )
-        if not has_creds:
-            return None
-        try:
-            from modules.selection.base import SelectionContext
-            from modules.selection.cred_spray import CredentialSpraySelector as _Shared
-        except Exception:
-            return None
-        burned = {verb for verb, count in self._fail_counts.items() if count >= MAX_FAILS_PER_CMD}
-        ctx = SelectionContext(
-            target=target,
-            phase=phase,
-            services=tuple(context.get("services", []) or ()),
-            has_creds=True,
-            exclude=frozenset(burned | self._sprayed),
-        )
-        decision = _Shared().propose(ctx)
-        if decision is None:
-            return None
-        self._sprayed.add(decision.command)
-        return CommandDecision(
-            command=decision.command,
-            source=decision.source,
-            reason=decision.reason,
-            priority=decision.priority,
-        )
-
-
-class ChainSelector(ICommandSelector):
-    """Propose a vetted APT chain when one matches the phase, platform and services.
-
-    The autonomous loop otherwise probes one command at a time and never
-    leverages the curated multi-step chains under ``chains/``. This selector
-    bridges that gap: in a strategic phase, given the target OS hint and the
-    discovered services, it picks the single best-matching enabled chain and
-    emits ``apt_chain <name> <target>`` so the whole TTP sequence runs through
-    the existing ChainRunner (checkpoints, approval gates and per-step outcome
-    fan-out all apply). Selection is evidence-based (it fires only on a concrete
-    service or phase-affinity match) and each (chain, target) is proposed at
-    most once, so a chain never loops. Lab and gym chains are included by
-    default (the framework is lab-oriented); real engagements exclude them
-    with ``AUTO_CHAIN_SELECTOR_LAB=0``.
-
-    Single Responsibility: adapt the shared chain matcher into the daemon
-    cascade (phase gate, per-target dedupe, CommandDecision shape). The match
-    scoring itself lives once in :mod:`modules.chain_match`.
-    """
-
-    def __init__(self) -> None:
-        """Initialise the per-target proposal ledger."""
-        self._proposed: set[str] = set()
-
-    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
-        """Return an ``apt_chain`` decision for the best-matching chain, or None."""
-        if not CHAIN_SELECTOR_ENABLED or not target:
-            return None
-        try:
-            from modules.selection.base import SelectionContext
-            from modules.selection.chain import ChainSelector as _SharedChainSelector
-        except Exception as exc:
-            log.debug("shared chain selector unavailable: %s", exc)
-            return None
-        ctx = SelectionContext(
-            target=target,
-            phase=phase,
-            os_hint=str(context.get("os_hint", "") or ""),
-            services=tuple(context.get("services", []) or ()),
-            exclude=frozenset(self._proposed),
-        )
-        decision = _SharedChainSelector(allow_lab=CHAIN_SELECTOR_ALLOW_LAB).propose(ctx)
-        if decision is None:
             return None
         self._proposed.add(decision.command)
         return CommandDecision(

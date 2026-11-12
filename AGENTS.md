@@ -488,6 +488,42 @@ Shell: `lazyoob start|url|hits|stop`.
 (error/boolean/time-based) technique steps distilled from the same
 collection.
 
+### `modules/browser_sync.py` + `browser_sync_extension/` — real browser session into the proxy (v1)
+
+**Contract:** the Chrome/Brave MV3 extension
+(`browser_sync_extension/`, loaded unpacked) pushes the full cookie
+store plus fingerprint headers (User-Agent, languages, Sec-CH-UA
+client hints) to a loopback, token-authenticated receiver
+(`browser_sync_port`, default 8898; token via `browsersync token`).
+`apply_identity_headers(host, headers, body)` then blends the matching
+cookies and fingerprint into every request the recorder proxy
+(`modules/lazy_proxy`) forwards — auto_loop, apt_chain, auto_pwn and
+anything routed through it — so proxied traffic reuses the operator's
+genuine browser session (no bot fingerprint, no logged-out walls).
+Burp-style Match and Replace rules live in
+`sessions/browser_sync/rules.json` (`header_replace | header_add |
+header_set | header_remove | body_replace`). Artefacts:
+`sessions/browser_sync/{profile.json,cookies.jar,token}`. Payload
+keys: `browser_sync_enabled` (receiver autostart with the loop),
+`browser_sync_port`, `browser_sync_inject` (default True).
+
+**Surfaces:** CLI `browsersync start|stop|status|token|reset-token|show
+[domain] [--full]|jar|rules|test|clear` (`cli/commands/browser_sync.py`,
+autostart via `modules/lazy_runner._start_browser_sync`). Never raises
+on I/O; a broken sync degrades to anonymous traffic. Tests:
+`tests/test_browser_sync.py` (15).
+
+**Framework inheritance:** `browser_sync.apply_identity_to_url(url,
+headers, body)` is the shared entry point for any requests-based module
+(the lazy burp fuzzer `modules/lazyown_bprfuzzer.py` injects it in its
+proxy handler and `send_request`). `browser_sync.ensure_wiring()`
+starts the receiver, the recorder proxy and applies the proxy env, so
+every `run_command` subprocess (curl in `auto_loop`, `apt_chain` steps
+via `ChainRunner.run`) and every in-process `requests` call inherits
+the routing and the synced identity. Disabled under pytest through
+`tests/conftest.py` (`WIRING_ENABLED`); tests: `tests/test_browser_sync.py`
++ `tests/test_bprfuzzer_identity.py` (23).
+
 <!-- readmenator-agent-kb-link -->
 ## Project Knowledge Base (MUST read before coding)
 

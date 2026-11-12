@@ -196,3 +196,19 @@ def _isolated_payload_scope(tmp_path, monkeypatch):
         return {}
 
     monkeypatch.setattr(core_config, "load_payload", _scoped_load_payload)
+
+
+@pytest.fixture(autouse=True)
+def _no_browser_sync_wiring(monkeypatch):
+    """Chain/loop tests never bind the recorder proxy or sync receiver.
+
+    ``browser_sync.ensure_wiring`` is called from ``ChainRunner.run`` and
+    the loop runner; it must stay inert under pytest, while tests that
+    exercise the wiring patch ``modules.browser_sync.WIRING_ENABLED``
+    themselves.
+    """
+    try:
+        import modules.browser_sync as browser_sync
+    except Exception:
+        return
+    monkeypatch.setattr(browser_sync, "WIRING_ENABLED", False)

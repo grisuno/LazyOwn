@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "LazyOwn Browser Sync",
+  "version": "1.0.0",
+  "description": "Syncs the real cookie store and fingerprint headers to the LazyOwn recorder proxy so loop, chain and auto_pwn traffic reuses your browser session.",
+  "permissions": ["cookies", "storage", "alarms", "tabs"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*", "<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "LazyOwn Browser Sync"
+  }
+}

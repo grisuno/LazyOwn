@@ -21,7 +21,6 @@ import os
 from pathlib import Path
 
 _BASE_DIR = Path(__file__).resolve().parent.parent
-_DIRECTORY_MODE = 0o700
 _SAFE_DIGEST = set("0123456789abcdefABCDEF")
 _MAX_WIRE_BYTES = 4 * 1024 * 1024
 
@@ -39,7 +38,7 @@ def _sanitize_digest(digest: str) -> str:
     Returns:
         The digest unchanged when it is non-empty hex, otherwise empty.
     """
-    text = str(digest or "").strip()
+    text = str(digest or "").strip().lower()
     if not text or any(char not in _SAFE_DIGEST for char in text):
         return ""
     return text[:64]
@@ -110,19 +109,39 @@ class WireStore:
         if path.exists():
             return safe
         body = str(raw or "")
-        encoded = body.encode("utf-8", errors="replace")[: max(0, int(max_bytes))]
+        full = body.encode("utf-8", errors="replace")
+        cap = max(0, int(max_bytes))
+        encoded = full[:cap]
+        was_truncated = len(encoded) < len(full)
         try:
-            self._dir.mkdir(parents=True, exist_ok=True)
-            try:
-                os.chmod(self._dir, _DIRECTORY_MODE)
-            except OSError:
-                pass
-            tmp = path.with_suffix(".wire.tmp")
-            tmp.write_bytes(encoded)
-            os.replace(tmp, path)
+            from core.atomic_store import write_bytes_atomic
+
+            write_bytes_atomic(path, encoded)
+            marker = path.with_name(f"{safe}.trunc")
+            if was_truncated:
+                write_bytes_atomic(marker, str(len(full)).encode("ascii"))
+            elif marker.exists():
+                marker.unlink()
             return safe
         except OSError:
             return ""
+
+    def truncated(self, digest: str) -> bool:
+        """Return True when a captured blob was clipped below its full size.
+
+        The store promises byte-for-byte reproduction, so a blob clipped at the
+        cap must advertise it rather than pass as complete.
+
+        Args:
+            digest: The traffic digest to check.
+
+        Returns:
+            True when the blob for the digest was truncated on capture.
+        """
+        safe = _sanitize_digest(digest)
+        if not safe:
+            return False
+        return (self._dir / f"{safe}.trunc").exists()
 
     def fetch(self, digest: str) -> str | None:
         """Return the full raw output for a digest, or None when absent.

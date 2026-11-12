@@ -48,6 +48,27 @@ def test_collect_captures_matches_sweep(sessions, fake_catalogue, monkeypatch) -
     assert stored["status"] == "captured"
 
 
+def test_capture_binds_checker_to_vector_objective() -> None:
+    """Given a root-shell blob, When an enum vector verifies, Then it is not credited."""
+    enum_entry = {"id": "ad_ldap_enum", "name": "ad ldap enum", "service": "ldap", "mitre": "T1087"}
+    rce_entry = {"id": "vsftpd_backdoor", "name": "vsftpd backdoor rce", "service": "ftp", "mitre": "T1210"}
+    shell_blob = "uid=0(root) groups=0(root)"
+    enum = ctf_capture.capture("ad_ldap_enum", "1.2.3.4", output=shell_blob, catalogue=lambda _v: enum_entry)
+    assert enum["status"] == "failed"
+    assert enum["expected_checkers"] == ["domain_enum"]
+    rce = ctf_capture.capture("vsftpd_backdoor", "1.2.3.4", output=shell_blob, catalogue=lambda _v: rce_entry)
+    assert rce["status"] == "captured"
+    assert rce["matched_checkers"] == ["root_shell"]
+
+
+def test_capture_honours_declared_checkers() -> None:
+    """Given an explicit checkers list, When verifying, Then only those bind."""
+    entry = {"id": "v", "name": "x", "service": "ftp", "mitre": "T1", "checkers": ["domain_enum"]}
+    record = ctf_capture.capture("v", "1.2.3.4", output="uid=0(root)", catalogue=lambda _v: entry)
+    assert record["status"] == "failed"
+    assert record["expected_checkers"] == ["domain_enum"]
+
+
 def test_collect_idempotent_and_missing(sessions, fake_catalogue, monkeypatch) -> None:
     evidence = str(sessions.parent.parent / "empty")
     Path(evidence).mkdir()

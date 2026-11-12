@@ -81,6 +81,33 @@ def test_deterministic_fallback_orders_heuristic_first(monkeypatch):
     assert out[-1] == "curl http://t/" or out[0] == "echo no-target: x"
 
 
+def test_deterministic_mode_enforces_guard_and_records_decision(monkeypatch, tmp_path):
+    from modules.guard_rules import GuardRules
+    from modules.loop import decision_log
+
+    monkeypatch.setattr(wa, "_loop_deterministic", lambda: True)
+    ledger = tmp_path / "decisions.jsonl"
+    monkeypatch.setattr(decision_log, "DECISIONS_FILE", ledger)
+
+    worker = _Worker(["nmap -sV t"])
+    worker.task_id = "det-task"
+    worker._guard_cache = GuardRules("det-task", base_dir=tmp_path, override="")
+    worker.store = types.SimpleNamespace(get=lambda _tid: {"phase": "recon", "os_id": "1"})
+    worker.graph = types.SimpleNamespace(nodes=lambda: [])
+    worker.assets = types.SimpleNamespace(all=lambda: [])
+    worker._target_for = lambda _intent: "10.0.0.5"
+
+    out = worker._with_llm_steps(_intent(), ["rm -rf /", "nmap -sV 10.0.0.5"])
+
+    assert "rm -rf /" not in out
+    assert "nmap -sV 10.0.0.5" in out
+    rows = decision_log.read_records(ledger)
+    assert len(rows) == 1
+    assert rows[0]["source"] == "deterministic" and rows[0]["model_fallback"] is False
+    assert any(f["reason"] == "guard-rule" for f in rows[0]["filtered"])
+    assert rows[0]["ctx_digest"]
+
+
 def test_loop_deterministic_reads_payload(monkeypatch):
     import core.config as config
 

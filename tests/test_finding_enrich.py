@@ -88,3 +88,13 @@ def test_enrich_finding_unknown():
     graph = types.SimpleNamespace(get=lambda _id: None, _persist=lambda: None)
     assert finding_enrich.enrich_finding(TrafficLog("t"), 9, graph)["ok"] is False
     assert finding_enrich.enrich_finding(TrafficLog("t"), 9, None)["ok"] is False
+
+
+def test_enrich_finding_preserves_note_through_collapse():
+    graph, finding = _graph_with(
+        {"traffic_refs": [_ref("a", "proof", note=""), _ref("a", "supporting", note="cred dump confirmed")]}
+    )
+    result = finding_enrich.enrich_finding(TrafficLog("t"), 1, graph)
+    assert result["count"] == 1
+    assert finding.meta["traffic_refs"][0]["role"] == "proof"
+    assert finding.meta["traffic_refs"][0]["note"] == "cred dump confirmed"

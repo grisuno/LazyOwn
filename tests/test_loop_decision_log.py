@@ -70,6 +70,13 @@ def test_config_digest_empty_inputs():
     assert decision_log.config_digest({"rhost": "1.1.1.1"}) == ""
 
 
+def test_config_digest_tracks_determinism_flags():
+    base = {"loop_deterministic": False, "loop_guard_rules": ""}
+    assert decision_log.config_digest(dict(base, loop_deterministic=True)) != decision_log.config_digest(base)
+    assert decision_log.config_digest(dict(base, loop_guard_rules="rm")) != decision_log.config_digest(base)
+    assert decision_log.config_digest(dict(base, loop_wire_capture=False)) != decision_log.config_digest(base)
+
+
 def test_record_and_read_round_trip(tmp_path: Path):
     ledger = tmp_path / "decisions.jsonl"
     rec = decision_log.DecisionRecord(

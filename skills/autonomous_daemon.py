@@ -780,56 +780,6 @@ class ParquetSelector(ICommandSelector):
             return None
 
 
-class BridgeSelector(ICommandSelector):
-    """
-    Queries the lazyown_bridge catalog for phase/service-appropriate commands.
-    Single Responsibility: bridge catalog lookup only.
-    """
-
-    def __init__(self, dispatcher: Any, fail_counts: dict[str, int]) -> None:
-        self._dispatcher = dispatcher
-        self._fail_counts = fail_counts
-
-    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
-        """Return a bridge catalog suggestion for this phase."""
-        categories = _PHASE_CATEGORIES.get(phase, ["other"])
-        services = context.get("services", [])
-        os_hint = context.get("os_hint", "any")
-        for cat in categories:
-            cand = self._bridge_candidate(phase, services, cat, os_hint=os_hint)
-            if cand:
-                return cand
-        return None
-
-    def _bridge_candidate(
-        self, phase: str, services: list[str], tag: str = "", os_hint: str = "any"
-    ) -> CommandDecision | None:
-        if self._dispatcher is None:
-            return None
-        try:
-            result = self._dispatcher.suggest(
-                phase=phase,
-                services=services,
-                tag_hint=tag,
-                os_hint=os_hint,
-            )
-            if result is None:
-                return None
-            cmd_str, entry = result
-            cmd_name = cmd_str.split()[0]
-            if self._fail_counts.get(cmd_name, 0) >= MAX_FAILS_PER_CMD:
-                return None
-            return CommandDecision(
-                command=cmd_str,
-                source="bridge",
-                reason=f"bridge catalog — {entry.description[:60]}",
-                mitre=entry.mitre_tactic,
-                priority=3,
-            )
-        except Exception:
-            return None
-
-
 def _get_phase_command_catalog(phase: str) -> str:
     """
     Return a compact string listing available LazyOwn commands for the given phase.
@@ -1280,14 +1230,17 @@ class UnifiedBrainSelector(ICommandSelector):
     consults the exact same action brain as the LazyLoopEngine planner: chains,
     credential reuse, APT playbooks, adversary profiles and MITRE/atomic
     techniques, all orchestrator-administered. Replaces the daemon's separate
-    chain and credential-spray selectors (now subsumed). Per-run dedupe is
-    carried as the shared exclude set so a command is proposed at most once.
+    chain, credential-spray and bridge selectors (now subsumed). Per-run dedupe
+    is carried as the shared exclude set so a command is proposed at most once,
+    and the daemon's burned-verb counts are passed as the shared burned set so
+    history- and catalogue-driven selectors skip verbs that keep failing.
     """
 
     name = "unified_brain"
 
-    def __init__(self) -> None:
+    def __init__(self, fail_counts: dict[str, int] | None = None) -> None:
         self._proposed: set[str] = set()
+        self._fail_counts = fail_counts if fail_counts is not None else {}
 
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Build a SelectionContext and return the cascade's first decision."""
@@ -1303,6 +1256,7 @@ class UnifiedBrainSelector(ICommandSelector):
             str(payload.get("start_user", "") or "").strip()
             and str(payload.get("start_pass", "") or payload.get("hash", "") or "").strip()
         )
+        burned = frozenset(verb for verb, count in self._fail_counts.items() if count >= MAX_FAILS_PER_CMD)
         ctx = SelectionContext(
             target=target,
             phase=phase,
@@ -1310,6 +1264,7 @@ class UnifiedBrainSelector(ICommandSelector):
             services=tuple(context.get("services", []) or ()),
             has_creds=has_creds,
             exclude=frozenset(self._proposed),
+            burned=burned,
             extra={"goal": str(context.get("goal", "") or "")},
         )
         decision = propose_next(ctx)
@@ -1380,15 +1335,13 @@ class StrategyEngine:
 
         if selectors is None:
             pdb = _get_pdb() if _get_pdb else None
-            dispatcher = _get_dispatcher() if _get_dispatcher else None
             reactive = _ReactEngine() if _ReactEngine else None
             reactive_sel = ReactiveSelector(reactive)
             self._reactive_sel = reactive_sel
             selectors = [
                 reactive_sel,
-                UnifiedBrainSelector(),
+                UnifiedBrainSelector(self._fail_counts),
                 ParquetSelector(pdb, self._fail_counts),
-                BridgeSelector(dispatcher, self._fail_counts),
                 SWANSelector(),
                 LLMSelector(),
                 FallbackSelector(),

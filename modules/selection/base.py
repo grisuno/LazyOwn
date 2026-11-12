@@ -27,6 +27,9 @@ class SelectionContext:
         services: Discovered service names for the target.
         has_creds: Whether usable credentials are known.
         exclude: Action identifiers already taken, to avoid repeats.
+        burned: Verb heads that have failed too often this run and should be
+            avoided; each runtime fills it from its own failure tracking, so a
+            history- or catalog-driven selector never re-proposes a dead verb.
         extra: Open map for strategy-specific inputs without widening the
             shared contract.
     """
@@ -37,6 +40,7 @@ class SelectionContext:
     services: tuple[str, ...] = ()
     has_creds: bool = False
     exclude: frozenset[str] = frozenset()
+    burned: frozenset[str] = frozenset()
     extra: Mapping[str, Any] = field(default_factory=dict)
 
 

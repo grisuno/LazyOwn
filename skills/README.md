@@ -299,11 +299,14 @@ autonomous_daemon.py ───────────────────�
   Role 1: ObjectiveLoop   — watches objectives.jsonl                  │
   Role 2: ExecutionEngine — command cascade + RL feedback per step    │
     ├── ReactiveSelector  (priority 1)                                │
-    ├── ParquetSelector   (priority 2 — past successes)              │
-    ├── BridgeSelector    (priority 3 — catalog + MITRE)             │
-    ├── SWANSelector      (priority 4 — MoE+RL best expert)    NEW   │
-    ├── LLMSelector       (priority 5 — Groq/Ollama fallback)        │
-    └── FallbackSelector  (priority 6 — static OS map)               │
+    ├── UnifiedBrainSelector  (shared modules.selection cascade:      │
+    │       cred_spray, playbook, adversary, intel, poc, edb,         │
+    │       atomic, technique_chain, technique, module, lazyscript,   │
+    │       chain, bridge — catalog + MITRE fallback)                 │
+    ├── ParquetSelector   (past successes)                           │
+    ├── SWANSelector      (MoE+RL best expert)                       │
+    ├── LLMSelector       (Groq/Ollama fallback)                     │
+    └── FallbackSelector  (static OS map)                            │
   Role 3: WorldModelWatcher — graph centrality + pivot candidates     │
   Role 4: DroneCoordinator — hive drone spawning on findings          │
                                                                        │

@@ -77,10 +77,18 @@ def test_cascade_returns_first_decision(monkeypatch):
 
 
 def test_cascade_abstains_when_all_abstain(monkeypatch, tmp_path):
-    """Given nothing matches, When propose_next runs, Then it returns None."""
+    """Given nothing matches (bridge catalogue fallback included), Then propose_next returns None."""
     _patch_registry(monkeypatch, rows=[])
     monkeypatch.setenv("LAZYOWN_CVE_FEEDS", "0")
     monkeypatch.setattr("modules.selection.intel.SESSIONS_DIR", tmp_path)
+
+    class _Empty:
+        def suggest(self, **_kwargs):
+            return None
+
+    import modules.lazyown_bridge as lb
+
+    monkeypatch.setattr(lb, "get_dispatcher", lambda: _Empty(), raising=False)
     ctx = SelectionContext(target="10.0.0.9", phase="recon", os_hint="linux", services=("gopher",))
     assert propose_next(ctx) is None
 

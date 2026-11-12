@@ -9,6 +9,7 @@ from __future__ import annotations
 from modules.selection.adversary import AdversarySelector
 from modules.selection.atomic import AtomicSelector
 from modules.selection.base import ActionDecision, SelectionContext, Selector
+from modules.selection.bridge import BridgeSelector
 from modules.selection.chain import ChainSelector
 from modules.selection.cred_spray import CredentialSpraySelector
 from modules.selection.playbook import PlaybookSelector
@@ -19,6 +20,7 @@ __all__ = [
     "ActionDecision",
     "AdversarySelector",
     "AtomicSelector",
+    "BridgeSelector",
     "ChainSelector",
     "CredentialSpraySelector",
     "PlaybookSelector",

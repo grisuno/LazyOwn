@@ -739,10 +739,9 @@ def _get_phase_command_catalog(phase: str) -> str:
     Used to inject command context into LLM/SWAN prompts so they pick valid abstractions.
     """
     try:
-        _disp = _get_dispatcher() if _get_dispatcher else None
-        if _disp is None:
+        dispatcher = _get_dispatcher() if _get_dispatcher else None
+        if dispatcher is None:
             return ""
-        dispatcher = _disp()
         entries = dispatcher.list_phase(phase)
         if not entries:
             return ""
@@ -3498,7 +3497,7 @@ class EngageOrchestrator:
                 return True
             return False
         try:
-            dispatcher = _get_dispatcher()() if _get_dispatcher else None
+            dispatcher = _get_dispatcher() if _get_dispatcher else None
         except Exception:
             dispatcher = None
         if dispatcher is None:
@@ -3556,7 +3555,7 @@ class EngageOrchestrator:
         when the catalog has nothing new.
         """
         try:
-            dispatcher = _get_dispatcher()() if _get_dispatcher else None
+            dispatcher = _get_dispatcher() if _get_dispatcher else None
         except Exception:
             dispatcher = None
         if dispatcher is None:

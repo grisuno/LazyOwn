@@ -61,6 +61,8 @@ class NetworkConstants:
     api_killchain_path: str = "/api/killchain"
     api_beacon_results_path: str = "/api/beacon_results"
     api_issue_command_path: str = "/issue_command"
+    xsrf_token_cookie: str = "LAZY_CSRF_TOKEN"
+    xsrf_token_header: str = "X-XSRF-TOKEN"
     api_run_path: str = "/api/run"
     api_output_path: str = "/api/output"
     api_listeners_path: str = "/api/listeners"

@@ -76,8 +76,10 @@ Plus pre-existing contracts from the first security pass:
 
 ## Contract 2: CSRF token gate
 
-**File:** `lazyc2/security/csrf.py`
-**Owns:** `CSRFPolicy`, `csrf_protect` decorator in `lazyc2.py`
+**File:** `lazyc2/security/csrf.py` (pure policy) +
+`lazyc2/security/csrf_flow.py` (Flask wiring)
+**Owns:** `CSRFPolicy`, `make_csrf_protect` / `register_csrf_flow` wired
+in `lazyc2.py`
 **Invariants:**
 
 1. `issue(session_id)` returns a 32-byte URL-safe token, stable per session.
@@ -85,10 +87,22 @@ Plus pre-existing contracts from the first security pass:
 3. `is_exempt(path)` returns `True` for `/login`, `/logout`, `/register`,
    `/api/beacon/*`.
 4. Safe methods (`GET`, `HEAD`, `OPTIONS`, `TRACE`) bypass the check.
+5. Full flow (E2E): authenticated browser session gets a per-session key
+   stored in the signed Flask session; the response carries the policy
+   cookie (`XSRF-TOKEN`, the session key read back by the gate) and the
+   readable token cookie (`LAZY_CSRF_TOKEN`). Templates get `csrf_token`
+   via a context processor (hidden `xsrf_token` fields) and a JS shim in
+   `base.html` echoes the token as `X-XSRF-TOKEN` on every mutating
+   `fetch`/`XMLHttpRequest`.
+6. HTTP Basic requests are exempt: the CLI, MCP and telegram channels
+   authenticate over Basic and are not CSRF-exposable.
 
-**Wire-up:** `lazyc2.py:csrf_protect` applied to `/issue_command` and
-`/api/run` mutating routes. Set `c2_csrf_enabled=false` in
-`payload.json` to disable without code changes.
+**Wire-up:** `lazyc2.py:csrf_protect` (factory-built) applied to
+`/issue_command`, `/api/run`, `/api/loops`, `/api/loops/<id>/stop` and
+`/upload_zip`; `lazyc2.py:_register_csrf_flow(app, ...)` installs the
+issue/delivery hooks; `lazygui` echoes the token from its cookie jar.
+Set `c2_csrf_enabled=false` in `payload.json` to disable without code
+changes. E2E coverage: `tests/test_csrf_flow_e2e.py`.
 
 ## Contract 3: Command allowlist (`/api/run`)
 

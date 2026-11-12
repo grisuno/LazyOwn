@@ -316,5 +316,42 @@
       })();
     </script>
     {% endif %}
+    <script>
+      (function() {
+        function readToken() {
+          var match = document.cookie.match(/(?:^|;\s*)LAZY_CSRF_TOKEN=([^;]*)/);
+          return match ? decodeURIComponent(match[1]) : '';
+        }
+        var MUTATING = ['POST', 'PUT', 'PATCH', 'DELETE'];
+        var origFetch = window.fetch;
+        if (origFetch) {
+          window.fetch = function(input, init) {
+            init = init || {};
+            var method = String(init.method || (input && input.method) || '').toUpperCase();
+            if (MUTATING.indexOf(method) !== -1) {
+              init.headers = new Headers(init.headers || {});
+              if (!init.headers.has('X-XSRF-TOKEN')) {
+                init.headers.set('X-XSRF-TOKEN', readToken());
+              }
+            }
+            return origFetch.call(this, input, init);
+          };
+        }
+        var origOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method) {
+          this._lazyMutating = MUTATING.indexOf(String(method || '').toUpperCase()) !== -1;
+          return origOpen.apply(this, arguments);
+        };
+        var origSend = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send = function() {
+          if (this._lazyMutating && !this._lazyTokenSet) {
+            var token = readToken();
+            if (token) { this.setRequestHeader('X-XSRF-TOKEN', token); }
+            this._lazyTokenSet = true;
+          }
+          return origSend.apply(this, arguments);
+        };
+      })();
+    </script>
 </body>
 </html>

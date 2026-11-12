@@ -60,6 +60,7 @@
 <div id="command-issue" class="section active">
     <h2>Issue Command</h2>
     <form action="{{ url_for('issue_command') }}" method="POST">
+        <input type="hidden" name="xsrf_token" value="{{ csrf_token }}">
         <div class="form-group">
             <label for="client_id">Client ID:</label>
             <select id="client_id" name="client_id" class="form-control" required>
@@ -482,6 +483,7 @@
 <div id="upload-file" class="section">
     <h2>Download File</h2>
     <form id="upload-file-form" method="POST" action="{{ url_for('issue_command') }}" enctype="multipart/form-data">
+        <input type="hidden" name="xsrf_token" value="{{ csrf_token }}">
         <div class="form-group">
             <label for="client_id">Client ID:</label>
             <select id="client_id" name="client_id" class="form-control" required>

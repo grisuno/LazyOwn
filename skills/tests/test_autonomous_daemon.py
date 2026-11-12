@@ -241,54 +241,6 @@ class TestFallbackSelector:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 5. TestParquetSelector
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-class TestParquetSelector:
-    """Tests for ParquetSelector."""
-
-    def test_returns_none_when_pdb_unavailable(self):
-        """When pdb is None, select() returns None."""
-        from autonomous_daemon import ParquetSelector
-
-        sel = ParquetSelector(pdb=None, fail_counts={})
-        result = sel.select(target="10.0.0.1", phase="recon", context={})
-        assert result is None
-
-    def test_returns_candidate_when_pdb_has_history(self):
-        """When pdb returns session rows, select() returns a CommandDecision."""
-        from autonomous_daemon import CommandDecision, ParquetSelector
-
-        mock_pdb = MagicMock()
-        mock_pdb.query_session.return_value = [
-            {"command": "nmap -sV 10.0.0.1", "phase": "recon", "success": True},
-            {"command": "nmap -sV 10.0.0.1", "phase": "recon", "success": True},
-        ]
-
-        sel = ParquetSelector(pdb=mock_pdb, fail_counts={})
-        result = sel.select(target="10.0.0.1", phase="recon", context={})
-        assert result is not None
-        assert isinstance(result, CommandDecision)
-        assert result.source == "parquet"
-
-    def test_respects_fail_counts(self):
-        """Commands that have hit the fail threshold are skipped."""
-        from autonomous_daemon import MAX_FAILS_PER_CMD, ParquetSelector
-
-        mock_pdb = MagicMock()
-        mock_pdb.query_session.return_value = [
-            {"command": "badcmd --flag", "phase": "recon", "success": True},
-        ]
-
-        fail_counts = {"badcmd": MAX_FAILS_PER_CMD}
-        sel = ParquetSelector(pdb=mock_pdb, fail_counts=fail_counts)
-        result = sel.select(target="10.0.0.1", phase="recon", context={})
-        # badcmd should be skipped, leaving nothing from parquet
-        assert result is None
-
-
-# ─────────────────────────────────────────────────────────────────────────────
 # 6. TestCascadeStrategy
 # ─────────────────────────────────────────────────────────────────────────────
 

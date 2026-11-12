@@ -22,6 +22,7 @@ from modules.selection.edb import EDBSelector
 from modules.selection.intel import IntelSelector
 from modules.selection.lazyscript import LazyscriptSelector
 from modules.selection.module import ModuleSelector
+from modules.selection.parquet import ParquetSelector
 from modules.selection.playbook import PlaybookSelector
 from modules.selection.poc import PoCSelector
 from modules.selection.technique import TechniqueSelector
@@ -49,9 +50,11 @@ def all_selectors() -> list[Selector]:
     falsey, and ``AUTO_CHAIN_SELECTOR_LAB`` (default on) includes lab/gym
     chains. Real engagements set both to ``0``.
 
-    The bridge selector is last: a catalogue fallback that fires only when every
-    evidence-based and named selector ahead of it abstains, so both runtimes
-    (not just the daemon) reach the MITRE-mapped command catalogue.
+    The parquet and bridge selectors are the last, fallback tier: parquet
+    replays the command that most often succeeded before, then bridge offers a
+    MITRE-mapped catalogue command. Both fire only when every evidence-based and
+    named selector ahead of them abstains, so both runtimes (not just the
+    daemon) reach past-success history and the command catalogue.
     """
     import os
 
@@ -73,6 +76,7 @@ def all_selectors() -> list[Selector]:
     ]
     if chain_enabled:
         cascade.append(ChainSelector(allow_lab=allow_lab))
+    cascade.append(ParquetSelector())
     cascade.append(BridgeSelector())
     return cascade
 

@@ -137,7 +137,6 @@ def _try_import(module: str, attr: str = ""):
 _ObjectiveStore = _try_import("lazyown_objective", "ObjectiveStore")
 _PolicyInteg = _try_import("lazyown_policy", "LazyOwnPolicyIntegration")
 _FactStore = _try_import("lazyown_facts", "FactStore")
-_get_pdb = _try_import("lazyown_parquet_db", "get_pdb")
 _get_dispatcher = _try_import("lazyown_bridge", "get_dispatcher") if _try_import("lazyown_bridge") else None
 _get_hive = _try_import("hive_mind", "get_hive")
 
@@ -734,52 +733,6 @@ class ReactiveSelector(ICommandSelector):
         return None
 
 
-class ParquetSelector(ICommandSelector):
-    """
-    Queries Parquet DB for commands that succeeded in past sessions.
-    Single Responsibility: Parquet history lookup only.
-    """
-
-    def __init__(self, pdb: Any, fail_counts: dict[str, int]) -> None:
-        self._pdb = pdb
-        self._fail_counts = fail_counts
-
-    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
-        """Return the most-frequent successful command for this phase."""
-        categories = _PHASE_CATEGORIES.get(phase, ["other"])
-        for cat in categories:
-            cand = self._parquet_candidate(cat, target)
-            if cand:
-                return CommandDecision(
-                    command=cand,
-                    source="parquet",
-                    reason=f"past success in {cat}",
-                )
-        return None
-
-    def _parquet_candidate(self, category: str, target: str) -> str | None:
-        if self._pdb is None:
-            return None
-        try:
-            rows = self._pdb.query_session(phase=category, target=target, success_only=True, limit=30)
-            blacklist = _get_campaign_blacklist()
-            # Commands blacklisted under this category or globally
-            blocked = set(blacklist.get(category, []) + blacklist.get("any", []))
-            freq: dict[str, int] = {}
-            for r in rows:
-                cmd = (r.get("command") or "").strip().split()[0]
-                if not cmd or cmd.startswith("/") or cmd.startswith("echo"):
-                    continue
-                if self._fail_counts.get(cmd, 0) >= MAX_FAILS_PER_CMD:
-                    continue
-                if cmd in blocked:
-                    continue
-                freq[cmd] = freq.get(cmd, 0) + 1
-            return max(freq, key=lambda c: freq[c]) if freq else None
-        except Exception:
-            return None
-
-
 def _get_phase_command_catalog(phase: str) -> str:
     """
     Return a compact string listing available LazyOwn commands for the given phase.
@@ -1334,14 +1287,12 @@ class StrategyEngine:
         self._reactive_sel: ReactiveSelector | None = None
 
         if selectors is None:
-            pdb = _get_pdb() if _get_pdb else None
             reactive = _ReactEngine() if _ReactEngine else None
             reactive_sel = ReactiveSelector(reactive)
             self._reactive_sel = reactive_sel
             selectors = [
                 reactive_sel,
                 UnifiedBrainSelector(self._fail_counts),
-                ParquetSelector(pdb, self._fail_counts),
                 SWANSelector(),
                 LLMSelector(),
                 FallbackSelector(),
@@ -1552,46 +1503,6 @@ def _read_recent_csv_commands(limit: int = 3) -> list[str]:
         return cmds
     except Exception:
         return []
-
-
-def _load_campaign_blacklist() -> dict[str, list[str]]:
-    """Load per-context command blacklist from campaign_lessons.jsonl."""
-    blacklist: dict[str, list[str]] = {}
-    lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
-    if not lessons_file.exists():
-        return blacklist
-    try:
-        for line in lessons_file.read_text(encoding="utf-8").splitlines():
-            if not line.strip():
-                continue
-            lesson = json.loads(line)
-            if lesson.get("outcome") != "failed":
-                continue
-            command = lesson.get("command", "").strip().split()[0]
-            if not command:
-                continue
-            ctx = lesson.get("context", "any")
-            if ctx not in blacklist:
-                blacklist[ctx] = []
-            if command not in blacklist[ctx]:
-                blacklist[ctx].append(command)
-    except Exception:
-        pass
-    return blacklist
-
-
-_CAMPAIGN_BLACKLIST: dict[str, list[str]] = {}
-_BLACKLIST_LOADED: bool = False
-
-
-def _get_campaign_blacklist() -> dict[str, list[str]]:
-    """Return cached campaign blacklist, reloading if the file changed."""
-    global _CAMPAIGN_BLACKLIST, _BLACKLIST_LOADED
-    lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
-    if not _BLACKLIST_LOADED or (lessons_file.exists() and lessons_file.stat().st_mtime > 0):
-        _CAMPAIGN_BLACKLIST = _load_campaign_blacklist()
-        _BLACKLIST_LOADED = True
-    return _CAMPAIGN_BLACKLIST
 
 
 def _compute_step_reward(

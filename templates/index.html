@@ -1030,15 +1030,9 @@
                 const formData = new FormData();
                 formData.append('client_id', clientId);
                 formData.append('command', command);
-                const username = '{{ username }}';
-                const password = '{{ password }}';
-                const credentials = btoa(`${username}:${password}`);
                 fetch('/issue_command', {
                     method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Authorization': `Basic ${credentials}`
-                    }
+                    body: formData
                 })
                 .then(data => {
                     spinner.style.display = 'none';
@@ -1535,17 +1529,9 @@
                     formData.append('client_id', clientId);
                     formData.append('command', `upload:${filePath}`);
 
-
-                    const username = '{{ username }}';
-                    const password = '{{ password }}';
-                    const credentials = btoa(`${username}:${password}`);
-
                     fetch('/issue_command', {
                         method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Authorization': `Basic ${credentials}`
-                        }
+                        body: formData
                     })
                     .then(data => {
                         spinner.style.display = 'none';

@@ -50,6 +50,7 @@ from flask import (
     Response,
     abort,
     flash,
+    g,
     jsonify,
     redirect,
     render_template,
@@ -94,6 +95,11 @@ from lazyc2.security.command_allowlist import CommandAllowlist
 from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
 from lazyc2.security.cors import CorsPolicy
 from lazyc2.security.csrf import CSRFPolicy
+from lazyc2.security.csrf_flow import SESSION_KEY as _CSRF_SESSION_KEY
+from lazyc2.security.csrf_flow import make_csrf_protect as _make_csrf_protect
+from lazyc2.security.csrf_flow import register_csrf_flow as _register_csrf_flow
+from lazyc2.security.health import build_health_report as _build_health_report
+from lazyc2.security.health import gather_health as _gather_health
 from lazyc2.security.html_sanitizer import sanitize_html as _lazyc2_sanitize_html
 from lazyc2.security.https_redirect import HTTPSRedirect
 from lazyc2.security.services import (
@@ -1540,25 +1546,29 @@ def requires_auth(f):
     return decorated
 
 
-def csrf_protect(view):
-    """Decorator that enforces the per-session CSRF token.
+def _csrf_enabled() -> bool:
+    """Return whether the CSRF token gate is enabled.
 
-    The CSRF policy is the module-level :data:`_csrf_policy`. When the
-    payload key ``c2_csrf_enabled`` is ``False`` the decorator is a
-    no-op so existing operators can disable the gate without touching
-    the codebase.
+    Returns:
+        True when the payload key ``c2_csrf_enabled`` is not ``False``.
     """
+    return bool(getattr(config, "c2_csrf_enabled", True))
 
-    @wraps(view)
-    def wrapper(*args, **kwargs):
-        if not bool(getattr(config, "c2_csrf_enabled", True)):
-            return view(*args, **kwargs)
-        session_id = request.cookies.get(_csrf_policy.cookie_name) or request.headers.get("X-Session-Id", "")
-        if not _csrf_policy.check_request(session_id, request):
-            return jsonify({"error": "csrf token missing or invalid"}), 403
-        return view(*args, **kwargs)
 
-    return wrapper
+def _basic_authenticated() -> bool:
+    """Return True when the request carries valid HTTP Basic credentials.
+
+    The CLI drives the C2 over HTTP Basic from a non-browser client;
+    cross-site pages cannot attach the operator's Basic credentials, so
+    this channel is exempt from the CSRF token echo.
+    """
+    auth = request.authorization
+    if auth and auth.username and auth.password:
+        return bool(check_auth(auth.username, auth.password))
+    return False
+
+
+csrf_protect = _make_csrf_protect(_csrf_policy, _csrf_enabled, _basic_authenticated)
 
 
 def aicmd_deepseek(cmd):
@@ -2628,6 +2638,8 @@ if not os.path.exists(SAVE_DIR):
 
 
 app = Flask(__name__, static_folder="static")
+
+_register_csrf_flow(app, _csrf_policy, _csrf_enabled)
 
 limiter = Limiter(
     app=app,
@@ -6595,6 +6607,10 @@ def logout():
     response = decoy()
     if response:
         return response
+    _csrf_key = session.get(_CSRF_SESSION_KEY)
+    if _csrf_key:
+        _csrf_policy.forget(_csrf_key)
+    session.pop(_CSRF_SESSION_KEY, None)
     session.pop("mfa_verified", None)
     session.pop("mfa_pending_user_id", None)
     session.pop("mfa_user_id", None)
@@ -8299,6 +8315,8 @@ def get_data():
 
 
 @app.route("/upload_zip", methods=["POST"])
+@requires_auth_or_session
+@csrf_protect
 def upload_zip_file():
     """Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization."""
     if "file" not in request.files:
@@ -8806,45 +8824,41 @@ def health_check():
 
     Unauthenticated remote callers only get the aggregated status code;
     the detailed ``checks`` and ``daemon`` payloads are reserved for
-    loopback requests or authenticated operators.
+    loopback requests or authenticated operators. The checks always run
+    and always drive the aggregated status, even when details are
+    withheld from the response body.
     """
     import sqlite3 as _sqlite3
 
     detailed = _is_local_request() or current_user.is_authenticated
-    status = {"status": "healthy", "checks": {}}
-    if not detailed:
-        status.pop("checks")
-    try:
-        ensure_sessions_dir()
-        status["checks"]["sessions_dir"] = "ok"
-    except Exception as e:
-        logger.error(f"Health check sessions_dir failed: {e}")
-        status["checks"]["sessions_dir"] = "error"
-    try:
+
+    def _probe_database() -> str:
         conn = _sqlite3.connect(DB_PATH)
-        conn.execute("SELECT 1")
-        conn.close()
-        status["checks"]["database"] = "ok"
-    except Exception as e:
-        logger.error(f"Health check database failed: {e}")
-        status["checks"]["database"] = "error"
-    try:
+        try:
+            conn.execute("SELECT 1")
+        finally:
+            conn.close()
+        return "ok"
+
+    def _probe_daemon() -> str:
         from skills.daemon_health import daemon_status as _ds
         from skills.daemon_health import is_daemon_alive
 
         if is_daemon_alive():
-            status["checks"]["autonomous_daemon"] = "ok"
-            status["daemon"] = _ds()
-        else:
-            status["checks"]["autonomous_daemon"] = "stopped"
-    except Exception as e:
-        logger.error(f"Health check autonomous_daemon failed: {e}")
-        status["checks"]["autonomous_daemon"] = "error"
-    any_error = any(v != "ok" for v in status["checks"].values())
-    code = 503 if any_error else 200
-    if any_error:
-        status["status"] = "unhealthy"
-    return jsonify(status), code
+            g.daemon_status = _ds()
+            return "ok"
+        return "stopped"
+
+    checks = _gather_health(
+        (
+            ("sessions_dir", ensure_sessions_dir),
+            ("database", _probe_database),
+            ("autonomous_daemon", _probe_daemon),
+        ),
+        on_error=lambda name, exc: logger.error(f"Health check {name} failed: {exc}"),
+    )
+    report, code = _build_health_report(checks, detailed=detailed, daemon_status=getattr(g, "daemon_status", None))
+    return jsonify(report), code
 
 
 @app.route("/metrics", methods=["GET"])

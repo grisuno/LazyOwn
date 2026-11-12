@@ -330,9 +330,15 @@ class TeamserverBackend(Backend):
         return response.json()
 
     def _http_post_form(self, path: str, payload: Mapping[str, Any]) -> Any:
+        headers = {}
+        token_cookie = self._constants.network.xsrf_token_cookie
+        token = self._http.cookies.get(token_cookie)
+        if token:
+            headers[self._constants.network.xsrf_token_header] = token
         response = self._http.post(
             self._build_url(path),
             data=payload,
+            headers=headers,
             timeout=(
                 self._constants.network.http_connect_timeout_seconds,
                 self._constants.network.http_read_timeout_seconds,

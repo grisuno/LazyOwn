@@ -153,6 +153,8 @@ Critical keys:
 | `ollama_host` | Ollama base URL (default `http://localhost:11434`) |
 | `llm_daily_budget_usd` / `llm_per_call_token_cap` / `llm_budget_enabled` / `llm_reset_at_utc` / `llm_model_prices` | Budget proxy caps and ledger (`1.0` / `8000` / `true` / `00:00` / USD-per-MTok table) |
 | `c2_daily_limit`, `c2_hour_limit`, `c2_login_limit` | flask-limiter strings |
+| `c2_tls_verify` | CLI→C2 HTTPS verification: `auto` (pin local `cert.pem`, default), `true` (system CA), `false` (disabled), or a CA-bundle path |
+| `c2_metrics_token` | Bearer token for remote `/metrics` scraping (empty = loopback-only) |
 | `targets` | Multi-target list (status, ports, tags, notes) |
 | `scope` | Authorized engagement scope: list of CIDR/IP/hostname entries (`*.` wildcards). Empty = scope guard dormant |
 | `scope_enforcement` | Scope guard posture: `off` (disabled), `warn` (annotate, default), `enforce` (block out-of-scope offensive commands) |

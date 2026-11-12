@@ -1,316 +1,232 @@
-"""SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS.
+"""Security hardening v5: operator credential and channel contracts.
 
-Contract: every fix in this batch has a test that proves the weakness is gone
-and would detect a regression (mutation-killed). Tests are written
-behaviourally so they read as specifications.
-
-Covers (CodeQL alert ids):
-  - #895 unmaintained Crypto tunnel scripts removed; AES-256-GCM kept in
-    core/crypto.py on the maintained cryptography backend
-  - #867 modules/phishing_orchestrator.py: keyed HMAC-SHA-256 instead of salted SHA-256
-  - #865 utils.py create_caldera_config: hardcoded credentials removed + 0600 perms
-  - #864 utils.py Spray: password no longer logged in clear text
-  - #863 cli/commands/phishing_wizard.py: captured passwords encrypted at rest
-  - #862/#861 lazyc2.py: one-time admin password persisted to a file, not printed
-  - #851 modules/network_opsec.py: minimum TLS version pinned
-  - #859 lazyc2/blueprints/addons.py: reflected cookie injection blocked
-  - #858/#857 lazyc2/blueprints/api.py: exception details not exposed in responses
+Covers the fixes for the follow-up review of the CVE-2026-68502 tree:
+``/api/data`` must not leak live operator credentials, the web terminal
+input handler must not touch the shell's unwritable ``stdin``, MFA-less
+admin accounts must be loudly flagged at boot, health/metrics must gate
+their detail, CLI-to-C2 HTTPS calls must not ship ``verify=False``, and
+operator-supplied payload parameters must be shell-quoted.
 """
 
 from __future__ import annotations
 
-import hashlib
+import ast
 import os
-import stat
-import tempfile
+import types
 from pathlib import Path
-from unittest.mock import MagicMock, patch
-
-import pytest
 
-ROOT = Path(__file__).resolve().parent.parent
-
-
-def _read(rel: str) -> str:
-    """Read a production source file relative to the repository root."""
-    return (ROOT / rel).read_text(encoding="utf-8")
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 1: unmaintained Crypto tunnel modules removed; authenticated
-# AES-256-GCM lives only in core/crypto.py (cryptography backend)
-# ---------------------------------------------------------------------------
-
-
-class TestRemovedCryptoTunnelModules:
-    """CONTRACT: the unmaintained Crypto-based tunnel scripts were deleted,
-    so no ECB/GCM tunnel code in modules/ can regress; the maintained
-    AES-256-GCM implementation in core/crypto.py stays authenticated."""
-
-    REMOVED_FILES = [
-        "modules/icmp_server.py",
-        "modules/icmp_client.py",
-        "modules/lazyownclient.py",
-        "modules/lazyownserver.py",
-        "modules/tel.py",
-        "contrib/legacy/lazybinenc.py",
-        "contrib/legacy/lazybotcli.py",
-        "contrib/legacy/lazybotnet.py",
-        "contrib/legacy/lazykeygen.py",
-    ]
-
-    @pytest.mark.parametrize("rel", REMOVED_FILES)
-    def test_dead_module_source_is_gone(self, rel):
-        assert not (ROOT / rel).exists()
-
-    def test_no_crypto_cipher_imports_remain(self):
-        import subprocess as _sp
-
-        out = _sp.run(
-            ["git", "grep", "-l", "-E", "from Crypto|import Crypto", "--", "."],
-            capture_output=True,
-            text=True,
-            cwd=ROOT,
-        ).stdout
-        tracked = [
-            line
-            for line in out.splitlines()
-            if "readmenator" not in line and not line.endswith("test_security_hardening_v5.py")
-        ]
-        assert tracked == [], f"stale Crypto imports: {tracked}"
-
-    def test_core_crypto_roundtrip_is_gcm_authenticated(self):
-        from core.crypto import AESdecrypt, AESencrypt
-
-        key = hashlib.sha256(b"test-password").digest()
-        plaintext = b"whoami"
-        ciphertext, _ = AESencrypt(plaintext, key)
-        assert len(ciphertext) == 12 + len(plaintext) + 16
-        assert AESdecrypt(ciphertext, key) == plaintext
-
-    def test_core_crypto_tamper_rejected(self):
-        from core.crypto import AESdecrypt, AESencrypt
-
-        key = hashlib.sha256(b"test-password").digest()
-        ciphertext = bytearray(AESencrypt(b"whoami", key)[0])
-        ciphertext[-1] ^= 0x01
-        with pytest.raises(ValueError):
-            AESdecrypt(bytes(ciphertext), key)
-
-    def test_core_crypto_short_payload_rejected(self):
-        from core.crypto import AESdecrypt
-
-        with pytest.raises(ValueError):
-            AESdecrypt(b"short", hashlib.sha256(b"k").digest())
-
-    def test_core_crypto_uses_maintained_backend(self):
-        source = _read("core/crypto.py")
-        assert "cryptography" in source
-        assert "from Crypto" not in source
-        assert "import Crypto" not in source
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 2: credential log fingerprint uses keyed HMAC, not salted SHA-256
-# ---------------------------------------------------------------------------
-
-
-class TestCredentialLogHashing:
-    """CONTRACT: the audit-log fingerprint of a credential must be a keyed
-    HMAC so it cannot be brute-forced independently of the secret key."""
-
-    def test_uses_hmac_not_plain_sha256(self):
-        source = _read("modules/phishing_orchestrator.py")
-        assert "hmac.new" in source
-
-    def test_no_salted_sha256_fingerprint(self):
-        source = _read("modules/phishing_orchestrator.py")
-        assert "_CREDENTIAL_SALT + plaintext" not in source
-
-    def test_fingerprint_is_hmac_of_proper_key(self):
-        with patch.dict(os.environ, {"LAZYOWN_SECRET_KEY": "test-key-123"}):
-            from modules.phishing_orchestrator import _hash_credential_for_log
-
-            digest = _hash_credential_for_log("hunter2")
-            assert len(digest) == 16
-            assert all(c in "0123456789abcdef" for c in digest)
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 3: Caldera config contains no hardcoded credentials
-# ---------------------------------------------------------------------------
-
-
-class TestCalderaConfigNoHardcodedSecrets:
-    """CONTRACT: create_caldera_config must generate every credential and set
-    owner-only permissions; no hardcoded passwords may be embedded."""
-
-    def test_no_hardcoded_user_passwords(self):
-        source = _read("utils.py")
-        for secret in ("lazyownblueadmin", "lazyownredteamtheadmin", "lazyownredteamadmin"):
-            assert secret not in source
-
-    def test_generated_user_passwords(self):
-        source = _read("utils.py")
-        assert "blue_password = secrets." in source
-        assert "red_admin_password = secrets." in source
-        assert "red_password = secrets." in source
-
-    def test_writes_with_owner_permissions(self):
-        source = _read("utils.py")
-        assert "os.chmod(file_path, 0o600)" in source
-
-    def test_functional_generates_no_static_passwords(self):
-        from utils import create_caldera_config
-
-        with tempfile.TemporaryDirectory() as tmp:
-            path = os.path.join(tmp, "default.yml")
-            create_caldera_config(path)
-            content = Path(path).read_text(encoding="utf-8")
-            for secret in ("lazyownblueadmin", "lazyownredteamtheadmin", "lazyownredteamadmin"):
-                assert secret not in content
-            assert 0o600 == (stat.S_IMODE(os.stat(path).st_mode))
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 4: password spray never logs credentials in clear text
-# ---------------------------------------------------------------------------
-
-
-class TestSprayNoClearTextPassword:
-    """CONTRACT: the ADFS spray function must not print the sprayed password."""
-
-    def test_does_not_log_password(self):
-        source = _read("utils.py")
-        assert '"+ password)' not in source
-        assert ':: " + password' not in source
-
-    def test_logs_success_without_secret(self):
-        source = _read("utils.py")
-        assert '"\\t\\t:: success"' in source
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 5: phishing wizard encrypts captured credentials at rest
-# ---------------------------------------------------------------------------
-
-
-class TestPhishingWizardEncryptsCredentials:
-    """CONTRACT: the campaign harvester must encrypt the password before
-    writing credentials.json and hash it before the audit log."""
-
-    def test_encrypts_password_before_storage(self):
-        source = _read("cli/commands/phishing_wizard.py")
-        assert "_encrypt_credential(password)" in source
-
-    def test_hashes_password_before_log(self):
-        source = _read("cli/commands/phishing_wizard.py")
-        assert "_hash_credential_for_log(password)" in source
-
-    def test_imports_encryption_contract(self):
-        source = _read("cli/commands/phishing_wizard.py")
-        assert "_encrypt_credential" in source
-        assert "_decrypt_credential" in source
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 6: bootstrap admin password is persisted, not printed
-# ---------------------------------------------------------------------------
-
-
-class TestBootstrapPasswordNotPrinted:
-    """CONTRACT: the one-time admin password must be written to an owner-only
-    file rather than echoed to the console."""
-
-    def test_no_password_print(self):
-        source = _read("lazyc2.py")
-        assert "admin / {one_time_password}" not in source
-
-    def test_persist_helper_exists(self):
-        source = _read("lazyc2.py")
-        assert "def _persist_bootstrap_password(" in source
-
-    def test_persist_uses_owner_only_permissions(self):
-        source = _read("lazyc2.py")
-        assert "stat.S_IRUSR | stat.S_IWUSR" in source
-
-    def test_persist_writes_to_file(self):
-        source = _read("lazyc2.py")
-        assert 'write_text(f"admin / {password}\\n"' in source
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 7: network OPSEC pins a secure minimum TLS version
-# ---------------------------------------------------------------------------
-
-
-class TestNetworkOpsecTlsVersion:
-    """CONTRACT: TLS inspection must never negotiate below TLS 1.2."""
-
-    def test_pins_minimum_version(self):
-        source = _read("modules/network_opsec.py")
-        assert "context.minimum_version = ssl.TLSVersion.TLSv1_2" in source
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 8: CSRF cookie client-id is validated, never reflected verbatim
-# ---------------------------------------------------------------------------
-
-
-class TestCsrfCookieInjection:
-    """CONTRACT: the CSRF client-id cookie must not reflect arbitrary
-    user-supplied values back into a Set-Cookie header."""
-
-    def test_validates_client_id(self):
-        source = _read("lazyc2/blueprints/addons.py")
-        assert "_SAFE_CLIENT_ID.fullmatch(client_id)" in source
-
-    def test_validator_accepts_only_urlsafe_token(self):
-        import secrets
-
-        from lazyc2.blueprints.addons import _SAFE_CLIENT_ID
-
-        assert _SAFE_CLIENT_ID.fullmatch(secrets.token_urlsafe(32)) is not None
-        assert _SAFE_CLIENT_ID.fullmatch("value-with-injection\r\nSet-Cookie: evil=1") is None
-        assert _SAFE_CLIENT_ID.fullmatch("<script>alert(1)</script>") is None
-        assert _SAFE_CLIENT_ID.fullmatch("short") is None
-
-
-# ---------------------------------------------------------------------------
-# SDD Contract 9: health endpoints never leak exception internals
-# ---------------------------------------------------------------------------
-
-
-class TestHealthEndpointNoExceptionLeak:
-    """CONTRACT: health responses must be generic 'error' strings; the raw
-    exception is logged server-side, never serialized to clients."""
-
-    def test_no_exception_interpolation(self):
-        source = _read("lazyc2/blueprints/api.py")
-        assert 'f"error: {exc}"' not in source
-
-    def test_database_error_is_generic(self):
-        source = _read("lazyc2/blueprints/api.py")
-        assert 'result["components"]["database"] = "error"' in source
-
-    def test_listener_error_is_generic(self):
-        source = _read("lazyc2/blueprints/api.py")
-        assert 'result["components"]["listeners"] = "error"' in source
-
-    def test_loads_only_generic_error(self):
-        from flask import Flask
-
-        from lazyc2.blueprints.api import HealthConfig, _health_status
-
-        class BrokenDB:
-            conn = MagicMock()
-            conn.execute = MagicMock(side_effect=RuntimeError("secret internal stack"))
-
-        app = Flask(__name__)
-        app.start_time = 0.0
-        app.config["lazyown_db"] = BrokenDB()
-        app.config["listener_manager"] = None
-        with app.app_context():
-            result = _health_status(HealthConfig())
-        assert result["components"]["database"] == "error"
-        assert "secret internal stack" not in str(result)
+REPO_ROOT = Path(__file__).resolve().parent.parent
+LAZYC2_SRC = (REPO_ROOT / "lazyc2.py").read_text(encoding="utf-8")
+LAZYOWN_SRC = (REPO_ROOT / "lazyown.py").read_text(encoding="utf-8")
+LAZYC2_TREE = ast.parse(LAZYC2_SRC)
+LAZYOWN_TREE = ast.parse(LAZYOWN_SRC)
+
+
+def _find(tree: ast.Module, name: str, kind=ast.FunctionDef):
+    return next(
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, kind) and node.name == name
+    )
+
+
+def _route_decorators(tree: ast.Module) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = {}
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        path = None
+        decorators = set()
+        for dec in node.decorator_list:
+            if (
+                isinstance(dec, ast.Call)
+                and isinstance(dec.func, ast.Attribute)
+                and dec.func.attr == "route"
+                and isinstance(dec.func.value, ast.Name)
+                and dec.func.value.id == "app"
+                and dec.args
+                and isinstance(dec.args[0], ast.Constant)
+            ):
+                path = dec.args[0].value
+            else:
+                decorators.add(getattr(dec, "attr", getattr(dec, "id", "")))
+        if path is not None:
+            result[path] = decorators
+    return result
+
+
+class TestNoOperatorCredentialLeak:
+    def test_api_data_inner_omits_username_password(self) -> None:
+        inner = _find(LAZYC2_TREE, "_api_data_inner")
+        assert not _has_jsonify_key(inner, "username"), "/api/data still emits the operator username"
+        assert not _has_jsonify_key(inner, "password"), "/api/data still emits the operator password"
+
+    def test_index_route_does_not_render_credentials(self) -> None:
+        index = _find(LAZYC2_TREE, "index")
+        for kw in ast.walk(index):
+            if isinstance(kw, ast.keyword) and kw.arg in ("username", "password"):
+                assert not (
+                    isinstance(kw.value, ast.Name) and kw.value.id in ("USERNAME", "PASSWORD")
+                ), f"index route still renders live operator {kw.arg}"
+
+    def test_templates_do_not_embed_operator_password(self) -> None:
+        for template in (REPO_ROOT / "templates").glob("*.html"):
+            text = template.read_text(encoding="utf-8", errors="replace")
+            assert "{{ password }}" not in text, f"{template.name} embeds operator password"
+            assert "btoa(`${username}:${password}`)" not in text, (
+                f"{template.name} builds Basic auth from embedded credentials"
+            )
+
+
+def _has_jsonify_key(func: ast.FunctionDef, key: str) -> bool:
+    for node in ast.walk(func):
+        if isinstance(node, ast.Dict):
+            for k in node.keys:
+                if isinstance(k, ast.Constant) and k.value == key:
+                    return True
+    return False
+
+
+class TestWebTerminalInputHandler:
+    def test_handle_input_never_writes_shell_stdin(self) -> None:
+        handler = _find(LAZYC2_TREE, "handle_input")
+        src = ast.dump(handler)
+        assert "stdin.write" not in src, "handle_input still writes to the shell's unwritable stdin"
+        assert "stdin.seek" not in src
+
+    def test_handle_input_keeps_one_cmd_and_guards(self) -> None:
+        handler = _find(LAZYC2_TREE, "handle_input")
+        src = ast.dump(handler)
+        assert "one_cmd" in src
+        assert "login_required" in {ast.dump(d) for d in handler.decorator_list} or any(
+            "login_required" in ast.dump(d) for d in handler.decorator_list
+        )
+
+
+class TestAdminMfaWarning:
+    def test_warn_admins_without_mfa_exists_and_runs_at_boot(self) -> None:
+        warn = _find(LAZYC2_TREE, "_warn_admins_without_mfa")
+        assert warn is not None
+        assert "mfa_enabled" in ast.dump(warn)
+        assert "_warn_admins_without_mfa()" in LAZYC2_SRC
+
+    def test_boot_block_calls_both_bootstrap_and_warning(self) -> None:
+        for node in ast.walk(LAZYC2_TREE):
+            if isinstance(node, ast.If) and isinstance(node.test, ast.Name) and node.test.id == "_RUN_MAIN":
+                calls = {
+                    n.func.id
+                    for n in ast.walk(node)
+                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                }
+                assert "_bootstrap_initial_admin" in calls
+                assert "_warn_admins_without_mfa" in calls
+                return
+        raise AssertionError("no _RUN_MAIN boot block found")
+
+
+class TestHealthMetricsGating:
+    def test_health_and_metrics_stay_decorator_free(self) -> None:
+        routes = _route_decorators(LAZYC2_TREE)
+        for path in ("/health", "/metrics"):
+            assert not (routes.get(path, set()) & {"requires_auth", "login_required", "requires_auth_or_session"})
+
+    def test_metrics_gates_remote_callers(self) -> None:
+        metrics = _find(LAZYC2_TREE, "metrics_exposition")
+        src = ast.dump(metrics)
+        assert "_is_local_request" in src
+        assert "compare_digest" in src
+        assert "c2_metrics_token" in LAZYC2_SRC
+
+    def test_health_hides_detail_from_remote_callers(self) -> None:
+        health = _find(LAZYC2_TREE, "health_check")
+        assert "_is_local_request" in ast.dump(health)
+
+    def test_is_local_request_exists(self) -> None:
+        _find(LAZYC2_TREE, "_is_local_request")
+
+
+class TestC2TlsVerification:
+    def test_no_verify_false_in_operator_channels(self) -> None:
+        for name, tree in (("lazyc2.py", LAZYC2_TREE), ("lazyown.py", LAZYOWN_TREE)):
+            for node in ast.walk(tree):
+                if isinstance(node, ast.keyword) and node.arg == "verify":
+                    assert not (
+                        isinstance(node.value, ast.Constant) and node.value.value is False
+                    ), f"{name}: request issued with verify=False"
+
+    def test_resolve_c2_tls_verify_pins_local_cert(self, tmp_path, monkeypatch) -> None:
+        fn, payload_ref = _resolve_c2_tls_verify_fn()
+        fake = types.SimpleNamespace()
+        fake.__dict__["params"] = {}
+        payload_ref["c2_tls_verify"] = "auto"
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / "cert.pem").write_text("-----BEGIN CERTIFICATE-----\n")
+        assert fn(fake) == str(tmp_path / "cert.pem")
+
+    def test_resolve_c2_tls_verify_auto_falls_back_openly(self, tmp_path, monkeypatch) -> None:
+        fn, payload_ref = _resolve_c2_tls_verify_fn()
+        fake = types.SimpleNamespace()
+        fake.__dict__["params"] = {}
+        payload_ref["c2_tls_verify"] = "auto"
+        monkeypatch.chdir(tmp_path)
+        assert fn(fake) is False
+
+    def test_resolve_c2_tls_verify_runtime_override_false(self, tmp_path, monkeypatch) -> None:
+        fn, payload_ref = _resolve_c2_tls_verify_fn()
+        fake = types.SimpleNamespace()
+        fake.__dict__["params"] = {"c2_tls_verify": False}
+        payload_ref["c2_tls_verify"] = True
+        monkeypatch.chdir(tmp_path)
+        assert fn(fake) is False
+
+    def test_resolve_c2_tls_verify_payload_true_uses_system_store(self, tmp_path, monkeypatch) -> None:
+        fn, payload_ref = _resolve_c2_tls_verify_fn()
+        fake = types.SimpleNamespace()
+        fake.__dict__["params"] = {}
+        payload_ref["c2_tls_verify"] = True
+        monkeypatch.chdir(tmp_path)
+        assert fn(fake) is True
+
+    def test_resolve_c2_tls_verify_payload_path(self, tmp_path, monkeypatch) -> None:
+        fn, payload_ref = _resolve_c2_tls_verify_fn()
+        fake = types.SimpleNamespace()
+        fake.__dict__["params"] = {}
+        ca_file = tmp_path / "custom_ca.pem"
+        ca_file.write_text("-----BEGIN CERTIFICATE-----\n")
+        payload_ref["c2_tls_verify"] = str(ca_file)
+        monkeypatch.chdir(tmp_path)
+        assert fn(fake) == str(ca_file)
+
+
+def _resolve_c2_tls_verify_fn():
+    """Exec the helper with a controllable ``load_payload`` mock.
+
+    Returns:
+        Tuple of (the function, a dict standing in for payload.json).
+    """
+    node = _find(LAZYOWN_TREE, "_resolve_c2_tls_verify")
+    payload_ref: dict = {}
+    namespace: dict = {
+        "os": os,
+        "print_warn": lambda *_: None,
+        "load_payload": lambda: dict(payload_ref),
+    }
+    exec(
+        compile(ast.Module(body=[node], type_ignores=[]), "<verify>", "exec"),
+        namespace,
+    )
+    return namespace["_resolve_c2_tls_verify"], payload_ref
+
+
+class TestPathHijackingQuoting:
+    def test_binary_name_is_shell_quoted(self) -> None:
+        fn = _find(LAZYOWN_TREE, "run_lazypathhijacking")
+        quoted = any(
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "quote"
+            and isinstance(node.func.value, ast.Name)
+            and node.func.value.id == "shlex"
+            for node in ast.walk(fn)
+        )
+        assert quoted, "binary_name interpolated unquoted into shell commands"

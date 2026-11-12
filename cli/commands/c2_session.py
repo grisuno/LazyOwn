@@ -80,8 +80,27 @@ def _server(user: str = "", password: str = "", port: int = 0):
     return C2Server(port=port or 4444, user=user, password=password)
 
 
+def _tls_verify():
+    """Resolve TLS verification for CLI-to-C2 requests.
+
+    Pins the repository ``cert.pem`` (the C2's own self-signed CA) when
+    present so the operator channel authenticates the server; falls back
+    to disabled verification with a warning only when no certificate is
+    available to pin.
+
+    Returns:
+        The ``verify`` argument accepted by ``requests``.
+    """
+    cert_path = _BASE_DIR / "cert.pem"
+    if cert_path.is_file():
+        return str(cert_path)
+    print_warn("TLS verification disabled: no cert.pem to pin. Set c2_tls_verify in payload.json")
+    return False
+
+
 def _issue(client_id: str, command: str, auth: tuple[str, str], https_port: int) -> bool:
     """POST one command to the C2 issue endpoint (no prompts, ever)."""
+    verify = _tls_verify()
     hosts = ["127.0.0.1"]
     try:
         lhost = str(json.loads((_BASE_DIR / "payload.json").read_text()).get("lhost", "") or "")
@@ -95,7 +114,7 @@ def _issue(client_id: str, command: str, auth: tuple[str, str], https_port: int)
                 f"https://{host}:{https_port}/issue_command",
                 auth=auth,
                 data={"client_id": client_id, "command": command},
-                verify=False,  # noqa: S501 - lab self-signed cert; same pattern as issue_command_to_c2
+                verify=verify,
                 timeout=15,
             )
             if resp.status_code in (200, 302):

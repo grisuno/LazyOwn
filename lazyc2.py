@@ -3076,10 +3076,43 @@ if _RBAC_AVAILABLE:
     set_tenant_manager(_tenant_mgr)
     _tenant_mgr.ensure_default_tenant()
 
+_BOOTSTRAP_MFA_WARNING = (
+    "[mfa] ADMIN account '%s' has MFA DISABLED. The second factor is "
+    "decorative until enrollment: run `mfa_setup` in the dashboard and "
+    "complete the TOTP enrollment for every user with role ADMIN."
+)
+
+
+def _warn_admins_without_mfa():
+    """Log a loud warning for every ADMIN-role user lacking MFA enrollment.
+
+    MFA is opt-in per user, so a bootstrapped admin works password-only
+    and ``@require_mfa_socket`` adds nothing on top of
+    ``@login_required``. This never blocks boot or login; it makes the
+    gap impossible to miss in logs.
+    """
+    try:
+        if _RBAC_AVAILABLE:
+            for user in _rbac_store.load_all():
+                if user.get_role() == Role.ADMIN and not user.mfa_enabled:
+                    logger.critical(_BOOTSTRAP_MFA_WARNING, user.username)
+                    print(_BOOTSTRAP_MFA_WARNING % user.username)
+            return
+        from lazyc2.extensions.users import load_users
+
+        for user in load_users():
+            if user.get("role") == "admin" and not user.get("mfa_enabled"):
+                logger.critical(_BOOTSTRAP_MFA_WARNING, user.get("username", "?"))
+                print(_BOOTSTRAP_MFA_WARNING % user.get("username", "?"))
+    except Exception as exc:
+        logger.debug("[mfa] admin MFA audit skipped: %s", exc)
+
+
 _RUN_MAIN = __name__ == "__main__"
 
 if _RUN_MAIN:
     _bootstrap_initial_admin()
+    _warn_admins_without_mfa()
 
 DATA_FILE = BASE_DIR + "surface_attack.json"
 LOG_DIR = os.path.join("sessions", "logs", "c2")
@@ -3470,8 +3503,6 @@ def index():
         hostname=hostname,
         ips=ips,
         user=user,
-        username=USERNAME,
-        password=PASSWORD,
         c2_route=route_malleable,
         win_useragent=win_useragent_malleable,
         lin_useragent=lin_useragent_malleable,
@@ -4840,8 +4871,6 @@ def _api_data_inner():
             "hostname": hostname,
             "ips": ips,
             "user": user,
-            "username": USERNAME,
-            "password": PASSWORD,
             "c2_route": route_malleable,
             "win_useragent": win_useragent_malleable,
             "lin_useragent": lin_useragent_malleable,
@@ -7436,9 +7465,7 @@ def handle_input(data):
     if config.enable_c2_debug:
         logger.info(f"[CMD] Received: {command}")
 
-    shell.stdin.write(command + "\n")
     command_out = shell.one_cmd(command)
-    shell.stdin.seek(0)
 
     shell.stdout.getvalue()
     shell.stdout.truncate(0)
@@ -8764,12 +8791,29 @@ def serve_landing_page(campaign_id, short_url):
     )
 
 
+def _is_local_request():
+    """Return True when the request originates from a loopback address.
+
+    Used to let local health checks and metrics scrapers through without
+    an operator session while denying arbitrary remote probes.
+    """
+    return request.remote_addr in {"127.0.0.1", "::1", "localhost"}
+
+
 @app.route("/health", methods=["GET"])
 def health_check():
-    """Basic health and readiness endpoint."""
+    """Basic health and readiness endpoint.
+
+    Unauthenticated remote callers only get the aggregated status code;
+    the detailed ``checks`` and ``daemon`` payloads are reserved for
+    loopback requests or authenticated operators.
+    """
     import sqlite3 as _sqlite3
 
+    detailed = _is_local_request() or current_user.is_authenticated
     status = {"status": "healthy", "checks": {}}
+    if not detailed:
+        status.pop("checks")
     try:
         ensure_sessions_dir()
         status["checks"]["sessions_dir"] = "ok"
@@ -8805,8 +8849,23 @@ def health_check():
 
 @app.route("/metrics", methods=["GET"])
 def metrics_exposition():
-    """Prometheus-compatible metrics endpoint."""
-    return Response(REGISTRY.prometheus_text(), mimetype="text/plain")
+    """Prometheus-compatible metrics endpoint.
+
+    Access requires either a loopback source or a valid
+    ``Authorization: Bearer <c2_metrics_token>`` header matching the
+    ``c2_metrics_token`` key in payload.json. Set that key to scrape
+    from a remote Prometheus; without it, only local scrapers pass.
+    """
+    if _is_local_request():
+        return Response(REGISTRY.prometheus_text(), mimetype="text/plain")
+    if current_user.is_authenticated:
+        return Response(REGISTRY.prometheus_text(), mimetype="text/plain")
+    metrics_token = str(getattr(config, "c2_metrics_token", "") or "")
+    auth_header = request.headers.get("Authorization", "")
+    expected = f"Bearer {metrics_token}" if metrics_token else ""
+    if expected and hmac.compare_digest(auth_header, expected):
+        return Response(REGISTRY.prometheus_text(), mimetype="text/plain")
+    return jsonify({"error": "Forbidden"}), 403
 
 
 @app.route("/api/dashboard", methods=["GET"])

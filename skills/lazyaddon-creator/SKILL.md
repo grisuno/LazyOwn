@@ -244,7 +244,7 @@ equivalent — this is a translation, not a rewrite. Ship the source tree with a
 `Makefile` (targets: `all`, `debug`, `clean`, `install-lab`) and a `README.md`
 documenting every port note plus the measured gym result.
 
-Reference tree: `/home/grisun0/src_note/c/signdrop/` (port of
+Reference tree: `~/src_note/c/signdrop/` (port of
 MSNightmare/SignDrop `SigDrop.cpp` → `sigdrop.c`).
 
 Port checklist — the recurring MSVC-isms that break mingw builds:

@@ -41,6 +41,42 @@ def test_classify_ok():
     assert classify("") == OK
 
 
+def test_classify_vendor_on_success_is_ok():
+    assert classify("HTTP/2 200\nserver: cloudflare") == OK
+    assert classify("Server[cloudflare]") == OK
+    assert classify("/captcha (Status: 200)") == OK
+    assert classify("[cloudflare-detect] [info]") == OK
+
+
+def test_classify_vendor_with_rejection_is_blocked():
+    assert classify("HTTP/2 403\nserver: cloudflare") == BLOCKED
+    assert classify("cloudflare\nyou have been blocked") == BLOCKED
+    assert classify("imperva request rejected") == BLOCKED
+
+
+def test_classify_short_waf_codes_still_blocked():
+    assert classify("403 Forbidden") == BLOCKED
+    assert classify("Access denied") == BLOCKED
+
+
+def test_ledger_concurrent_records_do_not_lose_updates(tmp_path):
+    import threading
+
+    ledger = AttributionLedger("conc", base_dir=tmp_path)
+    barrier = threading.Barrier(8)
+
+    def _hit():
+        barrier.wait()
+        AttributionLedger("conc", base_dir=tmp_path).record("curl http://t", BLOCKED)
+
+    threads = [threading.Thread(target=_hit) for _ in range(8)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert ledger.counts("curl")[BLOCKED] == 8
+
+
 def test_verb_of_basename():
     assert verb_of("/usr/bin/sqlmap -u http://t") == "sqlmap"
     assert verb_of("curl http://t") == "curl"

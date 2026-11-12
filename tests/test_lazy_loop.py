@@ -307,20 +307,25 @@ def test_intent_soft_and_hard_delete(tmp_path, monkeypatch):
 
 
 def test_guard_judge_parse_and_fail_policy(tmp_path, monkeypatch):
-    """BDD: judge JSON is strict and LLM outages apply the fail policy."""
+    """BDD: a refusal is honoured in any form and outages apply the fail policy."""
     import modules.lazy_loop as loop
 
     parsed = loop.parse_judge_output('```json\n{"decision": "DENY", "comment": "wipes disk"}\n```')
     assert parsed == {"decision": "DENY", "comment": "wipes disk"}
     assert loop.parse_judge_output("nope") == {}
     assert loop.parse_judge_output('{"decision": "MAYBE", "comment": "x"}') == {}
-    assert loop.parse_judge_output('{"decision": "ALLOW"}') == {}
+    assert loop.parse_judge_output('{"decision": "ALLOW"}')["decision"] == "ALLOW"
+    assert loop.parse_judge_output('{"decision": "DENY"}')["decision"] == "DENY"
+    assert loop.parse_judge_output("DENY - this wipes the operator disk")["decision"] == "DENY"
+    assert loop.parse_judge_output("Sure! I allow this.")["decision"] == "ALLOW"
+    assert loop.parse_judge_output("I would deny but maybe allow")["decision"] == "DENY"
     _patched_engine(tmp_path, monkeypatch)
     allow = loop.judge_command("rm -rf /", fail_action="allow")
     assert allow["decision"] == "ALLOW"
     assert allow["source"] == "fail_policy"
     deny = loop.judge_command("rm -rf /", fail_action="deny")
     assert deny["decision"] == "DENY"
+    assert loop.judge_command("rm -rf /")["decision"] == "DENY"
 
 
 def test_guard_judge_gates_when_enabled(tmp_path, monkeypatch):

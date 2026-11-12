@@ -246,18 +246,56 @@ NMAP_LONG_FLAGS = frozenset(
 )
 
 
-def plausible_command(command: str) -> bool:
-    """Reject obvious hallucinations such as ``nmap --block``.
+SQLMAP_LONG_FLAGS = frozenset(
+    {
+        "--url", "--data", "--cookie", "--headers", "--header", "--user-agent", "--random-agent",
+        "--referer", "--host", "--method", "--proxy", "--proxy-cred", "--tor", "--tor-type",
+        "--check-tor", "--delay", "--timeout", "--retries", "--randomize", "--safe-url",
+        "--safe-freq", "--skip-urlencode", "--csrf-token", "--csrf-url", "--force-ssl",
+        "--batch", "--level", "--risk", "--technique", "--dbms", "--os", "--prefix", "--suffix",
+        "--tamper", "--threads", "--string", "--not-string", "--regexp", "--code", "--text-only",
+        "--titles", "--dbs", "--tables", "--columns", "--schema", "--count", "--dump", "--dump-all",
+        "--search", "--current-user", "--current-db", "--hostname", "--is-dba", "--users",
+        "--passwords", "--privileges", "--roles", "--db", "--tbl", "--col", "--exclude",
+        "--where", "--start", "--stop", "--first", "--last", "--sql-query", "--sql-shell",
+        "--os-shell", "--os-cmd", "--os-pwn", "--file-read", "--file-write", "--file-dest",
+        "--reg-read", "--reg-add", "--reg-del", "--wizard", "--flush-session", "--fresh-queries",
+        "--forms", "--crawl", "--crawl-exclude", "--data-string", "--param-del", "--skip",
+        "--skip-static", "--param-exclude", "--dbms-cred", "--identify-waf", "--skip-waf",
+        "--mobile", "--chunked", "--hex", "--output-dir", "--answers", "--keep-alive", "--verbose",
+    }
+)
 
-    Only long flags of the one binary the loop uses heavily enough to
-    hallucinate are validated; everything else passes untouched, so the
-    filter can never block a legitimate operator command.
+_TOOL_LONG_FLAGS: dict[str, frozenset[str]] = {
+    "nmap": NMAP_LONG_FLAGS,
+    "sqlmap": SQLMAP_LONG_FLAGS,
+}
+
+
+def plausible_command(command: str) -> bool:
+    """Reject obvious hallucinations such as ``nmap --block`` or ``sqlmap --pwn-now``.
+
+    Long flags are validated only for the binaries in :data:`_TOOL_LONG_FLAGS`,
+    the tools the loop uses heavily enough that a model invents flags for them;
+    every other binary passes untouched, so the filter can never block a
+    legitimate operator command for a tool whose flag surface it does not model.
+    New tools opt in by adding their stable long-flag set to that map.
+
+    Args:
+        command: The candidate command line.
+
+    Returns:
+        True when the command is plausible, False when it carries a long flag
+        unknown to a validated tool.
     """
     parts = (command or "").strip().split()
-    if not parts or parts[0] != "nmap":
+    if not parts:
+        return True
+    allowed = _TOOL_LONG_FLAGS.get(os.path.basename(parts[0]))
+    if allowed is None:
         return True
     for token in parts[1:]:
-        if token.startswith("--") and token.split("=", 1)[0] not in NMAP_LONG_FLAGS:
+        if token.startswith("--") and token.split("=", 1)[0] not in allowed:
             return False
     return True
 
@@ -956,9 +994,10 @@ def _load_json(path: Path, default: dict) -> dict:
 def _save_json(path: Path, payload: dict) -> None:
     """Atomically persist payload to path.
 
-    Parallel workers share one store directory, so each write uses its
-    own process/thread-scoped temp file under a lock; the final replace
-    stays atomic for readers.
+    Each write uses its own process/thread-scoped temp file and an atomic
+    replace, so a reader never sees a torn file. This guarantees atomicity,
+    not isolation: a read-modify-write that must not lose a concurrent writer's
+    update belongs inside a cross-process lock (see ``ExplorationGraph._commit``).
     """
     tmp = path.with_name(f".{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
     with STORE_LOCK:
@@ -1023,13 +1062,22 @@ def task_llm_chain(store: TaskStore | None, task_id: str) -> list[dict]:
 
 
 def parse_judge_output(raw: str) -> dict:
-    """Parse strict judge JSON demanding decision and comment.
+    """Parse a judge verdict, recognising a refusal in any form.
+
+    A security guard must never discard a refusal on a formatting technicality:
+    a model that answers ``DENY`` in prose, or valid JSON without a comment,
+    still means no. So a well-formed JSON verdict is honoured even with an empty
+    comment, and when the JSON is malformed the text is scanned for an explicit
+    verdict token with ``DENY`` taking precedence over ``ASK`` and ``ALLOW``, so
+    an ambiguous answer fails closed rather than open. Only output carrying no
+    recognisable verdict at all returns empty, handing the decision to the
+    caller's fail policy.
 
     Args:
         raw: Raw model output, optionally wrapped in a markdown fence.
 
     Returns:
-        Dict with decision and comment, empty on any parse failure.
+        Dict with decision and comment, empty only when no verdict is present.
     """
     text = str(raw or "").strip()
     match = JUDGE_FENCE_RE.search(text)
@@ -1037,26 +1085,28 @@ def parse_judge_output(raw: str) -> dict:
         text = match.group(1).strip()
     try:
         data = json.loads(text)
+        if isinstance(data, dict):
+            decision = str(data.get("decision", "")).upper()
+            if decision in ("ALLOW", "ASK", "DENY"):
+                comment = str(data.get("comment", ""))[:1000] or "(no comment)"
+                return {"decision": decision, "comment": comment}
     except ValueError:
-        return {}
-    if not isinstance(data, dict):
-        return {}
-    decision = str(data.get("decision", "")).upper()
-    if decision not in ("ALLOW", "ASK", "DENY"):
-        return {}
-    comment = str(data.get("comment", ""))[:1000]
-    if not comment:
-        return {}
-    return {"decision": decision, "comment": comment}
+        pass
+    upper = text.upper()
+    for decision in ("DENY", "ASK", "ALLOW"):
+        if re.search(rf"\b{decision}\b", upper):
+            return {"decision": decision, "comment": (text[:1000] or f"{decision} (parsed from text)")}
+    return {}
 
 
-def judge_command(command: str, background: str = "", fail_action: str = "allow") -> dict:
+def judge_command(command: str, background: str = "", fail_action: str = "deny") -> dict:
     """Ask the pool for a guard verdict, applying the configured fail policy.
 
     Args:
         command: Tool arguments under review.
         background: Optional operator message truncated to the limit.
-        fail_action: ``allow`` or ``deny`` applied when the judge is unusable.
+        fail_action: ``allow`` or ``deny`` applied when the judge is unusable;
+            defaults to ``deny`` so an unavailable guard fails closed.
 
     Returns:
         Verdict dict with decision, comment and source; never raises.
@@ -1328,17 +1378,89 @@ class ExplorationGraph:
         self.anchors: list[dict] = [a for a in raw.get("anchors", []) if isinstance(a, dict)]
         self._lock = threading.Lock()
 
+    def _snapshot(self) -> dict:
+        """Return the serialisable graph state for persistence."""
+        return {
+            "seq": self._seq,
+            "nodes": [asdict(n) for n in self.nodes.values()],
+            "edges": [asdict(e) for e in self.edges],
+            "anchors": self.anchors,
+        }
+
+    def _merge_from_disk(self, raw: dict) -> None:
+        """Absorb another writer's committed state before this one writes.
+
+        Two processes (or two fresh graph instances) share one file, so a
+        blind overwrite drops whatever landed since this instance loaded. This
+        adopts every disk node, edge and anchor not already held in memory and
+        lifts the sequence counter to the on-disk maximum, so a concurrent
+        writer's additions survive and the next id is allocated past them, which
+        is what prevents both lost updates and id collisions.
+
+        Args:
+            raw: The freshly-read on-disk graph document.
+        """
+        self._seq = max(self._seq, int(raw.get("seq", 0) or 0))
+        for item in raw.get("nodes", []):
+            try:
+                nid = int(item["node_id"])
+            except (KeyError, ValueError, TypeError):
+                continue
+            if nid not in self.nodes:
+                try:
+                    self.nodes[nid] = ExplorationNode(
+                        **{k: v for k, v in item.items() if k in ExplorationNode.__dataclass_fields__}
+                    )
+                except TypeError:
+                    continue
+        existing = {(e.src, e.dst, e.kind) for e in self.edges}
+        for item in raw.get("edges", []):
+            try:
+                key = (int(item["src"]), int(item["dst"]), str(item["kind"]))
+            except (KeyError, ValueError, TypeError):
+                continue
+            if key not in existing:
+                self.edges.append(ExplorationEdge(src=key[0], dst=key[1], kind=key[2]))
+                existing.add(key)
+        for anchor in raw.get("anchors", []):
+            if isinstance(anchor, dict) and anchor not in self.anchors:
+                self.anchors.append(anchor)
+
+    def _commit(self, mutator):
+        """Apply a mutation under a cross-process lock, merging disk first.
+
+        The lock spans the whole read-merge-mutate-write cycle, so a mutation
+        that allocates a node id reads the true on-disk sequence and no two
+        writers ever lose each other's work or collide on an id. The advisory
+        file lock serialises separate processes and separate threads alike;
+        callers already hold the in-process mutation lock.
+
+        Args:
+            mutator: A zero-argument callable performing the in-memory change,
+                run after the disk state has been merged in. Its return value is
+                propagated to the caller.
+
+        Returns:
+            Whatever ``mutator`` returns.
+        """
+        from contextlib import nullcontext
+
+        try:
+            from core.atomic_store import file_lock
+
+            lock = file_lock(self._path)
+        except Exception:
+            lock = nullcontext()
+        with lock:
+            raw = _load_json(self._path, {"seq": 0, "nodes": [], "edges": [], "anchors": []})
+            self._merge_from_disk(raw)
+            result = mutator()
+            _save_json(self._path, self._snapshot())
+        return result
+
     def _persist(self) -> None:
-        """Persist task graph to disk."""
-        _save_json(
-            self._path,
-            {
-                "seq": self._seq,
-                "nodes": [asdict(n) for n in self.nodes.values()],
-                "edges": [asdict(e) for e in self.edges],
-                "anchors": self.anchors,
-            },
-        )
+        """Commit in-memory graph state, merging any concurrent disk writes."""
+        self._commit(lambda: None)
 
     def add_node(
         self, kind: str, text: str, state: str = "pending", priority: int = DEFAULT_PRIORITY, meta: dict | None = None
@@ -1347,14 +1469,16 @@ class ExplorationGraph:
 
         Text is scrubbed of secrets before persistence so graph stores
         never hold credentials; sealed credential stores stay the only
-        home for secrets.
+        home for secrets. The id is allocated inside the commit lock, after any
+        concurrent writer's nodes are merged, so parallel adds never collide.
         """
         if kind not in EXPLORATION_NODE_KINDS:
             raise ValueError(f"unknown node kind: {kind}")
         text = scrub_secrets((text or "").strip())
         if not text:
             raise ValueError("node text is required")
-        with self._lock:
+
+        def _do() -> ExplorationNode:
             self._seq += 1
             node = ExplorationNode(
                 node_id=self._seq,
@@ -1365,8 +1489,37 @@ class ExplorationGraph:
                 meta=dict(meta or {}),
             )
             self.nodes[node.node_id] = node
-            self._persist()
             return node
+
+        with self._lock:
+            return self._commit(_do)
+
+    def remove_nodes(self, ids) -> int:
+        """Delete a set of nodes and their incident edges/anchors atomically.
+
+        The removal runs inside the commit lock after the on-disk state has
+        been merged in, so a concurrent writer's additions are preserved while
+        the requested nodes are still deleted; doing the removal after the merge
+        is what stops a just-deleted node from being resurrected from disk.
+
+        Args:
+            ids: An iterable of node ids to remove.
+
+        Returns:
+            The number of nodes removed from the in-memory graph.
+        """
+        victims = {int(i) for i in ids}
+        if not victims:
+            return 0
+
+        def _do() -> int:
+            removed = sum(1 for nid in list(victims) if self.nodes.pop(nid, None) is not None)
+            self.edges = [e for e in self.edges if e.src not in victims and e.dst not in victims]
+            self.anchors = [a for a in self.anchors if int(a.get("node_id", 0)) not in victims]
+            return removed
+
+        with self._lock:
+            return self._commit(_do)
 
     def get(self, node_id: int) -> ExplorationNode | None:
         """Return node by id or None."""
@@ -2253,12 +2406,13 @@ class Guard:
             return True
         return False
 
-    def set_judge(self, enabled: bool, fail_action: str = "allow") -> dict:
+    def set_judge(self, enabled: bool, fail_action: str = "deny") -> dict:
         """Enable/disable the LLM judge fallback for unmatched commands.
 
         Args:
             enabled: Whether the judge consults the pool on rule misses.
-            fail_action: ``allow`` or ``deny`` when the judge is unusable.
+            fail_action: ``allow`` or ``deny`` when the judge is unusable;
+                defaults to ``deny`` so the guard fails closed.
 
         Returns:
             Persisted judge config.
@@ -2312,7 +2466,7 @@ class Guard:
             except re.error:
                 continue
         if not matched and self.judge.get("enabled"):
-            verdict = judge_command(command, fail_action=str(self.judge.get("fail_action", "allow")))
+            verdict = judge_command(command, fail_action=str(self.judge.get("fail_action", "deny")))
             action = {"ALLOW": "allow", "ASK": "ask", "DENY": "deny"}[verdict["decision"]]
             decision = {
                 "tool": tool,
@@ -8927,11 +9081,7 @@ class LazyLoopEngine(EngineProxyMixin):
             }
         reachable = self._intent_subtree(graph, int(intent_id))
         removable, shared = self._split_exclusive(graph, reachable)
-        for victim in sorted(removable):
-            graph.nodes.pop(int(victim), None)
-        graph.edges = [e for e in graph.edges if e.src not in removable and e.dst not in removable]
-        graph.anchors = [a for a in graph.anchors if int(a.get("node_id", 0)) not in removable]
-        graph._persist()
+        graph.remove_nodes(removable)
         try:
             valid_findings = {n.node_id for n in graph.list("finding")}
             EvidenceStore(task_id).gc(valid_findings)

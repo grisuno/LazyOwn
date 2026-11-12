@@ -12,18 +12,23 @@ scoreboard rendering live here. Recording stays in ``ctf_capture`` and
 I/O (evidence trees, session dirs) is parameterized, so nothing here
 knows about the shell.
 
-Captures never bypass a checker: a vector becomes ``captured`` only when
-a checker matches, exactly like a manual ``ctf_capture capture`` run.
+Captures are bound, not open: a vector becomes ``captured`` only when a checker
+the vector's own objective declares matches, so a single recon pass cannot score
+an unrelated vector. Each record carries its ``expected_checkers`` and the
+``matched_checkers`` that fired, so a reviewer can falsify any claimed capture.
 """
 
 from __future__ import annotations
 
 import json
+import logging
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
 from modules import ctf_capture
+
+_LOG = logging.getLogger(__name__)
 
 MAX_EVIDENCE_FILES = 50
 MAX_EVIDENCE_BYTES = 200_000
@@ -83,6 +88,12 @@ def _gather_evidence(search_bases: list[str | Path]) -> str:
             continue
         if tree.is_dir():
             candidates.extend(sorted(tree.glob("**/*.txt")))
+    if len(candidates) > MAX_EVIDENCE_FILES:
+        _LOG.warning(
+            "evidence sweep truncated: %d files found, %d scanned; some evidence is ignored",
+            len(candidates),
+            MAX_EVIDENCE_FILES,
+        )
     for path in candidates[:MAX_EVIDENCE_FILES]:
         try:
             if path.is_file() and path.stat().st_size <= MAX_EVIDENCE_BYTES:

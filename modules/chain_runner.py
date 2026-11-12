@@ -84,6 +84,7 @@ class StepOutcome:
     missing_fields: list[str] = field(default_factory=list)
     alternatives: list[str] = field(default_factory=list)
     budget_used: dict[str, int] = field(default_factory=dict)
+    from_fallback: bool = False
 
     @property
     def ok(self) -> bool:
@@ -115,7 +116,16 @@ class StepOutcome:
 
 @dataclass
 class ChainRunResult:
-    """Structured result of one chain execution."""
+    """Structured result of one chain execution.
+
+    ``ok`` and ``finalization`` are two distinct signals and must not be
+    conflated: ``ok`` reports whether the chain ran to completion (every step
+    succeeded, or a fallback rescued a failed primary), while
+    ``finalization['verdict']`` is the evidence-gated outcome and is the only
+    authoritative measure of success. A chain can finish ``ok`` yet remain
+    ``partial`` when it captured no evidence, so success rates must be computed
+    from the finalization verdict, never from ``ok`` alone.
+    """
 
     name: str = ""
     target: str = ""
@@ -424,6 +434,7 @@ class ChainRunner:
                 while cursor < len(steps) and steps[cursor].parallel and len(group) < _MAX_PARALLEL_GROUP:
                     group.append(steps[cursor])
                     cursor += 1
+                self._warn_parallel_group(result, step, group, steps, cursor)
                 outcomes, group_failure = self._run_parallel_group(group, executions, resumed_ok, variables, captured_keys, dict(verdicts))
                 result.steps.extend(outcomes)
                 for group_outcome in outcomes:
@@ -553,7 +564,14 @@ class ChainRunner:
             executed = [step for step in result.steps if step.status == "ok"]
             captured = [step for step in executed if step.captured]
             observed = [value for value in result.verdicts.values() if value == VERDICT_OBSERVED]
-            open_steps = [step.id for step in result.steps if not step.ok]
+            rescued = bool(result.fallback_used) and all(
+                step.ok for step in result.steps if step.from_fallback
+            )
+            open_steps = [
+                step.id
+                for step in result.steps
+                if not step.ok and not (rescued and not step.from_fallback)
+            ]
             decision = lazy_finalizer.decide(
                 status="done" if not result.aborted else "failed",
                 candidate_verdict="achieved" if (result.ok and not result.aborted) else "partial",
@@ -581,6 +599,43 @@ class ChainRunner:
                 )
             )
         return skipped
+
+    def _warn_parallel_group(
+        self,
+        result: ChainRunResult,
+        first: ChainStep,
+        group: list[ChainStep],
+        steps: list[ChainStep],
+        cursor: int,
+    ) -> None:
+        """Surface the two silent surprises of a parallel group as plan warnings.
+
+        A run of parallel steps longer than the concurrency cap is split into
+        waves that do not run together, and a ``depends_on`` pointing at another
+        member of the same group cannot be ordered within it. Both change what
+        the author asked for, so each is recorded on ``result.plan_warnings``
+        rather than happening silently.
+
+        Args:
+            result: The result accumulating warnings.
+            first: The step that opened the group.
+            group: The steps gathered into this concurrent wave.
+            steps: The full step list.
+            cursor: The index just past the gathered group.
+        """
+        if cursor < len(steps) and steps[cursor].parallel:
+            result.plan_warnings.append(
+                f"parallel group at '{first.identifier}' hit the concurrency cap of "
+                f"{_MAX_PARALLEL_GROUP}; further parallel steps run in a later wave, not concurrently"
+            )
+        group_ids = {member.identifier for member in group}
+        for member in group:
+            for dependency in getattr(member, "depends_on", None) or []:
+                if dependency in group_ids:
+                    result.plan_warnings.append(
+                        f"step '{member.identifier}' declares depends_on '{dependency}' in its own "
+                        f"parallel group; intra-group ordering is not guaranteed"
+                    )
 
     def _run_parallel_group(
         self,
@@ -738,6 +793,8 @@ class ChainRunner:
         result.fallback_used = fallback_chain.name
         result.fallback_depth = self.fallback_depth + 1
         result.branches.append(f"{self.chain.name} --fail--> {fallback_chain.name}")
+        for outcome in sub_result.steps:
+            outcome.from_fallback = True
         result.steps.extend(sub_result.steps)
         for artifact in sub_result.artifacts:
             if artifact and artifact not in result.artifacts:
@@ -1314,27 +1371,33 @@ class ChainRunner:
         return None
 
     def _render_command(self, template: str, variables: dict[str, str], captured_keys: set[str]) -> str:
-        """Render a command, shell-quoting out-of-band variable values.
+        """Render a command, shell-quoting every untrusted variable value.
 
-        Captured output is untrusted (banners, HTTP bodies, tool output)
-        and command-line var values reach the runner from outside the
-        chain file; both groups receive a single-quoted form in raw shell
-        steps so shell metacharacters cannot escape onto the operator
-        host. A variable name listed in the chain's ``raw_vars`` keeps
-        its verbatim form to honour explicit operator intent. cmd2 verbs
-        keep raw substitution because the verb owns its own argument
-        parsing and never interprets shell metacharacters itself.
+        Captured output is untrusted (banners, HTTP bodies, tool output) and
+        command-line var values reach the runner from outside the chain file.
+        Both groups are single-quoted on substitution regardless of whether the
+        step is a cmd2 verb or a raw-shell line, because the execution route is
+        decided from the template, not the rendered text: a value carrying shell
+        metacharacters must never be able to flip a verb step onto the raw shell
+        and arrive unquoted. Only a variable the chain author explicitly lists in
+        ``raw_vars`` keeps its verbatim form, and a captured key is never exempt
+        even then, since its value originates with the target, not the operator.
+
+        Args:
+            template: The command template with ``{name}`` placeholders.
+            variables: The substitution values.
+            captured_keys: Keys whose values came from untrusted tool output.
+
+        Returns:
+            The rendered command with untrusted values shell-quoted.
         """
         text = str(template or "")
-        quote = not self._is_verb(text)
         raw_names = set(self.chain.raw_vars)
         for key, value in variables.items():
-            if quote and key in raw_names:
+            if key in raw_names and key not in captured_keys:
                 replacement = str(value)
-            elif quote:
-                replacement = shlex.quote(str(value))
             else:
-                replacement = str(value)
+                replacement = shlex.quote(str(value))
             text = text.replace("{" + key + "}", replacement)
         return text
 
@@ -1346,8 +1409,13 @@ class ChainRunner:
     ) -> tuple[bool, str, str]:
         """Run one command with an optional timeout and return (ok, output, reason).
 
-        The bound ``command_filter`` (retry sessions) rewrites the line
-        first; a filter failure keeps the original command.
+        The bound ``command_filter`` (retry sessions) rewrites the line first; a
+        filter failure keeps the original command. A rendered line carrying a
+        shell metacharacter is never treated as a verb, so an injected
+        metacharacter in a captured value can only route the step onto the raw
+        shell, where every untrusted value is already single-quoted by
+        :meth:`_render_command` and so cannot escape; a cmd2-only verb simply
+        fails closed there rather than executing the payload.
         """
         if self.command_filter is not None:
             try:
@@ -1394,8 +1462,12 @@ class ChainRunner:
         aborts a hung verb in place. Off the main thread ``SIGALRM`` is
         unavailable, so the verb runs under a single-worker future whose
         timeout releases the chain instead of stalling it forever (the same
-        guarantee the raw-shell path already provides via :meth:`_call`). A
-        zero budget disables both watchdogs and runs the verb directly.
+        guarantee the raw-shell path already provides via :meth:`_call`). That
+        future cannot force-kill a running cmd2 verb, so the timeout frees the
+        chain while the verb's thread may run on; :meth:`_call` logs that case
+        rather than hiding it. A long network-bound step should therefore be a
+        raw-shell step, whose process tree :func:`core.safe_exec.safe_run_shell`
+        does kill on timeout. A zero budget disables both watchdogs.
 
         Args:
             command: The rendered verb line to execute.
@@ -1503,7 +1575,13 @@ class ChainRunner:
             text = "" if output is None else str(output)
             return True, text, ""
         except (futures.TimeoutError, subprocess.TimeoutExpired):
-            future.cancel()
+            if not future.cancel():
+                _LOG.warning(
+                    "step exceeded %.1fs timeout; the worker is still running and cannot be "
+                    "force-killed in-thread (raw-shell steps kill their process tree, a cmd2 "
+                    "verb cannot). Treating the step as timed out.",
+                    timeout,
+                )
             return False, "", "timeout"
         except Exception as exc:
             return False, "", str(exc)[:300]

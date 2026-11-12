@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 
 OK = "ok"
@@ -25,10 +26,9 @@ BLOCKED = "blocked"
 ERROR = "error"
 
 _BASE_DIR = Path(__file__).resolve().parent.parent
-_DIRECTORY_MODE = 0o700
 _DEFAULT_BLOCK_THRESHOLD = 2
 
-_BLOCKED_MARKERS = (
+_HARD_BLOCKED_MARKERS = (
     "403 forbidden",
     "406 not acceptable",
     "429 too many requests",
@@ -37,6 +37,12 @@ _BLOCKED_MARKERS = (
     "access denied",
     "you have been blocked",
     "blocked by",
+    "rate limit",
+    "rate-limited",
+    "too many requests",
+)
+
+_VENDOR_MARKERS = (
     "web application firewall",
     "mod_security",
     "modsecurity",
@@ -45,9 +51,17 @@ _BLOCKED_MARKERS = (
     "incapsula",
     "imperva",
     "captcha",
-    "rate limit",
-    "rate-limited",
-    "too many requests",
+)
+
+_REJECT_STATUS = re.compile(r"(?<!\d)(401|403|406|409|429|451|503)(?!\d)")
+_REJECT_WORDS = (
+    "forbidden",
+    "denied",
+    "blocked",
+    "rejected",
+    "not acceptable",
+    "unauthorized",
+    "challenge",
 )
 
 _ERROR_MARKERS = (
@@ -64,13 +78,33 @@ _ERROR_MARKERS = (
 )
 
 
+def _has_reject_signal(text: str) -> bool:
+    """Return True when the output carries an explicit rejection signal.
+
+    A CDN or WAF vendor name appears on a successful response just as readily as
+    on a block page, so a vendor marker is only a block when a rejecting status
+    code or rejection word co-occurs. This is the test that keeps a ``200`` from
+    ``server: cloudflare`` from being misread as a block.
+
+    Args:
+        text: The lowered command output.
+
+    Returns:
+        True when a blocking status code or rejection word is present.
+    """
+    if _REJECT_STATUS.search(text):
+        return True
+    return any(word in text for word in _REJECT_WORDS)
+
+
 def classify(output: str, is_error: bool = False) -> str:
     """Attribute one step's result to ``ok``, ``blocked`` or ``error``.
 
-    Blocked is tested before error: a target that answers with a WAF page is a
-    strategy signal, not a transport failure, even when the tool also reports a
-    non-zero status. Ordering so is what keeps a 403 from being misread as a
-    generic error the planner would simply retry.
+    A hard rejection marker is a block outright. A bare CDN/WAF vendor name is a
+    block only when a rejection signal co-occurs, so a successful recon probe
+    that merely observes ``server: cloudflare`` is never demoted. Blocked is
+    tested before error so a WAF answer is read as a strategy signal, not a
+    transport failure the planner would simply retry.
 
     Args:
         output: Captured command output.
@@ -80,7 +114,9 @@ def classify(output: str, is_error: bool = False) -> str:
         One of :data:`OK`, :data:`BLOCKED`, :data:`ERROR`.
     """
     text = str(output or "").lower()
-    if any(marker in text for marker in _BLOCKED_MARKERS):
+    if any(marker in text for marker in _HARD_BLOCKED_MARKERS):
+        return BLOCKED
+    if any(marker in text for marker in _VENDOR_MARKERS) and _has_reject_signal(text):
         return BLOCKED
     if is_error or any(marker in text for marker in _ERROR_MARKERS):
         return ERROR
@@ -131,30 +167,33 @@ class AttributionLedger:
     def record(self, command: str, classification: str) -> str:
         """Tally one classified step under its verb and persist the ledger.
 
+        The load-mutate-save cycle runs under a cross-process lock so two
+        concurrent workers never lose each other's tally, and a persist failure
+        returns an empty string rather than the verb, so a caller is never told
+        a block was recorded when it was not.
+
         Args:
             command: The executed command line.
             classification: One of :data:`OK`, :data:`BLOCKED`, :data:`ERROR`.
 
         Returns:
-            The verb the step was tallied under, empty when none was parsed.
+            The verb the step was tallied under, empty when none was parsed or
+            the write failed.
         """
         verb = verb_of(command)
         if not verb or classification not in (OK, BLOCKED, ERROR):
             return ""
-        data = self._load()
-        bucket = data.setdefault(verb, {OK: 0, BLOCKED: 0, ERROR: 0})
-        bucket[classification] = int(bucket.get(classification, 0)) + 1
+
+        def _apply(data: dict) -> None:
+            bucket = data.setdefault(verb, {OK: 0, BLOCKED: 0, ERROR: 0})
+            bucket[classification] = int(bucket.get(classification, 0)) + 1
+
         try:
-            self._path.parent.mkdir(parents=True, exist_ok=True)
-            try:
-                os.chmod(self._path.parent, _DIRECTORY_MODE)
-            except OSError:
-                pass
-            tmp = self._path.with_suffix(".json.tmp")
-            tmp.write_text(json.dumps(data, ensure_ascii=False, sort_keys=True), encoding="utf-8")
-            os.replace(tmp, self._path)
+            from core.atomic_store import update_json
+
+            update_json(self._path, _apply, default={})
         except OSError:
-            return verb
+            return ""
         return verb
 
     def counts(self, verb: str) -> dict:

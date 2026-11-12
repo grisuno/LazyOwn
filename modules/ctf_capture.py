@@ -24,9 +24,13 @@ RECORD_NAME = "record.json"
 ROOT_SHELL_RE = re.compile(r"uid=0\(([^)]*)\)|uid=0 |nt authority\\system|\buname[^\n]*Linux\s+\w+\s+4\.")
 SHADOW_LINE_RE = re.compile(r"^[A-Za-z0-9_.-]+:\$[0-9a-zA-Z]+\$", re.MULTILINE)
 CRED_LINE_RE = re.compile(r"^([A-Za-z0-9_.-]+)\s*[:|]\s*(\S+)\s*$", re.MULTILINE)
-WINDOWS_OS_ENUM_RE = re.compile(r"(?im)^\s*OS:\s*Windows|^\s*OS Name\s*:", re.MULTILINE)
-NETBIOS_NAME_RE = re.compile(r"(?im)^\s*NetBIOS computer name:\s*\S+", re.MULTILINE)
-DEFENSE_REPORT_RE = re.compile(r"(?i)RealTimeProtection\w*|AntivirusEnabled|AppLocker|HVCI")
+WINDOWS_OS_ENUM_RE = re.compile(r"(?im)^[\s|]*OS:\s*Windows|^[\s|]*OS Name\s*:")
+NETBIOS_NAME_RE = re.compile(r"(?im)^[\s|]*NetBIOS computer name:\s*\S+")
+_DEFENSE_TOKENS = r"RealTimeProtection\w*|AntivirusEnabled|AppLocker|HVCI"
+DEFENSE_REPORT_RE = re.compile(
+    rf"(?i)\b(?:{_DEFENSE_TOKENS})\b\s*[:=]\s*\S"
+    rf"|\b(?:{_DEFENSE_TOKENS})\b\s+(?:true|false|enabled|disabled|on|off|enforced)\b"
+)
 EVENTLOG_CSV_RE = re.compile(r"(?im)^\s*Time\s*,\s*Log\s*,\s*Level\s*,\s*Id\s*,\s*Provider|,\s*Security\s*,")
 KERBEROS_TICKET_RE = re.compile(r"\$krb5(?:tgs|asrep)\$[0-9]+\$")
 DOMAIN_ENUM_RE = re.compile(r"(?im)namingContexts|sAMAccountName|SidType(?:User|Group|Domain)|user:\[")
@@ -193,6 +197,50 @@ CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
     ("smb_shares", _check_smb_shares),
 )
 
+_SHELL_OBJECTIVE_CHECKERS: tuple[str, ...] = ("root_shell", "shadow_dump", "credentials")
+
+_CHECKER_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("kerberos_ticket", ("kerberos", "asrep", "roast", "tgs", "ticket")),
+    ("domain_enum", ("ldap", "domain", "samr", "rid", "naming", "sid", "bloodhound")),
+    ("smb_shares", ("share", "sharename", "smb enum", "enum4linux")),
+    ("windows_os_enum", ("os discovery", "os enum", "systeminfo", "smb-os", "fingerprint")),
+    ("eventlog_rows", ("eventlog", "event log", "wevtutil")),
+    ("defense_report", ("defender", "applocker", "hvci", "defense", "antivirus", "edr")),
+    ("shadow_dump", ("shadow", "hashdump", "secretsdump")),
+    ("credentials", ("cred", "password", "login", "default creds")),
+)
+
+
+def _expected_checkers(entry: dict) -> tuple[str, ...]:
+    """Return the checkers a vector's objective binds to, never an open set.
+
+    A capture is only credible when the checker that fired is the one the
+    vector was trying to satisfy; letting any of the nine checkers stand in for
+    any vector is what lets a single recon pass score a whole gym. The binding
+    is read from the vector itself: an explicit ``checkers`` list wins, else it
+    is derived from the vector's name, service and technique, and a vector whose
+    objective maps to nothing recognisable defaults to the shell-objective
+    checkers rather than to all of them.
+
+    Args:
+        entry: The gym catalogue entry for the vector.
+
+    Returns:
+        The ordered, de-duplicated checker names this vector may be captured by.
+    """
+    declared = entry.get("checkers")
+    if isinstance(declared, (list, tuple)):
+        valid = [str(name) for name in declared if any(str(name) == known for known, _ in CHECKERS)]
+        if valid:
+            return tuple(dict.fromkeys(valid))
+    text = " ".join(
+        str(entry.get(field, "")) for field in ("id", "name", "service", "mitre")
+    ).lower()
+    matched_names = [name for name, keywords in _CHECKER_KEYWORDS if any(key in text for key in keywords)]
+    if matched_names:
+        return tuple(dict.fromkeys(matched_names))
+    return _SHELL_OBJECTIVE_CHECKERS
+
 
 def capture(
     vuln_id: str,
@@ -225,12 +273,17 @@ def capture(
     if not entry:
         raise ValueError(f"Unknown gym vulnerability: {vuln_id}")
 
+    expected = _expected_checkers(entry)
     checks: list[dict] = []
-    matched = False
+    matched_checkers: list[str] = []
     for name, checker in CHECKERS:
         evidence = checker(output)
-        checks.append({"name": name, "matched": bool(evidence), "evidence": evidence[:200]})
-        matched = matched or bool(evidence)
+        bound = name in expected
+        hit = bool(evidence) and bound
+        checks.append({"name": name, "matched": bool(evidence), "bound": bound, "evidence": evidence[:200]})
+        if hit:
+            matched_checkers.append(name)
+    matched = bool(matched_checkers)
 
     record = {
         "vuln_id": vuln_id,
@@ -243,6 +296,8 @@ def capture(
         "severity": str(entry.get("severity") or "medium"),
         "status": "captured" if matched else "failed",
         "captured_at": datetime.datetime.now(datetime.UTC).isoformat(),
+        "expected_checkers": list(expected),
+        "matched_checkers": matched_checkers,
         "checks": checks,
     }
     store_record(record, sessions_dir=sessions_dir)

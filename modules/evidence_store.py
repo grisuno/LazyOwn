@@ -25,7 +25,6 @@ from pathlib import Path
 from typing import Any
 
 _BASE_DIR = Path(__file__).resolve().parent.parent
-_DIRECTORY_MODE = 0o700
 _DEFAULT_GRACE_SECONDS = 86400.0
 _SAFE_DIGEST = set("0123456789abcdefABCDEF")
 
@@ -45,7 +44,7 @@ def _sanitize_digest(digest: str) -> str:
         The digest unchanged when it is non-empty hex, otherwise an empty
         string.
     """
-    text = str(digest or "").strip()
+    text = str(digest or "").strip().lower()
     if not text or any(char not in _SAFE_DIGEST for char in text):
         return ""
     return text[:64]
@@ -126,14 +125,9 @@ class EvidenceStore:
             "preserved_at": time.time(),
         }
         try:
-            self._dir.mkdir(parents=True, exist_ok=True)
-            try:
-                os.chmod(self._dir, _DIRECTORY_MODE)
-            except OSError:
-                pass
-            tmp = path.with_suffix(".json.tmp")
-            tmp.write_text(json.dumps(snapshot, ensure_ascii=False, sort_keys=True), encoding="utf-8")
-            os.replace(tmp, path)
+            from core.atomic_store import write_text_atomic
+
+            write_text_atomic(path, json.dumps(snapshot, ensure_ascii=False, sort_keys=True))
             return digest
         except OSError:
             return ""

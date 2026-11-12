@@ -559,11 +559,20 @@ class WorkerAgenticMixin:
         from modules.lazy_loop import MAX_WORKER_STEPS
 
         if _loop_deterministic() and not _is_placeholder_steps(steps):
+            kept, filtered = self._guard_filter(intent, steps)
+            self._record_deterministic_decision(intent, steps, kept, filtered)
+            if filtered:
+                self.activity.emit(
+                    self.name,
+                    "guard",
+                    f"deterministic mode: dropped {len(filtered)} unsafe/blocked step(s)",
+                    intent_id=intent.node_id,
+                )
             self.activity.emit(
                 self.name, "deterministic", "deterministic mode: heuristic steps win, model not consulted",
                 intent_id=intent.node_id,
             )
-            return steps[:MAX_WORKER_STEPS]
+            return kept[:MAX_WORKER_STEPS]
         suggested = []
         try:
             from modules.harness import gate as _harness_gate
@@ -734,10 +743,14 @@ class WorkerAgenticMixin:
         Returns:
             A :class:`~modules.guard_rules.GuardRules` instance, or None.
         """
+        cached = getattr(self, "_guard_cache", None)
+        if cached is not None:
+            return cached
         try:
-            from modules.guard_rules import GuardRules
+            from modules.guard_rules import guard_rules
 
-            return GuardRules(self.task_id)
+            self._guard_cache = guard_rules(self.task_id)
+            return self._guard_cache
         except Exception:
             return None
 
@@ -782,10 +795,134 @@ class WorkerAgenticMixin:
                 model_fallback=True,
                 chosen=(chosen[0] if chosen else ""),
                 reason=(f"{len(chosen)} of {len(candidates)} candidate(s) accepted"),
-                ctx_digest=decision_log.digest(f"{intent.text}|{self.task_id}"),
+                ctx_digest=decision_log.context_digest(self._decision_context(intent)),
                 config_digest=decision_log.config_digest(payload),
                 prompt_digest=decision_log.digest(prompt),
                 reply_digest=decision_log.digest(reply),
+                candidates=tuple(candidates),
+                filtered=decision_log.filtered_rows(filtered),
+            )
+            decision_log.record(rec)
+        except Exception:
+            return
+
+    def _decision_context(self, intent: ExplorationNode):
+        """Fingerprint the engagement state behind a decision, not just its text.
+
+        The reproducible ledger is only meaningful if two different engagement
+        states hash differently: the intent text alone collides across targets
+        and phases. This assembles the state that actually steers the next
+        action (target, phase, os hint, discovered-surface counts and whether
+        credentials are in hand) so an identical state replays to the same
+        digest and a changed state does not.
+
+        Args:
+            intent: The intent being advanced.
+
+        Returns:
+            A context object exposing the fields
+            :func:`modules.loop.decision_log.context_digest` fingerprints.
+        """
+        import types
+
+        record = self.store.get(self.task_id) or {}
+        target = ""
+        try:
+            target = self._target_for(intent)
+        except Exception:
+            target = ""
+        findings = 0
+        assets = 0
+        try:
+            findings = sum(1 for node in self.graph.nodes() if getattr(node, "kind", "") == "finding")
+        except Exception:
+            findings = 0
+        try:
+            assets = len(self.assets.all()) if hasattr(self.assets, "all") else 0
+        except Exception:
+            assets = 0
+        has_creds = bool(record.get("credentials") or record.get("creds"))
+        return types.SimpleNamespace(
+            target=str(target or ""),
+            phase=str(record.get("phase", "")),
+            os_hint=str(record.get("os_id", "")),
+            services=[f"findings:{findings}", f"assets:{assets}"],
+            has_creds=has_creds,
+            exclude=(),
+            extra={"intent": str(getattr(intent, "text", ""))[:200]},
+        )
+
+    def _guard_filter(self, intent: ExplorationNode, candidates: list[str]) -> tuple[list[str], list[tuple[str, str]]]:
+        """Apply the seeded guard and attribution demotions to any step list.
+
+        These are the two enforcement layers the deterministic path would
+        otherwise skip entirely: a seeded-unsafe command and a verb the target
+        keeps blocking must be dropped whether the step came from the model or
+        the heuristic layer. Shape and scope gates stay with the execution-time
+        guard, so this does not over-filter trusted heuristic probes.
+
+        Args:
+            intent: The intent the steps advance.
+            candidates: The proposed steps.
+
+        Returns:
+            A pair of the surviving steps and the rejected ``(command, reason)``
+            pairs.
+        """
+        guard = self._guard_rules()
+        blocked_verbs = self._blocked_verbs()
+        kept: list[str] = []
+        filtered: list[tuple[str, str]] = []
+        for command in candidates:
+            if guard is not None and guard.blocks_command(command):
+                filtered.append((command, "guard-rule"))
+                continue
+            if blocked_verbs and _verb_of(command) in blocked_verbs:
+                filtered.append((command, "attrib-blocked"))
+                continue
+            kept.append(command)
+        return kept, filtered
+
+    def _record_deterministic_decision(
+        self,
+        intent: ExplorationNode,
+        candidates: list[str],
+        chosen: list[str],
+        filtered: list[tuple[str, str]],
+    ) -> None:
+        """Record a deterministic step choice to the decision ledger.
+
+        The reproducible mode is the one case the ledger most needs to capture,
+        yet without this it would record nothing because the model never ran.
+        The record carries ``model_fallback=False`` and empty prompt/reply
+        digests, the signature of a rule-derived decision. Ledger failures never
+        interrupt the loop.
+
+        Args:
+            intent: The intent advanced.
+            candidates: The heuristic steps before guard filtering.
+            chosen: The steps that survived the guard filter.
+            filtered: Rejected steps paired with their reason.
+        """
+        try:
+            from modules.loop import decision_log
+
+            payload: dict = {}
+            try:
+                from core.config import load_payload
+
+                payload = load_payload() or {}
+            except Exception:
+                payload = {}
+            rec = decision_log.DecisionRecord(
+                run_id=f"task:{self.task_id}",
+                step=int(getattr(intent, "node_id", 0) or 0),
+                source="deterministic",
+                model_fallback=False,
+                chosen=(chosen[0] if chosen else ""),
+                reason=(f"deterministic: {len(chosen)} of {len(candidates)} step(s) kept"),
+                ctx_digest=decision_log.context_digest(self._decision_context(intent)),
+                config_digest=decision_log.config_digest(payload),
                 candidates=tuple(candidates),
                 filtered=decision_log.filtered_rows(filtered),
             )

@@ -38,6 +38,9 @@ _DIGEST_WIDTH = 16
 _DIRECTORY_MODE = 0o700
 _CONFIG_KEYS = (
     "loop_planner_temperature",
+    "loop_deterministic",
+    "loop_guard_rules",
+    "loop_wire_capture",
     "llm_backend",
     "llm_model_groq",
     "llm_model_ollama",
@@ -112,9 +115,10 @@ def context_digest(ctx: Any) -> str:
 def config_digest(config: Mapping[str, Any] | None) -> str:
     """Fingerprint the config keys that change a decision's reproducibility.
 
-    Only the keys in :data:`_CONFIG_KEYS` (planner temperature and model
-    selection) participate, so unrelated config churn does not invalidate a
-    replay while a model or sampling change correctly does.
+    Only the keys in :data:`_CONFIG_KEYS` participate (planner temperature, the
+    determinism and guard-rule flags, and model selection), so unrelated config
+    churn does not invalidate a replay while a change that alters the decision
+    correctly does.
 
     Args:
         config: A payload mapping, or ``None`` when unavailable.
@@ -141,7 +145,8 @@ class DecisionRecord:
 
     Attributes:
         run_id: Identifier shared by every decision in one loop run.
-        step: Monotonic step index within the run.
+        step: The intent node id this decision advanced; stable per intent and
+            combined with ``ts`` to order repeated decisions on one intent.
         source: Selector name, or ``"llm"`` for the model planner.
         model_fallback: True when the LLM produced the action rather than a
             deterministic selector.

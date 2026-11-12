@@ -25,6 +25,7 @@ _DEFAULT_HARD_THRESHOLD = 0.6
 _PROGRESS_EPSILON = 1e-6
 _DIFFICULTY_PORT_FULL = 12.0
 _DIFFICULTY_SERVICE_FULL = 8.0
+_DIFFICULTY_NEUTRAL = 0.5
 
 
 def _clamp01(value: float) -> float:
@@ -35,16 +36,24 @@ def _clamp01(value: float) -> float:
 def estimate_difficulty(facts: Mapping[str, Any]) -> float:
     """Estimate a target's difficulty in ``[0.0, 1.0]`` from known facts.
 
-    More open ports and more distinct services mean more attack surface to
-    work through, so a larger, more varied host scores harder. The estimate is
-    deliberately coarse; it only has to rank targets relative to one another.
+    Wide attack surface is an opportunity, not an obstacle: a host exposing many
+    ports and varied services offers more vectors and more known exploits, so it
+    is usually a quicker win than a hardened host with a single service. Surface
+    therefore lowers difficulty from a neutral baseline rather than raising it,
+    which is what lets the easy-first scheduler drain a rich target like a full
+    gym host before a locked-down bastion. A target with no surface facts yet
+    scores the neutral ``0.5`` rather than ``0.0``, so an unscanned host never
+    leapfrogs a target already known to be easy.
+
+    The estimate is deliberately coarse; it only ranks targets relative to one
+    another and is expected to be refined by proven-chain history elsewhere.
 
     Args:
         facts: A mapping that may carry ``open_ports`` (a sized collection or
             int) and ``services`` (a sized collection of service names).
 
     Returns:
-        A difficulty score between 0.0 (trivial) and 1.0 (hard).
+        A difficulty score between 0.0 (easy, rich surface) and 1.0 (hard).
     """
     ports = facts.get("open_ports", 0)
     port_count = float(ports) if isinstance(ports, (int, float)) else float(len(ports or []))
@@ -53,9 +62,12 @@ def estimate_difficulty(facts: Mapping[str, Any]) -> float:
         service_count = float(len(set(services)))
     except TypeError:
         service_count = 0.0
+    if port_count <= 0.0 and service_count <= 0.0:
+        return _DIFFICULTY_NEUTRAL
     port_term = _clamp01(port_count / _DIFFICULTY_PORT_FULL)
     service_term = _clamp01(service_count / _DIFFICULTY_SERVICE_FULL)
-    return _clamp01(0.6 * port_term + 0.4 * service_term)
+    surface = _clamp01(0.6 * port_term + 0.4 * service_term)
+    return _clamp01(_DIFFICULTY_NEUTRAL - _DIFFICULTY_NEUTRAL * surface)
 
 
 def _item(record: Mapping[str, Any]) -> dict[str, Any]:

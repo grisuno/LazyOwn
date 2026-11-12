@@ -66,3 +66,36 @@ def test_empty_command_not_blocked(tmp_path):
     guard = GuardRules("t", base_dir=tmp_path, override="")
     assert guard.blocks_command("") is False
     assert guard.blocks_command("   ") is False
+
+
+def test_rm_destructive_flag_variants_blocked(tmp_path):
+    guard = GuardRules("t", base_dir=tmp_path, override="")
+    for cmd in ("rm -rf /", "rm -fr /", "rm -r -f /", "rm --recursive --force /", "rm -rf  /"):
+        assert guard.blocks_command(cmd) is True, cmd
+
+
+def test_wrappers_do_not_hide_blocked_verb(tmp_path):
+    guard = GuardRules("t", base_dir=tmp_path, override="")
+    assert guard.blocks_command("sudo shutdown -h now") is True
+    assert guard.blocks_command("sudo rm -rf /") is True
+    assert guard.blocks_command("env FOO=bar reboot") is True
+    assert guard.blocks_command('bash -c "rm -rf /"') is True
+
+
+def test_dd_to_block_device_blocked(tmp_path):
+    guard = GuardRules("t", base_dir=tmp_path, override="")
+    assert guard.blocks_command("dd if=/dev/zero of=/dev/sda") is True
+    assert guard.blocks_command("dd if=a.img of=./out.img") is False
+
+
+def test_non_system_rm_allowed(tmp_path):
+    guard = GuardRules("t", base_dir=tmp_path, override="")
+    assert guard.blocks_command("rm -rf ./build") is False
+    assert guard.blocks_command("rm -rf /tmp/scan") is False
+
+
+def test_persist_once_does_not_rewrite(tmp_path):
+    GuardRules("t", base_dir=tmp_path, override='{"verbs": ["tcpdump"]}')
+    stat = (tmp_path / "guard_rules_t.json").stat().st_mtime_ns
+    GuardRules("t", base_dir=tmp_path, override='{"verbs": ["tcpdump"]}')
+    assert (tmp_path / "guard_rules_t.json").stat().st_mtime_ns == stat

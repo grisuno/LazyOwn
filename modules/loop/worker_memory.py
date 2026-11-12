@@ -61,10 +61,11 @@ class WorkerMemoryMixin:
 
     def _absorb_reaction(self, intent, command: str, output: str) -> None:
         """Park reactive decisions and reuse captured credentials in-session."""
+        if output:
+            self._attribute_outcome(intent, command, output)
         if not output or len(output) < 20:
             return
         self._remember_fact(intent, command, output)
-        self._attribute_outcome(intent, command, output)
         target = self._target_for(intent)
         try:
             from modules.mediation.contracts import MediationDomains

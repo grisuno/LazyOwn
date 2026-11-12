@@ -302,8 +302,7 @@ autonomous_daemon.py ───────────────────�
     ├── UnifiedBrainSelector  (shared modules.selection cascade:      │
     │       cred_spray, playbook, adversary, intel, poc, edb,         │
     │       atomic, technique_chain, technique, module, lazyscript,   │
-    │       chain, bridge — catalog + MITRE fallback)                 │
-    ├── ParquetSelector   (past successes)                           │
+    │       chain, parquet (past successes), bridge (catalog+MITRE))  │
     ├── SWANSelector      (MoE+RL best expert)                       │
     ├── LLMSelector       (Groq/Ollama fallback)                     │
     └── FallbackSelector  (static OS map)                            │

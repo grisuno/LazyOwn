@@ -87,8 +87,10 @@ def test_cascade_abstains_when_all_abstain(monkeypatch, tmp_path):
             return None
 
     import modules.lazyown_bridge as lb
+    import modules.selection.parquet as parquet_mod
 
     monkeypatch.setattr(lb, "get_dispatcher", lambda: _Empty(), raising=False)
+    monkeypatch.setattr(parquet_mod, "_get_pdb", lambda: None)
     ctx = SelectionContext(target="10.0.0.9", phase="recon", os_hint="linux", services=("gopher",))
     assert propose_next(ctx) is None
 

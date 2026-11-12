@@ -29,7 +29,6 @@ from skills.autonomous_daemon import (  # noqa: E402
     FallbackSelector,
     ICommandSelector,
     MetricsAwareSelector,
-    ParquetSelector,
     _wrap_chain_with_metrics_bias,
 )
 
@@ -230,7 +229,7 @@ def test_decorator_degrades_when_metrics_source_unavailable() -> None:
 def test_wrap_chain_leaves_fallback_unwrapped() -> None:
     """``_wrap_chain_with_metrics_bias`` must not decorate the fallback."""
 
-    parquet = ParquetSelector(pdb=None, fail_counts={})
+    parquet = _StubSelector(None)
     fallback = FallbackSelector()
     wrapped = _wrap_chain_with_metrics_bias([parquet, fallback])
     assert isinstance(wrapped[0], MetricsAwareSelector)
@@ -241,7 +240,7 @@ def test_wrap_chain_leaves_fallback_unwrapped() -> None:
 def test_wrap_chain_master_switch_off() -> None:
     """When ``enabled`` is False the list is returned unchanged."""
 
-    parquet = ParquetSelector(pdb=None, fail_counts={})
+    parquet = _StubSelector(None)
     fallback = FallbackSelector()
     wrapped = _wrap_chain_with_metrics_bias(
         [parquet, fallback],
@@ -253,7 +252,7 @@ def test_wrap_chain_master_switch_off() -> None:
 def test_wrap_chain_is_idempotent() -> None:
     """Re-wrapping an already-wrapped chain does not stack decorators."""
 
-    parquet = ParquetSelector(pdb=None, fail_counts={})
+    parquet = _StubSelector(None)
     fallback = FallbackSelector()
     once = _wrap_chain_with_metrics_bias([parquet, fallback])
     twice = _wrap_chain_with_metrics_bias(once)

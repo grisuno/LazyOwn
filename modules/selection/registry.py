@@ -15,6 +15,7 @@ from collections.abc import Iterable
 from modules.selection.adversary import AdversarySelector
 from modules.selection.atomic import AtomicSelector
 from modules.selection.base import ActionDecision, SelectionContext, Selector
+from modules.selection.bridge import BridgeSelector
 from modules.selection.chain import ChainSelector
 from modules.selection.cred_spray import CredentialSpraySelector
 from modules.selection.edb import EDBSelector
@@ -47,6 +48,10 @@ def all_selectors() -> list[Selector]:
     ``AUTO_CHAIN_SELECTOR`` (default on) drops the chain selector entirely when
     falsey, and ``AUTO_CHAIN_SELECTOR_LAB`` (default on) includes lab/gym
     chains. Real engagements set both to ``0``.
+
+    The bridge selector is last: a catalogue fallback that fires only when every
+    evidence-based and named selector ahead of it abstains, so both runtimes
+    (not just the daemon) reach the MITRE-mapped command catalogue.
     """
     import os
 
@@ -68,6 +73,7 @@ def all_selectors() -> list[Selector]:
     ]
     if chain_enabled:
         cascade.append(ChainSelector(allow_lab=allow_lab))
+    cascade.append(BridgeSelector())
     return cascade
 
 def default_selectors() -> list[Selector]:

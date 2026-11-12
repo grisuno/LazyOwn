@@ -263,7 +263,8 @@ def cookies_for_host(
         scheme: Request scheme; ``Secure`` cookies only apply to https.
 
     Returns:
-        List of cookie dicts, longest domain match first.
+        List of cookie dicts ordered per RFC 6265: longest path first,
+        longer domain first as tiebreak.
     """
     secure_ok = str(scheme or "https").lower() == "https"
     matched = [
@@ -274,7 +275,10 @@ def cookies_for_host(
         and not cookie_expired(cookie)
         and (secure_ok or not cookie.get("secure"))
     ]
-    matched.sort(key=lambda c: len(str(c.get("domain") or "")), reverse=True)
+    matched.sort(
+        key=lambda c: (len(str(c.get("path") or "/")), len(str(c.get("domain") or ""))),
+        reverse=True,
+    )
     return matched
 
 
@@ -853,7 +857,7 @@ def apply_identity_to_url(url: str, headers: dict[str, str], body: bytes | None 
     parts = urlsplit(url)
     host = parts.hostname or ""
     scheme = parts.scheme or "http"
-    target = (parts.path or "/") + (f"?{parts.query}" if parts.query else "")
+    target = parts.path or "/"
     return apply_identity_headers(host, headers, body if body is not None else b"", path=target, scheme=scheme)
 
 

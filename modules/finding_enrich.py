@@ -117,13 +117,16 @@ def enrich_finding(traffic_log: Any, finding_id: int, graph: Any) -> dict[str, A
     current = node.meta.get("traffic_refs", [])
     normalized = traffic_log._normalize_refs(current)
     result = enrich_refs(normalized)
-    before = [(r.get("digest"), r.get("role")) for r in normalized]
-    after = [(r["digest"], r["role"]) for r in result["refs"]]
-    refs_changed = before != after
+    before_order = [(r.get("digest"), r.get("role")) for r in normalized]
+    after_order = [(r["digest"], r["role"]) for r in result["refs"]]
+    refs_changed = before_order != after_order
+    before_full = [(r.get("digest"), r.get("role"), r.get("note", "")) for r in normalized]
+    after_full = [(r["digest"], r["role"], r["note"]) for r in result["refs"]]
+    meta_changed = before_full != after_full
     marker_stale = str(node.meta.get("enrichment_digest", "")) != result["digest"]
-    if refs_changed:
+    if refs_changed or meta_changed:
         node.meta["traffic_refs"] = result["refs"]
-    if refs_changed or marker_stale:
+    if refs_changed or meta_changed or marker_stale:
         node.meta["enrichment_digest"] = result["digest"]
         if refs_changed:
             node.meta["evidence_version"] = int(node.meta.get("evidence_version", 1)) + 1

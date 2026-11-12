@@ -10,11 +10,24 @@ from __future__ import annotations
 from modules.loop.triage_scheduler import TriageScheduler, estimate_difficulty
 
 
-def test_estimate_difficulty_scales_with_surface():
-    """Given more ports and services, When estimated, Then difficulty rises."""
-    small = estimate_difficulty({"open_ports": 1, "services": ["http"]})
-    large = estimate_difficulty({"open_ports": 12, "services": ["http", "smb", "ssh", "ftp"]})
-    assert 0.0 <= small < large <= 1.0
+def test_estimate_difficulty_wide_surface_is_easier():
+    """Given more ports and services, When estimated, Then difficulty falls."""
+    narrow = estimate_difficulty({"open_ports": 1, "services": ["http"]})
+    wide = estimate_difficulty({"open_ports": 12, "services": ["http", "smb", "ssh", "ftp"]})
+    assert 0.0 <= wide < narrow <= 1.0
+
+
+def test_estimate_difficulty_unknown_target_is_neutral():
+    """Given no surface facts, When estimated, Then difficulty is neutral 0.5."""
+    assert estimate_difficulty({}) == 0.5
+    assert estimate_difficulty({"open_ports": 0, "services": []}) == 0.5
+
+
+def test_estimate_difficulty_rich_target_drains_before_unknown():
+    """Given a rich target and an unknown one, Then the rich one is easier."""
+    rich = estimate_difficulty({"open_ports": 23, "services": ["http", "smb", "ssh", "ftp", "mysql"]})
+    unknown = estimate_difficulty({})
+    assert rich < unknown
 
 
 def test_estimate_difficulty_accepts_counts_or_collections():

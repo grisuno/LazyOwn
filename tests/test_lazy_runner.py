@@ -1576,6 +1576,9 @@ def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch):
     assert loop.plausible_command("nmap --block 127.0.0.1") is False
     assert loop.plausible_command("nmap --top-ports 100 127.0.0.1") is True
     assert loop.plausible_command("curl -sS http://127.0.0.1") is True
+    assert loop.plausible_command("sqlmap -u http://t --batch --dbs") is True
+    assert loop.plausible_command("sqlmap -u http://t --exploit-everything") is False
+    assert loop.plausible_command("/usr/bin/sqlmap --pwn-now") is False
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
     monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub"}])

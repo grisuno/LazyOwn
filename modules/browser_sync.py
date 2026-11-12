@@ -199,17 +199,81 @@ def cookie_matches_host(cookie: dict[str, Any], host: str) -> bool:
     return target == domain or target.endswith("." + domain)
 
 
-def cookies_for_host(profile: dict[str, Any], host: str) -> list[dict[str, Any]]:
-    """Return synced cookies that apply to one request host.
+def cookie_matches_path(cookie: dict[str, Any], request_path: str) -> bool:
+    """Return True when a synced cookie applies to one request path.
+
+    RFC 6265 path-match: equal path, or the cookie path is a prefix of the
+    request path and either ends with a slash or is followed by a slash.
+
+    Args:
+        cookie: Synced cookie dict with ``path`` (default ``/``).
+        request_path: Request path including the query-stripped location.
+
+    Returns:
+        True when the browser would send this cookie for the path.
+    """
+    cookie_path = str(cookie.get("path") or "/") or "/"
+    target = str(request_path or "/").split("?")[0] or "/"
+    if not target.startswith("/"):
+        target = "/" + target
+    if target == cookie_path:
+        return True
+    return target.startswith(cookie_path) and (
+        cookie_path.endswith("/") or target[len(cookie_path)] == "/"
+    )
+
+
+def cookie_expired(cookie: dict[str, Any], now: float | None = None) -> bool:
+    """Return True when a persistent cookie is already expired.
+
+    Session cookies (no ``expirationDate``) never expire here; the next
+    sync replaces the whole store anyway.
+
+    Args:
+        cookie: Synced cookie dict.
+        now: Reference timestamp, defaults to current time.
+
+    Returns:
+        True when the cookie must not be sent.
+    """
+    expiry = cookie.get("expirationDate")
+    if expiry is None:
+        return False
+    try:
+        return float(expiry) <= (time.time() if now is None else now)
+    except (TypeError, ValueError):
+        return False
+
+
+def cookies_for_host(
+    profile: dict[str, Any],
+    host: str,
+    path: str = "/",
+    scheme: str = "https",
+) -> list[dict[str, Any]]:
+    """Return synced cookies a browser would send for one request.
+
+    Filters by host match, RFC path match, ``Secure`` only over https and
+    expiry, exactly like a browser would.
 
     Args:
         profile: Synced profile dict.
         host: Request host.
+        path: Request path (query included or not).
+        scheme: Request scheme; ``Secure`` cookies only apply to https.
 
     Returns:
         List of cookie dicts, longest domain match first.
     """
-    matched = [c for c in (profile.get("cookies") or []) if cookie_matches_host(c, host)]
+    secure_ok = str(scheme or "https").lower() == "https"
+    matched = [
+        cookie
+        for cookie in (profile.get("cookies") or [])
+        if cookie_matches_host(cookie, host)
+        and cookie_matches_path(cookie, path)
+        and not cookie_expired(cookie)
+        and (secure_ok or not cookie.get("secure"))
+    ]
     matched.sort(key=lambda c: len(str(c.get("domain") or "")), reverse=True)
     return matched
 
@@ -237,7 +301,7 @@ def build_cookie_header(existing: str, cookies: list[dict[str, Any]]) -> str:
     for cookie in cookies:
         name = str(cookie.get("name") or "").strip()
         value = str(cookie.get("value") or "")
-        if not name:
+        if not name or not value:
             continue
         merged[name] = value[:MAX_COOKIE_VALUE]
     for name, value in existing_pairs.items():
@@ -285,6 +349,7 @@ def write_netscape_jar(profile: dict[str, Any], path: str | Path | None = None) 
     try:
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(header + "\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+        os.chmod(destination, 0o600)
         return len(lines)
     except OSError:
         return 0
@@ -403,17 +468,27 @@ def apply_rules(headers: dict[str, str], body: bytes) -> tuple[dict[str, str], b
     return headers, body, applied
 
 
-def apply_identity_headers(host: str, headers: dict[str, str], body: bytes = b"") -> tuple[dict[str, str], bytes]:
+def apply_identity_headers(
+    host: str,
+    headers: dict[str, str],
+    body: bytes = b"",
+    path: str = "/",
+    scheme: str = "https",
+) -> tuple[dict[str, str], bytes]:
     """Inject the synced browser identity into one proxied request.
 
     Order: synced cookies and fingerprint headers for ``host``, then
-    Burp-style rules. Disabled (``browser_sync_inject`` false) or empty
-    profiles leave the request untouched; the function never raises.
+    Burp-style rules. Cookie selection honours the RFC path match, the
+    ``Secure`` flag against ``scheme`` and expiry, like a browser would.
+    Disabled (``browser_sync_inject`` false) or empty profiles leave the
+    request untouched; the function never raises.
 
     Args:
         host: Upstream request host.
         headers: Mutable request header dict.
         body: Raw request body bytes.
+        path: Request path.
+        scheme: Request scheme.
 
     Returns:
         Tuple of (headers, body) after identity and rule application.
@@ -428,7 +503,7 @@ def apply_identity_headers(host: str, headers: dict[str, str], body: bytes = b""
         if lowered.get("cookie") and not str(headers.get(lowered["cookie"]) or "").strip():
             del headers[lowered["cookie"]]
             lowered.pop("cookie", None)
-        matched = cookies_for_host(profile, host)
+        matched = cookies_for_host(profile, host, path, scheme)
         if matched:
             existing = headers.get(lowered.get("cookie", "Cookie"), "")
             merged = build_cookie_header(existing, matched)
@@ -528,13 +603,23 @@ class SyncReceiver:
         self._last_sync = 0.0
         self._sync_count = 0
 
-    def start(self) -> dict[str, Any]:
+    def start(self, host: str | None = None, port: int | None = None) -> dict[str, Any]:
         """Bind the receiver; idempotent while already running.
+
+        Args:
+            host: Bind address override (None keeps the current one).
+            port: Bind port override (None or 0 keeps the current one
+                when already running, otherwise picks a free one).
 
         Returns:
             Status dict with running state, address and profile stats.
         """
         with self._lock:
+            if host is not None:
+                self._host = host
+            if port is not None:
+                if self._server is None or int(port) > 0:
+                    self._port = int(port)
             if self._server is not None:
                 return self.status()
             token()
@@ -656,6 +741,7 @@ class SyncReceiver:
             path.parent.mkdir(parents=True, exist_ok=True)
             tmp = path.with_suffix(".tmp")
             tmp.write_text(json.dumps(profile, indent=2), encoding="utf-8")
+            os.chmod(tmp, 0o600)
             os.replace(tmp, path)
         except OSError:
             return None
@@ -711,18 +797,13 @@ def start_receiver(port: int = DEFAULT_SYNC_PORT, host: str = DEFAULT_SYNC_HOST)
     """Start the shared receiver.
 
     Args:
-        port: Bind port (0 picks a free one).
+        port: Bind port (None/0 keeps the running port or picks a free one).
         host: Bind address.
 
     Returns:
         Receiver status dict.
     """
-    receiver = get_receiver()
-    receiver._host = host
-    port = int(port)
-    if port > 0 or receiver._server is None:
-        receiver._port = port
-    return receiver.start()
+    return get_receiver().start(host=host, port=port)
 
 
 def stop_receiver() -> dict[str, Any]:
@@ -769,8 +850,11 @@ def apply_identity_to_url(url: str, headers: dict[str, str], body: bytes | None 
     """
     from urllib.parse import urlsplit
 
-    host = urlsplit(url).hostname or ""
-    return apply_identity_headers(host, headers, body if body is not None else b"")
+    parts = urlsplit(url)
+    host = parts.hostname or ""
+    scheme = parts.scheme or "http"
+    target = (parts.path or "/") + (f"?{parts.query}" if parts.query else "")
+    return apply_identity_headers(host, headers, body if body is not None else b"", path=target, scheme=scheme)
 
 
 def ensure_wiring() -> dict[str, Any]:
@@ -792,9 +876,9 @@ def ensure_wiring() -> dict[str, Any]:
     result: dict[str, Any] = {"receiver": {}, "proxy": {}}
     if bool(params.get("browser_sync_enabled", True)):
         try:
-            port = int(params.get("browser_sync_port") or 0)
+            port = int(params.get("browser_sync_port", DEFAULT_SYNC_PORT) or DEFAULT_SYNC_PORT)
         except (TypeError, ValueError):
-            port = 0
+            port = DEFAULT_SYNC_PORT
         try:
             result["receiver"] = start_receiver(port=port)
         except Exception as exc:

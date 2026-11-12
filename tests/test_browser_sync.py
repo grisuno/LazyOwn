@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import tempfile
+import time
 import unittest
 import urllib.request
 from pathlib import Path
@@ -139,6 +140,77 @@ class BrowserSyncSpec(unittest.TestCase):
         self.assertFalse(browser_sync.cookie_matches_host(cookies[1], "example.com"))
         self.assertTrue(browser_sync.cookie_matches_host(cookies[1], "api.example.com"))
 
+    def test_cookie_path_matching(self):
+        cookie = {"domain": ".example.com", "name": "admin", "path": "/admin"}
+        self.assertTrue(browser_sync.cookie_matches_path(cookie, "/admin/x"))
+        self.assertTrue(browser_sync.cookie_matches_path(cookie, "/admin"))
+        self.assertFalse(browser_sync.cookie_matches_path(cookie, "/administration"))
+        self.assertFalse(browser_sync.cookie_matches_path(cookie, "/public"))
+        self.assertTrue(browser_sync.cookie_matches_path({"domain": ".x", "path": "/"}, "/anything"))
+
+    def test_cookie_expiry_filtering(self):
+        past = {"domain": ".example.com", "name": "dead", "expirationDate": time.time() - 60}
+        future = {"domain": ".example.com", "name": "live", "expirationDate": time.time() + 3600}
+        self.assertTrue(browser_sync.cookie_expired(past))
+        self.assertFalse(browser_sync.cookie_expired(future))
+        self.assertFalse(browser_sync.cookie_expired({"domain": ".example.com", "name": "session"}))
+        self.assertFalse(browser_sync.cookie_expired({"domain": ".x", "expirationDate": "garbage"}))
+
+    def test_secure_cookie_scheme_filtering(self):
+        self._payload(inject=True)
+        profile = dict(SAMPLE_PROFILE)
+        profile["cookies"] = [
+            {"domain": ".example.com", "name": "sec", "value": "v1", "secure": True},
+            {"domain": ".example.com", "name": "plain", "value": "v2", "secure": False},
+        ]
+        self._write_profile(profile)
+        browser_sync._PROFILE_CACHE.update({"mtime_ns": 0, "profile": {}})
+        out_http, _ = browser_sync.apply_identity_headers(
+            "example.com", {"Host": "example.com"}, b"", path="/", scheme="http"
+        )
+        self.assertNotIn("sec", out_http.get("Cookie", ""))
+        self.assertIn("plain=v2", out_http["Cookie"])
+        out_https, _ = browser_sync.apply_identity_headers(
+            "example.com", {"Host": "example.com"}, b"", path="/", scheme="https"
+        )
+        self.assertIn("sec=v1", out_https["Cookie"])
+        self.assertIn("plain=v2", out_https["Cookie"])
+
+    def test_path_scoped_cookie_not_leaked(self):
+        self._payload(inject=True)
+        profile = dict(SAMPLE_PROFILE)
+        profile["cookies"] = [
+            {"domain": ".example.com", "name": "admin", "value": "secret", "path": "/admin"},
+        ]
+        self._write_profile(profile)
+        browser_sync._PROFILE_CACHE.update({"mtime_ns": 0, "profile": {}})
+        out_public, _ = browser_sync.apply_identity_headers(
+            "example.com", {"Host": "example.com"}, b"", path="/public", scheme="https"
+        )
+        self.assertNotIn("Cookie", out_public)
+        out_admin, _ = browser_sync.apply_identity_headers(
+            "example.com", {"Host": "example.com"}, b"", path="/admin/users", scheme="https"
+        )
+        self.assertIn("admin=secret", out_admin["Cookie"])
+
+    def test_expired_cookie_not_injected(self):
+        self._payload(inject=True)
+        profile = dict(SAMPLE_PROFILE)
+        profile["cookies"] = [
+            {"domain": ".example.com", "name": "dead", "value": "v", "expirationDate": time.time() - 1},
+            {"domain": ".example.com", "name": "live", "value": "v", "expirationDate": time.time() + 60},
+        ]
+        self._write_profile(profile)
+        browser_sync._PROFILE_CACHE.update({"mtime_ns": 0, "profile": {}})
+        out, _ = browser_sync.apply_identity_headers("example.com", {"Host": "example.com"}, b"")
+        self.assertEqual(out["Cookie"], "live=v")
+
+    def test_empty_value_cookie_skipped_in_merge(self):
+        cookies = [{"domain": ".example.com", "name": "empty", "value": ""}, SAMPLE_PROFILE["cookies"][0]]
+        merged = browser_sync.build_cookie_header("existing=1", cookies)
+        self.assertNotIn("empty", merged)
+        self.assertIn("session=abcdef", merged)
+
     def test_cookie_header_merge(self):
         existing = "api_token=old; analytics=1"
         merged = browser_sync.build_cookie_header(existing, SAMPLE_PROFILE["cookies"])
@@ -213,7 +285,7 @@ class BrowserSyncSpec(unittest.TestCase):
         self._write_profile(SAMPLE_PROFILE)
         browser_sync._PROFILE_CACHE.update({"mtime_ns": 0, "profile": {}})
         headers, _ = browser_sync.apply_identity_to_url(
-            "http://api.example.com/v1/x?q=1", {"User-Agent": "curl/8.0"}, None
+            "https://api.example.com/v1/x?q=1", {"User-Agent": "curl/8.0"}, None
         )
         self.assertIn("api_token=zzz", headers["Cookie"])
         self.assertIn("session=abcdef", headers["Cookie"])
@@ -260,6 +332,20 @@ class BrowserSyncSpec(unittest.TestCase):
             result = browser_sync.ensure_wiring()
         self.assertTrue(result["receiver"]["running"])
         self.assertFalse(result["proxy"].get("running", False))
+
+    def test_ensure_wiring_default_port_matches_documented_default(self):
+        (Path(self._tmp.name) / "payload.json").write_text(json.dumps({"proxy_autostart": False}))
+        browser_sync._PAYLOAD_CACHE.clear()
+        with patch.object(browser_sync, "WIRING_ENABLED", True):
+            result = browser_sync.ensure_wiring()
+        self.assertEqual(result["receiver"]["port"], browser_sync.DEFAULT_SYNC_PORT)
+
+    def test_artifacts_mode_0600(self):
+        status = browser_sync.start_receiver(port=0)
+        code, _ = _post(status["endpoint"], SAMPLE_PROFILE, status["token"])
+        self.assertEqual(code, 200)
+        self.assertEqual(browser_sync._profile_path().stat().st_mode & 0o777, 0o600)
+        self.assertEqual(browser_sync._jar_path().stat().st_mode & 0o777, 0o600)
 
 
 if __name__ == "__main__":

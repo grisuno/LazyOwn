@@ -17,6 +17,16 @@ request carries the synced cookies, the exact `User-Agent`, the browser's
 language list and the `Sec-CH-UA` client hints, which keeps the traffic
 looking like the operator's own session.
 
+**Scope limitation.** Browser sync solves the session layer, not the full
+fingerprint layer. The proxied requests still differ from real browser
+traffic in TLS fingerprint (JA3/JA4 of the HTTP client), HTTP/2 settings,
+`Sec-Fetch-Site`/`Sec-Fetch-Mode`/`Sec-Fetch-Dest` headers, `Accept` and
+the exact header order. A stack that correlates TLS and header order can
+still detect the automation. Treat the feature as session reuse against
+cookie- and UA-based walls, not as a full browser impersonation; for
+targets at that level use a real browser driven through the recorder
+proxy instead.
+
 ## Quick start
 
 1. Start the receiver in LazyOwn:
@@ -131,7 +141,7 @@ proxy recomputes `Content-Length`.
 | payload.json key | Default | Meaning |
 |------------------|---------|---------|
 | `browser_sync_enabled` | `True` | Start the receiver with the loop and chains |
-| `browser_sync_port` | `8898` | Loopback port of the receiver |
+| `browser_sync_port` | `8898` | Loopback port of the receiver (also the fallback when the key is missing) |
 | `browser_sync_inject` | `True` | Inject synced identity into proxied traffic |
 
 `assign browser_sync_inject False` keeps the receiver running but stops
@@ -141,6 +151,13 @@ the injection without touching anything else.
 
 - The receiver binds `127.0.0.1` only and requires a runtime-generated
   token compared with `hmac.compare_digest`.
+- `profile.json`, `cookies.jar` and `token` are all written with mode
+  0600; the profile holds live session cookies, so treat the directory as
+  sensitive material.
+- By default the extension pushes the whole cookie store. Set the
+  optional **Domain filter** in the popup (comma separated, e.g.
+  `example.com, target.org`) to restrict the push to engagement domains;
+  an empty filter keeps the full store.
 - Request bodies are capped (8 MB) and drained so clients can always read
   the rejection; cookie counts and values are capped.
 - Every stored header value is stripped of CR, LF and NUL; client hint

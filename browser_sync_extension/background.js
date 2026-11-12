@@ -6,12 +6,25 @@ const MAX_COOKIES = 8000;
 let lastTabSync = 0;
 
 async function config() {
-  const stored = await chrome.storage.local.get(["endpoint", "token", "interval"]);
+  const stored = await chrome.storage.local.get(["endpoint", "token", "interval", "domainFilter"]);
   return {
     endpoint: stored.endpoint || DEFAULT_ENDPOINT,
     token: stored.token || "",
     interval: Number(stored.interval) > 0 ? Number(stored.interval) : DEFAULT_INTERVAL_MIN,
+    domainFilter: (stored.domainFilter || "").trim(),
   };
+}
+
+function domainAllowed(domain, filter) {
+  if (!filter) {
+    return true;
+  }
+  const target = String(domain || "").toLowerCase().replace(/^\./, "");
+  return filter
+    .split(",")
+    .map((entry) => entry.trim().toLowerCase().replace(/^\./, ""))
+    .filter(Boolean)
+    .some((entry) => target === entry || target.endsWith("." + entry));
 }
 
 async function highEntropyHints() {
@@ -52,8 +65,9 @@ function sanitizeHeader(value) {
   return String(value ?? "").replace(/[\r\n\x00]/g, "");
 }
 
-async function collectProfile() {
-  const cookies = await chrome.cookies.getAll({});
+async function collectProfile(filter) {
+  const all = await chrome.cookies.getAll({});
+  const cookies = filter ? all.filter((c) => domainAllowed(c.domain, filter)) : all;
   const hints = await highEntropyHints();
   return {
     synced_at_client: Date.now(),
@@ -84,7 +98,7 @@ async function syncNow() {
   }
   let profile;
   try {
-    profile = await collectProfile();
+    profile = await collectProfile(cfg.domainFilter);
   } catch (err) {
     return { ok: false, error: String(err) };
   }

@@ -29,7 +29,7 @@ class BrowserSyncCommandSet(LazyOwnCommandSet):
             browsersync show [domain] [--full]   list synced cookies (masked by default)
             browsersync jar             print the Netscape jar path and curl usage
             browsersync rules           show the Burp-style Match and Replace rules file
-            browsersync test            preview injected headers for the payload rhost
+            browsersync test [path] [--http]   preview injected headers for the payload rhost
             browsersync clear           delete the synced profile and cookie jar
 
         Load browser_sync_extension/ in Chrome or Brave, paste the token in
@@ -44,13 +44,18 @@ class BrowserSyncCommandSet(LazyOwnCommandSet):
             return
         action = args[0]
         if action == "start":
-            port = 0
+            port = None
             if len(args) > 1:
                 try:
                     port = max(0, int(args[1]))
                 except ValueError:
                     print_error("start expects a port number (browsersync start [port])")
                     return
+            if port is None:
+                try:
+                    port = int((self.params or {}).get("browser_sync_port", browser_sync.DEFAULT_SYNC_PORT) or browser_sync.DEFAULT_SYNC_PORT)
+                except (TypeError, ValueError):
+                    port = browser_sync.DEFAULT_SYNC_PORT
             status = browser_sync.start_receiver(port=port)
             if not status.get("running"):
                 print_error("receiver failed to start")
@@ -128,9 +133,15 @@ class BrowserSyncCommandSet(LazyOwnCommandSet):
             if not rhost:
                 print_error("rhost not set in payload.json")
                 return
+            positional = [a for a in args[1:] if not a.startswith("--")]
+            path = positional[0] if positional else "/"
+            scheme = "http" if "--http" in args else "https"
             headers = {"User-Agent": "curl/8.0", "Host": rhost}
             before = dict(headers)
-            applied_headers, applied_body = browser_sync.apply_identity_headers(rhost, headers, b"")
+            applied_headers, applied_body = browser_sync.apply_identity_headers(
+                rhost, headers, b"", path=path, scheme=scheme
+            )
+            print_msg(f"request: {scheme}://{rhost}{path}")
             print_msg("before:")
             for name, value in before.items():
                 print(f"    {name}: {value}")

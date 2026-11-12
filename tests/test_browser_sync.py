@@ -193,6 +193,19 @@ class BrowserSyncSpec(unittest.TestCase):
         )
         self.assertIn("admin=secret", out_admin["Cookie"])
 
+    def test_rfc6265_cookie_ordering(self):
+        cookies = [
+            {"domain": ".example.com", "name": "root", "value": "r", "path": "/"},
+            {"domain": ".example.com", "name": "deep", "value": "d", "path": "/admin/tools"},
+            {"domain": "api.example.com", "name": "host", "value": "h", "path": "/admin/tools"},
+        ]
+        profile = dict(SAMPLE_PROFILE)
+        profile["cookies"] = cookies
+        self.assertEqual(
+            [c["name"] for c in browser_sync.cookies_for_host(profile, "api.example.com", "/admin/tools/x")],
+            ["host", "deep", "root"],
+        )
+
     def test_expired_cookie_not_injected(self):
         self._payload(inject=True)
         profile = dict(SAMPLE_PROFILE)
@@ -309,9 +322,16 @@ class BrowserSyncSpec(unittest.TestCase):
         stub = types.ModuleType("modules.lazy_proxy")
         stub.get_proxy = lambda: _StubProxy()
         stub.apply_env = lambda ca, host, port: calls.setdefault("env", (ca, host, port))
+        (Path(self._tmp.name) / "payload.json").write_text(
+            json.dumps({"proxy_autostart": True, "proxy_port": 0, "browser_sync_port": 0})
+        )
+        browser_sync._PAYLOAD_CACHE.clear()
+        import modules
+
         with patch.dict("sys.modules", {"modules.lazy_proxy": stub}):
-            with patch.object(browser_sync, "WIRING_ENABLED", True):
-                result = browser_sync.ensure_wiring()
+            with patch.object(modules, "lazy_proxy", stub, create=True):
+                with patch.object(browser_sync, "WIRING_ENABLED", True):
+                    result = browser_sync.ensure_wiring()
         self.assertTrue(result["receiver"]["running"])
         self.assertTrue(result["proxy"]["running"])
         self.assertEqual(calls["start"][1], "")

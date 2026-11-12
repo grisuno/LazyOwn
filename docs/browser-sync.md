@@ -71,7 +71,7 @@ Artefacts are stored under `sessions/browser_sync/`:
 
 | Subcommand | Effect |
 |------------|--------|
-| `start [port]` | Start the loopback receiver (default port from `browser_sync_port`) |
+| `start [port]` | Start the receiver (default from `browser_sync_port`, port argument overrides) |
 | `stop` | Stop the receiver |
 | `status` | Running state, sync count, cookie count, synced domains |
 | `token` | Print the receiver token |
@@ -79,7 +79,7 @@ Artefacts are stored under `sessions/browser_sync/`:
 | `show [domain] [--full]` | List synced cookies, masked by default |
 | `jar` | Print the cookie jar path and usage snippets |
 | `rules` | Show the Match and Replace rules file and types |
-| `test` | Preview the headers injected for the payload `rhost` |
+| `test [path] [--http]` | Preview the headers injected for the payload `rhost`; optional request path and `--http` to preview over plain HTTP |
 | `clear` | Delete the synced profile and cookie jar |
 
 ## Proxy injection
@@ -89,7 +89,10 @@ on every forwarded exchange (plain HTTP and MITM HTTPS, websockets
 included). Injection rules:
 
 - Cookies are matched per host: exact hosts (`hostOnly`) or domain
-  suffixes, longest domain first.
+  suffixes.
+- Cookies are filtered and ordered like a browser sends them: RFC 6265
+  path match, `Secure` cookies only over https, expired cookies dropped,
+  longest path first.
 - Synced cookie names win over names already in the request; unrelated
   existing cookies are preserved.
 - `User-Agent`, `Accept-Language` and the client hints replace the

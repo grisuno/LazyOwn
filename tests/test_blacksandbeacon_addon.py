@@ -159,26 +159,40 @@ class TestBeaconCommandTemplates:
 
     def test_beacon_lazycommand_has_lhost(self, beacon):
         cmd = beacon["tool"].get("lazycommand", "")
-        assert "{lhost}" in cmd, "lazycommand must include {lhost} placeholder"
+        assert cmd.strip() == "bsb_stage", "lazycommand delegates delivery to the bsb_stage helper"
+
+    def test_beacon_stage_helper_consumes_c2_params(self, beacon):
+        desc = beacon["description"].lower()
+        assert "lhost" in desc and "c2_port" in desc
 
     def test_beacon_lazycommand_has_c2_port(self, beacon):
         cmd = beacon["tool"].get("lazycommand", "")
-        assert "{c2_port}" in cmd, "lazycommand must include {c2_port} placeholder"
+        assert cmd.strip() == "bsb_stage", "lhost/c2_port substitution happens inside bsb_stage"
 
-    def test_bof_lazycommand_has_lhost(self, bof):
-        cmd = bof["tool"].get("lazycommand", "")
-        assert "{lhost}" in cmd
+    def test_bof_lazycommand_is_catalog_hint(self, bof):
+        lazy = bof["tool"].get("lazycommand", "")
+        assert lazy.strip() == "bof_catalog"
 
-    def test_bof_lazycommand_has_lport(self, bof):
-        cmd = bof["tool"].get("lazycommand", "")
-        assert "{lport}" in cmd
+    def test_bof_delivery_goes_through_bof_run(self, bof):
+        desc = bof["description"].lower()
+        assert "bof_run" in desc and "bof:" in desc
 
     def test_beacon_execute_stages_to_sessions(self, beacon):
         cmd = beacon["tool"]["execute_command"]
         assert "sessions/temp_uploads/blacksandbeacon" in cmd
 
+    def test_beacon_execute_stages_config(self, beacon):
+        cmd = beacon["tool"]["execute_command"]
+        assert "sessions/temp_uploads/blacksandbeacon_config" in cmd
+
+    def test_beacon_execute_builds_canonical_beacon(self, beacon):
+        cmd = beacon["tool"]["execute_command"]
+        assert "make beacon" in cmd
+
     def test_bof_execute_stages_to_sessions(self, bof):
-        assert "sessions/bof_loader" in bof["tool"]["execute_command"]
+        cmd = bof["tool"]["execute_command"]
+        assert "sessions/temp_uploads/bofs" in cmd
+        assert "build/bof" in cmd
 
     def test_beacon_execute_resets_before_pull(self, beacon):
         cmd = beacon["tool"]["execute_command"]
@@ -188,6 +202,15 @@ class TestBeaconCommandTemplates:
         cmd = bof["tool"]["execute_command"]
         assert "git restore" in cmd and "git pull" in cmd
 
+    def test_beacon_lazycommand_is_stage_helper(self, beacon):
+        lazy = beacon["tool"].get("lazycommand", "")
+        assert lazy.strip() == "bsb_stage"
+
+    def test_beacon_description_documents_stage_flow(self, beacon):
+        desc = beacon["description"].lower()
+        assert "bsb_stage" in desc
+        assert "memfd" in desc or "anonymous memory" in desc
+        assert "/stage/" in desc
 
 class TestBeaconDescriptionQuality:
     """Descriptions must mention key differentiators."""

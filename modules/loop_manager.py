@@ -790,6 +790,27 @@ class LoopManager:
         os.replace(tmp_path, self._registry_path)
 
 
+_DEFAULT_MANAGER: LoopManager | None = None
+_MANAGER_LOCK = threading.Lock()
+
+
+def default_manager() -> LoopManager:
+    """Return the process-wide loop manager singleton.
+
+    The dashboard loops API and the report page must observe the same
+    loop registry, so both go through this accessor instead of building
+    private instances.
+
+    Returns:
+        The shared :class:`LoopManager` instance.
+    """
+    global _DEFAULT_MANAGER
+    with _MANAGER_LOCK:
+        if _DEFAULT_MANAGER is None:
+            _DEFAULT_MANAGER = LoopManager()
+        return _DEFAULT_MANAGER
+
+
 __all__ = [
     "DEFAULT_GOAL",
     "DEFAULT_ROUNDS",
@@ -806,6 +827,7 @@ __all__ = [
     "MAX_WORKERS",
     "clamp_float",
     "clamp_int",
+    "default_manager",
     "sanitize_goal",
     "validate_target",
 ]

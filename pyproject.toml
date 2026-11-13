@@ -188,6 +188,7 @@ markers = [
     "sdd: specification-driven design contract tests",
     "tdd: test-driven development regression tests",
     "slow: tests that take more than a few seconds",
+    "smoke: real-process tests that spawn lazyc2.py (deselect with '-m \"not smoke\"')",
 ]
 
 [tool.mypy]

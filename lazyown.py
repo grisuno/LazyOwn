@@ -2813,6 +2813,22 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("OS not yet identified — running ping before nmap to select the correct tool chain.")
             self.onecmd("ping")
 
+        try:
+            sudo_graphical = bool(self.params.get("sudo_graphical", False))
+        except Exception:
+            sudo_graphical = False
+        if sudo_graphical:
+            try:
+                from modules.askpass import graphical_askpass_path, sudo_graphical_requested
+
+                if sudo_graphical_requested(self.params):
+                    helper = graphical_askpass_path()
+                    if helper:
+                        os.environ["LAZYOWN_SUDO_GRAPHICAL"] = "1"
+                        os.environ["SUDO_ASKPASS"] = helper
+            except Exception:
+                pass
+
         self.cmd(f"{path}/modules/lazynmap.sh -t {target_ip}")
 
         try:

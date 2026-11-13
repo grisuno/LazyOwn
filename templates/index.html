@@ -205,6 +205,7 @@
             <div class="node-context-header" id="nodeContextMenuTitle">host</div>
             <button type="button" class="node-context-item" id="menuScanLazynmap">Nmap scan (lazynmap)</button>
             <button type="button" class="node-context-item" id="menuRunAutoLoop">AI auto_loop on this host...</button>
+            <button type="button" class="node-context-item d-none" id="menuStopGym">Stop gym</button>
             <button type="button" class="node-context-item" id="menuFillTerminal">Fill local shell command</button>
             <button type="button" class="node-context-item" id="menuCopyIp">Copy IP</button>
         </div>
@@ -384,6 +385,8 @@
             var nodeMenu = document.getElementById('nodeContextMenu');
             var nodeMenuTitle = document.getElementById('nodeContextMenuTitle');
             var nodeMenuIp = '';
+            var nodeMenuGym = '';
+            var gymNodes = {};
             document.addEventListener('mousemove', function(e) {
                 window._lastMouseX = e.pageX;
                 window._lastMouseY = e.pageY;
@@ -400,12 +403,24 @@
                     nodeMenu.style.display = 'none';
                 }
             }
-            function showNodeMenu(x, y, ip) {
+            function showNodeMenu(x, y, ip, gymScenario) {
                 if (!nodeMenu) {
                     return;
                 }
                 nodeMenuIp = ip;
-                nodeMenuTitle.textContent = 'host ' + ip;
+                nodeMenuGym = gymScenario || '';
+                var stopGymBtn = document.getElementById('menuStopGym');
+                if (nodeMenuGym) {
+                    nodeMenuTitle.textContent = 'gym ' + nodeMenuGym;
+                    if (stopGymBtn) {
+                        stopGymBtn.classList.remove('d-none');
+                    }
+                } else {
+                    nodeMenuTitle.textContent = 'host ' + ip;
+                    if (stopGymBtn) {
+                        stopGymBtn.classList.add('d-none');
+                    }
+                }
                 var menuWidth = nodeMenu.offsetWidth || 240;
                 var menuHeight = nodeMenu.offsetHeight || 180;
                 var left = Math.min(x, Math.max(0, window.pageXOffset + window.innerWidth - menuWidth - 12));
@@ -841,6 +856,33 @@
                         }
                     });
                 }
+                var stopGymBtn = document.getElementById('menuStopGym');
+                if (stopGymBtn) {                    stopGymBtn.addEventListener('click', function() {
+                        var scenario = nodeMenuGym;
+                        hideNodeMenu();
+                        if (!scenario) {
+                            return;
+                        }
+                        var msg = document.getElementById('loopStartMessage');
+                        fetch('/api/gym/stop', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ scenario: scenario })
+                        }).then(function(res) {
+                            delete gymNodes[scenario];
+                            refreshGraph();
+                            if (msg) {
+                                msg.textContent = res.ok ? ('gym ' + scenario + ' stopped') : ('stop gym failed (' + res.status + ')');
+                                msg.className = res.ok ? 'text-success' : 'text-danger';
+                            }
+                        }).catch(function() {
+                            if (msg) {
+                                msg.textContent = 'network error while stopping gym';
+                                msg.className = 'text-danger';
+                            }
+                        });
+                    });
+                }
                 var clearBtn = document.getElementById('loopLogClear');
                 if (clearBtn) {
                     clearBtn.addEventListener('click', function() {
@@ -869,6 +911,134 @@
                     });
                 }
                 startLoopsPolling();
+            }
+            function refreshGraph() {
+                try {
+                    generateGraph(connectedClients, connectedHosts);
+                } catch (err) {
+                }
+            }
+            function setGymMessage(text, ok) {
+                var msg = document.getElementById('gymMessage');
+                if (msg) {
+                    msg.textContent = text;
+                    msg.className = ok ? 'text-success' : 'text-danger';
+                }
+            }
+            async function startGym(scenario) {
+                showHexabotAutoLoop();
+                updateHexabotAutoLoop(0.15, 'levando gym ' + scenario + ' ...');
+                if (hexabotAutoLoop && hexabotAutoLoop.log) {
+                    hexabotAutoLoop.log('[ HEXABOT ] booting gym ' + scenario + ' ...');
+                }
+                try {
+                    var res = await fetch('/api/gym/start', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ scenario: scenario })
+                    });
+                    var data = await res.json().catch(function() { return {}; });
+                    if (!res.ok) {
+                        setGymMessage(data.error || ('gym start failed (' + res.status + ')'), false);
+                        updateHexabotAutoLoop(0.0, '[ ERR ] gym start failed');
+                        setTimeout(hideHexabotAutoLoop, 4000);
+                        return null;
+                    }
+                    var lines = ['gym ' + scenario + ' up'];
+                    if (data.container) {
+                        lines.push('container: ' + data.container);
+                    }
+                    if (data.ip) {
+                        lines.push('ip: ' + data.ip);
+                        lines.push("next: node menu on the graph > AI auto_loop on this host");
+                    }
+                    if (data.ports && Object.keys(data.ports).length) {
+                        lines.push('ports: ' + Object.keys(data.ports).join(', '));
+                    }
+                    lines.forEach(function(line) {
+                        if (hexabotAutoLoop && hexabotAutoLoop.log) {
+                            hexabotAutoLoop.log('[ HEXABOT ] ' + line);
+                        }
+                    });
+                    updateHexabotAutoLoop(1.0, 'gym ' + scenario + ' ready' + (data.ip ? ' at ' + data.ip : ''));
+                    if (hexabotAutoLoop && hexabotAutoLoop.happy) {
+                        try { hexabotAutoLoop.happy(3000); } catch (e) {}
+                    }
+                    setGymMessage('gym ' + scenario + ' started at ' + (data.ip || 'unknown ip'), true);
+                    gymNodes[scenario] = data.ip || '';
+                    setTimeout(hideHexabotAutoLoop, 6000);
+                    refreshGraph();
+                    return data;
+                } catch (err) {
+                    setGymMessage('network error while starting gym', false);
+                    updateHexabotAutoLoop(0.0, '[ ERR ] network error');
+                    setTimeout(hideHexabotAutoLoop, 4000);
+                    return null;
+                }
+            }
+            async function stopGymScenario(scenario) {
+                try {
+                    var res = await fetch('/api/gym/stop', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ scenario: scenario })
+                    });
+                    var data = await res.json().catch(function() { return {}; });
+                    setGymMessage(res.ok ? ('gym ' + scenario + ' stopped') : (data.error || 'stop failed'), res.ok);
+                    delete gymNodes[scenario];
+                    refreshGraph();
+                } catch (err) {
+                    setGymMessage('network error while stopping gym', false);
+                }
+            }
+            function setupGymUi() {
+                var select = document.getElementById('gymScenario');
+                var form = document.getElementById('gymStartForm');
+                var stopBtn = document.getElementById('gymStopBtn');
+                fetch('/api/gym/scenarios')
+                    .then(function(response) { return response.ok ? response.json() : { scenarios: [] }; })
+                    .then(function(data) {
+                        if (!select) {
+                            return;
+                        }
+                        select.textContent = '';
+                        (data.scenarios || []).forEach(function(row) {
+                            var option = document.createElement('option');
+                            option.value = row.scenario;
+                            option.textContent = row.scenario + (row.running ? ' (running)' : '') + ' — ' + (row.description || '');
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(function() {
+                        if (select) {
+                            select.textContent = '';
+                            var option = document.createElement('option');
+                            option.value = '';
+                            option.textContent = 'gym scenarios unavailable';
+                            select.appendChild(option);
+                        }
+                    });
+                if (form) {
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        var scenario = select ? select.value : '';
+                        if (!scenario) {
+                            setGymMessage('select a gym scenario first', false);
+                            return;
+                        }
+                        startGym(scenario);
+                    });
+                }
+                if (stopBtn) {
+                    stopBtn.addEventListener('click', function() {
+                        var scenario = select ? select.value : '';
+                        if (!scenario) {
+                            setGymMessage('select a gym scenario first', false);
+                            return;
+                        }
+                        stopGymScenario(scenario);
+                    });
+                }
             }
             function applyFilters() {
                 var filterClients = document.getElementById('filter-clients').checked;
@@ -1620,7 +1790,6 @@
 
                     connectedClients.forEach(function(client) {
                         var clientData = results[client] ? results[client][0] : null;
-
                         var label = "Implant ID: " + client;
                         var image = '/static/client.png';
                         var client_os = '';
@@ -1709,6 +1878,36 @@
                             }
                         });
                     }
+
+                    fetch('/api/gym/nodes')
+                        .then(function(response) { return response.ok ? response.json() : { nodes: [] }; })
+                        .then(function(data) {
+                            (data.nodes || []).forEach(function(gym) {
+                                gymNodes[gym.scenario] = gym.ip || '';
+                                var gymLabel = 'GYM ' + gym.scenario;
+                                if (gym.ip) {
+                                    gymLabel += '\n(IP/' + gym.ip + ')';
+                                }
+                                var gymTitle = '<b>GYM ' + gym.scenario + '</b>';
+                                if (gym.ip) {
+                                    gymTitle += '<br>IP: ' + gym.ip;
+                                }
+                                gymTitle += '<br>' + (gym.description || 'Red Team Gym target');
+                                nodes.add({
+                                    id: gym.node_id,
+                                    title: htmlTitle(gymTitle),
+                                    label: gymLabel,
+                                    shape: 'image',
+                                    image: '/static/gym.png',
+                                    size: 50,
+                                    font: { color: '#00ff88' },
+                                    group: 'gyms',
+                                    mass: 2
+                                });
+                                edges.add({ from: 'c2', to: gym.node_id });
+                            });
+                        })
+                        .catch(function() {});
 
                     for (const client in result_portscan) {
                         if (result_portscan.hasOwnProperty(client)) {
@@ -1809,7 +2008,11 @@
                         if (params.nodes.length > 0) {
                             var selectedNodeId = params.nodes[0];
                             var selectElements = document.querySelectorAll('select');
-                            if (selectedNodeId.startsWith("host-")) {
+                            if (selectedNodeId.startsWith("gym-")) {
+                                var scenario = selectedNodeId.replace('gym-', '');
+                                var gymIp = gymNodes[scenario] || '';
+                                showNodeMenu(window._lastMouseX || 240, window._lastMouseY || 240, gymIp, scenario);
+                            } else if (selectedNodeId.startsWith("host-")) {
                                 var host = selectedNodeId.replace('host-', '').replace(/-/g, '.');
                                 if (isValidIp(host)) {
                                     showNodeMenu(window._lastMouseX || 240, window._lastMouseY || 240, host);
@@ -1853,6 +2056,7 @@
                 updateStatus();
                 generateGraph(connectedClients, connectedHosts);
                 setupLoopsUi();
+                setupGymUi();
 
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', function(event) {

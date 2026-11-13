@@ -175,7 +175,10 @@ class EngineProxyMixin:
         if now - float(state.get("last_run", 0.0) or 0.0) < float(self.proxy_gc_interval_sec):
             return 0
         try:
-            removed = recorder.gc(older_than_sec=float(self.proxy_gc_days) * 86400)
+            removed = recorder.gc(
+                older_than_sec=float(self.proxy_gc_days) * 86400,
+                max_rows=int(getattr(self, "proxy_gc_max_rows", 500) or 500),
+            )
         except Exception:
             removed = {"removed": 0}
         _save_json(path, {"last_run": now})

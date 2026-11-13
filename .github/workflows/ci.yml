@@ -20,8 +20,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install dependencies
-        run: pip install "ruff==0.16.8"
+      - name: Install linters (single source of truth = requirements-dev.txt)
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements-dev.txt
       - name: Ruff check
         run: ruff check .
       - name: Ruff format check
@@ -51,6 +53,7 @@ jobs:
           pip install -e . --no-deps
       - name: Run tests
         run: python -m pytest tests/ -x --tb=short --timeout=300 -p no:cacheprovider
+
   hygiene:
     needs: lint
     runs-on: ubuntu-latest
@@ -92,7 +95,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install tools
-        run: pip install --upgrade pip setuptools bandit pip-audit
+        run: |
+          pip install --upgrade pip setuptools
+          pip install -r requirements-dev.txt
       - name: Bandit security scan (high severity gate)
         run: bandit -c pyproject.toml -r . --severity-level high -f json -o bandit-report.json
       - name: Upload bandit report
@@ -114,6 +119,7 @@ jobs:
       - name: Install project + types
         run: |
           pip install -e ".[dev]"
-          pip install types-requests types-PyYAML types-tabulate 2>/dev/null || true
+          pip install -r requirements-dev.txt
+          pip install types-requests types-PyYAML types-tabulate types-Markdown 2>/dev/null || true
       - name: mypy type check
         run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli setup.py

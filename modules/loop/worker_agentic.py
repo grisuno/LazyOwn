@@ -10,6 +10,78 @@ if TYPE_CHECKING:
 
 _MAX_COMMAND_CHARS = 300
 _LINE_LEAD = re.compile(r"^[\d\-\*\.\)\s]+")
+_DESTRUCTIVE_HEADS = frozenset(
+    {
+        "killall",
+        "pkill",
+        "kill",
+        "shutdown",
+        "reboot",
+        "halt",
+        "poweroff",
+        "init",
+        "mkfs",
+        "dd",
+        "wipefs",
+        "shred",
+        "tmux",
+        "systemctl",
+        "service",
+        "crontab",
+        "userdel",
+        "usermod",
+        "groupdel",
+        "passwd",
+        "chattr",
+        "iptables",
+        "nft",
+        "ufw",
+    }
+)
+
+
+def _is_destructive_or_malformed(command: str) -> bool:
+    """Return True for commands an unattended loop must never execute.
+
+    Covers operator-host destructive heads (killall, tmux kill-session,
+    systemctl ...) and flag-fragment fragments a toy model emitted after
+    losing its verb.
+
+    Args:
+        command: Proposed shell command.
+
+    Returns:
+        True when the command must be dropped before execution.
+    """
+    head = command.split(maxsplit=1)[0]
+    return head in _DESTRUCTIVE_HEADS or command.startswith("-")
+
+
+def _capable_member_chain(members: list) -> list[dict]:
+    """Filter one member chain down to tool-calling-capable legs.
+
+    Worker command generation is an executed-untrusted surface: toy local
+    models (ollama and friends) cannot hold a tool-calling contract and
+    emit destructive nonsense, so they never propose loop commands. The
+    gate mirrors :func:`modules.lazy_agent.resolve_agentic_model`.
+
+    Args:
+        members: Pool member dicts (``model`` like ``backend:name``).
+
+    Returns:
+        The capable subset, priority-ordered; empty when none qualify.
+    """
+    from modules.lazy_agent import CLIENT_BACKENDS
+
+    out: list[dict] = []
+    for member in members or []:
+        if not isinstance(member, dict):
+            continue
+        spec = str(member.get("model", "") or "")
+        backend, _, name = spec.partition(":")
+        if backend in CLIENT_BACKENDS and name:
+            out.append(member)
+    return out
 
 
 def _planner_temperature() -> float:
@@ -253,6 +325,7 @@ class WorkerAgenticMixin:
             if status == "skipped":
                 return f"[SYSTEM] skipped: binary '{detail}' is not installed. Use another approach."
             transcripts.append((command, output))
+            self._learn_os(intent, command, output)
             self._absorb_reaction(intent, command, output)
             steer = self._drain_steer(intent)
             if steer:
@@ -404,6 +477,50 @@ class WorkerAgenticMixin:
             },
         ]
 
+    def _agent_verb_catalog(self) -> str:
+        """Return the LazyOwn verb surface the agent may run verbatim.
+
+        The tool-calling model must never invent external binaries when the
+        framework already owns a verb; this lists the built-in automation
+        surface plus the atomic-test family so an intent like
+        ``atomic_tests T1001.002 --non-interactive`` runs exactly as written.
+
+        Returns:
+            A compact multi-line catalog string (empty on failure so the
+            prompt degrades but never blocks).
+        """
+        lines: list[str] = []
+        try:
+            from modules.auto_registry import verbs
+
+            lines.append("Built-in automation verbs (run verbatim via run_command):")
+            lines.append(", ".join(sorted(verbs())))
+        except Exception:
+            pass
+        lines.append(
+            "Atomic-test family verbs: atomic_tests <TID|guid> [--platform linux|windows|macos] "
+            "[--non-interactive] lists and stages Atomic Red Team tests; atomic_gen <guid> "
+            "writes the test script; atomic_shell <guid> prints the raw test shell; "
+            "atomic_clean removes staged artefacts."
+        )
+        return "\n".join(line for line in lines if line)
+
+    def _agent_os_hint(self, intent: ExplorationNode) -> str:
+        """Return the inferred operating system of the intent target, if known.
+
+        Args:
+            intent: Intent whose target OS is resolved.
+
+        Returns:
+            ``linux``, ``windows`` or an empty string when unknown.
+        """
+        try:
+            from modules import lazy_osinfer
+
+            return lazy_osinfer.host_os_for_target(self._target_for(intent))
+        except Exception:
+            return ""
+
     def _agent_system_prompt(self, intent: ExplorationNode) -> str:
         """Invariant agent contract: goal, intent, scope, constraints, rules."""
         from modules.lazy_loop import constraint_block
@@ -423,14 +540,24 @@ class WorkerAgenticMixin:
             )
         except Exception:
             skills_block = ""
+        os_hint = self._agent_os_hint(intent)
+        os_line = f"Target OS (inferred evidence): {os_hint}. Choose verbs compatible with it.\n" if os_hint else ""
+        verb_catalog = self._agent_verb_catalog()
+        verb_block = f"{verb_catalog}\n" if verb_catalog else ""
         return (
             "You are the LazyOwn worker agent of an authorized penetration test.\n"
             f"Task goal: {str(record.get('goal', ''))[:300]}\n"
             f"Intent #{intent.node_id}: {intent.text[:300]}\n"
             f"Authorized scope: {', '.join(scope) or 'see constraints'}\n"
             f"Constraints: {constraints or 'none'}\n"
+            f"{os_line if os_line else ''}"
+            f"{verb_block + chr(10) if verb_block else ''}"
             f"{skills_block + chr(10) if skills_block else ''}"
             "Rules: use run_command for every probe (it enforces scope/guard/audit). "
+            "When the intent text names a LazyOwn verb line (for example "
+            "'run action: atomic_tests T1001.002 --non-interactive' or 'auto <verb>'), "
+            "run that exact line verbatim with run_command first; never invent external "
+            "binaries or renamed equivalents when a LazyOwn verb already exists. "
             "Prefer lazynmap <target> over raw nmap so scans persist in sessions/. "
             "Read each result before the next call, never repeat an identical command. "
             "Persist positive and negative observations with record_fact; report only "
@@ -626,10 +753,20 @@ class WorkerAgenticMixin:
                 if memory_block
                 else ""
             )
+            try:
+                from modules import lazy_osinfer
+
+                os_hint = lazy_osinfer.host_os_for_target(target)
+            except Exception:
+                os_hint = ""
+            os_section = (
+                f"Target OS (inferred evidence): {os_hint}; propose verbs compatible with it.\n" if os_hint else ""
+            )
             prompt = (
                 f"Task goal: {str(record.get('goal', ''))[:300]}\n"
                 f"Intent: {intent.text[:300]}\n"
                 f"Target: {target or 'unknown'}\n"
+                f"{os_section if os_section else ''}"
                 f"{context}\n"
                 f"{prior_block}"
                 f"{memory_section}"
@@ -639,15 +776,27 @@ class WorkerAgenticMixin:
                 '"mitre": "<Txxxx or empty>"}, and nothing else. Use only tools '
                 "installed on this host. Never leave the authorized target. Never use "
                 "sudo: this runs unattended without a tty, so sudo commands always "
-                "fail. Prefer lazynmap <target> over raw nmap: it persists XML, "
+                "fail. If the intent names a LazyOwn verb line (for example "
+                "'run action: atomic_tests T1001.002 --non-interactive'), propose that "
+                "exact line verbatim; never rename LazyOwn verbs to external binaries. "
+                "Prefer lazynmap <target> over raw nmap: it persists XML, "
                 "post-scan artefacts and intel in sessions/ automatically."
             )
             temperature = _planner_temperature()
+            capable_chain = _capable_member_chain(chain or pool.members())
+            if not capable_chain:
+                self.activity.emit(
+                    self.name,
+                    "worker-llm",
+                    "no tool-calling-capable pool member available; deterministic steps win",
+                    intent_id=intent.node_id,
+                )
+                return []
             reply = (
                 pool.complete(
                     prompt,
                     max_tokens=400,
-                    members=chain or None,
+                    members=capable_chain,
                     task_id=self.task_id,
                     on_delta=self._delta_sink(intent.node_id),
                     temperature=temperature,
@@ -663,6 +812,7 @@ class WorkerAgenticMixin:
         seen: set[str] = set()
         filtered: list[tuple[str, str]] = []
         sudo_skipped = 0
+        destructive_skipped = 0
         for command in candidates:
             if len(command) < 4 or len(command) > 300 or command.startswith("#"):
                 filtered.append((command, "shape"))
@@ -670,6 +820,10 @@ class WorkerAgenticMixin:
             if command.split(maxsplit=1)[0] == "sudo":
                 sudo_skipped += 1
                 filtered.append((command, "sudo-no-tty"))
+                continue
+            if _is_destructive_or_malformed(command):
+                destructive_skipped += 1
+                filtered.append((command, "destructive-or-malformed"))
                 continue
             if guard is not None and guard.blocks_command(command):
                 filtered.append((command, "guard-rule"))
@@ -706,6 +860,13 @@ class WorkerAgenticMixin:
                 self.name,
                 "capability",
                 f"skip {sudo_skipped} sudo step(s): unattended loop has no tty",
+                intent_id=intent.node_id,
+            )
+        if destructive_skipped:
+            self.activity.emit(
+                self.name,
+                "capability",
+                f"skip {destructive_skipped} destructive/malformed step(s): operator-host safety",
                 intent_id=intent.node_id,
             )
         if out:

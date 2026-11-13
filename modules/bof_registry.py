@@ -445,7 +445,8 @@ def stage_entry_bof(
     """Stage a compiled BOF object for beacon delivery.
 
     Copies the resolved artifact to ``<sessions>/temp_uploads/bofs/<name>``
-    where the C2 ``/download/bofs/<name>`` endpoint serves it to beacons.
+    where the C2 ``/bof/<name>`` endpoint serves it to beacons (raw
+    base64 object, the upstream wire format).
 
     Args:
         entry: Catalog entry to stage.

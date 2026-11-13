@@ -190,3 +190,90 @@ def test_worker_runs_sudo_alias_when_passwordless_available(tmp_path, monkeypatc
     worker.execute(graph.get(intent.node_id), executor=lambda command: calls.append(command) or "LISTEN")
     assert calls == ["lsof"]
     worker.close()
+
+
+def test_capable_member_chain_filters_toy_models():
+    """Only tool-calling-capable backends may propose loop commands."""
+    from modules.loop.worker_agentic import _capable_member_chain
+
+    members = [
+        {"name": "ollama-local", "model": "ollama:deepseek-r1:1.5b", "priority": 9},
+        {"name": "groq", "model": "groq:llama-3.3-70b-versatile", "priority": 5},
+        "not-a-dict",
+        {"name": "bad", "model": "groq:"},
+    ]
+    chain = _capable_member_chain(members)
+    assert [m["name"] for m in chain] == ["groq"]
+    assert _capable_member_chain([]) == []
+    assert _capable_member_chain([{"name": "only-toy", "model": "ollama:qwen:7b"}]) == []
+
+
+def test_destructive_or_malformed_steps_rejected():
+    """Operator-host destructive heads and flag fragments never execute."""
+    from modules.loop.worker_agentic import _is_destructive_or_malformed
+
+    for command in (
+        "killall openvpn 2>/dev/null",
+        "tmux kill-session -t lazyown_sessions 2>/dev/null",
+        "systemctl stop docker",
+        "dd if=/dev/zero of=/dev/sda",
+        "--profile",
+        "-c 'echo hi'",
+        "shutdown -h now",
+    ):
+        assert _is_destructive_or_malformed(command), command
+    for command in ("nmap -sV 127.0.0.1", "curl -sSI http://127.0.0.1", "auto_pwn 172.17.0.2"):
+        assert not _is_destructive_or_malformed(command), command
+
+
+def test_initial_access_intent_escalates_to_auto_pwn(tmp_path, monkeypatch):
+    """Exploitation-class intents escalate deterministically to auto_pwn."""
+    loop, engine = _engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    worker, graph = _worker(loop, engine, task_id)
+    intent = graph.add_node("intent", "gain initial access on 172.17.0.2")
+    node = graph.get(intent.node_id)
+
+    steps = worker._steps_for(node)
+    assert steps[-1] == "auto_pwn 172.17.0.2"
+    worker.close()
+
+
+def test_enumeration_intent_does_not_escalate(tmp_path, monkeypatch):
+    """Plain enumeration keeps the recon step list without auto_pwn."""
+    loop, engine = _engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    worker, graph = _worker(loop, engine, task_id)
+    intent = graph.add_node("intent", "enumerate services on 172.17.0.2")
+    node = graph.get(intent.node_id)
+
+    steps = worker._steps_for(node)
+    assert not any(step.startswith("auto_pwn") for step in steps)
+    worker.close()
+
+
+def test_worker_llm_steps_require_capable_member(tmp_path, monkeypatch):
+    """Toy-model-only pools never propose worker commands."""
+    import modules.lazy_loop as loop
+
+    loop, engine = _engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    worker, graph = _worker(loop, engine, task_id)
+
+    class _ToyPool:
+        def __init__(self, *a, **k):
+            pass
+
+        def members(self):
+            return [{"name": "ollama-local", "model": "ollama:deepseek-r1:1.5b", "priority": 1}]
+
+        def complete(self, *a, **k):
+            raise AssertionError("toy model must not be consulted for worker steps")
+
+    monkeypatch.setattr(loop, "LlmPool", _ToyPool)
+    monkeypatch.setattr(loop, "task_llm_chain", lambda store, task_id: [])
+    intent = graph.add_node("intent", "probe http surface")
+    node = graph.get(intent.node_id)
+
+    assert worker._llm_steps(node, "") == []
+    worker.close()

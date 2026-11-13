@@ -165,6 +165,7 @@ profiles:
       max_worker_steps: 6
       verb_timeout_sec: 300
       step_delay_sec: 0.5
+      scan_reuse_sec: 21600
     budget:
       max_rounds: 10
       max_toolcalls: 200
@@ -206,7 +207,7 @@ profiles:
       event_bus: true
       report: true
   stealth:
-    description: Low-noise engagement with slower cadence and fewer probes.
+    description: Low-noise engagement, fewer probes and scan reuse so hosts are never scanned twice.
     extends: default
     mode: pentest
     pacing:
@@ -252,6 +253,7 @@ profiles:
       max_worker_steps: 4
       verb_timeout_sec: 300
       step_delay_sec: 2.0
+      scan_reuse_sec: 86400
     budget:
       max_rounds: 6
       max_toolcalls: 120

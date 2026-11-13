@@ -493,6 +493,21 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
         _spec("proxy_port", FieldKind.PORT, 8888, "Local HTTP proxy port (Burp/ZAP integration).", category="network"),
         _spec(
+            "stage_token",
+            FieldKind.STRING,
+            "",
+            "Diskless staging token for the BlackSandBeacon /stage/ endpoints (Bearer auth).",
+            long_help=(
+                "Shared secret the fileless stager presents to pull the "
+                "beacon ELF and its runtime config from the C2 staging "
+                "channel. Shipped empty: bsb_stage generates and persists "
+                "a random token on first use. Anyone holding it can fetch "
+                "the staged implant, so rotate it per engagement."
+            ),
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
             "device",
             FieldKind.INTERFACE,
             "wlan0",
@@ -1024,6 +1039,20 @@ SCHEMA: dict[str, FieldSpec] = {
                 "When enabled the LazyProxy instance starts alongside the "
                 "autonomous loop and the proxy dashboard, so traffic "
                 "recording never has to be started by hand."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "sudo_graphical",
+            FieldKind.BOOL,
+            "True",
+            "Ask for the sudo password through a graphical dialog with LazyNmap.",
+            long_help=(
+                "When enabled and no passwordless sudo is available, LazyNmap "
+                "prompts for the sudo password through an askpass helper "
+                "(ksshaskpass, ssh-askpass, zenity or yad) instead of the "
+                "terminal. Ignored by the unattended loop."
             ),
             example="True",
             category="c2",

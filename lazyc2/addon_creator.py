@@ -318,6 +318,7 @@ class AddonCreatorConfig:
             "smtp_port",
             "smtp_server",
             "spoof_ip",
+            "stage_token",
             "target",
             "targets",
             "telegram_token",

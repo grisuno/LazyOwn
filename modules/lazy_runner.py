@@ -623,6 +623,16 @@ def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:
         else:
             print_msg(f"[*] bootstrap done in {time.monotonic() - started:.1f}s")
     try:
+        from modules.scan_brief import focus_summary, write_brief
+
+        brief_path = write_brief(scan_target)
+        if brief_path:
+            from modules.scan_brief import load_brief
+
+            print_msg(f"[*] bootstrap: scan brief staged at {brief_path} ({focus_summary(load_brief(brief_path))})")
+    except Exception as exc:
+        print_warn(f"[!] bootstrap scan brief skipped: {exc}")
+    try:
         from modules.lazy_exposure import ensure_report
 
         path = ensure_report(scan_target)
@@ -791,14 +801,57 @@ def _format_activity(record: dict) -> str:
     return f"[{kind}] {worker}: {text[:220]}"
 
 
-def _dump_thread_stacks() -> None:
-    """Dump all thread stacks to stderr so a stuck loop is identifiable."""
+def _last_task_commands(task_id: str, limit: int = 5) -> list[str]:
+    """Return the most recent commands the loop executed, oldest last.
+
+    The stall dump must answer which command the loop was running when
+    it froze, so the traffic ledger is the source of truth.
+
+    Args:
+        task_id: Task whose traffic ledger is read.
+        limit: Maximum commands to include.
+
+    Returns:
+        Compact command strings (may be empty on any failure).
+    """
+    if not task_id:
+        return []
+    try:
+        from modules.lazy_loop import TrafficLog
+
+        rows = TrafficLog(task_id).read(limit=max(1, limit))
+    except Exception:
+        return []
+    out: list[str] = []
+    for row in rows:
+        command = " ".join(str(row.get("command", "")).split())
+        if not command:
+            continue
+        out.append(f"{command[:160]} ({row.get('kind', 'bash')})")
+    return out
+
+
+def _dump_thread_stacks(task_id: str = "", target=None) -> None:
+    """Dump all thread stacks to stderr so a stuck loop is identifiable.
+
+    When a task id is given the last executed commands are printed first,
+    in plain English and without emojis, so the operator knows exactly
+    which command was in flight (or timed out) before the stack dump.
+
+    Args:
+        task_id: Task whose recent commands precede the dump.
+        target: Writable stream override (tests); defaults to the real
+            stderr so redirected shells cannot swallow the dump.
+    """
     import faulthandler
     import sys
 
-    target = getattr(sys, "__stderr__", None) or sys.stderr
+    if target is None:
+        target = getattr(sys, "__stderr__", None) or sys.stderr
     try:
         target.write("\n[stall] no loop activity; dumping all thread stacks:\n")
+        for line in _last_task_commands(task_id):
+            target.write(f"[stall] last command: {line}\n")
         target.flush()
         faulthandler.dump_traceback(file=target, all_threads=True)
         target.flush()
@@ -893,7 +946,7 @@ def _poll_progress(engine, config: LoopRunConfig, progress, transcript, worker: 
         if idle >= dump_after and now - last_stall_dump >= dump_after:
             last_stall_dump = now
             progress.emit(f"[stall] still idle after {int(idle)}s; dumping all thread stacks to stderr")
-            _dump_thread_stacks()
+            _dump_thread_stacks(task_id)
         if now - last_beat >= HEARTBEAT_SEC:
             last_beat = now
             progress.emit(

@@ -84,7 +84,7 @@ one or more ATT&CK tactics.
 | Obfuscated Files or Information | T1027 | Go beacon Garble obfuscation, XOR stub | yes |
 | Indicator Removal: File Deletion | T1070.004 | manual (no first-class surface) | none |
 | Masquerading | T1036 | decoy site, malleable C2 user-agents | yes |
-| Reflective Code Loading | T1620 | Windows BOF + Linux BOF dlopen | yes |
+| Reflective Code Loading | T1620 | Windows BOF + Linux BOF in-memory RunELF | yes |
 | Direct Volume Access / Direct Syscalls | T1006 | BlackSandBeacon direct syscalls | yes |
 | Use Alternate Authentication Material | T1550 | Kerberos relay tooling | partial |
 

@@ -65,6 +65,9 @@ FTS_TEXT_LIMIT = 262144
 
 MAX_BODY_BYTES = CONFIG.max_body_bytes
 
+RECORDER_BUSY_TIMEOUT_SEC = 2.0
+GC_MAX_ROWS_PER_SWEEP = 500
+
 
 def url_template(url: str) -> str:
     """Collapse numeric path segments so similar URLs group together."""
@@ -130,8 +133,14 @@ class TrafficRecorder:
             conn.executescript(FTS_SCHEMA)
 
     def _connect(self) -> sqlite3.Connection:
-        """Open a new index connection."""
-        conn = sqlite3.connect(str(self._db_path))
+        """Open a new index connection with a bounded lock wait.
+
+        A concurrent writer (live proxy ingestion) holds the write lock;
+        without ``busy_timeout`` a reader/updater would block forever, so
+        the wait is capped and callers degrade to "no rows" instead of
+        wedging the loop.
+        """
+        conn = sqlite3.connect(str(self._db_path), timeout=RECORDER_BUSY_TIMEOUT_SEC)
         conn.row_factory = sqlite3.Row
         return conn
 
@@ -584,34 +593,62 @@ class TrafficRecorder:
                     pass
         return {"imported": imported, "files": handled}
 
-    def gc(self, older_than_sec: float = 0.0) -> dict:
+    def gc(self, older_than_sec: float = 0.0, max_rows: int = GC_MAX_ROWS_PER_SWEEP) -> dict:
         """Delete exchanges older than a cut-off with their bodies and index rows.
+
+        The sweep is bounded: at most ``max_rows`` exchanges are removed per
+        call so a large backlog (hundreds of thousands of exchanges) cannot
+        block the writer or the loop round for minutes. Repeated sweeps drain
+        the backlog across rounds. All row deletes for one batch run in a
+        single transaction with a bounded lock wait.
 
         Args:
             older_than_sec: Age threshold; 0 disables the sweep.
+            max_rows: Upper bound of exchanges removed per sweep.
 
         Returns:
-            Dict with removed count.
+            Dict with removed count and whether backlog remains.
         """
         age = float(older_than_sec or 0.0)
         if age <= 0:
             return {"removed": 0, "reason": "positive age required"}
+        cap = max(1, int(max_rows or GC_MAX_ROWS_PER_SWEEP))
         cutoff = int(time.time() - age)
-        with self._connect() as conn:
-            rows = conn.execute("SELECT id, path FROM exchanges WHERE ts < ?", (cutoff,)).fetchall()
         removed = 0
-        for row in rows:
-            try:
-                Path(str(row["path"])).unlink()
-            except OSError:
-                pass
-            with self._lock:
-                with self._connect() as conn:
-                    conn.execute("DELETE FROM exchanges WHERE id = ?", (str(row["id"]),))
+        with self._lock:
+            with self._connect() as conn:
+                rows = conn.execute(
+                    "SELECT id, path FROM exchanges WHERE ts < ? ORDER BY ts LIMIT ?",
+                    (cutoff, cap),
+                ).fetchall()
+                for row in rows:
+                    try:
+                        Path(str(row["path"])).unlink()
+                    except OSError:
+                        pass
+                removed = len(rows)
+                if rows:
+                    conn.execute(
+                        "DELETE FROM exchanges WHERE id IN "
+                        f"({', '.join('?' for _ in rows)})",
+                        tuple(str(row["id"]) for row in rows),
+                    )
                     if self._fts:
                         try:
-                            conn.execute("DELETE FROM bodies_fts WHERE exchange_id = ?", (str(row["id"]),))
-                        except sqlite3.OperationalError:
-                            self._fts = False
-            removed += 1
-        return {"removed": removed}
+                            conn.execute(
+                                "DELETE FROM bodies_fts WHERE exchange_id IN "
+                                f"({', '.join('?' for _ in rows)})",
+                                tuple(str(row["id"]) for row in rows),
+                            )
+                        except sqlite3.OperationalError as exc:
+                            if "no such table" in str(exc).lower():
+                                self._fts = False
+                            else:
+                                raise
+            with self._connect() as conn:
+                remaining = conn.execute("SELECT COUNT(*) FROM exchanges WHERE ts < ?", (cutoff,)).fetchone()
+        return {
+            "removed": removed,
+            "backlog": int(remaining[0] if remaining else 0),
+            "capped": removed >= cap,
+        }

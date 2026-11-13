@@ -200,7 +200,8 @@ class TestSessionKeyBinding:
 
     def test_lazyc2_wires_the_real_flow(self) -> None:
         src = open("lazyc2.py", encoding="utf-8").read()
-        assert "_register_csrf_flow(app, _csrf_policy, _csrf_enabled)" in src
+        assert "_register_csrf_flow(app, _csrf_policy, _csrf_enabled, secure_fn=_csrf_cookie_secure)" in src
+        assert "def _csrf_cookie_secure()" in src
         assert "csrf_protect = _make_csrf_protect(_csrf_policy, _csrf_enabled, _basic_authenticated)" in src
 
 

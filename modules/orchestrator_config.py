@@ -85,6 +85,7 @@ FALLBACK_LIMITS: dict[str, int | float] = {
     "max_worker_steps": 6,
     "verb_timeout_sec": 300,
     "step_delay_sec": 0.5,
+    "scan_reuse_sec": 21600,
 }
 
 FALLBACK_BUDGET: dict[str, int] = {"max_rounds": 10, "max_toolcalls": 200, "max_findings": 50}

@@ -27,6 +27,8 @@ from flask_login import LoginManager
 from flask_socketio import SocketIO
 
 from lazyc2.blueprints import api_bp, api_v1_bp, redirect_bp
+from lazyc2.blueprints.gym import gym_bp
+from lazyc2.blueprints.loops import init_loops_bp, loops_bp
 from lazyc2.blueprints.orchestrator import orchestrator_bp
 from lazyc2.extensions import short_urls as short_urls_ext
 
@@ -167,6 +169,9 @@ def create_app() -> Flask:
     app.register_blueprint(api_v1_bp, url_prefix="/api/v1")
     app.register_blueprint(orchestrator_bp)
     app.register_blueprint(redirect_bp)
+    init_loops_bp(limiter)
+    app.register_blueprint(loops_bp)
+    app.register_blueprint(gym_bp)
 
     # ── Error handlers ────────────────────────────────────────────────────
     @app.errorhandler(404)

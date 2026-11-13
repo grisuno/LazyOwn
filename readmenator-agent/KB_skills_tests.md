@@ -13,16 +13,16 @@
   - `_stop_patchers` (function, line 49) `def _stop_patchers(patchers)`
   - `TestPTYCommandRunner` (class, line 59) `class TestPTYCommandRunner`
   - `TestMCPCommandRunner` (class, line 88) `class TestMCPCommandRunner`
-  - `TestCommandRunnerChain` (class, line 134) `class TestCommandRunnerChain`
-  - `TestFallbackSelector` (class, line 205) `class TestFallbackSelector`
-  - `TestParquetSelector` (class, line 248) `class TestParquetSelector`
-  - `TestCascadeStrategy` (class, line 296) `class TestCascadeStrategy`
-  - `TestInjectToTasksJson` (class, line 360) `class TestInjectToTasksJson`
-  - `TestUpdateTaskStatus` (class, line 437) `class TestUpdateTaskStatus`
-  - `TestEmitEvent` (class, line 486) `class TestEmitEvent`
-  - `TestMCPAutonomousInject` (class, line 537) `class TestMCPAutonomousInject`
-  - `TestMCPAutonomousStatus` (class, line 610) `class TestMCPAutonomousStatus`
-  - `TestObjectiveLoopUnit` (class, line 666) `class TestObjectiveLoopUnit`
+  - `TestCommandRunnerChain` (class, line 140) `class TestCommandRunnerChain`
+  - `TestFallbackSelector` (class, line 211) `class TestFallbackSelector`
+  - `TestPhaseCommandCatalog` (class, line 249) `class TestPhaseCommandCatalog`
+  - `TestCascadeStrategy` (class, line 285) `class TestCascadeStrategy`
+  - `TestInjectToTasksJson` (class, line 349) `class TestInjectToTasksJson`
+  - `TestUpdateTaskStatus` (class, line 426) `class TestUpdateTaskStatus`
+  - `TestEmitEvent` (class, line 475) `class TestEmitEvent`
+  - `TestMCPAutonomousInject` (class, line 526) `class TestMCPAutonomousInject`
+  - `TestMCPAutonomousStatus` (class, line 599) `class TestMCPAutonomousStatus`
+  - `TestObjectiveLoopUnit` (class, line 655) `class TestObjectiveLoopUnit`
   - `test_instantiation` (method, line 62) `def test_instantiation(self)`
   - `test_name_property` (method, line 69) `def test_name_property(self)`
   - `test_implements_icommand_runner` (method, line 76) `def test_implements_icommand_runner(self)`
@@ -30,73 +30,76 @@
   - `test_name_property` (method, line 98) `def test_name_property(self)`
   - `test_raises_when_import_fails` (method, line 105) `def test_raises_when_import_fails(self)`
   - `test_delegates_to_mcp_when_available` (method, line 114) `def test_delegates_to_mcp_when_available(self)`
-  - `_make_runner` (method, line 137) `def _make_runner(self, name, result, raises)`
-  - `test_uses_first_runner_when_successful` (method, line 152) `def test_uses_first_runner_when_successful(self)`
-  - `test_falls_back_to_second_on_exception` (method, line 162) `def test_falls_back_to_second_on_exception(self)`
-  - `test_raises_when_all_fail` (method, line 172) `def test_raises_when_all_fail(self)`
-  - `test_name_reflects_all_runners` (method, line 182) `def test_name_reflects_all_runners(self)`
-  - `test_requires_at_least_one_runner` (method, line 192) `def test_requires_at_least_one_runner(self)`
-  - `test_always_returns_decision` (method, line 208) `def test_always_returns_decision(self)`
-  - `test_returns_command_decision_type` (method, line 216) `def test_returns_command_decision_type(self)`
-  - `test_source_is_fallback` (method, line 225) `def test_source_is_fallback(self)`
-  - `test_unknown_phase_returns_decision` (method, line 233) `def test_unknown_phase_returns_decision(self)`
-  - `test_returns_none_when_pdb_unavailable` (method, line 251) `def test_returns_none_when_pdb_unavailable(self)`
-  - `test_returns_candidate_when_pdb_has_history` (method, line 259) `def test_returns_candidate_when_pdb_has_history(self)`
-  - `test_respects_fail_counts` (method, line 275) `def test_respects_fail_counts(self)`
-  - `_make_selector` (method, line 299) `def _make_selector(self, returns)`
-  - `test_returns_first_non_none_result` (method, line 309) `def test_returns_first_non_none_result(self)`
-  - `test_uses_fallback_when_all_none` (method, line 325) `def test_uses_fallback_when_all_none(self)`
-  - `test_passes_context_to_selectors` (method, line 337) `def test_passes_context_to_selectors(self)`
-  - `setup_method` (method, line 363) `def setup_method(self)`
-  - `teardown_method` (method, line 369) `def teardown_method(self)`
-  - `test_creates_file_if_missing` (method, line 373) `def test_creates_file_if_missing(self)`
-  - `test_appends_new_task` (method, line 382) `def test_appends_new_task(self)`
-  - `test_correct_schema` (method, line 394) `def test_correct_schema(self)`
-  - `test_returns_assigned_id` (method, line 412) `def test_returns_assigned_id(self)`
-  - `test_handles_existing_invalid_json` (method, line 421) `def test_handles_existing_invalid_json(self)`
-  - `setup_method` (method, line 440) `def setup_method(self)`
-  - `teardown_method` (method, line 446) `def teardown_method(self)`
-  - `_write_tasks` (method, line 450) `def _write_tasks(self, tasks)`
-  - `test_updates_existing_task` (method, line 455) `def test_updates_existing_task(self)`
-  - `test_ignores_missing_title` (method, line 465) `def test_ignores_missing_title(self)`
-  - `test_returns_false_when_file_missing` (method, line 473) `def test_returns_false_when_file_missing(self)`
-  - `setup_method` (method, line 489) `def setup_method(self)`
-  - `teardown_method` (method, line 495) `def teardown_method(self)`
-  - `test_writes_valid_json_line` (method, line 499) `def test_writes_valid_json_line(self)`
-  - `test_event_has_required_fields` (method, line 511) `def test_event_has_required_fields(self)`
-  - `test_multiple_emits_append_lines` (method, line 521) `def test_multiple_emits_append_lines(self)`
-  - `setup_method` (method, line 540) `def setup_method(self)`
-  - `teardown_method` (method, line 546) `def teardown_method(self)`
-  - `_make_mock_store` (method, line 550) `def _make_mock_store(self)`
-  - `test_injects_to_objective_store_and_tasks_json` (method, line 562) `def test_injects_to_objective_store_and_tasks_json(self)`
-  - `test_returns_json_with_both_ids` (method, line 581) `def test_returns_json_with_both_ids(self)`
-  - `test_returns_error_string_when_store_unavailable` (method, line 596) `def test_returns_error_string_when_store_unavailable(self)`
-  - `setup_method` (method, line 613) `def setup_method(self)`
-  - `teardown_method` (method, line 619) `def teardown_method(self)`
-  - `test_returns_valid_json` (method, line 623) `def test_returns_valid_json(self)`
-  - `test_contains_expected_fields` (method, line 631) `def test_contains_expected_fields(self)`
-  - `test_running_is_false_when_no_daemon` (method, line 641) `def test_running_is_false_when_no_daemon(self)`
-  - `test_merges_status_file_when_present` (method, line 650) `def test_merges_status_file_when_present(self)`
-  - `setup_method` (method, line 673) `def setup_method(self)`
-  - `teardown_method` (method, line 679) `def teardown_method(self)`
-  - `_make_mock_objective` (method, line 683) `def _make_mock_objective(self)`
-  - `test_complete_called_after_successful_execution` (method, line 692) `def test_complete_called_after_successful_execution(self)`
-  - `test_block_called_on_execution_failure` (method, line 760) `def test_block_called_on_execution_failure(self)`
-  - `test_loop_disabled_when_objective_store_missing` (method, line 821) `def test_loop_disabled_when_objective_store_missing(self)`
-  - `_R` (class, line 140) `class _R(ICommandRunner)`
-  - `_S` (class, line 303) `class _S(ICommandSelector)`
-  - `CapturingSelector` (class, line 343) `class CapturingSelector(ICommandSelector)`
-  - `_next_pending` (function, line 706) `def _next_pending()`
-  - `_fake_run_async` (function, line 721) `def _fake_run_async(objective_id, objective_text, target)`
-  - `_run_loop` (function, line 745) `def _run_loop()`
-  - `_next_pending` (function, line 772) `def _next_pending()`
-  - `_failing_run_async` (function, line 784) `def _failing_run_async(objective_id, objective_text, target)`
-  - `_run_loop` (function, line 807) `def _run_loop()`
-  - `_run_loop` (function, line 831) `def _run_loop()`
-  - `name` (method, line 142) `def name(self)`
-  - `run` (method, line 145) `def run(self, command, timeout)`
-  - `select` (method, line 304) `def select(self, target, phase, context)`
-  - `select` (method, line 344) `def select(self, target, phase, context)`
+  - `_make_runner` (method, line 143) `def _make_runner(self, name, result, raises)`
+  - `test_uses_first_runner_when_successful` (method, line 158) `def test_uses_first_runner_when_successful(self)`
+  - `test_falls_back_to_second_on_exception` (method, line 168) `def test_falls_back_to_second_on_exception(self)`
+  - `test_raises_when_all_fail` (method, line 178) `def test_raises_when_all_fail(self)`
+  - `test_name_reflects_all_runners` (method, line 188) `def test_name_reflects_all_runners(self)`
+  - `test_requires_at_least_one_runner` (method, line 198) `def test_requires_at_least_one_runner(self)`
+  - `test_always_returns_decision` (method, line 214) `def test_always_returns_decision(self)`
+  - `test_returns_command_decision_type` (method, line 222) `def test_returns_command_decision_type(self)`
+  - `test_source_is_fallback` (method, line 231) `def test_source_is_fallback(self)`
+  - `test_unknown_phase_returns_decision` (method, line 239) `def test_unknown_phase_returns_decision(self)`
+  - `test_returns_catalog_names_with_dispatcher` (method, line 252) `def test_returns_catalog_names_with_dispatcher(self, monkeypatch)`
+  - `test_returns_blank_without_dispatcher` (method, line 272) `def test_returns_blank_without_dispatcher(self, monkeypatch)`
+  - `_make_selector` (method, line 288) `def _make_selector(self, returns)`
+  - `test_returns_first_non_none_result` (method, line 298) `def test_returns_first_non_none_result(self)`
+  - `test_uses_fallback_when_all_none` (method, line 314) `def test_uses_fallback_when_all_none(self)`
+  - `test_passes_context_to_selectors` (method, line 326) `def test_passes_context_to_selectors(self)`
+  - `setup_method` (method, line 352) `def setup_method(self)`
+  - `teardown_method` (method, line 358) `def teardown_method(self)`
+  - `test_creates_file_if_missing` (method, line 362) `def test_creates_file_if_missing(self)`
+  - `test_appends_new_task` (method, line 371) `def test_appends_new_task(self)`
+  - `test_correct_schema` (method, line 383) `def test_correct_schema(self)`
+  - `test_returns_assigned_id` (method, line 401) `def test_returns_assigned_id(self)`
+  - `test_handles_existing_invalid_json` (method, line 410) `def test_handles_existing_invalid_json(self)`
+  - `setup_method` (method, line 429) `def setup_method(self)`
+  - `teardown_method` (method, line 435) `def teardown_method(self)`
+  - `_write_tasks` (method, line 439) `def _write_tasks(self, tasks)`
+  - `test_updates_existing_task` (method, line 444) `def test_updates_existing_task(self)`
+  - `test_ignores_missing_title` (method, line 454) `def test_ignores_missing_title(self)`
+  - `test_returns_false_when_file_missing` (method, line 462) `def test_returns_false_when_file_missing(self)`
+  - `setup_method` (method, line 478) `def setup_method(self)`
+  - `teardown_method` (method, line 484) `def teardown_method(self)`
+  - `test_writes_valid_json_line` (method, line 488) `def test_writes_valid_json_line(self)`
+  - `test_event_has_required_fields` (method, line 500) `def test_event_has_required_fields(self)`
+  - `test_multiple_emits_append_lines` (method, line 510) `def test_multiple_emits_append_lines(self)`
+  - `setup_method` (method, line 529) `def setup_method(self)`
+  - `teardown_method` (method, line 535) `def teardown_method(self)`
+  - `_make_mock_store` (method, line 539) `def _make_mock_store(self)`
+  - `test_injects_to_objective_store_and_tasks_json` (method, line 551) `def test_injects_to_objective_store_and_tasks_json(self)`
+  - `test_returns_json_with_both_ids` (method, line 570) `def test_returns_json_with_both_ids(self)`
+  - `test_returns_error_string_when_store_unavailable` (method, line 585) `def test_returns_error_string_when_store_unavailable(self)`
+  - `setup_method` (method, line 602) `def setup_method(self)`
+  - `teardown_method` (method, line 608) `def teardown_method(self)`
+  - `test_returns_valid_json` (method, line 612) `def test_returns_valid_json(self)`
+  - `test_contains_expected_fields` (method, line 620) `def test_contains_expected_fields(self)`
+  - `test_running_is_false_when_no_daemon` (method, line 630) `def test_running_is_false_when_no_daemon(self)`
+  - `test_merges_status_file_when_present` (method, line 639) `def test_merges_status_file_when_present(self)`
+  - `setup_method` (method, line 662) `def setup_method(self)`
+  - `teardown_method` (method, line 668) `def teardown_method(self)`
+  - `_make_mock_objective` (method, line 672) `def _make_mock_objective(self)`
+  - `test_complete_called_after_successful_execution` (method, line 681) `def test_complete_called_after_successful_execution(self)`
+  - `test_block_called_on_execution_failure` (method, line 752) `def test_block_called_on_execution_failure(self)`
+  - `test_loop_disabled_when_objective_store_missing` (method, line 813) `def test_loop_disabled_when_objective_store_missing(self)`
+  - `_R` (class, line 146) `class _R(ICommandRunner)`
+  - `_Entry` (class, line 261) `class _Entry`
+  - `_Dispatcher` (class, line 265) `class _Dispatcher`
+  - `_S` (class, line 292) `class _S(ICommandSelector)`
+  - `CapturingSelector` (class, line 332) `class CapturingSelector(ICommandSelector)`
+  - `_next_pending` (function, line 695) `def _next_pending()`
+  - `_fake_run_async` (function, line 710) `def _fake_run_async(objective_id, objective_text, target)`
+  - `_run_loop` (function, line 734) `def _run_loop()`
+  - `_next_pending` (function, line 764) `def _next_pending()`
+  - `_failing_run_async` (function, line 776) `def _failing_run_async(objective_id, objective_text, target)`
+  - `_run_loop` (function, line 799) `def _run_loop()`
+  - `_run_loop` (function, line 823) `def _run_loop()`
+  - `name` (method, line 148) `def name(self)`
+  - `run` (method, line 151) `def run(self, command, timeout)`
+  - `__init__` (method, line 262) `def __init__(self, command)`
+  - `list_phase` (method, line 266) `def list_phase(self, phase)`
+  - `select` (method, line 293) `def select(self, target, phase, context)`
+  - `select` (method, line 333) `def select(self, target, phase, context)`
 - Depends on: `skills/autonomous_daemon.py`
 
 ## skills/tests/test_facts.py

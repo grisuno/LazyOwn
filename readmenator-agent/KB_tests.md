@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 25)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md), [KB_tests_p22.md](KB_tests_p22.md), [KB_tests_p23.md](KB_tests_p23.md), [KB_tests_p24.md](KB_tests_p24.md), [KB_tests_p25.md](KB_tests_p25.md)
+# Subsystem: tests (page 1 of 26)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md), [KB_tests_p22.md](KB_tests_p22.md), [KB_tests_p23.md](KB_tests_p23.md), [KB_tests_p24.md](KB_tests_p24.md), [KB_tests_p25.md](KB_tests_p25.md), [KB_tests_p26.md](KB_tests_p26.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -16,6 +16,7 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_reset_guard_harness` (function, line 72) `def _reset_guard_harness()`
   - `_offline_llm_for_loop_tests` (function, line 91) `def _offline_llm_for_loop_tests(request, monkeypatch)`
   - `_isolated_payload_scope` (function, line 169) `def _isolated_payload_scope(tmp_path, monkeypatch)`
+  - `_no_browser_sync_wiring` (function, line 202) `def _no_browser_sync_wiring(monkeypatch)`
   - `_isolated_path` (function, line 32) `def _isolated_path()`
   - `_offline` (function, line 108) `def _offline(model, prompt, max_tokens)`
   - `_HealthyRegistry` (class, line 113) `class _HealthyRegistry`
@@ -23,7 +24,7 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `healthy` (method, line 116) `def healthy(self, name)`
   - `report_failure` (method, line 119) `def report_failure(self, name, reason)`
   - `report_success` (method, line 122) `def report_success(self, name)`
-- Depends on: `core/config.py`, `modules/guardrails/harness.py`, `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
+- Depends on: `core/config.py`, `modules/browser_sync.py`, `modules/guardrails/harness.py`, `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
 
 ## tests/integration_autonomous_flow.py
 - Doc: test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module...

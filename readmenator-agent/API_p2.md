@@ -1,6 +1,16 @@
 # API (page 2 of 28)
 Previous: [API.md](API.md)
 
+## cli/commands/containers.py
+Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`
+Imported by: `cli/command_form.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/purple_tui.py`, `cli/sessions_browser.py`, `cli/surface_tui.py`, `cli/timeline_browser.py`, `cli/tui_forms.py`, `poc_tui/app.py`
+- `ContainerCommandSet.do_docker_enum` (method) `cli/commands/containers.py:37` `def do_docker_enum(self, _line)` -- Enumerate Docker host: containers, images, privileges, mounts.
+- `ContainerCommandSet.do_k8s_enum` (method) `cli/commands/containers.py:101` `def do_k8s_enum(self, _line)` -- Enumerate Kubernetes cluster: pods, secrets, SAs, RBAC.
+- `ContainerCommandSet.do_container_escape` (method) `cli/commands/containers.py:169` `def do_container_escape(self, _line)` -- Check current container for known escape vectors.
+- `ContainerCommandSet.do_k8s_pods` (method) `cli/commands/containers.py:239` `def do_k8s_pods(self, line)` -- List Kubernetes pods with security-relevant details.
+- `ContainerCommandSet.do_k8s_secrets` (method) `cli/commands/containers.py:283` `def do_k8s_secrets(self, line)` -- List and decode Kubernetes secrets.
+- `ContainerCommandSet.do_container_detect` (method) `cli/commands/containers.py:334` `def do_container_detect(self, _line)` -- Auto-detect container runtime and escape primitives.
+
 ## cli/commands/cred.py
 Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 - `CredentialAccessCommandSet.do_hashcat` (method) `cli/commands/cred.py:30` `def do_hashcat(self, line)` -- Run hashcat password cracking.
@@ -482,11 +492,6 @@ Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test
 - `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2842` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
 - `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2905` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
 - `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2943` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
-
-## cli/commands/marketplace.py
-Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/addon_updater.py`, `modules/module_registry.py`, `utils.py`
-- `MarketplaceCommandSet.do_marketplace` (method) `cli/commands/marketplace.py:104` `def do_marketplace(self, line)` -- Discover and install community plugins, addons, and tools.
-- `MarketplaceCommandSet.do_marketplace_config` (method) `cli/commands/marketplace.py:447` `def do_marketplace_config(self, line)` -- Interactive marketplace manager (Textual TUI).
 
 
 Next: [API_p3.md](API_p3.md)

@@ -1,5 +1,163 @@
-# Subsystem: modules (page 6 of 18)
+# Subsystem: modules (page 6 of 19)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
+
+## modules/estorides_importer.py
+- Doc: estorides_importer
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
+  - `ImportResult` (class, line 96) `class ImportResult`
+  - `SeedResult` (class, line 128) `class SeedResult`
+  - `extract_seeds_from_world_model` (function, line 143) `def extract_seeds_from_world_model(world_model_path)`
+  - `extract_seeds_from_hosts_file` (function, line 177) `def extract_seeds_from_hosts_file(path)`
+  - `extract_seeds_from_db` (function, line 205) `def extract_seeds_from_db(db_path)`
+  - `extract_seeds_from_scope` (function, line 244) `def extract_seeds_from_scope(scope_entries)`
+  - `run_estorides_discover` (function, line 274) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
+  - `run_estorides_run` (function, line 334) `def run_estorides_run(query, out_json, timeout)`
+  - `EstoridesCaseReader` (class, line 387) `class EstoridesCaseReader`
+  - `EstoridesStixParser` (class, line 497) `class EstoridesStixParser`
+  - `find_lan_bundle_files` (function, line 588) `def find_lan_bundle_files(lan_dir, sessions_dir)`
+  - `LanBundleReader` (class, line 624) `class LanBundleReader`
+  - `ensure_directories` (function, line 696) `def ensure_directories()`
+  - `EstoridesToLazyOwnBridge` (class, line 702) `class EstoridesToLazyOwnBridge`
+  - `FeedbackLoop` (class, line 885) `class FeedbackLoop`
+  - `export_combined_graph` (function, line 1031) `def export_combined_graph(output_path)`
+  - `success` (method, line 110) `def success(self)`
+  - `to_dict` (method, line 113) `def to_dict(self)`
+  - `new_assets` (method, line 139) `def new_assets(self)`
+  - `__init__` (method, line 390) `def __init__(self, db_path)`
+  - `available` (method, line 395) `def available(self)`
+  - `_ensure_conn` (method, line 398) `def _ensure_conn(self)`
+  - `list_cases` (method, line 404) `def list_cases(self, limit)`
+  - `get_entities` (method, line 416) `def get_entities(self, case_id, entity_types, limit)`
+  - `get_host_entities` (method, line 471) `def get_host_entities(self, case_id)`
+  - `get_all_entities` (method, line 475) `def get_all_entities(self, case_id)`
+  - `stats` (method, line 478) `def stats(self)`
+  - `close` (method, line 491) `def close(self)`
+  - `__init__` (method, line 513) `def __init__(self, stix_path)`
+  - `available` (method, line 517) `def available(self)`
+  - `parse` (method, line 520) `def parse(self)`
+  - `parse_by_type` (method, line 554) `def parse_by_type(self, entity_types)`
+  - `_extract_value` (method, line 565) `def _extract_value(obj, stix_type)`
+  - `__init__` (method, line 634) `def __init__(self, lan_dir)`
+  - `available` (method, line 638) `def available(self)`
+  - `read_devices` (method, line 641) `def read_devices(self)`
+  - `parse` (method, line 654) `def parse(self)`
+  - `attack_targets` (method, line 685) `def attack_targets(self)`
+  - `__init__` (method, line 705) `def __init__(self, db_path, config_path)`
+  - `import_entities` (method, line 713) `def import_entities(self, entities, add_to_scope, add_to_db)`
+  - `_import_to_db` (method, line 757) `def _import_to_db(self, imports, result)`
+  - `_import_to_scope` (method, line 803) `def _import_to_scope(self, imports, result)`
+  - `get_combined_surface` (method, line 836) `def get_combined_surface(self)`
+  - `__init__` (method, line 896) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+  - `run` (method, line 912) `def run(self, seed_methods)`
+  - `_gather_seeds` (method, line 1005) `def _gather_seeds(self, methods, seen)`
+- Depends on: `core/logging.py`, `modules/db.py`, `modules/world_model.py`
+- Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
+
+## modules/evasion_engine.py
+- Doc: Advanced Evasion Engine for LazyOwn C2 operations.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TrafficMorphConfig` (class, line 25) `class TrafficMorphConfig`
+  - `MalleableProfile` (class, line 37) `class MalleableProfile`
+  - `EvasionEngine` (class, line 52) `class EvasionEngine`
+  - `__init__` (method, line 130) `def __init__(self, config)`
+  - `set_config` (method, line 136) `def set_config(self, config)`
+  - `_random_chrome_version` (method, line 139) `def _random_chrome_version(self)`
+  - `_random_firefox_version` (method, line 142) `def _random_firefox_version(self)`
+  - `_random_safari_version` (method, line 145) `def _random_safari_version(self)`
+  - `_generate_ja4_hash` (method, line 148) `def _generate_ja4_hash(self)`
+  - `_generate_user_agent` (method, line 162) `def _generate_user_agent(self, os_family)`
+  - `_generate_headers` (method, line 180) `def _generate_headers(self, user_agent)`
+  - `_pick_uri_pool` (method, line 209) `def _pick_uri_pool(self)`
+  - `_generate_cert_fingerprint` (method, line 217) `def _generate_cert_fingerprint(self)`
+  - `_compute_jitter` (method, line 220) `def _compute_jitter(self)`
+  - `_compute_sleep` (method, line 224) `def _compute_sleep(self)`
+  - `_get_domain_front` (method, line 232) `def _get_domain_front(self)`
+  - `generate_profile` (method, line 244) `def generate_profile(self, os_family)`
+  - `rotate_profile` (method, line 264) `def rotate_profile(self, os_family)`
+  - `get_active_profile` (method, line 269) `def get_active_profile(self)`
+  - `get_beacon_config` (method, line 272) `def get_beacon_config(self)`
+  - `morph_traffic` (method, line 287) `def morph_traffic(self, config)`
+  - `_persist_profile` (method, line 311) `def _persist_profile(self, profile)`
+  - `get_history` (method, line 328) `def get_history(self)`
+  - `profile_to_json` (method, line 343) `def profile_to_json(self, profile)`
+- Imported by: `cli/commands/evasive_payload.py`, `skills/mcp_tools/evasion_generate.py`, `skills/mcp_tools/evasion_rotate.py`
+
+## modules/evasive_payloads.py
+- Doc: Advanced evasive payload generation with multiple obfuscation strategies.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvasivePayloadGenerator` (class, line 18) `class EvasivePayloadGenerator`
+  - `__init__` (method, line 84) `def __init__(self)`
+  - `_random_var` (method, line 87) `def _random_var(self, length)`
+  - `_random_string` (method, line 93) `def _random_string(self, length)`
+  - `_xor_encode` (method, line 97) `def _xor_encode(self, data, key)`
+  - `_rot13` (method, line 102) `def _rot13(self, data)`
+  - `_gzip_compress` (method, line 114) `def _gzip_compress(self, data)`
+  - `_apply_encoding_chain` (method, line 118) `def _apply_encoding_chain(self, data, chain)`
+  - `generate_powershell_obfuscated` (method, line 138) `def generate_powershell_obfuscated(self, payload, obfuscation_level)`
+  - `generate_javascript_obfuscated` (method, line 178) `def generate_javascript_obfuscated(self, payload)`
+  - `generate_vba_obfuscated` (method, line 197) `def generate_vba_obfuscated(self, payload)`
+  - `generate_linux_evasive` (method, line 214) `def generate_linux_evasive(self, rhost, rport, technique)`
+  - `generate_shellcode_loader_powershell` (method, line 239) `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)`
+  - `generate_lolbas_execution` (method, line 284) `def generate_lolbas_execution(self, payload_url, technique)`
+  - `generate_polymorphic_command` (method, line 334) `def generate_polymorphic_command(self, base_cmd, iterations)`
+  - `list_techniques` (method, line 374) `def list_techniques(self)`
+- Imported by: `cli/commands/evasive_payload.py`
+
+## modules/event_bus.py
+- Doc: UnifiedEventBus — central nervous system connecting all LazyOwn components.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `EventCategory` (class, line 47) `class EventCategory(str, Enum)`
+  - `EventSeverity` (class, line 73) `class EventSeverity(str, Enum)`
+  - `LazyEvent` (class, line 82) `class LazyEvent`
+  - `Sink` (class, line 133) `class Sink(ABC)`
+  - `JsonlSink` (class, line 143) `class JsonlSink(Sink)`
+  - `CollabBusSink` (class, line 163) `class CollabBusSink(Sink)`
+  - `EngagementSink` (class, line 202) `class EngagementSink(Sink)`
+  - `UnifiedEventBus` (class, line 230) `class UnifiedEventBus`
+  - `get_event_bus` (function, line 570) `def get_event_bus()`
+  - `publish_event` (function, line 575) `def publish_event(category, event_type, source, payload, severity, target, operator)`
+  - `to_dict` (method, line 96) `def to_dict(self)`
+  - `to_json` (method, line 111) `def to_json(self)`
+  - `from_dict` (method, line 115) `def from_dict(cls, d)`
+  - `write` (method, line 137) `def write(self, event)`
+  - `close` (method, line 140) `def close(self)`
+  - `__init__` (method, line 146) `def __init__(self, filepath)`
+  - `write` (method, line 151) `def write(self, event)`
+  - `close` (method, line 159) `def close(self)`
+  - `__init__` (method, line 166) `def __init__(self)`
+  - `_bus` (method, line 170) `def _bus(self)`
+  - `write` (method, line 181) `def write(self, event)`
+  - `close` (method, line 198) `def close(self)`
+  - `write` (method, line 205) `def write(self, event)`
+  - `close` (method, line 226) `def close(self)`
+  - `__init__` (method, line 255) `def __init__(self)`
+  - `_init_sinks` (method, line 273) `def _init_sinks(self)`
+  - `instance` (method, line 287) `def instance(cls)`
+  - `subscriber_count` (method, line 295) `def subscriber_count(self)`
+  - `subscribe` (method, line 300) `def subscribe(self, subscriber_id, callback)`
+  - `subscribe_topic` (method, line 305) `def subscribe_topic(self, subscriber_id, topic, callback)`
+  - `subscribe_async` (method, line 315) `def subscribe_async(self, subscriber_id)`
+  - `unsubscribe` (method, line 327) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 336) `def publish(self, event)`
+  - `drain` (method, line 354) `def drain(self)`
+  - `shutdown` (method, line 372) `def shutdown(self)`
+  - `_dispatch_loop` (method, line 416) `def _dispatch_loop(self)`
+  - `_dispatch_event` (method, line 441) `def _dispatch_event(self, event)`
+  - `_notify_shutdown` (method, line 479) `def _notify_shutdown(self)`
+  - `_match_topic` (method, line 517) `def _match_topic(self, topic, event)`
+  - `history` (method, line 556) `def history(self, n, category)`
+  - `history_since` (method, line 564) `def history_since(self, since_ts)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/sinks/event_bus.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `tests/test_loop_ai_bridge.py`
 
 ## modules/event_consumers.py
 - Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
@@ -60,6 +218,23 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `exists` (method, line 98) `def exists(self, content_hash)`
   - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
 - Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/evidence_store.py
+- Doc: Durable, content-addressed evidence store independent of disposable traffic.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `_sanitize_digest` (function, line 32) `def _sanitize_digest(digest)`
+  - `EvidenceStore` (class, line 53) `class EvidenceStore`
+  - `__init__` (method, line 62) `def __init__(self, task_id, base_dir)`
+  - `directory` (method, line 73) `def directory(self)`
+  - `_path_for` (method, line 77) `def _path_for(self, digest)`
+  - `has` (method, line 88) `def has(self, digest)`
+  - `preserve` (method, line 93) `def preserve(self, record)`
+  - `fetch` (method, line 135) `def fetch(self, digest)`
+  - `gc` (method, line 153) `def gc(self, referenced, grace_seconds)`
+- Depends on: `core/atomic_store.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_evidence_store.py`
 
 ## modules/evilhttprev.sh
 - Layer: utility
@@ -311,179 +486,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `cmd_chown_now` (function, line 521)
   - `usage` (function, line 528)
   - `main` (function, line 557)
-
-## modules/finding_lifecycle.py
-- Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `evidence_floor` (function, line 52) `def evidence_floor(items)`
-  - `_store_path` (function, line 68) `def _store_path(sessions_dir)`
-  - `_load` (function, line 73) `def _load(sessions_dir)`
-  - `_save` (function, line 86) `def _save(sessions_dir, data)`
-  - `confirm` (function, line 94) `def confirm(finding_id, evidence, sessions_dir, by)`
-  - `reject` (function, line 123) `def reject(finding_id, reason, sessions_dir, by)`
-  - `add_dead_end` (function, line 137) `def add_dead_end(kind, value, reason, sessions_dir)`
-  - `is_dead_end` (function, line 149) `def is_dead_end(kind, value, sessions_dir)`
-  - `suppressed_values` (function, line 156) `def suppressed_values(sessions_dir)`
-  - `resolve` (function, line 162) `def resolve(node, sessions_dir)`
-  - `apply_confirmation` (function, line 190) `def apply_confirmation(nodes, sessions_dir)`
-  - `FindingRecord` (class, line 218) `class FindingRecord`
-  - `RetestRecord` (class, line 231) `class RetestRecord`
-  - `_token_value` (function, line 241) `def _token_value(refs, prefix, default)`
-  - `_with_token` (function, line 249) `def _with_token(refs, prefix, value)`
-  - `_finding_from_row` (function, line 256) `def _finding_from_row(row)`
-  - `record` (function, line 270) `def record(db, workspace, host, title, severity, summary, poc)`
-  - `findings_for` (function, line 295) `def findings_for(db, workspace)`
-  - `set_status` (function, line 300) `def set_status(db, finding_id, status)`
-  - `_retests_path` (function, line 323) `def _retests_path(sessions_dir)`
-  - `_load_retests` (function, line 328) `def _load_retests(sessions_dir)`
-  - `_save_retests` (function, line 339) `def _save_retests(sessions_dir, payload)`
-  - `has_running_retest` (function, line 346) `def has_running_retest(finding_id, sessions_dir)`
-  - `request_retest` (function, line 354) `def request_retest(db, finding_id, sessions_dir)`
-  - `resolve_retest` (function, line 374) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
-  - `classify_retest` (function, line 420) `def classify_retest(needle, output)`
-  - `render_markdown` (function, line 439) `def render_markdown(db, workspace, title)`
-- Depends on: `modules/osint_enrich.py`
-- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
-
-## modules/forensic_cleaner.py
-- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
-  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
-  - `__init__` (method, line 67) `def __init__(self, config)`
-  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
-  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
-  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
-  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
-  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/gcp_attacks.py
-- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `GCPConfig` (class, line 57) `class GCPConfig`
-  - `GCPAttackEngine` (class, line 77) `class GCPAttackEngine`
-  - `__init__` (method, line 90) `def __init__(self, config)`
-  - `enumerate_iam_policy` (method, line 93) `def enumerate_iam_policy(self, resource)`
-  - `service_account_impersonation` (method, line 119) `def service_account_impersonation(self)`
-  - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
-  - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
-  - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
-  - `cloudbuild_abuse` (method, line 230) `def cloudbuild_abuse(self)`
-  - `organization_escalation` (method, line 261) `def organization_escalation(self)`
-  - `summary` (method, line 297) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/generate_tools.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `extract_cmd2_tools` (function, line 6) `def extract_cmd2_tools(script_path)`
-
-## modules/goals.py
-- Doc: Goal decomposition round-0 with constraints and proof.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `GoalSpec` (class, line 20) `class GoalSpec`
-  - `TaskConstraints` (class, line 29) `class TaskConstraints`
-  - `decompose_rule_based` (function, line 63) `def decompose_rule_based(objective_text, max_goals)`
-  - `load_constraints` (function, line 83) `def load_constraints(payload)`
-  - `constraint_block_text` (function, line 103) `def constraint_block_text(constraints)`
-  - `GoalTracker` (class, line 117) `class GoalTracker`
-  - `blocked` (method, line 35) `def blocked(self, command)`
-  - `__init__` (method, line 120) `def __init__(self, goals)`
-  - `goals` (method, line 125) `def goals(self)`
-  - `prove_goal` (method, line 129) `def prove_goal(self, goal_text, evidence)`
-  - `goal_met` (method, line 140) `def goal_met(self, opt_in)`
-  - `all_achieved` (method, line 148) `def all_achieved(self)`
-  - `open_goals` (method, line 152) `def open_goals(self)`
-- Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
-
-## modules/golden_path.py
-- Doc: Deterministic attack-path solver over the LazyOwn world model.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_host_node` (function, line 66) `def _host_node(ip)`
-  - `_bare` (function, line 78) `def _bare(node)`
-  - `_label` (function, line 97) `def _label(node)`
-  - `_action_for` (function, line 113) `def _action_for(relation)`
-  - `_cost_for_relation` (function, line 135) `def _cost_for_relation(relation, weight)`
-  - `build_edges` (function, line 155) `def build_edges(snapshot)`
-  - `_source_hosts` (function, line 227) `def _source_hosts(snapshot)`
-  - `_diijkstra` (function, line 244) `def _diijkstra(adjacency, source)`
-  - `resolve_paths` (function, line 274) `def resolve_paths(snapshot, top_k, source)`
-  - `build` (function, line 350) `def build(world_model_path, top_k, sessions_dir)`
-  - `_persist` (function, line 381) `def _persist(result, sessions_dir)`
-  - `load_artifact` (function, line 401) `def load_artifact(sessions_dir)`
-  - `priority_for` (function, line 418) `def priority_for(cost)`
-  - `push_objectives` (function, line 433) `def push_objectives(paths, store_path)`
-  - `_add` (function, line 167) `def _add(src, dst, relation, weight, evidence, cost)`
-- Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
-
-## modules/gpo_abuse.py
-- Doc: GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `GPOInfo` (class, line 54) `class GPOInfo`
-  - `GPOAbusePlan` (class, line 83) `class GPOAbusePlan`
-  - `GPOAbuseEngine` (class, line 105) `class GPOAbuseEngine`
-  - `__init__` (method, line 118) `def __init__(self, domain, dc_ip)`
-  - `parse_gpo_list` (method, line 124) `def parse_gpo_list(self, raw_gpo_output)`
-  - `parse_bloodhound_gpos` (method, line 160) `def parse_bloodhound_gpos(self, bloodhound_nodes)`
-  - `plan_scheduled_task` (method, line 182) `def plan_scheduled_task(self, gpo, command, task_name)`
-  - `plan_startup_script` (method, line 208) `def plan_startup_script(self, gpo, script_content, script_name)`
-  - `plan_logon_script` (method, line 238) `def plan_logon_script(self, gpo, command)`
-  - `plan_local_admin_addition` (method, line 266) `def plan_local_admin_addition(self, gpo, username, group)`
-  - `plan_wmi_filter_abuse` (method, line 293) `def plan_wmi_filter_abuse(self, gpo, wmi_query)`
-  - `plan_registry_preference` (method, line 322) `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)`
-  - `plan_service_installation` (method, line 356) `def plan_service_installation(self, gpo, service_name, binary_path)`
-  - `generate_all_plans` (method, line 382) `def generate_all_plans(self, command, username)`
-  - `detect_risky_gpos` (method, line 406) `def detect_risky_gpos(self)`
-  - `summary` (method, line 434) `def summary(self)`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/gui_askpass.sh
-- Doc: — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this...
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `has` (function, line 22)
-  - `try_zenity` (function, line 24)
-  - `try_yad` (function, line 28)
-  - `try_ssh_askpass` (function, line 33)
-  - `try_kdialog` (function, line 40)
-
-## modules/gym_cleanup.py
-- Doc: Gym machine cleanup on LazyOwn exit.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `cleanup_enabled` (function, line 21) `def cleanup_enabled()`
-  - `cleanup_gym_machines` (function, line 35) `def cleanup_gym_machines(verbose)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
-- Imported by: `lazyown.py`, `tests/test_gym_lifecycle.py`
-
-## modules/gym_matrix_runner.py
-- Doc: Ordered Metasploitable 2 gym matrix runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_catalogue` (function, line 36) `def _catalogue(catalogue)`
-  - `plan_matrix` (function, line 49) `def plan_matrix(target, sessions_dir, only, top_k, catalogue)`
-  - `run_matrix` (function, line 104) `def run_matrix(target)`
-  - `_stats` (function, line 220) `def _stats(runs)`
-  - `_persist` (function, line 236) `def _persist(summary_result, sessions_dir)`
-  - `load_matrix` (function, line 252) `def load_matrix(sessions_dir)`
-- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

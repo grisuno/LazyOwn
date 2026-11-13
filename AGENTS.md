@@ -39,7 +39,7 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 - `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2.
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
-- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**.
+- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**, **loop_preflight (target/labs liveness before a loop spends rounds)**, **loop_audit (per-task campaign timeline: every command, worker, judge verdict, opsec, outcome)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
 - `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
 

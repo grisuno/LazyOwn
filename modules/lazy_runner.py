@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import contextlib
 import io
+import json
 import os
 import queue
 import re
@@ -40,6 +41,13 @@ STALL_WARN_SEC = 45.0
 STALL_DUMP_SEC = 120.0
 DEFAULT_TARGET_CONCURRENCY = 3
 _MAX_BATCH_TARGETS = 16
+AUTO_PWN_MIN_TIMEOUT_SEC = 900.0
+AUTONOMOUS_ENV = "LAZYOWN_AUTONOMOUS"
+LOOP_WORKSPACE_ENV = "LAZYOWN_LOOP_WORKSPACE"
+LOOP_RESULT_FILENAME = "result.json"
+SUCCESS_LOOP_STATUSES = ("done", "pentest_proven")
+EXIT_LOOP_ERROR = 1
+EXIT_LOOP_TIMEOUT = 4
 
 
 class ThreadStdoutRouter(io.TextIOBase):
@@ -112,6 +120,8 @@ class LoopRunConfig:
     budget: dict = field(default_factory=dict)
     budget_confirm: bool = False
     phishing_fallback: bool = False
+    no_preflight: bool = False
+    audit: object = field(default=None, compare=False)
     extra: dict = field(default_factory=dict)
     targets_file: str = ""
     max_concurrent: int = 0
@@ -146,7 +156,7 @@ FLAG_VALUES = (
     "--max-concurrent",
     "--mode",
 )
-FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm", "--fallback-phish")
+FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm", "--fallback-phish", "--no-preflight")
 _BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
 _BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
 ENGAGEMENT_MODES = ("pentest", "redteam", "ctf")
@@ -201,6 +211,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     targets_file = ""
     max_concurrent = 0
     no_bootstrap = False
+    no_preflight = False
     progress = True
     view = False
     budget: dict[str, float] = {}
@@ -261,6 +272,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         if token in FLAG_TOGGLES:
             if token == "--no-bootstrap":
                 no_bootstrap = True
+            elif token == "--no-preflight":
+                no_preflight = True
             elif token == "--view":
                 view = True
             elif token == "--budget-confirm":
@@ -288,6 +301,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         step_delay=step_delay,
         sandbox=sandbox,
         no_bootstrap=no_bootstrap,
+        no_preflight=no_preflight,
         progress=progress,
         view=view,
         budget=budget,
@@ -337,7 +351,7 @@ def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig:
 
 def build_executor(
     shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict,
-    sandbox_task_id: str = "", sandbox_image: str = "",
+    sandbox_task_id: str = "", sandbox_image: str = "", audit=None,
 ) -> Callable[[str], str]:
     """Build the worker executor: shell verbs, custom tools, safe bash.
 
@@ -350,6 +364,9 @@ def build_executor(
     When ``sandbox_task_id`` is set, routable shell verbs run inside the
     per-task Docker container (``modules.lazy_sandbox``) instead of the
     operator host; custom tools and raw bash stay local.
+
+    When ``audit`` is provided, every dispatched command is recorded in
+    the loop audit timeline with its duration and outcome.
     """
 
     def _resolve_alias(command: str) -> str:
@@ -360,7 +377,7 @@ def build_executor(
             return f"{aliases[token]} {rest}".strip()
         return command
 
-    def _executor(command: str) -> str:
+    def _dispatch(command: str) -> str:
         text = str(command or "")
         if cancelled.get("flag"):
             return "execution failed: cancelled by operator"
@@ -370,6 +387,9 @@ def build_executor(
             stream(f"[skip] sudo unavailable in unattended mode: {text[:160]}")
             return f"skipped: sudo unavailable in unattended mode: {text[:160]}"
         stream(f">>> {text[:200]}")
+        verb_timeout = config.verb_timeout
+        if _resolve_alias(text).startswith("auto_pwn") and verb_timeout < AUTO_PWN_MIN_TIMEOUT_SEC:
+            verb_timeout = AUTO_PWN_MIN_TIMEOUT_SEC
         if text.startswith("custom tool "):
             try:
                 from modules.custom_tools import run_tool
@@ -395,15 +415,28 @@ def build_executor(
 
                     stream(f"[sandbox] {text[:200]}")
                     return _sandbox_exec(
-                        sandbox_task_id, text, timeout_sec=config.verb_timeout, image=sandbox_image
+                        sandbox_task_id, text, timeout_sec=verb_timeout, image=sandbox_image
                     )
                 except Exception as exc:
                     return f"execution failed: {exc}"
             try:
-                return execute_shell_verb(shell, text, timeout_sec=config.verb_timeout, on_output=stream)
+                return execute_shell_verb(shell, text, timeout_sec=verb_timeout, on_output=stream)
             except Exception as exc:
                 return f"execution failed: {exc}"
-        return execute_streaming(text, on_output=stream, timeout_sec=config.verb_timeout)
+        return execute_streaming(text, on_output=stream, timeout_sec=verb_timeout)
+
+    def _executor(command: str) -> str:
+        started = time.monotonic()
+        try:
+            outcome = _dispatch(command)
+        except Exception as exc:
+            outcome = f"execution failed: {exc}"
+        if audit is not None:
+            try:
+                audit.record_command(command, outcome, time.monotonic() - started)
+            except Exception:
+                pass
+        return outcome
 
     return _executor
 
@@ -540,6 +573,127 @@ def _maybe_phishing_fallback(result: dict, config: LoopRunConfig, params: dict) 
     return result
 
 
+def loop_exit_code(result: dict) -> int:
+    """Map one loop summary to an honest process exit code.
+
+    A loop that only exhausted its rounds, timed out or stopped in a
+    handoff is not a success: the dashboard marks loops on exit code, so
+    this mapping keeps the finished/failed distinction truthful. The one
+    promotion: when the independent verdict is ``achieved`` with
+    verified evidence (a confirmed shell, captured credential), the run
+    counts as success even if the engine merely exhausted its rounds.
+
+    Args:
+        result: Orchestrator summary.
+
+    Returns:
+        ``0`` when the run reached a success status or proven achieved
+        evidence; ``4`` on timeout and ``1`` for every other ending.
+    """
+    if not isinstance(result, dict):
+        return EXIT_LOOP_ERROR
+    if result.get("error"):
+        return EXIT_LOOP_ERROR
+    if result.get("cancelled"):
+        return EXIT_LOOP_ERROR
+    if str(result.get("mode", "") or "") == "multi-target":
+        return 0 if int(result.get("failed", 0) or 0) == 0 else EXIT_LOOP_ERROR
+    status = str(result.get("status", "") or "")
+    verdict = result.get("verdict") if isinstance(result.get("verdict"), dict) else {}
+    if (
+        str(verdict.get("verdict", "") or "") == "achieved"
+        and bool(verdict.get("evidence_verified"))
+        and status not in ("failed", "")
+    ):
+        return 0
+    if status == "timeout":
+        return EXIT_LOOP_TIMEOUT
+    if status in SUCCESS_LOOP_STATUSES:
+        verdict_text = str(verdict.get("verdict", "") or "")
+        if verdict_text in ("", "achieved"):
+            return 0
+        return EXIT_LOOP_ERROR
+    return EXIT_LOOP_ERROR
+
+
+def autonomous_exit_gate(result: dict) -> None:
+    """Convert a non-success loop ending into a non-zero process exit.
+
+    Only active under the autonomous environment (C2-managed loop
+    subprocesses): an interactive shell must survive a finished loop so
+    the operator keeps working, while a dashboard loop must never look
+    FINISHED when the goal was not achieved.
+
+    Args:
+        result: Orchestrator summary.
+
+    Raises:
+        SystemExit: When running autonomously and the outcome is not a
+            success.
+    """
+    if os.environ.get(AUTONOMOUS_ENV, "") != "1":
+        return
+    code = loop_exit_code(result)
+    if code == 0:
+        return
+    status = str(result.get("status", "") or "")
+    print_warn(
+        f"[loop] exit code {code}: loop ended without achieving the goal "
+        f"(status={status or 'error'}) — inspect: loop_audit {result.get('task_id', '')}"
+    )
+    raise SystemExit(code)
+
+
+def _loop_outcome(result: dict, goal: str = "") -> dict:
+    """Project one loop summary into the durable outcome file payload."""
+    verdict = result.get("verdict") if isinstance(result.get("verdict"), dict) else {}
+    overview = result.get("overview") or {}
+    return {
+        "task_id": str(result.get("task_id", "") or ""),
+        "status": str(result.get("status", "") or ("cancelled" if result.get("cancelled") else "")),
+        "success": loop_exit_code(result) == 0,
+        "verdict": str(verdict.get("verdict", "") or ""),
+        "completion_reason": str(verdict.get("completion_reason", "") or ""),
+        "evidence_verified": bool(verdict.get("evidence_verified")) if verdict else False,
+        "rounds": int(result.get("rounds", 0) or 0),
+        "facts": int(overview.get("facts", 0) or 0),
+        "findings": int(overview.get("findings", 0) or 0),
+        "goal": str(result.get("goal", "") or goal or ""),
+        "error": str(result.get("error", "") or ""),
+        "cancelled": bool(result.get("cancelled")),
+        "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+
+
+def write_loop_result(config: LoopRunConfig, result: dict) -> None:
+    """Persist the final loop outcome for the dashboard and the operator.
+
+    The C2 loop manager cannot read the engine's internal status from a
+    subprocess; it reads this file instead (workspace of the loop when
+    running under the dashboard, ``sessions/loop_result_<task>.json``
+    otherwise). Never raises.
+
+    Args:
+        config: Parsed run configuration.
+        result: Orchestrator summary.
+    """
+    if not isinstance(result, dict) or not result:
+        return
+    outcome = _loop_outcome(result, goal=str(getattr(config, "goal", "") or ""))
+    workspace = os.environ.get(LOOP_WORKSPACE_ENV, "")
+    try:
+        if workspace:
+            path = Path(workspace) / LOOP_RESULT_FILENAME
+        elif outcome.get("task_id"):
+            path = Path(SESSIONS_DIR) / f"loop_result_{outcome['task_id']}.json"
+        else:
+            return
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(outcome, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    except (OSError, TypeError, ValueError):
+        pass
+
+
 def report_result(result: dict) -> None:
     """Print the final outcome of one loop run.
 
@@ -547,7 +701,9 @@ def report_result(result: dict) -> None:
     operator can resume the exact task with user-varied flags, or arm
     the elevated ``--sudo`` mode when the failure was a sudo gate. The
     durable ledger handoff (states, confirmed evidence, discarded
-    vectors, next decision) prints when present.
+    vectors, next decision) prints when present, and the independent
+    goal verdict prints whenever the evaluator produced one, so a
+    finished badge is never the only success claim.
     """
     if result.get("error"):
         print_error(f"lazy_loop failed: {result['error']}")
@@ -576,6 +732,17 @@ def report_result(result: dict) -> None:
         f"facts={overview.get('facts', 0)} "
         f"findings={overview.get('findings', 0)}"
     )
+    verdict = result.get("verdict") if isinstance(result.get("verdict"), dict) else {}
+    if verdict:
+        detail = str(verdict.get("completion_reason", "") or "")
+        print_msg(
+            f"[verdict] {verdict.get('verdict', '')} "
+            f"coverage={verdict.get('coverage_pct', 0)}% "
+            f"confirmed={verdict.get('confirmed', 0)}"
+            + (f" ({detail})" if detail else "")
+        )
+        if verdict.get("path"):
+            print_msg(f"[verdict] report: {verdict['path']}")
     _print_handoff(result.get("handoff") or {})
     if overview.get("findings"):
         print_warn(f"Findings present — inspect with: lazy_findings {task_id} / lazy_trace {task_id} list")
@@ -713,6 +880,7 @@ def _run_with_progress(engine, config: LoopRunConfig) -> dict:
         engine.shell, config, stream, cancelled,
         sandbox_task_id=task_id if config.sandbox else "",
         sandbox_image=sandbox_image,
+        audit=config.audit,
     )
     progress = LoopProgress(goal=config.goal, target=config.target)
     progress.start()
@@ -1005,6 +1173,7 @@ def _run_plain(engine, config: LoopRunConfig) -> dict:
         engine.shell, config, _terminal_stream(), cancelled,
         sandbox_task_id=config.task_id if config.sandbox else "",
         sandbox_image=sandbox_image,
+        audit=config.audit,
     )
     try:
         if config.target and not config.no_bootstrap:
@@ -1201,6 +1370,8 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
             _signal.signal(_signal.SIGINT, _signal.default_int_handler)
         except (ValueError, OSError, RuntimeError):
             previous_sigint = None
+    result: dict = {}
+    audit = None
     try:
         with TerminalGuard(), autonomous_mode():
             try:
@@ -1209,39 +1380,135 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
                         from cli.lazy_monitor import run_monitor_session
 
                         result = run_monitor_session(engine, config, params)
+                        result.setdefault("goal", config.goal)
                         report_result(result)
-                        return result
                     except Exception as exc:
                         print_warn(f"view unavailable ({exc}); falling back to the panel")
-                if not config.task_id:
-                    created = engine.create_task(config.goal or f"engage {config.target or 'target'}")
-                    config.task_id = str(created.get("task_id", ""))
-                else:
-                    print_msg(f"[*] resuming task {config.task_id}")
-                print_msg(
-                    f"[*] orchestrator: rounds<={config.rounds} "
-                    f"workers={config.workers} — auto-invokes "
-                    f"{'/'.join(engine.ORCHESTRATOR_CHAIN)}"
-                )
-                if config.progress and config.task_id:
-                    result = _run_with_progress(engine, config)
-                    result.setdefault("goal", config.goal)
-                else:
-                    result = _run_plain(engine, config)
-                result = _maybe_phishing_fallback(result, config, params)
-                report_result(result)
-                return result
+                if not result:
+                    if not config.task_id:
+                        created = engine.create_task(config.goal or f"engage {config.target or 'target'}")
+                        config.task_id = str(created.get("task_id", ""))
+                    else:
+                        print_msg(f"[*] resuming task {config.task_id}")
+                    try:
+                        from modules import loop_audit
+
+                        audit = loop_audit.start(config.task_id)
+                        config.audit = audit
+                    except Exception:
+                        audit = None
+                    if audit is not None:
+                        try:
+                            audit.run_start(
+                                goal=config.goal,
+                                target=config.target,
+                                rounds=config.rounds,
+                                workers=config.workers,
+                                mode=str(config.mode or getattr(engine, "engagement_mode", "") or ""),
+                                profile=str(config.profile or ""),
+                            )
+                        except Exception:
+                            pass
+                    preflight_failed = False
+                    if config.target and not config.no_preflight:
+                        failure = _preflight_gate(engine, config, audit)
+                        if failure:
+                            result = failure
+                            preflight_failed = True
+                            report_result(result)
+                    if not result:
+                        print_msg(
+                            f"[*] orchestrator: rounds<={config.rounds} "
+                            f"workers={config.workers} — auto-invokes "
+                            f"{'/'.join(engine.ORCHESTRATOR_CHAIN)}"
+                        )
+                        if config.progress and config.task_id:
+                            result = _run_with_progress(engine, config)
+                            result.setdefault("goal", config.goal)
+                        else:
+                            result = _run_plain(engine, config)
+                        result = _maybe_phishing_fallback(result, config, params)
+                        report_result(result)
+                        if audit is not None and not preflight_failed:
+                            try:
+                                if result.get("verdict"):
+                                    audit.verdict(result.get("verdict") or {})
+                                audit.run_end(
+                                    status=str(
+                                        result.get("status", "")
+                                        or ("cancelled" if result.get("cancelled") else "")
+                                    ),
+                                    rounds=int(result.get("rounds", 0) or 0),
+                                    verdict=result.get("verdict") or {},
+                                    error=str(result.get("error", "") or ""),
+                                )
+                            except Exception:
+                                pass
             except (KeyboardInterrupt, SystemExit, EOFError):
                 _abort_run(engine, config.task_id, "operator interrupt (Ctrl+C/Ctrl+D)")
                 result = {"task_id": config.task_id, "cancelled": True, "overview": _overview(config.task_id)}
                 report_result(result)
-                return result
+                if audit is not None:
+                    try:
+                        audit.run_end(status="cancelled", rounds=0, error="operator interrupt")
+                    except Exception:
+                        pass
     finally:
         if previous_sigint is not None:
             try:
                 _signal.signal(_signal.SIGINT, previous_sigint)
             except (ValueError, OSError, RuntimeError):
                 pass
+    write_loop_result(config, result)
+    autonomous_exit_gate(result)
+    return result
+
+
+def _preflight_gate(engine, config: LoopRunConfig, audit) -> dict:
+    """Validate the target before spending a single round on it.
+
+    Args:
+        engine: The live loop engine (task store access).
+        config: Parsed run configuration with the task already bound.
+        audit: Active audit handle for the preflight event.
+
+    Returns:
+        A failed summary when the target is unreachable or its lab
+        scenario is down; empty dict when the run may proceed.
+    """
+    from modules import loop_preflight
+
+    outcome = loop_preflight.check_target(config.target)
+    if audit is not None:
+        try:
+            audit.preflight(outcome)
+        except Exception:
+            pass
+    if outcome.get("ok"):
+        print_msg(f"[*] preflight: {outcome.get('reason', '')}")
+        return {}
+    hint = loop_preflight.recovery_hint(outcome)
+    print_error(f"[preflight] refusing to run: {outcome.get('reason', '')}")
+    if hint:
+        print_warn(f"[preflight] {hint}")
+    try:
+        engine.store.set_status(config.task_id, "preflight_failed")
+    except Exception:
+        pass
+    if audit is not None:
+        try:
+            audit.run_end(status="preflight_failed", rounds=0, error=outcome.get("reason", ""))
+        except Exception:
+            pass
+    return {
+        "task_id": config.task_id,
+        "status": "preflight_failed",
+        "error": str(outcome.get("reason", "")),
+        "verdict": {},
+        "rounds": 0,
+        "overview": {},
+        "goal": config.goal,
+    }
 
 
 def _tty_available() -> bool:
@@ -1310,13 +1577,18 @@ def _run_targets_file(shell, params: dict, config: LoopRunConfig) -> dict:
 
 
 __all__ = [
+    "AUTONOMOUS_ENV",
     "ENGAGEMENT_MODES",
+    "LOOP_RESULT_FILENAME",
     "LoopRunConfig",
+    "autonomous_exit_gate",
     "build_executor",
     "bind_target_authority",
     "load_targets_file",
+    "loop_exit_code",
     "parse_loop_line",
     "report_result",
     "resolve_loop_defaults",
     "run_loop",
+    "write_loop_result",
 ]

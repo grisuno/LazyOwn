@@ -4,7 +4,7 @@
 - Doc: Flask Blueprints for lazydown C2.
 - Layer: utility
 - Language: py
-- Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/operations.py`, `lazyc2/blueprints/phishing.py`
+- Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/gym.py`, `lazyc2/blueprints/loops.py`, `lazyc2/blueprints/operations.py`, `lazyc2/blueprints/phishing.py`
 - Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_codeql_batch.py`
 
 ## lazyc2/blueprints/addons.py
@@ -27,7 +27,7 @@
   - `delete_addon` (function, line 345) `def delete_addon(name)`
   - `wrapper` (function, line 110) `def wrapper()`
 - Depends on: `core/logging.py`, `lazyc2/addon_creator.py`, `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/security/csrf.py`
-- Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_addon_creator.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_addon_creator.py`
 
 ## lazyc2/blueprints/api.py
 - Doc: API blueprint for the LazyOwn C2 server.
@@ -45,7 +45,7 @@
   - `set_default` (function, line 211) `def set_default()`
   - `guarded` (function, line 146) `def guarded()`
 - Depends on: `core/api_authz.py`, `core/config.py`, `core/defaults.py`, `core/logging.py`
-- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/orchestrator.py`, `tests/test_core_defaults.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/orchestrator.py`, `tests/test_core_defaults.py`
 
 ## lazyc2/blueprints/api_v1.py
 - Doc: Versioned REST API (``/api/v1``) for the LazyOwn C2 server.
@@ -113,6 +113,40 @@
   - `_run` (function, line 97) `def _run()`
 - Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
 - Imported by: `lazyc2/blueprints/__init__.py`
+
+## lazyc2/blueprints/gym.py
+- Doc: Gym blueprint — Red Team Gym lab lifecycle for the dashboard.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `_csrf_guard` (function, line 33) `def _csrf_guard(view)`
+  - `_scenario_from_payload` (function, line 63) `def _scenario_from_payload(data)`
+  - `_scenario_allowed` (function, line 73) `def _scenario_allowed(scenario)`
+  - `_scenario_row` (function, line 83) `def _scenario_row(name, info)`
+  - `api_gym_scenarios` (function, line 111) `def api_gym_scenarios()`
+  - `api_gym_nodes` (function, line 124) `def api_gym_nodes()`
+  - `api_gym_start` (function, line 157) `def api_gym_start()`
+  - `api_gym_stop` (function, line 186) `def api_gym_stop()`
+  - `wrapper` (function, line 48) `def wrapper()`
+- Depends on: `lazyc2/blueprints/session_auth.py`, `lazyc2/security/csrf_flow.py`, `modules/lab_runtime.py`
+- Imported by: `lazyc2/app_factory.py`, `lazyc2/blueprints/__init__.py`, `tests/test_gym_blueprint.py`
+
+## lazyc2/blueprints/loops.py
+- Doc: Loops blueprint — autonomous loop control API for the dashboard.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `_generic_loop_error` (function, line 54) `def _generic_loop_error()`
+  - `_loops_start` (function, line 63) `def _loops_start()`
+  - `_loops_list` (function, line 115) `def _loops_list()`
+  - `_loop_log` (function, line 123) `def _loop_log(loop_id)`
+  - `_loop_stop` (function, line 141) `def _loop_stop(loop_id)`
+  - `_default_guard` (function, line 158) `def _default_guard(view, needs_csrf)`
+  - `init_loops_bp` (function, line 179) `def init_loops_bp(limiter, guard)`
+  - `wrapper` (function, line 170) `def wrapper()`
+  - `_limited` (function, line 195) `def _limited(view, limit_string)`
+- Depends on: `core/logging.py`, `modules/loop_manager.py`
+- Imported by: `lazyc2/app_factory.py`, `lazyc2/blueprints/__init__.py`
 
 ## lazyc2/blueprints/operations.py
 - Doc: Operations blueprint — tasks, CVEs, notes, and event management.
@@ -182,4 +216,4 @@
 - Symbols:
   - `require_operator_session` (function, line 20) `def require_operator_session(blueprint, login_endpoint)`
   - `_guard` (function, line 36) `def _guard()`
-- Imported by: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/operations.py`
+- Imported by: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/gym.py`, `lazyc2/blueprints/operations.py`

@@ -111,6 +111,10 @@ class HeadlessRunner:
                 self.shell.onecmd(cmd)
             result["output"] = capture.getvalue()
             result["success"] = True
+        except SystemExit as exc:
+            result["output"] = capture.getvalue()
+            result["success"] = False
+            self.exit_code = int(exc.code) if isinstance(exc.code, int) else EXIT_ERROR
         except Exception as exc:
             result["error"] = str(exc)
             result["success"] = False
@@ -140,6 +144,8 @@ class HeadlessRunner:
         """
         for cmd in commands:
             self.run_command(cmd)
+            if self.exit_code != EXIT_OK:
+                break
 
         if self.json_output:
             summary = {

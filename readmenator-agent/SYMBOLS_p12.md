@@ -1,8 +1,88 @@
-# Symbols (page 12 of 51)
+# Symbols (page 12 of 53)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `PivotNode` | class | `modules/auto_pivot.py:23` | `class PivotNode` |
+| `__init__` | method | `modules/auto_pivot.py:73` | `def __init__(self, config)` |
+| `_load_state` | method | `modules/auto_pivot.py:314` | `def _load_state(self)` |
+| `_next_port` | method | `modules/auto_pivot.py:85` | `def _next_port(self)` |
+| `_persist_state` | method | `modules/auto_pivot.py:277` | `def _persist_state(self)` |
+| `add_pivot_node` | method | `modules/auto_pivot.py:90` | `def add_pivot_node(self, ip, access_type, credential_id, hostname)` |
+| `build_chain` | method | `modules/auto_pivot.py:146` | `def build_chain(self, target_ip, via_nodes, subnet)` |
+| `discover_subnets` | method | `modules/auto_pivot.py:128` | `def discover_subnets(self, node_ip, command_output)` |
+| `generate_chisel_command` | method | `modules/auto_pivot.py:206` | `def generate_chisel_command(self, target_ip, local_port)` |
+| `generate_proxychains_config` | method | `modules/auto_pivot.py:177` | `def generate_proxychains_config(self, chain_id)` |
+| `generate_ssh_socks_command` | method | `modules/auto_pivot.py:212` | `def generate_ssh_socks_command(self, node_ip, local_port)` |
+| `generate_sshuttle_command` | method | `modules/auto_pivot.py:203` | `def generate_sshuttle_command(self, node_ip, subnet)` |
+| `get_active_routes` | method | `modules/auto_pivot.py:243` | `def get_active_routes(self)` |
+| `get_reachable_hosts` | method | `modules/auto_pivot.py:259` | `def get_reachable_hosts(self, node_ip)` |
+| `health_check` | method | `modules/auto_pivot.py:216` | `def health_check(self, node_ip)` |
+| `health_check_all` | method | `modules/auto_pivot.py:237` | `def health_check_all(self)` |
+| `remove_pivot_node` | method | `modules/auto_pivot.py:120` | `def remove_pivot_node(self, ip)` |
+| `set_config` | method | `modules/auto_pivot.py:82` | `def set_config(self, config)` |
+| `set_reachable_hosts` | method | `modules/auto_pivot.py:267` | `def set_reachable_hosts(self, node_ip, hosts)` |
+| `set_route_priority` | method | `modules/auto_pivot.py:272` | `def set_route_priority(self, node_ip, priority)` |
+| `suggest_next_pivot` | method | `modules/auto_pivot.py:352` | `def suggest_next_pivot(self)` |
+| `DetectionMethod` | class | `modules/auto_purple.py:72` | `class DetectionMethod` |
+| `IPurpleEvaluator` | class | `modules/auto_purple.py:210` | `class IPurpleEvaluator(ABC)` |
+| `IPurpleLoop` | class | `modules/auto_purple.py:181` | `class IPurpleLoop(ABC)` |
+| `PurpleResult` | class | `modules/auto_purple.py:132` | `class PurpleResult` |
+| `PurpleScore` | class | `modules/auto_purple.py:165` | `class PurpleScore` |
+| `PurpleTeamLoop` | class | `modules/auto_purple.py:407` | `class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator)` |
+| `__init__` | method | `modules/auto_purple.py:414` | `def __init__(self, bt_path, detection_delay, methods, auto_feedback, session_id)` |
+| `_append_dataset` | method | `modules/auto_purple.py:698` | `def _append_dataset(self, result)` |
+| `_compute_oracle_accuracy` | method | `modules/auto_purple.py:739` | `def _compute_oracle_accuracy(self)` |
+| `_execute_red` | method | `modules/auto_purple.py:614` | `def _execute_red(self, command, args)` |
+| `_get_detection_methods` | method | `modules/auto_purple.py:759` | `def _get_detection_methods(self)` |
+| `_hash_output` | method | `modules/auto_purple.py:687` | `def _hash_output(self, output)` |
+| `_init_dataset` | method | `modules/auto_purple.py:433` | `def _init_dataset(self)` |
+| `_load_audit` | method | `modules/auto_purple.py:724` | `def _load_audit(self)` |
+| `_parse_ai_test` | function | `modules/auto_purple.py:329` | `def _parse_ai_test(output, command, args)` |
+| `_parse_alert_check` | function | `modules/auto_purple.py:374` | `def _parse_alert_check(output, command, args)` |
+| `_parse_fim_check` | function | `modules/auto_purple.py:388` | `def _parse_fim_check(output, command, args)` |
+| `_parse_keyword_match` | function | `modules/auto_purple.py:342` | `def _parse_keyword_match(output, command, args)` |
+| `_query_blue` | method | `modules/auto_purple.py:635` | `def _query_blue(self, command, args)` |
+| `_run_bt_command` | function | `modules/auto_purple.py:225` | `def _run_bt_command(bt_path, command, timeout)` |
+| `_write_audit` | method | `modules/auto_purple.py:693` | `def _write_audit(self, result)` |
+| `_write_feedback` | method | `modules/auto_purple.py:704` | `def _write_feedback(self, result)` |
+| `category_accuracy` | method | `modules/auto_purple.py:217` | `def category_accuracy(self, category)` |
+| `category_accuracy` | method | `modules/auto_purple.py:599` | `def category_accuracy(self, category)` |
+| `engagement_score` | method | `modules/auto_purple.py:201` | `def engagement_score(self)` |
+| `engagement_score` | method | `modules/auto_purple.py:529` | `def engagement_score(self)` |
+| `execute_and_measure` | method | `modules/auto_purple.py:185` | `def execute_and_measure(self, command, args, category)` |
+| `execute_and_measure` | method | `modules/auto_purple.py:443` | `def execute_and_measure(self, command, args, category)` |
+| `export_dataset` | method | `modules/auto_purple.py:204` | `def export_dataset(self)` |
+| `export_dataset` | method | `modules/auto_purple.py:567` | `def export_dataset(self)` |
+| `export_report` | method | `modules/auto_purple.py:207` | `def export_report(self)` |
+| `export_report` | method | `modules/auto_purple.py:571` | `def export_report(self)` |
+| `get_loop` | function | `modules/auto_purple.py:772` | `def get_loop(bt_path, detection_delay, methods, auto_feedback)` |
+| `last_results` | method | `modules/auto_purple.py:214` | `def last_results(self, n)` |
+| `last_results` | method | `modules/auto_purple.py:596` | `def last_results(self, n)` |
+| `load_config_from_payload` | function | `modules/auto_purple.py:790` | `def load_config_from_payload(params)` |
+| `measure_only` | method | `modules/auto_purple.py:193` | `def measure_only(self, command, args, category)` |
+| `measure_only` | method | `modules/auto_purple.py:493` | `def measure_only(self, command, args, category)` |
+| `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
+| `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
+| `AutoVerb` | class | `modules/auto_registry.py:95` | `class AutoVerb` |
+| `ShellResult` | class | `modules/auto_registry.py:1021` | `class ShellResult` |
+| `_TeeCapture` | class | `modules/auto_registry.py:1028` | `class _TeeCapture(StringIO)` |
+| `__init__` | method | `modules/auto_registry.py:1038` | `def __init__(self, observer)` |
+| `_apt_chain_steps` | function | `modules/auto_registry.py:801` | `def _apt_chain_steps(embedded, target, strict)` |
+| `_atomic_steps` | function | `modules/auto_registry.py:767` | `def _atomic_steps(verb, text)` |
+| `_chain_name_for_playbook` | function | `modules/auto_registry.py:830` | `def _chain_name_for_playbook(playbook)` |
+| `_cli_verb_allowed` | function | `modules/auto_registry.py:427` | `def _cli_verb_allowed(name)` |
+| `_exploitdb_steps` | function | `modules/auto_registry.py:1307` | `def _exploitdb_steps(embedded, target)` |
+| `_invoke` | function | `modules/auto_registry.py:1079` | `def _invoke()` |
+| `_kill` | function | `modules/auto_registry.py:1231` | `def _kill()` |
+| `_looks_like_target` | function | `modules/auto_registry.py:38` | `def _looks_like_target(value)` |
+| `_os_default_for_verb` | function | `modules/auto_registry.py:278` | `def _os_default_for_verb(verb)` |
+| `_parse_trigger_lines` | function | `modules/auto_registry.py:518` | `def _parse_trigger_lines(lines, start)` |
+| `_playbook_steps` | function | `modules/auto_registry.py:786` | `def _playbook_steps(text)` |
+| `_register_process` | function | `modules/auto_registry.py:1154` | `def _register_process(process)` |
+| `_repo_base` | function | `modules/auto_registry.py:455` | `def _repo_base()` |
+| `_target` | function | `modules/auto_registry.py:1090` | `def _target()` |
+| `_unregister_process` | function | `modules/auto_registry.py:1160` | `def _unregister_process(process)` |
 | `_verb_row` | function | `modules/auto_registry.py:331` | `def _verb_row(name)` |
 | `_verb_rows` | function | `modules/auto_registry.py:286` | `def _verb_rows()` |
 | `addon_hits_for` | function | `modules/auto_registry.py:608` | `def addon_hits_for(service_text, limit)` |
@@ -100,7 +180,7 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_inject_profile_engine` | method | `modules/beacon_config_builder.py:320` | `def _inject_profile_engine(self, config)` |
 | `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:368` | `def _inject_sleep_engine(self, config)` |
 | `_inject_socks_engine` | method | `modules/beacon_config_builder.py:387` | `def _inject_socks_engine(self, config)` |
-| `_validate_bof_token` | function | `modules/beacon_config_builder.py:489` | `def _validate_bof_token(token, label)` |
+| `_validate_bof_token` | function | `modules/beacon_config_builder.py:493` | `def _validate_bof_token(token, label)` |
 | `build` | method | `modules/beacon_config_builder.py:250` | `def build(self, name)` |
 | `from_payload` | method | `modules/beacon_config_builder.py:405` | `def from_payload(cls, payload)` |
 | `from_payload_file` | method | `modules/beacon_config_builder.py:410` | `def from_payload_file(cls, path)` |
@@ -157,93 +237,141 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `slugify` | function | `modules/bof_admin.py:72` | `def slugify(value)` |
 | `update_bof` | function | `modules/bof_admin.py:300` | `def update_bof(path, data, directory)` |
 | `validate_bof` | function | `modules/bof_admin.py:132` | `def validate_bof(data)` |
-| `BofDeliveryConfig` | class | `modules/bof_delivery.py:87` | `class BofDeliveryConfig` |
-| `ClientAddon` | class | `modules/bof_delivery.py:108` | `class ClientAddon` |
-| `_DockerSession` | class | `modules/bof_delivery.py:1063` | `class _DockerSession` |
-| `__init__` | method | `modules/bof_delivery.py:1071` | `def __init__(self, container)` |
-| `_apply_upstream_report_patch` | function | `modules/bof_delivery.py:434` | `def _apply_upstream_report_patch(addon, config)` |
-| `_atomic_session` | function | `modules/bof_delivery.py:1164` | `def _atomic_session(target)` |
-| `_beacons_from_history` | function | `modules/bof_delivery.py:730` | `def _beacons_from_history(config)` |
-| `_c2_channel_base` | function | `modules/bof_delivery.py:605` | `def _c2_channel_base(cfg, payload)` |
-| `_deploy_paths` | function | `modules/bof_delivery.py:945` | `def _deploy_paths(addon)` |
-| `_docker_session_for` | function | `modules/bof_delivery.py:1117` | `def _docker_session_for(target)` |
-| `_history_config` | function | `modules/bof_delivery.py:1251` | `def _history_config(config)` |
-| `_raw_stage_for_implant_serving` | function | `modules/bof_delivery.py:382` | `def _raw_stage_for_implant_serving(addon_name, binary_path, config)` |
-| `_record_after` | function | `modules/bof_delivery.py:810` | `def _record_after(row, since)` |
-| `_shell_bearing_specs` | function | `modules/bof_delivery.py:1214` | `def _shell_bearing_specs(target)` |
-| `alive` | method | `modules/bof_delivery.py:1075` | `def alive(self, timeout)` |
-| `beacon_runtime_config` | function | `modules/bof_delivery.py:201` | `def beacon_runtime_config(client, client_id, config, payload)` |
-| `bof_results` | function | `modules/bof_delivery.py:1267` | `def bof_results(client_id, limit, config)` |
-| `c2_reachable` | function | `modules/bof_delivery.py:834` | `def c2_reachable(config, payload)` |
-| `config_sessions_dir` | function | `modules/bof_delivery.py:1246` | `def config_sessions_dir()` |
-| `delivery_command` | function | `modules/bof_delivery.py:579` | `def delivery_command(bof_name, c2_url, args, bofs_dir)` |
-| `deploy_client` | function | `modules/bof_delivery.py:974` | `def deploy_client(client, target)` |
-| `key_missing_from_error` | function | `modules/bof_delivery.py:565` | `def key_missing_from_error(exc)` |
-| `load_client_addon` | function | `modules/bof_delivery.py:126` | `def load_client_addon(client, config)` |
-| `queue_to_beacon` | function | `modules/bof_delivery.py:627` | `def queue_to_beacon(client_id, command, config, payload)` |
-| `recent_beacons` | function | `modules/bof_delivery.py:690` | `def recent_beacons(config, payload)` |
-| `run` | method | `modules/bof_delivery.py:1095` | `def run(self, command, timeout)` |
-| `run_bof` | function | `modules/bof_delivery.py:869` | `def run_bof(bof_name, client_id, args)` |
-| `run_bof_train` | function | `modules/bof_delivery.py:908` | `def run_bof_train(client_id, names, args)` |
-| `stage_bof` | function | `modules/bof_delivery.py:182` | `def stage_bof(name, config)` |
-| `stage_client` | function | `modules/bof_delivery.py:315` | `def stage_client(client, config, payload)` |
-| `staging_dir` | function | `modules/bof_delivery.py:167` | `def staging_dir(config)` |
-| `wait_for_beacon` | function | `modules/bof_delivery.py:756` | `def wait_for_beacon(client_id, since, timeout, config, payload)` |
-| `write_client_config` | function | `modules/bof_delivery.py:273` | `def write_client_config(client, client_id, config, payload)` |
+| `BofDeliveryConfig` | class | `modules/bof_delivery.py:141` | `class BofDeliveryConfig` |
+| `ClientAddon` | class | `modules/bof_delivery.py:162` | `class ClientAddon` |
+| `_DockerSession` | class | `modules/bof_delivery.py:1152` | `class _DockerSession` |
+| `__init__` | method | `modules/bof_delivery.py:1160` | `def __init__(self, container)` |
+| `_apply_upstream_report_patch` | function | `modules/bof_delivery.py:493` | `def _apply_upstream_report_patch(addon, config)` |
+| `_atomic_session` | function | `modules/bof_delivery.py:1253` | `def _atomic_session(target)` |
+| `_beacons_from_history` | function | `modules/bof_delivery.py:791` | `def _beacons_from_history(config)` |
+| `_c2_channel_base` | function | `modules/bof_delivery.py:666` | `def _c2_channel_base(cfg, payload)` |
+| `_deploy_paths` | function | `modules/bof_delivery.py:1006` | `def _deploy_paths(addon)` |
+| `_docker_session_for` | function | `modules/bof_delivery.py:1206` | `def _docker_session_for(target)` |
+| `_history_config` | function | `modules/bof_delivery.py:1340` | `def _history_config(config)` |
+| `_raw_stage_for_implant_serving` | function | `modules/bof_delivery.py:441` | `def _raw_stage_for_implant_serving(addon_name, binary_path, config)` |
+| `_record_after` | function | `modules/bof_delivery.py:871` | `def _record_after(row, since)` |
+| `_shell_bearing_specs` | function | `modules/bof_delivery.py:1303` | `def _shell_bearing_specs(target)` |
+| `_stage_payload_b64` | function | `modules/bof_delivery.py:95` | `def _stage_payload_b64(external_root)` |
+| `alive` | method | `modules/bof_delivery.py:1164` | `def alive(self, timeout)` |
+| `beacon_runtime_config` | function | `modules/bof_delivery.py:255` | `def beacon_runtime_config(client, client_id, config, payload)` |
+| `bof_results` | function | `modules/bof_delivery.py:1356` | `def bof_results(client_id, limit, config)` |
+| `c2_reachable` | function | `modules/bof_delivery.py:895` | `def c2_reachable(config, payload)` |
+| `config_sessions_dir` | function | `modules/bof_delivery.py:1335` | `def config_sessions_dir()` |
+| `delivery_command` | function | `modules/bof_delivery.py:640` | `def delivery_command(bof_name, c2_url, args, bofs_dir)` |
+| `deploy_client` | function | `modules/bof_delivery.py:1035` | `def deploy_client(client, target)` |
+| `key_missing_from_error` | function | `modules/bof_delivery.py:626` | `def key_missing_from_error(exc)` |
+| `load_client_addon` | function | `modules/bof_delivery.py:180` | `def load_client_addon(client, config)` |
+| `queue_to_beacon` | function | `modules/bof_delivery.py:688` | `def queue_to_beacon(client_id, command, config, payload)` |
+| `recent_beacons` | function | `modules/bof_delivery.py:751` | `def recent_beacons(config, payload)` |
+| `run` | method | `modules/bof_delivery.py:1184` | `def run(self, command, timeout)` |
+| `run_bof` | function | `modules/bof_delivery.py:930` | `def run_bof(bof_name, client_id, args)` |
+| `run_bof_train` | function | `modules/bof_delivery.py:969` | `def run_bof_train(client_id, names, args)` |
+| `stage_bof` | function | `modules/bof_delivery.py:236` | `def stage_bof(name, config)` |
+| `stage_client` | function | `modules/bof_delivery.py:374` | `def stage_client(client, config, payload)` |
+| `staging_dir` | function | `modules/bof_delivery.py:221` | `def staging_dir(config)` |
+| `wait_for_beacon` | function | `modules/bof_delivery.py:817` | `def wait_for_beacon(client_id, since, timeout, config, payload)` |
+| `write_client_config` | function | `modules/bof_delivery.py:332` | `def write_client_config(client, client_id, config, payload)` |
 | `BofCatalog` | class | `modules/bof_registry.py:173` | `class BofCatalog` |
 | `BofCategory` | class | `modules/bof_registry.py:78` | `class BofCategory(str, Enum)` |
 | `BofEntry` | class | `modules/bof_registry.py:95` | `class BofEntry` |
-| `BofMarketplace` | class | `modules/bof_registry.py:606` | `class BofMarketplace` |
+| `BofMarketplace` | class | `modules/bof_registry.py:607` | `class BofMarketplace` |
 | `BofPlatform` | class | `modules/bof_registry.py:71` | `class BofPlatform(str, Enum)` |
-| `BofRegistry` | class | `modules/bof_registry.py:519` | `class BofRegistry` |
-| `BofValidator` | class | `modules/bof_registry.py:473` | `class BofValidator` |
+| `BofRegistry` | class | `modules/bof_registry.py:520` | `class BofRegistry` |
+| `BofValidator` | class | `modules/bof_registry.py:474` | `class BofValidator` |
 | `BofYamlStore` | class | `modules/bof_registry.py:281` | `class BofYamlStore` |
 | `__init__` | method | `modules/bof_registry.py:290` | `def __init__(self, directory)` |
-| `__init__` | method | `modules/bof_registry.py:526` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `modules/bof_registry.py:618` | `def __init__(self, sessions_dir, catalog)` |
+| `__init__` | method | `modules/bof_registry.py:527` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/bof_registry.py:619` | `def __init__(self, sessions_dir, catalog)` |
 | `_build_default_catalog` | function | `modules/bof_registry.py:349` | `def _build_default_catalog()` |
-| `_load_manifest` | method | `modules/bof_registry.py:536` | `def _load_manifest(self)` |
-| `_save_manifest` | method | `modules/bof_registry.py:547` | `def _save_manifest(self, manifest)` |
-| `bulk_install` | method | `modules/bof_registry.py:736` | `def bulk_install(self, names)` |
-| `catalog` | method | `modules/bof_registry.py:629` | `def catalog(self)` |
+| `_load_manifest` | method | `modules/bof_registry.py:537` | `def _load_manifest(self)` |
+| `_save_manifest` | method | `modules/bof_registry.py:548` | `def _save_manifest(self, manifest)` |
+| `bulk_install` | method | `modules/bof_registry.py:737` | `def bulk_install(self, names)` |
+| `catalog` | method | `modules/bof_registry.py:630` | `def catalog(self)` |
 | `client_addon_install_path` | function | `modules/bof_registry.py:415` | `def client_addon_install_path(client, addons_dir)` |
-| `compute_sha256` | method | `modules/bof_registry.py:482` | `def compute_sha256(filepath)` |
+| `compute_sha256` | method | `modules/bof_registry.py:483` | `def compute_sha256(filepath)` |
 | `directory` | method | `modules/bof_registry.py:299` | `def directory(self)` |
 | `find_client_artifact` | function | `modules/bof_registry.py:362` | `def find_client_artifact(entry)` |
 | `from_dict` | method | `modules/bof_registry.py:151` | `def from_dict(cls, raw)` |
 | `from_dict` | method | `modules/bof_registry.py:257` | `def from_dict(cls, raw)` |
 | `get` | method | `modules/bof_registry.py:193` | `def get(self, name)` |
-| `get_install_info` | method | `modules/bof_registry.py:600` | `def get_install_info(self, name)` |
-| `info` | method | `modules/bof_registry.py:657` | `def info(self, name)` |
-| `install` | method | `modules/bof_registry.py:557` | `def install(self, entry)` |
-| `install` | method | `modules/bof_registry.py:674` | `def install(self, name)` |
-| `install_dir` | method | `modules/bof_registry.py:532` | `def install_dir(self)` |
-| `is_installed` | method | `modules/bof_registry.py:552` | `def is_installed(self, name)` |
+| `get_install_info` | method | `modules/bof_registry.py:601` | `def get_install_info(self, name)` |
+| `info` | method | `modules/bof_registry.py:658` | `def info(self, name)` |
+| `install` | method | `modules/bof_registry.py:558` | `def install(self, entry)` |
+| `install` | method | `modules/bof_registry.py:675` | `def install(self, name)` |
+| `install_dir` | method | `modules/bof_registry.py:533` | `def install_dir(self)` |
+| `is_installed` | method | `modules/bof_registry.py:553` | `def is_installed(self, name)` |
 | `list_all` | method | `modules/bof_registry.py:245` | `def list_all(self)` |
 | `list_by_category` | method | `modules/bof_registry.py:237` | `def list_by_category(self, category)` |
 | `list_by_platform` | method | `modules/bof_registry.py:241` | `def list_by_platform(self, platform)` |
-| `list_installed` | method | `modules/bof_registry.py:595` | `def list_installed(self)` |
-| `list_installed` | method | `modules/bof_registry.py:716` | `def list_installed(self)` |
-| `list_missing_dependencies` | method | `modules/bof_registry.py:728` | `def list_missing_dependencies(self, name)` |
+| `list_installed` | method | `modules/bof_registry.py:596` | `def list_installed(self)` |
+| `list_installed` | method | `modules/bof_registry.py:717` | `def list_installed(self)` |
+| `list_missing_dependencies` | method | `modules/bof_registry.py:729` | `def list_missing_dependencies(self, name)` |
 | `load` | method | `modules/bof_registry.py:265` | `def load(cls, path)` |
 | `load_catalog` | method | `modules/bof_registry.py:342` | `def load_catalog(self)` |
 | `load_entries` | method | `modules/bof_registry.py:303` | `def load_entries(self)` |
 | `register` | method | `modules/bof_registry.py:183` | `def register(self, entry)` |
 | `register_many` | method | `modules/bof_registry.py:188` | `def register_many(self, entries)` |
-| `registry` | method | `modules/bof_registry.py:634` | `def registry(self)` |
+| `registry` | method | `modules/bof_registry.py:635` | `def registry(self)` |
 | `save` | method | `modules/bof_registry.py:273` | `def save(self, path)` |
 | `search` | method | `modules/bof_registry.py:204` | `def search(self, query)` |
-| `search` | method | `modules/bof_registry.py:638` | `def search(self, query)` |
+| `search` | method | `modules/bof_registry.py:639` | `def search(self, query)` |
 | `stage_entry_bof` | function | `modules/bof_registry.py:441` | `def stage_entry_bof(entry, sessions_dir)` |
 | `to_dict` | method | `modules/bof_registry.py:130` | `def to_dict(self)` |
 | `to_dict` | method | `modules/bof_registry.py:249` | `def to_dict(self)` |
-| `uninstall` | method | `modules/bof_registry.py:578` | `def uninstall(self, name, remove_files)` |
-| `uninstall` | method | `modules/bof_registry.py:703` | `def uninstall(self, name)` |
-| `validate_args` | method | `modules/bof_registry.py:507` | `def validate_args(entry, args)` |
-| `verify_entry` | method | `modules/bof_registry.py:491` | `def verify_entry(entry, filepath)` |
-| `decrypt_bsb_report` | function | `modules/bsb_compat.py:84` | `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` |
-| `derive_bsb_keys` | function | `modules/bsb_compat.py:46` | `def derive_bsb_keys(master_key)` |
-| `encrypt_bsb_command` | function | `modules/bsb_compat.py:133` | `def encrypt_bsb_command(data, master_key)` |
+| `uninstall` | method | `modules/bof_registry.py:579` | `def uninstall(self, name, remove_files)` |
+| `uninstall` | method | `modules/bof_registry.py:704` | `def uninstall(self, name)` |
+| `validate_args` | method | `modules/bof_registry.py:508` | `def validate_args(entry, args)` |
+| `verify_entry` | method | `modules/bof_registry.py:492` | `def verify_entry(entry, filepath)` |
+| `SyncReceiver` | class | `modules/browser_sync.py:592` | `class SyncReceiver` |
+| `_Handler` | class | `modules/browser_sync.py:632` | `class _Handler(BaseHTTPRequestHandler)` |
+| `__init__` | method | `modules/browser_sync.py:595` | `def __init__(self, host, port)` |
+| `_clean_cookie` | function | `modules/browser_sync.py:562` | `def _clean_cookie(raw)` |
+| `_drain` | method | `modules/browser_sync.py:686` | `def _drain(self, length)` |
+| `_jar_path` | function | `modules/browser_sync.py:82` | `def _jar_path()` |
+| `_load_rules_cached` | function | `modules/browser_sync.py:367` | `def _load_rules_cached()` |
+| `_netscape_line` | function | `modules/browser_sync.py:317` | `def _netscape_line(cookie)` |
+| `_payload_inject_enabled` | function | `modules/browser_sync.py:413` | `def _payload_inject_enabled()` |
+| `_profile_cache_get` | function | `modules/browser_sync.py:543` | `def _profile_cache_get()` |
+| `_profile_path` | function | `modules/browser_sync.py:77` | `def _profile_path()` |
+| `_read_payload_cached` | function | `modules/browser_sync.py:393` | `def _read_payload_cached()` |
+| `_reply` | method | `modules/browser_sync.py:698` | `def _reply(self, code, payload)` |
+| `_rules_path` | function | `modules/browser_sync.py:87` | `def _rules_path()` |
+| `_sanitize_header_value` | function | `modules/browser_sync.py:97` | `def _sanitize_header_value(value)` |
+| `_sessions_dir` | function | `modules/browser_sync.py:71` | `def _sessions_dir()` |
+| `_store` | method | `modules/browser_sync.py:716` | `def _store(self, data)` |
+| `_token_path` | function | `modules/browser_sync.py:92` | `def _token_path()` |
+| `apply_identity_headers` | function | `modules/browser_sync.py:475` | `def apply_identity_headers(host, headers, body, path, scheme)` |
+| `apply_identity_to_url` | function | `modules/browser_sync.py:839` | `def apply_identity_to_url(url, headers, body)` |
+| `apply_rules` | function | `modules/browser_sync.py:418` | `def apply_rules(headers, body)` |
+| `build_cookie_header` | function | `modules/browser_sync.py:285` | `def build_cookie_header(existing, cookies)` |
+| `clear_profile` | function | `modules/browser_sync.py:822` | `def clear_profile()` |
+| `cookie_expired` | function | `modules/browser_sync.py:226` | `def cookie_expired(cookie, now)` |
+| `cookie_matches_host` | function | `modules/browser_sync.py:183` | `def cookie_matches_host(cookie, host)` |
+| `cookie_matches_path` | function | `modules/browser_sync.py:202` | `def cookie_matches_path(cookie, request_path)` |
+| `cookies_for_host` | function | `modules/browser_sync.py:248` | `def cookies_for_host(profile, host, path, scheme)` |
+| `do_GET` | method | `modules/browser_sync.py:642` | `def do_GET(self)` |
+| `do_POST` | method | `modules/browser_sync.py:654` | `def do_POST(self)` |
+| `ensure_wiring` | function | `modules/browser_sync.py:864` | `def ensure_wiring()` |
+| `get_receiver` | function | `modules/browser_sync.py:791` | `def get_receiver()` |
+| `jar_path` | function | `modules/browser_sync.py:362` | `def jar_path()` |
+| `load_profile` | function | `modules/browser_sync.py:151` | `def load_profile()` |
+| `log_message` | method | `modules/browser_sync.py:638` | `def log_message(self, fmt)` |
+| `masked_rows` | function | `modules/browser_sync.py:906` | `def masked_rows(profile, domain_filter, full)` |
+| `profile_stats` | function | `modules/browser_sync.py:164` | `def profile_stats()` |
+| `reset_token` | function | `modules/browser_sync.py:138` | `def reset_token()` |
+| `start` | method | `modules/browser_sync.py:610` | `def start(self, host, port)` |
+| `start_receiver` | function | `modules/browser_sync.py:800` | `def start_receiver(port, host)` |
+| `status` | method | `modules/browser_sync.py:771` | `def status(self)` |
+| `stop` | method | `modules/browser_sync.py:755` | `def stop(self)` |
+| `stop_receiver` | function | `modules/browser_sync.py:813` | `def stop_receiver()` |
+| `token` | function | `modules/browser_sync.py:112` | `def token(create)` |
+| `write_netscape_jar` | function | `modules/browser_sync.py:340` | `def write_netscape_jar(profile, path)` |
+| `decrypt_bsb_report` | function | `modules/bsb_compat.py:90` | `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` |
+| `decrypt_bsb_stage_blob` | function | `modules/bsb_compat.py:232` | `def decrypt_bsb_stage_blob(encrypted_data, token)` |
+| `derive_bsb_keys` | function | `modules/bsb_compat.py:52` | `def derive_bsb_keys(master_key)` |
+| `derive_bsb_stage_keys` | function | `modules/bsb_compat.py:162` | `def derive_bsb_stage_keys(token)` |
+| `encrypt_bsb_command` | function | `modules/bsb_compat.py:139` | `def encrypt_bsb_command(data, master_key)` |
+| `encrypt_bsb_stage_blob` | function | `modules/bsb_compat.py:208` | `def encrypt_bsb_stage_blob(data, token)` |
 | `C2Server` | class | `modules/c2_agent.py:711` | `class C2Server` |
 | `__init__` | method | `modules/c2_agent.py:714` | `def __init__(self, port, user, password)` |
 | `_api` | function | `modules/c2_agent.py:825` | `def _api(path, data)` |
@@ -368,133 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `tls_profile` | method | `modules/c2_profile_engine.py:643` | `def tls_profile(self)` |
 | `to_dict` | method | `modules/c2_profile_engine.py:188` | `def to_dict(self)` |
 | `to_dict` | method | `modules/c2_profile_engine.py:274` | `def to_dict(self)` |
-| `to_dict` | method | `modules/c2_profile_engine.py:333` | `def to_dict(self)` |
-| `to_dict` | method | `modules/c2_profile_engine.py:389` | `def to_dict(self)` |
-| `touch` | method | `modules/c2_profile_engine.py:436` | `def touch(self)` |
-| `transport` | method | `modules/c2_profile_engine.py:465` | `def transport(self)` |
-| `validate` | method | `modules/c2_profile_engine.py:676` | `def validate(self)` |
-| `validate_all` | method | `modules/c2_profile_engine.py:591` | `def validate_all(self, tls, dns, smb, websocket)` |
-| `validate_dns` | method | `modules/c2_profile_engine.py:536` | `def validate_dns(profile)` |
-| `validate_smb` | method | `modules/c2_profile_engine.py:556` | `def validate_smb(profile)` |
-| `validate_tls` | method | `modules/c2_profile_engine.py:511` | `def validate_tls(profile)` |
-| `validate_websocket` | method | `modules/c2_profile_engine.py:576` | `def validate_websocket(profile)` |
-| `websocket_profile` | method | `modules/c2_profile_engine.py:658` | `def websocket_profile(self)` |
-| `_normalize_task_title` | function | `modules/c2_surfaces.py:256` | `def _normalize_task_title(title)` |
-| `_read_json` | function | `modules/c2_surfaces.py:42` | `def _read_json(path, default)` |
-| `_stamp` | function | `modules/c2_surfaces.py:68` | `def _stamp()` |
-| `_write_json` | function | `modules/c2_surfaces.py:54` | `def _write_json(path, data)` |
-| `append_note` | function | `modules/c2_surfaces.py:155` | `def append_note(line, sessions_dir)` |
-| `group_tasks_for_display` | function | `modules/c2_surfaces.py:261` | `def group_tasks_for_display(tasks)` |
-| `publish_banner` | function | `modules/c2_surfaces.py:73` | `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` |
-| `publish_cve` | function | `modules/c2_surfaces.py:115` | `def publish_cve(title, description, operator, risk, sessions_dir)` |
-| `refresh_session_report` | function | `modules/c2_surfaces.py:229` | `def refresh_session_report(timeout)` |
-| `register_loot_event` | function | `modules/c2_surfaces.py:184` | `def register_loot_event(name, path_glob, description, event_config)` |
-| `severity_to_risk` | function | `modules/c2_surfaces.py:251` | `def severity_to_risk(severity)` |
-| `days_in_month` | function | `modules/cal.sh:14` | `` |
-| `first_day_of_month` | function | `modules/cal.sh:31` | `` |
-| `is_leap_year` | function | `modules/cal.sh:4` | `` |
-| `PendingStore` | class | `modules/chain_approval.py:114` | `class PendingStore` |
-| `__init__` | method | `modules/chain_approval.py:117` | `def __init__(self, sessions_dir)` |
-| `_audit` | function | `modules/chain_approval.py:91` | `def _audit(sessions_dir, event)` |
-| `_audit_path` | function | `modules/chain_approval.py:73` | `def _audit_path(sessions_dir)` |
-| `_clamp_timeout` | function | `modules/chain_approval.py:52` | `def _clamp_timeout(value)` |
-| `_load` | method | `modules/chain_approval.py:125` | `def _load(self)` |
-| `_now` | function | `modules/chain_approval.py:47` | `def _now()` |
-| `_save` | method | `modules/chain_approval.py:141` | `def _save(self, payload)` |
-| `_store_path` | function | `modules/chain_approval.py:68` | `def _store_path(sessions_dir)` |
-| `approval_backend` | function | `modules/chain_approval.py:318` | `def approval_backend()` |
-| `approve` | function | `modules/chain_approval.py:358` | `def approve(step_id, command)` |
-| `build_c2_approver` | function | `modules/chain_approval.py:328` | `def build_c2_approver(printer, chain_name, run_id, timeout, poll_interval, sessions_dir, clock)` |
-| `command_fingerprint` | function | `modules/chain_approval.py:78` | `def command_fingerprint(command)` |
-| `create` | method | `modules/chain_approval.py:153` | `def create(self, chain, step_id, command, timeout, run_id, now_override)` |
-| `decide` | method | `modules/chain_approval.py:229` | `def decide(self, request_id, allowed, decided_by, note, expired)` |
-| `expire_stale` | method | `modules/chain_approval.py:282` | `def expire_stale(self, now)` |
-| `get` | method | `modules/chain_approval.py:204` | `def get(self, request_id)` |
-| `list` | method | `modules/chain_approval.py:215` | `def list(self, status)` |
-| `DistillReport` | class | `modules/chain_distill.py:479` | `class DistillReport` |
-| `StepDecision` | class | `modules/chain_distill.py:458` | `class StepDecision` |
-| `_artifact_pins` | function | `modules/chain_distill.py:338` | `def _artifact_pins(command, output, target)` |
-| `_command_index_phases` | function | `modules/chain_distill.py:249` | `def _command_index_phases()` |
-| `_command_verb` | function | `modules/chain_distill.py:229` | `def _command_verb(command)` |
-| `_excluded_host` | function | `modules/chain_distill.py:374` | `def _excluded_host(host, operator_deny)` |
-| `_infer_target` | function | `modules/chain_distill.py:418` | `def _infer_target(rows, graph, operator_deny)` |
-| `_is_doc_example` | function | `modules/chain_distill.py:310` | `def _is_doc_example(host)` |
-| `_is_failed` | function | `modules/chain_distill.py:213` | `def _is_failed(row)` |
-| `_is_prose` | function | `modules/chain_distill.py:198` | `def _is_prose(command)` |
-| `_load_graph` | function | `modules/chain_distill.py:172` | `def _load_graph(path)` |
-| `_load_traffic` | function | `modules/chain_distill.py:136` | `def _load_traffic(path)` |
-| `_operator_deny` | function | `modules/chain_distill.py:400` | `def _operator_deny(sessions_dir)` |
-| `_phase_for` | function | `modules/chain_distill.py:278` | `def _phase_for(command, manifest_phase)` |
-| `_slug` | function | `modules/chain_distill.py:80` | `def _slug(text)` |
-| `build_chain_data` | function | `modules/chain_distill.py:574` | `def build_chain_data(task, rows, graph, manifests)` |
-| `distill` | function | `modules/chain_distill.py:687` | `def distill(task, sessions_dir, write, chains_dir)` |
-| `dropped` | method | `modules/chain_distill.py:512` | `def dropped(self)` |
-| `kept` | method | `modules/chain_distill.py:507` | `def kept(self)` |
-| `locate_traces` | function | `modules/chain_distill.py:93` | `def locate_traces(task, sessions_dir)` |
-| `note` | function | `modules/chain_distill.py:598` | `def note(row, kept, reason)` |
-| `render` | method | `modules/chain_distill.py:543` | `def render(self, verbose)` |
-| `to_dict` | method | `modules/chain_distill.py:516` | `def to_dict(self)` |
-| `_default_store` | function | `modules/chain_facts.py:73` | `def _default_store()` |
-| `_host_hint` | function | `modules/chain_facts.py:84` | `def _host_hint(output, phase, target_hint)` |
-| `spool_chain_outputs` | function | `modules/chain_facts.py:24` | `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` |
-| `FamilyRegistry` | class | `modules/chain_family.py:68` | `class FamilyRegistry` |
-| `__init__` | method | `modules/chain_family.py:76` | `def __init__(self, path)` |
-| `_default_registry_path` | function | `modules/chain_family.py:178` | `def _default_registry_path()` |
-| `_load` | method | `modules/chain_family.py:84` | `def _load(self)` |
-| `_normalize_service` | function | `modules/chain_family.py:34` | `def _normalize_service(name)` |
-| `_save` | method | `modules/chain_family.py:90` | `def _save(self, data)` |
-| `_touch` | method | `modules/chain_family.py:96` | `def _touch(self, signature, chain)` |
-| `best` | method | `modules/chain_family.py:123` | `def best(self, signature)` |
-| `default_registry` | function | `modules/chain_family.py:185` | `def default_registry()` |
-| `family_signature` | function | `modules/chain_family.py:41` | `def family_signature(facts)` |
-| `record_association` | method | `modules/chain_family.py:111` | `def record_association(self, signature, chain, target)` |
-| `record_win` | method | `modules/chain_family.py:117` | `def record_win(self, signature, chain, target)` |
-| `transfer_note` | method | `modules/chain_family.py:159` | `def transfer_note(self, facts)` |
-| `ChainStepBlocked` | class | `modules/chain_loop.py:139` | `class ChainStepBlocked(RuntimeError)` |
-| `__init__` | method | `modules/chain_loop.py:142` | `def __init__(self, status, detail)` |
-| `_build_runner` | function | `modules/chain_loop.py:271` | `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)` |
-| `_render_summary` | function | `modules/chain_loop.py:322` | `def _render_summary(result, chain_name)` |
-| `_spool` | function | `modules/chain_loop.py:312` | `def _spool(result)` |
-| `chain_mode` | function | `modules/chain_loop.py:35` | `def chain_mode()` |
-| `guarded` | function | `modules/chain_loop.py:226` | `def guarded(step_command)` |
-| `is_chain_command` | function | `modules/chain_loop.py:53` | `def is_chain_command(command)` |
-| `on_step` | function | `modules/chain_loop.py:283` | `def on_step(outcome)` |
-| `parse_chain_invocation` | function | `modules/chain_loop.py:58` | `def parse_chain_invocation(command)` |
-| `run_chain_stepwise` | function | `modules/chain_loop.py:154` | `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` |
-| `stepwise_eligible` | function | `modules/chain_loop.py:109` | `def stepwise_eligible(chain, routable)` |
-| `best_chain` | function | `modules/chain_match.py:139` | `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` |
-| `load_rows` | function | `modules/chain_match.py:109` | `def load_rows(allow_lab, ttl)` |
-| `normalize_tags` | function | `modules/chain_match.py:49` | `def normalize_tags(tags)` |
-| `platform_ok` | function | `modules/chain_match.py:75` | `def platform_ok(platforms, os_hint)` |
-| `reset_cache` | function | `modules/chain_match.py:101` | `def reset_cache()` |
-| `score` | function | `modules/chain_match.py:86` | `def score(tags, phase, svc_tokens)` |
-| `service_tokens` | function | `modules/chain_match.py:65` | `def service_tokens(services)` |
-| `Chain` | class | `modules/chain_registry.py:158` | `class Chain` |
-| `ChainStep` | class | `modules/chain_registry.py:104` | `class ChainStep` |
-| `_eval` | function | `modules/chain_registry.py:319` | `def _eval(node)` |
-| `_materialize` | function | `modules/chain_registry.py:625` | `def _materialize(name, raw, stack)` |
-| `_nonneg_float` | function | `modules/chain_registry.py:681` | `def _nonneg_float(raw, ceiling)` |
-| `_nonneg_int` | function | `modules/chain_registry.py:672` | `def _nonneg_int(raw)` |
-| `_render` | function | `modules/chain_registry.py:241` | `def _render(template, variables)` |
-| `_step_from_raw` | function | `modules/chain_registry.py:692` | `def _step_from_raw(item)` |
-| `_when_tree` | function | `modules/chain_registry.py:270` | `def _when_tree(expression)` |
-| `evaluate_when` | function | `modules/chain_registry.py:297` | `def evaluate_when(expression, variables)` |
-| `generate_for_playbook` | function | `modules/chain_registry.py:837` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
-| `get` | function | `modules/chain_registry.py:749` | `def get(name, chains_dir)` |
-| `identifier` | method | `modules/chain_registry.py:152` | `def identifier(self)` |
-| `load_all` | function | `modules/chain_registry.py:591` | `def load_all(chains_dir)` |
-| `render_text_token_braces` | function | `modules/chain_registry.py:586` | `def render_text_token_braces(text)` |
-| `resolve` | method | `modules/chain_registry.py:176` | `def resolve(self, tokens)` |
-| `scan_all` | function | `modules/chain_registry.py:754` | `def scan_all(chains_dir)` |
-| `set_enabled` | function | `modules/chain_registry.py:814` | `def set_enabled(name, enabled, chains_dir)` |
-| `skip_pending` | function | `modules/chain_registry.py:69` | `def skip_pending(path, max_age, now)` |
-| `validate_chain` | function | `modules/chain_registry.py:362` | `def validate_chain(data, filename, chains_dir)` |
-| `ChainRunResult` | class | `modules/chain_runner.py:117` | `class ChainRunResult` |
-| `ChainRunner` | class | `modules/chain_runner.py:225` | `class ChainRunner` |
-| `ReplanContext` | class | `modules/chain_runner.py:170` | `class ReplanContext` |
-| `StepOutcome` | class | `modules/chain_runner.py:61` | `class StepOutcome` |
-| `__init__` | method | `modules/chain_runner.py:228` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
-| `_all_json_objects` | function | `modules/chain_runner.py:1517` | `def _all_json_objects(text)` |
-| `_apply_replanner` | method | `modules/chain_runner.py:889` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

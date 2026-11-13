@@ -1,10 +1,10 @@
 # orphans
 
-*Community 29 | 245 files | cohesion 0.00*
+*Community 27 | 250 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 245 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
+This community groups 250 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
@@ -14,7 +14,7 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/49803.py` | py | utility | 3 | yes |
 
-### `tests` (58 files)
+### `tests` (61 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -104,6 +104,12 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `.claude/skills/run-lazyown/driver.sh` | sh | infrastructure | 0 | yes |
 
+### `browser_sync_extension` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `browser_sync_extension/popup.js` | js | infrastructure | 2 | no |
+
 ### `deploy/range/ad-mini` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -122,13 +128,7 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `gyms/docker/php2shell/src/index.php` | php | utility | 0 | no |
 
-### `gyms/docker/php2shell/www` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `gyms/docker/php2shell/www/index.php` | php | utility | 0 | no |
-
-*... and 225 more files in this community.*
+*... and 230 more files in this community.*
 
 
 ## Key Symbols
@@ -152,6 +152,8 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 - `ask_existing_path_action` (function, `bootstrap.sh:336`)
 - `resolve_target_dir` (function, `bootstrap.sh:355`)
 - `ask_launch_mode` (function, `bootstrap.sh:432`)
+- `loadConfig` (function, `browser_sync_extension/popup.js:4`)
+- `renderResult` (function, `browser_sync_extension/popup.js:13`)
 - `genHeader` (function, `contrib/legacy/lazy_http_bof.py:6`) `def genHeader(raw)`
 - `exploit` (function, `contrib/legacy/lazy_http_bof.py:29`) `def exploit(target, port, payload)`
 - `check_sudo` (function, `contrib/legacy/lazy_packet_image_sniffer.py:23`) `def check_sudo()`
@@ -161,8 +163,6 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 - `get_ip_addresses` (function, `contrib/legacy/lazy_packet_image_sniffer.py:65`) `def get_ip_addresses(interface)`
 - `handle_packet` (function, `contrib/legacy/lazy_packet_image_sniffer.py:111`) `def handle_packet(packet)`
 - `save_image` (function, `contrib/legacy/lazy_packet_image_sniffer.py:161`) `def save_image(src_ip, end_idx)`
-- `run` (function, `contrib/legacy/lazy_packet_image_sniffer.py:187`) `def run()`
-- `daemonize` (function, `contrib/legacy/lazy_packet_image_sniffer.py:192`) `def daemonize()`
 
 ## Internal vs External Edges
 
@@ -183,7 +183,7 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 
 ## Open Questions
 
-- Why do 88 file(s) lack file-level docs (e.g. `DEPLOY.sh`)? What purpose do they serve?
+- Why do 89 file(s) lack file-level docs (e.g. `DEPLOY.sh`)? What purpose do they serve?
 - What would break if the most connected file in orphans changed?
 - Should orphans be split, given cohesion 0.00?
 
@@ -193,6 +193,7 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 - `DEPLOY.sh`
 - `__init__.py`
 - `bootstrap.sh`
+- `browser_sync_extension/popup.js`
 - `contrib/legacy/__init__.py`
 - `contrib/legacy/lazy_http_bof.py`
 - `contrib/legacy/lazy_packet_image_sniffer.py`
@@ -208,5 +209,4 @@ This community groups 245 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazyntlrelayx.py`
 - `contrib/legacy/lazypwnkit.py`
 - `contrib/legacy/lazypyautogui.py`
-- `contrib/legacy/lazysearch.py`
-- *... and 225 more*
+- *... and 230 more*

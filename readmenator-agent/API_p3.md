@@ -1,6 +1,15 @@
 # API (page 3 of 28)
 Previous: [API_p2.md](API_p2.md)
 
+## cli/commands/loop_audit.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `LoopAuditCommandSet.do_loop_audit` (method) `cli/commands/loop_audit.py:25` `def do_loop_audit(self, line)` -- Audit what an autonomous loop actually did.
+
+## cli/commands/marketplace.py
+Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/addon_updater.py`, `modules/module_registry.py`, `utils.py`
+- `MarketplaceCommandSet.do_marketplace` (method) `cli/commands/marketplace.py:104` `def do_marketplace(self, line)` -- Discover and install community plugins, addons, and tools.
+- `MarketplaceCommandSet.do_marketplace_config` (method) `cli/commands/marketplace.py:447` `def do_marketplace_config(self, line)` -- Interactive marketplace manager (Textual TUI).
+
 ## cli/commands/mcp_bridge.py
 Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
 Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
@@ -260,15 +269,15 @@ Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `mod
 - `PurpleTeamCommandSet.do_purple_history` (method) `cli/commands/purple_team.py:367` `def do_purple_history(self, args)` -- Show recent purple team action results.
 
 ## cli/commands/pwn.py
-Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 - `PwnCommandSet.do_auto_pwn` (method) `cli/commands/pwn.py:35` `def do_auto_pwn(self, line)` -- Run the full autonomous exploitation chain against the target.
-- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:109` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
-- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:158` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
-- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:245` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
-- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:302` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
-- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:394` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
-- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:422` `def do_stealth_off(self, line)` -- Disable stealth mode.
+- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:132` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
+- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:181` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
+- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:268` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
+- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:325` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
+- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:417` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
+- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:445` `def do_stealth_off(self, line)` -- Disable stealth mode.
 
 ## cli/commands/recon.py
 Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
@@ -317,10 +326,10 @@ Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/sur
 - `ReconMigratedCommandSet.do_ipinfo` (method) `cli/commands/recon_migrated.py:1369` `def do_ipinfo(self, line)` -- Retrieves detailed information about an IP address using the ARIN API.
 
 ## cli/commands/redteam_gym.py
-Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `modules/ctf_signalman.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
-- `RedTeamGymCommandSet.do_gym` (method) `cli/commands/redteam_gym.py:40` `def do_gym(self, line)` -- Red Team Gym — gamified pentest training with ELO scoring.
-- `RedTeamGymCommandSet.do_gym_ms2` (method) `cli/commands/redteam_gym.py:92` `def do_gym_ms2(self, line)` -- Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain <vuln>.
+- `RedTeamGymCommandSet.do_gym` (method) `cli/commands/redteam_gym.py:41` `def do_gym(self, line)` -- Red Team Gym — gamified pentest training with ELO scoring.
+- `RedTeamGymCommandSet.do_gym_ms2` (method) `cli/commands/redteam_gym.py:138` `def do_gym_ms2(self, line)` -- Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain <vuln>.
 
 ## cli/commands/resource_scripting.py
 Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
@@ -470,6 +479,10 @@ Imported by: `tests/test_shellsys_command_set.py`
 - `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:371` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
 - `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:408` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
 
+## cli/commands/sidequest.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `SidequestCommandSet.do_sidequest` (method) `cli/commands/sidequest.py:25` `def do_sidequest(self, statement)` -- Review frozen loop decisions read-only: sidequest list | ask.
+
 ## cli/commands/sleep_obfuscation.py
 Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
 - `SleepObfuscationCommandSet.do_sleep_list` (method) `cli/commands/sleep_obfuscation.py:23` `def do_sleep_list(self, line)` -- List available sleep obfuscation techniques.
@@ -481,18 +494,6 @@ Depends on: `cli/commands/_base.py`, `modules/socks_proxy.py`, `utils.py`
 - `SocksProxyCommandSet.do_socks_config` (method) `cli/commands/socks_proxy.py:25` `def do_socks_config(self, line)` -- Show or configure the SOCKS5 proxy.
 - `SocksProxyCommandSet.do_socks_sessions` (method) `cli/commands/socks_proxy.py:75` `def do_socks_sessions(self, line)` -- List active SOCKS proxy sessions.
 - `SocksProxyCommandSet.do_socks_export` (method) `cli/commands/socks_proxy.py:94` `def do_socks_export(self, line)` -- Export SOCKS5 proxy specification for beacon delivery.
-
-## cli/commands/supply_chain.py
-Depends on: `cli/commands/_base.py`, `utils.py`
-- `SupplyChainCommandSet.do_depconfuse` (method) `cli/commands/supply_chain.py:95` `def do_depconfuse(self, line)` -- Scan a requirements.txt for dependency confusion candidates.
-- `SupplyChainCommandSet.do_package_squat` (method) `cli/commands/supply_chain.py:140` `def do_package_squat(self, line)` -- Generate a malicious PyPI package for dependency confusion.
-- `SupplyChainCommandSet.do_depscan` (method) `cli/commands/supply_chain.py:216` `def do_depscan(self, line)` -- Scan a directory tree for dependency files and flag risks.
-- `is_internal_name` (function) `cli/commands/supply_chain.py:450` `def is_internal_name(name)` -- Check if a package name looks internal/private.
-
-## cli/commands/surface.py
-Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
-- `SurfaceCommandSet.do_scandiscovery` (method) `cli/commands/surface.py:43` `def do_scandiscovery(self, line)` -- Scan every discovery IP with operator confirmation.
-- `SurfaceCommandSet.do_estorides_intel` (method) `cli/commands/surface.py:86` `def do_estorides_intel(self, line)` -- Fuse estorides OSINT entities into the campaign intel graphs.
 
 
 Next: [API_p4.md](API_p4.md)

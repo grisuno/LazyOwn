@@ -1,50 +1,183 @@
-# Symbols (page 13 of 51)
+# Symbols (page 13 of 53)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_ask_approval` | method | `modules/chain_runner.py:1231` | `def _ask_approval(self, step_id, command)` |
-| `_call` | method | `modules/chain_runner.py:1497` | `def _call(callback, timeout)` |
-| `_deliver` | method | `modules/chain_runner.py:750` | `def _deliver(self, outcome)` |
-| `_dependency_block` | method | `modules/chain_runner.py:1164` | `def _dependency_block(step, prior_verdicts)` |
-| `_execute` | method | `modules/chain_runner.py:1341` | `def _execute(self, command, timeout, expect_exits)` |
-| `_finalize_verdict` | method | `modules/chain_runner.py:533` | `def _finalize_verdict(self, result)` |
-| `_first_json` | method | `modules/chain_runner.py:1302` | `def _first_json(output)` |
-| `_is_verb` | method | `modules/chain_runner.py:1416` | `def _is_verb(self, command)` |
-| `_load_json_events` | function | `modules/chain_runner.py:1538` | `def _load_json_events(path)` |
-| `_notify` | method | `modules/chain_runner.py:880` | `def _notify(self, outcome)` |
-| `_pace_after` | method | `modules/chain_runner.py:314` | `def _pace_after(self, outcome, started, step)` |
-| `_pre_check_timeout` | method | `modules/chain_runner.py:1246` | `def _pre_check_timeout(self, step)` |
-| `_promoted_sinks` | method | `modules/chain_runner.py:755` | `def _promoted_sinks(self, outcome)` |
-| `_publish_step` | method | `modules/chain_runner.py:780` | `def _publish_step(self, outcome)` |
-| `_raise_timeout` | function | `modules/chain_runner.py:1460` | `def _raise_timeout(_signum, _frame)` |
-| `_record_replan_deviations` | method | `modules/chain_runner.py:939` | `def _record_replan_deviations(self, context)` |
-| `_record_verdict` | method | `modules/chain_runner.py:1019` | `def _record_verdict(verdicts, outcome)` |
-| `_render_command` | method | `modules/chain_runner.py:1316` | `def _render_command(self, template, variables, captured_keys)` |
-| `_run_fallback_chain` | method | `modules/chain_runner.py:679` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
-| `_run_parallel_group` | method | `modules/chain_runner.py:585` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
-| `_run_raw` | method | `modules/chain_runner.py:1480` | `def _run_raw(self, command, timeout, allowed)` |
-| `_run_shell_verb` | method | `modules/chain_runner.py:1427` | `def _run_shell_verb(self, command, timeout)` |
-| `_run_step` | method | `modules/chain_runner.py:1026` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
-| `_run_verb_bounded` | method | `modules/chain_runner.py:1390` | `def _run_verb_bounded(self, command, limit)` |
-| `_save_checkpoint` | method | `modules/chain_runner.py:981` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
-| `_skip_remaining` | method | `modules/chain_runner.py:570` | `def _skip_remaining(self, steps, start, reason)` |
-| `_store_capture` | method | `modules/chain_runner.py:1250` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
-| `_verb_timeout_on_main` | method | `modules/chain_runner.py:1371` | `def _verb_timeout_on_main(self, limit)` |
-| `_verify_evidence` | method | `modules/chain_runner.py:1186` | `def _verify_evidence(self, step, outcome, variables)` |
-| `_verify_timeout` | method | `modules/chain_runner.py:1240` | `def _verify_timeout(self, step)` |
-| `applied_vars` | method | `modules/chain_runner.py:202` | `def applied_vars(self)` |
-| `chain_proven` | method | `modules/chain_runner.py:164` | `def chain_proven(self)` |
-| `insert_step` | method | `modules/chain_runner.py:192` | `def insert_step(self, step)` |
-| `inserted` | method | `modules/chain_runner.py:207` | `def inserted(self)` |
-| `ok` | method | `modules/chain_runner.py:89` | `def ok(self)` |
-| `render_text` | function | `modules/chain_runner.py:217` | `def render_text(template, variables)` |
-| `run` | method | `modules/chain_runner.py:353` | `def run(self)` |
-| `set_var` | method | `modules/chain_runner.py:187` | `def set_var(self, name, value)` |
-| `skip_rest` | method | `modules/chain_runner.py:197` | `def skip_rest(self)` |
-| `skip_rest_flag` | method | `modules/chain_runner.py:212` | `def skip_rest_flag(self)` |
-| `to_dict` | method | `modules/chain_runner.py:93` | `def to_dict(self)` |
-| `to_dict` | method | `modules/chain_runner.py:139` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:333` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:389` | `def to_dict(self)` |
+| `touch` | method | `modules/c2_profile_engine.py:436` | `def touch(self)` |
+| `transport` | method | `modules/c2_profile_engine.py:465` | `def transport(self)` |
+| `validate` | method | `modules/c2_profile_engine.py:676` | `def validate(self)` |
+| `validate_all` | method | `modules/c2_profile_engine.py:591` | `def validate_all(self, tls, dns, smb, websocket)` |
+| `validate_dns` | method | `modules/c2_profile_engine.py:536` | `def validate_dns(profile)` |
+| `validate_smb` | method | `modules/c2_profile_engine.py:556` | `def validate_smb(profile)` |
+| `validate_tls` | method | `modules/c2_profile_engine.py:511` | `def validate_tls(profile)` |
+| `validate_websocket` | method | `modules/c2_profile_engine.py:576` | `def validate_websocket(profile)` |
+| `websocket_profile` | method | `modules/c2_profile_engine.py:658` | `def websocket_profile(self)` |
+| `_normalize_task_title` | function | `modules/c2_surfaces.py:256` | `def _normalize_task_title(title)` |
+| `_read_json` | function | `modules/c2_surfaces.py:42` | `def _read_json(path, default)` |
+| `_stamp` | function | `modules/c2_surfaces.py:68` | `def _stamp()` |
+| `_write_json` | function | `modules/c2_surfaces.py:54` | `def _write_json(path, data)` |
+| `append_note` | function | `modules/c2_surfaces.py:155` | `def append_note(line, sessions_dir)` |
+| `group_tasks_for_display` | function | `modules/c2_surfaces.py:261` | `def group_tasks_for_display(tasks)` |
+| `publish_banner` | function | `modules/c2_surfaces.py:73` | `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` |
+| `publish_cve` | function | `modules/c2_surfaces.py:115` | `def publish_cve(title, description, operator, risk, sessions_dir)` |
+| `refresh_session_report` | function | `modules/c2_surfaces.py:229` | `def refresh_session_report(timeout)` |
+| `register_loot_event` | function | `modules/c2_surfaces.py:184` | `def register_loot_event(name, path_glob, description, event_config)` |
+| `severity_to_risk` | function | `modules/c2_surfaces.py:251` | `def severity_to_risk(severity)` |
+| `days_in_month` | function | `modules/cal.sh:14` | `` |
+| `first_day_of_month` | function | `modules/cal.sh:31` | `` |
+| `is_leap_year` | function | `modules/cal.sh:4` | `` |
+| `_lessons_path` | function | `modules/campaign_blacklist.py:22` | `def _lessons_path()` |
+| `_load` | function | `modules/campaign_blacklist.py:27` | `def _load()` |
+| `blocked_commands` | function | `modules/campaign_blacklist.py:63` | `def blocked_commands(category)` |
+| `campaign_blacklist` | function | `modules/campaign_blacklist.py:53` | `def campaign_blacklist()` |
+| `PendingStore` | class | `modules/chain_approval.py:114` | `class PendingStore` |
+| `__init__` | method | `modules/chain_approval.py:117` | `def __init__(self, sessions_dir)` |
+| `_audit` | function | `modules/chain_approval.py:91` | `def _audit(sessions_dir, event)` |
+| `_audit_path` | function | `modules/chain_approval.py:73` | `def _audit_path(sessions_dir)` |
+| `_clamp_timeout` | function | `modules/chain_approval.py:52` | `def _clamp_timeout(value)` |
+| `_load` | method | `modules/chain_approval.py:125` | `def _load(self)` |
+| `_now` | function | `modules/chain_approval.py:47` | `def _now()` |
+| `_save` | method | `modules/chain_approval.py:141` | `def _save(self, payload)` |
+| `_store_path` | function | `modules/chain_approval.py:68` | `def _store_path(sessions_dir)` |
+| `approval_backend` | function | `modules/chain_approval.py:318` | `def approval_backend()` |
+| `approve` | function | `modules/chain_approval.py:358` | `def approve(step_id, command)` |
+| `build_c2_approver` | function | `modules/chain_approval.py:328` | `def build_c2_approver(printer, chain_name, run_id, timeout, poll_interval, sessions_dir, clock)` |
+| `command_fingerprint` | function | `modules/chain_approval.py:78` | `def command_fingerprint(command)` |
+| `create` | method | `modules/chain_approval.py:153` | `def create(self, chain, step_id, command, timeout, run_id, now_override)` |
+| `decide` | method | `modules/chain_approval.py:229` | `def decide(self, request_id, allowed, decided_by, note, expired)` |
+| `expire_stale` | method | `modules/chain_approval.py:282` | `def expire_stale(self, now)` |
+| `get` | method | `modules/chain_approval.py:204` | `def get(self, request_id)` |
+| `list` | method | `modules/chain_approval.py:215` | `def list(self, status)` |
+| `DistillReport` | class | `modules/chain_distill.py:479` | `class DistillReport` |
+| `StepDecision` | class | `modules/chain_distill.py:458` | `class StepDecision` |
+| `_artifact_pins` | function | `modules/chain_distill.py:338` | `def _artifact_pins(command, output, target)` |
+| `_command_index_phases` | function | `modules/chain_distill.py:249` | `def _command_index_phases()` |
+| `_command_verb` | function | `modules/chain_distill.py:229` | `def _command_verb(command)` |
+| `_excluded_host` | function | `modules/chain_distill.py:374` | `def _excluded_host(host, operator_deny)` |
+| `_infer_target` | function | `modules/chain_distill.py:418` | `def _infer_target(rows, graph, operator_deny)` |
+| `_is_doc_example` | function | `modules/chain_distill.py:310` | `def _is_doc_example(host)` |
+| `_is_failed` | function | `modules/chain_distill.py:213` | `def _is_failed(row)` |
+| `_is_prose` | function | `modules/chain_distill.py:198` | `def _is_prose(command)` |
+| `_load_graph` | function | `modules/chain_distill.py:172` | `def _load_graph(path)` |
+| `_load_traffic` | function | `modules/chain_distill.py:136` | `def _load_traffic(path)` |
+| `_operator_deny` | function | `modules/chain_distill.py:400` | `def _operator_deny(sessions_dir)` |
+| `_phase_for` | function | `modules/chain_distill.py:278` | `def _phase_for(command, manifest_phase)` |
+| `_slug` | function | `modules/chain_distill.py:80` | `def _slug(text)` |
+| `build_chain_data` | function | `modules/chain_distill.py:574` | `def build_chain_data(task, rows, graph, manifests)` |
+| `distill` | function | `modules/chain_distill.py:687` | `def distill(task, sessions_dir, write, chains_dir)` |
+| `dropped` | method | `modules/chain_distill.py:512` | `def dropped(self)` |
+| `kept` | method | `modules/chain_distill.py:507` | `def kept(self)` |
+| `locate_traces` | function | `modules/chain_distill.py:93` | `def locate_traces(task, sessions_dir)` |
+| `note` | function | `modules/chain_distill.py:598` | `def note(row, kept, reason)` |
+| `render` | method | `modules/chain_distill.py:543` | `def render(self, verbose)` |
+| `to_dict` | method | `modules/chain_distill.py:516` | `def to_dict(self)` |
+| `_default_store` | function | `modules/chain_facts.py:73` | `def _default_store()` |
+| `_host_hint` | function | `modules/chain_facts.py:84` | `def _host_hint(output, phase, target_hint)` |
+| `spool_chain_outputs` | function | `modules/chain_facts.py:24` | `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` |
+| `FamilyRegistry` | class | `modules/chain_family.py:68` | `class FamilyRegistry` |
+| `__init__` | method | `modules/chain_family.py:76` | `def __init__(self, path)` |
+| `_default_registry_path` | function | `modules/chain_family.py:178` | `def _default_registry_path()` |
+| `_load` | method | `modules/chain_family.py:84` | `def _load(self)` |
+| `_normalize_service` | function | `modules/chain_family.py:34` | `def _normalize_service(name)` |
+| `_save` | method | `modules/chain_family.py:90` | `def _save(self, data)` |
+| `_touch` | method | `modules/chain_family.py:96` | `def _touch(self, signature, chain)` |
+| `best` | method | `modules/chain_family.py:123` | `def best(self, signature)` |
+| `default_registry` | function | `modules/chain_family.py:185` | `def default_registry()` |
+| `family_signature` | function | `modules/chain_family.py:41` | `def family_signature(facts)` |
+| `record_association` | method | `modules/chain_family.py:111` | `def record_association(self, signature, chain, target)` |
+| `record_win` | method | `modules/chain_family.py:117` | `def record_win(self, signature, chain, target)` |
+| `transfer_note` | method | `modules/chain_family.py:159` | `def transfer_note(self, facts)` |
+| `ChainStepBlocked` | class | `modules/chain_loop.py:139` | `class ChainStepBlocked(RuntimeError)` |
+| `__init__` | method | `modules/chain_loop.py:142` | `def __init__(self, status, detail)` |
+| `_build_runner` | function | `modules/chain_loop.py:271` | `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)` |
+| `_render_summary` | function | `modules/chain_loop.py:322` | `def _render_summary(result, chain_name)` |
+| `_spool` | function | `modules/chain_loop.py:312` | `def _spool(result)` |
+| `chain_mode` | function | `modules/chain_loop.py:35` | `def chain_mode()` |
+| `guarded` | function | `modules/chain_loop.py:226` | `def guarded(step_command)` |
+| `is_chain_command` | function | `modules/chain_loop.py:53` | `def is_chain_command(command)` |
+| `on_step` | function | `modules/chain_loop.py:283` | `def on_step(outcome)` |
+| `parse_chain_invocation` | function | `modules/chain_loop.py:58` | `def parse_chain_invocation(command)` |
+| `run_chain_stepwise` | function | `modules/chain_loop.py:154` | `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` |
+| `stepwise_eligible` | function | `modules/chain_loop.py:109` | `def stepwise_eligible(chain, routable)` |
+| `best_chain` | function | `modules/chain_match.py:139` | `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` |
+| `load_rows` | function | `modules/chain_match.py:109` | `def load_rows(allow_lab, ttl)` |
+| `normalize_tags` | function | `modules/chain_match.py:49` | `def normalize_tags(tags)` |
+| `platform_ok` | function | `modules/chain_match.py:75` | `def platform_ok(platforms, os_hint)` |
+| `reset_cache` | function | `modules/chain_match.py:101` | `def reset_cache()` |
+| `score` | function | `modules/chain_match.py:86` | `def score(tags, phase, svc_tokens)` |
+| `service_tokens` | function | `modules/chain_match.py:65` | `def service_tokens(services)` |
+| `Chain` | class | `modules/chain_registry.py:158` | `class Chain` |
+| `ChainStep` | class | `modules/chain_registry.py:104` | `class ChainStep` |
+| `_eval` | function | `modules/chain_registry.py:319` | `def _eval(node)` |
+| `_materialize` | function | `modules/chain_registry.py:625` | `def _materialize(name, raw, stack)` |
+| `_nonneg_float` | function | `modules/chain_registry.py:681` | `def _nonneg_float(raw, ceiling)` |
+| `_nonneg_int` | function | `modules/chain_registry.py:672` | `def _nonneg_int(raw)` |
+| `_render` | function | `modules/chain_registry.py:241` | `def _render(template, variables)` |
+| `_step_from_raw` | function | `modules/chain_registry.py:692` | `def _step_from_raw(item)` |
+| `_when_tree` | function | `modules/chain_registry.py:270` | `def _when_tree(expression)` |
+| `evaluate_when` | function | `modules/chain_registry.py:297` | `def evaluate_when(expression, variables)` |
+| `generate_for_playbook` | function | `modules/chain_registry.py:837` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
+| `get` | function | `modules/chain_registry.py:749` | `def get(name, chains_dir)` |
+| `identifier` | method | `modules/chain_registry.py:152` | `def identifier(self)` |
+| `load_all` | function | `modules/chain_registry.py:591` | `def load_all(chains_dir)` |
+| `render_text_token_braces` | function | `modules/chain_registry.py:586` | `def render_text_token_braces(text)` |
+| `resolve` | method | `modules/chain_registry.py:176` | `def resolve(self, tokens)` |
+| `scan_all` | function | `modules/chain_registry.py:754` | `def scan_all(chains_dir)` |
+| `set_enabled` | function | `modules/chain_registry.py:814` | `def set_enabled(name, enabled, chains_dir)` |
+| `skip_pending` | function | `modules/chain_registry.py:69` | `def skip_pending(path, max_age, now)` |
+| `validate_chain` | function | `modules/chain_registry.py:362` | `def validate_chain(data, filename, chains_dir)` |
+| `ChainRunResult` | class | `modules/chain_runner.py:118` | `class ChainRunResult` |
+| `ChainRunner` | class | `modules/chain_runner.py:235` | `class ChainRunner` |
+| `ReplanContext` | class | `modules/chain_runner.py:180` | `class ReplanContext` |
+| `StepOutcome` | class | `modules/chain_runner.py:61` | `class StepOutcome` |
+| `__init__` | method | `modules/chain_runner.py:238` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
+| `_all_json_objects` | function | `modules/chain_runner.py:1601` | `def _all_json_objects(text)` |
+| `_apply_replanner` | method | `modules/chain_runner.py:952` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
+| `_ask_approval` | method | `modules/chain_runner.py:1294` | `def _ask_approval(self, step_id, command)` |
+| `_call` | method | `modules/chain_runner.py:1575` | `def _call(callback, timeout)` |
+| `_deliver` | method | `modules/chain_runner.py:813` | `def _deliver(self, outcome)` |
+| `_dependency_block` | method | `modules/chain_runner.py:1227` | `def _dependency_block(step, prior_verdicts)` |
+| `_execute` | method | `modules/chain_runner.py:1410` | `def _execute(self, command, timeout, expect_exits)` |
+| `_finalize_verdict` | method | `modules/chain_runner.py:550` | `def _finalize_verdict(self, result)` |
+| `_first_json` | method | `modules/chain_runner.py:1365` | `def _first_json(output)` |
+| `_is_verb` | method | `modules/chain_runner.py:1494` | `def _is_verb(self, command)` |
+| `_load_json_events` | function | `modules/chain_runner.py:1622` | `def _load_json_events(path)` |
+| `_notify` | method | `modules/chain_runner.py:943` | `def _notify(self, outcome)` |
+| `_pace_after` | method | `modules/chain_runner.py:324` | `def _pace_after(self, outcome, started, step)` |
+| `_pre_check_timeout` | method | `modules/chain_runner.py:1309` | `def _pre_check_timeout(self, step)` |
+| `_promoted_sinks` | method | `modules/chain_runner.py:818` | `def _promoted_sinks(self, outcome)` |
+| `_publish_step` | method | `modules/chain_runner.py:843` | `def _publish_step(self, outcome)` |
+| `_raise_timeout` | function | `modules/chain_runner.py:1538` | `def _raise_timeout(_signum, _frame)` |
+| `_record_replan_deviations` | method | `modules/chain_runner.py:1002` | `def _record_replan_deviations(self, context)` |
+| `_record_verdict` | method | `modules/chain_runner.py:1082` | `def _record_verdict(verdicts, outcome)` |
+| `_render_command` | method | `modules/chain_runner.py:1379` | `def _render_command(self, template, variables, captured_keys)` |
+| `_run_fallback_chain` | method | `modules/chain_runner.py:740` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
+| `_run_parallel_group` | method | `modules/chain_runner.py:646` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
+| `_run_raw` | method | `modules/chain_runner.py:1558` | `def _run_raw(self, command, timeout, allowed)` |
+| `_run_shell_verb` | method | `modules/chain_runner.py:1505` | `def _run_shell_verb(self, command, timeout)` |
+| `_run_step` | method | `modules/chain_runner.py:1089` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
+| `_run_verb_bounded` | method | `modules/chain_runner.py:1464` | `def _run_verb_bounded(self, command, limit)` |
+| `_save_checkpoint` | method | `modules/chain_runner.py:1044` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
+| `_skip_remaining` | method | `modules/chain_runner.py:594` | `def _skip_remaining(self, steps, start, reason)` |
+| `_store_capture` | method | `modules/chain_runner.py:1313` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
+| `_verb_timeout_on_main` | method | `modules/chain_runner.py:1445` | `def _verb_timeout_on_main(self, limit)` |
+| `_verify_evidence` | method | `modules/chain_runner.py:1249` | `def _verify_evidence(self, step, outcome, variables)` |
+| `_verify_timeout` | method | `modules/chain_runner.py:1303` | `def _verify_timeout(self, step)` |
+| `_warn_parallel_group` | method | `modules/chain_runner.py:609` | `def _warn_parallel_group(self, result, first, group, steps, cursor)` |
+| `applied_vars` | method | `modules/chain_runner.py:212` | `def applied_vars(self)` |
+| `chain_proven` | method | `modules/chain_runner.py:174` | `def chain_proven(self)` |
+| `insert_step` | method | `modules/chain_runner.py:202` | `def insert_step(self, step)` |
+| `inserted` | method | `modules/chain_runner.py:217` | `def inserted(self)` |
+| `ok` | method | `modules/chain_runner.py:90` | `def ok(self)` |
+| `render_text` | function | `modules/chain_runner.py:227` | `def render_text(template, variables)` |
+| `run` | method | `modules/chain_runner.py:363` | `def run(self)` |
+| `set_var` | method | `modules/chain_runner.py:197` | `def set_var(self, name, value)` |
+| `skip_rest` | method | `modules/chain_runner.py:207` | `def skip_rest(self)` |
+| `skip_rest_flag` | method | `modules/chain_runner.py:222` | `def skip_rest_flag(self)` |
+| `to_dict` | method | `modules/chain_runner.py:94` | `def to_dict(self)` |
+| `to_dict` | method | `modules/chain_runner.py:149` | `def to_dict(self)` |
 | `checkpoint_dir` | function | `modules/chain_state.py:26` | `def checkpoint_dir(base_dir)` |
 | `list_checkpoints` | function | `modules/chain_state.py:80` | `def list_checkpoints(directory, limit, chain)` |
 | `load_checkpoint` | function | `modules/chain_state.py:65` | `def load_checkpoint(directory, run_id)` |
@@ -279,25 +412,32 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `gcp_oidc_to_azure` | method | `modules/cross_cloud.py:104` | `def gcp_oidc_to_azure(self)` |
 | `multi_cloud_imds_harvesting` | method | `modules/cross_cloud.py:167` | `def multi_cloud_imds_harvesting(self)` |
 | `summary` | method | `modules/cross_cloud.py:258` | `def summary(self)` |
-| `_check_credentials` | function | `modules/ctf_capture.py:82` | `def _check_credentials(output)` |
-| `_check_defense_report` | function | `modules/ctf_capture.py:119` | `def _check_defense_report(output)` |
-| `_check_domain_enum` | function | `modules/ctf_capture.py:158` | `def _check_domain_enum(output)` |
-| `_check_eventlog_rows` | function | `modules/ctf_capture.py:132` | `def _check_eventlog_rows(output)` |
-| `_check_kerberos_ticket` | function | `modules/ctf_capture.py:145` | `def _check_kerberos_ticket(output)` |
-| `_check_root_shell` | function | `modules/ctf_capture.py:49` | `def _check_root_shell(output)` |
-| `_check_shadow_dump` | function | `modules/ctf_capture.py:62` | `def _check_shadow_dump(output)` |
-| `_check_smb_shares` | function | `modules/ctf_capture.py:171` | `def _check_smb_shares(output)` |
-| `_check_windows_os_enum` | function | `modules/ctf_capture.py:100` | `def _check_windows_os_enum(output)` |
-| `_cli_capture` | function | `modules/ctf_capture.py:396` | `def _cli_capture(argv)` |
-| `_gather_evidence` | function | `modules/ctf_capture.py:372` | `def _gather_evidence(candidates)` |
-| `_publish_capture_outcome` | function | `modules/ctf_capture.py:255` | `def _publish_capture_outcome(record)` |
-| `_safe_dir` | function | `modules/ctf_capture.py:291` | `def _safe_dir(vuln_id)` |
-| `capture` | function | `modules/ctf_capture.py:197` | `def capture(vuln_id, target, output, sessions_dir, catalogue)` |
-| `list_records` | function | `modules/ctf_capture.py:322` | `def list_records(sessions_dir)` |
-| `output_dir` | function | `modules/ctf_capture.py:36` | `def output_dir(sessions_dir)` |
-| `record_path` | function | `modules/ctf_capture.py:278` | `def record_path(vuln_id, sessions_dir)` |
-| `store_record` | function | `modules/ctf_capture.py:304` | `def store_record(record, sessions_dir)` |
-| `summary` | function | `modules/ctf_capture.py:345` | `def summary(sessions_dir)` |
+| `_check_credentials` | function | `modules/ctf_capture.py:86` | `def _check_credentials(output)` |
+| `_check_defense_report` | function | `modules/ctf_capture.py:123` | `def _check_defense_report(output)` |
+| `_check_domain_enum` | function | `modules/ctf_capture.py:162` | `def _check_domain_enum(output)` |
+| `_check_eventlog_rows` | function | `modules/ctf_capture.py:136` | `def _check_eventlog_rows(output)` |
+| `_check_kerberos_ticket` | function | `modules/ctf_capture.py:149` | `def _check_kerberos_ticket(output)` |
+| `_check_root_shell` | function | `modules/ctf_capture.py:53` | `def _check_root_shell(output)` |
+| `_check_shadow_dump` | function | `modules/ctf_capture.py:66` | `def _check_shadow_dump(output)` |
+| `_check_smb_shares` | function | `modules/ctf_capture.py:175` | `def _check_smb_shares(output)` |
+| `_check_windows_os_enum` | function | `modules/ctf_capture.py:104` | `def _check_windows_os_enum(output)` |
+| `_cli_capture` | function | `modules/ctf_capture.py:451` | `def _cli_capture(argv)` |
+| `_expected_checkers` | function | `modules/ctf_capture.py:214` | `def _expected_checkers(entry)` |
+| `_gather_evidence` | function | `modules/ctf_capture.py:427` | `def _gather_evidence(candidates)` |
+| `_publish_capture_outcome` | function | `modules/ctf_capture.py:310` | `def _publish_capture_outcome(record)` |
+| `_safe_dir` | function | `modules/ctf_capture.py:346` | `def _safe_dir(vuln_id)` |
+| `capture` | function | `modules/ctf_capture.py:245` | `def capture(vuln_id, target, output, sessions_dir, catalogue)` |
+| `list_records` | function | `modules/ctf_capture.py:377` | `def list_records(sessions_dir)` |
+| `output_dir` | function | `modules/ctf_capture.py:40` | `def output_dir(sessions_dir)` |
+| `record_path` | function | `modules/ctf_capture.py:333` | `def record_path(vuln_id, sessions_dir)` |
+| `store_record` | function | `modules/ctf_capture.py:359` | `def store_record(record, sessions_dir)` |
+| `summary` | function | `modules/ctf_capture.py:400` | `def summary(sessions_dir)` |
+| `_catalogue_modules` | function | `modules/ctf_signalman.py:39` | `def _catalogue_modules()` |
+| `_gather_evidence` | function | `modules/ctf_signalman.py:72` | `def _gather_evidence(search_bases)` |
+| `catalogue_for` | function | `modules/ctf_signalman.py:53` | `def catalogue_for(scenario)` |
+| `collect` | function | `modules/ctf_signalman.py:106` | `def collect(scenario, target, sessions_dir, search_bases)` |
+| `render_scoreboard` | function | `modules/ctf_signalman.py:166` | `def render_scoreboard(report)` |
+| `save_scoreboard` | function | `modules/ctf_signalman.py:193` | `def save_scoreboard(report, sessions_dir)` |
 | `_load` | function | `modules/custom_tools.py:37` | `def _load()` |
 | `_run_http` | function | `modules/custom_tools.py:179` | `def _run_http(tool, arg, on_output)` |
 | `_save` | function | `modules/custom_tools.py:45` | `def _save(payload)` |
@@ -356,145 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_parse_nmap_xml_services` | function | `modules/dashboard_engine.py:39` | `def _parse_nmap_xml_services(sessions_dir)` |
 | `_phase_icon` | method | `modules/dashboard_engine.py:398` | `def _phase_icon(phase)` |
 | `build_snapshot` | method | `modules/dashboard_engine.py:160` | `def build_snapshot(self)` |
-| `export_json` | method | `modules/dashboard_engine.py:408` | `def export_json(self, snapshot)` |
-| `format_for_cli` | method | `modules/dashboard_engine.py:438` | `def format_for_cli(self, snapshot)` |
-| `persist_snapshot` | method | `modules/dashboard_engine.py:421` | `def persist_snapshot(self, snapshot)` |
-| `render_ascii_topology` | method | `modules/dashboard_engine.py:358` | `def render_ascii_topology(self, snapshot)` |
-| `render_text_map` | method | `modules/dashboard_engine.py:276` | `def render_text_map(self, snapshot)` |
-| `set_auto_pivot` | method | `modules/dashboard_engine.py:154` | `def set_auto_pivot(self, pivot)` |
-| `set_evasion_engine` | method | `modules/dashboard_engine.py:157` | `def set_evasion_engine(self, evasion)` |
-| `set_exploit_recommender` | method | `modules/dashboard_engine.py:151` | `def set_exploit_recommender(self, recommender)` |
-| `set_world_model` | method | `modules/dashboard_engine.py:148` | `def set_world_model(self, model)` |
-| `LazyOwnDB` | class | `modules/db.py:147` | `class LazyOwnDB` |
-| `__init__` | method | `modules/db.py:159` | `def __init__(self, db_path)` |
-| `_current_version` | method | `modules/db.py:192` | `def _current_version(self)` |
-| `_cursor` | method | `modules/db.py:235` | `def _cursor(self)` |
-| `_get_conn` | method | `modules/db.py:171` | `def _get_conn(self)` |
-| `_init_schema` | method | `modules/db.py:186` | `def _init_schema(self)` |
-| `_maybe_decrypt` | method | `modules/db.py:273` | `def _maybe_decrypt(self, value)` |
-| `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
-| `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
-| `close` | method | `modules/db.py:804` | `def close(self)` |
-| `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
-| `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
-| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
-| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
-| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
-| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
-| `host_add` | method | `modules/db.py:357` | `def host_add(self, workspace_id, address, mac, hostname, os, state)` |
-| `host_delete` | method | `modules/db.py:390` | `def host_delete(self, host_id)` |
-| `host_find` | method | `modules/db.py:410` | `def host_find(self, workspace_id, query)` |
-| `host_list` | method | `modules/db.py:401` | `def host_list(self, workspace_id)` |
-| `import_nmap_xml` | method | `modules/db.py:664` | `def import_nmap_xml(self, workspace_id, xml_path)` |
-| `loot_add` | method | `modules/db.py:596` | `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` |
-| `loot_list` | method | `modules/db.py:615` | `def loot_list(self, workspace_id)` |
-| `migration_status` | method | `modules/db.py:222` | `def migration_status(self)` |
-| `note_add` | method | `modules/db.py:631` | `def note_add(self, workspace_id, data, note_type, host_id)` |
-| `note_list` | method | `modules/db.py:648` | `def note_list(self, workspace_id)` |
-| `service_add` | method | `modules/db.py:427` | `def service_add(self, host_id, port, protocol, state, name, product, version)` |
-| `service_list` | method | `modules/db.py:447` | `def service_list(self, host_id)` |
-| `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
-| `vuln_add` | method | `modules/db.py:460` | `def vuln_add(self, host_id, name, severity, description, refs)` |
-| `vuln_get` | method | `modules/db.py:478` | `def vuln_get(self, vuln_id)` |
-| `vuln_list` | method | `modules/db.py:528` | `def vuln_list(self, workspace_id, severity)` |
-| `vuln_update` | method | `modules/db.py:490` | `def vuln_update(self, vuln_id, refs, severity, description)` |
-| `workspace_create` | method | `modules/db.py:292` | `def workspace_create(self, name, description)` |
-| `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
-| `workspace_get` | method | `modules/db.py:313` | `def workspace_get(self, name)` |
-| `workspace_list` | method | `modules/db.py:307` | `def workspace_list(self)` |
-| `Condition` | class | `modules/defense_eval.py:44` | `class Condition` |
-| `DatasetSummary` | class | `modules/defense_eval.py:74` | `class DatasetSummary` |
-| `Evaluation` | class | `modules/defense_eval.py:53` | `class Evaluation` |
-| `RuleEvaluationError` | class | `modules/defense_eval.py:39` | `class RuleEvaluationError(ValueError)` |
-| `RuleResult` | class | `modules/defense_eval.py:93` | `class RuleResult` |
-| `_canonical_number` | function | `modules/defense_eval.py:179` | `def _canonical_number(value)` |
-| `_compare` | function | `modules/defense_eval.py:194` | `def _compare(actual, expected, op)` |
-| `_lookup` | function | `modules/defense_eval.py:167` | `def _lookup(fields, field_name)` |
-| `_parse_logs` | function | `modules/defense_eval.py:269` | `def _parse_logs(text, dataset, max_events)` |
-| `_scalar_present` | function | `modules/defense_eval.py:223` | `def _scalar_present(value)` |
-| `evaluate_event` | function | `modules/defense_eval.py:234` | `def evaluate_event(conditions, fields)` |
-| `evaluate_rule` | function | `modules/defense_eval.py:322` | `def evaluate_rule(rule_text, target_logs, control_logs)` |
-| `metrics` | function | `modules/defense_eval.py:380` | `def metrics(result)` |
-| `parse_rule` | function | `modules/defense_eval.py:115` | `def parse_rule(rule_text)` |
-| `to_dict` | method | `modules/defense_eval.py:62` | `def to_dict(self)` |
-| `to_dict` | method | `modules/defense_eval.py:82` | `def to_dict(self)` |
-| `to_dict` | method | `modules/defense_eval.py:103` | `def to_dict(self)` |
-| `_Stub` | class | `modules/defense_stages.py:35` | `class _Stub` |
-| `_activity` | function | `modules/defense_stages.py:28` | `def _activity(task_id)` |
-| `_load_dataset` | function | `modules/defense_stages.py:67` | `def _load_dataset(stage, key, task_id)` |
-| `_params` | function | `modules/defense_stages.py:42` | `def _params(stage)` |
-| `_read_text` | function | `modules/defense_stages.py:57` | `def _read_text(path)` |
-| `_render` | function | `modules/defense_stages.py:52` | `def _render(value, task_id)` |
-| `_write_json` | function | `modules/defense_stages.py:230` | `def _write_json(path, data)` |
-| `emit` | method | `modules/defense_stages.py:36` | `def emit(self)` |
-| `run_closedloop_tune` | function | `modules/defense_stages.py:117` | `def run_closedloop_tune(task_id)` |
-| `run_defense_validate` | function | `modules/defense_stages.py:82` | `def run_defense_validate(task_id)` |
-| `run_hunt_verify` | function | `modules/defense_stages.py:151` | `def run_hunt_verify(task_id)` |
-| `DelegationAttackPath` | class | `modules/delegation_attacks.py:63` | `class DelegationAttackPath` |
-| `DelegationEnumerator` | class | `modules/delegation_attacks.py:85` | `class DelegationEnumerator` |
-| `DelegationTarget` | class | `modules/delegation_attacks.py:32` | `class DelegationTarget` |
-| `__init__` | method | `modules/delegation_attacks.py:98` | `def __init__(self, domain, raw_ldap_output)` |
-| `compute_attack_paths` | method | `modules/delegation_attacks.py:215` | `def compute_attack_paths(self)` |
-| `enumerate_from_uac_flags` | method | `modules/delegation_attacks.py:104` | `def enumerate_from_uac_flags(self, accounts)` |
-| `find_constrained_targets` | method | `modules/delegation_attacks.py:189` | `def find_constrained_targets(self)` |
-| `find_dc_targets` | method | `modules/delegation_attacks.py:205` | `def find_dc_targets(self)` |
-| `find_rbcd_targets` | method | `modules/delegation_attacks.py:197` | `def find_rbcd_targets(self)` |
-| `find_unconstrained_targets` | method | `modules/delegation_attacks.py:181` | `def find_unconstrained_targets(self)` |
-| `parse_bloodhound_output` | method | `modules/delegation_attacks.py:151` | `def parse_bloodhound_output(self, bloodhound_json)` |
-| `summary` | method | `modules/delegation_attacks.py:296` | `def summary(self)` |
-| `obtener_informacion` | function | `modules/detailed_search.py:40` | `def obtener_informacion(url)` |
-| `DetectionFeed` | class | `modules/detection_feed.py:73` | `class DetectionFeed` |
-| `FeedResult` | class | `modules/detection_feed.py:64` | `class FeedResult` |
-| `__init__` | method | `modules/detection_feed.py:83` | `def __init__(self, cache_dir, sources)` |
-| `_cache_rules` | method | `modules/detection_feed.py:219` | `def _cache_rules(self, rules, source)` |
-| `_extract_categories` | method | `modules/detection_feed.py:206` | `def _extract_categories(self, doc)` |
-| `_extract_keywords` | method | `modules/detection_feed.py:189` | `def _extract_keywords(self, doc)` |
-| `_extract_log_source` | method | `modules/detection_feed.py:172` | `def _extract_log_source(self, doc)` |
-| `_extract_mitre` | method | `modules/detection_feed.py:180` | `def _extract_mitre(self, doc)` |
-| `_parse_sigma_feed` | method | `modules/detection_feed.py:125` | `def _parse_sigma_feed(self, text)` |
-| `adjust_from_feedback` | method | `modules/detection_feed.py:270` | `def adjust_from_feedback(self, feedback_file)` |
-| `get_feed` | function | `modules/detection_feed.py:326` | `def get_feed()` |
-| `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
-| `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
-| `DetectionAssessment` | class | `modules/detection_oracle.py:64` | `class DetectionAssessment` |
-| `DetectionOracle` | class | `modules/detection_oracle.py:357` | `class DetectionOracle(IDetectionOracle)` |
-| `IDetectionOracle` | class | `modules/detection_oracle.py:91` | `class IDetectionOracle(ABC)` |
-| `SigmaRule` | class | `modules/detection_oracle.py:51` | `class SigmaRule` |
-| `__init__` | method | `modules/detection_oracle.py:372` | `def __init__(self, rules, feed)` |
-| `_aggregate_probability` | method | `modules/detection_oracle.py:502` | `def _aggregate_probability(self, matched, action_category)` |
-| `_benign_alternative_matches` | function | `modules/detection_oracle.py:305` | `def _benign_alternative_matches(command, args, benign_alternatives)` |
-| `_build_recommendation` | method | `modules/detection_oracle.py:519` | `def _build_recommendation(probability, matched, action_category)` |
-| `_effective_probability` | method | `modules/detection_oracle.py:492` | `def _effective_probability(rule, action_category)` |
-| `_match_rules` | method | `modules/detection_oracle.py:472` | `def _match_rules(self, text, action_category)` |
-| `assess` | method | `modules/detection_oracle.py:95` | `def assess(self, command, args, action_category, benign_alternatives)` |
-| `assess` | method | `modules/detection_oracle.py:411` | `def assess(self, command, args, action_category, benign_alternatives)` |
-| `get_oracle` | function | `modules/detection_oracle.py:553` | `def get_oracle()` |
-| `is_critical_risk` | method | `modules/detection_oracle.py:81` | `def is_critical_risk(self)` |
-| `is_high_risk` | method | `modules/detection_oracle.py:76` | `def is_high_risk(self)` |
-| `probability` | method | `modules/detection_oracle.py:105` | `def probability(self, command, args, action_category, benign_alternatives)` |
-| `probability` | method | `modules/detection_oracle.py:460` | `def probability(self, command, args, action_category, benign_alternatives)` |
-| `refresh` | method | `modules/detection_oracle.py:376` | `def refresh(self)` |
-| `build_engine_digest` | function | `modules/digest.py:20` | `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` |
-| `worker_results_digest` | function | `modules/digest.py:82` | `def worker_results_digest(rows)` |
-| `write_digest` | function | `modules/digest.py:71` | `def write_digest(task_id, body, root)` |
-| `DNSBeacon` | class | `modules/dns_beacon.py:23` | `class DNSBeacon` |
-| `DNSC2Server` | class | `modules/dns_beacon.py:199` | `class DNSC2Server` |
-| `__init__` | method | `modules/dns_beacon.py:38` | `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)` |
-| `__init__` | method | `modules/dns_beacon.py:211` | `def __init__(self, domain, log_source, interface)` |
-| `_build_query` | method | `modules/dns_beacon.py:96` | `def _build_query(self, msg_type, payload)` |
-| `_decode` | method | `modules/dns_beacon.py:70` | `def _decode(self, data)` |
-| `_dns_query` | method | `modules/dns_beacon.py:84` | `def _dns_query(self, name, qtype)` |
-| `_encode` | method | `modules/dns_beacon.py:63` | `def _encode(self, data)` |
-| `_ensure_dnspython` | method | `modules/dns_beacon.py:57` | `def _ensure_dnspython(self)` |
-| `_handle_result` | method | `modules/dns_beacon.py:294` | `def _handle_result(self, labels, query)` |
-| `_jittered_sleep` | method | `modules/dns_beacon.py:78` | `def _jittered_sleep(self)` |
-| `check_in` | method | `modules/dns_beacon.py:105` | `def check_in(self)` |
-| `get_results` | method | `modules/dns_beacon.py:327` | `def get_results(self, beacon_id)` |
-| `list_beacons` | method | `modules/dns_beacon.py:235` | `def list_beacons(self)` |
-| `process_query_log` | method | `modules/dns_beacon.py:248` | `def process_query_log(self, line)` |
-| `register_beacon` | method | `modules/dns_beacon.py:225` | `def register_beacon(self, beacon_id, hostname)` |
-| `run` | method | `modules/dns_beacon.py:171` | `def run(self)` |
-| `send_result` | method | `modules/dns_beacon.py:135` | `def send_result(self, command, output, exit_code)` |
-| `send_task` | method | `modules/dns_beacon.py:239` | `def send_task(self, beacon_id, command)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

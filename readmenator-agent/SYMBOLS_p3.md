@@ -1,8 +1,24 @@
-# Symbols (page 3 of 51)
+# Symbols (page 3 of 53)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
+| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
+| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:24` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
+| `do_chisel` | method | `cli/commands/lateral.py:43` | `def do_chisel(self, line)` |
+| `do_ligolo` | method | `cli/commands/lateral.py:79` | `def do_ligolo(self, line)` |
+| `do_nc` | method | `cli/commands/lateral.py:91` | `def do_nc(self, line)` |
+| `do_ngrok` | method | `cli/commands/lateral.py:72` | `def do_ngrok(self, line)` |
+| `do_set_proxychains` | method | `cli/commands/lateral.py:59` | `def do_set_proxychains(self, line)` |
+| `do_socat` | method | `cli/commands/lateral.py:31` | `def do_socat(self, line)` |
+| `do_ssh` | method | `cli/commands/lateral.py:114` | `def do_ssh(self, line)` |
+| `do_wmiexec` | method | `cli/commands/lateral.py:106` | `def do_wmiexec(self, line)` |
+| `LateralMigratedCommandSet` | class | `cli/commands/lateral_migrated.py:24` | `class LateralMigratedCommandSet(LazyOwnCommandSet)` |
+| `do_addcli` | method | `cli/commands/lateral_migrated.py:1302` | `def do_addcli(self, line)` |
+| `do_bloodyAD` | method | `cli/commands/lateral_migrated.py:229` | `def do_bloodyAD(self, line)` |
+| `do_dcomexec` | method | `cli/commands/lateral_migrated.py:931` | `def do_dcomexec(self, line)` |
+| `do_dominion` | method | `cli/commands/lateral_migrated.py:1317` | `def do_dominion(self, line)` |
 | `do_getTGT` | method | `cli/commands/lateral_migrated.py:321` | `def do_getTGT(self, line)` |
 | `do_gospherus` | method | `cli/commands/lateral_migrated.py:543` | `def do_gospherus(self, line)` |
 | `do_id_rsa` | method | `cli/commands/lateral_migrated.py:101` | `def do_id_rsa(self, line)` |
@@ -130,6 +146,8 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `steer_intent` | function | `cli/commands/lazyops.py:1718` | `def steer_intent(intent, message)` |
 | `task_findings` | function | `cli/commands/lazyops.py:1694` | `def task_findings(task)` |
 | `task_graph` | function | `cli/commands/lazyops.py:1690` | `def task_graph(task)` |
+| `LoopAuditCommandSet` | class | `cli/commands/loop_audit.py:18` | `class LoopAuditCommandSet(LazyOwnCommandSet)` |
+| `do_loop_audit` | method | `cli/commands/loop_audit.py:25` | `def do_loop_audit(self, line)` |
 | `MarketplaceCommandSet` | class | `cli/commands/marketplace.py:62` | `class MarketplaceCommandSet(LazyOwnCommandSet)` |
 | `_installed_plugins` | method | `cli/commands/marketplace.py:86` | `def _installed_plugins(self)` |
 | `_mp_info` | method | `cli/commands/marketplace.py:354` | `def _mp_info(self, name)` |
@@ -428,12 +446,12 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_purple_test` | method | `cli/commands/purple_team.py:203` | `def do_purple_test(self, args)` |
 | `PwnCommandSet` | class | `cli/commands/pwn.py:28` | `class PwnCommandSet(LazyOwnCommandSet)` |
 | `do_auto_pwn` | method | `cli/commands/pwn.py:35` | `def do_auto_pwn(self, line)` |
-| `do_exploit_chain` | method | `cli/commands/pwn.py:158` | `def do_exploit_chain(self, line)` |
-| `do_lolbas_list` | method | `cli/commands/pwn.py:245` | `def do_lolbas_list(self, line)` |
-| `do_lolbas_use` | method | `cli/commands/pwn.py:302` | `def do_lolbas_use(self, line)` |
-| `do_rich_tui` | method | `cli/commands/pwn.py:109` | `def do_rich_tui(self, line)` |
-| `do_stealth_off` | method | `cli/commands/pwn.py:422` | `def do_stealth_off(self, line)` |
-| `do_stealth_on` | method | `cli/commands/pwn.py:394` | `def do_stealth_on(self, line)` |
+| `do_exploit_chain` | method | `cli/commands/pwn.py:181` | `def do_exploit_chain(self, line)` |
+| `do_lolbas_list` | method | `cli/commands/pwn.py:268` | `def do_lolbas_list(self, line)` |
+| `do_lolbas_use` | method | `cli/commands/pwn.py:325` | `def do_lolbas_use(self, line)` |
+| `do_rich_tui` | method | `cli/commands/pwn.py:132` | `def do_rich_tui(self, line)` |
+| `do_stealth_off` | method | `cli/commands/pwn.py:445` | `def do_stealth_off(self, line)` |
+| `do_stealth_on` | method | `cli/commands/pwn.py:417` | `def do_stealth_on(self, line)` |
 | `ReconCommandSet` | class | `cli/commands/recon.py:40` | `class ReconCommandSet(LazyOwnCommandSet)` |
 | `_run_single_search` | function | `cli/commands/recon.py:515` | `def _run_single_search(query)` |
 | `do_batchnmap` | method | `cli/commands/recon.py:47` | `def do_batchnmap(self, line)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
-| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:295` | `def _format_elapsed(seconds)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:422` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:388` | `def _gym_leaderboard(self, args)` |
-| `_gym_list` | method | `cli/commands/redteam_gym.py:137` | `def _gym_list(self)` |
-| `_gym_start` | method | `cli/commands/redteam_gym.py:171` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:300` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:368` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:247` | `def _gym_submit(self, args)` |
-| `_lab_notify` | function | `cli/commands/redteam_gym.py:189` | `def _lab_notify(message)` |
-| `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
-| `do_gym_ms2` | method | `cli/commands/redteam_gym.py:92` | `def do_gym_ms2(self, line)` |
-| `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
-| `_make_context` | method | `cli/commands/resource_scripting.py:31` | `def _make_context(self)` |
-| `do_makerc` | method | `cli/commands/resource_scripting.py:88` | `def do_makerc(self, line)` |
-| `do_mkrc` | method | `cli/commands/resource_scripting.py:152` | `def do_mkrc(self, line)` |
-| `do_resource` | method | `cli/commands/resource_scripting.py:49` | `def do_resource(self, line)` |
-| `do_spool` | method | `cli/commands/resource_scripting.py:122` | `def do_spool(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

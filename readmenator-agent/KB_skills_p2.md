@@ -1,21 +1,6 @@
 # Subsystem: skills (page 2 of 5)
 Previous: [KB_skills.md](KB_skills.md)
 
-## skills/lazyown_claudemd.py
-- Doc: LazyOwn CLAUDE.md Hierarchical Loader (Claude Code style)  4-level hierarchy (highest → lowest...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ClaudeMdLoader` (class, line 24) `class ClaudeMdLoader`
-  - `__init__` (method, line 32) `def __init__(self, cwd)`
-  - `load` (method, line 35) `def load(self)`
-  - `list_files` (method, line 90) `def list_files(self)`
-  - `create_user_file` (method, line 115) `def create_user_file(self, content)`
-  - `create_project_file` (method, line 121) `def create_project_file(self, content, local)`
-  - `add_rule` (method, line 127) `def add_rule(self, rule_name, content)`
-  - `status_text` (method, line 135) `def status_text(self)`
-- Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
-
 ## skills/lazyown_context.py
 - Doc: LazyOwn Context Compaction Pipeline — 5-layer graduated compression (Claude Code style)  Layers: 1.
 - Layer: utility
@@ -431,8 +416,8 @@ Previous: [KB_skills.md](KB_skills.md)
   - `list_parquets` (method, line 745) `def list_parquets(self)`
   - `train_classifier` (method, line 750) `def train_classifier(self, min_rows)`
   - `predict_success` (method, line 845) `def predict_success(self, command, category)`
-- Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `skills/lazyown_policy.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/parquet_annotate.py`, `skills/mcp_tools/parquet_query.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
+- Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `modules/selection/parquet.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `modules/selection/parquet.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/parquet_annotate.py`, `skills/mcp_tools/parquet_query.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
 
 ## skills/lazyown_permissions.py
 - Doc: LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS...

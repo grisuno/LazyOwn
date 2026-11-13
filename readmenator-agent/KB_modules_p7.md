@@ -1,5 +1,213 @@
-# Subsystem: modules (page 7 of 18)
+# Subsystem: modules (page 7 of 19)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
+
+## modules/finding_enrich.py
+- Doc: Idempotent enrichment of a finding's evidence before it is reported.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_role_rank` (function, line 34) `def _role_rank(role)`
+  - `_stronger` (function, line 39) `def _stronger(left, right)`
+  - `enrich_refs` (function, line 44) `def enrich_refs(refs)`
+  - `_enrichment_digest` (function, line 90) `def _enrichment_digest(ordered)`
+  - `enrich_finding` (function, line 96) `def enrich_finding(traffic_log, finding_id, graph)`
+- Imported by: `modules/lazy_loop.py`
+
+## modules/finding_lifecycle.py
+- Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `evidence_floor` (function, line 52) `def evidence_floor(items)`
+  - `_store_path` (function, line 68) `def _store_path(sessions_dir)`
+  - `_load` (function, line 73) `def _load(sessions_dir)`
+  - `_save` (function, line 86) `def _save(sessions_dir, data)`
+  - `confirm` (function, line 94) `def confirm(finding_id, evidence, sessions_dir, by)`
+  - `reject` (function, line 123) `def reject(finding_id, reason, sessions_dir, by)`
+  - `add_dead_end` (function, line 137) `def add_dead_end(kind, value, reason, sessions_dir)`
+  - `is_dead_end` (function, line 149) `def is_dead_end(kind, value, sessions_dir)`
+  - `suppressed_values` (function, line 156) `def suppressed_values(sessions_dir)`
+  - `resolve` (function, line 162) `def resolve(node, sessions_dir)`
+  - `apply_confirmation` (function, line 190) `def apply_confirmation(nodes, sessions_dir)`
+  - `FindingRecord` (class, line 218) `class FindingRecord`
+  - `RetestRecord` (class, line 231) `class RetestRecord`
+  - `_token_value` (function, line 241) `def _token_value(refs, prefix, default)`
+  - `_with_token` (function, line 249) `def _with_token(refs, prefix, value)`
+  - `_finding_from_row` (function, line 256) `def _finding_from_row(row)`
+  - `record` (function, line 270) `def record(db, workspace, host, title, severity, summary, poc)`
+  - `findings_for` (function, line 295) `def findings_for(db, workspace)`
+  - `set_status` (function, line 300) `def set_status(db, finding_id, status)`
+  - `_retests_path` (function, line 323) `def _retests_path(sessions_dir)`
+  - `_load_retests` (function, line 328) `def _load_retests(sessions_dir)`
+  - `_save_retests` (function, line 339) `def _save_retests(sessions_dir, payload)`
+  - `has_running_retest` (function, line 346) `def has_running_retest(finding_id, sessions_dir)`
+  - `request_retest` (function, line 354) `def request_retest(db, finding_id, sessions_dir)`
+  - `resolve_retest` (function, line 374) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
+  - `classify_retest` (function, line 420) `def classify_retest(needle, output)`
+  - `render_markdown` (function, line 439) `def render_markdown(db, workspace, title)`
+- Depends on: `modules/osint_enrich.py`
+- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+
+## modules/forensic_cleaner.py
+- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
+  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
+  - `__init__` (method, line 67) `def __init__(self, config)`
+  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
+  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
+  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
+  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
+  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
+## modules/gcp_attacks.py
+- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GCPConfig` (class, line 57) `class GCPConfig`
+  - `GCPAttackEngine` (class, line 77) `class GCPAttackEngine`
+  - `__init__` (method, line 90) `def __init__(self, config)`
+  - `enumerate_iam_policy` (method, line 93) `def enumerate_iam_policy(self, resource)`
+  - `service_account_impersonation` (method, line 119) `def service_account_impersonation(self)`
+  - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
+  - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
+  - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
+  - `cloudbuild_abuse` (method, line 230) `def cloudbuild_abuse(self)`
+  - `organization_escalation` (method, line 261) `def organization_escalation(self)`
+  - `summary` (method, line 297) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/generate_tools.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `extract_cmd2_tools` (function, line 6) `def extract_cmd2_tools(script_path)`
+
+## modules/goals.py
+- Doc: Goal decomposition round-0 with constraints and proof.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GoalSpec` (class, line 20) `class GoalSpec`
+  - `TaskConstraints` (class, line 29) `class TaskConstraints`
+  - `decompose_rule_based` (function, line 63) `def decompose_rule_based(objective_text, max_goals)`
+  - `load_constraints` (function, line 83) `def load_constraints(payload)`
+  - `constraint_block_text` (function, line 103) `def constraint_block_text(constraints)`
+  - `GoalTracker` (class, line 117) `class GoalTracker`
+  - `blocked` (method, line 35) `def blocked(self, command)`
+  - `__init__` (method, line 120) `def __init__(self, goals)`
+  - `goals` (method, line 125) `def goals(self)`
+  - `prove_goal` (method, line 129) `def prove_goal(self, goal_text, evidence)`
+  - `goal_met` (method, line 140) `def goal_met(self, opt_in)`
+  - `all_achieved` (method, line 148) `def all_achieved(self)`
+  - `open_goals` (method, line 152) `def open_goals(self)`
+- Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
+
+## modules/golden_path.py
+- Doc: Deterministic attack-path solver over the LazyOwn world model.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_host_node` (function, line 66) `def _host_node(ip)`
+  - `_bare` (function, line 78) `def _bare(node)`
+  - `_label` (function, line 97) `def _label(node)`
+  - `_action_for` (function, line 113) `def _action_for(relation)`
+  - `_cost_for_relation` (function, line 135) `def _cost_for_relation(relation, weight)`
+  - `build_edges` (function, line 155) `def build_edges(snapshot)`
+  - `_source_hosts` (function, line 227) `def _source_hosts(snapshot)`
+  - `_diijkstra` (function, line 244) `def _diijkstra(adjacency, source)`
+  - `resolve_paths` (function, line 274) `def resolve_paths(snapshot, top_k, source)`
+  - `build` (function, line 350) `def build(world_model_path, top_k, sessions_dir)`
+  - `_persist` (function, line 381) `def _persist(result, sessions_dir)`
+  - `load_artifact` (function, line 401) `def load_artifact(sessions_dir)`
+  - `priority_for` (function, line 418) `def priority_for(cost)`
+  - `push_objectives` (function, line 433) `def push_objectives(paths, store_path)`
+  - `_add` (function, line 167) `def _add(src, dst, relation, weight, evidence, cost)`
+- Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
+
+## modules/gpo_abuse.py
+- Doc: GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GPOInfo` (class, line 54) `class GPOInfo`
+  - `GPOAbusePlan` (class, line 83) `class GPOAbusePlan`
+  - `GPOAbuseEngine` (class, line 105) `class GPOAbuseEngine`
+  - `__init__` (method, line 118) `def __init__(self, domain, dc_ip)`
+  - `parse_gpo_list` (method, line 124) `def parse_gpo_list(self, raw_gpo_output)`
+  - `parse_bloodhound_gpos` (method, line 160) `def parse_bloodhound_gpos(self, bloodhound_nodes)`
+  - `plan_scheduled_task` (method, line 182) `def plan_scheduled_task(self, gpo, command, task_name)`
+  - `plan_startup_script` (method, line 208) `def plan_startup_script(self, gpo, script_content, script_name)`
+  - `plan_logon_script` (method, line 238) `def plan_logon_script(self, gpo, command)`
+  - `plan_local_admin_addition` (method, line 266) `def plan_local_admin_addition(self, gpo, username, group)`
+  - `plan_wmi_filter_abuse` (method, line 293) `def plan_wmi_filter_abuse(self, gpo, wmi_query)`
+  - `plan_registry_preference` (method, line 322) `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)`
+  - `plan_service_installation` (method, line 356) `def plan_service_installation(self, gpo, service_name, binary_path)`
+  - `generate_all_plans` (method, line 382) `def generate_all_plans(self, command, username)`
+  - `detect_risky_gpos` (method, line 406) `def detect_risky_gpos(self)`
+  - `summary` (method, line 434) `def summary(self)`
+- Imported by: `cli/commands/active_directory.py`
+
+## modules/guard_rules.py
+- Doc: Seeded guard rules that arm the planner filter before any attribution data.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `_default_rules` (function, line 54) `def _default_rules()`
+  - `_parse_override` (function, line 59) `def _parse_override(raw)`
+  - `_tokenize` (function, line 89) `def _tokenize(command)`
+  - `_unwrap` (function, line 97) `def _unwrap(tokens)`
+  - `_rm_is_destructive` (function, line 129) `def _rm_is_destructive(tokens)`
+  - `_dd_is_destructive` (function, line 169) `def _dd_is_destructive(tokens)`
+  - `GuardRules` (class, line 174) `class GuardRules`
+  - `guard_rules` (function, line 274) `def guard_rules(task_id)`
+  - `__init__` (method, line 183) `def __init__(self, task_id, base_dir, override)`
+  - `_assemble` (method, line 198) `def _assemble(self, override)`
+  - `_read_config_override` (method, line 209) `def _read_config_override()`
+  - `_serialised` (method, line 218) `def _serialised(self)`
+  - `_persist_once` (method, line 223) `def _persist_once(self)`
+  - `blocked_verbs` (method, line 238) `def blocked_verbs(self)`
+  - `blocks_command` (method, line 242) `def blocks_command(self, command)`
+- Depends on: `core/atomic_store.py`, `core/config.py`
+- Imported by: `modules/loop/worker_agentic.py`, `tests/test_guard_rules.py`, `tests/test_loop_deterministic_mode.py`
+
+## modules/gui_askpass.sh
+- Doc: — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `has` (function, line 22)
+  - `try_zenity` (function, line 24)
+  - `try_yad` (function, line 28)
+  - `try_ssh_askpass` (function, line 33)
+  - `try_kdialog` (function, line 40)
+
+## modules/gym_cleanup.py
+- Doc: Gym machine cleanup on LazyOwn exit.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `cleanup_enabled` (function, line 21) `def cleanup_enabled()`
+  - `cleanup_gym_machines` (function, line 35) `def cleanup_gym_machines(verbose)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+- Imported by: `lazyown.py`, `tests/test_gym_lifecycle.py`
+
+## modules/gym_matrix_runner.py
+- Doc: Ordered Metasploitable 2 gym matrix runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_catalogue` (function, line 36) `def _catalogue(catalogue)`
+  - `plan_matrix` (function, line 49) `def plan_matrix(target, sessions_dir, only, top_k, catalogue)`
+  - `run_matrix` (function, line 104) `def run_matrix(target)`
+  - `_stats` (function, line 220) `def _stats(runs)`
+  - `_persist` (function, line 236) `def _persist(summary_result, sessions_dir)`
+  - `load_matrix` (function, line 252) `def load_matrix(sessions_dir)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## modules/gym_registry.py
 - Doc: Gym definitions and persistent run state.
@@ -257,239 +465,6 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `_is_placeholder` (method, line 1120) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
-
-## modules/intercept.py
-- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
-  - `InterceptConfig` (class, line 33) `class InterceptConfig`
-  - `InterceptRule` (class, line 50) `class InterceptRule`
-  - `PendingApproval` (class, line 77) `class PendingApproval`
-  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (function, line 101) `def builtin_rules()`
-  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
-  - `Interceptor` (class, line 154) `class Interceptor`
-  - `Guard` (class, line 255) `class Guard`
-  - `__post_init__` (method, line 61) `def __post_init__(self)`
-  - `matches` (method, line 68) `def matches(self, tool, command)`
-  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
-  - `rules` (method, line 172) `def rules(self)`
-  - `add_rule` (method, line 177) `def add_rule(self, rule)`
-  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
-  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
-  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
-  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
-  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
-  - `__init__` (method, line 258) `def __init__(self, interceptor)`
-  - `interceptor` (method, line 266) `def interceptor(self)`
-  - `check` (method, line 270) `def check(self, tool, command)`
-  - `observe` (method, line 282) `def observe(self, output, source)`
-  - `record_failure` (method, line 291) `def record_failure(self, source)`
-  - `audit_log` (method, line 296) `def audit_log(self, limit)`
-  - `attribution` (method, line 301) `def attribution(self)`
-- Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/internal_discover.sh
-- Layer: utility
-- Language: sh
-
-## modules/iptables_portforward.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `display_usage` (function, line 29)
-
-## modules/jsonl_tail.py
-- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `JsonlTail` (class, line 14) `class JsonlTail`
-  - `__init__` (method, line 17) `def __init__(self, path)`
-  - `read_new` (method, line 22) `def read_new(self, limit)`
-- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-
-## modules/jwtexploit.py
-- Layer: utility
-- Language: py
-
-## modules/k8s_attacks.py
-- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `K8sConfig` (class, line 57) `class K8sConfig`
-  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
-  - `__init__` (method, line 87) `def __init__(self, config)`
-  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
-  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
-  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
-  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
-  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
-  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
-  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
-  - `summary` (method, line 318) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/kerberoasting.py
-- Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KerberoastTarget` (class, line 38) `class KerberoastTarget`
-  - `KerberoastHash` (class, line 59) `class KerberoastHash`
-  - `KerberoastingEngine` (class, line 79) `class KerberoastingEngine`
-  - `__init__` (method, line 95) `def __init__(self, domain, dc_ip, username, password, hash)`
-  - `enumerate_spns` (method, line 112) `def enumerate_spns(self, ldap_output, bloodhound_data)`
-  - `_prioritize_targets` (method, line 169) `def _prioritize_targets(self)`
-  - `request_tgs_aes_only` (method, line 187) `def request_tgs_aes_only(self, user_spn)`
-  - `request_tgs_rc4` (method, line 208) `def request_tgs_rc4(self, user_spn)`
-  - `request_tgs` (method, line 219) `def request_tgs(self, user_spn, etype)`
-  - `_build_hash_string` (method, line 248) `def _build_hash_string(self, spn, etype)`
-  - `_hashcat_command` (method, line 268) `def _hashcat_command(hash_str, mode)`
-  - `targeted_kerberoast` (method, line 271) `def targeted_kerberoast(self, high_value_only)`
-  - `asreproast_check` (method, line 306) `def asreproast_check(self, usernames)`
-  - `extract_hashes_from_pcap` (method, line 321) `def extract_hashes_from_pcap(self, pcap_path)`
-  - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
-  - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
-  - `summary` (method, line 401) `def summary(self)`
-  - `priority` (function, line 172) `def priority(target)`
-- Depends on: `modules/kerberos_core.py`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/kerberos_core.py
-- Doc: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KerberosPrincipal` (class, line 139) `class KerberosPrincipal`
-  - `EncryptedData` (class, line 157) `class EncryptedData`
-  - `KerberosTicket` (class, line 172) `class KerberosTicket`
-  - `PACSignature` (class, line 213) `class PACSignature`
-  - `PACInfo` (class, line 228) `class PACInfo`
-  - `TGSRequest` (class, line 249) `class TGSRequest`
-  - `KerberosCrypto` (class, line 271) `class KerberosCrypto`
-  - `KerberosCore` (class, line 407) `class KerberosCore`
-  - `KerberosErrorParser` (class, line 683) `class KerberosErrorParser`
-  - `TicketValidator` (class, line 702) `class TicketValidator`
-  - `to_string` (method, line 152) `def to_string(self)`
-  - `has_flag` (method, line 207) `def has_flag(self, flag_name)`
-  - `__init__` (method, line 277) `def __init__(self)`
-  - `derive_aes_key` (method, line 282) `def derive_aes_key(password, salt, etype)`
-  - `derive_rc4_key` (method, line 318) `def derive_rc4_key(password)`
-  - `aes_encrypt` (method, line 329) `def aes_encrypt(self, key, plaintext, usage)`
-  - `aes_decrypt` (method, line 361) `def aes_decrypt(self, key, ciphertext, usage)`
-  - `compute_checksum` (method, line 389) `def compute_checksum(key, data, etype)`
-  - `__init__` (method, line 421) `def __init__(self, domain, dc_host, dc_ip)`
-  - `get_supported_etypes` (method, line 427) `def get_supported_etypes(self)`
-  - `build_as_req` (method, line 435) `def build_as_req(self, username, domain, password, etype)`
-  - `build_tgs_req` (method, line 489) `def build_tgs_req(self, params)`
-  - `parse_as_rep` (method, line 534) `def parse_as_rep(self, as_rep_data, key, etype)`
-  - `parse_tgs_rep` (method, line 550) `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)`
-  - `decrypt_ticket` (method, line 563) `def decrypt_ticket(self, ticket_data, key, etype)`
-  - `parse_pac` (method, line 588) `def parse_pac(self, pac_data)`
-  - `_parse_pac_buffer` (method, line 622) `def _parse_pac_buffer(pac, buf_type, buf_data)`
-  - `_build_pa_enc_timestamp` (method, line 640) `def _build_pa_enc_timestamp(self, key, etype, timestamp)`
-  - `_parse_kdc_rep` (method, line 653) `def _parse_kdc_rep(self, data, key, etype, rep_type)`
-  - `_rc4_encrypt` (method, line 667) `def _rc4_encrypt(key, data, usage)`
-  - `_rc4_decrypt` (method, line 676) `def _rc4_decrypt(key, data, usage)`
-  - `parse_error` (method, line 687) `def parse_error(error_data)`
-  - `is_expired` (method, line 706) `def is_expired(endtime, grace_period)`
-  - `validate_flags` (method, line 719) `def validate_flags(ticket, required_flags)`
-  - `validate_pac_checksums` (method, line 735) `def validate_pac_checksums(pac)`
-- Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
-
-## modules/kerberos_tickets.py
-- Doc: Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SilverTicketConfig` (class, line 36) `class SilverTicketConfig`
-  - `GoldenTicketConfig` (class, line 65) `class GoldenTicketConfig`
-  - `DiamondTicketConfig` (class, line 94) `class DiamondTicketConfig`
-  - `SilverTicketForger` (class, line 124) `class SilverTicketForger`
-  - `GoldenTicketForger` (class, line 265) `class GoldenTicketForger`
-  - `DiamondTicketForger` (class, line 397) `class DiamondTicketForger`
-  - `SapphireTicketForger` (class, line 462) `class SapphireTicketForger`
-  - `SkeletonKeyInjector` (class, line 567) `class SkeletonKeyInjector`
-  - `__init__` (method, line 131) `def __init__(self)`
-  - `forge` (method, line 134) `def forge(self, config)`
-  - `_resolve_key` (method, line 190) `def _resolve_key(self, config)`
-  - `_build_silver_pac` (method, line 200) `def _build_silver_pac(self, config, start, end)`
-  - `_build_enc_ticket_part` (method, line 206) `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)`
-  - `_build_ticket_structure` (method, line 225) `def _build_ticket_structure(self, config, flags, enc_part)`
-  - `_build_kirbi` (method, line 235) `def _build_kirbi(self, ticket, enc_part, etype)`
-  - `_mimikatz_inject_command` (method, line 244) `def _mimikatz_inject_command(self, config)`
-  - `_impacket_command` (method, line 254) `def _impacket_command(self, config)`
-  - `__init__` (method, line 272) `def __init__(self)`
-  - `forge` (method, line 275) `def forge(self, config)`
-  - `_resolve_krbtgt_key` (method, line 324) `def _resolve_krbtgt_key(self, config)`
-  - `_build_golden_pac` (method, line 339) `def _build_golden_pac(self, config)`
-  - `_build_golden_enc_part` (method, line 346) `def _build_golden_enc_part(self, config, start, end, flags, key)`
-  - `_assemble_tgt` (method, line 368) `def _assemble_tgt(self, config, flags, enc_part)`
-  - `_mimikatz_command` (method, line 379) `def _mimikatz_command(self, config)`
-  - `_impacket_command` (method, line 388) `def _impacket_command(self, config)`
-  - `__init__` (method, line 405) `def __init__(self)`
-  - `forge` (method, line 408) `def forge(self, config)`
-  - `_build_diamond_pac` (method, line 446) `def _build_diamond_pac(self, config)`
-  - `__init__` (method, line 469) `def __init__(self, kerberos_core)`
-  - `forge_s4u2self` (method, line 472) `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)`
-  - `forge_rbcd` (method, line 530) `def forge_rbcd(self, machine_account_hash, target_service, domain, username)`
-  - `detect_skeleton_key` (method, line 578) `def detect_skeleton_key(target_host, domain, dc_ip)`
-  - `inject_command` (method, line 600) `def inject_command(target_host)`
-  - `cleanup_command` (method, line 612) `def cleanup_command()`
-- Depends on: `modules/kerberos_core.py`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/kill_chain_viz.py
-- Doc: SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_phases` (function, line 20) `def _load_phases(sessions)`
-  - `_read_target` (function, line 27) `def _read_target()`
-  - `_build_svg` (function, line 34) `def _build_svg(phases)`
-  - `generate_html` (function, line 69) `def generate_html(target, sessions)`
-  - `generate_svg` (function, line 102) `def generate_svg(target, sessions)`
-- Depends on: `modules/killchain.py`
-- Imported by: `lazyc2.py`
-
-## modules/killchain.py
-- Doc: Unified kill-chain — single source of truth consumed by all surfaces.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KillChainConfig` (class, line 99) `class KillChainConfig`
-  - `PhaseStatus` (class, line 197) `class PhaseStatus`
-  - `KillChain` (class, line 206) `class KillChain`
-  - `get_killchain` (function, line 566) `def get_killchain()`
-  - `technique_for_phase` (function, line 571) `def technique_for_phase(phase)`
-  - `technique_for_vulnclass` (function, line 576) `def technique_for_vulnclass(vulnclass)`
-  - `world_model_path` (method, line 177) `def world_model_path(self)`
-  - `phase_index` (method, line 181) `def phase_index(self, phase)`
-  - `is_valid_phase` (method, line 188) `def is_valid_phase(self, phase)`
-  - `config` (method, line 215) `def config()`
-  - `phases` (method, line 220) `def phases()`
-  - `phase_labels` (method, line 225) `def phase_labels()`
-  - `phase_colors` (method, line 230) `def phase_colors()`
-  - `phase_rich_colors` (method, line 235) `def phase_rich_colors()`
-  - `engagement_phase_to_cli` (method, line 240) `def engagement_phase_to_cli(engagement_value)`
-  - `cli_phase_to_host_state` (method, line 252) `def cli_phase_to_host_state(phase)`
-  - `current_phase` (method, line 265) `def current_phase(world_model_path)`
-  - `advance_phase` (method, line 312) `def advance_phase(new_phase, world_model_path, host, extras)`
-  - `get_progress` (method, line 416) `def get_progress(world_model_path)`
-  - `compact_progress` (method, line 465) `def compact_progress(current_phase, phases_entered)`
-  - `phases_for_display` (method, line 485) `def phases_for_display()`
-  - `phase_index` (method, line 496) `def phase_index(phase)`
-  - `snapshot` (method, line 501) `def snapshot(world_model_path)`
-  - `technique_for_phase` (method, line 541) `def technique_for_phase(phase)`
-  - `technique_for_vulnclass` (method, line 553) `def technique_for_vulnclass(vulnclass)`
-- Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

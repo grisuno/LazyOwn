@@ -1,6 +1,30 @@
 # API (page 18 of 28)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/morse.py
+- `reverse_morse_code` (function) `modules/morse.py:98` `def reverse_morse_code()` -- Build the reverse lookup table from Morse code to characters.
+- `text_to_morse` (function) `modules/morse.py:109` `def text_to_morse(text, config)` -- Convert plain text to Morse code.
+- `morse_to_text` (function) `modules/morse.py:130` `def morse_to_text(morse_code, config)` -- Convert Morse code back to plain text.
+- `clear_screen` (function) `modules/morse.py:157` `def clear_screen(config)` -- Reset the terminal screen using a bounded subprocess call.
+- `read_choice` (function) `modules/morse.py:171` `def read_choice(config)` -- Read and validate the menu choice from standard input.
+- `run_driver` (function) `modules/morse.py:186` `def run_driver(config)` -- Run the interactive Morse code conversion loop.
+
+## modules/mysql_hookandroot_lib.c
+- `reverse_shell` (function) `modules/mysql_hookandroot_lib.c:74` `void reverse_shell(void)` -- fork & send a bash shell to the attacker before starting mysqld
+- `execvp` (function) `modules/mysql_hookandroot_lib.c:128` `int execvp(const char* filename, char* const argv[])` -- execvp() hook
+
+## modules/network_opsec.py
+Imported by: `cli/commands/opsec_cleanup.py`
+- `NetworkOpsecEngine.__init__` (method) `modules/network_opsec.py:83` `def __init__(self, config)`
+- `NetworkOpsecEngine.configure_proxy_chain` (method) `modules/network_opsec.py:87` `def configure_proxy_chain(self, chain_type)` -- Configure a proxy chain for C2 communication.
+- `NetworkOpsecEngine.check_canary_tokens` (method) `modules/network_opsec.py:131` `def check_canary_tokens(self)` -- Check if the target has canary token / deception technology.
+- `NetworkOpsecEngine.analyze_traffic_with_canary_check` (method) `modules/network_opsec.py:179` `def analyze_traffic_with_canary_check(self, target_host, target_port)` -- Analyze whether target traffic is being intercepted or analyzed.
+- `NetworkOpsecEngine.dns_over_https_config` (method) `modules/network_opsec.py:246` `def dns_over_https_config(self)` -- Generate DNS-over-HTTPS configuration for proxy and system.
+- `NetworkOpsecEngine.source_port_randomize` (method) `modules/network_opsec.py:269` `def source_port_randomize(self)` -- Randomize source port for outbound connections.
+- `NetworkOpsecEngine.connection_jitter_schedule` (method) `modules/network_opsec.py:294` `def connection_jitter_schedule(self, beacon_interval)` -- Generate a jitter schedule for beacon connections.
+- `NetworkOpsecEngine.canary_detection_setup` (method) `modules/network_opsec.py:317` `def canary_detection_setup(self)` -- Set up canary detection for the engagement.
+- `NetworkOpsecEngine.summary` (method) `modules/network_opsec.py:349` `def summary(self)`
+
 ## modules/nmap2csv.py
 - `dottedquad_to_num` (function) `modules/nmap2csv.py:126` `def dottedquad_to_num(ip)` -- Convert decimal dotted quad string IP to long integer
 - `num_to_dottedquad` (function) `modules/nmap2csv.py:133` `def num_to_dottedquad(n)` -- Convert long int IP to dotted quad string
@@ -165,36 +189,36 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `modul
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
 Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
-- `reload` (function) `modules/orchestrator_config.py:150` `def reload()` -- Invalidate every merged view after an external configuration change.
-- `profiles` (function) `modules/orchestrator_config.py:270` `def profiles()` -- Return every resolved profile, including inherited values.
-- `active_profile` (function) `modules/orchestrator_config.py:295` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
-- `profile_config` (function) `modules/orchestrator_config.py:307` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
-- `set_profile` (function) `modules/orchestrator_config.py:314` `def set_profile(name)` -- Persist the active profile name.
-- `set_harness` (function) `modules/orchestrator_config.py:338` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
-- `limits` (function) `modules/orchestrator_config.py:370` `def limits()` -- Return resolved numeric limits for the active profile.
-- `budget` (function) `modules/orchestrator_config.py:377` `def budget()` -- Return resolved budgets for the active profile.
-- `findings_config` (function) `modules/orchestrator_config.py:384` `def findings_config()` -- Return resolved findings-ledger settings for the active profile.
-- `progress_config` (function) `modules/orchestrator_config.py:406` `def progress_config()` -- Return resolved goal-progress strikethreshold settings.
-- `pacing` (function) `modules/orchestrator_config.py:438` `def pacing()` -- Return resolved pacing settings for the active profile.
-- `set_pacing` (function) `modules/orchestrator_config.py:486` `def set_pacing(key, value)` -- Persist one pacing override in the payload section.
-- `engagement_mode` (function) `modules/orchestrator_config.py:511` `def engagement_mode()` -- Return the active engagement mode (pentest | redteam | ctf).
-- `set_engagement_mode` (function) `modules/orchestrator_config.py:529` `def set_engagement_mode(mode)` -- Persist the engagement mode in the payload.
-- `chain_defaults` (function) `modules/orchestrator_config.py:552` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
-- `sinks` (function) `modules/orchestrator_config.py:561` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
-- `selectors` (function) `modules/orchestrator_config.py:572` `def selectors()` -- Return action-selector toggles from the payload orchestrator section.
-- `selector_enabled` (function) `modules/orchestrator_config.py:583` `def selector_enabled(name)` -- Return whether one shared selector may fire (unknown = enabled).
-- `set_selector` (function) `modules/orchestrator_config.py:588` `def set_selector(name, enabled)` -- Persist the enabled flag of one shared selector and return the toggles.
-- `stages` (function) `modules/orchestrator_config.py:598` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
-- `stage_enabled` (function) `modules/orchestrator_config.py:628` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
-- `stage_params` (function) `modules/orchestrator_config.py:634` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
-- `set_stage` (function) `modules/orchestrator_config.py:639` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:664` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:756` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:765` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:771` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:828` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:849` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:856` `def validate_config(data)` -- Validate one raw orchestration mapping.
+- `reload` (function) `modules/orchestrator_config.py:151` `def reload()` -- Invalidate every merged view after an external configuration change.
+- `profiles` (function) `modules/orchestrator_config.py:271` `def profiles()` -- Return every resolved profile, including inherited values.
+- `active_profile` (function) `modules/orchestrator_config.py:296` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
+- `profile_config` (function) `modules/orchestrator_config.py:308` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
+- `set_profile` (function) `modules/orchestrator_config.py:315` `def set_profile(name)` -- Persist the active profile name.
+- `set_harness` (function) `modules/orchestrator_config.py:339` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
+- `limits` (function) `modules/orchestrator_config.py:371` `def limits()` -- Return resolved numeric limits for the active profile.
+- `budget` (function) `modules/orchestrator_config.py:378` `def budget()` -- Return resolved budgets for the active profile.
+- `findings_config` (function) `modules/orchestrator_config.py:385` `def findings_config()` -- Return resolved findings-ledger settings for the active profile.
+- `progress_config` (function) `modules/orchestrator_config.py:407` `def progress_config()` -- Return resolved goal-progress strikethreshold settings.
+- `pacing` (function) `modules/orchestrator_config.py:439` `def pacing()` -- Return resolved pacing settings for the active profile.
+- `set_pacing` (function) `modules/orchestrator_config.py:487` `def set_pacing(key, value)` -- Persist one pacing override in the payload section.
+- `engagement_mode` (function) `modules/orchestrator_config.py:512` `def engagement_mode()` -- Return the active engagement mode (pentest | redteam | ctf).
+- `set_engagement_mode` (function) `modules/orchestrator_config.py:530` `def set_engagement_mode(mode)` -- Persist the engagement mode in the payload.
+- `chain_defaults` (function) `modules/orchestrator_config.py:553` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
+- `sinks` (function) `modules/orchestrator_config.py:562` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
+- `selectors` (function) `modules/orchestrator_config.py:573` `def selectors()` -- Return action-selector toggles from the payload orchestrator section.
+- `selector_enabled` (function) `modules/orchestrator_config.py:584` `def selector_enabled(name)` -- Return whether one shared selector may fire (unknown = enabled).
+- `set_selector` (function) `modules/orchestrator_config.py:589` `def set_selector(name, enabled)` -- Persist the enabled flag of one shared selector and return the toggles.
+- `stages` (function) `modules/orchestrator_config.py:599` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:629` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:635` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:640` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:665` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:757` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:766` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:772` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:829` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:850` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:857` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -203,6 +227,16 @@ Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 - `host_geo` (function) `modules/osint_enrich.py:183` `def host_geo(ip, sessions_dir)` -- Country/org/ISP for an IP via the keyless ip-api endpoint.
 - `domain_exposure` (function) `modules/osint_enrich.py:198` `def domain_exposure(domain, sessions_dir)` -- Count public urlscan.io results for a domain (no key needed).
 - `enrich_evidence` (function) `modules/osint_enrich.py:213` `def enrich_evidence(items, sessions_dir)` -- Append keyless OSINT verdicts to CVE mentions inside evidence items.
+
+## modules/outcome_attribution.py
+Depends on: `core/atomic_store.py`
+Imported by: `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, `tests/test_outcome_attribution.py`
+- `classify` (function) `modules/outcome_attribution.py:100` `def classify(output, is_error)` -- Attribute one step's result to ``ok``, ``blocked`` or ``error``.
+- `verb_of` (function) `modules/outcome_attribution.py:126` `def verb_of(command)` -- Return the leading verb of a command line for per-verb attribution.
+- `AttributionLedger.__init__` (method) `modules/outcome_attribution.py:149` `def __init__(self, task_id, base_dir)` -- Bind the ledger to a task, creating its file lazily on write.
+- `AttributionLedger.record` (method) `modules/outcome_attribution.py:167` `def record(self, command, classification)` -- Tally one classified step under its verb and persist the ledger.
+- `AttributionLedger.counts` (method) `modules/outcome_attribution.py:199` `def counts(self, verb)` -- Return the ``ok``/``blocked``/``error`` counts for one verb.
+- `AttributionLedger.blocked_verbs` (method) `modules/outcome_attribution.py:204` `def blocked_verbs(self, threshold)` -- Return verbs the target has blocked at least ``threshold`` times.
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
@@ -245,7 +279,7 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.p
 
 ## modules/phishing_orchestrator.py
 Depends on: `core/crypto.py`, `core/hardening.py`
-Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `tests/test_security_hardening_v3.py`
 - `PhishingOrchestrator.__init__` (method) `modules/phishing_orchestrator.py:399` `def __init__(self)`
 - `PhishingOrchestrator.get_instance` (method) `modules/phishing_orchestrator.py:404` `def get_instance(cls)`
 - `PhishingOrchestrator.launch` (method) `modules/phishing_orchestrator.py:415` `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` -- Launch a phishing campaign.
@@ -452,37 +486,6 @@ Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/tes
 - `save_decisions` (function) `modules/reaction_bridge.py:80` `def save_decisions(task_id, decisions)` -- Park picks into the per-task buffer; returns the saved count.
 - `load_reaction_triggers` (function) `modules/reaction_bridge.py:108` `def load_reaction_triggers(task_id, consumer)` -- Drain the buffer into planner trigger dicts (one-shot, one per round).
 - `find_credentials` (function) `modules/reaction_bridge.py:159` `def find_credentials(output)` -- Extract user:pass pairs and hashes; placeholder values are dropped.
-
-## modules/reactive_engine.py
-Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/reactive_suggest.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
-- `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
-- `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
-- `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
-- `PrivescHintMatcher.match` (method) `modules/reactive_engine.py:192` `def match(self, output, context)`
-- `NewHostMatcher.match` (method) `modules/reactive_engine.py:214` `def match(self, output, context)`
-- `ServiceVersionMatcher.match` (method) `modules/reactive_engine.py:247` `def match(self, output, context)`
-- `ShellErrorMatcher.match` (method) `modules/reactive_engine.py:276` `def match(self, output, context)`
-- `LateralOpportunityMatcher.match` (method) `modules/reactive_engine.py:307` `def match(self, output, context)`
-- `DataOfInterestMatcher.match` (method) `modules/reactive_engine.py:349` `def match(self, output, context)`
-- `ParquetAdvisor.__init__` (method) `modules/reactive_engine.py:395` `def __init__(self, root)`
-- `ParquetAdvisor.gtfobins_for` (method) `modules/reactive_engine.py:421` `def gtfobins_for(self, binary)`
-- `ParquetAdvisor.lolbas_for` (method) `modules/reactive_engine.py:434` `def lolbas_for(self, binary)` -- Returns [(function_name, att&ck_technique), ...].
-- `ParquetAdvisor.technique_commands_for` (method) `modules/reactive_engine.py:448` `def technique_commands_for(self, platform, keyword)` -- Return atomic test commands for platform matching keyword.
-- `EvasionAdvisor.suggest` (method) `modules/reactive_engine.py:504` `def suggest(self, signals, platform)`
-- `PrivescAdvisor.suggest` (method) `modules/reactive_engine.py:565` `def suggest(self, signals, platform, parquet)`
-- `SemanticContextAdvisor.__init__` (method) `modules/reactive_engine.py:644` `def __init__(self, rag, config_loader, min_score, query_limit)` -- Initialise the advisor.
-- `SemanticContextAdvisor.suggest` (method) `modules/reactive_engine.py:734` `def suggest(self, output, command, platform, context)` -- Return semantic next-step hints derived from past sessions.
-- `ReactiveEngine.__init__` (method) `modules/reactive_engine.py:810` `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
-- `ReactiveEngine.analyse` (method) `modules/reactive_engine.py:835` `def analyse(self, output, command, platform, context)` -- Parse *output* and return prioritised ReactiveDecisions.
-- `ReactiveEngine.top_decision` (method) `modules/reactive_engine.py:958` `def top_decision(self, output, command, platform, context)` -- Return only the single highest-priority decision, or None.
-- `get_engine` (function) `modules/reactive_engine.py:977` `def get_engine()`
-
-## modules/recommender.py
-Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
-Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/recommend_next.py`
-- `recommend` (function) `modules/recommender.py:143` `def recommend(state, api_key)` -- Return ranked recommendations without writing to disk.
-- `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
 
 
 Next: [API_p19.md](API_p19.md)

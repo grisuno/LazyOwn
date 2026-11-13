@@ -26,17 +26,17 @@
   - `WindowConstants` (class, line 18) `class WindowConstants`
   - `TimingConstants` (class, line 34) `class TimingConstants`
   - `NetworkConstants` (class, line 48) `class NetworkConstants`
-  - `PtyConstants` (class, line 86) `class PtyConstants`
-  - `FontConstants` (class, line 99) `class FontConstants`
-  - `KeybindingConstants` (class, line 124) `class KeybindingConstants`
-  - `IdentifierConstants` (class, line 142) `class IdentifierConstants`
-  - `ThemeConstants` (class, line 161) `class ThemeConstants`
-  - `BackendConstants` (class, line 176) `class BackendConstants`
-  - `PanelConstants` (class, line 185) `class PanelConstants`
-  - `EventLogConstants` (class, line 205) `class EventLogConstants`
-  - `CommandPaletteConstants` (class, line 214) `class CommandPaletteConstants`
-  - `AppConstants` (class, line 223) `class AppConstants`
-  - `panel_labels` (method, line 239) `def panel_labels(self)`
+  - `PtyConstants` (class, line 88) `class PtyConstants`
+  - `FontConstants` (class, line 101) `class FontConstants`
+  - `KeybindingConstants` (class, line 126) `class KeybindingConstants`
+  - `IdentifierConstants` (class, line 144) `class IdentifierConstants`
+  - `ThemeConstants` (class, line 163) `class ThemeConstants`
+  - `BackendConstants` (class, line 178) `class BackendConstants`
+  - `PanelConstants` (class, line 187) `class PanelConstants`
+  - `EventLogConstants` (class, line 207) `class EventLogConstants`
+  - `CommandPaletteConstants` (class, line 216) `class CommandPaletteConstants`
+  - `AppConstants` (class, line 225) `class AppConstants`
+  - `panel_labels` (method, line 241) `def panel_labels(self)`
 - Imported by: `lazygui/app.py`, `lazygui/config/__init__.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazygui/theme/qss_builder.py`, `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/filter_bar.py`, `lazygui/widgets/graph_view.py`, `lazygui/widgets/terminal_view.py`, `lazygui/windows/command_palette_window.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_graph_widget.py`
 
 ## lazygui/config/paths.py

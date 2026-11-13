@@ -3878,6 +3878,9 @@ class Planner:
         existing = {n.text for n in self.graph.list("intent")}
         created: list[ExplorationNode] = []
         candidates = self._candidates()
+        initial_access = self._initial_access_candidate(existing)
+        if initial_access is not None:
+            candidates.insert(0, initial_access)
         candidates.extend(self._llm_candidates(existing))
         for summary, asset_ids, parents, priority in candidates:
             if summary in existing:
@@ -4240,6 +4243,45 @@ class Planner:
             return bool(user and secret)
         except Exception:
             return False
+
+    def _initial_access_candidate(self, existing: set[str]) -> tuple[str, list[int], list[int], int] | None:
+        """Guarantee one exploitation-class intent for an access goal.
+
+        An "gain initial access" goal used to decompose into recon and
+        enumeration intents whose text never matched the initial-access
+        marks, so the deterministic ``auto_pwn`` step never fired and a
+        gym went unexploited for whole runs with the LLM pool down. This
+        emits the explicit exploitation intent (highest priority) once,
+        so ``Worker._steps_for`` resolves ``auto_pwn <target>`` even when
+        every model is unavailable.
+
+        Args:
+            existing: Intent summaries already in the graph.
+
+        Returns:
+            The candidate tuple, or None when the goal is not access
+            class, an access intent already exists, or the auto_pwn
+            verb is unavailable.
+        """
+        record = self.store.get(self.task_id) or {}
+        goal = str(record.get("goal", "") or "")
+        if not _initial_access_intent(goal.lower()):
+            return None
+        if any(_initial_access_intent(node.text.lower()) for node in self.graph.list("intent")):
+            return None
+        try:
+            from modules.auto_registry import verb_enabled, verb_gap
+
+            if verb_gap("auto_pwn") or not verb_enabled("auto_pwn"):
+                return None
+        except Exception:
+            pass
+        target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
+        summary = f"gain initial access on {target}" if target else "gain initial access"
+        if summary in existing:
+            return None
+        anchors = [a.asset_id for a in self.assets.list() if (a.value or "").strip() == target][:1]
+        return summary, anchors, [], 10
 
     def _candidates(self) -> list[tuple[str, list[int], list[int], int]]:
         """Build candidate intents from serial todos, hints, coverage, findings."""
@@ -5314,6 +5356,7 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 intent_id=intent.node_id,
                 tool_use_id=str(decision.get("tool_use_id", "")),
             )
+            self._audit_blocked("opsec", opsec.get("explanation", "noise threshold exceeded"), command, intent)
             return "", "blocked", "opsec-gate"
         if decision["action"] == "deny":
             self.activity.emit(
@@ -5323,6 +5366,7 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 intent_id=intent.node_id,
                 tool_use_id=str(decision.get("tool_use_id", "")),
             )
+            self._audit_blocked("guard", decision.get("reason", "denied"), command, intent)
             return "", "blocked", str(decision.get("reason", "denied"))
         needs_confirm = decision["action"] == "ask" or opsec_gate == "confirm"
         confirm_reason = str(
@@ -5351,49 +5395,65 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                     intent_id=intent.node_id,
                     tool_use_id=str(decision.get("tool_use_id", "")),
                 )
+                self._audit_blocked("approval", f"needs approval: {confirm_reason}", command, intent)
                 return "", "blocked", f"needs approval: {confirm_reason}"
-        chained = self._run_chained(intent, command, executor, budget, intercept, retry_state)
-        if chained is not None:
-            return chained
-        output = self._run(command, executor)
-        budget.record_toolcall(self.task_id, intent.node_id)
-        try:
-            from modules.intercept import observe_post_tool as _observe
+        from modules import loop_audit as _loop_audit
 
-            verdict_post = _observe(output)
-            if verdict_post in ("blocked", "error"):
-                self.activity.emit(
-                    self.name,
-                    verdict_post,
-                    f"post-tool {verdict_post}: {command[:120]}",
-                    intent_id=intent.node_id,
-                )
-        except Exception:
-            pass
-        if output.startswith("execution failed:") and retry_state["model_errors"] < 2:
-            retry_state["model_errors"] += 1
-            self.activity.emit(
-                self.name,
-                "retry",
-                f"transient failure, retry {retry_state['model_errors']}/2",
-                intent_id=intent.node_id,
-            )
-            time.sleep(1.0)
+        with _loop_audit.step_context(
+            task_id=self.task_id,
+            worker=self.name,
+            intent=intent.node_id,
+            tool_use_id=str(decision.get("tool_use_id", "")),
+            judge_action=decision.get("action", ""),
+            judge_source=str(decision.get("source", "") or ""),
+            judge_reason=decision.get("reason", ""),
+            opsec_gate=opsec_gate,
+            detection_prob=detection_prob,
+            step=str(intent.text or ""),
+        ):
+            chained = self._run_chained(intent, command, executor, budget, intercept, retry_state)
+            if chained is not None:
+                return chained
             output = self._run(command, executor)
             budget.record_toolcall(self.task_id, intent.node_id)
-        if output.startswith("execution failed:") and target:
             try:
-                memory.record_failure(target, "bash", command)
+                from modules.intercept import observe_post_tool as _observe
+
+                verdict_post = _observe(output)
+                if verdict_post in ("blocked", "error"):
+                    self.activity.emit(
+                        self.name,
+                        verdict_post,
+                        f"post-tool {verdict_post}: {command[:120]}",
+                        intent_id=intent.node_id,
+                    )
             except Exception:
                 pass
-        if _sudo_unavailable(output):
-            self.activity.emit(
-                self.name,
-                "block",
-                f"sudo unavailable for this unattended step: {command[:140]}",
-                intent_id=intent.node_id,
-            )
-            return "", "skipped", "sudo"
+            if output.startswith("execution failed:") and retry_state["model_errors"] < 2:
+                retry_state["model_errors"] += 1
+                self.activity.emit(
+                    self.name,
+                    "retry",
+                    f"transient failure, retry {retry_state['model_errors']}/2",
+                    intent_id=intent.node_id,
+                )
+                time.sleep(1.0)
+                output = self._run(command, executor)
+                budget.record_toolcall(self.task_id, intent.node_id)
+            if output.startswith("execution failed:") and target:
+                try:
+                    memory.record_failure(target, "bash", command)
+                except Exception:
+                    pass
+            if _sudo_unavailable(output):
+                self.activity.emit(
+                    self.name,
+                    "block",
+                    f"sudo unavailable for this unattended step: {command[:140]}",
+                    intent_id=intent.node_id,
+                )
+                self._audit_blocked("sudo", "sudo unavailable in unattended mode", command, intent)
+                return "", "skipped", "sudo"
         self.traffic.record(
             "bash",
             command,
@@ -5421,6 +5481,30 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         except Exception:
             pass
         return output, "ok", ""
+
+    def _audit_blocked(self, source: str, reason: str, command: str, intent: ExplorationNode) -> None:
+        """Record one gate-blocked step in the loop audit timeline.
+
+        Args:
+            source: Gate family (guard, opsec, approval, sudo).
+            reason: Why the step never ran.
+            command: The blocked command.
+            intent: Step intent node.
+        """
+        try:
+            from modules import loop_audit
+
+            audit = loop_audit.audit_for(self.task_id)
+            if audit is not None:
+                audit.blocked(
+                    source,
+                    reason,
+                    command=command,
+                    worker=self.name,
+                    intent=intent.node_id,
+                )
+        except Exception:
+            pass
 
     def _run_chained(
         self,
@@ -8469,6 +8553,33 @@ class TaskChat:
         return True
 
 
+def _ledger_confirmed_count(task_id: str) -> int:
+    """Count distinct findings the durable ledger holds as confirmed.
+
+    The exploration graph can lose a confirmation (state resets across
+    compaction or a re-driven intent), while the append-only findings
+    ledger keeps the operator-facing truth. The final verdict reads both
+    and never undercounts confirmed evidence.
+
+    Args:
+        task_id: Task/engagement identifier.
+
+    Returns:
+        Number of finding series whose newest ledger row is confirmed.
+    """
+    try:
+        from modules.sinks.findings import ledger_for
+
+        latest: dict[str, str] = {}
+        for row in ledger_for(task_id).rows():
+            ref = str(row.get("finding_ref", "") or row.get("title", "") or "")
+            if ref:
+                latest[ref] = str(row.get("state", ""))
+        return sum(1 for state in latest.values() if state == "confirmed")
+    except Exception:
+        return 0
+
+
 class LazyLoopEngine(EngineProxyMixin):
     """Single event-driven orchestrator: planner, workers, guard, enrich, retest.
 
@@ -10199,6 +10310,8 @@ class LazyLoopEngine(EngineProxyMixin):
             facts = [n for n in graph.list("fact") if not n.meta.get("cold_digest")]
             findings = graph.list("finding")
             confirmed = [n for n in findings if str(n.state) in ("confirmed",) or "reproduced" in str(n.meta.get("verdict", ""))]
+            ledger_confirmed = _ledger_confirmed_count(task_id)
+            confirmed_count = max(len(confirmed), ledger_confirmed)
             lowered_goal = goal.lower()
             wants_creds = any(k in lowered_goal for k in ("cred", "password", "hash", "login"))
             wants_access = any(k in lowered_goal for k in ("access", "shell", "session", "own", "exploit", "compromis", "foothold"))
@@ -10209,7 +10322,7 @@ class LazyLoopEngine(EngineProxyMixin):
                 verdict["verdict"] = "achieved"
             elif wants_creds and cred_hit:
                 verdict["verdict"] = "achieved"
-            elif wants_access and confirmed:
+            elif wants_access and confirmed_count:
                 verdict["verdict"] = "achieved"
             elif facts or (coverage.get("tested", 0) or 0) > 0:
                 verdict["verdict"] = "partial"
@@ -10221,7 +10334,7 @@ class LazyLoopEngine(EngineProxyMixin):
                     candidate_verdict=verdict["verdict"],
                     facts=len(facts),
                     findings=len(findings),
-                    confirmed=len(confirmed),
+                    confirmed=confirmed_count,
                     tested=int(coverage.get("tested", 0) or 0),
                 )
                 if decision.verdict != verdict["verdict"]:
@@ -10247,7 +10360,7 @@ class LazyLoopEngine(EngineProxyMixin):
                     "total": coverage.get("total", 0),
                     "facts": len(facts),
                     "findings": len(findings),
-                    "confirmed": len(confirmed),
+                    "confirmed": confirmed_count,
                 }
             )
             note = ""
@@ -10259,7 +10372,7 @@ class LazyLoopEngine(EngineProxyMixin):
 
                     prompt = _role_prompt(
                         "mirror", goal,
-                        f"coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)} confirmed={len(confirmed)}",
+                        f"coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)} confirmed={confirmed_count}",
                     ) + " Reply with one verdict line: achieved, partial or failed, plus why."
                     note = (pool.complete(prompt, max_tokens=120, members=chain or None, task_id=task_id) or "").strip()[:400]
             except Exception:
@@ -10272,7 +10385,7 @@ class LazyLoopEngine(EngineProxyMixin):
                 f"- goal: {goal[:300]}",
                 f"- verdict: {verdict['verdict']} (engine status: {status})",
                 f"- coverage: {coverage.get('pct', 0)}% tested={coverage.get('tested', 0)}/{coverage.get('total', 0)}",
-                f"- facts={len(facts)} findings={len(findings)} confirmed={len(confirmed)}",
+                f"- facts={len(facts)} findings={len(findings)} confirmed={confirmed_count}",
             ]
             if note:
                 lines += ["", f"> {note}"]

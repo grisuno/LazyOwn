@@ -460,6 +460,25 @@
                 };
                 return labels[status] || String(status || '?').toUpperCase();
             }
+            function loopOutcomeLabel(loop) {
+                if (!loop || !loop.outcome) {
+                    return '';
+                }
+                var parts = [];
+                if (loop.outcome.status) {
+                    parts.push(String(loop.outcome.status));
+                }
+                if (loop.outcome.verdict) {
+                    parts.push(String(loop.outcome.verdict));
+                }
+                if (loop.outcome.findings) {
+                    parts.push('findings=' + loop.outcome.findings);
+                }
+                if (loop.outcome.error) {
+                    parts.push('error: ' + String(loop.outcome.error).slice(0, 80));
+                }
+                return parts.join(' · ');
+            }
             function fmtLoopStarted(iso) {
                 if (!iso) {
                     return '';
@@ -493,12 +512,17 @@
                     if (loop.id === loopsState.selectedId) {
                         tr.classList.add('selected');
                     }
+                    var statusText = loopStatusLabel(loop.status);
+                    var outcomeText = loopOutcomeLabel(loop);
+                    if (outcomeText) {
+                        statusText += ' · ' + outcomeText;
+                    }
                     var cells = [
                         fmtLoopStarted(loop.started_at),
                         loop.kind,
                         loop.target,
                         loop.goal || '',
-                        loopStatusLabel(loop.status),
+                        statusText,
                         loop.started_by || ''
                     ];
                     cells.forEach(function(value) {
@@ -541,7 +565,12 @@
                 if (!title || !loop) {
                     return;
                 }
-                title.textContent = loop.kind + ' ' + loop.target + ' — ' + loopStatusLabel(loop.status);
+                var label = loopStatusLabel(loop.status);
+                var outcomeText = loopOutcomeLabel(loop);
+                if (outcomeText) {
+                    label += ' · ' + outcomeText;
+                }
+                title.textContent = loop.kind + ' ' + loop.target + ' — ' + label;
             }
             function selectLoop(loopId) {
                 loopsState.selectedId = loopId;
@@ -585,11 +614,16 @@
                     }
                     if (current.status === 'running') {
                         updateHexabotAutoLoop(0.6, 'ejecutando auto_loop');
-                    } else if (current.status === 'exited') {
-                        updateHexabotAutoLoop(1.0, '[ OK ] auto_loop finalizado');
+                    } else if (current.status === 'finished') {
+                        var okVerdict = current.outcome ? (current.outcome.verdict || current.outcome.status || '') : '';
+                        updateHexabotAutoLoop(1.0, '[ OK ] auto_loop finalizado' + (okVerdict ? ' · ' + okVerdict : ''));
                         if (hexabotAutoLoop && hexabotAutoLoop.happy) {
                             try { hexabotAutoLoop.happy(2500); } catch(e) {}
                         }
+                        setTimeout(function(){ hideHexabotAutoLoop(); if (hexabotAutoLoop && hexabotAutoLoop.dispose) { try { hexabotAutoLoop.dispose(); } catch(e){} hexabotAutoLoop = null; } lastAutoLoopId = null; }, 5000);
+                    } else if (current.status === 'failed') {
+                        var failWhy = current.outcome && current.outcome.error ? String(current.outcome.error).slice(0, 100) : 'objetivo no logrado';
+                        updateHexabotAutoLoop(1.0, '[ FAIL ] auto_loop falló · ' + failWhy);
                         setTimeout(function(){ hideHexabotAutoLoop(); if (hexabotAutoLoop && hexabotAutoLoop.dispose) { try { hexabotAutoLoop.dispose(); } catch(e){} hexabotAutoLoop = null; } lastAutoLoopId = null; }, 5000);
                     } else if (current.status === 'stopped') {
                         updateHexabotAutoLoop(1.0, 'auto_loop detenido');

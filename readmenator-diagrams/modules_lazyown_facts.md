@@ -1,6 +1,6 @@
-# modules: chain_runner
+# modules: lazyown_facts
 
-modules: chain_runner groups 100 files (c, js, py) around skip_pending, ChainStep, identifier, Chain, resolve. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: lazyown_facts groups 101 files (c, js, py) around skip_pending, ChainStep, identifier, Chain, resolve. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
@@ -10,14 +10,17 @@ graph LR
     static["static"]
     tests["tests"]
     cli -- "calls into" --> modules
+    cli -- "calls into" --> skills
     cli -- "calls into" --> tests
     modules -- "calls into" --> cli
+    modules -- "calls into" --> skills
     modules -- "calls into" --> tests
     skills -- "calls into" --> modules
     static -- "depends on" --> modules
     static -- "calls into" --> tests
     tests -- "calls into" --> cli
     tests -- "calls into" --> modules
+    tests -- "calls into" --> skills
 ```
 
 ## cli (7.1)
@@ -26,11 +29,11 @@ cli groups 3 files (py) around _parse_admin_flags, _token_name_ok, ChainArgs, pa
 
 ## modules (7.2)
 
-modules groups 50 files (c, py) around skip_pending, ChainStep, identifier, Chain, resolve. APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.
+modules groups 46 files (c, py) around skip_pending, ChainStep, identifier, Chain, resolve. APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.
 
 ## skills (7.3)
 
-skills groups 3 files (py) around handle, handle, handle. MCP tool ``lazyown_apt_chain`` (migrated from the call_tool dispatch chain).
+skills groups 6 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. LazyOwn FactStore
 
 ## static (7.4)
 
@@ -38,7 +41,7 @@ static groups 1 files (js) around d, e, t. !
 
 ## tests (7.5)
 
-tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 45 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
@@ -46,12 +49,13 @@ tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - cli/commands/command_and_control_migrated.py
 - cli/retry_support.py
 - modules/apt_playbooks.py
+- modules/atomic_cli.py
 - modules/atomic_resolver.py
 - modules/auto_registry.py
+- modules/campaign_blacklist.py
 - modules/chain_approval.py
 - modules/chain_distill.py
 - modules/chain_facts.py
-- modules/chain_family.py
 - modules/chain_loop.py
 - modules/chain_match.py
 - modules/chain_registry.py
@@ -59,34 +63,30 @@ tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/chain_state.py
 - modules/chain_synth.py
 - modules/chain_tokens.py
-- modules/custom_tools.py
 - modules/emulation_runner.py
 - modules/gym_matrix_runner.py
-- modules/gym_winbox_runner.py
 - modules/lazy_autofire.py
 - modules/lazy_deviations.py
 - modules/lazy_finalizer.py
 - modules/lazy_scope.py
-- modules/lazypoophish.py
-- modules/lazyshortener.py
-- modules/listener_manager.py
-- modules/loop/worker_execution.py
-- modules/notify.py
 - modules/playbook_admin.py
 - modules/playbook_chain.py
 - modules/retry_session.py
 - modules/reverse-shell.c
 - modules/rootkit/rootkit.c
 - modules/selection/__init__.py
+- modules/selection/_phase_categories.py
 - modules/selection/adversary.py
 - modules/selection/atomic.py
 - modules/selection/base.py
+- modules/selection/bridge.py
 - modules/selection/chain.py
 - modules/selection/cred_spray.py
 - modules/selection/edb.py
 - modules/selection/intel.py
 - modules/selection/lazyscript.py
 - modules/selection/module.py
+- modules/selection/parquet.py
 - modules/selection/playbook.py
 - modules/selection/poc.py
 - modules/selection/registry.py
@@ -94,10 +94,12 @@ tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/selection/technique_chain.py
 - modules/ttpscope_bridge.py
 - modules/verb_manifest.py
-- modules/workspace.py
+- skills/lazyown_facts.py
 - skills/mcp_tools/apt_chain.py
-- skills/mcp_tools/lazy_addon.py
+- skills/mcp_tools/create_tool.py
+- skills/mcp_tools/facts_show.py
 - skills/mcp_tools/ttp_chain.py
+- skills/tests/test_facts.py
 - static/js/select2-4.1.0.min.js
 - tests/test_apt_chain_admin.py
 - tests/test_apt_chain_integration.py
@@ -110,13 +112,14 @@ tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_chain_distill_custody.py
 - tests/test_chain_distill_scope.py
 - tests/test_chain_evidence.py
-- tests/test_chain_family.py
 - tests/test_chain_finalizer.py
 - tests/test_chain_freshness_guard.py
 - tests/test_chain_loop.py
+- tests/test_chain_match_determinism.py
 - tests/test_chain_parallel_fallback.py
 - tests/test_chain_registry.py
 - tests/test_chain_runner.py
+- tests/test_chain_selector.py
 - tests/test_chain_step_streaming.py
 - tests/test_chain_synth.py
 - tests/test_chain_token_hardening.py
@@ -128,14 +131,15 @@ tests groups 43 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_intel_selector.py
 - tests/test_lazy_adaptive_replan.py
 - tests/test_lazy_deviations.py
-- tests/test_lazy_loop.py
 - tests/test_loop_fire_pending.py
 - tests/test_playbook_admin.py
 - tests/test_playbook_chain.py
 - tests/test_poc_registry.py
 - tests/test_retry_session.py
+- tests/test_selection_bridge.py
 - tests/test_selection_lazyscript.py
 - tests/test_selection_module.py
+- tests/test_selection_parquet.py
 - tests/test_selection_technique.py
 - tests/test_selection_technique_chain.py
 - tests/test_selection_wiring.py

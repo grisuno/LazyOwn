@@ -1,6 +1,37 @@
 # API (page 19 of 28)
 Previous: [API_p18.md](API_p18.md)
 
+## modules/reactive_engine.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
+Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/reactive_suggest.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
+- `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
+- `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
+- `PrivescHintMatcher.match` (method) `modules/reactive_engine.py:192` `def match(self, output, context)`
+- `NewHostMatcher.match` (method) `modules/reactive_engine.py:214` `def match(self, output, context)`
+- `ServiceVersionMatcher.match` (method) `modules/reactive_engine.py:247` `def match(self, output, context)`
+- `ShellErrorMatcher.match` (method) `modules/reactive_engine.py:276` `def match(self, output, context)`
+- `LateralOpportunityMatcher.match` (method) `modules/reactive_engine.py:307` `def match(self, output, context)`
+- `DataOfInterestMatcher.match` (method) `modules/reactive_engine.py:349` `def match(self, output, context)`
+- `ParquetAdvisor.__init__` (method) `modules/reactive_engine.py:395` `def __init__(self, root)`
+- `ParquetAdvisor.gtfobins_for` (method) `modules/reactive_engine.py:421` `def gtfobins_for(self, binary)`
+- `ParquetAdvisor.lolbas_for` (method) `modules/reactive_engine.py:434` `def lolbas_for(self, binary)` -- Returns [(function_name, att&ck_technique), ...].
+- `ParquetAdvisor.technique_commands_for` (method) `modules/reactive_engine.py:448` `def technique_commands_for(self, platform, keyword)` -- Return atomic test commands for platform matching keyword.
+- `EvasionAdvisor.suggest` (method) `modules/reactive_engine.py:504` `def suggest(self, signals, platform)`
+- `PrivescAdvisor.suggest` (method) `modules/reactive_engine.py:565` `def suggest(self, signals, platform, parquet)`
+- `SemanticContextAdvisor.__init__` (method) `modules/reactive_engine.py:644` `def __init__(self, rag, config_loader, min_score, query_limit)` -- Initialise the advisor.
+- `SemanticContextAdvisor.suggest` (method) `modules/reactive_engine.py:734` `def suggest(self, output, command, platform, context)` -- Return semantic next-step hints derived from past sessions.
+- `ReactiveEngine.__init__` (method) `modules/reactive_engine.py:810` `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
+- `ReactiveEngine.analyse` (method) `modules/reactive_engine.py:835` `def analyse(self, output, command, platform, context)` -- Parse *output* and return prioritised ReactiveDecisions.
+- `ReactiveEngine.top_decision` (method) `modules/reactive_engine.py:958` `def top_decision(self, output, command, platform, context)` -- Return only the single highest-priority decision, or None.
+- `get_engine` (function) `modules/reactive_engine.py:977` `def get_engine()`
+
+## modules/recommender.py
+Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
+Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/recommend_next.py`
+- `recommend` (function) `modules/recommender.py:143` `def recommend(state, api_key)` -- Return ranked recommendations without writing to disk.
+- `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
+
 ## modules/redteam_gym.py
 Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
@@ -221,6 +252,20 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `SaaSAttackEngine.detect_external_sharing` (method) `modules/saas_attacks.py:327` `def detect_external_sharing(self)` -- Detect external sharing configurations across SaaS platforms.
 - `SaaSAttackEngine.summary` (method) `modules/saas_attacks.py:352` `def summary(self)`
 
+## modules/scan_brief.py
+Depends on: `core/hardening.py`
+Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_scan_brief.py`
+- `safe_target` (function) `modules/scan_brief.py:38` `def safe_target(target)` -- Return the filesystem-safe scan name fragment for a target.
+- `freshest_scan_xml` (function) `modules/scan_brief.py:53` `def freshest_scan_xml(target, sessions_dir)` -- Return the newest scan XML for a target, or an empty path.
+- `parse_nmap_services` (function) `modules/scan_brief.py:79` `def parse_nmap_services(path)` -- Extract ``(port, protocol, service, version, product)`` rows from nmap XML.
+- `build_brief` (function) `modules/scan_brief.py:121` `def build_brief(target, sessions_dir)` -- Build the brief mapping for a target from its freshest scan XML.
+- `brief_to_yaml` (function) `modules/scan_brief.py:148` `def brief_to_yaml(brief)` -- Render one brief mapping as YAML text.
+- `write_brief` (function) `modules/scan_brief.py:165` `def write_brief(target, sessions_dir)` -- Generate and persist ``sessions/loop_brief_<target>.yaml``.
+- `load_brief` (function) `modules/scan_brief.py:193` `def load_brief(path)` -- Load one brief YAML from disk.
+- `brief_path_for` (function) `modules/scan_brief.py:213` `def brief_path_for(target, sessions_dir)` -- Return the brief file path for a target.
+- `focus_summary` (function) `modules/scan_brief.py:227` `def focus_summary(brief, limit)` -- Return one compact English line describing the focused surface.
+- `intents_from_brief` (function) `modules/scan_brief.py:247` `def intents_from_brief(brief, limit)` -- Return one sharpening intent text per brief service.
+
 ## modules/security_sanitizers.py
 Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
 - `SecurityConfig.from_payload` (method) `modules/security_sanitizers.py:68` `def from_payload(cls, payload)` -- Build a configuration object from a ``payload.json`` mapping.
@@ -239,6 +284,10 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprf
 - `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
 - `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
 
+## modules/selection/_phase_categories.py
+Imported by: `modules/selection/bridge.py`, `modules/selection/parquet.py`
+- `categories_for` (function) `modules/selection/_phase_categories.py:23` `def categories_for(phase)` -- Return the lookup categories for a kill-chain phase.
+
 ## modules/selection/adversary.py
 Depends on: `modules/selection/base.py`
 Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
@@ -253,18 +302,23 @@ Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `
 - `AtomicSelector.propose` (method) `modules/selection/atomic.py:25` `def propose(self, ctx)` -- Return an atomic-emulation action when technique ids are named.
 
 ## modules/selection/base.py
-Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
-- `Selector.propose` (method) `modules/selection/base.py:73` `def propose(self, ctx)` -- Return the next action for this strategy, or None to abstain.
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/bridge.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/parquet.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/autonomous_daemon.py`, `tests/test_chain_match_determinism.py`, `tests/test_chain_selector.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_bridge.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_parquet.py`, `tests/test_selection_technique.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+- `Selector.propose` (method) `modules/selection/base.py:77` `def propose(self, ctx)` -- Return the next action for this strategy, or None to abstain.
+
+## modules/selection/bridge.py
+Depends on: `modules/lazyown_bridge.py`, `modules/selection/_phase_categories.py`, `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selection_bridge.py`
+- `BridgeSelector.propose` (method) `modules/selection/bridge.py:26` `def propose(self, ctx)` -- Return a catalogue suggestion for the context, or None.
 
 ## modules/selection/chain.py
 Depends on: `modules/chain_match.py`, `modules/selection/base.py`
-Imported by: `modules/exp.c`, `modules/selection/__init__.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_base.py`
+Imported by: `modules/exp.c`, `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_chain_selector.py`, `tests/test_selectors_base.py`
 - `ChainSelector.__init__` (method) `modules/selection/chain.py:18` `def __init__(self, allow_lab)` -- Bind the lab-inclusion policy for the matcher.
 - `ChainSelector.propose` (method) `modules/selection/chain.py:27` `def propose(self, ctx)` -- Return a chain action for the context, or None when nothing fits.
 
 ## modules/selection/cred_spray.py
 Depends on: `modules/selection/base.py`
-Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_capabilities.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
 - `CredentialSpraySelector.propose` (method) `modules/selection/cred_spray.py:37` `def propose(self, ctx)` -- Return a spray verb for the first matching open service, or None.
 
 ## modules/selection/edb.py
@@ -291,6 +345,11 @@ Depends on: `modules/module_registry.py`, `modules/selection/base.py`
 Imported by: `modules/reverse-shell.c`, `modules/rootkit/rootkit.c`, `modules/selection/registry.py`, `static/js/select2-4.1.0.min.js`, `tests/test_selection_module.py`
 - `ModuleSelector.propose` (method) `modules/selection/module.py:21` `def propose(self, ctx)` -- Return the first unproposed registry intent, or None.
 
+## modules/selection/parquet.py
+Depends on: `modules/campaign_blacklist.py`, `modules/selection/_phase_categories.py`, `modules/selection/base.py`, `skills/lazyown_parquet_db.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `skills/lazyown_parquet_db.py`, `tests/test_selection_parquet.py`, `tests/test_selectors_base.py`
+- `ParquetSelector.propose` (method) `modules/selection/parquet.py:51` `def propose(self, ctx)` -- Return a history-backed command head for the context, or None.
+
 ## modules/selection/playbook.py
 Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/selection/base.py`
 Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
@@ -303,11 +362,11 @@ Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `
 - `PoCSelector.propose` (method) `modules/selection/poc.py:25` `def propose(self, ctx)` -- Return a PoC action for the context, or None when nothing fits.
 
 ## modules/selection/registry.py
-Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`
-Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
-- `all_selectors` (function) `modules/selection/registry.py:31` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
-- `default_selectors` (function) `modules/selection/registry.py:61` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
-- `propose_next` (function) `modules/selection/registry.py:76` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/bridge.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/parquet.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_chain_match_determinism.py`, `tests/test_chain_selector.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+- `all_selectors` (function) `modules/selection/registry.py:35` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
+- `default_selectors` (function) `modules/selection/registry.py:83` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
+- `propose_next` (function) `modules/selection/registry.py:98` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
 
 ## modules/selection/technique.py
 Depends on: `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
@@ -389,6 +448,13 @@ Imported by: `modules/recommender.py`
 - `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
 - `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
 
+## modules/sidequest.py
+Depends on: `modules/llm_factory.py`, `modules/loop/__init__.py`
+- `checkpoint_id` (function) `modules/sidequest.py:38` `def checkpoint_id(row)` -- Return a stable, position-independent ordinal for one decision row.
+- `list_checkpoints` (function) `modules/sidequest.py:61` `def list_checkpoints(run_id, limit)` -- Return recent decision checkpoints, newest last, each with its ordinal.
+- `get_checkpoint` (function) `modules/sidequest.py:99` `def get_checkpoint(ordinal)` -- Return the full frozen decision row for a checkpoint ordinal.
+- `ask` (function) `modules/sidequest.py:142` `def ask(ordinal, question, temperature)` -- Answer a question about one frozen checkpoint, read-only.
+
 ## modules/sidequestion.py
 Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
 - `SideQuestionService.__init__` (method) `modules/sidequestion.py:55` `def __init__(self, answer_fn, config)` -- Initialize registries with an optional answer function.
@@ -424,72 +490,6 @@ Imported by: `tests/test_lazy_loop.py`, `tests/test_sink_chain_feed.py`
 ## modules/sinks/event_bus.py
 Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
 - `apply` (function) `modules/sinks/event_bus.py:9` `def apply(event)` -- Publish one event to the unified bus.
-
-## modules/sinks/findings.py
-Depends on: `core/logging.py`, `modules/__init__.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`
-Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`
-- `limits_for` (function) `modules/sinks/findings.py:22` `def limits_for()` -- Return the ledger limits resolved from operator configuration.
-- `apply` (function) `modules/sinks/findings.py:42` `def apply(event)` -- Append one ledger row for a finding-class outcome.
-- `ledger_for` (function) `modules/sinks/findings.py:72` `def ledger_for(engagement_id)` -- Return one ledger bound to the sessions findings directory.
-- `handoff` (function) `modules/sinks/findings.py:88` `def handoff(engagement_id, status, rounds)` -- Build the operator handoff from the durable ledger.
-- `ingest_discarded` (function) `modules/sinks/findings.py:107` `def ingest_discarded(engagement_id, entries)` -- Record discarded vector rows for one engagement.
-
-## modules/sinks/intel_graph.py
-Depends on: `modules/intel_fusion.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/intel_graph.py:13` `def apply(event)` -- Rebuild the intel graph and its summary.
-
-## modules/sinks/killchain.py
-Depends on: `modules/killchain.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/killchain.py:11` `def apply(event)` -- Advance the kill-chain phase only when the outcome proves progress.
-
-## modules/sinks/lazy_intel.py
-Depends on: `modules/db.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- `apply` (function) `modules/sinks/lazy_intel.py:28` `def apply(event)` -- Mirror one lazy_intel event into the world model and the database.
-
-## modules/sinks/objectives.py
-Depends on: `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/objectives.py:16` `def apply(event)` -- Append one actionable objective when the outcome warrants it.
-
-## modules/sinks/routing.py
-Depends on: `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/outcome_bus.py`
-Imported by: `skills/lazyown_mcp.py`
-- `apply` (function) `modules/sinks/routing.py:9` `def apply(event)` -- Record one routing outcome for cross-task priors.
-
-## modules/sinks/world_diff.py
-Depends on: `modules/lazy_world_diff.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `tests/test_outcome_bus.py`, `tests/test_world_diff_retest.py`
-- `apply` (function) `modules/sinks/world_diff.py:14` `def apply(event)` -- Diff one host's world snapshot and record the changes.
-
-## modules/sinks/world_model.py
-Depends on: `modules/obs_parser.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- `apply` (function) `modules/sinks/world_model.py:12` `def apply(event)` -- Write one outcome into the world model.
-
-## modules/sleep_obfuscation.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
-- `SleepObfuscationConfig.to_dict` (method) `modules/sleep_obfuscation.py:129` `def to_dict(self)` -- Serialize to dictionary.
-- `SleepObfuscationConfig.from_dict` (method) `modules/sleep_obfuscation.py:146` `def from_dict(cls, raw)` -- Build from dictionary.
-- `SleepTechniqueCatalog.__init__` (method) `modules/sleep_obfuscation.py:170` `def __init__(self)`
-- `SleepTechniqueCatalog.register` (method) `modules/sleep_obfuscation.py:173` `def register(self, technique)` -- Register a technique in the catalog.
-- `SleepTechniqueCatalog.get` (method) `modules/sleep_obfuscation.py:177` `def get(self, name)` -- Retrieve a technique by name.
-- `SleepTechniqueCatalog.list_all` (method) `modules/sleep_obfuscation.py:184` `def list_all(self)` -- Return all registered techniques sorted by detection resistance.
-- `SleepTechniqueCatalog.list_by_platform` (method) `modules/sleep_obfuscation.py:192` `def list_by_platform(self, platform)` -- Return techniques supported on a given platform.
-- `SleepTechniqueCatalog.list_names` (method) `modules/sleep_obfuscation.py:196` `def list_names(self)` -- Return sorted list of technique names.
-- `SleepTechniqueValidator.validate` (method) `modules/sleep_obfuscation.py:369` `def validate(config, technique)` -- Validate config against a technique definition.
-- `SleepTechniqueValidator.validate_config` (method) `modules/sleep_obfuscation.py:386` `def validate_config(config)` -- Validate the config itself for internal consistency.
-- `SleepObfuscationEngine.__init__` (method) `modules/sleep_obfuscation.py:407` `def __init__(self, catalog)`
-- `SleepObfuscationEngine.catalog` (method) `modules/sleep_obfuscation.py:416` `def catalog(self)` -- Return the technique catalog.
-- `SleepObfuscationEngine.config` (method) `modules/sleep_obfuscation.py:421` `def config(self)` -- Return the active runtime configuration.
-- `SleepObfuscationEngine.detection_resistance` (method) `modules/sleep_obfuscation.py:426` `def detection_resistance(self)` -- Return the detection resistance score of the active technique.
-- `SleepObfuscationEngine.select` (method) `modules/sleep_obfuscation.py:442` `def select(self, technique_name)` -- Select a technique from the catalog.
-- `SleepObfuscationEngine.configure` (method) `modules/sleep_obfuscation.py:449` `def configure(self, technique, overrides)` -- Build a validated SleepObfuscationConfig for a technique.
-- `SleepObfuscationEngine.validate` (method) `modules/sleep_obfuscation.py:484` `def validate(self, config)` -- Validate configuration against the active technique.
-- `SleepObfuscationEngine.recommend` (method) `modules/sleep_obfuscation.py:500` `def recommend(self, platform)` -- Recommend techniques for a platform sorted by detection resistance.
-- `SleepObfuscationEngine.to_dict` (method) `modules/sleep_obfuscation.py:513` `def to_dict(self)` -- Serialize the entire engine state to a dictionary.
-- `SleepObfuscationEngine.from_dict` (method) `modules/sleep_obfuscation.py:522` `def from_dict(cls, raw)` -- Build an engine from a serialized state dictionary.
 
 
 Next: [API_p20.md](API_p20.md)

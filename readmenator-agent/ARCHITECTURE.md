@@ -79,9 +79,13 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/bitm.py` -> `modules/bitm_engine.py`
 - `cli/commands/bitm.py` -> `utils.py`
 - `cli/commands/bof_registry.py` -> `cli/commands/_base.py`
+- `cli/commands/bof_registry.py` -> `core/config.py`
 - `cli/commands/bof_registry.py` -> `modules/bof_delivery.py`
 - `cli/commands/bof_registry.py` -> `modules/bof_registry.py`
 - `cli/commands/bof_registry.py` -> `utils.py`
+- `cli/commands/browser_sync.py` -> `cli/commands/_base.py`
+- `cli/commands/browser_sync.py` -> `modules/__init__.py`
+- `cli/commands/browser_sync.py` -> `utils.py`
 - `cli/commands/c2_profile.py` -> `cli/commands/_base.py`
 - `cli/commands/c2_profile.py` -> `modules/c2_profile_engine.py`
 - `cli/commands/c2_profile.py` -> `utils.py`
@@ -328,6 +332,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazyops.py` -> `modules/selfupdate.py`
 - `cli/commands/lazyops.py` -> `modules/traffic_recorder.py`
 - `cli/commands/lazyops.py` -> `utils.py`
+- `cli/commands/loop_audit.py` -> `cli/commands/_base.py`
+- `cli/commands/loop_audit.py` -> `modules/__init__.py`
+- `cli/commands/loop_audit.py` -> `utils.py`
 - `cli/commands/marketplace.py` -> `cli/commands/_base.py`
 - `cli/commands/marketplace.py` -> `cli/marketplace_config.py`
 - `cli/commands/marketplace.py` -> `cli/plugin_tiers.py`
@@ -450,6 +457,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/pwn.py` -> `cli/commands/_base.py`
 - `cli/commands/pwn.py` -> `core/safe_exec.py`
 - `cli/commands/pwn.py` -> `core/validators.py`
+- `cli/commands/pwn.py` -> `modules/__init__.py`
 - `cli/commands/pwn.py` -> `modules/ai_exploit_chain.py`
 - `cli/commands/pwn.py` -> `modules/autonomous_exploit_engine.py`
 - `cli/commands/pwn.py` -> `modules/dashboard_engine.py`
@@ -471,6 +479,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/recon_migrated.py` -> `core/config.py`
 - `cli/commands/recon_migrated.py` -> `utils.py`
 - `cli/commands/redteam_gym.py` -> `cli/commands/_base.py`
+- `cli/commands/redteam_gym.py` -> `modules/ctf_signalman.py`
 - `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
 - `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
 - `cli/commands/redteam_gym.py` -> `utils.py`
@@ -487,14 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/scan_migrated.py` -> `utils.py`
 - `cli/commands/security.py` -> `cli/commands/_base.py`
 - `cli/commands/security.py` -> `core/config.py`
-- `cli/commands/security.py` -> `core/console.py`
-- `cli/commands/security.py` -> `core/credential_vault.py`
-- `cli/commands/security.py` -> `modules/hash_cracker.py`
-- `cli/commands/security.py` -> `modules/opsec_scorer.py`
-- `cli/commands/session_ops.py` -> `cli/aliases.py`
-- `cli/commands/session_ops.py` -> `cli/assign.py`
-- `cli/commands/session_ops.py` -> `cli/autosuggest.py`
-- `cli/commands/session_ops.py` -> `cli/chain_mode.py`
-- `cli/commands/session_ops.py` -> `cli/commands/_base.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

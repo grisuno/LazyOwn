@@ -1,8 +1,177 @@
-# Symbols (page 16 of 51)
+# Symbols (page 16 of 53)
 Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
+| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
+| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
+| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
+| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
+| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
+| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
+| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
+| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
+| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
+| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
+| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
+| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
+| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
+| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
+| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
+| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
+| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
+| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
+| `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
+| `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
+| `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
+| `_normalise_tags` | method | `modules/integrations/nuclei_bridge.py:238` | `def _normalise_tags(raw)` |
+| `_parse_regex` | method | `modules/integrations/nuclei_bridge.py:201` | `def _parse_regex(self, text, path)` |
+| `_parse_template` | method | `modules/integrations/nuclei_bridge.py:162` | `def _parse_template(self, path)` |
+| `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
+| `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
+| `get_bridge` | function | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
+| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
+| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
+| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
+| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
+| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
+| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
+| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
+| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
+| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
+| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
+| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
+| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
+| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
+| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
+| `enrich_world_model` | method | `modules/integrations/nuclei_parser.py:262` | `def enrich_world_model(self, findings, rhost)` |
+| `exploit_probability` | method | `modules/integrations/nuclei_parser.py:95` | `def exploit_probability(self)` |
+| `generate_recommendations` | method | `modules/integrations/nuclei_parser.py:300` | `def generate_recommendations(self, findings, rhost)` |
+| `import_to_db` | method | `modules/integrations/nuclei_parser.py:196` | `def import_to_db(self, findings, rhost, workspace_name)` |
+| `mitre_tactic` | method | `modules/integrations/nuclei_parser.py:87` | `def mitre_tactic(self)` |
+| `parse_file` | method | `modules/integrations/nuclei_parser.py:177` | `def parse_file(self, filepath)` |
+| `parse_json` | method | `modules/integrations/nuclei_parser.py:134` | `def parse_json(self, json_text)` |
+| `parse_text` | method | `modules/integrations/nuclei_parser.py:115` | `def parse_text(self, text)` |
+| `scan_and_import` | method | `modules/integrations/nuclei_parser.py:328` | `def scan_and_import(self, target, templates, services, cves, workspace_name)` |
+| `ExploitDBAPI` | class | `modules/integrations/searchsploit.py:193` | `class ExploitDBAPI(ExploitSource)` |
+| `ExploitEntry` | class | `modules/integrations/searchsploit.py:60` | `class ExploitEntry` |
+| `ExploitSource` | class | `modules/integrations/searchsploit.py:76` | `class ExploitSource(ABC)` |
+| `SearchsploitCLI` | class | `modules/integrations/searchsploit.py:93` | `class SearchsploitCLI(ExploitSource)` |
+| `SearchsploitClient` | class | `modules/integrations/searchsploit.py:271` | `class SearchsploitClient` |
+| `__init__` | method | `modules/integrations/searchsploit.py:102` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/searchsploit.py:201` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/searchsploit.py:278` | `def __init__(self, primary, fallback)` |
+| `_extract_cve` | method | `modules/integrations/searchsploit.py:183` | `def _extract_cve(text)` |
+| `_main` | function | `modules/integrations/searchsploit.py:356` | `def _main()` |
+| `_parse` | method | `modules/integrations/searchsploit.py:133` | `def _parse(self, raw)` |
+| `_query` | method | `modules/integrations/searchsploit.py:218` | `def _query(self, cve_id)` |
+| `_rate_limit` | method | `modules/integrations/searchsploit.py:258` | `def _rate_limit()` |
+| `_row_to_entry` | method | `modules/integrations/searchsploit.py:162` | `def _row_to_entry(self, row)` |
+| `_run` | method | `modules/integrations/searchsploit.py:118` | `def _run(self, query)` |
+| `enrich_findings` | method | `modules/integrations/searchsploit.py:300` | `def enrich_findings(self, findings)` |
+| `get_client` | function | `modules/integrations/searchsploit.py:333` | `def get_client()` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:80` | `def search_cve(self, cve_id)` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:109` | `def search_cve(self, cve_id)` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:207` | `def search_cve(self, cve_id)` |
+| `search_cve` | method | `modules/integrations/searchsploit.py:286` | `def search_cve(self, cve_id)` |
+| `search_cve` | function | `modules/integrations/searchsploit.py:341` | `def search_cve(cve_id)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:84` | `def search_service(self, name, version)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:112` | `def search_service(self, name, version)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:210` | `def search_service(self, name, version)` |
+| `search_service` | method | `modules/integrations/searchsploit.py:293` | `def search_service(self, name, version)` |
+| `search_service` | function | `modules/integrations/searchsploit.py:346` | `def search_service(name, version)` |
+| `_enrich_readmenator_fields` | function | `modules/intel_fusion.py:593` | `def _enrich_readmenator_fields(nodes, edges)` |
+| `_extract_cve_id` | function | `modules/intel_fusion.py:133` | `def _extract_cve_id(vuln)` |
+| `_family_color` | function | `modules/intel_fusion.py:181` | `def _family_color(name)` |
+| `_fibonacci_sphere` | function | `modules/intel_fusion.py:821` | `def _fibonacci_sphere(count)` |
+| `_file_pagerank` | function | `modules/intel_fusion.py:230` | `def _file_pagerank(ids, pairs, alpha, max_iter, tol)` |
+| `_ghost_lines` | function | `modules/intel_fusion.py:1279` | `def _ghost_lines(sessions_dir, host_value)` |
+| `_host_mentions` | function | `modules/intel_fusion.py:225` | `def _host_mentions(text)` |
+| `_load_json` | function | `modules/intel_fusion.py:198` | `def _load_json(path, default)` |
+| `_node_doc` | function | `modules/intel_fusion.py:555` | `def _node_doc(node)` |
+| `_read_lines` | function | `modules/intel_fusion.py:208` | `def _read_lines(path, limit)` |
+| `_recency_lines` | function | `modules/intel_fusion.py:1261` | `def _recency_lines(sessions_dir, host_value)` |
+| `_score_lines` | function | `modules/intel_fusion.py:1086` | `def _score_lines(host_value, detail)` |
+| `_service_cve_matches` | function | `modules/intel_fusion.py:83` | `def _service_cve_matches(service_name, version_text, svc)` |
+| `_split_caps` | function | `modules/intel_fusion.py:837` | `def _split_caps(labels, sizes, points, lattice, out)` |
+| `_svg_attr` | function | `modules/intel_fusion.py:1131` | `def _svg_attr(value)` |
+| `_svg_host_of` | function | `modules/intel_fusion.py:1182` | `def _svg_host_of(node)` |
+| `_svg_place` | function | `modules/intel_fusion.py:1165` | `def _svg_place(ids)` |
+| `_svg_rank` | function | `modules/intel_fusion.py:1136` | `def _svg_rank(node)` |
+| `_svg_text` | function | `modules/intel_fusion.py:1124` | `def _svg_text(value)` |
+| `_symbol_list` | function | `modules/intel_fusion.py:578` | `def _symbol_list(node)` |
+| `_unit` | function | `modules/intel_fusion.py:866` | `def _unit(vec)` |
+| `add_edge` | function | `modules/intel_fusion.py:284` | `def add_edge(src, dst, kind, evidence, weight)` |
+| `add_node` | function | `modules/intel_fusion.py:266` | `def add_node(kind, value, label)` |
+| `assign_layout` | function | `modules/intel_fusion.py:1021` | `def assign_layout(graph, mode)` |
+| `build_analytics` | function | `modules/intel_fusion.py:787` | `def build_analytics(graph, summary)` |
+| `build_bundle_payload` | function | `modules/intel_fusion.py:874` | `def build_bundle_payload(graph)` |
+| `build_intel_graph` | function | `modules/intel_fusion.py:260` | `def build_intel_graph(sessions_dir, est_cap)` |
+| `bundle_settings` | function | `modules/intel_fusion.py:990` | `def bundle_settings(graph)` |
+| `group_colors` | function | `modules/intel_fusion.py:714` | `def group_colors(graph)` |
+| `node_id` | function | `modules/intel_fusion.py:192` | `def node_id(kind, value)` |
+| `page_settings` | function | `modules/intel_fusion.py:730` | `def page_settings(graph)` |
+| `relations_svg` | function | `modules/intel_fusion.py:1187` | `def relations_svg(graph, cap_nodes)` |
+| `svg_selection` | function | `modules/intel_fusion.py:1147` | `def svg_selection(graph, cap_nodes)` |
+| `tag_source` | function | `modules/intel_fusion.py:300` | `def tag_source(nid, source)` |
+| `write_summary` | function | `modules/intel_fusion.py:1296` | `def write_summary(graph, sessions_dir)` |
+| `CollectedFact` | class | `modules/intelligence_engine.py:79` | `class CollectedFact` |
+| `CounterIntelFinding` | class | `modules/intelligence_engine.py:109` | `class CounterIntelFinding` |
+| `IntelligenceAssessment` | class | `modules/intelligence_engine.py:94` | `class IntelligenceAssessment` |
+| `IntelligenceConfig` | class | `modules/intelligence_engine.py:58` | `class IntelligenceConfig` |
+| `IntelligenceEngine` | class | `modules/intelligence_engine.py:120` | `class IntelligenceEngine` |
+| `__init__` | method | `modules/intelligence_engine.py:143` | `def __init__(self, config)` |
+| `_collect_from_scan_xml` | method | `modules/intelligence_engine.py:237` | `def _collect_from_scan_xml(self, xml_path, target)` |
+| `_correlate_creds_to_hosts` | method | `modules/intelligence_engine.py:736` | `def _correlate_creds_to_hosts(self)` |
+| `_correlate_domains_to_infrastructure` | method | `modules/intelligence_engine.py:759` | `def _correlate_domains_to_infrastructure(self)` |
+| `_correlate_services_to_vulns` | method | `modules/intelligence_engine.py:604` | `def _correlate_services_to_vulns(self)` |
+| `_detect_killchain_gaps` | method | `modules/intelligence_engine.py:815` | `def _detect_killchain_gaps(self)` |
+| `_is_placeholder` | method | `modules/intelligence_engine.py:1120` | `def _is_placeholder(value)` |
+| `_legacy_match_rows` | method | `modules/intelligence_engine.py:679` | `def _legacy_match_rows(self, fact)` |
+| `_map_category_to_mitre` | method | `modules/intelligence_engine.py:871` | `def _map_category_to_mitre(category)` |
+| `_match_known_vulns` | method | `modules/intelligence_engine.py:708` | `def _match_known_vulns(fact)` |
+| `_match_vulns_versioned` | method | `modules/intelligence_engine.py:649` | `def _match_vulns_versioned(self, fact)` |
+| `_newest_scan_xml_with_versions` | method | `modules/intelligence_engine.py:154` | `def _newest_scan_xml_with_versions(self, target)` |
+| `_rank_targets` | method | `modules/intelligence_engine.py:775` | `def _rank_targets(self)` |
+| `_xml_has_versions` | method | `modules/intelligence_engine.py:193` | `def _xml_has_versions(self, xml_path)` |
+| `_xml_scan_weight` | method | `modules/intelligence_engine.py:177` | `def _xml_scan_weight(self, xml_path)` |
+| `analyze` | method | `modules/intelligence_engine.py:587` | `def analyze(self)` |
+| `collect_from_estorides` | method | `modules/intelligence_engine.py:363` | `def collect_from_estorides(self, target)` |
+| `collect_from_factstore` | method | `modules/intelligence_engine.py:486` | `def collect_from_factstore(self)` |
+| `collect_from_nuclei` | method | `modules/intelligence_engine.py:405` | `def collect_from_nuclei(self, target)` |
+| `collect_from_scan` | method | `modules/intelligence_engine.py:197` | `def collect_from_scan(self, target)` |
+| `collect_from_tool` | method | `modules/intelligence_engine.py:326` | `def collect_from_tool(self, output, tool, host)` |
+| `collect_from_yara` | method | `modules/intelligence_engine.py:447` | `def collect_from_yara(self, target_path)` |
+| `disseminate` | method | `modules/intelligence_engine.py:936` | `def disseminate(self)` |
+| `get_intel_report` | method | `modules/intelligence_engine.py:1069` | `def get_intel_report(self)` |
+| `get_intelligence_engine` | function | `modules/intelligence_engine.py:1126` | `def get_intelligence_engine(config)` |
+| `produce_counter_intelligence` | method | `modules/intelligence_engine.py:886` | `def produce_counter_intelligence(self)` |
+| `produce_intelligence` | method | `modules/intelligence_engine.py:856` | `def produce_intelligence(self)` |
+| `run_full_cycle` | method | `modules/intelligence_engine.py:1040` | `def run_full_cycle(self, target)` |
+| `Guard` | class | `modules/intercept.py:255` | `class Guard` |
+| `InterceptAction` | class | `modules/intercept.py:21` | `class InterceptAction(str, Enum)` |
+| `InterceptConfig` | class | `modules/intercept.py:33` | `class InterceptConfig` |
+| `InterceptRule` | class | `modules/intercept.py:50` | `class InterceptRule` |
+| `InterceptVerdict` | class | `modules/intercept.py:92` | `class InterceptVerdict` |
+| `Interceptor` | class | `modules/intercept.py:154` | `class Interceptor` |
+| `PendingApproval` | class | `modules/intercept.py:77` | `class PendingApproval` |
+| `__init__` | method | `modules/intercept.py:157` | `def __init__(self, rules, ask_timeout_sec, timeout_action)` |
+| `__init__` | method | `modules/intercept.py:258` | `def __init__(self, interceptor)` |
+| `__post_init__` | method | `modules/intercept.py:61` | `def __post_init__(self)` |
+| `add_rule` | method | `modules/intercept.py:177` | `def add_rule(self, rule)` |
+| `approval_status` | method | `modules/intercept.py:249` | `def approval_status(self, approval_id)` |
+| `attribution` | method | `modules/intercept.py:301` | `def attribution(self)` |
 | `audit_log` | method | `modules/intercept.py:296` | `def audit_log(self, limit)` |
 | `builtin_rules` | function | `modules/intercept.py:101` | `def builtin_rules()` |
 | `check` | method | `modules/intercept.py:270` | `def check(self, tool, command)` |
@@ -327,174 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `_read` | method | `modules/lazy_deviations.py:172` | `def _read(self)` |
 | `_trim` | method | `modules/lazy_deviations.py:216` | `def _trim(self)` |
 | `as_dict` | method | `modules/lazy_deviations.py:55` | `def as_dict(self)` |
-| `list` | method | `modules/lazy_deviations.py:124` | `def list(self, scope, limit)` |
-| `record` | method | `modules/lazy_deviations.py:84` | `def record(self, scope, planned, actual, reason, source)` |
-| `render_markdown` | method | `modules/lazy_deviations.py:140` | `def render_markdown(self, records, title)` |
-| `_drafts_dir` | function | `modules/lazy_drafts.py:27` | `def _drafts_dir()` |
-| `drain` | function | `modules/lazy_drafts.py:34` | `def drain(engine)` |
-| `LazyEngine` | class | `modules/lazy_engine.py:56` | `class LazyEngine(LazyLoopEngine)` |
-| `_int` | function | `modules/lazy_exposure.py:410` | `def _int(value, fallback)` |
-| `_live_fingerprint` | function | `modules/lazy_exposure.py:210` | `def _live_fingerprint()` |
-| `_match_hot_key` | function | `modules/lazy_exposure.py:400` | `def _match_hot_key(row)` |
-| `_shape_sightings` | function | `modules/lazy_exposure.py:370` | `def _shape_sightings(rows)` |
-| `_short_refs` | function | `modules/lazy_exposure.py:365` | `def _short_refs(row)` |
-| `_slug` | function | `modules/lazy_exposure.py:405` | `def _slug(text)` |
-| `ensure_report` | function | `modules/lazy_exposure.py:56` | `def ensure_report(target, entries, refresh)` |
-| `generate_report` | function | `modules/lazy_exposure.py:129` | `def generate_report(target, entries, sightings)` |
-| `probe_checks` | function | `modules/lazy_exposure.py:257` | `def probe_checks(matches, feed)` |
-| `publish_report` | function | `modules/lazy_exposure.py:314` | `def publish_report(report)` |
-| `read_sightings` | function | `modules/lazy_exposure.py:97` | `def read_sightings(target, state_path)` |
-| `refresh_if_stale` | function | `modules/lazy_exposure.py:418` | `def refresh_if_stale(target, entries)` |
-| `save_report` | function | `modules/lazy_exposure.py:291` | `def save_report(report, path)` |
-| `score_report` | function | `modules/lazy_exposure.py:219` | `def score_report(entries, bounded_unknown, services)` |
-| `AdaptiveFallbackArbiter` | class | `modules/lazy_fallback.py:185` | `class AdaptiveFallbackArbiter` |
-| `Alternative` | class | `modules/lazy_fallback.py:29` | `class Alternative` |
-| `TechniqueFallback` | class | `modules/lazy_fallback.py:47` | `class TechniqueFallback` |
-| `__init__` | method | `modules/lazy_fallback.py:193` | `def __init__(self, graph)` |
-| `_bind_family` | method | `modules/lazy_fallback.py:251` | `def _bind_family(self, command)` |
-| `_service_satisfied` | function | `modules/lazy_fallback.py:172` | `def _service_satisfied(required, services)` |
-| `catalogue_ids` | function | `modules/lazy_fallback.py:261` | `def catalogue_ids()` |
-| `matches` | method | `modules/lazy_fallback.py:61` | `def matches(self, command)` |
-| `suggest` | method | `modules/lazy_fallback.py:203` | `def suggest(self, command, verdict, services, has_credentials, catalogue)` |
-| `tried_count` | method | `modules/lazy_fallback.py:246` | `def tried_count(self)` |
-| `ExploitSighting` | class | `modules/lazy_feedmatch.py:123` | `class ExploitSighting` |
-| `FeedEntry` | class | `modules/lazy_feedmatch.py:73` | `class FeedEntry` |
-| `Sighting` | class | `modules/lazy_feedmatch.py:98` | `class Sighting` |
-| `_cvss` | function | `modules/lazy_feedmatch.py:470` | `def _cvss(value)` |
-| `_fixed_key` | function | `modules/lazy_feedmatch.py:316` | `def _fixed_key(rng)` |
-| `_float` | function | `modules/lazy_feedmatch.py:478` | `def _float(value)` |
-| `_map_kev_row` | function | `modules/lazy_feedmatch.py:187` | `def _map_kev_row(item)` |
-| `_references` | function | `modules/lazy_feedmatch.py:464` | `def _references(raw)` |
-| `bind_sighting` | function | `modules/lazy_feedmatch.py:337` | `def bind_sighting(sighting, entries)` |
-| `entry_matches_product` | function | `modules/lazy_feedmatch.py:262` | `def entry_matches_product(entry, product)` |
-| `feed_fingerprint` | function | `modules/lazy_feedmatch.py:486` | `def feed_fingerprint(entries)` |
-| `feed_tier` | function | `modules/lazy_feedmatch.py:325` | `def feed_tier(entry)` |
-| `is_os_sighting` | function | `modules/lazy_feedmatch.py:248` | `def is_os_sighting(name)` |
-| `live_bindings` | function | `modules/lazy_feedmatch.py:411` | `def live_bindings(sighting, allow_network)` |
-| `load_feed` | function | `modules/lazy_feedmatch.py:151` | `def load_feed(path)` |
-| `parse_feed` | function | `modules/lazy_feedmatch.py:210` | `def parse_feed(entries)` |
-| `unversioned_leads` | function | `modules/lazy_feedmatch.py:388` | `def unversioned_leads(sightings)` |
-| `version_in_ranges` | function | `modules/lazy_feedmatch.py:280` | `def version_in_ranges(version, ranges)` |
-| `FinalizerDecision` | class | `modules/lazy_finalizer.py:35` | `class FinalizerDecision` |
-| `decide` | function | `modules/lazy_finalizer.py:72` | `def decide(status, candidate_verdict, facts, findings, confirmed, tested, pending_approvals, pending_plan_steps)` |
-| `to_dict` | method | `modules/lazy_finalizer.py:58` | `def to_dict(self)` |
-| `FindingValidationError` | class | `modules/lazy_findings.py:60` | `class FindingValidationError(ValueError)` |
-| `FindingsLedger` | class | `modules/lazy_findings.py:539` | `class FindingsLedger` |
-| `LedgerLimits` | class | `modules/lazy_findings.py:65` | `class LedgerLimits` |
-| `__init__` | method | `modules/lazy_findings.py:542` | `def __init__(self, engagement_id, base_dir, limits, scrub)` |
-| `_base_row` | function | `modules/lazy_findings.py:344` | `def _base_row(payload, bounds)` |
-| `_now_iso` | function | `modules/lazy_findings.py:534` | `def _now_iso()` |
-| `_row_from_verdict` | function | `modules/lazy_findings.py:294` | `def _row_from_verdict(payload, verdict, bounds)` |
-| `append` | method | `modules/lazy_findings.py:606` | `def append(self, row)` |
-| `build_handoff` | function | `modules/lazy_findings.py:481` | `def build_handoff(rows, status, rounds)` |
-| `clamped` | method | `modules/lazy_findings.py:81` | `def clamped(self)` |
-| `discard_row` | function | `modules/lazy_findings.py:382` | `def discard_row(reason, command, output, technique_id, engagement_id, target)` |
-| `engagement_id_valid` | function | `modules/lazy_findings.py:91` | `def engagement_id_valid(value)` |
-| `evidence_reject_reason` | function | `modules/lazy_findings.py:156` | `def evidence_reject_reason(state, evidence, min_output)` |
-| `evidence_supported` | function | `modules/lazy_findings.py:281` | `def evidence_supported(evidence, min_output)` |
-| `file_path` | method | `modules/lazy_findings.py:569` | `def file_path(self)` |
-| `history` | method | `modules/lazy_findings.py:684` | `def history(self, finding_ref)` |
-| `latest_state` | method | `modules/lazy_findings.py:696` | `def latest_state(self, finding_ref)` |
-| `level_for_state_uplift` | function | `modules/lazy_findings.py:138` | `def level_for_state_uplift(level, state)` |
-| `metadata_level` | function | `modules/lazy_findings.py:217` | `def metadata_level(payload)` |
-| `normalize` | method | `modules/lazy_findings.py:573` | `def normalize(self, row)` |
-| `normalize_finding` | function | `modules/lazy_findings.py:429` | `def normalize_finding(row, limits)` |
-| `read` | method | `modules/lazy_findings.py:636` | `def read(self, cursor, limit)` |
-| `row_from_event` | function | `modules/lazy_findings.py:230` | `def row_from_event(payload, limits)` |
-| `rows` | method | `modules/lazy_findings.py:660` | `def rows(self)` |
-| `severity_tier` | function | `modules/lazy_findings.py:116` | `def severity_tier(severity)` |
-| `state_counts` | function | `modules/lazy_findings.py:191` | `def state_counts(rows)` |
-| `technique_id_valid` | function | `modules/lazy_findings.py:103` | `def technique_id_valid(value)` |
-| `backport_status` | function | `modules/lazy_heat.py:345` | `def backport_status(banner, fixed_revision)` |
-| `classify_heat` | function | `modules/lazy_heat.py:71` | `def classify_heat(kev, epss, exploit, cvss)` |
-| `compare_versions` | function | `modules/lazy_heat.py:157` | `def compare_versions(a, b)` |
-| `cvss3_base_score` | function | `modules/lazy_heat.py:207` | `def cvss3_base_score(vector)` |
-| `heat_of_severity` | function | `modules/lazy_heat.py:373` | `def heat_of_severity(severity)` |
-| `heat_rank` | function | `modules/lazy_heat.py:392` | `def heat_rank(tier)` |
-| `host_heat` | function | `modules/lazy_heat.py:404` | `def host_heat(tier_values, severity_levels, unscanned)` |
-| `hottest` | function | `modules/lazy_heat.py:424` | `def hottest(tier_values)` |
-| `label_for` | function | `modules/lazy_heat.py:438` | `def label_for(status, fixed_revision)` |
-| `match_heat` | function | `modules/lazy_heat.py:94` | `def match_heat(tier, cvss, verdict, distro_status)` |
-| `parse_distro_revision` | function | `modules/lazy_heat.py:306` | `def parse_distro_revision(banner)` |
-| `parse_version` | function | `modules/lazy_heat.py:121` | `def parse_version(value, strict)` |
-| `product_token` | function | `modules/lazy_heat.py:249` | `def product_token(value)` |
-| `token_matches` | function | `modules/lazy_heat.py:272` | `def token_matches(haystack, needle)` |
-| `version_in_range` | function | `modules/lazy_heat.py:165` | `def version_in_range(ver, rng)` |
-| `_add` | function | `modules/lazy_hostscore.py:49` | `def _add(label, points)` |
-| `_persist` | function | `modules/lazy_hostscore.py:182` | `def _persist(table, sessions_dir, now)` |
-| `load_scores` | function | `modules/lazy_hostscore.py:193` | `def load_scores(sessions_dir)` |
-| `rescore` | function | `modules/lazy_hostscore.py:96` | `def rescore(sessions_dir, allow_network, now)` |
-| `score_host` | function | `modules/lazy_hostscore.py:34` | `def score_host(inputs)` |
-| `install_command_for` | function | `modules/lazy_installer.py:70` | `def install_command_for(tool)` |
-| `installer_enabled` | function | `modules/lazy_installer.py:41` | `def installer_enabled()` |
-| `intent_for` | function | `modules/lazy_installer.py:75` | `def intent_for(tool)` |
-| `set_installer_enabled` | function | `modules/lazy_installer.py:58` | `def set_installer_enabled(enabled)` |
-| `steps_for_install` | function | `modules/lazy_installer.py:88` | `def steps_for_install(text)` |
-| `tool_from_intent` | function | `modules/lazy_installer.py:80` | `def tool_from_intent(text)` |
-| `_append` | function | `modules/lazy_intel.py:79` | `def _append(record)` |
-| `_is_ip_literal` | function | `modules/lazy_intel.py:292` | `def _is_ip_literal(value)` |
-| `_log_path` | function | `modules/lazy_intel.py:35` | `def _log_path()` |
-| `_mask` | function | `modules/lazy_intel.py:41` | `def _mask(text)` |
-| `_now` | function | `modules/lazy_intel.py:30` | `def _now()` |
-| `describe_command` | function | `modules/lazy_intel.py:114` | `def describe_command(command)` |
-| `export_spans` | function | `modules/lazy_intel.py:342` | `def export_spans(task_id, out)` |
-| `fuse_routing_decisions` | function | `modules/lazy_intel.py:303` | `def fuse_routing_decisions(task_id)` |
-| `infer_source` | function | `modules/lazy_intel.py:88` | `def infer_source(command, intent_text)` |
-| `mask_configured` | function | `modules/lazy_intel.py:237` | `def mask_configured(text)` |
-| `read_decisions` | function | `modules/lazy_intel.py:211` | `def read_decisions(task_id, limit)` |
-| `record_routing_decision` | function | `modules/lazy_intel.py:129` | `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` |
-| `record_routing_outcome` | function | `modules/lazy_intel.py:169` | `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` |
-| `stack_signature` | function | `modules/lazy_intel.py:272` | `def stack_signature(assets)` |
-| `_LINUX_LINE` | function | `modules/lazy_inventory.py:87` | `def _LINUX_LINE(line)` |
-| `_WINDOWS_LINE` | function | `modules/lazy_inventory.py:104` | `def _WINDOWS_LINE(line)` |
-| `_clean_entry` | function | `modules/lazy_inventory.py:114` | `def _clean_entry(product, version, os_hint)` |
-| `inventory_blob` | function | `modules/lazy_inventory.py:49` | `def inventory_blob(platform)` |
-| `os_platform_of` | function | `modules/lazy_inventory.py:157` | `def os_platform_of(entries)` |
-| `parse_blob_output` | function | `modules/lazy_inventory.py:61` | `def parse_blob_output(text, platform)` |
-| `to_sightings` | function | `modules/lazy_inventory.py:133` | `def to_sightings(entries, host)` |
-| `_addon_run_pair` | function | `modules/lazy_ledger.py:89` | `def _addon_run_pair(rest)` |
-| `_load` | function | `modules/lazy_ledger.py:121` | `def _load(sessions_dir)` |
-| `_path` | function | `modules/lazy_ledger.py:114` | `def _path(sessions_dir)` |
-| `_sort_key` | function | `modules/lazy_ledger.py:209` | `def _sort_key(pair)` |
-| `fresh` | function | `modules/lazy_ledger.py:140` | `def fresh(verb, target, now, sessions_dir)` |
-| `json_load` | function | `modules/lazy_ledger.py:133` | `def json_load(path)` |
-| `key_from_command` | function | `modules/lazy_ledger.py:58` | `def key_from_command(command, target)` |
-| `ledger_key` | function | `modules/lazy_ledger.py:53` | `def ledger_key(verb, target)` |
-| `record` | function | `modules/lazy_ledger.py:164` | `def record(verb, target, ok, now, sessions_dir)` |
-| `stale_first` | function | `modules/lazy_ledger.py:191` | `def stale_first(catalog, now, sessions_dir)` |
-| `window_for` | function | `modules/lazy_ledger.py:32` | `def window_for(verb)` |
-| `ActivityLog` | class | `modules/lazy_loop.py:1611` | `class ActivityLog` |
-| `AssetGate` | class | `modules/lazy_loop.py:2363` | `class AssetGate` |
-| `AssetGraph` | class | `modules/lazy_loop.py:1098` | `class AssetGraph` |
-| `AssetNode` | class | `modules/lazy_loop.py:1073` | `class AssetNode` |
-| `Budget` | class | `modules/lazy_loop.py:2457` | `class Budget` |
-| `ColdCompactor` | class | `modules/lazy_loop.py:5584` | `class ColdCompactor` |
-| `CompanyScope` | class | `modules/lazy_loop.py:7619` | `class CompanyScope` |
-| `EvidenceStore` | class | `modules/lazy_loop.py:6718` | `class EvidenceStore` |
-| `ExplorationEdge` | class | `modules/lazy_loop.py:1064` | `class ExplorationEdge` |
-| `ExplorationGraph` | class | `modules/lazy_loop.py:1261` | `class ExplorationGraph` |
-| `ExplorationNode` | class | `modules/lazy_loop.py:1050` | `class ExplorationNode` |
-| `FindingService` | class | `modules/lazy_loop.py:6399` | `class FindingService` |
-| `Frontier` | class | `modules/lazy_loop.py:1583` | `class Frontier` |
-| `Guard` | class | `modules/lazy_loop.py:2022` | `class Guard` |
-| `InterceptQueue` | class | `modules/lazy_loop.py:2609` | `class InterceptQueue` |
-| `LazyLoopEngine` | class | `modules/lazy_loop.py:7943` | `class LazyLoopEngine(EngineProxyMixin)` |
-| `LazyTask` | class | `modules/lazy_loop.py:1087` | `class LazyTask` |
-| `LlmPool` | class | `modules/lazy_loop.py:7008` | `class LlmPool` |
-| `Notifier` | class | `modules/lazy_loop.py:6839` | `class Notifier` |
-| `Planner` | class | `modules/lazy_loop.py:3370` | `class Planner` |
-| `Retester` | class | `modules/lazy_loop.py:5397` | `class Retester` |
-| `RuntimeTracker` | class | `modules/lazy_loop.py:2541` | `class RuntimeTracker` |
-| `SideQuestions` | class | `modules/lazy_loop.py:7545` | `class SideQuestions` |
-| `TaskArchive` | class | `modules/lazy_loop.py:7649` | `class TaskArchive` |
-| `TaskCategory` | class | `modules/lazy_loop.py:7811` | `class TaskCategory` |
-| `TaskChat` | class | `modules/lazy_loop.py:7838` | `class TaskChat` |
-| `TaskStore` | class | `modules/lazy_loop.py:2811` | `class TaskStore` |
-| `TaskTemplate` | class | `modules/lazy_loop.py:7768` | `class TaskTemplate` |
-| `TodoStore` | class | `modules/lazy_loop.py:2769` | `class TodoStore` |
-| `ToolCatalog` | class | `modules/lazy_loop.py:7501` | `class ToolCatalog` |
-| `TrafficLog` | class | `modules/lazy_loop.py:1744` | `class TrafficLog` |
-| `Worker` | class | `modules/lazy_loop.py:4168` | `class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, WorkerMemoryMixin)` |
-| `__init__` | method | `modules/lazy_loop.py:1101` | `def __init__(self)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

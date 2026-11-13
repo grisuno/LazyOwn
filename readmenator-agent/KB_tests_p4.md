@@ -1,4 +1,4 @@
-# Subsystem: tests (page 4 of 25)
+# Subsystem: tests (page 4 of 26)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_beacon_recon_sink.py
@@ -42,8 +42,8 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `TestBeaconEnabled` (class, line 119) `class TestBeaconEnabled`
   - `TestBeaconParams` (class, line 127) `class TestBeaconParams`
   - `TestBeaconCommandTemplates` (class, line 157) `class TestBeaconCommandTemplates`
-  - `TestBeaconDescriptionQuality` (class, line 192) `class TestBeaconDescriptionQuality`
-  - `TestBeaconNoHardcodedSecrets` (class, line 217) `class TestBeaconNoHardcodedSecrets`
+  - `TestBeaconDescriptionQuality` (class, line 215) `class TestBeaconDescriptionQuality`
+  - `TestBeaconNoHardcodedSecrets` (class, line 240) `class TestBeaconNoHardcodedSecrets`
   - `test_beacon_yaml_present` (method, line 42) `def test_beacon_yaml_present(self)`
   - `test_bof_yaml_present` (method, line 45) `def test_bof_yaml_present(self)`
   - `test_beacon_yaml_parses` (method, line 48) `def test_beacon_yaml_parses(self, beacon)`
@@ -73,24 +73,29 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_beacon_lhost_required` (method, line 148) `def test_beacon_lhost_required(self, beacon)`
   - `test_bof_lhost_required` (method, line 152) `def test_bof_lhost_required(self, bof)`
   - `test_beacon_lazycommand_has_lhost` (method, line 160) `def test_beacon_lazycommand_has_lhost(self, beacon)`
-  - `test_beacon_lazycommand_has_c2_port` (method, line 164) `def test_beacon_lazycommand_has_c2_port(self, beacon)`
-  - `test_bof_lazycommand_has_lhost` (method, line 168) `def test_bof_lazycommand_has_lhost(self, bof)`
-  - `test_bof_lazycommand_has_lport` (method, line 172) `def test_bof_lazycommand_has_lport(self, bof)`
-  - `test_beacon_execute_stages_to_sessions` (method, line 176) `def test_beacon_execute_stages_to_sessions(self, beacon)`
-  - `test_bof_execute_stages_to_sessions` (method, line 180) `def test_bof_execute_stages_to_sessions(self, bof)`
-  - `test_beacon_execute_resets_before_pull` (method, line 183) `def test_beacon_execute_resets_before_pull(self, beacon)`
-  - `test_bof_execute_resets_before_pull` (method, line 187) `def test_bof_execute_resets_before_pull(self, bof)`
-  - `test_beacon_description_mentions_bof` (method, line 195) `def test_beacon_description_mentions_bof(self, beacon)`
-  - `test_beacon_description_mentions_linux` (method, line 199) `def test_beacon_description_mentions_linux(self, beacon)`
-  - `test_bof_description_mentions_linux_bof` (method, line 202) `def test_bof_description_mentions_linux_bof(self, bof)`
-  - `test_bof_description_mentions_elf` (method, line 206) `def test_bof_description_mentions_elf(self, bof)`
-  - `test_beacon_name_is_correct` (method, line 210) `def test_beacon_name_is_correct(self, beacon)`
-  - `test_bof_name_is_correct` (method, line 213) `def test_bof_name_is_correct(self, bof)`
-  - `_yaml_text` (method, line 220) `def _yaml_text(self, path)`
-  - `test_beacon_no_hardcoded_ip` (method, line 223) `def test_beacon_no_hardcoded_ip(self)`
-  - `test_bof_no_hardcoded_ip` (method, line 230) `def test_bof_no_hardcoded_ip(self)`
-  - `test_beacon_no_hardcoded_port_numbers` (method, line 237) `def test_beacon_no_hardcoded_port_numbers(self)`
-  - `test_bof_no_hardcoded_port_numbers` (method, line 241) `def test_bof_no_hardcoded_port_numbers(self)`
+  - `test_beacon_stage_helper_consumes_c2_params` (method, line 164) `def test_beacon_stage_helper_consumes_c2_params(self, beacon)`
+  - `test_beacon_lazycommand_has_c2_port` (method, line 168) `def test_beacon_lazycommand_has_c2_port(self, beacon)`
+  - `test_bof_lazycommand_is_catalog_hint` (method, line 172) `def test_bof_lazycommand_is_catalog_hint(self, bof)`
+  - `test_bof_delivery_goes_through_bof_run` (method, line 176) `def test_bof_delivery_goes_through_bof_run(self, bof)`
+  - `test_beacon_execute_stages_to_sessions` (method, line 180) `def test_beacon_execute_stages_to_sessions(self, beacon)`
+  - `test_beacon_execute_stages_config` (method, line 184) `def test_beacon_execute_stages_config(self, beacon)`
+  - `test_beacon_execute_builds_canonical_beacon` (method, line 188) `def test_beacon_execute_builds_canonical_beacon(self, beacon)`
+  - `test_bof_execute_stages_to_sessions` (method, line 192) `def test_bof_execute_stages_to_sessions(self, bof)`
+  - `test_beacon_execute_resets_before_pull` (method, line 197) `def test_beacon_execute_resets_before_pull(self, beacon)`
+  - `test_bof_execute_resets_before_pull` (method, line 201) `def test_bof_execute_resets_before_pull(self, bof)`
+  - `test_beacon_lazycommand_is_stage_helper` (method, line 205) `def test_beacon_lazycommand_is_stage_helper(self, beacon)`
+  - `test_beacon_description_documents_stage_flow` (method, line 209) `def test_beacon_description_documents_stage_flow(self, beacon)`
+  - `test_beacon_description_mentions_bof` (method, line 218) `def test_beacon_description_mentions_bof(self, beacon)`
+  - `test_beacon_description_mentions_linux` (method, line 222) `def test_beacon_description_mentions_linux(self, beacon)`
+  - `test_bof_description_mentions_linux_bof` (method, line 225) `def test_bof_description_mentions_linux_bof(self, bof)`
+  - `test_bof_description_mentions_elf` (method, line 229) `def test_bof_description_mentions_elf(self, bof)`
+  - `test_beacon_name_is_correct` (method, line 233) `def test_beacon_name_is_correct(self, beacon)`
+  - `test_bof_name_is_correct` (method, line 236) `def test_bof_name_is_correct(self, bof)`
+  - `_yaml_text` (method, line 243) `def _yaml_text(self, path)`
+  - `test_beacon_no_hardcoded_ip` (method, line 246) `def test_beacon_no_hardcoded_ip(self)`
+  - `test_bof_no_hardcoded_ip` (method, line 253) `def test_bof_no_hardcoded_ip(self)`
+  - `test_beacon_no_hardcoded_port_numbers` (method, line 260) `def test_beacon_no_hardcoded_port_numbers(self)`
+  - `test_bof_no_hardcoded_port_numbers` (method, line 264) `def test_bof_no_hardcoded_port_numbers(self)`
 
 ## tests/test_bof_admin.py
 - Doc: Tests for modules/bof_admin.py — BOF YAML configuration CRUD.
@@ -272,6 +277,23 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `call_tool` (method, line 93) `def call_tool(self)`
 - Depends on: `skills/lazyown_mcp.py`, `utils.py`
 
+## tests/test_bprfuzzer_identity.py
+- Doc: Contract tests: browser identity inheritance in the lazy burp fuzzer.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `EchoHandler` (class, line 26) `class EchoHandler(BaseHTTPRequestHandler)`
+  - `BprfuzzerIdentitySpec` (class, line 58) `class BprfuzzerIdentitySpec(TestCase)`
+  - `do_GET` (method, line 31) `def do_GET(self)`
+  - `do_POST` (method, line 38) `def do_POST(self)`
+  - `_reply` (method, line 47) `def _reply(self)`
+  - `log_message` (method, line 54) `def log_message(self)`
+  - `setUp` (method, line 61) `def setUp(self)`
+  - `test_send_request_inherits_identity` (method, line 81) `def test_send_request_inherits_identity(self)`
+  - `test_send_request_merge_preserves_operator_headers` (method, line 87) `def test_send_request_merge_preserves_operator_headers(self)`
+  - `test_send_request_body_rules_apply` (method, line 96) `def test_send_request_body_rules_apply(self)`
+- Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
+
 ## tests/test_bridge_catalog_filtered.py
 - Doc: tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``...
 - Layer: testing
@@ -355,6 +377,92 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_driver_rejects_unknown_action` (method, line 236) `def test_driver_rejects_unknown_action(self)`
   - `test_driver_yara_requires_target` (method, line 245) `def test_driver_yara_requires_target(self)`
 
+## tests/test_browser_sync.py
+- Doc: Contract tests for the browser identity sync module.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_post` (function, line 16) `def _post(url, payload, token_header)`
+  - `BrowserSyncSpec` (class, line 41) `class BrowserSyncSpec(TestCase)`
+  - `setUp` (method, line 44) `def setUp(self)`
+  - `_payload` (method, line 61) `def _payload(self, inject)`
+  - `_write_profile` (method, line 64) `def _write_profile(self, data)`
+  - `test_token_stable_until_reset` (method, line 69) `def test_token_stable_until_reset(self)`
+  - `test_receiver_start_ephemeral_and_status` (method, line 74) `def test_receiver_start_ephemeral_and_status(self)`
+  - `test_receiver_stop` (method, line 81) `def test_receiver_stop(self)`
+  - `test_health_endpoint` (method, line 87) `def test_health_endpoint(self)`
+  - `test_sync_roundtrip_writes_profile_and_jar` (method, line 93) `def test_sync_roundtrip_writes_profile_and_jar(self)`
+  - `test_sync_requires_token` (method, line 110) `def test_sync_requires_token(self)`
+  - `test_sync_rejects_bad_shapes` (method, line 118) `def test_sync_rejects_bad_shapes(self)`
+  - `test_sync_rejects_oversized_body` (method, line 130) `def test_sync_rejects_oversized_body(self)`
+  - `test_cookie_host_matching` (method, line 136) `def test_cookie_host_matching(self)`
+  - `test_cookie_path_matching` (method, line 143) `def test_cookie_path_matching(self)`
+  - `test_cookie_expiry_filtering` (method, line 151) `def test_cookie_expiry_filtering(self)`
+  - `test_secure_cookie_scheme_filtering` (method, line 159) `def test_secure_cookie_scheme_filtering(self)`
+  - `test_path_scoped_cookie_not_leaked` (method, line 179) `def test_path_scoped_cookie_not_leaked(self)`
+  - `test_rfc6265_cookie_ordering` (method, line 196) `def test_rfc6265_cookie_ordering(self)`
+  - `test_expired_cookie_not_injected` (method, line 209) `def test_expired_cookie_not_injected(self)`
+  - `test_empty_value_cookie_skipped_in_merge` (method, line 221) `def test_empty_value_cookie_skipped_in_merge(self)`
+  - `test_cookie_header_merge` (method, line 227) `def test_cookie_header_merge(self)`
+  - `test_rules_applied` (method, line 234) `def test_rules_applied(self)`
+  - `test_identity_injection_end_to_end` (method, line 258) `def test_identity_injection_end_to_end(self)`
+  - `test_identity_injection_disabled` (method, line 273) `def test_identity_injection_disabled(self)`
+  - `test_clear_profile` (method, line 283) `def test_clear_profile(self)`
+  - `test_receiver_status_reports_profile` (method, line 290) `def test_receiver_status_reports_profile(self)`
+  - `test_apply_identity_to_url` (method, line 296) `def test_apply_identity_to_url(self)`
+  - `test_apply_identity_to_url_no_profile` (method, line 307) `def test_apply_identity_to_url_no_profile(self)`
+  - `test_ensure_wiring_starts_receiver_and_proxy_env` (method, line 312) `def test_ensure_wiring_starts_receiver_and_proxy_env(self)`
+  - `test_ensure_wiring_disabled_flag` (method, line 340) `def test_ensure_wiring_disabled_flag(self)`
+  - `test_ensure_wiring_payload_ports` (method, line 346) `def test_ensure_wiring_payload_ports(self)`
+  - `test_ensure_wiring_default_port_matches_documented_default` (method, line 356) `def test_ensure_wiring_default_port_matches_documented_default(self)`
+  - `test_artifacts_mode_0600` (method, line 363) `def test_artifacts_mode_0600(self)`
+  - `_StubProxy` (class, line 317) `class _StubProxy`
+  - `start` (method, line 318) `def start(self, port, upstream)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_bsb_fileless_compat.py
+- Doc: Fileless BlackSandBeacon compatibility contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_server` (function, line 25) `def _load_server()`
+  - `_encrypt_bsb_report` (function, line 42) `def _encrypt_bsb_report(payload, master_key, counter)`
+  - `server` (function, line 58) `def server()`
+  - `bsb_env` (function, line 63) `def bsb_env(server, monkeypatch, tmp_path)`
+  - `TestRuntimeConfig` (class, line 75) `class TestRuntimeConfig`
+  - `TestFilelessDeployCommand` (class, line 115) `class TestFilelessDeployCommand`
+  - `TestStageCrypto` (class, line 178) `class TestStageCrypto`
+  - `TestStageRoutes` (class, line 204) `class TestStageRoutes`
+  - `TestBofRoute` (class, line 261) `class TestBofRoute`
+  - `TestPollRoute` (class, line 286) `class TestPollRoute`
+  - `TestReportRoute` (class, line 307) `class TestReportRoute`
+  - `test_config_carries_master_and_legacy_key` (method, line 76) `def test_config_carries_master_and_legacy_key(self, tmp_path)`
+  - `test_config_keeps_lazyc2_endpoints` (method, line 89) `def test_config_keeps_lazyc2_endpoints(self, tmp_path)`
+  - `test_config_requires_key` (method, line 103) `def test_config_requires_key(self, tmp_path)`
+  - `test_template_chain_is_diskless_then_disk` (method, line 116) `def test_template_chain_is_diskless_then_disk(self)`
+  - `test_stager_blob_is_memfd_loader` (method, line 128) `def test_stager_blob_is_memfd_loader(self)`
+  - `test_upstream_stage_payload_available_from_checkout` (method, line 140) `def test_upstream_stage_payload_available_from_checkout(self)`
+  - `test_chain_formats_without_placeholder_leaks` (method, line 151) `def test_chain_formats_without_placeholder_leaks(self)`
+  - `test_stage_blob_roundtrip_matches_upstream_decoder` (method, line 179) `def test_stage_blob_roundtrip_matches_upstream_decoder(self)`
+  - `test_stage_blob_rejects_wrong_token` (method, line 190) `def test_stage_blob_rejects_wrong_token(self)`
+  - `test_stage_keys_fail_closed_on_empty_token` (method, line 197) `def test_stage_keys_fail_closed_on_empty_token(self)`
+  - `test_stage_beacon_serves_elf_under_token` (method, line 205) `def test_stage_beacon_serves_elf_under_token(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_stage_beacon_rejects_bad_token` (method, line 216) `def test_stage_beacon_rejects_bad_token(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_stage_beacon_fails_without_elf` (method, line 223) `def test_stage_beacon_fails_without_elf(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_stage_config_carries_c2_contract` (method, line 229) `def test_stage_config_carries_c2_contract(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_bof_serves_raw_base64` (method, line 262) `def test_bof_serves_raw_base64(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_bof_rejects_traversal` (method, line 274) `def test_bof_rejects_traversal(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_bof_missing_object` (method, line 280) `def test_bof_missing_object(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_poll_get_marks_bsb_and_delegates` (method, line 287) `def test_poll_get_marks_bsb_and_delegates(self, server, bsb_env, monkeypatch)`
+  - `test_poll_post_marks_bsb_and_delegates` (method, line 297) `def test_poll_post_marks_bsb_and_delegates(self, server, bsb_env, monkeypatch)`
+  - `test_report_recovers_client_from_payload` (method, line 308) `def test_report_recovers_client_from_payload(self, server, bsb_env, monkeypatch)`
+  - `test_report_garbage_is_rejected` (method, line 337) `def test_report_garbage_is_rejected(self, server, bsb_env)`
+  - `test_report_without_client_id_is_rejected` (method, line 342) `def test_report_without_client_id_is_rejected(self, server, bsb_env, monkeypatch)`
+  - `test_report_malleable_alias_routes` (method, line 352) `def test_report_malleable_alias_routes(self, server, bsb_env, monkeypatch)`
+  - `_TmpConfig` (class, line 243) `class _TmpConfig(BofDeliveryConfig)`
+  - `__post_init__` (method, line 244) `def __post_init__(self)`
+- Depends on: `modules/bof_delivery.py`, `modules/bsb_compat.py`
+
 ## tests/test_c2_agent.py
 - Doc: Malleable C2 agent: template safety, key ownership, record reading.
 - Layer: testing
@@ -381,72 +489,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `__init__` (method, line 160) `def __init__(self)`
   - `__init__` (method, line 183) `def __init__(self)`
 - Depends on: `lazyown.py`, `modules/__init__.py`
-
-## tests/test_c2_agent_dual.py
-- Doc: Dual C2 client profiles (lowpriv/root) contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_specs_dir` (function, line 23) `def _specs_dir()`
-  - `ClientIdProfiles` (class, line 46) `class ClientIdProfiles(TestCase)`
-  - `BuildAgentProfiles` (class, line 63) `class BuildAgentProfiles(TestCase)`
-  - `OpenShellPrivilegeFilter` (class, line 78) `class OpenShellPrivilegeFilter(TestCase)`
-  - `DeployProfiles` (class, line 98) `class DeployProfiles(TestCase)`
-  - `DeployStagingSecurity` (class, line 113) `class DeployStagingSecurity(TestCase)`
-  - `test_default_lowpriv_id` (method, line 47) `def test_default_lowpriv_id(self)`
-  - `test_root_id_suffix` (method, line 50) `def test_root_id_suffix(self)`
-  - `test_invalid_privilege_rejected` (method, line 53) `def test_invalid_privilege_rejected(self)`
-  - `test_ids_validate` (method, line 57) `def test_ids_validate(self)`
-  - `test_lowpriv_default` (method, line 64) `def test_lowpriv_default(self)`
-  - `test_root_profile` (method, line 69) `def test_root_profile(self)`
-  - `test_invalid_privilege` (method, line 73) `def test_invalid_privilege(self)`
-  - `test_root_request_excludes_lowpriv_specs` (method, line 79) `def test_root_request_excludes_lowpriv_specs(self)`
-  - `test_lowpriv_accepts_best_ranked` (method, line 86) `def test_lowpriv_accepts_best_ranked(self)`
-  - `test_unknown_privilege` (method, line 93) `def test_unknown_privilege(self)`
-  - `test_unknown_privilege` (method, line 99) `def test_unknown_privilege(self)`
-  - `test_root_without_root_primitive` (method, line 103) `def test_root_without_root_primitive(self)`
-  - `_FakeSpec` (class, line 116) `class _FakeSpec`
-  - `_fake_session` (method, line 120) `def _fake_session(self, commands)`
-  - `test_deploy_never_uses_predictable_tmp_path` (method, line 136) `def test_deploy_never_uses_predictable_tmp_path(self)`
-  - `test_deploy_hash_gates_launch` (method, line 149) `def test_deploy_hash_gates_launch(self)`
-  - `test_deploy_aborts_when_staging_not_root_owned` (method, line 162) `def test_deploy_aborts_when_staging_not_root_owned(self)`
-  - `test_deploy_aborts_without_private_dir` (method, line 179) `def test_deploy_aborts_without_private_dir(self)`
-  - `test_agent_files_have_unique_names` (method, line 192) `def test_agent_files_have_unique_names(self)`
-  - `_FakeSession` (class, line 121) `class _FakeSession`
-  - `_ForeignSession` (class, line 163) `class _ForeignSession`
-  - `_BareSession` (class, line 180) `class _BareSession`
-  - `run` (method, line 122) `def run(self, cmd, timeout)`
-  - `run` (method, line 164) `def run(self, cmd, timeout)`
-  - `run` (method, line 181) `def run(self, cmd, timeout)`
-- Depends on: `modules/__init__.py`
-
-## tests/test_c2_credential_bootstrap.py
-- Doc: C2 boot credential contract: file, console and RBAC registration.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeUser` (class, line 20) `class _FakeUser`
-  - `_FakeStore` (class, line 27) `class _FakeStore`
-  - `test_credentials_file_written_owner_only` (function, line 52) `def test_credentials_file_written_owner_only(tmp_path)`
-  - `test_register_cli_user_updates_existing` (function, line 60) `def test_register_cli_user_updates_existing(tmp_path)`
-  - `test_register_cli_user_creates_when_new` (function, line 68) `def test_register_cli_user_creates_when_new(tmp_path)`
-  - `test_register_cli_user_skips_unreadable_store` (function, line 75) `def test_register_cli_user_skips_unreadable_store()`
-  - `test_register_cli_user_never_touches_other_accounts` (function, line 82) `def test_register_cli_user_never_touches_other_accounts(tmp_path)`
-  - `_resolve` (function, line 94) `def _resolve(user, password, rotate)`
-  - `test_resolve_rotates_insecure_credentials` (function, line 105) `def test_resolve_rotates_insecure_credentials()`
-  - `test_resolve_keeps_strong_credentials` (function, line 111) `def test_resolve_keeps_strong_credentials()`
-  - `test_resolve_on_boot_flag_wins_over_strong_creds` (function, line 117) `def test_resolve_on_boot_flag_wins_over_strong_creds()`
-  - `test_boot_block_applies_rotation_flag` (function, line 123) `def test_boot_block_applies_rotation_flag()`
-  - `test_revshell_listener_is_not_login_gated` (function, line 131) `def test_revshell_listener_is_not_login_gated()`
-  - `test_boot_block_writes_file_and_registers_cli_user` (function, line 136) `def test_boot_block_writes_file_and_registers_cli_user()`
-  - `test_boot_starts_revshell_listener_thread` (function, line 145) `def test_boot_starts_revshell_listener_thread()`
-  - `test_revshell_listener_accepts_multiple_sessions` (function, line 152) `def test_revshell_listener_accepts_multiple_sessions()`
-  - `__init__` (method, line 21) `def __init__(self, username, password_hash, role)`
-  - `__init__` (method, line 28) `def __init__(self, users, unreadable)`
-  - `find_by_username` (method, line 34) `def find_by_username(self, username)`
-  - `save` (method, line 42) `def save(self, user)`
-  - `create_user` (method, line 45) `def create_user(self, username, password_hash, role)`
-- Depends on: `lazyc2/security/cli_credentials.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

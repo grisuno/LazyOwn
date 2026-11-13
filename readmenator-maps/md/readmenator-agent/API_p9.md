@@ -1,6 +1,34 @@
 # API (page 9 of 28)
 Previous: [API_p8.md](API_p8.md)
 
+## lazyc2/security/https_redirect.py
+Imported by: `lazyc2.py`, `tests/test_https_redirect.py`
+- `HTTPSRedirect.__init__` (method) `lazyc2/security/https_redirect.py:51` `def __init__(self, env, enabled)`
+- `HTTPSRedirect.enabled` (method) `lazyc2/security/https_redirect.py:56` `def enabled(self)` -- Return ``True`` when the policy is active.
+- `HTTPSRedirect.evaluate` (method) `lazyc2/security/https_redirect.py:60` `def evaluate(self, request)` -- Return a redirect response, or ``None`` if the request can pass.
+
+## lazyc2/security/services.py
+Depends on: `lazyc2/security/constants.py`, `lazyc2/security/validators.py`
+Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `modules/c2_agent.py`, `tests/test_security_lazyc2.py`
+- `SecretKeyManager.__init__` (method) `lazyc2/security/services.py:30` `def __init__(self, sessions_dir)`
+- `SecretKeyManager.get_or_create` (method) `lazyc2/security/services.py:33` `def get_or_create(self)` -- Return an existing secret key or generate and persist a new one.
+- `SafeFileService.__init__` (method) `lazyc2/security/services.py:63` `def __init__(self, base_dir)`
+- `SafeFileService.read_bytes` (method) `lazyc2/security/services.py:86` `def read_bytes(self, relative_path)` -- Read a file as bytes after path validation.
+- `SafeFileService.read_text` (method) `lazyc2/security/services.py:102` `def read_text(self, relative_path, encoding)` -- Read a file as text after path validation.
+- `SafeFileService.write_bytes` (method) `lazyc2/security/services.py:119` `def write_bytes(self, relative_path, data)` -- Write bytes to a file after path validation.
+- `SafeFileService.exists` (method) `lazyc2/security/services.py:136` `def exists(self, relative_path)` -- Check if a path exists after validation.
+- `AESKeyManager.__init__` (method) `lazyc2/security/services.py:158` `def __init__(self, key_file)`
+- `AESKeyManager.get_or_generate` (method) `lazyc2/security/services.py:161` `def get_or_generate(self)` -- Return an existing AES key or generate a new one.
+- `UploadSizeValidator.__init__` (method) `lazyc2/security/services.py:189` `def __init__(self, max_size_bytes)`
+- `UploadSizeValidator.validate` (method) `lazyc2/security/services.py:192` `def validate(self, content_length)` -- Validate upload size.
+
+## lazyc2/security/trusted_proxy.py
+Imported by: `lazyc2.py`, `tests/test_trusted_proxy.py`
+- `TrustedProxyResolver.__init__` (method) `lazyc2/security/trusted_proxy.py:42` `def __init__(self, trusted_count, operator_allowlist)`
+- `TrustedProxyResolver.trusted_count` (method) `lazyc2/security/trusted_proxy.py:53` `def trusted_count(self)` -- Return the configured number of trusted proxy hops.
+- `TrustedProxyResolver.client_ip` (method) `lazyc2/security/trusted_proxy.py:57` `def client_ip(self, remote_addr, x_forwarded_for)` -- Return the resolved client IP.
+- `TrustedProxyResolver.is_operator` (method) `lazyc2/security/trusted_proxy.py:80` `def is_operator(self, ip)` -- Return ``True`` when ``ip`` is in the operator allowlist.
+
 ## lazyc2/security/validators.py
 Depends on: `lazyc2/security/constants.py`
 Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`, `tests/test_short_url_file_containment.py`
@@ -34,7 +62,7 @@ Imported by: `lazygui/app.py`, `lazygui/windows/connect_dialog.py`
 
 ## lazygui/config/constants.py
 Imported by: `lazygui/app.py`, `lazygui/config/__init__.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazygui/theme/qss_builder.py`, `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/filter_bar.py`, `lazygui/widgets/graph_view.py`, `lazygui/widgets/terminal_view.py`, `lazygui/windows/command_palette_window.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_graph_widget.py`
-- `AppConstants.panel_labels` (method) `lazygui/config/constants.py:239` `def panel_labels(self)` -- Map panel identifier to human-readable label.
+- `AppConstants.panel_labels` (method) `lazygui/config/constants.py:241` `def panel_labels(self)` -- Map panel identifier to human-readable label.
 
 ## lazygui/config/paths.py
 Depends on: `lazygui/config/constants.py`
@@ -351,84 +379,84 @@ Imported by: `lazygui/app.py`, `lazygui/windows/__init__.py`
 - `clean_container_and_image` (function) `lazyown-docker/mkdocker.sh:197` -- Clean container and image
 
 ## lazyown.py
-Depends on: `cli/aliases.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/engagement_hooks.py`, `cli/exploration.py`, `cli/fuzzy_picker.py`, `cli/graph_advisor.py`, `cli/headless.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/registry.py`, `cli/scope_guard.py`, `cli/session_brief.py`, `cli/splash.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `core/autonomous.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `core/defaults.py`, `core/hardening.py`, `core/logging.py`, `core/param_registry.py`, `modules/cli_auth.py`, `modules/command_executor.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/gym_cleanup.py`, `modules/lazy_loop.py`, `modules/lazy_timeline.py`, `modules/llm_factory.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/payload_factory.py`, `modules/session_cleanup.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/unified_orchestrator.py`, `utils.py`
+Depends on: `cli/aliases.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/engagement_hooks.py`, `cli/exploration.py`, `cli/fuzzy_picker.py`, `cli/graph_advisor.py`, `cli/headless.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/registry.py`, `cli/scope_guard.py`, `cli/session_brief.py`, `cli/splash.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `core/autonomous.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `core/defaults.py`, `core/hardening.py`, `core/logging.py`, `core/param_registry.py`, `modules/askpass.py`, `modules/cli_auth.py`, `modules/command_executor.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/gym_cleanup.py`, `modules/lazy_loop.py`, `modules/lazy_timeline.py`, `modules/llm_factory.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/payload_factory.py`, `modules/session_cleanup.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/unified_orchestrator.py`, `utils.py`
 Imported by: `core/command_bridge.py`, `discord_c2.py`, `lazyc2.py`, `poc_tui/app.py`, `scripts/devtools/command_audit.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_c2_agent.py`, `tests/test_scope_guard_integration.py`
 - `_PayloadSettableProxy.__init__` (method) `lazyown.py:244` `def __init__(self, params)` -- Bind the proxy to a live ``params`` dictionary.
 - `LazyOwnShell.__init__` (method) `lazyown.py:372` `def __init__(self)` -- Initializer for the LazyOwnShell class.
-- `LazyOwnShell.log_command` (method) `lazyown.py:792` `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` -- Logs the command execution details to a CSV file.
-- `LazyOwnShell.default` (method) `lazyown.py:855` `def default(self, line)` -- Handles undefined commands, including aliases.
-- `LazyOwnShell.scripts` (method) `lazyown.py:884` `def scripts(self)` -- Auto-discovered list of runnable script names.
-- `LazyOwnShell.refresh_prompt` (method) `lazyown.py:903` `def refresh_prompt(self)` -- Recompute the Neon Box prompt from the live payload.
-- `LazyOwnShell.do_set` (method) `lazyown.py:914` `def do_set(self, line)` -- Set a parameter — the unified ``set``/``assign`` surface.
-- `LazyOwnShell.logcsv` (method) `lazyown.py:1307` `def logcsv(self, line, start_time, end_time, duration_ms)` -- Forward a command line to :meth:`log_command` for CSV persistence.
-- `LazyOwnShell.cmd` (method) `lazyown.py:1348` `def cmd(self, line)` -- Internal function to execute commands.
-- `LazyOwnShell.onecmd_plus_hooks` (method) `lazyown.py:1440` `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` -- Dispatch a command, expanding payload placeholders in custom aliases.
-- `LazyOwnShell.one_cmd` (method) `lazyown.py:1811` `def one_cmd(self, command)` -- Internal function to execute commands.
-- `LazyOwnShell.emptyline` (method) `lazyown.py:1857` `def emptyline(self)` -- Handle the case where the user enters an empty line.
-- `LazyOwnShell.load_user_commands` (method) `lazyown.py:1882` `def load_user_commands(self)` -- Carga los comandos personalizados desde user_commands.json
-- `LazyOwnShell.save_user_command` (method) `lazyown.py:1894` `def save_user_command(self, alias, command)` -- Guarda un nuevo comando en user_commands.json
-- `LazyOwnShell.list_files_in_directory` (method) `lazyown.py:1906` `def list_files_in_directory(self, directory)` -- Lista todos los archivos en un directorio dado.
-- `LazyOwnShell.register_tool_commands` (method) `lazyown.py:1912` `def register_tool_commands(self)` -- Register every active ``tools/*.tool`` as a ``do_<toolname>`` command.
-- `make_wrapper` (function) `lazyown.py:1971` `def make_wrapper(cmd_template, tname, default_target)`
-- `tool_wrapper` (function) `lazyown.py:1972` `def tool_wrapper(arg)`
-- `wrapper` (function) `lazyown.py:2073` `def wrapper(arg)`
-- `LazyOwnShell.load_plugins` (method) `lazyown.py:2096` `def load_plugins(self)` -- Load every Lua plugin from the 'plugins/' directory.
-- `LazyOwnShell.load_yaml_plugins` (method) `lazyown.py:2126` `def load_yaml_plugins(self)` -- Loads all YAML plugins from the 'lazyaddons/' directory.
-- `LazyOwnShell.register_yaml_plugin` (method) `lazyown.py:2149` `def register_yaml_plugin(self, plugin_data)` -- Register a YAML addon as a shell command.
-- `wrapper_yaml` (function) `lazyown.py:2189` `def wrapper_yaml(arg)`
-- `LazyOwnShell.register_all_adversary_commands` (method) `lazyown.py:2295` `def register_all_adversary_commands(self)`
-- `cmd_wrapper` (function) `lazyown.py:2317` `def cmd_wrapper(_)`
-- `LazyOwnShell.display_toastr` (method) `lazyown.py:2324` `def display_toastr(self, message, type)` -- Display the unified toastr panel from the shared toast bus.
-- `LazyOwnShell.completedefault` (method) `lazyown.py:2337` `def completedefault(self, text, line, begidx, endidx)` -- Fall through to the payload-aware completer for unhandled commands.
-- `LazyOwnShell.preloop` (method) `lazyown.py:2362` `def preloop(self)` -- Print a session-start pro tip and handle first-run setup.
-- `LazyOwnShell.postparsing_precmd` (method) `lazyown.py:2506` `def postparsing_precmd(self, statement)` -- Gate unauthenticated commands — anonymous operators can only run ``register``, ``login``, ``logout``, ``whoami``...
-- `LazyOwnShell.postloop` (method) `lazyown.py:2534` `def postloop(self)` -- Handle operations to perform after exiting the command loop.
-- `LazyOwnShell.complete_phase` (method) `lazyown.py:2567` `def complete_phase(self, text, line, begidx, endidx)` -- Tab-complete phase names.
-- `LazyOwnShell.complete_l00t` (method) `lazyown.py:2572` `def complete_l00t(self, text, line, begidx, endidx)` -- Tab-complete l00t subcommands.
-- `LazyOwnShell.complete_loot` (method) `lazyown.py:2578` `def complete_loot(self, text, line, begidx, endidx)` -- Tab-complete loot subcommands (delegates to l00t).
-- `LazyOwnShell.complete_assign` (method) `lazyown.py:2583` `def complete_assign(self, text, line, begidx, endidx)` -- Tab-complete the parameter name from the live payload keys.
-- `LazyOwnShell.complete_scope` (method) `lazyown.py:2600` `def complete_scope(self, text, line, begidx, endidx)` -- Tab-complete the scope subcommands.
-- `LazyOwnShell.complete_palette` (method) `lazyown.py:2651` `def complete_palette(self, text, line, begidx, endidx)` -- Tab-complete the palette command using the live command index.
-- `LazyOwnShell.run_lazysearch` (method) `lazyown.py:2668` `def run_lazysearch(self)` -- Runs the internal module `modules/lazysearch.py`.
-- `LazyOwnShell.run_lazysearch_gui` (method) `lazyown.py:2685` `def run_lazysearch_gui(self)` -- Run the internal module located at `modules/LazyOwnExplorer.py`.
-- `LazyOwnShell.run_lazyown` (method) `lazyown.py:2715` `def run_lazyown(self)` -- Run the internal module located at `modules/lazyown_parquet_tool.py`.
-- `LazyOwnShell.run_update_db` (method) `lazyown.py:2741` `def run_update_db(self)` -- Run the internal module located at `modules/update_db.sh`.
-- `LazyOwnShell.run_lazynmap` (method) `lazyown.py:2771` `def run_lazynmap(self)` -- Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
-- `LazyOwnShell.run_lazywerkzeugdebug` (method) `lazyown.py:2830` `def run_lazywerkzeugdebug(self)` -- Run the internal module located at `modules/legacy/lazywerkzeug.py` in debug mode.
-- `LazyOwnShell.run_lazygath` (method) `lazyown.py:2887` `def run_lazygath(self)` -- Run the internal module located at `modules/lazygat.sh`. to gathering the sistem :)
-- `LazyOwnShell.run_lazynmapdiscovery` (method) `lazyown.py:2919` `def run_lazynmapdiscovery(self)` -- Runs the internal module `modules/lazynmap.sh` with discovery mode.
-- `LazyOwnShell.run_lazysniff` (method) `lazyown.py:2934` `def run_lazysniff(self)` -- Run the sniffer internal module located at `modules/legacy/lazysniff.py` with the specified parameters.
-- `LazyOwnShell.run_lazyftpsniff` (method) `lazyown.py:2983` `def run_lazyftpsniff(self)` -- Run the sniffer ftp internal module located at `modules/legacy/lazyftpsniff.py` with the specified parameters.
-- `LazyOwnShell.run_lazynetbios` (method) `lazyown.py:3029` `def run_lazynetbios(self)` -- Run the internal module to search netbios vuln victims, located at `modules/legacy/lazynetbios.py` with the...
-- `LazyOwnShell.run_lazyhoneypot` (method) `lazyown.py:3080` `def run_lazyhoneypot(self)` -- Run the internal module located at `modules/legacy/lazyhoneypot.py` with the specified parameters.
-- `LazyOwnShell.run_lazysearch_bot` (method) `lazyown.py:3146` `def run_lazysearch_bot(self)` -- Run the internal module GROQ AI located at `modules/legacy/lazysearch_bot.py` with the specified parameters.
-- `LazyOwnShell.run_lazymetaextract0r` (method) `lazyown.py:3197` `def run_lazymetaextract0r(self)` -- Run the Metadata extractor internal module located at `modules/lazyown_metaextract0r.py` with the specified parameters.
-- `LazyOwnShell.run_lazylfi2rce` (method) `lazyown.py:3238` `def run_lazylfi2rce(self)` -- Run the internal module located at `modules/legacy/lazylfi2rce.py` with the specified parameters.
-- `LazyOwnShell.run_lazylogpoisoning` (method) `lazyown.py:3319` `def run_lazylogpoisoning(self)` -- Run the internal module located at `modules/legacy/lazylogpoisoning.py` with the specified parameters.
-- `LazyOwnShell.run_lazyssh77enum` (method) `lazyown.py:3366` `def run_lazyssh77enum(self)` -- Run the internal module located at `modules/lazybrutesshuserenum.py` with the specified parameters.
-- `LazyOwnShell.run_lazyburpfuzzer` (method) `lazyown.py:3416` `def run_lazyburpfuzzer(self)` -- Run the internal module located at `modules/lazyown_burpfuzzer.py` with the specified parameters.
-- `LazyOwnShell.run_lazyreverse_shell` (method) `lazyown.py:3542` `def run_lazyreverse_shell(self)` -- Run the internal module located at `modules/lazyreverse_shell.sh` with the specified parameters.
-- `LazyOwnShell.run_lazyarpspoofing` (method) `lazyown.py:3592` `def run_lazyarpspoofing(self)` -- Run the internal module located at `modules/legacy/lazyarpspoofing.py` with the specified parameters.
-- `LazyOwnShell.run_lazyattack` (method) `lazyown.py:3646` `def run_lazyattack(self)` -- Run the internal module located at `modules/lazyatack.sh` with the specified parameters.
-- `LazyOwnShell.run_lazymsfvenom` (method) `lazyown.py:3701` `def run_lazymsfvenom(self)` -- Executes the `msfvenom` tool to generate a variety of payloads based on user input.
-- `LazyOwnShell.run_lazyaslrcheck` (method) `lazyown.py:3878` `def run_lazyaslrcheck(self)` -- Creates a path hijacking attack by performing the following steps:
-- `LazyOwnShell.run_lazypathhijacking` (method) `lazyown.py:3925` `def run_lazypathhijacking(self)` -- Creates a path hijacking attack by performing the following steps:
-- `LazyOwnShell.run_script` (method) `lazyown.py:3958` `def run_script(self, script_name)` -- Run a script with the given arguments
-- `LazyOwnShell.run_command` (method) `lazyown.py:3990` `def run_command(self, command)` -- Run a command and print output in real-time
-- `LazyOwnShell.get_output` (method) `lazyown.py:4070` `def get_output(self)` -- Devuelve la salida acumulada
-- `LazyOwnShell.upload_file_to_c2` (method) `lazyown.py:4075` `def upload_file_to_c2(self, file_path, clientid)` -- Sube un archivo al C2.
-- `LazyOwnShell.complete_upload_c2` (method) `lazyown.py:4101` `def complete_upload_c2(self, text, line, begidx, endidx)` -- Autocomplete implant names from implant_config_*.json files in sessions/ directory
-- `LazyOwnShell.download_file_from_c2` (method) `lazyown.py:4129` `def download_file_from_c2(self, file_name, clientid)` -- Descarga un archivo desde el C2.
-- `LazyOwnShell.issue_command_to_c2` (method) `lazyown.py:4198` `def issue_command_to_c2(self, command, client_id)` -- Ejecuta un comando en el cliente usando el C2.
-- `LazyOwnShell.complete_issue_command_to_c2` (method) `lazyown.py:4232` `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` -- Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed)
-- `LazyOwnShell.view_code` (method) `lazyown.py:4298` `def view_code(self, stdscr)` -- Display C and ASM code side by side in a curses-based interface.
-- `LazyOwnShell.get_available_actions` (method) `lazyown.py:4403` `def get_available_actions(self)` -- Returns a list of available actions using cmd2 introspection.
-- `LazyOwnShell.process_scan_csv` (method) `lazyown.py:4486` `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` -- Processes a single scan CSV file.
-- `LazyOwnShell.process_vuln_csv` (method) `lazyown.py:4509` `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` -- Processes a single vulnerability CSV file.
-- `LazyOwnShell.do_event_log` (method) `lazyown.py:4641` `def do_event_log(self, line)` -- Show recent EventBus events.
-- `LazyOwnShell.do_state_snapshot` (method) `lazyown.py:4671` `def do_state_snapshot(self, line)` -- Show unified StateManager snapshot (DB + JSON caches).
-- `LazyOwnShell.do_route` (method) `lazyown.py:4710` `def do_route(self, line)` -- Route a natural-language prompt to a LazyOwn tool.
-- `main` (function) `lazyown.py:4733` `def main()`
+- `LazyOwnShell.log_command` (method) `lazyown.py:793` `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` -- Logs the command execution details to a CSV file.
+- `LazyOwnShell.default` (method) `lazyown.py:856` `def default(self, line)` -- Handles undefined commands, including aliases.
+- `LazyOwnShell.scripts` (method) `lazyown.py:885` `def scripts(self)` -- Auto-discovered list of runnable script names.
+- `LazyOwnShell.refresh_prompt` (method) `lazyown.py:904` `def refresh_prompt(self)` -- Recompute the Neon Box prompt from the live payload.
+- `LazyOwnShell.do_set` (method) `lazyown.py:915` `def do_set(self, line)` -- Set a parameter — the unified ``set``/``assign`` surface.
+- `LazyOwnShell.logcsv` (method) `lazyown.py:1308` `def logcsv(self, line, start_time, end_time, duration_ms)` -- Forward a command line to :meth:`log_command` for CSV persistence.
+- `LazyOwnShell.cmd` (method) `lazyown.py:1349` `def cmd(self, line)` -- Internal function to execute commands.
+- `LazyOwnShell.onecmd_plus_hooks` (method) `lazyown.py:1441` `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` -- Dispatch a command, expanding payload placeholders in custom aliases.
+- `LazyOwnShell.one_cmd` (method) `lazyown.py:1812` `def one_cmd(self, command)` -- Internal function to execute commands.
+- `LazyOwnShell.emptyline` (method) `lazyown.py:1858` `def emptyline(self)` -- Handle the case where the user enters an empty line.
+- `LazyOwnShell.load_user_commands` (method) `lazyown.py:1883` `def load_user_commands(self)` -- Carga los comandos personalizados desde user_commands.json
+- `LazyOwnShell.save_user_command` (method) `lazyown.py:1895` `def save_user_command(self, alias, command)` -- Guarda un nuevo comando en user_commands.json
+- `LazyOwnShell.list_files_in_directory` (method) `lazyown.py:1907` `def list_files_in_directory(self, directory)` -- Lista todos los archivos en un directorio dado.
+- `LazyOwnShell.register_tool_commands` (method) `lazyown.py:1913` `def register_tool_commands(self)` -- Register every active ``tools/*.tool`` as a ``do_<toolname>`` command.
+- `make_wrapper` (function) `lazyown.py:1972` `def make_wrapper(cmd_template, tname, default_target)`
+- `tool_wrapper` (function) `lazyown.py:1973` `def tool_wrapper(arg)`
+- `wrapper` (function) `lazyown.py:2074` `def wrapper(arg)`
+- `LazyOwnShell.load_plugins` (method) `lazyown.py:2097` `def load_plugins(self)` -- Load every Lua plugin from the 'plugins/' directory.
+- `LazyOwnShell.load_yaml_plugins` (method) `lazyown.py:2127` `def load_yaml_plugins(self)` -- Loads all YAML plugins from the 'lazyaddons/' directory.
+- `LazyOwnShell.register_yaml_plugin` (method) `lazyown.py:2150` `def register_yaml_plugin(self, plugin_data)` -- Register a YAML addon as a shell command.
+- `wrapper_yaml` (function) `lazyown.py:2190` `def wrapper_yaml(arg)`
+- `LazyOwnShell.register_all_adversary_commands` (method) `lazyown.py:2301` `def register_all_adversary_commands(self)`
+- `cmd_wrapper` (function) `lazyown.py:2323` `def cmd_wrapper(_)`
+- `LazyOwnShell.display_toastr` (method) `lazyown.py:2330` `def display_toastr(self, message, type)` -- Display the unified toastr panel from the shared toast bus.
+- `LazyOwnShell.completedefault` (method) `lazyown.py:2343` `def completedefault(self, text, line, begidx, endidx)` -- Fall through to the payload-aware completer for unhandled commands.
+- `LazyOwnShell.preloop` (method) `lazyown.py:2368` `def preloop(self)` -- Print a session-start pro tip and handle first-run setup.
+- `LazyOwnShell.postparsing_precmd` (method) `lazyown.py:2512` `def postparsing_precmd(self, statement)` -- Gate unauthenticated commands — anonymous operators can only run ``register``, ``login``, ``logout``, ``whoami``...
+- `LazyOwnShell.postloop` (method) `lazyown.py:2540` `def postloop(self)` -- Handle operations to perform after exiting the command loop.
+- `LazyOwnShell.complete_phase` (method) `lazyown.py:2573` `def complete_phase(self, text, line, begidx, endidx)` -- Tab-complete phase names.
+- `LazyOwnShell.complete_l00t` (method) `lazyown.py:2578` `def complete_l00t(self, text, line, begidx, endidx)` -- Tab-complete l00t subcommands.
+- `LazyOwnShell.complete_loot` (method) `lazyown.py:2584` `def complete_loot(self, text, line, begidx, endidx)` -- Tab-complete loot subcommands (delegates to l00t).
+- `LazyOwnShell.complete_assign` (method) `lazyown.py:2589` `def complete_assign(self, text, line, begidx, endidx)` -- Tab-complete the parameter name from the live payload keys.
+- `LazyOwnShell.complete_scope` (method) `lazyown.py:2606` `def complete_scope(self, text, line, begidx, endidx)` -- Tab-complete the scope subcommands.
+- `LazyOwnShell.complete_palette` (method) `lazyown.py:2657` `def complete_palette(self, text, line, begidx, endidx)` -- Tab-complete the palette command using the live command index.
+- `LazyOwnShell.run_lazysearch` (method) `lazyown.py:2674` `def run_lazysearch(self)` -- Runs the internal module `modules/lazysearch.py`.
+- `LazyOwnShell.run_lazysearch_gui` (method) `lazyown.py:2691` `def run_lazysearch_gui(self)` -- Run the internal module located at `modules/LazyOwnExplorer.py`.
+- `LazyOwnShell.run_lazyown` (method) `lazyown.py:2721` `def run_lazyown(self)` -- Run the internal module located at `modules/lazyown_parquet_tool.py`.
+- `LazyOwnShell.run_update_db` (method) `lazyown.py:2747` `def run_update_db(self)` -- Run the internal module located at `modules/update_db.sh`.
+- `LazyOwnShell.run_lazynmap` (method) `lazyown.py:2777` `def run_lazynmap(self)` -- Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
+- `LazyOwnShell.run_lazywerkzeugdebug` (method) `lazyown.py:2852` `def run_lazywerkzeugdebug(self)` -- Run the internal module located at `modules/legacy/lazywerkzeug.py` in debug mode.
+- `LazyOwnShell.run_lazygath` (method) `lazyown.py:2909` `def run_lazygath(self)` -- Run the internal module located at `modules/lazygat.sh`. to gathering the sistem :)
+- `LazyOwnShell.run_lazynmapdiscovery` (method) `lazyown.py:2941` `def run_lazynmapdiscovery(self)` -- Runs the internal module `modules/lazynmap.sh` with discovery mode.
+- `LazyOwnShell.run_lazysniff` (method) `lazyown.py:2956` `def run_lazysniff(self)` -- Run the sniffer internal module located at `modules/legacy/lazysniff.py` with the specified parameters.
+- `LazyOwnShell.run_lazyftpsniff` (method) `lazyown.py:3005` `def run_lazyftpsniff(self)` -- Run the sniffer ftp internal module located at `modules/legacy/lazyftpsniff.py` with the specified parameters.
+- `LazyOwnShell.run_lazynetbios` (method) `lazyown.py:3051` `def run_lazynetbios(self)` -- Run the internal module to search netbios vuln victims, located at `modules/legacy/lazynetbios.py` with the...
+- `LazyOwnShell.run_lazyhoneypot` (method) `lazyown.py:3102` `def run_lazyhoneypot(self)` -- Run the internal module located at `modules/legacy/lazyhoneypot.py` with the specified parameters.
+- `LazyOwnShell.run_lazysearch_bot` (method) `lazyown.py:3168` `def run_lazysearch_bot(self)` -- Run the internal module GROQ AI located at `modules/legacy/lazysearch_bot.py` with the specified parameters.
+- `LazyOwnShell.run_lazymetaextract0r` (method) `lazyown.py:3219` `def run_lazymetaextract0r(self)` -- Run the Metadata extractor internal module located at `modules/lazyown_metaextract0r.py` with the specified parameters.
+- `LazyOwnShell.run_lazylfi2rce` (method) `lazyown.py:3260` `def run_lazylfi2rce(self)` -- Run the internal module located at `modules/legacy/lazylfi2rce.py` with the specified parameters.
+- `LazyOwnShell.run_lazylogpoisoning` (method) `lazyown.py:3341` `def run_lazylogpoisoning(self)` -- Run the internal module located at `modules/legacy/lazylogpoisoning.py` with the specified parameters.
+- `LazyOwnShell.run_lazyssh77enum` (method) `lazyown.py:3388` `def run_lazyssh77enum(self)` -- Run the internal module located at `modules/lazybrutesshuserenum.py` with the specified parameters.
+- `LazyOwnShell.run_lazyburpfuzzer` (method) `lazyown.py:3438` `def run_lazyburpfuzzer(self)` -- Run the internal module located at `modules/lazyown_burpfuzzer.py` with the specified parameters.
+- `LazyOwnShell.run_lazyreverse_shell` (method) `lazyown.py:3564` `def run_lazyreverse_shell(self)` -- Run the internal module located at `modules/lazyreverse_shell.sh` with the specified parameters.
+- `LazyOwnShell.run_lazyarpspoofing` (method) `lazyown.py:3614` `def run_lazyarpspoofing(self)` -- Run the internal module located at `modules/legacy/lazyarpspoofing.py` with the specified parameters.
+- `LazyOwnShell.run_lazyattack` (method) `lazyown.py:3668` `def run_lazyattack(self)` -- Run the internal module located at `modules/lazyatack.sh` with the specified parameters.
+- `LazyOwnShell.run_lazymsfvenom` (method) `lazyown.py:3723` `def run_lazymsfvenom(self)` -- Executes the `msfvenom` tool to generate a variety of payloads based on user input.
+- `LazyOwnShell.run_lazyaslrcheck` (method) `lazyown.py:3900` `def run_lazyaslrcheck(self)` -- Creates a path hijacking attack by performing the following steps:
+- `LazyOwnShell.run_lazypathhijacking` (method) `lazyown.py:3947` `def run_lazypathhijacking(self)` -- Creates a path hijacking attack by performing the following steps:
+- `LazyOwnShell.run_script` (method) `lazyown.py:3981` `def run_script(self, script_name)` -- Run a script with the given arguments
+- `LazyOwnShell.run_command` (method) `lazyown.py:4013` `def run_command(self, command)` -- Run a command and print output in real-time
+- `LazyOwnShell.get_output` (method) `lazyown.py:4093` `def get_output(self)` -- Devuelve la salida acumulada
+- `LazyOwnShell.upload_file_to_c2` (method) `lazyown.py:4135` `def upload_file_to_c2(self, file_path, clientid)` -- Sube un archivo al C2.
+- `LazyOwnShell.complete_upload_c2` (method) `lazyown.py:4161` `def complete_upload_c2(self, text, line, begidx, endidx)` -- Autocomplete implant names from implant_config_*.json files in sessions/ directory
+- `LazyOwnShell.download_file_from_c2` (method) `lazyown.py:4189` `def download_file_from_c2(self, file_name, clientid)` -- Descarga un archivo desde el C2.
+- `LazyOwnShell.issue_command_to_c2` (method) `lazyown.py:4258` `def issue_command_to_c2(self, command, client_id)` -- Ejecuta un comando en el cliente usando el C2.
+- `LazyOwnShell.complete_issue_command_to_c2` (method) `lazyown.py:4293` `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` -- Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed)
+- `LazyOwnShell.view_code` (method) `lazyown.py:4359` `def view_code(self, stdscr)` -- Display C and ASM code side by side in a curses-based interface.
+- `LazyOwnShell.get_available_actions` (method) `lazyown.py:4464` `def get_available_actions(self)` -- Returns a list of available actions using cmd2 introspection.
+- `LazyOwnShell.process_scan_csv` (method) `lazyown.py:4547` `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` -- Processes a single scan CSV file.
+- `LazyOwnShell.process_vuln_csv` (method) `lazyown.py:4570` `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` -- Processes a single vulnerability CSV file.
+- `LazyOwnShell.do_event_log` (method) `lazyown.py:4702` `def do_event_log(self, line)` -- Show recent EventBus events.
+- `LazyOwnShell.do_state_snapshot` (method) `lazyown.py:4732` `def do_state_snapshot(self, line)` -- Show unified StateManager snapshot (DB + JSON caches).
+- `LazyOwnShell.do_route` (method) `lazyown.py:4771` `def do_route(self, line)` -- Route a natural-language prompt to a LazyOwn tool.
+- `main` (function) `lazyown.py:4794` `def main()`
 
 ## modules/49803.py
 - `auth` (function) `modules/49803.py:43` `def auth()`
@@ -461,37 +489,6 @@ Imported by: `core/command_bridge.py`, `discord_c2.py`, `lazyc2.py`, `poc_tui/ap
 - `is_binary` (function) `modules/LazyOwnExplorer.py:358` `def is_binary(file_path)`
 - `LazyOwnGUI.show_scan_results` (method) `modules/LazyOwnExplorer.py:374` `def show_scan_results(self, binaries)`
 - `LazyOwnGUI.export_to_csv` (method) `modules/LazyOwnExplorer.py:385` `def export_to_csv(self)`
-
-## modules/ad_gym.py
-Depends on: `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
-- `load_index` (function) `modules/ad_gym.py:38` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
-- `vulnerabilities` (function) `modules/ad_gym.py:43` `def vulnerabilities(path)` -- Return every indexed lab vector.
-- `get` (function) `modules/ad_gym.py:49` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
-- `chain_for` (function) `modules/ad_gym.py:58` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
-- `exploit_for` (function) `modules/ad_gym.py:68` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
-- `validate_matrix` (function) `modules/ad_gym.py:78` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
-- `summary` (function) `modules/ad_gym.py:127` `def summary(path)` -- Return counts by severity and service for operators.
-- `readiness` (function) `modules/ad_gym.py:146` `def readiness()` -- Report whether the AD lab container is attackable right now.
-- `main` (function) `modules/ad_gym.py:166` `def main()` -- CLI: list | validate | summary | readiness.
-
-## modules/adcs_attacks.py
-Imported by: `cli/commands/exploit_migrated.py`
-- `CertificateTemplate.esc_vulnerabilities` (method) `modules/adcs_attacks.py:35` `def esc_vulnerabilities(self)` -- Determine which ESC attack paths apply to this template.
-- `ADCSCertipyWrapper.__init__` (method) `modules/adcs_attacks.py:80` `def __init__(self, certipy_path, timeout)`
-- `ADCSCertipyWrapper.find_certificate_authorities` (method) `modules/adcs_attacks.py:113` `def find_certificate_authorities(self, username, password, domain, dc_ip, hashes)` -- Enumerate certificate authorities in an Active Directory domain.
-- `ADCSCertipyWrapper.enumerate_templates` (method) `modules/adcs_attacks.py:189` `def enumerate_templates(self, username, password, domain, dc_ip, hashes)` -- Enumerate vulnerable certificate templates.
-- `ADCSCertipyWrapper.request_certificate_esc1` (method) `modules/adcs_attacks.py:268` `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` -- ESC1: Request a certificate with a user-supplied subject alternative name.
-- `ADCSCertipyWrapper.request_certificate_esc8` (method) `modules/adcs_attacks.py:322` `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` -- ESC8: HTTP-based certificate enrollment (NTLM relay to AD CS).
-- `ADCSCertipyWrapper.authenticate_with_certificate` (method) `modules/adcs_attacks.py:367` `def authenticate_with_certificate(self, cert_file, domain, dc_ip, username)` -- Authenticate to the domain using a certificate and retrieve NT hash.
-- `ADCSCertipyWrapper.assess_vulnerability` (method) `modules/adcs_attacks.py:411` `def assess_vulnerability(self, username, password, domain, dc_ip, hashes)` -- Run a full AD CS vulnerability assessment.
-
-## modules/addon_updater.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `tests/test_addon_updater.py`
-- `AddonUpdateResult.to_dict` (method) `modules/addon_updater.py:46` `def to_dict(self)` -- Return a JSON-serializable view.
-- `load_addons` (function) `modules/addon_updater.py:73` `def load_addons(lazyaddons_dir)` -- Load every lazyaddon with its update metadata.
-- `update_addon` (function) `modules/addon_updater.py:166` `def update_addon(name, lazyaddons_dir, root, dry_run)` -- Update one addon through ``git pull --ff-only``.
-- `update_all` (function) `modules/addon_updater.py:260` `def update_all(names, lazyaddons_dir, root, dry_run, audit_path)` -- Update every opted-in addon or an explicit name list.
 
 
 Next: [API_p10.md](API_p10.md)

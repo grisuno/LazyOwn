@@ -1,6 +1,15 @@
 # API (page 5 of 28)
 Previous: [API_p4.md](API_p4.md)
 
+## cli/palette_graph.py
+Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
+- `load_graph` (function) `cli/palette_graph.py:127` `def load_graph(path)` -- Return the parsed graph index, cached per resolved path.
+- `safe_load_graph` (function) `cli/palette_graph.py:149` `def safe_load_graph(path)` -- Best-effort variant of :func:`load_graph`.
+- `callees` (function) `cli/palette_graph.py:179` `def callees(graph, command_name)` -- Return helper-function labels invoked by ``command_name``.
+- `related_commands` (function) `cli/palette_graph.py:226` `def related_commands(graph, command_name)` -- Return ``do_*`` commands that share helper functions with this one.
+- `enrich_detail` (function) `cli/palette_graph.py:287` `def enrich_detail(graph, entry)` -- Attach ``calls`` and ``related`` lists to a palette detail entry.
+- `enrich_commands` (function) `cli/palette_graph.py:309` `def enrich_commands(graph, rows)` -- Enrich every entry of ``rows`` with neighbour data.
+
 ## cli/palette_overlay.py
 Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
 Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
@@ -480,15 +489,6 @@ Imported by: `modules/llm_adapter.py`, `tests/test_c2_surfaces.py`
 - `parse_arguments` (function) `contrib/legacy/lazyftpsniff.py:42` `def parse_arguments()`
 - `sniffer_ftp` (function) `contrib/legacy/lazyftpsniff.py:56` `def sniffer_ftp(pkt)`
 - `main` (function) `contrib/legacy/lazyftpsniff.py:69` `def main()`
-
-## contrib/legacy/lazygalazy.py
-Depends on: `modules/backdoor/server.c`
-- `SamsungKnoxExploitServer.do_GET` (method) `contrib/legacy/lazygalazy.py:11` `def do_GET(self)`
-- `SamsungKnoxExploitServer.apk_bytes` (method) `contrib/legacy/lazygalazy.py:33` `def apk_bytes(self)`
-- `SamsungKnoxExploitServer.launch_html` (method) `contrib/legacy/lazygalazy.py:36` `def launch_html(self)`
-- `SamsungKnoxExploitServer.exploit_js` (method) `contrib/legacy/lazygalazy.py:49` `def exploit_js(self)`
-- `SamsungKnoxExploitServer.rand_word` (method) `contrib/legacy/lazygalazy.py:93` `def rand_word(self)`
-- `main` (function) `contrib/legacy/lazygalazy.py:97` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

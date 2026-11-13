@@ -61,7 +61,7 @@ flowchart LR
 
 ### `RedTeamGymCommandSet`
 
-`class` | [cli/commands/redteam_gym.py:33](../../cli/commands/redteam_gym.py#L33)
+`class` | [cli/commands/redteam_gym.py:34](../../cli/commands/redteam_gym.py#L34)
 
 ```python
 class RedTeamGymCommandSet(LazyOwnCommandSet)
@@ -89,7 +89,7 @@ Red Team Gym — scored pentest challenges with leaderboards.
 
 #### `RedTeamGymCommandSet.do_gym`
 
-`method` | [cli/commands/redteam_gym.py:40](../../cli/commands/redteam_gym.py#L40)
+`method` | [cli/commands/redteam_gym.py:41](../../cli/commands/redteam_gym.py#L41)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -105,6 +105,10 @@ Usage:
     gym status [run_id]                   - list active gyms or inspect one
     gym stop [run_id|gym_id|name]         - stop one gym; no argument stops all
     gym submit [run_id] [--failed] [--techniques t1,t2,...]
+    gym collect [scenario] [--target IP] [--json] - sweep the whole gym
+        catalogue (metasploitable|ad_lab|winbox), re-verify every
+        not-yet-captured vector against sessions/ evidence and score
+        them in one scoreboard (sessions/ctf/scoreboard.json)
     gym leaderboard|top [top_n]           - show top players
     gym hint [run_id]                     - hint for an active gym
 
@@ -127,6 +131,7 @@ gym status
 gym status gym0001
 gym stop
 gym submit gym0001 --techniques sqli_manual,csrf_bypass
+gym collect metasploitable --target 172.17.0.2
 gym leaderboard 10
 ```
 
@@ -136,7 +141,7 @@ gym leaderboard 10
 
 #### `RedTeamGymCommandSet.do_gym_ms2`
 
-`method` | [cli/commands/redteam_gym.py:92](../../cli/commands/redteam_gym.py#L92)
+`method` | [cli/commands/redteam_gym.py:138](../../cli/commands/redteam_gym.py#L138)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

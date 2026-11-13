@@ -1190,7 +1190,18 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"session encryption failed: {exc}")
 
     def _run_gym_cleanup(self) -> None:
-        """Stop every running gym lab and range machine on any exit path."""
+        """Stop gym lab and range machines on interactive shell exit.
+
+        Headless and autonomous processes never stop gym machines: the
+        dashboard loop subprocess and ``-c`` runs are transient — their
+        exit must not tear down a lab a later run needs.
+        """
+        import os as _os
+
+        if _os.environ.get("LAZYOWN_AUTONOMOUS", "") == "1":
+            return
+        if startup_ns.command or startup_ns.run_chain:
+            return
         try:
             from modules.gym_cleanup import cleanup_gym_machines
 

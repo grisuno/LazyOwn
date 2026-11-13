@@ -19,7 +19,7 @@ Design constraints honoured here:
 * Open / Closed: new fields are added by registering another
   [`IStatusSource`](#istatussource), never by editing the renderer.
 * Liskov: every source returns a ``str`` of bounded width.
-* Interface Segregation: the source protocol exposes only `[`collect`](#istatussource-collect)`.
+* Interface Segregation: the source protocol exposes only `[`collect`](modules.ctf_signalman.py.md#collect)`.
 * Dependency Inversion: [`StatusBarManager`](#statusbarmanager) depends on the
   abstractions, never on `[`LazyOwnShell`](lazyown.py.md#lazyownshell)` or ``cmd2`` directly.
 * No magic numbers / hardcoded paths: every default lives in

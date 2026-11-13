@@ -191,7 +191,7 @@ Apply all configured mutation passes to shellcode.
 
 **Returns:** `bytes` - Mutated shellcode bytes.
 
-*Called by:* [`PayloadArsenalCommandSet.do_polymorphic`](cli.commands.payload_arsenal.py.md#payloadarsenalcommandset-do_polymorphic)
+*Called by:* [`PayloadArsenalCommandSet.do_polymorphic`](cli.commands.payload_arsenal.py.md#payloadarsenalcommandset-do_polymorphic), [`update_json`](core.atomic_store.py.md#update_json)
 
 <a id="polymorphicengine-decode_xor"></a>
 

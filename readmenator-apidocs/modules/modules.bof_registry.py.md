@@ -607,8 +607,6 @@ Return the directory bound to this store.
 
 **Returns:** `Path`
 
-*Called by:* [`ask_existing_path_action`](bootstrap.sh.md#ask_existing_path_action), [`ask_new_dir`](bootstrap.sh.md#ask_new_dir)
-
 <a id="bofyamlstore-load_entries"></a>
 
 #### `BofYamlStore.load_entries`
@@ -649,7 +647,7 @@ Build a [`BofCatalog`](#bofcatalog) from the YAML configuration files.
 
 ### `BofValidator`
 
-`class` | [modules/bof_registry.py:473](../../modules/bof_registry.py#L473)
+`class` | [modules/bof_registry.py:474](../../modules/bof_registry.py#L474)
 
 ```python
 class BofValidator
@@ -673,7 +671,7 @@ required arguments are supplied.
 
 #### `BofValidator.compute_sha256`
 
-`staticmethod` | [modules/bof_registry.py:482](../../modules/bof_registry.py#L482)
+`staticmethod` | [modules/bof_registry.py:483](../../modules/bof_registry.py#L483)
 
 Decorators: `@staticmethod`
 
@@ -697,7 +695,7 @@ Compute the SHA-256 hash of a file.
 
 #### `BofValidator.verify_entry`
 
-`staticmethod` | [modules/bof_registry.py:491](../../modules/bof_registry.py#L491)
+`staticmethod` | [modules/bof_registry.py:492](../../modules/bof_registry.py#L492)
 
 Decorators: `@staticmethod`
 
@@ -725,7 +723,7 @@ skipped with an informational message.
 
 #### `BofValidator.validate_args`
 
-`staticmethod` | [modules/bof_registry.py:507](../../modules/bof_registry.py#L507)
+`staticmethod` | [modules/bof_registry.py:508](../../modules/bof_registry.py#L508)
 
 Decorators: `@staticmethod`
 
@@ -752,7 +750,7 @@ Returns a list of missing argument names (empty = valid).
 
 ### `BofRegistry`
 
-`class` | [modules/bof_registry.py:519](../../modules/bof_registry.py#L519)
+`class` | [modules/bof_registry.py:520](../../modules/bof_registry.py#L520)
 
 ```python
 class BofRegistry
@@ -779,7 +777,7 @@ installation timestamp, BOF version, and source URL.
 
 #### `BofRegistry.__init__`
 
-`constructor` | [modules/bof_registry.py:526](../../modules/bof_registry.py#L526)
+`constructor` | [modules/bof_registry.py:527](../../modules/bof_registry.py#L527)
 
 ```python
 def __init__(self, sessions_dir: str | Path) -> None
@@ -797,7 +795,7 @@ def __init__(self, sessions_dir: str | Path) -> None
 
 #### `BofRegistry.install_dir`
 
-`property` | [modules/bof_registry.py:532](../../modules/bof_registry.py#L532)
+`property` | [modules/bof_registry.py:533](../../modules/bof_registry.py#L533)
 
 Decorators: `@property`
 
@@ -813,7 +811,7 @@ Return the BOF installation directory.
 
 #### `BofRegistry.is_installed`
 
-`method` | [modules/bof_registry.py:552](../../modules/bof_registry.py#L552)
+`method` | [modules/bof_registry.py:553](../../modules/bof_registry.py#L553)
 
 ```python
 def is_installed(self, name: str) -> bool
@@ -835,7 +833,7 @@ Return True if a BOF is installed.
 
 #### `BofRegistry.install`
 
-`method` | [modules/bof_registry.py:557](../../modules/bof_registry.py#L557)
+`method` | [modules/bof_registry.py:558](../../modules/bof_registry.py#L558)
 
 ```python
 def install(self, entry: BofEntry) -> Path
@@ -859,7 +857,7 @@ Returns the install directory for this BOF.
 
 #### `BofRegistry.uninstall`
 
-`method` | [modules/bof_registry.py:578](../../modules/bof_registry.py#L578)
+`method` | [modules/bof_registry.py:579](../../modules/bof_registry.py#L579)
 
 ```python
 def uninstall(self, name: str, remove_files: bool = True) -> bool
@@ -884,7 +882,7 @@ Returns True if the BOF was installed and successfully removed.
 
 #### `BofRegistry.list_installed`
 
-`method` | [modules/bof_registry.py:595](../../modules/bof_registry.py#L595)
+`method` | [modules/bof_registry.py:596](../../modules/bof_registry.py#L596)
 
 ```python
 def list_installed(self) -> list[dict[str, Any]]
@@ -900,7 +898,7 @@ Return a list of all installed BOFs with metadata.
 
 #### `BofRegistry.get_install_info`
 
-`method` | [modules/bof_registry.py:600](../../modules/bof_registry.py#L600)
+`method` | [modules/bof_registry.py:601](../../modules/bof_registry.py#L601)
 
 ```python
 def get_install_info(self, name: str) -> dict[str, Any] | None
@@ -924,7 +922,7 @@ Return installation metadata for a BOF, or None if not installed.
 
 ### `BofMarketplace`
 
-`class` | [modules/bof_registry.py:606](../../modules/bof_registry.py#L606)
+`class` | [modules/bof_registry.py:607](../../modules/bof_registry.py#L607)
 
 ```python
 class BofMarketplace
@@ -954,7 +952,7 @@ state) to provide search/install/uninstall/info operations.
 
 #### `BofMarketplace.__init__`
 
-`constructor` | [modules/bof_registry.py:618](../../modules/bof_registry.py#L618)
+`constructor` | [modules/bof_registry.py:619](../../modules/bof_registry.py#L619)
 
 ```python
 def __init__(self, sessions_dir: str | Path = 'sessions', catalog: BofCatalog | None = None) -> None
@@ -975,7 +973,7 @@ def __init__(self, sessions_dir: str | Path = 'sessions', catalog: BofCatalog | 
 
 #### `BofMarketplace.catalog`
 
-`property` | [modules/bof_registry.py:629](../../modules/bof_registry.py#L629)
+`property` | [modules/bof_registry.py:630](../../modules/bof_registry.py#L630)
 
 Decorators: `@property`
 
@@ -991,7 +989,7 @@ Return the catalog.
 
 #### `BofMarketplace.registry`
 
-`property` | [modules/bof_registry.py:634](../../modules/bof_registry.py#L634)
+`property` | [modules/bof_registry.py:635](../../modules/bof_registry.py#L635)
 
 Decorators: `@property`
 
@@ -1007,7 +1005,7 @@ Return the registry.
 
 #### `BofMarketplace.search`
 
-`method` | [modules/bof_registry.py:638](../../modules/bof_registry.py#L638)
+`method` | [modules/bof_registry.py:639](../../modules/bof_registry.py#L639)
 
 ```python
 def search(self, query: str) -> list[dict[str, Any]]
@@ -1031,7 +1029,7 @@ Search the catalog and return enriched results with install status.
 
 #### `BofMarketplace.info`
 
-`method` | [modules/bof_registry.py:657](../../modules/bof_registry.py#L657)
+`method` | [modules/bof_registry.py:658](../../modules/bof_registry.py#L658)
 
 ```python
 def info(self, name: str) -> dict[str, Any]
@@ -1058,7 +1056,7 @@ Returns a dict with 'error' key if not found.
 
 #### `BofMarketplace.install`
 
-`method` | [modules/bof_registry.py:674](../../modules/bof_registry.py#L674)
+`method` | [modules/bof_registry.py:675](../../modules/bof_registry.py#L675)
 
 ```python
 def install(self, name: str) -> dict[str, Any]
@@ -1089,7 +1087,7 @@ Returns a dict with status information.
 
 #### `BofMarketplace.uninstall`
 
-`method` | [modules/bof_registry.py:703](../../modules/bof_registry.py#L703)
+`method` | [modules/bof_registry.py:704](../../modules/bof_registry.py#L704)
 
 ```python
 def uninstall(self, name: str) -> dict[str, Any]
@@ -1115,7 +1113,7 @@ Returns a dict with uninstall status.
 
 #### `BofMarketplace.list_installed`
 
-`method` | [modules/bof_registry.py:716](../../modules/bof_registry.py#L716)
+`method` | [modules/bof_registry.py:717](../../modules/bof_registry.py#L717)
 
 ```python
 def list_installed(self) -> list[dict[str, Any]]
@@ -1133,7 +1131,7 @@ List all installed BOFs with catalog enrichment.
 
 #### `BofMarketplace.list_missing_dependencies`
 
-`method` | [modules/bof_registry.py:728](../../modules/bof_registry.py#L728)
+`method` | [modules/bof_registry.py:729](../../modules/bof_registry.py#L729)
 
 ```python
 def list_missing_dependencies(self, name: str) -> list[str]
@@ -1155,7 +1153,7 @@ Return a list of dependencies for a BOF that are not installed.
 
 #### `BofMarketplace.bulk_install`
 
-`method` | [modules/bof_registry.py:736](../../modules/bof_registry.py#L736)
+`method` | [modules/bof_registry.py:737](../../modules/bof_registry.py#L737)
 
 ```python
 def bulk_install(self, names: list[str]) -> dict[str, dict[str, Any]]
@@ -1309,7 +1307,8 @@ def stage_entry_bof(entry: BofEntry, sessions_dir: str | Path = 'sessions') -> s
 Stage a compiled BOF object for beacon delivery.
 
 Copies the resolved artifact to ``<sessions>/temp_uploads/bofs/<name>``
-where the C2 ``/download/bofs/<name>`` endpoint serves it to beacons.
+where the C2 ``/bof/<name>`` endpoint serves it to beacons (raw
+base64 object, the upstream wire format).
 
 **Parameters**
 

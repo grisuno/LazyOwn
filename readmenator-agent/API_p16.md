@@ -233,31 +233,31 @@ Imported by: `cli/commands/containers.py`
 ## modules/lazynmap.sh
 - `cleanup` (function) `modules/lazynmap.sh:29`
 - `ctrl_c` (function) `modules/lazynmap.sh:38`
-- `fix_sessions_owner` (function) `modules/lazynmap.sh:74` -- Best-effort ownership fixup: scans run under sudo leave root-owned files behind, and only root can chown those.
-- `nmaptest` (function) `modules/lazynmap.sh:129`
-- `discover_network` (function) `modules/lazynmap.sh:149`
-- `extract_ports_info` (function) `modules/lazynmap.sh:818`
-- `run_nmap_script` (function) `modules/lazynmap.sh:844`
-- `print_row` (function) `modules/lazynmap.sh:877`
+- `fix_sessions_owner` (function) `modules/lazynmap.sh:93` -- Best-effort ownership fixup: scans run under sudo leave root-owned files behind, and only root can chown those.
+- `nmaptest` (function) `modules/lazynmap.sh:148`
+- `discover_network` (function) `modules/lazynmap.sh:168`
+- `extract_ports_info` (function) `modules/lazynmap.sh:837`
+- `run_nmap_script` (function) `modules/lazynmap.sh:863`
+- `print_row` (function) `modules/lazynmap.sh:896`
 
 ## modules/lazyown_bprfuzzer.py
-Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
-- `load_headers_from_file` (function) `modules/lazyown_bprfuzzer.py:93` `def load_headers_from_file(file_path)`
-- `load_data_from_file` (function) `modules/lazyown_bprfuzzer.py:99` `def load_data_from_file(file_path)`
-- `signal_handler` (function) `modules/lazyown_bprfuzzer.py:105` `def signal_handler(sig, frame)`
-- `ProxyHandler.do_GET` (method) `modules/lazyown_bprfuzzer.py:115` `def do_GET(self)`
-- `ProxyHandler.do_POST` (method) `modules/lazyown_bprfuzzer.py:118` `def do_POST(self)`
-- `run_proxy` (function) `modules/lazyown_bprfuzzer.py:162` `def run_proxy(port)`
-- `edit_file_with_nano` (function) `modules/lazyown_bprfuzzer.py:169` `def edit_file_with_nano(content)`
-- `send_request` (function) `modules/lazyown_bprfuzzer.py:179` `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` -- Envía una solicitud HTTP y devuelve la respuesta.
-- `repeater` (function) `modules/lazyown_bprfuzzer.py:203` `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` -- Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con posibilidad de modificación.
-- `lazyfuzz` (function) `modules/lazyown_bprfuzzer.py:233` `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` -- Funcionalidad de fuzzing que reemplaza LAZYFUZZ con palabras de una wordlist.
-- `parse_arguments` (function) `modules/lazyown_bprfuzzer.py:278` `def parse_arguments()` -- Parsear los argumentos de la línea de comandos.
-- `main` (function) `modules/lazyown_bprfuzzer.py:302` `def main()`
+Depends on: `modules/backdoor/server.c`, `modules/browser_sync.py`, `modules/security_sanitizers.py`
+- `load_headers_from_file` (function) `modules/lazyown_bprfuzzer.py:94` `def load_headers_from_file(file_path)`
+- `load_data_from_file` (function) `modules/lazyown_bprfuzzer.py:100` `def load_data_from_file(file_path)`
+- `signal_handler` (function) `modules/lazyown_bprfuzzer.py:106` `def signal_handler(sig, frame)`
+- `ProxyHandler.do_GET` (method) `modules/lazyown_bprfuzzer.py:116` `def do_GET(self)`
+- `ProxyHandler.do_POST` (method) `modules/lazyown_bprfuzzer.py:119` `def do_POST(self)`
+- `run_proxy` (function) `modules/lazyown_bprfuzzer.py:167` `def run_proxy(port)`
+- `edit_file_with_nano` (function) `modules/lazyown_bprfuzzer.py:174` `def edit_file_with_nano(content)`
+- `send_request` (function) `modules/lazyown_bprfuzzer.py:184` `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` -- Envía una solicitud HTTP y devuelve la respuesta.
+- `repeater` (function) `modules/lazyown_bprfuzzer.py:220` `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` -- Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con posibilidad de modificación.
+- `lazyfuzz` (function) `modules/lazyown_bprfuzzer.py:250` `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` -- Funcionalidad de fuzzing que reemplaza LAZYFUZZ con palabras de una wordlist.
+- `parse_arguments` (function) `modules/lazyown_bprfuzzer.py:295` `def parse_arguments()` -- Parsear los argumentos de la línea de comandos.
+- `main` (function) `modules/lazyown_bprfuzzer.py:319` `def main()`
 
 ## modules/lazyown_bridge.py
 Depends on: `modules/killchain.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+Imported by: `modules/selection/bridge.py`, `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`, `tests/test_selection_bridge.py`, `tests/test_selectors_base.py`
 - `CatalogEntry.build_command` (method) `modules/lazyown_bridge.py:63` `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` -- Return 'command [args]' with known values substituted.
 - `CatalogEntry.matches_service` (method) `modules/lazyown_bridge.py:94` `def matches_service(self, services)`
 - `CatalogEntry.matches_os` (method) `modules/lazyown_bridge.py:104` `def matches_os(self, os_hint)`
@@ -463,7 +463,7 @@ Imported by: `skills/mcp_tools/eval_quality.py`, `tests/test_core_modules.py`
 
 ## modules/llm_factory.py
 Depends on: `core/llm_budget.py`, `core/llm_key_pool.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
-Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
+Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/sidequest.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
 - `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
 - `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
 - `default_model_for` (function) `modules/llm_factory.py:224` `def default_model_for(backend)` -- Return the default model identifier for a backend.
@@ -475,7 +475,7 @@ Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.
 - `get_llm_backend_raw` (function) `modules/llm_factory.py:772` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
 - `try_get_llm_backend` (function) `modules/llm_factory.py:794` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
 - `stream_complete` (function) `modules/llm_factory.py:871` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
-- `complete` (function) `modules/llm_factory.py:942` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+- `complete` (function) `modules/llm_factory.py:942` `def complete(model, prompt, max_tokens, temperature)` -- Complete a prompt through one model spec; raise when unanswered.
 
 ## modules/llm_orchestrator.py
 Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`

@@ -76,7 +76,36 @@
   - `is_exempt` (method, line 147) `def is_exempt(self, path)`
   - `extract_token` (method, line 163) `def extract_token(self, request)`
   - `check_request` (method, line 182) `def check_request(self, session_id, request)`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/addons.py`, `tests/test_csrf_behavior.py`, `tests/test_csrf_policy.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/addons.py`, `lazyc2/security/csrf_flow.py`, `tests/test_csrf_behavior.py`, `tests/test_csrf_cookie_flags.py`, `tests/test_csrf_flow_e2e.py`, `tests/test_csrf_policy.py`
+
+## lazyc2/security/csrf_flow.py
+- Doc: End-to-end CSRF token flow for the LazyOwn C2 web layer.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `ensure_session_key` (function, line 42) `def ensure_session_key(session)`
+  - `request_session_id` (function, line 58) `def request_session_id(policy, request, session)`
+  - `make_csrf_protect` (function, line 81) `def make_csrf_protect(policy, enabled_fn, basic_authenticated_fn)`
+  - `register_csrf_flow` (function, line 116) `def register_csrf_flow(app, policy, enabled_fn, secure_fn)`
+  - `token_cookie_name` (function, line 192) `def token_cookie_name()`
+  - `csrf_protect` (function, line 99) `def csrf_protect(view)`
+  - `_cookie_secure` (function, line 137) `def _cookie_secure()`
+  - `_prepare_csrf_token` (function, line 147) `def _prepare_csrf_token()`
+  - `_attach_csrf_cookies` (function, line 161) `def _attach_csrf_cookies(response)`
+  - `_inject_csrf_token` (function, line 188) `def _inject_csrf_token()`
+  - `wrapper` (function, line 101) `def wrapper()`
+- Depends on: `lazyc2/security/csrf.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/gym.py`, `tests/test_csrf_cookie_flags.py`, `tests/test_csrf_flow_e2e.py`
+
+## lazyc2/security/health.py
+- Doc: Health report assembly for the LazyOwn C2 web layer.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `gather_health` (function, line 20) `def gather_health(probes, on_error)`
+  - `build_health_report` (function, line 46) `def build_health_report(checks, detailed, daemon_status)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `tests/test_health_report.py`
 
 ## lazyc2/security/html_sanitizer.py
 - Doc: HTML sanitizer backed by ``bleach`` for the LazyOwn C2 web layer.

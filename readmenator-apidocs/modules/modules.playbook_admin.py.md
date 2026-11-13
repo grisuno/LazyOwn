@@ -375,7 +375,7 @@ Validate and atomically rewrite one playbook.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `path` | `Path \| str` |  | Existing file path or file name inside `[`directory`](modules.bof_registry.py.md#bofyamlstore-directory)`. |
+| `path` | `Path \| str` |  | Existing file path or file name inside ``directory``. |
 | `data` | `dict[str, Any]` |  | New mapping. |
 | `directory` | `Path \| str \| None` | `None` | Override for tests. |
 

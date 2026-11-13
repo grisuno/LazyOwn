@@ -1,6 +1,22 @@
 # Subsystem: commands (page 2 of 5)
 Previous: [KB_commands.md](KB_commands.md)
 
+## cli/commands/daemon_ctl.py
+- Doc: Autonomous daemon control extracted from the miscellaneous cluster.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DaemonControlCommandSet` (class, line 17) `class DaemonControlCommandSet(LazyOwnCommandSet)`
+  - `do_daemon_mode` (method, line 24) `def do_daemon_mode(self, line)`
+  - `do_daemon_pause` (method, line 63) `def do_daemon_pause(self, line)`
+  - `do_daemon_resume` (method, line 82) `def do_daemon_resume(self, line)`
+  - `do_daemon_veto` (method, line 97) `def do_daemon_veto(self, line)`
+  - `do_daemon_focus` (method, line 141) `def do_daemon_focus(self, line)`
+  - `do_daemon_approve` (method, line 175) `def do_daemon_approve(self, line)`
+  - `do_gatecheck` (method, line 224) `def do_gatecheck(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/goals.py`, `modules/intercept.py`, `skills/daemon_control.py`, `utils.py`
+- Imported by: `tests/test_daemon_ctl_command_set.py`
+
 ## cli/commands/database.py
 - Doc: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and...
 - Layer: data_access

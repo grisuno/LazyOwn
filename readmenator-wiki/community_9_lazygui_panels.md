@@ -100,14 +100,14 @@ This community groups 54 file(s) rooted at `lazygui/panels` with dominant langua
 - `WindowConstants` (class, `lazygui/config/constants.py:18`) `class WindowConstants` - Geometry defaults for top-level windows.
 - `TimingConstants` (class, `lazygui/config/constants.py:34`) `class TimingConstants` - Timer intervals expressed in milliseconds.
 - `NetworkConstants` (class, `lazygui/config/constants.py:48`) `class NetworkConstants` - Defaults for HTTP and WebSocket clients.
-- `PtyConstants` (class, `lazygui/config/constants.py:86`) `class PtyConstants` - Tunables for the local PTY backend.
-- `FontConstants` (class, `lazygui/config/constants.py:99`) `class FontConstants` - Font family fallbacks (theme tokens decide colours and sizes).
-- `KeybindingConstants` (class, `lazygui/config/constants.py:124`) `class KeybindingConstants` - Application-wide keyboard shortcuts in Qt sequence notation.
-- `IdentifierConstants` (class, `lazygui/config/constants.py:142`) `class IdentifierConstants` - Stable string identifiers for object names and settings keys.
-- `ThemeConstants` (class, `lazygui/config/constants.py:161`) `class ThemeConstants` - Constants relevant to theme registration.
-- `BackendConstants` (class, `lazygui/config/constants.py:176`) `class BackendConstants` - Identifiers for the available backend implementations.
-- `PanelConstants` (class, `lazygui/config/constants.py:185`) `class PanelConstants` - Identifiers and labels for dockable panels.
-- `EventLogConstants` (class, `lazygui/config/constants.py:205`) `class EventLogConstants` - Bounds for the event-log ring buffer.
+- `PtyConstants` (class, `lazygui/config/constants.py:88`) `class PtyConstants` - Tunables for the local PTY backend.
+- `FontConstants` (class, `lazygui/config/constants.py:101`) `class FontConstants` - Font family fallbacks (theme tokens decide colours and sizes).
+- `KeybindingConstants` (class, `lazygui/config/constants.py:126`) `class KeybindingConstants` - Application-wide keyboard shortcuts in Qt sequence notation.
+- `IdentifierConstants` (class, `lazygui/config/constants.py:144`) `class IdentifierConstants` - Stable string identifiers for object names and settings keys.
+- `ThemeConstants` (class, `lazygui/config/constants.py:163`) `class ThemeConstants` - Constants relevant to theme registration.
+- `BackendConstants` (class, `lazygui/config/constants.py:178`) `class BackendConstants` - Identifiers for the available backend implementations.
+- `PanelConstants` (class, `lazygui/config/constants.py:187`) `class PanelConstants` - Identifiers and labels for dockable panels.
+- `EventLogConstants` (class, `lazygui/config/constants.py:207`) `class EventLogConstants` - Bounds for the event-log ring buffer.
 
 ## Internal vs External Edges
 

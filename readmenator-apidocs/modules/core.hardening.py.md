@@ -457,6 +457,8 @@ Parse XML safely using defusedxml.
 - `ImportError`: If defusedxml is not installed.
 - `ValueError`: If XML parsing fails.
 
+*Called by:* [`parse_nmap_services`](modules.scan_brief.py.md#parse_nmap_services)
+
 ---
 
 <a id="sanitize_filename"></a>

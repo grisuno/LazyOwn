@@ -219,7 +219,10 @@ Return the ``(name, reason)`` of the best matching chain, or None.
 | `ttl` | `float` | `_DEFAULT_TTL` | Cache TTL seconds when ``rows`` is None. |
 
 **Returns:** `tuple[str, str] | None` - The highest-scoring eligible chain as ``(name, reason)``, or None when
-the phase is non-strategic or nothing scores on a service match.
+the phase is non-strategic or nothing scores on a service match. A
+score tie is broken by chain name ascending, so the winner is
+independent of registry row order and the same state always picks the
+same chain.
 
 *Calls:* [`load_rows`](#load_rows), [`normalize_tags`](#normalize_tags), [`platform_ok`](#platform_ok), [`score`](#score), [`service_tokens`](#service_tokens)
 

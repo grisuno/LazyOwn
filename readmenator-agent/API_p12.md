@@ -1,6 +1,126 @@
 # API (page 12 of 28)
 Previous: [API_p11.md](API_p11.md)
 
+## modules/ctf_capture.py
+Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+Imported by: `tests/test_ctf_signalman.py`
+- `output_dir` (function) `modules/ctf_capture.py:40` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
+- `capture` (function) `modules/ctf_capture.py:245` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
+- `record_path` (function) `modules/ctf_capture.py:333` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
+- `store_record` (function) `modules/ctf_capture.py:359` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
+- `list_records` (function) `modules/ctf_capture.py:377` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
+- `summary` (function) `modules/ctf_capture.py:400` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
+
+## modules/ctf_signalman.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/redteam_gym.py`, `tests/test_ctf_signalman.py`
+- `catalogue_for` (function) `modules/ctf_signalman.py:53` `def catalogue_for(scenario)` -- Resolve one gym scenario into its vectors and lookup callable.
+- `collect` (function) `modules/ctf_signalman.py:106` `def collect(scenario, target, sessions_dir, search_bases)` -- Sweep the whole gym scenario and score every vector in one pass.
+- `render_scoreboard` (function) `modules/ctf_signalman.py:166` `def render_scoreboard(report)` -- Render the collect report as a compact scoreboard.
+- `save_scoreboard` (function) `modules/ctf_signalman.py:193` `def save_scoreboard(report, sessions_dir)` -- Persist the scoreboard next to the CTF records.
+
+## modules/custom_tools.py
+Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
+- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
+- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
+- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
+- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
+- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
+- `run_tool` (function) `modules/custom_tools.py:151` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
+
+## modules/cve_matcher.py
+Depends on: `core/logging.py`
+Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
+- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
+- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
+- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
+- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
+- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
+
+## modules/dacl_abuse.py
+Imported by: `cli/commands/active_directory.py`
+- `DACLAbuseEngine.__init__` (method) `modules/dacl_abuse.py:136` `def __init__(self, domain, domain_sid, acl_data)`
+- `DACLAbuseEngine.parse_bloodhound_acls` (method) `modules/dacl_abuse.py:143` `def parse_bloodhound_acls(self, edges)` -- Parse BloodHound edge data to extract exploitable ACLs.
+- `DACLAbuseEngine.parse_raw_aces` (method) `modules/dacl_abuse.py:182` `def parse_raw_aces(self, raw_nthashes)` -- Parse raw ACE data from ntSecurityDescriptor parsing.
+- `DACLAbuseEngine.compute_attack_chains` (method) `modules/dacl_abuse.py:224` `def compute_attack_chains(self)` -- Generate exploitation plans for all discovered ACL targets.
+- `DACLAbuseEngine.adminsdholder_abuse_plan` (method) `modules/dacl_abuse.py:291` `def adminsdholder_abuse_plan(self, target_sid)` -- Generate an AdminSDHolder abuse plan.
+- `DACLAbuseEngine.dcsync_rights_assignment_plan` (method) `modules/dacl_abuse.py:318` `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` -- Generate a DCSync rights assignment plan.
+- `DACLAbuseEngine.owner_takeover_plan` (method) `modules/dacl_abuse.py:348` `def owner_takeover_plan(self, target_dn, attacker_sid)` -- Generate an ownership takeover plan.
+- `DACLAbuseEngine.summary` (method) `modules/dacl_abuse.py:418` `def summary(self)` -- Return a summary of all DACL/SACL abuse findings.
+
+## modules/dashboard_bp.py
+Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
+- `dashboard_index` (function) `modules/dashboard_bp.py:778` `def dashboard_index()` -- Render the main SOC dashboard HTML page.
+- `dashboard_api_data` (function) `modules/dashboard_bp.py:784` `def dashboard_api_data()` -- JSON snapshot of all dashboard data.
+- `dashboard_loot` (function) `modules/dashboard_bp.py:902` `def dashboard_loot()` -- Render the loot browser: captured credentials, hashes and files.
+- `dashboard_timeline` (function) `modules/dashboard_bp.py:1017` `def dashboard_timeline()` -- Render the campaign timeline: commands and events, newest first.
+
+## modules/dashboard_engine.py
+Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
+- `DashboardEngine.__init__` (method) `modules/dashboard_engine.py:139` `def __init__(self, world_model)`
+- `DashboardEngine.set_world_model` (method) `modules/dashboard_engine.py:148` `def set_world_model(self, model)`
+- `DashboardEngine.set_exploit_recommender` (method) `modules/dashboard_engine.py:151` `def set_exploit_recommender(self, recommender)`
+- `DashboardEngine.set_auto_pivot` (method) `modules/dashboard_engine.py:154` `def set_auto_pivot(self, pivot)`
+- `DashboardEngine.set_evasion_engine` (method) `modules/dashboard_engine.py:157` `def set_evasion_engine(self, evasion)`
+- `DashboardEngine.build_snapshot` (method) `modules/dashboard_engine.py:160` `def build_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
+- `DashboardEngine.render_text_map` (method) `modules/dashboard_engine.py:276` `def render_text_map(self, snapshot)` -- Render a text-based network map from a dashboard snapshot.
+- `DashboardEngine.render_ascii_topology` (method) `modules/dashboard_engine.py:358` `def render_ascii_topology(self, snapshot)` -- Render an ASCII-art topology tree from a snapshot.
+- `DashboardEngine.export_json` (method) `modules/dashboard_engine.py:408` `def export_json(self, snapshot)` -- Export dashboard snapshot as JSON string.
+- `DashboardEngine.persist_snapshot` (method) `modules/dashboard_engine.py:421` `def persist_snapshot(self, snapshot)` -- Persist dashboard snapshot to sessions/dashboard_snapshot.json.
+- `DashboardEngine.format_for_cli` (method) `modules/dashboard_engine.py:438` `def format_for_cli(self, snapshot)` -- Compact single-line status for CLI prompt integration.
+
+## modules/db.py
+Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
+- `LazyOwnDB.__init__` (method) `modules/db.py:159` `def __init__(self, db_path)`
+- `LazyOwnDB.db_path` (method) `modules/db.py:182` `def db_path(self)` -- Path to the SQLite database file.
+- `LazyOwnDB.migration_status` (method) `modules/db.py:222` `def migration_status(self)` -- Return the current and latest migration versions.
+- `LazyOwnDB.workspace_create` (method) `modules/db.py:292` `def workspace_create(self, name, description)` -- Create a new workspace.
+- `LazyOwnDB.workspace_list` (method) `modules/db.py:307` `def workspace_list(self)` -- Return all workspaces as dicts.
+- `LazyOwnDB.workspace_get` (method) `modules/db.py:313` `def workspace_get(self, name)` -- Get a workspace by name, or None.
+- `LazyOwnDB.default_workspace` (method) `modules/db.py:320` `def default_workspace(self, name)` -- Return the id of the named workspace, creating it when absent.
+- `LazyOwnDB.workspace_delete` (method) `modules/db.py:333` `def workspace_delete(self, name)` -- Delete a workspace and all its data.
+- `LazyOwnDB.host_add` (method) `modules/db.py:357` `def host_add(self, workspace_id, address, mac, hostname, os, state)` -- Add or update a host.
+- `LazyOwnDB.host_delete` (method) `modules/db.py:390` `def host_delete(self, host_id)` -- Delete a host and its related data.
+- `LazyOwnDB.host_list` (method) `modules/db.py:401` `def host_list(self, workspace_id)` -- List all hosts in a workspace.
+- `LazyOwnDB.host_find` (method) `modules/db.py:410` `def host_find(self, workspace_id, query)` -- Search hosts by address, hostname, or os.
+- `LazyOwnDB.service_add` (method) `modules/db.py:427` `def service_add(self, host_id, port, protocol, state, name, product, version)` -- Add a service to a host.
+- `LazyOwnDB.service_list` (method) `modules/db.py:447` `def service_list(self, host_id)` -- List all services on a host.
+- `LazyOwnDB.vuln_add` (method) `modules/db.py:460` `def vuln_add(self, host_id, name, severity, description, refs)` -- Add a vulnerability to a host.
+- `LazyOwnDB.vuln_get` (method) `modules/db.py:478` `def vuln_get(self, vuln_id)` -- Return one vuln row with its host address, or None.
+- `LazyOwnDB.vuln_update` (method) `modules/db.py:490` `def vuln_update(self, vuln_id, refs, severity, description)` -- Update mutable vuln fields; returns True when a row changed.
+- `LazyOwnDB.vuln_list` (method) `modules/db.py:528` `def vuln_list(self, workspace_id, severity)` -- List vulns in workspace, optionally filtered by severity.
+- `LazyOwnDB.cred_add` (method) `modules/db.py:557` `def cred_add(self, host_id, username, password, realm, cred_type, origin)` -- Add a credential (password encrypted at rest).
+- `LazyOwnDB.cred_list` (method) `modules/db.py:577` `def cred_list(self, workspace_id)` -- List all creds in workspace (passwords decrypted).
+- `LazyOwnDB.loot_add` (method) `modules/db.py:596` `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` -- Add a loot entry.
+- `LazyOwnDB.loot_list` (method) `modules/db.py:615` `def loot_list(self, workspace_id)` -- List all loot in workspace.
+- `LazyOwnDB.note_add` (method) `modules/db.py:631` `def note_add(self, workspace_id, data, note_type, host_id)` -- Add a note.
+- `LazyOwnDB.note_list` (method) `modules/db.py:648` `def note_list(self, workspace_id)` -- List all notes in workspace.
+- `LazyOwnDB.import_nmap_xml` (method) `modules/db.py:664` `def import_nmap_xml(self, workspace_id, xml_path)` -- Import an Nmap XML file into the database.
+- `LazyOwnDB.export_csv` (method) `modules/db.py:740` `def export_csv(self, table, workspace_id)` -- Export a table to CSV string.
+- `LazyOwnDB.status` (method) `modules/db.py:775` `def status(self, workspace_id)` -- Return counts for every entity type in a workspace.
+- `LazyOwnDB.close` (method) `modules/db.py:804` `def close(self)` -- Close the database connection for the current thread.
+- `get_db` (function) `modules/db.py:821` `def get_db(db_path)` -- Get or create a :class:`LazyOwnDB` instance.
+
+## modules/defense_eval.py
+Imported by: `modules/closedloop.py`, `modules/defense_stages.py`, `tests/test_defense_eval.py`, `tests/test_defense_stages.py`
+- `Evaluation.to_dict` (method) `modules/defense_eval.py:62` `def to_dict(self)` -- Return a JSON-serializable view.
+- `DatasetSummary.to_dict` (method) `modules/defense_eval.py:82` `def to_dict(self)` -- Return a JSON-serializable view.
+- `RuleResult.to_dict` (method) `modules/defense_eval.py:103` `def to_dict(self)` -- Return a JSON-serializable view.
+- `parse_rule` (function) `modules/defense_eval.py:115` `def parse_rule(rule_text)` -- Parse the rule JSON document into a condition list.
+- `evaluate_event` (function) `modules/defense_eval.py:234` `def evaluate_event(conditions, fields)` -- Apply every condition to one event.
+- `evaluate_rule` (function) `modules/defense_eval.py:322` `def evaluate_rule(rule_text, target_logs, control_logs)` -- Replay one rule against target and control datasets.
+- `metrics` (function) `modules/defense_eval.py:380` `def metrics(result)` -- Return tp/fn/fp/tn metrics for one replay result.
+
+## modules/defense_stages.py
+Depends on: `core/logging.py`, `modules/closedloop.py`, `modules/defense_eval.py`, `modules/hunt_verify.py`, `modules/orchestrator_config.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_defense_stages.py`
+- `_Stub.emit` (method) `modules/defense_stages.py:36` `def emit(self)` -- Swallow emissions when no activity log exists.
+- `run_defense_validate` (function) `modules/defense_stages.py:82` `def run_defense_validate(task_id)` -- Replay the configured detection rule over attack and control logs.
+- `run_closedloop_tune` (function) `modules/defense_stages.py:117` `def run_closedloop_tune(task_id)` -- Compare baseline vs candidate detection rules with suggestions.
+- `run_hunt_verify` (function) `modules/defense_stages.py:151` `def run_hunt_verify(task_id)` -- Verify hunting observations against retained evidence per stage.
+
 ## modules/delegation_attacks.py
 Imported by: `cli/commands/active_directory.py`
 - `DelegationEnumerator.__init__` (method) `modules/delegation_attacks.py:98` `def __init__(self, domain, raw_ldap_output)`
@@ -312,6 +432,16 @@ Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/
 - `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
 - `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
 
+## modules/evidence_store.py
+Depends on: `core/atomic_store.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_evidence_store.py`
+- `EvidenceStore.__init__` (method) `modules/evidence_store.py:62` `def __init__(self, task_id, base_dir)` -- Bind the store to a task, creating its directory lazily on write.
+- `EvidenceStore.directory` (method) `modules/evidence_store.py:73` `def directory(self)` -- Return the directory this store writes snapshots into.
+- `EvidenceStore.has` (method) `modules/evidence_store.py:88` `def has(self, digest)` -- Return True when a snapshot for the digest already exists.
+- `EvidenceStore.preserve` (method) `modules/evidence_store.py:93` `def preserve(self, record)` -- Snapshot one traffic exchange durably and return its digest.
+- `EvidenceStore.fetch` (method) `modules/evidence_store.py:135` `def fetch(self, digest)` -- Return the durable snapshot for a digest, or None when absent.
+- `EvidenceStore.gc` (method) `modules/evidence_store.py:153` `def gc(self, referenced, grace_seconds)` -- Reap snapshots neither referenced nor within the grace period.
+
 ## modules/exp.c
 Depends on: `modules/selection/chain.py`
 Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
@@ -360,139 +490,6 @@ Imported by: `cli/commands/exploit_migrated.py`
 - `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
 - `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
 - `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
-
-## modules/exploit_recommender.py
-Depends on: `lazygui/version.py`, `modules/world_model.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`
-- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
-- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
-- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
-- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
-- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
-- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
-- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
-- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
-
-## modules/exploitdb_bridge.py
-- `scan_tier0` (function) `modules/exploitdb_bridge.py:105` `def scan_tier0(limit, platform, only_cve)`
-- `gen_yaml` (function) `modules/exploitdb_bridge.py:151` `def gen_yaml(item, outdir)`
-- `sync_tier0` (function) `modules/exploitdb_bridge.py:194` `def sync_tier0(limit, platform, only_cve, outdir)`
-
-## modules/exploitdb_c_bridge.py
-- `scan_c` (function) `modules/exploitdb_c_bridge.py:32` `def scan_c(limit, platform, skip_existing)`
-- `gen_c_yaml_compile_on_use` (function) `modules/exploitdb_c_bridge.py:89` `def gen_c_yaml_compile_on_use(item)`
-- `gen_batch` (function) `modules/exploitdb_c_bridge.py:134` `def gen_batch(limit)`
-- `compile_batch` (function) `modules/exploitdb_c_bridge.py:148` `def compile_batch(limit)`
-- `gen_c_yaml` (function) `modules/exploitdb_c_bridge.py:152` `def gen_c_yaml(item, binpath, wrapper)`
-
-## modules/exploitgym_gym.py
-Depends on: `modules/redteam_gym.py`
-Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
-- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
-- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
-- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
-- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
-- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
-- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
-- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
-
-## modules/factsio.py
-Depends on: `core/logging.py`
-Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
-- `load_policy_facts` (function) `modules/factsio.py:39` `def load_policy_facts(path)` -- Load ``policy_facts.json`` into canonical host-keyed form.
-- `canonical_policy_facts` (function) `modules/factsio.py:61` `def canonical_policy_facts(data)` -- Project any legacy or canonical facts document to host-keyed form.
-- `iter_host_records` (function) `modules/factsio.py:81` `def iter_host_records(host_keyed)` -- Yield ``(ip, record)`` pairs from canonical host-keyed facts.
-- `iter_flat_facts` (function) `modules/factsio.py:93` `def iter_flat_facts(host_keyed)` -- Yield one flat record per fact kind found in the host map.
-
-## modules/failure_verdict.py
-Depends on: `cli/commands/enum.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `modules/lazy_fallback.py`, `tests/test_failure_verdict.py`, `tests/test_lazy_fallback.py`
-- `FailureVerdict.is_hard_stop` (method) `modules/failure_verdict.py:126` `def is_hard_stop(self)` -- Return True when the verdict forbids any further attempt.
-- `FailureVerdict.is_fallback_eligible` (method) `modules/failure_verdict.py:131` `def is_fallback_eligible(self)` -- Return True when adaptive alternatives may replace the retry.
-- `classify_failure` (function) `modules/failure_verdict.py:144` `def classify_failure(command, output, exit_code, timed_out)` -- Classify one failed attempt into a verdict with an engine action.
-- `classify_outcome` (function) `modules/failure_verdict.py:192` `def classify_outcome(outcome)` -- Classify one runner outcome object carrying the standard fields.
-
-## modules/fast_run_service.sh
-- `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
-- `log_info` (function) `modules/fast_run_service.sh:73`
-- `log_warn` (function) `modules/fast_run_service.sh:77`
-- `log_error` (function) `modules/fast_run_service.sh:81`
-- `require_root` (function) `modules/fast_run_service.sh:89` -- # # Pre-flight checks.
-- `require_deps` (function) `modules/fast_run_service.sh:97`
-- `require_paths` (function) `modules/fast_run_service.sh:113`
-- `prepare_runtime_dirs` (function) `modules/fast_run_service.sh:126`
-- `load_config` (function) `modules/fast_run_service.sh:139`
-- `config_truthy` (function) `modules/fast_run_service.sh:155`
-- `pid_file_for` (function) `modules/fast_run_service.sh:166` -- # # PID-file primitives.
-- `log_file_for` (function) `modules/fast_run_service.sh:171`
-- `read_pid_value` (function) `modules/fast_run_service.sh:176`
-- `is_pid_alive` (function) `modules/fast_run_service.sh:189`
-- `is_service_running` (function) `modules/fast_run_service.sh:194`
-- `write_pid_file` (function) `modules/fast_run_service.sh:201`
-- `ensure_log_file` (function) `modules/fast_run_service.sh:211`
-- `spawn_as_target_user` (function) `modules/fast_run_service.sh:228` -- # # Process spawn primitives.
-- `spawn_as_root` (function) `modules/fast_run_service.sh:247`
-- `terminate_pid_tree` (function) `modules/fast_run_service.sh:264`
-- `stop_named_service` (function) `modules/fast_run_service.sh:292`
-- `chown_project_tree` (function) `modules/fast_run_service.sh:310` -- # # Ownership maintenance.
-- `start_chown_watcher` (function) `modules/fast_run_service.sh:315`
-- `start_lazyc2_service` (function) `modules/fast_run_service.sh:342` -- # # Concrete service launchers.
-- `start_www_service` (function) `modules/fast_run_service.sh:356`
-- `start_vpn_service` (function) `modules/fast_run_service.sh:363`
-- `start_discord_service` (function) `modules/fast_run_service.sh:380`
-- `start_telegram_service` (function) `modules/fast_run_service.sh:390`
-- `start_cloudflare_service` (function) `modules/fast_run_service.sh:400`
-- `start_ollama_service` (function) `modules/fast_run_service.sh:410`
-- `managed_services_in_order` (function) `modules/fast_run_service.sh:429` -- # # Service registry.
-- `cmd_start` (function) `modules/fast_run_service.sh:445` -- # # Lifecycle commands.
-- `cmd_stop` (function) `modules/fast_run_service.sh:465`
-- `cmd_restart` (function) `modules/fast_run_service.sh:480`
-- `cmd_status` (function) `modules/fast_run_service.sh:486`
-- `cmd_logs` (function) `modules/fast_run_service.sh:505`
-- `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
-- `usage` (function) `modules/fast_run_service.sh:528`
-- `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
-
-## modules/finding_lifecycle.py
-Depends on: `modules/osint_enrich.py`
-Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
-- `evidence_floor` (function) `modules/finding_lifecycle.py:52` `def evidence_floor(items)` -- Whether hard evidence is present in a list of evidence strings.
-- `confirm` (function) `modules/finding_lifecycle.py:94` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
-- `reject` (function) `modules/finding_lifecycle.py:123` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
-- `add_dead_end` (function) `modules/finding_lifecycle.py:137` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
-- `is_dead_end` (function) `modules/finding_lifecycle.py:149` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
-- `suppressed_values` (function) `modules/finding_lifecycle.py:156` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
-- `resolve` (function) `modules/finding_lifecycle.py:162` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
-- `apply_confirmation` (function) `modules/finding_lifecycle.py:190` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
-- `record` (function) `modules/finding_lifecycle.py:270` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
-- `findings_for` (function) `modules/finding_lifecycle.py:295` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
-- `set_status` (function) `modules/finding_lifecycle.py:300` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
-- `has_running_retest` (function) `modules/finding_lifecycle.py:346` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
-- `request_retest` (function) `modules/finding_lifecycle.py:354` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
-- `resolve_retest` (function) `modules/finding_lifecycle.py:374` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
-- `classify_retest` (function) `modules/finding_lifecycle.py:420` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
-- `render_markdown` (function) `modules/finding_lifecycle.py:439` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
-
-## modules/forensic_cleaner.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `ForensicCleaner.__init__` (method) `modules/forensic_cleaner.py:67` `def __init__(self, config)`
-- `ForensicCleaner.windows_cleanup` (method) `modules/forensic_cleaner.py:70` `def windows_cleanup(self)` -- Generate Windows forensic artifact cleanup commands.
-- `ForensicCleaner.linux_cleanup` (method) `modules/forensic_cleaner.py:165` `def linux_cleanup(self)` -- Generate Linux forensic artifact cleanup commands.
-- `ForensicCleaner.macos_cleanup` (method) `modules/forensic_cleaner.py:193` `def macos_cleanup(self)` -- Generate macOS forensic artifact cleanup commands.
-- `ForensicCleaner.windows_prefetch_parse` (method) `modules/forensic_cleaner.py:221` `def windows_prefetch_parse(self, prefetch_path)` -- Parse Prefetch files to identify what the attacker should clean.
-- `ForensicCleaner.amcache_parse` (method) `modules/forensic_cleaner.py:259` `def amcache_parse(self)` -- Parse Amcache registry entries for evidence of execution.
-
-## modules/gcp_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `GCPAttackEngine.__init__` (method) `modules/gcp_attacks.py:90` `def __init__(self, config)`
-- `GCPAttackEngine.enumerate_iam_policy` (method) `modules/gcp_attacks.py:93` `def enumerate_iam_policy(self, resource)` -- Enumerate IAM policies for projects, folders, or organizations.
-- `GCPAttackEngine.service_account_impersonation` (method) `modules/gcp_attacks.py:119` `def service_account_impersonation(self)` -- Exploit service account impersonation for privilege escalation.
-- `GCPAttackEngine.cloud_functions_backdoor` (method) `modules/gcp_attacks.py:144` `def cloud_functions_backdoor(self)` -- Backdoor Cloud Functions for privilege escalation.
-- `GCPAttackEngine.compute_engine_metadata_exfil` (method) `modules/gcp_attacks.py:173` `def compute_engine_metadata_exfil(self)` -- Exfiltrate GCE instance metadata and service account tokens.
-- `GCPAttackEngine.gcs_enumeration` (method) `modules/gcp_attacks.py:194` `def gcs_enumeration(self)` -- Enumerate Cloud Storage buckets for sensitive data.
-- `GCPAttackEngine.cloudbuild_abuse` (method) `modules/gcp_attacks.py:230` `def cloudbuild_abuse(self)` -- Abuse Cloud Build for privilege escalation.
-- `GCPAttackEngine.organization_escalation` (method) `modules/gcp_attacks.py:261` `def organization_escalation(self)` -- Escalate from project-level to organization-level access.
-- `GCPAttackEngine.summary` (method) `modules/gcp_attacks.py:297` `def summary(self)`
 
 
 Next: [API_p13.md](API_p13.md)

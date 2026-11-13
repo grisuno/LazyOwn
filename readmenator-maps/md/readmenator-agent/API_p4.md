@@ -1,6 +1,18 @@
 # API (page 4 of 28)
 Previous: [API_p3.md](API_p3.md)
 
+## cli/commands/supply_chain.py
+Depends on: `cli/commands/_base.py`, `utils.py`
+- `SupplyChainCommandSet.do_depconfuse` (method) `cli/commands/supply_chain.py:95` `def do_depconfuse(self, line)` -- Scan a requirements.txt for dependency confusion candidates.
+- `SupplyChainCommandSet.do_package_squat` (method) `cli/commands/supply_chain.py:140` `def do_package_squat(self, line)` -- Generate a malicious PyPI package for dependency confusion.
+- `SupplyChainCommandSet.do_depscan` (method) `cli/commands/supply_chain.py:216` `def do_depscan(self, line)` -- Scan a directory tree for dependency files and flag risks.
+- `is_internal_name` (function) `cli/commands/supply_chain.py:450` `def is_internal_name(name)` -- Check if a package name looks internal/private.
+
+## cli/commands/surface.py
+Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
+- `SurfaceCommandSet.do_scandiscovery` (method) `cli/commands/surface.py:43` `def do_scandiscovery(self, line)` -- Scan every discovery IP with operator confirmation.
+- `SurfaceCommandSet.do_estorides_intel` (method) `cli/commands/surface.py:86` `def do_estorides_intel(self, line)` -- Fuse estorides OSINT entities into the campaign intel graphs.
+
 ## cli/commands/ux.py
 Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
 - `UxCommandSet.do_hud` (method) `cli/commands/ux.py:46` `def do_hud(self, line)` -- Session counters: elapsed time, commands run, material captured.
@@ -241,12 +253,12 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_graph_overlay.py`
 - `_GraphOverlayApp.action_close` (method) `cli/graph_overlay.py:284` `def action_close(self)`
 
 ## cli/headless.py
-Imported by: `lazyown.py`
+Imported by: `lazyown.py`, `tests/test_loop_exit_gate.py`
 - `load_profile` (function) `cli/headless.py:31` `def load_profile(path)` -- Load a YAML profile that overrides payload.json keys.
 - `apply_profile` (function) `cli/headless.py:48` `def apply_profile(config, profile)` -- Merge profile values into config (shallow overlay).
 - `HeadlessRunner.__init__` (method) `cli/headless.py:72` `def __init__(self, shell, json_output, profile_path)`
 - `HeadlessRunner.run_command` (method) `cli/headless.py:87` `def run_command(self, cmd, timeout)` -- Execute a single command, capture output, return structured result.
-- `HeadlessRunner.run_chain` (method) `cli/headless.py:132` `def run_chain(self, commands)` -- Execute multiple commands and emit final summary.
+- `HeadlessRunner.run_chain` (method) `cli/headless.py:136` `def run_chain(self, commands)` -- Execute multiple commands and emit final summary.
 
 ## cli/killchain.py
 Depends on: `modules/killchain.py`
@@ -482,15 +494,6 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.
 - `build_palette_view` (function) `cli/palette_command.py:619` `def build_palette_view(index)` -- Assemble the template context consumed by the C2 ``/palette`` view.
 - `PaletteCompleter.__init__` (method) `cli/palette_command.py:755` `def __init__(self, config)`
 - `PaletteCompleter.complete` (method) `cli/palette_command.py:758` `def complete(self, text, line, endidx, index)` -- Return tab-completion candidates given the editor state.
-
-## cli/palette_graph.py
-Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
-- `load_graph` (function) `cli/palette_graph.py:127` `def load_graph(path)` -- Return the parsed graph index, cached per resolved path.
-- `safe_load_graph` (function) `cli/palette_graph.py:149` `def safe_load_graph(path)` -- Best-effort variant of :func:`load_graph`.
-- `callees` (function) `cli/palette_graph.py:179` `def callees(graph, command_name)` -- Return helper-function labels invoked by ``command_name``.
-- `related_commands` (function) `cli/palette_graph.py:226` `def related_commands(graph, command_name)` -- Return ``do_*`` commands that share helper functions with this one.
-- `enrich_detail` (function) `cli/palette_graph.py:287` `def enrich_detail(graph, entry)` -- Attach ``calls`` and ``related`` lists to a palette detail entry.
-- `enrich_commands` (function) `cli/palette_graph.py:309` `def enrich_commands(graph, rows)` -- Enrich every entry of ``rows`` with neighbour data.
 
 
 Next: [API_p5.md](API_p5.md)

@@ -231,7 +231,7 @@ Return True when humans or durable evidence touched a match.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `match` | `dict[str, Any]` |  | Match row carrying an ``evidence``/`[`timeline`](modules.operation.py.md#operationmanager-timeline)` list. |
+| `match` | `dict[str, Any]` |  | Match row carrying an ``evidence``/`[`timeline`](modules.loop_audit.py.md#timeline)` list. |
 
 **Returns:** `bool` - True when any standing kind appears in the row.
 

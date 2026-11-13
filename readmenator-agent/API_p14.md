@@ -1,9 +1,137 @@
 # API (page 14 of 28)
 Previous: [API_p13.md](API_p13.md)
 
+## modules/jsonl_tail.py
+Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
+- `JsonlTail.__init__` (method) `modules/jsonl_tail.py:17` `def __init__(self, path)` -- Bind the tail to one file path.
+- `JsonlTail.read_new` (method) `modules/jsonl_tail.py:22` `def read_new(self, limit)` -- Return new complete records since the last call.
+
+## modules/k8s_attacks.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `K8SAttackEngine.__init__` (method) `modules/k8s_attacks.py:87` `def __init__(self, config)`
+- `K8SAttackEngine.enumerate_rbac` (method) `modules/k8s_attacks.py:90` `def enumerate_rbac(self)` -- Enumerate RBAC permissions for the current identity.
+- `K8SAttackEngine.privileged_pod_escape` (method) `modules/k8s_attacks.py:118` `def privileged_pod_escape(self)` -- Plan a privileged pod escape.
+- `K8SAttackEngine.service_account_token_theft` (method) `modules/k8s_attacks.py:173` `def service_account_token_theft(self)` -- Steal service account tokens across namespaces for lateral movement.
+- `K8SAttackEngine.kubelet_anonymous_auth_abuse` (method) `modules/k8s_attacks.py:198` `def kubelet_anonymous_auth_abuse(self)` -- Exploit kubelet anonymous authentication.
+- `K8SAttackEngine.etcd_access_exploitation` (method) `modules/k8s_attacks.py:222` `def etcd_access_exploitation(self)` -- Exploit etcd database access for complete cluster compromise.
+- `K8SAttackEngine.helm_tiller_abuse` (method) `modules/k8s_attacks.py:250` `def helm_tiller_abuse(self)` -- Abuse Helm (v2 Tiller or v3 RBAC) for privilege escalation.
+- `K8SAttackEngine.persistence_techniques` (method) `modules/k8s_attacks.py:278` `def persistence_techniques(self)` -- Kubernetes persistence techniques for long-term access.
+- `K8SAttackEngine.summary` (method) `modules/k8s_attacks.py:318` `def summary(self)`
+
+## modules/kerberoasting.py
+Depends on: `modules/kerberos_core.py`
+Imported by: `cli/commands/active_directory.py`
+- `KerberoastingEngine.__init__` (method) `modules/kerberoasting.py:95` `def __init__(self, domain, dc_ip, username, password, hash)`
+- `KerberoastingEngine.enumerate_spns` (method) `modules/kerberoasting.py:112` `def enumerate_spns(self, ldap_output, bloodhound_data)` -- Enumerate kerberoastable service principals.
+- `priority` (function) `modules/kerberoasting.py:172` `def priority(target)`
+- `KerberoastingEngine.request_tgs_aes_only` (method) `modules/kerberoasting.py:187` `def request_tgs_aes_only(self, user_spn)` -- Request a TGS ticket using only AES encryption (evades RC4 detection).
+- `KerberoastingEngine.request_tgs_rc4` (method) `modules/kerberoasting.py:208` `def request_tgs_rc4(self, user_spn)` -- Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
+- `KerberoastingEngine.request_tgs` (method) `modules/kerberoasting.py:219` `def request_tgs(self, user_spn, etype)` -- Request a TGS service ticket for kerberoasting.
+- `KerberoastingEngine.targeted_kerberoast` (method) `modules/kerberoasting.py:271` `def targeted_kerberoast(self, high_value_only)` -- Perform targeted Kerberoasting on enumerated SPNs.
+- `KerberoastingEngine.asreproast_check` (method) `modules/kerberoasting.py:306` `def asreproast_check(self, usernames)` -- Check which users do NOT require Kerberos pre-authentication (AS-REP roastable).
+- `KerberoastingEngine.extract_hashes_from_pcap` (method) `modules/kerberoasting.py:321` `def extract_hashes_from_pcap(self, pcap_path)` -- Extract Kerberoast hashes from a PCAP/PCAPNG network capture.
+- `KerberoastingEngine.detect_kerberoasting_activity` (method) `modules/kerberoasting.py:336` `def detect_kerberoasting_activity(self, event_log)` -- Analyze Windows Event Logs for signs of Kerberoasting attacks.
+- `KerberoastingEngine.build_hashcat_batch` (method) `modules/kerberoasting.py:379` `def build_hashcat_batch(self, output_path)` -- Build a batch file with all extracted hashes for Hashcat cracking.
+- `KerberoastingEngine.summary` (method) `modules/kerberoasting.py:401` `def summary(self)` -- Return a summary of kerberoasting operations.
+
+## modules/kerberos_core.py
+Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
+- `KerberosPrincipal.to_string` (method) `modules/kerberos_core.py:152` `def to_string(self)`
+- `KerberosTicket.has_flag` (method) `modules/kerberos_core.py:207` `def has_flag(self, flag_name)`
+- `KerberosCrypto.__init__` (method) `modules/kerberos_core.py:277` `def __init__(self)`
+- `KerberosCrypto.derive_aes_key` (method) `modules/kerberos_core.py:282` `def derive_aes_key(password, salt, etype)` -- Derive an AES Kerberos key from a password using string-to-key.
+- `KerberosCrypto.derive_rc4_key` (method) `modules/kerberos_core.py:318` `def derive_rc4_key(password)` -- Derive RC4-HMAC Kerberos key from password (hash = MD4(UTF16LE(password))).
+- `KerberosCrypto.aes_encrypt` (method) `modules/kerberos_core.py:329` `def aes_encrypt(self, key, plaintext, usage)` -- AES encrypt with Kerberos ciphertext stealing (CTS) mode.
+- `KerberosCrypto.aes_decrypt` (method) `modules/kerberos_core.py:361` `def aes_decrypt(self, key, ciphertext, usage)` -- AES decrypt with Kerberos CTS mode.
+- `KerberosCrypto.compute_checksum` (method) `modules/kerberos_core.py:389` `def compute_checksum(key, data, etype)` -- Compute a Kerberos checksum using HMAC-SHA1-96-AES.
+- `KerberosCore.__init__` (method) `modules/kerberos_core.py:421` `def __init__(self, domain, dc_host, dc_ip)`
+- `KerberosCore.get_supported_etypes` (method) `modules/kerberos_core.py:427` `def get_supported_etypes(self)` -- Return encryption types supported by this implementation.
+- `KerberosCore.build_as_req` (method) `modules/kerberos_core.py:435` `def build_as_req(self, username, domain, password, etype)` -- Build an AS-REQ message for TGT retrieval.
+- `KerberosCore.build_tgs_req` (method) `modules/kerberos_core.py:489` `def build_tgs_req(self, params)` -- Build a TGS-REQ message for service ticket retrieval.
+- `KerberosCore.parse_as_rep` (method) `modules/kerberos_core.py:534` `def parse_as_rep(self, as_rep_data, key, etype)` -- Parse an AS-REP response and extract the TGT and session key.
+- `KerberosCore.parse_tgs_rep` (method) `modules/kerberos_core.py:550` `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` -- Parse a TGS-REP response and extract the service ticket.
+- `KerberosCore.decrypt_ticket` (method) `modules/kerberos_core.py:563` `def decrypt_ticket(self, ticket_data, key, etype)` -- Decrypt the encrypted portion of a Kerberos ticket.
+- `KerberosCore.parse_pac` (method) `modules/kerberos_core.py:588` `def parse_pac(self, pac_data)` -- Parse a Privilege Attribute Certificate (PAC) from decrypted auth data.
+- `KerberosErrorParser.parse_error` (method) `modules/kerberos_core.py:687` `def parse_error(error_data)` -- Extract error code, message, and client/server realm from a KRB-ERROR.
+- `TicketValidator.is_expired` (method) `modules/kerberos_core.py:706` `def is_expired(endtime, grace_period)` -- Check if a ticket has expired.
+- `TicketValidator.validate_flags` (method) `modules/kerberos_core.py:719` `def validate_flags(ticket, required_flags)` -- Check that a ticket has all required flags.
+- `TicketValidator.validate_pac_checksums` (method) `modules/kerberos_core.py:735` `def validate_pac_checksums(pac)` -- Validate PAC server and KDC checksums.
+
+## modules/kerberos_tickets.py
+Depends on: `modules/kerberos_core.py`
+Imported by: `cli/commands/active_directory.py`
+- `SilverTicketForger.__init__` (method) `modules/kerberos_tickets.py:131` `def __init__(self)`
+- `SilverTicketForger.forge` (method) `modules/kerberos_tickets.py:134` `def forge(self, config)` -- Forge a silver ticket for the specified service.
+- `GoldenTicketForger.__init__` (method) `modules/kerberos_tickets.py:272` `def __init__(self)`
+- `GoldenTicketForger.forge` (method) `modules/kerberos_tickets.py:275` `def forge(self, config)` -- Forge a golden ticket TGT.
+- `DiamondTicketForger.__init__` (method) `modules/kerberos_tickets.py:405` `def __init__(self)`
+- `DiamondTicketForger.forge` (method) `modules/kerberos_tickets.py:408` `def forge(self, config)` -- Forge a diamond ticket with PAC enhancement.
+- `SapphireTicketForger.__init__` (method) `modules/kerberos_tickets.py:469` `def __init__(self, kerberos_core)`
+- `SapphireTicketForger.forge_s4u2self` (method) `modules/kerberos_tickets.py:472` `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` -- Generate a TGS-REQ for S4U2self service ticket.
+- `SapphireTicketForger.forge_rbcd` (method) `modules/kerberos_tickets.py:530` `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` -- Generate exploit instructions for resource-based constrained delegation.
+- `SkeletonKeyInjector.detect_skeleton_key` (method) `modules/kerberos_tickets.py:578` `def detect_skeleton_key(target_host, domain, dc_ip)` -- Check if skeleton key is active on a DC.
+- `SkeletonKeyInjector.inject_command` (method) `modules/kerberos_tickets.py:600` `def inject_command(target_host)` -- Generate mimikatz command for skeleton key injection on a DC.
+- `SkeletonKeyInjector.cleanup_command` (method) `modules/kerberos_tickets.py:612` `def cleanup_command()` -- Generate LSASS restart command to remove skeleton key patch.
+
+## modules/kill_chain_viz.py
+Depends on: `modules/killchain.py`
+Imported by: `lazyc2.py`
+- `generate_html` (function) `modules/kill_chain_viz.py:69` `def generate_html(target, sessions)`
+- `generate_svg` (function) `modules/kill_chain_viz.py:102` `def generate_svg(target, sessions)`
+
+## modules/killchain.py
+Depends on: `core/logging.py`, `modules/world_model.py`
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
+- `KillChainConfig.world_model_path` (method) `modules/killchain.py:177` `def world_model_path(self)` -- Return the resolved path to world_model.json.
+- `KillChainConfig.phase_index` (method) `modules/killchain.py:181` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
+- `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:188` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
+- `KillChain.config` (method) `modules/killchain.py:215` `def config()` -- Return the centralised configuration.
+- `KillChain.phases` (method) `modules/killchain.py:220` `def phases()` -- Return the canonical 8-phase tuple.
+- `KillChain.phase_labels` (method) `modules/killchain.py:225` `def phase_labels()` -- Return the canonical phase label mapping.
+- `KillChain.phase_colors` (method) `modules/killchain.py:230` `def phase_colors()` -- Return the canonical phase hex-color mapping.
+- `KillChain.phase_rich_colors` (method) `modules/killchain.py:235` `def phase_rich_colors()` -- Return the canonical phase rich-terminal color mapping.
+- `KillChain.engagement_phase_to_cli` (method) `modules/killchain.py:240` `def engagement_phase_to_cli(engagement_value)` -- Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
+- `KillChain.cli_phase_to_host_state` (method) `modules/killchain.py:252` `def cli_phase_to_host_state(phase)` -- Map a CLI phase to a ``WorldModel.HostState`` value.
+- `KillChain.current_phase` (method) `modules/killchain.py:265` `def current_phase(world_model_path)` -- Derive the current kill-chain phase.
+- `KillChain.advance_phase` (method) `modules/killchain.py:312` `def advance_phase(new_phase, world_model_path, host, extras)` -- Advance the kill-chain phase for connected surfaces.
+- `KillChain.get_progress` (method) `modules/killchain.py:416` `def get_progress(world_model_path)` -- Return the current kill-chain progress as a list of status objects.
+- `KillChain.compact_progress` (method) `modules/killchain.py:465` `def compact_progress(current_phase, phases_entered)` -- Return a compact single-line progress indicator ``[R>E>X>P>L]``.
+- `KillChain.phases_for_display` (method) `modules/killchain.py:485` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
+- `KillChain.phase_index` (method) `modules/killchain.py:496` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
+- `KillChain.snapshot` (method) `modules/killchain.py:501` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
+- `KillChain.technique_for_phase` (method) `modules/killchain.py:541` `def technique_for_phase(phase)` -- Return the ATT&CK tactic id of one canonical phase.
+- `KillChain.technique_for_vulnclass` (method) `modules/killchain.py:553` `def technique_for_vulnclass(vulnclass)` -- Return the ATT&CK technique id for one vulnerability class.
+- `get_killchain` (function) `modules/killchain.py:566` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
+- `technique_for_phase` (function) `modules/killchain.py:571` `def technique_for_phase(phase)` -- Module-level alias of :meth:`KillChain.technique_for_phase`.
+- `technique_for_vulnclass` (function) `modules/killchain.py:576` `def technique_for_vulnclass(vulnclass)` -- Module-level alias of :meth:`KillChain.technique_for_vulnclass`.
+
+## modules/kivi.py
+- `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
+- `ReverseShellApp.connect_to_server` (method) `modules/kivi.py:27` `def connect_to_server(self, instance)`
+
+## modules/lab_runtime.py
+Depends on: `modules/metasploitable_migrations.py`
+Imported by: `lazyc2/blueprints/gym.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+- `docker_available` (function) `modules/lab_runtime.py:93` `def docker_available()` -- Return whether the Docker daemon is reachable.
+- `running_containers` (function) `modules/lab_runtime.py:115` `def running_containers()` -- Return the running lab container names.
+- `existing_containers` (function) `modules/lab_runtime.py:131` `def existing_containers()` -- Return every lab container name including stopped ones.
+- `running_range_containers` (function) `modules/lab_runtime.py:148` `def running_range_containers()` -- Return the running cyber range container names.
+- `container_name` (function) `modules/lab_runtime.py:164` `def container_name(scenario)` -- Return the container name for one lab scenario.
+- `container_ip` (function) `modules/lab_runtime.py:169` `def container_ip(container_name)` -- Resolve one container's IPv4 on its Docker network.
+- `ensure_web` (function) `modules/lab_runtime.py:183` `def ensure_web(scenario, name)` -- Start Apache inside a metasploitable container that booted without it.
+- `apply_gym_migrations` (function) `modules/lab_runtime.py:242` `def apply_gym_migrations(name)` -- Apply the metasploitable gym migrations, returning the report.
+- `start` (function) `modules/lab_runtime.py:250` `def start(scenario)` -- Spin up one lab scenario container.
+- `stop` (function) `modules/lab_runtime.py:304` `def stop(scenario)` -- Stop one lab scenario container.
+- `stop_all` (function) `modules/lab_runtime.py:322` `def stop_all()` -- Stop every running lab container.
+- `range_compose` (function) `modules/lab_runtime.py:340` `def range_compose(profile)` -- Return the compose file path for one range profile, or None.
+- `start_range` (function) `modules/lab_runtime.py:349` `def start_range(profile)` -- Start one cyber range profile via Docker Compose.
+- `stop_range` (function) `modules/lab_runtime.py:368` `def stop_range(profile)` -- Stop one cyber range profile (compose down).
+- `stop_ranges` (function) `modules/lab_runtime.py:379` `def stop_ranges()` -- Stop every running cyber range.
+- `ensure_range_secret` (function) `modules/lab_runtime.py:420` `def ensure_range_secret(profile_dir)` -- Generate the DC admin secret file when missing.
+
 ## modules/lazy_agent.py
 Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
+Imported by: `cli/commands/lazyops.py`, `modules/loop/worker_agentic.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
 - `model_timeout_sec` (function) `modules/lazy_agent.py:41` `def model_timeout_sec()` -- Return the hard per-turn model timeout from configuration.
 - `tool_calling_enabled` (function) `modules/lazy_agent.py:57` `def tool_calling_enabled()` -- Return whether agentic tool calling is enabled by configuration.
 - `max_iterations` (function) `modules/lazy_agent.py:72` `def max_iterations()` -- Return the bounded agent step budget from configuration.

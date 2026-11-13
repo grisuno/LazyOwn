@@ -313,7 +313,7 @@ Return a concrete [`AIModel`](modules.ai_model.py.md#aimodel) selected by config
 The selection order is:
 
 1. Explicit ``backend`` argument when provided.
-2. `[`llm_backend`](skills.claude_md_orchestrator.config.py.md#config-llm_backend)` key from ``config`` (or loaded ``payload.json``).
+2. `[`llm_backend`](skills.claude_md_orchestrator.config.py.md#config-llm_backend)` key from `[`config`](browser_sync_extension.background.js.md#config)` (or loaded ``payload.json``).
 3. [`DEFAULT_BACKEND`](#default_backend) (``"auto"``).
 
 When the resolved backend is ``"auto"`` the factory tries Groq first
@@ -452,7 +452,7 @@ any error, so a backend without streaming never breaks a caller.
 `function` | [modules/llm_factory.py:942](../../modules/llm_factory.py#L942)
 
 ```python
-def complete(model: str, prompt: str, max_tokens: int = 800) -> str
+def complete(model: str, prompt: str, max_tokens: int = 800, temperature: float | None = None) -> str
 ```
 
 Complete a prompt through one model spec; raise when unanswered.
@@ -472,6 +472,7 @@ the next leg and finally to the heuristic path.
 | `model` | `str` |  | Model spec, optionally prefixed with backend. |
 | `prompt` | `str` |  | User prompt text. |
 | `max_tokens` | `int` | `800` | Response token cap. |
+| `temperature` | `float \| None` | `None` | Sampling temperature; ``None`` keeps each backend's own default so callers that do not care about determinism are unaffected, while the autonomous planner pins it to pursue a reproducible next action. |
 
 **Returns:** `str` - Response text, never empty on success.
 

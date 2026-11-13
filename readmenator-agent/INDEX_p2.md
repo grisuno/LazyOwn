@@ -3,6 +3,23 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/gcp_attacks.py` | GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration. | modules | 11 | 1 |
+| `modules/generate_tools.py` | - | modules | 1 | 0 |
+| `modules/goals.py` | Goal decomposition round-0 with constraints and proof. | modules | 13 | 3 |
+| `modules/golden_path.py` | Deterministic attack-path solver over the LazyOwn world model. | modules | 15 | 0 |
+| `modules/gpo_abuse.py` | GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation. | modules | 16 | 1 |
+| `modules/guard_rules.py` | Seeded guard rules that arm the planner filter before any attribution data. | modules | 15 | 3 |
+| `modules/guardrails/__init__.py` | Operator-facing guardrail harness: tiers, capacity, checkpoints. | guardrails | 0 | 4 |
+| `modules/guardrails/advisories.py` | Non-blocking advisories and feature degradation. | guardrails | 15 | 2 |
+| `modules/guardrails/budget.py` | Bounded capacity accounting with strict priority reservation. | guardrails | 16 | 2 |
+| `modules/guardrails/checkpoints.py` | Checkpoint ledger with warm-restart recovery. | guardrails | 7 | 2 |
+| `modules/guardrails/contracts.py` | Contracts for the execution guardrail harness. | guardrails | 10 | 3 |
+| `modules/guardrails/harness.py` | Execution harness facade: guarded runs, warm restart, degradation. | guardrails | 11 | 2 |
+| `modules/gui_askpass.sh` | — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this... | modules | 5 | 0 |
+| `modules/gym_cleanup.py` | Gym machine cleanup on LazyOwn exit. | modules | 2 | 2 |
+| `modules/gym_matrix_runner.py` | Ordered Metasploitable 2 gym matrix runner. | modules | 6 | 0 |
+| `modules/gym_registry.py` | Gym definitions and persistent run state. | modules | 28 | 5 |
+| `modules/gym_winbox_runner.py` | Ordered WinBox gym matrix runner. | modules | 4 | 0 |
 | `modules/harness.py` | Deterministic harness gate for the LazyOwn loop. | modules | 2 | 4 |
 | `modules/hash_cracker.py` | Hash cracking pipeline — John the Ripper and Hashcat integration. | modules | 17 | 2 |
 | `modules/hive_invoke.py` | modules/hive_invoke.py | modules | 7 | 0 |
@@ -31,8 +48,8 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/kill_chain_viz.py` | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | modules | 5 | 1 |
 | `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 25 | 26 |
 | `modules/kivi.py` | - | modules | 3 | 0 |
-| `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 19 | 2 |
-| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
+| `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 19 | 3 |
+| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 4 |
 | `modules/lazy_autofire.py` | Lazy autofire: exploit intelligence closing the loop into chains. | modules | 13 | 1 |
 | `modules/lazy_blindspot.py` | Blindspot review contract for the lazy autonomous loop. | modules | 10 | 2 |
 | `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 7 |
@@ -56,7 +73,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
 | `modules/lazy_inventory.py` | Host-reported inventory for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_ledger.py` | Freshness ledger: TTL windows per verb and target for the loop worker. | modules | 11 | 3 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 458 | 89 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 478 | 96 |
 | `modules/lazy_match_policy.py` | Match policy doctrine: what may claim a match and what stays a lead. | modules | 14 | 1 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_netattack.py` | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | modules | 12 | 1 |
@@ -65,11 +82,11 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 5 |
 | `modules/lazy_osinfer.py` | Target OS inference and OS-aware verb gating. | modules | 11 | 0 |
 | `modules/lazy_probes.py` | Read-only validation command registry for LazyOwn. | modules | 12 | 3 |
-| `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
+| `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 68 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 10 |
 | `modules/lazy_reaper.py` | Reaper: expire lazy-loop tasks whose process proves dead. | modules | 3 | 2 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
-| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 42 | 12 |
+| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 50 | 15 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
 | `modules/lazy_scope.py` | Lab-only default scope for autonomous loop targets. | modules | 17 | 1 |
 | `modules/lazy_search.py` | Lazy saved-search grammar over the engagement database. | modules | 8 | 1 |
@@ -97,7 +114,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazymobilerevshell.sh` | Verificar si se pasaron los argumentos de IP y puerto | modules | 0 | 0 |
 | `modules/lazynmap.sh` | Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico... | modules | 8 | 0 |
 | `modules/lazyown_bprfuzzer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 15 | 0 |
-| `modules/lazyown_bridge.py` | modules/lazyown_bridge.py | modules | 43 | 9 |
+| `modules/lazyown_bridge.py` | modules/lazyown_bridge.py | modules | 43 | 12 |
 | `modules/lazyown_metaextract0r.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 9 | 0 |
 | `modules/lazyown_parquet_tool.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 4 | 0 |
 | `modules/lazyownerweb.py` | - | modules | 3 | 0 |
@@ -118,22 +135,25 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/llm_adapter.py` | LLM adapter facade — single import point for all LLM backends used by lazyc2. | modules | 16 | 7 |
 | `modules/llm_client.py` | LazyOwn Unified LLM Client | modules | 12 | 4 |
 | `modules/llm_evaluator.py` | — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning... | modules | 28 | 2 |
-| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 31 | 30 |
+| `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 31 | 31 |
 | `modules/llm_orchestrator.py` | Orchestrator-governed LLM failover chain for every AI module. | modules | 21 | 8 |
 | `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 9 |
 | `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 5 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 23 |
-| `modules/loop/__init__.py` | - | loop | 0 | 2 |
+| `modules/loop/__init__.py` | - | loop | 0 | 7 |
+| `modules/loop/decision_log.py` | Reproducible decision ledger for the autonomous loop. | loop | 10 | 0 |
 | `modules/loop/engine_proxy.py` | EngineProxyMixin: Recorder-proxy lifecycle and traffic ingestion for the loop engine. | loop | 8 | 1 |
 | `modules/loop/triage_scheduler.py` | Difficulty-triage scheduling for the autonomous multi-target loop. | loop | 11 | 3 |
-| `modules/loop/worker_agentic.py` | WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker. | loop | 18 | 1 |
+| `modules/loop/worker_agentic.py` | WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker. | loop | 36 | 5 |
 | `modules/loop/worker_execution.py` | WorkerExecutionMixin: Command execution, background jobs and persistent-shell lifecycle for a... | loop | 12 | 1 |
 | `modules/loop/worker_gating.py` | WorkerGatingMixin: Scope, operating-system and privilege gates for a loop worker. | loop | 7 | 1 |
-| `modules/loop/worker_memory.py` | WorkerMemoryMixin: Durable and in-session memory behaviour for a loop worker. | loop | 6 | 1 |
+| `modules/loop/worker_memory.py` | WorkerMemoryMixin: Durable and in-session memory behaviour for a loop worker. | loop | 7 | 1 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 28 | 7 |
+| `modules/loop_audit.py` | Operator audit trail for autonomous loop runs. | modules | 35 | 0 |
 | `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 49 | 9 |
-| `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 31 | 2 |
+| `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 34 | 3 |
+| `modules/loop_preflight.py` | Target and lab preflight checks for autonomous loops and auto_pwn. | modules | 6 | 0 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
 | `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 16 | 8 |
 | `modules/macos_payloads.py` | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | modules | 16 | 1 |
@@ -170,9 +190,10 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 5 |
 | `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 41 | 21 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
+| `modules/outcome_attribution.py` | Observer-style failure attribution for autonomous loop steps. | modules | 10 | 3 |
 | `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 38 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 7 |
-| `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 4 |
+| `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 3 |
 | `modules/pipeline_engine.py` | modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn | modules | 80 | 8 |
 | `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 7 |
 | `modules/playbook_admin.py` | Safe CRUD for the YAML playbooks under ``playbooks/``. | modules | 18 | 3 |
@@ -203,22 +224,26 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/rootkit/rootkit.asm` | - | rootkit | 1 | 0 |
 | `modules/rootkit/rootkit.c` | Define the process name and file name to hide Operable values are provided via the Makefile... | rootkit | 13 | 0 |
 | `modules/saas_attacks.py` | SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation. | modules | 15 | 1 |
+| `modules/scan_brief.py` | Scan brief: sharpen loop probes against services an nmap scan already found. | modules | 10 | 3 |
 | `modules/scripts/clean_history.sh.sh` | - | misc | 0 | 0 |
 | `modules/search.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 0 | 1 |
 | `modules/security_sanitizers.py` | Security sanitizers shared across the LazyOwn framework. | modules | 25 | 5 |
 | `modules/selection/__init__.py` | Shared action-selection brain for the unified autonomous loop. | selection | 0 | 3 |
+| `modules/selection/_phase_categories.py` | Shared kill-chain-phase to lookup-category mapping. | selection | 1 | 2 |
 | `modules/selection/adversary.py` | Adversary selector: run a custom adversary emulation named by the objective. | selection | 6 | 3 |
 | `modules/selection/atomic.py` | Atomic selector: emulate named MITRE ATT&CK techniques with atomic tests. | selection | 2 | 5 |
-| `modules/selection/base.py` | The one shared contract for autonomous action selection. | selection | 4 | 26 |
+| `modules/selection/base.py` | The one shared contract for autonomous action selection. | selection | 4 | 32 |
+| `modules/selection/bridge.py` | Bridge selector: propose a phase/service-appropriate catalogued command. | selection | 2 | 3 |
 | `modules/selection/chain.py` | Chain selector: propose a vetted ``apt_chain`` when one fits the state. | selection | 3 | 5 |
-| `modules/selection/cred_spray.py` | Credential-spray selector: reuse known credentials against open services. | selection | 2 | 4 |
+| `modules/selection/cred_spray.py` | Credential-spray selector: reuse known credentials against open services. | selection | 2 | 3 |
 | `modules/selection/edb.py` | EDBSelector: Propose ExploitDB (atomic_exploit) when services/cves fit. | selection | 2 | 1 |
 | `modules/selection/intel.py` | Intel selector: feed exploitation intelligence into the autonomous loop. | selection | 7 | 3 |
 | `modules/selection/lazyscript.py` | Lazyscript selector: propose an operator-authored .ls recipe when it fits. | selection | 5 | 2 |
 | `modules/selection/module.py` | Module selector: map goal/service mentions onto runnable registry modules. | selection | 2 | 5 |
+| `modules/selection/parquet.py` | Parquet selector: propose the command that most often succeeded before. | selection | 4 | 5 |
 | `modules/selection/playbook.py` | Playbook selector: run an APT actor emulation named by the objective. | selection | 7 | 3 |
 | `modules/selection/poc.py` | PoC selector: propose catalogued PoC verbs when services match. | selection | 2 | 3 |
-| `modules/selection/registry.py` | Assemble and run the shared selector cascade. | selection | 3 | 6 |
+| `modules/selection/registry.py` | Assemble and run the shared selector cascade. | selection | 3 | 8 |
 | `modules/selection/technique.py` | Technique selector: propose MITRE technique emulation for the phase. | selection | 2 | 2 |
 | `modules/selection/technique_chain.py` | Technique-chain selector: compile the phase's techniques into one paced chain. | selection | 3 | 2 |
 | `modules/selector_manager.py` | Selector manager: deterministic priority cascade with provenance. | modules | 3 | 1 |
@@ -227,6 +252,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/session_rag.py` | — ChromaDB-backed RAG over sessions/ artefacts. | modules | 24 | 7 |
 | `modules/session_reader.py` | modules/session_reader.py | modules | 29 | 4 |
 | `modules/session_state.py` | LazyOwn Session State | modules | 9 | 1 |
+| `modules/sidequest.py` | Read-only side questions against the loop's immutable decision checkpoints. | modules | 6 | 0 |
 | `modules/sidequestion.py` | Isolated side-question answering against immutable snapshots. | modules | 9 | 2 |
 | `modules/sinks/__init__.py` | Outcome sink adapters. | sinks | 0 | 2 |
 | `modules/sinks/attack_graph.py` | Attack-graph sink: rebuild the attack surface after meaningful outcomes. | sinks | 1 | 1 |
@@ -282,6 +308,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/winbox_gym.py` | WinBox gym catalogue and control-plane bridge. | modules | 38 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
+| `modules/wire_capture.py` | Durable byte-for-byte capture of a traffic exchange's raw output. | modules | 9 | 2 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
 | `modules/world_model.py` | modules/world_model.py | modules | 70 | 83 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
@@ -358,7 +385,7 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/validate_agent_contract.sh` | CI validation of the AGENTS.md branching model and coding standards. | scripts | 5 | 0 |
 | `setup.py` | Compatibility shim for legacy ``python setup.py`` invocations. | root | 0 | 0 |
 | `skills/aci_planner.py` | Autonomous Campaign Intelligence (ACI) Planner | skills | 42 | 5 |
-| `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 158 | 26 |
+| `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 142 | 25 |
 | `skills/autonomous_replay.py` | Deterministic replay of past autonomous-daemon runs. | skills | 19 | 1 |
 | `skills/claude_md_orchestrator/__init__.py` | Public API for the claude_md_orchestrator skill. | claude_md_orchestrator | 0 | 1 |
 | `skills/claude_md_orchestrator/bdd_agent.py` | Behavior-Driven Development agent. | claude_md_orchestrator | 8 | 0 |
@@ -400,7 +427,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 12 |
 | `skills/lazyown_mcp_opencode.py` | LazyOwn MCP OpenCode bridge. | skills | 6 | 1 |
 | `skills/lazyown_objective.py` | LazyOwn Objective Store | skills | 36 | 12 |
-| `skills/lazyown_parquet_db.py` | LazyOwn Parquet Knowledge Base | skills | 21 | 10 |
+| `skills/lazyown_parquet_db.py` | LazyOwn Parquet Knowledge Base | skills | 21 | 11 |
 | `skills/lazyown_permissions.py` | LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS... | skills | 16 | 2 |
 | `skills/lazyown_policy.py` | LazyOwn Policy Engine | skills | 126 | 10 |
 | `skills/lazyown_session.py` | LazyOwn Append-Only Session Transcripts (Claude Code style)  All writes are append-only JSONL. | skills | 14 | 4 |
@@ -469,32 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/db.py` | MCP tool ``lazyown_db``: query and mutate the LazyOwn SQLite database. | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/delete_param.py` | MCP tool ``lazyown_delete_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/deploy_beacon.py` | MCP tool ``lazyown_deploy_beacon`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/discover_commands.py` | MCP tool ``lazyown_discover_commands`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/engage_approve.py` | MCP tool ``lazyown_engage_approve`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/engage_list_pending.py` | MCP tool ``lazyown_engage_list_pending`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/engage_status.py` | MCP tool ``lazyown_engage_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/engage_target.py` | MCP tool ``lazyown_engage_target`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/eval_quality.py` | MCP tool ``lazyown_eval_quality`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/evasion_generate.py` | MCP tool ``lazyown_evasion_generate``: generate a C2 malleable profile. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/evasion_rotate.py` | MCP tool ``lazyown_evasion_rotate``: rotate to a fresh evasion profile. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/evidence_grep.py` | MCP tool ``lazyown_evidence_grep`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/exploit_chain.py` | MCP tool ``lazyown_exploit_chain``: AI-driven multi-step exploit chaining. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/exploit_recommend.py` | MCP tool ``lazyown_exploit_recommend``: rank exploits from the world model. | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/exploitgym_list.py` | MCP tool ``lazyown_exploitgym_list``: list ExploitGym tasks. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/exploitgym_run.py` | MCP tool ``lazyown_exploitgym_run``: run the agent against a task. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/exploitgym_score.py` | MCP tool ``lazyown_exploitgym_score``: award gym ELO for a task outcome. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/exploitgym_status.py` | MCP tool ``lazyown_exploitgym_status``: report ExploitGym readiness. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/facts_show.py` | MCP tool ``lazyown_facts_show``: show structured facts from the session. | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/fast_run.py` | MCP tool ``lazyown_fast_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/generate_report.py` | MCP tool ``lazyown_generate_report`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/get_beacons.py` | MCP tool ``lazyown_get_beacons``: list connected C2 beacons. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/get_config.py` | MCP tool ``lazyown_get_config``: read the current payload.json config. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/get_llm_budget.py` | MCP tool ``lazyown_get_llm_budget``: read the LLM cost budget status. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/graph_neighbors.py` | MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/graph_search.py` | MCP tool ``lazyown_graph_search`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/graph_suggest_next.py` | MCP tool ``lazyown_graph_suggest_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/graph_summary.py` | MCP tool ``lazyown_graph_summary`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/groq_agent.py` | MCP tool ``lazyown_groq_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/harness_status.py` | MCP tool ``lazyown_harness_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

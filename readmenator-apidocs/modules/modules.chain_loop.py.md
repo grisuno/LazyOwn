@@ -99,7 +99,7 @@ Record the guard status and reason.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `status` | `str` |  | `[`blocked`](modules.goals.py.md#taskconstraints-blocked)` or ``skipped``. |
+| `status` | `str` |  | ``blocked`` or ``skipped``. |
 | `detail` | `str` |  | Guard reason string. |
 
 *Called by:* [`run_chain_stepwise`](#run_chain_stepwise)

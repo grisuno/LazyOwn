@@ -1112,7 +1112,7 @@ Usage:
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`EvidenceStore.__init__`](modules.lazy_loop.py.md#evidencestore-__init__), [`EvidenceStore.add`](modules.lazy_loop.py.md#evidencestore-add), [`EvidenceStore.export`](modules.lazy_loop.py.md#evidencestore-export), [`EvidenceStore.for_finding`](modules.lazy_loop.py.md#evidencestore-for_finding), [`EvidenceStore.gc`](modules.lazy_loop.py.md#evidencestore-gc), [`EvidenceStore.verify`](modules.lazy_loop.py.md#evidencestore-verify), [`LazyLoopEngine.export_evidence`](modules.lazy_loop.py.md#lazyloopengine-export_evidence), [`get_proxy`](modules.lazy_proxy.py.md#get_proxy)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`EvidenceStore.gc`](modules.evidence_store.py.md#evidencestore-gc), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`EvidenceStore.__init__`](modules.lazy_loop.py.md#evidencestore-__init__), [`EvidenceStore.add`](modules.lazy_loop.py.md#evidencestore-add), [`EvidenceStore.export`](modules.lazy_loop.py.md#evidencestore-export), [`EvidenceStore.for_finding`](modules.lazy_loop.py.md#evidencestore-for_finding), [`EvidenceStore.verify`](modules.lazy_loop.py.md#evidencestore-verify), [`LazyLoopEngine.export_evidence`](modules.lazy_loop.py.md#lazyloopengine-export_evidence), [`get_proxy`](modules.lazy_proxy.py.md#get_proxy)
 
 <a id="lazycommandset-do_lazy_ask"></a>
 

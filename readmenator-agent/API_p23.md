@@ -161,8 +161,8 @@ Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/la
 - `main` (function) `skills/lazyown_objective.py:485` `def main()`
 
 ## skills/lazyown_parquet_db.py
-Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/parquet_annotate.py`, `skills/mcp_tools/parquet_query.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
+Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `modules/selection/parquet.py`, `skills/lazyown_policy.py`
+Imported by: `cli/commands/mcp_bridge.py`, `modules/selection/parquet.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/parquet_annotate.py`, `skills/mcp_tools/parquet_query.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
 - `ParquetDB.__init__` (method) `skills/lazyown_parquet_db.py:295` `def __init__(self, lazyown_dir)`
 - `ParquetDB.sync` (method) `skills/lazyown_parquet_db.py:316` `def sync(self, csv_path)` -- Ingest sessions/LazyOwn_session_report.csv into session_knowledge.parquet.
 - `ParquetDB.annotate` (method) `skills/lazyown_parquet_db.py:405` `def annotate(self, row_id, success, category, outcome)` -- Patch a row in session_knowledge.parquet by its id.

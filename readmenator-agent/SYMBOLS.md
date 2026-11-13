@@ -1,5 +1,5 @@
-# Symbols (page 1 of 51)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md), [SYMBOLS_p49.md](SYMBOLS_p49.md), [SYMBOLS_p50.md](SYMBOLS_p50.md), [SYMBOLS_p51.md](SYMBOLS_p51.md)
+# Symbols (page 1 of 53)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md), [SYMBOLS_p49.md](SYMBOLS_p49.md), [SYMBOLS_p50.md](SYMBOLS_p50.md), [SYMBOLS_p51.md](SYMBOLS_p51.md), [SYMBOLS_p52.md](SYMBOLS_p52.md), [SYMBOLS_p53.md](SYMBOLS_p53.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -25,6 +25,15 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `spin_run` | function | `bootstrap.sh:97` | `` |
 | `update_checkout` | function | `bootstrap.sh:259` | `` |
 | `usage` | function | `bootstrap.sh:70` | `` |
+| `armAlarm` | function | `browser_sync_extension/background.js:123` | `` |
+| `collectProfile` | function | `browser_sync_extension/background.js:68` | `` |
+| `config` | function | `browser_sync_extension/background.js:8` | `` |
+| `domainAllowed` | function | `browser_sync_extension/background.js:18` | `` |
+| `highEntropyHints` | function | `browser_sync_extension/background.js:30` | `` |
+| `sanitizeHeader` | function | `browser_sync_extension/background.js:64` | `` |
+| `syncNow` | function | `browser_sync_extension/background.js:94` | `` |
+| `loadConfig` | function | `browser_sync_extension/popup.js:4` | `` |
+| `renderResult` | function | `browser_sync_extension/popup.js:13` | `` |
 | `_SafeFormatDict` | class | `cli/aliases.py:29` | `class _SafeFormatDict(dict)` |
 | `__getitem__` | method | `cli/aliases.py:35` | `def __getitem__(self, key)` |
 | `__missing__` | method | `cli/aliases.py:32` | `def __missing__(self, key)` |
@@ -454,47 +463,38 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_bitm_stop` | method | `cli/commands/bitm.py:168` | `def _bitm_stop(self)` |
 | `do_bitm` | method | `cli/commands/bitm.py:31` | `def do_bitm(self, line)` |
 | `BofMarketplaceCommandSet` | class | `cli/commands/bof_registry.py:44` | `class BofMarketplaceCommandSet(LazyOwnCommandSet)` |
+| `_build_fileless_oneliner` | method | `cli/commands/bof_registry.py:579` | `def _build_fileless_oneliner(self, stage_token)` |
+| `_ensure_beacon_staged` | method | `cli/commands/bof_registry.py:524` | `def _ensure_beacon_staged(self)` |
+| `_ensure_stage_token` | method | `cli/commands/bof_registry.py:499` | `def _ensure_stage_token(self)` |
 | `_ensure_staging_dir` | method | `cli/commands/bof_registry.py:51` | `def _ensure_staging_dir()` |
 | `_stage_bof` | method | `cli/commands/bof_registry.py:56` | `def _stage_bof(self, bof_name)` |
-| `do_bof_beacons` | method | `cli/commands/bof_registry.py:358` | `def do_bof_beacons(self, line)` |
-| `do_bof_catalog` | method | `cli/commands/bof_registry.py:463` | `def do_bof_catalog(self, line)` |
-| `do_bof_deploy` | method | `cli/commands/bof_registry.py:309` | `def do_bof_deploy(self, line)` |
+| `do_bof_beacons` | method | `cli/commands/bof_registry.py:359` | `def do_bof_beacons(self, line)` |
+| `do_bof_catalog` | method | `cli/commands/bof_registry.py:464` | `def do_bof_catalog(self, line)` |
+| `do_bof_deploy` | method | `cli/commands/bof_registry.py:310` | `def do_bof_deploy(self, line)` |
 | `do_bof_info` | method | `cli/commands/bof_registry.py:108` | `def do_bof_info(self, line)` |
 | `do_bof_install` | method | `cli/commands/bof_registry.py:143` | `def do_bof_install(self, line)` |
-| `do_bof_list` | method | `cli/commands/bof_registry.py:431` | `def do_bof_list(self, line)` |
-| `do_bof_results` | method | `cli/commands/bof_registry.py:377` | `def do_bof_results(self, line)` |
+| `do_bof_list` | method | `cli/commands/bof_registry.py:432` | `def do_bof_list(self, line)` |
+| `do_bof_results` | method | `cli/commands/bof_registry.py:378` | `def do_bof_results(self, line)` |
 | `do_bof_run` | method | `cli/commands/bof_registry.py:191` | `def do_bof_run(self, line)` |
 | `do_bof_search` | method | `cli/commands/bof_registry.py:87` | `def do_bof_search(self, line)` |
 | `do_bof_stage` | method | `cli/commands/bof_registry.py:171` | `def do_bof_stage(self, line)` |
-| `do_bof_train` | method | `cli/commands/bof_registry.py:247` | `def do_bof_train(self, line)` |
-| `do_bof_uninstall` | method | `cli/commands/bof_registry.py:409` | `def do_bof_uninstall(self, line)` |
+| `do_bof_train` | method | `cli/commands/bof_registry.py:248` | `def do_bof_train(self, line)` |
+| `do_bof_uninstall` | method | `cli/commands/bof_registry.py:410` | `def do_bof_uninstall(self, line)` |
+| `do_bsb_stage` | method | `cli/commands/bof_registry.py:623` | `def do_bsb_stage(self, line)` |
+| `BrowserSyncCommandSet` | class | `cli/commands/browser_sync.py:13` | `class BrowserSyncCommandSet(LazyOwnCommandSet)` |
+| `do_browsersync` | method | `cli/commands/browser_sync.py:20` | `def do_browsersync(self, line)` |
 | `C2ProfileCommandSet` | class | `cli/commands/c2_profile.py:18` | `class C2ProfileCommandSet(LazyOwnCommandSet)` |
 | `do_c2_dns` | method | `cli/commands/c2_profile.py:69` | `def do_c2_dns(self, line)` |
 | `do_c2_profiles` | method | `cli/commands/c2_profile.py:25` | `def do_c2_profiles(self, line)` |
 | `do_c2_rotate` | method | `cli/commands/c2_profile.py:90` | `def do_c2_rotate(self, line)` |
 | `do_c2_tls` | method | `cli/commands/c2_profile.py:50` | `def do_c2_tls(self, line)` |
-| `C2SessionCommandSet` | class | `cli/commands/c2_session.py:108` | `class C2SessionCommandSet(LazyOwnCommandSet)` |
+| `C2SessionCommandSet` | class | `cli/commands/c2_session.py:127` | `class C2SessionCommandSet(LazyOwnCommandSet)` |
 | `_fresh_lab_creds` | function | `cli/commands/c2_session.py:54` | `def _fresh_lab_creds()` |
-| `_issue` | function | `cli/commands/c2_session.py:83` | `def _issue(client_id, command, auth, https_port)` |
+| `_issue` | function | `cli/commands/c2_session.py:101` | `def _issue(client_id, command, auth, https_port)` |
 | `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
 | `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
-| `do_c2_deploy` | method | `cli/commands/c2_session.py:249` | `def do_c2_deploy(self, line)` |
-| `do_c2_exec` | method | `cli/commands/c2_session.py:299` | `def do_c2_exec(self, line)` |
-| `do_c2_loot` | method | `cli/commands/c2_session.py:346` | `def do_c2_loot(self, line)` |
-| `do_c2_reboot` | method | `cli/commands/c2_session.py:168` | `def do_c2_reboot(self, line)` |
-| `do_c2_server` | method | `cli/commands/c2_session.py:115` | `def do_c2_server(self, line)` |
-| `CalderaCommandSet` | class | `cli/commands/caldera.py:66` | `class CalderaCommandSet(LazyOwnCommandSet)` |
-| `_resolve_coverage` | function | `cli/commands/caldera.py:53` | `def _resolve_coverage()` |
-| `_resolve_manager` | function | `cli/commands/caldera.py:49` | `def _resolve_manager()` |
-| `_resolve_planner` | function | `cli/commands/caldera.py:59` | `def _resolve_planner(shell)` |
-| `_shell` | method | `cli/commands/caldera.py:72` | `def _shell(self)` |
-| `do_op_create` | method | `cli/commands/caldera.py:96` | `def do_op_create(self, line)` |
-| `do_op_list` | method | `cli/commands/caldera.py:80` | `def do_op_list(self, line)` |
-| `do_op_pause` | method | `cli/commands/caldera.py:166` | `def do_op_pause(self, line)` |
-| `do_op_plan` | method | `cli/commands/caldera.py:114` | `def do_op_plan(self, line)` |
-| `do_op_report` | method | `cli/commands/caldera.py:272` | `def do_op_report(self, line)` |
-| `do_op_resume` | method | `cli/commands/caldera.py:183` | `def do_op_resume(self, line)` |
-| `do_op_start` | method | `cli/commands/caldera.py:141` | `def do_op_start(self, line)` |
-| `do_op_status` | method | `cli/commands/caldera.py:217` | `def do_op_status(self, line)` |
+| `_tls_verify` | function | `cli/commands/c2_session.py:83` | `def _tls_verify()` |
+| `do_c2_deploy` | method | `cli/commands/c2_session.py:268` | `def do_c2_deploy(self, line)` |
+| `do_c2_exec` | method | `cli/commands/c2_session.py:318` | `def do_c2_exec(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

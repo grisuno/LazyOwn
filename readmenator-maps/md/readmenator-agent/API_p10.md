@@ -1,6 +1,37 @@
 # API (page 10 of 28)
 Previous: [API_p9.md](API_p9.md)
 
+## modules/ad_gym.py
+Depends on: `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
+- `load_index` (function) `modules/ad_gym.py:38` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/ad_gym.py:43` `def vulnerabilities(path)` -- Return every indexed lab vector.
+- `get` (function) `modules/ad_gym.py:49` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
+- `chain_for` (function) `modules/ad_gym.py:58` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
+- `exploit_for` (function) `modules/ad_gym.py:68` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
+- `validate_matrix` (function) `modules/ad_gym.py:78` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/ad_gym.py:127` `def summary(path)` -- Return counts by severity and service for operators.
+- `readiness` (function) `modules/ad_gym.py:146` `def readiness()` -- Report whether the AD lab container is attackable right now.
+- `main` (function) `modules/ad_gym.py:166` `def main()` -- CLI: list | validate | summary | readiness.
+
+## modules/adcs_attacks.py
+Imported by: `cli/commands/exploit_migrated.py`
+- `CertificateTemplate.esc_vulnerabilities` (method) `modules/adcs_attacks.py:35` `def esc_vulnerabilities(self)` -- Determine which ESC attack paths apply to this template.
+- `ADCSCertipyWrapper.__init__` (method) `modules/adcs_attacks.py:80` `def __init__(self, certipy_path, timeout)`
+- `ADCSCertipyWrapper.find_certificate_authorities` (method) `modules/adcs_attacks.py:113` `def find_certificate_authorities(self, username, password, domain, dc_ip, hashes)` -- Enumerate certificate authorities in an Active Directory domain.
+- `ADCSCertipyWrapper.enumerate_templates` (method) `modules/adcs_attacks.py:189` `def enumerate_templates(self, username, password, domain, dc_ip, hashes)` -- Enumerate vulnerable certificate templates.
+- `ADCSCertipyWrapper.request_certificate_esc1` (method) `modules/adcs_attacks.py:268` `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` -- ESC1: Request a certificate with a user-supplied subject alternative name.
+- `ADCSCertipyWrapper.request_certificate_esc8` (method) `modules/adcs_attacks.py:322` `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` -- ESC8: HTTP-based certificate enrollment (NTLM relay to AD CS).
+- `ADCSCertipyWrapper.authenticate_with_certificate` (method) `modules/adcs_attacks.py:367` `def authenticate_with_certificate(self, cert_file, domain, dc_ip, username)` -- Authenticate to the domain using a certificate and retrieve NT hash.
+- `ADCSCertipyWrapper.assess_vulnerability` (method) `modules/adcs_attacks.py:411` `def assess_vulnerability(self, username, password, domain, dc_ip, hashes)` -- Run a full AD CS vulnerability assessment.
+
+## modules/addon_updater.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `tests/test_addon_updater.py`
+- `AddonUpdateResult.to_dict` (method) `modules/addon_updater.py:46` `def to_dict(self)` -- Return a JSON-serializable view.
+- `load_addons` (function) `modules/addon_updater.py:73` `def load_addons(lazyaddons_dir)` -- Load every lazyaddon with its update metadata.
+- `update_addon` (function) `modules/addon_updater.py:166` `def update_addon(name, lazyaddons_dir, root, dry_run)` -- Update one addon through ``git pull --ff-only``.
+- `update_all` (function) `modules/addon_updater.py:260` `def update_all(names, lazyaddons_dir, root, dry_run, audit_path)` -- Update every opted-in addon or an explicit name list.
+
 ## modules/agent_runner.py
 Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
@@ -102,6 +133,17 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 - `AptPlaybookEngine.validate` (method) `modules/apt_playbooks.py:203` `def validate(self, pb, atomic_path)` -- Validate that all referenced atomic tests exist locally.
 - `AptPlaybookEngine.generate_attack_plan` (method) `modules/apt_playbooks.py:278` `def generate_attack_plan(self, pb, output_path)` -- Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
 - `AptPlaybookEngine.report_json` (method) `modules/apt_playbooks.py:295` `def report_json(self, pb, output_path)` -- Write a structured JSON report of the playbook for the operator.
+
+## modules/askpass.py
+Depends on: `core/config.py`
+Imported by: `lazyown.py`, `tests/test_askpass.py`
+- `display_available` (function) `modules/askpass.py:24` `def display_available()` -- Return whether a graphical display server is reachable.
+- `find_native_askpass` (function) `modules/askpass.py:36` `def find_native_askpass()` -- Return the first installed native askpass helper, empty when none.
+- `create_zenity_askpass` (function) `modules/askpass.py:65` `def create_zenity_askpass()` -- Write a temporary askpass helper backed by zenity or yad.
+- `graphical_askpass_path` (function) `modules/askpass.py:96` `def graphical_askpass_path()` -- Return the best graphical askpass helper path, empty when unusable.
+- `graphical_sudo_available` (function) `modules/askpass.py:116` `def graphical_sudo_available()` -- Return whether a graphical sudo prompt can be shown right now.
+- `graphical_sudo_env` (function) `modules/askpass.py:125` `def graphical_sudo_env()` -- Return the environment variables that route sudo through the GUI.
+- `sudo_graphical_requested` (function) `modules/askpass.py:138` `def sudo_graphical_requested(payload)` -- Return whether the operator asked for graphical sudo prompts.
 
 ## modules/asset_graph.py
 Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
@@ -265,7 +307,7 @@ Imported by: `cli/commands/purple_team.py`
 
 ## modules/auto_registry.py
 Depends on: `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:55` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
 - `verb_enabled` (function) `modules/auto_registry.py:340` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
 - `binary_available` (function) `modules/auto_registry.py:462` `def binary_available(name)` -- Return True when a command token can actually execute here.
@@ -333,7 +375,7 @@ Imported by: `modules/backdoor/backdoor.c`
 - `logg` (function) `modules/backdoor/keylogger.h:1` `DWORD WINAPI logg(LPVOID lpParam)`
 
 ## modules/backdoor/server.c
-Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `contrib/legacy/lazygalazy.py`, `contrib/legacy/lazyhttpreverseshell.py`, `lazyc2.py`, `modules/lazy_oob.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_lazy_proxy.py`, `utils.py`
+Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `contrib/legacy/lazygalazy.py`, `contrib/legacy/lazyhttpreverseshell.py`, `lazyc2.py`, `modules/browser_sync.py`, `modules/lazy_oob.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_bprfuzzer_identity.py`, `tests/test_lazy_proxy.py`, `utils.py`
 - `main` (function) `modules/backdoor/server.c:10` `int main()`
 
 ## modules/beacon_config_builder.py
@@ -397,100 +439,27 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `modules/bof_registry.py`, `test
 
 ## modules/bof_delivery.py
 Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
-Imported by: `cli/commands/bof_registry.py`, `cli/orchestrator_assets_tabs.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`
-- `load_client_addon` (function) `modules/bof_delivery.py:126` `def load_client_addon(client, config)` -- Resolve one beacon client lazyaddon manifest.
-- `staging_dir` (function) `modules/bof_delivery.py:167` `def staging_dir(config)` -- Return (and create) the BOF staging directory.
-- `stage_bof` (function) `modules/bof_delivery.py:182` `def stage_bof(name, config)` -- Stage one catalog BOF for delivery through its client.
-- `beacon_runtime_config` (function) `modules/bof_delivery.py:201` `def beacon_runtime_config(client, client_id, config, payload)` -- Build the C2-aligned beacon runtime configuration.
-- `write_client_config` (function) `modules/bof_delivery.py:273` `def write_client_config(client, client_id, config, payload)` -- Write the generated runtime config into the addon checkout and staging dir.
-- `stage_client` (function) `modules/bof_delivery.py:315` `def stage_client(client, config, payload)` -- Compile and stage a beacon client through its lazyaddon tool.
-- `key_missing_from_error` (function) `modules/bof_delivery.py:565` `def key_missing_from_error(exc)` -- Return True when the error text points at a missing AES key.
-- `delivery_command` (function) `modules/bof_delivery.py:579` `def delivery_command(bof_name, c2_url, args, bofs_dir)` -- Build the ``bof:`` delivery command for one BOF.
-- `queue_to_beacon` (function) `modules/bof_delivery.py:627` `def queue_to_beacon(client_id, command, config, payload)` -- Queue one command for a connected beacon through the C2 API.
-- `recent_beacons` (function) `modules/bof_delivery.py:690` `def recent_beacons(config, payload)` -- Return the beacons currently seen by the C2.
-- `wait_for_beacon` (function) `modules/bof_delivery.py:756` `def wait_for_beacon(client_id, since, timeout, config, payload)` -- Wait until a beacon answers, then return its latest record.
-- `c2_reachable` (function) `modules/bof_delivery.py:834` `def c2_reachable(config, payload)` -- Return True when the C2 answers an authenticated API query.
-- `run_bof` (function) `modules/bof_delivery.py:869` `def run_bof(bof_name, client_id, args)` -- Queue one BOF execution on a live beacon and optionally await output.
-- `run_bof_train` (function) `modules/bof_delivery.py:908` `def run_bof_train(client_id, names, args)` -- Run a sequence of BOFs over one beacon, waiting for each in turn.
-- `deploy_client` (function) `modules/bof_delivery.py:974` `def deploy_client(client, target)` -- Deliver a staged beacon client onto a target and await check-in.
-- `_DockerSession.__init__` (method) `modules/bof_delivery.py:1071` `def __init__(self, container)` -- Bind the adapter to one container name.
-- `_DockerSession.alive` (method) `modules/bof_delivery.py:1075` `def alive(self, timeout)` -- Return True while the container answers ``echo``.
-- `_DockerSession.run` (method) `modules/bof_delivery.py:1095` `def run(self, command, timeout)` -- Execute one shell line inside the container.
-- `config_sessions_dir` (function) `modules/bof_delivery.py:1246` `def config_sessions_dir()` -- Return the sessions directory of the default delivery config.
-- `bof_results` (function) `modules/bof_delivery.py:1267` `def bof_results(client_id, limit, config)` -- Read the last beacon history records for one client.
-
-## modules/bof_registry.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
-Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
-- `BofEntry.to_dict` (method) `modules/bof_registry.py:130` `def to_dict(self)` -- Serialize to dictionary.
-- `BofEntry.from_dict` (method) `modules/bof_registry.py:151` `def from_dict(cls, raw)` -- Build from a dictionary.
-- `BofCatalog.register` (method) `modules/bof_registry.py:183` `def register(self, entry)` -- Register a BOF entry in the catalog.
-- `BofCatalog.register_many` (method) `modules/bof_registry.py:188` `def register_many(self, entries)` -- Register multiple BOF entries at once.
-- `BofCatalog.get` (method) `modules/bof_registry.py:193` `def get(self, name)` -- Retrieve a BOF entry by name.
-- `BofCatalog.search` (method) `modules/bof_registry.py:204` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
-- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:237` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
-- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:241` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
-- `BofCatalog.list_all` (method) `modules/bof_registry.py:245` `def list_all(self)` -- Return all catalog entries sorted by name.
-- `BofCatalog.to_dict` (method) `modules/bof_registry.py:249` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
-- `BofCatalog.from_dict` (method) `modules/bof_registry.py:257` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
-- `BofCatalog.load` (method) `modules/bof_registry.py:265` `def load(cls, path)` -- Load a catalog from a JSON file.
-- `BofCatalog.save` (method) `modules/bof_registry.py:273` `def save(self, path)` -- Save the catalog to a JSON file.
-- `BofYamlStore.__init__` (method) `modules/bof_registry.py:290` `def __init__(self, directory)` -- Bind the store to a directory.
-- `BofYamlStore.directory` (method) `modules/bof_registry.py:299` `def directory(self)` -- Return the directory bound to this store.
-- `BofYamlStore.load_entries` (method) `modules/bof_registry.py:303` `def load_entries(self)` -- Parse every YAML file into :class:`BofEntry` objects.
-- `BofYamlStore.load_catalog` (method) `modules/bof_registry.py:342` `def load_catalog(self)` -- Build a :class:`BofCatalog` from the YAML configuration files.
-- `find_client_artifact` (function) `modules/bof_registry.py:362` `def find_client_artifact(entry)` -- Resolve the compiled object file of a BOF across all known source trees.
-- `client_addon_install_path` (function) `modules/bof_registry.py:415` `def client_addon_install_path(client, addons_dir)` -- Read the ``tool.install_path`` of one beacon client lazyaddon.
-- `stage_entry_bof` (function) `modules/bof_registry.py:441` `def stage_entry_bof(entry, sessions_dir)` -- Stage a compiled BOF object for beacon delivery.
-- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:482` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
-- `BofValidator.verify_entry` (method) `modules/bof_registry.py:491` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
-- `BofValidator.validate_args` (method) `modules/bof_registry.py:507` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
-- `BofRegistry.__init__` (method) `modules/bof_registry.py:526` `def __init__(self, sessions_dir)`
-- `BofRegistry.install_dir` (method) `modules/bof_registry.py:532` `def install_dir(self)` -- Return the BOF installation directory.
-- `BofRegistry.is_installed` (method) `modules/bof_registry.py:552` `def is_installed(self, name)` -- Return True if a BOF is installed.
-- `BofRegistry.install` (method) `modules/bof_registry.py:557` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
-- `BofRegistry.uninstall` (method) `modules/bof_registry.py:578` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
-- `BofRegistry.list_installed` (method) `modules/bof_registry.py:595` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
-- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:600` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
-- `BofMarketplace.__init__` (method) `modules/bof_registry.py:618` `def __init__(self, sessions_dir, catalog)`
-- `BofMarketplace.catalog` (method) `modules/bof_registry.py:629` `def catalog(self)` -- Return the catalog.
-- `BofMarketplace.registry` (method) `modules/bof_registry.py:634` `def registry(self)` -- Return the registry.
-- `BofMarketplace.search` (method) `modules/bof_registry.py:638` `def search(self, query)` -- Search the catalog and return enriched results with install status.
-- `BofMarketplace.info` (method) `modules/bof_registry.py:657` `def info(self, name)` -- Get detailed information about a BOF by name.
-- `BofMarketplace.install` (method) `modules/bof_registry.py:674` `def install(self, name)` -- Install a BOF from the catalog by name.
-- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:703` `def uninstall(self, name)` -- Uninstall a BOF by name.
-- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:716` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
-- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:728` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
-- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:736` `def bulk_install(self, names)` -- Install multiple BOFs at once.
-
-## modules/bsb_compat.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`
-- `derive_bsb_keys` (function) `modules/bsb_compat.py:46` `def derive_bsb_keys(master_key)` -- Derive the BSB encryption and HMAC keys from the raw C2 key.
-- `decrypt_bsb_report` (function) `modules/bsb_compat.py:84` `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` -- Decrypt and decode one BSB report.
-- `encrypt_bsb_command` (function) `modules/bsb_compat.py:133` `def encrypt_bsb_command(data, master_key)` -- Encrypt one command for a BSB beacon in the legacy wire format.
-
-## modules/c2_agent.py
-Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
-Imported by: `cli/commands/c2_session.py`
-- `client_id_for` (function) `modules/c2_agent.py:94` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
-- `validate_client_id` (function) `modules/c2_agent.py:119` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
-- `build_agent` (function) `modules/c2_agent.py:398` `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
-- `read_aes_hex` (function) `modules/c2_agent.py:528` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
-- `deploy` (function) `modules/c2_agent.py:533` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
-- `read_records` (function) `modules/c2_agent.py:680` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
-- `wait_record` (function) `modules/c2_agent.py:697` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
-- `C2Server.__init__` (method) `modules/c2_agent.py:714` `def __init__(self, port, user, password)`
-- `C2Server.status` (method) `modules/c2_agent.py:731` `def status(self)` -- Report server liveness and listener reachability.
-- `C2Server.start` (method) `modules/c2_agent.py:763` `def start(self)` -- Start lazyc2 headless (no-op when already running).
-- `C2Server.stop` (method) `modules/c2_agent.py:794` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
-- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:817` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
-
-## modules/c2_builder.py
-Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
-- `C2Builder.__init__` (method) `modules/c2_builder.py:452` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-- `C2Builder.run` (method) `modules/c2_builder.py:510` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
+Imported by: `cli/commands/bof_registry.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
+- `load_client_addon` (function) `modules/bof_delivery.py:180` `def load_client_addon(client, config)` -- Resolve one beacon client lazyaddon manifest.
+- `staging_dir` (function) `modules/bof_delivery.py:221` `def staging_dir(config)` -- Return (and create) the BOF staging directory.
+- `stage_bof` (function) `modules/bof_delivery.py:236` `def stage_bof(name, config)` -- Stage one catalog BOF for delivery through its client.
+- `beacon_runtime_config` (function) `modules/bof_delivery.py:255` `def beacon_runtime_config(client, client_id, config, payload)` -- Build the C2-aligned beacon runtime configuration.
+- `write_client_config` (function) `modules/bof_delivery.py:332` `def write_client_config(client, client_id, config, payload)` -- Write the generated runtime config into the addon checkout and staging dir.
+- `stage_client` (function) `modules/bof_delivery.py:374` `def stage_client(client, config, payload)` -- Compile and stage a beacon client through its lazyaddon tool.
+- `key_missing_from_error` (function) `modules/bof_delivery.py:626` `def key_missing_from_error(exc)` -- Return True when the error text points at a missing AES key.
+- `delivery_command` (function) `modules/bof_delivery.py:640` `def delivery_command(bof_name, c2_url, args, bofs_dir)` -- Build the ``bof:`` delivery command for one BOF.
+- `queue_to_beacon` (function) `modules/bof_delivery.py:688` `def queue_to_beacon(client_id, command, config, payload)` -- Queue one command for a connected beacon through the C2 API.
+- `recent_beacons` (function) `modules/bof_delivery.py:751` `def recent_beacons(config, payload)` -- Return the beacons currently seen by the C2.
+- `wait_for_beacon` (function) `modules/bof_delivery.py:817` `def wait_for_beacon(client_id, since, timeout, config, payload)` -- Wait until a beacon answers, then return its latest record.
+- `c2_reachable` (function) `modules/bof_delivery.py:895` `def c2_reachable(config, payload)` -- Return True when the C2 answers an authenticated API query.
+- `run_bof` (function) `modules/bof_delivery.py:930` `def run_bof(bof_name, client_id, args)` -- Queue one BOF execution on a live beacon and optionally await output.
+- `run_bof_train` (function) `modules/bof_delivery.py:969` `def run_bof_train(client_id, names, args)` -- Run a sequence of BOFs over one beacon, waiting for each in turn.
+- `deploy_client` (function) `modules/bof_delivery.py:1035` `def deploy_client(client, target)` -- Deliver a staged beacon client onto a target and await check-in.
+- `_DockerSession.__init__` (method) `modules/bof_delivery.py:1160` `def __init__(self, container)` -- Bind the adapter to one container name.
+- `_DockerSession.alive` (method) `modules/bof_delivery.py:1164` `def alive(self, timeout)` -- Return True while the container answers ``echo``.
+- `_DockerSession.run` (method) `modules/bof_delivery.py:1184` `def run(self, command, timeout)` -- Execute one shell line inside the container.
+- `config_sessions_dir` (function) `modules/bof_delivery.py:1335` `def config_sessions_dir()` -- Return the sessions directory of the default delivery config.
+- `bof_results` (function) `modules/bof_delivery.py:1356` `def bof_results(client_id, limit, config)` -- Read the last beacon history records for one client.
 
 
 Next: [API_p11.md](API_p11.md)

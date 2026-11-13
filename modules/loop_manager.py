@@ -49,6 +49,7 @@ REGISTRY_FILENAME = "registry.json"
 LOG_FILENAME = "output.log"
 PROFILE_FILENAME = "profile.yaml"
 METADATA_FILENAME = "metadata.json"
+RESULT_FILENAME = "result.json"
 
 KIND_AUTO_LOOP = "auto_loop"
 KIND_LAZY_NMAP = "lazynmap"
@@ -419,6 +420,7 @@ class LoopManager:
         ]
         env = os.environ.copy()
         env["LAZYOWN_AUTONOMOUS"] = "1"
+        env["LAZYOWN_LOOP_WORKSPACE"] = str(workspace)
         env["PYTHONUNBUFFERED"] = "1"
         started_at = _now_iso()
         record: dict[str, Any] = {
@@ -440,6 +442,7 @@ class LoopManager:
             "started_by": operator or "unknown",
             "log_path": str(log_path),
             "log_bytes": 0,
+            "workspace": str(workspace),
         }
         try:
             log_handle = log_path.open("wb")
@@ -470,6 +473,12 @@ class LoopManager:
     def _reap(self, loop_id: str, process: subprocess.Popen) -> None:
         """Wait for one loop subprocess and finalize its registry record.
 
+        The engine's real ending (status, verdict, findings) is read from
+        the workspace ``result.json`` the loop subprocess writes before
+        exiting; the dashboard then shows the loop outcome instead of a
+        bare process exit code. Exit code stays the fallback signal when
+        no outcome file exists.
+
         Args:
             loop_id: Loop identifier.
             process: The Popen handle for the loop subprocess.
@@ -483,12 +492,59 @@ class LoopManager:
                 if record.get("id") != loop_id:
                     continue
                 record["exit_code"] = _ORPHAN_EXIT_CODE if was_stopping else exit_code
-                record["status"] = STATUS_STOPPED if was_stopping else (
-                    STATUS_FINISHED if exit_code == 0 else STATUS_FAILED
-                )
+                if was_stopping:
+                    record["status"] = STATUS_STOPPED
+                else:
+                    workspace = Path(str(record.get("workspace", "") or ""))
+                    outcome = self._read_outcome(workspace)
+                    if outcome:
+                        record["outcome"] = outcome
+                        record["status"] = (
+                            STATUS_FINISHED if outcome.get("success") else STATUS_FAILED
+                        )
+                        if str(outcome.get("status", "")) == "cancelled":
+                            record["status"] = STATUS_STOPPED
+                    else:
+                        record["status"] = STATUS_FINISHED if exit_code == 0 else STATUS_FAILED
                 record["finished_at"] = _now_iso()
+                self._write_workspace_metadata(record)
                 break
             self._save_registry_locked(records)
+
+    @staticmethod
+    def _write_workspace_metadata(record: dict[str, Any]) -> None:
+        """Refresh the workspace metadata file with the final record.
+
+        Args:
+            record: Finalized registry record (must carry a workspace).
+        """
+        workspace = str(record.get("workspace", "") or "")
+        if not workspace:
+            return
+        try:
+            Path(workspace).joinpath(METADATA_FILENAME).write_text(
+                json.dumps(record, indent=2), encoding="utf-8"
+            )
+        except (OSError, TypeError, ValueError):
+            pass
+
+    @staticmethod
+    def _read_outcome(workspace: Path) -> dict[str, Any] | None:
+        """Read the loop outcome file from one workspace.
+
+        Args:
+            workspace: Loop workspace directory.
+
+        Returns:
+            The outcome mapping, or None when absent or unreadable.
+        """
+        if not str(workspace or ""):
+            return None
+        try:
+            data = json.loads((workspace / RESULT_FILENAME).read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return None
+        return data if isinstance(data, dict) else None
 
     def list_loops(self) -> list[dict[str, Any]]:
         """Return every registry record with refreshed live status.

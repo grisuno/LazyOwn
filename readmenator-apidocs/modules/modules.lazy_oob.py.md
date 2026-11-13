@@ -135,7 +135,7 @@ Start (or reuse) the canary listener.
 | `host` | `str` | `''` | Bind address; empty binds to ``lhost`` from payload.json, falling back to loopback. |
 | `port` | `int` | `DEFAULT_PORT` | Bind port; 0 picks a free ephemeral port. |
 
-**Returns:** `dict[str, Any]` - Mapping with `[`ok`](scripts.top_tier_check.py.md#ok)`, `[`token`](#oobhit-token)`, ``port``, `[`url`](#url)` and ``error``.
+**Returns:** `dict[str, Any]` - Mapping with `[`ok`](scripts.top_tier_check.py.md#ok)`, `[`token`](modules.browser_sync.py.md#token)`, ``port``, `[`url`](#url)` and ``error``.
 
 *Calls:* [`new_token`](#new_token)
 

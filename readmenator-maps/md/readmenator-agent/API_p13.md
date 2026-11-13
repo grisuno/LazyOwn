@@ -1,6 +1,144 @@
 # API (page 13 of 28)
 Previous: [API_p12.md](API_p12.md)
 
+## modules/exploit_recommender.py
+Depends on: `lazygui/version.py`, `modules/world_model.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`
+- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
+- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
+- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
+- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
+- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
+- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
+- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
+- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
+
+## modules/exploitdb_bridge.py
+- `scan_tier0` (function) `modules/exploitdb_bridge.py:105` `def scan_tier0(limit, platform, only_cve)`
+- `gen_yaml` (function) `modules/exploitdb_bridge.py:151` `def gen_yaml(item, outdir)`
+- `sync_tier0` (function) `modules/exploitdb_bridge.py:194` `def sync_tier0(limit, platform, only_cve, outdir)`
+
+## modules/exploitdb_c_bridge.py
+- `scan_c` (function) `modules/exploitdb_c_bridge.py:32` `def scan_c(limit, platform, skip_existing)`
+- `gen_c_yaml_compile_on_use` (function) `modules/exploitdb_c_bridge.py:89` `def gen_c_yaml_compile_on_use(item)`
+- `gen_batch` (function) `modules/exploitdb_c_bridge.py:134` `def gen_batch(limit)`
+- `compile_batch` (function) `modules/exploitdb_c_bridge.py:148` `def compile_batch(limit)`
+- `gen_c_yaml` (function) `modules/exploitdb_c_bridge.py:152` `def gen_c_yaml(item, binpath, wrapper)`
+
+## modules/exploitgym_gym.py
+Depends on: `modules/redteam_gym.py`
+Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
+- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
+- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
+- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
+- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
+- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
+- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
+- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
+
+## modules/factsio.py
+Depends on: `core/logging.py`
+Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
+- `load_policy_facts` (function) `modules/factsio.py:39` `def load_policy_facts(path)` -- Load ``policy_facts.json`` into canonical host-keyed form.
+- `canonical_policy_facts` (function) `modules/factsio.py:61` `def canonical_policy_facts(data)` -- Project any legacy or canonical facts document to host-keyed form.
+- `iter_host_records` (function) `modules/factsio.py:81` `def iter_host_records(host_keyed)` -- Yield ``(ip, record)`` pairs from canonical host-keyed facts.
+- `iter_flat_facts` (function) `modules/factsio.py:93` `def iter_flat_facts(host_keyed)` -- Yield one flat record per fact kind found in the host map.
+
+## modules/failure_verdict.py
+Depends on: `cli/commands/enum.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `modules/lazy_fallback.py`, `tests/test_failure_verdict.py`, `tests/test_lazy_fallback.py`
+- `FailureVerdict.is_hard_stop` (method) `modules/failure_verdict.py:126` `def is_hard_stop(self)` -- Return True when the verdict forbids any further attempt.
+- `FailureVerdict.is_fallback_eligible` (method) `modules/failure_verdict.py:131` `def is_fallback_eligible(self)` -- Return True when adaptive alternatives may replace the retry.
+- `classify_failure` (function) `modules/failure_verdict.py:144` `def classify_failure(command, output, exit_code, timed_out)` -- Classify one failed attempt into a verdict with an engine action.
+- `classify_outcome` (function) `modules/failure_verdict.py:192` `def classify_outcome(outcome)` -- Classify one runner outcome object carrying the standard fields.
+
+## modules/fast_run_service.sh
+- `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
+- `log_info` (function) `modules/fast_run_service.sh:73`
+- `log_warn` (function) `modules/fast_run_service.sh:77`
+- `log_error` (function) `modules/fast_run_service.sh:81`
+- `require_root` (function) `modules/fast_run_service.sh:89` -- # # Pre-flight checks.
+- `require_deps` (function) `modules/fast_run_service.sh:97`
+- `require_paths` (function) `modules/fast_run_service.sh:113`
+- `prepare_runtime_dirs` (function) `modules/fast_run_service.sh:126`
+- `load_config` (function) `modules/fast_run_service.sh:139`
+- `config_truthy` (function) `modules/fast_run_service.sh:155`
+- `pid_file_for` (function) `modules/fast_run_service.sh:166` -- # # PID-file primitives.
+- `log_file_for` (function) `modules/fast_run_service.sh:171`
+- `read_pid_value` (function) `modules/fast_run_service.sh:176`
+- `is_pid_alive` (function) `modules/fast_run_service.sh:189`
+- `is_service_running` (function) `modules/fast_run_service.sh:194`
+- `write_pid_file` (function) `modules/fast_run_service.sh:201`
+- `ensure_log_file` (function) `modules/fast_run_service.sh:211`
+- `spawn_as_target_user` (function) `modules/fast_run_service.sh:228` -- # # Process spawn primitives.
+- `spawn_as_root` (function) `modules/fast_run_service.sh:247`
+- `terminate_pid_tree` (function) `modules/fast_run_service.sh:264`
+- `stop_named_service` (function) `modules/fast_run_service.sh:292`
+- `chown_project_tree` (function) `modules/fast_run_service.sh:310` -- # # Ownership maintenance.
+- `start_chown_watcher` (function) `modules/fast_run_service.sh:315`
+- `start_lazyc2_service` (function) `modules/fast_run_service.sh:342` -- # # Concrete service launchers.
+- `start_www_service` (function) `modules/fast_run_service.sh:356`
+- `start_vpn_service` (function) `modules/fast_run_service.sh:363`
+- `start_discord_service` (function) `modules/fast_run_service.sh:380`
+- `start_telegram_service` (function) `modules/fast_run_service.sh:390`
+- `start_cloudflare_service` (function) `modules/fast_run_service.sh:400`
+- `start_ollama_service` (function) `modules/fast_run_service.sh:410`
+- `managed_services_in_order` (function) `modules/fast_run_service.sh:429` -- # # Service registry.
+- `cmd_start` (function) `modules/fast_run_service.sh:445` -- # # Lifecycle commands.
+- `cmd_stop` (function) `modules/fast_run_service.sh:465`
+- `cmd_restart` (function) `modules/fast_run_service.sh:480`
+- `cmd_status` (function) `modules/fast_run_service.sh:486`
+- `cmd_logs` (function) `modules/fast_run_service.sh:505`
+- `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
+- `usage` (function) `modules/fast_run_service.sh:528`
+- `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
+
+## modules/finding_enrich.py
+Imported by: `modules/lazy_loop.py`
+- `enrich_refs` (function) `modules/finding_enrich.py:44` `def enrich_refs(refs)` -- Canonicalise evidence refs into a stable, deduplicated ordering.
+- `enrich_finding` (function) `modules/finding_enrich.py:96` `def enrich_finding(traffic_log, finding_id, graph)` -- Enrich one finding's stored evidence in place, idempotently.
+
+## modules/finding_lifecycle.py
+Depends on: `modules/osint_enrich.py`
+Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+- `evidence_floor` (function) `modules/finding_lifecycle.py:52` `def evidence_floor(items)` -- Whether hard evidence is present in a list of evidence strings.
+- `confirm` (function) `modules/finding_lifecycle.py:94` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
+- `reject` (function) `modules/finding_lifecycle.py:123` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
+- `add_dead_end` (function) `modules/finding_lifecycle.py:137` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
+- `is_dead_end` (function) `modules/finding_lifecycle.py:149` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
+- `suppressed_values` (function) `modules/finding_lifecycle.py:156` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
+- `resolve` (function) `modules/finding_lifecycle.py:162` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
+- `apply_confirmation` (function) `modules/finding_lifecycle.py:190` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
+- `record` (function) `modules/finding_lifecycle.py:270` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
+- `findings_for` (function) `modules/finding_lifecycle.py:295` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
+- `set_status` (function) `modules/finding_lifecycle.py:300` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
+- `has_running_retest` (function) `modules/finding_lifecycle.py:346` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
+- `request_retest` (function) `modules/finding_lifecycle.py:354` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
+- `resolve_retest` (function) `modules/finding_lifecycle.py:374` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
+- `classify_retest` (function) `modules/finding_lifecycle.py:420` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
+- `render_markdown` (function) `modules/finding_lifecycle.py:439` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
+
+## modules/forensic_cleaner.py
+Imported by: `cli/commands/opsec_cleanup.py`
+- `ForensicCleaner.__init__` (method) `modules/forensic_cleaner.py:67` `def __init__(self, config)`
+- `ForensicCleaner.windows_cleanup` (method) `modules/forensic_cleaner.py:70` `def windows_cleanup(self)` -- Generate Windows forensic artifact cleanup commands.
+- `ForensicCleaner.linux_cleanup` (method) `modules/forensic_cleaner.py:165` `def linux_cleanup(self)` -- Generate Linux forensic artifact cleanup commands.
+- `ForensicCleaner.macos_cleanup` (method) `modules/forensic_cleaner.py:193` `def macos_cleanup(self)` -- Generate macOS forensic artifact cleanup commands.
+- `ForensicCleaner.windows_prefetch_parse` (method) `modules/forensic_cleaner.py:221` `def windows_prefetch_parse(self, prefetch_path)` -- Parse Prefetch files to identify what the attacker should clean.
+- `ForensicCleaner.amcache_parse` (method) `modules/forensic_cleaner.py:259` `def amcache_parse(self)` -- Parse Amcache registry entries for evidence of execution.
+
+## modules/gcp_attacks.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `GCPAttackEngine.__init__` (method) `modules/gcp_attacks.py:90` `def __init__(self, config)`
+- `GCPAttackEngine.enumerate_iam_policy` (method) `modules/gcp_attacks.py:93` `def enumerate_iam_policy(self, resource)` -- Enumerate IAM policies for projects, folders, or organizations.
+- `GCPAttackEngine.service_account_impersonation` (method) `modules/gcp_attacks.py:119` `def service_account_impersonation(self)` -- Exploit service account impersonation for privilege escalation.
+- `GCPAttackEngine.cloud_functions_backdoor` (method) `modules/gcp_attacks.py:144` `def cloud_functions_backdoor(self)` -- Backdoor Cloud Functions for privilege escalation.
+- `GCPAttackEngine.compute_engine_metadata_exfil` (method) `modules/gcp_attacks.py:173` `def compute_engine_metadata_exfil(self)` -- Exfiltrate GCE instance metadata and service account tokens.
+- `GCPAttackEngine.gcs_enumeration` (method) `modules/gcp_attacks.py:194` `def gcs_enumeration(self)` -- Enumerate Cloud Storage buckets for sensitive data.
+- `GCPAttackEngine.cloudbuild_abuse` (method) `modules/gcp_attacks.py:230` `def cloudbuild_abuse(self)` -- Abuse Cloud Build for privilege escalation.
+- `GCPAttackEngine.organization_escalation` (method) `modules/gcp_attacks.py:261` `def organization_escalation(self)` -- Escalate from project-level to organization-level access.
+- `GCPAttackEngine.summary` (method) `modules/gcp_attacks.py:297` `def summary(self)`
+
 ## modules/generate_tools.py
 - `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
 
@@ -41,6 +179,14 @@ Imported by: `cli/commands/active_directory.py`
 - `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
 - `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
 - `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
+
+## modules/guard_rules.py
+Depends on: `core/atomic_store.py`, `core/config.py`
+Imported by: `modules/loop/worker_agentic.py`, `tests/test_guard_rules.py`, `tests/test_loop_deterministic_mode.py`
+- `GuardRules.__init__` (method) `modules/guard_rules.py:183` `def __init__(self, task_id, base_dir, override)` -- Assemble the ruleset and persist it once, failing open to the floor.
+- `GuardRules.blocked_verbs` (method) `modules/guard_rules.py:238` `def blocked_verbs(self)` -- Return the verbs the planner must never propose for this task.
+- `GuardRules.blocks_command` (method) `modules/guard_rules.py:242` `def blocks_command(self, command)` -- Return True when a command is seeded-unsafe for an unattended loop.
+- `guard_rules` (function) `modules/guard_rules.py:274` `def guard_rules(task_id)` -- Return a cached :class:`GuardRules` for a task, built at most once.
 
 ## modules/guardrails/advisories.py
 Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
@@ -346,134 +492,6 @@ Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop
 
 ## modules/iptables_portforward.sh
 - `display_usage` (function) `modules/iptables_portforward.sh:29`
-
-## modules/jsonl_tail.py
-Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-- `JsonlTail.__init__` (method) `modules/jsonl_tail.py:17` `def __init__(self, path)` -- Bind the tail to one file path.
-- `JsonlTail.read_new` (method) `modules/jsonl_tail.py:22` `def read_new(self, limit)` -- Return new complete records since the last call.
-
-## modules/k8s_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `K8SAttackEngine.__init__` (method) `modules/k8s_attacks.py:87` `def __init__(self, config)`
-- `K8SAttackEngine.enumerate_rbac` (method) `modules/k8s_attacks.py:90` `def enumerate_rbac(self)` -- Enumerate RBAC permissions for the current identity.
-- `K8SAttackEngine.privileged_pod_escape` (method) `modules/k8s_attacks.py:118` `def privileged_pod_escape(self)` -- Plan a privileged pod escape.
-- `K8SAttackEngine.service_account_token_theft` (method) `modules/k8s_attacks.py:173` `def service_account_token_theft(self)` -- Steal service account tokens across namespaces for lateral movement.
-- `K8SAttackEngine.kubelet_anonymous_auth_abuse` (method) `modules/k8s_attacks.py:198` `def kubelet_anonymous_auth_abuse(self)` -- Exploit kubelet anonymous authentication.
-- `K8SAttackEngine.etcd_access_exploitation` (method) `modules/k8s_attacks.py:222` `def etcd_access_exploitation(self)` -- Exploit etcd database access for complete cluster compromise.
-- `K8SAttackEngine.helm_tiller_abuse` (method) `modules/k8s_attacks.py:250` `def helm_tiller_abuse(self)` -- Abuse Helm (v2 Tiller or v3 RBAC) for privilege escalation.
-- `K8SAttackEngine.persistence_techniques` (method) `modules/k8s_attacks.py:278` `def persistence_techniques(self)` -- Kubernetes persistence techniques for long-term access.
-- `K8SAttackEngine.summary` (method) `modules/k8s_attacks.py:318` `def summary(self)`
-
-## modules/kerberoasting.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `KerberoastingEngine.__init__` (method) `modules/kerberoasting.py:95` `def __init__(self, domain, dc_ip, username, password, hash)`
-- `KerberoastingEngine.enumerate_spns` (method) `modules/kerberoasting.py:112` `def enumerate_spns(self, ldap_output, bloodhound_data)` -- Enumerate kerberoastable service principals.
-- `priority` (function) `modules/kerberoasting.py:172` `def priority(target)`
-- `KerberoastingEngine.request_tgs_aes_only` (method) `modules/kerberoasting.py:187` `def request_tgs_aes_only(self, user_spn)` -- Request a TGS ticket using only AES encryption (evades RC4 detection).
-- `KerberoastingEngine.request_tgs_rc4` (method) `modules/kerberoasting.py:208` `def request_tgs_rc4(self, user_spn)` -- Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
-- `KerberoastingEngine.request_tgs` (method) `modules/kerberoasting.py:219` `def request_tgs(self, user_spn, etype)` -- Request a TGS service ticket for kerberoasting.
-- `KerberoastingEngine.targeted_kerberoast` (method) `modules/kerberoasting.py:271` `def targeted_kerberoast(self, high_value_only)` -- Perform targeted Kerberoasting on enumerated SPNs.
-- `KerberoastingEngine.asreproast_check` (method) `modules/kerberoasting.py:306` `def asreproast_check(self, usernames)` -- Check which users do NOT require Kerberos pre-authentication (AS-REP roastable).
-- `KerberoastingEngine.extract_hashes_from_pcap` (method) `modules/kerberoasting.py:321` `def extract_hashes_from_pcap(self, pcap_path)` -- Extract Kerberoast hashes from a PCAP/PCAPNG network capture.
-- `KerberoastingEngine.detect_kerberoasting_activity` (method) `modules/kerberoasting.py:336` `def detect_kerberoasting_activity(self, event_log)` -- Analyze Windows Event Logs for signs of Kerberoasting attacks.
-- `KerberoastingEngine.build_hashcat_batch` (method) `modules/kerberoasting.py:379` `def build_hashcat_batch(self, output_path)` -- Build a batch file with all extracted hashes for Hashcat cracking.
-- `KerberoastingEngine.summary` (method) `modules/kerberoasting.py:401` `def summary(self)` -- Return a summary of kerberoasting operations.
-
-## modules/kerberos_core.py
-Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
-- `KerberosPrincipal.to_string` (method) `modules/kerberos_core.py:152` `def to_string(self)`
-- `KerberosTicket.has_flag` (method) `modules/kerberos_core.py:207` `def has_flag(self, flag_name)`
-- `KerberosCrypto.__init__` (method) `modules/kerberos_core.py:277` `def __init__(self)`
-- `KerberosCrypto.derive_aes_key` (method) `modules/kerberos_core.py:282` `def derive_aes_key(password, salt, etype)` -- Derive an AES Kerberos key from a password using string-to-key.
-- `KerberosCrypto.derive_rc4_key` (method) `modules/kerberos_core.py:318` `def derive_rc4_key(password)` -- Derive RC4-HMAC Kerberos key from password (hash = MD4(UTF16LE(password))).
-- `KerberosCrypto.aes_encrypt` (method) `modules/kerberos_core.py:329` `def aes_encrypt(self, key, plaintext, usage)` -- AES encrypt with Kerberos ciphertext stealing (CTS) mode.
-- `KerberosCrypto.aes_decrypt` (method) `modules/kerberos_core.py:361` `def aes_decrypt(self, key, ciphertext, usage)` -- AES decrypt with Kerberos CTS mode.
-- `KerberosCrypto.compute_checksum` (method) `modules/kerberos_core.py:389` `def compute_checksum(key, data, etype)` -- Compute a Kerberos checksum using HMAC-SHA1-96-AES.
-- `KerberosCore.__init__` (method) `modules/kerberos_core.py:421` `def __init__(self, domain, dc_host, dc_ip)`
-- `KerberosCore.get_supported_etypes` (method) `modules/kerberos_core.py:427` `def get_supported_etypes(self)` -- Return encryption types supported by this implementation.
-- `KerberosCore.build_as_req` (method) `modules/kerberos_core.py:435` `def build_as_req(self, username, domain, password, etype)` -- Build an AS-REQ message for TGT retrieval.
-- `KerberosCore.build_tgs_req` (method) `modules/kerberos_core.py:489` `def build_tgs_req(self, params)` -- Build a TGS-REQ message for service ticket retrieval.
-- `KerberosCore.parse_as_rep` (method) `modules/kerberos_core.py:534` `def parse_as_rep(self, as_rep_data, key, etype)` -- Parse an AS-REP response and extract the TGT and session key.
-- `KerberosCore.parse_tgs_rep` (method) `modules/kerberos_core.py:550` `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` -- Parse a TGS-REP response and extract the service ticket.
-- `KerberosCore.decrypt_ticket` (method) `modules/kerberos_core.py:563` `def decrypt_ticket(self, ticket_data, key, etype)` -- Decrypt the encrypted portion of a Kerberos ticket.
-- `KerberosCore.parse_pac` (method) `modules/kerberos_core.py:588` `def parse_pac(self, pac_data)` -- Parse a Privilege Attribute Certificate (PAC) from decrypted auth data.
-- `KerberosErrorParser.parse_error` (method) `modules/kerberos_core.py:687` `def parse_error(error_data)` -- Extract error code, message, and client/server realm from a KRB-ERROR.
-- `TicketValidator.is_expired` (method) `modules/kerberos_core.py:706` `def is_expired(endtime, grace_period)` -- Check if a ticket has expired.
-- `TicketValidator.validate_flags` (method) `modules/kerberos_core.py:719` `def validate_flags(ticket, required_flags)` -- Check that a ticket has all required flags.
-- `TicketValidator.validate_pac_checksums` (method) `modules/kerberos_core.py:735` `def validate_pac_checksums(pac)` -- Validate PAC server and KDC checksums.
-
-## modules/kerberos_tickets.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `SilverTicketForger.__init__` (method) `modules/kerberos_tickets.py:131` `def __init__(self)`
-- `SilverTicketForger.forge` (method) `modules/kerberos_tickets.py:134` `def forge(self, config)` -- Forge a silver ticket for the specified service.
-- `GoldenTicketForger.__init__` (method) `modules/kerberos_tickets.py:272` `def __init__(self)`
-- `GoldenTicketForger.forge` (method) `modules/kerberos_tickets.py:275` `def forge(self, config)` -- Forge a golden ticket TGT.
-- `DiamondTicketForger.__init__` (method) `modules/kerberos_tickets.py:405` `def __init__(self)`
-- `DiamondTicketForger.forge` (method) `modules/kerberos_tickets.py:408` `def forge(self, config)` -- Forge a diamond ticket with PAC enhancement.
-- `SapphireTicketForger.__init__` (method) `modules/kerberos_tickets.py:469` `def __init__(self, kerberos_core)`
-- `SapphireTicketForger.forge_s4u2self` (method) `modules/kerberos_tickets.py:472` `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` -- Generate a TGS-REQ for S4U2self service ticket.
-- `SapphireTicketForger.forge_rbcd` (method) `modules/kerberos_tickets.py:530` `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` -- Generate exploit instructions for resource-based constrained delegation.
-- `SkeletonKeyInjector.detect_skeleton_key` (method) `modules/kerberos_tickets.py:578` `def detect_skeleton_key(target_host, domain, dc_ip)` -- Check if skeleton key is active on a DC.
-- `SkeletonKeyInjector.inject_command` (method) `modules/kerberos_tickets.py:600` `def inject_command(target_host)` -- Generate mimikatz command for skeleton key injection on a DC.
-- `SkeletonKeyInjector.cleanup_command` (method) `modules/kerberos_tickets.py:612` `def cleanup_command()` -- Generate LSASS restart command to remove skeleton key patch.
-
-## modules/kill_chain_viz.py
-Depends on: `modules/killchain.py`
-Imported by: `lazyc2.py`
-- `generate_html` (function) `modules/kill_chain_viz.py:69` `def generate_html(target, sessions)`
-- `generate_svg` (function) `modules/kill_chain_viz.py:102` `def generate_svg(target, sessions)`
-
-## modules/killchain.py
-Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
-- `KillChainConfig.world_model_path` (method) `modules/killchain.py:177` `def world_model_path(self)` -- Return the resolved path to world_model.json.
-- `KillChainConfig.phase_index` (method) `modules/killchain.py:181` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
-- `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:188` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
-- `KillChain.config` (method) `modules/killchain.py:215` `def config()` -- Return the centralised configuration.
-- `KillChain.phases` (method) `modules/killchain.py:220` `def phases()` -- Return the canonical 8-phase tuple.
-- `KillChain.phase_labels` (method) `modules/killchain.py:225` `def phase_labels()` -- Return the canonical phase label mapping.
-- `KillChain.phase_colors` (method) `modules/killchain.py:230` `def phase_colors()` -- Return the canonical phase hex-color mapping.
-- `KillChain.phase_rich_colors` (method) `modules/killchain.py:235` `def phase_rich_colors()` -- Return the canonical phase rich-terminal color mapping.
-- `KillChain.engagement_phase_to_cli` (method) `modules/killchain.py:240` `def engagement_phase_to_cli(engagement_value)` -- Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
-- `KillChain.cli_phase_to_host_state` (method) `modules/killchain.py:252` `def cli_phase_to_host_state(phase)` -- Map a CLI phase to a ``WorldModel.HostState`` value.
-- `KillChain.current_phase` (method) `modules/killchain.py:265` `def current_phase(world_model_path)` -- Derive the current kill-chain phase.
-- `KillChain.advance_phase` (method) `modules/killchain.py:312` `def advance_phase(new_phase, world_model_path, host, extras)` -- Advance the kill-chain phase for connected surfaces.
-- `KillChain.get_progress` (method) `modules/killchain.py:416` `def get_progress(world_model_path)` -- Return the current kill-chain progress as a list of status objects.
-- `KillChain.compact_progress` (method) `modules/killchain.py:465` `def compact_progress(current_phase, phases_entered)` -- Return a compact single-line progress indicator ``[R>E>X>P>L]``.
-- `KillChain.phases_for_display` (method) `modules/killchain.py:485` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
-- `KillChain.phase_index` (method) `modules/killchain.py:496` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
-- `KillChain.snapshot` (method) `modules/killchain.py:501` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
-- `KillChain.technique_for_phase` (method) `modules/killchain.py:541` `def technique_for_phase(phase)` -- Return the ATT&CK tactic id of one canonical phase.
-- `KillChain.technique_for_vulnclass` (method) `modules/killchain.py:553` `def technique_for_vulnclass(vulnclass)` -- Return the ATT&CK technique id for one vulnerability class.
-- `get_killchain` (function) `modules/killchain.py:566` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
-- `technique_for_phase` (function) `modules/killchain.py:571` `def technique_for_phase(phase)` -- Module-level alias of :meth:`KillChain.technique_for_phase`.
-- `technique_for_vulnclass` (function) `modules/killchain.py:576` `def technique_for_vulnclass(vulnclass)` -- Module-level alias of :meth:`KillChain.technique_for_vulnclass`.
-
-## modules/kivi.py
-- `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
-- `ReverseShellApp.connect_to_server` (method) `modules/kivi.py:27` `def connect_to_server(self, instance)`
-
-## modules/lab_runtime.py
-Depends on: `modules/metasploitable_migrations.py`
-Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-- `docker_available` (function) `modules/lab_runtime.py:93` `def docker_available()` -- Return whether the Docker daemon is reachable.
-- `running_containers` (function) `modules/lab_runtime.py:115` `def running_containers()` -- Return the running lab container names.
-- `existing_containers` (function) `modules/lab_runtime.py:131` `def existing_containers()` -- Return every lab container name including stopped ones.
-- `running_range_containers` (function) `modules/lab_runtime.py:148` `def running_range_containers()` -- Return the running cyber range container names.
-- `container_name` (function) `modules/lab_runtime.py:164` `def container_name(scenario)` -- Return the container name for one lab scenario.
-- `container_ip` (function) `modules/lab_runtime.py:169` `def container_ip(container_name)` -- Resolve one container's IPv4 on its Docker network.
-- `ensure_web` (function) `modules/lab_runtime.py:183` `def ensure_web(scenario, name)` -- Start Apache inside a metasploitable container that booted without it.
-- `apply_gym_migrations` (function) `modules/lab_runtime.py:242` `def apply_gym_migrations(name)` -- Apply the metasploitable gym migrations, returning the report.
-- `start` (function) `modules/lab_runtime.py:250` `def start(scenario)` -- Spin up one lab scenario container.
-- `stop` (function) `modules/lab_runtime.py:304` `def stop(scenario)` -- Stop one lab scenario container.
-- `stop_all` (function) `modules/lab_runtime.py:322` `def stop_all()` -- Stop every running lab container.
-- `range_compose` (function) `modules/lab_runtime.py:340` `def range_compose(profile)` -- Return the compose file path for one range profile, or None.
-- `start_range` (function) `modules/lab_runtime.py:349` `def start_range(profile)` -- Start one cyber range profile via Docker Compose.
-- `stop_range` (function) `modules/lab_runtime.py:368` `def stop_range(profile)` -- Stop one cyber range profile (compose down).
-- `stop_ranges` (function) `modules/lab_runtime.py:379` `def stop_ranges()` -- Stop every running cyber range.
-- `ensure_range_secret` (function) `modules/lab_runtime.py:420` `def ensure_range_secret(profile_dir)` -- Generate the DC admin secret file when missing.
 
 
 Next: [API_p14.md](API_p14.md)

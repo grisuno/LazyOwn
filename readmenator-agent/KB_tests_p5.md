@@ -1,5 +1,84 @@
-# Subsystem: tests (page 5 of 25)
+# Subsystem: tests (page 5 of 26)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
+
+## tests/test_c2_agent_dual.py
+- Doc: Dual C2 client profiles (lowpriv/root) contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_specs_dir` (function, line 23) `def _specs_dir()`
+  - `ClientIdProfiles` (class, line 46) `class ClientIdProfiles(TestCase)`
+  - `BuildAgentProfiles` (class, line 63) `class BuildAgentProfiles(TestCase)`
+  - `OpenShellPrivilegeFilter` (class, line 78) `class OpenShellPrivilegeFilter(TestCase)`
+  - `DeployProfiles` (class, line 98) `class DeployProfiles(TestCase)`
+  - `DeployStagingSecurity` (class, line 113) `class DeployStagingSecurity(TestCase)`
+  - `test_default_lowpriv_id` (method, line 47) `def test_default_lowpriv_id(self)`
+  - `test_root_id_suffix` (method, line 50) `def test_root_id_suffix(self)`
+  - `test_invalid_privilege_rejected` (method, line 53) `def test_invalid_privilege_rejected(self)`
+  - `test_ids_validate` (method, line 57) `def test_ids_validate(self)`
+  - `test_lowpriv_default` (method, line 64) `def test_lowpriv_default(self)`
+  - `test_root_profile` (method, line 69) `def test_root_profile(self)`
+  - `test_invalid_privilege` (method, line 73) `def test_invalid_privilege(self)`
+  - `test_root_request_excludes_lowpriv_specs` (method, line 79) `def test_root_request_excludes_lowpriv_specs(self)`
+  - `test_lowpriv_accepts_best_ranked` (method, line 86) `def test_lowpriv_accepts_best_ranked(self)`
+  - `test_unknown_privilege` (method, line 93) `def test_unknown_privilege(self)`
+  - `test_unknown_privilege` (method, line 99) `def test_unknown_privilege(self)`
+  - `test_root_without_root_primitive` (method, line 103) `def test_root_without_root_primitive(self)`
+  - `_FakeSpec` (class, line 116) `class _FakeSpec`
+  - `_fake_session` (method, line 120) `def _fake_session(self, commands)`
+  - `test_deploy_never_uses_predictable_tmp_path` (method, line 136) `def test_deploy_never_uses_predictable_tmp_path(self)`
+  - `test_deploy_hash_gates_launch` (method, line 149) `def test_deploy_hash_gates_launch(self)`
+  - `test_deploy_aborts_when_staging_not_root_owned` (method, line 162) `def test_deploy_aborts_when_staging_not_root_owned(self)`
+  - `test_deploy_aborts_without_private_dir` (method, line 179) `def test_deploy_aborts_without_private_dir(self)`
+  - `test_agent_files_have_unique_names` (method, line 192) `def test_agent_files_have_unique_names(self)`
+  - `_FakeSession` (class, line 121) `class _FakeSession`
+  - `_ForeignSession` (class, line 163) `class _ForeignSession`
+  - `_BareSession` (class, line 180) `class _BareSession`
+  - `run` (method, line 122) `def run(self, cmd, timeout)`
+  - `run` (method, line 164) `def run(self, cmd, timeout)`
+  - `run` (method, line 181) `def run(self, cmd, timeout)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_c2_credential_bootstrap.py
+- Doc: C2 boot credential contract: file, console and RBAC registration.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeUser` (class, line 20) `class _FakeUser`
+  - `_FakeStore` (class, line 27) `class _FakeStore`
+  - `test_credentials_file_written_owner_only` (function, line 52) `def test_credentials_file_written_owner_only(tmp_path)`
+  - `test_register_cli_user_updates_existing` (function, line 60) `def test_register_cli_user_updates_existing(tmp_path)`
+  - `test_register_cli_user_creates_when_new` (function, line 68) `def test_register_cli_user_creates_when_new(tmp_path)`
+  - `test_register_cli_user_skips_unreadable_store` (function, line 75) `def test_register_cli_user_skips_unreadable_store()`
+  - `test_register_cli_user_never_touches_other_accounts` (function, line 82) `def test_register_cli_user_never_touches_other_accounts(tmp_path)`
+  - `_resolve` (function, line 94) `def _resolve(user, password, rotate)`
+  - `test_resolve_rotates_insecure_credentials` (function, line 105) `def test_resolve_rotates_insecure_credentials()`
+  - `test_resolve_keeps_strong_credentials` (function, line 111) `def test_resolve_keeps_strong_credentials()`
+  - `test_resolve_on_boot_flag_wins_over_strong_creds` (function, line 117) `def test_resolve_on_boot_flag_wins_over_strong_creds()`
+  - `test_boot_block_applies_rotation_flag` (function, line 123) `def test_boot_block_applies_rotation_flag()`
+  - `test_revshell_listener_is_not_login_gated` (function, line 131) `def test_revshell_listener_is_not_login_gated()`
+  - `test_boot_block_writes_file_and_registers_cli_user` (function, line 136) `def test_boot_block_writes_file_and_registers_cli_user()`
+  - `test_boot_starts_revshell_listener_thread` (function, line 145) `def test_boot_starts_revshell_listener_thread()`
+  - `test_revshell_listener_accepts_multiple_sessions` (function, line 152) `def test_revshell_listener_accepts_multiple_sessions()`
+  - `__init__` (method, line 21) `def __init__(self, username, password_hash, role)`
+  - `__init__` (method, line 28) `def __init__(self, users, unreadable)`
+  - `find_by_username` (method, line 34) `def find_by_username(self, username)`
+  - `save` (method, line 42) `def save(self, user)`
+  - `create_user` (method, line 45) `def create_user(self, username, password_hash, role)`
+- Depends on: `lazyc2/security/cli_credentials.py`
+
+## tests/test_c2_process_smoke.py
+- Doc: Real-process smoke test: spawn lazyc2.py and drive it over HTTP.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_free_port` (function, line 35) `def _free_port()`
+  - `_wait_port` (function, line 41) `def _wait_port(port, proc, timeout)`
+  - `c2_server` (function, line 55) `def c2_server(tmp_path)`
+  - `TestRealC2Process` (class, line 127) `class TestRealC2Process`
+  - `test_health_remote_shape` (method, line 128) `def test_health_remote_shape(self, c2_server)`
+  - `test_login_then_csrf_command_flow` (method, line 137) `def test_login_then_csrf_command_flow(self, c2_server)`
+  - `test_cli_basic_channel_without_token` (method, line 173) `def test_cli_basic_channel_without_token(self, c2_server)`
 
 ## tests/test_c2_profile_engine.py
 - Doc: Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile...
@@ -405,90 +484,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `_guard_step` (method, line 41) `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)`
   - `spy_runner` (function, line 188) `def spy_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
 - Depends on: `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/chain_registry.py`
-
-## tests/test_chain_mode.py
-- Doc: Tests for cli/chain_mode.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Step` (class, line 36) `class _Step`
-  - `_resolver` (function, line 45) `def _resolver()`
-  - `_engine` (function, line 52) `def _engine(resolver)`
-  - `test_suggestion_from_step_and_string` (function, line 85) `def test_suggestion_from_step_and_string()`
-  - `test_step_none_when_disabled` (function, line 90) `def test_step_none_when_disabled()`
-  - `test_step_none_when_not_interactive` (function, line 95) `def test_step_none_when_not_interactive()`
-  - `test_step_none_for_skip_verbs` (function, line 101) `def test_step_none_for_skip_verbs(verb)`
-  - `test_enter_runs_top_suggestion` (function, line 106) `def test_enter_runs_top_suggestion()`
-  - `test_number_selects_ranked_alternative` (function, line 116) `def test_number_selects_ranked_alternative()`
-  - `test_override_runs_operator_command` (function, line 126) `def test_override_runs_operator_command()`
-  - `test_skip_keeps_chain_mode_enabled` (function, line 136) `def test_skip_keeps_chain_mode_enabled()`
-  - `test_exit_words_disable_chain_mode` (function, line 144) `def test_exit_words_disable_chain_mode(word)`
-  - `test_no_suggestions_enter_skips_custom_command_runs` (function, line 151) `def test_no_suggestions_enter_skips_custom_command_runs()`
-  - `test_invalid_number_re_prompts_then_skips` (function, line 160) `def test_invalid_number_re_prompts_then_skips()`
-  - `test_invalid_number_re_prompts_then_accepts_valid_pick` (function, line 168) `def test_invalid_number_re_prompts_then_accepts_valid_pick()`
-  - `test_keyboard_interrupt_disables` (function, line 178) `def test_keyboard_interrupt_disables(tmp_path)`
-  - `test_auto_pause_after_max_steps` (function, line 195) `def test_auto_pause_after_max_steps(tmp_path)`
-  - `test_resolver_failure_degrades_to_no_suggestions` (function, line 211) `def test_resolver_failure_degrades_to_no_suggestions()`
-  - `test_store_roundtrip_and_missing` (function, line 221) `def test_store_roundtrip_and_missing(tmp_path)`
-  - `test_store_survives_malformed_file` (function, line 230) `def test_store_survives_malformed_file(tmp_path)`
-  - `test_engine_reads_persisted_state` (function, line 239) `def test_engine_reads_persisted_state(tmp_path)`
-  - `test_persist_toggle_writes_state_file` (function, line 252) `def test_persist_toggle_writes_state_file(tmp_path)`
-  - `test_prompt_exit_words_persist_off` (function, line 267) `def test_prompt_exit_words_persist_off(tmp_path)`
-  - `__init__` (method, line 39) `def __init__(self, name, source, reason)`
-  - `resolve` (function, line 46) `def resolve(cmd, phase)`
-  - `fake_input` (function, line 63) `def fake_input(prompt)`
-  - `raise_ki` (function, line 179) `def raise_ki(prompt)`
-  - `broken` (function, line 212) `def broken(cmd, phase)`
-- Depends on: `cli/chain_mode.py`
-
-## tests/test_chain_parallel_fallback.py
-- Doc: Chain v2 adaptive execution: parallel groups, fallback, pre-checks.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 16) `def _chain(steps)`
-  - `test_parallel_steps_execute_concurrently` (function, line 21) `def test_parallel_steps_execute_concurrently()`
-  - `test_parallel_failure_without_continue_aborts` (function, line 79) `def test_parallel_failure_without_continue_aborts()`
-  - `test_parallel_failure_with_continue_keeps_going` (function, line 103) `def test_parallel_failure_with_continue_keeps_going()`
-  - `test_pre_check_failure_skips_step` (function, line 126) `def test_pre_check_failure_skips_step()`
-  - `test_pre_check_success_executes_step` (function, line 150) `def test_pre_check_success_executes_step()`
-  - `test_fallback_chain_runs_on_failure` (function, line 165) `def test_fallback_chain_runs_on_failure()`
-  - `test_fallback_skipped_when_primary_succeeds` (function, line 192) `def test_fallback_skipped_when_primary_succeeds()`
-  - `test_fallback_depth_is_capped` (function, line 208) `def test_fallback_depth_is_capped()`
-  - `test_registry_validation_rejects_parallel_with_capture` (function, line 230) `def test_registry_validation_rejects_parallel_with_capture()`
-  - `test_registry_validation_rejects_unknown_fallback` (function, line 241) `def test_registry_validation_rejects_unknown_fallback()`
-  - `test_registry_parses_parallel_and_pre_check` (function, line 257) `def test_registry_parses_parallel_and_pre_check()`
-  - `test_dry_run_treats_parallel_steps_sequentially` (function, line 274) `def test_dry_run_treats_parallel_steps_sequentially()`
-  - `executor` (function, line 29) `def executor(command)`
-  - `_SlowFirst` (class, line 48) `class _SlowFirst`
-  - `_run` (function, line 60) `def _run()`
-  - `executor` (function, line 84) `def executor(command)`
-  - `executor` (function, line 108) `def executor(command)`
-  - `executor` (function, line 131) `def executor(command)`
-  - `executor` (function, line 154) `def executor(command)`
-  - `executor` (function, line 169) `def executor(command)`
-  - `loader` (function, line 180) `def loader(name)`
-  - `loader` (function, line 197) `def loader(name)`
-  - `executor` (function, line 212) `def executor(command)`
-  - `loader` (function, line 220) `def loader(name)`
-  - `__call__` (method, line 51) `def __call__(self, command)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_registry.py
-- Doc: Chain registry: orchestration from chains/*.yaml, never hardcoded steps.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_shipped_chain_loads` (function, line 18) `def test_shipped_chain_loads()`
-  - `test_validate_rejects_bad_chains` (function, line 33) `def test_validate_rejects_bad_chains()`
-  - `test_resolve_substitutes_and_skips` (function, line 43) `def test_resolve_substitutes_and_skips(tmp_path, monkeypatch)`
-  - `test_resolve_flags_unresolved_tokens` (function, line 65) `def test_resolve_flags_unresolved_tokens()`
-  - `test_chain_yaml_matches_skill_contract` (function, line 73) `def test_chain_yaml_matches_skill_contract()`
-  - `test_extends_inherits_steps_and_merges_defaults` (function, line 80) `def test_extends_inherits_steps_and_merges_defaults(tmp_path)`
-  - `test_extends_cycle_and_unknown_parent_rejected` (function, line 110) `def test_extends_cycle_and_unknown_parent_rejected(tmp_path)`
-  - `test_disabled_chains_skip_but_stay_visible` (function, line 124) `def test_disabled_chains_skip_but_stay_visible(tmp_path)`
-  - `test_generate_for_playbook_roundtrip` (function, line 143) `def test_generate_for_playbook_roundtrip(tmp_path)`
-- Depends on: `modules/chain_registry.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

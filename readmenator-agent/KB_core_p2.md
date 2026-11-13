@@ -7,35 +7,38 @@ Previous: [KB_core.md](KB_core.md)
 - Language: py
 - Symbols:
   - `FieldKind` (class, line 77) `class FieldKind(StrEnum)`
-  - `Severity` (class, line 95) `class Severity(StrEnum)`
-  - `FieldSpec` (class, line 104) `class FieldSpec`
-  - `ValidationIssue` (class, line 146) `class ValidationIssue`
-  - `_validate_string` (function, line 169) `def _validate_string(value)`
-  - `_validate_int` (function, line 175) `def _validate_int(value)`
-  - `_validate_port` (function, line 189) `def _validate_port(value)`
-  - `_validate_bool` (function, line 199) `def _validate_bool(value)`
-  - `_validate_ip` (function, line 216) `def _validate_ip(value)`
-  - `_validate_hostname` (function, line 224) `def _validate_hostname(value)`
-  - `_validate_url` (function, line 236) `def _validate_url(value)`
-  - `_validate_path` (function, line 244) `def _validate_path(value)`
-  - `_validate_interface` (function, line 250) `def _validate_interface(value)`
-  - `_validate_hex` (function, line 258) `def _validate_hex(value)`
-  - `_validate_os_id` (function, line 266) `def _validate_os_id(value)`
-  - `_validate_json_blob` (function, line 272) `def _validate_json_blob(value)`
-  - `_validate_opaque` (function, line 284) `def _validate_opaque(_value)`
-  - `_coerce_int` (function, line 305) `def _coerce_int(raw)`
-  - `_coerce_bool` (function, line 320) `def _coerce_bool(raw)`
-  - `_spec` (function, line 339) `def _spec(name, kind, default, description)`
-  - `register_specs` (function, line 1970) `def register_specs(specs)`
-  - `unregister_specs` (function, line 1993) `def unregister_specs(keys)`
-  - `field_for` (function, line 2011) `def field_for(key)`
-  - `coerce_value` (function, line 2016) `def coerce_value(key, raw)`
-  - `validate_value` (function, line 2039) `def validate_value(key, value)`
-  - `validate_payload` (function, line 2113) `def validate_payload(payload)`
-  - `format_issue` (function, line 2148) `def format_issue(issue)`
-  - `default_payload` (function, line 2166) `def default_payload()`
-  - `categories` (function, line 2174) `def categories()`
-  - `_load_operator_specs` (function, line 2186) `def _load_operator_specs()`
+  - `Severity` (class, line 96) `class Severity(StrEnum)`
+  - `FieldSpec` (class, line 105) `class FieldSpec`
+  - `ValidationIssue` (class, line 147) `class ValidationIssue`
+  - `_validate_string` (function, line 170) `def _validate_string(value)`
+  - `_validate_int` (function, line 176) `def _validate_int(value)`
+  - `_validate_port` (function, line 190) `def _validate_port(value)`
+  - `_validate_bool` (function, line 200) `def _validate_bool(value)`
+  - `_validate_ip` (function, line 217) `def _validate_ip(value)`
+  - `_validate_hostname` (function, line 225) `def _validate_hostname(value)`
+  - `_validate_url` (function, line 237) `def _validate_url(value)`
+  - `_validate_path` (function, line 245) `def _validate_path(value)`
+  - `_validate_interface` (function, line 251) `def _validate_interface(value)`
+  - `_validate_hex` (function, line 259) `def _validate_hex(value)`
+  - `_validate_os_id` (function, line 267) `def _validate_os_id(value)`
+  - `_validate_json_blob` (function, line 273) `def _validate_json_blob(value)`
+  - `_validate_list` (function, line 285) `def _validate_list(value)`
+  - `_coerce_list` (function, line 310) `def _coerce_list(raw)`
+  - `_validate_opaque` (function, line 324) `def _validate_opaque(_value)`
+  - `_validate_c2_tls_verify` (function, line 328) `def _validate_c2_tls_verify(value)`
+  - `_coerce_int` (function, line 368) `def _coerce_int(raw)`
+  - `_coerce_bool` (function, line 383) `def _coerce_bool(raw)`
+  - `_spec` (function, line 403) `def _spec(name, kind, default, description)`
+  - `register_specs` (function, line 2214) `def register_specs(specs)`
+  - `unregister_specs` (function, line 2237) `def unregister_specs(keys)`
+  - `field_for` (function, line 2255) `def field_for(key)`
+  - `coerce_value` (function, line 2260) `def coerce_value(key, raw)`
+  - `validate_value` (function, line 2283) `def validate_value(key, value)`
+  - `validate_payload` (function, line 2357) `def validate_payload(payload)`
+  - `format_issue` (function, line 2392) `def format_issue(issue)`
+  - `default_payload` (function, line 2410) `def default_payload()`
+  - `categories` (function, line 2418) `def categories()`
+  - `_load_operator_specs` (function, line 2430) `def _load_operator_specs()`
 - Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
 
@@ -199,7 +202,7 @@ Previous: [KB_core.md](KB_core.md)
   - `_run_stdlib_loop` (method, line 268) `def _run_stdlib_loop(self)`
   - `_wrapper` (function, line 241) `def _wrapper()`
   - `_wrapper` (function, line 257) `def _wrapper()`
-- Depends on: `core/logging.py`
+- Depends on: `browser_sync_extension/background.js`, `core/logging.py`
 
 ## core/security.py
 - Doc: Security helpers for LazyOwn — anti-debug, certificate generation.

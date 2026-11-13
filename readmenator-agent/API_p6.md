@@ -1,6 +1,15 @@
 # API (page 6 of 28)
 Previous: [API_p5.md](API_p5.md)
 
+## contrib/legacy/lazygalazy.py
+Depends on: `modules/backdoor/server.c`
+- `SamsungKnoxExploitServer.do_GET` (method) `contrib/legacy/lazygalazy.py:11` `def do_GET(self)`
+- `SamsungKnoxExploitServer.apk_bytes` (method) `contrib/legacy/lazygalazy.py:33` `def apk_bytes(self)`
+- `SamsungKnoxExploitServer.launch_html` (method) `contrib/legacy/lazygalazy.py:36` `def launch_html(self)`
+- `SamsungKnoxExploitServer.exploit_js` (method) `contrib/legacy/lazygalazy.py:49` `def exploit_js(self)`
+- `SamsungKnoxExploitServer.rand_word` (method) `contrib/legacy/lazygalazy.py:93` `def rand_word(self)`
+- `main` (function) `contrib/legacy/lazygalazy.py:97` `def main()`
+
 ## contrib/legacy/lazygptcli.py
 Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
 - `signal_handler` (function) `contrib/legacy/lazygptcli.py:66` `def signal_handler(sig, frame)`
@@ -300,6 +309,13 @@ Imported by: `lazyc2/app_factory.py`, `lazyc2/blueprints/api.py`, `tests/test_ap
 - `decorated` (function) `core/api_authz.py:407` `def decorated()`
 - `create_api_token` (function) `core/api_authz.py:440` `def create_api_token(store, tenant_id, label, permissions, expires_in_days)` -- Create an API key and return the one-time plaintext token.
 
+## core/atomic_store.py
+Imported by: `modules/evidence_store.py`, `modules/guard_rules.py`, `modules/lazy_loop.py`, `modules/outcome_attribution.py`, `modules/wire_capture.py`
+- `write_bytes_atomic` (function) `core/atomic_store.py:49` `def write_bytes_atomic(path, data)` -- Write bytes to ``path`` atomically via a unique temp file and replace.
+- `write_text_atomic` (function) `core/atomic_store.py:71` `def write_text_atomic(path, text)` -- Write text to ``path`` atomically, UTF-8 encoded.
+- `file_lock` (function) `core/atomic_store.py:85` `def file_lock(path)` -- Hold a cross-process advisory lock for the duration of the block.
+- `update_json` (function) `core/atomic_store.py:127` `def update_json(path, mutate, default)` -- Apply a mutation to a JSON document under a cross-process lock.
+
 ## core/autonomous.py
 Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/mcp_bridge.py`, `lazyown.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`
 - `is_autonomous` (function) `core/autonomous.py:21` `def is_autonomous()` -- Return True while an autonomous loop run owns the process.
@@ -318,7 +334,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/lazy_poc.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/bof_delivery.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/chain_loop.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `tests/test_session_secrets.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/lazy_poc.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/askpass.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/bof_delivery.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/chain_loop.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/ctf_signalman.py`, `modules/db.py`, `modules/guard_rules.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/loop/worker_agentic.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `tests/test_session_secrets.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:224` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:239` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:249` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -351,7 +367,7 @@ Imported by: `cli/commands/security.py`, `core/hardening.py`, `lazyown.py`, `tes
 - `generate_secure_defaults` (function) `core/credential_vault.py:215` `def generate_secure_defaults()` -- Generate cryptographically random default values for sensitive keys.
 
 ## core/crypto.py
-Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/lazy_loop.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `tests/test_core.py`, `tests/test_security_hardening_v5.py`, `utils.py`
+Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/lazy_loop.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `tests/test_core.py`, `utils.py`
 - `generate_salt` (function) `core/crypto.py:24` `def generate_salt(length)` -- Generate a cryptographically random salt.
 - `derive_key` (function) `core/crypto.py:36` `def derive_key(password, salt)` -- Derive a Fernet-compatible key from a password using PBKDF2HMAC.
 - `xor_encrypt_decrypt` (function) `core/crypto.py:67` `def xor_encrypt_decrypt(data, key)` -- Return ``bytearray`` produced by XOR-ing each byte of ``data`` with ``key``.
@@ -416,7 +432,7 @@ Imported by: `tests/test_core_executor.py`
 
 ## core/hardening.py
 Depends on: `core/config.py`, `core/credential_vault.py`, `core/host_policy.py`, `core/logging.py`
-Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazy_poc.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_findings.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`, `tests/test_winbox_gym.py`
+Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazy_poc.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_findings.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/scan_brief.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`, `tests/test_winbox_gym.py`
 - `reject_option_injection` (function) `core/hardening.py:93` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
 - `escape_powershell_single_quoted` (function) `core/hardening.py:112` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
 - `terminal_env` (function) `core/hardening.py:137` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.

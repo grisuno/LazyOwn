@@ -26,7 +26,9 @@ Solid arrows stay in this module, dashed arrows leave it.
 ```mermaid
 flowchart LR
     n_lazyc2_app_factory_py__create_app(["create_app"])
+    n_lazyc2_blueprints_loops_py__init_loops_bp["loops.init_loops_bp"]
     n_modules_lazy_rbac_py__get_rbac_store["lazy_rbac.get_rbac_store"]
+    n_lazyc2_app_factory_py__create_app -.-> n_lazyc2_blueprints_loops_py__init_loops_bp
     n_lazyc2_app_factory_py__create_app -.-> n_modules_lazy_rbac_py__get_rbac_store
 ```
 
@@ -36,7 +38,7 @@ flowchart LR
 
 ### `create_app`
 
-`function` | [lazyc2/app_factory.py:90](../../lazyc2/app_factory.py#L90)
+`function` | [lazyc2/app_factory.py:92](../../lazyc2/app_factory.py#L92)
 
 ```python
 def create_app() -> Flask
@@ -46,6 +48,6 @@ Create and return a fully configured C2 Flask application.
 
 **Returns:** `Flask` - A `Flask` instance ready to run or serve via WSGI.
 
-*Calls:* [`get_rbac_store`](modules.lazy_rbac.py.md#get_rbac_store)
+*Calls:* [`init_loops_bp`](lazyc2.blueprints.loops.py.md#init_loops_bp), [`get_rbac_store`](modules.lazy_rbac.py.md#get_rbac_store)
 
 ---

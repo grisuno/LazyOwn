@@ -14,7 +14,7 @@
   - `FakeShell` (class, line 22) `class FakeShell`
   - `FakeEngine` (class, line 31) `class FakeEngine`
   - `run` (function, line 77) `def run()`
-  - `main` (function, line 114) `def main()`
+  - `main` (function, line 116) `def main()`
   - `onecmd_plus_hooks` (method, line 25) `def onecmd_plus_hooks(self, command)`
   - `__init__` (method, line 36) `def __init__(self)`
   - `bind_shell` (method, line 44) `def bind_shell(self, shell)`

@@ -58,8 +58,8 @@ Bases: `Protocol`
 
 Suggests the next command for a given target/phase.
 
-Implementations include `[`ReactiveSelector`](skills.autonomous_daemon.py.md#reactiveselector)`, `[`ParquetSelector`](skills.autonomous_daemon.py.md#parquetselector)`,
-`[`BridgeSelector`](skills.autonomous_daemon.py.md#bridgeselector)`, `[`SWANSelector`](skills.autonomous_daemon.py.md#swanselector)`, `[`LLMSelector`](skills.autonomous_daemon.py.md#llmselector)` and
+Implementations include `[`ReactiveSelector`](skills.autonomous_daemon.py.md#reactiveselector)`, `[`ParquetSelector`](modules.selection.parquet.py.md#parquetselector)`,
+`[`BridgeSelector`](modules.selection.bridge.py.md#bridgeselector)`, `[`SWANSelector`](skills.autonomous_daemon.py.md#swanselector)`, `[`LLMSelector`](skills.autonomous_daemon.py.md#llmselector)` and
 `[`FallbackSelector`](skills.autonomous_daemon.py.md#fallbackselector)`.
 
 **Attributes**

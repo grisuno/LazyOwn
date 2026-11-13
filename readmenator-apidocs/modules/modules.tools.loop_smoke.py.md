@@ -257,7 +257,7 @@ Run the smoke and return ``{"ok": bool, "checks": {...}, "result": {...}}``.
 
 ### `main`
 
-`function` | [modules/tools/loop_smoke.py:114](../../modules/tools/loop_smoke.py#L114)
+`function` | [modules/tools/loop_smoke.py:116](../../modules/tools/loop_smoke.py#L116)
 
 ```python
 def main() -> int

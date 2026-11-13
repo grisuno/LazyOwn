@@ -1038,4 +1038,6 @@ def get_dispatcher() -> BridgeDispatcher
 
 *Calls:* [`BridgeDispatcher.__init__`](#bridgedispatcher-__init__)
 
+*Called by:* [`BridgeSelector.propose`](modules.selection.bridge.py.md#bridgeselector-propose)
+
 ---

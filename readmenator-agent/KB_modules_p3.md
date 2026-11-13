@@ -1,5 +1,78 @@
-# Subsystem: modules (page 3 of 18)
+# Subsystem: modules (page 3 of 19)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/bsb_compat.py
+- Doc: BlackSandBeacon wire-protocol compatibility helpers.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `derive_bsb_keys` (function, line 52) `def derive_bsb_keys(master_key)`
+  - `decrypt_bsb_report` (function, line 90) `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)`
+  - `encrypt_bsb_command` (function, line 139) `def encrypt_bsb_command(data, master_key)`
+  - `derive_bsb_stage_keys` (function, line 162) `def derive_bsb_stage_keys(token)`
+  - `encrypt_bsb_stage_blob` (function, line 208) `def encrypt_bsb_stage_blob(data, token)`
+  - `decrypt_bsb_stage_blob` (function, line 232) `def decrypt_bsb_stage_blob(encrypted_data, token)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `tests/test_bsb_fileless_compat.py`
+
+## modules/c2_agent.py
+- Doc: Malleable C2 client lifecycle for lab targets.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sync_credentials_file` (function, line 59) `def _sync_credentials_file(user, password)`
+  - `_unverified_context` (function, line 84) `def _unverified_context()`
+  - `client_id_for` (function, line 94) `def client_id_for(target, privilege)`
+  - `validate_client_id` (function, line 119) `def validate_client_id(raw)`
+  - `build_agent` (function, line 398) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
+  - `_ensure_key` (function, line 462) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 493) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 516) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 528) `def read_aes_hex()`
+  - `deploy` (function, line 533) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
+  - `read_records` (function, line 680) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 697) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 711) `class C2Server`
+  - `__init__` (method, line 714) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 719) `def _pid(self)`
+  - `status` (method, line 731) `def status(self)`
+  - `start` (method, line 763) `def start(self)`
+  - `stop` (method, line 794) `def stop(self)`
+  - `ensure_http_listener` (method, line 817) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 825) `def _api(path, data)`
+- Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+- Imported by: `cli/commands/c2_session.py`
+
+## modules/c2_builder.py
+- Doc: C2 agent builder with profile-driven compilation and safe templating.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_resolve_go_bin` (function, line 45) `def _resolve_go_bin()`
+  - `_ensure_go` (function, line 60) `def _ensure_go(cmd_fn)`
+  - `C2Profile` (class, line 77) `class C2Profile`
+  - `_preflight` (function, line 161) `def _preflight(profile)`
+  - `_render_template` (function, line 170) `def _render_template(content, context)`
+  - `_resolve_fallback_urls` (function, line 181) `def _resolve_fallback_urls(params)`
+  - `_go_string_list` (function, line 221) `def _go_string_list(urls)`
+  - `_lkm_makefile_text` (function, line 238) `def _lkm_makefile_text(listener_ip, listener_port)`
+  - `_beacon_scan_ports_csv` (function, line 274) `def _beacon_scan_ports_csv(params)`
+  - `_parse_go_version` (function, line 291) `def _parse_go_version(text)`
+  - `_command_output` (function, line 306) `def _command_output(argv, timeout)`
+  - `_go_build_version` (function, line 325) `def _go_build_version(go_bin, target)`
+  - `_garble_matches_toolchain` (function, line 344) `def _garble_matches_toolchain(go_bin, garble_bin)`
+  - `_build_compile_commands` (function, line 367) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...`
+  - `_build_context` (function, line 418) `def _build_context(sessions_dir)`
+  - `C2Builder` (class, line 449) `class C2Builder`
+  - `_replacer` (function, line 174) `def _replacer(match)`
+  - `__init__` (method, line 452) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+  - `_ensure_garble_toolchain` (method, line 470) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
+  - `run` (method, line 510) `def run(self, line, choice, use_tunnel)`
+  - `_read` (function, line 713) `def _read(path_)`
+  - `_read_required` (function, line 720) `def _read_required(path_)`
+  - `_write` (function, line 724) `def _write(path_, content)`
+- Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
 
 ## modules/c2_messaging_base.py
 - Doc: SecureSessionManager: Unified session manager for C2 messaging bots.
@@ -142,6 +215,17 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `days_in_month` (function, line 14)
   - `first_day_of_month` (function, line 31)
 
+## modules/campaign_blacklist.py
+- Doc: Campaign command blacklist loaded from ``sessions/campaign_lessons.jsonl``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_lessons_path` (function, line 22) `def _lessons_path()`
+  - `_load` (function, line 27) `def _load()`
+  - `campaign_blacklist` (function, line 53) `def campaign_blacklist()`
+  - `blocked_commands` (function, line 63) `def blocked_commands(category)`
+- Imported by: `modules/selection/parquet.py`
+
 ## modules/categories.py
 - Doc: modules/categories.py
 - Layer: utility
@@ -269,7 +353,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `load_rows` (function, line 109) `def load_rows(allow_lab, ttl)`
   - `best_chain` (function, line 139) `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)`
 - Depends on: `modules/chain_registry.py`
-- Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
+- Imported by: `modules/selection/chain.py`, `tests/test_chain_match_determinism.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
 
 ## modules/chain_registry.py
 - Doc: Chain registry - ordered orchestration chains from ``chains/*.yaml``.
@@ -305,55 +389,56 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Language: py
 - Symbols:
   - `StepOutcome` (class, line 61) `class StepOutcome`
-  - `ChainRunResult` (class, line 117) `class ChainRunResult`
-  - `ReplanContext` (class, line 170) `class ReplanContext`
-  - `render_text` (function, line 217) `def render_text(template, variables)`
-  - `ChainRunner` (class, line 225) `class ChainRunner`
-  - `_all_json_objects` (function, line 1517) `def _all_json_objects(text)`
-  - `_load_json_events` (function, line 1538) `def _load_json_events(path)`
-  - `ok` (method, line 89) `def ok(self)`
-  - `to_dict` (method, line 93) `def to_dict(self)`
-  - `to_dict` (method, line 139) `def to_dict(self)`
-  - `chain_proven` (method, line 164) `def chain_proven(self)`
-  - `set_var` (method, line 187) `def set_var(self, name, value)`
-  - `insert_step` (method, line 192) `def insert_step(self, step)`
-  - `skip_rest` (method, line 197) `def skip_rest(self)`
-  - `applied_vars` (method, line 202) `def applied_vars(self)`
-  - `inserted` (method, line 207) `def inserted(self)`
-  - `skip_rest_flag` (method, line 212) `def skip_rest_flag(self)`
-  - `__init__` (method, line 228) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
-  - `_pace_after` (method, line 314) `def _pace_after(self, outcome, started, step)`
-  - `run` (method, line 353) `def run(self)`
-  - `_finalize_verdict` (method, line 533) `def _finalize_verdict(self, result)`
-  - `_skip_remaining` (method, line 570) `def _skip_remaining(self, steps, start, reason)`
-  - `_run_parallel_group` (method, line 585) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
-  - `_run_fallback_chain` (method, line 679) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
-  - `_deliver` (method, line 750) `def _deliver(self, outcome)`
-  - `_promoted_sinks` (method, line 755) `def _promoted_sinks(self, outcome)`
-  - `_publish_step` (method, line 780) `def _publish_step(self, outcome)`
-  - `_notify` (method, line 880) `def _notify(self, outcome)`
-  - `_apply_replanner` (method, line 889) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
-  - `_record_replan_deviations` (method, line 939) `def _record_replan_deviations(self, context)`
-  - `_save_checkpoint` (method, line 981) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
-  - `_record_verdict` (method, line 1019) `def _record_verdict(verdicts, outcome)`
-  - `_run_step` (method, line 1026) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
-  - `_dependency_block` (method, line 1164) `def _dependency_block(step, prior_verdicts)`
-  - `_verify_evidence` (method, line 1186) `def _verify_evidence(self, step, outcome, variables)`
-  - `_ask_approval` (method, line 1231) `def _ask_approval(self, step_id, command)`
-  - `_verify_timeout` (method, line 1240) `def _verify_timeout(self, step)`
-  - `_pre_check_timeout` (method, line 1246) `def _pre_check_timeout(self, step)`
-  - `_store_capture` (method, line 1250) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
-  - `_first_json` (method, line 1302) `def _first_json(output)`
-  - `_render_command` (method, line 1316) `def _render_command(self, template, variables, captured_keys)`
-  - `_execute` (method, line 1341) `def _execute(self, command, timeout, expect_exits)`
-  - `_verb_timeout_on_main` (method, line 1371) `def _verb_timeout_on_main(self, limit)`
-  - `_run_verb_bounded` (method, line 1390) `def _run_verb_bounded(self, command, limit)`
-  - `_is_verb` (method, line 1416) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 1427) `def _run_shell_verb(self, command, timeout)`
-  - `_run_raw` (method, line 1480) `def _run_raw(self, command, timeout, allowed)`
-  - `_call` (method, line 1497) `def _call(callback, timeout)`
-  - `_raise_timeout` (function, line 1460) `def _raise_timeout(_signum, _frame)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+  - `ChainRunResult` (class, line 118) `class ChainRunResult`
+  - `ReplanContext` (class, line 180) `class ReplanContext`
+  - `render_text` (function, line 227) `def render_text(template, variables)`
+  - `ChainRunner` (class, line 235) `class ChainRunner`
+  - `_all_json_objects` (function, line 1601) `def _all_json_objects(text)`
+  - `_load_json_events` (function, line 1622) `def _load_json_events(path)`
+  - `ok` (method, line 90) `def ok(self)`
+  - `to_dict` (method, line 94) `def to_dict(self)`
+  - `to_dict` (method, line 149) `def to_dict(self)`
+  - `chain_proven` (method, line 174) `def chain_proven(self)`
+  - `set_var` (method, line 197) `def set_var(self, name, value)`
+  - `insert_step` (method, line 202) `def insert_step(self, step)`
+  - `skip_rest` (method, line 207) `def skip_rest(self)`
+  - `applied_vars` (method, line 212) `def applied_vars(self)`
+  - `inserted` (method, line 217) `def inserted(self)`
+  - `skip_rest_flag` (method, line 222) `def skip_rest_flag(self)`
+  - `__init__` (method, line 238) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `_pace_after` (method, line 324) `def _pace_after(self, outcome, started, step)`
+  - `run` (method, line 363) `def run(self)`
+  - `_finalize_verdict` (method, line 550) `def _finalize_verdict(self, result)`
+  - `_skip_remaining` (method, line 594) `def _skip_remaining(self, steps, start, reason)`
+  - `_warn_parallel_group` (method, line 609) `def _warn_parallel_group(self, result, first, group, steps, cursor)`
+  - `_run_parallel_group` (method, line 646) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
+  - `_run_fallback_chain` (method, line 740) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
+  - `_deliver` (method, line 813) `def _deliver(self, outcome)`
+  - `_promoted_sinks` (method, line 818) `def _promoted_sinks(self, outcome)`
+  - `_publish_step` (method, line 843) `def _publish_step(self, outcome)`
+  - `_notify` (method, line 943) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 952) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_record_replan_deviations` (method, line 1002) `def _record_replan_deviations(self, context)`
+  - `_save_checkpoint` (method, line 1044) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
+  - `_record_verdict` (method, line 1082) `def _record_verdict(verdicts, outcome)`
+  - `_run_step` (method, line 1089) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
+  - `_dependency_block` (method, line 1227) `def _dependency_block(step, prior_verdicts)`
+  - `_verify_evidence` (method, line 1249) `def _verify_evidence(self, step, outcome, variables)`
+  - `_ask_approval` (method, line 1294) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 1303) `def _verify_timeout(self, step)`
+  - `_pre_check_timeout` (method, line 1309) `def _pre_check_timeout(self, step)`
+  - `_store_capture` (method, line 1313) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 1365) `def _first_json(output)`
+  - `_render_command` (method, line 1379) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 1410) `def _execute(self, command, timeout, expect_exits)`
+  - `_verb_timeout_on_main` (method, line 1445) `def _verb_timeout_on_main(self, limit)`
+  - `_run_verb_bounded` (method, line 1464) `def _run_verb_bounded(self, command, limit)`
+  - `_is_verb` (method, line 1494) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 1505) `def _run_shell_verb(self, command, timeout)`
+  - `_run_raw` (method, line 1558) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 1575) `def _call(callback, timeout)`
+  - `_raise_timeout` (function, line 1538) `def _raise_timeout(_signum, _frame)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/browser_sync.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
 - Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
 
 ## modules/chain_state.py
@@ -396,90 +481,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_mentions` (function, line 130) `def _mentions(path, needle)`
 - Depends on: `skills/lazyown_facts.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
-
-## modules/cicd_enumerator.py
-- Doc: CI/CD Pipeline Enumeration Module.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CICDFinding` (class, line 33) `class CICDFinding`
-  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
-  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
-  - `scan` (method, line 60) `def scan(self)`
-  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
-  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
-  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
-  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
-  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
-  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
-  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
-  - `export_findings` (method, line 387) `def export_findings(self)`
-- Imported by: `cli/commands/cicd.py`
-
-## modules/cli_auth.py
-- Doc: CLI authentication module — login against users.json with remember-me.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_users` (function, line 34) `def _load_users()`
-  - `_save_users` (function, line 52) `def _save_users(users)`
-  - `_load_payload` (function, line 85) `def _load_payload()`
-  - `_save_payload` (function, line 100) `def _save_payload(payload)`
-  - `user_exists` (function, line 122) `def user_exists(username)`
-  - `register` (function, line 145) `def register(username, password)`
-  - `verify_password` (function, line 214) `def verify_password(username, password)`
-  - `login` (function, line 240) `def login(username, password, remember)`
-  - `logout` (function, line 293) `def logout()`
-  - `try_auto_login` (function, line 328) `def try_auto_login()`
-  - `whoami` (function, line 366) `def whoami()`
-  - `get_current_operator` (function, line 396) `def get_current_operator()`
-  - `sync_elo_from_session` (function, line 408) `def sync_elo_from_session(elo)`
-  - `_read_cli_session` (function, line 429) `def _read_cli_session()`
-  - `_write_cli_session` (function, line 444) `def _write_cli_session(username, elo, role)`
-  - `_write_cli_session_raw` (function, line 462) `def _write_cli_session_raw(data)`
-  - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
-  - `needs_login` (function, line 487) `def needs_login()`
-- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
-
-## modules/closedloop.py
-- Doc: Closed-loop detection rule tuning: baseline vs candidate comparison.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RuleMetrics` (class, line 32) `class RuleMetrics`
-  - `Comparison` (class, line 55) `class Comparison`
-  - `_metrics_for` (function, line 77) `def _metrics_for(result)`
-  - `compare_rules` (function, line 90) `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)`
-  - `suggest_tuning` (function, line 136) `def suggest_tuning(candidate, baseline)`
-  - `to_dict` (method, line 42) `def to_dict(self)`
-  - `to_dict` (method, line 66) `def to_dict(self)`
-- Depends on: `modules/defense_eval.py`
-- Imported by: `modules/defense_stages.py`, `tests/test_closedloop.py`
-
-## modules/cloud_enum.py
-- Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
-  - `__init__` (method, line 34) `def __init__(self, provider, session, timeout)`
-  - `detect_provider` (method, line 47) `def detect_provider(self)`
-  - `enumerate_metadata` (method, line 75) `def enumerate_metadata(self)`
-  - `_enumerate_aws_metadata` (method, line 96) `def _enumerate_aws_metadata(self)`
-  - `_enumerate_azure_metadata` (method, line 146) `def _enumerate_azure_metadata(self)`
-  - `_enumerate_gcp_metadata` (method, line 193) `def _enumerate_gcp_metadata(self)`
-  - `enumerate_storage` (method, line 251) `def enumerate_storage(self, target_bucket)`
-  - `_enumerate_s3` (method, line 274) `def _enumerate_s3(self, target_bucket)`
-  - `_enumerate_azure_storage` (method, line 316) `def _enumerate_azure_storage(self, target_bucket)`
-  - `_enumerate_gcs` (method, line 350) `def _enumerate_gcs(self, target_bucket)`
-  - `enumerate_iam` (method, line 372) `def enumerate_iam(self)`
-  - `_enumerate_aws_iam` (method, line 390) `def _enumerate_aws_iam(self)`
-  - `_enumerate_azure_iam` (method, line 421) `def _enumerate_azure_iam(self)`
-  - `_enumerate_gcp_iam` (method, line 477) `def _enumerate_gcp_iam(self)`
-  - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
-  - `full_enumeration` (method, line 576) `def full_enumeration(self)`
-- Imported by: `cli/commands/cloud.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

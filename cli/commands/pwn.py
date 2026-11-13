@@ -70,10 +70,22 @@ class PwnCommandSet(LazyOwnCommandSet):
             print_error("No target set. Use: assign rhost <target_ip> or auto_pwn <target_ip>")
             return
 
-        target = self.params.get("rhost", "")
-        if not target:
-            print_error("No target set. Use: assign rhost <target_ip>")
-            return
+        try:
+            from modules import loop_preflight
+
+            lab = loop_preflight.lab_state_for(target)
+            if lab and not lab.get("running"):
+                scenario = str(lab.get("scenario", ""))
+                print_error(
+                    f"lab scenario '{scenario}' is DOWN (container {lab.get('container', '')} is stopped); "
+                    f"auto_pwn would report success against a dead target"
+                )
+                print_warn(f"recover with: lab start {scenario}")
+                return
+            if lab:
+                print_msg(f"[*] lab target: scenario '{lab.get('scenario', '')}' is running ({lab.get('ip', '')})")
+        except Exception as exc:
+            print_warn(f"[!] lab preflight skipped: {exc}")
 
         engine = AutonomousExploitEngine()
         engine.enable_stealth(stealth)

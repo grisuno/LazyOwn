@@ -41,6 +41,6 @@ so readline can measure prompt width.
 
 **Returns:** `str` - Clean text without ANSI codes or readline control markers.
 
-*Called by:* [`exce_cmd`](discord_c2.py.md#exce_cmd), [`aicmd_deepseek`](lazyc2.py.md#aicmd_deepseek), [`cmd_download`](slack_c2_bot.py.md#cmd_download), [`handle_message`](slack_c2_bot.py.md#handle_message), [`exce_cmd`](telegram_c2.py.md#exce_cmd), [`cron_schedule_cmd`](telegram_hermes.py.md#cron_schedule_cmd), [`delegate_task_cmd`](telegram_hermes.py.md#delegate_task_cmd), [`execute_command`](telegram_hermes.py.md#execute_command), [`run_agent`](telegram_hermes.py.md#run_agent), [`sitrep`](telegram_hermes.py.md#sitrep), [`status_cmd`](telegram_hermes.py.md#status_cmd), [`stop_daemon_cmd`](telegram_hermes.py.md#stop_daemon_cmd) and 1 more
+*Called by:* [`exce_cmd`](discord_c2.py.md#exce_cmd), [`aicmd_deepseek`](lazyc2.py.md#aicmd_deepseek), [`LoopAudit.record_command`](modules.loop_audit.py.md#loopaudit-record_command), [`cmd_download`](slack_c2_bot.py.md#cmd_download), [`handle_message`](slack_c2_bot.py.md#handle_message), [`exce_cmd`](telegram_c2.py.md#exce_cmd), [`cron_schedule_cmd`](telegram_hermes.py.md#cron_schedule_cmd), [`delegate_task_cmd`](telegram_hermes.py.md#delegate_task_cmd), [`execute_command`](telegram_hermes.py.md#execute_command), [`run_agent`](telegram_hermes.py.md#run_agent), [`sitrep`](telegram_hermes.py.md#sitrep), [`status_cmd`](telegram_hermes.py.md#status_cmd) and 2 more
 
 ---

@@ -54,6 +54,8 @@ classDiagram
     NetworkConstants : str api_killchain_path
     NetworkConstants : str api_beacon_results_path
     NetworkConstants : str api_issue_command_path
+    NetworkConstants : str xsrf_token_cookie
+    NetworkConstants : str xsrf_token_header
     NetworkConstants : str api_run_path
     NetworkConstants : str api_output_path
     NetworkConstants : str api_listeners_path
@@ -63,8 +65,6 @@ classDiagram
     NetworkConstants : str get_results_path
     NetworkConstants : str get_connected_clients_path
     NetworkConstants : str socketio_namespace_pty
-    NetworkConstants : str socketio_namespace_terminal
-    NetworkConstants : str socketio_namespace_listener
     class PtyConstants
     PtyConstants : int read_chunk_bytes
     PtyConstants : str spawn_executable
@@ -245,6 +245,8 @@ Defaults for HTTP and WebSocket clients.
 | [`api_killchain_path`](#networkconstants-api_killchain_path) | `str` | `'/api/killchain'` |  |
 | [`api_beacon_results_path`](#networkconstants-api_beacon_results_path) | `str` | `'/api/beacon_results'` |  |
 | [`api_issue_command_path`](#networkconstants-api_issue_command_path) | `str` | `'/issue_command'` |  |
+| [`xsrf_token_cookie`](#networkconstants-xsrf_token_cookie) | `str` | `'LAZY_CSRF_TOKEN'` |  |
+| [`xsrf_token_header`](#networkconstants-xsrf_token_header) | `str` | `'X-XSRF-TOKEN'` |  |
 | [`api_run_path`](#networkconstants-api_run_path) | `str` | `'/api/run'` |  |
 | [`api_output_path`](#networkconstants-api_output_path) | `str` | `'/api/output'` |  |
 | [`api_listeners_path`](#networkconstants-api_listeners_path) | `str` | `'/api/listeners'` |  |
@@ -271,7 +273,7 @@ Defaults for HTTP and WebSocket clients.
 
 ### `PtyConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:86](../../lazygui/config/constants.py#L86)
+`class` `dataclass` | [lazygui/config/constants.py:88](../../lazygui/config/constants.py#L88)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -299,7 +301,7 @@ Tunables for the local PTY backend.
 
 ### `FontConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:99](../../lazygui/config/constants.py#L99)
+`class` `dataclass` | [lazygui/config/constants.py:101](../../lazygui/config/constants.py#L101)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -325,7 +327,7 @@ Font family fallbacks (theme tokens decide colours and sizes).
 
 ### `KeybindingConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:124](../../lazygui/config/constants.py#L124)
+`class` `dataclass` | [lazygui/config/constants.py:126](../../lazygui/config/constants.py#L126)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -358,7 +360,7 @@ Application-wide keyboard shortcuts in Qt sequence notation.
 
 ### `IdentifierConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:142](../../lazygui/config/constants.py#L142)
+`class` `dataclass` | [lazygui/config/constants.py:144](../../lazygui/config/constants.py#L144)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -392,7 +394,7 @@ Stable string identifiers for object names and settings keys.
 
 ### `ThemeConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:161](../../lazygui/config/constants.py#L161)
+`class` `dataclass` | [lazygui/config/constants.py:163](../../lazygui/config/constants.py#L163)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -415,7 +417,7 @@ Constants relevant to theme registration.
 
 ### `BackendConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:176](../../lazygui/config/constants.py#L176)
+`class` `dataclass` | [lazygui/config/constants.py:178](../../lazygui/config/constants.py#L178)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -439,7 +441,7 @@ Identifiers for the available backend implementations.
 
 ### `PanelConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:185](../../lazygui/config/constants.py#L185)
+`class` `dataclass` | [lazygui/config/constants.py:187](../../lazygui/config/constants.py#L187)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -474,7 +476,7 @@ Identifiers and labels for dockable panels.
 
 ### `EventLogConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:205](../../lazygui/config/constants.py#L205)
+`class` `dataclass` | [lazygui/config/constants.py:207](../../lazygui/config/constants.py#L207)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -498,7 +500,7 @@ Bounds for the event-log ring buffer.
 
 ### `CommandPaletteConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:214](../../lazygui/config/constants.py#L214)
+`class` `dataclass` | [lazygui/config/constants.py:216](../../lazygui/config/constants.py#L216)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -522,7 +524,7 @@ Tunables for the fuzzy command palette.
 
 ### `AppConstants`
 
-`class` `dataclass` | [lazygui/config/constants.py:223](../../lazygui/config/constants.py#L223)
+`class` `dataclass` | [lazygui/config/constants.py:225](../../lazygui/config/constants.py#L225)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -559,7 +561,7 @@ Aggregate view exposing every constant group as attributes.
 
 #### `AppConstants.panel_labels`
 
-`method` | [lazygui/config/constants.py:239](../../lazygui/config/constants.py#L239)
+`method` | [lazygui/config/constants.py:241](../../lazygui/config/constants.py#L241)
 
 ```python
 def panel_labels(self) -> Mapping[str, str]

@@ -1,6 +1,46 @@
 # Subsystem: commands (page 5 of 5)
 Previous: [KB_commands_p4.md](KB_commands_p4.md)
 
+## cli/commands/shellsys.py
+- Doc: Local shell and system extracted from the miscellaneous cluster.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ShellSysCommandSet` (class, line 24) `class ShellSysCommandSet(LazyOwnCommandSet)`
+  - `do_sh` (method, line 31) `def do_sh(self, line)`
+  - `do_sys` (method, line 63) `def do_sys(self, line)`
+  - `do_pwd` (method, line 111) `def do_pwd(self, line)`
+  - `do_nano` (method, line 147) `def do_nano(self, line)`
+  - `do_cron` (method, line 171) `def do_cron(self, line)`
+  - `do_clean` (method, line 217) `def do_clean(self, line)`
+  - `do_fixperm` (method, line 305) `def do_fixperm(self, line)`
+  - `do_fixel` (method, line 338) `def do_fixel(self, line)`
+  - `do_pop` (method, line 371) `def do_pop(self, line)`
+  - `do_tab` (method, line 408) `def do_tab(self, line)`
+  - `lazyrun_command` (function, line 206) `def lazyrun_command()`
+- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `utils.py`
+- Imported by: `tests/test_shellsys_command_set.py`
+
+## cli/commands/sidequest.py
+- Doc: Side-question CommandSet: read-only review of loop decision checkpoints.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SidequestCommandSet` (class, line 18) `class SidequestCommandSet(LazyOwnCommandSet)`
+  - `do_sidequest` (method, line 25) `def do_sidequest(self, statement)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/sleep_obfuscation.py
+- Doc: Sleep obfuscation CommandSet — beacon memory evasion technique management.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SleepObfuscationCommandSet` (class, line 16) `class SleepObfuscationCommandSet(LazyOwnCommandSet)`
+  - `do_sleep_list` (method, line 23) `def do_sleep_list(self, line)`
+  - `do_sleep_info` (method, line 50) `def do_sleep_info(self, line)`
+  - `do_sleep_configure` (method, line 82) `def do_sleep_configure(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
+
 ## cli/commands/socks_proxy.py
 - Doc: SOCKS proxy CommandSet — beacon tunneling configuration.
 - Layer: utility

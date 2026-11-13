@@ -10,19 +10,6 @@ Clones the repository into a target directory (default: $HOME/LazyOwn), runs ins
 
 - **Functions:** [`usage`](#usage), [`log`](#log), [`fail`](#fail), [`spin_run`](#spin_run), [`can_prompt`](#can_prompt), [`ask`](#ask), [`update_checkout`](#update_checkout), [`backup_payload`](#backup_payload), [`clone_fresh`](#clone_fresh), [`clean_checkout`](#clean_checkout), [`confirm_clean`](#confirm_clean), [`ask_new_dir`](#ask_new_dir), [`ask_existing_checkout_action`](#ask_existing_checkout_action), [`ask_existing_path_action`](#ask_existing_path_action), [`resolve_target_dir`](#resolve_target_dir), [`ask_launch_mode`](#ask_launch_mode)
 
-## Call Graph
-
-Solid arrows stay in this module, dashed arrows leave it.
-
-```mermaid
-flowchart LR
-    n_bootstrap_sh__ask_new_dir(["ask_new_dir"])
-    n_modules_bof_registry_py__BofYamlStore_directory["bof_registry.BofYamlStore.directory"]
-    n_bootstrap_sh__ask_existing_path_action(["ask_existing_path_action"])
-    n_bootstrap_sh__ask_new_dir -.-> n_modules_bof_registry_py__BofYamlStore_directory
-    n_bootstrap_sh__ask_existing_path_action -.-> n_modules_bof_registry_py__BofYamlStore_directory
-```
-
 ## Functions
 
 <a id="usage"></a>
@@ -167,8 +154,6 @@ confirm_clean()
 ask_new_dir()
 ```
 
-*Calls:* [`BofYamlStore.directory`](modules.bof_registry.py.md#bofyamlstore-directory)
-
 ---
 
 <a id="ask_existing_checkout_action"></a>
@@ -192,8 +177,6 @@ ask_existing_checkout_action()
 ```bash
 ask_existing_path_action()
 ```
-
-*Calls:* [`BofYamlStore.directory`](modules.bof_registry.py.md#bofyamlstore-directory)
 
 ---
 

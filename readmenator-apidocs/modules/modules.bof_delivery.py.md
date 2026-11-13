@@ -9,8 +9,8 @@ exactly as their declaring lazyaddon client describes:
 
 - ``beacon`` (Windows COFF BOFs): the ``bof:url`` command is queued for a
   connected Windows beacon; it downloads the object from the C2
-  ``/download/bofs/<name>`` endpoint and executes it with its internal
-  COFFLoader.
+  ``/bof/<name>`` endpoint (raw base64 object, the upstream wire format)
+  and runs it through COFFLoader.
 - ``blacksandbeacon`` (Linux ELF BOFs): the ``bof:url`` command is queued
   identically; the beacon downloads the position-independent ELF object
   and runs it through its ``RunELF`` loader with the datap argument API.
@@ -110,7 +110,7 @@ flowchart LR
 
 ### `BofDeliveryConfig`
 
-`class` `dataclass` | [modules/bof_delivery.py:87](../../modules/bof_delivery.py#L87)
+`class` `dataclass` | [modules/bof_delivery.py:141](../../modules/bof_delivery.py#L141)
 
 Decorators: `@dataclass`
 
@@ -137,7 +137,7 @@ Centralised knobs for the delivery service.
 
 ### `ClientAddon`
 
-`class` `dataclass` | [modules/bof_delivery.py:108](../../modules/bof_delivery.py#L108)
+`class` `dataclass` | [modules/bof_delivery.py:162](../../modules/bof_delivery.py#L162)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -165,7 +165,7 @@ One lazyaddon beacon client resolved from its YAML manifest.
 
 ### `load_client_addon`
 
-`function` | [modules/bof_delivery.py:126](../../modules/bof_delivery.py#L126)
+`function` | [modules/bof_delivery.py:180](../../modules/bof_delivery.py#L180)
 
 ```python
 def load_client_addon(client: str, config: BofDeliveryConfig | None = None) -> ClientAddon
@@ -196,7 +196,7 @@ Resolve one beacon client lazyaddon manifest.
 
 ### `staging_dir`
 
-`function` | [modules/bof_delivery.py:167](../../modules/bof_delivery.py#L167)
+`function` | [modules/bof_delivery.py:221](../../modules/bof_delivery.py#L221)
 
 ```python
 def staging_dir(config: BofDeliveryConfig | None = None) -> Path
@@ -220,7 +220,7 @@ Return (and create) the BOF staging directory.
 
 ### `stage_bof`
 
-`function` | [modules/bof_delivery.py:182](../../modules/bof_delivery.py#L182)
+`function` | [modules/bof_delivery.py:236](../../modules/bof_delivery.py#L236)
 
 ```python
 def stage_bof(name: str, config: BofDeliveryConfig | None = None) -> str | None
@@ -251,7 +251,7 @@ Stage one catalog BOF for delivery through its client.
 
 ### `stage_client`
 
-`function` | [modules/bof_delivery.py:315](../../modules/bof_delivery.py#L315)
+`function` | [modules/bof_delivery.py:374](../../modules/bof_delivery.py#L374)
 
 ```python
 def stage_client(client: str, config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> str
@@ -288,7 +288,7 @@ in with the operator's endpoints and key on first run.
 
 ### `delivery_command`
 
-`function` | [modules/bof_delivery.py:579](../../modules/bof_delivery.py#L579)
+`function` | [modules/bof_delivery.py:640](../../modules/bof_delivery.py#L640)
 
 ```python
 def delivery_command(bof_name: str, c2_url: str, args: list[str] | None = None, bofs_dir: str = BOF_URL_SEGMENT) -> str
@@ -322,7 +322,7 @@ Build the ``bof:`` delivery command for one BOF.
 
 ### `queue_to_beacon`
 
-`function` | [modules/bof_delivery.py:627](../../modules/bof_delivery.py#L627)
+`function` | [modules/bof_delivery.py:688](../../modules/bof_delivery.py#L688)
 
 ```python
 def queue_to_beacon(client_id: str, command: str, config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> bool
@@ -360,7 +360,7 @@ end-to-end encrypted by the beacon protocol itself.
 
 ### `recent_beacons`
 
-`function` | [modules/bof_delivery.py:690](../../modules/bof_delivery.py#L690)
+`function` | [modules/bof_delivery.py:751](../../modules/bof_delivery.py#L751)
 
 ```python
 def recent_beacons(config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> list[dict[str, Any]]
@@ -390,7 +390,7 @@ the on-disk beacon history files when the C2 is not reachable.
 
 ### `wait_for_beacon`
 
-`function` | [modules/bof_delivery.py:756](../../modules/bof_delivery.py#L756)
+`function` | [modules/bof_delivery.py:817](../../modules/bof_delivery.py#L817)
 
 ```python
 def wait_for_beacon(client_id: str | None = None, since: float | None = None, timeout: float = DEPLOY_WAIT_DEFAULT_S, config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> dict[str, Any] | None
@@ -420,7 +420,7 @@ Wait until a beacon answers, then return its latest record.
 
 ### `c2_reachable`
 
-`function` | [modules/bof_delivery.py:834](../../modules/bof_delivery.py#L834)
+`function` | [modules/bof_delivery.py:895](../../modules/bof_delivery.py#L895)
 
 ```python
 def c2_reachable(config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> bool
@@ -451,7 +451,7 @@ stale sessions directory never fakes a running server.
 
 ### `run_bof`
 
-`function` | [modules/bof_delivery.py:869](../../modules/bof_delivery.py#L869)
+`function` | [modules/bof_delivery.py:930](../../modules/bof_delivery.py#L930)
 
 ```python
 def run_bof(bof_name: str, client_id: str, args: list[str] | None = None, *, wait: float = 0.0, config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> dict[str, Any]
@@ -482,7 +482,7 @@ Queue one BOF execution on a live beacon and optionally await output.
 
 ### `run_bof_train`
 
-`function` | [modules/bof_delivery.py:908](../../modules/bof_delivery.py#L908)
+`function` | [modules/bof_delivery.py:969](../../modules/bof_delivery.py#L969)
 
 ```python
 def run_bof_train(client_id: str, names: list[str], args: list[str] | None = None, *, wait: float = 20.0, config: BofDeliveryConfig | None = None) -> dict[str, Any]
@@ -513,7 +513,7 @@ one entry per BOF name.
 
 ### `deploy_client`
 
-`function` | [modules/bof_delivery.py:974](../../modules/bof_delivery.py#L974)
+`function` | [modules/bof_delivery.py:1035](../../modules/bof_delivery.py#L1035)
 
 ```python
 def deploy_client(client: str, target: str, *, wait: float = DEPLOY_WAIT_DEFAULT_S, config: BofDeliveryConfig | None = None, payload: dict[str, Any] | None = None) -> dict[str, Any]
@@ -523,9 +523,16 @@ Deliver a staged beacon client onto a target and await check-in.
 
 The target must already expose an exec-capable shell session from the
 atomic exploit bridge (see ``atomic_exploit run`` / ``atomic_shell``).
-The beacon binary (and its runtime config) are fetched by the target
-itself over HTTPS directly from the C2 ``/download/`` endpoint, then
-executed detached.
+Delivery walks a fallback chain and stops on the first check-in:
+
+1. Upstream diskless stager — token-gated ``/stage/`` endpoints, the
+   beacon ELF + config are AES-CFB + HMAC protected under HKDF keys
+   derived from the staging token and executed from an anonymous
+   memfd (nothing touches the target disk).
+2. Raw ``/s/`` channel stager — same memfd execution without the
+   token gate (works when the operator has not assigned one).
+3. Disk bootstrap — ``curl`` the ELF + config to ``/tmp`` and run
+   detached (last resort, leaves files behind).
 
 **Parameters**
 
@@ -537,7 +544,8 @@ executed detached.
 | `config` | `BofDeliveryConfig \| None` | `None` | Optional delivery configuration override. |
 | `payload` | `dict[str, Any] \| None` | `None` | Optional payload.json mapping override (tests). |
 
-**Returns:** `dict[str, Any]` - ``{success, client_id, reason, deployed}``.
+**Returns:** `dict[str, Any]` - ``{success, client_id, reason, deployed, attempts}`` where
+``attempts`` keeps one entry per fallback that was tried.
 
 **Raises**
 
@@ -553,7 +561,7 @@ executed detached.
 
 ### `bof_results`
 
-`function` | [modules/bof_delivery.py:1267](../../modules/bof_delivery.py#L1267)
+`function` | [modules/bof_delivery.py:1356](../../modules/bof_delivery.py#L1356)
 
 ```python
 def bof_results(client_id: str, limit: int = 20, config: BofDeliveryConfig | None = None) -> list[dict[str, Any]]

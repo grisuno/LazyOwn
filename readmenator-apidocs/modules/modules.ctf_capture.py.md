@@ -39,7 +39,7 @@ flowchart LR
 
 ### `output_dir`
 
-`function` | [modules/ctf_capture.py:36](../../modules/ctf_capture.py#L36)
+`function` | [modules/ctf_capture.py:40](../../modules/ctf_capture.py#L40)
 
 ```python
 def output_dir(sessions_dir: str | Path | None = None) -> Path
@@ -63,7 +63,7 @@ Resolve the CTF storage directory.
 
 ### `capture`
 
-`function` | [modules/ctf_capture.py:197](../../modules/ctf_capture.py#L197)
+`function` | [modules/ctf_capture.py:245](../../modules/ctf_capture.py#L245)
 
 ```python
 def capture(vuln_id: str, target: str, output: str = '', sessions_dir: str | Path | None = None, catalogue: Any = None) -> dict
@@ -95,7 +95,7 @@ Verify output evidence for one gym vector and store the record.
 
 ### `record_path`
 
-`function` | [modules/ctf_capture.py:278](../../modules/ctf_capture.py#L278)
+`function` | [modules/ctf_capture.py:333](../../modules/ctf_capture.py#L333)
 
 ```python
 def record_path(vuln_id: str, sessions_dir: str | Path | None = None) -> Path
@@ -122,7 +122,7 @@ Return the record file path for one vulnerability.
 
 ### `store_record`
 
-`function` | [modules/ctf_capture.py:304](../../modules/ctf_capture.py#L304)
+`function` | [modules/ctf_capture.py:359](../../modules/ctf_capture.py#L359)
 
 ```python
 def store_record(record: dict, sessions_dir: str | Path | None = None) -> Path
@@ -149,7 +149,7 @@ Persist one capture record atomically.
 
 ### `list_records`
 
-`function` | [modules/ctf_capture.py:322](../../modules/ctf_capture.py#L322)
+`function` | [modules/ctf_capture.py:377](../../modules/ctf_capture.py#L377)
 
 ```python
 def list_records(sessions_dir: str | Path | None = None) -> dict[str, dict]
@@ -167,7 +167,7 @@ Return every stored CTF record keyed by vuln id.
 
 *Calls:* [`output_dir`](#output_dir)
 
-*Called by:* [`summary`](#summary)
+*Called by:* [`summary`](#summary), [`collect`](modules.ctf_signalman.py.md#collect)
 
 ---
 
@@ -175,7 +175,7 @@ Return every stored CTF record keyed by vuln id.
 
 ### `summary`
 
-`function` | [modules/ctf_capture.py:345](../../modules/ctf_capture.py#L345)
+`function` | [modules/ctf_capture.py:400](../../modules/ctf_capture.py#L400)
 
 ```python
 def summary(sessions_dir: str | Path | None = None) -> dict
@@ -264,7 +264,7 @@ CRED_LINE_RE = re.compile('^([A-Za-z0-9_.-]+)\\s*[:|]\\s*(\\S+)\\s*$', re.MULTIL
 `constant` | [modules/ctf_capture.py:27](../../modules/ctf_capture.py#L27)
 
 ```python
-WINDOWS_OS_ENUM_RE = re.compile('(?im)^\\s*OS:\\s*Windows|^\\s*OS Name\\s*:', re.MULTILINE)
+WINDOWS_OS_ENUM_RE = re.compile('(?im)^[\\s|]*OS:\\s*Windows|^[\\s|]*OS Name\\s*:')
 ```
 
 ---
@@ -276,7 +276,7 @@ WINDOWS_OS_ENUM_RE = re.compile('(?im)^\\s*OS:\\s*Windows|^\\s*OS Name\\s*:', re
 `constant` | [modules/ctf_capture.py:28](../../modules/ctf_capture.py#L28)
 
 ```python
-NETBIOS_NAME_RE = re.compile('(?im)^\\s*NetBIOS computer name:\\s*\\S+', re.MULTILINE)
+NETBIOS_NAME_RE = re.compile('(?im)^[\\s|]*NetBIOS computer name:\\s*\\S+')
 ```
 
 ---
@@ -285,10 +285,10 @@ NETBIOS_NAME_RE = re.compile('(?im)^\\s*NetBIOS computer name:\\s*\\S+', re.MULT
 
 ### `DEFENSE_REPORT_RE`
 
-`constant` | [modules/ctf_capture.py:29](../../modules/ctf_capture.py#L29)
+`constant` | [modules/ctf_capture.py:30](../../modules/ctf_capture.py#L30)
 
 ```python
-DEFENSE_REPORT_RE = re.compile('(?i)RealTimeProtection\\w*|AntivirusEnabled|AppLocker|HVCI')
+DEFENSE_REPORT_RE
 ```
 
 ---
@@ -297,7 +297,7 @@ DEFENSE_REPORT_RE = re.compile('(?i)RealTimeProtection\\w*|AntivirusEnabled|AppL
 
 ### `EVENTLOG_CSV_RE`
 
-`constant` | [modules/ctf_capture.py:30](../../modules/ctf_capture.py#L30)
+`constant` | [modules/ctf_capture.py:34](../../modules/ctf_capture.py#L34)
 
 ```python
 EVENTLOG_CSV_RE
@@ -309,7 +309,7 @@ EVENTLOG_CSV_RE
 
 ### `KERBEROS_TICKET_RE`
 
-`constant` | [modules/ctf_capture.py:31](../../modules/ctf_capture.py#L31)
+`constant` | [modules/ctf_capture.py:35](../../modules/ctf_capture.py#L35)
 
 ```python
 KERBEROS_TICKET_RE = re.compile('\\$krb5(?:tgs|asrep)\\$[0-9]+\\$')
@@ -321,7 +321,7 @@ KERBEROS_TICKET_RE = re.compile('\\$krb5(?:tgs|asrep)\\$[0-9]+\\$')
 
 ### `DOMAIN_ENUM_RE`
 
-`constant` | [modules/ctf_capture.py:32](../../modules/ctf_capture.py#L32)
+`constant` | [modules/ctf_capture.py:36](../../modules/ctf_capture.py#L36)
 
 ```python
 DOMAIN_ENUM_RE
@@ -333,7 +333,7 @@ DOMAIN_ENUM_RE
 
 ### `SMB_SHARE_RE`
 
-`constant` | [modules/ctf_capture.py:33](../../modules/ctf_capture.py#L33)
+`constant` | [modules/ctf_capture.py:37](../../modules/ctf_capture.py#L37)
 
 ```python
 SMB_SHARE_RE = re.compile('(?im)^\\s*\\S+:\\s+(?:Disk|IPC|Printer)\\b|Sharename')
@@ -345,7 +345,7 @@ SMB_SHARE_RE = re.compile('(?im)^\\s*\\S+:\\s+(?:Disk|IPC|Printer)\\b|Sharename'
 
 ### `CHECKERS`
 
-`constant` | [modules/ctf_capture.py:184](../../modules/ctf_capture.py#L184)
+`constant` | [modules/ctf_capture.py:188](../../modules/ctf_capture.py#L188)
 
 ```python
 CHECKERS: tuple[tuple[str, Callable[[str], str]], ...]

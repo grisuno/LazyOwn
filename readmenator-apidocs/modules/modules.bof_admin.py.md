@@ -298,7 +298,7 @@ Validate and atomically rewrite one BOF configuration.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `path` | `Path \| str` |  | Existing file path or file name inside `[`directory`](modules.bof_registry.py.md#bofyamlstore-directory)`. |
+| `path` | `Path \| str` |  | Existing file path or file name inside ``directory``. |
 | `data` | `dict[str, Any]` |  | New mapping. |
 | `directory` | `Path \| str \| None` | `None` | Override for tests. |
 
@@ -329,7 +329,7 @@ Validate raw YAML text and atomically write it to the bofs root.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `path` | `Path \| str` |  | File name (slug accepted) inside `[`directory`](modules.bof_registry.py.md#bofyamlstore-directory)`, or absolute path inside it. |
+| `path` | `Path \| str` |  | File name (slug accepted) inside ``directory``, or absolute path inside it. |
 | `text` | `str` |  | Raw YAML text. |
 | `directory` | `Path \| str \| None` | `None` | Override for tests; defaults to [`BOFS_DIR`](#bofs_dir). |
 
@@ -387,7 +387,7 @@ Delete one BOF configuration file after validation.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `path` | `Path \| str` |  | Existing file name or path inside `[`directory`](modules.bof_registry.py.md#bofyamlstore-directory)`. |
+| `path` | `Path \| str` |  | Existing file name or path inside ``directory``. |
 | `directory` | `Path \| str \| None` | `None` | Override for tests; defaults to [`BOFS_DIR`](#bofs_dir). |
 
 **Returns:** `bool` - True when the file was removed.

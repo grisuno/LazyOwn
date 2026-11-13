@@ -1,4 +1,4 @@
-# Subsystem: tests (page 2 of 25)
+# Subsystem: tests (page 2 of 26)
 Previous: [KB_tests.md](KB_tests.md)
 
 ## tests/test_addon_creator.py
@@ -297,6 +297,18 @@ Previous: [KB_tests.md](KB_tests.md)
   - `__init__` (method, line 31) `def __init__(self)`
   - `do_assign` (method, line 37) `def do_assign(self, line)`
 - Depends on: `cli/commands/command_and_control_migrated.py`, `modules/chain_registry.py`
+
+## tests/test_askpass.py
+- Doc: Tests for the graphical sudo askpass helpers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_find_native_askpass_without_display_is_empty` (function, line 10) `def test_find_native_askpass_without_display_is_empty(monkeypatch)`
+  - `test_find_native_askpass_uses_installed_helper` (function, line 17) `def test_find_native_askpass_uses_installed_helper(monkeypatch, tmp_path)`
+  - `test_create_zenity_askpass_writes_helper` (function, line 26) `def test_create_zenity_askpass_writes_helper(monkeypatch, tmp_path)`
+  - `test_sudo_graphical_requested_defaults_on` (function, line 38) `def test_sudo_graphical_requested_defaults_on(monkeypatch)`
+  - `test_sudo_graphical_requested_off_in_autonomous_loop` (function, line 45) `def test_sudo_graphical_requested_off_in_autonomous_loop(monkeypatch)`
+- Depends on: `modules/askpass.py`
 
 ## tests/test_asset_gate.py
 - Doc: Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.

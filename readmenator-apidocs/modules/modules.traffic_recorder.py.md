@@ -13,7 +13,7 @@ caller before recording.
 
 - **Classes:** [`RecorderConfig`](#recorderconfig), [`Exchange`](#exchange), [`TrafficRecorder`](#trafficrecorder)
 - **Functions:** [`url_template`](#url_template)
-- **Constants:** [`CONFIG`](#config), [`INDEX_SCHEMA`](#index_schema), [`FTS_SCHEMA`](#fts_schema), [`FTS_TEXT_LIMIT`](#fts_text_limit), [`MAX_BODY_BYTES`](#max_body_bytes)
+- **Constants:** [`CONFIG`](#config), [`INDEX_SCHEMA`](#index_schema), [`FTS_SCHEMA`](#fts_schema), [`FTS_TEXT_LIMIT`](#fts_text_limit), [`MAX_BODY_BYTES`](#max_body_bytes), [`RECORDER_BUSY_TIMEOUT_SEC`](#recorder_busy_timeout_sec), [`GC_MAX_ROWS_PER_SWEEP`](#gc_max_rows_per_sweep)
 
 ## Type Diagram
 
@@ -102,7 +102,7 @@ Centralized constants for recorder behavior.
 
 ### `Exchange`
 
-`class` `dataclass` | [modules/traffic_recorder.py:80](../../modules/traffic_recorder.py#L80)
+`class` `dataclass` | [modules/traffic_recorder.py:83](../../modules/traffic_recorder.py#L83)
 
 Decorators: `@dataclass`
 
@@ -129,7 +129,7 @@ Single recorded HTTP exchange.
 
 ### `TrafficRecorder`
 
-`class` | [modules/traffic_recorder.py:91](../../modules/traffic_recorder.py#L91)
+`class` | [modules/traffic_recorder.py:94](../../modules/traffic_recorder.py#L94)
 
 ```python
 class TrafficRecorder
@@ -160,7 +160,7 @@ Append-only recorder backed by files plus SQLite index.
 
 #### `TrafficRecorder.__init__`
 
-`constructor` | [modules/traffic_recorder.py:94](../../modules/traffic_recorder.py#L94)
+`constructor` | [modules/traffic_recorder.py:97](../../modules/traffic_recorder.py#L97)
 
 ```python
 def __init__(self, base_dir: str | Path) -> None
@@ -180,7 +180,7 @@ Create storage directories and initialize the index.
 
 #### `TrafficRecorder.record`
 
-`method` | [modules/traffic_recorder.py:138](../../modules/traffic_recorder.py#L138)
+`method` | [modules/traffic_recorder.py:147](../../modules/traffic_recorder.py#L147)
 
 ```python
 def record(self, method: str, url: str, status: int = 0, req_body: bytes = b'', resp_body: bytes = b'', content_type: str = '', req_headers: dict | None = None, resp_headers: dict | None = None, host: str = '', port: int = 0, scheme: str = '', task: str = '', note: str = '') -> Exchange
@@ -214,7 +214,7 @@ Persist one exchange and return its descriptor.
 
 #### `TrafficRecorder.since`
 
-`method` | [modules/traffic_recorder.py:230](../../modules/traffic_recorder.py#L230)
+`method` | [modules/traffic_recorder.py:239](../../modules/traffic_recorder.py#L239)
 
 ```python
 def since(self, rowid: int = 0, limit: int = 200) -> list[dict]
@@ -235,7 +235,7 @@ Page exchanges newer than a rowid watermark for loop ingestion.
 
 #### `TrafficRecorder.latest_rowid`
 
-`method` | [modules/traffic_recorder.py:247](../../modules/traffic_recorder.py#L247)
+`method` | [modules/traffic_recorder.py:256](../../modules/traffic_recorder.py#L256)
 
 ```python
 def latest_rowid(self) -> int
@@ -249,7 +249,7 @@ Return the current max rowid (0 when the index is empty).
 
 #### `TrafficRecorder.query`
 
-`method` | [modules/traffic_recorder.py:253](../../modules/traffic_recorder.py#L253)
+`method` | [modules/traffic_recorder.py:262](../../modules/traffic_recorder.py#L262)
 
 ```python
 def query(self, host: str = '', status: int | None = None, limit: int = 50, offset: int = 0, task: str = '') -> list[dict]
@@ -273,7 +273,7 @@ Page exchanges with optional host, status and task filters.
 
 #### `TrafficRecorder.get_body`
 
-`method` | [modules/traffic_recorder.py:275](../../modules/traffic_recorder.py#L275)
+`method` | [modules/traffic_recorder.py:284](../../modules/traffic_recorder.py#L284)
 
 ```python
 def get_body(self, exchange_id: str) -> dict
@@ -301,7 +301,7 @@ Load the stored body document for one exchange.
 
 #### `TrafficRecorder.read_body`
 
-`method` | [modules/traffic_recorder.py:284](../../modules/traffic_recorder.py#L284)
+`method` | [modules/traffic_recorder.py:293](../../modules/traffic_recorder.py#L293)
 
 ```python
 def read_body(self, exchange_id: str, part: str = 'resp', offset: int = 0, length: int = 8192) -> dict
@@ -333,7 +333,7 @@ Read one body in ranges like a blob store.
 
 #### `TrafficRecorder.count`
 
-`method` | [modules/traffic_recorder.py:317](../../modules/traffic_recorder.py#L317)
+`method` | [modules/traffic_recorder.py:326](../../modules/traffic_recorder.py#L326)
 
 ```python
 def count(self) -> int
@@ -349,7 +349,7 @@ Return the total number of recorded exchanges.
 
 #### `TrafficRecorder.backfill_fts`
 
-`method` | [modules/traffic_recorder.py:343](../../modules/traffic_recorder.py#L343)
+`method` | [modules/traffic_recorder.py:352](../../modules/traffic_recorder.py#L352)
 
 ```python
 def backfill_fts(self, batch: int = 500) -> int
@@ -371,7 +371,7 @@ Index stored bodies missing from the FTS table.
 
 #### `TrafficRecorder.search_body`
 
-`method` | [modules/traffic_recorder.py:382](../../modules/traffic_recorder.py#L382)
+`method` | [modules/traffic_recorder.py:391](../../modules/traffic_recorder.py#L391)
 
 ```python
 def search_body(self, query: str, limit: int = 20) -> list[dict]
@@ -399,7 +399,7 @@ LIKE scan over the most recent bodies otherwise.
 
 #### `TrafficRecorder.export_archive`
 
-`method` | [modules/traffic_recorder.py:451](../../modules/traffic_recorder.py#L451)
+`method` | [modules/traffic_recorder.py:460](../../modules/traffic_recorder.py#L460)
 
 ```python
 def export_archive(self, path: str | Path, limit: int = 0, task: str = '') -> dict
@@ -421,7 +421,7 @@ Export the index plus bodies into a portable zip archive.
 
 #### `TrafficRecorder.import_archive`
 
-`method` | [modules/traffic_recorder.py:493](../../modules/traffic_recorder.py#L493)
+`method` | [modules/traffic_recorder.py:502](../../modules/traffic_recorder.py#L502)
 
 ```python
 def import_archive(self, path: str | Path) -> dict
@@ -447,7 +447,7 @@ Merge an archive exported by [`export_archive`](#trafficrecorder-export_archive)
 
 #### `TrafficRecorder.import_inbox`
 
-`method` | [modules/traffic_recorder.py:554](../../modules/traffic_recorder.py#L554)
+`method` | [modules/traffic_recorder.py:563](../../modules/traffic_recorder.py#L563)
 
 ```python
 def import_inbox(self, inbox_dir: str | Path | None = None) -> dict
@@ -469,21 +469,28 @@ Import every zip dropped in the inbox, moving handled files away.
 
 #### `TrafficRecorder.gc`
 
-`method` | [modules/traffic_recorder.py:587](../../modules/traffic_recorder.py#L587)
+`method` | [modules/traffic_recorder.py:596](../../modules/traffic_recorder.py#L596)
 
 ```python
-def gc(self, older_than_sec: float = 0.0) -> dict
+def gc(self, older_than_sec: float = 0.0, max_rows: int = GC_MAX_ROWS_PER_SWEEP) -> dict
 ```
 
 Delete exchanges older than a cut-off with their bodies and index rows.
+
+The sweep is bounded: at most ``max_rows`` exchanges are removed per
+call so a large backlog (hundreds of thousands of exchanges) cannot
+block the writer or the loop round for minutes. Repeated sweeps drain
+the backlog across rounds. All row deletes for one batch run in a
+single transaction with a bounded lock wait.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `older_than_sec` | `float` | `0.0` | Age threshold; 0 disables the sweep. |
+| `max_rows` | `int` | `GC_MAX_ROWS_PER_SWEEP` | Upper bound of exchanges removed per sweep. |
 
-**Returns:** `dict` - Dict with removed count.
+**Returns:** `dict` - Dict with removed count and whether backlog remains.
 
 ---
 
@@ -493,7 +500,7 @@ Delete exchanges older than a cut-off with their bodies and index rows.
 
 ### `url_template`
 
-`function` | [modules/traffic_recorder.py:69](../../modules/traffic_recorder.py#L69)
+`function` | [modules/traffic_recorder.py:72](../../modules/traffic_recorder.py#L72)
 
 ```python
 def url_template(url: str) -> str
@@ -575,6 +582,30 @@ FTS_TEXT_LIMIT = 262144
 
 ```python
 MAX_BODY_BYTES = CONFIG.max_body_bytes
+```
+
+---
+
+<a id="recorder_busy_timeout_sec"></a>
+
+### `RECORDER_BUSY_TIMEOUT_SEC`
+
+`constant` | [modules/traffic_recorder.py:68](../../modules/traffic_recorder.py#L68)
+
+```python
+RECORDER_BUSY_TIMEOUT_SEC = 2.0
+```
+
+---
+
+<a id="gc_max_rows_per_sweep"></a>
+
+### `GC_MAX_ROWS_PER_SWEEP`
+
+`constant` | [modules/traffic_recorder.py:69](../../modules/traffic_recorder.py#L69)
+
+```python
+GC_MAX_ROWS_PER_SWEEP = 500
 ```
 
 ---

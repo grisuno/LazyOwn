@@ -12,7 +12,7 @@
 
 ### `WorkerAgenticMixin`
 
-`class` | [modules/loop/worker_agentic.py:11](../../modules/loop/worker_agentic.py#L11)
+`class` | [modules/loop/worker_agentic.py:225](../../modules/loop/worker_agentic.py#L225)
 
 ```python
 class WorkerAgenticMixin

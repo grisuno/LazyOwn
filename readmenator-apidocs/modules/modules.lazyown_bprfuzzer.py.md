@@ -48,6 +48,7 @@ flowchart LR
     n_modules_lazyown_bprfuzzer_py__load_data_from_file(["load_data_from_file"])
     n_modules_lazyown_bprfuzzer_py__load_headers_from_file(["load_headers_from_file"])
     n_modules_lazyown_bprfuzzer_py__parse_arguments(["parse_arguments"])
+    n_modules_browser_sync_py__apply_identity_to_url["browser_sync.apply_identity_to_url"]
     n_modules_lazyown_bprfuzzer_py__repeater --> n_modules_lazyown_bprfuzzer_py__edit_file_with_nano
     n_modules_lazyown_bprfuzzer_py__repeater --> n_modules_lazyown_bprfuzzer_py__send_request
     n_modules_lazyown_bprfuzzer_py__lazyfuzz --> n_modules_lazyown_bprfuzzer_py__send_request
@@ -56,6 +57,7 @@ flowchart LR
     n_modules_lazyown_bprfuzzer_py__main --> n_modules_lazyown_bprfuzzer_py__load_headers_from_file
     n_modules_lazyown_bprfuzzer_py__main --> n_modules_lazyown_bprfuzzer_py__parse_arguments
     n_modules_lazyown_bprfuzzer_py__main --> n_modules_lazyown_bprfuzzer_py__repeater
+    n_modules_lazyown_bprfuzzer_py__send_request -.-> n_modules_browser_sync_py__apply_identity_to_url
 ```
 
 ## Classes
@@ -64,7 +66,7 @@ flowchart LR
 
 ### `ProxyHandler`
 
-`class` | [modules/lazyown_bprfuzzer.py:114](../../modules/lazyown_bprfuzzer.py#L114)
+`class` | [modules/lazyown_bprfuzzer.py:115](../../modules/lazyown_bprfuzzer.py#L115)
 
 ```python
 class ProxyHandler(BaseHTTPRequestHandler)
@@ -83,7 +85,7 @@ Bases: `BaseHTTPRequestHandler`
 
 #### `ProxyHandler.do_GET`
 
-`method` | [modules/lazyown_bprfuzzer.py:115](../../modules/lazyown_bprfuzzer.py#L115)
+`method` | [modules/lazyown_bprfuzzer.py:116](../../modules/lazyown_bprfuzzer.py#L116)
 
 ```python
 def do_GET(self)
@@ -93,7 +95,7 @@ def do_GET(self)
 
 #### `ProxyHandler.do_POST`
 
-`method` | [modules/lazyown_bprfuzzer.py:118](../../modules/lazyown_bprfuzzer.py#L118)
+`method` | [modules/lazyown_bprfuzzer.py:119](../../modules/lazyown_bprfuzzer.py#L119)
 
 ```python
 def do_POST(self)
@@ -107,7 +109,7 @@ def do_POST(self)
 
 ### `load_headers_from_file`
 
-`function` | [modules/lazyown_bprfuzzer.py:93](../../modules/lazyown_bprfuzzer.py#L93)
+`function` | [modules/lazyown_bprfuzzer.py:94](../../modules/lazyown_bprfuzzer.py#L94)
 
 ```python
 def load_headers_from_file(file_path)
@@ -127,7 +129,7 @@ def load_headers_from_file(file_path)
 
 ### `load_data_from_file`
 
-`function` | [modules/lazyown_bprfuzzer.py:99](../../modules/lazyown_bprfuzzer.py#L99)
+`function` | [modules/lazyown_bprfuzzer.py:100](../../modules/lazyown_bprfuzzer.py#L100)
 
 ```python
 def load_data_from_file(file_path)
@@ -147,7 +149,7 @@ def load_data_from_file(file_path)
 
 ### `signal_handler`
 
-`function` | [modules/lazyown_bprfuzzer.py:105](../../modules/lazyown_bprfuzzer.py#L105)
+`function` | [modules/lazyown_bprfuzzer.py:106](../../modules/lazyown_bprfuzzer.py#L106)
 
 ```python
 def signal_handler(sig, frame)
@@ -166,7 +168,7 @@ def signal_handler(sig, frame)
 
 ### `run_proxy`
 
-`function` | [modules/lazyown_bprfuzzer.py:162](../../modules/lazyown_bprfuzzer.py#L162)
+`function` | [modules/lazyown_bprfuzzer.py:167](../../modules/lazyown_bprfuzzer.py#L167)
 
 ```python
 def run_proxy(port)
@@ -184,7 +186,7 @@ def run_proxy(port)
 
 ### `edit_file_with_nano`
 
-`function` | [modules/lazyown_bprfuzzer.py:169](../../modules/lazyown_bprfuzzer.py#L169)
+`function` | [modules/lazyown_bprfuzzer.py:174](../../modules/lazyown_bprfuzzer.py#L174)
 
 ```python
 def edit_file_with_nano(content)
@@ -204,7 +206,7 @@ def edit_file_with_nano(content)
 
 ### `send_request`
 
-`function` | [modules/lazyown_bprfuzzer.py:179](../../modules/lazyown_bprfuzzer.py#L179)
+`function` | [modules/lazyown_bprfuzzer.py:184](../../modules/lazyown_bprfuzzer.py#L184)
 
 ```python
 def send_request(url, method='GET', headers=None, params=None, data=None, json_data=None, proxies=None, hide_code=None)
@@ -225,6 +227,8 @@ Envía una solicitud HTTP y devuelve la respuesta.
 | `proxies` |  | `None` |  |
 | `hide_code` |  | `None` |  |
 
+*Calls:* [`apply_identity_to_url`](modules.browser_sync.py.md#apply_identity_to_url)
+
 *Called by:* [`lazyfuzz`](#lazyfuzz), [`repeater`](#repeater)
 
 ---
@@ -233,7 +237,7 @@ Envía una solicitud HTTP y devuelve la respuesta.
 
 ### `repeater`
 
-`function` | [modules/lazyown_bprfuzzer.py:203](../../modules/lazyown_bprfuzzer.py#L203)
+`function` | [modules/lazyown_bprfuzzer.py:220](../../modules/lazyown_bprfuzzer.py#L220)
 
 ```python
 def repeater(url, method, headers, params, data, json_data, proxies, hide_code)
@@ -264,7 +268,7 @@ Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con po
 
 ### `lazyfuzz`
 
-`function` | [modules/lazyown_bprfuzzer.py:233](../../modules/lazyown_bprfuzzer.py#L233)
+`function` | [modules/lazyown_bprfuzzer.py:250](../../modules/lazyown_bprfuzzer.py#L250)
 
 ```python
 def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)
@@ -296,7 +300,7 @@ Funcionalidad de fuzzing que reemplaza LAZYFUZZ con palabras de una wordlist.
 
 ### `parse_arguments`
 
-`function` | [modules/lazyown_bprfuzzer.py:278](../../modules/lazyown_bprfuzzer.py#L278)
+`function` | [modules/lazyown_bprfuzzer.py:295](../../modules/lazyown_bprfuzzer.py#L295)
 
 ```python
 def parse_arguments()
@@ -312,7 +316,7 @@ Parsear los argumentos de la línea de comandos.
 
 ### `main`
 
-`function` | [modules/lazyown_bprfuzzer.py:302](../../modules/lazyown_bprfuzzer.py#L302)
+`function` | [modules/lazyown_bprfuzzer.py:319](../../modules/lazyown_bprfuzzer.py#L319)
 
 ```python
 def main()
@@ -328,7 +332,7 @@ def main()
 
 ### `BANNER`
 
-`constant` | [modules/lazyown_bprfuzzer.py:69](../../modules/lazyown_bprfuzzer.py#L69)
+`constant` | [modules/lazyown_bprfuzzer.py:70](../../modules/lazyown_bprfuzzer.py#L70)
 
 ```python
 BANNER

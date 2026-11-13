@@ -1,8 +1,29 @@
-# Symbols (page 7 of 51)
+# Symbols (page 7 of 53)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
+| `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
+| `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
+| `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
+| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
+| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
+| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
+| `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
+| `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
+| `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
+| `_hint` | method | `cli/tui_forms.py:172` | `def _hint(self, text)` |
+| `_render_options` | method | `cli/tui_forms.py:155` | `def _render_options(self, query)` |
+| `_save` | method | `cli/tui_forms.py:327` | `def _save(self)` |
+| `_selected_value` | method | `cli/tui_forms.py:179` | `def _selected_value(self)` |
+| `_values` | method | `cli/tui_forms.py:95` | `def _values(self)` |
+| `action_answer` | method | `cli/tui_forms.py:272` | `def action_answer(self, answer)` |
+| `compose` | method | `cli/tui_forms.py:82` | `def compose(self)` |
+| `compose` | method | `cli/tui_forms.py:136` | `def compose(self)` |
+| `compose` | method | `cli/tui_forms.py:262` | `def compose(self)` |
+| `compose` | method | `cli/tui_forms.py:314` | `def compose(self)` |
+| `filter_candidates` | function | `cli/tui_forms.py:27` | `def filter_candidates(query, options, limit)` |
 | `on_button_pressed` | method | `cli/tui_forms.py:102` | `def on_button_pressed(self, event)` |
 | `on_button_pressed` | method | `cli/tui_forms.py:239` | `def on_button_pressed(self, event)` |
 | `on_button_pressed` | method | `cli/tui_forms.py:276` | `def on_button_pressed(self, event)` |
@@ -430,6 +451,12 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `rotate_key` | method | `core/api_authz.py:309` | `def rotate_key(self, label, tenant_id)` |
 | `to_dict` | method | `core/api_authz.py:94` | `def to_dict(self)` |
 | `validate_key` | method | `core/api_authz.py:287` | `def validate_key(self, plaintext)` |
+| `_ensure_parent` | function | `core/atomic_store.py:39` | `def _ensure_parent(path)` |
+| `_unique_tmp` | function | `core/atomic_store.py:33` | `def _unique_tmp(path)` |
+| `file_lock` | function | `core/atomic_store.py:85` | `def file_lock(path)` |
+| `update_json` | function | `core/atomic_store.py:127` | `def update_json(path, mutate, default)` |
+| `write_bytes_atomic` | function | `core/atomic_store.py:49` | `def write_bytes_atomic(path, data)` |
+| `write_text_atomic` | function | `core/atomic_store.py:71` | `def write_text_atomic(path, text)` |
 | `_guarded_input` | function | `core/autonomous.py:39` | `def _guarded_input(prompt)` |
 | `autonomous_mode` | function | `core/autonomous.py:27` | `def autonomous_mode()` |
 | `is_autonomous` | function | `core/autonomous.py:21` | `def is_autonomous()` |
@@ -469,32 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `ensure_blocking_stdio` | function | `core/console.py:161` | `def ensure_blocking_stdio()` |
 | `format_line` | function | `core/console.py:121` | `def format_line(prefix, message, glyph)` |
 | `print_error` | function | `core/console.py:137` | `def print_error(error)` |
-| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
-| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
-| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
-| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
-| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
-| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
-| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
-| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
-| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
-| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
-| `unseal_payload` | function | `core/credential_vault.py:164` | `def unseal_payload(payload, key)` |
-| `unseal_value` | function | `core/credential_vault.py:112` | `def unseal_value(sealed, key)` |
-| `AESdecrypt` | function | `core/crypto.py:122` | `def AESdecrypt(data, key)` |
-| `AESencrypt` | function | `core/crypto.py:98` | `def AESencrypt(plaintext, key)` |
-| `derive_key` | function | `core/crypto.py:36` | `def derive_key(password, salt)` |
-| `dropFile` | function | `core/crypto.py:154` | `def dropFile(key, ciphertext)` |
-| `generate_salt` | function | `core/crypto.py:24` | `def generate_salt(length)` |
-| `generate_xor_key` | function | `core/crypto.py:83` | `def generate_xor_key(length)` |
-| `xor_encrypt_decrypt` | function | `core/crypto.py:67` | `def xor_encrypt_decrypt(data, key)` |
-| `clear_cache` | function | `core/defaults.py:44` | `def clear_cache()` |
-| `common_wordlists` | function | `core/defaults.py:90` | `def common_wordlists()` |
-| `default_lport` | function | `core/defaults.py:63` | `def default_lport()` |
-| `default_rport` | function | `core/defaults.py:72` | `def default_rport()` |
-| `get` | function | `core/defaults.py:49` | `def get(section, key, default)` |
-| `load_defaults` | function | `core/defaults.py:21` | `def load_defaults(path)` |
-| `rockyou_wordlist` | function | `core/defaults.py:81` | `def rockyou_wordlist()` |
-| `sessions_dir` | function | `core/defaults.py:100` | `def sessions_dir()` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

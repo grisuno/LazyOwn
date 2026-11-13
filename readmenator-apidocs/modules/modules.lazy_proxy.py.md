@@ -480,7 +480,7 @@ callers (MCP) fail soft with a reason instead of hanging.
 
 ### `get_proxy`
 
-`function` | [modules/lazy_proxy.py:1336](../../modules/lazy_proxy.py#L1336)
+`function` | [modules/lazy_proxy.py:1359](../../modules/lazy_proxy.py#L1359)
 
 ```python
 def get_proxy() -> ProxyController
@@ -492,7 +492,7 @@ Return the process-wide recorder proxy controller.
 
 *Calls:* [`ProxyController.__init__`](#proxycontroller-__init__)
 
-*Called by:* [`LazyCommandSet.do_lazy_evidence`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_evidence), [`LazyCommandSet.do_lazy_traffic`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_traffic)
+*Called by:* [`LazyCommandSet.do_lazy_evidence`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_evidence), [`LazyCommandSet.do_lazy_traffic`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_traffic), [`ensure_wiring`](modules.browser_sync.py.md#ensure_wiring)
 
 ---
 
@@ -500,7 +500,7 @@ Return the process-wide recorder proxy controller.
 
 ### `env_for_ca`
 
-`function` | [modules/lazy_proxy.py:1345](../../modules/lazy_proxy.py#L1345)
+`function` | [modules/lazy_proxy.py:1368](../../modules/lazy_proxy.py#L1368)
 
 ```python
 def env_for_ca(ca_path: str, host: str = DEFAULT_PROXY_HOST, port: int = DEFAULT_PROXY_PORT) -> dict
@@ -526,7 +526,7 @@ Build the environment overrides that route tools through the proxy.
 
 ### `apply_env`
 
-`function` | [modules/lazy_proxy.py:1361](../../modules/lazy_proxy.py#L1361)
+`function` | [modules/lazy_proxy.py:1384](../../modules/lazy_proxy.py#L1384)
 
 ```python
 def apply_env(ca_path: str, host: str = DEFAULT_PROXY_HOST, port: int = DEFAULT_PROXY_PORT) -> dict
@@ -546,13 +546,15 @@ Apply proxy env vars, returning the previous values for restore.
 
 *Calls:* [`env_for_ca`](#env_for_ca)
 
+*Called by:* [`ensure_wiring`](modules.browser_sync.py.md#ensure_wiring)
+
 ---
 
 <a id="restore_env"></a>
 
 ### `restore_env`
 
-`function` | [modules/lazy_proxy.py:1368](../../modules/lazy_proxy.py#L1368)
+`function` | [modules/lazy_proxy.py:1391](../../modules/lazy_proxy.py#L1391)
 
 ```python
 def restore_env(previous: dict) -> None

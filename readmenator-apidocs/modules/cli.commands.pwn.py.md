@@ -44,6 +44,7 @@ flowchart LR
     n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine_enable_stealth["autonomous_exploit_engine.AutonomousExploitEngine.enable_stealth"]
     n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine_full_auto_pwn["autonomous_exploit_engine.AutonomousExploitEngine.full_auto_pwn"]
     n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine_profile["autonomous_exploit_engine.AutonomousExploitEngine.profile"]
+    n_modules_loop_preflight_py__lab_state_for["loop_preflight.lab_state_for"]
     n_cli_commands_pwn_py__PwnCommandSet_do_rich_tui(["PwnCommandSet.do_rich_tui"])
     n_modules_dashboard_engine_py__DashboardEngine___init__["dashboard_engine.DashboardEngine.__init__"]
     n_modules_dashboard_engine_py__DashboardEngine_set_exploit_recommender["dashboard_engine.DashboardEngine.set_exploit_recommender"]
@@ -65,6 +66,7 @@ flowchart LR
     n_cli_commands_pwn_py__PwnCommandSet_do_auto_pwn -.-> n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine_enable_stealth
     n_cli_commands_pwn_py__PwnCommandSet_do_auto_pwn -.-> n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine_full_auto_pwn
     n_cli_commands_pwn_py__PwnCommandSet_do_auto_pwn -.-> n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine_profile
+    n_cli_commands_pwn_py__PwnCommandSet_do_auto_pwn -.-> n_modules_loop_preflight_py__lab_state_for
     n_cli_commands_pwn_py__PwnCommandSet_do_rich_tui -.-> n_core_console_py__print_error
     n_cli_commands_pwn_py__PwnCommandSet_do_rich_tui -.-> n_modules_dashboard_engine_py__DashboardEngine___init__
     n_cli_commands_pwn_py__PwnCommandSet_do_rich_tui -.-> n_modules_dashboard_engine_py__DashboardEngine_set_exploit_recommender
@@ -81,7 +83,6 @@ flowchart LR
     n_cli_commands_pwn_py__PwnCommandSet_do_exploit_chain -.-> n_modules_ai_exploit_chain_py__AIExploitChainer_evaluate_failure
     n_cli_commands_pwn_py__PwnCommandSet_do_exploit_chain -.-> n_modules_ai_exploit_chain_py__AIExploitChainer_reason
     n_cli_commands_pwn_py__PwnCommandSet_do_exploit_chain -.-> n_modules_ai_exploit_chain_py__ExploitChainContext
-    n_cli_commands_pwn_py__PwnCommandSet_do_exploit_chain -.-> n_modules_autonomous_exploit_engine_py__AutonomousExploitEngine___init__
 ```
 
 ## Classes
@@ -134,10 +135,13 @@ def do_auto_pwn(self, line)
 Run the full autonomous exploitation chain against the target.
 
 Usage:
-    auto_pwn [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
+    auto_pwn [target_ip] [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
 
 Executes recon, vulnerability scanning, exploit selection,
 exploitation, optional privilege escalation and auto-pivoting.
+The optional positional target overrides payload ``rhost`` so
+deterministic callers (autonomous loop, chains) can point the
+engine at a scoped host without mutating payload.json.
 
 **Parameters**
 
@@ -145,13 +149,13 @@ exploitation, optional privilege escalation and auto-pivoting.
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`AutonomousExploitEngine.__init__`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-__init__), [`AutonomousExploitEngine.enable_stealth`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-enable_stealth), [`AutonomousExploitEngine.full_auto_pwn`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-full_auto_pwn), [`AutonomousExploitEngine.profile`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-profile)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`AutonomousExploitEngine.__init__`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-__init__), [`AutonomousExploitEngine.enable_stealth`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-enable_stealth), [`AutonomousExploitEngine.full_auto_pwn`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-full_auto_pwn), [`AutonomousExploitEngine.profile`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-profile), [`lab_state_for`](modules.loop_preflight.py.md#lab_state_for)
 
 <a id="pwncommandset-do_rich_tui"></a>
 
 #### `PwnCommandSet.do_rich_tui`
 
-`method` | [cli/commands/pwn.py:109](../../cli/commands/pwn.py#L109)
+`method` | [cli/commands/pwn.py:132](../../cli/commands/pwn.py#L132)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -180,7 +184,7 @@ pivots and beacons. Press 'q' to quit.
 
 #### `PwnCommandSet.do_exploit_chain`
 
-`method` | [cli/commands/pwn.py:158](../../cli/commands/pwn.py#L158)
+`method` | [cli/commands/pwn.py:181](../../cli/commands/pwn.py#L181)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -209,7 +213,7 @@ strategy automatically.
 
 #### `PwnCommandSet.do_lolbas_list`
 
-`method` | [cli/commands/pwn.py:245](../../cli/commands/pwn.py#L245)
+`method` | [cli/commands/pwn.py:268](../../cli/commands/pwn.py#L268)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -237,7 +241,7 @@ binaries and scripts to bypass security controls.
 
 #### `PwnCommandSet.do_lolbas_use`
 
-`method` | [cli/commands/pwn.py:302](../../cli/commands/pwn.py#L302)
+`method` | [cli/commands/pwn.py:325](../../cli/commands/pwn.py#L325)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -264,7 +268,7 @@ Example: lolbas_use amsi_bypass/amsiInitFailed
 
 #### `PwnCommandSet.do_stealth_on`
 
-`method` | [cli/commands/pwn.py:394](../../cli/commands/pwn.py#L394)
+`method` | [cli/commands/pwn.py:417](../../cli/commands/pwn.py#L417)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -292,7 +296,7 @@ traffic shaping to avoid detection.
 
 #### `PwnCommandSet.do_stealth_off`
 
-`method` | [cli/commands/pwn.py:422](../../cli/commands/pwn.py#L422)
+`method` | [cli/commands/pwn.py:445](../../cli/commands/pwn.py#L445)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

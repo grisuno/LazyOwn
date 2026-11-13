@@ -29,6 +29,7 @@ classDiagram
     SelectionContext : tuple[str, ] services
     SelectionContext : bool has_creds
     SelectionContext : frozenset[str] exclude
+    SelectionContext : frozenset[str] burned
     SelectionContext : Mapping[str, Any] extra
     class ActionDecision
     ActionDecision : str command
@@ -68,6 +69,7 @@ Immutable snapshot of what the loop knows when it picks the next action.
 | [`services`](#selectioncontext-services) | `tuple[str, ...]` | `()` | Discovered service names for the target. |
 | [`has_creds`](#selectioncontext-has_creds) | `bool` | `False` | Whether usable credentials are known. |
 | [`exclude`](#selectioncontext-exclude) | `frozenset[str]` | `frozenset()` | Action identifiers already taken, to avoid repeats. |
+| [`burned`](#selectioncontext-burned) | `frozenset[str]` | `frozenset()` | Verb heads that have failed too often this run and should be avoided; each runtime fills it from its own failure tracking, so a history- or catalog-driven selector never re-proposes a dead verb. |
 | [`extra`](#selectioncontext-extra) | `Mapping[str, Any]` | `field(default_factory=dict)` | Open map for strategy-specific inputs without widening the shared contract. |
 
 ---
@@ -76,7 +78,7 @@ Immutable snapshot of what the loop knows when it picks the next action.
 
 ### `ActionDecision`
 
-`class` `dataclass` | [modules/selection/base.py:44](../../modules/selection/base.py#L44)
+`class` `dataclass` | [modules/selection/base.py:48](../../modules/selection/base.py#L48)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -104,7 +106,7 @@ One proposed next action, runtime-agnostic.
 
 ### `Selector`
 
-`protocol` | [modules/selection/base.py:63](../../modules/selection/base.py#L63)
+`protocol` | [modules/selection/base.py:67](../../modules/selection/base.py#L67)
 
 Decorators: `@runtime_checkable`
 
@@ -136,7 +138,7 @@ so the cascade falls through to the next selector.
 
 #### `Selector.propose`
 
-`method` | [modules/selection/base.py:73](../../modules/selection/base.py#L73)
+`method` | [modules/selection/base.py:77](../../modules/selection/base.py#L77)
 
 ```python
 def propose(self, ctx: SelectionContext) -> ActionDecision | None

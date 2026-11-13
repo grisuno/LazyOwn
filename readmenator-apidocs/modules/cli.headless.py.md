@@ -106,7 +106,7 @@ Execute a single command, capture output, return structured result.
 
 #### `HeadlessRunner.run_chain`
 
-`method` | [cli/headless.py:132](../../cli/headless.py#L132)
+`method` | [cli/headless.py:136](../../cli/headless.py#L136)
 
 ```python
 def run_chain(self, commands: list[str]) -> list[dict[str, Any]]

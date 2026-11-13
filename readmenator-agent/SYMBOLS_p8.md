@@ -1,8 +1,35 @@
-# Symbols (page 8 of 51)
+# Symbols (page 8 of 53)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
+| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
+| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
+| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
+| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
+| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
+| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
+| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
+| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
+| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
+| `unseal_payload` | function | `core/credential_vault.py:164` | `def unseal_payload(payload, key)` |
+| `unseal_value` | function | `core/credential_vault.py:112` | `def unseal_value(sealed, key)` |
+| `AESdecrypt` | function | `core/crypto.py:122` | `def AESdecrypt(data, key)` |
+| `AESencrypt` | function | `core/crypto.py:98` | `def AESencrypt(plaintext, key)` |
+| `derive_key` | function | `core/crypto.py:36` | `def derive_key(password, salt)` |
+| `dropFile` | function | `core/crypto.py:154` | `def dropFile(key, ciphertext)` |
+| `generate_salt` | function | `core/crypto.py:24` | `def generate_salt(length)` |
+| `generate_xor_key` | function | `core/crypto.py:83` | `def generate_xor_key(length)` |
+| `xor_encrypt_decrypt` | function | `core/crypto.py:67` | `def xor_encrypt_decrypt(data, key)` |
+| `clear_cache` | function | `core/defaults.py:44` | `def clear_cache()` |
+| `common_wordlists` | function | `core/defaults.py:90` | `def common_wordlists()` |
+| `default_lport` | function | `core/defaults.py:63` | `def default_lport()` |
+| `default_rport` | function | `core/defaults.py:72` | `def default_rport()` |
+| `get` | function | `core/defaults.py:49` | `def get(section, key, default)` |
+| `load_defaults` | function | `core/defaults.py:21` | `def load_defaults(path)` |
+| `rockyou_wordlist` | function | `core/defaults.py:81` | `def rockyou_wordlist()` |
+| `sessions_dir` | function | `core/defaults.py:100` | `def sessions_dir()` |
 | `DependencyReport` | class | `core/dependencies.py:268` | `class DependencyReport` |
 | `DependencySpec` | class | `core/dependencies.py:66` | `class DependencySpec` |
 | `DependencyStatus` | class | `core/dependencies.py:253` | `class DependencyStatus` |
@@ -191,54 +218,57 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `parse_ip_mac` | function | `core/network.py:18` | `def parse_ip_mac(input_string)` |
 | `parse_proc_net_file` | function | `core/network.py:78` | `def parse_proc_net_file(file_path)` |
 | `send_packet` | function | `core/network.py:66` | `def send_packet(packet, iface)` |
-| `OperatorParam` | class | `core/param_registry.py:114` | `class OperatorParam` |
-| `_entry_to_param` | function | `core/param_registry.py:204` | `def _entry_to_param(name, entry)` |
-| `_write` | function | `core/param_registry.py:482` | `def _write(entries, root)` |
-| `apply_to_schema` | function | `core/param_registry.py:437` | `def apply_to_schema(root)` |
-| `as_entry` | method | `core/param_registry.py:133` | `def as_entry(self)` |
-| `create_param` | function | `core/param_registry.py:291` | `def create_param(name, kind, default, description, category, root)` |
-| `delete_param` | function | `core/param_registry.py:387` | `def delete_param(name, root)` |
-| `effective_value` | function | `core/param_registry.py:187` | `def effective_value(entry)` |
-| `list_params` | function | `core/param_registry.py:256` | `def list_params(root, include_builtin, keyword)` |
-| `load_entries` | function | `core/param_registry.py:226` | `def load_entries(root)` |
-| `normalise_kind` | function | `core/param_registry.py:172` | `def normalise_kind(kind)` |
-| `operator_specs` | function | `core/param_registry.py:425` | `def operator_specs(root)` |
-| `param_value` | function | `core/param_registry.py:411` | `def param_value(name, root)` |
-| `registry_path` | function | `core/param_registry.py:158` | `def registry_path(root)` |
-| `sync_shell_params` | function | `core/param_registry.py:459` | `def sync_shell_params(shell, root)` |
-| `to_spec` | method | `core/param_registry.py:142` | `def to_spec(self)` |
-| `update_param` | function | `core/param_registry.py:341` | `def update_param(name, default, description, kind, category, root)` |
+| `OperatorParam` | class | `core/param_registry.py:116` | `class OperatorParam` |
+| `_entry_to_param` | function | `core/param_registry.py:206` | `def _entry_to_param(name, entry)` |
+| `_write` | function | `core/param_registry.py:484` | `def _write(entries, root)` |
+| `apply_to_schema` | function | `core/param_registry.py:439` | `def apply_to_schema(root)` |
+| `as_entry` | method | `core/param_registry.py:135` | `def as_entry(self)` |
+| `create_param` | function | `core/param_registry.py:293` | `def create_param(name, kind, default, description, category, root)` |
+| `delete_param` | function | `core/param_registry.py:389` | `def delete_param(name, root)` |
+| `effective_value` | function | `core/param_registry.py:189` | `def effective_value(entry)` |
+| `list_params` | function | `core/param_registry.py:258` | `def list_params(root, include_builtin, keyword)` |
+| `load_entries` | function | `core/param_registry.py:228` | `def load_entries(root)` |
+| `normalise_kind` | function | `core/param_registry.py:174` | `def normalise_kind(kind)` |
+| `operator_specs` | function | `core/param_registry.py:427` | `def operator_specs(root)` |
+| `param_value` | function | `core/param_registry.py:413` | `def param_value(name, root)` |
+| `registry_path` | function | `core/param_registry.py:160` | `def registry_path(root)` |
+| `sync_shell_params` | function | `core/param_registry.py:461` | `def sync_shell_params(shell, root)` |
+| `to_spec` | method | `core/param_registry.py:144` | `def to_spec(self)` |
+| `update_param` | function | `core/param_registry.py:343` | `def update_param(name, default, description, kind, category, root)` |
 | `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
 | `FieldKind` | class | `core/payload_schema.py:77` | `class FieldKind(StrEnum)` |
-| `FieldSpec` | class | `core/payload_schema.py:104` | `class FieldSpec` |
-| `Severity` | class | `core/payload_schema.py:95` | `class Severity(StrEnum)` |
-| `ValidationIssue` | class | `core/payload_schema.py:146` | `class ValidationIssue` |
-| `_coerce_bool` | function | `core/payload_schema.py:320` | `def _coerce_bool(raw)` |
-| `_coerce_int` | function | `core/payload_schema.py:305` | `def _coerce_int(raw)` |
-| `_load_operator_specs` | function | `core/payload_schema.py:2186` | `def _load_operator_specs()` |
-| `_spec` | function | `core/payload_schema.py:339` | `def _spec(name, kind, default, description)` |
-| `_validate_bool` | function | `core/payload_schema.py:199` | `def _validate_bool(value)` |
-| `_validate_hex` | function | `core/payload_schema.py:258` | `def _validate_hex(value)` |
-| `_validate_hostname` | function | `core/payload_schema.py:224` | `def _validate_hostname(value)` |
-| `_validate_int` | function | `core/payload_schema.py:175` | `def _validate_int(value)` |
-| `_validate_interface` | function | `core/payload_schema.py:250` | `def _validate_interface(value)` |
-| `_validate_ip` | function | `core/payload_schema.py:216` | `def _validate_ip(value)` |
-| `_validate_json_blob` | function | `core/payload_schema.py:272` | `def _validate_json_blob(value)` |
-| `_validate_opaque` | function | `core/payload_schema.py:284` | `def _validate_opaque(_value)` |
-| `_validate_os_id` | function | `core/payload_schema.py:266` | `def _validate_os_id(value)` |
-| `_validate_path` | function | `core/payload_schema.py:244` | `def _validate_path(value)` |
-| `_validate_port` | function | `core/payload_schema.py:189` | `def _validate_port(value)` |
-| `_validate_string` | function | `core/payload_schema.py:169` | `def _validate_string(value)` |
-| `_validate_url` | function | `core/payload_schema.py:236` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:2174` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:2016` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:2166` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:2011` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:2148` | `def format_issue(issue)` |
-| `register_specs` | function | `core/payload_schema.py:1970` | `def register_specs(specs)` |
-| `unregister_specs` | function | `core/payload_schema.py:1993` | `def unregister_specs(keys)` |
-| `validate_payload` | function | `core/payload_schema.py:2113` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:2039` | `def validate_value(key, value)` |
+| `FieldSpec` | class | `core/payload_schema.py:105` | `class FieldSpec` |
+| `Severity` | class | `core/payload_schema.py:96` | `class Severity(StrEnum)` |
+| `ValidationIssue` | class | `core/payload_schema.py:147` | `class ValidationIssue` |
+| `_coerce_bool` | function | `core/payload_schema.py:383` | `def _coerce_bool(raw)` |
+| `_coerce_int` | function | `core/payload_schema.py:368` | `def _coerce_int(raw)` |
+| `_coerce_list` | function | `core/payload_schema.py:310` | `def _coerce_list(raw)` |
+| `_load_operator_specs` | function | `core/payload_schema.py:2430` | `def _load_operator_specs()` |
+| `_spec` | function | `core/payload_schema.py:403` | `def _spec(name, kind, default, description)` |
+| `_validate_bool` | function | `core/payload_schema.py:200` | `def _validate_bool(value)` |
+| `_validate_c2_tls_verify` | function | `core/payload_schema.py:328` | `def _validate_c2_tls_verify(value)` |
+| `_validate_hex` | function | `core/payload_schema.py:259` | `def _validate_hex(value)` |
+| `_validate_hostname` | function | `core/payload_schema.py:225` | `def _validate_hostname(value)` |
+| `_validate_int` | function | `core/payload_schema.py:176` | `def _validate_int(value)` |
+| `_validate_interface` | function | `core/payload_schema.py:251` | `def _validate_interface(value)` |
+| `_validate_ip` | function | `core/payload_schema.py:217` | `def _validate_ip(value)` |
+| `_validate_json_blob` | function | `core/payload_schema.py:273` | `def _validate_json_blob(value)` |
+| `_validate_list` | function | `core/payload_schema.py:285` | `def _validate_list(value)` |
+| `_validate_opaque` | function | `core/payload_schema.py:324` | `def _validate_opaque(_value)` |
+| `_validate_os_id` | function | `core/payload_schema.py:267` | `def _validate_os_id(value)` |
+| `_validate_path` | function | `core/payload_schema.py:245` | `def _validate_path(value)` |
+| `_validate_port` | function | `core/payload_schema.py:190` | `def _validate_port(value)` |
+| `_validate_string` | function | `core/payload_schema.py:170` | `def _validate_string(value)` |
+| `_validate_url` | function | `core/payload_schema.py:237` | `def _validate_url(value)` |
+| `categories` | function | `core/payload_schema.py:2418` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:2260` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:2410` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:2255` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:2392` | `def format_issue(issue)` |
+| `register_specs` | function | `core/payload_schema.py:2214` | `def register_specs(specs)` |
+| `unregister_specs` | function | `core/payload_schema.py:2237` | `def unregister_specs(keys)` |
+| `validate_payload` | function | `core/payload_schema.py:2357` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:2283` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
@@ -450,51 +480,21 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `show_popup` | method | `lazy_sentinel4.py:402` | `def show_popup(self, file_name, relevant_info, commands, details)` |
 | `stop` | method | `lazy_sentinel4.py:536` | `def stop(self)` |
 | `to_dict` | method | `lazy_sentinel4.py:278` | `def to_dict(self)` |
-| `CustomDNSResolver` | class | `lazyc2.py:1867` | `class CustomDNSResolver(BaseResolver)` |
-| `Handler` | class | `lazyc2.py:766` | `class Handler(FileSystemEventHandler)` |
-| `User` | class | `lazyc2.py:3268` | `class User(UserMixin)` |
-| `_JsonLogFormatter` | class | `lazyc2.py:479` | `class _JsonLogFormatter(Formatter)` |
+| `CustomDNSResolver` | class | `lazyc2.py:1863` | `class CustomDNSResolver(BaseResolver)` |
+| `Handler` | class | `lazyc2.py:747` | `class Handler(FileSystemEventHandler)` |
+| `User` | class | `lazyc2.py:3301` | `class User(UserMixin)` |
+| `_JsonLogFormatter` | class | `lazyc2.py:460` | `class _JsonLogFormatter(Formatter)` |
 | `_LazyShellProxy` | class | `lazyc2.py:2916` | `class _LazyShellProxy` |
 | `__getattr__` | function | `lazyc2.py:2896` | `def __getattr__(name)` |
 | `__getattr__` | method | `lazyc2.py:2928` | `def __getattr__(self, name)` |
-| `__init__` | method | `lazyc2.py:3269` | `def __init__(self, user_data)` |
+| `__init__` | method | `lazyc2.py:3302` | `def __init__(self, user_data)` |
 | `__setattr__` | method | `lazyc2.py:2932` | `def __setattr__(self, name, value)` |
 | `_add_security_headers` | function | `lazyc2.py:2759` | `def _add_security_headers(response)` |
-| `_api_data_inner` | function | `lazyc2.py:4734` | `def _api_data_inner()` |
-| `_append_beacon_record` | function | `lazyc2.py:1399` | `def _append_beacon_record(record)` |
-| `_beacon_records_path` | function | `lazyc2.py:1291` | `def _beacon_records_path(client_id)` |
-| `_beacon_signature_guard` | function | `lazyc2.py:3665` | `def _beacon_signature_guard()` |
-| `_behavioral_risk_prompt` | function | `lazyc2.py:2521` | `def _behavioral_risk_prompt(event)` |
-| `_bg_cred_reuse` | function | `lazyc2.py:4091` | `def _bg_cred_reuse(_ip)` |
-| `_bootstrap_initial_admin` | function | `lazyc2.py:2996` | `def _bootstrap_initial_admin()` |
-| `_build_privesc_command` | function | `lazyc2.py:3636` | `def _build_privesc_command(platform)` |
-| `_campaign_adaptation_prompt` | function | `lazyc2.py:2574` | `def _campaign_adaptation_prompt(campaign_id, events)` |
-| `_complete_mfa_login` | function | `lazyc2.py:6384` | `def _complete_mfa_login()` |
-| `_current_aes_key` | function | `lazyc2.py:2093` | `def _current_aes_key()` |
-| `_encrypt_command_for` | function | `lazyc2.py:3499` | `def _encrypt_command_for(client_id, command)` |
-| `_enforce_https_redirect` | function | `lazyc2.py:2649` | `def _enforce_https_redirect()` |
-| `_enforce_mfa_verified` | function | `lazyc2.py:2725` | `def _enforce_mfa_verified()` |
-| `_enforce_password_rotation` | function | `lazyc2.py:2669` | `def _enforce_password_rotation()` |
-| `_engage_publish` | function | `lazyc2.py:3863` | `def _engage_publish(_cid, _ip, _host, _user, _platform)` |
-| `_enqueue_malleable_command` | function | `lazyc2.py:1371` | `def _enqueue_malleable_command(client_id, command)` |
-| `_env_tag` | function | `lazyc2.py:230` | `def _env_tag()` |
-| `_events` | function | `lazyc2.py:7901` | `def _events()` |
-| `_extract_first_ip` | function | `lazyc2.py:3919` | `def _extract_first_ip(raw)` |
-| `_generate_strong_credentials` | function | `lazyc2.py:3192` | `def _generate_strong_credentials()` |
-| `_generic_loop_error` | function | `lazyc2.py:7044` | `def _generic_loop_error()` |
-| `_get_rbac_user_obj` | function | `lazyc2.py:3281` | `def _get_rbac_user_obj(flask_user)` |
-| `_group_tasks_for_display` | function | `lazyc2.py:5686` | `def _group_tasks_for_display(tasks)` |
-| `_handle_404` | function | `lazyc2.py:2826` | `def _handle_404(_error)` |
-| `_handle_405` | function | `lazyc2.py:2831` | `def _handle_405(_error)` |
-| `_handle_exception` | function | `lazyc2.py:2836` | `def _handle_exception(error)` |
-| `_ingest_beacon` | function | `lazyc2.py:4152` | `def _ingest_beacon(_ips, _host, _cmd, _out, _user)` |
-| `_init_shell` | function | `lazyc2.py:2869` | `def _init_shell()` |
-| `_is_unspecified_bind_literal` | function | `lazyc2.py:317` | `def _is_unspecified_bind_literal(address)` |
-| `_is_valid_credential` | function | `lazyc2.py:3932` | `def _is_valid_credential(value)` |
-| `_listen_address` | function | `lazyc2.py:290` | `def _listen_address()` |
-| `_load_malleable_recon_state` | function | `lazyc2.py:1329` | `def _load_malleable_recon_state(client_id)` |
-| `_load_or_create_secret_key` | function | `lazyc2.py:2779` | `def _load_or_create_secret_key()` |
-| `_load_reverse_shell_password` | function | `lazyc2.py:5273` | `def _load_reverse_shell_password(secret_path)` |
-| `_load_surface_intel` | function | `lazyc2.py:7179` | `def _load_surface_intel()` |
+| `_api_data_inner` | function | `lazyc2.py:5028` | `def _api_data_inner()` |
+| `_append_beacon_record` | function | `lazyc2.py:1380` | `def _append_beacon_record(record)` |
+| `_basic_authenticated` | function | `lazyc2.py:1544` | `def _basic_authenticated()` |
+| `_beacon_records_path` | function | `lazyc2.py:1272` | `def _beacon_records_path(client_id)` |
+| `_beacon_signature_guard` | function | `lazyc2.py:3696` | `def _beacon_signature_guard()` |
+| `_behavioral_risk_prompt` | function | `lazyc2.py:2517` | `def _behavioral_risk_prompt(event)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

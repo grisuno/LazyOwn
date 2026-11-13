@@ -43,6 +43,7 @@ classDiagram
     BofMarketplaceCommandSet : do_bof_uninstall()
     BofMarketplaceCommandSet : do_bof_list()
     BofMarketplaceCommandSet : do_bof_catalog()
+    BofMarketplaceCommandSet : do_bsb_stage()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- BofMarketplaceCommandSet
 ```
@@ -136,6 +137,7 @@ BOF marketplace: search, install, stage, deploy and run BOFs on beacons.
 | [`do_bof_uninstall`](#bofmarketplacecommandset-do_bof_uninstall) | method | Uninstall a BOF and remove its staged file. |
 | [`do_bof_list`](#bofmarketplacecommandset-do_bof_list) | method | List all installed and staged BOFs. |
 | [`do_bof_catalog`](#bofmarketplacecommandset-do_bof_catalog) | method | List all BOFs available in the curated catalog. |
+| [`do_bsb_stage`](#bofmarketplacecommandset-do_bsb_stage) | method | Stage the fileless BlackSandBeacon and print its delivery one-liner. |
 
 <a id="bofmarketplacecommandset-do_bof_search"></a>
 
@@ -257,10 +259,11 @@ Execute a BOF on a connected beacon.
 
 Usage: bof_run <bof_name> <beacon_client_id> [arg1,arg2,...] [--wait <sec>]
 
-Stages the BOF, then queues a ``bof:<c2_url>/download/bofs/<name>
+Stages the BOF, then queues a ``bof:<c2_url>/bof/<name>
 <args>`` command on the C2 for the specified beacon. The beacon
-downloads the object over the malleable channel and executes it
-in-process (COFFLoader on Windows, RunELF loader on BlackSandBeacon).
+downloads the raw base64 object over the malleable channel and
+executes it in-process (COFFLoader on Windows, RunELF loader on
+BlackSandBeacon).
 
 **Parameters**
 
@@ -280,7 +283,7 @@ bof_run whoami_linux linux_beacon_01 --wait 20
 
 #### `BofMarketplaceCommandSet.do_bof_train`
 
-`method` | [cli/commands/bof_registry.py:247](../../cli/commands/bof_registry.py#L247)
+`method` | [cli/commands/bof_registry.py:248](../../cli/commands/bof_registry.py#L248)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -314,7 +317,7 @@ bof_train metasploitable --bofs whoami_linux,is_sudo,suid_enum --wait 20
 
 #### `BofMarketplaceCommandSet.do_bof_deploy`
 
-`method` | [cli/commands/bof_registry.py:309](../../cli/commands/bof_registry.py#L309)
+`method` | [cli/commands/bof_registry.py:310](../../cli/commands/bof_registry.py#L310)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -343,7 +346,7 @@ check-in returns the beacon client id usable by bof_run.
 
 #### `BofMarketplaceCommandSet.do_bof_beacons`
 
-`method` | [cli/commands/bof_registry.py:358](../../cli/commands/bof_registry.py#L358)
+`method` | [cli/commands/bof_registry.py:359](../../cli/commands/bof_registry.py#L359)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -367,7 +370,7 @@ Usage: bof_beacons
 
 #### `BofMarketplaceCommandSet.do_bof_results`
 
-`method` | [cli/commands/bof_registry.py:377](../../cli/commands/bof_registry.py#L377)
+`method` | [cli/commands/bof_registry.py:378](../../cli/commands/bof_registry.py#L378)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -391,7 +394,7 @@ Usage: bof_results <beacon_client_id> [limit]
 
 #### `BofMarketplaceCommandSet.do_bof_uninstall`
 
-`method` | [cli/commands/bof_registry.py:409](../../cli/commands/bof_registry.py#L409)
+`method` | [cli/commands/bof_registry.py:410](../../cli/commands/bof_registry.py#L410)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -415,7 +418,7 @@ Usage: bof_uninstall <name>
 
 #### `BofMarketplaceCommandSet.do_bof_list`
 
-`method` | [cli/commands/bof_registry.py:431](../../cli/commands/bof_registry.py#L431)
+`method` | [cli/commands/bof_registry.py:432](../../cli/commands/bof_registry.py#L432)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -439,7 +442,7 @@ Usage: bof_list
 
 #### `BofMarketplaceCommandSet.do_bof_catalog`
 
-`method` | [cli/commands/bof_registry.py:463](../../cli/commands/bof_registry.py#L463)
+`method` | [cli/commands/bof_registry.py:464](../../cli/commands/bof_registry.py#L464)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -458,5 +461,41 @@ Usage: bof_catalog [--category <name>] [--platform windows|linux] [--client <add
 | `line` | `str` |  |  |
 
 *Calls:* [`print_msg`](core.console.py.md#print_msg), [`BofCategory`](modules.bof_registry.py.md#bofcategory), [`BofMarketplace.__init__`](modules.bof_registry.py.md#bofmarketplace-__init__), [`BofPlatform`](modules.bof_registry.py.md#bofplatform)
+
+<a id="bofmarketplacecommandset-do_bsb_stage"></a>
+
+#### `BofMarketplaceCommandSet.do_bsb_stage`
+
+`method` | [cli/commands/bof_registry.py:623](../../cli/commands/bof_registry.py#L623)
+
+Decorators: `@cmd2.with_category(command_and_control_category)`
+
+```python
+def do_bsb_stage(self, line: str)
+```
+
+Stage the fileless BlackSandBeacon and print its delivery one-liner.
+
+Usage: bsb_stage
+
+Aligns the staged beacon runtime config with the LazyOwn C2
+(poll/report URIs, master key from sessions/key.aes), generates a
+staging token on first use, and copies the fallback-chained
+fileless one-liner to the clipboard:
+
+    upstream /stage/ stager || raw /s/ memfd stager || disk curl
+
+Paste it on the target: it fetches the ELF + config over HTTPS,
+memfd_creates both and execve's the beacon from anonymous memory
+(nothing is written to disk). Requires lhost/c2_port in
+payload.json and the C2 running.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` | `str` |  |  |
+
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_succ`](core.console.py.md#print_succ), [`copy2clip`](utils.py.md#copy2clip)
 
 ---

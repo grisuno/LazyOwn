@@ -1,6 +1,24 @@
 # Subsystem: commands (page 4 of 5)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/persist.py
+- Doc: Persistence command set (pending).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PersistenceCommandSet` (class, line 26) `class PersistenceCommandSet(LazyOwnCommandSet)`
+  - `do_createwebshell` (method, line 33) `def do_createwebshell(self, line)`
+  - `do_createrevshell` (method, line 47) `def do_createrevshell(self, line)`
+  - `do_createwinrevshell` (method, line 61) `def do_createwinrevshell(self, line)`
+  - `do_conptyshell` (method, line 73) `def do_conptyshell(self, line)`
+  - `do_pwncatcs` (method, line 89) `def do_pwncatcs(self, line)`
+  - `do_revwin` (method, line 99) `def do_revwin(self, line)`
+  - `do_wmi_persist` (method, line 112) `def do_wmi_persist(self, line)`
+  - `do_wmi_lateral` (method, line 170) `def do_wmi_lateral(self, line)`
+  - `do_wmi_scheduled_task` (method, line 209) `def do_wmi_scheduled_task(self, line)`
+  - `_extract` (method, line 275) `def _extract(args, flag)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
 ## cli/commands/persist_migrated.py
 - Doc: persist commands migrated from lazyown.py.
 - Layer: utility
@@ -202,13 +220,13 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Symbols:
   - `PwnCommandSet` (class, line 28) `class PwnCommandSet(LazyOwnCommandSet)`
   - `do_auto_pwn` (method, line 35) `def do_auto_pwn(self, line)`
-  - `do_rich_tui` (method, line 109) `def do_rich_tui(self, line)`
-  - `do_exploit_chain` (method, line 158) `def do_exploit_chain(self, line)`
-  - `do_lolbas_list` (method, line 245) `def do_lolbas_list(self, line)`
-  - `do_lolbas_use` (method, line 302) `def do_lolbas_use(self, line)`
-  - `do_stealth_on` (method, line 394) `def do_stealth_on(self, line)`
-  - `do_stealth_off` (method, line 422) `def do_stealth_off(self, line)`
-- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
+  - `do_rich_tui` (method, line 132) `def do_rich_tui(self, line)`
+  - `do_exploit_chain` (method, line 181) `def do_exploit_chain(self, line)`
+  - `do_lolbas_list` (method, line 268) `def do_lolbas_list(self, line)`
+  - `do_lolbas_use` (method, line 325) `def do_lolbas_use(self, line)`
+  - `do_stealth_on` (method, line 417) `def do_stealth_on(self, line)`
+  - `do_stealth_off` (method, line 445) `def do_stealth_off(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 
 ## cli/commands/recon.py
@@ -274,19 +292,20 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `RedTeamGymCommandSet` (class, line 33) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
-  - `do_gym` (method, line 40) `def do_gym(self, line)`
-  - `do_gym_ms2` (method, line 92) `def do_gym_ms2(self, line)`
-  - `_gym_list` (method, line 137) `def _gym_list(self)`
-  - `_gym_start` (method, line 171) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 247) `def _gym_submit(self, args)`
-  - `_format_elapsed` (method, line 295) `def _format_elapsed(seconds)`
-  - `_gym_status` (method, line 300) `def _gym_status(self, args)`
-  - `_gym_stop` (method, line 368) `def _gym_stop(self, args)`
-  - `_gym_leaderboard` (method, line 388) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 422) `def _gym_hint(self, args)`
-  - `_lab_notify` (function, line 189) `def _lab_notify(message)`
-- Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
+  - `RedTeamGymCommandSet` (class, line 34) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
+  - `do_gym` (method, line 41) `def do_gym(self, line)`
+  - `_gym_collect` (method, line 99) `def _gym_collect(self, rest)`
+  - `do_gym_ms2` (method, line 138) `def do_gym_ms2(self, line)`
+  - `_gym_list` (method, line 183) `def _gym_list(self)`
+  - `_gym_start` (method, line 217) `def _gym_start(self, args)`
+  - `_gym_submit` (method, line 293) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 341) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 346) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 414) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 434) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 468) `def _gym_hint(self, args)`
+  - `_lab_notify` (function, line 235) `def _lab_notify(message)`
+- Depends on: `cli/commands/_base.py`, `modules/ctf_signalman.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 - Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 
 ## cli/commands/resource_scripting.py
@@ -461,37 +480,6 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `_flag_value` (function, line 1062) `def _flag_value(flag_name)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
 - Imported by: `tests/test_auto_crypto.py`, `tests/test_cli_assign.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
-
-## cli/commands/shellsys.py
-- Doc: Local shell and system extracted from the miscellaneous cluster.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ShellSysCommandSet` (class, line 24) `class ShellSysCommandSet(LazyOwnCommandSet)`
-  - `do_sh` (method, line 31) `def do_sh(self, line)`
-  - `do_sys` (method, line 63) `def do_sys(self, line)`
-  - `do_pwd` (method, line 111) `def do_pwd(self, line)`
-  - `do_nano` (method, line 147) `def do_nano(self, line)`
-  - `do_cron` (method, line 171) `def do_cron(self, line)`
-  - `do_clean` (method, line 217) `def do_clean(self, line)`
-  - `do_fixperm` (method, line 305) `def do_fixperm(self, line)`
-  - `do_fixel` (method, line 338) `def do_fixel(self, line)`
-  - `do_pop` (method, line 371) `def do_pop(self, line)`
-  - `do_tab` (method, line 408) `def do_tab(self, line)`
-  - `lazyrun_command` (function, line 206) `def lazyrun_command()`
-- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `utils.py`
-- Imported by: `tests/test_shellsys_command_set.py`
-
-## cli/commands/sleep_obfuscation.py
-- Doc: Sleep obfuscation CommandSet — beacon memory evasion technique management.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SleepObfuscationCommandSet` (class, line 16) `class SleepObfuscationCommandSet(LazyOwnCommandSet)`
-  - `do_sleep_list` (method, line 23) `def do_sleep_list(self, line)`
-  - `do_sleep_info` (method, line 50) `def do_sleep_info(self, line)`
-  - `do_sleep_configure` (method, line 82) `def do_sleep_configure(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
 
 
 Next: [KB_commands_p5.md](KB_commands_p5.md)

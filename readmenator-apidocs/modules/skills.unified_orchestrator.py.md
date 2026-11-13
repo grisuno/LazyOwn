@@ -276,7 +276,7 @@ Validated request shape consumed by every backend.
 
 | Member | Kind | Summary |
 |---|---|---|
-| [`with_defaults`](#orchestratorgoal-with_defaults) | method | Return a copy with empty fields populated from ``config``. |
+| [`with_defaults`](#orchestratorgoal-with_defaults) | method | Return a copy with empty fields populated from `[`config`](browser_sync_extension.background.js.md#config)`. |
 
 <a id="orchestratorgoal-with_defaults"></a>
 
@@ -288,7 +288,7 @@ Validated request shape consumed by every backend.
 def with_defaults(self, config: OrchestratorConfig) -> OrchestratorGoal
 ```
 
-Return a copy with empty fields populated from ``config``.
+Return a copy with empty fields populated from `[`config`](browser_sync_extension.background.js.md#config)`.
 
 Only fields whose absence is unambiguous are populated here.
 `[`task_type`](#orchestratorgoal-task_type)` is intentionally left blank when the caller did

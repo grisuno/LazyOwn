@@ -31,7 +31,7 @@ flowchart LR
 
 ### `default_selectors`
 
-`function` | [modules/selection/registry.py:61](../../modules/selection/registry.py#L61)
+`function` | [modules/selection/registry.py:83](../../modules/selection/registry.py#L83)
 
 ```python
 def default_selectors() -> list[Selector]
@@ -53,7 +53,7 @@ runtimes honour one administration point without their own switches.
 
 ### `propose_next`
 
-`function` | [modules/selection/registry.py:76](../../modules/selection/registry.py#L76)
+`function` | [modules/selection/registry.py:98](../../modules/selection/registry.py#L98)
 
 ```python
 def propose_next(ctx: SelectionContext, selectors: Iterable[Selector] | None = None) -> ActionDecision | None

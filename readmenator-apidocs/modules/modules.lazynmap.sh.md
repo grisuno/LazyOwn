@@ -38,7 +38,7 @@ function ctrl_c()
 
 ### `fix_sessions_owner`
 
-`function` | [modules/lazynmap.sh:74](../../modules/lazynmap.sh#L74)
+`function` | [modules/lazynmap.sh:93](../../modules/lazynmap.sh#L93)
 
 ```bash
 fix_sessions_owner()
@@ -54,7 +54,7 @@ Try passwordless sudo first, fall back to a plain call, and stay silent when nei
 
 ### `nmaptest`
 
-`function` | [modules/lazynmap.sh:129](../../modules/lazynmap.sh#L129)
+`function` | [modules/lazynmap.sh:148](../../modules/lazynmap.sh#L148)
 
 ```bash
 nmaptest()
@@ -66,7 +66,7 @@ nmaptest()
 
 ### `discover_network`
 
-`function` | [modules/lazynmap.sh:149](../../modules/lazynmap.sh#L149)
+`function` | [modules/lazynmap.sh:168](../../modules/lazynmap.sh#L168)
 
 ```bash
 discover_network()
@@ -78,7 +78,7 @@ discover_network()
 
 ### `extract_ports_info`
 
-`function` | [modules/lazynmap.sh:818](../../modules/lazynmap.sh#L818)
+`function` | [modules/lazynmap.sh:837](../../modules/lazynmap.sh#L837)
 
 ```bash
 extract_ports_info()
@@ -90,7 +90,7 @@ extract_ports_info()
 
 ### `run_nmap_script`
 
-`function` | [modules/lazynmap.sh:844](../../modules/lazynmap.sh#L844)
+`function` | [modules/lazynmap.sh:863](../../modules/lazynmap.sh#L863)
 
 ```bash
 run_nmap_script()
@@ -102,7 +102,7 @@ run_nmap_script()
 
 ### `print_row`
 
-`function` | [modules/lazynmap.sh:877](../../modules/lazynmap.sh#L877)
+`function` | [modules/lazynmap.sh:896](../../modules/lazynmap.sh#L896)
 
 ```bash
 print_row()

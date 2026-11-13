@@ -199,6 +199,36 @@ CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
 
 _SHELL_OBJECTIVE_CHECKERS: tuple[str, ...] = ("root_shell", "shadow_dump", "credentials")
 
+
+def evaluate_exploit_output(output: str) -> dict:
+    """Evaluate raw exploit output against the precise shell-objective checkers.
+
+    The auto_pwn engine used to accept a reconnaissance banner or any
+    output longer than 200 characters as exploit success; this is the
+    precise replacement. Exploitation is proven only by a root shell or
+    a shadow/hash dump. Arbitrary ``key: value`` lines (HTTP headers,
+    banners) are NOT credentials — a blanket user:pass matcher once
+    turned ``Server: Apache/2.2.8`` into a "captured credential".
+
+    Args:
+        output: Raw exploit/command output text.
+
+    Returns:
+        ``{"matched": {checker: masked evidence}, "shell_objective": bool}``.
+    """
+    matched: dict[str, str] = {}
+    for name in ("root_shell", "shadow_dump"):
+        checker = dict(CHECKERS).get(name)
+        if checker is None:
+            continue
+        try:
+            evidence = checker(output or "")
+        except Exception:
+            evidence = ""
+        if evidence:
+            matched[name] = evidence
+    return {"matched": matched, "shell_objective": bool(matched)}
+
 _CHECKER_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("kerberos_ticket", ("kerberos", "asrep", "roast", "tgs", "ticket")),
     ("domain_enum", ("ldap", "domain", "samr", "rid", "naming", "sid", "bloodhound")),

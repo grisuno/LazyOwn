@@ -116,7 +116,7 @@ re-resolving the theme per call.
 def paint(text: str, token: str, payload: Mapping[str, object] | None = None) -> Text
 ```
 
-Render ``text`` with the style of ``token`` for the active theme.
+Render ``text`` with the style of `[`token`](modules.browser_sync.py.md#token)` for the active theme.
 
 **Parameters**
 

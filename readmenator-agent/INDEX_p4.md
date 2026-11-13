@@ -3,6 +3,55 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_metasploitable_migrations.py` | Unit tests for the Metasploitable 2 gym migrations module. | tests | 10 | 0 |
+| `tests/test_metrics.py` | Tests for ``modules/metrics.py``. | tests | 14 | 0 |
+| `tests/test_metrics_aware_selector.py` | Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``. | tests | 24 | 0 |
+| `tests/test_migrate_lazyown_generator.py` | Regression guard for the ``cli/commands`` migration generator. | tests | 6 | 0 |
+| `tests/test_module_registry.py` | Tests for modules.module_registry — ModuleInfo, ModuleRegistry, search, summary. | tests | 29 | 0 |
+| `tests/test_module_registry_bridge.py` | Module-registry loop bridge: corpus mentions enter planning as intents. | tests | 9 | 0 |
+| `tests/test_moe_rl_swan.py` | tests/test_moe_rl_swan.py | tests | 59 | 0 |
+| `tests/test_moe_router_check_regression.py` | Regression coverage for ``modules.moe_router.ExpertAvailabilityChecker._check``. | tests | 6 | 0 |
+| `tests/test_mutation_verification.py` | Mutation verification contracts. | tests | 5 | 0 |
+| `tests/test_nethelpers_command_set.py` | Network helpers command set extraction tests. | tests | 9 | 0 |
+| `tests/test_no_shell_execution.py` | Contract tests: no os.system and no manual sys.stdout reassignment. | tests | 8 | 0 |
+| `tests/test_nuclei_parser.py` | Tests for modules/integrations/nuclei_parser.py | tests | 21 | 0 |
+| `tests/test_opencode_mcp_harness.py` | Opencode shim harness tool tests. | tests | 5 | 0 |
+| `tests/test_ops_loot_phase.py` | Tests for unified loot, cred-graph view, and quantitative phase progress. | tests | 22 | 0 |
+| `tests/test_opsec_scorer.py` | Tests for modules/opsec_scorer.py | tests | 13 | 0 |
+| `tests/test_opsec_scorer_consolidated.py` | Consolidated OPSEC scorer contract tests (SDD/TDD/BDD). | tests | 22 | 0 |
+| `tests/test_orchestrator_api.py` | Integration tests for the orchestrator REST API (``/api/v1/orchestrator``). | tests | 12 | 0 |
+| `tests/test_orchestrator_pacing.py` | Pacing tab: jitter and sleeper controls round-trip through set_pacing. | tests | 12 | 0 |
+| `tests/test_orchestrator_triggers.py` | BDD tests for the orchestrator Triggers tab. | tests | 6 | 0 |
+| `tests/test_orchestrator_yaml.py` | Orchestrator YAML BDD contract: profiles, stages, limits and CLI wiring. | tests | 13 | 0 |
+| `tests/test_outcome_attribution.py` | Tests for Observer-style failure attribution and verb demotion. | tests | 16 | 0 |
+| `tests/test_outcome_bus.py` | Outcome bus BDD contract: one event, every surface, failure isolation. | tests | 25 | 0 |
+| `tests/test_pacing.py` | Configurable pacing: EdrPacer ranges, jitter scaling, sleeper windows. | tests | 14 | 0 |
+| `tests/test_packaging.py` | Packaging and project-foundation tests. | tests | 67 | 0 |
+| `tests/test_palette_overlay.py` | Tests for cli/palette_overlay.py. | tests | 10 | 0 |
+| `tests/test_param_registry.py` | tests/test_param_registry.py  Contract suite for the shared parameter registry. | tests | 54 | 0 |
+| `tests/test_payload_factory.py` | Tests for modules.payload_factory — PayloadFactory, PayloadTemplate, format conversion. | tests | 32 | 0 |
+| `tests/test_payload_schema.py` | Tests for the ``core.payload_schema`` validation layer. | tests | 53 | 0 |
+| `tests/test_phase1_data_gaps.py` | Phase 1 data-gap closure: SDD + TDD + BDD tests. | tests | 55 | 0 |
+| `tests/test_phase_labels.py` | Tests for cli.phase_labels — canonical phase display labels contract. | tests | 5 | 0 |
+| `tests/test_php2shell_addon.py` | tests/test_php2shell_addon.py  Validation suite for the php2shell lazyaddon. | tests | 42 | 0 |
+| `tests/test_pi_leg.py` | pi loop-leg contract tests. | tests | 15 | 0 |
+| `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
+| `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
+| `tests/test_playbook_admin.py` | Playbook YAML administration: scan, create, update, delete, validate. | tests | 6 | 0 |
+| `tests/test_playbook_chain.py` | Playbook lowering: phases[].steps[] actions and atomic tests become validated chains executed by... | tests | 10 | 0 |
+| `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
+| `tests/test_plugin_tiers.py` | Tests for marketplace plugin tiers and operator ratings. | tests | 12 | 0 |
+| `tests/test_poc_registry.py` | PoC verb registry contract tests. | tests | 29 | 0 |
+| `tests/test_policy_planner_signal.py` | Policy planner signal contract: ranked categories become safe intents. | tests | 10 | 0 |
+| `tests/test_profiles.py` | Tests for runtime install profiles (``core.profiles``). | tests | 11 | 0 |
+| `tests/test_progress_ledger.py` | Tests for modules.progress_ledger — objective-progress strike rule. | tests | 13 | 0 |
+| `tests/test_prompt_readline_markers.py` | Regression tests for readline marker handling in the Neon Box prompt. | tests | 8 | 0 |
+| `tests/test_prompt_refresh.py` | Contract tests for live prompt refresh after a payload change. | tests | 9 | 0 |
+| `tests/test_pwntomate_tools.py` | Regression guard for pwntomate tool templates (tools/*.tool). | tests | 8 | 0 |
+| `tests/test_rea_mcp.py` | Tests for the lazyown_rea MCP tool (REA reverse-engineering skill). | tests | 27 | 0 |
+| `tests/test_reaction_bridge.py` | BDD tests for the reaction bridge (planner injections + cred reuse). | tests | 8 | 0 |
+| `tests/test_reactive_engine_semantic.py` | Tests for the semantic context advisor in ``modules/reactive_engine.py``. | tests | 13 | 0 |
+| `tests/test_reactive_hints.py` | Tests for cli/reactive_hints.py. | tests | 31 | 0 |
 | `tests/test_reactive_hints_expanded.py` | Tests for cli.reactive_hints — expanded kill-chain tables. | tests | 27 | 0 |
 | `tests/test_reactive_lateral_data.py` | Tests for new reactive engine matchers. | tests | 26 | 0 |
 | `tests/test_reasoning_stream.py` | Tests for cli/reasoning_stream.py. | tests | 13 | 0 |
@@ -17,6 +66,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_safe_subprocess.py` | TDD tests for the safe subprocess runner contract. | tests | 11 | 0 |
 | `tests/test_safe_subprocess_behavior.py` | BDD behavior scenarios for the safe subprocess contract. | tests | 3 | 0 |
 | `tests/test_safety_gates.py` | BDD scoped tests for safety gates C01-C03. | tests | 8 | 0 |
+| `tests/test_scan_brief.py` | Tests for the loop scan-reuse layer and the nmap scan brief module. | tests | 8 | 0 |
 | `tests/test_scope_bound_auto_gate.py` | tests/test_scope_bound_auto_gate.py  Coverage for the fully autonomous engage mode ("real auto... | tests | 37 | 0 |
 | `tests/test_scope_deny_priority.py` | Tests for scope denylist priority (engine lab scope + CLI guard). | tests | 11 | 0 |
 | `tests/test_scope_guard.py` | Test suite for cli/scope_guard.py. | tests | 46 | 0 |
@@ -27,15 +77,17 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_security_hardening_v2.py` | SDD+TDD+BDD tests for security hardening batch v2. | tests | 39 | 0 |
 | `tests/test_security_hardening_v3.py` | Security hardening tests — SDD+TDD+BDD for all boy-scout fixes. | tests | 63 | 0 |
 | `tests/test_security_hardening_v4.py` | SDD+TDD+BDD tests for security hardening v4 — command execution, URL injection, and path traversal. | tests | 67 | 0 |
-| `tests/test_security_hardening_v5.py` | SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS. | tests | 40 | 0 |
+| `tests/test_security_hardening_v5.py` | Security hardening v5: operator credential and channel contracts. | tests | 28 | 0 |
 | `tests/test_security_lazyc2.py` | Security tests for the LazyOwn C2 web layer. | tests | 58 | 0 |
 | `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
+| `tests/test_selection_bridge.py` | Tests for the shared bridge selector. | tests | 13 | 0 |
 | `tests/test_selection_lazyscript.py` | Tests for the LazyscriptSelector. | tests | 10 | 0 |
 | `tests/test_selection_module.py` | Tests for the ModuleSelector over the shared module registry bridge. | tests | 10 | 0 |
+| `tests/test_selection_parquet.py` | Tests for the shared parquet (session-history) selector. | tests | 14 | 0 |
 | `tests/test_selection_technique.py` | Tests for the TechniqueSelector and its playbook_engine helper. | tests | 21 | 0 |
 | `tests/test_selection_technique_chain.py` | Tests for TechniqueChainSelector and the focused technique-chain synth. | tests | 16 | 0 |
 | `tests/test_selection_wiring.py` | Vertical wiring tests: playbooks, adversaries and apt_chain through the loop. | tests | 13 | 0 |
-| `tests/test_selectors_base.py` | Shared selector brain contract: base types, chain selector and cascade. | tests | 9 | 0 |
+| `tests/test_selectors_base.py` | Shared selector brain contract: base types, chain selector and cascade. | tests | 11 | 0 |
 | `tests/test_selectors_capabilities.py` | Capability selector contracts: playbook, adversary and atomic strategies. | tests | 12 | 0 |
 | `tests/test_session_brief.py` | BDD tests for the consolidated session-start brief. | tests | 6 | 0 |
 | `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
@@ -44,12 +96,14 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
+| `tests/test_sidequest.py` | Tests for read-only side questions over immutable decision checkpoints. | tests | 13 | 0 |
 | `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
 | `tests/test_single_source_of_truth.py` | Single-source-of-truth contract tests. | tests | 26 | 0 |
 | `tests/test_sink_chain_feed.py` | Chain-feed sink contract: live step visibility and unhandled-failure steering. | tests | 8 | 0 |
 | `tests/test_sink_lazy_intel.py` | BDD tests for the dedicated lazy_intel sink. | tests | 13 | 0 |
 | `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
 | `tests/test_socks_proxy.py` | Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator... | tests | 52 | 0 |
+| `tests/test_stall_dump.py` | Tests for the stall watchdog dump showing the last executed commands. | tests | 8 | 0 |
 | `tests/test_status_bar_operators.py` | Tests for the operator-presence segment of cli/status_bar.py. | tests | 9 | 0 |
 | `tests/test_structured_logging.py` | Tests for ``core.logging`` — structured JSON-lines logger. | tests | 19 | 0 |
 | `tests/test_surface_graph.py` | Tests for the network surface graph reader. | tests | 13 | 0 |
@@ -59,7 +113,8 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_tips_engine.py` | Tests for cli.tips_engine — unified post-command suggestion engine. | tests | 67 | 0 |
 | `tests/test_toast_bus.py` | Tests for cli/toast_bus.py. | tests | 24 | 0 |
 | `tests/test_toastr_unify.py` | BDD tests for the unified toastr presentation layer. | tests | 12 | 0 |
-| `tests/test_triage_scheduler.py` | Difficulty-triage scheduler BDD contract. | tests | 9 | 0 |
+| `tests/test_toolchain_pins.py` | Contract: one ruff/mypy version across every tooling surface. | tests | 5 | 0 |
+| `tests/test_triage_scheduler.py` | Difficulty-triage scheduler BDD contract. | tests | 11 | 0 |
 | `tests/test_trigger_policy.py` | BDD contract tests for the declarative trigger policy. | tests | 7 | 0 |
 | `tests/test_trusted_proxy.py` | TDD tests for the trusted proxy resolver contract. | tests | 11 | 0 |
 | `tests/test_ttpscope_bridge.py` | TTPScope bridge contract: validators, fallbacks, addon schema. | tests | 9 | 0 |
@@ -76,6 +131,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_vuln_mitigations.py` | Regression suite for the GitHub code-scanning mitigations. | tests | 28 | 0 |
 | `tests/test_vulnbot_fallback.py` | SDD spec and BDD scenarios for the VulnBot orchestrator-governed CLI. | tests | 25 | 0 |
 | `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 70 | 0 |
+| `tests/test_wire_capture.py` | Tests for durable raw wire capture and its TrafficLog wiring. | tests | 11 | 0 |
 | `tests/test_wizard_binary_check.py` | tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to... | tests | 26 | 0 |
 | `tests/test_wizard_llm.py` | Contract tests for the wizard LLM provider setup step. | tests | 31 | 0 |
 | `tests/test_world_diff_retest.py` | World-diff retest loop contract: detected changes steer the planner. | tests | 4 | 0 |
@@ -89,5 +145,5 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 113 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 115 |
 

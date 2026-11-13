@@ -14,7 +14,7 @@ Join contract (real on-disk formats):
 
 - traffic row: ``{ts, kind: bash|http|note, command, output, preview,
   truncated, bytes, digest, template, meta:{worker, intent}}`` where
-  `[`digest`](#stepdecision-digest)` is the sha12 of the command line and ``meta.intent`` is the
+  `[`digest`](modules.loop.decision_log.py.md#digest)` is the sha12 of the command line and ``meta.intent`` is the
   claiming intent node id;
 - graph node: ``{node_id, kind: goal|intent|fact, text, state, priority,
   created, updated, meta}`` plus ``edges`` (spawns/yields) and

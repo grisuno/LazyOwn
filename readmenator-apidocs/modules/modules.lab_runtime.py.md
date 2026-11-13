@@ -85,7 +85,7 @@ Return the running lab container names.
 
 **Returns:** `list[str]`
 
-*Called by:* [`start`](#start), [`stop`](#stop), [`stop_all`](#stop_all)
+*Called by:* [`start`](#start), [`stop`](#stop), [`stop_all`](#stop_all), [`lab_state_for`](modules.loop_preflight.py.md#lab_state_for)
 
 ---
 
@@ -103,7 +103,7 @@ Return every lab container name including stopped ones.
 
 **Returns:** `list[str]`
 
-*Called by:* [`start`](#start)
+*Called by:* [`start`](#start), [`lab_state_for`](modules.loop_preflight.py.md#lab_state_for)
 
 ---
 

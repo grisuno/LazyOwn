@@ -119,6 +119,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AtomicTestRef`](modules/modules.apt_playbooks.py.md#atomictestref) class in `modules.apt_playbooks`
 - [`AttackPhase`](modules/skills.aci_planner.py.md#attackphase) class in `skills.aci_planner`
 - [`AttackVectorVerdict`](modules/modules.lazy_netattack.py.md#attackvectorverdict) class in `modules.lazy_netattack`
+- [`AttributionLedger`](modules/modules.outcome_attribution.py.md#attributionledger) class in `modules.outcome_attribution`
 - [`AuditConfig`](modules/scripts.devtools.command_audit.py.md#auditconfig) class in `scripts.devtools.command_audit`
 - [`AutocompleteEntry`](modules/modules.LazyOwnExplorer.py.md#autocompleteentry) class in `modules.LazyOwnExplorer`(tk.Entry)
 - [`AutoCryptoConfig`](modules/cli.auto_crypto.py.md#autocryptoconfig) class in `cli.auto_crypto`
@@ -173,6 +174,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`BofYamlStore`](modules/modules.bof_registry.py.md#bofyamlstore) class in `modules.bof_registry`
 - [`BridgeCatalog`](modules/core.protocols.py.md#bridgecatalog) protocol in `core.protocols`(Protocol)
 - [`BridgeDispatcher`](modules/modules.lazyown_bridge.py.md#bridgedispatcher) class in `modules.lazyown_bridge`
+- [`BridgeSelector`](modules/modules.selection.bridge.py.md#bridgeselector) class in `modules.selection.bridge`
 - [`Budget`](modules/modules.lazy_loop.py.md#budget) class in `modules.lazy_loop`
 - [`BudgetConfig`](modules/core.llm_budget.py.md#budgetconfig) class in `core.llm_budget`
 - [`BudgetedBackend`](modules/core.llm_budget.py.md#budgetedbackend) class in `core.llm_budget`
@@ -362,6 +364,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`DatasetSummary`](modules/modules.defense_eval.py.md#datasetsummary) class in `modules.defense_eval`
 - [`DecisionPersistence`](modules/modules.auto_loop_memory.py.md#decisionpersistence) class in `modules.auto_loop_memory`
 - [`DecisionRecord`](modules/modules.llm_evaluator.py.md#decisionrecord) class in `modules.llm_evaluator`
+- [`DecisionRecord`](modules/modules.loop.decision_log.py.md#decisionrecord) class in `modules.loop.decision_log`
 - [`Defaults`](modules/skills.hermes-lazyown.constants.py.md#defaults) class in `skills.hermes-lazyown.constants`
 - [`DelegateResult`](modules/modules.unified_bridge.py.md#delegateresult) class in `modules.unified_bridge`
 - [`DelegationAttackPath`](modules/modules.delegation_attacks.py.md#delegationattackpath) class in `modules.delegation_attacks`
@@ -466,6 +469,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`EvidenceEntry`](modules/modules.compliance.py.md#evidenceentry) class in `modules.compliance`
 - [`EvidenceHint`](modules/cli.reactive_hints.py.md#evidencehint) class in `cli.reactive_hints`
 - [`EvidenceStore`](modules/modules.evidence.py.md#evidencestore) class in `modules.evidence`
+- [`EvidenceStore`](modules/modules.evidence_store.py.md#evidencestore) class in `modules.evidence_store`
 - [`EvidenceStore`](modules/modules.lazy_loop.py.md#evidencestore) class in `modules.lazy_loop`
 - [`Exchange`](modules/modules.traffic_recorder.py.md#exchange) class in `modules.traffic_recorder`
 - [`ExecutionResult`](modules/modules.command_executor.py.md#executionresult) class in `modules.command_executor`
@@ -622,6 +626,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Guard`](modules/modules.lazy_loop.py.md#guard) class in `modules.lazy_loop`
 - [`GuardHarness`](modules/modules.guardrails.harness.py.md#guardharness) class in `modules.guardrails.harness`
 - [`GuardrailContract`](modules/modules.guardrails.contracts.py.md#guardrailcontract) protocol in `modules.guardrails.contracts`(Protocol)
+- [`GuardRules`](modules/modules.guard_rules.py.md#guardrules) class in `modules.guard_rules`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h) class in `static/js/xterm.js`(a.Disposable)
@@ -676,13 +681,9 @@ Project types nested under the project types they derive from. External bases ar
   - [`PTYCommandRunner`](modules/skills.autonomous_daemon.py.md#ptycommandrunner) class in `skills.autonomous_daemon`
 - [`ICommandRunner`](modules/skills.hive_mind.py.md#icommandrunner) class in `skills.hive_mind`(ABC)
 - [`ICommandSelector`](modules/skills.autonomous_daemon.py.md#icommandselector) class in `skills.autonomous_daemon`(ABC)
-  - [`BridgeSelector`](modules/skills.autonomous_daemon.py.md#bridgeselector) class in `skills.autonomous_daemon`
-  - [`ChainSelector`](modules/skills.autonomous_daemon.py.md#chainselector) class in `skills.autonomous_daemon`
-  - [`CredentialSpraySelector`](modules/skills.autonomous_daemon.py.md#credentialsprayselector) class in `skills.autonomous_daemon`
   - [`FallbackSelector`](modules/skills.autonomous_daemon.py.md#fallbackselector) class in `skills.autonomous_daemon`
   - [`LLMSelector`](modules/skills.autonomous_daemon.py.md#llmselector) class in `skills.autonomous_daemon`
   - [`MetricsAwareSelector`](modules/skills.autonomous_daemon.py.md#metricsawareselector) class in `skills.autonomous_daemon`
-  - [`ParquetSelector`](modules/skills.autonomous_daemon.py.md#parquetselector) class in `skills.autonomous_daemon`
   - [`ReactiveSelector`](modules/skills.autonomous_daemon.py.md#reactiveselector) class in `skills.autonomous_daemon`
   - [`SWANSelector`](modules/skills.autonomous_daemon.py.md#swanselector) class in `skills.autonomous_daemon`
   - [`UnifiedBrainSelector`](modules/skills.autonomous_daemon.py.md#unifiedbrainselector) class in `skills.autonomous_daemon`
@@ -813,6 +814,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`AutomationCommandSet`](modules/cli.commands.automation.py.md#automationcommandset) class in `cli.commands.automation`
   - [`BitMCommandSet`](modules/cli.commands.bitm.py.md#bitmcommandset) class in `cli.commands.bitm`
   - [`BofMarketplaceCommandSet`](modules/cli.commands.bof_registry.py.md#bofmarketplacecommandset) class in `cli.commands.bof_registry`
+  - [`BrowserSyncCommandSet`](modules/cli.commands.browser_sync.py.md#browsersynccommandset) class in `cli.commands.browser_sync`
   - [`C2ProfileCommandSet`](modules/cli.commands.c2_profile.py.md#c2profilecommandset) class in `cli.commands.c2_profile`
   - [`C2SessionCommandSet`](modules/cli.commands.c2_session.py.md#c2sessioncommandset) class in `cli.commands.c2_session`
   - [`CalderaCommandSet`](modules/cli.commands.caldera.py.md#calderacommandset) class in `cli.commands.caldera`
@@ -865,6 +867,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`LazyPocCommandSet`](modules/cli.commands.lazy_poc.py.md#lazypoccommandset) class in `cli.commands.lazy_poc`
   - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
   - [`LazyCommandSet`](modules/cli.commands.lazyops.py.md#lazycommandset) class in `cli.commands.lazyops`
+  - [`LoopAuditCommandSet`](modules/cli.commands.loop_audit.py.md#loopauditcommandset) class in `cli.commands.loop_audit`
   - [`MarketplaceCommandSet`](modules/cli.commands.marketplace.py.md#marketplacecommandset) class in `cli.commands.marketplace`
   - [`McpBridgeCommandSet`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset) class in `cli.commands.mcp_bridge`
   - [`MiscMigratedCommandSet`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset) class in `cli.commands.misc_migrated`
@@ -896,6 +899,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`SecurityCommandSet`](modules/cli.commands.security.py.md#securitycommandset) class in `cli.commands.security`
   - [`SessionOpsCommandSet`](modules/cli.commands.session_ops.py.md#sessionopscommandset) class in `cli.commands.session_ops`
   - [`ShellSysCommandSet`](modules/cli.commands.shellsys.py.md#shellsyscommandset) class in `cli.commands.shellsys`
+  - [`SidequestCommandSet`](modules/cli.commands.sidequest.py.md#sidequestcommandset) class in `cli.commands.sidequest`
   - [`SleepObfuscationCommandSet`](modules/cli.commands.sleep_obfuscation.py.md#sleepobfuscationcommandset) class in `cli.commands.sleep_obfuscation`
   - [`SocksProxyCommandSet`](modules/cli.commands.socks_proxy.py.md#socksproxycommandset) class in `cli.commands.socks_proxy`
   - [`SupplyChainCommandSet`](modules/cli.commands.supply_chain.py.md#supplychaincommandset) class in `cli.commands.supply_chain`
@@ -964,6 +968,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`LogFileHandler`](modules/modules.lilsplunky.py.md#logfilehandler) class in `modules.lilsplunky`(FileSystemEventHandler)
 - [`LogTamper`](modules/modules.log_tamper.py.md#logtamper) class in `modules.log_tamper`
 - [`LogTamperConfig`](modules/modules.log_tamper.py.md#logtamperconfig) class in `modules.log_tamper`
+- [`LoopAudit`](modules/modules.loop_audit.py.md#loopaudit) class in `modules.loop_audit`
 - [`LoopManager`](modules/modules.loop_manager.py.md#loopmanager) class in `modules.loop_manager`
 - [`LoopNotFoundError`](modules/modules.loop_manager.py.md#loopnotfounderror) exception in `modules.loop_manager`(KeyError)
 - [`LoopProgress`](modules/modules.loop_progress.py.md#loopprogress) class in `modules.loop_progress`
@@ -1136,6 +1141,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ParamSpec`](modules/lazyc2.addon_creator.py.md#paramspec) class in `lazyc2.addon_creator`
 - [`ParquetAdvisor`](modules/modules.reactive_engine.py.md#parquetadvisor) class in `modules.reactive_engine`
 - [`ParquetDB`](modules/skills.lazyown_parquet_db.py.md#parquetdb) class in `skills.lazyown_parquet_db`
+- [`ParquetSelector`](modules/modules.selection.parquet.py.md#parquetselector) class in `modules.selection.parquet`
 - [`Paths`](modules/skills.hermes-lazyown.constants.py.md#paths) class in `skills.hermes-lazyown.constants`
 - [`PayloadAwareCompleter`](modules/cli.cli_enhancements.py.md#payloadawarecompleter) class in `cli.cli_enhancements`
 - [`PayloadConfig`](modules/poc_tui.config.py.md#payloadconfig) class in `poc_tui.config`
@@ -1496,6 +1502,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`SurfaceNode`](modules/cli.surface_graph.py.md#surfacenode) class in `cli.surface_graph`
 - [`SwanBackend`](modules/skills.unified_orchestrator.py.md#swanbackend) class in `skills.unified_orchestrator`
 - [`SwanResult`](modules/skills.swan_agent.py.md#swanresult) class in `skills.swan_agent`
+- [`SyncReceiver`](modules/modules.browser_sync.py.md#syncreceiver) class in `modules.browser_sync`
 - [`SystemProfile`](modules/modules.privesc_predictor.py.md#systemprofile) class in `modules.privesc_predictor`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t) class in `static/js/quill-2.0.3.js`(r.EmbedBlot, O)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s.t.t`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-t-t) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
@@ -1624,6 +1631,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`WinRing3Rootkit.WIN32_FIND_DATA`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit-win32_find_data) class in `modules/win_rootkit/win_rin3_rootkit.cs`
 - [`WindowConstants`](modules/lazygui.config.constants.py.md#windowconstants) class in `lazygui.config.constants`
 - [`WinRing3Rootkit`](modules/modules.win_rootkit.win_rin3_rootkit.cs.md#winring3rootkit) class in `modules/win_rootkit/win_rin3_rootkit.cs`
+- [`WireStore`](modules/modules.wire_capture.py.md#wirestore) class in `modules.wire_capture`
 - [`WizardResult`](modules/cli.wizard.py.md#wizardresult) class in `cli.wizard`
 - [`WizardScope`](modules/cli.wizard_scope.py.md#wizardscope) class in `cli.wizard_scope`
 - [`WizardScopeConfig`](modules/cli.wizard_scope.py.md#wizardscopeconfig) class in `cli.wizard_scope`

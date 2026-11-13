@@ -115,8 +115,6 @@ Generate a full script from a user prompt.
 
 **Returns:** `str` - Generated script text.
 
-*Called by:* [`script`](lazyc2.py.md#script)
-
 ---
 
 <a id="process_prompt_adversary"></a>
@@ -140,8 +138,6 @@ Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
 | `debug` | `bool` | `False` | Enable debug logging. |
 
 **Returns:** `str` - Technique analysis text.
-
-*Called by:* [`adversary`](lazyc2.py.md#adversary)
 
 ---
 
@@ -167,8 +163,6 @@ Answer as a general red-team assistant with payload.json context.
 
 **Returns:** `str` - Assistance text.
 
-*Called by:* [`generalbot`](lazyc2.py.md#generalbot)
-
 ---
 
 <a id="process_prompt_search"></a>
@@ -193,8 +187,6 @@ Perform research and threat-intelligence analysis.
 
 **Returns:** `str` - Analysis text.
 
-*Called by:* [`search`](lazyc2.py.md#search)
-
 ---
 
 <a id="process_prompt_task"></a>
@@ -218,8 +210,6 @@ Analyze a task-assessment JSON file for completion status.
 | `debug` | `bool` | `False` | Enable debug logging. |
 
 **Returns:** `str` - Task analysis, or an error message when the file cannot be read.
-
-*Called by:* [`taskbot`](lazyc2.py.md#taskbot)
 
 ---
 
@@ -272,8 +262,6 @@ Evaluate a red-team operation status from a JSON database file.
 | `debug` | `bool` | `False` | Enable debug logging. |
 
 **Returns:** `str` - Operation evaluation, or an error message when the file cannot be read.
-
-*Called by:* [`redop`](lazyc2.py.md#redop)
 
 ---
 

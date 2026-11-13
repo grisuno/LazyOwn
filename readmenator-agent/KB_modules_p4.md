@@ -1,5 +1,89 @@
-# Subsystem: modules (page 4 of 18)
+# Subsystem: modules (page 4 of 19)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/cicd_enumerator.py
+- Doc: CI/CD Pipeline Enumeration Module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CICDFinding` (class, line 33) `class CICDFinding`
+  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
+  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
+  - `scan` (method, line 60) `def scan(self)`
+  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
+  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
+  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
+  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
+  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
+  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
+  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
+  - `export_findings` (method, line 387) `def export_findings(self)`
+- Imported by: `cli/commands/cicd.py`
+
+## modules/cli_auth.py
+- Doc: CLI authentication module — login against users.json with remember-me.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_users` (function, line 34) `def _load_users()`
+  - `_save_users` (function, line 52) `def _save_users(users)`
+  - `_load_payload` (function, line 85) `def _load_payload()`
+  - `_save_payload` (function, line 100) `def _save_payload(payload)`
+  - `user_exists` (function, line 122) `def user_exists(username)`
+  - `register` (function, line 145) `def register(username, password)`
+  - `verify_password` (function, line 214) `def verify_password(username, password)`
+  - `login` (function, line 240) `def login(username, password, remember)`
+  - `logout` (function, line 293) `def logout()`
+  - `try_auto_login` (function, line 328) `def try_auto_login()`
+  - `whoami` (function, line 366) `def whoami()`
+  - `get_current_operator` (function, line 396) `def get_current_operator()`
+  - `sync_elo_from_session` (function, line 408) `def sync_elo_from_session(elo)`
+  - `_read_cli_session` (function, line 429) `def _read_cli_session()`
+  - `_write_cli_session` (function, line 444) `def _write_cli_session(username, elo, role)`
+  - `_write_cli_session_raw` (function, line 462) `def _write_cli_session_raw(data)`
+  - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
+  - `needs_login` (function, line 487) `def needs_login()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
+
+## modules/closedloop.py
+- Doc: Closed-loop detection rule tuning: baseline vs candidate comparison.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RuleMetrics` (class, line 32) `class RuleMetrics`
+  - `Comparison` (class, line 55) `class Comparison`
+  - `_metrics_for` (function, line 77) `def _metrics_for(result)`
+  - `compare_rules` (function, line 90) `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)`
+  - `suggest_tuning` (function, line 136) `def suggest_tuning(candidate, baseline)`
+  - `to_dict` (method, line 42) `def to_dict(self)`
+  - `to_dict` (method, line 66) `def to_dict(self)`
+- Depends on: `modules/defense_eval.py`
+- Imported by: `modules/defense_stages.py`, `tests/test_closedloop.py`
+
+## modules/cloud_enum.py
+- Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
+  - `__init__` (method, line 34) `def __init__(self, provider, session, timeout)`
+  - `detect_provider` (method, line 47) `def detect_provider(self)`
+  - `enumerate_metadata` (method, line 75) `def enumerate_metadata(self)`
+  - `_enumerate_aws_metadata` (method, line 96) `def _enumerate_aws_metadata(self)`
+  - `_enumerate_azure_metadata` (method, line 146) `def _enumerate_azure_metadata(self)`
+  - `_enumerate_gcp_metadata` (method, line 193) `def _enumerate_gcp_metadata(self)`
+  - `enumerate_storage` (method, line 251) `def enumerate_storage(self, target_bucket)`
+  - `_enumerate_s3` (method, line 274) `def _enumerate_s3(self, target_bucket)`
+  - `_enumerate_azure_storage` (method, line 316) `def _enumerate_azure_storage(self, target_bucket)`
+  - `_enumerate_gcs` (method, line 350) `def _enumerate_gcs(self, target_bucket)`
+  - `enumerate_iam` (method, line 372) `def enumerate_iam(self)`
+  - `_enumerate_aws_iam` (method, line 390) `def _enumerate_aws_iam(self)`
+  - `_enumerate_azure_iam` (method, line 421) `def _enumerate_azure_iam(self)`
+  - `_enumerate_gcp_iam` (method, line 477) `def _enumerate_gcp_iam(self)`
+  - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
+  - `full_enumeration` (method, line 576) `def full_enumeration(self)`
+- Imported by: `cli/commands/cloud.py`
 
 ## modules/collab_bp.py
 - Doc: modules/collab_bp.py
@@ -229,26 +313,42 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `output_dir` (function, line 36) `def output_dir(sessions_dir)`
-  - `_check_root_shell` (function, line 49) `def _check_root_shell(output)`
-  - `_check_shadow_dump` (function, line 62) `def _check_shadow_dump(output)`
-  - `_check_credentials` (function, line 82) `def _check_credentials(output)`
-  - `_check_windows_os_enum` (function, line 100) `def _check_windows_os_enum(output)`
-  - `_check_defense_report` (function, line 119) `def _check_defense_report(output)`
-  - `_check_eventlog_rows` (function, line 132) `def _check_eventlog_rows(output)`
-  - `_check_kerberos_ticket` (function, line 145) `def _check_kerberos_ticket(output)`
-  - `_check_domain_enum` (function, line 158) `def _check_domain_enum(output)`
-  - `_check_smb_shares` (function, line 171) `def _check_smb_shares(output)`
-  - `capture` (function, line 197) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
-  - `_publish_capture_outcome` (function, line 255) `def _publish_capture_outcome(record)`
-  - `record_path` (function, line 278) `def record_path(vuln_id, sessions_dir)`
-  - `_safe_dir` (function, line 291) `def _safe_dir(vuln_id)`
-  - `store_record` (function, line 304) `def store_record(record, sessions_dir)`
-  - `list_records` (function, line 322) `def list_records(sessions_dir)`
-  - `summary` (function, line 345) `def summary(sessions_dir)`
-  - `_gather_evidence` (function, line 372) `def _gather_evidence(candidates)`
-  - `_cli_capture` (function, line 396) `def _cli_capture(argv)`
+  - `output_dir` (function, line 40) `def output_dir(sessions_dir)`
+  - `_check_root_shell` (function, line 53) `def _check_root_shell(output)`
+  - `_check_shadow_dump` (function, line 66) `def _check_shadow_dump(output)`
+  - `_check_credentials` (function, line 86) `def _check_credentials(output)`
+  - `_check_windows_os_enum` (function, line 104) `def _check_windows_os_enum(output)`
+  - `_check_defense_report` (function, line 123) `def _check_defense_report(output)`
+  - `_check_eventlog_rows` (function, line 136) `def _check_eventlog_rows(output)`
+  - `_check_kerberos_ticket` (function, line 149) `def _check_kerberos_ticket(output)`
+  - `_check_domain_enum` (function, line 162) `def _check_domain_enum(output)`
+  - `_check_smb_shares` (function, line 175) `def _check_smb_shares(output)`
+  - `_expected_checkers` (function, line 214) `def _expected_checkers(entry)`
+  - `capture` (function, line 245) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
+  - `_publish_capture_outcome` (function, line 310) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 333) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 346) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 359) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 377) `def list_records(sessions_dir)`
+  - `summary` (function, line 400) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 427) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 451) `def _cli_capture(argv)`
 - Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+- Imported by: `tests/test_ctf_signalman.py`
+
+## modules/ctf_signalman.py
+- Doc: CTF signalman: one scoreboard for every recorded capture.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_catalogue_modules` (function, line 39) `def _catalogue_modules()`
+  - `catalogue_for` (function, line 53) `def catalogue_for(scenario)`
+  - `_gather_evidence` (function, line 72) `def _gather_evidence(search_bases)`
+  - `collect` (function, line 106) `def collect(scenario, target, sessions_dir, search_bases)`
+  - `render_scoreboard` (function, line 166) `def render_scoreboard(report)`
+  - `save_scoreboard` (function, line 193) `def save_scoreboard(report, sessions_dir)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+- Imported by: `cli/commands/redteam_gym.py`, `tests/test_ctf_signalman.py`
 
 ## modules/custom_tools.py
 - Doc: Operator-defined custom tools exposed to the autonomous loop.
@@ -353,141 +453,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
   - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
 - Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
-
-## modules/db.py
-- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
-  - `get_db` (function, line 821) `def get_db(db_path)`
-  - `__init__` (method, line 159) `def __init__(self, db_path)`
-  - `_get_conn` (method, line 171) `def _get_conn(self)`
-  - `db_path` (method, line 182) `def db_path(self)`
-  - `_init_schema` (method, line 186) `def _init_schema(self)`
-  - `_current_version` (method, line 192) `def _current_version(self)`
-  - `_run_migrations` (method, line 197) `def _run_migrations(self)`
-  - `migration_status` (method, line 222) `def migration_status(self)`
-  - `_cursor` (method, line 235) `def _cursor(self)`
-  - `_maybe_encrypt` (method, line 251) `def _maybe_encrypt(self, value)`
-  - `_maybe_decrypt` (method, line 273) `def _maybe_decrypt(self, value)`
-  - `workspace_create` (method, line 292) `def workspace_create(self, name, description)`
-  - `workspace_list` (method, line 307) `def workspace_list(self)`
-  - `workspace_get` (method, line 313) `def workspace_get(self, name)`
-  - `default_workspace` (method, line 320) `def default_workspace(self, name)`
-  - `workspace_delete` (method, line 333) `def workspace_delete(self, name)`
-  - `host_add` (method, line 357) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
-  - `host_delete` (method, line 390) `def host_delete(self, host_id)`
-  - `host_list` (method, line 401) `def host_list(self, workspace_id)`
-  - `host_find` (method, line 410) `def host_find(self, workspace_id, query)`
-  - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
-  - `service_list` (method, line 447) `def service_list(self, host_id)`
-  - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
-  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
-  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
-  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
-  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
-  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
-  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
-  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
-  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
-  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
-  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
-  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
-  - `status` (method, line 775) `def status(self, workspace_id)`
-  - `close` (method, line 804) `def close(self)`
-- Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
-
-## modules/defense_eval.py
-- Doc: Detection rule replay over recorded attack and control logs.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RuleEvaluationError` (class, line 39) `class RuleEvaluationError(ValueError)`
-  - `Condition` (class, line 44) `class Condition`
-  - `Evaluation` (class, line 53) `class Evaluation`
-  - `DatasetSummary` (class, line 74) `class DatasetSummary`
-  - `RuleResult` (class, line 93) `class RuleResult`
-  - `parse_rule` (function, line 115) `def parse_rule(rule_text)`
-  - `_lookup` (function, line 167) `def _lookup(fields, field_name)`
-  - `_canonical_number` (function, line 179) `def _canonical_number(value)`
-  - `_compare` (function, line 194) `def _compare(actual, expected, op)`
-  - `_scalar_present` (function, line 223) `def _scalar_present(value)`
-  - `evaluate_event` (function, line 234) `def evaluate_event(conditions, fields)`
-  - `_parse_logs` (function, line 269) `def _parse_logs(text, dataset, max_events)`
-  - `evaluate_rule` (function, line 322) `def evaluate_rule(rule_text, target_logs, control_logs)`
-  - `metrics` (function, line 380) `def metrics(result)`
-  - `to_dict` (method, line 62) `def to_dict(self)`
-  - `to_dict` (method, line 82) `def to_dict(self)`
-  - `to_dict` (method, line 103) `def to_dict(self)`
-- Imported by: `modules/closedloop.py`, `modules/defense_stages.py`, `tests/test_defense_eval.py`, `tests/test_defense_stages.py`
-
-## modules/defense_stages.py
-- Doc: Orchestrator stage runners for defense validation and hunt verification.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_activity` (function, line 28) `def _activity(task_id)`
-  - `_params` (function, line 42) `def _params(stage)`
-  - `_render` (function, line 52) `def _render(value, task_id)`
-  - `_read_text` (function, line 57) `def _read_text(path)`
-  - `_load_dataset` (function, line 67) `def _load_dataset(stage, key, task_id)`
-  - `run_defense_validate` (function, line 82) `def run_defense_validate(task_id)`
-  - `run_closedloop_tune` (function, line 117) `def run_closedloop_tune(task_id)`
-  - `run_hunt_verify` (function, line 151) `def run_hunt_verify(task_id)`
-  - `_write_json` (function, line 230) `def _write_json(path, data)`
-  - `_Stub` (class, line 35) `class _Stub`
-  - `emit` (method, line 36) `def emit(self)`
-- Depends on: `core/logging.py`, `modules/closedloop.py`, `modules/defense_eval.py`, `modules/hunt_verify.py`, `modules/orchestrator_config.py`
-- Imported by: `modules/lazy_loop.py`, `tests/test_defense_stages.py`
-
-## modules/delegation_attacks.py
-- Doc: Active Directory delegation enumeration and abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DelegationTarget` (class, line 32) `class DelegationTarget`
-  - `DelegationAttackPath` (class, line 63) `class DelegationAttackPath`
-  - `DelegationEnumerator` (class, line 85) `class DelegationEnumerator`
-  - `__init__` (method, line 98) `def __init__(self, domain, raw_ldap_output)`
-  - `enumerate_from_uac_flags` (method, line 104) `def enumerate_from_uac_flags(self, accounts)`
-  - `parse_bloodhound_output` (method, line 151) `def parse_bloodhound_output(self, bloodhound_json)`
-  - `find_unconstrained_targets` (method, line 181) `def find_unconstrained_targets(self)`
-  - `find_constrained_targets` (method, line 189) `def find_constrained_targets(self)`
-  - `find_rbcd_targets` (method, line 197) `def find_rbcd_targets(self)`
-  - `find_dc_targets` (method, line 205) `def find_dc_targets(self)`
-  - `compute_attack_paths` (method, line 215) `def compute_attack_paths(self)`
-  - `summary` (method, line 296) `def summary(self)`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/detailed_search.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `obtener_informacion` (function, line 40) `def obtener_informacion(url)`
-
-## modules/detection_feed.py
-- Doc: Dynamic detection feed for the Detection Oracle.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `FeedResult` (class, line 64) `class FeedResult`
-  - `DetectionFeed` (class, line 73) `class DetectionFeed`
-  - `get_feed` (function, line 326) `def get_feed()`
-  - `__init__` (method, line 83) `def __init__(self, cache_dir, sources)`
-  - `update_rules` (method, line 92) `def update_rules(self, source)`
-  - `_parse_sigma_feed` (method, line 125) `def _parse_sigma_feed(self, text)`
-  - `_extract_log_source` (method, line 172) `def _extract_log_source(self, doc)`
-  - `_extract_mitre` (method, line 180) `def _extract_mitre(self, doc)`
-  - `_extract_keywords` (method, line 189) `def _extract_keywords(self, doc)`
-  - `_extract_categories` (method, line 206) `def _extract_categories(self, doc)`
-  - `_cache_rules` (method, line 219) `def _cache_rules(self, rules, source)`
-  - `load_cached_rules` (method, line 246) `def load_cached_rules(self, source)`
-  - `adjust_from_feedback` (method, line 270) `def adjust_from_feedback(self, feedback_file)`
-- Depends on: `core/logging.py`, `modules/detection_oracle.py`
-- Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

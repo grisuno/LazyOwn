@@ -420,8 +420,8 @@ Previous: [KB_cli.md](KB_cli.md)
   - `HeadlessRunner` (class, line 62) `class HeadlessRunner`
   - `__init__` (method, line 72) `def __init__(self, shell, json_output, profile_path)`
   - `run_command` (method, line 87) `def run_command(self, cmd, timeout)`
-  - `run_chain` (method, line 132) `def run_chain(self, commands)`
-- Imported by: `lazyown.py`
+  - `run_chain` (method, line 136) `def run_chain(self, commands)`
+- Imported by: `lazyown.py`, `tests/test_loop_exit_gate.py`
 
 ## cli/killchain.py
 - Doc: Self-populating kill-chain progress derived from the daemon event stream.

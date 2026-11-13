@@ -39,7 +39,7 @@ flowchart LR
 
 ### `TriageScheduler`
 
-`class` | [modules/loop/triage_scheduler.py:73](../../modules/loop/triage_scheduler.py#L73)
+`class` | [modules/loop/triage_scheduler.py:85](../../modules/loop/triage_scheduler.py#L85)
 
 ```python
 class TriageScheduler
@@ -64,7 +64,7 @@ so one instance safely serves the whole engine.
 
 #### `TriageScheduler.__init__`
 
-`constructor` | [modules/loop/triage_scheduler.py:80](../../modules/loop/triage_scheduler.py#L80)
+`constructor` | [modules/loop/triage_scheduler.py:92](../../modules/loop/triage_scheduler.py#L92)
 
 ```python
 def __init__(self, stop_loss_attempts: int = _DEFAULT_STOP_LOSS_ATTEMPTS, salvage_progress: float = _DEFAULT_SALVAGE_PROGRESS, hard_threshold: float = _DEFAULT_HARD_THRESHOLD) -> None
@@ -84,7 +84,7 @@ Initialize the scheduler with its policy thresholds.
 
 #### `TriageScheduler.should_stop`
 
-`method` | [modules/loop/triage_scheduler.py:98](../../modules/loop/triage_scheduler.py#L98)
+`method` | [modules/loop/triage_scheduler.py:110](../../modules/loop/triage_scheduler.py#L110)
 
 ```python
 def should_stop(self, record: Mapping[str, Any]) -> bool
@@ -104,7 +104,7 @@ Return True when a target has burned its attempt budget unproductively.
 
 #### `TriageScheduler.route`
 
-`method` | [modules/loop/triage_scheduler.py:110](../../modules/loop/triage_scheduler.py#L110)
+`method` | [modules/loop/triage_scheduler.py:122](../../modules/loop/triage_scheduler.py#L122)
 
 ```python
 def route(self, record: Mapping[str, Any]) -> str
@@ -124,7 +124,7 @@ Return the worker tier for a target: ``general`` (hard) or ``soldier``.
 
 #### `TriageScheduler.order`
 
-`method` | [modules/loop/triage_scheduler.py:121](../../modules/loop/triage_scheduler.py#L121)
+`method` | [modules/loop/triage_scheduler.py:133](../../modules/loop/triage_scheduler.py#L133)
 
 ```python
 def order(self, records: Iterable[Mapping[str, Any]], *, deadline_near: bool = False) -> list[Mapping[str, Any]]
@@ -152,7 +152,7 @@ time runs out.
 
 #### `TriageScheduler.pick_next`
 
-`method` | [modules/loop/triage_scheduler.py:160](../../modules/loop/triage_scheduler.py#L160)
+`method` | [modules/loop/triage_scheduler.py:172](../../modules/loop/triage_scheduler.py#L172)
 
 ```python
 def pick_next(self, records: Sequence[Mapping[str, Any]], *, deadline_near: bool = False) -> Mapping[str, Any] | None
@@ -179,7 +179,7 @@ Return the single record to drain next, or None when empty.
 
 ### `estimate_difficulty`
 
-`function` | [modules/loop/triage_scheduler.py:35](../../modules/loop/triage_scheduler.py#L35)
+`function` | [modules/loop/triage_scheduler.py:36](../../modules/loop/triage_scheduler.py#L36)
 
 ```python
 def estimate_difficulty(facts: Mapping[str, Any]) -> float
@@ -187,9 +187,17 @@ def estimate_difficulty(facts: Mapping[str, Any]) -> float
 
 Estimate a target's difficulty in ``[0.0, 1.0]`` from known facts.
 
-More open ports and more distinct services mean more attack surface to
-work through, so a larger, more varied host scores harder. The estimate is
-deliberately coarse; it only has to rank targets relative to one another.
+Wide attack surface is an opportunity, not an obstacle: a host exposing many
+ports and varied services offers more vectors and more known exploits, so it
+is usually a quicker win than a hardened host with a single service. Surface
+therefore lowers difficulty from a neutral baseline rather than raising it,
+which is what lets the easy-first scheduler drain a rich target like a full
+gym host before a locked-down bastion. A target with no surface facts yet
+scores the neutral ``0.5`` rather than ``0.0``, so an unscanned host never
+leapfrogs a target already known to be easy.
+
+The estimate is deliberately coarse; it only ranks targets relative to one
+another and is expected to be refined by proven-chain history elsewhere.
 
 **Parameters**
 
@@ -197,6 +205,6 @@ deliberately coarse; it only has to rank targets relative to one another.
 |---|---|---|---|
 | `facts` | `Mapping[str, Any]` |  | A mapping that may carry ``open_ports`` (a sized collection or int) and ``services`` (a sized collection of service names). |
 
-**Returns:** `float` - A difficulty score between 0.0 (trivial) and 1.0 (hard).
+**Returns:** `float` - A difficulty score between 0.0 (easy, rich surface) and 1.0 (hard).
 
 ---

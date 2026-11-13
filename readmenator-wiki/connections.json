@@ -9,7 +9,7 @@
   },
   {
     "community_a": 6,
-    "community_b": 7,
+    "community_b": 10,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/failure_verdict.py.",
     "strength": 0.9,
@@ -27,7 +27,7 @@
     "community_a": 6,
     "community_b": 0,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/apt_chain_support.py imports skills/lazyown_facts.py.",
+    "explanation": "Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
@@ -40,26 +40,10 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 6,
-    "community_b": 8,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
     "community_a": 5,
     "community_b": 2,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 5,
-    "community_b": 1,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/auto_crypto.py imports core/crypto.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
@@ -72,6 +56,22 @@
     "confidence": "EXTRACTED"
   },
   {
+    "community_a": 1,
+    "community_b": 7,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 5,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: cli/banner_config.py imports cli/engagement_hooks.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
     "community_a": 4,
     "community_b": 2,
     "connection_type": "depends_on",
@@ -80,10 +80,18 @@
     "confidence": "EXTRACTED"
   },
   {
+    "community_a": 8,
+    "community_b": 4,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
     "community_a": 4,
     "community_b": 1,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.",
+    "explanation": "Extracted import edge crosses communities: cli/commands/_dormancy.py imports cli/commands/_base.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
@@ -97,7 +105,7 @@
   },
   {
     "community_a": 11,
-    "community_b": 5,
+    "community_b": 8,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.",
     "strength": 0.9,
@@ -120,7 +128,7 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 8,
+    "community_a": 10,
     "community_b": 1,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.",
@@ -128,10 +136,10 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 1,
-    "community_b": 7,
+    "community_a": 10,
+    "community_b": 5,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/c2_session.py imports modules/c2_surfaces.py.",
+    "explanation": "Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },
@@ -144,18 +152,10 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 15,
-    "community_b": 1,
+    "community_a": 1,
+    "community_b": 8,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 6,
-    "community_b": 10,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.",
+    "explanation": "Extracted import edge crosses communities: cli/commands/campaign.py imports modules/world_model.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   }

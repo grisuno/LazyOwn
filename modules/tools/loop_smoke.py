@@ -95,7 +95,9 @@ def run() -> dict:
             result = run_loop(
                 FakeShell(),
                 {"proxy_autostart": False},
-                LoopRunConfig(goal="probe surface", target=PROBE_TARGET, progress=True, rounds=1, workers=1),
+                LoopRunConfig(
+                    goal="probe surface", target=PROBE_TARGET, progress=True, rounds=1, workers=1, no_preflight=True
+                ),
             )
     finally:
         (loop.STORE_DIR, loop._store_path, runner_module.SESSIONS_DIR, engine_module.LazyEngine) = saved

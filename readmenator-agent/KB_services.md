@@ -139,29 +139,29 @@
   - `_build_url` (method, line 312) `def _build_url(self, path)`
   - `_http_get_json` (method, line 318) `def _http_get_json(self, path)`
   - `_http_post_form` (method, line 332) `def _http_post_form(self, path, payload)`
-  - `_post_session_command` (method, line 346) `def _post_session_command(self, command, client_id)`
-  - `_send_command_via_pty` (method, line 357) `def _send_command_via_pty(self, command)`
-  - `_dispatch_terminal_lines` (method, line 378) `def _dispatch_terminal_lines(self, data)`
-  - `_refresh_topology` (method, line 386) `def _refresh_topology(self)`
-  - `_refresh_dashboard` (method, line 396) `def _refresh_dashboard(self)`
-  - `_install_http_polling` (method, line 424) `def _install_http_polling(self)`
-  - `_start_socketio` (method, line 443) `def _start_socketio(self)`
-  - `_stop_socketio` (method, line 520) `def _stop_socketio(self)`
-  - `_update_from_payload` (method, line 530) `def _update_from_payload(self, payload)`
-  - `_update_sessions` (method, line 537) `def _update_sessions(self, payload)`
-  - `_update_listeners` (method, line 577) `def _update_listeners(self, payload)`
-  - `_update_operator` (method, line 608) `def _update_operator(self, payload)`
-  - `_parse_graph_nodes` (method, line 621) `def _parse_graph_nodes(self, payload)`
-  - `_parse_graph_edges` (method, line 645) `def _parse_graph_edges(self, payload)`
-  - `_build_topology_from_payload` (method, line 664) `def _build_topology_from_payload(self, payload)`
-  - `_emit_event` (method, line 780) `def _emit_event(self, level, message)`
-  - `_connect_sio` (function, line 444) `def _connect_sio()`
-  - `_on_pty_connect` (function, line 461) `def _on_pty_connect()`
-  - `_on_pty_output` (function, line 465) `def _on_pty_output(data)`
-  - `_on_terminal_connect` (function, line 471) `def _on_terminal_connect()`
-  - `_on_terminal_response` (function, line 475) `def _on_terminal_response(data)`
-  - `_on_output` (function, line 481) `def _on_output(data)`
-  - `_on_connect` (function, line 487) `def _on_connect()`
-  - `_on_disconnect` (function, line 491) `def _on_disconnect()`
+  - `_post_session_command` (method, line 352) `def _post_session_command(self, command, client_id)`
+  - `_send_command_via_pty` (method, line 363) `def _send_command_via_pty(self, command)`
+  - `_dispatch_terminal_lines` (method, line 384) `def _dispatch_terminal_lines(self, data)`
+  - `_refresh_topology` (method, line 392) `def _refresh_topology(self)`
+  - `_refresh_dashboard` (method, line 402) `def _refresh_dashboard(self)`
+  - `_install_http_polling` (method, line 430) `def _install_http_polling(self)`
+  - `_start_socketio` (method, line 449) `def _start_socketio(self)`
+  - `_stop_socketio` (method, line 526) `def _stop_socketio(self)`
+  - `_update_from_payload` (method, line 536) `def _update_from_payload(self, payload)`
+  - `_update_sessions` (method, line 543) `def _update_sessions(self, payload)`
+  - `_update_listeners` (method, line 583) `def _update_listeners(self, payload)`
+  - `_update_operator` (method, line 614) `def _update_operator(self, payload)`
+  - `_parse_graph_nodes` (method, line 627) `def _parse_graph_nodes(self, payload)`
+  - `_parse_graph_edges` (method, line 651) `def _parse_graph_edges(self, payload)`
+  - `_build_topology_from_payload` (method, line 670) `def _build_topology_from_payload(self, payload)`
+  - `_emit_event` (method, line 786) `def _emit_event(self, level, message)`
+  - `_connect_sio` (function, line 450) `def _connect_sio()`
+  - `_on_pty_connect` (function, line 467) `def _on_pty_connect()`
+  - `_on_pty_output` (function, line 471) `def _on_pty_output(data)`
+  - `_on_terminal_connect` (function, line 477) `def _on_terminal_connect()`
+  - `_on_terminal_response` (function, line 481) `def _on_terminal_response(data)`
+  - `_on_output` (function, line 487) `def _on_output(data)`
+  - `_on_connect` (function, line 493) `def _on_connect()`
+  - `_on_disconnect` (function, line 497) `def _on_disconnect()`
 - Depends on: `core/logging.py`, `lazyc2/blueprints/auth.py`, `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`
 - Imported by: `lazygui/app.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/windows/connect_dialog.py`, `tests/test_lazygui_backend.py`

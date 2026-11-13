@@ -84,7 +84,7 @@ flowchart LR
 
 ### `C2SessionCommandSet`
 
-`class` | [cli/commands/c2_session.py:108](../../cli/commands/c2_session.py#L108)
+`class` | [cli/commands/c2_session.py:127](../../cli/commands/c2_session.py#L127)
 
 ```python
 class C2SessionCommandSet(LazyOwnCommandSet)
@@ -115,7 +115,7 @@ Headless C2 lifecycle + session ops: server, deploy, exec, loot.
 
 #### `C2SessionCommandSet.do_c2_server`
 
-`method` | [cli/commands/c2_session.py:115](../../cli/commands/c2_session.py#L115)
+`method` | [cli/commands/c2_session.py:134](../../cli/commands/c2_session.py#L134)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 
@@ -142,7 +142,7 @@ Usage:
 
 #### `C2SessionCommandSet.do_c2_reboot`
 
-`method` | [cli/commands/c2_session.py:168](../../cli/commands/c2_session.py#L168)
+`method` | [cli/commands/c2_session.py:187](../../cli/commands/c2_session.py#L187)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 
@@ -177,7 +177,7 @@ live agents stay valid; ``c2_reboot`` always rotates.
 
 #### `C2SessionCommandSet.do_c2_deploy`
 
-`method` | [cli/commands/c2_session.py:249](../../cli/commands/c2_session.py#L249)
+`method` | [cli/commands/c2_session.py:268](../../cli/commands/c2_session.py#L268)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 
@@ -202,7 +202,7 @@ Usage:
 
 #### `C2SessionCommandSet.do_c2_exec`
 
-`method` | [cli/commands/c2_session.py:299](../../cli/commands/c2_session.py#L299)
+`method` | [cli/commands/c2_session.py:318](../../cli/commands/c2_session.py#L318)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 
@@ -227,7 +227,7 @@ Usage:
 
 #### `C2SessionCommandSet.do_c2_loot`
 
-`method` | [cli/commands/c2_session.py:346](../../cli/commands/c2_session.py#L346)
+`method` | [cli/commands/c2_session.py:365](../../cli/commands/c2_session.py#L365)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 

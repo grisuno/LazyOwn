@@ -105,7 +105,7 @@ flowchart LR
 
 ### `OperatorParam`
 
-`class` `dataclass` | [core/param_registry.py:114](../../core/param_registry.py#L114)
+`class` `dataclass` | [core/param_registry.py:116](../../core/param_registry.py#L116)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -137,7 +137,7 @@ One operator-declared parameter.
 
 #### `OperatorParam.as_entry`
 
-`method` | [core/param_registry.py:133](../../core/param_registry.py#L133)
+`method` | [core/param_registry.py:135](../../core/param_registry.py#L135)
 
 ```python
 def as_entry(self) -> dict[str, Any]
@@ -151,7 +151,7 @@ Return the YAML mapping stored in ``params/operator.yaml``.
 
 #### `OperatorParam.to_spec`
 
-`method` | [core/param_registry.py:142](../../core/param_registry.py#L142)
+`method` | [core/param_registry.py:144](../../core/param_registry.py#L144)
 
 ```python
 def to_spec(self) -> FieldSpec
@@ -169,7 +169,7 @@ Return the payload schema spec for this parameter.
 
 ### `registry_path`
 
-`function` | [core/param_registry.py:158](../../core/param_registry.py#L158)
+`function` | [core/param_registry.py:160](../../core/param_registry.py#L160)
 
 ```python
 def registry_path(root: str | Path | None = None) -> Path
@@ -193,7 +193,7 @@ Return the operator registry file path.
 
 ### `normalise_kind`
 
-`function` | [core/param_registry.py:172](../../core/param_registry.py#L172)
+`function` | [core/param_registry.py:174](../../core/param_registry.py#L174)
 
 ```python
 def normalise_kind(kind: str) -> str
@@ -217,7 +217,7 @@ Return the canonical kind name for a user-supplied kind.
 
 ### `effective_value`
 
-`function` | [core/param_registry.py:187](../../core/param_registry.py#L187)
+`function` | [core/param_registry.py:189](../../core/param_registry.py#L189)
 
 ```python
 def effective_value(entry: Any) -> Any
@@ -242,7 +242,7 @@ its value as-is (legacy ``params/*.yaml`` behaviour).
 
 ### `load_entries`
 
-`function` | [core/param_registry.py:226](../../core/param_registry.py#L226)
+`function` | [core/param_registry.py:228](../../core/param_registry.py#L228)
 
 ```python
 def load_entries(root: str | Path | None = None) -> dict[str, OperatorParam]
@@ -269,7 +269,7 @@ file yields an empty mapping instead of raising.
 
 ### `list_params`
 
-`function` | [core/param_registry.py:256](../../core/param_registry.py#L256)
+`function` | [core/param_registry.py:258](../../core/param_registry.py#L258)
 
 ```python
 def list_params(root: str | Path | None = None, include_builtin: bool = True, keyword: str = '') -> list[OperatorParam]
@@ -297,7 +297,7 @@ Return the parameters visible to the operator.
 
 ### `create_param`
 
-`function` | [core/param_registry.py:291](../../core/param_registry.py#L291)
+`function` | [core/param_registry.py:293](../../core/param_registry.py#L293)
 
 ```python
 def create_param(name: str, kind: str = 'string', default: Any = '', description: str = '', category: str = 'general', root: str | Path | None = None) -> OperatorParam
@@ -332,7 +332,7 @@ Create an operator parameter and persist it in the registry.
 
 ### `update_param`
 
-`function` | [core/param_registry.py:341](../../core/param_registry.py#L341)
+`function` | [core/param_registry.py:343](../../core/param_registry.py#L343)
 
 ```python
 def update_param(name: str, default: Any = None, description: str | None = None, kind: str | None = None, category: str | None = None, root: str | Path | None = None) -> OperatorParam
@@ -366,7 +366,7 @@ Update an operator parameter in place.
 
 ### `delete_param`
 
-`function` | [core/param_registry.py:387](../../core/param_registry.py#L387)
+`function` | [core/param_registry.py:389](../../core/param_registry.py#L389)
 
 ```python
 def delete_param(name: str, root: str | Path | None = None) -> bool
@@ -397,7 +397,7 @@ Delete an operator parameter from the registry.
 
 ### `param_value`
 
-`function` | [core/param_registry.py:411](../../core/param_registry.py#L411)
+`function` | [core/param_registry.py:413](../../core/param_registry.py#L413)
 
 ```python
 def param_value(name: str, root: str | Path | None = None) -> Any
@@ -422,7 +422,7 @@ Return the effective value of an operator parameter.
 
 ### `operator_specs`
 
-`function` | [core/param_registry.py:425](../../core/param_registry.py#L425)
+`function` | [core/param_registry.py:427](../../core/param_registry.py#L427)
 
 ```python
 def operator_specs(root: str | Path | None = None) -> dict[str, FieldSpec]
@@ -448,7 +448,7 @@ Return the payload schema specs of the operator parameters.
 
 ### `apply_to_schema`
 
-`function` | [core/param_registry.py:437](../../core/param_registry.py#L437)
+`function` | [core/param_registry.py:439](../../core/param_registry.py#L439)
 
 ```python
 def apply_to_schema(root: str | Path | None = None) -> int
@@ -477,7 +477,7 @@ the caller owns that schema in that case.
 
 ### `sync_shell_params`
 
-`function` | [core/param_registry.py:459](../../core/param_registry.py#L459)
+`function` | [core/param_registry.py:461](../../core/param_registry.py#L461)
 
 ```python
 def sync_shell_params(shell: Any, root: str | Path | None = None) -> int
@@ -534,7 +534,7 @@ KIND_ALIASES: dict[str, FieldKind]
 
 ### `REGISTRY_HEADER`
 
-`constant` | [core/param_registry.py:94](../../core/param_registry.py#L94)
+`constant` | [core/param_registry.py:96](../../core/param_registry.py#L96)
 
 ```python
 REGISTRY_HEADER

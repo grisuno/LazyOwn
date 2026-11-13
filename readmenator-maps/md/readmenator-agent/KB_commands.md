@@ -20,7 +20,7 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `__getattr__` (method, line 112) `def __getattr__(self, name)`
   - `__setattr__` (method, line 164) `def __setattr__(self, name, value)`
 - Depends on: `core/validators.py`, `utils.py`
-- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazy_adaptive.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/netattack.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/params_ops.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/retry_ops.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `cli/commands/verb_admin.py`, `cli/commands/winbox_gym.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/browser_sync.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/defaults.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazy_adaptive.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/loop_audit.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/netattack.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/params_ops.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/retry_ops.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sidequest.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `cli/commands/verb_admin.py`, `cli/commands/winbox_gym.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/commands/_dormancy.py
 - Doc: Dormancy marker for incrementally migrated command sets.
@@ -165,14 +165,27 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_bof_install` (method, line 143) `def do_bof_install(self, line)`
   - `do_bof_stage` (method, line 171) `def do_bof_stage(self, line)`
   - `do_bof_run` (method, line 191) `def do_bof_run(self, line)`
-  - `do_bof_train` (method, line 247) `def do_bof_train(self, line)`
-  - `do_bof_deploy` (method, line 309) `def do_bof_deploy(self, line)`
-  - `do_bof_beacons` (method, line 358) `def do_bof_beacons(self, line)`
-  - `do_bof_results` (method, line 377) `def do_bof_results(self, line)`
-  - `do_bof_uninstall` (method, line 409) `def do_bof_uninstall(self, line)`
-  - `do_bof_list` (method, line 431) `def do_bof_list(self, line)`
-  - `do_bof_catalog` (method, line 463) `def do_bof_catalog(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `utils.py`
+  - `do_bof_train` (method, line 248) `def do_bof_train(self, line)`
+  - `do_bof_deploy` (method, line 310) `def do_bof_deploy(self, line)`
+  - `do_bof_beacons` (method, line 359) `def do_bof_beacons(self, line)`
+  - `do_bof_results` (method, line 378) `def do_bof_results(self, line)`
+  - `do_bof_uninstall` (method, line 410) `def do_bof_uninstall(self, line)`
+  - `do_bof_list` (method, line 432) `def do_bof_list(self, line)`
+  - `do_bof_catalog` (method, line 464) `def do_bof_catalog(self, line)`
+  - `_ensure_stage_token` (method, line 499) `def _ensure_stage_token(self)`
+  - `_ensure_beacon_staged` (method, line 524) `def _ensure_beacon_staged(self)`
+  - `_build_fileless_oneliner` (method, line 579) `def _build_fileless_oneliner(self, stage_token)`
+  - `do_bsb_stage` (method, line 623) `def do_bsb_stage(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/config.py`, `modules/bof_delivery.py`, `modules/bof_registry.py`, `utils.py`
+
+## cli/commands/browser_sync.py
+- Doc: BrowserSync shell commands: operator browser identity into the proxy.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BrowserSyncCommandSet` (class, line 13) `class BrowserSyncCommandSet(LazyOwnCommandSet)`
+  - `do_browsersync` (method, line 20) `def do_browsersync(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/c2_profile.py
 - Doc: C2 profile CommandSet — extended malleable C2 profiles (TLS, DNS, SMB, WS).
@@ -194,13 +207,14 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `_lab_auth` (function, line 24) `def _lab_auth()`
   - `_fresh_lab_creds` (function, line 54) `def _fresh_lab_creds()`
   - `_server` (function, line 65) `def _server(user, password, port)`
-  - `_issue` (function, line 83) `def _issue(client_id, command, auth, https_port)`
-  - `C2SessionCommandSet` (class, line 108) `class C2SessionCommandSet(LazyOwnCommandSet)`
-  - `do_c2_server` (method, line 115) `def do_c2_server(self, line)`
-  - `do_c2_reboot` (method, line 168) `def do_c2_reboot(self, line)`
-  - `do_c2_deploy` (method, line 249) `def do_c2_deploy(self, line)`
-  - `do_c2_exec` (method, line 299) `def do_c2_exec(self, line)`
-  - `do_c2_loot` (method, line 346) `def do_c2_loot(self, line)`
+  - `_tls_verify` (function, line 83) `def _tls_verify()`
+  - `_issue` (function, line 101) `def _issue(client_id, command, auth, https_port)`
+  - `C2SessionCommandSet` (class, line 127) `class C2SessionCommandSet(LazyOwnCommandSet)`
+  - `do_c2_server` (method, line 134) `def do_c2_server(self, line)`
+  - `do_c2_reboot` (method, line 187) `def do_c2_reboot(self, line)`
+  - `do_c2_deploy` (method, line 268) `def do_c2_deploy(self, line)`
+  - `do_c2_exec` (method, line 318) `def do_c2_exec(self, line)`
+  - `do_c2_loot` (method, line 365) `def do_c2_loot(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/c2_agent.py`, `modules/c2_surfaces.py`, `utils.py`
 
 ## cli/commands/caldera.py
@@ -468,22 +482,6 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_crystal_ball` (method, line 27) `def do_crystal_ball(self, line)`
   - `do_privesc_suggest` (method, line 110) `def do_privesc_suggest(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/privesc_predictor.py`, `utils.py`
-
-## cli/commands/daemon_ctl.py
-- Doc: Autonomous daemon control extracted from the miscellaneous cluster.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DaemonControlCommandSet` (class, line 17) `class DaemonControlCommandSet(LazyOwnCommandSet)`
-  - `do_daemon_mode` (method, line 24) `def do_daemon_mode(self, line)`
-  - `do_daemon_pause` (method, line 63) `def do_daemon_pause(self, line)`
-  - `do_daemon_resume` (method, line 82) `def do_daemon_resume(self, line)`
-  - `do_daemon_veto` (method, line 97) `def do_daemon_veto(self, line)`
-  - `do_daemon_focus` (method, line 141) `def do_daemon_focus(self, line)`
-  - `do_daemon_approve` (method, line 175) `def do_daemon_approve(self, line)`
-  - `do_gatecheck` (method, line 224) `def do_gatecheck(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/goals.py`, `modules/intercept.py`, `skills/daemon_control.py`, `utils.py`
-- Imported by: `tests/test_daemon_ctl_command_set.py`
 
 
 Next: [KB_commands_p2.md](KB_commands_p2.md)

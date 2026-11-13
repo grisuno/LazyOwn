@@ -68,6 +68,7 @@ classDiagram
     FieldKind : HEX
     FieldKind : OS_ID
     FieldKind : JSON_BLOB
+    FieldKind : LIST
     FieldKind : OPAQUE
     class Severity
     <<enum>> Severity
@@ -117,7 +118,7 @@ flowchart LR
 
 ### `FieldSpec`
 
-`class` `dataclass` | [core/payload_schema.py:104](../../core/payload_schema.py#L104)
+`class` `dataclass` | [core/payload_schema.py:105](../../core/payload_schema.py#L105)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -151,7 +152,7 @@ Declarative description of a payload field.
 
 ### `ValidationIssue`
 
-`class` `dataclass` | [core/payload_schema.py:146](../../core/payload_schema.py#L146)
+`class` `dataclass` | [core/payload_schema.py:147](../../core/payload_schema.py#L147)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -209,6 +210,7 @@ Categorical type of a payload field used by validators and the wizard.
 | [`HEX`](#fieldkind-hex) |  | `'hex'` |  |
 | [`OS_ID`](#fieldkind-os_id) |  | `'os_id'` |  |
 | [`JSON_BLOB`](#fieldkind-json_blob) |  | `'json_blob'` |  |
+| [`LIST`](#fieldkind-list) |  | `'list'` |  |
 | [`OPAQUE`](#fieldkind-opaque) |  | `'opaque'` |  |
 
 ---
@@ -217,7 +219,7 @@ Categorical type of a payload field used by validators and the wizard.
 
 ### `Severity`
 
-`enum` | [core/payload_schema.py:95](../../core/payload_schema.py#L95)
+`enum` | [core/payload_schema.py:96](../../core/payload_schema.py#L96)
 
 ```python
 class Severity(StrEnum)
@@ -243,7 +245,7 @@ Severity of a [`ValidationIssue`](#validationissue).
 
 ### `register_specs`
 
-`function` | [core/payload_schema.py:1970](../../core/payload_schema.py#L1970)
+`function` | [core/payload_schema.py:2214](../../core/payload_schema.py#L2214)
 
 ```python
 def register_specs(specs: Mapping[str, FieldSpec]) -> int
@@ -272,7 +274,7 @@ overrides a hardcoded key.
 
 ### `unregister_specs`
 
-`function` | [core/payload_schema.py:1993](../../core/payload_schema.py#L1993)
+`function` | [core/payload_schema.py:2237](../../core/payload_schema.py#L2237)
 
 ```python
 def unregister_specs(keys: Iterable[str]) -> int
@@ -296,7 +298,7 @@ Remove runtime-registered specs from the schema.
 
 ### `field_for`
 
-`function` | [core/payload_schema.py:2011](../../core/payload_schema.py#L2011)
+`function` | [core/payload_schema.py:2255](../../core/payload_schema.py#L2255)
 
 ```python
 def field_for(key: str) -> FieldSpec | None
@@ -318,7 +320,7 @@ Return the [`FieldSpec`](#fieldspec) for `[`key`](key.py.md)` or ``None`` if it 
 
 ### `coerce_value`
 
-`function` | [core/payload_schema.py:2016](../../core/payload_schema.py#L2016)
+`function` | [core/payload_schema.py:2260](../../core/payload_schema.py#L2260)
 
 ```python
 def coerce_value(key: str, raw: Any) -> Any
@@ -349,7 +351,7 @@ defined for the field's kind.
 
 ### `validate_value`
 
-`function` | [core/payload_schema.py:2039](../../core/payload_schema.py#L2039)
+`function` | [core/payload_schema.py:2283](../../core/payload_schema.py#L2283)
 
 ```python
 def validate_value(key: str, value: Any) -> ValidationIssue | None
@@ -365,7 +367,7 @@ Validate `[`value`](#validationissue-value)` against the schema entry for `[`key
 | `value` | `Any` |  |  |
 
 **Returns:** `ValidationIssue | None` - ``None`` when the value is acceptable; otherwise a
-[`ValidationIssue`](#validationissue) whose severity is `[`ERROR`](#severity-error)` when the
+[`ValidationIssue`](#validationissue) whose severity is `[`ERROR`](modules.outcome_attribution.py.md#error)` when the
 field is declared as required and either missing or invalid, and
 `[`WARNING`](#severity-warning)` for soft constraints (out-of-range integers, bad
 format on optional fields). Unknown keys produce a warning so the
@@ -381,7 +383,7 @@ caller knows the value will not be type-checked.
 
 ### `validate_payload`
 
-`function` | [core/payload_schema.py:2113](../../core/payload_schema.py#L2113)
+`function` | [core/payload_schema.py:2357](../../core/payload_schema.py#L2357)
 
 ```python
 def validate_payload(payload: Mapping[str, Any]) -> list[ValidationIssue]
@@ -415,7 +417,7 @@ that are missing from the payload entirely are reported with
 
 ### `format_issue`
 
-`function` | [core/payload_schema.py:2148](../../core/payload_schema.py#L2148)
+`function` | [core/payload_schema.py:2392](../../core/payload_schema.py#L2392)
 
 ```python
 def format_issue(issue: ValidationIssue) -> str
@@ -441,7 +443,7 @@ diagnostics (``key: severity: message``) so it grep-friendly.
 
 ### `default_payload`
 
-`function` | [core/payload_schema.py:2166](../../core/payload_schema.py#L2166)
+`function` | [core/payload_schema.py:2410](../../core/payload_schema.py#L2410)
 
 ```python
 def default_payload() -> dict[str, Any]
@@ -459,7 +461,7 @@ Useful for tests and for the wizard when no ``payload.json`` exists.
 
 ### `categories`
 
-`function` | [core/payload_schema.py:2174](../../core/payload_schema.py#L2174)
+`function` | [core/payload_schema.py:2418](../../core/payload_schema.py#L2418)
 
 ```python
 def categories() -> dict[str, list[FieldSpec]]
@@ -480,7 +482,7 @@ documentation generators.
 
 ### `SCHEMA`
 
-`constant` | [core/payload_schema.py:372](../../core/payload_schema.py#L372)
+`constant` | [core/payload_schema.py:436](../../core/payload_schema.py#L436)
 
 ```python
 SCHEMA: dict[str, FieldSpec]

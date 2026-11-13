@@ -36,12 +36,18 @@ class PwnCommandSet(LazyOwnCommandSet):
         """Run the full autonomous exploitation chain against the target.
 
         Usage:
-            auto_pwn [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
+            auto_pwn [target_ip] [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
 
         Executes recon, vulnerability scanning, exploit selection,
         exploitation, optional privilege escalation and auto-pivoting.
+        The optional positional target overrides payload ``rhost`` so
+        deterministic callers (autonomous loop, chains) can point the
+        engine at a scoped host without mutating payload.json.
         """
         args = line.strip().split()
+        target_override = ""
+        if args and not args[0].startswith("-"):
+            target_override = args.pop(0)
         enable_pivot = "--pivot" in args
         enable_privesc = "--privesc" in args
         stealth = "low"
@@ -57,6 +63,11 @@ class PwnCommandSet(LazyOwnCommandSet):
             from modules.autonomous_exploit_engine import AutonomousExploitEngine
         except ImportError as exc:
             print_error(f"Failed to load AutonomousExploitEngine: {exc}")
+            return
+
+        target = target_override or self.params.get("rhost", "")
+        if not target:
+            print_error("No target set. Use: assign rhost <target_ip> or auto_pwn <target_ip>")
             return
 
         target = self.params.get("rhost", "")

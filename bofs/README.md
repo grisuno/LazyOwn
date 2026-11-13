@@ -2,7 +2,7 @@
 
 One YAML file per BOF. Every file is a delivery contract between a BOF and
 the lazyaddon beacon client that delivers it (`beacon` for Windows COFF
-BOFs, `blacksandbeacon` for Linux ELF BOFs + the `bof_loader` runtime).
+BOFs, `blacksandbeacon` for Linux ELF BOFs + the in-memory RunELF runtime).
 
 ## Schema
 

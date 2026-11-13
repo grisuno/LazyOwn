@@ -46,9 +46,28 @@ function ctrl_c() {
 
 if [ "$(id -u)" -ne 0 ]; then
     if [ "${LAZYOWN_AUTONOMOUS:-0}" = "1" ]; then
-        if ! sudo -n -v 2>/dev/null; then
+        if [ "${LAZYOWN_SUDO_GRAPHICAL:-0}" = "1" ] && command -v sudo >/dev/null 2>&1 && [ -n "${SUDO_ASKPASS:-}" ]; then
+            if ! sudo -A -v 2>/dev/null; then
+                echo "[x] LazyNmap requires sudo; graphical askpass was denied. Aborting." >&2
+                exit 3
+            fi
+        elif ! sudo -n -v 2>/dev/null; then
             echo "[x] LazyNmap requires sudo; unattended loop has no terminal for the password. Aborting." >&2
             exit 3
+        fi
+    elif sudo -n -v 2>/dev/null; then
+        :
+    elif [ "${LAZYOWN_SUDO_GRAPHICAL:-0}" = "1" ]; then
+        gum style \
+            --foreground 212 --border-foreground 212 --border double \
+            --align center --width 50 --margin "1 2" --padding "2 4" \
+            "    [!] LazyNmap needs sudo. A graphical password dialog will appear."
+        if ! sudo -A -v; then
+            gum style \
+                --foreground 196 --border-foreground 196 --border double \
+                --align center --width 50 --margin "1 2" --padding "2 4" \
+                "    [x] sudo authentication failed. Aborting."
+            exit 1
         fi
     else
         gum style \

@@ -32,4 +32,6 @@ jobs:
       - name: Collect tests
         run: pytest --collect-only -q
       - name: Run tests
-        run: pytest -q --tb=short -x -k "not slow and not integration" --cov=lazyown --cov=cli --cov=core --cov=lazyc2 --cov=modules --cov=skills --cov-report=term --cov-fail-under=1
+        run: pytest -q --tb=short -x -k "not slow and not integration and not smoke" --cov=lazyown --cov=cli --cov=core --cov=lazyc2 --cov=modules --cov=skills --cov-report=term --cov-fail-under=1
+      - name: Real-process smoke (spawns lazyc2.py)
+        run: pytest -m smoke tests/test_c2_process_smoke.py -v --tb=short --timeout=180 -p no:cacheprovider

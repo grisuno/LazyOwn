@@ -230,7 +230,7 @@ def test_run_loop_drives_the_engine_and_reports(store, monkeypatch):
     monkeypatch.setattr(engine_module, "LazyEngine", _FakeEngine)
     monkeypatch.setattr(runner_module, "_bootstrap", lambda target, executor: boot.setdefault("target", target))
     config = LoopRunConfig(
-        goal="probe surface", task_id="t0009", target="10.0.0.9", progress=False, rounds=1, workers=1
+        goal="probe surface", task_id="t0009", target="10.0.0.9", progress=False, rounds=1, workers=1, no_preflight=True
     )
     result = run_loop(shell=None, params={"proxy_autostart": False}, config=config)
     assert result["status"] == "done" and result["cancelled"] is False
@@ -1265,7 +1265,9 @@ def test_worker_llm_steps_filter_sudo(store, monkeypatch):
     from modules.lazy_engine import LazyEngine
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
-    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub"}])
+    monkeypatch.setattr(
+        loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}]
+    )
     monkeypatch.setattr(
         loop.LlmPool, "complete", lambda self, prompt, max_tokens=0, **kwargs: "sudo netstat\nnmap -sV 127.0.0.1"
     )
@@ -1581,7 +1583,9 @@ def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch):
     assert loop.plausible_command("/usr/bin/sqlmap --pwn-now") is False
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
-    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub"}])
+    monkeypatch.setattr(
+        loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}]
+    )
     monkeypatch.setattr(
         loop.LlmPool,
         "complete",

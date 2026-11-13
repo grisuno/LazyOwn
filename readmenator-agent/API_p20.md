@@ -1,6 +1,72 @@
 # API (page 20 of 28)
 Previous: [API_p19.md](API_p19.md)
 
+## modules/sinks/findings.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`
+Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`
+- `limits_for` (function) `modules/sinks/findings.py:22` `def limits_for()` -- Return the ledger limits resolved from operator configuration.
+- `apply` (function) `modules/sinks/findings.py:42` `def apply(event)` -- Append one ledger row for a finding-class outcome.
+- `ledger_for` (function) `modules/sinks/findings.py:72` `def ledger_for(engagement_id)` -- Return one ledger bound to the sessions findings directory.
+- `handoff` (function) `modules/sinks/findings.py:88` `def handoff(engagement_id, status, rounds)` -- Build the operator handoff from the durable ledger.
+- `ingest_discarded` (function) `modules/sinks/findings.py:107` `def ingest_discarded(engagement_id, entries)` -- Record discarded vector rows for one engagement.
+
+## modules/sinks/intel_graph.py
+Depends on: `modules/intel_fusion.py`, `modules/outcome_bus.py`
+Imported by: `tests/test_outcome_bus.py`
+- `apply` (function) `modules/sinks/intel_graph.py:13` `def apply(event)` -- Rebuild the intel graph and its summary.
+
+## modules/sinks/killchain.py
+Depends on: `modules/killchain.py`, `modules/outcome_bus.py`
+Imported by: `tests/test_outcome_bus.py`
+- `apply` (function) `modules/sinks/killchain.py:11` `def apply(event)` -- Advance the kill-chain phase only when the outcome proves progress.
+
+## modules/sinks/lazy_intel.py
+Depends on: `modules/db.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- `apply` (function) `modules/sinks/lazy_intel.py:28` `def apply(event)` -- Mirror one lazy_intel event into the world model and the database.
+
+## modules/sinks/objectives.py
+Depends on: `modules/outcome_bus.py`
+Imported by: `tests/test_outcome_bus.py`
+- `apply` (function) `modules/sinks/objectives.py:16` `def apply(event)` -- Append one actionable objective when the outcome warrants it.
+
+## modules/sinks/routing.py
+Depends on: `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/outcome_bus.py`
+Imported by: `skills/lazyown_mcp.py`
+- `apply` (function) `modules/sinks/routing.py:9` `def apply(event)` -- Record one routing outcome for cross-task priors.
+
+## modules/sinks/world_diff.py
+Depends on: `modules/lazy_world_diff.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+Imported by: `tests/test_outcome_bus.py`, `tests/test_world_diff_retest.py`
+- `apply` (function) `modules/sinks/world_diff.py:14` `def apply(event)` -- Diff one host's world snapshot and record the changes.
+
+## modules/sinks/world_model.py
+Depends on: `modules/obs_parser.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- `apply` (function) `modules/sinks/world_model.py:12` `def apply(event)` -- Write one outcome into the world model.
+
+## modules/sleep_obfuscation.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`
+Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
+- `SleepObfuscationConfig.to_dict` (method) `modules/sleep_obfuscation.py:129` `def to_dict(self)` -- Serialize to dictionary.
+- `SleepObfuscationConfig.from_dict` (method) `modules/sleep_obfuscation.py:146` `def from_dict(cls, raw)` -- Build from dictionary.
+- `SleepTechniqueCatalog.__init__` (method) `modules/sleep_obfuscation.py:170` `def __init__(self)`
+- `SleepTechniqueCatalog.register` (method) `modules/sleep_obfuscation.py:173` `def register(self, technique)` -- Register a technique in the catalog.
+- `SleepTechniqueCatalog.get` (method) `modules/sleep_obfuscation.py:177` `def get(self, name)` -- Retrieve a technique by name.
+- `SleepTechniqueCatalog.list_all` (method) `modules/sleep_obfuscation.py:184` `def list_all(self)` -- Return all registered techniques sorted by detection resistance.
+- `SleepTechniqueCatalog.list_by_platform` (method) `modules/sleep_obfuscation.py:192` `def list_by_platform(self, platform)` -- Return techniques supported on a given platform.
+- `SleepTechniqueCatalog.list_names` (method) `modules/sleep_obfuscation.py:196` `def list_names(self)` -- Return sorted list of technique names.
+- `SleepTechniqueValidator.validate` (method) `modules/sleep_obfuscation.py:369` `def validate(config, technique)` -- Validate config against a technique definition.
+- `SleepTechniqueValidator.validate_config` (method) `modules/sleep_obfuscation.py:386` `def validate_config(config)` -- Validate the config itself for internal consistency.
+- `SleepObfuscationEngine.__init__` (method) `modules/sleep_obfuscation.py:407` `def __init__(self, catalog)`
+- `SleepObfuscationEngine.catalog` (method) `modules/sleep_obfuscation.py:416` `def catalog(self)` -- Return the technique catalog.
+- `SleepObfuscationEngine.config` (method) `modules/sleep_obfuscation.py:421` `def config(self)` -- Return the active runtime configuration.
+- `SleepObfuscationEngine.detection_resistance` (method) `modules/sleep_obfuscation.py:426` `def detection_resistance(self)` -- Return the detection resistance score of the active technique.
+- `SleepObfuscationEngine.select` (method) `modules/sleep_obfuscation.py:442` `def select(self, technique_name)` -- Select a technique from the catalog.
+- `SleepObfuscationEngine.configure` (method) `modules/sleep_obfuscation.py:449` `def configure(self, technique, overrides)` -- Build a validated SleepObfuscationConfig for a technique.
+- `SleepObfuscationEngine.validate` (method) `modules/sleep_obfuscation.py:484` `def validate(self, config)` -- Validate configuration against the active technique.
+- `SleepObfuscationEngine.recommend` (method) `modules/sleep_obfuscation.py:500` `def recommend(self, platform)` -- Recommend techniques for a platform sorted by detection resistance.
+- `SleepObfuscationEngine.to_dict` (method) `modules/sleep_obfuscation.py:513` `def to_dict(self)` -- Serialize the entire engine state to a dictionary.
+- `SleepObfuscationEngine.from_dict` (method) `modules/sleep_obfuscation.py:522` `def from_dict(cls, raw)` -- Build an engine from a serialized state dictionary.
+
 ## modules/socks_proxy.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`
 Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
@@ -137,7 +203,7 @@ Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runn
 - `FakeEngine.create_task` (method) `modules/tools/loop_smoke.py:52` `def create_task(self, goal, description)` -- Create the task record and return its id.
 - `FakeEngine.orchestrate` (method) `modules/tools/loop_smoke.py:56` `def orchestrate(self)` -- Run the injected executor once and report a done summary.
 - `run` (function) `modules/tools/loop_smoke.py:77` `def run()` -- Run the smoke and return ``{"ok": bool, "checks": {...}, "result": {...}}``.
-- `main` (function) `modules/tools/loop_smoke.py:114` `def main()` -- CLI entry point: print the checks and exit 0/1.
+- `main` (function) `modules/tools/loop_smoke.py:116` `def main()` -- CLI entry point: print the checks and exit 0/1.
 
 ## modules/tools/monitor_smoke.py
 Depends on: `cli/lazy_monitor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
@@ -184,21 +250,21 @@ Imported by: `cli/commands/persist_migrated.py`
 
 ## modules/traffic_recorder.py
 Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/loop/engine_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
-- `url_template` (function) `modules/traffic_recorder.py:69` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
-- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:94` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
-- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:138` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
-- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:230` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
-- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:247` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
-- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:253` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
-- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:275` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
-- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:284` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
-- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:317` `def count(self)` -- Return the total number of recorded exchanges.
-- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:343` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
-- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:382` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
-- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:451` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
-- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:493` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
-- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:554` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
-- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:587` `def gc(self, older_than_sec)` -- Delete exchanges older than a cut-off with their bodies and index rows.
+- `url_template` (function) `modules/traffic_recorder.py:72` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
+- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:97` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
+- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:147` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
+- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:239` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
+- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:256` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
+- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:262` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
+- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:284` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
+- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:293` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
+- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:326` `def count(self)` -- Return the total number of recorded exchanges.
+- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:352` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
+- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:391` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
+- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:460` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
+- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:502` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
+- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:563` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
+- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:596` `def gc(self, older_than_sec, max_rows)` -- Delete exchanges older than a cut-off with their bodies and index rows.
 
 ## modules/trigger_policy.py
 Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
@@ -423,46 +489,6 @@ Depends on: `core/hardening.py`
 - `handle_client` (function) `modules/win_rootkit/win_ring3_rootkit.c:526` `DWORD WINAPI handle_client(LPVOID client_socket)`
 - `monitor_shell` (function) `modules/win_rootkit/win_ring3_rootkit.c:755` `DWORD WINAPI monitor_shell(LPVOID data)`
 - `main` (function) `modules/win_rootkit/win_ring3_rootkit.c:865` `int main()`
-
-## modules/win_rootkit/win_ring3_rootkit.cpp
-- `get_username_from_pid` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:42` `char* get_username_from_pid(DWORD pid)`
-- `should_hide_pid` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:65` `int should_hide_pid(const char* pid)`
-- `hook_FindFirstFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:75` `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)`
-- `hook_CreateFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:85` `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...`
-- `DllMain` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:94` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-
-## modules/winbox_gym.py
-Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
-- `load_index` (function) `modules/winbox_gym.py:222` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
-- `vulnerabilities` (function) `modules/winbox_gym.py:227` `def vulnerabilities(path)` -- Return every indexed lab vector.
-- `get` (function) `modules/winbox_gym.py:233` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
-- `chain_for` (function) `modules/winbox_gym.py:242` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
-- `exploit_for` (function) `modules/winbox_gym.py:252` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
-- `validate_matrix` (function) `modules/winbox_gym.py:262` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
-- `summary` (function) `modules/winbox_gym.py:311` `def summary(path)` -- Return counts by severity and service for operators.
-- `binary_path` (function) `modules/winbox_gym.py:335` `def binary_path()` -- Resolve the winbox executable or None.
-- `ensure_installed` (function) `modules/winbox_gym.py:340` `def ensure_installed(params, timeout)` -- Clone and pip-install the upstream WinBox repo when the binary is missing.
-- `check_readiness` (function) `modules/winbox_gym.py:412` `def check_readiness(params)` -- Report WinBox lab readiness without installing anything.
-- `ensure_prereqs` (function) `modules/winbox_gym.py:453` `def ensure_prereqs(timeout)` -- Install missing lab host prerequisites through apt-get.
-- `ensure_lab_ready` (function) `modules/winbox_gym.py:822` `def ensure_lab_ready(params)` -- Bring the WinBox lab to attackable state in one idempotent call.
-- `run_cli` (function) `modules/winbox_gym.py:924` `def run_cli(args, timeout)` -- Run one allowlisted winbox CLI action without a shell.
-- `vm_status` (function) `modules/winbox_gym.py:1113` `def vm_status(timeout)` -- Query the WinBox VM state and address.
-- `vm_ip` (function) `modules/winbox_gym.py:1148` `def vm_ip()` -- Return the lab VM IPv4 address, or an empty string.
-- `resolve_target` (function) `modules/winbox_gym.py:1170` `def resolve_target()` -- Return the lab VM IP and mirror it into ``payload.json`` rhost.
-- `ensure_vm_running` (function) `modules/winbox_gym.py:1184` `def ensure_vm_running(timeout)` -- Start the lab VM when it is not running.
-- `record_artifact` (function) `modules/winbox_gym.py:1211` `def record_artifact(name, output)` -- Persist one CLI transcript under ``sessions/winbox``.
-- `attack_readiness` (function) `modules/winbox_gym.py:1234` `def attack_readiness(params)` -- Report whether the autonomous loop can attack the lab right now.
-- `main` (function) `modules/winbox_gym.py:1262` `def main()` -- CLI: list | validate | summary | readiness.
-
-## modules/workspace.py
-Imported by: `tests/test_lazy_loop.py`
-- `root` (function) `modules/workspace.py:21` `def root()` -- Return (and create) the workspace root directory.
-- `resolve` (function) `modules/workspace.py:27` `def resolve(rel)` -- Resolve a workspace-relative path, refusing escapes.
-- `list_entries` (function) `modules/workspace.py:46` `def list_entries(rel)` -- List one directory with names, kinds and sizes.
-- `read_text` (function) `modules/workspace.py:63` `def read_text(rel, limit)` -- Read one file, truncated to the byte limit.
-- `write_text` (function) `modules/workspace.py:72` `def write_text(rel, content)` -- Write one file, creating parents; returns the character count.
-- `make_dir` (function) `modules/workspace.py:83` `def make_dir(rel)` -- Create one directory (parents included).
-- `remove` (function) `modules/workspace.py:90` `def remove(rel)` -- Delete a file or directory tree inside the workspace.
 
 
 Next: [API_p21.md](API_p21.md)

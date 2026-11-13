@@ -1,8 +1,27 @@
-# Symbols (page 4 of 51)
+# Symbols (page 4 of 53)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:341` | `def _format_elapsed(seconds)` |
+| `_gym_collect` | method | `cli/commands/redteam_gym.py:99` | `def _gym_collect(self, rest)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:468` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:434` | `def _gym_leaderboard(self, args)` |
+| `_gym_list` | method | `cli/commands/redteam_gym.py:183` | `def _gym_list(self)` |
+| `_gym_start` | method | `cli/commands/redteam_gym.py:217` | `def _gym_start(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:346` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:414` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:293` | `def _gym_submit(self, args)` |
+| `_lab_notify` | function | `cli/commands/redteam_gym.py:235` | `def _lab_notify(message)` |
+| `do_gym` | method | `cli/commands/redteam_gym.py:41` | `def do_gym(self, line)` |
+| `do_gym_ms2` | method | `cli/commands/redteam_gym.py:138` | `def do_gym_ms2(self, line)` |
+| `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
+| `_make_context` | method | `cli/commands/resource_scripting.py:31` | `def _make_context(self)` |
+| `do_makerc` | method | `cli/commands/resource_scripting.py:88` | `def do_makerc(self, line)` |
+| `do_mkrc` | method | `cli/commands/resource_scripting.py:152` | `def do_mkrc(self, line)` |
+| `do_resource` | method | `cli/commands/resource_scripting.py:49` | `def do_resource(self, line)` |
+| `do_spool` | method | `cli/commands/resource_scripting.py:122` | `def do_spool(self, line)` |
 | `on_cmd` | function | `cli/commands/resource_scripting.py:35` | `def on_cmd(cmd)` |
 | `on_print` | function | `cli/commands/resource_scripting.py:39` | `def on_print(msg)` |
 | `RetryOpsCommandSet` | class | `cli/commands/retry_ops.py:61` | `class RetryOpsCommandSet(LazyOwnCommandSet)` |
@@ -139,6 +158,8 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `do_sys` | method | `cli/commands/shellsys.py:63` | `def do_sys(self, line)` |
 | `do_tab` | method | `cli/commands/shellsys.py:408` | `def do_tab(self, line)` |
 | `lazyrun_command` | function | `cli/commands/shellsys.py:206` | `def lazyrun_command()` |
+| `SidequestCommandSet` | class | `cli/commands/sidequest.py:18` | `class SidequestCommandSet(LazyOwnCommandSet)` |
+| `do_sidequest` | method | `cli/commands/sidequest.py:25` | `def do_sidequest(self, statement)` |
 | `SleepObfuscationCommandSet` | class | `cli/commands/sleep_obfuscation.py:16` | `class SleepObfuscationCommandSet(LazyOwnCommandSet)` |
 | `do_sleep_configure` | method | `cli/commands/sleep_obfuscation.py:82` | `def do_sleep_configure(self, line)` |
 | `do_sleep_info` | method | `cli/commands/sleep_obfuscation.py:50` | `def do_sleep_info(self, line)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_iter_all_edges` | method | `cli/graph_advisor.py:665` | `def _iter_all_edges(index)` |
 | `_missing_reason` | method | `cli/graph_advisor.py:684` | `def _missing_reason(self)` |
 | `_resolve_query` | method | `cli/graph_advisor.py:638` | `def _resolve_query(self, query)` |
-| `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
-| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
-| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
-| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
-| `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
-| `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
-| `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
-| `did_you_mean` | method | `cli/graph_advisor.py:591` | `def did_you_mean(self, query, limit)` |
-| `edges_between` | method | `cli/graph_advisor.py:286` | `def edges_between(self, source, target)` |
-| `format_god_nodes` | function | `cli/graph_advisor.py:724` | `def format_god_nodes(results)` |
-| `format_neighbors` | function | `cli/graph_advisor.py:706` | `def format_neighbors(result)` |
-| `format_search_table` | function | `cli/graph_advisor.py:691` | `def format_search_table(results)` |
-| `format_suggestions` | function | `cli/graph_advisor.py:734` | `def format_suggestions(results)` |
-| `from_path` | method | `cli/graph_advisor.py:375` | `def from_path(cls, path, config)` |
-| `get` | method | `cli/graph_advisor.py:280` | `def get(self, node_id)` |
-| `god_nodes` | method | `cli/graph_advisor.py:505` | `def god_nodes(self, limit)` |
-| `is_available` | method | `cli/graph_advisor.py:384` | `def is_available(self)` |
-| `load` | method | `cli/graph_advisor.py:184` | `def load(self, override)` |
-| `neighbors` | method | `cli/graph_advisor.py:283` | `def neighbors(self, node_id)` |
-| `neighbors` | method | `cli/graph_advisor.py:456` | `def neighbors(self, node_query, depth, limit)` |
-| `nodes` | method | `cli/graph_advisor.py:277` | `def nodes(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

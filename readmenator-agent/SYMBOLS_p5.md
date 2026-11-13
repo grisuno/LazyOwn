@@ -1,8 +1,29 @@
-# Symbols (page 5 of 51)
+# Symbols (page 5 of 53)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
+| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
+| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
+| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
+| `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
+| `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
+| `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
+| `did_you_mean` | method | `cli/graph_advisor.py:591` | `def did_you_mean(self, query, limit)` |
+| `edges_between` | method | `cli/graph_advisor.py:286` | `def edges_between(self, source, target)` |
+| `format_god_nodes` | function | `cli/graph_advisor.py:724` | `def format_god_nodes(results)` |
+| `format_neighbors` | function | `cli/graph_advisor.py:706` | `def format_neighbors(result)` |
+| `format_search_table` | function | `cli/graph_advisor.py:691` | `def format_search_table(results)` |
+| `format_suggestions` | function | `cli/graph_advisor.py:734` | `def format_suggestions(results)` |
+| `from_path` | method | `cli/graph_advisor.py:375` | `def from_path(cls, path, config)` |
+| `get` | method | `cli/graph_advisor.py:280` | `def get(self, node_id)` |
+| `god_nodes` | method | `cli/graph_advisor.py:505` | `def god_nodes(self, limit)` |
+| `is_available` | method | `cli/graph_advisor.py:384` | `def is_available(self)` |
+| `load` | method | `cli/graph_advisor.py:184` | `def load(self, override)` |
+| `neighbors` | method | `cli/graph_advisor.py:283` | `def neighbors(self, node_id)` |
+| `neighbors` | method | `cli/graph_advisor.py:456` | `def neighbors(self, node_query, depth, limit)` |
+| `nodes` | method | `cli/graph_advisor.py:277` | `def nodes(self)` |
 | `rank` | method | `cli/graph_advisor.py:307` | `def rank(self, nodes, query)` |
 | `read_recent_commands` | method | `cli/graph_advisor.py:566` | `def read_recent_commands(self, window)` |
 | `reload` | method | `cli/graph_advisor.py:387` | `def reload(self, path)` |
@@ -43,7 +64,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `__init__` | method | `cli/headless.py:72` | `def __init__(self, shell, json_output, profile_path)` |
 | `apply_profile` | function | `cli/headless.py:48` | `def apply_profile(config, profile)` |
 | `load_profile` | function | `cli/headless.py:31` | `def load_profile(path)` |
-| `run_chain` | method | `cli/headless.py:132` | `def run_chain(self, commands)` |
+| `run_chain` | method | `cli/headless.py:136` | `def run_chain(self, commands)` |
 | `run_command` | method | `cli/headless.py:87` | `def run_command(self, cmd, timeout)` |
 | `PhaseProgress` | class | `cli/killchain.py:29` | `class PhaseProgress` |
 | `_detect_current_phase` | function | `cli/killchain.py:58` | `def _detect_current_phase(events, world, phase_keys)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `load_telemetry` | function | `cli/palette_telemetry.py:186` | `def load_telemetry(path)` |
 | `recents` | function | `cli/palette_telemetry.py:259` | `def recents(telemetry)` |
 | `runs_after` | function | `cli/palette_telemetry.py:239` | `def runs_after(telemetry, command_name)` |
-| `safe_load_telemetry` | function | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
-| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
-| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
-| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
-| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
-| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
-| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
-| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
-| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
-| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
-| `ProTip` | class | `cli/protips.py:34` | `class ProTip` |
-| `_after` | function | `cli/protips.py:75` | `def _after(ctx)` |
-| `_has_api_key` | function | `cli/protips.py:59` | `def _has_api_key(ctx)` |
-| `_has_domain` | function | `cli/protips.py:55` | `def _has_domain(ctx)` |
-| `_has_rhost` | function | `cli/protips.py:51` | `def _has_rhost(ctx)` |
-| `_last_cmd_is` | function | `cli/protips.py:67` | `def _last_cmd_is(ctx)` |
-| `_os_linux` | function | `cli/protips.py:43` | `def _os_linux(ctx)` |
-| `_os_windows` | function | `cli/protips.py:47` | `def _os_windows(ctx)` |
-| `_phase_in` | function | `cli/protips.py:63` | `def _phase_in(ctx)` |
-| `_safe_trigger` | function | `cli/protips.py:381` | `def _safe_trigger(tip, ctx)` |
-| `get_session_tip` | function | `cli/protips.py:313` | `def get_session_tip(ctx)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

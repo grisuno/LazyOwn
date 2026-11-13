@@ -63,6 +63,15 @@ Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runn
 - `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
 - `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
 
+## modules/loop/decision_log.py
+- `digest` (function) `modules/loop/decision_log.py:51` `def digest(text)` -- Return the stable short digest used to fingerprint a decision input.
+- `context_digest` (function) `modules/loop/decision_log.py:90` `def context_digest(ctx)` -- Fingerprint a selection context independent of field ordering.
+- `config_digest` (function) `modules/loop/decision_log.py:115` `def config_digest(config)` -- Fingerprint the config keys that change a decision's reproducibility.
+- `new_run_id` (function) `modules/loop/decision_log.py:137` `def new_run_id()` -- Return a fresh identifier grouping all decisions of one loop run.
+- `record` (function) `modules/loop/decision_log.py:192` `def record(rec, path)` -- Append one decision to the ledger, rotating it when oversized.
+- `read_records` (function) `modules/loop/decision_log.py:221` `def read_records(path)` -- Return every decision row in order, for audit or deterministic replay.
+- `filtered_rows` (function) `modules/loop/decision_log.py:248` `def filtered_rows(items)` -- Shape ``(command, reason)`` pairs into ledger-ready rejection rows.
+
 ## modules/loop/engine_proxy.py
 Depends on: `modules/__init__.py`, `modules/lazy_loop.py`, `modules/traffic_recorder.py`
 Imported by: `modules/loop/__init__.py`
@@ -75,27 +84,27 @@ Imported by: `modules/loop/__init__.py`
 
 ## modules/loop/triage_scheduler.py
 Imported by: `modules/lazy_loop.py`, `modules/loop/__init__.py`, `tests/test_triage_scheduler.py`
-- `estimate_difficulty` (function) `modules/loop/triage_scheduler.py:35` `def estimate_difficulty(facts)` -- Estimate a target's difficulty in ``[0.0, 1.0]`` from known facts.
-- `TriageScheduler.__init__` (method) `modules/loop/triage_scheduler.py:80` `def __init__(self, stop_loss_attempts, salvage_progress, hard_threshold)` -- Initialize the scheduler with its policy thresholds.
-- `TriageScheduler.should_stop` (method) `modules/loop/triage_scheduler.py:98` `def should_stop(self, record)` -- Return True when a target has burned its attempt budget unproductively.
-- `TriageScheduler.route` (method) `modules/loop/triage_scheduler.py:110` `def route(self, record)` -- Return the worker tier for a target: ``general`` (hard) or ``soldier``.
-- `TriageScheduler.order` (method) `modules/loop/triage_scheduler.py:121` `def order(self, records)` -- Return records ordered for draining.
-- `normal_key` (function) `modules/loop/triage_scheduler.py:144` `def normal_key(record)`
-- `salvage_key` (function) `modules/loop/triage_scheduler.py:151` `def salvage_key(record)`
-- `TriageScheduler.pick_next` (method) `modules/loop/triage_scheduler.py:160` `def pick_next(self, records)` -- Return the single record to drain next, or None when empty.
+- `estimate_difficulty` (function) `modules/loop/triage_scheduler.py:36` `def estimate_difficulty(facts)` -- Estimate a target's difficulty in ``[0.0, 1.0]`` from known facts.
+- `TriageScheduler.__init__` (method) `modules/loop/triage_scheduler.py:92` `def __init__(self, stop_loss_attempts, salvage_progress, hard_threshold)` -- Initialize the scheduler with its policy thresholds.
+- `TriageScheduler.should_stop` (method) `modules/loop/triage_scheduler.py:110` `def should_stop(self, record)` -- Return True when a target has burned its attempt budget unproductively.
+- `TriageScheduler.route` (method) `modules/loop/triage_scheduler.py:122` `def route(self, record)` -- Return the worker tier for a target: ``general`` (hard) or ``soldier``.
+- `TriageScheduler.order` (method) `modules/loop/triage_scheduler.py:133` `def order(self, records)` -- Return records ordered for draining.
+- `normal_key` (function) `modules/loop/triage_scheduler.py:156` `def normal_key(record)`
+- `salvage_key` (function) `modules/loop/triage_scheduler.py:163` `def salvage_key(record)`
+- `TriageScheduler.pick_next` (method) `modules/loop/triage_scheduler.py:172` `def pick_next(self, records)` -- Return the single record to drain next, or None when empty.
 
 ## modules/loop/worker_agentic.py
-Depends on: `modules/__init__.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`
-Imported by: `modules/loop/__init__.py`
-- `run_command` (function) `modules/loop/worker_agentic.py:94` `def run_command(command, background)` -- Run one shell probe/verb through scope, guard and audit.
-- `record_fact` (function) `modules/loop/worker_agentic.py:120` `def record_fact(text)` -- Persist one observed or inferred fact on the exploration graph.
-- `report_finding` (function) `modules/loop/worker_agentic.py:129` `def report_finding(name, evidence, severity)` -- Record a verified vulnerability with its evidence.
-- `traffic_search` (function) `modules/loop/worker_agentic.py:140` `def traffic_search(query)` -- Search captured command/traffic records by keyword.
-- `graph_state` (function) `modules/loop/worker_agentic.py:153` `def graph_state()` -- Compact exploration overview: intents, facts, findings.
-- `shell_open` (function) `modules/loop/worker_agentic.py:168` `def shell_open()` -- Open a persistent bash session for multi-step shell work.
-- `shell_send` (function) `modules/loop/worker_agentic.py:172` `def shell_send(command)` -- Run one guarded command in the persistent shell session.
-- `job_status` (function) `modules/loop/worker_agentic.py:176` `def job_status(job_id)` -- Report whether one background job is still running.
-- `job_output` (function) `modules/loop/worker_agentic.py:184` `def job_output(job_id)` -- Return the tail of one background job's output.
+Depends on: `core/config.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/guard_rules.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/loop/__init__.py`, `modules/outcome_attribution.py`
+Imported by: `modules/loop/__init__.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_outcome_attribution.py`
+- `run_command` (function) `modules/loop/worker_agentic.py:308` `def run_command(command, background)` -- Run one shell probe/verb through scope, guard and audit.
+- `record_fact` (function) `modules/loop/worker_agentic.py:335` `def record_fact(text)` -- Persist one observed or inferred fact on the exploration graph.
+- `report_finding` (function) `modules/loop/worker_agentic.py:344` `def report_finding(name, evidence, severity)` -- Record a verified vulnerability with its evidence.
+- `traffic_search` (function) `modules/loop/worker_agentic.py:355` `def traffic_search(query)` -- Search captured command/traffic records by keyword.
+- `graph_state` (function) `modules/loop/worker_agentic.py:368` `def graph_state()` -- Compact exploration overview: intents, facts, findings.
+- `shell_open` (function) `modules/loop/worker_agentic.py:383` `def shell_open()` -- Open a persistent bash session for multi-step shell work.
+- `shell_send` (function) `modules/loop/worker_agentic.py:387` `def shell_send(command)` -- Run one guarded command in the persistent shell session.
+- `job_status` (function) `modules/loop/worker_agentic.py:391` `def job_status(job_id)` -- Report whether one background job is still running.
+- `job_output` (function) `modules/loop/worker_agentic.py:399` `def job_output(job_id)` -- Return the tail of one background job's output.
 
 ## modules/loop_ai_bridge.py
 Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
@@ -116,6 +125,29 @@ Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation
 - `swan_consult` (function) `modules/loop_ai_bridge.py:432` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
 - `stream_enabled` (function) `modules/loop_ai_bridge.py:459` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
 - `ai_snapshot` (function) `modules/loop_ai_bridge.py:469` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
+
+## modules/loop_audit.py
+Depends on: `core/parsers.py`
+- `step_context` (function) `modules/loop_audit.py:80` `def step_context(task_id)` -- Annotate every command executed inside the block with step context.
+- `audit_path` (function) `modules/loop_audit.py:109` `def audit_path(task_id)` -- Return the audit file path for one task.
+- `LoopAudit.__init__` (method) `modules/loop_audit.py:123` `def __init__(self, task_id, path)` -- Bind the audit file and start the run clock.
+- `LoopAudit.path` (method) `modules/loop_audit.py:131` `def path(self)` -- Return the timeline file path.
+- `LoopAudit.record` (method) `modules/loop_audit.py:135` `def record(self, kind)` -- Append one event and enforce the file cap.
+- `LoopAudit.run_start` (method) `modules/loop_audit.py:155` `def run_start(self, goal, target, rounds, workers, mode, profile)` -- Record the loop lifecycle start.
+- `LoopAudit.preflight` (method) `modules/loop_audit.py:168` `def preflight(self, outcome)` -- Record the target preflight verdict.
+- `LoopAudit.blocked` (method) `modules/loop_audit.py:178` `def blocked(self, source, reason, command, worker, intent)` -- Record a command that never ran because a gate blocked it.
+- `LoopAudit.verdict` (method) `modules/loop_audit.py:189` `def verdict(self, verdict)` -- Record the independent goal-evaluation verdict.
+- `LoopAudit.run_end` (method) `modules/loop_audit.py:203` `def run_end(self, status, rounds, verdict, error)` -- Record the loop lifecycle end with the final engine status.
+- `LoopAudit.record_command` (method) `modules/loop_audit.py:216` `def record_command(self, command, output, duration, ok, task_id)` -- Record one executed command with its trigger context.
+- `start` (function) `modules/loop_audit.py:320` `def start(task_id)` -- Create and register the audit for one task.
+- `audit_for` (function) `modules/loop_audit.py:338` `def audit_for(task_id)` -- Return the active audit for one task, or None when not started.
+- `stop` (function) `modules/loop_audit.py:349` `def stop(task_id)` -- Forget the registered audit for one task.
+- `guard_rows` (function) `modules/loop_audit.py:360` `def guard_rows(task_id)` -- Return guard decisions recorded for one task.
+- `activity_rows` (function) `modules/loop_audit.py:365` `def activity_rows(task_id)` -- Return engine activity rows for one task.
+- `timeline` (function) `modules/loop_audit.py:415` `def timeline(task_id, audit)` -- Merge audit, guard and lifecycle rows into one timeline.
+- `render` (function) `modules/loop_audit.py:505` `def render(task_id, limit, audit)` -- Render the merged campaign timeline for one task.
+- `list_runs` (function) `modules/loop_audit.py:526` `def list_runs(limit)` -- Summarize every recorded loop run, newest first.
+- `render_summary` (function) `modules/loop_audit.py:563` `def render_summary(summaries)` -- Render ``list_runs`` summaries as an operator table.
 
 ## modules/loop_guardrails.py
 Depends on: `modules/__init__.py`
@@ -156,21 +188,30 @@ Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_ru
 - `ListingNoiseDetector.observe` (method) `modules/loop_guardrails.py:798` `def observe(self, command, output)` -- Return True when the step is a pure directory listing dump.
 
 ## modules/loop_manager.py
-Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
-- `LoopValidationError.__init__` (method) `modules/loop_manager.py:90` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
-- `validate_target` (function) `modules/loop_manager.py:100` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
-- `sanitize_goal` (function) `modules/loop_manager.py:123` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
-- `clamp_int` (function) `modules/loop_manager.py:150` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
-- `clamp_float` (function) `modules/loop_manager.py:175` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
-- `validate_loop_id` (function) `modules/loop_manager.py:200` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
-- `LoopManager.__init__` (method) `modules/loop_manager.py:327` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
-- `LoopManager.loops_dir` (method) `modules/loop_manager.py:349` `def loops_dir(self)` -- Return the root directory for loop workspaces.
-- `LoopManager.start` (method) `modules/loop_manager.py:353` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
-- `LoopManager.list_loops` (method) `modules/loop_manager.py:493` `def list_loops(self)` -- Return every registry record with refreshed live status.
-- `LoopManager.get_loop` (method) `modules/loop_manager.py:528` `def get_loop(self, loop_id)` -- Return one registry record by id.
-- `LoopManager.read_log` (method) `modules/loop_manager.py:547` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
-- `LoopManager.stop` (method) `modules/loop_manager.py:614` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
-- `LoopManager.summary` (method) `modules/loop_manager.py:679` `def summary(self)` -- Return an aggregate view of loop activity for the report.
+Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_loop_manager.py`
+- `LoopValidationError.__init__` (method) `modules/loop_manager.py:91` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
+- `validate_target` (function) `modules/loop_manager.py:101` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
+- `sanitize_goal` (function) `modules/loop_manager.py:124` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
+- `clamp_int` (function) `modules/loop_manager.py:151` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
+- `clamp_float` (function) `modules/loop_manager.py:176` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
+- `validate_loop_id` (function) `modules/loop_manager.py:201` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
+- `LoopManager.__init__` (method) `modules/loop_manager.py:328` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
+- `LoopManager.loops_dir` (method) `modules/loop_manager.py:350` `def loops_dir(self)` -- Return the root directory for loop workspaces.
+- `LoopManager.start` (method) `modules/loop_manager.py:354` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
+- `LoopManager.list_loops` (method) `modules/loop_manager.py:549` `def list_loops(self)` -- Return every registry record with refreshed live status.
+- `LoopManager.get_loop` (method) `modules/loop_manager.py:584` `def get_loop(self, loop_id)` -- Return one registry record by id.
+- `LoopManager.read_log` (method) `modules/loop_manager.py:603` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
+- `LoopManager.stop` (method) `modules/loop_manager.py:670` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
+- `LoopManager.summary` (method) `modules/loop_manager.py:735` `def summary(self)` -- Return an aggregate view of loop activity for the report.
+- `default_manager` (function) `modules/loop_manager.py:853` `def default_manager()` -- Return the process-wide loop manager singleton.
+
+## modules/loop_preflight.py
+Depends on: `modules/__init__.py`
+- `lab_state_for` (function) `modules/loop_preflight.py:38` `def lab_state_for(target, scenarios, running, existing, ip_lookup)` -- Map a target IP to its lab scenario and container state.
+- `probe_tcp_detailed` (function) `modules/loop_preflight.py:83` `def probe_tcp_detailed(target, ports, timeout)` -- Probe TCP ports in parallel and classify the answers.
+- `probe_tcp` (function) `modules/loop_preflight.py:125` `def probe_tcp(target, ports, timeout)` -- Probe TCP ports in parallel and return the open ones.
+- `check_target` (function) `modules/loop_preflight.py:145` `def check_target(target, ports, connect_timeout, lab)` -- Decide whether a loop may be spent against this target.
+- `recovery_hint` (function) `modules/loop_preflight.py:211` `def recovery_hint(outcome)` -- Return the operator-facing recovery line for a failed preflight.
 
 ## modules/loop_progress.py
 Depends on: `core/safe_console.py`
@@ -449,30 +490,6 @@ Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/
 - `MoERouter.get_expert` (method) `modules/moe_router.py:605` `def get_expert(self, expert_id)` -- Return expert by ID, or None.
 - `MoERouter.status_report` (method) `modules/moe_router.py:609` `def status_report(self)` -- Return a diagnostic snapshot of all experts and their weights.
 - `get_router` (function) `modules/moe_router.py:684` `def get_router(api_key)` -- Return (or create) the module-level singleton MoERouter.
-
-## modules/morse.py
-- `reverse_morse_code` (function) `modules/morse.py:98` `def reverse_morse_code()` -- Build the reverse lookup table from Morse code to characters.
-- `text_to_morse` (function) `modules/morse.py:109` `def text_to_morse(text, config)` -- Convert plain text to Morse code.
-- `morse_to_text` (function) `modules/morse.py:130` `def morse_to_text(morse_code, config)` -- Convert Morse code back to plain text.
-- `clear_screen` (function) `modules/morse.py:157` `def clear_screen(config)` -- Reset the terminal screen using a bounded subprocess call.
-- `read_choice` (function) `modules/morse.py:171` `def read_choice(config)` -- Read and validate the menu choice from standard input.
-- `run_driver` (function) `modules/morse.py:186` `def run_driver(config)` -- Run the interactive Morse code conversion loop.
-
-## modules/mysql_hookandroot_lib.c
-- `reverse_shell` (function) `modules/mysql_hookandroot_lib.c:74` `void reverse_shell(void)` -- fork & send a bash shell to the attacker before starting mysqld
-- `execvp` (function) `modules/mysql_hookandroot_lib.c:128` `int execvp(const char* filename, char* const argv[])` -- execvp() hook
-
-## modules/network_opsec.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `NetworkOpsecEngine.__init__` (method) `modules/network_opsec.py:83` `def __init__(self, config)`
-- `NetworkOpsecEngine.configure_proxy_chain` (method) `modules/network_opsec.py:87` `def configure_proxy_chain(self, chain_type)` -- Configure a proxy chain for C2 communication.
-- `NetworkOpsecEngine.check_canary_tokens` (method) `modules/network_opsec.py:131` `def check_canary_tokens(self)` -- Check if the target has canary token / deception technology.
-- `NetworkOpsecEngine.analyze_traffic_with_canary_check` (method) `modules/network_opsec.py:179` `def analyze_traffic_with_canary_check(self, target_host, target_port)` -- Analyze whether target traffic is being intercepted or analyzed.
-- `NetworkOpsecEngine.dns_over_https_config` (method) `modules/network_opsec.py:246` `def dns_over_https_config(self)` -- Generate DNS-over-HTTPS configuration for proxy and system.
-- `NetworkOpsecEngine.source_port_randomize` (method) `modules/network_opsec.py:269` `def source_port_randomize(self)` -- Randomize source port for outbound connections.
-- `NetworkOpsecEngine.connection_jitter_schedule` (method) `modules/network_opsec.py:294` `def connection_jitter_schedule(self, beacon_interval)` -- Generate a jitter schedule for beacon connections.
-- `NetworkOpsecEngine.canary_detection_setup` (method) `modules/network_opsec.py:317` `def canary_detection_setup(self)` -- Set up canary detection for the engagement.
-- `NetworkOpsecEngine.summary` (method) `modules/network_opsec.py:349` `def summary(self)`
 
 
 Next: [API_p18.md](API_p18.md)

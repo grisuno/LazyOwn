@@ -1,6 +1,113 @@
 # API (page 11 of 28)
 Previous: [API_p10.md](API_p10.md)
 
+## modules/bof_registry.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
+Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
+- `BofEntry.to_dict` (method) `modules/bof_registry.py:130` `def to_dict(self)` -- Serialize to dictionary.
+- `BofEntry.from_dict` (method) `modules/bof_registry.py:151` `def from_dict(cls, raw)` -- Build from a dictionary.
+- `BofCatalog.register` (method) `modules/bof_registry.py:183` `def register(self, entry)` -- Register a BOF entry in the catalog.
+- `BofCatalog.register_many` (method) `modules/bof_registry.py:188` `def register_many(self, entries)` -- Register multiple BOF entries at once.
+- `BofCatalog.get` (method) `modules/bof_registry.py:193` `def get(self, name)` -- Retrieve a BOF entry by name.
+- `BofCatalog.search` (method) `modules/bof_registry.py:204` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
+- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:237` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
+- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:241` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
+- `BofCatalog.list_all` (method) `modules/bof_registry.py:245` `def list_all(self)` -- Return all catalog entries sorted by name.
+- `BofCatalog.to_dict` (method) `modules/bof_registry.py:249` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
+- `BofCatalog.from_dict` (method) `modules/bof_registry.py:257` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
+- `BofCatalog.load` (method) `modules/bof_registry.py:265` `def load(cls, path)` -- Load a catalog from a JSON file.
+- `BofCatalog.save` (method) `modules/bof_registry.py:273` `def save(self, path)` -- Save the catalog to a JSON file.
+- `BofYamlStore.__init__` (method) `modules/bof_registry.py:290` `def __init__(self, directory)` -- Bind the store to a directory.
+- `BofYamlStore.directory` (method) `modules/bof_registry.py:299` `def directory(self)` -- Return the directory bound to this store.
+- `BofYamlStore.load_entries` (method) `modules/bof_registry.py:303` `def load_entries(self)` -- Parse every YAML file into :class:`BofEntry` objects.
+- `BofYamlStore.load_catalog` (method) `modules/bof_registry.py:342` `def load_catalog(self)` -- Build a :class:`BofCatalog` from the YAML configuration files.
+- `find_client_artifact` (function) `modules/bof_registry.py:362` `def find_client_artifact(entry)` -- Resolve the compiled object file of a BOF across all known source trees.
+- `client_addon_install_path` (function) `modules/bof_registry.py:415` `def client_addon_install_path(client, addons_dir)` -- Read the ``tool.install_path`` of one beacon client lazyaddon.
+- `stage_entry_bof` (function) `modules/bof_registry.py:441` `def stage_entry_bof(entry, sessions_dir)` -- Stage a compiled BOF object for beacon delivery.
+- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:483` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
+- `BofValidator.verify_entry` (method) `modules/bof_registry.py:492` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
+- `BofValidator.validate_args` (method) `modules/bof_registry.py:508` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
+- `BofRegistry.__init__` (method) `modules/bof_registry.py:527` `def __init__(self, sessions_dir)`
+- `BofRegistry.install_dir` (method) `modules/bof_registry.py:533` `def install_dir(self)` -- Return the BOF installation directory.
+- `BofRegistry.is_installed` (method) `modules/bof_registry.py:553` `def is_installed(self, name)` -- Return True if a BOF is installed.
+- `BofRegistry.install` (method) `modules/bof_registry.py:558` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
+- `BofRegistry.uninstall` (method) `modules/bof_registry.py:579` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
+- `BofRegistry.list_installed` (method) `modules/bof_registry.py:596` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
+- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:601` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
+- `BofMarketplace.__init__` (method) `modules/bof_registry.py:619` `def __init__(self, sessions_dir, catalog)`
+- `BofMarketplace.catalog` (method) `modules/bof_registry.py:630` `def catalog(self)` -- Return the catalog.
+- `BofMarketplace.registry` (method) `modules/bof_registry.py:635` `def registry(self)` -- Return the registry.
+- `BofMarketplace.search` (method) `modules/bof_registry.py:639` `def search(self, query)` -- Search the catalog and return enriched results with install status.
+- `BofMarketplace.info` (method) `modules/bof_registry.py:658` `def info(self, name)` -- Get detailed information about a BOF by name.
+- `BofMarketplace.install` (method) `modules/bof_registry.py:675` `def install(self, name)` -- Install a BOF from the catalog by name.
+- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:704` `def uninstall(self, name)` -- Uninstall a BOF by name.
+- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:717` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
+- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:729` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
+- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:737` `def bulk_install(self, names)` -- Install multiple BOFs at once.
+
+## modules/browser_sync.py
+Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
+Imported by: `modules/chain_runner.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `tests/conftest.py`
+- `token` (function) `modules/browser_sync.py:112` `def token(create)` -- Return the receiver auth token, generating it on first use.
+- `reset_token` (function) `modules/browser_sync.py:138` `def reset_token()` -- Regenerate the receiver token.
+- `load_profile` (function) `modules/browser_sync.py:151` `def load_profile()` -- Load the last synced browser identity profile.
+- `profile_stats` (function) `modules/browser_sync.py:164` `def profile_stats()` -- Summarise the synced profile.
+- `cookie_matches_host` (function) `modules/browser_sync.py:183` `def cookie_matches_host(cookie, host)` -- Return True when a synced cookie applies to a request host.
+- `cookie_matches_path` (function) `modules/browser_sync.py:202` `def cookie_matches_path(cookie, request_path)` -- Return True when a synced cookie applies to one request path.
+- `cookie_expired` (function) `modules/browser_sync.py:226` `def cookie_expired(cookie, now)` -- Return True when a persistent cookie is already expired.
+- `cookies_for_host` (function) `modules/browser_sync.py:248` `def cookies_for_host(profile, host, path, scheme)` -- Return synced cookies a browser would send for one request.
+- `build_cookie_header` (function) `modules/browser_sync.py:285` `def build_cookie_header(existing, cookies)` -- Merge synced cookies into an existing Cookie header.
+- `write_netscape_jar` (function) `modules/browser_sync.py:340` `def write_netscape_jar(profile, path)` -- Write the synced cookie store as a Netscape cookie jar.
+- `jar_path` (function) `modules/browser_sync.py:362` `def jar_path()` -- Return the cookie jar path as a string.
+- `apply_rules` (function) `modules/browser_sync.py:418` `def apply_rules(headers, body)` -- Apply Burp-style Match and Replace rules to request headers and body.
+- `apply_identity_headers` (function) `modules/browser_sync.py:475` `def apply_identity_headers(host, headers, body, path, scheme)` -- Inject the synced browser identity into one proxied request.
+- `SyncReceiver.__init__` (method) `modules/browser_sync.py:595` `def __init__(self, host, port)` -- Prepare state; nothing binds until :meth:`start`.
+- `SyncReceiver.start` (method) `modules/browser_sync.py:610` `def start(self, host, port)` -- Bind the receiver; idempotent while already running.
+- `_Handler.log_message` (method) `modules/browser_sync.py:638` `def log_message(self, fmt)` -- Silence per-request logging; the profile is the audit trail.
+- `_Handler.do_GET` (method) `modules/browser_sync.py:642` `def do_GET(self)` -- Answer the health probe.
+- `_Handler.do_POST` (method) `modules/browser_sync.py:654` `def do_POST(self)` -- Accept one identity sync push.
+- `_Handler.stop` (method) `modules/browser_sync.py:755` `def stop(self)` -- Shut the receiver down; safe when it was never started.
+- `_Handler.status` (method) `modules/browser_sync.py:771` `def status(self)` -- Report running state, address, token and profile stats.
+- `get_receiver` (function) `modules/browser_sync.py:791` `def get_receiver()` -- Return the process-wide shared receiver instance.
+- `start_receiver` (function) `modules/browser_sync.py:800` `def start_receiver(port, host)` -- Start the shared receiver.
+- `stop_receiver` (function) `modules/browser_sync.py:813` `def stop_receiver()` -- Stop the shared receiver.
+- `clear_profile` (function) `modules/browser_sync.py:822` `def clear_profile()` -- Delete the synced profile and cookie jar.
+- `apply_identity_to_url` (function) `modules/browser_sync.py:839` `def apply_identity_to_url(url, headers, body)` -- Apply the synced browser identity to one URL-scoped request.
+- `ensure_wiring` (function) `modules/browser_sync.py:864` `def ensure_wiring()` -- Start the receiver and route framework traffic through the recorder proxy.
+- `masked_rows` (function) `modules/browser_sync.py:906` `def masked_rows(profile, domain_filter, full)` -- Render synced cookies as display rows with masked values.
+
+## modules/bsb_compat.py
+Depends on: `core/logging.py`
+Imported by: `lazyc2.py`, `tests/test_bsb_fileless_compat.py`
+- `derive_bsb_keys` (function) `modules/bsb_compat.py:52` `def derive_bsb_keys(master_key)` -- Derive the BSB encryption and HMAC keys from the raw C2 key.
+- `decrypt_bsb_report` (function) `modules/bsb_compat.py:90` `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` -- Decrypt and decode one BSB report.
+- `encrypt_bsb_command` (function) `modules/bsb_compat.py:139` `def encrypt_bsb_command(data, master_key)` -- Encrypt one command for a BSB beacon in the legacy wire format.
+- `derive_bsb_stage_keys` (function) `modules/bsb_compat.py:162` `def derive_bsb_stage_keys(token)` -- Derive the staging encryption and HMAC keys from a staging token.
+- `encrypt_bsb_stage_blob` (function) `modules/bsb_compat.py:208` `def encrypt_bsb_stage_blob(data, token)` -- Encrypt one staging payload in the diskless-stager wire format.
+- `decrypt_bsb_stage_blob` (function) `modules/bsb_compat.py:232` `def decrypt_bsb_stage_blob(encrypted_data, token)` -- Decode one staging payload exactly the way the upstream stager does.
+
+## modules/c2_agent.py
+Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+Imported by: `cli/commands/c2_session.py`
+- `client_id_for` (function) `modules/c2_agent.py:94` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
+- `validate_client_id` (function) `modules/c2_agent.py:119` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
+- `build_agent` (function) `modules/c2_agent.py:398` `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
+- `read_aes_hex` (function) `modules/c2_agent.py:528` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
+- `deploy` (function) `modules/c2_agent.py:533` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
+- `read_records` (function) `modules/c2_agent.py:680` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
+- `wait_record` (function) `modules/c2_agent.py:697` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
+- `C2Server.__init__` (method) `modules/c2_agent.py:714` `def __init__(self, port, user, password)`
+- `C2Server.status` (method) `modules/c2_agent.py:731` `def status(self)` -- Report server liveness and listener reachability.
+- `C2Server.start` (method) `modules/c2_agent.py:763` `def start(self)` -- Start lazyc2 headless (no-op when already running).
+- `C2Server.stop` (method) `modules/c2_agent.py:794` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
+- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:817` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
+
+## modules/c2_builder.py
+Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
+- `C2Builder.__init__` (method) `modules/c2_builder.py:452` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+- `C2Builder.run` (method) `modules/c2_builder.py:510` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
+
 ## modules/c2_messaging_base.py
 - `SecureSessionManager.__init__` (method) `modules/c2_messaging_base.py:22` `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
 - `SecureSessionManager.register_failed_attempt` (method) `modules/c2_messaging_base.py:37` `def register_failed_attempt(self, user_id)` -- Record a failed authentication attempt for a user.
@@ -92,6 +199,11 @@ Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_
 - `days_in_month` (function) `modules/cal.sh:14` -- Función para obtener el número de días en un mes
 - `first_day_of_month` (function) `modules/cal.sh:31` -- Función para obtener el día de la semana del primer día del mes
 
+## modules/campaign_blacklist.py
+Imported by: `modules/selection/parquet.py`
+- `campaign_blacklist` (function) `modules/campaign_blacklist.py:53` `def campaign_blacklist()` -- Return the cached blacklist, reloading when the lessons file changes.
+- `blocked_commands` (function) `modules/campaign_blacklist.py:63` `def blocked_commands(category)` -- Return command heads blacklisted for a category plus the global ``any``.
+
 ## modules/chain_approval.py
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `lazyc2.py`, `tests/test_chain_approval_c2.py`, `tests/test_chain_approval_cli_wiring.py`
 - `command_fingerprint` (function) `modules/chain_approval.py:78` `def command_fingerprint(command)` -- Return the SHA-256 fingerprint of one command line.
@@ -147,7 +259,7 @@ Imported by: `modules/lazy_loop.py`, `tests/test_chain_loop.py`, `tests/test_pla
 
 ## modules/chain_match.py
 Depends on: `modules/chain_registry.py`
-Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
+Imported by: `modules/selection/chain.py`, `tests/test_chain_match_determinism.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
 - `normalize_tags` (function) `modules/chain_match.py:49` `def normalize_tags(tags)` -- Return a chain's tags lowercased and aliased to the shared vocabulary.
 - `service_tokens` (function) `modules/chain_match.py:65` `def service_tokens(services)` -- Normalise discovered service names into the chain tag vocabulary.
 - `platform_ok` (function) `modules/chain_match.py:75` `def platform_ok(platforms, os_hint)` -- Return True when a chain's platforms admit the target OS hint.
@@ -172,21 +284,21 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 - `generate_for_playbook` (function) `modules/chain_registry.py:837` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/browser_sync.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-- `StepOutcome.ok` (method) `modules/chain_runner.py:89` `def ok(self)` -- Return True for success, dry-run and skipped steps.
-- `StepOutcome.to_dict` (method) `modules/chain_runner.py:93` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:139` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:164` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:187` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:192` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:197` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:202` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:207` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:212` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:217` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:228` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:353` `def run(self)` -- Execute the chain in order and return every step outcome.
+- `StepOutcome.ok` (method) `modules/chain_runner.py:90` `def ok(self)` -- Return True for success, dry-run and skipped steps.
+- `StepOutcome.to_dict` (method) `modules/chain_runner.py:94` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:149` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:174` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:197` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:202` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:207` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:212` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:217` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:222` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `render_text` (function) `modules/chain_runner.py:227` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:238` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:363` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
@@ -383,117 +495,6 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
 - `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
 - `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
-
-## modules/ctf_capture.py
-Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
-- `output_dir` (function) `modules/ctf_capture.py:36` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
-- `capture` (function) `modules/ctf_capture.py:197` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
-- `record_path` (function) `modules/ctf_capture.py:278` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
-- `store_record` (function) `modules/ctf_capture.py:304` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
-- `list_records` (function) `modules/ctf_capture.py:322` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
-- `summary` (function) `modules/ctf_capture.py:345` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
-
-## modules/custom_tools.py
-Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
-- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
-- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
-- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
-- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
-- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
-- `run_tool` (function) `modules/custom_tools.py:151` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
-
-## modules/cve_matcher.py
-Depends on: `core/logging.py`
-Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
-- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
-- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
-- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
-- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
-- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
-
-## modules/dacl_abuse.py
-Imported by: `cli/commands/active_directory.py`
-- `DACLAbuseEngine.__init__` (method) `modules/dacl_abuse.py:136` `def __init__(self, domain, domain_sid, acl_data)`
-- `DACLAbuseEngine.parse_bloodhound_acls` (method) `modules/dacl_abuse.py:143` `def parse_bloodhound_acls(self, edges)` -- Parse BloodHound edge data to extract exploitable ACLs.
-- `DACLAbuseEngine.parse_raw_aces` (method) `modules/dacl_abuse.py:182` `def parse_raw_aces(self, raw_nthashes)` -- Parse raw ACE data from ntSecurityDescriptor parsing.
-- `DACLAbuseEngine.compute_attack_chains` (method) `modules/dacl_abuse.py:224` `def compute_attack_chains(self)` -- Generate exploitation plans for all discovered ACL targets.
-- `DACLAbuseEngine.adminsdholder_abuse_plan` (method) `modules/dacl_abuse.py:291` `def adminsdholder_abuse_plan(self, target_sid)` -- Generate an AdminSDHolder abuse plan.
-- `DACLAbuseEngine.dcsync_rights_assignment_plan` (method) `modules/dacl_abuse.py:318` `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` -- Generate a DCSync rights assignment plan.
-- `DACLAbuseEngine.owner_takeover_plan` (method) `modules/dacl_abuse.py:348` `def owner_takeover_plan(self, target_dn, attacker_sid)` -- Generate an ownership takeover plan.
-- `DACLAbuseEngine.summary` (method) `modules/dacl_abuse.py:418` `def summary(self)` -- Return a summary of all DACL/SACL abuse findings.
-
-## modules/dashboard_bp.py
-Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
-- `dashboard_index` (function) `modules/dashboard_bp.py:778` `def dashboard_index()` -- Render the main SOC dashboard HTML page.
-- `dashboard_api_data` (function) `modules/dashboard_bp.py:784` `def dashboard_api_data()` -- JSON snapshot of all dashboard data.
-- `dashboard_loot` (function) `modules/dashboard_bp.py:902` `def dashboard_loot()` -- Render the loot browser: captured credentials, hashes and files.
-- `dashboard_timeline` (function) `modules/dashboard_bp.py:1017` `def dashboard_timeline()` -- Render the campaign timeline: commands and events, newest first.
-
-## modules/dashboard_engine.py
-Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
-- `DashboardEngine.__init__` (method) `modules/dashboard_engine.py:139` `def __init__(self, world_model)`
-- `DashboardEngine.set_world_model` (method) `modules/dashboard_engine.py:148` `def set_world_model(self, model)`
-- `DashboardEngine.set_exploit_recommender` (method) `modules/dashboard_engine.py:151` `def set_exploit_recommender(self, recommender)`
-- `DashboardEngine.set_auto_pivot` (method) `modules/dashboard_engine.py:154` `def set_auto_pivot(self, pivot)`
-- `DashboardEngine.set_evasion_engine` (method) `modules/dashboard_engine.py:157` `def set_evasion_engine(self, evasion)`
-- `DashboardEngine.build_snapshot` (method) `modules/dashboard_engine.py:160` `def build_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
-- `DashboardEngine.render_text_map` (method) `modules/dashboard_engine.py:276` `def render_text_map(self, snapshot)` -- Render a text-based network map from a dashboard snapshot.
-- `DashboardEngine.render_ascii_topology` (method) `modules/dashboard_engine.py:358` `def render_ascii_topology(self, snapshot)` -- Render an ASCII-art topology tree from a snapshot.
-- `DashboardEngine.export_json` (method) `modules/dashboard_engine.py:408` `def export_json(self, snapshot)` -- Export dashboard snapshot as JSON string.
-- `DashboardEngine.persist_snapshot` (method) `modules/dashboard_engine.py:421` `def persist_snapshot(self, snapshot)` -- Persist dashboard snapshot to sessions/dashboard_snapshot.json.
-- `DashboardEngine.format_for_cli` (method) `modules/dashboard_engine.py:438` `def format_for_cli(self, snapshot)` -- Compact single-line status for CLI prompt integration.
-
-## modules/db.py
-Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
-- `LazyOwnDB.__init__` (method) `modules/db.py:159` `def __init__(self, db_path)`
-- `LazyOwnDB.db_path` (method) `modules/db.py:182` `def db_path(self)` -- Path to the SQLite database file.
-- `LazyOwnDB.migration_status` (method) `modules/db.py:222` `def migration_status(self)` -- Return the current and latest migration versions.
-- `LazyOwnDB.workspace_create` (method) `modules/db.py:292` `def workspace_create(self, name, description)` -- Create a new workspace.
-- `LazyOwnDB.workspace_list` (method) `modules/db.py:307` `def workspace_list(self)` -- Return all workspaces as dicts.
-- `LazyOwnDB.workspace_get` (method) `modules/db.py:313` `def workspace_get(self, name)` -- Get a workspace by name, or None.
-- `LazyOwnDB.default_workspace` (method) `modules/db.py:320` `def default_workspace(self, name)` -- Return the id of the named workspace, creating it when absent.
-- `LazyOwnDB.workspace_delete` (method) `modules/db.py:333` `def workspace_delete(self, name)` -- Delete a workspace and all its data.
-- `LazyOwnDB.host_add` (method) `modules/db.py:357` `def host_add(self, workspace_id, address, mac, hostname, os, state)` -- Add or update a host.
-- `LazyOwnDB.host_delete` (method) `modules/db.py:390` `def host_delete(self, host_id)` -- Delete a host and its related data.
-- `LazyOwnDB.host_list` (method) `modules/db.py:401` `def host_list(self, workspace_id)` -- List all hosts in a workspace.
-- `LazyOwnDB.host_find` (method) `modules/db.py:410` `def host_find(self, workspace_id, query)` -- Search hosts by address, hostname, or os.
-- `LazyOwnDB.service_add` (method) `modules/db.py:427` `def service_add(self, host_id, port, protocol, state, name, product, version)` -- Add a service to a host.
-- `LazyOwnDB.service_list` (method) `modules/db.py:447` `def service_list(self, host_id)` -- List all services on a host.
-- `LazyOwnDB.vuln_add` (method) `modules/db.py:460` `def vuln_add(self, host_id, name, severity, description, refs)` -- Add a vulnerability to a host.
-- `LazyOwnDB.vuln_get` (method) `modules/db.py:478` `def vuln_get(self, vuln_id)` -- Return one vuln row with its host address, or None.
-- `LazyOwnDB.vuln_update` (method) `modules/db.py:490` `def vuln_update(self, vuln_id, refs, severity, description)` -- Update mutable vuln fields; returns True when a row changed.
-- `LazyOwnDB.vuln_list` (method) `modules/db.py:528` `def vuln_list(self, workspace_id, severity)` -- List vulns in workspace, optionally filtered by severity.
-- `LazyOwnDB.cred_add` (method) `modules/db.py:557` `def cred_add(self, host_id, username, password, realm, cred_type, origin)` -- Add a credential (password encrypted at rest).
-- `LazyOwnDB.cred_list` (method) `modules/db.py:577` `def cred_list(self, workspace_id)` -- List all creds in workspace (passwords decrypted).
-- `LazyOwnDB.loot_add` (method) `modules/db.py:596` `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` -- Add a loot entry.
-- `LazyOwnDB.loot_list` (method) `modules/db.py:615` `def loot_list(self, workspace_id)` -- List all loot in workspace.
-- `LazyOwnDB.note_add` (method) `modules/db.py:631` `def note_add(self, workspace_id, data, note_type, host_id)` -- Add a note.
-- `LazyOwnDB.note_list` (method) `modules/db.py:648` `def note_list(self, workspace_id)` -- List all notes in workspace.
-- `LazyOwnDB.import_nmap_xml` (method) `modules/db.py:664` `def import_nmap_xml(self, workspace_id, xml_path)` -- Import an Nmap XML file into the database.
-- `LazyOwnDB.export_csv` (method) `modules/db.py:740` `def export_csv(self, table, workspace_id)` -- Export a table to CSV string.
-- `LazyOwnDB.status` (method) `modules/db.py:775` `def status(self, workspace_id)` -- Return counts for every entity type in a workspace.
-- `LazyOwnDB.close` (method) `modules/db.py:804` `def close(self)` -- Close the database connection for the current thread.
-- `get_db` (function) `modules/db.py:821` `def get_db(db_path)` -- Get or create a :class:`LazyOwnDB` instance.
-
-## modules/defense_eval.py
-Imported by: `modules/closedloop.py`, `modules/defense_stages.py`, `tests/test_defense_eval.py`, `tests/test_defense_stages.py`
-- `Evaluation.to_dict` (method) `modules/defense_eval.py:62` `def to_dict(self)` -- Return a JSON-serializable view.
-- `DatasetSummary.to_dict` (method) `modules/defense_eval.py:82` `def to_dict(self)` -- Return a JSON-serializable view.
-- `RuleResult.to_dict` (method) `modules/defense_eval.py:103` `def to_dict(self)` -- Return a JSON-serializable view.
-- `parse_rule` (function) `modules/defense_eval.py:115` `def parse_rule(rule_text)` -- Parse the rule JSON document into a condition list.
-- `evaluate_event` (function) `modules/defense_eval.py:234` `def evaluate_event(conditions, fields)` -- Apply every condition to one event.
-- `evaluate_rule` (function) `modules/defense_eval.py:322` `def evaluate_rule(rule_text, target_logs, control_logs)` -- Replay one rule against target and control datasets.
-- `metrics` (function) `modules/defense_eval.py:380` `def metrics(result)` -- Return tp/fn/fp/tn metrics for one replay result.
-
-## modules/defense_stages.py
-Depends on: `core/logging.py`, `modules/closedloop.py`, `modules/defense_eval.py`, `modules/hunt_verify.py`, `modules/orchestrator_config.py`
-Imported by: `modules/lazy_loop.py`, `tests/test_defense_stages.py`
-- `_Stub.emit` (method) `modules/defense_stages.py:36` `def emit(self)` -- Swallow emissions when no activity log exists.
-- `run_defense_validate` (function) `modules/defense_stages.py:82` `def run_defense_validate(task_id)` -- Replay the configured detection rule over attack and control logs.
-- `run_closedloop_tune` (function) `modules/defense_stages.py:117` `def run_closedloop_tune(task_id)` -- Compare baseline vs candidate detection rules with suggestions.
-- `run_hunt_verify` (function) `modules/defense_stages.py:151` `def run_hunt_verify(task_id)` -- Verify hunting observations against retained evidence per stage.
 
 
 Next: [API_p12.md](API_p12.md)

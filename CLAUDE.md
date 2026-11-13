@@ -560,6 +560,92 @@ block; nav entry next to Tools in `templates/base.html`.
 
 Profiles, chain v2, outcome bus, emulation runner, addon updates and the MS2 gym: `docs/autonomous-loop.md`, `docs/outcome-bus.md`, `docs/emulation-runner.md`, `docs/metasploitable-gym.md`, `docs/lazyaddons-yaml.md`. Tests: `tests/test_{orchestrator_yaml,chain_runner,outcome_bus,emulation_runner,addon_updater,metasploitable_gym}.py` plus mutation runners.
 
+### 15l.1 Honest loop endings + target preflight (v6)
+
+A loop that "finishes" against a dead target is the worst failure mode.
+Three contracts close it:
+
+- `modules/loop_preflight.py` — before any round is spent,
+  `check_target(target)` maps the target to a lab scenario
+  (`modules.lab_runtime`): a stopped or never-created gym container
+  fails the run with the recovery command (`lab start <scenario>`); for
+  non-lab targets a bounded parallel TCP probe decides liveness — an
+  open port or a refused connection (host alive, RST) passes, only a
+  fully filtered/unreachable target fails. `auto_loop --no-preflight`
+  overrides with explicit operator consent; `auto_pwn` aborts when its
+  lab target is down. Never raises; docker/socket I/O injectable.
+  Tests: `tests/test_loop_preflight.py`.
+- `modules/lazy_runner.py` — `loop_exit_code` maps the engine ending to
+  an honest process exit (0 only for `done`/`pentest_proven` with a
+  non-failed independent verdict; 4 timeout; 1 otherwise),
+  `write_loop_result` persists `result.json` (status, verdict,
+  rounds, findings, goal) into `sessions/loops/<id>/` when
+  `LAZYOWN_LOOP_WORKSPACE` is set (dashboard subprocesses) or
+  `sessions/loop_result_<task>.json`, and `autonomous_exit_gate`
+  raises `SystemExit` under `LAZYOWN_AUTONOMOUS=1` so a dashboard loop
+  never looks FINISHED when the goal was not achieved (interactive
+  shells are unaffected). Tests: `tests/test_loop_exit_gate.py`.
+- `modules/loop_manager.py` — `_reap` reads the workspace
+  `result.json` and finalizes the registry record with the real
+  outcome: `finished` only when `success` is true, `failed` otherwise,
+  `stopped` for cancelled/operator stops, plus a refreshed
+  `metadata.json`. Exit code stays the fallback signal. Tests:
+  `tests/test_loop_manager_outcome.py`.
+
+### 15l.2 Loop audit timeline (`modules/loop_audit.py`)
+
+One append-only JSONL per task (`sessions/lazy/audit_<task>.jsonl`)
+answers "what did the loop do, when, who triggered it, with what
+confidence and what came out": every executed command lands once —
+recorded by the loop executor (`build_executor`) and enriched through
+`step_context` with worker, intent, guard verdict (allow/ask/deny),
+judge source and reason, opsec gate and detection probability,
+duration and a bounded ANSI-stripped output tail; gate-blocked steps
+(guard/opsec/approval/sudo) land as `blocked` rows so nothing the loop
+considered is invisible. Lifecycle events (`run_start`, `preflight`,
+`verdict`, `run_end`) bracket the run. `render` merges the timeline
+with guard decisions and engine activity into a navigable campaign
+view; `list_runs` summarizes every recorded run. CLI:
+`loop_audit list | latest | <task> [--limit N] [--json]`. Never raises
+on I/O; file capped at `AUDIT_MAX_RECORDS`. Tests:
+`tests/test_loop_audit.py`.
+
+### 15l.3 Gym cleanup is opt-in (`modules/gym_cleanup.py`)
+
+Stopping every `lazyown-lab-*`/`lazyown-range-*` machine on shell exit
+used to kill the gym under the next run (an `auto_loop` subprocess
+exiting stopped the lab mid-campaign). The cleanup is now opt-in:
+`"gym_cleanup_on_exit": true` in `payload.json` (default absent = off)
+AND an interactive shell — `LAZYOWN_AUTONOMOUS=1` processes, `-c` runs
+and `--run-chain` never stop gym machines regardless of the flag.
+Tests: `tests/test_gym_cleanup_policy.py`.
+
+### 15l.4 auto_pwn success contract + deterministic initial access
+
+- `modules/ctf_capture.evaluate_exploit_output` — the precise success
+  gate for the autonomous exploit engine: a genuine shell (shared
+  detector) or a shell-objective capture (root shell, shadow dump).
+  Recon banners and long output never count; arbitrary `key: value`
+  lines are not credentials. Tests: `tests/test_auto_pwn_success.py`.
+- `modules/autonomous_exploit_engine._heuristic_match` — the YAML
+  catalogue override replaces a strategy's confidence with
+  `max(heuristic, yaml_score)` so a degraded product field (a world
+  model that lost "vsftpd" from the version string) never zeroes the
+  0.90 backdoor candidate; `rank_exploits` dedupes by
+  (strategy, cve, service). vsftpd 2.3.4 also matches by
+  `service=ftp + version` when the product is lost.
+- `Planner._initial_access_candidate` — an access-class goal always
+  emits one highest-priority exploitation intent, so
+  `Worker._steps_for` resolves `auto_pwn <target>` even with every LLM
+  down. The executor raises the per-verb timeout for `auto_pwn` to
+  `AUTO_PWN_MIN_TIMEOUT_SEC` (900s). Tests:
+  `tests/test_planner_initial_access.py`.
+- `LazyLoopEngine._evaluate_goal` — the final verdict counts confirmed
+  findings from the durable ledger (`sessions/findings/<task>.jsonl`)
+  in addition to graph states, so a confirmed shell proves the goal
+  even when the graph state was lost; proven `achieved` evidence
+  promotes the loop exit code to 0.
+
 ## 15m. Metasploitable 2 gym setup contracts
 
 Operator setup guide: [`docs/gym-setup.md`](docs/gym-setup.md). Contracts:

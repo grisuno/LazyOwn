@@ -1,8 +1,24 @@
-# Symbols (page 2 of 51)
+# Symbols (page 2 of 53)
 Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_c2_loot` | method | `cli/commands/c2_session.py:365` | `def do_c2_loot(self, line)` |
+| `do_c2_reboot` | method | `cli/commands/c2_session.py:187` | `def do_c2_reboot(self, line)` |
+| `do_c2_server` | method | `cli/commands/c2_session.py:134` | `def do_c2_server(self, line)` |
+| `CalderaCommandSet` | class | `cli/commands/caldera.py:66` | `class CalderaCommandSet(LazyOwnCommandSet)` |
+| `_resolve_coverage` | function | `cli/commands/caldera.py:53` | `def _resolve_coverage()` |
+| `_resolve_manager` | function | `cli/commands/caldera.py:49` | `def _resolve_manager()` |
+| `_resolve_planner` | function | `cli/commands/caldera.py:59` | `def _resolve_planner(shell)` |
+| `_shell` | method | `cli/commands/caldera.py:72` | `def _shell(self)` |
+| `do_op_create` | method | `cli/commands/caldera.py:96` | `def do_op_create(self, line)` |
+| `do_op_list` | method | `cli/commands/caldera.py:80` | `def do_op_list(self, line)` |
+| `do_op_pause` | method | `cli/commands/caldera.py:166` | `def do_op_pause(self, line)` |
+| `do_op_plan` | method | `cli/commands/caldera.py:114` | `def do_op_plan(self, line)` |
+| `do_op_report` | method | `cli/commands/caldera.py:272` | `def do_op_report(self, line)` |
+| `do_op_resume` | method | `cli/commands/caldera.py:183` | `def do_op_resume(self, line)` |
+| `do_op_start` | method | `cli/commands/caldera.py:141` | `def do_op_start(self, line)` |
+| `do_op_status` | method | `cli/commands/caldera.py:217` | `def do_op_status(self, line)` |
 | `do_op_stop` | method | `cli/commands/caldera.py:200` | `def do_op_stop(self, line)` |
 | `do_op_timeline` | method | `cli/commands/caldera.py:249` | `def do_op_timeline(self, line)` |
 | `do_plan` | method | `cli/commands/caldera.py:336` | `def do_plan(self, line)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_range_wait_healthy` | method | `cli/commands/lab.py:321` | `def _range_wait_healthy(self, compose, timeout)` |
 | `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
 | `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
-| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
-| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
-| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:24` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
-| `do_chisel` | method | `cli/commands/lateral.py:43` | `def do_chisel(self, line)` |
-| `do_ligolo` | method | `cli/commands/lateral.py:79` | `def do_ligolo(self, line)` |
-| `do_nc` | method | `cli/commands/lateral.py:91` | `def do_nc(self, line)` |
-| `do_ngrok` | method | `cli/commands/lateral.py:72` | `def do_ngrok(self, line)` |
-| `do_set_proxychains` | method | `cli/commands/lateral.py:59` | `def do_set_proxychains(self, line)` |
-| `do_socat` | method | `cli/commands/lateral.py:31` | `def do_socat(self, line)` |
-| `do_ssh` | method | `cli/commands/lateral.py:114` | `def do_ssh(self, line)` |
-| `do_wmiexec` | method | `cli/commands/lateral.py:106` | `def do_wmiexec(self, line)` |
-| `LateralMigratedCommandSet` | class | `cli/commands/lateral_migrated.py:24` | `class LateralMigratedCommandSet(LazyOwnCommandSet)` |
-| `do_addcli` | method | `cli/commands/lateral_migrated.py:1302` | `def do_addcli(self, line)` |
-| `do_bloodyAD` | method | `cli/commands/lateral_migrated.py:229` | `def do_bloodyAD(self, line)` |
-| `do_dcomexec` | method | `cli/commands/lateral_migrated.py:931` | `def do_dcomexec(self, line)` |
-| `do_dominion` | method | `cli/commands/lateral_migrated.py:1317` | `def do_dominion(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

@@ -247,6 +247,15 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/addon_updater.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_commander.py`, `modules/lazy_deviations.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
 - Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_runner.py`
 
+## cli/commands/loop_audit.py
+- Doc: Loop audit shell commands: navigate the campaign timeline of a loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LoopAuditCommandSet` (class, line 18) `class LoopAuditCommandSet(LazyOwnCommandSet)`
+  - `do_loop_audit` (method, line 25) `def do_loop_audit(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
 ## cli/commands/marketplace.py
 - Doc: Plugin/addon marketplace commands.
 - Layer: utility
@@ -477,24 +486,6 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `_get_factory` (method, line 30) `def _get_factory(self)`
   - `do_generate` (method, line 37) `def do_generate(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/payload_factory.py`, `utils.py`
-
-## cli/commands/persist.py
-- Doc: Persistence command set (pending).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PersistenceCommandSet` (class, line 26) `class PersistenceCommandSet(LazyOwnCommandSet)`
-  - `do_createwebshell` (method, line 33) `def do_createwebshell(self, line)`
-  - `do_createrevshell` (method, line 47) `def do_createrevshell(self, line)`
-  - `do_createwinrevshell` (method, line 61) `def do_createwinrevshell(self, line)`
-  - `do_conptyshell` (method, line 73) `def do_conptyshell(self, line)`
-  - `do_pwncatcs` (method, line 89) `def do_pwncatcs(self, line)`
-  - `do_revwin` (method, line 99) `def do_revwin(self, line)`
-  - `do_wmi_persist` (method, line 112) `def do_wmi_persist(self, line)`
-  - `do_wmi_lateral` (method, line 170) `def do_wmi_lateral(self, line)`
-  - `do_wmi_scheduled_task` (method, line 209) `def do_wmi_scheduled_task(self, line)`
-  - `_extract` (method, line 275) `def _extract(args, flag)`
-- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

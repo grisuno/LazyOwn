@@ -824,7 +824,10 @@ def shutdown_loop_runtime(reason: str = "shell exit") -> dict:
 
 LLM_ERROR_MARKERS = ("[llm error]", "api_key not set", "no ai backend available", "all ai backends failed")
 PROXY_GC_DAYS = 30
-PROXY_GC_INTERVAL_SEC = 6 * 3600
+PROXY_GC_INTERVAL_SEC = 300
+PROXY_GC_MAX_ROWS_PER_SWEEP = 500
+SCAN_REUSE_DEFAULT_SEC = 21600
+SCAN_REUSE_ENABLED = True
 INTERCEPT_TIMEOUT_SEC = 30.0
 TRAFFIC_INLINE_CUTOFF = 256 * 1024
 TRAFFIC_PREVIEW = 8192
@@ -854,6 +857,79 @@ def _noa_enabled() -> bool:
         return bool((load_payload() or {}).get("noa_compaction", False))
     except Exception:
         return False
+
+
+def _scan_reuse_sec() -> int:
+    """Return the freshness window that lets an old scan replace a new one.
+
+    The orchestrator YAML ``limits.scan_reuse_sec`` wins; the default keeps
+    a scan reusable for six hours so a stealth profile can stay silent
+    instead of re-scanning the same host round after round.
+
+    Returns:
+        Freshness window in seconds (0 disables scan reuse).
+    """
+    try:
+        from modules.orchestrator_config import limits
+
+        value = int((limits() or {}).get("scan_reuse_sec", SCAN_REUSE_DEFAULT_SEC) or 0)
+    except Exception:
+        value = SCAN_REUSE_DEFAULT_SEC
+    return max(0, value)
+
+
+def _scan_aggressive() -> bool:
+    """Return whether the active profile allows noisy full-port scans.
+
+    The orchestrator profile ``mode`` drives it: ``pentest`` (stealth-first)
+    never emits a ``-p-`` sweep from the deterministic layer, while
+    ``redteam`` and ``ctf`` keep it.
+
+    Returns:
+        True when full-port scans are allowed.
+    """
+    try:
+        from modules.orchestrator_config import profile_config
+
+        return str(profile_config().get("mode", "redteam")) != "pentest"
+    except Exception:
+        return True
+
+
+def _fresh_scan_path(target: str, max_age_sec: int) -> str:
+    """Return the freshest sessions scan XML for target within the window.
+
+    Args:
+        target: Host the scan covers.
+        max_age_sec: Maximum accepted age of the scan file.
+
+    Returns:
+        Path string of a fresh ``sessions/scan_<target>*.nmap.xml``, empty
+        when reuse is disabled, no file matches or the scan is too old.
+    """
+    if not SCAN_REUSE_ENABLED or max_age_sec <= 0:
+        return ""
+    safe = str(target or "").strip()
+    if not safe:
+        return ""
+    try:
+        candidates = sorted(
+            SESSIONS_DIR.glob(f"scan_{safe}*.nmap.xml"),
+            key=lambda path: path.stat().st_mtime,
+            reverse=True,
+        )
+    except OSError:
+        return ""
+    import time as _time
+
+    now = _time.time()
+    for path in candidates:
+        try:
+            if now - path.stat().st_mtime <= max_age_sec:
+                return str(path)
+        except OSError:
+            continue
+    return ""
 
 
 JUDGE_BACKGROUND_LIMIT = 4000
@@ -3543,6 +3619,34 @@ _POLICY_CATEGORY_VERBS = {
 _POLICY_MAX_PROPOSALS = 2
 _POLICY_SINGLETON: object | None = None
 
+_INITIAL_ACCESS_MARKS = (
+    "gain initial access",
+    "initial access",
+    "get a shell",
+    "obtain shell",
+    " foothold",
+    "compromise",
+    "pwn",
+    "exploit the",
+    "exploitation of",
+)
+
+
+def _initial_access_intent(text: str) -> bool:
+    """Return True when the intent asks for deterministic exploitation.
+
+    Matches goal/intent phrasings that ask for a shell or a compromise on
+    a scoped host so the worker escalates to the ``auto_pwn`` engine
+    instead of enumerating forever.
+
+    Args:
+        text: Lower-cased intent text.
+
+    Returns:
+        True when the intent is exploitation-class.
+    """
+    return any(mark in text for mark in _INITIAL_ACCESS_MARKS)
+
 
 def _lazy_policy():
     """Return the shared policy integration facade, or None when absent.
@@ -4167,6 +4271,30 @@ class Planner:
         for hint in self.graph.list("hint", "pending"):
             out.append((f"steered probe: {hint.text}", self.graph.anchors_for(hint.node_id), [], 8))
             self.graph.set_state(hint.node_id, "done")
+        try:
+            from modules.scan_brief import brief_path_for, focus_summary, intents_from_brief, load_brief
+
+            brief = load_brief(brief_path_for(resolve_target(self.task_id, self.store, self.graph)))
+            if brief:
+                wanted_intents = {n.text for n in self.graph.list("intent")}
+                target_value = str(brief.get("target", "") or "")
+                asset_ids = []
+                for asset in self.assets.list():
+                    if asset.value == target_value:
+                        asset_ids = [asset.asset_id]
+                        break
+                for text in intents_from_brief(brief):
+                    if text in wanted_intents:
+                        continue
+                    out.append((text, asset_ids, [], 7))
+                    wanted_intents.add(text)
+                self.activity.emit(
+                    "planner",
+                    "brief",
+                    f"scan brief loaded: {focus_summary(brief)}",
+                )
+        except Exception:
+            pass
         out.extend(self._objective_candidates())
         out.extend(self._continuation_candidates())
         out.extend(self._selector_candidates())
@@ -5561,31 +5689,42 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
             return [command] if command else []
         host_flag = f" {target}"
         use_lazynmap = getattr(self, "shell", None) is not None
+        fresh_scan = _fresh_scan_path(target, _scan_reuse_sec())
         if not _host_like_target(target):
             ping_first: list[str] = []
         elif use_lazynmap:
             ping_first = [f"ping {target}".strip()]
         else:
             ping_first = [f"ping -c 1 -W 2 {target} 2>&1"]
-        if "baseline recon" in text or "enumerate" in text:
+        scan_first: list[str] = []
+        if fresh_scan:
+            scan_first = [f"auto_populate {target}".strip()]
             if use_lazynmap:
-                return ping_first + [f"lazynmap {target}".strip()]
-            return ping_first + [
-                f"nmap -sV --top-ports 100{host_flag}".strip(),
-                f"curl -sSI --max-time 15 http://{target}".strip(),
-            ]
+                self.activity.emit(
+                    self.name,
+                    "scan-reuse",
+                    f"reusing fresh scan {fresh_scan}; skipping a second nmap against {target}",
+                    intent_id=intent.node_id,
+                )
+        elif use_lazynmap:
+            scan_first = [f"lazynmap {target}".strip()]
+        else:
+            scan_first = [f"nmap -sV --top-ports 100{host_flag}".strip()]
+        if "baseline recon" in text or "enumerate" in text:
+            return ping_first + scan_first + (
+                [] if use_lazynmap else [f"curl -sSI --max-time 15 http://{target}".strip()]
+            )
         if "extend finding" in text:
             if use_lazynmap:
-                return ping_first + [f"lazynmap {target}".strip()]
-            return ping_first + [
-                f"curl -sS -m 20 http://{target}".strip(),
-                f"nmap -sV -p- --min-rate 500{host_flag}".strip(),
-            ]
+                return ping_first + scan_first
+            steps = [f"curl -sS -m 20 http://{target}".strip()]
+            if _scan_aggressive():
+                steps.append(f"nmap -sV -p- --min-rate 500{host_flag}".strip())
+            return ping_first + steps
         if "re-drive" in text or "serial chain" in text:
             if use_lazynmap:
-                return ping_first + [f"lazynmap {target}".strip()]
-            return ping_first + [
-                f"nmap -sV -p 80,443,8080,8000,22,21,25,53,135,139,445,3306,3389 {target}".strip(),
+                return ping_first + scan_first
+            return ping_first + scan_first + [
                 f"curl -sS -m 20 -I http://{target}".strip(),
             ]
         from modules.auto_registry import steps_for as _auto_keyword_steps
@@ -5593,14 +5732,14 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         keyword_resolved = _auto_keyword_steps(intent.text, target)
         if keyword_resolved:
             return ping_first + keyword_resolved
+        if _initial_access_intent(text):
+            return ping_first + scan_first + [f"auto_pwn {target}".strip()]
         if use_lazynmap:
-            return ping_first + [
-                f"lazynmap {target}".strip(),
+            return ping_first + scan_first + [
                 f"curl -sS -m 20 -I http://{target}".strip(),
                 f"dig +short {target}".strip(),
             ]
-        return ping_first + [
-            f"nmap -sV -p 80,443,8080,8000,22,21,25,53,135,139,445,3306,3389 {target}".strip(),
+        return ping_first + scan_first + [
             f"curl -sS -m 20 -I http://{target}".strip(),
             f"dig +short {target}".strip(),
         ]
@@ -8365,6 +8504,7 @@ class LazyLoopEngine(EngineProxyMixin):
         self.shell = shell
         self.proxy_gc_days = PROXY_GC_DAYS
         self.proxy_gc_interval_sec = PROXY_GC_INTERVAL_SEC
+        self.proxy_gc_max_rows = PROXY_GC_MAX_ROWS_PER_SWEEP
         self.max_concurrent = 0
         self.heartbeat_sec = PLAN_HEARTBEAT_SEC
         self._last_intel_sync = 0.0

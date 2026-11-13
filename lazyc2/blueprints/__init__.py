@@ -9,6 +9,8 @@ from lazyc2.blueprints.api import api_bp
 from lazyc2.blueprints.api_v1 import api_v1_bp
 from lazyc2.blueprints.auth import auth_bp
 from lazyc2.blueprints.beacon import beacon_bp, init_beacon_bp
+from lazyc2.blueprints.gym import gym_bp
+from lazyc2.blueprints.loops import init_loops_bp, loops_bp
 from lazyc2.blueprints.operations import operations_bp
 from lazyc2.blueprints.phishing import redirect_bp
 
@@ -18,7 +20,10 @@ __all__ = [
     "api_v1_bp",
     "auth_bp",
     "beacon_bp",
+    "gym_bp",
     "init_beacon_bp",
+    "init_loops_bp",
+    "loops_bp",
     "operations_bp",
     "redirect_bp",
 ]

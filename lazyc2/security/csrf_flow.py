@@ -11,8 +11,10 @@ Flow:
 1. ``before_request`` primes a stable per-session key inside the signed
    Flask session and issues (or reuses) the token bound to that key.
 2. ``after_request`` attaches two cookies: the policy cookie (session key,
-   read back server-side by the gate) and a readable token cookie the
-   browser JavaScript echoes as the policy header.
+   read back server-side by the gate, ``HttpOnly``) and a readable token
+   cookie the browser JavaScript echoes as the policy header. Both carry
+   ``Secure`` whenever ``secure_fn()`` reports TLS (or the request itself
+   arrived over HTTPS), and ``SameSite=Strict`` always.
 3. A context processor exposes the token to templates for hidden form
    fields (``<input type="hidden" name="xsrf_token" value="{{ csrf_token }}">``).
 
@@ -111,17 +113,35 @@ def make_csrf_protect(
     return csrf_protect
 
 
-def register_csrf_flow(app: Flask, policy: CSRFPolicy, enabled_fn: Callable[[], bool]) -> None:
+def register_csrf_flow(
+    app: Flask,
+    policy: CSRFPolicy,
+    enabled_fn: Callable[[], bool],
+    secure_fn: Callable[[], bool] | None = None,
+) -> None:
     """Wire token issuance, delivery cookies and template globals.
 
     Args:
         app: Flask application.
         policy: Active :class:`~lazyc2.security.csrf.CSRFPolicy`.
         enabled_fn: Callable returning whether the gate is enabled.
+        secure_fn: Optional callable reporting whether the listener runs
+            with TLS. When it returns True (or the request itself arrived
+            over HTTPS), both CSRF cookies carry the ``Secure`` flag.
+            Defaults to per-request ``request.is_secure`` detection.
 
     Returns:
         None.
     """
+
+    def _cookie_secure() -> bool:
+        """Return True when CSRF cookies must carry the Secure flag."""
+        try:
+            if secure_fn is not None and secure_fn():
+                return True
+        except Exception:
+            pass
+        return bool(request.is_secure)
 
     @app.before_request
     def _prepare_csrf_token():
@@ -141,10 +161,27 @@ def register_csrf_flow(app: Flask, policy: CSRFPolicy, enabled_fn: Callable[[], 
     def _attach_csrf_cookies(response):
         key = getattr(g, "csrf_key", "")
         token = getattr(g, "csrf_token", "")
+        secure = _cookie_secure()
         if key:
-            response.set_cookie(policy.cookie_name, key, samesite="Strict", path="/")
+            # Session-key cookie: server-side index only, never read by JS.
+            response.set_cookie(
+                policy.cookie_name,
+                key,
+                httponly=True,
+                secure=secure,
+                samesite="Strict",
+                path="/",
+            )
         if token:
-            response.set_cookie(_TOKEN_COOKIE, token, samesite="Strict", path="/")
+            # Token cookie: intentionally JS-readable (double-submit echo).
+            response.set_cookie(
+                _TOKEN_COOKIE,
+                token,
+                httponly=False,
+                secure=secure,
+                samesite="Strict",
+                path="/",
+            )
         return response
 
     @app.context_processor

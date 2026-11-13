@@ -148,6 +148,7 @@ mcp_host mcp_port method mode nameserver note_text os_id outputdir params params
 path platform port prompt proxy_port query rat_key region report_output_path reverse_shell_port rhost rport
 run_in_memory
 s sandboxed scan_type scope scope_enforcement sleep sleep_start smtp_port smtp_server spoof_ip
+stage_token
 session_magic sleep_activation_delay_max sleep_activation_delay_min sleep_jit_enabled sleep_jit_pct_min
 sleep_jit_pct_max persistence_cron_schedule persistence_service_name rotate_keys_on_boot max_concurrent
 proxy_autostart proxy_gc_days proxy_upstream gym_cleanup_on_exit

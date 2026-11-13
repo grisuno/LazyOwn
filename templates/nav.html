@@ -824,6 +824,27 @@
     </div>
 
     <div class="card bg-dark text-light mb-4">
+        <div class="card-header">Red Team Gym</div>
+        <div class="card-body">
+            <form id="gymStartForm" class="form-row align-items-end" autocomplete="off">
+                <div class="form-group col-md-5">
+                    <label for="gymScenario">Gym scenario</label>
+                    <select id="gymScenario" class="form-control form-control-sm">
+                        <option value="">Loading gyms...</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <button type="submit" class="btn btn-success btn-sm btn-block" id="gymStartBtn">Start gym</button>
+                </div>
+                <div class="form-group col-md-3">
+                    <button type="button" class="btn btn-danger btn-sm btn-block" id="gymStopBtn">Stop gym</button>
+                </div>
+            </form>
+            <div id="gymMessage" class="mt-2"></div>
+        </div>
+    </div>
+
+    <div class="card bg-dark text-light mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span>Active loops</span>
             <span id="loopCountBadge" class="badge badge-secondary">0</span>

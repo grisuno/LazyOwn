@@ -1,37 +1,8 @@
-# Symbols (page 21 of 53)
+# Symbols (page 21 of 52)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
-| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
-| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
-| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
-| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
-| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
-| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
-| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
-| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
-| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
-| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
-| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
-| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
-| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
-| `path` | method | `modules/metrics.py:201` | `def path(self)` |
-| `path` | method | `modules/metrics.py:350` | `def path(self)` |
-| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
-| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
-| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
-| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
-| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
-| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
-| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
-| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
-| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
-| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
-| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
-| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
-| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
 | `generate_phishing_templates` | method | `modules/mfa_bypass.py:153` | `def generate_phishing_templates(self, target)` |
 | `mfa_conditional_access_scan` | method | `modules/mfa_bypass.py:223` | `def mfa_conditional_access_scan(self, domain)` |
 | `replay_oauth_token` | method | `modules/mfa_bypass.py:252` | `def replay_oauth_token(self, access_token, refresh_token)` |
@@ -174,6 +145,12 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `set_version` | method | `modules/nmap2csv.py:308` | `def set_version(self, version)` |
 | `split_grepable_match` | function | `modules/nmap2csv.py:315` | `def split_grepable_match(raw_string)` |
 | `unique_match_from_list` | function | `modules/nmap2csv.py:140` | `def unique_match_from_list(list)` |
+| `ServiceInfo` | class | `modules/nmap_fingerprint.py:98` | `class ServiceInfo` |
+| `display_name` | method | `modules/nmap_fingerprint.py:115` | `def display_name(self)` |
+| `find_nmap_xml` | function | `modules/nmap_fingerprint.py:166` | `def find_nmap_xml(rhost, sessions_dir, include_vulns)` |
+| `next_commands` | method | `modules/nmap_fingerprint.py:120` | `def next_commands(self)` |
+| `parse_nmap_xml` | function | `modules/nmap_fingerprint.py:131` | `def parse_nmap_xml(path)` |
+| `search_query` | method | `modules/nmap_fingerprint.py:109` | `def search_query(self)` |
 | `Channel` | class | `modules/notify.py:186` | `class Channel` |
 | `Notifier` | class | `modules/notify.py:204` | `class Notifier` |
 | `NotifyConfig` | class | `modules/notify.py:15` | `class NotifyConfig` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
 | `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
 | `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
+| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
+| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
+| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
+| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
+| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
+| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
+| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
+| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
+| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
+| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
+| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
+| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
+| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
+| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
+| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
+| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
+| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
+| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
+| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
+| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
+| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
+| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
+| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

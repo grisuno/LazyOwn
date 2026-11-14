@@ -357,8 +357,9 @@ Depends on: `modules/atomic_exploit_bridge.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/atomic_shell.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_shell MCP tool.
 
 ## skills/mcp_tools/auto_loop.py
-Depends on: `modules/lazy_engine.py`, `modules/lazy_runner.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/auto_loop.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_auto_loop MCP tool.
+Depends on: `modules/lazy_runner.py`, `skills/mcp_tools/_context.py`
+Imported by: `tests/test_mcp_auto_loop_wrapper.py`
+- `handle` (function) `skills/mcp_tools/auto_loop.py:128` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_auto_loop MCP tool through the shared runner.
 
 ## skills/mcp_tools/auto_populate.py
 Depends on: `skills/mcp_tools/_context.py`
@@ -491,10 +492,6 @@ Depends on: `skills/mcp_tools/_context.py`
 ## skills/mcp_tools/cve_search.py
 Depends on: `modules/cve_matcher.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/cve_search.py:42` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_cve_search MCP tool.
-
-## skills/mcp_tools/daemon.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/daemon.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon MCP tool.
 
 
 Next: [API_p24.md](API_p24.md)

@@ -1,64 +1,6 @@
 # Subsystem: tests (page 22 of 26)
 Previous: [KB_tests_p21.md](KB_tests_p21.md)
 
-## tests/test_reactive_engine_semantic.py
-- Doc: Tests for the semantic context advisor in ``modules/reactive_engine.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeRAG` (class, line 33) `class _FakeRAG`
-  - `test_returns_empty_when_rag_unavailable` (function, line 46) `def test_returns_empty_when_rag_unavailable(monkeypatch)`
-  - `test_returns_empty_when_disabled_via_payload` (function, line 55) `def test_returns_empty_when_disabled_via_payload()`
-  - `test_emits_priority_five_suggestion` (function, line 75) `def test_emits_priority_five_suggestion()`
-  - `test_skips_low_score_hits` (function, line 99) `def test_skips_low_score_hits()`
-  - `test_skips_same_command_and_dedupes` (function, line 115) `def test_skips_same_command_and_dedupes()`
-  - `test_skips_hits_without_command_prefix` (function, line 142) `def test_skips_hits_without_command_prefix()`
-  - `test_engine_uses_semantic_advisor_when_supplied` (function, line 158) `def test_engine_uses_semantic_advisor_when_supplied()`
-  - `test_advisor_swallows_rag_query_errors` (function, line 186) `def test_advisor_swallows_rag_query_errors()`
-  - `__init__` (method, line 36) `def __init__(self, hits, ready)`
-  - `query` (method, line 41) `def query(self, text, n)`
-  - `_ExplodingRAG` (class, line 189) `class _ExplodingRAG`
-  - `query` (method, line 192) `def query(self, text, n)`
-- Depends on: `modules/reactive_engine.py`
-
-## tests/test_reactive_hints.py
-- Doc: Tests for cli/reactive_hints.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeAdvisor` (class, line 29) `class _FakeAdvisor`
-  - `advisor_with_three_hints` (function, line 42) `def advisor_with_three_hints()`
-  - `empty_advisor` (function, line 53) `def empty_advisor()`
-  - `TestFirstToken` (class, line 57) `class TestFirstToken`
-  - `TestTruncate` (class, line 71) `class TestTruncate`
-  - `TestExtractLabels` (class, line 88) `class TestExtractLabels`
-  - `TestRenderInlineHints` (class, line 111) `class TestRenderInlineHints`
-  - `__init__` (method, line 32) `def __init__(self, suggestions)`
-  - `suggest_next` (method, line 36) `def suggest_next(self, recent_commands, limit)`
-  - `test_extracts_first_word` (method, line 58) `def test_extracts_first_word(self)`
-  - `test_single_word` (method, line 61) `def test_single_word(self)`
-  - `test_empty_string` (method, line 64) `def test_empty_string(self)`
-  - `test_whitespace_only` (method, line 67) `def test_whitespace_only(self)`
-  - `test_short_string_unchanged` (method, line 72) `def test_short_string_unchanged(self)`
-  - `test_exact_length_unchanged` (method, line 75) `def test_exact_length_unchanged(self)`
-  - `test_long_string_truncated` (method, line 78) `def test_long_string_truncated(self)`
-  - `test_truncation_preserves_start` (method, line 83) `def test_truncation_preserves_start(self)`
-  - `test_picks_label_over_id` (method, line 89) `def test_picks_label_over_id(self)`
-  - `test_falls_back_to_id_when_no_label` (method, line 93) `def test_falls_back_to_id_when_no_label(self)`
-  - `test_skips_empty_entries` (method, line 97) `def test_skips_empty_entries(self)`
-  - `test_respects_limit` (method, line 101) `def test_respects_limit(self)`
-  - `test_truncates_long_labels` (method, line 105) `def test_truncates_long_labels(self)`
-  - `test_disabled_flag_skips_render` (method, line 112) `def test_disabled_flag_skips_render(self, advisor_with_three_hints)`
-  - `test_skip_command_skips_render` (method, line 117) `def test_skip_command_skips_render(self, advisor_with_three_hints)`
-  - `test_empty_command_skips_render` (method, line 122) `def test_empty_command_skips_render(self, advisor_with_three_hints)`
-  - `test_empty_suggestions_skips_render` (method, line 127) `def test_empty_suggestions_skips_render(self, empty_advisor)`
-  - `test_normal_command_renders_hint` (method, line 132) `def test_normal_command_renders_hint(self, advisor_with_three_hints)`
-  - `test_advisor_called_with_correct_command` (method, line 137) `def test_advisor_called_with_correct_command(self, advisor_with_three_hints)`
-  - `test_exception_in_advisor_does_not_propagate` (method, line 142) `def test_exception_in_advisor_does_not_propagate(self)`
-  - `test_all_skip_commands_are_skipped` (method, line 149) `def test_all_skip_commands_are_skipped(self, advisor_with_three_hints)`
-  - `test_limit_is_passed_to_advisor` (method, line 155) `def test_limit_is_passed_to_advisor(self, advisor_with_three_hints)`
-- Depends on: `cli/reactive_hints.py`
-
 ## tests/test_reactive_hints_expanded.py
 - Doc: Tests for cli.reactive_hints — expanded kill-chain tables.
 - Layer: testing
@@ -480,6 +422,77 @@ Previous: [KB_tests_p21.md](KB_tests_p21.md)
   - `__init__` (method, line 212) `def __init__(self, target, max_switches_per_step, approval_gate)`
   - `run` (method, line 216) `def run(self)`
 - Depends on: `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`
+
+## tests/test_scope_deny_priority.py
+- Doc: Tests for scope denylist priority (engine lab scope + CLI guard).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `scope_module` (function, line 18) `def scope_module()`
+  - `guard_module` (function, line 25) `def guard_module()`
+  - `TestEngineDeny` (class, line 31) `class TestEngineDeny`
+  - `TestCliGuardDeny` (class, line 58) `class TestCliGuardDeny`
+  - `test_read_denylist` (method, line 32) `def test_read_denylist(self, scope_module, tmp_path)`
+  - `test_deny_literal_priority` (method, line 38) `def test_deny_literal_priority(self, scope_module)`
+  - `test_deny_cidr_priority` (method, line 43) `def test_deny_cidr_priority(self, scope_module)`
+  - `test_no_deny_keeps_allow` (method, line 52) `def test_no_deny_keeps_allow(self, scope_module)`
+  - `test_deny_blocks_even_warn` (method, line 59) `def test_deny_blocks_even_warn(self, guard_module)`
+  - `test_deny_outside_allow_equal` (method, line 66) `def test_deny_outside_allow_equal(self, guard_module)`
+  - `test_deny_spares_off_command` (method, line 72) `def test_deny_spares_off_command(self, guard_module)`
+- Depends on: `cli/__init__.py`, `modules/__init__.py`
+
+## tests/test_scope_guard.py
+- Doc: Test suite for cli/scope_guard.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestScopeMode` (class, line 33) `class TestScopeMode`
+  - `TestNormalizeScope` (class, line 53) `class TestNormalizeScope`
+  - `TestTargetInScope` (class, line 80) `class TestTargetInScope`
+  - `TestBuildOffensiveCommands` (class, line 119) `class TestBuildOffensiveCommands`
+  - `_guard` (function, line 135) `def _guard(scope, mode, offensive_names)`
+  - `TestScopeGuardEvaluate` (class, line 140) `class TestScopeGuardEvaluate`
+  - `TestScopeExemptions` (class, line 194) `class TestScopeExemptions`
+  - `TestOffensiveCategoryDrift` (class, line 210) `class TestOffensiveCategoryDrift`
+  - `test_from_value_passthrough` (method, line 34) `def test_from_value_passthrough(self)`
+  - `test_from_value_strings` (method, line 45) `def test_from_value_strings(self, raw, expected)`
+  - `test_unknown_defaults_to_warn` (method, line 49) `def test_unknown_defaults_to_warn(self, raw)`
+  - `test_none` (method, line 54) `def test_none(self)`
+  - `test_list` (method, line 57) `def test_list(self)`
+  - `test_tuple_and_set` (method, line 60) `def test_tuple_and_set(self)`
+  - `test_json_array_string` (method, line 64) `def test_json_array_string(self)`
+  - `test_comma_separated_string` (method, line 67) `def test_comma_separated_string(self)`
+  - `test_space_separated_string` (method, line 70) `def test_space_separated_string(self)`
+  - `test_empty_string` (method, line 73) `def test_empty_string(self)`
+  - `test_unsupported_type` (method, line 76) `def test_unsupported_type(self)`
+  - `test_empty_target` (method, line 81) `def test_empty_target(self)`
+  - `test_ip_in_cidr` (method, line 84) `def test_ip_in_cidr(self)`
+  - `test_ip_outside_cidr` (method, line 87) `def test_ip_outside_cidr(self)`
+  - `test_bare_ip_match` (method, line 90) `def test_bare_ip_match(self)`
+  - `test_bare_ip_mismatch` (method, line 93) `def test_bare_ip_mismatch(self)`
+  - `test_exact_hostname` (method, line 96) `def test_exact_hostname(self)`
+  - `test_subdomain_match` (method, line 99) `def test_subdomain_match(self)`
+  - `test_wildcard_match` (method, line 102) `def test_wildcard_match(self)`
+  - `test_hostname_not_in_cidr` (method, line 106) `def test_hostname_not_in_cidr(self)`
+  - `test_ip_not_matched_by_hostname_entry` (method, line 109) `def test_ip_not_matched_by_hostname_entry(self)`
+  - `test_ipv6_in_cidr` (method, line 112) `def test_ipv6_in_cidr(self)`
+  - `test_blank_entries_ignored` (method, line 115) `def test_blank_entries_ignored(self)`
+  - `test_selects_offensive_only` (method, line 120) `def test_selects_offensive_only(self)`
+  - `test_empty` (method, line 131) `def test_empty(self)`
+  - `test_mode_off_is_noop` (method, line 141) `def test_mode_off_is_noop(self)`
+  - `test_no_scope_allows` (method, line 146) `def test_no_scope_allows(self)`
+  - `test_benign_command_allowed` (method, line 151) `def test_benign_command_allowed(self)`
+  - `test_empty_target_allowed` (method, line 156) `def test_empty_target_allowed(self)`
+  - `test_in_scope_allowed` (method, line 160) `def test_in_scope_allowed(self)`
+  - `test_out_of_scope_warn_allows_with_reason` (method, line 165) `def test_out_of_scope_warn_allows_with_reason(self)`
+  - `test_out_of_scope_enforce_blocks` (method, line 172) `def test_out_of_scope_enforce_blocks(self)`
+  - `test_classifier_exception_fails_open` (method, line 179) `def test_classifier_exception_fails_open(self)`
+  - `test_decision_is_value_object` (method, line 187) `def test_decision_is_value_object(self)`
+  - `test_exempt_command_allowed_out_of_scope` (method, line 197) `def test_exempt_command_allowed_out_of_scope(self)`
+  - `test_exempt_set_covers_offensive_operational_surfaces` (method, line 203) `def test_exempt_set_covers_offensive_operational_surfaces(self)`
+  - `test_categories_exist_in_utils` (method, line 213) `def test_categories_exist_in_utils(self)`
+  - `boom` (function, line 180) `def boom(_name)`
+- Depends on: `cli/scope_guard.py`, `utils.py`
 
 
 Next: [KB_tests_p23.md](KB_tests_p23.md)

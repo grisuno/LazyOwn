@@ -1762,12 +1762,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         earlier (ports, services, creds) are injected as ``{...}`` tokens
         automatically when the fact store knows the target.
         """
-        from modules.chain_registry import CHAINS_DIR as chains_dir
         from modules.chain_registry import get as get_chain
-
-        def chain_file_exists(name: str) -> bool:
-            """True when chains/<name>.yaml exists, even if disabled."""
-            return (chains_dir / f"{name}.yaml").is_file()
 
         from cli.apt_chain_support import (
             adversarial_continue,
@@ -1780,9 +1775,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             render_admin,
             render_result,
             resolve_admin,
+            resolve_invocation,
             select_step_ids,
         )
-        from modules.auto_registry import _looks_like_target
         from modules.chain_state import checkpoint_dir, load_checkpoint
         from modules.chain_runner import ChainRunner
 
@@ -1835,24 +1830,16 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 target = str(resume_state["target"])
 
         if not resume_state:
-            for token in args.positional:
-                lowered = token.lower()
-                if chain_file_exists(lowered):
-                    if get_chain(lowered) is None:
-                        print_warn(f"Chain disabled: {lowered}. Enable it: apt_chain enable {lowered}.")
-                        return
-                    chain_name = lowered
-                elif not args.target and _looks_like_target(token):
-                    target = token
-                elif known_playbooks is not None and known_playbooks.get(token) is not None:
-                    if chain_file_exists(f"apt_{lowered}"):
-                        chain_name = f"apt_{lowered}"
-                    else:
-                        playbook_override = playbook_override or lowered
-                elif get_chain(f"apt_{lowered}") is not None:
-                    chain_name = f"apt_{lowered}"
-                else:
-                    playbook_override = playbook_override or lowered
+            chain_name, target, playbook_override, disabled = resolve_invocation(
+                args.positional,
+                target_seed=target,
+                preset_target=args.target,
+                playbook_engine=known_playbooks,
+                playbook_seed=args.playbook,
+            )
+            if disabled:
+                print_warn(f"Chain disabled: {disabled}. Enable it: apt_chain enable {disabled}.")
+                return
             target = (args.target or target).strip()
         if not target:
             print_warn("Usage: apt_chain [chain] [target] (no target and rhost unset).")

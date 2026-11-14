@@ -105,8 +105,8 @@ from modules.loop_triggers import TRIGGER_KINDS  # noqa: F401  (re-export consum
 
 GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
-DEFAULT_MAX_ROUNDS = 10
-DEFAULT_WORKERS = 3
+ENGINE_DEFAULT_MAX_ROUNDS = 10
+ENGINE_DEFAULT_WORKERS = 3
 DEFAULT_DEBOUNCE_SEC = 0.5
 DEFAULT_COLD_THRESHOLD = 50
 DEFAULT_COLD_DEBOUNCE_SEC = 300.0
@@ -630,6 +630,69 @@ def scrub_secrets(text: str) -> str:
     return redact_text(str(text or ""))
 
 
+def mediation_resolve(domain: str):
+    """Return the mediation gate for one domain, or None when unavailable.
+
+    Single wrapper behind the repeated try/import/resolve boilerplate so
+    loop call-sites handle the optional dependency in exactly one place.
+
+    Args:
+        domain: Mediation domain constant (e.g. ``MediationDomains.TELEMETRY``).
+
+    Returns:
+        The resolved mediator object, or None when the import or
+        resolution fails.
+    """
+    try:
+        from modules.mediation import resolve
+
+        return resolve(domain)
+    except Exception:
+        return None
+
+
+def mediation_intel():
+    """Return the intel mediator, or None when unavailable.
+
+    Returns:
+        Resolved ``MediationDomains.INTEL`` mediator or None.
+    """
+    try:
+        from modules.mediation import MediationDomains
+
+        return mediation_resolve(MediationDomains.INTEL)
+    except Exception:
+        return None
+
+
+def mediation_telemetry():
+    """Return the telemetry mediator, or None when unavailable.
+
+    Returns:
+        Resolved ``MediationDomains.TELEMETRY`` mediator or None.
+    """
+    try:
+        from modules.mediation import MediationDomains
+
+        return mediation_resolve(MediationDomains.TELEMETRY)
+    except Exception:
+        return None
+
+
+def mediation_feedback():
+    """Return the feedback mediator, or None when unavailable.
+
+    Returns:
+        Resolved ``MediationDomains.FEEDBACK`` mediator or None.
+    """
+    try:
+        from modules.mediation import MediationDomains
+
+        return mediation_resolve(MediationDomains.FEEDBACK)
+    except Exception:
+        return None
+
+
 _CHANNEL_SECRET_PREFIX = "enc:v1:"
 _CHANNEL_SECRET_WARNED = False
 
@@ -1044,12 +1107,65 @@ def record_worker_traces(
         if ledger.exists() and ledger.stat().st_size > WORKER_TRACES_MAX_BYTES:
             lines = ledger.read_text(encoding="utf-8", errors="replace").splitlines()
             ledger.write_text("\n".join(lines[-WORKER_TRACES_KEEP_LINES:]) + "\n", encoding="utf-8")
-        with ledger.open("a", encoding="utf-8") as handle:
+        return _append_jsonl(ledger, rows)
+    except OSError:
+        return 0
+
+
+def _append_jsonl(path: Path, rows: list[dict]) -> int:
+    """Append rows as JSON lines, creating the parent directory.
+
+    Args:
+        path: Target ``.jsonl`` file.
+        rows: Row mappings to append.
+
+    Returns:
+        Number of appended rows, or 0 when the write failed.
+    """
+    if not rows:
+        return 0
+    try:
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            os.chmod(path.parent, 0o700)
+        except OSError:
+            pass
+        with path.open("a", encoding="utf-8") as handle:
             for row in rows:
                 handle.write(json.dumps(row, ensure_ascii=False) + "\n")
         return len(rows)
     except OSError:
         return 0
+
+
+def _read_jsonl(path: Path, limit: int = 0) -> list[dict]:
+    """Read JSON lines from path, newest order preserved, errors skipped.
+
+    Args:
+        path: Source ``.jsonl`` file.
+        limit: Maximum rows returned (0 keeps every readable row).
+
+    Returns:
+        Parsed row mappings; unreadable lines are skipped silently.
+    """
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return []
+    rows: list[dict] = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(row, dict):
+            rows.append(row)
+    if limit and len(rows) > limit:
+        rows = rows[-limit:]
+    return rows
 
 
 def _load_json(path: Path, default: dict) -> dict:
@@ -1371,11 +1487,6 @@ class AssetGraph:
         wanted = [(str(s.get("kind", "")), str(s.get("value", ""))) for s in scope if s.get("value")]
         return [n for n in items if any(_scope_covers(sk, sv, n) for sk, sv in wanted)]
 
-    def untested(self, limit: int = 20) -> list[AssetNode]:
-        """Return oldest untested assets up to limit."""
-        items = [n for n in self.nodes.values() if not n.tested]
-        return sorted(items, key=lambda n: n.asset_id)[: max(1, limit)]
-
     def coverage_for(self, graph=None, scope: list[dict] | None = None) -> dict:
         """Compute task-scoped coverage like the planner graph_overview.
 
@@ -1604,44 +1715,6 @@ class ExplorationGraph:
     def persist(self) -> None:
         """Persist in-memory node/edge state to disk (public write path)."""
         self._persist()
-
-    def set_node_state(self, node_id: int, state: str) -> bool:
-        """Transition node state, stamp ``updated`` and persist.
-
-        Args:
-            node_id: Node to restamp.
-            state: New lifecycle state.
-
-        Returns:
-            True when the node exists and the transition applied.
-        """
-        with self._lock:
-            node = self.nodes.get(int(node_id))
-            if node is None:
-                return False
-            node.state = state
-            node.updated = _now()
-            self._persist()
-            return True
-
-    def set_node_meta(self, node_id: int, meta: dict) -> bool:
-        """Replace one node's metadata mapping, stamp ``updated``, persist.
-
-        Args:
-            node_id: Node to update.
-            meta: Replacement metadata mapping.
-
-        Returns:
-            True when the node exists and the update applied.
-        """
-        with self._lock:
-            node = self.nodes.get(int(node_id))
-            if node is None:
-                return False
-            node.meta = dict(meta or {})
-            node.updated = _now()
-            self._persist()
-            return True
 
     def set_state(self, node_id: int, state: str) -> bool:
         """Transition node state and persist."""
@@ -1902,32 +1975,21 @@ class ActivityLog:
             "intent_id": int(intent_id),
             "tool_use_id": str(tool_use_id or "")[:32],
         }
-        with self._path.open("a") as handle:
-            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+        _append_jsonl(self._path, [record])
         _restrict_file(self._path)
         if str(kind) not in WAKE_SUPPRESSED_KINDS:
             wake_task(self.task_id)
-        try:
-            from modules.mediation import MediationDomains, resolve
-
-            resolve(MediationDomains.TELEMETRY).publish_event(self.task_id, worker, kind, cleaned)
-        except Exception:
-            pass
+        _telemetry = mediation_telemetry()
+        if _telemetry is not None:
+            try:
+                _telemetry.publish_event(self.task_id, worker, kind, cleaned)
+            except Exception:
+                pass
         return record
 
     def read(self, limit: int = 200) -> list[dict]:
         """Return most recent records up to limit."""
-        try:
-            lines = self._path.read_text().splitlines()
-        except OSError:
-            return []
-        out = []
-        for line in lines[-max(1, limit) :]:
-            try:
-                out.append(json.loads(line))
-            except ValueError:
-                continue
-        return out
+        return _read_jsonl(self._path, max(1, limit))
 
     def for_intent(self, intent_id: int) -> list[dict]:
         """Return records for one intent."""
@@ -2076,8 +2138,7 @@ class TrafficLog:
             "template": _traffic_template(command or ""),
             "meta": dict(meta or {}),
         }
-        with self._path.open("a") as handle:
-            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+        _append_jsonl(self._path, [record])
         if truncated:
             self._capture_wire(digest, body)
         return record
@@ -2151,17 +2212,7 @@ class TrafficLog:
 
     def read(self, limit: int = 100) -> list[dict]:
         """Return most recent traffic records."""
-        try:
-            lines = self._path.read_text().splitlines()
-        except OSError:
-            return []
-        out = []
-        for line in lines[-max(1, limit) :]:
-            try:
-                out.append(json.loads(line))
-            except ValueError:
-                continue
-        return out
+        return _read_jsonl(self._path, max(1, limit))
 
     def search(self, query: str, limit: int = 50) -> list[dict]:
         """Full-text search over command/output like traffic_search."""
@@ -2553,22 +2604,12 @@ class Guard:
                 "source": str(verdict.get("source", "llm_judge"))[:40],
                 "intent_id": int(intent_id or 0),
             }
-        with self._audit_path.open("a") as handle:
-            handle.write(json.dumps({"ts": _now(), **decision}, ensure_ascii=False) + "\n")
+        _append_jsonl(self._audit_path, [{"ts": _now(), **decision}])
         return decision
 
     def audit(self, limit: int = 100, action: str = "", source: str = "", query: str = "") -> list[dict]:
         """Return recent audit entries with optional status/source/text filters."""
-        try:
-            lines = self._audit_path.read_text().splitlines()
-        except OSError:
-            return []
-        out = []
-        for line in lines[-5000:]:
-            try:
-                out.append(json.loads(line))
-            except ValueError:
-                continue
+        out = _read_jsonl(self._audit_path, 5000)
         if action:
             out = [e for e in out if str(e.get("action", "")) == action]
         if source:
@@ -2881,7 +2922,7 @@ class Budget:
         record = (self._store.get(task_id) or {}) if self._store else {}
         budget = record.get("budget", {}) or {}
         return {
-            "max_rounds": int(budget.get("max_rounds", DEFAULT_MAX_ROUNDS)),
+            "max_rounds": int(budget.get("max_rounds", ENGINE_DEFAULT_MAX_ROUNDS)),
             "max_toolcalls": int(budget.get("max_toolcalls", DEFAULT_MAX_TOOLCALLS)),
             "max_findings": int(budget.get("max_findings", DEFAULT_MAX_FINDINGS)),
             "timeout_sec": float(budget.get("timeout_sec", 0.0)),
@@ -4555,10 +4596,9 @@ class Planner:
         """
         if not out:
             return out
+        _telemetry = mediation_telemetry()
         try:
-            from modules.mediation import MediationDomains, resolve
-
-            yields = resolve(MediationDomains.TELEMETRY).tool_class_yields([row[0] for row in out])
+            yields = _telemetry.tool_class_yields([row[0] for row in out]) if _telemetry is not None else {}
         except Exception:
             yields = {}
         if not yields:
@@ -4648,11 +4688,9 @@ class Planner:
             )
             reply = ""
             try:
-                from modules.mediation import MediationDomains, resolve
+                _ai = mediation_telemetry()
 
-                _ai = resolve(MediationDomains.TELEMETRY)
-
-                if _ai.swan_available():
+                if _ai is not None and _ai.swan_available():
                     reply = _ai.swan_consult(prompt, task_type="recon", phase="enumeration", timeout=90.0)
                     if reply:
                         self.activity.emit("planner", "swan", "SWAN ensemble produced the planning reply")
@@ -4863,17 +4901,16 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
             agentic_allowed = _harness_gate("worker_agentic")
         except Exception:
             agentic_allowed = True
+        intent_deadline = (_now() + float(timeout_sec)) if timeout_sec else 0.0
         if agentic_allowed and self._agentic_try(
-            intent, outcome, transcripts, executor, budget, intercept, retry_state
+            intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline=intent_deadline
         ):
             return self._finish(intent, outcome, transcripts, worker_tools)
         prior_commands, prior_text = self._prior_steps(intent)
         steps = self._with_llm_steps(intent, self._steps_for(intent), prior_text)
         try:
-            from modules.mediation import MediationDomains, resolve
-
-            _intel = resolve(MediationDomains.INTEL)
-            _feedback = resolve(MediationDomains.FEEDBACK)
+            _intel = mediation_intel()
+            _feedback = mediation_feedback()
 
             _target = self._target_for(intent)
             _stack = _intel.stack_signature(self.assets)
@@ -4922,7 +4959,7 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
             return outcome
         skipped_tools: set[str] = set()
         os_skipped = 0
-        deadline = (_now() + float(timeout_sec)) if timeout_sec else 0.0
+        deadline = intent_deadline
         for index, command in enumerate(steps[:MAX_WORKER_STEPS], start=1):
             trailing = 0
             for prev_command, _prev_output in reversed(transcripts):
@@ -5155,21 +5192,19 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 intent_id=intent.node_id,
             )
         self.graph.set_state(intent.node_id, outcome["state"])
+        _telemetry = mediation_telemetry()
+        if _telemetry is not None:
+            try:
+                _telemetry.record_outcome_quality(
+                    self.name,
+                    intent.text,
+                    outcome["facts"],
+                    outcome["findings"],
+                )
+            except Exception:
+                pass
         try:
-            from modules.mediation import MediationDomains, resolve
-
-            resolve(MediationDomains.TELEMETRY).record_outcome_quality(
-                self.name,
-                intent.text,
-                outcome["facts"],
-                outcome["findings"],
-            )
-        except Exception:
-            pass
-        try:
-            from modules.mediation import MediationDomains, resolve
-
-            _intel = resolve(MediationDomains.INTEL)
+            _intel = mediation_intel()
 
             _stack = _intel.stack_signature(self.assets)
             for _cmd, _out in transcripts:
@@ -5318,9 +5353,8 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         )
         detection: dict = {}
         try:
-            from modules.mediation import MediationDomains, resolve
-
-            detection = resolve(MediationDomains.TELEMETRY).annotate_detection(command) or {}
+            _telemetry = mediation_telemetry()
+            detection = (_telemetry.annotate_detection(command) or {}) if _telemetry is not None else {}
         except Exception:
             detection = {}
         detection_prob = float(detection.get("probability", 0.0) or 0.0)
@@ -5334,9 +5368,8 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
             )
         opsec: dict = {}
         try:
-            from modules.mediation import MediationDomains, resolve
-
-            opsec = resolve(MediationDomains.TELEMETRY).assess_opsec(command, rhost=target) or {}
+            _telemetry = mediation_telemetry()
+            opsec = (_telemetry.assess_opsec(command, rhost=target) or {}) if _telemetry is not None else {}
         except Exception:
             opsec = {}
         opsec_gate = str(opsec.get("gate", "") or "")
@@ -5474,12 +5507,12 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
             intent_id=intent.node_id,
             tool_use_id=str(decision.get("tool_use_id", "")),
         )
-        try:
-            from modules.mediation import MediationDomains, resolve
-
-            resolve(MediationDomains.TELEMETRY).record_step(self.task_id, self.name, command, output, detection_prob)
-        except Exception:
-            pass
+        _telemetry = mediation_telemetry()
+        if _telemetry is not None:
+            try:
+                _telemetry.record_step(self.task_id, self.name, command, output, detection_prob)
+            except Exception:
+                pass
         return output, "ok", ""
 
     def _audit_blocked(self, source: str, reason: str, command: str, intent: ExplorationNode) -> None:
@@ -6047,9 +6080,9 @@ class Retester:
                         if executor is not None:
                             evidence = str(executor(command) or "")
                         else:
-                            from core.process import run_command as _run_command
+                            from modules.auto_registry import execute_streaming as _stream
 
-                            evidence = str(_run_command(command) or "")
+                            evidence = str(_stream(command) or "")
                     except Exception as exc:
                         evidence = f"retest failed: {exc}"
                     self.traffic.record("bash", command, evidence, {"retest": finding_id})
@@ -6958,10 +6991,11 @@ def build_prompt_context(
 
 def _mask_prompt_context(text: str) -> str:
     """Strip operator-configured secrets from LLM-bound context."""
+    _intel = mediation_intel()
+    if _intel is None:
+        return str(text or "")
     try:
-        from modules.mediation import MediationDomains, resolve
-
-        return resolve(MediationDomains.INTEL).mask_configured(text)
+        return _intel.mask_configured(text)
     except Exception:
         return str(text or "")
 
@@ -7767,11 +7801,8 @@ class LlmPool:
         """
         if len(chain) < 2:
             return chain
-        try:
-            from modules.mediation import MediationDomains, resolve
-
-            _ai = resolve(MediationDomains.TELEMETRY)
-        except Exception:
+        _ai = mediation_telemetry()
+        if _ai is None:
             return chain
         names = [str(member.get("name", "")) for member in chain]
         preferred = ""
@@ -7804,11 +7835,10 @@ class LlmPool:
         """Feed one member outcome to the MoE store and the RL trainer."""
         if not member:
             return
+        _ai = mediation_telemetry()
+        if _ai is None:
+            return
         try:
-            from modules.mediation import MediationDomains, resolve
-
-            _ai = resolve(MediationDomains.TELEMETRY)
-
             reward = 1.0 if ok else 0.0
             _ai.moe_record_outcome(member, "other", reward)
             _ai.rl_update("other", "engage", member, reward, [member])
@@ -8021,17 +8051,7 @@ class LlmPool:
 
     def raw_entries(self, limit: int = 10) -> list[dict]:
         """Return the most recent raw LLM exchanges."""
-        try:
-            lines = _store_path("llm_raw.jsonl").read_text(encoding="utf-8").splitlines()
-        except OSError:
-            return []
-        out = []
-        for line in lines[-max(1, int(limit)) :]:
-            try:
-                out.append(json.loads(line))
-            except ValueError:
-                continue
-        return out
+        return _read_jsonl(_store_path("llm_raw.jsonl"), max(1, int(limit)))
 
     def raw_entries_for_task(self, task_id: str, limit: int = RAW_LOG_TASK_LIMIT) -> list[dict]:
         """Return the most recent raw LLM exchanges recorded for one task.
@@ -8049,16 +8069,8 @@ class LlmPool:
         Returns:
             Matching entries, oldest first, newest-filtered order.
         """
-        try:
-            lines = _store_path("llm_raw.jsonl").read_text(encoding="utf-8").splitlines()
-        except OSError:
-            return []
         matches: list[dict] = []
-        for line in reversed(lines[-RAW_LOG_SCAN_LINES:]):
-            try:
-                entry = json.loads(line)
-            except ValueError:
-                continue
+        for entry in reversed(_read_jsonl(_store_path("llm_raw.jsonl"), RAW_LOG_SCAN_LINES)):
             if str(entry.get("task_id", "")) == str(task_id):
                 matches.append(entry)
                 if len(matches) >= max(1, int(limit)):
@@ -8090,11 +8102,7 @@ class LlmPool:
             "prompt": (prompt or "")[:8000],
             "reply": (reply or "")[:8000],
         }
-        try:
-            with _store_path("llm_raw.jsonl").open("a") as handle:
-                handle.write(json.dumps(entry, ensure_ascii=False) + "\n")
-        except OSError:
-            pass
+        _append_jsonl(_store_path("llm_raw.jsonl"), [entry])
 
     def set_context_budget(self, chars: int) -> int:
         """Persist the prompt context character budget.
@@ -8500,16 +8508,7 @@ class TaskChat:
 
     def log(self, task_id: str, limit: int = 20, session: str = "") -> list[dict]:
         """Return recent conversation turns, optionally one session only."""
-        try:
-            lines = _store_path(f"chat_{task_id}.jsonl").read_text().splitlines()
-        except OSError:
-            return []
-        out = []
-        for line in lines[-max(1, 2000 if session else limit) :]:
-            try:
-                out.append(json.loads(line))
-            except ValueError:
-                continue
+        out = _read_jsonl(_store_path(f"chat_{task_id}.jsonl"), max(1, 2000 if session else limit))
         if session:
             out = [r for r in out if str(r.get("session", "main")) == session]
         return out[-max(1, limit) :]
@@ -8859,8 +8858,8 @@ class LazyLoopEngine(EngineProxyMixin):
         goal: str = "",
         task_id: str = "",
         target: str = "",
-        max_rounds: int = DEFAULT_MAX_ROUNDS,
-        workers: int = DEFAULT_WORKERS,
+        max_rounds: int = ENGINE_DEFAULT_MAX_ROUNDS,
+        workers: int = ENGINE_DEFAULT_WORKERS,
         timeout_sec: float = 0.0,
         executor=None,
     ) -> dict:
@@ -8890,7 +8889,7 @@ class LazyLoopEngine(EngineProxyMixin):
         for spec in decompose_goals(goal, description):
             graph.add_node("goal", spec["text"], state="pending", meta={"vulnclass": spec["vulnclass"]})
         added = 0
-        for item in _payload_scope_items():
+        for item in extract_scope_items(goal, description):
             try:
                 self.store.add_scope(task.task_id, item["kind"], item["value"], item["reason"])
                 try:
@@ -8900,7 +8899,7 @@ class LazyLoopEngine(EngineProxyMixin):
                 added += 1
             except (KeyError, ValueError):
                 continue
-        for item in extract_scope_items(goal, description):
+        for item in _payload_scope_items():
             try:
                 self.store.add_scope(task.task_id, item["kind"], item["value"], item["reason"])
                 try:
@@ -9412,102 +9411,6 @@ class LazyLoopEngine(EngineProxyMixin):
             removable.add(int(victim))
         return removable, shared
 
-    def pause_intent(self, task_id: str, intent_id: int) -> bool:
-        """Pause a runnable intent like the lazy worker interrupt.
-
-        Only pending/open/running intents pause; the worker picks the
-        intent back up via resume or a direct operator message.
-
-        Args:
-            task_id: Task owning the intent.
-            intent_id: Intent node id.
-
-        Returns:
-            True when the intent moved to paused.
-        """
-        graph = ExplorationGraph(task_id)
-        node = graph.get(int(intent_id))
-        if node is None or node.kind != "intent":
-            raise KeyError(f"unknown intent: {intent_id}")
-        if node.state not in ("pending", "open", "running"):
-            return False
-        graph.set_state(int(intent_id), "paused")
-        ActivityLog(task_id).emit(
-            "human", "intent-pause", f"intent #{intent_id} paused by operator", intent_id=int(intent_id)
-        )
-        return True
-
-    def resume_intent(self, task_id: str, intent_id: int) -> bool:
-        """Resume a paused intent back to the claimable queue.
-
-        Args:
-            task_id: Task owning the intent.
-            intent_id: Intent node id.
-
-        Returns:
-            True when the intent moved back to open.
-        """
-        graph = ExplorationGraph(task_id)
-        node = graph.get(int(intent_id))
-        if node is None or node.kind != "intent":
-            raise KeyError(f"unknown intent: {intent_id}")
-        if node.state != "paused":
-            return False
-        graph.set_state(int(intent_id), "open")
-        ActivityLog(task_id).emit(
-            "human", "intent-resume", f"intent #{intent_id} resumed by operator", intent_id=int(intent_id)
-        )
-        self.store.resume(task_id)
-        return True
-
-    def send_worker_message(self, task_id: str, intent_id: int, message: str, request_id: str = "") -> dict:
-        """Continue a paused worker intent with a human message.
-
-        Mirrors the lazy sendWorkerMessage flow within the synchronous
-        engine: the message lands in the activity trace as the next
-        worker turn input, the intent reopens for the next round, and
-        the planner gets an explicit trigger naming it.
-
-        Args:
-            task_id: Task owning the intent.
-            intent_id: Paused intent node id.
-            message: Operator message (1..4000 chars, required).
-            request_id: Idempotency key (1..128 chars, optional).
-
-        Returns:
-            Dict with intent_id, state and request_id.
-        """
-        text = (message or "").strip()
-        if not text:
-            raise ValueError("message is required")
-        if len(text) > 4000:
-            raise ValueError("message must be under 4000 characters")
-        key = (request_id or "").strip()
-        if key and (len(key) > 128 or not re.fullmatch(r"[A-Za-z0-9\-_.:]+", key)):
-            raise ValueError("request_id must be 1-128 chars of letters, digits, -_.:")
-        record = self.store.get(task_id)
-        if record is None:
-            raise KeyError(f"unknown task: {task_id}")
-        if record.get("status") in ("done", "exhausted", "timeout", "failed"):
-            raise ValueError(f"task {task_id} is terminal and cannot take worker messages")
-        graph = ExplorationGraph(task_id)
-        node = graph.get(int(intent_id))
-        if node is None or node.kind != "intent":
-            raise KeyError(f"unknown intent: {intent_id}")
-        if node.state != "paused":
-            raise ValueError(f"intent #{intent_id} must be paused before sending a message")
-        activity = ActivityLog(task_id)
-        activity.emit("human", "worker-message", text[:2000], intent_id=int(intent_id))
-        graph.set_state(int(intent_id), "open")
-        activity.emit(
-            "planner",
-            "hint-trigger",
-            f"operator message on paused intent #{intent_id}: {text[:200]}; this round fires on worker-message",
-            intent_id=int(intent_id),
-        )
-        self.store.resume(task_id)
-        return {"intent_id": int(intent_id), "state": "open", "accepted": True, "request_id": key}
-
     def goal_met(self, task_id: str, reason: str = "") -> bool:
         """Declare the whole task complete like goal_met (weighted, audited)."""
         graph = ExplorationGraph(task_id)
@@ -9675,10 +9578,36 @@ class LazyLoopEngine(EngineProxyMixin):
             pass
         return summary
 
+    def _pre_round_gate(self, task_id: str) -> str:
+        """Evaluate the paused/timeout/budget gate shared by run and run_round.
+
+        Timeout and budget verdicts abort the runtime themselves; the
+        paused verdict leaves aborting to the caller (run yields the loop,
+        run_round returns a paused summary without aborting).
+
+        Args:
+            task_id: Task being evaluated.
+
+        Returns:
+            Empty string when the round may run, else ``"paused"``,
+            ``"timeout"`` or ``"budget"``.
+        """
+        if (self.store.get(task_id) or {}).get("status") == "paused":
+            return "paused"
+        if self.store.expired(task_id):
+            self.store.set_status(task_id, "timeout")
+            self.runtime.abort(task_id, "timeout", "task deadline exceeded")
+            return "timeout"
+        check = self.budget.check(task_id)
+        if not check.get("ok"):
+            self.runtime.abort(task_id, "budget", str(check.get("reason", "")))
+            return "budget"
+        return ""
+
     def run_round(
         self,
         task_id: str,
-        workers: int = DEFAULT_WORKERS,
+        workers: int = ENGINE_DEFAULT_WORKERS,
         executor=None,
         pool: dict[int, Worker] | None = None,
     ) -> dict:
@@ -9689,37 +9618,17 @@ class LazyLoopEngine(EngineProxyMixin):
         (guard+intercept+traffic), finding report, retest, goals, compaction
         minor/major, evidence/traffic archive, notify fan-out.
         """
-        record = self.store.get(task_id) or {}
-        if record.get("status") == "paused":
-            return {
+        gate = self._pre_round_gate(task_id)
+        if gate:
+            payload: dict = {
                 "task_id": task_id,
                 "new_intents": 0,
                 "executed": 0,
                 "results": [],
                 "overview": ExplorationGraph(task_id).overview(),
-                "paused": True,
             }
-        if self.store.expired(task_id):
-            self.store.set_status(task_id, "timeout")
-            self.runtime.abort(task_id, "timeout", "task deadline exceeded")
-            return {
-                "task_id": task_id,
-                "new_intents": 0,
-                "executed": 0,
-                "results": [],
-                "overview": ExplorationGraph(task_id).overview(),
-                "timeout": True,
-            }
-        if not self.budget.check(task_id)["ok"]:
-            self.runtime.abort(task_id, "budget", self.budget.check(task_id)["reason"])
-            return {
-                "task_id": task_id,
-                "new_intents": 0,
-                "executed": 0,
-                "results": [],
-                "overview": ExplorationGraph(task_id).overview(),
-                "budget": self.budget.check(task_id)["reason"],
-            }
+            payload[gate] = True if gate != "budget" else str(self.budget.check(task_id).get("reason", ""))
+            return payload
         graph, activity, traffic, guard = self._parts(task_id)
         self.runtime.beat(task_id, workers)
         try:
@@ -10404,8 +10313,8 @@ class LazyLoopEngine(EngineProxyMixin):
     def run(
         self,
         task_id: str,
-        max_rounds: int = DEFAULT_MAX_ROUNDS,
-        workers: int = DEFAULT_WORKERS,
+        max_rounds: int = ENGINE_DEFAULT_MAX_ROUNDS,
+        workers: int = ENGINE_DEFAULT_WORKERS,
         executor=None,
         timeout_sec: float = 0.0,
     ) -> dict:
@@ -10460,15 +10369,10 @@ class LazyLoopEngine(EngineProxyMixin):
                 if loop_exiting():
                     self.runtime.abort(task_id, "shutdown", "shell exit during run")
                     break
-                if (self.store.get(task_id) or {}).get("status") == "paused":
+                gate = self._pre_round_gate(task_id)
+                if gate == "paused":
                     self.runtime.abort(task_id, "paused", "run loop yielded on pause")
-                    break
-                if self.store.expired(task_id):
-                    self.store.set_status(task_id, "timeout")
-                    self.runtime.abort(task_id, "timeout", "task deadline exceeded")
-                    break
-                if not self.budget.check(task_id)["ok"]:
-                    self.runtime.abort(task_id, "budget", self.budget.check(task_id)["reason"])
+                if gate:
                     break
                 summary = self._run_round_guarded(task_id, round_index, workers, executor)
                 if summary is None:

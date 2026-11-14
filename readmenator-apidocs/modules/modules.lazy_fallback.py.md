@@ -40,7 +40,6 @@ classDiagram
     class AdaptiveFallbackArbiter
     AdaptiveFallbackArbiter : __init__()
     AdaptiveFallbackArbiter : suggest()
-    AdaptiveFallbackArbiter : tried_count()
 ```
 
 ## Call Graph
@@ -168,7 +167,6 @@ consistent tried-set.
 |---|---|---|
 | [`__init__`](#adaptivefallbackarbiter-__init__) | constructor | Bind the fallback graph; the shared graph is the default. |
 | [`suggest`](#adaptivefallbackarbiter-suggest) | method | Return the first viable untried alternative for one failure. |
-| [`tried_count`](#adaptivefallbackarbiter-tried_count) | method | Return how many alternatives this arbiter already proposed. |
 
 <a id="adaptivefallbackarbiter-__init__"></a>
 
@@ -216,20 +214,6 @@ Return the first viable untried alternative for one failure.
 verdict forbids alternatives, everything was already tried
 or no prerequisite holds. The candidate is recorded.
 
-<a id="adaptivefallbackarbiter-tried_count"></a>
-
-#### `AdaptiveFallbackArbiter.tried_count`
-
-`method` | [modules/lazy_fallback.py:246](../../modules/lazy_fallback.py#L246)
-
-```python
-def tried_count(self) -> int
-```
-
-Return how many alternatives this arbiter already proposed.
-
-**Returns:** `int`
-
 ---
 
 ## Functions
@@ -238,7 +222,7 @@ Return how many alternatives this arbiter already proposed.
 
 ### `catalogue_ids`
 
-`function` | [modules/lazy_fallback.py:261](../../modules/lazy_fallback.py#L261)
+`function` | [modules/lazy_fallback.py:256](../../modules/lazy_fallback.py#L256)
 
 ```python
 def catalogue_ids() -> frozenset[str] | None

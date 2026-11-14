@@ -12,7 +12,7 @@ unknown flag fails loudly instead of being silently swallowed.
 ## Contents
 
 - **Classes:** [`ChainArgs`](#chainargs)
-- **Functions:** [`parse_chain_args`](#parse_chain_args), [`resolve_admin`](#resolve_admin), [`select_step_ids`](#select_step_ids), [`render_result`](#render_result), [`render_admin`](#render_admin), [`build_cli_approver`](#build_cli_approver), [`build_adaptive_replanner`](#build_adaptive_replanner), [`compose_replanners`](#compose_replanners), [`build_reactive_replanner`](#build_reactive_replanner), [`build_llm_recovery_chain`](#build_llm_recovery_chain)
+- **Functions:** [`parse_chain_args`](#parse_chain_args), [`resolve_invocation`](#resolve_invocation), [`resolve_admin`](#resolve_admin), [`select_step_ids`](#select_step_ids), [`render_result`](#render_result), [`render_admin`](#render_admin), [`build_cli_approver`](#build_cli_approver), [`build_adaptive_replanner`](#build_adaptive_replanner), [`compose_replanners`](#compose_replanners), [`build_reactive_replanner`](#build_reactive_replanner), [`build_llm_recovery_chain`](#build_llm_recovery_chain)
 
 ## Call Graph
 
@@ -78,7 +78,7 @@ flowchart LR
 
 ### `ChainArgs`
 
-`class` `dataclass` | [cli/apt_chain_support.py:83](../../cli/apt_chain_support.py#L83)
+`class` `dataclass` | [cli/apt_chain_support.py:88](../../cli/apt_chain_support.py#L88)
 
 Decorators: `@dataclass`
 
@@ -122,7 +122,7 @@ Parsed ``apt_chain`` invocation.
 
 ### `parse_chain_args`
 
-`function` | [cli/apt_chain_support.py:109](../../cli/apt_chain_support.py#L109)
+`function` | [cli/apt_chain_support.py:114](../../cli/apt_chain_support.py#L114)
 
 ```python
 def parse_chain_args(line: str) -> ChainArgs
@@ -147,11 +147,53 @@ hid operator intent and is gone.
 
 ---
 
+<a id="resolve_invocation"></a>
+
+### `resolve_invocation`
+
+`function` | [cli/apt_chain_support.py:234](../../cli/apt_chain_support.py#L234)
+
+```python
+def resolve_invocation(positionals: list[str], target_seed: str = '', preset_target: str = '', playbook_engine: Any = None, playbook_seed: str = '', policy: str = 'strict') -> tuple[str, str, str, str]
+```
+
+Classify positional tokens into chain, target and playbook override.
+
+Single classification shared by the ``apt_chain`` CLI command and the
+loop stepwise adapter. Both surfaces share one classification table
+(chain file, target-shaped token, known playbook, ``apt_<name>``
+fallback) while keeping their two codified policies:
+
+- ``strict`` (CLI): a chain must exist as a file; bare tokens are
+  targets when they parse as hosts, playbook names otherwise.
+- ``lenient`` (loop): the first positional is always the chain name
+  unless it is an address and no target is known; later tokens only
+  supply the target (first match wins).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `positionals` | `list[str]` |  | Free tokens left after flag parsing. |
+| `target_seed` | `str` | `''` | Fallback target (``rhost``); a positional target replaces it when ``--target`` is not preset. |
+| `preset_target` | `str` | `''` | ``--target`` flag value; suppresses positional target capture. |
+| `playbook_engine` | `Any` | `None` | AptPlaybookEngine (or None) for playbook lookup. |
+| `playbook_seed` | `str` | `''` | ``--playbook`` flag value; kept unless a positional token resolves to a playbook override first. |
+| `policy` | `str` | `'strict'` | ``strict`` (CLI rules) or ``lenient`` (loop rules). |
+
+**Returns:** `tuple[str, str, str, str]` - ``(chain_name, target, playbook_override, disabled_chain)``.
+``disabled_chain`` is a strict-policy name whose YAML exists but
+is disabled; callers decide the UX (the CLI warns and stops).
+
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`parse_chain_invocation`](modules.chain_loop.py.md#parse_chain_invocation)
+
+---
+
 <a id="resolve_admin"></a>
 
 ### `resolve_admin`
 
-`function` | [cli/apt_chain_support.py:234](../../cli/apt_chain_support.py#L234)
+`function` | [cli/apt_chain_support.py:322](../../cli/apt_chain_support.py#L322)
 
 ```python
 def resolve_admin(args: ChainArgs) -> dict[str, Any]
@@ -177,7 +219,7 @@ Execute an admin action against the registry and checkpoint store.
 
 ### `select_step_ids`
 
-`function` | [cli/apt_chain_support.py:369](../../cli/apt_chain_support.py#L369)
+`function` | [cli/apt_chain_support.py:457](../../cli/apt_chain_support.py#L457)
 
 ```python
 def select_step_ids(chain: Chain, args: ChainArgs) -> tuple[set[str] | None, list[str]]
@@ -202,7 +244,7 @@ Resolve --step/--from-step/--to-step into one id set.
 
 ### `render_result`
 
-`function` | [cli/apt_chain_support.py:409](../../cli/apt_chain_support.py#L409)
+`function` | [cli/apt_chain_support.py:497](../../cli/apt_chain_support.py#L497)
 
 ```python
 def render_result(result: ChainRunResult) -> list[str]
@@ -228,7 +270,7 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 ### `render_admin`
 
-`function` | [cli/apt_chain_support.py:450](../../cli/apt_chain_support.py#L450)
+`function` | [cli/apt_chain_support.py:538](../../cli/apt_chain_support.py#L538)
 
 ```python
 def render_admin(payload: dict[str, Any], action: str) -> list[tuple[str, str]]
@@ -257,7 +299,7 @@ is a ``(level, text)`` pair where level is one of `[`msg`](modules.exp.c.md#msg)
 
 ### `build_cli_approver`
 
-`function` | [cli/apt_chain_support.py:528](../../cli/apt_chain_support.py#L528)
+`function` | [cli/apt_chain_support.py:616](../../cli/apt_chain_support.py#L616)
 
 ```python
 def build_cli_approver(printer, input_fn=None)
@@ -283,7 +325,7 @@ the decision; interactive mode asks the operator failure-closed.
 
 ### `build_adaptive_replanner`
 
-`function` | [cli/apt_chain_support.py:588](../../cli/apt_chain_support.py#L588)
+`function` | [cli/apt_chain_support.py:676](../../cli/apt_chain_support.py#L676)
 
 ```python
 def build_adaptive_replanner()
@@ -306,7 +348,7 @@ and scope verdicts insert nothing, by contract.
 
 ### `compose_replanners`
 
-`function` | [cli/apt_chain_support.py:626](../../cli/apt_chain_support.py#L626)
+`function` | [cli/apt_chain_support.py:714](../../cli/apt_chain_support.py#L714)
 
 ```python
 def compose_replanners(replanners: list)
@@ -330,7 +372,7 @@ Return one replanner running every non-None replanner in order.
 
 ### `build_reactive_replanner`
 
-`function` | [cli/apt_chain_support.py:646](../../cli/apt_chain_support.py#L646)
+`function` | [cli/apt_chain_support.py:734](../../cli/apt_chain_support.py#L734)
 
 ```python
 def build_reactive_replanner()
@@ -348,7 +390,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:730](../../cli/apt_chain_support.py#L730)
+`function` | [cli/apt_chain_support.py:818](../../cli/apt_chain_support.py#L818)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None

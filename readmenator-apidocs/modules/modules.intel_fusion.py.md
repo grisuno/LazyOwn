@@ -38,12 +38,14 @@ flowchart LR
     n_modules_intel_fusion_py__relations_svg(["relations_svg"])
     n_modules_intel_fusion_py__svg_selection(["svg_selection"])
     n_modules_lazy_loop_py__ExplorationGraph_add_edge["lazy_loop.ExplorationGraph.add_edge"]
+    n_modules_lazy_loop_py__ExplorationGraph_add_node["lazy_loop.ExplorationGraph.add_node"]
     n_modules_world_model_py__read_state_dict["world_model.read_state_dict"]
     n_modules_intel_fusion_py__build_intel_graph --> n_modules_intel_fusion_py__node_id
     n_modules_intel_fusion_py__page_settings --> n_modules_intel_fusion_py__group_colors
     n_modules_intel_fusion_py__bundle_settings --> n_modules_intel_fusion_py__group_colors
     n_modules_intel_fusion_py__relations_svg --> n_modules_intel_fusion_py__svg_selection
     n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_lazy_loop_py__ExplorationGraph_add_edge
+    n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_lazy_loop_py__ExplorationGraph_add_node
     n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_world_model_py__read_state_dict
 ```
 
@@ -95,7 +97,7 @@ Fuse all session artefacts into one C2-centred intel graph.
 
 **Returns:** `dict`
 
-*Calls:* [`node_id`](#node_id), [`ExplorationGraph.add_edge`](modules.lazy_loop.py.md#explorationgraph-add_edge), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
+*Calls:* [`node_id`](#node_id), [`ExplorationGraph.add_edge`](modules.lazy_loop.py.md#explorationgraph-add_edge), [`ExplorationGraph.add_node`](modules.lazy_loop.py.md#explorationgraph-add_node), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
 *Called by:* [`build_attack_graph`](modules.attack_surface3d.py.md#build_attack_graph), [`apply`](modules.sinks.intel_graph.py.md#apply)
 

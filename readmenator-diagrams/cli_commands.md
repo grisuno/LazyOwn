@@ -1,11 +1,10 @@
 # cli/commands
 
-cli/commands groups 148 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 139 files (py) around lazyown_set_config, resolve_alias, needs_sudo, sudo_available, _retry_sudo_gate. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
     cli["cli"]
-    contrib["contrib"]
     core["core"]
     modules["modules"]
     root["root"]
@@ -15,14 +14,10 @@ graph LR
     cli -- "calls into" --> modules
     cli -- "calls into" --> root
     cli -- "calls into" --> tests
-    contrib -- "calls into" --> modules
     modules -- "calls into" --> cli
-    modules -- "calls into" --> core
     modules -- "calls into" --> root
     modules -- "calls into" --> tests
     root -- "calls into" --> cli
-    root -- "depends on" --> core
-    root -- "calls into" --> modules
     root -- "calls into" --> tests
     skills -- "calls into" --> modules
     tests -- "calls into" --> cli
@@ -31,33 +26,29 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (2.1)
+## cli (3.1)
 
 cli groups 79 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Configurable Neon Box banner for the LazyOwn interactive shell.
 
-## contrib (2.2)
+## core (3.2)
 
-contrib groups 3 files (py) around ensure_http_prefix, signal_handler, main, parse_hash_file, reverse_shell.
+core groups 2 files (py) around load_defaults, clear_cache, get, default_lport, default_rport. Build-time default constants loaded from ``config/defaults.toml``.
 
-## core (2.3)
+## modules (3.3)
 
-core groups 4 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
+modules groups 18 files (py) around _classify, _classify_module_source, _extract_docstring_summary, ModuleInfo, __init__. Browser-in-the-Middle (BitM) attack engine.
 
-## modules (2.4)
+## root (3.4)
 
-modules groups 19 files (py) around base64_encode, base64_decode, caesar_cipher, caesar_decipher, key_substitution. Browser-in-the-Middle (BitM) attack engine.
+root groups 2 files (py) around lazyown_set_config, resolve_alias, needs_sudo, sudo_available, _retry_sudo_gate. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## root (2.5)
-
-root groups 2 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
-
-## skills (2.6)
+## skills (3.5)
 
 skills groups 1 files (py) around handle. MCP tool ``lazyown_list_modules``: list modules and scripts in modules/.
 
-## tests (2.7)
+## tests (3.6)
 
-tests groups 40 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
+tests groups 37 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
 
 **Files**:
 
@@ -122,6 +113,7 @@ tests groups 40 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/commands/postexp.py
 - cli/commands/postexp_migrated.py
 - cli/commands/privilege_escalation.py
+- cli/commands/recon.py
 - cli/commands/resource_scripting.py
 - cli/commands/retry_ops.py
 - cli/commands/scan.py
@@ -139,15 +131,9 @@ tests groups 40 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/fuzzy_match.py
 - cli/fuzzy_picker.py
 - cli/output_mode.py
-- cli/plugin_tiers.py
 - cli/session_hud.py
-- contrib/legacy/lazycreate_webshell.py
-- contrib/legacy/lazylogpoisoning.py
-- contrib/legacy/lazyreversentlmv2.py
 - core/defaults.py
-- core/host_policy.py
 - core/safe_import.py
-- core/validators.py
 - modules/__init__.py
 - modules/bitm_engine.py
 - modules/c2_builder.py
@@ -157,16 +143,15 @@ tests groups 40 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/dpapi_harvester.py
 - modules/edr_detector.py
 - modules/evasive_payloads.py
+- modules/intercept.py
 - modules/lab_runtime.py
 - modules/lazycloud.py
-- modules/lazyencoder_decoder.py
 - modules/lazypassgen.py
 - modules/loop/worker_gating.py
 - modules/loop_preflight.py
 - modules/mfa_bypass.py
 - modules/module_registry.py
 - modules/professional_report.py
-- modules/test_lazyencoder_decoder.py
 - skills/mcp_tools/list_modules.py
 - tests/test_ad_lab_gym.py
 - tests/test_api_key_resolution.py
@@ -179,10 +164,8 @@ tests groups 40 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_credentials_rotation.py
 - tests/test_fuzzy_picker.py
 - tests/test_gym_matrix_ctf.py
-- tests/test_host_policy.py
 - tests/test_implant_session_secrets.py
 - tests/test_infra_disposable.py
-- tests/test_input_fuzz.py
 - tests/test_lab_target_visibility.py
 - tests/test_lazy_autofire.py
 - tests/test_lazy_creds.py
@@ -201,10 +184,9 @@ tests groups 40 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_loop_mentions.py
 - tests/test_module_registry.py
 - tests/test_module_registry_bridge.py
-- tests/test_plugin_tiers.py
 - tests/test_prompt_readline_markers.py
 - tests/test_prompt_refresh.py
-- tests/test_require_guards.py
+- tests/test_safety_gates.py
 - tests/test_ttpscope_bridge.py
 - tests/test_unified_bridge_delegate.py
 - tests/test_verb_catalog.py

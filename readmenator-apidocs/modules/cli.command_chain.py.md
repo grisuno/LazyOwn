@@ -52,7 +52,6 @@ classDiagram
     class PrerequisiteRegistry
     PrerequisiteRegistry : __init__()
     PrerequisiteRegistry : prerequisites()
-    PrerequisiteRegistry : missing()
     class StaticNextRegistry
     StaticNextRegistry : next_for()
     StaticNextRegistry : phase_priority()
@@ -65,9 +64,7 @@ classDiagram
     class CommandChain
     CommandChain : __init__()
     CommandChain : prev()
-    CommandChain : missing_prerequisites()
     CommandChain : next()
-    CommandChain : chain()
 ```
 
 ## Call Graph
@@ -78,16 +75,11 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_cli_command_chain_py__PrerequisiteRegistry___init__(["PrerequisiteRegistry.__init__"])
     n_cli_command_chain_py__ChainConfig(["ChainConfig"])
-    n_cli_command_chain_py__PrerequisiteRegistry_missing(["PrerequisiteRegistry.missing"])
-    n_cli_command_chain_py__PrerequisiteRegistry_prerequisites(["PrerequisiteRegistry.prerequisites"])
     n_cli_command_chain_py__ServiceNextResolver___init__(["ServiceNextResolver.__init__"])
     n_cli_command_chain_py__DynamicNextResolver___init__(["DynamicNextResolver.__init__"])
     n_cli_command_chain_py__StaticNextRegistry(["StaticNextRegistry"])
     n_cli_command_chain_py__CommandChain___init__(["CommandChain.__init__"])
-    n_cli_command_chain_py__CommandChain_chain(["CommandChain.chain"])
-    n_cli_command_chain_py__CommandChain_prev(["CommandChain.prev"])
     n_cli_command_chain_py__PrerequisiteRegistry___init__ --> n_cli_command_chain_py__ChainConfig
-    n_cli_command_chain_py__PrerequisiteRegistry_missing --> n_cli_command_chain_py__PrerequisiteRegistry_prerequisites
     n_cli_command_chain_py__ServiceNextResolver___init__ --> n_cli_command_chain_py__ChainConfig
     n_cli_command_chain_py__DynamicNextResolver___init__ --> n_cli_command_chain_py__ChainConfig
     n_cli_command_chain_py__DynamicNextResolver___init__ --> n_cli_command_chain_py__ServiceNextResolver___init__
@@ -95,7 +87,6 @@ flowchart LR
     n_cli_command_chain_py__CommandChain___init__ --> n_cli_command_chain_py__ChainConfig
     n_cli_command_chain_py__CommandChain___init__ --> n_cli_command_chain_py__DynamicNextResolver___init__
     n_cli_command_chain_py__CommandChain___init__ --> n_cli_command_chain_py__PrerequisiteRegistry___init__
-    n_cli_command_chain_py__CommandChain_chain --> n_cli_command_chain_py__CommandChain_prev
 ```
 
 ## Classes
@@ -188,7 +179,6 @@ One reason to change: the prerequisite table.
 |---|---|---|
 | [`__init__`](#prerequisiteregistry-__init__) | constructor | Store the configuration that owns the prerequisite table. |
 | [`prerequisites`](#prerequisiteregistry-prerequisites) | method | Return the ordered list of prerequisite commands for `[`cmd`](lazyown.py.md#lazyownshell-cmd)`. |
-| [`missing`](#prerequisiteregistry-missing) | method | Return prerequisites that have **not** yet appeared in `[`history`](modules.collab_bp.py.md#history)`. |
 
 <a id="prerequisiteregistry-__init__"></a>
 
@@ -232,30 +222,7 @@ Return the ordered list of prerequisite commands for `[`cmd`](lazyown.py.md#lazy
 
 **Returns:** `list[str]`
 
-*Called by:* [`PrerequisiteRegistry.missing`](#prerequisiteregistry-missing), [`do_doctor`](scripts.broadcom_wps_drive.sh.md#do_doctor), [`do_doctor`](scripts.dirtyinit_drive.sh.md#do_doctor)
-
-<a id="prerequisiteregistry-missing"></a>
-
-#### `PrerequisiteRegistry.missing`
-
-`method` | [cli/command_chain.py:170](../../cli/command_chain.py#L170)
-
-```python
-def missing(self, cmd: str, history: Sequence[str]) -> list[str]
-```
-
-Return prerequisites that have **not** yet appeared in `[`history`](modules.collab_bp.py.md#history)`.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `cmd` | `str` |  |  |
-| `history` | `Sequence[str]` |  |  |
-
-**Returns:** `list[str]`
-
-*Calls:* [`PrerequisiteRegistry.prerequisites`](#prerequisiteregistry-prerequisites)
+*Called by:* [`do_doctor`](scripts.broadcom_wps_drive.sh.md#do_doctor), [`do_doctor`](scripts.dirtyinit_drive.sh.md#do_doctor)
 
 ---
 
@@ -263,7 +230,7 @@ Return prerequisites that have **not** yet appeared in `[`history`](modules.coll
 
 ### `StaticNextRegistry`
 
-`class` | [cli/command_chain.py:177](../../cli/command_chain.py#L177)
+`class` | [cli/command_chain.py:171](../../cli/command_chain.py#L171)
 
 ```python
 class StaticNextRegistry
@@ -282,7 +249,7 @@ Wrapper over the legacy ``_KILL_CHAIN_NEXT`` map (shared source).
 
 #### `StaticNextRegistry.next_for`
 
-`method` | [cli/command_chain.py:180](../../cli/command_chain.py#L180)
+`method` | [cli/command_chain.py:174](../../cli/command_chain.py#L174)
 
 ```python
 def next_for(self, cmd: str) -> list[str]
@@ -302,7 +269,7 @@ Return the deterministic kill-chain successors of `[`cmd`](lazyown.py.md#lazyown
 
 #### `StaticNextRegistry.phase_priority`
 
-`method` | [cli/command_chain.py:186](../../cli/command_chain.py#L186)
+`method` | [cli/command_chain.py:180](../../cli/command_chain.py#L180)
 
 ```python
 def phase_priority(self, phase: str) -> list[str]
@@ -324,7 +291,7 @@ Return the phase-priority verbs used as a fallback.
 
 ### `ServiceNextResolver`
 
-`class` | [cli/command_chain.py:193](../../cli/command_chain.py#L193)
+`class` | [cli/command_chain.py:187](../../cli/command_chain.py#L187)
 
 ```python
 class ServiceNextResolver
@@ -343,7 +310,7 @@ Map nmap-discovered services to follow-up verbs.
 
 #### `ServiceNextResolver.__init__`
 
-`constructor` | [cli/command_chain.py:196](../../cli/command_chain.py#L196)
+`constructor` | [cli/command_chain.py:190](../../cli/command_chain.py#L190)
 
 ```python
 def __init__(self, config: ChainConfig | None = None) -> None
@@ -365,7 +332,7 @@ Store the configuration providing the service follow-up table.
 
 #### `ServiceNextResolver.followups`
 
-`method` | [cli/command_chain.py:201](../../cli/command_chain.py#L201)
+`method` | [cli/command_chain.py:195](../../cli/command_chain.py#L195)
 
 ```python
 def followups(self, services: Sequence[DiscoveredService]) -> list[tuple[str, str]]
@@ -387,7 +354,7 @@ Return ``(verb, reason)`` pairs for every triggered follow-up.
 
 ### `DynamicNextResolver`
 
-`class` | [cli/command_chain.py:219](../../cli/command_chain.py#L219)
+`class` | [cli/command_chain.py:213](../../cli/command_chain.py#L213)
 
 ```python
 class DynamicNextResolver
@@ -406,7 +373,7 @@ Compose static, service, and exploration signals into an ordered list.
 
 #### `DynamicNextResolver.__init__`
 
-`constructor` | [cli/command_chain.py:222](../../cli/command_chain.py#L222)
+`constructor` | [cli/command_chain.py:216](../../cli/command_chain.py#L216)
 
 ```python
 def __init__(self, config: ChainConfig | None = None, static_registry: StaticNextRegistry | None = None, service_resolver: ServiceNextResolver | None = None, exploration_engine: ExplorationEngine | None = None) -> None
@@ -433,7 +400,7 @@ All arguments are injectable for tests.
 
 #### `DynamicNextResolver.resolve`
 
-`method` | [cli/command_chain.py:236](../../cli/command_chain.py#L236)
+`method` | [cli/command_chain.py:230](../../cli/command_chain.py#L230)
 
 ```python
 def resolve(self, cmd: str, params: Mapping[str, object] | None = None, target: str | None = None, phase: str = '', limit: int | None = None) -> list[NextStep]
@@ -459,7 +426,7 @@ Return the ordered, de-duplicated next-step recommendations.
 
 ### `CommandChain`
 
-`class` | [cli/command_chain.py:335](../../cli/command_chain.py#L335)
+`class` | [cli/command_chain.py:329](../../cli/command_chain.py#L329)
 
 ```python
 class CommandChain
@@ -473,15 +440,13 @@ Facade exposing prev + next to CLI, MCP, and future TUI widgets.
 |---|---|---|
 | [`__init__`](#commandchain-__init__) | constructor | Wire collaborators together using the supplied configuration. |
 | [`prev`](#commandchain-prev) | method | Return the ordered prerequisite commands for `[`cmd`](lazyown.py.md#lazyownshell-cmd)`. |
-| [`missing_prerequisites`](#commandchain-missing_prerequisites) | method | Return prerequisites of `[`cmd`](lazyown.py.md#lazyownshell-cmd)` not present in `[`history`](modules.collab_bp.py.md#history)`. |
 | [`next`](#commandchain-next) | method | Return ordered next-step recommendations. |
-| [`chain`](#commandchain-chain) | method | Return a serialisable ``{prev, next}`` view for the given command. |
 
 <a id="commandchain-__init__"></a>
 
 #### `CommandChain.__init__`
 
-`constructor` | [cli/command_chain.py:338](../../cli/command_chain.py#L338)
+`constructor` | [cli/command_chain.py:332](../../cli/command_chain.py#L332)
 
 ```python
 def __init__(self, config: ChainConfig | None = None, prerequisites: PrerequisiteRegistry | None = None, next_resolver: DynamicNextResolver | None = None) -> None
@@ -505,7 +470,7 @@ Wire collaborators together using the supplied configuration.
 
 #### `CommandChain.prev`
 
-`method` | [cli/command_chain.py:350](../../cli/command_chain.py#L350)
+`method` | [cli/command_chain.py:344](../../cli/command_chain.py#L344)
 
 ```python
 def prev(self, cmd: str) -> list[str]
@@ -521,34 +486,13 @@ Return the ordered prerequisite commands for `[`cmd`](lazyown.py.md#lazyownshell
 
 **Returns:** `list[str]`
 
-*Called by:* [`CommandChain.chain`](#commandchain-chain), [`MiscMigratedCommandSet.do_prev`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_prev), [`handle`](skills.mcp_tools.command_prev.py.md#handle)
-
-<a id="commandchain-missing_prerequisites"></a>
-
-#### `CommandChain.missing_prerequisites`
-
-`method` | [cli/command_chain.py:355](../../cli/command_chain.py#L355)
-
-```python
-def missing_prerequisites(self, cmd: str, history: Sequence[str]) -> list[str]
-```
-
-Return prerequisites of `[`cmd`](lazyown.py.md#lazyownshell-cmd)` not present in `[`history`](modules.collab_bp.py.md#history)`.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `cmd` | `str` |  |  |
-| `history` | `Sequence[str]` |  |  |
-
-**Returns:** `list[str]`
+*Called by:* [`MiscMigratedCommandSet.do_prev`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_prev), [`handle`](skills.mcp_tools.command_prev.py.md#handle)
 
 <a id="commandchain-next"></a>
 
 #### `CommandChain.next`
 
-`method` | [cli/command_chain.py:360](../../cli/command_chain.py#L360)
+`method` | [cli/command_chain.py:349](../../cli/command_chain.py#L349)
 
 ```python
 def next(self, cmd: str, params: Mapping[str, object] | None = None, target: str | None = None, phase: str = '', limit: int | None = None) -> list[NextStep]
@@ -569,32 +513,6 @@ See [`DynamicNextResolver.resolve`](#dynamicnextresolver-resolve).
 | `limit` | `int \| None` | `None` |  |
 
 **Returns:** `list[NextStep]`
-
-<a id="commandchain-chain"></a>
-
-#### `CommandChain.chain`
-
-`method` | [cli/command_chain.py:372](../../cli/command_chain.py#L372)
-
-```python
-def chain(self, cmd: str, params: Mapping[str, object] | None = None, target: str | None = None, phase: str = '', limit: int | None = None) -> dict[str, object]
-```
-
-Return a serialisable ``{prev, next}`` view for the given command.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `cmd` | `str` |  |  |
-| `params` | `Mapping[str, object] \| None` | `None` |  |
-| `target` | `str \| None` | `None` |  |
-| `phase` | `str` | `''` |  |
-| `limit` | `int \| None` | `None` |  |
-
-**Returns:** `dict[str, object]`
-
-*Calls:* [`CommandChain.prev`](#commandchain-prev)
 
 ---
 

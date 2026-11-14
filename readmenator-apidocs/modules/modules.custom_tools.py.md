@@ -171,7 +171,7 @@ Rank tools whose name/description/trigger keywords appear in the text.
 
 ### `run_tool`
 
-`function` | [modules/custom_tools.py:151](../../modules/custom_tools.py#L151)
+`function` | [modules/custom_tools.py:170](../../modules/custom_tools.py#L170)
 
 ```python
 def run_tool(name: str, arg: str = '', on_output=None) -> str
@@ -191,7 +191,7 @@ Execute one custom tool and return its transcript.
 
 *Calls:* [`execute_streaming`](modules.auto_registry.py.md#execute_streaming), [`get_tool`](#get_tool)
 
-*Called by:* [`LazyCommandSet.do_lazy_tool`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_tool), [`build_executor`](modules.lazy_runner.py.md#build_executor)
+*Called by:* [`LazyCommandSet.do_lazy_tool`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_tool)
 
 ---
 

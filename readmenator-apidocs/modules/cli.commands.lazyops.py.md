@@ -1606,7 +1606,7 @@ def do_lazy_loop(self, line)
 
 Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace.
 
-Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--mode pentest|redteam|ctf] [--view|--plain] [<goal>]
+Usage: lazy_loop [--target T] [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--mode pentest|redteam|ctf] [--view|--plain] [<goal>]
 
 **Parameters**
 
@@ -1614,13 +1614,13 @@ Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`bind_target_authority`](modules.lazy_runner.py.md#bind_target_authority), [`load_targets_file`](modules.lazy_runner.py.md#load_targets_file), [`parse_loop_line`](modules.lazy_runner.py.md#parse_loop_line), [`run_loop`](modules.lazy_runner.py.md#run_loop)
+*Calls:* [`run_loop_command`](modules.lazy_runner.py.md#run_loop_command)
 
 <a id="lazycommandset-do_lazy_sandbox"></a>
 
 #### `LazyCommandSet.do_lazy_sandbox`
 
-`method` | [cli/commands/lazyops.py:2842](../../cli/commands/lazyops.py#L2842)
+`method` | [cli/commands/lazyops.py:2811](../../cli/commands/lazyops.py#L2811)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1644,7 +1644,7 @@ Usage: lazy_sandbox ...
 
 #### `LazyCommandSet.do_lazy_install`
 
-`method` | [cli/commands/lazyops.py:2905](../../cli/commands/lazyops.py#L2905)
+`method` | [cli/commands/lazyops.py:2874](../../cli/commands/lazyops.py#L2874)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1668,7 +1668,7 @@ Usage: lazy_install ...
 
 #### `LazyCommandSet.do_lazy_pacing`
 
-`method` | [cli/commands/lazyops.py:2943](../../cli/commands/lazyops.py#L2943)
+`method` | [cli/commands/lazyops.py:2912](../../cli/commands/lazyops.py#L2912)
 
 Decorators: `@cmd2.with_category(ai_category)`
 

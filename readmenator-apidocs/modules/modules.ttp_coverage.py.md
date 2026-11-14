@@ -178,7 +178,7 @@ Return the techniques that could run given available facts.
 
 A technique is `[`ready`](core.command_bridge.py.md#commandbridge-ready)` if no blocking fact is missing. The
 rule used here is conservative — the technique is considered
-ready if it is `[`untested`](modules.lazy_loop.py.md#assetgraph-untested)` and at least one fact matches the
+ready if it is ``untested`` and at least one fact matches the
 technique's tactic (e.g. ``service.found`` is enough for
 ``T1021.*``). Operators should refine this with their own
 ability dependency data when available.

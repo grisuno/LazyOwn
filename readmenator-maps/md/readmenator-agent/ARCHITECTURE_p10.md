@@ -88,6 +88,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/loop_ai_bridge.py` -> __future__, threading
 - `modules/loop_audit.py` -> __future__, contextlib, json, pathlib, threading, time
 - `modules/loop_guardrails.py` -> __future__, collections, collections.abc, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time, typing
+- `modules/loop_limits.py` -> __future__
 - `modules/loop_manager.py` -> __future__, dataclasses, datetime, ipaddress, json, os, pathlib, re, signal, subprocess, sys, threading, time, typing, uuid
 - `modules/loop_preflight.py` -> __future__, collections.abc, concurrent.futures, socket, time
 - `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
@@ -116,6 +117,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/mysql_hookandroot_lib.c` -> arpa/inet.h, dlfcn.h, fcntl.h, netinet/in.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/stat.h, sys/types.h, unistd.h
 - `modules/network_opsec.py` -> __future__, dataclasses, pathlib, random, socket, ssl, typing
 - `modules/nmap2csv.py` -> argparse, csv, re, socket, struct, sys, xml.etree.ElementTree
+- `modules/nmap_fingerprint.py` -> __future__, dataclasses, defusedxml.ElementTree, glob, os
 - `modules/notify.py` -> __future__, dataclasses, ipaddress, os, re, socket, time, urllib.parse, urllib.request
 - `modules/nuclei_templates_sync.py` -> __future__, argparse, pathlib, shutil, subprocess, sys, tempfile
 - `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
@@ -180,6 +182,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/selection/technique_chain.py` -> __future__
 - `modules/selector_manager.py` -> __future__, collections.abc, dataclasses
 - `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
+- `modules/service_aliases.py` -> __future__
 - `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
 - `modules/session_rag.py` -> __future__, argparse, chromadb, chromadb.config, dataclasses, hashlib, json, os, pandas, pathlib, re, shutil, typing
 - `modules/session_reader.py` -> __future__, abc, csv, dataclasses, glob, json, os, pathlib, typing
@@ -327,7 +330,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `skills/mcp_tools/atomic_resolve.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/atomic_search.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/atomic_shell.py` -> __future__, mcp, sys, typing
-- `skills/mcp_tools/auto_loop.py` -> __future__, mcp, types, typing
+- `skills/mcp_tools/auto_loop.py` -> __future__, mcp, typing
 - `skills/mcp_tools/auto_populate.py` -> __future__, json, mcp, typing, xml.etree.ElementTree
 - `skills/mcp_tools/auto_pwn.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/autonomous_events.py` -> __future__, mcp, typing
@@ -493,8 +496,5 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `skills/mcp_tools/unified_dashboard.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_eventlogs.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_exec.py` -> __future__, json, mcp, typing
-- `skills/mcp_tools/winbox_gym_list.py` -> __future__, json, mcp, typing
-- `skills/mcp_tools/winbox_gym_plan.py` -> __future__, json, mcp, typing
-- `skills/mcp_tools/winbox_gym_run.py` -> __future__, json, mcp, typing
 
 Next: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)

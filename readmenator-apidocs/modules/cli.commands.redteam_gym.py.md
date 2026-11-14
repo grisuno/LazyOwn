@@ -38,8 +38,8 @@ flowchart LR
     n_core_console_py__print_msg["console.print_msg"]
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2(["RedTeamGymCommandSet.do_gym_ms2"])
     n_core_console_py__print_succ["console.print_succ"]
+    n_modules_chain_registry_py__get["chain_registry.get"]
     n_modules_metasploitable_gym_py__chain_for["metasploitable_gym.chain_for"]
-    n_modules_metasploitable_gym_py__get["metasploitable_gym.get"]
     n_modules_metasploitable_gym_py__summary["metasploitable_gym.summary"]
     n_modules_metasploitable_gym_py__validate_matrix["metasploitable_gym.validate_matrix"]
     n_modules_metasploitable_gym_py__vulnerabilities["metasploitable_gym.vulnerabilities"]
@@ -48,8 +48,8 @@ flowchart LR
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_core_console_py__print_error
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_core_console_py__print_msg
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_core_console_py__print_succ
+    n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_modules_chain_registry_py__get
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_modules_metasploitable_gym_py__chain_for
-    n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_modules_metasploitable_gym_py__get
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_modules_metasploitable_gym_py__summary
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_modules_metasploitable_gym_py__validate_matrix
     n_cli_commands_redteam_gym_py__RedTeamGymCommandSet_do_gym_ms2 -.-> n_modules_metasploitable_gym_py__vulnerabilities
@@ -164,6 +164,6 @@ Usage:
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_succ`](core.console.py.md#print_succ), [`chain_for`](modules.metasploitable_gym.py.md#chain_for), [`get`](modules.metasploitable_gym.py.md#get), [`summary`](modules.metasploitable_gym.py.md#summary), [`validate_matrix`](modules.metasploitable_gym.py.md#validate_matrix), [`vulnerabilities`](modules.metasploitable_gym.py.md#vulnerabilities)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_succ`](core.console.py.md#print_succ), [`get`](modules.chain_registry.py.md#get), [`chain_for`](modules.metasploitable_gym.py.md#chain_for), [`summary`](modules.metasploitable_gym.py.md#summary), [`validate_matrix`](modules.metasploitable_gym.py.md#validate_matrix), [`vulnerabilities`](modules.metasploitable_gym.py.md#vulnerabilities)
 
 ---

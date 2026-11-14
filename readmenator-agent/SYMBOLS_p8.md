@@ -1,18 +1,8 @@
-# Symbols (page 8 of 53)
+# Symbols (page 8 of 52)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
-| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
-| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
-| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
-| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
-| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
-| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
-| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
-| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
-| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
 | `unseal_payload` | function | `core/credential_vault.py:164` | `def unseal_payload(payload, key)` |
 | `unseal_value` | function | `core/credential_vault.py:112` | `def unseal_value(sealed, key)` |
 | `AESdecrypt` | function | `core/crypto.py:122` | `def AESdecrypt(data, key)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `_beacon_records_path` | function | `lazyc2.py:1272` | `def _beacon_records_path(client_id)` |
 | `_beacon_signature_guard` | function | `lazyc2.py:3696` | `def _beacon_signature_guard()` |
 | `_behavioral_risk_prompt` | function | `lazyc2.py:2517` | `def _behavioral_risk_prompt(event)` |
+| `_bg_cred_reuse` | function | `lazyc2.py:4122` | `def _bg_cred_reuse(_ip)` |
+| `_bootstrap_initial_admin` | function | `lazyc2.py:2996` | `def _bootstrap_initial_admin()` |
+| `_build_privesc_command` | function | `lazyc2.py:3667` | `def _build_privesc_command(platform)` |
+| `_build_stage_config_document` | function | `lazyc2.py:4442` | `def _build_stage_config_document()` |
+| `_campaign_adaptation_prompt` | function | `lazyc2.py:2570` | `def _campaign_adaptation_prompt(campaign_id, events)` |
+| `_complete_mfa_login` | function | `lazyc2.py:6676` | `def _complete_mfa_login()` |
+| `_csrf_cookie_secure` | function | `lazyc2.py:1533` | `def _csrf_cookie_secure()` |
+| `_csrf_enabled` | function | `lazyc2.py:1524` | `def _csrf_enabled()` |
+| `_current_aes_key` | function | `lazyc2.py:2089` | `def _current_aes_key()` |
+| `_encrypt_command_for` | function | `lazyc2.py:3530` | `def _encrypt_command_for(client_id, command)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

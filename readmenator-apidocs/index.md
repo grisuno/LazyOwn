@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 1133 modules, 17504 documented entities, documentation coverage 77.4% (8515/11003 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 1136 modules, 17445 documented entities, documentation coverage 77.3% (8489/10976 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), py (1014), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), py (1017), sh (61)
 
 ## Modules
 
@@ -36,7 +36,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`telegram_hermes`](modules/telegram_hermes.py.md) | telegram_hermes.py LazyOwn Telegram Bot with Hermes Gateway Integration | 1 | 28 | 10.0% |
 | [`testmeneitor`](modules/testmeneitor.py.md) |  | 0 | 4 | 0.0% |
 | [`user_split.sh`](modules/user_split.sh.md) |  | 0 | 0 | 0.0% |
-| [`utils`](modules/utils.py.md) | utils.py | 4 | 111 | 85.3% |
+| [`utils`](modules/utils.py.md) | utils.py | 4 | 112 | 85.5% |
 
 ### `.claude/skills/run-lazyown`
 
@@ -57,14 +57,14 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 |---|---|---|---|---|
 | [`cli`](modules/cli.__init__.py.md) | LazyOwn CLI infrastructure. | 0 | 0 | 100.0% |
 | [`cli.aliases`](modules/cli.aliases.py.md) | Declarative cmd2 alias loader. | 0 | 4 | 100.0% |
-| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 10 | 100.0% |
+| [`cli.apt_chain_support`](modules/cli.apt_chain_support.py.md) | Parsing, printing and replanning support for the ``apt_chain`` CLI. | 1 | 11 | 100.0% |
 | [`cli.assign`](modules/cli.assign.py.md) | ``assign`` business logic. | 0 | 1 | 100.0% |
 | [`cli.auto_crypto`](modules/cli.auto_crypto.py.md) | Automatic encryption of sensitive session data on app open/close. | 2 | 7 | 100.0% |
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | Ghost-text autosuggest engine for the LazyOwn cmd2 shell. | 7 | 18 | 96.2% |
 | [`cli.banner_config`](modules/cli.banner_config.py.md) | Configurable Neon Box banner for the LazyOwn interactive shell. | 25 | 56 | 23.2% |
 | [`cli.chain_mode`](modules/cli.chain_mode.py.md) | Interactive kill-chain chaining coordinator. | 5 | 9 | 100.0% |
 | [`cli.cli_enhancements`](modules/cli.cli_enhancements.py.md) | CLI enhancement primitives for the LazyOwn interactive shell. | 21 | 31 | 54.7% |
-| [`cli.command_chain`](modules/cli.command_chain.py.md) | Command chain registry: explicit prerequisites and dynamic next steps. | 7 | 15 | 100.0% |
+| [`cli.command_chain`](modules/cli.command_chain.py.md) | Command chain registry: explicit prerequisites and dynamic next steps. | 7 | 12 | 100.0% |
 | [`cli.command_explorer`](modules/cli.command_explorer.py.md) | Interactive command explorer by phase and goal for the LazyOwn shell. | 2 | 4 | 100.0% |
 | [`cli.command_form`](modules/cli.command_form.py.md) | Textual form-mode launcher for LazyOwn commands. | 4 | 10 | 100.0% |
 | [`cli.config_history`](modules/cli.config_history.py.md) | In-memory configuration history with undo and diff. | 2 | 7 | 100.0% |
@@ -75,7 +75,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`cli.dashboard_tui`](modules/cli.dashboard_tui.py.md) | LazyOwn operator dashboard — a full-screen Textual TUI. | 1 | 13 | 73.3% |
 | [`cli.doctor`](modules/cli.doctor.py.md) | Environment health check (preflight doctor) for the LazyOwn framework. | 3 | 16 | 95.0% |
 | [`cli.engagement_hooks`](modules/cli.engagement_hooks.py.md) | Curiosity-driven engagement engine for LazyOwn. | 1 | 5 | 100.0% |
-| [`cli.exploit_advisor`](modules/cli.exploit_advisor.py.md) | Exploit advisor: connects nmap scan results to exploit search and next-step commands. | 3 | 8 | 91.7% |
+| [`cli.exploit_advisor`](modules/cli.exploit_advisor.py.md) | Exploit advisor: connects nmap scan results to exploit search and next-step commands. | 2 | 3 | 100.0% |
 | [`cli.exploration`](modules/cli.exploration.py.md) | Exploration engine: trigger and OS aware addon/tool matching. | 11 | 29 | 100.0% |
 | [`cli.exploration_view`](modules/cli.exploration_view.py.md) | Rich-based renderers for the exploration engine. | 0 | 1 | 100.0% |
 | [`cli.fuzzy_match`](modules/cli.fuzzy_match.py.md) | Non-interactive fuzzy matching reusing the picker's scorer. | 1 | 2 | 100.0% |
@@ -83,7 +83,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`cli.graph_advisor`](modules/cli.graph_advisor.py.md) | Graph-aware advisor backed by the graphify knowledge graph. | 8 | 32 | 39.0% |
 | [`cli.graph_overlay`](modules/cli.graph_overlay.py.md) | Textual overlay over :mod:`cli.graph_advisor`. | 4 | 6 | 100.0% |
 | [`cli.headless`](modules/cli.headless.py.md) | Headless / non-interactive runner for automated pipelines. | 1 | 5 | 85.7% |
-| [`cli.killchain`](modules/cli.killchain.py.md) | Self-populating kill-chain progress derived from the daemon event stream. | 1 | 1 | 100.0% |
+| [`cli.killchain`](modules/cli.killchain.py.md) | Backward-compat kill-chain progress types for the dashboard TUI. | 1 | 0 | 100.0% |
 | [`cli.lazy_monitor`](modules/cli.lazy_monitor.py.md) | Live worker-visibility monitor for the autonomous loop. | 1 | 17 | 100.0% |
 | [`cli.lazy_orchestrator`](modules/cli.lazy_orchestrator.py.md) | Orchestrator admin console for the autonomous loop. | 1 | 19 | 100.0% |
 | [`cli.lazynmap_post`](modules/cli.lazynmap_post.py.md) | Post-scan side effects executed at the tail of ``do_lazynmap``. | 2 | 1 | 100.0% |
@@ -524,7 +524,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.amt_auth_bypass`](modules/modules.amt_auth_bypass.py.md) |  | 1 | 2 | 0.0% |
 | [`modules.apt_playbooks`](modules/modules.apt_playbooks.py.md) | APT Playbook Engine — map public APT reports to executable Atomic Red Team chains. | 6 | 8 | 40.0% |
 | [`modules.askpass`](modules/modules.askpass.py.md) | Graphical sudo askpass helpers for desktop sudo prompts. | 0 | 7 | 100.0% |
-| [`modules.asset_graph`](modules/modules.asset_graph.py.md) | Global asset truth store joined to per-task exploration chains. | 5 | 12 | 100.0% |
+| [`modules.asset_graph`](modules/modules.asset_graph.py.md) | Campaign scope coverage query for the autonomous loop. | 0 | 1 | 100.0% |
 | [`modules.atomic_cli`](modules/modules.atomic_cli.py.md) | Non-interactive, agent-safe implementation for atomic_tests / atomic_gen. | 0 | 3 | 100.0% |
 | [`modules.atomic_enricher`](modules/modules.atomic_enricher.py.md) | atomic_enricher.py — Enrich techniques.parquet with structured derived columns. | 0 | 3 | 100.0% |
 | [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | 2 | 23 | 100.0% |
@@ -562,10 +562,10 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.chain_loop`](modules/modules.chain_loop.py.md) | Chain-aware loop execution: one contract, two transport modes. | 1 | 6 | 100.0% |
 | [`modules.chain_match`](modules/modules.chain_match.py.md) | Shared selector for the best vetted chain given phase, platform and services. | 0 | 7 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
-| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 13 | 100.0% |
+| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 12 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
 | [`modules.chain_synth`](modules/modules.chain_synth.py.md) | Runtime chain synthesis from fact-store evidence. | 0 | 4 | 100.0% |
-| [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | Engagement-state tokens for YAML chains. | 0 | 2 | 100.0% |
+| [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | Engagement-state tokens for YAML chains. | 0 | 1 | 100.0% |
 | [`modules.cicd_enumerator`](modules/modules.cicd_enumerator.py.md) | CI/CD Pipeline Enumeration Module. | 2 | 5 | 87.5% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | CLI authentication module — login against users.json with remember-me. | 0 | 10 | 100.0% |
 | [`modules.closedloop`](modules/modules.closedloop.py.md) | Closed-loop detection rule tuning: baseline vs candidate comparison. | 2 | 4 | 100.0% |
@@ -578,7 +578,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.config_store`](modules/modules.config_store.py.md) | Thread-safe singleton facade over core.config for payload.json. | 0 | 6 | 100.0% |
 | [`modules.credential_reuse`](modules/modules.credential_reuse.py.md) | Credential Reuse Engine for LazyOwn. | 2 | 9 | 83.3% |
 | [`modules.cross_cloud`](modules/modules.cross_cloud.py.md) | Cross-cloud identity paths — multi-cloud identity federation abuse. | 2 | 8 | 81.8% |
-| [`modules.ctf_capture`](modules/modules.ctf_capture.py.md) | CTF capture verification for gym attack paths. | 0 | 6 | 100.0% |
+| [`modules.ctf_capture`](modules/modules.ctf_capture.py.md) | CTF capture verification for gym attack paths. | 0 | 7 | 100.0% |
 | [`modules.ctf_signalman`](modules/modules.ctf_signalman.py.md) | CTF signalman: one scoreboard for every recorded capture. | 0 | 4 | 100.0% |
 | [`modules.custom_tools`](modules/modules.custom_tools.py.md) | Operator-defined custom tools exposed to the autonomous loop. | 0 | 6 | 100.0% |
 | [`modules.cve_matcher`](modules/modules.cve_matcher.py.md) | modules/cve_matcher.py ======================= CVE lookup via NVD API 2.0 (no key required for basic queries). | 2 | 5 | 87.5% |
@@ -616,7 +616,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.evidence_store`](modules/modules.evidence_store.py.md) | Durable, content-addressed evidence store independent of disposable traffic. | 1 | 6 | 100.0% |
 | [`modules/evilhttprev.sh`](modules/modules.evilhttprev.sh.md) |  | 0 | 0 | 0.0% |
 | [`modules/exp.c`](modules/modules.exp.c.md) |  | 9 | 45 | 1.8% |
-| [`modules.exploit_chain`](modules/modules.exploit_chain.py.md) | Autonomous exploitation chain engine. | 5 | 7 | 92.3% |
+| [`modules.exploit_chain`](modules/modules.exploit_chain.py.md) | Autonomous exploitation chain engine. | 3 | 7 | 90.9% |
 | [`modules.exploit_recommender`](modules/modules.exploit_recommender.py.md) | AI-Powered Exploit Recommendation Engine for LazyOwn. | 2 | 7 | 60.0% |
 | [`modules.exploitdb_bridge`](modules/modules.exploitdb_bridge.py.md) |  | 0 | 3 | 0.0% |
 | [`modules.exploitdb_c_bridge`](modules/modules.exploitdb_c_bridge.py.md) |  | 0 | 5 | 0.0% |
@@ -676,7 +676,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.lazy_drafts`](modules/modules.lazy_drafts.py.md) | Injected objective drafts: close the lazy_drafts handoff loop. | 0 | 1 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
 | [`modules.lazy_exposure`](modules/modules.lazy_exposure.py.md) | Target exposure report for LazyOwn. | 0 | 8 | 100.0% |
-| [`modules.lazy_fallback`](modules/modules.lazy_fallback.py.md) | Adaptive fallback alternatives for failed chain techniques. | 3 | 5 | 100.0% |
+| [`modules.lazy_fallback`](modules/modules.lazy_fallback.py.md) | Adaptive fallback alternatives for failed chain techniques. | 3 | 4 | 100.0% |
 | [`modules.lazy_feedmatch`](modules/modules.lazy_feedmatch.py.md) | Exploit feed matching for LazyOwn. | 3 | 10 | 100.0% |
 | [`modules.lazy_finalizer`](modules/modules.lazy_finalizer.py.md) | Evidence-gated finalization for the autonomous loop and apt_chain. | 1 | 2 | 100.0% |
 | [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | Engagement findings ledger: state machine plus reproducible evidence. | 3 | 20 | 100.0% |
@@ -686,7 +686,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
 | [`modules.lazy_inventory`](modules/modules.lazy_inventory.py.md) | Host-reported inventory for LazyOwn. | 0 | 4 | 100.0% |
 | [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | Freshness ledger: TTL windows per verb and target for the loop worker. | 0 | 5 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 259 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 253 | 100.0% |
 | [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | Match policy doctrine: what may claim a match and what stays a lead. | 1 | 8 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
 | [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | 2 | 3 | 100.0% |
@@ -699,7 +699,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
 | [`modules.lazy_reaper`](modules/modules.lazy_reaper.py.md) | Reaper: expire lazy-loop tasks whose process proves dead. | 0 | 1 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
-| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 11 | 100.0% |
+| [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 12 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | Lab-only default scope for autonomous loop targets. | 1 | 8 | 100.0% |
 | [`modules.lazy_search`](modules/modules.lazy_search.py.md) | Lazy saved-search grammar over the engagement database. | 2 | 2 | 100.0% |
@@ -756,6 +756,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | Single edge between the autonomous loop and the LazyOwn AI stack. | 0 | 15 | 100.0% |
 | [`modules.loop_audit`](modules/modules.loop_audit.py.md) | Operator audit trail for autonomous loop runs. | 1 | 20 | 100.0% |
 | [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 6 | 34 | 97.6% |
+| [`modules.loop_limits`](modules/modules.loop_limits.py.md) | Canonical operating limits for the autonomous loop. | 0 | 0 | 100.0% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | 4 | 14 | 100.0% |
 | [`modules.loop_preflight`](modules/modules.loop_preflight.py.md) | Target and lab preflight checks for autonomous loops and auto_pwn. | 0 | 4 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | Rich Live milestone panel for the autonomous loop. | 2 | 9 | 100.0% |
@@ -777,6 +778,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules/mysql_hookandroot_lib.c`](modules/modules.mysql_hookandroot_lib.c.md) |  | 0 | 6 | 28.6% |
 | [`modules.network_opsec`](modules/modules.network_opsec.py.md) | Network OPSEC — proxy chain enforcement, canary detection, traffic randomization. | 2 | 9 | 83.3% |
 | [`modules.nmap2csv`](modules/modules.nmap2csv.py.md) | This file is part of nmaptocsv. | 2 | 42 | 26.7% |
+| [`modules.nmap_fingerprint`](modules/modules.nmap_fingerprint.py.md) | Canonical nmap XML fingerprinting for the exploit stack. | 1 | 5 | 100.0% |
 | [`modules.notify`](modules/modules.notify.py.md) | Stateless multi-channel notifier for finding events. | 4 | 10 | 100.0% |
 | [`modules.nuclei_templates_sync`](modules/modules.nuclei_templates_sync.py.md) | Sync community Nuclei template collections into the LazyOwn marketplace. | 0 | 15 | 100.0% |
 | [`modules.obs_parser`](modules/modules.obs_parser.py.md) | modules/obs_parser.py ====================== Observation parser: extracts structured findings from raw tool output. | 5 | 9 | 60.0% |
@@ -819,6 +821,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.security_sanitizers`](modules/modules.security_sanitizers.py.md) | Security sanitizers shared across the LazyOwn framework. | 6 | 15 | 100.0% |
 | [`modules.selector_manager`](modules/modules.selector_manager.py.md) | Selector manager: deterministic priority cascade with provenance. | 2 | 1 | 100.0% |
 | [`modules.selfupdate`](modules/modules.selfupdate.py.md) | Guarded self-update for the LazyOwn working tree. | 2 | 8 | 100.0% |
+| [`modules.service_aliases`](modules/modules.service_aliases.py.md) | Service alias knowledge for the matching surfaces. | 0 | 0 | 100.0% |
 | [`modules.session_cleanup`](modules/modules.session_cleanup.py.md) | Ephemeral infrastructure cleanup on shell exit. | 0 | 3 | 100.0% |
 | [`modules.session_rag`](modules/modules.session_rag.py.md) | session_rag.py — ChromaDB-backed RAG over sessions/ artefacts. | 1 | 8 | 70.0% |
 | [`modules.session_reader`](modules/modules.session_reader.py.md) | modules/session_reader.py ========================== Reads LazyOwn C2 session artefacts: - sessions/{client_id}.log (implant CSV: os, pid, hostname, ips, user... | 10 | 19 | 33.3% |
@@ -923,7 +926,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.mediation`](modules/modules.mediation.__init__.py.md) | Mediation layer for LazyOwn cross-module coordination. | 0 | 0 | 100.0% |
 | [`modules.mediation.chain_mediator`](modules/modules.mediation.chain_mediator.py.md) | Specialised mediator for the APT chain pipeline. | 2 | 6 | 100.0% |
 | [`modules.mediation.contracts`](modules/modules.mediation.contracts.py.md) | Mediation contracts: the abstractions every participant depends on. | 5 | 7 | 100.0% |
-| [`modules.mediation.engine_mediator`](modules/modules.mediation.engine_mediator.py.md) | Engine mediator: the loop's single coordination point to the engines. | 4 | 7 | 100.0% |
+| [`modules.mediation.engine_mediator`](modules/modules.mediation.engine_mediator.py.md) | Engine mediator: the loop's single coordination point to the engines. | 3 | 5 | 100.0% |
 | [`modules.mediation.feedback_mediator`](modules/modules.mediation.feedback_mediator.py.md) | Specialised mediator for step-ordering feedback coordination. | 1 | 2 | 100.0% |
 | [`modules.mediation.hub`](modules/modules.mediation.hub.py.md) | Thin routing hub for specialised mediators. | 1 | 6 | 100.0% |
 | [`modules.mediation.intel_mediator`](modules/modules.mediation.intel_mediator.py.md) | specialised mediator for recon-intel coordination. | 1 | 8 | 100.0% |
@@ -1178,7 +1181,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`skills.mcp_tools.atomic_resolve`](modules/skills.mcp_tools.atomic_resolve.py.md) | MCP tool ``lazyown_atomic_resolve`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
 | [`skills.mcp_tools.atomic_search`](modules/skills.mcp_tools.atomic_search.py.md) | MCP tool ``lazyown_atomic_search`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
 | [`skills.mcp_tools.atomic_shell`](modules/skills.mcp_tools.atomic_shell.py.md) | MCP tool ``lazyown_atomic_shell`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
-| [`skills.mcp_tools.auto_loop`](modules/skills.mcp_tools.auto_loop.py.md) | MCP tool ``lazyown_auto_loop`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
+| [`skills.mcp_tools.auto_loop`](modules/skills.mcp_tools.auto_loop.py.md) | MCP tool ``lazyown_auto_loop`` (single runner, one path with the CLI). | 0 | 1 | 100.0% |
 | [`skills.mcp_tools.auto_populate`](modules/skills.mcp_tools.auto_populate.py.md) | MCP tool ``lazyown_auto_populate`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |
 | [`skills.mcp_tools.auto_pwn`](modules/skills.mcp_tools.auto_pwn.py.md) | MCP tool ``lazyown_auto_pwn``: run the full autonomous exploitation chain. | 0 | 1 | 100.0% |
 | [`skills.mcp_tools.autonomous_events`](modules/skills.mcp_tools.autonomous_events.py.md) | MCP tool ``lazyown_autonomous_events`` (migrated from the call_tool dispatch chain). | 0 | 1 | 100.0% |

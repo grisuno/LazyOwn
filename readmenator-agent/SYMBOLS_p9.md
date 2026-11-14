@@ -1,18 +1,8 @@
-# Symbols (page 9 of 53)
+# Symbols (page 9 of 52)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_bg_cred_reuse` | function | `lazyc2.py:4122` | `def _bg_cred_reuse(_ip)` |
-| `_bootstrap_initial_admin` | function | `lazyc2.py:2996` | `def _bootstrap_initial_admin()` |
-| `_build_privesc_command` | function | `lazyc2.py:3667` | `def _build_privesc_command(platform)` |
-| `_build_stage_config_document` | function | `lazyc2.py:4442` | `def _build_stage_config_document()` |
-| `_campaign_adaptation_prompt` | function | `lazyc2.py:2570` | `def _campaign_adaptation_prompt(campaign_id, events)` |
-| `_complete_mfa_login` | function | `lazyc2.py:6676` | `def _complete_mfa_login()` |
-| `_csrf_cookie_secure` | function | `lazyc2.py:1533` | `def _csrf_cookie_secure()` |
-| `_csrf_enabled` | function | `lazyc2.py:1524` | `def _csrf_enabled()` |
-| `_current_aes_key` | function | `lazyc2.py:2089` | `def _current_aes_key()` |
-| `_encrypt_command_for` | function | `lazyc2.py:3530` | `def _encrypt_command_for(client_id, command)` |
 | `_enforce_https_redirect` | function | `lazyc2.py:2649` | `def _enforce_https_redirect()` |
 | `_enforce_mfa_verified` | function | `lazyc2.py:2725` | `def _enforce_mfa_verified()` |
 | `_enforce_password_rotation` | function | `lazyc2.py:2669` | `def _enforce_password_rotation()` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `configure` | function | `lazyc2/extensions/storage.py:18` | `def configure(sessions_dir)` |
 | `load_banners` | function | `lazyc2/extensions/storage.py:154` | `def load_banners()` |
 | `load_cves` | function | `lazyc2/extensions/storage.py:59` | `def load_cves()` |
+| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
+| `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
+| `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
+| `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
+| `load_tasks` | function | `lazyc2/extensions/storage.py:31` | `def load_tasks()` |
+| `save_cves` | function | `lazyc2/extensions/storage.py:73` | `def save_cves(cves)` |
+| `save_note` | function | `lazyc2/extensions/storage.py:107` | `def save_note(content)` |
+| `save_routes` | function | `lazyc2/extensions/storage.py:194` | `def save_routes(routes)` |
+| `save_tasks` | function | `lazyc2/extensions/storage.py:45` | `def save_tasks(tasks)` |
+| `configure` | function | `lazyc2/extensions/users.py:16` | `def configure(users_path)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

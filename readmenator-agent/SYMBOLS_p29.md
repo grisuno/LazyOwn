@@ -1,31 +1,8 @@
-# Symbols (page 29 of 53)
+# Symbols (page 29 of 52)
 Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_gen_list` | function | `skills/mcp_generated_tools.py:3370` | `def _gen_list(arguments, tool_name, _cmd)` |
-| `_gen_listaliases` | function | `skills/mcp_generated_tools.py:3378` | `def _gen_listaliases(arguments, tool_name, _cmd)` |
-| `_gen_listener` | function | `skills/mcp_generated_tools.py:3386` | `def _gen_listener(arguments, tool_name, _cmd)` |
-| `_gen_listener_go` | function | `skills/mcp_generated_tools.py:3394` | `def _gen_listener_go(arguments, tool_name, _cmd)` |
-| `_gen_listener_py` | function | `skills/mcp_generated_tools.py:3402` | `def _gen_listener_py(arguments, tool_name, _cmd)` |
-| `_gen_llm_budget` | function | `skills/mcp_generated_tools.py:3410` | `def _gen_llm_budget(arguments, tool_name, _cmd)` |
-| `_gen_load_session` | function | `skills/mcp_generated_tools.py:3418` | `def _gen_load_session(arguments, tool_name, _cmd)` |
-| `_gen_lock_target` | function | `skills/mcp_generated_tools.py:3426` | `def _gen_lock_target(arguments, tool_name, _cmd)` |
-| `_gen_login` | function | `skills/mcp_generated_tools.py:3434` | `def _gen_login(arguments, tool_name, _cmd)` |
-| `_gen_logout` | function | `skills/mcp_generated_tools.py:3442` | `def _gen_logout(arguments, tool_name, _cmd)` |
-| `_gen_lol` | function | `skills/mcp_generated_tools.py:3450` | `def _gen_lol(arguments, tool_name, _cmd)` |
-| `_gen_lookupsid` | function | `skills/mcp_generated_tools.py:3458` | `def _gen_lookupsid(arguments, tool_name, _cmd)` |
-| `_gen_lookupsid_py` | function | `skills/mcp_generated_tools.py:3466` | `def _gen_lookupsid_py(arguments, tool_name, _cmd)` |
-| `_gen_loot` | function | `skills/mcp_generated_tools.py:3474` | `def _gen_loot(arguments, tool_name, _cmd)` |
-| `_gen_loxs` | function | `skills/mcp_generated_tools.py:3482` | `def _gen_loxs(arguments, tool_name, _cmd)` |
-| `_gen_lynis` | function | `skills/mcp_generated_tools.py:3490` | `def _gen_lynis(arguments, tool_name, _cmd)` |
-| `_gen_macos_keychain` | function | `skills/mcp_generated_tools.py:3498` | `def _gen_macos_keychain(arguments, tool_name, _cmd)` |
-| `_gen_macos_persist` | function | `skills/mcp_generated_tools.py:3506` | `def _gen_macos_persist(arguments, tool_name, _cmd)` |
-| `_gen_macos_tcc` | function | `skills/mcp_generated_tools.py:3514` | `def _gen_macos_tcc(arguments, tool_name, _cmd)` |
-| `_gen_magicrecon` | function | `skills/mcp_generated_tools.py:3522` | `def _gen_magicrecon(arguments, tool_name, _cmd)` |
-| `_gen_makerc` | function | `skills/mcp_generated_tools.py:3530` | `def _gen_makerc(arguments, tool_name, _cmd)` |
-| `_gen_malwarebazar` | function | `skills/mcp_generated_tools.py:3538` | `def _gen_malwarebazar(arguments, tool_name, _cmd)` |
-| `_gen_marketplace` | function | `skills/mcp_generated_tools.py:3546` | `def _gen_marketplace(arguments, tool_name, _cmd)` |
 | `_gen_marketplace_config` | function | `skills/mcp_generated_tools.py:3554` | `def _gen_marketplace_config(arguments, tool_name, _cmd)` |
 | `_gen_medusa` | function | `skills/mcp_generated_tools.py:3562` | `def _gen_medusa(arguments, tool_name, _cmd)` |
 | `_gen_metabigor` | function | `skills/mcp_generated_tools.py:3570` | `def _gen_metabigor(arguments, tool_name, _cmd)` |
@@ -343,7 +320,9 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `handle` | function | `skills/mcp_tools/atomic_resolve.py:49` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/atomic_search.py:74` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/atomic_shell.py:34` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/auto_loop.py:48` | `def handle(arguments, tool_name, ctx)` |
+| `_loop_line` | function | `skills/mcp_tools/auto_loop.py:59` | `def _loop_line(arguments)` |
+| `_render` | function | `skills/mcp_tools/auto_loop.py:97` | `def _render(summary, target, prefix)` |
+| `handle` | function | `skills/mcp_tools/auto_loop.py:128` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/auto_populate.py:39` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/auto_pwn.py:47` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/autonomous_events.py:28` | `def handle(arguments, tool_name, ctx)` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `handle` | function | `skills/mcp_tools/reactive_suggest.py:50` | `def handle(arguments, tool_name, ctx)` |
 | `_read_prompt` | function | `skills/mcp_tools/read_prompt.py:46` | `def _read_prompt()` |
 | `handle` | function | `skills/mcp_tools/read_prompt.py:41` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/read_session_file.py:26` | `def handle(arguments, tool_name, ctx)` |
+| `_fused_recommendations` | function | `skills/mcp_tools/recommend_next.py:32` | `def _fused_recommendations()` |
+| `handle` | function | `skills/mcp_tools/recommend_next.py:25` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/rich_tui_snapshot.py:30` | `def handle(arguments, tool_name, ctx)` |
+| `_runner` | function | `skills/mcp_tools/run_agent.py:68` | `def _runner(cmd)` |
+| `handle` | function | `skills/mcp_tools/run_agent.py:50` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/run_api.py:30` | `def handle(arguments, tool_name, ctx)` |
+| `_publish_command_event` | function | `skills/mcp_tools/run_command.py:61` | `def _publish_command_event(command, output, operator, target)` |
+| `_run_with_fallback` | function | `skills/mcp_tools/run_command.py:102` | `def _run_with_fallback(cmd, to)` |
+| `handle` | function | `skills/mcp_tools/run_command.py:82` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/run_command_async.py:39` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/search_tools.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/searchsploit.py:79` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_diff.py:32` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_init.py:59` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_resume.py:37` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_state.py:33` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/session_status.py:43` | `def handle(arguments, tool_name, ctx)` |
+| `handle` | function | `skills/mcp_tools/set_active_target.py:35` | `def handle(arguments, tool_name, ctx)` |
+| `coerce_value` | function | `skills/mcp_tools/set_config.py:46` | `def coerce_value(coerce_key, coerce_value_in)` |
+| `handle` | function | `skills/mcp_tools/set_config.py:36` | `def handle(arguments, tool_name, ctx)` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

@@ -86,7 +86,6 @@ Project types nested under the project types they derive from. External bases ar
   - [`DynamicAliasResolver`](modules/cli.cli_enhancements.py.md#dynamicaliasresolver) class in `cli.cli_enhancements`
 - [`Alternative`](modules/modules.lazy_fallback.py.md#alternative) class in `modules.lazy_fallback`
 - [`AnalyzerResult`](modules/skills.claude_md_orchestrator.reviewer_agent.py.md#analyzerresult) class in `skills.claude_md_orchestrator.reviewer_agent`
-- [`Anchor`](modules/modules.asset_graph.py.md#anchor) class in `modules.asset_graph`
 - [`ApiAuthzConfig`](modules/core.api_authz.py.md#apiauthzconfig) class in `core.api_authz`
 - [`ApiKey`](modules/core.api_authz.py.md#apikey) class in `core.api_authz`
 - [`ApiKeyStore`](modules/core.api_authz.py.md#apikeystore) class in `core.api_authz`
@@ -109,9 +108,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AptPlaybook`](modules/modules.apt_playbooks.py.md#aptplaybook) class in `modules.apt_playbooks`
 - [`AptPlaybookEngine`](modules/modules.apt_playbooks.py.md#aptplaybookengine) class in `modules.apt_playbooks`
 - [`AssetGate`](modules/modules.lazy_loop.py.md#assetgate) class in `modules.lazy_loop`
-- [`AssetGraph`](modules/modules.asset_graph.py.md#assetgraph) class in `modules.asset_graph`
 - [`AssetGraph`](modules/modules.lazy_loop.py.md#assetgraph) class in `modules.lazy_loop`
-- [`AssetNode`](modules/modules.asset_graph.py.md#assetnode) class in `modules.asset_graph`
 - [`ASTToolExtractor`](modules/modules.agent_runner.py.md#asttoolextractor) class in `modules.agent_runner`
 - [`AtomicResolver`](modules/modules.atomic_resolver.py.md#atomicresolver) class in `modules.atomic_resolver`
 - [`AtomicSelector`](modules/modules.selection.atomic.py.md#atomicselector) class in `modules.selection.atomic`
@@ -491,7 +488,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`ExploitMatch`](modules/modules.exploit_recommender.py.md#exploitmatch) class in `modules.exploit_recommender`
 - [`ExploitRecommender`](modules/modules.exploit_recommender.py.md#exploitrecommender) class in `modules.exploit_recommender`
 - [`ExploitResult`](modules/modules.autonomous_exploit_engine.py.md#exploitresult) class in `modules.autonomous_exploit_engine`
-- [`ExploitResult`](modules/modules.exploit_chain.py.md#exploitresult) class in `modules.exploit_chain`
 - [`ExploitRetryPort`](modules/modules.mediation.engine_mediator.py.md#exploitretryport) protocol in `modules.mediation.engine_mediator`(Protocol)
 - [`ExploitSighting`](modules/modules.lazy_feedmatch.py.md#exploitsighting) class in `modules.lazy_feedmatch`
 - [`ExploitSource`](modules/modules.integrations.searchsploit.py.md#exploitsource) class in `modules.integrations.searchsploit`(ABC)
@@ -501,7 +497,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`ExplorationConfig`](modules/cli.exploration.py.md#explorationconfig) class in `cli.exploration`
 - [`ExplorationEngine`](modules/cli.exploration.py.md#explorationengine) class in `cli.exploration`
 - [`ExplorationGraph`](modules/modules.lazy_loop.py.md#explorationgraph) class in `modules.lazy_loop`
-- [`ExplorationNode`](modules/modules.asset_graph.py.md#explorationnode) class in `modules.asset_graph`
 - [`ExplorerConfig`](modules/cli.command_explorer.py.md#explorerconfig) class in `cli.command_explorer`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
@@ -596,7 +591,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`GPOInfo`](modules/modules.gpo_abuse.py.md#gpoinfo) class in `modules.gpo_abuse`
 - [`GraphAdvisor`](modules/cli.graph_advisor.py.md#graphadvisor) class in `cli.graph_advisor`
 - [`GraphAdvisorConfig`](modules/cli.graph_advisor.py.md#graphadvisorconfig) class in `cli.graph_advisor`
-- [`GraphConfig`](modules/modules.asset_graph.py.md#graphconfig) class in `modules.asset_graph`
 - [`GraphEdge`](modules/cli.graph_advisor.py.md#graphedge) class in `cli.graph_advisor`
 - [`GraphEdge`](modules/lazygui.services.models.py.md#graphedge) class in `lazygui.services.models`
 - [`GraphEdgeItem`](modules/lazygui.widgets.graph_view.py.md#graphedgeitem) class in `lazygui.widgets.graph_view`(QGraphicsLineItem)
@@ -1266,7 +1260,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`ReactiveEngine`](modules/modules.reactive_engine.py.md#reactiveengine) class in `modules.reactive_engine`
 - [`ReadlineBridge`](modules/cli.fuzzy_picker.py.md#readlinebridge) class in `cli.fuzzy_picker`
 - [`ReasoningEntry`](modules/cli.reasoning_stream.py.md#reasoningentry) class in `cli.reasoning_stream`
-- [`ReasoningPort`](modules/modules.mediation.engine_mediator.py.md#reasoningport) protocol in `modules.mediation.engine_mediator`(Protocol)
 - [`Recommendation`](modules/cli.recommendation.py.md#recommendation) class in `cli.recommendation`
 - [`RecommendationContext`](modules/cli.recommendation.py.md#recommendationcontext) class in `cli.recommendation`
 - [`RecommendationEngine`](modules/cli.recommendation.py.md#recommendationengine) class in `cli.recommendation`
@@ -1391,8 +1384,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`SemanticContextAdvisor`](modules/modules.reactive_engine.py.md#semanticcontextadvisor) class in `modules.reactive_engine`
 - [`Server`](modules/contrib.legacy.lazyhoneypot.py.md#server) class in `contrib.legacy.lazyhoneypot`(paramiko.ServerInterface)
 - [`ServiceFact`](modules/skills.lazyown_facts.py.md#servicefact) class in `skills.lazyown_facts`
-- [`ServiceInfo`](modules/cli.exploit_advisor.py.md#serviceinfo) class in `cli.exploit_advisor`
-- [`ServiceInfo`](modules/modules.exploit_chain.py.md#serviceinfo) class in `modules.exploit_chain`
+- [`ServiceInfo`](modules/modules.nmap_fingerprint.py.md#serviceinfo) class in `modules.nmap_fingerprint`
 - [`ServiceInfo`](modules/modules.world_model.py.md#serviceinfo) class in `modules.world_model`
 - [`ServiceNextResolver`](modules/cli.command_chain.py.md#servicenextresolver) class in `cli.command_chain`
 - [`ServiceResult`](modules/cli.exploit_advisor.py.md#serviceresult) class in `cli.exploit_advisor`

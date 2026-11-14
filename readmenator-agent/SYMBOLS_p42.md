@@ -1,21 +1,8 @@
-# Symbols (page 42 of 53)
+# Symbols (page 42 of 52)
 Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `__init__` | method | `tests/test_fuzzy_picker.py:38` | `def __init__(self, selection_index)` |
-| `_collect_runtime_strings` | function | `tests/test_fuzzy_picker.py:198` | `def _collect_runtime_strings()` |
-| `_collect_string_constants` | function | `tests/test_fuzzy_picker.py:174` | `def _collect_string_constants(source)` |
-| `run` | method | `tests/test_fuzzy_picker.py:43` | `def run(self, items, initial_query)` |
-| `sample_items` | function | `tests/test_fuzzy_picker.py:59` | `def sample_items()` |
-| `scorer` | function | `tests/test_fuzzy_picker.py:54` | `def scorer()` |
-| `test_config_from_payload_ignores_unknown_keys` | function | `tests/test_fuzzy_picker.py:119` | `def test_config_from_payload_ignores_unknown_keys()` |
-| `test_config_from_payload_respects_known_overrides` | function | `tests/test_fuzzy_picker.py:112` | `def test_config_from_payload_respects_known_overrides()` |
-| `test_config_from_payload_returns_defaults_when_no_block` | function | `tests/test_fuzzy_picker.py:124` | `def test_config_from_payload_returns_defaults_when_no_block()` |
-| `test_empty_query_returns_all_items_in_order` | function | `tests/test_fuzzy_picker.py:72` | `def test_empty_query_returns_all_items_in_order(scorer, sample_items)` |
-| `test_exact_match_scores_highest` | function | `tests/test_fuzzy_picker.py:78` | `def test_exact_match_scores_highest(scorer, sample_items)` |
-| `test_getprompt_renders_three_lines_and_includes_payload_segments` | function | `tests/test_fuzzy_picker.py:280` | `def test_getprompt_renders_three_lines_and_includes_payload_segments()` |
-| `test_lazyown_runtime_strings_preserve_shell_payload` | function | `tests/test_fuzzy_picker.py:260` | `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)` |
 | `test_lazyown_source_has_no_invalid_escape_warning` | function | `tests/test_fuzzy_picker.py:265` | `def test_lazyown_source_has_no_invalid_escape_warning()` |
 | `test_picker_cancel_returns_none` | function | `tests/test_fuzzy_picker.py:146` | `def test_picker_cancel_returns_none(sample_items)` |
 | `test_picker_empty_input_returns_none` | function | `tests/test_fuzzy_picker.py:152` | `def test_picker_empty_input_returns_none()` |
@@ -176,6 +163,13 @@ Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 | `test_scenarios_requires_operator_session` | function | `tests/test_gym_blueprint.py:43` | `def test_scenarios_requires_operator_session(gym_app)` |
 | `test_start_rejects_unknown_scenario_unauthenticated` | function | `tests/test_gym_blueprint.py:49` | `def test_start_rejects_unknown_scenario_unauthenticated(gym_app)` |
 | `test_stop_all_is_routed` | function | `tests/test_gym_blueprint.py:55` | `def test_stop_all_is_routed(gym_app)` |
+| `_boom` | function | `tests/test_gym_cleanup_policy.py:48` | `def _boom()` |
+| `no_payload` | function | `tests/test_gym_cleanup_policy.py:9` | `def no_payload(monkeypatch)` |
+| `test_autonomous_process_never_cleans` | function | `tests/test_gym_cleanup_policy.py:36` | `def test_autonomous_process_never_cleans(no_payload, monkeypatch)` |
+| `test_cleanup_disabled_by_default` | function | `tests/test_gym_cleanup_policy.py:16` | `def test_cleanup_disabled_by_default(no_payload)` |
+| `test_cleanup_enabled_by_payload_opt_in` | function | `tests/test_gym_cleanup_policy.py:22` | `def test_cleanup_enabled_by_payload_opt_in(no_payload, monkeypatch)` |
+| `test_cleanup_skips_lab_runtime_when_disabled` | function | `tests/test_gym_cleanup_policy.py:45` | `def test_cleanup_skips_lab_runtime_when_disabled(no_payload, monkeypatch)` |
+| `test_cleanup_stops_machines_when_opted_in` | function | `tests/test_gym_cleanup_policy.py:57` | `def test_cleanup_stops_machines_when_opted_in(no_payload, monkeypatch, capsys)` |
 | `sandbox` | function | `tests/test_gym_cli.py:11` | `def sandbox(tmp_path, monkeypatch)` |
 | `test_atomic_shell_marks_target_compromised` | function | `tests/test_gym_cli.py:123` | `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)` |
 | `test_gym_start_status_stop_lifecycle` | function | `tests/test_gym_cli.py:39` | `def test_gym_start_status_stop_lifecycle(sandbox, capsys)` |
@@ -496,5 +490,11 @@ Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 | `test_render_prompt_defaults_to_raw_ansi_for_prompt_toolkit` | method | `tests/test_improvements_spec.py:263` | `def test_render_prompt_defaults_to_raw_ansi_for_prompt_toolkit(self)` |
 | `test_render_prompt_opt_in_readline_mode_wraps_ansi_with_markers` | method | `tests/test_improvements_spec.py:270` | `def test_render_prompt_opt_in_readline_mode_wraps_ansi_with_markers(self)` |
 | `test_render_strips_dangerous_substrings` | method | `tests/test_improvements_spec.py:258` | `def test_render_strips_dangerous_substrings(self)` |
+| `test_render_truncates_to_max_chars` | method | `tests/test_improvements_spec.py:252` | `def test_render_truncates_to_max_chars(self)` |
+| `test_result_to_dict_is_json_serialisable` | method | `tests/test_improvements_spec.py:650` | `def test_result_to_dict_is_json_serialisable(self)` |
+| `test_router_ignores_unset_task_type_for_keyword_scoring` | method | `tests/test_improvements_spec.py:978` | `def test_router_ignores_unset_task_type_for_keyword_scoring(self)` |
+| `test_router_picks_daemon_when_only_payload_supplies_target` | method | `tests/test_improvements_spec.py:954` | `def test_router_picks_daemon_when_only_payload_supplies_target(self)` |
+| `test_status_bar_install_registers_precmd_hook_on_real_cmd2` | method | `tests/test_improvements_spec.py:803` | `def test_status_bar_install_registers_precmd_hook_on_real_cmd2(self)` |
+| `test_suggestion_fallback_when_factory_none` | method | `tests/test_improvements_spec.py:760` | `def test_suggestion_fallback_when_factory_none(self)` |
 
 Next: [SYMBOLS_p43.md](SYMBOLS_p43.md)

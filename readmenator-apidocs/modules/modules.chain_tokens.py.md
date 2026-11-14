@@ -14,31 +14,15 @@ single-quoted.
 
 ## Contents
 
-- **Functions:** [`token_keys`](#token_keys), [`build_tokens`](#build_tokens)
+- **Functions:** [`build_tokens`](#build_tokens)
 
 ## Functions
-
-<a id="token_keys"></a>
-
-### `token_keys`
-
-`function` | [modules/chain_tokens.py:24](../../modules/chain_tokens.py#L24)
-
-```python
-def token_keys() -> tuple[str, ...]
-```
-
-Return every engagement token name this module can produce.
-
-**Returns:** `tuple[str, ...]`
-
----
 
 <a id="build_tokens"></a>
 
 ### `build_tokens`
 
-`function` | [modules/chain_tokens.py:29](../../modules/chain_tokens.py#L29)
+`function` | [modules/chain_tokens.py:24](../../modules/chain_tokens.py#L24)
 
 ```python
 def build_tokens(target: str, params: dict | None = None) -> dict[str, str]

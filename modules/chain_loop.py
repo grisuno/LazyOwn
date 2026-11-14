@@ -58,8 +58,9 @@ def is_chain_command(command: str) -> bool:
 def parse_chain_invocation(command: str) -> tuple[str, str, dict[str, str]]:
     """Split one ``apt_chain`` command line into name, target and vars.
 
-    Reuses the CLI argument parser so the loop and the shell accept the
-    exact same syntax.
+    Delegates classification to the shared CLI resolver
+    (:func:`cli.apt_chain_support.resolve_invocation`) so the loop and the
+    shell accept the exact same chain/target/playbook syntax.
 
     Args:
         command: Raw command line beginning with ``apt_chain``.
@@ -67,10 +68,11 @@ def parse_chain_invocation(command: str) -> tuple[str, str, dict[str, str]]:
     Returns:
         ``(chain_name, target, vars)`` where the name defaults to the
         base chain and the target may be empty (the worker target wins
-        in ``run_chain_stepwise``).
+        in ``run_chain_stepwise``). A disabled chain file yields the base
+        chain name instead.
     """
     try:
-        from cli.apt_chain_support import parse_chain_args
+        from cli.apt_chain_support import parse_chain_args, resolve_invocation
 
         rest = command.strip().split(None, 1)
         args = parse_chain_args(rest[1] if len(rest) > 1 else "")
@@ -78,32 +80,14 @@ def parse_chain_invocation(command: str) -> tuple[str, str, dict[str, str]]:
         return ("", "", {})
     if args.errors or args.admin_action:
         return ("", "", {})
-    name = args.chain_override or "apt_chain"
-    target = args.target
-    positional = [token for token in args.positional if token.lower() != CHAIN_COMMAND_PREFIX]
-    if positional:
-        import ipaddress
-
-        first = positional[0]
-        try:
-            ipaddress.ip_address(first.split("/")[0])
-            is_address = True
-        except ValueError:
-            is_address = False
-        if is_address and not target:
-            target = first
-        else:
-            name = first
-            for token in positional[1:]:
-                try:
-                    from modules.auto_registry import _looks_like_target
-
-                    if not target and _looks_like_target(token):
-                        target = token
-                        break
-                except Exception:
-                    break
-    return (name or "apt_chain", target.strip(), dict(args.vars))
+    positionals = [token for token in args.positional if token.lower() != CHAIN_COMMAND_PREFIX]
+    chain_name, target, _playbook_override, _disabled = resolve_invocation(
+        positionals,
+        target_seed=args.target,
+        preset_target=args.target,
+        policy="lenient",
+    )
+    return (chain_name or "apt_chain", (target or "").strip(), dict(args.vars))
 
 
 def stepwise_eligible(chain: Any, routable: Callable[[str], bool] | None = None) -> tuple[bool, str]:

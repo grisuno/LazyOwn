@@ -1,29 +1,8 @@
-# Symbols (page 33 of 53)
+# Symbols (page 33 of 52)
 Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
-| `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
-| `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
-| `s` | function | `static/js/html2pdf.bundle.min.js:115` | `` |
-| `s` | function | `static/js/html2pdf.bundle.min.js:146` | `` |
-| `save` | function | `static/js/html2pdf.bundle.min.js:8836` | `` |
-| `selfFulfillment` | function | `static/js/html2pdf.bundle.min.js:7615` | `` |
-| `serializeDoctype` | function | `static/js/html2pdf.bundle.min.js:7034` | `` |
-| `serializeDoctype` | function | `static/js/html2pdf.bundle.min.js:7034` | `` |
-| `set` | function | `static/js/html2pdf.bundle.min.js:8850` | `` |
-| `setAsap` | function | `static/js/html2pdf.bundle.min.js:7437` | `` |
-| `setDisplayBit` | function | `static/js/html2pdf.bundle.min.js:1908` | `` |
-| `setDisplayBit` | function | `static/js/html2pdf.bundle.min.js:1908` | `` |
-| `setMargin` | function | `static/js/html2pdf.bundle.min.js:8898` | `` |
-| `setOpacity` | function | `static/js/html2pdf.bundle.min.js:809` | `` |
-| `setPageSize` | function | `static/js/html2pdf.bundle.min.js:8920` | `` |
-| `setProgress` | function | `static/js/html2pdf.bundle.min.js:8943` | `` |
-| `setScheduler` | function | `static/js/html2pdf.bundle.min.js:7433` | `` |
-| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:2761` | `` |
-| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6040` | `` |
-| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6046` | `` |
 | `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6139` | `` |
 | `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6144` | `` |
 | `setTimeout` | method | `static/js/html2pdf.bundle.min.js:8013` | `` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `d` | function | `static/js/vis-network.min.js:33` | `` |
 | `dE` | function | `static/js/vis-network.min.js:33` | `` |
 | `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:48` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `fO` | function | `static/js/vis-network.min.js:48` | `` |
+| `fk` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:26` | `` |
+| `g` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `g` | function | `static/js/vis-network.min.js:48` | `` |
+| `gE` | function | `static/js/vis-network.min.js:33` | `` |
+| `gp` | function | `static/js/vis-network.min.js:33` | `` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

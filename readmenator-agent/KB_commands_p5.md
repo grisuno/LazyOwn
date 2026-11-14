@@ -115,8 +115,8 @@ Previous: [KB_commands_p4.md](KB_commands_p4.md)
 - Language: py
 - Symbols:
   - `WinboxCommandSet` (class, line 44) `class WinboxCommandSet(LazyOwnCommandSet)`
-  - `_extract_flag` (function, line 514) `def _extract_flag(args, flag)`
-  - `_extract_bool` (function, line 537) `def _extract_bool(args, flag)`
+  - `_extract_flag` (function, line 515) `def _extract_flag(args, flag)`
+  - `_extract_bool` (function, line 538) `def _extract_bool(args, flag)`
   - `do_winbox` (method, line 51) `def do_winbox(self, line)`
   - `_overview` (method, line 121) `def _overview(self)`
   - `_bootstrap` (method, line 127) `def _bootstrap(self)`
@@ -133,8 +133,8 @@ Previous: [KB_commands_p4.md](KB_commands_p4.md)
   - `_snapshot` (method, line 341) `def _snapshot(self, rest)`
   - `_resolve` (method, line 363) `def _resolve(self, rest)`
   - `_gym` (method, line 382) `def _gym(self, rest)`
-  - `_gym_matrix` (method, line 418) `def _gym_matrix(self, action, rest)`
-  - `_confirmed` (method, line 501) `def _confirmed(self, rest)`
+  - `_gym_matrix` (method, line 419) `def _gym_matrix(self, action, rest)`
+  - `_confirmed` (method, line 502) `def _confirmed(self, rest)`
   - `_lab_notify` (function, line 215) `def _lab_notify(message)`
-- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/chain_registry.py`, `utils.py`
 

@@ -53,7 +53,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/browser_sync.py`, `cli/commands/exploitdb.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyops.py`, `cli/commands/loop_audit.py`, `cli/commands/netattack.py`, `cli/commands/pwn.py`, `cli/commands/sidequest.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/bof_delivery.py`, `modules/browser_sync.py`, `modules/chain_runner.py`, `modules/ctf_signalman.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_gating.py`, `modules/loop_guardrails.py`, `modules/loop_preflight.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/edb.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/verb_catalog.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `skills/mcp_tools/lazy_intel.py`, `skills/mcp_tools/lazy_workspace.py`, `skills/mcp_tools/winbox_eventlogs.py`, `skills/mcp_tools/winbox_exec.py`, `skills/mcp_tools/winbox_gym_list.py`, `skills/mcp_tools/winbox_gym_plan.py`, `skills/mcp_tools/winbox_gym_run.py`, `skills/mcp_tools/winbox_snapshot.py`, `skills/mcp_tools/winbox_status.py`, `skills/mcp_tools/winbox_tools.py`, `skills/mcp_tools/winbox_vm.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_bprfuzzer_identity.py`, `tests/test_browser_sync.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_defense_stages.py`, `tests/test_finding_enrich.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_intel_selector.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_autofire.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_finalizer.py`, `tests/test_lazy_intel_wiring.py`, `tests/test_lazy_inventory.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_search.py`, `tests/test_lazy_sentinel.py`, `tests/test_lazy_timeline.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_audit.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_manager_outcome.py`, `tests/test_loop_mentions.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_preflight.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_pacing.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_selection_module.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_session_brief.py`, `tests/test_sidequest.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/browser_sync.py`, `cli/commands/exploitdb.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyops.py`, `cli/commands/loop_audit.py`, `cli/commands/netattack.py`, `cli/commands/pwn.py`, `cli/commands/sidequest.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/bof_delivery.py`, `modules/browser_sync.py`, `modules/chain_runner.py`, `modules/ctf_signalman.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_gating.py`, `modules/loop_guardrails.py`, `modules/loop_preflight.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/edb.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/verb_catalog.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `skills/mcp_tools/lazy_intel.py`, `skills/mcp_tools/lazy_workspace.py`, `skills/mcp_tools/winbox_eventlogs.py`, `skills/mcp_tools/winbox_exec.py`, `skills/mcp_tools/winbox_gym_list.py`, `skills/mcp_tools/winbox_gym_plan.py`, `skills/mcp_tools/winbox_gym_run.py`, `skills/mcp_tools/winbox_snapshot.py`, `skills/mcp_tools/winbox_status.py`, `skills/mcp_tools/winbox_tools.py`, `skills/mcp_tools/winbox_vm.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_bprfuzzer_identity.py`, `tests/test_browser_sync.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_defense_stages.py`, `tests/test_finding_enrich.py`, `tests/test_golden_path.py`, `tests/test_gym_cleanup_policy.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_intel_selector.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_autofire.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_finalizer.py`, `tests/test_lazy_intel_wiring.py`, `tests/test_lazy_inventory.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_search.py`, `tests/test_lazy_sentinel.py`, `tests/test_lazy_timeline.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_audit.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_manager_outcome.py`, `tests/test_loop_mentions.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_preflight.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_pacing.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_selection_module.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_session_brief.py`, `tests/test_sidequest.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
 
 ## modules/ad_gym.py
 - Doc: AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
@@ -162,19 +162,19 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitChainContext` (class, line 223) `class ExploitChainContext`
-  - `AIExploitChainer` (class, line 247) `class AIExploitChainer`
-  - `__init__` (method, line 259) `def __init__(self)`
-  - `reason` (method, line 285) `def reason(self, context)`
-  - `evaluate_failure` (method, line 306) `def evaluate_failure(result)`
-  - `select_next_strategy` (method, line 318) `def select_next_strategy(self, context)`
-  - `estimate_confidence` (method, line 349) `def estimate_confidence(self, strategy, profile)`
-  - `build_chain_plan` (method, line 391) `def build_chain_plan(self, context)`
-  - `adapt_chain` (method, line 428) `def adapt_chain(self, context, new_info)`
-  - `_ensure` (method, line 487) `def _ensure(context, strategy)`
-  - `_parse_shell_hints` (method, line 492) `def _parse_shell_hints(self, output, context)`
+  - `ExploitChainContext` (class, line 200) `class ExploitChainContext`
+  - `AIExploitChainer` (class, line 224) `class AIExploitChainer`
+  - `__init__` (method, line 236) `def __init__(self)`
+  - `reason` (method, line 262) `def reason(self, context)`
+  - `evaluate_failure` (method, line 283) `def evaluate_failure(result)`
+  - `select_next_strategy` (method, line 295) `def select_next_strategy(self, context)`
+  - `estimate_confidence` (method, line 326) `def estimate_confidence(self, strategy, profile)`
+  - `build_chain_plan` (method, line 368) `def build_chain_plan(self, context)`
+  - `adapt_chain` (method, line 405) `def adapt_chain(self, context, new_info)`
+  - `_ensure` (method, line 464) `def _ensure(context, strategy)`
+  - `_parse_shell_hints` (method, line 469) `def _parse_shell_hints(self, output, context)`
 - Depends on: `modules/autonomous_exploit_engine.py`
-- Imported by: `cli/commands/pwn.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/exploit_chain.py`, `tests/test_engine_mediator.py`
+- Imported by: `cli/commands/pwn.py`, `skills/mcp_tools/exploit_chain.py`, `tests/test_engine_mediator.py`
 
 ## modules/ai_fallback.py
 - Doc: LazyOwn AI Fallback Chain
@@ -193,7 +193,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `_fallback_warning` (function, line 349) `def _fallback_warning(orch)`
   - `_summarize_attempts` (function, line 354) `def _summarize_attempts(orch)`
   - `_total_failure_result` (function, line 359) `def _total_failure_result(orch, local_error)`
-- Depends on: `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+- Depends on: `core/config.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
 - Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`, `tests/test_llm_orchestrator.py`
 
 ## modules/ai_model.py
@@ -308,28 +308,12 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Imported by: `lazyown.py`, `tests/test_askpass.py`
 
 ## modules/asset_graph.py
-- Doc: Global asset truth store joined to per-task exploration chains.
+- Doc: Campaign scope coverage query for the autonomous loop.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `GraphConfig` (class, line 17) `class GraphConfig`
-  - `asset_key` (function, line 28) `def asset_key(asset_type, value, parent_key)`
-  - `AssetNode` (class, line 36) `class AssetNode`
-  - `ExplorationNode` (class, line 50) `class ExplorationNode`
-  - `Anchor` (class, line 63) `class Anchor`
-  - `AssetGraph` (class, line 70) `class AssetGraph`
-  - `coverage_for` (function, line 214) `def coverage_for(db, workspace_id, scope)`
-  - `__init__` (method, line 73) `def __init__(self, config)`
-  - `upsert_asset` (method, line 82) `def upsert_asset(self, asset_type, value, parent_key, company)`
-  - `add_node` (method, line 108) `def add_node(self, task_id, kind, text, parent_id, payload)`
-  - `add_fact` (method, line 123) `def add_fact(self, task_id, text, parent_id, payload)`
-  - `add_finding` (method, line 128) `def add_finding(self, task_id, text, parent_id, payload)`
-  - `anchor` (method, line 133) `def anchor(self, exploration_id, key)`
-  - `assets_for_node` (method, line 145) `def assets_for_node(self, exploration_id)`
-  - `nodes_for_asset` (method, line 151) `def nodes_for_asset(self, key)`
-  - `coverage` (method, line 157) `def coverage(self, task_id)`
-  - `mirror_to_campaign` (method, line 170) `def mirror_to_campaign(self, db, world_model, workspace_id)`
-- Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+  - `coverage_for` (function, line 12) `def coverage_for(db, workspace_id, scope)`
+- Imported by: `skills/autonomous_daemon.py`
 
 ## modules/atomic_cli.py
 - Doc: Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
@@ -467,6 +451,39 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `tag` (function, line 167) `def tag(nid, source)`
 - Depends on: `cli/surface_graph.py`, `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
 - Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph.py`, `tests/test_attack_surface3d.py`
+
+## modules/auto_loop_memory.py
+- Doc: Persistent memory for the auto loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PendingDecision` (class, line 45) `class PendingDecision`
+  - `FailureMemory` (class, line 53) `class FailureMemory`
+  - `DecisionPersistence` (class, line 212) `class DecisionPersistence`
+  - `__init__` (method, line 56) `def __init__(self, filepath)`
+  - `path` (method, line 63) `def path(self)`
+  - `make_key` (method, line 68) `def make_key(target, category, command)`
+  - `base_of` (method, line 75) `def base_of(command)`
+  - `record_failure` (method, line 79) `def record_failure(self, target, category, command)`
+  - `failure_count` (method, line 89) `def failure_count(self, target, category, command)`
+  - `count_for_base` (method, line 94) `def count_for_base(self, target, base_command)`
+  - `veto_base` (method, line 105) `def veto_base(self, target, base_command)`
+  - `is_blocked` (method, line 115) `def is_blocked(self, target, base_command, bonus_key)`
+  - `failure_count_strict` (method, line 123) `def failure_count_strict(self, target, key)`
+  - `blocked_bases` (method, line 128) `def blocked_bases(self, target)`
+  - `clear_target` (method, line 140) `def clear_target(self, target)`
+  - `sanctioned_bases` (method, line 146) `def sanctioned_bases(self, target)`
+  - `_trim` (method, line 159) `def _trim(self)`
+  - `save` (method, line 166) `def save(self)`
+  - `_load` (method, line 186) `def _load(self)`
+  - `__init__` (method, line 215) `def __init__(self, filepath)`
+  - `push` (method, line 220) `def push(self, command, reason)`
+  - `pop` (method, line 229) `def pop(self)`
+  - `peek` (method, line 237) `def peek(self)`
+  - `__len__` (method, line 241) `def __len__(self)`
+  - `save` (method, line 244) `def save(self)`
+  - `_load` (method, line 262) `def _load(self)`
+- Imported by: `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

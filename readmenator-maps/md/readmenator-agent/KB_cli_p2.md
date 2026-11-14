@@ -175,18 +175,12 @@ Previous: [KB_cli.md](KB_cli.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ServiceInfo` (class, line 111) `class ServiceInfo`
-  - `ExploitHit` (class, line 144) `class ExploitHit`
-  - `ServiceResult` (class, line 153) `class ServiceResult`
-  - `parse_nmap_xml` (function, line 164) `def parse_nmap_xml(path)`
-  - `find_nmap_xml` (function, line 203) `def find_nmap_xml(rhost, sessions_dir)`
-  - `print_exploit_summary` (function, line 222) `def print_exploit_summary(results, rhost)`
-  - `save_ss_results` (function, line 296) `def save_ss_results(results, rhost, sessions_dir)`
-  - `inject_exploit_tasks` (function, line 338) `def inject_exploit_tasks(results, rhost, tasks_path)`
-  - `search_query` (method, line 122) `def search_query(self)`
-  - `display_name` (method, line 128) `def display_name(self)`
-  - `next_commands` (method, line 132) `def next_commands(self)`
-- Depends on: `core/console.py`
+  - `ExploitHit` (class, line 36) `class ExploitHit`
+  - `ServiceResult` (class, line 45) `class ServiceResult`
+  - `print_exploit_summary` (function, line 59) `def print_exploit_summary(results, rhost)`
+  - `save_ss_results` (function, line 133) `def save_ss_results(results, rhost, sessions_dir)`
+  - `inject_exploit_tasks` (function, line 175) `def inject_exploit_tasks(results, rhost, tasks_path)`
+- Depends on: `core/console.py`, `modules/nmap_fingerprint.py`
 - Imported by: `cli/commands/recon.py`
 
 ## cli/exploration.py
@@ -424,16 +418,12 @@ Previous: [KB_cli.md](KB_cli.md)
 - Imported by: `lazyown.py`, `tests/test_loop_exit_gate.py`
 
 ## cli/killchain.py
-- Doc: Self-populating kill-chain progress derived from the daemon event stream.
+- Doc: Backward-compat kill-chain progress types for the dashboard TUI.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PhaseProgress` (class, line 29) `class PhaseProgress`
-  - `_phase_from_event` (function, line 48) `def _phase_from_event(event)`
-  - `_detect_current_phase` (function, line 58) `def _detect_current_phase(events, world, phase_keys)`
-  - `compute_killchain` (function, line 83) `def compute_killchain(events, world, phases)`
-- Depends on: `modules/killchain.py`
-- Imported by: `cli/dashboard_tui.py`, `tests/test_killchain.py`
+  - `PhaseProgress` (class, line 19) `class PhaseProgress`
+- Imported by: `cli/dashboard_tui.py`
 
 ## cli/lazy_monitor.py
 - Doc: Live worker-visibility monitor for the autonomous loop.

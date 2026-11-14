@@ -37,7 +37,7 @@ CHAINS_DIR = _BASE_DIR / "chains"
 
 _NAME_RE = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
 _CAPTURE_RE = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
-_TOKEN_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
+STEP_TOKEN_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
 _MAX_YAML_BYTES = 100_000
 _MAX_WHEN_CHARS = 500
 _MAX_STEP_TIMEOUT = 3600
@@ -183,7 +183,6 @@ class Chain:
         merged = {str(k): str(v) for k, v in {**self.defaults, **self.vars, **tokens}.items()}
         resolved: list[dict[str, Any]] = []
         for step in self.steps:
-            rendered = _render(step.run, merged)
             base = {
                 "id": step.identifier,
                 "phase": step.phase,
@@ -212,38 +211,80 @@ class Chain:
                 "budget": dict(step.budget),
                 "step": step,
             }
-            if step.when and not evaluate_when(step.when, merged):
-                resolved.append({**base, "run": rendered, "skipped": True, "reason": "when false"})
-                continue
-            skip_path = _render(step.skip_if_exists, merged) if step.skip_if_exists else ""
-            if skip_path:
-                skip_reason = skip_pending(skip_path, step.skip_max_age)
-                if skip_reason:
-                    resolved.append({**base, "run": rendered, "skipped": True, "reason": skip_reason})
-                    continue
-            if step.resolve_newest_glob and step.resolve_newest_as:
-                matches = sorted(glob.glob(_render(step.resolve_newest_glob, merged)), key=os.path.getmtime)
-                if not matches:
-                    resolved.append({**base, "run": rendered, "skipped": True, "reason": "no newest match"})
-                    continue
-                merged[step.resolve_newest_as] = os.path.abspath(matches[-1])
-                rendered = _render(step.run, merged)
-            unresolved = _TOKEN_RE.search(rendered)
-            if unresolved:
-                resolved.append(
-                    {**base, "run": rendered, "skipped": True, "reason": f"unresolved token: {unresolved.group(0)}"}
-                )
-                continue
-            resolved.append({**base, "run": rendered, "skipped": False, "reason": ""})
+            skip_reason, rendered = step_gate_verdict(step, _render, merged)
+            resolved.append({**base, "run": rendered, "skipped": bool(skip_reason), "reason": skip_reason})
         return resolved
 
 
-def _render(template: str, variables: dict[str, str]) -> str:
-    """Substitute single-brace tokens in one pass."""
+def render_text(template: str, variables: dict[str, str]) -> str:
+    """Substitute single-brace tokens in one pass.
+
+    Canonical renderer for the chain stack: the registry preview, the
+    runner and every downstream consumer share one implementation so
+    token syntax cannot drift between surfaces.
+
+    Args:
+        template: Command template with ``{name}`` tokens.
+        variables: Variable values substituted into the template.
+
+    Returns:
+        The rendered text.
+    """
     text = str(template or "")
     for key, value in variables.items():
         text = text.replace("{" + key + "}", str(value))
     return text
+
+
+_render = render_text
+
+
+def step_gate_verdict(
+    step: "ChainStep",
+    render,
+    variables: dict[str, str],
+    dependency_reason: str = "",
+) -> tuple[str, str]:
+    """Evaluate the canonical gate chain for one step, in one order.
+
+    Order: ``when`` -> ``skip_if_exists`` -> dependency -> ``resolve_newest``
+    -> unresolved token. Mutates ``variables`` when ``resolve_newest``
+    binds a match. The runner passes its dependency reason (computed
+    from prior verdicts, pure read); previews pass the default empty.
+
+    Args:
+        step: The step being gated.
+        render: Callable ``(template, variables) -> str`` used for every
+            rendering (previews use :func:`render_text`, the runner binds
+            its captured-keys variant).
+        variables: Merged variable mapping, mutated on ``resolve_newest``.
+        dependency_reason: Pre-computed dependency block reason, checked
+            after ``skip_if_exists`` exactly where the runner applies it.
+
+    Returns:
+        ``(skip_reason, rendered)``; ``skip_reason`` is empty when the
+        step may run, and ``rendered`` is the final command text.
+    """
+    rendered = render(step.run, variables)
+    if step.when and not evaluate_when(step.when, variables):
+        return "when false", rendered
+    skip_path = render(step.skip_if_exists, variables) if step.skip_if_exists else ""
+    if skip_path:
+        skip_reason = skip_pending(skip_path, step.skip_max_age)
+        if skip_reason:
+            return skip_reason, rendered
+    if dependency_reason:
+        return dependency_reason, rendered
+    if step.resolve_newest_glob and step.resolve_newest_as:
+        matches = sorted(glob.glob(render(step.resolve_newest_glob, variables)), key=os.path.getmtime)
+        if not matches:
+            return "no newest match", rendered
+        variables[step.resolve_newest_as] = os.path.abspath(matches[-1])
+        rendered = render(step.run, variables)
+    unresolved = STEP_TOKEN_RE.search(rendered)
+    if unresolved:
+        return f"unresolved token: {unresolved.group(0)}", rendered
+    return "", rendered
 
 
 _ALLOWED_WHEN = (
@@ -583,9 +624,24 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
     return errors
 
 
-def render_text_token_braces(text: str) -> str:
-    """Return text with every ``{name}`` token replaced by a placeholder."""
-    return _TOKEN_RE.sub("{_}", str(text or ""))
+def chain_preview_lines(chain: "Chain") -> list[str]:
+    """Render one chain's dry-run preview with placeholder tokens bound.
+
+    Shared by the gym chain surfaces (metasploitable, redteam, winbox) so
+    the preview loop is defined once. Tokens stay symbolic: ``TARGET``,
+    ``LHOST`` and the literal ``4444``.
+
+    Args:
+        chain: Resolved chain to preview.
+
+    Returns:
+        One ``[run|skip] <command> <reason>`` line per step.
+    """
+    lines: list[str] = []
+    for step in chain.resolve({"target": "TARGET", "lhost": "LHOST", "lport": "4444"}):
+        status = "skip" if step["skipped"] else "run"
+        lines.append(f"[{status}] {step['run']} {step['reason']}".strip())
+    return lines
 
 
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]:

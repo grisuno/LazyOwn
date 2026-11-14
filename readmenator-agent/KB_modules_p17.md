@@ -265,6 +265,12 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `rollback` (method, line 77) `def rollback(self)`
 - Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
 
+## modules/service_aliases.py
+- Doc: Service alias knowledge for the matching surfaces.
+- Layer: business_logic
+- Language: py
+- Imported by: `modules/auto_registry.py`, `modules/chain_family.py`, `modules/exploit_chain.py`
+
 ## modules/session_cleanup.py
 - Doc: Ephemeral infrastructure cleanup on shell exit.
 - Layer: utility
@@ -469,31 +475,6 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `from_payload` (method, line 528) `def from_payload(cls, payload)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
-
-## modules/staged_delivery.py
-- Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `StageDeliveryConfig` (class, line 25) `class StageDeliveryConfig`
-  - `StagedDeliveryFactory` (class, line 51) `class StagedDeliveryFactory`
-  - `__init__` (method, line 83) `def __init__(self, config, output_dir)`
-  - `_obfuscate_powershell` (method, line 88) `def _obfuscate_powershell(self, code)`
-  - `_obfuscate_vbscript` (method, line 95) `def _obfuscate_vbscript(self, code)`
-  - `_payload_command` (method, line 102) `def _payload_command(self)`
-  - `generate_hta` (method, line 134) `def generate_hta(self)`
-  - `generate_vba_macro` (method, line 171) `def generate_vba_macro(self)`
-  - `generate_xlm_macro` (method, line 219) `def generate_xlm_macro(self)`
-  - `generate_lnk` (method, line 237) `def generate_lnk(self)`
-  - `generate_iso` (method, line 301) `def generate_iso(self, inner_files)`
-  - `_build_primary_volume_descriptor` (method, line 336) `def _build_primary_volume_descriptor(self, files)`
-  - `generate_vhd` (method, line 370) `def generate_vhd(self, inner_files)`
-  - `generate_all` (method, line 420) `def generate_all(self)`
-  - `generate_phishing_page` (method, line 460) `def generate_phishing_page(self, template)`
-  - `_office365_phish` (method, line 476) `def _office365_phish(self)`
-  - `_gmail_phish` (method, line 504) `def _gmail_phish(self)`
-  - `_outlook_phish` (method, line 532) `def _outlook_phish(self)`
-- Imported by: `cli/commands/payload_arsenal.py`
 
 
 Next: [KB_modules_p18.md](KB_modules_p18.md)

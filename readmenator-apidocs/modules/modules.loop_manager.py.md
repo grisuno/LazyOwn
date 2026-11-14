@@ -35,7 +35,7 @@ Config keys owned: none (all knobs are module constants).
 - **Classes:** [`LoopSpec`](#loopspec), [`LoopManager`](#loopmanager)
 - **Exceptions:** [`LoopValidationError`](#loopvalidationerror), [`LoopNotFoundError`](#loopnotfounderror)
 - **Functions:** [`validate_target`](#validate_target), [`sanitize_goal`](#sanitize_goal), [`clamp_int`](#clamp_int), [`clamp_float`](#clamp_float), [`default_manager`](#default_manager)
-- **Constants:** [`KIND_AUTO_LOOP`](#kind_auto_loop), [`KIND_LAZY_NMAP`](#kind_lazy_nmap), [`LOOP_KINDS`](#loop_kinds), [`DEFAULT_ROUNDS`](#default_rounds), [`DEFAULT_WORKERS`](#default_workers), [`MAX_ROUNDS`](#max_rounds), [`MAX_WORKERS`](#max_workers), [`MAX_CONCURRENT_LOOPS`](#max_concurrent_loops), [`DEFAULT_GOAL`](#default_goal)
+- **Constants:** [`KIND_AUTO_LOOP`](#kind_auto_loop), [`KIND_LAZY_NMAP`](#kind_lazy_nmap), [`LOOP_KINDS`](#loop_kinds), [`MAX_CONCURRENT_LOOPS`](#max_concurrent_loops), [`DEFAULT_GOAL`](#default_goal)
 
 ## Type Diagram
 
@@ -111,7 +111,7 @@ flowchart LR
 
 ### `LoopSpec`
 
-`class` `dataclass` | [modules/loop_manager.py:265](../../modules/loop_manager.py#L265)
+`class` `dataclass` | [modules/loop_manager.py:262](../../modules/loop_manager.py#L262)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -138,7 +138,7 @@ Validated request to start one autonomous loop.
 
 ### `LoopManager`
 
-`class` | [modules/loop_manager.py:317](../../modules/loop_manager.py#L317)
+`class` | [modules/loop_manager.py:314](../../modules/loop_manager.py#L314)
 
 ```python
 class LoopManager
@@ -172,7 +172,7 @@ Owns the lifecycle of autonomous loops started from the dashboard.
 
 #### `LoopManager.__init__`
 
-`constructor` | [modules/loop_manager.py:328](../../modules/loop_manager.py#L328)
+`constructor` | [modules/loop_manager.py:325](../../modules/loop_manager.py#L325)
 
 ```python
 def __init__(self, loops_dir: Path | str = LOOPS_DIR, python_executable: str | None = None, max_concurrent: int = MAX_CONCURRENT_LOOPS, repo_root: Path | str | None = None, lazyown_script: Path | str | None = None) -> None
@@ -196,7 +196,7 @@ Create the manager and its persistence lock.
 
 #### `LoopManager.loops_dir`
 
-`property` | [modules/loop_manager.py:350](../../modules/loop_manager.py#L350)
+`property` | [modules/loop_manager.py:347](../../modules/loop_manager.py#L347)
 
 Decorators: `@property`
 
@@ -212,7 +212,7 @@ Return the root directory for loop workspaces.
 
 #### `LoopManager.start`
 
-`method` | [modules/loop_manager.py:354](../../modules/loop_manager.py#L354)
+`method` | [modules/loop_manager.py:351](../../modules/loop_manager.py#L351)
 
 ```python
 def start(self, spec: LoopSpec, operator: str = '') -> dict[str, Any]
@@ -240,7 +240,7 @@ Validate, spawn and register one autonomous loop.
 
 #### `LoopManager.list_loops`
 
-`method` | [modules/loop_manager.py:549](../../modules/loop_manager.py#L549)
+`method` | [modules/loop_manager.py:546](../../modules/loop_manager.py#L546)
 
 ```python
 def list_loops(self) -> list[dict[str, Any]]
@@ -256,7 +256,7 @@ Return every registry record with refreshed live status.
 
 #### `LoopManager.get_loop`
 
-`method` | [modules/loop_manager.py:584](../../modules/loop_manager.py#L584)
+`method` | [modules/loop_manager.py:581](../../modules/loop_manager.py#L581)
 
 ```python
 def get_loop(self, loop_id: object) -> dict[str, Any]
@@ -284,7 +284,7 @@ Return one registry record by id.
 
 #### `LoopManager.read_log`
 
-`method` | [modules/loop_manager.py:603](../../modules/loop_manager.py#L603)
+`method` | [modules/loop_manager.py:600](../../modules/loop_manager.py#L600)
 
 ```python
 def read_log(self, loop_id: object, offset: object = 0) -> dict[str, Any]
@@ -313,7 +313,7 @@ Read one chunk of a loop's output log.
 
 #### `LoopManager.stop`
 
-`method` | [modules/loop_manager.py:670](../../modules/loop_manager.py#L670)
+`method` | [modules/loop_manager.py:667](../../modules/loop_manager.py#L667)
 
 ```python
 def stop(self, loop_id: object) -> dict[str, Any]
@@ -340,7 +340,7 @@ Stop one running loop by terminating its process group.
 
 #### `LoopManager.summary`
 
-`method` | [modules/loop_manager.py:735](../../modules/loop_manager.py#L735)
+`method` | [modules/loop_manager.py:732](../../modules/loop_manager.py#L732)
 
 ```python
 def summary(self) -> dict[str, Any]
@@ -361,7 +361,7 @@ per-target counts and the most recent records.
 
 ### `LoopValidationError`
 
-`exception` | [modules/loop_manager.py:88](../../modules/loop_manager.py#L88)
+`exception` | [modules/loop_manager.py:85](../../modules/loop_manager.py#L85)
 
 ```python
 class LoopValidationError(ValueError)
@@ -381,7 +381,7 @@ Raised when a loop request field fails validation.
 
 #### `LoopValidationError.__init__`
 
-`constructor` | [modules/loop_manager.py:91](../../modules/loop_manager.py#L91)
+`constructor` | [modules/loop_manager.py:88](../../modules/loop_manager.py#L88)
 
 ```python
 def __init__(self, field: str, message: str) -> None
@@ -404,7 +404,7 @@ Store the offending field alongside the human message.
 
 ### `LoopNotFoundError`
 
-`exception` | [modules/loop_manager.py:97](../../modules/loop_manager.py#L97)
+`exception` | [modules/loop_manager.py:94](../../modules/loop_manager.py#L94)
 
 ```python
 class LoopNotFoundError(KeyError)
@@ -422,7 +422,7 @@ Raised when a loop id is unknown to the registry.
 
 ### `validate_target`
 
-`function` | [modules/loop_manager.py:101](../../modules/loop_manager.py#L101)
+`function` | [modules/loop_manager.py:98](../../modules/loop_manager.py#L98)
 
 ```python
 def validate_target(raw: object) -> str
@@ -452,7 +452,7 @@ Return the canonical string form of a validated IP address target.
 
 ### `sanitize_goal`
 
-`function` | [modules/loop_manager.py:124](../../modules/loop_manager.py#L124)
+`function` | [modules/loop_manager.py:121](../../modules/loop_manager.py#L121)
 
 ```python
 def sanitize_goal(raw: object) -> str
@@ -482,7 +482,7 @@ Return a safe goal string accepted by the loop parser.
 
 ### `clamp_int`
 
-`function` | [modules/loop_manager.py:151](../../modules/loop_manager.py#L151)
+`function` | [modules/loop_manager.py:148](../../modules/loop_manager.py#L148)
 
 ```python
 def clamp_int(raw: object, field: str, default: int, minimum: int, maximum: int) -> int
@@ -516,7 +516,7 @@ Parse and clamp an integer knob to the supported range.
 
 ### `clamp_float`
 
-`function` | [modules/loop_manager.py:176](../../modules/loop_manager.py#L176)
+`function` | [modules/loop_manager.py:173](../../modules/loop_manager.py#L173)
 
 ```python
 def clamp_float(raw: object, field: str, default: float, minimum: float, maximum: float) -> float
@@ -550,7 +550,7 @@ Parse and clamp a float knob to the supported range.
 
 ### `default_manager`
 
-`function` | [modules/loop_manager.py:853](../../modules/loop_manager.py#L853)
+`function` | [modules/loop_manager.py:850](../../modules/loop_manager.py#L850)
 
 ```python
 def default_manager() -> LoopManager
@@ -606,59 +606,11 @@ LOOP_KINDS = frozenset({KIND_AUTO_LOOP, KIND_LAZY_NMAP})
 
 ---
 
-<a id="default_rounds"></a>
-
-### `DEFAULT_ROUNDS`
-
-`constant` | [modules/loop_manager.py:58](../../modules/loop_manager.py#L58)
-
-```python
-DEFAULT_ROUNDS = 6
-```
-
----
-
-<a id="default_workers"></a>
-
-### `DEFAULT_WORKERS`
-
-`constant` | [modules/loop_manager.py:59](../../modules/loop_manager.py#L59)
-
-```python
-DEFAULT_WORKERS = 2
-```
-
----
-
-<a id="max_rounds"></a>
-
-### `MAX_ROUNDS`
-
-`constant` | [modules/loop_manager.py:60](../../modules/loop_manager.py#L60)
-
-```python
-MAX_ROUNDS = 50
-```
-
----
-
-<a id="max_workers"></a>
-
-### `MAX_WORKERS`
-
-`constant` | [modules/loop_manager.py:61](../../modules/loop_manager.py#L61)
-
-```python
-MAX_WORKERS = 5
-```
-
----
-
 <a id="max_concurrent_loops"></a>
 
 ### `MAX_CONCURRENT_LOOPS`
 
-`constant` | [modules/loop_manager.py:64](../../modules/loop_manager.py#L64)
+`constant` | [modules/loop_manager.py:61](../../modules/loop_manager.py#L61)
 
 ```python
 MAX_CONCURRENT_LOOPS = 5
@@ -670,7 +622,7 @@ MAX_CONCURRENT_LOOPS = 5
 
 ### `DEFAULT_GOAL`
 
-`constant` | [modules/loop_manager.py:71](../../modules/loop_manager.py#L71)
+`constant` | [modules/loop_manager.py:68](../../modules/loop_manager.py#L68)
 
 ```python
 DEFAULT_GOAL = 'gain initial access'

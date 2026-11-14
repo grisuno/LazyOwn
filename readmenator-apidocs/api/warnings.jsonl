@@ -162,7 +162,6 @@
 {"code":"DOC001","uid":"cli/dashboard_tui.py::LazyOwnDashboard.on_mount","file":"cli/dashboard_tui.py","line":857,"message":"method LazyOwnDashboard.on_mount is not documented"}
 {"code":"DOC001","uid":"cli/dashboard_tui.py::LazyOwnDashboard.action_refresh_data","file":"cli/dashboard_tui.py","line":925,"message":"method LazyOwnDashboard.action_refresh_data is not documented"}
 {"code":"DOC001","uid":"cli/doctor.py::check_command_index","file":"cli/doctor.py","line":313,"message":"function check_command_index is not documented"}
-{"code":"DOC001","uid":"cli/exploit_advisor.py::ServiceInfo.display_name","file":"cli/exploit_advisor.py","line":128,"message":"property ServiceInfo.display_name is not documented"}
 {"code":"DOC001","uid":"cli/fuzzy_picker.py::PickerView.run","file":"cli/fuzzy_picker.py","line":231,"message":"method PickerView.run is not documented"}
 {"code":"DOC001","uid":"cli/fuzzy_picker.py::CursesPickerView.run","file":"cli/fuzzy_picker.py","line":247,"message":"method CursesPickerView.run is not documented"}
 {"code":"DOC001","uid":"cli/fuzzy_picker.py::FuzzyPicker.config","file":"cli/fuzzy_picker.py","line":562,"message":"property FuzzyPicker.config is not documented"}
@@ -735,10 +734,10 @@
 {"code":"DOC001","uid":"lazyown-docker/hostdiscover.sh::extract_ips_from_arp","file":"lazyown-docker/hostdiscover.sh","line":21,"message":"function extract_ips_from_arp is not documented"}
 {"code":"DOC001","uid":"lazyown-docker/hostdiscover.sh::extract_listening_ips_from_netstat","file":"lazyown-docker/hostdiscover.sh","line":26,"message":"function extract_listening_ips_from_netstat is not documented"}
 {"code":"DOC001","uid":"lazyown-docker/init.sh","file":"lazyown-docker/init.sh","line":1,"message":"module lazyown-docker/init.sh is not documented"}
-{"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1349,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
-{"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1349,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
-{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2301,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
-{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4794,"message":"function main is not documented"}
+{"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1360,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
+{"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1360,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
+{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2312,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
+{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4805,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::auth","file":"modules/49803.py","line":43,"message":"function auth is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::injection","file":"modules/49803.py","line":69,"message":"function injection is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
@@ -831,7 +830,7 @@
 {"code":"DOC001","uid":"modules/auto_purple.py::IPurpleEvaluator.category_accuracy","file":"modules/auto_purple.py","line":217,"message":"method IPurpleEvaluator.category_accuracy is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.last_results","file":"modules/auto_purple.py","line":596,"message":"method PurpleTeamLoop.last_results is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.category_accuracy","file":"modules/auto_purple.py","line":599,"message":"method PurpleTeamLoop.category_accuracy is not documented"}
-{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1056,"message":"return value of execute_shell_verb is not documented"}
+{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1052,"message":"return value of execute_shell_verb is not documented"}
 {"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":134,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/aws_attacks.py::AWSAttackEngine.summary","file":"modules/aws_attacks.py","line":293,"message":"method AWSAttackEngine.summary is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c","file":"modules/backdoor/backdoor.c","line":1,"message":"module modules/backdoor/backdoor.c is not documented"}
@@ -1106,16 +1105,12 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1936,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7776,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9182,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9205,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9205,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":9346,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":9371,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9394,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9394,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10765,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1998,"message":"ActivityLog.trace raises KeyError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7847,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9249,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9272,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9272,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10739,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -1865,7 +1860,7 @@
 {"code":"DOC001","uid":"modules/world_model.py::WorldModel.get_suggested_tools","file":"modules/world_model.py","line":1258,"message":"method WorldModel.get_suggested_tools is not documented"}
 {"code":"DOC001","uid":"modules/yaml_generator.py::YAMLPromptGenerator","file":"modules/yaml_generator.py","line":17,"message":"class YAMLPromptGenerator is not documented"}
 {"code":"DOC001","uid":"modules/yaml_generator.py::YAMLPromptGenerator.__init__","file":"modules/yaml_generator.py","line":18,"message":"constructor YAMLPromptGenerator.__init__ is not documented"}
-{"code":"DOC001","uid":"modules/yaml_generator.py::main","file":"modules/yaml_generator.py","line":141,"message":"function main is not documented"}
+{"code":"DOC001","uid":"modules/yaml_generator.py::main","file":"modules/yaml_generator.py","line":139,"message":"function main is not documented"}
 {"code":"DOC005","uid":"modules/yara_scanner.py::YaraScanner.compile_all","file":"modules/yara_scanner.py","line":54,"message":"YaraScanner.compile_all raises RuntimeError but does not document it"}
 {"code":"DOC001","uid":"mutate.sh","file":"mutate.sh","line":1,"message":"module mutate.sh is not documented"}
 {"code":"DOC001","uid":"plugins/generate_c_reverse_shell.lua::generate_c_reverse_shell","file":"plugins/generate_c_reverse_shell.lua","line":1,"message":"function generate_c_reverse_shell is not documented"}
@@ -2314,21 +2309,21 @@
 {"code":"DOC001","uid":"testmeneitor.py::run_tests_with_bash","file":"testmeneitor.py","line":80,"message":"function run_tests_with_bash is not documented"}
 {"code":"DOC001","uid":"tools/set_lazyaddon_updates.py::main","file":"tools/set_lazyaddon_updates.py","line":55,"message":"function main is not documented"}
 {"code":"DOC001","uid":"user_split.sh","file":"user_split.sh","line":1,"message":"module user_split.sh is not documented"}
-{"code":"DOC001","uid":"utils.py::get_git_info","file":"utils.py","line":743,"message":"function get_git_info is not documented"}
-{"code":"DOC001","uid":"utils.py::get_venv_info","file":"utils.py","line":762,"message":"function get_venv_info is not documented"}
-{"code":"DOC004","uid":"utils.py::copy2clip","file":"utils.py","line":801,"message":"return value of copy2clip is not documented"}
-{"code":"DOC001","uid":"utils.py::get_terminal_size","file":"utils.py","line":2030,"message":"function get_terminal_size is not documented"}
-{"code":"DOC001","uid":"utils.py::shellcode_to_sylk","file":"utils.py","line":2173,"message":"function shellcode_to_sylk is not documented"}
-{"code":"DOC001","uid":"utils.py::get_banner","file":"utils.py","line":2198,"message":"function get_banner is not documented"}
-{"code":"DOC001","uid":"utils.py::Spray","file":"utils.py","line":2328,"message":"function Spray is not documented"}
-{"code":"DOC001","uid":"utils.py::ProcessResults","file":"utils.py","line":2375,"message":"function ProcessResults is not documented"}
-{"code":"DOC001","uid":"utils.py::is_port_in_use","file":"utils.py","line":2678,"message":"function is_port_in_use is not documented"}
-{"code":"DOC001","uid":"utils.py::return_creds","file":"utils.py","line":2687,"message":"function return_creds is not documented"}
-{"code":"DOC001","uid":"utils.py::load_adversary","file":"utils.py","line":2737,"message":"function load_adversary is not documented"}
-{"code":"DOC001","uid":"utils.py::parse_nmap_csv","file":"utils.py","line":2787,"message":"function parse_nmap_csv is not documented"}
-{"code":"DOC001","uid":"utils.py::anti_debug","file":"utils.py","line":3116,"message":"function anti_debug is not documented"}
-{"code":"DOC001","uid":"utils.py::create_msfshellcoder_parser","file":"utils.py","line":3125,"message":"function create_msfshellcoder_parser is not documented"}
-{"code":"DOC001","uid":"utils.py::SimpleHTTPRequestHandler.log_request","file":"utils.py","line":3170,"message":"method SimpleHTTPRequestHandler.log_request is not documented"}
-{"code":"DOC001","uid":"utils.py::SimpleHTTPRequestHandler.log_message","file":"utils.py","line":3173,"message":"method SimpleHTTPRequestHandler.log_message is not documented"}
-{"code":"DOC001","uid":"utils.py::IP2ASN","file":"utils.py","line":3195,"message":"class IP2ASN is not documented"}
-{"code":"DOC001","uid":"utils.py::IP2ASN.__init__","file":"utils.py","line":3196,"message":"constructor IP2ASN.__init__ is not documented"}
+{"code":"DOC001","uid":"utils.py::get_git_info","file":"utils.py","line":770,"message":"function get_git_info is not documented"}
+{"code":"DOC001","uid":"utils.py::get_venv_info","file":"utils.py","line":789,"message":"function get_venv_info is not documented"}
+{"code":"DOC004","uid":"utils.py::copy2clip","file":"utils.py","line":828,"message":"return value of copy2clip is not documented"}
+{"code":"DOC001","uid":"utils.py::get_terminal_size","file":"utils.py","line":2057,"message":"function get_terminal_size is not documented"}
+{"code":"DOC001","uid":"utils.py::shellcode_to_sylk","file":"utils.py","line":2200,"message":"function shellcode_to_sylk is not documented"}
+{"code":"DOC001","uid":"utils.py::get_banner","file":"utils.py","line":2225,"message":"function get_banner is not documented"}
+{"code":"DOC001","uid":"utils.py::Spray","file":"utils.py","line":2355,"message":"function Spray is not documented"}
+{"code":"DOC001","uid":"utils.py::ProcessResults","file":"utils.py","line":2402,"message":"function ProcessResults is not documented"}
+{"code":"DOC001","uid":"utils.py::is_port_in_use","file":"utils.py","line":2705,"message":"function is_port_in_use is not documented"}
+{"code":"DOC001","uid":"utils.py::return_creds","file":"utils.py","line":2714,"message":"function return_creds is not documented"}
+{"code":"DOC001","uid":"utils.py::load_adversary","file":"utils.py","line":2764,"message":"function load_adversary is not documented"}
+{"code":"DOC001","uid":"utils.py::parse_nmap_csv","file":"utils.py","line":2814,"message":"function parse_nmap_csv is not documented"}
+{"code":"DOC001","uid":"utils.py::anti_debug","file":"utils.py","line":3143,"message":"function anti_debug is not documented"}
+{"code":"DOC001","uid":"utils.py::create_msfshellcoder_parser","file":"utils.py","line":3152,"message":"function create_msfshellcoder_parser is not documented"}
+{"code":"DOC001","uid":"utils.py::SimpleHTTPRequestHandler.log_request","file":"utils.py","line":3197,"message":"method SimpleHTTPRequestHandler.log_request is not documented"}
+{"code":"DOC001","uid":"utils.py::SimpleHTTPRequestHandler.log_message","file":"utils.py","line":3200,"message":"method SimpleHTTPRequestHandler.log_message is not documented"}
+{"code":"DOC001","uid":"utils.py::IP2ASN","file":"utils.py","line":3222,"message":"class IP2ASN is not documented"}
+{"code":"DOC001","uid":"utils.py::IP2ASN.__init__","file":"utils.py","line":3223,"message":"constructor IP2ASN.__init__ is not documented"}

@@ -2,6 +2,20 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_health_report.py` -> `lazyc2/security/health.py`
+- `tests/test_help_ui_command_set.py` -> `cli/commands/_base.py`
+- `tests/test_help_ui_command_set.py` -> `cli/commands/_dormancy.py`
+- `tests/test_help_ui_command_set.py` -> `cli/commands/help_ui.py`
+- `tests/test_help_ui_command_set.py` -> `cli/commands/misc_migrated.py`
+- `tests/test_help_ui_command_set.py` -> `cli/registry.py`
+- `tests/test_host_policy.py` -> `core/hardening.py`
+- `tests/test_host_policy.py` -> `core/host_policy.py`
+- `tests/test_host_policy.py` -> `core/validators.py`
+- `tests/test_html_sanitizer.py` -> `lazyc2/security/html_sanitizer.py`
+- `tests/test_https_redirect.py` -> `lazyc2/security/https_redirect.py`
+- `tests/test_hunt_verify.py` -> `modules/hunt_verify.py`
+- `tests/test_implant_session_secrets.py` -> `modules/c2_builder.py`
+- `tests/test_improvements_spec.py` -> `cli/__init__.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/__init__.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/_dormancy.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/orchestration.py`
@@ -31,7 +45,6 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_intel_selector.py` -> `modules/selection/intel.py`
 - `tests/test_intelligence_engine.py` -> `modules/intelligence_engine.py`
 - `tests/test_journal.py` -> `scripts/journal.py`
-- `tests/test_killchain.py` -> `cli/killchain.py`
 - `tests/test_killchain_auto_refresh.py` -> `cli/tips_engine.py`
 - `tests/test_killchain_gap_signal.py` -> `cli/recommendation.py`
 - `tests/test_killchain_gap_signal.py` -> `cli/recommendation_signals.py`
@@ -301,7 +314,9 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_worker_traces.py` -> `modules/lazy_loop.py`
 - `tests/test_marketplace_config.py` -> `cli/__init__.py`
 - `tests/test_mcp_auto_loop_wrapper.py` -> `modules/lazy_loop.py`
+- `tests/test_mcp_auto_loop_wrapper.py` -> `modules/lazy_runner.py`
 - `tests/test_mcp_auto_loop_wrapper.py` -> `skills/lazyown_mcp.py`
+- `tests/test_mcp_auto_loop_wrapper.py` -> `skills/mcp_tools/auto_loop.py`
 - `tests/test_mcp_improvements.py` -> `skills/lazyown_mcp.py`
 - `tests/test_mcp_improvements.py` -> `skills/lazyown_mcp_helpers.py`
 - `tests/test_mcp_lazy.py` -> `skills/mcp_lazy.py`
@@ -411,6 +426,11 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_pipeline_engine.py` -> `skills/autonomous_daemon.py`
 - `tests/test_placeholder_coverage.py` -> `core/payload_schema.py`
 - `tests/test_placeholder_coverage.py` -> `lazyc2/addon_creator.py`
+- `tests/test_planner_initial_access.py` -> `core/config.py`
+- `tests/test_planner_initial_access.py` -> `modules/auto_registry.py`
+- `tests/test_planner_initial_access.py` -> `modules/lazy_engine.py`
+- `tests/test_planner_initial_access.py` -> `modules/lazy_loop.py`
+- `tests/test_planner_initial_access.py` -> `modules/lazy_runner.py`
 - `tests/test_playbook_admin.py` -> `modules/playbook_admin.py`
 - `tests/test_playbook_chain.py` -> `cli/apt_chain_support.py`
 - `tests/test_playbook_chain.py` -> `modules/__init__.py`
@@ -476,25 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_security_alerts_fix.py` -> `core/reverse_shell_secret.py`
 - `tests/test_security_alerts_fix.py` -> `modules/domain_dominance.py`
 - `tests/test_security_alerts_fix.py` -> `modules/lazy_loop.py`
-- `tests/test_security_alerts_fix.py` -> `modules/lazy_proxy.py`
-- `tests/test_security_alerts_fix.py` -> `skills/claude_md_orchestrator/validators.py`
-- `tests/test_security_codeql_batch.py` -> `core/defaults.py`
-- `tests/test_security_codeql_batch.py` -> `core/logging.py`
-- `tests/test_security_codeql_batch.py` -> `lazyc2/blueprints/__init__.py`
-- `tests/test_security_codeql_batch.py` -> `modules/lazy_loop.py`
-- `tests/test_security_codeql_batch.py` -> `modules/lazy_mentions.py`
-- `tests/test_security_codeql_batch.py` -> `modules/lazy_proxy.py`
-- `tests/test_security_codeql_batch.py` -> `modules/notify.py`
-- `tests/test_security_codeql_batch.py` -> `skills/claude_md_orchestrator/__init__.py`
-- `tests/test_security_hardening.py` -> `core/safe_subprocess.py`
-- `tests/test_security_hardening.py` -> `modules/db.py`
-- `tests/test_security_hardening_v3.py` -> `core/hardening.py`
-- `tests/test_security_hardening_v3.py` -> `modules/phishing_orchestrator.py`
-- `tests/test_security_hardening_v3.py` -> `modules/resource_script.py`
-- `tests/test_security_hardening_v4.py` -> `core/safe_exec.py`
-- `tests/test_security_lazyc2.py` -> `lazyc2/security/__init__.py`
-- `tests/test_security_lazyc2.py` -> `lazyc2/security/services.py`
-- `tests/test_security_lazyc2.py` -> `lazyc2/security/validators.py`
-- `tests/test_security_lazyc2.py` -> `modules/beacon_history.py`
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

@@ -14,7 +14,7 @@ summary.
 ## Contents
 
 - **Classes:** [`LoopRunConfig`](#looprunconfig)
-- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`loop_exit_code`](#loop_exit_code), [`autonomous_exit_gate`](#autonomous_exit_gate), [`write_loop_result`](#write_loop_result), [`report_result`](#report_result), [`bind_target_authority`](#bind_target_authority), [`load_targets_file`](#load_targets_file), [`run_loop`](#run_loop)
+- **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`loop_exit_code`](#loop_exit_code), [`autonomous_exit_gate`](#autonomous_exit_gate), [`write_loop_result`](#write_loop_result), [`report_result`](#report_result), [`bind_target_authority`](#bind_target_authority), [`load_targets_file`](#load_targets_file), [`run_loop`](#run_loop), [`run_loop_command`](#run_loop_command)
 - **Constants:** [`AUTONOMOUS_ENV`](#autonomous_env), [`LOOP_RESULT_FILENAME`](#loop_result_filename), [`ENGAGEMENT_MODES`](#engagement_modes)
 
 ## Call Graph
@@ -32,22 +32,20 @@ flowchart LR
     n_modules_lazy_runner_py__report_result(["report_result"])
     n_modules_lazy_runner_py__resolve_loop_defaults(["resolve_loop_defaults"])
     n_modules_lazy_runner_py__write_loop_result(["write_loop_result"])
+    n_modules_lazy_runner_py__run_loop_command(["run_loop_command"])
+    n_modules_lazy_runner_py__bind_target_authority(["bind_target_authority"])
+    n_modules_lazy_runner_py__load_targets_file(["load_targets_file"])
     n_modules_orchestrator_config_py__profile_config["orchestrator_config.profile_config"]
     n_modules_lazy_runner_py__build_executor(["build_executor"])
     n_modules_auto_registry_py__execute_shell_verb["auto_registry.execute_shell_verb"]
     n_modules_auto_registry_py__execute_streaming["auto_registry.execute_streaming"]
     n_modules_auto_registry_py__is_routable_command["auto_registry.is_routable_command"]
     n_modules_collab_bp_py__stream["collab_bp.stream"]
-    n_modules_custom_tools_py__run_tool["custom_tools.run_tool"]
-    n_utils_py__needs_sudo["utils.needs_sudo"]
-    n_utils_py__sudo_available["utils.sudo_available"]
+    n_utils_py__resolve_alias["utils.resolve_alias"]
     n_core_console_py__print_warn["console.print_warn"]
     n_core_console_py__print_error["console.print_error"]
     n_core_console_py__print_msg["console.print_msg"]
-    n_modules_lazy_runner_py__bind_target_authority(["bind_target_authority"])
     n_core_config_py__save_payload["config.save_payload"]
-    n_modules_lazy_runner_py__load_targets_file(["load_targets_file"])
-    n_core_hardening_py__validate_host["hardening.validate_host"]
     n_modules_lazy_runner_py__parse_loop_line --> n_modules_lazy_runner_py__LoopRunConfig
     n_modules_lazy_runner_py__autonomous_exit_gate --> n_modules_lazy_runner_py__loop_exit_code
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__LoopRunConfig_clamped
@@ -55,14 +53,16 @@ flowchart LR
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__report_result
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__resolve_loop_defaults
     n_modules_lazy_runner_py__run_loop --> n_modules_lazy_runner_py__write_loop_result
+    n_modules_lazy_runner_py__run_loop_command --> n_modules_lazy_runner_py__bind_target_authority
+    n_modules_lazy_runner_py__run_loop_command --> n_modules_lazy_runner_py__load_targets_file
+    n_modules_lazy_runner_py__run_loop_command --> n_modules_lazy_runner_py__parse_loop_line
+    n_modules_lazy_runner_py__run_loop_command --> n_modules_lazy_runner_py__run_loop
     n_modules_lazy_runner_py__resolve_loop_defaults -.-> n_modules_orchestrator_config_py__profile_config
     n_modules_lazy_runner_py__build_executor -.-> n_modules_auto_registry_py__execute_shell_verb
     n_modules_lazy_runner_py__build_executor -.-> n_modules_auto_registry_py__execute_streaming
     n_modules_lazy_runner_py__build_executor -.-> n_modules_auto_registry_py__is_routable_command
     n_modules_lazy_runner_py__build_executor -.-> n_modules_collab_bp_py__stream
-    n_modules_lazy_runner_py__build_executor -.-> n_modules_custom_tools_py__run_tool
-    n_modules_lazy_runner_py__build_executor -.-> n_utils_py__needs_sudo
-    n_modules_lazy_runner_py__build_executor -.-> n_utils_py__sudo_available
+    n_modules_lazy_runner_py__build_executor -.-> n_utils_py__resolve_alias
     n_modules_lazy_runner_py__autonomous_exit_gate -.-> n_core_console_py__print_warn
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_error
     n_modules_lazy_runner_py__report_result -.-> n_core_console_py__print_msg
@@ -70,8 +70,6 @@ flowchart LR
     n_modules_lazy_runner_py__bind_target_authority -.-> n_core_config_py__save_payload
     n_modules_lazy_runner_py__bind_target_authority -.-> n_core_console_py__print_msg
     n_modules_lazy_runner_py__bind_target_authority -.-> n_core_console_py__print_warn
-    n_modules_lazy_runner_py__load_targets_file -.-> n_core_console_py__print_warn
-    n_modules_lazy_runner_py__load_targets_file -.-> n_core_hardening_py__validate_host
 ```
 
 ## Classes
@@ -80,7 +78,7 @@ flowchart LR
 
 ### `LoopRunConfig`
 
-`class` `dataclass` | [modules/lazy_runner.py:101](../../modules/lazy_runner.py#L101)
+`class` `dataclass` | [modules/lazy_runner.py:99](../../modules/lazy_runner.py#L99)
 
 Decorators: `@dataclass`
 
@@ -129,7 +127,7 @@ Everything one loop invocation needs, parsed by the command sets.
 
 #### `LoopRunConfig.clamped`
 
-`method` | [modules/lazy_runner.py:129](../../modules/lazy_runner.py#L129)
+`method` | [modules/lazy_runner.py:127](../../modules/lazy_runner.py#L127)
 
 ```python
 def clamped(self) -> LoopRunConfig
@@ -149,7 +147,7 @@ Clamp numeric knobs to the supported operating range.
 
 ### `parse_loop_line`
 
-`function` | [modules/lazy_runner.py:181](../../modules/lazy_runner.py#L181)
+`function` | [modules/lazy_runner.py:179](../../modules/lazy_runner.py#L179)
 
 ```python
 def parse_loop_line(line: str) -> LoopRunConfig
@@ -174,7 +172,7 @@ same flags and defaults.
 
 *Calls:* [`LoopRunConfig`](#looprunconfig)
 
-*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop)
+*Called by:* [`run_loop_command`](#run_loop_command)
 
 ---
 
@@ -182,7 +180,7 @@ same flags and defaults.
 
 ### `resolve_loop_defaults`
 
-`function` | [modules/lazy_runner.py:315](../../modules/lazy_runner.py#L315)
+`function` | [modules/lazy_runner.py:313](../../modules/lazy_runner.py#L313)
 
 ```python
 def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig
@@ -208,7 +206,7 @@ Fill unset rounds and workers from the selected orchestrator profile.
 
 ### `build_executor`
 
-`function` | [modules/lazy_runner.py:351](../../modules/lazy_runner.py#L351)
+`function` | [modules/lazy_runner.py:349](../../modules/lazy_runner.py#L349)
 
 ```python
 def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict, sandbox_task_id: str = '', sandbox_image: str = '', audit=None) -> Callable[[str], str]
@@ -221,6 +219,10 @@ suppressed by the autonomous context), custom tools run through the
 streaming runner, and raw bash goes through `[`execute_streaming`](modules.auto_registry.py.md#execute_streaming)`
 with ``stdin=DEVNULL`` and its own process group so Ctrl+C and time
 limits always kill the child, never the operator's terminal.
+
+Sudo availability is gated once, in worker gating
+(`[`modules.loop.worker_gating`](modules.loop.worker_gating.py.md)`), before a command reaches this
+executor — so the probe never runs twice per command.
 
 When ``sandbox_task_id`` is set, routable shell verbs run inside the
 per-task Docker container (`[`modules.lazy_sandbox`](modules.lazy_sandbox.py.md)`) instead of the
@@ -243,7 +245,7 @@ the loop audit timeline with its duration and outcome.
 
 **Returns:** `Callable[[str], str]`
 
-*Calls:* [`execute_shell_verb`](modules.auto_registry.py.md#execute_shell_verb), [`execute_streaming`](modules.auto_registry.py.md#execute_streaming), [`is_routable_command`](modules.auto_registry.py.md#is_routable_command), [`stream`](modules.collab_bp.py.md#stream), [`run_tool`](modules.custom_tools.py.md#run_tool), [`needs_sudo`](utils.py.md#needs_sudo), [`sudo_available`](utils.py.md#sudo_available)
+*Calls:* [`execute_shell_verb`](modules.auto_registry.py.md#execute_shell_verb), [`execute_streaming`](modules.auto_registry.py.md#execute_streaming), [`is_routable_command`](modules.auto_registry.py.md#is_routable_command), [`stream`](modules.collab_bp.py.md#stream), [`resolve_alias`](utils.py.md#resolve_alias)
 
 ---
 
@@ -251,7 +253,7 @@ the loop audit timeline with its duration and outcome.
 
 ### `loop_exit_code`
 
-`function` | [modules/lazy_runner.py:572](../../modules/lazy_runner.py#L572)
+`function` | [modules/lazy_runner.py:566](../../modules/lazy_runner.py#L566)
 
 ```python
 def loop_exit_code(result: dict) -> int
@@ -261,7 +263,10 @@ Map one loop summary to an honest process exit code.
 
 A loop that only exhausted its rounds, timed out or stopped in a
 handoff is not a success: the dashboard marks loops on exit code, so
-this mapping keeps the finished/failed distinction truthful.
+this mapping keeps the finished/failed distinction truthful. The one
+promotion: when the independent verdict is ``achieved`` with
+verified evidence (a confirmed shell, captured credential), the run
+counts as success even if the engine merely exhausted its rounds.
 
 **Parameters**
 
@@ -269,9 +274,8 @@ this mapping keeps the finished/failed distinction truthful.
 |---|---|---|---|
 | `result` | `dict` |  | Orchestrator summary. |
 
-**Returns:** `int` - ``0`` only when the engine reached a success status and the
-independent verdict did not downgrade it; ``4`` on timeout and
-``1`` for every other non-success ending.
+**Returns:** `int` - ``0`` when the run reached a success status or proven achieved
+evidence; ``4`` on timeout and ``1`` for every other ending.
 
 *Called by:* [`autonomous_exit_gate`](#autonomous_exit_gate)
 
@@ -281,7 +285,7 @@ independent verdict did not downgrade it; ``4`` on timeout and
 
 ### `autonomous_exit_gate`
 
-`function` | [modules/lazy_runner.py:607](../../modules/lazy_runner.py#L607)
+`function` | [modules/lazy_runner.py:609](../../modules/lazy_runner.py#L609)
 
 ```python
 def autonomous_exit_gate(result: dict) -> None
@@ -314,7 +318,7 @@ FINISHED when the goal was not achieved.
 
 ### `write_loop_result`
 
-`function` | [modules/lazy_runner.py:656](../../modules/lazy_runner.py#L656)
+`function` | [modules/lazy_runner.py:658](../../modules/lazy_runner.py#L658)
 
 ```python
 def write_loop_result(config: LoopRunConfig, result: dict) -> None
@@ -342,7 +346,7 @@ otherwise). Never raises.
 
 ### `report_result`
 
-`function` | [modules/lazy_runner.py:685](../../modules/lazy_runner.py#L685)
+`function` | [modules/lazy_runner.py:687](../../modules/lazy_runner.py#L687)
 
 ```python
 def report_result(result: dict) -> None
@@ -374,7 +378,7 @@ finished badge is never the only success claim.
 
 ### `bind_target_authority`
 
-`function` | [modules/lazy_runner.py:1186](../../modules/lazy_runner.py#L1186)
+`function` | [modules/lazy_runner.py:1188](../../modules/lazy_runner.py#L1188)
 
 ```python
 def bind_target_authority(shell, targets: list[str]) -> dict
@@ -404,7 +408,7 @@ values) or ``{"bound": False}`` when there is nothing to bind.
 
 *Calls:* [`save_payload`](core.config.py.md#save_payload), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
 
-*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop), [`handle`](skills.mcp_tools.auto_loop.py.md#handle)
+*Called by:* [`run_loop_command`](#run_loop_command)
 
 ---
 
@@ -412,7 +416,7 @@ values) or ``{"bound": False}`` when there is nothing to bind.
 
 ### `load_targets_file`
 
-`function` | [modules/lazy_runner.py:1246](../../modules/lazy_runner.py#L1246)
+`function` | [modules/lazy_runner.py:1248](../../modules/lazy_runner.py#L1248)
 
 ```python
 def load_targets_file(path: str) -> list[str]
@@ -439,7 +443,7 @@ else goes through the shared host policy.
 
 *Calls:* [`print_warn`](core.console.py.md#print_warn), [`validate_host`](core.hardening.py.md#validate_host)
 
-*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop)
+*Called by:* [`run_loop_command`](#run_loop_command)
 
 ---
 
@@ -447,7 +451,7 @@ else goes through the shared host policy.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:1301](../../modules/lazy_runner.py#L1301)
+`function` | [modules/lazy_runner.py:1303](../../modules/lazy_runner.py#L1303)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict
@@ -467,7 +471,40 @@ Execute one complete loop run and return its summary.
 
 *Calls:* [`run_monitor_session`](cli.lazy_monitor.py.md#run_monitor_session), [`autonomous_mode`](core.autonomous.py.md#autonomous_mode), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`TerminalGuard.__init__`](core.terminal_guard.py.md#terminalguard-__init__), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`LazyLoopEngine.apply_profile`](modules.lazy_loop.py.md#lazyloopengine-apply_profile), [`LazyLoopEngine.create_task`](modules.lazy_loop.py.md#lazyloopengine-create_task), [`LazyLoopEngine.ensure_target`](modules.lazy_loop.py.md#lazyloopengine-ensure_target), [`LoopRunConfig.clamped`](#looprunconfig-clamped), [`autonomous_exit_gate`](#autonomous_exit_gate) and 3 more
 
-*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop), [`run`](modules.tools.loop_smoke.py.md#run)
+*Called by:* [`run_loop_command`](#run_loop_command), [`run`](modules.tools.loop_smoke.py.md#run)
+
+---
+
+<a id="run_loop_command"></a>
+
+### `run_loop_command`
+
+`function` | [modules/lazy_runner.py:1578](../../modules/lazy_runner.py#L1578)
+
+```python
+def run_loop_command(shell, params: dict, line: str, verb: str) -> dict
+```
+
+Parse one loop command line and execute it through the shared runner.
+
+Single implementation behind the ``auto_loop`` and ``lazy_loop`` verbs
+(and the MCP ``lazyown_auto_loop`` tool) so their behavior cannot drift.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `shell` |  |  | Live LazyOwn shell (workers route verbs through it). |
+| `params` | `dict` |  | Payload mapping (defaults to an empty mapping). |
+| `line` | `str` |  | Raw command line after the verb. |
+| `verb` | `str` |  | Verb name used in error strings. |
+
+**Returns:** `dict` - Runner summary from [`run_loop`](#run_loop), or an error mapping
+(``{"error": ...}``) when parsing or target binding failed.
+
+*Calls:* [`print_error`](core.console.py.md#print_error), [`bind_target_authority`](#bind_target_authority), [`load_targets_file`](#load_targets_file), [`parse_loop_line`](#parse_loop_line), [`run_loop`](#run_loop)
+
+*Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop), [`handle`](skills.mcp_tools.auto_loop.py.md#handle)
 
 ---
 
@@ -477,7 +514,7 @@ Execute one complete loop run and return its summary.
 
 ### `AUTONOMOUS_ENV`
 
-`constant` | [modules/lazy_runner.py:44](../../modules/lazy_runner.py#L44)
+`constant` | [modules/lazy_runner.py:42](../../modules/lazy_runner.py#L42)
 
 ```python
 AUTONOMOUS_ENV = 'LAZYOWN_AUTONOMOUS'
@@ -489,7 +526,7 @@ AUTONOMOUS_ENV = 'LAZYOWN_AUTONOMOUS'
 
 ### `LOOP_RESULT_FILENAME`
 
-`constant` | [modules/lazy_runner.py:46](../../modules/lazy_runner.py#L46)
+`constant` | [modules/lazy_runner.py:44](../../modules/lazy_runner.py#L44)
 
 ```python
 LOOP_RESULT_FILENAME = 'result.json'
@@ -501,7 +538,7 @@ LOOP_RESULT_FILENAME = 'result.json'
 
 ### `ENGAGEMENT_MODES`
 
-`constant` | [modules/lazy_runner.py:161](../../modules/lazy_runner.py#L161)
+`constant` | [modules/lazy_runner.py:159](../../modules/lazy_runner.py#L159)
 
 ```python
 ENGAGEMENT_MODES = ('pentest', 'redteam', 'ctf')

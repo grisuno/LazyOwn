@@ -37,9 +37,9 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
                             sessions/ (state)
 ```
 
-- `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2.
+- `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2. Also `resolve_alias` (single shell-alias resolver for runner + workers).
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
-- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**, **loop_preflight (target/labs liveness before a loop spends rounds)**, **loop_audit (per-task campaign timeline: every command, worker, judge verdict, opsec, outcome)**.
+- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**, **loop_preflight (target/labs liveness before a loop spends rounds)**, **loop_audit (per-task campaign timeline: every command, worker, judge verdict, opsec, outcome)**, **loop_limits (canonical loop defaults/caps)**, **nmap_fingerprint (shared defusedxml nmap parser + ServiceInfo)**, **service_aliases (one home for the three alias tables)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
 - `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
 
@@ -219,6 +219,34 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 These modules were created to close the gaps between kill-chain phases,
 suggestion surfaces, and operational state. Each file is autonomous with a
 single contract.
+
+### Deduplication contracts (v5 — one implementation per concern)
+
+| Concern | Single home | Delegating surfaces |
+|---------|-------------|---------------------|
+| Loop CLI entry | `modules.lazy_runner.run_loop_command` | `lazy_loop`, `auto_loop`, MCP `lazyown_auto_loop` (all parse once, gate once: budget-confirm, preflight, bootstrap, audit) |
+| Loop defaults/caps | `modules/loop_limits.py` | `lazy_runner`, `loop_manager`, MCP `loop_smoke` |
+| Engine direct-call defaults | `ENGINE_DEFAULT_*` in `lazy_loop` | `LazyLoopEngine.run/orchestrate/run_round/limits` |
+| Worker command dispatch | `modules/loop/worker_execution` + `utils.resolve_alias` + `custom_tools.run_custom_tool_line` | `lazy_runner.build_executor` (sudo gated once, in worker gating) |
+| Step gate resolution | `modules.chain_registry.step_gate_verdict` | `Chain.resolve` (previews), `ChainRunner._run_step`, gym `chain_preview_lines` |
+| Token rendering | `modules.chain_registry.render_text` + `STEP_TOKEN_RE` | runner and registry |
+| Positional `apt_chain` classification | `cli/apt_chain_support.resolve_invocation` (`policy=strict` CLI / `lenient` loop) | `do_apt_chain`, `chain_loop.parse_chain_invocation` |
+| nmap XML parsing + ServiceInfo | `modules/nmap_fingerprint.py` (defusedxml) | `exploit_chain`, `exploit_advisor`, `ss` command |
+| Service alias tables | `modules/service_aliases.py` | `exploit_chain`, `chain_family`, `auto_registry` |
+| JSONL append/read in the engine | `_append_jsonl`/`_read_jsonl` in `lazy_loop` | activity, traffic, guard audit, LLM raw log, chat |
+| Mediation access in the engine | `mediation_resolve/_telemetry/_intel/_feedback` | every engine call-site (one try/import site) |
+
+Retired as dead code (zero production callers, verified): `send_worker_message`,
+`pause_intent`/`resume_intent`, `set_node_state`/`set_node_meta`,
+`AssetGraph.untested`, the `modules/asset_graph.py` dual-graph class layer
+(`coverage_for` stays), `render_text_token_braces`, `token_keys`,
+`ALL_STRATEGIES`, `CommandChain.chain`, `missing_prerequisites`,
+`tried_count`, `compute_killchain` (+ `tests/test_killchain.py`),
+`ExploitResult`, `ExploitChain.rport/lhost/lport`, `_parse_nmap_text`,
+`EngineMediator.reason`/`ReasoningPort`, chain-runner `VERDICT_INFERRED` copy.
+The MCP `auto_loop` wrapper now routes through `run_loop_command` so MCP runs
+get the full gate set. `chain list` (exploit) keeps its own table by design
+(filter + description column); `apt_chain list` keeps the ok-column table.
 
 ### `modules/killchain.py` — Single Source of Truth for Kill-Chain (NEW v3)
 

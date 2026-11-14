@@ -1,18 +1,8 @@
-# Symbols (page 7 of 53)
+# Symbols (page 7 of 52)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
-| `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
-| `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
-| `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
-| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
-| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
-| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
-| `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
-| `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
-| `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
 | `_hint` | method | `cli/tui_forms.py:172` | `def _hint(self, text)` |
 | `_render_options` | method | `cli/tui_forms.py:155` | `def _render_options(self, query)` |
 | `_save` | method | `cli/tui_forms.py:327` | `def _save(self)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `ensure_blocking_stdio` | function | `core/console.py:161` | `def ensure_blocking_stdio()` |
 | `format_line` | function | `core/console.py:121` | `def format_line(prefix, message, glyph)` |
 | `print_error` | function | `core/console.py:137` | `def print_error(error)` |
+| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
+| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
+| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
+| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
+| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
+| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
+| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
+| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
+| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
+| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

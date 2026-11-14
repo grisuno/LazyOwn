@@ -574,12 +574,31 @@ class WorkerAgenticMixin:
         budget: Budget,
         intercept: InterceptQueue,
         retry_state: dict,
+        deadline: float = 0.0,
     ) -> bool:
         """Run the intent through a real tool-calling agent when configured.
 
-        Returns True when the agentic path executed (successfully or
-        not); False falls back to the deterministic step loop.
+        Returns True only when the agentic path actually drove the intent
+        (the session executed at least one tool); False falls back to the
+        deterministic step loop. A dead, silent or timed-out agent that
+        executed zero tools must never suppress the deterministic layer:
+        commit f0e3b81c set the fallbacks on auto_pwn, not on the LLM.
+
+        Args:
+            intent: Intent the agent would drive.
+            outcome: Execution outcome dict to mutate.
+            transcripts: Executed (command, output) pairs.
+            executor: Worker command executor.
+            budget: Task budget gate.
+            intercept: Operator intercept queue.
+            retry_state: Worker retry bookkeeping.
+            deadline: Absolute intent wall-clock epoch; 0 disables the gate.
+
+        Returns:
+            True when the agent executed tools and owns the outcome.
         """
+        import time as _time
+
         from modules.lazy_loop import LlmPool
 
         try:
@@ -587,6 +606,15 @@ class WorkerAgenticMixin:
         except Exception:
             return False
         if not lazy_agent.tool_calling_enabled():
+            return False
+        remaining = (deadline - _time.time()) if deadline else 0.0
+        if (deadline and remaining <= 0.0) or self.store.expired(self.task_id):
+            self.activity.emit(
+                self.name,
+                "agent",
+                f"agent skipped: intent wall clock exhausted before start: intent #{intent.node_id}",
+                intent_id=intent.node_id,
+            )
             return False
         tools = self._agent_tools(intent, executor, transcripts, budget, intercept, retry_state)
         self.activity.emit(
@@ -619,6 +647,7 @@ class WorkerAgenticMixin:
                     system_prompt=self._agent_system_prompt(intent),
                     launch_prompt=launch_prompt,
                     tools=tools,
+                    turn_timeout=remaining,
                     on_event=lambda kind, name, text: self.activity.emit(
                         self.name, f"agent-{kind}", f"{name}: {text[:400]}", intent_id=intent.node_id
                     ),
@@ -640,6 +669,15 @@ class WorkerAgenticMixin:
                     pass
                 continue
         if result is None:
+            return False
+        executed_tools = int(len((result or {}).get("tool_calls") or {}))
+        if not executed_tools:
+            self.activity.emit(
+                self.name,
+                "agent",
+                f"agent executed 0 tools; deterministic steps take over: intent #{intent.node_id}",
+                intent_id=intent.node_id,
+            )
             return False
         reply = str(result.get("reply", "")).strip()
         if reply and not transcripts:

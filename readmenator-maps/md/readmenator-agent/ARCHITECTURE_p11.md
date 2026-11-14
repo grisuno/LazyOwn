@@ -2,6 +2,9 @@
 Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 
 ## External Imports (continued)
+- `skills/mcp_tools/winbox_gym_list.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/winbox_gym_plan.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/winbox_gym_run.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_snapshot.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_status.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_tools.py` -> __future__, json, mcp, typing
@@ -81,6 +84,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_audit_remediation.py` -> __future__, json, pathlib, pytest
 - `tests/test_auto_crypto.py` -> __future__, builtins, pathlib, pytest, tempfile, types
 - `tests/test_auto_loop_memory.py` -> __future__, pathlib, pytest
+- `tests/test_auto_pwn_success.py` -> __future__, pytest
 - `tests/test_auto_registry.py` -> __future__, pathlib, pytest, sys, threading, time
 - `tests/test_autonomous_ops.py` -> __future__
 - `tests/test_autonomous_replay.py` -> __future__, json, pathlib, pytest, sys, typing
@@ -219,6 +223,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_guardrails.py` -> __future__, pytest, types
 - `tests/test_gui_xss_sinks.py` -> __future__, pathlib, re, sys, unittest
 - `tests/test_gym_blueprint.py` -> __future__, flask, flask_login, pytest
+- `tests/test_gym_cleanup_policy.py` -> __future__, pytest
 - `tests/test_gym_cli.py` -> __future__, pytest, shutil, types
 - `tests/test_gym_lifecycle.py` -> __future__, json, pathlib, pytest, shutil, sys, traceback
 - `tests/test_gym_matrix_ctf.py` -> __future__, pathlib, tempfile, unittest, unittest.mock
@@ -239,7 +244,6 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_intel_selector.py` -> __future__, json, pathlib, pytest
 - `tests/test_intelligence_engine.py` -> __future__, json, pathlib, pytest
 - `tests/test_journal.py` -> __future__, json, pytest
-- `tests/test_killchain.py` -> __future__, pathlib, sys
 - `tests/test_killchain_auto_refresh.py` -> __future__
 - `tests/test_killchain_gap_signal.py` -> __future__, json, pathlib, pytest, tempfile
 - `tests/test_killchain_snapshot.py` -> __future__, base64, cryptography.fernet, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, json, pathlib
@@ -330,7 +334,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_loop_multi_target.py` -> __future__, pytest
 - `tests/test_loop_nmap_guard.py` -> __future__
 - `tests/test_loop_objective_wiring.py` -> __future__, datetime, json
-- `tests/test_loop_preflight.py` -> __future__, pytest, socket, threading
+- `tests/test_loop_preflight.py` -> __future__, socket, threading
 - `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
 - `tests/test_loop_scope_traffic_evidence.py` -> __future__
 - `tests/test_loop_spawn_side.py` -> __future__
@@ -340,7 +344,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
 - `tests/test_loop_worker_traces.py` -> __future__
 - `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
-- `tests/test_mcp_auto_loop_wrapper.py` -> __future__, asyncio, pytest, types
+- `tests/test_mcp_auto_loop_wrapper.py` -> __future__, asyncio, json, pytest, types
 - `tests/test_mcp_dispatch.py` -> __future__, ast, mcp_tools, pathlib, re, sys
 - `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
 - `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
@@ -383,6 +387,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_pi_leg.py` -> __future__, pytest, subprocess
 - `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
 - `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
+- `tests/test_planner_initial_access.py` -> __future__, pytest
 - `tests/test_playbook_admin.py` -> __future__, yaml
 - `tests/test_playbook_chain.py` -> __future__, os, yaml
 - `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re

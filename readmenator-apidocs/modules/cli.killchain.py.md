@@ -2,31 +2,17 @@
 
 > Source: [cli/killchain.py:1](../../cli/killchain.py#L1) | language `py` | coverage 100.0% | [API index](../index.md)
 
-Self-populating kill-chain progress derived from the daemon event stream.
+Backward-compat kill-chain progress types for the dashboard TUI.
 
-This module exists for backward compatibility. The canonical phase definitions
-and progress computation now live in `[`modules.killchain.KillChain`](modules.killchain.py.md#killchain)`, which already
-wraps `[`WorldModel`](modules.world_model.py.md#worldmodel)` and raw ``world_model.json``. Consumers should migrate there.
-
-For daemon-event-stream-based progress that includes per-phase activity and
-reward statistics, the [`compute_killchain`](#compute_killchain) function remains.
+The canonical phase definitions and progress computation live in
+`[`modules.killchain.KillChain`](modules.killchain.py.md#killchain)`, which already wraps `[`WorldModel`](modules.world_model.py.md#worldmodel)` and
+raw ``world_model.json``. Consumers should migrate there. What remains
+here is only the [`PhaseProgress`](#phaseprogress) dataclass the TUI imports.
 
 ## Contents
 
 - **Classes:** [`PhaseProgress`](#phaseprogress)
-- **Functions:** [`compute_killchain`](#compute_killchain)
-- **Constants:** [`DEFAULT_PHASES`](#default_phases), [`STATE_DONE`](#state_done), [`STATE_ACTIVE`](#state_active), [`STATE_PENDING`](#state_pending)
-
-## Call Graph
-
-Solid arrows stay in this module, dashed arrows leave it.
-
-```mermaid
-flowchart LR
-    n_cli_killchain_py__compute_killchain(["compute_killchain"])
-    n_cli_killchain_py__PhaseProgress(["PhaseProgress"])
-    n_cli_killchain_py__compute_killchain --> n_cli_killchain_py__PhaseProgress
-```
+- **Constants:** [`STATE_DONE`](#state_done), [`STATE_ACTIVE`](#state_active), [`STATE_PENDING`](#state_pending)
 
 ## Classes
 
@@ -34,7 +20,7 @@ flowchart LR
 
 ### `PhaseProgress`
 
-`class` `dataclass` | [cli/killchain.py:29](../../cli/killchain.py#L29)
+`class` `dataclass` | [cli/killchain.py:19](../../cli/killchain.py#L19)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -56,59 +42,13 @@ Computed progress for a single kill-chain phase.
 
 ---
 
-## Functions
-
-<a id="compute_killchain"></a>
-
-### `compute_killchain`
-
-`function` | [cli/killchain.py:83](../../cli/killchain.py#L83)
-
-```python
-def compute_killchain(events: list[dict[str, Any]], world: dict[str, Any] | None = None, phases: tuple[tuple[str, str], ...] = DEFAULT_PHASES) -> list[PhaseProgress]
-```
-
-Compute kill-chain progress from daemon events and the world model.
-
-A phase is marked *done* when the engagement has advanced past it (its index
-is below the active phase) or the world model explicitly lists it as
-completed. The active phase is *active*; everything after it is *pending*.
-Per-phase activity counts and accumulated reward are derived from the step
-events regardless of state.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `events` | `list[dict[str, Any]]` |  | Daemon events ordered oldest first (see [`cli.reasoning_stream.read_raw_events`](cli.reasoning_stream.py.md#read_raw_events)). |
-| `world` | `dict[str, Any] \| None` | `None` | Optional ``world_model.json`` snapshot used as a fallback for the current phase and for an explicit ``completed_phases`` list. |
-| `phases` | `tuple[tuple[str, str], ...]` | `DEFAULT_PHASES` | Ordered ``(key, label)`` pairs describing the kill chain. |
-
-**Returns:** `list[PhaseProgress]` - One [`PhaseProgress`](#phaseprogress) per phase, in kill-chain order.
-
-*Calls:* [`PhaseProgress`](#phaseprogress)
-
----
-
 ## Constants
-
-<a id="default_phases"></a>
-
-### `DEFAULT_PHASES`
-
-`constant` | [cli/killchain.py:18](../../cli/killchain.py#L18)
-
-```python
-DEFAULT_PHASES: tuple[tuple[str, str], ...] = tuple(((p[0], p[1]) for p in _KC.phases_for_display()))
-```
-
----
 
 <a id="state_done"></a>
 
 ### `STATE_DONE`
 
-`constant` | [cli/killchain.py:20](../../cli/killchain.py#L20)
+`constant` | [cli/killchain.py:13](../../cli/killchain.py#L13)
 
 ```python
 STATE_DONE: str = 'done'
@@ -120,7 +60,7 @@ STATE_DONE: str = 'done'
 
 ### `STATE_ACTIVE`
 
-`constant` | [cli/killchain.py:21](../../cli/killchain.py#L21)
+`constant` | [cli/killchain.py:14](../../cli/killchain.py#L14)
 
 ```python
 STATE_ACTIVE: str = 'active'
@@ -132,7 +72,7 @@ STATE_ACTIVE: str = 'active'
 
 ### `STATE_PENDING`
 
-`constant` | [cli/killchain.py:22](../../cli/killchain.py#L22)
+`constant` | [cli/killchain.py:15](../../cli/killchain.py#L15)
 
 ```python
 STATE_PENDING: str = 'pending'

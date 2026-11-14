@@ -1,80 +1,6 @@
 # Subsystem: tests (page 21 of 26)
 Previous: [KB_tests_p20.md](KB_tests_p20.md)
 
-## tests/test_phase1_data_gaps.py
-- Doc: Phase 1 data-gap closure: SDD + TDD + BDD tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `parser` (function, line 36) `def parser()`
-  - `world_model` (function, line 41) `def world_model()`
-  - `_make_finding` (function, line 49) `def _make_finding(ftype, value, host, metadata)`
-  - `TestFindingMetadata` (class, line 56) `class TestFindingMetadata`
-  - `TestServiceVersionExtractor` (class, line 72) `class TestServiceVersionExtractor`
-  - `TestEmailExtractor` (class, line 103) `class TestEmailExtractor`
-  - `TestObsParserIncludesEmailExtractor` (class, line 130) `class TestObsParserIncludesEmailExtractor`
-  - `TestEmailAndDomainEntries` (class, line 158) `class TestEmailAndDomainEntries`
-  - `TestWorldModelEmailDomain` (class, line 174) `class TestWorldModelEmailDomain`
-  - `TestUpdateFromFindings` (class, line 198) `class TestUpdateFromFindings`
-  - `TestConsumePolicyFacts` (class, line 265) `class TestConsumePolicyFacts`
-  - `TestWorldModelPersistence` (class, line 332) `class TestWorldModelPersistence`
-  - `TestGraphTopologySignal` (class, line 376) `class TestGraphTopologySignal`
-  - `TestCredentialAwareRetry` (class, line 490) `class TestCredentialAwareRetry`
-  - `TestFullDataFlow` (class, line 562) `class TestFullDataFlow`
-  - `test_finding_has_metadata_default_empty` (method, line 57) `def test_finding_has_metadata_default_empty(self)`
-  - `test_finding_accepts_metadata` (method, line 61) `def test_finding_accepts_metadata(self)`
-  - `test_port_and_protocol_in_metadata` (method, line 73) `def test_port_and_protocol_in_metadata(self)`
-  - `test_multiple_services_extracted` (method, line 81) `def test_multiple_services_extracted(self)`
-  - `test_udp_service_captured` (method, line 91) `def test_udp_service_captured(self)`
-  - `test_extracts_single_email` (method, line 104) `def test_extracts_single_email(self)`
-  - `test_extracts_multiple_emails` (method, line 111) `def test_extracts_multiple_emails(self)`
-  - `test_deduplicates_emails` (method, line 119) `def test_deduplicates_emails(self)`
-  - `test_ignores_non_email` (method, line 124) `def test_ignores_non_email(self)`
-  - `test_parser_extracts_emails_from_output` (method, line 131) `def test_parser_extracts_emails_from_output(self, parser)`
-  - `test_parser_still_extracts_service_versions_with_metadata` (method, line 141) `def test_parser_still_extracts_service_versions_with_metadata(self, parser)`
-  - `test_email_entry_defaults` (method, line 159) `def test_email_entry_defaults(self)`
-  - `test_domain_entry_defaults` (method, line 165) `def test_domain_entry_defaults(self)`
-  - `test_add_email_stores_and_deduplicates` (method, line 175) `def test_add_email_stores_and_deduplicates(self, world_model)`
-  - `test_add_domain_stores_and_adds_note` (method, line 181) `def test_add_domain_stores_and_adds_note(self, world_model)`
-  - `test_add_domain_without_host` (method, line 189) `def test_add_domain_without_host(self, world_model)`
-  - `test_service_version_calls_add_service` (method, line 199) `def test_service_version_calls_add_service(self, world_model)`
-  - `test_service_version_no_longer_adds_note` (method, line 213) `def test_service_version_no_longer_adds_note(self, world_model)`
-  - `test_domain_finding_calls_add_domain` (method, line 227) `def test_domain_finding_calls_add_domain(self, world_model)`
-  - `test_email_finding_calls_add_email` (method, line 235) `def test_email_finding_calls_add_email(self, world_model)`
-  - `test_error_finding_adds_note` (method, line 243) `def test_error_finding_adds_note(self, world_model)`
-  - `test_error_finding_no_host_uses_sentinel` (method, line 252) `def test_error_finding_no_host_uses_sentinel(self, world_model)`
-  - `test_consume_empty_file_returns_zero` (method, line 266) `def test_consume_empty_file_returns_zero(self, world_model, tmp_path)`
-  - `test_consume_ingests_hosts_and_services` (method, line 272) `def test_consume_ingests_hosts_and_services(self, world_model, tmp_path)`
-  - `test_consume_nonexistent_file_returns_zero` (method, line 318) `def test_consume_nonexistent_file_returns_zero(self, world_model)`
-  - `test_consume_malformed_json_returns_zero` (method, line 322) `def test_consume_malformed_json_returns_zero(self, world_model, tmp_path)`
-  - `test_emails_and_domains_survive_roundtrip` (method, line 333) `def test_emails_and_domains_survive_roundtrip(self, world_model)`
-  - `test_reset_clears_emails_and_domains` (method, line 349) `def test_reset_clears_emails_and_domains(self, world_model)`
-  - `test_snapshot_includes_emails_and_domains` (method, line 356) `def test_snapshot_includes_emails_and_domains(self, world_model)`
-  - `test_to_context_string_has_email_domain_counts` (method, line 365) `def test_to_context_string_has_email_domain_counts(self, world_model)`
-  - `test_returns_empty_on_nonexistent_world_model` (method, line 377) `def test_returns_empty_on_nonexistent_world_model(self)`
-  - `test_produces_lateral_proposals_from_host_nodes` (method, line 388) `def test_produces_lateral_proposals_from_host_nodes(self, tmp_path)`
-  - `test_produces_credential_spray_proposals` (method, line 425) `def test_produces_credential_spray_proposals(self, tmp_path)`
-  - `test_computes_centrality_from_graph_when_no_candidates` (method, line 452) `def test_computes_centrality_from_graph_when_no_candidates(self, tmp_path)`
-  - `test_signals_are_wired_in_build_default_engine` (method, line 477) `def test_signals_are_wired_in_build_default_engine(self, tmp_path)`
-  - `test_retry_with_no_open_ports_returns_empty` (method, line 491) `def test_retry_with_no_open_ports_returns_empty(self)`
-  - `test_credential_aware_rank_boosts_brute_force` (method, line 501) `def test_credential_aware_rank_boosts_brute_force(self)`
-  - `test_credential_aware_rank_boosts_credential_reuse` (method, line 526) `def test_credential_aware_rank_boosts_credential_reuse(self)`
-  - `test_credential_aware_rank_handles_empty_creds` (method, line 543) `def test_credential_aware_rank_handles_empty_creds(self)`
-  - `test_recon_to_world_model_to_recommendation` (method, line 563) `def test_recon_to_world_model_to_recommendation(self, world_model, parser)`
-- Depends on: `cli/recommendation_signals.py`, `modules/autonomous_exploit_engine.py`, `modules/obs_parser.py`, `modules/world_model.py`
-
-## tests/test_phase_labels.py
-- Doc: Tests for cli.phase_labels — canonical phase display labels contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_known_phase_labels` (function, line 13) `def test_known_phase_labels()`
-  - `test_phase_label_falls_back_to_title_case` (function, line 19) `def test_phase_label_falls_back_to_title_case()`
-  - `test_phase_label_keys_cover_command_index_phases` (function, line 26) `def test_phase_label_keys_cover_command_index_phases()`
-  - `test_contextual_help_reuses_canonical_labels` (function, line 32) `def test_contextual_help_reuses_canonical_labels()`
-  - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
-- Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
-
 ## tests/test_php2shell_addon.py
 - Doc: tests/test_php2shell_addon.py  Validation suite for the php2shell lazyaddon.
 - Layer: testing
@@ -232,6 +158,22 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
   - `test_addon_tokens_resolve_at_runtime` (function, line 98) `def test_addon_tokens_resolve_at_runtime()`
   - `test_required_params_exist_live` (function, line 122) `def test_required_params_exist_live()`
 - Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
+
+## tests/test_planner_initial_access.py
+- Doc: Deterministic initial-access intent: auto_pwn fires without an LLM.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `store` (function, line 9) `def store(tmp_path, monkeypatch)`
+  - `_make_planner` (function, line 19) `def _make_planner(store, goal, target)`
+  - `test_initial_access_candidate_emitted_for_access_goal` (function, line 35) `def test_initial_access_candidate_emitted_for_access_goal(store)`
+  - `test_initial_access_candidate_skips_when_intent_exists` (function, line 44) `def test_initial_access_candidate_skips_when_intent_exists(store)`
+  - `test_initial_access_candidate_skips_for_non_access_goal` (function, line 51) `def test_initial_access_candidate_skips_for_non_access_goal(store)`
+  - `test_plan_emits_initial_access_intent_first` (function, line 57) `def test_plan_emits_initial_access_intent_first(store, monkeypatch)`
+  - `test_worker_steps_run_auto_pwn_for_access_intent` (function, line 68) `def test_worker_steps_run_auto_pwn_for_access_intent(store)`
+  - `test_executor_bumps_auto_pwn_timeout` (function, line 91) `def test_executor_bumps_auto_pwn_timeout(monkeypatch)`
+  - `_fake_stream` (function, line 96) `def _fake_stream(command, on_output, timeout_sec)`
+- Depends on: `core/config.py`, `modules/auto_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`
 
 ## tests/test_playbook_admin.py
 - Doc: Playbook YAML administration: scan, create, update, delete, validate.
@@ -479,6 +421,64 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
   - `test_placeholders_dropped` (method, line 53) `def test_placeholders_dropped(self)`
   - `test_hash_detected` (method, line 59) `def test_hash_detected(self)`
 - Depends on: `modules/reaction_bridge.py`
+
+## tests/test_reactive_engine_semantic.py
+- Doc: Tests for the semantic context advisor in ``modules/reactive_engine.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeRAG` (class, line 33) `class _FakeRAG`
+  - `test_returns_empty_when_rag_unavailable` (function, line 46) `def test_returns_empty_when_rag_unavailable(monkeypatch)`
+  - `test_returns_empty_when_disabled_via_payload` (function, line 55) `def test_returns_empty_when_disabled_via_payload()`
+  - `test_emits_priority_five_suggestion` (function, line 75) `def test_emits_priority_five_suggestion()`
+  - `test_skips_low_score_hits` (function, line 99) `def test_skips_low_score_hits()`
+  - `test_skips_same_command_and_dedupes` (function, line 115) `def test_skips_same_command_and_dedupes()`
+  - `test_skips_hits_without_command_prefix` (function, line 142) `def test_skips_hits_without_command_prefix()`
+  - `test_engine_uses_semantic_advisor_when_supplied` (function, line 158) `def test_engine_uses_semantic_advisor_when_supplied()`
+  - `test_advisor_swallows_rag_query_errors` (function, line 186) `def test_advisor_swallows_rag_query_errors()`
+  - `__init__` (method, line 36) `def __init__(self, hits, ready)`
+  - `query` (method, line 41) `def query(self, text, n)`
+  - `_ExplodingRAG` (class, line 189) `class _ExplodingRAG`
+  - `query` (method, line 192) `def query(self, text, n)`
+- Depends on: `modules/reactive_engine.py`
+
+## tests/test_reactive_hints.py
+- Doc: Tests for cli/reactive_hints.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeAdvisor` (class, line 29) `class _FakeAdvisor`
+  - `advisor_with_three_hints` (function, line 42) `def advisor_with_three_hints()`
+  - `empty_advisor` (function, line 53) `def empty_advisor()`
+  - `TestFirstToken` (class, line 57) `class TestFirstToken`
+  - `TestTruncate` (class, line 71) `class TestTruncate`
+  - `TestExtractLabels` (class, line 88) `class TestExtractLabels`
+  - `TestRenderInlineHints` (class, line 111) `class TestRenderInlineHints`
+  - `__init__` (method, line 32) `def __init__(self, suggestions)`
+  - `suggest_next` (method, line 36) `def suggest_next(self, recent_commands, limit)`
+  - `test_extracts_first_word` (method, line 58) `def test_extracts_first_word(self)`
+  - `test_single_word` (method, line 61) `def test_single_word(self)`
+  - `test_empty_string` (method, line 64) `def test_empty_string(self)`
+  - `test_whitespace_only` (method, line 67) `def test_whitespace_only(self)`
+  - `test_short_string_unchanged` (method, line 72) `def test_short_string_unchanged(self)`
+  - `test_exact_length_unchanged` (method, line 75) `def test_exact_length_unchanged(self)`
+  - `test_long_string_truncated` (method, line 78) `def test_long_string_truncated(self)`
+  - `test_truncation_preserves_start` (method, line 83) `def test_truncation_preserves_start(self)`
+  - `test_picks_label_over_id` (method, line 89) `def test_picks_label_over_id(self)`
+  - `test_falls_back_to_id_when_no_label` (method, line 93) `def test_falls_back_to_id_when_no_label(self)`
+  - `test_skips_empty_entries` (method, line 97) `def test_skips_empty_entries(self)`
+  - `test_respects_limit` (method, line 101) `def test_respects_limit(self)`
+  - `test_truncates_long_labels` (method, line 105) `def test_truncates_long_labels(self)`
+  - `test_disabled_flag_skips_render` (method, line 112) `def test_disabled_flag_skips_render(self, advisor_with_three_hints)`
+  - `test_skip_command_skips_render` (method, line 117) `def test_skip_command_skips_render(self, advisor_with_three_hints)`
+  - `test_empty_command_skips_render` (method, line 122) `def test_empty_command_skips_render(self, advisor_with_three_hints)`
+  - `test_empty_suggestions_skips_render` (method, line 127) `def test_empty_suggestions_skips_render(self, empty_advisor)`
+  - `test_normal_command_renders_hint` (method, line 132) `def test_normal_command_renders_hint(self, advisor_with_three_hints)`
+  - `test_advisor_called_with_correct_command` (method, line 137) `def test_advisor_called_with_correct_command(self, advisor_with_three_hints)`
+  - `test_exception_in_advisor_does_not_propagate` (method, line 142) `def test_exception_in_advisor_does_not_propagate(self)`
+  - `test_all_skip_commands_are_skipped` (method, line 149) `def test_all_skip_commands_are_skipped(self, advisor_with_three_hints)`
+  - `test_limit_is_passed_to_advisor` (method, line 155) `def test_limit_is_passed_to_advisor(self, advisor_with_three_hints)`
+- Depends on: `cli/reactive_hints.py`
 
 
 Next: [KB_tests_p22.md](KB_tests_p22.md)

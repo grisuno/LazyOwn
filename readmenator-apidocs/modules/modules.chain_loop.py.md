@@ -51,6 +51,7 @@ flowchart LR
     n_modules_chain_loop_py__stepwise_eligible(["stepwise_eligible"])
     n_core_config_py__load_payload["config.load_payload"]
     n_cli_apt_chain_support_py__parse_chain_args["apt_chain_support.parse_chain_args"]
+    n_cli_apt_chain_support_py__resolve_invocation["apt_chain_support.resolve_invocation"]
     n_modules_chain_state_py__new_run_id["chain_state.new_run_id"]
     n_modules_chain_loop_py__run_chain_stepwise --> n_modules_chain_loop_py__ChainStepBlocked___init__
     n_modules_chain_loop_py__run_chain_stepwise --> n_modules_chain_loop_py__chain_mode
@@ -58,6 +59,7 @@ flowchart LR
     n_modules_chain_loop_py__run_chain_stepwise --> n_modules_chain_loop_py__stepwise_eligible
     n_modules_chain_loop_py__chain_mode -.-> n_core_config_py__load_payload
     n_modules_chain_loop_py__parse_chain_invocation -.-> n_cli_apt_chain_support_py__parse_chain_args
+    n_modules_chain_loop_py__parse_chain_invocation -.-> n_cli_apt_chain_support_py__resolve_invocation
     n_modules_chain_loop_py__run_chain_stepwise -.-> n_modules_chain_state_py__new_run_id
 ```
 
@@ -67,7 +69,7 @@ flowchart LR
 
 ### `ChainStepBlocked`
 
-`exception` | [modules/chain_loop.py:139](../../modules/chain_loop.py#L139)
+`exception` | [modules/chain_loop.py:123](../../modules/chain_loop.py#L123)
 
 ```python
 class ChainStepBlocked(RuntimeError)
@@ -87,7 +89,7 @@ A chain step was refused by the worker guardrails (blocked/skipped).
 
 #### `ChainStepBlocked.__init__`
 
-`constructor` | [modules/chain_loop.py:142](../../modules/chain_loop.py#L142)
+`constructor` | [modules/chain_loop.py:126](../../modules/chain_loop.py#L126)
 
 ```python
 def __init__(self, status: str, detail: str) -> None
@@ -164,8 +166,9 @@ def parse_chain_invocation(command: str) -> tuple[str, str, dict[str, str]]
 
 Split one ``apt_chain`` command line into name, target and vars.
 
-Reuses the CLI argument parser so the loop and the shell accept the
-exact same syntax.
+Delegates classification to the shared CLI resolver
+([`cli.apt_chain_support.resolve_invocation`](cli.apt_chain_support.py.md#resolve_invocation)) so the loop and the
+shell accept the exact same chain/target/playbook syntax.
 
 **Parameters**
 
@@ -175,9 +178,10 @@ exact same syntax.
 
 **Returns:** `tuple[str, str, dict[str, str]]` - ``(chain_name, target, vars)`` where the name defaults to the
 base chain and the target may be empty (the worker target wins
-in `[`run_chain_stepwise`](#run_chain_stepwise)`).
+in `[`run_chain_stepwise`](#run_chain_stepwise)`). A disabled chain file yields the base
+chain name instead.
 
-*Calls:* [`parse_chain_args`](cli.apt_chain_support.py.md#parse_chain_args)
+*Calls:* [`parse_chain_args`](cli.apt_chain_support.py.md#parse_chain_args), [`resolve_invocation`](cli.apt_chain_support.py.md#resolve_invocation)
 
 *Called by:* [`run_chain_stepwise`](#run_chain_stepwise)
 
@@ -187,7 +191,7 @@ in `[`run_chain_stepwise`](#run_chain_stepwise)`).
 
 ### `stepwise_eligible`
 
-`function` | [modules/chain_loop.py:109](../../modules/chain_loop.py#L109)
+`function` | [modules/chain_loop.py:93](../../modules/chain_loop.py#L93)
 
 ```python
 def stepwise_eligible(chain: Any, routable: Callable[[str], bool] | None = None) -> tuple[bool, str]
@@ -216,7 +220,7 @@ steps are allowed: the worker's intercept queue gates them.
 
 ### `run_chain_stepwise`
 
-`function` | [modules/chain_loop.py:154](../../modules/chain_loop.py#L154)
+`function` | [modules/chain_loop.py:138](../../modules/chain_loop.py#L138)
 
 ```python
 def run_chain_stepwise(worker: Any, intent: Any, command: str, executor: Callable[[str], str], budget: Any, intercept: Any, retry_state: dict) -> tuple[str, str, str] | None

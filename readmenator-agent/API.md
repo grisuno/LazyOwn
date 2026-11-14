@@ -53,23 +53,25 @@ Imported by: `cli/__init__.py`, `cli/commands/command_and_control_migrated.py`, 
 - `load_aliases` (function) `cli/aliases.py:100` `def load_aliases(payload, path, lazy)` -- Return the cmd2 alias map.
 
 ## cli/apt_chain_support.py
-Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_approval.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/failure_verdict.py`, `modules/guardrails/__init__.py`, `modules/lazy_fallback.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`, `skills/lazyown_facts.py`
+Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/auto_registry.py`, `modules/chain_approval.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/failure_verdict.py`, `modules/guardrails/__init__.py`, `modules/lazy_fallback.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`, `skills/lazyown_facts.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_playbook_chain.py`
-- `parse_chain_args` (function) `cli/apt_chain_support.py:109` `def parse_chain_args(line)` -- Parse one ``apt_chain`` command line into structured args.
-- `resolve_admin` (function) `cli/apt_chain_support.py:234` `def resolve_admin(args)` -- Execute an admin action against the registry and checkpoint store.
-- `select_step_ids` (function) `cli/apt_chain_support.py:369` `def select_step_ids(chain, args)` -- Resolve --step/--from-step/--to-step into one id set.
-- `adversarial_continue` (function) `cli/apt_chain_support.py:401` `def adversarial_continue(chain)` -- Return a copy of the chain where every step continues on error.
-- `render_result` (function) `cli/apt_chain_support.py:409` `def render_result(result)` -- Render one chain result as operator lines (JSON mode prints dict).
-- `render_admin` (function) `cli/apt_chain_support.py:450` `def render_admin(payload, action)` -- Render an ``apt_chain`` admin payload as severity-tagged operator lines.
-- `build_cli_approver` (function) `cli/apt_chain_support.py:528` `def build_cli_approver(printer, input_fn)` -- Return an approver baked for interactive operators.
-- `approve` (function) `cli/apt_chain_support.py:536` `def approve(step_id, command)`
-- `build_adaptive_replanner` (function) `cli/apt_chain_support.py:588` `def build_adaptive_replanner()` -- Return a replanner driven by ``modules.lazy_fallback``.
-- `replan` (function) `cli/apt_chain_support.py:601` `def replan(context)`
-- `compose_replanners` (function) `cli/apt_chain_support.py:626` `def compose_replanners(replanners)` -- Return one replanner running every non-None replanner in order.
-- `composed` (function) `cli/apt_chain_support.py:639` `def composed(context)`
-- `build_reactive_replanner` (function) `cli/apt_chain_support.py:646` `def build_reactive_replanner()` -- Return a replanner driven by ``modules.reactive_engine``.
-- `replan` (function) `cli/apt_chain_support.py:649` `def replan(context)`
-- `build_llm_recovery_chain` (function) `cli/apt_chain_support.py:730` `def build_llm_recovery_chain(result, target, task_id)` -- Ask the LLM pool for a temporary recovery chain after a failed run.
+- `parse_chain_args` (function) `cli/apt_chain_support.py:114` `def parse_chain_args(line)` -- Parse one ``apt_chain`` command line into structured args.
+- `resolve_invocation` (function) `cli/apt_chain_support.py:234` `def resolve_invocation(positionals, target_seed, preset_target, playbook_engine, playbook_seed, policy)` -- Classify positional tokens into chain, target and playbook override.
+- `chain_file_exists` (function) `cli/apt_chain_support.py:275` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
+- `resolve_admin` (function) `cli/apt_chain_support.py:322` `def resolve_admin(args)` -- Execute an admin action against the registry and checkpoint store.
+- `select_step_ids` (function) `cli/apt_chain_support.py:457` `def select_step_ids(chain, args)` -- Resolve --step/--from-step/--to-step into one id set.
+- `adversarial_continue` (function) `cli/apt_chain_support.py:489` `def adversarial_continue(chain)` -- Return a copy of the chain where every step continues on error.
+- `render_result` (function) `cli/apt_chain_support.py:497` `def render_result(result)` -- Render one chain result as operator lines (JSON mode prints dict).
+- `render_admin` (function) `cli/apt_chain_support.py:538` `def render_admin(payload, action)` -- Render an ``apt_chain`` admin payload as severity-tagged operator lines.
+- `build_cli_approver` (function) `cli/apt_chain_support.py:616` `def build_cli_approver(printer, input_fn)` -- Return an approver baked for interactive operators.
+- `approve` (function) `cli/apt_chain_support.py:624` `def approve(step_id, command)`
+- `build_adaptive_replanner` (function) `cli/apt_chain_support.py:676` `def build_adaptive_replanner()` -- Return a replanner driven by ``modules.lazy_fallback``.
+- `replan` (function) `cli/apt_chain_support.py:689` `def replan(context)`
+- `compose_replanners` (function) `cli/apt_chain_support.py:714` `def compose_replanners(replanners)` -- Return one replanner running every non-None replanner in order.
+- `composed` (function) `cli/apt_chain_support.py:727` `def composed(context)`
+- `build_reactive_replanner` (function) `cli/apt_chain_support.py:734` `def build_reactive_replanner()` -- Return a replanner driven by ``modules.reactive_engine``.
+- `replan` (function) `cli/apt_chain_support.py:737` `def replan(context)`
+- `build_llm_recovery_chain` (function) `cli/apt_chain_support.py:818` `def build_llm_recovery_chain(result, target, task_id)` -- Ask the LLM pool for a temporary recovery chain after a failed run.
 
 ## cli/assign.py
 Depends on: `core/payload_schema.py`
@@ -225,18 +227,15 @@ Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/mcp_tools/co
 - `NextStep.to_dict` (method) `cli/command_chain.py:139` `def to_dict(self)` -- Return a JSON-friendly representation of the step.
 - `PrerequisiteRegistry.__init__` (method) `cli/command_chain.py:159` `def __init__(self, config)` -- Store the configuration that owns the prerequisite table.
 - `PrerequisiteRegistry.prerequisites` (method) `cli/command_chain.py:164` `def prerequisites(self, cmd)` -- Return the ordered list of prerequisite commands for ``cmd``.
-- `PrerequisiteRegistry.missing` (method) `cli/command_chain.py:170` `def missing(self, cmd, history)` -- Return prerequisites that have **not** yet appeared in ``history``.
-- `StaticNextRegistry.next_for` (method) `cli/command_chain.py:180` `def next_for(self, cmd)` -- Return the deterministic kill-chain successors of ``cmd``.
-- `StaticNextRegistry.phase_priority` (method) `cli/command_chain.py:186` `def phase_priority(self, phase)` -- Return the phase-priority verbs used as a fallback.
-- `ServiceNextResolver.__init__` (method) `cli/command_chain.py:196` `def __init__(self, config)` -- Store the configuration providing the service follow-up table.
-- `ServiceNextResolver.followups` (method) `cli/command_chain.py:201` `def followups(self, services)` -- Return ``(verb, reason)`` pairs for every triggered follow-up.
-- `DynamicNextResolver.__init__` (method) `cli/command_chain.py:222` `def __init__(self, config, static_registry, service_resolver, exploration_engine)` -- Wire collaborators together.
-- `DynamicNextResolver.resolve` (method) `cli/command_chain.py:236` `def resolve(self, cmd, params, target, phase, limit)` -- Return the ordered, de-duplicated next-step recommendations.
-- `CommandChain.__init__` (method) `cli/command_chain.py:338` `def __init__(self, config, prerequisites, next_resolver)` -- Wire collaborators together using the supplied configuration.
-- `CommandChain.prev` (method) `cli/command_chain.py:350` `def prev(self, cmd)` -- Return the ordered prerequisite commands for ``cmd``.
-- `CommandChain.missing_prerequisites` (method) `cli/command_chain.py:355` `def missing_prerequisites(self, cmd, history)` -- Return prerequisites of ``cmd`` not present in ``history``.
-- `CommandChain.next` (method) `cli/command_chain.py:360` `def next(self, cmd, params, target, phase, limit)` -- Return ordered next-step recommendations.
-- `CommandChain.chain` (method) `cli/command_chain.py:372` `def chain(self, cmd, params, target, phase, limit)` -- Return a serialisable ``{prev, next}`` view for the given command.
+- `StaticNextRegistry.next_for` (method) `cli/command_chain.py:174` `def next_for(self, cmd)` -- Return the deterministic kill-chain successors of ``cmd``.
+- `StaticNextRegistry.phase_priority` (method) `cli/command_chain.py:180` `def phase_priority(self, phase)` -- Return the phase-priority verbs used as a fallback.
+- `ServiceNextResolver.__init__` (method) `cli/command_chain.py:190` `def __init__(self, config)` -- Store the configuration providing the service follow-up table.
+- `ServiceNextResolver.followups` (method) `cli/command_chain.py:195` `def followups(self, services)` -- Return ``(verb, reason)`` pairs for every triggered follow-up.
+- `DynamicNextResolver.__init__` (method) `cli/command_chain.py:216` `def __init__(self, config, static_registry, service_resolver, exploration_engine)` -- Wire collaborators together.
+- `DynamicNextResolver.resolve` (method) `cli/command_chain.py:230` `def resolve(self, cmd, params, target, phase, limit)` -- Return the ordered, de-duplicated next-step recommendations.
+- `CommandChain.__init__` (method) `cli/command_chain.py:332` `def __init__(self, config, prerequisites, next_resolver)` -- Wire collaborators together using the supplied configuration.
+- `CommandChain.prev` (method) `cli/command_chain.py:344` `def prev(self, cmd)` -- Return the ordered prerequisite commands for ``cmd``.
+- `CommandChain.next` (method) `cli/command_chain.py:349` `def next(self, cmd, params, target, phase, limit)` -- Return ordered next-step recommendations.
 
 ## cli/command_explorer.py
 Depends on: `cli/palette.py`, `core/console.py`
@@ -464,7 +463,7 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `CommandAndControlCommandSet.do_c2_implant` (method) `cli/commands/command_and_control.py:233` `def do_c2_implant(self, line)` -- Generate a compiled implant payload for the target platform.
 
 ## cli/commands/command_and_control_migrated.py
-Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/c2_builder.py`, `modules/chain_approval.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
+Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/c2_builder.py`, `modules/chain_approval.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `utils.py`
 Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_command_control_agent.py`, `tests/test_gym_cli.py`
 - `select_agent_flavour` (function) `cli/commands/command_and_control_migrated.py:43` `def select_agent_flavour(run_tests, platform)` -- Pick the agent script extension from the tests of the current run.
 - `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:71` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
@@ -486,15 +485,14 @@ Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.
 - `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1447` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
 - `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1550` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
 - `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1727` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
-- `chain_file_exists` (function) `cli/commands/command_and_control_migrated.py:1768` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
-- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:2035` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2085` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2205` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2308` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2487` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2544` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2593` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2685` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
+- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:2022` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
+- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2072` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
+- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2192` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2295` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2474` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
+- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2531` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
+- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2580` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
+- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2672` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 
 Next: [API_p2.md](API_p2.md)

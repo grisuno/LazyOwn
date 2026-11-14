@@ -2,6 +2,8 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/panels/cve_panel.py` -> `lazygui/services/backend.py`
+- `lazygui/panels/event_log_panel.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/event_log_panel.py` -> `lazygui/panels/base.py`
 - `lazygui/panels/event_log_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/event_log_panel.py` -> `lazygui/services/event_log.py`
@@ -195,6 +197,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/agent_runner.py` -> `modules/llm_factory.py`
 - `modules/agent_runner.py` -> `modules/logging_config.py`
 - `modules/ai_exploit_chain.py` -> `modules/autonomous_exploit_engine.py`
+- `modules/ai_fallback.py` -> `core/config.py`
 - `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - `modules/ai_fallback.py` -> `modules/llm_orchestrator.py`
 - `modules/ai_fallback.py` -> `modules/toposwarm_bridge.py`
@@ -238,10 +241,12 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/auto_registry.py` -> `modules/lazy_installer.py`
 - `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py`
 - `modules/auto_registry.py` -> `modules/orchestrator_config.py`
+- `modules/auto_registry.py` -> `modules/service_aliases.py`
 - `modules/autonomous_exploit_engine.py` -> `core/defaults.py`
 - `modules/autonomous_exploit_engine.py` -> `core/safe_exec.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/auto_pivot.py`
+- `modules/autonomous_exploit_engine.py` -> `modules/ctf_capture.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/db.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/outcome_bus.py`
 - `modules/autonomous_exploit_engine.py` -> `modules/world_model.py`
@@ -294,6 +299,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/chain_facts.py` -> `modules/chain_runner.py`
 - `modules/chain_facts.py` -> `skills/lazyown_facts.py`
 - `modules/chain_family.py` -> `modules/lazy_loop.py`
+- `modules/chain_family.py` -> `modules/service_aliases.py`
 - `modules/chain_loop.py` -> `cli/apt_chain_support.py`
 - `modules/chain_loop.py` -> `core/config.py`
 - `modules/chain_loop.py` -> `modules/auto_registry.py`
@@ -384,7 +390,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/event_consumers.py` -> `modules/world_model.py`
 - `modules/evidence_store.py` -> `core/atomic_store.py`
 - `modules/exp.c` -> `modules/selection/chain.py`
+- `modules/exploit_chain.py` -> `modules/nmap_fingerprint.py`
 - `modules/exploit_chain.py` -> `modules/outcome_bus.py`
+- `modules/exploit_chain.py` -> `modules/service_aliases.py`
 - `modules/exploit_recommender.py` -> `lazygui/version.py`
 - `modules/exploit_recommender.py` -> `modules/world_model.py`
 - `modules/exploitgym_gym.py` -> `modules/redteam_gym.py`
@@ -488,13 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_cli_bridge.py` -> `modules/killchain.py`
 - `modules/lazy_cli_bridge.py` -> `modules/verb_catalog.py`
 - `modules/lazy_cve_feed.py` -> `modules/lazy_heat.py`
-- `modules/lazy_drafts.py` -> `modules/lazy_loop.py`
-- `modules/lazy_engine.py` -> `modules/lazy_loop.py`
-- `modules/lazy_exposure.py` -> `modules/__init__.py`
-- `modules/lazy_exposure.py` -> `modules/lazy_feedmatch.py`
-- `modules/lazy_exposure.py` -> `modules/lazy_heat.py`
-- `modules/lazy_exposure.py` -> `modules/lazy_probes.py`
-- `modules/lazy_exposure.py` -> `modules/outcome_bus.py`
-- `modules/lazy_exposure.py` -> `modules/world_model.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 142 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 135 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -18,12 +18,10 @@ graph LR
     tests -- "calls into" --> lazyc2
     tests -- "calls into" --> modules
     tests -- "calls into" --> root
-    tests -- "calls into" --> skills
     cli -- "calls into" --> modules
     contrib -- "depends on" --> core
     contrib -- "calls into" --> modules
     core -- "depends on" --> browser_sync_extension
-    core -- "calls into" --> lazyc2
     lazyc2 -- "depends on" --> core
     lazyc2 -- "calls into" --> modules
     lazyc2 -- "calls into" --> root
@@ -33,50 +31,50 @@ graph LR
     root -- "calls into" --> lazyc2
     root -- "calls into" --> modules
     root -- "depends on" --> skills
-    skills -- "depends on" --> core
+    skills -- "calls into" --> core
     skills -- "calls into" --> modules
     static -- "depends on" --> lazyc2
 ```
 
-## browser_sync_extension (3.1)
+## browser_sync_extension (5.1)
 
 browser_sync_extension groups 1 files (js) around config, domainAllowed, highEntropyHints, sanitizeHeader, collectProfile.
 
-## cli (3.2)
+## cli (5.2)
 
 cli groups 1 files (py) around AutomationCommandSet, do_cred_reuse, do_cred_mark_failed, do_hooks_list, do_hooks_enable. Automation command set — credential reuse, conditional hooks, operator profiles.
 
-## contrib (3.3)
+## contrib (5.3)
 
 contrib groups 9 files (py) around _ret_model, truncate_message, _configure_logging, _load_knowledge_base, _save_knowledge_base. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## core (3.4)
+## core (5.4)
 
-core groups 5 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Centralised subprocess wrapper for the LazyOwn framework.
+core groups 5 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Tenant-bound API authorization for the LazyOwn C2 dashboard.
 
-## lazyc2 (3.5)
+## lazyc2 (5.5)
 
-lazyc2 groups 30 files (py) around CSRFPolicy, __init__, header, cookie_name, issue. Flask application factory for the LazyOwn C2 server.
+lazyc2 groups 31 files (py) around CSRFPolicy, __init__, header, cookie_name, issue. Flask application factory for the LazyOwn C2 server.
 
-## modules (3.6)
+## modules (5.6)
 
-modules groups 39 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
+modules groups 38 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
 
-## root (3.7)
+## root (5.7)
 
 root groups 1 files (py) around _env_tag, is_insecure_credential, _listen_address, _is_unspecified_bind_literal, _select_specific_bind_address. is_insecure_credential: Check for weak or default credentials
 
-## skills (3.8)
+## skills (5.8)
 
-skills groups 15 files (py) around Config, default, ollama_url, ActionCategory, OutcomeType. Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
+skills groups 9 files (py) around _now_iso, is_ip_in_scope, Campaign, is_active, to_dict. Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
 
-## static (3.9)
+## static (5.9)
 
 static groups 2 files (js) around as, as, as, as, as. as: !
 
-## tests (3.10)
+## tests (5.10)
 
-tests groups 39 files (py) around test_autonomous_flow_integration, _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
@@ -91,16 +89,17 @@ tests groups 39 files (py) around test_autonomous_flow_integration, _valid_draft
 - contrib/legacy/lazyseo.py
 - contrib/legacy/lazysmbrelay.py
 - contrib/legacy/lazyssh.py
+- core/api_authz.py
 - core/executor.py
 - core/logging.py
 - core/scheduler.py
 - core/security.py
-- core/session_secrets.py
 - lazyc2.py
 - lazyc2/__init__.py
 - lazyc2/app_factory.py
 - lazyc2/blueprints/__init__.py
 - lazyc2/blueprints/addons.py
+- lazyc2/blueprints/api.py
 - lazyc2/blueprints/api_v1.py
 - lazyc2/blueprints/auth.py
 - lazyc2/blueprints/beacon.py
@@ -129,7 +128,6 @@ tests groups 39 files (py) around test_autonomous_flow_integration, _valid_draft
 - lazyc2/security/validators.py
 - modules/addon_updater.py
 - modules/beacon_history.py
-- modules/c2_agent.py
 - modules/c2_profile.py
 - modules/collab_bp.py
 - modules/colors.py
@@ -169,28 +167,24 @@ tests groups 39 files (py) around test_autonomous_flow_integration, _valid_draft
 - skills/daemon_health.py
 - skills/lazyown_campaign.py
 - skills/lazyown_daemon.py
-- skills/lazyown_policy.py
 - skills/mcp_tools/campaign.py
 - skills/mcp_tools/collab_publish.py
 - skills/mcp_tools/db.py
 - skills/mcp_tools/lazysearch.py
-- skills/mcp_tools/swan_ensemble.py
-- skills/mcp_tools/swan_route.py
-- skills/mcp_tools/swan_run.py
-- skills/mcp_tools/swan_status.py
 - skills/sessions_watcher.py
-- skills/swan_agent.py
 - skills/toposwarm_autonomous.py
 - static/js/socket.io-4.0.0.min.js
 - static/js/socket.io-4.3.2.min.js
 - tests/integration_autonomous_flow.py
 - tests/test_addon_creator.py
 - tests/test_addon_updater.py
+- tests/test_api_authz.py
 - tests/test_api_v1.py
 - tests/test_beacon_history.py
 - tests/test_c2_credential_bootstrap.py
 - tests/test_collab_and_onboarding.py
 - tests/test_conditional_hooks_extended.py
+- tests/test_core_defaults.py
 - tests/test_core_executor.py
 - tests/test_cors_behavior.py
 - tests/test_cors_policy.py
@@ -203,7 +197,6 @@ tests groups 39 files (py) around test_autonomous_flow_integration, _valid_draft
 - tests/test_db.py
 - tests/test_detection_dampening.py
 - tests/test_detection_feed.py
-- tests/test_engage_orchestrator.py
 - tests/test_gym_blueprint.py
 - tests/test_hash_cracker.py
 - tests/test_health_report.py
@@ -216,9 +209,7 @@ tests groups 39 files (py) around test_autonomous_flow_integration, _valid_draft
 - tests/test_moe_rl_swan.py
 - tests/test_moe_router_check_regression.py
 - tests/test_mutation_verification.py
-- tests/test_scope_bound_auto_gate.py
 - tests/test_security_lazyc2.py
-- tests/test_session_secrets.py
 - tests/test_short_url_file_containment.py
 - tests/test_structured_logging.py
 - tests/test_trusted_proxy.py

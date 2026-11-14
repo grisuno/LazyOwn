@@ -69,6 +69,14 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `generate_csv` (function) `modules/nmap2csv.py:653` `def generate_csv(fd, results, options)` -- Generate a plain ';' separated csv file with the desired or default attribute format
 - `main` (function) `modules/nmap2csv.py:688` `def main()`
 
+## modules/nmap_fingerprint.py
+Imported by: `cli/exploit_advisor.py`, `modules/exploit_chain.py`
+- `ServiceInfo.search_query` (method) `modules/nmap_fingerprint.py:109` `def search_query(self)` -- Best query string for searchsploit / NVD.
+- `ServiceInfo.display_name` (method) `modules/nmap_fingerprint.py:115` `def display_name(self)` -- Human-readable service label for operator tables.
+- `ServiceInfo.next_commands` (method) `modules/nmap_fingerprint.py:120` `def next_commands(self)` -- Return (command, reason) pairs recommended for this service.
+- `parse_nmap_xml` (function) `modules/nmap_fingerprint.py:131` `def parse_nmap_xml(path)` -- Extract open services from a nmap XML file.
+- `find_nmap_xml` (function) `modules/nmap_fingerprint.py:166` `def find_nmap_xml(rhost, sessions_dir, include_vulns)` -- Return nmap XML files for a given rhost.
+
 ## modules/notify.py
 Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
 - `severity_rank` (function) `modules/notify.py:31` `def severity_rank(severity, config)` -- Return the comparable order for a severity label.

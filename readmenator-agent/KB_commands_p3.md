@@ -233,9 +233,9 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_scheduler` (method, line 2732) `def do_lazy_scheduler(self, line)`
   - `do_lazy_gate` (method, line 2759) `def do_lazy_gate(self, line)`
   - `do_lazy_loop` (method, line 2804) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2842) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2905) `def do_lazy_install(self, line)`
-  - `do_lazy_pacing` (method, line 2943) `def do_lazy_pacing(self, line)`
+  - `do_lazy_sandbox` (method, line 2811) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2874) `def do_lazy_install(self, line)`
+  - `do_lazy_pacing` (method, line 2912) `def do_lazy_pacing(self, line)`
   - `_complete` (function, line 670) `def _complete(prompt, max_tokens)`
   - `run_command` (function, line 1664) `def run_command(command)`
   - `list_tasks` (function, line 1686) `def list_tasks()`
@@ -301,11 +301,11 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_threat_model` (method, line 378) `def do_threat_model(self, args)`
   - `do_playbook_run` (method, line 431) `def do_playbook_run(self, args)`
   - `do_auto_loop` (method, line 489) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 546) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 551) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 556) `def do_timeline(self, line)`
-  - `_delegate` (method, line 560) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 568) `def _refresh_aliases(self)`
+  - `do_session_state` (method, line 516) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 521) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 526) `def do_timeline(self, line)`
+  - `_delegate` (method, line 530) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 538) `def _refresh_aliases(self)`
   - `_executor` (function, line 475) `def _executor(command, host)`
 - Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
 - Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`

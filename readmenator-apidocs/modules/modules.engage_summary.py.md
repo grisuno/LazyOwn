@@ -210,6 +210,8 @@ Render the console summary with per-step detail lines.
 
 *Calls:* [`detail_for`](#detail_for), [`full_output`](#full_output), [`held_scan_ports`](#held_scan_ports)
 
+*Called by:* [`ChainRunner.run`](modules.chain_runner.py.md#chainrunner-run)
+
 ---
 
 <a id="render_markdown"></a>

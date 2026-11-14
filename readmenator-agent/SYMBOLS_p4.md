@@ -1,19 +1,18 @@
-# Symbols (page 4 of 53)
+# Symbols (page 4 of 52)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:341` | `def _format_elapsed(seconds)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:342` | `def _format_elapsed(seconds)` |
 | `_gym_collect` | method | `cli/commands/redteam_gym.py:99` | `def _gym_collect(self, rest)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:468` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:434` | `def _gym_leaderboard(self, args)` |
-| `_gym_list` | method | `cli/commands/redteam_gym.py:183` | `def _gym_list(self)` |
-| `_gym_start` | method | `cli/commands/redteam_gym.py:217` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:346` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:414` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:293` | `def _gym_submit(self, args)` |
-| `_lab_notify` | function | `cli/commands/redteam_gym.py:235` | `def _lab_notify(message)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:469` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:435` | `def _gym_leaderboard(self, args)` |
+| `_gym_list` | method | `cli/commands/redteam_gym.py:184` | `def _gym_list(self)` |
+| `_gym_start` | method | `cli/commands/redteam_gym.py:218` | `def _gym_start(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:347` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:415` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:294` | `def _gym_submit(self, args)` |
+| `_lab_notify` | function | `cli/commands/redteam_gym.py:236` | `def _lab_notify(message)` |
 | `do_gym` | method | `cli/commands/redteam_gym.py:41` | `def do_gym(self, line)` |
 | `do_gym_ms2` | method | `cli/commands/redteam_gym.py:138` | `def do_gym_ms2(self, line)` |
 | `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
@@ -199,14 +198,14 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `do_verb` | method | `cli/commands/verb_admin.py:52` | `def do_verb(self, line)` |
 | `WinboxCommandSet` | class | `cli/commands/winbox_gym.py:44` | `class WinboxCommandSet(LazyOwnCommandSet)` |
 | `_bootstrap` | method | `cli/commands/winbox_gym.py:127` | `def _bootstrap(self)` |
-| `_confirmed` | method | `cli/commands/winbox_gym.py:501` | `def _confirmed(self, rest)` |
+| `_confirmed` | method | `cli/commands/winbox_gym.py:502` | `def _confirmed(self, rest)` |
 | `_defense` | method | `cli/commands/winbox_gym.py:325` | `def _defense(self, tool, rest)` |
 | `_eventlogs` | method | `cli/commands/winbox_gym.py:302` | `def _eventlogs(self, rest)` |
 | `_exec` | method | `cli/commands/winbox_gym.py:234` | `def _exec(self, rest)` |
-| `_extract_bool` | function | `cli/commands/winbox_gym.py:537` | `def _extract_bool(args, flag)` |
-| `_extract_flag` | function | `cli/commands/winbox_gym.py:514` | `def _extract_flag(args, flag)` |
+| `_extract_bool` | function | `cli/commands/winbox_gym.py:538` | `def _extract_bool(args, flag)` |
+| `_extract_flag` | function | `cli/commands/winbox_gym.py:515` | `def _extract_flag(args, flag)` |
 | `_gym` | method | `cli/commands/winbox_gym.py:382` | `def _gym(self, rest)` |
-| `_gym_matrix` | method | `cli/commands/winbox_gym.py:418` | `def _gym_matrix(self, action, rest)` |
+| `_gym_matrix` | method | `cli/commands/winbox_gym.py:419` | `def _gym_matrix(self, action, rest)` |
 | `_interactive_passthrough` | method | `cli/commands/winbox_gym.py:268` | `def _interactive_passthrough(self, action, rest)` |
 | `_lab_notify` | function | `cli/commands/winbox_gym.py:215` | `def _lab_notify(message)` |
 | `_lab_ready` | method | `cli/commands/winbox_gym.py:200` | `def _lab_ready(self, rest)` |
@@ -366,17 +365,11 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `heal_commands_seen` | function | `cli/engagement_hooks.py:373` | `def heal_commands_seen(known)` |
 | `render_engagement_hook` | function | `cli/engagement_hooks.py:906` | `def render_engagement_hook(cmd, phase, enabled)` |
 | `reset_session` | function | `cli/engagement_hooks.py:1074` | `def reset_session()` |
-| `ExploitHit` | class | `cli/exploit_advisor.py:144` | `class ExploitHit` |
-| `ServiceInfo` | class | `cli/exploit_advisor.py:111` | `class ServiceInfo` |
-| `ServiceResult` | class | `cli/exploit_advisor.py:153` | `class ServiceResult` |
-| `display_name` | method | `cli/exploit_advisor.py:128` | `def display_name(self)` |
-| `find_nmap_xml` | function | `cli/exploit_advisor.py:203` | `def find_nmap_xml(rhost, sessions_dir)` |
-| `inject_exploit_tasks` | function | `cli/exploit_advisor.py:338` | `def inject_exploit_tasks(results, rhost, tasks_path)` |
-| `next_commands` | method | `cli/exploit_advisor.py:132` | `def next_commands(self)` |
-| `parse_nmap_xml` | function | `cli/exploit_advisor.py:164` | `def parse_nmap_xml(path)` |
-| `print_exploit_summary` | function | `cli/exploit_advisor.py:222` | `def print_exploit_summary(results, rhost)` |
-| `save_ss_results` | function | `cli/exploit_advisor.py:296` | `def save_ss_results(results, rhost, sessions_dir)` |
-| `search_query` | method | `cli/exploit_advisor.py:122` | `def search_query(self)` |
+| `ExploitHit` | class | `cli/exploit_advisor.py:36` | `class ExploitHit` |
+| `ServiceResult` | class | `cli/exploit_advisor.py:45` | `class ServiceResult` |
+| `inject_exploit_tasks` | function | `cli/exploit_advisor.py:175` | `def inject_exploit_tasks(results, rhost, tasks_path)` |
+| `print_exploit_summary` | function | `cli/exploit_advisor.py:59` | `def print_exploit_summary(results, rhost)` |
+| `save_ss_results` | function | `cli/exploit_advisor.py:133` | `def save_ss_results(results, rhost, sessions_dir)` |
 | `AddonCatalog` | class | `cli/exploration.py:252` | `class AddonCatalog` |
 | `AddonEntry` | class | `cli/exploration.py:105` | `class AddonEntry` |
 | `CoverageReport` | class | `cli/exploration.py:132` | `class CoverageReport` |
@@ -496,5 +489,12 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_iter_all_edges` | method | `cli/graph_advisor.py:665` | `def _iter_all_edges(index)` |
 | `_missing_reason` | method | `cli/graph_advisor.py:684` | `def _missing_reason(self)` |
 | `_resolve_query` | method | `cli/graph_advisor.py:638` | `def _resolve_query(self, query)` |
+| `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
+| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
+| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
+| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
+| `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
+| `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
+| `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

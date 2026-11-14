@@ -1,6 +1,31 @@
 # Subsystem: modules (page 18 of 19)
 Previous: [KB_modules_p17.md](KB_modules_p17.md)
 
+## modules/staged_delivery.py
+- Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `StageDeliveryConfig` (class, line 25) `class StageDeliveryConfig`
+  - `StagedDeliveryFactory` (class, line 51) `class StagedDeliveryFactory`
+  - `__init__` (method, line 83) `def __init__(self, config, output_dir)`
+  - `_obfuscate_powershell` (method, line 88) `def _obfuscate_powershell(self, code)`
+  - `_obfuscate_vbscript` (method, line 95) `def _obfuscate_vbscript(self, code)`
+  - `_payload_command` (method, line 102) `def _payload_command(self)`
+  - `generate_hta` (method, line 134) `def generate_hta(self)`
+  - `generate_vba_macro` (method, line 171) `def generate_vba_macro(self)`
+  - `generate_xlm_macro` (method, line 219) `def generate_xlm_macro(self)`
+  - `generate_lnk` (method, line 237) `def generate_lnk(self)`
+  - `generate_iso` (method, line 301) `def generate_iso(self, inner_files)`
+  - `_build_primary_volume_descriptor` (method, line 336) `def _build_primary_volume_descriptor(self, files)`
+  - `generate_vhd` (method, line 370) `def generate_vhd(self, inner_files)`
+  - `generate_all` (method, line 420) `def generate_all(self)`
+  - `generate_phishing_page` (method, line 460) `def generate_phishing_page(self, template)`
+  - `_office365_phish` (method, line 476) `def _office365_phish(self)`
+  - `_gmail_phish` (method, line 504) `def _gmail_phish(self)`
+  - `_outlook_phish` (method, line 532) `def _outlook_phish(self)`
+- Imported by: `cli/commands/payload_arsenal.py`
+
 ## modules/state_manager.py
 - Doc: UnifiedStateManager — single source of truth for all LazyOwn campaign state.
 - Layer: utility
@@ -463,31 +488,6 @@ Previous: [KB_modules_p17.md](KB_modules_p17.md)
   - `search` (function, line 593) `def search(query, config, phase, enabled, limit)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 - Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
-
-## modules/verb_manifest.py
-- Doc: Typed verb manifests - semantics for routable shell verbs.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ManifestCost` (class, line 93) `class ManifestCost`
-  - `ManifestNoise` (class, line 108) `class ManifestNoise`
-  - `FactPredicate` (class, line 123) `class FactPredicate`
-  - `VerbManifest` (class, line 188) `class VerbManifest`
-  - `parse_predicate` (function, line 222) `def parse_predicate(data)`
-  - `_parse_cost` (function, line 254) `def _parse_cost(data)`
-  - `_parse_noise` (function, line 276) `def _parse_noise(data)`
-  - `parse_manifest` (function, line 296) `def parse_manifest(verb, data)`
-  - `_load_document` (function, line 338) `def _load_document(path)`
-  - `manifests` (function, line 371) `def manifests(path)`
-  - `manifest_for` (function, line 396) `def manifest_for(verb, path)`
-  - `facts_for_target` (function, line 411) `def facts_for_target(host)`
-  - `plan_check` (function, line 467) `def plan_check(steps, tokens, path, facts)`
-  - `coverage` (function, line 522) `def coverage(total_verbs, path)`
-  - `args` (method, line 152) `def args(self)`
-  - `is_wild` (method, line 156) `def is_wild(self, key)`
-  - `matches` (method, line 161) `def matches(self, other)`
-- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
-- Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
 
 
 Next: [KB_modules_p19.md](KB_modules_p19.md)

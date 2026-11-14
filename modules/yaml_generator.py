@@ -18,16 +18,14 @@ class YAMLPromptGenerator:
     def __init__(self, provider: str = "groq", api_key: str | None = None):
         self.provider = provider
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
-        self.payload_file = "../payload.json"
         self.payload_data = self.load_payload()
         self.model = self._load_model()
 
     def load_payload(self) -> dict:
-        """Carga las variables desde payload.json"""
-        if not os.path.exists(self.payload_file):
-            raise FileNotFoundError(f"No se encontró {self.payload_file} en la raíz del proyecto.")
-        with open(self.payload_file, "r", encoding="utf-8") as f:
-            return json.load(f)
+        """Carga las variables desde payload.json (canonical loader)."""
+        from core.config import load_payload
+
+        return load_payload()
 
     def _load_model(self) -> AIModel:
         """Instantiate the LLM backend mapped to ``self.provider``.

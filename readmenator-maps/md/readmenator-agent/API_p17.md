@@ -188,22 +188,23 @@ Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_ru
 - `ListingNoiseDetector.observe` (method) `modules/loop_guardrails.py:798` `def observe(self, command, output)` -- Return True when the step is a pure directory listing dump.
 
 ## modules/loop_manager.py
+Depends on: `modules/loop_limits.py`
 Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_loop_manager.py`
-- `LoopValidationError.__init__` (method) `modules/loop_manager.py:91` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
-- `validate_target` (function) `modules/loop_manager.py:101` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
-- `sanitize_goal` (function) `modules/loop_manager.py:124` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
-- `clamp_int` (function) `modules/loop_manager.py:151` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
-- `clamp_float` (function) `modules/loop_manager.py:176` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
-- `validate_loop_id` (function) `modules/loop_manager.py:201` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
-- `LoopManager.__init__` (method) `modules/loop_manager.py:328` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
-- `LoopManager.loops_dir` (method) `modules/loop_manager.py:350` `def loops_dir(self)` -- Return the root directory for loop workspaces.
-- `LoopManager.start` (method) `modules/loop_manager.py:354` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
-- `LoopManager.list_loops` (method) `modules/loop_manager.py:549` `def list_loops(self)` -- Return every registry record with refreshed live status.
-- `LoopManager.get_loop` (method) `modules/loop_manager.py:584` `def get_loop(self, loop_id)` -- Return one registry record by id.
-- `LoopManager.read_log` (method) `modules/loop_manager.py:603` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
-- `LoopManager.stop` (method) `modules/loop_manager.py:670` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
-- `LoopManager.summary` (method) `modules/loop_manager.py:735` `def summary(self)` -- Return an aggregate view of loop activity for the report.
-- `default_manager` (function) `modules/loop_manager.py:853` `def default_manager()` -- Return the process-wide loop manager singleton.
+- `LoopValidationError.__init__` (method) `modules/loop_manager.py:88` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
+- `validate_target` (function) `modules/loop_manager.py:98` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
+- `sanitize_goal` (function) `modules/loop_manager.py:121` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
+- `clamp_int` (function) `modules/loop_manager.py:148` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
+- `clamp_float` (function) `modules/loop_manager.py:173` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
+- `validate_loop_id` (function) `modules/loop_manager.py:198` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
+- `LoopManager.__init__` (method) `modules/loop_manager.py:325` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
+- `LoopManager.loops_dir` (method) `modules/loop_manager.py:347` `def loops_dir(self)` -- Return the root directory for loop workspaces.
+- `LoopManager.start` (method) `modules/loop_manager.py:351` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
+- `LoopManager.list_loops` (method) `modules/loop_manager.py:546` `def list_loops(self)` -- Return every registry record with refreshed live status.
+- `LoopManager.get_loop` (method) `modules/loop_manager.py:581` `def get_loop(self, loop_id)` -- Return one registry record by id.
+- `LoopManager.read_log` (method) `modules/loop_manager.py:600` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
+- `LoopManager.stop` (method) `modules/loop_manager.py:667` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
+- `LoopManager.summary` (method) `modules/loop_manager.py:732` `def summary(self)` -- Return an aggregate view of loop activity for the report.
+- `default_manager` (function) `modules/loop_manager.py:850` `def default_manager()` -- Return the process-wide loop manager singleton.
 
 ## modules/loop_preflight.py
 Depends on: `modules/__init__.py`
@@ -296,15 +297,13 @@ Imported by: `modules/loop/worker_memory.py`, `modules/mediation/__init__.py`, `
 - `resolve` (function) `modules/mediation/contracts.py:104` `def resolve(domain)` -- Return the default-hub mediator for a domain key.
 
 ## modules/mediation/engine_mediator.py
-Depends on: `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/mediation/contracts.py`, `modules/reactive_engine.py`
+Depends on: `modules/autonomous_exploit_engine.py`, `modules/mediation/contracts.py`, `modules/reactive_engine.py`
 Imported by: `modules/mediation/hub.py`, `tests/test_engine_mediator.py`
-- `ExploitRetryPort.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:37` `def retry_with_credentials(self, target, credentials)` -- Queue one retry attempt per captured credential pair.
-- `ReactionPort.analyse` (method) `modules/mediation/engine_mediator.py:54` `def analyse(self, output, command, platform)` -- Analyse one command's output for next-action decisions.
-- `ReasoningPort.reason` (method) `modules/mediation/engine_mediator.py:72` `def reason(self, target)` -- Return the next exploit strategy for a target.
-- `EngineMediator.describe` (method) `modules/mediation/engine_mediator.py:89` `def describe(self)` -- Return introspection metadata for diagnostics.
-- `EngineMediator.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:97` `def retry_with_credentials(self, target, credentials)` -- Queue captured credentials into the exploit engine's retry loop.
-- `EngineMediator.analyse` (method) `modules/mediation/engine_mediator.py:118` `def analyse(self, output, command, platform)` -- Run reactive-engine analysis over one step's output.
-- `EngineMediator.reason` (method) `modules/mediation/engine_mediator.py:136` `def reason(self, target)` -- Return the exploit-chain strategy for a target.
+- `ExploitRetryPort.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:35` `def retry_with_credentials(self, target, credentials)` -- Queue one retry attempt per captured credential pair.
+- `ReactionPort.analyse` (method) `modules/mediation/engine_mediator.py:52` `def analyse(self, output, command, platform)` -- Analyse one command's output for next-action decisions.
+- `EngineMediator.describe` (method) `modules/mediation/engine_mediator.py:71` `def describe(self)` -- Return introspection metadata for diagnostics.
+- `EngineMediator.retry_with_credentials` (method) `modules/mediation/engine_mediator.py:79` `def retry_with_credentials(self, target, credentials)` -- Queue captured credentials into the exploit engine's retry loop.
+- `EngineMediator.analyse` (method) `modules/mediation/engine_mediator.py:100` `def analyse(self, output, command, platform)` -- Run reactive-engine analysis over one step's output.
 
 ## modules/mediation/feedback_mediator.py
 Depends on: `modules/lazy_orchestrator_feedback.py`

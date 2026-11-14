@@ -2,6 +2,26 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_security_alerts_fix.py` -> `modules/lazy_proxy.py`
+- `tests/test_security_alerts_fix.py` -> `skills/claude_md_orchestrator/validators.py`
+- `tests/test_security_codeql_batch.py` -> `core/defaults.py`
+- `tests/test_security_codeql_batch.py` -> `core/logging.py`
+- `tests/test_security_codeql_batch.py` -> `lazyc2/blueprints/__init__.py`
+- `tests/test_security_codeql_batch.py` -> `modules/lazy_loop.py`
+- `tests/test_security_codeql_batch.py` -> `modules/lazy_mentions.py`
+- `tests/test_security_codeql_batch.py` -> `modules/lazy_proxy.py`
+- `tests/test_security_codeql_batch.py` -> `modules/notify.py`
+- `tests/test_security_codeql_batch.py` -> `skills/claude_md_orchestrator/__init__.py`
+- `tests/test_security_hardening.py` -> `core/safe_subprocess.py`
+- `tests/test_security_hardening.py` -> `modules/db.py`
+- `tests/test_security_hardening_v3.py` -> `core/hardening.py`
+- `tests/test_security_hardening_v3.py` -> `modules/phishing_orchestrator.py`
+- `tests/test_security_hardening_v3.py` -> `modules/resource_script.py`
+- `tests/test_security_hardening_v4.py` -> `core/safe_exec.py`
+- `tests/test_security_lazyc2.py` -> `lazyc2/security/__init__.py`
+- `tests/test_security_lazyc2.py` -> `lazyc2/security/services.py`
+- `tests/test_security_lazyc2.py` -> `lazyc2/security/validators.py`
+- `tests/test_security_lazyc2.py` -> `modules/beacon_history.py`
 - `tests/test_security_sanitizers.py` -> `modules/__init__.py`
 - `tests/test_security_sanitizers.py` -> `modules/security_sanitizers.py`
 - `tests/test_selection_bridge.py` -> `modules/lazyown_bridge.py`

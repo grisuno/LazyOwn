@@ -173,6 +173,25 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_empty_command_rejected` (method, line 155) `def test_empty_command_rejected(self)`
 - Depends on: `modules/auto_loop_memory.py`, `modules/selector_manager.py`
 
+## tests/test_auto_pwn_success.py
+- Doc: auto_pwn success contract: precise evidence, never recon noise.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `engine` (function, line 17) `def engine()`
+  - `test_evaluate_exploit_output_root_shell` (function, line 23) `def test_evaluate_exploit_output_root_shell()`
+  - `test_evaluate_exploit_output_credentials_header_not_cred` (function, line 31) `def test_evaluate_exploit_output_credentials_header_not_cred()`
+  - `test_evaluate_exploit_output_shadow_dump` (function, line 37) `def test_evaluate_exploit_output_shadow_dump()`
+  - `test_evaluate_exploit_output_recon_is_not_success` (function, line 45) `def test_evaluate_exploit_output_recon_is_not_success()`
+  - `test_check_success_recon_banner_is_failure` (function, line 53) `def test_check_success_recon_banner_is_failure(engine)`
+  - `test_check_success_long_recon_is_failure` (function, line 57) `def test_check_success_long_recon_is_failure(engine)`
+  - `test_check_success_shell_evidence` (function, line 63) `def test_check_success_shell_evidence(engine)`
+  - `test_check_success_meterpreter_banner` (function, line 68) `def test_check_success_meterpreter_banner(engine)`
+  - `test_check_success_shadow_dump` (function, line 72) `def test_check_success_shadow_dump(engine)`
+  - `test_check_success_empty_output` (function, line 76) `def test_check_success_empty_output(engine)`
+  - `test_steps_for_initial_access_resolves_auto_pwn` (function, line 80) `def test_steps_for_initial_access_resolves_auto_pwn()`
+- Depends on: `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/ctf_capture.py`
+
 ## tests/test_auto_registry.py
 - Doc: Auto-verb registry: loop-ready automation commands.
 - Layer: testing
@@ -205,24 +224,22 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `test_c04_dedup_anchor_coverage` (function, line 11) `def test_c04_dedup_anchor_coverage()`
-  - `test_c04_mirror_to_campaign_db` (function, line 26) `def test_c04_mirror_to_campaign_db(tmp_path)`
-  - `test_c05_frontier_emits_once_then_empty` (function, line 43) `def test_c05_frontier_emits_once_then_empty()`
-  - `test_c05_todo_blocks_lateral_until_creds` (function, line 58) `def test_c05_todo_blocks_lateral_until_creds()`
-  - `test_c06_finding_lifecycle_on_campaign_db` (function, line 70) `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)`
-  - `test_c07_pool_failover_and_exhaustion` (function, line 98) `def test_c07_pool_failover_and_exhaustion()`
-  - `test_c08_notify_filter_and_redact` (function, line 116) `def test_c08_notify_filter_and_redact()`
-  - `test_c09_side_question_isolated` (function, line 128) `def test_c09_side_question_isolated()`
-  - `test_c10_verify_rejects_bad_checksum` (function, line 143) `def test_c10_verify_rejects_bad_checksum(tmp_path)`
-  - `test_c10_rollback_restores_previous` (function, line 159) `def test_c10_rollback_restores_previous(tmp_path)`
-  - `test_i2_shared_registry_survives_rebuilds` (function, line 171) `def test_i2_shared_registry_survives_rebuilds()`
-  - `test_i2_pool_hard_trips_on_auth_errors` (function, line 186) `def test_i2_pool_hard_trips_on_auth_errors()`
-  - `test_i3_classify_retest_verdicts` (function, line 194) `def test_i3_classify_retest_verdicts()`
-  - `test_i3_retest_bumps_evidence_version` (function, line 203) `def test_i3_retest_bumps_evidence_version(tmp_path)`
-  - `test_i4_shared_engine_cooldown` (function, line 224) `def test_i4_shared_engine_cooldown()`
-  - `test_i4_should_rescan_honours_fresh_scans` (function, line 232) `def test_i4_should_rescan_honours_fresh_scans(tmp_path)`
-  - `boom` (function, line 101) `def boom(_prompt)`
-- Depends on: `modules/__init__.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/enrich.py`, `modules/finding_lifecycle.py`, `modules/llm_pool.py`, `modules/notify.py`, `modules/planner.py`, `modules/selfupdate.py`, `modules/sidequestion.py`, `modules/world_model.py`
+  - `test_c05_frontier_emits_once_then_empty` (function, line 11) `def test_c05_frontier_emits_once_then_empty()`
+  - `test_c05_todo_blocks_lateral_until_creds` (function, line 26) `def test_c05_todo_blocks_lateral_until_creds()`
+  - `test_c06_finding_lifecycle_on_campaign_db` (function, line 38) `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)`
+  - `test_c07_pool_failover_and_exhaustion` (function, line 66) `def test_c07_pool_failover_and_exhaustion()`
+  - `test_c08_notify_filter_and_redact` (function, line 84) `def test_c08_notify_filter_and_redact()`
+  - `test_c09_side_question_isolated` (function, line 96) `def test_c09_side_question_isolated()`
+  - `test_c10_verify_rejects_bad_checksum` (function, line 111) `def test_c10_verify_rejects_bad_checksum(tmp_path)`
+  - `test_c10_rollback_restores_previous` (function, line 127) `def test_c10_rollback_restores_previous(tmp_path)`
+  - `test_i2_shared_registry_survives_rebuilds` (function, line 139) `def test_i2_shared_registry_survives_rebuilds()`
+  - `test_i2_pool_hard_trips_on_auth_errors` (function, line 154) `def test_i2_pool_hard_trips_on_auth_errors()`
+  - `test_i3_classify_retest_verdicts` (function, line 162) `def test_i3_classify_retest_verdicts()`
+  - `test_i3_retest_bumps_evidence_version` (function, line 171) `def test_i3_retest_bumps_evidence_version(tmp_path)`
+  - `test_i4_shared_engine_cooldown` (function, line 192) `def test_i4_shared_engine_cooldown()`
+  - `test_i4_should_rescan_honours_fresh_scans` (function, line 200) `def test_i4_should_rescan_honours_fresh_scans(tmp_path)`
+  - `boom` (function, line 69) `def boom(_prompt)`
+- Depends on: `modules/__init__.py`, `modules/db.py`, `modules/enrich.py`, `modules/finding_lifecycle.py`, `modules/llm_pool.py`, `modules/notify.py`, `modules/planner.py`, `modules/selfupdate.py`, `modules/sidequestion.py`
 
 ## tests/test_autonomous_replay.py
 - Doc: Tests for ``skills/autonomous_replay.py``.

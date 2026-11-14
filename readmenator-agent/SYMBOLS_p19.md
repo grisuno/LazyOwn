@@ -1,34 +1,8 @@
-# Symbols (page 19 of 53)
+# Symbols (page 19 of 52)
 Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `get_skill` | function | `modules/lazy_skills.py:91` | `def get_skill(name)` |
-| `list_skills` | function | `modules/lazy_skills.py:85` | `def list_skills()` |
-| `match_skills` | function | `modules/lazy_skills.py:102` | `def match_skills(text, limit)` |
-| `skills_context` | function | `modules/lazy_skills.py:118` | `def skills_context(text, explicit, auto, budget)` |
-| `_digest` | function | `modules/lazy_summarizer.py:100` | `def _digest(older, complete)` |
-| `_text_of` | function | `modules/lazy_summarizer.py:26` | `def _text_of(record)` |
-| `_truncate_records` | function | `modules/lazy_summarizer.py:126` | `def _truncate_records(records, budget)` |
-| `should_compact` | function | `modules/lazy_summarizer.py:35` | `def should_compact(used_chars, budget_chars)` |
-| `summarize_chain` | function | `modules/lazy_summarizer.py:50` | `def summarize_chain(records, budget_chars, complete)` |
-| `_load_previous` | function | `modules/lazy_surface_diff.py:149` | `def _load_previous(path)` |
-| `_port_number` | function | `modules/lazy_surface_diff.py:85` | `def _port_number(key)` |
-| `changed_hosts` | function | `modules/lazy_surface_diff.py:253` | `def changed_hosts(limit, sessions_dir)` |
-| `current_snapshots` | function | `modules/lazy_surface_diff.py:160` | `def current_snapshots(world)` |
-| `diff_hosts` | function | `modules/lazy_surface_diff.py:93` | `def diff_hosts(before, after)` |
-| `fingerprint` | function | `modules/lazy_surface_diff.py:79` | `def fingerprint(state)` |
-| `last_diff` | function | `modules/lazy_surface_diff.py:234` | `def last_diff(sessions_dir)` |
-| `refresh` | function | `modules/lazy_surface_diff.py:186` | `def refresh(world, sessions_dir)` |
-| `snapshot_host` | function | `modules/lazy_surface_diff.py:52` | `def snapshot_host(host)` |
-| `_default_state_path` | function | `modules/lazy_timeline.py:200` | `def _default_state_path()` |
-| `_extract_hosts` | function | `modules/lazy_timeline.py:207` | `def _extract_hosts(state)` |
-| `_getaddrinfo_resolver` | function | `modules/lazy_timeline.py:60` | `def _getaddrinfo_resolver(name)` |
-| `_host_diff` | function | `modules/lazy_timeline.py:229` | `def _host_diff(ip, before, after)` |
-| `_load` | function | `modules/lazy_timeline.py:301` | `def _load(source)` |
-| `_prune` | function | `modules/lazy_timeline.py:292` | `def _prune(paths, keep)` |
-| `_zombies` | function | `modules/lazy_timeline.py:258` | `def _zombies(_old_snapshot, snapshot)` |
-| `diff` | function | `modules/lazy_timeline.py:151` | `def diff(_old, _new)` |
 | `find_snapshots` | function | `modules/lazy_timeline.py:135` | `def find_snapshots(snaps_dir)` |
 | `record` | function | `modules/lazy_timeline.py:66` | `def record(state_path, snaps_dir, keep, dns)` |
 | `record_quiet` | function | `modules/lazy_timeline.py:111` | `def record_quiet(state_path, snaps_dir, keep, dns)` |
@@ -496,5 +470,31 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
 | `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
 | `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
+| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
+| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
+| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
+| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
+| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
+| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
+| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
+| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
+| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
+| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
+| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
+| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
+| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
+| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
+| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
+| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
+| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
+| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
+| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
+| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
+| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
+| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
+| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
+| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
+| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
+| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

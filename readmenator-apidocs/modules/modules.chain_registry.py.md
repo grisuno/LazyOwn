@@ -75,13 +75,10 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
-    n_modules_chain_registry_py__Chain_resolve(["Chain.resolve"])
-    n_modules_chain_registry_py__evaluate_when(["evaluate_when"])
     n_modules_chain_registry_py__load_all(["load_all"])
     n_modules_chain_registry_py__validate_chain(["validate_chain"])
     n_modules_chain_registry_py__get(["get"])
     n_modules_chain_registry_py__scan_all(["scan_all"])
-    n_modules_chain_registry_py__Chain_resolve --> n_modules_chain_registry_py__evaluate_when
     n_modules_chain_registry_py__load_all --> n_modules_chain_registry_py__validate_chain
     n_modules_chain_registry_py__get --> n_modules_chain_registry_py__load_all
     n_modules_chain_registry_py__scan_all --> n_modules_chain_registry_py__validate_chain
@@ -237,8 +234,6 @@ resolution after every capture so later steps see earlier output.
 
 **Returns:** `list[dict[str, Any]]`
 
-*Calls:* [`evaluate_when`](#evaluate_when)
-
 *Called by:* [`build_llm_recovery_chain`](cli.apt_chain_support.py.md#build_llm_recovery_chain)
 
 ---
@@ -249,7 +244,7 @@ resolution after every capture so later steps see earlier output.
 
 ### `evaluate_when`
 
-`function` | [modules/chain_registry.py:297](../../modules/chain_registry.py#L297)
+`function` | [modules/chain_registry.py:338](../../modules/chain_registry.py#L338)
 
 ```python
 def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool
@@ -270,15 +265,13 @@ arithmetic are rejected. Undefined names resolve to an empty string.
 
 **Returns:** `bool` - Boolean result; malformed expressions evaluate to False.
 
-*Called by:* [`Chain.resolve`](#chain-resolve)
-
 ---
 
 <a id="validate_chain"></a>
 
 ### `validate_chain`
 
-`function` | [modules/chain_registry.py:362](../../modules/chain_registry.py#L362)
+`function` | [modules/chain_registry.py:403](../../modules/chain_registry.py#L403)
 
 ```python
 def validate_chain(data: Any, filename: str = '', chains_dir: Path | str | None = None) -> list[str]
@@ -304,7 +297,7 @@ Validate raw YAML data against the chain schema.
 
 ### `load_all`
 
-`function` | [modules/chain_registry.py:591](../../modules/chain_registry.py#L591)
+`function` | [modules/chain_registry.py:647](../../modules/chain_registry.py#L647)
 
 ```python
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]
@@ -334,7 +327,7 @@ Load every valid, enabled chain file (skips the rest loudly).
 
 ### `get`
 
-`function` | [modules/chain_registry.py:749](../../modules/chain_registry.py#L749)
+`function` | [modules/chain_registry.py:805](../../modules/chain_registry.py#L805)
 
 ```python
 def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None
@@ -353,13 +346,15 @@ Return one chain by name, or None.
 
 *Calls:* [`load_all`](#load_all)
 
+*Called by:* [`RedTeamGymCommandSet.do_gym_ms2`](cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym_ms2)
+
 ---
 
 <a id="scan_all"></a>
 
 ### `scan_all`
 
-`function` | [modules/chain_registry.py:754](../../modules/chain_registry.py#L754)
+`function` | [modules/chain_registry.py:810](../../modules/chain_registry.py#L810)
 
 ```python
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]
@@ -389,7 +384,7 @@ List every chain file including disabled ones (for administration).
 
 ### `set_enabled`
 
-`function` | [modules/chain_registry.py:814](../../modules/chain_registry.py#L814)
+`function` | [modules/chain_registry.py:870](../../modules/chain_registry.py#L870)
 
 ```python
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool
@@ -419,7 +414,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 ### `generate_for_playbook`
 
-`function` | [modules/chain_registry.py:837](../../modules/chain_registry.py#L837)
+`function` | [modules/chain_registry.py:893](../../modules/chain_registry.py#L893)
 
 ```python
 def generate_for_playbook(engine_key: str, apt_display: str = '', description: str = '', chains_dir: Path | str = CHAINS_DIR, overwrite: bool = False) -> Path

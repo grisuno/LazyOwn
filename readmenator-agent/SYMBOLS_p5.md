@@ -1,15 +1,8 @@
-# Symbols (page 5 of 53)
+# Symbols (page 5 of 52)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
-| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
-| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
-| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
-| `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
-| `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
-| `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
 | `did_you_mean` | method | `cli/graph_advisor.py:591` | `def did_you_mean(self, query, limit)` |
 | `edges_between` | method | `cli/graph_advisor.py:286` | `def edges_between(self, source, target)` |
 | `format_god_nodes` | function | `cli/graph_advisor.py:724` | `def format_god_nodes(results)` |
@@ -66,10 +59,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `load_profile` | function | `cli/headless.py:31` | `def load_profile(path)` |
 | `run_chain` | method | `cli/headless.py:136` | `def run_chain(self, commands)` |
 | `run_command` | method | `cli/headless.py:87` | `def run_command(self, cmd, timeout)` |
-| `PhaseProgress` | class | `cli/killchain.py:29` | `class PhaseProgress` |
-| `_detect_current_phase` | function | `cli/killchain.py:58` | `def _detect_current_phase(events, world, phase_keys)` |
-| `_phase_from_event` | function | `cli/killchain.py:48` | `def _phase_from_event(event)` |
-| `compute_killchain` | function | `cli/killchain.py:83` | `def compute_killchain(events, world, phases)` |
+| `PhaseProgress` | class | `cli/killchain.py:19` | `class PhaseProgress` |
 | `LazyMonitorApp` | class | `cli/lazy_monitor.py:89` | `class LazyMonitorApp` |
 | `PromptModal` | class | `cli/lazy_monitor.py:61` | `class PromptModal` |
 | `__init__` | method | `cli/lazy_monitor.py:66` | `def __init__(self, title, placeholder)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `load_telemetry` | function | `cli/palette_telemetry.py:186` | `def load_telemetry(path)` |
 | `recents` | function | `cli/palette_telemetry.py:259` | `def recents(telemetry)` |
 | `runs_after` | function | `cli/palette_telemetry.py:239` | `def runs_after(telemetry, command_name)` |
+| `safe_load_telemetry` | function | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
+| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
+| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
+| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
+| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
+| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
+| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
+| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
+| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
+| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

@@ -1,83 +1,6 @@
 # Subsystem: modules (page 8 of 19)
 Previous: [KB_modules_p7.md](KB_modules_p7.md)
 
-## modules/intercept.py
-- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
-  - `InterceptConfig` (class, line 33) `class InterceptConfig`
-  - `InterceptRule` (class, line 50) `class InterceptRule`
-  - `PendingApproval` (class, line 77) `class PendingApproval`
-  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (function, line 101) `def builtin_rules()`
-  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
-  - `Interceptor` (class, line 154) `class Interceptor`
-  - `Guard` (class, line 255) `class Guard`
-  - `__post_init__` (method, line 61) `def __post_init__(self)`
-  - `matches` (method, line 68) `def matches(self, tool, command)`
-  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
-  - `rules` (method, line 172) `def rules(self)`
-  - `add_rule` (method, line 177) `def add_rule(self, rule)`
-  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
-  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
-  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
-  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
-  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
-  - `__init__` (method, line 258) `def __init__(self, interceptor)`
-  - `interceptor` (method, line 266) `def interceptor(self)`
-  - `check` (method, line 270) `def check(self, tool, command)`
-  - `observe` (method, line 282) `def observe(self, output, source)`
-  - `record_failure` (method, line 291) `def record_failure(self, source)`
-  - `audit_log` (method, line 296) `def audit_log(self, limit)`
-  - `attribution` (method, line 301) `def attribution(self)`
-- Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/internal_discover.sh
-- Layer: utility
-- Language: sh
-
-## modules/iptables_portforward.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `display_usage` (function, line 29)
-
-## modules/jsonl_tail.py
-- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `JsonlTail` (class, line 14) `class JsonlTail`
-  - `__init__` (method, line 17) `def __init__(self, path)`
-  - `read_new` (method, line 22) `def read_new(self, limit)`
-- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-
-## modules/jwtexploit.py
-- Layer: utility
-- Language: py
-
-## modules/k8s_attacks.py
-- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `K8sConfig` (class, line 57) `class K8sConfig`
-  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
-  - `__init__` (method, line 87) `def __init__(self, config)`
-  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
-  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
-  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
-  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
-  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
-  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
-  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
-  - `summary` (method, line 318) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
 ## modules/kerberoasting.py
 - Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.
 - Layer: utility
@@ -232,7 +155,7 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `technique_for_phase` (method, line 541) `def technique_for_phase(phase)`
   - `technique_for_vulnclass` (method, line 553) `def technique_for_vulnclass(vulnclass)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
+- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/lazy_orchestrator.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/mcp_tools/campaign_sitrep.py`, `skills/mcp_tools/session_init.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_loop.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/kivi.py
 - Layer: utility
@@ -489,6 +412,83 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `_worker` (function, line 696) `def _worker()`
 - Depends on: `modules/lazy_heat.py`
 - Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_feedmatch.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
+
+## modules/lazy_deviations.py
+- Doc: Planned-versus-actual deviation ledger for loop and chain runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DeviationRecord` (class, line 35) `class DeviationRecord`
+  - `_clean` (function, line 67) `def _clean(text)`
+  - `DeviationLedger` (class, line 72) `class DeviationLedger`
+  - `as_dict` (method, line 55) `def as_dict(self)`
+  - `__init__` (method, line 80) `def __init__(self, path)`
+  - `record` (method, line 84) `def record(self, scope, planned, actual, reason, source)`
+  - `list` (method, line 124) `def list(self, scope, limit)`
+  - `render_markdown` (method, line 140) `def render_markdown(self, records, title)`
+  - `_last_matches` (method, line 160) `def _last_matches(self, scope, planned, actual, reason)`
+  - `_read` (method, line 172) `def _read(self)`
+  - `_append` (method, line 201) `def _append(self, record)`
+  - `_trim` (method, line 216) `def _trim(self)`
+- Imported by: `cli/commands/lazyops.py`, `modules/chain_runner.py`, `modules/lazy_loop.py`, `tests/test_lazy_deviations.py`
+
+## modules/lazy_drafts.py
+- Doc: Injected objective drafts: close the lazy_drafts handoff loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_drafts_dir` (function, line 27) `def _drafts_dir()`
+  - `drain` (function, line 34) `def drain(engine)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `tests/test_loop_objective_wiring.py`
+
+## modules/lazy_engine.py
+- Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyEngine` (class, line 56) `class LazyEngine(LazyLoopEngine)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/lazy_board.py`, `skills/mcp_tools/lazy_finding.py`, `skills/mcp_tools/lazy_hint.py`, `skills/mcp_tools/lazy_proxy.py`, `skills/mcp_tools/lazy_trace.py`, `skills/mcp_tools/loop_smoke.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_planner_initial_access.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+
+## modules/lazy_exposure.py
+- Doc: Target exposure report for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ensure_report` (function, line 56) `def ensure_report(target, entries, refresh)`
+  - `read_sightings` (function, line 97) `def read_sightings(target, state_path)`
+  - `generate_report` (function, line 129) `def generate_report(target, entries, sightings)`
+  - `_live_fingerprint` (function, line 210) `def _live_fingerprint()`
+  - `score_report` (function, line 219) `def score_report(entries, bounded_unknown, services)`
+  - `probe_checks` (function, line 257) `def probe_checks(matches, feed)`
+  - `save_report` (function, line 291) `def save_report(report, path)`
+  - `publish_report` (function, line 314) `def publish_report(report)`
+  - `_short_refs` (function, line 365) `def _short_refs(row)`
+  - `_shape_sightings` (function, line 370) `def _shape_sightings(rows)`
+  - `_match_hot_key` (function, line 400) `def _match_hot_key(row)`
+  - `_slug` (function, line 405) `def _slug(text)`
+  - `_int` (function, line 410) `def _int(value, fallback)`
+  - `refresh_if_stale` (function, line 418) `def refresh_if_stale(target, entries)`
+- Depends on: `modules/__init__.py`, `modules/lazy_feedmatch.py`, `modules/lazy_heat.py`, `modules/lazy_probes.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/mcp_tools/lazy_intel.py`, `tests/test_lazy_exposure.py`
+
+## modules/lazy_fallback.py
+- Doc: Adaptive fallback alternatives for failed chain techniques.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Alternative` (class, line 29) `class Alternative`
+  - `TechniqueFallback` (class, line 47) `class TechniqueFallback`
+  - `_service_satisfied` (function, line 172) `def _service_satisfied(required, services)`
+  - `AdaptiveFallbackArbiter` (class, line 185) `class AdaptiveFallbackArbiter`
+  - `catalogue_ids` (function, line 256) `def catalogue_ids()`
+  - `matches` (method, line 61) `def matches(self, command)`
+  - `__init__` (method, line 193) `def __init__(self, graph)`
+  - `suggest` (method, line 203) `def suggest(self, command, verdict, services, has_credentials, catalogue)`
+  - `_bind_family` (method, line 246) `def _bind_family(self, command)`
+- Depends on: `modules/atomic_exploit_bridge.py`, `modules/failure_verdict.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `tests/test_lazy_fallback.py`
 
 
 Next: [KB_modules_p9.md](KB_modules_p9.md)

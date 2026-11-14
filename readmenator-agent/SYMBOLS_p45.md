@@ -1,21 +1,8 @@
-# Symbols (page 45 of 53)
+# Symbols (page 45 of 52)
 Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_unreadable_inputs` | method | `tests/test_lazy_timeline.py:85` | `def test_unreadable_inputs(self, tmp_path)` |
-| `test_version_changed_kind` | method | `tests/test_lazy_timeline.py:57` | `def test_version_changed_kind(self, tmp_path)` |
-| `test_zombie_requires_services` | method | `tests/test_lazy_timeline.py:77` | `def test_zombie_requires_services(self, tmp_path)` |
-| `test_zombie_via_lost_dns` | method | `tests/test_lazy_timeline.py:70` | `def test_zombie_via_lost_dns(self, tmp_path)` |
-| `test_apply_rules_never_drops_below_floor` | function | `tests/test_lazy_triage.py:41` | `def test_apply_rules_never_drops_below_floor()` |
-| `test_backed_confirmed_stays` | function | `tests/test_lazy_triage.py:53` | `def test_backed_confirmed_stays()` |
-| `test_cve_match_without_version_is_unknown` | function | `tests/test_lazy_triage.py:35` | `def test_cve_match_without_version_is_unknown()` |
-| `test_floor_confirms_shell_and_exploit_success` | function | `tests/test_lazy_triage.py:27` | `def test_floor_confirms_shell_and_exploit_success()` |
-| `test_replay_within_ttl` | function | `tests/test_lazy_triage.py:96` | `def test_replay_within_ttl(tmp_path)` |
-| `test_signature_excludes_asset_fields` | function | `tests/test_lazy_triage.py:65` | `def test_signature_excludes_asset_fields()` |
-| `test_signature_keeps_evidence_terms` | function | `tests/test_lazy_triage.py:72` | `def test_signature_keeps_evidence_terms()` |
-| `test_signature_respects_ttl` | function | `tests/test_lazy_triage.py:79` | `def test_signature_respects_ttl(tmp_path, monkeypatch)` |
-| `test_signature_store_persists` | function | `tests/test_lazy_triage.py:88` | `def test_signature_store_persists(tmp_path)` |
 | `test_unbacked_confirmed_demotes_to_likely` | function | `tests/test_lazy_triage.py:47` | `def test_unbacked_confirmed_demotes_to_likely()` |
 | `test_version_unknown_is_immovable` | function | `tests/test_lazy_triage.py:58` | `def test_version_unknown_is_immovable()` |
 | `_ToyPool` | class | `tests/test_lazy_worker_safety.py:263` | `class _ToyPool` |
@@ -496,5 +483,18 @@ Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 | `test_pool_chain_reads_lazy_orchestrator_store` | method | `tests/test_llm_orchestrator.py:119` | `def test_pool_chain_reads_lazy_orchestrator_store(self, isolated_pool)` |
 | `test_pool_chain_returns_empty_when_pool_unreadable` | method | `tests/test_llm_orchestrator.py:140` | `def test_pool_chain_returns_empty_when_pool_unreadable(self, monkeypatch)` |
 | `test_pool_chain_self_heals_corrupt_store` | method | `tests/test_llm_orchestrator.py:132` | `def test_pool_chain_self_heals_corrupt_store(self, isolated_pool)` |
+| `test_primary_failure_serves_fallback_with_notice` | method | `tests/test_llm_orchestrator.py:174` | `def test_primary_failure_serves_fallback_with_notice(self)` |
+| `test_primary_success_needs_no_fallback` | method | `tests/test_llm_orchestrator.py:153` | `def test_primary_success_needs_no_fallback(self)` |
+| `test_quota_wording_reply_is_a_failure` | method | `tests/test_llm_orchestrator.py:249` | `def test_quota_wording_reply_is_a_failure(self)` |
+| `test_real_answer_not_treated_as_error` | method | `tests/test_llm_orchestrator.py:718` | `def test_real_answer_not_treated_as_error(self)` |
+| `test_real_key_not_a_placeholder` | method | `tests/test_llm_orchestrator.py:828` | `def test_real_key_not_a_placeholder(self)` |
+| `test_sort_members_never_mutates_input` | method | `tests/test_llm_orchestrator.py:113` | `def test_sort_members_never_mutates_input(self)` |
+| `test_success_is_recorded_in_the_pool_ledger` | method | `tests/test_llm_orchestrator.py:449` | `def test_success_is_recorded_in_the_pool_ledger(self, isolated_pool)` |
+| `test_success_reports_health` | method | `tests/test_llm_orchestrator.py:386` | `def test_success_reports_health(self)` |
+| `test_system_prompt_is_prepended_for_the_executor` | method | `tests/test_llm_orchestrator.py:277` | `def test_system_prompt_is_prepended_for_the_executor(self)` |
+| `test_total_failure_returns_help_message` | method | `tests/test_llm_orchestrator.py:983` | `def test_total_failure_returns_help_message(self, monkeypatch)` |
+| `test_unhealthy_member_is_skipped_while_others_remain` | method | `tests/test_llm_orchestrator.py:354` | `def test_unhealthy_member_is_skipped_while_others_remain(self)` |
+| `test_weights_sort_members_by_descending_priority` | method | `tests/test_llm_orchestrator.py:102` | `def test_weights_sort_members_by_descending_priority(self)` |
+| `TestConfig` | class | `tests/test_llm_prompts.py:83` | `class TestConfig` |
 
 Next: [SYMBOLS_p46.md](SYMBOLS_p46.md)

@@ -16,23 +16,23 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## contrib (13.1)
+## contrib (14.1)
 
 contrib groups 2 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, launch_html, exploit_js.
 
-## modules (13.2)
+## modules (14.2)
 
 modules groups 5 files (c, py) around main, SecurityConfig, from_payload, HeaderValueSanitizer, __init__. Browser identity sync between the operator browser and the recorder proxy.
 
-## root (13.3)
+## root (14.3)
 
 root groups 1 files (py) around _build_substitutions, _fix_sessions_owner, _run_tool. This software must not be used by military or secret service organisations.
 
-## skills (13.4)
+## skills (14.4)
 
 skills groups 20 files (py) around _now_iso, Stage, Severity, Contract, to_dict. Public API for the claude_md_orchestrator skill.
 
-## tests (13.5)
+## tests (14.5)
 
 tests groups 2 files (py) around EchoHandler, do_GET, do_POST, _reply, log_message. Contract tests: browser identity inheritance in the lazy burp fuzzer.
 

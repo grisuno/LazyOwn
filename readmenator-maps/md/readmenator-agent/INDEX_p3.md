@@ -3,6 +3,9 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `skills/mcp_tools/db.py` | MCP tool ``lazyown_db``: query and mutate the LazyOwn SQLite database. | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/delete_param.py` | MCP tool ``lazyown_delete_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/deploy_beacon.py` | MCP tool ``lazyown_deploy_beacon`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/discover_commands.py` | MCP tool ``lazyown_discover_commands`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/engage_approve.py` | MCP tool ``lazyown_engage_approve`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/engage_list_pending.py` | MCP tool ``lazyown_engage_list_pending`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -215,7 +218,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_api_authz.py` | Tests for ``core.api_authz`` — tenant-bound API authorization. | tests | 48 | 0 |
 | `tests/test_api_key_resolution.py` | API-key resolution contract tests. | tests | 9 | 0 |
 | `tests/test_api_v1.py` | Integration tests for the versioned C2 REST API (``/api/v1``). | tests | 13 | 0 |
-| `tests/test_apt_chain_admin.py` | apt_chain admin & run options BDD contract. | tests | 29 | 0 |
+| `tests/test_apt_chain_admin.py` | apt_chain admin & run options BDD contract. | tests | 30 | 0 |
 | `tests/test_apt_chain_integration.py` | BDD integration: apt_chain runs real cmd2 verbs, raw commands and shell. | tests | 6 | 0 |
 | `tests/test_askpass.py` | Tests for the graphical sudo askpass helpers. | tests | 5 | 0 |
 | `tests/test_asset_gate.py` | Asset gate + un-nerfed outputs + IntelGraph CSP regression tests. | tests | 16 | 0 |
@@ -227,8 +230,9 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_audit_remediation.py` | Audit-remediation contract tests (P0-P4). | tests | 28 | 0 |
 | `tests/test_auto_crypto.py` | Tests for cli.auto_crypto — automatic session data encryption. | tests | 22 | 0 |
 | `tests/test_auto_loop_memory.py` | BDD tests for the auto-loop persistent memory and selector cascade. | tests | 19 | 0 |
+| `tests/test_auto_pwn_success.py` | auto_pwn success contract: precise evidence, never recon noise. | tests | 12 | 0 |
 | `tests/test_auto_registry.py` | Auto-verb registry: loop-ready automation commands. | tests | 20 | 0 |
-| `tests/test_autonomous_ops.py` | BDD scoped tests for integrated autonomous operations C04-C10. | tests | 17 | 0 |
+| `tests/test_autonomous_ops.py` | BDD scoped tests for integrated autonomous operations C04-C10. | tests | 15 | 0 |
 | `tests/test_autonomous_replay.py` | Tests for ``skills/autonomous_replay.py``. | tests | 18 | 0 |
 | `tests/test_autosuggest.py` | Unit tests for cli.autosuggest. | tests | 41 | 0 |
 | `tests/test_awesome_windows_security_skill.py` | tests/test_awesome_windows_security_skill.py  Contract suite for the... | tests | 51 | 0 |
@@ -293,7 +297,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_collab_and_onboarding.py` | tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE... | tests | 91 | 0 |
 | `tests/test_command_allowlist.py` | TDD tests for the command allowlist contract. | tests | 14 | 0 |
 | `tests/test_command_allowlist_behavior.py` | BDD behavior scenarios for the command allowlist contract. | tests | 3 | 0 |
-| `tests/test_command_chain.py` | Tests for cli/command_chain.py. | tests | 24 | 0 |
+| `tests/test_command_chain.py` | Tests for cli/command_chain.py. | tests | 21 | 0 |
 | `tests/test_command_control_agent.py` | Agent flavour selection and agent-staging regression tests. | tests | 12 | 0 |
 | `tests/test_command_form.py` | Tests for cli/command_form.py. | tests | 13 | 0 |
 | `tests/test_command_namespace_uniqueness.py` | Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second... | tests | 3 | 0 |
@@ -365,6 +369,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
 | `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
 | `tests/test_gym_blueprint.py` | Tests for the gym blueprint: auth gate, validation and route surface. | tests | 7 | 0 |
+| `tests/test_gym_cleanup_policy.py` | Gym cleanup policy: opt-in only, autonomous processes never stop gyms. | tests | 7 | 0 |
 | `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
 | `tests/test_gym_lifecycle.py` | Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup. | tests | 13 | 0 |
 | `tests/test_gym_matrix_ctf.py` | Contract tests for gym matrix runner and CTF capture. | tests | 16 | 0 |
@@ -386,7 +391,6 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_intel_selector.py` | BDD tests for the intelligence selector in the shared cascade. | tests | 16 | 0 |
 | `tests/test_intelligence_engine.py` | Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination. | tests | 27 | 0 |
 | `tests/test_journal.py` | Tests for the GitHub Discussions engineering journal. | tests | 10 | 0 |
-| `tests/test_killchain.py` | Tests for cli/killchain.py. | tests | 9 | 0 |
 | `tests/test_killchain_auto_refresh.py` | BDD-style tests for the periodic kill-chain auto-refresh in the tips engine. | tests | 8 | 0 |
 | `tests/test_killchain_gap_signal.py` | Tests for :class:`cli.recommendation_signals.KillchainGapSignal`. | tests | 20 | 0 |
 | `tests/test_killchain_snapshot.py` | BDD-style tests for the unified kill-chain snapshot contract. | tests | 14 | 0 |
@@ -423,7 +427,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_probes.py` | BDD tests for the read-only validation command registry. | tests | 16 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
 | `tests/test_lazy_reaper.py` | Reaper contract: orphan running tasks are harvested with proof of death. | tests | 13 | 0 |
-| `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 143 | 0 |
+| `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 145 | 0 |
 | `tests/test_lazy_runner_fallback.py` | Tests for the auto_loop phishing fallback wiring in modules.lazy_runner. | tests | 12 | 0 |
 | `tests/test_lazy_scope.py` | Behavioural tests for the lab-only default scope guard. | tests | 30 | 0 |
 | `tests/test_lazy_search.py` | BDD tests for the lazy saved-search grammar over the engagement DB. | tests | 15 | 0 |
@@ -487,14 +491,10 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
-| `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one orchestrator, no dual engines. | tests | 13 | 0 |
+| `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one runner, no dual engines. | tests | 13 | 0 |
 | `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 11 | 0 |
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
 | `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
 | `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
-| `tests/test_mcp_tools_registry.py` | Contract for the one-file-per-tool MCP registry (``skills/mcp_tools``). | tests | 11 | 0 |
-| `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 52 | 0 |
-| `tests/test_memory_semantics.py` | BDD tests for hashing embeddings and hybrid episodic recall. | tests | 14 | 0 |
-| `tests/test_metasploitable_gym.py` | Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry. | tests | 6 | 0 |
 
 Next: [INDEX_p4.md](INDEX_p4.md)

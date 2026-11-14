@@ -182,9 +182,10 @@ def main() -> None:
         if chain is None:
             print(json.dumps({"error": "not found"}, indent=2))
             raise SystemExit(1)
-        for step in chain.resolve({"target": "TARGET", "lhost": "LHOST", "lport": "4444"}):
-            status = "skip" if step["skipped"] else "run"
-            print(f"[{status}] {step['run']} {step['reason']}".strip())
+        from modules.chain_registry import chain_preview_lines
+
+        for line in chain_preview_lines(chain):
+            print(line)
         return
     parser.print_help()
 

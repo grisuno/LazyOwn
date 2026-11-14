@@ -1,43 +1,6 @@
 # API (page 12 of 28)
 Previous: [API_p11.md](API_p11.md)
 
-## modules/ctf_capture.py
-Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_ctf_signalman.py`
-- `output_dir` (function) `modules/ctf_capture.py:40` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
-- `capture` (function) `modules/ctf_capture.py:245` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
-- `record_path` (function) `modules/ctf_capture.py:333` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
-- `store_record` (function) `modules/ctf_capture.py:359` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
-- `list_records` (function) `modules/ctf_capture.py:377` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
-- `summary` (function) `modules/ctf_capture.py:400` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
-
-## modules/ctf_signalman.py
-Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/redteam_gym.py`, `tests/test_ctf_signalman.py`
-- `catalogue_for` (function) `modules/ctf_signalman.py:53` `def catalogue_for(scenario)` -- Resolve one gym scenario into its vectors and lookup callable.
-- `collect` (function) `modules/ctf_signalman.py:106` `def collect(scenario, target, sessions_dir, search_bases)` -- Sweep the whole gym scenario and score every vector in one pass.
-- `render_scoreboard` (function) `modules/ctf_signalman.py:166` `def render_scoreboard(report)` -- Render the collect report as a compact scoreboard.
-- `save_scoreboard` (function) `modules/ctf_signalman.py:193` `def save_scoreboard(report, sessions_dir)` -- Persist the scoreboard next to the CTF records.
-
-## modules/custom_tools.py
-Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
-- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
-- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
-- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
-- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
-- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
-- `run_tool` (function) `modules/custom_tools.py:151` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
-
-## modules/cve_matcher.py
-Depends on: `core/logging.py`
-Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
-- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
-- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
-- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
-- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
-- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
-
 ## modules/dacl_abuse.py
 Imported by: `cli/commands/active_directory.py`
 - `DACLAbuseEngine.__init__` (method) `modules/dacl_abuse.py:136` `def __init__(self, domain, domain_sid, acl_data)`
@@ -481,15 +444,50 @@ Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.
 - `main` (function) `modules/exp.c:620` `int main(int argc, char ** argv)`
 
 ## modules/exploit_chain.py
-Depends on: `modules/outcome_bus.py`
+Depends on: `modules/nmap_fingerprint.py`, `modules/outcome_bus.py`, `modules/service_aliases.py`
 Imported by: `cli/commands/exploit_migrated.py`
-- `ExploitChain.__init__` (method) `modules/exploit_chain.py:292` `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
-- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:311` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
-- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:446` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
-- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:499` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
-- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
-- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
-- `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
+- `ExploitChain.__init__` (method) `modules/exploit_chain.py:255` `def __init__(self, rhost, sessions_dir, nmap_xml_path)`
+- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:268` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
+- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:322` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
+- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:375` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
+- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:395` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
+- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:407` `def generate_report(self)` -- Generate a structured exploitation chain report.
+- `ExploitChain.save_report` (method) `modules/exploit_chain.py:440` `def save_report(self, path)` -- Save the exploitation chain report to a file.
+
+## modules/exploit_recommender.py
+Depends on: `lazygui/version.py`, `modules/world_model.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`
+- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
+- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
+- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
+- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
+- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
+- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
+- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
+- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
+
+## modules/exploitdb_bridge.py
+- `scan_tier0` (function) `modules/exploitdb_bridge.py:105` `def scan_tier0(limit, platform, only_cve)`
+- `gen_yaml` (function) `modules/exploitdb_bridge.py:151` `def gen_yaml(item, outdir)`
+- `sync_tier0` (function) `modules/exploitdb_bridge.py:194` `def sync_tier0(limit, platform, only_cve, outdir)`
+
+## modules/exploitdb_c_bridge.py
+- `scan_c` (function) `modules/exploitdb_c_bridge.py:32` `def scan_c(limit, platform, skip_existing)`
+- `gen_c_yaml_compile_on_use` (function) `modules/exploitdb_c_bridge.py:89` `def gen_c_yaml_compile_on_use(item)`
+- `gen_batch` (function) `modules/exploitdb_c_bridge.py:134` `def gen_batch(limit)`
+- `compile_batch` (function) `modules/exploitdb_c_bridge.py:148` `def compile_batch(limit)`
+- `gen_c_yaml` (function) `modules/exploitdb_c_bridge.py:152` `def gen_c_yaml(item, binpath, wrapper)`
+
+## modules/exploitgym_gym.py
+Depends on: `modules/redteam_gym.py`
+Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
+- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
+- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
+- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
+- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
+- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
+- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
+- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
 
 
 Next: [API_p13.md](API_p13.md)

@@ -329,22 +329,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `__call__` (method, line 24) `def __call__(self, args)`
 - Depends on: `scripts/journal.py`
 
-## tests/test_killchain.py
-- Doc: Tests for cli/killchain.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_states` (function, line 28) `def _states(progress)`
-  - `test_empty_events_all_pending_without_world` (function, line 32) `def test_empty_events_all_pending_without_world()`
-  - `test_current_phase_from_step_events` (function, line 38) `def test_current_phase_from_step_events()`
-  - `test_phase_advance_event_sets_current` (function, line 49) `def test_phase_advance_event_sets_current()`
-  - `test_activity_and_reward_accumulate` (function, line 62) `def test_activity_and_reward_accumulate()`
-  - `test_world_phase_fallback_when_no_events` (function, line 75) `def test_world_phase_fallback_when_no_events()`
-  - `test_explicit_completed_phases_respected` (function, line 81) `def test_explicit_completed_phases_respected()`
-  - `test_unknown_phase_in_event_is_ignored` (function, line 86) `def test_unknown_phase_in_event_is_ignored()`
-  - `test_non_dict_payload_is_tolerated` (function, line 92) `def test_non_dict_payload_is_tolerated()`
-- Depends on: `cli/killchain.py`
-
 ## tests/test_killchain_auto_refresh.py
 - Doc: BDD-style tests for the periodic kill-chain auto-refresh in the tips engine.
 - Layer: testing
@@ -482,6 +466,29 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
   - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
 - Depends on: `cli/commands/lab.py`
+
+## tests/test_lazy_adaptive_replan.py
+- Doc: Adaptive replanner wiring through the ChainRunner (apt_chain --adaptive).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 14) `def _chain(steps)`
+  - `_fail_locked_out` (function, line 19) `def _fail_locked_out(command)`
+  - `_facts` (function, line 25) `def _facts(monkeypatch, services, credentials)`
+  - `test_parse_accepts_adaptive_flag` (function, line 30) `def test_parse_accepts_adaptive_flag()`
+  - `test_adaptive_replanner_inserts_alternative_after_permission_wall` (function, line 38) `def test_adaptive_replanner_inserts_alternative_after_permission_wall(monkeypatch)`
+  - `test_lockout_walls_insert_nothing` (function, line 76) `def test_lockout_walls_insert_nothing(monkeypatch)`
+  - `test_composed_replanners_run_in_order` (function, line 110) `def test_composed_replanners_run_in_order(monkeypatch)`
+  - `test_replanner_ignores_ok_outcomes` (function, line 135) `def test_replanner_ignores_ok_outcomes()`
+  - `executor` (function, line 44) `def executor(command)`
+  - `executor` (function, line 81) `def executor(command)`
+  - `first` (function, line 116) `def first(context)`
+  - `second` (function, line 119) `def second(context)`
+  - `FakeOutcome` (class, line 124) `class FakeOutcome`
+  - `Ctx` (class, line 141) `class Ctx`
+  - `Outcome` (class, line 145) `class Outcome`
+  - `insert_step` (method, line 156) `def insert_step(self, step)`
+- Depends on: `cli/apt_chain_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

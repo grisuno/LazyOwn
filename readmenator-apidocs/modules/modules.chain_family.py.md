@@ -43,7 +43,7 @@ flowchart LR
 
 ### `FamilyRegistry`
 
-`class` | [modules/chain_family.py:68](../../modules/chain_family.py#L68)
+`class` | [modules/chain_family.py:62](../../modules/chain_family.py#L62)
 
 ```python
 class FamilyRegistry
@@ -69,7 +69,7 @@ that actually proved a target is preferred over one merely synthesised.
 
 #### `FamilyRegistry.__init__`
 
-`constructor` | [modules/chain_family.py:76](../../modules/chain_family.py#L76)
+`constructor` | [modules/chain_family.py:70](../../modules/chain_family.py#L70)
 
 ```python
 def __init__(self, path: str | Path) -> None
@@ -89,7 +89,7 @@ Bind the registry to a JSON file.
 
 #### `FamilyRegistry.record_association`
 
-`method` | [modules/chain_family.py:111](../../modules/chain_family.py#L111)
+`method` | [modules/chain_family.py:105](../../modules/chain_family.py#L105)
 
 ```python
 def record_association(self, signature: str, chain: str, target: str = '') -> None
@@ -109,7 +109,7 @@ Record that ``chain`` was synthesised for a target of this family.
 
 #### `FamilyRegistry.record_win`
 
-`method` | [modules/chain_family.py:117](../../modules/chain_family.py#L117)
+`method` | [modules/chain_family.py:111](../../modules/chain_family.py#L111)
 
 ```python
 def record_win(self, signature: str, chain: str, target: str = '') -> None
@@ -129,7 +129,7 @@ Record that ``chain`` proved a target of this family.
 
 #### `FamilyRegistry.best`
 
-`method` | [modules/chain_family.py:123](../../modules/chain_family.py#L123)
+`method` | [modules/chain_family.py:117](../../modules/chain_family.py#L117)
 
 ```python
 def best(self, signature: str) -> dict[str, Any] | None
@@ -154,7 +154,7 @@ chain name for determinism.
 
 #### `FamilyRegistry.transfer_note`
 
-`method` | [modules/chain_family.py:159](../../modules/chain_family.py#L159)
+`method` | [modules/chain_family.py:153](../../modules/chain_family.py#L153)
 
 ```python
 def transfer_note(self, facts: Mapping[str, Any]) -> str
@@ -180,7 +180,7 @@ Return an operator note when this family has a known winning chain.
 
 ### `family_signature`
 
-`function` | [modules/chain_family.py:41](../../modules/chain_family.py#L41)
+`function` | [modules/chain_family.py:35](../../modules/chain_family.py#L35)
 
 ```python
 def family_signature(facts: Mapping[str, Any]) -> str
@@ -208,7 +208,7 @@ differ. Service order and duplicates do not affect the result.
 
 ### `default_registry`
 
-`function` | [modules/chain_family.py:185](../../modules/chain_family.py#L185)
+`function` | [modules/chain_family.py:179](../../modules/chain_family.py#L179)
 
 ```python
 def default_registry() -> FamilyRegistry

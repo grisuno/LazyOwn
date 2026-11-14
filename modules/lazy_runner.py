@@ -25,15 +25,12 @@ from pathlib import Path
 
 from core.autonomous import autonomous_mode
 from core.terminal_guard import TerminalGuard
+from modules.loop_limits import DEFAULT_ROUNDS, DEFAULT_WORKERS, MAX_ROUNDS, MAX_WORKERS
 from utils import print_error, print_msg, print_warn
 
 SESSIONS_DIR = "sessions"
 HEARTBEAT_SEC = 15.0
 DEFAULT_VERB_TIMEOUT_SEC = 300.0
-DEFAULT_ROUNDS = 6
-DEFAULT_WORKERS = 2
-MAX_WORKERS = 5
-MAX_ROUNDS = 50
 POLL_SEC = 0.5
 WORKER_JOIN_SEC = 5.0
 TRANSCRIPT_DRAIN_CAP = 500
@@ -361,6 +358,10 @@ def build_executor(
     with ``stdin=DEVNULL`` and its own process group so Ctrl+C and time
     limits always kill the child, never the operator's terminal.
 
+    Sudo availability is gated once, in worker gating
+    (``modules.loop.worker_gating``), before a command reaches this
+    executor — so the probe never runs twice per command.
+
     When ``sandbox_task_id`` is set, routable shell verbs run inside the
     per-task Docker container (``modules.lazy_sandbox``) instead of the
     operator host; custom tools and raw bash stay local.
@@ -370,34 +371,23 @@ def build_executor(
     """
 
     def _resolve_alias(command: str) -> str:
-        token = command.split()[0] if command.split() else ""
-        aliases = getattr(shell, "aliases", None)
-        if isinstance(aliases, dict) and aliases.get(token):
-            rest = " ".join(command.split()[1:])
-            return f"{aliases[token]} {rest}".strip()
-        return command
+        from utils import resolve_alias
+
+        return resolve_alias(shell, command)
 
     def _dispatch(command: str) -> str:
         text = str(command or "")
         if cancelled.get("flag"):
             return "execution failed: cancelled by operator"
-        from utils import needs_sudo, sudo_available
-
-        if needs_sudo(_resolve_alias(text)) and not sudo_available():
-            stream(f"[skip] sudo unavailable in unattended mode: {text[:160]}")
-            return f"skipped: sudo unavailable in unattended mode: {text[:160]}"
         stream(f">>> {text[:200]}")
         verb_timeout = config.verb_timeout
         if _resolve_alias(text).startswith("auto_pwn") and verb_timeout < AUTO_PWN_MIN_TIMEOUT_SEC:
             verb_timeout = AUTO_PWN_MIN_TIMEOUT_SEC
         if text.startswith("custom tool "):
             try:
-                from modules.custom_tools import run_tool
+                from modules.custom_tools import run_custom_tool_line
 
-                parts = text.split(maxsplit=4)
-                name = parts[2] if len(parts) > 2 else ""
-                arg = " ".join(parts[3:]).strip() if len(parts) > 3 else ""
-                return str(run_tool(name, arg, on_output=stream) or "")
+                return run_custom_tool_line(text, on_output=stream)
             except Exception as exc:
                 return f"execution failed: {exc}"
         try:
@@ -1576,6 +1566,58 @@ def _run_targets_file(shell, params: dict, config: LoopRunConfig) -> dict:
     }
 
 
+_LOOP_USAGE = (
+    "Usage: {verb} [--target T] [--task T] [--rounds N] [--workers N] "
+    "[--timeout S] [--targets-from-file F] [--max-concurrent N] [--step-delay S] "
+    "[--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] "
+    "[--no-bootstrap] [--fallback-phish] [--sandbox [image]] [--profile P] "
+    "[--mode pentest|redteam|ctf] [--view|--plain] [<goal>]"
+)
+
+
+def run_loop_command(shell, params: dict, line: str, verb: str) -> dict:
+    """Parse one loop command line and execute it through the shared runner.
+
+    Single implementation behind the ``auto_loop`` and ``lazy_loop`` verbs
+    (and the MCP ``lazyown_auto_loop`` tool) so their behavior cannot drift.
+
+    Args:
+        shell: Live LazyOwn shell (workers route verbs through it).
+        params: Payload mapping (defaults to an empty mapping).
+        line: Raw command line after the verb.
+        verb: Verb name used in error strings.
+
+    Returns:
+        Runner summary from :func:`run_loop`, or an error mapping
+        (``{"error": ...}``) when parsing or target binding failed.
+    """
+    try:
+        config = parse_loop_line(line)
+    except ValueError as exc:
+        if str(exc) != "usage":
+            print_error(f"{verb}: {exc}")
+        else:
+            print_error(_LOOP_USAGE.format(verb=verb))
+        return {"error": str(exc)}
+    explicit_targets: list[str] = []
+    if config.targets_file:
+        try:
+            explicit_targets = load_targets_file(config.targets_file)
+        except ValueError as exc:
+            print_error(f"{verb}: {exc}")
+            return {"error": str(exc)}
+    elif config.target:
+        explicit_targets = [config.target]
+    if not config.target:
+        config.target = str((params or {}).get("rhost", "") or "")
+    if not config.goal and not config.task_id and not config.target:
+        print_error(f"Usage: {verb} [--target T] <goal>")
+        return {"error": "no goal, task or target"}
+    if explicit_targets:
+        bind_target_authority(shell, explicit_targets)
+    return run_loop(shell, dict(params or {}), config)
+
+
 __all__ = [
     "AUTONOMOUS_ENV",
     "ENGAGEMENT_MODES",
@@ -1590,5 +1632,6 @@ __all__ = [
     "report_result",
     "resolve_loop_defaults",
     "run_loop",
+    "run_loop_command",
     "write_loop_result",
 ]

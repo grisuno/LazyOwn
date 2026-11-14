@@ -1,33 +1,8 @@
-# Symbols (page 15 of 53)
+# Symbols (page 15 of 52)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_sanitize_digest` | function | `modules/evidence_store.py:32` | `def _sanitize_digest(digest)` |
-| `directory` | method | `modules/evidence_store.py:73` | `def directory(self)` |
-| `fetch` | method | `modules/evidence_store.py:135` | `def fetch(self, digest)` |
-| `gc` | method | `modules/evidence_store.py:153` | `def gc(self, referenced, grace_seconds)` |
-| `has` | method | `modules/evidence_store.py:88` | `def has(self, digest)` |
-| `preserve` | method | `modules/evidence_store.py:93` | `def preserve(self, record)` |
-| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
-| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
-| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
-| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
-| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
-| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
-| `Msg` | struct | `modules/exp.c:100` | `` |
-| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
-| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
-| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
-| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
-| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
-| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
-| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
-| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
-| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
-| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
-| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
-| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
 | `bye2` | function | `modules/exp.c:167` | `void bye2(char *info, char *arg)` |
 | `create_dummy_file` | function | `modules/exp.c:564` | `void create_dummy_file(void)` |
 | `create_priv_file` | function | `modules/exp.c:572` | `void create_priv_file(void)` |
@@ -67,25 +42,21 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `user_rule_t` | struct | `modules/exp.c:105` | `` |
 | `userland_T` | function | `modules/exp.c:605` | `void userland_T(int *sema)` |
 | `write_new_modprobe` | function | `modules/exp.c:582` | `void write_new_modprobe()` |
-| `ChainResult` | class | `modules/exploit_chain.py:65` | `class ChainResult` |
-| `ExploitChain` | class | `modules/exploit_chain.py:289` | `class ExploitChain` |
-| `ExploitResult` | class | `modules/exploit_chain.py:54` | `class ExploitResult` |
-| `ServiceInfo` | class | `modules/exploit_chain.py:29` | `class ServiceInfo` |
-| `VulnerabilityMatch` | class | `modules/exploit_chain.py:41` | `class VulnerabilityMatch` |
-| `__init__` | method | `modules/exploit_chain.py:292` | `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)` |
-| `_add_vuln` | method | `modules/exploit_chain.py:485` | `def _add_vuln(self, service, sig, version)` |
-| `_compare_versions` | function | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
-| `_discover_xml_files` | method | `modules/exploit_chain.py:331` | `def _discover_xml_files(self)` |
-| `_is_richer` | method | `modules/exploit_chain.py:361` | `def _is_richer(new_svc, existing)` |
-| `_parse_all_nmap_xml` | method | `modules/exploit_chain.py:346` | `def _parse_all_nmap_xml(self)` |
-| `_parse_nmap_text` | method | `modules/exploit_chain.py:404` | `def _parse_nmap_text(self, output)` |
-| `_parse_single_xml` | method | `modules/exploit_chain.py:367` | `def _parse_single_xml(self, xml_path)` |
-| `fingerprint_services` | method | `modules/exploit_chain.py:311` | `def fingerprint_services(self, nmap_output)` |
-| `generate_exploit_plan` | method | `modules/exploit_chain.py:499` | `def generate_exploit_plan(self)` |
-| `generate_report` | method | `modules/exploit_chain.py:531` | `def generate_report(self)` |
-| `get_post_exploit_commands` | method | `modules/exploit_chain.py:519` | `def get_post_exploit_commands(self, platform)` |
-| `map_vulnerabilities` | method | `modules/exploit_chain.py:446` | `def map_vulnerabilities(self)` |
-| `save_report` | method | `modules/exploit_chain.py:566` | `def save_report(self, path)` |
+| `ChainResult` | class | `modules/exploit_chain.py:44` | `class ChainResult` |
+| `ExploitChain` | class | `modules/exploit_chain.py:252` | `class ExploitChain` |
+| `VulnerabilityMatch` | class | `modules/exploit_chain.py:31` | `class VulnerabilityMatch` |
+| `__init__` | method | `modules/exploit_chain.py:255` | `def __init__(self, rhost, sessions_dir, nmap_xml_path)` |
+| `_add_vuln` | method | `modules/exploit_chain.py:361` | `def _add_vuln(self, service, sig, version)` |
+| `_compare_versions` | function | `modules/exploit_chain.py:229` | `def _compare_versions(version_a, version_b)` |
+| `_discover_xml_files` | method | `modules/exploit_chain.py:286` | `def _discover_xml_files(self)` |
+| `_is_richer` | method | `modules/exploit_chain.py:316` | `def _is_richer(new_svc, existing)` |
+| `_parse_all_nmap_xml` | method | `modules/exploit_chain.py:301` | `def _parse_all_nmap_xml(self)` |
+| `fingerprint_services` | method | `modules/exploit_chain.py:268` | `def fingerprint_services(self, nmap_output)` |
+| `generate_exploit_plan` | method | `modules/exploit_chain.py:375` | `def generate_exploit_plan(self)` |
+| `generate_report` | method | `modules/exploit_chain.py:407` | `def generate_report(self)` |
+| `get_post_exploit_commands` | method | `modules/exploit_chain.py:395` | `def get_post_exploit_commands(self, platform)` |
+| `map_vulnerabilities` | method | `modules/exploit_chain.py:322` | `def map_vulnerabilities(self)` |
+| `save_report` | method | `modules/exploit_chain.py:440` | `def save_report(self, path)` |
 | `ExploitMatch` | class | `modules/exploit_recommender.py:37` | `class ExploitMatch` |
 | `ExploitRecommender` | class | `modules/exploit_recommender.py:50` | `class ExploitRecommender` |
 | `__init__` | method | `modules/exploit_recommender.py:120` | `def __init__(self, world_model)` |
@@ -367,8 +338,8 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
 | `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
 | `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
-| `cleanup_enabled` | function | `modules/gym_cleanup.py:21` | `def cleanup_enabled()` |
-| `cleanup_gym_machines` | function | `modules/gym_cleanup.py:35` | `def cleanup_gym_machines(verbose)` |
+| `cleanup_enabled` | function | `modules/gym_cleanup.py:28` | `def cleanup_enabled()` |
+| `cleanup_gym_machines` | function | `modules/gym_cleanup.py:44` | `def cleanup_gym_machines(verbose)` |
 | `_catalogue` | function | `modules/gym_matrix_runner.py:36` | `def _catalogue(catalogue)` |
 | `_persist` | function | `modules/gym_matrix_runner.py:236` | `def _persist(summary_result, sessions_dir)` |
 | `_stats` | function | `modules/gym_matrix_runner.py:220` | `def _stats(runs)` |
@@ -496,5 +467,34 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `_is_service` | method | `modules/integrations/misp_export.py:233` | `def _is_service(finding)` |
 | `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
 | `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
+| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
+| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
+| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
+| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
+| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
+| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
+| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
+| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
+| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
+| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
+| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
+| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
+| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
+| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
+| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
+| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
+| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
+| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
+| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

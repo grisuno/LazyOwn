@@ -11,7 +11,7 @@ so the harness stays replayable.
 
 ## Contents
 
-- **Functions:** [`output_dir`](#output_dir), [`capture`](#capture), [`record_path`](#record_path), [`store_record`](#store_record), [`list_records`](#list_records), [`summary`](#summary)
+- **Functions:** [`output_dir`](#output_dir), [`evaluate_exploit_output`](#evaluate_exploit_output), [`capture`](#capture), [`record_path`](#record_path), [`store_record`](#store_record), [`list_records`](#list_records), [`summary`](#summary)
 - **Constants:** [`CTF_DIRNAME`](#ctf_dirname), [`RECORD_NAME`](#record_name), [`ROOT_SHELL_RE`](#root_shell_re), [`SHADOW_LINE_RE`](#shadow_line_re), [`CRED_LINE_RE`](#cred_line_re), [`WINDOWS_OS_ENUM_RE`](#windows_os_enum_re), [`NETBIOS_NAME_RE`](#netbios_name_re), [`DEFENSE_REPORT_RE`](#defense_report_re), [`EVENTLOG_CSV_RE`](#eventlog_csv_re), [`KERBEROS_TICKET_RE`](#kerberos_ticket_re), [`DOMAIN_ENUM_RE`](#domain_enum_re), [`SMB_SHARE_RE`](#smb_share_re), [`CHECKERS`](#checkers)
 
 ## Call Graph
@@ -59,11 +59,40 @@ Resolve the CTF storage directory.
 
 ---
 
+<a id="evaluate_exploit_output"></a>
+
+### `evaluate_exploit_output`
+
+`function` | [modules/ctf_capture.py:203](../../modules/ctf_capture.py#L203)
+
+```python
+def evaluate_exploit_output(output: str) -> dict
+```
+
+Evaluate raw exploit output against the precise shell-objective checkers.
+
+The auto_pwn engine used to accept a reconnaissance banner or any
+output longer than 200 characters as exploit success; this is the
+precise replacement. Exploitation is proven only by a root shell or
+a shadow/hash dump. Arbitrary ``key: value`` lines (HTTP headers,
+banners) are NOT credentials — a blanket user:pass matcher once
+turned ``Server: Apache/2.2.8`` into a "captured credential".
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `output` | `str` |  | Raw exploit/command output text. |
+
+**Returns:** `dict` - ``{"matched": {checker: masked evidence}, "shell_objective": bool}``.
+
+---
+
 <a id="capture"></a>
 
 ### `capture`
 
-`function` | [modules/ctf_capture.py:245](../../modules/ctf_capture.py#L245)
+`function` | [modules/ctf_capture.py:275](../../modules/ctf_capture.py#L275)
 
 ```python
 def capture(vuln_id: str, target: str, output: str = '', sessions_dir: str | Path | None = None, catalogue: Any = None) -> dict
@@ -95,7 +124,7 @@ Verify output evidence for one gym vector and store the record.
 
 ### `record_path`
 
-`function` | [modules/ctf_capture.py:333](../../modules/ctf_capture.py#L333)
+`function` | [modules/ctf_capture.py:363](../../modules/ctf_capture.py#L363)
 
 ```python
 def record_path(vuln_id: str, sessions_dir: str | Path | None = None) -> Path
@@ -122,7 +151,7 @@ Return the record file path for one vulnerability.
 
 ### `store_record`
 
-`function` | [modules/ctf_capture.py:359](../../modules/ctf_capture.py#L359)
+`function` | [modules/ctf_capture.py:389](../../modules/ctf_capture.py#L389)
 
 ```python
 def store_record(record: dict, sessions_dir: str | Path | None = None) -> Path
@@ -149,7 +178,7 @@ Persist one capture record atomically.
 
 ### `list_records`
 
-`function` | [modules/ctf_capture.py:377](../../modules/ctf_capture.py#L377)
+`function` | [modules/ctf_capture.py:407](../../modules/ctf_capture.py#L407)
 
 ```python
 def list_records(sessions_dir: str | Path | None = None) -> dict[str, dict]
@@ -175,7 +204,7 @@ Return every stored CTF record keyed by vuln id.
 
 ### `summary`
 
-`function` | [modules/ctf_capture.py:400](../../modules/ctf_capture.py#L400)
+`function` | [modules/ctf_capture.py:430](../../modules/ctf_capture.py#L430)
 
 ```python
 def summary(sessions_dir: str | Path | None = None) -> dict

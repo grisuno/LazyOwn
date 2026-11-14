@@ -6,10 +6,15 @@ Gym machine cleanup on LazyOwn exit.
 
 Lab scenario containers (``lazyown-lab-*``) and cyber range containers
 (``lazyown-range-*``) hold real memory and CPU on the operator host.
-When LazyOwn closes through any path (quit, EOF, SIGTERM, SIGHUP,
-atexit) every running gym machine is stopped so nothing keeps leasing
-resources after the session. Operators can disable the behaviour with
-``"gym_cleanup_on_exit": false`` in ``payload.json``.
+When an interactive operator shell closes through any path (quit, EOF,
+SIGTERM, SIGHUP, atexit) every running gym machine is stopped so
+nothing keeps leasing resources after the session. This is OPT-IN:
+``"gym_cleanup_on_exit": true`` in ``payload.json`` enables it.
+
+Autonomous and headless processes (dashboard loop subprocesses,
+``-c`` runs, MCP workers) never stop gym machines — a loop subprocess
+exiting used to kill the gym out from under the next run, which is why
+operators kept finding the lab down after every auto_loop.
 
 ## Contents
 
@@ -37,13 +42,13 @@ flowchart LR
 
 ### `cleanup_enabled`
 
-`function` | [modules/gym_cleanup.py:21](../../modules/gym_cleanup.py#L21)
+`function` | [modules/gym_cleanup.py:28](../../modules/gym_cleanup.py#L28)
 
 ```python
 def cleanup_enabled() -> bool
 ```
 
-Return whether exit cleanup is enabled (default on).
+Return whether exit cleanup is enabled (default off, opt-in).
 
 **Returns:** `bool`
 
@@ -57,7 +62,7 @@ Return whether exit cleanup is enabled (default on).
 
 ### `cleanup_gym_machines`
 
-`function` | [modules/gym_cleanup.py:35](../../modules/gym_cleanup.py#L35)
+`function` | [modules/gym_cleanup.py:44](../../modules/gym_cleanup.py#L44)
 
 ```python
 def cleanup_gym_machines(verbose: bool = False) -> dict[str, Any]
@@ -83,7 +88,7 @@ Stop every running lab and range machine.
 
 ### `CONFIG_KEY`
 
-`constant` | [modules/gym_cleanup.py:18](../../modules/gym_cleanup.py#L18)
+`constant` | [modules/gym_cleanup.py:24](../../modules/gym_cleanup.py#L24)
 
 ```python
 CONFIG_KEY = 'gym_cleanup_on_exit'

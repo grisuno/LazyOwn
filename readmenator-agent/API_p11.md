@@ -1,50 +1,6 @@
 # API (page 11 of 28)
 Previous: [API_p10.md](API_p10.md)
 
-## modules/bof_registry.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
-Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
-- `BofEntry.to_dict` (method) `modules/bof_registry.py:130` `def to_dict(self)` -- Serialize to dictionary.
-- `BofEntry.from_dict` (method) `modules/bof_registry.py:151` `def from_dict(cls, raw)` -- Build from a dictionary.
-- `BofCatalog.register` (method) `modules/bof_registry.py:183` `def register(self, entry)` -- Register a BOF entry in the catalog.
-- `BofCatalog.register_many` (method) `modules/bof_registry.py:188` `def register_many(self, entries)` -- Register multiple BOF entries at once.
-- `BofCatalog.get` (method) `modules/bof_registry.py:193` `def get(self, name)` -- Retrieve a BOF entry by name.
-- `BofCatalog.search` (method) `modules/bof_registry.py:204` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
-- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:237` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
-- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:241` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
-- `BofCatalog.list_all` (method) `modules/bof_registry.py:245` `def list_all(self)` -- Return all catalog entries sorted by name.
-- `BofCatalog.to_dict` (method) `modules/bof_registry.py:249` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
-- `BofCatalog.from_dict` (method) `modules/bof_registry.py:257` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
-- `BofCatalog.load` (method) `modules/bof_registry.py:265` `def load(cls, path)` -- Load a catalog from a JSON file.
-- `BofCatalog.save` (method) `modules/bof_registry.py:273` `def save(self, path)` -- Save the catalog to a JSON file.
-- `BofYamlStore.__init__` (method) `modules/bof_registry.py:290` `def __init__(self, directory)` -- Bind the store to a directory.
-- `BofYamlStore.directory` (method) `modules/bof_registry.py:299` `def directory(self)` -- Return the directory bound to this store.
-- `BofYamlStore.load_entries` (method) `modules/bof_registry.py:303` `def load_entries(self)` -- Parse every YAML file into :class:`BofEntry` objects.
-- `BofYamlStore.load_catalog` (method) `modules/bof_registry.py:342` `def load_catalog(self)` -- Build a :class:`BofCatalog` from the YAML configuration files.
-- `find_client_artifact` (function) `modules/bof_registry.py:362` `def find_client_artifact(entry)` -- Resolve the compiled object file of a BOF across all known source trees.
-- `client_addon_install_path` (function) `modules/bof_registry.py:415` `def client_addon_install_path(client, addons_dir)` -- Read the ``tool.install_path`` of one beacon client lazyaddon.
-- `stage_entry_bof` (function) `modules/bof_registry.py:441` `def stage_entry_bof(entry, sessions_dir)` -- Stage a compiled BOF object for beacon delivery.
-- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:483` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
-- `BofValidator.verify_entry` (method) `modules/bof_registry.py:492` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
-- `BofValidator.validate_args` (method) `modules/bof_registry.py:508` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
-- `BofRegistry.__init__` (method) `modules/bof_registry.py:527` `def __init__(self, sessions_dir)`
-- `BofRegistry.install_dir` (method) `modules/bof_registry.py:533` `def install_dir(self)` -- Return the BOF installation directory.
-- `BofRegistry.is_installed` (method) `modules/bof_registry.py:553` `def is_installed(self, name)` -- Return True if a BOF is installed.
-- `BofRegistry.install` (method) `modules/bof_registry.py:558` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
-- `BofRegistry.uninstall` (method) `modules/bof_registry.py:579` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
-- `BofRegistry.list_installed` (method) `modules/bof_registry.py:596` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
-- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:601` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
-- `BofMarketplace.__init__` (method) `modules/bof_registry.py:619` `def __init__(self, sessions_dir, catalog)`
-- `BofMarketplace.catalog` (method) `modules/bof_registry.py:630` `def catalog(self)` -- Return the catalog.
-- `BofMarketplace.registry` (method) `modules/bof_registry.py:635` `def registry(self)` -- Return the registry.
-- `BofMarketplace.search` (method) `modules/bof_registry.py:639` `def search(self, query)` -- Search the catalog and return enriched results with install status.
-- `BofMarketplace.info` (method) `modules/bof_registry.py:658` `def info(self, name)` -- Get detailed information about a BOF by name.
-- `BofMarketplace.install` (method) `modules/bof_registry.py:675` `def install(self, name)` -- Install a BOF from the catalog by name.
-- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:704` `def uninstall(self, name)` -- Uninstall a BOF by name.
-- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:717` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
-- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:729` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
-- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:737` `def bulk_install(self, names)` -- Install multiple BOFs at once.
-
 ## modules/browser_sync.py
 Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
 Imported by: `modules/chain_runner.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `tests/conftest.py`
@@ -235,15 +191,15 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/chain_loop
 - `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
 
 ## modules/chain_family.py
-Depends on: `modules/lazy_loop.py`
+Depends on: `modules/lazy_loop.py`, `modules/service_aliases.py`
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_family.py`
-- `family_signature` (function) `modules/chain_family.py:41` `def family_signature(facts)` -- Return a stable structural signature for a target from its facts.
-- `FamilyRegistry.__init__` (method) `modules/chain_family.py:76` `def __init__(self, path)` -- Bind the registry to a JSON file.
-- `FamilyRegistry.record_association` (method) `modules/chain_family.py:111` `def record_association(self, signature, chain, target)` -- Record that ``chain`` was synthesised for a target of this family.
-- `FamilyRegistry.record_win` (method) `modules/chain_family.py:117` `def record_win(self, signature, chain, target)` -- Record that ``chain`` proved a target of this family.
-- `FamilyRegistry.best` (method) `modules/chain_family.py:123` `def best(self, signature)` -- Return the strongest chain recorded for a family, or None.
-- `FamilyRegistry.transfer_note` (method) `modules/chain_family.py:159` `def transfer_note(self, facts)` -- Return an operator note when this family has a known winning chain.
-- `default_registry` (function) `modules/chain_family.py:185` `def default_registry()` -- Return a registry bound to the shared ``chain_families.json``.
+- `family_signature` (function) `modules/chain_family.py:35` `def family_signature(facts)` -- Return a stable structural signature for a target from its facts.
+- `FamilyRegistry.__init__` (method) `modules/chain_family.py:70` `def __init__(self, path)` -- Bind the registry to a JSON file.
+- `FamilyRegistry.record_association` (method) `modules/chain_family.py:105` `def record_association(self, signature, chain, target)` -- Record that ``chain`` was synthesised for a target of this family.
+- `FamilyRegistry.record_win` (method) `modules/chain_family.py:111` `def record_win(self, signature, chain, target)` -- Record that ``chain`` proved a target of this family.
+- `FamilyRegistry.best` (method) `modules/chain_family.py:117` `def best(self, signature)` -- Return the strongest chain recorded for a family, or None.
+- `FamilyRegistry.transfer_note` (method) `modules/chain_family.py:153` `def transfer_note(self, facts)` -- Return an operator note when this family has a known winning chain.
+- `default_registry` (function) `modules/chain_family.py:179` `def default_registry()` -- Return a registry bound to the shared ``chain_families.json``.
 
 ## modules/chain_loop.py
 Depends on: `cli/apt_chain_support.py`, `core/config.py`, `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
@@ -251,11 +207,11 @@ Imported by: `modules/lazy_loop.py`, `tests/test_chain_loop.py`, `tests/test_pla
 - `chain_mode` (function) `modules/chain_loop.py:35` `def chain_mode()` -- Return the configured chain transport mode for loop runs.
 - `is_chain_command` (function) `modules/chain_loop.py:53` `def is_chain_command(command)` -- True when the command line invokes the apt_chain verb.
 - `parse_chain_invocation` (function) `modules/chain_loop.py:58` `def parse_chain_invocation(command)` -- Split one ``apt_chain`` command line into name, target and vars.
-- `stepwise_eligible` (function) `modules/chain_loop.py:109` `def stepwise_eligible(chain, routable)` -- Decide whether one chain can run stepwise inside the worker.
-- `ChainStepBlocked.__init__` (method) `modules/chain_loop.py:142` `def __init__(self, status, detail)` -- Record the guard status and reason.
-- `run_chain_stepwise` (function) `modules/chain_loop.py:154` `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` -- Run one ``apt_chain`` decision step-by-step inside the worker.
-- `guarded` (function) `modules/chain_loop.py:226` `def guarded(step_command)` -- Route one chain step through the worker's guard path.
-- `on_step` (function) `modules/chain_loop.py:283` `def on_step(outcome)` -- Emit one chain_step telemetry event.
+- `stepwise_eligible` (function) `modules/chain_loop.py:93` `def stepwise_eligible(chain, routable)` -- Decide whether one chain can run stepwise inside the worker.
+- `ChainStepBlocked.__init__` (method) `modules/chain_loop.py:126` `def __init__(self, status, detail)` -- Record the guard status and reason.
+- `run_chain_stepwise` (function) `modules/chain_loop.py:138` `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)` -- Run one ``apt_chain`` decision step-by-step inside the worker.
+- `guarded` (function) `modules/chain_loop.py:210` `def guarded(step_command)` -- Route one chain step through the worker's guard path.
+- `on_step` (function) `modules/chain_loop.py:267` `def on_step(outcome)` -- Emit one chain_step telemetry event.
 
 ## modules/chain_match.py
 Depends on: `modules/chain_registry.py`
@@ -270,35 +226,36 @@ Imported by: `modules/selection/chain.py`, `tests/test_chain_match_determinism.p
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 - `skip_pending` (function) `modules/chain_registry.py:69` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
 - `ChainStep.identifier` (method) `modules/chain_registry.py:152` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:176` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
-- `evaluate_when` (function) `modules/chain_registry.py:297` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
-- `validate_chain` (function) `modules/chain_registry.py:362` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
-- `render_text_token_braces` (function) `modules/chain_registry.py:586` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
-- `load_all` (function) `modules/chain_registry.py:591` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
-- `get` (function) `modules/chain_registry.py:749` `def get(name, chains_dir)` -- Return one chain by name, or None.
-- `scan_all` (function) `modules/chain_registry.py:754` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
-- `set_enabled` (function) `modules/chain_registry.py:814` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
-- `generate_for_playbook` (function) `modules/chain_registry.py:837` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
+- `render_text` (function) `modules/chain_registry.py:219` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `step_gate_verdict` (function) `modules/chain_registry.py:242` `def step_gate_verdict(step, render, variables, dependency_reason)` -- Evaluate the canonical gate chain for one step, in one order.
+- `evaluate_when` (function) `modules/chain_registry.py:338` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
+- `validate_chain` (function) `modules/chain_registry.py:403` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
+- `chain_preview_lines` (function) `modules/chain_registry.py:627` `def chain_preview_lines(chain)` -- Render one chain's dry-run preview with placeholder tokens bound.
+- `load_all` (function) `modules/chain_registry.py:647` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
+- `get` (function) `modules/chain_registry.py:805` `def get(name, chains_dir)` -- Return one chain by name, or None.
+- `scan_all` (function) `modules/chain_registry.py:810` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
+- `set_enabled` (function) `modules/chain_registry.py:870` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
+- `generate_for_playbook` (function) `modules/chain_registry.py:893` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/browser_sync.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-- `StepOutcome.ok` (method) `modules/chain_runner.py:90` `def ok(self)` -- Return True for success, dry-run and skipped steps.
-- `StepOutcome.to_dict` (method) `modules/chain_runner.py:94` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:149` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:174` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:197` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:202` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:207` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:212` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:217` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:222` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:227` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:238` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:363` `def run(self)` -- Execute the chain in order and return every step outcome.
+- `StepOutcome.ok` (method) `modules/chain_runner.py:94` `def ok(self)` -- Return True for success, dry-run and skipped steps.
+- `StepOutcome.to_dict` (method) `modules/chain_runner.py:98` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:153` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:178` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:201` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:206` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:211` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:216` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:221` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:226` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:234` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:359` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
@@ -319,8 +276,7 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 ## modules/chain_tokens.py
 Depends on: `skills/lazyown_facts.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
-- `token_keys` (function) `modules/chain_tokens.py:24` `def token_keys()` -- Return every engagement token name this module can produce.
-- `build_tokens` (function) `modules/chain_tokens.py:29` `def build_tokens(target, params)` -- Resolve engagement tokens for one target.
+- `build_tokens` (function) `modules/chain_tokens.py:24` `def build_tokens(target, params)` -- Resolve engagement tokens for one target.
 
 ## modules/cicd_enumerator.py
 Imported by: `cli/commands/cicd.py`
@@ -495,6 +451,45 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
 - `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
 - `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
+
+## modules/ctf_capture.py
+Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+Imported by: `modules/autonomous_exploit_engine.py`, `tests/test_auto_pwn_success.py`, `tests/test_ctf_signalman.py`
+- `output_dir` (function) `modules/ctf_capture.py:40` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
+- `evaluate_exploit_output` (function) `modules/ctf_capture.py:203` `def evaluate_exploit_output(output)` -- Evaluate raw exploit output against the precise shell-objective checkers.
+- `capture` (function) `modules/ctf_capture.py:275` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
+- `record_path` (function) `modules/ctf_capture.py:363` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
+- `store_record` (function) `modules/ctf_capture.py:389` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
+- `list_records` (function) `modules/ctf_capture.py:407` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
+- `summary` (function) `modules/ctf_capture.py:430` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
+
+## modules/ctf_signalman.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/redteam_gym.py`, `tests/test_ctf_signalman.py`
+- `catalogue_for` (function) `modules/ctf_signalman.py:53` `def catalogue_for(scenario)` -- Resolve one gym scenario into its vectors and lookup callable.
+- `collect` (function) `modules/ctf_signalman.py:106` `def collect(scenario, target, sessions_dir, search_bases)` -- Sweep the whole gym scenario and score every vector in one pass.
+- `render_scoreboard` (function) `modules/ctf_signalman.py:166` `def render_scoreboard(report)` -- Render the collect report as a compact scoreboard.
+- `save_scoreboard` (function) `modules/ctf_signalman.py:193` `def save_scoreboard(report, sessions_dir)` -- Persist the scoreboard next to the CTF records.
+
+## modules/custom_tools.py
+Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
+- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
+- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
+- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
+- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
+- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
+- `run_custom_tool_line` (function) `modules/custom_tools.py:151` `def run_custom_tool_line(command, on_output)` -- Dispatch a ``custom tool <name> <arg>`` command line to its tool.
+- `run_tool` (function) `modules/custom_tools.py:170` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
+
+## modules/cve_matcher.py
+Depends on: `core/logging.py`
+Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
+- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
+- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
+- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
+- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
+- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
 
 
 Next: [API_p12.md](API_p12.md)

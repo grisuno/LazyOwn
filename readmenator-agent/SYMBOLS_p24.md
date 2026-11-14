@@ -1,31 +1,8 @@
-# Symbols (page 24 of 53)
+# Symbols (page 24 of 52)
 Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `mode_poll` | function | `modules/sudo_tiocsti.py:149` | `def mode_poll(fd, tty_path)` |
-| `mode_prefill` | function | `modules/sudo_tiocsti.py:175` | `def mode_prefill(fd)` |
-| `sudo_cache_valid` | function | `modules/sudo_tiocsti.py:139` | `def sudo_cache_valid()` |
-| `discovery_targets` | function | `modules/surface_ops.py:31` | `def discovery_targets(sessions_dir)` |
-| `is_ipv4` | function | `modules/surface_ops.py:18` | `def is_ipv4(value)` |
-| `parse_confirm` | function | `modules/surface_ops.py:26` | `def parse_confirm(answer)` |
-| `write_world_model_hosts` | function | `modules/surface_ops.py:50` | `def write_world_model_hosts(document, sessions)` |
-| `ThreatModelBuilder` | class | `modules/threat_model.py:267` | `class ThreatModelBuilder` |
-| `_add` | function | `modules/threat_model.py:448` | `def _add(ioc)` |
-| `_build_assets` | method | `modules/threat_model.py:318` | `def _build_assets(self, rows)` |
-| `_build_detection_rules` | method | `modules/threat_model.py:475` | `def _build_detection_rules(self, ttps)` |
-| `_build_iocs` | method | `modules/threat_model.py:444` | `def _build_iocs(self, rows)` |
-| `_build_purple_team` | method | `modules/threat_model.py:505` | `def _build_purple_team(self, ttps, detection_rules)` |
-| `_build_summary` | method | `modules/threat_model.py:560` | `def _build_summary(self, rows, assets, ttps)` |
-| `_build_ttps` | method | `modules/threat_model.py:404` | `def _build_ttps(self, rows)` |
-| `_compromise_indicators` | method | `modules/threat_model.py:388` | `def _compromise_indicators(self, commands)` |
-| `_extract_iocs` | function | `modules/threat_model.py:245` | `def _extract_iocs(text, first_seen)` |
-| `_load_csv` | method | `modules/threat_model.py:305` | `def _load_csv(self)` |
-| `_risk_score` | method | `modules/threat_model.py:352` | `def _risk_score(self, commands, ports)` |
-| `_save` | method | `modules/threat_model.py:578` | `def _save(self, model)` |
-| `build` | method | `modules/threat_model.py:270` | `def build(self)` |
-| `get_builder` | function | `modules/threat_model.py:592` | `def get_builder()` |
-| `load` | method | `modules/threat_model.py:293` | `def load(self)` |
 | `_call_ai` | function | `modules/timeline_narrator.py:97` | `def _call_ai(api_key, events_text, target)` |
 | `_format_events_for_prompt` | function | `modules/timeline_narrator.py:77` | `def _format_events_for_prompt(events)` |
 | `_load_events` | function | `modules/timeline_narrator.py:57` | `def _load_events(n)` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `add_credential` | method | `modules/world_model.py:897` | `def add_credential(self, value, host, service)` |
 | `add_domain` | method | `modules/world_model.py:992` | `def add_domain(self, domain, host, context)` |
 | `add_email` | method | `modules/world_model.py:986` | `def add_email(self, address, host, context)` |
+| `add_host` | method | `modules/world_model.py:793` | `def add_host(self, ip)` |
+| `add_note` | method | `modules/world_model.py:853` | `def add_note(self, ip, note)` |
+| `add_relation` | method | `modules/world_model.py:498` | `def add_relation(self, relation)` |
+| `add_relation` | method | `modules/world_model.py:1218` | `def add_relation(self, source, target, relation, weight)` |
+| `add_service` | method | `modules/world_model.py:597` | `def add_service(self, svc)` |
+| `add_service` | method | `modules/world_model.py:836` | `def add_service(self, ip, port, name, version, protocol)` |
+| `add_vulnerability` | method | `modules/world_model.py:980` | `def add_vulnerability(self, description, host, cve, severity)` |
+| `advance` | method | `modules/world_model.py:601` | `def advance(self, new_state)` |
+| `advance_host` | method | `modules/world_model.py:827` | `def advance_host(self, ip, new_state)` |
+| `can_advance_to` | method | `modules/world_model.py:387` | `def can_advance_to(self, next_state)` |
+| `consume_policy_facts` | method | `modules/world_model.py:1079` | `def consume_policy_facts(self, facts_path)` |
+| `degree_centrality` | method | `modules/world_model.py:518` | `def degree_centrality(self)` |
+| `derive` | method | `modules/world_model.py:658` | `def derive(self, hosts)` |
+| `from_dict` | method | `modules/world_model.py:572` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/world_model.py:621` | `def from_dict(cls, d)` |
+| `get_host` | method | `modules/world_model.py:874` | `def get_host(self, ip)` |
+| `get_hosts_summary` | method | `modules/world_model.py:886` | `def get_hosts_summary(self)` |
+| `get_phase` | method | `modules/world_model.py:1254` | `def get_phase(self)` |
+| `get_suggested_tools` | method | `modules/world_model.py:1258` | `def get_suggested_tools(self)` |
+| `get_world_model` | function | `modules/world_model.py:1457` | `def get_world_model(path)` |
+| `graph_snapshot` | method | `modules/world_model.py:1247` | `def graph_snapshot(self)` |
+| `in_degree` | method | `modules/world_model.py:510` | `def in_degree(self, node)` |
+| `link_credential_to_failure` | method | `modules/world_model.py:950` | `def link_credential_to_failure(self, value, host)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

@@ -296,16 +296,16 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_gym` (method, line 41) `def do_gym(self, line)`
   - `_gym_collect` (method, line 99) `def _gym_collect(self, rest)`
   - `do_gym_ms2` (method, line 138) `def do_gym_ms2(self, line)`
-  - `_gym_list` (method, line 183) `def _gym_list(self)`
-  - `_gym_start` (method, line 217) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 293) `def _gym_submit(self, args)`
-  - `_format_elapsed` (method, line 341) `def _format_elapsed(seconds)`
-  - `_gym_status` (method, line 346) `def _gym_status(self, args)`
-  - `_gym_stop` (method, line 414) `def _gym_stop(self, args)`
-  - `_gym_leaderboard` (method, line 434) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 468) `def _gym_hint(self, args)`
-  - `_lab_notify` (function, line 235) `def _lab_notify(message)`
-- Depends on: `cli/commands/_base.py`, `modules/ctf_signalman.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
+  - `_gym_list` (method, line 184) `def _gym_list(self)`
+  - `_gym_start` (method, line 218) `def _gym_start(self, args)`
+  - `_gym_submit` (method, line 294) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 342) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 347) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 415) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 435) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 469) `def _gym_hint(self, args)`
+  - `_lab_notify` (function, line 236) `def _lab_notify(message)`
+- Depends on: `cli/commands/_base.py`, `modules/chain_registry.py`, `modules/ctf_signalman.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 - Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 
 ## cli/commands/resource_scripting.py

@@ -3,6 +3,10 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_mcp_tools_registry.py` | Contract for the one-file-per-tool MCP registry (``skills/mcp_tools``). | tests | 11 | 0 |
+| `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 52 | 0 |
+| `tests/test_memory_semantics.py` | BDD tests for hashing embeddings and hybrid episodic recall. | tests | 14 | 0 |
+| `tests/test_metasploitable_gym.py` | Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry. | tests | 6 | 0 |
 | `tests/test_metasploitable_migrations.py` | Unit tests for the Metasploitable 2 gym migrations module. | tests | 10 | 0 |
 | `tests/test_metrics.py` | Tests for ``modules/metrics.py``. | tests | 14 | 0 |
 | `tests/test_metrics_aware_selector.py` | Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``. | tests | 24 | 0 |
@@ -37,6 +41,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_pi_leg.py` | pi loop-leg contract tests. | tests | 15 | 0 |
 | `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
 | `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
+| `tests/test_planner_initial_access.py` | Deterministic initial-access intent: auto_pwn fires without an LLM. | tests | 9 | 0 |
 | `tests/test_playbook_admin.py` | Playbook YAML administration: scan, create, update, delete, validate. | tests | 6 | 0 |
 | `tests/test_playbook_chain.py` | Playbook lowering: phases[].steps[] actions and atomic tests become validated chains executed by... | tests | 10 | 0 |
 | `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
@@ -145,5 +150,5 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 115 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 127 | 116 |
 

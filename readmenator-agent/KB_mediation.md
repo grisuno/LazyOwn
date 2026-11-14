@@ -48,18 +48,15 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitRetryPort` (class, line 34) `class ExploitRetryPort(Protocol)`
-  - `ReactionPort` (class, line 51) `class ReactionPort(Protocol)`
-  - `ReasoningPort` (class, line 69) `class ReasoningPort(Protocol)`
-  - `EngineMediator` (class, line 84) `class EngineMediator`
-  - `retry_with_credentials` (method, line 37) `def retry_with_credentials(self, target, credentials)`
-  - `analyse` (method, line 54) `def analyse(self, output, command, platform)`
-  - `reason` (method, line 72) `def reason(self, target)`
-  - `describe` (method, line 89) `def describe(self)`
-  - `retry_with_credentials` (method, line 97) `def retry_with_credentials(self, target, credentials)`
-  - `analyse` (method, line 118) `def analyse(self, output, command, platform)`
-  - `reason` (method, line 136) `def reason(self, target)`
-- Depends on: `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/mediation/contracts.py`, `modules/reactive_engine.py`
+  - `ExploitRetryPort` (class, line 32) `class ExploitRetryPort(Protocol)`
+  - `ReactionPort` (class, line 49) `class ReactionPort(Protocol)`
+  - `EngineMediator` (class, line 66) `class EngineMediator`
+  - `retry_with_credentials` (method, line 35) `def retry_with_credentials(self, target, credentials)`
+  - `analyse` (method, line 52) `def analyse(self, output, command, platform)`
+  - `describe` (method, line 71) `def describe(self)`
+  - `retry_with_credentials` (method, line 79) `def retry_with_credentials(self, target, credentials)`
+  - `analyse` (method, line 100) `def analyse(self, output, command, platform)`
+- Depends on: `modules/autonomous_exploit_engine.py`, `modules/mediation/contracts.py`, `modules/reactive_engine.py`
 - Imported by: `modules/mediation/hub.py`, `tests/test_engine_mediator.py`
 
 ## modules/mediation/feedback_mediator.py

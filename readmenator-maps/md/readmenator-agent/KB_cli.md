@@ -29,33 +29,36 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_parse_admin_flags` (function, line 46) `def _parse_admin_flags(args, tokens)`
-  - `_token_name_ok` (function, line 77) `def _token_name_ok(name)`
-  - `ChainArgs` (class, line 83) `class ChainArgs`
-  - `parse_chain_args` (function, line 109) `def parse_chain_args(line)`
-  - `_set_value` (function, line 177) `def _set_value(args, flag, value)`
+  - `_apply_limit` (function, line 46) `def _apply_limit(args, value)`
+  - `_parse_admin_flags` (function, line 54) `def _parse_admin_flags(args, tokens)`
+  - `_token_name_ok` (function, line 82) `def _token_name_ok(name)`
+  - `ChainArgs` (class, line 88) `class ChainArgs`
+  - `parse_chain_args` (function, line 114) `def parse_chain_args(line)`
+  - `_set_value` (function, line 180) `def _set_value(args, flag, value)`
   - `_synth_from_playbook` (function, line 205) `def _synth_from_playbook(playbook, target)`
-  - `resolve_admin` (function, line 234) `def resolve_admin(args)`
-  - `select_step_ids` (function, line 369) `def select_step_ids(chain, args)`
-  - `adversarial_continue` (function, line 401) `def adversarial_continue(chain)`
-  - `render_result` (function, line 409) `def render_result(result)`
-  - `render_admin` (function, line 450) `def render_admin(payload, action)`
-  - `build_cli_approver` (function, line 528) `def build_cli_approver(printer, input_fn)`
-  - `_step_from_alternative` (function, line 550) `def _step_from_alternative(alternative, outcome, target)`
-  - `_observed_conditions` (function, line 567) `def _observed_conditions(target)`
-  - `build_adaptive_replanner` (function, line 588) `def build_adaptive_replanner()`
-  - `compose_replanners` (function, line 626) `def compose_replanners(replanners)`
-  - `build_reactive_replanner` (function, line 646) `def build_reactive_replanner()`
-  - `_decision_command` (function, line 671) `def _decision_command(decision)`
-  - `_step_from_decision` (function, line 680) `def _step_from_decision(command, outcome, executed_count)`
-  - `_recent_changes_block` (function, line 702) `def _recent_changes_block(target)`
-  - `build_llm_recovery_chain` (function, line 730) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 804) `def _platform()`
-  - `approve` (function, line 536) `def approve(step_id, command)`
-  - `replan` (function, line 601) `def replan(context)`
-  - `composed` (function, line 639) `def composed(context)`
-  - `replan` (function, line 649) `def replan(context)`
-- Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_approval.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/failure_verdict.py`, `modules/guardrails/__init__.py`, `modules/lazy_fallback.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`, `skills/lazyown_facts.py`
+  - `resolve_invocation` (function, line 234) `def resolve_invocation(positionals, target_seed, preset_target, playbook_engine, playbook_seed, policy)`
+  - `resolve_admin` (function, line 322) `def resolve_admin(args)`
+  - `select_step_ids` (function, line 457) `def select_step_ids(chain, args)`
+  - `adversarial_continue` (function, line 489) `def adversarial_continue(chain)`
+  - `render_result` (function, line 497) `def render_result(result)`
+  - `render_admin` (function, line 538) `def render_admin(payload, action)`
+  - `build_cli_approver` (function, line 616) `def build_cli_approver(printer, input_fn)`
+  - `_step_from_alternative` (function, line 638) `def _step_from_alternative(alternative, outcome, target)`
+  - `_observed_conditions` (function, line 655) `def _observed_conditions(target)`
+  - `build_adaptive_replanner` (function, line 676) `def build_adaptive_replanner()`
+  - `compose_replanners` (function, line 714) `def compose_replanners(replanners)`
+  - `build_reactive_replanner` (function, line 734) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 759) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 768) `def _step_from_decision(command, outcome, executed_count)`
+  - `_recent_changes_block` (function, line 790) `def _recent_changes_block(target)`
+  - `build_llm_recovery_chain` (function, line 818) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 892) `def _platform()`
+  - `chain_file_exists` (function, line 275) `def chain_file_exists(name)`
+  - `approve` (function, line 624) `def approve(step_id, command)`
+  - `replan` (function, line 689) `def replan(context)`
+  - `composed` (function, line 727) `def composed(context)`
+  - `replan` (function, line 737) `def replan(context)`
+- Depends on: `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/auto_registry.py`, `modules/chain_approval.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/failure_verdict.py`, `modules/guardrails/__init__.py`, `modules/lazy_fallback.py`, `modules/mediation/__init__.py`, `modules/playbook_chain.py`, `modules/reactive_engine.py`, `skills/lazyown_facts.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_playbook_chain.py`
 
 ## cli/assign.py
@@ -367,27 +370,24 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `NextStep` (class, line 132) `class NextStep`
   - `_normalise` (function, line 145) `def _normalise(name)`
   - `PrerequisiteRegistry` (class, line 156) `class PrerequisiteRegistry`
-  - `StaticNextRegistry` (class, line 177) `class StaticNextRegistry`
-  - `ServiceNextResolver` (class, line 193) `class ServiceNextResolver`
-  - `DynamicNextResolver` (class, line 219) `class DynamicNextResolver`
-  - `CommandChain` (class, line 335) `class CommandChain`
+  - `StaticNextRegistry` (class, line 171) `class StaticNextRegistry`
+  - `ServiceNextResolver` (class, line 187) `class ServiceNextResolver`
+  - `DynamicNextResolver` (class, line 213) `class DynamicNextResolver`
+  - `CommandChain` (class, line 329) `class CommandChain`
   - `to_dict` (method, line 139) `def to_dict(self)`
   - `__init__` (method, line 159) `def __init__(self, config)`
   - `prerequisites` (method, line 164) `def prerequisites(self, cmd)`
-  - `missing` (method, line 170) `def missing(self, cmd, history)`
-  - `next_for` (method, line 180) `def next_for(self, cmd)`
-  - `phase_priority` (method, line 186) `def phase_priority(self, phase)`
-  - `__init__` (method, line 196) `def __init__(self, config)`
-  - `followups` (method, line 201) `def followups(self, services)`
-  - `__init__` (method, line 222) `def __init__(self, config, static_registry, service_resolver, exploration_engine)`
-  - `resolve` (method, line 236) `def resolve(self, cmd, params, target, phase, limit)`
-  - `_ensure_engine` (method, line 308) `def _ensure_engine(self, params)`
-  - `_append` (method, line 318) `def _append(steps, seen, name, source, reason, history)`
-  - `__init__` (method, line 338) `def __init__(self, config, prerequisites, next_resolver)`
-  - `prev` (method, line 350) `def prev(self, cmd)`
-  - `missing_prerequisites` (method, line 355) `def missing_prerequisites(self, cmd, history)`
-  - `next` (method, line 360) `def next(self, cmd, params, target, phase, limit)`
-  - `chain` (method, line 372) `def chain(self, cmd, params, target, phase, limit)`
+  - `next_for` (method, line 174) `def next_for(self, cmd)`
+  - `phase_priority` (method, line 180) `def phase_priority(self, phase)`
+  - `__init__` (method, line 190) `def __init__(self, config)`
+  - `followups` (method, line 195) `def followups(self, services)`
+  - `__init__` (method, line 216) `def __init__(self, config, static_registry, service_resolver, exploration_engine)`
+  - `resolve` (method, line 230) `def resolve(self, cmd, params, target, phase, limit)`
+  - `_ensure_engine` (method, line 302) `def _ensure_engine(self, params)`
+  - `_append` (method, line 312) `def _append(steps, seen, name, source, reason, history)`
+  - `__init__` (method, line 332) `def __init__(self, config, prerequisites, next_resolver)`
+  - `prev` (method, line 344) `def prev(self, cmd)`
+  - `next` (method, line 349) `def next(self, cmd, params, target, phase, limit)`
 - Depends on: `cli/exploration.py`, `cli/reactive_hints.py`
 - Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/mcp_tools/command_next.py`, `skills/mcp_tools/command_prev.py`, `tests/test_command_chain.py`
 

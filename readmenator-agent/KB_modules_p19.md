@@ -1,6 +1,31 @@
 # Subsystem: modules (page 19 of 19)
 Previous: [KB_modules_p18.md](KB_modules_p18.md)
 
+## modules/verb_manifest.py
+- Doc: Typed verb manifests - semantics for routable shell verbs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ManifestCost` (class, line 93) `class ManifestCost`
+  - `ManifestNoise` (class, line 108) `class ManifestNoise`
+  - `FactPredicate` (class, line 123) `class FactPredicate`
+  - `VerbManifest` (class, line 188) `class VerbManifest`
+  - `parse_predicate` (function, line 222) `def parse_predicate(data)`
+  - `_parse_cost` (function, line 254) `def _parse_cost(data)`
+  - `_parse_noise` (function, line 276) `def _parse_noise(data)`
+  - `parse_manifest` (function, line 296) `def parse_manifest(verb, data)`
+  - `_load_document` (function, line 338) `def _load_document(path)`
+  - `manifests` (function, line 371) `def manifests(path)`
+  - `manifest_for` (function, line 396) `def manifest_for(verb, path)`
+  - `facts_for_target` (function, line 411) `def facts_for_target(host)`
+  - `plan_check` (function, line 467) `def plan_check(steps, tokens, path, facts)`
+  - `coverage` (function, line 522) `def coverage(total_verbs, path)`
+  - `args` (method, line 152) `def args(self)`
+  - `is_wild` (method, line 156) `def is_wild(self, key)`
+  - `matches` (method, line 161) `def matches(self, other)`
+- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+- Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+
 ## modules/vuln_bot_cli.py
 - Layer: utility
 - Language: py
@@ -224,22 +249,22 @@ Previous: [KB_modules_p18.md](KB_modules_p18.md)
   - `read_section` (method, line 1412) `def read_section(self, key)`
   - `write_section` (method, line 1429) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`, `tests/conftest.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
-- Doc: load_payload: Carga las variables desde payload.json
+- Doc: load_payload: Carga las variables desde payload.json (canonical loader).
 - Layer: utility
 - Language: py
 - Symbols:
   - `YAMLPromptGenerator` (class, line 17) `class YAMLPromptGenerator`
-  - `main` (function, line 141) `def main()`
+  - `main` (function, line 139) `def main()`
   - `__init__` (method, line 18) `def __init__(self, provider, api_key)`
-  - `load_payload` (method, line 25) `def load_payload(self)`
-  - `_load_model` (method, line 32) `def _load_model(self)`
-  - `generate_prompt` (method, line 54) `def generate_prompt(self, user_request)`
-  - `extract_yaml_from_markdown` (method, line 100) `def extract_yaml_from_markdown(self, text)`
-  - `create_yaml_addon` (method, line 109) `def create_yaml_addon(self, user_request, output_dir)`
-- Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
+  - `load_payload` (method, line 24) `def load_payload(self)`
+  - `_load_model` (method, line 30) `def _load_model(self)`
+  - `generate_prompt` (method, line 52) `def generate_prompt(self, user_request)`
+  - `extract_yaml_from_markdown` (method, line 98) `def extract_yaml_from_markdown(self, text)`
+  - `create_yaml_addon` (method, line 107) `def create_yaml_addon(self, user_request, output_dir)`
+- Depends on: `core/config.py`, `modules/ai_model.py`, `modules/llm_factory.py`
 
 ## modules/yara_scanner.py
 - Doc: YARA integration for malware classification and IOC scanning.

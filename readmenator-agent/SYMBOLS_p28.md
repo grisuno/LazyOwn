@@ -1,31 +1,8 @@
-# Symbols (page 28 of 53)
+# Symbols (page 28 of 52)
 Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `sync` | method | `skills/lazyown_parquet_db.py:316` | `def sync(self, csv_path)` |
-| `train_classifier` | method | `skills/lazyown_parquet_db.py:750` | `def train_classifier(self, min_rows)` |
-| `verify_model_integrity` | function | `skills/lazyown_parquet_db.py:894` | `def verify_model_integrity(model_path, encoder_path, hash_path)` |
-| `PermissionMode` | class | `skills/lazyown_permissions.py:18` | `class PermissionMode(Enum)` |
-| `PermissionRule` | class | `skills/lazyown_permissions.py:29` | `class PermissionRule` |
-| `PermissionSystem` | class | `skills/lazyown_permissions.py:91` | `class PermissionSystem` |
-| `__init__` | method | `skills/lazyown_permissions.py:103` | `def __init__(self, sessions_dir)` |
-| `_audit` | method | `skills/lazyown_permissions.py:132` | `def _audit(self, tool, decision, reason, args)` |
-| `_load` | method | `skills/lazyown_permissions.py:113` | `def _load(self)` |
-| `_matches` | method | `skills/lazyown_permissions.py:219` | `def _matches(self, rule, tool_name, args)` |
-| `_save` | method | `skills/lazyown_permissions.py:124` | `def _save(self)` |
-| `add_rule` | method | `skills/lazyown_permissions.py:145` | `def add_rule(self, tool_pattern, action, condition, description)` |
-| `evaluate` | method | `skills/lazyown_permissions.py:167` | `def evaluate(self, tool_name, arguments)` |
-| `list_rules` | method | `skills/lazyown_permissions.py:162` | `def list_rules(self)` |
-| `metrics` | method | `skills/lazyown_permissions.py:237` | `def metrics(self)` |
-| `remove_rule` | method | `skills/lazyown_permissions.py:151` | `def remove_rule(self, tool_pattern, action)` |
-| `set_mode` | method | `skills/lazyown_permissions.py:157` | `def set_mode(self, mode)` |
-| `status_text` | method | `skills/lazyown_permissions.py:279` | `def status_text(self)` |
-| `to_dict` | method | `skills/lazyown_permissions.py:36` | `def to_dict(self)` |
-| `ActionCategory` | class | `skills/lazyown_policy.py:131` | `class ActionCategory(StrEnum)` |
-| `ApprovalDecision` | class | `skills/lazyown_policy.py:1326` | `class ApprovalDecision(StrEnum)` |
-| `ApprovalGate` | class | `skills/lazyown_policy.py:1606` | `class ApprovalGate` |
-| `ApprovalOutcome` | class | `skills/lazyown_policy.py:1356` | `class ApprovalOutcome` |
 | `ApprovalRequest` | class | `skills/lazyown_policy.py:1335` | `class ApprovalRequest` |
 | `BroadcastApprovalSink` | class | `skills/lazyown_policy.py:1455` | `class BroadcastApprovalSink(IApprovalSink)` |
 | `CSVSessionReader` | class | `skills/lazyown_policy.py:843` | `class CSVSessionReader` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `_gen_ligolo` | function | `skills/mcp_generated_tools.py:3346` | `def _gen_ligolo(arguments, tool_name, _cmd)` |
 | `_gen_links` | function | `skills/mcp_generated_tools.py:3354` | `def _gen_links(arguments, tool_name, _cmd)` |
 | `_gen_linpeas` | function | `skills/mcp_generated_tools.py:3362` | `def _gen_linpeas(arguments, tool_name, _cmd)` |
+| `_gen_list` | function | `skills/mcp_generated_tools.py:3370` | `def _gen_list(arguments, tool_name, _cmd)` |
+| `_gen_listaliases` | function | `skills/mcp_generated_tools.py:3378` | `def _gen_listaliases(arguments, tool_name, _cmd)` |
+| `_gen_listener` | function | `skills/mcp_generated_tools.py:3386` | `def _gen_listener(arguments, tool_name, _cmd)` |
+| `_gen_listener_go` | function | `skills/mcp_generated_tools.py:3394` | `def _gen_listener_go(arguments, tool_name, _cmd)` |
+| `_gen_listener_py` | function | `skills/mcp_generated_tools.py:3402` | `def _gen_listener_py(arguments, tool_name, _cmd)` |
+| `_gen_llm_budget` | function | `skills/mcp_generated_tools.py:3410` | `def _gen_llm_budget(arguments, tool_name, _cmd)` |
+| `_gen_load_session` | function | `skills/mcp_generated_tools.py:3418` | `def _gen_load_session(arguments, tool_name, _cmd)` |
+| `_gen_lock_target` | function | `skills/mcp_generated_tools.py:3426` | `def _gen_lock_target(arguments, tool_name, _cmd)` |
+| `_gen_login` | function | `skills/mcp_generated_tools.py:3434` | `def _gen_login(arguments, tool_name, _cmd)` |
+| `_gen_logout` | function | `skills/mcp_generated_tools.py:3442` | `def _gen_logout(arguments, tool_name, _cmd)` |
+| `_gen_lol` | function | `skills/mcp_generated_tools.py:3450` | `def _gen_lol(arguments, tool_name, _cmd)` |
+| `_gen_lookupsid` | function | `skills/mcp_generated_tools.py:3458` | `def _gen_lookupsid(arguments, tool_name, _cmd)` |
+| `_gen_lookupsid_py` | function | `skills/mcp_generated_tools.py:3466` | `def _gen_lookupsid_py(arguments, tool_name, _cmd)` |
+| `_gen_loot` | function | `skills/mcp_generated_tools.py:3474` | `def _gen_loot(arguments, tool_name, _cmd)` |
+| `_gen_loxs` | function | `skills/mcp_generated_tools.py:3482` | `def _gen_loxs(arguments, tool_name, _cmd)` |
+| `_gen_lynis` | function | `skills/mcp_generated_tools.py:3490` | `def _gen_lynis(arguments, tool_name, _cmd)` |
+| `_gen_macos_keychain` | function | `skills/mcp_generated_tools.py:3498` | `def _gen_macos_keychain(arguments, tool_name, _cmd)` |
+| `_gen_macos_persist` | function | `skills/mcp_generated_tools.py:3506` | `def _gen_macos_persist(arguments, tool_name, _cmd)` |
+| `_gen_macos_tcc` | function | `skills/mcp_generated_tools.py:3514` | `def _gen_macos_tcc(arguments, tool_name, _cmd)` |
+| `_gen_magicrecon` | function | `skills/mcp_generated_tools.py:3522` | `def _gen_magicrecon(arguments, tool_name, _cmd)` |
+| `_gen_makerc` | function | `skills/mcp_generated_tools.py:3530` | `def _gen_makerc(arguments, tool_name, _cmd)` |
+| `_gen_malwarebazar` | function | `skills/mcp_generated_tools.py:3538` | `def _gen_malwarebazar(arguments, tool_name, _cmd)` |
+| `_gen_marketplace` | function | `skills/mcp_generated_tools.py:3546` | `def _gen_marketplace(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

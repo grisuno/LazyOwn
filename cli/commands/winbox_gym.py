@@ -406,9 +406,10 @@ class WinboxCommandSet(LazyOwnCommandSet):
             if chain is None:
                 print_error(f"Unknown lab vector: {args[1]}")
                 return
-            for step in chain.resolve({"target": "TARGET", "lhost": "LHOST", "lport": "4444"}):
-                status = "skip" if step["skipped"] else "run"
-                print(f"[{status}] {step['run']} {step['reason']}".strip())
+            from modules.chain_registry import chain_preview_lines
+
+            for line in chain_preview_lines(chain):
+                print(line)
             return
         if action in ("plan", "run", "report", "verify"):
             self._gym_matrix(action, args[1:])

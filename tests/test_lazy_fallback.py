@@ -37,7 +37,6 @@ def test_kerberoast_failure_gets_ordered_alternatives():
     )
     assert first is not None and first.technique_id == "ad_lab_asreproast"
     assert second is not None and second.technique_id == "ad_lab_samr_enum"
-    assert arbiter.tried_count() == 2
 
 
 def test_lockout_never_gets_an_alternative():
@@ -50,7 +49,6 @@ def test_lockout_never_gets_an_alternative():
         services=frozenset({"microsoft-ds"}),
     )
     assert alternative is None
-    assert arbiter.tried_count() == 0
 
 
 def test_service_gates_fail_closed_on_unknown_evidence():

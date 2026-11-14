@@ -31,7 +31,7 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Language: py
 - Symbols:
   - `handle` (function, line 65) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+- Depends on: `modules/lazy_engine.py`, `modules/loop_limits.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/manage_permissions.py
 - Doc: MCP tool ``lazyown_manage_permissions`` (migrated from the call_tool dispatch chain).

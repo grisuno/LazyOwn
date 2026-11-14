@@ -113,7 +113,7 @@ Return one vulnerability by id, or None.
 
 *Calls:* [`vulnerabilities`](#vulnerabilities)
 
-*Called by:* [`RedTeamGymCommandSet.do_gym_ms2`](cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym_ms2), [`chain_for`](#chain_for), [`exploit_for`](#exploit_for)
+*Called by:* [`chain_for`](#chain_for), [`exploit_for`](#exploit_for)
 
 ---
 

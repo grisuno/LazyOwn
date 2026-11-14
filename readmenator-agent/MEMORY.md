@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1622 files at commit `f0e3b81c873b`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1627 files at commit `b03f8662db72`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `one` (602), `modules` (596), `lazy` (575), `command` (573), `file` (527), `run` (515), `not` (498), `path` (492), `without` (468), `json` (460), `name` (451), `all` (436), `own` (425), `chain` (416), `cli` (406)
-- Subsystem `skills/mcp_tools`: 222 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 148 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazyc2`: 142 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `modules: lazy_loop`: 138 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `cli`: 129 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
-- Subsystem `modules: lazyown`: 104 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: lazyown_facts`: 101 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
-- Subsystem `modules: autonomous_exploit_engine`: 93 files, core `modules/autonomous_exploit_engine.py`: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
+- Domain vocabulary (term, files): `one` (604), `modules` (601), `lazy` (577), `command` (575), `file` (530), `run` (518), `not` (500), `path` (493), `without` (468), `json` (460), `name` (453), `all` (434), `own` (425), `chain` (415), `cli` (409)
+- Subsystem `skills/mcp_tools`: 206 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Subsystem `modules: lazy_loop`: 166 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `cli/commands`: 139 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyown`: 139 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: lazyc2`: 135 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `cli`: 123 files, core `cli/marketplace_config.py`: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
+- Subsystem `modules: world_model`: 99 files, core `modules/world_model.py`: modules/world_model.py
+- Subsystem `modules: lazyown_facts`: 63 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 154; layer violations: 71 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 156; layer violations: 71 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1485 files, 23353 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 160 lines, max 11523.
+- py: 1490 files, 23350 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 160 lines, max 11497.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1558.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 24 files, 1639 symbols; docstrings on 48% of symbols; functions snake_case (46%); types PascalCase (27%); median file 7 lines, max 9358.
-- Tests: 473 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 475 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,7 +98,7 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 54%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 154).
+- No new dependency cycles (current: 156).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
@@ -147,4 +147,6 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-11-13 [decision] auto_loop agentic workers now receive the LazyOwn verb catalog and must run intent verb lines verbatim (no invented external binaries like atomic-test-runner)
 - 2026-11-13 [decision] scan reuse: _steps_for replaces lazynmap with auto_populate when sessions scan XML is fresh (limits.scan_reuse_sec, default 21600, stealth 86400); stealth/pentest mode forbids full-port -p- sweeps
 - 2026-11-13 [decision] gym blueprint lazyc2/blueprints/gym.py owns /api/gym/* endpoints; viz gym nodes use static/gym.png and node menu offers Stop gym; loops API moved to lazyc2/blueprints/loops.py with injectable guard
+- 2026-11-13 [decision] Deduplicated auto_loop and apt_chain into single contracts: run_loop_command (lazy_runner) behind lazy_loop/auto_loop/MCP; loop_limits module for loop caps; step_gate_verdict + render_text in chain_registry; resolve_invocation in apt_chain_support (strict=CLI, lenient=loop); nmap_fingerprint for shared ServiceInfo+XML parsing; service_aliases module; engine JSONL+mediation helpers in lazy_loop; deleted 20+ prod-dead symbols; MCP auto_loop routes through runner gates; mutation runner abort_ign...
+- 2026-11-13 [decision] Real-loop regression fixed (t0225-t0231): (1) agent path starved the intent - run_worker_session burned the whole wall clock on a dead LLM (300s per-turn default vs 75s intent) and _agentic_try returned True with zero executed tools, suppressing the deterministic layer (auto_pwn + auto_registry verbs); fixed with epoch turn-deadline clamp in lazy_agent and zero-tools/expired gates in worker_agentic. (2) create_task inserted payload scope before goal-named targets so resolve_target attacked st...
 <!-- readmenator:memory:notes:end -->

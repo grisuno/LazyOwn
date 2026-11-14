@@ -15,8 +15,6 @@ Ports:
   autonomous exploit engine's retry queue (credential reuse).
 - :class:`ReactionPort` — reactive-engine analysis of step output into
   next-action decisions.
-- :class:`ReasoningPort` — exploit-chain strategy reasoning (direct,
-  brute-force, path-traversal, ...) over a target profile.
 
 Failure semantics: every port call degrades to a no-op answer (empty
 list, empty string) when its engine import fails, so a missing engine
@@ -65,22 +63,6 @@ class ReactionPort(Protocol):
         ...
 
 
-@runtime_checkable
-class ReasoningPort(Protocol):
-    """Request-port for exploit-chain strategy reasoning."""
-
-    def reason(self, target: str) -> Any:
-        """Return the next exploit strategy for a target.
-
-        Args:
-            target: Host under test.
-
-        Returns:
-            The strategy decision, or None when unavailable.
-        """
-        ...
-
-
 class EngineMediator:
     """Mediate engine access for the autonomous loop and CLI surfaces."""
 
@@ -90,8 +72,8 @@ class EngineMediator:
         """Return introspection metadata for diagnostics."""
         return {
             "domain": self.domain,
-            "ports": ["exploit_retry", "reaction", "reasoning"],
-            "engines": ["autonomous_exploit_engine", "reactive_engine", "ai_exploit_chain"],
+            "ports": ["exploit_retry", "reaction"],
+            "engines": ["autonomous_exploit_engine", "reactive_engine"],
         }
 
     def retry_with_credentials(self, target: str, credentials: list[dict]) -> int:
@@ -133,35 +115,4 @@ class EngineMediator:
         except Exception:
             return []
 
-    def reason(self, target: str) -> Any:
-        """Return the exploit-chain strategy for a target.
-
-        Args:
-            target: Host under test.
-
-        Returns:
-            The chainer's strategy decision, or None when unavailable.
-        """
-        if not str(target or "").strip():
-            return None
-        try:
-            from modules.ai_exploit_chain import AIExploitChainer, ExploitChainContext
-            from modules.autonomous_exploit_engine import AutonomousExploitEngine
-
-            profile = AutonomousExploitEngine().profile(str(target).strip())
-            chainer = AIExploitChainer()
-            context = ExploitChainContext(
-                target=str(target).strip(),
-                profile=profile,
-                attempted=[],
-                available_strategies=chainer.build_chain_plan(
-                    ExploitChainContext(target=str(target).strip(), profile=profile)
-                ),
-                current_phase="recon",
-            )
-            return chainer.reason(context)
-        except Exception:
-            return None
-
-
-__all__ = ["EngineMediator", "ExploitRetryPort", "ReactionPort", "ReasoningPort"]
+__all__ = ["EngineMediator", "ExploitRetryPort", "ReactionPort"]

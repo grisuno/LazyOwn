@@ -502,7 +502,7 @@ Usage:
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`ExploitHit`](cli.exploit_advisor.py.md#exploithit), [`ServiceInfo`](cli.exploit_advisor.py.md#serviceinfo), [`ServiceResult`](cli.exploit_advisor.py.md#serviceresult), [`find_nmap_xml`](cli.exploit_advisor.py.md#find_nmap_xml), [`inject_exploit_tasks`](cli.exploit_advisor.py.md#inject_exploit_tasks), [`parse_nmap_xml`](cli.exploit_advisor.py.md#parse_nmap_xml), [`print_exploit_summary`](cli.exploit_advisor.py.md#print_exploit_summary), [`save_ss_results`](cli.exploit_advisor.py.md#save_ss_results), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`is_binary_present`](core.process.py.md#is_binary_present) and 7 more
+*Calls:* [`ExploitHit`](cli.exploit_advisor.py.md#exploithit), [`ServiceResult`](cli.exploit_advisor.py.md#serviceresult), [`inject_exploit_tasks`](cli.exploit_advisor.py.md#inject_exploit_tasks), [`print_exploit_summary`](cli.exploit_advisor.py.md#print_exploit_summary), [`save_ss_results`](cli.exploit_advisor.py.md#save_ss_results), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`is_binary_present`](core.process.py.md#is_binary_present), [`check_rhost`](core.validators.py.md#check_rhost), [`find_nmap_xml`](modules.nmap_fingerprint.py.md#find_nmap_xml), [`parse_nmap_xml`](modules.nmap_fingerprint.py.md#parse_nmap_xml) and 6 more
 
 <a id="reconcommandset-do_wfuzz"></a>
 

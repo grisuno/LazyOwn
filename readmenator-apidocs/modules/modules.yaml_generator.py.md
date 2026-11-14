@@ -45,7 +45,7 @@ class YAMLPromptGenerator
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#yamlpromptgenerator-__init__) | constructor |  |
-| [`load_payload`](#yamlpromptgenerator-load_payload) | method | Carga las variables desde payload.json |
+| [`load_payload`](#yamlpromptgenerator-load_payload) | method | Carga las variables desde payload.json (canonical loader). |
 | [`generate_prompt`](#yamlpromptgenerator-generate_prompt) | method | Genera el prompt para la IA en inglés |
 | [`extract_yaml_from_markdown`](#yamlpromptgenerator-extract_yaml_from_markdown) | method | Extrae el primer bloque YAML entre ```yaml y ``` |
 | [`create_yaml_addon`](#yamlpromptgenerator-create_yaml_addon) | method | Genera el YAML y lo guarda en disco |
@@ -75,19 +75,15 @@ def __init__(self, provider: str = 'groq', api_key: str | None = None)
 
 #### `YAMLPromptGenerator.load_payload`
 
-`method` | [modules/yaml_generator.py:25](../../modules/yaml_generator.py#L25)
+`method` | [modules/yaml_generator.py:24](../../modules/yaml_generator.py#L24)
 
 ```python
 def load_payload(self) -> dict
 ```
 
-Carga las variables desde payload.json
+Carga las variables desde payload.json (canonical loader).
 
 **Returns:** `dict`
-
-**Raises**
-
-- `FileNotFoundError`: (raised in the body, not documented)
 
 *Called by:* [`YAMLPromptGenerator.__init__`](#yamlpromptgenerator-__init__)
 
@@ -95,7 +91,7 @@ Carga las variables desde payload.json
 
 #### `YAMLPromptGenerator.generate_prompt`
 
-`method` | [modules/yaml_generator.py:54](../../modules/yaml_generator.py#L54)
+`method` | [modules/yaml_generator.py:52](../../modules/yaml_generator.py#L52)
 
 ```python
 def generate_prompt(self, user_request: str) -> str
@@ -117,7 +113,7 @@ Genera el prompt para la IA en inglés
 
 #### `YAMLPromptGenerator.extract_yaml_from_markdown`
 
-`method` | [modules/yaml_generator.py:100](../../modules/yaml_generator.py#L100)
+`method` | [modules/yaml_generator.py:98](../../modules/yaml_generator.py#L98)
 
 ```python
 def extract_yaml_from_markdown(self, text: str) -> str
@@ -143,7 +139,7 @@ Extrae el primer bloque YAML entre ```yaml y ```
 
 #### `YAMLPromptGenerator.create_yaml_addon`
 
-`method` | [modules/yaml_generator.py:109](../../modules/yaml_generator.py#L109)
+`method` | [modules/yaml_generator.py:107](../../modules/yaml_generator.py#L107)
 
 ```python
 def create_yaml_addon(self, user_request: str, output_dir: str = 'lazyaddons') -> str
@@ -172,7 +168,7 @@ Genera el YAML y lo guarda en disco
 
 ### `main`
 
-`function` | [modules/yaml_generator.py:141](../../modules/yaml_generator.py#L141)
+`function` | [modules/yaml_generator.py:139](../../modules/yaml_generator.py#L139)
 
 ```python
 def main()

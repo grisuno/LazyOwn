@@ -151,10 +151,21 @@ class ObservableAgentRunner(AgentRunner):
         system_prompt: str = "",
         max_iterations: int = DEFAULT_MAX_ITERATIONS,
         on_event: Callable[[str, str, str], None] | None = None,
+        turn_timeout: float = 0.0,
     ) -> None:
-        """Bind the model and the optional event sink (kind, name, text)."""
+        """Bind the model and the optional event sink (kind, name, text).
+
+        Args:
+            model: Raw tool-calling backend.
+            system_prompt: Invariant system contract.
+            max_iterations: Upper bound on tool-call turns.
+            on_event: Optional (kind, name, text) observer.
+            turn_timeout: Optional wall-clock clamp (seconds) applied to
+                the whole session; 0 keeps the configured default.
+        """
         super().__init__(model, system_prompt, max_iterations)
         self._on_event = on_event or (lambda kind, name, text: None)
+        self._turn_deadline = (time.time() + float(turn_timeout)) if turn_timeout and turn_timeout > 0.0 else 0.0
 
     def _process_tool_call(self, tool_call) -> None:
         """Run the tool through the base runner, then report the result."""
@@ -201,13 +212,19 @@ class ObservableAgentRunner(AgentRunner):
 
         worker = threading.Thread(target=_invoke, daemon=True)
         ticker = threading.Thread(target=_tick, daemon=True)
+        timeout = model_timeout_sec()
+        if self._turn_deadline > 0.0:
+            remaining = self._turn_deadline - time.time()
+            if remaining <= 5.0:
+                raise TimeoutError("model turn skipped: session wall clock exhausted")
+            timeout = min(remaining, timeout)
         worker.start()
         ticker.start()
         try:
-            worker.join(timeout=model_timeout_sec())
+            worker.join(timeout=timeout)
             if worker.is_alive():
                 raise TimeoutError(
-                    f"model {model_name} exceeded {model_timeout_sec():.0f}s without reply; failing over"
+                    f"model {model_name} exceeded {timeout:.0f}s without reply; failing over"
                 )
             if "error" in outcome:
                 raise outcome["error"]
@@ -340,6 +357,7 @@ def run_worker_session(
     launch_prompt: str,
     tools: Iterable[dict],
     on_event: Callable[[str, str, str], None] | None = None,
+    turn_timeout: float = 0.0,
 ) -> dict:
     """Run one agentic intent attempt with resume seeding.
 
@@ -351,11 +369,15 @@ def run_worker_session(
         launch_prompt: The user turn for this attempt.
         tools: Tool specs registered on the runner.
         on_event: Optional (kind, name, text) observer.
+        turn_timeout: Wall-clock clamp (seconds) for every model turn;
+            0 keeps the configured ``agent_model_timeout``.
 
     Returns:
         Dict with reply, tool usage and persisted message count.
     """
-    runner = ObservableAgentRunner(model, system_prompt, max_iterations=max_iterations(), on_event=on_event)
+    runner = ObservableAgentRunner(
+        model, system_prompt, max_iterations=max_iterations(), on_event=on_event, turn_timeout=turn_timeout
+    )
     _enable_streaming(runner, on_event)
     register_tools(runner, tools)
     store = ConversationStore(task_id)

@@ -1,25 +1,6 @@
 # Subsystem: modules (page 4 of 19)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
-## modules/cicd_enumerator.py
-- Doc: CI/CD Pipeline Enumeration Module.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CICDFinding` (class, line 33) `class CICDFinding`
-  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
-  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
-  - `scan` (method, line 60) `def scan(self)`
-  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
-  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
-  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
-  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
-  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
-  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
-  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
-  - `export_findings` (method, line 387) `def export_findings(self)`
-- Imported by: `cli/commands/cicd.py`
-
 ## modules/cli_auth.py
 - Doc: CLI authentication module — login against users.json with remember-me.
 - Layer: utility
@@ -323,18 +304,19 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_check_kerberos_ticket` (function, line 149) `def _check_kerberos_ticket(output)`
   - `_check_domain_enum` (function, line 162) `def _check_domain_enum(output)`
   - `_check_smb_shares` (function, line 175) `def _check_smb_shares(output)`
-  - `_expected_checkers` (function, line 214) `def _expected_checkers(entry)`
-  - `capture` (function, line 245) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
-  - `_publish_capture_outcome` (function, line 310) `def _publish_capture_outcome(record)`
-  - `record_path` (function, line 333) `def record_path(vuln_id, sessions_dir)`
-  - `_safe_dir` (function, line 346) `def _safe_dir(vuln_id)`
-  - `store_record` (function, line 359) `def store_record(record, sessions_dir)`
-  - `list_records` (function, line 377) `def list_records(sessions_dir)`
-  - `summary` (function, line 400) `def summary(sessions_dir)`
-  - `_gather_evidence` (function, line 427) `def _gather_evidence(candidates)`
-  - `_cli_capture` (function, line 451) `def _cli_capture(argv)`
+  - `evaluate_exploit_output` (function, line 203) `def evaluate_exploit_output(output)`
+  - `_expected_checkers` (function, line 244) `def _expected_checkers(entry)`
+  - `capture` (function, line 275) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
+  - `_publish_capture_outcome` (function, line 340) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 363) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 376) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 389) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 407) `def list_records(sessions_dir)`
+  - `summary` (function, line 430) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 457) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 481) `def _cli_capture(argv)`
 - Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
-- Imported by: `tests/test_ctf_signalman.py`
+- Imported by: `modules/autonomous_exploit_engine.py`, `tests/test_auto_pwn_success.py`, `tests/test_ctf_signalman.py`
 
 ## modules/ctf_signalman.py
 - Doc: CTF signalman: one scoreboard for every recorded capture.
@@ -364,8 +346,9 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `get_tool` (function, line 114) `def get_tool(name)`
   - `_trigger_tokens` (function, line 122) `def _trigger_tokens(raw)`
   - `match_tools` (function, line 128) `def match_tools(text, limit)`
-  - `run_tool` (function, line 151) `def run_tool(name, arg, on_output)`
-  - `_run_http` (function, line 179) `def _run_http(tool, arg, on_output)`
+  - `run_custom_tool_line` (function, line 151) `def run_custom_tool_line(command, on_output)`
+  - `run_tool` (function, line 170) `def run_tool(name, arg, on_output)`
+  - `_run_http` (function, line 198) `def _run_http(tool, arg, on_output)`
 - Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
 
@@ -453,6 +436,51 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
   - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
 - Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
+
+## modules/db.py
+- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
+  - `get_db` (function, line 821) `def get_db(db_path)`
+  - `__init__` (method, line 159) `def __init__(self, db_path)`
+  - `_get_conn` (method, line 171) `def _get_conn(self)`
+  - `db_path` (method, line 182) `def db_path(self)`
+  - `_init_schema` (method, line 186) `def _init_schema(self)`
+  - `_current_version` (method, line 192) `def _current_version(self)`
+  - `_run_migrations` (method, line 197) `def _run_migrations(self)`
+  - `migration_status` (method, line 222) `def migration_status(self)`
+  - `_cursor` (method, line 235) `def _cursor(self)`
+  - `_maybe_encrypt` (method, line 251) `def _maybe_encrypt(self, value)`
+  - `_maybe_decrypt` (method, line 273) `def _maybe_decrypt(self, value)`
+  - `workspace_create` (method, line 292) `def workspace_create(self, name, description)`
+  - `workspace_list` (method, line 307) `def workspace_list(self)`
+  - `workspace_get` (method, line 313) `def workspace_get(self, name)`
+  - `default_workspace` (method, line 320) `def default_workspace(self, name)`
+  - `workspace_delete` (method, line 333) `def workspace_delete(self, name)`
+  - `host_add` (method, line 357) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
+  - `host_delete` (method, line 390) `def host_delete(self, host_id)`
+  - `host_list` (method, line 401) `def host_list(self, workspace_id)`
+  - `host_find` (method, line 410) `def host_find(self, workspace_id, query)`
+  - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
+  - `service_list` (method, line 447) `def service_list(self, host_id)`
+  - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
+  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
+  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
+  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
+  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
+  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
+  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
+  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
+  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
+  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
+  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
+  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
+  - `status` (method, line 775) `def status(self, workspace_id)`
+  - `close` (method, line 804) `def close(self)`
+- Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

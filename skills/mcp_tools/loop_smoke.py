@@ -8,13 +8,13 @@ from typing import Any
 from mcp import types
 
 from mcp_tools._context import MCPContext
+from modules.loop_limits import MAX_WORKERS
 
 _DEFAULT_MEMBER = "llamacpp-local"
 _DEFAULT_MODEL = "llamacpp:local-model"
 _DEFAULT_ROUNDS = 4
 _MAX_ROUNDS = 12
 _DEFAULT_WORKERS = 2
-_MAX_WORKERS = 5
 _MEMBER_PRIORITY = 10
 
 TOOL = types.Tool(
@@ -74,7 +74,7 @@ def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext) -> list:
     except (TypeError, ValueError):
         rounds = _DEFAULT_ROUNDS
     try:
-        workers = max(1, min(_MAX_WORKERS, int(arguments.get("workers", _DEFAULT_WORKERS) or _DEFAULT_WORKERS)))
+        workers = max(1, min(MAX_WORKERS, int(arguments.get("workers", _DEFAULT_WORKERS) or _DEFAULT_WORKERS)))
     except (TypeError, ValueError):
         workers = _DEFAULT_WORKERS
     goal = str(arguments.get("goal", "") or f"gain initial access on {target}").strip()

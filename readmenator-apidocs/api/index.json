@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 1133,
-  "entities": 17504,
+  "modules": 1136,
+  "entities": 17445,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,42 +13,42 @@
    "js": 9,
    "lua": 26,
    "php": 4,
-   "py": 1014,
+   "py": 1017,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4689,
-   "class": 1512,
+   "attribute": 4655,
+   "class": 1505,
    "classmethod": 85,
-   "constant": 1800,
-   "constructor": 548,
+   "constant": 1802,
+   "constructor": 547,
    "enum": 41,
    "exception": 43,
    "function": 3407,
    "macro": 114,
-   "method": 3764,
-   "module": 1133,
+   "method": 3743,
+   "module": 1136,
    "property": 212,
-   "protocol": 24,
+   "protocol": 23,
    "staticmethod": 96,
    "struct": 20,
    "type_alias": 4,
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 489,
+  "skipped_files": 491,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 8515,
-   "total": 11003,
-   "percent": 77.4
+   "documented": 8489,
+   "total": 10976,
+   "percent": 77.3
   },
   "by_kind": {
    "class": {
-    "documented": 1322,
-    "total": 1512,
+    "documented": 1315,
+    "total": 1505,
     "percent": 87.4
    },
    "classmethod": {
@@ -57,9 +57,9 @@
     "percent": 69.4
    },
    "constructor": {
-    "documented": 230,
-    "total": 548,
-    "percent": 42.0
+    "documented": 229,
+    "total": 547,
+    "percent": 41.9
    },
    "enum": {
     "documented": 32,
@@ -82,23 +82,23 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 3075,
-    "total": 3764,
-    "percent": 81.7
+    "documented": 3054,
+    "total": 3743,
+    "percent": 81.6
    },
    "module": {
-    "documented": 1002,
-    "total": 1133,
-    "percent": 88.4
+    "documented": 1005,
+    "total": 1136,
+    "percent": 88.5
    },
    "property": {
-    "documented": 168,
+    "documented": 169,
     "total": 212,
-    "percent": 79.2
+    "percent": 79.7
    },
    "protocol": {
-    "documented": 24,
-    "total": 24,
+    "documented": 23,
+    "total": 23,
     "percent": 100.0
    },
    "staticmethod": {
@@ -164,8 +164,8 @@
     "percent": 100.0
    },
    "cli/apt_chain_support.py": {
-    "documented": 12,
-    "total": 12,
+    "documented": 13,
+    "total": 13,
     "percent": 100.0
    },
    "cli/assign.py": {
@@ -199,8 +199,8 @@
     "percent": 54.7
    },
    "cli/command_chain.py": {
-    "documented": 23,
-    "total": 23,
+    "documented": 20,
+    "total": 20,
     "percent": 100.0
    },
    "cli/command_explorer.py": {
@@ -779,9 +779,9 @@
     "percent": 100.0
    },
    "cli/exploit_advisor.py": {
-    "documented": 11,
-    "total": 12,
-    "percent": 91.7
+    "documented": 6,
+    "total": 6,
+    "percent": 100.0
    },
    "cli/exploration.py": {
     "documented": 41,
@@ -819,8 +819,8 @@
     "percent": 85.7
    },
    "cli/killchain.py": {
-    "documented": 3,
-    "total": 3,
+    "documented": 2,
+    "total": 2,
     "percent": 100.0
    },
    "cli/lazy_monitor.py": {
@@ -2039,8 +2039,8 @@
     "percent": 100.0
    },
    "modules/asset_graph.py": {
-    "documented": 18,
-    "total": 18,
+    "documented": 2,
+    "total": 2,
     "percent": 100.0
    },
    "modules/atomic_cli.py": {
@@ -2254,8 +2254,8 @@
     "percent": 100.0
    },
    "modules/chain_runner.py": {
-    "documented": 18,
-    "total": 18,
+    "documented": 17,
+    "total": 17,
     "percent": 100.0
    },
    "modules/chain_state.py": {
@@ -2269,8 +2269,8 @@
     "percent": 100.0
    },
    "modules/chain_tokens.py": {
-    "documented": 3,
-    "total": 3,
+    "documented": 2,
+    "total": 2,
     "percent": 100.0
    },
    "modules/cicd_enumerator.py": {
@@ -2334,8 +2334,8 @@
     "percent": 81.8
    },
    "modules/ctf_capture.py": {
-    "documented": 7,
-    "total": 7,
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "modules/ctf_signalman.py": {
@@ -2524,9 +2524,9 @@
     "percent": 1.8
    },
    "modules/exploit_chain.py": {
-    "documented": 12,
-    "total": 13,
-    "percent": 92.3
+    "documented": 10,
+    "total": 11,
+    "percent": 90.9
    },
    "modules/exploit_recommender.py": {
     "documented": 6,
@@ -2879,8 +2879,8 @@
     "percent": 100.0
    },
    "modules/lazy_fallback.py": {
-    "documented": 9,
-    "total": 9,
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "modules/lazy_feedmatch.py": {
@@ -2929,8 +2929,8 @@
     "percent": 100.0
    },
    "modules/lazy_loop.py": {
-    "documented": 288,
-    "total": 288,
+    "documented": 282,
+    "total": 282,
     "percent": 100.0
    },
    "modules/lazy_match_policy.py": {
@@ -2994,8 +2994,8 @@
     "percent": 100.0
    },
    "modules/lazy_runner.py": {
-    "documented": 13,
-    "total": 13,
+    "documented": 14,
+    "total": 14,
     "percent": 100.0
    },
    "modules/lazy_sandbox.py": {
@@ -3323,6 +3323,11 @@
     "total": 41,
     "percent": 97.6
    },
+   "modules/loop_limits.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
    "modules/loop_manager.py": {
     "documented": 19,
     "total": 19,
@@ -3374,8 +3379,8 @@
     "percent": 100.0
    },
    "modules/mediation/engine_mediator.py": {
-    "documented": 12,
-    "total": 12,
+    "documented": 9,
+    "total": 9,
     "percent": 100.0
    },
    "modules/mediation/feedback_mediator.py": {
@@ -3467,6 +3472,11 @@
     "documented": 12,
     "total": 45,
     "percent": 26.7
+   },
+   "modules/nmap_fingerprint.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
    },
    "modules/notify.py": {
     "documented": 15,
@@ -3801,6 +3811,11 @@
    "modules/selfupdate.py": {
     "documented": 11,
     "total": 11,
+    "percent": 100.0
+   },
+   "modules/service_aliases.py": {
+    "documented": 1,
+    "total": 1,
     "percent": 100.0
    },
    "modules/session_cleanup.py": {
@@ -5779,9 +5794,9 @@
     "percent": 0.0
    },
    "utils.py": {
-    "documented": 99,
-    "total": 116,
-    "percent": 85.3
+    "documented": 100,
+    "total": 117,
+    "percent": 85.5
    }
   }
  },
@@ -5834,7 +5849,7 @@
   {
    "uid": "cli/apt_chain_support.py",
    "path": "modules/cli.apt_chain_support.py.jsonl",
-   "entities": 33
+   "entities": 34
   },
   {
    "uid": "cli/assign.py",
@@ -5869,7 +5884,7 @@
   {
    "uid": "cli/command_chain.py",
    "path": "modules/cli.command_chain.py.jsonl",
-   "entities": 34
+   "entities": 31
   },
   {
    "uid": "cli/command_explorer.py",
@@ -6449,7 +6464,7 @@
   {
    "uid": "cli/exploit_advisor.py",
    "path": "modules/cli.exploit_advisor.py.jsonl",
-   "entities": 24
+   "entities": 12
   },
   {
    "uid": "cli/exploration.py",
@@ -6489,7 +6504,7 @@
   {
    "uid": "cli/killchain.py",
    "path": "modules/cli.killchain.py.jsonl",
-   "entities": 12
+   "entities": 10
   },
   {
    "uid": "cli/lazy_monitor.py",
@@ -7674,7 +7689,7 @@
   {
    "uid": "modules/ai_exploit_chain.py",
    "path": "modules/modules.ai_exploit_chain.py.jsonl",
-   "entities": 39
+   "entities": 38
   },
   {
    "uid": "modules/ai_fallback.py",
@@ -7709,7 +7724,7 @@
   {
    "uid": "modules/asset_graph.py",
    "path": "modules/modules.asset_graph.py.jsonl",
-   "entities": 38
+   "entities": 2
   },
   {
    "uid": "modules/atomic_cli.py",
@@ -7924,7 +7939,7 @@
   {
    "uid": "modules/chain_runner.py",
    "path": "modules/modules.chain_runner.py.jsonl",
-   "entities": 59
+   "entities": 58
   },
   {
    "uid": "modules/chain_state.py",
@@ -7939,7 +7954,7 @@
   {
    "uid": "modules/chain_tokens.py",
    "path": "modules/modules.chain_tokens.py.jsonl",
-   "entities": 3
+   "entities": 2
   },
   {
    "uid": "modules/cicd_enumerator.py",
@@ -8004,7 +8019,7 @@
   {
    "uid": "modules/ctf_capture.py",
    "path": "modules/modules.ctf_capture.py.jsonl",
-   "entities": 20
+   "entities": 21
   },
   {
    "uid": "modules/ctf_signalman.py",
@@ -8194,7 +8209,7 @@
   {
    "uid": "modules/exploit_chain.py",
    "path": "modules/modules.exploit_chain.py.jsonl",
-   "entities": 38
+   "entities": 21
   },
   {
    "uid": "modules/exploit_recommender.py",
@@ -8549,7 +8564,7 @@
   {
    "uid": "modules/lazy_fallback.py",
    "path": "modules/modules.lazy_fallback.py.jsonl",
-   "entities": 16
+   "entities": 15
   },
   {
    "uid": "modules/lazy_feedmatch.py",
@@ -8599,7 +8614,7 @@
   {
    "uid": "modules/lazy_loop.py",
    "path": "modules/modules.lazy_loop.py.jsonl",
-   "entities": 293
+   "entities": 287
   },
   {
    "uid": "modules/lazy_match_policy.py",
@@ -8664,7 +8679,7 @@
   {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 40
+   "entities": 41
   },
   {
    "uid": "modules/lazy_sandbox.py",
@@ -8992,9 +9007,14 @@
    "entities": 46
   },
   {
+   "uid": "modules/loop_limits.py",
+   "path": "modules/modules.loop_limits.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "modules/loop_manager.py",
    "path": "modules/modules.loop_manager.py.jsonl",
-   "entities": 34
+   "entities": 30
   },
   {
    "uid": "modules/loop_preflight.py",
@@ -9044,7 +9064,7 @@
   {
    "uid": "modules/mediation/engine_mediator.py",
    "path": "modules/modules.mediation.engine_mediator.py.jsonl",
-   "entities": 13
+   "entities": 10
   },
   {
    "uid": "modules/mediation/feedback_mediator.py",
@@ -9135,6 +9155,11 @@
    "uid": "modules/nmap2csv.py",
    "path": "modules/modules.nmap2csv.py.jsonl",
    "entities": 46
+  },
+  {
+   "uid": "modules/nmap_fingerprint.py",
+   "path": "modules/modules.nmap_fingerprint.py.jsonl",
+   "entities": 15
   },
   {
    "uid": "modules/notify.py",
@@ -9470,6 +9495,11 @@
    "uid": "modules/selfupdate.py",
    "path": "modules/modules.selfupdate.py.jsonl",
    "entities": 15
+  },
+  {
+   "uid": "modules/service_aliases.py",
+   "path": "modules/modules.service_aliases.py.jsonl",
+   "entities": 4
   },
   {
    "uid": "modules/session_cleanup.py",
@@ -11449,12 +11479,12 @@
   {
    "uid": "utils.py",
    "path": "modules/utils.py.jsonl",
-   "entities": 138
+   "entities": 139
   }
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2334
+  "total": 2329
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

@@ -1,29 +1,8 @@
-# Symbols (page 30 of 53)
+# Symbols (page 30 of 52)
 Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `handle` | function | `skills/mcp_tools/read_session_file.py:26` | `def handle(arguments, tool_name, ctx)` |
-| `_fused_recommendations` | function | `skills/mcp_tools/recommend_next.py:32` | `def _fused_recommendations()` |
-| `handle` | function | `skills/mcp_tools/recommend_next.py:25` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/rich_tui_snapshot.py:30` | `def handle(arguments, tool_name, ctx)` |
-| `_runner` | function | `skills/mcp_tools/run_agent.py:68` | `def _runner(cmd)` |
-| `handle` | function | `skills/mcp_tools/run_agent.py:50` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/run_api.py:30` | `def handle(arguments, tool_name, ctx)` |
-| `_publish_command_event` | function | `skills/mcp_tools/run_command.py:61` | `def _publish_command_event(command, output, operator, target)` |
-| `_run_with_fallback` | function | `skills/mcp_tools/run_command.py:102` | `def _run_with_fallback(cmd, to)` |
-| `handle` | function | `skills/mcp_tools/run_command.py:82` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/run_command_async.py:39` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/search_tools.py:37` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/searchsploit.py:79` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_diff.py:32` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_init.py:59` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_resume.py:37` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_state.py:33` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/session_status.py:43` | `def handle(arguments, tool_name, ctx)` |
-| `handle` | function | `skills/mcp_tools/set_active_target.py:35` | `def handle(arguments, tool_name, ctx)` |
-| `coerce_value` | function | `skills/mcp_tools/set_config.py:46` | `def coerce_value(coerce_key, coerce_value_in)` |
-| `handle` | function | `skills/mcp_tools/set_config.py:36` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/soul.py:42` | `def handle(arguments, tool_name, ctx)` |
 | `handle` | function | `skills/mcp_tools/stealth.py:35` | `def handle(arguments, tool_name, ctx)` |
 | `_isolated_runner` | function | `skills/mcp_tools/subagent_run.py:86` | `def _isolated_runner(cmd)` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `cmd_addcli` | function | `slack_c2_bot.py:177` | `def cmd_addcli(ack, respond, command)` |
 | `cmd_clients` | function | `slack_c2_bot.py:195` | `def cmd_clients(ack, respond, command)` |
 | `cmd_download` | function | `slack_c2_bot.py:209` | `def cmd_download(ack, respond, command)` |
+| `create_session` | method | `slack_c2_bot.py:63` | `def create_session(self, user_id)` |
+| `get_client` | method | `slack_c2_bot.py:85` | `def get_client(self, user_id)` |
+| `handle_file` | function | `slack_c2_bot.py:240` | `def handle_file(event, say, logger)` |
+| `handle_message` | function | `slack_c2_bot.py:113` | `def handle_message(event, say, logger)` |
+| `mentioned` | function | `slack_c2_bot.py:252` | `def mentioned(ack, say, event)` |
+| `register_failed_attempt` | method | `slack_c2_bot.py:34` | `def register_failed_attempt(self, user_id)` |
+| `set_client` | method | `slack_c2_bot.py:81` | `def set_client(self, user_id, client_id)` |
+| `validate_session` | method | `slack_c2_bot.py:71` | `def validate_session(self, user_id)` |
+| `Terminal` | class | `static/hexabot/hexabot-spinner.js:49` | `` |
+| `clamp` | function | `static/hexabot/hexabot-spinner.js:47` | `` |
+| `colorFor` | method | `static/hexabot/hexabot-spinner.js:139` | `` |
+| `constructor` | method | `static/hexabot/hexabot-spinner.js:50` | `` |
+| `createHexabotSpinner` | function | `static/hexabot/hexabot-spinner.js:223` | `` |
+| `dispose` | method | `static/hexabot/hexabot-spinner.js:206` | `` |
+| `draw` | method | `static/hexabot/hexabot-spinner.js:152` | `` |
+| `drawPrompt` | method | `static/hexabot/hexabot-spinner.js:146` | `` |
+| `log` | method | `static/hexabot/hexabot-spinner.js:92` | `` |
+| `loop` | function | `static/hexabot/hexabot-spinner.js:439` | `` |
+| `ndc` | function | `static/hexabot/hexabot-spinner.js:371` | `` |
+| `now` | function | `static/hexabot/hexabot-spinner.js:375` | `` |
+| `onDown` | function | `static/hexabot/hexabot-spinner.js:377` | `` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

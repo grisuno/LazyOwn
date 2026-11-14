@@ -1,6 +1,6 @@
 # skills/mcp_tools
 
-skills/mcp_tools groups 222 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+skills/mcp_tools groups 206 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. ExploitGym CLI command set — real-world exploit benchmark harness.
 
 ```mermaid
 graph LR
@@ -11,22 +11,21 @@ graph LR
     tests["tests"]
     cli -- "calls into" --> modules
     modules -- "calls into" --> skills
-    skills -- "calls into" --> cli
     skills -- "calls into" --> modules
     skills -- "calls into" --> scripts
     skills -- "calls into" --> tests
-    tests -- "calls into" --> cli
+    tests -- "depends on" --> cli
     tests -- "calls into" --> modules
     tests -- "calls into" --> skills
 ```
 
 ## cli (1.1)
 
-cli groups 3 files (py) around GraphAdvisorConfig, GraphNode, to_summary, GraphEdge, to_summary. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+cli groups 1 files (py) around ExploitGymCommandSet, do_exploitgym, _egym_status, _egym_setup, _egym_list. ExploitGym CLI command set — real-world exploit benchmark harness.
 
 ## modules (1.2)
 
-modules groups 29 files (py) around PipelineError, PipelineSchemaError, PipelineNotFoundError, PipelineCycleError, PipelineStep. Global asset truth store joined to per-task exploration chains.
+modules groups 18 files (py) around PipelineError, PipelineSchemaError, PipelineNotFoundError, PipelineCycleError, PipelineStep. Campaign scope coverage query for the autonomous loop.
 
 ## scripts (1.3)
 
@@ -34,46 +33,33 @@ scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_
 
 ## skills (1.4)
 
-skills groups 165 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 167 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
 
 ## tests (1.5)
 
-tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
+tests groups 19 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
 
 **Files**:
 
-- cli/commands/caldera.py
 - cli/commands/exploitgym.py
-- cli/graph_advisor.py
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/cve_matcher.py
-- modules/engage_summary.py
-- modules/enrich.py
 - modules/evasion_engine.py
 - modules/event_engine.py
-- modules/evidence.py
 - modules/exploitgym_gym.py
-- modules/goals.py
-- modules/intercept.py
+- modules/golden_path.py
 - modules/lazyown_bridge.py
 - modules/llm_evaluator.py
-- modules/llm_pool.py
 - modules/mcp_agent_bridge.py
 - modules/metrics.py
-- modules/obs_parser.py
-- modules/operation.py
 - modules/pipeline_engine.py
-- modules/planner.py
-- modules/playbook_engine.py
 - modules/playbook_executor.py
 - modules/reactive_engine.py
-- modules/selfupdate.py
 - modules/session_rag.py
 - modules/session_reader.py
 - modules/timeline_narrator.py
 - modules/toolset.py
-- modules/ttp_coverage.py
 - scripts/lazy_opencode_config.py
 - skills/aci_planner.py
 - skills/autonomous_daemon.py
@@ -89,6 +75,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/lazyown_mcp_helpers.py
 - skills/lazyown_objective.py
 - skills/lazyown_parquet_db.py
+- skills/lazyown_policy.py
 - skills/lazyown_session.py
 - skills/mcp_lazy.py
 - skills/mcp_tools/__init__.py
@@ -101,6 +88,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/add_target.py
 - skills/mcp_tools/agent_result.py
 - skills/mcp_tools/agent_status.py
+- skills/mcp_tools/apt_chain.py
 - skills/mcp_tools/atomic_resolve.py
 - skills/mcp_tools/atomic_search.py
 - skills/mcp_tools/auto_populate.py
@@ -126,6 +114,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/claudemd.py
 - skills/mcp_tools/command_help.py
 - skills/mcp_tools/create_addon.py
+- skills/mcp_tools/create_tool.py
 - skills/mcp_tools/credentials.py
 - skills/mcp_tools/cron_schedule.py
 - skills/mcp_tools/cve_search.py
@@ -151,14 +140,11 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/exploitgym_run.py
 - skills/mcp_tools/exploitgym_score.py
 - skills/mcp_tools/exploitgym_status.py
+- skills/mcp_tools/facts_show.py
 - skills/mcp_tools/fast_run.py
 - skills/mcp_tools/generate_report.py
 - skills/mcp_tools/get_beacons.py
 - skills/mcp_tools/get_config.py
-- skills/mcp_tools/graph_neighbors.py
-- skills/mcp_tools/graph_search.py
-- skills/mcp_tools/graph_suggest_next.py
-- skills/mcp_tools/graph_summary.py
 - skills/mcp_tools/groq_agent.py
 - skills/mcp_tools/harness_status.py
 - skills/mcp_tools/heartbeat_status.py
@@ -172,7 +158,6 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/hive_status.py
 - skills/mcp_tools/inject_objective.py
 - skills/mcp_tools/job_status.py
-- skills/mcp_tools/lazy_addon.py
 - skills/mcp_tools/lazy_workspace.py
 - skills/mcp_tools/list_addons.py
 - skills/mcp_tools/list_agents.py
@@ -197,8 +182,6 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/pipeline_run.py
 - skills/mcp_tools/pipeline_status.py
 - skills/mcp_tools/pipeline_validate.py
-- skills/mcp_tools/playbook_generate.py
-- skills/mcp_tools/playbook_run.py
 - skills/mcp_tools/policy_status.py
 - skills/mcp_tools/poll_events.py
 - skills/mcp_tools/rag_index.py
@@ -221,6 +204,10 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/set_active_target.py
 - skills/mcp_tools/soul.py
 - skills/mcp_tools/subagent_run.py
+- skills/mcp_tools/swan_ensemble.py
+- skills/mcp_tools/swan_route.py
+- skills/mcp_tools/swan_run.py
+- skills/mcp_tools/swan_status.py
 - skills/mcp_tools/target_context.py
 - skills/mcp_tools/tasks_cleanup.py
 - skills/mcp_tools/threat_model.py
@@ -234,6 +221,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/winbox_status.py
 - skills/mcp_tools/winbox_tools.py
 - skills/mcp_tools/winbox_vm.py
+- skills/swan_agent.py
 - skills/tests/test_autonomous_daemon.py
 - skills/tests/test_hive_mind.py
 - skills/tests/test_mcp_smoke.py
@@ -241,19 +229,14 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/tests/test_parquet_db.py
 - skills/update_knowledge.py
 - tests/test_aci_planner.py
-- tests/test_autonomous_ops.py
 - tests/test_autonomous_replay.py
 - tests/test_boyscout_contracts.py
 - tests/test_bridge_catalog_filtered.py
 - tests/test_core_modules.py
 - tests/test_daemon_control.py
-- tests/test_daemon_loop.py
-- tests/test_engage_gates.py
-- tests/test_engage_summary.py
+- tests/test_engage_orchestrator.py
 - tests/test_exploitgym_gym.py
-- tests/test_graph_advisor.py
-- tests/test_lazy_parity.py
-- tests/test_mcp_auto_loop_wrapper.py
+- tests/test_golden_path.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py
 - tests/test_mcp_tools_registry.py
@@ -263,4 +246,4 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_rea_mcp.py
 - tests/test_reactive_engine_semantic.py
 - tests/test_reactive_lateral_data.py
-- tests/test_safety_gates.py
+- tests/test_scope_bound_auto_gate.py

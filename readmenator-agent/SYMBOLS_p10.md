@@ -1,18 +1,8 @@
-# Symbols (page 10 of 53)
+# Symbols (page 10 of 52)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
-| `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
-| `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
-| `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
-| `load_tasks` | function | `lazyc2/extensions/storage.py:31` | `def load_tasks()` |
-| `save_cves` | function | `lazyc2/extensions/storage.py:73` | `def save_cves(cves)` |
-| `save_note` | function | `lazyc2/extensions/storage.py:107` | `def save_note(content)` |
-| `save_routes` | function | `lazyc2/extensions/storage.py:194` | `def save_routes(routes)` |
-| `save_tasks` | function | `lazyc2/extensions/storage.py:45` | `def save_tasks(tasks)` |
-| `configure` | function | `lazyc2/extensions/users.py:16` | `def configure(users_path)` |
 | `load_users` | function | `lazyc2/extensions/users.py:26` | `def load_users()` |
 | `save_users` | function | `lazyc2/extensions/users.py:48` | `def save_users(users)` |
 | `User` | class | `lazyc2/models.py:16` | `class User(UserMixin)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
 | `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
 | `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
+| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
+| `_on_theme_changed` | method | `lazygui/windows/main_window.py:329` | `def _on_theme_changed(self, tokens)` |
+| `_on_theme_menu_action` | method | `lazygui/windows/main_window.py:337` | `def _on_theme_menu_action(self)` |
+| `_persist_geometry_and_state` | method | `lazygui/windows/main_window.py:244` | `def _persist_geometry_and_state(self)` |
+| `_restore_geometry_and_state` | method | `lazygui/windows/main_window.py:252` | `def _restore_geometry_and_state(self)` |
+| `_show_beacon_command_modal` | method | `lazygui/windows/main_window.py:354` | `def _show_beacon_command_modal(self)` |
+| `_show_command_palette` | method | `lazygui/windows/main_window.py:361` | `def _show_command_palette(self)` |
+| `_tick_clock` | method | `lazygui/windows/main_window.py:386` | `def _tick_clock(self)` |
+| `_toggle` | function | `lazygui/windows/main_window.py:303` | `def _toggle()` |
+| `closeEvent` | method | `lazygui/windows/main_window.py:99` | `def closeEvent(self, event)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

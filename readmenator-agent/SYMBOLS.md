@@ -1,5 +1,5 @@
-# Symbols (page 1 of 53)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md), [SYMBOLS_p49.md](SYMBOLS_p49.md), [SYMBOLS_p50.md](SYMBOLS_p50.md), [SYMBOLS_p51.md](SYMBOLS_p51.md), [SYMBOLS_p52.md](SYMBOLS_p52.md), [SYMBOLS_p53.md](SYMBOLS_p53.md)
+# Symbols (page 1 of 52)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md), [SYMBOLS_p49.md](SYMBOLS_p49.md), [SYMBOLS_p50.md](SYMBOLS_p50.md), [SYMBOLS_p51.md](SYMBOLS_p51.md), [SYMBOLS_p52.md](SYMBOLS_p52.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -42,32 +42,35 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `empty_placeholders` | function | `cli/aliases.py:72` | `def empty_placeholders(template, context)` |
 | `load_aliases` | function | `cli/aliases.py:100` | `def load_aliases(payload, path, lazy)` |
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
-| `ChainArgs` | class | `cli/apt_chain_support.py:83` | `class ChainArgs` |
-| `_decision_command` | function | `cli/apt_chain_support.py:671` | `def _decision_command(decision)` |
-| `_observed_conditions` | function | `cli/apt_chain_support.py:567` | `def _observed_conditions(target)` |
-| `_parse_admin_flags` | function | `cli/apt_chain_support.py:46` | `def _parse_admin_flags(args, tokens)` |
-| `_platform` | function | `cli/apt_chain_support.py:804` | `def _platform()` |
-| `_recent_changes_block` | function | `cli/apt_chain_support.py:702` | `def _recent_changes_block(target)` |
-| `_set_value` | function | `cli/apt_chain_support.py:177` | `def _set_value(args, flag, value)` |
-| `_step_from_alternative` | function | `cli/apt_chain_support.py:550` | `def _step_from_alternative(alternative, outcome, target)` |
-| `_step_from_decision` | function | `cli/apt_chain_support.py:680` | `def _step_from_decision(command, outcome, executed_count)` |
+| `ChainArgs` | class | `cli/apt_chain_support.py:88` | `class ChainArgs` |
+| `_apply_limit` | function | `cli/apt_chain_support.py:46` | `def _apply_limit(args, value)` |
+| `_decision_command` | function | `cli/apt_chain_support.py:759` | `def _decision_command(decision)` |
+| `_observed_conditions` | function | `cli/apt_chain_support.py:655` | `def _observed_conditions(target)` |
+| `_parse_admin_flags` | function | `cli/apt_chain_support.py:54` | `def _parse_admin_flags(args, tokens)` |
+| `_platform` | function | `cli/apt_chain_support.py:892` | `def _platform()` |
+| `_recent_changes_block` | function | `cli/apt_chain_support.py:790` | `def _recent_changes_block(target)` |
+| `_set_value` | function | `cli/apt_chain_support.py:180` | `def _set_value(args, flag, value)` |
+| `_step_from_alternative` | function | `cli/apt_chain_support.py:638` | `def _step_from_alternative(alternative, outcome, target)` |
+| `_step_from_decision` | function | `cli/apt_chain_support.py:768` | `def _step_from_decision(command, outcome, executed_count)` |
 | `_synth_from_playbook` | function | `cli/apt_chain_support.py:205` | `def _synth_from_playbook(playbook, target)` |
-| `_token_name_ok` | function | `cli/apt_chain_support.py:77` | `def _token_name_ok(name)` |
-| `adversarial_continue` | function | `cli/apt_chain_support.py:401` | `def adversarial_continue(chain)` |
-| `approve` | function | `cli/apt_chain_support.py:536` | `def approve(step_id, command)` |
-| `build_adaptive_replanner` | function | `cli/apt_chain_support.py:588` | `def build_adaptive_replanner()` |
-| `build_cli_approver` | function | `cli/apt_chain_support.py:528` | `def build_cli_approver(printer, input_fn)` |
-| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:730` | `def build_llm_recovery_chain(result, target, task_id)` |
-| `build_reactive_replanner` | function | `cli/apt_chain_support.py:646` | `def build_reactive_replanner()` |
-| `compose_replanners` | function | `cli/apt_chain_support.py:626` | `def compose_replanners(replanners)` |
-| `composed` | function | `cli/apt_chain_support.py:639` | `def composed(context)` |
-| `parse_chain_args` | function | `cli/apt_chain_support.py:109` | `def parse_chain_args(line)` |
-| `render_admin` | function | `cli/apt_chain_support.py:450` | `def render_admin(payload, action)` |
-| `render_result` | function | `cli/apt_chain_support.py:409` | `def render_result(result)` |
-| `replan` | function | `cli/apt_chain_support.py:601` | `def replan(context)` |
-| `replan` | function | `cli/apt_chain_support.py:649` | `def replan(context)` |
-| `resolve_admin` | function | `cli/apt_chain_support.py:234` | `def resolve_admin(args)` |
-| `select_step_ids` | function | `cli/apt_chain_support.py:369` | `def select_step_ids(chain, args)` |
+| `_token_name_ok` | function | `cli/apt_chain_support.py:82` | `def _token_name_ok(name)` |
+| `adversarial_continue` | function | `cli/apt_chain_support.py:489` | `def adversarial_continue(chain)` |
+| `approve` | function | `cli/apt_chain_support.py:624` | `def approve(step_id, command)` |
+| `build_adaptive_replanner` | function | `cli/apt_chain_support.py:676` | `def build_adaptive_replanner()` |
+| `build_cli_approver` | function | `cli/apt_chain_support.py:616` | `def build_cli_approver(printer, input_fn)` |
+| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:818` | `def build_llm_recovery_chain(result, target, task_id)` |
+| `build_reactive_replanner` | function | `cli/apt_chain_support.py:734` | `def build_reactive_replanner()` |
+| `chain_file_exists` | function | `cli/apt_chain_support.py:275` | `def chain_file_exists(name)` |
+| `compose_replanners` | function | `cli/apt_chain_support.py:714` | `def compose_replanners(replanners)` |
+| `composed` | function | `cli/apt_chain_support.py:727` | `def composed(context)` |
+| `parse_chain_args` | function | `cli/apt_chain_support.py:114` | `def parse_chain_args(line)` |
+| `render_admin` | function | `cli/apt_chain_support.py:538` | `def render_admin(payload, action)` |
+| `render_result` | function | `cli/apt_chain_support.py:497` | `def render_result(result)` |
+| `replan` | function | `cli/apt_chain_support.py:689` | `def replan(context)` |
+| `replan` | function | `cli/apt_chain_support.py:737` | `def replan(context)` |
+| `resolve_admin` | function | `cli/apt_chain_support.py:322` | `def resolve_admin(args)` |
+| `resolve_invocation` | function | `cli/apt_chain_support.py:234` | `def resolve_invocation(positionals, target_seed, preset_target, playbook_engine, playbook_seed, policy)` |
+| `select_step_ids` | function | `cli/apt_chain_support.py:457` | `def select_step_ids(chain, args)` |
 | `apply_assign` | function | `cli/assign.py:42` | `def apply_assign(params, key, value)` |
 | `AutoCryptoConfig` | class | `cli/auto_crypto.py:48` | `class AutoCryptoConfig` |
 | `AutoCryptoEngine` | class | `cli/auto_crypto.py:77` | `class AutoCryptoEngine` |
@@ -322,29 +325,26 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `stop` | method | `cli/cli_enhancements.py:313` | `def stop(self)` |
 | `update` | method | `cli/cli_enhancements.py:647` | `def update(self, data)` |
 | `ChainConfig` | class | `cli/command_chain.py:123` | `class ChainConfig` |
-| `CommandChain` | class | `cli/command_chain.py:335` | `class CommandChain` |
-| `DynamicNextResolver` | class | `cli/command_chain.py:219` | `class DynamicNextResolver` |
+| `CommandChain` | class | `cli/command_chain.py:329` | `class CommandChain` |
+| `DynamicNextResolver` | class | `cli/command_chain.py:213` | `class DynamicNextResolver` |
 | `NextStep` | class | `cli/command_chain.py:132` | `class NextStep` |
 | `PrerequisiteRegistry` | class | `cli/command_chain.py:156` | `class PrerequisiteRegistry` |
-| `ServiceNextResolver` | class | `cli/command_chain.py:193` | `class ServiceNextResolver` |
-| `StaticNextRegistry` | class | `cli/command_chain.py:177` | `class StaticNextRegistry` |
+| `ServiceNextResolver` | class | `cli/command_chain.py:187` | `class ServiceNextResolver` |
+| `StaticNextRegistry` | class | `cli/command_chain.py:171` | `class StaticNextRegistry` |
 | `__init__` | method | `cli/command_chain.py:159` | `def __init__(self, config)` |
-| `__init__` | method | `cli/command_chain.py:196` | `def __init__(self, config)` |
-| `__init__` | method | `cli/command_chain.py:222` | `def __init__(self, config, static_registry, service_resolver, exploration_engine)` |
-| `__init__` | method | `cli/command_chain.py:338` | `def __init__(self, config, prerequisites, next_resolver)` |
-| `_append` | method | `cli/command_chain.py:318` | `def _append(steps, seen, name, source, reason, history)` |
-| `_ensure_engine` | method | `cli/command_chain.py:308` | `def _ensure_engine(self, params)` |
+| `__init__` | method | `cli/command_chain.py:190` | `def __init__(self, config)` |
+| `__init__` | method | `cli/command_chain.py:216` | `def __init__(self, config, static_registry, service_resolver, exploration_engine)` |
+| `__init__` | method | `cli/command_chain.py:332` | `def __init__(self, config, prerequisites, next_resolver)` |
+| `_append` | method | `cli/command_chain.py:312` | `def _append(steps, seen, name, source, reason, history)` |
+| `_ensure_engine` | method | `cli/command_chain.py:302` | `def _ensure_engine(self, params)` |
 | `_normalise` | function | `cli/command_chain.py:145` | `def _normalise(name)` |
-| `chain` | method | `cli/command_chain.py:372` | `def chain(self, cmd, params, target, phase, limit)` |
-| `followups` | method | `cli/command_chain.py:201` | `def followups(self, services)` |
-| `missing` | method | `cli/command_chain.py:170` | `def missing(self, cmd, history)` |
-| `missing_prerequisites` | method | `cli/command_chain.py:355` | `def missing_prerequisites(self, cmd, history)` |
-| `next` | method | `cli/command_chain.py:360` | `def next(self, cmd, params, target, phase, limit)` |
-| `next_for` | method | `cli/command_chain.py:180` | `def next_for(self, cmd)` |
-| `phase_priority` | method | `cli/command_chain.py:186` | `def phase_priority(self, phase)` |
+| `followups` | method | `cli/command_chain.py:195` | `def followups(self, services)` |
+| `next` | method | `cli/command_chain.py:349` | `def next(self, cmd, params, target, phase, limit)` |
+| `next_for` | method | `cli/command_chain.py:174` | `def next_for(self, cmd)` |
+| `phase_priority` | method | `cli/command_chain.py:180` | `def phase_priority(self, phase)` |
 | `prerequisites` | method | `cli/command_chain.py:164` | `def prerequisites(self, cmd)` |
-| `prev` | method | `cli/command_chain.py:350` | `def prev(self, cmd)` |
-| `resolve` | method | `cli/command_chain.py:236` | `def resolve(self, cmd, params, target, phase, limit)` |
+| `prev` | method | `cli/command_chain.py:344` | `def prev(self, cmd)` |
+| `resolve` | method | `cli/command_chain.py:230` | `def resolve(self, cmd, params, target, phase, limit)` |
 | `to_dict` | method | `cli/command_chain.py:139` | `def to_dict(self)` |
 | `CommandExplorer` | class | `cli/command_explorer.py:207` | `class CommandExplorer` |
 | `ExplorerConfig` | class | `cli/command_explorer.py:189` | `class ExplorerConfig` |

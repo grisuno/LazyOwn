@@ -127,12 +127,15 @@ Pages: [KB_mcp_tools.md](KB_mcp_tools.md), [KB_mcp_tools_p2.md](KB_mcp_tools_p2.
 - Depends on: `modules/atomic_exploit_bridge.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/auto_loop.py
-- Doc: MCP tool ``lazyown_auto_loop`` (migrated from the call_tool dispatch chain).
+- Doc: MCP tool ``lazyown_auto_loop`` (single runner, one path with the CLI).
 - Layer: utility
 - Language: py
 - Symbols:
-  - `handle` (function, line 48) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/lazy_engine.py`, `modules/lazy_runner.py`, `skills/mcp_tools/_context.py`
+  - `_loop_line` (function, line 59) `def _loop_line(arguments)`
+  - `_render` (function, line 97) `def _render(summary, target, prefix)`
+  - `handle` (function, line 128) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/lazy_runner.py`, `skills/mcp_tools/_context.py`
+- Imported by: `tests/test_mcp_auto_loop_wrapper.py`
 
 ## skills/mcp_tools/auto_populate.py
 - Doc: MCP tool ``lazyown_auto_populate`` (migrated from the call_tool dispatch chain).

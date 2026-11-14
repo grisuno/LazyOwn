@@ -1,18 +1,8 @@
-# Symbols (page 6 of 53)
+# Symbols (page 6 of 52)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `safe_load_telemetry` | function | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
-| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
-| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
-| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
-| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
-| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
-| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
-| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
-| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
-| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
 | `ProTip` | class | `cli/protips.py:34` | `class ProTip` |
 | `_after` | function | `cli/protips.py:75` | `def _after(ctx)` |
 | `_has_api_key` | function | `cli/protips.py:59` | `def _has_api_key(ctx)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `shell_hint_bypass` | function | `cli/toast_bus.py:509` | `def shell_hint_bypass(console, message, severity)` |
 | `toastr_severity_style` | function | `cli/toast_bus.py:449` | `def toastr_severity_style(severity)` |
 | `toasts_enabled` | function | `cli/toast_bus.py:920` | `def toasts_enabled(payload, config)` |
+| `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
+| `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
+| `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
+| `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
+| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
+| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
+| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
+| `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
+| `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
+| `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

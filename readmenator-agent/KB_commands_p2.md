@@ -308,7 +308,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_ntpdate` (method, line 2558) `def do_ntpdate(self, line)`
   - `do_adcs_check` (method, line 2582) `def do_adcs_check(self, line)`
   - `do_chain` (method, line 2641) `def do_chain(self, line)`
-  - `do_exploit_recommend` (method, line 2771) `def do_exploit_recommend(self, line)`
+  - `do_exploit_recommend` (method, line 2767) `def do_exploit_recommend(self, line)`
   - `setup_handler` (function, line 513) `def setup_handler(config_file, lhost, lport)`
   - `cacti_exploit` (function, line 536) `def cacti_exploit(config_file, host)`
 - Depends on: `cli/commands/_base.py`, `core/autonomous.py`, `modules/adcs_attacks.py`, `modules/chain_registry.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`

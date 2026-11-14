@@ -264,7 +264,7 @@ def test_terminal_hint_explains_disposition_to_operator():
     assert terminal_hint("unknown-reason", "") == ""
 
 
-def test_intent_priority_claim_pause_resume(tmp_path, monkeypatch):
+def test_intent_priority_claim(tmp_path, monkeypatch):
     """BDD: the frontier claims strictly by priority then id."""
     import modules.lazy_loop as loop
 
@@ -277,10 +277,8 @@ def test_intent_priority_claim_pause_resume(tmp_path, monkeypatch):
     assert claimed is not None
     assert claimed.node_id == high.node_id
     assert engine.store.get(task_id) is not None
-    assert engine.pause_intent(task_id, high.node_id) is True
-    assert engine.resume_intent(task_id, high.node_id) is True
-    assert loop.Frontier(graph).claim_next().node_id == high.node_id
-    _ = low
+    following = loop.Frontier(graph).claim_next()
+    assert following is not None and following.node_id == low.node_id
 
 
 def test_intent_soft_and_hard_delete(tmp_path, monkeypatch):

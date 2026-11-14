@@ -160,9 +160,9 @@ def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch) -> None:
 
 
 def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys) -> None:
-    """Exit cleanup stops labs and ranges; payload flag disables it."""
+    """Exit cleanup stops labs and ranges; payload flag enables, then disables it."""
     payload = tmp_path / "payload.json"
-    payload.write_text(json.dumps({"rhost": "1.1.1.1"}), encoding="utf-8")
+    payload.write_text(json.dumps({"rhost": "1.1.1.1", "gym_cleanup_on_exit": True}), encoding="utf-8")
 
     import core.config as core_config
 

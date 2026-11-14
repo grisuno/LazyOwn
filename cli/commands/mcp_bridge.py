@@ -508,39 +508,9 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
         previews unless SMTP lives in payload.json) when the run ends
         with no foothold.
         """
-        from modules.lazy_runner import bind_target_authority, load_targets_file, parse_loop_line, run_loop
+        from modules.lazy_runner import run_loop_command
 
-        try:
-            config = parse_loop_line(line)
-        except ValueError as exc:
-            if str(exc) != "usage":
-                print_error(f"auto_loop: {exc}")
-            else:
-                print_error(
-                    "Usage: auto_loop [--target T] [--task T] [--rounds N] "
-                    "[--workers N] [--budget rounds=N,...] [--budget-confirm] "
-                    "[--mode pentest|redteam|ctf] [--view] <goal> "
-                    "(e.g. auto_loop --rounds 5 'gain initial access')"
-                )
-            return
-        explicit_targets: list[str] = []
-        if config.targets_file:
-            try:
-                explicit_targets = load_targets_file(config.targets_file)
-            except ValueError as exc:
-                print_error(f"auto_loop: {exc}")
-                return
-        elif config.target:
-            explicit_targets = [config.target]
-        if not config.target:
-            config.target = str((self.params or {}).get("rhost", "") or "")
-        if not config.goal and not config.task_id and not config.target:
-            print_error("Usage: auto_loop [--target T] <goal>")
-            return
-        shell = self._resolve_shell()
-        if explicit_targets:
-            bind_target_authority(shell, explicit_targets)
-        run_loop(shell, dict(self.params or {}), config)
+        run_loop_command(self._resolve_shell(), self.params, line, "auto_loop")
 
     @with_category(ai_category)
     def do_session_state(self, line: str) -> None:

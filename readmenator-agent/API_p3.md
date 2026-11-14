@@ -20,9 +20,9 @@ Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
 - `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:378` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
 - `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:431` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
 - `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:489` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
-- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:546` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
-- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:551` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
-- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:556` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
+- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:516` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
+- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:521` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
+- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:526` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
 
 ## cli/commands/misc_migrated.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
@@ -326,7 +326,7 @@ Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/sur
 - `ReconMigratedCommandSet.do_ipinfo` (method) `cli/commands/recon_migrated.py:1369` `def do_ipinfo(self, line)` -- Retrieves detailed information about an IP address using the ARIN API.
 
 ## cli/commands/redteam_gym.py
-Depends on: `cli/commands/_base.py`, `modules/ctf_signalman.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `modules/chain_registry.py`, `modules/ctf_signalman.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 - `RedTeamGymCommandSet.do_gym` (method) `cli/commands/redteam_gym.py:41` `def do_gym(self, line)` -- Red Team Gym — gamified pentest training with ELO scoring.
 - `RedTeamGymCommandSet.do_gym_ms2` (method) `cli/commands/redteam_gym.py:138` `def do_gym_ms2(self, line)` -- Metasploitable 2 gym catalogue: list|chains|validate|info <vuln>|chain <vuln>.

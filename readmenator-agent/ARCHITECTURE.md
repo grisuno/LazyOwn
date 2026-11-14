@@ -9,6 +9,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/aliases.py` -> `core/config.py`
 - `cli/apt_chain_support.py` -> `modules/__init__.py`
 - `cli/apt_chain_support.py` -> `modules/apt_playbooks.py`
+- `cli/apt_chain_support.py` -> `modules/auto_registry.py`
 - `cli/apt_chain_support.py` -> `modules/chain_approval.py`
 - `cli/apt_chain_support.py` -> `modules/chain_family.py`
 - `cli/apt_chain_support.py` -> `modules/chain_registry.py`
@@ -142,7 +143,6 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_cli.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_exploit_bridge.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_resolver.py`
-- `cli/commands/command_and_control_migrated.py` -> `modules/auto_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_approval.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_distill.py`
@@ -479,6 +479,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/recon_migrated.py` -> `core/config.py`
 - `cli/commands/recon_migrated.py` -> `utils.py`
 - `cli/commands/redteam_gym.py` -> `cli/commands/_base.py`
+- `cli/commands/redteam_gym.py` -> `modules/chain_registry.py`
 - `cli/commands/redteam_gym.py` -> `modules/ctf_signalman.py`
 - `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
 - `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
@@ -495,6 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/scan_migrated.py` -> `cli/commands/_base.py`
 - `cli/commands/scan_migrated.py` -> `utils.py`
 - `cli/commands/security.py` -> `cli/commands/_base.py`
-- `cli/commands/security.py` -> `core/config.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

@@ -1,20 +1,6 @@
 # Subsystem: modules (page 3 of 19)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
-## modules/bsb_compat.py
-- Doc: BlackSandBeacon wire-protocol compatibility helpers.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `derive_bsb_keys` (function, line 52) `def derive_bsb_keys(master_key)`
-  - `decrypt_bsb_report` (function, line 90) `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)`
-  - `encrypt_bsb_command` (function, line 139) `def encrypt_bsb_command(data, master_key)`
-  - `derive_bsb_stage_keys` (function, line 162) `def derive_bsb_stage_keys(token)`
-  - `encrypt_bsb_stage_blob` (function, line 208) `def encrypt_bsb_stage_blob(data, token)`
-  - `decrypt_bsb_stage_blob` (function, line 232) `def decrypt_bsb_stage_blob(encrypted_data, token)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `tests/test_bsb_fileless_compat.py`
-
 ## modules/c2_agent.py
 - Doc: Malleable C2 client lifecycle for lab targets.
 - Layer: utility
@@ -304,20 +290,20 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_normalize_service` (function, line 34) `def _normalize_service(name)`
-  - `family_signature` (function, line 41) `def family_signature(facts)`
-  - `FamilyRegistry` (class, line 68) `class FamilyRegistry`
-  - `_default_registry_path` (function, line 178) `def _default_registry_path()`
-  - `default_registry` (function, line 185) `def default_registry()`
-  - `__init__` (method, line 76) `def __init__(self, path)`
-  - `_load` (method, line 84) `def _load(self)`
-  - `_save` (method, line 90) `def _save(self, data)`
-  - `_touch` (method, line 96) `def _touch(self, signature, chain)`
-  - `record_association` (method, line 111) `def record_association(self, signature, chain, target)`
-  - `record_win` (method, line 117) `def record_win(self, signature, chain, target)`
-  - `best` (method, line 123) `def best(self, signature)`
-  - `transfer_note` (method, line 159) `def transfer_note(self, facts)`
-- Depends on: `modules/lazy_loop.py`
+  - `_normalize_service` (function, line 28) `def _normalize_service(name)`
+  - `family_signature` (function, line 35) `def family_signature(facts)`
+  - `FamilyRegistry` (class, line 62) `class FamilyRegistry`
+  - `_default_registry_path` (function, line 172) `def _default_registry_path()`
+  - `default_registry` (function, line 179) `def default_registry()`
+  - `__init__` (method, line 70) `def __init__(self, path)`
+  - `_load` (method, line 78) `def _load(self)`
+  - `_save` (method, line 84) `def _save(self, data)`
+  - `_touch` (method, line 90) `def _touch(self, signature, chain)`
+  - `record_association` (method, line 105) `def record_association(self, signature, chain, target)`
+  - `record_win` (method, line 111) `def record_win(self, signature, chain, target)`
+  - `best` (method, line 117) `def best(self, signature)`
+  - `transfer_note` (method, line 153) `def transfer_note(self, facts)`
+- Depends on: `modules/lazy_loop.py`, `modules/service_aliases.py`
 - Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `tests/test_chain_family.py`
 
 ## modules/chain_loop.py
@@ -328,15 +314,15 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `chain_mode` (function, line 35) `def chain_mode()`
   - `is_chain_command` (function, line 53) `def is_chain_command(command)`
   - `parse_chain_invocation` (function, line 58) `def parse_chain_invocation(command)`
-  - `stepwise_eligible` (function, line 109) `def stepwise_eligible(chain, routable)`
-  - `ChainStepBlocked` (class, line 139) `class ChainStepBlocked(RuntimeError)`
-  - `run_chain_stepwise` (function, line 154) `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)`
-  - `_build_runner` (function, line 271) `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
-  - `_spool` (function, line 312) `def _spool(result)`
-  - `_render_summary` (function, line 322) `def _render_summary(result, chain_name)`
-  - `__init__` (method, line 142) `def __init__(self, status, detail)`
-  - `guarded` (function, line 226) `def guarded(step_command)`
-  - `on_step` (function, line 283) `def on_step(outcome)`
+  - `stepwise_eligible` (function, line 93) `def stepwise_eligible(chain, routable)`
+  - `ChainStepBlocked` (class, line 123) `class ChainStepBlocked(RuntimeError)`
+  - `run_chain_stepwise` (function, line 138) `def run_chain_stepwise(worker, intent, command, executor, budget, intercept, retry_state)`
+  - `_build_runner` (function, line 255) `def _build_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
+  - `_spool` (function, line 296) `def _spool(result)`
+  - `_render_summary` (function, line 306) `def _render_summary(result, chain_name)`
+  - `__init__` (method, line 126) `def __init__(self, status, detail)`
+  - `guarded` (function, line 210) `def guarded(step_command)`
+  - `on_step` (function, line 267) `def on_step(outcome)`
 - Depends on: `cli/apt_chain_support.py`, `core/config.py`, `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
 - Imported by: `modules/lazy_loop.py`, `tests/test_chain_loop.py`, `tests/test_playbook_chain.py`
 
@@ -363,81 +349,81 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `skip_pending` (function, line 69) `def skip_pending(path, max_age, now)`
   - `ChainStep` (class, line 104) `class ChainStep`
   - `Chain` (class, line 158) `class Chain`
-  - `_render` (function, line 241) `def _render(template, variables)`
-  - `_when_tree` (function, line 270) `def _when_tree(expression)`
-  - `evaluate_when` (function, line 297) `def evaluate_when(expression, variables)`
-  - `validate_chain` (function, line 362) `def validate_chain(data, filename, chains_dir)`
-  - `render_text_token_braces` (function, line 586) `def render_text_token_braces(text)`
-  - `load_all` (function, line 591) `def load_all(chains_dir)`
-  - `_materialize` (function, line 625) `def _materialize(name, raw, stack)`
-  - `_nonneg_int` (function, line 672) `def _nonneg_int(raw)`
-  - `_nonneg_float` (function, line 681) `def _nonneg_float(raw, ceiling)`
-  - `_step_from_raw` (function, line 692) `def _step_from_raw(item)`
-  - `get` (function, line 749) `def get(name, chains_dir)`
-  - `scan_all` (function, line 754) `def scan_all(chains_dir)`
-  - `set_enabled` (function, line 814) `def set_enabled(name, enabled, chains_dir)`
-  - `generate_for_playbook` (function, line 837) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
+  - `render_text` (function, line 219) `def render_text(template, variables)`
+  - `step_gate_verdict` (function, line 242) `def step_gate_verdict(step, render, variables, dependency_reason)`
+  - `_when_tree` (function, line 311) `def _when_tree(expression)`
+  - `evaluate_when` (function, line 338) `def evaluate_when(expression, variables)`
+  - `validate_chain` (function, line 403) `def validate_chain(data, filename, chains_dir)`
+  - `chain_preview_lines` (function, line 627) `def chain_preview_lines(chain)`
+  - `load_all` (function, line 647) `def load_all(chains_dir)`
+  - `_materialize` (function, line 681) `def _materialize(name, raw, stack)`
+  - `_nonneg_int` (function, line 728) `def _nonneg_int(raw)`
+  - `_nonneg_float` (function, line 737) `def _nonneg_float(raw, ceiling)`
+  - `_step_from_raw` (function, line 748) `def _step_from_raw(item)`
+  - `get` (function, line 805) `def get(name, chains_dir)`
+  - `scan_all` (function, line 810) `def scan_all(chains_dir)`
+  - `set_enabled` (function, line 870) `def set_enabled(name, enabled, chains_dir)`
+  - `generate_for_playbook` (function, line 893) `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)`
   - `identifier` (method, line 152) `def identifier(self)`
   - `resolve` (method, line 176) `def resolve(self, tokens)`
-  - `_eval` (function, line 319) `def _eval(node)`
+  - `_eval` (function, line 360) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_loop.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `modules/selection/technique_chain.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/mcp_tools/apt_chain.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_bof_repo_contract.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_loop.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_metasploitable_gym.py`, `tests/test_playbook_chain.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `StepOutcome` (class, line 61) `class StepOutcome`
-  - `ChainRunResult` (class, line 118) `class ChainRunResult`
-  - `ReplanContext` (class, line 180) `class ReplanContext`
-  - `render_text` (function, line 227) `def render_text(template, variables)`
-  - `ChainRunner` (class, line 235) `class ChainRunner`
-  - `_all_json_objects` (function, line 1601) `def _all_json_objects(text)`
-  - `_load_json_events` (function, line 1622) `def _load_json_events(path)`
-  - `ok` (method, line 90) `def ok(self)`
-  - `to_dict` (method, line 94) `def to_dict(self)`
-  - `to_dict` (method, line 149) `def to_dict(self)`
-  - `chain_proven` (method, line 174) `def chain_proven(self)`
-  - `set_var` (method, line 197) `def set_var(self, name, value)`
-  - `insert_step` (method, line 202) `def insert_step(self, step)`
-  - `skip_rest` (method, line 207) `def skip_rest(self)`
-  - `applied_vars` (method, line 212) `def applied_vars(self)`
-  - `inserted` (method, line 217) `def inserted(self)`
-  - `skip_rest_flag` (method, line 222) `def skip_rest_flag(self)`
-  - `__init__` (method, line 238) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
-  - `_pace_after` (method, line 324) `def _pace_after(self, outcome, started, step)`
-  - `run` (method, line 363) `def run(self)`
-  - `_finalize_verdict` (method, line 550) `def _finalize_verdict(self, result)`
-  - `_skip_remaining` (method, line 594) `def _skip_remaining(self, steps, start, reason)`
-  - `_warn_parallel_group` (method, line 609) `def _warn_parallel_group(self, result, first, group, steps, cursor)`
-  - `_run_parallel_group` (method, line 646) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
-  - `_run_fallback_chain` (method, line 740) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
-  - `_deliver` (method, line 813) `def _deliver(self, outcome)`
-  - `_promoted_sinks` (method, line 818) `def _promoted_sinks(self, outcome)`
-  - `_publish_step` (method, line 843) `def _publish_step(self, outcome)`
-  - `_notify` (method, line 943) `def _notify(self, outcome)`
-  - `_apply_replanner` (method, line 952) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
-  - `_record_replan_deviations` (method, line 1002) `def _record_replan_deviations(self, context)`
-  - `_save_checkpoint` (method, line 1044) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
-  - `_record_verdict` (method, line 1082) `def _record_verdict(verdicts, outcome)`
-  - `_run_step` (method, line 1089) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
-  - `_dependency_block` (method, line 1227) `def _dependency_block(step, prior_verdicts)`
-  - `_verify_evidence` (method, line 1249) `def _verify_evidence(self, step, outcome, variables)`
-  - `_ask_approval` (method, line 1294) `def _ask_approval(self, step_id, command)`
-  - `_verify_timeout` (method, line 1303) `def _verify_timeout(self, step)`
-  - `_pre_check_timeout` (method, line 1309) `def _pre_check_timeout(self, step)`
-  - `_store_capture` (method, line 1313) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
-  - `_first_json` (method, line 1365) `def _first_json(output)`
-  - `_render_command` (method, line 1379) `def _render_command(self, template, variables, captured_keys)`
-  - `_execute` (method, line 1410) `def _execute(self, command, timeout, expect_exits)`
-  - `_verb_timeout_on_main` (method, line 1445) `def _verb_timeout_on_main(self, limit)`
-  - `_run_verb_bounded` (method, line 1464) `def _run_verb_bounded(self, command, limit)`
-  - `_is_verb` (method, line 1494) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 1505) `def _run_shell_verb(self, command, timeout)`
-  - `_run_raw` (method, line 1558) `def _run_raw(self, command, timeout, allowed)`
-  - `_call` (method, line 1575) `def _call(callback, timeout)`
-  - `_raise_timeout` (function, line 1538) `def _raise_timeout(_signum, _frame)`
+  - `StepOutcome` (class, line 65) `class StepOutcome`
+  - `ChainRunResult` (class, line 122) `class ChainRunResult`
+  - `ReplanContext` (class, line 184) `class ReplanContext`
+  - `ChainRunner` (class, line 231) `class ChainRunner`
+  - `_all_json_objects` (function, line 1576) `def _all_json_objects(text)`
+  - `_load_json_events` (function, line 1597) `def _load_json_events(path)`
+  - `ok` (method, line 94) `def ok(self)`
+  - `to_dict` (method, line 98) `def to_dict(self)`
+  - `to_dict` (method, line 153) `def to_dict(self)`
+  - `chain_proven` (method, line 178) `def chain_proven(self)`
+  - `set_var` (method, line 201) `def set_var(self, name, value)`
+  - `insert_step` (method, line 206) `def insert_step(self, step)`
+  - `skip_rest` (method, line 211) `def skip_rest(self)`
+  - `applied_vars` (method, line 216) `def applied_vars(self)`
+  - `inserted` (method, line 221) `def inserted(self)`
+  - `skip_rest_flag` (method, line 226) `def skip_rest_flag(self)`
+  - `__init__` (method, line 234) `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...`
+  - `_pace_after` (method, line 320) `def _pace_after(self, outcome, started, step)`
+  - `run` (method, line 359) `def run(self)`
+  - `_finalize_verdict` (method, line 546) `def _finalize_verdict(self, result)`
+  - `_skip_remaining` (method, line 590) `def _skip_remaining(self, steps, start, reason)`
+  - `_warn_parallel_group` (method, line 605) `def _warn_parallel_group(self, result, first, group, steps, cursor)`
+  - `_run_parallel_group` (method, line 642) `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)`
+  - `_run_fallback_chain` (method, line 736) `def _run_fallback_chain(self, result, variables, captured_keys, started)`
+  - `_deliver` (method, line 809) `def _deliver(self, outcome)`
+  - `_promoted_sinks` (method, line 814) `def _promoted_sinks(self, outcome)`
+  - `_publish_step` (method, line 839) `def _publish_step(self, outcome)`
+  - `_notify` (method, line 939) `def _notify(self, outcome)`
+  - `_apply_replanner` (method, line 948) `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)`
+  - `_record_replan_deviations` (method, line 998) `def _record_replan_deviations(self, context)`
+  - `_save_checkpoint` (method, line 1040) `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)`
+  - `_record_verdict` (method, line 1078) `def _record_verdict(verdicts, outcome)`
+  - `_run_step` (method, line 1085) `def _run_step(self, step, variables, captured_keys, prior_verdicts)`
+  - `_dependency_block` (method, line 1202) `def _dependency_block(step, prior_verdicts)`
+  - `_verify_evidence` (method, line 1224) `def _verify_evidence(self, step, outcome, variables)`
+  - `_ask_approval` (method, line 1269) `def _ask_approval(self, step_id, command)`
+  - `_verify_timeout` (method, line 1278) `def _verify_timeout(self, step)`
+  - `_pre_check_timeout` (method, line 1284) `def _pre_check_timeout(self, step)`
+  - `_store_capture` (method, line 1288) `def _store_capture(self, step, output, outcome, variables, captured_keys)`
+  - `_first_json` (method, line 1340) `def _first_json(output)`
+  - `_render_command` (method, line 1354) `def _render_command(self, template, variables, captured_keys)`
+  - `_execute` (method, line 1385) `def _execute(self, command, timeout, expect_exits)`
+  - `_verb_timeout_on_main` (method, line 1420) `def _verb_timeout_on_main(self, limit)`
+  - `_run_verb_bounded` (method, line 1439) `def _run_verb_bounded(self, command, limit)`
+  - `_is_verb` (method, line 1469) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 1480) `def _run_shell_verb(self, command, timeout)`
+  - `_run_raw` (method, line 1533) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 1550) `def _call(callback, timeout)`
+  - `_raise_timeout` (function, line 1513) `def _raise_timeout(_signum, _frame)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/browser_sync.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
 - Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
 
@@ -473,14 +459,32 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `token_keys` (function, line 24) `def token_keys()`
-  - `build_tokens` (function, line 29) `def build_tokens(target, params)`
-  - `_load_host_facts` (function, line 77) `def _load_host_facts(host)`
-  - `_newest_creds_file` (function, line 93) `def _newest_creds_file(host)`
-  - `_candidate_files` (function, line 120) `def _candidate_files()`
-  - `_mentions` (function, line 130) `def _mentions(path, needle)`
+  - `build_tokens` (function, line 24) `def build_tokens(target, params)`
+  - `_load_host_facts` (function, line 72) `def _load_host_facts(host)`
+  - `_newest_creds_file` (function, line 88) `def _newest_creds_file(host)`
+  - `_candidate_files` (function, line 115) `def _candidate_files()`
+  - `_mentions` (function, line 125) `def _mentions(path, needle)`
 - Depends on: `skills/lazyown_facts.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
+
+## modules/cicd_enumerator.py
+- Doc: CI/CD Pipeline Enumeration Module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CICDFinding` (class, line 33) `class CICDFinding`
+  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
+  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
+  - `scan` (method, line 60) `def scan(self)`
+  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
+  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
+  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
+  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
+  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
+  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
+  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
+  - `export_findings` (method, line 387) `def export_findings(self)`
+- Imported by: `cli/commands/cicd.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

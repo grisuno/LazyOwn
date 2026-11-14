@@ -380,7 +380,9 @@ if __name__ == "__main__":
     key = os.environ.get("GROQ_API_KEY", "")
     if not key:
         try:
-            key = json.loads(Path("../payload.json").read_text()).get("api_key", "")
+            from core.config import load_payload
+
+            key = load_payload().get("api_key", "")
         except Exception:
             pass
 

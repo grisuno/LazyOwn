@@ -1,29 +1,8 @@
-# Symbols (page 34 of 53)
+# Symbols (page 34 of 52)
 Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `did` | class | `static/js/vis-network.min.js:48` | `` |
-| `dk` | function | `static/js/vis-network.min.js:33` | `` |
-| `does` | function | `static/js/vis-network.min.js:33` | `` |
-| `does` | function | `static/js/vis-network.min.js:48` | `` |
-| `dx` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:33` | `` |
-| `e` | function | `static/js/vis-network.min.js:48` | `` |
-| `f` | function | `static/js/vis-network.min.js:33` | `` |
-| `f` | function | `static/js/vis-network.min.js:33` | `` |
-| `f` | function | `static/js/vis-network.min.js:33` | `` |
-| `fO` | function | `static/js/vis-network.min.js:48` | `` |
-| `fk` | function | `static/js/vis-network.min.js:33` | `` |
-| `g` | function | `static/js/vis-network.min.js:26` | `` |
-| `g` | function | `static/js/vis-network.min.js:33` | `` |
-| `g` | function | `static/js/vis-network.min.js:33` | `` |
-| `g` | function | `static/js/vis-network.min.js:48` | `` |
-| `g` | function | `static/js/vis-network.min.js:48` | `` |
-| `gE` | function | `static/js/vis-network.min.js:33` | `` |
-| `gp` | function | `static/js/vis-network.min.js:33` | `` |
 | `h` | function | `static/js/vis-network.min.js:33` | `` |
 | `has` | function | `static/js/vis-network.min.js:48` | `` |
 | `i` | function | `static/js/vis-network.min.js:33` | `` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_delete_legacy_uppercase_addon` | method | `tests/test_addon_creator.py:774` | `def test_delete_legacy_uppercase_addon(self, tmp_path)` |
 | `test_delete_rejects_unsafe_existing_names` | method | `tests/test_addon_creator.py:425` | `def test_delete_rejects_unsafe_existing_names(self, tmp_path)` |
 | `test_delete_removes_addon` | method | `tests/test_addon_creator.py:722` | `def test_delete_removes_addon(self, tmp_path)` |
+| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
+| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
+| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
+| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
+| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
+| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
+| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
+| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
+| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
+| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
+| `test_list_all_reports_file_stem_as_filename` | method | `tests/test_addon_creator.py:400` | `def test_list_all_reports_file_stem_as_filename(self, tmp_path)` |
+| `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
+| `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:764` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
+| `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:710` | `def test_list_page_shows_created_addon(self, tmp_path)` |
+| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
+| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
+| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
+| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
+| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
+| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
+| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

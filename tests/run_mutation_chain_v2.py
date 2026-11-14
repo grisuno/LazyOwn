@@ -70,8 +70,8 @@ MUTATIONS = {
     "abort_ignored": {
         "file": "modules/chain_runner.py",
         "description": "Keep running after a hard failure",
-        "old": "                result.aborted = True",
-        "new": "                result.aborted = False",
+        "old": "                else:\n                    if not step.continue_on_error:\n                        result.ok = False\n                        result.aborted = True",
+        "new": "                else:\n                    if not step.continue_on_error:\n                        result.ok = False\n                        result.aborted = False",
         "expected": "test_runner_aborts_unless_continue_on_error must fail",
     },
 }

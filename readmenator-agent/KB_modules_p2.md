@@ -1,39 +1,6 @@
 # Subsystem: modules (page 2 of 19)
 Previous: [KB_modules.md](KB_modules.md)
 
-## modules/auto_loop_memory.py
-- Doc: Persistent memory for the auto loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PendingDecision` (class, line 45) `class PendingDecision`
-  - `FailureMemory` (class, line 53) `class FailureMemory`
-  - `DecisionPersistence` (class, line 212) `class DecisionPersistence`
-  - `__init__` (method, line 56) `def __init__(self, filepath)`
-  - `path` (method, line 63) `def path(self)`
-  - `make_key` (method, line 68) `def make_key(target, category, command)`
-  - `base_of` (method, line 75) `def base_of(command)`
-  - `record_failure` (method, line 79) `def record_failure(self, target, category, command)`
-  - `failure_count` (method, line 89) `def failure_count(self, target, category, command)`
-  - `count_for_base` (method, line 94) `def count_for_base(self, target, base_command)`
-  - `veto_base` (method, line 105) `def veto_base(self, target, base_command)`
-  - `is_blocked` (method, line 115) `def is_blocked(self, target, base_command, bonus_key)`
-  - `failure_count_strict` (method, line 123) `def failure_count_strict(self, target, key)`
-  - `blocked_bases` (method, line 128) `def blocked_bases(self, target)`
-  - `clear_target` (method, line 140) `def clear_target(self, target)`
-  - `sanctioned_bases` (method, line 146) `def sanctioned_bases(self, target)`
-  - `_trim` (method, line 159) `def _trim(self)`
-  - `save` (method, line 166) `def save(self)`
-  - `_load` (method, line 186) `def _load(self)`
-  - `__init__` (method, line 215) `def __init__(self, filepath)`
-  - `push` (method, line 220) `def push(self, command, reason)`
-  - `pop` (method, line 229) `def pop(self)`
-  - `peek` (method, line 237) `def peek(self)`
-  - `__len__` (method, line 241) `def __len__(self)`
-  - `save` (method, line 244) `def save(self)`
-  - `_load` (method, line 262) `def _load(self)`
-- Imported by: `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
-
 ## modules/auto_pivot.py
 - Doc: Auto-Pivoting Engine for LazyOwn.
 - Layer: utility
@@ -125,45 +92,45 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_verb_row` (function, line 331) `def _verb_row(name)`
   - `verb_enabled` (function, line 340) `def verb_enabled(name)`
   - `_cli_verb_allowed` (function, line 427) `def _cli_verb_allowed(name)`
-  - `_repo_base` (function, line 455) `def _repo_base()`
-  - `binary_available` (function, line 462) `def binary_available(name)`
-  - `missing_binary` (function, line 478) `def missing_binary(command)`
-  - `verb_gap` (function, line 490) `def verb_gap(verb)`
-  - `verb_available` (function, line 502) `def verb_available(verb)`
-  - `service_tokens` (function, line 507) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 518) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 549) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 585) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 608) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 634) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 678) `def is_routable_command(line)`
-  - `verbs` (function, line 696) `def verbs()`
-  - `is_shell_verb` (function, line 701) `def is_shell_verb(token)`
-  - `build_command` (function, line 725) `def build_command(verb, target)`
-  - `verbs_for` (function, line 736) `def verbs_for(text)`
-  - `propose_intents` (function, line 742) `def propose_intents(goal, target, finding_texts)`
-  - `_atomic_steps` (function, line 767) `def _atomic_steps(verb, text)`
-  - `_playbook_steps` (function, line 786) `def _playbook_steps(text)`
-  - `_apt_chain_steps` (function, line 801) `def _apt_chain_steps(embedded, target, strict)`
-  - `_chain_name_for_playbook` (function, line 830) `def _chain_name_for_playbook(playbook)`
-  - `steps_for` (function, line 863) `def steps_for(text, target)`
-  - `ShellResult` (class, line 1021) `class ShellResult`
-  - `_TeeCapture` (class, line 1028) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 1056) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1154) `def _register_process(process)`
-  - `_unregister_process` (function, line 1160) `def _unregister_process(process)`
-  - `track_process` (function, line 1166) `def track_process(process)`
-  - `untrack_process` (function, line 1171) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1176) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1199) `def execute_streaming(command, on_output, timeout_sec)`
-  - `_exploitdb_steps` (function, line 1307) `def _exploitdb_steps(embedded, target)`
-  - `__init__` (method, line 1038) `def __init__(self, observer)`
-  - `write` (method, line 1043) `def write(self, data)`
-  - `_invoke` (function, line 1079) `def _invoke()`
-  - `_target` (function, line 1090) `def _target()`
-  - `_kill` (function, line 1231) `def _kill()`
-- Depends on: `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
+  - `_repo_base` (function, line 451) `def _repo_base()`
+  - `binary_available` (function, line 458) `def binary_available(name)`
+  - `missing_binary` (function, line 474) `def missing_binary(command)`
+  - `verb_gap` (function, line 486) `def verb_gap(verb)`
+  - `verb_available` (function, line 498) `def verb_available(verb)`
+  - `service_tokens` (function, line 503) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 514) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 545) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 581) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 604) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 630) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 674) `def is_routable_command(line)`
+  - `verbs` (function, line 692) `def verbs()`
+  - `is_shell_verb` (function, line 697) `def is_shell_verb(token)`
+  - `build_command` (function, line 721) `def build_command(verb, target)`
+  - `verbs_for` (function, line 732) `def verbs_for(text)`
+  - `propose_intents` (function, line 738) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 763) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 782) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 797) `def _apt_chain_steps(embedded, target, strict)`
+  - `_chain_name_for_playbook` (function, line 826) `def _chain_name_for_playbook(playbook)`
+  - `steps_for` (function, line 859) `def steps_for(text, target)`
+  - `ShellResult` (class, line 1017) `class ShellResult`
+  - `_TeeCapture` (class, line 1024) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 1052) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1150) `def _register_process(process)`
+  - `_unregister_process` (function, line 1156) `def _unregister_process(process)`
+  - `track_process` (function, line 1162) `def track_process(process)`
+  - `untrack_process` (function, line 1167) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1172) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1195) `def execute_streaming(command, on_output, timeout_sec)`
+  - `_exploitdb_steps` (function, line 1303) `def _exploitdb_steps(embedded, target)`
+  - `__init__` (method, line 1034) `def __init__(self, observer)`
+  - `write` (method, line 1039) `def write(self, data)`
+  - `_invoke` (function, line 1075) `def _invoke()`
+  - `_target` (function, line 1086) `def _target()`
+  - `_kill` (function, line 1227) `def _kill()`
+- Depends on: `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`, `modules/service_aliases.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_pwn_success.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_planner_initial_access.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -182,42 +149,42 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_filter_placeholder_creds` (method, line 284) `def _filter_placeholder_creds(credentials)`
   - `profile` (method, line 328) `def profile(self, target)`
   - `rank_exploits` (method, line 389) `def rank_exploits(self, profile)`
-  - `execute_candidate` (method, line 412) `def execute_candidate(self, candidate, profile)`
-  - `_match_exploit_db` (method, line 474) `def _match_exploit_db(self, service, product, version)`
-  - `_heuristic_match` (method, line 512) `def _heuristic_match(self, service, product, version)`
-  - `_match_by_port` (method, line 1016) `def _match_by_port(self, port, os_type)`
-  - `_scorer` (method, line 1073) `def _scorer(self, exploit, service, product, version)`
-  - `_run_exploit` (method, line 1113) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1159) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1176) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1328) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1421) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1441) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1471) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1499) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1510) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1609) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1627) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1706) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1722) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1733) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1759) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1794) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1842) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 2022) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 2048) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 2076) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2145) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2188) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2378) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2478) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2543) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2604) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2649) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2668) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `execute_candidate` (method, line 420) `def execute_candidate(self, candidate, profile)`
+  - `_match_exploit_db` (method, line 482) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 520) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 1031) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1088) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1128) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1174) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1191) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1343) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1378) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1398) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1428) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1456) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1467) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1566) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1584) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1663) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1679) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1690) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1716) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1751) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1799) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 1979) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2005) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2033) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2102) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2145) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2335) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2435) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2500) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2561) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2606) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2625) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
-- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
+- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/ctf_capture.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_success.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
 - Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
@@ -495,6 +462,20 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_reply` (method, line 698) `def _reply(self, code, payload)`
 - Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
 - Imported by: `modules/chain_runner.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `tests/conftest.py`
+
+## modules/bsb_compat.py
+- Doc: BlackSandBeacon wire-protocol compatibility helpers.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `derive_bsb_keys` (function, line 52) `def derive_bsb_keys(master_key)`
+  - `decrypt_bsb_report` (function, line 90) `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)`
+  - `encrypt_bsb_command` (function, line 139) `def encrypt_bsb_command(data, master_key)`
+  - `derive_bsb_stage_keys` (function, line 162) `def derive_bsb_stage_keys(token)`
+  - `encrypt_bsb_stage_blob` (function, line 208) `def encrypt_bsb_stage_blob(data, token)`
+  - `decrypt_bsb_stage_blob` (function, line 232) `def decrypt_bsb_stage_blob(encrypted_data, token)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `tests/test_bsb_fileless_compat.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

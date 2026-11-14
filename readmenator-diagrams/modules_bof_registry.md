@@ -1,6 +1,6 @@
 # modules: bof_registry
 
-modules: bof_registry groups 48 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
+modules: bof_registry groups 43 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
 
 ```mermaid
 graph LR
@@ -18,31 +18,30 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (11.1)
+## cli (12.1)
 
-cli groups 5 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
+cli groups 4 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. BOF marketplace CommandSet — Beacon Object File discovery, staging and delivery.
 
-## lazyc2 (11.2)
+## lazyc2 (12.2)
 
 lazyc2 groups 1 files (py) around CommandRejectionReason, CommandDecision, to_dict, CommandAllowlist, __init__. Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint.
 
-## modules (11.3)
+## modules (12.3)
 
-modules groups 22 files (py) around FailureClass, FallbackAction, FailureVerdict, is_hard_stop, is_fallback_eligible. Beacon configuration builder — wires profile engines into beacon compile-time config.
+modules groups 20 files (py) around RiskLevel, GateAction, _risk_bucket, _risk_label, _risk_level. Beacon configuration builder — wires profile engines into beacon compile-time config.
 
-## skills (11.4)
+## skills (12.4)
 
 skills groups 4 files (py) around HookEvent, HookRegistry, __init__, register, run. LazyOwn CLAUDE.md Hierarchical Loader (Claude Code style)  4-level hierarchy (highest...
 
-## tests (11.5)
+## tests (12.5)
 
-tests groups 16 files (py) around TestBeaconConfig, test_default_construction, test_to_gen_beacon_args, test_to_go_implant_vars, test_to_config_json. Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and...
+tests groups 14 files (py) around TestBeaconConfig, test_default_construction, test_to_gen_beacon_args, test_to_go_implant_vars, test_to_config_json. Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and...
 
 **Files**:
 
 - cli/commands/bof_registry.py
 - cli/commands/enum.py
-- cli/commands/lazy_adaptive.py
 - cli/commands/opsec_cleanup.py
 - cli/scope_guard.py
 - lazyc2/security/command_allowlist.py
@@ -52,7 +51,6 @@ tests groups 16 files (py) around TestBeaconConfig, test_default_construction, t
 - modules/bof_registry.py
 - modules/bsb_compat.py
 - modules/c2_profile_engine.py
-- modules/failure_verdict.py
 - modules/forensic_cleaner.py
 - modules/guardrails/__init__.py
 - modules/guardrails/advisories.py
@@ -60,7 +58,6 @@ tests groups 16 files (py) around TestBeaconConfig, test_default_construction, t
 - modules/guardrails/checkpoints.py
 - modules/guardrails/contracts.py
 - modules/guardrails/harness.py
-- modules/lazy_fallback.py
 - modules/log_tamper.py
 - modules/memory_cleaner.py
 - modules/network_opsec.py
@@ -81,8 +78,6 @@ tests groups 16 files (py) around TestBeaconConfig, test_default_construction, t
 - tests/test_c2_profile_engine.py
 - tests/test_command_allowlist.py
 - tests/test_command_allowlist_behavior.py
-- tests/test_failure_verdict.py
-- tests/test_lazy_fallback.py
 - tests/test_opsec_scorer.py
 - tests/test_opsec_scorer_consolidated.py
 - tests/test_scope_guard.py

@@ -243,11 +243,6 @@ class AdaptiveFallbackArbiter:
                 return candidate
         return None
 
-    def tried_count(self) -> int:
-        """Return how many alternatives this arbiter already proposed."""
-        with self._lock:
-            return len(self._tried)
-
     def _bind_family(self, command: str) -> int | None:
         """Return the family index the failed command belongs to."""
         lowered = (command or "").lower()[:_MAX_COMMAND_CHARS]

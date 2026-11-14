@@ -1,31 +1,8 @@
-# Symbols (page 26 of 53)
+# Symbols (page 26 of 52)
 Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `ICommandSelector` | class | `skills/autonomous_daemon.py:677` | `class ICommandSelector(ABC)` |
-| `IObjectiveHandler` | class | `skills/autonomous_daemon.py:1354` | `class IObjectiveHandler(ABC)` |
-| `IToolFallbackResolver` | class | `skills/autonomous_daemon.py:3036` | `class IToolFallbackResolver(ABC)` |
-| `LLMSelector` | class | `skills/autonomous_daemon.py:754` | `class LLMSelector(ICommandSelector)` |
-| `MCPCommandRunner` | class | `skills/autonomous_daemon.py:476` | `class MCPCommandRunner(ICommandRunner)` |
-| `MetricsAwareSelector` | class | `skills/autonomous_daemon.py:947` | `class MetricsAwareSelector(ICommandSelector)` |
-| `PTYCommandRunner` | class | `skills/autonomous_daemon.py:495` | `class PTYCommandRunner(ICommandRunner)` |
-| `ReactiveSelector` | class | `skills/autonomous_daemon.py:690` | `class ReactiveSelector(ICommandSelector)` |
-| `SWANSelector` | class | `skills/autonomous_daemon.py:854` | `class SWANSelector(ICommandSelector)` |
-| `StaticFallbackResolver` | class | `skills/autonomous_daemon.py:3049` | `class StaticFallbackResolver(IToolFallbackResolver)` |
-| `StepResult` | class | `skills/autonomous_daemon.py:1342` | `class StepResult` |
-| `StrategyEngine` | class | `skills/autonomous_daemon.py:1265` | `class StrategyEngine` |
-| `UnifiedBrainSelector` | class | `skills/autonomous_daemon.py:1178` | `class UnifiedBrainSelector(ICommandSelector)` |
-| `_ShellDetector` | class | `skills/autonomous_daemon.py:3118` | `class _ShellDetector` |
-| `__init__` | method | `skills/autonomous_daemon.py:593` | `def __init__(self, runners)` |
-| `__init__` | method | `skills/autonomous_daemon.py:696` | `def __init__(self, reactive_engine)` |
-| `__init__` | method | `skills/autonomous_daemon.py:968` | `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1193` | `def __init__(self, fail_counts)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1241` | `def __init__(self, selectors)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1279` | `def __init__(self, runner, selectors)` |
-| `__init__` | method | `skills/autonomous_daemon.py:1380` | `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)` |
-| `__init__` | method | `skills/autonomous_daemon.py:2723` | `def __init__(self)` |
-| `__init__` | method | `skills/autonomous_daemon.py:3079` | `def __init__(self, dispatcher)` |
 | `__init__` | method | `skills/autonomous_daemon.py:3131` | `def __init__(self, narrator)` |
 | `__init__` | method | `skills/autonomous_daemon.py:3223` | `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...` |
 | `_ask_via` | function | `skills/autonomous_daemon.py:823` | `def _ask_via(_backend, _goal, _key)` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `reduction_ratio` | method | `skills/hermes-lazyown/output_compactor.py:26` | `def reduction_ratio(self)` |
 | `ConsensusProtocol` | class | `skills/hive_mind.py:911` | `class ConsensusProtocol` |
 | `ConsensusVote` | class | `skills/hive_mind.py:902` | `class ConsensusVote` |
+| `DroneAgent` | class | `skills/hive_mind.py:1083` | `class DroneAgent` |
+| `DronePool` | class | `skills/hive_mind.py:1661` | `class DronePool` |
+| `DroneState` | class | `skills/hive_mind.py:1066` | `class DroneState` |
+| `DroneStateStore` | class | `skills/hive_mind.py:1481` | `class DroneStateStore` |
+| `EpisodicStore` | class | `skills/hive_mind.py:189` | `class EpisodicStore(IMemoryStore)` |
+| `HiveBus` | class | `skills/hive_mind.py:728` | `class HiveBus` |
+| `HiveMemory` | class | `skills/hive_mind.py:571` | `class HiveMemory` |
+| `HiveMessage` | class | `skills/hive_mind.py:717` | `class HiveMessage` |
+| `HiveMind` | class | `skills/hive_mind.py:1812` | `class HiveMind` |
+| `ICommandRunner` | class | `skills/hive_mind.py:171` | `class ICommandRunner(ABC)` |
+| `IMemoryStore` | class | `skills/hive_mind.py:161` | `class IMemoryStore(IReadableMemory, IWritableMemory)` |
+| `IReadableMemory` | class | `skills/hive_mind.py:145` | `class IReadableMemory(ABC)` |
+| `IWritableMemory` | class | `skills/hive_mind.py:153` | `class IWritableMemory(ABC)` |
+| `LongtermStore` | class | `skills/hive_mind.py:506` | `class LongtermStore(IMemoryStore)` |
+| `QueenBrain` | class | `skills/hive_mind.py:1289` | `class QueenBrain` |
+| `SemanticStore` | class | `skills/hive_mind.py:349` | `class SemanticStore(IMemoryStore)` |
+| `__init__` | method | `skills/hive_mind.py:215` | `def __init__(self, db_path)` |
+| `__init__` | method | `skills/hive_mind.py:358` | `def __init__(self, chroma_dir, episodic_fallback)` |
+| `__init__` | method | `skills/hive_mind.py:582` | `def __init__(self, stores, episodic, semantic, longterm)` |
+| `__init__` | method | `skills/hive_mind.py:736` | `def __init__(self)` |
+| `__init__` | method | `skills/hive_mind.py:943` | `def __init__(self, risk_assessor)` |
+| `__init__` | method | `skills/hive_mind.py:1091` | `def __init__(self, drone_id, role, goal, backend, memory, bus, max_iterations, api_key, model, runner, on_state_change)` |
+| `__init__` | method | `skills/hive_mind.py:1301` | `def __init__(self, memory, bus, pool, consensus)` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

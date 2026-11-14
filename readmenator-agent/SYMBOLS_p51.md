@@ -1,12 +1,8 @@
-# Symbols (page 51 of 53)
+# Symbols (page 51 of 52)
 Previous: [SYMBOLS_p50.md](SYMBOLS_p50.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `testProfiles_resolve_to_numeric_ids` | method | `tests/test_selection_wiring.py:44` | `def testProfiles_resolve_to_numeric_ids(self)` |
-| `test_adverbial_words_do_not_hijack` | method | `tests/test_selection_wiring.py:55` | `def test_adverbial_words_do_not_hijack(self)` |
-| `test_cascade_names_actor_by_alias` | method | `tests/test_selection_wiring.py:21` | `def test_cascade_names_actor_by_alias(self)` |
-| `test_cascade_names_actor_slug` | method | `tests/test_selection_wiring.py:27` | `def test_cascade_names_actor_slug(self)` |
 | `test_generator_stubs_not_the_base_chain` | method | `tests/test_selection_wiring.py:32` | `def test_generator_stubs_not_the_base_chain(self)` |
 | `test_inject_shellcode_profile` | method | `tests/test_selection_wiring.py:50` | `def test_inject_shellcode_profile(self)` |
 | `test_lab_env_gate` | method | `tests/test_selection_wiring.py:71` | `def test_lab_env_gate(self, monkeypatch)` |
@@ -496,5 +492,9 @@ Previous: [SYMBOLS_p50.md](SYMBOLS_p50.md)
 | `test_active_tokens_covers_every_key` | method | `tests/test_tui_style.py:25` | `def test_active_tokens_covers_every_key(self)` |
 | `test_active_tokens_honours_payload` | method | `tests/test_tui_style.py:32` | `def test_active_tokens_honours_payload(self)` |
 | `test_known_token_returns_theme_attribute` | method | `tests/test_tui_style.py:15` | `def test_known_token_returns_theme_attribute(self)` |
+| `test_paint_returns_rich_text_with_style` | method | `tests/test_tui_style.py:39` | `def test_paint_returns_rich_text_with_style(self)` |
+| `test_render_prompt_emits_segments_separated_by_bar` | method | `tests/test_tui_style.py:44` | `def test_render_prompt_emits_segments_separated_by_bar(self)` |
+| `test_render_prompt_empty_is_noop` | method | `tests/test_tui_style.py:59` | `def test_render_prompt_empty_is_noop(self)` |
+| `test_unknown_token_falls_back_to_white` | method | `tests/test_tui_style.py:21` | `def test_unknown_token_falls_back_to_white(self)` |
 
 Next: [SYMBOLS_p52.md](SYMBOLS_p52.md)

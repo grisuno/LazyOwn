@@ -114,10 +114,10 @@
   - `_auto_approve` (method, line 164) `def _auto_approve(self, command)`
   - `_missing_tool` (method, line 176) `def _missing_tool(self, command)`
   - `_run` (method, line 192) `def _run(self, command, executor)`
-  - `_resolved_command` (method, line 242) `def _resolved_command(self, command)`
+  - `_resolved_command` (method, line 239) `def _resolved_command(self, command)`
   - `_work` (function, line 35) `def _work()`
   - `_reader` (function, line 77) `def _reader()`
-- Depends on: `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_loop.py`
+- Depends on: `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_loop.py`, `utils.py`
 - Imported by: `modules/loop/__init__.py`
 
 ## modules/loop/worker_gating.py

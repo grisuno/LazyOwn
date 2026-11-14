@@ -198,12 +198,9 @@ class WorkerExecutionMixin:
                 except Exception as exc:
                     return f"execution failed: {exc}"
             try:
-                from modules.custom_tools import run_tool
+                from modules.custom_tools import run_custom_tool_line
 
-                parts = (command or "").split(maxsplit=4)
-                name = parts[2] if len(parts) > 2 else ""
-                arg = " ".join(parts[3:]).strip() if len(parts) > 3 else ""
-                return str(run_tool(name, arg) or "")
+                return run_custom_tool_line(command)
             except Exception as exc:
                 return f"execution failed: {exc}"
         try:
@@ -241,14 +238,6 @@ class WorkerExecutionMixin:
 
     def _resolved_command(self, command: str) -> str:
         """Expand the first-token shell alias so checks see through it."""
-        text = str(command or "").strip()
-        if not text:
-            return text
-        token = text.split()[0]
-        aliases = getattr(self.shell, "aliases", None)
-        if isinstance(aliases, dict):
-            macro = aliases.get(token)
-            if macro:
-                rest = " ".join(text.split()[1:])
-                return f"{macro} {rest}".strip()
-        return text
+        from utils import resolve_alias
+
+        return resolve_alias(self.shell, command)

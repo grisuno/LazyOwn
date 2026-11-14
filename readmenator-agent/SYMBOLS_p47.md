@@ -1,21 +1,8 @@
-# Symbols (page 47 of 53)
+# Symbols (page 47 of 52)
 Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_evidence_freshness_stale` | function | `tests/test_mcp_improvements.py:170` | `def test_evidence_freshness_stale(tmp_path)` |
-| `test_evidence_grep_finds_in_loot_scope` | function | `tests/test_mcp_improvements.py:227` | `def test_evidence_grep_finds_in_loot_scope(tmp_path)` |
-| `test_evidence_grep_handler_ignores_binaries` | function | `tests/test_mcp_improvements.py:436` | `def test_evidence_grep_handler_ignores_binaries(tmp_path)` |
-| `test_evidence_grep_invalid_regex` | function | `tests/test_mcp_improvements.py:237` | `def test_evidence_grep_invalid_regex(tmp_path)` |
-| `test_evidence_grep_truncates` | function | `tests/test_mcp_improvements.py:244` | `def test_evidence_grep_truncates(tmp_path)` |
-| `test_handler_target_context_via_helper` | function | `tests/test_mcp_improvements.py:414` | `def test_handler_target_context_via_helper(tmp_path)` |
-| `test_handler_tasks_cleanup_dry_run` | function | `tests/test_mcp_improvements.py:421` | `def test_handler_tasks_cleanup_dry_run(tmp_path)` |
-| `test_is_likely_credential_classifies` | function | `tests/test_mcp_improvements.py:74` | `def test_is_likely_credential_classifies(value, expect_real, expect_reason)` |
-| `test_is_likely_credential_handles_non_string` | function | `tests/test_mcp_improvements.py:84` | `def test_is_likely_credential_handles_non_string()` |
-| `test_jobstore_captures_failure` | function | `tests/test_mcp_improvements.py:317` | `def test_jobstore_captures_failure()` |
-| `test_jobstore_list_orders_newest_first` | function | `tests/test_mcp_improvements.py:340` | `def test_jobstore_list_orders_newest_first()` |
-| `test_jobstore_runs_command_and_reports_done` | function | `tests/test_mcp_improvements.py:297` | `def test_jobstore_runs_command_and_reports_done()` |
-| `test_jobstore_unknown_id` | function | `tests/test_mcp_improvements.py:335` | `def test_jobstore_unknown_id()` |
 | `test_parse_task_value_complete` | function | `tests/test_mcp_improvements.py:92` | `def test_parse_task_value_complete()` |
 | `test_parse_task_value_no_payload` | function | `tests/test_mcp_improvements.py:110` | `def test_parse_task_value_no_payload()` |
 | `test_parse_task_value_truncated` | function | `tests/test_mcp_improvements.py:103` | `def test_parse_task_value_truncated()` |
@@ -496,5 +483,18 @@ Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 | `TestSourceFilesParse` | class | `tests/test_packaging.py:370` | `class TestSourceFilesParse` |
 | `_entries` | method | `tests/test_packaging.py:308` | `def _entries(name)` |
 | `_load_toml` | function | `tests/test_packaging.py:29` | `def _load_toml(path)` |
+| `_load_yaml` | function | `tests/test_packaging.py:34` | `def _load_yaml(path)` |
+| `_names` | method | `tests/test_packaging.py:316` | `def _names(entries)` |
+| `_read_text` | function | `tests/test_packaging.py:25` | `def _read_text(path)` |
+| `_run_in_subprocess` | method | `tests/test_packaging.py:59` | `def _run_in_subprocess(snippet)` |
+| `cfg` | method | `tests/test_packaging.py:217` | `def cfg(self)` |
+| `deps` | method | `tests/test_packaging.py:197` | `def deps(self)` |
+| `lint_wf` | method | `tests/test_packaging.py:246` | `def lint_wf(self)` |
+| `patterns` | method | `tests/test_packaging.py:288` | `def patterns(self)` |
+| `pyproject` | method | `tests/test_packaging.py:102` | `def pyproject(self)` |
+| `security_wf` | method | `tests/test_packaging.py:254` | `def security_wf(self)` |
+| `setup_text` | method | `tests/test_packaging.py:167` | `def setup_text(self)` |
+| `setup_tree` | method | `tests/test_packaging.py:163` | `def setup_tree(self)` |
+| `test_calls_setup` | method | `tests/test_packaging.py:173` | `def test_calls_setup(self, setup_tree)` |
 
 Next: [SYMBOLS_p48.md](SYMBOLS_p48.md)

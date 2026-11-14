@@ -1,18 +1,8 @@
-# Symbols (page 36 of 53)
+# Symbols (page 36 of 52)
 Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
-| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
-| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
-| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
-| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
-| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
-| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
-| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
-| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
-| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
 | `_CapturingConsole` | class | `tests/test_autosuggest.py:295` | `class _CapturingConsole` |
 | `_FakeAdvisor` | class | `tests/test_autosuggest.py:203` | `class _FakeAdvisor` |
 | `_RaisingProvider` | class | `tests/test_autosuggest.py:52` | `class _RaisingProvider` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 | `_StubProxy` | class | `tests/test_browser_sync.py:317` | `class _StubProxy` |
 | `_payload` | method | `tests/test_browser_sync.py:61` | `def _payload(self, inject)` |
 | `_post` | function | `tests/test_browser_sync.py:16` | `def _post(url, payload, token_header)` |
+| `_write_profile` | method | `tests/test_browser_sync.py:64` | `def _write_profile(self, data)` |
+| `setUp` | method | `tests/test_browser_sync.py:44` | `def setUp(self)` |
+| `start` | method | `tests/test_browser_sync.py:318` | `def start(self, port, upstream)` |
+| `test_apply_identity_to_url` | method | `tests/test_browser_sync.py:296` | `def test_apply_identity_to_url(self)` |
+| `test_apply_identity_to_url_no_profile` | method | `tests/test_browser_sync.py:307` | `def test_apply_identity_to_url_no_profile(self)` |
+| `test_artifacts_mode_0600` | method | `tests/test_browser_sync.py:363` | `def test_artifacts_mode_0600(self)` |
+| `test_clear_profile` | method | `tests/test_browser_sync.py:283` | `def test_clear_profile(self)` |
+| `test_cookie_expiry_filtering` | method | `tests/test_browser_sync.py:151` | `def test_cookie_expiry_filtering(self)` |
+| `test_cookie_header_merge` | method | `tests/test_browser_sync.py:227` | `def test_cookie_header_merge(self)` |
+| `test_cookie_host_matching` | method | `tests/test_browser_sync.py:136` | `def test_cookie_host_matching(self)` |
 
 Next: [SYMBOLS_p37.md](SYMBOLS_p37.md)

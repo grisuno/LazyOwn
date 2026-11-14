@@ -148,6 +148,25 @@ def match_tools(text: str, limit: int = 3) -> list[dict]:
     return [tool for _score, tool in scored[: max(1, int(limit))]]
 
 
+def run_custom_tool_line(command: str, on_output=None) -> str:
+    """Dispatch a ``custom tool <name> <arg>`` command line to its tool.
+
+    Single dispatcher shared by the loop runner executor and the worker
+    execution fallback so the wire format is parsed in exactly one place.
+
+    Args:
+        command: Full ``custom tool <name> <arg>`` command line.
+        on_output: Optional live line observer.
+
+    Returns:
+        Captured tool transcript or an ``execution failed:`` line.
+    """
+    parts = (command or "").split(maxsplit=4)
+    name = parts[2] if len(parts) > 2 else ""
+    arg = " ".join(parts[3:]).strip() if len(parts) > 3 else ""
+    return str(run_tool(name, arg, on_output=on_output) or "")
+
+
 def run_tool(name: str, arg: str = "", on_output=None) -> str:
     """Execute one custom tool and return its transcript.
 

@@ -1,18 +1,8 @@
-# Symbols (page 37 of 53)
+# Symbols (page 37 of 52)
 Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_write_profile` | method | `tests/test_browser_sync.py:64` | `def _write_profile(self, data)` |
-| `setUp` | method | `tests/test_browser_sync.py:44` | `def setUp(self)` |
-| `start` | method | `tests/test_browser_sync.py:318` | `def start(self, port, upstream)` |
-| `test_apply_identity_to_url` | method | `tests/test_browser_sync.py:296` | `def test_apply_identity_to_url(self)` |
-| `test_apply_identity_to_url_no_profile` | method | `tests/test_browser_sync.py:307` | `def test_apply_identity_to_url_no_profile(self)` |
-| `test_artifacts_mode_0600` | method | `tests/test_browser_sync.py:363` | `def test_artifacts_mode_0600(self)` |
-| `test_clear_profile` | method | `tests/test_browser_sync.py:283` | `def test_clear_profile(self)` |
-| `test_cookie_expiry_filtering` | method | `tests/test_browser_sync.py:151` | `def test_cookie_expiry_filtering(self)` |
-| `test_cookie_header_merge` | method | `tests/test_browser_sync.py:227` | `def test_cookie_header_merge(self)` |
-| `test_cookie_host_matching` | method | `tests/test_browser_sync.py:136` | `def test_cookie_host_matching(self)` |
 | `test_cookie_path_matching` | method | `tests/test_browser_sync.py:143` | `def test_cookie_path_matching(self)` |
 | `test_empty_value_cookie_skipped_in_merge` | method | `tests/test_browser_sync.py:221` | `def test_empty_value_cookie_skipped_in_merge(self)` |
 | `test_ensure_wiring_default_port_matches_documented_default` | method | `tests/test_browser_sync.py:356` | `def test_ensure_wiring_default_port_matches_documented_default(self)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_dry_run_treats_parallel_steps_sequentially` | function | `tests/test_chain_parallel_fallback.py:274` | `def test_dry_run_treats_parallel_steps_sequentially()` |
 | `test_fallback_chain_runs_on_failure` | function | `tests/test_chain_parallel_fallback.py:165` | `def test_fallback_chain_runs_on_failure()` |
 | `test_fallback_depth_is_capped` | function | `tests/test_chain_parallel_fallback.py:208` | `def test_fallback_depth_is_capped()` |
+| `test_fallback_skipped_when_primary_succeeds` | function | `tests/test_chain_parallel_fallback.py:192` | `def test_fallback_skipped_when_primary_succeeds()` |
+| `test_parallel_failure_with_continue_keeps_going` | function | `tests/test_chain_parallel_fallback.py:103` | `def test_parallel_failure_with_continue_keeps_going()` |
+| `test_parallel_failure_without_continue_aborts` | function | `tests/test_chain_parallel_fallback.py:79` | `def test_parallel_failure_without_continue_aborts()` |
+| `test_parallel_steps_execute_concurrently` | function | `tests/test_chain_parallel_fallback.py:21` | `def test_parallel_steps_execute_concurrently()` |
+| `test_pre_check_failure_skips_step` | function | `tests/test_chain_parallel_fallback.py:126` | `def test_pre_check_failure_skips_step()` |
+| `test_pre_check_success_executes_step` | function | `tests/test_chain_parallel_fallback.py:150` | `def test_pre_check_success_executes_step()` |
+| `test_registry_parses_parallel_and_pre_check` | function | `tests/test_chain_parallel_fallback.py:257` | `def test_registry_parses_parallel_and_pre_check()` |
+| `test_registry_validation_rejects_parallel_with_capture` | function | `tests/test_chain_parallel_fallback.py:230` | `def test_registry_validation_rejects_parallel_with_capture()` |
+| `test_registry_validation_rejects_unknown_fallback` | function | `tests/test_chain_parallel_fallback.py:241` | `def test_registry_validation_rejects_unknown_fallback()` |
+| `test_chain_yaml_matches_skill_contract` | function | `tests/test_chain_registry.py:73` | `def test_chain_yaml_matches_skill_contract()` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

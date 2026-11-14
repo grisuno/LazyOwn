@@ -1,34 +1,8 @@
-# Symbols (page 12 of 53)
+# Symbols (page 12 of 52)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `PivotNode` | class | `modules/auto_pivot.py:23` | `class PivotNode` |
-| `__init__` | method | `modules/auto_pivot.py:73` | `def __init__(self, config)` |
-| `_load_state` | method | `modules/auto_pivot.py:314` | `def _load_state(self)` |
-| `_next_port` | method | `modules/auto_pivot.py:85` | `def _next_port(self)` |
-| `_persist_state` | method | `modules/auto_pivot.py:277` | `def _persist_state(self)` |
-| `add_pivot_node` | method | `modules/auto_pivot.py:90` | `def add_pivot_node(self, ip, access_type, credential_id, hostname)` |
-| `build_chain` | method | `modules/auto_pivot.py:146` | `def build_chain(self, target_ip, via_nodes, subnet)` |
-| `discover_subnets` | method | `modules/auto_pivot.py:128` | `def discover_subnets(self, node_ip, command_output)` |
-| `generate_chisel_command` | method | `modules/auto_pivot.py:206` | `def generate_chisel_command(self, target_ip, local_port)` |
-| `generate_proxychains_config` | method | `modules/auto_pivot.py:177` | `def generate_proxychains_config(self, chain_id)` |
-| `generate_ssh_socks_command` | method | `modules/auto_pivot.py:212` | `def generate_ssh_socks_command(self, node_ip, local_port)` |
-| `generate_sshuttle_command` | method | `modules/auto_pivot.py:203` | `def generate_sshuttle_command(self, node_ip, subnet)` |
-| `get_active_routes` | method | `modules/auto_pivot.py:243` | `def get_active_routes(self)` |
-| `get_reachable_hosts` | method | `modules/auto_pivot.py:259` | `def get_reachable_hosts(self, node_ip)` |
-| `health_check` | method | `modules/auto_pivot.py:216` | `def health_check(self, node_ip)` |
-| `health_check_all` | method | `modules/auto_pivot.py:237` | `def health_check_all(self)` |
-| `remove_pivot_node` | method | `modules/auto_pivot.py:120` | `def remove_pivot_node(self, ip)` |
-| `set_config` | method | `modules/auto_pivot.py:82` | `def set_config(self, config)` |
-| `set_reachable_hosts` | method | `modules/auto_pivot.py:267` | `def set_reachable_hosts(self, node_ip, hosts)` |
-| `set_route_priority` | method | `modules/auto_pivot.py:272` | `def set_route_priority(self, node_ip, priority)` |
-| `suggest_next_pivot` | method | `modules/auto_pivot.py:352` | `def suggest_next_pivot(self)` |
-| `DetectionMethod` | class | `modules/auto_purple.py:72` | `class DetectionMethod` |
-| `IPurpleEvaluator` | class | `modules/auto_purple.py:210` | `class IPurpleEvaluator(ABC)` |
-| `IPurpleLoop` | class | `modules/auto_purple.py:181` | `class IPurpleLoop(ABC)` |
-| `PurpleResult` | class | `modules/auto_purple.py:132` | `class PurpleResult` |
-| `PurpleScore` | class | `modules/auto_purple.py:165` | `class PurpleScore` |
 | `PurpleTeamLoop` | class | `modules/auto_purple.py:407` | `class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator)` |
 | `__init__` | method | `modules/auto_purple.py:414` | `def __init__(self, bt_path, detection_delay, methods, auto_feedback, session_id)` |
 | `_append_dataset` | method | `modules/auto_purple.py:698` | `def _append_dataset(self, result)` |
@@ -65,96 +39,96 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
 | `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
 | `AutoVerb` | class | `modules/auto_registry.py:95` | `class AutoVerb` |
-| `ShellResult` | class | `modules/auto_registry.py:1021` | `class ShellResult` |
-| `_TeeCapture` | class | `modules/auto_registry.py:1028` | `class _TeeCapture(StringIO)` |
-| `__init__` | method | `modules/auto_registry.py:1038` | `def __init__(self, observer)` |
-| `_apt_chain_steps` | function | `modules/auto_registry.py:801` | `def _apt_chain_steps(embedded, target, strict)` |
-| `_atomic_steps` | function | `modules/auto_registry.py:767` | `def _atomic_steps(verb, text)` |
-| `_chain_name_for_playbook` | function | `modules/auto_registry.py:830` | `def _chain_name_for_playbook(playbook)` |
+| `ShellResult` | class | `modules/auto_registry.py:1017` | `class ShellResult` |
+| `_TeeCapture` | class | `modules/auto_registry.py:1024` | `class _TeeCapture(StringIO)` |
+| `__init__` | method | `modules/auto_registry.py:1034` | `def __init__(self, observer)` |
+| `_apt_chain_steps` | function | `modules/auto_registry.py:797` | `def _apt_chain_steps(embedded, target, strict)` |
+| `_atomic_steps` | function | `modules/auto_registry.py:763` | `def _atomic_steps(verb, text)` |
+| `_chain_name_for_playbook` | function | `modules/auto_registry.py:826` | `def _chain_name_for_playbook(playbook)` |
 | `_cli_verb_allowed` | function | `modules/auto_registry.py:427` | `def _cli_verb_allowed(name)` |
-| `_exploitdb_steps` | function | `modules/auto_registry.py:1307` | `def _exploitdb_steps(embedded, target)` |
-| `_invoke` | function | `modules/auto_registry.py:1079` | `def _invoke()` |
-| `_kill` | function | `modules/auto_registry.py:1231` | `def _kill()` |
+| `_exploitdb_steps` | function | `modules/auto_registry.py:1303` | `def _exploitdb_steps(embedded, target)` |
+| `_invoke` | function | `modules/auto_registry.py:1075` | `def _invoke()` |
+| `_kill` | function | `modules/auto_registry.py:1227` | `def _kill()` |
 | `_looks_like_target` | function | `modules/auto_registry.py:38` | `def _looks_like_target(value)` |
 | `_os_default_for_verb` | function | `modules/auto_registry.py:278` | `def _os_default_for_verb(verb)` |
-| `_parse_trigger_lines` | function | `modules/auto_registry.py:518` | `def _parse_trigger_lines(lines, start)` |
-| `_playbook_steps` | function | `modules/auto_registry.py:786` | `def _playbook_steps(text)` |
-| `_register_process` | function | `modules/auto_registry.py:1154` | `def _register_process(process)` |
-| `_repo_base` | function | `modules/auto_registry.py:455` | `def _repo_base()` |
-| `_target` | function | `modules/auto_registry.py:1090` | `def _target()` |
-| `_unregister_process` | function | `modules/auto_registry.py:1160` | `def _unregister_process(process)` |
+| `_parse_trigger_lines` | function | `modules/auto_registry.py:514` | `def _parse_trigger_lines(lines, start)` |
+| `_playbook_steps` | function | `modules/auto_registry.py:782` | `def _playbook_steps(text)` |
+| `_register_process` | function | `modules/auto_registry.py:1150` | `def _register_process(process)` |
+| `_repo_base` | function | `modules/auto_registry.py:451` | `def _repo_base()` |
+| `_target` | function | `modules/auto_registry.py:1086` | `def _target()` |
+| `_unregister_process` | function | `modules/auto_registry.py:1156` | `def _unregister_process(process)` |
 | `_verb_row` | function | `modules/auto_registry.py:331` | `def _verb_row(name)` |
 | `_verb_rows` | function | `modules/auto_registry.py:286` | `def _verb_rows()` |
-| `addon_hits_for` | function | `modules/auto_registry.py:608` | `def addon_hits_for(service_text, limit)` |
+| `addon_hits_for` | function | `modules/auto_registry.py:604` | `def addon_hits_for(service_text, limit)` |
 | `auto_verb_target` | function | `modules/auto_registry.py:55` | `def auto_verb_target(command)` |
-| `binary_available` | function | `modules/auto_registry.py:462` | `def binary_available(name)` |
-| `build_command` | function | `modules/auto_registry.py:725` | `def build_command(verb, target)` |
-| `cancel_running_commands` | function | `modules/auto_registry.py:1176` | `def cancel_running_commands()` |
-| `execute_shell_verb` | function | `modules/auto_registry.py:1056` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
-| `execute_streaming` | function | `modules/auto_registry.py:1199` | `def execute_streaming(command, on_output, timeout_sec)` |
-| `is_routable_command` | function | `modules/auto_registry.py:678` | `def is_routable_command(line)` |
-| `is_shell_verb` | function | `modules/auto_registry.py:701` | `def is_shell_verb(token)` |
-| `iter_addon_triggers` | function | `modules/auto_registry.py:549` | `def iter_addon_triggers()` |
-| `iter_tool_triggers` | function | `modules/auto_registry.py:585` | `def iter_tool_triggers()` |
-| `missing_binary` | function | `modules/auto_registry.py:478` | `def missing_binary(command)` |
-| `propose_addon_intents` | function | `modules/auto_registry.py:634` | `def propose_addon_intents(service_texts, target, limit)` |
-| `propose_intents` | function | `modules/auto_registry.py:742` | `def propose_intents(goal, target, finding_texts)` |
-| `service_tokens` | function | `modules/auto_registry.py:507` | `def service_tokens(service_text)` |
-| `steps_for` | function | `modules/auto_registry.py:863` | `def steps_for(text, target)` |
-| `track_process` | function | `modules/auto_registry.py:1166` | `def track_process(process)` |
-| `untrack_process` | function | `modules/auto_registry.py:1171` | `def untrack_process(process)` |
-| `verb_available` | function | `modules/auto_registry.py:502` | `def verb_available(verb)` |
+| `binary_available` | function | `modules/auto_registry.py:458` | `def binary_available(name)` |
+| `build_command` | function | `modules/auto_registry.py:721` | `def build_command(verb, target)` |
+| `cancel_running_commands` | function | `modules/auto_registry.py:1172` | `def cancel_running_commands()` |
+| `execute_shell_verb` | function | `modules/auto_registry.py:1052` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
+| `execute_streaming` | function | `modules/auto_registry.py:1195` | `def execute_streaming(command, on_output, timeout_sec)` |
+| `is_routable_command` | function | `modules/auto_registry.py:674` | `def is_routable_command(line)` |
+| `is_shell_verb` | function | `modules/auto_registry.py:697` | `def is_shell_verb(token)` |
+| `iter_addon_triggers` | function | `modules/auto_registry.py:545` | `def iter_addon_triggers()` |
+| `iter_tool_triggers` | function | `modules/auto_registry.py:581` | `def iter_tool_triggers()` |
+| `missing_binary` | function | `modules/auto_registry.py:474` | `def missing_binary(command)` |
+| `propose_addon_intents` | function | `modules/auto_registry.py:630` | `def propose_addon_intents(service_texts, target, limit)` |
+| `propose_intents` | function | `modules/auto_registry.py:738` | `def propose_intents(goal, target, finding_texts)` |
+| `service_tokens` | function | `modules/auto_registry.py:503` | `def service_tokens(service_text)` |
+| `steps_for` | function | `modules/auto_registry.py:859` | `def steps_for(text, target)` |
+| `track_process` | function | `modules/auto_registry.py:1162` | `def track_process(process)` |
+| `untrack_process` | function | `modules/auto_registry.py:1167` | `def untrack_process(process)` |
+| `verb_available` | function | `modules/auto_registry.py:498` | `def verb_available(verb)` |
 | `verb_enabled` | function | `modules/auto_registry.py:340` | `def verb_enabled(name)` |
-| `verb_gap` | function | `modules/auto_registry.py:490` | `def verb_gap(verb)` |
-| `verbs` | function | `modules/auto_registry.py:696` | `def verbs()` |
-| `verbs_for` | function | `modules/auto_registry.py:736` | `def verbs_for(text)` |
-| `write` | method | `modules/auto_registry.py:1043` | `def write(self, data)` |
+| `verb_gap` | function | `modules/auto_registry.py:486` | `def verb_gap(verb)` |
+| `verbs` | function | `modules/auto_registry.py:692` | `def verbs()` |
+| `verbs_for` | function | `modules/auto_registry.py:732` | `def verbs_for(text)` |
+| `write` | method | `modules/auto_registry.py:1039` | `def write(self, data)` |
 | `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
 | `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
 | `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
 | `TargetProfile` | class | `modules/autonomous_exploit_engine.py:59` | `class TargetProfile` |
 | `__init__` | method | `modules/autonomous_exploit_engine.py:114` | `def __init__(self)` |
-| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1722` | `def _apply_stealth_delay(self)` |
-| `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1176` | `def _build_command_chain(self, candidate, profile)` |
-| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:2022` | `def _check_known_cves(self, profile)` |
-| `_check_success` | method | `modules/autonomous_exploit_engine.py:1328` | `def _check_success(self, output, candidate)` |
+| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1679` | `def _apply_stealth_delay(self)` |
+| `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1191` | `def _build_command_chain(self, candidate, profile)` |
+| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:1979` | `def _check_known_cves(self, profile)` |
+| `_check_success` | method | `modules/autonomous_exploit_engine.py:1343` | `def _check_success(self, output, candidate)` |
 | `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:241` | `def _credential_aware_rank(self, profile, credentials)` |
-| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1609` | `def _detect_os_from_payload(self)` |
-| `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1421` | `def _detect_shell(self, output)` |
-| `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1441` | `def _determine_access_level(self, ip, credentials)` |
-| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2543` | `def _discover_internal_interfaces(self, profile)` |
-| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2378` | `def _execute_privesc(self, technique, profile, session_id)` |
-| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1794` | `def _extract_cves_from_text(self, text)` |
+| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1566` | `def _detect_os_from_payload(self)` |
+| `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1378` | `def _detect_shell(self, output)` |
+| `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1398` | `def _determine_access_level(self, ip, credentials)` |
+| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2500` | `def _discover_internal_interfaces(self, profile)` |
+| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2335` | `def _execute_privesc(self, technique, profile, session_id)` |
+| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1751` | `def _extract_cves_from_text(self, text)` |
 | `_filter_placeholder_creds` | method | `modules/autonomous_exploit_engine.py:284` | `def _filter_placeholder_creds(credentials)` |
-| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1706` | `def _get_os_type(self, profile)` |
-| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2649` | `def _get_stealth_scan_flags(self)` |
-| `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:512` | `def _heuristic_match(self, service, product, version)` |
+| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1663` | `def _get_os_type(self, profile)` |
+| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2606` | `def _get_stealth_scan_flags(self)` |
+| `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:520` | `def _heuristic_match(self, service, product, version)` |
 | `_is_placeholder` | function | `modules/autonomous_exploit_engine.py:299` | `def _is_placeholder(value)` |
-| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1627` | `def _load_from_nmap_xml(self, target)` |
-| `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1499` | `def _load_payload_config(self)` |
-| `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1510` | `def _load_world_model(self, target)` |
-| `_match_by_port` | method | `modules/autonomous_exploit_engine.py:1016` | `def _match_by_port(self, port, os_type)` |
-| `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:474` | `def _match_exploit_db(self, service, product, version)` |
-| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2188` | `def _match_privesc_techniques(self, findings, os_type)` |
-| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1842` | `def _match_service_banners(self, profile)` |
-| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1759` | `def _parse_nse_output(self, target_ip)` |
-| `_register_session` | method | `modules/autonomous_exploit_engine.py:1471` | `def _register_session(self, ip, output)` |
-| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1159` | `def _resolve_port(self, candidate, profile)` |
-| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1113` | `def _run_exploit(self, candidate, profile)` |
-| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2076` | `def _run_linux_privesc_checks(self, profile, session_id)` |
-| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2145` | `def _run_windows_privesc_checks(self, profile, session_id)` |
-| `_scorer` | method | `modules/autonomous_exploit_engine.py:1073` | `def _scorer(self, exploit, service, product, version)` |
-| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:2048` | `def chain_privesc(self, profile, session_id)` |
-| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2604` | `def enable_stealth(self, stealth_level)` |
-| `execute_candidate` | method | `modules/autonomous_exploit_engine.py:412` | `def execute_candidate(self, candidate, profile)` |
-| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2668` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
+| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1584` | `def _load_from_nmap_xml(self, target)` |
+| `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1456` | `def _load_payload_config(self)` |
+| `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1467` | `def _load_world_model(self, target)` |
+| `_match_by_port` | method | `modules/autonomous_exploit_engine.py:1031` | `def _match_by_port(self, port, os_type)` |
+| `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:482` | `def _match_exploit_db(self, service, product, version)` |
+| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2145` | `def _match_privesc_techniques(self, findings, os_type)` |
+| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1799` | `def _match_service_banners(self, profile)` |
+| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1716` | `def _parse_nse_output(self, target_ip)` |
+| `_register_session` | method | `modules/autonomous_exploit_engine.py:1428` | `def _register_session(self, ip, output)` |
+| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1174` | `def _resolve_port(self, candidate, profile)` |
+| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1128` | `def _run_exploit(self, candidate, profile)` |
+| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2033` | `def _run_linux_privesc_checks(self, profile, session_id)` |
+| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2102` | `def _run_windows_privesc_checks(self, profile, session_id)` |
+| `_scorer` | method | `modules/autonomous_exploit_engine.py:1088` | `def _scorer(self, exploit, service, product, version)` |
+| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:2005` | `def chain_privesc(self, profile, session_id)` |
+| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2561` | `def enable_stealth(self, stealth_level)` |
+| `execute_candidate` | method | `modules/autonomous_exploit_engine.py:420` | `def execute_candidate(self, candidate, profile)` |
+| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2625` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
 | `get_instance` | method | `modules/autonomous_exploit_engine.py:134` | `def get_instance(cls)` |
 | `hunt` | method | `modules/autonomous_exploit_engine.py:145` | `def hunt(self, target, max_exploits, profile)` |
 | `profile` | method | `modules/autonomous_exploit_engine.py:328` | `def profile(self, target)` |
 | `rank_exploits` | method | `modules/autonomous_exploit_engine.py:389` | `def rank_exploits(self, profile)` |
 | `retry_with_credentials` | method | `modules/autonomous_exploit_engine.py:184` | `def retry_with_credentials(self, target, credentials)` |
-| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1733` | `def scan_vulnerabilities(self, profile)` |
-| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2478` | `def trigger_pivot(self, profile, session_id)` |
+| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1690` | `def scan_vulnerabilities(self, profile)` |
+| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2435` | `def trigger_pivot(self, profile, session_id)` |
 | `AWSAttackEngine` | class | `modules/aws_attacks.py:80` | `class AWSAttackEngine` |
 | `AWSConfig` | class | `modules/aws_attacks.py:58` | `class AWSConfig` |
 | `__init__` | method | `modules/aws_attacks.py:91` | `def __init__(self, config)` |
@@ -496,5 +470,31 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `tls_profile` | method | `modules/c2_profile_engine.py:643` | `def tls_profile(self)` |
 | `to_dict` | method | `modules/c2_profile_engine.py:188` | `def to_dict(self)` |
 | `to_dict` | method | `modules/c2_profile_engine.py:274` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:333` | `def to_dict(self)` |
+| `to_dict` | method | `modules/c2_profile_engine.py:389` | `def to_dict(self)` |
+| `touch` | method | `modules/c2_profile_engine.py:436` | `def touch(self)` |
+| `transport` | method | `modules/c2_profile_engine.py:465` | `def transport(self)` |
+| `validate` | method | `modules/c2_profile_engine.py:676` | `def validate(self)` |
+| `validate_all` | method | `modules/c2_profile_engine.py:591` | `def validate_all(self, tls, dns, smb, websocket)` |
+| `validate_dns` | method | `modules/c2_profile_engine.py:536` | `def validate_dns(profile)` |
+| `validate_smb` | method | `modules/c2_profile_engine.py:556` | `def validate_smb(profile)` |
+| `validate_tls` | method | `modules/c2_profile_engine.py:511` | `def validate_tls(profile)` |
+| `validate_websocket` | method | `modules/c2_profile_engine.py:576` | `def validate_websocket(profile)` |
+| `websocket_profile` | method | `modules/c2_profile_engine.py:658` | `def websocket_profile(self)` |
+| `_normalize_task_title` | function | `modules/c2_surfaces.py:256` | `def _normalize_task_title(title)` |
+| `_read_json` | function | `modules/c2_surfaces.py:42` | `def _read_json(path, default)` |
+| `_stamp` | function | `modules/c2_surfaces.py:68` | `def _stamp()` |
+| `_write_json` | function | `modules/c2_surfaces.py:54` | `def _write_json(path, data)` |
+| `append_note` | function | `modules/c2_surfaces.py:155` | `def append_note(line, sessions_dir)` |
+| `group_tasks_for_display` | function | `modules/c2_surfaces.py:261` | `def group_tasks_for_display(tasks)` |
+| `publish_banner` | function | `modules/c2_surfaces.py:73` | `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` |
+| `publish_cve` | function | `modules/c2_surfaces.py:115` | `def publish_cve(title, description, operator, risk, sessions_dir)` |
+| `refresh_session_report` | function | `modules/c2_surfaces.py:229` | `def refresh_session_report(timeout)` |
+| `register_loot_event` | function | `modules/c2_surfaces.py:184` | `def register_loot_event(name, path_glob, description, event_config)` |
+| `severity_to_risk` | function | `modules/c2_surfaces.py:251` | `def severity_to_risk(severity)` |
+| `days_in_month` | function | `modules/cal.sh:14` | `` |
+| `first_day_of_month` | function | `modules/cal.sh:31` | `` |
+| `is_leap_year` | function | `modules/cal.sh:4` | `` |
+| `_lessons_path` | function | `modules/campaign_blacklist.py:22` | `def _lessons_path()` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

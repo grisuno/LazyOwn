@@ -1,61 +1,6 @@
 # Subsystem: modules (page 6 of 19)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
-## modules/estorides_importer.py
-- Doc: estorides_importer
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
-  - `ImportResult` (class, line 96) `class ImportResult`
-  - `SeedResult` (class, line 128) `class SeedResult`
-  - `extract_seeds_from_world_model` (function, line 143) `def extract_seeds_from_world_model(world_model_path)`
-  - `extract_seeds_from_hosts_file` (function, line 177) `def extract_seeds_from_hosts_file(path)`
-  - `extract_seeds_from_db` (function, line 205) `def extract_seeds_from_db(db_path)`
-  - `extract_seeds_from_scope` (function, line 244) `def extract_seeds_from_scope(scope_entries)`
-  - `run_estorides_discover` (function, line 274) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
-  - `run_estorides_run` (function, line 334) `def run_estorides_run(query, out_json, timeout)`
-  - `EstoridesCaseReader` (class, line 387) `class EstoridesCaseReader`
-  - `EstoridesStixParser` (class, line 497) `class EstoridesStixParser`
-  - `find_lan_bundle_files` (function, line 588) `def find_lan_bundle_files(lan_dir, sessions_dir)`
-  - `LanBundleReader` (class, line 624) `class LanBundleReader`
-  - `ensure_directories` (function, line 696) `def ensure_directories()`
-  - `EstoridesToLazyOwnBridge` (class, line 702) `class EstoridesToLazyOwnBridge`
-  - `FeedbackLoop` (class, line 885) `class FeedbackLoop`
-  - `export_combined_graph` (function, line 1031) `def export_combined_graph(output_path)`
-  - `success` (method, line 110) `def success(self)`
-  - `to_dict` (method, line 113) `def to_dict(self)`
-  - `new_assets` (method, line 139) `def new_assets(self)`
-  - `__init__` (method, line 390) `def __init__(self, db_path)`
-  - `available` (method, line 395) `def available(self)`
-  - `_ensure_conn` (method, line 398) `def _ensure_conn(self)`
-  - `list_cases` (method, line 404) `def list_cases(self, limit)`
-  - `get_entities` (method, line 416) `def get_entities(self, case_id, entity_types, limit)`
-  - `get_host_entities` (method, line 471) `def get_host_entities(self, case_id)`
-  - `get_all_entities` (method, line 475) `def get_all_entities(self, case_id)`
-  - `stats` (method, line 478) `def stats(self)`
-  - `close` (method, line 491) `def close(self)`
-  - `__init__` (method, line 513) `def __init__(self, stix_path)`
-  - `available` (method, line 517) `def available(self)`
-  - `parse` (method, line 520) `def parse(self)`
-  - `parse_by_type` (method, line 554) `def parse_by_type(self, entity_types)`
-  - `_extract_value` (method, line 565) `def _extract_value(obj, stix_type)`
-  - `__init__` (method, line 634) `def __init__(self, lan_dir)`
-  - `available` (method, line 638) `def available(self)`
-  - `read_devices` (method, line 641) `def read_devices(self)`
-  - `parse` (method, line 654) `def parse(self)`
-  - `attack_targets` (method, line 685) `def attack_targets(self)`
-  - `__init__` (method, line 705) `def __init__(self, db_path, config_path)`
-  - `import_entities` (method, line 713) `def import_entities(self, entities, add_to_scope, add_to_db)`
-  - `_import_to_db` (method, line 757) `def _import_to_db(self, imports, result)`
-  - `_import_to_scope` (method, line 803) `def _import_to_scope(self, imports, result)`
-  - `get_combined_surface` (method, line 836) `def get_combined_surface(self)`
-  - `__init__` (method, line 896) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-  - `run` (method, line 912) `def run(self, seed_methods)`
-  - `_gather_seeds` (method, line 1005) `def _gather_seeds(self, methods, seen)`
-- Depends on: `core/logging.py`, `modules/db.py`, `modules/world_model.py`
-- Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
-
 ## modules/evasion_engine.py
 - Doc: Advanced Evasion Engine for LazyOwn C2 operations.
 - Layer: utility
@@ -311,26 +256,22 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ServiceInfo` (class, line 29) `class ServiceInfo`
-  - `VulnerabilityMatch` (class, line 41) `class VulnerabilityMatch`
-  - `ExploitResult` (class, line 54) `class ExploitResult`
-  - `ChainResult` (class, line 65) `class ChainResult`
-  - `_compare_versions` (function, line 266) `def _compare_versions(version_a, version_b)`
-  - `ExploitChain` (class, line 289) `class ExploitChain`
-  - `__init__` (method, line 292) `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
-  - `fingerprint_services` (method, line 311) `def fingerprint_services(self, nmap_output)`
-  - `_discover_xml_files` (method, line 331) `def _discover_xml_files(self)`
-  - `_parse_all_nmap_xml` (method, line 346) `def _parse_all_nmap_xml(self)`
-  - `_is_richer` (method, line 361) `def _is_richer(new_svc, existing)`
-  - `_parse_single_xml` (method, line 367) `def _parse_single_xml(self, xml_path)`
-  - `_parse_nmap_text` (method, line 404) `def _parse_nmap_text(self, output)`
-  - `map_vulnerabilities` (method, line 446) `def map_vulnerabilities(self)`
-  - `_add_vuln` (method, line 485) `def _add_vuln(self, service, sig, version)`
-  - `generate_exploit_plan` (method, line 499) `def generate_exploit_plan(self)`
-  - `get_post_exploit_commands` (method, line 519) `def get_post_exploit_commands(self, platform)`
-  - `generate_report` (method, line 531) `def generate_report(self)`
-  - `save_report` (method, line 566) `def save_report(self, path)`
-- Depends on: `modules/outcome_bus.py`
+  - `VulnerabilityMatch` (class, line 31) `class VulnerabilityMatch`
+  - `ChainResult` (class, line 44) `class ChainResult`
+  - `_compare_versions` (function, line 229) `def _compare_versions(version_a, version_b)`
+  - `ExploitChain` (class, line 252) `class ExploitChain`
+  - `__init__` (method, line 255) `def __init__(self, rhost, sessions_dir, nmap_xml_path)`
+  - `fingerprint_services` (method, line 268) `def fingerprint_services(self, nmap_output)`
+  - `_discover_xml_files` (method, line 286) `def _discover_xml_files(self)`
+  - `_parse_all_nmap_xml` (method, line 301) `def _parse_all_nmap_xml(self)`
+  - `_is_richer` (method, line 316) `def _is_richer(new_svc, existing)`
+  - `map_vulnerabilities` (method, line 322) `def map_vulnerabilities(self)`
+  - `_add_vuln` (method, line 361) `def _add_vuln(self, service, sig, version)`
+  - `generate_exploit_plan` (method, line 375) `def generate_exploit_plan(self)`
+  - `get_post_exploit_commands` (method, line 395) `def get_post_exploit_commands(self, platform)`
+  - `generate_report` (method, line 407) `def generate_report(self)`
+  - `save_report` (method, line 440) `def save_report(self, path)`
+- Depends on: `modules/nmap_fingerprint.py`, `modules/outcome_bus.py`, `modules/service_aliases.py`
 - Imported by: `cli/commands/exploit_migrated.py`
 
 ## modules/exploit_recommender.py
@@ -486,6 +427,68 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `cmd_chown_now` (function, line 521)
   - `usage` (function, line 528)
   - `main` (function, line 557)
+
+## modules/finding_enrich.py
+- Doc: Idempotent enrichment of a finding's evidence before it is reported.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_role_rank` (function, line 34) `def _role_rank(role)`
+  - `_stronger` (function, line 39) `def _stronger(left, right)`
+  - `enrich_refs` (function, line 44) `def enrich_refs(refs)`
+  - `_enrichment_digest` (function, line 90) `def _enrichment_digest(ordered)`
+  - `enrich_finding` (function, line 96) `def enrich_finding(traffic_log, finding_id, graph)`
+- Imported by: `modules/lazy_loop.py`
+
+## modules/finding_lifecycle.py
+- Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `evidence_floor` (function, line 52) `def evidence_floor(items)`
+  - `_store_path` (function, line 68) `def _store_path(sessions_dir)`
+  - `_load` (function, line 73) `def _load(sessions_dir)`
+  - `_save` (function, line 86) `def _save(sessions_dir, data)`
+  - `confirm` (function, line 94) `def confirm(finding_id, evidence, sessions_dir, by)`
+  - `reject` (function, line 123) `def reject(finding_id, reason, sessions_dir, by)`
+  - `add_dead_end` (function, line 137) `def add_dead_end(kind, value, reason, sessions_dir)`
+  - `is_dead_end` (function, line 149) `def is_dead_end(kind, value, sessions_dir)`
+  - `suppressed_values` (function, line 156) `def suppressed_values(sessions_dir)`
+  - `resolve` (function, line 162) `def resolve(node, sessions_dir)`
+  - `apply_confirmation` (function, line 190) `def apply_confirmation(nodes, sessions_dir)`
+  - `FindingRecord` (class, line 218) `class FindingRecord`
+  - `RetestRecord` (class, line 231) `class RetestRecord`
+  - `_token_value` (function, line 241) `def _token_value(refs, prefix, default)`
+  - `_with_token` (function, line 249) `def _with_token(refs, prefix, value)`
+  - `_finding_from_row` (function, line 256) `def _finding_from_row(row)`
+  - `record` (function, line 270) `def record(db, workspace, host, title, severity, summary, poc)`
+  - `findings_for` (function, line 295) `def findings_for(db, workspace)`
+  - `set_status` (function, line 300) `def set_status(db, finding_id, status)`
+  - `_retests_path` (function, line 323) `def _retests_path(sessions_dir)`
+  - `_load_retests` (function, line 328) `def _load_retests(sessions_dir)`
+  - `_save_retests` (function, line 339) `def _save_retests(sessions_dir, payload)`
+  - `has_running_retest` (function, line 346) `def has_running_retest(finding_id, sessions_dir)`
+  - `request_retest` (function, line 354) `def request_retest(db, finding_id, sessions_dir)`
+  - `resolve_retest` (function, line 374) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
+  - `classify_retest` (function, line 420) `def classify_retest(needle, output)`
+  - `render_markdown` (function, line 439) `def render_markdown(db, workspace, title)`
+- Depends on: `modules/osint_enrich.py`
+- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+
+## modules/forensic_cleaner.py
+- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
+  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
+  - `__init__` (method, line 67) `def __init__(self, config)`
+  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
+  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
+  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
+  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
+  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

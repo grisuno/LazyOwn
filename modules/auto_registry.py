@@ -443,13 +443,9 @@ def _cli_verb_allowed(name: str) -> bool:
 
 ADDON_TRIGGER_CAP = 4
 
-_SERVICE_ALIASES: dict[str, tuple[str, ...]] = {
-    "ssl": ("https",),
-    "https": ("ssl",),
-    "microsoft-ds": ("smb",),
-    "smb": ("microsoft-ds", "netbios-ssn"),
-    "netbios-ssn": ("smb",),
-}
+from modules.service_aliases import ALIAS_PAIRS
+
+_SERVICE_ALIASES = ALIAS_PAIRS
 
 
 def _repo_base():

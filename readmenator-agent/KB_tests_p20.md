@@ -1,84 +1,6 @@
 # Subsystem: tests (page 20 of 26)
 Previous: [KB_tests_p19.md](KB_tests_p19.md)
 
-## tests/test_ops_loot_phase.py
-- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
-  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
-  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
-  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
-  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
-  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
-  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
-  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
-  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
-  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
-  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
-  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
-  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
-  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
-  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
-  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
-  - `test_loot_mark_rejects_bad_outcome` (function, line 224) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
-  - `test_loot_mark_unknown_credential` (function, line 232) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
-  - `test_phase_progress_ranks` (function, line 243) `def test_phase_progress_ranks(tmp_path)`
-  - `test_phase_progress_completed_override` (function, line 264) `def test_phase_progress_completed_override(tmp_path)`
-  - `test_phase_progress_os_owned_report_and_loot` (function, line 285) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
-  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 312) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
-- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
-
-## tests/test_opsec_scorer.py
-- Doc: Tests for modules/opsec_scorer.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestOpsecScorer` (class, line 13) `class TestOpsecScorer`
-  - `test_score_high_noise_command` (method, line 14) `def test_score_high_noise_command(self)`
-  - `test_score_low_noise_command` (method, line 21) `def test_score_low_noise_command(self)`
-  - `test_score_unknown_command` (method, line 27) `def test_score_unknown_command(self)`
-  - `test_score_with_evasion` (method, line 33) `def test_score_with_evasion(self)`
-  - `test_score_batch` (method, line 39) `def test_score_batch(self)`
-  - `test_score_to_dict` (method, line 45) `def test_score_to_dict(self)`
-  - `test_confidence_is_float` (method, line 61) `def test_confidence_is_float(self)`
-  - `test_mitigations_returned` (method, line 67) `def test_mitigations_returned(self)`
-  - `test_convenience_function` (method, line 72) `def test_convenience_function(self)`
-  - `test_all_known_commands_have_mitigations` (method, line 77) `def test_all_known_commands_have_mitigations(self)`
-  - `test_suggest_mitigations` (method, line 85) `def test_suggest_mitigations(self)`
-  - `test_target_sensitivity_dc` (method, line 90) `def test_target_sensitivity_dc(self)`
-- Depends on: `modules/opsec_scorer.py`
-
-## tests/test_opsec_scorer_consolidated.py
-- Doc: Consolidated OPSEC scorer contract tests (SDD/TDD/BDD).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSharedRiskMapping` (class, line 29) `class TestSharedRiskMapping`
-  - `TestRiskLevelAndGate` (class, line 59) `class TestRiskLevelAndGate`
-  - `TestOpsecScorerV2` (class, line 78) `class TestOpsecScorerV2`
-  - `TestBackwardCompatibility` (class, line 140) `class TestBackwardCompatibility`
-  - `test_risk_buckets_respect_thresholds` (method, line 30) `def test_risk_buckets_respect_thresholds(self)`
-  - `test_risk_label_matches_bucket` (method, line 40) `def test_risk_label_matches_bucket(self)`
-  - `test_risk_level_matches_bucket` (method, line 46) `def test_risk_level_matches_bucket(self)`
-  - `test_string_and_enum_labels_are_consistent` (method, line 52) `def test_string_and_enum_labels_are_consistent(self)`
-  - `test_enum_values` (method, line 60) `def test_enum_values(self)`
-  - `test_gate_mapping` (method, line 70) `def test_gate_mapping(self)`
-  - `test_assess_returns_gated_score` (method, line 79) `def test_assess_returns_gated_score(self)`
-  - `test_mimikatz_is_high_critical` (method, line 87) `def test_mimikatz_is_high_critical(self)`
-  - `test_ping_is_allow` (method, line 99) `def test_ping_is_allow(self)`
-  - `test_should_allow_returns_tuple` (method, line 105) `def test_should_allow_returns_tuple(self)`
-  - `test_trend_insufficient_data` (method, line 111) `def test_trend_insufficient_data(self)`
-  - `test_trend_after_scoring` (method, line 115) `def test_trend_after_scoring(self)`
-  - `test_mitigations_generated` (method, line 123) `def test_mitigations_generated(self)`
-  - `test_alternatives_for_mimikatz` (method, line 128) `def test_alternatives_for_mimikatz(self)`
-  - `test_unknown_command_uses_default_profile` (method, line 133) `def test_unknown_command_uses_default_profile(self)`
-  - `test_v1_score_returns_string_risk` (method, line 141) `def test_v1_score_returns_string_risk(self)`
-  - `test_opsec_context_defaults` (method, line 147) `def test_opsec_context_defaults(self)`
-  - `test_risk_profiles_shared_table_intact` (method, line 154) `def test_risk_profiles_shared_table_intact(self)`
-- Depends on: `modules/opsec_scorer.py`
-
 ## tests/test_orchestrator_api.py
 - Doc: Integration tests for the orchestrator REST API (``/api/v1/orchestrator``).
 - Layer: testing
@@ -475,6 +397,80 @@ Previous: [KB_tests_p19.md](KB_tests_p19.md)
   - `test_provider_key_slots_sensitive` (method, line 314) `def test_provider_key_slots_sensitive(self)`
   - `test_ollama_host_registered` (method, line 320) `def test_ollama_host_registered(self)`
 - Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+## tests/test_phase1_data_gaps.py
+- Doc: Phase 1 data-gap closure: SDD + TDD + BDD tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `parser` (function, line 36) `def parser()`
+  - `world_model` (function, line 41) `def world_model()`
+  - `_make_finding` (function, line 49) `def _make_finding(ftype, value, host, metadata)`
+  - `TestFindingMetadata` (class, line 56) `class TestFindingMetadata`
+  - `TestServiceVersionExtractor` (class, line 72) `class TestServiceVersionExtractor`
+  - `TestEmailExtractor` (class, line 103) `class TestEmailExtractor`
+  - `TestObsParserIncludesEmailExtractor` (class, line 130) `class TestObsParserIncludesEmailExtractor`
+  - `TestEmailAndDomainEntries` (class, line 158) `class TestEmailAndDomainEntries`
+  - `TestWorldModelEmailDomain` (class, line 174) `class TestWorldModelEmailDomain`
+  - `TestUpdateFromFindings` (class, line 198) `class TestUpdateFromFindings`
+  - `TestConsumePolicyFacts` (class, line 265) `class TestConsumePolicyFacts`
+  - `TestWorldModelPersistence` (class, line 332) `class TestWorldModelPersistence`
+  - `TestGraphTopologySignal` (class, line 376) `class TestGraphTopologySignal`
+  - `TestCredentialAwareRetry` (class, line 490) `class TestCredentialAwareRetry`
+  - `TestFullDataFlow` (class, line 562) `class TestFullDataFlow`
+  - `test_finding_has_metadata_default_empty` (method, line 57) `def test_finding_has_metadata_default_empty(self)`
+  - `test_finding_accepts_metadata` (method, line 61) `def test_finding_accepts_metadata(self)`
+  - `test_port_and_protocol_in_metadata` (method, line 73) `def test_port_and_protocol_in_metadata(self)`
+  - `test_multiple_services_extracted` (method, line 81) `def test_multiple_services_extracted(self)`
+  - `test_udp_service_captured` (method, line 91) `def test_udp_service_captured(self)`
+  - `test_extracts_single_email` (method, line 104) `def test_extracts_single_email(self)`
+  - `test_extracts_multiple_emails` (method, line 111) `def test_extracts_multiple_emails(self)`
+  - `test_deduplicates_emails` (method, line 119) `def test_deduplicates_emails(self)`
+  - `test_ignores_non_email` (method, line 124) `def test_ignores_non_email(self)`
+  - `test_parser_extracts_emails_from_output` (method, line 131) `def test_parser_extracts_emails_from_output(self, parser)`
+  - `test_parser_still_extracts_service_versions_with_metadata` (method, line 141) `def test_parser_still_extracts_service_versions_with_metadata(self, parser)`
+  - `test_email_entry_defaults` (method, line 159) `def test_email_entry_defaults(self)`
+  - `test_domain_entry_defaults` (method, line 165) `def test_domain_entry_defaults(self)`
+  - `test_add_email_stores_and_deduplicates` (method, line 175) `def test_add_email_stores_and_deduplicates(self, world_model)`
+  - `test_add_domain_stores_and_adds_note` (method, line 181) `def test_add_domain_stores_and_adds_note(self, world_model)`
+  - `test_add_domain_without_host` (method, line 189) `def test_add_domain_without_host(self, world_model)`
+  - `test_service_version_calls_add_service` (method, line 199) `def test_service_version_calls_add_service(self, world_model)`
+  - `test_service_version_no_longer_adds_note` (method, line 213) `def test_service_version_no_longer_adds_note(self, world_model)`
+  - `test_domain_finding_calls_add_domain` (method, line 227) `def test_domain_finding_calls_add_domain(self, world_model)`
+  - `test_email_finding_calls_add_email` (method, line 235) `def test_email_finding_calls_add_email(self, world_model)`
+  - `test_error_finding_adds_note` (method, line 243) `def test_error_finding_adds_note(self, world_model)`
+  - `test_error_finding_no_host_uses_sentinel` (method, line 252) `def test_error_finding_no_host_uses_sentinel(self, world_model)`
+  - `test_consume_empty_file_returns_zero` (method, line 266) `def test_consume_empty_file_returns_zero(self, world_model, tmp_path)`
+  - `test_consume_ingests_hosts_and_services` (method, line 272) `def test_consume_ingests_hosts_and_services(self, world_model, tmp_path)`
+  - `test_consume_nonexistent_file_returns_zero` (method, line 318) `def test_consume_nonexistent_file_returns_zero(self, world_model)`
+  - `test_consume_malformed_json_returns_zero` (method, line 322) `def test_consume_malformed_json_returns_zero(self, world_model, tmp_path)`
+  - `test_emails_and_domains_survive_roundtrip` (method, line 333) `def test_emails_and_domains_survive_roundtrip(self, world_model)`
+  - `test_reset_clears_emails_and_domains` (method, line 349) `def test_reset_clears_emails_and_domains(self, world_model)`
+  - `test_snapshot_includes_emails_and_domains` (method, line 356) `def test_snapshot_includes_emails_and_domains(self, world_model)`
+  - `test_to_context_string_has_email_domain_counts` (method, line 365) `def test_to_context_string_has_email_domain_counts(self, world_model)`
+  - `test_returns_empty_on_nonexistent_world_model` (method, line 377) `def test_returns_empty_on_nonexistent_world_model(self)`
+  - `test_produces_lateral_proposals_from_host_nodes` (method, line 388) `def test_produces_lateral_proposals_from_host_nodes(self, tmp_path)`
+  - `test_produces_credential_spray_proposals` (method, line 425) `def test_produces_credential_spray_proposals(self, tmp_path)`
+  - `test_computes_centrality_from_graph_when_no_candidates` (method, line 452) `def test_computes_centrality_from_graph_when_no_candidates(self, tmp_path)`
+  - `test_signals_are_wired_in_build_default_engine` (method, line 477) `def test_signals_are_wired_in_build_default_engine(self, tmp_path)`
+  - `test_retry_with_no_open_ports_returns_empty` (method, line 491) `def test_retry_with_no_open_ports_returns_empty(self)`
+  - `test_credential_aware_rank_boosts_brute_force` (method, line 501) `def test_credential_aware_rank_boosts_brute_force(self)`
+  - `test_credential_aware_rank_boosts_credential_reuse` (method, line 526) `def test_credential_aware_rank_boosts_credential_reuse(self)`
+  - `test_credential_aware_rank_handles_empty_creds` (method, line 543) `def test_credential_aware_rank_handles_empty_creds(self)`
+  - `test_recon_to_world_model_to_recommendation` (method, line 563) `def test_recon_to_world_model_to_recommendation(self, world_model, parser)`
+- Depends on: `cli/recommendation_signals.py`, `modules/autonomous_exploit_engine.py`, `modules/obs_parser.py`, `modules/world_model.py`
+
+## tests/test_phase_labels.py
+- Doc: Tests for cli.phase_labels — canonical phase display labels contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_known_phase_labels` (function, line 13) `def test_known_phase_labels()`
+  - `test_phase_label_falls_back_to_title_case` (function, line 19) `def test_phase_label_falls_back_to_title_case()`
+  - `test_phase_label_keys_cover_command_index_phases` (function, line 26) `def test_phase_label_keys_cover_command_index_phases()`
+  - `test_contextual_help_reuses_canonical_labels` (function, line 32) `def test_contextual_help_reuses_canonical_labels()`
+  - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
+- Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
 
 
 Next: [KB_tests_p21.md](KB_tests_p21.md)

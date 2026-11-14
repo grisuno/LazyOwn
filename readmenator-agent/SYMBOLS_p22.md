@@ -1,31 +1,8 @@
-# Symbols (page 22 of 53)
+# Symbols (page 22 of 52)
 Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
-| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
-| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
-| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
-| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
-| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
-| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
-| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
-| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
-| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
-| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
-| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
-| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
-| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
-| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
-| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
-| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
-| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
-| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
-| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
-| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
-| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
-| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
 | `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
 | `loader` | method | `modules/pipeline_engine.py:942` | `def loader(self)` |
 | `mcp_pipeline_list` | function | `modules/pipeline_engine.py:1368` | `def mcp_pipeline_list()` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:52` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
 | `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:53` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde.c:287` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde.c:507` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:182` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde.c:561` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde.c:622` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde.c:129` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:552` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:97` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:77` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde.c:463` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde.c:682` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde.c:331` | `int my_open(const char *pathname, int flags, mode_t mode)` |
+| `my_openat` | function | `modules/rootkit/mrhyde.c:375` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:55` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde.c:226` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde.c:149` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde.c:216` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:201` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde.c:419` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde.c:117` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde.c:161` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

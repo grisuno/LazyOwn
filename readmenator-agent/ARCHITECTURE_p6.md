@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `skills/mcp_tools/swan_status.py` -> `skills/swan_agent.py`
+- `skills/mcp_tools/target_context.py` -> `skills/lazyown_mcp_helpers.py`
+- `skills/mcp_tools/target_context.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/tasks_cleanup.py` -> `skills/lazyown_mcp_helpers.py`
+- `skills/mcp_tools/tasks_cleanup.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/threat_model.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/timeline.py` -> `modules/timeline_narrator.py`
+- `skills/mcp_tools/timeline.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/ttp_chain.py` -> `modules/atomic_resolver.py`
+- `skills/mcp_tools/ttp_chain.py` -> `modules/ttpscope_bridge.py`
 - `skills/mcp_tools/ttp_chain.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/unified_dashboard.py` -> `modules/unified_dashboard.py`
 - `skills/mcp_tools/unified_dashboard.py` -> `skills/mcp_tools/_context.py`
@@ -179,9 +189,11 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_auto_crypto.py` -> `modules/lazy_loop.py`
 - `tests/test_auto_loop_memory.py` -> `modules/auto_loop_memory.py`
 - `tests/test_auto_loop_memory.py` -> `modules/selector_manager.py`
+- `tests/test_auto_pwn_success.py` -> `modules/auto_registry.py`
+- `tests/test_auto_pwn_success.py` -> `modules/autonomous_exploit_engine.py`
+- `tests/test_auto_pwn_success.py` -> `modules/ctf_capture.py`
 - `tests/test_auto_registry.py` -> `modules/auto_registry.py`
 - `tests/test_autonomous_ops.py` -> `modules/__init__.py`
-- `tests/test_autonomous_ops.py` -> `modules/asset_graph.py`
 - `tests/test_autonomous_ops.py` -> `modules/db.py`
 - `tests/test_autonomous_ops.py` -> `modules/enrich.py`
 - `tests/test_autonomous_ops.py` -> `modules/finding_lifecycle.py`
@@ -190,7 +202,6 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_autonomous_ops.py` -> `modules/planner.py`
 - `tests/test_autonomous_ops.py` -> `modules/selfupdate.py`
 - `tests/test_autonomous_ops.py` -> `modules/sidequestion.py`
-- `tests/test_autonomous_ops.py` -> `modules/world_model.py`
 - `tests/test_autonomous_replay.py` -> `skills/autonomous_daemon.py`
 - `tests/test_autonomous_replay.py` -> `skills/autonomous_replay.py`
 - `tests/test_autosuggest.py` -> `cli/autosuggest.py`
@@ -457,6 +468,9 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_guardrails.py` -> `modules/lazy_loop.py`
 - `tests/test_guardrails.py` -> `modules/mediation/chain_mediator.py`
 - `tests/test_gym_blueprint.py` -> `lazyc2/blueprints/gym.py`
+- `tests/test_gym_cleanup_policy.py` -> `core/config.py`
+- `tests/test_gym_cleanup_policy.py` -> `modules/__init__.py`
+- `tests/test_gym_cleanup_policy.py` -> `modules/gym_cleanup.py`
 - `tests/test_gym_cli.py` -> `cli/commands/command_and_control_migrated.py`
 - `tests/test_gym_cli.py` -> `cli/commands/redteam_gym.py`
 - `tests/test_gym_cli.py` -> `modules/__init__.py`
@@ -482,19 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_harness_mode.py` -> `modules/lazy_loop.py`
 - `tests/test_harness_mode.py` -> `modules/orchestrator_config.py`
 - `tests/test_hash_cracker.py` -> `modules/hash_cracker.py`
-- `tests/test_health_report.py` -> `lazyc2/security/health.py`
-- `tests/test_help_ui_command_set.py` -> `cli/commands/_base.py`
-- `tests/test_help_ui_command_set.py` -> `cli/commands/_dormancy.py`
-- `tests/test_help_ui_command_set.py` -> `cli/commands/help_ui.py`
-- `tests/test_help_ui_command_set.py` -> `cli/commands/misc_migrated.py`
-- `tests/test_help_ui_command_set.py` -> `cli/registry.py`
-- `tests/test_host_policy.py` -> `core/hardening.py`
-- `tests/test_host_policy.py` -> `core/host_policy.py`
-- `tests/test_host_policy.py` -> `core/validators.py`
-- `tests/test_html_sanitizer.py` -> `lazyc2/security/html_sanitizer.py`
-- `tests/test_https_redirect.py` -> `lazyc2/security/https_redirect.py`
-- `tests/test_hunt_verify.py` -> `modules/hunt_verify.py`
-- `tests/test_implant_session_secrets.py` -> `modules/c2_builder.py`
-- `tests/test_improvements_spec.py` -> `cli/__init__.py`
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

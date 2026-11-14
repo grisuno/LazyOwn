@@ -1,21 +1,8 @@
-# Symbols (page 39 of 53)
+# Symbols (page 39 of 52)
 Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_service_next_resolver_dedupes_repeated_services` | function | `tests/test_command_chain.py:118` | `def test_service_next_resolver_dedupes_repeated_services()` |
-| `test_service_next_resolver_maps_known_services_only` | function | `tests/test_command_chain.py:108` | `def test_service_next_resolver_maps_known_services_only()` |
-| `test_static_next_registry_phase_priority_fallback` | function | `tests/test_command_chain.py:101` | `def test_static_next_registry_phase_priority_fallback()` |
-| `test_static_next_registry_uses_killchain_table` | function | `tests/test_command_chain.py:93` | `def test_static_next_registry_uses_killchain_table()` |
-| `unexplored_addons` | method | `tests/test_command_chain.py:61` | `def unexplored_addons(self, target)` |
-| `unexplored_tools` | method | `tests/test_command_chain.py:64` | `def unexplored_tools(self, target)` |
-| `TestAttackPlanSources` | class | `tests/test_command_control_agent.py:63` | `class TestAttackPlanSources` |
-| `TestSelectAgentFlavour` | class | `tests/test_command_control_agent.py:35` | `class TestSelectAgentFlavour` |
-| `_add_repo_root_to_syspath` | function | `tests/test_command_control_agent.py:30` | `def _add_repo_root_to_syspath()` |
-| `select` | method | `tests/test_command_control_agent.py:37` | `def select(self)` |
-| `test_agent_scripts_derived_from_current_run` | method | `tests/test_command_control_agent.py:64` | `def test_agent_scripts_derived_from_current_run(self)` |
-| `test_atomic_agent_extension_from_latest_script` | method | `tests/test_command_control_agent.py:76` | `def test_atomic_agent_extension_from_latest_script(self)` |
-| `test_mixed_run_prefers_majority` | method | `tests/test_command_control_agent.py:53` | `def test_mixed_run_prefers_majority(self, select)` |
 | `test_mixed_tie_falls_back_to_shell` | method | `tests/test_command_control_agent.py:59` | `def test_mixed_tie_falls_back_to_shell(self, select)` |
 | `test_non_windows_platform_forces_shell` | method | `tests/test_command_control_agent.py:45` | `def test_non_windows_platform_forces_shell(self, select)` |
 | `test_stale_glob_counting_removed` | method | `tests/test_command_control_agent.py:70` | `def test_stale_glob_counting_removed(self)` |
@@ -496,5 +483,18 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 | `test_bridge_suggest_windows_os` | function | `tests/test_core_modules.py:561` | `def test_bridge_suggest_windows_os()` |
 | `test_bridge_suggest_with_services` | function | `tests/test_core_modules.py:457` | `def test_bridge_suggest_with_services()` |
 | `test_bridge_tag_selector` | function | `tests/test_core_modules.py:543` | `def test_bridge_tag_selector()` |
+| `test_c2_profile_builtins` | function | `tests/test_core_modules.py:340` | `def test_c2_profile_builtins()` |
+| `test_c2_profile_jitter` | function | `tests/test_core_modules.py:351` | `def test_c2_profile_jitter()` |
+| `test_c2_profile_save_load` | function | `tests/test_core_modules.py:359` | `def test_c2_profile_save_load(tmp_path)` |
+| `test_collab_endpoints` | function | `tests/test_core_modules.py:320` | `def test_collab_endpoints()` |
+| `test_cve_matcher` | function | `tests/test_core_modules.py:115` | `def test_cve_matcher()` |
+| `test_cvss_critical` | function | `tests/test_core_modules.py:124` | `def test_cvss_critical()` |
+| `test_cvss_from_nvd` | function | `tests/test_core_modules.py:139` | `def test_cvss_from_nvd()` |
+| `test_cvss_medium` | function | `tests/test_core_modules.py:132` | `def test_cvss_medium()` |
+| `test_dashboard_endpoints` | function | `tests/test_core_modules.py:290` | `def test_dashboard_endpoints()` |
+| `test_llm_evaluator` | function | `tests/test_core_modules.py:215` | `def test_llm_evaluator(tmp_path)` |
+| `test_llm_evaluator_empty` | function | `tests/test_core_modules.py:238` | `def test_llm_evaluator_empty(tmp_path)` |
+| `test_llm_evaluator_report` | function | `tests/test_core_modules.py:226` | `def test_llm_evaluator_report(tmp_path)` |
+| `test_mcp_tools_registered` | function | `tests/test_core_modules.py:370` | `def test_mcp_tools_registered()` |
 
 Next: [SYMBOLS_p40.md](SYMBOLS_p40.md)

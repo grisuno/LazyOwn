@@ -30,12 +30,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from modules.chain_registry import Chain, ChainStep, evaluate_when
+from modules.chain_registry import (
+    STEP_TOKEN_RE,
+    Chain,
+    ChainStep,
+    render_text,
+    step_gate_verdict,
+)
 from modules.chain_state import new_run_id, write_checkpoint
 from modules.lazy_deviations import DeviationLedger
 
 _LOG = logging.getLogger("modules.chain_runner")
-_TOKEN_RE = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
 _SHELL_META = re.compile(r"[;&|<>`$]")
 _MAX_CAPTURE_CHARS = 2000
 _DEFAULT_TIMEOUT = 300.0
@@ -52,7 +57,6 @@ _MAX_FALLBACK_DEPTH = 1
 _STREAMING_SINKS = ("chain_feed", "event_bus")
 
 VERDICT_OBSERVED = "evidence_observed"
-VERDICT_INFERRED = "inferred"
 VERDICT_NOT_OBSERVED = "not_observed"
 VERDICT_INSUFFICIENT = "insufficient_data"
 
@@ -196,7 +200,7 @@ class ReplanContext:
 
     def set_var(self, name: str, value: str) -> None:
         """Record a variable the next steps should see."""
-        if _TOKEN_RE.fullmatch(f"{{{name}}}") is not None:
+        if STEP_TOKEN_RE.fullmatch(f"{{{name}}}") is not None:
             self._vars[name] = str(value)[:_MAX_CAPTURE_CHARS]
 
     def insert_step(self, step: ChainStep) -> None:
@@ -222,14 +226,6 @@ class ReplanContext:
     def skip_rest_flag(self) -> bool:
         """Return True when remaining steps should be skipped."""
         return self._skip_rest
-
-
-def render_text(template: str, variables: dict[str, str]) -> str:
-    """Substitute single-brace tokens in one pass."""
-    text = str(template or "")
-    for key, value in variables.items():
-        text = text.replace("{" + key + "}", str(value))
-    return text
 
 
 class ChainRunner:
@@ -1094,46 +1090,25 @@ class ChainRunner:
         prior_verdicts: dict[str, str] | None = None,
     ) -> StepOutcome:
         """Resolve and run one step according to its policy."""
-        rendered = self._render_command(step.run, variables, captured_keys)
         outcome = StepOutcome(
             id=step.identifier,
-            run=rendered,
+            run="",
             phase=step.phase,
             artifacts=list(step.artifacts),
             sinks=list(step.sinks),
             alternatives=list(step.benign_alternatives),
         )
-        if step.when and not evaluate_when(step.when, variables):
-            outcome.status = "skipped"
-            outcome.reason = "when false"
-            return outcome
-        skip_path = render_text(step.skip_if_exists, variables) if step.skip_if_exists else ""
-        if skip_path:
-            from modules.chain_registry import skip_pending
-
-            skip_reason = skip_pending(skip_path, step.skip_max_age)
-            if skip_reason:
-                outcome.status = "skipped"
-                outcome.reason = skip_reason
-                return outcome
         blocked = self._dependency_block(step, prior_verdicts)
-        if blocked:
+        skip_reason, rendered = step_gate_verdict(
+            step,
+            lambda template, vars_: self._render_command(template, vars_, captured_keys),
+            variables,
+            blocked,
+        )
+        if skip_reason:
             outcome.status = "skipped"
-            outcome.reason = blocked
-            return outcome
-        if step.resolve_newest_glob and step.resolve_newest_as:
-            matches = sorted(glob.glob(render_text(step.resolve_newest_glob, variables)), key=os.path.getmtime)
-            if not matches:
-                outcome.status = "skipped"
-                outcome.reason = "no newest match"
-                return outcome
-            variables[step.resolve_newest_as] = os.path.abspath(matches[-1])
-            rendered = self._render_command(step.run, variables, captured_keys)
+            outcome.reason = skip_reason
             outcome.run = rendered
-        unresolved = _TOKEN_RE.search(rendered)
-        if unresolved:
-            outcome.status = "skipped"
-            outcome.reason = f"unresolved token: {unresolved.group(0)}"
             return outcome
         outcome.run = rendered
         if self.dry_run:

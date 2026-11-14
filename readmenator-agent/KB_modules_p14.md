@@ -58,45 +58,52 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
 - Depends on: `modules/__init__.py`
 - Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_memory.py`, `tests/test_loop_guardrails.py`, `tests/test_orchestrator_pacing.py`, `tests/test_pacing.py`, `tests/test_repeat_shapes.py`, `tests/test_writeback_hygiene.py`
 
+## modules/loop_limits.py
+- Doc: Canonical operating limits for the autonomous loop.
+- Layer: utility
+- Language: py
+- Imported by: `modules/lazy_runner.py`, `modules/loop_manager.py`, `skills/mcp_tools/loop_smoke.py`
+
 ## modules/loop_manager.py
 - Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `LoopValidationError` (class, line 88) `class LoopValidationError(ValueError)`
-  - `LoopNotFoundError` (class, line 97) `class LoopNotFoundError(KeyError)`
-  - `validate_target` (function, line 101) `def validate_target(raw)`
-  - `sanitize_goal` (function, line 124) `def sanitize_goal(raw)`
-  - `clamp_int` (function, line 151) `def clamp_int(raw, field, default, minimum, maximum)`
-  - `clamp_float` (function, line 176) `def clamp_float(raw, field, default, minimum, maximum)`
-  - `validate_loop_id` (function, line 201) `def validate_loop_id(loop_id)`
-  - `_now_iso` (function, line 218) `def _now_iso()`
-  - `_process_start_ticks` (function, line 223) `def _process_start_ticks(pid)`
-  - `_pid_alive` (function, line 247) `def _pid_alive(pid, start_ticks)`
-  - `LoopSpec` (class, line 265) `class LoopSpec`
-  - `_loop_command` (function, line 285) `def _loop_command(spec)`
-  - `LoopManager` (class, line 317) `class LoopManager`
-  - `default_manager` (function, line 853) `def default_manager()`
-  - `__init__` (method, line 91) `def __init__(self, field, message)`
-  - `__init__` (method, line 328) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
-  - `loops_dir` (method, line 350) `def loops_dir(self)`
-  - `start` (method, line 354) `def start(self, spec, operator)`
-  - `_spawn_locked` (method, line 395) `def _spawn_locked(self, spec, operator)`
-  - `_reap` (method, line 473) `def _reap(self, loop_id, process)`
-  - `_write_workspace_metadata` (method, line 515) `def _write_workspace_metadata(record)`
-  - `_read_outcome` (method, line 532) `def _read_outcome(workspace)`
-  - `list_loops` (method, line 549) `def list_loops(self)`
-  - `_refresh_log_bytes` (method, line 573) `def _refresh_log_bytes(self, record)`
-  - `get_loop` (method, line 584) `def get_loop(self, loop_id)`
-  - `read_log` (method, line 603) `def read_log(self, loop_id, offset)`
-  - `_resolve_log_path` (method, line 644) `def _resolve_log_path(self, record)`
-  - `stop` (method, line 670) `def stop(self, loop_id)`
-  - `_update_status_locked` (method, line 718) `def _update_status_locked(self, loop_id, status)`
-  - `summary` (method, line 735) `def summary(self)`
-  - `_prune_locked` (method, line 771) `def _prune_locked(self)`
-  - `_remove_workspace` (method, line 796) `def _remove_workspace(self, loop_id)`
-  - `_load_registry_locked` (method, line 820) `def _load_registry_locked(self)`
-  - `_save_registry_locked` (method, line 835) `def _save_registry_locked(self, records)`
+  - `LoopValidationError` (class, line 85) `class LoopValidationError(ValueError)`
+  - `LoopNotFoundError` (class, line 94) `class LoopNotFoundError(KeyError)`
+  - `validate_target` (function, line 98) `def validate_target(raw)`
+  - `sanitize_goal` (function, line 121) `def sanitize_goal(raw)`
+  - `clamp_int` (function, line 148) `def clamp_int(raw, field, default, minimum, maximum)`
+  - `clamp_float` (function, line 173) `def clamp_float(raw, field, default, minimum, maximum)`
+  - `validate_loop_id` (function, line 198) `def validate_loop_id(loop_id)`
+  - `_now_iso` (function, line 215) `def _now_iso()`
+  - `_process_start_ticks` (function, line 220) `def _process_start_ticks(pid)`
+  - `_pid_alive` (function, line 244) `def _pid_alive(pid, start_ticks)`
+  - `LoopSpec` (class, line 262) `class LoopSpec`
+  - `_loop_command` (function, line 282) `def _loop_command(spec)`
+  - `LoopManager` (class, line 314) `class LoopManager`
+  - `default_manager` (function, line 850) `def default_manager()`
+  - `__init__` (method, line 88) `def __init__(self, field, message)`
+  - `__init__` (method, line 325) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
+  - `loops_dir` (method, line 347) `def loops_dir(self)`
+  - `start` (method, line 351) `def start(self, spec, operator)`
+  - `_spawn_locked` (method, line 392) `def _spawn_locked(self, spec, operator)`
+  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
+  - `_write_workspace_metadata` (method, line 512) `def _write_workspace_metadata(record)`
+  - `_read_outcome` (method, line 529) `def _read_outcome(workspace)`
+  - `list_loops` (method, line 546) `def list_loops(self)`
+  - `_refresh_log_bytes` (method, line 570) `def _refresh_log_bytes(self, record)`
+  - `get_loop` (method, line 581) `def get_loop(self, loop_id)`
+  - `read_log` (method, line 600) `def read_log(self, loop_id, offset)`
+  - `_resolve_log_path` (method, line 641) `def _resolve_log_path(self, record)`
+  - `stop` (method, line 667) `def stop(self, loop_id)`
+  - `_update_status_locked` (method, line 715) `def _update_status_locked(self, loop_id, status)`
+  - `summary` (method, line 732) `def summary(self)`
+  - `_prune_locked` (method, line 768) `def _prune_locked(self)`
+  - `_remove_workspace` (method, line 793) `def _remove_workspace(self, loop_id)`
+  - `_load_registry_locked` (method, line 817) `def _load_registry_locked(self)`
+  - `_save_registry_locked` (method, line 832) `def _save_registry_locked(self, records)`
+- Depends on: `modules/loop_limits.py`
 - Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_loop_manager.py`
 
 ## modules/loop_preflight.py

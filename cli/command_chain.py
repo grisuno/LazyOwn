@@ -167,12 +167,6 @@ class PrerequisiteRegistry:
         key = _normalise(cmd)
         return list(self.config.prerequisites.get(key, ()))
 
-    def missing(self, cmd: str, history: Sequence[str]) -> list[str]:
-        """Return prerequisites that have **not** yet appeared in ``history``."""
-
-        seen = {_normalise(h) for h in history if h}
-        return [p for p in self.prerequisites(cmd) if _normalise(p) not in seen]
-
 
 class StaticNextRegistry:
     """Wrapper over the legacy ``_KILL_CHAIN_NEXT`` map (shared source)."""
@@ -352,11 +346,6 @@ class CommandChain:
 
         return self.prerequisites.prerequisites(cmd)
 
-    def missing_prerequisites(self, cmd: str, history: Sequence[str]) -> list[str]:
-        """Return prerequisites of ``cmd`` not present in ``history``."""
-
-        return self.prerequisites.missing(cmd, history)
-
     def next(
         self,
         cmd: str,
@@ -368,24 +357,6 @@ class CommandChain:
         """Return ordered next-step recommendations. See :meth:`DynamicNextResolver.resolve`."""
 
         return self.next_resolver.resolve(cmd=cmd, params=params, target=target, phase=phase, limit=limit)
-
-    def chain(
-        self,
-        cmd: str,
-        params: Mapping[str, object] | None = None,
-        target: str | None = None,
-        phase: str = "",
-        limit: int | None = None,
-    ) -> dict[str, object]:
-        """Return a serialisable ``{prev, next}`` view for the given command."""
-
-        next_steps = self.next(cmd=cmd, params=params, target=target, phase=phase, limit=limit)
-        return {
-            "command": _normalise(cmd),
-            "prev": self.prev(cmd),
-            "next": [step.to_dict() for step in next_steps],
-        }
-
 
 __all__ = [
     "ChainConfig",

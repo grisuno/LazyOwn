@@ -1,6 +1,10 @@
 # API (page 24 of 28)
 Previous: [API_p23.md](API_p23.md)
 
+## skills/mcp_tools/daemon.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/daemon.py:34` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon MCP tool.
+
 ## skills/mcp_tools/daemon_approve.py
 Depends on: `skills/daemon_control.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/daemon_approve.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_daemon_approve MCP tool.
@@ -299,7 +303,7 @@ Depends on: `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/lolbas_use.py:44` `def handle(arguments, tool_name, ctx)` -- Resolve and run one LOLBAS technique, returning command and output.
 
 ## skills/mcp_tools/loop_smoke.py
-Depends on: `modules/lazy_engine.py`, `skills/mcp_tools/_context.py`
+Depends on: `modules/lazy_engine.py`, `modules/loop_limits.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/loop_smoke.py:65` `def handle(arguments, tool_name, ctx)` -- Run a one-leg loop smoke test and return the goal verdict.
 
 ## skills/mcp_tools/manage_permissions.py
@@ -491,10 +495,6 @@ Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
 ## skills/mcp_tools/swan_run.py
 Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
 - `handle` (function) `skills/mcp_tools/swan_run.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_run MCP tool.
-
-## skills/mcp_tools/swan_status.py
-Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
-- `handle` (function) `skills/mcp_tools/swan_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_status MCP tool.
 
 
 Next: [API_p25.md](API_p25.md)

@@ -1,55 +1,6 @@
 # Subsystem: tests (page 17 of 26)
 Previous: [KB_tests_p16.md](KB_tests_p16.md)
 
-## tests/test_llm_adapter_parity.py
-- Doc: Parity contract tests for the self-contained Groq adapter family.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeCompletions` (class, line 28) `class _FakeCompletions`
-  - `_FakeClient` (class, line 42) `class _FakeClient`
-  - `exhausted_chain` (function, line 49) `def exhausted_chain(monkeypatch)`
-  - `cfg` (function, line 61) `def cfg(tmp_path)`
-  - `patched` (function, line 72) `def patched(monkeypatch, cfg)`
-  - `_write` (function, line 77) `def _write(path, text)`
-  - `TestMissingClient` (class, line 82) `class TestMissingClient`
-  - `TestUninitializedClient` (class, line 105) `class TestUninitializedClient`
-  - `TestDirectPromptFlow` (class, line 111) `class TestDirectPromptFlow`
-  - `TestKnowledgePersistence` (class, line 130) `class TestKnowledgePersistence`
-  - `TestFileReadingVariants` (class, line 146) `class TestFileReadingVariants`
-  - `TestVulnAugmentation` (class, line 164) `class TestVulnAugmentation`
-  - `TestExports` (class, line 188) `class TestExports`
-  - `_FakeBackend` (class, line 208) `class _FakeBackend`
-  - `TestAskGeneral` (class, line 222) `class TestAskGeneral`
-  - `__init__` (method, line 29) `def __init__(self, content)`
-  - `create` (method, line 35) `def create(self, model, messages, max_tokens)`
-  - `__init__` (method, line 43) `def __init__(self, content)`
-  - `test_direct_variants_report_missing_key` (method, line 93) `def test_direct_variants_report_missing_key(self, patched, name)`
-  - `test_file_variants_report_missing_key` (method, line 98) `def test_file_variants_report_missing_key(self, patched, name, tmp_path)`
-  - `test_complete_error_handled` (method, line 106) `def test_complete_error_handled(self, patched)`
-  - `test_sends_user_message_and_returns_content` (method, line 112) `def test_sends_user_message_and_returns_content(self, patched)`
-  - `test_completion_received_single_user_message` (method, line 117) `def test_completion_received_single_user_message(self, patched)`
-  - `test_default_max_tokens_applied` (method, line 124) `def test_default_max_tokens_applied(self, patched)`
-  - `test_successful_response_is_remembered` (method, line 131) `def test_successful_response_is_remembered(self, patched, cfg)`
-  - `test_error_response_not_remembered` (method, line 139) `def test_error_response_not_remembered(self, patched, cfg)`
-  - `test_task_reads_file_content` (method, line 147) `def test_task_reads_file_content(self, patched, tmp_path)`
-  - `test_task_missing_file_returns_error` (method, line 154) `def test_task_missing_file_returns_error(self, patched, tmp_path)`
-  - `test_redop_reads_file_content` (method, line 158) `def test_redop_reads_file_content(self, patched, tmp_path)`
-  - `test_appends_event_tool_output` (method, line 165) `def test_appends_event_tool_output(self, patched, cfg, tmp_path)`
-  - `test_appends_plan_history` (method, line 178) `def test_appends_plan_history(self, patched, cfg, tmp_path)`
-  - `test_groq_family_exports_present` (method, line 189) `def test_groq_family_exports_present(self)`
-  - `test_safe_groq_client_none_without_key` (method, line 203) `def test_safe_groq_client_none_without_key(self)`
-  - `__init__` (method, line 209) `def __init__(self, result)`
-  - `complete` (method, line 214) `def complete(self, system, user)`
-  - `test_uses_configured_backend` (method, line 223) `def test_uses_configured_backend(self, patched, monkeypatch)`
-  - `test_receives_system_and_rendered_user` (method, line 230) `def test_receives_system_and_rendered_user(self, patched, monkeypatch)`
-  - `test_missing_backend_reports_error` (method, line 240) `def test_missing_backend_reports_error(self, patched, monkeypatch)`
-  - `test_backend_exception_reports_error` (method, line 247) `def test_backend_exception_reports_error(self, patched, monkeypatch)`
-  - `test_backend_error_string_not_remembered` (method, line 254) `def test_backend_error_string_not_remembered(self, patched, cfg, monkeypatch)`
-  - `test_successful_answer_remembered` (method, line 263) `def test_successful_answer_remembered(self, patched, cfg, monkeypatch)`
-  - `test_exported` (method, line 274) `def test_exported(self)`
-- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
-
 ## tests/test_llm_budget.py
 - Doc: Contract tests for the LLM budget cap.
 - Layer: testing
@@ -474,6 +425,73 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `_boom` (function, line 123) `def _boom()`
   - `_llm_steps` (method, line 76) `def _llm_steps(self, intent, prior_text)`
 - Depends on: `core/config.py`, `modules/guard_rules.py`, `modules/loop/__init__.py`, `modules/loop/worker_agentic.py`
+
+## tests/test_loop_evidence_wiring.py
+- Doc: BDD tests for the loop evidence loop-closure wiring.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sink_log` (function, line 27) `def sink_log()`
+  - `_worker` (function, line 49) `def _worker(task_id)`
+  - `_intent` (function, line 56) `def _intent(node_id)`
+  - `TestShellProofPublication` (class, line 61) `class TestShellProofPublication`
+  - `TestWorkerTraces` (class, line 83) `class TestWorkerTraces`
+  - `TestTrafficDigest` (class, line 131) `class TestTrafficDigest`
+  - `TestEvidenceDualHash` (class, line 142) `class TestEvidenceDualHash`
+  - `TestContracts` (class, line 170) `class TestContracts`
+  - `fake_record` (function, line 34) `def fake_record()`
+  - `test_publishes_exploit_event_with_shell_flag` (method, line 62) `def test_publishes_exploit_event_with_shell_flag(self, sink_log)`
+  - `test_junk_output_never_publishes` (method, line 71) `def test_junk_output_never_publishes(self, sink_log)`
+  - `test_no_target_no_event` (method, line 77) `def test_no_target_no_event(self, sink_log)`
+  - `test_rows_written_reader_schema` (method, line 84) `def test_rows_written_reader_schema(self, tmp_path)`
+  - `test_rotation_keeps_tail` (method, line 103) `def test_rotation_keeps_tail(self, tmp_path)`
+  - `test_empty_transcripts_write_nothing` (method, line 120) `def test_empty_transcripts_write_nothing(self, tmp_path)`
+  - `test_same_output_same_digest_other_output_differs` (method, line 132) `def test_same_output_same_digest_other_output_differs(self)`
+  - `test_full_body_hash_and_stored_hash` (method, line 143) `def test_full_body_hash_and_stored_hash(self, tmp_path)`
+  - `test_tamper_detected` (method, line 156) `def test_tamper_detected(self, tmp_path)`
+  - `test_wiring_sources` (method, line 171) `def test_wiring_sources(self)`
+- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`, `modules/outcome_bus.py`
+
+## tests/test_loop_exit_gate.py
+- Doc: Honest loop endings: exit-code mapping, autonomous gate and headless runner.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_loop_exit_code_mapping` (function, line 10) `def test_loop_exit_code_mapping()`
+  - `test_autonomous_gate_raises_only_when_env_set` (function, line 45) `def test_autonomous_gate_raises_only_when_env_set(monkeypatch)`
+  - `test_write_loop_result_workspace` (function, line 64) `def test_write_loop_result_workspace(tmp_path, monkeypatch)`
+  - `test_write_loop_result_sessions_fallback` (function, line 80) `def test_write_loop_result_sessions_fallback(tmp_path, monkeypatch)`
+  - `_ExitShell` (class, line 92) `class _ExitShell`
+  - `test_headless_catches_systemexit` (function, line 100) `def test_headless_catches_systemexit()`
+  - `test_headless_chain_stops_on_failure` (function, line 110) `def test_headless_chain_stops_on_failure()`
+  - `test_report_result_prints_verdict` (function, line 131) `def test_report_result_prints_verdict(capsys)`
+  - `__init__` (method, line 93) `def __init__(self, code)`
+  - `onecmd` (method, line 96) `def onecmd(self, cmd)`
+  - `_Shell` (class, line 113) `class _Shell`
+  - `__init__` (method, line 114) `def __init__(self)`
+  - `onecmd` (method, line 117) `def onecmd(self, cmd)`
+- Depends on: `cli/headless.py`, `modules/__init__.py`, `modules/lazy_runner.py`
+
+## tests/test_loop_fire_pending.py
+- Doc: Vertical test: fire-pending intelligence drives a real auto_loop round.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_RecordingShell` (class, line 33) `class _RecordingShell`
+  - `fire_report` (function, line 45) `def fire_report(tmp_path, monkeypatch)`
+  - `TestCascadeFirePending` (class, line 63) `class TestCascadeFirePending`
+  - `TestPlannerFireIntent` (class, line 75) `class TestPlannerFireIntent`
+  - `TestWorkerExecutesFireAction` (class, line 105) `class TestWorkerExecutesFireAction`
+  - `TestRegistry` (class, line 157) `class TestRegistry`
+  - `__init__` (method, line 36) `def __init__(self)`
+  - `onecmd_plus_hooks` (method, line 39) `def onecmd_plus_hooks(self, line)`
+  - `test_cascade_answers_fire_first` (method, line 64) `def test_cascade_answers_fire_first(self, fire_report)`
+  - `test_planner_queues_fire_action` (method, line 76) `def test_planner_queues_fire_action(self, fire_report, monkeypatch)`
+  - `test_planner_dedupes_after_first_proposal` (method, line 91) `def test_planner_dedupes_after_first_proposal(self, fire_report, monkeypatch)`
+  - `test_steps_expand_verbatim` (method, line 106) `def test_steps_expand_verbatim(self)`
+  - `test_registry_routes_and_shell_receives` (method, line 128) `def test_registry_routes_and_shell_receives(self)`
+  - `test_lazy_intel_verbs_routable` (method, line 158) `def test_lazy_intel_verbs_routable(self)`
+- Depends on: `modules/auto_registry.py`, `modules/lazy_autofire.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/base.py`, `modules/selection/intel.py`
 
 
 Next: [KB_tests_p18.md](KB_tests_p18.md)

@@ -174,9 +174,10 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             if chain is None:
                 print_error(f"Unknown vulnerability: {args[1]}")
                 return
-            for step in chain.resolve({"target": "TARGET", "lhost": "LHOST", "lport": "4444"}):
-                state = "skip" if step["skipped"] else "run"
-                print_msg(f"[{state}] {step['run']} {step['reason']}".strip())
+            from modules.chain_registry import chain_preview_lines
+
+            for line in chain_preview_lines(chain):
+                print_msg(line)
             return
         print_error("Usage: gym_ms2 list|chains|validate|info <vuln>|chain <vuln>")
 

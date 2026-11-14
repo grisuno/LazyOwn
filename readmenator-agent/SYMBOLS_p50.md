@@ -1,12 +1,8 @@
-# Symbols (page 50 of 53)
+# Symbols (page 50 of 52)
 Previous: [SYMBOLS_p49.md](SYMBOLS_p49.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_malformed_params_fail_open` | method | `tests/test_scope_guard_integration.py:111` | `def test_malformed_params_fail_open(self)` |
-| `test_no_scope_allows` | method | `tests/test_scope_guard_integration.py:60` | `def test_no_scope_allows(self)` |
-| `test_non_tty_refuses` | method | `tests/test_scope_guard_integration.py:121` | `def test_non_tty_refuses(self, monkeypatch)` |
-| `test_normalizes_list` | method | `tests/test_scope_guard_integration.py:129` | `def test_normalizes_list(self)` |
 | `test_normalizes_string` | method | `tests/test_scope_guard_integration.py:133` | `def test_normalizes_string(self)` |
 | `test_off_mode_allows` | method | `tests/test_scope_guard_integration.py:104` | `def test_off_mode_allows(self)` |
 | `test_warn_annotates_explicit_out_of_scope_target` | method | `tests/test_scope_guard_integration.py:206` | `def test_warn_annotates_explicit_out_of_scope_target(self, capsys)` |
@@ -496,5 +492,9 @@ Previous: [SYMBOLS_p49.md](SYMBOLS_p49.md)
 | `TestPlaybookWiring` | class | `tests/test_selection_wiring.py:20` | `class TestPlaybookWiring` |
 | `TestRouting` | class | `tests/test_selection_wiring.py:61` | `class TestRouting` |
 | `_ctx` | function | `tests/test_selection_wiring.py:15` | `def _ctx(goal, target, phase, exclude)` |
+| `testProfiles_resolve_to_numeric_ids` | method | `tests/test_selection_wiring.py:44` | `def testProfiles_resolve_to_numeric_ids(self)` |
+| `test_adverbial_words_do_not_hijack` | method | `tests/test_selection_wiring.py:55` | `def test_adverbial_words_do_not_hijack(self)` |
+| `test_cascade_names_actor_by_alias` | method | `tests/test_selection_wiring.py:21` | `def test_cascade_names_actor_by_alias(self)` |
+| `test_cascade_names_actor_slug` | method | `tests/test_selection_wiring.py:27` | `def test_cascade_names_actor_slug(self)` |
 
 Next: [SYMBOLS_p51.md](SYMBOLS_p51.md)

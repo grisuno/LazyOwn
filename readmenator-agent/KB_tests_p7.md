@@ -233,21 +233,18 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `_FakeEngine` (class, line 43) `class _FakeEngine`
   - `test_normalise_strips_do_prefix_and_extra_tokens` (function, line 71) `def test_normalise_strips_do_prefix_and_extra_tokens()`
   - `test_prerequisites_known_and_unknown` (function, line 78) `def test_prerequisites_known_and_unknown()`
-  - `test_missing_prerequisites_skips_already_run` (function, line 86) `def test_missing_prerequisites_skips_already_run()`
-  - `test_static_next_registry_uses_killchain_table` (function, line 93) `def test_static_next_registry_uses_killchain_table()`
-  - `test_static_next_registry_phase_priority_fallback` (function, line 101) `def test_static_next_registry_phase_priority_fallback()`
-  - `test_service_next_resolver_maps_known_services_only` (function, line 108) `def test_service_next_resolver_maps_known_services_only()`
-  - `test_service_next_resolver_dedupes_repeated_services` (function, line 118) `def test_service_next_resolver_dedupes_repeated_services()`
-  - `test_dynamic_next_resolver_orders_static_before_dynamic` (function, line 125) `def test_dynamic_next_resolver_orders_static_before_dynamic()`
-  - `test_dynamic_next_resolver_filters_history` (function, line 136) `def test_dynamic_next_resolver_filters_history()`
-  - `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` (function, line 143) `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()`
-  - `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` (function, line 152) `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()`
-  - `test_dynamic_next_resolver_phase_fallback_when_no_signal` (function, line 181) `def test_dynamic_next_resolver_phase_fallback_when_no_signal()`
-  - `test_dynamic_next_resolver_respects_limit` (function, line 189) `def test_dynamic_next_resolver_respects_limit()`
-  - `test_chain_facade_returns_serialisable_view` (function, line 196) `def test_chain_facade_returns_serialisable_view()`
-  - `test_chain_missing_prerequisites_when_history_empty` (function, line 207) `def test_chain_missing_prerequisites_when_history_empty()`
-  - `test_next_step_to_dict_round_trip` (function, line 213) `def test_next_step_to_dict_round_trip()`
-  - `test_chain_config_defaults_are_isolated_per_instance` (function, line 218) `def test_chain_config_defaults_are_isolated_per_instance()`
+  - `test_static_next_registry_uses_killchain_table` (function, line 86) `def test_static_next_registry_uses_killchain_table()`
+  - `test_static_next_registry_phase_priority_fallback` (function, line 94) `def test_static_next_registry_phase_priority_fallback()`
+  - `test_service_next_resolver_maps_known_services_only` (function, line 101) `def test_service_next_resolver_maps_known_services_only()`
+  - `test_service_next_resolver_dedupes_repeated_services` (function, line 111) `def test_service_next_resolver_dedupes_repeated_services()`
+  - `test_dynamic_next_resolver_orders_static_before_dynamic` (function, line 118) `def test_dynamic_next_resolver_orders_static_before_dynamic()`
+  - `test_dynamic_next_resolver_filters_history` (function, line 129) `def test_dynamic_next_resolver_filters_history()`
+  - `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` (function, line 136) `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()`
+  - `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` (function, line 145) `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()`
+  - `test_dynamic_next_resolver_phase_fallback_when_no_signal` (function, line 174) `def test_dynamic_next_resolver_phase_fallback_when_no_signal()`
+  - `test_dynamic_next_resolver_respects_limit` (function, line 182) `def test_dynamic_next_resolver_respects_limit()`
+  - `test_next_step_to_dict_round_trip` (function, line 189) `def test_next_step_to_dict_round_trip()`
+  - `test_chain_config_defaults_are_isolated_per_instance` (function, line 194) `def test_chain_config_defaults_are_isolated_per_instance()`
   - `__init__` (method, line 46) `def __init__(self, services, addons, tools, history)`
   - `services` (method, line 58) `def services(self, target)`
   - `unexplored_addons` (method, line 61) `def unexplored_addons(self, target)`

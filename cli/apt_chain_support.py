@@ -43,6 +43,14 @@ _MAX_JSON_VALUES = 64
 _ADMIN_VALUED_FLAGS = frozenset({"--techniques", "--playbook", "--target", "--limit"})
 
 
+def _apply_limit(args: ChainArgs, value: str) -> None:
+    """Parse one ``--limit`` integer into the args, erroring loudly."""
+    try:
+        args.limit = max(1, int(value))
+    except ValueError:
+        args.errors.append(f"--limit needs an integer (got {value!r})")
+
+
 def _parse_admin_flags(args: ChainArgs, tokens: list[str]) -> None:
     """Split admin tokens into positionals, valued flags and plain flags."""
     index = 0
@@ -61,10 +69,7 @@ def _parse_admin_flags(args: ChainArgs, tokens: list[str]) -> None:
             elif token == "--target":
                 args.target = value
             elif token == "--limit":
-                try:
-                    args.limit = max(1, int(value))
-                except ValueError:
-                    args.errors.append(f"--limit needs an integer (got {value!r})")
+                _apply_limit(args, value)
             continue
         if token.startswith("-") and token not in _FLAGS_NO_VALUE:
             args.errors.append(f"unknown option for {args.admin_action}: {token}")
@@ -123,9 +128,7 @@ def parse_chain_args(line: str) -> ChainArgs:
     if parts[0].lower() in _ADMIN_ACTIONS:
         args.admin_action = parts[0].lower()
         _parse_admin_flags(args, parts[1:])
-        if args.admin_action in ("list", "approvals") and "--json" in [part.lower() for part in parts[1:]]:
-            args.json_out = True
-        if args.admin_action == "synth" and "--json" in [part.lower() for part in parts[1:]]:
+        if args.admin_action in ("list", "approvals", "synth") and "--json" in [part.lower() for part in parts[1:]]:
             args.json_out = True
         return args
     index = 0
@@ -191,10 +194,7 @@ def _set_value(args: ChainArgs, flag: str, value: str) -> None:
     elif flag == "--step":
         args.step_ids = [part.strip() for part in value.split(",") if part.strip()]
     elif flag == "--limit":
-        try:
-            args.limit = max(1, int(value))
-        except ValueError:
-            args.errors.append(f"--limit needs an integer (got {value!r})")
+        _apply_limit(args, value)
     elif flag == "--timeout":
         try:
             args.timeout = float(value)
@@ -229,6 +229,94 @@ def _synth_from_playbook(playbook: str, target: str) -> dict[str, Any]:
         "errors": errors,
         "notes": [f"lowered from playbook {loaded.apt_name}"],
     }
+
+
+def resolve_invocation(
+    positionals: list[str],
+    target_seed: str = "",
+    preset_target: str = "",
+    playbook_engine: Any = None,
+    playbook_seed: str = "",
+    policy: str = "strict",
+) -> tuple[str, str, str, str]:
+    """Classify positional tokens into chain, target and playbook override.
+
+    Single classification shared by the ``apt_chain`` CLI command and the
+    loop stepwise adapter. Both surfaces share one classification table
+    (chain file, target-shaped token, known playbook, ``apt_<name>``
+    fallback) while keeping their two codified policies:
+
+    - ``strict`` (CLI): a chain must exist as a file; bare tokens are
+      targets when they parse as hosts, playbook names otherwise.
+    - ``lenient`` (loop): the first positional is always the chain name
+      unless it is an address and no target is known; later tokens only
+      supply the target (first match wins).
+
+    Args:
+        positionals: Free tokens left after flag parsing.
+        target_seed: Fallback target (``rhost``); a positional target
+            replaces it when ``--target`` is not preset.
+        preset_target: ``--target`` flag value; suppresses positional
+            target capture.
+        playbook_engine: AptPlaybookEngine (or None) for playbook lookup.
+        playbook_seed: ``--playbook`` flag value; kept unless a positional
+            token resolves to a playbook override first.
+        policy: ``strict`` (CLI rules) or ``lenient`` (loop rules).
+
+    Returns:
+        ``(chain_name, target, playbook_override, disabled_chain)``.
+        ``disabled_chain`` is a strict-policy name whose YAML exists but
+        is disabled; callers decide the UX (the CLI warns and stops).
+    """
+    from modules.auto_registry import _looks_like_target
+    from modules.chain_registry import CHAINS_DIR
+    from modules.chain_registry import get as get_chain
+
+    def chain_file_exists(name: str) -> bool:
+        """True when chains/<name>.yaml exists, even if disabled."""
+        return (CHAINS_DIR / f"{name}.yaml").is_file()
+
+    chain_name = "apt_chain"
+    target = target_seed
+    playbook_override = playbook_seed or ""
+    disabled = ""
+    for index, token in enumerate(positionals):
+        lowered = token.lower()
+        if policy == "lenient":
+            if index == 0:
+                try:
+                    import ipaddress
+
+                    ipaddress.ip_address(token.split("/")[0])
+                    is_address = True
+                except ValueError:
+                    is_address = False
+                if is_address and not target:
+                    target = token
+                else:
+                    chain_name = lowered
+                continue
+            if not target and _looks_like_target(token):
+                target = token
+                break
+            continue
+        if chain_file_exists(lowered):
+            if get_chain(lowered) is None:
+                disabled = lowered
+                continue
+            chain_name = lowered
+        elif not preset_target and _looks_like_target(token):
+            target = token
+        elif playbook_engine is not None and playbook_engine.get(token) is not None:
+            if chain_file_exists(f"apt_{lowered}"):
+                chain_name = f"apt_{lowered}"
+            else:
+                playbook_override = playbook_override or lowered
+        elif get_chain(f"apt_{lowered}") is not None:
+            chain_name = f"apt_{lowered}"
+        else:
+            playbook_override = playbook_override or lowered
+    return chain_name, target, playbook_override, disabled
 
 
 def resolve_admin(args: ChainArgs) -> dict[str, Any]:
@@ -827,5 +915,6 @@ __all__ = [
     "render_admin",
     "render_result",
     "resolve_admin",
+    "resolve_invocation",
     "select_step_ids",
 ]

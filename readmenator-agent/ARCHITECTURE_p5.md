@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `modules/yaml_generator.py` -> `core/config.py`
+- `modules/yaml_generator.py` -> `modules/ai_model.py`
+- `modules/yaml_generator.py` -> `modules/llm_factory.py`
+- `poc_tui/__main__.py` -> `poc_tui/app.py`
+- `poc_tui/app.py` -> `cli/commands/containers.py`
+- `poc_tui/app.py` -> `lazyown.py`
+- `poc_tui/plugin_loader.py` -> `poc_tui/config.py`
+- `poc_tui/run.py` -> `poc_tui/app.py`
+- `poc_tui/test_app.py` -> `poc_tui/app.py`
+- `pwntomate.py` -> `modules/security_sanitizers.py`
 - `pwntomate.py` -> `skills/claude_md_orchestrator/parser.py`
 - `scripts/devtools/command_audit.py` -> `lazyown.py`
 - `scripts/devtools/core_smoke.py` -> `core/hardening.py`
@@ -199,7 +209,6 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/mcp_tools/atomic_search.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/atomic_shell.py` -> `modules/atomic_exploit_bridge.py`
 - `skills/mcp_tools/atomic_shell.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/auto_loop.py` -> `modules/lazy_engine.py`
 - `skills/mcp_tools/auto_loop.py` -> `modules/lazy_runner.py`
 - `skills/mcp_tools/auto_loop.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/auto_populate.py` -> `skills/mcp_tools/_context.py`
@@ -394,6 +403,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/mcp_tools/lolbas_list.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/lolbas_use.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/loop_smoke.py` -> `modules/lazy_engine.py`
+- `skills/mcp_tools/loop_smoke.py` -> `modules/loop_limits.py`
 - `skills/mcp_tools/loop_smoke.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/manage_permissions.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/memory_recall.py` -> `skills/mcp_tools/_context.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/mcp_tools/swan_run.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/swan_run.py` -> `skills/swan_agent.py`
 - `skills/mcp_tools/swan_status.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/swan_status.py` -> `skills/swan_agent.py`
-- `skills/mcp_tools/target_context.py` -> `skills/lazyown_mcp_helpers.py`
-- `skills/mcp_tools/target_context.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/tasks_cleanup.py` -> `skills/lazyown_mcp_helpers.py`
-- `skills/mcp_tools/tasks_cleanup.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/threat_model.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/timeline.py` -> `modules/timeline_narrator.py`
-- `skills/mcp_tools/timeline.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/ttp_chain.py` -> `modules/atomic_resolver.py`
-- `skills/mcp_tools/ttp_chain.py` -> `modules/ttpscope_bridge.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

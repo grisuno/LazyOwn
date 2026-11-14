@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/lazy_drafts.py` -> `modules/lazy_loop.py`
+- `modules/lazy_engine.py` -> `modules/lazy_loop.py`
+- `modules/lazy_exposure.py` -> `modules/__init__.py`
+- `modules/lazy_exposure.py` -> `modules/lazy_feedmatch.py`
+- `modules/lazy_exposure.py` -> `modules/lazy_heat.py`
+- `modules/lazy_exposure.py` -> `modules/lazy_probes.py`
+- `modules/lazy_exposure.py` -> `modules/outcome_bus.py`
+- `modules/lazy_exposure.py` -> `modules/world_model.py`
 - `modules/lazy_fallback.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/lazy_fallback.py` -> `modules/failure_verdict.py`
 - `modules/lazy_feedmatch.py` -> `modules/lazy_cve_feed.py`
@@ -25,7 +33,6 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/lazy_loop.py` -> `core/hardening.py`
 - `modules/lazy_loop.py` -> `core/host_policy.py`
 - `modules/lazy_loop.py` -> `core/logging.py`
-- `modules/lazy_loop.py` -> `core/process.py`
 - `modules/lazy_loop.py` -> `modules/__init__.py`
 - `modules/lazy_loop.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/lazy_loop.py` -> `modules/auto_registry.py`
@@ -114,6 +121,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/lazy_runner.py` -> `modules/lazy_loop.py`
 - `modules/lazy_runner.py` -> `modules/lazy_sandbox.py`
 - `modules/lazy_runner.py` -> `modules/loop_guardrails.py`
+- `modules/lazy_runner.py` -> `modules/loop_limits.py`
 - `modules/lazy_runner.py` -> `modules/loop_progress.py`
 - `modules/lazy_runner.py` -> `modules/scan_brief.py`
 - `modules/lazy_runner.py` -> `utils.py`
@@ -186,6 +194,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/loop/worker_execution.py` -> `modules/auto_registry.py`
 - `modules/loop/worker_execution.py` -> `modules/custom_tools.py`
 - `modules/loop/worker_execution.py` -> `modules/lazy_loop.py`
+- `modules/loop/worker_execution.py` -> `utils.py`
 - `modules/loop/worker_gating.py` -> `modules/__init__.py`
 - `modules/loop/worker_gating.py` -> `modules/intercept.py`
 - `modules/loop/worker_gating.py` -> `modules/lazy_loop.py`
@@ -209,6 +218,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/loop_ai_bridge.py` -> `skills/swan_agent.py`
 - `modules/loop_audit.py` -> `core/parsers.py`
 - `modules/loop_guardrails.py` -> `modules/__init__.py`
+- `modules/loop_manager.py` -> `modules/loop_limits.py`
 - `modules/loop_preflight.py` -> `modules/__init__.py`
 - `modules/loop_progress.py` -> `core/safe_console.py`
 - `modules/loop_triggers.py` -> `modules/__init__.py`
@@ -227,7 +237,6 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/mediation/__init__.py` -> `modules/mediation/telemetry_mediator.py`
 - `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py`
 - `modules/mediation/contracts.py` -> `modules/mediation/hub.py`
-- `modules/mediation/engine_mediator.py` -> `modules/ai_exploit_chain.py`
 - `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py`
 - `modules/mediation/engine_mediator.py` -> `modules/mediation/contracts.py`
 - `modules/mediation/engine_mediator.py` -> `modules/reactive_engine.py`
@@ -487,14 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/world_model.py` -> `core/logging.py`
 - `modules/world_model.py` -> `modules/cli_auth.py`
 - `modules/world_model.py` -> `modules/factsio.py`
-- `modules/yaml_generator.py` -> `modules/ai_model.py`
-- `modules/yaml_generator.py` -> `modules/llm_factory.py`
-- `poc_tui/__main__.py` -> `poc_tui/app.py`
-- `poc_tui/app.py` -> `cli/commands/containers.py`
-- `poc_tui/app.py` -> `lazyown.py`
-- `poc_tui/plugin_loader.py` -> `poc_tui/config.py`
-- `poc_tui/run.py` -> `poc_tui/app.py`
-- `poc_tui/test_app.py` -> `poc_tui/app.py`
-- `pwntomate.py` -> `modules/security_sanitizers.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

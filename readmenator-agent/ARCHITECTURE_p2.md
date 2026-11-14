@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/security.py` -> `core/config.py`
 - `cli/commands/security.py` -> `core/console.py`
 - `cli/commands/security.py` -> `core/credential_vault.py`
 - `cli/commands/security.py` -> `modules/hash_cracker.py`
@@ -61,6 +62,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/commands/verb_admin.py` -> `utils.py`
 - `cli/commands/winbox_gym.py` -> `cli/commands/_base.py`
 - `cli/commands/winbox_gym.py` -> `modules/__init__.py`
+- `cli/commands/winbox_gym.py` -> `modules/chain_registry.py`
 - `cli/commands/winbox_gym.py` -> `utils.py`
 - `cli/config_status.py` -> `core/console.py`
 - `cli/contextual_help.py` -> `cli/palette.py`
@@ -85,6 +87,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/engagement_hooks.py` -> `modules/cli_auth.py`
 - `cli/engagement_hooks.py` -> `modules/lazy_rbac.py`
 - `cli/exploit_advisor.py` -> `core/console.py`
+- `cli/exploit_advisor.py` -> `modules/nmap_fingerprint.py`
 - `cli/exploration_view.py` -> `cli/exploration.py`
 - `cli/exploration_view.py` -> `core/console.py`
 - `cli/fuzzy_match.py` -> `cli/fuzzy_picker.py`
@@ -93,7 +96,6 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/graph_overlay.py` -> `cli/graph_advisor.py`
 - `cli/graph_overlay.py` -> `cli/themes.py`
 - `cli/graph_overlay.py` -> `core/text_utils.py`
-- `cli/killchain.py` -> `modules/killchain.py`
 - `cli/lazy_monitor.py` -> `cli/commands/containers.py`
 - `cli/lazy_monitor.py` -> `modules/jsonl_tail.py`
 - `cli/lazy_monitor.py` -> `modules/lazy_engine.py`
@@ -494,7 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/credentials_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/cve_panel.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/cve_panel.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/cve_panel.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/event_log_panel.py` -> `lazygui/config/constants.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

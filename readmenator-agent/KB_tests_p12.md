@@ -184,6 +184,20 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `login` (function, line 21) `def login()`
 - Depends on: `lazyc2/blueprints/gym.py`
 
+## tests/test_gym_cleanup_policy.py
+- Doc: Gym cleanup policy: opt-in only, autonomous processes never stop gyms.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `no_payload` (function, line 9) `def no_payload(monkeypatch)`
+  - `test_cleanup_disabled_by_default` (function, line 16) `def test_cleanup_disabled_by_default(no_payload)`
+  - `test_cleanup_enabled_by_payload_opt_in` (function, line 22) `def test_cleanup_enabled_by_payload_opt_in(no_payload, monkeypatch)`
+  - `test_autonomous_process_never_cleans` (function, line 36) `def test_autonomous_process_never_cleans(no_payload, monkeypatch)`
+  - `test_cleanup_skips_lab_runtime_when_disabled` (function, line 45) `def test_cleanup_skips_lab_runtime_when_disabled(no_payload, monkeypatch)`
+  - `test_cleanup_stops_machines_when_opted_in` (function, line 57) `def test_cleanup_stops_machines_when_opted_in(no_payload, monkeypatch, capsys)`
+  - `_boom` (function, line 48) `def _boom()`
+- Depends on: `core/config.py`, `modules/__init__.py`, `modules/gym_cleanup.py`
+
 ## tests/test_gym_cli.py
 - Doc: Gym CLI lifecycle: start, status, stop by selector and stop-all.
 - Layer: testing

@@ -27,7 +27,7 @@ Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
 - `VerbCommandSet.do_verb` (method) `cli/commands/verb_admin.py:52` `def do_verb(self, line)` -- Manage the autonomous-loop verb catalog.
 
 ## cli/commands/winbox_gym.py
-Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/chain_registry.py`, `utils.py`
 - `WinboxCommandSet.do_winbox` (method) `cli/commands/winbox_gym.py:51` `def do_winbox(self, line)` -- Control the WinBox isolated Windows lab from the LazyOwn shell.
 
 ## cli/config_history.py
@@ -131,16 +131,11 @@ Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud
 - `reset_session` (function) `cli/engagement_hooks.py:1074` `def reset_session()` -- Reset session counters without clearing cross-session progress.
 
 ## cli/exploit_advisor.py
-Depends on: `core/console.py`
+Depends on: `core/console.py`, `modules/nmap_fingerprint.py`
 Imported by: `cli/commands/recon.py`
-- `ServiceInfo.search_query` (method) `cli/exploit_advisor.py:122` `def search_query(self)` -- Best query string for searchsploit / NVD.
-- `ServiceInfo.display_name` (method) `cli/exploit_advisor.py:128` `def display_name(self)`
-- `ServiceInfo.next_commands` (method) `cli/exploit_advisor.py:132` `def next_commands(self)` -- Return (command, reason) pairs recommended for this service.
-- `parse_nmap_xml` (function) `cli/exploit_advisor.py:164` `def parse_nmap_xml(path)` -- Extract open services from a nmap XML file.
-- `find_nmap_xml` (function) `cli/exploit_advisor.py:203` `def find_nmap_xml(rhost, sessions_dir)` -- Return all nmap XML files for a given rhost, newest first.
-- `print_exploit_summary` (function) `cli/exploit_advisor.py:222` `def print_exploit_summary(results, rhost)` -- Print a rich summary table of exploit search results with next-step commands.
-- `save_ss_results` (function) `cli/exploit_advisor.py:296` `def save_ss_results(results, rhost, sessions_dir)` -- Save exploit search results to sessions/ss_results_<rhost>.json.
-- `inject_exploit_tasks` (function) `cli/exploit_advisor.py:338` `def inject_exploit_tasks(results, rhost, tasks_path)` -- Append one task per service with significant exploit hits to tasks.json.
+- `print_exploit_summary` (function) `cli/exploit_advisor.py:59` `def print_exploit_summary(results, rhost)` -- Print a rich summary table of exploit search results with next-step commands.
+- `save_ss_results` (function) `cli/exploit_advisor.py:133` `def save_ss_results(results, rhost, sessions_dir)` -- Save exploit search results to sessions/ss_results_<rhost>.json.
+- `inject_exploit_tasks` (function) `cli/exploit_advisor.py:175` `def inject_exploit_tasks(results, rhost, tasks_path)` -- Append one task per service with significant exploit hits to tasks.json.
 
 ## cli/exploration.py
 Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/exploration_view.py`, `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `cli/recon_plan.py`, `lazyown.py`, `tests/test_command_chain.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
@@ -259,11 +254,6 @@ Imported by: `lazyown.py`, `tests/test_loop_exit_gate.py`
 - `HeadlessRunner.__init__` (method) `cli/headless.py:72` `def __init__(self, shell, json_output, profile_path)`
 - `HeadlessRunner.run_command` (method) `cli/headless.py:87` `def run_command(self, cmd, timeout)` -- Execute a single command, capture output, return structured result.
 - `HeadlessRunner.run_chain` (method) `cli/headless.py:136` `def run_chain(self, commands)` -- Execute multiple commands and emit final summary.
-
-## cli/killchain.py
-Depends on: `modules/killchain.py`
-Imported by: `cli/dashboard_tui.py`, `tests/test_killchain.py`
-- `compute_killchain` (function) `cli/killchain.py:83` `def compute_killchain(events, world, phases)` -- Compute kill-chain progress from daemon events and the world model.
 
 ## cli/lazy_monitor.py
 Depends on: `cli/commands/containers.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_runner.py`, `modules/loop_progress.py`
@@ -494,6 +484,15 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.
 - `build_palette_view` (function) `cli/palette_command.py:619` `def build_palette_view(index)` -- Assemble the template context consumed by the C2 ``/palette`` view.
 - `PaletteCompleter.__init__` (method) `cli/palette_command.py:755` `def __init__(self, config)`
 - `PaletteCompleter.complete` (method) `cli/palette_command.py:758` `def complete(self, text, line, endidx, index)` -- Return tab-completion candidates given the editor state.
+
+## cli/palette_graph.py
+Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
+- `load_graph` (function) `cli/palette_graph.py:127` `def load_graph(path)` -- Return the parsed graph index, cached per resolved path.
+- `safe_load_graph` (function) `cli/palette_graph.py:149` `def safe_load_graph(path)` -- Best-effort variant of :func:`load_graph`.
+- `callees` (function) `cli/palette_graph.py:179` `def callees(graph, command_name)` -- Return helper-function labels invoked by ``command_name``.
+- `related_commands` (function) `cli/palette_graph.py:226` `def related_commands(graph, command_name)` -- Return ``do_*`` commands that share helper functions with this one.
+- `enrich_detail` (function) `cli/palette_graph.py:287` `def enrich_detail(graph, entry)` -- Attach ``calls`` and ``related`` lists to a palette detail entry.
+- `enrich_commands` (function) `cli/palette_graph.py:309` `def enrich_commands(graph, rows)` -- Enrich every entry of ``rows`` with neighbour data.
 
 
 Next: [API_p5.md](API_p5.md)

@@ -277,3 +277,92 @@ def test_worker_llm_steps_require_capable_member(tmp_path, monkeypatch):
 
     assert worker._llm_steps(node, "") == []
     worker.close()
+
+
+def test_agent_with_zero_tool_calls_falls_back_to_deterministic(tmp_path, monkeypatch):
+    """A dead or silent LLM agent must not suppress the deterministic layer.
+
+    The live t0226 failure: Groq timed out mid-turn, the session returned
+    zero executed tools, and ``_agentic_try`` still claimed the intent —
+    so lazynmap/auto_pwn never ran. Zero tools means the agent did
+    nothing: the deterministic step loop must execute instead.
+    """
+    import modules.lazy_agent as agent
+    import modules.lazy_loop as loop
+
+    loop, engine = _engine(tmp_path, monkeypatch)
+    monkeypatch.setattr(agent, "tool_calling_enabled", lambda: True)
+    monkeypatch.setattr(agent, "resolve_agentic_model", lambda exclude=None: object())
+    monkeypatch.setattr(
+        agent,
+        "run_worker_session",
+        lambda *a, **k: {"reply": "", "tool_calls": {}, "messages": 1},
+    )
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    worker, graph = _worker(loop, engine, task_id)
+    intent = graph.add_node("intent", "enumerate 172.17.0.2 ports")
+    executed: list[str] = []
+
+    def executor(command: str) -> str:
+        executed.append(command)
+        return "22/tcp open ssh"
+
+    outcome = worker.execute(graph.get(intent.node_id), executor=executor, timeout_sec=75.0)
+    assert executed, "agent executed zero tools; deterministic steps must run"
+    assert outcome["state"] in ("done", "exhausted")
+    worker.close()
+
+
+def test_agent_skipped_when_task_deadline_expired(tmp_path, monkeypatch):
+    """An expired wall clock never starts the agent; steps still settle."""
+    import modules.lazy_agent as agent
+    import modules.lazy_loop as loop
+
+    loop, engine = _engine(tmp_path, monkeypatch)
+    monkeypatch.setattr(agent, "tool_calling_enabled", lambda: True)
+    monkeypatch.setattr(agent, "resolve_agentic_model", lambda exclude=None: object())
+
+    calls: list[tuple] = []
+
+    def _must_not_run(*a, **k):
+        calls.append((a, k))
+        return {"reply": "", "tool_calls": {}, "messages": 0}
+
+    monkeypatch.setattr(agent, "run_worker_session", _must_not_run)
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    record = engine.store.get(task_id) or {}
+    record["deadline"] = 1.0
+    engine.store._persist()
+    worker, graph = _worker(loop, engine, task_id)
+    intent = graph.add_node("intent", "enumerate 172.17.0.2 ports")
+    executed: list[str] = []
+    outcome = worker.execute(
+        graph.get(intent.node_id),
+        executor=lambda command: (executed.append(command), "22/tcp open ssh")[1],
+        timeout_sec=0.0,
+    )
+    assert not executed
+    assert not calls, "agent session must never start on an expired task"
+    assert outcome["state"] == "stopped"
+    worker.close()
+
+
+def test_goal_named_target_wins_over_payload_scope(tmp_path, monkeypatch):
+    """The host named in the goal outranks a stale payload scope entry.
+
+    Live t0225/t0226 regression: the task inherited payload scope
+    (127.0.0.1) before the goal-named target (172.17.0.2), and
+    resolve_target returns the first item, so every deterministic step
+    attacked loopback. The goal's explicit target must be inserted first.
+    """
+    import modules.lazy_loop as loop
+
+    loop, engine = _engine(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        loop,
+        "_payload_scope_items",
+        lambda: [{"kind": "ip", "value": "127.0.0.1", "reason": "payload scope"}],
+    )
+    summary = engine.create_task("gain initial access on 172.17.0.2")
+    task_id = summary["task_id"]
+    assert loop.resolve_target(task_id, engine.store, loop.ExplorationGraph(task_id)) == "172.17.0.2"

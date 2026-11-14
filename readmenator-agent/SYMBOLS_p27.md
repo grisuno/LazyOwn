@@ -1,31 +1,8 @@
-# Symbols (page 27 of 53)
+# Symbols (page 27 of 52)
 Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `DroneAgent` | class | `skills/hive_mind.py:1083` | `class DroneAgent` |
-| `DronePool` | class | `skills/hive_mind.py:1661` | `class DronePool` |
-| `DroneState` | class | `skills/hive_mind.py:1066` | `class DroneState` |
-| `DroneStateStore` | class | `skills/hive_mind.py:1481` | `class DroneStateStore` |
-| `EpisodicStore` | class | `skills/hive_mind.py:189` | `class EpisodicStore(IMemoryStore)` |
-| `HiveBus` | class | `skills/hive_mind.py:728` | `class HiveBus` |
-| `HiveMemory` | class | `skills/hive_mind.py:571` | `class HiveMemory` |
-| `HiveMessage` | class | `skills/hive_mind.py:717` | `class HiveMessage` |
-| `HiveMind` | class | `skills/hive_mind.py:1812` | `class HiveMind` |
-| `ICommandRunner` | class | `skills/hive_mind.py:171` | `class ICommandRunner(ABC)` |
-| `IMemoryStore` | class | `skills/hive_mind.py:161` | `class IMemoryStore(IReadableMemory, IWritableMemory)` |
-| `IReadableMemory` | class | `skills/hive_mind.py:145` | `class IReadableMemory(ABC)` |
-| `IWritableMemory` | class | `skills/hive_mind.py:153` | `class IWritableMemory(ABC)` |
-| `LongtermStore` | class | `skills/hive_mind.py:506` | `class LongtermStore(IMemoryStore)` |
-| `QueenBrain` | class | `skills/hive_mind.py:1289` | `class QueenBrain` |
-| `SemanticStore` | class | `skills/hive_mind.py:349` | `class SemanticStore(IMemoryStore)` |
-| `__init__` | method | `skills/hive_mind.py:215` | `def __init__(self, db_path)` |
-| `__init__` | method | `skills/hive_mind.py:358` | `def __init__(self, chroma_dir, episodic_fallback)` |
-| `__init__` | method | `skills/hive_mind.py:582` | `def __init__(self, stores, episodic, semantic, longterm)` |
-| `__init__` | method | `skills/hive_mind.py:736` | `def __init__(self)` |
-| `__init__` | method | `skills/hive_mind.py:943` | `def __init__(self, risk_assessor)` |
-| `__init__` | method | `skills/hive_mind.py:1091` | `def __init__(self, drone_id, role, goal, backend, memory, bus, max_iterations, api_key, model, runner, on_state_change)` |
-| `__init__` | method | `skills/hive_mind.py:1301` | `def __init__(self, memory, bus, pool, consensus)` |
 | `__init__` | method | `skills/hive_mind.py:1513` | `def __init__(self, db_path)` |
 | `__init__` | method | `skills/hive_mind.py:1673` | `def __init__(self, memory, bus, state_store)` |
 | `__init__` | method | `skills/hive_mind.py:1818` | `def __init__(self)` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `query_knowledge` | method | `skills/lazyown_parquet_db.py:526` | `def query_knowledge(self, keyword, parquet_name, columns, limit)` |
 | `query_session` | method | `skills/lazyown_parquet_db.py:490` | `def query_session(self, phase, target, success_only, limit)` |
 | `stats` | method | `skills/lazyown_parquet_db.py:731` | `def stats(self)` |
+| `sync` | method | `skills/lazyown_parquet_db.py:316` | `def sync(self, csv_path)` |
+| `train_classifier` | method | `skills/lazyown_parquet_db.py:750` | `def train_classifier(self, min_rows)` |
+| `verify_model_integrity` | function | `skills/lazyown_parquet_db.py:894` | `def verify_model_integrity(model_path, encoder_path, hash_path)` |
+| `PermissionMode` | class | `skills/lazyown_permissions.py:18` | `class PermissionMode(Enum)` |
+| `PermissionRule` | class | `skills/lazyown_permissions.py:29` | `class PermissionRule` |
+| `PermissionSystem` | class | `skills/lazyown_permissions.py:91` | `class PermissionSystem` |
+| `__init__` | method | `skills/lazyown_permissions.py:103` | `def __init__(self, sessions_dir)` |
+| `_audit` | method | `skills/lazyown_permissions.py:132` | `def _audit(self, tool, decision, reason, args)` |
+| `_load` | method | `skills/lazyown_permissions.py:113` | `def _load(self)` |
+| `_matches` | method | `skills/lazyown_permissions.py:219` | `def _matches(self, rule, tool_name, args)` |
+| `_save` | method | `skills/lazyown_permissions.py:124` | `def _save(self)` |
+| `add_rule` | method | `skills/lazyown_permissions.py:145` | `def add_rule(self, tool_pattern, action, condition, description)` |
+| `evaluate` | method | `skills/lazyown_permissions.py:167` | `def evaluate(self, tool_name, arguments)` |
+| `list_rules` | method | `skills/lazyown_permissions.py:162` | `def list_rules(self)` |
+| `metrics` | method | `skills/lazyown_permissions.py:237` | `def metrics(self)` |
+| `remove_rule` | method | `skills/lazyown_permissions.py:151` | `def remove_rule(self, tool_pattern, action)` |
+| `set_mode` | method | `skills/lazyown_permissions.py:157` | `def set_mode(self, mode)` |
+| `status_text` | method | `skills/lazyown_permissions.py:279` | `def status_text(self)` |
+| `to_dict` | method | `skills/lazyown_permissions.py:36` | `def to_dict(self)` |
+| `ActionCategory` | class | `skills/lazyown_policy.py:131` | `class ActionCategory(StrEnum)` |
+| `ApprovalDecision` | class | `skills/lazyown_policy.py:1326` | `class ApprovalDecision(StrEnum)` |
+| `ApprovalGate` | class | `skills/lazyown_policy.py:1606` | `class ApprovalGate` |
+| `ApprovalOutcome` | class | `skills/lazyown_policy.py:1356` | `class ApprovalOutcome` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

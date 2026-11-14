@@ -1,34 +1,8 @@
-# Symbols (page 20 of 53)
+# Symbols (page 20 of 52)
 Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
-| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
-| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
-| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
-| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
-| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
-| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
-| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
-| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
-| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
-| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
-| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
-| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
-| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
-| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
-| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
-| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
-| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
-| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
-| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
-| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
-| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
-| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
-| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
-| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
-| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
 | `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
 | `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
 | `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
@@ -124,7 +98,7 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_missing_tool` | method | `modules/loop/worker_execution.py:176` | `def _missing_tool(self, command)` |
 | `_open_shell_session` | method | `modules/loop/worker_execution.py:55` | `def _open_shell_session(self, intent)` |
 | `_reader` | function | `modules/loop/worker_execution.py:77` | `def _reader()` |
-| `_resolved_command` | method | `modules/loop/worker_execution.py:242` | `def _resolved_command(self, command)` |
+| `_resolved_command` | method | `modules/loop/worker_execution.py:239` | `def _resolved_command(self, command)` |
 | `_run` | method | `modules/loop/worker_execution.py:192` | `def _run(self, command, executor)` |
 | `_send_shell` | method | `modules/loop/worker_execution.py:90` | `def _send_shell(self, command, intent, timeout_sec)` |
 | `_start_background_job` | method | `modules/loop/worker_execution.py:22` | `def _start_background_job(self, command, intent, transcripts)` |
@@ -255,40 +229,40 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `slot` | method | `modules/loop_guardrails.py:545` | `def slot(self, target)` |
 | `stuck` | method | `modules/loop_guardrails.py:182` | `def stuck(self)` |
 | `windows_delay` | method | `modules/loop_guardrails.py:432` | `def windows_delay(windows, now)` |
-| `LoopManager` | class | `modules/loop_manager.py:317` | `class LoopManager` |
-| `LoopNotFoundError` | class | `modules/loop_manager.py:97` | `class LoopNotFoundError(KeyError)` |
-| `LoopSpec` | class | `modules/loop_manager.py:265` | `class LoopSpec` |
-| `LoopValidationError` | class | `modules/loop_manager.py:88` | `class LoopValidationError(ValueError)` |
-| `__init__` | method | `modules/loop_manager.py:91` | `def __init__(self, field, message)` |
-| `__init__` | method | `modules/loop_manager.py:328` | `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` |
-| `_load_registry_locked` | method | `modules/loop_manager.py:820` | `def _load_registry_locked(self)` |
-| `_loop_command` | function | `modules/loop_manager.py:285` | `def _loop_command(spec)` |
-| `_now_iso` | function | `modules/loop_manager.py:218` | `def _now_iso()` |
-| `_pid_alive` | function | `modules/loop_manager.py:247` | `def _pid_alive(pid, start_ticks)` |
-| `_process_start_ticks` | function | `modules/loop_manager.py:223` | `def _process_start_ticks(pid)` |
-| `_prune_locked` | method | `modules/loop_manager.py:771` | `def _prune_locked(self)` |
-| `_read_outcome` | method | `modules/loop_manager.py:532` | `def _read_outcome(workspace)` |
-| `_reap` | method | `modules/loop_manager.py:473` | `def _reap(self, loop_id, process)` |
-| `_refresh_log_bytes` | method | `modules/loop_manager.py:573` | `def _refresh_log_bytes(self, record)` |
-| `_remove_workspace` | method | `modules/loop_manager.py:796` | `def _remove_workspace(self, loop_id)` |
-| `_resolve_log_path` | method | `modules/loop_manager.py:644` | `def _resolve_log_path(self, record)` |
-| `_save_registry_locked` | method | `modules/loop_manager.py:835` | `def _save_registry_locked(self, records)` |
-| `_spawn_locked` | method | `modules/loop_manager.py:395` | `def _spawn_locked(self, spec, operator)` |
-| `_update_status_locked` | method | `modules/loop_manager.py:718` | `def _update_status_locked(self, loop_id, status)` |
-| `_write_workspace_metadata` | method | `modules/loop_manager.py:515` | `def _write_workspace_metadata(record)` |
-| `clamp_float` | function | `modules/loop_manager.py:176` | `def clamp_float(raw, field, default, minimum, maximum)` |
-| `clamp_int` | function | `modules/loop_manager.py:151` | `def clamp_int(raw, field, default, minimum, maximum)` |
-| `default_manager` | function | `modules/loop_manager.py:853` | `def default_manager()` |
-| `get_loop` | method | `modules/loop_manager.py:584` | `def get_loop(self, loop_id)` |
-| `list_loops` | method | `modules/loop_manager.py:549` | `def list_loops(self)` |
-| `loops_dir` | method | `modules/loop_manager.py:350` | `def loops_dir(self)` |
-| `read_log` | method | `modules/loop_manager.py:603` | `def read_log(self, loop_id, offset)` |
-| `sanitize_goal` | function | `modules/loop_manager.py:124` | `def sanitize_goal(raw)` |
-| `start` | method | `modules/loop_manager.py:354` | `def start(self, spec, operator)` |
-| `stop` | method | `modules/loop_manager.py:670` | `def stop(self, loop_id)` |
-| `summary` | method | `modules/loop_manager.py:735` | `def summary(self)` |
-| `validate_loop_id` | function | `modules/loop_manager.py:201` | `def validate_loop_id(loop_id)` |
-| `validate_target` | function | `modules/loop_manager.py:101` | `def validate_target(raw)` |
+| `LoopManager` | class | `modules/loop_manager.py:314` | `class LoopManager` |
+| `LoopNotFoundError` | class | `modules/loop_manager.py:94` | `class LoopNotFoundError(KeyError)` |
+| `LoopSpec` | class | `modules/loop_manager.py:262` | `class LoopSpec` |
+| `LoopValidationError` | class | `modules/loop_manager.py:85` | `class LoopValidationError(ValueError)` |
+| `__init__` | method | `modules/loop_manager.py:88` | `def __init__(self, field, message)` |
+| `__init__` | method | `modules/loop_manager.py:325` | `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` |
+| `_load_registry_locked` | method | `modules/loop_manager.py:817` | `def _load_registry_locked(self)` |
+| `_loop_command` | function | `modules/loop_manager.py:282` | `def _loop_command(spec)` |
+| `_now_iso` | function | `modules/loop_manager.py:215` | `def _now_iso()` |
+| `_pid_alive` | function | `modules/loop_manager.py:244` | `def _pid_alive(pid, start_ticks)` |
+| `_process_start_ticks` | function | `modules/loop_manager.py:220` | `def _process_start_ticks(pid)` |
+| `_prune_locked` | method | `modules/loop_manager.py:768` | `def _prune_locked(self)` |
+| `_read_outcome` | method | `modules/loop_manager.py:529` | `def _read_outcome(workspace)` |
+| `_reap` | method | `modules/loop_manager.py:470` | `def _reap(self, loop_id, process)` |
+| `_refresh_log_bytes` | method | `modules/loop_manager.py:570` | `def _refresh_log_bytes(self, record)` |
+| `_remove_workspace` | method | `modules/loop_manager.py:793` | `def _remove_workspace(self, loop_id)` |
+| `_resolve_log_path` | method | `modules/loop_manager.py:641` | `def _resolve_log_path(self, record)` |
+| `_save_registry_locked` | method | `modules/loop_manager.py:832` | `def _save_registry_locked(self, records)` |
+| `_spawn_locked` | method | `modules/loop_manager.py:392` | `def _spawn_locked(self, spec, operator)` |
+| `_update_status_locked` | method | `modules/loop_manager.py:715` | `def _update_status_locked(self, loop_id, status)` |
+| `_write_workspace_metadata` | method | `modules/loop_manager.py:512` | `def _write_workspace_metadata(record)` |
+| `clamp_float` | function | `modules/loop_manager.py:173` | `def clamp_float(raw, field, default, minimum, maximum)` |
+| `clamp_int` | function | `modules/loop_manager.py:148` | `def clamp_int(raw, field, default, minimum, maximum)` |
+| `default_manager` | function | `modules/loop_manager.py:850` | `def default_manager()` |
+| `get_loop` | method | `modules/loop_manager.py:581` | `def get_loop(self, loop_id)` |
+| `list_loops` | method | `modules/loop_manager.py:546` | `def list_loops(self)` |
+| `loops_dir` | method | `modules/loop_manager.py:347` | `def loops_dir(self)` |
+| `read_log` | method | `modules/loop_manager.py:600` | `def read_log(self, loop_id, offset)` |
+| `sanitize_goal` | function | `modules/loop_manager.py:121` | `def sanitize_goal(raw)` |
+| `start` | method | `modules/loop_manager.py:351` | `def start(self, spec, operator)` |
+| `stop` | method | `modules/loop_manager.py:667` | `def stop(self, loop_id)` |
+| `summary` | method | `modules/loop_manager.py:732` | `def summary(self)` |
+| `validate_loop_id` | function | `modules/loop_manager.py:198` | `def validate_loop_id(loop_id)` |
+| `validate_target` | function | `modules/loop_manager.py:98` | `def validate_target(raw)` |
 | `_probe` | function | `modules/loop_preflight.py:107` | `def _probe(port)` |
 | `check_target` | function | `modules/loop_preflight.py:145` | `def check_target(target, ports, connect_timeout, lab)` |
 | `lab_state_for` | function | `modules/loop_preflight.py:38` | `def lab_state_for(target, scenarios, running, existing, ip_lookup)` |
@@ -384,17 +358,14 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `mediator_for` | method | `modules/mediation/contracts.py:99` | `def mediator_for(self, domain)` |
 | `read` | method | `modules/mediation/contracts.py:45` | `def read(self, limit)` |
 | `resolve` | function | `modules/mediation/contracts.py:104` | `def resolve(domain)` |
-| `EngineMediator` | class | `modules/mediation/engine_mediator.py:84` | `class EngineMediator` |
-| `ExploitRetryPort` | class | `modules/mediation/engine_mediator.py:34` | `class ExploitRetryPort(Protocol)` |
-| `ReactionPort` | class | `modules/mediation/engine_mediator.py:51` | `class ReactionPort(Protocol)` |
-| `ReasoningPort` | class | `modules/mediation/engine_mediator.py:69` | `class ReasoningPort(Protocol)` |
-| `analyse` | method | `modules/mediation/engine_mediator.py:54` | `def analyse(self, output, command, platform)` |
-| `analyse` | method | `modules/mediation/engine_mediator.py:118` | `def analyse(self, output, command, platform)` |
-| `describe` | method | `modules/mediation/engine_mediator.py:89` | `def describe(self)` |
-| `reason` | method | `modules/mediation/engine_mediator.py:72` | `def reason(self, target)` |
-| `reason` | method | `modules/mediation/engine_mediator.py:136` | `def reason(self, target)` |
-| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:37` | `def retry_with_credentials(self, target, credentials)` |
-| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:97` | `def retry_with_credentials(self, target, credentials)` |
+| `EngineMediator` | class | `modules/mediation/engine_mediator.py:66` | `class EngineMediator` |
+| `ExploitRetryPort` | class | `modules/mediation/engine_mediator.py:32` | `class ExploitRetryPort(Protocol)` |
+| `ReactionPort` | class | `modules/mediation/engine_mediator.py:49` | `class ReactionPort(Protocol)` |
+| `analyse` | method | `modules/mediation/engine_mediator.py:52` | `def analyse(self, output, command, platform)` |
+| `analyse` | method | `modules/mediation/engine_mediator.py:100` | `def analyse(self, output, command, platform)` |
+| `describe` | method | `modules/mediation/engine_mediator.py:71` | `def describe(self)` |
+| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:35` | `def retry_with_credentials(self, target, credentials)` |
+| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:79` | `def retry_with_credentials(self, target, credentials)` |
 | `FeedbackMediator` | class | `modules/mediation/feedback_mediator.py:13` | `class FeedbackMediator` |
 | `describe` | method | `modules/mediation/feedback_mediator.py:18` | `def describe(self)` |
 | `order_steps` | method | `modules/mediation/feedback_mediator.py:22` | `def order_steps(self, steps, stack)` |
@@ -496,5 +467,34 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
 | `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
 | `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
+| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
+| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
+| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
+| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
+| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
+| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
+| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
+| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
+| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
+| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
+| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
+| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
+| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
+| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
+| `path` | method | `modules/metrics.py:201` | `def path(self)` |
+| `path` | method | `modules/metrics.py:350` | `def path(self)` |
+| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
+| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
+| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
+| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
+| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
+| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
+| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
+| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
+| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
+| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
+| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
+| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
+| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

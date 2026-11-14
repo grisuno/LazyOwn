@@ -1,29 +1,8 @@
-# Symbols (page 35 of 53)
+# Symbols (page 35 of 52)
 Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
-| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
-| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
-| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
-| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
-| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
-| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
-| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
-| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
-| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
-| `test_list_all_reports_file_stem_as_filename` | method | `tests/test_addon_creator.py:400` | `def test_list_all_reports_file_stem_as_filename(self, tmp_path)` |
-| `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
-| `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:764` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
-| `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:710` | `def test_list_page_shows_created_addon(self, tmp_path)` |
-| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
-| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
-| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
-| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
-| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
-| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
-| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
 | `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
 | `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
 | `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
@@ -178,35 +157,36 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_targets_requires_auth` | function | `tests/test_api_v1.py:51` | `def test_targets_requires_auth(api_client)` |
 | `test_webhook_crud` | function | `tests/test_api_v1.py:109` | `def test_webhook_crud(api_client)` |
 | `test_webhook_rejects_bad_url` | function | `tests/test_api_v1.py:126` | `def test_webhook_rejects_bad_url(api_client)` |
-| `FakeStore` | class | `tests/test_apt_chain_admin.py:272` | `class FakeStore` |
-| `TestSynthFlags` | class | `tests/test_apt_chain_admin.py:346` | `class TestSynthFlags` |
+| `FakeStore` | class | `tests/test_apt_chain_admin.py:292` | `class FakeStore` |
+| `TestSynthFlags` | class | `tests/test_apt_chain_admin.py:366` | `class TestSynthFlags` |
 | `_Set` | class | `tests/test_apt_chain_admin.py:27` | `class _Set(CommandAndControlMigratedCommandSet)` |
 | `_Shell` | class | `tests/test_apt_chain_admin.py:30` | `class _Shell(Cmd)` |
 | `__init__` | method | `tests/test_apt_chain_admin.py:33` | `def __init__(self)` |
-| `__init__` | method | `tests/test_apt_chain_admin.py:275` | `def __init__(self)` |
+| `__init__` | method | `tests/test_apt_chain_admin.py:295` | `def __init__(self)` |
 | `_make_shell` | function | `tests/test_apt_chain_admin.py:23` | `def _make_shell()` |
 | `_patch_chain_loading` | function | `tests/test_apt_chain_admin.py:49` | `def _patch_chain_loading(monkeypatch, tmp_path, enabled_name, chain)` |
 | `_write_chain` | function | `tests/test_apt_chain_admin.py:41` | `def _write_chain(tmp_path, name, steps, enabled)` |
-| `get_host` | method | `tests/test_apt_chain_admin.py:284` | `def get_host(host)` |
-| `parse_all` | method | `tests/test_apt_chain_admin.py:279` | `def parse_all()` |
-| `test_admin_list_validate_and_enable_disable` | function | `tests/test_apt_chain_admin.py:120` | `def test_admin_list_validate_and_enable_disable(tmp_path, monkeypatch, capsys)` |
-| `test_admin_missing_chain_and_bad_input_fail` | function | `tests/test_apt_chain_admin.py:146` | `def test_admin_missing_chain_and_bad_input_fail(tmp_path, monkeypatch, capsys)` |
-| `test_confirm_gate_auto_approves_in_autonomous_mode` | function | `tests/test_apt_chain_admin.py:219` | `def test_confirm_gate_auto_approves_in_autonomous_mode(tmp_path, monkeypatch, capsys)` |
-| `test_confirm_gate_denies_when_operator_refuses` | function | `tests/test_apt_chain_admin.py:236` | `def test_confirm_gate_denies_when_operator_refuses(tmp_path, monkeypatch, capsys)` |
-| `test_engagement_tokens_resolved_from_fact_store` | function | `tests/test_apt_chain_admin.py:252` | `def test_engagement_tokens_resolved_from_fact_store(monkeypatch, tmp_path)` |
-| `test_missing_value_errors` | method | `tests/test_apt_chain_admin.py:365` | `def test_missing_value_errors(self)` |
+| `get_host` | method | `tests/test_apt_chain_admin.py:304` | `def get_host(host)` |
+| `parse_all` | method | `tests/test_apt_chain_admin.py:299` | `def parse_all()` |
+| `test_admin_list_validate_and_enable_disable` | function | `tests/test_apt_chain_admin.py:140` | `def test_admin_list_validate_and_enable_disable(tmp_path, monkeypatch, capsys)` |
+| `test_admin_missing_chain_and_bad_input_fail` | function | `tests/test_apt_chain_admin.py:166` | `def test_admin_missing_chain_and_bad_input_fail(tmp_path, monkeypatch, capsys)` |
+| `test_confirm_gate_auto_approves_in_autonomous_mode` | function | `tests/test_apt_chain_admin.py:239` | `def test_confirm_gate_auto_approves_in_autonomous_mode(tmp_path, monkeypatch, capsys)` |
+| `test_confirm_gate_denies_when_operator_refuses` | function | `tests/test_apt_chain_admin.py:256` | `def test_confirm_gate_denies_when_operator_refuses(tmp_path, monkeypatch, capsys)` |
+| `test_engagement_tokens_resolved_from_fact_store` | function | `tests/test_apt_chain_admin.py:272` | `def test_engagement_tokens_resolved_from_fact_store(monkeypatch, tmp_path)` |
+| `test_missing_value_errors` | method | `tests/test_apt_chain_admin.py:385` | `def test_missing_value_errors(self)` |
 | `test_parse_flags_and_unknown_flag_fails_loudly` | function | `tests/test_apt_chain_admin.py:59` | `def test_parse_flags_and_unknown_flag_fails_loudly()` |
-| `test_playbook_flag_parsed` | method | `tests/test_apt_chain_admin.py:357` | `def test_playbook_flag_parsed(self)` |
-| `test_playbook_overrides_base_chain` | function | `tests/test_apt_chain_admin.py:301` | `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)` |
-| `test_positional_only_unchanged` | method | `tests/test_apt_chain_admin.py:375` | `def test_positional_only_unchanged(self)` |
-| `test_render_admin_tags_severity_per_payload` | function | `tests/test_apt_chain_admin.py:74` | `def test_render_admin_tags_severity_per_payload()` |
-| `test_run_checkpoints_and_resume` | function | `tests/test_apt_chain_admin.py:176` | `def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys)` |
-| `test_run_dry_run_json_output` | function | `tests/test_apt_chain_admin.py:157` | `def test_run_dry_run_json_output(tmp_path, monkeypatch, capsys)` |
-| `test_select_step_ids_supports_step_from_and_to` | function | `tests/test_apt_chain_admin.py:93` | `def test_select_step_ids_supports_step_from_and_to()` |
-| `test_step_filtering_drops_out_of_scope_steps` | function | `tests/test_apt_chain_admin.py:314` | `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)` |
-| `test_techniques_parsed` | method | `tests/test_apt_chain_admin.py:349` | `def test_techniques_parsed(self)` |
-| `test_unknown_admin_flag_still_loud` | method | `tests/test_apt_chain_admin.py:370` | `def test_unknown_admin_flag_still_loud(self)` |
-| `test_unknown_run_flags_fail_loudly` | function | `tests/test_apt_chain_admin.py:337` | `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)` |
+| `test_playbook_flag_parsed` | method | `tests/test_apt_chain_admin.py:377` | `def test_playbook_flag_parsed(self)` |
+| `test_playbook_overrides_base_chain` | function | `tests/test_apt_chain_admin.py:321` | `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)` |
+| `test_positional_only_unchanged` | method | `tests/test_apt_chain_admin.py:395` | `def test_positional_only_unchanged(self)` |
+| `test_render_admin_tags_severity_per_payload` | function | `tests/test_apt_chain_admin.py:94` | `def test_render_admin_tags_severity_per_payload()` |
+| `test_resolve_invocation_lenient_policy_and_seed_merge` | function | `tests/test_apt_chain_admin.py:72` | `def test_resolve_invocation_lenient_policy_and_seed_merge()` |
+| `test_run_checkpoints_and_resume` | function | `tests/test_apt_chain_admin.py:196` | `def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys)` |
+| `test_run_dry_run_json_output` | function | `tests/test_apt_chain_admin.py:177` | `def test_run_dry_run_json_output(tmp_path, monkeypatch, capsys)` |
+| `test_select_step_ids_supports_step_from_and_to` | function | `tests/test_apt_chain_admin.py:113` | `def test_select_step_ids_supports_step_from_and_to()` |
+| `test_step_filtering_drops_out_of_scope_steps` | function | `tests/test_apt_chain_admin.py:334` | `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)` |
+| `test_techniques_parsed` | method | `tests/test_apt_chain_admin.py:369` | `def test_techniques_parsed(self)` |
+| `test_unknown_admin_flag_still_loud` | method | `tests/test_apt_chain_admin.py:390` | `def test_unknown_admin_flag_still_loud(self)` |
+| `test_unknown_run_flags_fail_loudly` | function | `tests/test_apt_chain_admin.py:357` | `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)` |
 | `_Set` | class | `tests/test_apt_chain_integration.py:19` | `class _Set(CommandAndControlMigratedCommandSet)` |
 | `_Shell` | class | `tests/test_apt_chain_integration.py:28` | `class _Shell(Cmd)` |
 | `__init__` | method | `tests/test_apt_chain_integration.py:31` | `def __init__(self)` |
@@ -451,6 +431,18 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_sanctioned_lists_sorted_rows` | method | `tests/test_auto_loop_memory.py:74` | `def test_sanctioned_lists_sorted_rows(self, tmp_path)` |
 | `test_trims_to_capacity` | method | `tests/test_auto_loop_memory.py:43` | `def test_trims_to_capacity(self, tmp_path)` |
 | `test_veto_blocks_immediately_and_persists` | method | `tests/test_auto_loop_memory.py:35` | `def test_veto_blocks_immediately_and_persists(self, tmp_path)` |
+| `engine` | function | `tests/test_auto_pwn_success.py:17` | `def engine()` |
+| `test_check_success_empty_output` | function | `tests/test_auto_pwn_success.py:76` | `def test_check_success_empty_output(engine)` |
+| `test_check_success_long_recon_is_failure` | function | `tests/test_auto_pwn_success.py:57` | `def test_check_success_long_recon_is_failure(engine)` |
+| `test_check_success_meterpreter_banner` | function | `tests/test_auto_pwn_success.py:68` | `def test_check_success_meterpreter_banner(engine)` |
+| `test_check_success_recon_banner_is_failure` | function | `tests/test_auto_pwn_success.py:53` | `def test_check_success_recon_banner_is_failure(engine)` |
+| `test_check_success_shadow_dump` | function | `tests/test_auto_pwn_success.py:72` | `def test_check_success_shadow_dump(engine)` |
+| `test_check_success_shell_evidence` | function | `tests/test_auto_pwn_success.py:63` | `def test_check_success_shell_evidence(engine)` |
+| `test_evaluate_exploit_output_credentials_header_not_cred` | function | `tests/test_auto_pwn_success.py:31` | `def test_evaluate_exploit_output_credentials_header_not_cred()` |
+| `test_evaluate_exploit_output_recon_is_not_success` | function | `tests/test_auto_pwn_success.py:45` | `def test_evaluate_exploit_output_recon_is_not_success()` |
+| `test_evaluate_exploit_output_root_shell` | function | `tests/test_auto_pwn_success.py:23` | `def test_evaluate_exploit_output_root_shell()` |
+| `test_evaluate_exploit_output_shadow_dump` | function | `tests/test_auto_pwn_success.py:37` | `def test_evaluate_exploit_output_shadow_dump()` |
+| `test_steps_for_initial_access_resolves_auto_pwn` | function | `tests/test_auto_pwn_success.py:80` | `def test_steps_for_initial_access_resolves_auto_pwn()` |
 | `_FakeShell` | class | `tests/test_auto_registry.py:73` | `class _FakeShell` |
 | `_HangingShell` | class | `tests/test_auto_registry.py:86` | `class _HangingShell` |
 | `__init__` | method | `tests/test_auto_registry.py:76` | `def __init__(self, output)` |
@@ -471,23 +463,21 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_steps_for_uses_next_available_keyword_verb` | function | `tests/test_auto_registry.py:154` | `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)` |
 | `test_verb_gap_flags_missing_tooling` | function | `tests/test_auto_registry.py:124` | `def test_verb_gap_flags_missing_tooling(monkeypatch)` |
 | `test_verbs_for_matches_keywords` | function | `tests/test_auto_registry.py:55` | `def test_verbs_for_matches_keywords()` |
-| `boom` | function | `tests/test_autonomous_ops.py:101` | `def boom(_prompt)` |
-| `test_c04_dedup_anchor_coverage` | function | `tests/test_autonomous_ops.py:11` | `def test_c04_dedup_anchor_coverage()` |
-| `test_c04_mirror_to_campaign_db` | function | `tests/test_autonomous_ops.py:26` | `def test_c04_mirror_to_campaign_db(tmp_path)` |
-| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:43` | `def test_c05_frontier_emits_once_then_empty()` |
-| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:58` | `def test_c05_todo_blocks_lateral_until_creds()` |
-| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:70` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
-| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:98` | `def test_c07_pool_failover_and_exhaustion()` |
-| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:116` | `def test_c08_notify_filter_and_redact()` |
-| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:128` | `def test_c09_side_question_isolated()` |
-| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:159` | `def test_c10_rollback_restores_previous(tmp_path)` |
-| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:143` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
-| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:186` | `def test_i2_pool_hard_trips_on_auth_errors()` |
-| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:171` | `def test_i2_shared_registry_survives_rebuilds()` |
-| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:194` | `def test_i3_classify_retest_verdicts()` |
-| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:203` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
-| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:224` | `def test_i4_shared_engine_cooldown()` |
-| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:232` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
+| `boom` | function | `tests/test_autonomous_ops.py:69` | `def boom(_prompt)` |
+| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:11` | `def test_c05_frontier_emits_once_then_empty()` |
+| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:26` | `def test_c05_todo_blocks_lateral_until_creds()` |
+| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:38` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
+| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:66` | `def test_c07_pool_failover_and_exhaustion()` |
+| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:84` | `def test_c08_notify_filter_and_redact()` |
+| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:96` | `def test_c09_side_question_isolated()` |
+| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:127` | `def test_c10_rollback_restores_previous(tmp_path)` |
+| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:111` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
+| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:154` | `def test_i2_pool_hard_trips_on_auth_errors()` |
+| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:139` | `def test_i2_shared_registry_survives_rebuilds()` |
+| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:162` | `def test_i3_classify_retest_verdicts()` |
+| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:171` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
+| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:192` | `def test_i4_shared_engine_cooldown()` |
+| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:200` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
 | `_Runner` | class | `tests/test_autonomous_replay.py:161` | `class _Runner` |
 | `_Runner` | class | `tests/test_autonomous_replay.py:185` | `class _Runner` |
 | `__init__` | method | `tests/test_autonomous_replay.py:162` | `def __init__(self)` |
@@ -496,5 +486,15 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `run` | method | `tests/test_autonomous_replay.py:165` | `def run(self, command, timeout)` |
 | `run` | method | `tests/test_autonomous_replay.py:186` | `def run(self, command, timeout)` |
 | `test_event_log_reader_returns_empty_when_missing` | function | `tests/test_autonomous_replay.py:71` | `def test_event_log_reader_returns_empty_when_missing(tmp_path)` |
+| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
+| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
+| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
+| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
+| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
+| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
+| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
+| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
+| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
+| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
 
 Next: [SYMBOLS_p36.md](SYMBOLS_p36.md)

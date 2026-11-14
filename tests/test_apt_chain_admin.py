@@ -67,6 +67,26 @@ def test_parse_flags_and_unknown_flag_fails_loudly():
     assert any("missing value" in error for error in broken.errors)
     junk = parse_chain_args("rocke --foo bar")
     assert any("--foo" in error for error in junk.errors)
+
+
+def test_resolve_invocation_lenient_policy_and_seed_merge():
+    """Given the loop policy, When parsing, Then the first token is the chain and the first target wins."""
+    from cli.apt_chain_support import resolve_invocation
+
+    chain_name, target, playbook_override, disabled = resolve_invocation(
+        ["rocke", "10.0.0.5", "10.0.0.6"], policy="lenient"
+    )
+    assert chain_name == "rocke" and target == "10.0.0.5" and playbook_override == "" and disabled == ""
+
+    chain_name, target, playbook_override, _disabled = resolve_invocation(
+        ["10.0.0.5", "demo"], target_seed="", preset_target="", policy="lenient"
+    )
+    assert chain_name == "apt_chain" and target == "10.0.0.5"
+
+    chain_name, target, playbook_override, _disabled = resolve_invocation(
+        ["demo"], playbook_seed="rocke", policy="strict"
+    )
+    assert playbook_override == "rocke"
     bad_var = parse_chain_args("rocke --var 9bad=1")
     assert any("--var" in error for error in bad_var.errors)
 

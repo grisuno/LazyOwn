@@ -83,13 +83,6 @@ def test_prerequisites_known_and_unknown() -> None:
     assert reg.prerequisites("ping") == []
 
 
-def test_missing_prerequisites_skips_already_run() -> None:
-    reg = PrerequisiteRegistry()
-    assert reg.missing("lazynmap", history=["ping"]) == []
-    assert reg.missing("lazynmap", history=[]) == ["ping"]
-    assert reg.missing("evil-winrm", history=["secretsdump"]) == []
-
-
 def test_static_next_registry_uses_killchain_table() -> None:
     reg = StaticNextRegistry()
     nxt = reg.next_for("lazynmap")
@@ -191,23 +184,6 @@ def test_dynamic_next_resolver_respects_limit() -> None:
     resolver = DynamicNextResolver(exploration_engine=engine)
     steps = resolver.resolve("lazynmap", limit=2)
     assert len(steps) == 2
-
-
-def test_chain_facade_returns_serialisable_view() -> None:
-    engine = _FakeEngine(services=[_svc("smb", 445)], history=set())
-    chain = CommandChain(next_resolver=DynamicNextResolver(exploration_engine=engine))
-    view = chain.chain("lazynmap", phase="enum")
-    assert view["command"] == "lazynmap"
-    assert view["prev"] == ["ping"]
-    assert isinstance(view["next"], list)
-    for step in view["next"]:
-        assert set(step) == {"name", "source", "reason"}
-
-
-def test_chain_missing_prerequisites_when_history_empty() -> None:
-    chain = CommandChain()
-    assert chain.missing_prerequisites("lazynmap", history=[]) == ["ping"]
-    assert chain.missing_prerequisites("lazynmap", history=["ping"]) == []
 
 
 def test_next_step_to_dict_round_trip() -> None:

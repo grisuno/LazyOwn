@@ -270,7 +270,7 @@ Imported by: `tests/test_chain_list_command.py`, `tests/test_lazy_runner.py`
 - `ExploitMigratedCommandSet.do_ntpdate` (method) `cli/commands/exploit_migrated.py:2558` `def do_ntpdate(self, line)` -- Synchronizes the system clock with a specified NTP server.
 - `ExploitMigratedCommandSet.do_adcs_check` (method) `cli/commands/exploit_migrated.py:2582` `def do_adcs_check(self, line)` -- Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
 - `ExploitMigratedCommandSet.do_chain` (method) `cli/commands/exploit_migrated.py:2641` `def do_chain(self, line)` -- Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
-- `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2771` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
+- `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2767` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
 
 ## cli/commands/exploitdb.py
 Depends on: `modules/__init__.py`
@@ -489,9 +489,9 @@ Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test
 - `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2732` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
 - `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2759` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
 - `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2804` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
-- `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2842` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
-- `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2905` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
-- `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2943` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
+- `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2811` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
+- `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2874` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
+- `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2912` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
 
 
 Next: [API_p3.md](API_p3.md)

@@ -1,29 +1,8 @@
-# Symbols (page 32 of 53)
+# Symbols (page 32 of 52)
 Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:940` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1062` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1123` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1332` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1380` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1728` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1785` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2250` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2360` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2488` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3207` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3870` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3910` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4099` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4216` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4580` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4771` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4830` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5066` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5521` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5831` | `` |
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5904` | `` |
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:6516` | `` |
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:7101` | `` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `result` | function | `static/js/html2pdf.bundle.min.js:7256` | `` |
 | `reverse` | function | `static/js/html2pdf.bundle.min.js:1094` | `` |
 | `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
+| `rgb` | function | `static/js/html2pdf.bundle.min.js:269` | `` |
+| `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
+| `rgba` | function | `static/js/html2pdf.bundle.min.js:278` | `` |
+| `s` | function | `static/js/html2pdf.bundle.min.js:115` | `` |
+| `s` | function | `static/js/html2pdf.bundle.min.js:146` | `` |
+| `save` | function | `static/js/html2pdf.bundle.min.js:8836` | `` |
+| `selfFulfillment` | function | `static/js/html2pdf.bundle.min.js:7615` | `` |
+| `serializeDoctype` | function | `static/js/html2pdf.bundle.min.js:7034` | `` |
+| `serializeDoctype` | function | `static/js/html2pdf.bundle.min.js:7034` | `` |
+| `set` | function | `static/js/html2pdf.bundle.min.js:8850` | `` |
+| `setAsap` | function | `static/js/html2pdf.bundle.min.js:7437` | `` |
+| `setDisplayBit` | function | `static/js/html2pdf.bundle.min.js:1908` | `` |
+| `setDisplayBit` | function | `static/js/html2pdf.bundle.min.js:1908` | `` |
+| `setMargin` | function | `static/js/html2pdf.bundle.min.js:8898` | `` |
+| `setOpacity` | function | `static/js/html2pdf.bundle.min.js:809` | `` |
+| `setPageSize` | function | `static/js/html2pdf.bundle.min.js:8920` | `` |
+| `setProgress` | function | `static/js/html2pdf.bundle.min.js:8943` | `` |
+| `setScheduler` | function | `static/js/html2pdf.bundle.min.js:7433` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:2761` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6040` | `` |
+| `setTimeout` | method | `static/js/html2pdf.bundle.min.js:6046` | `` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

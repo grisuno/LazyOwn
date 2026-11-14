@@ -1,123 +1,6 @@
 # Subsystem: tests (page 24 of 26)
 Previous: [KB_tests_p23.md](KB_tests_p23.md)
 
-## tests/test_security_lazyc2.py
-- Doc: Security tests for the LazyOwn C2 web layer.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_build_command_queue_path` (function, line 32) `def _build_command_queue_path(client_id, base_dir)`
-  - `TestRoutePathValidator` (class, line 59) `class TestRoutePathValidator`
-  - `TestTemplateNameValidator` (class, line 84) `class TestTemplateNameValidator`
-  - `TestYamlFilenameValidator` (class, line 107) `class TestYamlFilenameValidator`
-  - `TestRequestDataValidator` (class, line 127) `class TestRequestDataValidator`
-  - `TestAESKeyValidator` (class, line 151) `class TestAESKeyValidator`
-  - `TestPasswordLengthValidator` (class, line 174) `class TestPasswordLengthValidator`
-  - `TestUploadSizeValidator` (class, line 192) `class TestUploadSizeValidator`
-  - `TestFilePathWithinBaseValidator` (class, line 212) `class TestFilePathWithinBaseValidator`
-  - `TestSecretKeyManager` (class, line 249) `class TestSecretKeyManager`
-  - `TestSafeFileService` (class, line 272) `class TestSafeFileService`
-  - `TestAESKeyManager` (class, line 321) `class TestAESKeyManager`
-  - `TestUploadSizeValidatorService` (class, line 345) `class TestUploadSizeValidatorService`
-  - `TestSecureCommandQueuePath` (class, line 366) `class TestSecureCommandQueuePath`
-  - `test_route_path_validation` (method, line 79) `def test_route_path_validation(self, route_path, expected_valid)`
-  - `test_template_name_validation` (method, line 102) `def test_template_name_validation(self, template_name, expected_valid)`
-  - `test_yaml_filename_validation` (method, line 122) `def test_yaml_filename_validation(self, filename, expected_valid)`
-  - `test_short_data_is_valid` (method, line 130) `def test_short_data_is_valid(self)`
-  - `test_exact_max_length_is_valid` (method, line 135) `def test_exact_max_length_is_valid(self)`
-  - `test_over_max_length_is_invalid` (method, line 140) `def test_over_max_length_is_invalid(self)`
-  - `test_non_string_is_invalid` (method, line 146) `def test_non_string_is_invalid(self)`
-  - `test_valid_32_byte_key` (method, line 154) `def test_valid_32_byte_key(self)`
-  - `test_invalid_16_byte_key` (method, line 160) `def test_invalid_16_byte_key(self)`
-  - `test_invalid_string_key` (method, line 165) `def test_invalid_string_key(self)`
-  - `test_empty_key_is_invalid` (method, line 169) `def test_empty_key_is_invalid(self)`
-  - `test_exact_minimum_length` (method, line 177) `def test_exact_minimum_length(self)`
-  - `test_below_minimum_length` (method, line 182) `def test_below_minimum_length(self)`
-  - `test_non_string_password` (method, line 187) `def test_non_string_password(self)`
-  - `test_none_content_length` (method, line 195) `def test_none_content_length(self)`
-  - `test_valid_size` (method, line 199) `def test_valid_size(self)`
-  - `test_exceeds_max` (method, line 203) `def test_exceeds_max(self)`
-  - `test_exact_max` (method, line 207) `def test_exact_max(self)`
-  - `test_normal_path_is_valid` (method, line 215) `def test_normal_path_is_valid(self, tmp_path)`
-  - `test_traversal_outside_base_is_invalid` (method, line 222) `def test_traversal_outside_base_is_invalid(self, tmp_path)`
-  - `test_traversal_with_dotdot_is_invalid` (method, line 231) `def test_traversal_with_dotdot_is_invalid(self, tmp_path)`
-  - `test_symlink_traversal_is_detected` (method, line 238) `def test_symlink_traversal_is_detected(self, tmp_path)`
-  - `test_generates_new_key_on_first_run` (method, line 252) `def test_generates_new_key_on_first_run(self, tmp_path)`
-  - `test_reuses_existing_key` (method, line 258) `def test_reuses_existing_key(self, tmp_path)`
-  - `test_key_file_has_restrictive_permissions` (method, line 264) `def test_key_file_has_restrictive_permissions(self, tmp_path)`
-  - `test_read_bytes_within_base` (method, line 275) `def test_read_bytes_within_base(self, tmp_path)`
-  - `test_read_bytes_traversal_raises` (method, line 284) `def test_read_bytes_traversal_raises(self, tmp_path)`
-  - `test_write_bytes_creates_file` (method, line 293) `def test_write_bytes_creates_file(self, tmp_path)`
-  - `test_exists_returns_true_for_valid_path` (method, line 300) `def test_exists_returns_true_for_valid_path(self, tmp_path)`
-  - `test_exists_returns_false_for_missing` (method, line 307) `def test_exists_returns_false_for_missing(self, tmp_path)`
-  - `test_exists_traversal_raises` (method, line 313) `def test_exists_traversal_raises(self, tmp_path)`
-  - `test_generates_new_key` (method, line 324) `def test_generates_new_key(self, tmp_path)`
-  - `test_reuses_existing_valid_key` (method, line 330) `def test_reuses_existing_valid_key(self, tmp_path)`
-  - `test_raises_on_invalid_existing_key` (method, line 337) `def test_raises_on_invalid_existing_key(self, tmp_path)`
-  - `test_valid_size_passes` (method, line 348) `def test_valid_size_passes(self)`
-  - `test_exact_max_passes` (method, line 352) `def test_exact_max_passes(self)`
-  - `test_exceeds_max_raises` (method, line 356) `def test_exceeds_max_raises(self)`
-  - `test_none_passes` (method, line 361) `def test_none_passes(self)`
-  - `test_valid_client_id_returns_path_in_base` (method, line 376) `def test_valid_client_id_returns_path_in_base(self, tmp_path)`
-  - `test_empty_after_sanitization_raises` (method, line 381) `def test_empty_after_sanitization_raises(self, tmp_path)`
-  - `test_symlink_escape_raises` (method, line 385) `def test_symlink_escape_raises(self, tmp_path)`
-  - `test_traversal_characters_are_stripped` (method, line 396) `def test_traversal_characters_are_stripped(self, tmp_path)`
-  - `test_alphanumeric_plus_hyphen_underscore_accepted` (method, line 404) `def test_alphanumeric_plus_hyphen_underscore_accepted(self, tmp_path)`
-  - `test_returns_valid_os_path` (method, line 410) `def test_returns_valid_os_path(self, tmp_path)`
-- Depends on: `lazyc2/security/__init__.py`, `lazyc2/security/services.py`, `lazyc2/security/validators.py`, `modules/beacon_history.py`
-
-## tests/test_security_sanitizers.py
-- Doc: Unit tests for :mod:`modules.security_sanitizers`.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `cfg` (function, line 28) `def cfg()`
-  - `TestSecurityConfig` (class, line 33) `class TestSecurityConfig`
-  - `TestHeaderValueSanitizer` (class, line 74) `class TestHeaderValueSanitizer`
-  - `TestSessionPathResolver` (class, line 116) `class TestSessionPathResolver`
-  - `TestBindAddressResolver` (class, line 169) `class TestBindAddressResolver`
-  - `TestCommandRedactor` (class, line 201) `class TestCommandRedactor`
-  - `TestOutputSanitizer` (class, line 251) `class TestOutputSanitizer`
-  - `TestIntegrationFromPayloadFile` (class, line 311) `class TestIntegrationFromPayloadFile`
-  - `test_module_exports_are_complete` (function, line 333) `def test_module_exports_are_complete()`
-  - `test_defaults_are_conservative` (method, line 36) `def test_defaults_are_conservative(self, cfg)`
-  - `test_from_payload_accepts_known_keys` (method, line 44) `def test_from_payload_accepts_known_keys(self)`
-  - `test_from_payload_drops_wrong_types` (method, line 56) `def test_from_payload_drops_wrong_types(self)`
-  - `test_build_default_config_handles_none` (method, line 67) `def test_build_default_config_handles_none(self)`
-  - `test_strips_cr_lf_nul` (method, line 77) `def test_strips_cr_lf_nul(self, cfg)`
-  - `test_rejects_control_characters` (method, line 85) `def test_rejects_control_characters(self, cfg)`
-  - `test_length_capped` (method, line 90) `def test_length_capped(self, cfg)`
-  - `test_valid_name_accepts_rfc7230_tokens` (method, line 96) `def test_valid_name_accepts_rfc7230_tokens(self, cfg)`
-  - `test_invalid_name_rejected` (method, line 102) `def test_invalid_name_rejected(self, cfg)`
-  - `test_constructor_rejects_non_config` (method, line 110) `def test_constructor_rejects_non_config(self)`
-  - `test_rejects_parent_traversal` (method, line 119) `def test_rejects_parent_traversal(self, cfg, tmp_path)`
-  - `test_rejects_absolute` (method, line 125) `def test_rejects_absolute(self, cfg, tmp_path)`
-  - `test_rejects_null_byte` (method, line 131) `def test_rejects_null_byte(self, cfg, tmp_path)`
-  - `test_rejects_too_many_segments` (method, line 136) `def test_rejects_too_many_segments(self, cfg, tmp_path)`
-  - `test_resolves_valid_path` (method, line 142) `def test_resolves_valid_path(self, cfg, tmp_path)`
-  - `test_file_exists_false_on_invalid` (method, line 155) `def test_file_exists_false_on_invalid(self, cfg, tmp_path)`
-  - `test_constructor_rejects_bad_base` (method, line 161) `def test_constructor_rejects_bad_base(self, cfg)`
-  - `test_falls_back_to_loopback` (method, line 172) `def test_falls_back_to_loopback(self, cfg)`
-  - `test_accepts_first_valid_preferred` (method, line 177) `def test_accepts_first_valid_preferred(self, cfg)`
-  - `test_accepts_ipv6_literal` (method, line 182) `def test_accepts_ipv6_literal(self, cfg)`
-  - `test_unspecified_requires_opt_in` (method, line 187) `def test_unspecified_requires_opt_in(self, cfg)`
-  - `test_constructor_rejects_non_config` (method, line 195) `def test_constructor_rejects_non_config(self)`
-  - `test_display_omits_real_credentials` (method, line 204) `def test_display_omits_real_credentials(self, cfg)`
-  - `test_placeholder_username_is_visible` (method, line 218) `def test_placeholder_username_is_visible(self, cfg)`
-  - `test_executable_renders_substitutions` (method, line 230) `def test_executable_renders_substitutions(self, cfg)`
-  - `test_rejects_non_string_template` (method, line 242) `def test_rejects_non_string_template(self, cfg)`
-  - `test_exception_is_replaced` (method, line 254) `def test_exception_is_replaced(self, cfg)`
-  - `test_exception_nested_in_collection` (method, line 261) `def test_exception_nested_in_collection(self, cfg)`
-  - `test_recursion_is_bounded` (method, line 267) `def test_recursion_is_bounded(self, cfg)`
-  - `test_breadth_is_bounded` (method, line 277) `def test_breadth_is_bounded(self, cfg)`
-  - `test_passes_through_scalars` (method, line 285) `def test_passes_through_scalars(self, cfg)`
-  - `test_decodes_bytes` (method, line 294) `def test_decodes_bytes(self, cfg)`
-  - `test_unknown_objects_become_sentinel` (method, line 300) `def test_unknown_objects_become_sentinel(self, cfg)`
-  - `test_real_payload_file_builds_config` (method, line 314) `def test_real_payload_file_builds_config(self)`
-  - `Custom` (class, line 303) `class Custom`
-  - `__str__` (method, line 304) `def __str__(self)`
-- Depends on: `modules/__init__.py`, `modules/security_sanitizers.py`
-
 ## tests/test_selection_bridge.py
 - Doc: Tests for the shared bridge selector.
 - Layer: testing
@@ -495,6 +378,74 @@ Previous: [KB_tests_p23.md](KB_tests_p23.md)
   - `test_steer_hint_dedupe_is_per_run` (function, line 95) `def test_steer_hint_dedupe_is_per_run(monkeypatch, tmp_path)`
   - `test_chain_step_activity_maps_to_planner_trigger` (function, line 111) `def test_chain_step_activity_maps_to_planner_trigger(monkeypatch, tmp_path)`
 - Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/outcome_bus.py`, `modules/sinks/chain_feed.py`
+
+## tests/test_sink_lazy_intel.py
+- Doc: BDD tests for the dedicated lazy_intel sink.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_event` (function, line 15) `def _event(host, cve)`
+  - `rigged` (function, line 47) `def rigged(monkeypatch, tmp_path)`
+  - `TestSinkRouting` (class, line 61) `class TestSinkRouting`
+  - `TestWorldMirror` (class, line 73) `class TestWorldMirror`
+  - `TestDbMirror` (class, line 94) `class TestDbMirror`
+  - `fake_get_db` (function, line 54) `def fake_get_db(_path)`
+  - `test_other_kinds_ignored` (method, line 62) `def test_other_kinds_ignored(self, rigged)`
+  - `test_missing_host_ignored` (method, line 66) `def test_missing_host_ignored(self, rigged)`
+  - `test_fire_match_becomes_vulnerability` (method, line 74) `def test_fire_match_becomes_vulnerability(self, rigged)`
+  - `test_dedupe_second_event` (method, line 84) `def test_dedupe_second_event(self, rigged)`
+  - `test_vuln_row_inserted_with_refs` (method, line 95) `def test_vuln_row_inserted_with_refs(self, rigged)`
+  - `test_db_dedupe` (method, line 106) `def test_db_dedupe(self, rigged)`
+  - `test_severity_follows_tier` (method, line 114) `def test_severity_follows_tier(self, rigged)`
+- Depends on: `modules/db.py`, `modules/outcome_bus.py`, `modules/sinks/__init__.py`, `modules/world_model.py`
+
+## tests/test_sleep_obfuscation.py
+- Doc: Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSleepTechnique` (class, line 33) `class TestSleepTechnique`
+  - `TestSleepObfuscationConfig` (class, line 71) `class TestSleepObfuscationConfig`
+  - `TestSleepTechniqueCatalog` (class, line 114) `class TestSleepTechniqueCatalog`
+  - `TestSleepTechniqueValidator` (class, line 164) `class TestSleepTechniqueValidator`
+  - `TestSleepObfuscationEngine` (class, line 212) `class TestSleepObfuscationEngine`
+  - `TestBedEnumValues` (class, line 307) `class TestBedEnumValues`
+  - `test_construction_and_properties` (method, line 34) `def test_construction_and_properties(self)`
+  - `test_defaults` (method, line 48) `def test_defaults(self)`
+  - `test_immutability` (method, line 60) `def test_immutability(self)`
+  - `test_default_construction` (method, line 72) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 79) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 102) `def test_from_dict_empty(self)`
+  - `test_from_dict_partial` (method, line 107) `def test_from_dict_partial(self)`
+  - `test_default_catalog_has_techniques` (method, line 115) `def test_default_catalog_has_techniques(self)`
+  - `test_register_and_get` (method, line 120) `def test_register_and_get(self)`
+  - `test_get_missing_raises_keyerror` (method, line 131) `def test_get_missing_raises_keyerror(self)`
+  - `test_list_all_sorted_by_resistance` (method, line 136) `def test_list_all_sorted_by_resistance(self)`
+  - `test_list_by_platform_windows` (method, line 142) `def test_list_by_platform_windows(self)`
+  - `test_list_by_platform_linux` (method, line 149) `def test_list_by_platform_linux(self)`
+  - `test_list_names` (method, line 156) `def test_list_names(self)`
+  - `test_valid_config_passes` (method, line 165) `def test_valid_config_passes(self)`
+  - `test_ekko_requires_rop_gadgets` (method, line 173) `def test_ekko_requires_rop_gadgets(self)`
+  - `test_excessive_rop_gadget_count` (method, line 181) `def test_excessive_rop_gadget_count(self)`
+  - `test_negative_sleep_delay` (method, line 189) `def test_negative_sleep_delay(self)`
+  - `test_excessive_sleep_delay` (method, line 197) `def test_excessive_sleep_delay(self)`
+  - `test_validate_config_enabled_without_name` (method, line 205) `def test_validate_config_enabled_without_name(self)`
+  - `test_default_engine` (method, line 213) `def test_default_engine(self)`
+  - `test_select_existing_technique` (method, line 219) `def test_select_existing_technique(self)`
+  - `test_select_missing_technique` (method, line 225) `def test_select_missing_technique(self)`
+  - `test_configure_updates_config` (method, line 230) `def test_configure_updates_config(self)`
+  - `test_configure_without_overrides` (method, line 239) `def test_configure_without_overrides(self)`
+  - `test_validate_valid_config` (method, line 246) `def test_validate_valid_config(self)`
+  - `test_validate_unknown_technique` (method, line 251) `def test_validate_unknown_technique(self)`
+  - `test_recommend_windows` (method, line 257) `def test_recommend_windows(self)`
+  - `test_recommend_linux` (method, line 263) `def test_recommend_linux(self)`
+  - `test_to_dict` (method, line 270) `def test_to_dict(self)`
+  - `test_from_dict_roundtrip` (method, line 278) `def test_from_dict_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 288) `def test_from_dict_empty(self)`
+  - `test_custom_catalog` (method, line 293) `def test_custom_catalog(self)`
+  - `test_os_platform_values` (method, line 308) `def test_os_platform_values(self)`
+  - `test_technique_risk_values` (method, line 312) `def test_technique_risk_values(self)`
+- Depends on: `modules/sleep_obfuscation.py`
 
 
 Next: [KB_tests_p25.md](KB_tests_p25.md)

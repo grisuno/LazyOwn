@@ -1,18 +1,8 @@
-# Symbols (page 38 of 53)
+# Symbols (page 38 of 52)
 Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_fallback_skipped_when_primary_succeeds` | function | `tests/test_chain_parallel_fallback.py:192` | `def test_fallback_skipped_when_primary_succeeds()` |
-| `test_parallel_failure_with_continue_keeps_going` | function | `tests/test_chain_parallel_fallback.py:103` | `def test_parallel_failure_with_continue_keeps_going()` |
-| `test_parallel_failure_without_continue_aborts` | function | `tests/test_chain_parallel_fallback.py:79` | `def test_parallel_failure_without_continue_aborts()` |
-| `test_parallel_steps_execute_concurrently` | function | `tests/test_chain_parallel_fallback.py:21` | `def test_parallel_steps_execute_concurrently()` |
-| `test_pre_check_failure_skips_step` | function | `tests/test_chain_parallel_fallback.py:126` | `def test_pre_check_failure_skips_step()` |
-| `test_pre_check_success_executes_step` | function | `tests/test_chain_parallel_fallback.py:150` | `def test_pre_check_success_executes_step()` |
-| `test_registry_parses_parallel_and_pre_check` | function | `tests/test_chain_parallel_fallback.py:257` | `def test_registry_parses_parallel_and_pre_check()` |
-| `test_registry_validation_rejects_parallel_with_capture` | function | `tests/test_chain_parallel_fallback.py:230` | `def test_registry_validation_rejects_parallel_with_capture()` |
-| `test_registry_validation_rejects_unknown_fallback` | function | `tests/test_chain_parallel_fallback.py:241` | `def test_registry_validation_rejects_unknown_fallback()` |
-| `test_chain_yaml_matches_skill_contract` | function | `tests/test_chain_registry.py:73` | `def test_chain_yaml_matches_skill_contract()` |
 | `test_disabled_chains_skip_but_stay_visible` | function | `tests/test_chain_registry.py:124` | `def test_disabled_chains_skip_but_stay_visible(tmp_path)` |
 | `test_extends_cycle_and_unknown_parent_rejected` | function | `tests/test_chain_registry.py:110` | `def test_extends_cycle_and_unknown_parent_rejected(tmp_path)` |
 | `test_extends_inherits_steps_and_merges_defaults` | function | `tests/test_chain_registry.py:80` | `def test_extends_inherits_steps_and_merges_defaults(tmp_path)` |
@@ -483,18 +473,28 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 | `_svc` | function | `tests/test_command_chain.py:39` | `def _svc(service, port, host, proto)` |
 | `history` | method | `tests/test_command_chain.py:67` | `def history(self)` |
 | `services` | method | `tests/test_command_chain.py:58` | `def services(self, target)` |
-| `test_chain_config_defaults_are_isolated_per_instance` | function | `tests/test_command_chain.py:218` | `def test_chain_config_defaults_are_isolated_per_instance()` |
-| `test_chain_facade_returns_serialisable_view` | function | `tests/test_command_chain.py:196` | `def test_chain_facade_returns_serialisable_view()` |
-| `test_chain_missing_prerequisites_when_history_empty` | function | `tests/test_command_chain.py:207` | `def test_chain_missing_prerequisites_when_history_empty()` |
-| `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` | function | `tests/test_command_chain.py:143` | `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()` |
-| `test_dynamic_next_resolver_filters_history` | function | `tests/test_command_chain.py:136` | `def test_dynamic_next_resolver_filters_history()` |
-| `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` | function | `tests/test_command_chain.py:152` | `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()` |
-| `test_dynamic_next_resolver_orders_static_before_dynamic` | function | `tests/test_command_chain.py:125` | `def test_dynamic_next_resolver_orders_static_before_dynamic()` |
-| `test_dynamic_next_resolver_phase_fallback_when_no_signal` | function | `tests/test_command_chain.py:181` | `def test_dynamic_next_resolver_phase_fallback_when_no_signal()` |
-| `test_dynamic_next_resolver_respects_limit` | function | `tests/test_command_chain.py:189` | `def test_dynamic_next_resolver_respects_limit()` |
-| `test_missing_prerequisites_skips_already_run` | function | `tests/test_command_chain.py:86` | `def test_missing_prerequisites_skips_already_run()` |
-| `test_next_step_to_dict_round_trip` | function | `tests/test_command_chain.py:213` | `def test_next_step_to_dict_round_trip()` |
+| `test_chain_config_defaults_are_isolated_per_instance` | function | `tests/test_command_chain.py:194` | `def test_chain_config_defaults_are_isolated_per_instance()` |
+| `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` | function | `tests/test_command_chain.py:136` | `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()` |
+| `test_dynamic_next_resolver_filters_history` | function | `tests/test_command_chain.py:129` | `def test_dynamic_next_resolver_filters_history()` |
+| `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` | function | `tests/test_command_chain.py:145` | `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()` |
+| `test_dynamic_next_resolver_orders_static_before_dynamic` | function | `tests/test_command_chain.py:118` | `def test_dynamic_next_resolver_orders_static_before_dynamic()` |
+| `test_dynamic_next_resolver_phase_fallback_when_no_signal` | function | `tests/test_command_chain.py:174` | `def test_dynamic_next_resolver_phase_fallback_when_no_signal()` |
+| `test_dynamic_next_resolver_respects_limit` | function | `tests/test_command_chain.py:182` | `def test_dynamic_next_resolver_respects_limit()` |
+| `test_next_step_to_dict_round_trip` | function | `tests/test_command_chain.py:189` | `def test_next_step_to_dict_round_trip()` |
 | `test_normalise_strips_do_prefix_and_extra_tokens` | function | `tests/test_command_chain.py:71` | `def test_normalise_strips_do_prefix_and_extra_tokens()` |
 | `test_prerequisites_known_and_unknown` | function | `tests/test_command_chain.py:78` | `def test_prerequisites_known_and_unknown()` |
+| `test_service_next_resolver_dedupes_repeated_services` | function | `tests/test_command_chain.py:111` | `def test_service_next_resolver_dedupes_repeated_services()` |
+| `test_service_next_resolver_maps_known_services_only` | function | `tests/test_command_chain.py:101` | `def test_service_next_resolver_maps_known_services_only()` |
+| `test_static_next_registry_phase_priority_fallback` | function | `tests/test_command_chain.py:94` | `def test_static_next_registry_phase_priority_fallback()` |
+| `test_static_next_registry_uses_killchain_table` | function | `tests/test_command_chain.py:86` | `def test_static_next_registry_uses_killchain_table()` |
+| `unexplored_addons` | method | `tests/test_command_chain.py:61` | `def unexplored_addons(self, target)` |
+| `unexplored_tools` | method | `tests/test_command_chain.py:64` | `def unexplored_tools(self, target)` |
+| `TestAttackPlanSources` | class | `tests/test_command_control_agent.py:63` | `class TestAttackPlanSources` |
+| `TestSelectAgentFlavour` | class | `tests/test_command_control_agent.py:35` | `class TestSelectAgentFlavour` |
+| `_add_repo_root_to_syspath` | function | `tests/test_command_control_agent.py:30` | `def _add_repo_root_to_syspath()` |
+| `select` | method | `tests/test_command_control_agent.py:37` | `def select(self)` |
+| `test_agent_scripts_derived_from_current_run` | method | `tests/test_command_control_agent.py:64` | `def test_agent_scripts_derived_from_current_run(self)` |
+| `test_atomic_agent_extension_from_latest_script` | method | `tests/test_command_control_agent.py:76` | `def test_atomic_agent_extension_from_latest_script(self)` |
+| `test_mixed_run_prefers_majority` | method | `tests/test_command_control_agent.py:53` | `def test_mixed_run_prefers_majority(self, select)` |
 
 Next: [SYMBOLS_p39.md](SYMBOLS_p39.md)

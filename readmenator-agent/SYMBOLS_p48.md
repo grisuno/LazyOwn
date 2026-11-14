@@ -1,21 +1,8 @@
-# Symbols (page 48 of 53)
+# Symbols (page 48 of 52)
 Previous: [SYMBOLS_p47.md](SYMBOLS_p47.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_load_yaml` | function | `tests/test_packaging.py:34` | `def _load_yaml(path)` |
-| `_names` | method | `tests/test_packaging.py:316` | `def _names(entries)` |
-| `_read_text` | function | `tests/test_packaging.py:25` | `def _read_text(path)` |
-| `_run_in_subprocess` | method | `tests/test_packaging.py:59` | `def _run_in_subprocess(snippet)` |
-| `cfg` | method | `tests/test_packaging.py:217` | `def cfg(self)` |
-| `deps` | method | `tests/test_packaging.py:197` | `def deps(self)` |
-| `lint_wf` | method | `tests/test_packaging.py:246` | `def lint_wf(self)` |
-| `patterns` | method | `tests/test_packaging.py:288` | `def patterns(self)` |
-| `pyproject` | method | `tests/test_packaging.py:102` | `def pyproject(self)` |
-| `security_wf` | method | `tests/test_packaging.py:254` | `def security_wf(self)` |
-| `setup_text` | method | `tests/test_packaging.py:167` | `def setup_text(self)` |
-| `setup_tree` | method | `tests/test_packaging.py:163` | `def setup_tree(self)` |
-| `test_calls_setup` | method | `tests/test_packaging.py:173` | `def test_calls_setup(self, setup_tree)` |
 | `test_config_attribute_access_works` | method | `tests/test_packaging.py:74` | `def test_config_attribute_access_works(self)` |
 | `test_config_class_defined_exactly_once_in_core` | method | `tests/test_packaging.py:46` | `def test_config_class_defined_exactly_once_in_core(self)` |
 | `test_config_class_not_redefined_in_utils` | method | `tests/test_packaging.py:52` | `def test_config_class_not_redefined_in_utils(self)` |
@@ -397,6 +384,15 @@ Previous: [SYMBOLS_p47.md](SYMBOLS_p47.md)
 | `test_schema_covers_live_keys` | function | `tests/test_placeholder_coverage.py:63` | `def test_schema_covers_live_keys()` |
 | `test_skill_documents_validator_keys` | function | `tests/test_placeholder_coverage.py:68` | `def test_skill_documents_validator_keys()` |
 | `test_validator_covers_live_keys` | function | `tests/test_placeholder_coverage.py:57` | `def test_validator_covers_live_keys()` |
+| `_fake_stream` | function | `tests/test_planner_initial_access.py:96` | `def _fake_stream(command, on_output, timeout_sec)` |
+| `_make_planner` | function | `tests/test_planner_initial_access.py:19` | `def _make_planner(store, goal, target)` |
+| `store` | function | `tests/test_planner_initial_access.py:9` | `def store(tmp_path, monkeypatch)` |
+| `test_executor_bumps_auto_pwn_timeout` | function | `tests/test_planner_initial_access.py:91` | `def test_executor_bumps_auto_pwn_timeout(monkeypatch)` |
+| `test_initial_access_candidate_emitted_for_access_goal` | function | `tests/test_planner_initial_access.py:35` | `def test_initial_access_candidate_emitted_for_access_goal(store)` |
+| `test_initial_access_candidate_skips_for_non_access_goal` | function | `tests/test_planner_initial_access.py:51` | `def test_initial_access_candidate_skips_for_non_access_goal(store)` |
+| `test_initial_access_candidate_skips_when_intent_exists` | function | `tests/test_planner_initial_access.py:44` | `def test_initial_access_candidate_skips_when_intent_exists(store)` |
+| `test_plan_emits_initial_access_intent_first` | function | `tests/test_planner_initial_access.py:57` | `def test_plan_emits_initial_access_intent_first(store, monkeypatch)` |
+| `test_worker_steps_run_auto_pwn_for_access_intent` | function | `tests/test_planner_initial_access.py:68` | `def test_worker_steps_run_auto_pwn_for_access_intent(store)` |
 | `_write` | function | `tests/test_playbook_admin.py:21` | `def _write(directory, name, data)` |
 | `test_create_refuses_overwrite_and_escape` | function | `tests/test_playbook_admin.py:91` | `def test_create_refuses_overwrite_and_escape(tmp_path)` |
 | `test_create_update_and_delete_round_trip` | function | `tests/test_playbook_admin.py:70` | `def test_create_update_and_delete_round_trip(tmp_path)` |
@@ -496,5 +492,9 @@ Previous: [SYMBOLS_p47.md](SYMBOLS_p47.md)
 | `test_reproduced_verdict_counts` | method | `tests/test_progress_ledger.py:75` | `def test_reproduced_verdict_counts(self, ledger_module, tmp_base)` |
 | `tmp_base` | function | `tests/test_progress_ledger.py:29` | `def tmp_base()` |
 | `test_ansi_escape_gets_fenced` | function | `tests/test_prompt_readline_markers.py:25` | `def test_ansi_escape_gets_fenced()` |
+| `test_mixed_prompt_fences_only_ansi` | function | `tests/test_prompt_readline_markers.py:43` | `def test_mixed_prompt_fences_only_ansi()` |
+| `test_newline_stays_bare` | function | `tests/test_prompt_readline_markers.py:35` | `def test_newline_stays_bare()` |
+| `test_render_prompt_default_has_no_markers` | function | `tests/test_prompt_readline_markers.py:53` | `def test_render_prompt_default_has_no_markers()` |
+| `test_render_prompt_raw_has_no_markers` | function | `tests/test_prompt_readline_markers.py:70` | `def test_render_prompt_raw_has_no_markers()` |
 
 Next: [SYMBOLS_p49.md](SYMBOLS_p49.md)

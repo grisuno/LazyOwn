@@ -1,29 +1,8 @@
-# Symbols (page 31 of 53)
+# Symbols (page 31 of 52)
 Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `create_session` | method | `slack_c2_bot.py:63` | `def create_session(self, user_id)` |
-| `get_client` | method | `slack_c2_bot.py:85` | `def get_client(self, user_id)` |
-| `handle_file` | function | `slack_c2_bot.py:240` | `def handle_file(event, say, logger)` |
-| `handle_message` | function | `slack_c2_bot.py:113` | `def handle_message(event, say, logger)` |
-| `mentioned` | function | `slack_c2_bot.py:252` | `def mentioned(ack, say, event)` |
-| `register_failed_attempt` | method | `slack_c2_bot.py:34` | `def register_failed_attempt(self, user_id)` |
-| `set_client` | method | `slack_c2_bot.py:81` | `def set_client(self, user_id, client_id)` |
-| `validate_session` | method | `slack_c2_bot.py:71` | `def validate_session(self, user_id)` |
-| `Terminal` | class | `static/hexabot/hexabot-spinner.js:49` | `` |
-| `clamp` | function | `static/hexabot/hexabot-spinner.js:47` | `` |
-| `colorFor` | method | `static/hexabot/hexabot-spinner.js:139` | `` |
-| `constructor` | method | `static/hexabot/hexabot-spinner.js:50` | `` |
-| `createHexabotSpinner` | function | `static/hexabot/hexabot-spinner.js:223` | `` |
-| `dispose` | method | `static/hexabot/hexabot-spinner.js:206` | `` |
-| `draw` | method | `static/hexabot/hexabot-spinner.js:152` | `` |
-| `drawPrompt` | method | `static/hexabot/hexabot-spinner.js:146` | `` |
-| `log` | method | `static/hexabot/hexabot-spinner.js:92` | `` |
-| `loop` | function | `static/hexabot/hexabot-spinner.js:439` | `` |
-| `ndc` | function | `static/hexabot/hexabot-spinner.js:371` | `` |
-| `now` | function | `static/hexabot/hexabot-spinner.js:375` | `` |
-| `onDown` | function | `static/hexabot/hexabot-spinner.js:377` | `` |
 | `onMove` | function | `static/hexabot/hexabot-spinner.js:395` | `` |
 | `onUp` | function | `static/hexabot/hexabot-spinner.js:407` | `` |
 | `push` | method | `static/hexabot/hexabot-spinner.js:84` | `` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `_enumerate` | function | `static/js/html2pdf.bundle.min.js:7889` | `` |
 | `_finally` | function | `static/js/html2pdf.bundle.min.js:8484` | `` |
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:498` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:940` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1062` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1123` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1332` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1380` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1728` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1785` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2250` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2360` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2488` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3207` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3870` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3910` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4099` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4216` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4580` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4771` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4830` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5066` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5521` | `` |
+| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5831` | `` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

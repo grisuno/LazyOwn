@@ -1,6 +1,10 @@
 # API (page 25 of 28)
 Previous: [API_p24.md](API_p24.md)
 
+## skills/mcp_tools/swan_status.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_status.py:23` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_status MCP tool.
+
 ## skills/mcp_tools/target_context.py
 Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/target_context.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_target_context MCP tool.

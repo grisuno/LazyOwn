@@ -21,11 +21,6 @@ _BASE_DIR = Path(__file__).resolve().parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 
 
-def token_keys() -> tuple[str, ...]:
-    """Return every engagement token name this module can produce."""
-    return _TOKEN_KEYS
-
-
 def build_tokens(target: str, params: dict | None = None) -> dict[str, str]:
     """Resolve engagement tokens for one target.
 
@@ -135,4 +130,4 @@ def _mentions(path: Path, needle: str) -> bool:
         return False
 
 
-__all__ = ["build_tokens", "token_keys"]
+__all__ = ["build_tokens"]

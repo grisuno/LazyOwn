@@ -59,11 +59,56 @@ def test_config_clamps_operating_range():
 def test_loop_commands_share_the_runner():
     bridge = Path("cli/commands/mcp_bridge.py").read_text(encoding="utf-8")
     lazyops = Path("cli/commands/lazyops.py").read_text(encoding="utf-8")
-    assert "modules.lazy_runner" in bridge and "run_loop" in bridge
-    assert "modules.lazy_runner" in lazyops and "run_loop" in lazyops
+    assert "modules.lazy_runner" in bridge and "run_loop_command" in bridge
+    assert "modules.lazy_runner" in lazyops and "run_loop_command" in lazyops
     tree = ast.parse(lazyops)
     methods = {node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)}
     assert "do_lazy_loop" in methods
+
+
+def test_run_loop_command_routes_through_run_loop(monkeypatch, tmp_path):
+    import core.config as core_config
+    import modules.lazy_loop as loop
+    import modules.lazy_runner as runner
+
+    monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
+    monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+    monkeypatch.setattr(core_config, "load_payload", lambda *a, **k: {})
+    bound: list[list[str]] = []
+    runs: list[tuple] = []
+    monkeypatch.setattr(runner, "bind_target_authority", lambda shell, targets: bound.append(targets))
+    monkeypatch.setattr(runner, "run_loop", lambda shell, params, config: runs.append((params, config)) or {"ok": True})
+
+    summary = runner.run_loop_command(None, {"rhost": "10.0.0.5"}, "--rounds 2 probe", "auto_loop")
+    assert summary == {"ok": True}
+    assert bound == []
+    (params, config) = runs[0]
+    assert params == {"rhost": "10.0.0.5"}
+    assert config.target == "10.0.0.5" and config.rounds == 2
+    assert config.goal == "probe"
+
+    monkeypatch.setattr(runner, "run_loop", lambda shell, params, config: runs.append((params, config)) or {"ok": True})
+    runner.run_loop_command(None, {}, "--target 10.0.0.9 --rounds 1 probe", "lazy_loop")
+    assert bound == [["10.0.0.9"]]
+
+
+def test_run_loop_command_reports_usage_errors(capsys):
+    import modules.lazy_runner as runner
+
+    summary = runner.run_loop_command(None, {}, "", "lazy_loop")
+    assert summary.get("error")
+    out = capsys.readouterr().out
+    assert "Usage: lazy_loop" in out
+
+    summary = runner.run_loop_command(None, {}, "--rounds 2", "auto_loop")
+    assert summary.get("error") == "no goal, task or target"
+    out = capsys.readouterr().out
+    assert "Usage: auto_loop [--target T] <goal>" in out
+
+    summary = runner.run_loop_command(None, {}, "--bogus x goal", "lazy_loop")
+    assert "unknown" in summary["error"] or summary["error"]
+    out = capsys.readouterr().out
+    assert "lazy_loop:" in out
 
 
 def test_guard_judge_survives_rule_changes(store):
@@ -292,10 +337,11 @@ def test_judge_prompt_is_versioned_untrusted_json(store, monkeypatch):
     assert "untrusted data" in captured["prompt"]
 
 
-def test_worker_resumes_skipping_executed_steps(store):
+def test_worker_resumes_skipping_executed_steps(store, tmp_path, monkeypatch):
     import modules.lazy_loop as loop
     from modules.lazy_engine import LazyEngine
 
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
     engine = LazyEngine()
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     graph = loop.ExplorationGraph(task_id)
@@ -1391,12 +1437,13 @@ def test_do_qa_runs_shutdown_and_dedupes_killall(monkeypatch):
     assert sum("killall openvpn" in command for command in recorded) == 1
 
 
-def test_lazynmap_routing_and_steps(store):
+def test_lazynmap_routing_and_steps(store, tmp_path, monkeypatch):
     """Recon steps route through lazynmap when a shell is bound."""
     import modules.lazy_loop as loop
     from modules import auto_registry as registry
     from modules.lazy_engine import LazyEngine
 
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
     assert registry.is_routable_command("lazynmap 127.0.0.1") is True
     engine = LazyEngine()
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]

@@ -1,37 +1,8 @@
-# Symbols (page 16 of 53)
+# Symbols (page 16 of 52)
 Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
-| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
-| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
-| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
-| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
-| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
-| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
-| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
-| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
-| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
-| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
-| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
-| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
-| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
-| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
-| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
-| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
-| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
-| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
 | `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
 | `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
 | `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
@@ -496,5 +467,34 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `_read` | method | `modules/lazy_deviations.py:172` | `def _read(self)` |
 | `_trim` | method | `modules/lazy_deviations.py:216` | `def _trim(self)` |
 | `as_dict` | method | `modules/lazy_deviations.py:55` | `def as_dict(self)` |
+| `list` | method | `modules/lazy_deviations.py:124` | `def list(self, scope, limit)` |
+| `record` | method | `modules/lazy_deviations.py:84` | `def record(self, scope, planned, actual, reason, source)` |
+| `render_markdown` | method | `modules/lazy_deviations.py:140` | `def render_markdown(self, records, title)` |
+| `_drafts_dir` | function | `modules/lazy_drafts.py:27` | `def _drafts_dir()` |
+| `drain` | function | `modules/lazy_drafts.py:34` | `def drain(engine)` |
+| `LazyEngine` | class | `modules/lazy_engine.py:56` | `class LazyEngine(LazyLoopEngine)` |
+| `_int` | function | `modules/lazy_exposure.py:410` | `def _int(value, fallback)` |
+| `_live_fingerprint` | function | `modules/lazy_exposure.py:210` | `def _live_fingerprint()` |
+| `_match_hot_key` | function | `modules/lazy_exposure.py:400` | `def _match_hot_key(row)` |
+| `_shape_sightings` | function | `modules/lazy_exposure.py:370` | `def _shape_sightings(rows)` |
+| `_short_refs` | function | `modules/lazy_exposure.py:365` | `def _short_refs(row)` |
+| `_slug` | function | `modules/lazy_exposure.py:405` | `def _slug(text)` |
+| `ensure_report` | function | `modules/lazy_exposure.py:56` | `def ensure_report(target, entries, refresh)` |
+| `generate_report` | function | `modules/lazy_exposure.py:129` | `def generate_report(target, entries, sightings)` |
+| `probe_checks` | function | `modules/lazy_exposure.py:257` | `def probe_checks(matches, feed)` |
+| `publish_report` | function | `modules/lazy_exposure.py:314` | `def publish_report(report)` |
+| `read_sightings` | function | `modules/lazy_exposure.py:97` | `def read_sightings(target, state_path)` |
+| `refresh_if_stale` | function | `modules/lazy_exposure.py:418` | `def refresh_if_stale(target, entries)` |
+| `save_report` | function | `modules/lazy_exposure.py:291` | `def save_report(report, path)` |
+| `score_report` | function | `modules/lazy_exposure.py:219` | `def score_report(entries, bounded_unknown, services)` |
+| `AdaptiveFallbackArbiter` | class | `modules/lazy_fallback.py:185` | `class AdaptiveFallbackArbiter` |
+| `Alternative` | class | `modules/lazy_fallback.py:29` | `class Alternative` |
+| `TechniqueFallback` | class | `modules/lazy_fallback.py:47` | `class TechniqueFallback` |
+| `__init__` | method | `modules/lazy_fallback.py:193` | `def __init__(self, graph)` |
+| `_bind_family` | method | `modules/lazy_fallback.py:246` | `def _bind_family(self, command)` |
+| `_service_satisfied` | function | `modules/lazy_fallback.py:172` | `def _service_satisfied(required, services)` |
+| `catalogue_ids` | function | `modules/lazy_fallback.py:256` | `def catalogue_ids()` |
+| `matches` | method | `modules/lazy_fallback.py:61` | `def matches(self, command)` |
+| `suggest` | method | `modules/lazy_fallback.py:203` | `def suggest(self, command, verdict, services, has_credentials, catalogue)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

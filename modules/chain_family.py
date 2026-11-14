@@ -20,15 +20,9 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from modules.service_aliases import ALIAS_TO_CANONICAL as _SERVICE_ALIASES
+
 _SIGNATURE_LEN = 16
-_SERVICE_ALIASES = {
-    "www": "http",
-    "http-alt": "http",
-    "https-alt": "https",
-    "microsoft-ds": "smb",
-    "netbios-ssn": "smb",
-    "ms-wbt-server": "rdp",
-}
 
 
 def _normalize_service(name: str) -> str:

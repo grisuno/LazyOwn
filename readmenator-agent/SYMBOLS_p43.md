@@ -1,14 +1,8 @@
-# Symbols (page 43 of 53)
+# Symbols (page 43 of 52)
 Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_render_truncates_to_max_chars` | method | `tests/test_improvements_spec.py:252` | `def test_render_truncates_to_max_chars(self)` |
-| `test_result_to_dict_is_json_serialisable` | method | `tests/test_improvements_spec.py:650` | `def test_result_to_dict_is_json_serialisable(self)` |
-| `test_router_ignores_unset_task_type_for_keyword_scoring` | method | `tests/test_improvements_spec.py:978` | `def test_router_ignores_unset_task_type_for_keyword_scoring(self)` |
-| `test_router_picks_daemon_when_only_payload_supplies_target` | method | `tests/test_improvements_spec.py:954` | `def test_router_picks_daemon_when_only_payload_supplies_target(self)` |
-| `test_status_bar_install_registers_precmd_hook_on_real_cmd2` | method | `tests/test_improvements_spec.py:803` | `def test_status_bar_install_registers_precmd_hook_on_real_cmd2(self)` |
-| `test_suggestion_fallback_when_factory_none` | method | `tests/test_improvements_spec.py:760` | `def test_suggestion_fallback_when_factory_none(self)` |
 | `test_suggestion_falls_back_when_advisor_raises` | method | `tests/test_improvements_spec.py:394` | `def test_suggestion_falls_back_when_advisor_raises(self)` |
 | `test_suggestion_uses_advisor_when_available` | method | `tests/test_improvements_spec.py:389` | `def test_suggestion_uses_advisor_when_available(self)` |
 | `test_swan_normalises_result_object` | method | `tests/test_improvements_spec.py:592` | `def test_swan_normalises_result_object(self)` |
@@ -136,15 +130,6 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 | `test_graphql_errors_raise` | function | `tests/test_journal.py:93` | `def test_graphql_errors_raise()` |
 | `test_missing_category_raises` | function | `tests/test_journal.py:81` | `def test_missing_category_raises()` |
 | `test_post_entry_uses_resolved_ids` | function | `tests/test_journal.py:64` | `def test_post_entry_uses_resolved_ids()` |
-| `_states` | function | `tests/test_killchain.py:28` | `def _states(progress)` |
-| `test_activity_and_reward_accumulate` | function | `tests/test_killchain.py:62` | `def test_activity_and_reward_accumulate()` |
-| `test_current_phase_from_step_events` | function | `tests/test_killchain.py:38` | `def test_current_phase_from_step_events()` |
-| `test_empty_events_all_pending_without_world` | function | `tests/test_killchain.py:32` | `def test_empty_events_all_pending_without_world()` |
-| `test_explicit_completed_phases_respected` | function | `tests/test_killchain.py:81` | `def test_explicit_completed_phases_respected()` |
-| `test_non_dict_payload_is_tolerated` | function | `tests/test_killchain.py:92` | `def test_non_dict_payload_is_tolerated()` |
-| `test_phase_advance_event_sets_current` | function | `tests/test_killchain.py:49` | `def test_phase_advance_event_sets_current()` |
-| `test_unknown_phase_in_event_is_ignored` | function | `tests/test_killchain.py:86` | `def test_unknown_phase_in_event_is_ignored()` |
-| `test_world_phase_fallback_when_no_events` | function | `tests/test_killchain.py:75` | `def test_world_phase_fallback_when_no_events()` |
 | `TestPeriodicAutoRefresh` | class | `tests/test_killchain_auto_refresh.py:22` | `class TestPeriodicAutoRefresh` |
 | `_engine` | function | `tests/test_killchain_auto_refresh.py:12` | `def _engine()` |
 | `test_cadence_below_every_surpresses` | method | `tests/test_killchain_auto_refresh.py:41` | `def test_cadence_below_every_surpresses(self)` |
@@ -424,15 +409,15 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 | `test_score_report_caps` | method | `tests/test_lazy_exposure.py:110` | `def test_score_report_caps(self)` |
 | `test_unbounded_kev_is_review_not_match` | method | `tests/test_lazy_exposure.py:51` | `def test_unbounded_kev_is_review_not_match(self)` |
 | `_verdict` | function | `tests/test_lazy_fallback.py:12` | `def _verdict(failure_class)` |
-| `test_credential_gates_fail_closed_when_unknown` | function | `tests/test_lazy_fallback.py:80` | `def test_credential_gates_fail_closed_when_unknown()` |
-| `test_graph_is_well_formed` | function | `tests/test_lazy_fallback.py:127` | `def test_graph_is_well_formed()` |
+| `test_credential_gates_fail_closed_when_unknown` | function | `tests/test_lazy_fallback.py:78` | `def test_credential_gates_fail_closed_when_unknown()` |
+| `test_graph_is_well_formed` | function | `tests/test_lazy_fallback.py:125` | `def test_graph_is_well_formed()` |
 | `test_kerberoast_failure_gets_ordered_alternatives` | function | `tests/test_lazy_fallback.py:19` | `def test_kerberoast_failure_gets_ordered_alternatives()` |
-| `test_lockout_never_gets_an_alternative` | function | `tests/test_lazy_fallback.py:43` | `def test_lockout_never_gets_an_alternative()` |
-| `test_service_gates_fail_closed_on_unknown_evidence` | function | `tests/test_lazy_fallback.py:56` | `def test_service_gates_fail_closed_on_unknown_evidence()` |
-| `test_service_gates_skip_unserved_candidates` | function | `tests/test_lazy_fallback.py:68` | `def test_service_gates_skip_unserved_candidates()` |
-| `test_tool_missing_or_scope_verdicts_get_no_alternatives` | function | `tests/test_lazy_fallback.py:107` | `def test_tool_missing_or_scope_verdicts_get_no_alternatives()` |
-| `test_unknown_catalogue_ids_never_propose` | function | `tests/test_lazy_fallback.py:94` | `def test_unknown_catalogue_ids_never_propose()` |
-| `test_unmatched_command_gets_no_alternatives` | function | `tests/test_lazy_fallback.py:115` | `def test_unmatched_command_gets_no_alternatives()` |
+| `test_lockout_never_gets_an_alternative` | function | `tests/test_lazy_fallback.py:42` | `def test_lockout_never_gets_an_alternative()` |
+| `test_service_gates_fail_closed_on_unknown_evidence` | function | `tests/test_lazy_fallback.py:54` | `def test_service_gates_fail_closed_on_unknown_evidence()` |
+| `test_service_gates_skip_unserved_candidates` | function | `tests/test_lazy_fallback.py:66` | `def test_service_gates_skip_unserved_candidates()` |
+| `test_tool_missing_or_scope_verdicts_get_no_alternatives` | function | `tests/test_lazy_fallback.py:105` | `def test_tool_missing_or_scope_verdicts_get_no_alternatives()` |
+| `test_unknown_catalogue_ids_never_propose` | function | `tests/test_lazy_fallback.py:92` | `def test_unknown_catalogue_ids_never_propose()` |
+| `test_unmatched_command_gets_no_alternatives` | function | `tests/test_lazy_fallback.py:113` | `def test_unmatched_command_gets_no_alternatives()` |
 | `TestBindSighting` | class | `tests/test_lazy_feedmatch.py:107` | `class TestBindSighting` |
 | `TestLiveBindings` | class | `tests/test_lazy_feedmatch.py:181` | `class TestLiveBindings` |
 | `TestLoadFeed` | class | `tests/test_lazy_feedmatch.py:152` | `class TestLoadFeed` |
@@ -496,5 +481,20 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 | `test_tac_id_accepted` | method | `tests/test_lazy_findings.py:75` | `def test_tac_id_accepted(self, ledger_module)` |
 | `test_traversal_rejected` | method | `tests/test_lazy_findings.py:179` | `def test_traversal_rejected(self, ledger_module, tmp_base)` |
 | `test_unknown_level_rejected` | method | `tests/test_lazy_findings.py:65` | `def test_unknown_level_rejected(self, ledger_module)` |
+| `test_unknown_state_rejected` | method | `tests/test_lazy_findings.py:60` | `def test_unknown_state_rejected(self, ledger_module)` |
+| `test_unmapped_verdict_ignores` | method | `tests/test_lazy_findings.py:151` | `def test_unmapped_verdict_ignores(self, ledger_module)` |
+| `test_valid_row_passes` | method | `tests/test_lazy_findings.py:36` | `def test_valid_row_passes(self, ledger_module, tmp_base)` |
+| `test_verdict_fixed_discards` | method | `tests/test_lazy_findings.py:137` | `def test_verdict_fixed_discards(self, ledger_module)` |
+| `test_verdict_inconclusive_partial` | method | `tests/test_lazy_findings.py:144` | `def test_verdict_inconclusive_partial(self, ledger_module)` |
+| `test_verdict_reproduced_promotes` | method | `tests/test_lazy_findings.py:118` | `def test_verdict_reproduced_promotes(self, ledger_module)` |
+| `tmp_base` | function | `tests/test_lazy_findings.py:30` | `def tmp_base()` |
+| `_StubWorld` | class | `tests/test_lazy_hostscore.py:97` | `class _StubWorld` |
+| `broken_correlate` | function | `tests/test_lazy_hostscore.py:116` | `def broken_correlate()` |
+| `snapshot` | method | `tests/test_lazy_hostscore.py:100` | `def snapshot(self)` |
+| `test_discarded_findings_and_cold_no_points` | function | `tests/test_lazy_hostscore.py:58` | `def test_discarded_findings_and_cold_no_points()` |
+| `test_empty_inputs_score_zero` | function | `tests/test_lazy_hostscore.py:78` | `def test_empty_inputs_score_zero()` |
+| `test_findings_cap_bounds_the_subtotal` | function | `tests/test_lazy_hostscore.py:39` | `def test_findings_cap_bounds_the_subtotal()` |
+| `test_hot_cve_and_findings_and_shell_stay_capped` | function | `tests/test_lazy_hostscore.py:21` | `def test_hot_cve_and_findings_and_shell_stay_capped()` |
+| `test_persistence_roundtrip` | function | `tests/test_lazy_hostscore.py:83` | `def test_persistence_roundtrip(tmp_path)` |
 
 Next: [SYMBOLS_p44.md](SYMBOLS_p44.md)

@@ -1,33 +1,8 @@
-# Symbols (page 14 of 53)
+# Symbols (page 14 of 52)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `export_json` | method | `modules/dashboard_engine.py:408` | `def export_json(self, snapshot)` |
-| `format_for_cli` | method | `modules/dashboard_engine.py:438` | `def format_for_cli(self, snapshot)` |
-| `persist_snapshot` | method | `modules/dashboard_engine.py:421` | `def persist_snapshot(self, snapshot)` |
-| `render_ascii_topology` | method | `modules/dashboard_engine.py:358` | `def render_ascii_topology(self, snapshot)` |
-| `render_text_map` | method | `modules/dashboard_engine.py:276` | `def render_text_map(self, snapshot)` |
-| `set_auto_pivot` | method | `modules/dashboard_engine.py:154` | `def set_auto_pivot(self, pivot)` |
-| `set_evasion_engine` | method | `modules/dashboard_engine.py:157` | `def set_evasion_engine(self, evasion)` |
-| `set_exploit_recommender` | method | `modules/dashboard_engine.py:151` | `def set_exploit_recommender(self, recommender)` |
-| `set_world_model` | method | `modules/dashboard_engine.py:148` | `def set_world_model(self, model)` |
-| `LazyOwnDB` | class | `modules/db.py:147` | `class LazyOwnDB` |
-| `__init__` | method | `modules/db.py:159` | `def __init__(self, db_path)` |
-| `_current_version` | method | `modules/db.py:192` | `def _current_version(self)` |
-| `_cursor` | method | `modules/db.py:235` | `def _cursor(self)` |
-| `_get_conn` | method | `modules/db.py:171` | `def _get_conn(self)` |
-| `_init_schema` | method | `modules/db.py:186` | `def _init_schema(self)` |
-| `_maybe_decrypt` | method | `modules/db.py:273` | `def _maybe_decrypt(self, value)` |
-| `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
-| `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
-| `close` | method | `modules/db.py:804` | `def close(self)` |
-| `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
-| `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
-| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
-| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
-| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
-| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
 | `host_add` | method | `modules/db.py:357` | `def host_add(self, workspace_id, address, mac, hostname, os, state)` |
 | `host_delete` | method | `modules/db.py:390` | `def host_delete(self, host_id)` |
 | `host_find` | method | `modules/db.py:410` | `def host_find(self, workspace_id, query)` |
@@ -496,5 +471,30 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `EvidenceStore` | class | `modules/evidence_store.py:53` | `class EvidenceStore` |
 | `__init__` | method | `modules/evidence_store.py:62` | `def __init__(self, task_id, base_dir)` |
 | `_path_for` | method | `modules/evidence_store.py:77` | `def _path_for(self, digest)` |
+| `_sanitize_digest` | function | `modules/evidence_store.py:32` | `def _sanitize_digest(digest)` |
+| `directory` | method | `modules/evidence_store.py:73` | `def directory(self)` |
+| `fetch` | method | `modules/evidence_store.py:135` | `def fetch(self, digest)` |
+| `gc` | method | `modules/evidence_store.py:153` | `def gc(self, referenced, grace_seconds)` |
+| `has` | method | `modules/evidence_store.py:88` | `def has(self, digest)` |
+| `preserve` | method | `modules/evidence_store.py:93` | `def preserve(self, record)` |
+| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
+| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
+| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
+| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
+| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
+| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
+| `Msg` | struct | `modules/exp.c:100` | `` |
+| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
+| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
+| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
+| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
+| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
+| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
+| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
+| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
+| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
+| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
+| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
+| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

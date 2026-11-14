@@ -5,7 +5,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 - `banner.py` -> PIL
 - `cli/aliases.py` -> __future__, pathlib, string, typing, yaml
-- `cli/apt_chain_support.py` -> __future__, dataclasses, json, os, re, shlex, time, typing, yaml
+- `cli/apt_chain_support.py` -> __future__, dataclasses, ipaddress, json, os, re, shlex, time, typing, yaml
 - `cli/assign.py` -> __future__, collections.abc, typing
 - `cli/auto_crypto.py` -> __future__, collections.abc, cryptography.fernet, dataclasses, os, pathlib, secrets
 - `cli/autosuggest.py` -> __future__, collections.abc, dataclasses, typing
@@ -127,7 +127,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `cli/dashboard_tui.py` -> __future__, argparse, csv, datetime, glob, json, os, pathlib, rich.text, subprocess, sys, textual, textual.app, textual.message, textual.widgets, typing
 - `cli/doctor.py` -> __future__, collections.abc, dataclasses, importlib.util, json, pathlib, rich.panel, rich.table, rich.text, scripts.build_command_index, subprocess, sys
 - `cli/engagement_hooks.py` -> __future__, dataclasses, json, math, pathlib, random, re, time, typing
-- `cli/exploit_advisor.py` -> __future__, dataclasses, defusedxml.ElementTree, glob, json, os, pathlib, re, rich.table, time, typing
+- `cli/exploit_advisor.py` -> __future__, dataclasses, json, os, pathlib, re, rich.table, time, typing
 - `cli/exploration.py` -> __future__, collections.abc, csv, dataclasses, defusedxml.ElementTree, glob, json, pathlib, yaml
 - `cli/exploration_view.py` -> __future__, collections.abc, rich.panel, rich.table, rich.text, rich.tree
 - `cli/fuzzy_match.py` -> __future__, collections.abc, dataclasses
@@ -135,7 +135,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `cli/graph_advisor.py` -> __future__, collections, collections.abc, csv, dataclasses, difflib, json, os, pathlib, re, time, typing
 - `cli/graph_overlay.py` -> __future__, collections.abc, dataclasses, textual.app, textual.binding, textual.widgets, typing
 - `cli/headless.py` -> contextlib, io, json, sys, time, typing, yaml
-- `cli/killchain.py` -> __future__, dataclasses, typing
+- `cli/killchain.py` -> __future__, dataclasses
 - `cli/lazy_monitor.py` -> __future__, pathlib, rich.text, textual.app, textual.binding, textual.screen, textual.widgets, threading
 - `cli/lazy_orchestrator.py` -> __future__, pathlib, re, rich.text, textual.app, textual.binding, textual.widgets
 - `cli/lazynmap_post.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, time, typing, uuid
@@ -353,7 +353,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/amt_auth_bypass.py` -> re
 - `modules/apt_playbooks.py` -> __future__, dataclasses, glob, json, os, time, typing, yaml
 - `modules/askpass.py` -> __future__, os, pathlib, shutil, stat, tempfile
-- `modules/asset_graph.py` -> __future__, dataclasses, threading, time, uuid
+- `modules/asset_graph.py` -> __future__
 - `modules/atomic_cli.py` -> __future__, getpass, os, pathlib, re, shlex, sys, typing
 - `modules/atomic_enricher.py` -> __future__, argparse, collections, numpy, pandas, pathlib, re, sys, typing
 - `modules/atomic_exploit_bridge.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, re, secrets, shutil, socket, subprocess, sys, threading, time, typing, xml.etree.ElementTree, yaml
@@ -389,7 +389,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/chain_distill.py` -> __future__, dataclasses, hashlib, json, pathlib, re, typing, yaml
 - `modules/chain_facts.py` -> __future__, collections.abc, datetime, pathlib, re
 - `modules/chain_family.py` -> __future__, collections.abc, hashlib, pathlib, typing
-- `modules/chain_loop.py` -> __future__, collections.abc, ipaddress, threading, typing
+- `modules/chain_loop.py` -> __future__, collections.abc, threading, typing
 - `modules/chain_match.py` -> __future__, threading, time, typing
 - `modules/chain_registry.py` -> __future__, ast, dataclasses, glob, hashlib, os, pathlib, re, time, typing, yaml
 - `modules/chain_runner.py` -> __future__, collections.abc, concurrent.futures, contextlib, dataclasses, glob, hashlib, io, json, math, os, pathlib, random, re, shlex, signal, subprocess, threading, time, typing
@@ -443,7 +443,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/evidence.py` -> __future__, binascii, dataclasses, hashlib, os, pathlib, tempfile, time
 - `modules/evidence_store.py` -> __future__, json, os, pathlib, time, typing
 - `modules/exp.c` -> arpa/inet.h, asm/types.h, assert.h, err.h, fcntl.h, libmnl/libmnl.h, libnftnl/expr.h, libnftnl/rule.h, libnftnl/set.h, libnftnl/table.h, linux/ethtool.h, linux/io_uring.h, linux/keyctl.h, linux/netfilter.h, linux/netfilter/nf_tables.h, linux/netfilter/nfnetlink.h, linux/netlink.h, linux/rtnetlink.h, linux/sockios.h, mqueue.h, net/if.h, netinet/in.h, sched.h, signal.h, stdint.h, stdio.h, stdlib.h, string.h, sys/ipc.h, sys/mman.h, sys/msg.h, sys/shm.h, sys/socket.h, sys/syscall.h, sys/types.h, sys/xattr.h, syscall.h, unistd.h
-- `modules/exploit_chain.py` -> __future__, dataclasses, glob, json, os, re, typing, xml.etree.ElementTree
+- `modules/exploit_chain.py` -> __future__, dataclasses, glob, json, os, re, typing
 - `modules/exploit_recommender.py` -> __future__, dataclasses, datetime, json, pathlib, re, typing, urllib.request
 - `modules/exploitdb_bridge.py` -> __future__, csv, os, pathlib, re, typing, yaml
 - `modules/exploitdb_c_bridge.py` -> __future__, csv, os, pathlib, re, yaml
@@ -465,7 +465,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/guardrails/checkpoints.py` -> __future__, copy, threading, typing
 - `modules/guardrails/contracts.py` -> __future__, collections.abc, dataclasses, typing
 - `modules/guardrails/harness.py` -> __future__, collections.abc, threading, time, typing
-- `modules/gym_cleanup.py` -> __future__, typing
+- `modules/gym_cleanup.py` -> __future__, os, typing
 - `modules/gym_matrix_runner.py` -> __future__, collections.abc, datetime, json, pathlib, typing
 - `modules/gym_registry.py` -> __future__, hashlib, json, os, pathlib, re, secrets, threading, time, typing, yaml
 - `modules/gym_winbox_runner.py` -> __future__, pathlib, typing

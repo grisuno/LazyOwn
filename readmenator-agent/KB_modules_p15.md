@@ -70,6 +70,19 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `set_version` (method, line 308) `def set_version(self, version)`
   - `set_script` (method, line 311) `def set_script(self, script)`
 
+## modules/nmap_fingerprint.py
+- Doc: Canonical nmap XML fingerprinting for the exploit stack.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ServiceInfo` (class, line 98) `class ServiceInfo`
+  - `parse_nmap_xml` (function, line 131) `def parse_nmap_xml(path)`
+  - `find_nmap_xml` (function, line 166) `def find_nmap_xml(rhost, sessions_dir, include_vulns)`
+  - `search_query` (method, line 109) `def search_query(self)`
+  - `display_name` (method, line 115) `def display_name(self)`
+  - `next_commands` (method, line 120) `def next_commands(self)`
+- Imported by: `cli/exploit_advisor.py`, `modules/exploit_chain.py`
+
 ## modules/notify.py
 - Doc: Stateless multi-channel notifier for finding events.
 - Layer: utility

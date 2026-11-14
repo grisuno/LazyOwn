@@ -355,6 +355,33 @@ def lazyown_set_config(key: str, value, config_obj=None):
     return value
 
 
+def resolve_alias(shell, command: str) -> str:
+    """Expand a shell alias appearing as the command's first token.
+
+    Single resolver shared by the loop runner and worker execution so
+    alias-aware checks (sudo gating, verb routing) cannot drift.
+
+    Args:
+        shell: Shell object exposing an ``aliases`` mapping (or None).
+        command: Raw command line.
+
+    Returns:
+        The command with a first-token alias expansion applied, or the
+        original text when no alias matches.
+    """
+    text = str(command or "").strip()
+    if not text:
+        return text
+    token = text.split()[0]
+    aliases = getattr(shell, "aliases", None)
+    if isinstance(aliases, dict):
+        macro = aliases.get(token)
+        if macro:
+            rest = " ".join(text.split()[1:])
+            return f"{macro} {rest}".strip()
+    return text
+
+
 def needs_sudo(command: str) -> bool:
     """Return True when any shell segment of the command runs sudo/doas.
 

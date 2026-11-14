@@ -1,21 +1,8 @@
-# Symbols (page 40 of 53)
+# Symbols (page 40 of 52)
 Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_c2_profile_builtins` | function | `tests/test_core_modules.py:340` | `def test_c2_profile_builtins()` |
-| `test_c2_profile_jitter` | function | `tests/test_core_modules.py:351` | `def test_c2_profile_jitter()` |
-| `test_c2_profile_save_load` | function | `tests/test_core_modules.py:359` | `def test_c2_profile_save_load(tmp_path)` |
-| `test_collab_endpoints` | function | `tests/test_core_modules.py:320` | `def test_collab_endpoints()` |
-| `test_cve_matcher` | function | `tests/test_core_modules.py:115` | `def test_cve_matcher()` |
-| `test_cvss_critical` | function | `tests/test_core_modules.py:124` | `def test_cvss_critical()` |
-| `test_cvss_from_nvd` | function | `tests/test_core_modules.py:139` | `def test_cvss_from_nvd()` |
-| `test_cvss_medium` | function | `tests/test_core_modules.py:132` | `def test_cvss_medium()` |
-| `test_dashboard_endpoints` | function | `tests/test_core_modules.py:290` | `def test_dashboard_endpoints()` |
-| `test_llm_evaluator` | function | `tests/test_core_modules.py:215` | `def test_llm_evaluator(tmp_path)` |
-| `test_llm_evaluator_empty` | function | `tests/test_core_modules.py:238` | `def test_llm_evaluator_empty(tmp_path)` |
-| `test_llm_evaluator_report` | function | `tests/test_core_modules.py:226` | `def test_llm_evaluator_report(tmp_path)` |
-| `test_mcp_tools_registered` | function | `tests/test_core_modules.py:370` | `def test_mcp_tools_registered()` |
 | `test_memory_by_host` | function | `tests/test_core_modules.py:190` | `def test_memory_by_host(tmp_path)` |
 | `test_memory_export` | function | `tests/test_core_modules.py:200` | `def test_memory_export(tmp_path)` |
 | `test_memory_remember_recall` | function | `tests/test_core_modules.py:180` | `def test_memory_remember_recall(tmp_path)` |
@@ -496,5 +483,18 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 | `test_missing_required_package_fails` | method | `tests/test_doctor.py:78` | `def test_missing_required_package_fails(self)` |
 | `test_no_venv_anywhere_warns_to_install` | method | `tests/test_doctor.py:62` | `def test_no_venv_anywhere_warns_to_install(self, tmp_path)` |
 | `test_none_base_prefix_collapses_to_prefix` | method | `tests/test_doctor.py:67` | `def test_none_base_prefix_collapses_to_prefix(self, tmp_path)` |
+| `test_old_version_fails` | method | `tests/test_doctor.py:41` | `def test_old_version_fails(self)` |
+| `test_overall_status_fail_trips_healthy` | method | `tests/test_doctor.py:171` | `def test_overall_status_fail_trips_healthy(self)` |
+| `test_overall_status_ok_when_all_ok` | method | `tests/test_doctor.py:156` | `def test_overall_status_ok_when_all_ok(self)` |
+| `test_overall_status_warn_with_warnings_only` | method | `tests/test_doctor.py:161` | `def test_overall_status_warn_with_warnings_only(self)` |
+| `test_payload_missing_fails` | method | `tests/test_doctor.py:112` | `def test_payload_missing_fails(self, tmp_path)` |
+| `test_payload_present_is_ok` | method | `tests/test_doctor.py:108` | `def test_payload_present_is_ok(self, tmp_path)` |
+| `test_present_required_package_is_ok` | method | `tests/test_doctor.py:73` | `def test_present_required_package_is_ok(self)` |
+| `test_run_returns_report_without_raising` | method | `tests/test_doctor.py:194` | `def test_run_returns_report_without_raising(self, tmp_path)` |
+| `test_seclists_found_is_ok` | method | `tests/test_doctor.py:130` | `def test_seclists_found_is_ok(self)` |
+| `test_seclists_missing_warns` | method | `tests/test_doctor.py:135` | `def test_seclists_missing_warns(self)` |
+| `test_supported_version_is_ok` | method | `tests/test_doctor.py:33` | `def test_supported_version_is_ok(self)` |
+| `test_uses_live_interpreter_by_default` | method | `tests/test_doctor.py:46` | `def test_uses_live_interpreter_by_default(self)` |
+| `Broken` | class | `tests/test_emulation_runner.py:210` | `class Broken(FakeResolver)` |
 
 Next: [SYMBOLS_p41.md](SYMBOLS_p41.md)

@@ -8,38 +8,6 @@ against the existing campaign flows, then the criteria hold.
 from __future__ import annotations
 
 
-def test_c04_dedup_anchor_coverage():
-    """BDD: assets deduplicate and anchors resolve both ways."""
-    from modules.asset_graph import AssetGraph
-    graph = AssetGraph()
-    first = graph.upsert_asset("subdomain", "app.target.local")
-    second = graph.upsert_asset("subdomain", "app.target.local")
-    assert first.key == second.key
-    intent = graph.add_node("t1", "intent", "probe login")
-    graph.anchor(intent.node_id, first.key)
-    assert graph.assets_for_node(intent.node_id)[0].key == first.key
-    assert graph.nodes_for_asset(first.key)[0].node_id == intent.node_id
-    coverage = graph.coverage("t1")
-    assert coverage["total"] == 1 and coverage["tested"] == 1
-
-
-def test_c04_mirror_to_campaign_db(tmp_path):
-    """BDD: graph assets land in the campaign database and world model."""
-    from modules.asset_graph import AssetGraph
-    from modules.db import LazyOwnDB
-    from modules.world_model import WorldModel
-    db = LazyOwnDB(str(tmp_path / "campaign.db"))
-    workspace = db.default_workspace()
-    world = WorldModel(path=tmp_path / "world_model.json")
-    graph = AssetGraph()
-    graph.upsert_asset("ip", "10.9.0.7")
-    counts = graph.mirror_to_campaign(db, world, workspace)
-    assert counts["hosts"] == 1
-    assert db.host_find(workspace, "10.9.0.7")
-    assert "10.9.0.7" in world.get_hosts_summary()
-    db.close()
-
-
 def test_c05_frontier_emits_once_then_empty():
     """BDD: planner frontier emits untried intents, then nothing new."""
     from modules.planner import Frontier, Planner

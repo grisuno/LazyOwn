@@ -1856,6 +1856,26 @@ SCHEMA: dict[str, FieldSpec] = {
             category="reporting",
         ),
         _spec(
+            "auto_report_on_finish",
+            FieldKind.BOOL,
+            "True",
+            "Auto-generate the engagement report when an auto_loop or apt_chain run finishes.",
+            long_help=(
+                "When enabled, the session report JSON is refreshed and a "
+                "client-ready report (modules.professional_report) is written to "
+                "report_output_path (or 'reports/') at the end of every "
+                "auto_loop and apt_chain run."
+            ),
+            category="reporting",
+        ),
+        _spec(
+            "auto_report_formats",
+            FieldKind.STRING,
+            "html,md,json",
+            "Comma-separated report formats emitted by auto-report-on-finish (html, pdf, md, json).",
+            category="reporting",
+        ),
+        _spec(
             "topoexploit_path",
             FieldKind.PATH,
             "external/.exploit/TopoExploit",

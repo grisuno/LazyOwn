@@ -79,15 +79,15 @@
   - `_agent_verb_catalog` (method, line 480) `def _agent_verb_catalog(self)`
   - `_agent_os_hint` (method, line 508) `def _agent_os_hint(self, intent)`
   - `_agent_system_prompt` (method, line 524) `def _agent_system_prompt(self, intent)`
-  - `_agentic_try` (method, line 568) `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state)`
-  - `_with_llm_steps` (method, line 668) `def _with_llm_steps(self, intent, steps, prior_text)`
-  - `_llm_steps` (method, line 720) `def _llm_steps(self, intent, prior_text)`
-  - `_blocked_verbs` (method, line 878) `def _blocked_verbs(self)`
-  - `_guard_rules` (method, line 896) `def _guard_rules(self)`
-  - `_record_llm_decision` (method, line 918) `def _record_llm_decision(self, intent, prompt, reply, candidates, chosen, filtered)`
-  - `_decision_context` (method, line 970) `def _decision_context(self, intent)`
-  - `_guard_filter` (method, line 1016) `def _guard_filter(self, intent, candidates)`
-  - `_record_deterministic_decision` (method, line 1047) `def _record_deterministic_decision(self, intent, candidates, chosen, filtered)`
+  - `_agentic_try` (method, line 568) `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline)`
+  - `_with_llm_steps` (method, line 706) `def _with_llm_steps(self, intent, steps, prior_text)`
+  - `_llm_steps` (method, line 758) `def _llm_steps(self, intent, prior_text)`
+  - `_blocked_verbs` (method, line 916) `def _blocked_verbs(self)`
+  - `_guard_rules` (method, line 934) `def _guard_rules(self)`
+  - `_record_llm_decision` (method, line 956) `def _record_llm_decision(self, intent, prompt, reply, candidates, chosen, filtered)`
+  - `_decision_context` (method, line 1008) `def _decision_context(self, intent)`
+  - `_guard_filter` (method, line 1054) `def _guard_filter(self, intent, candidates)`
+  - `_record_deterministic_decision` (method, line 1085) `def _record_deterministic_decision(self, intent, candidates, chosen, filtered)`
   - `run_command` (function, line 308) `def run_command(command, background)`
   - `record_fact` (function, line 335) `def record_fact(text)`
   - `report_finding` (function, line 344) `def report_finding(name, evidence, severity)`

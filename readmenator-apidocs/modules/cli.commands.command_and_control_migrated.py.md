@@ -618,11 +618,15 @@ Open an interactive root shell on the target when possible.
 
 Usage:
     atomic_shell [target] [--interactive]
+    atomic_shell --list
+    atomic_shell --resume <session_id> [--interactive]
 
 Without ``--interactive`` (the loop-safe default) it only
 verifies the multiplexed session and reports how to attach.
 With ``--interactive`` in a foreground terminal it drops the
-operator into a live ``target#`` REPL until exit.
+operator into a live ``target#`` REPL until exit. ``--list`` shows
+persisted resumable sessions (hash ids); ``--resume`` re-opens one
+through its recorded exploit primitive.
 
 **Parameters**
 
@@ -630,13 +634,13 @@ operator into a live ``target#`` REPL until exit.
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`interactive_shell`](modules.atomic_exploit_bridge.py.md#interactive_shell), [`record_shell_outcome`](modules.atomic_exploit_bridge.py.md#record_shell_outcome)
+*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`interactive_shell`](modules.atomic_exploit_bridge.py.md#interactive_shell), [`record_shell_outcome`](modules.atomic_exploit_bridge.py.md#record_shell_outcome), [`list_sessions`](modules.shell_session_store.py.md#list_sessions), [`resume`](modules.shell_session_store.py.md#resume)
 
 <a id="commandandcontrolmigratedcommandset-do_atomic_clean"></a>
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_clean`
 
-`method` | [cli/commands/command_and_control_migrated.py:1353](../../cli/commands/command_and_control_migrated.py#L1353)
+`method` | [cli/commands/command_and_control_migrated.py:1388](../../cli/commands/command_and_control_migrated.py#L1388)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -667,7 +671,7 @@ the lab container (default lazyown-lab-metasploitable).
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_emulate`
 
-`method` | [cli/commands/command_and_control_migrated.py:1390](../../cli/commands/command_and_control_migrated.py#L1390)
+`method` | [cli/commands/command_and_control_migrated.py:1425](../../cli/commands/command_and_control_migrated.py#L1425)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -700,7 +704,7 @@ with per-test outputs. Lab and in-scope targets only.
 
 #### `CommandAndControlMigratedCommandSet.do_atomic_agent`
 
-`method` | [cli/commands/command_and_control_migrated.py:1447](../../cli/commands/command_and_control_migrated.py#L1447)
+`method` | [cli/commands/command_and_control_migrated.py:1482](../../cli/commands/command_and_control_migrated.py#L1482)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -726,7 +730,7 @@ None
 
 #### `CommandAndControlMigratedCommandSet.do_attack_plan`
 
-`method` | [cli/commands/command_and_control_migrated.py:1550](../../cli/commands/command_and_control_migrated.py#L1550)
+`method` | [cli/commands/command_and_control_migrated.py:1585](../../cli/commands/command_and_control_migrated.py#L1585)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -758,7 +762,7 @@ only use it when the target IS this host.
 
 #### `CommandAndControlMigratedCommandSet.do_apt_chain`
 
-`method` | [cli/commands/command_and_control_migrated.py:1727](../../cli/commands/command_and_control_migrated.py#L1727)
+`method` | [cli/commands/command_and_control_migrated.py:1762](../../cli/commands/command_and_control_migrated.py#L1762)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -815,7 +819,7 @@ automatically when the fact store knows the target.
 
 #### `CommandAndControlMigratedCommandSet.do_chain_distill`
 
-`method` | [cli/commands/command_and_control_migrated.py:2022](../../cli/commands/command_and_control_migrated.py#L2022)
+`method` | [cli/commands/command_and_control_migrated.py:2057](../../cli/commands/command_and_control_migrated.py#L2057)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -848,7 +852,7 @@ Generated chains start disabled; the operator owns the file.
 
 #### `CommandAndControlMigratedCommandSet.do_apt_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2072](../../cli/commands/command_and_control_migrated.py#L2072)
+`method` | [cli/commands/command_and_control_migrated.py:2107](../../cli/commands/command_and_control_migrated.py#L2107)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -885,7 +889,7 @@ apt_playbook run apt28
 
 #### `CommandAndControlMigratedCommandSet.do_mitre_test`
 
-`method` | [cli/commands/command_and_control_migrated.py:2192](../../cli/commands/command_and_control_migrated.py#L2192)
+`method` | [cli/commands/command_and_control_migrated.py:2227](../../cli/commands/command_and_control_migrated.py#L2227)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -916,7 +920,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_generate_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2295](../../cli/commands/command_and_control_migrated.py#L2295)
+`method` | [cli/commands/command_and_control_migrated.py:2330](../../cli/commands/command_and_control_migrated.py#L2330)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -965,7 +969,7 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 
 #### `CommandAndControlMigratedCommandSet.do_my_playbook`
 
-`method` | [cli/commands/command_and_control_migrated.py:2474](../../cli/commands/command_and_control_migrated.py#L2474)
+`method` | [cli/commands/command_and_control_migrated.py:2509](../../cli/commands/command_and_control_migrated.py#L2509)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -989,7 +993,7 @@ Usage: my_playbook <name> [filter] Example: my_playbook KerberosAttack password 
 
 #### `CommandAndControlMigratedCommandSet.do_caldera`
 
-`method` | [cli/commands/command_and_control_migrated.py:2531](../../cli/commands/command_and_control_migrated.py#L2531)
+`method` | [cli/commands/command_and_control_migrated.py:2566](../../cli/commands/command_and_control_migrated.py#L2566)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1024,7 +1028,7 @@ Usage:
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_import`
 
-`method` | [cli/commands/command_and_control_migrated.py:2580](../../cli/commands/command_and_control_migrated.py#L2580)
+`method` | [cli/commands/command_and_control_migrated.py:2615](../../cli/commands/command_and_control_migrated.py#L2615)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 
@@ -1057,7 +1061,7 @@ caldera_import all
 
 #### `CommandAndControlMigratedCommandSet.do_caldera_export`
 
-`method` | [cli/commands/command_and_control_migrated.py:2672](../../cli/commands/command_and_control_migrated.py#L2672)
+`method` | [cli/commands/command_and_control_migrated.py:2707](../../cli/commands/command_and_control_migrated.py#L2707)
 
 Decorators: `@cmd2.with_category('10. Command & Control')`
 

@@ -1,7 +1,15 @@
-# Architecture (page 5 of 11)
+# Architecture (page 5 of 12)
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `modules/winbox_gym.py` -> `modules/chain_registry.py`
+- `modules/winbox_gym.py` -> `utils.py`
+- `modules/wire_capture.py` -> `core/atomic_store.py`
+- `modules/world_model.py` -> `cli/commands/enum.py`
+- `modules/world_model.py` -> `core/hardening.py`
+- `modules/world_model.py` -> `core/logging.py`
+- `modules/world_model.py` -> `modules/cli_auth.py`
+- `modules/world_model.py` -> `modules/factsio.py`
 - `modules/yaml_generator.py` -> `core/config.py`
 - `modules/yaml_generator.py` -> `modules/ai_model.py`
 - `modules/yaml_generator.py` -> `modules/llm_factory.py`
@@ -27,6 +35,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/autonomous_daemon.py` -> `core/logging.py`
 - `skills/autonomous_daemon.py` -> `modules/__init__.py`
 - `skills/autonomous_daemon.py` -> `modules/asset_graph.py`
+- `skills/autonomous_daemon.py` -> `modules/atomic_exploit_bridge.py`
 - `skills/autonomous_daemon.py` -> `modules/db.py`
 - `skills/autonomous_daemon.py` -> `modules/detection_oracle.py`
 - `skills/autonomous_daemon.py` -> `modules/enrich.py`
@@ -37,6 +46,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/autonomous_daemon.py` -> `modules/intercept.py`
 - `skills/autonomous_daemon.py` -> `modules/killchain.py`
 - `skills/autonomous_daemon.py` -> `modules/lazy_engine.py`
+- `skills/autonomous_daemon.py` -> `modules/lesson_ingestor.py`
 - `skills/autonomous_daemon.py` -> `modules/llm_pool.py`
 - `skills/autonomous_daemon.py` -> `modules/logging_config.py`
 - `skills/autonomous_daemon.py` -> `modules/metrics.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/mcp_tools/soul.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/stealth.py` -> `modules/autonomous_exploit_engine.py`
 - `skills/mcp_tools/stealth.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/subagent_run.py` -> `modules/mcp_agent_bridge.py`
-- `skills/mcp_tools/subagent_run.py` -> `skills/lazyown_session.py`
-- `skills/mcp_tools/subagent_run.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/swan_ensemble.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/swan_ensemble.py` -> `skills/swan_agent.py`
-- `skills/mcp_tools/swan_route.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/swan_route.py` -> `skills/swan_agent.py`
-- `skills/mcp_tools/swan_run.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/swan_run.py` -> `skills/swan_agent.py`
-- `skills/mcp_tools/swan_status.py` -> `skills/mcp_tools/_context.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

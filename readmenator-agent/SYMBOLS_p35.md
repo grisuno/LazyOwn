@@ -1,8 +1,33 @@
-# Symbols (page 35 of 52)
+# Symbols (page 35 of 53)
 Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_default_author_and_version_applied` | method | `tests/test_addon_creator.py:315` | `def test_default_author_and_version_applied(self)` |
+| `test_delete_legacy_uppercase_addon` | method | `tests/test_addon_creator.py:774` | `def test_delete_legacy_uppercase_addon(self, tmp_path)` |
+| `test_delete_rejects_unsafe_existing_names` | method | `tests/test_addon_creator.py:425` | `def test_delete_rejects_unsafe_existing_names(self, tmp_path)` |
+| `test_delete_removes_addon` | method | `tests/test_addon_creator.py:722` | `def test_delete_removes_addon(self, tmp_path)` |
+| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
+| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
+| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
+| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
+| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
+| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
+| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
+| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
+| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
+| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
+| `test_list_all_reports_file_stem_as_filename` | method | `tests/test_addon_creator.py:400` | `def test_list_all_reports_file_stem_as_filename(self, tmp_path)` |
+| `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
+| `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:764` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
+| `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:710` | `def test_list_page_shows_created_addon(self, tmp_path)` |
+| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
+| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
+| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
+| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
+| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
+| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
+| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
 | `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
 | `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
 | `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
@@ -431,6 +456,17 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_sanctioned_lists_sorted_rows` | method | `tests/test_auto_loop_memory.py:74` | `def test_sanctioned_lists_sorted_rows(self, tmp_path)` |
 | `test_trims_to_capacity` | method | `tests/test_auto_loop_memory.py:43` | `def test_trims_to_capacity(self, tmp_path)` |
 | `test_veto_blocks_immediately_and_persists` | method | `tests/test_auto_loop_memory.py:35` | `def test_veto_blocks_immediately_and_persists(self, tmp_path)` |
+| `_candidates` | function | `tests/test_auto_pwn_coverage.py:31` | `def _candidates(n)` |
+| `_engine` | function | `tests/test_auto_pwn_coverage.py:35` | `def _engine(monkeypatch, candidates, shell_at)` |
+| `_profile` | function | `tests/test_auto_pwn_coverage.py:27` | `def _profile()` |
+| `exec_maybe_hang` | function | `tests/test_auto_pwn_coverage.py:117` | `def exec_maybe_hang(candidate, profile)` |
+| `fake_exec` | function | `tests/test_auto_pwn_coverage.py:42` | `def fake_exec(candidate, profile)` |
+| `test_atomic_specs_surface_port_based_vectors` | function | `tests/test_auto_pwn_coverage.py:73` | `def test_atomic_specs_surface_port_based_vectors()` |
+| `test_coverage_bounded_vector_does_not_stall` | function | `tests/test_auto_pwn_coverage.py:105` | `def test_coverage_bounded_vector_does_not_stall(monkeypatch)` |
+| `test_coverage_hunt_counts_all_shells` | function | `tests/test_auto_pwn_coverage.py:66` | `def test_coverage_hunt_counts_all_shells(monkeypatch)` |
+| `test_coverage_hunt_exercises_every_vector` | function | `tests/test_auto_pwn_coverage.py:58` | `def test_coverage_hunt_exercises_every_vector(monkeypatch)` |
+| `test_default_hunt_stops_at_first_shell` | function | `tests/test_auto_pwn_coverage.py:51` | `def test_default_hunt_stops_at_first_shell(monkeypatch)` |
+| `test_rank_skips_noise_service_flood` | function | `tests/test_auto_pwn_coverage.py:92` | `def test_rank_skips_noise_service_flood()` |
 | `engine` | function | `tests/test_auto_pwn_success.py:17` | `def engine()` |
 | `test_check_success_empty_output` | function | `tests/test_auto_pwn_success.py:76` | `def test_check_success_empty_output(engine)` |
 | `test_check_success_long_recon_is_failure` | function | `tests/test_auto_pwn_success.py:57` | `def test_check_success_long_recon_is_failure(engine)` |
@@ -460,41 +496,5 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_propose_and_steps_skip_unavailable_verbs` | function | `tests/test_auto_registry.py:144` | `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)` |
 | `test_propose_and_translate_roundtrip` | function | `tests/test_auto_registry.py:63` | `def test_propose_and_translate_roundtrip()` |
 | `test_registry_covers_auto_family` | function | `tests/test_auto_registry.py:28` | `def test_registry_covers_auto_family()` |
-| `test_steps_for_uses_next_available_keyword_verb` | function | `tests/test_auto_registry.py:154` | `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)` |
-| `test_verb_gap_flags_missing_tooling` | function | `tests/test_auto_registry.py:124` | `def test_verb_gap_flags_missing_tooling(monkeypatch)` |
-| `test_verbs_for_matches_keywords` | function | `tests/test_auto_registry.py:55` | `def test_verbs_for_matches_keywords()` |
-| `boom` | function | `tests/test_autonomous_ops.py:69` | `def boom(_prompt)` |
-| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:11` | `def test_c05_frontier_emits_once_then_empty()` |
-| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:26` | `def test_c05_todo_blocks_lateral_until_creds()` |
-| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:38` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
-| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:66` | `def test_c07_pool_failover_and_exhaustion()` |
-| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:84` | `def test_c08_notify_filter_and_redact()` |
-| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:96` | `def test_c09_side_question_isolated()` |
-| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:127` | `def test_c10_rollback_restores_previous(tmp_path)` |
-| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:111` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
-| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:154` | `def test_i2_pool_hard_trips_on_auth_errors()` |
-| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:139` | `def test_i2_shared_registry_survives_rebuilds()` |
-| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:162` | `def test_i3_classify_retest_verdicts()` |
-| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:171` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
-| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:192` | `def test_i4_shared_engine_cooldown()` |
-| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:200` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
-| `_Runner` | class | `tests/test_autonomous_replay.py:161` | `class _Runner` |
-| `_Runner` | class | `tests/test_autonomous_replay.py:185` | `class _Runner` |
-| `__init__` | method | `tests/test_autonomous_replay.py:162` | `def __init__(self)` |
-| `_event` | function | `tests/test_autonomous_replay.py:40` | `def _event(event_id, objective_id, step, command, source, seed_override)` |
-| `_write_jsonl` | function | `tests/test_autonomous_replay.py:65` | `def _write_jsonl(path, events)` |
-| `run` | method | `tests/test_autonomous_replay.py:165` | `def run(self, command, timeout)` |
-| `run` | method | `tests/test_autonomous_replay.py:186` | `def run(self, command, timeout)` |
-| `test_event_log_reader_returns_empty_when_missing` | function | `tests/test_autonomous_replay.py:71` | `def test_event_log_reader_returns_empty_when_missing(tmp_path)` |
-| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
-| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
-| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
-| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
-| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
-| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
-| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
-| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
-| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
-| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
 
 Next: [SYMBOLS_p36.md](SYMBOLS_p36.md)

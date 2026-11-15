@@ -932,7 +932,7 @@ Scans sessions/ for IP directories with scan data, credentials, or
 world model state, and presents them for quick resume.
 
 Usage:
-    ``resume``      — show the session selector panel
+    `[`resume`](modules.shell_session_store.py.md#resume)`      — show the session selector panel
 
 **Parameters**
 

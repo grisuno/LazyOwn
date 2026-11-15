@@ -1,8 +1,15 @@
-# Symbols (page 19 of 52)
+# Symbols (page 19 of 53)
 Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_extract_hosts` | function | `modules/lazy_timeline.py:207` | `def _extract_hosts(state)` |
+| `_getaddrinfo_resolver` | function | `modules/lazy_timeline.py:60` | `def _getaddrinfo_resolver(name)` |
+| `_host_diff` | function | `modules/lazy_timeline.py:229` | `def _host_diff(ip, before, after)` |
+| `_load` | function | `modules/lazy_timeline.py:301` | `def _load(source)` |
+| `_prune` | function | `modules/lazy_timeline.py:292` | `def _prune(paths, keep)` |
+| `_zombies` | function | `modules/lazy_timeline.py:258` | `def _zombies(_old_snapshot, snapshot)` |
+| `diff` | function | `modules/lazy_timeline.py:151` | `def diff(_old, _new)` |
 | `find_snapshots` | function | `modules/lazy_timeline.py:135` | `def find_snapshots(snaps_dir)` |
 | `record` | function | `modules/lazy_timeline.py:66` | `def record(state_path, snaps_dir, keep, dns)` |
 | `record_quiet` | function | `modules/lazy_timeline.py:111` | `def record_quiet(state_path, snaps_dir, keep, dns)` |
@@ -262,17 +269,22 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
 | `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
 | `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
-| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
-| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
-| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
-| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
-| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
-| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
-| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
-| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
-| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
-| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
-| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
+| `LessonIngestor` | class | `modules/lesson_ingestor.py:78` | `class LessonIngestor` |
+| `LessonLearned` | class | `modules/lesson_ingestor.py:56` | `class LessonLearned` |
+| `__init__` | method | `modules/lesson_ingestor.py:87` | `def __init__(self, lessons_file, router, trainer, boost_reward, seen_file)` |
+| `_expert_for_topic` | method | `modules/lesson_ingestor.py:125` | `def _expert_for_topic(self, topic)` |
+| `_fingerprint` | method | `modules/lesson_ingestor.py:206` | `def _fingerprint(lesson)` |
+| `_get_router` | method | `modules/lesson_ingestor.py:101` | `def _get_router(self)` |
+| `_get_trainer` | method | `modules/lesson_ingestor.py:113` | `def _get_trainer(self)` |
+| `_load_from_file` | method | `modules/lesson_ingestor.py:265` | `def _load_from_file(self)` |
+| `_load_seen` | method | `modules/lesson_ingestor.py:213` | `def _load_seen(self)` |
+| `_save_seen` | method | `modules/lesson_ingestor.py:224` | `def _save_seen(self, seen)` |
+| `from_dict` | method | `modules/lesson_ingestor.py:67` | `def from_dict(cls, d)` |
+| `ingest` | method | `modules/lesson_ingestor.py:128` | `def ingest(self, lesson)` |
+| `ingest_all` | method | `modules/lesson_ingestor.py:188` | `def ingest_all(self, lessons)` |
+| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:285` | `def ingest_campaign_lessons(lessons_file)` |
+| `ingest_new` | method | `modules/lesson_ingestor.py:236` | `def ingest_new(self)` |
+| `ingest_new_campaign_lessons` | function | `modules/lesson_ingestor.py:300` | `def ingest_new_campaign_lessons(lessons_file)` |
 | `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
 | `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
 | `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
 | `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
 | `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
-| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
-| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
-| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
-| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
-| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
-| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
-| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
-| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
-| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
-| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
-| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
-| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

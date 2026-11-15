@@ -45,6 +45,7 @@ flowchart LR
     n_modules_moe_router_py__get_router["moe_router.get_router"]
     n_modules_loop_ai_bridge_py__rl_select(["rl_select"])
     n_modules_loop_ai_bridge_py__rl_save(["rl_save"])
+    n_modules_atomic_exploit_bridge_py__shell_output_evidence["atomic_exploit_bridge.shell_output_evidence"]
     n_skills_swan_agent_py__get_swan["swan_agent.get_swan"]
     n_modules_loop_ai_bridge_py__record_outcome_quality --> n_modules_loop_ai_bridge_py__intent_tool_class
     n_modules_loop_ai_bridge_py__record_outcome_quality --> n_modules_loop_ai_bridge_py__moe_record_outcome
@@ -67,9 +68,9 @@ flowchart LR
     n_modules_loop_ai_bridge_py__rl_select -.-> n_modules_rl_trainer_py__get_trainer
     n_modules_loop_ai_bridge_py__rl_update -.-> n_modules_rl_trainer_py__get_trainer
     n_modules_loop_ai_bridge_py__rl_save -.-> n_modules_rl_trainer_py__get_trainer
+    n_modules_loop_ai_bridge_py__record_step -.-> n_modules_atomic_exploit_bridge_py__shell_output_evidence
     n_modules_loop_ai_bridge_py__swan_available -.-> n_skills_swan_agent_py__get_swan
     n_modules_loop_ai_bridge_py__ai_snapshot -.-> n_modules_detection_oracle_py__get_oracle
-    n_modules_loop_ai_bridge_py__ai_snapshot -.-> n_modules_moe_router_py__get_router
 ```
 
 ## Functions
@@ -390,7 +391,7 @@ Persist the RL tables after a run.
 
 ### `record_step`
 
-`function` | [modules/loop_ai_bridge.py:404](../../modules/loop_ai_bridge.py#L404)
+`function` | [modules/loop_ai_bridge.py:407](../../modules/loop_ai_bridge.py#L407)
 
 ```python
 def record_step(task_id: str, worker: str, command: str, output: str, detection_prob: float = 0.0) -> None
@@ -398,9 +399,17 @@ def record_step(task_id: str, worker: str, command: str, output: str, detection_
 
 Feed one executed command outcome to MoE and the RL trainer.
 
-Reward is 1.0 for a productive run (output present, no execution
-failure) and 0.0 otherwise; the action is the command's first token
-so the trainer learns which tool classes work for this engagement.
+Reward tiers: `SHELL_REWARD` when the output carries genuine
+interactive-shell evidence (the strongest kill-chain signal, so the
+trainer learns to prefer the tool classes that land sessions), 1.0 for
+any other productive run (output present, no execution failure) and 0.0
+otherwise. Shell evidence is decided by the one canonical detector
+(``atomic_exploit_bridge.shell_output_evidence``) shared with the loop,
+``auto_pwn`` and every gym, so RL cannot disagree with the verdict engine
+on whether a session was obtained.
+
+The action is the command's first token so the trainer learns which tool
+classes work for this engagement.
 
 **Parameters**
 
@@ -412,7 +421,7 @@ so the trainer learns which tool classes work for this engagement.
 | `output` | `str` |  |  |
 | `detection_prob` | `float` | `0.0` |  |
 
-*Calls:* [`moe_record_outcome`](#moe_record_outcome), [`rl_update`](#rl_update)
+*Calls:* [`shell_output_evidence`](modules.atomic_exploit_bridge.py.md#shell_output_evidence), [`moe_record_outcome`](#moe_record_outcome), [`rl_update`](#rl_update)
 
 ---
 
@@ -420,7 +429,7 @@ so the trainer learns which tool classes work for this engagement.
 
 ### `swan_available`
 
-`function` | [modules/loop_ai_bridge.py:419](../../modules/loop_ai_bridge.py#L419)
+`function` | [modules/loop_ai_bridge.py:435](../../modules/loop_ai_bridge.py#L435)
 
 ```python
 def swan_available() -> bool
@@ -440,7 +449,7 @@ Return True when the SWAN orchestrator can be constructed.
 
 ### `swan_consult`
 
-`function` | [modules/loop_ai_bridge.py:432](../../modules/loop_ai_bridge.py#L432)
+`function` | [modules/loop_ai_bridge.py:448](../../modules/loop_ai_bridge.py#L448)
 
 ```python
 def swan_consult(prompt: str, task_type: str = 'recon', phase: str = 'enumeration', timeout: float = 120.0) -> str
@@ -467,7 +476,7 @@ Ask SWAN for an ensemble answer; empty string when unavailable.
 
 ### `ai_snapshot`
 
-`function` | [modules/loop_ai_bridge.py:469](../../modules/loop_ai_bridge.py#L469)
+`function` | [modules/loop_ai_bridge.py:485](../../modules/loop_ai_bridge.py#L485)
 
 ```python
 def ai_snapshot() -> dict

@@ -1,7 +1,25 @@
-# Architecture (page 8 of 11)
+# Architecture (page 8 of 12)
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_safety_gates.py` -> `modules/__init__.py`
+- `tests/test_safety_gates.py` -> `modules/evidence.py`
+- `tests/test_safety_gates.py` -> `modules/intercept.py`
+- `tests/test_safety_gates.py` -> `modules/traffic_recorder.py`
+- `tests/test_scan_brief.py` -> `modules/lazy_loop.py`
+- `tests/test_scan_brief.py` -> `modules/scan_brief.py`
+- `tests/test_scope_bound_auto_gate.py` -> `skills/autonomous_daemon.py`
+- `tests/test_scope_bound_auto_gate.py` -> `skills/lazyown_policy.py`
+- `tests/test_scope_deny_priority.py` -> `cli/__init__.py`
+- `tests/test_scope_deny_priority.py` -> `modules/__init__.py`
+- `tests/test_scope_guard.py` -> `cli/scope_guard.py`
+- `tests/test_scope_guard.py` -> `utils.py`
+- `tests/test_scope_guard_integration.py` -> `core/console.py`
+- `tests/test_scope_guard_integration.py` -> `lazyown.py`
+- `tests/test_security_alerts_fix.py` -> `core/hardening.py`
+- `tests/test_security_alerts_fix.py` -> `core/reverse_shell_secret.py`
+- `tests/test_security_alerts_fix.py` -> `modules/domain_dominance.py`
+- `tests/test_security_alerts_fix.py` -> `modules/lazy_loop.py`
 - `tests/test_security_alerts_fix.py` -> `modules/lazy_proxy.py`
 - `tests/test_security_alerts_fix.py` -> `skills/claude_md_orchestrator/validators.py`
 - `tests/test_security_codeql_batch.py` -> `core/defaults.py`
@@ -84,6 +102,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_shell_semantics.py` -> `core/process.py`
 - `tests/test_shell_semantics.py` -> `core/safe_exec.py`
 - `tests/test_shell_semantics.py` -> `core/safe_subprocess.py`
+- `tests/test_shell_session_store.py` -> `modules/__init__.py`
 - `tests/test_shellsys_command_set.py` -> `cli/commands/_base.py`
 - `tests/test_shellsys_command_set.py` -> `cli/commands/_dormancy.py`
 - `tests/test_shellsys_command_set.py` -> `cli/commands/misc_migrated.py`

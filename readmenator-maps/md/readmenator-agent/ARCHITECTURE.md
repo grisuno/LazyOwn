@@ -1,5 +1,5 @@
-# Architecture (page 1 of 11)
-Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md), [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md), [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)
+# Architecture (page 1 of 12)
+Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md), [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md), [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md), [ARCHITECTURE_p12.md](ARCHITECTURE_p12.md)
 
 ## Internal Dependencies
 
@@ -155,6 +155,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_tokens.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/listener_manager.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/outcome_bus.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/shell_session_store.py`
 - `cli/commands/command_and_control_migrated.py` -> `utils.py`
 - `cli/commands/containers.py` -> `cli/commands/_base.py`
 - `cli/commands/containers.py` -> `modules/lazyk8s.py`
@@ -495,6 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/scan.py` -> `utils.py`
 - `cli/commands/scan_migrated.py` -> `cli/commands/_base.py`
 - `cli/commands/scan_migrated.py` -> `utils.py`
-- `cli/commands/security.py` -> `cli/commands/_base.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

@@ -3,6 +3,12 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
+| `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one runner, no dual engines. | tests | 13 | 0 |
+| `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 11 | 0 |
+| `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
+| `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
+| `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
 | `tests/test_mcp_tools_registry.py` | Contract for the one-file-per-tool MCP registry (``skills/mcp_tools``). | tests | 11 | 0 |
 | `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 52 | 0 |
 | `tests/test_memory_semantics.py` | BDD tests for hashing embeddings and hybrid episodic recall. | tests | 14 | 0 |
@@ -41,7 +47,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_pi_leg.py` | pi loop-leg contract tests. | tests | 15 | 0 |
 | `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
 | `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
-| `tests/test_planner_initial_access.py` | Deterministic initial-access intent: auto_pwn fires without an LLM. | tests | 9 | 0 |
+| `tests/test_planner_initial_access.py` | Deterministic initial-access intent: auto_pwn fires without an LLM. | tests | 10 | 0 |
 | `tests/test_playbook_admin.py` | Playbook YAML administration: scan, create, update, delete, validate. | tests | 6 | 0 |
 | `tests/test_playbook_chain.py` | Playbook lowering: phases[].steps[] actions and atomic tests become validated chains executed by... | tests | 10 | 0 |
 | `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
@@ -99,6 +105,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_session_secrets.py` | SessionSecretsSpec: Contract for session-scoped secret rotation. | tests | 8 | 0 |
 | `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
 | `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
+| `tests/test_shell_session_store.py` | Resumable, hash-identified shell sessions. | tests | 10 | 0 |
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
 | `tests/test_sidequest.py` | Tests for read-only side questions over immutable decision checkpoints. | tests | 13 | 0 |

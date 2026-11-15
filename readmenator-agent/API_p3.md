@@ -272,12 +272,12 @@ Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `mod
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 - `PwnCommandSet.do_auto_pwn` (method) `cli/commands/pwn.py:35` `def do_auto_pwn(self, line)` -- Run the full autonomous exploitation chain against the target.
-- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:132` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
-- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:181` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
-- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:268` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
-- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:325` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
-- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:417` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
-- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:445` `def do_stealth_off(self, line)` -- Disable stealth mode.
+- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:138` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
+- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:187` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
+- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:274` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
+- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:331` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
+- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:423` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
+- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:451` `def do_stealth_off(self, line)` -- Disable stealth mode.
 
 ## cli/commands/recon.py
 Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`

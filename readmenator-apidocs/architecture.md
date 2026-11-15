@@ -4,9 +4,9 @@
 
 ## Architecture Overview
 
-40 components stacked in 14 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 58 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
+40 components stacked in 13 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 60 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
 
-Upward dependencies to fix first: `cli/commands` -> `modules: lazyown` (48 imports); `modules: lazyown` -> `modules: lazy_loop` (38 imports); `modules: lazyown` -> `cli` (37 imports); `modules: lazyc2` -> `modules: lazyown` (33 imports); `modules: world_model` -> `modules: lazyc2` (28 imports); `modules: lazyown_facts` -> `modules: lazyown` (21 imports); `modules: bof_registry` -> `modules: lazyown` (17 imports); `modules: world_model` -> `cli/commands` (17 imports); `cli/commands` -> `cli` (14 imports); `modules: lazyc2` -> `skills/mcp_tools` (14 imports); `cli/commands` -> `skills/mcp_tools` (13 imports); `modules: world_model` -> `skills/mcp_tools` (13 imports); `modules: world_model` -> `modules: lazyown` (13 imports); `modules: bof_registry` -> `modules: lazyc2` (12 imports); `static/js` -> `skills/mcp_tools` (12 imports); `modules: lazyown` -> `skills/mcp_tools` (10 imports); `cli` -> `skills/mcp_tools` (10 imports); `cli/commands` -> `modules: lazyc2` (9 imports); `modules: llm_budget` -> `modules: lazy_loop` (8 imports); `modules: lazyc2` -> `cli` (8 imports); `modules: lazyown_facts` -> `modules: lazy_loop` (8 imports); `modules: bof_registry` -> `cli/commands` (7 imports); `cli/commands` -> `modules: lazy_loop` (7 imports); `modules: lazyc2` -> `modules: lazy_loop` (7 imports); `static/js` -> `modules: lazyown` (7 imports); `skills/mcp_tools` -> `modules: lazy_loop` (6 imports); `modules: world_model` -> `cli` (6 imports); `static/js` -> `cli` (6 imports); `modules: lazyc2` -> `modules: lazyown_facts` (5 imports); `modules: world_model` -> `modules: lazy_loop` (5 imports); `cli/commands` -> `modules: llm_budget` (4 imports); `modules: llm_budget` -> `skills/mcp_tools` (3 imports); `modules: lazyc2` -> `modules: llm_budget` (3 imports); `cli` -> `modules: lazy_loop` (3 imports); `modules: world_model` -> `modules: lazyown_facts` (3 imports); `modules: lazyown_facts` -> `skills/mcp_tools` (3 imports); `modules: lazyown_facts` -> `cli` (3 imports); `modules/selection` -> `skills/mcp_tools` (2 imports); `cli/commands` -> `modules: lazyown_facts` (2 imports); `modules: world_model` -> `modules: llm_budget` (2 imports); `static/js` -> `modules: lazy_loop` (2 imports); `modules: bof_registry` -> `cli` (1 imports); `modules: bof_registry` -> `modules: world_model` (1 imports); `modules/selection` -> `modules: lazyown` (1 imports); `modules/selection` -> `static/js` (1 imports); `skills/claude_md_orchestrator` -> `modules: llm_budget` (1 imports); `skills/claude_md_orchestrator` -> `cli/commands` (1 imports); `skills/claude_md_orchestrator` -> `modules: lazyown` (1 imports); `modules: defense_eval` -> `modules: lazyown` (1 imports); `cli/commands` -> `static/js` (1 imports); `modules: lazyown` -> `modules: llm_budget` (1 imports); `modules: lazyc2` -> `static/js` (1 imports); `modules: lazyown_facts` -> `static/js` (1 imports); `static/js` -> `modules: llm_budget` (1 imports)
+Upward dependencies to fix first: `modules: lazyown` -> `modules: lazy_loop` (36 imports); `modules: lazyown` -> `cli` (34 imports); `cli/commands` -> `modules: lazyown` (30 imports); `modules: lazyc2` -> `modules: lazyown` (28 imports); `modules: world_model` -> `modules: lazyc2` (28 imports); `modules: lazyown_facts` -> `modules: lazyown` (21 imports); `modules: lazyc2` -> `cli/commands` (18 imports); `modules: world_model` -> `cli/commands` (18 imports); `modules: lazyc2` -> `skills/mcp_tools` (16 imports); `cli/commands` -> `skills/mcp_tools` (13 imports); `modules: world_model` -> `skills/mcp_tools` (13 imports); `static/js` -> `skills/mcp_tools` (12 imports); `modules: bof_registry` -> `modules: lazyc2` (12 imports); `modules: bof_registry` -> `modules: lazyown` (11 imports); `cli/commands` -> `modules: lazyown_facts` (10 imports); `modules: lazyown_facts` -> `skills/mcp_tools` (10 imports); `modules: lazyown_facts` -> `modules: lazy_loop` (10 imports); `modules: world_model` -> `modules: lazyown_facts` (10 imports); `cli/commands` -> `cli` (9 imports); `modules: lazyc2` -> `modules: lazyown_facts` (9 imports); `modules: llm_budget` -> `modules: lazy_loop` (9 imports); `modules: bof_registry` -> `cli/commands` (8 imports); `modules: lazyc2` -> `cli` (8 imports); `skills/mcp_tools` -> `cli` (7 imports); `skills/mcp_tools` -> `modules: llm_budget` (7 imports); `cli/commands` -> `modules: lazy_loop` (7 imports); `modules: lazyc2` -> `modules: lazy_loop` (7 imports); `skills/mcp_tools` -> `modules: lazy_loop` (6 imports); `static/js` -> `cli` (6 imports); `static/js` -> `modules: lazyown` (6 imports); `modules: bof_registry` -> `modules: lazyown_facts` (6 imports); `modules: lazyown_facts` -> `static/js` (6 imports); `modules: world_model` -> `modules: lazyown` (6 imports); `modules: world_model` -> `modules: lazy_loop` (5 imports); `modules: world_model` -> `cli` (5 imports); `modules: lazyown` -> `skills/mcp_tools` (5 imports); `cli/commands` -> `modules: llm_budget` (4 imports); `modules: lazyown_facts` -> `cli` (4 imports); `modules: lazyc2` -> `modules: llm_budget` (3 imports); `cli` -> `modules: lazy_loop` (3 imports); `modules: llm_budget` -> `cli` (3 imports); `static/js` -> `modules: lazy_loop` (2 imports); `modules/selection` -> `skills/mcp_tools` (2 imports); `modules: world_model` -> `modules: llm_budget` (2 imports); `static/js` -> `modules: llm_budget` (1 imports); `modules: bof_registry` -> `modules: world_model` (1 imports); `modules/selection` -> `static/js` (1 imports); `modules/selection` -> `modules: lazyown` (1 imports); `skills/claude_md_orchestrator` -> `cli/commands` (1 imports); `skills/claude_md_orchestrator` -> `modules: lazyown` (1 imports); `skills/claude_md_orchestrator` -> `modules: llm_budget` (1 imports); `modules: defense_eval` -> `modules: lazyown` (1 imports); `cli/commands` -> `static/js` (1 imports); `modules: lazyc2` -> `static/js` (1 imports); `modules: lazyown` -> `modules: llm_budget` (1 imports)
 
 ```mermaid
 flowchart TB
@@ -19,7 +19,7 @@ flowchart TB
         n_c16["modules: saas_attacks<br/>7 files, 77 symbols<br/>Core / utility"]:::default
         n_c17["modules: polymorphic_engine<br/>6 files, 89 symbols<br/>Core / utility"]:::default
         n_c8["lazygui/panels<br/>51 files, 405 symbols<br/>Core / utility"]:::entry
-        n_c1["modules: lazy_loop<br/>92 files, 1590 symbols<br/>Core / utility"]:::cycle
+        n_c1["modules: lazy_loop<br/>93 files, 1603 symbols<br/>Core / utility"]:::cycle
         n_d_tools["tools<br/>4 files, 15 symbols<br/>Core / utility"]:::default
         n_d_tests["tests<br/>3 files, 9 symbols<br/>Presentation / entry"]:::default
         n_d_static["static<br/>2 files, 4 symbols<br/>Core / utility"]:::default
@@ -44,23 +44,23 @@ flowchart TB
     end
     subgraph lane_1["Tier 2"]
         direction LR
-        n_c0["skills/mcp_tools<br/>182 files, 1360 symbols<br/>Core / utility"]:::cycle
+        n_c4["cli<br/>62 files, 1124 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_2["Tier 3"]
         direction LR
-        n_c5["cli<br/>69 files, 1196 symbols<br/>Core / utility"]:::cycle
+        n_c9["modules: llm_budget<br/>34 files, 638 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_3["Tier 4"]
         direction LR
-        n_c10["modules: llm_budget<br/>31 files, 595 symbols<br/>Core / utility"]:::cycle
+        n_c0["skills/mcp_tools<br/>185 files, 1422 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_4["Tier 5"]
         direction LR
-        n_c3["modules: lazyown<br/>89 files, 1519 symbols<br/>Core / utility"]:::entry
+        n_c7["modules: lazyown<br/>60 files, 1139 symbols<br/>Core / utility"]:::entry
     end
     subgraph lane_5["Tier 6"]
         direction LR
-        n_c9["static/js<br/>25 files, 426 symbols<br/>Core / utility"]:::entry
+        n_c10["static/js<br/>25 files, 426 symbols<br/>Core / utility"]:::entry
     end
     subgraph lane_6["Tier 7"]
         direction LR
@@ -68,117 +68,115 @@ flowchart TB
     end
     subgraph lane_7["Tier 8"]
         direction LR
-        n_c7["modules: lazyown_facts<br/>30 files, 513 symbols<br/>Core / utility"]:::cycle
+        n_c5["modules: lazyown_facts<br/>56 files, 857 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_8["Tier 9"]
         direction LR
         n_c14["modules: defense_eval<br/>4 files, 51 symbols<br/>Core / utility"]:::cycle
+        n_c2["cli/commands<br/>105 files, 1391 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_9["Tier 10"]
         direction LR
-        n_c4["modules: lazyc2<br/>95 files, 1616 symbols<br/>Core / utility"]:::cycle
+        n_c3["modules: lazyc2<br/>96 files, 1610 symbols<br/>Core / utility"]:::cycle
+        n_c18["contrib/legacy<br/>4 files, 15 symbols<br/>Core / utility"]:::default
     end
     subgraph lane_10["Tier 11"]
         direction LR
-        n_c2["cli/commands<br/>102 files, 1370 symbols<br/>Core / utility"]:::cycle
+        n_c13["skills/claude_md_orchestrator<br/>28 files, 395 symbols<br/>Core / utility"]:::entry
     end
     subgraph lane_11["Tier 12"]
         direction LR
-        n_c13["skills/claude_md_orchestrator<br/>28 files, 395 symbols<br/>Core / utility"]:::entry
-        n_c18["contrib/legacy<br/>4 files, 15 symbols<br/>Core / utility"]:::default
-    end
-    subgraph lane_12["Tier 13"]
-        direction LR
         n_c6["modules: world_model<br/>70 files, 1086 symbols<br/>Core / utility"]:::cycle
     end
-    subgraph lane_13["Tier 14 - foundation"]
+    subgraph lane_12["Tier 13 - foundation"]
         direction LR
         n_c11["modules: bof_registry<br/>28 files, 468 symbols<br/>Core / utility"]:::cycle
     end
-    n_c0 -->|"4"| n_c5
-    n_c1 ==>|"15"| n_c0
-    n_c10 ==>|"13"| n_c3
-    n_c12 ==>|"6"| n_c7
+    n_c0 ==>|"9"| n_c7
+    n_c1 -->|"3"| n_c4
+    n_c10 -->|"1"| n_c12
+    n_c12 -->|"6"| n_c5
     n_c13 -->|"1"| n_c6
-    n_c14 -->|"1"| n_c4
+    n_c14 -->|"1"| n_c3
     n_c15 -->|"1"| n_c2
     n_c16 -->|"1"| n_c2
     n_c17 -->|"1"| n_c2
-    n_c2 -->|"4"| n_c13
     n_c2 -->|"1"| n_c18
-    n_c3 ==>|"15"| n_c9
-    n_c4 ==>|"18"| n_c2
-    n_c5 -->|"4"| n_c10
+    n_c2 ==>|"19"| n_c3
+    n_c3 -->|"3"| n_c13
+    n_c4 -->|"3"| n_c9
+    n_c5 -->|"1"| n_c14
+    n_c5 ==>|"17"| n_c2
     n_c6 -->|"3"| n_c11
-    n_c7 -->|"1"| n_c14
-    n_c8 ==>|"7"| n_c4
-    n_c9 -->|"1"| n_c12
+    n_c7 ==>|"10"| n_c10
+    n_c8 ==>|"7"| n_c3
+    n_c9 ==>|"10"| n_c0
     n_c1 <-.-|"6 upward"| n_c0
-    n_c0 <-.-|"3 upward"| n_c10
-    n_c1 <-.-|"8 upward"| n_c10
-    n_c2 <-.-|"7 upward"| n_c11
-    n_c3 <-.-|"17 upward"| n_c11
-    n_c4 <-.-|"12 upward"| n_c11
-    n_c5 <-.-|"1 upward"| n_c11
+    n_c4 <-.-|"7 upward"| n_c0
+    n_c9 <-.-|"7 upward"| n_c0
+    n_c0 <-.-|"12 upward"| n_c10
+    n_c1 <-.-|"2 upward"| n_c10
+    n_c4 <-.-|"6 upward"| n_c10
+    n_c7 <-.-|"6 upward"| n_c10
+    n_c9 <-.-|"1 upward"| n_c10
+    n_c2 <-.-|"8 upward"| n_c11
+    n_c3 <-.-|"12 upward"| n_c11
+    n_c5 <-.-|"6 upward"| n_c11
     n_c6 <-.-|"1 upward"| n_c11
+    n_c7 <-.-|"11 upward"| n_c11
     n_c0 <-.-|"2 upward"| n_c12
-    n_c3 <-.-|"1 upward"| n_c12
-    n_c9 <-.-|"1 upward"| n_c12
-    n_c10 <-.-|"1 upward"| n_c13
+    n_c10 <-.-|"1 upward"| n_c12
+    n_c7 <-.-|"1 upward"| n_c12
     n_c2 <-.-|"1 upward"| n_c13
-    n_c3 <-.-|"1 upward"| n_c13
-    n_c3 <-.-|"1 upward"| n_c14
+    n_c7 <-.-|"1 upward"| n_c13
+    n_c9 <-.-|"1 upward"| n_c13
+    n_c7 <-.-|"1 upward"| n_c14
     n_c0 <-.-|"13 upward"| n_c2
     n_c1 <-.-|"7 upward"| n_c2
-    n_c10 <-.-|"4 upward"| n_c2
-    n_c3 <-.-|"48 upward"| n_c2
+    n_c10 <-.-|"1 upward"| n_c2
     n_c4 <-.-|"9 upward"| n_c2
-    n_c5 <-.-|"14 upward"| n_c2
-    n_c7 <-.-|"2 upward"| n_c2
-    n_c9 <-.-|"1 upward"| n_c2
-    n_c0 <-.-|"10 upward"| n_c3
-    n_c1 <-.-|"38 upward"| n_c3
+    n_c5 <-.-|"10 upward"| n_c2
+    n_c7 <-.-|"30 upward"| n_c2
+    n_c9 <-.-|"4 upward"| n_c2
+    n_c0 <-.-|"16 upward"| n_c3
+    n_c1 <-.-|"7 upward"| n_c3
     n_c10 <-.-|"1 upward"| n_c3
-    n_c5 <-.-|"37 upward"| n_c3
-    n_c0 <-.-|"14 upward"| n_c4
-    n_c1 <-.-|"7 upward"| n_c4
-    n_c10 <-.-|"3 upward"| n_c4
-    n_c3 <-.-|"33 upward"| n_c4
-    n_c5 <-.-|"8 upward"| n_c4
-    n_c7 <-.-|"5 upward"| n_c4
-    n_c9 <-.-|"1 upward"| n_c4
+    n_c2 <-.-|"18 upward"| n_c3
+    n_c4 <-.-|"8 upward"| n_c3
+    n_c5 <-.-|"9 upward"| n_c3
+    n_c7 <-.-|"28 upward"| n_c3
+    n_c9 <-.-|"3 upward"| n_c3
+    n_c1 <-.-|"3 upward"| n_c4
     n_c0 <-.-|"10 upward"| n_c5
-    n_c1 <-.-|"3 upward"| n_c5
+    n_c1 <-.-|"10 upward"| n_c5
+    n_c10 <-.-|"6 upward"| n_c5
+    n_c4 <-.-|"4 upward"| n_c5
+    n_c7 <-.-|"21 upward"| n_c5
     n_c0 <-.-|"13 upward"| n_c6
     n_c1 <-.-|"5 upward"| n_c6
-    n_c10 <-.-|"2 upward"| n_c6
-    n_c2 <-.-|"17 upward"| n_c6
-    n_c3 <-.-|"13 upward"| n_c6
-    n_c4 <-.-|"28 upward"| n_c6
-    n_c5 <-.-|"6 upward"| n_c6
-    n_c7 <-.-|"3 upward"| n_c6
-    n_c0 <-.-|"3 upward"| n_c7
-    n_c1 <-.-|"8 upward"| n_c7
-    n_c3 <-.-|"21 upward"| n_c7
-    n_c5 <-.-|"3 upward"| n_c7
+    n_c2 <-.-|"18 upward"| n_c6
+    n_c3 <-.-|"28 upward"| n_c6
+    n_c4 <-.-|"5 upward"| n_c6
+    n_c5 <-.-|"10 upward"| n_c6
+    n_c7 <-.-|"6 upward"| n_c6
+    n_c9 <-.-|"2 upward"| n_c6
+    n_c0 <-.-|"5 upward"| n_c7
+    n_c1 <-.-|"36 upward"| n_c7
+    n_c4 <-.-|"34 upward"| n_c7
     n_c9 <-.-|"1 upward"| n_c7
-    n_c0 <-.-|"12 upward"| n_c9
-    n_c1 <-.-|"2 upward"| n_c9
-    n_c10 <-.-|"1 upward"| n_c9
-    n_c3 <-.-|"7 upward"| n_c9
-    n_c5 <-.-|"6 upward"| n_c9
-    linkStyle 18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71 stroke:#f87171,stroke-width:2px;
-    n_c15 ~~~ n_c0
-    n_c0 ~~~ n_c5
-    n_c5 ~~~ n_c10
-    n_c10 ~~~ n_c3
-    n_c3 ~~~ n_c9
-    n_c9 ~~~ n_c12
-    n_c12 ~~~ n_c7
-    n_c7 ~~~ n_c14
-    n_c14 ~~~ n_c4
-    n_c4 ~~~ n_c2
-    n_c2 ~~~ n_c13
+    n_c1 <-.-|"9 upward"| n_c9
+    n_c4 <-.-|"3 upward"| n_c9
+    linkStyle 19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73 stroke:#f87171,stroke-width:2px;
+    n_c15 ~~~ n_c4
+    n_c4 ~~~ n_c9
+    n_c9 ~~~ n_c0
+    n_c0 ~~~ n_c7
+    n_c7 ~~~ n_c10
+    n_c10 ~~~ n_c12
+    n_c12 ~~~ n_c5
+    n_c5 ~~~ n_c14
+    n_c14 ~~~ n_c3
+    n_c3 ~~~ n_c13
     n_c13 ~~~ n_c6
     n_c6 ~~~ n_c11
 ```

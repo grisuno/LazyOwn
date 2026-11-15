@@ -78,9 +78,9 @@ Per-session CSRF token issuer and validator.
 | [`__init__`](#csrfpolicy-__init__) | constructor |  |
 | [`header`](#csrfpolicy-header) | property | Return the HTTP header name carrying the token. |
 | [`cookie_name`](#csrfpolicy-cookie_name) | property | Return the cookie name that should hold the readable token. |
-| [`issue`](#csrfpolicy-issue) | method | Return the token bound to ``session_id``. |
-| [`rotate`](#csrfpolicy-rotate) | method | Force a fresh token for ``session_id``. |
-| [`forget`](#csrfpolicy-forget) | method | Drop the token bound to ``session_id`` (e.g. on logout). |
+| [`issue`](#csrfpolicy-issue) | method | Return the token bound to `[`session_id`](modules.shell_session_store.py.md#session_id)`. |
+| [`rotate`](#csrfpolicy-rotate) | method | Force a fresh token for `[`session_id`](modules.shell_session_store.py.md#session_id)`. |
+| [`forget`](#csrfpolicy-forget) | method | Drop the token bound to `[`session_id`](modules.shell_session_store.py.md#session_id)` (e.g. on logout). |
 | [`validate`](#csrfpolicy-validate) | method | Return ``True`` iff ``candidate`` matches the stored token. |
 | [`is_exempt`](#csrfpolicy-is_exempt) | method | Return ``True`` if ``path`` is in the exempt set. |
 | [`extract_token`](#csrfpolicy-extract_token) | method | Return the token from a Flask-shaped request. |
@@ -148,7 +148,7 @@ Return the cookie name that should hold the readable token.
 def issue(self, session_id: str) -> str
 ```
 
-Return the token bound to ``session_id``.
+Return the token bound to `[`session_id`](modules.shell_session_store.py.md#session_id)`.
 
 **Parameters**
 
@@ -172,7 +172,7 @@ Return the token bound to ``session_id``.
 def rotate(self, session_id: str) -> str
 ```
 
-Force a fresh token for ``session_id``.
+Force a fresh token for `[`session_id`](modules.shell_session_store.py.md#session_id)`.
 
 **Parameters**
 
@@ -196,7 +196,7 @@ Force a fresh token for ``session_id``.
 def forget(self, session_id: str) -> None
 ```
 
-Drop the token bound to ``session_id`` (e.g. on logout).
+Drop the token bound to `[`session_id`](modules.shell_session_store.py.md#session_id)` (e.g. on logout).
 
 **Parameters**
 

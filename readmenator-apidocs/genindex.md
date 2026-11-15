@@ -6043,6 +6043,7 @@
 - [`get`](modules/modules.ad_gym.py.md#get) function in `modules.ad_gym`
 - [`get`](modules/modules.chain_registry.py.md#get) function in `modules.chain_registry`
 - [`get`](modules/modules.metasploitable_gym.py.md#get) function in `modules.metasploitable_gym`
+- [`get`](modules/modules.shell_session_store.py.md#get) function in `modules.shell_session_store`
 - [`get`](modules/modules.winbox_gym.py.md#get) function in `modules.winbox_gym`
 - [`get_active`](modules/modules.lazy_rbac.py.md#tenantmanager-get_active) method of `TenantManager` in `modules.lazy_rbac`
 - [`get_active_challenge`](modules/modules.redteam_gym.py.md#get_active_challenge) function in `modules.redteam_gym`
@@ -7118,6 +7119,7 @@
 - [`id`](modules/cli.banner_config.py.md#segmentspec-id) attribute of `SegmentSpec` in `cli.banner_config`
 - [`id`](modules/modules.chain_runner.py.md#stepoutcome-id) attribute of `StepOutcome` in `modules.chain_runner`
 - [`id`](modules/cli.surface_graph.py.md#surfacenode-id) attribute of `SurfaceNode` in `cli.surface_graph`
+- [`ID_LENGTH`](modules/modules.shell_session_store.py.md#id_length) constant in `modules.shell_session_store`
 - [`ID_RE`](modules/modules.ad_gym.py.md#id_re) constant in `modules.ad_gym`
 - [`idempotent`](modules/modules.verb_manifest.py.md#verbmanifest-idempotent) attribute of `VerbManifest` in `modules.verb_manifest`
 - [`identifier`](modules/lazygui.services.backend.py.md#backenddescriptor-identifier) attribute of `BackendDescriptor` in `lazygui.services.backend`
@@ -7256,6 +7258,7 @@
 - [`ingest_beacon_recon`](modules/modules.beacon_recon.py.md#ingest_beacon_recon) function in `modules.beacon_recon`
 - [`ingest_campaign_lessons`](modules/modules.lesson_ingestor.py.md#ingest_campaign_lessons) function in `modules.lesson_ingestor`
 - [`ingest_discarded`](modules/modules.sinks.findings.py.md#ingest_discarded) function in `modules.sinks.findings`
+- [`ingest_new`](modules/modules.lesson_ingestor.py.md#lessoningestor-ingest_new) method of `LessonIngestor` in `modules.lesson_ingestor`
 - [`ingest_proxy_traffic`](modules/modules.loop.engine_proxy.py.md#engineproxymixin-ingest_proxy_traffic) method of `EngineProxyMixin` in `modules.loop.engine_proxy`
 - [`ingest_spool`](modules/modules.lazy_sentinel.py.md#ingest_spool) function in `modules.lazy_sentinel`
 - [`ingest_text`](modules/skills.lazyown_facts.py.md#factstore-ingest_text) method of `FactStore` in `skills.lazyown_facts`
@@ -8733,6 +8736,7 @@
 - [`list_service_accounts`](modules/modules.lazyk8s.py.md#k8senumerator-list_service_accounts) method of `K8sEnumerator` in `modules.lazyk8s`
 - [`list_services`](modules/modules.state_manager.py.md#statemanager-list_services) method of `StateManager` in `modules.state_manager`
 - [`list_sessions`](modules/modules.socks_proxy.py.md#socksproxyengine-list_sessions) method of `SocksProxyEngine` in `modules.socks_proxy`
+- [`list_sessions`](modules/modules.shell_session_store.py.md#list_sessions) function in `modules.shell_session_store`
 - [`list_skills`](modules/modules.lazy_skills.py.md#list_skills) function in `modules.lazy_skills`
 - [`list_slots`](modules/modules.c2_profile_engine.py.md#profilerotator-list_slots) method of `ProfileRotator` in `modules.c2_profile_engine`
 - [`list_specs`](modules/skills.lazyown_automapper.py.md#automapper-list_specs) method of `AutoMapper` in `skills.lazyown_automapper`
@@ -9233,6 +9237,7 @@
 - [`map_vulnerabilities`](modules/modules.exploit_chain.py.md#exploitchain-map_vulnerabilities) method of `ExploitChain` in `modules.exploit_chain`
 - [`MARIO`](modules/modules.mario.py.md#mario) constant in `modules.mario`
 - [`mark_all_seen`](modules/cli.toast_bus.py.md#toastbus-mark_all_seen) method of `ToastBus` in `cli.toast_bus`
+- [`mark_closed`](modules/modules.shell_session_store.py.md#mark_closed) function in `modules.shell_session_store`
 - [`mark_confirmed`](modules/modules.credential_reuse.py.md#credentialreuseengine-mark_confirmed) method of `CredentialReuseEngine` in `modules.credential_reuse`
 - [`mark_done`](modules/skills.hermes-lazyown.hermes_sync.py.md#objectivetodosync-mark_done) method of `ObjectiveTodoSync` in `skills.hermes-lazyown.hermes_sync`
 - [`mark_done`](modules/cli.tutorial.py.md#mark_done) function in `cli.tutorial`
@@ -11989,6 +11994,7 @@
 - [`register`](modules/lazyc2.py.md#register) function in `lazyc2`
 - [`register`](modules/lazyc2.blueprints.auth.py.md#register) function in `lazyc2.blueprints.auth`
 - [`register`](modules/modules.cli_auth.py.md#register) function in `modules.cli_auth`
+- [`register`](modules/modules.shell_session_store.py.md#register) function in `modules.shell_session_store`
 - [`register_action_handler`](modules/modules.conditional_hooks.py.md#hookengine-register_action_handler) method of `HookEngine` in `modules.conditional_hooks`
 - [`register_activity_log_factory`](modules/modules.mediation.intel_mediator.py.md#intelmediator-register_activity_log_factory) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`register_all_adversary_commands`](modules/lazyown.py.md#lazyownshell-register_all_adversary_commands) method of `LazyOwnShell` in `lazyown`
@@ -12483,6 +12489,7 @@
 - [`resume`](modules/modules.guardrails.advisories.py.md#featuregate-resume) method of `FeatureGate` in `modules.guardrails.advisories`
 - [`resume`](modules/modules.operation.py.md#operationmanager-resume) method of `OperationManager` in `modules.operation`
 - [`resume`](modules/modules.lazy_loop.py.md#taskstore-resume) method of `TaskStore` in `modules.lazy_loop`
+- [`resume`](modules/modules.shell_session_store.py.md#resume) function in `modules.shell_session_store`
 - [`resume_all`](modules/modules.guardrails.advisories.py.md#featuregate-resume_all) method of `FeatureGate` in `modules.guardrails.advisories`
 - [`resume_run_id`](modules/cli.apt_chain_support.py.md#chainargs-resume_run_id) attribute of `ChainArgs` in `cli.apt_chain_support`
 - [`resume_task`](modules/modules.lazy_loop.py.md#lazyloopengine-resume_task) method of `LazyLoopEngine` in `modules.lazy_loop`
@@ -13376,6 +13383,7 @@
 - [`session_id`](modules/modules.auto_purple.py.md#purpleresult-session_id) attribute of `PurpleResult` in `modules.auto_purple`
 - [`SESSION_ID`](modules/lazyc2.py.md#session_id) constant in `lazyc2`
 - [`session_id`](modules/modules.socks_proxy.py.md#sockssession-session_id) attribute of `SocksSession` in `modules.socks_proxy`
+- [`session_id`](modules/modules.shell_session_store.py.md#session_id) function in `modules.shell_session_store`
 - [`session_key`](modules/modules.llm_pool.py.md#llmpool-session_key) method of `LLMPool` in `modules.llm_pool`
 - [`SESSION_KEY`](modules/lazyc2.security.csrf_flow.py.md#session_key) constant in `lazyc2.security.csrf_flow`
 - [`session_key`](modules/modules.kerberos_core.py.md#tgsrequest-session_key) attribute of `TGSRequest` in `modules.kerberos_core`
@@ -14316,6 +14324,7 @@
 - [`status_bar_default_action`](modules/cli.commands.orchestration.py.md#orchestrationconfig-status_bar_default_action) attribute of `OrchestrationConfig` in `cli.commands.orchestration`
 - [`status_by_id`](modules/modules.ttp_coverage.py.md#ttpcoverage-status_by_id) method of `TTPCoverage` in `modules.ttp_coverage`
 - [`status_changed`](modules/lazygui.services.backend.py.md#backend-status_changed) attribute of `Backend` in `lazygui.services.backend`
+- [`STATUS_CLOSED`](modules/modules.shell_session_store.py.md#status_closed) constant in `modules.shell_session_store`
 - [`status_cmd`](modules/telegram_hermes.py.md#status_cmd) function in `telegram_hermes`
 - [`status_code`](modules/skills.lazyown_facts.py.md#discoveredpath-status_code) attribute of `DiscoveredPath` in `skills.lazyown_facts`
 - [`status_code`](modules/lazyc2.security.https_redirect.py.md#redirectresponse-status_code) attribute of `RedirectResponse` in `lazyc2.security.https_redirect`
@@ -14325,11 +14334,13 @@
 - [`STATUS_FILE`](modules/skills.autonomous_daemon.py.md#status_file) constant in `skills.autonomous_daemon`
 - [`STATUS_FILE`](modules/skills.lazyown_daemon.py.md#status_file) constant in `skills.lazyown_daemon`
 - [`STATUS_INSUFFICIENT`](modules/modules.hunt_verify.py.md#status_insufficient) constant in `modules.hunt_verify`
+- [`STATUS_LIVE`](modules/modules.shell_session_store.py.md#status_live) constant in `modules.shell_session_store`
 - [`status_manager_attribute`](modules/cli.commands.orchestration.py.md#orchestrationconfig-status_manager_attribute) attribute of `OrchestrationConfig` in `cli.commands.orchestration`
 - [`STATUS_PENDING`](modules/modules.chain_approval.py.md#status_pending) constant in `modules.chain_approval`
 - [`status_report`](modules/modules.moe_router.py.md#moerouter-status_report) method of `MoERouter` in `modules.moe_router`
 - [`status_rows`](modules/cli.wizard_scope.py.md#status_rows) function in `cli.wizard_scope`
 - [`status_snapshot`](modules/cli.retry_support.py.md#status_snapshot) function in `cli.retry_support`
+- [`STATUS_STALE`](modules/modules.shell_session_store.py.md#status_stale) constant in `modules.shell_session_store`
 - [`status_text`](modules/skills.lazyown_claudemd.py.md#claudemdloader-status_text) method of `ClaudeMdLoader` in `skills.lazyown_claudemd`
 - [`status_text`](modules/skills.lazyown_permissions.py.md#permissionsystem-status_text) method of `PermissionSystem` in `skills.lazyown_permissions`
 - [`status_text`](modules/skills.lazyown_session.py.md#sessiontranscript-status_text) method of `SessionTranscript` in `skills.lazyown_session`

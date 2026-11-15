@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **77.3%** (8489 of 10976 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **77.4%** (8497 of 10984 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -13,10 +13,10 @@ Overall: **77.3%** (8489 of 10976 public modules, types, and callables). Data me
 | constructor | 229 | 547 | 41.9% |
 | enum | 32 | 41 | 78.0% |
 | exception | 41 | 43 | 95.3% |
-| function | 2472 | 3407 | 72.6% |
+| function | 2478 | 3413 | 72.6% |
 | macro | 2 | 114 | 1.8% |
-| method | 3054 | 3743 | 81.6% |
-| module | 1005 | 1136 | 88.5% |
+| method | 3055 | 3744 | 81.6% |
+| module | 1006 | 1137 | 88.5% |
 | property | 169 | 212 | 79.7% |
 | protocol | 23 | 23 | 100.0% |
 | staticmethod | 84 | 96 | 87.5% |
@@ -273,7 +273,6 @@ Overall: **77.3%** (8489 of 10976 public modules, types, and callables). Data me
 | [`modules.dpapi_harvester`](modules/modules.dpapi_harvester.py.md) | 6 | 8 | 75.0% |
 | [`modules.ia_logs_analysis`](modules/modules.ia_logs_analysis.py.md) | 6 | 8 | 75.0% |
 | [`modules/lazycurl.sh`](modules/modules.lazycurl.sh.md) | 3 | 4 | 75.0% |
-| [`modules.lesson_ingestor`](modules/modules.lesson_ingestor.py.md) | 6 | 8 | 75.0% |
 | [`modules.resource_script`](modules/modules.resource_script.py.md) | 9 | 12 | 75.0% |
 | [`scripts.activate_migrations`](modules/scripts.activate_migrations.py.md) | 6 | 8 | 75.0% |
 | [`skills.lazyown_context`](modules/skills.lazyown_context.py.md) | 9 | 12 | 75.0% |
@@ -283,6 +282,7 @@ Overall: **77.3%** (8489 of 10976 public modules, types, and callables). Data me
 | [`core.protocols`](modules/core.protocols.py.md) | 10 | 13 | 76.9% |
 | [`cli.commands.security`](modules/cli.commands.security.py.md) | 7 | 9 | 77.8% |
 | [`modules.conditional_hooks`](modules/modules.conditional_hooks.py.md) | 14 | 18 | 77.8% |
+| [`modules.lesson_ingestor`](modules/modules.lesson_ingestor.py.md) | 7 | 9 | 77.8% |
 | [`skills.hermes-lazyown.executor`](modules/skills.hermes-lazyown.executor.py.md) | 7 | 9 | 77.8% |
 | [`skills.lazyown_automapper`](modules/skills.lazyown_automapper.py.md) | 7 | 9 | 77.8% |
 | [`skills.lazyown_claudemd`](modules/skills.lazyown_claudemd.py.md) | 7 | 9 | 77.8% |
@@ -888,6 +888,7 @@ Overall: **77.3%** (8489 of 10976 public modules, types, and callables). Data me
 | [`modules.service_aliases`](modules/modules.service_aliases.py.md) | 1 | 1 | 100.0% |
 | [`modules.session_cleanup`](modules/modules.session_cleanup.py.md) | 4 | 4 | 100.0% |
 | [`modules.session_state`](modules/modules.session_state.py.md) | 4 | 4 | 100.0% |
+| [`modules.shell_session_store`](modules/modules.shell_session_store.py.md) | 7 | 7 | 100.0% |
 | [`modules.sidequest`](modules/modules.sidequest.py.md) | 5 | 5 | 100.0% |
 | [`modules.sidequestion`](modules/modules.sidequestion.py.md) | 10 | 10 | 100.0% |
 | [`modules.sinks`](modules/modules.sinks.__init__.py.md) | 1 | 1 | 100.0% |

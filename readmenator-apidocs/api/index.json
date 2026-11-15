@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 1136,
-  "entities": 17445,
+  "modules": 1137,
+  "entities": 17457,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 9,
    "lua": 26,
    "php": 4,
-   "py": 1017,
+   "py": 1018,
    "sh": 61
   },
   "kinds": {
    "attribute": 4655,
    "class": 1505,
    "classmethod": 85,
-   "constant": 1802,
+   "constant": 1806,
    "constructor": 547,
    "enum": 41,
    "exception": 43,
-   "function": 3407,
+   "function": 3413,
    "macro": 114,
-   "method": 3743,
-   "module": 1136,
+   "method": 3744,
+   "module": 1137,
    "property": 212,
    "protocol": 23,
    "staticmethod": 96,
@@ -36,14 +36,14 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 491,
+  "skipped_files": 497,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 8489,
-   "total": 10976,
-   "percent": 77.3
+   "documented": 8497,
+   "total": 10984,
+   "percent": 77.4
   },
   "by_kind": {
    "class": {
@@ -72,8 +72,8 @@
     "percent": 95.3
    },
    "function": {
-    "documented": 2472,
-    "total": 3407,
+    "documented": 2478,
+    "total": 3413,
     "percent": 72.6
    },
    "macro": {
@@ -82,13 +82,13 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 3054,
-    "total": 3743,
+    "documented": 3055,
+    "total": 3744,
     "percent": 81.6
    },
    "module": {
-    "documented": 1005,
-    "total": 1136,
+    "documented": 1006,
+    "total": 1137,
     "percent": 88.5
    },
    "property": {
@@ -3199,9 +3199,9 @@
     "percent": 100.0
    },
    "modules/lesson_ingestor.py": {
-    "documented": 6,
-    "total": 8,
-    "percent": 75.0
+    "documented": 7,
+    "total": 9,
+    "percent": 77.8
    },
    "modules/lilsplunky.py": {
     "documented": 13,
@@ -3836,6 +3836,11 @@
    "modules/session_state.py": {
     "documented": 4,
     "total": 4,
+    "percent": 100.0
+   },
+   "modules/shell_session_store.py": {
+    "documented": 7,
+    "total": 7,
     "percent": 100.0
    },
    "modules/sidequest.py": {
@@ -8884,7 +8889,7 @@
   {
    "uid": "modules/lesson_ingestor.py",
    "path": "modules/modules.lesson_ingestor.py.jsonl",
-   "entities": 14
+   "entities": 15
   },
   {
    "uid": "modules/lilsplunky.py",
@@ -9520,6 +9525,11 @@
    "uid": "modules/session_state.py",
    "path": "modules/modules.session_state.py.jsonl",
    "entities": 10
+  },
+  {
+   "uid": "modules/shell_session_store.py",
+   "path": "modules/modules.shell_session_store.py.jsonl",
+   "entities": 11
   },
   {
    "uid": "modules/sidequest.py",

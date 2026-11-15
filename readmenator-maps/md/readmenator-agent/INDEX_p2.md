@@ -49,7 +49,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 25 | 25 |
 | `modules/kivi.py` | - | modules | 3 | 0 |
 | `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 19 | 3 |
-| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 4 |
+| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 5 |
 | `modules/lazy_autofire.py` | Lazy autofire: exploit intelligence closing the loop into chains. | modules | 13 | 1 |
 | `modules/lazy_blindspot.py` | Blindspot review contract for the lazy autonomous loop. | modules | 10 | 2 |
 | `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 7 |
@@ -73,7 +73,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
 | `modules/lazy_inventory.py` | Host-reported inventory for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_ledger.py` | Freshness ledger: TTL windows per verb and target for the loop worker. | modules | 11 | 3 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 481 | 97 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 484 | 97 |
 | `modules/lazy_match_policy.py` | Match policy doctrine: what may claim a match and what stays a lead. | modules | 14 | 1 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_netattack.py` | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | modules | 12 | 1 |
@@ -127,7 +127,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazyvpnshield.sh` | Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0 | modules | 7 | 0 |
 | `modules/lazywps.sh` | - | modules | 1 | 0 |
 | `modules/legacy/__init__.py` | Backward-compatibility shims for deprecated scripts. | misc | 0 | 0 |
-| `modules/lesson_ingestor.py` | Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter. | modules | 11 | 2 |
+| `modules/lesson_ingestor.py` | Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter. | modules | 16 | 5 |
 | `modules/lilsplunky.py` | Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: AGPL v3... | modules | 14 | 0 |
 | `modules/linux_advanced_payloads.py` | Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants. | modules | 17 | 1 |
 | `modules/listener_manager.py` | Multi-listener manager for LazyOwn C2. | modules | 22 | 2 |
@@ -150,7 +150,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/loop/worker_gating.py` | WorkerGatingMixin: Scope, operating-system and privilege gates for a loop worker. | loop | 7 | 1 |
 | `modules/loop/worker_memory.py` | WorkerMemoryMixin: Durable and in-session memory behaviour for a loop worker. | loop | 7 | 1 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 28 | 7 |
-| `modules/loop_audit.py` | Operator audit trail for autonomous loop runs. | modules | 35 | 0 |
+| `modules/loop_audit.py` | Operator audit trail for autonomous loop runs. | modules | 36 | 1 |
 | `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 49 | 9 |
 | `modules/loop_limits.py` | Canonical operating limits for the autonomous loop. | modules | 0 | 3 |
 | `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 34 | 3 |
@@ -255,6 +255,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/session_rag.py` | — ChromaDB-backed RAG over sessions/ artefacts. | modules | 24 | 7 |
 | `modules/session_reader.py` | modules/session_reader.py | modules | 29 | 4 |
 | `modules/session_state.py` | LazyOwn Session State | modules | 9 | 1 |
+| `modules/shell_session_store.py` | Resumable, hash-identified shell session descriptors. | modules | 12 | 2 |
 | `modules/sidequest.py` | Read-only side questions against the loop's immutable decision checkpoints. | modules | 6 | 0 |
 | `modules/sidequestion.py` | Isolated side-question answering against immutable snapshots. | modules | 9 | 2 |
 | `modules/sinks/__init__.py` | Outcome sink adapters. | sinks | 0 | 2 |
@@ -388,7 +389,7 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/validate_agent_contract.sh` | CI validation of the AGENTS.md branching model and coding standards. | scripts | 5 | 0 |
 | `setup.py` | Compatibility shim for legacy ``python setup.py`` invocations. | root | 0 | 0 |
 | `skills/aci_planner.py` | Autonomous Campaign Intelligence (ACI) Planner | skills | 42 | 5 |
-| `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 142 | 25 |
+| `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 142 | 27 |
 | `skills/autonomous_replay.py` | Deterministic replay of past autonomous-daemon runs. | skills | 19 | 1 |
 | `skills/claude_md_orchestrator/__init__.py` | Public API for the claude_md_orchestrator skill. | claude_md_orchestrator | 0 | 1 |
 | `skills/claude_md_orchestrator/bdd_agent.py` | Behavior-Driven Development agent. | claude_md_orchestrator | 8 | 0 |
@@ -495,6 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/daemon_resume.py` | MCP tool ``lazyown_daemon_resume`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/daemon_status.py` | MCP tool ``lazyown_daemon_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/daemon_veto.py` | MCP tool ``lazyown_daemon_veto`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/dashboard_snapshot.py` | MCP tool ``lazyown_dashboard_snapshot``: render the live network map. | mcp_tools | 1 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

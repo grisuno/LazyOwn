@@ -830,8 +830,8 @@
 {"code":"DOC001","uid":"modules/auto_purple.py::IPurpleEvaluator.category_accuracy","file":"modules/auto_purple.py","line":217,"message":"method IPurpleEvaluator.category_accuracy is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.last_results","file":"modules/auto_purple.py","line":596,"message":"method PurpleTeamLoop.last_results is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.category_accuracy","file":"modules/auto_purple.py","line":599,"message":"method PurpleTeamLoop.category_accuracy is not documented"}
-{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1052,"message":"return value of execute_shell_verb is not documented"}
-{"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":134,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
+{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":1070,"message":"return value of execute_shell_verb is not documented"}
+{"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":140,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/aws_attacks.py::AWSAttackEngine.summary","file":"modules/aws_attacks.py","line":293,"message":"method AWSAttackEngine.summary is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c","file":"modules/backdoor/backdoor.c","line":1,"message":"module modules/backdoor/backdoor.c is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c::bzero","file":"modules/backdoor/backdoor.c","line":14,"message":"macro bzero is not documented"}
@@ -1105,12 +1105,12 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1998,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7847,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9249,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9272,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9272,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10739,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":2016,"message":"ActivityLog.trace raises KeyError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7867,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9269,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9292,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9292,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10820,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -1237,7 +1237,7 @@
 {"code":"DOC001","uid":"modules/lazyvpnshield.sh::main","file":"modules/lazyvpnshield.sh","line":113,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/lazywps.sh","file":"modules/lazywps.sh","line":1,"message":"module modules/lazywps.sh is not documented"}
 {"code":"DOC001","uid":"modules/lazywps.sh::ctrl_c","file":"modules/lazywps.sh","line":9,"message":"function ctrl_c is not documented"}
-{"code":"DOC001","uid":"modules/lesson_ingestor.py::LessonLearned.from_dict","file":"modules/lesson_ingestor.py","line":66,"message":"classmethod LessonLearned.from_dict is not documented"}
+{"code":"DOC001","uid":"modules/lesson_ingestor.py::LessonLearned.from_dict","file":"modules/lesson_ingestor.py","line":67,"message":"classmethod LessonLearned.from_dict is not documented"}
 {"code":"DOC001","uid":"modules/lilsplunky.py::parse_args","file":"modules/lilsplunky.py","line":446,"message":"function parse_args is not documented"}
 {"code":"DOC001","uid":"modules/linux_advanced_payloads.py::LinuxAdvancedPayloadFactory.list_hook_functions","file":"modules/linux_advanced_payloads.py","line":793,"message":"staticmethod LinuxAdvancedPayloadFactory.list_hook_functions is not documented"}
 {"code":"DOC001","uid":"modules/linux_advanced_payloads.py::LinuxAdvancedPayloadFactory.list_persistence_methods","file":"modules/linux_advanced_payloads.py","line":797,"message":"staticmethod LinuxAdvancedPayloadFactory.list_persistence_methods is not documented"}

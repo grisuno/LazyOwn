@@ -1,7 +1,8 @@
-# Architecture (page 11 of 11)
+# Architecture (page 11 of 12)
 Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 
 ## External Imports (continued)
+- `skills/mcp_tools/winbox_exec.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_gym_list.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_gym_plan.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_gym_run.py` -> __future__, json, mcp, typing
@@ -84,6 +85,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_audit_remediation.py` -> __future__, json, pathlib, pytest
 - `tests/test_auto_crypto.py` -> __future__, builtins, pathlib, pytest, tempfile, types
 - `tests/test_auto_loop_memory.py` -> __future__, pathlib, pytest
+- `tests/test_auto_pwn_coverage.py` -> __future__, pathlib, sys, time
 - `tests/test_auto_pwn_success.py` -> __future__, pytest
 - `tests/test_auto_registry.py` -> __future__, pathlib, pytest, sys, threading, time
 - `tests/test_autonomous_ops.py` -> __future__
@@ -180,6 +182,8 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_daemon_control.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_daemon_ctl_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_daemon_loop.py` -> __future__, asyncio, json, pathlib, sys
+- `tests/test_daemon_shell_detector.py` -> __future__, pathlib, sys
+- `tests/test_daemon_step_reward.py` -> __future__, pathlib, sys
 - `tests/test_dashboard_routes.py` -> __future__, csv, flask, flask_login, json, pathlib, pytest
 - `tests/test_dashboard_tui.py` -> __future__, csv, json, pathlib, sys, unittest.mock
 - `tests/test_db.py` -> __future__, csv, io, pathlib, pytest, tempfile
@@ -301,6 +305,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_lazyshortener.py` -> __future__, pytest, requests
 - `tests/test_legacy_shims.py` -> __future__, pathlib, re
 - `tests/test_lesson_ingestor.py` -> __future__, json, unittest.mock
+- `tests/test_lesson_ingestor_startup.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_lint_quality.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_live_surface.py` -> __future__, pathlib, sys
 - `tests/test_llm_adapter_parity.py` -> __future__, json, os, pytest, types
@@ -313,6 +318,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_logging_config.py` -> __future__, logging.handlers, pathlib, sys
 - `tests/test_loop_ai_bridge.py` -> __future__, pytest, types
 - `tests/test_loop_audit.py` -> __future__, json, pytest
+- `tests/test_loop_audit_feedback.py` -> __future__, pathlib, pytest, sys
 - `tests/test_loop_auto_orchestrator.py` -> __future__, ast, builtins, pathlib
 - `tests/test_loop_broadcast.py` -> __future__
 - `tests/test_loop_budget.py` -> __future__, pytest
@@ -445,6 +451,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest
 - `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
 - `tests/test_shell_semantics.py` -> __future__
+- `tests/test_shell_session_store.py` -> __future__, pathlib, pytest, sys
 - `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
 - `tests/test_sidequest.py` -> __future__
@@ -489,11 +496,5 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
 - `tests/test_writeback_hygiene.py` -> __future__
 - `tests/test_xss_sanitization.py` -> __future__, pathlib, re
-- `tools/contract_check.py` -> __future__, ast, pathlib, sys
-- `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
-- `tools/gen_demo_gifs.py` -> PIL, os
-- `tools/gen_demo_gifs_extra.py` -> os, sys
-- `tools/generate_metasploitable_gym.py` -> __future__, pathlib, yaml
-- `tools/set_lazyaddon_updates.py` -> __future__, argparse, pathlib, re, yaml
-- `utils.py` -> argparse, base64, binascii, bisect, bs4, concurrent.futures, csv, ctypes, curses, datetime, glob, gzip, hashlib, importlib.util, io, itertools, json, os, pathlib, random, re, readline, requests, requests.exceptions, rich.panel, rich.text, secrets, shlex, shutil, signal, socket, ssl, string, struct, subprocess, sys, tempfile, threading, time, urllib.parse, urllib.request, uuid, xml.etree.ElementTree, yaml
 
+Next: [ARCHITECTURE_p12.md](ARCHITECTURE_p12.md)

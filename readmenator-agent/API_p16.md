@@ -353,12 +353,14 @@ Imported by: `modules/lazypoophish.py`
 
 ## modules/lesson_ingestor.py
 Depends on: `core/logging.py`, `modules/moe_router.py`, `modules/rl_trainer.py`
-Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
-- `LessonLearned.from_dict` (method) `modules/lesson_ingestor.py:66` `def from_dict(cls, d)`
-- `LessonIngestor.__init__` (method) `modules/lesson_ingestor.py:86` `def __init__(self, lessons_file, router, trainer, boost_reward)`
-- `LessonIngestor.ingest` (method) `modules/lesson_ingestor.py:125` `def ingest(self, lesson)` -- Apply a single lesson to the MoE performance store and RL Q-table.
-- `LessonIngestor.ingest_all` (method) `modules/lesson_ingestor.py:185` `def ingest_all(self, lessons)` -- Ingest a batch of lessons.
-- `ingest_campaign_lessons` (function) `modules/lesson_ingestor.py:222` `def ingest_campaign_lessons(lessons_file)` -- Module-level convenience function to ingest all campaign lessons.
+Imported by: `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`, `tests/test_lesson_ingestor_startup.py`
+- `LessonLearned.from_dict` (method) `modules/lesson_ingestor.py:67` `def from_dict(cls, d)`
+- `LessonIngestor.__init__` (method) `modules/lesson_ingestor.py:87` `def __init__(self, lessons_file, router, trainer, boost_reward, seen_file)`
+- `LessonIngestor.ingest` (method) `modules/lesson_ingestor.py:128` `def ingest(self, lesson)` -- Apply a single lesson to the MoE performance store and RL Q-table.
+- `LessonIngestor.ingest_all` (method) `modules/lesson_ingestor.py:188` `def ingest_all(self, lessons)` -- Ingest a batch of lessons.
+- `LessonIngestor.ingest_new` (method) `modules/lesson_ingestor.py:236` `def ingest_new(self)` -- Ingest only lessons not boosted before, so each boosts exactly once.
+- `ingest_campaign_lessons` (function) `modules/lesson_ingestor.py:285` `def ingest_campaign_lessons(lessons_file)` -- Module-level convenience function to ingest all campaign lessons.
+- `ingest_new_campaign_lessons` (function) `modules/lesson_ingestor.py:300` `def ingest_new_campaign_lessons(lessons_file)` -- Ingest only lessons not boosted before (idempotent across loops).
 
 ## modules/lilsplunky.py
 Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`

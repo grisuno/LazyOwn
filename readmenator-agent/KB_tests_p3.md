@@ -1,4 +1,4 @@
-# Subsystem: tests (page 3 of 26)
+# Subsystem: tests (page 3 of 27)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
 
 ## tests/test_attack_surface_addons.py
@@ -172,6 +172,24 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_duplicates_deduped` (method, line 149) `def test_duplicates_deduped(self)`
   - `test_empty_command_rejected` (method, line 155) `def test_empty_command_rejected(self)`
 - Depends on: `modules/auto_loop_memory.py`, `modules/selector_manager.py`
+
+## tests/test_auto_pwn_coverage.py
+- Doc: Coverage mode: the engine exercises every Metasploitable path, not just one.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_profile` (function, line 27) `def _profile()`
+  - `_candidates` (function, line 31) `def _candidates(n)`
+  - `_engine` (function, line 35) `def _engine(monkeypatch, candidates, shell_at)`
+  - `test_default_hunt_stops_at_first_shell` (function, line 51) `def test_default_hunt_stops_at_first_shell(monkeypatch)`
+  - `test_coverage_hunt_exercises_every_vector` (function, line 58) `def test_coverage_hunt_exercises_every_vector(monkeypatch)`
+  - `test_coverage_hunt_counts_all_shells` (function, line 66) `def test_coverage_hunt_counts_all_shells(monkeypatch)`
+  - `test_atomic_specs_surface_port_based_vectors` (function, line 73) `def test_atomic_specs_surface_port_based_vectors()`
+  - `test_rank_skips_noise_service_flood` (function, line 92) `def test_rank_skips_noise_service_flood()`
+  - `test_coverage_bounded_vector_does_not_stall` (function, line 105) `def test_coverage_bounded_vector_does_not_stall(monkeypatch)`
+  - `fake_exec` (function, line 42) `def fake_exec(candidate, profile)`
+  - `exec_maybe_hang` (function, line 117) `def exec_maybe_hang(candidate, profile)`
+- Depends on: `modules/__init__.py`, `modules/autonomous_exploit_engine.py`
 
 ## tests/test_auto_pwn_success.py
 - Doc: auto_pwn success contract: precise evidence, never recon noise.
@@ -473,23 +491,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_rejects_newline_in_bof_name` (method, line 244) `def test_rejects_newline_in_bof_name(self)`
   - `test_rejects_space_in_bof_name` (method, line 248) `def test_rejects_space_in_bof_name(self)`
 - Depends on: `modules/beacon_config_builder.py`
-
-## tests/test_beacon_history.py
-- Doc: BDD-style tests for persistent beacon command/result history storage.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_config` (function, line 19) `def _config(tmp_path)`
-  - `TestSanitization` (class, line 23) `class TestSanitization`
-  - `TestAppendRead` (class, line 38) `class TestAppendRead`
-  - `test_sanitize_client_id_strips_unsafe_chars` (method, line 24) `def test_sanitize_client_id_strips_unsafe_chars(self)`
-  - `test_records_path_is_bounded_inside_sessions` (method, line 29) `def test_records_path_is_bounded_inside_sessions(self, tmp_path)`
-  - `test_append_then_read_round_trips` (method, line 39) `def test_append_then_read_round_trips(self, tmp_path)`
-  - `test_multiple_beacons_do_not_interleave` (method, line 50) `def test_multiple_beacons_do_not_interleave(self, tmp_path)`
-  - `test_skips_malformed_lines` (method, line 59) `def test_skips_malformed_lines(self, tmp_path)`
-  - `test_missing_history_reads_empty` (method, line 72) `def test_missing_history_reads_empty(self, tmp_path)`
-  - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
-- Depends on: `modules/beacon_history.py`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

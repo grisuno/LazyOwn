@@ -3,6 +3,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `skills/mcp_tools/dashboard_snapshot.py` | MCP tool ``lazyown_dashboard_snapshot``: render the live network map. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/db.py` | MCP tool ``lazyown_db``: query and mutate the LazyOwn SQLite database. | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/delete_param.py` | MCP tool ``lazyown_delete_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/deploy_beacon.py` | MCP tool ``lazyown_deploy_beacon`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
@@ -230,6 +231,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_audit_remediation.py` | Audit-remediation contract tests (P0-P4). | tests | 28 | 0 |
 | `tests/test_auto_crypto.py` | Tests for cli.auto_crypto — automatic session data encryption. | tests | 22 | 0 |
 | `tests/test_auto_loop_memory.py` | BDD tests for the auto-loop persistent memory and selector cascade. | tests | 19 | 0 |
+| `tests/test_auto_pwn_coverage.py` | Coverage mode: the engine exercises every Metasploitable path, not just one. | tests | 11 | 0 |
 | `tests/test_auto_pwn_success.py` | auto_pwn success contract: precise evidence, never recon noise. | tests | 12 | 0 |
 | `tests/test_auto_registry.py` | Auto-verb registry: loop-ready automation commands. | tests | 20 | 0 |
 | `tests/test_autonomous_ops.py` | BDD scoped tests for integrated autonomous operations C04-C10. | tests | 15 | 0 |
@@ -326,6 +328,8 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_daemon_control.py` | Unit tests for skills.daemon_control. | tests | 29 | 0 |
 | `tests/test_daemon_ctl_command_set.py` | Daemon command set extraction tests. | tests | 9 | 0 |
 | `tests/test_daemon_loop.py` | BDD tests for the integrated autonomous loop in the daemon. | tests | 30 | 0 |
+| `tests/test_daemon_shell_detector.py` | Contract: the daemon shell detector agrees with the canonical detector. | tests | 8 | 0 |
+| `tests/test_daemon_step_reward.py` | Contract: the daemon step reward grants the shell tier via the canonical detector. | tests | 5 | 0 |
 | `tests/test_dashboard_routes.py` | Integration tests for dashboard_bp loot and timeline routes. | tests | 29 | 0 |
 | `tests/test_dashboard_tui.py` | Tests for cli/dashboard_tui.py. | tests | 23 | 0 |
 | `tests/test_db.py` | Tests for modules.db — LazyOwnDB SQLite layer. | tests | 13 | 0 |
@@ -435,7 +439,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_streaming.py` | Token-level streaming: factory, pool deltas, agent reassembly. | tests | 17 | 0 |
 | `tests/test_lazy_timeline.py` | BDD tests for the engagement timeline snapshots, diffs and zombies. | tests | 12 | 0 |
 | `tests/test_lazy_triage.py` | Lazy triage doctrine: evidence floor algebra and signature dedup. | tests | 11 | 0 |
-| `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 21 | 0 |
+| `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 26 | 0 |
 | `tests/test_lazy_world_diff.py` | World-surface diff contract: snapshots, changes, ghost liveness, stats. | tests | 18 | 0 |
 | `tests/test_lazydorks.py` | Tests for modules.lazydorks — target-aware dork generator. | tests | 12 | 0 |
 | `tests/test_lazygui_backend.py` | Tests for lazygui backend services. | tests | 59 | 0 |
@@ -448,6 +452,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazyshortener.py` | Tests for modules.lazyshortener — keyless URL shortener bridge. | tests | 14 | 0 |
 | `tests/test_legacy_shims.py` | Legacy shim contract plus referenced-script existence. | tests | 5 | 0 |
 | `tests/test_lesson_ingestor.py` | Tests for modules/lesson_ingestor.py. | tests | 11 | 0 |
+| `tests/test_lesson_ingestor_startup.py` | Loop-to-loop learning: new campaign lessons feed the RL/MoE once per lesson. | tests | 11 | 0 |
 | `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
 | `tests/test_live_surface.py` | Tests for modules/live_surface.py. | tests | 10 | 0 |
 | `tests/test_llm_adapter_parity.py` | Parity contract tests for the self-contained Groq adapter family. | tests | 42 | 0 |
@@ -458,8 +463,9 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_llm_orchestrator.py` | SDD spec and BDD scenarios for the orchestrator-governed LLM failover chain. | tests | 89 | 0 |
 | `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
 | `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
-| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 33 | 0 |
+| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 35 | 0 |
 | `tests/test_loop_audit.py` | Loop audit trail: timeline events, step context and rendering. | tests | 12 | 0 |
+| `tests/test_loop_audit_feedback.py` | Traceability feeds the process: repeatedly gate-blocked verbs become vetoes. | tests | 6 | 0 |
 | `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
 | `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
 | `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
@@ -490,11 +496,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_target_authority.py` | Target authority: --target rebinds payload rhost and scope. | tests | 13 | 0 |
 | `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
-| `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
-| `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one runner, no dual engines. | tests | 13 | 0 |
-| `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 11 | 0 |
-| `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
-| `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
-| `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
 
 Next: [INDEX_p4.md](INDEX_p4.md)

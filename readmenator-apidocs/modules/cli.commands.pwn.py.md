@@ -135,13 +135,16 @@ def do_auto_pwn(self, line)
 Run the full autonomous exploitation chain against the target.
 
 Usage:
-    auto_pwn [target_ip] [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
+    auto_pwn [target_ip] [--all] [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
 
 Executes recon, vulnerability scanning, exploit selection,
 exploitation, optional privilege escalation and auto-pivoting.
 The optional positional target overrides payload ``rhost`` so
 deterministic callers (autonomous loop, chains) can point the
-engine at a scoped host without mutating payload.json.
+engine at a scoped host without mutating payload.json. ``--all``
+enables coverage mode: every ranked vector is exploited and
+recorded instead of stopping at the first shell, so a gym run
+exercises all of the target's Metasploitable paths.
 
 **Parameters**
 
@@ -155,7 +158,7 @@ engine at a scoped host without mutating payload.json.
 
 #### `PwnCommandSet.do_rich_tui`
 
-`method` | [cli/commands/pwn.py:132](../../cli/commands/pwn.py#L132)
+`method` | [cli/commands/pwn.py:138](../../cli/commands/pwn.py#L138)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -184,7 +187,7 @@ pivots and beacons. Press 'q' to quit.
 
 #### `PwnCommandSet.do_exploit_chain`
 
-`method` | [cli/commands/pwn.py:181](../../cli/commands/pwn.py#L181)
+`method` | [cli/commands/pwn.py:187](../../cli/commands/pwn.py#L187)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -213,7 +216,7 @@ strategy automatically.
 
 #### `PwnCommandSet.do_lolbas_list`
 
-`method` | [cli/commands/pwn.py:268](../../cli/commands/pwn.py#L268)
+`method` | [cli/commands/pwn.py:274](../../cli/commands/pwn.py#L274)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -241,7 +244,7 @@ binaries and scripts to bypass security controls.
 
 #### `PwnCommandSet.do_lolbas_use`
 
-`method` | [cli/commands/pwn.py:325](../../cli/commands/pwn.py#L325)
+`method` | [cli/commands/pwn.py:331](../../cli/commands/pwn.py#L331)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -268,7 +271,7 @@ Example: lolbas_use amsi_bypass/amsiInitFailed
 
 #### `PwnCommandSet.do_stealth_on`
 
-`method` | [cli/commands/pwn.py:417](../../cli/commands/pwn.py#L417)
+`method` | [cli/commands/pwn.py:423](../../cli/commands/pwn.py#L423)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -296,7 +299,7 @@ traffic shaping to avoid detection.
 
 #### `PwnCommandSet.do_stealth_off`
 
-`method` | [cli/commands/pwn.py:445](../../cli/commands/pwn.py#L445)
+`method` | [cli/commands/pwn.py:451](../../cli/commands/pwn.py#L451)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

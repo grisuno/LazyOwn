@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 135 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 136 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -14,6 +14,7 @@ graph LR
     skills["skills"]
     static["static"]
     tests["tests"]
+    tests -- "calls into" --> contrib
     tests -- "calls into" --> core
     tests -- "calls into" --> lazyc2
     tests -- "calls into" --> modules
@@ -22,6 +23,7 @@ graph LR
     contrib -- "depends on" --> core
     contrib -- "calls into" --> modules
     core -- "depends on" --> browser_sync_extension
+    core -- "calls into" --> lazyc2
     lazyc2 -- "depends on" --> core
     lazyc2 -- "calls into" --> modules
     lazyc2 -- "calls into" --> root
@@ -36,43 +38,43 @@ graph LR
     static -- "depends on" --> lazyc2
 ```
 
-## browser_sync_extension (5.1)
+## browser_sync_extension (4.1)
 
 browser_sync_extension groups 1 files (js) around config, domainAllowed, highEntropyHints, sanitizeHeader, collectProfile.
 
-## cli (5.2)
+## cli (4.2)
 
 cli groups 1 files (py) around AutomationCommandSet, do_cred_reuse, do_cred_mark_failed, do_hooks_list, do_hooks_enable. Automation command set — credential reuse, conditional hooks, operator profiles.
 
-## contrib (5.3)
+## contrib (4.3)
 
-contrib groups 9 files (py) around _ret_model, truncate_message, _configure_logging, _load_knowledge_base, _save_knowledge_base. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+contrib groups 10 files (py) around truncate_message, configure_logging, _load_payload_kv, _load_report_context, _prompt_redteam. Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local +...
 
-## core (5.4)
+## core (4.4)
 
-core groups 5 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Tenant-bound API authorization for the LazyOwn C2 dashboard.
+core groups 6 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Tenant-bound API authorization for the LazyOwn C2 dashboard.
 
-## lazyc2 (5.5)
+## lazyc2 (4.5)
 
 lazyc2 groups 31 files (py) around CSRFPolicy, __init__, header, cookie_name, issue. Flask application factory for the LazyOwn C2 server.
 
-## modules (5.6)
+## modules (4.6)
 
-modules groups 38 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
+modules groups 37 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
 
-## root (5.7)
+## root (4.7)
 
 root groups 1 files (py) around _env_tag, is_insecure_credential, _listen_address, _is_unspecified_bind_literal, _select_specific_bind_address. is_insecure_credential: Check for weak or default credentials
 
-## skills (5.8)
+## skills (4.8)
 
 skills groups 9 files (py) around _now_iso, is_ip_in_scope, Campaign, is_active, to_dict. Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
 
-## static (5.9)
+## static (4.9)
 
 static groups 2 files (js) around as, as, as, as, as. as: !
 
-## tests (5.10)
+## tests (4.10)
 
 tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
@@ -80,6 +82,7 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 
 - browser_sync_extension/background.js
 - cli/commands/automation.py
+- contrib/legacy/lazydeepseekcli.py
 - contrib/legacy/lazygptcli.py
 - contrib/legacy/lazygptcli_unified.py
 - contrib/legacy/lazyhoneypot.py
@@ -94,6 +97,7 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - core/logging.py
 - core/scheduler.py
 - core/security.py
+- core/session_secrets.py
 - lazyc2.py
 - lazyc2/__init__.py
 - lazyc2/app_factory.py
@@ -128,7 +132,9 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - lazyc2/security/validators.py
 - modules/addon_updater.py
 - modules/beacon_history.py
+- modules/c2_agent.py
 - modules/c2_profile.py
+- modules/c2_surfaces.py
 - modules/collab_bp.py
 - modules/colors.py
 - modules/conditional_hooks.py
@@ -136,8 +142,6 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - modules/credential_reuse.py
 - modules/dashboard_bp.py
 - modules/db.py
-- modules/detection_feed.py
-- modules/detection_oracle.py
 - modules/engagement_hooks.py
 - modules/event_bus.py
 - modules/event_consumers.py
@@ -157,7 +161,6 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - modules/loop_manager.py
 - modules/moe_router.py
 - modules/operator_profiles.py
-- modules/rl_trainer.py
 - modules/sinks/campaign_db.py
 - modules/sinks/event_bus.py
 - modules/state_manager.py
@@ -182,6 +185,7 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - tests/test_api_v1.py
 - tests/test_beacon_history.py
 - tests/test_c2_credential_bootstrap.py
+- tests/test_c2_surfaces.py
 - tests/test_collab_and_onboarding.py
 - tests/test_conditional_hooks_extended.py
 - tests/test_core_defaults.py
@@ -195,8 +199,6 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - tests/test_csrf_policy.py
 - tests/test_dashboard_routes.py
 - tests/test_db.py
-- tests/test_detection_dampening.py
-- tests/test_detection_feed.py
 - tests/test_gym_blueprint.py
 - tests/test_hash_cracker.py
 - tests/test_health_report.py
@@ -204,12 +206,13 @@ tests groups 38 files (py) around test_autonomous_flow_integration, _valid_draft
 - tests/test_https_redirect.py
 - tests/test_lazy_search.py
 - tests/test_lesson_ingestor.py
+- tests/test_lesson_ingestor_startup.py
 - tests/test_logging_config.py
 - tests/test_loop_manager.py
-- tests/test_moe_rl_swan.py
 - tests/test_moe_router_check_regression.py
 - tests/test_mutation_verification.py
 - tests/test_security_lazyc2.py
+- tests/test_session_secrets.py
 - tests/test_short_url_file_containment.py
 - tests/test_structured_logging.py
 - tests/test_trusted_proxy.py

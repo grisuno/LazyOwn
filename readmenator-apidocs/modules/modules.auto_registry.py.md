@@ -143,7 +143,7 @@ One automation verb the loop may invoke autonomously.
 
 ### `ShellResult`
 
-`class` `dataclass` | [modules/auto_registry.py:1017](../../modules/auto_registry.py#L1017)
+`class` `dataclass` | [modules/auto_registry.py:1035](../../modules/auto_registry.py#L1035)
 
 Decorators: `@dataclass`
 
@@ -489,7 +489,7 @@ path.
 
 ### `build_command`
 
-`function` | [modules/auto_registry.py:721](../../modules/auto_registry.py#L721)
+`function` | [modules/auto_registry.py:737](../../modules/auto_registry.py#L737)
 
 ```python
 def build_command(verb: str, target: str = '') -> str
@@ -518,7 +518,7 @@ Build the shell command line for `[`verb`](#autoverb-verb)` bound to ``target``.
 
 ### `verbs_for`
 
-`function` | [modules/auto_registry.py:732](../../modules/auto_registry.py#L732)
+`function` | [modules/auto_registry.py:750](../../modules/auto_registry.py#L750)
 
 ```python
 def verbs_for(text: str) -> list
@@ -542,7 +542,7 @@ Return enabled verbs whose keywords appear in the text.
 
 ### `propose_intents`
 
-`function` | [modules/auto_registry.py:738](../../modules/auto_registry.py#L738)
+`function` | [modules/auto_registry.py:756](../../modules/auto_registry.py#L756)
 
 ```python
 def propose_intents(goal: str, target: str = '', finding_texts: tuple[str, ...] = ()) -> list[str]
@@ -571,7 +571,7 @@ planner never dispatches work this host cannot execute.
 
 ### `steps_for`
 
-`function` | [modules/auto_registry.py:859](../../modules/auto_registry.py#L859)
+`function` | [modules/auto_registry.py:877](../../modules/auto_registry.py#L877)
 
 ```python
 def steps_for(text: str, target: str = '') -> list[str] | None
@@ -602,7 +602,7 @@ default bash probes) or when the verb's tooling is unavailable.
 
 ### `execute_shell_verb`
 
-`function` | [modules/auto_registry.py:1052](../../modules/auto_registry.py#L1052)
+`function` | [modules/auto_registry.py:1070](../../modules/auto_registry.py#L1070)
 
 ```python
 def execute_shell_verb(shell: object, command: str, timeout_sec: float = DEFAULT_SHELL_TIMEOUT_SEC, on_output=None) -> str
@@ -636,7 +636,7 @@ record as a fact like any other transcript.
 
 ### `track_process`
 
-`function` | [modules/auto_registry.py:1162](../../modules/auto_registry.py#L1162)
+`function` | [modules/auto_registry.py:1180](../../modules/auto_registry.py#L1180)
 
 ```python
 def track_process(process) -> None
@@ -658,7 +658,7 @@ Register a live child process for global cancellation.
 
 ### `untrack_process`
 
-`function` | [modules/auto_registry.py:1167](../../modules/auto_registry.py#L1167)
+`function` | [modules/auto_registry.py:1185](../../modules/auto_registry.py#L1185)
 
 ```python
 def untrack_process(process) -> None
@@ -680,7 +680,7 @@ Drop a finished child process from the cancellation registry.
 
 ### `cancel_running_commands`
 
-`function` | [modules/auto_registry.py:1172](../../modules/auto_registry.py#L1172)
+`function` | [modules/auto_registry.py:1190](../../modules/auto_registry.py#L1190)
 
 ```python
 def cancel_running_commands() -> int
@@ -696,7 +696,7 @@ Kill every live streaming process group (operator Ctrl+C).
 
 ### `execute_streaming`
 
-`function` | [modules/auto_registry.py:1195](../../modules/auto_registry.py#L1195)
+`function` | [modules/auto_registry.py:1213](../../modules/auto_registry.py#L1213)
 
 ```python
 def execute_streaming(command: str, on_output=None, timeout_sec: float = DEFAULT_SHELL_TIMEOUT_SEC) -> str

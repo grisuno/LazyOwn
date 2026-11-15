@@ -1,4 +1,4 @@
-# Subsystem: tests (page 14 of 26)
+# Subsystem: tests (page 14 of 27)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
 ## tests/test_lazy_agent.py

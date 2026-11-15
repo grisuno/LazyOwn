@@ -1,6 +1,6 @@
 # `modules.lesson_ingestor`
 
-> Source: [modules/lesson_ingestor.py:1](../../modules/lesson_ingestor.py#L1) | language `py` | coverage 75.0% | [API index](../index.md)
+> Source: [modules/lesson_ingestor.py:1](../../modules/lesson_ingestor.py#L1) | language `py` | coverage 77.8% | [API index](../index.md)
 
 Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter.
 
@@ -48,6 +48,7 @@ classDiagram
     LessonIngestor : __init__()
     LessonIngestor : ingest()
     LessonIngestor : ingest_all()
+    LessonIngestor : ingest_new()
 ```
 
 ## Call Graph
@@ -58,9 +59,11 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_modules_lesson_ingestor_py__LessonIngestor_ingest_all(["LessonIngestor.ingest_all"])
     n_modules_lesson_ingestor_py__LessonIngestor_ingest(["LessonIngestor.ingest"])
+    n_modules_lesson_ingestor_py__LessonIngestor_ingest_new(["LessonIngestor.ingest_new"])
     n_modules_lesson_ingestor_py__ingest_campaign_lessons(["ingest_campaign_lessons"])
     n_modules_lesson_ingestor_py__LessonIngestor___init__(["LessonIngestor.__init__"])
     n_modules_lesson_ingestor_py__LessonIngestor_ingest_all --> n_modules_lesson_ingestor_py__LessonIngestor_ingest
+    n_modules_lesson_ingestor_py__LessonIngestor_ingest_new --> n_modules_lesson_ingestor_py__LessonIngestor_ingest
     n_modules_lesson_ingestor_py__ingest_campaign_lessons --> n_modules_lesson_ingestor_py__LessonIngestor___init__
     n_modules_lesson_ingestor_py__ingest_campaign_lessons --> n_modules_lesson_ingestor_py__LessonIngestor_ingest_all
 ```
@@ -71,7 +74,7 @@ flowchart LR
 
 ### `LessonLearned`
 
-`class` `dataclass` | [modules/lesson_ingestor.py:55](../../modules/lesson_ingestor.py#L55)
+`class` `dataclass` | [modules/lesson_ingestor.py:56](../../modules/lesson_ingestor.py#L56)
 
 Decorators: `@dataclass`
 
@@ -102,7 +105,7 @@ Minimal representation of a campaign lesson for ingestion.
 
 #### `LessonLearned.from_dict`
 
-`classmethod` | [modules/lesson_ingestor.py:66](../../modules/lesson_ingestor.py#L66)
+`classmethod` | [modules/lesson_ingestor.py:67](../../modules/lesson_ingestor.py#L67)
 
 Decorators: `@classmethod`
 
@@ -124,7 +127,7 @@ def from_dict(cls, d: dict[str, Any]) -> LessonLearned
 
 ### `LessonIngestor`
 
-`class` | [modules/lesson_ingestor.py:77](../../modules/lesson_ingestor.py#L77)
+`class` | [modules/lesson_ingestor.py:78](../../modules/lesson_ingestor.py#L78)
 
 ```python
 class LessonIngestor
@@ -144,15 +147,16 @@ given topic are preferred in future campaigns.
 | [`__init__`](#lessoningestor-__init__) | constructor |  |
 | [`ingest`](#lessoningestor-ingest) | method | Apply a single lesson to the MoE performance store and RL Q-table. |
 | [`ingest_all`](#lessoningestor-ingest_all) | method | Ingest a batch of lessons. |
+| [`ingest_new`](#lessoningestor-ingest_new) | method | Ingest only lessons not boosted before, so each boosts exactly once. |
 
 <a id="lessoningestor-__init__"></a>
 
 #### `LessonIngestor.__init__`
 
-`constructor` | [modules/lesson_ingestor.py:86](../../modules/lesson_ingestor.py#L86)
+`constructor` | [modules/lesson_ingestor.py:87](../../modules/lesson_ingestor.py#L87)
 
 ```python
-def __init__(self, lessons_file: Path | None = None, router: Any | None = None, trainer: Any | None = None, boost_reward: float = _BOOST_REWARD) -> None
+def __init__(self, lessons_file: Path | None = None, router: Any | None = None, trainer: Any | None = None, boost_reward: float = _BOOST_REWARD, seen_file: Path | None = None) -> None
 ```
 
 **Parameters**
@@ -163,6 +167,7 @@ def __init__(self, lessons_file: Path | None = None, router: Any | None = None, 
 | `router` | `Any \| None` | `None` |  |
 | `trainer` | `Any \| None` | `None` |  |
 | `boost_reward` | `float` | `_BOOST_REWARD` |  |
+| `seen_file` | `Path \| None` | `None` |  |
 
 *Called by:* [`ingest_campaign_lessons`](#ingest_campaign_lessons)
 
@@ -170,7 +175,7 @@ def __init__(self, lessons_file: Path | None = None, router: Any | None = None, 
 
 #### `LessonIngestor.ingest`
 
-`method` | [modules/lesson_ingestor.py:125](../../modules/lesson_ingestor.py#L125)
+`method` | [modules/lesson_ingestor.py:128](../../modules/lesson_ingestor.py#L128)
 
 ```python
 def ingest(self, lesson: LessonLearned) -> bool
@@ -187,13 +192,13 @@ Apply a single lesson to the MoE performance store and RL Q-table.
 **Returns:** `bool` - ``True`` when at least one backend was updated, ``False`` when
 the lesson topic was unmapped or no backend was available.
 
-*Called by:* [`LessonIngestor.ingest_all`](#lessoningestor-ingest_all)
+*Called by:* [`LessonIngestor.ingest_all`](#lessoningestor-ingest_all), [`LessonIngestor.ingest_new`](#lessoningestor-ingest_new)
 
 <a id="lessoningestor-ingest_all"></a>
 
 #### `LessonIngestor.ingest_all`
 
-`method` | [modules/lesson_ingestor.py:185](../../modules/lesson_ingestor.py#L185)
+`method` | [modules/lesson_ingestor.py:188](../../modules/lesson_ingestor.py#L188)
 
 ```python
 def ingest_all(self, lessons: list[LessonLearned] | None = None) -> int
@@ -215,6 +220,26 @@ When *lessons* is ``None``, reads from the lessons JSONL file.
 
 *Called by:* [`ingest_campaign_lessons`](#ingest_campaign_lessons)
 
+<a id="lessoningestor-ingest_new"></a>
+
+#### `LessonIngestor.ingest_new`
+
+`method` | [modules/lesson_ingestor.py:236](../../modules/lesson_ingestor.py#L236)
+
+```python
+def ingest_new(self) -> int
+```
+
+Ingest only lessons not boosted before, so each boosts exactly once.
+
+Idempotent across loops: a lesson's reward boost is applied once and its
+fingerprint persisted, so calling this at every loop startup absorbs a
+prior loop's new lessons without re-inflating the Q-table. Never raises.
+
+**Returns:** `int` - Number of newly ingested lessons.
+
+*Calls:* [`LessonIngestor.ingest`](#lessoningestor-ingest)
+
 ---
 
 ## Functions
@@ -223,7 +248,7 @@ When *lessons* is ``None``, reads from the lessons JSONL file.
 
 ### `ingest_campaign_lessons`
 
-`function` | [modules/lesson_ingestor.py:222](../../modules/lesson_ingestor.py#L222)
+`function` | [modules/lesson_ingestor.py:285](../../modules/lesson_ingestor.py#L285)
 
 ```python
 def ingest_campaign_lessons(lessons_file: Path | None = None) -> int

@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 1136 modules, 17445 documented entities, documentation coverage 77.3% (8489/10976 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 1137 modules, 17457 documented entities, documentation coverage 77.4% (8497/10984 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), py (1017), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), py (1018), sh (61)
 
 ## Modules
 
@@ -739,7 +739,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.lazyshortener`](modules/modules.lazyshortener.py.md) | LazyShortener: URL shortener bridge for LazyOwn phishing delivery. | 0 | 2 | 100.0% |
 | [`modules/lazyvpnshield.sh`](modules/modules.lazyvpnshield.sh.md) | Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0 | 0 | 7 | 12.5% |
 | [`modules/lazywps.sh`](modules/modules.lazywps.sh.md) |  | 0 | 1 | 0.0% |
-| [`modules.lesson_ingestor`](modules/modules.lesson_ingestor.py.md) | Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter. | 2 | 5 | 75.0% |
+| [`modules.lesson_ingestor`](modules/modules.lesson_ingestor.py.md) | Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter. | 2 | 6 | 77.8% |
 | [`modules.lilsplunky`](modules/modules.lilsplunky.py.md) | log_monitor_bot_v2_monolithic.py | 1 | 13 | 86.7% |
 | [`modules.linux_advanced_payloads`](modules/modules.linux_advanced_payloads.py.md) | Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants. | 2 | 14 | 82.4% |
 | [`modules.listener_manager`](modules/modules.listener_manager.py.md) | Multi-listener manager for LazyOwn C2. | 2 | 12 | 80.0% |
@@ -826,6 +826,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (9), lua (26), php (4), p
 | [`modules.session_rag`](modules/modules.session_rag.py.md) | session_rag.py — ChromaDB-backed RAG over sessions/ artefacts. | 1 | 8 | 70.0% |
 | [`modules.session_reader`](modules/modules.session_reader.py.md) | modules/session_reader.py ========================== Reads LazyOwn C2 session artefacts: - sessions/{client_id}.log (implant CSV: os, pid, hostname, ips, user... | 10 | 19 | 33.3% |
 | [`modules.session_state`](modules/modules.session_state.py.md) | LazyOwn Session State ===================== Aggregates live session data from multiple sources into a single sessions/session_state.json snapshot consumed by... | 0 | 3 | 100.0% |
+| [`modules.shell_session_store`](modules/modules.shell_session_store.py.md) | Resumable, hash-identified shell session descriptors. | 0 | 6 | 100.0% |
 | [`modules.sidequest`](modules/modules.sidequest.py.md) | Read-only side questions against the loop's immutable decision checkpoints. | 0 | 4 | 100.0% |
 | [`modules.sidequestion`](modules/modules.sidequestion.py.md) | Isolated side-question answering against immutable snapshots. | 4 | 5 | 100.0% |
 | [`modules.sleep_obfuscation`](modules/modules.sleep_obfuscation.py.md) | Sleep obfuscation engine for beacon memory evasion. | 7 | 20 | 92.9% |

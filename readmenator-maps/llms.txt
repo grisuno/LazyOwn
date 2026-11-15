@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 29 communities, 1627 files, 14556 imports, 10 languages, 25636 symbols.
+> Static analysis knowledge base for LazyOwn: 29 communities, 1634 files, 14621 imports, 10 languages, 25720 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -20,9 +20,9 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): reversemorsecode (function) modules/morse.py:98 def reversemorsecode() -- Build the reverse lookup table from Morse code to characters.
 - [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: core/config.py, core/logging.py, modules/sessionrag.py
 - [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: cli/commands/base.py, modules/lazyk8s.py, utils.py
-- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: core/logging.py, modules/init.py, modules/orchestratorconfig.py, modules/outcomebus.py
-- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): getusernamefrompid (function) modules/winrootkit/winring3rootkit.cpp:42 char getusernamefrompid(DWORD pid)
-- [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): Depends on: core/logging.py, modules/loggingconfig.py, modules/worldmodel.py
+- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: modules/lazyloop.py, modules/outcomebus.py
+- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): DownloadDLL (function) modules/winrootkit/winring3rootkit.c:79 BOOL DownloadDLL(const char url, PBYTE buffer, DWORD size)
+- [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): pass (function) scripts/validateagentcontract.sh:23
 - [readmenator-agent/API_p23.md](md/readmenator-agent/API_p23.md): Depends on: core/logging.py, modules/loggingconfig.py
 - [readmenator-agent/API_p24.md](md/readmenator-agent/API_p24.md): Depends on: skills/mcptools/context.py
 - [readmenator-agent/API_p25.md](md/readmenator-agent/API_p25.md): Depends on: skills/mcptools/context.py, skills/swanagent.py
@@ -38,14 +38,15 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Imported by: lazyc2.py, tests/testhttpsredirect.py
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
 - [readmenator-agent/ARCHITECTURE_p10.md](md/readmenator-agent/ARCHITECTURE_p10.md): modules/lazyblindspot.py -> future, dataclasses, json, re
-- [readmenator-agent/ARCHITECTURE_p11.md](md/readmenator-agent/ARCHITECTURE_p11.md): skills/mcptools/winboxgymlist.py -> future, json, mcp, typing
-- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/commands/security.py -> core/config.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/panels/cvepanel.py -> lazygui/services/backend.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/lazydrafts.py -> modules/lazyloop.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): modules/yamlgenerator.py -> core/config.py
-- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): skills/mcptools/swanstatus.py -> skills/swanagent.py
-- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): tests/testhealthreport.py -> lazyc2/security/health.py
-- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): tests/testsecurityalertsfix.py -> modules/lazyproxy.py
+- [readmenator-agent/ARCHITECTURE_p11.md](md/readmenator-agent/ARCHITECTURE_p11.md): skills/mcptools/winboxexec.py -> future, json, mcp, typing
+- [readmenator-agent/ARCHITECTURE_p12.md](md/readmenator-agent/ARCHITECTURE_p12.md): tools/contractcheck.py -> future, ast, pathlib, sys
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/commands/security.py -> cli/commands/base.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/panels/cvepanel.py -> lazygui/panels/base.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/lazyclibridge.py -> modules/killchain.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): modules/winboxgym.py -> modules/chainregistry.py
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): skills/mcptools/subagentrun.py -> modules/mcpagentbridge.py
+- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): tests/testgymlifecycle.py -> modules/gymcleanup.py
+- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): tests/testsafetygates.py -> modules/init.py
 - [readmenator-agent/ARCHITECTURE_p9.md](md/readmenator-agent/ARCHITECTURE_p9.md): cli/aliases.py -> future, pathlib, string, typing, yaml
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
@@ -62,7 +63,6 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/KB_cli_p4.md](md/readmenator-agent/KB_cli_p4.md): Doc: Pro tips system for the LazyOwn shell.
 - [readmenator-agent/KB_cli_p5.md](md/readmenator-agent/KB_cli_p5.md): Doc: Terminal renderer for the LazyOwn network surface graph.
 - [readmenator-agent/KB_commands.md](md/readmenator-agent/KB_commands.md): Doc: Phase-scoped CommandSet modules.
-- [readmenator-agent/KB_commands_p2.md](md/readmenator-agent/KB_commands_p2.md): Doc: Autonomous daemon control extracted from the miscellaneous cluster.
 
 ## Project Docs
 

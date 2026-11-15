@@ -453,7 +453,7 @@ Forget the registered audit for one task.
 
 ### `guard_rows`
 
-`function` | [modules/loop_audit.py:360](../../modules/loop_audit.py#L360)
+`function` | [modules/loop_audit.py:392](../../modules/loop_audit.py#L392)
 
 ```python
 def guard_rows(task_id: str) -> list[dict]
@@ -477,7 +477,7 @@ Return guard decisions recorded for one task.
 
 ### `activity_rows`
 
-`function` | [modules/loop_audit.py:365](../../modules/loop_audit.py#L365)
+`function` | [modules/loop_audit.py:397](../../modules/loop_audit.py#L397)
 
 ```python
 def activity_rows(task_id: str) -> list[dict]
@@ -501,7 +501,7 @@ Return engine activity rows for one task.
 
 ### `timeline`
 
-`function` | [modules/loop_audit.py:415](../../modules/loop_audit.py#L415)
+`function` | [modules/loop_audit.py:447](../../modules/loop_audit.py#L447)
 
 ```python
 def timeline(task_id: str, audit: LoopAudit | None = None) -> list[dict]
@@ -529,7 +529,7 @@ and the raw ``row``.
 
 ### `render`
 
-`function` | [modules/loop_audit.py:505](../../modules/loop_audit.py#L505)
+`function` | [modules/loop_audit.py:537](../../modules/loop_audit.py#L537)
 
 ```python
 def render(task_id: str, limit: int = 100, audit: LoopAudit | None = None) -> str
@@ -555,7 +555,7 @@ Render the merged campaign timeline for one task.
 
 ### `list_runs`
 
-`function` | [modules/loop_audit.py:526](../../modules/loop_audit.py#L526)
+`function` | [modules/loop_audit.py:558](../../modules/loop_audit.py#L558)
 
 ```python
 def list_runs(limit: int = 20) -> list[dict]
@@ -581,7 +581,7 @@ run_end status when present.
 
 ### `render_summary`
 
-`function` | [modules/loop_audit.py:563](../../modules/loop_audit.py#L563)
+`function` | [modules/loop_audit.py:595](../../modules/loop_audit.py#L595)
 
 ```python
 def render_summary(summaries: list[dict]) -> str

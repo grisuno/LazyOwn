@@ -126,7 +126,7 @@ AgentRunner that reports every tool call and result to a sink.
 `constructor` | [modules/lazy_agent.py:148](../../modules/lazy_agent.py#L148)
 
 ```python
-def __init__(self, model, system_prompt: str = '', max_iterations: int = DEFAULT_MAX_ITERATIONS, on_event: Callable[[str, str, str], None] | None = None) -> None
+def __init__(self, model, system_prompt: str = '', max_iterations: int = DEFAULT_MAX_ITERATIONS, on_event: Callable[[str, str, str], None] | None = None, turn_timeout: float = 0.0) -> None
 ```
 
 Bind the model and the optional event sink (kind, name, text).
@@ -135,10 +135,11 @@ Bind the model and the optional event sink (kind, name, text).
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `model` |  |  |  |
-| `system_prompt` | `str` | `''` |  |
-| `max_iterations` | `int` | `DEFAULT_MAX_ITERATIONS` |  |
-| `on_event` | `Callable[[str, str, str], None] \| None` | `None` |  |
+| `model` |  |  | Raw tool-calling backend. |
+| `system_prompt` | `str` | `''` | Invariant system contract. |
+| `max_iterations` | `int` | `DEFAULT_MAX_ITERATIONS` | Upper bound on tool-call turns. |
+| `on_event` | `Callable[[str, str, str], None] \| None` | `None` | Optional (kind, name, text) observer. |
+| `turn_timeout` | `float` | `0.0` | Optional wall-clock clamp (seconds) applied to the whole session; 0 keeps the configured default. |
 
 *Called by:* [`run_main_session`](#run_main_session), [`run_worker_session`](#run_worker_session)
 
@@ -146,7 +147,7 @@ Bind the model and the optional event sink (kind, name, text).
 
 #### `ObservableAgentRunner.run`
 
-`method` | [modules/lazy_agent.py:168](../../modules/lazy_agent.py#L168)
+`method` | [modules/lazy_agent.py:179](../../modules/lazy_agent.py#L179)
 
 ```python
 def run(self, user_input: str) -> str
@@ -170,7 +171,7 @@ Base loop plus final-turn persistence for true resume.
 
 ### `ConversationStore`
 
-`class` | [modules/lazy_agent.py:261](../../modules/lazy_agent.py#L261)
+`class` | [modules/lazy_agent.py:278](../../modules/lazy_agent.py#L278)
 
 ```python
 class ConversationStore
@@ -194,7 +195,7 @@ Per-task persistence of agent conversations (intents and sessions).
 
 #### `ConversationStore.__init__`
 
-`constructor` | [modules/lazy_agent.py:264](../../modules/lazy_agent.py#L264)
+`constructor` | [modules/lazy_agent.py:281](../../modules/lazy_agent.py#L281)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -214,7 +215,7 @@ Bind the conversation store for one task (``main`` when empty).
 
 #### `ConversationStore.intent_messages`
 
-`method` | [modules/lazy_agent.py:273](../../modules/lazy_agent.py#L273)
+`method` | [modules/lazy_agent.py:290](../../modules/lazy_agent.py#L290)
 
 ```python
 def intent_messages(self, intent_id: int) -> list[dict]
@@ -236,7 +237,7 @@ Return the stored messages for one intent (resume seed).
 
 #### `ConversationStore.save_intent`
 
-`method` | [modules/lazy_agent.py:278](../../modules/lazy_agent.py#L278)
+`method` | [modules/lazy_agent.py:295](../../modules/lazy_agent.py#L295)
 
 ```python
 def save_intent(self, intent_id: int, messages: Iterable[dict]) -> None
@@ -257,7 +258,7 @@ Persist the tail of one intent conversation.
 
 #### `ConversationStore.session`
 
-`method` | [modules/lazy_agent.py:287](../../modules/lazy_agent.py#L287)
+`method` | [modules/lazy_agent.py:304](../../modules/lazy_agent.py#L304)
 
 ```python
 def session(self, session_id: str) -> dict
@@ -279,7 +280,7 @@ Return one main-agent session payload (empty when unknown).
 
 #### `ConversationStore.sessions`
 
-`method` | [modules/lazy_agent.py:291](../../modules/lazy_agent.py#L291)
+`method` | [modules/lazy_agent.py:308](../../modules/lazy_agent.py#L308)
 
 ```python
 def sessions(self) -> list[dict]
@@ -295,7 +296,7 @@ List main-agent sessions with title, message count and age.
 
 #### `ConversationStore.save_session`
 
-`method` | [modules/lazy_agent.py:305](../../modules/lazy_agent.py#L305)
+`method` | [modules/lazy_agent.py:322](../../modules/lazy_agent.py#L322)
 
 ```python
 def save_session(self, session_id: str, messages: Iterable[dict], title: str = '') -> None
@@ -317,7 +318,7 @@ Persist one main-agent session conversation tail.
 
 #### `ConversationStore.reset_intents`
 
-`method` | [modules/lazy_agent.py:315](../../modules/lazy_agent.py#L315)
+`method` | [modules/lazy_agent.py:332](../../modules/lazy_agent.py#L332)
 
 ```python
 def reset_intents(self) -> None
@@ -406,7 +407,7 @@ this intent so a failing member cannot pin the whole attempt.
 
 ### `register_tools`
 
-`function` | [modules/lazy_agent.py:322](../../modules/lazy_agent.py#L322)
+`function` | [modules/lazy_agent.py:339](../../modules/lazy_agent.py#L339)
 
 ```python
 def register_tools(runner: ObservableAgentRunner, specs: Iterable[dict]) -> None
@@ -431,10 +432,10 @@ Register tool specs (name, description, func, parameters, required).
 
 ### `run_worker_session`
 
-`function` | [modules/lazy_agent.py:335](../../modules/lazy_agent.py#L335)
+`function` | [modules/lazy_agent.py:352](../../modules/lazy_agent.py#L352)
 
 ```python
-def run_worker_session(model, task_id: str, intent_id: int, system_prompt: str, launch_prompt: str, tools: Iterable[dict], on_event: Callable[[str, str, str], None] | None = None) -> dict
+def run_worker_session(model, task_id: str, intent_id: int, system_prompt: str, launch_prompt: str, tools: Iterable[dict], on_event: Callable[[str, str, str], None] | None = None, turn_timeout: float = 0.0) -> dict
 ```
 
 Run one agentic intent attempt with resume seeding.
@@ -450,6 +451,7 @@ Run one agentic intent attempt with resume seeding.
 | `launch_prompt` | `str` |  | The user turn for this attempt. |
 | `tools` | `Iterable[dict]` |  | Tool specs registered on the runner. |
 | `on_event` | `Callable[[str, str, str], None] \| None` | `None` | Optional (kind, name, text) observer. |
+| `turn_timeout` | `float` | `0.0` | Wall-clock clamp (seconds) for every model turn; 0 keeps the configured ``agent_model_timeout``. |
 
 **Returns:** `dict` - Dict with reply, tool usage and persisted message count.
 
@@ -461,7 +463,7 @@ Run one agentic intent attempt with resume seeding.
 
 ### `run_main_session`
 
-`function` | [modules/lazy_agent.py:374](../../modules/lazy_agent.py#L374)
+`function` | [modules/lazy_agent.py:396](../../modules/lazy_agent.py#L396)
 
 ```python
 def run_main_session(model, session_id: str, system_prompt: str, prompt: str, tools: Iterable[dict], on_event: Callable[[str, str, str], None] | None = None) -> dict
@@ -492,7 +494,7 @@ Run one main-agent turn, resuming the stored session conversation.
 
 ### `run_external_opencode`
 
-`function` | [modules/lazy_agent.py:396](../../modules/lazy_agent.py#L396)
+`function` | [modules/lazy_agent.py:418](../../modules/lazy_agent.py#L418)
 
 ```python
 def run_external_opencode(prompt: str, session_id: str = '', agent: str = '', cwd: str = '', timeout_sec: float = EXTERNAL_TIMEOUT_SEC) -> dict

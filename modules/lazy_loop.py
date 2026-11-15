@@ -10010,6 +10010,46 @@ class LazyLoopEngine(EngineProxyMixin):
                 continue
         return done
 
+    def _veto_blocked_from_audit(self, task_id: str) -> int:
+        """Turn the run's audit trail into planner feedback.
+
+        A verb the guard or opsec gate blocked repeatedly this run is one the
+        planner should stop proposing: it only burns rounds. This reads the
+        audit timeline (traceability) and vetoes those bases in the durable
+        failure memory the planner already consults, so the next loop avoids
+        them. This is the traceability-to-process-improvement read side.
+        Never raises.
+
+        Returns:
+            Number of verbs vetoed.
+        """
+        try:
+            from modules.loop_audit import blocked_verbs
+
+            verbs = blocked_verbs(task_id, min_count=3)
+            if not verbs:
+                return 0
+            record = self.store.get(task_id) or {}
+            scope = record.get("scope", []) or []
+            target = next((str(s.get("value", "")) for s in scope if s.get("value")), "")
+            if not target:
+                return 0
+            from modules.auto_loop_memory import FailureMemory
+
+            memory = FailureMemory(_store_path("failure_memory.json"))
+            vetoed = 0
+            for verb in verbs:
+                memory.veto_base(target, verb)
+                vetoed += 1
+            memory.save()
+            if vetoed:
+                ActivityLog(task_id).emit(
+                    "planner", "veto", f"vetoed {vetoed} gate-blocked verb(s) from audit: {', '.join(verbs)}"
+                )
+            return vetoed
+        except Exception:
+            return 0
+
     def _absorb_campaign_lessons(self) -> int:
         """Absorb prior-campaign lessons into the RL Q-table and MoE before planning.
 
@@ -10455,6 +10495,7 @@ class LazyLoopEngine(EngineProxyMixin):
             self._wrapup_summary(task_id, str(record.get("status", "")))
         if record.get("status") in ("done", "exhausted", "timeout", "handoff"):
             self._settle_objectives(task_id)
+            self._veto_blocked_from_audit(task_id)
             self._write_continuation(task_id, str(record.get("status", "")))
         verdict: dict = {}
         if record.get("status") in ("done", "exhausted", "timeout", "handoff") and _stage_enabled("wrapup"):

@@ -100,3 +100,25 @@ def test_rank_skips_noise_service_flood():
     )
     ranked = eng.rank_exploits(profile)
     assert all(c.service != "tcpwrapped" for c in ranked)
+
+
+def test_coverage_bounded_vector_does_not_stall(monkeypatch):
+    """A single hanging vector must not stall a coverage run: it is bounded and
+    the traversal continues to the remaining vectors."""
+    import time as _time
+
+    from modules import autonomous_exploit_engine as mod
+
+    monkeypatch.setattr(mod, "_PER_VECTOR_TIMEOUT", 0.3)
+    eng = AutonomousExploitEngine()
+    profile = _profile()
+    cands = _candidates(4)
+
+    def exec_maybe_hang(candidate, profile):
+        if candidate.strategy == "ms2_1":
+            _time.sleep(5)  # simulate a hanging vector
+        return ExploitResult(candidate=candidate, success=True, shell_obtained=False)
+
+    out = mod.AutonomousExploitEngine._bounded_execute(eng, cands[1], profile, exec_maybe_hang)
+    assert out.success is False
+    assert "timeout" in out.error.lower()

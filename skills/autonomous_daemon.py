@@ -309,7 +309,6 @@ def _emit(event_type: str, payload: dict[str, Any], severity: str = "info") -> N
 
 DECISION_SEED_LENGTH: int = 16
 REWARD_DISPLAY_PRECISION: int = 3
-REWARD_EMA_ALPHA: float = 0.3
 
 
 def _record_intent(objective_id: str, step_n: int, command: str,
@@ -1505,89 +1504,10 @@ def _read_recent_csv_commands(limit: int = 3) -> list[str]:
         return []
 
 
-def _compute_step_reward(
-    output: str,
-    command: str,
-    phase: str,
-    success: bool,
-    findings: list[dict],
-    prev_cmds: list[str],
-) -> float:
-    """Compute multi-dimensional RL reward based on finding quality, novelty, and phase.
-
-    Args:
-        output:    Raw command output text.
-        command:   Command string that was executed.
-        phase:     Current engagement phase.
-        success:   Basic success flag from keyword detection.
-        findings:  Parsed ObsParser findings for this step.
-        prev_cmds: Command names from previous steps (for novelty penalty).
-
-    Returns:
-        Reward scalar in the range [-2.0, 15.0].
-    """
-    if not success:
-        return -2.0
-
-    low = output.lower()
-
-    # Finding-type priority (highest wins)
-    score = 2.0
-    for f in findings:
-        ftype = f.get("type", "")
-        if ftype in ("credential",):
-            score = max(score, 10.0)
-        elif ftype in ("root_shell", "privesc"):
-            score = max(score, 9.0)
-        elif ftype in ("hash",):
-            score = max(score, 8.0)
-        elif ftype in ("cve", "service_version"):
-            score = max(score, 5.0)
-        elif ftype in ("host", "ip", "open_port"):
-            score = max(score, 3.5)
-
-    # Keyword boost when obs_parser is absent
-    if score < 5.0:
-        if any(k in low for k in ("password", "passwd", "credentials found", "login successful")):
-            score = max(score, 10.0)
-        elif any(k in low for k in ("uid=0", "root shell", "nt authority", "system privilege")):
-            score = max(score, 9.0)
-        elif any(k in low for k in ("hash", "ntlm", "lm:", "aad3b435", "krb5tgs")):
-            score = max(score, 8.0)
-        elif any(k in low for k in ("open", "found", "200 ok", "login page")):
-            score = max(score, 3.0)
-
-    # Shell tier: a landed interactive session is the strongest kill-chain
-    # signal. Decide it with the one canonical detector the engine, auto_pwn
-    # and every gym use, so the daemon's RL cannot disagree with the verdict
-    # engine on whether a Metasploitable vector produced a shell.
-    try:
-        from modules.atomic_exploit_bridge import shell_output_evidence
-
-        if shell_output_evidence(output):
-            score = max(score, 9.0)
-    except Exception:
-        pass
-
-    # Novelty penalty: repeated command earns less
-    cmd_base = command.strip().split()[0] if command.strip() else ""
-    repeat_count = prev_cmds.count(cmd_base)
-    if repeat_count > 0:
-        score = score * max(0.3, 1.0 - repeat_count * 0.2)
-
-    # Phase multiplier: late-phase successes are worth more
-    _phase_mult: dict[str, float] = {
-        "recon": 1.0,
-        "enum": 1.2,
-        "exploit": 1.5,
-        "privesc": 1.8,
-        "lateral": 1.6,
-        "cred": 1.7,
-        "exfil": 2.0,
-    }
-    score = score * _phase_mult.get(phase, 1.0)
-
-    return round(min(score, 15.0), 2)
+from modules.loop.daemon_reward import (  # noqa: E402
+    compute_step_reward as _compute_step_reward,  # noqa: F401
+    record_rl_feedback as _record_rl_feedback,
+)
 
 
 async def _detect_target_os(
@@ -2576,14 +2496,9 @@ async def _run_objective(
 
         _step_reward: float = 0.0
 
-        # ── RL feedback — update Q-table after every step ─────────────────────
-        # The RLTrainer learns which sources (reactive/parquet/bridge/swan/llm)
-        # produce successful outcomes per (phase, findings_quality) state.
-        # This runs silently; failures never block execution.
         try:
             from modules.rl_trainer import get_trainer as _get_rl_trainer
 
-            _rl = _get_rl_trainer()
             _detect_prob = 0.0
             try:
                 from modules.detection_oracle import get_oracle as _get_oracle
@@ -2591,21 +2506,20 @@ async def _run_objective(
                 _detect_prob = _get_oracle().probability(command)
             except Exception:
                 pass
-            _raw_reward = _compute_step_reward(output, command, phase, success, findings, _prev_cmds)
-            _prior_ema = _reward_ema
-            _reward_ema = round(REWARD_EMA_ALPHA * _raw_reward + (1.0 - REWARD_EMA_ALPHA) * _prior_ema, 4)
-            _rl_state = _rl.encode_state(phase, phase, _prior_ema)
-            _rl_next = _rl.encode_state(phase, phase, _reward_ema)
-            _step_reward = _raw_reward
-            _rl.update(
-                state=_rl_state,
-                action=decision.source,
-                reward=_raw_reward,
-                next_state=_rl_next,
-                candidates=["reactive", "cred_spray", "parquet", "bridge", "swan", "llm", "fallback"],
+            _rl_result = _record_rl_feedback(
+                trainer=_get_rl_trainer(),
+                source=decision.source,
+                command=command,
+                phase=phase,
+                output=output,
+                success=success,
+                findings=findings,
+                prev_cmds=_prev_cmds,
+                prior_ema=_reward_ema,
                 detection_prob=_detect_prob,
             )
-            _rl.save()
+            _step_reward = _rl_result.step_reward
+            _reward_ema = _rl_result.reward_ema
         except Exception as _rl_exc:
             log.debug("RL update error: %s", _rl_exc)
 

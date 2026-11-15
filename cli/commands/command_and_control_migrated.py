@@ -1316,20 +1316,55 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         Usage:
             atomic_shell [target] [--interactive]
+            atomic_shell --list
+            atomic_shell --resume <session_id> [--interactive]
 
         Without ``--interactive`` (the loop-safe default) it only
         verifies the multiplexed session and reports how to attach.
         With ``--interactive`` in a foreground terminal it drops the
-        operator into a live ``target#`` REPL until exit.
+        operator into a live ``target#`` REPL until exit. ``--list`` shows
+        persisted resumable sessions (hash ids); ``--resume`` re-opens one
+        through its recorded exploit primitive.
         """
         from modules.atomic_exploit_bridge import interactive_shell, record_shell_outcome
+        from modules.shell_session_store import list_sessions, resume
 
         parts = (line or "").strip().split()
         interactive = "--interactive" in parts
+
+        if "--list" in parts:
+            rows = list_sessions(self.params.get("rhost", "") or "")
+            if not rows:
+                print_warn("No persisted shell sessions.")
+                return
+            for row in rows:
+                flag = "live" if row.get("live") else row.get("status", "")
+                print_msg(
+                    f"[{row['id']}] {row['target']:<16} via {row['via']:<28} "
+                    f"port={row.get('port', 0)} {flag} resumes={row.get('resume_count', 0)}"
+                )
+            return
+
+        if "--resume" in parts:
+            idx = parts.index("--resume")
+            sid = parts[idx + 1] if idx + 1 < len(parts) else ""
+            if not sid:
+                print_warn("Usage: atomic_shell --resume <session_id>")
+                return
+            out = resume(sid)
+            if not out.get("ok"):
+                print_warn(f"Resume failed: {out.get('error', 'unknown')}")
+                return
+            print_msg(f"[+] resumed shell {out['id']} on {out['target']} via {out['via']} (resume #{out['resume_count']})")
+            record_shell_outcome(out["target"], via=str(out.get("via", "") or ""))
+            if interactive:
+                interactive_shell(out["target"], interactive=True)
+            return
+
         target = next((p for p in parts if not p.startswith("-")), "")
         target = target or (self.params.get("rhost", "") or "")
         if not target:
-            print_warn("Usage: atomic_shell [target] [--interactive]")
+            print_warn("Usage: atomic_shell [target] [--interactive] | --resume <id> | --list")
             return
         result = interactive_shell(target, interactive=interactive)
         if result.get("live"):

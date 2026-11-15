@@ -1,4 +1,4 @@
-# Architecture (page 10 of 11)
+# Architecture (page 10 of 12)
 Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 
 ## External Imports (continued)
@@ -63,7 +63,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/lazypoophish.py` -> __future__, json, pathlib, sys, time, typing
 - `modules/lazyshortener.py` -> __future__, requests, sys, typing
 - `modules/legacy/__init__.py` -> __future__, pathlib
-- `modules/lesson_ingestor.py` -> __future__, dataclasses, json, pathlib, typing
+- `modules/lesson_ingestor.py` -> __future__, dataclasses, hashlib, json, os, pathlib, typing
 - `modules/lilsplunky.py` -> argparse, datetime, json, os, re, requests, rich.panel, socket, time, watchdog.events, watchdog.observers
 - `modules/linux_advanced_payloads.py` -> __future__, base64, dataclasses, os, pathlib, random, subprocess, tempfile, typing
 - `modules/listener_manager.py` -> __future__, dataclasses, errno, ipaddress, json, os, socket, threading, time, typing, werkzeug.serving
@@ -81,7 +81,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/loop/decision_log.py` -> __future__, collections.abc, dataclasses, hashlib, json, os, pathlib, time, typing
 - `modules/loop/engine_proxy.py` -> __future__
 - `modules/loop/triage_scheduler.py` -> __future__, collections.abc, typing
-- `modules/loop/worker_agentic.py` -> __future__, collections.abc, json, re, types, typing
+- `modules/loop/worker_agentic.py` -> __future__, collections.abc, json, re, time, types, typing
 - `modules/loop/worker_execution.py` -> __future__, os, queue, signal, subprocess, threading, time, typing
 - `modules/loop/worker_gating.py` -> __future__, re
 - `modules/loop/worker_memory.py` -> __future__
@@ -187,6 +187,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/session_rag.py` -> __future__, argparse, chromadb, chromadb.config, dataclasses, hashlib, json, os, pandas, pathlib, re, shutil, typing
 - `modules/session_reader.py` -> __future__, abc, csv, dataclasses, glob, json, os, pathlib, typing
 - `modules/session_state.py` -> csv, datetime, json, pathlib, re
+- `modules/shell_session_store.py` -> __future__, datetime, hashlib, json, os, pathlib, typing
 - `modules/sidequest.py` -> __future__, hashlib, json, os, pathlib, time, typing
 - `modules/sidequestion.py` -> __future__, dataclasses, threading, time, typing, uuid
 - `modules/sinks/attack_graph.py` -> __future__, pathlib
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `skills/mcp_tools/ttp_chain.py` -> __future__, datetime, json, mcp, sys, typing
 - `skills/mcp_tools/unified_dashboard.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/winbox_eventlogs.py` -> __future__, json, mcp, typing
-- `skills/mcp_tools/winbox_exec.py` -> __future__, json, mcp, typing
 
 Next: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)

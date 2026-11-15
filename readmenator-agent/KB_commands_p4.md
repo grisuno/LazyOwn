@@ -220,12 +220,12 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Symbols:
   - `PwnCommandSet` (class, line 28) `class PwnCommandSet(LazyOwnCommandSet)`
   - `do_auto_pwn` (method, line 35) `def do_auto_pwn(self, line)`
-  - `do_rich_tui` (method, line 132) `def do_rich_tui(self, line)`
-  - `do_exploit_chain` (method, line 181) `def do_exploit_chain(self, line)`
-  - `do_lolbas_list` (method, line 268) `def do_lolbas_list(self, line)`
-  - `do_lolbas_use` (method, line 325) `def do_lolbas_use(self, line)`
-  - `do_stealth_on` (method, line 417) `def do_stealth_on(self, line)`
-  - `do_stealth_off` (method, line 445) `def do_stealth_off(self, line)`
+  - `do_rich_tui` (method, line 138) `def do_rich_tui(self, line)`
+  - `do_exploit_chain` (method, line 187) `def do_exploit_chain(self, line)`
+  - `do_lolbas_list` (method, line 274) `def do_lolbas_list(self, line)`
+  - `do_lolbas_use` (method, line 331) `def do_lolbas_use(self, line)`
+  - `do_stealth_on` (method, line 423) `def do_stealth_on(self, line)`
+  - `do_stealth_off` (method, line 451) `def do_stealth_off(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 

@@ -1,8 +1,82 @@
-# Symbols (page 50 of 52)
+# Symbols (page 50 of 53)
 Previous: [SYMBOLS_p49.md](SYMBOLS_p49.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_no_deny_keeps_allow` | method | `tests/test_scope_deny_priority.py:52` | `def test_no_deny_keeps_allow(self, scope_module)` |
+| `test_read_denylist` | method | `tests/test_scope_deny_priority.py:32` | `def test_read_denylist(self, scope_module, tmp_path)` |
+| `TestBuildOffensiveCommands` | class | `tests/test_scope_guard.py:119` | `class TestBuildOffensiveCommands` |
+| `TestNormalizeScope` | class | `tests/test_scope_guard.py:53` | `class TestNormalizeScope` |
+| `TestOffensiveCategoryDrift` | class | `tests/test_scope_guard.py:210` | `class TestOffensiveCategoryDrift` |
+| `TestScopeExemptions` | class | `tests/test_scope_guard.py:194` | `class TestScopeExemptions` |
+| `TestScopeGuardEvaluate` | class | `tests/test_scope_guard.py:140` | `class TestScopeGuardEvaluate` |
+| `TestScopeMode` | class | `tests/test_scope_guard.py:33` | `class TestScopeMode` |
+| `TestTargetInScope` | class | `tests/test_scope_guard.py:80` | `class TestTargetInScope` |
+| `_guard` | function | `tests/test_scope_guard.py:135` | `def _guard(scope, mode, offensive_names)` |
+| `boom` | function | `tests/test_scope_guard.py:180` | `def boom(_name)` |
+| `test_bare_ip_match` | method | `tests/test_scope_guard.py:90` | `def test_bare_ip_match(self)` |
+| `test_bare_ip_mismatch` | method | `tests/test_scope_guard.py:93` | `def test_bare_ip_mismatch(self)` |
+| `test_benign_command_allowed` | method | `tests/test_scope_guard.py:151` | `def test_benign_command_allowed(self)` |
+| `test_blank_entries_ignored` | method | `tests/test_scope_guard.py:115` | `def test_blank_entries_ignored(self)` |
+| `test_categories_exist_in_utils` | method | `tests/test_scope_guard.py:213` | `def test_categories_exist_in_utils(self)` |
+| `test_classifier_exception_fails_open` | method | `tests/test_scope_guard.py:179` | `def test_classifier_exception_fails_open(self)` |
+| `test_comma_separated_string` | method | `tests/test_scope_guard.py:67` | `def test_comma_separated_string(self)` |
+| `test_decision_is_value_object` | method | `tests/test_scope_guard.py:187` | `def test_decision_is_value_object(self)` |
+| `test_empty` | method | `tests/test_scope_guard.py:131` | `def test_empty(self)` |
+| `test_empty_string` | method | `tests/test_scope_guard.py:73` | `def test_empty_string(self)` |
+| `test_empty_target` | method | `tests/test_scope_guard.py:81` | `def test_empty_target(self)` |
+| `test_empty_target_allowed` | method | `tests/test_scope_guard.py:156` | `def test_empty_target_allowed(self)` |
+| `test_exact_hostname` | method | `tests/test_scope_guard.py:96` | `def test_exact_hostname(self)` |
+| `test_exempt_command_allowed_out_of_scope` | method | `tests/test_scope_guard.py:197` | `def test_exempt_command_allowed_out_of_scope(self)` |
+| `test_exempt_set_covers_offensive_operational_surfaces` | method | `tests/test_scope_guard.py:203` | `def test_exempt_set_covers_offensive_operational_surfaces(self)` |
+| `test_from_value_passthrough` | method | `tests/test_scope_guard.py:34` | `def test_from_value_passthrough(self)` |
+| `test_from_value_strings` | method | `tests/test_scope_guard.py:45` | `def test_from_value_strings(self, raw, expected)` |
+| `test_hostname_not_in_cidr` | method | `tests/test_scope_guard.py:106` | `def test_hostname_not_in_cidr(self)` |
+| `test_in_scope_allowed` | method | `tests/test_scope_guard.py:160` | `def test_in_scope_allowed(self)` |
+| `test_ip_in_cidr` | method | `tests/test_scope_guard.py:84` | `def test_ip_in_cidr(self)` |
+| `test_ip_not_matched_by_hostname_entry` | method | `tests/test_scope_guard.py:109` | `def test_ip_not_matched_by_hostname_entry(self)` |
+| `test_ip_outside_cidr` | method | `tests/test_scope_guard.py:87` | `def test_ip_outside_cidr(self)` |
+| `test_ipv6_in_cidr` | method | `tests/test_scope_guard.py:112` | `def test_ipv6_in_cidr(self)` |
+| `test_json_array_string` | method | `tests/test_scope_guard.py:64` | `def test_json_array_string(self)` |
+| `test_list` | method | `tests/test_scope_guard.py:57` | `def test_list(self)` |
+| `test_mode_off_is_noop` | method | `tests/test_scope_guard.py:141` | `def test_mode_off_is_noop(self)` |
+| `test_no_scope_allows` | method | `tests/test_scope_guard.py:146` | `def test_no_scope_allows(self)` |
+| `test_none` | method | `tests/test_scope_guard.py:54` | `def test_none(self)` |
+| `test_out_of_scope_enforce_blocks` | method | `tests/test_scope_guard.py:172` | `def test_out_of_scope_enforce_blocks(self)` |
+| `test_out_of_scope_warn_allows_with_reason` | method | `tests/test_scope_guard.py:165` | `def test_out_of_scope_warn_allows_with_reason(self)` |
+| `test_selects_offensive_only` | method | `tests/test_scope_guard.py:120` | `def test_selects_offensive_only(self)` |
+| `test_space_separated_string` | method | `tests/test_scope_guard.py:70` | `def test_space_separated_string(self)` |
+| `test_subdomain_match` | method | `tests/test_scope_guard.py:99` | `def test_subdomain_match(self)` |
+| `test_tuple_and_set` | method | `tests/test_scope_guard.py:60` | `def test_tuple_and_set(self)` |
+| `test_unknown_defaults_to_warn` | method | `tests/test_scope_guard.py:49` | `def test_unknown_defaults_to_warn(self, raw)` |
+| `test_unsupported_type` | method | `tests/test_scope_guard.py:76` | `def test_unsupported_type(self)` |
+| `test_wildcard_match` | method | `tests/test_scope_guard.py:102` | `def test_wildcard_match(self)` |
+| `TestExplicitTargetCheck` | class | `tests/test_scope_guard_integration.py:185` | `class TestExplicitTargetCheck` |
+| `TestOffensiveClassificationIsBuilt` | class | `tests/test_scope_guard_integration.py:138` | `class TestOffensiveClassificationIsBuilt` |
+| `TestResolveOffensive` | class | `tests/test_scope_guard_integration.py:41` | `class TestResolveOffensive` |
+| `TestScopeCheck` | class | `tests/test_scope_guard_integration.py:59` | `class TestScopeCheck` |
+| `TestScopeConfirmNonInteractive` | class | `tests/test_scope_guard_integration.py:120` | `class TestScopeConfirmNonInteractive` |
+| `TestScopeEntries` | class | `tests/test_scope_guard_integration.py:128` | `class TestScopeEntries` |
+| `_do_benign` | function | `tests/test_scope_guard_integration.py:147` | `def _do_benign()` |
+| `_do_offensive` | function | `tests/test_scope_guard_integration.py:144` | `def _do_offensive()` |
+| `_make_stub` | function | `tests/test_scope_guard_integration.py:28` | `def _make_stub(params, offensive, aliases, confirm)` |
+| `test_alias_parameter_is_preserved_after_dynamic_expansion` | function | `tests/test_scope_guard_integration.py:163` | `def test_alias_parameter_is_preserved_after_dynamic_expansion()` |
+| `test_alias_to_benign` | method | `tests/test_scope_guard_integration.py:54` | `def test_alias_to_benign(self)` |
+| `test_alias_to_offensive` | method | `tests/test_scope_guard_integration.py:50` | `def test_alias_to_offensive(self)` |
+| `test_benign` | method | `tests/test_scope_guard_integration.py:46` | `def test_benign(self)` |
+| `test_benign_command_allows` | method | `tests/test_scope_guard_integration.py:74` | `def test_benign_command_allows(self)` |
+| `test_build_offensive_from_categories` | method | `tests/test_scope_guard_integration.py:139` | `def test_build_offensive_from_categories(self)` |
+| `test_default_classification_kept_without_force` | method | `tests/test_scope_guard_integration.py:215` | `def test_default_classification_kept_without_force(self)` |
+| `test_direct_offensive` | method | `tests/test_scope_guard_integration.py:42` | `def test_direct_offensive(self)` |
+| `test_enforce_allows_explicit_in_scope_target` | method | `tests/test_scope_guard_integration.py:197` | `def test_enforce_allows_explicit_in_scope_target(self)` |
+| `test_enforce_blocks_explicit_out_of_scope_target` | method | `tests/test_scope_guard_integration.py:188` | `def test_enforce_blocks_explicit_out_of_scope_target(self)` |
+| `test_enforce_mode_blocks_out_of_scope` | method | `tests/test_scope_guard_integration.py:88` | `def test_enforce_mode_blocks_out_of_scope(self)` |
+| `test_enforce_mode_confirmation_allows` | method | `tests/test_scope_guard_integration.py:96` | `def test_enforce_mode_confirmation_allows(self)` |
+| `test_in_scope_allows` | method | `tests/test_scope_guard_integration.py:67` | `def test_in_scope_allows(self)` |
+| `test_malformed_params_fail_open` | method | `tests/test_scope_guard_integration.py:111` | `def test_malformed_params_fail_open(self)` |
+| `test_no_scope_allows` | method | `tests/test_scope_guard_integration.py:60` | `def test_no_scope_allows(self)` |
+| `test_non_tty_refuses` | method | `tests/test_scope_guard_integration.py:121` | `def test_non_tty_refuses(self, monkeypatch)` |
+| `test_normalizes_list` | method | `tests/test_scope_guard_integration.py:129` | `def test_normalizes_list(self)` |
 | `test_normalizes_string` | method | `tests/test_scope_guard_integration.py:133` | `def test_normalizes_string(self)` |
 | `test_off_mode_allows` | method | `tests/test_scope_guard_integration.py:104` | `def test_off_mode_allows(self)` |
 | `test_warn_annotates_explicit_out_of_scope_target` | method | `tests/test_scope_guard_integration.py:206` | `def test_warn_annotates_explicit_out_of_scope_target(self, capsys)` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p49.md](SYMBOLS_p49.md)
 | `test_abstains_without_match` | function | `tests/test_selection_lazyscript.py:49` | `def test_abstains_without_match(scripts_dir)` |
 | `test_emitted_command_is_routable` | function | `tests/test_selection_lazyscript.py:77` | `def test_emitted_command_is_routable(scripts_dir)` |
 | `test_excluded_command_abstains` | function | `tests/test_selection_lazyscript.py:66` | `def test_excluded_command_abstains(scripts_dir)` |
-| `test_matches_goal_token` | function | `tests/test_selection_lazyscript.py:42` | `def test_matches_goal_token(scripts_dir)` |
-| `test_matches_service_token` | function | `tests/test_selection_lazyscript.py:34` | `def test_matches_service_token(scripts_dir)` |
-| `test_missing_dir_is_safe` | function | `tests/test_selection_lazyscript.py:72` | `def test_missing_dir_is_safe(tmp_path)` |
-| `test_requires_target` | function | `tests/test_selection_lazyscript.py:60` | `def test_requires_target(scripts_dir)` |
-| `test_skips_lifecycle_scripts` | function | `tests/test_selection_lazyscript.py:54` | `def test_skips_lifecycle_scripts(scripts_dir)` |
-| `TestModuleSelector` | class | `tests/test_selection_module.py:51` | `class TestModuleSelector` |
-| `_ctx` | function | `tests/test_selection_module.py:41` | `def _ctx(goal, target, services, exclude)` |
-| `registry` | function | `tests/test_selection_module.py:18` | `def registry(tmp_path, monkeypatch)` |
-| `test_exclude_skips_taken_intent` | method | `tests/test_selection_module.py:87` | `def test_exclude_skips_taken_intent(self, registry)` |
-| `test_goal_token_raises_addon` | method | `tests/test_selection_module.py:52` | `def test_goal_token_raises_addon(self, registry)` |
-| `test_lazy_addon_normalised_to_routable_verb` | method | `tests/test_selection_module.py:64` | `def test_lazy_addon_normalised_to_routable_verb(self, registry)` |
-| `test_no_match_abstains` | method | `tests/test_selection_module.py:78` | `def test_no_match_abstains(self, registry)` |
-| `test_playbook_entry_routes_apt_playbook` | method | `tests/test_selection_module.py:58` | `def test_playbook_entry_routes_apt_playbook(self, registry)` |
-| `test_requires_target` | method | `tests/test_selection_module.py:82` | `def test_requires_target(self, registry)` |
-| `test_routable_through_loop` | method | `tests/test_selection_module.py:70` | `def test_routable_through_loop(self, registry)` |
-| `_PDB` | class | `tests/test_selection_parquet.py:23` | `class _PDB` |
-| `__init__` | method | `tests/test_selection_parquet.py:26` | `def __init__(self, rows_by_cat)` |
-| `_bind` | function | `tests/test_selection_parquet.py:35` | `def _bind(monkeypatch, pdb, blocked)` |
-| `_ctx` | function | `tests/test_selection_parquet.py:46` | `def _ctx()` |
-| `_rows` | function | `tests/test_selection_parquet.py:41` | `def _rows()` |
-| `query_session` | method | `tests/test_selection_parquet.py:30` | `def query_session(self, phase, target, success_only, limit)` |
-| `test_blacklisted_verb_skipped` | function | `tests/test_selection_parquet.py:90` | `def test_blacklisted_verb_skipped(monkeypatch)` |
-| `test_burned_verb_skipped` | function | `tests/test_selection_parquet.py:83` | `def test_burned_verb_skipped(monkeypatch)` |
-| `test_most_frequent_head_wins` | function | `tests/test_selection_parquet.py:65` | `def test_most_frequent_head_wins(monkeypatch)` |
-| `test_multi_category_phase_falls_through` | function | `tests/test_selection_parquet.py:104` | `def test_multi_category_phase_falls_through(monkeypatch)` |
-| `test_no_pdb_abstains` | function | `tests/test_selection_parquet.py:59` | `def test_no_pdb_abstains(monkeypatch)` |
-| `test_no_target_abstains` | function | `tests/test_selection_parquet.py:53` | `def test_no_target_abstains(monkeypatch)` |
-| `test_success_only_query` | function | `tests/test_selection_parquet.py:75` | `def test_success_only_query(monkeypatch)` |
-| `test_taken_and_junk_skipped` | function | `tests/test_selection_parquet.py:97` | `def test_taken_and_junk_skipped(monkeypatch)` |
-| `TestPhaseTechniques` | class | `tests/test_selection_technique.py:81` | `class TestPhaseTechniques` |
-| `TestTechniqueSelector` | class | `tests/test_selection_technique.py:114` | `class TestTechniqueSelector` |
-| `_FakeStix` | class | `tests/test_selection_technique.py:26` | `class _FakeStix` |
-| `_FakeStore` | class | `tests/test_selection_technique.py:18` | `class _FakeStore` |
-| `__init__` | method | `tests/test_selection_technique.py:19` | `def __init__(self, techniques)` |
-| `__init__` | method | `tests/test_selection_technique.py:27` | `def __init__(self, techniques, available)` |
-| `_ctx` | function | `tests/test_selection_technique.py:75` | `def _ctx(phase, os_hint, target, exclude)` |
-| `available` | method | `tests/test_selection_technique.py:31` | `def available(self)` |
-| `fake_stix` | function | `tests/test_selection_technique.py:67` | `def fake_stix(monkeypatch)` |
-| `query` | method | `tests/test_selection_technique.py:22` | `def query(self, filters)` |
-| `store` | method | `tests/test_selection_technique.py:34` | `def store(self)` |
-| `techniques_for_tactics` | method | `tests/test_selection_technique.py:37` | `def techniques_for_tactics(self, tactics, platform)` |
-| `test_atomic_fallback_when_stix_missing` | method | `tests/test_selection_technique.py:104` | `def test_atomic_fallback_when_stix_missing(self, monkeypatch, tmp_path)` |
-| `test_exclude_skips_to_next_technique` | method | `tests/test_selection_technique.py:131` | `def test_exclude_skips_to_next_technique(self, fake_stix, monkeypatch)` |
-| `test_postexp_phase_proposes_atomic_tests` | method | `tests/test_selection_technique.py:115` | `def test_postexp_phase_proposes_atomic_tests(self, fake_stix)` |
-| `test_recon_phase_abstains` | method | `tests/test_selection_technique.py:122` | `def test_recon_phase_abstains(self, fake_stix)` |
-| `test_requires_target` | method | `tests/test_selection_technique.py:126` | `def test_requires_target(self)` |
-| `test_routable_through_loop` | method | `tests/test_selection_technique.py:146` | `def test_routable_through_loop(self, fake_stix)` |
-| `test_stix_phase_scoped` | method | `tests/test_selection_technique.py:82` | `def test_stix_phase_scoped(self, fake_stix)` |
-| `test_top_n_cap` | method | `tests/test_selection_technique.py:92` | `def test_top_n_cap(self, fake_stix, monkeypatch, tmp_path)` |
-| `test_unknown_phase_empty` | method | `tests/test_selection_technique.py:88` | `def test_unknown_phase_empty(self, fake_stix)` |
-| `TestSynthTechniqueChain` | class | `tests/test_selection_technique_chain.py:42` | `class TestSynthTechniqueChain` |
-| `TestTechniqueChainSelector` | class | `tests/test_selection_technique_chain.py:68` | `class TestTechniqueChainSelector` |
-| `_ctx` | function | `tests/test_selection_technique_chain.py:18` | `def _ctx(phase, os_hint, target, exclude, extra)` |
-| `_fake_write` | function | `tests/test_selection_technique_chain.py:33` | `def _fake_write(data, chains_dir)` |
-| `synth_sandbox` | function | `tests/test_selection_technique_chain.py:29` | `def synth_sandbox(monkeypatch)` |
-| `test_already_registered_chain_is_not_rewritten` | method | `tests/test_selection_technique_chain.py:124` | `def test_already_registered_chain_is_not_rewritten(self, monkeypatch)` |
-| `test_builds_ordered_atomic_tests_steps` | method | `tests/test_selection_technique_chain.py:43` | `def test_builds_ordered_atomic_tests_steps(self)` |
-| `test_drops_malformed_ids_and_dedupes` | method | `tests/test_selection_technique_chain.py:54` | `def test_drops_malformed_ids_and_dedupes(self)` |
-| `test_excluded_command_is_not_reproposed` | method | `tests/test_selection_technique_chain.py:111` | `def test_excluded_command_is_not_reproposed(self, synth_sandbox, monkeypatch)` |
-| `test_goal_named_ids_win_verbatim` | method | `tests/test_selection_technique_chain.py:86` | `def test_goal_named_ids_win_verbatim(self, synth_sandbox, monkeypatch)` |
-| `test_phase_techniques_compile_into_one_chain` | method | `tests/test_selection_technique_chain.py:69` | `def test_phase_techniques_compile_into_one_chain(self, synth_sandbox, monkeypatch)` |
-| `test_recon_phase_abstains` | method | `tests/test_selection_technique_chain.py:97` | `def test_recon_phase_abstains(self, synth_sandbox)` |
-| `test_requires_target` | method | `tests/test_selection_technique_chain.py:107` | `def test_requires_target(self, synth_sandbox)` |
-| `test_single_technique_abstains` | method | `tests/test_selection_technique_chain.py:100` | `def test_single_technique_abstains(self, synth_sandbox, monkeypatch)` |
-| `test_under_two_techniques_is_empty` | method | `tests/test_selection_technique_chain.py:59` | `def test_under_two_techniques_is_empty(self)` |
-| `test_validates_against_registry` | method | `tests/test_selection_technique_chain.py:63` | `def test_validates_against_registry(self)` |
-| `TestAdversaryWiring` | class | `tests/test_selection_wiring.py:43` | `class TestAdversaryWiring` |
-| `TestPlaybookWiring` | class | `tests/test_selection_wiring.py:20` | `class TestPlaybookWiring` |
-| `TestRouting` | class | `tests/test_selection_wiring.py:61` | `class TestRouting` |
-| `_ctx` | function | `tests/test_selection_wiring.py:15` | `def _ctx(goal, target, phase, exclude)` |
-| `testProfiles_resolve_to_numeric_ids` | method | `tests/test_selection_wiring.py:44` | `def testProfiles_resolve_to_numeric_ids(self)` |
-| `test_adverbial_words_do_not_hijack` | method | `tests/test_selection_wiring.py:55` | `def test_adverbial_words_do_not_hijack(self)` |
-| `test_cascade_names_actor_by_alias` | method | `tests/test_selection_wiring.py:21` | `def test_cascade_names_actor_by_alias(self)` |
-| `test_cascade_names_actor_slug` | method | `tests/test_selection_wiring.py:27` | `def test_cascade_names_actor_slug(self)` |
 
 Next: [SYMBOLS_p51.md](SYMBOLS_p51.md)

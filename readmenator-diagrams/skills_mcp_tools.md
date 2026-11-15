@@ -1,6 +1,6 @@
 # skills/mcp_tools
 
-skills/mcp_tools groups 206 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. ExploitGym CLI command set — real-world exploit benchmark harness.
+skills/mcp_tools groups 214 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. ExploitGym CLI command set — real-world exploit benchmark harness.
 
 ```mermaid
 graph LR
@@ -25,7 +25,7 @@ cli groups 1 files (py) around ExploitGymCommandSet, do_exploitgym, _egym_status
 
 ## modules (1.2)
 
-modules groups 18 files (py) around PipelineError, PipelineSchemaError, PipelineNotFoundError, PipelineCycleError, PipelineStep. Campaign scope coverage query for the autonomous loop.
+modules groups 21 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. Campaign scope coverage query for the autonomous loop.
 
 ## scripts (1.3)
 
@@ -37,7 +37,7 @@ skills groups 167 files (py) around MCPContext, _try_import, _update_task_status
 
 ## tests (1.5)
 
-tests groups 19 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
+tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
 
 **Files**:
 
@@ -45,6 +45,8 @@ tests groups 19 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/cve_matcher.py
+- modules/detection_feed.py
+- modules/detection_oracle.py
 - modules/evasion_engine.py
 - modules/event_engine.py
 - modules/exploitgym_gym.py
@@ -56,6 +58,7 @@ tests groups 19 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - modules/pipeline_engine.py
 - modules/playbook_executor.py
 - modules/reactive_engine.py
+- modules/rl_trainer.py
 - modules/session_rag.py
 - modules/session_reader.py
 - modules/timeline_narrator.py
@@ -234,6 +237,10 @@ tests groups 19 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_bridge_catalog_filtered.py
 - tests/test_core_modules.py
 - tests/test_daemon_control.py
+- tests/test_daemon_shell_detector.py
+- tests/test_daemon_step_reward.py
+- tests/test_detection_dampening.py
+- tests/test_detection_feed.py
 - tests/test_engage_orchestrator.py
 - tests/test_exploitgym_gym.py
 - tests/test_golden_path.py
@@ -242,6 +249,7 @@ tests groups 19 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_mcp_tools_registry.py
 - tests/test_metrics.py
 - tests/test_metrics_aware_selector.py
+- tests/test_moe_rl_swan.py
 - tests/test_pipeline_engine.py
 - tests/test_rea_mcp.py
 - tests/test_reactive_engine_semantic.py

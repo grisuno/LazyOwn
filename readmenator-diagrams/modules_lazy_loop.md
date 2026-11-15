@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 166 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, plausible_command, looks_like_prose. exploit commands migrated from lazyown.py.
+modules: lazy_loop groups 167 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, _auto_pwn_cover_all, plausible_command. exploit commands migrated from lazyown.py.
 
 ```mermaid
 graph LR
@@ -41,7 +41,7 @@ lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _st
 
 ## modules (2.4)
 
-modules groups 71 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, plausible_command, looks_like_prose. Active Directory Certificate Services (AD CS) attack module.
+modules groups 72 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, _auto_pwn_cover_all, plausible_command. Active Directory Certificate Services (AD CS) attack module.
 
 ## skills (2.5)
 
@@ -123,6 +123,7 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/selfupdate.py
 - modules/service_aliases.py
 - modules/sidequest.py
+- modules/sidequestion.py
 - modules/sinks/chain_feed.py
 - modules/sinks/world_diff.py
 - modules/threat_model.py

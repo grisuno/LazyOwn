@@ -1,6 +1,6 @@
 # cli
 
-cli groups 123 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. LazyOwn CLI infrastructure.
+cli groups 112 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -25,29 +25,29 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (6.1)
+## cli (5.1)
 
-cli groups 45 files (py) around Theme, get_theme, theme_from_payload, PendingCommandSet, is_pending. LazyOwn CLI infrastructure.
+cli groups 44 files (py) around Theme, get_theme, theme_from_payload, PendingCommandSet, is_pending. LazyOwn CLI infrastructure.
 
-## core (6.2)
+## core (5.2)
 
-core groups 12 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Core primitives for the LazyOwn framework.
+core groups 5 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. ANSI color constants and console output helpers.
 
-## modules (6.3)
+## modules (5.3)
 
-modules groups 4 files (py) around EvidenceConfig, hash_bytes, _validate_hash, EvidenceStore, __init__. Rich per-step engagement summaries from evidence and sessions artefacts.
+modules groups 5 files (py) around EvidenceConfig, hash_bytes, _validate_hash, EvidenceStore, __init__. Rich per-step engagement summaries from evidence and sessions artefacts.
 
-## root (6.4)
+## root (5.4)
 
 root groups 1 files (py) around sanitize_content, RAGManager, __init__, initialize_cache_table, get_cache_key. RAGManager: Manages RAG functionality with CAG caching for document processing and...
 
-## skills (6.5)
+## skills (5.5)
 
 skills groups 7 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. MCP tool ``lazyown_graph_neighbors`` (migrated from the call_tool dispatch chain).
 
-## tests (6.6)
+## tests (5.6)
 
-tests groups 54 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
+tests groups 50 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
 
 **Files**:
 
@@ -78,7 +78,6 @@ tests groups 54 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/palette_overlay.py
 - cli/palette_telemetry.py
 - cli/phase_labels.py
-- cli/plugin_tiers.py
 - cli/protips.py
 - cli/reactive_hints.py
 - cli/reasoning_stream.py
@@ -96,22 +95,16 @@ tests groups 54 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/tutorial.py
 - cli/wizard.py
 - cli/wizard_scope.py
-- core/__init__.py
 - core/console.py
-- core/dependencies.py
 - core/error_advice.py
-- core/errors.py
-- core/host_policy.py
-- core/http.py
-- core/network.py
 - core/profiles.py
 - core/safe_console.py
 - core/text_utils.py
-- core/validators.py
 - lazy_sentinel4.py
 - modules/engage_summary.py
 - modules/enrich.py
 - modules/evidence.py
+- modules/goals.py
 - modules/privesc_predictor.py
 - skills/mcp_tools/graph_neighbors.py
 - skills/mcp_tools/graph_search.py
@@ -128,7 +121,6 @@ tests groups 54 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - tests/test_console_stdio.py
 - tests/test_daemon_ctl_command_set.py
 - tests/test_dashboard_tui.py
-- tests/test_dependencies.py
 - tests/test_doctor.py
 - tests/test_encoding_command_set.py
 - tests/test_engage_gates.py
@@ -139,23 +131,20 @@ tests groups 54 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - tests/test_graph_advisor.py
 - tests/test_graph_overlay.py
 - tests/test_help_ui_command_set.py
-- tests/test_host_policy.py
 - tests/test_improvements_spec.py
-- tests/test_input_fuzz.py
 - tests/test_killchain_auto_refresh.py
 - tests/test_killchain_gap_signal.py
+- tests/test_lazy_parity.py
 - tests/test_marketplace_config.py
 - tests/test_nethelpers_command_set.py
 - tests/test_palette_overlay.py
 - tests/test_phase1_data_gaps.py
 - tests/test_phase_labels.py
-- tests/test_plugin_tiers.py
 - tests/test_profiles.py
 - tests/test_reactive_hints.py
 - tests/test_reactive_hints_expanded.py
 - tests/test_reasoning_stream.py
 - tests/test_recommendation.py
-- tests/test_require_guards.py
 - tests/test_safe_console.py
 - tests/test_scope_deny_priority.py
 - tests/test_scope_guard_integration.py

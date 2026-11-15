@@ -1,4 +1,4 @@
-# Subsystem: tests (page 9 of 26)
+# Subsystem: tests (page 9 of 27)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
 ## tests/test_core_executor.py
@@ -427,6 +427,33 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `plan` (method, line 173) `def plan(self, target, max_candidates)`
 - Depends on: `modules/db.py`, `modules/obs_parser.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_objective.py`
 
+## tests/test_daemon_shell_detector.py
+- Doc: Contract: the daemon shell detector agrees with the canonical detector.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Narrator` (class, line 25) `class _Narrator`
+  - `_detector` (function, line 35) `def _detector()`
+  - `test_real_shell_signals_detected` (function, line 57) `def test_real_shell_signals_detected()`
+  - `test_benign_output_is_not_a_shell` (function, line 63) `def test_benign_output_is_not_a_shell()`
+  - `test_matches_canonical_detector_exactly` (function, line 69) `def test_matches_canonical_detector_exactly()`
+  - `test_narrates_on_positive_only` (function, line 75) `def test_narrates_on_positive_only()`
+  - `__init__` (method, line 28) `def __init__(self)`
+  - `narrate` (method, line 31) `def narrate(self)`
+- Depends on: `modules/__init__.py`, `skills/autonomous_daemon.py`
+
+## tests/test_daemon_step_reward.py
+- Doc: Contract: the daemon step reward grants the shell tier via the canonical detector.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_reward` (function, line 25) `def _reward(output, phase)`
+  - `test_real_shell_reaches_shell_tier` (function, line 29) `def test_real_shell_reaches_shell_tier()`
+  - `test_msf_session_banner_reaches_shell_tier` (function, line 34) `def test_msf_session_banner_reaches_shell_tier()`
+  - `test_benign_banner_below_shell_tier` (function, line 39) `def test_benign_banner_below_shell_tier()`
+  - `test_failed_step_is_penalized` (function, line 44) `def test_failed_step_is_penalized()`
+- Depends on: `skills/autonomous_daemon.py`
+
 ## tests/test_dashboard_routes.py
 - Doc: Integration tests for dashboard_bp loot and timeline routes.
 - Layer: testing
@@ -462,36 +489,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_dashboard_index_returns_200` (method, line 394) `def test_dashboard_index_returns_200(self, client)`
   - `test_dashboard_api_data_returns_json` (method, line 401) `def test_dashboard_api_data_returns_json(self, client)`
 - Depends on: `modules/dashboard_bp.py`
-
-## tests/test_dashboard_tui.py
-- Doc: Tests for cli/dashboard_tui.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestReadJson` (class, line 29) `class TestReadJson`
-  - `TestCountLinesInGlob` (class, line 44) `class TestCountLinesInGlob`
-  - `TestReadRecentCommands` (class, line 65) `class TestReadRecentCommands`
-  - `TestKillChainPhases` (class, line 117) `class TestKillChainPhases`
-  - `TestGraphHints` (class, line 131) `class TestGraphHints`
-  - `test_reads_valid_file` (method, line 30) `def test_reads_valid_file(self, tmp_path)`
-  - `test_missing_file_returns_empty_dict` (method, line 35) `def test_missing_file_returns_empty_dict(self, tmp_path)`
-  - `test_invalid_json_returns_empty_dict` (method, line 38) `def test_invalid_json_returns_empty_dict(self, tmp_path)`
-  - `test_counts_non_empty_lines` (method, line 45) `def test_counts_non_empty_lines(self, tmp_path)`
-  - `test_empty_file_returns_zero` (method, line 51) `def test_empty_file_returns_zero(self, tmp_path)`
-  - `test_no_matching_files_returns_zero` (method, line 56) `def test_no_matching_files_returns_zero(self, tmp_path)`
-  - `test_multiple_files_summed` (method, line 59) `def test_multiple_files_summed(self, tmp_path)`
-  - `_make_transcript` (method, line 66) `def _make_transcript(self, tmp_path, rows)`
-  - `test_reads_recent_commands` (method, line 77) `def test_reads_recent_commands(self, tmp_path)`
-  - `test_missing_file_returns_empty` (method, line 89) `def test_missing_file_returns_empty(self, tmp_path)`
-  - `test_empty_file_returns_empty` (method, line 93) `def test_empty_file_returns_empty(self, tmp_path)`
-  - `test_respects_window_limit` (method, line 98) `def test_respects_window_limit(self, tmp_path)`
-  - `test_skips_empty_tool_rows` (method, line 105) `def test_skips_empty_tool_rows(self, tmp_path)`
-  - `test_all_phases_present` (method, line 118) `def test_all_phases_present(self)`
-  - `test_phases_ordered` (method, line 125) `def test_phases_ordered(self)`
-  - `test_returns_list_when_advisor_unavailable` (method, line 132) `def test_returns_list_when_advisor_unavailable(self)`
-  - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
-  - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
-- Depends on: `cli/dashboard_tui.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

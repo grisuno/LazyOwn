@@ -1,8 +1,12 @@
-# Symbols (page 14 of 52)
+# Symbols (page 14 of 53)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
+| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
+| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
+| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
 | `host_add` | method | `modules/db.py:357` | `def host_add(self, workspace_id, address, mac, hostname, os, state)` |
 | `host_delete` | method | `modules/db.py:390` | `def host_delete(self, host_id)` |
 | `host_find` | method | `modules/db.py:410` | `def host_find(self, workspace_id, query)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
 | `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
 | `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
-| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
-| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
-| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
-| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

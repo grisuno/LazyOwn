@@ -1,6 +1,15 @@
 # API (page 20 of 28)
 Previous: [API_p19.md](API_p19.md)
 
+## modules/sinks/chain_feed.py
+Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
+Imported by: `tests/test_lazy_loop.py`, `tests/test_sink_chain_feed.py`
+- `apply` (function) `modules/sinks/chain_feed.py:22` `def apply(event)` -- Append one chain-step trace record and steer unhandled failures.
+
+## modules/sinks/event_bus.py
+Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
+- `apply` (function) `modules/sinks/event_bus.py:9` `def apply(event)` -- Publish one event to the unified bus.
+
 ## modules/sinks/findings.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`
 Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`
@@ -470,25 +479,6 @@ Depends on: `core/hardening.py`
 - `SID.ShouldHidePid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:203`
 - `SID.HookFindFirstFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:214`
 - `SID.HookCreateFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:226`
-
-## modules/win_rootkit/win_ring3_rootkit.c
-- `DownloadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:79` `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)`
-- `ReflectiveLoadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:99` `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)`
-- `initPIDArray` (function) `modules/win_rootkit/win_ring3_rootkit.c:146` `void initPIDArray(PIDArray *array)` -- Función para inicializar el arreglo de PIDs
-- `addPID` (function) `modules/win_rootkit/win_ring3_rootkit.c:153` `void addPID(PIDArray *array, DWORD pid)` -- Función para agregar un PID al arreglo
-- `freePIDArray` (function) `modules/win_rootkit/win_ring3_rootkit.c:162` `void freePIDArray(PIDArray *array)` -- Función para liberar la memoria del arreglo de PIDs
-- `getPIDsFromTasklist` (function) `modules/win_rootkit/win_ring3_rootkit.c:166` `void getPIDsFromTasklist(PIDArray *pidArray)`
-- `AddDllToAppInitDLLs` (function) `modules/win_rootkit/win_ring3_rootkit.c:191` `BOOL AddDllToAppInitDLLs(const char* dllPath)`
-- `GetProcessIdByName` (function) `modules/win_rootkit/win_ring3_rootkit.c:240` `DWORD GetProcessIdByName(const char* processName)`
-- `Gifted` (function) `modules/win_rootkit/win_ring3_rootkit.c:270` `BOOL Gifted(DWORD processId, const char* dllPath)`
-- `elp` (function) `modules/win_rootkit/win_ring3_rootkit.c:362` `void elp()`
-- `ensure_pid_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:382` `void ensure_pid_file_exists()`
-- `ensure_key_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:419` `void ensure_key_file_exists()`
-- `ensure_hide_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:446` `void ensure_hide_file_exists()`
-- `giveGift` (function) `modules/win_rootkit/win_ring3_rootkit.c:475` `BOOL giveGift()`
-- `handle_client` (function) `modules/win_rootkit/win_ring3_rootkit.c:526` `DWORD WINAPI handle_client(LPVOID client_socket)`
-- `monitor_shell` (function) `modules/win_rootkit/win_ring3_rootkit.c:755` `DWORD WINAPI monitor_shell(LPVOID data)`
-- `main` (function) `modules/win_rootkit/win_ring3_rootkit.c:865` `int main()`
 
 
 Next: [API_p21.md](API_p21.md)

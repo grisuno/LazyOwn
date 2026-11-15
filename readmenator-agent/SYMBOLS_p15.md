@@ -1,8 +1,12 @@
-# Symbols (page 15 of 52)
+# Symbols (page 15 of 53)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
+| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
+| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
+| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
 | `bye2` | function | `modules/exp.c:167` | `void bye2(char *info, char *arg)` |
 | `create_dummy_file` | function | `modules/exp.c:564` | `void create_dummy_file(void)` |
 | `create_priv_file` | function | `modules/exp.c:572` | `void create_priv_file(void)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
 | `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
 | `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
-| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
-| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
-| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
-| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

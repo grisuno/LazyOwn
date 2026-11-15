@@ -1,8 +1,12 @@
-# Symbols (page 16 of 52)
+# Symbols (page 16 of 53)
 Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
+| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
+| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
+| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
 | `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
 | `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
 | `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
@@ -311,37 +315,37 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `stop_all` | function | `modules/lab_runtime.py:322` | `def stop_all()` |
 | `stop_range` | function | `modules/lab_runtime.py:368` | `def stop_range(profile)` |
 | `stop_ranges` | function | `modules/lab_runtime.py:379` | `def stop_ranges()` |
-| `ConversationStore` | class | `modules/lazy_agent.py:261` | `class ConversationStore` |
+| `ConversationStore` | class | `modules/lazy_agent.py:278` | `class ConversationStore` |
 | `ObservableAgentRunner` | class | `modules/lazy_agent.py:145` | `class ObservableAgentRunner(AgentRunner)` |
-| `__init__` | method | `modules/lazy_agent.py:148` | `def __init__(self, model, system_prompt, max_iterations, on_event)` |
-| `__init__` | method | `modules/lazy_agent.py:264` | `def __init__(self, task_id)` |
-| `_call_model` | method | `modules/lazy_agent.py:174` | `def _call_model(self)` |
-| `_deep_clean` | function | `modules/lazy_agent.py:237` | `def _deep_clean(value, _depth)` |
+| `__init__` | method | `modules/lazy_agent.py:148` | `def __init__(self, model, system_prompt, max_iterations, on_event, turn_timeout)` |
+| `__init__` | method | `modules/lazy_agent.py:281` | `def __init__(self, task_id)` |
+| `_call_model` | method | `modules/lazy_agent.py:185` | `def _call_model(self)` |
+| `_deep_clean` | function | `modules/lazy_agent.py:254` | `def _deep_clean(value, _depth)` |
 | `_enable_streaming` | function | `modules/lazy_agent.py:123` | `def _enable_streaming(runner, on_event)` |
-| `_invoke` | function | `modules/lazy_agent.py:190` | `def _invoke()` |
-| `_json_default` | function | `modules/lazy_agent.py:221` | `def _json_default(value)` |
-| `_json_safe` | function | `modules/lazy_agent.py:253` | `def _json_safe(messages)` |
-| `_kill` | function | `modules/lazy_agent.py:583` | `def _kill()` |
-| `_load` | method | `modules/lazy_agent.py:269` | `def _load(self)` |
-| `_process_tool_call` | method | `modules/lazy_agent.py:159` | `def _process_tool_call(self, tool_call)` |
-| `_process_watchdog` | function | `modules/lazy_agent.py:578` | `def _process_watchdog(timeout_sec, process)` |
-| `_session_from_line` | function | `modules/lazy_agent.py:556` | `def _session_from_line(line)` |
-| `_tick` | function | `modules/lazy_agent.py:196` | `def _tick()` |
-| `intent_messages` | method | `modules/lazy_agent.py:273` | `def intent_messages(self, intent_id)` |
+| `_invoke` | function | `modules/lazy_agent.py:201` | `def _invoke()` |
+| `_json_default` | function | `modules/lazy_agent.py:238` | `def _json_default(value)` |
+| `_json_safe` | function | `modules/lazy_agent.py:270` | `def _json_safe(messages)` |
+| `_kill` | function | `modules/lazy_agent.py:605` | `def _kill()` |
+| `_load` | method | `modules/lazy_agent.py:286` | `def _load(self)` |
+| `_process_tool_call` | method | `modules/lazy_agent.py:170` | `def _process_tool_call(self, tool_call)` |
+| `_process_watchdog` | function | `modules/lazy_agent.py:600` | `def _process_watchdog(timeout_sec, process)` |
+| `_session_from_line` | function | `modules/lazy_agent.py:578` | `def _session_from_line(line)` |
+| `_tick` | function | `modules/lazy_agent.py:207` | `def _tick()` |
+| `intent_messages` | method | `modules/lazy_agent.py:290` | `def intent_messages(self, intent_id)` |
 | `max_iterations` | function | `modules/lazy_agent.py:72` | `def max_iterations()` |
 | `model_timeout_sec` | function | `modules/lazy_agent.py:41` | `def model_timeout_sec()` |
-| `register_tools` | function | `modules/lazy_agent.py:322` | `def register_tools(runner, specs)` |
-| `reset_intents` | method | `modules/lazy_agent.py:315` | `def reset_intents(self)` |
+| `register_tools` | function | `modules/lazy_agent.py:339` | `def register_tools(runner, specs)` |
+| `reset_intents` | method | `modules/lazy_agent.py:332` | `def reset_intents(self)` |
 | `resolve_agentic_model` | function | `modules/lazy_agent.py:83` | `def resolve_agentic_model(exclude)` |
-| `run` | method | `modules/lazy_agent.py:168` | `def run(self, user_input)` |
-| `run_external_hermes` | function | `modules/lazy_agent.py:472` | `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` |
-| `run_external_opencode` | function | `modules/lazy_agent.py:396` | `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` |
-| `run_main_session` | function | `modules/lazy_agent.py:374` | `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` |
-| `run_worker_session` | function | `modules/lazy_agent.py:335` | `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)` |
-| `save_intent` | method | `modules/lazy_agent.py:278` | `def save_intent(self, intent_id, messages)` |
-| `save_session` | method | `modules/lazy_agent.py:305` | `def save_session(self, session_id, messages, title)` |
-| `session` | method | `modules/lazy_agent.py:287` | `def session(self, session_id)` |
-| `sessions` | method | `modules/lazy_agent.py:291` | `def sessions(self)` |
+| `run` | method | `modules/lazy_agent.py:179` | `def run(self, user_input)` |
+| `run_external_hermes` | function | `modules/lazy_agent.py:494` | `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` |
+| `run_external_opencode` | function | `modules/lazy_agent.py:418` | `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` |
+| `run_main_session` | function | `modules/lazy_agent.py:396` | `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` |
+| `run_worker_session` | function | `modules/lazy_agent.py:352` | `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event, turn_timeout)` |
+| `save_intent` | method | `modules/lazy_agent.py:295` | `def save_intent(self, intent_id, messages)` |
+| `save_session` | method | `modules/lazy_agent.py:322` | `def save_session(self, session_id, messages, title)` |
+| `session` | method | `modules/lazy_agent.py:304` | `def session(self, session_id)` |
+| `sessions` | method | `modules/lazy_agent.py:308` | `def sessions(self)` |
 | `tool_calling_enabled` | function | `modules/lazy_agent.py:57` | `def tool_calling_enabled()` |
 | `_chain_data` | function | `modules/lazy_autofire.py:225` | `def _chain_data(target, fires)` |
 | `_cooldown_filter` | function | `modules/lazy_autofire.py:180` | `def _cooldown_filter(fires, state, target, moment, chains_dir)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `TechniqueFallback` | class | `modules/lazy_fallback.py:47` | `class TechniqueFallback` |
 | `__init__` | method | `modules/lazy_fallback.py:193` | `def __init__(self, graph)` |
 | `_bind_family` | method | `modules/lazy_fallback.py:246` | `def _bind_family(self, command)` |
-| `_service_satisfied` | function | `modules/lazy_fallback.py:172` | `def _service_satisfied(required, services)` |
-| `catalogue_ids` | function | `modules/lazy_fallback.py:256` | `def catalogue_ids()` |
-| `matches` | method | `modules/lazy_fallback.py:61` | `def matches(self, command)` |
-| `suggest` | method | `modules/lazy_fallback.py:203` | `def suggest(self, command, verdict, services, has_credentials, catalogue)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

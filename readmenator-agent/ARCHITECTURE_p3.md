@@ -1,7 +1,8 @@
-# Architecture (page 3 of 11)
+# Architecture (page 3 of 12)
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/panels/cve_panel.py` -> `lazygui/panels/base.py`
 - `lazygui/panels/cve_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/event_log_panel.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/event_log_panel.py` -> `lazygui/panels/base.py`
@@ -221,6 +222,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/atomic_exploit_bridge.py` -> `modules/lazy_cve_feed.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/lazy_heat.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/outcome_bus.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/shell_session_store.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/world_model.py`
 - `modules/atomic_resolver.py` -> `core/logging.py`
 - `modules/atomic_resolver.py` -> `core/safe_exec.py`
@@ -233,6 +235,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/auto_purple.py` -> `core/logging.py`
 - `modules/auto_purple.py` -> `core/process.py`
 - `modules/auto_purple.py` -> `modules/detection_oracle.py`
+- `modules/auto_registry.py` -> `core/config.py`
 - `modules/auto_registry.py` -> `core/host_policy.py`
 - `modules/auto_registry.py` -> `modules/__init__.py`
 - `modules/auto_registry.py` -> `modules/chain_registry.py`
@@ -493,8 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_bridge.py` -> `modules/world_model.py`
 - `modules/lazy_checks.py` -> `modules/lazy_heat.py`
 - `modules/lazy_cli_bridge.py` -> `core/config.py`
-- `modules/lazy_cli_bridge.py` -> `modules/killchain.py`
-- `modules/lazy_cli_bridge.py` -> `modules/verb_catalog.py`
-- `modules/lazy_cve_feed.py` -> `modules/lazy_heat.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

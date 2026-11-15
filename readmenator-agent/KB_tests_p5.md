@@ -1,5 +1,32 @@
-# Subsystem: tests (page 5 of 26)
+# Subsystem: tests (page 5 of 27)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
+
+## tests/test_c2_agent.py
+- Doc: Malleable C2 agent: template safety, key ownership, record reading.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_client_id_derivation` (function, line 17) `def test_client_id_derivation()`
+  - `test_template_renders_without_tokens` (function, line 29) `def test_template_renders_without_tokens()`
+  - `test_template_rejects_bad_inputs` (function, line 37) `def test_template_rejects_bad_inputs()`
+  - `test_template_is_py25_safe` (function, line 51) `def test_template_is_py25_safe()`
+  - `test_template_drops_inherited_fds` (function, line 60) `def test_template_drops_inherited_fds()`
+  - `test_key_never_generated_silently` (function, line 68) `def test_key_never_generated_silently(tmp_path, monkeypatch)`
+  - `test_key_snapshot_roundtrip` (function, line 79) `def test_key_snapshot_roundtrip(tmp_path, monkeypatch)`
+  - `test_read_records_newest_last` (function, line 91) `def test_read_records_newest_last(tmp_path, monkeypatch)`
+  - `test_c2_addon_contract` (function, line 104) `def test_c2_addon_contract()`
+  - `test_credentials_file_sync_writes_live_creds` (function, line 117) `def test_credentials_file_sync_writes_live_creds(tmp_path)`
+  - `test_shell_sync_runs_after_params_exist` (function, line 136) `def test_shell_sync_runs_after_params_exist()`
+  - `test_shell_sync_adopts_file_creds` (function, line 148) `def test_shell_sync_adopts_file_creds(tmp_path, monkeypatch)`
+  - `test_sync_refuses_keyless_payload` (function, line 172) `def test_sync_refuses_keyless_payload(tmp_path, monkeypatch)`
+  - `test_c2_session_commands_are_non_interactive` (function, line 194) `def test_c2_session_commands_are_non_interactive()`
+  - `test_c2_reboot_registered` (function, line 207) `def test_c2_reboot_registered()`
+  - `test_fresh_lab_creds_rotate_and_shape` (function, line 216) `def test_fresh_lab_creds_rotate_and_shape()`
+  - `_Stub` (class, line 156) `class _Stub`
+  - `_Stub` (class, line 179) `class _Stub`
+  - `__init__` (method, line 160) `def __init__(self)`
+  - `__init__` (method, line 183) `def __init__(self)`
+- Depends on: `lazyown.py`, `modules/__init__.py`
 
 ## tests/test_c2_agent_dual.py
 - Doc: Dual C2 client profiles (lowpriv/root) contract tests.
@@ -454,36 +481,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_chain_list_lists_registry` (function, line 12) `def test_chain_list_lists_registry(capsys)`
   - `test_chain_list_filters` (function, line 22) `def test_chain_list_filters(capsys)`
 - Depends on: `cli/commands/exploit_migrated.py`
-
-## tests/test_chain_loop.py
-- Doc: Chain-aware loop execution: stepwise apt_chain decisions inside the worker, subprocess fallback...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `FakeActivity` (class, line 21) `class FakeActivity`
-  - `FakeWorker` (class, line 29) `class FakeWorker`
-  - `_intent` (function, line 49) `def _intent()`
-  - `_chain` (function, line 53) `def _chain()`
-  - `_patch_chain` (function, line 64) `def _patch_chain(monkeypatch, chain, name)`
-  - `_routable_true` (function, line 68) `def _routable_true(monkeypatch)`
-  - `test_parse_chain_invocation_splits_name_target_vars` (function, line 72) `def test_parse_chain_invocation_splits_name_target_vars()`
-  - `test_stepwise_eligible_reports_unroutable_steps` (function, line 81) `def test_stepwise_eligible_reports_unroutable_steps()`
-  - `test_run_chain_stepwise_routes_every_step_through_guard` (function, line 93) `def test_run_chain_stepwise_routes_every_step_through_guard(monkeypatch)`
-  - `test_run_chain_stepwise_subprocess_mode_falls_through` (function, line 112) `def test_run_chain_stepwise_subprocess_mode_falls_through(monkeypatch)`
-  - `test_run_chain_stepwise_auto_mode_skips_ineligible` (function, line 121) `def test_run_chain_stepwise_auto_mode_skips_ineligible(monkeypatch)`
-  - `test_run_chain_stepwise_forced_blocks_ineligible` (function, line 129) `def test_run_chain_stepwise_forced_blocks_ineligible(monkeypatch)`
-  - `test_run_chain_stepwise_guard_block_aborts_chain` (function, line 140) `def test_run_chain_stepwise_guard_block_aborts_chain(monkeypatch)`
-  - `test_run_chain_stepwise_unknown_chain_falls_through` (function, line 155) `def test_run_chain_stepwise_unknown_chain_falls_through(monkeypatch)`
-  - `test_run_chain_stepwise_nesting_limit_blocks` (function, line 162) `def test_run_chain_stepwise_nesting_limit_blocks(monkeypatch)`
-  - `test_chain_step_blocked_carries_status_and_detail` (function, line 173) `def test_chain_step_blocked_carries_status_and_detail()`
-  - `test_run_chain_stepwise_worker_target_used_when_unset` (function, line 180) `def test_run_chain_stepwise_worker_target_used_when_unset(monkeypatch)`
-  - `__init__` (method, line 22) `def __init__(self)`
-  - `emit` (method, line 25) `def emit(self, name, kind, message)`
-  - `__init__` (method, line 33) `def __init__(self, statuses)`
-  - `_target_for` (method, line 38) `def _target_for(self, intent)`
-  - `_guard_step` (method, line 41) `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)`
-  - `spy_runner` (function, line 188) `def spy_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
-- Depends on: `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/chain_registry.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

@@ -1,5 +1,35 @@
-# Subsystem: tests (page 10 of 26)
+# Subsystem: tests (page 10 of 27)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
+
+## tests/test_dashboard_tui.py
+- Doc: Tests for cli/dashboard_tui.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestReadJson` (class, line 29) `class TestReadJson`
+  - `TestCountLinesInGlob` (class, line 44) `class TestCountLinesInGlob`
+  - `TestReadRecentCommands` (class, line 65) `class TestReadRecentCommands`
+  - `TestKillChainPhases` (class, line 117) `class TestKillChainPhases`
+  - `TestGraphHints` (class, line 131) `class TestGraphHints`
+  - `test_reads_valid_file` (method, line 30) `def test_reads_valid_file(self, tmp_path)`
+  - `test_missing_file_returns_empty_dict` (method, line 35) `def test_missing_file_returns_empty_dict(self, tmp_path)`
+  - `test_invalid_json_returns_empty_dict` (method, line 38) `def test_invalid_json_returns_empty_dict(self, tmp_path)`
+  - `test_counts_non_empty_lines` (method, line 45) `def test_counts_non_empty_lines(self, tmp_path)`
+  - `test_empty_file_returns_zero` (method, line 51) `def test_empty_file_returns_zero(self, tmp_path)`
+  - `test_no_matching_files_returns_zero` (method, line 56) `def test_no_matching_files_returns_zero(self, tmp_path)`
+  - `test_multiple_files_summed` (method, line 59) `def test_multiple_files_summed(self, tmp_path)`
+  - `_make_transcript` (method, line 66) `def _make_transcript(self, tmp_path, rows)`
+  - `test_reads_recent_commands` (method, line 77) `def test_reads_recent_commands(self, tmp_path)`
+  - `test_missing_file_returns_empty` (method, line 89) `def test_missing_file_returns_empty(self, tmp_path)`
+  - `test_empty_file_returns_empty` (method, line 93) `def test_empty_file_returns_empty(self, tmp_path)`
+  - `test_respects_window_limit` (method, line 98) `def test_respects_window_limit(self, tmp_path)`
+  - `test_skips_empty_tool_rows` (method, line 105) `def test_skips_empty_tool_rows(self, tmp_path)`
+  - `test_all_phases_present` (method, line 118) `def test_all_phases_present(self)`
+  - `test_phases_ordered` (method, line 125) `def test_phases_ordered(self)`
+  - `test_returns_list_when_advisor_unavailable` (method, line 132) `def test_returns_list_when_advisor_unavailable(self)`
+  - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
+  - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
+- Depends on: `cli/dashboard_tui.py`
 
 ## tests/test_db.py
 - Doc: Tests for modules.db — LazyOwnDB SQLite layer.
@@ -425,53 +455,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_write_report_persists_markdown` (function, line 114) `def test_write_report_persists_markdown(tmp_path)`
   - `test_render_markdown_lists_evidence_and_next` (function, line 125) `def test_render_markdown_lists_evidence_and_next()`
 - Depends on: `modules/engage_summary.py`, `modules/evidence.py`
-
-## tests/test_engagement_and_ping.py
-- Doc: tests/test_engagement_and_ping.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_command_location` (function, line 30) `def _command_location(name)`
-  - `TestEngagementState` (class, line 58) `class TestEngagementState`
-  - `TestVRIScheduler` (class, line 105) `class TestVRIScheduler`
-  - `TestCuriosityEngine` (class, line 177) `class TestCuriosityEngine`
-  - `TestPingOsId` (class, line 283) `class TestPingOsId`
-  - `TestRecommendNextCommandIndex` (class, line 351) `class TestRecommendNextCommandIndex`
-  - `test_load_fresh_state_has_zero_commands` (method, line 59) `def test_load_fresh_state_has_zero_commands(self, tmp_path)`
-  - `test_save_and_reload_state` (method, line 74) `def test_save_and_reload_state(self, tmp_path)`
-  - `test_atomic_write_leaves_no_tmp_file` (method, line 90) `def test_atomic_write_leaves_no_tmp_file(self, tmp_path)`
-  - `test_next_threshold_always_positive` (method, line 106) `def test_next_threshold_always_positive(self)`
-  - `test_next_threshold_mean_near_target` (method, line 113) `def test_next_threshold_mean_near_target(self)`
-  - `test_threshold_is_variable_not_constant` (method, line 120) `def test_threshold_is_variable_not_constant(self)`
-  - `test_vri_fires_when_threshold_reached` (method, line 126) `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)`
-  - `test_vri_does_not_fire_before_threshold` (method, line 152) `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)`
-  - `_make_state` (method, line 178) `def _make_state(self, seen)`
-  - `_minimal_index` (method, line 186) `def _minimal_index(self, phase_cmds)`
-  - `test_curiosity_shows_undiscovered_command` (method, line 192) `def test_curiosity_shows_undiscovered_command(self, capsys)`
-  - `test_curiosity_does_not_repeat_in_session` (method, line 202) `def test_curiosity_does_not_repeat_in_session(self, capsys)`
-  - `test_curiosity_silent_when_all_discovered` (method, line 219) `def test_curiosity_silent_when_all_discovered(self, capsys)`
-  - `test_curiosity_silent_when_disabled` (method, line 229) `def test_curiosity_silent_when_disabled(self, capsys)`
-  - `test_curiosity_silent_for_unknown_phase` (method, line 245) `def test_curiosity_silent_for_unknown_phase(self, capsys)`
-  - `test_commands_seen_accumulates_across_calls` (method, line 254) `def test_commands_seen_accumulates_across_calls(self, tmp_path)`
-  - `_ping_stdout` (method, line 286) `def _ping_stdout(self, ttl)`
-  - `_make_params` (method, line 289) `def _make_params(self)`
-  - `_extract_os_id_from_json` (method, line 292) `def _extract_os_id_from_json(self, data)`
-  - `test_ttl_64_maps_to_os_id_1_linux` (method, line 295) `def test_ttl_64_maps_to_os_id_1_linux(self)`
-  - `test_ttl_128_maps_to_os_id_2_windows` (method, line 302) `def test_ttl_128_maps_to_os_id_2_windows(self)`
-  - `test_ttl_127_maps_to_os_id_2_windows` (method, line 309) `def test_ttl_127_maps_to_os_id_2_windows(self)`
-  - `test_ttl_63_maps_to_os_id_1_linux` (method, line 316) `def test_ttl_63_maps_to_os_id_1_linux(self)`
-  - `test_ttl_255_maps_to_unknown` (method, line 323) `def test_ttl_255_maps_to_unknown(self)`
-  - `test_ping_os_json_contract` (method, line 330) `def test_ping_os_json_contract(self)`
-  - `test_ping_persists_via_apply_assign` (method, line 338) `def test_ping_persists_via_apply_assign(self)`
-  - `_build_index` (method, line 354) `def _build_index(self, tmp_path, phase, n_cmds)`
-  - `_build_csv` (method, line 366) `def _build_csv(self, tmp_path, run_cmds)`
-  - `test_shows_unrun_commands` (method, line 411) `def test_shows_unrun_commands(self, tmp_path, capsys)`
-  - `test_shows_nothing_when_all_run` (method, line 436) `def test_shows_nothing_when_all_run(self, tmp_path)`
-  - `test_no_graph_nodes_in_output` (method, line 456) `def test_no_graph_nodes_in_output(self, tmp_path, capsys)`
-  - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
-  - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
-  - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
-- Depends on: `cli/engagement_hooks.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

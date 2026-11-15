@@ -1,13 +1,13 @@
 # Second Brain
 
-*Last synthesized: 2026-11-13 | 1627 files | 30 concept pages | offline, zero tokens*
+*Last synthesized: 2026-11-15 | 1634 files | 30 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
 
 ## Vault Overview
 
-The codebase centres on `_context.py`, `lazy_loop.py`, `logging.py`. Architecturally it is 6 layers, dominant utility (983 files) across 30 import-based communities. Recorded risk surface: 0 security findings and 156 dependency cycles.
+The codebase centres on `_context.py`, `lazy_loop.py`, `logging.py`. Architecturally it is 6 layers, dominant utility (983 files) across 30 import-based communities. Recorded risk surface: 0 security findings and 159 dependency cycles.
 
 Surprising tissue lives between skills/mcp_tools, modules: lazy_loop, cli/commands: 20 extracted cross-community imports and 0 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
@@ -17,14 +17,14 @@ Open work clusters around documentation (91% file coverage), 0 security findings
 
 | Metric | Value |
 |--------|-------|
-| Files | 1627 |
-| Symbols | 25636 |
-| Resolved imports | 6418 |
+| Files | 1634 |
+| Symbols | 25720 |
+| Resolved imports | 6449 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
 | Communities | 30 |
-| Doc coverage | 91% (1486/1627 files) |
+| Doc coverage | 91% (1493/1634 files) |
 | Security findings | 0 |
-| Estimated read cost | ~996079 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~1000378 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 8: `lazyc2.py`, `lazy_loop.py`, `mcp_generated_tools.py`, `3d-force-graph-1.73.4.min.js`, `html2pdf.bundle.min.js` (+3 more) |
 
 ## Reading Order
@@ -40,17 +40,17 @@ readmenator query "<question>" --target LazyOwn
 
 ## Concept Wiki
 
-- [skills/mcp_tools (206 files, cohesion 0.63)](./community_0_skills_mcp_tools.md)
-- [modules: lazy_loop (166 files, cohesion 0.54)](./community_1_modules_lazy_loop.md)
-- [cli/commands (139 files, cohesion 0.45)](./community_2_cli_commands.md)
-- [modules: lazyown (139 files, cohesion 0.38)](./community_3_modules_lazyown.md)
-- [modules: lazyc2 (135 files, cohesion 0.46)](./community_4_modules_lazyc2.md)
-- [cli (123 files, cohesion 0.55)](./community_5_cli.md)
+- [skills/mcp_tools (214 files, cohesion 0.63)](./community_0_skills_mcp_tools.md)
+- [modules: lazy_loop (167 files, cohesion 0.54)](./community_1_modules_lazy_loop.md)
+- [cli/commands (148 files, cohesion 0.46)](./community_2_cli_commands.md)
+- [modules: lazyc2 (136 files, cohesion 0.47)](./community_3_modules_lazyc2.md)
+- [cli (112 files, cohesion 0.56)](./community_4_cli.md)
+- [modules: lazyown_facts (103 files, cohesion 0.52)](./community_5_modules_lazyown_facts.md)
 - [modules: world_model (99 files, cohesion 0.43)](./community_6_modules_world_model.md)
-- [modules: lazyown_facts (63 files, cohesion 0.54)](./community_7_modules_lazyown_facts.md)
+- [modules: lazyown (95 files, cohesion 0.34)](./community_7_modules_lazyown.md)
 - [lazygui/panels (54 files, cohesion 0.94)](./community_8_lazygui_panels.md)
-- [static/js (43 files, cohesion 0.48)](./community_9_static_js.md)
-- [modules: llm_budget (43 files, cohesion 0.43)](./community_10_modules_llm_budget.md)
+- [modules: llm_budget (46 files, cohesion 0.43)](./community_9_modules_llm_budget.md)
+- [static/js (43 files, cohesion 0.48)](./community_10_static_js.md)
 - [modules: bof_registry (43 files, cohesion 0.46)](./community_11_modules_bof_registry.md)
 - [modules/selection (37 files, cohesion 0.66)](./community_12_modules_selection.md)
 - [skills/claude_md_orchestrator (30 files, cohesion 0.68)](./community_13_skills_claude_md_orchestrator.md)
@@ -76,23 +76,23 @@ readmenator query "<question>" --target LazyOwn
 | File | Score |
 |------|-------|
 | `skills/mcp_tools/_context.py` | 380.1 |
-| `modules/lazy_loop.py` | 348.1 (large, maybe generated) |
+| `modules/lazy_loop.py` | 354.4 (large, maybe generated) |
 | `core/logging.py` | 335.2 |
-| `modules/__init__.py` | 298.0 |
+| `modules/__init__.py` | 306.0 |
 | `utils.py` | 270.7 |
 
 ## Strongest Connections
 
-- 5 -> 3: depends_on (strength 0.9, EXTRACTED)
-- 7 -> 1: depends_on (strength 0.9, EXTRACTED)
-- 7 -> 0: depends_on (strength 0.9, EXTRACTED)
-- 7 -> 2: depends_on (strength 0.9, EXTRACTED)
-- 7 -> 11: depends_on (strength 0.9, EXTRACTED)
-- 3 -> 4: depends_on (strength 0.9, EXTRACTED)
-- 2 -> 10: depends_on (strength 0.9, EXTRACTED)
-- 2 -> 3: depends_on (strength 0.9, EXTRACTED)
-- 5 -> 4: depends_on (strength 0.9, EXTRACTED)
-- 6 -> 5: depends_on (strength 0.9, EXTRACTED)
+- 4 -> 7: depends_on (strength 0.9, EXTRACTED)
+- 5 -> 1: depends_on (strength 0.9, EXTRACTED)
+- 5 -> 0: depends_on (strength 0.9, EXTRACTED)
+- 5 -> 2: depends_on (strength 0.9, EXTRACTED)
+- 5 -> 11: depends_on (strength 0.9, EXTRACTED)
+- 7 -> 3: depends_on (strength 0.9, EXTRACTED)
+- 2 -> 9: depends_on (strength 0.9, EXTRACTED)
+- 2 -> 7: depends_on (strength 0.9, EXTRACTED)
+- 4 -> 3: depends_on (strength 0.9, EXTRACTED)
+- 6 -> 4: depends_on (strength 0.9, EXTRACTED)
 
 ## Navigation Tips
 

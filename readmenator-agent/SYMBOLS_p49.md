@@ -1,8 +1,82 @@
-# Symbols (page 49 of 52)
+# Symbols (page 49 of 53)
 Previous: [SYMBOLS_p48.md](SYMBOLS_p48.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_missing_manifest_returns_empty` | function | `tests/test_plugin_tiers.py:52` | `def test_missing_manifest_returns_empty(tmp_path)` |
+| `test_rate_and_average` | function | `tests/test_plugin_tiers.py:62` | `def test_rate_and_average(tmp_path)` |
+| `test_rate_rejects_bad_input` | function | `tests/test_plugin_tiers.py:70` | `def test_rate_rejects_bad_input(tmp_path)` |
+| `test_read_metadata_tier` | function | `tests/test_plugin_tiers.py:91` | `def test_read_metadata_tier(tmp_path)` |
+| `test_repo_manifest_loads_with_valid_tiers` | function | `tests/test_plugin_tiers.py:42` | `def test_repo_manifest_loads_with_valid_tiers()` |
+| `test_tier_constants` | function | `tests/test_plugin_tiers.py:25` | `def test_tier_constants()` |
+| `TestCatalog` | class | `tests/test_poc_registry.py:23` | `class TestCatalog` |
+| `TestPoCSelector` | class | `tests/test_poc_registry.py:114` | `class TestPoCSelector` |
+| `TestProposals` | class | `tests/test_poc_registry.py:96` | `class TestProposals` |
+| `TestRendering` | class | `tests/test_poc_registry.py:41` | `class TestRendering` |
+| `TestRouting` | class | `tests/test_poc_registry.py:142` | `class TestRouting` |
+| `TestVerbCatalogSurfaces` | class | `tests/test_poc_registry.py:169` | `class TestVerbCatalogSurfaces` |
+| `_ctx` | method | `tests/test_poc_registry.py:117` | `def _ctx(self, target, services, exclude)` |
+| `test_auto_poc_unknown_verb_is_none` | method | `tests/test_poc_registry.py:156` | `def test_auto_poc_unknown_verb_is_none(self)` |
+| `test_auto_poc_verb_builds_run_line` | method | `tests/test_poc_registry.py:150` | `def test_auto_poc_verb_builds_run_line(self)` |
+| `test_catalog_loads_every_declared_poc` | method | `tests/test_poc_registry.py:26` | `def test_catalog_loads_every_declared_poc(self)` |
+| `test_default_applies_when_placeholder_unresolved` | method | `tests/test_poc_registry.py:76` | `def test_default_applies_when_placeholder_unresolved(self)` |
+| `test_disabled_verb_is_never_proposed` | method | `tests/test_poc_registry.py:106` | `def test_disabled_verb_is_never_proposed(self, tmp_path)` |
+| `test_every_verb_has_script_and_interpreter` | method | `tests/test_poc_registry.py:31` | `def test_every_verb_has_script_and_interpreter(self)` |
+| `test_lazy_poc_is_routable` | method | `tests/test_poc_registry.py:145` | `def test_lazy_poc_is_routable(self)` |
+| `test_minio_renders_url_from_target_and_override` | method | `tests/test_poc_registry.py:44` | `def test_minio_renders_url_from_target_and_override(self)` |
+| `test_minio_service_proposes_intent_with_port_override` | method | `tests/test_poc_registry.py:99` | `def test_minio_service_proposes_intent_with_port_override(self)` |
+| `test_mitmdump_addon_form` | method | `tests/test_poc_registry.py:82` | `def test_mitmdump_addon_form(self)` |
+| `test_non_matching_service_yields_nothing` | method | `tests/test_poc_registry.py:103` | `def test_non_matching_service_yields_nothing(self)` |
+| `test_openplc_renders_all_five_placeholders` | method | `tests/test_poc_registry.py:52` | `def test_openplc_renders_all_five_placeholders(self)` |
+| `test_poc_pseudo_verbs_in_discoveries` | method | `tests/test_poc_registry.py:172` | `def test_poc_pseudo_verbs_in_discoveries(self, tmp_path)` |
+| `test_positional_php_args_render` | method | `tests/test_poc_registry.py:89` | `def test_positional_php_args_render(self)` |
+| `test_sandbox_config_has_no_poc_discoveries` | method | `tests/test_poc_registry.py:185` | `def test_sandbox_config_has_no_poc_discoveries(self, tmp_path)` |
+| `test_selector_abstains_without_target` | method | `tests/test_poc_registry.py:132` | `def test_selector_abstains_without_target(self)` |
+| `test_selector_excludes_already_proposed_verb` | method | `tests/test_poc_registry.py:126` | `def test_selector_excludes_already_proposed_verb(self)` |
+| `test_selector_in_default_cascade` | method | `tests/test_poc_registry.py:135` | `def test_selector_in_default_cascade(self)` |
+| `test_selector_proposes_minio_verb` | method | `tests/test_poc_registry.py:120` | `def test_selector_proposes_minio_verb(self)` |
+| `test_target_extraction_from_lazy_poc_line` | method | `tests/test_poc_registry.py:161` | `def test_target_extraction_from_lazy_poc_line(self)` |
+| `test_unknown_verb_is_none` | method | `tests/test_poc_registry.py:37` | `def test_unknown_verb_is_none(self)` |
+| `test_unresolved_placeholder_without_default_is_refused` | method | `tests/test_poc_registry.py:70` | `def test_unresolved_placeholder_without_default_is_refused(self)` |
+| `_Broken` | class | `tests/test_policy_planner_signal.py:63` | `class _Broken(_StubPolicy)` |
+| `_StubPolicy` | class | `tests/test_policy_planner_signal.py:15` | `class _StubPolicy` |
+| `__init__` | method | `tests/test_policy_planner_signal.py:18` | `def __init__(self, rows)` |
+| `get_recommendations` | method | `tests/test_policy_planner_signal.py:22` | `def get_recommendations(self, target)` |
+| `get_recommendations` | method | `tests/test_policy_planner_signal.py:66` | `def get_recommendations(self, target)` |
+| `test_duplicate_rows_dedupe` | function | `tests/test_policy_planner_signal.py:50` | `def test_duplicate_rows_dedupe()` |
+| `test_load_intel_scores_fuses_host_scores` | function | `tests/test_policy_planner_signal.py:73` | `def test_load_intel_scores_fuses_host_scores(tmp_path, monkeypatch)` |
+| `test_mapped_categories_emit_registry_verbs` | function | `tests/test_policy_planner_signal.py:27` | `def test_mapped_categories_emit_registry_verbs()` |
+| `test_policy_failure_degrades_to_empty` | function | `tests/test_policy_planner_signal.py:61` | `def test_policy_failure_degrades_to_empty()` |
+| `test_unmapped_categories_are_skipped` | function | `tests/test_policy_planner_signal.py:39` | `def test_unmapped_categories_are_skipped()` |
+| `_Spec` | class | `tests/test_profiles.py:26` | `class _Spec` |
+| `__init__` | method | `tests/test_profiles.py:27` | `def __init__(self, import_name)` |
+| `_pinned_names` | function | `tests/test_profiles.py:68` | `def _pinned_names(path)` |
+| `test_default_profile_is_full` | function | `tests/test_profiles.py:31` | `def test_default_profile_is_full(monkeypatch)` |
+| `test_full_profile_keeps_every_spec` | function | `tests/test_profiles.py:54` | `def test_full_profile_keeps_every_spec(monkeypatch)` |
+| `test_light_lock_drops_analytics_and_ai` | function | `tests/test_profiles.py:88` | `def test_light_lock_drops_analytics_and_ai()` |
+| `test_light_lock_is_a_subset_of_full_lock` | function | `tests/test_profiles.py:79` | `def test_light_lock_is_a_subset_of_full_lock()` |
+| `test_light_profile_selected` | function | `tests/test_profiles.py:37` | `def test_light_profile_selected(monkeypatch)` |
+| `test_light_profile_skips_analytics_and_ai` | function | `tests/test_profiles.py:60` | `def test_light_profile_skips_analytics_and_ai(monkeypatch)` |
+| `test_profile_value_is_case_insensitive` | function | `tests/test_profiles.py:43` | `def test_profile_value_is_case_insensitive(monkeypatch)` |
+| `test_unknown_profile_raises` | function | `tests/test_profiles.py:48` | `def test_unknown_profile_raises(monkeypatch)` |
+| `TestObserve` | class | `tests/test_progress_ledger.py:46` | `class TestObserve` |
+| `TestPersistence` | class | `tests/test_progress_ledger.py:92` | `class TestPersistence` |
+| `TestPolicy` | class | `tests/test_progress_ledger.py:34` | `class TestPolicy` |
+| `ledger_module` | function | `tests/test_progress_ledger.py:22` | `def ledger_module()` |
+| `test_cap_disabled_keeps_strike` | method | `tests/test_progress_ledger.py:85` | `def test_cap_disabled_keeps_strike(self, ledger_module, tmp_base)` |
+| `test_clamp` | method | `tests/test_progress_ledger.py:35` | `def test_clamp(self, ledger_module)` |
+| `test_engagement_confined` | method | `tests/test_progress_ledger.py:40` | `def test_engagement_confined(self, ledger_module, tmp_base)` |
+| `test_hypothesis_only_strikes` | method | `tests/test_progress_ledger.py:47` | `def test_hypothesis_only_strikes(self, ledger_module, tmp_base)` |
+| `test_idle_round_strikes` | method | `tests/test_progress_ledger.py:56` | `def test_idle_round_strikes(self, ledger_module, tmp_base)` |
+| `test_progress_resets` | method | `tests/test_progress_ledger.py:64` | `def test_progress_resets(self, ledger_module, tmp_base)` |
+| `test_reload_keeps_strikes` | method | `tests/test_progress_ledger.py:93` | `def test_reload_keeps_strikes(self, ledger_module, tmp_base)` |
+| `test_reproduced_verdict_counts` | method | `tests/test_progress_ledger.py:75` | `def test_reproduced_verdict_counts(self, ledger_module, tmp_base)` |
+| `tmp_base` | function | `tests/test_progress_ledger.py:29` | `def tmp_base()` |
+| `test_ansi_escape_gets_fenced` | function | `tests/test_prompt_readline_markers.py:25` | `def test_ansi_escape_gets_fenced()` |
+| `test_mixed_prompt_fences_only_ansi` | function | `tests/test_prompt_readline_markers.py:43` | `def test_mixed_prompt_fences_only_ansi()` |
+| `test_newline_stays_bare` | function | `tests/test_prompt_readline_markers.py:35` | `def test_newline_stays_bare()` |
+| `test_render_prompt_default_has_no_markers` | function | `tests/test_prompt_readline_markers.py:53` | `def test_render_prompt_default_has_no_markers()` |
+| `test_render_prompt_raw_has_no_markers` | function | `tests/test_prompt_readline_markers.py:70` | `def test_render_prompt_raw_has_no_markers()` |
 | `test_render_prompt_readline_mode_fences_ansi_only` | function | `tests/test_prompt_readline_markers.py:62` | `def test_render_prompt_readline_mode_fences_ansi_only()` |
 | `test_strip_readline_markers_restores_raw` | function | `tests/test_prompt_readline_markers.py:79` | `def test_strip_readline_markers_restores_raw()` |
 | `test_stripped_prompt_matches_box_shape` | function | `tests/test_prompt_readline_markers.py:87` | `def test_stripped_prompt_matches_box_shape()` |
@@ -422,79 +496,5 @@ Previous: [SYMBOLS_p48.md](SYMBOLS_p48.md)
 | `test_deny_literal_priority` | method | `tests/test_scope_deny_priority.py:38` | `def test_deny_literal_priority(self, scope_module)` |
 | `test_deny_outside_allow_equal` | method | `tests/test_scope_deny_priority.py:66` | `def test_deny_outside_allow_equal(self, guard_module)` |
 | `test_deny_spares_off_command` | method | `tests/test_scope_deny_priority.py:72` | `def test_deny_spares_off_command(self, guard_module)` |
-| `test_no_deny_keeps_allow` | method | `tests/test_scope_deny_priority.py:52` | `def test_no_deny_keeps_allow(self, scope_module)` |
-| `test_read_denylist` | method | `tests/test_scope_deny_priority.py:32` | `def test_read_denylist(self, scope_module, tmp_path)` |
-| `TestBuildOffensiveCommands` | class | `tests/test_scope_guard.py:119` | `class TestBuildOffensiveCommands` |
-| `TestNormalizeScope` | class | `tests/test_scope_guard.py:53` | `class TestNormalizeScope` |
-| `TestOffensiveCategoryDrift` | class | `tests/test_scope_guard.py:210` | `class TestOffensiveCategoryDrift` |
-| `TestScopeExemptions` | class | `tests/test_scope_guard.py:194` | `class TestScopeExemptions` |
-| `TestScopeGuardEvaluate` | class | `tests/test_scope_guard.py:140` | `class TestScopeGuardEvaluate` |
-| `TestScopeMode` | class | `tests/test_scope_guard.py:33` | `class TestScopeMode` |
-| `TestTargetInScope` | class | `tests/test_scope_guard.py:80` | `class TestTargetInScope` |
-| `_guard` | function | `tests/test_scope_guard.py:135` | `def _guard(scope, mode, offensive_names)` |
-| `boom` | function | `tests/test_scope_guard.py:180` | `def boom(_name)` |
-| `test_bare_ip_match` | method | `tests/test_scope_guard.py:90` | `def test_bare_ip_match(self)` |
-| `test_bare_ip_mismatch` | method | `tests/test_scope_guard.py:93` | `def test_bare_ip_mismatch(self)` |
-| `test_benign_command_allowed` | method | `tests/test_scope_guard.py:151` | `def test_benign_command_allowed(self)` |
-| `test_blank_entries_ignored` | method | `tests/test_scope_guard.py:115` | `def test_blank_entries_ignored(self)` |
-| `test_categories_exist_in_utils` | method | `tests/test_scope_guard.py:213` | `def test_categories_exist_in_utils(self)` |
-| `test_classifier_exception_fails_open` | method | `tests/test_scope_guard.py:179` | `def test_classifier_exception_fails_open(self)` |
-| `test_comma_separated_string` | method | `tests/test_scope_guard.py:67` | `def test_comma_separated_string(self)` |
-| `test_decision_is_value_object` | method | `tests/test_scope_guard.py:187` | `def test_decision_is_value_object(self)` |
-| `test_empty` | method | `tests/test_scope_guard.py:131` | `def test_empty(self)` |
-| `test_empty_string` | method | `tests/test_scope_guard.py:73` | `def test_empty_string(self)` |
-| `test_empty_target` | method | `tests/test_scope_guard.py:81` | `def test_empty_target(self)` |
-| `test_empty_target_allowed` | method | `tests/test_scope_guard.py:156` | `def test_empty_target_allowed(self)` |
-| `test_exact_hostname` | method | `tests/test_scope_guard.py:96` | `def test_exact_hostname(self)` |
-| `test_exempt_command_allowed_out_of_scope` | method | `tests/test_scope_guard.py:197` | `def test_exempt_command_allowed_out_of_scope(self)` |
-| `test_exempt_set_covers_offensive_operational_surfaces` | method | `tests/test_scope_guard.py:203` | `def test_exempt_set_covers_offensive_operational_surfaces(self)` |
-| `test_from_value_passthrough` | method | `tests/test_scope_guard.py:34` | `def test_from_value_passthrough(self)` |
-| `test_from_value_strings` | method | `tests/test_scope_guard.py:45` | `def test_from_value_strings(self, raw, expected)` |
-| `test_hostname_not_in_cidr` | method | `tests/test_scope_guard.py:106` | `def test_hostname_not_in_cidr(self)` |
-| `test_in_scope_allowed` | method | `tests/test_scope_guard.py:160` | `def test_in_scope_allowed(self)` |
-| `test_ip_in_cidr` | method | `tests/test_scope_guard.py:84` | `def test_ip_in_cidr(self)` |
-| `test_ip_not_matched_by_hostname_entry` | method | `tests/test_scope_guard.py:109` | `def test_ip_not_matched_by_hostname_entry(self)` |
-| `test_ip_outside_cidr` | method | `tests/test_scope_guard.py:87` | `def test_ip_outside_cidr(self)` |
-| `test_ipv6_in_cidr` | method | `tests/test_scope_guard.py:112` | `def test_ipv6_in_cidr(self)` |
-| `test_json_array_string` | method | `tests/test_scope_guard.py:64` | `def test_json_array_string(self)` |
-| `test_list` | method | `tests/test_scope_guard.py:57` | `def test_list(self)` |
-| `test_mode_off_is_noop` | method | `tests/test_scope_guard.py:141` | `def test_mode_off_is_noop(self)` |
-| `test_no_scope_allows` | method | `tests/test_scope_guard.py:146` | `def test_no_scope_allows(self)` |
-| `test_none` | method | `tests/test_scope_guard.py:54` | `def test_none(self)` |
-| `test_out_of_scope_enforce_blocks` | method | `tests/test_scope_guard.py:172` | `def test_out_of_scope_enforce_blocks(self)` |
-| `test_out_of_scope_warn_allows_with_reason` | method | `tests/test_scope_guard.py:165` | `def test_out_of_scope_warn_allows_with_reason(self)` |
-| `test_selects_offensive_only` | method | `tests/test_scope_guard.py:120` | `def test_selects_offensive_only(self)` |
-| `test_space_separated_string` | method | `tests/test_scope_guard.py:70` | `def test_space_separated_string(self)` |
-| `test_subdomain_match` | method | `tests/test_scope_guard.py:99` | `def test_subdomain_match(self)` |
-| `test_tuple_and_set` | method | `tests/test_scope_guard.py:60` | `def test_tuple_and_set(self)` |
-| `test_unknown_defaults_to_warn` | method | `tests/test_scope_guard.py:49` | `def test_unknown_defaults_to_warn(self, raw)` |
-| `test_unsupported_type` | method | `tests/test_scope_guard.py:76` | `def test_unsupported_type(self)` |
-| `test_wildcard_match` | method | `tests/test_scope_guard.py:102` | `def test_wildcard_match(self)` |
-| `TestExplicitTargetCheck` | class | `tests/test_scope_guard_integration.py:185` | `class TestExplicitTargetCheck` |
-| `TestOffensiveClassificationIsBuilt` | class | `tests/test_scope_guard_integration.py:138` | `class TestOffensiveClassificationIsBuilt` |
-| `TestResolveOffensive` | class | `tests/test_scope_guard_integration.py:41` | `class TestResolveOffensive` |
-| `TestScopeCheck` | class | `tests/test_scope_guard_integration.py:59` | `class TestScopeCheck` |
-| `TestScopeConfirmNonInteractive` | class | `tests/test_scope_guard_integration.py:120` | `class TestScopeConfirmNonInteractive` |
-| `TestScopeEntries` | class | `tests/test_scope_guard_integration.py:128` | `class TestScopeEntries` |
-| `_do_benign` | function | `tests/test_scope_guard_integration.py:147` | `def _do_benign()` |
-| `_do_offensive` | function | `tests/test_scope_guard_integration.py:144` | `def _do_offensive()` |
-| `_make_stub` | function | `tests/test_scope_guard_integration.py:28` | `def _make_stub(params, offensive, aliases, confirm)` |
-| `test_alias_parameter_is_preserved_after_dynamic_expansion` | function | `tests/test_scope_guard_integration.py:163` | `def test_alias_parameter_is_preserved_after_dynamic_expansion()` |
-| `test_alias_to_benign` | method | `tests/test_scope_guard_integration.py:54` | `def test_alias_to_benign(self)` |
-| `test_alias_to_offensive` | method | `tests/test_scope_guard_integration.py:50` | `def test_alias_to_offensive(self)` |
-| `test_benign` | method | `tests/test_scope_guard_integration.py:46` | `def test_benign(self)` |
-| `test_benign_command_allows` | method | `tests/test_scope_guard_integration.py:74` | `def test_benign_command_allows(self)` |
-| `test_build_offensive_from_categories` | method | `tests/test_scope_guard_integration.py:139` | `def test_build_offensive_from_categories(self)` |
-| `test_default_classification_kept_without_force` | method | `tests/test_scope_guard_integration.py:215` | `def test_default_classification_kept_without_force(self)` |
-| `test_direct_offensive` | method | `tests/test_scope_guard_integration.py:42` | `def test_direct_offensive(self)` |
-| `test_enforce_allows_explicit_in_scope_target` | method | `tests/test_scope_guard_integration.py:197` | `def test_enforce_allows_explicit_in_scope_target(self)` |
-| `test_enforce_blocks_explicit_out_of_scope_target` | method | `tests/test_scope_guard_integration.py:188` | `def test_enforce_blocks_explicit_out_of_scope_target(self)` |
-| `test_enforce_mode_blocks_out_of_scope` | method | `tests/test_scope_guard_integration.py:88` | `def test_enforce_mode_blocks_out_of_scope(self)` |
-| `test_enforce_mode_confirmation_allows` | method | `tests/test_scope_guard_integration.py:96` | `def test_enforce_mode_confirmation_allows(self)` |
-| `test_in_scope_allows` | method | `tests/test_scope_guard_integration.py:67` | `def test_in_scope_allows(self)` |
-| `test_malformed_params_fail_open` | method | `tests/test_scope_guard_integration.py:111` | `def test_malformed_params_fail_open(self)` |
-| `test_no_scope_allows` | method | `tests/test_scope_guard_integration.py:60` | `def test_no_scope_allows(self)` |
-| `test_non_tty_refuses` | method | `tests/test_scope_guard_integration.py:121` | `def test_non_tty_refuses(self, monkeypatch)` |
-| `test_normalizes_list` | method | `tests/test_scope_guard_integration.py:129` | `def test_normalizes_list(self)` |
 
 Next: [SYMBOLS_p50.md](SYMBOLS_p50.md)

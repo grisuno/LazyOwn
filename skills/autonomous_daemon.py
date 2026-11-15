@@ -309,6 +309,7 @@ def _emit(event_type: str, payload: dict[str, Any], severity: str = "info") -> N
 
 DECISION_SEED_LENGTH: int = 16
 REWARD_DISPLAY_PRECISION: int = 3
+REWARD_EMA_ALPHA: float = 0.3
 
 
 def _record_intent(objective_id: str, step_n: int, command: str,
@@ -1675,6 +1676,7 @@ async def _run_objective(
     _consecutive_list: int = 0
     _last_command: str = ""
     _prev_cmds: list[str] = []
+    _reward_ema: float = 0.0
 
     if world_model is not None:
         try:
@@ -2579,7 +2581,7 @@ async def _run_objective(
         # produce successful outcomes per (phase, findings_quality) state.
         # This runs silently; failures never block execution.
         try:
-            from rl_trainer import get_trainer as _get_rl_trainer
+            from modules.rl_trainer import get_trainer as _get_rl_trainer
 
             _rl = _get_rl_trainer()
             _detect_prob = 0.0
@@ -2589,10 +2591,11 @@ async def _run_objective(
                 _detect_prob = _get_oracle().probability(command)
             except Exception:
                 pass
-            _reward_ema = _compute_step_reward(output, command, phase, success, findings, _prev_cmds)
-            _rl_state = _rl.encode_state(phase, phase, _reward_ema)
+            _raw_reward = _compute_step_reward(output, command, phase, success, findings, _prev_cmds)
+            _prior_ema = _reward_ema
+            _reward_ema = round(REWARD_EMA_ALPHA * _raw_reward + (1.0 - REWARD_EMA_ALPHA) * _prior_ema, 4)
+            _rl_state = _rl.encode_state(phase, phase, _prior_ema)
             _rl_next = _rl.encode_state(phase, phase, _reward_ema)
-            _raw_reward = _reward_ema
             _step_reward = _raw_reward
             _rl.update(
                 state=_rl_state,

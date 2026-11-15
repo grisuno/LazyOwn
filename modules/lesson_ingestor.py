@@ -35,6 +35,7 @@ log = logging.getLogger(__name__)
 
 _SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 _LESSONS_FILE = _SESSIONS_DIR / "campaign_lessons.jsonl"
+_SEEN_FILE = _SESSIONS_DIR / "lesson_ingestor_seen.json"
 
 _BOOST_REWARD: float = 0.3
 _BOOST_DETECTION_PROB: float = 0.0
@@ -89,11 +90,13 @@ class LessonIngestor:
         router: Any | None = None,
         trainer: Any | None = None,
         boost_reward: float = _BOOST_REWARD,
+        seen_file: Path | None = None,
     ) -> None:
         self._lessons_file = lessons_file or _LESSONS_FILE
         self._router = router
         self._trainer = trainer
         self._boost_reward = boost_reward
+        self._seen_file = seen_file or _SEEN_FILE
 
     def _get_router(self) -> Any | None:
         if self._router is not None:
@@ -199,6 +202,66 @@ class LessonIngestor:
                 count += 1
         return count
 
+    @staticmethod
+    def _fingerprint(lesson: LessonLearned) -> str:
+        """Return a stable content hash identifying one lesson."""
+        import hashlib
+
+        seed = "|".join([lesson.campaign_id, lesson.topic, lesson.lesson, lesson.derived_at])
+        return hashlib.sha256(seed.encode("utf-8", "replace")).hexdigest()[:16]
+
+    def _load_seen(self) -> set[str]:
+        """Return the set of lesson fingerprints already boosted. Fail-open."""
+        try:
+            if self._seen_file.exists():
+                data = json.loads(self._seen_file.read_text(encoding="utf-8"))
+                if isinstance(data, list):
+                    return {str(x) for x in data}
+        except Exception as exc:
+            log.debug("LessonIngestor: seen load failed: %s", exc)
+        return set()
+
+    def _save_seen(self, seen: set[str]) -> None:
+        """Persist the fingerprint set atomically. Fail-open."""
+        try:
+            import os
+
+            self._seen_file.parent.mkdir(parents=True, exist_ok=True)
+            tmp = self._seen_file.with_suffix(".json.tmp")
+            tmp.write_text(json.dumps(sorted(seen)), encoding="utf-8")
+            os.replace(tmp, self._seen_file)
+        except Exception as exc:
+            log.debug("LessonIngestor: seen save failed: %s", exc)
+
+    def ingest_new(self) -> int:
+        """Ingest only lessons not boosted before, so each boosts exactly once.
+
+        Idempotent across loops: a lesson's reward boost is applied once and its
+        fingerprint persisted, so calling this at every loop startup absorbs a
+        prior loop's new lessons without re-inflating the Q-table. Never raises.
+
+        Returns:
+            Number of newly ingested lessons.
+        """
+        try:
+            seen = self._load_seen()
+            count = 0
+            dirty = False
+            for lesson in self._load_from_file():
+                fp = self._fingerprint(lesson)
+                if fp in seen:
+                    continue
+                if self.ingest(lesson):
+                    seen.add(fp)
+                    dirty = True
+                    count += 1
+            if dirty:
+                self._save_seen(seen)
+            return count
+        except Exception as exc:
+            log.debug("LessonIngestor: ingest_new failed: %s", exc)
+            return 0
+
     def _load_from_file(self) -> list[LessonLearned]:
         """Load lessons from the JSONL file."""
         if not self._lessons_file.exists():
@@ -232,6 +295,19 @@ def ingest_campaign_lessons(
     """
     ingestor = LessonIngestor(lessons_file=lessons_file)
     return ingestor.ingest_all()
+
+
+def ingest_new_campaign_lessons(lessons_file: Path | None = None) -> int:
+    """Ingest only lessons not boosted before (idempotent across loops).
+
+    Safe to call at every autonomous-loop startup: a prior loop's new lessons
+    are absorbed into the RL Q-table and MoE exactly once before the next loop
+    plans, without re-inflating already-learned priors. Never raises.
+
+    Returns:
+        Number of newly ingested lessons.
+    """
+    return LessonIngestor(lessons_file=lessons_file).ingest_new()
 
 
 __all__ = [

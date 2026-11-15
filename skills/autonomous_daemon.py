@@ -55,7 +55,6 @@ import hashlib
 import json
 import logging
 import os
-import re
 import signal
 import subprocess
 import sys
@@ -1508,53 +1507,11 @@ from modules.loop.daemon_reward import (  # noqa: E402
     compute_step_reward as _compute_step_reward,  # noqa: F401
     record_rl_feedback as _record_rl_feedback,
 )
-
-
-async def _detect_target_os(
-    target: str,
-    loop: asyncio.AbstractEventLoop,
-) -> str:
-    """
-    Infer the target OS from ICMP TTL via a single ping probe.
-
-    TTL heuristics (accounting for up to ~20 router hops consumed):
-      TTL <= 64   -> Linux / Unix / macOS (default initial TTL = 64)
-      TTL <= 128  -> Windows             (default initial TTL = 128)
-      TTL > 128   -> Unknown / network device
-
-    Returns one of: 'linux', 'windows', 'unknown'.
-    An unreachable host returns 'unknown' — callers must treat unknown as a
-    signal to skip OS-specific tooling rather than defaulting to any platform.
-    """
-    try:
-        proc = await asyncio.wait_for(
-            loop.run_in_executor(
-                None,
-                lambda: subprocess.run(
-                    ["ping", "-c", "1", "-W", "2", target],
-                    capture_output=True,
-                    text=True,
-                ),
-            ),
-            timeout=6.0,
-        )
-        output = proc.stdout + proc.stderr
-        match = re.search(r"ttl=(\d+)", output, re.IGNORECASE)
-        if not match:
-            log.debug("OS detection: no TTL in ping output for %s", target)
-            return "unknown"
-        ttl = int(match.group(1))
-        if ttl <= 64:
-            return "linux"
-        if ttl <= 128:
-            return "windows"
-        return "unknown"
-    except TimeoutError:
-        log.debug("OS detection: ping timed out for %s", target)
-        return "unknown"
-    except Exception as exc:
-        log.debug("OS detection error for %s: %s", target, exc)
-        return "unknown"
+from modules.loop.target_os import (  # noqa: E402
+    detect_target_os as _detect_target_os,
+    os_id_for as _os_id_for,
+    persist_detected_os as _persist_detected_os,
+)
 
 
 async def _run_objective(
@@ -1612,62 +1569,17 @@ async def _run_objective(
     # objective log emission so it adds no meaningful latency to the loop.
     detected_os = await _detect_target_os(target, loop)
     log.info("[%s] OS detection: target=%s os=%s", objective_id, target, detected_os)
-    _emit(
-        "OS_DETECTED",
-        {
-            "objective_id": objective_id,
-            "target": target,
-            "os": detected_os,
-        },
+    _persist_detected_os(
+        objective_id,
+        target,
+        detected_os,
+        world_model=world_model,
+        emit=_emit,
+        load_payload=_load_payload,
+        sessions_dir=SESSIONS_DIR,
+        payload_file=PAYLOAD_FILE,
     )
-
-    if world_model is not None and detected_os != "unknown":
-        try:
-            snapshot = world_model.snapshot()
-            host_entry = snapshot.get("hosts", {}).get(target, {})
-            if not host_entry.get("os_hint"):
-                world_model.update_host(target, os_hint=detected_os)
-        except Exception as wm_exc:
-            log.debug("world_model OS update error: %s", wm_exc)
-
-    # Persist the detected OS into payload.json so every fresh LazyOwn shell
-    # process spawned by _run_lazyown_command inherits the correct os_id.
-    # LazyOwn canonical mapping is os_id "1"=Linux, "2"=Windows, "4"=Unknown
-    # (see core/payload_schema.py and cli/config_status.py).
-    _OS_ID_MAP = {"linux": "1", "windows": "2", "unknown": "4"}
-    _detected_os_id = _OS_ID_MAP.get(detected_os, "4")
-    if detected_os != "unknown":
-        try:
-            _pl = _load_payload()
-            if _pl.get("os_id") != _detected_os_id:
-                _pl["os_id"] = _detected_os_id
-                from core.config import save_payload as _save_payload
-
-                _save_payload(_pl, PAYLOAD_FILE)
-                log.info(
-                    "[%s] payload.json os_id updated: %s (%s)",
-                    objective_id,
-                    _detected_os_id,
-                    detected_os,
-                )
-        except Exception as _pe:
-            log.debug("payload.json os_id update error: %s", _pe)
-
-    # Write sessions/os.json in the same format that do_ping uses so that
-    # run_lazynmap's OS-gate reads it and skips the redundant ping probe.
-    try:
-        _os_entry = [
-            {
-                "id": _detected_os_id,
-                "os": detected_os.capitalize(),
-                "ttl": 64 if detected_os == "linux" else (128 if detected_os == "windows" else "NULL"),
-                "state": "active" if detected_os != "unknown" else "unknown",
-            }
-        ]
-        _os_json_path = SESSIONS_DIR / "os.json"
-        _os_json_path.write_text(json.dumps(_os_entry, indent=4, ensure_ascii=False), encoding="utf-8")
-    except Exception as _oe:
-        log.debug("sessions/os.json write error: %s", _oe)
+    _detected_os_id = _os_id_for(detected_os)
 
     control = _DaemonControl(SESSIONS_DIR) if _DaemonControl is not None else None
 

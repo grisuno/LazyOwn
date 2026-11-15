@@ -1507,6 +1507,9 @@ from modules.loop.daemon_reward import (  # noqa: E402
     compute_step_reward as _compute_step_reward,  # noqa: F401
     record_rl_feedback as _record_rl_feedback,
 )
+from modules.loop.objective_bootstrap import (  # noqa: E402
+    bootstrap_objective as _bootstrap_objective,
+)
 from modules.loop.target_os import (  # noqa: E402
     detect_target_os as _detect_target_os,
     os_id_for as _os_id_for,
@@ -1583,65 +1586,23 @@ async def _run_objective(
 
     control = _DaemonControl(SESSIONS_DIR) if _DaemonControl is not None else None
 
-    # ── Round-0: goals + constraints (LAZY DecomposeGoals parity) ──────
-    # Split the objective into verifiable goals, load task constraints
-    # (deny wins, highest priority) and seed the todo chain. Never raises.
-    _goal_tracker = None
-    _task_constraints = None
-    try:
-        from modules.goals import GoalTracker as _GoalTracker
-        from modules.goals import decompose_rule_based as _decompose
-        from modules.goals import load_constraints as _load_constraints
-        _goal_tracker = _GoalTracker(_decompose(objective_text))
-        _task_constraints = _load_constraints(_load_payload())
-        _emit("GOALS_DECOMPOSED", {"objective_id": objective_id,
-                                   "goals": [g.text for g in _goal_tracker.goals]})
-    except Exception as _goals_exc:
-        log.debug("round-0 goals error: %s", _goals_exc)
-    # LAZY asset-intercept parity: global scope deny (.gov/.edu/.mil).
-    try:
-        from modules.intercept import scope_blocked as _scope_blocked
-        _scope_hit = _scope_blocked(target)
-    except Exception:
-        _scope_hit = ""
-    if _scope_hit:
-        log.info("[%s] scope denied: %s (%s)", objective_id, target, _scope_hit)
-        _emit("STEP_BLOCKED", {"objective_id": objective_id, "step": 0,
-                               "command": target, "reason": f"scope:{_scope_hit}"})
+    _bootstrap = _bootstrap_objective(
+        objective_id,
+        objective_text,
+        target,
+        world_model=world_model,
+        obs_parser=obs_parser,
+        planner=planner,
+        emit=_emit,
+        load_payload=_load_payload,
+    )
+    if _bootstrap.scope_denied:
         return []
-    # LAZY enrich parity: async DNS/HTTP off the hot path (cooldown dedups).
-    try:
-        from modules.enrich import shared_engine as _shared_enrich
-        _shared_enrich().submit(target)
-    except Exception as _enrich_exc:
-        log.debug("enrich submit error: %s", _enrich_exc)
-
-    # ── Planner frontier (sole intent generator) ──────────────────────────
-    # Each step refills from modules/planner only when the queue is empty.
-    # A refill that yields zero untried intents with unchanged facts means
-    # no new direction: the objective ends instead of re-running fallbacks.
-    # Any failure here degrades to the pre-existing cascade behaviour.
-    try:
-        from modules.planner import Frontier as _Frontier
-        from modules.planner import TodoList as _TodoList
-
-        if planner is None:
-            from modules.planner import Planner as _Planner
-
-            planner = _Planner(
-                world_model=(lambda: world_model),
-                obs_parser=(lambda: obs_parser),
-            )
-        _frontier = _Frontier(planner, todos=_TodoList())
-    except Exception:
-        _frontier = None
+    _goal_tracker = _bootstrap.goal_tracker
+    _task_constraints = _bootstrap.task_constraints
+    _frontier = _bootstrap.frontier
+    _guard = _bootstrap.guard
     _facts_fingerprint: str = ""
-    try:
-        from modules.intercept import Guard as _Guard
-
-        _guard = _Guard()
-    except Exception:
-        _guard = None
 
     for step_n in range(1, max_steps + 1):
         if control is not None:

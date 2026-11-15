@@ -1,8 +1,92 @@
-# Symbols (page 52 of 52)
+# Symbols (page 52 of 53)
 Previous: [SYMBOLS_p51.md](SYMBOLS_p51.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_summary_deduplicates_command_args_tail` | function | `tests/test_toast_bus.py:296` | `def test_summary_deduplicates_command_args_tail()` |
+| `test_summary_falls_back_to_capture_metadata` | function | `tests/test_toast_bus.py:279` | `def test_summary_falls_back_to_capture_metadata()` |
+| `test_summary_prefers_title_then_description` | function | `tests/test_toast_bus.py:269` | `def test_summary_prefers_title_then_description()` |
+| `test_toasts_enabled_default_true` | function | `tests/test_toast_bus.py:157` | `def test_toasts_enabled_default_true()` |
+| `_SpyConsole` | class | `tests/test_toastr_unify.py:73` | `class _SpyConsole` |
+| `__init__` | method | `tests/test_toastr_unify.py:76` | `def __init__(self)` |
+| `print` | method | `tests/test_toastr_unify.py:79` | `def print(self, message, style)` |
+| `test_empty_message_falls_back_like_legacy` | function | `tests/test_toastr_unify.py:45` | `def test_empty_message_falls_back_like_legacy()` |
+| `test_markup_is_escaped_for_plain_text` | function | `tests/test_toastr_unify.py:51` | `def test_markup_is_escaped_for_plain_text()` |
+| `test_plain_text_message_wraps_and_adapts` | function | `tests/test_toastr_unify.py:35` | `def test_plain_text_message_wraps_and_adapts()` |
+| `test_sentinel_panel_keeps_field_layout` | function | `tests/test_toastr_unify.py:57` | `def test_sentinel_panel_keeps_field_layout()` |
+| `test_sentinel_severity_selects_border` | function | `tests/test_toastr_unify.py:67` | `def test_sentinel_severity_selects_border()` |
+| `test_severity_table_covers_every_surface_level` | function | `tests/test_toastr_unify.py:22` | `def test_severity_table_covers_every_surface_level()` |
+| `test_shell_hint_bypass_keeps_empty_fallback` | function | `tests/test_toastr_unify.py:91` | `def test_shell_hint_bypass_keeps_empty_fallback()` |
+| `test_shell_hint_bypass_prints_flat_line` | function | `tests/test_toastr_unify.py:84` | `def test_shell_hint_bypass_prints_flat_line()` |
+| `test_unknown_severity_falls_back_to_info` | function | `tests/test_toastr_unify.py:30` | `def test_unknown_severity_falls_back_to_info()` |
+| `_dev_pin` | function | `tests/test_toolchain_pins.py:18` | `def _dev_pin(package)` |
+| `test_ci_yml_does_not_hardcode_ruff` | function | `tests/test_toolchain_pins.py:25` | `def test_ci_yml_does_not_hardcode_ruff()` |
+| `test_lint_workflow_installs_dev_requirements` | function | `tests/test_toolchain_pins.py:54` | `def test_lint_workflow_installs_dev_requirements()` |
+| `test_pre_commit_mypy_rev_matches_dev_pin` | function | `tests/test_toolchain_pins.py:43` | `def test_pre_commit_mypy_rev_matches_dev_pin()` |
+| `test_pre_commit_ruff_rev_matches_dev_pin` | function | `tests/test_toolchain_pins.py:32` | `def test_pre_commit_ruff_rev_matches_dev_pin()` |
+| `test_deadline_ignores_partials_below_salvage_threshold` | function | `tests/test_triage_scheduler.py:72` | `def test_deadline_ignores_partials_below_salvage_threshold()` |
+| `test_deadline_salvages_partials_first` | function | `tests/test_triage_scheduler.py:62` | `def test_deadline_salvages_partials_first()` |
+| `test_estimate_difficulty_accepts_counts_or_collections` | function | `tests/test_triage_scheduler.py:33` | `def test_estimate_difficulty_accepts_counts_or_collections()` |
+| `test_estimate_difficulty_rich_target_drains_before_unknown` | function | `tests/test_triage_scheduler.py:26` | `def test_estimate_difficulty_rich_target_drains_before_unknown()` |
+| `test_estimate_difficulty_unknown_target_is_neutral` | function | `tests/test_triage_scheduler.py:20` | `def test_estimate_difficulty_unknown_target_is_neutral()` |
+| `test_estimate_difficulty_wide_surface_is_easier` | function | `tests/test_triage_scheduler.py:13` | `def test_estimate_difficulty_wide_surface_is_easier()` |
+| `test_order_breaks_ties_by_progress_then_arrival` | function | `tests/test_triage_scheduler.py:51` | `def test_order_breaks_ties_by_progress_then_arrival()` |
+| `test_order_is_easy_first` | function | `tests/test_triage_scheduler.py:40` | `def test_order_is_easy_first()` |
+| `test_pick_next_returns_none_when_empty` | function | `tests/test_triage_scheduler.py:98` | `def test_pick_next_returns_none_when_empty()` |
+| `test_route_splits_hard_and_easy` | function | `tests/test_triage_scheduler.py:91` | `def test_route_splits_hard_and_easy()` |
+| `test_stop_loss_triggers_on_attempts_without_progress` | function | `tests/test_triage_scheduler.py:83` | `def test_stop_loss_triggers_on_attempts_without_progress()` |
+| `test_orchestrator_yaml_declares_trigger_seeds` | function | `tests/test_trigger_policy.py:82` | `def test_orchestrator_yaml_declares_trigger_seeds()` |
+| `test_seed_store_drops_unknown_kinds` | function | `tests/test_trigger_policy.py:89` | `def test_seed_store_drops_unknown_kinds(tmp_path, monkeypatch)` |
+| `test_seed_store_is_idempotent` | function | `tests/test_trigger_policy.py:48` | `def test_seed_store_is_idempotent(tmp_path, monkeypatch)` |
+| `test_seed_store_keeps_runtime_triggers` | function | `tests/test_trigger_policy.py:66` | `def test_seed_store_keeps_runtime_triggers(tmp_path, monkeypatch)` |
+| `test_seeds_coerce_and_skip_unknown_kinds` | function | `tests/test_trigger_policy.py:26` | `def test_seeds_coerce_and_skip_unknown_kinds()` |
+| `test_validate_policy_rejects_bad_documents` | function | `tests/test_trigger_policy.py:18` | `def test_validate_policy_rejects_bad_documents()` |
+| `test_yaml_seeds_read_from_orchestrator_document` | function | `tests/test_trigger_policy.py:40` | `def test_yaml_seeds_read_from_orchestrator_document()` |
+| `TestIsOperator` | class | `tests/test_trusted_proxy.py:99` | `class TestIsOperator` |
+| `TestNoProxy` | class | `tests/test_trusted_proxy.py:22` | `class TestNoProxy` |
+| `TestTrustedProxy` | class | `tests/test_trusted_proxy.py:43` | `class TestTrustedProxy` |
+| `test_empty_header_falls_back` | method | `tests/test_trusted_proxy.py:85` | `def test_empty_header_falls_back(self)` |
+| `test_insufficient_chain_falls_back` | method | `tests/test_trusted_proxy.py:72` | `def test_insufficient_chain_falls_back(self)` |
+| `test_match` | method | `tests/test_trusted_proxy.py:102` | `def test_match(self)` |
+| `test_no_header_falls_back_to_remote` | method | `tests/test_trusted_proxy.py:38` | `def test_no_header_falls_back_to_remote(self)` |
+| `test_no_match` | method | `tests/test_trusted_proxy.py:109` | `def test_no_match(self)` |
+| `test_remote_addr_returned` | method | `tests/test_trusted_proxy.py:25` | `def test_remote_addr_returned(self)` |
+| `test_single_proxy_returns_leftmost` | method | `tests/test_trusted_proxy.py:46` | `def test_single_proxy_returns_leftmost(self)` |
+| `test_two_proxies_returns_leftmost` | method | `tests/test_trusted_proxy.py:59` | `def test_two_proxies_returns_leftmost(self)` |
+| `test_addon_schema_agent_friendly` | function | `tests/test_ttpscope_bridge.py:95` | `def test_addon_schema_agent_friendly()` |
+| `test_chain_needs_no_binary` | function | `tests/test_ttpscope_bridge.py:85` | `def test_chain_needs_no_binary(monkeypatch)` |
+| `test_matrix_fallback_groups` | function | `tests/test_ttpscope_bridge.py:65` | `def test_matrix_fallback_groups(monkeypatch)` |
+| `test_notes_roundtrip_without_binary` | function | `tests/test_ttpscope_bridge.py:73` | `def test_notes_roundtrip_without_binary(monkeypatch, tmp_path)` |
+| `test_object_id_validation` | function | `tests/test_ttpscope_bridge.py:18` | `def test_object_id_validation()` |
+| `test_query_and_platform_validation` | function | `tests/test_ttpscope_bridge.py:27` | `def test_query_and_platform_validation()` |
+| `test_search_fallback_needs_no_binary` | function | `tests/test_ttpscope_bridge.py:48` | `def test_search_fallback_needs_no_binary(monkeypatch)` |
+| `test_show_fallback_technique` | function | `tests/test_ttpscope_bridge.py:56` | `def test_show_fallback_technique(monkeypatch)` |
+| `test_unknown_action_rejected` | function | `tests/test_ttpscope_bridge.py:40` | `def test_unknown_action_rejected()` |
+| `SplashDispatchTests` | class | `tests/test_tui_splash.py:81` | `class SplashDispatchTests(TestCase)` |
+| `SplashEdgeCaseTests` | class | `tests/test_tui_splash.py:145` | `class SplashEdgeCaseTests(TestCase)` |
+| `SplashInstantEffectTests` | class | `tests/test_tui_splash.py:30` | `class SplashInstantEffectTests(TestCase)` |
+| `SplashTypewriterEffectTests` | class | `tests/test_tui_splash.py:67` | `class SplashTypewriterEffectTests(TestCase)` |
+| `_console` | function | `tests/test_tui_splash.py:19` | `def _console()` |
+| `test_empty_lines_is_noop` | method | `tests/test_tui_splash.py:146` | `def test_empty_lines_is_noop(self)` |
+| `test_instant_does_not_block` | method | `tests/test_tui_splash.py:44` | `def test_instant_does_not_block(self)` |
+| `test_instant_emits_ansi_for_known_tokens` | method | `tests/test_tui_splash.py:56` | `def test_instant_emits_ansi_for_known_tokens(self)` |
+| `test_instant_renders_every_line` | method | `tests/test_tui_splash.py:31` | `def test_instant_renders_every_line(self)` |
+| `test_lines_with_brackets_render_verbatim` | method | `tests/test_tui_splash.py:156` | `def test_lines_with_brackets_render_verbatim(self)` |
+| `test_render_splash_clear_after_emits_clear_escape` | method | `tests/test_tui_splash.py:124` | `def test_render_splash_clear_after_emits_clear_escape(self)` |
+| `test_render_splash_dispatches_instant_for_zero_seconds` | method | `tests/test_tui_splash.py:82` | `def test_render_splash_dispatches_instant_for_zero_seconds(self)` |
+| `test_render_splash_dispatches_instant_when_explicit` | method | `tests/test_tui_splash.py:92` | `def test_render_splash_dispatches_instant_when_explicit(self)` |
+| `test_render_splash_no_clear_when_disabled` | method | `tests/test_tui_splash.py:134` | `def test_render_splash_no_clear_when_disabled(self)` |
+| `test_render_splash_unknown_effect_falls_back_to_instant` | method | `tests/test_tui_splash.py:103` | `def test_render_splash_unknown_effect_falls_back_to_instant(self)` |
+| `test_render_splash_uses_payload_theme_when_provided` | method | `tests/test_tui_splash.py:114` | `def test_render_splash_uses_payload_theme_when_provided(self)` |
+| `test_typewriter_renders_all_lines_when_total_seconds_high` | method | `tests/test_tui_splash.py:68` | `def test_typewriter_renders_all_lines_when_total_seconds_high(self)` |
+| `StyleTokenTests` | class | `tests/test_tui_style.py:14` | `class StyleTokenTests(TestCase)` |
+| `test_active_tokens_covers_every_key` | method | `tests/test_tui_style.py:25` | `def test_active_tokens_covers_every_key(self)` |
+| `test_active_tokens_honours_payload` | method | `tests/test_tui_style.py:32` | `def test_active_tokens_honours_payload(self)` |
+| `test_known_token_returns_theme_attribute` | method | `tests/test_tui_style.py:15` | `def test_known_token_returns_theme_attribute(self)` |
+| `test_paint_returns_rich_text_with_style` | method | `tests/test_tui_style.py:39` | `def test_paint_returns_rich_text_with_style(self)` |
+| `test_render_prompt_emits_segments_separated_by_bar` | method | `tests/test_tui_style.py:44` | `def test_render_prompt_emits_segments_separated_by_bar(self)` |
+| `test_render_prompt_empty_is_noop` | method | `tests/test_tui_style.py:59` | `def test_render_prompt_empty_is_noop(self)` |
+| `test_unknown_token_falls_back_to_white` | method | `tests/test_tui_style.py:21` | `def test_unknown_token_falls_back_to_white(self)` |
 | `RecordingSave` | class | `tests/test_tui_theme_command.py:11` | `class RecordingSave` |
 | `TuiThemeCycleTests` | class | `tests/test_tui_theme_command.py:78` | `class TuiThemeCycleTests(TestCase)` |
 | `TuiThemeListingTests` | class | `tests/test_tui_theme_command.py:28` | `class TuiThemeListingTests(TestCase)` |
@@ -412,88 +496,5 @@ Previous: [SYMBOLS_p51.md](SYMBOLS_p51.md)
 | `extract` | function | `utils.py:1571` | `def extract(string, extract_flag)` |
 | `extract_banners` | function | `utils.py:2584` | `def extract_banners(xml_file)` |
 | `find_ea` | function | `utils.py:1118` | `def find_ea(keyword)` |
-| `find_ps` | function | `utils.py:1168` | `def find_ps(keyword)` |
-| `find_ss` | function | `utils.py:1056` | `def find_ss(keyword)` |
-| `fix_common_yaml_issues` | function | `utils.py:3052` | `def fix_common_yaml_issues(yaml_content)` |
-| `format_openssh_key` | function | `utils.py:1497` | `def format_openssh_key(raw_key)` |
-| `format_rsa_key` | function | `utils.py:1529` | `def format_rsa_key(raw_key)` |
-| `generate_certificates` | function | `utils.py:1317` | `def generate_certificates()` |
-| `generate_emails` | function | `utils.py:1400` | `def generate_emails(full_name, domain)` |
-| `generate_http_req` | function | `utils.py:1473` | `def generate_http_req(host, port, uri, custom_header, cmd)` |
-| `generate_index` | function | `utils.py:2417` | `def generate_index(repo_dir)` |
-| `generate_random_cve_id` | function | `utils.py:1305` | `def generate_random_cve_id()` |
-| `get_banner` | function | `utils.py:2225` | `def get_banner(ip, port)` |
-| `get_command` | function | `utils.py:2305` | `def get_command(url, lhost)` |
-| `get_credentials` | function | `utils.py:1622` | `def get_credentials(file, ncred)` |
-| `get_domain` | function | `utils.py:1288` | `def get_domain(url)` |
-| `get_domain_from_xml` | function | `utils.py:2170` | `def get_domain_from_xml(xml_file)` |
-| `get_git_info` | function | `utils.py:770` | `def get_git_info()` |
-| `get_hash` | function | `utils.py:1964` | `def get_hash(dir)` |
-| `get_network_info` | function | `utils.py:735` | `def get_network_info()` |
-| `get_open_ports` | function | `utils.py:694` | `def get_open_ports()` |
-| `get_org` | function | `utils.py:2747` | `def get_org(data)` |
-| `get_terminal_size` | function | `utils.py:2057` | `def get_terminal_size()` |
-| `get_users_dic` | function | `utils.py:1929` | `def get_users_dic(txt)` |
-| `get_venv_info` | function | `utils.py:789` | `def get_venv_info()` |
-| `get_xml` | function | `utils.py:2157` | `def get_xml(directory)` |
-| `getprompt` | function | `utils.py:810` | `def getprompt()` |
-| `halp` | function | `utils.py:2066` | `def halp()` |
-| `handle` | function | `utils.py:1899` | `def handle(input_str)` |
-| `handle_forms` | function | `utils.py:1787` | `def handle_forms(content, url)` |
-| `htmlify` | function | `utils.py:2682` | `def htmlify(data)` |
-| `inject_payloads` | function | `utils.py:1725` | `def inject_payloads(urls, payload_url, request_timeout)` |
-| `is_digit` | function | `utils.py:2005` | `def is_digit(the_digit)` |
-| `is_exist` | function | `utils.py:1259` | `def is_exist(file)` |
-| `is_package_installed` | function | `utils.py:1560` | `def is_package_installed(package_name)` |
-| `is_port_in_use` | function | `utils.py:2705` | `def is_port_in_use(port, host)` |
-| `lazyown_set_config` | function | `utils.py:324` | `def lazyown_set_config(key, value, config_obj)` |
-| `list_binaries` | function | `utils.py:2242` | `def list_binaries(directory)` |
-| `load_adversary` | function | `utils.py:2764` | `def load_adversary()` |
-| `load_knowledge_base` | function | `utils.py:3135` | `def load_knowledge_base(knowledge_file)` |
-| `load_user_aliases` | function | `utils.py:3172` | `def load_user_aliases()` |
-| `load_version` | function | `utils.py:556` | `def load_version()` |
-| `log_message` | method | `utils.py:3200` | `def log_message(self)` |
-| `log_request` | method | `utils.py:3197` | `def log_request(self)` |
-| `manual_yaml_extraction` | function | `utils.py:2878` | `def manual_yaml_extraction(content)` |
-| `needs_sudo` | function | `utils.py:385` | `def needs_sudo(command)` |
-| `nvddb` | function | `utils.py:1010` | `def nvddb(content)` |
-| `obfuscate_payload` | function | `utils.py:1678` | `def obfuscate_payload(payload)` |
-| `open_file` | method | `utils.py:3228` | `def open_file(self, filename)` |
-| `open_reader` | method | `utils.py:3233` | `def open_reader(self, reader)` |
-| `packetstormsecurity` | function | `utils.py:972` | `def packetstormsecurity(content)` |
-| `parse_bool` | function | `utils.py:582` | `def parse_bool(value)` |
-| `parse_ip_mac` | function | `utils.py:481` | `def parse_ip_mac(input_string)` |
-| `parse_nmap_csv` | function | `utils.py:2814` | `def parse_nmap_csv(csv_path)` |
-| `parse_proc_net_file` | function | `utils.py:650` | `def parse_proc_net_file(file_path)` |
-| `parse_yaml_response` | function | `utils.py:3017` | `def parse_yaml_response(content)` |
-| `persist` | method | `utils.py:3425` | `def persist(self, service, target, cves)` |
-| `preprocess_llm_response` | function | `utils.py:2843` | `def preprocess_llm_response(response)` |
-| `pretty_print` | method | `utils.py:3462` | `def pretty_print(self, cves_details)` |
-| `prompt` | function | `utils.py:1825` | `def prompt(label, default)` |
-| `query_arin_ip` | function | `utils.py:2728` | `def query_arin_ip(ip)` |
-| `query_ollama` | function | `utils.py:2828` | `def query_ollama(prompt, model)` |
-| `random_string` | function | `utils.py:1467` | `def random_string(length)` |
-| `read_payloads` | function | `utils.py:1703` | `def read_payloads(file_path)` |
-| `redact_secrets` | function | `utils.py:461` | `def redact_secrets(text)` |
-| `replace_command_placeholders` | function | `utils.py:2788` | `def replace_command_placeholders(command, params)` |
-| `replace_match` | function | `utils.py:2806` | `def replace_match(match)` |
-| `replace_placeholders` | function | `utils.py:2770` | `def replace_placeholders(template, replacements)` |
-| `replace_variables` | function | `utils.py:2467` | `def replace_variables(command, variables)` |
-| `resolve_alias` | function | `utils.py:358` | `def resolve_alias(shell, command)` |
-| `return_creds` | function | `utils.py:2714` | `def return_creds()` |
-| `rotate_char` | function | `utils.py:713` | `def rotate_char(c, shift)` |
-| `run` | function | `utils.py:1200` | `def run(command)` |
-| `salida_strace` | function | `utils.py:897` | `def salida_strace(filename)` |
-| `save_playbook` | function | `utils.py:3123` | `def save_playbook(playbook_data, playbook_name)` |
-| `scrape_news` | function | `utils.py:2633` | `def scrape_news()` |
-| `search_cves` | method | `utils.py:3355` | `def search_cves(self, service)` |
-| `select_binary` | function | `utils.py:2262` | `def select_binary(binaries)` |
-| `send_command` | function | `utils.py:2316` | `def send_command(cmd, url, lhost)` |
-| `send_packet` | function | `utils.py:538` | `def send_packet(packet, iface)` |
-| `send_request` | function | `utils.py:1750` | `def send_request(raw_url)` |
-| `shellcode_to_sylk` | function | `utils.py:2200` | `def shellcode_to_sylk(shellcode_path)` |
-| `signal_handler` | function | `utils.py:600` | `def signal_handler(sig, frame)` |
-| `sudo_available` | function | `utils.py:409` | `def sudo_available()` |
-| `teclado_usuario` | function | `utils.py:861` | `def teclado_usuario(filename)` |
-| `transform` | function | `utils.py:1869` | `def transform(parts, delimiter, casing)` |
 
+Next: [SYMBOLS_p53.md](SYMBOLS_p53.md)

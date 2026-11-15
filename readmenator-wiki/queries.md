@@ -8,7 +8,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (150 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (153 connections)
 
 - Status: unanswered
 
@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 206 files in 'skills/mcp_tools' related to each other?
+### Q: How are the 214 files in 'skills/mcp_tools' related to each other?
 
 - Status: unanswered
 

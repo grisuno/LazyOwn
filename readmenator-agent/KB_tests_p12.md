@@ -1,5 +1,26 @@
-# Subsystem: tests (page 12 of 26)
+# Subsystem: tests (page 12 of 27)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
+
+## tests/test_golden_path.py
+- Doc: Contract tests for the deterministic golden-path solver.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_snapshot` (function, line 13) `def _snapshot()`
+  - `ResolvePathsSpec` (class, line 45) `class ResolvePathsSpec(TestCase)`
+  - `ArtifactSpec` (class, line 86) `class ArtifactSpec(TestCase)`
+  - `PushObjectivesSpec` (class, line 114) `class PushObjectivesSpec(TestCase)`
+  - `test_anchor_excluded_from_targets` (method, line 48) `def test_anchor_excluded_from_targets(self)`
+  - `test_critical_exploit_ranked_first_with_severity_cost` (method, line 54) `def test_critical_exploit_ranked_first_with_severity_cost(self)`
+  - `test_confirmed_credential_beats_unconfirmed` (method, line 62) `def test_confirmed_credential_beats_unconfirmed(self)`
+  - `test_lateral_relation_via_anchor` (method, line 67) `def test_lateral_relation_via_anchor(self)`
+  - `test_runs_service_edges_ignored` (method, line 73) `def test_runs_service_edges_ignored(self)`
+  - `test_deterministic_and_stable` (method, line 79) `def test_deterministic_and_stable(self)`
+  - `test_build_writes_artifact_from_world_model` (method, line 89) `def test_build_writes_artifact_from_world_model(self)`
+  - `test_load_artifact_tolerant_when_missing` (method, line 109) `def test_load_artifact_tolerant_when_missing(self)`
+  - `test_push_and_dedupe` (method, line 117) `def test_push_and_dedupe(self)`
+  - `test_priority_bands` (method, line 136) `def test_priority_bands(self)`
+- Depends on: `modules/__init__.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
 
 ## tests/test_graph_advisor.py
 - Doc: Tests for cli/graph_advisor.py.

@@ -1,8 +1,57 @@
-# Symbols (page 42 of 52)
+# Symbols (page 42 of 53)
 Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_lockout_output_aborts` | function | `tests/test_failure_verdict.py:17` | `def test_lockout_output_aborts()` |
+| `test_missing_tool_skips` | function | `tests/test_failure_verdict.py:54` | `def test_missing_tool_skips()` |
+| `test_network_markers_retry` | function | `tests/test_failure_verdict.py:70` | `def test_network_markers_retry()` |
+| `test_out_of_scope_aborts_before_everything` | function | `tests/test_failure_verdict.py:27` | `def test_out_of_scope_aborts_before_everything()` |
+| `test_permission_wall_requests_fallback` | function | `tests/test_failure_verdict.py:46` | `def test_permission_wall_requests_fallback()` |
+| `test_success_and_skipped_outcomes_never_classify_as_fallback` | function | `tests/test_failure_verdict.py:86` | `def test_success_and_skipped_outcomes_never_classify_as_fallback()` |
+| `test_timeout_with_clean_output_retries` | function | `tests/test_failure_verdict.py:62` | `def test_timeout_with_clean_output_retries()` |
+| `test_unknown_output_keeps_default_retry` | function | `tests/test_failure_verdict.py:78` | `def test_unknown_output_keeps_default_retry()` |
+| `_graph_with` | function | `tests/test_finding_enrich.py:56` | `def _graph_with(meta)` |
+| `_persist` | function | `tests/test_finding_enrich.py:60` | `def _persist()` |
+| `_ref` | function | `tests/test_finding_enrich.py:17` | `def _ref(digest, role, note, ts)` |
+| `test_enrich_collapses_duplicate_onto_strongest_role` | function | `tests/test_finding_enrich.py:27` | `def test_enrich_collapses_duplicate_onto_strongest_role()` |
+| `test_enrich_digest_is_stable_and_sized` | function | `tests/test_finding_enrich.py:40` | `def test_enrich_digest_is_stable_and_sized()` |
+| `test_enrich_empty_input` | function | `tests/test_finding_enrich.py:51` | `def test_enrich_empty_input()` |
+| `test_enrich_finding_canonicalises_and_bumps_version` | function | `tests/test_finding_enrich.py:67` | `def test_enrich_finding_canonicalises_and_bumps_version()` |
+| `test_enrich_finding_is_idempotent` | function | `tests/test_finding_enrich.py:77` | `def test_enrich_finding_is_idempotent()` |
+| `test_enrich_finding_preserves_note_through_collapse` | function | `tests/test_finding_enrich.py:93` | `def test_enrich_finding_preserves_note_through_collapse()` |
+| `test_enrich_finding_unknown` | function | `tests/test_finding_enrich.py:87` | `def test_enrich_finding_unknown()` |
+| `test_enrich_ignores_empty_and_malformed` | function | `tests/test_finding_enrich.py:46` | `def test_enrich_ignores_empty_and_malformed()` |
+| `test_enrich_is_order_independent` | function | `tests/test_finding_enrich.py:33` | `def test_enrich_is_order_independent()` |
+| `test_enrich_orders_proof_first` | function | `tests/test_finding_enrich.py:21` | `def test_enrich_orders_proof_first()` |
+| `_boom` | function | `tests/test_finding_lifecycle.py:87` | `def _boom(cve, sessions)` |
+| `_finding` | function | `tests/test_finding_lifecycle.py:24` | `def _finding(fid, sources)` |
+| `test_apply_confirmation_stamps_nodes` | function | `tests/test_finding_lifecycle.py:65` | `def test_apply_confirmation_stamps_nodes(tmp_path)` |
+| `test_dead_end_suppresses_value` | function | `tests/test_finding_lifecycle.py:57` | `def test_dead_end_suppresses_value(tmp_path)` |
+| `test_enrich_evidence_appends_keyless_verdicts` | function | `tests/test_finding_lifecycle.py:75` | `def test_enrich_evidence_appends_keyless_verdicts(tmp_path, monkeypatch)` |
+| `test_enrich_evidence_never_fails_offline` | function | `tests/test_finding_lifecycle.py:85` | `def test_enrich_evidence_never_fails_offline(tmp_path, monkeypatch)` |
+| `test_explicit_confirm_with_evidence` | function | `tests/test_finding_lifecycle.py:41` | `def test_explicit_confirm_with_evidence(tmp_path)` |
+| `test_multi_source_auto_confirms` | function | `tests/test_finding_lifecycle.py:35` | `def test_multi_source_auto_confirms(tmp_path)` |
+| `test_pending_by_default` | function | `tests/test_finding_lifecycle.py:30` | `def test_pending_by_default(tmp_path)` |
+| `test_reject_beats_auto_confirm` | function | `tests/test_finding_lifecycle.py:49` | `def test_reject_beats_auto_confirm(tmp_path)` |
+| `_chain_payload` | function | `tests/test_findings_gate.py:14` | `def _chain_payload(gate)` |
+| `test_blocked_gate_stays_partial_with_reason` | function | `tests/test_findings_gate.py:37` | `def test_blocked_gate_stays_partial_with_reason()` |
+| `test_default_payload_unaffected` | function | `tests/test_findings_gate.py:45` | `def test_default_payload_unaffected()` |
+| `test_open_gate_confirms_with_evidence` | function | `tests/test_findings_gate.py:31` | `def test_open_gate_confirms_with_evidence()` |
+| `_FakeView` | class | `tests/test_fuzzy_picker.py:35` | `class _FakeView(PickerView)` |
+| `__init__` | method | `tests/test_fuzzy_picker.py:38` | `def __init__(self, selection_index)` |
+| `_collect_runtime_strings` | function | `tests/test_fuzzy_picker.py:198` | `def _collect_runtime_strings()` |
+| `_collect_string_constants` | function | `tests/test_fuzzy_picker.py:174` | `def _collect_string_constants(source)` |
+| `run` | method | `tests/test_fuzzy_picker.py:43` | `def run(self, items, initial_query)` |
+| `sample_items` | function | `tests/test_fuzzy_picker.py:59` | `def sample_items()` |
+| `scorer` | function | `tests/test_fuzzy_picker.py:54` | `def scorer()` |
+| `test_config_from_payload_ignores_unknown_keys` | function | `tests/test_fuzzy_picker.py:119` | `def test_config_from_payload_ignores_unknown_keys()` |
+| `test_config_from_payload_respects_known_overrides` | function | `tests/test_fuzzy_picker.py:112` | `def test_config_from_payload_respects_known_overrides()` |
+| `test_config_from_payload_returns_defaults_when_no_block` | function | `tests/test_fuzzy_picker.py:124` | `def test_config_from_payload_returns_defaults_when_no_block()` |
+| `test_empty_query_returns_all_items_in_order` | function | `tests/test_fuzzy_picker.py:72` | `def test_empty_query_returns_all_items_in_order(scorer, sample_items)` |
+| `test_exact_match_scores_highest` | function | `tests/test_fuzzy_picker.py:78` | `def test_exact_match_scores_highest(scorer, sample_items)` |
+| `test_getprompt_renders_three_lines_and_includes_payload_segments` | function | `tests/test_fuzzy_picker.py:280` | `def test_getprompt_renders_three_lines_and_includes_payload_segments()` |
+| `test_lazyown_runtime_strings_preserve_shell_payload` | function | `tests/test_fuzzy_picker.py:260` | `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)` |
 | `test_lazyown_source_has_no_invalid_escape_warning` | function | `tests/test_fuzzy_picker.py:265` | `def test_lazyown_source_has_no_invalid_escape_warning()` |
 | `test_picker_cancel_returns_none` | function | `tests/test_fuzzy_picker.py:146` | `def test_picker_cancel_returns_none(sample_items)` |
 | `test_picker_empty_input_returns_none` | function | `tests/test_fuzzy_picker.py:152` | `def test_picker_empty_input_returns_none()` |
@@ -447,54 +496,5 @@ Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 | `test_config_overrides_from_payload` | method | `tests/test_improvements_spec.py:196` | `def test_config_overrides_from_payload(self)` |
 | `test_core_config_is_canonical` | method | `tests/test_improvements_spec.py:672` | `def test_core_config_is_canonical(self)` |
 | `test_daemon_falls_back_to_payload_rhost` | method | `tests/test_improvements_spec.py:929` | `def test_daemon_falls_back_to_payload_rhost(self)` |
-| `test_daemon_normalises_dict_result` | method | `tests/test_improvements_spec.py:578` | `def test_daemon_normalises_dict_result(self)` |
-| `test_daemon_requires_target` | method | `tests/test_improvements_spec.py:573` | `def test_daemon_requires_target(self)` |
-| `test_default_prompt_join_is_newline` | method | `tests/test_improvements_spec.py:869` | `def test_default_prompt_join_is_newline(self)` |
-| `test_defaults_are_applied` | method | `tests/test_improvements_spec.py:432` | `def test_defaults_are_applied(self)` |
-| `test_duplicate_name_raises` | method | `tests/test_improvements_spec.py:455` | `def test_duplicate_name_raises(self)` |
-| `test_emit_appends_jsonline` | method | `tests/test_improvements_spec.py:538` | `def test_emit_appends_jsonline(self)` |
-| `test_emit_rejects_non_serialisable` | method | `tests/test_improvements_spec.py:549` | `def test_emit_rejects_non_serialisable(self)` |
-| `test_emit_rejects_oversize_event` | method | `tests/test_improvements_spec.py:545` | `def test_emit_rejects_oversize_event(self)` |
-| `test_empty_goal_is_rejected` | method | `tests/test_improvements_spec.py:419` | `def test_empty_goal_is_rejected(self)` |
-| `test_empty_name_raises` | method | `tests/test_improvements_spec.py:460` | `def test_empty_name_raises(self)` |
-| `test_enabled_flag_accepts_strings_and_bools` | method | `tests/test_improvements_spec.py:304` | `def test_enabled_flag_accepts_strings_and_bools(self)` |
-| `test_event_is_emitted_per_execution` | method | `tests/test_improvements_spec.py:642` | `def test_event_is_emitted_per_execution(self)` |
-| `test_every_class_in_new_modules_has_docstring` | method | `tests/test_improvements_spec.py:717` | `def test_every_class_in_new_modules_has_docstring(self)` |
-| `test_explicit_mode_overrides_router` | method | `tests/test_improvements_spec.py:500` | `def test_explicit_mode_overrides_router(self)` |
-| `test_factory_returns_manager_with_four_sources` | method | `tests/test_improvements_spec.py:406` | `def test_factory_returns_manager_with_four_sources(self)` |
-| `test_file_permissions_are_restrictive` | method | `tests/test_improvements_spec.py:552` | `def test_file_permissions_are_restrictive(self)` |
-| `test_finding_prefers_credentials_over_notes` | method | `tests/test_improvements_spec.py:375` | `def test_finding_prefers_credentials_over_notes(self)` |
-| `test_finding_skips_placeholder_credentials` | method | `tests/test_improvements_spec.py:381` | `def test_finding_skips_placeholder_credentials(self)` |
-| `test_graph_file_is_valid_json_when_present` | method | `tests/test_improvements_spec.py:766` | `def test_graph_file_is_valid_json_when_present(self)` |
-| `test_hive_runs_full_lifecycle` | method | `tests/test_improvements_spec.py:585` | `def test_hive_runs_full_lifecycle(self)` |
-| `test_install_registers_precmd_hook` | method | `tests/test_improvements_spec.py:325` | `def test_install_registers_precmd_hook(self)` |
-| `test_long_goal_is_bounded` | method | `tests/test_improvements_spec.py:427` | `def test_long_goal_is_bounded(self)` |
-| `test_metadata_carries_request_id` | method | `tests/test_improvements_spec.py:446` | `def test_metadata_carries_request_id(self)` |
-| `test_missing_source_key_raises` | method | `tests/test_improvements_spec.py:281` | `def test_missing_source_key_raises(self)` |
-| `test_modules_avoid_emoji_in_source` | method | `tests/test_improvements_spec.py:732` | `def test_modules_avoid_emoji_in_source(self)` |
-| `test_numeric_fields_stay_zero_when_unset` | method | `tests/test_improvements_spec.py:441` | `def test_numeric_fields_stay_zero_when_unset(self)` |
-| `test_orchestration_commandset_finds_managers_on_bound_shell` | method | `tests/test_improvements_spec.py:826` | `def test_orchestration_commandset_finds_managers_on_bound_shell(self)` |
-| `test_orchestration_set_exposes_required_verbs` | method | `tests/test_improvements_spec.py:705` | `def test_orchestration_set_exposes_required_verbs(self)` |
-| `test_orchestration_set_is_active` | method | `tests/test_improvements_spec.py:699` | `def test_orchestration_set_is_active(self)` |
-| `test_orchestration_set_phase_and_category_set` | method | `tests/test_improvements_spec.py:709` | `def test_orchestration_set_phase_and_category_set(self)` |
-| `test_order_is_preserved` | method | `tests/test_improvements_spec.py:473` | `def test_order_is_preserved(self)` |
-| `test_payload_target_falls_back_to_default` | method | `tests/test_improvements_spec.py:366` | `def test_payload_target_falls_back_to_default(self)` |
-| `test_payload_target_picks_first_non_empty_key` | method | `tests/test_improvements_spec.py:362` | `def test_payload_target_picks_first_non_empty_key(self)` |
-| `test_phase_prefers_world_model_over_payload` | method | `tests/test_improvements_spec.py:370` | `def test_phase_prefers_world_model_over_payload(self)` |
-| `test_reader_bounds_file_size` | method | `tests/test_improvements_spec.py:225` | `def test_reader_bounds_file_size(self)` |
-| `test_reader_invalid_json_returns_none` | method | `tests/test_improvements_spec.py:234` | `def test_reader_invalid_json_returns_none(self)` |
-| `test_reader_rejects_absolute_paths` | method | `tests/test_improvements_spec.py:222` | `def test_reader_rejects_absolute_paths(self)` |
-| `test_reader_rejects_parent_traversal` | method | `tests/test_improvements_spec.py:219` | `def test_reader_rejects_parent_traversal(self)` |
-| `test_reader_returns_empty_on_missing_file` | method | `tests/test_improvements_spec.py:231` | `def test_reader_returns_empty_on_missing_file(self)` |
-| `test_render_plain_contains_all_fields` | method | `tests/test_improvements_spec.py:246` | `def test_render_plain_contains_all_fields(self)` |
-| `test_render_prompt_defaults_to_raw_ansi_for_prompt_toolkit` | method | `tests/test_improvements_spec.py:263` | `def test_render_prompt_defaults_to_raw_ansi_for_prompt_toolkit(self)` |
-| `test_render_prompt_opt_in_readline_mode_wraps_ansi_with_markers` | method | `tests/test_improvements_spec.py:270` | `def test_render_prompt_opt_in_readline_mode_wraps_ansi_with_markers(self)` |
-| `test_render_strips_dangerous_substrings` | method | `tests/test_improvements_spec.py:258` | `def test_render_strips_dangerous_substrings(self)` |
-| `test_render_truncates_to_max_chars` | method | `tests/test_improvements_spec.py:252` | `def test_render_truncates_to_max_chars(self)` |
-| `test_result_to_dict_is_json_serialisable` | method | `tests/test_improvements_spec.py:650` | `def test_result_to_dict_is_json_serialisable(self)` |
-| `test_router_ignores_unset_task_type_for_keyword_scoring` | method | `tests/test_improvements_spec.py:978` | `def test_router_ignores_unset_task_type_for_keyword_scoring(self)` |
-| `test_router_picks_daemon_when_only_payload_supplies_target` | method | `tests/test_improvements_spec.py:954` | `def test_router_picks_daemon_when_only_payload_supplies_target(self)` |
-| `test_status_bar_install_registers_precmd_hook_on_real_cmd2` | method | `tests/test_improvements_spec.py:803` | `def test_status_bar_install_registers_precmd_hook_on_real_cmd2(self)` |
-| `test_suggestion_fallback_when_factory_none` | method | `tests/test_improvements_spec.py:760` | `def test_suggestion_fallback_when_factory_none(self)` |
 
 Next: [SYMBOLS_p43.md](SYMBOLS_p43.md)

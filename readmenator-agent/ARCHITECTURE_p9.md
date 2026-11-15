@@ -1,4 +1,4 @@
-# Architecture (page 9 of 11)
+# Architecture (page 9 of 12)
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports
@@ -363,7 +363,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/auto_pivot.py` -> __future__, dataclasses, datetime, json, pathlib, re, secrets, socket, typing
 - `modules/auto_purple.py` -> __future__, abc, argparse, csv, dataclasses, datetime, fcntl, hashlib, json, lazyownbt.detection, os, pathlib, pty, re, select, struct, subprocess, sys, termios, time, typing
 - `modules/auto_registry.py` -> __future__, contextlib, dataclasses, io, json, os, pathlib, queue, re, shlex, shutil, signal, subprocess, threading, types
-- `modules/autonomous_exploit_engine.py` -> __future__, dataclasses, json, pathlib, random, re, subprocess, threading, time, typing, uuid, xml.etree.ElementTree
+- `modules/autonomous_exploit_engine.py` -> __future__, concurrent.futures, dataclasses, json, pathlib, random, re, subprocess, threading, time, typing, uuid, xml.etree.ElementTree
 - `modules/aws_attacks.py` -> __future__, boto3, dataclasses, typing
 - `modules/backdoor/backdoor.c` -> stdio.h, stdlib.h, string.h, sys/stat.h, sys/types.h, unistd.h, windows.h, windowsx.h, wininet.h, winsock2.h, winuser.h
 - `modules/backdoor/server.c` -> arpa/inet.h, netinet/in.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/types.h, unistd.h

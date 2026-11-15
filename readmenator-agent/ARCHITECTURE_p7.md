@@ -1,7 +1,22 @@
-# Architecture (page 7 of 11)
+# Architecture (page 7 of 12)
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_gym_lifecycle.py` -> `modules/gym_cleanup.py`
+- `tests/test_gym_lifecycle.py` -> `modules/outcome_bus.py`
+- `tests/test_gym_lifecycle.py` -> `modules/world_model.py`
+- `tests/test_gym_matrix_ctf.py` -> `modules/__init__.py`
+- `tests/test_gym_matrix_ctf.py` -> `modules/professional_report.py`
+- `tests/test_gym_ms2_cli.py` -> `cli/commands/redteam_gym.py`
+- `tests/test_gym_registry.py` -> `modules/__init__.py`
+- `tests/test_gym_registry.py` -> `modules/outcome_bus.py`
+- `tests/test_gym_registry.py` -> `modules/redteam_gym.py`
+- `tests/test_gym_registry.py` -> `modules/world_model.py`
+- `tests/test_harness_mode.py` -> `modules/__init__.py`
+- `tests/test_harness_mode.py` -> `modules/auto_registry.py`
+- `tests/test_harness_mode.py` -> `modules/lazy_loop.py`
+- `tests/test_harness_mode.py` -> `modules/orchestrator_config.py`
+- `tests/test_hash_cracker.py` -> `modules/hash_cracker.py`
 - `tests/test_health_report.py` -> `lazyc2/security/health.py`
 - `tests/test_help_ui_command_set.py` -> `cli/commands/_base.py`
 - `tests/test_help_ui_command_set.py` -> `cli/commands/_dormancy.py`
@@ -185,6 +200,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_lazy_timeline.py` -> `modules/__init__.py`
 - `tests/test_lazy_triage.py` -> `modules/lazy_triage.py`
 - `tests/test_lazy_worker_safety.py` -> `modules/__init__.py`
+- `tests/test_lazy_worker_safety.py` -> `modules/lazy_agent.py`
 - `tests/test_lazy_worker_safety.py` -> `modules/lazy_engine.py`
 - `tests/test_lazy_worker_safety.py` -> `modules/lazy_loop.py`
 - `tests/test_lazy_worker_safety.py` -> `modules/loop/worker_agentic.py`
@@ -207,6 +223,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_lazypoophish.py` -> `modules/__init__.py`
 - `tests/test_lazyshortener.py` -> `modules/__init__.py`
 - `tests/test_lesson_ingestor.py` -> `modules/lesson_ingestor.py`
+- `tests/test_lesson_ingestor_startup.py` -> `modules/lesson_ingestor.py`
 - `tests/test_live_surface.py` -> `modules/live_surface.py`
 - `tests/test_llm_adapter_parity.py` -> `modules/llm_adapter.py`
 - `tests/test_llm_adapter_parity.py` -> `modules/llm_factory.py`
@@ -234,6 +251,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_ai_bridge.py` -> `modules/llm_factory.py`
 - `tests/test_loop_ai_bridge.py` -> `modules/loop_ai_bridge.py`
 - `tests/test_loop_audit.py` -> `modules/__init__.py`
+- `tests/test_loop_audit_feedback.py` -> `modules/__init__.py`
 - `tests/test_loop_auto_orchestrator.py` -> `cli/commands/mcp_bridge.py`
 - `tests/test_loop_auto_orchestrator.py` -> `modules/__init__.py`
 - `tests/test_loop_auto_orchestrator.py` -> `modules/auto_registry.py`
@@ -478,23 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_safe_console.py` -> `core/safe_console.py`
 - `tests/test_safe_subprocess.py` -> `core/safe_subprocess.py`
 - `tests/test_safe_subprocess_behavior.py` -> `core/safe_subprocess.py`
-- `tests/test_safety_gates.py` -> `modules/__init__.py`
-- `tests/test_safety_gates.py` -> `modules/evidence.py`
-- `tests/test_safety_gates.py` -> `modules/intercept.py`
-- `tests/test_safety_gates.py` -> `modules/traffic_recorder.py`
-- `tests/test_scan_brief.py` -> `modules/lazy_loop.py`
-- `tests/test_scan_brief.py` -> `modules/scan_brief.py`
-- `tests/test_scope_bound_auto_gate.py` -> `skills/autonomous_daemon.py`
-- `tests/test_scope_bound_auto_gate.py` -> `skills/lazyown_policy.py`
-- `tests/test_scope_deny_priority.py` -> `cli/__init__.py`
-- `tests/test_scope_deny_priority.py` -> `modules/__init__.py`
-- `tests/test_scope_guard.py` -> `cli/scope_guard.py`
-- `tests/test_scope_guard.py` -> `utils.py`
-- `tests/test_scope_guard_integration.py` -> `core/console.py`
-- `tests/test_scope_guard_integration.py` -> `lazyown.py`
-- `tests/test_security_alerts_fix.py` -> `core/hardening.py`
-- `tests/test_security_alerts_fix.py` -> `core/reverse_shell_secret.py`
-- `tests/test_security_alerts_fix.py` -> `modules/domain_dominance.py`
-- `tests/test_security_alerts_fix.py` -> `modules/lazy_loop.py`
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

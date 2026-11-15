@@ -1,8 +1,12 @@
-# Symbols (page 13 of 52)
+# Symbols (page 13 of 53)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `days_in_month` | function | `modules/cal.sh:14` | `` |
+| `first_day_of_month` | function | `modules/cal.sh:31` | `` |
+| `is_leap_year` | function | `modules/cal.sh:4` | `` |
+| `_lessons_path` | function | `modules/campaign_blacklist.py:22` | `def _lessons_path()` |
 | `_load` | function | `modules/campaign_blacklist.py:27` | `def _load()` |
 | `blocked_commands` | function | `modules/campaign_blacklist.py:63` | `def blocked_commands(category)` |
 | `campaign_blacklist` | function | `modules/campaign_blacklist.py:53` | `def campaign_blacklist()` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `close` | method | `modules/db.py:804` | `def close(self)` |
 | `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
 | `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
-| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
-| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
-| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
-| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

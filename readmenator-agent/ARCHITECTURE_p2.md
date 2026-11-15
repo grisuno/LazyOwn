@@ -1,7 +1,8 @@
-# Architecture (page 2 of 11)
+# Architecture (page 2 of 12)
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/security.py` -> `cli/commands/_base.py`
 - `cli/commands/security.py` -> `core/config.py`
 - `cli/commands/security.py` -> `core/console.py`
 - `cli/commands/security.py` -> `core/credential_vault.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/credentials_panel.py` -> `lazygui/panels/base.py`
 - `lazygui/panels/credentials_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/cve_panel.py` -> `lazygui/config/constants.py`
-- `lazygui/panels/cve_panel.py` -> `lazygui/panels/base.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

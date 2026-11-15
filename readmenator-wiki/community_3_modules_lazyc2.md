@@ -1,10 +1,10 @@
 # modules: lazyc2
 
-*Community 4 | 135 files | cohesion 0.46*
+*Community 3 | 136 files | cohesion 0.47*
 
 ## Definition
 
-This community groups 135 file(s) rooted at `tests` with dominant language py (cohesion 0.46). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`. Core file: `lazyc2.py` (325 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 136 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`. Core file: `lazyc2.py` (325 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
@@ -15,7 +15,7 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 | `tests/integration_autonomous_flow.py` | py | testing | 1 | no |
 | `tests/test_addon_creator.py` | py | testing | 86 | yes |
 
-### `modules` (36 files)
+### `modules` (35 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -36,14 +36,14 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 | `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
 | `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
-### `contrib/legacy` (9 files)
+### `contrib/legacy` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
 | `contrib/legacy/lazygptcli.py` | py | utility | 14 | yes |
-| `contrib/legacy/lazygptcli_unified.py` | py | utility | 29 | yes |
 
-### `core` (5 files)
+### `core` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -103,7 +103,7 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `cli/commands/automation.py` | py | utility | 13 | yes |
 
-*... and 115 more files in this community.*
+*... and 116 more files in this community.*
 
 
 ## Key Symbols
@@ -128,27 +128,27 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 - `do_operator_load` (method, `cli/commands/automation.py:264`) `def do_operator_load(self, line)` - Load effective config for an operator (team baseline + overrides).
 - `do_operator_delete` (method, `cli/commands/automation.py:292`) `def do_operator_delete(self, line)` - Delete an operator profile.
 - `do_hooks` (method, `cli/commands/automation.py:314`) `def do_hooks(self, line)` - Conditional hooks management — list, enable, disable, add, remove rules.
-- `signal_handler` (function, `contrib/legacy/lazygptcli.py:66`) `def signal_handler(sig, frame)`
-- `show_help` (function, `contrib/legacy/lazygptcli.py:73`) `def show_help(message)`
-- `check_api_key` (function, `contrib/legacy/lazygptcli.py:77`) `def check_api_key()`
-- `configure_logging` (function, `contrib/legacy/lazygptcli.py:83`) `def configure_logging(debug)`
-- `parse_args` (function, `contrib/legacy/lazygptcli.py:87`) `def parse_args()`
-- `create_complex_prompt` (function, `contrib/legacy/lazygptcli.py:94`) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
-- `execute_command` (function, `contrib/legacy/lazygptcli.py:108`) `def execute_command(command)`
-- `load_knowledge_base` (function, `contrib/legacy/lazygptcli.py:118`) `def load_knowledge_base(file_path)`
-- `save_knowledge_base` (function, `contrib/legacy/lazygptcli.py:124`) `def save_knowledge_base(knowledge_base, file_path)`
-- `add_to_knowledge_base` (function, `contrib/legacy/lazygptcli.py:128`) `def add_to_knowledge_base(prompt, command, file_path)`
+- `truncate_message` (function, `contrib/legacy/lazydeepseekcli.py:41`) `def truncate_message(message, max_chars)`
+- `configure_logging` (function, `contrib/legacy/lazydeepseekcli.py:45`) `def configure_logging(debug)`
+- `_load_payload_kv` (function, `contrib/legacy/lazydeepseekcli.py:50`) `def _load_payload_kv()`
+- `_load_report_context` (function, `contrib/legacy/lazydeepseekcli.py:68`) `def _load_report_context()`
+- `_prompt_redteam` (function, `contrib/legacy/lazydeepseekcli.py:79`) `def _prompt_redteam(base_prompt, history, knowledge_base)`
+- `_prompt_report` (function, `contrib/legacy/lazydeepseekcli.py:118`) `def _prompt_report(base_prompt, history, knowledge_base)`
+- `load_knowledge_base` (function, `contrib/legacy/lazydeepseekcli.py:167`) `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function, `contrib/legacy/lazydeepseekcli.py:174`) `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function, `contrib/legacy/lazydeepseekcli.py:179`) `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function, `contrib/legacy/lazydeepseekcli.py:185`) `def get_relevant_knowledge(prompt)`
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 394
-- Cross-boundary resolved imports (EXTRACTED): 375
+- Internal resolved imports (EXTRACTED): 373
+- Cross-boundary resolved imports (EXTRACTED): 368
 
 ## Connections
 
-- [EXTRACTED] depends_on community 3 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 5 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
-- [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
+- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
+- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -156,7 +156,6 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `modules/detection_oracle.py` -> `modules/detection_feed.py` -> `modules/detection_oracle.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/integration_autonomous_flow.py` (testing) -> `modules/moe_router.py` (presentation)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
@@ -167,18 +166,20 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 
 ## Open Questions
 
-- Why do 12 file(s) lack file-level docs (e.g. `browser_sync_extension/background.js`)? What purpose do they serve?
+- Why do 13 file(s) lack file-level docs (e.g. `browser_sync_extension/background.js`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.46?
+- Should modules: lazyc2 be split, given cohesion 0.47?
 
 ## Sources
 
 - `browser_sync_extension/background.js`
 - `cli/commands/automation.py`
+- `contrib/legacy/lazydeepseekcli.py`
 - `contrib/legacy/lazygptcli.py`
 - `contrib/legacy/lazygptcli_unified.py`
 - `contrib/legacy/lazyhoneypot.py`
@@ -193,8 +194,7 @@ This community groups 135 file(s) rooted at `tests` with dominant language py (c
 - `core/logging.py`
 - `core/scheduler.py`
 - `core/security.py`
+- `core/session_secrets.py`
 - `lazyc2.py`
 - `lazyc2/__init__.py`
-- `lazyc2/app_factory.py`
-- `lazyc2/blueprints/__init__.py`
-- *... and 115 more*
+- *... and 116 more*

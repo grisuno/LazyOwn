@@ -1,5 +1,52 @@
-# Subsystem: tests (page 11 of 26)
+# Subsystem: tests (page 11 of 27)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
+
+## tests/test_engagement_and_ping.py
+- Doc: tests/test_engagement_and_ping.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_command_location` (function, line 30) `def _command_location(name)`
+  - `TestEngagementState` (class, line 58) `class TestEngagementState`
+  - `TestVRIScheduler` (class, line 105) `class TestVRIScheduler`
+  - `TestCuriosityEngine` (class, line 177) `class TestCuriosityEngine`
+  - `TestPingOsId` (class, line 283) `class TestPingOsId`
+  - `TestRecommendNextCommandIndex` (class, line 351) `class TestRecommendNextCommandIndex`
+  - `test_load_fresh_state_has_zero_commands` (method, line 59) `def test_load_fresh_state_has_zero_commands(self, tmp_path)`
+  - `test_save_and_reload_state` (method, line 74) `def test_save_and_reload_state(self, tmp_path)`
+  - `test_atomic_write_leaves_no_tmp_file` (method, line 90) `def test_atomic_write_leaves_no_tmp_file(self, tmp_path)`
+  - `test_next_threshold_always_positive` (method, line 106) `def test_next_threshold_always_positive(self)`
+  - `test_next_threshold_mean_near_target` (method, line 113) `def test_next_threshold_mean_near_target(self)`
+  - `test_threshold_is_variable_not_constant` (method, line 120) `def test_threshold_is_variable_not_constant(self)`
+  - `test_vri_fires_when_threshold_reached` (method, line 126) `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)`
+  - `test_vri_does_not_fire_before_threshold` (method, line 152) `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)`
+  - `_make_state` (method, line 178) `def _make_state(self, seen)`
+  - `_minimal_index` (method, line 186) `def _minimal_index(self, phase_cmds)`
+  - `test_curiosity_shows_undiscovered_command` (method, line 192) `def test_curiosity_shows_undiscovered_command(self, capsys)`
+  - `test_curiosity_does_not_repeat_in_session` (method, line 202) `def test_curiosity_does_not_repeat_in_session(self, capsys)`
+  - `test_curiosity_silent_when_all_discovered` (method, line 219) `def test_curiosity_silent_when_all_discovered(self, capsys)`
+  - `test_curiosity_silent_when_disabled` (method, line 229) `def test_curiosity_silent_when_disabled(self, capsys)`
+  - `test_curiosity_silent_for_unknown_phase` (method, line 245) `def test_curiosity_silent_for_unknown_phase(self, capsys)`
+  - `test_commands_seen_accumulates_across_calls` (method, line 254) `def test_commands_seen_accumulates_across_calls(self, tmp_path)`
+  - `_ping_stdout` (method, line 286) `def _ping_stdout(self, ttl)`
+  - `_make_params` (method, line 289) `def _make_params(self)`
+  - `_extract_os_id_from_json` (method, line 292) `def _extract_os_id_from_json(self, data)`
+  - `test_ttl_64_maps_to_os_id_1_linux` (method, line 295) `def test_ttl_64_maps_to_os_id_1_linux(self)`
+  - `test_ttl_128_maps_to_os_id_2_windows` (method, line 302) `def test_ttl_128_maps_to_os_id_2_windows(self)`
+  - `test_ttl_127_maps_to_os_id_2_windows` (method, line 309) `def test_ttl_127_maps_to_os_id_2_windows(self)`
+  - `test_ttl_63_maps_to_os_id_1_linux` (method, line 316) `def test_ttl_63_maps_to_os_id_1_linux(self)`
+  - `test_ttl_255_maps_to_unknown` (method, line 323) `def test_ttl_255_maps_to_unknown(self)`
+  - `test_ping_os_json_contract` (method, line 330) `def test_ping_os_json_contract(self)`
+  - `test_ping_persists_via_apply_assign` (method, line 338) `def test_ping_persists_via_apply_assign(self)`
+  - `_build_index` (method, line 354) `def _build_index(self, tmp_path, phase, n_cmds)`
+  - `_build_csv` (method, line 366) `def _build_csv(self, tmp_path, run_cmds)`
+  - `test_shows_unrun_commands` (method, line 411) `def test_shows_unrun_commands(self, tmp_path, capsys)`
+  - `test_shows_nothing_when_all_run` (method, line 436) `def test_shows_nothing_when_all_run(self, tmp_path)`
+  - `test_no_graph_nodes_in_output` (method, line 456) `def test_no_graph_nodes_in_output(self, tmp_path, capsys)`
+  - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
+  - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
+  - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
+- Depends on: `cli/engagement_hooks.py`
 
 ## tests/test_engagement_command_gate.py
 - Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
@@ -445,27 +492,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `__init__` (method, line 38) `def __init__(self, selection_index)`
   - `run` (method, line 43) `def run(self, items, initial_query)`
 - Depends on: `cli/banner_config.py`, `cli/fuzzy_picker.py`, `utils.py`
-
-## tests/test_golden_path.py
-- Doc: Contract tests for the deterministic golden-path solver.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_snapshot` (function, line 13) `def _snapshot()`
-  - `ResolvePathsSpec` (class, line 45) `class ResolvePathsSpec(TestCase)`
-  - `ArtifactSpec` (class, line 86) `class ArtifactSpec(TestCase)`
-  - `PushObjectivesSpec` (class, line 114) `class PushObjectivesSpec(TestCase)`
-  - `test_anchor_excluded_from_targets` (method, line 48) `def test_anchor_excluded_from_targets(self)`
-  - `test_critical_exploit_ranked_first_with_severity_cost` (method, line 54) `def test_critical_exploit_ranked_first_with_severity_cost(self)`
-  - `test_confirmed_credential_beats_unconfirmed` (method, line 62) `def test_confirmed_credential_beats_unconfirmed(self)`
-  - `test_lateral_relation_via_anchor` (method, line 67) `def test_lateral_relation_via_anchor(self)`
-  - `test_runs_service_edges_ignored` (method, line 73) `def test_runs_service_edges_ignored(self)`
-  - `test_deterministic_and_stable` (method, line 79) `def test_deterministic_and_stable(self)`
-  - `test_build_writes_artifact_from_world_model` (method, line 89) `def test_build_writes_artifact_from_world_model(self)`
-  - `test_load_artifact_tolerant_when_missing` (method, line 109) `def test_load_artifact_tolerant_when_missing(self)`
-  - `test_push_and_dedupe` (method, line 117) `def test_push_and_dedupe(self)`
-  - `test_priority_bands` (method, line 136) `def test_priority_bands(self)`
-- Depends on: `modules/__init__.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

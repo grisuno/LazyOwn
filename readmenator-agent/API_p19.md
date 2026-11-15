@@ -448,6 +448,16 @@ Imported by: `modules/recommender.py`
 - `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
 - `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
 
+## modules/shell_session_store.py
+Depends on: `modules/atomic_exploit_bridge.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`
+- `session_id` (function) `modules/shell_session_store.py:49` `def session_id(target, via, created_at)` -- Return the stable content hash identifying a session.
+- `register` (function) `modules/shell_session_store.py:80` `def register(target, via, port, lhost, evidence)` -- Create or refresh the resumable descriptor for an obtained shell.
+- `get` (function) `modules/shell_session_store.py:123` `def get(session)` -- Return one descriptor by id, or None when absent or unreadable.
+- `list_sessions` (function) `modules/shell_session_store.py:134` `def list_sessions(target)` -- Return persisted descriptors, newest first, optionally for one target.
+- `mark_closed` (function) `modules/shell_session_store.py:174` `def mark_closed(target, via)` -- Mark matching descriptors closed.
+- `resume` (function) `modules/shell_session_store.py:214` `def resume(session)` -- Re-establish a persisted shell session through its recorded primitive.
+
 ## modules/sidequest.py
 Depends on: `modules/llm_factory.py`, `modules/loop/__init__.py`
 - `checkpoint_id` (function) `modules/sidequest.py:38` `def checkpoint_id(row)` -- Return a stable, position-independent ordinal for one decision row.
@@ -481,15 +491,6 @@ Imported by: `tests/test_outcome_bus.py`
 ## modules/sinks/campaign_db.py
 Depends on: `modules/db.py`, `modules/outcome_bus.py`
 - `apply` (function) `modules/sinks/campaign_db.py:9` `def apply(event)` -- Mirror one outcome into the campaign database.
-
-## modules/sinks/chain_feed.py
-Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_lazy_loop.py`, `tests/test_sink_chain_feed.py`
-- `apply` (function) `modules/sinks/chain_feed.py:22` `def apply(event)` -- Append one chain-step trace record and steer unhandled failures.
-
-## modules/sinks/event_bus.py
-Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/event_bus.py:9` `def apply(event)` -- Publish one event to the unified bus.
 
 
 Next: [API_p20.md](API_p20.md)

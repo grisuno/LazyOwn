@@ -1,5 +1,22 @@
-# Subsystem: tests (page 4 of 26)
+# Subsystem: tests (page 4 of 27)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
+
+## tests/test_beacon_history.py
+- Doc: BDD-style tests for persistent beacon command/result history storage.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_config` (function, line 19) `def _config(tmp_path)`
+  - `TestSanitization` (class, line 23) `class TestSanitization`
+  - `TestAppendRead` (class, line 38) `class TestAppendRead`
+  - `test_sanitize_client_id_strips_unsafe_chars` (method, line 24) `def test_sanitize_client_id_strips_unsafe_chars(self)`
+  - `test_records_path_is_bounded_inside_sessions` (method, line 29) `def test_records_path_is_bounded_inside_sessions(self, tmp_path)`
+  - `test_append_then_read_round_trips` (method, line 39) `def test_append_then_read_round_trips(self, tmp_path)`
+  - `test_multiple_beacons_do_not_interleave` (method, line 50) `def test_multiple_beacons_do_not_interleave(self, tmp_path)`
+  - `test_skips_malformed_lines` (method, line 59) `def test_skips_malformed_lines(self, tmp_path)`
+  - `test_missing_history_reads_empty` (method, line 72) `def test_missing_history_reads_empty(self, tmp_path)`
+  - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
+- Depends on: `modules/beacon_history.py`
 
 ## tests/test_beacon_recon_sink.py
 - Doc: Beacon recon ingest tests.
@@ -462,33 +479,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `_TmpConfig` (class, line 243) `class _TmpConfig(BofDeliveryConfig)`
   - `__post_init__` (method, line 244) `def __post_init__(self)`
 - Depends on: `modules/bof_delivery.py`, `modules/bsb_compat.py`
-
-## tests/test_c2_agent.py
-- Doc: Malleable C2 agent: template safety, key ownership, record reading.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_client_id_derivation` (function, line 17) `def test_client_id_derivation()`
-  - `test_template_renders_without_tokens` (function, line 29) `def test_template_renders_without_tokens()`
-  - `test_template_rejects_bad_inputs` (function, line 37) `def test_template_rejects_bad_inputs()`
-  - `test_template_is_py25_safe` (function, line 51) `def test_template_is_py25_safe()`
-  - `test_template_drops_inherited_fds` (function, line 60) `def test_template_drops_inherited_fds()`
-  - `test_key_never_generated_silently` (function, line 68) `def test_key_never_generated_silently(tmp_path, monkeypatch)`
-  - `test_key_snapshot_roundtrip` (function, line 79) `def test_key_snapshot_roundtrip(tmp_path, monkeypatch)`
-  - `test_read_records_newest_last` (function, line 91) `def test_read_records_newest_last(tmp_path, monkeypatch)`
-  - `test_c2_addon_contract` (function, line 104) `def test_c2_addon_contract()`
-  - `test_credentials_file_sync_writes_live_creds` (function, line 117) `def test_credentials_file_sync_writes_live_creds(tmp_path)`
-  - `test_shell_sync_runs_after_params_exist` (function, line 136) `def test_shell_sync_runs_after_params_exist()`
-  - `test_shell_sync_adopts_file_creds` (function, line 148) `def test_shell_sync_adopts_file_creds(tmp_path, monkeypatch)`
-  - `test_sync_refuses_keyless_payload` (function, line 172) `def test_sync_refuses_keyless_payload(tmp_path, monkeypatch)`
-  - `test_c2_session_commands_are_non_interactive` (function, line 194) `def test_c2_session_commands_are_non_interactive()`
-  - `test_c2_reboot_registered` (function, line 207) `def test_c2_reboot_registered()`
-  - `test_fresh_lab_creds_rotate_and_shape` (function, line 216) `def test_fresh_lab_creds_rotate_and_shape()`
-  - `_Stub` (class, line 156) `class _Stub`
-  - `_Stub` (class, line 179) `class _Stub`
-  - `__init__` (method, line 160) `def __init__(self)`
-  - `__init__` (method, line 183) `def __init__(self)`
-- Depends on: `lazyown.py`, `modules/__init__.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

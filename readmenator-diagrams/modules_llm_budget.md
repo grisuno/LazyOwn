@@ -1,6 +1,6 @@
 # modules: llm_budget
 
-modules: llm_budget groups 43 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
+modules: llm_budget groups 46 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
 
 ```mermaid
 graph LR
@@ -24,31 +24,31 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (11.1)
+## cli (10.1)
 
 cli groups 1 files (py) around AiCommandSet, do_ask, do_groq, do_poolcheck, _serve. Artificial Intelligence command set.
 
-## contrib (11.2)
+## contrib (10.2)
 
 contrib groups 3 files (py) around clean_think, clean_yaml, truncate_message, configure_logging, create_complex_prompt. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
 
-## core (11.3)
+## core (10.3)
 
-core groups 3 files (py) around strip_ansi, BudgetExceeded, LLMBackendLike, generate, stream_generate. LLM budget cap and per call token counter.
+core groups 8 files (py) around strip_ansi, MissingDependencyError, __init__, DependencySpec, _DeferredImport. Core primitives for the LazyOwn framework.
 
-## modules (11.4)
+## modules (10.4)
 
-modules groups 19 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
+modules groups 17 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
 
-## root (11.5)
+## root (10.5)
 
 root groups 4 files (py) around SecureSessionManager, __init__, register_failed_attempt, check_lockout, check_rate_limit. download_c2: Handle the /download_c2 command to download a file from the C2.
 
-## skills (11.6)
+## skills (10.6)
 
 skills groups 1 files (py) around handle. MCP tool ``lazyown_get_llm_budget``: read the LLM cost budget status.
 
-## tests (11.7)
+## tests (10.7)
 
 tests groups 12 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _reset_guard_harness. Global pytest isolation hooks.
 
@@ -58,14 +58,18 @@ tests groups 12 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - contrib/legacy/lazyaddon_creator.py
 - contrib/legacy/lazyllmchat.py
 - contrib/legacy/lazyphishingai.py
+- core/__init__.py
+- core/dependencies.py
+- core/errors.py
+- core/http.py
 - core/llm_budget.py
 - core/llm_key_pool.py
+- core/network.py
 - core/parsers.py
 - discord_c2.py
 - modules/agent_runner.py
 - modules/ai_fallback.py
 - modules/ai_model.py
-- modules/goals.py
 - modules/lazy_agent.py
 - modules/llm_adapter.py
 - modules/llm_client.py
@@ -77,7 +81,6 @@ tests groups 12 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/loop_audit.py
 - modules/recommender.py
 - modules/session_state.py
-- modules/sidequestion.py
 - modules/vuln_bot_cli.py
 - modules/vulnbot.py
 - modules/yaml_generator.py
@@ -87,7 +90,7 @@ tests groups 12 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - telegram_hermes.py
 - tests/conftest.py
 - tests/test_ai_commands_llm.py
-- tests/test_lazy_parity.py
+- tests/test_dependencies.py
 - tests/test_lazy_streaming.py
 - tests/test_llm_adapter_parity.py
 - tests/test_llm_budget.py

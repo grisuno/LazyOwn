@@ -1,8 +1,44 @@
-# Symbols (page 37 of 52)
+# Symbols (page 37 of 53)
 Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_driver_yara_requires_target` | method | `tests/test_broadcom_wps_addon.py:245` | `def test_driver_yara_requires_target(self)` |
+| `test_enabled` | method | `tests/test_broadcom_wps_addon.py:80` | `def test_enabled(self, addon)` |
+| `test_execute_command_is_complete` | method | `tests/test_broadcom_wps_addon.py:133` | `def test_execute_command_is_complete(self, addon)` |
+| `test_execute_command_runs_driver` | method | `tests/test_broadcom_wps_addon.py:126` | `def test_execute_command_runs_driver(self, addon)` |
+| `test_execute_command_uses_env_prefix` | method | `tests/test_broadcom_wps_addon.py:129` | `def test_execute_command_uses_env_prefix(self, addon)` |
+| `test_install_command_installs_scapy` | method | `tests/test_broadcom_wps_addon.py:120` | `def test_install_command_installs_scapy(self, addon)` |
+| `test_install_command_is_non_interactive` | method | `tests/test_broadcom_wps_addon.py:123` | `def test_install_command_is_non_interactive(self, addon)` |
+| `test_install_path` | method | `tests/test_broadcom_wps_addon.py:113` | `def test_install_path(self, addon)` |
+| `test_install_path_no_traversal` | method | `tests/test_broadcom_wps_addon.py:116` | `def test_install_path_no_traversal(self, addon)` |
+| `test_name_matches_file` | method | `tests/test_broadcom_wps_addon.py:68` | `def test_name_matches_file(self, addon)` |
+| `test_name_pattern` | method | `tests/test_broadcom_wps_addon.py:71` | `def test_name_pattern(self, addon)` |
+| `test_no_double_braces` | method | `tests/test_broadcom_wps_addon.py:138` | `def test_no_double_braces(self, addon)` |
+| `test_no_required_params` | method | `tests/test_broadcom_wps_addon.py:163` | `def test_no_required_params(self, addon)` |
+| `test_no_secret_placeholders` | method | `tests/test_broadcom_wps_addon.py:158` | `def test_no_secret_placeholders(self, addon)` |
+| `test_os_is_known` | method | `tests/test_broadcom_wps_addon.py:89` | `def test_os_is_known(self, addon)` |
+| `test_param_names_are_valid` | method | `tests/test_broadcom_wps_addon.py:146` | `def test_param_names_are_valid(self, addon)` |
+| `test_params_are_live` | method | `tests/test_broadcom_wps_addon.py:167` | `def test_params_are_live(self)` |
+| `test_repo_url` | method | `tests/test_broadcom_wps_addon.py:107` | `def test_repo_url(self, addon)` |
+| `test_repo_url_ends_with_git` | method | `tests/test_broadcom_wps_addon.py:110` | `def test_repo_url_ends_with_git(self, addon)` |
+| `test_tokens_are_declared` | method | `tests/test_broadcom_wps_addon.py:153` | `def test_tokens_are_declared(self, addon)` |
+| `test_tool_has_key` | method | `tests/test_broadcom_wps_addon.py:104` | `def test_tool_has_key(self, addon, key)` |
+| `test_version_pattern` | method | `tests/test_broadcom_wps_addon.py:74` | `def test_version_pattern(self, addon)` |
+| `BrowserSyncSpec` | class | `tests/test_browser_sync.py:41` | `class BrowserSyncSpec(TestCase)` |
+| `_StubProxy` | class | `tests/test_browser_sync.py:317` | `class _StubProxy` |
+| `_payload` | method | `tests/test_browser_sync.py:61` | `def _payload(self, inject)` |
+| `_post` | function | `tests/test_browser_sync.py:16` | `def _post(url, payload, token_header)` |
+| `_write_profile` | method | `tests/test_browser_sync.py:64` | `def _write_profile(self, data)` |
+| `setUp` | method | `tests/test_browser_sync.py:44` | `def setUp(self)` |
+| `start` | method | `tests/test_browser_sync.py:318` | `def start(self, port, upstream)` |
+| `test_apply_identity_to_url` | method | `tests/test_browser_sync.py:296` | `def test_apply_identity_to_url(self)` |
+| `test_apply_identity_to_url_no_profile` | method | `tests/test_browser_sync.py:307` | `def test_apply_identity_to_url_no_profile(self)` |
+| `test_artifacts_mode_0600` | method | `tests/test_browser_sync.py:363` | `def test_artifacts_mode_0600(self)` |
+| `test_clear_profile` | method | `tests/test_browser_sync.py:283` | `def test_clear_profile(self)` |
+| `test_cookie_expiry_filtering` | method | `tests/test_browser_sync.py:151` | `def test_cookie_expiry_filtering(self)` |
+| `test_cookie_header_merge` | method | `tests/test_browser_sync.py:227` | `def test_cookie_header_merge(self)` |
+| `test_cookie_host_matching` | method | `tests/test_browser_sync.py:136` | `def test_cookie_host_matching(self)` |
 | `test_cookie_path_matching` | method | `tests/test_browser_sync.py:143` | `def test_cookie_path_matching(self)` |
 | `test_empty_value_cookie_skipped_in_merge` | method | `tests/test_browser_sync.py:221` | `def test_empty_value_cookie_skipped_in_merge(self)` |
 | `test_ensure_wiring_default_port_matches_documented_default` | method | `tests/test_browser_sync.py:356` | `def test_ensure_wiring_default_port_matches_documented_default(self)` |
@@ -460,41 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_number_selects_ranked_alternative` | function | `tests/test_chain_mode.py:116` | `def test_number_selects_ranked_alternative()` |
 | `test_override_runs_operator_command` | function | `tests/test_chain_mode.py:126` | `def test_override_runs_operator_command()` |
 | `test_persist_toggle_writes_state_file` | function | `tests/test_chain_mode.py:252` | `def test_persist_toggle_writes_state_file(tmp_path)` |
-| `test_prompt_exit_words_persist_off` | function | `tests/test_chain_mode.py:267` | `def test_prompt_exit_words_persist_off(tmp_path)` |
-| `test_resolver_failure_degrades_to_no_suggestions` | function | `tests/test_chain_mode.py:211` | `def test_resolver_failure_degrades_to_no_suggestions()` |
-| `test_skip_keeps_chain_mode_enabled` | function | `tests/test_chain_mode.py:136` | `def test_skip_keeps_chain_mode_enabled()` |
-| `test_step_none_for_skip_verbs` | function | `tests/test_chain_mode.py:101` | `def test_step_none_for_skip_verbs(verb)` |
-| `test_step_none_when_disabled` | function | `tests/test_chain_mode.py:90` | `def test_step_none_when_disabled()` |
-| `test_step_none_when_not_interactive` | function | `tests/test_chain_mode.py:95` | `def test_step_none_when_not_interactive()` |
-| `test_store_roundtrip_and_missing` | function | `tests/test_chain_mode.py:221` | `def test_store_roundtrip_and_missing(tmp_path)` |
-| `test_store_survives_malformed_file` | function | `tests/test_chain_mode.py:230` | `def test_store_survives_malformed_file(tmp_path)` |
-| `test_suggestion_from_step_and_string` | function | `tests/test_chain_mode.py:85` | `def test_suggestion_from_step_and_string()` |
-| `_SlowFirst` | class | `tests/test_chain_parallel_fallback.py:48` | `class _SlowFirst` |
-| `__call__` | method | `tests/test_chain_parallel_fallback.py:51` | `def __call__(self, command)` |
-| `_chain` | function | `tests/test_chain_parallel_fallback.py:16` | `def _chain(steps)` |
-| `_run` | function | `tests/test_chain_parallel_fallback.py:60` | `def _run()` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:29` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:84` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:108` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:131` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:154` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:169` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:212` | `def executor(command)` |
-| `loader` | function | `tests/test_chain_parallel_fallback.py:180` | `def loader(name)` |
-| `loader` | function | `tests/test_chain_parallel_fallback.py:197` | `def loader(name)` |
-| `loader` | function | `tests/test_chain_parallel_fallback.py:220` | `def loader(name)` |
-| `test_dry_run_treats_parallel_steps_sequentially` | function | `tests/test_chain_parallel_fallback.py:274` | `def test_dry_run_treats_parallel_steps_sequentially()` |
-| `test_fallback_chain_runs_on_failure` | function | `tests/test_chain_parallel_fallback.py:165` | `def test_fallback_chain_runs_on_failure()` |
-| `test_fallback_depth_is_capped` | function | `tests/test_chain_parallel_fallback.py:208` | `def test_fallback_depth_is_capped()` |
-| `test_fallback_skipped_when_primary_succeeds` | function | `tests/test_chain_parallel_fallback.py:192` | `def test_fallback_skipped_when_primary_succeeds()` |
-| `test_parallel_failure_with_continue_keeps_going` | function | `tests/test_chain_parallel_fallback.py:103` | `def test_parallel_failure_with_continue_keeps_going()` |
-| `test_parallel_failure_without_continue_aborts` | function | `tests/test_chain_parallel_fallback.py:79` | `def test_parallel_failure_without_continue_aborts()` |
-| `test_parallel_steps_execute_concurrently` | function | `tests/test_chain_parallel_fallback.py:21` | `def test_parallel_steps_execute_concurrently()` |
-| `test_pre_check_failure_skips_step` | function | `tests/test_chain_parallel_fallback.py:126` | `def test_pre_check_failure_skips_step()` |
-| `test_pre_check_success_executes_step` | function | `tests/test_chain_parallel_fallback.py:150` | `def test_pre_check_success_executes_step()` |
-| `test_registry_parses_parallel_and_pre_check` | function | `tests/test_chain_parallel_fallback.py:257` | `def test_registry_parses_parallel_and_pre_check()` |
-| `test_registry_validation_rejects_parallel_with_capture` | function | `tests/test_chain_parallel_fallback.py:230` | `def test_registry_validation_rejects_parallel_with_capture()` |
-| `test_registry_validation_rejects_unknown_fallback` | function | `tests/test_chain_parallel_fallback.py:241` | `def test_registry_validation_rejects_unknown_fallback()` |
-| `test_chain_yaml_matches_skill_contract` | function | `tests/test_chain_registry.py:73` | `def test_chain_yaml_matches_skill_contract()` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

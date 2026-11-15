@@ -1,8 +1,20 @@
-# Symbols (page 20 of 52)
+# Symbols (page 20 of 53)
 Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
+| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
+| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
+| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
+| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
+| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
+| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
+| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
+| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
+| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
+| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
+| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
 | `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
 | `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
 | `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
@@ -62,26 +74,26 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_agent_system_prompt` | method | `modules/loop/worker_agentic.py:524` | `def _agent_system_prompt(self, intent)` |
 | `_agent_tools` | method | `modules/loop/worker_agentic.py:296` | `def _agent_tools(self, intent, executor, transcripts, budget, intercept, retry_state)` |
 | `_agent_verb_catalog` | method | `modules/loop/worker_agentic.py:480` | `def _agent_verb_catalog(self)` |
-| `_agentic_try` | method | `modules/loop/worker_agentic.py:568` | `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state)` |
-| `_blocked_verbs` | method | `modules/loop/worker_agentic.py:878` | `def _blocked_verbs(self)` |
+| `_agentic_try` | method | `modules/loop/worker_agentic.py:568` | `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline)` |
+| `_blocked_verbs` | method | `modules/loop/worker_agentic.py:916` | `def _blocked_verbs(self)` |
 | `_capable_member_chain` | function | `modules/loop/worker_agentic.py:60` | `def _capable_member_chain(members)` |
-| `_decision_context` | method | `modules/loop/worker_agentic.py:970` | `def _decision_context(self, intent)` |
+| `_decision_context` | method | `modules/loop/worker_agentic.py:1008` | `def _decision_context(self, intent)` |
 | `_drain_steer` | method | `modules/loop/worker_agentic.py:252` | `def _drain_steer(self, intent)` |
 | `_extract_llm_commands` | function | `modules/loop/worker_agentic.py:148` | `def _extract_llm_commands(reply)` |
-| `_guard_filter` | method | `modules/loop/worker_agentic.py:1016` | `def _guard_filter(self, intent, candidates)` |
-| `_guard_rules` | method | `modules/loop/worker_agentic.py:896` | `def _guard_rules(self)` |
+| `_guard_filter` | method | `modules/loop/worker_agentic.py:1054` | `def _guard_filter(self, intent, candidates)` |
+| `_guard_rules` | method | `modules/loop/worker_agentic.py:934` | `def _guard_rules(self)` |
 | `_is_destructive_or_malformed` | function | `modules/loop/worker_agentic.py:43` | `def _is_destructive_or_malformed(command)` |
 | `_is_placeholder_steps` | function | `modules/loop/worker_agentic.py:129` | `def _is_placeholder_steps(steps)` |
-| `_llm_steps` | method | `modules/loop/worker_agentic.py:720` | `def _llm_steps(self, intent, prior_text)` |
+| `_llm_steps` | method | `modules/loop/worker_agentic.py:758` | `def _llm_steps(self, intent, prior_text)` |
 | `_loop_deterministic` | function | `modules/loop/worker_agentic.py:112` | `def _loop_deterministic()` |
 | `_planner_temperature` | function | `modules/loop/worker_agentic.py:87` | `def _planner_temperature()` |
 | `_push` | function | `modules/loop/worker_agentic.py:170` | `def _push(value)` |
-| `_record_deterministic_decision` | method | `modules/loop/worker_agentic.py:1047` | `def _record_deterministic_decision(self, intent, candidates, chosen, filtered)` |
-| `_record_llm_decision` | method | `modules/loop/worker_agentic.py:918` | `def _record_llm_decision(self, intent, prompt, reply, candidates, chosen, filtered)` |
+| `_record_deterministic_decision` | method | `modules/loop/worker_agentic.py:1085` | `def _record_deterministic_decision(self, intent, candidates, chosen, filtered)` |
+| `_record_llm_decision` | method | `modules/loop/worker_agentic.py:956` | `def _record_llm_decision(self, intent, prompt, reply, candidates, chosen, filtered)` |
 | `_strip_command` | function | `modules/loop/worker_agentic.py:143` | `def _strip_command(raw)` |
 | `_try_json_commands` | function | `modules/loop/worker_agentic.py:189` | `def _try_json_commands(text)` |
 | `_verb_of` | function | `modules/loop/worker_agentic.py:102` | `def _verb_of(command)` |
-| `_with_llm_steps` | method | `modules/loop/worker_agentic.py:668` | `def _with_llm_steps(self, intent, steps, prior_text)` |
+| `_with_llm_steps` | method | `modules/loop/worker_agentic.py:706` | `def _with_llm_steps(self, intent, steps, prior_text)` |
 | `graph_state` | function | `modules/loop/worker_agentic.py:368` | `def graph_state()` |
 | `job_output` | function | `modules/loop/worker_agentic.py:399` | `def job_output(job_id)` |
 | `job_status` | function | `modules/loop/worker_agentic.py:391` | `def job_status(job_id)` |
@@ -126,10 +138,10 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_open` | function | `modules/loop_ai_bridge.py:347` | `def _open()` |
 | `_open` | function | `modules/loop_ai_bridge.py:369` | `def _open()` |
 | `_open` | function | `modules/loop_ai_bridge.py:390` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:424` | `def _open()` |
+| `_open` | function | `modules/loop_ai_bridge.py:440` | `def _open()` |
 | `_singleton` | function | `modules/loop_ai_bridge.py:50` | `def _singleton(key, factory)` |
 | `_stage` | function | `modules/loop_ai_bridge.py:64` | `def _stage(name, default)` |
-| `ai_snapshot` | function | `modules/loop_ai_bridge.py:469` | `def ai_snapshot()` |
+| `ai_snapshot` | function | `modules/loop_ai_bridge.py:485` | `def ai_snapshot()` |
 | `annotate_detection` | function | `modules/loop_ai_bridge.py:280` | `def annotate_detection(command, action_category)` |
 | `assess_opsec` | function | `modules/loop_ai_bridge.py:125` | `def assess_opsec(command, rhost)` |
 | `intent_tool_class` | function | `modules/loop_ai_bridge.py:169` | `def intent_tool_class(summary)` |
@@ -137,48 +149,49 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `moe_route` | function | `modules/loop_ai_bridge.py:304` | `def moe_route(task_type, goal)` |
 | `publish_loop_event` | function | `modules/loop_ai_bridge.py:74` | `def publish_loop_event(task_id, worker, kind, text, severity)` |
 | `record_outcome_quality` | function | `modules/loop_ai_bridge.py:213` | `def record_outcome_quality(worker, intent_summary, facts, findings)` |
-| `record_step` | function | `modules/loop_ai_bridge.py:404` | `def record_step(task_id, worker, command, output, detection_prob)` |
+| `record_step` | function | `modules/loop_ai_bridge.py:407` | `def record_step(task_id, worker, command, output, detection_prob)` |
 | `rl_save` | function | `modules/loop_ai_bridge.py:385` | `def rl_save()` |
 | `rl_select` | function | `modules/loop_ai_bridge.py:340` | `def rl_select(task_type, phase, candidates, deterministic)` |
 | `rl_update` | function | `modules/loop_ai_bridge.py:362` | `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` |
-| `stream_enabled` | function | `modules/loop_ai_bridge.py:459` | `def stream_enabled()` |
-| `swan_available` | function | `modules/loop_ai_bridge.py:419` | `def swan_available()` |
-| `swan_consult` | function | `modules/loop_ai_bridge.py:432` | `def swan_consult(prompt, task_type, phase, timeout)` |
+| `stream_enabled` | function | `modules/loop_ai_bridge.py:475` | `def stream_enabled()` |
+| `swan_available` | function | `modules/loop_ai_bridge.py:435` | `def swan_available()` |
+| `swan_consult` | function | `modules/loop_ai_bridge.py:448` | `def swan_consult(prompt, task_type, phase, timeout)` |
 | `tool_class_yields` | function | `modules/loop_ai_bridge.py:240` | `def tool_class_yields(summaries, phase)` |
 | `LoopAudit` | class | `modules/loop_audit.py:114` | `class LoopAudit` |
 | `__init__` | method | `modules/loop_audit.py:123` | `def __init__(self, task_id, path)` |
-| `_activity_event` | function | `modules/loop_audit.py:401` | `def _activity_event(row, start_ts)` |
+| `_activity_event` | function | `modules/loop_audit.py:433` | `def _activity_event(row, start_ts)` |
 | `_append` | method | `modules/loop_audit.py:273` | `def _append(self, event)` |
 | `_clean` | function | `modules/loop_audit.py:56` | `def _clean(text, limit)` |
 | `_consume_context` | function | `modules/loop_audit.py:103` | `def _consume_context()` |
 | `_first_token` | function | `modules/loop_audit.py:61` | `def _first_token(command)` |
-| `_fmt_offset` | function | `modules/loop_audit.py:439` | `def _fmt_offset(offset)` |
-| `_guard_event` | function | `modules/loop_audit.py:389` | `def _guard_event(row, start_ts)` |
+| `_fmt_offset` | function | `modules/loop_audit.py:471` | `def _fmt_offset(offset)` |
+| `_guard_event` | function | `modules/loop_audit.py:421` | `def _guard_event(row, start_ts)` |
 | `_output_tail` | function | `modules/loop_audit.py:71` | `def _output_tail(output)` |
 | `_read` | method | `modules/loop_audit.py:303` | `def _read(path)` |
 | `_read_jsonl` | function | `modules/loop_audit.py:355` | `def _read_jsonl(path)` |
-| `_render_event` | function | `modules/loop_audit.py:444` | `def _render_event(event)` |
-| `_timeline_event` | function | `modules/loop_audit.py:378` | `def _timeline_event(audit_row, start_ts)` |
+| `_render_event` | function | `modules/loop_audit.py:476` | `def _render_event(event)` |
+| `_timeline_event` | function | `modules/loop_audit.py:410` | `def _timeline_event(audit_row, start_ts)` |
 | `_trim` | method | `modules/loop_audit.py:288` | `def _trim(self)` |
-| `_ts` | function | `modules/loop_audit.py:370` | `def _ts(row)` |
-| `activity_rows` | function | `modules/loop_audit.py:365` | `def activity_rows(task_id)` |
+| `_ts` | function | `modules/loop_audit.py:402` | `def _ts(row)` |
+| `activity_rows` | function | `modules/loop_audit.py:397` | `def activity_rows(task_id)` |
 | `audit_for` | function | `modules/loop_audit.py:338` | `def audit_for(task_id)` |
 | `audit_path` | function | `modules/loop_audit.py:109` | `def audit_path(task_id)` |
 | `blocked` | method | `modules/loop_audit.py:178` | `def blocked(self, source, reason, command, worker, intent)` |
-| `guard_rows` | function | `modules/loop_audit.py:360` | `def guard_rows(task_id)` |
-| `list_runs` | function | `modules/loop_audit.py:526` | `def list_runs(limit)` |
+| `blocked_verbs` | function | `modules/loop_audit.py:360` | `def blocked_verbs(task_id, min_count)` |
+| `guard_rows` | function | `modules/loop_audit.py:392` | `def guard_rows(task_id)` |
+| `list_runs` | function | `modules/loop_audit.py:558` | `def list_runs(limit)` |
 | `path` | method | `modules/loop_audit.py:131` | `def path(self)` |
 | `preflight` | method | `modules/loop_audit.py:168` | `def preflight(self, outcome)` |
 | `record` | method | `modules/loop_audit.py:135` | `def record(self, kind)` |
 | `record_command` | method | `modules/loop_audit.py:216` | `def record_command(self, command, output, duration, ok, task_id)` |
-| `render` | function | `modules/loop_audit.py:505` | `def render(task_id, limit, audit)` |
-| `render_summary` | function | `modules/loop_audit.py:563` | `def render_summary(summaries)` |
+| `render` | function | `modules/loop_audit.py:537` | `def render(task_id, limit, audit)` |
+| `render_summary` | function | `modules/loop_audit.py:595` | `def render_summary(summaries)` |
 | `run_end` | method | `modules/loop_audit.py:203` | `def run_end(self, status, rounds, verdict, error)` |
 | `run_start` | method | `modules/loop_audit.py:155` | `def run_start(self, goal, target, rounds, workers, mode, profile)` |
 | `start` | function | `modules/loop_audit.py:320` | `def start(task_id)` |
 | `step_context` | function | `modules/loop_audit.py:80` | `def step_context(task_id)` |
 | `stop` | function | `modules/loop_audit.py:349` | `def stop(task_id)` |
-| `timeline` | function | `modules/loop_audit.py:415` | `def timeline(task_id, audit)` |
+| `timeline` | function | `modules/loop_audit.py:447` | `def timeline(task_id, audit)` |
 | `verdict` | method | `modules/loop_audit.py:189` | `def verdict(self, verdict)` |
 | `EdrPacer` | class | `modules/loop_guardrails.py:242` | `class EdrPacer` |
 | `Fact` | class | `modules/loop_guardrails.py:86` | `class Fact` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
 | `path` | method | `modules/metrics.py:201` | `def path(self)` |
 | `path` | method | `modules/metrics.py:350` | `def path(self)` |
-| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
-| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
-| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
-| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
-| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
-| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
-| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
-| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
-| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
-| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
-| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
-| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
-| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

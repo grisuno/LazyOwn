@@ -1,5 +1,108 @@
-# Subsystem: tests (page 26 of 26)
+# Subsystem: tests (page 26 of 27)
 Previous: [KB_tests_p25.md](KB_tests_p25.md)
+
+## tests/test_tui_splash.py
+- Doc: Tests for cli.splash — the animated first-run overlay.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_console` (function, line 19) `def _console()`
+  - `SplashInstantEffectTests` (class, line 30) `class SplashInstantEffectTests(TestCase)`
+  - `SplashTypewriterEffectTests` (class, line 67) `class SplashTypewriterEffectTests(TestCase)`
+  - `SplashDispatchTests` (class, line 81) `class SplashDispatchTests(TestCase)`
+  - `SplashEdgeCaseTests` (class, line 145) `class SplashEdgeCaseTests(TestCase)`
+  - `test_instant_renders_every_line` (method, line 31) `def test_instant_renders_every_line(self)`
+  - `test_instant_does_not_block` (method, line 44) `def test_instant_does_not_block(self)`
+  - `test_instant_emits_ansi_for_known_tokens` (method, line 56) `def test_instant_emits_ansi_for_known_tokens(self)`
+  - `test_typewriter_renders_all_lines_when_total_seconds_high` (method, line 68) `def test_typewriter_renders_all_lines_when_total_seconds_high(self)`
+  - `test_render_splash_dispatches_instant_for_zero_seconds` (method, line 82) `def test_render_splash_dispatches_instant_for_zero_seconds(self)`
+  - `test_render_splash_dispatches_instant_when_explicit` (method, line 92) `def test_render_splash_dispatches_instant_when_explicit(self)`
+  - `test_render_splash_unknown_effect_falls_back_to_instant` (method, line 103) `def test_render_splash_unknown_effect_falls_back_to_instant(self)`
+  - `test_render_splash_uses_payload_theme_when_provided` (method, line 114) `def test_render_splash_uses_payload_theme_when_provided(self)`
+  - `test_render_splash_clear_after_emits_clear_escape` (method, line 124) `def test_render_splash_clear_after_emits_clear_escape(self)`
+  - `test_render_splash_no_clear_when_disabled` (method, line 134) `def test_render_splash_no_clear_when_disabled(self)`
+  - `test_empty_lines_is_noop` (method, line 146) `def test_empty_lines_is_noop(self)`
+  - `test_lines_with_brackets_render_verbatim` (method, line 156) `def test_lines_with_brackets_render_verbatim(self)`
+- Depends on: `cli/splash.py`, `core/console.py`
+
+## tests/test_tui_style.py
+- Doc: Tests for the cli/style semantic token layer.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `StyleTokenTests` (class, line 14) `class StyleTokenTests(TestCase)`
+  - `test_known_token_returns_theme_attribute` (method, line 15) `def test_known_token_returns_theme_attribute(self)`
+  - `test_unknown_token_falls_back_to_white` (method, line 21) `def test_unknown_token_falls_back_to_white(self)`
+  - `test_active_tokens_covers_every_key` (method, line 25) `def test_active_tokens_covers_every_key(self)`
+  - `test_active_tokens_honours_payload` (method, line 32) `def test_active_tokens_honours_payload(self)`
+  - `test_paint_returns_rich_text_with_style` (method, line 39) `def test_paint_returns_rich_text_with_style(self)`
+  - `test_render_prompt_emits_segments_separated_by_bar` (method, line 44) `def test_render_prompt_emits_segments_separated_by_bar(self)`
+  - `test_render_prompt_empty_is_noop` (method, line 59) `def test_render_prompt_empty_is_noop(self)`
+- Depends on: `cli/__init__.py`, `cli/themes.py`, `core/console.py`
+
+## tests/test_tui_theme_command.py
+- Doc: Tests for the cli.tui_theme command logic.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `RecordingSave` (class, line 11) `class RecordingSave`
+  - `_payload` (function, line 21) `def _payload()`
+  - `TuiThemeListingTests` (class, line 28) `class TuiThemeListingTests(TestCase)`
+  - `TuiThemeSwitchTests` (class, line 46) `class TuiThemeSwitchTests(TestCase)`
+  - `TuiThemeCycleTests` (class, line 78) `class TuiThemeCycleTests(TestCase)`
+  - `TuiThemeRegistrationConsistencyTests` (class, line 105) `class TuiThemeRegistrationConsistencyTests(TestCase)`
+  - `__init__` (method, line 14) `def __init__(self)`
+  - `__call__` (method, line 17) `def __call__(self, payload)`
+  - `test_empty_args_lists_every_registered_theme` (method, line 29) `def test_empty_args_lists_every_registered_theme(self)`
+  - `test_listing_marks_current_theme` (method, line 38) `def test_listing_marks_current_theme(self)`
+  - `test_known_name_switches_and_persists` (method, line 47) `def test_known_name_switches_and_persists(self)`
+  - `test_unknown_name_does_not_mutate` (method, line 55) `def test_unknown_name_does_not_mutate(self)`
+  - `test_case_insensitive_lookup` (method, line 63) `def test_case_insensitive_lookup(self)`
+  - `test_reset_returns_to_default` (method, line 70) `def test_reset_returns_to_default(self)`
+  - `test_cycle_advances_in_theme_order` (method, line 79) `def test_cycle_advances_in_theme_order(self)`
+  - `test_cycle_wraps_around` (method, line 87) `def test_cycle_wraps_around(self)`
+  - `test_prev_walks_backwards_and_wraps` (method, line 94) `def test_prev_walks_backwards_and_wraps(self)`
+  - `test_theme_order_covers_every_registered_theme` (method, line 106) `def test_theme_order_covers_every_registered_theme(self)`
+  - `test_theme_order_has_no_duplicates` (method, line 109) `def test_theme_order_has_no_duplicates(self)`
+- Depends on: `cli/__init__.py`, `cli/themes.py`
+
+## tests/test_tui_themes.py
+- Doc: Tests for the four new themes added on top of the original four.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `NewThemeRegistrationTests` (class, line 39) `class NewThemeRegistrationTests(TestCase)`
+  - `NewThemeRenderTests` (class, line 86) `class NewThemeRenderTests(TestCase)`
+  - `ThemeOrderTests` (class, line 130) `class ThemeOrderTests(TestCase)`
+  - `test_every_new_theme_is_registered` (method, line 40) `def test_every_new_theme_is_registered(self)`
+  - `test_original_themes_remain_registered` (method, line 45) `def test_original_themes_remain_registered(self)`
+  - `test_get_theme_resolves_every_new_name` (method, line 50) `def test_get_theme_resolves_every_new_name(self)`
+  - `test_get_theme_uses_case_insensitive_lookup` (method, line 55) `def test_get_theme_uses_case_insensitive_lookup(self)`
+  - `test_unknown_name_falls_back_to_default` (method, line 59) `def test_unknown_name_falls_back_to_default(self)`
+  - `test_theme_from_payload_picks_each_new_theme` (method, line 64) `def test_theme_from_payload_picks_each_new_theme(self)`
+  - `test_new_themes_have_unique_color_palettes` (method, line 72) `def test_new_themes_have_unique_color_palettes(self)`
+  - `test_new_themes_have_non_empty_token_values` (method, line 76) `def test_new_themes_have_non_empty_token_values(self)`
+  - `test_every_token_renders_with_ansi_escapes` (method, line 95) `def test_every_token_renders_with_ansi_escapes(self)`
+  - `test_every_token_renders_with_ansi_escapes_in_256color` (method, line 112) `def test_every_token_renders_with_ansi_escapes_in_256color(self)`
+  - `test_order_covers_every_registered_theme_exactly_once` (method, line 131) `def test_order_covers_every_registered_theme_exactly_once(self)`
+  - `test_order_is_reexported_by_tui_theme_command` (method, line 135) `def test_order_is_reexported_by_tui_theme_command(self)`
+- Depends on: `cli/__init__.py`, `cli/themes.py`, `core/console.py`
+
+## tests/test_unified_bridge_delegate.py
+- Doc: Contract tests for UnifiedBridge.delegate agent polling.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `unified_bridge` (function, line 16) `def unified_bridge(monkeypatch)`
+  - `_patch_bridge_api` (function, line 25) `def _patch_bridge_api(monkeypatch, statuses, result)`
+  - `test_delegate_polls_until_completion` (function, line 40) `def test_delegate_polls_until_completion(monkeypatch, unified_bridge)`
+  - `test_delegate_times_out_when_agent_never_finishes` (function, line 55) `def test_delegate_times_out_when_agent_never_finishes(monkeypatch, unified_bridge)`
+  - `test_delegate_reports_agent_failure` (function, line 66) `def test_delegate_reports_agent_failure(monkeypatch, unified_bridge)`
+  - `test_delegate_surfaces_missing_agent` (function, line 77) `def test_delegate_surfaces_missing_agent(monkeypatch, unified_bridge)`
+  - `test_delegate_wraps_start_errors` (function, line 87) `def test_delegate_wraps_start_errors(monkeypatch, unified_bridge)`
+  - `fake_start` (function, line 30) `def fake_start(goal, backend, runner, max_iterations)`
+  - `boom` (function, line 90) `def boom()`
+- Depends on: `modules/__init__.py`
 
 ## tests/test_unified_dashboard.py
 - Doc: Tests for modules/unified_dashboard.py.
@@ -392,17 +495,5 @@ Previous: [KB_tests_p25.md](KB_tests_p25.md)
   - `bind` (method, line 54) `def bind(self)`
 - Depends on: `modules/lazy_loop.py`, `modules/loop_guardrails.py`
 
-## tests/test_xss_sanitization.py
-- Doc: Untrusted data rendered into the DOM must be neutralized.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_src` (function, line 18) `def _src(name)`
-  - `TestXssSinks` (class, line 22) `class TestXssSinks`
-  - `test_collab_events_escaped` (method, line 23) `def test_collab_events_escaped(self)`
-  - `test_yaml_view_loads_purify` (method, line 28) `def test_yaml_view_loads_purify(self)`
-  - `test_yaml_view_chatbot_sanitized` (method, line 32) `def test_yaml_view_chatbot_sanitized(self)`
-  - `test_new_campaign_chunks_sanitized` (method, line 37) `def test_new_campaign_chunks_sanitized(self)`
-  - `test_surface_labels_escaped` (method, line 42) `def test_surface_labels_escaped(self)`
-  - `test_index_lazyos_response_sanitized` (method, line 47) `def test_index_lazyos_response_sanitized(self)`
 
+Next: [KB_tests_p27.md](KB_tests_p27.md)

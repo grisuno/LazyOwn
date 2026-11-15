@@ -1,4 +1,4 @@
-# Subsystem: tests (page 16 of 26)
+# Subsystem: tests (page 16 of 27)
 Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
 ## tests/test_lazy_timeline.py
@@ -58,13 +58,18 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
   - `test_initial_access_intent_escalates_to_auto_pwn` (function, line 229) `def test_initial_access_intent_escalates_to_auto_pwn(tmp_path, monkeypatch)`
   - `test_enumeration_intent_does_not_escalate` (function, line 242) `def test_enumeration_intent_does_not_escalate(tmp_path, monkeypatch)`
   - `test_worker_llm_steps_require_capable_member` (function, line 255) `def test_worker_llm_steps_require_capable_member(tmp_path, monkeypatch)`
+  - `test_agent_with_zero_tool_calls_falls_back_to_deterministic` (function, line 282) `def test_agent_with_zero_tool_calls_falls_back_to_deterministic(tmp_path, monkeypatch)`
+  - `test_agent_skipped_when_task_deadline_expired` (function, line 316) `def test_agent_skipped_when_task_deadline_expired(tmp_path, monkeypatch)`
+  - `test_goal_named_target_wins_over_payload_scope` (function, line 350) `def test_goal_named_target_wins_over_payload_scope(tmp_path, monkeypatch)`
   - `executor` (function, line 95) `def executor(command)`
   - `_fake_execute` (function, line 122) `def _fake_execute(self, node, executor, timeout_sec)`
   - `_ToyPool` (class, line 263) `class _ToyPool`
+  - `executor` (function, line 306) `def executor(command)`
+  - `_must_not_run` (function, line 327) `def _must_not_run()`
   - `__init__` (method, line 264) `def __init__(self)`
   - `members` (method, line 267) `def members(self)`
   - `complete` (method, line 270) `def complete(self)`
-- Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `utils.py`
+- Depends on: `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `utils.py`
 
 ## tests/test_lazy_world_diff.py
 - Doc: World-surface diff contract: snapshots, changes, ghost liveness, stats.
@@ -408,6 +413,24 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
   - `test_ingest_all` (method, line 124) `def test_ingest_all(self, tmp_path)`
 - Depends on: `modules/lesson_ingestor.py`
 
+## tests/test_lesson_ingestor_startup.py
+- Doc: Loop-to-loop learning: new campaign lessons feed the RL/MoE once per lesson.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Trainer` (class, line 24) `class _Trainer`
+  - `lessons_file` (function, line 39) `def lessons_file(tmp_path)`
+  - `_ingestor` (function, line 49) `def _ingestor(lessons_file, tmp_path)`
+  - `test_ingest_new_absorbs_then_skips` (function, line 59) `def test_ingest_new_absorbs_then_skips(lessons_file, tmp_path)`
+  - `test_ingest_new_absorbs_only_the_new_lesson` (function, line 69) `def test_ingest_new_absorbs_only_the_new_lesson(lessons_file, tmp_path)`
+  - `test_seen_file_persists_across_instances` (function, line 79) `def test_seen_file_persists_across_instances(lessons_file, tmp_path)`
+  - `test_ingest_new_fail_open_without_backends` (function, line 86) `def test_ingest_new_fail_open_without_backends(lessons_file, tmp_path)`
+  - `__init__` (method, line 25) `def __init__(self)`
+  - `encode_state` (method, line 28) `def encode_state(self, topic, phase)`
+  - `update` (method, line 31) `def update(self)`
+  - `save` (method, line 34) `def save(self)`
+- Depends on: `modules/lesson_ingestor.py`
+
 ## tests/test_lint_quality.py
 - Doc: Lint quality gate.
 - Layer: testing
@@ -435,55 +458,6 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
   - `test_malformed_host_entry_is_skipped` (function, line 109) `def test_malformed_host_entry_is_skipped()`
   - `test_compromised_states_constant_matches_world_model` (function, line 116) `def test_compromised_states_constant_matches_world_model()`
 - Depends on: `modules/live_surface.py`
-
-## tests/test_llm_adapter_parity.py
-- Doc: Parity contract tests for the self-contained Groq adapter family.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeCompletions` (class, line 28) `class _FakeCompletions`
-  - `_FakeClient` (class, line 42) `class _FakeClient`
-  - `exhausted_chain` (function, line 49) `def exhausted_chain(monkeypatch)`
-  - `cfg` (function, line 61) `def cfg(tmp_path)`
-  - `patched` (function, line 72) `def patched(monkeypatch, cfg)`
-  - `_write` (function, line 77) `def _write(path, text)`
-  - `TestMissingClient` (class, line 82) `class TestMissingClient`
-  - `TestUninitializedClient` (class, line 105) `class TestUninitializedClient`
-  - `TestDirectPromptFlow` (class, line 111) `class TestDirectPromptFlow`
-  - `TestKnowledgePersistence` (class, line 130) `class TestKnowledgePersistence`
-  - `TestFileReadingVariants` (class, line 146) `class TestFileReadingVariants`
-  - `TestVulnAugmentation` (class, line 164) `class TestVulnAugmentation`
-  - `TestExports` (class, line 188) `class TestExports`
-  - `_FakeBackend` (class, line 208) `class _FakeBackend`
-  - `TestAskGeneral` (class, line 222) `class TestAskGeneral`
-  - `__init__` (method, line 29) `def __init__(self, content)`
-  - `create` (method, line 35) `def create(self, model, messages, max_tokens)`
-  - `__init__` (method, line 43) `def __init__(self, content)`
-  - `test_direct_variants_report_missing_key` (method, line 93) `def test_direct_variants_report_missing_key(self, patched, name)`
-  - `test_file_variants_report_missing_key` (method, line 98) `def test_file_variants_report_missing_key(self, patched, name, tmp_path)`
-  - `test_complete_error_handled` (method, line 106) `def test_complete_error_handled(self, patched)`
-  - `test_sends_user_message_and_returns_content` (method, line 112) `def test_sends_user_message_and_returns_content(self, patched)`
-  - `test_completion_received_single_user_message` (method, line 117) `def test_completion_received_single_user_message(self, patched)`
-  - `test_default_max_tokens_applied` (method, line 124) `def test_default_max_tokens_applied(self, patched)`
-  - `test_successful_response_is_remembered` (method, line 131) `def test_successful_response_is_remembered(self, patched, cfg)`
-  - `test_error_response_not_remembered` (method, line 139) `def test_error_response_not_remembered(self, patched, cfg)`
-  - `test_task_reads_file_content` (method, line 147) `def test_task_reads_file_content(self, patched, tmp_path)`
-  - `test_task_missing_file_returns_error` (method, line 154) `def test_task_missing_file_returns_error(self, patched, tmp_path)`
-  - `test_redop_reads_file_content` (method, line 158) `def test_redop_reads_file_content(self, patched, tmp_path)`
-  - `test_appends_event_tool_output` (method, line 165) `def test_appends_event_tool_output(self, patched, cfg, tmp_path)`
-  - `test_appends_plan_history` (method, line 178) `def test_appends_plan_history(self, patched, cfg, tmp_path)`
-  - `test_groq_family_exports_present` (method, line 189) `def test_groq_family_exports_present(self)`
-  - `test_safe_groq_client_none_without_key` (method, line 203) `def test_safe_groq_client_none_without_key(self)`
-  - `__init__` (method, line 209) `def __init__(self, result)`
-  - `complete` (method, line 214) `def complete(self, system, user)`
-  - `test_uses_configured_backend` (method, line 223) `def test_uses_configured_backend(self, patched, monkeypatch)`
-  - `test_receives_system_and_rendered_user` (method, line 230) `def test_receives_system_and_rendered_user(self, patched, monkeypatch)`
-  - `test_missing_backend_reports_error` (method, line 240) `def test_missing_backend_reports_error(self, patched, monkeypatch)`
-  - `test_backend_exception_reports_error` (method, line 247) `def test_backend_exception_reports_error(self, patched, monkeypatch)`
-  - `test_backend_error_string_not_remembered` (method, line 254) `def test_backend_error_string_not_remembered(self, patched, cfg, monkeypatch)`
-  - `test_successful_answer_remembered` (method, line 263) `def test_successful_answer_remembered(self, patched, cfg, monkeypatch)`
-  - `test_exported` (method, line 274) `def test_exported(self)`
-- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
 
 
 Next: [KB_tests_p17.md](KB_tests_p17.md)

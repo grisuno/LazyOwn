@@ -107,7 +107,7 @@ Imported by: `modules/loop/__init__.py`, `tests/test_lazy_worker_safety.py`, `te
 - `job_output` (function) `modules/loop/worker_agentic.py:399` `def job_output(job_id)` -- Return the tail of one background job's output.
 
 ## modules/loop_ai_bridge.py
-Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+Depends on: `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
 - `publish_loop_event` (function) `modules/loop_ai_bridge.py:74` `def publish_loop_event(task_id, worker, kind, text, severity)` -- Publish one loop activity to the unified bus and Hive memory.
 - `assess_opsec` (function) `modules/loop_ai_bridge.py:125` `def assess_opsec(command, rhost)` -- Return a pre-execution OPSEC gate assessment, or None when unavailable.
@@ -120,14 +120,15 @@ Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation
 - `rl_select` (function) `modules/loop_ai_bridge.py:340` `def rl_select(task_type, phase, candidates, deterministic)` -- Pick an expert with the RL policy; first candidate when unavailable.
 - `rl_update` (function) `modules/loop_ai_bridge.py:362` `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
 - `rl_save` (function) `modules/loop_ai_bridge.py:385` `def rl_save()` -- Persist the RL tables after a run.
-- `record_step` (function) `modules/loop_ai_bridge.py:404` `def record_step(task_id, worker, command, output, detection_prob)` -- Feed one executed command outcome to MoE and the RL trainer.
-- `swan_available` (function) `modules/loop_ai_bridge.py:419` `def swan_available()` -- Return True when the SWAN orchestrator can be constructed.
-- `swan_consult` (function) `modules/loop_ai_bridge.py:432` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
-- `stream_enabled` (function) `modules/loop_ai_bridge.py:459` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
-- `ai_snapshot` (function) `modules/loop_ai_bridge.py:469` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
+- `record_step` (function) `modules/loop_ai_bridge.py:407` `def record_step(task_id, worker, command, output, detection_prob)` -- Feed one executed command outcome to MoE and the RL trainer.
+- `swan_available` (function) `modules/loop_ai_bridge.py:435` `def swan_available()` -- Return True when the SWAN orchestrator can be constructed.
+- `swan_consult` (function) `modules/loop_ai_bridge.py:448` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
+- `stream_enabled` (function) `modules/loop_ai_bridge.py:475` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
+- `ai_snapshot` (function) `modules/loop_ai_bridge.py:485` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
 
 ## modules/loop_audit.py
 Depends on: `core/parsers.py`
+Imported by: `modules/lazy_loop.py`
 - `step_context` (function) `modules/loop_audit.py:80` `def step_context(task_id)` -- Annotate every command executed inside the block with step context.
 - `audit_path` (function) `modules/loop_audit.py:109` `def audit_path(task_id)` -- Return the audit file path for one task.
 - `LoopAudit.__init__` (method) `modules/loop_audit.py:123` `def __init__(self, task_id, path)` -- Bind the audit file and start the run clock.
@@ -142,12 +143,13 @@ Depends on: `core/parsers.py`
 - `start` (function) `modules/loop_audit.py:320` `def start(task_id)` -- Create and register the audit for one task.
 - `audit_for` (function) `modules/loop_audit.py:338` `def audit_for(task_id)` -- Return the active audit for one task, or None when not started.
 - `stop` (function) `modules/loop_audit.py:349` `def stop(task_id)` -- Forget the registered audit for one task.
-- `guard_rows` (function) `modules/loop_audit.py:360` `def guard_rows(task_id)` -- Return guard decisions recorded for one task.
-- `activity_rows` (function) `modules/loop_audit.py:365` `def activity_rows(task_id)` -- Return engine activity rows for one task.
-- `timeline` (function) `modules/loop_audit.py:415` `def timeline(task_id, audit)` -- Merge audit, guard and lifecycle rows into one timeline.
-- `render` (function) `modules/loop_audit.py:505` `def render(task_id, limit, audit)` -- Render the merged campaign timeline for one task.
-- `list_runs` (function) `modules/loop_audit.py:526` `def list_runs(limit)` -- Summarize every recorded loop run, newest first.
-- `render_summary` (function) `modules/loop_audit.py:563` `def render_summary(summaries)` -- Render ``list_runs`` summaries as an operator table.
+- `blocked_verbs` (function) `modules/loop_audit.py:360` `def blocked_verbs(task_id, min_count)` -- Return verbs a gate blocked at least ``min_count`` times in one run.
+- `guard_rows` (function) `modules/loop_audit.py:392` `def guard_rows(task_id)` -- Return guard decisions recorded for one task.
+- `activity_rows` (function) `modules/loop_audit.py:397` `def activity_rows(task_id)` -- Return engine activity rows for one task.
+- `timeline` (function) `modules/loop_audit.py:447` `def timeline(task_id, audit)` -- Merge audit, guard and lifecycle rows into one timeline.
+- `render` (function) `modules/loop_audit.py:537` `def render(task_id, limit, audit)` -- Render the merged campaign timeline for one task.
+- `list_runs` (function) `modules/loop_audit.py:558` `def list_runs(limit)` -- Summarize every recorded loop run, newest first.
+- `render_summary` (function) `modules/loop_audit.py:595` `def render_summary(summaries)` -- Render ``list_runs`` summaries as an operator table.
 
 ## modules/loop_guardrails.py
 Depends on: `modules/__init__.py`

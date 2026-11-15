@@ -4191,6 +4191,15 @@ async def objective_loop(
 
     drafts_engine = _build_drafts_engine()
 
+    try:
+        from modules.lesson_ingestor import ingest_new_campaign_lessons
+
+        absorbed = ingest_new_campaign_lessons()
+        if absorbed:
+            log.info("objective_loop absorbed %d new campaign lesson(s) into RL/MoE", absorbed)
+    except Exception as exc:
+        log.debug("campaign lesson absorption failed: %s", exc)
+
     log.info("objective_loop started (poll=%.1fs, max_steps=%d)", OBJ_POLL_S, max_steps)
 
     while not _should_stop.is_set():

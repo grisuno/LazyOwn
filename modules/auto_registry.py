@@ -718,6 +718,22 @@ def is_shell_verb(token: str) -> bool:
     return False
 
 
+def cover_all_enabled() -> bool:
+    """Return whether exploitation should exercise every vector, not just one.
+
+    Reads ``payload.json:auto_pwn_cover_all`` (default off). When set, the
+    deterministic ``auto_pwn`` step gains ``--all`` so a gym run walks all of a
+    target's Metasploitable paths instead of stopping at the first foothold.
+    Off by default so real engagements stay efficient. Never raises.
+    """
+    try:
+        from core.config import load_payload
+
+        return bool((load_payload() or {}).get("auto_pwn_cover_all", False))
+    except Exception:
+        return False
+
+
 def build_command(verb: str, target: str = "") -> str:
     """Build the shell command line for ``verb`` bound to ``target``."""
     entry = _verb_row((verb or "").strip())
@@ -726,6 +742,8 @@ def build_command(verb: str, target: str = "") -> str:
     tail = entry.extra_args.strip()
     if entry.needs_target and (target or "").strip():
         tail = f"{(target or '').strip()} {tail}".strip()
+    if entry.verb == "auto_pwn" and cover_all_enabled():
+        tail = f"{tail} --all".strip()
     return f"{entry.verb} {tail}".strip() if tail else entry.verb
 
 

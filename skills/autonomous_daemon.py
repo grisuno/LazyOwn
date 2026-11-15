@@ -1556,6 +1556,18 @@ def _compute_step_reward(
         elif any(k in low for k in ("open", "found", "200 ok", "login page")):
             score = max(score, 3.0)
 
+    # Shell tier: a landed interactive session is the strongest kill-chain
+    # signal. Decide it with the one canonical detector the engine, auto_pwn
+    # and every gym use, so the daemon's RL cannot disagree with the verdict
+    # engine on whether a Metasploitable vector produced a shell.
+    try:
+        from modules.atomic_exploit_bridge import shell_output_evidence
+
+        if shell_output_evidence(output):
+            score = max(score, 9.0)
+    except Exception:
+        pass
+
     # Novelty penalty: repeated command earns less
     cmd_base = command.strip().split()[0] if command.strip() else ""
     repeat_count = prev_cmds.count(cmd_base)

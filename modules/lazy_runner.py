@@ -1450,8 +1450,33 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
             except (ValueError, OSError, RuntimeError):
                 pass
     write_loop_result(config, result)
+    _autogenerate_report(result)
     autonomous_exit_gate(result)
     return result
+
+
+def _autogenerate_report(result: dict) -> None:
+    """Emit the engagement report when a loop run finishes.
+
+    Refreshes the session report rendered by ``/report`` and, when
+    ``auto_report_on_finish`` is enabled, writes the client-ready report
+    artifacts. Best-effort: a dry-run, cancelled or failed run still
+    refreshes so the operator sees current state, and nothing here can
+    fail the loop. Skipped for preflight-failed runs (no work happened).
+
+    Args:
+        result: The orchestrator summary returned by the run.
+    """
+    if not isinstance(result, dict) or not result:
+        return
+    if result.get("preflight_failed") or str(result.get("status", "")) == "preflight_failed":
+        return
+    try:
+        from modules.report_autogen import generate_campaign_report
+
+        generate_campaign_report(reason=f"auto_loop:{result.get('status', '') or 'end'}")
+    except Exception:
+        pass
 
 
 def _preflight_gate(engine, config: LoopRunConfig, audit) -> dict:

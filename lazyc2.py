@@ -7372,6 +7372,12 @@ def _load_surface_intel() -> dict:
             summary = json.load(handle) or {}
     except (OSError, ValueError):
         summary = {}
+    if isinstance(summary, dict):
+        from modules.report_autogen import normalize_funnel
+
+        summary["funnel"] = normalize_funnel(summary.get("funnel"))
+    else:
+        summary = {}
     graph_svg: str = ""
     try:
         from modules.intel_fusion import build_intel_graph, relations_svg

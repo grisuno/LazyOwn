@@ -122,10 +122,15 @@ def test_objectives_sink_appends_actionable_finding(tmp_path: Path):
 
 def test_report_sink_only_refreshes_terminal_events(monkeypatch):
     """Given a finding and a report event, When the report sink runs, Then only the report triggers."""
+    import modules.report_autogen as autogen
     import modules.sinks.report as sink
 
     calls: list[bool] = []
-    monkeypatch.setattr(sink, "refresh_session_report", lambda: calls.append(True) or True)
+    monkeypatch.setattr(
+        autogen,
+        "generate_campaign_report",
+        lambda *a, **k: calls.append(True) or {"session_refreshed": True},
+    )
     assert sink.apply(OutcomeEvent(kind="finding", target="10.0.0.5")) is False
     assert sink.apply(OutcomeEvent(kind="report", target="10.0.0.5")) is True
     assert calls == [True]

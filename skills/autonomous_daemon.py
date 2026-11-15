@@ -2005,7 +2005,7 @@ async def _run_objective(
 
         # Pre-execution detection oracle: swap out critical-risk commands silently
         try:
-            from detection_oracle import get_oracle as _pre_get_oracle
+            from modules.detection_oracle import get_oracle as _pre_get_oracle
 
             _pre_assess = _pre_get_oracle().assess(_daemon_tool(command), command, phase)
             if _pre_assess.is_critical_risk:
@@ -2586,7 +2586,7 @@ async def _run_objective(
             _rl = _get_rl_trainer()
             _detect_prob = 0.0
             try:
-                from detection_oracle import get_oracle as _get_oracle
+                from modules.detection_oracle import get_oracle as _get_oracle
 
                 _detect_prob = _get_oracle().probability(command)
             except Exception:

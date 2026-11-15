@@ -170,6 +170,24 @@ def wire_capture_enabled() -> bool:
         return bool((load_payload() or {}).get("loop_wire_capture", WIRE_CAPTURE_DEFAULT))
     except Exception:
         return WIRE_CAPTURE_DEFAULT
+
+
+def _auto_pwn_cover_all() -> bool:
+    """Return whether exploitation should exercise every vector, not just one.
+
+    Delegates to the single canonical reader
+    (``modules.auto_registry.cover_all_enabled``) so the deterministic
+    ``auto_pwn`` step and this fallback path agree on the
+    ``payload.json:auto_pwn_cover_all`` flag.
+    """
+    try:
+        from modules.auto_registry import cover_all_enabled
+
+        return cover_all_enabled()
+    except Exception:
+        return False
+
+
 BLINDSPOT_ROUND_INTERVAL = 10
 RAW_LOG_TASK_LIMIT = 50
 RAW_LOG_SCAN_LINES = 5000
@@ -5850,7 +5868,8 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         if keyword_resolved:
             return ping_first + keyword_resolved
         if _initial_access_intent(text):
-            return ping_first + scan_first + [f"auto_pwn {target}".strip()]
+            cover = " --all" if _auto_pwn_cover_all() else ""
+            return ping_first + scan_first + [f"auto_pwn {target}{cover}".strip()]
         if use_lazynmap:
             return ping_first + scan_first + [
                 f"curl -sS -m 20 -I http://{target}".strip(),

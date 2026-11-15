@@ -88,6 +88,32 @@ def test_worker_steps_run_auto_pwn_for_access_intent(store):
     assert "auto_pwn 172.17.0.2" in steps
 
 
+def test_worker_steps_cover_all_when_flag_set(store, monkeypatch):
+    import modules.lazy_loop as loop
+    from modules.lazy_engine import LazyEngine
+
+    import modules.auto_registry as registry
+
+    monkeypatch.setattr(registry, "cover_all_enabled", lambda: True)
+    engine = LazyEngine()
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    engine.ensure_target(task_id, "172.17.0.2", "loop target")
+    graph = loop.ExplorationGraph(task_id)
+    intent = graph.add_node("intent", "gain initial access on 172.17.0.2")
+    worker = loop.Worker(
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
+    )
+    steps = worker._steps_for(intent)
+    assert "auto_pwn 172.17.0.2 --all" in steps
+
+
 def test_executor_bumps_auto_pwn_timeout(monkeypatch):
     import modules.auto_registry as registry
 

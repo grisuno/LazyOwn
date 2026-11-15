@@ -1507,6 +1507,9 @@ from modules.loop.daemon_reward import (  # noqa: E402
     compute_step_reward as _compute_step_reward,  # noqa: F401
     record_rl_feedback as _record_rl_feedback,
 )
+from modules.loop.control_plane import (  # noqa: E402
+    precheck_control as _precheck_control,
+)
 from modules.loop.objective_bootstrap import (  # noqa: E402
     bootstrap_objective as _bootstrap_objective,
 )
@@ -1605,61 +1608,18 @@ async def _run_objective(
     _facts_fingerprint: str = ""
 
     for step_n in range(1, max_steps + 1):
-        if control is not None:
-            try:
-                if not control.target_in_focus(target):
-                    _emit(
-                        "TARGET_OUT_OF_FOCUS",
-                        {
-                            "objective_id": objective_id,
-                            "target": target,
-                            "focus": control.load().focus_targets,
-                        },
-                    )
-                    log.info(
-                        "  [control] target %s not in focus list — ending objective",
-                        target,
-                    )
-                    break
-                if control.is_paused() and _wait_until_unpaused is not None:
-                    _emit(
-                        "DAEMON_PAUSED",
-                        {
-                            "objective_id": objective_id,
-                            "step": step_n,
-                        },
-                    )
-                    resumed = await loop.run_in_executor(
-                        None,
-                        lambda: _wait_until_unpaused(
-                            control,
-                            poll_interval=CONTROL_PAUSE_POLL_S,
-                            max_wait_seconds=CONTROL_PAUSE_MAX_S,
-                        ),
-                    )
-                    if not resumed:
-                        _emit(
-                            "DAEMON_PAUSE_TIMEOUT",
-                            {
-                                "objective_id": objective_id,
-                                "step": step_n,
-                                "max_wait_s": CONTROL_PAUSE_MAX_S,
-                            },
-                        )
-                        log.info(
-                            "  [control] paused beyond AUTO_PAUSE_MAX (%.0fs) — ending objective",
-                            CONTROL_PAUSE_MAX_S,
-                        )
-                        break
-                    _emit(
-                        "DAEMON_RESUMED",
-                        {
-                            "objective_id": objective_id,
-                            "step": step_n,
-                        },
-                    )
-            except Exception as _ctl_exc:
-                log.debug("control pre-step error: %s", _ctl_exc)
+        if await _precheck_control(
+            control,
+            target,
+            objective_id,
+            step_n,
+            emit=_emit,
+            loop=loop,
+            wait_until_unpaused=_wait_until_unpaused,
+            poll_interval=CONTROL_PAUSE_POLL_S,
+            max_wait=CONTROL_PAUSE_MAX_S,
+        ):
+            break
 
         # ── Frontier-first selection ──────────────────────────────────
         # Serve a queued planner intent when available; refill on empty.

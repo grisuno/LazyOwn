@@ -36,13 +36,16 @@ class PwnCommandSet(LazyOwnCommandSet):
         """Run the full autonomous exploitation chain against the target.
 
         Usage:
-            auto_pwn [target_ip] [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
+            auto_pwn [target_ip] [--all] [--pivot] [--privesc] [--stealth low|medium|high|paranoid]
 
         Executes recon, vulnerability scanning, exploit selection,
         exploitation, optional privilege escalation and auto-pivoting.
         The optional positional target overrides payload ``rhost`` so
         deterministic callers (autonomous loop, chains) can point the
-        engine at a scoped host without mutating payload.json.
+        engine at a scoped host without mutating payload.json. ``--all``
+        enables coverage mode: every ranked vector is exploited and
+        recorded instead of stopping at the first shell, so a gym run
+        exercises all of the target's Metasploitable paths.
         """
         args = line.strip().split()
         target_override = ""
@@ -50,6 +53,7 @@ class PwnCommandSet(LazyOwnCommandSet):
             target_override = args.pop(0)
         enable_pivot = "--pivot" in args
         enable_privesc = "--privesc" in args
+        cover_all = "--all" in args
         stealth = "low"
         for arg in args:
             if arg.startswith("--stealth="):
@@ -116,14 +120,16 @@ class PwnCommandSet(LazyOwnCommandSet):
             enable_pivot=enable_pivot,
             enable_privesc=enable_privesc,
             stealth=stealth,
+            cover_all=cover_all,
         )
 
         exploits = result.get("exploit_results", [])
         success = [e for e in exploits if e.get("success")]
         shell = [e for e in exploits if e.get("shell_obtained")]
         shell_flag = result.get("shell_obtained", False)
+        mode = "coverage" if cover_all else "foothold"
         print_msg(
-            f"\n  [+] DONE  exploits={len(exploits)}  success={len(success)}  shells={len(shell)}  shell={'YES' if shell_flag else 'no'}"
+            f"\n  [+] DONE ({mode})  exploits={len(exploits)}  success={len(success)}  shells={len(shell)}  shell={'YES' if shell_flag else 'no'}"
         )
         if shell_flag and result.get("best_session_id"):
             print_msg(f"  [+] Session: {result.get('best_session_id')}", flush=True)

@@ -401,15 +401,31 @@ def rl_save() -> None:
         pass
 
 
+SHELL_REWARD: float = 3.0
+
+
 def record_step(task_id: str, worker: str, command: str, output: str, detection_prob: float = 0.0) -> None:
     """Feed one executed command outcome to MoE and the RL trainer.
 
-    Reward is 1.0 for a productive run (output present, no execution
-    failure) and 0.0 otherwise; the action is the command's first token
-    so the trainer learns which tool classes work for this engagement.
+    Reward tiers: :data:`SHELL_REWARD` when the output carries genuine
+    interactive-shell evidence (the strongest kill-chain signal, so the
+    trainer learns to prefer the tool classes that land sessions), 1.0 for
+    any other productive run (output present, no execution failure) and 0.0
+    otherwise. Shell evidence is decided by the one canonical detector
+    (``atomic_exploit_bridge.shell_output_evidence``) shared with the loop,
+    ``auto_pwn`` and every gym, so RL cannot disagree with the verdict engine
+    on whether a session was obtained.
+
+    The action is the command's first token so the trainer learns which tool
+    classes work for this engagement.
     """
     text = str(output or "")
-    reward = 1.0 if text.strip() and not text.startswith("execution failed:") else 0.0
+    if not text.strip() or text.startswith("execution failed:"):
+        reward = 0.0
+    else:
+        from modules.atomic_exploit_bridge import shell_output_evidence
+
+        reward = SHELL_REWARD if shell_output_evidence(text) else 1.0
     moe_record_outcome(f"worker:{worker}", "execution", reward, detection_prob)
     action = str(command or "").strip().split(maxsplit=1)
     token = action[0] if action else "unknown"

@@ -164,8 +164,8 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_parquet_db.py`, `s
 - `query_atomic` (function) `modules/atomic_enricher.py:232` `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` -- Structured query over the enriched Atomic Red Team technique catalogue.
 
 ## modules/atomic_exploit_bridge.py
-Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_fallback.py`, `modules/lazy_loop.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/shell_session_store.py`, `modules/world_model.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_fallback.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/shell_session_store.py`, `modules/winbox_gym.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 - `shell_output_evidence` (function) `modules/atomic_exploit_bridge.py:83` `def shell_output_evidence(output)` -- Return True only when output carries genuine interactive-shell evidence.
 - `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:137` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
 - `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:141` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -186,13 +186,13 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`
 - `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:866` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
 - `live_sessions` (function) `modules/atomic_exploit_bridge.py:895` `def live_sessions()` -- Return in-process shell sessions without probing the target.
 - `close_sessions` (function) `modules/atomic_exploit_bridge.py:914` `def close_sessions(target)` -- Close cached sessions (all, or one target).
-- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:956` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
-- `ensure_session` (function) `modules/atomic_exploit_bridge.py:1033` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
-- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1129` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
-- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1147` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
-- `emulate` (function) `modules/atomic_exploit_bridge.py:1202` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
-- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1236` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
-- `main` (function) `modules/atomic_exploit_bridge.py:1324` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
+- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:962` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
+- `ensure_session` (function) `modules/atomic_exploit_bridge.py:1054` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
+- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1152` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
+- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1170` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
+- `emulate` (function) `modules/atomic_exploit_bridge.py:1225` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
+- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1259` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
+- `main` (function) `modules/atomic_exploit_bridge.py:1347` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
 
 ## modules/atomic_resolver.py
 Depends on: `core/logging.py`, `core/safe_exec.py`
@@ -230,7 +230,7 @@ Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph
 - `refresh_summary` (function) `modules/attack_surface3d.py:480` `def refresh_summary(graph, sessions_dir)` -- Score exposure into intel_summary.json for the autonomous loop.
 
 ## modules/auto_loop_memory.py
-Imported by: `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
+Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
 - `FailureMemory.__init__` (method) `modules/auto_loop_memory.py:56` `def __init__(self, filepath)`
 - `FailureMemory.path` (method) `modules/auto_loop_memory.py:63` `def path(self)` -- Backing file path for administrative inspection.
 - `FailureMemory.make_key` (method) `modules/auto_loop_memory.py:68` `def make_key(target, category, command)` -- Build the storage key; raises on empty target or command.
@@ -295,7 +295,7 @@ Imported by: `cli/commands/purple_team.py`
 - `load_config_from_payload` (function) `modules/auto_purple.py:790` `def load_config_from_payload(params)` -- Extract purple_team config from payload.json params dict.
 
 ## modules/auto_registry.py
-Depends on: `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`, `modules/service_aliases.py`
+Depends on: `core/config.py`, `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`, `modules/service_aliases.py`
 Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_pwn_success.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_planner_initial_access.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:55` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
 - `verb_enabled` (function) `modules/auto_registry.py:340` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
@@ -311,33 +311,34 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/cha
 - `is_routable_command` (function) `modules/auto_registry.py:674` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
 - `verbs` (function) `modules/auto_registry.py:692` `def verbs()` -- Return every canonical automation verb name.
 - `is_shell_verb` (function) `modules/auto_registry.py:697` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
-- `build_command` (function) `modules/auto_registry.py:721` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
-- `verbs_for` (function) `modules/auto_registry.py:732` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
-- `propose_intents` (function) `modules/auto_registry.py:738` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
-- `steps_for` (function) `modules/auto_registry.py:859` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:1034` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:1039` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:1052` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1162` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1167` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1172` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1195` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+- `cover_all_enabled` (function) `modules/auto_registry.py:721` `def cover_all_enabled()` -- Return whether exploitation should exercise every vector, not just one.
+- `build_command` (function) `modules/auto_registry.py:737` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `verbs_for` (function) `modules/auto_registry.py:750` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
+- `propose_intents` (function) `modules/auto_registry.py:756` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `steps_for` (function) `modules/auto_registry.py:877` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:1052` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:1057` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:1070` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1180` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1185` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1190` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1213` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/ctf_capture.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_success.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
-- `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:114` `def __init__(self)`
-- `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:134` `def get_instance(cls)`
-- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:145` `def hunt(self, target, max_exploits, profile)` -- Execute a full autonomous exploitation chain against a target.
-- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:184` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
-- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:328` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
-- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:389` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
-- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:420` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
-- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1690` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
-- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2005` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
-- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2435` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
-- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2561` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
-- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2625` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
+Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_coverage.py`, `tests/test_auto_pwn_success.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
+- `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:120` `def __init__(self)`
+- `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:140` `def get_instance(cls)`
+- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:151` `def hunt(self, target, max_exploits, profile, stop_on_first_shell)` -- Execute a full autonomous exploitation chain against a target.
+- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:197` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
+- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:341` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
+- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:402` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
+- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:436` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
+- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1811` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
+- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2126` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
+- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2556` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
+- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2682` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
+- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2746` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth, cover_all)` -- Execute the full autonomous exploit chain against a target.
 
 ## modules/aws_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`

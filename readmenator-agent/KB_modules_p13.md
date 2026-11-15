@@ -35,19 +35,24 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `LessonLearned` (class, line 55) `class LessonLearned`
-  - `LessonIngestor` (class, line 77) `class LessonIngestor`
-  - `ingest_campaign_lessons` (function, line 222) `def ingest_campaign_lessons(lessons_file)`
-  - `from_dict` (method, line 66) `def from_dict(cls, d)`
-  - `__init__` (method, line 86) `def __init__(self, lessons_file, router, trainer, boost_reward)`
-  - `_get_router` (method, line 98) `def _get_router(self)`
-  - `_get_trainer` (method, line 110) `def _get_trainer(self)`
-  - `_expert_for_topic` (method, line 122) `def _expert_for_topic(self, topic)`
-  - `ingest` (method, line 125) `def ingest(self, lesson)`
-  - `ingest_all` (method, line 185) `def ingest_all(self, lessons)`
-  - `_load_from_file` (method, line 202) `def _load_from_file(self)`
+  - `LessonLearned` (class, line 56) `class LessonLearned`
+  - `LessonIngestor` (class, line 78) `class LessonIngestor`
+  - `ingest_campaign_lessons` (function, line 285) `def ingest_campaign_lessons(lessons_file)`
+  - `ingest_new_campaign_lessons` (function, line 300) `def ingest_new_campaign_lessons(lessons_file)`
+  - `from_dict` (method, line 67) `def from_dict(cls, d)`
+  - `__init__` (method, line 87) `def __init__(self, lessons_file, router, trainer, boost_reward, seen_file)`
+  - `_get_router` (method, line 101) `def _get_router(self)`
+  - `_get_trainer` (method, line 113) `def _get_trainer(self)`
+  - `_expert_for_topic` (method, line 125) `def _expert_for_topic(self, topic)`
+  - `ingest` (method, line 128) `def ingest(self, lesson)`
+  - `ingest_all` (method, line 188) `def ingest_all(self, lessons)`
+  - `_fingerprint` (method, line 206) `def _fingerprint(lesson)`
+  - `_load_seen` (method, line 213) `def _load_seen(self)`
+  - `_save_seen` (method, line 224) `def _save_seen(self, seen)`
+  - `ingest_new` (method, line 236) `def ingest_new(self)`
+  - `_load_from_file` (method, line 265) `def _load_from_file(self)`
 - Depends on: `core/logging.py`, `modules/moe_router.py`, `modules/rl_trainer.py`
-- Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
+- Imported by: `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`, `tests/test_lesson_ingestor_startup.py`
 
 ## modules/lilsplunky.py
 - Doc: Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: AGPL v3...
@@ -413,11 +418,11 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `rl_select` (function, line 340) `def rl_select(task_type, phase, candidates, deterministic)`
   - `rl_update` (function, line 362) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
   - `rl_save` (function, line 385) `def rl_save()`
-  - `record_step` (function, line 404) `def record_step(task_id, worker, command, output, detection_prob)`
-  - `swan_available` (function, line 419) `def swan_available()`
-  - `swan_consult` (function, line 432) `def swan_consult(prompt, task_type, phase, timeout)`
-  - `stream_enabled` (function, line 459) `def stream_enabled()`
-  - `ai_snapshot` (function, line 469) `def ai_snapshot()`
+  - `record_step` (function, line 407) `def record_step(task_id, worker, command, output, detection_prob)`
+  - `swan_available` (function, line 435) `def swan_available()`
+  - `swan_consult` (function, line 448) `def swan_consult(prompt, task_type, phase, timeout)`
+  - `stream_enabled` (function, line 475) `def stream_enabled()`
+  - `ai_snapshot` (function, line 485) `def ai_snapshot()`
   - `_open` (function, line 104) `def _open()`
   - `_open` (function, line 260) `def _open()`
   - `_open` (function, line 285) `def _open()`
@@ -426,8 +431,8 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_open` (function, line 347) `def _open()`
   - `_open` (function, line 369) `def _open()`
   - `_open` (function, line 390) `def _open()`
-  - `_open` (function, line 424) `def _open()`
-- Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+  - `_open` (function, line 440) `def _open()`
+- Depends on: `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 - Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
 
 ## modules/loop_audit.py
@@ -446,18 +451,19 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `audit_for` (function, line 338) `def audit_for(task_id)`
   - `stop` (function, line 349) `def stop(task_id)`
   - `_read_jsonl` (function, line 355) `def _read_jsonl(path)`
-  - `guard_rows` (function, line 360) `def guard_rows(task_id)`
-  - `activity_rows` (function, line 365) `def activity_rows(task_id)`
-  - `_ts` (function, line 370) `def _ts(row)`
-  - `_timeline_event` (function, line 378) `def _timeline_event(audit_row, start_ts)`
-  - `_guard_event` (function, line 389) `def _guard_event(row, start_ts)`
-  - `_activity_event` (function, line 401) `def _activity_event(row, start_ts)`
-  - `timeline` (function, line 415) `def timeline(task_id, audit)`
-  - `_fmt_offset` (function, line 439) `def _fmt_offset(offset)`
-  - `_render_event` (function, line 444) `def _render_event(event)`
-  - `render` (function, line 505) `def render(task_id, limit, audit)`
-  - `list_runs` (function, line 526) `def list_runs(limit)`
-  - `render_summary` (function, line 563) `def render_summary(summaries)`
+  - `blocked_verbs` (function, line 360) `def blocked_verbs(task_id, min_count)`
+  - `guard_rows` (function, line 392) `def guard_rows(task_id)`
+  - `activity_rows` (function, line 397) `def activity_rows(task_id)`
+  - `_ts` (function, line 402) `def _ts(row)`
+  - `_timeline_event` (function, line 410) `def _timeline_event(audit_row, start_ts)`
+  - `_guard_event` (function, line 421) `def _guard_event(row, start_ts)`
+  - `_activity_event` (function, line 433) `def _activity_event(row, start_ts)`
+  - `timeline` (function, line 447) `def timeline(task_id, audit)`
+  - `_fmt_offset` (function, line 471) `def _fmt_offset(offset)`
+  - `_render_event` (function, line 476) `def _render_event(event)`
+  - `render` (function, line 537) `def render(task_id, limit, audit)`
+  - `list_runs` (function, line 558) `def list_runs(limit)`
+  - `render_summary` (function, line 595) `def render_summary(summaries)`
   - `__init__` (method, line 123) `def __init__(self, task_id, path)`
   - `path` (method, line 131) `def path(self)`
   - `record` (method, line 135) `def record(self, kind)`
@@ -471,6 +477,7 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_trim` (method, line 288) `def _trim(self)`
   - `_read` (method, line 303) `def _read(path)`
 - Depends on: `core/parsers.py`
+- Imported by: `modules/lazy_loop.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

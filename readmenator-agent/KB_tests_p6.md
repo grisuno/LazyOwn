@@ -1,5 +1,35 @@
-# Subsystem: tests (page 6 of 26)
+# Subsystem: tests (page 6 of 27)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
+
+## tests/test_chain_loop.py
+- Doc: Chain-aware loop execution: stepwise apt_chain decisions inside the worker, subprocess fallback...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `FakeActivity` (class, line 21) `class FakeActivity`
+  - `FakeWorker` (class, line 29) `class FakeWorker`
+  - `_intent` (function, line 49) `def _intent()`
+  - `_chain` (function, line 53) `def _chain()`
+  - `_patch_chain` (function, line 64) `def _patch_chain(monkeypatch, chain, name)`
+  - `_routable_true` (function, line 68) `def _routable_true(monkeypatch)`
+  - `test_parse_chain_invocation_splits_name_target_vars` (function, line 72) `def test_parse_chain_invocation_splits_name_target_vars()`
+  - `test_stepwise_eligible_reports_unroutable_steps` (function, line 81) `def test_stepwise_eligible_reports_unroutable_steps()`
+  - `test_run_chain_stepwise_routes_every_step_through_guard` (function, line 93) `def test_run_chain_stepwise_routes_every_step_through_guard(monkeypatch)`
+  - `test_run_chain_stepwise_subprocess_mode_falls_through` (function, line 112) `def test_run_chain_stepwise_subprocess_mode_falls_through(monkeypatch)`
+  - `test_run_chain_stepwise_auto_mode_skips_ineligible` (function, line 121) `def test_run_chain_stepwise_auto_mode_skips_ineligible(monkeypatch)`
+  - `test_run_chain_stepwise_forced_blocks_ineligible` (function, line 129) `def test_run_chain_stepwise_forced_blocks_ineligible(monkeypatch)`
+  - `test_run_chain_stepwise_guard_block_aborts_chain` (function, line 140) `def test_run_chain_stepwise_guard_block_aborts_chain(monkeypatch)`
+  - `test_run_chain_stepwise_unknown_chain_falls_through` (function, line 155) `def test_run_chain_stepwise_unknown_chain_falls_through(monkeypatch)`
+  - `test_run_chain_stepwise_nesting_limit_blocks` (function, line 162) `def test_run_chain_stepwise_nesting_limit_blocks(monkeypatch)`
+  - `test_chain_step_blocked_carries_status_and_detail` (function, line 173) `def test_chain_step_blocked_carries_status_and_detail()`
+  - `test_run_chain_stepwise_worker_target_used_when_unset` (function, line 180) `def test_run_chain_stepwise_worker_target_used_when_unset(monkeypatch)`
+  - `__init__` (method, line 22) `def __init__(self)`
+  - `emit` (method, line 25) `def emit(self, name, kind, message)`
+  - `__init__` (method, line 33) `def __init__(self, statuses)`
+  - `_target_for` (method, line 38) `def _target_for(self, intent)`
+  - `_guard_step` (method, line 41) `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)`
+  - `spy_runner` (function, line 188) `def spy_runner(chain, guarded, tokens, total_timeout, run_id, worker, intent)`
+- Depends on: `modules/auto_registry.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/chain_registry.py`
 
 ## tests/test_chain_match_determinism.py
 - Doc: Determinism tests for chain selection tie-breaking and selector resilience.

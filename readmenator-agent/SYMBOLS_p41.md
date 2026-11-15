@@ -1,8 +1,57 @@
-# Symbols (page 41 of 52)
+# Symbols (page 41 of 53)
 Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_tokens_are_declared` | method | `tests/test_dirtyinit_addon.py:151` | `def test_tokens_are_declared(self, addon)` |
+| `test_tool_has_key` | method | `tests/test_dirtyinit_addon.py:105` | `def test_tool_has_key(self, addon, key)` |
+| `test_version_pattern` | method | `tests/test_dirtyinit_addon.py:75` | `def test_version_pattern(self, addon)` |
+| `_runs_command` | function | `tests/test_docs_drift_contract.py:38` | `def _runs_command(step, command)` |
+| `test_diffs_command_index` | function | `tests/test_docs_drift_contract.py:65` | `def test_diffs_command_index(workflow_steps)` |
+| `test_diffs_commands_reference` | function | `tests/test_docs_drift_contract.py:71` | `def test_diffs_commands_reference(workflow_steps)` |
+| `test_diffs_utils_reference` | function | `tests/test_docs_drift_contract.py:77` | `def test_diffs_utils_reference(workflow_steps)` |
+| `test_regenerates_command_index` | function | `tests/test_docs_drift_contract.py:47` | `def test_regenerates_command_index(workflow_steps)` |
+| `test_regenerates_commands_reference` | function | `tests/test_docs_drift_contract.py:53` | `def test_regenerates_commands_reference(workflow_steps)` |
+| `test_regenerates_utils_reference` | function | `tests/test_docs_drift_contract.py:59` | `def test_regenerates_utils_reference(workflow_steps)` |
+| `test_trigger_watches_generator_inputs` | function | `tests/test_docs_drift_contract.py:81` | `def test_trigger_watches_generator_inputs(workflow_text)` |
+| `test_workflow_exists` | function | `tests/test_docs_drift_contract.py:43` | `def test_workflow_exists()` |
+| `workflow_steps` | function | `tests/test_docs_drift_contract.py:27` | `def workflow_steps(workflow_text)` |
+| `workflow_text` | function | `tests/test_docs_drift_contract.py:22` | `def workflow_text()` |
+| `TestFileChecks` | class | `tests/test_doctor.py:107` | `class TestFileChecks` |
+| `TestGatherAndRun` | class | `tests/test_doctor.py:184` | `class TestGatherAndRun` |
+| `TestPackages` | class | `tests/test_doctor.py:72` | `class TestPackages` |
+| `TestPythonVersion` | class | `tests/test_doctor.py:32` | `class TestPythonVersion` |
+| `TestReportAggregation` | class | `tests/test_doctor.py:155` | `class TestReportAggregation` |
+| `TestSecListsAndTools` | class | `tests/test_doctor.py:129` | `class TestSecListsAndTools` |
+| `TestVirtualEnv` | class | `tests/test_doctor.py:51` | `class TestVirtualEnv` |
+| `boom` | function | `tests/test_doctor.py:90` | `def boom(name)` |
+| `test_active_venv_is_ok` | method | `tests/test_doctor.py:52` | `def test_active_venv_is_ok(self, tmp_path)` |
+| `test_certificates_partial_warns` | method | `tests/test_doctor.py:122` | `def test_certificates_partial_warns(self, tmp_path)` |
+| `test_certificates_present_is_ok` | method | `tests/test_doctor.py:117` | `def test_certificates_present_is_ok(self, tmp_path)` |
+| `test_default_registry_has_core_packages` | method | `tests/test_doctor.py:97` | `def test_default_registry_has_core_packages(self)` |
+| `test_exact_minimum_is_ok` | method | `tests/test_doctor.py:37` | `def test_exact_minimum_is_ok(self)` |
+| `test_external_tools_present_and_missing` | method | `tests/test_doctor.py:139` | `def test_external_tools_present_and_missing(self)` |
+| `test_finder_exception_treated_as_missing` | method | `tests/test_doctor.py:89` | `def test_finder_exception_treated_as_missing(self)` |
+| `test_gather_report_populates_all_sections` | method | `tests/test_doctor.py:185` | `def test_gather_report_populates_all_sections(self, tmp_path)` |
+| `test_import_name_differs_from_pip_name_where_expected` | method | `tests/test_doctor.py:101` | `def test_import_name_differs_from_pip_name_where_expected(self)` |
+| `test_inactive_with_env_dir_warns_to_activate` | method | `tests/test_doctor.py:56` | `def test_inactive_with_env_dir_warns_to_activate(self, tmp_path)` |
+| `test_missing_optional_package_warns` | method | `tests/test_doctor.py:84` | `def test_missing_optional_package_warns(self)` |
+| `test_missing_required_package_fails` | method | `tests/test_doctor.py:78` | `def test_missing_required_package_fails(self)` |
+| `test_no_venv_anywhere_warns_to_install` | method | `tests/test_doctor.py:62` | `def test_no_venv_anywhere_warns_to_install(self, tmp_path)` |
+| `test_none_base_prefix_collapses_to_prefix` | method | `tests/test_doctor.py:67` | `def test_none_base_prefix_collapses_to_prefix(self, tmp_path)` |
+| `test_old_version_fails` | method | `tests/test_doctor.py:41` | `def test_old_version_fails(self)` |
+| `test_overall_status_fail_trips_healthy` | method | `tests/test_doctor.py:171` | `def test_overall_status_fail_trips_healthy(self)` |
+| `test_overall_status_ok_when_all_ok` | method | `tests/test_doctor.py:156` | `def test_overall_status_ok_when_all_ok(self)` |
+| `test_overall_status_warn_with_warnings_only` | method | `tests/test_doctor.py:161` | `def test_overall_status_warn_with_warnings_only(self)` |
+| `test_payload_missing_fails` | method | `tests/test_doctor.py:112` | `def test_payload_missing_fails(self, tmp_path)` |
+| `test_payload_present_is_ok` | method | `tests/test_doctor.py:108` | `def test_payload_present_is_ok(self, tmp_path)` |
+| `test_present_required_package_is_ok` | method | `tests/test_doctor.py:73` | `def test_present_required_package_is_ok(self)` |
+| `test_run_returns_report_without_raising` | method | `tests/test_doctor.py:194` | `def test_run_returns_report_without_raising(self, tmp_path)` |
+| `test_seclists_found_is_ok` | method | `tests/test_doctor.py:130` | `def test_seclists_found_is_ok(self)` |
+| `test_seclists_missing_warns` | method | `tests/test_doctor.py:135` | `def test_seclists_missing_warns(self)` |
+| `test_supported_version_is_ok` | method | `tests/test_doctor.py:33` | `def test_supported_version_is_ok(self)` |
+| `test_uses_live_interpreter_by_default` | method | `tests/test_doctor.py:46` | `def test_uses_live_interpreter_by_default(self)` |
+| `Broken` | class | `tests/test_emulation_runner.py:210` | `class Broken(FakeResolver)` |
 | `FakeResolver` | class | `tests/test_emulation_runner.py:30` | `class FakeResolver` |
 | `FakeTest` | class | `tests/test_emulation_runner.py:19` | `class FakeTest` |
 | `_Runner` | class | `tests/test_emulation_runner.py:144` | `class _Runner` |
@@ -447,54 +496,5 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 | `test_auth_failure_is_fallback_eligible` | function | `tests/test_failure_verdict.py:35` | `def test_auth_failure_is_fallback_eligible()` |
 | `test_failed_outcome_object_classifies_from_output` | function | `tests/test_failure_verdict.py:101` | `def test_failed_outcome_object_classifies_from_output()` |
 | `test_lockout_marker_is_case_insensitive` | function | `tests/test_failure_verdict.py:125` | `def test_lockout_marker_is_case_insensitive()` |
-| `test_lockout_output_aborts` | function | `tests/test_failure_verdict.py:17` | `def test_lockout_output_aborts()` |
-| `test_missing_tool_skips` | function | `tests/test_failure_verdict.py:54` | `def test_missing_tool_skips()` |
-| `test_network_markers_retry` | function | `tests/test_failure_verdict.py:70` | `def test_network_markers_retry()` |
-| `test_out_of_scope_aborts_before_everything` | function | `tests/test_failure_verdict.py:27` | `def test_out_of_scope_aborts_before_everything()` |
-| `test_permission_wall_requests_fallback` | function | `tests/test_failure_verdict.py:46` | `def test_permission_wall_requests_fallback()` |
-| `test_success_and_skipped_outcomes_never_classify_as_fallback` | function | `tests/test_failure_verdict.py:86` | `def test_success_and_skipped_outcomes_never_classify_as_fallback()` |
-| `test_timeout_with_clean_output_retries` | function | `tests/test_failure_verdict.py:62` | `def test_timeout_with_clean_output_retries()` |
-| `test_unknown_output_keeps_default_retry` | function | `tests/test_failure_verdict.py:78` | `def test_unknown_output_keeps_default_retry()` |
-| `_graph_with` | function | `tests/test_finding_enrich.py:56` | `def _graph_with(meta)` |
-| `_persist` | function | `tests/test_finding_enrich.py:60` | `def _persist()` |
-| `_ref` | function | `tests/test_finding_enrich.py:17` | `def _ref(digest, role, note, ts)` |
-| `test_enrich_collapses_duplicate_onto_strongest_role` | function | `tests/test_finding_enrich.py:27` | `def test_enrich_collapses_duplicate_onto_strongest_role()` |
-| `test_enrich_digest_is_stable_and_sized` | function | `tests/test_finding_enrich.py:40` | `def test_enrich_digest_is_stable_and_sized()` |
-| `test_enrich_empty_input` | function | `tests/test_finding_enrich.py:51` | `def test_enrich_empty_input()` |
-| `test_enrich_finding_canonicalises_and_bumps_version` | function | `tests/test_finding_enrich.py:67` | `def test_enrich_finding_canonicalises_and_bumps_version()` |
-| `test_enrich_finding_is_idempotent` | function | `tests/test_finding_enrich.py:77` | `def test_enrich_finding_is_idempotent()` |
-| `test_enrich_finding_preserves_note_through_collapse` | function | `tests/test_finding_enrich.py:93` | `def test_enrich_finding_preserves_note_through_collapse()` |
-| `test_enrich_finding_unknown` | function | `tests/test_finding_enrich.py:87` | `def test_enrich_finding_unknown()` |
-| `test_enrich_ignores_empty_and_malformed` | function | `tests/test_finding_enrich.py:46` | `def test_enrich_ignores_empty_and_malformed()` |
-| `test_enrich_is_order_independent` | function | `tests/test_finding_enrich.py:33` | `def test_enrich_is_order_independent()` |
-| `test_enrich_orders_proof_first` | function | `tests/test_finding_enrich.py:21` | `def test_enrich_orders_proof_first()` |
-| `_boom` | function | `tests/test_finding_lifecycle.py:87` | `def _boom(cve, sessions)` |
-| `_finding` | function | `tests/test_finding_lifecycle.py:24` | `def _finding(fid, sources)` |
-| `test_apply_confirmation_stamps_nodes` | function | `tests/test_finding_lifecycle.py:65` | `def test_apply_confirmation_stamps_nodes(tmp_path)` |
-| `test_dead_end_suppresses_value` | function | `tests/test_finding_lifecycle.py:57` | `def test_dead_end_suppresses_value(tmp_path)` |
-| `test_enrich_evidence_appends_keyless_verdicts` | function | `tests/test_finding_lifecycle.py:75` | `def test_enrich_evidence_appends_keyless_verdicts(tmp_path, monkeypatch)` |
-| `test_enrich_evidence_never_fails_offline` | function | `tests/test_finding_lifecycle.py:85` | `def test_enrich_evidence_never_fails_offline(tmp_path, monkeypatch)` |
-| `test_explicit_confirm_with_evidence` | function | `tests/test_finding_lifecycle.py:41` | `def test_explicit_confirm_with_evidence(tmp_path)` |
-| `test_multi_source_auto_confirms` | function | `tests/test_finding_lifecycle.py:35` | `def test_multi_source_auto_confirms(tmp_path)` |
-| `test_pending_by_default` | function | `tests/test_finding_lifecycle.py:30` | `def test_pending_by_default(tmp_path)` |
-| `test_reject_beats_auto_confirm` | function | `tests/test_finding_lifecycle.py:49` | `def test_reject_beats_auto_confirm(tmp_path)` |
-| `_chain_payload` | function | `tests/test_findings_gate.py:14` | `def _chain_payload(gate)` |
-| `test_blocked_gate_stays_partial_with_reason` | function | `tests/test_findings_gate.py:37` | `def test_blocked_gate_stays_partial_with_reason()` |
-| `test_default_payload_unaffected` | function | `tests/test_findings_gate.py:45` | `def test_default_payload_unaffected()` |
-| `test_open_gate_confirms_with_evidence` | function | `tests/test_findings_gate.py:31` | `def test_open_gate_confirms_with_evidence()` |
-| `_FakeView` | class | `tests/test_fuzzy_picker.py:35` | `class _FakeView(PickerView)` |
-| `__init__` | method | `tests/test_fuzzy_picker.py:38` | `def __init__(self, selection_index)` |
-| `_collect_runtime_strings` | function | `tests/test_fuzzy_picker.py:198` | `def _collect_runtime_strings()` |
-| `_collect_string_constants` | function | `tests/test_fuzzy_picker.py:174` | `def _collect_string_constants(source)` |
-| `run` | method | `tests/test_fuzzy_picker.py:43` | `def run(self, items, initial_query)` |
-| `sample_items` | function | `tests/test_fuzzy_picker.py:59` | `def sample_items()` |
-| `scorer` | function | `tests/test_fuzzy_picker.py:54` | `def scorer()` |
-| `test_config_from_payload_ignores_unknown_keys` | function | `tests/test_fuzzy_picker.py:119` | `def test_config_from_payload_ignores_unknown_keys()` |
-| `test_config_from_payload_respects_known_overrides` | function | `tests/test_fuzzy_picker.py:112` | `def test_config_from_payload_respects_known_overrides()` |
-| `test_config_from_payload_returns_defaults_when_no_block` | function | `tests/test_fuzzy_picker.py:124` | `def test_config_from_payload_returns_defaults_when_no_block()` |
-| `test_empty_query_returns_all_items_in_order` | function | `tests/test_fuzzy_picker.py:72` | `def test_empty_query_returns_all_items_in_order(scorer, sample_items)` |
-| `test_exact_match_scores_highest` | function | `tests/test_fuzzy_picker.py:78` | `def test_exact_match_scores_highest(scorer, sample_items)` |
-| `test_getprompt_renders_three_lines_and_includes_payload_segments` | function | `tests/test_fuzzy_picker.py:280` | `def test_getprompt_renders_three_lines_and_includes_payload_segments()` |
-| `test_lazyown_runtime_strings_preserve_shell_payload` | function | `tests/test_fuzzy_picker.py:260` | `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)` |
 
 Next: [SYMBOLS_p42.md](SYMBOLS_p42.md)

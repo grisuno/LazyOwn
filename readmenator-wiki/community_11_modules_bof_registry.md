@@ -111,9 +111,9 @@ This community groups 43 file(s) rooted at `modules` with dominant language py (
 
 ## Connections
 
-- [EXTRACTED] depends_on community 7 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 5 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
 - [EXTRACTED] depends_on community 11 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 11 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
+- [EXTRACTED] depends_on community 11 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
 
 ## Risks
 

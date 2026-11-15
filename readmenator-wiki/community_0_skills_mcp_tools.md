@@ -1,10 +1,10 @@
 # skills/mcp_tools
 
-*Community 0 | 206 files | cohesion 0.63*
+*Community 0 | 214 files | cohesion 0.63*
 
 ## Definition
 
-This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant language py (cohesion 0.63). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`. Core file: `skills/autonomous_daemon.py` (142 symbols). Documented purpose: ExploitGym CLI command set — real-world exploit benchmark harness.  Wraps the sunblaze-ucb/exploitgym benchmark (userspace, V8, Linux kernel tasks) behind LazyO.
+This community groups 214 file(s) rooted at `skills/mcp_tools` with dominant language py (cohesion 0.63). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AVBlockedMatcher`, `AbstractReader`, `AbstractSelector`. Core file: `skills/autonomous_daemon.py` (142 symbols). Documented purpose: ExploitGym CLI command set — real-world exploit benchmark harness.  Wraps the sunblaze-ucb/exploitgym benchmark (userspace, V8, Linux kernel tasks) behind LazyO.
 
 ## Files
 
@@ -17,16 +17,7 @@ This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `skills/mcp_tools/aci_plan.py` | py | utility | 1 | yes |
 | `skills/mcp_tools/aci_replan.py` | py | utility | 1 | yes |
 
-### `skills` (19 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/aci_planner.py` | py | utility | 42 | yes |
-| `skills/autonomous_daemon.py` | py | utility | 142 | yes |
-| `skills/autonomous_replay.py` | py | utility | 19 | yes |
-| `skills/daemon_control.py` | py | utility | 27 | yes |
-
-### `tests` (19 files)
+### `tests` (24 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -35,13 +26,22 @@ This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant lan
 | `tests/test_boyscout_contracts.py` | py | testing | 15 | yes |
 | `tests/test_bridge_catalog_filtered.py` | py | testing | 20 | yes |
 
-### `modules` (18 files)
+### `modules` (21 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/asset_graph.py` | py | utility | 1 | yes |
 | `modules/atomic_enricher.py` | py | utility | 9 | yes |
 | `modules/cve_matcher.py` | py | utility | 12 | yes |
+| `modules/detection_feed.py` | py | utility | 13 | yes |
+
+### `skills` (19 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/aci_planner.py` | py | utility | 42 | yes |
+| `skills/autonomous_daemon.py` | py | utility | 142 | yes |
+| `skills/autonomous_replay.py` | py | utility | 19 | yes |
 
 ### `skills/tests` (5 files)
 
@@ -63,7 +63,7 @@ This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant lan
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 186 more files in this community.*
+*... and 194 more files in this community.*
 
 
 ## Key Symbols
@@ -101,12 +101,12 @@ This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant lan
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 640
-- Cross-boundary resolved imports (EXTRACTED): 284
+- Internal resolved imports (EXTRACTED): 689
+- Cross-boundary resolved imports (EXTRACTED): 288
 
 ## Connections
 
-- [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
 
 ## Risks
 
@@ -138,6 +138,8 @@ This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant lan
 - `modules/asset_graph.py`
 - `modules/atomic_enricher.py`
 - `modules/cve_matcher.py`
+- `modules/detection_feed.py`
+- `modules/detection_oracle.py`
 - `modules/evasion_engine.py`
 - `modules/event_engine.py`
 - `modules/exploitgym_gym.py`
@@ -149,9 +151,7 @@ This community groups 206 file(s) rooted at `skills/mcp_tools` with dominant lan
 - `modules/pipeline_engine.py`
 - `modules/playbook_executor.py`
 - `modules/reactive_engine.py`
+- `modules/rl_trainer.py`
 - `modules/session_rag.py`
 - `modules/session_reader.py`
-- `modules/timeline_narrator.py`
-- `modules/toolset.py`
-- `scripts/lazy_opencode_config.py`
-- *... and 186 more*
+- *... and 194 more*

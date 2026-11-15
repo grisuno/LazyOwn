@@ -1,4 +1,4 @@
-# Symbols (page 3 of 52)
+# Symbols (page 3 of 53)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
@@ -445,12 +445,12 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_purple_test` | method | `cli/commands/purple_team.py:203` | `def do_purple_test(self, args)` |
 | `PwnCommandSet` | class | `cli/commands/pwn.py:28` | `class PwnCommandSet(LazyOwnCommandSet)` |
 | `do_auto_pwn` | method | `cli/commands/pwn.py:35` | `def do_auto_pwn(self, line)` |
-| `do_exploit_chain` | method | `cli/commands/pwn.py:181` | `def do_exploit_chain(self, line)` |
-| `do_lolbas_list` | method | `cli/commands/pwn.py:268` | `def do_lolbas_list(self, line)` |
-| `do_lolbas_use` | method | `cli/commands/pwn.py:325` | `def do_lolbas_use(self, line)` |
-| `do_rich_tui` | method | `cli/commands/pwn.py:132` | `def do_rich_tui(self, line)` |
-| `do_stealth_off` | method | `cli/commands/pwn.py:445` | `def do_stealth_off(self, line)` |
-| `do_stealth_on` | method | `cli/commands/pwn.py:417` | `def do_stealth_on(self, line)` |
+| `do_exploit_chain` | method | `cli/commands/pwn.py:187` | `def do_exploit_chain(self, line)` |
+| `do_lolbas_list` | method | `cli/commands/pwn.py:274` | `def do_lolbas_list(self, line)` |
+| `do_lolbas_use` | method | `cli/commands/pwn.py:331` | `def do_lolbas_use(self, line)` |
+| `do_rich_tui` | method | `cli/commands/pwn.py:138` | `def do_rich_tui(self, line)` |
+| `do_stealth_off` | method | `cli/commands/pwn.py:451` | `def do_stealth_off(self, line)` |
+| `do_stealth_on` | method | `cli/commands/pwn.py:423` | `def do_stealth_on(self, line)` |
 | `ReconCommandSet` | class | `cli/commands/recon.py:40` | `class ReconCommandSet(LazyOwnCommandSet)` |
 | `_run_single_search` | function | `cli/commands/recon.py:515` | `def _run_single_search(query)` |
 | `do_batchnmap` | method | `cli/commands/recon.py:47` | `def do_batchnmap(self, line)` |

@@ -98,25 +98,25 @@ Imported by: `lazyc2/blueprints/gym.py`, `tests/test_bdd_infra_range_report.py`,
 
 ## modules/lazy_agent.py
 Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-Imported by: `cli/commands/lazyops.py`, `modules/loop/worker_agentic.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
+Imported by: `cli/commands/lazyops.py`, `modules/loop/worker_agentic.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_worker_safety.py`
 - `model_timeout_sec` (function) `modules/lazy_agent.py:41` `def model_timeout_sec()` -- Return the hard per-turn model timeout from configuration.
 - `tool_calling_enabled` (function) `modules/lazy_agent.py:57` `def tool_calling_enabled()` -- Return whether agentic tool calling is enabled by configuration.
 - `max_iterations` (function) `modules/lazy_agent.py:72` `def max_iterations()` -- Return the bounded agent step budget from configuration.
 - `resolve_agentic_model` (function) `modules/lazy_agent.py:83` `def resolve_agentic_model(exclude)` -- Return a raw tool-calling backend for the best pool member, or None.
-- `ObservableAgentRunner.__init__` (method) `modules/lazy_agent.py:148` `def __init__(self, model, system_prompt, max_iterations, on_event)` -- Bind the model and the optional event sink (kind, name, text).
-- `ObservableAgentRunner.run` (method) `modules/lazy_agent.py:168` `def run(self, user_input)` -- Base loop plus final-turn persistence for true resume.
-- `ConversationStore.__init__` (method) `modules/lazy_agent.py:264` `def __init__(self, task_id)` -- Bind the conversation store for one task (``main`` when empty).
-- `ConversationStore.intent_messages` (method) `modules/lazy_agent.py:273` `def intent_messages(self, intent_id)` -- Return the stored messages for one intent (resume seed).
-- `ConversationStore.save_intent` (method) `modules/lazy_agent.py:278` `def save_intent(self, intent_id, messages)` -- Persist the tail of one intent conversation.
-- `ConversationStore.session` (method) `modules/lazy_agent.py:287` `def session(self, session_id)` -- Return one main-agent session payload (empty when unknown).
-- `ConversationStore.sessions` (method) `modules/lazy_agent.py:291` `def sessions(self)` -- List main-agent sessions with title, message count and age.
-- `ConversationStore.save_session` (method) `modules/lazy_agent.py:305` `def save_session(self, session_id, messages, title)` -- Persist one main-agent session conversation tail.
-- `ConversationStore.reset_intents` (method) `modules/lazy_agent.py:315` `def reset_intents(self)` -- Drop every stored intent conversation (fresh agent start).
-- `register_tools` (function) `modules/lazy_agent.py:322` `def register_tools(runner, specs)` -- Register tool specs (name, description, func, parameters, required).
-- `run_worker_session` (function) `modules/lazy_agent.py:335` `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)` -- Run one agentic intent attempt with resume seeding.
-- `run_main_session` (function) `modules/lazy_agent.py:374` `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` -- Run one main-agent turn, resuming the stored session conversation.
-- `run_external_opencode` (function) `modules/lazy_agent.py:396` `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` -- Run one headless ``opencode run`` task with MCP tooling.
-- `run_external_hermes` (function) `modules/lazy_agent.py:472` `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` -- Run one detached ``hermes chat --oneshot`` task.
+- `ObservableAgentRunner.__init__` (method) `modules/lazy_agent.py:148` `def __init__(self, model, system_prompt, max_iterations, on_event, turn_timeout)` -- Bind the model and the optional event sink (kind, name, text).
+- `ObservableAgentRunner.run` (method) `modules/lazy_agent.py:179` `def run(self, user_input)` -- Base loop plus final-turn persistence for true resume.
+- `ConversationStore.__init__` (method) `modules/lazy_agent.py:281` `def __init__(self, task_id)` -- Bind the conversation store for one task (``main`` when empty).
+- `ConversationStore.intent_messages` (method) `modules/lazy_agent.py:290` `def intent_messages(self, intent_id)` -- Return the stored messages for one intent (resume seed).
+- `ConversationStore.save_intent` (method) `modules/lazy_agent.py:295` `def save_intent(self, intent_id, messages)` -- Persist the tail of one intent conversation.
+- `ConversationStore.session` (method) `modules/lazy_agent.py:304` `def session(self, session_id)` -- Return one main-agent session payload (empty when unknown).
+- `ConversationStore.sessions` (method) `modules/lazy_agent.py:308` `def sessions(self)` -- List main-agent sessions with title, message count and age.
+- `ConversationStore.save_session` (method) `modules/lazy_agent.py:322` `def save_session(self, session_id, messages, title)` -- Persist one main-agent session conversation tail.
+- `ConversationStore.reset_intents` (method) `modules/lazy_agent.py:332` `def reset_intents(self)` -- Drop every stored intent conversation (fresh agent start).
+- `register_tools` (function) `modules/lazy_agent.py:339` `def register_tools(runner, specs)` -- Register tool specs (name, description, func, parameters, required).
+- `run_worker_session` (function) `modules/lazy_agent.py:352` `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event, turn_timeout)` -- Run one agentic intent attempt with resume seeding.
+- `run_main_session` (function) `modules/lazy_agent.py:396` `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` -- Run one main-agent turn, resuming the stored session conversation.
+- `run_external_opencode` (function) `modules/lazy_agent.py:418` `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` -- Run one headless ``opencode run`` task with MCP tooling.
+- `run_external_hermes` (function) `modules/lazy_agent.py:494` `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` -- Run one detached ``hermes chat --oneshot`` task.
 
 ## modules/lazy_autofire.py
 Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/lazy_probes.py`

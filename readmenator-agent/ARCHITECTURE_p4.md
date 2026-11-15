@@ -1,7 +1,10 @@
-# Architecture (page 4 of 11)
+# Architecture (page 4 of 12)
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/lazy_cli_bridge.py` -> `modules/killchain.py`
+- `modules/lazy_cli_bridge.py` -> `modules/verb_catalog.py`
+- `modules/lazy_cve_feed.py` -> `modules/lazy_heat.py`
 - `modules/lazy_drafts.py` -> `modules/lazy_loop.py`
 - `modules/lazy_engine.py` -> `modules/lazy_loop.py`
 - `modules/lazy_exposure.py` -> `modules/__init__.py`
@@ -35,6 +38,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/lazy_loop.py` -> `core/logging.py`
 - `modules/lazy_loop.py` -> `modules/__init__.py`
 - `modules/lazy_loop.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/lazy_loop.py` -> `modules/auto_loop_memory.py`
 - `modules/lazy_loop.py` -> `modules/auto_registry.py`
 - `modules/lazy_loop.py` -> `modules/chain_loop.py`
 - `modules/lazy_loop.py` -> `modules/custom_tools.py`
@@ -63,11 +67,13 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/lazy_loop.py` -> `modules/lazy_skills.py`
 - `modules/lazy_loop.py` -> `modules/lazy_timeline.py`
 - `modules/lazy_loop.py` -> `modules/lazy_world_diff.py`
+- `modules/lazy_loop.py` -> `modules/lesson_ingestor.py`
 - `modules/lazy_loop.py` -> `modules/llm_factory.py`
 - `modules/lazy_loop.py` -> `modules/llm_pool.py`
 - `modules/lazy_loop.py` -> `modules/loop/__init__.py`
 - `modules/lazy_loop.py` -> `modules/loop/triage_scheduler.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py`
+- `modules/lazy_loop.py` -> `modules/loop_audit.py`
 - `modules/lazy_loop.py` -> `modules/loop_guardrails.py`
 - `modules/lazy_loop.py` -> `modules/loop_triggers.py`
 - `modules/lazy_loop.py` -> `modules/mediation/__init__.py`
@@ -208,6 +214,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/loop/worker_memory.py` -> `modules/reaction_bridge.py`
 - `modules/loop/worker_memory.py` -> `modules/world_model.py`
 - `modules/loop_ai_bridge.py` -> `core/config.py`
+- `modules/loop_ai_bridge.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/loop_ai_bridge.py` -> `modules/detection_oracle.py`
 - `modules/loop_ai_bridge.py` -> `modules/event_bus.py`
 - `modules/loop_ai_bridge.py` -> `modules/moe_router.py`
@@ -389,6 +396,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/selection/technique_chain.py` -> `modules/selection/atomic.py`
 - `modules/selection/technique_chain.py` -> `modules/selection/base.py`
 - `modules/session_rag.py` -> `core/logging.py`
+- `modules/shell_session_store.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/sidequest.py` -> `modules/llm_factory.py`
 - `modules/sidequest.py` -> `modules/loop/__init__.py`
 - `modules/sinks/attack_graph.py` -> `modules/attack_surface3d.py`
@@ -488,13 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/winbox_gym.py` -> `core/logging.py`
 - `modules/winbox_gym.py` -> `core/safe_exec.py`
 - `modules/winbox_gym.py` -> `modules/atomic_exploit_bridge.py`
-- `modules/winbox_gym.py` -> `modules/chain_registry.py`
-- `modules/winbox_gym.py` -> `utils.py`
-- `modules/wire_capture.py` -> `core/atomic_store.py`
-- `modules/world_model.py` -> `cli/commands/enum.py`
-- `modules/world_model.py` -> `core/hardening.py`
-- `modules/world_model.py` -> `core/logging.py`
-- `modules/world_model.py` -> `modules/cli_auth.py`
-- `modules/world_model.py` -> `modules/factsio.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

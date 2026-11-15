@@ -1,8 +1,73 @@
-# Symbols (page 46 of 52)
+# Symbols (page 46 of 53)
 Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `healthy` | method | `tests/test_llm_orchestrator.py:438` | `def healthy(self, name)` |
+| `isolated_pool` | function | `tests/test_llm_orchestrator.py:94` | `def isolated_pool(tmp_path, monkeypatch)` |
+| `lazyc2_source` | function | `tests/test_llm_orchestrator.py:996` | `def lazyc2_source()` |
+| `patched` | method | `tests/test_llm_orchestrator.py:512` | `def patched(self, cfg, monkeypatch)` |
+| `report_failure` | method | `tests/test_llm_orchestrator.py:70` | `def report_failure(self, name, error)` |
+| `report_failure` | method | `tests/test_llm_orchestrator.py:441` | `def report_failure(self, name, error)` |
+| `report_success` | method | `tests/test_llm_orchestrator.py:73` | `def report_success(self, name)` |
+| `report_success` | method | `tests/test_llm_orchestrator.py:444` | `def report_success(self, name)` |
+| `test_ai_fallback_call_routes_through_the_chain` | method | `tests/test_llm_orchestrator.py:690` | `def test_ai_fallback_call_routes_through_the_chain(self)` |
+| `test_all_members_fail_returns_error_result_without_raising` | method | `tests/test_llm_orchestrator.py:200` | `def test_all_members_fail_returns_error_result_without_raising(self)` |
+| `test_all_unhealthy_members_still_get_attempted` | method | `tests/test_llm_orchestrator.py:371` | `def test_all_unhealthy_members_still_get_attempted(self)` |
+| `test_analyze_functions_route_through_the_orchestrator` | method | `tests/test_llm_orchestrator.py:680` | `def test_analyze_functions_route_through_the_orchestrator(self)` |
+| `test_ask_general_keeps_legacy_error_when_chain_exhausted` | method | `tests/test_llm_orchestrator.py:668` | `def test_ask_general_keeps_legacy_error_when_chain_exhausted(self, patched, monkeypatch)` |
+| `test_ask_general_serves_from_the_chain_when_backend_missing` | method | `tests/test_llm_orchestrator.py:650` | `def test_ask_general_serves_from_the_chain_when_backend_missing(self, patched, monkeypatch)` |
+| `test_backend_kind_parses_spec_prefix` | method | `tests/test_llm_orchestrator.py:492` | `def test_backend_kind_parses_spec_prefix(self, spec, kind)` |
+| `test_blank_reply_is_a_failure` | method | `tests/test_llm_orchestrator.py:236` | `def test_blank_reply_is_a_failure(self)` |
+| `test_chain_uses_orchestrator_pool_when_no_override` | method | `tests/test_llm_orchestrator.py:316` | `def test_chain_uses_orchestrator_pool_when_no_override(self, isolated_pool)` |
+| `test_client_401_error_string_falls_back_to_the_chain` | method | `tests/test_llm_orchestrator.py:589` | `def test_client_401_error_string_falls_back_to_the_chain(self, patched, monkeypatch)` |
+| `test_client_401_keeps_legacy_error_when_chain_exhausted` | method | `tests/test_llm_orchestrator.py:616` | `def test_client_401_keeps_legacy_error_when_chain_exhausted(self, patched, monkeypatch)` |
+| `test_client_error_falls_back_to_the_chain` | method | `tests/test_llm_orchestrator.py:541` | `def test_client_error_falls_back_to_the_chain(self, patched, monkeypatch)` |
+| `test_client_success_stays_primary_without_chain_call` | method | `tests/test_llm_orchestrator.py:567` | `def test_client_success_stays_primary_without_chain_call(self, patched, monkeypatch)` |
+| `test_dedupes_members_by_name` | method | `tests/test_llm_orchestrator.py:337` | `def test_dedupes_members_by_name(self)` |
+| `test_default_health_comes_from_shared_registry` | method | `tests/test_llm_orchestrator.py:414` | `def test_default_health_comes_from_shared_registry(self, isolated_pool, monkeypatch)` |
+| `test_empty_prompt_short_circuits` | method | `tests/test_llm_orchestrator.py:262` | `def test_empty_prompt_short_circuits(self)` |
+| `test_error_banner_text_is_a_failure_not_content` | method | `tests/test_llm_orchestrator.py:217` | `def test_error_banner_text_is_a_failure_not_content(self)` |
+| `test_error_replies_detected` | method | `tests/test_llm_orchestrator.py:713` | `def test_error_replies_detected(self, reply)` |
+| `test_exhausted_chain_degrades_to_local_ollama` | method | `tests/test_llm_orchestrator.py:969` | `def test_exhausted_chain_degrades_to_local_ollama(self, monkeypatch)` |
+| `test_explicit_api_key_published_to_environment` | method | `tests/test_llm_orchestrator.py:887` | `def test_explicit_api_key_published_to_environment(self, monkeypatch)` |
+| `test_factory_rejects_placeholder_env_key` | method | `tests/test_llm_orchestrator.py:841` | `def test_factory_rejects_placeholder_env_key(self, monkeypatch)` |
+| `test_factory_rejects_placeholder_payload_key` | method | `tests/test_llm_orchestrator.py:832` | `def test_factory_rejects_placeholder_payload_key(self)` |
+| `test_failure_is_recorded_in_the_pool_ledger` | method | `tests/test_llm_orchestrator.py:464` | `def test_failure_is_recorded_in_the_pool_ledger(self, isolated_pool)` |
+| `test_failure_reports_health` | method | `tests/test_llm_orchestrator.py:400` | `def test_failure_reports_health(self)` |
+| `test_fallback_answer_is_memorized_clean` | method | `tests/test_llm_orchestrator.py:634` | `def test_fallback_answer_is_memorized_clean(self, patched, monkeypatch, tmp_path)` |
+| `test_invalid_api_key_reply_is_a_failure` | method | `tests/test_llm_orchestrator.py:756` | `def test_invalid_api_key_reply_is_a_failure(self)` |
+| `test_long_pentest_plan_is_served_not_failed_over` | method | `tests/test_llm_orchestrator.py:735` | `def test_long_pentest_plan_is_served_not_failed_over(self)` |
+| `test_max_tokens_is_forwarded` | method | `tests/test_llm_orchestrator.py:297` | `def test_max_tokens_is_forwarded(self)` |
+| `test_missing_client_returns_legacy_error_when_chain_exhausted` | method | `tests/test_llm_orchestrator.py:534` | `def test_missing_client_returns_legacy_error_when_chain_exhausted(self, patched, monkeypatch)` |
+| `test_missing_client_serves_from_the_chain` | method | `tests/test_llm_orchestrator.py:518` | `def test_missing_client_serves_from_the_chain(self, patched, monkeypatch)` |
+| `test_orchestrator_module_exports_public_api` | function | `tests/test_llm_orchestrator.py:1004` | `def test_orchestrator_module_exports_public_api()` |
+| `test_orchestrator_success_after_failure_carries_notice` | method | `tests/test_llm_orchestrator.py:947` | `def test_orchestrator_success_after_failure_carries_notice(self, monkeypatch)` |
+| `test_orchestrator_success_maps_to_ai_result` | method | `tests/test_llm_orchestrator.py:926` | `def test_orchestrator_success_maps_to_ai_result(self, monkeypatch)` |
+| `test_pentest_prose_with_unauthorized_word_is_content` | method | `tests/test_llm_orchestrator.py:723` | `def test_pentest_prose_with_unauthorized_word_is_content(self)` |
+| `test_phishing_prose_with_credit_word_is_content` | method | `tests/test_llm_orchestrator.py:729` | `def test_phishing_prose_with_credit_word_is_content(self)` |
+| `test_placeholder_env_replaced_by_payload_key` | method | `tests/test_llm_orchestrator.py:849` | `def test_placeholder_env_replaced_by_payload_key(self, monkeypatch)` |
+| `test_placeholder_env_survives_without_payload_key` | method | `tests/test_llm_orchestrator.py:867` | `def test_placeholder_env_survives_without_payload_key(self, monkeypatch)` |
+| `test_placeholder_fragments_recognized` | method | `tests/test_llm_orchestrator.py:822` | `def test_placeholder_fragments_recognized(self)` |
+| `test_placeholder_groq_leg_refused_even_with_payload_key` | method | `tests/test_llm_orchestrator.py:802` | `def test_placeholder_groq_leg_refused_even_with_payload_key(self, monkeypatch)` |
+| `test_placeholder_groq_leg_refused_without_doomed_call` | method | `tests/test_llm_orchestrator.py:776` | `def test_placeholder_groq_leg_refused_without_doomed_call(self, monkeypatch)` |
+| `test_placeholder_payload_key_not_published` | method | `tests/test_llm_orchestrator.py:906` | `def test_placeholder_payload_key_not_published(self, monkeypatch)` |
+| `test_pool_chain_reads_lazy_orchestrator_store` | method | `tests/test_llm_orchestrator.py:119` | `def test_pool_chain_reads_lazy_orchestrator_store(self, isolated_pool)` |
+| `test_pool_chain_returns_empty_when_pool_unreadable` | method | `tests/test_llm_orchestrator.py:140` | `def test_pool_chain_returns_empty_when_pool_unreadable(self, monkeypatch)` |
+| `test_pool_chain_self_heals_corrupt_store` | method | `tests/test_llm_orchestrator.py:132` | `def test_pool_chain_self_heals_corrupt_store(self, isolated_pool)` |
+| `test_primary_failure_serves_fallback_with_notice` | method | `tests/test_llm_orchestrator.py:174` | `def test_primary_failure_serves_fallback_with_notice(self)` |
+| `test_primary_success_needs_no_fallback` | method | `tests/test_llm_orchestrator.py:153` | `def test_primary_success_needs_no_fallback(self)` |
+| `test_quota_wording_reply_is_a_failure` | method | `tests/test_llm_orchestrator.py:249` | `def test_quota_wording_reply_is_a_failure(self)` |
+| `test_real_answer_not_treated_as_error` | method | `tests/test_llm_orchestrator.py:718` | `def test_real_answer_not_treated_as_error(self)` |
+| `test_real_key_not_a_placeholder` | method | `tests/test_llm_orchestrator.py:828` | `def test_real_key_not_a_placeholder(self)` |
+| `test_sort_members_never_mutates_input` | method | `tests/test_llm_orchestrator.py:113` | `def test_sort_members_never_mutates_input(self)` |
+| `test_success_is_recorded_in_the_pool_ledger` | method | `tests/test_llm_orchestrator.py:449` | `def test_success_is_recorded_in_the_pool_ledger(self, isolated_pool)` |
+| `test_success_reports_health` | method | `tests/test_llm_orchestrator.py:386` | `def test_success_reports_health(self)` |
+| `test_system_prompt_is_prepended_for_the_executor` | method | `tests/test_llm_orchestrator.py:277` | `def test_system_prompt_is_prepended_for_the_executor(self)` |
+| `test_total_failure_returns_help_message` | method | `tests/test_llm_orchestrator.py:983` | `def test_total_failure_returns_help_message(self, monkeypatch)` |
+| `test_unhealthy_member_is_skipped_while_others_remain` | method | `tests/test_llm_orchestrator.py:354` | `def test_unhealthy_member_is_skipped_while_others_remain(self)` |
+| `test_weights_sort_members_by_descending_priority` | method | `tests/test_llm_orchestrator.py:102` | `def test_weights_sort_members_by_descending_priority(self)` |
+| `TestConfig` | class | `tests/test_llm_prompts.py:83` | `class TestConfig` |
 | `TestKnowledgeStore` | class | `tests/test_llm_prompts.py:53` | `class TestKnowledgeStore` |
 | `TestRegistryIntegrity` | class | `tests/test_llm_prompts.py:157` | `class TestRegistryIntegrity` |
 | `TestTemplates` | class | `tests/test_llm_prompts.py:129` | `class TestTemplates` |
@@ -63,6 +128,8 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 | `test_publish_loop_event_skips_stream_kinds` | function | `tests/test_loop_ai_bridge.py:34` | `def test_publish_loop_event_skips_stream_kinds(bridge, monkeypatch)` |
 | `test_record_outcome_quality_noop_without_class` | function | `tests/test_loop_ai_bridge.py:163` | `def test_record_outcome_quality_noop_without_class(bridge, monkeypatch)` |
 | `test_record_outcome_quality_rewards_findings_over_facts` | function | `tests/test_loop_ai_bridge.py:144` | `def test_record_outcome_quality_rewards_findings_over_facts(bridge, monkeypatch)` |
+| `test_record_step_rewards_shell_above_plain_success` | function | `tests/test_loop_ai_bridge.py:405` | `def test_record_step_rewards_shell_above_plain_success(bridge, monkeypatch)` |
+| `test_record_step_shell_reward_ignores_benign_banner` | function | `tests/test_loop_ai_bridge.py:429` | `def test_record_step_shell_reward_ignores_benign_banner(bridge, monkeypatch)` |
 | `test_worker_annotates_detection_and_records_outcome` | function | `tests/test_loop_ai_bridge.py:74` | `def test_worker_annotates_detection_and_records_outcome(store, bridge, monkeypatch)` |
 | `test_worker_blocks_on_opsec_gate` | function | `tests/test_loop_ai_bridge.py:207` | `def test_worker_blocks_on_opsec_gate(store, bridge, monkeypatch)` |
 | `test_worker_confirms_via_intercept_on_opsec_confirm` | function | `tests/test_loop_ai_bridge.py:239` | `def test_worker_confirms_via_intercept_on_opsec_confirm(store, bridge, monkeypatch)` |
@@ -79,6 +146,12 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 | `test_render_shows_verdict_and_run_end` | function | `tests/test_loop_audit.py:132` | `def test_render_shows_verdict_and_run_end(audit_dir)` |
 | `test_render_summary_empty` | function | `tests/test_loop_audit.py:166` | `def test_render_summary_empty(audit_dir)` |
 | `test_timeline_merges_guard_and_activity` | function | `tests/test_loop_audit.py:106` | `def test_timeline_merges_guard_and_activity(audit_dir, monkeypatch)` |
+| `_write_run` | function | `tests/test_loop_audit_feedback.py:29` | `def _write_run(task_id)` |
+| `audit` | function | `tests/test_loop_audit_feedback.py:24` | `def audit(tmp_path, monkeypatch)` |
+| `test_blocked_verbs_empty_for_unknown_task` | function | `tests/test_loop_audit_feedback.py:51` | `def test_blocked_verbs_empty_for_unknown_task(audit)` |
+| `test_blocked_verbs_ignores_executed_commands` | function | `tests/test_loop_audit_feedback.py:55` | `def test_blocked_verbs_ignores_executed_commands(audit)` |
+| `test_blocked_verbs_returns_repeat_offenders` | function | `tests/test_loop_audit_feedback.py:39` | `def test_blocked_verbs_returns_repeat_offenders(audit)` |
+| `test_blocked_verbs_threshold_respected` | function | `tests/test_loop_audit_feedback.py:45` | `def test_blocked_verbs_threshold_respected(audit)` |
 | `_Shell` | class | `tests/test_loop_auto_orchestrator.py:59` | `class _Shell` |
 | `_Shell` | class | `tests/test_loop_auto_orchestrator.py:131` | `class _Shell` |
 | `onecmd` | method | `tests/test_loop_auto_orchestrator.py:60` | `def onecmd(self, command)` |
@@ -423,78 +496,5 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 | `test_cve_hot_hint_proposed_once_per_signature` | function | `tests/test_loop_trigger_hints.py:78` | `def test_cve_hot_hint_proposed_once_per_signature(trigger_env)` |
 | `test_hint_fingerprint_normalizes_product_and_version` | function | `tests/test_loop_trigger_hints.py:118` | `def test_hint_fingerprint_normalizes_product_and_version()` |
 | `test_hint_store_written_under_loop_stores` | function | `tests/test_loop_trigger_hints.py:158` | `def test_hint_store_written_under_loop_stores(tmp_path, monkeypatch)` |
-| `test_hint_ttl_expires_and_refires` | function | `tests/test_loop_trigger_hints.py:137` | `def test_hint_ttl_expires_and_refires(tmp_path, monkeypatch)` |
-| `test_prune_drops_expired_fingerprints` | function | `tests/test_loop_trigger_hints.py:128` | `def test_prune_drops_expired_fingerprints()` |
-| `trigger_env` | function | `tests/test_loop_trigger_hints.py:56` | `def trigger_env(tmp_path, monkeypatch)` |
-| `_patched_engine` | function | `tests/test_loop_worker_traces.py:6` | `def _patched_engine(tmp_path, monkeypatch)` |
-| `_seed_two_works` | function | `tests/test_loop_worker_traces.py:15` | `def _seed_two_works(engine, task_id)` |
-| `test_add_hint_emits_explicit_planner_trigger` | function | `tests/test_loop_worker_traces.py:65` | `def test_add_hint_emits_explicit_planner_trigger(tmp_path, monkeypatch)` |
-| `test_planner_intent_unbound_emits_nothing` | function | `tests/test_loop_worker_traces.py:100` | `def test_planner_intent_unbound_emits_nothing(tmp_path, monkeypatch)` |
-| `test_search_all_spans_works_without_intent` | function | `tests/test_loop_worker_traces.py:27` | `def test_search_all_spans_works_without_intent(tmp_path, monkeypatch)` |
-| `test_trace_steps_and_single_step` | function | `tests/test_loop_worker_traces.py:40` | `def test_trace_steps_and_single_step(tmp_path, monkeypatch)` |
-| `test_worker_bash_unbound_blocks_without_execution` | function | `tests/test_loop_worker_traces.py:81` | `def test_worker_bash_unbound_blocks_without_execution(tmp_path, monkeypatch)` |
-| `test_worker_lane_binds_node_detail` | function | `tests/test_loop_worker_traces.py:57` | `def test_worker_lane_binds_node_detail(tmp_path, monkeypatch)` |
-| `_drive` | function | `tests/test_marketplace_config.py:128` | `def _drive()` |
-| `_drive` | function | `tests/test_marketplace_config.py:151` | `def _drive()` |
-| `_registry` | function | `tests/test_marketplace_config.py:12` | `def _registry(tmp_path, monkeypatch)` |
-| `test_create_and_delete_across_tabs` | function | `tests/test_marketplace_config.py:89` | `def test_create_and_delete_across_tabs(tmp_path, monkeypatch)` |
-| `test_filter_input_keeps_printable_keys` | function | `tests/test_marketplace_config.py:145` | `def test_filter_input_keeps_printable_keys(tmp_path, monkeypatch)` |
-| `test_marketplace_app_filters_rows` | function | `tests/test_marketplace_config.py:118` | `def test_marketplace_app_filters_rows(tmp_path, monkeypatch)` |
-| `test_plugin_rows_skip_lua_and_templates` | function | `tests/test_marketplace_config.py:61` | `def test_plugin_rows_skip_lua_and_templates(tmp_path, monkeypatch)` |
-| `test_read_only_tabs_never_toggle_or_delete` | function | `tests/test_marketplace_config.py:76` | `def test_read_only_tabs_never_toggle_or_delete(tmp_path, monkeypatch)` |
-| `test_settings_toggle_tracks_only_success` | function | `tests/test_marketplace_config.py:105` | `def test_settings_toggle_tracks_only_success(tmp_path, monkeypatch)` |
-| `test_tool_rows_use_json_and_active_key` | function | `tests/test_marketplace_config.py:33` | `def test_tool_rows_use_json_and_active_key(tmp_path, monkeypatch)` |
-| `_boom` | function | `tests/test_mcp_auto_loop_wrapper.py:34` | `def _boom(shell, params, line, verb)` |
-| `_fake_run` | function | `tests/test_mcp_auto_loop_wrapper.py:47` | `def _fake_run(shell, params, line, verb)` |
-| `_patched` | function | `tests/test_mcp_auto_loop_wrapper.py:15` | `def _patched(monkeypatch, tmp_path)` |
-| `_refuse` | function | `tests/test_mcp_auto_loop_wrapper.py:41` | `def _refuse(shell, params, line, verb)` |
-| `_text` | function | `tests/test_mcp_auto_loop_wrapper.py:148` | `def _text(response)` |
-| `loop_join` | function | `tests/test_mcp_auto_loop_wrapper.py:163` | `def loop_join(coro)` |
-| `test_fast_path_routes_through_the_shared_runner` | function | `tests/test_mcp_auto_loop_wrapper.py:60` | `def test_fast_path_routes_through_the_shared_runner(monkeypatch, tmp_path)` |
-| `test_legacy_flag_annotates_but_routes_shared` | function | `tests/test_mcp_auto_loop_wrapper.py:75` | `def test_legacy_flag_annotates_but_routes_shared(monkeypatch, tmp_path)` |
-| `test_loop_line_translation` | function | `tests/test_mcp_auto_loop_wrapper.py:131` | `def test_loop_line_translation()` |
-| `test_preflight_failed_summary_still_renders_the_task` | function | `tests/test_mcp_auto_loop_wrapper.py:106` | `def test_preflight_failed_summary_still_renders_the_task(monkeypatch, tmp_path)` |
-| `test_refused_run_reports_the_reason` | function | `tests/test_mcp_auto_loop_wrapper.py:95` | `def test_refused_run_reports_the_reason(monkeypatch, tmp_path)` |
-| `test_runner_failure_surfaces` | function | `tests/test_mcp_auto_loop_wrapper.py:85` | `def test_runner_failure_surfaces(monkeypatch, tmp_path)` |
-| `test_schema_matches_the_shared_flags` | function | `tests/test_mcp_auto_loop_wrapper.py:121` | `def test_schema_matches_the_shared_flags()` |
-| `TestRegistryDispatch` | class | `tests/test_mcp_dispatch.py:61` | `class TestRegistryDispatch` |
-| `_fallback_branches` | function | `tests/test_mcp_dispatch.py:50` | `def _fallback_branches()` |
-| `_package_names` | function | `tests/test_mcp_dispatch.py:29` | `def _package_names()` |
-| `_registered` | function | `tests/test_mcp_dispatch.py:33` | `def _registered()` |
-| `test_mcp_never_offers_interactive_repl` | function | `tests/test_mcp_dispatch.py:121` | `def test_mcp_never_offers_interactive_repl()` |
-| `test_migrated_handlers_absent_from_fallback` | method | `tests/test_mcp_dispatch.py:71` | `def test_migrated_handlers_absent_from_fallback(self)` |
-| `test_migrated_handlers_registered` | method | `tests/test_mcp_dispatch.py:66` | `def test_migrated_handlers_registered(self)` |
-| `test_new_chain_shell_tools_have_defs_and_handlers` | function | `tests/test_mcp_dispatch.py:99` | `def test_new_chain_shell_tools_have_defs_and_handlers()` |
-| `test_no_dead_duplicate_branches` | method | `tests/test_mcp_dispatch.py:62` | `def test_no_dead_duplicate_branches(self)` |
-| `test_opencode_bridge_curates_loop_and_chain` | function | `tests/test_mcp_dispatch.py:106` | `def test_opencode_bridge_curates_loop_and_chain()` |
-| `test_set_config_refuses_null_values` | function | `tests/test_mcp_dispatch.py:79` | `def test_set_config_refuses_null_values()` |
-| `_fresh_mcp_module` | function | `tests/test_mcp_improvements.py:397` | `def _fresh_mcp_module(tmp_path)` |
-| `_seed_sessions` | function | `tests/test_mcp_improvements.py:182` | `def _seed_sessions(tmp_path)` |
-| `runner` | function | `tests/test_mcp_improvements.py:300` | `def runner(cmd, timeout)` |
-| `runner` | function | `tests/test_mcp_improvements.py:320` | `def runner(cmd, timeout)` |
-| `test_audit_tasks_drops_timestamps_and_urls` | function | `tests/test_mcp_improvements.py:117` | `def test_audit_tasks_drops_timestamps_and_urls()` |
-| `test_audit_tasks_respects_min_confidence` | function | `tests/test_mcp_improvements.py:141` | `def test_audit_tasks_respects_min_confidence()` |
-| `test_build_target_context_filters_by_port` | function | `tests/test_mcp_improvements.py:195` | `def test_build_target_context_filters_by_port(tmp_path)` |
-| `test_build_target_context_no_port_returns_all` | function | `tests/test_mcp_improvements.py:218` | `def test_build_target_context_no_port_returns_all(tmp_path)` |
-| `test_confirmation_required_for_destructive_command` | function | `tests/test_mcp_improvements.py:380` | `def test_confirmation_required_for_destructive_command()` |
-| `test_confirmation_required_for_destructive_tools` | function | `tests/test_mcp_improvements.py:389` | `def test_confirmation_required_for_destructive_tools()` |
-| `test_confirmation_skipped_for_benign` | function | `tests/test_mcp_improvements.py:385` | `def test_confirmation_skipped_for_benign()` |
-| `test_diff_first_run_reports_first_run` | function | `tests/test_mcp_improvements.py:353` | `def test_diff_first_run_reports_first_run(tmp_path)` |
-| `test_diff_picks_up_changes` | function | `tests/test_mcp_improvements.py:360` | `def test_diff_picks_up_changes(tmp_path)` |
-| `test_evidence_freshness_fresh` | function | `tests/test_mcp_improvements.py:160` | `def test_evidence_freshness_fresh(tmp_path)` |
-| `test_evidence_freshness_missing` | function | `tests/test_mcp_improvements.py:154` | `def test_evidence_freshness_missing(tmp_path)` |
-| `test_evidence_freshness_stale` | function | `tests/test_mcp_improvements.py:170` | `def test_evidence_freshness_stale(tmp_path)` |
-| `test_evidence_grep_finds_in_loot_scope` | function | `tests/test_mcp_improvements.py:227` | `def test_evidence_grep_finds_in_loot_scope(tmp_path)` |
-| `test_evidence_grep_handler_ignores_binaries` | function | `tests/test_mcp_improvements.py:436` | `def test_evidence_grep_handler_ignores_binaries(tmp_path)` |
-| `test_evidence_grep_invalid_regex` | function | `tests/test_mcp_improvements.py:237` | `def test_evidence_grep_invalid_regex(tmp_path)` |
-| `test_evidence_grep_truncates` | function | `tests/test_mcp_improvements.py:244` | `def test_evidence_grep_truncates(tmp_path)` |
-| `test_handler_target_context_via_helper` | function | `tests/test_mcp_improvements.py:414` | `def test_handler_target_context_via_helper(tmp_path)` |
-| `test_handler_tasks_cleanup_dry_run` | function | `tests/test_mcp_improvements.py:421` | `def test_handler_tasks_cleanup_dry_run(tmp_path)` |
-| `test_is_likely_credential_classifies` | function | `tests/test_mcp_improvements.py:74` | `def test_is_likely_credential_classifies(value, expect_real, expect_reason)` |
-| `test_is_likely_credential_handles_non_string` | function | `tests/test_mcp_improvements.py:84` | `def test_is_likely_credential_handles_non_string()` |
-| `test_jobstore_captures_failure` | function | `tests/test_mcp_improvements.py:317` | `def test_jobstore_captures_failure()` |
-| `test_jobstore_list_orders_newest_first` | function | `tests/test_mcp_improvements.py:340` | `def test_jobstore_list_orders_newest_first()` |
-| `test_jobstore_runs_command_and_reports_done` | function | `tests/test_mcp_improvements.py:297` | `def test_jobstore_runs_command_and_reports_done()` |
-| `test_jobstore_unknown_id` | function | `tests/test_mcp_improvements.py:335` | `def test_jobstore_unknown_id()` |
 
 Next: [SYMBOLS_p47.md](SYMBOLS_p47.md)

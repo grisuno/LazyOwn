@@ -116,8 +116,8 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 
 ## Connections
 
-- [EXTRACTED] depends_on community 6 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.
-- [EXTRACTED] depends_on community 10 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 6 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.
+- [EXTRACTED] depends_on community 9 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
 - [EXTRACTED] depends_on community 6 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 
 ## Risks

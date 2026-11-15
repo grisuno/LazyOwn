@@ -1,7 +1,17 @@
-# Architecture (page 6 of 11)
+# Architecture (page 6 of 12)
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `skills/mcp_tools/subagent_run.py` -> `modules/mcp_agent_bridge.py`
+- `skills/mcp_tools/subagent_run.py` -> `skills/lazyown_session.py`
+- `skills/mcp_tools/subagent_run.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/swan_ensemble.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/swan_ensemble.py` -> `skills/swan_agent.py`
+- `skills/mcp_tools/swan_route.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/swan_route.py` -> `skills/swan_agent.py`
+- `skills/mcp_tools/swan_run.py` -> `skills/mcp_tools/_context.py`
+- `skills/mcp_tools/swan_run.py` -> `skills/swan_agent.py`
+- `skills/mcp_tools/swan_status.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/swan_status.py` -> `skills/swan_agent.py`
 - `skills/mcp_tools/target_context.py` -> `skills/lazyown_mcp_helpers.py`
 - `skills/mcp_tools/target_context.py` -> `skills/mcp_tools/_context.py`
@@ -189,6 +199,8 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_auto_crypto.py` -> `modules/lazy_loop.py`
 - `tests/test_auto_loop_memory.py` -> `modules/auto_loop_memory.py`
 - `tests/test_auto_loop_memory.py` -> `modules/selector_manager.py`
+- `tests/test_auto_pwn_coverage.py` -> `modules/__init__.py`
+- `tests/test_auto_pwn_coverage.py` -> `modules/autonomous_exploit_engine.py`
 - `tests/test_auto_pwn_success.py` -> `modules/auto_registry.py`
 - `tests/test_auto_pwn_success.py` -> `modules/autonomous_exploit_engine.py`
 - `tests/test_auto_pwn_success.py` -> `modules/ctf_capture.py`
@@ -379,6 +391,9 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_daemon_loop.py` -> `modules/planner.py`
 - `tests/test_daemon_loop.py` -> `skills/autonomous_daemon.py`
 - `tests/test_daemon_loop.py` -> `skills/lazyown_objective.py`
+- `tests/test_daemon_shell_detector.py` -> `modules/__init__.py`
+- `tests/test_daemon_shell_detector.py` -> `skills/autonomous_daemon.py`
+- `tests/test_daemon_step_reward.py` -> `skills/autonomous_daemon.py`
 - `tests/test_dashboard_routes.py` -> `modules/dashboard_bp.py`
 - `tests/test_dashboard_tui.py` -> `cli/dashboard_tui.py`
 - `tests/test_db.py` -> `modules/db.py`
@@ -481,20 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_gym_cli.py` -> `modules/world_model.py`
 - `tests/test_gym_lifecycle.py` -> `core/config.py`
 - `tests/test_gym_lifecycle.py` -> `modules/__init__.py`
-- `tests/test_gym_lifecycle.py` -> `modules/gym_cleanup.py`
-- `tests/test_gym_lifecycle.py` -> `modules/outcome_bus.py`
-- `tests/test_gym_lifecycle.py` -> `modules/world_model.py`
-- `tests/test_gym_matrix_ctf.py` -> `modules/__init__.py`
-- `tests/test_gym_matrix_ctf.py` -> `modules/professional_report.py`
-- `tests/test_gym_ms2_cli.py` -> `cli/commands/redteam_gym.py`
-- `tests/test_gym_registry.py` -> `modules/__init__.py`
-- `tests/test_gym_registry.py` -> `modules/outcome_bus.py`
-- `tests/test_gym_registry.py` -> `modules/redteam_gym.py`
-- `tests/test_gym_registry.py` -> `modules/world_model.py`
-- `tests/test_harness_mode.py` -> `modules/__init__.py`
-- `tests/test_harness_mode.py` -> `modules/auto_registry.py`
-- `tests/test_harness_mode.py` -> `modules/lazy_loop.py`
-- `tests/test_harness_mode.py` -> `modules/orchestrator_config.py`
-- `tests/test_hash_cracker.py` -> `modules/hash_cracker.py`
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

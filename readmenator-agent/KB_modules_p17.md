@@ -367,6 +367,26 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `load` (function, line 251) `def load()`
 - Imported by: `modules/recommender.py`
 
+## modules/shell_session_store.py
+- Doc: Resumable, hash-identified shell session descriptors.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `_store_dir` (function, line 35) `def _store_dir()`
+  - `_now_iso` (function, line 42) `def _now_iso()`
+  - `session_id` (function, line 49) `def session_id(target, via, created_at)`
+  - `_path_for` (function, line 66) `def _path_for(session)`
+  - `_write` (function, line 72) `def _write(record)`
+  - `register` (function, line 80) `def register(target, via, port, lhost, evidence)`
+  - `get` (function, line 123) `def get(session)`
+  - `list_sessions` (function, line 134) `def list_sessions(target)`
+  - `_live_keys` (function, line 164) `def _live_keys()`
+  - `mark_closed` (function, line 174) `def mark_closed(target, via)`
+  - `_reopen_primitive` (function, line 195) `def _reopen_primitive(target, via, lhost)`
+  - `resume` (function, line 214) `def resume(session)`
+- Depends on: `modules/atomic_exploit_bridge.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`
+
 ## modules/sidequest.py
 - Doc: Read-only side questions against the loop's immutable decision checkpoints.
 - Layer: utility

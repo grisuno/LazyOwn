@@ -1,4 +1,4 @@
-# Symbols (page 11 of 52)
+# Symbols (page 11 of 53)
 Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
@@ -369,35 +369,36 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:112` | `class ExploitSpec` |
 | `_ShellSession` | class | `modules/atomic_exploit_bridge.py:748` | `class _ShellSession` |
 | `__init__` | method | `modules/atomic_exploit_bridge.py:756` | `def __init__(self, target, port, sock, owner)` |
-| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1088` | `def _adopt_live_shell(spec, target, port)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1111` | `def _adopt_live_shell(spec, target, port)` |
 | `_claim_port` | function | `modules/atomic_exploit_bridge.py:843` | `def _claim_port(spec_id, target, port)` |
-| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:1015` | `def _destroy_gym(container)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:1021` | `def _destroy_gym(container)` |
 | `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:582` | `def _install_missing_binaries(names)` |
+| `_persist_session` | function | `modules/atomic_exploit_bridge.py:1039` | `def _persist_session(via, target, port, lhost)` |
 | `_read_until` | method | `modules/atomic_exploit_bridge.py:787` | `def _read_until(self, marker, timeout)` |
 | `_release_port` | function | `modules/atomic_exploit_bridge.py:861` | `def _release_port(target, port)` |
 | `_string_list` | function | `modules/atomic_exploit_bridge.py:162` | `def _string_list(value)` |
 | `_token_mapping` | function | `modules/atomic_exploit_bridge.py:531` | `def _token_mapping(rhost, lhost, lport, port)` |
-| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1114` | `def _wait_port_closed(target, port, timeout)` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1137` | `def _wait_port_closed(target, port, timeout)` |
 | `alive` | method | `modules/atomic_exploit_bridge.py:766` | `def alive(self, timeout)` |
 | `auto` | function | `modules/atomic_exploit_bridge.py:371` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
 | `build_commands` | function | `modules/atomic_exploit_bridge.py:545` | `def build_commands(spec, rhost, lhost, lport, port)` |
-| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:956` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:962` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
 | `close` | method | `modules/atomic_exploit_bridge.py:815` | `def close(self)` |
 | `close_sessions` | function | `modules/atomic_exploit_bridge.py:914` | `def close_sessions(target)` |
 | `detect_shell` | function | `modules/atomic_exploit_bridge.py:563` | `def detect_shell(spec, output)` |
-| `emulate` | function | `modules/atomic_exploit_bridge.py:1202` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
-| `ensure_session` | function | `modules/atomic_exploit_bridge.py:1033` | `def ensure_session(spec, target, lhost)` |
-| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1147` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:1225` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:1054` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1170` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
 | `live_sessions` | function | `modules/atomic_exploit_bridge.py:895` | `def live_sessions()` |
 | `load_all` | function | `modules/atomic_exploit_bridge.py:246` | `def load_all(exploits_dir)` |
-| `main` | function | `modules/atomic_exploit_bridge.py:1324` | `def main()` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1347` | `def main()` |
 | `match_score` | function | `modules/atomic_exploit_bridge.py:301` | `def match_score(spec, service, product, version, os_hint)` |
 | `open_shell` | function | `modules/atomic_exploit_bridge.py:692` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
 | `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:334` | `def parse_scan_xml(xml_path)` |
 | `rank` | function | `modules/atomic_exploit_bridge.py:476` | `def rank(services, exploits_dir, os_hint)` |
-| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1236` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1259` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
 | `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:866` | `def record_shell_outcome(target, via)` |
-| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1129` | `def remote_exec(spec, target, command, lhost)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1152` | `def remote_exec(spec, target, command, lhost)` |
 | `run` | method | `modules/atomic_exploit_bridge.py:773` | `def run(self, command, timeout)` |
 | `run_spec` | function | `modules/atomic_exploit_bridge.py:612` | `def run_spec(spec, rhost, lhost, lport, port)` |
 | `severity_rank` | method | `modules/atomic_exploit_bridge.py:137` | `def severity_rank(self)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `IPurpleEvaluator` | class | `modules/auto_purple.py:210` | `class IPurpleEvaluator(ABC)` |
 | `IPurpleLoop` | class | `modules/auto_purple.py:181` | `class IPurpleLoop(ABC)` |
 | `PurpleResult` | class | `modules/auto_purple.py:132` | `class PurpleResult` |
-| `PurpleScore` | class | `modules/auto_purple.py:165` | `class PurpleScore` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

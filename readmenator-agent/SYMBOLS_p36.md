@@ -1,8 +1,44 @@
-# Symbols (page 36 of 52)
+# Symbols (page 36 of 53)
 Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_steps_for_uses_next_available_keyword_verb` | function | `tests/test_auto_registry.py:154` | `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)` |
+| `test_verb_gap_flags_missing_tooling` | function | `tests/test_auto_registry.py:124` | `def test_verb_gap_flags_missing_tooling(monkeypatch)` |
+| `test_verbs_for_matches_keywords` | function | `tests/test_auto_registry.py:55` | `def test_verbs_for_matches_keywords()` |
+| `boom` | function | `tests/test_autonomous_ops.py:69` | `def boom(_prompt)` |
+| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:11` | `def test_c05_frontier_emits_once_then_empty()` |
+| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:26` | `def test_c05_todo_blocks_lateral_until_creds()` |
+| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:38` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
+| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:66` | `def test_c07_pool_failover_and_exhaustion()` |
+| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:84` | `def test_c08_notify_filter_and_redact()` |
+| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:96` | `def test_c09_side_question_isolated()` |
+| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:127` | `def test_c10_rollback_restores_previous(tmp_path)` |
+| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:111` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
+| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:154` | `def test_i2_pool_hard_trips_on_auth_errors()` |
+| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:139` | `def test_i2_shared_registry_survives_rebuilds()` |
+| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:162` | `def test_i3_classify_retest_verdicts()` |
+| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:171` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
+| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:192` | `def test_i4_shared_engine_cooldown()` |
+| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:200` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
+| `_Runner` | class | `tests/test_autonomous_replay.py:161` | `class _Runner` |
+| `_Runner` | class | `tests/test_autonomous_replay.py:185` | `class _Runner` |
+| `__init__` | method | `tests/test_autonomous_replay.py:162` | `def __init__(self)` |
+| `_event` | function | `tests/test_autonomous_replay.py:40` | `def _event(event_id, objective_id, step, command, source, seed_override)` |
+| `_write_jsonl` | function | `tests/test_autonomous_replay.py:65` | `def _write_jsonl(path, events)` |
+| `run` | method | `tests/test_autonomous_replay.py:165` | `def run(self, command, timeout)` |
+| `run` | method | `tests/test_autonomous_replay.py:186` | `def run(self, command, timeout)` |
+| `test_event_log_reader_returns_empty_when_missing` | function | `tests/test_autonomous_replay.py:71` | `def test_event_log_reader_returns_empty_when_missing(tmp_path)` |
+| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
+| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
+| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
+| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
+| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
+| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
+| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
+| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
+| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
+| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
 | `_CapturingConsole` | class | `tests/test_autosuggest.py:295` | `class _CapturingConsole` |
 | `_FakeAdvisor` | class | `tests/test_autosuggest.py:203` | `class _FakeAdvisor` |
 | `_RaisingProvider` | class | `tests/test_autosuggest.py:52` | `class _RaisingProvider` |
@@ -460,41 +496,5 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 | `test_driver_status_runs` | method | `tests/test_broadcom_wps_addon.py:226` | `def test_driver_status_runs(self)` |
 | `test_driver_syntax` | method | `tests/test_broadcom_wps_addon.py:178` | `def test_driver_syntax(self)` |
 | `test_driver_uses_yara_rules` | method | `tests/test_broadcom_wps_addon.py:201` | `def test_driver_uses_yara_rules(self, driver_text)` |
-| `test_driver_yara_requires_target` | method | `tests/test_broadcom_wps_addon.py:245` | `def test_driver_yara_requires_target(self)` |
-| `test_enabled` | method | `tests/test_broadcom_wps_addon.py:80` | `def test_enabled(self, addon)` |
-| `test_execute_command_is_complete` | method | `tests/test_broadcom_wps_addon.py:133` | `def test_execute_command_is_complete(self, addon)` |
-| `test_execute_command_runs_driver` | method | `tests/test_broadcom_wps_addon.py:126` | `def test_execute_command_runs_driver(self, addon)` |
-| `test_execute_command_uses_env_prefix` | method | `tests/test_broadcom_wps_addon.py:129` | `def test_execute_command_uses_env_prefix(self, addon)` |
-| `test_install_command_installs_scapy` | method | `tests/test_broadcom_wps_addon.py:120` | `def test_install_command_installs_scapy(self, addon)` |
-| `test_install_command_is_non_interactive` | method | `tests/test_broadcom_wps_addon.py:123` | `def test_install_command_is_non_interactive(self, addon)` |
-| `test_install_path` | method | `tests/test_broadcom_wps_addon.py:113` | `def test_install_path(self, addon)` |
-| `test_install_path_no_traversal` | method | `tests/test_broadcom_wps_addon.py:116` | `def test_install_path_no_traversal(self, addon)` |
-| `test_name_matches_file` | method | `tests/test_broadcom_wps_addon.py:68` | `def test_name_matches_file(self, addon)` |
-| `test_name_pattern` | method | `tests/test_broadcom_wps_addon.py:71` | `def test_name_pattern(self, addon)` |
-| `test_no_double_braces` | method | `tests/test_broadcom_wps_addon.py:138` | `def test_no_double_braces(self, addon)` |
-| `test_no_required_params` | method | `tests/test_broadcom_wps_addon.py:163` | `def test_no_required_params(self, addon)` |
-| `test_no_secret_placeholders` | method | `tests/test_broadcom_wps_addon.py:158` | `def test_no_secret_placeholders(self, addon)` |
-| `test_os_is_known` | method | `tests/test_broadcom_wps_addon.py:89` | `def test_os_is_known(self, addon)` |
-| `test_param_names_are_valid` | method | `tests/test_broadcom_wps_addon.py:146` | `def test_param_names_are_valid(self, addon)` |
-| `test_params_are_live` | method | `tests/test_broadcom_wps_addon.py:167` | `def test_params_are_live(self)` |
-| `test_repo_url` | method | `tests/test_broadcom_wps_addon.py:107` | `def test_repo_url(self, addon)` |
-| `test_repo_url_ends_with_git` | method | `tests/test_broadcom_wps_addon.py:110` | `def test_repo_url_ends_with_git(self, addon)` |
-| `test_tokens_are_declared` | method | `tests/test_broadcom_wps_addon.py:153` | `def test_tokens_are_declared(self, addon)` |
-| `test_tool_has_key` | method | `tests/test_broadcom_wps_addon.py:104` | `def test_tool_has_key(self, addon, key)` |
-| `test_version_pattern` | method | `tests/test_broadcom_wps_addon.py:74` | `def test_version_pattern(self, addon)` |
-| `BrowserSyncSpec` | class | `tests/test_browser_sync.py:41` | `class BrowserSyncSpec(TestCase)` |
-| `_StubProxy` | class | `tests/test_browser_sync.py:317` | `class _StubProxy` |
-| `_payload` | method | `tests/test_browser_sync.py:61` | `def _payload(self, inject)` |
-| `_post` | function | `tests/test_browser_sync.py:16` | `def _post(url, payload, token_header)` |
-| `_write_profile` | method | `tests/test_browser_sync.py:64` | `def _write_profile(self, data)` |
-| `setUp` | method | `tests/test_browser_sync.py:44` | `def setUp(self)` |
-| `start` | method | `tests/test_browser_sync.py:318` | `def start(self, port, upstream)` |
-| `test_apply_identity_to_url` | method | `tests/test_browser_sync.py:296` | `def test_apply_identity_to_url(self)` |
-| `test_apply_identity_to_url_no_profile` | method | `tests/test_browser_sync.py:307` | `def test_apply_identity_to_url_no_profile(self)` |
-| `test_artifacts_mode_0600` | method | `tests/test_browser_sync.py:363` | `def test_artifacts_mode_0600(self)` |
-| `test_clear_profile` | method | `tests/test_browser_sync.py:283` | `def test_clear_profile(self)` |
-| `test_cookie_expiry_filtering` | method | `tests/test_browser_sync.py:151` | `def test_cookie_expiry_filtering(self)` |
-| `test_cookie_header_merge` | method | `tests/test_browser_sync.py:227` | `def test_cookie_header_merge(self)` |
-| `test_cookie_host_matching` | method | `tests/test_browser_sync.py:136` | `def test_cookie_host_matching(self)` |
 
 Next: [SYMBOLS_p37.md](SYMBOLS_p37.md)

@@ -400,3 +400,40 @@ def test_planner_uses_swan_when_available(store, bridge, monkeypatch):
     planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
     proposed = [row[0] for row in planner._llm_candidates(set())]
     assert "probe ssh banner" in proposed
+
+
+def test_record_step_rewards_shell_above_plain_success(bridge, monkeypatch):
+    """Obtaining a shell must yield a strictly higher RL reward than a plain
+    successful command, using the one canonical shell detector."""
+    rewards: list[float] = []
+    monkeypatch.setattr(bridge, "moe_record_outcome", lambda *a, **k: None)
+    monkeypatch.setattr(
+        bridge,
+        "rl_update",
+        lambda task_type, phase, action, reward, candidates, detection_prob=0.0: rewards.append(reward),
+    )
+
+    bridge.record_step("t", "w", "id", "uid=0(root) gid=0(root) groups=0(root)")
+    shell_reward = rewards[-1]
+    bridge.record_step("t", "w", "ls", "file1\nfile2\n")
+    plain_reward = rewards[-1]
+    bridge.record_step("t", "w", "curl x", "execution failed: timeout")
+    fail_reward = rewards[-1]
+
+    assert shell_reward > plain_reward > fail_reward
+    assert plain_reward == 1.0
+    assert fail_reward == 0.0
+    assert shell_reward == bridge.SHELL_REWARD
+
+
+def test_record_step_shell_reward_ignores_benign_banner(bridge, monkeypatch):
+    """A benign root@ banner is not a shell and must not get the shell bonus."""
+    rewards: list[float] = []
+    monkeypatch.setattr(bridge, "moe_record_outcome", lambda *a, **k: None)
+    monkeypatch.setattr(
+        bridge,
+        "rl_update",
+        lambda task_type, phase, action, reward, candidates, detection_prob=0.0: rewards.append(reward),
+    )
+    bridge.record_step("t", "w", "finger", "From: root@localhost (Cron Daemon)")
+    assert rewards[-1] == 1.0

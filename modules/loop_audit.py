@@ -357,6 +357,38 @@ def _read_jsonl(path: Path) -> list[dict]:
     return LoopAudit._read(path)
 
 
+def blocked_verbs(task_id: str, min_count: int = 3) -> list[str]:
+    """Return verbs a gate blocked at least ``min_count`` times in one run.
+
+    Distils the audit timeline into actionable feedback: a verb (the first
+    token of a blocked command) the guard, opsec, approval or sudo gate denied
+    repeatedly is one the planner should stop proposing. This is the read side
+    that turns traceability into process improvement. Never raises.
+
+    Args:
+        task_id: The loop task whose audit to analyse.
+        min_count: Inclusive block-count threshold.
+
+    Returns:
+        The offending verbs, most-blocked first.
+    """
+    try:
+        counts: dict[str, int] = {}
+        for row in _read_jsonl(audit_path(task_id)):
+            if not isinstance(row, dict) or row.get("kind") != "blocked":
+                continue
+            verb = _first_token(str(row.get("command", "")))
+            if not verb:
+                continue
+            counts[verb] = counts.get(verb, 0) + 1
+        threshold = max(1, int(min_count))
+        offenders = [(v, n) for v, n in counts.items() if n >= threshold]
+        offenders.sort(key=lambda item: item[1], reverse=True)
+        return [v for v, _ in offenders]
+    except Exception:
+        return []
+
+
 def guard_rows(task_id: str) -> list[dict]:
     """Return guard decisions recorded for one task."""
     return _read_jsonl(AUDIT_DIR / f"guard_audit_{task_id}.jsonl")

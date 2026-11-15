@@ -29,6 +29,8 @@ Update: Q(s,a) ← Q(s,a) + α * [r + γ * max_a' Q(s',a') - Q(s,a)]
 
 Hyperparameters: α=0.10, γ=0.90, ε_start=0.20, ε_min=0.05, ε_decay=0.995. Epsilon-greedy exploration decays per update. Q-values persist to `sessions/expert_qvalues.json` across sessions.
 
+Single-singleton contract: every loop component (engine, daemon, SWAN, bridge) reaches the trainer and the Detection Oracle through the package-qualified name (`modules.rl_trainer`, `modules.detection_oracle`), never the bare top-level name. Because entry points place `modules/` on `sys.path`, a bare import registers a second module object with its own singleton; two in-memory Q-tables then race to overwrite the same file, silently discarding one loop's learning. `tests/test_rl_trainer_singleton_contract.py` guards this. The daemon encodes the pre-action state from a carried reward EMA and the post-action state from the updated EMA, so state and next_state differ by the step's outcome rather than collapsing (`modules/loop/daemon_reward.py`).
+
 ### SWAN Orchestrator — `skills/swan_agent.py`
 
 The top-level integration layer wires MoE + RL + Detection Oracle + Hive Memory:

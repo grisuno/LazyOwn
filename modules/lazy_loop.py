@@ -10010,6 +10010,25 @@ class LazyLoopEngine(EngineProxyMixin):
                 continue
         return done
 
+    def _absorb_campaign_lessons(self) -> int:
+        """Absorb prior-campaign lessons into the RL Q-table and MoE before planning.
+
+        Closes the loop-to-loop learning read side: the EpisodeReflection layer
+        appends lessons to ``sessions/campaign_lessons.jsonl``, and this folds
+        each new one into the RL/MoE priors exactly once (idempotent across
+        loops via the ingestor's fingerprint ledger) so the next loop plans
+        with what the last loop learned. Never raises.
+
+        Returns:
+            Number of newly absorbed lessons.
+        """
+        try:
+            from modules.lesson_ingestor import ingest_new_campaign_lessons
+
+            return ingest_new_campaign_lessons()
+        except Exception:
+            return 0
+
     def _drain_drafts(self) -> list[str]:
         """Import Hermes/MCP objective drafts into the task board.
 
@@ -10327,6 +10346,7 @@ class LazyLoopEngine(EngineProxyMixin):
             "timeout_sec": timeout_sec,
         }
         self._drain_drafts()
+        self._absorb_campaign_lessons()
         admission = self.admission_check(task_id)
         if not admission.get("admitted"):
             self._sync_c2_board([task_id])

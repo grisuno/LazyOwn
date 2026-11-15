@@ -3175,23 +3175,22 @@ class _ShellDetector:
         return new_ids
 
     def detect_in_output(self, output: str, target: str = "") -> bool:
-        """Return True when a shell/root-shell signal appears in command output."""
+        """Return True when a shell/root-shell signal appears in command output.
+
+        Delegates the decision to the single shared, precise detector
+        (``atomic_exploit_bridge.shell_output_evidence``) that the engine,
+        ``auto_pwn`` and every gym already consume. A divergent substring list
+        here would make the daemon disagree with the engine on whether a
+        Metasploitable vector produced a shell -- fabricating ``SHELL_OBTAINED``
+        on benign ``uid=``/``root@`` banners or missing a real Metasploit
+        session banner. One detector keeps path coverage and cross-loop
+        learning consistent.
+        """
         if not output:
             return False
-        low = output.lower()
-        markers = (
-            "uid=0",
-            "uid=",
-            "root@",
-            "# whoami",
-            "nt authority\\system",
-            "shell open",
-            "meterpreter >",
-            "successfully spawned a shell",
-            "got shell",
-            "reverse shell connection",
-        )
-        if any(m in low for m in markers):
+        from modules.atomic_exploit_bridge import shell_output_evidence
+
+        if shell_output_evidence(output):
             try:
                 self._narrator.narrate(
                     kind="SHELL_OBTAINED",

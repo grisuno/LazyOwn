@@ -26,11 +26,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CORE_DIRS = ("modules", "cli", "core", "skills")
 CORE_FILES = ("lazyown.py", "lazyc2.py", "utils.py")
 
-SINGLETON_MODULES = {"rl_trainer", "moe_router"}
+SINGLETON_MODULES = {"rl_trainer", "moe_router", "detection_oracle"}
 
 EXCLUDED_SUBDIRS = {"__pycache__", ".git", "tests", "test", "legacy", "mutants"}
 
-SELF_FILES = {"rl_trainer.py", "moe_router.py"}
+SELF_FILES = {"rl_trainer.py", "moe_router.py", "detection_oracle.py"}
 
 
 def _core_source_files() -> list[Path]:

@@ -48,8 +48,26 @@ def test_initial_access_candidate_skips_when_intent_exists(store):
     assert candidate is None
 
 
-def test_initial_access_candidate_skips_for_non_access_goal(store):
+def test_initial_access_candidate_emitted_regardless_of_goal(store):
     planner, _graph, _task = _make_planner(store, "enumerate services on 172.17.0.2", "172.17.0.2")
+    candidate = planner._initial_access_candidate({n.text for n in planner.graph.list("intent")})
+    assert candidate is not None
+    summary, _anchors, _parents, priority = candidate
+    assert summary == "gain initial access on 172.17.0.2"
+    assert priority == 10
+
+
+def test_initial_access_candidate_skips_when_foothold_proven(store, monkeypatch):
+    import modules.lazy_loop as loop
+
+    monkeypatch.setattr(loop, "_target_foothold_proven", lambda _target: True)
+    planner, _graph, _task = _make_planner(store, "enumerate services on 172.17.0.2", "172.17.0.2")
+    candidate = planner._initial_access_candidate({n.text for n in planner.graph.list("intent")})
+    assert candidate is None
+
+
+def test_initial_access_candidate_skips_without_target(store):
+    planner, _graph, _task = _make_planner(store, "enumerate services", "")
     candidate = planner._initial_access_candidate({n.text for n in planner.graph.list("intent")})
     assert candidate is None
 
@@ -89,10 +107,9 @@ def test_worker_steps_run_auto_pwn_for_access_intent(store):
 
 
 def test_worker_steps_cover_all_when_flag_set(store, monkeypatch):
+    import modules.auto_registry as registry
     import modules.lazy_loop as loop
     from modules.lazy_engine import LazyEngine
-
-    import modules.auto_registry as registry
 
     monkeypatch.setattr(registry, "cover_all_enabled", lambda: True)
     engine = LazyEngine()

@@ -43,6 +43,7 @@ try:
         LlamaCppModel,
         OllamaModel,
         OpenAIModel,
+        OpenCodeModel,
     )
 except ModuleNotFoundError:
     from ai_model import (  # type: ignore[no-redef]
@@ -53,6 +54,7 @@ except ModuleNotFoundError:
         LlamaCppModel,
         OllamaModel,
         OpenAIModel,
+        OpenCodeModel,
     )
 
 _BACKEND_CLASSES = {
@@ -61,11 +63,20 @@ _BACKEND_CLASSES = {
     "openai": OpenAIModel,
     "anthropic": AnthropicModel,
     "deepseek": DeepSeekModel,
+    "opencode": OpenCodeModel,
     "llamacpp": LlamaCppModel,
 }
 
 _REQUIRED_LLM_BACKEND_METHODS = ("complete",)
-for _backend_class in (GroqModel, OllamaModel, OpenAIModel, AnthropicModel, DeepSeekModel, LlamaCppModel):
+for _backend_class in (
+    GroqModel,
+    OllamaModel,
+    OpenAIModel,
+    AnthropicModel,
+    DeepSeekModel,
+    OpenCodeModel,
+    LlamaCppModel,
+):
     for _method_name in _REQUIRED_LLM_BACKEND_METHODS:
         if not callable(getattr(_backend_class, _method_name, None)):
             raise RuntimeError(
@@ -78,6 +89,7 @@ BACKEND_OLLAMA = "ollama"
 BACKEND_OPENAI = "openai"
 BACKEND_ANTHROPIC = "anthropic"
 BACKEND_DEEPSEEK = "deepseek"
+BACKEND_OPENCODE = "opencode"
 BACKEND_LLAMACPP = "llamacpp"
 BACKEND_AUTO = "auto"
 
@@ -87,6 +99,7 @@ SUPPORTED_BACKENDS = (
     BACKEND_OPENAI,
     BACKEND_ANTHROPIC,
     BACKEND_DEEPSEEK,
+    BACKEND_OPENCODE,
     BACKEND_LLAMACPP,
     BACKEND_AUTO,
 )
@@ -97,14 +110,17 @@ CONFIG_KEY_MODEL_OLLAMA = "llm_model_ollama"
 CONFIG_KEY_MODEL_OPENAI = "llm_model_openai"
 CONFIG_KEY_MODEL_ANTHROPIC = "llm_model_anthropic"
 CONFIG_KEY_MODEL_DEEPSEEK = "llm_model_deepseek"
+CONFIG_KEY_MODEL_OPENCODE = "llm_model_opencode"
 CONFIG_KEY_MODEL_LLAMACPP = "llm_model_llamacpp"
 CONFIG_KEY_OLLAMA_HOST = "ollama_host"
 CONFIG_KEY_LLAMACPP_HOST = "llamacpp_host"
+CONFIG_KEY_OPENCODE_BASE_URL = "opencode_base_url"
 CONFIG_KEY_API_KEY = "api_key"
 CONFIG_KEY_API_KEY_PLACEHOLDER = "api_key"
 CONFIG_KEY_OPENAI_API_KEY = "openai_api_key"
 CONFIG_KEY_ANTHROPIC_API_KEY = "anthropic_api_key"
 CONFIG_KEY_DEEPSEEK_API_KEY = "deepseek_api_key"
+CONFIG_KEY_OPENCODE_API_KEY = "opencode_api_key"
 
 DEFAULT_BACKEND = BACKEND_AUTO
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
@@ -174,6 +190,8 @@ DEFAULT_OLLAMA_HOST = "http://localhost:11434"
 DEFAULT_OPENAI_MODEL = "gpt-4o"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
+DEFAULT_OPENCODE_MODEL = "grok-code"
+DEFAULT_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 DEFAULT_LLAMACPP_MODEL = "local-model"
 DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
 
@@ -185,6 +203,7 @@ ENV_GROQ_API_KEY = "GROQ_API_KEY"
 ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
 ENV_ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY"
 ENV_DEEPSEEK_API_KEY = "DEEPSEEK_API_KEY"
+ENV_OPENCODE_API_KEY = "OPENCODE_API_KEY"
 
 
 class LLMBackendUnavailableError(RuntimeError):
@@ -201,6 +220,7 @@ _MODEL_CONFIG_KEYS = {
     BACKEND_OPENAI: CONFIG_KEY_MODEL_OPENAI,
     BACKEND_ANTHROPIC: CONFIG_KEY_MODEL_ANTHROPIC,
     BACKEND_DEEPSEEK: CONFIG_KEY_MODEL_DEEPSEEK,
+    BACKEND_OPENCODE: CONFIG_KEY_MODEL_OPENCODE,
     BACKEND_LLAMACPP: CONFIG_KEY_MODEL_LLAMACPP,
 }
 
@@ -210,6 +230,7 @@ _DEFAULT_MODELS = {
     BACKEND_OPENAI: DEFAULT_OPENAI_MODEL,
     BACKEND_ANTHROPIC: DEFAULT_ANTHROPIC_MODEL,
     BACKEND_DEEPSEEK: DEFAULT_DEEPSEEK_MODEL,
+    BACKEND_OPENCODE: DEFAULT_OPENCODE_MODEL,
     BACKEND_LLAMACPP: DEFAULT_LLAMACPP_MODEL,
 }
 
@@ -218,6 +239,7 @@ _API_KEY_CONFIG_KEYS = {
     BACKEND_OPENAI: CONFIG_KEY_OPENAI_API_KEY,
     BACKEND_ANTHROPIC: CONFIG_KEY_ANTHROPIC_API_KEY,
     BACKEND_DEEPSEEK: CONFIG_KEY_DEEPSEEK_API_KEY,
+    BACKEND_OPENCODE: CONFIG_KEY_OPENCODE_API_KEY,
 }
 
 
@@ -414,6 +436,7 @@ def _resolve_api_key_for_backend(
         BACKEND_OPENAI: (CONFIG_KEY_OPENAI_API_KEY, ENV_OPENAI_API_KEY),
         BACKEND_ANTHROPIC: (CONFIG_KEY_ANTHROPIC_API_KEY, ENV_ANTHROPIC_API_KEY),
         BACKEND_DEEPSEEK: (CONFIG_KEY_DEEPSEEK_API_KEY, ENV_DEEPSEEK_API_KEY),
+        BACKEND_OPENCODE: (CONFIG_KEY_OPENCODE_API_KEY, ENV_OPENCODE_API_KEY),
     }
     config_key, env_var = key_map.get(backend, (None, None))
     if config_key:
@@ -456,6 +479,7 @@ _CLOUD_BACKENDS: frozenset[str] = frozenset(
         BACKEND_OPENAI,
         BACKEND_ANTHROPIC,
         BACKEND_DEEPSEEK,
+        BACKEND_OPENCODE,
     }
 )
 
@@ -608,6 +632,33 @@ def _build_deepseek(config: Mapping[str, Any]) -> AIModel:
     return DeepSeekModel(api_key=api_key, model=model_name)
 
 
+def _build_opencode(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate an OpenCode Zen backend or raise when no API key is set.
+
+    OpenCode Zen is an OpenAI-compatible gateway, so the backend accepts
+    an operator-configurable base URL (``opencode_base_url``) that
+    defaults to the public Zen endpoint.
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`OpenCodeModel` instance.
+
+    Raises:
+        LLMBackendUnavailableError: When no valid OpenCode API key is found.
+    """
+    api_key = _resolve_api_key_for_backend(BACKEND_OPENCODE, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "OpenCode backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_OPENCODE_API_KEY}' in payload.json or export {ENV_OPENCODE_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_OPENCODE) or DEFAULT_OPENCODE_MODEL
+    base_url = config.get(CONFIG_KEY_OPENCODE_BASE_URL) or DEFAULT_OPENCODE_BASE_URL
+    return OpenCodeModel(api_key=api_key, model=model_name, base_url=base_url)
+
+
 def _resolve_model_identifier(
     backend_identifier: str,
     config: Mapping[str, Any],
@@ -630,6 +681,8 @@ def _resolve_model_identifier(
         return str(config.get(CONFIG_KEY_MODEL_ANTHROPIC) or DEFAULT_ANTHROPIC_MODEL)
     if backend_identifier == BACKEND_DEEPSEEK:
         return str(config.get(CONFIG_KEY_MODEL_DEEPSEEK) or DEFAULT_DEEPSEEK_MODEL)
+    if backend_identifier == BACKEND_OPENCODE:
+        return str(config.get(CONFIG_KEY_MODEL_OPENCODE) or DEFAULT_OPENCODE_MODEL)
     if _resolve_api_key(config):
         return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
     return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
@@ -755,6 +808,9 @@ def _build_backend(
     if normalized == BACKEND_DEEPSEEK:
         _require_cloud_allowed(normalized)
         return _build_deepseek(resolved_config)
+    if normalized == BACKEND_OPENCODE:
+        _require_cloud_allowed(normalized)
+        return _build_opencode(resolved_config)
     if normalized == BACKEND_LLAMACPP:
         return _build_llamacpp(resolved_config)
     if _resolve_api_key(resolved_config):
@@ -1031,6 +1087,7 @@ __all__ = [
     "BACKEND_LLAMACPP",
     "BACKEND_OLLAMA",
     "BACKEND_OPENAI",
+    "BACKEND_OPENCODE",
     "CONFIG_KEY_ANTHROPIC_API_KEY",
     "CONFIG_KEY_API_KEY",
     "CONFIG_KEY_BACKEND",
@@ -1042,14 +1099,19 @@ __all__ = [
     "CONFIG_KEY_MODEL_LLAMACPP",
     "CONFIG_KEY_MODEL_OLLAMA",
     "CONFIG_KEY_MODEL_OPENAI",
+    "CONFIG_KEY_MODEL_OPENCODE",
     "CONFIG_KEY_OLLAMA_HOST",
     "CONFIG_KEY_OPENAI_API_KEY",
+    "CONFIG_KEY_OPENCODE_API_KEY",
+    "CONFIG_KEY_OPENCODE_BASE_URL",
     "DEFAULT_ANTHROPIC_MODEL",
     "DEFAULT_BACKEND",
     "DEFAULT_DEEPSEEK_MODEL",
     "DEFAULT_GROQ_MODEL",
     "DEFAULT_LLAMACPP_HOST",
     "DEFAULT_LLAMACPP_MODEL",
+    "DEFAULT_OPENCODE_BASE_URL",
+    "DEFAULT_OPENCODE_MODEL",
     "ENV_GROQ_MODEL",
     "GROQ_MODEL_FALLBACKS",
     "groq_model_chain",
@@ -1062,6 +1124,7 @@ __all__ = [
     "ENV_DEEPSEEK_API_KEY",
     "ENV_GROQ_API_KEY",
     "ENV_OPENAI_API_KEY",
+    "ENV_OPENCODE_API_KEY",
     "LLMBackendNotSupportedError",
     "LLMBackendUnavailableError",
     "SUPPORTED_BACKENDS",

@@ -16,6 +16,8 @@ Contracts:
     - ``derive_bsb_keys``: HKDF-SHA256 key separation matching BSB's C code.
     - ``decrypt_bsb_report``: decode one BSB report (b64 IV + ciphertext).
     - ``encrypt_bsb_command``: legacy wire format under the BSB-derived key.
+    - ``resolve_bof_object``: multi-directory BOF object lookup mirroring
+      the upstream ``handle_bof`` in ``c2/server.py``.
 """
 
 from __future__ import annotations
@@ -27,6 +29,7 @@ import json
 import logging
 import os
 import time
+from pathlib import Path
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -44,6 +47,15 @@ STAGE_HKDF_INFO_HMAC = b"stage-hmac"
 REPLAY_HEADER_BYTES = 16  # counter (8 LE) + timestamp (8 LE)
 TIMESTAMP_FUTURE_SLACK_S = 60
 DEFAULT_REPLAY_WINDOW_S = 300
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+BSB_CHECKOUT_RELPATH = "external/.exploit/blacksandbeacon"
+BOF_STAGING_RELPATHS: tuple[str, ...] = (
+    "sessions/temp_uploads/bofs",
+    "sessions/uploads",
+)
+BOF_CHECKOUT_RELPATHS: tuple[str, ...] = ("", "build/bof", "bof")
+BOF_OBJECT_SUFFIXES: tuple[str, ...] = ("", ".x64.o", ".o")
 
 _key_cache: dict[str, bytes] = {"source": b"", "enc": b"", "hmac": b""}
 _stage_key_cache: dict[str, object] = {"token": "", "keys": (b"", b"")}
@@ -258,6 +270,96 @@ def decrypt_bsb_stage_blob(encrypted_data: bytes | str, token: str) -> bytes:
     return decryptor.update(ciphertext) + decryptor.finalize()
 
 
+def _bof_search_dirs(repo_root: Path) -> list[Path]:
+    """Return the BOF lookup directories in the upstream server's order.
+
+    Args:
+        repo_root: LazyOwn repository root.
+
+    Returns:
+        Existing directories: the C2 staging dirs first, then the
+        blacksandbeacon checkout build locations (checkout root,
+        ``build/bof``, ``bof``).
+    """
+    dirs: list[Path] = [repo_root / relpath for relpath in BOF_STAGING_RELPATHS]
+    checkout = repo_root / BSB_CHECKOUT_RELPATH
+    dirs.extend(checkout / relpath for relpath in BOF_CHECKOUT_RELPATHS)
+    unique: list[Path] = []
+    for path in dirs:
+        resolved = path.resolve()
+        if resolved.is_dir() and resolved not in unique:
+            unique.append(resolved)
+    return unique
+
+
+def _safe_bof_candidate(base: Path, relative: str) -> Path | None:
+    """Join one lookup candidate, rejecting traversal outside ``base``.
+
+    Args:
+        base: Directory the candidate is relative to.
+        relative: Candidate filename or repository-relative path.
+
+    Returns:
+        The confined candidate path, or None when it escapes ``base``.
+    """
+    clean = str(relative or "").strip()
+    if not clean or clean.startswith(("/", "\\")) or "\\" in clean:
+        return None
+    parts = Path(clean).parts
+    if ".." in parts:
+        return None
+    candidate = (base / clean).resolve()
+    try:
+        if candidate.parent != base and os.path.commonpath([str(base), str(candidate)]) != str(base):
+            return None
+    except ValueError:
+        return None
+    return candidate
+
+
+def resolve_bof_object(
+    name: str,
+    relative_artifact: str = "",
+    repo_root: str | Path | None = None,
+) -> str | None:
+    """Resolve one compiled BOF object the way the upstream BSB server does.
+
+    Mirrors ``handle_bof`` in the upstream ``c2/server.py``: a
+    basename-safe lookup across the BOF serving directories and the
+    common build locations of the blacksandbeacon checkout, so the C2
+    route and the operator staging share one resolution contract and a
+    BOF compiled in the client tree is servable without a manual copy.
+
+    Args:
+        name: BOF name (``whoami``) or object filename (``whoami.x64.o``).
+        relative_artifact: Optional ``client_artifact`` declared in the
+            BOF YAML (``build/bof/whoami.x64.o``), tried relative to the
+            checkout root.
+        repo_root: Override for tests; defaults to the repo root.
+
+    Returns:
+        Path to the first existing object file, or None when unresolved.
+    """
+    root = Path(repo_root) if repo_root is not None else BASE_DIR
+    safe = os.path.basename(str(name or "").strip())
+    if not safe or safe in (".", ".."):
+        return None
+    bases = _bof_search_dirs(root)
+    checkout = (root / BSB_CHECKOUT_RELPATH).resolve()
+    artifact = str(relative_artifact or "").strip()
+    for base in bases:
+        names = [safe] if safe.endswith(".o") else [f"{safe}{suffix}" for suffix in BOF_OBJECT_SUFFIXES]
+        for candidate_name in names:
+            candidate = _safe_bof_candidate(base, candidate_name)
+            if candidate is not None and candidate.is_file():
+                return str(candidate)
+        if artifact and base == checkout:
+            candidate = _safe_bof_candidate(base, artifact)
+            if candidate is not None and candidate.is_file():
+                return str(candidate)
+    return None
+
+
 __all__ = [
     "derive_bsb_keys",
     "decrypt_bsb_report",
@@ -265,6 +367,7 @@ __all__ = [
     "derive_bsb_stage_keys",
     "encrypt_bsb_stage_blob",
     "decrypt_bsb_stage_blob",
+    "resolve_bof_object",
     "HKDF_SALT",
     "STAGE_HKDF_SALT",
     "REPLAY_HEADER_BYTES",

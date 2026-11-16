@@ -33,6 +33,7 @@ import ipaddress
 import json
 import os
 import re
+import shlex
 import signal
 import subprocess
 import sys
@@ -53,7 +54,9 @@ RESULT_FILENAME = "result.json"
 
 KIND_AUTO_LOOP = "auto_loop"
 KIND_LAZY_NMAP = "lazynmap"
-LOOP_KINDS = frozenset({KIND_AUTO_LOOP, KIND_LAZY_NMAP})
+KIND_BEACON_LOOP = "beacon_loop"
+LOOP_KINDS = frozenset({KIND_AUTO_LOOP, KIND_LAZY_NMAP, KIND_BEACON_LOOP})
+_BEACON_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 
 from modules.loop_limits import DEFAULT_ROUNDS, DEFAULT_WORKERS, MAX_ROUNDS, MAX_WORKERS
 MAX_TIMEOUT_SECONDS = 86400.0
@@ -116,6 +119,28 @@ def validate_target(raw: object) -> str:
         return str(ipaddress.ip_address(candidate))
     except ValueError as exc:
         raise LoopValidationError("target", "target must be a valid IP address") from exc
+
+
+def validate_beacon_target(raw: object) -> str:
+    """Return the canonical string form of a validated beacon client id.
+
+    Args:
+        raw: Candidate beacon client id from an HTTP request.
+
+    Returns:
+        The sanitized client id (alnum, dash, underscore).
+
+    Raises:
+        LoopValidationError: The value is not a valid beacon client id.
+    """
+    if not isinstance(raw, str):
+        raise LoopValidationError("target", "target must be a string")
+    candidate = raw.strip()
+    if not candidate:
+        raise LoopValidationError("target", "target is required")
+    if not _BEACON_ID_RE.match(candidate):
+        raise LoopValidationError("target", "target must be a beacon client id")
+    return candidate
 
 
 def sanitize_goal(raw: object) -> str:
@@ -263,11 +288,12 @@ class LoopSpec:
     """Validated request to start one autonomous loop.
 
     Attributes:
-        kind: Either ``auto_loop`` or ``lazynmap``.
-        target: Validated IP address string.
-        goal: Sanitized natural-language goal (auto_loop only).
-        rounds: Maximum orchestrator rounds (auto_loop only).
-        workers: Worker pool size (auto_loop only).
+        kind: ``auto_loop``, ``lazynmap`` or ``beacon_loop``.
+        target: Validated IP address string (``beacon_loop`` accepts a
+            sanitized beacon client id instead).
+        goal: Sanitized natural-language goal (auto_loop/beacon_loop).
+        rounds: Maximum orchestrator rounds (auto_loop/beacon_loop).
+        workers: Worker pool size (auto_loop/beacon_loop).
         timeout: Optional wall-clock timeout in seconds (0 = none).
     """
 
@@ -308,6 +334,21 @@ def _loop_command(spec: LoopSpec) -> str:
         return " ".join(parts)
     if spec.kind == KIND_LAZY_NMAP:
         return KIND_LAZY_NMAP
+    if spec.kind == KIND_BEACON_LOOP:
+        parts = [
+            KIND_BEACON_LOOP,
+            "--client",
+            spec.target,
+            "--rounds",
+            str(spec.rounds),
+            "--workers",
+            str(spec.workers),
+        ]
+        if spec.goal:
+            parts.extend(["--goal", shlex.quote(spec.goal)])
+        if spec.timeout > 0:
+            parts.extend(["--timeout", str(int(spec.timeout))])
+        return " ".join(parts)
     raise LoopValidationError("kind", "unknown loop kind")
 
 
@@ -365,8 +406,12 @@ class LoopManager:
         """
         if spec.kind not in LOOP_KINDS:
             raise LoopValidationError("kind", "unknown loop kind")
-        target = validate_target(spec.target)
-        goal = sanitize_goal(spec.goal) if spec.kind == KIND_AUTO_LOOP else ""
+        if spec.kind == KIND_BEACON_LOOP:
+            target = validate_beacon_target(spec.target)
+            goal = sanitize_goal(spec.goal)
+        else:
+            target = validate_target(spec.target)
+            goal = sanitize_goal(spec.goal) if spec.kind == KIND_AUTO_LOOP else ""
         rounds = clamp_int(spec.rounds, "rounds", DEFAULT_ROUNDS, 1, MAX_ROUNDS)
         workers = clamp_int(spec.workers, "workers", DEFAULT_WORKERS, 1, MAX_WORKERS)
         timeout = clamp_float(spec.timeout, "timeout", 0.0, 0.0, MAX_TIMEOUT_SECONDS)
@@ -403,7 +448,10 @@ class LoopManager:
         workspace = self._loops_dir / loop_id
         workspace.mkdir(parents=True, exist_ok=True)
         profile_path = workspace / PROFILE_FILENAME
-        profile_path.write_text(f"rhost: {spec.target}\n", encoding="utf-8")
+        if spec.kind == KIND_BEACON_LOOP:
+            profile_path.write_text(f"beacon_client_id: {spec.target}\n", encoding="utf-8")
+        else:
+            profile_path.write_text(f"rhost: {spec.target}\n", encoding="utf-8")
         log_path = workspace / LOG_FILENAME
         command = _loop_command(spec)
         argv = [
@@ -870,6 +918,7 @@ __all__ = [
     "DEFAULT_WORKERS",
     "KIND_AUTO_LOOP",
     "KIND_LAZY_NMAP",
+    "KIND_BEACON_LOOP",
     "LOOP_KINDS",
     "LoopManager",
     "LoopNotFoundError",
@@ -882,5 +931,6 @@ __all__ = [
     "clamp_int",
     "default_manager",
     "sanitize_goal",
+    "validate_beacon_target",
     "validate_target",
 ]

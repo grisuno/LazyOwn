@@ -205,9 +205,87 @@
             <div class="node-context-header" id="nodeContextMenuTitle">host</div>
             <button type="button" class="node-context-item" id="menuScanLazynmap">Nmap scan (lazynmap)</button>
             <button type="button" class="node-context-item" id="menuRunAutoLoop">AI auto_loop on this host...</button>
+            <button type="button" class="node-context-item d-none" id="menuImplantAtomic">Atomic Red Team emulation...</button>
+            <button type="button" class="node-context-item d-none" id="menuImplantBof">Run BOF on implant...</button>
+            <button type="button" class="node-context-item d-none" id="menuImplantCmd">Send beacon command...</button>
+            <button type="button" class="node-context-item d-none" id="menuImplantApt">APT chain playbook...</button>
+            <button type="button" class="node-context-item d-none" id="menuImplantLoop">AI beacon_loop on this implant...</button>
             <button type="button" class="node-context-item d-none" id="menuStopGym">Stop gym</button>
             <button type="button" class="node-context-item" id="menuFillTerminal">Fill local shell command</button>
             <button type="button" class="node-context-item" id="menuCopyIp">Copy IP</button>
+        </div>
+
+        <div class="modal fade" id="atomicModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="atomicModalTitle">Atomic Red Team emulation</h5>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>MITRE ATT&amp;CK technique / GUID (e.g. T1059.001)</label>
+                            <input type="text" class="form-control" id="atomicMitreId" placeholder="T1078">
+                        </div>
+                        <div class="form-group">
+                            <label>Target IP</label>
+                            <input type="text" class="form-control" id="atomicTargetIp">
+                        </div>
+                        <div id="atomicCommandList" class="list-group"></div>
+                        <pre id="atomicModalOutput" class="mt-3" style="max-height:200px;overflow:auto;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="beaconCmdModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="beaconCmdModalTitle">Beacon capability commands</h5>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Arguments (optional)</label>
+                            <input type="text" class="form-control" id="beaconCmdArgs">
+                        </div>
+                        <div id="beaconCmdList" class="list-group"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="bofModalTitle">Beacon Object Files</h5>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>BOF arguments (comma separated, optional)</label>
+                            <input type="text" class="form-control" id="bofRunArgs">
+                        </div>
+                        <div id="bofList" class="list-group" style="max-height:400px;overflow:auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="playbookModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="playbookModalTitle">APT adversarial playbooks</h5>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="playbookList" class="list-group" style="max-height:400px;overflow:auto;"></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
         <script src="/static/js/popper-2.5.4.min.js"></script>
@@ -386,6 +464,21 @@
             var nodeMenuTitle = document.getElementById('nodeContextMenuTitle');
             var nodeMenuIp = '';
             var nodeMenuGym = '';
+            var nodeMenuImplant = '';
+            var implantMenus = {};
+            var ATOMIC_COMMANDS = [
+                { cmd: 'atomic_tests', args: 'mitre', label: 'atomic_tests — stage one MITRE test' },
+                { cmd: 'atomic_gen', args: 'mitre', label: 'atomic_gen — generate test + cleanup scripts' },
+                { cmd: 'atomic_emulate', args: 'emulate', label: 'atomic_emulate — run emulation on target' },
+                { cmd: 'atomic_shell', args: 'target', label: 'atomic_shell — interactive root shell' },
+                { cmd: 'atomic_exploit', args: 'target', label: 'atomic_exploit — exploit sweep (exploits/*.yaml)' },
+                { cmd: 'atomic_lazyown', args: 'target', label: 'atomic_lazyown — atomic tests via LazyOwn' },
+                { cmd: 'atomic_agent', args: 'none', label: 'atomic_agent — craft and deploy test agent' },
+                { cmd: 'atomic_clean', args: 'target', label: 'atomic_clean — clean engagement artefacts' },
+                { cmd: 'atomic_update', args: 'none', label: 'atomic_update — git pull atomic-red-team' },
+                { cmd: 'mitre_test', args: 'mitre', label: 'mitre_test — STIX 2.0 MITRE lookup' },
+                { cmd: 'mitre_update', args: 'none', label: 'mitre_update — git pull mitre STIX data' }
+            ];
             var gymNodes = {};
             document.addEventListener('mousemove', function(e) {
                 window._lastMouseX = e.pageX;
@@ -403,17 +496,26 @@
                     nodeMenu.style.display = 'none';
                 }
             }
-            function showNodeMenu(x, y, ip, gymScenario) {
+            function showNodeMenu(x, y, ip, gymScenario, clientId) {
                 if (!nodeMenu) {
                     return;
                 }
                 nodeMenuIp = ip;
                 nodeMenuGym = gymScenario || '';
+                nodeMenuImplant = clientId || '';
                 var stopGymBtn = document.getElementById('menuStopGym');
+                var implantBtns = ['menuImplantAtomic', 'menuImplantBof', 'menuImplantCmd', 'menuImplantApt', 'menuImplantLoop'];
                 if (nodeMenuGym) {
                     nodeMenuTitle.textContent = 'gym ' + nodeMenuGym;
                     if (stopGymBtn) {
                         stopGymBtn.classList.remove('d-none');
+                    }
+                } else if (nodeMenuImplant) {
+                    var menu = implantMenus[nodeMenuImplant];
+                    var typeLabel = menu && menu.type_label ? ' (' + menu.type_label + ')' : '';
+                    nodeMenuTitle.textContent = 'implant ' + nodeMenuImplant + typeLabel;
+                    if (stopGymBtn) {
+                        stopGymBtn.classList.add('d-none');
                     }
                 } else {
                     nodeMenuTitle.textContent = 'host ' + ip;
@@ -421,6 +523,12 @@
                         stopGymBtn.classList.add('d-none');
                     }
                 }
+                implantBtns.forEach(function(id) {
+                    var btn = document.getElementById(id);
+                    if (btn) {
+                        btn.classList.toggle('d-none', !nodeMenuImplant);
+                    }
+                });
                 var menuWidth = nodeMenu.offsetWidth || 240;
                 var menuHeight = nodeMenu.offsetHeight || 180;
                 var left = Math.min(x, Math.max(0, window.pageXOffset + window.innerWidth - menuWidth - 12));
@@ -428,6 +536,151 @@
                 nodeMenu.style.left = left + 'px';
                 nodeMenu.style.top = top + 'px';
                 nodeMenu.style.display = 'block';
+            }
+            function currentImplantMenu() {
+                return implantMenus[nodeMenuImplant] || null;
+            }
+            function buildCommandRow(labelText, detailText, runFn) {
+                var row = document.createElement('button');
+                row.type = 'button';
+                row.className = 'list-group-item list-group-item-action bg-dark text-light';
+                var title = document.createElement('div');
+                title.textContent = labelText;
+                title.className = 'font-weight-bold';
+                row.appendChild(title);
+                if (detailText) {
+                    var detail = document.createElement('div');
+                    detail.className = 'text-muted small';
+                    detail.textContent = detailText;
+                    row.appendChild(detail);
+                }
+                row.addEventListener('click', runFn);
+                return row;
+            }
+            function openAtomicModal() {
+                var menu = currentImplantMenu();
+                var platform = menu && menu.platform ? menu.platform : 'linux';
+                var target = nodeMenuIp || (menu && menu.ip) || '';
+                var list = document.getElementById('atomicCommandList');
+                var mitreInput = document.getElementById('atomicMitreId');
+                var targetInput = document.getElementById('atomicTargetIp');
+                var output = document.getElementById('atomicModalOutput');
+                if (!list) {
+                    return;
+                }
+                if (mitreInput) {
+                    mitreInput.value = '';
+                }
+                if (targetInput) {
+                    targetInput.value = target;
+                }
+                if (output) {
+                    output.textContent = '';
+                }
+                list.textContent = '';
+                var platFlag = platform === 'windows' ? ' --platform windows' : ' --platform linux';
+                ATOMIC_COMMANDS.forEach(function(spec) {
+                    var runFn = function() {
+                        var command;
+                        var mitreId = mitreInput ? mitreInput.value.trim() : '';
+                        var tgt = targetInput ? targetInput.value.trim() : '';
+                        if (spec.args === 'mitre') {
+                            if (!mitreId) {
+                                if (output) {
+                                    output.textContent = 'Enter a MITRE technique id (e.g. T1059.001) first.';
+                                }
+                                return;
+                            }
+                            command = spec.cmd + ' ' + mitreId + (spec.cmd === 'atomic_tests' ? platFlag + ' --non-interactive' : '');
+                        } else if (spec.args === 'target') {
+                            command = spec.cmd + (spec.cmd === 'atomic_exploit' ? ' target=' : ' ') + tgt;
+                        } else if (spec.args === 'emulate') {
+                            command = spec.cmd + ' --target ' + tgt + platFlag;
+                        } else {
+                            command = spec.cmd;
+                        }
+                        if (output) {
+                            output.textContent = '> ' + command + '\n';
+                        }
+                        RunCmd(command);
+                    };
+                    list.appendChild(buildCommandRow(spec.cmd, spec.label, runFn));
+                });
+                $('#atomicModal').modal('show');
+            }
+            function openBeaconCmdModal() {
+                var menu = currentImplantMenu();
+                var list = document.getElementById('beaconCmdList');
+                if (!list) {
+                    return;
+                }
+                list.textContent = '';
+                var commands = (menu && menu.beacon_commands) || [];
+                if (!commands.length) {
+                    var none = document.createElement('div');
+                    none.className = 'text-muted';
+                    none.textContent = 'No capability commands known for this implant type.';
+                    list.appendChild(none);
+                }
+                commands.forEach(function(spec) {
+                    var runFn = function() {
+                        var args = document.getElementById('beaconCmdArgs').value.trim();
+                        var command = args ? (spec.cmd + ' ' + args) : spec.cmd;
+                        RunRemoteCmd(nodeMenuImplant, command);
+                    };
+                    list.appendChild(buildCommandRow(spec.cmd, spec.label, runFn));
+                });
+                $('#beaconCmdModal').modal('show');
+            }
+            function openBofModal() {
+                var menu = currentImplantMenu();
+                var list = document.getElementById('bofList');
+                if (!list) {
+                    return;
+                }
+                list.textContent = '';
+                var bofs = (menu && menu.bofs) || [];
+                if (!bofs.length) {
+                    var none = document.createElement('div');
+                    none.className = 'text-muted';
+                    none.textContent = 'No BOFs compatible with this implant platform.';
+                    list.appendChild(none);
+                }
+                bofs.forEach(function(bof) {
+                    var detail = (bof.description || '') + (bof.mitre_technique ? ' [' + bof.mitre_technique + ']' : '');
+                    var runFn = function() {
+                        var args = document.getElementById('bofRunArgs').value.trim();
+                        var command = 'bof_run ' + bof.name + ' ' + nodeMenuImplant + (args ? ' ' + args : '') + ' --wait 20';
+                        RunCmd(command);
+                    };
+                    list.appendChild(buildCommandRow(bof.name + ' (' + (bof.platform || '?') + ')', detail, runFn));
+                });
+                $('#bofModal').modal('show');
+            }
+            function openPlaybookModal() {
+                var menu = currentImplantMenu();
+                var list = document.getElementById('playbookList');
+                if (!list) {
+                    return;
+                }
+                list.textContent = '';
+                var target = nodeMenuIp || (menu && menu.ip) || '';
+                var playbooks = (menu && menu.playbooks) || [];
+                if (!playbooks.length) {
+                    var none = document.createElement('div');
+                    none.className = 'text-muted';
+                    none.textContent = 'No APT playbooks loaded.';
+                    list.appendChild(none);
+                }
+                playbooks.forEach(function(pb) {
+                    var detail = (pb.description || '') + ' [' + (pb.platforms || []).join(', ') + '] phases=' + pb.phases + ' atomic=' + pb.atomic_tests;
+                    var runFn = function() {
+                        var command = 'apt_chain ' + pb.apt_name + (target ? ' --target ' + target : '');
+                        RunCmd(command);
+                    };
+                    list.appendChild(buildCommandRow(pb.apt_name, detail, runFn));
+                });
+                $('#playbookModal').modal('show');
             }
             function switchToSection(target) {
                 var link = document.querySelector('.nav-link[data-target="' + target + '"]');
@@ -803,23 +1056,26 @@
                     return;
                 }
             }
-            function setupLoopsUi() {
+                function setupLoopsUi() {
                 var form = document.getElementById('loopStartForm');
                 if (form) {
                     form.addEventListener('submit', function(event) {
                         event.preventDefault();
                         var kind = document.getElementById('loopKind').value;
                         var target = document.getElementById('loopTarget').value.trim();
-                        if (!isValidIp(target)) {
+                        var beaconId = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(target);
+                        if (!isValidIp(target) && !(kind === 'beacon_loop' && beaconId)) {
                             var msg = document.getElementById('loopStartMessage');
                             if (msg) {
-                                msg.textContent = 'target must be a valid IP address';
+                                msg.textContent = kind === 'beacon_loop'
+                                    ? 'target must be a valid implant id or IP'
+                                    : 'target must be a valid IP address';
                                 msg.className = 'text-danger';
                             }
                             return;
                         }
                         var payload = { kind: kind, target: target };
-                        if (kind === 'auto_loop') {
+                        if (kind === 'auto_loop' || kind === 'beacon_loop') {
                             payload.goal = document.getElementById('loopGoal').value;
                             payload.rounds = parseInt(document.getElementById('loopRounds').value, 10) || 6;
                             payload.workers = parseInt(document.getElementById('loopWorkers').value, 10) || 2;
@@ -915,6 +1171,49 @@
                                 msg.className = 'text-danger';
                             }
                         });
+                    });
+                }
+                var atomicBtn = document.getElementById('menuImplantAtomic');
+                if (atomicBtn) {
+                    atomicBtn.addEventListener('click', function() {
+                        hideNodeMenu();
+                        openAtomicModal();
+                    });
+                }
+                var bofBtn = document.getElementById('menuImplantBof');
+                if (bofBtn) {
+                    bofBtn.addEventListener('click', function() {
+                        hideNodeMenu();
+                        openBofModal();
+                    });
+                }
+                var beaconCmdBtn = document.getElementById('menuImplantCmd');
+                if (beaconCmdBtn) {
+                    beaconCmdBtn.addEventListener('click', function() {
+                        hideNodeMenu();
+                        openBeaconCmdModal();
+                    });
+                }
+                var aptBtn = document.getElementById('menuImplantApt');
+                if (aptBtn) {
+                    aptBtn.addEventListener('click', function() {
+                        hideNodeMenu();
+                        openPlaybookModal();
+                    });
+                }
+                var beaconLoopBtn = document.getElementById('menuImplantLoop');
+                if (beaconLoopBtn) {
+                    beaconLoopBtn.addEventListener('click', function() {
+                        var implantId = nodeMenuImplant;
+                        hideNodeMenu();
+                        if (!implantId) {
+                            return;
+                        }
+                        var goal = prompt('Beacon loop goal:', 'situational awareness and safe data discovery');
+                        if (goal === null) {
+                            return;
+                        }
+                        startLoop({ kind: 'beacon_loop', target: implantId, goal: goal || '' });
                     });
                 }
                 var clearBtn = document.getElementById('loopLogClear');
@@ -2051,6 +2350,22 @@
                                 if (isValidIp(host)) {
                                     showNodeMenu(window._lastMouseX || 240, window._lastMouseY || 240, host);
                                 }
+                            } else if (connectedClients.indexOf(selectedNodeId) !== -1) {
+                                var implantRecord = results[selectedNodeId] || null;
+                                var implantIp = implantRecord && implantRecord.ips ? String(implantRecord.ips).split(',')[0].trim().replace(/[\[\]'"]/g, '') : '';
+                                showNodeMenu(window._lastMouseX || 240, window._lastMouseY || 240, implantIp, '', selectedNodeId);
+                                fetch('/api/beacon_menu/' + encodeURIComponent(selectedNodeId))
+                                    .then(function(response) { return response.ok ? response.json() : null; })
+                                    .then(function(menu) {
+                                        if (!menu || menu.error) {
+                                            return;
+                                        }
+                                        implantMenus[selectedNodeId] = menu;
+                                        if (nodeMenuImplant === selectedNodeId) {
+                                            nodeMenuTitle.textContent = 'implant ' + selectedNodeId + ' (' + menu.type_label + ')';
+                                        }
+                                    })
+                                    .catch(function() {});
                             }
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {

@@ -20,6 +20,7 @@ from modules.loop_manager import (
     DEFAULT_ROUNDS,
     DEFAULT_WORKERS,
     KIND_AUTO_LOOP,
+    KIND_BEACON_LOOP,
     KIND_LAZY_NMAP,
     MAX_ROUNDS,
     MAX_TIMEOUT_SECONDS,
@@ -37,6 +38,9 @@ from modules.loop_manager import (
 )
 from modules.loop_manager import (
     sanitize_goal as _loop_sanitize_goal,
+)
+from modules.loop_manager import (
+    validate_beacon_target as _loop_validate_beacon_target,
 )
 from modules.loop_manager import (
     validate_target as _loop_validate_target,
@@ -75,13 +79,22 @@ def _loops_start():
         if not isinstance(data, dict):
             return jsonify({"error": "Invalid request body"}), 400
         kind = data.get("kind")
-        if kind not in (KIND_AUTO_LOOP, KIND_LAZY_NMAP):
-            return jsonify({"error": "kind must be auto_loop or lazynmap"}), 400
+        if kind not in (KIND_AUTO_LOOP, KIND_LAZY_NMAP, KIND_BEACON_LOOP):
+            return (
+                jsonify({"error": "kind must be auto_loop, lazynmap or beacon_loop"}),
+                400,
+            )
         try:
+            if kind == KIND_BEACON_LOOP:
+                target = _loop_validate_beacon_target(data.get("target"))
+            else:
+                target = _loop_validate_target(data.get("target"))
             spec = LoopSpec(
                 kind=str(kind),
-                target=_loop_validate_target(data.get("target")),
-                goal=_loop_sanitize_goal(data.get("goal")) if kind == KIND_AUTO_LOOP else "",
+                target=target,
+                goal=_loop_sanitize_goal(data.get("goal"))
+                if kind in (KIND_AUTO_LOOP, KIND_BEACON_LOOP)
+                else "",
                 rounds=_loop_clamp_int(
                     data.get("rounds", DEFAULT_ROUNDS), "rounds", DEFAULT_ROUNDS, 1, MAX_ROUNDS
                 ),

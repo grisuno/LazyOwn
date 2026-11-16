@@ -1479,6 +1479,77 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         return
 
     @cmd2.with_category("10. Command & Control")
+    def do_beacon_loop(self, line):
+        """Run the autonomous beacon loop against one connected implant.
+
+        Usage:
+            beacon_loop --client <beacon_id> [--goal G] [--rounds N] [--timeout S]
+
+        Every round the loop reads the beacon history, plans the next
+        capability commands (LLM with a heuristic fallback), queues them
+        on the C2 and waits for the beacon to poll and report. Only
+        allowlisted capability commands and metacharacter-free read-only
+        shell probes are queued. Implementation lives in
+        :mod:`modules.beacon_loop`.
+        """
+        from modules.beacon_loop import (
+            DEFAULT_ROUND_INTERVAL_S,
+            BeaconLoopConfig,
+            run_beacon_loop,
+            write_report,
+        )
+
+        try:
+            parts = shlex.split(line or "")
+        except ValueError:
+            print_warn("Usage: beacon_loop --client <id> [--goal G] [--rounds N] [--timeout S]")
+            return
+        values = {
+            "client": str(self.params.get("beacon_client_id", "") or ""),
+            "goal": str(self.params.get("loop_goal", "") or ""),
+            "rounds": "6",
+            "timeout": "0",
+        }
+        key = ""
+        for part in parts:
+            if part.startswith("--"):
+                key = part[2:]
+            elif key in values:
+                values[key] = part
+                key = ""
+        if not values["client"]:
+            print_warn("Usage: beacon_loop --client <id> [--goal G] [--rounds N] [--timeout S]")
+            print_msg("Connected clients:")
+            try:
+                from modules.bof_delivery import recent_beacons
+
+                for row in recent_beacons():
+                    print_msg(f"  {row.get('client_id', '?')}  host={row.get('hostname', '?')}")
+            except Exception:
+                pass
+            return
+        try:
+            rounds = max(1, min(int(values["rounds"]), 64))
+        except ValueError:
+            rounds = 6
+        try:
+            timeout = float(values["timeout"])
+        except ValueError:
+            timeout = 0.0
+        deadline = time.time() + timeout if timeout > 0 else None
+        config = BeaconLoopConfig(
+            client_id=values["client"],
+            goal=values["goal"] or "situational awareness and safe data discovery",
+            rounds=rounds,
+            round_interval_s=DEFAULT_ROUND_INTERVAL_S,
+        )
+        report = run_beacon_loop(config, log=print_msg, deadline=deadline)
+        path = write_report(report)
+        if path:
+            print_msg(f"Report: {path}")
+        return
+
+    @cmd2.with_category("10. Command & Control")
     def do_atomic_agent(self, line):
         """
         Generates and synchronizes atomic agent scripts.

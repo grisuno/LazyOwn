@@ -112,6 +112,10 @@ _KILL_CHAIN_NEXT: dict[str, list[str]] = {
     "bof_run": ["bof_results", "bof_train", "bof_beacons"],
     "bof_beacons": ["bof_deploy", "bof_train"],
     "bof_results": ["bof_train", "bof_run"],
+    "beacon_loop": ["bof_results", "sitrep", "apt_chain"],
+    "atomic_tests": ["atomic_gen", "atomic_emulate", "atomic_clean"],
+    "atomic_emulate": ["atomic_clean", "apt_chain"],
+    "apt_chain": ["atomic_clean", "beacon_loop"],
 }
 
 _PHASE_PRIORITY: dict[str, list[str]] = {

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from typing import Any
 
 from mcp import types
@@ -34,22 +35,36 @@ TOOL = types.Tool(
 
 
 def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext) -> list:
-    """Coerce and persist one payload key, refusing to null an existing value."""
+    """Coerce, validate and persist one payload key via the SDK facade.
+
+    The coercion, schema validation and write now live once in
+    :class:`sdk.facade.Lazy.config`; this handler keeps only the tool
+    policy of refusing to null out an existing value.
+
+    Args:
+        arguments: Tool arguments; ``key`` and ``value``.
+        tool_name: The dispatched tool name for the text envelope.
+        ctx: Injected runtime helpers.
+
+    Returns:
+        A one-element ``TextContent`` list with the write result, the
+        null refusal, or a schema validation error.
+    """
     key = arguments.get("key")
     value = arguments.get("value")
     if not key:
         return ctx.text(tool_name, "key and value are required")
-    try:
-        from core.payload_schema import coerce_value
-    except ImportError:
+    if str(ctx.lazyown_dir) not in sys.path:
+        sys.path.insert(0, str(ctx.lazyown_dir))
+    from core.payload_schema import coerce_value
 
-        def coerce_value(coerce_key, coerce_value_in):
-            return coerce_value_in
+    from sdk import ConfigValidationError, Lazy
 
-    cfg = ctx.load_payload()
     coerced = coerce_value(key, value)
     if coerced is None or (isinstance(coerced, str) and not coerced.strip()):
         return ctx.text(tool_name, f"Refused: refusing to null out '{key}' (pass a real value)")
-    cfg[key] = coerced
-    result = ctx.save_payload(cfg)
-    return ctx.text(tool_name, json.dumps({"key": key, "value": coerced, "result": result}))
+    try:
+        persisted = Lazy(payload_path=ctx.lazyown_dir / "payload.json").config.set(key, value)
+    except ConfigValidationError as exc:
+        return ctx.text(tool_name, f"error: {exc}")
+    return ctx.text(tool_name, json.dumps({"key": key, "value": persisted, "result": "payload.json"}))

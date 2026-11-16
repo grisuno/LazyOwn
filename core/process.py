@@ -208,6 +208,7 @@ def run_command(command: str, timeout: float | None = None) -> str:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
+            errors="replace",
             env=terminal_env(),
         )
     except FileNotFoundError:

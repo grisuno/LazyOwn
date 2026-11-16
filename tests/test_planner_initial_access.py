@@ -60,10 +60,28 @@ def test_initial_access_candidate_emitted_regardless_of_goal(store):
 def test_initial_access_candidate_skips_when_foothold_proven(store, monkeypatch):
     import modules.lazy_loop as loop
 
-    monkeypatch.setattr(loop, "_target_foothold_proven", lambda _target: True)
+    monkeypatch.setattr(loop, "_target_foothold_proven", lambda *_args, **_kwargs: True)
     planner, _graph, _task = _make_planner(store, "enumerate services on 172.17.0.2", "172.17.0.2")
     candidate = planner._initial_access_candidate({n.text for n in planner.graph.list("intent")})
     assert candidate is None
+
+
+def test_foothold_gate_ignores_global_world_model(monkeypatch):
+    import modules.lazy_loop as loop
+
+    class _Snap:
+        @staticmethod
+        def snapshot():
+            return {"hosts": {"172.17.0.2": {"state": "owned"}}}
+
+    monkeypatch.setattr("modules.world_model.get_world_model", lambda: _Snap(), raising=False)
+    assert loop._target_foothold_proven("172.17.0.2", "tFRESHRUN") is False
+
+
+def test_foothold_gate_requires_task_context():
+    import modules.lazy_loop as loop
+
+    assert loop._target_foothold_proven("172.17.0.2", "") is False
 
 
 def test_initial_access_candidate_skips_without_target(store):

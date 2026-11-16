@@ -34,7 +34,16 @@ MAX_PLAYBOOK_BYTES = 500_000
 _PREVIEW_LINES = 60
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
 _SUFFIXES = (".yaml", ".yml")
-PLAYBOOK_ACTION_KINDS: tuple[str, ...] = ("atomic", "command", "lazyscript", "lua", "plugin", "lazyaddon", "chain")
+PLAYBOOK_ACTION_KINDS: tuple[str, ...] = (
+    "atomic",
+    "command",
+    "lazyscript",
+    "lua",
+    "plugin",
+    "lazyaddon",
+    "chain",
+    "lazymode",
+)
 
 
 @dataclass(frozen=True)

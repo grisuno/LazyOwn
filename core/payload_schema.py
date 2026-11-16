@@ -57,6 +57,8 @@ from modules.llm_factory import (
     DEFAULT_OLLAMA_HOST,
     DEFAULT_OLLAMA_MODEL,
     DEFAULT_OPENAI_MODEL,
+    DEFAULT_OPENCODE_BASE_URL,
+    DEFAULT_OPENCODE_MODEL,
     SUPPORTED_BACKENDS,
 )
 
@@ -1493,6 +1495,36 @@ SCHEMA: dict[str, FieldSpec] = {
             example="sk-********************************",
             category="ai",
             sensitive=True,
+        ),
+        _spec(
+            "llm_model_opencode",
+            FieldKind.STRING,
+            DEFAULT_OPENCODE_MODEL,
+            "Model identifier used by the opencode backend.",
+            long_help=(
+                "OpenCode Zen proxies many upstream models behind one key. "
+                "Confirm the live identifier against the gateway's "
+                "/zen/v1/models endpoint before relying on a default."
+            ),
+            example=DEFAULT_OPENCODE_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "opencode_api_key",
+            FieldKind.STRING,
+            "",
+            "OpenCode Zen API key used by the opencode backend.",
+            example="sk-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "opencode_base_url",
+            FieldKind.STRING,
+            DEFAULT_OPENCODE_BASE_URL,
+            "Base URL of the OpenAI-compatible OpenCode Zen gateway.",
+            example=DEFAULT_OPENCODE_BASE_URL,
+            category="ai",
         ),
         _spec(
             "ollama_host",

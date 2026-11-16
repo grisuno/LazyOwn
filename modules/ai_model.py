@@ -1,9 +1,10 @@
 """Concrete language model backends for LazyOwn.
 
-This module exposes the abstract :class:`AIModel` together with five
+This module exposes the abstract :class:`AIModel` together with the
 concrete implementations: :class:`GroqModel` (cloud),
 :class:`OllamaModel` (local), :class:`OpenAIModel` (cloud),
-:class:`AnthropicModel` (cloud), and :class:`DeepSeekModel` (cloud).
+:class:`AnthropicModel` (cloud), :class:`DeepSeekModel` (cloud), and
+:class:`OpenCodeModel` (the OpenAI-compatible OpenCode Zen gateway).
 Every implementation honours both the historical
 ``generate``/``stream_generate`` interface used by the existing AI
 agents and the :func:`complete` signature defined in
@@ -33,6 +34,8 @@ DEFAULT_OLLAMA_HOST = "http://localhost:11434"
 DEFAULT_OPENAI_MODEL = "gpt-4o"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
+DEFAULT_OPENCODE_MODEL = "grok-code"
+DEFAULT_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 DEFAULT_LLAMACPP_MODEL = "local-model"
 DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
 DEFAULT_COMPLETE_MAX_TOKENS = 1024
@@ -609,6 +612,78 @@ class DeepSeekModel(AIModel):
             return f"Error from DeepSeek: {exc}"
 
 
+class OpenCodeModel(AIModel):
+    """OpenCode Zen gateway backend.
+
+    OpenCode Zen exposes an OpenAI-compatible endpoint that proxies many
+    upstream models (Grok, GLM, Qwen, Kimi) behind a single API key. This
+    backend reuses the OpenAI SDK with the gateway base URL so the
+    operator only supplies an ``OPENCODE_API_KEY`` and a model identifier.
+    Confirm live model identifiers against ``/zen/v1/models``.
+    """
+
+    def __init__(
+        self,
+        api_key: str,
+        model: str = DEFAULT_OPENCODE_MODEL,
+        base_url: str = DEFAULT_OPENCODE_BASE_URL,
+    ) -> None:
+        self.client = _LazyImporter.openai()(
+            api_key=api_key,
+            base_url=base_url,
+        )
+        self.model = model
+        self.base_url = base_url
+
+    def generate(self, prompt: str) -> str:
+        try:
+            response = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=self.model,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            logger.warning("OpenCode generate error: %s", exc)
+            return f"Error from OpenCode: {exc}"
+
+    def stream_generate(self, prompt: str) -> Generator[str, None, None]:
+        try:
+            stream = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=self.model,
+                stream=True,
+            )
+            for chunk in stream:
+                content = chunk.choices[0].delta.content
+                if content:
+                    yield content
+        except Exception as exc:
+            logger.warning("OpenCode stream error: %s", exc)
+            yield f"Error streaming from OpenCode: {exc}"
+
+    def complete(
+        self,
+        system: str,
+        user: str,
+        max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS,
+        temperature: float = DEFAULT_COMPLETE_TEMPERATURE,
+    ) -> str:
+        try:
+            response = self.client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                model=self.model,
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            logger.warning("OpenCode complete error: %s", exc)
+            return f"Error from OpenCode: {exc}"
+
+
 __all__ = [
     "AIModel",
     "AnthropicModel",
@@ -620,8 +695,11 @@ __all__ = [
     "DEFAULT_OLLAMA_HOST",
     "DEFAULT_OLLAMA_MODEL",
     "DEFAULT_OPENAI_MODEL",
+    "DEFAULT_OPENCODE_BASE_URL",
+    "DEFAULT_OPENCODE_MODEL",
     "DeepSeekModel",
     "GroqModel",
     "OllamaModel",
     "OpenAIModel",
+    "OpenCodeModel",
 ]

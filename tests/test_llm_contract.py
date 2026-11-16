@@ -17,7 +17,7 @@ import importlib
 
 import pytest
 
-CANONICAL_BACKENDS = ("groq", "ollama", "openai", "anthropic", "deepseek", "llamacpp", "auto")
+CANONICAL_BACKENDS = ("groq", "ollama", "openai", "anthropic", "deepseek", "opencode", "llamacpp", "auto")
 
 LLM_FACTORY_PUBLIC = (
     "get_llm_backend",
@@ -40,6 +40,7 @@ AI_MODEL_PUBLIC = (
     "OpenAIModel",
     "AnthropicModel",
     "DeepSeekModel",
+    "OpenCodeModel",
 )
 
 
@@ -129,6 +130,7 @@ class TestBackendMetadataContract:
         assert factory.default_model_for("openai") == factory.DEFAULT_OPENAI_MODEL
         assert factory.default_model_for("anthropic") == factory.DEFAULT_ANTHROPIC_MODEL
         assert factory.default_model_for("deepseek") == factory.DEFAULT_DEEPSEEK_MODEL
+        assert factory.default_model_for("opencode") == factory.DEFAULT_OPENCODE_MODEL
         assert factory.default_model_for("auto") == factory.DEFAULT_GROQ_MODEL
         assert factory.default_model_for(None) == factory.DEFAULT_GROQ_MODEL
 
@@ -139,6 +141,7 @@ class TestBackendMetadataContract:
         assert factory.model_config_key("openai") == factory.CONFIG_KEY_MODEL_OPENAI
         assert factory.model_config_key("anthropic") == factory.CONFIG_KEY_MODEL_ANTHROPIC
         assert factory.model_config_key("deepseek") == factory.CONFIG_KEY_MODEL_DEEPSEEK
+        assert factory.model_config_key("opencode") == factory.CONFIG_KEY_MODEL_OPENCODE
         assert factory.model_config_key("auto") == factory.CONFIG_KEY_MODEL_GROQ
 
     def test_api_key_slots(self):
@@ -147,6 +150,7 @@ class TestBackendMetadataContract:
         assert factory.api_key_config_key("openai") == factory.CONFIG_KEY_OPENAI_API_KEY
         assert factory.api_key_config_key("anthropic") == factory.CONFIG_KEY_ANTHROPIC_API_KEY
         assert factory.api_key_config_key("deepseek") == factory.CONFIG_KEY_DEEPSEEK_API_KEY
+        assert factory.api_key_config_key("opencode") == factory.CONFIG_KEY_OPENCODE_API_KEY
         assert factory.api_key_config_key("ollama") is None
         assert factory.api_key_config_key("auto") == factory.CONFIG_KEY_API_KEY
 

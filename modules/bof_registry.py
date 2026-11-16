@@ -405,6 +405,14 @@ def find_client_artifact(
     for candidate in candidates:
         if os.path.isfile(candidate):
             return candidate
+    try:
+        from modules.bsb_compat import resolve_bof_object
+
+        resolved = resolve_bof_object(entry.name, relative_artifact=entry.client_artifact)
+        if resolved:
+            return resolved
+    except Exception as exc:
+        log.debug("compat BOF resolution failed for '%s': %s", entry.name, exc)
     for root, _dirs, files in os.walk(external_root):
         for name in files:
             if name in (f"{entry.name}.o", f"{entry.name}.x64.o"):

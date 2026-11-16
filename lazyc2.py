@@ -858,17 +858,16 @@ def implants_check():
     implants["implants"].clear()
 
     implant_files = glob.glob(os.path.join(BASE_DIR, "implant_config*.json"))
-    logging.info(implant_files)
     if implant_files:
         for i, file in enumerate(implant_files, start=1):
             try:
                 with open(file, "r") as f:
-                    logging.info("Info: Implants created.")
                     content = f.read().strip()
                     implants["implants"].append({"implant": i, "content": content})
             except Exception:
                 if config.enable_c2_debug:
-                    logger.info("[Error] reading file")
+                    logger.info("[Error] reading file %s", file)
+        logger.debug("Loaded %d implants", len(implant_files))
 
 
 def extract_attack_vectors(nodes, edges):
@@ -3404,7 +3403,7 @@ def index():
     short_urls = load_short_urls()
     prompt = prompt.replace("\n", "<br>")
     sessions_dir = f"{path}/sessions"
-    json_files = [f for f in os.listdir(sessions_dir) if f.endswith(".json")]
+    json_files = [f for f in os.listdir(sessions_dir) if f.endswith(".json") and not f.startswith(".")]
     implants_check()
     if not json_files:
         return "No JSON files found in the sessions directory.", 404
@@ -3431,11 +3430,21 @@ def index():
         flash("Task created successfully!", "success")
         return redirect(url_for("index"))
 
-    latest_json_file = max(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)))
-    json_path = os.path.join(sessions_dir, latest_json_file)
-
-    with open(json_path, "r") as f:
-        session_data = json.load(f)
+    session_data = None
+    for candidate in sorted(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)), reverse=True):
+        try:
+            with open(os.path.join(sessions_dir, candidate), "r") as f:
+                loaded = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            logger.warning("index: skipping unparsable session file %s", candidate)
+            continue
+        if isinstance(loaded, list):
+            loaded = loaded[0] if loaded else {}
+        if isinstance(loaded, dict):
+            session_data = loaded
+            break
+    if session_data is None:
+        return "No parsable JSON session files found in the sessions directory.", 404
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
@@ -4569,6 +4578,16 @@ def serve_bof_object(name):
             continue
         logging.info("bof: serving %s from %s", safe, candidate)
         return Response(base64.b64encode(blob).decode("ascii") + "\r\n", mimetype="text/plain")
+    try:
+        from modules.bsb_compat import resolve_bof_object
+
+        resolved = resolve_bof_object(safe)
+        if resolved:
+            blob = open(resolved, "rb").read()
+            logging.info("bof: serving %s from %s (compat lookup)", safe, resolved)
+            return Response(base64.b64encode(blob).decode("ascii") + "\r\n", mimetype="text/plain")
+    except Exception as exc:
+        logging.debug("bof compat lookup failed for %s: %s", safe, exc)
     logging.info("bof: %s not found in the BOF staging dirs", safe)
     return Response("BOF_NOT_FOUND\r\n", mimetype="text/plain")
 
@@ -5031,17 +5050,27 @@ def _api_data_inner():
     short_urls = load_short_urls()
     prompt = prompt.replace("\n", "<br>")
     sessions_dir = f"{path}/sessions"
-    json_files = [f for f in os.listdir(sessions_dir) if f.endswith(".json")]
+    json_files = [f for f in os.listdir(sessions_dir) if f.endswith(".json") and not f.startswith(".")]
     implants_check()
     if not json_files:
         return jsonify({"error": "No JSON files found in the sessions directory."}), 404
     tasks = load_tasks()
 
-    latest_json_file = max(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)))
-    json_path = os.path.join(sessions_dir, latest_json_file)
-
-    with open(json_path, "r") as f:
-        session_data = json.load(f)
+    session_data = None
+    for candidate in sorted(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)), reverse=True):
+        try:
+            with open(os.path.join(sessions_dir, candidate), "r") as f:
+                loaded = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            logger.warning("session api: skipping unparsable session file %s", candidate)
+            continue
+        if isinstance(loaded, list):
+            loaded = loaded[0] if loaded else {}
+        if isinstance(loaded, dict):
+            session_data = loaded
+            break
+    if session_data is None:
+        return jsonify({"error": "No parsable JSON session files found in the sessions directory."}), 404
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
@@ -7334,6 +7363,112 @@ def api_beacon_results(client_id):
     return jsonify({"client_id": safe_id, "records": records}), 200
 
 
+_BEACON_REPO_ROOT = Path(__file__).resolve().parent
+_BEACON_SESSIONS_DIR = _BEACON_REPO_ROOT / "sessions"
+
+
+def _detect_beacon_type(safe_id: str, platform: str) -> tuple[str, str]:
+    """Classify one connected implant by its runtime family.
+
+    Delegates to ``modules.beacon_kinds.detect_beacon_type``.
+
+    Args:
+        safe_id: Sanitized beacon client id.
+        platform: Platform string reported by the beacon ("windows"/"linux").
+
+    Returns:
+        Tuple ``(type, label)``.
+    """
+    from modules.beacon_kinds import detect_beacon_type
+
+    return detect_beacon_type(safe_id, platform, _bsb_beacon_clients, _BEACON_SESSIONS_DIR)
+
+
+def _beacon_capabilities(beacon_type: str) -> dict:
+    """Return the capability flags for one beacon family.
+
+    Delegates to ``modules.beacon_kinds.beacon_capabilities``.
+
+    Args:
+        beacon_type: Family from :func:`_detect_beacon_type`.
+
+    Returns:
+        Capability flag dict.
+    """
+    from modules.beacon_kinds import beacon_capabilities
+
+    return beacon_capabilities(beacon_type)
+
+
+def _beacon_menu_bofs(capabilities: dict) -> list[dict]:
+    """List catalog BOFs compatible with one beacon platform.
+
+    Delegates to ``modules.beacon_kinds.beacon_menu_bofs``.
+
+    Args:
+        capabilities: Flags from :func:`_beacon_capabilities`.
+
+    Returns:
+        List of BOF summary dicts.
+    """
+    from modules.beacon_kinds import beacon_menu_bofs
+
+    return beacon_menu_bofs(capabilities, _BEACON_SESSIONS_DIR)
+
+
+def _beacon_menu_playbooks() -> list[dict]:
+    """List the APT adversarial playbooks available for chains.
+
+    Delegates to ``modules.beacon_kinds.beacon_menu_playbooks``.
+
+    Returns:
+        List of playbook summary dicts.
+    """
+    from modules.beacon_kinds import beacon_menu_playbooks
+
+    return beacon_menu_playbooks(_BEACON_REPO_ROOT)
+
+
+@app.route("/api/beacon_menu/<client_id>", methods=["GET"])
+@requires_auth
+@limiter.limit("120 per minute")
+def api_beacon_menu(client_id):
+    """Return the implant context-menu payload for one beacon.
+
+    Combines the detected beacon family (BlackSandBeacon, LazyOwn Go
+    agent or Windows C beacon) with its capabilities, the compatible
+    BOF catalog slice, the APT adversarial playbooks and the capability
+    command catalog so the viz.js implant menu can render everything
+    without a second round trip.
+    """
+    safe_id = "".join(c for c in str(client_id) if c.isalnum() or c in "-_")
+    if not safe_id or safe_id != str(client_id):
+        return jsonify({"error": "Invalid client_id"}), 400
+    from modules.beacon_kinds import beacon_commands
+
+    record = results.get(safe_id) or {}
+    platform = str(record.get("client", "") or "").strip().lower()
+    beacon_type, type_label = _detect_beacon_type(safe_id, platform)
+    capabilities = _beacon_capabilities(beacon_type)
+    ips = str(record.get("ips", "") or "").split(",")[0].strip().strip("[]'\"")
+    return (
+        jsonify(
+            {
+                "client_id": safe_id,
+                "ip": ips if ips != "-" else "",
+                "platform": platform,
+                "beacon_type": beacon_type,
+                "type_label": type_label,
+                "capabilities": capabilities,
+                "bofs": _beacon_menu_bofs(capabilities),
+                "playbooks": _beacon_menu_playbooks(),
+                "beacon_commands": beacon_commands(beacon_type),
+            }
+        ),
+        200,
+    )
+
+
 def _render_enhanced_report():
     try:
         from modules.report_templates import ReportGenerator
@@ -9268,7 +9403,12 @@ if __name__ == "__main__":
                 print(f"[listener] Removed stale persisted listener '{_sid}' colliding on port {lport}")
     except Exception as _lst_err:
         print(f"[listener] Persisted-listener cleanup skipped: {_lst_err}")
-    listener_manager.add(port=int(lport), ssl=ssl_default, listener_id="default")
+    try:
+        lport_int = int(lport)
+    except (TypeError, ValueError):
+        lport_int = int(getattr(config, "c2_port", 4444) or 4444)
+        print(f"[listener] Invalid or empty port argument ({lport!r}) — falling back to c2_port={lport_int}")
+    listener_manager.add(port=lport_int, ssl=ssl_default, listener_id="default")
 
     try:
         from modules.event_consumers import wire_all_consumers as _wire_consumers

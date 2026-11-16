@@ -17,14 +17,22 @@ from __future__ import annotations
 
 import asyncio
 import importlib
+import logging
 import pkgutil
+import sys
 from collections.abc import Iterator
+from pathlib import Path
 from types import ModuleType
 
 from mcp_tools._context import MCPContext
 
 PACKAGE_NAME = "mcp_tools"
 _UNDERSCORE_PREFIX = "_"
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_logger = logging.getLogger("mcp_tools")
+
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 
 def iter_tool_modules() -> Iterator[ModuleType]:
@@ -33,7 +41,9 @@ def iter_tool_modules() -> Iterator[ModuleType]:
     Each non-underscore module under :mod:`mcp_tools` is imported and kept
     only when it declares both the ``TOOL`` schema and a ``handle``
     callable, so partial or helper modules are ignored rather than crashing
-    discovery.
+    discovery. A module that fails to import (for example an environment
+    without an optional dependency) is logged and skipped so one broken
+    tool never takes down the whole registry and, with it, the server.
 
     Yields:
         Each tool module that satisfies the one-file-per-tool contract.
@@ -43,7 +53,11 @@ def iter_tool_modules() -> Iterator[ModuleType]:
         leaf = info.name.rsplit(".", 1)[-1]
         if leaf.startswith(_UNDERSCORE_PREFIX):
             continue
-        module = importlib.import_module(info.name)
+        try:
+            module = importlib.import_module(info.name)
+        except Exception as exc:  # noqa: BLE001
+            _logger.warning("skipping tool module %s: %s", info.name, exc)
+            continue
         if hasattr(module, "TOOL") and hasattr(module, "handle"):
             yield module
 

@@ -10,6 +10,7 @@ the runtime.
 from __future__ import annotations
 
 import json
+import sys
 from typing import Any
 
 from mcp import types
@@ -26,6 +27,8 @@ TOOL = types.Tool(
 def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext) -> list:
     """Return the full ``payload.json`` as pretty-printed JSON text.
 
+    Reads through the SDK facade so configuration access has one home.
+
     Args:
         arguments: Unused; the tool takes no parameters.
         tool_name: The dispatched tool name, used for the text envelope.
@@ -34,5 +37,9 @@ def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext) -> list:
     Returns:
         A one-element ``TextContent`` list holding the config JSON.
     """
-    cfg = ctx.load_payload()
+    if str(ctx.lazyown_dir) not in sys.path:
+        sys.path.insert(0, str(ctx.lazyown_dir))
+    from sdk import Lazy
+
+    cfg = Lazy(payload_path=ctx.lazyown_dir / "payload.json").config.all()
     return ctx.text(tool_name, json.dumps(cfg, indent=2))

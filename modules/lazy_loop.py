@@ -3707,35 +3707,75 @@ def _initial_access_intent(text: str) -> bool:
     return any(mark in text for mark in _INITIAL_ACCESS_MARKS)
 
 
-def _target_foothold_proven(target: str) -> bool:
-    """Report whether a host already reached an initial foothold.
+_FOOTHOLD_FINDING_MARKS = (
+    "shell",
+    "session",
+    "foothold",
+    "meterpreter",
+    "command execution",
+    "remote code execution",
+    "rce",
+    "initial access",
+)
 
-    Reads the target host engagement state from the world model and treats any
-    state at or past :attr:`HostState.EXPLOITED` as a proven foothold. This is
-    the single gate for the deterministic ``auto_pwn`` path: it fires for any
-    goal while no foothold exists and stops once one does, so winning the
-    foothold never depends on the operator's goal wording. Fail-open: any error
-    returns False so ``auto_pwn`` still runs.
+
+def _target_foothold_proven(target: str, task_id: str = "") -> bool:
+    """Report whether THIS engagement already reached an initial foothold.
+
+    This is the single gate for the deterministic ``auto_pwn`` path: it fires
+    for any goal while this run has no foothold and stops once this run proves
+    one, so winning the foothold never depends on the operator's goal wording.
+
+    The evidence source is strictly per-engagement (the task exploration graph
+    and the durable per-task findings ledger), never the global world model.
+    The world model remembers exploited hosts across campaigns forever, so a
+    host owned by a prior run must not suppress ``auto_pwn`` in a fresh run
+    against the same target. Fail-open: any error returns False so ``auto_pwn``
+    still runs.
 
     Args:
         target: Target host address.
+        task_id: Engagement identifier whose own evidence decides the gate.
+            Empty disables the gate (no run context to prove a foothold).
 
     Returns:
-        True when the host state is ``exploited`` or ``owned``.
+        True when this engagement already recorded a confirmed foothold on the
+        target.
     """
-    if not target:
+    if not target or not task_id:
         return False
     try:
-        from modules.world_model import HostState, get_world_model
+        from modules.atomic_exploit_bridge import shell_output_evidence
+    except Exception:
+        shell_output_evidence = None
 
-        snapshot = get_world_model().snapshot()
-        host = (snapshot.get("hosts", {}) or {}).get(target, {}) or {}
-        state = str(host.get("state", "") or "")
-        if not state:
-            return False
-        return HostState(state).rank() >= HostState.EXPLOITED.rank()
+    def _is_foothold(text: str, meta: dict) -> bool:
+        lowered = (text or "").lower()
+        if any(mark in lowered for mark in _FOOTHOLD_FINDING_MARKS):
+            return True
+        evidence = str((meta or {}).get("evidence", "") or (meta or {}).get("output", "") or "")
+        if shell_output_evidence is not None and evidence and shell_output_evidence(evidence[:5000]):
+            return True
+        return bool(shell_output_evidence and shell_output_evidence(lowered[:5000]))
+
+    try:
+        for node in ExplorationGraph(task_id).list("finding"):
+            confirmed = str(node.state) == "confirmed" or "reproduced" in str(node.meta.get("verdict", ""))
+            if confirmed and _is_foothold(node.text or "", node.meta or {}):
+                return True
     except Exception:
         return False
+    try:
+        from modules.sinks.findings import ledger_for
+
+        for row in ledger_for(task_id).rows():
+            if str(row.get("state", "")) != "confirmed":
+                continue
+            if _is_foothold(str(row.get("title", "") or ""), row if isinstance(row, dict) else {}):
+                return True
+    except Exception:
+        return False
+    return False
 
 
 def _lazy_policy():
@@ -4362,7 +4402,7 @@ class Planner:
         except Exception:
             pass
         target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
-        if not target or _target_foothold_proven(target):
+        if not target or _target_foothold_proven(target, self.task_id):
             return None
         summary = f"gain initial access on {target}"
         if summary in existing:
@@ -10746,19 +10786,22 @@ class LazyLoopEngine(EngineProxyMixin):
         goals = graph.list("goal")
         return bool(goals) and all(g.state == "done" for g in goals)
 
-    def _foothold_proven(self, target: str) -> bool:
-        """Report whether the target already reached an initial foothold.
+    def _foothold_proven(self, target: str, task_id: str = "") -> bool:
+        """Report whether this engagement already reached an initial foothold.
 
         Delegates to the module-level :func:`_target_foothold_proven`, the one
-        foothold gate shared with the planner's deterministic access path.
+        foothold gate shared with the planner's deterministic access path. The
+        gate reads per-engagement evidence only, so a host exploited by a prior
+        campaign never suppresses ``auto_pwn`` in a fresh run.
 
         Args:
             target: Target host address.
+            task_id: Engagement identifier whose own evidence decides the gate.
 
         Returns:
-            True when the host state is ``exploited`` or ``owned``.
+            True when this engagement already recorded a confirmed foothold.
         """
-        return _target_foothold_proven(target)
+        return _target_foothold_proven(target, task_id)
 
     def _terminal_autopwn_fallback(self, task_id: str, executor, activity: ActivityLog) -> bool:
         """Run ``auto_pwn`` as the guaranteed terminal fallback.
@@ -10780,7 +10823,7 @@ class LazyLoopEngine(EngineProxyMixin):
         if executor is None:
             return False
         target = (resolve_target(task_id, self.store, ExplorationGraph(task_id)) or "").strip()
-        if not target or self._foothold_proven(target):
+        if not target or self._foothold_proven(target, task_id):
             return False
         try:
             from modules.auto_registry import verb_enabled, verb_gap

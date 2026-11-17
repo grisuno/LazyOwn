@@ -1419,7 +1419,7 @@ Create a Windows reverse shell (PowerShell).
 
 **Phase:** persist | **Source:** `cli/commands/persist_migrated.py`
 
-Uses the darkarmour tool to generate an undetectable version of a PE executable.
+Uses the darkarmour tool to generate an obfuscated version of a PE executable.
 
 ### `dr0p1t`
 

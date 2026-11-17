@@ -850,3 +850,23 @@ def test_create_task_seeds_payload_scope(tmp_path, monkeypatch):
     entries = {(item["kind"], item["value"]) for item in record.get("scope", []) or []}
     assert ("cidr", "172.17.0.0/24") in entries, entries
     assert ("ip", "10.66.44.7") in entries, entries
+
+
+def test_round_worker_timeout_is_bounded_and_configurable(tmp_path, monkeypatch):
+    """BDD: every round has a finite worker watchdog so one stuck worker never freezes the loop."""
+    import modules.lazy_loop as loop
+    import modules.orchestrator_config as oc
+
+    engine = loop.LazyLoopEngine()
+    assert loop.ENGINE_DEFAULT_WORKER_ROUND_TIMEOUT_SEC > 0
+    assert engine.worker_round_timeout_sec == loop.ENGINE_DEFAULT_WORKER_ROUND_TIMEOUT_SEC
+
+    monkeypatch.setattr(oc, "active_profile", lambda: "custom", raising=False)
+    monkeypatch.setattr(
+        oc,
+        "profile_config",
+        lambda name="": {"limits": {"worker_round_timeout_sec": 42}},
+        raising=False,
+    )
+    engine.apply_profile("custom")
+    assert engine.worker_round_timeout_sec == 42.0

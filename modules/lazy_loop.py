@@ -107,6 +107,7 @@ GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
 ENGINE_DEFAULT_MAX_ROUNDS = 10
 ENGINE_DEFAULT_WORKERS = 3
+ENGINE_DEFAULT_WORKER_ROUND_TIMEOUT_SEC = 900.0
 DEFAULT_DEBOUNCE_SEC = 0.5
 DEFAULT_COLD_THRESHOLD = 50
 DEFAULT_COLD_DEBOUNCE_SEC = 300.0
@@ -8806,6 +8807,13 @@ class LazyLoopEngine(EngineProxyMixin):
             0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300)
         )
         self.worker_cap = max(1, int(resolved.get("worker_parallel_cap", 5) or 5))
+        self.worker_round_timeout_sec = max(
+            0.0,
+            float(
+                resolved.get("worker_round_timeout_sec", ENGINE_DEFAULT_WORKER_ROUND_TIMEOUT_SEC)
+                or ENGINE_DEFAULT_WORKER_ROUND_TIMEOUT_SEC
+            ),
+        )
         try:
             from modules import orchestrator_config as _oc
 
@@ -9849,6 +9857,9 @@ class LazyLoopEngine(EngineProxyMixin):
             try:
                 slots: list = [None] * len(claimed)
                 pending = {workers_exec.submit(_run_one, (pos, item)): pos for pos, item in enumerate(claimed)}
+                round_deadline = (
+                    time.time() + self.worker_round_timeout_sec if self.worker_round_timeout_sec > 0 else None
+                )
                 while pending:
                     try:
                         done, _ = _futures.wait(set(pending), timeout=1.0)
@@ -9866,6 +9877,27 @@ class LazyLoopEngine(EngineProxyMixin):
                             slots[pos] = future.result()
                         except Exception as exc:
                             slots[pos] = {"error": str(exc)[:200]}
+                    if pending and round_deadline is not None and time.time() >= round_deadline:
+                        abandoned = len(pending)
+                        for future, pos in list(pending.items()):
+                            future.cancel()
+                            node = claimed[pos]
+                            slots[pos] = {
+                                "intent_id": getattr(node, "node_id", 0),
+                                "worker": f"worker-{pos + 1}",
+                                "facts": 0,
+                                "assets": 0,
+                                "findings": 0,
+                                "state": "timeout",
+                            }
+                        pending.clear()
+                        activity.emit(
+                            "engine",
+                            "watchdog",
+                            f"round watchdog abandoned {abandoned} worker(s) after "
+                            f"{int(self.worker_round_timeout_sec)}s; marking timeout and advancing",
+                        )
+                        break
                 results.extend(slot for slot in slots if slot is not None)
             finally:
                 _unregister_loop_executor(workers_exec)

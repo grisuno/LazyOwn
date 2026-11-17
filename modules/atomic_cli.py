@@ -375,7 +375,7 @@ def run_atomic_gen(params: dict[str, Any], line: str, shell: Any = None) -> int:
 
     if platform_first == "windows":
         test_content = (
-            f'Start-Transcript -Path "/tmp/lazyown_atomic_test/{safe_id}.log"\n'
+            f'Start-Transcript -Path "{_TMP_ROOT}/{safe_id}.log"\n'
             f"{get_prereq}\n{prereq}\n{command}\nStop-Transcript\n"
         )
         clean_content = f"{cleanup}\n"

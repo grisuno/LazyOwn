@@ -7,6 +7,7 @@ within the LazyOwn framework.
 import hashlib
 import os
 import subprocess
+import tempfile
 from datetime import datetime
 from typing import Union
 
@@ -313,14 +314,16 @@ class YaraScanner:
             if os.path.exists(target_dir):
                 continue
 
+            fd, zip_path = tempfile.mkstemp(prefix=f"yara_rules_{branch}_", suffix=".zip")
+            os.close(fd)
             try:
-                subprocess.run(["wget", "-q", "-O", f"/tmp/yara_rules_{branch}.zip", url], timeout=120, check=True)
-                subprocess.run(
-                    ["unzip", "-qo", f"/tmp/yara_rules_{branch}.zip", "-d", self.rules_dir], timeout=60, check=True
-                )
-                os.remove(f"/tmp/yara_rules_{branch}.zip")
+                subprocess.run(["wget", "-q", "-O", zip_path, url], timeout=120, check=True)
+                subprocess.run(["unzip", "-qo", zip_path, "-d", self.rules_dir], timeout=60, check=True)
             except Exception:
                 continue
+            finally:
+                if os.path.exists(zip_path):
+                    os.remove(zip_path)
 
         self.compile_all()
         return True

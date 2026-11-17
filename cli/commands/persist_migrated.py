@@ -1146,7 +1146,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
     @cmd2.with_category("05. Persistence")
     def do_darkarmour(self, line):
         """
-        Uses the darkarmour tool to generate an undetectable version of a PE executable.
+        Uses the darkarmour tool to generate an obfuscated version of a PE executable.
 
         This function performs the following actions:
         1. Verifies the presence of darkarmour; if not installed, it clones the repository and installs dependencies.

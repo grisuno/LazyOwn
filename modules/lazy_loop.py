@@ -10817,12 +10817,68 @@ class LazyLoopEngine(EngineProxyMixin):
             self.store.resume(task_id)
         return True
 
+    def _foothold_evidence_id(self, graph: ExplorationGraph) -> int | None:
+        """Return a graph finding node that evidences a foothold, if any.
+
+        Prefers a confirmed/reproduced finding; falls back to any finding
+        whose text or captured output carries interactive-shell evidence.
+
+        Args:
+            graph: Task exploration graph.
+
+        Returns:
+            A finding ``node_id`` usable as ``prove_goal`` evidence, or None.
+        """
+        try:
+            from modules.atomic_exploit_bridge import shell_output_evidence
+        except Exception:
+            shell_output_evidence = None
+        fallback: int | None = None
+        for node in graph.list("finding"):
+            lowered = (node.text or "").lower()
+            is_foothold = any(mark in lowered for mark in _FOOTHOLD_FINDING_MARKS)
+            if not is_foothold and shell_output_evidence is not None:
+                blob = str((node.meta or {}).get("evidence", "") or (node.meta or {}).get("output", "") or "")
+                is_foothold = bool(blob and shell_output_evidence(blob[:5000]))
+            if not is_foothold:
+                continue
+            confirmed = str(node.state) == "confirmed" or "reproduced" in str(node.meta.get("verdict", ""))
+            if confirmed:
+                return node.node_id
+            if fallback is None:
+                fallback = node.node_id
+        return fallback
+
     def _check_goals(self, task_id: str, graph: ExplorationGraph, activity: ActivityLog) -> None:
-        """Auto-prove goals whose text appears in a finding."""
-        for goal in graph.list("goal", "pending"):
+        """Prove goals from evidence.
+
+        Two rules: a goal whose text appears verbatim in a finding is
+        proven by that finding; an initial-access goal is proven once this
+        engagement confirms a foothold, because foothold findings describe
+        the outcome ("shell obtained") and never echo the goal wording
+        ("gain initial access"), so the literal rule alone can never credit
+        it and the loop would re-attempt the foothold forever.
+        """
+        pending_goals = graph.list("goal", "pending")
+        if not pending_goals:
+            return
+        record = self.store.get(task_id) or {}
+        target = (resolve_target(task_id, self.store, graph) or str(record.get("target", "") or "")).strip()
+        foothold = bool(target) and _target_foothold_proven(target, task_id)
+        foothold_evidence = self._foothold_evidence_id(graph) if foothold else None
+        for goal in pending_goals:
+            matched = False
             for finding in graph.list("finding"):
                 if goal.text[:40].lower() in finding.text.lower():
                     self.prove_goal(task_id, goal.node_id, finding.node_id, "finding text entails goal")
+                    matched = True
+                    break
+            if matched:
+                continue
+            if foothold and foothold_evidence is not None and _initial_access_intent(goal.text.lower()):
+                self.prove_goal(
+                    task_id, goal.node_id, foothold_evidence, "confirmed foothold proves initial access"
+                )
 
     def _goals_met(self, task_id: str) -> bool:
         """Report whether every goal node is done."""

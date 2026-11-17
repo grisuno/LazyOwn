@@ -26,7 +26,7 @@ RECO_DIR = SESSIONS / "recommendations"
 NEXT_ACTIONS_FILE = RECO_DIR / "next_actions.json"
 PAYLOAD_FILE = BASE_DIR / "payload.json"
 
-_GROQ_MODEL = "llama-3.3-70b-versatile"
+_GROQ_MODEL = "openai/gpt-oss-120b"
 _MAX_TOKENS = 1024
 
 

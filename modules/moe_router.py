@@ -146,7 +146,7 @@ _DEFAULT_EXPERTS: list[ExpertProfile] = [
     ExpertProfile(
         expert_id="groq_powerful",
         backend="groq",
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         capabilities=[
             "exploit",
             "credential",
@@ -201,7 +201,7 @@ _DEFAULT_EXPERTS: list[ExpertProfile] = [
     ExpertProfile(
         expert_id="groq_cloud",
         backend="groq",
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         capabilities=["cloud_enum", "cloud_exploit", "iam_analysis"],
         base_weight=0.75,
         cost_tier=2,
@@ -211,7 +211,7 @@ _DEFAULT_EXPERTS: list[ExpertProfile] = [
     ExpertProfile(
         expert_id="groq_container",
         backend="groq",
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         capabilities=["container_escape", "k8s_enum", "docker_audit"],
         base_weight=0.75,
         cost_tier=2,

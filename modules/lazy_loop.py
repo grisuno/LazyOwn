@@ -7739,7 +7739,7 @@ class LlmPool:
 
     DEFAULT_MEMBERS = (
         {"name": "llamacpp-local", "model": "llamacpp:local-model", "priority": 10},
-        {"name": "groq-cloud", "model": "groq:llama-3.3-70b-versatile", "priority": 7},
+        {"name": "groq-cloud", "model": "groq:openai/gpt-oss-120b", "priority": 7},
         {"name": "pi-qwen", "model": "pi:local-model", "priority": 6},
         {"name": "ollama-local", "model": "ollama:deepseek-r1:1.5b", "priority": 5},
         {"name": "toposwarm-agent", "model": "toposwarm:router", "priority": 1},

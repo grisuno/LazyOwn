@@ -285,7 +285,7 @@ class TestConfigConstantsConsolidation:
         Then DEFAULT_GROQ_MODEL and DEFAULT_OLLAMA_HOST must be defined."""
         factory_path = Path(__file__).parent.parent / "modules" / "llm_factory.py"
         source = factory_path.read_text(encoding="utf-8")
-        assert 'DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"' in source
+        assert 'DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"' in source
         assert 'DEFAULT_OLLAMA_HOST = "http://localhost:11434"' in source
 
     def test_ai_fallback_imports_from_llm_factory(self):

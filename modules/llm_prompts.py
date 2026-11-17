@@ -58,8 +58,8 @@ _REPORT_CONTEXT_BASENAMES = (
     "users.json",
 )
 
-_ONE_LINER_MODEL = "llama-3.3-70b-versatile"
-_ADVERSARY_MODEL = "llama-3.3-70b-versatile"
+_ONE_LINER_MODEL = "openai/gpt-oss-120b"
+_ADVERSARY_MODEL = "openai/gpt-oss-120b"
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 

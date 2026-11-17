@@ -17,12 +17,14 @@ leaves the operator with a corrupt payload file.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import os
 import re
 import secrets
 import tempfile
+from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -398,6 +400,43 @@ def load_and_validate(
     }
 
 
+@contextlib.contextmanager
+def _payload_write_lock(target: Path) -> Iterator[None]:
+    """Serialize concurrent ``payload.json`` writers with an advisory lock.
+
+    The read-merge-replace in :func:`save_payload` is not atomic across
+    processes: the C2, the shell and the autonomous daemon all persist
+    ``payload.json``. Without serialization two writers that read the same
+    on-disk snapshot would each ``os.replace`` the file and the second would
+    silently drop the first writer's keys. An exclusive ``fcntl.flock`` on a
+    sibling ``*.lock`` file makes the critical section mutually exclusive
+    between processes. On platforms without ``fcntl`` the lock degrades to a
+    no-op, preserving the previous (unserialized) behaviour.
+
+    Args:
+        target: The payload file whose write critical section is guarded.
+
+    Yields:
+        ``None`` while the exclusive lock is held.
+    """
+    try:
+        import fcntl
+    except ImportError:
+        yield
+        return
+    target.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = target.with_name(f"{target.name}.lock")
+    lock_file = open(lock_path, "w", encoding="utf-8")
+    try:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+        finally:
+            lock_file.close()
+
+
 def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> None:
     """Atomically merge ``payload`` into the JSON file at ``path``.
 
@@ -415,41 +454,42 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
     """
     target = Path(path)
 
-    previous: dict[str, Any] | None = None
-    if target.exists():
-        try:
-            previous = _load_raw_payload(target)
-        except (json.JSONDecodeError, OSError) as exc:
-            logger.warning("Could not load existing payload for audit: %s", exc)
-    if previous is None:
-        disk_payload = payload
-    else:
-        disk_payload = {**previous, **payload}
-    if previous is not None:
-        for key, new_val in payload.items():
-            old_val = previous.get(key)
-            if key not in previous or old_val != new_val:
-                _log_config_change(key, old_val, new_val)
-
-    target.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp_name = tempfile.mkstemp(
-        prefix=f".{target.name}.",
-        suffix=".tmp",
-        dir=str(target.parent or "."),
-    )
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as fh:
-            json.dump(disk_payload, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
-        os.replace(tmp_name, target)
-        os.chmod(target, 0o644)
-    except Exception:
-        if os.path.exists(tmp_name):
+    with _payload_write_lock(target):
+        previous: dict[str, Any] | None = None
+        if target.exists():
             try:
-                os.unlink(tmp_name)
-            except OSError:
-                pass
-        raise
+                previous = _load_raw_payload(target)
+            except (json.JSONDecodeError, OSError) as exc:
+                logger.warning("Could not load existing payload for audit: %s", exc)
+        if previous is None:
+            disk_payload = payload
+        else:
+            disk_payload = {**previous, **payload}
+        if previous is not None:
+            for key, new_val in payload.items():
+                old_val = previous.get(key)
+                if key not in previous or old_val != new_val:
+                    _log_config_change(key, old_val, new_val)
+
+        target.parent.mkdir(parents=True, exist_ok=True)
+        fd, tmp_name = tempfile.mkstemp(
+            prefix=f".{target.name}.",
+            suffix=".tmp",
+            dir=str(target.parent or "."),
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as fh:
+                json.dump(disk_payload, fh, indent=2, ensure_ascii=False)
+                fh.write("\n")
+            os.replace(tmp_name, target)
+            os.chmod(target, 0o644)
+        except Exception:
+            if os.path.exists(tmp_name):
+                try:
+                    os.unlink(tmp_name)
+                except OSError:
+                    pass
+            raise
 
 
 def _rat_key_is_valid(value: str) -> bool:

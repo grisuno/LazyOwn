@@ -1,10 +1,8 @@
-"""Credential Access command set (pending).
+"""Credential Access command set.
 
 Phase 07 — commands for credential access: password cracking,
 hash manipulation, dictionary generation, and credential harvesting.
-
-Pending status: inherits from :class:`PendingCommandSet`. Promote to
-:class:`LazyOwnCommandSet` once originals are deleted from ``lazyown.py``.
+Active and registered via :class:`LazyOwnCommandSet`.
 """
 
 from __future__ import annotations
@@ -21,7 +19,7 @@ from utils import (
 
 
 class CredentialAccessCommandSet(LazyOwnCommandSet):
-    """Credential Access phase commands (pending)."""
+    """Credential Access phase commands."""
 
     phase = "cred"
     category = "07. Credential Access"

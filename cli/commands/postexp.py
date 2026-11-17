@@ -1,11 +1,8 @@
-"""Post-Exploitation command set (pending).
+"""Post-Exploitation command set.
 
 Phase 04 — commands for post-exploitation tasks: webshells, AV
 bypass, automated enumeration, shellcode generation, and payload
-creation.
-
-Pending status: inherits from :class:`PendingCommandSet`. Promote to
-:class:`LazyOwnCommandSet` once originals are deleted from ``lazyown.py``.
+creation. Active and registered via :class:`LazyOwnCommandSet`.
 """
 
 from __future__ import annotations
@@ -23,7 +20,7 @@ from utils import (
 
 
 class PostExploitationCommandSet(LazyOwnCommandSet):
-    """Post-Exploitation phase commands (pending)."""
+    """Post-Exploitation phase commands."""
 
     phase = "postexp"
     category = "04. Post-Exploitation"

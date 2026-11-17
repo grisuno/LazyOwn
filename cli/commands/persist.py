@@ -1,10 +1,8 @@
-"""Persistence command set (pending).
+"""Persistence command set.
 
 Phase 05 — commands for establishing persistence: reverse shells,
-web shells, backdoors, and implant generation.
-
-Pending status: inherits from :class:`PendingCommandSet`. Promote to
-:class:`LazyOwnCommandSet` once originals are deleted from ``lazyown.py``.
+web shells, backdoors, and implant generation. Active and registered
+via :class:`LazyOwnCommandSet`.
 """
 
 from __future__ import annotations
@@ -24,7 +22,7 @@ from utils import (
 
 
 class PersistenceCommandSet(LazyOwnCommandSet):
-    """Persistence phase commands (pending)."""
+    """Persistence phase commands."""
 
     phase = "persist"
     category = "05. Persistence"

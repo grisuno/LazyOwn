@@ -1,10 +1,8 @@
-"""Lateral Movement command set (pending).
+"""Lateral Movement command set.
 
 Phase 08 — commands for lateral movement: tunneling, pivoting,
-remote execution, and protocol-specific lateral movement tools.
-
-Pending status: inherits from :class:`PendingCommandSet`. Promote to
-:class:`LazyOwnCommandSet` once originals are deleted from ``lazyown.py``.
+remote execution, and protocol-specific lateral movement tools. Active
+and registered via :class:`LazyOwnCommandSet`.
 """
 
 from __future__ import annotations
@@ -22,7 +20,7 @@ from utils import (
 
 
 class LateralMovementCommandSet(LazyOwnCommandSet):
-    """Lateral Movement phase commands (pending)."""
+    """Lateral Movement phase commands."""
 
     phase = "lateral"
     category = "08. Lateral Movement"

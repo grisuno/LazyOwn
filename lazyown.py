@@ -69,9 +69,8 @@ from cli.toast_bus import render_toasts as _render_toasts
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
-from core.defaults import default_lport as _default_lport
-from core.defaults import default_rport as _default_rport
 from core.hardening import terminal_env as _terminal_env
+from core.payload_schema import default_payload
 from modules.event_bus import EventCategory as _EventCategory
 from modules.event_bus import EventSeverity as _EventSeverity
 from modules.event_bus import LazyEvent as _LazyEvent
@@ -525,83 +524,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.captured_images_dir = os.path.join(self.sessions_dir, "captured_images")
         self.console = Console()
         self.use_ai = use_ai
-        self.params = {
-            "binary_name": "gzip",
-            "api_key": api_key,
-            "prompt": None,
-            "url": None,
-            "os_id": "2",
-            "domain": None,
-            "subdomain": None,
-            "method": "GET",
-            "headers": "{}",
-            "params": "{}",
-            "data": "{}",
-            "json_data": "{}",
-            "proxy_port": 8080,
-            "wordlist": None,
-            "hide_code": None,
-            "mode": None,
-            "path": "/",
-            "reverse_shell_port": 7777,
-            "listener": 7878,
-            "aes_key": aes_key,
-            "c2_port": 4444,
-            "c2_user": c2_user,
-            "c2_pass": c2_pass,
-            "enable_c2_implant_debug": True,
-            "start_user": "CHANGE_ME",
-            "start_pass": "CHANGE_ME",
-            "backdoor_username": "CHANGE_ME",
-            "backdoor_password": "CHANGE_ME",
-            "backdoor_linux_home": "/home/.lazyown",
-            "backdoor_win_home": "C:/Users/lazyown/Documents",
-            "backdoor_win_service_path": "C:/Users/lazyown/Documents",
-            "rhost": rhost,
-            "lhost": lhost,
-            "scope": LazyOwnShell.scope,
-            "scope_enforcement": LazyOwnShell.scope_enforcement,
-            "rport": _default_rport(),
-            "lport": _default_lport(),
-            "sleep": 6,
-            "file": "file.ext",
-            "sleep_start": 207,
-            "c2_malleable_route": "/gmail/v1/users/",
-            "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-            "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-            "user_agent_1": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-            "user_agent_2": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
-            "user_agent_3": "Mozilla/5.0 (Linux; LAzyOwnRedTeam 66_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
-            "url_traffic_1": "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
-            "url_traffic_2": "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
-            "url_traffic_3": "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
-            "rat_key": "CHANGE_ME",
-            "startip": "192.168.1.1",
-            "endip": "192.168.1.254",
-            "spoof_ip": "185.199.110.153",
-            "device": "eth0",
-            "email_from": "email@gmail.com",
-            "email_to": "email@gmail.com",
-            "email_username": "email@gmail.com",
-            "email_password": email_password,
-            "smtp_server": "smtp.server.com",
-            "smtp_port": "587",
-            "field": "page",
-            "headers_file": None,
-            "data_file": None,
-            "params_file": None,
-            "json_data_file": None,
-            "enable_cloudflare": True,
-            "exploitdb": "/usr/share/exploitdb/exploits/",
-            "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
-            "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
-            "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
-            "enable_toasts": True,
-            "toast_max_per_tick": 5,
-            "enable_chainmode": bool(load_payload().get("enable_chainmode", False)),
-            "enable_operator_presence": False,
-            "tui_theme": "default",
-        }
+        self.params = {**default_payload(), **load_payload()}
         self._load_extended_params()
         # NOTE: must run after self.params exists (AttributeError before
         # the params dict is assigned would be swallowed by the bare

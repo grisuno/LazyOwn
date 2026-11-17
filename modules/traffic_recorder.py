@@ -19,6 +19,8 @@ import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 
+from modules.security_sanitizers import sanitize_client_id
+
 
 @dataclass(frozen=True, slots=True)
 class RecorderConfig:
@@ -283,7 +285,7 @@ class TrafficRecorder:
 
     def get_body(self, exchange_id: str) -> dict:
         """Load the stored body document for one exchange."""
-        safe_id = "".join(c for c in str(exchange_id) if c.isalnum() or c in "-_")
+        safe_id = sanitize_client_id(exchange_id)
         candidate = (self.base_dir / "bodies" / f"{safe_id}.json").resolve()
         allowed = (self.base_dir / "bodies").resolve()
         if allowed not in candidate.parents:

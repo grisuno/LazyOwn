@@ -489,6 +489,31 @@ def build_default_config(payload: Mapping[str, Any] | None = None) -> SecurityCo
     return SecurityConfig.from_payload(payload)
 
 
+def sanitize_client_id(value: object, max_length: int | None = None) -> str:
+    """Strip an identifier down to URL- and path-safe characters.
+
+    Beacon client ids, exchange ids and similar identifiers become URL
+    segments and file names on the C2, so only alphanumerics, hyphen and
+    underscore are kept. This is the single lenient sanitiser shared by
+    every caller that previously inlined the same comprehension: it never
+    raises and returns the possibly-empty cleaned string. Callers that must
+    reject a tampered id compare the result against the original; the strict
+    validating variant that raises lives in
+    :func:`modules.beacon_config_builder.sanitize_client_id`.
+
+    Args:
+        value: Raw identifier of any type; coerced to ``str`` before cleaning.
+        max_length: Optional maximum length applied after cleaning.
+
+    Returns:
+        The cleaned identifier containing only ``[A-Za-z0-9_-]`` characters.
+    """
+    cleaned = "".join(character for character in str(value) if character.isalnum() or character in "-_")
+    if max_length is not None:
+        return cleaned[:max_length]
+    return cleaned
+
+
 __all__ = (
     "SecurityConfig",
     "HeaderValueSanitizer",
@@ -497,4 +522,5 @@ __all__ = (
     "CommandRedactor",
     "OutputSanitizer",
     "build_default_config",
+    "sanitize_client_id",
 )

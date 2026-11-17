@@ -81,3 +81,9 @@ opencode.json
 
 # mutmut generated workspace
 mutants/
+
+# regenerable readmenator outputs, kept out of git to avoid repo bloat
+# (regenerate locally with: readmenator . --rebuild)
+readmenator-apidocs/
+readmenator-maps/
+*.mp4

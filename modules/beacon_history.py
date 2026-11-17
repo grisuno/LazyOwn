@@ -19,6 +19,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from modules.security_sanitizers import sanitize_client_id
+
 _log = logging.getLogger(__name__)
 
 DEFAULT_HISTORY_SUFFIX: str = ".records.jsonl"
@@ -65,18 +67,6 @@ class BeaconHistoryConfig:
 
 
 _DEFAULT_CONFIG = BeaconHistoryConfig()
-
-
-def sanitize_client_id(client_id: str) -> str:
-    """Sanitise a beacon id to only URL/file-safe characters.
-
-    Args:
-        client_id: Raw beacon id.
-
-    Returns:
-        The sanitised id containing only alphanumerics, dashes and underscores.
-    """
-    return "".join(c for c in str(client_id) if c.isalnum() or c in "-_")
 
 
 def append_record(record: dict[str, Any], config: BeaconHistoryConfig = _DEFAULT_CONFIG) -> bool:

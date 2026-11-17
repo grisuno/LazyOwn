@@ -21,6 +21,7 @@ from modules.security_sanitizers import (
     SecurityConfig,
     SessionPathResolver,
     build_default_config,
+    sanitize_client_id,
 )
 
 
@@ -342,6 +343,32 @@ def test_module_exports_are_complete() -> None:
         "CommandRedactor",
         "OutputSanitizer",
         "build_default_config",
+        "sanitize_client_id",
     ):
         assert name in mod.__all__
         assert hasattr(mod, name)
+
+
+class TestSanitizeClientId:
+    """The shared lenient identifier sanitiser."""
+
+    def test_keeps_url_and_path_safe_characters(self) -> None:
+        """Alphanumerics, hyphen and underscore survive unchanged."""
+        assert sanitize_client_id("Agent-01_beacon") == "Agent-01_beacon"
+
+    def test_strips_traversal_and_separators(self) -> None:
+        """Path separators and dots are removed so no traversal survives."""
+        assert sanitize_client_id("../../etc/passwd") == "etcpasswd"
+        assert sanitize_client_id("a/b..c") == "abc"
+
+    def test_coerces_non_string_input(self) -> None:
+        """Any value is coerced to ``str`` before cleaning."""
+        assert sanitize_client_id(1234) == "1234"
+
+    def test_applies_optional_length_cap(self) -> None:
+        """A positive ``max_length`` truncates after cleaning."""
+        assert sanitize_client_id("x" * 100, max_length=64) == "x" * 64
+
+    def test_returns_empty_when_nothing_survives(self) -> None:
+        """An id with no safe characters cleans to the empty string."""
+        assert sanitize_client_id("/././") == ""

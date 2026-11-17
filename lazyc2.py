@@ -151,6 +151,7 @@ from modules.security_sanitizers import (
     OutputSanitizer,
     SessionPathResolver,
     build_default_config,
+    sanitize_client_id,
 )
 from utils import Config, anti_debug, getprompt, load_payload
 
@@ -3808,7 +3809,7 @@ def receive_result(client_id):
         if not isinstance(client_id, str):
             return jsonify({"status": "error", "message": "Invalid client_id type"}), 400
 
-        sanitized_client_id = "".join(c for c in client_id if c.isalnum() or c in "-_")
+        sanitized_client_id = sanitize_client_id(client_id)
         if not sanitized_client_id or sanitized_client_id != client_id:
             return jsonify({"status": "error", "message": "Invalid client_id format"}), 400
 
@@ -4011,7 +4012,7 @@ def receive_result(client_id):
                         _cmd = str(action.get("command", ""))
                         if not _cid or not _cmd:
                             return None
-                        _sanitized = "".join(c for c in _cid if c.isalnum() or c in "-_")
+                        _sanitized = sanitize_client_id(_cid)
                         _queue_path = os.path.join(_allowed_dir, f"cmd_{_sanitized}.json")
                         try:
                             _cmds: list = []
@@ -4378,7 +4379,7 @@ def receive_report_bsb():
     except Exception as exc:
         logging.info(f"BSB /report/ decode rejected: {exc}")
         return jsonify({"status": "error", "message": "Invalid report"}), 400
-    client_id = "".join(c for c in str(data.get("client", "") or "") if c.isalnum() or c in "-_")
+    client_id = sanitize_client_id(data.get("client", "") or "")
     if not client_id:
         return jsonify({"status": "error", "message": "Invalid data format"}), 400
     _bsb_beacon_clients.add(client_id)

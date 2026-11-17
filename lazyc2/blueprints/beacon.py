@@ -17,6 +17,8 @@ from typing import Any
 
 from flask import Blueprint, Response, jsonify, request
 
+from modules.security_sanitizers import sanitize_client_id
+
 logger = logging.getLogger(__name__)
 
 beacon_bp = Blueprint("beacon", __name__)
@@ -169,7 +171,7 @@ def receive_result(client_id: str):
         result_pwd = data["result_pwd"]
         command = data["command"]
 
-        sanitized_id = "".join(c for c in client_id if c.isalnum() or c in "-_")
+        sanitized_id = sanitize_client_id(client_id)
         if not sanitized_id or sanitized_id != client_id:
             return jsonify({"status": "error", "message": "Invalid client_id format"}), 400
 

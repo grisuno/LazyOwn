@@ -2,9 +2,54 @@
 
 from __future__ import annotations
 
+import ast
 import json
+import pathlib
 
 import pytest
+
+_LAZY_LOOP_SOURCE = pathlib.Path(__file__).resolve().parent.parent / "modules" / "lazy_loop.py"
+
+
+def _abort_cause_literals(source: str) -> set[str]:
+    """Collect every string literal passed as the ``cause`` arg to ``abort``.
+
+    Matches ``<obj>.abort(task_id, "<cause>", ...)`` calls so the static guard
+    stays independent of the call target name.
+    """
+    tree = ast.parse(source)
+    causes: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        func = node.func
+        if not isinstance(func, ast.Attribute) or func.attr != "abort":
+            continue
+        if len(node.args) < 2:
+            continue
+        cause_arg = node.args[1]
+        if isinstance(cause_arg, ast.Constant) and isinstance(cause_arg.value, str):
+            causes.add(cause_arg.value)
+    return causes
+
+
+def test_terminal_autopwn_fallback_cause_is_valid():
+    from modules.lazy_loop import ABORT_CAUSES
+
+    assert "autopwn_fallback" in ABORT_CAUSES
+
+
+def test_every_abort_call_site_uses_a_registered_cause():
+    from modules.lazy_loop import ABORT_CAUSES
+
+    source = _LAZY_LOOP_SOURCE.read_text(encoding="utf-8")
+    used = _abort_cause_literals(source)
+    assert used, "no abort cause literals found; static guard would be vacuous"
+    unregistered = sorted(used - set(ABORT_CAUSES))
+    assert not unregistered, (
+        f"abort() called with cause(s) absent from ABORT_CAUSES: {unregistered}; "
+        "add them to ABORT_CAUSES or RuntimeTracker.abort raises at runtime"
+    )
 
 
 def test_loop_exit_code_mapping():

@@ -119,7 +119,19 @@ REFINE_MAX_PENDING = 12
 MAX_FACTS_PAGE = 100
 MAX_WORKER_STEPS = 6
 RETEST_MAX_ATTEMPTS = 2
-ABORT_CAUSES = ("shutdown", "goal_met", "paused", "killed", "timeout", "budget", "user", "degraded", "handoff", "pentest_mode")
+ABORT_CAUSES = (
+    "shutdown",
+    "goal_met",
+    "paused",
+    "killed",
+    "timeout",
+    "budget",
+    "user",
+    "degraded",
+    "handoff",
+    "pentest_mode",
+    "autopwn_fallback",
+)
 DEFAULT_MAX_TOOLCALLS = 200
 DEFAULT_MAX_FINDINGS = 50
 LLM_EMPTY_RETRIES = 2

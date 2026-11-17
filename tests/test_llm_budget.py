@@ -19,7 +19,6 @@ SKILLS_ROOT = REPO_ROOT / "skills"
 if str(SKILLS_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILLS_ROOT))
 sys.path.insert(0, str(REPO_ROOT))
-sys.path.insert(0, str(REPO_ROOT / "core"))
 sys.path.insert(0, str(REPO_ROOT / "modules"))
 
 

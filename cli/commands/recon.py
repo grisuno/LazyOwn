@@ -436,7 +436,7 @@ class ReconCommandSet(LazyOwnCommandSet):
             finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports>
 
         Replace `<target_ip>` with the IP address of the target web server. For example:
-            finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon
+            finalrecon --url=http://192.168.1.92 --full -o txt -cd sessions/finalrecon
         """
 
         if not is_binary_present("finalrecon"):

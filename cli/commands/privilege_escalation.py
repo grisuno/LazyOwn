@@ -1,16 +1,10 @@
 """Privilege Escalation command set.
 
-Pending phase module covering local privilege escalation helpers:
-SMB relay setup, Responder, linpeas / winpeas / pspy serving, kernel
-exploit suggestion (LES), SUID enumeration, GTFOBins / LOLBas lookup and
-the ``sudo`` re-launch helper.
-
-Pending status: this set inherits from
-:class:`cli.commands._dormancy.PendingCommandSet`, so it is discovered for
-test coverage but not registered onto the shell while ``LazyOwnShell``
-still defines the original methods. Promote it to
-:class:`cli.commands._base.LazyOwnCommandSet` once the legacy copies are
-deleted from ``lazyown.py``.
+Phase module covering local privilege escalation helpers: SMB relay
+setup, Responder, linpeas / winpeas / pspy serving, kernel exploit
+suggestion (LES), SUID enumeration, GTFOBins / LOLBas lookup and the
+``sudo`` re-launch helper. Active and registered via
+:class:`cli.commands._base.LazyOwnCommandSet`.
 """
 
 from __future__ import annotations
@@ -130,7 +124,7 @@ def _serve_via_http(shell, binary_name: str, sessions_path: str, lport: int) -> 
 
 
 class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
-    """Pending phase module for the Privilege Escalation commands."""
+    """Privilege Escalation phase commands."""
 
     phase = "privesc"
     category = privilege_escalation_category

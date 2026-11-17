@@ -664,6 +664,20 @@ SCHEMA: dict[str, FieldSpec] = {
             sensitive=True,
         ),
         _spec(
+            "rotate_c2_creds_on_boot",
+            FieldKind.BOOL,
+            False,
+            "Generate fresh C2 operator credentials on each C2 boot.",
+            long_help=(
+                "When true, lazyc2 regenerates the operator basic-auth "
+                "credentials (c2_user and c2_pass) every time the C2 starts, "
+                "so a leaked or reused password never persists across runs. "
+                "When false the configured credentials are kept unchanged."
+            ),
+            example="true",
+            category="c2",
+        ),
+        _spec(
             "c2_malleable_route",
             FieldKind.STRING,
             "/api/v1/",
@@ -1581,6 +1595,24 @@ SCHEMA: dict[str, FieldSpec] = {
             DEFAULT_LLAMACPP_MODEL,
             "Model alias served by the local llama.cpp server.",
             example=DEFAULT_LLAMACPP_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_per_call_token_cap",
+            FieldKind.INT,
+            8000,
+            "Maximum input tokens allowed in a single LLM call.",
+            long_help=(
+                "The budget proxy rejects any prompt whose estimated input "
+                "token count exceeds this cap before the request leaves the "
+                "framework. Cloud backends keep it low to bound cost. A local "
+                "llama.cpp or Ollama server is free, so raise it toward the "
+                "server context window to let the planner reason over more "
+                "recon output and knowledge in a single call."
+            ),
+            example="16000",
+            min_value=256,
+            max_value=200000,
             category="ai",
         ),
         _spec(

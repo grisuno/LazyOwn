@@ -4565,13 +4565,17 @@ def serve_bof_object(name):
     if not name or "\x00" in name:
         return Response("BOF_NOT_FOUND\r\n", mimetype="text/plain")
     safe = os.path.basename(str(name))
+    safe = "".join(char for char in safe if char.isalnum() or char in "-_.")
     if not safe or safe in (".", ".."):
         return Response("BOF_NOT_FOUND\r\n", mimetype="text/plain")
-    candidates = [
-        os.path.join(SESSIONS_DIR, "temp_uploads", "bofs", safe),
-        os.path.join(SESSIONS_DIR, "uploads", safe),
+    allowed_dirs = [
+        os.path.join(SESSIONS_DIR, "temp_uploads", "bofs"),
+        os.path.join(SESSIONS_DIR, "uploads"),
     ]
-    for candidate in candidates:
+    for base_dir in allowed_dirs:
+        candidate = _resolve_within(base_dir, safe)
+        if not candidate:
+            continue
         try:
             blob = open(candidate, "rb").read()
         except OSError:

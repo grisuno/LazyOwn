@@ -882,6 +882,69 @@ except Exception as _registry_exc:  # noqa: BLE001
         return iter(())
 
 
+_GENERATED_TOOL_NAMES: set[str] = set()
+_GENERATED_DYNAMIC_PREFIXES = ("lazyown_addon_", "lazyown_tool_", "lazyown_plugin_")
+try:
+    from skills.mcp_generated_tools import (
+        get_generated_tool_definitions as _get_generated_tool_definitions,
+    )
+    from skills.mcp_generated_tools import (
+        register_all_generated_handlers as _register_all_generated_handlers,
+    )
+
+    def _register_generated_if_absent(tool_name: str):
+        """Register a generated CLI handler only when no curated tool owns the name.
+
+        The generated layer closes the coverage gap between the curated
+        one-file-per-tool handlers and the full CLI command surface. It must
+        never shadow a curated handler or the dynamic addon/tool/plugin
+        dispatch, so names already in ``_TOOL_HANDLERS`` and the dynamic
+        prefixes are skipped. The names that are registered are recorded so
+        ``list_tools`` advertises exactly those.
+
+        Args:
+            tool_name: The generated tool name the generator asks to register.
+
+        Returns:
+            A decorator that registers the handler unless the name is owned.
+        """
+
+        def _decorator(func):
+            if tool_name in _TOOL_HANDLERS or tool_name.startswith(_GENERATED_DYNAMIC_PREFIXES):
+                return func
+            _GENERATED_TOOL_NAMES.add(tool_name)
+            return register_handler(tool_name)(func)
+
+        return _decorator
+
+    _register_all_generated_handlers(
+        _register_generated_if_absent, _make_text, _run_lazyown_command
+    )
+except Exception as _generated_exc:  # noqa: BLE001
+    import logging as _logging
+
+    _logging.getLogger("lazyown_mcp").warning(
+        "generated MCP tools unavailable: %s", _generated_exc
+    )
+
+    def _get_generated_tool_definitions() -> list:
+        """Fallback when the generated tool module is absent."""
+        return []
+
+
+def _generated_tool_definitions() -> "list[types.Tool]":
+    """Return schemas for the generated tools that were actually registered.
+
+    Only the names recorded in :data:`_GENERATED_TOOL_NAMES` are advertised,
+    so the listing never duplicates a curated or dynamic tool. Any error
+    degrades to an empty list rather than breaking the whole tool listing.
+    """
+    try:
+        return [tool for tool in _get_generated_tool_definitions() if tool.name in _GENERATED_TOOL_NAMES]
+    except Exception:
+        return []
+
+
 def _registry_schemas() -> list[types.Tool]:
     """Return the schemas of every one-file-per-tool module, discovered live.
 
@@ -914,7 +977,7 @@ async def list_tools() -> list[types.Tool]:
         # ── Unified daemon management ─────────────────────────────────────────
         # ── ACI — Autonomous Campaign Intelligence ───────────────────────
         # ── harness / meta tools ─────────────────────────────────────────
-    ] + (_automapper.mcp_tools() if _automapper is not None else []) + _registry_schemas()
+    ] + (_automapper.mcp_tools() if _automapper is not None else []) + _registry_schemas() + _generated_tool_definitions()
 
 
 # ── Tool handlers ─────────────────────────────────────────────────────────────

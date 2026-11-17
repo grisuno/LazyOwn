@@ -65,7 +65,6 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 from flask_socketio import SocketIO, disconnect, emit
-from jinja2 import Environment, FileSystemLoader
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 from werkzeug.exceptions import HTTPException
@@ -3206,8 +3205,6 @@ DIRECTORY_TO_WATCH = f"{BASE_DIR}"
 
 
 client = safe_groq_client(api_key)
-env = Environment(loader=FileSystemLoader("templates"))
-env.filters["markdown"] = markdown_to_html
 
 if config.enable_c2_debug:
     logger.info("[DEBUG] C2 debug mode enabled")

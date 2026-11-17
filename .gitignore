@@ -87,3 +87,7 @@ mutants/
 readmenator-apidocs/
 readmenator-maps/
 *.mp4
+
+# regenerable MCP tool handlers, kept out of git as a build artifact
+# (regenerate locally with: python3 skills/mcp_tool_generator.py)
+skills/mcp_generated_tools.py

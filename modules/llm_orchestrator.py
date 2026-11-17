@@ -176,7 +176,7 @@ def backend_kind(model_spec: str) -> str:
     """Return the provider prefix of a model spec.
 
     Args:
-        model_spec: Spec such as ``groq:llama-3.3-70b-versatile`` or a
+        model_spec: Spec such as ``groq:openai/gpt-oss-120b`` or a
             bare model name.
 
     Returns:

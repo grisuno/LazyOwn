@@ -49,7 +49,7 @@ def retModel():
     """
     models = [
         {
-            "1": "llama-3.3-70b-versatile",
+            "1": "openai/gpt-oss-120b",
             "2": "llama-3.1-8b-instant",
             "3": "llama3-70b-8192",
             "4": "llama3-8b-8192",

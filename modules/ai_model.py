@@ -28,7 +28,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
+DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
 DEFAULT_OLLAMA_HOST = "http://localhost:11434"
 DEFAULT_OPENAI_MODEL = "gpt-4o"

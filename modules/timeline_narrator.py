@@ -28,7 +28,7 @@ EVENTS_FILE = SESSIONS / "events.jsonl"
 TIMELINE_FILE = SESSIONS / "timeline.md"
 PAYLOAD_FILE = BASE_DIR / "payload.json"
 
-_GROQ_MODEL = "llama-3.3-70b-versatile"
+_GROQ_MODEL = "openai/gpt-oss-120b"
 _MAX_TOKENS = 1200
 _REFRESH_SECS = 300  # don't regenerate if file is younger than 5 min
 _MAX_EVENTS = 60  # cap events sent to Groq to control token cost

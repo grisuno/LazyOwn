@@ -555,6 +555,52 @@ class TestCredentialAwareRetry:
         candidates = engine._credential_aware_rank(profile, [])
         assert len(candidates) >= 0
 
+    def test_retry_short_circuits_when_target_already_shelled(self, monkeypatch):
+        from modules.autonomous_exploit_engine import (
+            AutonomousExploitEngine,
+            TargetProfile,
+        )
+
+        engine = AutonomousExploitEngine()
+        profile = TargetProfile(
+            ip="10.0.0.9",
+            open_ports=(445,),
+            services=({"port": "445", "name": "microsoft-ds", "product": "Samba", "version": "3.0.20"},),
+        )
+        monkeypatch.setattr(engine, "profile", lambda target: profile)
+
+        def _must_not_run(*_args, **_kwargs):
+            raise AssertionError("execute_candidate must not run once a foothold exists")
+
+        monkeypatch.setattr(engine, "execute_candidate", _must_not_run)
+        engine._shelled_targets.add("10.0.0.9")
+
+        results = engine.retry_with_credentials("10.0.0.9", credentials=[{"username": "a", "password": "b"}])
+        assert results == []
+
+    def test_execute_candidate_records_shelled_target(self, monkeypatch):
+        from modules.autonomous_exploit_engine import (
+            AutonomousExploitEngine,
+            ExploitCandidate,
+            TargetProfile,
+        )
+
+        engine = AutonomousExploitEngine()
+        profile = TargetProfile(
+            ip="10.0.0.5",
+            open_ports=(21,),
+            services=({"port": "21", "name": "ftp", "product": "vsftpd", "version": "2.3.4"},),
+        )
+        candidate = ExploitCandidate(service="ftp", product="vsftpd", version="2.3.4", strategy="vsftpd_backdoor")
+        monkeypatch.setattr(engine, "_run_exploit", lambda c, p: "uid=0(root) gid=0(root)")
+        monkeypatch.setattr(engine, "_check_success", lambda output, c: True)
+        monkeypatch.setattr(engine, "_detect_shell", lambda output: True)
+        monkeypatch.setattr(engine, "_register_session", lambda ip, output: "sess1234")
+
+        result = engine.execute_candidate(candidate, profile)
+        assert result.shell_obtained is True
+        assert "10.0.0.5" in engine._shelled_targets
+
 
 # ─── Integration: full data-flow test ──────────────────────────────────────
 

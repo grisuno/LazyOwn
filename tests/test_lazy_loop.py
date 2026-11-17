@@ -870,3 +870,66 @@ def test_round_worker_timeout_is_bounded_and_configurable(tmp_path, monkeypatch)
     )
     engine.apply_profile("custom")
     assert engine.worker_round_timeout_sec == 42.0
+
+
+def test_initial_access_goal_proven_by_confirmed_foothold(tmp_path, monkeypatch):
+    """BDD: a confirmed foothold proves the initial-access goal even though the
+
+    finding says "shell obtained", not "gain initial access", so the loop stops
+    re-attempting the foothold and can advance the rest of the kill chain.
+    """
+    import modules.lazy_loop as loop
+
+    monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
+    monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+
+    engine = loop.LazyLoopEngine()
+    task_id = engine.create_task("gain initial access on 172.17.0.2; escalate privileges to root")["task_id"]
+    graph = loop.ExplorationGraph(task_id)
+
+    ia_before = [g for g in graph.list("goal") if loop._initial_access_intent(g.text.lower())]
+    assert ia_before, "fixture must seed an initial-access goal"
+    assert all(g.state == "pending" for g in ia_before)
+
+    graph.add_node(
+        "finding",
+        "Foothold shell obtained on 172.17.0.2 via auto_pwn (metasploitable)",
+        state="confirmed",
+        meta={"verdict": "reproduced"},
+    )
+    engine._check_goals(task_id, graph, loop.ActivityLog(task_id))
+
+    after = loop.ExplorationGraph(task_id)
+    ia_after = [g for g in after.list("goal") if loop._initial_access_intent(g.text.lower())]
+    assert ia_after and all(g.state == "done" for g in ia_after)
+
+    privesc_after = [g for g in after.list("goal") if "escalate privileges" in g.text.lower()]
+    assert privesc_after and all(g.state == "pending" for g in privesc_after), (
+        "a foothold must not spuriously prove the privesc goal"
+    )
+
+
+def test_initial_access_goal_not_proven_without_foothold(tmp_path, monkeypatch):
+    """A recon finding with no shell evidence must not credit the initial-access goal."""
+    import modules.lazy_loop as loop
+
+    monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
+    monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+
+    engine = loop.LazyLoopEngine()
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    graph = loop.ExplorationGraph(task_id)
+
+    graph.add_node(
+        "finding",
+        "Port 21/tcp open: vsftpd 2.3.4 identified via nmap",
+        state="confirmed",
+        meta={"verdict": "reproduced"},
+    )
+    engine._check_goals(task_id, graph, loop.ActivityLog(task_id))
+
+    after = loop.ExplorationGraph(task_id)
+    ia_after = [g for g in after.list("goal") if loop._initial_access_intent(g.text.lower())]
+    assert ia_after and all(g.state == "pending" for g in ia_after)

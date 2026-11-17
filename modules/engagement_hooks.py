@@ -52,6 +52,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from modules.security_sanitizers import sanitize_client_id
+
+_CLIENT_ID_MAX_LENGTH = 64
+
 _LAZYOWN_DIR = Path(
     os.environ.get(
         "LAZYOWN_DIR",
@@ -464,15 +468,14 @@ def _save_seen_beacons(seen: dict[str, dict[str, Any]]) -> None:
 
 
 def _sanitize_client_id(client_id: str) -> str:
-    """Restrict client_id to alphanumerics, dash, underscore (<=64 chars).
+    """Restrict client_id to alphanumerics, dash, underscore (bounded length).
 
     Dots are disallowed so a malicious beacon cannot smuggle `..` into any
-    file path derived from the id.
+    file path derived from the id. Non-string input yields an empty id.
     """
     if not isinstance(client_id, str):
         return ""
-    cleaned = "".join(c for c in client_id if c.isalnum() or c in "-_")
-    return cleaned[:64]
+    return sanitize_client_id(client_id, max_length=_CLIENT_ID_MAX_LENGTH)
 
 
 _default_narrator_singleton: EngagementNarrator | None = None

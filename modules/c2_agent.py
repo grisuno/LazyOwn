@@ -41,6 +41,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from modules.security_sanitizers import sanitize_client_id
+
 log = logging.getLogger("c2_agent")
 
 _BASE_DIR = Path(__file__).resolve().parent.parent
@@ -679,7 +681,7 @@ def deploy(
 
 def read_records(client_id: str, limit: int = 20) -> list[dict[str, Any]]:
     """Read the latest beacon records for a client (newest last)."""
-    safe = "".join(c for c in client_id if c.isalnum() or c in "-_")
+    safe = sanitize_client_id(client_id)
     path = _SESSIONS_DIR / f"{safe}.records.jsonl"
     if not path.exists():
         return []

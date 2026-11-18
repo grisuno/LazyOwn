@@ -16,9 +16,65 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from core.safe_exec import safe_run_shell as _safe_run_shell
 from core.session_secrets import rotate_session_secrets
-from utils import RESET, check_rhost, print_error, print_msg, print_warn
+from modules import session_reclaim
+from utils import RESET, print_error, print_msg, print_warn
 
 __all__ = ["ShellSysCommandSet"]
+
+_CLEAN_SUBSETS = tuple(session_reclaim.SUBSET_PATTERNS)
+_CLEAN_MAX_LISTED = 12
+
+
+def _print_cleanup_plan(plan: session_reclaim.CleanupPlan, include_sensitive: bool) -> None:
+    """Render an audited cleanup plan to the operator without deleting anything.
+
+    Args:
+        plan: The partitioned plan produced by ``session_reclaim.build_plan``.
+        include_sensitive: Whether the sensitive tier is in the removal scope.
+    """
+    scope = f"subset '{plan.subset}'" if plan.subset else "full sessions/"
+    print_msg(f"Cleanup audit for {scope} ({plan.sessions_dir})")
+
+    protected = plan.by_tier(session_reclaim.TIER_PROTECTED)
+    if protected:
+        kept = session_reclaim.human_size(plan.tier_bytes(session_reclaim.TIER_PROTECTED))
+        print_msg(f"  PROTECTED (never removed): {len(protected)} items, {kept}")
+
+    sensitive_groups = plan.grouped(session_reclaim.TIER_SENSITIVE)
+    if sensitive_groups:
+        tag = "will be removed (--all)" if include_sensitive else "kept; add --all to remove"
+        total = session_reclaim.human_size(plan.tier_bytes(session_reclaim.TIER_SENSITIVE))
+        print_warn(f"  SENSITIVE ({tag}): {_count(sensitive_groups)} items, {total}")
+        _print_groups(sensitive_groups, list_entries=True)
+
+    reclaim_groups = plan.grouped(session_reclaim.TIER_RECLAIM)
+    reclaim_total = session_reclaim.human_size(plan.tier_bytes(session_reclaim.TIER_RECLAIM))
+    print_msg(f"  RECLAIM (removed by --force): {_count(reclaim_groups)} items, {reclaim_total}")
+    _print_groups(reclaim_groups, list_entries=False)
+
+    now = plan.tier_bytes(session_reclaim.TIER_RECLAIM)
+    with_all = now + plan.tier_bytes(session_reclaim.TIER_SENSITIVE)
+    reclaimable = session_reclaim.human_size(now)
+    reclaimable_all = session_reclaim.human_size(with_all)
+    print_msg(f"  Reclaimable now: {reclaimable}  |  with --all: {reclaimable_all}")
+
+
+def _print_groups(groups: dict, list_entries: bool) -> None:
+    """Print one summary line per label group, optionally listing entries."""
+    for label, entries in groups.items():
+        size = session_reclaim.human_size(sum(item.size_bytes for item in entries))
+        print_msg(f"    - {label}: {len(entries)} items, {size}")
+        if not list_entries:
+            continue
+        for entry in entries[:_CLEAN_MAX_LISTED]:
+            print_msg(f"        {entry.display_name} ({session_reclaim.human_size(entry.size_bytes)})")
+        if len(entries) > _CLEAN_MAX_LISTED:
+            print_msg(f"        ... and {len(entries) - _CLEAN_MAX_LISTED} more")
+
+
+def _count(groups: dict) -> int:
+    """Return the total number of entries across all label groups."""
+    return sum(len(entries) for entries in groups.values())
 
 
 class ShellSysCommandSet(LazyOwnCommandSet):
@@ -215,89 +271,77 @@ class ShellSysCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category("12. Miscellaneous")
     def do_clean(self, line):
-        """
-        Deletes files and directories in the `sessions` directory, excluding specified files and directories.
+        """Audit and reclaim the ``sessions`` directory, dry-run by default.
 
-        1. Checks if the `self.params['rhost']` parameter is valid:
-        - Uses the `check_rhost` function to verify if `self.params['rhost']` is assign and valid.
-        - If `self.params['rhost']` is not valid, exits the function.
+        The command partitions ``sessions`` into three tiers before touching
+        the disk:
 
-        2. Lists files and directories in the `sessions` directory:
-        - Uses `os.listdir` to list all files and directories in the `sessions` directory.
-        - Compares each item with the list of exclusions.
+        - ``protected``: scaffolding, long-lived secrets, operator identity and
+          the canonical ``soul.md`` persona. Never removed.
+        - ``sensitive``: captured credentials, evidence, findings, intel,
+          operator notes and the campaign memory. Removed only with ``--all``.
+        - ``reclaim``: generated reports, plans and digests, scans, transcripts,
+          atomic runs, loop state, implant builds, logs, caches and the C2
+          traffic archive.
 
-        3. Deletes files and directories not in the exclusion list:
-        - Uses `os.remove` to delete files and `shutil.rmtree` to delete directories.
+        Usage:
+            clean [nmap|log|test] [--dry-run] [--force] [--all]
 
-        4. Prints a message indicating that the cleanup is complete.
+        With no ``--force`` the command only prints the audit and deletes
+        nothing. ``--force`` removes the reclaim tier; ``--force --all`` also
+        removes the sensitive tier. A subset keyword restricts the plan to a
+        matching family of artefacts.
 
-        :param line: This parameter is not used in the function.
+        :param line: Optional subset keyword and flags.
         :type line: str
         :returns: None
-
-        Manual execution:
-        To manually run these tasks, you would need to:
-        - Ensure that you have the correct `self.params['rhost']` value set.
-        - Manually execute commands to delete files and directories, excluding specified ones.
-
-        Note: This function performs a cleanup by removing various files and directories associated with the current session, excluding specified items.
         """
-        rhost = self.params["rhost"]
-        if not check_rhost(self.params["rhost"]):
-            return
-        if line.startswith("test"):
-            self.cmd("sudo rm sessions/test* -rf")
-            return
-        if line.startswith("log"):
-            self.cmd("sudo rm sessions/logs/* -rf")
-            return
-        if line.startswith("nmap"):
-            self.cmd("sudo rm sessions/scan* -rf")
-            return
-        exclusions = [
-            "c",
-            "download_resources.sh",
-            "implant",
-            "ip2asn-v4.tsv.gz",
-            "LazyOwn_session_report.csv",
-            "lin",
-            "logs",
-            "nmap-bootstrap.xsl",
-            "php",
-            "phishing",
-            "payloads.txt",
-            "routes_to_templates.json",
-            "sslscan-singleip.sh",
-            "tasks.json",
-            "temp_uploads",
-            "tor.sh",
-            "users.txt",
-            "uploads",
-            "win",
-            "www.py",
-        ]
+        tokens = line.split()
+        force = False
+        dry_run = False
+        include_sensitive = False
+        subset = None
+        for token in tokens:
+            if token in ("--force", "-f"):
+                force = True
+            elif token in ("--dry-run", "-n"):
+                dry_run = True
+            elif token in ("--all", "--include-sensitive"):
+                include_sensitive = True
+            elif token in _CLEAN_SUBSETS:
+                subset = token
+            else:
+                print_error(f"Unknown clean argument: {token}")
+                print_msg(f"Usage: clean [{'|'.join(_CLEAN_SUBSETS)}] [--dry-run] [--force] [--all]")
+                return
 
-        # Path to the sessions directory
-        sessions_dir = "sessions"
+        plan = session_reclaim.build_plan(session_reclaim.SESSIONS_DIRNAME, subset=subset)
+        if not plan.entries:
+            print_warn("Nothing to clean in sessions/ for the requested scope.")
+            return
 
-        # List all files and directories in the sessions directory
-        all_items = os.listdir(sessions_dir)
+        if not force or dry_run:
+            _print_cleanup_plan(plan, include_sensitive)
+            print_msg(
+                "Dry-run only; nothing was deleted. "
+                "Run `clean --force` to remove the reclaim tier, "
+                "or `clean --force --all` to also remove the sensitive tier."
+            )
+            return
 
-        for item in all_items:
-            item_path = os.path.join(sessions_dir, item)
-            if not any(item == exclusion for exclusion in exclusions):
-                try:
-                    if os.path.isfile(item_path):
-                        print_msg(f"Deleting file ... {item_path}")
-                        os.remove(item_path)
-                    elif os.path.isdir(item_path):
-                        print_msg(f"Deleting dir ... {item_path}")
-                        self.cmd(f"rm -rf {item_path}")
-                except Exception as e:
-                    print_error(f"Failed to delete {item_path}: {e}")
+        targets = plan.removable(include_sensitive)
+        reclaim_estimate = session_reclaim.human_size(sum(item.size_bytes for item in targets))
+        print_warn(f"Removing {len(targets)} items (~{reclaim_estimate}) from sessions/ ...")
+        result = session_reclaim.remove_entries(targets)
+        for entry, message in result.errors:
+            print_error(f"Failed to delete {entry.path}: {message}")
 
-        rotate_session_secrets(self.params)
-        print_msg("Rotated session secrets (key.aes, rat_key, session_magic).")
+        reclaimed = session_reclaim.human_size(result.reclaimed_bytes)
+        print_msg(f"Removed {len(result.removed)} items, reclaimed {reclaimed}.")
+
+        if subset is None:
+            rotate_session_secrets(self.params)
+            print_msg("Rotated session secrets (key.aes, rat_key, session_magic).")
         print_msg(f"Cleaned sessions directory. {RESET}")
         return
 

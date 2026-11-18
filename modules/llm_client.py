@@ -38,7 +38,7 @@ OLLAMA_PORT = int(os.environ.get("OLLAMA_PORT", "11434"))
 OLLAMA_DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:0.8b")
 OLLAMA_LARGE_MODEL = os.environ.get("OLLAMA_LARGE_MODEL", "llama3.2")
 
-DEFAULT_TIMEOUT = int(os.environ.get("LLM_TIMEOUT", "90"))
+DEFAULT_TIMEOUT = int(os.environ.get("LLM_TIMEOUT", "600"))
 DEFAULT_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "1024"))
 
 

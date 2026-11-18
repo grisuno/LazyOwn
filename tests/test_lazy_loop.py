@@ -933,3 +933,43 @@ def test_initial_access_goal_not_proven_without_foothold(tmp_path, monkeypatch):
     after = loop.ExplorationGraph(task_id)
     ia_after = [g for g in after.list("goal") if loop._initial_access_intent(g.text.lower())]
     assert ia_after and all(g.state == "pending" for g in ia_after)
+
+
+def test_lone_initial_access_goal_survives_foothold_so_killchain_continues(tmp_path, monkeypatch):
+    """BDD: when initial access is the only goal, a foothold must not end the run.
+
+    Crediting the sole goal marks every goal done, which halts the planner and
+    stops the campaign at the foothold. The lone initial-access goal must stay
+    pending on a confirmed foothold so the planner keeps advancing privesc,
+    lateral and exfil (the full kill chain), while a multi-goal engagement still
+    credits initial access because a downstream goal keeps the loop alive.
+    """
+    import modules.lazy_loop as loop
+
+    monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
+    monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+
+    engine = loop.LazyLoopEngine()
+    task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
+    graph = loop.ExplorationGraph(task_id)
+
+    goals = graph.list("goal")
+    assert len(goals) == 1 and loop._initial_access_intent(goals[0].text.lower()), (
+        "fixture must seed exactly one initial-access goal"
+    )
+
+    graph.add_node(
+        "finding",
+        "Foothold shell obtained on 172.17.0.2 via auto_pwn (metasploitable)",
+        state="confirmed",
+        meta={"verdict": "reproduced"},
+    )
+    engine._check_goals(task_id, graph, loop.ActivityLog(task_id))
+
+    after = loop.ExplorationGraph(task_id)
+    ia_after = [g for g in after.list("goal") if loop._initial_access_intent(g.text.lower())]
+    assert ia_after and all(g.state == "pending" for g in ia_after), (
+        "a foothold must not prove the sole initial-access goal and end the kill chain"
+    )
+    assert not engine._goals_met(task_id), "the loop must keep running the kill chain after a lone foothold"

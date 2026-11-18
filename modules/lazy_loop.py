@@ -4790,7 +4790,7 @@ class Planner:
                 _ai = mediation_telemetry()
 
                 if _ai is not None and _ai.swan_available():
-                    reply = _ai.swan_consult(prompt, task_type="recon", phase="enumeration", timeout=90.0)
+                    reply = _ai.swan_consult(prompt, task_type="recon", phase="enumeration", timeout=600.0)
                     if reply:
                         self.activity.emit("planner", "swan", "SWAN ensemble produced the planning reply")
             except Exception:
@@ -10858,6 +10858,22 @@ class LazyLoopEngine(EngineProxyMixin):
         the outcome ("shell obtained") and never echo the goal wording
         ("gain initial access"), so the literal rule alone can never credit
         it and the loop would re-attempt the foothold forever.
+
+        The foothold rule is gated on a surviving downstream objective. A
+        foothold never credits the initial-access goal when that goal is
+        the whole engagement (no non-initial-access goal stays pending),
+        because crediting the sole goal marks every goal done, and the
+        planner stops planning once all goals are done
+        (:meth:`Planner.plan` returns nothing when every goal is done), so
+        :meth:`_goals_met` fires and the campaign ends at the foothold
+        instead of advancing to privesc, lateral and exfil. The kill chain
+        already advances on evidence, not goal state
+        (:meth:`Planner._initial_access_candidate` is gated by
+        :func:`_target_foothold_proven`), so leaving the lone initial-access
+        goal pending keeps the planner driving the rest of the kill chain
+        until rounds or budget run out. With a downstream goal present the
+        foothold credits initial access and a never-proven downstream goal
+        keeps the loop alive, so the kill chain progresses either way.
         """
         pending_goals = graph.list("goal", "pending")
         if not pending_goals:
@@ -10866,6 +10882,7 @@ class LazyLoopEngine(EngineProxyMixin):
         target = (resolve_target(task_id, self.store, graph) or str(record.get("target", "") or "")).strip()
         foothold = bool(target) and _target_foothold_proven(target, task_id)
         foothold_evidence = self._foothold_evidence_id(graph) if foothold else None
+        downstream_pending = any(not _initial_access_intent(goal.text.lower()) for goal in pending_goals)
         for goal in pending_goals:
             matched = False
             for finding in graph.list("finding"):
@@ -10875,7 +10892,12 @@ class LazyLoopEngine(EngineProxyMixin):
                     break
             if matched:
                 continue
-            if foothold and foothold_evidence is not None and _initial_access_intent(goal.text.lower()):
+            if (
+                foothold
+                and foothold_evidence is not None
+                and downstream_pending
+                and _initial_access_intent(goal.text.lower())
+            ):
                 self.prove_goal(
                     task_id, goal.node_id, foothold_evidence, "confirmed foothold proves initial access"
                 )

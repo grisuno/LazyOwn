@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from abc import ABC, abstractmethod
 from collections.abc import Generator
 from typing import Union
@@ -42,7 +43,7 @@ DEFAULT_COMPLETE_MAX_TOKENS = 1024
 DEFAULT_COMPLETE_TEMPERATURE = 0.2
 HTTP_OK = 200
 REQUEST_CONNECT_TIMEOUT_SEC = 10.0
-REQUEST_READ_TIMEOUT_SEC = 180.0
+REQUEST_READ_TIMEOUT_SEC = float(os.environ.get("LAZYOWN_LLM_READ_TIMEOUT_SEC", "600"))
 
 
 class AIModel(ABC):

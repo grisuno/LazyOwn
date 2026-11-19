@@ -202,6 +202,28 @@ def _auto_pwn_cover_all() -> bool:
         return False
 
 
+def _loop_exploit_first() -> bool:
+    """Return whether deterministic exploitation precedes the LLM tiers.
+
+    An exploitation-class intent already has a high-confidence deterministic
+    playbook (``auto_pwn``), so running the costly LLM codegen and agent tiers
+    first can burn tokens and wall time to reach the same verb. When enabled,
+    such intents skip straight to the deterministic step loop and the LLM stays
+    reserved for non-exploit gaps.
+
+    This is opt-in (default off): the shipped tier-1 is lazymode code mode,
+    which is verified to root the lab in a single model call, so the operator
+    chooses deterministic-first explicitly via ``payload.json:loop_exploit_first``.
+    Never raises.
+    """
+    try:
+        from core.config import load_payload
+
+        return bool((load_payload() or {}).get("loop_exploit_first", False))
+    except Exception:
+        return False
+
+
 BLINDSPOT_ROUND_INTERVAL = 10
 RAW_LOG_TASK_LIMIT = 50
 RAW_LOG_SCAN_LINES = 5000
@@ -3721,6 +3743,45 @@ def _initial_access_intent(text: str) -> bool:
     return any(mark in text for mark in _INITIAL_ACCESS_MARKS)
 
 
+_FOOTHOLD_DEPENDENT_MARKS = (
+    "lateral",
+    "pivot",
+    "move laterally",
+    "privesc",
+    "escalate",
+    "privilege escalation",
+    "exfil",
+    "exfiltrat",
+)
+
+
+def _foothold_dependent_intent(text: str) -> bool:
+    """Return True when an intent cannot start before a foothold exists.
+
+    Lateral movement, privilege escalation and exfiltration all presuppose an
+    interactive foothold; dispatching them before one exists wastes rounds on
+    steps that cannot succeed. Matched against lower-cased intent text.
+    """
+    low = str(text or "").lower()
+    return any(mark in low for mark in _FOOTHOLD_DEPENDENT_MARKS)
+
+
+def _loop_fact_gate() -> bool:
+    """Return whether the planner defers intents missing prerequisite facts.
+
+    When enabled (default), a foothold-dependent candidate (lateral, privesc,
+    exfil) is held back until the engagement has a confirmed foothold fact, so
+    the todolist advances in evidence order instead of racing ahead. Fail-open
+    and flag-gated via ``payload.json:loop_fact_gate``; never raises.
+    """
+    try:
+        from core.config import load_payload
+
+        return bool((load_payload() or {}).get("loop_fact_gate", True))
+    except Exception:
+        return True
+
+
 _TECHNIQUE_ID_RE = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
 
 
@@ -4053,6 +4114,49 @@ class Planner:
                 return str(item.get("text"))
         return ""
 
+    def _fact_gate_candidates(self, candidates: list) -> list:
+        """Defer foothold-dependent candidates until a foothold fact exists.
+
+        Implements the fact-gated todolist contract: a lateral, privesc or
+        exfil candidate is held back until the engagement proves a foothold, so
+        the planner advances in evidence order instead of queueing steps that
+        cannot yet succeed. The initial-access candidate carries no foothold
+        dependency, so it is never deferred. Fail-open: any error returns the
+        candidates unchanged so the planner never stalls on a gate fault.
+
+        Args:
+            candidates: ``(summary, asset_ids, parents, priority)`` tuples.
+
+        Returns:
+            The candidates cleared to dispatch this round.
+        """
+        try:
+            from modules.fact_gated_todolist import gate
+
+            target = resolve_target(self.task_id, self.store, self.graph)
+            proven = _target_foothold_proven(target, self.task_id)
+            facts = {str(node.text).lower() for node in self.graph.list("fact")}
+            facts.update(str(node.text).lower() for node in self.graph.list("finding"))
+            if proven:
+                facts.add("foothold")
+            items = [
+                {
+                    "idx": index,
+                    "summary": cand[0],
+                    "requires": ["foothold"] if _foothold_dependent_intent(cand[0]) else [],
+                }
+                for index, cand in enumerate(candidates)
+            ]
+            result = gate(items, facts)
+            for blocked in result["blocked"]:
+                summary = str(blocked["item"].get("summary", ""))
+                missing = ", ".join(blocked["missing"])
+                self.activity.emit("planner", "fact-gate", f"deferred '{summary[:80]}': waiting for {missing}")
+            allowed = {item["idx"] for item in result["ready"]}
+            return [cand for index, cand in enumerate(candidates) if index in allowed]
+        except Exception:
+            return candidates
+
     def plan(self, triggers: list[dict] | None = None) -> list[ExplorationNode]:
         """Emit 0..N intents from current situation; most wakeups emit zero.
 
@@ -4094,6 +4198,8 @@ class Planner:
         if initial_access is not None:
             candidates.insert(0, initial_access)
         candidates.extend(self._llm_candidates(existing))
+        if _loop_fact_gate():
+            candidates = self._fact_gate_candidates(candidates)
         for summary, asset_ids, parents, priority in candidates:
             if summary in existing:
                 continue
@@ -5070,12 +5176,21 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         except Exception:
             agentic_allowed = True
         intent_deadline = (_now() + float(timeout_sec)) if timeout_sec else 0.0
-        if self._lazymode_try(intent, outcome, transcripts, executor, budget, deadline=intent_deadline):
-            return self._finish(intent, outcome, transcripts, worker_tools)
-        if agentic_allowed and self._agentic_try(
-            intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline=intent_deadline
-        ):
-            return self._finish(intent, outcome, transcripts, worker_tools)
+        deterministic_first = _loop_exploit_first() and _initial_access_intent(str(intent.text or "").lower())
+        if deterministic_first:
+            self.activity.emit(
+                self.name,
+                "deterministic-first",
+                f"exploitation intent #{intent.node_id}: high-confidence playbook, skipping LLM tiers",
+                intent_id=intent.node_id,
+            )
+        if not deterministic_first:
+            if self._lazymode_try(intent, outcome, transcripts, executor, budget, deadline=intent_deadline):
+                return self._finish(intent, outcome, transcripts, worker_tools)
+            if agentic_allowed and self._agentic_try(
+                intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline=intent_deadline
+            ):
+                return self._finish(intent, outcome, transcripts, worker_tools)
         prior_commands, prior_text = self._prior_steps(intent)
         steps = self._with_llm_steps(intent, self._steps_for(intent), prior_text)
         try:
@@ -5456,6 +5571,14 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                 intent_id=intent.node_id,
             )
             return "", "blocked", "scope"
+        command, downgrade_note = self._downgrade_privileged(command, target)
+        if downgrade_note:
+            self.activity.emit(
+                self.name,
+                "capability",
+                downgrade_note,
+                intent_id=intent.node_id,
+            )
         os_allowed, os_reason = self._os_gate(intent, command)
         if not os_allowed:
             self.activity.emit(
@@ -5620,14 +5743,14 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             output = self._run(command, executor)
             budget.record_toolcall(self.task_id, intent.node_id)
             try:
-                from modules.intercept import observe_post_tool as _observe
+                from modules.outcome_attribution import classify as _classify
 
-                verdict_post = _observe(output)
+                verdict_post = _classify(output)
                 if verdict_post in ("blocked", "error"):
                     self.activity.emit(
                         self.name,
-                        verdict_post,
-                        f"post-tool {verdict_post}: {command[:120]}",
+                        "post-signal",
+                        f"post-signal {verdict_post} (observed, not enforced): {command[:120]}",
                         intent_id=intent.node_id,
                     )
             except Exception:
@@ -5747,7 +5870,12 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         Uses the canonical detector (:func:`modules.atomic_exploit_bridge.shell_output_evidence`)
         as the one shell-evidence contract, so the kill-chain sink can
         advance the phase and host state and the strategic selectors —
-        atomic emulation, apt chains — become reachable inside the loop.
+        atomic emulation, apt chains — become reachable inside the loop. A
+        scan-only verb (:func:`modules.atomic_exploit_bridge.is_scan_only_verb`)
+        can never own a shell, so a shell marker inside its banner output is
+        treated as a captured service fingerprint and never fabricates a
+        foothold: an nmap ``-sV`` that echoes a backdoor's ``root@host:/#``
+        prompt no longer announces a phantom shell.
 
         Args:
             intent: Executed intent node.
@@ -5761,11 +5889,23 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         if not target:
             return False
         try:
-            from modules.atomic_exploit_bridge import shell_output_evidence as _shell_proof
+            from modules.atomic_exploit_bridge import is_scan_only_verb, shell_output_evidence
 
-            if not _shell_proof((output or "")[:5000]):
+            if not shell_output_evidence((output or "")[:5000]):
                 return False
+            scan_only = is_scan_only_verb(command)
         except Exception:
+            return False
+        if scan_only:
+            try:
+                self.activity.emit(
+                    self.name,
+                    "scan-banner",
+                    f"shell-like banner in scan output ignored (not a live session): {command[:120]}",
+                    intent_id=int(intent.node_id),
+                )
+            except Exception:
+                pass
             return False
         try:
             from modules.outcome_bus import record_event
@@ -6121,7 +6261,10 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         )
         if allow_finding and any(mark in lowered for mark in finding_marks):
             poc = f"{best_cmd}\n{best_out[:800]}"
-            text = f"possible issue via {best_cmd[:80]}: {best_out[:300]}"
+            vulnclass, cve = _derive_finding_class(f"{best_cmd} {best_out}")
+            label = cve or (vulnclass.upper() if vulnclass else "")
+            name = f"{label} via {best_cmd[:60]}".strip() if label else f"possible issue via {best_cmd[:80]}"
+            text = f"{name}: {best_out[:300]}"
             existing = self.graph.has_finding(text)
             if existing is not None:
                 self.activity.emit(
@@ -6137,9 +6280,10 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                     pass
                 return wrote
             finding = FindingService(self.graph.task_id, self.graph, self.activity, self.store).report(
-                name=f"possible issue via {best_cmd[:80]}",
+                name=name,
                 summary=best_out[:400],
                 poc=poc[:1500],
+                vulnclass=vulnclass,
                 intent_id=intent.node_id,
                 asset_ids=self.graph.anchors_for(intent.node_id),
             )
@@ -6210,6 +6354,57 @@ def _host_like_target(target: str) -> bool:
     return is_valid_host(value)
 
 
+_RETEST_EXPLOIT_HEADS = frozenset(
+    {
+        "auto_pwn",
+        "atomic_shell",
+        "atomic_lazyown",
+        "exploit_chain",
+        "automsf",
+        "eternal",
+    }
+)
+
+_SHELL_UID_RE = re.compile(r"uid=\d+")
+
+
+def _is_exploit_command(command: str) -> bool:
+    """Return True when a command establishes access and must not be replayed.
+
+    Retest confirms stored evidence; replaying an exploitation verb
+    (``auto_pwn`` and peers) re-exploits the target and spawns a duplicate
+    session instead of verifying the finding. Such verbs are checked against a
+    live session, never re-run.
+    """
+    try:
+        head = shlex.split(command or "")[0]
+    except (ValueError, IndexError):
+        return False
+    return os.path.basename(head).lower() in _RETEST_EXPLOIT_HEADS
+
+
+def _exploit_target(command: str, finding: ExplorationNode) -> str:
+    """Best-effort target host for an exploitation-verb finding.
+
+    Prefers a host-shaped positional argument of the stored PoC command,
+    falling back to the first IPv4 literal in the finding text, so a
+    live-session probe can be aimed without parsing exploit internals.
+    """
+    try:
+        tokens = shlex.split(command or "")[1:]
+    except (ValueError, IndexError):
+        tokens = []
+    for token in tokens:
+        if token.startswith("-"):
+            continue
+        if _host_like_target(token):
+            return token
+    text = str(getattr(finding, "text", "") or "")
+    for token in re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text):
+        return token
+    return ""
+
+
 class Retester:
     """Replay finding evidence to a verdict like the Lazy retester agent."""
 
@@ -6250,6 +6445,8 @@ class Retester:
         if _is_scan_command(command):
             verdict = "inconclusive"
             evidence = "[skipped] scan commands are not replayed during retest"
+        elif (session := self._session_verdict(finding, command)) is not None:
+            verdict, evidence, attempts = session
         else:
             structured = self._structured_verdict(finding)
             if structured is not None:
@@ -6306,7 +6503,7 @@ class Retester:
 
             record_event(
                 kind="finding",
-                task_id=self.task_id,
+                task_id=self.graph.task_id,
                 title=f"retest #{finding_id}: {verdict}",
                 severity=str(finding.meta.get("severity", "")),
                 mitre_id=str(finding.meta.get("technique_id", "")),
@@ -6329,6 +6526,70 @@ class Retester:
         except Exception:
             pass
         return {"finding_id": finding_id, "verdict": verdict, "attempts": attempts}
+
+    def _session_verdict(self, finding: ExplorationNode, command: str) -> tuple[str, str, int] | None:
+        """Verify an exploitation-verb finding via a live session, never by replay.
+
+        A finding whose PoC head is an access-establishing verb (``auto_pwn``
+        and peers) must not be re-executed during retest: that re-exploits the
+        target and opens a duplicate session (the double ``auto_pwn`` bug). When
+        a live shell for the target is cached, one idempotent probe (``id -u``)
+        confirms it under a ``(target, vector)`` effect lock; otherwise the
+        verdict is inconclusive with an explicit note rather than a blind
+        re-exploit. Fail-open: any error returns None so the ordinary replay
+        path still runs.
+
+        Args:
+            finding: Finding node under retest.
+            command: First PoC line the ordinary path would replay.
+
+        Returns:
+            ``(verdict, evidence, attempts)`` when the finding is
+            exploit-class, or None when it should follow the replay path.
+        """
+        if not _is_exploit_command(command):
+            return None
+        try:
+            vector = shlex.split(command)[0]
+        except (ValueError, IndexError):
+            vector = (command or "exploit").split(" ", 1)[0]
+        target = _exploit_target(command, finding)
+        probe = None
+        if target:
+            claimed = False
+            try:
+                from modules.atomic_exploit_bridge import (
+                    claim_effect,
+                    probe_live_shell,
+                    release_effect,
+                )
+
+                claimed = claim_effect(target, vector)
+                probe = probe_live_shell(target)
+            except Exception:
+                probe = None
+            finally:
+                if claimed:
+                    try:
+                        release_effect(target, vector)
+                    except Exception:
+                        pass
+        if probe is not None:
+            output = str(probe.get("output", ""))
+            owner = str(probe.get("owner", ""))
+            uid = _SHELL_UID_RE.search(output)
+            marker = uid.group(0) if uid else "live shell"
+            return (
+                "reproduced",
+                f"[session] {vector} on {target} verified via live shell {owner}: {marker} :: {output[:200]}",
+                1,
+            )
+        return (
+            "inconclusive",
+            f"[blocked] {vector} not replayed during retest (re-exploitation suppressed); "
+            f"no live session on {target or 'target'} to verify",
+            0,
+        )
 
     def _structured_verdict(self, finding: ExplorationNode) -> tuple[str, str, int] | None:
         """Try read-only structured checks before any heuristic grep.
@@ -7211,6 +7472,31 @@ _VULNCLASS_MARKS: tuple[tuple[str, str], ...] = (
     ("password", "T1552"),
     ("shell", "T1059"),
 )
+
+
+def _derive_finding_class(blob: str) -> tuple[str, str]:
+    """Derive ``(vulnclass, cve)`` from finding evidence using known marks.
+
+    Reuses the finding-to-technique vocabulary so an auto-reported finding
+    carries a concrete class and CVE instead of a bare "possible issue",
+    letting :class:`FindingService` resolve the ATT&CK technique precisely
+    rather than falling back to a generic id.
+
+    Args:
+        blob: Combined command and output evidence for the finding.
+
+    Returns:
+        ``(vulnclass, cve)`` where ``vulnclass`` is the first matched class
+        mark (or ``cve`` when only a CVE is present, else empty) and ``cve``
+        is the upper-cased identifier when present.
+    """
+    lowered = str(blob or "").lower()
+    cve_match = re.search(r"cve-\d{4}-\d{4,7}", lowered)
+    cve = cve_match.group(0).upper() if cve_match else ""
+    for mark, _technique in _VULNCLASS_MARKS:
+        if mark in lowered:
+            return mark, cve
+    return ("cve" if cve else ""), cve
 
 
 class FindingService:
@@ -11028,6 +11314,28 @@ class LazyLoopEngine(EngineProxyMixin):
         target = (resolve_target(task_id, self.store, ExplorationGraph(task_id)) or "").strip()
         if not target or self._foothold_proven(target, task_id):
             return False
+        reuse = None
+        try:
+            from modules.atomic_exploit_bridge import probe_live_shell
+
+            reuse = probe_live_shell(target)
+        except Exception:
+            reuse = None
+        if reuse is not None:
+            owner = str(reuse.get("owner", ""))
+            activity.emit(
+                "engine",
+                "fallback",
+                f"live shell already on {target}; reusing session {owner} instead of re-running auto_pwn",
+            )
+            return self._publish_fallback_shell(
+                task_id,
+                target,
+                f"id -u via live shell {owner}",
+                str(reuse.get("output", "")),
+                activity,
+                reused=True,
+            )
         try:
             from modules.auto_registry import verb_enabled, verb_gap
 
@@ -11035,6 +11343,19 @@ class LazyLoopEngine(EngineProxyMixin):
                 return False
         except Exception:
             pass
+        vector = "auto_pwn"
+        claim_effect = release_effect = None
+        try:
+            from modules.atomic_exploit_bridge import claim_effect, release_effect
+        except Exception:
+            claim_effect = release_effect = None
+        if claim_effect is not None and not claim_effect(target, vector):
+            activity.emit(
+                "engine",
+                "fallback",
+                f"auto_pwn already in flight for {target}; skipping duplicate terminal fallback",
+            )
+            return False
         cover = " --all" if _auto_pwn_cover_all() else ""
         command = f"auto_pwn {target}{cover}".strip()
         activity.emit(
@@ -11047,6 +11368,12 @@ class LazyLoopEngine(EngineProxyMixin):
         except Exception as exc:
             activity.emit("engine", "fallback", f"terminal auto_pwn fallback error: {str(exc)[:160]}")
             return False
+        finally:
+            if release_effect is not None:
+                try:
+                    release_effect(target, vector)
+                except Exception:
+                    pass
         try:
             from modules.atomic_exploit_bridge import shell_output_evidence
 
@@ -11056,6 +11383,37 @@ class LazyLoopEngine(EngineProxyMixin):
         if not shelled:
             activity.emit("engine", "fallback", "terminal auto_pwn fallback produced no shell evidence")
             return False
+        return self._publish_fallback_shell(task_id, target, command, output, activity, reused=False)
+
+    def _publish_fallback_shell(
+        self,
+        task_id: str,
+        target: str,
+        command: str,
+        output: str,
+        activity: ActivityLog,
+        reused: bool = False,
+    ) -> bool:
+        """Publish a terminal-fallback shell proof to the outcome bus.
+
+        Shared by the fresh ``auto_pwn`` fallback and the reuse-of-live-session
+        path so both emit one consistent critical exploit event and operator
+        breadcrumb. Never raises.
+
+        Args:
+            task_id: Engagement identifier.
+            target: Host the shell runs on.
+            command: Command or reuse marker that evidenced the shell.
+            output: Captured shell evidence.
+            activity: Activity log for operator-visible breadcrumbs.
+            reused: Whether the shell came from reusing a cached session
+                rather than a fresh exploitation.
+
+        Returns:
+            True always, mirroring a successful foothold.
+        """
+        title = "shell via reused live session" if reused else "shell via terminal auto_pwn fallback"
+        source = "lazy_loop_fallback_reuse" if reused else "lazy_loop_fallback"
         try:
             from modules.outcome_bus import record_event
 
@@ -11064,19 +11422,20 @@ class LazyLoopEngine(EngineProxyMixin):
                 target=target,
                 host=target,
                 task_id=task_id,
-                title="shell via terminal auto_pwn fallback",
-                description=f"terminal auto_pwn fallback output carries interactive-shell evidence ({command})",
+                title=title,
+                description=f"{title} carries interactive-shell evidence ({command})",
                 severity="critical",
                 success=True,
                 shell=True,
-                source="lazy_loop_fallback",
+                source=source,
                 command=command[:400],
                 output=(output or "")[:1500],
-                metadata={"fallback": True},
+                metadata={"fallback": True, "reused": reused},
             )
         except Exception:
             pass
-        activity.emit("engine", "fallback", "terminal auto_pwn fallback obtained a shell")
+        done = f"reused live shell on {target}" if reused else "terminal auto_pwn fallback obtained a shell"
+        activity.emit("engine", "fallback", done)
         return True
 
     def _engagement_decision(self, task_id: str, round_index: int, summary: dict) -> str:

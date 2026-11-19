@@ -154,6 +154,36 @@ class WorkerGatingMixin:
             pass
         return False, "sudo-unavailable"
 
+    def _downgrade_privileged(self, command: str, target: str = "") -> tuple[str, str]:
+        """Rewrite a root/tty-only verb to its unprivileged fallback when the
+        unattended loop cannot elevate.
+
+        ``lazynmap`` and peers run a privileged primitive under sudo; with no
+        tty and no passwordless sudo they degrade or hang, so the loop keeps
+        re-proposing a verb it can never run. This substitutes an unprivileged
+        equivalent (``nmap -sT``) once, so the scan actually runs. Fail-open:
+        any error leaves the command unchanged.
+
+        Args:
+            command: Proposed command line.
+            target: Resolved intent target to aim the fallback.
+
+        Returns:
+            ``(command, note)``: unchanged command and empty note when no
+            downgrade applies, else the fallback command and a reason.
+        """
+        try:
+            from modules.verb_capabilities import downgrade_for_unattended, requires_privilege
+            from utils import sudo_available
+
+            if not requires_privilege(command):
+                return command, ""
+            if sudo_available():
+                return command, ""
+            return downgrade_for_unattended(command, target)
+        except Exception:
+            return command, ""
+
     def _command_in_scope(self, command: str) -> bool:
         """Return True when every host a command mentions is in scope."""
         text = command or ""

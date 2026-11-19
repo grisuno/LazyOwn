@@ -97,6 +97,7 @@ def main(argv: list[str]) -> int:
         sessions_dir=sessions_dir,
         scope_check=build_scope_check(payload),
     )
+    sys.modules["lazy"] = lazy
     namespace: dict[str, Any] = {"lazy": lazy, "__name__": "__lazymode__"}
     captured = io.StringIO()
     try:

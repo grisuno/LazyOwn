@@ -5,6 +5,7 @@ from modules.loop.triage_scheduler import TriageScheduler, estimate_difficulty
 from modules.loop.worker_agentic import WorkerAgenticMixin
 from modules.loop.worker_execution import WorkerExecutionMixin
 from modules.loop.worker_gating import WorkerGatingMixin
+from modules.loop.worker_lazymode import WorkerLazymodeMixin
 from modules.loop.worker_memory import WorkerMemoryMixin
 
 __all__ = [
@@ -13,6 +14,7 @@ __all__ = [
     "WorkerAgenticMixin",
     "WorkerExecutionMixin",
     "WorkerGatingMixin",
+    "WorkerLazymodeMixin",
     "WorkerMemoryMixin",
     "estimate_difficulty",
 ]

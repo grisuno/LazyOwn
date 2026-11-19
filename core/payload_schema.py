@@ -1411,6 +1411,70 @@ SCHEMA: dict[str, FieldSpec] = {
             category="ai",
         ),
         _spec(
+            "loop_lazymode_first",
+            FieldKind.BOOL,
+            True,
+            "Try one model-authored code-mode SDK script before the agent.",
+            long_help=(
+                "When enabled, the worker's first option for an intent is code "
+                "mode: the model writes ONE Python script against the lazy SDK "
+                "facade and it runs through sdk.lazymode.run in a bounded "
+                "subprocess, so one model call replaces the many tool "
+                "round-trips of the agent loop and the intermediate output "
+                "never costs tokens. The script owns the intent only on real "
+                "progress (shell evidence for exploitation, a non-trivial "
+                "result otherwise); otherwise the worker falls back to the "
+                "tool-calling agent and then the auto_pwn engine, so the kill "
+                "chain is unchanged. On by default."
+            ),
+            category="ai",
+        ),
+        _spec(
+            "loop_lazymode_max_tokens",
+            FieldKind.INT,
+            1200,
+            "Output-token cap for the code-mode script-authoring call.",
+            long_help=(
+                "Bounds how many tokens the model may spend writing the single "
+                "lazymode script. The script then executes with no further "
+                "model tokens, which is the whole point of code mode."
+            ),
+            example="1200",
+            category="ai",
+            min_value=1,
+        ),
+        _spec(
+            "loop_lazymode_timeout",
+            FieldKind.INT,
+            180,
+            "Wall-clock timeout for the code-mode subprocess in seconds.",
+            long_help=(
+                "The bounded subprocess that runs the model's lazymode script "
+                "is killed after this many seconds so a runaway script never "
+                "stalls the worker; the intent then falls back to the agent."
+            ),
+            example="180",
+            category="ai",
+            min_value=1,
+        ),
+        _spec(
+            "loop_technique_deterministic",
+            FieldKind.BOOL,
+            True,
+            "Resolve MITRE-technique intents with a headless atomic_tests.",
+            long_help=(
+                "When enabled, an intent that emulates a MITRE technique "
+                "(for example 'Review T1105: ...' or a 'run action: "
+                "atomic_tests T1059 ...' line) is resolved deterministically "
+                "through the step loop as a non-interactive atomic_tests run, "
+                "skipping the tool-calling agent so the loop stops spending "
+                "model turns on technique emulation. Exploitation-class "
+                "intents are unaffected (they use the code-mode vectors and "
+                "the auto_pwn fallback). On by default."
+            ),
+            category="ai",
+        ),
+        _spec(
             "loop_planner_temperature",
             FieldKind.STRING,
             "0.0",

@@ -366,7 +366,13 @@ class WorkerAgenticMixin:
             return json.dumps(compact, ensure_ascii=False)[:1500] or "no hits"
 
         def graph_state() -> str:
-            """Compact exploration overview: intents, facts, findings."""
+            """Compact exploration overview plus already-discovered assets.
+
+            Projects the global asset coverage next to the exploration graph so
+            the agent sees what recon already produced (services, ports, hosts)
+            and does not re-scan intel the bootstrap already ingested, which is
+            why the exploration graph alone can read as nearly empty.
+            """
             overview = self.graph.overview()
             compact = {
                 "facts_total": overview.get("facts", 0),
@@ -378,6 +384,17 @@ class WorkerAgenticMixin:
                     if i.get("state") in ("open", "running", "pending")
                 ][:6],
             }
+            try:
+                coverage = self.assets.coverage()
+                services = self.assets.list("service")
+                compact["known_assets"] = {
+                    "total": coverage.get("total", 0),
+                    "tested": coverage.get("tested", 0),
+                    "by_type": coverage.get("by_type", {}),
+                    "services": [str(node.value)[:60] for node in services[:8]],
+                }
+            except Exception:
+                pass
             return json.dumps(compact, ensure_ascii=False)[:1500]
 
         def shell_open() -> str:
@@ -558,7 +575,9 @@ class WorkerAgenticMixin:
             "'run action: atomic_tests T1001.002 --non-interactive' or 'auto <verb>'), "
             "run that exact line verbatim with run_command first; never invent external "
             "binaries or renamed equivalents when a LazyOwn verb already exists. "
-            "Prefer lazynmap <target> over raw nmap so scans persist in sessions/. "
+            "This loop is unattended with no tty or passwordless sudo: use unprivileged "
+            "scans (nmap -sT -sV <target>). lazynmap persists artefacts but needs root, "
+            "so it is downgraded automatically when sudo is unavailable; do not insist on it. "
             "Read each result before the next call, never repeat an identical command. "
             "Persist positive and negative observations with record_fact; report only "
             "actually-triggered vulnerabilities with report_finding (evidence required). "
@@ -817,8 +836,9 @@ class WorkerAgenticMixin:
                 "fail. If the intent names a LazyOwn verb line (for example "
                 "'run action: atomic_tests T1001.002 --non-interactive'), propose that "
                 "exact line verbatim; never rename LazyOwn verbs to external binaries. "
-                "Prefer lazynmap <target> over raw nmap: it persists XML, "
-                "post-scan artefacts and intel in sessions/ automatically."
+                "Use unprivileged scans (nmap -sT -sV <target>): this unattended loop has "
+                "no tty or passwordless sudo, so lazynmap (which needs root) is downgraded "
+                "automatically and must not be insisted upon."
             )
             temperature = _planner_temperature()
             capable_chain = _capable_member_chain(chain or pool.members())

@@ -106,8 +106,8 @@ This community groups 148 file(s) rooted at `cli/commands` with dominant languag
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 366
-- Cross-boundary resolved imports (EXTRACTED): 549
+- Internal resolved imports (EXTRACTED): 367
+- Cross-boundary resolved imports (EXTRACTED): 555
 
 ## Connections
 
@@ -123,27 +123,11 @@ This community groups 148 file(s) rooted at `cli/commands` with dominant languag
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
-- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/param_registry.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
-- Why do 4 file(s) lack file-level docs (e.g. `cli/commands/exploitdb.py`)? What purpose do they serve?
-- Can the cycle `utils.py` -> `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` be broken with an interface?
-- Is the dangerous import `subprocess` in `cli/banner_config.py` still required, or can it be isolated?
+- Why do 3 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
 - What would break if the most connected file in cli/commands changed?
 - Should cli/commands be split, given cohesion 0.46?
 

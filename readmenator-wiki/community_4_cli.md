@@ -107,7 +107,7 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 396
-- Cross-boundary resolved imports (EXTRACTED): 283
+- Cross-boundary resolved imports (EXTRACTED): 285
 
 ## Connections
 
@@ -118,13 +118,7 @@ This community groups 112 file(s) rooted at `tests` with dominant language py (c
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [layer strict] `tests/test_exploration_and_addons.py` (testing) -> `cli/exploration_view.py` (presentation)
-- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
-- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
-- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
-- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
-- [dataflow UNCHECKED_ALLOC] `cli/commands/misc_migrated.py:333` `do_suggest_next` `_idx`: Result of allocator stored in `_idx` is never checked against NULL.
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 

@@ -6,41 +6,41 @@ Previous: [KB_core.md](KB_core.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `FieldKind` (class, line 77) `class FieldKind(StrEnum)`
-  - `Severity` (class, line 96) `class Severity(StrEnum)`
-  - `FieldSpec` (class, line 105) `class FieldSpec`
-  - `ValidationIssue` (class, line 147) `class ValidationIssue`
-  - `_validate_string` (function, line 170) `def _validate_string(value)`
-  - `_validate_int` (function, line 176) `def _validate_int(value)`
-  - `_validate_port` (function, line 190) `def _validate_port(value)`
-  - `_validate_bool` (function, line 200) `def _validate_bool(value)`
-  - `_validate_ip` (function, line 217) `def _validate_ip(value)`
-  - `_validate_hostname` (function, line 225) `def _validate_hostname(value)`
-  - `_validate_url` (function, line 237) `def _validate_url(value)`
-  - `_validate_path` (function, line 245) `def _validate_path(value)`
-  - `_validate_interface` (function, line 251) `def _validate_interface(value)`
-  - `_validate_hex` (function, line 259) `def _validate_hex(value)`
-  - `_validate_os_id` (function, line 267) `def _validate_os_id(value)`
-  - `_validate_json_blob` (function, line 273) `def _validate_json_blob(value)`
-  - `_validate_list` (function, line 285) `def _validate_list(value)`
-  - `_coerce_list` (function, line 310) `def _coerce_list(raw)`
-  - `_validate_opaque` (function, line 324) `def _validate_opaque(_value)`
-  - `_validate_c2_tls_verify` (function, line 328) `def _validate_c2_tls_verify(value)`
-  - `_coerce_int` (function, line 368) `def _coerce_int(raw)`
-  - `_coerce_bool` (function, line 383) `def _coerce_bool(raw)`
-  - `_spec` (function, line 403) `def _spec(name, kind, default, description)`
-  - `register_specs` (function, line 2214) `def register_specs(specs)`
-  - `unregister_specs` (function, line 2237) `def unregister_specs(keys)`
-  - `field_for` (function, line 2255) `def field_for(key)`
-  - `coerce_value` (function, line 2260) `def coerce_value(key, raw)`
-  - `validate_value` (function, line 2283) `def validate_value(key, value)`
-  - `validate_payload` (function, line 2357) `def validate_payload(payload)`
-  - `format_issue` (function, line 2392) `def format_issue(issue)`
-  - `default_payload` (function, line 2410) `def default_payload()`
-  - `categories` (function, line 2418) `def categories()`
-  - `_load_operator_specs` (function, line 2430) `def _load_operator_specs()`
+  - `FieldKind` (class, line 79) `class FieldKind(StrEnum)`
+  - `Severity` (class, line 98) `class Severity(StrEnum)`
+  - `FieldSpec` (class, line 107) `class FieldSpec`
+  - `ValidationIssue` (class, line 149) `class ValidationIssue`
+  - `_validate_string` (function, line 172) `def _validate_string(value)`
+  - `_validate_int` (function, line 178) `def _validate_int(value)`
+  - `_validate_port` (function, line 192) `def _validate_port(value)`
+  - `_validate_bool` (function, line 202) `def _validate_bool(value)`
+  - `_validate_ip` (function, line 219) `def _validate_ip(value)`
+  - `_validate_hostname` (function, line 227) `def _validate_hostname(value)`
+  - `_validate_url` (function, line 239) `def _validate_url(value)`
+  - `_validate_path` (function, line 247) `def _validate_path(value)`
+  - `_validate_interface` (function, line 253) `def _validate_interface(value)`
+  - `_validate_hex` (function, line 261) `def _validate_hex(value)`
+  - `_validate_os_id` (function, line 269) `def _validate_os_id(value)`
+  - `_validate_json_blob` (function, line 275) `def _validate_json_blob(value)`
+  - `_validate_list` (function, line 287) `def _validate_list(value)`
+  - `_coerce_list` (function, line 312) `def _coerce_list(raw)`
+  - `_validate_opaque` (function, line 326) `def _validate_opaque(_value)`
+  - `_validate_c2_tls_verify` (function, line 330) `def _validate_c2_tls_verify(value)`
+  - `_coerce_int` (function, line 370) `def _coerce_int(raw)`
+  - `_coerce_bool` (function, line 385) `def _coerce_bool(raw)`
+  - `_spec` (function, line 405) `def _spec(name, kind, default, description)`
+  - `register_specs` (function, line 2298) `def register_specs(specs)`
+  - `unregister_specs` (function, line 2321) `def unregister_specs(keys)`
+  - `field_for` (function, line 2339) `def field_for(key)`
+  - `coerce_value` (function, line 2344) `def coerce_value(key, raw)`
+  - `validate_value` (function, line 2367) `def validate_value(key, value)`
+  - `validate_payload` (function, line 2441) `def validate_payload(payload)`
+  - `format_issue` (function, line 2476) `def format_issue(issue)`
+  - `default_payload` (function, line 2494) `def default_payload()`
+  - `categories` (function, line 2502) `def categories()`
+  - `_load_operator_specs` (function, line 2514) `def _load_operator_specs()`
 - Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
-- Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
+- Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `sdk/facade.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`, `tests/test_shell_params_seeding.py`
 
 ## core/process.py
 - Doc: Process and subprocess utilities for the LazyOwn framework.
@@ -55,12 +55,12 @@ Previous: [KB_core.md](KB_core.md)
   - `is_package_installed` (function, line 143) `def is_package_installed(package_name)`
   - `_print_run_command_status` (function, line 159) `def _print_run_command_status(command, elapsed, exit_code)`
   - `run_command` (function, line 183) `def run_command(command, timeout)`
-  - `ensure_tmux_session` (function, line 253) `def ensure_tmux_session(session_name)`
-  - `activate_server` (function, line 271) `def activate_server(httpd, url, lhost)`
+  - `ensure_tmux_session` (function, line 254) `def ensure_tmux_session(session_name)`
+  - `activate_server` (function, line 272) `def activate_server(httpd, url, lhost)`
   - `wrapper` (function, line 82) `def wrapper(self)`
-  - `_drain_stderr` (function, line 220) `def _drain_stderr()`
+  - `_drain_stderr` (function, line 221) `def _drain_stderr()`
 - Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_verify.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_lazy_runner.py`, `tests/test_shell_semantics.py`, `utils.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_verify.py`, `sdk/facade.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_lazy_runner.py`, `tests/test_shell_semantics.py`, `utils.py`
 
 ## core/profiles.py
 - Doc: Runtime profiles: ``light`` vs ``full`` installations.
@@ -142,15 +142,15 @@ Previous: [KB_core.md](KB_core.md)
   - `needs_shell` (function, line 57) `def needs_shell(command)`
   - `safe_system` (function, line 74) `def safe_system(command)`
   - `_kill_process_tree` (function, line 111) `def _kill_process_tree(process)`
-  - `_communicate_group_managed` (function, line 141) `def _communicate_group_managed(process, timeout)`
-  - `safe_run_argv` (function, line 174) `def safe_run_argv(argv)`
-  - `safe_run_shell` (function, line 228) `def safe_run_shell(command)`
-  - `safe_clear_screen` (function, line 285) `def safe_clear_screen()`
-  - `validate_url` (function, line 300) `def validate_url(url)`
-  - `safe_git_clone` (function, line 327) `def safe_git_clone(repo_url, target_dir)`
-  - `safe_ip_show` (function, line 361) `def safe_ip_show(interface)`
-  - `safe_find_tool` (function, line 398) `def safe_find_tool(name)`
-  - `safe_file_read` (function, line 414) `def safe_file_read(path)`
+  - `_communicate_group_managed` (function, line 141) `def _communicate_group_managed(process, timeout, input_data)`
+  - `safe_run_argv` (function, line 176) `def safe_run_argv(argv)`
+  - `safe_run_shell` (function, line 230) `def safe_run_shell(command)`
+  - `safe_clear_screen` (function, line 287) `def safe_clear_screen()`
+  - `validate_url` (function, line 302) `def validate_url(url)`
+  - `safe_git_clone` (function, line 329) `def safe_git_clone(repo_url, target_dir)`
+  - `safe_ip_show` (function, line 363) `def safe_ip_show(interface)`
+  - `safe_find_tool` (function, line 400) `def safe_find_tool(name)`
+  - `safe_file_read` (function, line 416) `def safe_file_read(path)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/lazyshortener.py`, `modules/metasploitable_migrations.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `modules/winbox_gym.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_group_kill.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
 

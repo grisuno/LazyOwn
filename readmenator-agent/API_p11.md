@@ -1,5 +1,49 @@
-# API (page 11 of 28)
+# API (page 11 of 30)
 Previous: [API_p10.md](API_p10.md)
+
+## modules/bof_registry.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`, `modules/bsb_compat.py`
+Imported by: `cli/commands/bof_registry.py`, `modules/beacon_kinds.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
+- `BofEntry.to_dict` (method) `modules/bof_registry.py:130` `def to_dict(self)` -- Serialize to dictionary.
+- `BofEntry.from_dict` (method) `modules/bof_registry.py:151` `def from_dict(cls, raw)` -- Build from a dictionary.
+- `BofCatalog.register` (method) `modules/bof_registry.py:183` `def register(self, entry)` -- Register a BOF entry in the catalog.
+- `BofCatalog.register_many` (method) `modules/bof_registry.py:188` `def register_many(self, entries)` -- Register multiple BOF entries at once.
+- `BofCatalog.get` (method) `modules/bof_registry.py:193` `def get(self, name)` -- Retrieve a BOF entry by name.
+- `BofCatalog.search` (method) `modules/bof_registry.py:204` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
+- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:237` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
+- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:241` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
+- `BofCatalog.list_all` (method) `modules/bof_registry.py:245` `def list_all(self)` -- Return all catalog entries sorted by name.
+- `BofCatalog.to_dict` (method) `modules/bof_registry.py:249` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
+- `BofCatalog.from_dict` (method) `modules/bof_registry.py:257` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
+- `BofCatalog.load` (method) `modules/bof_registry.py:265` `def load(cls, path)` -- Load a catalog from a JSON file.
+- `BofCatalog.save` (method) `modules/bof_registry.py:273` `def save(self, path)` -- Save the catalog to a JSON file.
+- `BofYamlStore.__init__` (method) `modules/bof_registry.py:290` `def __init__(self, directory)` -- Bind the store to a directory.
+- `BofYamlStore.directory` (method) `modules/bof_registry.py:299` `def directory(self)` -- Return the directory bound to this store.
+- `BofYamlStore.load_entries` (method) `modules/bof_registry.py:303` `def load_entries(self)` -- Parse every YAML file into :class:`BofEntry` objects.
+- `BofYamlStore.load_catalog` (method) `modules/bof_registry.py:342` `def load_catalog(self)` -- Build a :class:`BofCatalog` from the YAML configuration files.
+- `find_client_artifact` (function) `modules/bof_registry.py:362` `def find_client_artifact(entry)` -- Resolve the compiled object file of a BOF across all known source trees.
+- `client_addon_install_path` (function) `modules/bof_registry.py:423` `def client_addon_install_path(client, addons_dir)` -- Read the ``tool.install_path`` of one beacon client lazyaddon.
+- `stage_entry_bof` (function) `modules/bof_registry.py:449` `def stage_entry_bof(entry, sessions_dir)` -- Stage a compiled BOF object for beacon delivery.
+- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:491` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
+- `BofValidator.verify_entry` (method) `modules/bof_registry.py:500` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
+- `BofValidator.validate_args` (method) `modules/bof_registry.py:516` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
+- `BofRegistry.__init__` (method) `modules/bof_registry.py:535` `def __init__(self, sessions_dir)`
+- `BofRegistry.install_dir` (method) `modules/bof_registry.py:541` `def install_dir(self)` -- Return the BOF installation directory.
+- `BofRegistry.is_installed` (method) `modules/bof_registry.py:561` `def is_installed(self, name)` -- Return True if a BOF is installed.
+- `BofRegistry.install` (method) `modules/bof_registry.py:566` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
+- `BofRegistry.uninstall` (method) `modules/bof_registry.py:587` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
+- `BofRegistry.list_installed` (method) `modules/bof_registry.py:604` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
+- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:609` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
+- `BofMarketplace.__init__` (method) `modules/bof_registry.py:627` `def __init__(self, sessions_dir, catalog)`
+- `BofMarketplace.catalog` (method) `modules/bof_registry.py:638` `def catalog(self)` -- Return the catalog.
+- `BofMarketplace.registry` (method) `modules/bof_registry.py:643` `def registry(self)` -- Return the registry.
+- `BofMarketplace.search` (method) `modules/bof_registry.py:647` `def search(self, query)` -- Search the catalog and return enriched results with install status.
+- `BofMarketplace.info` (method) `modules/bof_registry.py:666` `def info(self, name)` -- Get detailed information about a BOF by name.
+- `BofMarketplace.install` (method) `modules/bof_registry.py:683` `def install(self, name)` -- Install a BOF from the catalog by name.
+- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:712` `def uninstall(self, name)` -- Uninstall a BOF by name.
+- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:725` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
+- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:737` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
+- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:745` `def bulk_install(self, names)` -- Install multiple BOFs at once.
 
 ## modules/browser_sync.py
 Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
@@ -34,29 +78,30 @@ Imported by: `modules/chain_runner.py`, `modules/lazy_proxy.py`, `modules/lazyow
 
 ## modules/bsb_compat.py
 Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `tests/test_bsb_fileless_compat.py`
-- `derive_bsb_keys` (function) `modules/bsb_compat.py:52` `def derive_bsb_keys(master_key)` -- Derive the BSB encryption and HMAC keys from the raw C2 key.
-- `decrypt_bsb_report` (function) `modules/bsb_compat.py:90` `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` -- Decrypt and decode one BSB report.
-- `encrypt_bsb_command` (function) `modules/bsb_compat.py:139` `def encrypt_bsb_command(data, master_key)` -- Encrypt one command for a BSB beacon in the legacy wire format.
-- `derive_bsb_stage_keys` (function) `modules/bsb_compat.py:162` `def derive_bsb_stage_keys(token)` -- Derive the staging encryption and HMAC keys from a staging token.
-- `encrypt_bsb_stage_blob` (function) `modules/bsb_compat.py:208` `def encrypt_bsb_stage_blob(data, token)` -- Encrypt one staging payload in the diskless-stager wire format.
-- `decrypt_bsb_stage_blob` (function) `modules/bsb_compat.py:232` `def decrypt_bsb_stage_blob(encrypted_data, token)` -- Decode one staging payload exactly the way the upstream stager does.
+Imported by: `lazyc2.py`, `modules/bof_registry.py`, `tests/test_bsb_fileless_compat.py`
+- `derive_bsb_keys` (function) `modules/bsb_compat.py:64` `def derive_bsb_keys(master_key)` -- Derive the BSB encryption and HMAC keys from the raw C2 key.
+- `decrypt_bsb_report` (function) `modules/bsb_compat.py:102` `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)` -- Decrypt and decode one BSB report.
+- `encrypt_bsb_command` (function) `modules/bsb_compat.py:151` `def encrypt_bsb_command(data, master_key)` -- Encrypt one command for a BSB beacon in the legacy wire format.
+- `derive_bsb_stage_keys` (function) `modules/bsb_compat.py:174` `def derive_bsb_stage_keys(token)` -- Derive the staging encryption and HMAC keys from a staging token.
+- `encrypt_bsb_stage_blob` (function) `modules/bsb_compat.py:220` `def encrypt_bsb_stage_blob(data, token)` -- Encrypt one staging payload in the diskless-stager wire format.
+- `decrypt_bsb_stage_blob` (function) `modules/bsb_compat.py:244` `def decrypt_bsb_stage_blob(encrypted_data, token)` -- Decode one staging payload exactly the way the upstream stager does.
+- `resolve_bof_object` (function) `modules/bsb_compat.py:320` `def resolve_bof_object(name, relative_artifact, repo_root)` -- Resolve one compiled BOF object the way the upstream BSB server does.
 
 ## modules/c2_agent.py
-Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`, `modules/security_sanitizers.py`
 Imported by: `cli/commands/c2_session.py`
-- `client_id_for` (function) `modules/c2_agent.py:94` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
-- `validate_client_id` (function) `modules/c2_agent.py:119` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
-- `build_agent` (function) `modules/c2_agent.py:398` `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
-- `read_aes_hex` (function) `modules/c2_agent.py:528` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
-- `deploy` (function) `modules/c2_agent.py:533` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
-- `read_records` (function) `modules/c2_agent.py:680` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
-- `wait_record` (function) `modules/c2_agent.py:697` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
-- `C2Server.__init__` (method) `modules/c2_agent.py:714` `def __init__(self, port, user, password)`
-- `C2Server.status` (method) `modules/c2_agent.py:731` `def status(self)` -- Report server liveness and listener reachability.
-- `C2Server.start` (method) `modules/c2_agent.py:763` `def start(self)` -- Start lazyc2 headless (no-op when already running).
-- `C2Server.stop` (method) `modules/c2_agent.py:794` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
-- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:817` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
+- `client_id_for` (function) `modules/c2_agent.py:96` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
+- `validate_client_id` (function) `modules/c2_agent.py:121` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
+- `build_agent` (function) `modules/c2_agent.py:400` `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
+- `read_aes_hex` (function) `modules/c2_agent.py:530` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
+- `deploy` (function) `modules/c2_agent.py:535` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
+- `read_records` (function) `modules/c2_agent.py:682` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
+- `wait_record` (function) `modules/c2_agent.py:699` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
+- `C2Server.__init__` (method) `modules/c2_agent.py:716` `def __init__(self, port, user, password)`
+- `C2Server.status` (method) `modules/c2_agent.py:733` `def status(self)` -- Report server liveness and listener reachability.
+- `C2Server.start` (method) `modules/c2_agent.py:765` `def start(self)` -- Start lazyc2 headless (no-op when already running).
+- `C2Server.stop` (method) `modules/c2_agent.py:796` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
+- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:819` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
 
 ## modules/c2_builder.py
 Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
@@ -402,22 +447,22 @@ Imported by: `lazyc2.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/conditional_hooks.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
-Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
-- `HookRule.can_fire` (method) `modules/conditional_hooks.py:56` `def can_fire(self, now)`
-- `HookRule.mark_fired` (method) `modules/conditional_hooks.py:65` `def mark_fired(self)`
-- `HookRule.to_dict` (method) `modules/conditional_hooks.py:69` `def to_dict(self)`
-- `HookEngine.__init__` (method) `modules/conditional_hooks.py:270` `def __init__(self)`
-- `HookEngine.register_action_handler` (method) `modules/conditional_hooks.py:277` `def register_action_handler(self, action_type, handler)` -- Register a handler for a custom action type.
-- `HookEngine.set_placeholders` (method) `modules/conditional_hooks.py:286` `def set_placeholders(self, placeholders)` -- Set placeholder values for command templating (rhost, lhost, etc.).
-- `HookEngine.load_rules` (method) `modules/conditional_hooks.py:290` `def load_rules(self, path)` -- Load rules from JSON file, or create it with defaults.
-- `HookEngine.save_rules` (method) `modules/conditional_hooks.py:322` `def save_rules(self, path)` -- Persist current rules to JSON.
-- `HookEngine.add_rule` (method) `modules/conditional_hooks.py:330` `def add_rule(self, rule_dict)` -- Add a rule at runtime.
-- `HookEngine.remove_rule` (method) `modules/conditional_hooks.py:345` `def remove_rule(self, name)` -- Remove a rule by name.
-- `HookEngine.enable_rule` (method) `modules/conditional_hooks.py:359` `def enable_rule(self, name, enabled)` -- Enable or disable a rule by name.
-- `HookEngine.fire` (method) `modules/conditional_hooks.py:516` `def fire(self, event, context)` -- Fire an event, evaluating all matching rules.
-- `HookEngine.list_rules` (method) `modules/conditional_hooks.py:571` `def list_rules(self)` -- Return all rules as dictionaries.
-- `HookEngine.get_rule` (method) `modules/conditional_hooks.py:575` `def get_rule(self, name)` -- Return a single rule by name, or None.
-- `get_hook_engine` (function) `modules/conditional_hooks.py:586` `def get_hook_engine()` -- Return the singleton :class:`HookEngine`.
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_lazy_handoff.py`
+- `HookRule.can_fire` (method) `modules/conditional_hooks.py:57` `def can_fire(self, now)`
+- `HookRule.mark_fired` (method) `modules/conditional_hooks.py:66` `def mark_fired(self)`
+- `HookRule.to_dict` (method) `modules/conditional_hooks.py:70` `def to_dict(self)`
+- `HookEngine.__init__` (method) `modules/conditional_hooks.py:273` `def __init__(self)`
+- `HookEngine.register_action_handler` (method) `modules/conditional_hooks.py:280` `def register_action_handler(self, action_type, handler)` -- Register a handler for a custom action type.
+- `HookEngine.set_placeholders` (method) `modules/conditional_hooks.py:289` `def set_placeholders(self, placeholders)` -- Set placeholder values for command templating (rhost, lhost, etc.).
+- `HookEngine.load_rules` (method) `modules/conditional_hooks.py:293` `def load_rules(self, path)` -- Load rules from JSON file, or create it with defaults.
+- `HookEngine.save_rules` (method) `modules/conditional_hooks.py:325` `def save_rules(self, path)` -- Persist current rules to JSON.
+- `HookEngine.add_rule` (method) `modules/conditional_hooks.py:333` `def add_rule(self, rule_dict)` -- Add a rule at runtime.
+- `HookEngine.remove_rule` (method) `modules/conditional_hooks.py:348` `def remove_rule(self, name)` -- Remove a rule by name.
+- `HookEngine.enable_rule` (method) `modules/conditional_hooks.py:362` `def enable_rule(self, name, enabled)` -- Enable or disable a rule by name.
+- `HookEngine.fire` (method) `modules/conditional_hooks.py:579` `def fire(self, event, context)` -- Fire an event, evaluating all matching rules.
+- `HookEngine.list_rules` (method) `modules/conditional_hooks.py:645` `def list_rules(self)` -- Return all rules as dictionaries.
+- `HookEngine.get_rule` (method) `modules/conditional_hooks.py:649` `def get_rule(self, name)` -- Return a single rule by name, or None.
+- `get_hook_engine` (function) `modules/conditional_hooks.py:660` `def get_hook_engine()` -- Return the singleton :class:`HookEngine`.
 
 ## modules/config_store.py
 Depends on: `core/config.py`, `core/logging.py`
@@ -440,56 +485,6 @@ Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beaco
 - `CredentialReuseEngine.suggest_from_world_model` (method) `modules/credential_reuse.py:308` `def suggest_from_world_model(self, world_model, limit)` -- Convenience: rank creds using hosts and creds from WorldModel.
 - `CredentialReuseEngine.get_summary` (method) `modules/credential_reuse.py:338` `def get_summary(self, candidates)` -- Format candidates as a human-readable summary string.
 - `get_credential_reuse_engine` (function) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
-
-## modules/cross_cloud.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
-- `CrossCloudAttackEngine.azure_saml_to_aws` (method) `modules/cross_cloud.py:67` `def azure_saml_to_aws(self)` -- Abuse Azure AD SAML federation to gain AWS access.
-- `CrossCloudAttackEngine.gcp_oidc_to_azure` (method) `modules/cross_cloud.py:104` `def gcp_oidc_to_azure(self)` -- Abuse GCP OIDC federation to gain Azure access.
-- `CrossCloudAttackEngine.aws_oidc_to_gcp` (method) `modules/cross_cloud.py:133` `def aws_oidc_to_gcp(self)` -- Abuse AWS OIDC federation to gain GCP access.
-- `CrossCloudAttackEngine.multi_cloud_imds_harvesting` (method) `modules/cross_cloud.py:167` `def multi_cloud_imds_harvesting(self)` -- Harvest metadata from all cloud providers simultaneously.
-- `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
-- `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
-- `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
-
-## modules/ctf_capture.py
-Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
-Imported by: `modules/autonomous_exploit_engine.py`, `tests/test_auto_pwn_success.py`, `tests/test_ctf_signalman.py`
-- `output_dir` (function) `modules/ctf_capture.py:40` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
-- `evaluate_exploit_output` (function) `modules/ctf_capture.py:203` `def evaluate_exploit_output(output)` -- Evaluate raw exploit output against the precise shell-objective checkers.
-- `capture` (function) `modules/ctf_capture.py:275` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
-- `record_path` (function) `modules/ctf_capture.py:363` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
-- `store_record` (function) `modules/ctf_capture.py:389` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
-- `list_records` (function) `modules/ctf_capture.py:407` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
-- `summary` (function) `modules/ctf_capture.py:430` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
-
-## modules/ctf_signalman.py
-Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/redteam_gym.py`, `tests/test_ctf_signalman.py`
-- `catalogue_for` (function) `modules/ctf_signalman.py:53` `def catalogue_for(scenario)` -- Resolve one gym scenario into its vectors and lookup callable.
-- `collect` (function) `modules/ctf_signalman.py:106` `def collect(scenario, target, sessions_dir, search_bases)` -- Sweep the whole gym scenario and score every vector in one pass.
-- `render_scoreboard` (function) `modules/ctf_signalman.py:166` `def render_scoreboard(report)` -- Render the collect report as a compact scoreboard.
-- `save_scoreboard` (function) `modules/ctf_signalman.py:193` `def save_scoreboard(report, sessions_dir)` -- Persist the scoreboard next to the CTF records.
-
-## modules/custom_tools.py
-Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
-- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
-- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
-- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
-- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
-- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
-- `run_custom_tool_line` (function) `modules/custom_tools.py:151` `def run_custom_tool_line(command, on_output)` -- Dispatch a ``custom tool <name> <arg>`` command line to its tool.
-- `run_tool` (function) `modules/custom_tools.py:170` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
-
-## modules/cve_matcher.py
-Depends on: `core/logging.py`
-Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
-- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
-- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
-- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
-- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
-- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
 
 
 Next: [API_p12.md](API_p12.md)

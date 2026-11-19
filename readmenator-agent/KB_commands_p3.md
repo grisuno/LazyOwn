@@ -35,19 +35,19 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Imported by: `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
 
 ## cli/commands/lateral.py
-- Doc: Lateral Movement command set (pending).
+- Doc: Lateral Movement command set.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `LateralMovementCommandSet` (class, line 24) `class LateralMovementCommandSet(LazyOwnCommandSet)`
-  - `do_socat` (method, line 31) `def do_socat(self, line)`
-  - `do_chisel` (method, line 43) `def do_chisel(self, line)`
-  - `do_set_proxychains` (method, line 59) `def do_set_proxychains(self, line)`
-  - `do_ngrok` (method, line 72) `def do_ngrok(self, line)`
-  - `do_ligolo` (method, line 79) `def do_ligolo(self, line)`
-  - `do_nc` (method, line 91) `def do_nc(self, line)`
-  - `do_wmiexec` (method, line 106) `def do_wmiexec(self, line)`
-  - `do_ssh` (method, line 114) `def do_ssh(self, line)`
+  - `LateralMovementCommandSet` (class, line 22) `class LateralMovementCommandSet(LazyOwnCommandSet)`
+  - `do_socat` (method, line 29) `def do_socat(self, line)`
+  - `do_chisel` (method, line 41) `def do_chisel(self, line)`
+  - `do_set_proxychains` (method, line 57) `def do_set_proxychains(self, line)`
+  - `do_ngrok` (method, line 70) `def do_ngrok(self, line)`
+  - `do_ligolo` (method, line 77) `def do_ligolo(self, line)`
+  - `do_nc` (method, line 89) `def do_nc(self, line)`
+  - `do_wmiexec` (method, line 104) `def do_wmiexec(self, line)`
+  - `do_ssh` (method, line 112) `def do_ssh(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/lateral_migrated.py
@@ -162,6 +162,14 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `modules/sinks/findings.py`, `utils.py`
 - Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 
+## cli/commands/lazymode.py
+- Doc: Lazymode playbook command set.
+- Language: py
+- Symbols:
+  - `LazymodeCommandSet` (class, line 20) `class LazymodeCommandSet(LazyOwnCommandSet)`
+  - `do_lazymode_pb` (method, line 27) `def do_lazymode_pb(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/lazymode_playbook.py`, `utils.py`
+
 ## cli/commands/lazyops.py
 - Doc: Lazy autonomous loop commands (single orchestrator, lazy_* surface).
 - Layer: utility
@@ -220,22 +228,22 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_stage` (method, line 2080) `def do_lazy_stage(self, line)`
   - `do_lazy_mode` (method, line 2108) `def do_lazy_mode(self, line)`
   - `do_lazy_addon` (method, line 2134) `def do_lazy_addon(self, line)`
-  - `do_lazy_notify` (method, line 2241) `def do_lazy_notify(self, line)`
-  - `do_lazy_trigger` (method, line 2289) `def do_lazy_trigger(self, line)`
-  - `do_lazy_llm` (method, line 2378) `def do_lazy_llm(self, line)`
-  - `do_lazy_compact` (method, line 2515) `def do_lazy_compact(self, line)`
-  - `do_lazy_status` (method, line 2587) `def do_lazy_status(self, line)`
-  - `do_lazy_overview` (method, line 2611) `def do_lazy_overview(self, line)`
-  - `do_lazy_archive` (method, line 2616) `def do_lazy_archive(self, line)`
-  - `do_lazy_template` (method, line 2647) `def do_lazy_template(self, line)`
-  - `do_lazy_category` (method, line 2678) `def do_lazy_category(self, line)`
-  - `do_lazy_chat` (method, line 2699) `def do_lazy_chat(self, line)`
-  - `do_lazy_scheduler` (method, line 2732) `def do_lazy_scheduler(self, line)`
-  - `do_lazy_gate` (method, line 2759) `def do_lazy_gate(self, line)`
-  - `do_lazy_loop` (method, line 2804) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2811) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2874) `def do_lazy_install(self, line)`
-  - `do_lazy_pacing` (method, line 2912) `def do_lazy_pacing(self, line)`
+  - `do_lazy_notify` (method, line 2243) `def do_lazy_notify(self, line)`
+  - `do_lazy_trigger` (method, line 2291) `def do_lazy_trigger(self, line)`
+  - `do_lazy_llm` (method, line 2380) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 2517) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 2589) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 2613) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 2618) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 2649) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 2680) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 2701) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 2734) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 2761) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 2806) `def do_lazy_loop(self, line)`
+  - `do_lazy_sandbox` (method, line 2813) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2876) `def do_lazy_install(self, line)`
+  - `do_lazy_pacing` (method, line 2914) `def do_lazy_pacing(self, line)`
   - `_complete` (function, line 670) `def _complete(prompt, max_tokens)`
   - `run_command` (function, line 1664) `def run_command(command)`
   - `list_tasks` (function, line 1686) `def list_tasks()`

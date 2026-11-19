@@ -24,7 +24,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `cli/commands/audit.py` -> __future__, cmd2, json, pathlib, shlex, typing
 - `cli/commands/automation.py` -> __future__, cmd2, json, typing
 - `cli/commands/bitm.py` -> __future__, cmd2, shlex
-- `cli/commands/bof_registry.py` -> __future__, cmd2, os, pathlib, secrets, shlex, shutil
+- `cli/commands/bof_registry.py` -> __future__, base64, cmd2, os, pathlib, secrets, shlex, shutil
 - `cli/commands/browser_sync.py` -> __future__, cmd2, json, shlex
 - `cli/commands/c2_profile.py` -> __future__, cmd2, json
 - `cli/commands/c2_session.py` -> __future__, cmd2, json, pathlib, requests, secrets, string, sys, time
@@ -78,6 +78,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `cli/commands/lazy_passgen.py` -> __future__, cmd2
 - `cli/commands/lazy_poc.py` -> __future__, datetime, pathlib, shlex
 - `cli/commands/lazyloop.py` -> __future__, cmd2, json, shlex
+- `cli/commands/lazymode.py` -> __future__, cmd2, json
 - `cli/commands/lazyops.py` -> __future__, cmd2, json, pathlib, re, shlex, subprocess, time, uuid, yaml
 - `cli/commands/loop_audit.py` -> __future__, cmd2, json
 - `cli/commands/marketplace.py` -> __future__, cmd2, pathlib, shutil, subprocess
@@ -224,7 +225,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `core/atomic_store.py` -> __future__, collections.abc, contextlib, fcntl, itertools, json, os, pathlib, threading, typing
 - `core/autonomous.py` -> __future__, builtins, collections.abc, contextlib, os
 - `core/command_bridge.py` -> __future__, contextlib, io, threading, typing
-- `core/config.py` -> __future__, datetime, inspect, json, os, pathlib, re, secrets, shutil, tempfile, typing
+- `core/config.py` -> __future__, collections.abc, contextlib, datetime, fcntl, inspect, json, os, pathlib, re, secrets, shutil, tempfile, typing
 - `core/console.py` -> __future__, os, sys
 - `core/credential_vault.py` -> __future__, base64, os, pathlib, secrets, typing
 - `core/crypto.py` -> __future__, base64, cryptography.exceptions, cryptography.hazmat.primitives, cryptography.hazmat.primitives.ciphers.aead, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
@@ -261,7 +262,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `discord_c2.py` -> csv, discord, discord.ext, json, os, random, requests, time
 - `key.py` -> os, time
 - `lazy_sentinel4.py` -> cachetools, chromadb, cmd2, datetime, hashlib, json, langchain_chroma, langchain_community.document_loaders, langchain_ollama, langchain_text_splitters, ollama, os, pathlib, queue, re, requests, rich, rich.live, sqlite3, time, watchdog.events, watchdog.observers
-- `lazyc2.py` -> atexit, base64, cryptography.hazmat.backends, cryptography.hazmat.primitives.ciphers, csv, dataclasses, datetime, dnslib, engagement_hooks, errno, fcntl, flask, flask_limiter, flask_limiter.util, flask_login, flask_socketio, functools, glob, hashlib, hmac, html, io, ipaddress, jinja2, json, markdown, math, modules.report_templates, os, pandas, pathlib, pty, pyotp, re, requests, secrets, select, shlex, shutil, signal, socket, sqlite3, stat, string, struct, subprocess, sys, termios, threading, time, urllib.parse, uuid, validators, watchdog.events, watchdog.observers, werkzeug.exceptions, werkzeug.security, yagmail, yaml, zipfile
+- `lazyc2.py` -> atexit, base64, cryptography.hazmat.backends, cryptography.hazmat.primitives.ciphers, csv, dataclasses, datetime, dnslib, engagement_hooks, errno, fcntl, flask, flask_limiter, flask_limiter.util, flask_login, flask_socketio, functools, glob, hashlib, hmac, html, io, ipaddress, json, markdown, math, modules.report_autogen, modules.report_templates, os, pandas, pathlib, pty, pyotp, re, requests, secrets, select, shlex, shutil, signal, socket, sqlite3, stat, string, struct, subprocess, sys, termios, threading, time, urllib.parse, uuid, validators, watchdog.events, watchdog.observers, werkzeug.exceptions, werkzeug.security, yagmail, yaml, zipfile
 - `lazyc2/addon_creator.py` -> __future__, collections.abc, dataclasses, os, pathlib, re, stat, tempfile, typing, urllib.parse, yaml
 - `lazyc2/app_factory.py` -> __future__, flask, flask_limiter, flask_limiter.util, flask_login, flask_socketio, json, os, pathlib, types, typing, uuid
 - `lazyc2/blueprints/addons.py` -> __future__, collections.abc, flask, functools, re, secrets, typing, yaml
@@ -348,13 +349,13 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/agent_runner.py` -> argparse, ast, collections.abc, contextlib, dataclasses, importlib.util, inspect, io, json, os, queue, sys, threading, time, types, typing
 - `modules/ai_exploit_chain.py` -> __future__, dataclasses, re, typing
 - `modules/ai_fallback.py` -> __future__, dataclasses, groq, json, os, pathlib, re, requests, sys
-- `modules/ai_model.py` -> __future__, abc, anthropic, collections.abc, groq, json, openai, requests, typing
+- `modules/ai_model.py` -> __future__, abc, anthropic, collections.abc, groq, json, openai, os, requests, typing
 - `modules/amsi.c` -> stdio.h, windows.h
 - `modules/amt_auth_bypass.py` -> re
 - `modules/apt_playbooks.py` -> __future__, dataclasses, glob, json, os, time, typing, yaml
 - `modules/askpass.py` -> __future__, os, pathlib, shutil, stat, tempfile
 - `modules/asset_graph.py` -> __future__
-- `modules/atomic_cli.py` -> __future__, getpass, os, pathlib, re, shlex, sys, typing
+- `modules/atomic_cli.py` -> __future__, getpass, os, pathlib, re, shlex, sys, time, typing
 - `modules/atomic_enricher.py` -> __future__, argparse, collections, numpy, pandas, pathlib, re, sys, typing
 - `modules/atomic_exploit_bridge.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, re, secrets, shutil, socket, subprocess, sys, threading, time, typing, xml.etree.ElementTree, yaml
 - `modules/atomic_resolver.py` -> __future__, dataclasses, glob, os, pathlib, re, typing, uuid, yaml
@@ -369,14 +370,16 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/backdoor/server.c` -> arpa/inet.h, netinet/in.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/types.h, unistd.h
 - `modules/beacon_config_builder.py` -> __future__, dataclasses, json, re, typing
 - `modules/beacon_history.py` -> __future__, dataclasses, json, pathlib, typing
+- `modules/beacon_kinds.py` -> __future__, pathlib, typing
+- `modules/beacon_loop.py` -> __future__, collections.abc, dataclasses, datetime, json, pathlib, re, shlex, time, typing
 - `modules/beacon_recon.py` -> __future__, ipaddress, json, pathlib, typing
 - `modules/bin2img.py` -> PIL, numpy, sys
 - `modules/bitm_engine.py` -> __future__, dataclasses, json, os, pathlib, shutil, signal, subprocess, time, typing
 - `modules/bof_admin.py` -> __future__, dataclasses, os, pathlib, re, typing, yaml
-- `modules/bof_delivery.py` -> __future__, base64, dataclasses, datetime, json, os, pathlib, shutil, ssl, time, typing, urllib.error, urllib.parse, urllib.request, yaml
+- `modules/bof_delivery.py` -> __future__, base64, dataclasses, datetime, json, os, pathlib, re, secrets, shlex, shutil, ssl, time, typing, urllib.error, urllib.parse, urllib.request, yaml
 - `modules/bof_registry.py` -> __future__, dataclasses, datetime, hashlib, json, os, pathlib, shutil, typing, yaml
 - `modules/browser_sync.py` -> __future__, hashlib, hmac, json, os, pathlib, re, secrets, threading, time, typing, urllib.parse
-- `modules/bsb_compat.py` -> __future__, base64, cryptography.hazmat.backends, cryptography.hazmat.primitives, cryptography.hazmat.primitives.ciphers, cryptography.hazmat.primitives.kdf.hkdf, hashlib, hmac, json, os, time
+- `modules/bsb_compat.py` -> __future__, base64, cryptography.hazmat.backends, cryptography.hazmat.primitives, cryptography.hazmat.primitives.ciphers, cryptography.hazmat.primitives.kdf.hkdf, hashlib, hmac, json, os, pathlib, time
 - `modules/c2_agent.py` -> __future__, base64, datetime, hashlib, json, os, pathlib, re, secrets, signal, ssl, subprocess, sys, time, typing, urllib.request
 - `modules/c2_builder.py` -> __future__, base64, collections.abc, contextlib, dataclasses, datetime, json, os, pathlib, re, shutil, subprocess, tempfile, time, typing
 - `modules/c2_messaging_base.py` -> time, typing
@@ -404,7 +407,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/colors.py` -> bs4, random
 - `modules/command_executor.py` -> __future__, collections.abc, dataclasses, os, pathlib, select, shlex, signal, subprocess, sys, threading, time
 - `modules/compliance.py` -> __future__, dataclasses, datetime, fpdf, hashlib, json, pathlib, time, typing
-- `modules/conditional_hooks.py` -> __future__, collections.abc, dataclasses, json, pathlib, shlex, threading, time, typing
+- `modules/conditional_hooks.py` -> __future__, collections.abc, dataclasses, json, pathlib, re, shlex, threading, time, typing
 - `modules/config_store.py` -> __future__, copy, pathlib, threading, typing
 - `modules/credential_reuse.py` -> __future__, dataclasses, ipaddress, json, pathlib, typing
 - `modules/cross_cloud.py` -> __future__, dataclasses, typing
@@ -446,7 +449,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/exploit_chain.py` -> __future__, dataclasses, glob, json, os, re, typing
 - `modules/exploit_recommender.py` -> __future__, dataclasses, datetime, json, pathlib, re, typing, urllib.request
 - `modules/exploitdb_bridge.py` -> __future__, csv, os, pathlib, re, typing, yaml
-- `modules/exploitdb_c_bridge.py` -> __future__, csv, os, pathlib, re, yaml
+- `modules/exploitdb_c_bridge.py` -> __future__, csv, pathlib, re, yaml
 - `modules/exploitgym_gym.py` -> __future__, json, os, pathlib, re, shutil, subprocess, time, typing
 - `modules/factsio.py` -> __future__, collections.abc, json, pathlib, typing
 - `modules/failure_verdict.py` -> __future__, dataclasses
@@ -493,8 +496,5 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/kill_chain_viz.py` -> __future__, datetime, json, os, pathlib, typing
 - `modules/killchain.py` -> __future__, collections.abc, dataclasses, datetime, os, pathlib, typing
 - `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
-- `modules/lab_runtime.py` -> __future__, pathlib, secrets, subprocess, time
-- `modules/lazy_agent.py` -> __future__, collections.abc, json, os, shutil, signal, subprocess, threading, time
-- `modules/lazy_autofire.py` -> __future__, json, os, pathlib, re, time
 
 Next: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)

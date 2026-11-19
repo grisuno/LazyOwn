@@ -15,7 +15,7 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 | `tests/test_apt_chain_admin.py` | py | testing | 30 | yes |
 | `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
 | `tests/test_atomic_exploit_bridge.py` | py | testing | 38 | yes |
-| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
+| `tests/test_atomic_loop.py` | py | testing | 22 | yes |
 
 ### `modules` (40 files)
 
@@ -52,7 +52,7 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/command_and_control_migrated.py` | py | utility | 33 | yes |
+| `cli/commands/command_and_control_migrated.py` | py | utility | 34 | yes |
 | `cli/commands/lazy_adaptive.py` | py | utility | 4 | yes |
 
 ### `skills` (1 files)
@@ -111,8 +111,8 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 353
-- Cross-boundary resolved imports (EXTRACTED): 254
+- Internal resolved imports (EXTRACTED): 356
+- Cross-boundary resolved imports (EXTRACTED): 276
 
 ## Connections
 
@@ -120,29 +120,13 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 - [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
 - [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/__init__.py.
 - [EXTRACTED] depends_on community 5 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
-- [EXTRACTED] depends_on community 5 <-> 10 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py` -> `core/config.py`
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `core/config.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `cli/apt_chain_support.py` -> `modules/chain_family.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `cli/apt_chain_support.py` -> `modules/chain_family.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `cli/apt_chain_support.py` -> `modules/chain_family.py` -> `modules/lazy_loop.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/shell_session_store.py` -> `modules/atomic_exploit_bridge.py`
-- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/shell_session_store.py` -> `modules/atomic_exploit_bridge.py`
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
-- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyown_facts changed?
 - Should modules: lazyown_facts be split, given cohesion 0.52?
 

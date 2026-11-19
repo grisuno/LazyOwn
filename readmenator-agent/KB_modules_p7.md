@@ -1,6 +1,56 @@
 # Subsystem: modules (page 7 of 19)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/finding_lifecycle.py
+- Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `evidence_floor` (function, line 52) `def evidence_floor(items)`
+  - `_store_path` (function, line 68) `def _store_path(sessions_dir)`
+  - `_load` (function, line 73) `def _load(sessions_dir)`
+  - `_save` (function, line 86) `def _save(sessions_dir, data)`
+  - `confirm` (function, line 94) `def confirm(finding_id, evidence, sessions_dir, by)`
+  - `reject` (function, line 123) `def reject(finding_id, reason, sessions_dir, by)`
+  - `add_dead_end` (function, line 137) `def add_dead_end(kind, value, reason, sessions_dir)`
+  - `is_dead_end` (function, line 149) `def is_dead_end(kind, value, sessions_dir)`
+  - `suppressed_values` (function, line 156) `def suppressed_values(sessions_dir)`
+  - `resolve` (function, line 162) `def resolve(node, sessions_dir)`
+  - `apply_confirmation` (function, line 190) `def apply_confirmation(nodes, sessions_dir)`
+  - `FindingRecord` (class, line 218) `class FindingRecord`
+  - `RetestRecord` (class, line 231) `class RetestRecord`
+  - `_token_value` (function, line 241) `def _token_value(refs, prefix, default)`
+  - `_with_token` (function, line 249) `def _with_token(refs, prefix, value)`
+  - `_finding_from_row` (function, line 256) `def _finding_from_row(row)`
+  - `record` (function, line 270) `def record(db, workspace, host, title, severity, summary, poc)`
+  - `findings_for` (function, line 295) `def findings_for(db, workspace)`
+  - `set_status` (function, line 300) `def set_status(db, finding_id, status)`
+  - `_retests_path` (function, line 323) `def _retests_path(sessions_dir)`
+  - `_load_retests` (function, line 328) `def _load_retests(sessions_dir)`
+  - `_save_retests` (function, line 339) `def _save_retests(sessions_dir, payload)`
+  - `has_running_retest` (function, line 346) `def has_running_retest(finding_id, sessions_dir)`
+  - `request_retest` (function, line 354) `def request_retest(db, finding_id, sessions_dir)`
+  - `resolve_retest` (function, line 374) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
+  - `classify_retest` (function, line 420) `def classify_retest(needle, output)`
+  - `render_markdown` (function, line 439) `def render_markdown(db, workspace, title)`
+- Depends on: `modules/osint_enrich.py`
+- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+
+## modules/forensic_cleaner.py
+- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
+  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
+  - `__init__` (method, line 67) `def __init__(self, config)`
+  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
+  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
+  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
+  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
+  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
 ## modules/gcp_attacks.py
 - Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
 - Layer: utility
@@ -43,7 +93,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `goal_met` (method, line 140) `def goal_met(self, opt_in)`
   - `all_achieved` (method, line 148) `def all_achieved(self)`
   - `open_goals` (method, line 152) `def open_goals(self)`
-- Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/loop/objective_bootstrap.py`, `tests/test_lazy_parity.py`
 
 ## modules/golden_path.py
 - Doc: Deterministic attack-path solver over the LazyOwn world model.
@@ -142,9 +192,9 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `_catalogue` (function, line 36) `def _catalogue(catalogue)`
   - `plan_matrix` (function, line 49) `def plan_matrix(target, sessions_dir, only, top_k, catalogue)`
   - `run_matrix` (function, line 104) `def run_matrix(target)`
-  - `_stats` (function, line 220) `def _stats(runs)`
-  - `_persist` (function, line 236) `def _persist(summary_result, sessions_dir)`
-  - `load_matrix` (function, line 252) `def load_matrix(sessions_dir)`
+  - `_stats` (function, line 228) `def _stats(runs)`
+  - `_persist` (function, line 244) `def _persist(summary_result, sessions_dir)`
+  - `load_matrix` (function, line 260) `def load_matrix(sessions_dir)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## modules/gym_registry.py
@@ -437,49 +487,11 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `audit_log` (method, line 296) `def audit_log(self, limit)`
   - `attribution` (method, line 301) `def attribution(self)`
 - Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 
 ## modules/internal_discover.sh
 - Layer: utility
 - Language: sh
-
-## modules/iptables_portforward.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `display_usage` (function, line 29)
-
-## modules/jsonl_tail.py
-- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `JsonlTail` (class, line 14) `class JsonlTail`
-  - `__init__` (method, line 17) `def __init__(self, path)`
-  - `read_new` (method, line 22) `def read_new(self, limit)`
-- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-
-## modules/jwtexploit.py
-- Layer: utility
-- Language: py
-
-## modules/k8s_attacks.py
-- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `K8sConfig` (class, line 57) `class K8sConfig`
-  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
-  - `__init__` (method, line 87) `def __init__(self, config)`
-  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
-  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
-  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
-  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
-  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
-  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
-  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
-  - `summary` (method, line 318) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

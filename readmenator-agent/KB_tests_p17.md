@@ -1,6 +1,144 @@
 # Subsystem: tests (page 17 of 27)
 Previous: [KB_tests_p16.md](KB_tests_p16.md)
 
+## tests/test_lazypassgen.py
+- Doc: Tests for modules.lazypassgen — target-aware weak-password generator.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `passgen` (function, line 17) `def passgen()`
+  - `TestLazyPassGen` (class, line 23) `class TestLazyPassGen`
+  - `test_split_entities` (method, line 24) `def test_split_entities(self, passgen)`
+  - `test_split_skip_short_words` (method, line 28) `def test_split_skip_short_words(self, passgen)`
+  - `test_generate_target_words` (method, line 32) `def test_generate_target_words(self, passgen)`
+  - `test_generate_leet` (method, line 37) `def test_generate_leet(self, passgen)`
+  - `test_generate_seasons` (method, line 41) `def test_generate_seasons(self, passgen)`
+  - `test_generate_empty_target` (method, line 45) `def test_generate_empty_target(self, passgen)`
+  - `test_generate_cap` (method, line 50) `def test_generate_cap(self, passgen)`
+  - `test_seeds_use_lazy_creds` (method, line 54) `def test_seeds_use_lazy_creds(self, passgen)`
+  - `test_export` (method, line 58) `def test_export(self, passgen, tmp_path)`
+  - `test_export_empty` (method, line 65) `def test_export_empty(self, passgen, tmp_path)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_lazypoophish.py
+- Doc: Tests for modules.lazypoophish — loop phishing fallback.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `poophish` (function, line 20) `def poophish()`
+  - `cleared_sessions` (function, line 27) `def cleared_sessions(tmp_path, monkeypatch)`
+  - `_fake_orchestrator` (function, line 32) `def _fake_orchestrator(monkeypatch, campaign_dir, campaign_id)`
+  - `TestFallbackReady` (class, line 53) `class TestFallbackReady`
+  - `TestRunFallback` (class, line 70) `class TestRunFallback`
+  - `fake_launch` (function, line 33) `def fake_launch(target_domain, template, mode, targets_file)`
+  - `test_ready_when_access_none` (method, line 54) `def test_ready_when_access_none(self, poophish, monkeypatch)`
+  - `test_not_ready_with_access` (method, line 58) `def test_not_ready_with_access(self, poophish, monkeypatch)`
+  - `test_ready_when_tokens_fail` (method, line 62) `def test_ready_when_tokens_fail(self, poophish, monkeypatch)`
+  - `test_invalid_mode` (method, line 71) `def test_invalid_mode(self, poophish, cleared_sessions)`
+  - `test_launch_failure` (method, line 76) `def test_launch_failure(self, poophish, cleared_sessions, monkeypatch)`
+  - `test_short_url_and_artifact` (method, line 85) `def test_short_url_and_artifact(self, poophish, cleared_sessions, monkeypatch)`
+  - `test_no_shorten_keeps_raw_url` (method, line 108) `def test_no_shorten_keeps_raw_url(self, poophish, cleared_sessions, monkeypatch)`
+  - `raising` (function, line 63) `def raising()`
+  - `fake_shorten` (function, line 89) `def fake_shorten(url, provider)`
+  - `forbidden` (function, line 113) `def forbidden()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_lazyshortener.py
+- Doc: Tests for modules.lazyshortener — keyless URL shortener bridge.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `shortener` (function, line 17) `def shortener()`
+  - `_FakeResponse` (class, line 23) `class _FakeResponse`
+  - `TestLazyShortener` (class, line 33) `class TestLazyShortener`
+  - `__init__` (method, line 24) `def __init__(self, text, status)`
+  - `raise_for_status` (method, line 28) `def raise_for_status(self)`
+  - `test_providers` (method, line 34) `def test_providers(self, shortener)`
+  - `test_unknown_provider` (method, line 38) `def test_unknown_provider(self, shortener)`
+  - `test_rejects_invalid_url` (method, line 43) `def test_rejects_invalid_url(self, shortener)`
+  - `test_rejects_metacharacters` (method, line 48) `def test_rejects_metacharacters(self, shortener)`
+  - `test_shorten_success` (method, line 53) `def test_shorten_success(self, shortener, monkeypatch)`
+  - `test_provider_error_message` (method, line 68) `def test_provider_error_message(self, shortener, monkeypatch)`
+  - `test_transport_failure` (method, line 74) `def test_transport_failure(self, shortener, monkeypatch)`
+  - `fake_get` (function, line 56) `def fake_get(endpoint, params)`
+  - `raising` (function, line 75) `def raising()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_legacy_shims.py
+- Doc: Legacy shim contract plus referenced-script existence.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestLegacyShims` (class, line 23) `class TestLegacyShims`
+  - `TestReferencedScriptsExist` (class, line 43) `class TestReferencedScriptsExist`
+  - `test_no_regular_file_clones` (method, line 24) `def test_no_regular_file_clones(self)`
+  - `test_symlinks_resolve_into_contrib` (method, line 32) `def test_symlinks_resolve_into_contrib(self)`
+  - `test_exploit_migrated_script_paths` (method, line 44) `def test_exploit_migrated_script_paths(self)`
+
+## tests/test_lesson_ingestor.py
+- Doc: Tests for modules/lesson_ingestor.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestLessonLearned` (class, line 15) `class TestLessonLearned`
+  - `TestLessonIngestor` (class, line 35) `class TestLessonIngestor`
+  - `test_from_dict` (method, line 16) `def test_from_dict(self)`
+  - `test_from_dict_minimal` (method, line 29) `def test_from_dict_minimal(self)`
+  - `test_expert_mapping` (method, line 36) `def test_expert_mapping(self)`
+  - `test_ingest_with_mock_backends` (method, line 43) `def test_ingest_with_mock_backends(self, tmp_path)`
+  - `test_ingest_unmapped_topic` (method, line 62) `def test_ingest_unmapped_topic(self, tmp_path)`
+  - `test_ingest_no_backends` (method, line 79) `def test_ingest_no_backends(self, monkeypatch)`
+  - `test_load_from_file` (method, line 99) `def test_load_from_file(self, tmp_path)`
+  - `test_load_from_file_missing` (method, line 119) `def test_load_from_file_missing(self, tmp_path)`
+  - `test_ingest_all` (method, line 124) `def test_ingest_all(self, tmp_path)`
+- Depends on: `modules/lesson_ingestor.py`
+
+## tests/test_lesson_ingestor_startup.py
+- Doc: Loop-to-loop learning: new campaign lessons feed the RL/MoE once per lesson.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Trainer` (class, line 24) `class _Trainer`
+  - `lessons_file` (function, line 39) `def lessons_file(tmp_path)`
+  - `_ingestor` (function, line 49) `def _ingestor(lessons_file, tmp_path)`
+  - `test_ingest_new_absorbs_then_skips` (function, line 59) `def test_ingest_new_absorbs_then_skips(lessons_file, tmp_path)`
+  - `test_ingest_new_absorbs_only_the_new_lesson` (function, line 69) `def test_ingest_new_absorbs_only_the_new_lesson(lessons_file, tmp_path)`
+  - `test_seen_file_persists_across_instances` (function, line 79) `def test_seen_file_persists_across_instances(lessons_file, tmp_path)`
+  - `test_ingest_new_fail_open_without_backends` (function, line 86) `def test_ingest_new_fail_open_without_backends(lessons_file, tmp_path)`
+  - `__init__` (method, line 25) `def __init__(self)`
+  - `encode_state` (method, line 28) `def encode_state(self, topic, phase)`
+  - `update` (method, line 31) `def update(self)`
+  - `save` (method, line 34) `def save(self)`
+- Depends on: `modules/lesson_ingestor.py`
+
+## tests/test_lint_quality.py
+- Doc: Lint quality gate.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_run_ruff` (function, line 63) `def _run_ruff(args)`
+  - `test_ruff_check_clean` (function, line 75) `def test_ruff_check_clean(target)`
+  - `test_ruff_format_clean` (function, line 84) `def test_ruff_format_clean(target)`
+  - `test_lint_targets_exist` (function, line 94) `def test_lint_targets_exist()`
+  - `test_format_targets_exist` (function, line 100) `def test_format_targets_exist()`
+
+## tests/test_live_surface.py
+- Doc: Tests for modules/live_surface.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_world` (function, line 25) `def _world()`
+  - `test_empty_world_is_well_formed` (function, line 55) `def test_empty_world_is_well_formed()`
+  - `test_none_world_is_tolerated` (function, line 63) `def test_none_world_is_tolerated()`
+  - `test_hosts_and_services_become_nodes` (function, line 68) `def test_hosts_and_services_become_nodes()`
+  - `test_owned_host_pulses_and_counts_as_compromised` (function, line 79) `def test_owned_host_pulses_and_counts_as_compromised()`
+  - `test_host_with_credential_pulses_even_if_not_owned` (function, line 87) `def test_host_with_credential_pulses_even_if_not_owned()`
+  - `test_runs_service_edge_is_emitted_once` (function, line 95) `def test_runs_service_edge_is_emitted_once()`
+  - `test_stats_block_counts` (function, line 102) `def test_stats_block_counts()`
+  - `test_malformed_host_entry_is_skipped` (function, line 109) `def test_malformed_host_entry_is_skipped()`
+  - `test_compromised_states_constant_matches_world_model` (function, line 116) `def test_compromised_states_constant_matches_world_model()`
+- Depends on: `modules/live_surface.py`
+
 ## tests/test_llm_adapter_parity.py
 - Doc: Parity contract tests for the self-contained Groq adapter family.
 - Layer: testing
@@ -55,33 +193,33 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `tmp_sessions` (function, line 27) `def tmp_sessions(tmp_path, monkeypatch)`
-  - `test_budget_module_is_importable` (function, line 35) `def test_budget_module_is_importable()`
-  - `test_budget_config_dataclass_carries_expected_fields` (function, line 51) `def test_budget_config_dataclass_carries_expected_fields()`
-  - `test_token_estimator_counts_text_tokens` (function, line 71) `def test_token_estimator_counts_text_tokens()`
-  - `test_token_estimator_handles_empty_string` (function, line 81) `def test_token_estimator_handles_empty_string()`
-  - `test_token_estimator_is_deterministic` (function, line 89) `def test_token_estimator_is_deterministic()`
-  - `test_budget_ledger_records_a_charge` (function, line 99) `def test_budget_ledger_records_a_charge(tmp_path)`
-  - `test_budget_ledger_persists_to_disk` (function, line 116) `def test_budget_ledger_persists_to_disk(tmp_sessions)`
-  - `test_budget_ledger_rolls_over_at_midnight` (function, line 136) `def test_budget_ledger_rolls_over_at_midnight(tmp_sessions)`
-  - `test_budget_guard_refuses_call_when_daily_budget_exhausted` (function, line 162) `def test_budget_guard_refuses_call_when_daily_budget_exhausted(tmp_sessions)`
-  - `test_budget_guard_refuses_call_when_token_cap_exceeded` (function, line 195) `def test_budget_guard_refuses_call_when_token_cap_exceeded(tmp_sessions)`
-  - `test_budget_guard_charges_a_successful_call` (function, line 218) `def test_budget_guard_charges_a_successful_call(tmp_sessions)`
-  - `test_budget_guard_disabled_passes_through` (function, line 242) `def test_budget_guard_disabled_passes_through(tmp_sessions)`
-  - `test_format_budget_status_includes_spent_and_remaining` (function, line 265) `def test_format_budget_status_includes_spent_and_remaining(tmp_sessions)`
-  - `test_read_budget_status_returns_dict` (function, line 287) `def test_read_budget_status_returns_dict(tmp_sessions)`
-  - `test_wrap_backend_with_budget_returns_same_shape` (function, line 307) `def test_wrap_backend_with_budget_returns_same_shape(tmp_sessions)`
-  - `test_wrap_backend_with_budget_charges_call` (function, line 347) `def test_wrap_backend_with_budget_charges_call(tmp_sessions)`
-  - `test_payload_schema_recognises_budget_keys` (function, line 384) `def test_payload_schema_recognises_budget_keys()`
-  - `test_load_budget_config_reads_payload` (function, line 395) `def test_load_budget_config_reads_payload(tmp_sessions)`
-  - `_StubBackend` (class, line 316) `class _StubBackend`
-  - `_StubBackend` (class, line 356) `class _StubBackend`
-  - `generate` (method, line 317) `def generate(self, prompt)`
-  - `stream_generate` (method, line 320) `def stream_generate(self, prompt)`
-  - `complete` (method, line 323) `def complete(self, system, user, max_tokens, temperature)`
-  - `generate` (method, line 357) `def generate(self, prompt)`
-  - `stream_generate` (method, line 360) `def stream_generate(self, prompt)`
-  - `complete` (method, line 363) `def complete(self, system, user, max_tokens, temperature)`
+  - `tmp_sessions` (function, line 26) `def tmp_sessions(tmp_path, monkeypatch)`
+  - `test_budget_module_is_importable` (function, line 34) `def test_budget_module_is_importable()`
+  - `test_budget_config_dataclass_carries_expected_fields` (function, line 50) `def test_budget_config_dataclass_carries_expected_fields()`
+  - `test_token_estimator_counts_text_tokens` (function, line 70) `def test_token_estimator_counts_text_tokens()`
+  - `test_token_estimator_handles_empty_string` (function, line 80) `def test_token_estimator_handles_empty_string()`
+  - `test_token_estimator_is_deterministic` (function, line 88) `def test_token_estimator_is_deterministic()`
+  - `test_budget_ledger_records_a_charge` (function, line 98) `def test_budget_ledger_records_a_charge(tmp_path)`
+  - `test_budget_ledger_persists_to_disk` (function, line 115) `def test_budget_ledger_persists_to_disk(tmp_sessions)`
+  - `test_budget_ledger_rolls_over_at_midnight` (function, line 135) `def test_budget_ledger_rolls_over_at_midnight(tmp_sessions)`
+  - `test_budget_guard_refuses_call_when_daily_budget_exhausted` (function, line 161) `def test_budget_guard_refuses_call_when_daily_budget_exhausted(tmp_sessions)`
+  - `test_budget_guard_refuses_call_when_token_cap_exceeded` (function, line 194) `def test_budget_guard_refuses_call_when_token_cap_exceeded(tmp_sessions)`
+  - `test_budget_guard_charges_a_successful_call` (function, line 217) `def test_budget_guard_charges_a_successful_call(tmp_sessions)`
+  - `test_budget_guard_disabled_passes_through` (function, line 241) `def test_budget_guard_disabled_passes_through(tmp_sessions)`
+  - `test_format_budget_status_includes_spent_and_remaining` (function, line 264) `def test_format_budget_status_includes_spent_and_remaining(tmp_sessions)`
+  - `test_read_budget_status_returns_dict` (function, line 286) `def test_read_budget_status_returns_dict(tmp_sessions)`
+  - `test_wrap_backend_with_budget_returns_same_shape` (function, line 306) `def test_wrap_backend_with_budget_returns_same_shape(tmp_sessions)`
+  - `test_wrap_backend_with_budget_charges_call` (function, line 346) `def test_wrap_backend_with_budget_charges_call(tmp_sessions)`
+  - `test_payload_schema_recognises_budget_keys` (function, line 383) `def test_payload_schema_recognises_budget_keys()`
+  - `test_load_budget_config_reads_payload` (function, line 394) `def test_load_budget_config_reads_payload(tmp_sessions)`
+  - `_StubBackend` (class, line 315) `class _StubBackend`
+  - `_StubBackend` (class, line 355) `class _StubBackend`
+  - `generate` (method, line 316) `def generate(self, prompt)`
+  - `stream_generate` (method, line 319) `def stream_generate(self, prompt)`
+  - `complete` (method, line 322) `def complete(self, system, user, max_tokens, temperature)`
+  - `generate` (method, line 356) `def generate(self, prompt)`
+  - `stream_generate` (method, line 359) `def stream_generate(self, prompt)`
+  - `complete` (method, line 362) `def complete(self, system, user, max_tokens, temperature)`
 - Depends on: `core/__init__.py`, `core/llm_budget.py`
 
 ## tests/test_llm_contract.py
@@ -89,29 +227,29 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_import` (function, line 46) `def _import(name)`
-  - `TestDeadModuleRemoved` (class, line 50) `class TestDeadModuleRemoved`
-  - `TestLlmFactoryContract` (class, line 56) `class TestLlmFactoryContract`
-  - `TestSupportModulesContract` (class, line 86) `class TestSupportModulesContract`
-  - `TestBackendMetadataContract` (class, line 114) `class TestBackendMetadataContract`
-  - `test_unified_llm_client_does_not_exist` (method, line 51) `def test_unified_llm_client_does_not_exist(self)`
-  - `test_factory_importable` (method, line 57) `def test_factory_importable(self)`
-  - `test_factory_exposes_public_api` (method, line 60) `def test_factory_exposes_public_api(self)`
-  - `test_supported_backends_are_canonical` (method, line 65) `def test_supported_backends_are_canonical(self)`
-  - `test_backend_constants_exposed` (method, line 69) `def test_backend_constants_exposed(self)`
-  - `test_normalize_rejects_unknown_backend` (method, line 75) `def test_normalize_rejects_unknown_backend(self)`
-  - `test_normalize_falls_back_to_auto_on_empty` (method, line 80) `def test_normalize_falls_back_to_auto_on_empty(self)`
-  - `test_llm_client_exposes_public_api` (method, line 87) `def test_llm_client_exposes_public_api(self)`
-  - `test_llm_client_class_methods_present` (method, line 92) `def test_llm_client_class_methods_present(self)`
-  - `test_ai_fallback_exposes_public_api` (method, line 97) `def test_ai_fallback_exposes_public_api(self)`
-  - `test_ai_model_exposes_all_backends` (method, line 102) `def test_ai_model_exposes_all_backends(self)`
-  - `test_ai_fallback_reads_factory_constants` (method, line 107) `def test_ai_fallback_reads_factory_constants(self)`
-  - `test_metadata_helpers_exposed` (method, line 115) `def test_metadata_helpers_exposed(self)`
-  - `test_default_models_match_constants` (method, line 125) `def test_default_models_match_constants(self)`
-  - `test_model_config_keys_match_constants` (method, line 135) `def test_model_config_keys_match_constants(self)`
-  - `test_api_key_slots` (method, line 144) `def test_api_key_slots(self)`
-  - `test_requires_api_key_only_for_cloud` (method, line 153) `def test_requires_api_key_only_for_cloud(self)`
-  - `test_unknown_backend_rejected` (method, line 159) `def test_unknown_backend_rejected(self)`
+  - `_import` (function, line 47) `def _import(name)`
+  - `TestDeadModuleRemoved` (class, line 51) `class TestDeadModuleRemoved`
+  - `TestLlmFactoryContract` (class, line 57) `class TestLlmFactoryContract`
+  - `TestSupportModulesContract` (class, line 87) `class TestSupportModulesContract`
+  - `TestBackendMetadataContract` (class, line 115) `class TestBackendMetadataContract`
+  - `test_unified_llm_client_does_not_exist` (method, line 52) `def test_unified_llm_client_does_not_exist(self)`
+  - `test_factory_importable` (method, line 58) `def test_factory_importable(self)`
+  - `test_factory_exposes_public_api` (method, line 61) `def test_factory_exposes_public_api(self)`
+  - `test_supported_backends_are_canonical` (method, line 66) `def test_supported_backends_are_canonical(self)`
+  - `test_backend_constants_exposed` (method, line 70) `def test_backend_constants_exposed(self)`
+  - `test_normalize_rejects_unknown_backend` (method, line 76) `def test_normalize_rejects_unknown_backend(self)`
+  - `test_normalize_falls_back_to_auto_on_empty` (method, line 81) `def test_normalize_falls_back_to_auto_on_empty(self)`
+  - `test_llm_client_exposes_public_api` (method, line 88) `def test_llm_client_exposes_public_api(self)`
+  - `test_llm_client_class_methods_present` (method, line 93) `def test_llm_client_class_methods_present(self)`
+  - `test_ai_fallback_exposes_public_api` (method, line 98) `def test_ai_fallback_exposes_public_api(self)`
+  - `test_ai_model_exposes_all_backends` (method, line 103) `def test_ai_model_exposes_all_backends(self)`
+  - `test_ai_fallback_reads_factory_constants` (method, line 108) `def test_ai_fallback_reads_factory_constants(self)`
+  - `test_metadata_helpers_exposed` (method, line 116) `def test_metadata_helpers_exposed(self)`
+  - `test_default_models_match_constants` (method, line 126) `def test_default_models_match_constants(self)`
+  - `test_model_config_keys_match_constants` (method, line 137) `def test_model_config_keys_match_constants(self)`
+  - `test_api_key_slots` (method, line 147) `def test_api_key_slots(self)`
+  - `test_requires_api_key_only_for_cloud` (method, line 157) `def test_requires_api_key_only_for_cloud(self)`
+  - `test_unknown_backend_rejected` (method, line 163) `def test_unknown_backend_rejected(self)`
 
 ## tests/test_llm_key_pool.py
 - Doc: LLM key-pool BDD contract: round-robin rotation and quota cooldown.
@@ -354,141 +492,6 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `test_blocked_verbs_empty_for_unknown_task` (function, line 51) `def test_blocked_verbs_empty_for_unknown_task(audit)`
   - `test_blocked_verbs_ignores_executed_commands` (function, line 55) `def test_blocked_verbs_ignores_executed_commands(audit)`
 - Depends on: `modules/__init__.py`
-
-## tests/test_loop_auto_orchestrator.py
-- Doc: Loop orchestrates every auto verb plus addon/tool triggers.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_exfil_auto_registered_as_verb` (function, line 6) `def test_exfil_auto_registered_as_verb()`
-  - `test_service_tokens_split_and_alias` (function, line 15) `def test_service_tokens_split_and_alias()`
-  - `test_addon_hits_rank_specific_before_generic` (function, line 22) `def test_addon_hits_rank_specific_before_generic()`
-  - `test_propose_addon_intents_shape_and_tool_collapse` (function, line 31) `def test_propose_addon_intents_shape_and_tool_collapse()`
-  - `test_steps_for_lazy_addon_routes_to_command` (function, line 40) `def test_steps_for_lazy_addon_routes_to_command()`
-  - `test_worker_routes_verbs_via_bound_shell` (function, line 49) `def test_worker_routes_verbs_via_bound_shell(tmp_path, monkeypatch)`
-  - `test_worker_without_shell_reports_honestly` (function, line 85) `def test_worker_without_shell_reports_honestly(tmp_path, monkeypatch)`
-  - `test_execute_streaming_streams_and_captures` (function, line 109) `def test_execute_streaming_streams_and_captures()`
-  - `test_execute_streaming_timeout_reports` (function, line 119) `def test_execute_streaming_timeout_reports()`
-  - `test_execute_shell_verb_forwards_output` (function, line 127) `def test_execute_shell_verb_forwards_output()`
-  - `test_autonomous_mode_suppresses_and_restores_input` (function, line 141) `def test_autonomous_mode_suppresses_and_restores_input(monkeypatch)`
-  - `test_lazy_addon_command_registered` (function, line 153) `def test_lazy_addon_command_registered()`
-  - `test_worker_skips_missing_binary_and_records_gap` (function, line 163) `def test_worker_skips_missing_binary_and_records_gap(tmp_path, monkeypatch)`
-  - `test_service_trigger_fires_with_addon_hits` (function, line 194) `def test_service_trigger_fires_with_addon_hits(tmp_path, monkeypatch)`
-  - `_Shell` (class, line 59) `class _Shell`
-  - `_Shell` (class, line 131) `class _Shell`
-  - `onecmd` (method, line 60) `def onecmd(self, command)`
-  - `onecmd_plus_hooks` (method, line 132) `def onecmd_plus_hooks(self, command)`
-- Depends on: `cli/commands/mcp_bridge.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_loop_broadcast.py
-- Doc: Broadcast board timeline regression tests (lazy 0.3.12 parity).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
-  - `test_broadcast_rows_carry_neighbours_and_assets` (function, line 15) `def test_broadcast_rows_carry_neighbours_and_assets(tmp_path, monkeypatch)`
-  - `test_broadcast_search_id_and_kind_filter` (function, line 36) `def test_broadcast_search_id_and_kind_filter(tmp_path, monkeypatch)`
-- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_loop_budget.py
-- Doc: BDD tests for first-class budget flags on the loop runner.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestBudgetParsing` (class, line 10) `class TestBudgetParsing`
-  - `math_close` (function, line 38) `def math_close(budget)`
-  - `TestBudgetGate` (class, line 42) `class TestBudgetGate`
-  - `test_budget_pairs_parsed` (method, line 13) `def test_budget_pairs_parsed(self)`
-  - `test_minimums_clamped` (method, line 19) `def test_minimums_clamped(self)`
-  - `test_unknown_key_rejected` (method, line 25) `def test_unknown_key_rejected(self)`
-  - `test_budget_confirm_toggle` (method, line 31) `def test_budget_confirm_toggle(self)`
-  - `test_gate_blocks_when_declined` (method, line 45) `def test_gate_blocks_when_declined(self, monkeypatch)`
-  - `test_gate_pass_when_approved` (method, line 55) `def test_gate_pass_when_approved(self, monkeypatch)`
-  - `test_gate_skipped_autonomous` (method, line 65) `def test_gate_skipped_autonomous(self, monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/lazy_runner.py`
-
-## tests/test_loop_cli_catalog.py
-- Doc: BDD tests for planner prompt visibility into routable CLI verbs.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `sandbox` (function, line 17) `def sandbox(tmp_path, monkeypatch)`
-  - `test_catalog_cli_for_phase_lists_enabled_only` (function, line 56) `def test_catalog_cli_for_phase_lists_enabled_only(sandbox)`
-  - `test_prompt_context_carries_allowed_commands` (function, line 66) `def test_prompt_context_carries_allowed_commands(sandbox)`
-  - `test_missing_catalog_view_adds_nothing` (function, line 79) `def test_missing_catalog_view_adds_nothing(tmp_path, monkeypatch)`
-  - `test_multi_phase_verb_visible_in_each_declared_phase` (function, line 101) `def test_multi_phase_verb_visible_in_each_declared_phase(sandbox, monkeypatch)`
-  - `_default` (function, line 47) `def _default(cfg)`
-  - `_broken` (function, line 90) `def _broken()`
-- Depends on: `modules/__init__.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/verb_catalog.py`, `modules/world_model.py`
-
-## tests/test_loop_cold_overview.py
-- Doc: Cold debounce + planner overview parity (lazy 0.3.8 coldgraph).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
-  - `_old_facts` (function, line 15) `def _old_facts(graph, count, prefix)`
-  - `test_compact_debounce_keeps_fresh_hot` (function, line 28) `def test_compact_debounce_keeps_fresh_hot(tmp_path, monkeypatch)`
-  - `test_compact_folds_stale_facts` (function, line 41) `def test_compact_folds_stale_facts(tmp_path, monkeypatch)`
-  - `test_planner_round_folds_minor_window` (function, line 56) `def test_planner_round_folds_minor_window(tmp_path, monkeypatch)`
-  - `test_graph_overview_carries_findings_and_done_totals` (function, line 77) `def test_graph_overview_carries_findings_and_done_totals(tmp_path, monkeypatch)`
-- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_loop_decision_log.py
-- Doc: Tests for the reproducible loop decision ledger and planner determinism.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Ctx` (class, line 20) `class _Ctx`
-  - `test_digest_is_stable_and_bounded` (function, line 33) `def test_digest_is_stable_and_bounded()`
-  - `test_context_digest_ignores_mapping_order` (function, line 40) `def test_context_digest_ignores_mapping_order()`
-  - `test_context_digest_ignores_service_order` (function, line 46) `def test_context_digest_ignores_service_order()`
-  - `test_context_digest_changes_with_state` (function, line 52) `def test_context_digest_changes_with_state()`
-  - `test_config_digest_only_tracks_relevant_keys` (function, line 59) `def test_config_digest_only_tracks_relevant_keys()`
-  - `test_config_digest_empty_inputs` (function, line 67) `def test_config_digest_empty_inputs()`
-  - `test_config_digest_tracks_determinism_flags` (function, line 73) `def test_config_digest_tracks_determinism_flags()`
-  - `test_record_and_read_round_trip` (function, line 80) `def test_record_and_read_round_trip(tmp_path)`
-  - `test_read_records_skips_corrupt_lines` (function, line 101) `def test_read_records_skips_corrupt_lines(tmp_path)`
-  - `test_record_marks_model_fallback_for_llm` (function, line 108) `def test_record_marks_model_fallback_for_llm(tmp_path)`
-  - `test_record_never_raises_on_bad_path` (function, line 127) `def test_record_never_raises_on_bad_path(tmp_path)`
-  - `test_filtered_rows_bounds_and_shape` (function, line 134) `def test_filtered_rows_bounds_and_shape()`
-  - `test_extract_json_contract` (function, line 140) `def test_extract_json_contract()`
-  - `test_extract_json_fenced_block` (function, line 145) `def test_extract_json_fenced_block()`
-  - `test_extract_json_string_array` (function, line 150) `def test_extract_json_string_array()`
-  - `test_extract_line_fallback_on_non_json` (function, line 154) `def test_extract_line_fallback_on_non_json()`
-  - `test_extract_dedupes_preserving_order` (function, line 162) `def test_extract_dedupes_preserving_order()`
-  - `test_extract_empty_reply` (function, line 166) `def test_extract_empty_reply()`
-  - `test_planner_temperature_default_is_greedy` (function, line 171) `def test_planner_temperature_default_is_greedy(monkeypatch)`
-  - `test_planner_temperature_reads_payload` (function, line 179) `def test_planner_temperature_reads_payload(monkeypatch)`
-  - `test_planner_temperature_clamps_negative` (function, line 188) `def test_planner_temperature_clamps_negative(monkeypatch)`
-  - `test_planner_temperature_survives_malformed` (function, line 197) `def test_planner_temperature_survives_malformed(monkeypatch)`
-  - `__init__` (method, line 23) `def __init__(self, extra, services)`
-- Depends on: `core/config.py`, `modules/lazy_loop.py`, `modules/loop/__init__.py`, `modules/loop/worker_agentic.py`
-
-## tests/test_loop_deterministic_mode.py
-- Doc: Tests for the reproducible loop mode that prefers heuristic steps.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Activity` (class, line 17) `class _Activity`
-  - `_Worker` (class, line 27) `class _Worker(WorkerAgenticMixin)`
-  - `_intent` (function, line 39) `def _intent()`
-  - `test_is_placeholder_detects_no_target` (function, line 43) `def test_is_placeholder_detects_no_target()`
-  - `test_default_mode_prefixes_llm` (function, line 49) `def test_default_mode_prefixes_llm(monkeypatch)`
-  - `test_deterministic_mode_heuristic_wins_and_skips_model` (function, line 57) `def test_deterministic_mode_heuristic_wins_and_skips_model(monkeypatch)`
-  - `test_deterministic_mode_falls_back_to_model_on_placeholder` (function, line 65) `def test_deterministic_mode_falls_back_to_model_on_placeholder(monkeypatch)`
-  - `test_deterministic_fallback_orders_heuristic_first` (function, line 72) `def test_deterministic_fallback_orders_heuristic_first(monkeypatch)`
-  - `test_deterministic_mode_enforces_guard_and_records_decision` (function, line 84) `def test_deterministic_mode_enforces_guard_and_records_decision(monkeypatch, tmp_path)`
-  - `test_loop_deterministic_reads_payload` (function, line 111) `def test_loop_deterministic_reads_payload(monkeypatch)`
-  - `test_loop_deterministic_survives_error` (function, line 120) `def test_loop_deterministic_survives_error(monkeypatch)`
-  - `__init__` (method, line 20) `def __init__(self)`
-  - `emit` (method, line 23) `def emit(self)`
-  - `__init__` (method, line 30) `def __init__(self, suggested)`
-  - `_llm_steps` (method, line 35) `def _llm_steps(self, intent, prior_text)`
-  - `_PlaceholderThenReal` (class, line 75) `class _PlaceholderThenReal(_Worker)`
-  - `_boom` (function, line 123) `def _boom()`
-  - `_llm_steps` (method, line 76) `def _llm_steps(self, intent, prior_text)`
-- Depends on: `core/config.py`, `modules/guard_rules.py`, `modules/loop/__init__.py`, `modules/loop/worker_agentic.py`
 
 
 Next: [KB_tests_p18.md](KB_tests_p18.md)

@@ -1,6 +1,30 @@
 # Subsystem: mcp_tools (page 4 of 4)
 Previous: [KB_mcp_tools_p3.md](KB_mcp_tools_p3.md)
 
+## skills/mcp_tools/unified_dashboard.py
+- Doc: MCP tool ``lazyown_unified_dashboard``: combined campaign dashboard.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 34) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/unified_dashboard.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/winbox_eventlogs.py
+- Doc: MCP tool ``lazyown_winbox_eventlogs``: query guest Windows event logs.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `handle` (function, line 36) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/winbox_exec.py
+- Doc: MCP tool ``lazyown_winbox_exec``: run a command inside the WinBox guest.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 38) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/winbox_gym_list.py
 - Doc: MCP tool ``lazyown_winbox_gym_list``: list and validate WinBox gym vectors.
 - Layer: utility

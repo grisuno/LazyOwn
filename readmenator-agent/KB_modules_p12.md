@@ -1,6 +1,25 @@
 # Subsystem: modules (page 12 of 19)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/lazy_sentinel.py
+- Doc: Internal-network sentinel for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ingest_spool` (function, line 45) `def ingest_spool(path)`
+  - `_parse_line` (function, line 73) `def _parse_line(line)`
+  - `_parse_grepable` (function, line 81) `def _parse_grepable(line)`
+  - `_parse_tsv` (function, line 108) `def _parse_tsv(line)`
+  - `validate_ranges` (function, line 123) `def validate_ranges(ranges)`
+  - `provision_blob` (function, line 152) `def provision_blob(ranges, spool_path, spool_dir)`
+  - `dispatch_line` (function, line 203) `def dispatch_line(client_id, blob)`
+  - `_split_product_version` (function, line 223) `def _split_product_version(block)`
+  - `_sightings` (function, line 237) `def _sightings(hosts)`
+  - `save_sightings` (function, line 252) `def save_sightings(sightings, path)`
+  - `load_sightings` (function, line 282) `def load_sightings(path)`
+  - `_atomic_json` (function, line 312) `def _atomic_json(path, data)`
+- Depends on: `modules/lazy_feedmatch.py`
+
 ## modules/lazy_skill_mirror.py
 - Doc: Mirror LazyOwn skills for Hermes discovery.
 - Layer: utility
@@ -304,6 +323,42 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `auto_detect_all` (method, line 992) `def auto_detect_all()`
 - Imported by: `cli/commands/containers.py`
 
+## modules/lazyllmchat.py
+- Doc: Interactive LLM chat assistant for the LazyOwn shell.
+- Language: py
+- Symbols:
+  - `LazyOwnShellBridge` (class, line 45) `class LazyOwnShellBridge`
+  - `SessionContextProvider` (class, line 146) `class SessionContextProvider`
+  - `PromptBuilder` (class, line 181) `class PromptBuilder`
+  - `LLMEngine` (class, line 244) `class LLMEngine`
+  - `LazyOwnPromptRenderer` (class, line 309) `class LazyOwnPromptRenderer`
+  - `LazyOwnLLMChat` (class, line 358) `class LazyOwnLLMChat`
+  - `main` (function, line 475) `def main()`
+  - `__init__` (method, line 53) `def __init__(self, script_path)`
+  - `_load_shell` (method, line 64) `def _load_shell(self)`
+  - `execute` (method, line 99) `def execute(self, command)`
+  - `__init__` (method, line 149) `def __init__(self, session_path)`
+  - `get_last_lines` (method, line 157) `def get_last_lines(self, count)`
+  - `for_command_analysis` (method, line 193) `def for_command_analysis(command, output, context, history)`
+  - `for_direct_query` (method, line 220) `def for_direct_query(query, context, history)`
+  - `__init__` (method, line 253) `def __init__(self)`
+  - `_load_model` (method, line 260) `def _load_model(self)`
+  - `is_ready` (method, line 268) `def is_ready(self)`
+  - `ask` (method, line 276) `def ask(self, prompt)`
+  - `get_history_text` (method, line 300) `def get_history_text(self)`
+  - `render` (method, line 322) `def render(self)`
+  - `banner` (method, line 342) `def banner(self)`
+  - `__init__` (method, line 361) `def __init__(self)`
+  - `_get_context` (method, line 369) `def _get_context(self)`
+  - `_run_shell_command` (method, line 373) `def _run_shell_command(self, command)`
+  - `_run_system_command` (method, line 387) `def _run_system_command(self, command)`
+  - `_analyze` (method, line 413) `def _analyze(self, command, output)`
+  - `_direct_query` (method, line 429) `def _direct_query(self, query)`
+  - `run` (method, line 441) `def run(self, initial_query)`
+  - `target` (function, line 112) `def target()`
+  - `no_history_init` (function, line 72) `def no_history_init(self_)`
+- Depends on: `modules/llm_factory.py`
+
 ## modules/lazylynis.sh
 - Doc: Verificar si se proporcionó un argumento para el host remoto
 - Layer: utility
@@ -325,6 +380,19 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Doc: Verificar si se pasaron los argumentos de IP y puerto
 - Layer: utility
 - Language: sh
+
+## modules/lazymode_playbook.py
+- Doc: Run and list lazymode-powered exploit playbooks.
+- Language: py
+- Symbols:
+  - `_iter_steps` (function, line 33) `def _iter_steps(data)`
+  - `is_vector_playbook` (function, line 55) `def is_vector_playbook(data)`
+  - `list_vector_playbooks` (function, line 67) `def list_vector_playbooks(directory)`
+  - `_resolve` (function, line 102) `def _resolve(name, root)`
+  - `_prepare_script` (function, line 131) `def _prepare_script(source, target)`
+  - `run_playbook` (function, line 152) `def run_playbook(name, target, directory, timeout)`
+- Depends on: `modules/playbook_admin.py`, `sdk/lazymode/__init__.py`
+- Imported by: `cli/commands/lazymode.py`, `skills/mcp_tools/lazymode_playbook.py`, `tests/test_lazymode_playbook.py`
 
 ## modules/lazynmap.sh
 - Doc: Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico...
@@ -427,66 +495,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `find_and_extract_metadata` (function, line 109) `def find_and_extract_metadata(directory, output_file)`
   - `parse_arguments` (function, line 130) `def parse_arguments()`
   - `main` (function, line 140) `def main()`
-
-## modules/lazyown_parquet_tool.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `highlight_term` (function, line 34) `def highlight_term(text, term)`
-  - `search_in_parquet` (function, line 39) `def search_in_parquet(term, parquet_files)`
-  - `buscar_binarios` (function, line 53) `def buscar_binarios(args)`
-  - `ejecutar_opciones` (function, line 136) `def ejecutar_opciones()`
-
-## modules/lazyownerweb.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `send_request` (function, line 36) `def send_request(url, params, method)`
-  - `test_injection` (function, line 49) `def test_injection(url, payloads, param_name, detection_strings, method)`
-  - `main` (function, line 59) `def main()`
-- Depends on: `core/logging.py`, `modules/logging_config.py`
-
-## modules/lazypassgen.py
-- Doc: LazyPassGen: target-aware weak-password generator for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_split_entities` (function, line 45) `def _split_entities(target)`
-  - `_leetspeak` (function, line 62) `def _leetspeak(word)`
-  - `_mutations` (function, line 77) `def _mutations(words)`
-  - `generate` (function, line 115) `def generate(target)`
-  - `export` (function, line 135) `def export(target, path)`
-- Depends on: `modules/__init__.py`
-
-## modules/lazypoophish.py
-- Doc: LazyPoophish: phishing fallback delivery for the LazyOwn autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `fresh_access_token` (function, line 34) `def fresh_access_token(target)`
-  - `fallback_ready` (function, line 52) `def fallback_ready(target)`
-  - `run_fallback` (function, line 71) `def run_fallback(target, params, template, mode, targets_file, provider, shorten)`
-- Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phishing_orchestrator.py`
-
-## modules/lazypsexec.sh
-- Doc: execute_psexec: Función para ejecutar psexec y verificar la salida
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `execute_psexec` (function, line 15)
-
-## modules/lazyreverse_shell.sh
-- Doc: Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `mostrar_ayuda` (function, line 21)
-  - `validar_ip` (function, line 31)
-
-## modules/lazyrtpflood.sh
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

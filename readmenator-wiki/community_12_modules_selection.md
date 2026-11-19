@@ -100,12 +100,11 @@ This community groups 37 file(s) rooted at `modules/selection` with dominant lan
 
 ## Risks
 
-- [cycle] `skills/lazyown_parquet_db.py` -> `modules/selection/parquet.py` -> `skills/lazyown_parquet_db.py`
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
 - Why do 2 file(s) lack file-level docs (e.g. `modules/reverse-shell.c`)? What purpose do they serve?
-- Can the cycle `skills/lazyown_parquet_db.py` -> `modules/selection/parquet.py` be broken with an interface?
 - What would break if the most connected file in modules/selection changed?
 - Should modules/selection be split, given cohesion 0.66?
 

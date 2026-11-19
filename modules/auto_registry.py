@@ -174,7 +174,7 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
         ),
         needs_target=False,
         extra_args="--non-interactive",
-        description="stage an Atomic Red Team test by MITRE technique ID (read-only staging)",
+        description="stage or execute an Atomic Red Team test by MITRE technique ID (beacon/session when available)",
     ),
     AutoVerb(
         verb="atomic_gen",
@@ -940,8 +940,12 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
                 addon = verb[len(_ADDON_VERB_PREFIX) :]
                 if not addon:
                     return None
-                tail = " ".join(parts[2:]).strip() or (target or "").strip()
-                return [f"lazy addon {addon} {tail}".strip()]
+                tail = " ".join(parts[2:]).strip()
+                extra = tail if tail and tail != (target or "").strip() else ""
+                wire = f"lazy_addon run {addon}"
+                if target:
+                    wire += f" --target {shlex.quote(target)}"
+                return [f"{wire} {extra}".strip()]
             if verb == "automsf":
                 import re as _re
 

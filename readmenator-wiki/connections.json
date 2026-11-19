@@ -1,5 +1,13 @@
 [
   {
+    "community_a": 29,
+    "community_b": 10,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: 2026-11-18_112624/jquery-1.11.3.min.js imports lazyown-docker/init.sh.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
     "community_a": 4,
     "community_b": 7,
     "connection_type": "depends_on",
@@ -148,14 +156,6 @@
     "community_b": 2,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
-    "community_a": 5,
-    "community_b": 10,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   }

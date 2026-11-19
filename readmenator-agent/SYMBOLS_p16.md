@@ -1,8 +1,59 @@
-# Symbols (page 16 of 53)
+# Symbols (page 16 of 54)
 Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
+| `main` | function | `modules/img2bin.py:43` | `def main()` |
+| `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
+| `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
+| `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
+| `FindingMapper` | class | `modules/integrations/misp_export.py:86` | `class FindingMapper(ABC)` |
+| `HashMapper` | class | `modules/integrations/misp_export.py:183` | `class HashMapper(FindingMapper)` |
+| `IPMapper` | class | `modules/integrations/misp_export.py:103` | `class IPMapper(FindingMapper)` |
+| `MISPAttribute` | class | `modules/integrations/misp_export.py:59` | `class MISPAttribute` |
+| `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
+| `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
+| `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
+| `_DictFinding` | class | `modules/integrations/misp_export.py:498` | `class _DictFinding` |
+| `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
+| `__init__` | method | `modules/integrations/misp_export.py:501` | `def __init__(self, data)` |
+| `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
+| `_dict_to_fact_records` | method | `modules/integrations/misp_export.py:457` | `def _dict_to_fact_records(data)` |
+| `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
+| `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
+| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
+| `_is_domain` | method | `modules/integrations/misp_export.py:178` | `def _is_domain(finding)` |
+| `_is_hash` | method | `modules/integrations/misp_export.py:206` | `def _is_hash(finding)` |
+| `_is_ip` | method | `modules/integrations/misp_export.py:118` | `def _is_ip(finding)` |
+| `_is_service` | method | `modules/integrations/misp_export.py:233` | `def _is_service(finding)` |
+| `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
+| `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
+| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
+| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
+| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
+| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
+| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
+| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
+| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
+| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
+| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
+| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
+| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
+| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
+| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
+| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
+| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
+| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
+| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
 | `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
 | `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
 | `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
@@ -445,56 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `_env_flag` | function | `modules/lazy_cve_feed.py:90` | `def _env_flag(name, default)` |
 | `_exploit_cves_from_text` | function | `modules/lazy_cve_feed.py:228` | `def _exploit_cves_from_text(text)` |
 | `_fetch` | function | `modules/lazy_cve_feed.py:112` | `def _fetch(url)` |
-| `_load_json` | function | `modules/lazy_cve_feed.py:150` | `def _load_json(name)` |
-| `_osv_cache_path` | function | `modules/lazy_cve_feed.py:281` | `def _osv_cache_path(product)` |
-| `_store_bytes` | function | `modules/lazy_cve_feed.py:134` | `def _store_bytes(name, payload)` |
-| `_store_json` | function | `modules/lazy_cve_feed.py:142` | `def _store_json(name, data)` |
-| `_worker` | function | `modules/lazy_cve_feed.py:696` | `def _worker()` |
-| `convert_osv_ranges` | function | `modules/lazy_cve_feed.py:515` | `def convert_osv_ranges(affected)` |
-| `correlate` | function | `modules/lazy_cve_feed.py:438` | `def correlate(product, version, allow_network)` |
-| `cve_intel` | function | `modules/lazy_cve_feed.py:360` | `def cve_intel(cve_id, feeds, allow_network)` |
-| `fetch_product_advisories` | function | `modules/lazy_cve_feed.py:291` | `def fetch_product_advisories(product, force)` |
-| `hot_matches` | function | `modules/lazy_cve_feed.py:636` | `def hot_matches(services, allow_network)` |
-| `load_epss` | function | `modules/lazy_cve_feed.py:192` | `def load_epss(force)` |
-| `load_exploit_cves` | function | `modules/lazy_cve_feed.py:233` | `def load_exploit_cves(force)` |
-| `load_kev` | function | `modules/lazy_cve_feed.py:158` | `def load_kev(force)` |
-| `load_kev_matches` | function | `modules/lazy_cve_feed.py:594` | `def load_kev_matches(product, feeds)` |
-| `load_msf_cves` | function | `modules/lazy_cve_feed.py:257` | `def load_msf_cves(force)` |
-| `range_for_cve` | function | `modules/lazy_cve_feed.py:565` | `def range_for_cve(cve_id, allow_network)` |
-| `refresh_feeds_async` | function | `modules/lazy_cve_feed.py:680` | `def refresh_feeds_async(products)` |
-| `DeviationLedger` | class | `modules/lazy_deviations.py:72` | `class DeviationLedger` |
-| `DeviationRecord` | class | `modules/lazy_deviations.py:35` | `class DeviationRecord` |
-| `__init__` | method | `modules/lazy_deviations.py:80` | `def __init__(self, path)` |
-| `_append` | method | `modules/lazy_deviations.py:201` | `def _append(self, record)` |
-| `_clean` | function | `modules/lazy_deviations.py:67` | `def _clean(text)` |
-| `_last_matches` | method | `modules/lazy_deviations.py:160` | `def _last_matches(self, scope, planned, actual, reason)` |
-| `_read` | method | `modules/lazy_deviations.py:172` | `def _read(self)` |
-| `_trim` | method | `modules/lazy_deviations.py:216` | `def _trim(self)` |
-| `as_dict` | method | `modules/lazy_deviations.py:55` | `def as_dict(self)` |
-| `list` | method | `modules/lazy_deviations.py:124` | `def list(self, scope, limit)` |
-| `record` | method | `modules/lazy_deviations.py:84` | `def record(self, scope, planned, actual, reason, source)` |
-| `render_markdown` | method | `modules/lazy_deviations.py:140` | `def render_markdown(self, records, title)` |
-| `_drafts_dir` | function | `modules/lazy_drafts.py:27` | `def _drafts_dir()` |
-| `drain` | function | `modules/lazy_drafts.py:34` | `def drain(engine)` |
-| `LazyEngine` | class | `modules/lazy_engine.py:56` | `class LazyEngine(LazyLoopEngine)` |
-| `_int` | function | `modules/lazy_exposure.py:410` | `def _int(value, fallback)` |
-| `_live_fingerprint` | function | `modules/lazy_exposure.py:210` | `def _live_fingerprint()` |
-| `_match_hot_key` | function | `modules/lazy_exposure.py:400` | `def _match_hot_key(row)` |
-| `_shape_sightings` | function | `modules/lazy_exposure.py:370` | `def _shape_sightings(rows)` |
-| `_short_refs` | function | `modules/lazy_exposure.py:365` | `def _short_refs(row)` |
-| `_slug` | function | `modules/lazy_exposure.py:405` | `def _slug(text)` |
-| `ensure_report` | function | `modules/lazy_exposure.py:56` | `def ensure_report(target, entries, refresh)` |
-| `generate_report` | function | `modules/lazy_exposure.py:129` | `def generate_report(target, entries, sightings)` |
-| `probe_checks` | function | `modules/lazy_exposure.py:257` | `def probe_checks(matches, feed)` |
-| `publish_report` | function | `modules/lazy_exposure.py:314` | `def publish_report(report)` |
-| `read_sightings` | function | `modules/lazy_exposure.py:97` | `def read_sightings(target, state_path)` |
-| `refresh_if_stale` | function | `modules/lazy_exposure.py:418` | `def refresh_if_stale(target, entries)` |
-| `save_report` | function | `modules/lazy_exposure.py:291` | `def save_report(report, path)` |
-| `score_report` | function | `modules/lazy_exposure.py:219` | `def score_report(entries, bounded_unknown, services)` |
-| `AdaptiveFallbackArbiter` | class | `modules/lazy_fallback.py:185` | `class AdaptiveFallbackArbiter` |
-| `Alternative` | class | `modules/lazy_fallback.py:29` | `class Alternative` |
-| `TechniqueFallback` | class | `modules/lazy_fallback.py:47` | `class TechniqueFallback` |
-| `__init__` | method | `modules/lazy_fallback.py:193` | `def __init__(self, graph)` |
-| `_bind_family` | method | `modules/lazy_fallback.py:246` | `def _bind_family(self, command)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

@@ -1439,13 +1439,14 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         import shlex
 
         from modules.atomic_exploit_bridge import emulate as _emulate
+        from modules.atomic_cli import default_platform_for_target
 
         try:
             parts = shlex.split(line or "")
         except ValueError:
             print_warn("Usage: atomic_emulate --target <ip> [--playbook <name>|--techniques T1,T2]")
             return
-        args = {"target": "", "playbook": "", "techniques": "", "platform": "linux", "lhost": "127.0.0.1"}
+        args = {"target": "", "playbook": "", "techniques": "", "platform": "", "lhost": "127.0.0.1"}
         key = ""
         for part in parts:
             if part.startswith("--"):
@@ -1457,6 +1458,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         if not target:
             print_warn("Usage: atomic_emulate --target <ip> [--playbook <name>|--techniques T1,T2]")
             return
+        if not args["platform"]:
+            args["platform"] = default_platform_for_target(self.params) or "linux"
         techniques = [t.strip() for t in args["techniques"].split(",") if t.strip()]
         try:
             report = _emulate(

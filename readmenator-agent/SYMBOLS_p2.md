@@ -1,8 +1,11 @@
-# Symbols (page 2 of 53)
+# Symbols (page 2 of 54)
 Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_tls_verify` | function | `cli/commands/c2_session.py:83` | `def _tls_verify()` |
+| `do_c2_deploy` | method | `cli/commands/c2_session.py:268` | `def do_c2_deploy(self, line)` |
+| `do_c2_exec` | method | `cli/commands/c2_session.py:318` | `def do_c2_exec(self, line)` |
 | `do_c2_loot` | method | `cli/commands/c2_session.py:365` | `def do_c2_loot(self, line)` |
 | `do_c2_reboot` | method | `cli/commands/c2_session.py:187` | `def do_c2_reboot(self, line)` |
 | `do_c2_server` | method | `cli/commands/c2_session.py:134` | `def do_c2_server(self, line)` |
@@ -82,35 +85,36 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_c2_quickstart` | method | `cli/commands/command_and_control.py:151` | `def do_c2_quickstart(self, _line)` |
 | `do_c2_status` | method | `cli/commands/command_and_control.py:41` | `def do_c2_status(self, _line)` |
 | `CommandAndControlMigratedCommandSet` | class | `cli/commands/command_and_control_migrated.py:66` | `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)` |
-| `_ability_to_step` | function | `cli/commands/command_and_control_migrated.py:2646` | `def _ability_to_step(ability)` |
+| `_ability_to_step` | function | `cli/commands/command_and_control_migrated.py:2720` | `def _ability_to_step(ability)` |
 | `_api` | function | `cli/commands/command_and_control_migrated.py:570` | `def _api(method, endpoint, payload)` |
 | `_latest_sweep_evidence` | method | `cli/commands/command_and_control_migrated.py:1285` | `def _latest_sweep_evidence(self, target)` |
-| `_load_ability` | function | `cli/commands/command_and_control_migrated.py:2639` | `def _load_ability(ability_file)` |
-| `do_apt_chain` | method | `cli/commands/command_and_control_migrated.py:1762` | `def do_apt_chain(self, line)` |
-| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:2107` | `def do_apt_playbook(self, line)` |
-| `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1482` | `def do_atomic_agent(self, line)` |
+| `_load_ability` | function | `cli/commands/command_and_control_migrated.py:2713` | `def _load_ability(ability_file)` |
+| `do_apt_chain` | method | `cli/commands/command_and_control_migrated.py:1836` | `def do_apt_chain(self, line)` |
+| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:2181` | `def do_apt_playbook(self, line)` |
+| `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1556` | `def do_atomic_agent(self, line)` |
 | `do_atomic_clean` | method | `cli/commands/command_and_control_migrated.py:1388` | `def do_atomic_clean(self, line)` |
 | `do_atomic_emulate` | method | `cli/commands/command_and_control_migrated.py:1425` | `def do_atomic_emulate(self, line)` |
 | `do_atomic_gen` | method | `cli/commands/command_and_control_migrated.py:1270` | `def do_atomic_gen(self, line)` |
 | `do_atomic_shell` | method | `cli/commands/command_and_control_migrated.py:1314` | `def do_atomic_shell(self, line)` |
 | `do_atomic_tests` | method | `cli/commands/command_and_control_migrated.py:1249` | `def do_atomic_tests(self, line)` |
-| `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1585` | `def do_attack_plan(self, line)` |
+| `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1659` | `def do_attack_plan(self, line)` |
 | `do_automsf` | method | `cli/commands/command_and_control_migrated.py:904` | `def do_automsf(self, line)` |
+| `do_beacon_loop` | method | `cli/commands/command_and_control_migrated.py:1485` | `def do_beacon_loop(self, line)` |
 | `do_c2` | method | `cli/commands/command_and_control_migrated.py:421` | `def do_c2(self, line)` |
-| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2566` | `def do_caldera(self, line)` |
-| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2707` | `def do_caldera_export(self, line)` |
-| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2615` | `def do_caldera_import(self, line)` |
-| `do_chain_distill` | method | `cli/commands/command_and_control_migrated.py:2057` | `def do_chain_distill(self, line)` |
+| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2640` | `def do_caldera(self, line)` |
+| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2781` | `def do_caldera_export(self, line)` |
+| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2689` | `def do_caldera_import(self, line)` |
+| `do_chain_distill` | method | `cli/commands/command_and_control_migrated.py:2131` | `def do_chain_distill(self, line)` |
 | `do_duckyspark` | method | `cli/commands/command_and_control_migrated.py:984` | `def do_duckyspark(self, line)` |
 | `do_emp3r0r` | method | `cli/commands/command_and_control_migrated.py:1185` | `def do_emp3r0r(self, line)` |
 | `do_empire` | method | `cli/commands/command_and_control_migrated.py:854` | `def do_empire(self, line)` |
-| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2330` | `def do_generate_playbook(self, line)` |
+| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2404` | `def do_generate_playbook(self, line)` |
 | `do_iis_webdav_upload_asp` | method | `cli/commands/command_and_control_migrated.py:949` | `def do_iis_webdav_upload_asp(self, line)` |
 | `do_listener` | method | `cli/commands/command_and_control_migrated.py:543` | `def do_listener(self, line)` |
-| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:2227` | `def do_mitre_test(self, line)` |
+| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:2301` | `def do_mitre_test(self, line)` |
 | `do_msf` | method | `cli/commands/command_and_control_migrated.py:71` | `def do_msf(self, line)` |
 | `do_msfrpc` | method | `cli/commands/command_and_control_migrated.py:713` | `def do_msfrpc(self, line)` |
-| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2509` | `def do_my_playbook(self, line)` |
+| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2583` | `def do_my_playbook(self, line)` |
 | `do_sandbox` | method | `cli/commands/command_and_control_migrated.py:671` | `def do_sandbox(self, line)` |
 | `do_sliver_server` | method | `cli/commands/command_and_control_migrated.py:737` | `def do_sliver_server(self, line)` |
 | `select_agent_flavour` | function | `cli/commands/command_and_control_migrated.py:43` | `def select_agent_flavour(run_tests, platform)` |
@@ -121,16 +125,16 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_k8s_enum` | method | `cli/commands/containers.py:101` | `def do_k8s_enum(self, _line)` |
 | `do_k8s_pods` | method | `cli/commands/containers.py:239` | `def do_k8s_pods(self, line)` |
 | `do_k8s_secrets` | method | `cli/commands/containers.py:283` | `def do_k8s_secrets(self, line)` |
-| `CredentialAccessCommandSet` | class | `cli/commands/cred.py:23` | `class CredentialAccessCommandSet(LazyOwnCommandSet)` |
-| `do_cewl` | method | `cli/commands/cred.py:75` | `def do_cewl(self, line)` |
-| `do_creds_py` | method | `cli/commands/cred.py:93` | `def do_creds_py(self, line)` |
-| `do_crunch` | method | `cli/commands/cred.py:67` | `def do_crunch(self, line)` |
-| `do_hashcat` | method | `cli/commands/cred.py:30` | `def do_hashcat(self, line)` |
-| `do_hydra` | method | `cli/commands/cred.py:47` | `def do_hydra(self, line)` |
-| `do_john2hash` | method | `cli/commands/cred.py:39` | `def do_john2hash(self, line)` |
-| `do_medusa` | method | `cli/commands/cred.py:59` | `def do_medusa(self, line)` |
-| `do_spraykatz` | method | `cli/commands/cred.py:98` | `def do_spraykatz(self, line)` |
-| `do_sshkey` | method | `cli/commands/cred.py:87` | `def do_sshkey(self, line)` |
+| `CredentialAccessCommandSet` | class | `cli/commands/cred.py:21` | `class CredentialAccessCommandSet(LazyOwnCommandSet)` |
+| `do_cewl` | method | `cli/commands/cred.py:73` | `def do_cewl(self, line)` |
+| `do_creds_py` | method | `cli/commands/cred.py:91` | `def do_creds_py(self, line)` |
+| `do_crunch` | method | `cli/commands/cred.py:65` | `def do_crunch(self, line)` |
+| `do_hashcat` | method | `cli/commands/cred.py:28` | `def do_hashcat(self, line)` |
+| `do_hydra` | method | `cli/commands/cred.py:45` | `def do_hydra(self, line)` |
+| `do_john2hash` | method | `cli/commands/cred.py:37` | `def do_john2hash(self, line)` |
+| `do_medusa` | method | `cli/commands/cred.py:57` | `def do_medusa(self, line)` |
+| `do_spraykatz` | method | `cli/commands/cred.py:96` | `def do_spraykatz(self, line)` |
+| `do_sshkey` | method | `cli/commands/cred.py:85` | `def do_sshkey(self, line)` |
 | `CredMigratedCommandSet` | class | `cli/commands/cred_migrated.py:30` | `class CredMigratedCommandSet(LazyOwnCommandSet)` |
 | `_rotate_existing_credentials` | method | `cli/commands/cred_migrated.py:34` | `def _rotate_existing_credentials(self, credentials_file_path)` |
 | `alternate_case` | function | `cli/commands/cred_migrated.py:552` | `def alternate_case(s)` |
@@ -309,17 +313,17 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_unzip` | method | `cli/commands/exfiltration.py:851` | `def do_unzip(self, line)` |
 | `do_upload_gofile` | method | `cli/commands/exfiltration.py:905` | `def do_upload_gofile(self, line)` |
 | `download_file_from_c2` | method | `cli/commands/exfiltration.py:1125` | `def download_file_from_c2(self, file_name, clientid)` |
-| `ExploitCommandSet` | class | `cli/commands/exploit.py:29` | `class ExploitCommandSet(LazyOwnCommandSet)` |
-| `do_commix` | method | `cli/commands/exploit.py:86` | `def do_commix(self, line)` |
-| `do_download_exploit` | method | `cli/commands/exploit.py:105` | `def do_download_exploit(self, line)` |
-| `do_img2cookie` | method | `cli/commands/exploit.py:126` | `def do_img2cookie(self, line)` |
-| `do_kusa` | method | `cli/commands/exploit.py:168` | `def do_kusa(self, line)` |
-| `do_lazypwn` | method | `cli/commands/exploit.py:64` | `def do_lazypwn(self, line)` |
-| `do_rev` | method | `cli/commands/exploit.py:69` | `def do_rev(self, line)` |
-| `do_sqlmap` | method | `cli/commands/exploit.py:39` | `def do_sqlmap(self, line)` |
-| `do_ticketer` | method | `cli/commands/exploit.py:178` | `def do_ticketer(self, line)` |
-| `do_wrapper` | method | `cli/commands/exploit.py:150` | `def do_wrapper(self, line)` |
-| `do_www` | method | `cli/commands/exploit.py:192` | `def do_www(self, line)` |
+| `ExploitCommandSet` | class | `cli/commands/exploit.py:26` | `class ExploitCommandSet(LazyOwnCommandSet)` |
+| `do_commix` | method | `cli/commands/exploit.py:80` | `def do_commix(self, line)` |
+| `do_download_exploit` | method | `cli/commands/exploit.py:99` | `def do_download_exploit(self, line)` |
+| `do_img2cookie` | method | `cli/commands/exploit.py:120` | `def do_img2cookie(self, line)` |
+| `do_kusa` | method | `cli/commands/exploit.py:162` | `def do_kusa(self, line)` |
+| `do_lazypwn` | method | `cli/commands/exploit.py:58` | `def do_lazypwn(self, line)` |
+| `do_rev` | method | `cli/commands/exploit.py:63` | `def do_rev(self, line)` |
+| `do_sqlmap` | method | `cli/commands/exploit.py:33` | `def do_sqlmap(self, line)` |
+| `do_ticketer` | method | `cli/commands/exploit.py:172` | `def do_ticketer(self, line)` |
+| `do_wrapper` | method | `cli/commands/exploit.py:144` | `def do_wrapper(self, line)` |
+| `do_www` | method | `cli/commands/exploit.py:186` | `def do_www(self, line)` |
 | `ExploitMigratedCommandSet` | class | `cli/commands/exploit_migrated.py:38` | `class ExploitMigratedCommandSet(LazyOwnCommandSet)` |
 | `cacti_exploit` | function | `cli/commands/exploit_migrated.py:536` | `def cacti_exploit(config_file, host)` |
 | `do_aclpwn_py` | method | `cli/commands/exploit_migrated.py:1614` | `def do_aclpwn_py(self, line)` |
@@ -372,16 +376,13 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_xss` | method | `cli/commands/exploit_migrated.py:1090` | `def do_xss(self, line)` |
 | `do_xsstrike` | method | `cli/commands/exploit_migrated.py:1179` | `def do_xsstrike(self, line)` |
 | `setup_handler` | function | `cli/commands/exploit_migrated.py:513` | `def setup_handler(config_file, lhost, lport)` |
-| `ExploitdbCCommands` | class | `cli/commands/exploitdb.py:100` | `class ExploitdbCCommands` |
-| `ExploitdbCommands` | class | `cli/commands/exploitdb.py:14` | `class ExploitdbCommands` |
-| `do_exploitdb_ccompile` | method | `cli/commands/exploitdb.py:91` | `def do_exploitdb_ccompile(self, args)` |
-| `do_exploitdb_ccompile` | method | `cli/commands/exploitdb.py:117` | `def do_exploitdb_ccompile(self, args)` |
-| `do_exploitdb_cscan` | method | `cli/commands/exploitdb.py:79` | `def do_exploitdb_cscan(self, args)` |
-| `do_exploitdb_cscan` | method | `cli/commands/exploitdb.py:105` | `def do_exploitdb_cscan(self, args)` |
-| `do_exploitdb_gen` | method | `cli/commands/exploitdb.py:48` | `def do_exploitdb_gen(self, args)` |
-| `do_exploitdb_run` | method | `cli/commands/exploitdb.py:131` | `def do_exploitdb_run(self, args)` |
-| `do_exploitdb_scan` | method | `cli/commands/exploitdb.py:36` | `def do_exploitdb_scan(self, args)` |
-| `do_exploitdb_sync` | method | `cli/commands/exploitdb.py:22` | `def do_exploitdb_sync(self, args)` |
+| `ExploitdbCommandSet` | class | `cli/commands/exploitdb.py:24` | `class ExploitdbCommandSet(LazyOwnCommandSet)` |
+| `do_exploitdb_ccompile` | method | `cli/commands/exploitdb.py:113` | `def do_exploitdb_ccompile(self, args)` |
+| `do_exploitdb_cscan` | method | `cli/commands/exploitdb.py:99` | `def do_exploitdb_cscan(self, args)` |
+| `do_exploitdb_gen` | method | `cli/commands/exploitdb.py:68` | `def do_exploitdb_gen(self, args)` |
+| `do_exploitdb_run` | method | `cli/commands/exploitdb.py:129` | `def do_exploitdb_run(self, args)` |
+| `do_exploitdb_scan` | method | `cli/commands/exploitdb.py:54` | `def do_exploitdb_scan(self, args)` |
+| `do_exploitdb_sync` | method | `cli/commands/exploitdb.py:38` | `def do_exploitdb_sync(self, args)` |
 | `ExploitGymCommandSet` | class | `cli/commands/exploitgym.py:36` | `class ExploitGymCommandSet(LazyOwnCommandSet)` |
 | `_egym_docs` | method | `cli/commands/exploitgym.py:289` | `def _egym_docs(self, _args)` |
 | `_egym_list` | method | `cli/commands/exploitgym.py:149` | `def _egym_list(self, args)` |
@@ -429,15 +430,15 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_push` | method | `cli/commands/golden_paths.py:100` | `def _push(self)` |
 | `_show` | method | `cli/commands/golden_paths.py:86` | `def _show(self)` |
 | `do_golden_paths` | method | `cli/commands/golden_paths.py:42` | `def do_golden_paths(self, line)` |
-| `GymMetasploitableCommandSet` | class | `cli/commands/gym_matrix.py:72` | `class GymMetasploitableCommandSet(LazyOwnCommandSet)` |
-| `_extract_bool` | function | `cli/commands/gym_matrix.py:55` | `def _extract_bool(args, flag)` |
-| `_extract_flag` | function | `cli/commands/gym_matrix.py:34` | `def _extract_flag(args, flag)` |
-| `_plan` | method | `cli/commands/gym_matrix.py:111` | `def _plan(self, top_k, only)` |
+| `GymMetasploitableCommandSet` | class | `cli/commands/gym_matrix.py:73` | `class GymMetasploitableCommandSet(LazyOwnCommandSet)` |
+| `_extract_bool` | function | `cli/commands/gym_matrix.py:56` | `def _extract_bool(args, flag)` |
+| `_extract_flag` | function | `cli/commands/gym_matrix.py:35` | `def _extract_flag(args, flag)` |
+| `_plan` | method | `cli/commands/gym_matrix.py:112` | `def _plan(self, top_k, only)` |
 | `_report` | method | `cli/commands/gym_matrix.py:165` | `def _report(self)` |
-| `_run` | method | `cli/commands/gym_matrix.py:135` | `def _run(self, top_k, only, dry_run)` |
+| `_run` | method | `cli/commands/gym_matrix.py:136` | `def _run(self, top_k, only, dry_run)` |
 | `_target` | method | `cli/commands/gym_matrix.py:200` | `def _target(self)` |
 | `_verify` | method | `cli/commands/gym_matrix.py:181` | `def _verify(self, rest)` |
-| `do_gym_metasploitable` | method | `cli/commands/gym_matrix.py:79` | `def do_gym_metasploitable(self, line)` |
+| `do_gym_metasploitable` | method | `cli/commands/gym_matrix.py:80` | `def do_gym_metasploitable(self, line)` |
 | `HelpUiCommandSet` | class | `cli/commands/help_ui.py:29` | `class HelpUiCommandSet(LazyOwnCommandSet)` |
 | `_save` | function | `cli/commands/help_ui.py:67` | `def _save(key, value)` |
 | `do_command_explorer` | method | `cli/commands/help_ui.py:254` | `def do_command_explorer(self, line)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_range_wait_healthy` | method | `cli/commands/lab.py:321` | `def _range_wait_healthy(self, compose, timeout)` |
 | `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
 | `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
-| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

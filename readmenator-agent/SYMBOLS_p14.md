@@ -1,8 +1,59 @@
-# Symbols (page 14 of 53)
+# Symbols (page 14 of 54)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
+| `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
+| `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
+| `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
+| `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
+| `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
+| `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
+| `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
+| `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
+| `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
+| `_count_lines` | function | `modules/dashboard_bp.py:103` | `def _count_lines(path)` |
+| `_normalize_ts` | function | `modules/dashboard_bp.py:913` | `def _normalize_ts(raw)` |
+| `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
+| `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
+| `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
+| `_read_loot_lines` | function | `modules/dashboard_bp.py:800` | `def _read_loot_lines(pattern)` |
+| `_read_timeline` | function | `modules/dashboard_bp.py:934` | `def _read_timeline()` |
+| `_require_login` | function | `modules/dashboard_bp.py:30` | `def _require_login()` |
+| `dashboard_api_data` | function | `modules/dashboard_bp.py:784` | `def dashboard_api_data()` |
+| `dashboard_index` | function | `modules/dashboard_bp.py:778` | `def dashboard_index()` |
+| `dashboard_loot` | function | `modules/dashboard_bp.py:902` | `def dashboard_loot()` |
+| `dashboard_timeline` | function | `modules/dashboard_bp.py:1017` | `def dashboard_timeline()` |
+| `DashboardEdge` | class | `modules/dashboard_engine.py:111` | `class DashboardEdge` |
+| `DashboardEngine` | class | `modules/dashboard_engine.py:118` | `class DashboardEngine` |
+| `DashboardNode` | class | `modules/dashboard_engine.py:99` | `class DashboardNode` |
+| `__init__` | method | `modules/dashboard_engine.py:139` | `def __init__(self, world_model)` |
+| `_parse_nmap_xml_services` | function | `modules/dashboard_engine.py:39` | `def _parse_nmap_xml_services(sessions_dir)` |
+| `_phase_icon` | method | `modules/dashboard_engine.py:398` | `def _phase_icon(phase)` |
+| `build_snapshot` | method | `modules/dashboard_engine.py:160` | `def build_snapshot(self)` |
+| `export_json` | method | `modules/dashboard_engine.py:408` | `def export_json(self, snapshot)` |
+| `format_for_cli` | method | `modules/dashboard_engine.py:438` | `def format_for_cli(self, snapshot)` |
+| `persist_snapshot` | method | `modules/dashboard_engine.py:421` | `def persist_snapshot(self, snapshot)` |
+| `render_ascii_topology` | method | `modules/dashboard_engine.py:358` | `def render_ascii_topology(self, snapshot)` |
+| `render_text_map` | method | `modules/dashboard_engine.py:276` | `def render_text_map(self, snapshot)` |
+| `set_auto_pivot` | method | `modules/dashboard_engine.py:154` | `def set_auto_pivot(self, pivot)` |
+| `set_evasion_engine` | method | `modules/dashboard_engine.py:157` | `def set_evasion_engine(self, evasion)` |
+| `set_exploit_recommender` | method | `modules/dashboard_engine.py:151` | `def set_exploit_recommender(self, recommender)` |
+| `set_world_model` | method | `modules/dashboard_engine.py:148` | `def set_world_model(self, model)` |
+| `LazyOwnDB` | class | `modules/db.py:147` | `class LazyOwnDB` |
+| `__init__` | method | `modules/db.py:159` | `def __init__(self, db_path)` |
+| `_current_version` | method | `modules/db.py:192` | `def _current_version(self)` |
+| `_cursor` | method | `modules/db.py:235` | `def _cursor(self)` |
+| `_get_conn` | method | `modules/db.py:171` | `def _get_conn(self)` |
+| `_init_schema` | method | `modules/db.py:186` | `def _init_schema(self)` |
+| `_maybe_decrypt` | method | `modules/db.py:273` | `def _maybe_decrypt(self, value)` |
+| `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
+| `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
+| `close` | method | `modules/db.py:804` | `def close(self)` |
+| `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
+| `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
 | `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
 | `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
 | `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
@@ -230,48 +281,48 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `render_markdown` | function | `modules/engage_summary.py:210` | `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` |
 | `render_text` | function | `modules/engage_summary.py:175` | `def render_text(engagement_id, target, shell, steps, sessions_dir)` |
 | `write_report` | function | `modules/engage_summary.py:247` | `def write_report(engagement_id, target, shell, steps, sessions_dir)` |
-| `CollabNotificationSink` | class | `modules/engagement_hooks.py:204` | `class CollabNotificationSink(INotificationSink)` |
-| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:311` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
-| `EngagementEvent` | class | `modules/engagement_hooks.py:101` | `class EngagementEvent` |
-| `EngagementNarrator` | class | `modules/engagement_hooks.py:382` | `class EngagementNarrator` |
-| `INotificationSink` | class | `modules/engagement_hooks.py:150` | `class INotificationSink(ABC)` |
-| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:336` | `class NotificationBroadcaster` |
-| `StreamEventSink` | class | `modules/engagement_hooks.py:167` | `class StreamEventSink(INotificationSink)` |
-| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:278` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
-| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:242` | `class _OutboundHTTPSink(INotificationSink)` |
-| `__init__` | method | `modules/engagement_hooks.py:349` | `def __init__(self, sinks)` |
-| `__init__` | method | `modules/engagement_hooks.py:393` | `def __init__(self, broadcaster)` |
-| `_build_request` | method | `modules/engagement_hooks.py:255` | `def _build_request(self, event)` |
-| `_build_request` | method | `modules/engagement_hooks.py:291` | `def _build_request(self, event)` |
-| `_build_request` | method | `modules/engagement_hooks.py:323` | `def _build_request(self, event)` |
-| `_load_payload` | function | `modules/engagement_hooks.py:88` | `def _load_payload()` |
-| `_load_seen_beacons` | function | `modules/engagement_hooks.py:444` | `def _load_seen_beacons()` |
-| `_persist` | method | `modules/engagement_hooks.py:417` | `def _persist(self, event)` |
-| `_safe_str` | function | `modules/engagement_hooks.py:78` | `def _safe_str(value, maxlen)` |
-| `_sanitize_client_id` | function | `modules/engagement_hooks.py:466` | `def _sanitize_client_id(client_id)` |
-| `_save_seen_beacons` | function | `modules/engagement_hooks.py:455` | `def _save_seen_beacons(seen)` |
-| `add` | method | `modules/engagement_hooks.py:365` | `def add(self, sink)` |
-| `append_approval_record` | function | `modules/engagement_hooks.py:564` | `def append_approval_record(record)` |
-| `default` | method | `modules/engagement_hooks.py:354` | `def default(cls)` |
-| `deliver` | method | `modules/engagement_hooks.py:159` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:181` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:216` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:258` | `def deliver(self, event)` |
-| `deliver` | method | `modules/engagement_hooks.py:370` | `def deliver(self, event)` |
-| `get_default_narrator` | function | `modules/engagement_hooks.py:482` | `def get_default_narrator()` |
-| `is_valid_target` | function | `modules/engagement_hooks.py:626` | `def is_valid_target(value)` |
-| `list_pending_approvals` | function | `modules/engagement_hooks.py:575` | `def list_pending_approvals()` |
-| `name` | method | `modules/engagement_hooks.py:155` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:178` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:213` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
-| `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
-| `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
-| `now` | method | `modules/engagement_hooks.py:124` | `def now(cls, kind, target, message, payload, severity)` |
-| `publish_shell_obtained` | function | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
-| `render_line` | method | `modules/engagement_hooks.py:143` | `def render_line(self)` |
-| `resolve_approval` | function | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
+| `CollabNotificationSink` | class | `modules/engagement_hooks.py:208` | `class CollabNotificationSink(INotificationSink)` |
+| `DiscordNotificationSink` | class | `modules/engagement_hooks.py:315` | `class DiscordNotificationSink(_OutboundHTTPSink)` |
+| `EngagementEvent` | class | `modules/engagement_hooks.py:105` | `class EngagementEvent` |
+| `EngagementNarrator` | class | `modules/engagement_hooks.py:386` | `class EngagementNarrator` |
+| `INotificationSink` | class | `modules/engagement_hooks.py:154` | `class INotificationSink(ABC)` |
+| `NotificationBroadcaster` | class | `modules/engagement_hooks.py:340` | `class NotificationBroadcaster` |
+| `StreamEventSink` | class | `modules/engagement_hooks.py:171` | `class StreamEventSink(INotificationSink)` |
+| `TelegramNotificationSink` | class | `modules/engagement_hooks.py:282` | `class TelegramNotificationSink(_OutboundHTTPSink)` |
+| `_OutboundHTTPSink` | class | `modules/engagement_hooks.py:246` | `class _OutboundHTTPSink(INotificationSink)` |
+| `__init__` | method | `modules/engagement_hooks.py:353` | `def __init__(self, sinks)` |
+| `__init__` | method | `modules/engagement_hooks.py:397` | `def __init__(self, broadcaster)` |
+| `_build_request` | method | `modules/engagement_hooks.py:259` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:295` | `def _build_request(self, event)` |
+| `_build_request` | method | `modules/engagement_hooks.py:327` | `def _build_request(self, event)` |
+| `_load_payload` | function | `modules/engagement_hooks.py:92` | `def _load_payload()` |
+| `_load_seen_beacons` | function | `modules/engagement_hooks.py:448` | `def _load_seen_beacons()` |
+| `_persist` | method | `modules/engagement_hooks.py:421` | `def _persist(self, event)` |
+| `_safe_str` | function | `modules/engagement_hooks.py:82` | `def _safe_str(value, maxlen)` |
+| `_sanitize_client_id` | function | `modules/engagement_hooks.py:470` | `def _sanitize_client_id(client_id)` |
+| `_save_seen_beacons` | function | `modules/engagement_hooks.py:459` | `def _save_seen_beacons(seen)` |
+| `add` | method | `modules/engagement_hooks.py:369` | `def add(self, sink)` |
+| `append_approval_record` | function | `modules/engagement_hooks.py:567` | `def append_approval_record(record)` |
+| `default` | method | `modules/engagement_hooks.py:358` | `def default(cls)` |
+| `deliver` | method | `modules/engagement_hooks.py:163` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:185` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:220` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:262` | `def deliver(self, event)` |
+| `deliver` | method | `modules/engagement_hooks.py:374` | `def deliver(self, event)` |
+| `get_default_narrator` | function | `modules/engagement_hooks.py:485` | `def get_default_narrator()` |
+| `is_valid_target` | function | `modules/engagement_hooks.py:629` | `def is_valid_target(value)` |
+| `list_pending_approvals` | function | `modules/engagement_hooks.py:578` | `def list_pending_approvals()` |
+| `name` | method | `modules/engagement_hooks.py:159` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:182` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:217` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:256` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:292` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:324` | `def name(self)` |
+| `narrate` | method | `modules/engagement_hooks.py:404` | `def narrate(self, kind, target, message, payload, severity)` |
+| `now` | method | `modules/engagement_hooks.py:128` | `def now(cls, kind, target, message, payload, severity)` |
+| `publish_shell_obtained` | function | `modules/engagement_hooks.py:494` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
+| `render_line` | method | `modules/engagement_hooks.py:147` | `def render_line(self)` |
+| `resolve_approval` | function | `modules/engagement_hooks.py:604` | `def resolve_approval(approval_id, decision, operator)` |
 | `EnrichEngine` | class | `modules/enrich.py:100` | `class EnrichEngine` |
 | `EnrichResult` | class | `modules/enrich.py:30` | `class EnrichResult` |
 | `__init__` | method | `modules/enrich.py:103` | `def __init__(self, max_workers)` |
@@ -445,56 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
 | `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
 | `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
-| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
-| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
-| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
-| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
-| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
-| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
-| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
-| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
-| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
-| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
-| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
-| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
-| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
-| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
-| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
-| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
-| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
-| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
-| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
-| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
-| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
-| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
-| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
-| `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
-| `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
-| `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
-| `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
-| `EvidenceStore` | class | `modules/evidence_store.py:53` | `class EvidenceStore` |
-| `__init__` | method | `modules/evidence_store.py:62` | `def __init__(self, task_id, base_dir)` |
-| `_path_for` | method | `modules/evidence_store.py:77` | `def _path_for(self, digest)` |
-| `_sanitize_digest` | function | `modules/evidence_store.py:32` | `def _sanitize_digest(digest)` |
-| `directory` | method | `modules/evidence_store.py:73` | `def directory(self)` |
-| `fetch` | method | `modules/evidence_store.py:135` | `def fetch(self, digest)` |
-| `gc` | method | `modules/evidence_store.py:153` | `def gc(self, referenced, grace_seconds)` |
-| `has` | method | `modules/evidence_store.py:88` | `def has(self, digest)` |
-| `preserve` | method | `modules/evidence_store.py:93` | `def preserve(self, record)` |
-| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
-| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
-| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
-| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
-| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
-| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
-| `Msg` | struct | `modules/exp.c:100` | `` |
-| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
-| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
-| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
-| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
-| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
-| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
-| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
-| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

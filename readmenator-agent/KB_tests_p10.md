@@ -1,6 +1,54 @@
 # Subsystem: tests (page 10 of 27)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
+## tests/test_daemon_step_reward.py
+- Doc: Contract: the daemon step reward grants the shell tier via the canonical detector.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_reward` (function, line 25) `def _reward(output, phase)`
+  - `test_real_shell_reaches_shell_tier` (function, line 29) `def test_real_shell_reaches_shell_tier()`
+  - `test_msf_session_banner_reaches_shell_tier` (function, line 34) `def test_msf_session_banner_reaches_shell_tier()`
+  - `test_benign_banner_below_shell_tier` (function, line 39) `def test_benign_banner_below_shell_tier()`
+  - `test_failed_step_is_penalized` (function, line 44) `def test_failed_step_is_penalized()`
+- Depends on: `skills/autonomous_daemon.py`
+
+## tests/test_dashboard_routes.py
+- Doc: Integration tests for dashboard_bp loot and timeline routes.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_TestUser` (class, line 16) `class _TestUser(UserMixin)`
+  - `client` (function, line 22) `def client(tmp_path)`
+  - `_write_credentials_file` (function, line 45) `def _write_credentials_file(sessions_dir, filename, lines)`
+  - `_write_hashes_file` (function, line 49) `def _write_hashes_file(sessions_dir, filename, lines)`
+  - `_write_loot_file` (function, line 53) `def _write_loot_file(sessions_dir, rel_path, content)`
+  - `_write_csv_report` (function, line 60) `def _write_csv_report(sessions_dir, rows)`
+  - `_write_events_jsonl` (function, line 69) `def _write_events_jsonl(sessions_dir, events)`
+  - `TestLootRoute` (class, line 75) `class TestLootRoute`
+  - `TestTimelineRoute` (class, line 180) `class TestTimelineRoute`
+  - `TestDashboardIndexRoute` (class, line 391) `class TestDashboardIndexRoute`
+  - `__init__` (method, line 17) `def __init__(self, user_id)`
+  - `load_user` (function, line 34) `def load_user(user_id)`
+  - `test_loot_route_returns_200_with_data` (method, line 78) `def test_loot_route_returns_200_with_data(self, client)`
+  - `test_loot_empty_returns_200` (method, line 107) `def test_loot_empty_returns_200(self, client)`
+  - `test_loot_skips_comment_lines` (method, line 117) `def test_loot_skips_comment_lines(self, client)`
+  - `test_loot_respects_max_entries` (method, line 148) `def test_loot_respects_max_entries(self, client)`
+  - `test_loot_multiple_credential_files` (method, line 165) `def test_loot_multiple_credential_files(self, client)`
+  - `test_timeline_route_returns_200_with_data` (method, line 183) `def test_timeline_route_returns_200_with_data(self, client)`
+  - `test_timeline_empty_returns_200` (method, line 230) `def test_timeline_empty_returns_200(self, client)`
+  - `test_timeline_sorted_newest_first` (method, line 238) `def test_timeline_sorted_newest_first(self, client)`
+  - `test_timeline_handles_csv_tool_column` (method, line 266) `def test_timeline_handles_csv_tool_column(self, client)`
+  - `test_timeline_csv_without_timestamp` (method, line 278) `def test_timeline_csv_without_timestamp(self, client)`
+  - `test_timeline_respects_max_rows` (method, line 296) `def test_timeline_respects_max_rows(self, client)`
+  - `test_timeline_normalizes_iso_timestamps` (method, line 318) `def test_timeline_normalizes_iso_timestamps(self, client)`
+  - `test_timeline_only_events_no_csv` (method, line 339) `def test_timeline_only_events_no_csv(self, client)`
+  - `test_timeline_only_csv_no_events` (method, line 360) `def test_timeline_only_csv_no_events(self, client)`
+  - `test_timeline_handles_malformed_jsonl` (method, line 375) `def test_timeline_handles_malformed_jsonl(self, client)`
+  - `test_dashboard_index_returns_200` (method, line 394) `def test_dashboard_index_returns_200(self, client)`
+  - `test_dashboard_api_data_returns_json` (method, line 401) `def test_dashboard_api_data_returns_json(self, client)`
+- Depends on: `modules/dashboard_bp.py`
+
 ## tests/test_dashboard_tui.py
 - Doc: Tests for cli/dashboard_tui.py.
 - Layer: testing
@@ -438,23 +486,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `name` (method, line 175) `def name(self)`
   - `deliver` (method, line 178) `def deliver(self, event)`
 - Depends on: `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`
-
-## tests/test_engage_summary.py
-- Doc: Tests for modules/engage_summary.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_step` (function, line 45) `def _step(command)`
-  - `test_marker_lines_drop_panels_and_bars` (function, line 54) `def test_marker_lines_drop_panels_and_bars()`
-  - `test_detail_for_ping_extracts_os` (function, line 62) `def test_detail_for_ping_extracts_os()`
-  - `test_detail_for_populate_extracts_services` (function, line 69) `def test_detail_for_populate_extracts_services()`
-  - `test_detail_for_empty_search_is_honest` (function, line 76) `def test_detail_for_empty_search_is_honest()`
-  - `test_held_scan_ports_reads_xml` (function, line 82) `def test_held_scan_ports_reads_xml(tmp_path)`
-  - `test_render_text_shows_skip_with_held_ports` (function, line 91) `def test_render_text_shows_skip_with_held_ports(tmp_path)`
-  - `test_full_output_prefers_evidence` (function, line 104) `def test_full_output_prefers_evidence(tmp_path)`
-  - `test_write_report_persists_markdown` (function, line 114) `def test_write_report_persists_markdown(tmp_path)`
-  - `test_render_markdown_lists_evidence_and_next` (function, line 125) `def test_render_markdown_lists_evidence_and_next()`
-- Depends on: `modules/engage_summary.py`, `modules/evidence.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

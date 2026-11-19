@@ -2137,9 +2137,11 @@ class LazyCommandSet(LazyOwnCommandSet):
         if not args:
             print_error(
                 "Usage: lazy_addon list [service] | lazy_addon run <name> [--target T] | "
-                "lazy_addon update [name|--all] [--dry-run]"
+                "lazy_addon update [name|--all] [--dry-run] | lazy_addon <name> [target]"
             )
             return
+        if args[0] not in ("list", "run", "update"):
+            args = ["run"] + args
         if args[0] == "update":
             from modules.addon_updater import update_all
 

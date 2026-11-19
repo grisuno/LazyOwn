@@ -3,6 +3,21 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `skills/mcp_tools/command_prev.py` | MCP tool ``lazyown_command_prev`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/create_addon.py` | MCP tool ``lazyown_create_addon`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/create_param.py` | MCP tool ``lazyown_create_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/create_tool.py` | MCP tool ``lazyown_create_tool`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/credentials.py` | MCP tool ``lazyown_credentials``: aggregate captured credentials. | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/cron_schedule.py` | MCP tool ``lazyown_cron_schedule`` (migrated from the call_tool dispatch chain). | mcp_tools | 3 | 0 |
+| `skills/mcp_tools/cve_search.py` | MCP tool ``lazyown_cve_search`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon.py` | MCP tool ``lazyown_daemon`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/daemon_approve.py` | MCP tool ``lazyown_daemon_approve`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon_focus.py` | MCP tool ``lazyown_daemon_focus`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon_mode.py` | MCP tool ``lazyown_daemon_mode`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon_pause.py` | MCP tool ``lazyown_daemon_pause`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon_resume.py` | MCP tool ``lazyown_daemon_resume`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon_status.py` | MCP tool ``lazyown_daemon_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/daemon_veto.py` | MCP tool ``lazyown_daemon_veto`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/dashboard_snapshot.py` | MCP tool ``lazyown_dashboard_snapshot``: render the live network map. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/db.py` | MCP tool ``lazyown_db``: query and mutate the LazyOwn SQLite database. | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/delete_param.py` | MCP tool ``lazyown_delete_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -58,6 +73,9 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `skills/mcp_tools/lazy_sync.py` | MCP tool ``lazyown_lazy_sync``: sync all lazy-bridge sources. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lazy_trace.py` | MCP tool ``lazyown_lazy_trace``: search a task activity log. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lazy_workspace.py` | MCP tool ``lazyown_lazy_workspace``: list/read/write workspace files. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazymode_exec.py` | MCP tool ``lazyown_lazymode_exec``: run one lazymode script. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazymode_playbook.py` | MCP tool ``lazyown_lazymode_playbook``: list and run lazymode playbooks. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/lazymode_search.py` | MCP tool ``lazyown_lazymode_search``: discover the lazymode SDK surface. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/lazysearch.py` | MCP tool ``lazyown_lazysearch`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/list_addons.py` | MCP tool ``lazyown_list_addons`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/list_agents.py` | MCP tool ``lazyown_list_agents`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -96,7 +114,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `skills/mcp_tools/rea.py` | MCP tool ``lazyown_rea``: reverse-engineer a local artifact via the REA CLI. | mcp_tools | 3 | 0 |
 | `skills/mcp_tools/reactive_suggest.py` | MCP tool ``lazyown_reactive_suggest`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/read_prompt.py` | MCP tool ``lazyown_read_prompt`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/read_session_file.py` | MCP tool ``lazyown_read_session_file`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/read_session_file.py` | MCP tool ``lazyown_read_session_file``: read a sessions/ artefact. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/recommend_next.py` | MCP tool ``lazyown_recommend_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
 | `skills/mcp_tools/rich_tui_snapshot.py` | MCP tool ``lazyown_rich_tui_snapshot``: non-blocking Rich TUI snapshot. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/run_agent.py` | MCP tool ``lazyown_run_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
@@ -111,7 +129,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `skills/mcp_tools/session_state.py` | MCP tool ``lazyown_session_state`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/session_status.py` | MCP tool ``lazyown_session_status`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/set_active_target.py` | MCP tool ``lazyown_set_active_target`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/set_config.py` | MCP tool ``lazyown_set_config``: set one key in payload.json. | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/set_config.py` | MCP tool ``lazyown_set_config``: set one key in payload.json. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/soul.py` | MCP tool ``lazyown_soul`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/stealth.py` | MCP tool ``lazyown_stealth``: toggle stealth mode for later operations. | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/subagent_run.py` | MCP tool ``lazyown_subagent_run`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
@@ -224,7 +242,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_askpass.py` | Tests for the graphical sudo askpass helpers. | tests | 5 | 0 |
 | `tests/test_asset_gate.py` | Asset gate + un-nerfed outputs + IntelGraph CSP regression tests. | tests | 16 | 0 |
 | `tests/test_atomic_exploit_bridge.py` | Atomic exploit catalogue: one YAML per exploit, engine administered by files. | tests | 38 | 0 |
-| `tests/test_atomic_loop.py` | Atomic emulation inside the autonomous loop (registry + playbooks). | tests | 17 | 0 |
+| `tests/test_atomic_loop.py` | Atomic emulation inside the autonomous loop (registry + playbooks). | tests | 22 | 0 |
 | `tests/test_atomic_resolver.py` | MITRE ATT&CK <-> Atomic Red Team translator contract. | tests | 9 | 0 |
 | `tests/test_attack_surface3d.py` | Attack-surface 3D module: surface+intel fusion + embedded pages. | tests | 8 | 0 |
 | `tests/test_attack_surface_addons.py` | tests/test_attack_surface_addons.py  BDD: Validate cloud, supply-chain, and web attack-surface... | tests | 76 | 0 |
@@ -243,10 +261,11 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_bdd_infra_range_report.py` | BDD scenarios for disposable infra, range, and executive reporting. | tests | 5 | 0 |
 | `tests/test_beacon_config_builder.py` | Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and... | tests | 20 | 0 |
 | `tests/test_beacon_history.py` | BDD-style tests for persistent beacon command/result history storage. | tests | 10 | 0 |
+| `tests/test_beacon_menu.py` | Tests for the implant beacon menu and the autonomous beacon loop. | tests | 38 | 0 |
 | `tests/test_beacon_recon_sink.py` | Beacon recon ingest tests. | tests | 18 | 0 |
 | `tests/test_blacksandbeacon_addon.py` | tests/test_blacksandbeacon_addon.py  Validation suite for the blacksandbeacon and... | tests | 65 | 0 |
 | `tests/test_bof_admin.py` | Tests for modules/bof_admin.py — BOF YAML configuration CRUD. | tests | 27 | 0 |
-| `tests/test_bof_delivery.py` | Tests for modules/bof_delivery.py — client articulation and delivery. | tests | 26 | 0 |
+| `tests/test_bof_delivery.py` | Tests for modules/bof_delivery.py — client articulation and delivery. | tests | 35 | 0 |
 | `tests/test_bof_registry.py` | Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace... | tests | 51 | 0 |
 | `tests/test_bof_repo_contract.py` | Repository-level BOF.yaml consistency for the lazyaddon beacon clients. | tests | 6 | 0 |
 | `tests/test_bootstrap_installer.py` | Integration tests for the installer scripts (no network, no apt). | tests | 14 | 0 |
@@ -308,6 +327,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_conditional_hooks_extended.py` | Tests for extended HookEngine trigger matching. | tests | 17 | 0 |
 | `tests/test_console_stdio.py` | Non-blocking stdio hardening: logging must never crash the shell. | tests | 14 | 0 |
 | `tests/test_contract_manifest.py` | Tests for the contract manifest drift checker. | tests | 4 | 0 |
+| `tests/test_control_plane.py` | Contract tests for modules/loop/control_plane.py. | tests | 14 | 0 |
 | `tests/test_core.py` | ``core`` package and ``utils`` re-export tests. | tests | 47 | 0 |
 | `tests/test_core_command_bridge.py` | Tests for core.command_bridge — CommandBridge lazy shell facade. | tests | 14 | 0 |
 | `tests/test_core_config.py` | Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate. | tests | 19 | 0 |
@@ -328,6 +348,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_daemon_control.py` | Unit tests for skills.daemon_control. | tests | 29 | 0 |
 | `tests/test_daemon_ctl_command_set.py` | Daemon command set extraction tests. | tests | 9 | 0 |
 | `tests/test_daemon_loop.py` | BDD tests for the integrated autonomous loop in the daemon. | tests | 30 | 0 |
+| `tests/test_daemon_reward_contract.py` | Contract tests for the extracted daemon RL reward module. | tests | 10 | 0 |
 | `tests/test_daemon_shell_detector.py` | Contract: the daemon shell detector agrees with the canonical detector. | tests | 8 | 0 |
 | `tests/test_daemon_step_reward.py` | Contract: the daemon step reward grants the shell tier via the canonical detector. | tests | 5 | 0 |
 | `tests/test_dashboard_routes.py` | Integration tests for dashboard_bp loot and timeline routes. | tests | 29 | 0 |
@@ -354,6 +375,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_evidence_hints.py` | Tests for evidence-backed inline hints. | tests | 35 | 0 |
 | `tests/test_evidence_store.py` | Tests for the durable, content-addressed evidence store and its wiring. | tests | 10 | 0 |
 | `tests/test_executor_kernel.py` | Single execution kernel shared by every command runner. | tests | 15 | 0 |
+| `tests/test_exploitdb_command_set.py` | Regression guard for the ExploitDB command set. | tests | 4 | 0 |
 | `tests/test_exploitgym_gym.py` | Tests for the ExploitGym integration module. | tests | 27 | 0 |
 | `tests/test_exploration_and_addons.py` | tests/test_exploration_and_addons.py  Coverage for the new exploration engine and addon schema... | tests | 36 | 0 |
 | `tests/test_exploration_graph_concurrency.py` | Concurrency contract for the per-task exploration graph. | tests | 5 | 0 |
@@ -418,11 +440,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_feedmatch.py` | BDD tests for the lazy feed schema and hard-evidence version matching. | tests | 30 | 0 |
 | `tests/test_lazy_finalizer.py` | Evidence-gated finalization contract. | tests | 10 | 0 |
 | `tests/test_lazy_findings.py` | Tests for modules.lazy_findings — engagement findings ledger. | tests | 30 | 0 |
+| `tests/test_lazy_handoff.py` | Tests for the foothold-to-beacon handoff and OS-aware beacon loop. | tests | 51 | 0 |
 | `tests/test_lazy_hostscore.py` | Host heat score contract: deterministic, capped, auditable priorities. | tests | 9 | 0 |
 | `tests/test_lazy_intel_wiring.py` | Wiring contract tests: loop timeline snapshot + MCP lazy intel tools. | tests | 11 | 0 |
 | `tests/test_lazy_inventory.py` | BDD tests for the host-reported inventory contract. | tests | 12 | 0 |
 | `tests/test_lazy_ledger.py` | Freshness ledger contract: recurring windows are ledger windows. | tests | 11 | 0 |
-| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 49 | 0 |
+| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 53 | 0 |
 | `tests/test_lazy_match_policy.py` | Match policy contract: strands, standing and audited closures. | tests | 8 | 0 |
 | `tests/test_lazy_netattack.py` | Tests for modules.lazy_netattack — Windows attack-surface adjudication. | tests | 17 | 0 |
 | `tests/test_lazy_oob.py` | Contract tests for the lazyoob OOB canary. | tests | 12 | 0 |
@@ -445,6 +468,9 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazygui_backend.py` | Tests for lazygui backend services. | tests | 59 | 0 |
 | `tests/test_lazygui_graph_widget.py` | Tests for lazygui graph widget contracts. | tests | 51 | 0 |
 | `tests/test_lazygui_models.py` | Tests for lazygui domain models. | tests | 42 | 0 |
+| `tests/test_lazyllmchat.py` | Tests for the rescued LazyOwn LLM chat assistant module. | tests | 17 | 0 |
+| `tests/test_lazymode_playbook.py` | Behaviour tests for the lazymode playbook runner. | tests | 9 | 0 |
+| `tests/test_lazymode_runner.py` | Behaviour tests for the lazymode runners and surface index. | tests | 12 | 0 |
 | `tests/test_lazynmap_post.py` | Spec coverage for :mod:`cli.lazynmap_post`. | tests | 16 | 0 |
 | `tests/test_lazynmap_sudo_branches.py` | LazyNmap sudo branches: unattended abort vs interactive prompt. | tests | 4 | 0 |
 | `tests/test_lazypassgen.py` | Tests for modules.lazypassgen — target-aware weak-password generator. | tests | 12 | 0 |
@@ -470,31 +496,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
 | `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
 | `tests/test_loop_cli_catalog.py` | BDD tests for planner prompt visibility into routable CLI verbs. | tests | 7 | 0 |
-| `tests/test_loop_cold_overview.py` | Cold debounce + planner overview parity (lazy 0.3.8 coldgraph). | tests | 6 | 0 |
-| `tests/test_loop_decision_log.py` | Tests for the reproducible loop decision ledger and planner determinism. | tests | 24 | 0 |
-| `tests/test_loop_deterministic_mode.py` | Tests for the reproducible loop mode that prefers heuristic steps. | tests | 18 | 0 |
-| `tests/test_loop_evidence_wiring.py` | BDD tests for the loop evidence loop-closure wiring. | tests | 19 | 0 |
-| `tests/test_loop_exit_gate.py` | Honest loop endings: exit-code mapping, autonomous gate and headless runner. | tests | 13 | 0 |
-| `tests/test_loop_fire_pending.py` | Vertical test: fire-pending intelligence drives a real auto_loop round. | tests | 14 | 0 |
-| `tests/test_loop_force_graph.py` | Loop ForceGraph context regression tests (lazy 0.3.12 fidelity). | tests | 4 | 0 |
-| `tests/test_loop_guard_audit.py` | Guard audit filters + tool_use_id source jump (lazy 0.3.11/0.3.12 parity). | tests | 4 | 0 |
-| `tests/test_loop_guardrails.py` | Loop guardrails: repetition detection, EDR pacing, target caps, vector fact memory. | tests | 18 | 0 |
-| `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
-| `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 19 | 0 |
-| `tests/test_loop_manager.py` | Tests for modules.loop_manager — safe autonomous loop orchestration. | tests | 51 | 0 |
-| `tests/test_loop_manager_outcome.py` | Loop manager outcome propagation: workspace result.json drives status. | tests | 15 | 0 |
-| `tests/test_loop_mentions.py` | Lazy mentions multi-type search and scroll pagination. | tests | 2 | 0 |
-| `tests/test_loop_multi_target.py` | Multi-target loop entry: scope-file parsing, validation and caps. | tests | 6 | 0 |
-| `tests/test_loop_nmap_guard.py` | Loop guardrails: command repair and bounded scanning retests. | tests | 8 | 0 |
-| `tests/test_loop_objective_wiring.py` | Loop wiring fidelity: objective queue and Hermes draft consumption. | tests | 12 | 0 |
-| `tests/test_loop_preflight.py` | Target preflight for loops and auto_pwn: lab state and TCP reachability. | tests | 10 | 0 |
-| `tests/test_loop_progress.py` | Loop milestone panel: inferred stage states stay honest. | tests | 11 | 0 |
-| `tests/test_loop_scope_traffic_evidence.py` | Scope ownership, port-aware traffic search, role-based evidences (lazy parity). | tests | 7 | 0 |
-| `tests/test_loop_spawn_side.py` | Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9). | tests | 4 | 0 |
-| `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
-| `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
-| `tests/test_loop_target_authority.py` | Target authority: --target rebinds payload rhost and scope. | tests | 13 | 0 |
-| `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
-| `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 
 Next: [INDEX_p4.md](INDEX_p4.md)

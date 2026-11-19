@@ -23,7 +23,7 @@
   - `_load_payload` (function, line 23) `def _load_payload()`
   - `_copy_clipboard` (function, line 34) `def _copy_clipboard(text)`
   - `apply` (function, line 46) `def apply(event)`
-- Depends on: `core/config.py`, `core/hardening.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
+- Depends on: `core/config.py`, `core/hardening.py`, `modules/lazy_handoff.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
 - Imported by: `tests/test_outcome_bus.py`
 
 ## modules/sinks/c2_surfaces.py

@@ -1,5 +1,78 @@
-# API (page 21 of 28)
+# API (page 21 of 30)
 Previous: [API_p20.md](API_p20.md)
+
+## modules/vuln_bot_cli.py
+Depends on: `modules/vulnbot.py`
+- `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
+- `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
+
+## modules/vulnbot.py
+Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
+Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
+- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:38` `def __init__(self, provider, mode, debug, script_path)`
+- `list_files` (function) `modules/vulnbot.py:149` `def list_files(directory)` -- Lista archivos en un directorio
+- `read_file` (function) `modules/vulnbot.py:153` `def read_file(path)` -- Lee contenido de un archivo
+- `edit_file` (function) `modules/vulnbot.py:158` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
+- `generate` (function) `modules/vulnbot.py:202` `def generate()`
+- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:208` `def load_knowledge_base(self)` -- Load the knowledge base in any known shape.
+- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:224` `def save_knowledge_base(self, kb)`
+- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:228` `def get_relevant_knowledge(self, prompt)` -- Return knowledge responses whose text shares keywords with the prompt.
+- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:251` `def create_complex_prompt(self, base_prompt, history, knowledge)`
+- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:267` `def read_file_content(self, file_path)`
+- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:273` `def load_event_config(self)`
+- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:281` `def process_with_context(self, file_path, event)`
+- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:297` `def stream_response(self, prompt)`
+- `generate` (function) `modules/vulnbot.py:298` `def generate()`
+- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:303` `def add_to_knowledge_base(self, prompt, response)` -- Append a prompt/response record in the canonical list format.
+
+## modules/websocket_beacon.py
+Depends on: `core/hardening.py`
+- `WebSocketBeacon.__init__` (method) `modules/websocket_beacon.py:62` `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+- `WebSocketBeacon.connect` (method) `modules/websocket_beacon.py:122` `def connect(self)` -- Establish WebSocket connection to the C2 server.
+- `WebSocketBeacon.check_in` (method) `modules/websocket_beacon.py:157` `def check_in(self)` -- Send heartbeat and retrieve pending tasks.
+- `WebSocketBeacon.send_result` (method) `modules/websocket_beacon.py:191` `def send_result(self, task_id, output, exit_code)` -- Send command execution result back to C2.
+- `WebSocketBeacon.run` (method) `modules/websocket_beacon.py:214` `def run(self, command_handler)` -- Main beacon loop with check-in and command execution.
+- `WebSocketBeacon.shutdown` (method) `modules/websocket_beacon.py:263` `def shutdown(self)` -- Gracefully shutdown the beacon.
+- `WebSocketC2Handler.__init__` (method) `modules/websocket_beacon.py:288` `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+- `WebSocketC2Handler.start` (method) `modules/websocket_beacon.py:382` `def start(self)` -- Start the WebSocket C2 server.
+- `WebSocketC2Handler.stop` (method) `modules/websocket_beacon.py:392` `def stop(self)` -- Stop the WebSocket C2 server.
+- `WebSocketC2Handler.start_in_thread` (method) `modules/websocket_beacon.py:399` `def start_in_thread(self)` -- Start the WebSocket C2 server in a background thread.
+- `WebSocketC2Handler.send_task` (method) `modules/websocket_beacon.py:416` `def send_task(self, beacon_id, command)` -- Send a command task to a specific beacon.
+- `WebSocketC2Handler.list_beacons` (method) `modules/websocket_beacon.py:447` `def list_beacons(self)` -- List all connected beacons.
+- `WebSocketC2Handler.remove_stale_beacons` (method) `modules/websocket_beacon.py:464` `def remove_stale_beacons(self, timeout)` -- Remove beacons that have not checked in within the timeout.
+
+## modules/win_rootkit/backup.c
+- `elp` (function) `modules/win_rootkit/backup.c:66` `void elp()`
+- `ensure_pid_file_exists` (function) `modules/win_rootkit/backup.c:86` `void ensure_pid_file_exists()`
+- `ensure_key_file_exists` (function) `modules/win_rootkit/backup.c:123` `void ensure_key_file_exists()`
+- `ensure_hide_file_exists` (function) `modules/win_rootkit/backup.c:150` `void ensure_hide_file_exists()`
+- `infect_command` (function) `modules/win_rootkit/backup.c:179` `void infect_command()`
+- `handle_client` (function) `modules/win_rootkit/backup.c:204` `DWORD WINAPI handle_client(LPVOID client_socket)`
+- `monitor_shell` (function) `modules/win_rootkit/backup.c:430` `DWORD WINAPI monitor_shell(LPVOID data)`
+- `main` (function) `modules/win_rootkit/backup.c:540` `int main()`
+
+## modules/win_rootkit/mrhyde.c
+- `RunExperiment` (function) `modules/win_rootkit/mrhyde.c:19` `void __cdecl RunExperiment()` -- Define the RunExperiment function
+- `load_hidden_pids` (function) `modules/win_rootkit/mrhyde.c:24` `void load_hidden_pids()`
+- `load_hidden_files` (function) `modules/win_rootkit/mrhyde.c:47` `void load_hidden_files()`
+- `FindProcessId` (function) `modules/win_rootkit/mrhyde.c:89` `DWORD FindProcessId(const char* processName)`
+- `HideProcessByPID` (function) `modules/win_rootkit/mrhyde.c:115` `void HideProcessByPID(DWORD pid)`
+- `search_pid` (function) `modules/win_rootkit/mrhyde.c:137` `BOOL search_pid()`
+- `should_hide_pid` (function) `modules/win_rootkit/mrhyde.c:147` `BOOL should_hide_pid(DWORD pid)`
+- `should_hide_file` (function) `modules/win_rootkit/mrhyde.c:161` `BOOL should_hide_file(const char* filename)`
+- `HookedFindFirstFile` (function) `modules/win_rootkit/mrhyde.c:171` `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindFirstFile
+- `HookedFindNextFile` (function) `modules/win_rootkit/mrhyde.c:180` `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindNextFile
+- `HookedCreateToolhelp32Snapshot` (function) `modules/win_rootkit/mrhyde.c:189` `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` -- Hook para CreateToolhelp32Snapshot
+- `HookedProcess32First` (function) `modules/win_rootkit/mrhyde.c:198` `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32First
+- `HookedProcess32Next` (function) `modules/win_rootkit/mrhyde.c:210` `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32Next
+- `HookFunctions` (function) `modules/win_rootkit/mrhyde.c:222` `void HookFunctions()` -- Función para realizar el hooking de las funciones
+- `DllMain` (function) `modules/win_rootkit/mrhyde.c:272` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/win_rootkit/win_rin3_rootkit.cs
+- `SID.GetUsernameFromPid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:145`
+- `SID.ShouldHidePid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:203`
+- `SID.HookFindFirstFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:214`
+- `SID.HookCreateFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:226`
 
 ## modules/win_rootkit/win_ring3_rootkit.c
 - `DownloadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:79` `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)`
@@ -133,17 +206,17 @@ Depends on: `core/config.py`, `modules/ai_model.py`, `modules/llm_factory.py`
 
 ## modules/yara_scanner.py
 Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
-- `YaraScanner.__init__` (method) `modules/yara_scanner.py:31` `def __init__(self, rules_dir, auto_compile)`
-- `YaraScanner.ensure_directory` (method) `modules/yara_scanner.py:41` `def ensure_directory(self)` -- Create the YARA rules directory if it does not exist.
-- `YaraScanner.compile_all` (method) `modules/yara_scanner.py:54` `def compile_all(self)` -- Compile all .yar files in the rules directory.
-- `YaraScanner.scan_file` (method) `modules/yara_scanner.py:98` `def scan_file(self, filepath, timeout)` -- Scan a single file with all compiled YARA rules.
-- `target` (function) `modules/yara_scanner.py:137` `def target()`
-- `YaraScanner.scan_directory` (method) `modules/yara_scanner.py:187` `def scan_directory(self, directory, recursive, extensions, max_files)` -- Scan all files in a directory recursively.
-- `YaraScanner.add_rule` (method) `modules/yara_scanner.py:258` `def add_rule(self, name, content)` -- Add a new YARA rule to the rules directory.
-- `YaraScanner.list_rules` (method) `modules/yara_scanner.py:277` `def list_rules(self)` -- List all YARA rules in the rules directory.
-- `YaraScanner.download_community_rules` (method) `modules/yara_scanner.py:300` `def download_community_rules(self)` -- Attempt to download community YARA rules from popular repositories.
-- `YaraScanner.ioc_scan` (method) `modules/yara_scanner.py:328` `def ioc_scan(self, target_path, iocs)` -- Scan for IOCs (hashes, strings, registry keys) in a file/directory.
-- `create_default_rules` (function) `modules/yara_scanner.py:371` `def create_default_rules()` -- Create a set of default YARA rules for common threats.
+- `YaraScanner.__init__` (method) `modules/yara_scanner.py:32` `def __init__(self, rules_dir, auto_compile)`
+- `YaraScanner.ensure_directory` (method) `modules/yara_scanner.py:42` `def ensure_directory(self)` -- Create the YARA rules directory if it does not exist.
+- `YaraScanner.compile_all` (method) `modules/yara_scanner.py:55` `def compile_all(self)` -- Compile all .yar files in the rules directory.
+- `YaraScanner.scan_file` (method) `modules/yara_scanner.py:99` `def scan_file(self, filepath, timeout)` -- Scan a single file with all compiled YARA rules.
+- `target` (function) `modules/yara_scanner.py:138` `def target()`
+- `YaraScanner.scan_directory` (method) `modules/yara_scanner.py:188` `def scan_directory(self, directory, recursive, extensions, max_files)` -- Scan all files in a directory recursively.
+- `YaraScanner.add_rule` (method) `modules/yara_scanner.py:259` `def add_rule(self, name, content)` -- Add a new YARA rule to the rules directory.
+- `YaraScanner.list_rules` (method) `modules/yara_scanner.py:278` `def list_rules(self)` -- List all YARA rules in the rules directory.
+- `YaraScanner.download_community_rules` (method) `modules/yara_scanner.py:301` `def download_community_rules(self)` -- Attempt to download community YARA rules from popular repositories.
+- `YaraScanner.ioc_scan` (method) `modules/yara_scanner.py:331` `def ioc_scan(self, target_path, iocs)` -- Scan for IOCs (hashes, strings, registry keys) in a file/directory.
+- `create_default_rules` (function) `modules/yara_scanner.py:374` `def create_default_rules()` -- Create a set of default YARA rules for common threats.
 
 ## plugins/generate_c_reverse_shell.lua
 - `generate_c_reverse_shell` (function) `plugins/generate_c_reverse_shell.lua:1`
@@ -293,7 +366,7 @@ Depends on: `poc_tui/config.py`
 
 ## poc_tui/run.py
 Depends on: `poc_tui/app.py`
-Imported by: `static/hexabot/hexabot-spinner.js`
+Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `static/hexabot/hexabot-spinner.js`
 - `main` (function) `poc_tui/run.py:9` `def main()`
 
 ## readmeneitor.py
@@ -312,14 +385,6 @@ Imported by: `static/hexabot/hexabot-spinner.js`
 ## run_topoexploit_agent.sh
 - `banner` (function) `run_topoexploit_agent.sh:29`
 - `start_api` (function) `run_topoexploit_agent.sh:38`
-
-## scripts/activate_migrations.py
-- `find_migrated_sets` (function) `scripts/activate_migrations.py:32` `def find_migrated_sets()` -- Return paths to all *_migrated.py files using PendingCommandSet.
-- `extract_command_names` (function) `scripts/activate_migrations.py:42` `def extract_command_names(migrated_path)` -- Extract do_* method names from a migrated CommandSet file.
-- `find_in_lazyown` (function) `scripts/activate_migrations.py:52` `def find_in_lazyown(command_names)` -- Return {name: (start_line, end_line)} for commands in lazyown.py.
-- `remove_from_lazyown` (function) `scripts/activate_migrations.py:62` `def remove_from_lazyown(locations, dry_run)` -- Remove the specified do_* methods from lazyown.py.
-- `activate_migrated_file` (function) `scripts/activate_migrations.py:75` `def activate_migrated_file(migrated_path, dry_run)` -- Change PendingCommandSet to LazyOwnCommandSet in the migrated file.
-- `main` (function) `scripts/activate_migrations.py:88` `def main()`
 
 ## scripts/backfill_addon_os_trigger.py
 - `classify_os` (function) `scripts/backfill_addon_os_trigger.py:104` `def classify_os(filename)` -- Return a MITRE-platform string for the addon based on filename.
@@ -429,72 +494,6 @@ Imported by: `skills/mcp_tools/opencode_config.py`
 - `patch_opencode` (function) `scripts/lazy_opencode_config.py:46` `def patch_opencode(set_default, host)` -- Merge the llamacpp provider into the opencode config.
 - `patch_hermes` (function) `scripts/lazy_opencode_config.py:93` `def patch_hermes(host)` -- Point the hermes config at the local llama.cpp server.
 - `main` (function) `scripts/lazy_opencode_config.py:150` `def main(argv)` -- CLI entry: ``--target opencode|hermes|both [--set-default]``.
-
-## scripts/mcp_call.py
-- `_ToolAnswer.__init__` (method) `scripts/mcp_call.py:46` `def __init__(self, text, is_error)`
-- `main` (function) `scripts/mcp_call.py:173` `def main(argv)` -- Parse the CLI, execute one MCP tool and print its answer.
-
-## scripts/migrate_commandsets.py
-- `merge_phase` (function) `scripts/migrate_commandsets.py:117` `def merge_phase(phase, dry_run)` -- Merge one phase's migrated methods into its clean file.
-- `main` (function) `scripts/migrate_commandsets.py:158` `def main()`
-
-## scripts/migrate_lazyown.py
-Imported by: `tests/test_migrate_lazyown_generator.py`
-- `extract_method` (function) `scripts/migrate_lazyown.py:88` `def extract_method(source, node)` -- Return the raw source text of a function definition.
-- `rewrite_globals` (function) `scripts/migrate_lazyown.py:96` `def rewrite_globals(method_source)` -- Replace bare module-global names with ``self.params[...]``.
-- `build_migrated_module` (function) `scripts/migrate_lazyown.py:124` `def build_migrated_module(phase, category, methods)` -- Return the source text of a migrated ``CommandSet`` module.
-- `main` (function) `scripts/migrate_lazyown.py:173` `def main()`
-
-## scripts/mutate.sh
-- `runners` (function) `scripts/mutate.sh:29`
-- `changed_sources` (function) `scripts/mutate.sh:33`
-- `usage` (function) `scripts/mutate.sh:40`
-
-## scripts/mutation_gate.py
-- `discover_runners` (function) `scripts/mutation_gate.py:25` `def discover_runners()` -- Return sorted curated mutation runners.
-- `run_runner` (function) `scripts/mutation_gate.py:34` `def run_runner(path, timeout_s)` -- Execute one mutation runner.
-- `main` (function) `scripts/mutation_gate.py:63` `def main(argv)` -- Entry point for the mutation gate.
-
-## scripts/publish_wiki.sh
-- `log` (function) `scripts/publish_wiki.sh:37`
-- `fail` (function) `scripts/publish_wiki.sh:38`
-- `write_home` (function) `scripts/publish_wiki.sh:58`
-- `write_installation` (function) `scripts/publish_wiki.sh:92`
-- `write_c2_api` (function) `scripts/publish_wiki.sh:150`
-- `write_plugins` (function) `scripts/publish_wiki.sh:174`
-- `write_sidebar` (function) `scripts/publish_wiki.sh:188`
-- `write_footer` (function) `scripts/publish_wiki.sh:207`
-
-## scripts/read_journal.py
-Depends on: `scripts/journal.py`
-- `main` (function) `scripts/read_journal.py:29` `def main(argv)` -- Print the recent journal entries and return the process exit code.
-
-## scripts/smoke_onboarding.sh
-- `check` (function) `scripts/smoke_onboarding.sh:8`
-
-## scripts/sync_doc_stats.py
-- `canonical_command_count` (function) `scripts/sync_doc_stats.py:87` `def canonical_command_count(root)` -- Read the canonical command count from the committed command index.
-- `project_version` (function) `scripts/sync_doc_stats.py:100` `def project_version(root)` -- Read the package version from pyproject.toml, ``0.0.0`` when absent.
-- `measure_stats` (function) `scripts/sync_doc_stats.py:109` `def measure_stats(root)` -- Measure every published count from the live tree.
-- `render` (function) `scripts/sync_doc_stats.py:136` `def render(template, stats)` -- Format one replacement template with the measured stats.
-- `sync` (function) `scripts/sync_doc_stats.py:141` `def sync(check, stats, root)` -- Apply or verify every replacement; return the list of stale spots.
-- `main` (function) `scripts/sync_doc_stats.py:165` `def main()` -- CLI entry point.
-
-## scripts/top_tier_check.py
-- `fail` (function) `scripts/top_tier_check.py:23` `def fail(message)`
-- `ok` (function) `scripts/top_tier_check.py:28` `def ok(message)`
-- `count_cli_commands` (function) `scripts/top_tier_check.py:32` `def count_cli_commands()`
-- `count_mcp_tools` (function) `scripts/top_tier_check.py:43` `def count_mcp_tools()`
-- `count_addons` (function) `scripts/top_tier_check.py:48` `def count_addons()`
-- `check_versions` (function) `scripts/top_tier_check.py:52` `def check_versions()`
-- `check_doc_counts` (function) `scripts/top_tier_check.py:70` `def check_doc_counts(commands, mcp, addons)`
-- `check_tracked_secrets` (function) `scripts/top_tier_check.py:81` `def check_tracked_secrets()`
-- `check_release_inputs` (function) `scripts/top_tier_check.py:108` `def check_release_inputs()`
-- `main` (function) `scripts/top_tier_check.py:116` `def main()`
-
-## scripts/update_apt_atomic_ids.py
-- `build_technique_index` (function) `scripts/update_apt_atomic_ids.py:22` `def build_technique_index(atomics_path)` -- Map technique_id -> list of {atomic_id, name, description}.
-- `update_playbooks` (function) `scripts/update_apt_atomic_ids.py:46` `def update_playbooks(index, playbook_dir)`
 
 
 Next: [API_p22.md](API_p22.md)

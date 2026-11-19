@@ -1,6 +1,30 @@
 # Subsystem: mcp_tools (page 3 of 4)
 Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 
+## skills/mcp_tools/list_plugins.py
+- Doc: MCP tool ``lazyown_list_plugins`` (migrated from the call_tool dispatch chain).
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `handle` (function, line 17) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/list_sessions.py
+- Doc: MCP tool ``lazyown_list_sessions`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 26) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/list_targets.py
+- Doc: MCP tool ``lazyown_list_targets`` (migrated from the call_tool dispatch chain).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `handle` (function, line 30) `def handle(arguments, tool_name, ctx)`
+- Depends on: `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/llm_ask.py
 - Doc: MCP tool ``lazyown_llm_ask`` (migrated from the call_tool dispatch chain).
 - Layer: utility
@@ -241,12 +265,12 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Depends on: `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/read_session_file.py
-- Doc: MCP tool ``lazyown_read_session_file`` (migrated from the call_tool dispatch chain).
+- Doc: MCP tool ``lazyown_read_session_file``: read a sessions/ artefact.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `handle` (function, line 26) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
+  - `handle` (function, line 34) `def handle(arguments, tool_name, ctx)`
+- Depends on: `sdk/__init__.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/recommend_next.py
 - Doc: MCP tool ``lazyown_recommend_next`` (migrated from the call_tool dispatch chain).
@@ -369,9 +393,8 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `handle` (function, line 36) `def handle(arguments, tool_name, ctx)`
-  - `coerce_value` (function, line 46) `def coerce_value(coerce_key, coerce_value_in)`
-- Depends on: `core/payload_schema.py`, `skills/mcp_tools/_context.py`
+  - `handle` (function, line 37) `def handle(arguments, tool_name, ctx)`
+- Depends on: `core/payload_schema.py`, `sdk/__init__.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/soul.py
 - Doc: MCP tool ``lazyown_soul`` (migrated from the call_tool dispatch chain).
@@ -469,30 +492,6 @@ Previous: [KB_mcp_tools_p2.md](KB_mcp_tools_p2.md)
 - Symbols:
   - `handle` (function, line 47) `def handle(arguments, tool_name, ctx)`
 - Depends on: `modules/atomic_resolver.py`, `modules/ttpscope_bridge.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/unified_dashboard.py
-- Doc: MCP tool ``lazyown_unified_dashboard``: combined campaign dashboard.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 34) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/unified_dashboard.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_eventlogs.py
-- Doc: MCP tool ``lazyown_winbox_eventlogs``: query guest Windows event logs.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `handle` (function, line 36) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/winbox_exec.py
-- Doc: MCP tool ``lazyown_winbox_exec``: run a command inside the WinBox guest.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 38) `def handle(arguments, tool_name, ctx)`
-- Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
 
 
 Next: [KB_mcp_tools_p4.md](KB_mcp_tools_p4.md)

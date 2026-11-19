@@ -1,6 +1,33 @@
 # Subsystem: tests (page 9 of 27)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
+## tests/test_core_defaults.py
+- Doc: Build-time defaults are data, not literals.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
+  - `TestLoader` (class, line 28) `class TestLoader`
+  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
+  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
+  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
+  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
+  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
+  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
+  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
+  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
+  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
+  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
+  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
+  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
+  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
+  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
+  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
+  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
+  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
+  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
+- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
+
 ## tests/test_core_executor.py
 - Doc: Tests for core.executor — safe_run and run_shell subprocess wrappers.
 - Layer: testing
@@ -312,12 +339,12 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `sessions` (function, line 27) `def sessions(tmp_path, monkeypatch)`
   - `test_catalogue_for_known_scenarios` (function, line 33) `def test_catalogue_for_known_scenarios()`
   - `test_collect_captures_matches_sweep` (function, line 41) `def test_collect_captures_matches_sweep(sessions, fake_catalogue, monkeypatch)`
-  - `test_capture_binds_checker_to_vector_objective` (function, line 51) `def test_capture_binds_checker_to_vector_objective()`
-  - `test_capture_honours_declared_checkers` (function, line 64) `def test_capture_honours_declared_checkers()`
-  - `test_collect_idempotent_and_missing` (function, line 72) `def test_collect_idempotent_and_missing(sessions, fake_catalogue, monkeypatch)`
-  - `test_collect_uses_payload_rhost_when_target_empty` (function, line 85) `def test_collect_uses_payload_rhost_when_target_empty(sessions, fake_catalogue, monkeypatch)`
-  - `test_render_scoreboard` (function, line 91) `def test_render_scoreboard(sessions, fake_catalogue)`
-  - `test_save_scoreboard` (function, line 100) `def test_save_scoreboard(sessions, fake_catalogue)`
+  - `test_capture_binds_checker_to_vector_objective` (function, line 51) `def test_capture_binds_checker_to_vector_objective(tmp_path)`
+  - `test_capture_honours_declared_checkers` (function, line 70) `def test_capture_honours_declared_checkers(tmp_path)`
+  - `test_collect_idempotent_and_missing` (function, line 81) `def test_collect_idempotent_and_missing(sessions, fake_catalogue, monkeypatch)`
+  - `test_collect_uses_payload_rhost_when_target_empty` (function, line 94) `def test_collect_uses_payload_rhost_when_target_empty(sessions, fake_catalogue, monkeypatch)`
+  - `test_render_scoreboard` (function, line 100) `def test_render_scoreboard(sessions, fake_catalogue)`
+  - `test_save_scoreboard` (function, line 109) `def test_save_scoreboard(sessions, fake_catalogue)`
 - Depends on: `modules/ctf_capture.py`, `modules/ctf_signalman.py`
 
 ## tests/test_cve_pipeline.py
@@ -427,6 +454,22 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `plan` (method, line 173) `def plan(self, target, max_candidates)`
 - Depends on: `modules/db.py`, `modules/obs_parser.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_objective.py`
 
+## tests/test_daemon_reward_contract.py
+- Doc: Contract tests for the extracted daemon RL reward module.
+- Language: py
+- Symbols:
+  - `_FakeTrainer` (class, line 26) `class _FakeTrainer`
+  - `test_failure_returns_failure_reward` (function, line 54) `def test_failure_returns_failure_reward()`
+  - `test_real_shell_reaches_shell_tier` (function, line 58) `def test_real_shell_reaches_shell_tier()`
+  - `test_novelty_penalty_lowers_repeated_command` (function, line 63) `def test_novelty_penalty_lowers_repeated_command()`
+  - `test_record_rl_feedback_uses_distinct_states` (function, line 69) `def test_record_rl_feedback_uses_distinct_states()`
+  - `test_record_rl_feedback_carries_ema_forward` (function, line 93) `def test_record_rl_feedback_carries_ema_forward()`
+  - `__init__` (method, line 29) `def __init__(self)`
+  - `encode_state` (method, line 34) `def encode_state(self, task_type, engagement_phase, recent_reward_ema)`
+  - `update` (method, line 38) `def update(self, state, action, reward, next_state, candidates, detection_prob)`
+  - `save` (method, line 50) `def save(self)`
+- Depends on: `modules/loop/daemon_reward.py`
+
 ## tests/test_daemon_shell_detector.py
 - Doc: Contract: the daemon shell detector agrees with the canonical detector.
 - Layer: testing
@@ -441,54 +484,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `__init__` (method, line 28) `def __init__(self)`
   - `narrate` (method, line 31) `def narrate(self)`
 - Depends on: `modules/__init__.py`, `skills/autonomous_daemon.py`
-
-## tests/test_daemon_step_reward.py
-- Doc: Contract: the daemon step reward grants the shell tier via the canonical detector.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_reward` (function, line 25) `def _reward(output, phase)`
-  - `test_real_shell_reaches_shell_tier` (function, line 29) `def test_real_shell_reaches_shell_tier()`
-  - `test_msf_session_banner_reaches_shell_tier` (function, line 34) `def test_msf_session_banner_reaches_shell_tier()`
-  - `test_benign_banner_below_shell_tier` (function, line 39) `def test_benign_banner_below_shell_tier()`
-  - `test_failed_step_is_penalized` (function, line 44) `def test_failed_step_is_penalized()`
-- Depends on: `skills/autonomous_daemon.py`
-
-## tests/test_dashboard_routes.py
-- Doc: Integration tests for dashboard_bp loot and timeline routes.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_TestUser` (class, line 16) `class _TestUser(UserMixin)`
-  - `client` (function, line 22) `def client(tmp_path)`
-  - `_write_credentials_file` (function, line 45) `def _write_credentials_file(sessions_dir, filename, lines)`
-  - `_write_hashes_file` (function, line 49) `def _write_hashes_file(sessions_dir, filename, lines)`
-  - `_write_loot_file` (function, line 53) `def _write_loot_file(sessions_dir, rel_path, content)`
-  - `_write_csv_report` (function, line 60) `def _write_csv_report(sessions_dir, rows)`
-  - `_write_events_jsonl` (function, line 69) `def _write_events_jsonl(sessions_dir, events)`
-  - `TestLootRoute` (class, line 75) `class TestLootRoute`
-  - `TestTimelineRoute` (class, line 180) `class TestTimelineRoute`
-  - `TestDashboardIndexRoute` (class, line 391) `class TestDashboardIndexRoute`
-  - `__init__` (method, line 17) `def __init__(self, user_id)`
-  - `load_user` (function, line 34) `def load_user(user_id)`
-  - `test_loot_route_returns_200_with_data` (method, line 78) `def test_loot_route_returns_200_with_data(self, client)`
-  - `test_loot_empty_returns_200` (method, line 107) `def test_loot_empty_returns_200(self, client)`
-  - `test_loot_skips_comment_lines` (method, line 117) `def test_loot_skips_comment_lines(self, client)`
-  - `test_loot_respects_max_entries` (method, line 148) `def test_loot_respects_max_entries(self, client)`
-  - `test_loot_multiple_credential_files` (method, line 165) `def test_loot_multiple_credential_files(self, client)`
-  - `test_timeline_route_returns_200_with_data` (method, line 183) `def test_timeline_route_returns_200_with_data(self, client)`
-  - `test_timeline_empty_returns_200` (method, line 230) `def test_timeline_empty_returns_200(self, client)`
-  - `test_timeline_sorted_newest_first` (method, line 238) `def test_timeline_sorted_newest_first(self, client)`
-  - `test_timeline_handles_csv_tool_column` (method, line 266) `def test_timeline_handles_csv_tool_column(self, client)`
-  - `test_timeline_csv_without_timestamp` (method, line 278) `def test_timeline_csv_without_timestamp(self, client)`
-  - `test_timeline_respects_max_rows` (method, line 296) `def test_timeline_respects_max_rows(self, client)`
-  - `test_timeline_normalizes_iso_timestamps` (method, line 318) `def test_timeline_normalizes_iso_timestamps(self, client)`
-  - `test_timeline_only_events_no_csv` (method, line 339) `def test_timeline_only_events_no_csv(self, client)`
-  - `test_timeline_only_csv_no_events` (method, line 360) `def test_timeline_only_csv_no_events(self, client)`
-  - `test_timeline_handles_malformed_jsonl` (method, line 375) `def test_timeline_handles_malformed_jsonl(self, client)`
-  - `test_dashboard_index_returns_200` (method, line 394) `def test_dashboard_index_returns_200(self, client)`
-  - `test_dashboard_api_data_returns_json` (method, line 401) `def test_dashboard_api_data_returns_json(self, client)`
-- Depends on: `modules/dashboard_bp.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

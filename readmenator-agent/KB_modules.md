@@ -53,7 +53,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/browser_sync.py`, `cli/commands/exploitdb.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyops.py`, `cli/commands/loop_audit.py`, `cli/commands/netattack.py`, `cli/commands/pwn.py`, `cli/commands/sidequest.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/bof_delivery.py`, `modules/browser_sync.py`, `modules/chain_runner.py`, `modules/ctf_signalman.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_gating.py`, `modules/loop_guardrails.py`, `modules/loop_preflight.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/edb.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/verb_catalog.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `skills/mcp_tools/lazy_intel.py`, `skills/mcp_tools/lazy_workspace.py`, `skills/mcp_tools/winbox_eventlogs.py`, `skills/mcp_tools/winbox_exec.py`, `skills/mcp_tools/winbox_gym_list.py`, `skills/mcp_tools/winbox_gym_plan.py`, `skills/mcp_tools/winbox_gym_run.py`, `skills/mcp_tools/winbox_snapshot.py`, `skills/mcp_tools/winbox_status.py`, `skills/mcp_tools/winbox_tools.py`, `skills/mcp_tools/winbox_vm.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_coverage.py`, `tests/test_autonomous_ops.py`, `tests/test_bprfuzzer_identity.py`, `tests/test_browser_sync.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_daemon_shell_detector.py`, `tests/test_defense_stages.py`, `tests/test_finding_enrich.py`, `tests/test_golden_path.py`, `tests/test_gym_cleanup_policy.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_intel_selector.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_autofire.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_finalizer.py`, `tests/test_lazy_intel_wiring.py`, `tests/test_lazy_inventory.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_search.py`, `tests/test_lazy_sentinel.py`, `tests/test_lazy_timeline.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_audit.py`, `tests/test_loop_audit_feedback.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_manager_outcome.py`, `tests/test_loop_mentions.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_preflight.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_pacing.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_selection_module.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_session_brief.py`, `tests/test_shell_session_store.py`, `tests/test_sidequest.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/browser_sync.py`, `cli/commands/exploitdb.py`, `cli/commands/exposure_autofire.py`, `cli/commands/exposure_intel.py`, `cli/commands/exposure_inventory.py`, `cli/commands/exposure_sentinel.py`, `cli/commands/exposure_timeline.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazy_poc.py`, `cli/commands/lazyops.py`, `cli/commands/loop_audit.py`, `cli/commands/netattack.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `cli/commands/sidequest.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/bof_delivery.py`, `modules/browser_sync.py`, `modules/chain_runner.py`, `modules/ctf_signalman.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_gating.py`, `modules/loop_guardrails.py`, `modules/loop_preflight.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/edb.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/verb_catalog.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `skills/mcp_tools/lazy_intel.py`, `skills/mcp_tools/lazy_workspace.py`, `skills/mcp_tools/winbox_eventlogs.py`, `skills/mcp_tools/winbox_exec.py`, `skills/mcp_tools/winbox_gym_list.py`, `skills/mcp_tools/winbox_gym_plan.py`, `skills/mcp_tools/winbox_gym_run.py`, `skills/mcp_tools/winbox_snapshot.py`, `skills/mcp_tools/winbox_status.py`, `skills/mcp_tools/winbox_tools.py`, `skills/mcp_tools/winbox_vm.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_coverage.py`, `tests/test_autonomous_ops.py`, `tests/test_bprfuzzer_identity.py`, `tests/test_browser_sync.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_daemon_shell_detector.py`, `tests/test_defense_stages.py`, `tests/test_finding_enrich.py`, `tests/test_golden_path.py`, `tests/test_gym_cleanup_policy.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_intel_selector.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_autofire.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_finalizer.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_intel_wiring.py`, `tests/test_lazy_inventory.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_search.py`, `tests/test_lazy_sentinel.py`, `tests/test_lazy_timeline.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_audit.py`, `tests/test_loop_audit_feedback.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_manager_outcome.py`, `tests/test_loop_mentions.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_preflight.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_pacing.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_selection_module.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_session_brief.py`, `tests/test_session_reclaim.py`, `tests/test_shell_session_store.py`, `tests/test_sidequest.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
 
 ## modules/ad_gym.py
 - Doc: AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
@@ -201,45 +201,50 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: business_logic
 - Language: py
 - Symbols:
-  - `AIModel` (class, line 45) `class AIModel(ABC)`
-  - `_LazyImporter` (class, line 97) `class _LazyImporter`
-  - `GroqModel` (class, line 129) `class GroqModel(AIModel)`
-  - `OllamaModel` (class, line 244) `class OllamaModel(AIModel)`
-  - `LlamaCppModel` (class, line 313) `class LlamaCppModel(AIModel)`
-  - `OpenAIModel` (class, line 434) `class OpenAIModel(AIModel)`
-  - `AnthropicModel` (class, line 493) `class AnthropicModel(AIModel)`
-  - `DeepSeekModel` (class, line 549) `class DeepSeekModel(AIModel)`
-  - `generate` (method, line 56) `def generate(self, prompt)`
-  - `stream_generate` (method, line 60) `def stream_generate(self, prompt)`
-  - `complete` (method, line 63) `def complete(self, system, user, max_tokens, temperature)`
-  - `groq` (method, line 105) `def groq(cls)`
-  - `openai` (method, line 113) `def openai(cls)`
-  - `anthropic` (method, line 121) `def anthropic(cls)`
-  - `__init__` (method, line 137) `def __init__(self, api_key, model)`
-  - `_model_chain` (method, line 141) `def _model_chain(self)`
-  - `generate` (method, line 155) `def generate(self, prompt)`
-  - `stream_generate` (method, line 183) `def stream_generate(self, prompt)`
-  - `complete` (method, line 216) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 252) `def __init__(self, model, host)`
-  - `generate` (method, line 260) `def generate(self, prompt)`
-  - `stream_generate` (method, line 281) `def stream_generate(self, prompt)`
-  - `__init__` (method, line 324) `def __init__(self, model, host)`
-  - `_chat` (method, line 341) `def _chat(self, messages, max_tokens, stream)`
-  - `generate` (method, line 362) `def generate(self, prompt)`
-  - `stream_generate` (method, line 382) `def stream_generate(self, prompt)`
-  - `complete` (method, line 413) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 440) `def __init__(self, api_key, model)`
-  - `generate` (method, line 444) `def generate(self, prompt)`
-  - `stream_generate` (method, line 455) `def stream_generate(self, prompt)`
-  - `complete` (method, line 470) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 499) `def __init__(self, api_key, model)`
-  - `generate` (method, line 503) `def generate(self, prompt)`
-  - `stream_generate` (method, line 515) `def stream_generate(self, prompt)`
-  - `complete` (method, line 529) `def complete(self, system, user, max_tokens, temperature)`
-  - `__init__` (method, line 556) `def __init__(self, api_key, model)`
-  - `generate` (method, line 563) `def generate(self, prompt)`
-  - `stream_generate` (method, line 574) `def stream_generate(self, prompt)`
-  - `complete` (method, line 589) `def complete(self, system, user, max_tokens, temperature)`
+  - `AIModel` (class, line 49) `class AIModel(ABC)`
+  - `_LazyImporter` (class, line 101) `class _LazyImporter`
+  - `GroqModel` (class, line 133) `class GroqModel(AIModel)`
+  - `OllamaModel` (class, line 248) `class OllamaModel(AIModel)`
+  - `LlamaCppModel` (class, line 317) `class LlamaCppModel(AIModel)`
+  - `OpenAIModel` (class, line 438) `class OpenAIModel(AIModel)`
+  - `AnthropicModel` (class, line 497) `class AnthropicModel(AIModel)`
+  - `DeepSeekModel` (class, line 553) `class DeepSeekModel(AIModel)`
+  - `OpenCodeModel` (class, line 616) `class OpenCodeModel(AIModel)`
+  - `generate` (method, line 60) `def generate(self, prompt)`
+  - `stream_generate` (method, line 64) `def stream_generate(self, prompt)`
+  - `complete` (method, line 67) `def complete(self, system, user, max_tokens, temperature)`
+  - `groq` (method, line 109) `def groq(cls)`
+  - `openai` (method, line 117) `def openai(cls)`
+  - `anthropic` (method, line 125) `def anthropic(cls)`
+  - `__init__` (method, line 141) `def __init__(self, api_key, model)`
+  - `_model_chain` (method, line 145) `def _model_chain(self)`
+  - `generate` (method, line 159) `def generate(self, prompt)`
+  - `stream_generate` (method, line 187) `def stream_generate(self, prompt)`
+  - `complete` (method, line 220) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 256) `def __init__(self, model, host)`
+  - `generate` (method, line 264) `def generate(self, prompt)`
+  - `stream_generate` (method, line 285) `def stream_generate(self, prompt)`
+  - `__init__` (method, line 328) `def __init__(self, model, host)`
+  - `_chat` (method, line 345) `def _chat(self, messages, max_tokens, stream)`
+  - `generate` (method, line 366) `def generate(self, prompt)`
+  - `stream_generate` (method, line 386) `def stream_generate(self, prompt)`
+  - `complete` (method, line 417) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 444) `def __init__(self, api_key, model)`
+  - `generate` (method, line 448) `def generate(self, prompt)`
+  - `stream_generate` (method, line 459) `def stream_generate(self, prompt)`
+  - `complete` (method, line 474) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 503) `def __init__(self, api_key, model)`
+  - `generate` (method, line 507) `def generate(self, prompt)`
+  - `stream_generate` (method, line 519) `def stream_generate(self, prompt)`
+  - `complete` (method, line 533) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 560) `def __init__(self, api_key, model)`
+  - `generate` (method, line 567) `def generate(self, prompt)`
+  - `stream_generate` (method, line 578) `def stream_generate(self, prompt)`
+  - `complete` (method, line 593) `def complete(self, system, user, max_tokens, temperature)`
+  - `__init__` (method, line 626) `def __init__(self, api_key, model, base_url)`
+  - `generate` (method, line 639) `def generate(self, prompt)`
+  - `stream_generate` (method, line 650) `def stream_generate(self, prompt)`
+  - `complete` (method, line 665) `def complete(self, system, user, max_tokens, temperature)`
 - Depends on: `core/logging.py`, `modules/llm_factory.py`
 - Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_client.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
 
@@ -290,7 +295,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `generate_attack_plan` (method, line 278) `def generate_attack_plan(self, pb, output_path)`
   - `report_json` (method, line 295) `def report_json(self, pb, output_path)`
 - Depends on: `core/console.py`, `modules/atomic_resolver.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_playbook_chain.py`, `tests/test_selectors_capabilities.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/beacon_kinds.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_playbook_chain.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/askpass.py
 - Doc: Graphical sudo askpass helpers for desktop sudo prompts.
@@ -320,19 +325,20 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `parse_atomic_line` (function, line 37) `def parse_atomic_line(line)`
-  - `_resolver` (function, line 99) `def _resolver()`
-  - `_print` (function, line 107) `def _print(shell, text)`
-  - `_warn` (function, line 118) `def _warn(text)`
-  - `_wants_interactive` (function, line 127) `def _wants_interactive(non_interactive)`
-  - `_safe_copy` (function, line 132) `def _safe_copy(text)`
-  - `_load_credentials` (function, line 147) `def _load_credentials(params, non_interactive)`
-  - `_prompt_choice` (function, line 171) `def _prompt_choice(count, prompt, non_interactive)`
-  - `run_atomic_tests` (function, line 185) `def run_atomic_tests(params, line, shell)`
-  - `_sanitized_script_name` (function, line 319) `def _sanitized_script_name(test_id, extension)`
-  - `run_atomic_gen` (function, line 325) `def run_atomic_gen(params, line, shell)`
-- Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `utils.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`
+  - `default_platform_for_target` (function, line 39) `def default_platform_for_target(params)`
+  - `parse_atomic_line` (function, line 64) `def parse_atomic_line(line)`
+  - `_resolver` (function, line 126) `def _resolver()`
+  - `_print` (function, line 134) `def _print(shell, text)`
+  - `_warn` (function, line 145) `def _warn(text)`
+  - `_wants_interactive` (function, line 154) `def _wants_interactive(non_interactive)`
+  - `_safe_copy` (function, line 159) `def _safe_copy(text)`
+  - `_load_credentials` (function, line 174) `def _load_credentials(params, non_interactive)`
+  - `_prompt_choice` (function, line 200) `def _prompt_choice(count, prompt, non_interactive)`
+  - `run_atomic_tests` (function, line 214) `def run_atomic_tests(params, line, shell)`
+  - `_sanitized_script_name` (function, line 406) `def _sanitized_script_name(test_id, extension)`
+  - `run_atomic_gen` (function, line 412) `def run_atomic_gen(params, line, shell)`
+- Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `modules/bof_delivery.py`, `modules/lazy_osinfer.py`, `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_atomic_loop.py`, `tests/test_lazy_handoff.py`
 
 ## modules/atomic_enricher.py
 - Doc: — Enrich techniques.parquet with structured derived columns.
@@ -356,48 +362,48 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `shell_output_evidence` (function, line 83) `def shell_output_evidence(output)`
-  - `ExploitCommand` (class, line 104) `class ExploitCommand`
-  - `ExploitSpec` (class, line 112) `class ExploitSpec`
-  - `_string_list` (function, line 162) `def _string_list(value)`
-  - `validate_spec` (function, line 170) `def validate_spec(data, filename)`
-  - `load_all` (function, line 246) `def load_all(exploits_dir)`
-  - `match_score` (function, line 301) `def match_score(spec, service, product, version, os_hint)`
-  - `parse_scan_xml` (function, line 334) `def parse_scan_xml(xml_path)`
-  - `auto` (function, line 371) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
-  - `rank` (function, line 476) `def rank(services, exploits_dir, os_hint)`
-  - `_token_mapping` (function, line 531) `def _token_mapping(rhost, lhost, lport, port)`
-  - `build_commands` (function, line 545) `def build_commands(spec, rhost, lhost, lport, port)`
-  - `detect_shell` (function, line 563) `def detect_shell(spec, output)`
-  - `_install_missing_binaries` (function, line 582) `def _install_missing_binaries(names)`
-  - `run_spec` (function, line 612) `def run_spec(spec, rhost, lhost, lport, port)`
-  - `open_shell` (function, line 692) `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)`
-  - `_ShellSession` (class, line 748) `class _ShellSession`
-  - `_claim_port` (function, line 843) `def _claim_port(spec_id, target, port)`
-  - `_release_port` (function, line 861) `def _release_port(target, port)`
-  - `record_shell_outcome` (function, line 866) `def record_shell_outcome(target, via)`
-  - `live_sessions` (function, line 895) `def live_sessions()`
-  - `close_sessions` (function, line 914) `def close_sessions(target)`
-  - `cleanup_target` (function, line 962) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
-  - `_destroy_gym` (function, line 1021) `def _destroy_gym(container)`
-  - `_persist_session` (function, line 1039) `def _persist_session(via, target, port, lhost)`
-  - `ensure_session` (function, line 1054) `def ensure_session(spec, target, lhost)`
-  - `_adopt_live_shell` (function, line 1111) `def _adopt_live_shell(spec, target, port)`
-  - `_wait_port_closed` (function, line 1137) `def _wait_port_closed(target, port, timeout)`
-  - `remote_exec` (function, line 1152) `def remote_exec(spec, target, command, lhost)`
-  - `interactive_shell` (function, line 1170) `def interactive_shell(target, lhost, interactive, exploits_dir)`
-  - `emulate` (function, line 1225) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
-  - `record_outcome` (function, line 1259) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
-  - `main` (function, line 1347) `def main()`
-  - `severity_rank` (method, line 137) `def severity_rank(self)`
-  - `to_dict` (method, line 141) `def to_dict(self)`
-  - `__init__` (method, line 756) `def __init__(self, target, port, sock, owner)`
-  - `alive` (method, line 766) `def alive(self, timeout)`
-  - `run` (method, line 773) `def run(self, command, timeout)`
-  - `_read_until` (method, line 787) `def _read_until(self, marker, timeout)`
-  - `close` (method, line 815) `def close(self)`
+  - `shell_output_evidence` (function, line 84) `def shell_output_evidence(output)`
+  - `ExploitCommand` (class, line 105) `class ExploitCommand`
+  - `ExploitSpec` (class, line 113) `class ExploitSpec`
+  - `_string_list` (function, line 163) `def _string_list(value)`
+  - `validate_spec` (function, line 171) `def validate_spec(data, filename)`
+  - `load_all` (function, line 247) `def load_all(exploits_dir)`
+  - `match_score` (function, line 302) `def match_score(spec, service, product, version, os_hint)`
+  - `parse_scan_xml` (function, line 335) `def parse_scan_xml(xml_path)`
+  - `auto` (function, line 372) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
+  - `rank` (function, line 477) `def rank(services, exploits_dir, os_hint)`
+  - `_token_mapping` (function, line 532) `def _token_mapping(rhost, lhost, lport, port)`
+  - `build_commands` (function, line 546) `def build_commands(spec, rhost, lhost, lport, port)`
+  - `detect_shell` (function, line 564) `def detect_shell(spec, output)`
+  - `_install_missing_binaries` (function, line 583) `def _install_missing_binaries(names)`
+  - `run_spec` (function, line 613) `def run_spec(spec, rhost, lhost, lport, port)`
+  - `open_shell` (function, line 706) `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)`
+  - `_ShellSession` (class, line 762) `class _ShellSession`
+  - `_claim_port` (function, line 857) `def _claim_port(spec_id, target, port)`
+  - `_release_port` (function, line 875) `def _release_port(target, port)`
+  - `record_shell_outcome` (function, line 880) `def record_shell_outcome(target, via)`
+  - `live_sessions` (function, line 909) `def live_sessions()`
+  - `close_sessions` (function, line 928) `def close_sessions(target)`
+  - `cleanup_target` (function, line 976) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
+  - `_destroy_gym` (function, line 1035) `def _destroy_gym(container)`
+  - `_persist_session` (function, line 1053) `def _persist_session(via, target, port, lhost)`
+  - `ensure_session` (function, line 1068) `def ensure_session(spec, target, lhost)`
+  - `_adopt_live_shell` (function, line 1125) `def _adopt_live_shell(spec, target, port)`
+  - `_wait_port_closed` (function, line 1151) `def _wait_port_closed(target, port, timeout)`
+  - `remote_exec` (function, line 1166) `def remote_exec(spec, target, command, lhost)`
+  - `interactive_shell` (function, line 1184) `def interactive_shell(target, lhost, interactive, exploits_dir)`
+  - `emulate` (function, line 1239) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
+  - `record_outcome` (function, line 1273) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
+  - `main` (function, line 1361) `def main()`
+  - `severity_rank` (method, line 138) `def severity_rank(self)`
+  - `to_dict` (method, line 142) `def to_dict(self)`
+  - `__init__` (method, line 770) `def __init__(self, target, port, sock, owner)`
+  - `alive` (method, line 780) `def alive(self, timeout)`
+  - `run` (method, line 787) `def run(self, command, timeout)`
+  - `_read_until` (method, line 801) `def _read_until(self, marker, timeout)`
+  - `close` (method, line 829) `def close(self)`
 - Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/shell_session_store.py`, `modules/world_model.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_fallback.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/shell_session_store.py`, `modules/winbox_gym.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_fallback.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/loop/daemon_reward.py`, `modules/loop_ai_bridge.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/shell_session_store.py`, `modules/winbox_gym.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_lazy_handoff.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 
 ## modules/atomic_resolver.py
 - Doc: Central MITRE ATT&CK <-> Atomic Red Team translator.

@@ -1,5 +1,83 @@
-# API (page 4 of 28)
+# API (page 4 of 30)
 Previous: [API_p3.md](API_p3.md)
+
+## cli/commands/security.py
+Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `modules/hash_cracker.py`, `modules/opsec_scorer.py`
+- `SecurityCommandSet.do_opsec` (method) `cli/commands/security.py:26` `def do_opsec(self, line)` -- Score OPSEC risk for a LazyOwn command before execution.
+- `SecurityCommandSet.do_seal_credentials` (method) `cli/commands/security.py:106` `def do_seal_credentials(self, _line)` -- Encrypt all sensitive values in payload.json using AES-256-GCM.
+- `SecurityCommandSet.do_rotate_aes` (method) `cli/commands/security.py:127` `def do_rotate_aes(self, _line)` -- Generate a new AES key and re-encrypt all sealed credentials.
+- `SecurityCommandSet.do_unseal_credentials` (method) `cli/commands/security.py:150` `def do_unseal_credentials(self, _line)` -- Decrypt sealed credential values in payload.json for inspection.
+- `SecurityCommandSet.do_crack_hashes` (method) `cli/commands/security.py:170` `def do_crack_hashes(self, line)` -- Crack password hashes from a file using John the Ripper or Hashcat.
+- `SecurityCommandSet.complete_opsec` (method) `cli/commands/security.py:267` `def complete_opsec(self, text, line, begidx, endidx)`
+- `SecurityCommandSet.complete_crack_hashes` (method) `cli/commands/security.py:276` `def complete_crack_hashes(self, text, line, begidx, endidx)`
+
+## cli/commands/session_ops.py
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
+Imported by: `tests/test_auto_crypto.py`, `tests/test_cli_assign.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
+- `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:93` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
+- `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:118` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
+- `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:167` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+- `SessionOpsCommandSet.do_pivot` (method) `cli/commands/session_ops.py:175` `def do_pivot(self, line)` -- Record a newly discovered pivot target or show the pivot chain.
+- `SessionOpsCommandSet.do_tasks` (method) `cli/commands/session_ops.py:200` `def do_tasks(self, line)` -- View and manage the task queue from sessions/tasks.json.
+- `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:233` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
+- `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:250` `def do_sitrep(self, line)` -- Print a unified operational situation report.
+- `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:267` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
+- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:332` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
+- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:405` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
+- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:471` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
+- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:547` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
+- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:576` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
+- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:615` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
+- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:666` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
+- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:710` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
+- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:754` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:835` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:886` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:1013` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1104` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1136` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1227` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1249` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1287` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1320` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1351` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1400` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1462` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1510` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1522` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1572` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1618` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+
+## cli/commands/shellsys.py
+Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `modules/__init__.py`, `utils.py`
+Imported by: `tests/test_session_reclaim.py`, `tests/test_shellsys_command_set.py`
+- `ShellSysCommandSet.do_sh` (method) `cli/commands/shellsys.py:87` `def do_sh(self, line)` -- Executes a shell command directly from the LazyOwn interface.
+- `ShellSysCommandSet.do_sys` (method) `cli/commands/shellsys.py:119` `def do_sys(self, line)` -- Executes a shell command directly from the LazyOwn interface.
+- `ShellSysCommandSet.do_pwd` (method) `cli/commands/shellsys.py:167` `def do_pwd(self, line)` -- Displays the current working directory and lists files, and copies the current directory path to the clipboard.
+- `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:203` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
+- `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:227` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
+- `lazyrun_command` (function) `cli/commands/shellsys.py:262` `def lazyrun_command()`
+- `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:273` `def do_clean(self, line)` -- Audit and reclaim the ``sessions`` directory, dry-run by default.
+- `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:349` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
+- `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:382` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
+- `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:415` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
+- `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:452` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
+
+## cli/commands/sidequest.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `SidequestCommandSet.do_sidequest` (method) `cli/commands/sidequest.py:25` `def do_sidequest(self, statement)` -- Review frozen loop decisions read-only: sidequest list | ask.
+
+## cli/commands/sleep_obfuscation.py
+Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
+- `SleepObfuscationCommandSet.do_sleep_list` (method) `cli/commands/sleep_obfuscation.py:23` `def do_sleep_list(self, line)` -- List available sleep obfuscation techniques.
+- `SleepObfuscationCommandSet.do_sleep_info` (method) `cli/commands/sleep_obfuscation.py:50` `def do_sleep_info(self, line)` -- Show detailed information about a sleep obfuscation technique.
+- `SleepObfuscationCommandSet.do_sleep_configure` (method) `cli/commands/sleep_obfuscation.py:82` `def do_sleep_configure(self, line)` -- Configure the active sleep obfuscation technique.
+
+## cli/commands/socks_proxy.py
+Depends on: `cli/commands/_base.py`, `modules/socks_proxy.py`, `utils.py`
+- `SocksProxyCommandSet.do_socks_config` (method) `cli/commands/socks_proxy.py:25` `def do_socks_config(self, line)` -- Show or configure the SOCKS5 proxy.
+- `SocksProxyCommandSet.do_socks_sessions` (method) `cli/commands/socks_proxy.py:75` `def do_socks_sessions(self, line)` -- List active SOCKS proxy sessions.
+- `SocksProxyCommandSet.do_socks_export` (method) `cli/commands/socks_proxy.py:94` `def do_socks_export(self, line)` -- Export SOCKS5 proxy specification for beacon delivery.
 
 ## cli/commands/supply_chain.py
 Depends on: `cli/commands/_base.py`, `utils.py`
@@ -382,117 +460,6 @@ Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/co
 - `tasks_start` (function) `cli/ops_commands.py:1173` `def tasks_start(task_id)` -- Mark a task as Started.
 - `scans_list` (function) `cli/ops_commands.py:1196` `def scans_list(rhost, sessions_dir)` -- List nmap scan files in sessions/, optionally filtered by rhost.
 - `sitrep` (function) `cli/ops_commands.py:1249` `def sitrep(payload, sessions_dir)` -- Print a unified operational situation report.
-
-## cli/orchestrator_assets_tabs.py
-Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/bof_admin.py`, `modules/bof_delivery.py`, `modules/chain_registry.py`, `modules/guardrails/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
-Imported by: `cli/lazy_orchestrator.py`, `tests/test_audit_remediation.py`, `tests/test_orchestrator_pacing.py`
-- `parse_sleeper_windows` (function) `cli/orchestrator_assets_tabs.py:92` `def parse_sleeper_windows(raw)` -- Parse a comma-separated sleeper-window string.
-- `format_sleeper_windows` (function) `cli/orchestrator_assets_tabs.py:121` `def format_sleeper_windows(value)` -- Render stored sleeper windows as an editable comma-separated string.
-- `parse_edr_pause_ranges` (function) `cli/orchestrator_assets_tabs.py:128` `def parse_edr_pause_ranges(raw)` -- Parse ``level:low-high`` pause ranges from a compact string.
-- `format_edr_pause_ranges` (function) `cli/orchestrator_assets_tabs.py:161` `def format_edr_pause_ranges(value)` -- Render stored EDR pause ranges as an editable compact string.
-- `OrchestratorAssetsMixin.playbook_rows` (method) `cli/orchestrator_assets_tabs.py:217` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
-- `OrchestratorAssetsMixin.playbook_preview` (method) `cli/orchestrator_assets_tabs.py:241` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
-- `OrchestratorAssetsMixin.create_playbook_file` (method) `cli/orchestrator_assets_tabs.py:250` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
-- `OrchestratorAssetsMixin.save_playbook_text` (method) `cli/orchestrator_assets_tabs.py:271` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
-- `OrchestratorAssetsMixin.delete_playbook_file` (method) `cli/orchestrator_assets_tabs.py:283` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
-- `OrchestratorAssetsMixin.playbook_candidates` (method) `cli/orchestrator_assets_tabs.py:291` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
-- `OrchestratorAssetsMixin.gym_rows` (method) `cli/orchestrator_assets_tabs.py:374` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
-- `OrchestratorAssetsMixin.gym_preview` (method) `cli/orchestrator_assets_tabs.py:411` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
-- `OrchestratorAssetsMixin.start_gym` (method) `cli/orchestrator_assets_tabs.py:479` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
-- `OrchestratorAssetsMixin.stop_gym` (method) `cli/orchestrator_assets_tabs.py:487` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
-- `OrchestratorAssetsMixin.toggle_gym` (method) `cli/orchestrator_assets_tabs.py:495` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
-- `OrchestratorAssetsMixin.profile_rows` (method) `cli/orchestrator_assets_tabs.py:537` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
-- `OrchestratorAssetsMixin.activate_profile` (method) `cli/orchestrator_assets_tabs.py:562` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
-- `OrchestratorAssetsMixin.bof_rows` (method) `cli/orchestrator_assets_tabs.py:630` `def bof_rows(self)` -- Return one row per BOF YAML configuration file, invalid ones included.
-- `OrchestratorAssetsMixin.bof_preview` (method) `cli/orchestrator_assets_tabs.py:654` `def bof_preview(self, filename, limit)` -- Return a bounded YAML preview for one BOF file.
-- `OrchestratorAssetsMixin.create_bof_file` (method) `cli/orchestrator_assets_tabs.py:663` `def create_bof_file(self, filename, name, description, client)` -- Create one BOF YAML and repaint the table.
-- `OrchestratorAssetsMixin.save_bof_text` (method) `cli/orchestrator_assets_tabs.py:683` `def save_bof_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
-- `OrchestratorAssetsMixin.delete_bof_file` (method) `cli/orchestrator_assets_tabs.py:695` `def delete_bof_file(self, filename)` -- Delete one BOF YAML after the operator confirms.
-- `OrchestratorAssetsMixin.stage_bof_file` (method) `cli/orchestrator_assets_tabs.py:703` `def stage_bof_file(self, filename)` -- Stage the compiled artifact of one BOF for beacon delivery.
-- `OrchestratorAssetsMixin.chain_rows` (method) `cli/orchestrator_assets_tabs.py:789` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
-- `OrchestratorAssetsMixin.chain_steps_preview` (method) `cli/orchestrator_assets_tabs.py:798` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
-- `OrchestratorAssetsMixin.toggle_chain` (method) `cli/orchestrator_assets_tabs.py:815` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
-- `OrchestratorAssetsMixin.generate_chain` (method) `cli/orchestrator_assets_tabs.py:826` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
-- `OrchestratorAssetsMixin.remove_chain` (method) `cli/orchestrator_assets_tabs.py:840` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
-- `OrchestratorAssetsMixin.on_data_table_row_highlighted` (method) `cli/orchestrator_assets_tabs.py:896` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
-- `OrchestratorAssetsMixin.seed_triggers_from_yaml` (method) `cli/orchestrator_assets_tabs.py:939` `def seed_triggers_from_yaml(self)` -- Seed triggers from config/orchestrator.yaml into the store.
-- `OrchestratorAssetsMixin.toggle_trigger` (method) `cli/orchestrator_assets_tabs.py:969` `def toggle_trigger(self, trigger_id)` -- Flip one trigger's enabled flag in the store.
-- `OrchestratorAssetsMixin.remove_trigger` (method) `cli/orchestrator_assets_tabs.py:979` `def remove_trigger(self, trigger_id)` -- Delete one trigger from the store.
-- `OrchestratorAssetsMixin.add_trigger` (method) `cli/orchestrator_assets_tabs.py:987` `def add_trigger(self, kind, every_sec, arg)` -- Add a scheduler trigger entered from the picker form.
-- `OrchestratorAssetsMixin.trigger_kind_options` (method) `cli/orchestrator_assets_tabs.py:999` `def trigger_kind_options(self)` -- Return selectable trigger kinds for the add form.
-- `OrchestratorAssetsMixin.save_pacing` (method) `cli/orchestrator_assets_tabs.py:1089` `def save_pacing(self, values)` -- Validate and persist the Pacing tab fields through set_pacing.
-- `OrchestratorAssetsMixin.save_config` (method) `cli/orchestrator_assets_tabs.py:1134` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
-- `OrchestratorAssetsMixin.add_model_member` (method) `cli/orchestrator_assets_tabs.py:1156` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
-- `OrchestratorAssetsMixin.remove_model_member` (method) `cli/orchestrator_assets_tabs.py:1164` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
-- `OrchestratorAssetsMixin.set_model_priority` (method) `cli/orchestrator_assets_tabs.py:1172` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
-- `OrchestratorAssetsMixin.set_harness` (method) `cli/orchestrator_assets_tabs.py:1184` `def set_harness(self, enabled)` -- Toggle the deterministic harness from the orchestrator UI.
-- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:1209` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
-- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:1217` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
-- `OrchestratorAssetsMixin.save_guardrails` (method) `cli/orchestrator_assets_tabs.py:1268` `def save_guardrails(self, values)` -- Merge harness settings into payload and reconfigure the harness.
-- `OrchestratorAssetsMixin.warm_restart_harness` (method) `cli/orchestrator_assets_tabs.py:1314` `def warm_restart_harness(self)` -- Run the harness warm restart and repaint the table.
-- `OrchestratorAssetsMixin.rearm_harness` (method) `cli/orchestrator_assets_tabs.py:1326` `def rearm_harness(self)` -- Re-arm suspended features and clear advisories.
-
-## cli/output_mode.py
-Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
-- `parse_output_flags` (function) `cli/output_mode.py:43` `def parse_output_flags(args, config)` -- Split output control flags from positional command arguments.
-- `strip_ansi` (function) `cli/output_mode.py:65` `def strip_ansi(text)` -- Remove ANSI escape sequences from text.
-- `format_output` (function) `cli/output_mode.py:77` `def format_output(data, mode)` -- Render data according to the parsed output mode.
-- `dry_run_line` (function) `cli/output_mode.py:98` `def dry_run_line(command)` -- Render the exact shell line that would run without running it.
-
-## cli/palette.py
-Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/mcp_tools/palette.py`, `tests/test_command_palette.py`
-- `load_index` (function) `cli/palette.py:30` `def load_index(path)` -- Return the parsed catalogue as a dict.
-- `all_commands` (function) `cli/palette.py:55` `def all_commands()` -- Return every command entry, sorted by name.
-- `all_phases` (function) `cli/palette.py:72` `def all_phases()` -- Return the sorted list of phase identifiers present in the index.
-- `all_categories` (function) `cli/palette.py:77` `def all_categories()` -- Return the sorted list of cmd2 category labels present in the index.
-- `filter_by_phase` (function) `cli/palette.py:82` `def filter_by_phase(phase)` -- Return command entries whose ``phase`` matches ``phase``.
-- `filter_by_category` (function) `cli/palette.py:92` `def filter_by_category(category)` -- Return command entries with the given cmd2 category label.
-- `search` (function) `cli/palette.py:97` `def search(query)` -- Substring search over ``name`` and ``summary`` (case-insensitive).
-- `get` (function) `cli/palette.py:114` `def get(name)` -- Return the canonical entry for ``name`` or ``None`` if unknown.
-- `duplicates` (function) `cli/palette.py:125` `def duplicates()` -- Return the duplicate-method audit list as stored in the index.
-- `totals` (function) `cli/palette.py:130` `def totals()` -- Return the ``totals`` block (counts of methods, unique names, ...).
-
-## cli/palette_command.py
-Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`, `core/text_utils.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `skills/mcp_tools/palette.py`, `tests/test_command_palette.py`
-- `PaletteRenderConfig.truncate_summary` (method) `cli/palette_command.py:107` `def truncate_summary(self, summary)` -- Trim ``summary`` to :attr:`summary_max_chars` with marker suffix.
-- `PaletteArgumentParser.__init__` (method) `cli/palette_command.py:149` `def __init__(self, config)`
-- `PaletteArgumentParser.parse` (method) `cli/palette_command.py:152` `def parse(self, line)` -- Return a :class:`PaletteArgs` for ``line``.
-- `PaletteIndexQuery.__init__` (method) `cli/palette_command.py:193` `def __init__(self, index)`
-- `PaletteIndexQuery.commands` (method) `cli/palette_command.py:197` `def commands(self)` -- Return canonical (non-duplicate) command entries.
-- `PaletteIndexQuery.phases` (method) `cli/palette_command.py:203` `def phases(self)` -- Return the sorted list of phase identifiers in the index.
-- `PaletteIndexQuery.phase_counts` (method) `cli/palette_command.py:208` `def phase_counts(self)` -- Return ``{phase: command_count}`` for every phase in the index.
-- `PaletteIndexQuery.in_phase` (method) `cli/palette_command.py:213` `def in_phase(self, phase)` -- Return commands whose ``phase`` matches ``phase`` (case-insensitive).
-- `PaletteIndexQuery.search` (method) `cli/palette_command.py:218` `def search(self, query)` -- Substring search over ``name`` and ``summary`` (case-insensitive).
-- `PaletteIndexQuery.detail` (method) `cli/palette_command.py:234` `def detail(self, target)` -- Return the canonical entry for ``target`` or ``None``.
-- `PaletteIndexQuery.next_phase` (method) `cli/palette_command.py:249` `def next_phase(self, current)` -- Return the phase that comes after ``current`` in ``ordering``.
-- `PaletteRenderer.__init__` (method) `cli/palette_command.py:285` `def __init__(self, config)`
-- `PaletteRenderer.render_overview` (method) `cli/palette_command.py:288` `def render_overview(self, phase_counts)` -- Format the multi-phase overview table.
-- `PaletteRenderer.render_phase` (method) `cli/palette_command.py:304` `def render_phase(self, phase, rows)` -- Format a phase listing of ``(name, summary)`` pairs.
-- `PaletteRenderer.render_search` (method) `cli/palette_command.py:312` `def render_search(self, query, rows)` -- Format the cross-phase search result table.
-- `PaletteRenderer.render_detail` (method) `cli/palette_command.py:320` `def render_detail(self, entry)` -- Format the detail view for a single command entry.
-- `PaletteRenderer.render_next` (method) `cli/palette_command.py:360` `def render_next(self, phase, rows)` -- Format the recommended-next-phase listing.
-- `render` (function) `cli/palette_command.py:447` `def render(index, line)` -- Top-level entry point used by :class:`LazyOwnShell.do_palette`.
-- `PaletteJsonResult.to_dict` (method) `cli/palette_command.py:502` `def to_dict(self)` -- Serialise to a plain ``dict`` suitable for ``json.dumps``.
-- `PaletteJsonRenderer.__init__` (method) `cli/palette_command.py:522` `def __init__(self, config)`
-- `PaletteJsonRenderer.render_overview` (method) `cli/palette_command.py:525` `def render_overview(self, phase_counts)` -- Build a result document for overview mode.
-- `PaletteJsonRenderer.render_phase` (method) `cli/palette_command.py:532` `def render_phase(self, phase, query, rows)` -- Build a result document for phase mode.
-- `PaletteJsonRenderer.render_search` (method) `cli/palette_command.py:541` `def render_search(self, query, rows)` -- Build a result document for search mode.
-- `PaletteJsonRenderer.render_detail` (method) `cli/palette_command.py:549` `def render_detail(self, target, entry)` -- Build a result document for detail mode.
-- `PaletteJsonRenderer.render_next` (method) `cli/palette_command.py:557` `def render_next(self, phase, rows)` -- Build a result document for next-phase mode.
-- `render_json` (function) `cli/palette_command.py:566` `def render_json(index, line)` -- Structured-data variant of :func:`render`.
-- `build_palette_view` (function) `cli/palette_command.py:619` `def build_palette_view(index)` -- Assemble the template context consumed by the C2 ``/palette`` view.
-- `PaletteCompleter.__init__` (method) `cli/palette_command.py:755` `def __init__(self, config)`
-- `PaletteCompleter.complete` (method) `cli/palette_command.py:758` `def complete(self, text, line, endidx, index)` -- Return tab-completion candidates given the editor state.
-
-## cli/palette_graph.py
-Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
-- `load_graph` (function) `cli/palette_graph.py:127` `def load_graph(path)` -- Return the parsed graph index, cached per resolved path.
-- `safe_load_graph` (function) `cli/palette_graph.py:149` `def safe_load_graph(path)` -- Best-effort variant of :func:`load_graph`.
-- `callees` (function) `cli/palette_graph.py:179` `def callees(graph, command_name)` -- Return helper-function labels invoked by ``command_name``.
-- `related_commands` (function) `cli/palette_graph.py:226` `def related_commands(graph, command_name)` -- Return ``do_*`` commands that share helper functions with this one.
-- `enrich_detail` (function) `cli/palette_graph.py:287` `def enrich_detail(graph, entry)` -- Attach ``calls`` and ``related`` lists to a palette detail entry.
-- `enrich_commands` (function) `cli/palette_graph.py:309` `def enrich_commands(graph, rows)` -- Enrich every entry of ``rows`` with neighbour data.
 
 
 Next: [API_p5.md](API_p5.md)

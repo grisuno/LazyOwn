@@ -35,7 +35,10 @@ class AtomicSelector:
         ids = list(dict.fromkeys(found))
         if not ids:
             return None
+        platform = ctx.os_hint if ctx.os_hint in ("linux", "windows") else ""
         command = f"atomic_emulate --target {ctx.target} --techniques {','.join(ids)}"
+        if platform:
+            command += f" --platform {platform}"
         if command in ctx.exclude:
             return None
         return ActionDecision(

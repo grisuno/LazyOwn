@@ -8,12 +8,15 @@ the stage flow against a sandboxed sessions directory.
 
 from __future__ import annotations
 
+import json
+
 import pytest
 
 import modules.bof_delivery as delivery
 from modules.beacon_config_builder import sanitize_client_id
 from modules.bof_delivery import (
     BofDeliveryConfig,
+    beacon_for_target,
     bof_results,
     c2_reachable,
     delivery_command,
@@ -93,6 +96,26 @@ class TestQueue:
             queue_to_beacon("bad id!", "bof:https://127.0.0.1:1/x", cfg)
 
 
+class TestBeaconForTarget:
+    def test_matches_ip_from_beacon_history(self, cfg, monkeypatch):
+        sessions = cfg.sessions_dir
+        sessions.mkdir(parents=True, exist_ok=True)
+        (sessions / "linux_beacon.records.jsonl").write_text(
+            json.dumps(
+                {"client_id": "linux_beacon", "ips": "172.17.0.2", "command": "id", "output": "uid=0"}
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(
+            delivery,
+            "recent_beacons",
+            lambda config=None, payload=None: [{"client_id": "linux_beacon"}],
+        )
+        assert beacon_for_target("172.17.0.2", cfg, {}) == "linux_beacon"
+        assert beacon_for_target("10.0.0.9", cfg, {}) == ""
+
+
 class TestReachability:
     def test_c2_reachable_false_when_closed(self, cfg, monkeypatch):
         payload = {"c2_port": "65534", "c2_user": "x", "c2_pass": "y"}
@@ -112,6 +135,61 @@ class TestWait:
     def test_wait_times_out_on_absent_beacon(self, cfg):
         record = wait_for_beacon("ghost_beacon", since=0.0, timeout=1.5, config=cfg)
         assert record is None
+
+    def test_wait_matches_requested_command(self, cfg, monkeypatch):
+        import modules.beacon_history as history
+
+        probe = "echo __LZ_HANDOFF_abc__"
+        rows = [
+            {"client_id": "beacon01", "command": "pwd", "timestamp": "2026-01-01T00:00:00"},
+            {"client_id": "beacon01", "command": probe, "timestamp": "2026-01-01T00:00:01"},
+        ]
+        monkeypatch.setattr(history, "read_records", lambda *args, **kwargs: rows)
+        monkeypatch.setattr(delivery.time, "sleep", lambda seconds: None)
+        record = wait_for_beacon("beacon01", since=0.0, timeout=1.0, config=cfg, command=probe)
+        assert record is not None
+        assert record["command"] == probe
+
+
+class TestDeployClient:
+    def test_probe_queued_before_checkin_wait(self, cfg, monkeypatch):
+        calls = []
+        addon = load_client_addon("blacksandbeacon")
+        monkeypatch.setattr(delivery, "load_client_addon", lambda name, config=None: addon)
+        monkeypatch.setattr(delivery, "stage_client", lambda name, config, data: True)
+        monkeypatch.setattr(delivery, "_build_beacon_in_container", lambda addon, config, target: False)
+        monkeypatch.setattr(delivery, "_stage_payload_b64", lambda: "")
+
+        class Session:
+            def run(self, command, timeout=20):
+                calls.append(("run", command))
+
+        monkeypatch.setattr(delivery, "_atomic_session", lambda target: Session())
+
+        def queue(client_id, command, config, data):
+            calls.append(("queue", command))
+            return True
+
+        def wait(client_id, since, timeout, config, payload, command):
+            calls.append(("wait", command))
+            assert calls[0][0] == "queue"
+            return {"client_id": client_id, "command": command}
+
+        monkeypatch.setattr(delivery, "queue_to_beacon", queue)
+        monkeypatch.setattr(delivery, "wait_for_beacon", wait)
+        result = delivery.deploy_client(
+            "blacksandbeacon",
+            "127.0.0.1",
+            wait=1.0,
+            config=cfg,
+            payload={
+                "lhost": "127.0.0.1",
+                "c2_port": "4444",
+                "beacon_client_id": "linux_beacon",
+            },
+        )
+        assert result["success"] is True
+        assert result["record"]["command"].startswith("echo __LZ_HANDOFF_")
 
 
 class TestStage:

@@ -237,21 +237,21 @@ Previous: [KB_commands.md](KB_commands.md)
 - Depends on: `cli/commands/_base.py`, `cli/commands/cloud.py`, `core/crypto.py`, `core/hardening.py`, `utils.py`
 
 ## cli/commands/exploit.py
-- Doc: Exploitation command set (pending activation).
+- Doc: Exploitation command set.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitCommandSet` (class, line 29) `class ExploitCommandSet(LazyOwnCommandSet)`
-  - `do_sqlmap` (method, line 39) `def do_sqlmap(self, line)`
-  - `do_lazypwn` (method, line 64) `def do_lazypwn(self, line)`
-  - `do_rev` (method, line 69) `def do_rev(self, line)`
-  - `do_commix` (method, line 86) `def do_commix(self, line)`
-  - `do_download_exploit` (method, line 105) `def do_download_exploit(self, line)`
-  - `do_img2cookie` (method, line 126) `def do_img2cookie(self, line)`
-  - `do_wrapper` (method, line 150) `def do_wrapper(self, line)`
-  - `do_kusa` (method, line 168) `def do_kusa(self, line)`
-  - `do_ticketer` (method, line 178) `def do_ticketer(self, line)`
-  - `do_www` (method, line 192) `def do_www(self, line)`
+  - `ExploitCommandSet` (class, line 26) `class ExploitCommandSet(LazyOwnCommandSet)`
+  - `do_sqlmap` (method, line 33) `def do_sqlmap(self, line)`
+  - `do_lazypwn` (method, line 58) `def do_lazypwn(self, line)`
+  - `do_rev` (method, line 63) `def do_rev(self, line)`
+  - `do_commix` (method, line 80) `def do_commix(self, line)`
+  - `do_download_exploit` (method, line 99) `def do_download_exploit(self, line)`
+  - `do_img2cookie` (method, line 120) `def do_img2cookie(self, line)`
+  - `do_wrapper` (method, line 144) `def do_wrapper(self, line)`
+  - `do_kusa` (method, line 162) `def do_kusa(self, line)`
+  - `do_ticketer` (method, line 172) `def do_ticketer(self, line)`
+  - `do_www` (method, line 186) `def do_www(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/exploit_migrated.py
@@ -315,20 +315,18 @@ Previous: [KB_commands.md](KB_commands.md)
 - Imported by: `tests/test_chain_list_command.py`, `tests/test_lazy_runner.py`
 
 ## cli/commands/exploitdb.py
+- Doc: ExploitDB phase CommandSet.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitdbCommands` (class, line 14) `class ExploitdbCommands`
-  - `ExploitdbCCommands` (class, line 100) `class ExploitdbCCommands`
-  - `do_exploitdb_sync` (method, line 22) `def do_exploitdb_sync(self, args)`
-  - `do_exploitdb_scan` (method, line 36) `def do_exploitdb_scan(self, args)`
-  - `do_exploitdb_gen` (method, line 48) `def do_exploitdb_gen(self, args)`
-  - `do_exploitdb_cscan` (method, line 79) `def do_exploitdb_cscan(self, args)`
-  - `do_exploitdb_ccompile` (method, line 91) `def do_exploitdb_ccompile(self, args)`
-  - `do_exploitdb_cscan` (method, line 105) `def do_exploitdb_cscan(self, args)`
-  - `do_exploitdb_ccompile` (method, line 117) `def do_exploitdb_ccompile(self, args)`
-  - `do_exploitdb_run` (method, line 131) `def do_exploitdb_run(self, args)`
-- Depends on: `modules/__init__.py`
+  - `ExploitdbCommandSet` (class, line 24) `class ExploitdbCommandSet(LazyOwnCommandSet)`
+  - `do_exploitdb_sync` (method, line 38) `def do_exploitdb_sync(self, args)`
+  - `do_exploitdb_scan` (method, line 54) `def do_exploitdb_scan(self, args)`
+  - `do_exploitdb_gen` (method, line 68) `def do_exploitdb_gen(self, args)`
+  - `do_exploitdb_cscan` (method, line 99) `def do_exploitdb_cscan(self, args)`
+  - `do_exploitdb_ccompile` (method, line 113) `def do_exploitdb_ccompile(self, args)`
+  - `do_exploitdb_run` (method, line 129) `def do_exploitdb_run(self, args)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/exploitgym.py
 - Doc: ExploitGym CLI command set — real-world exploit benchmark harness.
@@ -432,12 +430,12 @@ Previous: [KB_commands.md](KB_commands.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_extract_flag` (function, line 34) `def _extract_flag(args, flag)`
-  - `_extract_bool` (function, line 55) `def _extract_bool(args, flag)`
-  - `GymMetasploitableCommandSet` (class, line 72) `class GymMetasploitableCommandSet(LazyOwnCommandSet)`
-  - `do_gym_metasploitable` (method, line 79) `def do_gym_metasploitable(self, line)`
-  - `_plan` (method, line 111) `def _plan(self, top_k, only)`
-  - `_run` (method, line 135) `def _run(self, top_k, only, dry_run)`
+  - `_extract_flag` (function, line 35) `def _extract_flag(args, flag)`
+  - `_extract_bool` (function, line 56) `def _extract_bool(args, flag)`
+  - `GymMetasploitableCommandSet` (class, line 73) `class GymMetasploitableCommandSet(LazyOwnCommandSet)`
+  - `do_gym_metasploitable` (method, line 80) `def do_gym_metasploitable(self, line)`
+  - `_plan` (method, line 112) `def _plan(self, top_k, only)`
+  - `_run` (method, line 136) `def _run(self, top_k, only, dry_run)`
   - `_report` (method, line 165) `def _report(self)`
   - `_verify` (method, line 181) `def _verify(self, rest)`
   - `_target` (method, line 200) `def _target(self)`

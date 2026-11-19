@@ -4,7 +4,7 @@
 
 ## Definition
 
-This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.68). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `BprfuzzerIdentitySpec`, `CheckResult`, `CheckpointSerializer`, `CicdResult`, `CicleState`. Core file: `tests/test_security_sanitizers.py` (45 symbols). Documented purpose: Browser identity sync between the operator browser and the recorder proxy.  A Chrome/Brave extension (``browser_sync_extension/``) pushes the real cookie store .
+This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.68). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `BprfuzzerIdentitySpec`, `CheckResult`, `CheckpointSerializer`, `CicdResult`, `CicleState`. Core file: `tests/test_security_sanitizers.py` (51 symbols). Documented purpose: Browser identity sync between the operator browser and the recorder proxy.  A Chrome/Brave extension (``browser_sync_extension/``) pushes the real cookie store .
 
 ## Files
 
@@ -35,7 +35,7 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `modules/browser_sync.py` | py | utility | 44 | yes |
 | `modules/lazy_oob.py` | py | utility | 18 | yes |
 | `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
-| `modules/security_sanitizers.py` | py | utility | 25 | yes |
+| `modules/security_sanitizers.py` | py | utility | 26 | yes |
 
 ### `contrib/legacy` (2 files)
 
@@ -49,7 +49,7 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_bprfuzzer_identity.py` | py | testing | 10 | yes |
-| `tests/test_security_sanitizers.py` | py | testing | 45 | yes |
+| `tests/test_security_sanitizers.py` | py | testing | 51 | yes |
 
 ### `.` (1 files)
 
@@ -102,7 +102,7 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 56
-- Cross-boundary resolved imports (EXTRACTED): 26
+- Cross-boundary resolved imports (EXTRACTED): 32
 
 ## Connections
 
@@ -110,14 +110,11 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Risks
 
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
-- [dataflow UNCHECKED_ALLOC] `modules/backdoor/server.c:19` `main` `sock`: Result of allocator stored in `sock` is never checked against NULL.
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
-- Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
 - Should skills/claude_md_orchestrator be split, given cohesion 0.68?
 

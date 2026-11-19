@@ -1,6 +1,49 @@
 # Subsystem: tests (page 5 of 27)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
 
+## tests/test_bsb_fileless_compat.py
+- Doc: Fileless BlackSandBeacon compatibility contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_server` (function, line 25) `def _load_server()`
+  - `_encrypt_bsb_report` (function, line 42) `def _encrypt_bsb_report(payload, master_key, counter)`
+  - `server` (function, line 58) `def server()`
+  - `bsb_env` (function, line 63) `def bsb_env(server, monkeypatch, tmp_path)`
+  - `TestRuntimeConfig` (class, line 75) `class TestRuntimeConfig`
+  - `TestFilelessDeployCommand` (class, line 115) `class TestFilelessDeployCommand`
+  - `TestStageCrypto` (class, line 178) `class TestStageCrypto`
+  - `TestStageRoutes` (class, line 204) `class TestStageRoutes`
+  - `TestBofRoute` (class, line 261) `class TestBofRoute`
+  - `TestPollRoute` (class, line 286) `class TestPollRoute`
+  - `TestReportRoute` (class, line 307) `class TestReportRoute`
+  - `test_config_carries_master_and_legacy_key` (method, line 76) `def test_config_carries_master_and_legacy_key(self, tmp_path)`
+  - `test_config_keeps_lazyc2_endpoints` (method, line 89) `def test_config_keeps_lazyc2_endpoints(self, tmp_path)`
+  - `test_config_requires_key` (method, line 103) `def test_config_requires_key(self, tmp_path)`
+  - `test_template_chain_is_diskless_then_disk` (method, line 116) `def test_template_chain_is_diskless_then_disk(self)`
+  - `test_stager_blob_is_memfd_loader` (method, line 128) `def test_stager_blob_is_memfd_loader(self)`
+  - `test_upstream_stage_payload_available_from_checkout` (method, line 140) `def test_upstream_stage_payload_available_from_checkout(self)`
+  - `test_chain_formats_without_placeholder_leaks` (method, line 151) `def test_chain_formats_without_placeholder_leaks(self)`
+  - `test_stage_blob_roundtrip_matches_upstream_decoder` (method, line 179) `def test_stage_blob_roundtrip_matches_upstream_decoder(self)`
+  - `test_stage_blob_rejects_wrong_token` (method, line 190) `def test_stage_blob_rejects_wrong_token(self)`
+  - `test_stage_keys_fail_closed_on_empty_token` (method, line 197) `def test_stage_keys_fail_closed_on_empty_token(self)`
+  - `test_stage_beacon_serves_elf_under_token` (method, line 205) `def test_stage_beacon_serves_elf_under_token(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_stage_beacon_rejects_bad_token` (method, line 216) `def test_stage_beacon_rejects_bad_token(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_stage_beacon_fails_without_elf` (method, line 223) `def test_stage_beacon_fails_without_elf(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_stage_config_carries_c2_contract` (method, line 229) `def test_stage_config_carries_c2_contract(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_bof_serves_raw_base64` (method, line 262) `def test_bof_serves_raw_base64(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_bof_rejects_traversal` (method, line 274) `def test_bof_rejects_traversal(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_bof_missing_object` (method, line 280) `def test_bof_missing_object(self, server, bsb_env, monkeypatch, tmp_path)`
+  - `test_poll_get_marks_bsb_and_delegates` (method, line 287) `def test_poll_get_marks_bsb_and_delegates(self, server, bsb_env, monkeypatch)`
+  - `test_poll_post_marks_bsb_and_delegates` (method, line 297) `def test_poll_post_marks_bsb_and_delegates(self, server, bsb_env, monkeypatch)`
+  - `test_report_recovers_client_from_payload` (method, line 308) `def test_report_recovers_client_from_payload(self, server, bsb_env, monkeypatch)`
+  - `test_report_garbage_is_rejected` (method, line 337) `def test_report_garbage_is_rejected(self, server, bsb_env)`
+  - `test_report_without_client_id_is_rejected` (method, line 342) `def test_report_without_client_id_is_rejected(self, server, bsb_env, monkeypatch)`
+  - `test_report_malleable_alias_routes` (method, line 352) `def test_report_malleable_alias_routes(self, server, bsb_env, monkeypatch)`
+  - `_TmpConfig` (class, line 243) `class _TmpConfig(BofDeliveryConfig)`
+  - `__post_init__` (method, line 244) `def __post_init__(self)`
+- Depends on: `modules/bof_delivery.py`, `modules/bsb_compat.py`
+
 ## tests/test_c2_agent.py
 - Doc: Malleable C2 agent: template safety, key ownership, record reading.
 - Layer: testing
@@ -441,46 +484,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_transfer_note_surfaces_known_chain` (function, line 61) `def test_transfer_note_surfaces_known_chain(tmp_path)`
   - `test_default_registry_uses_store_path` (function, line 72) `def test_default_registry_uses_store_path(tmp_path, monkeypatch)`
 - Depends on: `modules/chain_family.py`, `modules/lazy_loop.py`
-
-## tests/test_chain_finalizer.py
-- Doc: Chain finalization contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 21) `def _chain(steps)`
-  - `test_chain_with_captured_evidence_is_verified` (function, line 26) `def test_chain_with_captured_evidence_is_verified()`
-  - `test_chain_ok_without_evidence_is_downgraded` (function, line 39) `def test_chain_ok_without_evidence_is_downgraded()`
-  - `test_chain_with_open_steps_reports_pending_reason` (function, line 49) `def test_chain_with_open_steps_reports_pending_reason()`
-  - `test_dry_run_has_no_finalization` (function, line 71) `def test_dry_run_has_no_finalization()`
-  - `test_hunting_verdicts_count_as_confirmed` (function, line 80) `def test_hunting_verdicts_count_as_confirmed(tmp_path)`
-  - `executor` (function, line 53) `def executor(command)`
-  - `executor` (function, line 86) `def executor(command)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/lazy_finalizer.py`
-
-## tests/test_chain_freshness_guard.py
-- Doc: Freshness guards for chain skips: stale artefacts do not skip work.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_file` (function, line 18) `def _file(path, payload, mtime)`
-  - `test_skip_pending_fresh_and_forever` (function, line 26) `def test_skip_pending_fresh_and_forever(tmp_path)`
-  - `test_skip_pending_stale_artifact_runs` (function, line 33) `def test_skip_pending_stale_artifact_runs(tmp_path)`
-  - `test_missing_artifact_runs` (function, line 40) `def test_missing_artifact_runs(tmp_path)`
-  - `test_schema_validates_skip_max_age` (function, line 45) `def test_schema_validates_skip_max_age()`
-  - `test_runner_reexecutes_stale_step` (function, line 68) `def test_runner_reexecutes_stale_step(tmp_path)`
-  - `test_runner_skips_fresh_step` (function, line 89) `def test_runner_skips_fresh_step(tmp_path)`
-  - `executor` (function, line 73) `def executor(command)`
-  - `executor` (function, line 94) `def executor(command)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_list_command.py
-- Doc: BDD: chain list exposes the YAML chain registry.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_chain_list_lists_registry` (function, line 12) `def test_chain_list_lists_registry(capsys)`
-  - `test_chain_list_filters` (function, line 22) `def test_chain_list_filters(capsys)`
-- Depends on: `cli/commands/exploit_migrated.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

@@ -78,10 +78,10 @@ Pages: [KB_root.md](KB_root.md), [KB_root_p2.md](KB_root_p2.md), [KB_root_p3.md]
 - Layer: utility
 - Language: sh
 - Symbols:
-  - `_jq` (function, line 31)
-  - `log` (function, line 59)
-  - `spin` (function, line 60)
-  - `err_box` (function, line 61)
+  - `log` (function, line 31)
+  - `spin` (function, line 32)
+  - `err_box` (function, line 33)
+  - `_jq` (function, line 39)
   - `ensure_gum` (function, line 67)
   - `check_deps` (function, line 78)
   - `check_sudo` (function, line 87)

@@ -120,7 +120,7 @@ This community groups 54 file(s) rooted at `lazygui/panels` with dominant langua
 
 ## Risks
 
-- [layer strict] `tests/test_lazygui_graph_widget.py` (testing) -> `lazygui/widgets/graph_view.py` (presentation)
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 

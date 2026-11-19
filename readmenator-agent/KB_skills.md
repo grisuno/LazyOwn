@@ -56,149 +56,147 @@ Pages: [KB_skills.md](KB_skills.md), [KB_skills_p2.md](KB_skills_p2.md), [KB_ski
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_try_import` (function, line 128) `def _try_import(module, attr)`
-  - `_update_task_status` (function, line 186) `def _update_task_status(title, new_status)`
-  - `_credential_worth_task` (function, line 207) `def _credential_worth_task(cred)`
-  - `_task_title_open` (function, line 229) `def _task_title_open(title)`
-  - `_inject_to_tasks_json` (function, line 248) `def _inject_to_tasks_json(title, description, operator, status)`
-  - `_emit` (function, line 291) `def _emit(event_type, payload, severity)`
-  - `_record_intent` (function, line 314) `def _record_intent(objective_id, step_n, command, state, reason)`
-  - `_notify_finding` (function, line 329) `def _notify_finding(title, body, severity)`
-  - `_objective_proven` (function, line 354) `def _objective_proven(objective_text, world_model, target, credential_found)`
-  - `compute_decision_seed` (function, line 395) `def compute_decision_seed(objective_id, step_n, source)`
-  - `ICommandRunner` (class, line 423) `class ICommandRunner(ABC)`
-  - `_with_markers` (function, line 436) `def _with_markers(command, marker)`
-  - `_strip_between_markers` (function, line 445) `def _strip_between_markers(output, marker)`
-  - `_daemon_tool` (function, line 458) `def _daemon_tool(command)`
-  - `MCPCommandRunner` (class, line 476) `class MCPCommandRunner(ICommandRunner)`
-  - `PTYCommandRunner` (class, line 495) `class PTYCommandRunner(ICommandRunner)`
-  - `CommandRunnerChain` (class, line 584) `class CommandRunnerChain(ICommandRunner)`
-  - `_build_default_runner` (function, line 614) `def _build_default_runner()`
-  - `_run_lazyown` (function, line 623) `def _run_lazyown(command, timeout)`
-  - `ICommandSelector` (class, line 677) `class ICommandSelector(ABC)`
-  - `ReactiveSelector` (class, line 690) `class ReactiveSelector(ICommandSelector)`
-  - `_get_phase_command_catalog` (function, line 736) `def _get_phase_command_catalog(phase)`
-  - `LLMSelector` (class, line 754) `class LLMSelector(ICommandSelector)`
-  - `SWANSelector` (class, line 854) `class SWANSelector(ICommandSelector)`
-  - `FallbackSelector` (class, line 924) `class FallbackSelector(ICommandSelector)`
-  - `MetricsAwareSelector` (class, line 947) `class MetricsAwareSelector(ICommandSelector)`
-  - `_wrap_chain_with_metrics_bias` (function, line 1140) `def _wrap_chain_with_metrics_bias(selectors, enabled)`
-  - `UnifiedBrainSelector` (class, line 1178) `class UnifiedBrainSelector(ICommandSelector)`
-  - `CascadeStrategy` (class, line 1234) `class CascadeStrategy`
-  - `StrategyEngine` (class, line 1265) `class StrategyEngine`
-  - `StepResult` (class, line 1342) `class StepResult`
-  - `IObjectiveHandler` (class, line 1354) `class IObjectiveHandler(ABC)`
-  - `ExecutionEngine` (class, line 1368) `class ExecutionEngine(IObjectiveHandler)`
-  - `_load_payload` (function, line 1478) `def _load_payload()`
-  - `_read_recent_csv_commands` (function, line 1486) `def _read_recent_csv_commands(limit)`
-  - `_compute_step_reward` (function, line 1507) `def _compute_step_reward(output, command, phase, success, findings, prev_cmds)`
-  - `_detect_target_os` (function, line 1592) `def _detect_target_os(target, loop)`
-  - `_run_objective` (function, line 1639) `def _run_objective(objective_id, objective_text, target, max_steps, strategy, world_model, obs_parser, facts, loop...`
-  - `_record_discarded_vector` (function, line 2681) `def _record_discarded_vector(engagement_id)`
-  - `DroneCoordinator` (class, line 2726) `class DroneCoordinator`
-  - `_world_fingerprint` (function, line 2929) `def _world_fingerprint()`
-  - `_current_bridge_phase` (function, line 2938) `def _current_bridge_phase()`
-  - `_target_services` (function, line 2951) `def _target_services(target)`
-  - `_tactic_phase` (function, line 2972) `def _tactic_phase(tactic)`
-  - `_ledger_path` (function, line 2977) `def _ledger_path()`
-  - `_ledger_write` (function, line 2987) `def _ledger_write(engagement_id, intent_id, command, phase, state, reason)`
-  - `_settle_state` (function, line 3001) `def _settle_state(result)`
-  - `EnginePhaseStep` (class, line 3014) `class EnginePhaseStep`
-  - `EnginePhaseResult` (class, line 3031) `class EnginePhaseResult`
-  - `IToolFallbackResolver` (class, line 3048) `class IToolFallbackResolver(ABC)`
-  - `StaticFallbackResolver` (class, line 3061) `class StaticFallbackResolver(IToolFallbackResolver)`
-  - `BridgeFallbackResolver` (class, line 3082) `class BridgeFallbackResolver(IToolFallbackResolver)`
-  - `_ShellDetector` (class, line 3130) `class _ShellDetector`
-  - `EngageOrchestrator` (class, line 3220) `class EngageOrchestrator`
-  - `_maybe_generate_report` (function, line 3858) `def _maybe_generate_report()`
-  - `_engage_run_sync` (function, line 3884) `def _engage_run_sync(target, max_switches_per_step, auto)`
-  - `mcp_engage_target` (function, line 3927) `def mcp_engage_target(target, max_switches_per_step, detach, auto)`
-  - `mcp_engage_status` (function, line 4017) `def mcp_engage_status(last_n)`
-  - `mcp_engage_approve` (function, line 4043) `def mcp_engage_approve(approval_id, decision, operator)`
-  - `mcp_engage_list_pending` (function, line 4068) `def mcp_engage_list_pending()`
-  - `cmd_engage` (function, line 4086) `def cmd_engage(target, max_switches_per_step, detach)`
-  - `_write_status` (function, line 4114) `def _write_status()`
-  - `_build_drafts_engine` (function, line 4125) `def _build_drafts_engine()`
-  - `_drain_drafts` (function, line 4142) `def _drain_drafts(engine)`
-  - `objective_loop` (function, line 4162) `def objective_loop(max_steps, loop)`
-  - `world_model_watcher` (function, line 4318) `def world_model_watcher(loop)`
-  - `heartbeat_loop` (function, line 4511) `def heartbeat_loop()`
-  - `_main_async` (function, line 4559) `def _main_async(max_steps)`
-  - `_write_pid` (function, line 4610) `def _write_pid()`
-  - `_clear_pid` (function, line 4615) `def _clear_pid()`
-  - `_read_pid` (function, line 4620) `def _read_pid()`
-  - `_is_running` (function, line 4627) `def _is_running()`
-  - `cmd_run` (function, line 4638) `def cmd_run(max_steps)`
-  - `cmd_start` (function, line 4647) `def cmd_start(max_steps)`
-  - `cmd_stop` (function, line 4677) `def cmd_stop()`
-  - `cmd_status` (function, line 4694) `def cmd_status()`
-  - `cmd_inject` (function, line 4710) `def cmd_inject(text, priority)`
-  - `mcp_autonomous_start` (function, line 4744) `def mcp_autonomous_start(max_steps, backend)`
-  - `mcp_autonomous_stop` (function, line 4786) `def mcp_autonomous_stop()`
-  - `mcp_autonomous_status` (function, line 4802) `def mcp_autonomous_status()`
-  - `mcp_autonomous_inject` (function, line 4815) `def mcp_autonomous_inject(text, priority, target)`
-  - `mcp_autonomous_events` (function, line 4859) `def mcp_autonomous_events(last_n)`
-  - `_dispatch_pipeline` (function, line 4890) `def _dispatch_pipeline(args)`
-  - `run` (method, line 427) `def run(self, command, timeout)`
-  - `name` (method, line 432) `def name(self)`
-  - `name` (method, line 483) `def name(self)`
-  - `run` (method, line 486) `def run(self, command, timeout)`
-  - `name` (method, line 503) `def name(self)`
-  - `run` (method, line 506) `def run(self, command, timeout)`
-  - `__init__` (method, line 593) `def __init__(self, runners)`
-  - `name` (method, line 599) `def name(self)`
-  - `run` (method, line 602) `def run(self, command, timeout)`
-  - `select` (method, line 681) `def select(self, target, phase, context)`
-  - `__init__` (method, line 696) `def __init__(self, reactive_engine)`
-  - `register_output` (method, line 700) `def register_output(self, output, command, platform)`
-  - `select` (method, line 727) `def select(self, target, phase, context)`
-  - `select` (method, line 761) `def select(self, target, phase, context)`
-  - `_llm_candidate` (method, line 767) `def _llm_candidate(self, target, phase, context)`
-  - `select` (method, line 885) `def select(self, target, phase, context)`
-  - `_swan_candidate` (method, line 891) `def _swan_candidate(self, target, phase, context)`
-  - `select` (method, line 931) `def select(self, target, phase, context)`
-  - `__init__` (method, line 968) `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)`
-  - `wrapped` (method, line 1014) `def wrapped(self)`
-  - `_resolve_source` (method, line 1019) `def _resolve_source(self)`
-  - `_current_summary` (method, line 1046) `def _current_summary(self)`
-  - `_should_skip` (method, line 1076) `def _should_skip(self, command)`
-  - `select` (method, line 1100) `def select(self, target, phase, context)`
-  - `__init__` (method, line 1193) `def __init__(self, fail_counts)`
-  - `select` (method, line 1197) `def select(self, target, phase, context)`
-  - `__init__` (method, line 1241) `def __init__(self, selectors)`
-  - `next_command` (method, line 1244) `def next_command(self, target, phase, context)`
-  - `__init__` (method, line 1279) `def __init__(self, runner, selectors)`
-  - `register_output` (method, line 1302) `def register_output(self, output, command, platform, success)`
-  - `next_command` (method, line 1316) `def next_command(self, target, phase, services, os_hint, goal)`
-  - `handle` (method, line 1358) `def handle(self, objective_id, objective_text, target, context)`
-  - `__init__` (method, line 1380) `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
-  - `handle` (method, line 1396) `def handle(self, objective_id, objective_text, target, context)`
-  - `run_async` (method, line 1406) `def run_async(self, objective_id, objective_text, target)`
-  - `_run_sync` (method, line 1426) `def _run_sync(self, objective_id, objective_text, target)`
-  - `__init__` (method, line 2735) `def __init__(self)`
-  - `process_findings` (method, line 2740) `def process_findings(self, findings, target, objective_id, payload_key)`
-  - `did_switch` (method, line 3043) `def did_switch(self)`
-  - `next_tool` (method, line 3052) `def next_tool(self, failed_command, phase, attempt)`
-  - `next_tool` (method, line 3069) `def next_tool(self, failed_command, phase, attempt)`
-  - `__init__` (method, line 3091) `def __init__(self, dispatcher)`
-  - `_candidates` (method, line 3096) `def _candidates(self, primary, phase)`
-  - `next_tool` (method, line 3116) `def next_tool(self, failed_command, phase, attempt)`
-  - `__init__` (method, line 3143) `def __init__(self, narrator)`
-  - `poll` (method, line 3148) `def poll(self, target)`
-  - `detect_in_output` (method, line 3189) `def detect_in_output(self, output, target)`
-  - `__init__` (method, line 3234) `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
-  - `engagement_id` (method, line 3279) `def engagement_id(self)`
-  - `run` (method, line 3283) `def run(self)`
-  - `_run_planner_intents` (method, line 3442) `def _run_planner_intents(self, results, fp_before, max_intents, planner)`
-  - `_planner_fallback_verb` (method, line 3561) `def _planner_fallback_verb(self, tried)`
-  - `_run_step` (method, line 3585) `def _run_step(self, step)`
-  - `_consult_gate` (method, line 3805) `def _consult_gate(self, step)`
-  - `_execute` (method, line 3820) `def _execute(self, command, timeout_s)`
-  - `_step_succeeded` (method, line 3826) `def _step_succeeded(command, output)`
-  - `_worker` (function, line 3981) `def _worker()`
-  - `_run` (function, line 4758) `def _run()`
-  - `_ask_via` (function, line 823) `def _ask_via(_backend, _goal, _key)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`, `modules/asset_graph.py`, `modules/atomic_exploit_bridge.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/goals.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_engine.py`, `modules/lesson_ingestor.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/orchestrator_config.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/selection/base.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
+  - `_try_import` (function, line 127) `def _try_import(module, attr)`
+  - `_update_task_status` (function, line 185) `def _update_task_status(title, new_status)`
+  - `_credential_worth_task` (function, line 206) `def _credential_worth_task(cred)`
+  - `_task_title_open` (function, line 228) `def _task_title_open(title)`
+  - `_inject_to_tasks_json` (function, line 247) `def _inject_to_tasks_json(title, description, operator, status)`
+  - `_emit` (function, line 290) `def _emit(event_type, payload, severity)`
+  - `_record_intent` (function, line 313) `def _record_intent(objective_id, step_n, command, state, reason)`
+  - `_notify_finding` (function, line 328) `def _notify_finding(title, body, severity)`
+  - `_objective_proven` (function, line 353) `def _objective_proven(objective_text, world_model, target, credential_found)`
+  - `compute_decision_seed` (function, line 394) `def compute_decision_seed(objective_id, step_n, source)`
+  - `ICommandRunner` (class, line 422) `class ICommandRunner(ABC)`
+  - `_with_markers` (function, line 435) `def _with_markers(command, marker)`
+  - `_strip_between_markers` (function, line 444) `def _strip_between_markers(output, marker)`
+  - `_daemon_tool` (function, line 457) `def _daemon_tool(command)`
+  - `MCPCommandRunner` (class, line 475) `class MCPCommandRunner(ICommandRunner)`
+  - `PTYCommandRunner` (class, line 494) `class PTYCommandRunner(ICommandRunner)`
+  - `CommandRunnerChain` (class, line 583) `class CommandRunnerChain(ICommandRunner)`
+  - `_build_default_runner` (function, line 613) `def _build_default_runner()`
+  - `_run_lazyown` (function, line 622) `def _run_lazyown(command, timeout)`
+  - `ICommandSelector` (class, line 676) `class ICommandSelector(ABC)`
+  - `ReactiveSelector` (class, line 689) `class ReactiveSelector(ICommandSelector)`
+  - `_get_phase_command_catalog` (function, line 735) `def _get_phase_command_catalog(phase)`
+  - `LLMSelector` (class, line 753) `class LLMSelector(ICommandSelector)`
+  - `SWANSelector` (class, line 853) `class SWANSelector(ICommandSelector)`
+  - `FallbackSelector` (class, line 923) `class FallbackSelector(ICommandSelector)`
+  - `MetricsAwareSelector` (class, line 946) `class MetricsAwareSelector(ICommandSelector)`
+  - `_wrap_chain_with_metrics_bias` (function, line 1139) `def _wrap_chain_with_metrics_bias(selectors, enabled)`
+  - `UnifiedBrainSelector` (class, line 1177) `class UnifiedBrainSelector(ICommandSelector)`
+  - `CascadeStrategy` (class, line 1233) `class CascadeStrategy`
+  - `StrategyEngine` (class, line 1264) `class StrategyEngine`
+  - `StepResult` (class, line 1341) `class StepResult`
+  - `IObjectiveHandler` (class, line 1353) `class IObjectiveHandler(ABC)`
+  - `ExecutionEngine` (class, line 1367) `class ExecutionEngine(IObjectiveHandler)`
+  - `_load_payload` (function, line 1477) `def _load_payload()`
+  - `_read_recent_csv_commands` (function, line 1485) `def _read_recent_csv_commands(limit)`
+  - `_run_objective` (function, line 1523) `def _run_objective(objective_id, objective_text, target, max_steps, strategy, world_model, obs_parser, facts, loop...`
+  - `_record_discarded_vector` (function, line 2431) `def _record_discarded_vector(engagement_id)`
+  - `DroneCoordinator` (class, line 2476) `class DroneCoordinator`
+  - `_world_fingerprint` (function, line 2679) `def _world_fingerprint()`
+  - `_current_bridge_phase` (function, line 2688) `def _current_bridge_phase()`
+  - `_target_services` (function, line 2701) `def _target_services(target)`
+  - `_tactic_phase` (function, line 2722) `def _tactic_phase(tactic)`
+  - `_ledger_path` (function, line 2727) `def _ledger_path()`
+  - `_ledger_write` (function, line 2737) `def _ledger_write(engagement_id, intent_id, command, phase, state, reason)`
+  - `_settle_state` (function, line 2751) `def _settle_state(result)`
+  - `EnginePhaseStep` (class, line 2764) `class EnginePhaseStep`
+  - `EnginePhaseResult` (class, line 2781) `class EnginePhaseResult`
+  - `IToolFallbackResolver` (class, line 2798) `class IToolFallbackResolver(ABC)`
+  - `StaticFallbackResolver` (class, line 2811) `class StaticFallbackResolver(IToolFallbackResolver)`
+  - `BridgeFallbackResolver` (class, line 2832) `class BridgeFallbackResolver(IToolFallbackResolver)`
+  - `_ShellDetector` (class, line 2880) `class _ShellDetector`
+  - `EngageOrchestrator` (class, line 2970) `class EngageOrchestrator`
+  - `_maybe_generate_report` (function, line 3608) `def _maybe_generate_report()`
+  - `_engage_run_sync` (function, line 3634) `def _engage_run_sync(target, max_switches_per_step, auto)`
+  - `mcp_engage_target` (function, line 3677) `def mcp_engage_target(target, max_switches_per_step, detach, auto)`
+  - `mcp_engage_status` (function, line 3767) `def mcp_engage_status(last_n)`
+  - `mcp_engage_approve` (function, line 3793) `def mcp_engage_approve(approval_id, decision, operator)`
+  - `mcp_engage_list_pending` (function, line 3818) `def mcp_engage_list_pending()`
+  - `cmd_engage` (function, line 3836) `def cmd_engage(target, max_switches_per_step, detach)`
+  - `_write_status` (function, line 3864) `def _write_status()`
+  - `_build_drafts_engine` (function, line 3875) `def _build_drafts_engine()`
+  - `_drain_drafts` (function, line 3892) `def _drain_drafts(engine)`
+  - `objective_loop` (function, line 3912) `def objective_loop(max_steps, loop)`
+  - `world_model_watcher` (function, line 4068) `def world_model_watcher(loop)`
+  - `heartbeat_loop` (function, line 4261) `def heartbeat_loop()`
+  - `_main_async` (function, line 4309) `def _main_async(max_steps)`
+  - `_write_pid` (function, line 4360) `def _write_pid()`
+  - `_clear_pid` (function, line 4365) `def _clear_pid()`
+  - `_read_pid` (function, line 4370) `def _read_pid()`
+  - `_is_running` (function, line 4377) `def _is_running()`
+  - `cmd_run` (function, line 4388) `def cmd_run(max_steps)`
+  - `cmd_start` (function, line 4397) `def cmd_start(max_steps)`
+  - `cmd_stop` (function, line 4427) `def cmd_stop()`
+  - `cmd_status` (function, line 4444) `def cmd_status()`
+  - `cmd_inject` (function, line 4460) `def cmd_inject(text, priority)`
+  - `mcp_autonomous_start` (function, line 4494) `def mcp_autonomous_start(max_steps, backend)`
+  - `mcp_autonomous_stop` (function, line 4536) `def mcp_autonomous_stop()`
+  - `mcp_autonomous_status` (function, line 4552) `def mcp_autonomous_status()`
+  - `mcp_autonomous_inject` (function, line 4565) `def mcp_autonomous_inject(text, priority, target)`
+  - `mcp_autonomous_events` (function, line 4609) `def mcp_autonomous_events(last_n)`
+  - `_dispatch_pipeline` (function, line 4640) `def _dispatch_pipeline(args)`
+  - `run` (method, line 426) `def run(self, command, timeout)`
+  - `name` (method, line 431) `def name(self)`
+  - `name` (method, line 482) `def name(self)`
+  - `run` (method, line 485) `def run(self, command, timeout)`
+  - `name` (method, line 502) `def name(self)`
+  - `run` (method, line 505) `def run(self, command, timeout)`
+  - `__init__` (method, line 592) `def __init__(self, runners)`
+  - `name` (method, line 598) `def name(self)`
+  - `run` (method, line 601) `def run(self, command, timeout)`
+  - `select` (method, line 680) `def select(self, target, phase, context)`
+  - `__init__` (method, line 695) `def __init__(self, reactive_engine)`
+  - `register_output` (method, line 699) `def register_output(self, output, command, platform)`
+  - `select` (method, line 726) `def select(self, target, phase, context)`
+  - `select` (method, line 760) `def select(self, target, phase, context)`
+  - `_llm_candidate` (method, line 766) `def _llm_candidate(self, target, phase, context)`
+  - `select` (method, line 884) `def select(self, target, phase, context)`
+  - `_swan_candidate` (method, line 890) `def _swan_candidate(self, target, phase, context)`
+  - `select` (method, line 930) `def select(self, target, phase, context)`
+  - `__init__` (method, line 967) `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)`
+  - `wrapped` (method, line 1013) `def wrapped(self)`
+  - `_resolve_source` (method, line 1018) `def _resolve_source(self)`
+  - `_current_summary` (method, line 1045) `def _current_summary(self)`
+  - `_should_skip` (method, line 1075) `def _should_skip(self, command)`
+  - `select` (method, line 1099) `def select(self, target, phase, context)`
+  - `__init__` (method, line 1192) `def __init__(self, fail_counts)`
+  - `select` (method, line 1196) `def select(self, target, phase, context)`
+  - `__init__` (method, line 1240) `def __init__(self, selectors)`
+  - `next_command` (method, line 1243) `def next_command(self, target, phase, context)`
+  - `__init__` (method, line 1278) `def __init__(self, runner, selectors)`
+  - `register_output` (method, line 1301) `def register_output(self, output, command, platform, success)`
+  - `next_command` (method, line 1315) `def next_command(self, target, phase, services, os_hint, goal)`
+  - `handle` (method, line 1357) `def handle(self, objective_id, objective_text, target, context)`
+  - `__init__` (method, line 1379) `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
+  - `handle` (method, line 1395) `def handle(self, objective_id, objective_text, target, context)`
+  - `run_async` (method, line 1405) `def run_async(self, objective_id, objective_text, target)`
+  - `_run_sync` (method, line 1425) `def _run_sync(self, objective_id, objective_text, target)`
+  - `__init__` (method, line 2485) `def __init__(self)`
+  - `process_findings` (method, line 2490) `def process_findings(self, findings, target, objective_id, payload_key)`
+  - `did_switch` (method, line 2793) `def did_switch(self)`
+  - `next_tool` (method, line 2802) `def next_tool(self, failed_command, phase, attempt)`
+  - `next_tool` (method, line 2819) `def next_tool(self, failed_command, phase, attempt)`
+  - `__init__` (method, line 2841) `def __init__(self, dispatcher)`
+  - `_candidates` (method, line 2846) `def _candidates(self, primary, phase)`
+  - `next_tool` (method, line 2866) `def next_tool(self, failed_command, phase, attempt)`
+  - `__init__` (method, line 2893) `def __init__(self, narrator)`
+  - `poll` (method, line 2898) `def poll(self, target)`
+  - `detect_in_output` (method, line 2939) `def detect_in_output(self, output, target)`
+  - `__init__` (method, line 2984) `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
+  - `engagement_id` (method, line 3029) `def engagement_id(self)`
+  - `run` (method, line 3033) `def run(self)`
+  - `_run_planner_intents` (method, line 3192) `def _run_planner_intents(self, results, fp_before, max_intents, planner)`
+  - `_planner_fallback_verb` (method, line 3311) `def _planner_fallback_verb(self, tried)`
+  - `_run_step` (method, line 3335) `def _run_step(self, step)`
+  - `_consult_gate` (method, line 3555) `def _consult_gate(self, step)`
+  - `_execute` (method, line 3570) `def _execute(self, command, timeout_s)`
+  - `_step_succeeded` (method, line 3576) `def _step_succeeded(command, output)`
+  - `_worker` (function, line 3731) `def _worker()`
+  - `_run` (function, line 4508) `def _run()`
+  - `_ask_via` (function, line 822) `def _ask_via(_backend, _goal, _key)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`, `modules/asset_graph.py`, `modules/atomic_exploit_bridge.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_engine.py`, `modules/lesson_ingestor.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/loop/control_plane.py`, `modules/loop/daemon_reward.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/target_os.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/orchestrator_config.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/selection/base.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
 - Imported by: `cli/commands/database.py`, `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/autonomous_events.py`, `skills/mcp_tools/autonomous_inject.py`, `skills/mcp_tools/autonomous_start.py`, `skills/mcp_tools/autonomous_status.py`, `skills/mcp_tools/autonomous_stop.py`, `skills/mcp_tools/engage_approve.py`, `skills/mcp_tools/engage_list_pending.py`, `skills/mcp_tools/engage_status.py`, `skills/mcp_tools/engage_target.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_daemon_loop.py`, `tests/test_daemon_shell_detector.py`, `tests/test_daemon_step_reward.py`, `tests/test_engage_gates.py`, `tests/test_engage_orchestrator.py`, `tests/test_loop_objective_wiring.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
 
 ## skills/autonomous_replay.py

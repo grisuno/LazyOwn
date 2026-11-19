@@ -22,6 +22,7 @@ import os
 import re
 import shlex
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -30,8 +31,34 @@ log = logging.getLogger("atomic_cli")
 _BASE_DIR = Path(__file__).resolve().parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 _TMP_ROOT = Path("/tmp/lazyown_atomic_test")
+_BEACON_RESULT_WAIT_S = 15.0
 
 _FLAG_RE = re.compile(r"--([a-z_]+)(?:=(\S+))?")
+
+
+def default_platform_for_target(params: dict[str, Any] | None = None) -> str:
+    """Return the OS-aware platform default for the active target.
+
+    Reads ``payload.json`` ``os_id`` first, then ``sessions/os.json``.
+    Empty when the target OS is unknown so callers keep their previous
+    behaviour instead of guessing a platform.
+
+    Args:
+        params: Live payload params (``os_id``).
+
+    Returns:
+        ``linux``/``windows`` or ``""``.
+    """
+    os_id = str((params or {}).get("os_id", "") or "").strip()
+    mapped = {"1": "linux", "2": "windows"}.get(os_id, "")
+    if mapped:
+        return mapped
+    try:
+        from modules.lazy_osinfer import host_os_for_target
+
+        return host_os_for_target(str((params or {}).get("rhost", "") or ""))
+    except Exception:
+        return ""
 
 
 def parse_atomic_line(line: str) -> dict[str, Any]:
@@ -150,6 +177,8 @@ def _load_credentials(params: dict[str, Any], non_interactive: bool) -> tuple[st
     password = str(params.get("password", "") or "")
     if username and password:
         return username, password
+    if non_interactive:
+        return username, password
     try:
         from utils import get_credentials  # type: ignore
 
@@ -210,6 +239,11 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
     non_interactive = request["non_interactive"]
     limit = int(request["limit"])
 
+    if not platform and not _wants_interactive(non_interactive):
+        platform = default_platform_for_target(params)
+        if platform:
+            _print(shell, f"Target OS known — defaulting platform to {platform}")
+
     if not query and not platform:
         if _wants_interactive(non_interactive):
             _print(shell, "Select the platform to target:")
@@ -254,6 +288,11 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
         _warn(f"No tests available for platform: {platform or 'any'}")
         return 1
 
+    if not platform and non_interactive and len(candidates) > 1:
+        candidates.sort(
+            key=lambda test: 0 if "linux" in [p.lower() for p in test.platforms] else 1
+        )
+
     if len(candidates) == 1 or non_interactive or not _wants_interactive(non_interactive):
         selected = candidates[0]
         selected_guid = selected.guid
@@ -291,6 +330,54 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
     cleanup = render_command(selected.cleanup_command, variables)
 
     _print(shell, f"Command: {command[:2000]}")
+    target = str(params.get("rhost", "") or "").strip()
+    execution_route = ""
+    execution_output = ""
+    if non_interactive and target and command:
+        since = time.time()
+        try:
+            from modules.bof_delivery import beacon_for_target, queue_to_beacon, wait_for_beacon
+
+            client_id = beacon_for_target(target, payload=params)
+            if client_id and queue_to_beacon(client_id, command, payload=params):
+                execution_route = f"beacon {client_id}"
+                record = wait_for_beacon(
+                    client_id,
+                    since=since,
+                    timeout=_BEACON_RESULT_WAIT_S,
+                    payload=params,
+                    command=command,
+                )
+                execution_output = (
+                    str(record.get("output", "") or "").strip()
+                    if record
+                    else f"(no beacon result within {_BEACON_RESULT_WAIT_S:.0f}s)"
+                )
+        except Exception as exc:
+            log.debug("beacon execution skipped: %s", exc)
+        if not execution_route:
+            try:
+                from modules.bof_delivery import _atomic_session
+
+                session = _atomic_session(target)
+                if session is not None:
+                    execution_output = str(session.run(command, timeout=60) or "").strip()
+                    execution_route = f"session on {target}"
+            except Exception as exc:
+                log.debug("session execution skipped: %s", exc)
+    if execution_route:
+        _print(shell, f"Executed via {execution_route}")
+        if execution_output:
+            _print(shell, f"Output: {len(execution_output)} chars (record in beacon/session history)")
+        try:
+            if shell is not None and hasattr(shell, "logcsv"):
+                shell.logcsv(f"atomic_test {selected.mitre_id} {selected_guid} via {execution_route}")
+        except Exception as exc:
+            log.debug("logcsv failed: %s", exc)
+        _print(shell, "Test execution completed.")
+        return 0
+
+
     for label, snippet in (
         ("Prerequisite", prereq),
         ("Get prerequisite", get_prereq),

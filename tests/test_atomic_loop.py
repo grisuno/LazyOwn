@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import yaml
 
@@ -214,3 +215,67 @@ def test_atomic_clean_routes_and_never_autofires() -> None:
     lines = steps_for("auto atomic_clean 172.17.0.2", "172.17.0.2")
     assert lines == ["atomic_clean 172.17.0.2"] and "--hard" not in lines[0]
     assert "atomic_clean" in [v.verb for v in verbs_for("cleanup artefacts from the lab")]
+
+
+def test_non_interactive_atomic_skips_credential_prompt(monkeypatch) -> None:
+    """Loop-driven atomics never touch sessions/credentials*.txt."""
+    import modules.atomic_cli as atomic_cli
+    import utils
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("get_credentials must not be called in non-interactive mode")
+
+    monkeypatch.setattr(utils, "get_credentials", forbidden)
+    assert atomic_cli._load_credentials({}, True) == ("", "")
+
+
+def test_non_interactive_atomic_prefers_deployed_beacon(monkeypatch) -> None:
+    """Technique execution goes through the beacon when one owns the target."""
+    import modules.atomic_cli as atomic_cli
+    import modules.bof_delivery as bof_delivery
+
+    test = SimpleNamespace(
+        guid="02a91c34-8a5b-4bed-87af-501103eb5357",
+        name="Create local account",
+        mitre_id="T1078.003",
+        mitre_url="https://attack.mitre.org/techniques/T1078/003",
+        platforms=["linux"],
+        input_arguments={},
+        prereq_command="",
+        get_prereq_command="",
+        command="id",
+        cleanup_command="",
+    )
+    resolver = SimpleNamespace(
+        available=True,
+        ensure_repo=lambda: None,
+        build_index=lambda: {"T1078.003": [test]},
+        resolve=lambda query, platform=None: [test],
+    )
+    monkeypatch.setattr(atomic_cli, "_resolver", lambda: resolver)
+    monkeypatch.setattr(bof_delivery, "beacon_for_target", lambda target, **kwargs: "linux_beacon")
+    monkeypatch.setattr(
+        bof_delivery,
+        "wait_for_beacon",
+        lambda client_id, **kwargs: {"client_id": client_id, "output": "uid=0(root)"},
+    )
+    queued = []
+    monkeypatch.setattr(
+        bof_delivery,
+        "queue_to_beacon",
+        lambda client_id, command, **kwargs: queued.append((client_id, command)) or True,
+    )
+    logs = []
+
+    class Shell:
+        def logcsv(self, text):
+            logs.append(text)
+
+    result = atomic_cli.run_atomic_tests(
+        {"rhost": "172.17.0.2"},
+        "T1078 --platform linux --non-interactive",
+        shell=Shell(),
+    )
+    assert result == 0
+    assert queued == [("linux_beacon", "id")]
+    assert any("via beacon linux_beacon" in text for text in logs)

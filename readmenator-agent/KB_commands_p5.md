@@ -6,20 +6,23 @@ Previous: [KB_commands_p4.md](KB_commands_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ShellSysCommandSet` (class, line 24) `class ShellSysCommandSet(LazyOwnCommandSet)`
-  - `do_sh` (method, line 31) `def do_sh(self, line)`
-  - `do_sys` (method, line 63) `def do_sys(self, line)`
-  - `do_pwd` (method, line 111) `def do_pwd(self, line)`
-  - `do_nano` (method, line 147) `def do_nano(self, line)`
-  - `do_cron` (method, line 171) `def do_cron(self, line)`
-  - `do_clean` (method, line 217) `def do_clean(self, line)`
-  - `do_fixperm` (method, line 305) `def do_fixperm(self, line)`
-  - `do_fixel` (method, line 338) `def do_fixel(self, line)`
-  - `do_pop` (method, line 371) `def do_pop(self, line)`
-  - `do_tab` (method, line 408) `def do_tab(self, line)`
-  - `lazyrun_command` (function, line 206) `def lazyrun_command()`
-- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `utils.py`
-- Imported by: `tests/test_shellsys_command_set.py`
+  - `_print_cleanup_plan` (function, line 28) `def _print_cleanup_plan(plan, include_sensitive)`
+  - `_print_groups` (function, line 62) `def _print_groups(groups, list_entries)`
+  - `_count` (function, line 75) `def _count(groups)`
+  - `ShellSysCommandSet` (class, line 80) `class ShellSysCommandSet(LazyOwnCommandSet)`
+  - `do_sh` (method, line 87) `def do_sh(self, line)`
+  - `do_sys` (method, line 119) `def do_sys(self, line)`
+  - `do_pwd` (method, line 167) `def do_pwd(self, line)`
+  - `do_nano` (method, line 203) `def do_nano(self, line)`
+  - `do_cron` (method, line 227) `def do_cron(self, line)`
+  - `do_clean` (method, line 273) `def do_clean(self, line)`
+  - `do_fixperm` (method, line 349) `def do_fixperm(self, line)`
+  - `do_fixel` (method, line 382) `def do_fixel(self, line)`
+  - `do_pop` (method, line 415) `def do_pop(self, line)`
+  - `do_tab` (method, line 452) `def do_tab(self, line)`
+  - `lazyrun_command` (function, line 262) `def lazyrun_command()`
+- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `modules/__init__.py`, `utils.py`
+- Imported by: `tests/test_session_reclaim.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/commands/sidequest.py
 - Doc: Side-question CommandSet: read-only review of loop decision checkpoints.

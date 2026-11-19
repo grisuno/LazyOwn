@@ -1,30 +1,30 @@
 # Second Brain
 
-*Last synthesized: 2026-11-15 | 1634 files | 30 concept pages | offline, zero tokens*
+*Last synthesized: 2026-11-18 | 1668 files | 30 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
 
 ## Vault Overview
 
-The codebase centres on `_context.py`, `lazy_loop.py`, `logging.py`. Architecturally it is 6 layers, dominant utility (983 files) across 30 import-based communities. Recorded risk surface: 0 security findings and 159 dependency cycles.
+The codebase centres on `_context.py`, `lazy_loop.py`, `logging.py`. Architecturally it is 6 layers, dominant utility (983 files) across 30 import-based communities. Recorded risk surface: 0 security findings and 0 dependency cycles.
 
 Surprising tissue lives between skills/mcp_tools, modules: lazy_loop, cli/commands: 20 extracted cross-community imports and 0 inferred bridges. Follow `connections.json` sorted by strength before refactoring.
 
-Open work clusters around documentation (91% file coverage), 0 security findings, 20 taint paths, and 5 suggested exploration questions in `queries.md`.
+Open work clusters around documentation (92% file coverage), 0 security findings, 0 taint paths, and 5 suggested exploration questions in `queries.md`.
 
 ## Stats
 
 | Metric | Value |
 |--------|-------|
-| Files | 1634 |
-| Symbols | 25720 |
-| Resolved imports | 6449 |
+| Files | 1668 |
+| Symbols | 26177 |
+| Resolved imports | 6614 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
 | Communities | 30 |
-| Doc coverage | 91% (1493/1634 files) |
+| Doc coverage | 92% (1529/1668 files) |
 | Security findings | 0 |
-| Estimated read cost | ~1000378 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~1019849 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 8: `lazyc2.py`, `lazy_loop.py`, `mcp_generated_tools.py`, `3d-force-graph-1.73.4.min.js`, `html2pdf.bundle.min.js` (+3 more) |
 
 ## Reading Order
@@ -69,7 +69,7 @@ readmenator query "<question>" --target LazyOwn
 - [scripts: check_contract_manifest (2 files, cohesion 1.00)](./community_26_scripts_check_contract_manifest.md)
 - [scripts: migrate_lazyown (2 files, cohesion 1.00)](./community_27_scripts_migrate_lazyown.md)
 - [tools (2 files, cohesion 1.00)](./community_28_tools.md)
-- [orphans (250 files, cohesion 0.00)](./community_29_orphans.md)
+- [orphans (286 files, cohesion 0.20)](./community_29_orphans.md)
 
 ## God Nodes
 
@@ -83,6 +83,7 @@ readmenator query "<question>" --target LazyOwn
 
 ## Strongest Connections
 
+- 29 -> 10: depends_on (strength 0.9, EXTRACTED)
 - 4 -> 7: depends_on (strength 0.9, EXTRACTED)
 - 5 -> 1: depends_on (strength 0.9, EXTRACTED)
 - 5 -> 0: depends_on (strength 0.9, EXTRACTED)
@@ -92,7 +93,6 @@ readmenator query "<question>" --target LazyOwn
 - 2 -> 9: depends_on (strength 0.9, EXTRACTED)
 - 2 -> 7: depends_on (strength 0.9, EXTRACTED)
 - 4 -> 3: depends_on (strength 0.9, EXTRACTED)
-- 6 -> 4: depends_on (strength 0.9, EXTRACTED)
 
 ## Navigation Tips
 

@@ -2,6 +2,38 @@
 Previous: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)
 
 ## External Imports (continued)
+- `tests/test_sync_doc_stats.py` -> __future__, importlib.util, json, pathlib, pytest
+- `tests/test_target_os.py` -> asyncio, json, pytest, subprocess
+- `tests/test_themes.py` -> __future__, pathlib, sys
+- `tests/test_timeline_browser.py` -> __future__, csv, pathlib, sys
+- `tests/test_tips_engine.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_toast_bus.py` -> __future__, io, json, pathlib, sys, tempfile
+- `tests/test_toastr_unify.py` -> __future__
+- `tests/test_toolchain_pins.py` -> __future__, pathlib, re, yaml
+- `tests/test_triage_scheduler.py` -> __future__
+- `tests/test_trigger_policy.py` -> pathlib
+- `tests/test_trusted_proxy.py` -> __future__
+- `tests/test_ttpscope_bridge.py` -> __future__, pathlib, pytest, sys, yaml
+- `tests/test_tui_splash.py` -> __future__, io, unittest
+- `tests/test_tui_style.py` -> __future__, io, unittest
+- `tests/test_tui_theme_command.py` -> __future__, unittest
+- `tests/test_tui_themes.py` -> __future__, io, rich.text, unittest
+- `tests/test_unified_bridge_delegate.py` -> __future__, itertools, pytest
+- `tests/test_unified_dashboard.py` -> __future__, json
+- `tests/test_utils_import_silent.py` -> __future__, pathlib, subprocess, sys
+- `tests/test_verb_catalog.py` -> json, pathlib, pytest, types
+- `tests/test_verb_manifest.py` -> __future__, pathlib, pytest
+- `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
+- `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
+- `tests/test_vulnbot_fallback.py` -> __future__, json, pytest
+- `tests/test_winbox_gym.py` -> __future__, contextlib, os, pathlib, sys, tempfile, unittest, unittest.mock, yaml
+- `tests/test_wire_capture.py` -> __future__
+- `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
+- `tests/test_wizard_llm.py` -> __future__
+- `tests/test_world_diff_retest.py` -> __future__, json, pathlib
+- `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_writeback_hygiene.py` -> __future__
+- `tests/test_xss_sanitization.py` -> __future__, pathlib, re
 - `tools/contract_check.py` -> __future__, ast, pathlib, sys
 - `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
 - `tools/gen_demo_gifs.py` -> PIL, os

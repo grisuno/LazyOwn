@@ -5715,6 +5715,12 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
                 output=(output or "")[:1500],
                 metadata={"worker": self.name},
             )
+            ActivityLog(self.task_id).emit(
+                "exploit",
+                "shell",
+                f"interactive shell obtained on {target} via {command[:120]}; beacon handoff dispatched",
+                intent_id=int(intent.node_id),
+            )
             return True
         except Exception:
             return False

@@ -1,4 +1,4 @@
-# API (page 10 of 28)
+# API (page 10 of 30)
 Previous: [API_p9.md](API_p9.md)
 
 ## modules/ad_gym.py
@@ -77,35 +77,39 @@ Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`, `tests/te
 ## modules/ai_model.py
 Depends on: `core/logging.py`, `modules/llm_factory.py`
 Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_client.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
-- `AIModel.generate` (method) `modules/ai_model.py:56` `def generate(self, prompt)` -- Return a non-streaming completion for ``prompt``.
-- `AIModel.stream_generate` (method) `modules/ai_model.py:60` `def stream_generate(self, prompt)` -- Yield streaming completion chunks for ``prompt``.
-- `AIModel.complete` (method) `modules/ai_model.py:63` `def complete(self, system, user, max_tokens, temperature)` -- Return a completion conforming to ``core.protocols.LLMBackend``.
-- `_LazyImporter.groq` (method) `modules/ai_model.py:105` `def groq(cls)`
-- `_LazyImporter.openai` (method) `modules/ai_model.py:113` `def openai(cls)`
-- `_LazyImporter.anthropic` (method) `modules/ai_model.py:121` `def anthropic(cls)`
-- `GroqModel.__init__` (method) `modules/ai_model.py:137` `def __init__(self, api_key, model)`
-- `GroqModel.generate` (method) `modules/ai_model.py:155` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
-- `GroqModel.stream_generate` (method) `modules/ai_model.py:183` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
-- `GroqModel.complete` (method) `modules/ai_model.py:216` `def complete(self, system, user, max_tokens, temperature)` -- Return a chat completion using native role separation.
-- `OllamaModel.__init__` (method) `modules/ai_model.py:252` `def __init__(self, model, host)`
-- `OllamaModel.generate` (method) `modules/ai_model.py:260` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
-- `OllamaModel.stream_generate` (method) `modules/ai_model.py:281` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
-- `LlamaCppModel.__init__` (method) `modules/ai_model.py:324` `def __init__(self, model, host)`
-- `LlamaCppModel.generate` (method) `modules/ai_model.py:362` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
-- `LlamaCppModel.stream_generate` (method) `modules/ai_model.py:382` `def stream_generate(self, prompt)` -- Yield streamed completion deltas for ``prompt``.
-- `LlamaCppModel.complete` (method) `modules/ai_model.py:413` `def complete(self, system, user, max_tokens, temperature)` -- Role-aware completion through the chat endpoint.
-- `OpenAIModel.__init__` (method) `modules/ai_model.py:440` `def __init__(self, api_key, model)`
-- `OpenAIModel.generate` (method) `modules/ai_model.py:444` `def generate(self, prompt)`
-- `OpenAIModel.stream_generate` (method) `modules/ai_model.py:455` `def stream_generate(self, prompt)`
-- `OpenAIModel.complete` (method) `modules/ai_model.py:470` `def complete(self, system, user, max_tokens, temperature)`
-- `AnthropicModel.__init__` (method) `modules/ai_model.py:499` `def __init__(self, api_key, model)`
-- `AnthropicModel.generate` (method) `modules/ai_model.py:503` `def generate(self, prompt)`
-- `AnthropicModel.stream_generate` (method) `modules/ai_model.py:515` `def stream_generate(self, prompt)`
-- `AnthropicModel.complete` (method) `modules/ai_model.py:529` `def complete(self, system, user, max_tokens, temperature)`
-- `DeepSeekModel.__init__` (method) `modules/ai_model.py:556` `def __init__(self, api_key, model)`
-- `DeepSeekModel.generate` (method) `modules/ai_model.py:563` `def generate(self, prompt)`
-- `DeepSeekModel.stream_generate` (method) `modules/ai_model.py:574` `def stream_generate(self, prompt)`
-- `DeepSeekModel.complete` (method) `modules/ai_model.py:589` `def complete(self, system, user, max_tokens, temperature)`
+- `AIModel.generate` (method) `modules/ai_model.py:60` `def generate(self, prompt)` -- Return a non-streaming completion for ``prompt``.
+- `AIModel.stream_generate` (method) `modules/ai_model.py:64` `def stream_generate(self, prompt)` -- Yield streaming completion chunks for ``prompt``.
+- `AIModel.complete` (method) `modules/ai_model.py:67` `def complete(self, system, user, max_tokens, temperature)` -- Return a completion conforming to ``core.protocols.LLMBackend``.
+- `_LazyImporter.groq` (method) `modules/ai_model.py:109` `def groq(cls)`
+- `_LazyImporter.openai` (method) `modules/ai_model.py:117` `def openai(cls)`
+- `_LazyImporter.anthropic` (method) `modules/ai_model.py:125` `def anthropic(cls)`
+- `GroqModel.__init__` (method) `modules/ai_model.py:141` `def __init__(self, api_key, model)`
+- `GroqModel.generate` (method) `modules/ai_model.py:159` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `GroqModel.stream_generate` (method) `modules/ai_model.py:187` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
+- `GroqModel.complete` (method) `modules/ai_model.py:220` `def complete(self, system, user, max_tokens, temperature)` -- Return a chat completion using native role separation.
+- `OllamaModel.__init__` (method) `modules/ai_model.py:256` `def __init__(self, model, host)`
+- `OllamaModel.generate` (method) `modules/ai_model.py:264` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `OllamaModel.stream_generate` (method) `modules/ai_model.py:285` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
+- `LlamaCppModel.__init__` (method) `modules/ai_model.py:328` `def __init__(self, model, host)`
+- `LlamaCppModel.generate` (method) `modules/ai_model.py:366` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `LlamaCppModel.stream_generate` (method) `modules/ai_model.py:386` `def stream_generate(self, prompt)` -- Yield streamed completion deltas for ``prompt``.
+- `LlamaCppModel.complete` (method) `modules/ai_model.py:417` `def complete(self, system, user, max_tokens, temperature)` -- Role-aware completion through the chat endpoint.
+- `OpenAIModel.__init__` (method) `modules/ai_model.py:444` `def __init__(self, api_key, model)`
+- `OpenAIModel.generate` (method) `modules/ai_model.py:448` `def generate(self, prompt)`
+- `OpenAIModel.stream_generate` (method) `modules/ai_model.py:459` `def stream_generate(self, prompt)`
+- `OpenAIModel.complete` (method) `modules/ai_model.py:474` `def complete(self, system, user, max_tokens, temperature)`
+- `AnthropicModel.__init__` (method) `modules/ai_model.py:503` `def __init__(self, api_key, model)`
+- `AnthropicModel.generate` (method) `modules/ai_model.py:507` `def generate(self, prompt)`
+- `AnthropicModel.stream_generate` (method) `modules/ai_model.py:519` `def stream_generate(self, prompt)`
+- `AnthropicModel.complete` (method) `modules/ai_model.py:533` `def complete(self, system, user, max_tokens, temperature)`
+- `DeepSeekModel.__init__` (method) `modules/ai_model.py:560` `def __init__(self, api_key, model)`
+- `DeepSeekModel.generate` (method) `modules/ai_model.py:567` `def generate(self, prompt)`
+- `DeepSeekModel.stream_generate` (method) `modules/ai_model.py:578` `def stream_generate(self, prompt)`
+- `DeepSeekModel.complete` (method) `modules/ai_model.py:593` `def complete(self, system, user, max_tokens, temperature)`
+- `OpenCodeModel.__init__` (method) `modules/ai_model.py:626` `def __init__(self, api_key, model, base_url)`
+- `OpenCodeModel.generate` (method) `modules/ai_model.py:639` `def generate(self, prompt)`
+- `OpenCodeModel.stream_generate` (method) `modules/ai_model.py:650` `def stream_generate(self, prompt)`
+- `OpenCodeModel.complete` (method) `modules/ai_model.py:665` `def complete(self, system, user, max_tokens, temperature)`
 
 ## modules/amsi.c
 - `LoadNtFunctions` (function) `modules/amsi.c:38` `void LoadNtFunctions()` -- Función para cargar las funciones dinámicamente
@@ -124,7 +128,7 @@ Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `module
 
 ## modules/apt_playbooks.py
 Depends on: `core/console.py`, `modules/atomic_resolver.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_playbook_chain.py`, `tests/test_selectors_capabilities.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/beacon_kinds.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/playbook_chain.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_playbook_chain.py`, `tests/test_selectors_capabilities.py`
 - `AptPlaybook.from_dict` (method) `modules/apt_playbooks.py:137` `def from_dict(cls, data)`
 - `AptPlaybook.to_summary` (method) `modules/apt_playbooks.py:163` `def to_summary(self)`
 - `AptPlaybookEngine.__init__` (method) `modules/apt_playbooks.py:179` `def __init__(self, playbook_dir)`
@@ -150,11 +154,12 @@ Imported by: `skills/autonomous_daemon.py`
 - `coverage_for` (function) `modules/asset_graph.py:12` `def coverage_for(db, workspace_id, scope)` -- Report tested scope assets versus total scope from the campaign db.
 
 ## modules/atomic_cli.py
-Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `utils.py`
-Imported by: `cli/commands/command_and_control_migrated.py`
-- `parse_atomic_line` (function) `modules/atomic_cli.py:37` `def parse_atomic_line(line)` -- Parse free-form CLI args into a structured request.
-- `run_atomic_tests` (function) `modules/atomic_cli.py:185` `def run_atomic_tests(params, line, shell)` -- Execute the atomic_tests workflow (secure + agent-safe).
-- `run_atomic_gen` (function) `modules/atomic_cli.py:325` `def run_atomic_gen(params, line, shell)` -- Generate test + cleanup scripts for one technique or GUID.
+Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `modules/bof_delivery.py`, `modules/lazy_osinfer.py`, `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_atomic_loop.py`, `tests/test_lazy_handoff.py`
+- `default_platform_for_target` (function) `modules/atomic_cli.py:39` `def default_platform_for_target(params)` -- Return the OS-aware platform default for the active target.
+- `parse_atomic_line` (function) `modules/atomic_cli.py:64` `def parse_atomic_line(line)` -- Parse free-form CLI args into a structured request.
+- `run_atomic_tests` (function) `modules/atomic_cli.py:214` `def run_atomic_tests(params, line, shell)` -- Execute the atomic_tests workflow (secure + agent-safe).
+- `run_atomic_gen` (function) `modules/atomic_cli.py:412` `def run_atomic_gen(params, line, shell)` -- Generate test + cleanup scripts for one technique or GUID.
 
 ## modules/atomic_enricher.py
 Depends on: `core/logging.py`
@@ -165,34 +170,34 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_parquet_db.py`, `s
 
 ## modules/atomic_exploit_bridge.py
 Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/shell_session_store.py`, `modules/world_model.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_fallback.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/shell_session_store.py`, `modules/winbox_gym.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
-- `shell_output_evidence` (function) `modules/atomic_exploit_bridge.py:83` `def shell_output_evidence(output)` -- Return True only when output carries genuine interactive-shell evidence.
-- `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:137` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
-- `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:141` `def to_dict(self)` -- Return a JSON-serializable view.
-- `validate_spec` (function) `modules/atomic_exploit_bridge.py:170` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
-- `load_all` (function) `modules/atomic_exploit_bridge.py:246` `def load_all(exploits_dir)` -- Load every enabled, valid exploit YAML (skips the rest loudly).
-- `match_score` (function) `modules/atomic_exploit_bridge.py:301` `def match_score(spec, service, product, version, os_hint)` -- Score a spec against one discovered service (0 when no match).
-- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:334` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
-- `auto` (function) `modules/atomic_exploit_bridge.py:371` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
-- `rank` (function) `modules/atomic_exploit_bridge.py:476` `def rank(services, exploits_dir, os_hint)` -- Rank every spec against discovered services (severity, then confidence).
-- `build_commands` (function) `modules/atomic_exploit_bridge.py:545` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
-- `detect_shell` (function) `modules/atomic_exploit_bridge.py:563` `def detect_shell(spec, output)` -- Return True when output carries genuine shell evidence.
-- `run_spec` (function) `modules/atomic_exploit_bridge.py:612` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
-- `open_shell` (function) `modules/atomic_exploit_bridge.py:692` `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` -- Return the first exec-capable spec with a live multiplexed session.
-- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:756` `def __init__(self, target, port, sock, owner)`
-- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:766` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
-- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:773` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
-- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:815` `def close(self)` -- End the remote shell cleanly so its listener dies too.
-- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:866` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
-- `live_sessions` (function) `modules/atomic_exploit_bridge.py:895` `def live_sessions()` -- Return in-process shell sessions without probing the target.
-- `close_sessions` (function) `modules/atomic_exploit_bridge.py:914` `def close_sessions(target)` -- Close cached sessions (all, or one target).
-- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:962` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
-- `ensure_session` (function) `modules/atomic_exploit_bridge.py:1054` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
-- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1152` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
-- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1170` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
-- `emulate` (function) `modules/atomic_exploit_bridge.py:1225` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
-- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1259` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
-- `main` (function) `modules/atomic_exploit_bridge.py:1347` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/bof_delivery.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_fallback.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/loop/daemon_reward.py`, `modules/loop_ai_bridge.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/shell_session_store.py`, `modules/winbox_gym.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/atomic_clean.py`, `skills/mcp_tools/atomic_shell.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_lazy_handoff.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+- `shell_output_evidence` (function) `modules/atomic_exploit_bridge.py:84` `def shell_output_evidence(output)` -- Return True only when output carries genuine interactive-shell evidence.
+- `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:138` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
+- `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:142` `def to_dict(self)` -- Return a JSON-serializable view.
+- `validate_spec` (function) `modules/atomic_exploit_bridge.py:171` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
+- `load_all` (function) `modules/atomic_exploit_bridge.py:247` `def load_all(exploits_dir)` -- Load every enabled, valid exploit YAML (skips the rest loudly).
+- `match_score` (function) `modules/atomic_exploit_bridge.py:302` `def match_score(spec, service, product, version, os_hint)` -- Score a spec against one discovered service (0 when no match).
+- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:335` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
+- `auto` (function) `modules/atomic_exploit_bridge.py:372` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
+- `rank` (function) `modules/atomic_exploit_bridge.py:477` `def rank(services, exploits_dir, os_hint)` -- Rank every spec against discovered services (severity, then confidence).
+- `build_commands` (function) `modules/atomic_exploit_bridge.py:546` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
+- `detect_shell` (function) `modules/atomic_exploit_bridge.py:564` `def detect_shell(spec, output)` -- Return True when output carries genuine shell evidence.
+- `run_spec` (function) `modules/atomic_exploit_bridge.py:613` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
+- `open_shell` (function) `modules/atomic_exploit_bridge.py:706` `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` -- Return the first exec-capable spec with a live multiplexed session.
+- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:770` `def __init__(self, target, port, sock, owner)`
+- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:780` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
+- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:787` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
+- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:829` `def close(self)` -- End the remote shell cleanly so its listener dies too.
+- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:880` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
+- `live_sessions` (function) `modules/atomic_exploit_bridge.py:909` `def live_sessions()` -- Return in-process shell sessions without probing the target.
+- `close_sessions` (function) `modules/atomic_exploit_bridge.py:928` `def close_sessions(target)` -- Close cached sessions (all, or one target).
+- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:976` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
+- `ensure_session` (function) `modules/atomic_exploit_bridge.py:1068` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
+- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1166` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
+- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1184` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
+- `emulate` (function) `modules/atomic_exploit_bridge.py:1239` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
+- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1273` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
+- `main` (function) `modules/atomic_exploit_bridge.py:1361` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
 
 ## modules/atomic_resolver.py
 Depends on: `core/logging.py`, `core/safe_exec.py`
@@ -316,29 +321,29 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/cha
 - `verbs_for` (function) `modules/auto_registry.py:750` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
 - `propose_intents` (function) `modules/auto_registry.py:756` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
 - `steps_for` (function) `modules/auto_registry.py:877` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:1052` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:1057` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:1070` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1180` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1185` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1190` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1213` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:1056` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:1061` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:1074` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1184` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1189` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1194` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1217` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/ctf_capture.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_coverage.py`, `tests/test_auto_pwn_success.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
-- `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:120` `def __init__(self)`
-- `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:140` `def get_instance(cls)`
-- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:151` `def hunt(self, target, max_exploits, profile, stop_on_first_shell)` -- Execute a full autonomous exploitation chain against a target.
-- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:197` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
-- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:341` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
-- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:402` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
-- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:436` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
-- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1811` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
-- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2126` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
-- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2556` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
-- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2682` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
-- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2746` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth, cover_all)` -- Execute the full autonomous exploit chain against a target.
+- `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:121` `def __init__(self)`
+- `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:142` `def get_instance(cls)`
+- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:153` `def hunt(self, target, max_exploits, profile, stop_on_first_shell)` -- Execute a full autonomous exploitation chain against a target.
+- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:199` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
+- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:351` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
+- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:412` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
+- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:446` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
+- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1822` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
+- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2137` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
+- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2567` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
+- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2693` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
+- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2757` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth, cover_all)` -- Execute the full autonomous exploit chain against a target.
 
 ## modules/aws_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -383,14 +388,33 @@ Imported by: `modules/bof_delivery.py`, `modules/c2_builder.py`, `tests/test_bea
 - `generate_bof_execution_command` (function) `modules/beacon_config_builder.py:449` `def generate_bof_execution_command(bof_name, c2_url, args, bofs_dir)` -- Generate a ``bof:<url>[ <args>]`` command that a beacon executes.
 
 ## modules/beacon_history.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/bof_delivery.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
-- `BeaconHistoryConfig.sessions_dir` (method) `modules/beacon_history.py:39` `def sessions_dir(self)` -- Return the resolved sessions directory under the base dir.
-- `BeaconHistoryConfig.records_path` (method) `modules/beacon_history.py:43` `def records_path(self, client_id)` -- Resolve the history file path for a sanitised beacon client id.
-- `sanitize_client_id` (function) `modules/beacon_history.py:70` `def sanitize_client_id(client_id)` -- Sanitise a beacon id to only URL/file-safe characters.
-- `append_record` (function) `modules/beacon_history.py:82` `def append_record(record, config)` -- Append one beacon result record to the persistent JSONL history.
-- `read_records` (function) `modules/beacon_history.py:116` `def read_records(client_id, config)` -- Read the ordered JSONL history for a beacon client id (oldest first).
-- `records_path` (function) `modules/beacon_history.py:145` `def records_path(client_id, config)` -- Resolve the history file path for a beacon client id.
+Depends on: `core/logging.py`, `modules/security_sanitizers.py`
+Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_handoff.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_bof_delivery.py`, `tests/test_security_lazyc2.py`
+- `BeaconHistoryConfig.sessions_dir` (method) `modules/beacon_history.py:41` `def sessions_dir(self)` -- Return the resolved sessions directory under the base dir.
+- `BeaconHistoryConfig.records_path` (method) `modules/beacon_history.py:45` `def records_path(self, client_id)` -- Resolve the history file path for a sanitised beacon client id.
+- `append_record` (function) `modules/beacon_history.py:72` `def append_record(record, config)` -- Append one beacon result record to the persistent JSONL history.
+- `read_records` (function) `modules/beacon_history.py:106` `def read_records(client_id, config)` -- Read the ordered JSONL history for a beacon client id (oldest first).
+- `records_path` (function) `modules/beacon_history.py:135` `def records_path(client_id, config)` -- Resolve the history file path for a beacon client id.
+
+## modules/beacon_kinds.py
+Depends on: `core/logging.py`, `modules/apt_playbooks.py`, `modules/bof_registry.py`
+Imported by: `lazyc2.py`, `tests/test_beacon_menu.py`
+- `detect_beacon_type` (function) `modules/beacon_kinds.py:50` `def detect_beacon_type(safe_id, platform, bsb_clients, sessions_dir)` -- Classify one connected implant by its runtime family.
+- `beacon_capabilities` (function) `modules/beacon_kinds.py:83` `def beacon_capabilities(beacon_type)` -- Return the capability flags for one beacon family.
+- `beacon_commands` (function) `modules/beacon_kinds.py:121` `def beacon_commands(beacon_type)` -- Return the capability command catalog for one beacon family.
+- `beacon_menu_bofs` (function) `modules/beacon_kinds.py:133` `def beacon_menu_bofs(capabilities, sessions_dir)` -- List catalog BOFs compatible with one beacon platform.
+- `beacon_menu_playbooks` (function) `modules/beacon_kinds.py:171` `def beacon_menu_playbooks(repo_root)` -- List the APT adversarial playbooks available for chains.
+
+## modules/beacon_loop.py
+Depends on: `modules/beacon_history.py`, `modules/killchain.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazy_handoff.py`, `tests/test_beacon_menu.py`, `tests/test_lazy_handoff.py`
+- `queue_beacon_command` (function) `modules/beacon_loop.py:211` `def queue_beacon_command(client_id, command, sessions_dir)` -- Append one command to the beacon C2 queue file.
+- `summarize_history` (function) `modules/beacon_loop.py:239` `def summarize_history(records, max_chars)` -- Render a bounded text summary of beacon history for the planner.
+- `playbook_ladder` (function) `modules/beacon_loop.py:343` `def playbook_ladder(goal, platform)` -- Return the OS-aware progressive playbook phases for one goal.
+- `heuristic_plan` (function) `modules/beacon_loop.py:378` `def heuristic_plan(goal, platform, records, sessions_dir)` -- Build the next command batch without an LLM.
+- `llm_plan` (function) `modules/beacon_loop.py:429` `def llm_plan(goal, platform, history, model, max_commands)` -- Ask the LLM planner for the next command batch.
+- `run_beacon_loop` (function) `modules/beacon_loop.py:494` `def run_beacon_loop(config, log, sleep, sessions_dir, deadline)` -- Run the autonomous beacon loop until rounds or timeout expire.
+- `write_report` (function) `modules/beacon_loop.py:587` `def write_report(report, sessions_dir)` -- Persist the loop report as a timestamped JSON artifact.
 
 ## modules/beacon_recon.py
 Depends on: `core/logging.py`, `modules/outcome_bus.py`, `modules/world_model.py`
@@ -429,71 +453,28 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `modules/bof_registry.py`, `test
 
 ## modules/bof_delivery.py
 Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
-Imported by: `cli/commands/bof_registry.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
-- `load_client_addon` (function) `modules/bof_delivery.py:180` `def load_client_addon(client, config)` -- Resolve one beacon client lazyaddon manifest.
-- `staging_dir` (function) `modules/bof_delivery.py:221` `def staging_dir(config)` -- Return (and create) the BOF staging directory.
-- `stage_bof` (function) `modules/bof_delivery.py:236` `def stage_bof(name, config)` -- Stage one catalog BOF for delivery through its client.
-- `beacon_runtime_config` (function) `modules/bof_delivery.py:255` `def beacon_runtime_config(client, client_id, config, payload)` -- Build the C2-aligned beacon runtime configuration.
-- `write_client_config` (function) `modules/bof_delivery.py:332` `def write_client_config(client, client_id, config, payload)` -- Write the generated runtime config into the addon checkout and staging dir.
-- `stage_client` (function) `modules/bof_delivery.py:374` `def stage_client(client, config, payload)` -- Compile and stage a beacon client through its lazyaddon tool.
-- `key_missing_from_error` (function) `modules/bof_delivery.py:626` `def key_missing_from_error(exc)` -- Return True when the error text points at a missing AES key.
-- `delivery_command` (function) `modules/bof_delivery.py:640` `def delivery_command(bof_name, c2_url, args, bofs_dir)` -- Build the ``bof:`` delivery command for one BOF.
-- `queue_to_beacon` (function) `modules/bof_delivery.py:688` `def queue_to_beacon(client_id, command, config, payload)` -- Queue one command for a connected beacon through the C2 API.
-- `recent_beacons` (function) `modules/bof_delivery.py:751` `def recent_beacons(config, payload)` -- Return the beacons currently seen by the C2.
-- `wait_for_beacon` (function) `modules/bof_delivery.py:817` `def wait_for_beacon(client_id, since, timeout, config, payload)` -- Wait until a beacon answers, then return its latest record.
-- `c2_reachable` (function) `modules/bof_delivery.py:895` `def c2_reachable(config, payload)` -- Return True when the C2 answers an authenticated API query.
-- `run_bof` (function) `modules/bof_delivery.py:930` `def run_bof(bof_name, client_id, args)` -- Queue one BOF execution on a live beacon and optionally await output.
-- `run_bof_train` (function) `modules/bof_delivery.py:969` `def run_bof_train(client_id, names, args)` -- Run a sequence of BOFs over one beacon, waiting for each in turn.
-- `deploy_client` (function) `modules/bof_delivery.py:1035` `def deploy_client(client, target)` -- Deliver a staged beacon client onto a target and await check-in.
-- `_DockerSession.__init__` (method) `modules/bof_delivery.py:1160` `def __init__(self, container)` -- Bind the adapter to one container name.
-- `_DockerSession.alive` (method) `modules/bof_delivery.py:1164` `def alive(self, timeout)` -- Return True while the container answers ``echo``.
-- `_DockerSession.run` (method) `modules/bof_delivery.py:1184` `def run(self, command, timeout)` -- Execute one shell line inside the container.
-- `config_sessions_dir` (function) `modules/bof_delivery.py:1335` `def config_sessions_dir()` -- Return the sessions directory of the default delivery config.
-- `bof_results` (function) `modules/bof_delivery.py:1356` `def bof_results(client_id, limit, config)` -- Read the last beacon history records for one client.
-
-## modules/bof_registry.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
-Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
-- `BofEntry.to_dict` (method) `modules/bof_registry.py:130` `def to_dict(self)` -- Serialize to dictionary.
-- `BofEntry.from_dict` (method) `modules/bof_registry.py:151` `def from_dict(cls, raw)` -- Build from a dictionary.
-- `BofCatalog.register` (method) `modules/bof_registry.py:183` `def register(self, entry)` -- Register a BOF entry in the catalog.
-- `BofCatalog.register_many` (method) `modules/bof_registry.py:188` `def register_many(self, entries)` -- Register multiple BOF entries at once.
-- `BofCatalog.get` (method) `modules/bof_registry.py:193` `def get(self, name)` -- Retrieve a BOF entry by name.
-- `BofCatalog.search` (method) `modules/bof_registry.py:204` `def search(self, query)` -- Search catalog by keyword across name, description, and technique.
-- `BofCatalog.list_by_category` (method) `modules/bof_registry.py:237` `def list_by_category(self, category)` -- Return all BOFs in a specific category.
-- `BofCatalog.list_by_platform` (method) `modules/bof_registry.py:241` `def list_by_platform(self, platform)` -- Return all BOFs for a specific platform.
-- `BofCatalog.list_all` (method) `modules/bof_registry.py:245` `def list_all(self)` -- Return all catalog entries sorted by name.
-- `BofCatalog.to_dict` (method) `modules/bof_registry.py:249` `def to_dict(self)` -- Serialize the entire catalog to a dictionary.
-- `BofCatalog.from_dict` (method) `modules/bof_registry.py:257` `def from_dict(cls, raw)` -- Build a catalog from a dictionary.
-- `BofCatalog.load` (method) `modules/bof_registry.py:265` `def load(cls, path)` -- Load a catalog from a JSON file.
-- `BofCatalog.save` (method) `modules/bof_registry.py:273` `def save(self, path)` -- Save the catalog to a JSON file.
-- `BofYamlStore.__init__` (method) `modules/bof_registry.py:290` `def __init__(self, directory)` -- Bind the store to a directory.
-- `BofYamlStore.directory` (method) `modules/bof_registry.py:299` `def directory(self)` -- Return the directory bound to this store.
-- `BofYamlStore.load_entries` (method) `modules/bof_registry.py:303` `def load_entries(self)` -- Parse every YAML file into :class:`BofEntry` objects.
-- `BofYamlStore.load_catalog` (method) `modules/bof_registry.py:342` `def load_catalog(self)` -- Build a :class:`BofCatalog` from the YAML configuration files.
-- `find_client_artifact` (function) `modules/bof_registry.py:362` `def find_client_artifact(entry)` -- Resolve the compiled object file of a BOF across all known source trees.
-- `client_addon_install_path` (function) `modules/bof_registry.py:415` `def client_addon_install_path(client, addons_dir)` -- Read the ``tool.install_path`` of one beacon client lazyaddon.
-- `stage_entry_bof` (function) `modules/bof_registry.py:441` `def stage_entry_bof(entry, sessions_dir)` -- Stage a compiled BOF object for beacon delivery.
-- `BofValidator.compute_sha256` (method) `modules/bof_registry.py:483` `def compute_sha256(filepath)` -- Compute the SHA-256 hash of a file.
-- `BofValidator.verify_entry` (method) `modules/bof_registry.py:492` `def verify_entry(entry, filepath)` -- Verify the SHA-256 of a downloaded BOF source matches the catalog.
-- `BofValidator.validate_args` (method) `modules/bof_registry.py:508` `def validate_args(entry, args)` -- Validate that all required arguments are supplied.
-- `BofRegistry.__init__` (method) `modules/bof_registry.py:527` `def __init__(self, sessions_dir)`
-- `BofRegistry.install_dir` (method) `modules/bof_registry.py:533` `def install_dir(self)` -- Return the BOF installation directory.
-- `BofRegistry.is_installed` (method) `modules/bof_registry.py:553` `def is_installed(self, name)` -- Return True if a BOF is installed.
-- `BofRegistry.install` (method) `modules/bof_registry.py:558` `def install(self, entry)` -- Register a BOF as installed with current timestamp.
-- `BofRegistry.uninstall` (method) `modules/bof_registry.py:579` `def uninstall(self, name, remove_files)` -- Unregister a BOF from the manifest and optionally remove its files.
-- `BofRegistry.list_installed` (method) `modules/bof_registry.py:596` `def list_installed(self)` -- Return a list of all installed BOFs with metadata.
-- `BofRegistry.get_install_info` (method) `modules/bof_registry.py:601` `def get_install_info(self, name)` -- Return installation metadata for a BOF, or None if not installed.
-- `BofMarketplace.__init__` (method) `modules/bof_registry.py:619` `def __init__(self, sessions_dir, catalog)`
-- `BofMarketplace.catalog` (method) `modules/bof_registry.py:630` `def catalog(self)` -- Return the catalog.
-- `BofMarketplace.registry` (method) `modules/bof_registry.py:635` `def registry(self)` -- Return the registry.
-- `BofMarketplace.search` (method) `modules/bof_registry.py:639` `def search(self, query)` -- Search the catalog and return enriched results with install status.
-- `BofMarketplace.info` (method) `modules/bof_registry.py:658` `def info(self, name)` -- Get detailed information about a BOF by name.
-- `BofMarketplace.install` (method) `modules/bof_registry.py:675` `def install(self, name)` -- Install a BOF from the catalog by name.
-- `BofMarketplace.uninstall` (method) `modules/bof_registry.py:704` `def uninstall(self, name)` -- Uninstall a BOF by name.
-- `BofMarketplace.list_installed` (method) `modules/bof_registry.py:717` `def list_installed(self)` -- List all installed BOFs with catalog enrichment.
-- `BofMarketplace.list_missing_dependencies` (method) `modules/bof_registry.py:729` `def list_missing_dependencies(self, name)` -- Return a list of dependencies for a BOF that are not installed.
-- `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:737` `def bulk_install(self, names)` -- Install multiple BOFs at once.
+Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
+- `load_client_addon` (function) `modules/bof_delivery.py:184` `def load_client_addon(client, config)` -- Resolve one beacon client lazyaddon manifest.
+- `staging_dir` (function) `modules/bof_delivery.py:225` `def staging_dir(config)` -- Return (and create) the BOF staging directory.
+- `stage_bof` (function) `modules/bof_delivery.py:240` `def stage_bof(name, config)` -- Stage one catalog BOF for delivery through its client.
+- `beacon_runtime_config` (function) `modules/bof_delivery.py:259` `def beacon_runtime_config(client, client_id, config, payload)` -- Build the C2-aligned beacon runtime configuration.
+- `write_client_config` (function) `modules/bof_delivery.py:336` `def write_client_config(client, client_id, config, payload)` -- Write the generated runtime config into the addon checkout and staging dir.
+- `stage_client` (function) `modules/bof_delivery.py:378` `def stage_client(client, config, payload)` -- Compile and stage a beacon client through its lazyaddon tool.
+- `key_missing_from_error` (function) `modules/bof_delivery.py:894` `def key_missing_from_error(exc)` -- Return True when the error text points at a missing AES key.
+- `delivery_command` (function) `modules/bof_delivery.py:908` `def delivery_command(bof_name, c2_url, args, bofs_dir)` -- Build the ``bof:`` delivery command for one BOF.
+- `queue_to_beacon` (function) `modules/bof_delivery.py:956` `def queue_to_beacon(client_id, command, config, payload)` -- Queue one command for a connected beacon through the C2 API.
+- `recent_beacons` (function) `modules/bof_delivery.py:1019` `def recent_beacons(config, payload)` -- Return the beacons currently seen by the C2.
+- `beacon_for_target` (function) `modules/bof_delivery.py:1085` `def beacon_for_target(target, config, payload)` -- Return the client id of a beacon that reported from ``target``.
+- `wait_for_beacon` (function) `modules/bof_delivery.py:1123` `def wait_for_beacon(client_id, since, timeout, config, payload, command)` -- Wait until a beacon answers, then return its latest record.
+- `c2_reachable` (function) `modules/bof_delivery.py:1205` `def c2_reachable(config, payload)` -- Return True when the C2 answers an authenticated API query.
+- `run_bof` (function) `modules/bof_delivery.py:1240` `def run_bof(bof_name, client_id, args)` -- Queue one BOF execution on a live beacon and optionally await output.
+- `run_bof_train` (function) `modules/bof_delivery.py:1279` `def run_bof_train(client_id, names, args)` -- Run a sequence of BOFs over one beacon, waiting for each in turn.
+- `deploy_client` (function) `modules/bof_delivery.py:1345` `def deploy_client(client, target)` -- Deliver a staged beacon client onto a target and await check-in.
+- `_DockerSession.__init__` (method) `modules/bof_delivery.py:1482` `def __init__(self, container)` -- Bind the adapter to one container name.
+- `_DockerSession.alive` (method) `modules/bof_delivery.py:1486` `def alive(self, timeout)` -- Return True while the container answers ``echo``.
+- `_DockerSession.run` (method) `modules/bof_delivery.py:1506` `def run(self, command, timeout)` -- Execute one shell line inside the container.
+- `config_sessions_dir` (function) `modules/bof_delivery.py:1657` `def config_sessions_dir()` -- Return the sessions directory of the default delivery config.
+- `bof_results` (function) `modules/bof_delivery.py:1678` `def bof_results(client_id, limit, config)` -- Read the last beacon history records for one client.
 
 
 Next: [API_p11.md](API_p11.md)

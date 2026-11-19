@@ -117,7 +117,7 @@ class TestTechniqueSelector:
         decision = TechniqueSelector().propose(_ctx())
         assert decision is not None and decision.source == "technique", story
         assert decision.command.startswith("atomic_tests T"), story
-        assert decision.command.endswith(" --non-interactive"), story
+        assert decision.command.endswith(" --non-interactive --platform linux"), story
 
     def test_recon_phase_abstains(self, fake_stix):
         story = "pre-foothold phases never propose technique emulation"
@@ -139,7 +139,7 @@ class TestTechniqueSelector:
             ],
         )
         decision = TechniqueSelector().propose(
-            _ctx(exclude={"atomic_tests T1003 --non-interactive"})
+            _ctx(exclude={"atomic_tests T1003 --non-interactive --platform linux"})
         )
         assert decision is not None and "T1005" in decision.command, story
 

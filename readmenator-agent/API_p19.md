@@ -1,5 +1,66 @@
-# API (page 19 of 28)
+# API (page 19 of 30)
 Previous: [API_p18.md](API_p18.md)
+
+## modules/polymorphic_engine.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
+- `PolymorphicEngine.mutate` (method) `modules/polymorphic_engine.py:163` `def mutate(self, shellcode, arch)` -- Apply all configured mutation passes to shellcode.
+- `PolymorphicEngine.decode_xor` (method) `modules/polymorphic_engine.py:361` `def decode_xor(data)` -- Decode single-byte XOR encrypted shellcode.
+- `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
+- `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
+- `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
+
+## modules/privesc_predictor.py
+Depends on: `core/console.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/crystal_ball.py`
+- `parse_linpeas_output` (function) `modules/privesc_predictor.py:165` `def parse_linpeas_output(text)` -- Extract a structured SystemProfile from linpeas output text.
+- `parse_winpeas_output` (function) `modules/privesc_predictor.py:218` `def parse_winpeas_output(text)` -- Extract a structured SystemProfile from winpeas output text.
+- `match_known_cves` (function) `modules/privesc_predictor.py:249` `def match_known_cves(profile)` -- Match kernel version against the built-in CVE database.
+- `suid_vectors` (function) `modules/privesc_predictor.py:287` `def suid_vectors(profile)` -- Generate privilege escalation vectors from SUID binaries.
+- `capability_vectors` (function) `modules/privesc_predictor.py:361` `def capability_vectors(profile)` -- Generate privilege escalation vectors from Linux capabilities.
+- `group_vectors` (function) `modules/privesc_predictor.py:463` `def group_vectors(profile)` -- Generate privilege escalation vectors from group memberships.
+- `sudo_vectors` (function) `modules/privesc_predictor.py:501` `def sudo_vectors(profile)` -- Generate privilege escalation vectors from sudo rules.
+- `cron_vectors` (function) `modules/privesc_predictor.py:578` `def cron_vectors(profile)` -- Generate vectors from writable cron jobs and PATH manipulation.
+- `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
+- `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
+- `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
+
+## modules/professional_report.py
+Depends on: `modules/llm_factory.py`, `modules/world_model.py`
+Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
+- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
+- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
+- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:219` `def classify_findings(self, data)` -- Classify collected data into structured findings.
+- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:247` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
+- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:912` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
+- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:936` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
+- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:982` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+
+## modules/progress_ledger.py
+Imported by: `modules/lazy_loop.py`, `tests/test_progress_ledger.py`
+- `StrikePolicy.clamped` (method) `modules/progress_ledger.py:56` `def clamped(self)` -- Return a copy with the strike cap forced into range.
+- `RoundSignals.progress` (method) `modules/progress_ledger.py:82` `def progress(self)` -- Return True when any objective-evidence signal fired.
+- `ProgressLedger.__init__` (method) `modules/progress_ledger.py:103` `def __init__(self, engagement_id, base_dir, policy)` -- Bind the ledger to one engagement.
+- `ProgressLedger.file_path` (method) `modules/progress_ledger.py:128` `def file_path(self)` -- Return the persisted strike state path.
+- `ProgressLedger.load` (method) `modules/progress_ledger.py:132` `def load(self)` -- Load persisted state, keeping any file intact on parse failure.
+- `ProgressLedger.save` (method) `modules/progress_ledger.py:152` `def save(self)` -- Persist the strike state with owner-only permissions.
+- `ProgressLedger.strikes` (method) `modules/progress_ledger.py:167` `def strikes(self)` -- Return the current consecutive no-progress strike count.
+- `ProgressLedger.log` (method) `modules/progress_ledger.py:172` `def log(self)` -- Return the recent strike/progress log rows.
+- `ProgressLedger.signals_from_brief` (method) `modules/progress_ledger.py:176` `def signals_from_brief(self, brief)` -- Diff one graph/orchestrator brief against the stored previous one.
+- `ProgressLedger.observe` (method) `modules/progress_ledger.py:208` `def observe(self, signals, note)` -- Record one round of signals and update the strike counter.
+- `ProgressLedger.brief_for_discards` (method) `modules/progress_ledger.py:250` `def brief_for_discards(self)` -- Return durable rows for the finding-ledger discard recorder.
+
+## modules/r.sh
+Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
+- `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
+
+## modules/reaction_bridge.py
+Depends on: `modules/lazy_loop.py`
+Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
+- `ReactionPick.__init__` (method) `modules/reaction_bridge.py:69` `def __init__(self, command, reason, priority, mitre)`
+- `save_decisions` (function) `modules/reaction_bridge.py:80` `def save_decisions(task_id, decisions)` -- Park picks into the per-task buffer; returns the saved count.
+- `load_reaction_triggers` (function) `modules/reaction_bridge.py:108` `def load_reaction_triggers(task_id, consumer)` -- Drain the buffer into planner trigger dicts (one-shot, one per round).
+- `find_credentials` (function) `modules/reaction_bridge.py:159` `def find_credentials(output)` -- Extract user:pass pairs and hashes; placeholder values are dropped.
 
 ## modules/reactive_engine.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
@@ -254,7 +315,7 @@ Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/scan_brief.py
 Depends on: `core/hardening.py`
-Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_scan_brief.py`
+Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `sdk/facade.py`, `tests/test_scan_brief.py`
 - `safe_target` (function) `modules/scan_brief.py:38` `def safe_target(target)` -- Return the filesystem-safe scan name fragment for a target.
 - `freshest_scan_xml` (function) `modules/scan_brief.py:53` `def freshest_scan_xml(target, sessions_dir)` -- Return the newest scan XML for a target, or an empty path.
 - `parse_nmap_services` (function) `modules/scan_brief.py:79` `def parse_nmap_services(path)` -- Extract ``(port, protocol, service, version, product)`` rows from nmap XML.
@@ -267,7 +328,7 @@ Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_scan_
 - `intents_from_brief` (function) `modules/scan_brief.py:247` `def intents_from_brief(brief, limit)` -- Return one sharpening intent text per brief service.
 
 ## modules/security_sanitizers.py
-Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
+Imported by: `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `modules/beacon_history.py`, `modules/c2_agent.py`, `modules/engagement_hooks.py`, `modules/exploitdb_c_bridge.py`, `modules/lazyown_bprfuzzer.py`, `modules/traffic_recorder.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
 - `SecurityConfig.from_payload` (method) `modules/security_sanitizers.py:68` `def from_payload(cls, payload)` -- Build a configuration object from a ``payload.json`` mapping.
 - `HeaderValueSanitizer.__init__` (method) `modules/security_sanitizers.py:115` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
 - `HeaderValueSanitizer.is_valid_name` (method) `modules/security_sanitizers.py:129` `def is_valid_name(self, name)` -- Return True iff ``name`` is a syntactically valid header token.
@@ -283,6 +344,7 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprf
 - `OutputSanitizer.__init__` (method) `modules/security_sanitizers.py:418` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
 - `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
 - `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
+- `sanitize_client_id` (function) `modules/security_sanitizers.py:492` `def sanitize_client_id(value, max_length)` -- Strip an identifier down to URL- and path-safe characters.
 
 ## modules/selection/_phase_categories.py
 Imported by: `modules/selection/bridge.py`, `modules/selection/parquet.py`
@@ -419,78 +481,6 @@ Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills
 - `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
 - `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
 - `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
-
-## modules/session_reader.py
-Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
-- `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
-- `ImplantRecord.platform` (method) `modules/session_reader.py:60` `def platform(self)`
-- `ImplantRecord.ip_list` (method) `modules/session_reader.py:69` `def ip_list(self)`
-- `SessionSummary.active_client_ids` (method) `modules/session_reader.py:94` `def active_client_ids(self)`
-- `SessionSummary.privileged_sessions` (method) `modules/session_reader.py:101` `def privileged_sessions(self)`
-- `SessionSummary.unprivileged_sessions` (method) `modules/session_reader.py:108` `def unprivileged_sessions(self)`
-- `SessionSummary.latest_for` (method) `modules/session_reader.py:114` `def latest_for(self, client_id)`
-- `SessionSummary.task_by_status` (method) `modules/session_reader.py:118` `def task_by_status(self, status)`
-- `AbstractReader.read` (method) `modules/session_reader.py:129` `def read(self, sessions_dir)`
-- `ImplantCSVReader.read` (method) `modules/session_reader.py:157` `def read(self, sessions_dir)`
-- `CommandOutputReader.read` (method) `modules/session_reader.py:199` `def read(self, sessions_dir)`
-- `DiscoveredHostReader.read` (method) `modules/session_reader.py:217` `def read(self, sessions_dir)`
-- `TaskReader.read` (method) `modules/session_reader.py:235` `def read(self, sessions_dir)`
-- `TaskWriter.__init__` (method) `modules/session_reader.py:260` `def __init__(self, sessions_dir)`
-- `TaskWriter.append` (method) `modules/session_reader.py:263` `def append(self, title, description, operator, status)`
-- `TaskWriter.update_status` (method) `modules/session_reader.py:288` `def update_status(self, task_id, status)`
-- `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
-- `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
-- `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
-
-## modules/session_state.py
-Imported by: `modules/recommender.py`
-- `build_state` (function) `modules/session_state.py:189` `def build_state()` -- Assemble and return the current session state dict.
-- `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
-- `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
-
-## modules/shell_session_store.py
-Depends on: `modules/atomic_exploit_bridge.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`
-- `session_id` (function) `modules/shell_session_store.py:49` `def session_id(target, via, created_at)` -- Return the stable content hash identifying a session.
-- `register` (function) `modules/shell_session_store.py:80` `def register(target, via, port, lhost, evidence)` -- Create or refresh the resumable descriptor for an obtained shell.
-- `get` (function) `modules/shell_session_store.py:123` `def get(session)` -- Return one descriptor by id, or None when absent or unreadable.
-- `list_sessions` (function) `modules/shell_session_store.py:134` `def list_sessions(target)` -- Return persisted descriptors, newest first, optionally for one target.
-- `mark_closed` (function) `modules/shell_session_store.py:174` `def mark_closed(target, via)` -- Mark matching descriptors closed.
-- `resume` (function) `modules/shell_session_store.py:214` `def resume(session)` -- Re-establish a persisted shell session through its recorded primitive.
-
-## modules/sidequest.py
-Depends on: `modules/llm_factory.py`, `modules/loop/__init__.py`
-- `checkpoint_id` (function) `modules/sidequest.py:38` `def checkpoint_id(row)` -- Return a stable, position-independent ordinal for one decision row.
-- `list_checkpoints` (function) `modules/sidequest.py:61` `def list_checkpoints(run_id, limit)` -- Return recent decision checkpoints, newest last, each with its ordinal.
-- `get_checkpoint` (function) `modules/sidequest.py:99` `def get_checkpoint(ordinal)` -- Return the full frozen decision row for a checkpoint ordinal.
-- `ask` (function) `modules/sidequest.py:142` `def ask(ordinal, question, temperature)` -- Answer a question about one frozen checkpoint, read-only.
-
-## modules/sidequestion.py
-Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
-- `SideQuestionService.__init__` (method) `modules/sidequestion.py:55` `def __init__(self, answer_fn, config)` -- Initialize registries with an optional answer function.
-- `SideQuestionService.capture` (method) `modules/sidequestion.py:66` `def capture(self, task_id, text)` -- Freeze main-loop context into an immutable snapshot.
-- `SideQuestionService.ask` (method) `modules/sidequestion.py:75` `def ask(self, snapshot_id, question)` -- Answer from a snapshot without touching main state.
-- `SideQuestionService.cancel` (method) `modules/sidequestion.py:104` `def cancel(self, request_id)` -- Mark a pending request cancelled.
-- `SideQuestionService.history` (method) `modules/sidequestion.py:113` `def history(self, limit, before)` -- Page request history newest first.
-
-## modules/sinks/attack_graph.py
-Depends on: `modules/attack_surface3d.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/attack_graph.py:13` `def apply(event)` -- Rebuild the attack graph and its exposure summary.
-
-## modules/sinks/beacon_dispatch.py
-Depends on: `core/config.py`, `core/hardening.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/beacon_dispatch.py:46` `def apply(event)` -- Stage the catch-back command for one foothold outcome.
-
-## modules/sinks/c2_surfaces.py
-Depends on: `modules/c2_surfaces.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/c2_surfaces.py:11` `def apply(event)` -- Write the operator-visible surfaces for one outcome.
-
-## modules/sinks/campaign_db.py
-Depends on: `modules/db.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/campaign_db.py:9` `def apply(event)` -- Mirror one outcome into the campaign database.
 
 
 Next: [API_p20.md](API_p20.md)

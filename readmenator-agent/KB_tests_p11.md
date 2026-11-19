@@ -1,6 +1,23 @@
 # Subsystem: tests (page 11 of 27)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
+## tests/test_engage_summary.py
+- Doc: Tests for modules/engage_summary.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_step` (function, line 45) `def _step(command)`
+  - `test_marker_lines_drop_panels_and_bars` (function, line 54) `def test_marker_lines_drop_panels_and_bars()`
+  - `test_detail_for_ping_extracts_os` (function, line 62) `def test_detail_for_ping_extracts_os()`
+  - `test_detail_for_populate_extracts_services` (function, line 69) `def test_detail_for_populate_extracts_services()`
+  - `test_detail_for_empty_search_is_honest` (function, line 76) `def test_detail_for_empty_search_is_honest()`
+  - `test_held_scan_ports_reads_xml` (function, line 82) `def test_held_scan_ports_reads_xml(tmp_path)`
+  - `test_render_text_shows_skip_with_held_ports` (function, line 91) `def test_render_text_shows_skip_with_held_ports(tmp_path)`
+  - `test_full_output_prefers_evidence` (function, line 104) `def test_full_output_prefers_evidence(tmp_path)`
+  - `test_write_report_persists_markdown` (function, line 114) `def test_write_report_persists_markdown(tmp_path)`
+  - `test_render_markdown_lists_evidence_and_next` (function, line 125) `def test_render_markdown_lists_evidence_and_next()`
+- Depends on: `modules/engage_summary.py`, `modules/evidence.py`
+
 ## tests/test_engagement_and_ping.py
 - Doc: tests/test_engagement_and_ping.py
 - Layer: testing
@@ -252,6 +269,16 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_cmd_keeps_telemetry` (method, line 142) `def test_cmd_keeps_telemetry(self)`
 - Depends on: `core/safe_exec.py`, `modules/command_executor.py`
 
+## tests/test_exploitdb_command_set.py
+- Doc: Regression guard for the ExploitDB command set.
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 33) `def _add_repo_root_to_syspath()`
+  - `_discovered_sets` (function, line 39) `def _discovered_sets()`
+  - `test_exploitdb_set_is_discovered_and_live` (function, line 46) `def test_exploitdb_set_is_discovered_and_live()`
+  - `test_exploitdb_set_exposes_exactly_the_unique_commands` (function, line 57) `def test_exploitdb_set_exposes_exactly_the_unique_commands()`
+- Depends on: `cli/commands/_dormancy.py`, `cli/registry.py`
+
 ## tests/test_exploitgym_gym.py
 - Doc: Tests for the ExploitGym integration module.
 - Layer: testing
@@ -460,38 +487,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_blocked_gate_stays_partial_with_reason` (function, line 37) `def test_blocked_gate_stays_partial_with_reason()`
   - `test_default_payload_unaffected` (function, line 45) `def test_default_payload_unaffected()`
 - Depends on: `modules/lazy_findings.py`
-
-## tests/test_fuzzy_picker.py
-- Doc: Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeView` (class, line 35) `class _FakeView(PickerView)`
-  - `scorer` (function, line 54) `def scorer()`
-  - `sample_items` (function, line 59) `def sample_items()`
-  - `test_empty_query_returns_all_items_in_order` (function, line 72) `def test_empty_query_returns_all_items_in_order(scorer, sample_items)`
-  - `test_exact_match_scores_highest` (function, line 78) `def test_exact_match_scores_highest(scorer, sample_items)`
-  - `test_prefix_match_outranks_substring` (function, line 84) `def test_prefix_match_outranks_substring(scorer)`
-  - `test_subsequence_match_emits_positions` (function, line 90) `def test_subsequence_match_emits_positions(scorer, sample_items)`
-  - `test_similarity_floor_excludes_unrelated_text` (function, line 98) `def test_similarity_floor_excludes_unrelated_text(scorer)`
-  - `test_subsequence_positions_helper_returns_empty_when_no_match` (function, line 104) `def test_subsequence_positions_helper_returns_empty_when_no_match()`
-  - `test_config_from_payload_respects_known_overrides` (function, line 112) `def test_config_from_payload_respects_known_overrides()`
-  - `test_config_from_payload_ignores_unknown_keys` (function, line 119) `def test_config_from_payload_ignores_unknown_keys()`
-  - `test_config_from_payload_returns_defaults_when_no_block` (function, line 124) `def test_config_from_payload_returns_defaults_when_no_block()`
-  - `test_picker_short_circuits_single_item` (function, line 132) `def test_picker_short_circuits_single_item()`
-  - `test_picker_routes_through_view_for_multiple_items` (function, line 138) `def test_picker_routes_through_view_for_multiple_items(sample_items)`
-  - `test_picker_cancel_returns_none` (function, line 146) `def test_picker_cancel_returns_none(sample_items)`
-  - `test_picker_empty_input_returns_none` (function, line 152) `def test_picker_empty_input_returns_none()`
-  - `test_strip_ansi_removes_csi_sequences` (function, line 160) `def test_strip_ansi_removes_csi_sequences()`
-  - `test_strip_ansi_passes_through_plain_text` (function, line 165) `def test_strip_ansi_passes_through_plain_text()`
-  - `_collect_string_constants` (function, line 174) `def _collect_string_constants(source)`
-  - `_collect_runtime_strings` (function, line 198) `def _collect_runtime_strings()`
-  - `test_lazyown_runtime_strings_preserve_shell_payload` (function, line 260) `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)`
-  - `test_lazyown_source_has_no_invalid_escape_warning` (function, line 265) `def test_lazyown_source_has_no_invalid_escape_warning()`
-  - `test_getprompt_renders_three_lines_and_includes_payload_segments` (function, line 280) `def test_getprompt_renders_three_lines_and_includes_payload_segments()`
-  - `__init__` (method, line 38) `def __init__(self, selection_index)`
-  - `run` (method, line 43) `def run(self, items, initial_query)`
-- Depends on: `cli/banner_config.py`, `cli/fuzzy_picker.py`, `utils.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

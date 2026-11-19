@@ -1,6 +1,50 @@
 # Subsystem: modules (page 14 of 19)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/loop_audit.py
+- Doc: Operator audit trail for autonomous loop runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_clean` (function, line 56) `def _clean(text, limit)`
+  - `_first_token` (function, line 61) `def _first_token(command)`
+  - `_output_tail` (function, line 71) `def _output_tail(output)`
+  - `step_context` (function, line 80) `def step_context(task_id)`
+  - `_consume_context` (function, line 103) `def _consume_context()`
+  - `audit_path` (function, line 109) `def audit_path(task_id)`
+  - `LoopAudit` (class, line 114) `class LoopAudit`
+  - `start` (function, line 320) `def start(task_id)`
+  - `audit_for` (function, line 338) `def audit_for(task_id)`
+  - `stop` (function, line 349) `def stop(task_id)`
+  - `_read_jsonl` (function, line 355) `def _read_jsonl(path)`
+  - `blocked_verbs` (function, line 360) `def blocked_verbs(task_id, min_count)`
+  - `guard_rows` (function, line 392) `def guard_rows(task_id)`
+  - `activity_rows` (function, line 397) `def activity_rows(task_id)`
+  - `_ts` (function, line 402) `def _ts(row)`
+  - `_timeline_event` (function, line 410) `def _timeline_event(audit_row, start_ts)`
+  - `_guard_event` (function, line 421) `def _guard_event(row, start_ts)`
+  - `_activity_event` (function, line 433) `def _activity_event(row, start_ts)`
+  - `timeline` (function, line 447) `def timeline(task_id, audit)`
+  - `_fmt_offset` (function, line 471) `def _fmt_offset(offset)`
+  - `_render_event` (function, line 476) `def _render_event(event)`
+  - `render` (function, line 537) `def render(task_id, limit, audit)`
+  - `list_runs` (function, line 558) `def list_runs(limit)`
+  - `render_summary` (function, line 595) `def render_summary(summaries)`
+  - `__init__` (method, line 123) `def __init__(self, task_id, path)`
+  - `path` (method, line 131) `def path(self)`
+  - `record` (method, line 135) `def record(self, kind)`
+  - `run_start` (method, line 155) `def run_start(self, goal, target, rounds, workers, mode, profile)`
+  - `preflight` (method, line 168) `def preflight(self, outcome)`
+  - `blocked` (method, line 178) `def blocked(self, source, reason, command, worker, intent)`
+  - `verdict` (method, line 189) `def verdict(self, verdict)`
+  - `run_end` (method, line 203) `def run_end(self, status, rounds, verdict, error)`
+  - `record_command` (method, line 216) `def record_command(self, command, output, duration, ok, task_id)`
+  - `_append` (method, line 273) `def _append(self, event)`
+  - `_trim` (method, line 288) `def _trim(self)`
+  - `_read` (method, line 303) `def _read(path)`
+- Depends on: `core/parsers.py`
+- Imported by: `modules/lazy_loop.py`
+
 ## modules/loop_guardrails.py
 - Doc: Adaptive guardrails for the autonomous loop.
 - Layer: utility
@@ -69,42 +113,43 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `LoopValidationError` (class, line 85) `class LoopValidationError(ValueError)`
-  - `LoopNotFoundError` (class, line 94) `class LoopNotFoundError(KeyError)`
-  - `validate_target` (function, line 98) `def validate_target(raw)`
-  - `sanitize_goal` (function, line 121) `def sanitize_goal(raw)`
-  - `clamp_int` (function, line 148) `def clamp_int(raw, field, default, minimum, maximum)`
-  - `clamp_float` (function, line 173) `def clamp_float(raw, field, default, minimum, maximum)`
-  - `validate_loop_id` (function, line 198) `def validate_loop_id(loop_id)`
-  - `_now_iso` (function, line 215) `def _now_iso()`
-  - `_process_start_ticks` (function, line 220) `def _process_start_ticks(pid)`
-  - `_pid_alive` (function, line 244) `def _pid_alive(pid, start_ticks)`
-  - `LoopSpec` (class, line 262) `class LoopSpec`
-  - `_loop_command` (function, line 282) `def _loop_command(spec)`
-  - `LoopManager` (class, line 314) `class LoopManager`
-  - `default_manager` (function, line 850) `def default_manager()`
-  - `__init__` (method, line 88) `def __init__(self, field, message)`
-  - `__init__` (method, line 325) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
-  - `loops_dir` (method, line 347) `def loops_dir(self)`
-  - `start` (method, line 351) `def start(self, spec, operator)`
-  - `_spawn_locked` (method, line 392) `def _spawn_locked(self, spec, operator)`
-  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
-  - `_write_workspace_metadata` (method, line 512) `def _write_workspace_metadata(record)`
-  - `_read_outcome` (method, line 529) `def _read_outcome(workspace)`
-  - `list_loops` (method, line 546) `def list_loops(self)`
-  - `_refresh_log_bytes` (method, line 570) `def _refresh_log_bytes(self, record)`
-  - `get_loop` (method, line 581) `def get_loop(self, loop_id)`
-  - `read_log` (method, line 600) `def read_log(self, loop_id, offset)`
-  - `_resolve_log_path` (method, line 641) `def _resolve_log_path(self, record)`
-  - `stop` (method, line 667) `def stop(self, loop_id)`
-  - `_update_status_locked` (method, line 715) `def _update_status_locked(self, loop_id, status)`
-  - `summary` (method, line 732) `def summary(self)`
-  - `_prune_locked` (method, line 768) `def _prune_locked(self)`
-  - `_remove_workspace` (method, line 793) `def _remove_workspace(self, loop_id)`
-  - `_load_registry_locked` (method, line 817) `def _load_registry_locked(self)`
-  - `_save_registry_locked` (method, line 832) `def _save_registry_locked(self, records)`
+  - `LoopValidationError` (class, line 88) `class LoopValidationError(ValueError)`
+  - `LoopNotFoundError` (class, line 97) `class LoopNotFoundError(KeyError)`
+  - `validate_target` (function, line 101) `def validate_target(raw)`
+  - `validate_beacon_target` (function, line 124) `def validate_beacon_target(raw)`
+  - `sanitize_goal` (function, line 146) `def sanitize_goal(raw)`
+  - `clamp_int` (function, line 173) `def clamp_int(raw, field, default, minimum, maximum)`
+  - `clamp_float` (function, line 198) `def clamp_float(raw, field, default, minimum, maximum)`
+  - `validate_loop_id` (function, line 223) `def validate_loop_id(loop_id)`
+  - `_now_iso` (function, line 240) `def _now_iso()`
+  - `_process_start_ticks` (function, line 245) `def _process_start_ticks(pid)`
+  - `_pid_alive` (function, line 269) `def _pid_alive(pid, start_ticks)`
+  - `LoopSpec` (class, line 287) `class LoopSpec`
+  - `_loop_command` (function, line 308) `def _loop_command(spec)`
+  - `LoopManager` (class, line 355) `class LoopManager`
+  - `default_manager` (function, line 898) `def default_manager()`
+  - `__init__` (method, line 91) `def __init__(self, field, message)`
+  - `__init__` (method, line 366) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
+  - `loops_dir` (method, line 388) `def loops_dir(self)`
+  - `start` (method, line 392) `def start(self, spec, operator)`
+  - `_spawn_locked` (method, line 437) `def _spawn_locked(self, spec, operator)`
+  - `_reap` (method, line 518) `def _reap(self, loop_id, process)`
+  - `_write_workspace_metadata` (method, line 560) `def _write_workspace_metadata(record)`
+  - `_read_outcome` (method, line 577) `def _read_outcome(workspace)`
+  - `list_loops` (method, line 594) `def list_loops(self)`
+  - `_refresh_log_bytes` (method, line 618) `def _refresh_log_bytes(self, record)`
+  - `get_loop` (method, line 629) `def get_loop(self, loop_id)`
+  - `read_log` (method, line 648) `def read_log(self, loop_id, offset)`
+  - `_resolve_log_path` (method, line 689) `def _resolve_log_path(self, record)`
+  - `stop` (method, line 715) `def stop(self, loop_id)`
+  - `_update_status_locked` (method, line 763) `def _update_status_locked(self, loop_id, status)`
+  - `summary` (method, line 780) `def summary(self)`
+  - `_prune_locked` (method, line 816) `def _prune_locked(self)`
+  - `_remove_workspace` (method, line 841) `def _remove_workspace(self, loop_id)`
+  - `_load_registry_locked` (method, line 865) `def _load_registry_locked(self)`
+  - `_save_registry_locked` (method, line 880) `def _save_registry_locked(self, records)`
 - Depends on: `modules/loop_limits.py`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_loop_manager.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_beacon_menu.py`, `tests/test_loop_manager.py`
 
 ## modules/loop_preflight.py
 - Doc: Target and lab preflight checks for autonomous loops and auto_pwn.
@@ -324,7 +369,7 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `_docker_exec` (function, line 150) `def _docker_exec(container, script, payload, timeout)`
   - `_core_services_apply` (function, line 180) `def _core_services_apply()`
   - `build_migrations` (function, line 194) `def build_migrations(subnet)`
-  - `apply_migrations` (function, line 354) `def apply_migrations(container, subnet)`
+  - `apply_migrations` (function, line 366) `def apply_migrations(container, subnet)`
 - Depends on: `core/safe_exec.py`
 - Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
 
@@ -419,78 +464,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `__contains__` (method, line 660) `def __contains__(self, name)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
 - Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
-
-## modules/moe_router.py
-- Doc: modules/moe_router.py
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `ExpertProfile` (class, line 83) `class ExpertProfile`
-  - `ExpertPerformance` (class, line 101) `class ExpertPerformance`
-  - `IExpertSelector` (class, line 257) `class IExpertSelector(ABC)`
-  - `ExpertPerformanceStore` (class, line 276) `class ExpertPerformanceStore`
-  - `SoftmaxSelector` (class, line 368) `class SoftmaxSelector(IExpertSelector)`
-  - `_softmax` (function, line 423) `def _softmax(values, temperature)`
-  - `ExpertAvailabilityChecker` (class, line 437) `class ExpertAvailabilityChecker`
-  - `MoERouter` (class, line 489) `class MoERouter`
-  - `_load_groq_key` (function, line 665) `def _load_groq_key()`
-  - `get_router` (function, line 684) `def get_router(api_key)`
-  - `is_local` (method, line 96) `def is_local(self)`
-  - `update` (method, line 115) `def update(self, reward, detection_prob)`
-  - `select` (method, line 261) `def select(self, candidates, task_type, performance_store, deterministic)`
-  - `__init__` (method, line 283) `def __init__(self, path)`
-  - `_key` (method, line 293) `def _key(expert_id, task_type)`
-  - `record` (method, line 298) `def record(self, expert_id, task_type, reward, detection_prob)`
-  - `get` (method, line 316) `def get(self, expert_id, task_type)`
-  - `all_for_task` (method, line 321) `def all_for_task(self, task_type)`
-  - `performance_bonus` (method, line 325) `def performance_bonus(self, expert_id, task_type)`
-  - `_save` (method, line 341) `def _save(self)`
-  - `_load` (method, line 350) `def _load(self)`
-  - `__init__` (method, line 377) `def __init__(self, temperature)`
-  - `temperature` (method, line 381) `def temperature(self)`
-  - `temperature` (method, line 385) `def temperature(self, value)`
-  - `select` (method, line 388) `def select(self, candidates, task_type, performance_store, deterministic)`
-  - `_compute_weights` (method, line 410) `def _compute_weights(candidates, task_type, store)`
-  - `__init__` (method, line 443) `def __init__(self)`
-  - `is_available` (method, line 447) `def is_available(self, expert, api_key)`
-  - `_check` (method, line 458) `def _check(expert, api_key)`
-  - `__init__` (method, line 500) `def __init__(self, experts, selector, performance_store, api_key)`
-  - `route` (method, line 515) `def route(self, task_type, goal, deterministic)`
-  - `ensemble` (method, line 547) `def ensemble(self, task_type, goal, n)`
-  - `record_outcome` (method, line 575) `def record_outcome(self, expert_id, task_type, reward, detection_prob)`
-  - `top_experts_for_task` (method, line 589) `def top_experts_for_task(self, task_type, top_k)`
-  - `get_expert` (method, line 605) `def get_expert(self, expert_id)`
-  - `status_report` (method, line 609) `def status_report(self)`
-  - `_available_for_task` (method, line 640) `def _available_for_task(self, task_type)`
-  - `_anneal_temperature` (method, line 645) `def _anneal_temperature(self)`
-  - `adjusted_weight` (function, line 562) `def adjusted_weight(ep)`
-- Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
-- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
-
-## modules/morse.py
-- Doc: Morse code conversion service with interactive driver.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MorseConfig` (class, line 16) `class MorseConfig`
-  - `reverse_morse_code` (function, line 98) `def reverse_morse_code()`
-  - `text_to_morse` (function, line 109) `def text_to_morse(text, config)`
-  - `morse_to_text` (function, line 130) `def morse_to_text(morse_code, config)`
-  - `clear_screen` (function, line 157) `def clear_screen(config)`
-  - `read_choice` (function, line 171) `def read_choice(config)`
-  - `run_driver` (function, line 186) `def run_driver(config)`
-
-## modules/mysql_hookandroot_lib.c
-- Doc: reverse_shell: fork & send a bash shell to the attacker before starting mysqld
-- Layer: utility
-- Language: c
-- Symbols:
-  - `reverse_shell` (function, line 74) `void reverse_shell(void)`
-  - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
-  - `_GNU_SOURCE` (macro, line 50) `#define _GNU_SOURCE`
-  - `ATTACKERS_IP` (macro, line 64) `#define ATTACKERS_IP`
-  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
-  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

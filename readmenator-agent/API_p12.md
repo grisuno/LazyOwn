@@ -1,5 +1,55 @@
-# API (page 12 of 28)
+# API (page 12 of 30)
 Previous: [API_p11.md](API_p11.md)
+
+## modules/cross_cloud.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
+- `CrossCloudAttackEngine.azure_saml_to_aws` (method) `modules/cross_cloud.py:67` `def azure_saml_to_aws(self)` -- Abuse Azure AD SAML federation to gain AWS access.
+- `CrossCloudAttackEngine.gcp_oidc_to_azure` (method) `modules/cross_cloud.py:104` `def gcp_oidc_to_azure(self)` -- Abuse GCP OIDC federation to gain Azure access.
+- `CrossCloudAttackEngine.aws_oidc_to_gcp` (method) `modules/cross_cloud.py:133` `def aws_oidc_to_gcp(self)` -- Abuse AWS OIDC federation to gain GCP access.
+- `CrossCloudAttackEngine.multi_cloud_imds_harvesting` (method) `modules/cross_cloud.py:167` `def multi_cloud_imds_harvesting(self)` -- Harvest metadata from all cloud providers simultaneously.
+- `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
+- `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
+- `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
+
+## modules/ctf_capture.py
+Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+Imported by: `modules/autonomous_exploit_engine.py`, `tests/test_auto_pwn_success.py`, `tests/test_ctf_signalman.py`
+- `output_dir` (function) `modules/ctf_capture.py:44` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
+- `evaluate_exploit_output` (function) `modules/ctf_capture.py:241` `def evaluate_exploit_output(output)` -- Evaluate raw exploit output against the precise shell-objective checkers.
+- `capture` (function) `modules/ctf_capture.py:315` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
+- `record_path` (function) `modules/ctf_capture.py:403` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
+- `store_record` (function) `modules/ctf_capture.py:429` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
+- `list_records` (function) `modules/ctf_capture.py:447` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
+- `summary` (function) `modules/ctf_capture.py:470` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
+
+## modules/ctf_signalman.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/redteam_gym.py`, `tests/test_ctf_signalman.py`
+- `catalogue_for` (function) `modules/ctf_signalman.py:53` `def catalogue_for(scenario)` -- Resolve one gym scenario into its vectors and lookup callable.
+- `collect` (function) `modules/ctf_signalman.py:106` `def collect(scenario, target, sessions_dir, search_bases)` -- Sweep the whole gym scenario and score every vector in one pass.
+- `render_scoreboard` (function) `modules/ctf_signalman.py:166` `def render_scoreboard(report)` -- Render the collect report as a compact scoreboard.
+- `save_scoreboard` (function) `modules/ctf_signalman.py:193` `def save_scoreboard(report, sessions_dir)` -- Persist the scoreboard next to the CTF records.
+
+## modules/custom_tools.py
+Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop/worker_execution.py`, `tests/test_lazy_loop.py`
+- `add_tool` (function) `modules/custom_tools.py:52` `def add_tool(name, kind, target, description, method, body, timeout, trigger)` -- Register or replace one custom tool.
+- `remove_tool` (function) `modules/custom_tools.py:97` `def remove_tool(name)` -- Delete a tool by name.
+- `list_tools` (function) `modules/custom_tools.py:109` `def list_tools()` -- Return every registered tool.
+- `get_tool` (function) `modules/custom_tools.py:114` `def get_tool(name)` -- Find one tool by name.
+- `match_tools` (function) `modules/custom_tools.py:128` `def match_tools(text, limit)` -- Rank tools whose name/description/trigger keywords appear in the text.
+- `run_custom_tool_line` (function) `modules/custom_tools.py:151` `def run_custom_tool_line(command, on_output)` -- Dispatch a ``custom tool <name> <arg>`` command line to its tool.
+- `run_tool` (function) `modules/custom_tools.py:170` `def run_tool(name, arg, on_output)` -- Execute one custom tool and return its transcript.
+
+## modules/cve_matcher.py
+Depends on: `core/logging.py`
+Imported by: `skills/mcp_tools/cve_search.py`, `tests/test_core_modules.py`
+- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
+- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
+- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
+- `get_matcher` (function) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
+- `search` (function) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
 
 ## modules/dacl_abuse.py
 Imported by: `cli/commands/active_directory.py`
@@ -207,35 +257,35 @@ Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
 - `write_report` (function) `modules/engage_summary.py:247` `def write_report(engagement_id, target, shell, steps, sessions_dir)` -- Persist the engagement report; return its relative path.
 
 ## modules/engagement_hooks.py
-Depends on: `core/logging.py`, `modules/collab_bp.py`
+Depends on: `core/logging.py`, `modules/collab_bp.py`, `modules/security_sanitizers.py`
 Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
-- `EngagementEvent.now` (method) `modules/engagement_hooks.py:124` `def now(cls, kind, target, message, payload, severity)` -- Construct an event with a fresh id and current UTC timestamp.
-- `EngagementEvent.render_line` (method) `modules/engagement_hooks.py:143` `def render_line(self)` -- Return a single-line operator-facing log entry.
-- `INotificationSink.name` (method) `modules/engagement_hooks.py:155` `def name(self)` -- Stable channel identifier used for diagnostic logging.
-- `INotificationSink.deliver` (method) `modules/engagement_hooks.py:159` `def deliver(self, event)` -- Deliver one event.
-- `StreamEventSink.name` (method) `modules/engagement_hooks.py:178` `def name(self)`
-- `StreamEventSink.deliver` (method) `modules/engagement_hooks.py:181` `def deliver(self, event)`
-- `CollabNotificationSink.name` (method) `modules/engagement_hooks.py:213` `def name(self)`
-- `CollabNotificationSink.deliver` (method) `modules/engagement_hooks.py:216` `def deliver(self, event)`
-- `_OutboundHTTPSink.name` (method) `modules/engagement_hooks.py:252` `def name(self)`
-- `_OutboundHTTPSink.deliver` (method) `modules/engagement_hooks.py:258` `def deliver(self, event)`
-- `TelegramNotificationSink.name` (method) `modules/engagement_hooks.py:288` `def name(self)`
-- `DiscordNotificationSink.name` (method) `modules/engagement_hooks.py:320` `def name(self)`
-- `NotificationBroadcaster.__init__` (method) `modules/engagement_hooks.py:349` `def __init__(self, sinks)`
-- `NotificationBroadcaster.default` (method) `modules/engagement_hooks.py:354` `def default(cls)` -- Return a broadcaster with the standard four-sink configuration.
-- `NotificationBroadcaster.add` (method) `modules/engagement_hooks.py:365` `def add(self, sink)` -- Register an additional sink at runtime.
-- `NotificationBroadcaster.deliver` (method) `modules/engagement_hooks.py:370` `def deliver(self, event)` -- Push event to all sinks.
-- `EngagementNarrator.__init__` (method) `modules/engagement_hooks.py:393` `def __init__(self, broadcaster)`
-- `EngagementNarrator.narrate` (method) `modules/engagement_hooks.py:400` `def narrate(self, kind, target, message, payload, severity)` -- Write one line + audit record and dispatch to every sink.
-- `get_default_narrator` (function) `modules/engagement_hooks.py:482` `def get_default_narrator()` -- Return the process-wide default narrator (lazy singleton).
-- `publish_shell_obtained` (function) `modules/engagement_hooks.py:491` `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` -- Single entry point called by lazyc2.py on every beacon check-in.
-- `append_approval_record` (function) `modules/engagement_hooks.py:564` `def append_approval_record(record)` -- Append one approval-pending record to sessions/engagement_approvals.jsonl.
-- `list_pending_approvals` (function) `modules/engagement_hooks.py:575` `def list_pending_approvals()` -- Return every approval record whose status is still 'pending'.
-- `resolve_approval` (function) `modules/engagement_hooks.py:601` `def resolve_approval(approval_id, decision, operator)` -- Append a resolution record for the given approval_id.
-- `is_valid_target` (function) `modules/engagement_hooks.py:626` `def is_valid_target(value)` -- Validate that value is a dotted-quad IPv4 or a safe hostname token.
+- `EngagementEvent.now` (method) `modules/engagement_hooks.py:128` `def now(cls, kind, target, message, payload, severity)` -- Construct an event with a fresh id and current UTC timestamp.
+- `EngagementEvent.render_line` (method) `modules/engagement_hooks.py:147` `def render_line(self)` -- Return a single-line operator-facing log entry.
+- `INotificationSink.name` (method) `modules/engagement_hooks.py:159` `def name(self)` -- Stable channel identifier used for diagnostic logging.
+- `INotificationSink.deliver` (method) `modules/engagement_hooks.py:163` `def deliver(self, event)` -- Deliver one event.
+- `StreamEventSink.name` (method) `modules/engagement_hooks.py:182` `def name(self)`
+- `StreamEventSink.deliver` (method) `modules/engagement_hooks.py:185` `def deliver(self, event)`
+- `CollabNotificationSink.name` (method) `modules/engagement_hooks.py:217` `def name(self)`
+- `CollabNotificationSink.deliver` (method) `modules/engagement_hooks.py:220` `def deliver(self, event)`
+- `_OutboundHTTPSink.name` (method) `modules/engagement_hooks.py:256` `def name(self)`
+- `_OutboundHTTPSink.deliver` (method) `modules/engagement_hooks.py:262` `def deliver(self, event)`
+- `TelegramNotificationSink.name` (method) `modules/engagement_hooks.py:292` `def name(self)`
+- `DiscordNotificationSink.name` (method) `modules/engagement_hooks.py:324` `def name(self)`
+- `NotificationBroadcaster.__init__` (method) `modules/engagement_hooks.py:353` `def __init__(self, sinks)`
+- `NotificationBroadcaster.default` (method) `modules/engagement_hooks.py:358` `def default(cls)` -- Return a broadcaster with the standard four-sink configuration.
+- `NotificationBroadcaster.add` (method) `modules/engagement_hooks.py:369` `def add(self, sink)` -- Register an additional sink at runtime.
+- `NotificationBroadcaster.deliver` (method) `modules/engagement_hooks.py:374` `def deliver(self, event)` -- Push event to all sinks.
+- `EngagementNarrator.__init__` (method) `modules/engagement_hooks.py:397` `def __init__(self, broadcaster)`
+- `EngagementNarrator.narrate` (method) `modules/engagement_hooks.py:404` `def narrate(self, kind, target, message, payload, severity)` -- Write one line + audit record and dispatch to every sink.
+- `get_default_narrator` (function) `modules/engagement_hooks.py:485` `def get_default_narrator()` -- Return the process-wide default narrator (lazy singleton).
+- `publish_shell_obtained` (function) `modules/engagement_hooks.py:494` `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` -- Single entry point called by lazyc2.py on every beacon check-in.
+- `append_approval_record` (function) `modules/engagement_hooks.py:567` `def append_approval_record(record)` -- Append one approval-pending record to sessions/engagement_approvals.jsonl.
+- `list_pending_approvals` (function) `modules/engagement_hooks.py:578` `def list_pending_approvals()` -- Return every approval record whose status is still 'pending'.
+- `resolve_approval` (function) `modules/engagement_hooks.py:604` `def resolve_approval(approval_id, decision, operator)` -- Append a resolution record for the given approval_id.
+- `is_valid_target` (function) `modules/engagement_hooks.py:629` `def is_valid_target(value)` -- Validate that value is a dotted-quad IPv4 or a safe hostname token.
 
 ## modules/enrich.py
-Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `modules/loop/objective_bootstrap.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
 - `scan_files_for` (function) `modules/enrich.py:40` `def scan_files_for(sessions_dir, target)` -- Return existing scan artefacts for a target.
 - `should_rescan` (function) `modules/enrich.py:57` `def should_rescan(sessions_dir, target, fresh_sec)` -- Return True when no fresh scan artefact exists for target.
 - `resolve_dns` (function) `modules/enrich.py:73` `def resolve_dns(target, timeout)` -- Resolve A/AAAA for a target with a bounded timeout.
@@ -442,52 +492,6 @@ Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.
 - `sema_up` (function) `modules/exp.c:610` `void sema_up(int *sema)`
 - `sema_down` (function) `modules/exp.c:615` `void sema_down(int *sema)`
 - `main` (function) `modules/exp.c:620` `int main(int argc, char ** argv)`
-
-## modules/exploit_chain.py
-Depends on: `modules/nmap_fingerprint.py`, `modules/outcome_bus.py`, `modules/service_aliases.py`
-Imported by: `cli/commands/exploit_migrated.py`
-- `ExploitChain.__init__` (method) `modules/exploit_chain.py:255` `def __init__(self, rhost, sessions_dir, nmap_xml_path)`
-- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:268` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
-- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:322` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
-- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:375` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
-- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:395` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
-- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:407` `def generate_report(self)` -- Generate a structured exploitation chain report.
-- `ExploitChain.save_report` (method) `modules/exploit_chain.py:440` `def save_report(self, path)` -- Save the exploitation chain report to a file.
-
-## modules/exploit_recommender.py
-Depends on: `lazygui/version.py`, `modules/world_model.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/exploit_recommend.py`, `skills/mcp_tools/rich_tui_snapshot.py`
-- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
-- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
-- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
-- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
-- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
-- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
-- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
-- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
-
-## modules/exploitdb_bridge.py
-- `scan_tier0` (function) `modules/exploitdb_bridge.py:105` `def scan_tier0(limit, platform, only_cve)`
-- `gen_yaml` (function) `modules/exploitdb_bridge.py:151` `def gen_yaml(item, outdir)`
-- `sync_tier0` (function) `modules/exploitdb_bridge.py:194` `def sync_tier0(limit, platform, only_cve, outdir)`
-
-## modules/exploitdb_c_bridge.py
-- `scan_c` (function) `modules/exploitdb_c_bridge.py:32` `def scan_c(limit, platform, skip_existing)`
-- `gen_c_yaml_compile_on_use` (function) `modules/exploitdb_c_bridge.py:89` `def gen_c_yaml_compile_on_use(item)`
-- `gen_batch` (function) `modules/exploitdb_c_bridge.py:134` `def gen_batch(limit)`
-- `compile_batch` (function) `modules/exploitdb_c_bridge.py:148` `def compile_batch(limit)`
-- `gen_c_yaml` (function) `modules/exploitdb_c_bridge.py:152` `def gen_c_yaml(item, binpath, wrapper)`
-
-## modules/exploitgym_gym.py
-Depends on: `modules/redteam_gym.py`
-Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
-- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
-- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
-- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
-- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
-- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
-- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
-- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
 
 
 Next: [API_p13.md](API_p13.md)

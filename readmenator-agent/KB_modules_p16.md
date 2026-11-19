@@ -1,6 +1,76 @@
 # Subsystem: modules (page 16 of 19)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/payload_factory.py
+- Doc: Native payload generation framework — stagers, stages, singles, formats.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_build_linux_x64_reverse_tcp` (function, line 118) `def _build_linux_x64_reverse_tcp(lhost, lport)`
+  - `_patch_shellcode_x64` (function, line 190) `def _patch_shellcode_x64(raw, lhost, lport)`
+  - `PayloadTemplate` (class, line 216) `class PayloadTemplate(ABC)`
+  - `ReverseShellPayload` (class, line 251) `class ReverseShellPayload(PayloadTemplate)`
+  - `WindowsReverseShellPayload` (class, line 290) `class WindowsReverseShellPayload(PayloadTemplate)`
+  - `MsfvenomPayload` (class, line 322) `class MsfvenomPayload(PayloadTemplate)`
+  - `ShellcodePayload` (class, line 363) `class ShellcodePayload(PayloadTemplate)`
+  - `DynamicShellcodePayload` (class, line 409) `class DynamicShellcodePayload(PayloadTemplate)`
+  - `_parse_escaped_hex` (function, line 442) `def _parse_escaped_hex(escaped)`
+  - `PayloadFactory` (class, line 457) `class PayloadFactory`
+  - `format_payload_table` (function, line 672) `def format_payload_table(payloads)`
+  - `__init__` (method, line 222) `def __init__(self, name, platform, arch, description, options)`
+  - `generate` (method, line 237) `def generate(self)`
+  - `to_dict` (method, line 241) `def to_dict(self)`
+  - `__init__` (method, line 254) `def __init__(self)`
+  - `generate` (method, line 272) `def generate(self)`
+  - `__init__` (method, line 293) `def __init__(self)`
+  - `generate` (method, line 305) `def generate(self)`
+  - `__init__` (method, line 325) `def __init__(self, name, platform, arch)`
+  - `generate` (method, line 337) `def generate(self)`
+  - `__init__` (method, line 374) `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
+  - `generate` (method, line 397) `def generate(self)`
+  - `__init__` (method, line 416) `def __init__(self, name, platform, arch, description, builder)`
+  - `generate` (method, line 436) `def generate(self)`
+  - `__init__` (method, line 464) `def __init__(self)`
+  - `_register_builtins` (method, line 468) `def _register_builtins(self)`
+  - `register` (method, line 512) `def register(self, template)`
+  - `list` (method, line 516) `def list(self, platform)`
+  - `get` (method, line 525) `def get(self, name)`
+  - `generate` (method, line 529) `def generate(self, name, format, output)`
+  - `_apply_format` (method, line 575) `def _apply_format(data, fmt)`
+  - `list_formats` (method, line 664) `def list_formats()`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `modules/sinks/beacon_dispatch.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+
+## modules/phishing_orchestrator.py
+- Doc: Smart Phishing Campaign Orchestrator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
+  - `_encrypt_credential` (function, line 84) `def _encrypt_credential(plaintext)`
+  - `_decrypt_credential` (function, line 100) `def _decrypt_credential(encrypted_b64)`
+  - `_hash_credential_for_log` (function, line 116) `def _hash_credential_for_log(plaintext)`
+  - `CampaignTarget` (class, line 139) `class CampaignTarget`
+  - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
+  - `CampaignResult` (class, line 167) `class CampaignResult`
+  - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
+  - `__init__` (method, line 399) `def __init__(self)`
+  - `get_instance` (method, line 404) `def get_instance(cls)`
+  - `launch` (method, line 415) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
+  - `profile_targets` (method, line 524) `def profile_targets(self, domain)`
+  - `generate_template` (method, line 569) `def generate_template(self, name, target_domain, context)`
+  - `clone_landing_page` (method, line 616) `def clone_landing_page(self, url)`
+  - `get_results` (method, line 643) `def get_results(self, campaign_id)`
+  - `record_click` (method, line 667) `def record_click(self, campaign_id, email)`
+  - `record_credentials` (method, line 688) `def record_credentials(self, campaign_id, email, password)`
+  - `_load_targets_from_file` (method, line 727) `def _load_targets_from_file(self, filepath)`
+  - `_generate_landing_page` (method, line 766) `def _generate_landing_page(self, template, target_domain, campaign_id)`
+  - `_setup_harvesting_endpoint` (method, line 806) `def _setup_harvesting_endpoint(self, campaign_id)`
+  - `_send_email` (method, line 818) `def _send_email(self, to_email, subject, html_body, smtp_config)`
+  - `_inject_harvester` (method, line 852) `def _inject_harvester(self, html, page_id)`
+  - `_load_config` (method, line 891) `def _load_config(self)`
+- Depends on: `core/crypto.py`, `core/hardening.py`
+- Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `tests/test_security_hardening_v3.py`
+
 ## modules/pipeline_engine.py
 - Doc: modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn
 - Layer: utility
@@ -123,32 +193,32 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `pop` (method, line 551) `def pop(self)`
   - `__len__` (method, line 560) `def __len__(self)`
 - Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/loop/objective_bootstrap.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
 
 ## modules/playbook_admin.py
 - Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PlaybookEntry` (class, line 41) `class PlaybookEntry`
-  - `_yaml_module` (function, line 56) `def _yaml_module()`
-  - `slugify` (function, line 63) `def slugify(value)`
-  - `playbook_path` (function, line 76) `def playbook_path(filename, directory)`
-  - `load_playbook` (function, line 103) `def load_playbook(path)`
-  - `playbook_kind` (function, line 124) `def playbook_kind(data)`
-  - `validate_playbook` (function, line 137) `def validate_playbook(data)`
-  - `_count_steps` (function, line 210) `def _count_steps(data)`
-  - `summarize` (function, line 227) `def summarize(path)`
-  - `scan_playbooks` (function, line 261) `def scan_playbooks(directory)`
-  - `preview_playbook` (function, line 281) `def preview_playbook(path, limit)`
-  - `playbook_template` (function, line 295) `def playbook_template(name, description, platforms)`
-  - `_write_atomic` (function, line 312) `def _write_atomic(target, data)`
-  - `create_playbook` (function, line 327) `def create_playbook(filename)`
-  - `_target_for_write` (function, line 367) `def _target_for_write(path, directory)`
-  - `update_playbook` (function, line 380) `def update_playbook(path, data, directory)`
-  - `save_playbook_yaml` (function, line 407) `def save_playbook_yaml(path, text, directory)`
-  - `delete_playbook` (function, line 436) `def delete_playbook(path, directory)`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
+  - `PlaybookEntry` (class, line 50) `class PlaybookEntry`
+  - `_yaml_module` (function, line 65) `def _yaml_module()`
+  - `slugify` (function, line 72) `def slugify(value)`
+  - `playbook_path` (function, line 85) `def playbook_path(filename, directory)`
+  - `load_playbook` (function, line 112) `def load_playbook(path)`
+  - `playbook_kind` (function, line 133) `def playbook_kind(data)`
+  - `validate_playbook` (function, line 146) `def validate_playbook(data)`
+  - `_count_steps` (function, line 219) `def _count_steps(data)`
+  - `summarize` (function, line 236) `def summarize(path)`
+  - `scan_playbooks` (function, line 270) `def scan_playbooks(directory)`
+  - `preview_playbook` (function, line 290) `def preview_playbook(path, limit)`
+  - `playbook_template` (function, line 304) `def playbook_template(name, description, platforms)`
+  - `_write_atomic` (function, line 321) `def _write_atomic(target, data)`
+  - `create_playbook` (function, line 336) `def create_playbook(filename)`
+  - `_target_for_write` (function, line 376) `def _target_for_write(path, directory)`
+  - `update_playbook` (function, line 389) `def update_playbook(path, data, directory)`
+  - `save_playbook_yaml` (function, line 416) `def save_playbook_yaml(path, text, directory)`
+  - `delete_playbook` (function, line 445) `def delete_playbook(path, directory)`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/lazymode_playbook.py`, `tests/test_lazymode_playbook.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
 
 ## modules/playbook_chain.py
 - Doc: Playbook to chain lowering: one contract, one destination.
@@ -388,106 +458,6 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
 - Depends on: `modules/lazy_loop.py`
 - Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
-
-## modules/reactive_engine.py
-- Doc: modules/reactive_engine.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_default_config_loader` (function, line 42) `def _default_config_loader()`
-  - `Signal` (class, line 69) `class Signal`
-  - `ReactiveDecision` (class, line 80) `class ReactiveDecision`
-  - `AbstractSignalMatcher` (class, line 97) `class AbstractSignalMatcher(ABC)`
-  - `AVBlockedMatcher` (class, line 102) `class AVBlockedMatcher(AbstractSignalMatcher)`
-  - `CredentialFoundMatcher` (class, line 147) `class CredentialFoundMatcher(AbstractSignalMatcher)`
-  - `PrivescHintMatcher` (class, line 174) `class PrivescHintMatcher(AbstractSignalMatcher)`
-  - `NewHostMatcher` (class, line 209) `class NewHostMatcher(AbstractSignalMatcher)`
-  - `ServiceVersionMatcher` (class, line 232) `class ServiceVersionMatcher(AbstractSignalMatcher)`
-  - `ShellErrorMatcher` (class, line 262) `class ShellErrorMatcher(AbstractSignalMatcher)`
-  - `LateralOpportunityMatcher` (class, line 293) `class LateralOpportunityMatcher(AbstractSignalMatcher)`
-  - `DataOfInterestMatcher` (class, line 323) `class DataOfInterestMatcher(AbstractSignalMatcher)`
-  - `ParquetAdvisor` (class, line 389) `class ParquetAdvisor`
-  - `EvasionAdvisor` (class, line 481) `class EvasionAdvisor`
-  - `PrivescAdvisor` (class, line 537) `class PrivescAdvisor`
-  - `SemanticContextAdvisor` (class, line 632) `class SemanticContextAdvisor`
-  - `ReactiveEngine` (class, line 804) `class ReactiveEngine`
-  - `get_engine` (function, line 977) `def get_engine()`
-  - `match` (method, line 99) `def match(self, output, context)`
-  - `match` (method, line 128) `def match(self, output, context)`
-  - `match` (method, line 159) `def match(self, output, context)`
-  - `match` (method, line 192) `def match(self, output, context)`
-  - `match` (method, line 214) `def match(self, output, context)`
-  - `match` (method, line 247) `def match(self, output, context)`
-  - `match` (method, line 276) `def match(self, output, context)`
-  - `match` (method, line 307) `def match(self, output, context)`
-  - `match` (method, line 349) `def match(self, output, context)`
-  - `__init__` (method, line 395) `def __init__(self, root)`
-  - `_load` (method, line 402) `def _load(self)`
-  - `gtfobins_for` (method, line 421) `def gtfobins_for(self, binary)`
-  - `lolbas_for` (method, line 434) `def lolbas_for(self, binary)`
-  - `technique_commands_for` (method, line 448) `def technique_commands_for(self, platform, keyword)`
-  - `suggest` (method, line 504) `def suggest(self, signals, platform)`
-  - `suggest` (method, line 565) `def suggest(self, signals, platform, parquet)`
-  - `__init__` (method, line 644) `def __init__(self, rag, config_loader, min_score, query_limit)`
-  - `_load_rag` (method, line 671) `def _load_rag(self)`
-  - `_enabled` (method, line 697) `def _enabled(self)`
-  - `_extract_verb` (method, line 715) `def _extract_verb(source)`
-  - `suggest` (method, line 734) `def suggest(self, output, command, platform, context)`
-  - `__init__` (method, line 810) `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
-  - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
-  - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/reactive_suggest.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
-
-## modules/recommender.py
-- Doc: LazyOwn Smart Command Recommender
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_build_user_prompt` (function, line 55) `def _build_user_prompt(state)`
-  - `_call_ai` (function, line 97) `def _call_ai(api_key, user_prompt)`
-  - `recommend` (function, line 143) `def recommend(state, api_key)`
-  - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
-- Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
-- Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/recommend_next.py`
-
-## modules/redteam_gym.py
-- Doc: Red Team Gym — gamified pentest training mode.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `reload_challenge_definitions` (function, line 300) `def reload_challenge_definitions(directory)`
-  - `GymAttempt` (class, line 319) `class GymAttempt`
-  - `_ensure_gym_dir` (function, line 335) `def _ensure_gym_dir()`
-  - `_load_leaderboard` (function, line 340) `def _load_leaderboard()`
-  - `_save_leaderboard` (function, line 356) `def _save_leaderboard(board)`
-  - `_get_username` (function, line 367) `def _get_username()`
-  - `definition_rows` (function, line 394) `def definition_rows()`
-  - `create_gym` (function, line 399) `def create_gym(gym_id)`
-  - `save_gym_yaml` (function, line 436) `def save_gym_yaml(gym_id, text)`
-  - `delete_gym` (function, line 446) `def delete_gym(gym_id)`
-  - `list_challenges` (function, line 454) `def list_challenges()`
-  - `_resolve_active_run` (function, line 477) `def _resolve_active_run(selector, operator)`
-  - `start_challenge` (function, line 495) `def start_challenge(challenge_id, target, spin_lab, notify)`
-  - `_spin_scenario` (function, line 603) `def _spin_scenario(scenario, notify)`
-  - `submit_challenge` (function, line 648) `def submit_challenge(techniques_used, success, run_id)`
-  - `stop_challenges` (function, line 756) `def stop_challenges(selector)`
-  - `_teardown_stopped_scenarios` (function, line 777) `def _teardown_stopped_scenarios(stopped)`
-  - `_same_engagement` (function, line 811) `def _same_engagement(ip, target)`
-  - `engagement_context` (function, line 838) `def engagement_context(target)`
-  - `get_active_challenges` (function, line 898) `def get_active_challenges()`
-  - `_calc_speed_score` (function, line 911) `def _calc_speed_score(elapsed_seconds, max_bonus)`
-  - `_calc_stealth_score` (function, line 932) `def _calc_stealth_score(techniques, max_bonus)`
-  - `_calc_technique_score` (function, line 948) `def _calc_technique_score(techniques, chal, max_bonus)`
-  - `_update_leaderboard` (function, line 970) `def _update_leaderboard(attempt)`
-  - `_award_gym_elo` (function, line 1014) `def _award_gym_elo(username, elo_bonus)`
-  - `_get_rank` (function, line 1040) `def _get_rank(username)`
-  - `show_leaderboard` (function, line 1057) `def show_leaderboard(top_n)`
-  - `get_active_challenge` (function, line 1084) `def get_active_challenge(run_id)`
-  - `record_external_attempt` (function, line 1115) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
-  - `main` (function, line 1169) `def main()`
-- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
 
 
 Next: [KB_modules_p17.md](KB_modules_p17.md)

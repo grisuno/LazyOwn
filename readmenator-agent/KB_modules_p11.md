@@ -1,6 +1,9 @@
 # Subsystem: modules (page 11 of 19)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/lazy_loop.py (continued)
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/chain_family.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_drafts.py`, `modules/lazy_engine.py`, `modules/lazy_handoff.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_objective_queue.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/mcp_tools/lazy_compact.py`, `skills/mcp_tools/lazy_delete.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_chain_family.py`, `tests/test_engine_mediator.py`, `tests/test_evidence_store.py`, `tests/test_exploration_graph_concurrency.py`, `tests/test_failure_memory_veto.py`, `tests/test_finding_enrich.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_blindspot.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_planner_initial_access.py`, `tests/test_policy_planner_signal.py`, `tests/test_scan_brief.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_stall_dump.py`, `tests/test_trigger_policy.py`, `tests/test_wire_capture.py`, `tests/test_world_diff_retest.py`, `tests/test_writeback_hygiene.py`
+
 ## modules/lazy_match_policy.py
 - Doc: Match policy doctrine: what may claim a match and what stays a lead.
 - Layer: business_logic
@@ -130,18 +133,19 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `infer_from_ttl` (function, line 47) `def infer_from_ttl(ttl)`
-  - `infer_from_ping_output` (function, line 72) `def infer_from_ping_output(output)`
-  - `infer_from_banner` (function, line 97) `def infer_from_banner(text)`
-  - `merge_os` (function, line 118) `def merge_os(current, new)`
-  - `addon_target_os` (function, line 130) `def addon_target_os(name)`
-  - `verb_target_os` (function, line 157) `def verb_target_os(command)`
-  - `os_compatible` (function, line 194) `def os_compatible(verb_os, host_os)`
-  - `verb_compatible_with_host` (function, line 216) `def verb_compatible_with_host(command, host_os)`
-  - `host_os_for_target` (function, line 239) `def host_os_for_target(target)`
-  - `remember_host_os` (function, line 287) `def remember_host_os(target, os_name, reason)`
-  - `learn_from_transcripts` (function, line 330) `def learn_from_transcripts(target, transcripts)`
+  - `infer_from_ttl` (function, line 58) `def infer_from_ttl(ttl)`
+  - `infer_from_ping_output` (function, line 83) `def infer_from_ping_output(output)`
+  - `infer_from_banner` (function, line 108) `def infer_from_banner(text)`
+  - `merge_os` (function, line 132) `def merge_os(current, new)`
+  - `addon_target_os` (function, line 144) `def addon_target_os(name)`
+  - `verb_target_os` (function, line 171) `def verb_target_os(command)`
+  - `os_compatible` (function, line 208) `def os_compatible(verb_os, host_os)`
+  - `verb_compatible_with_host` (function, line 230) `def verb_compatible_with_host(command, host_os)`
+  - `host_os_for_target` (function, line 253) `def host_os_for_target(target)`
+  - `remember_host_os` (function, line 301) `def remember_host_os(target, os_name, reason)`
+  - `learn_from_transcripts` (function, line 344) `def learn_from_transcripts(target, transcripts)`
 - Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/world_model.py`
+- Imported by: `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_lazy_handoff.py`
 
 ## modules/lazy_probes.py
 - Doc: Read-only validation command registry for LazyOwn.
@@ -393,10 +397,11 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `bind_target_authority` (function, line 1188) `def bind_target_authority(shell, targets)`
   - `load_targets_file` (function, line 1248) `def load_targets_file(path)`
   - `run_loop` (function, line 1303) `def run_loop(shell, params, config)`
-  - `_preflight_gate` (function, line 1457) `def _preflight_gate(engine, config, audit)`
-  - `_tty_available` (function, line 1504) `def _tty_available()`
-  - `_run_targets_file` (function, line 1517) `def _run_targets_file(shell, params, config)`
-  - `run_loop_command` (function, line 1578) `def run_loop_command(shell, params, line, verb)`
+  - `_autogenerate_report` (function, line 1458) `def _autogenerate_report(result)`
+  - `_preflight_gate` (function, line 1482) `def _preflight_gate(engine, config, audit)`
+  - `_tty_available` (function, line 1529) `def _tty_available()`
+  - `_run_targets_file` (function, line 1542) `def _run_targets_file(shell, params, config)`
+  - `run_loop_command` (function, line 1603) `def run_loop_command(shell, params, line, verb)`
   - `__init__` (method, line 60) `def __init__(self, main_stream, spool)`
   - `write` (method, line 66) `def write(self, data)`
   - `flush` (method, line 77) `def flush(self)`
@@ -409,8 +414,8 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `stream` (function, line 846) `def stream(text)`
   - `_run` (function, line 884) `def _run()`
   - `_write` (function, line 1142) `def _write(text)`
-  - `_work_one` (function, line 1540) `def _work_one(target)`
-  - `_limited` (function, line 1543) `def _limited()`
+  - `_work_one` (function, line 1565) `def _work_one(target)`
+  - `_limited` (function, line 1568) `def _limited()`
 - Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/config.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_limits.py`, `modules/loop_progress.py`, `modules/scan_brief.py`, `utils.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `skills/mcp_tools/auto_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_preflight.py`, `tests/test_loop_target_authority.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_orchestrator_yaml.py`, `tests/test_planner_initial_access.py`, `tests/test_stall_dump.py`
 
@@ -473,25 +478,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `_canon` (function, line 250) `def _canon(key, value)`
 - Depends on: `modules/db.py`
 - Imported by: `skills/mcp_tools/lazysearch.py`
-
-## modules/lazy_sentinel.py
-- Doc: Internal-network sentinel for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ingest_spool` (function, line 45) `def ingest_spool(path)`
-  - `_parse_line` (function, line 73) `def _parse_line(line)`
-  - `_parse_grepable` (function, line 81) `def _parse_grepable(line)`
-  - `_parse_tsv` (function, line 108) `def _parse_tsv(line)`
-  - `validate_ranges` (function, line 123) `def validate_ranges(ranges)`
-  - `provision_blob` (function, line 152) `def provision_blob(ranges, spool_path, spool_dir)`
-  - `dispatch_line` (function, line 203) `def dispatch_line(client_id, blob)`
-  - `_split_product_version` (function, line 223) `def _split_product_version(block)`
-  - `_sightings` (function, line 237) `def _sightings(hosts)`
-  - `save_sightings` (function, line 252) `def save_sightings(sightings, path)`
-  - `load_sightings` (function, line 282) `def load_sightings(path)`
-  - `_atomic_json` (function, line 312) `def _atomic_json(path, data)`
-- Depends on: `modules/lazy_feedmatch.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

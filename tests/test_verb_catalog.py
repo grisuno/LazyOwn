@@ -228,8 +228,10 @@ def test_steps_for_addon_verb_runs_lazy_addon(tmp_path: Path, monkeypatch):
     )
     monkeypatch.setattr(auto_registry, "verb_gap", lambda name: "")
     monkeypatch.setattr(auto_registry, "verb_enabled", lambda name: name == "addon:certipy_v2")
-    assert auto_registry.steps_for("auto addon:certipy_v2", "10.0.0.1") == ["lazy addon certipy_v2 10.0.0.1"]
-    assert auto_registry.steps_for("auto addon:certipy_v2") == ["lazy addon certipy_v2"]
+    assert auto_registry.steps_for("auto addon:certipy_v2", "10.0.0.1") == [
+        "lazy_addon run certipy_v2 --target 10.0.0.1"
+    ]
+    assert auto_registry.steps_for("auto addon:certipy_v2") == ["lazy_addon run certipy_v2"]
 
 
 def test_entries_default_phases_is_single_phase(sandbox: catalog.VerbCatalogConfig):

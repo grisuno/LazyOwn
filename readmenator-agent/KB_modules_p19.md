@@ -1,6 +1,139 @@
 # Subsystem: modules (page 19 of 19)
 Previous: [KB_modules_p18.md](KB_modules_p18.md)
 
+## modules/unified_bridge.py
+- Doc: UnifiedBridge — single API over all LazyOwn bridges and routing engines.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RouteResult` (class, line 46) `class RouteResult`
+  - `DelegateResult` (class, line 59) `class DelegateResult`
+  - `RouteBackend` (class, line 67) `class RouteBackend(ABC)`
+  - `KeywordBackend` (class, line 75) `class KeywordBackend(RouteBackend)`
+  - `LazyownBridgeBackend` (class, line 123) `class LazyownBridgeBackend(RouteBackend)`
+  - `TopoSwarmBackend` (class, line 161) `class TopoSwarmBackend(RouteBackend)`
+  - `UnifiedBridge` (class, line 195) `class UnifiedBridge`
+  - `route_prompt` (function, line 483) `def route_prompt(prompt, context)`
+  - `delegate_task` (function, line 488) `def delegate_task(goal, backend)`
+  - `available` (method, line 69) `def available(self)`
+  - `route` (method, line 72) `def route(self, prompt, context)`
+  - `available` (method, line 102) `def available(self)`
+  - `route` (method, line 105) `def route(self, prompt, context)`
+  - `available` (method, line 126) `def available(self)`
+  - `route` (method, line 134) `def route(self, prompt, context)`
+  - `available` (method, line 164) `def available(self)`
+  - `route` (method, line 173) `def route(self, prompt, context)`
+  - `__init__` (method, line 214) `def __init__(self)`
+  - `_init_backends` (method, line 219) `def _init_backends(self)`
+  - `get` (method, line 225) `def get(cls)`
+  - `set_publish_callback` (method, line 230) `def set_publish_callback(self, cb)`
+  - `_publish` (method, line 233) `def _publish(self, category, event_type, payload)`
+  - `route` (method, line 253) `def route(self, prompt, context)`
+  - `delegate` (method, line 300) `def delegate(self, goal, backend, timeout, max_iterations)`
+  - `_await_agent` (method, line 355) `def _await_agent(self, get_status, agent_id, timeout)`
+  - `_run_agent_command` (method, line 384) `def _run_agent_command(self, command)`
+  - `list_backends` (method, line 461) `def list_backends(self)`
+  - `_detect_phase` (method, line 464) `def _detect_phase(self)`
+  - `_get_active_target` (method, line 473) `def _get_active_target(self)`
+- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
+- Imported by: `lazyown.py`
+
+## modules/unified_dashboard.py
+- Doc: Unified campaign dashboard — combines all state sources into one view.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `UnifiedDashboard` (class, line 37) `class UnifiedDashboard`
+  - `get_unified_dashboard` (function, line 256) `def get_unified_dashboard(sessions_dir)`
+  - `__init__` (method, line 44) `def __init__(self, sessions_dir)`
+  - `_get_dashboard` (method, line 49) `def _get_dashboard(self)`
+  - `_get_graph` (method, line 65) `def _get_graph(self)`
+  - `build_unified_snapshot` (method, line 76) `def build_unified_snapshot(self)`
+  - `_collect_world_model` (method, line 95) `def _collect_world_model(self)`
+  - `_collect_hive_status` (method, line 101) `def _collect_hive_status(self)`
+  - `_collect_policy_status` (method, line 111) `def _collect_policy_status(self)`
+  - `_collect_daemon_status` (method, line 121) `def _collect_daemon_status(self)`
+  - `_collect_live_graph` (method, line 130) `def _collect_live_graph(self)`
+  - `_collect_graph_advice` (method, line 142) `def _collect_graph_advice(self)`
+  - `_collect_dashboard` (method, line 160) `def _collect_dashboard(self)`
+  - `render_unified` (method, line 170) `def render_unified(self)`
+  - `export_json` (method, line 251) `def export_json(self)`
+- Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
+- Imported by: `skills/mcp_tools/unified_dashboard.py`, `tests/test_unified_dashboard.py`
+
+## modules/update_db.sh
+- Doc: Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+
+## modules/venator.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `getUUID` (function, line 38) `def getUUID()`
+  - `getSystemInfo` (function, line 66) `def getSystemInfo(output_file)`
+  - `getVTResult` (function, line 83) `def getVTResult(fileHash)`
+  - `getHash` (function, line 112) `def getHash(file, ignoreVFlag)`
+  - `checkSignature` (function, line 132) `def checkSignature(file, bundle)`
+  - `datetime_handler` (function, line 210) `def datetime_handler(x)`
+  - `parseAgentsDaemons` (function, line 215) `def parseAgentsDaemons(item, path)`
+  - `getLaunchAgents` (function, line 287) `def getLaunchAgents(path, output_file, ignoreVFlag)`
+  - `getLaunchDaemons` (function, line 302) `def getLaunchDaemons(path, output_file, ignoreVFlag)`
+  - `getUsers` (function, line 317) `def getUsers(output_file)`
+  - `getSafariExtensions` (function, line 338) `def getSafariExtensions(path, output_file)`
+  - `getChromeExtensions` (function, line 357) `def getChromeExtensions(path, output_file)`
+  - `getChromeDownloads` (function, line 388) `def getChromeDownloads(chromeHistoryDbPath, output_file)`
+  - `getFirefoxExtensions` (function, line 442) `def getFirefoxExtensions(path, output_file)`
+  - `getInstallHistory` (function, line 477) `def getInstallHistory(output_file)`
+  - `getCronJobs` (function, line 494) `def getCronJobs(users, output_file)`
+  - `getEmond` (function, line 513) `def getEmond(output_file)`
+  - `getKext` (function, line 530) `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
+  - `getEnv` (function, line 577) `def getEnv(output_file)`
+  - `getPeriodicScripts` (function, line 592) `def getPeriodicScripts(output_file)`
+  - `getConnections` (function, line 609) `def getConnections(output_file)`
+  - `SIPStatus` (function, line 637) `def SIPStatus(output_file)`
+  - `GatekeeperStatus` (function, line 651) `def GatekeeperStatus(output_file)`
+  - `parseApp` (function, line 663) `def parseApp(app, ignoreVFlag)`
+  - `getLoginItems` (function, line 706) `def getLoginItems(path, output_file, ignoreVFlag)`
+  - `getApps` (function, line 741) `def getApps(path, output_file, ignoreVFlag)`
+  - `getEventTaps` (function, line 763) `def getEventTaps(output_file)`
+  - `getBashHistory` (function, line 786) `def getBashHistory(output_file, users)`
+  - `getShellStartupScripts` (function, line 804) `def getShellStartupScripts(users, output_file)`
+  - `hmac_sha256` (function, line 842) `def hmac_sha256(key, data)`
+  - `amzn_sig` (function, line 846) `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
+  - `amzn_canonical_req` (function, line 856) `def amzn_canonical_req(filename_path, headers_list)`
+  - `s3_upload` (function, line 866) `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
+  - `io_key` (function, line 49) `def io_key(keyname)`
+
+## modules/verb_catalog.py
+- Doc: Operator-owned YAML catalog of every routable shell verb.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `VerbCatalogConfig` (class, line 77) `class VerbCatalogConfig`
+  - `_default_config` (function, line 101) `def _default_config()`
+  - `_builtin_names` (function, line 111) `def _builtin_names()`
+  - `_phase_fallback` (function, line 123) `def _phase_fallback(verb)`
+  - `_phases_for` (function, line 133) `def _phases_for(stored, phase)`
+  - `_risk_fallback` (function, line 161) `def _risk_fallback(verb)`
+  - `_addon_discoveries` (function, line 171) `def _addon_discoveries(config)`
+  - `_poc_discoveries` (function, line 215) `def _poc_discoveries(config)`
+  - `_all_discoveries` (function, line 242) `def _all_discoveries(config)`
+  - `index_commands` (function, line 254) `def index_commands(config)`
+  - `validate_catalog` (function, line 294) `def validate_catalog(data)`
+  - `load` (function, line 331) `def load(config)`
+  - `entries` (function, line 364) `def entries(config)`
+  - `catalog_enabled` (function, line 420) `def catalog_enabled(name, config)`
+  - `catalog_source` (function, line 435) `def catalog_source(name, config)`
+  - `set_enabled` (function, line 449) `def set_enabled(name, enabled, config)`
+  - `sync` (function, line 487) `def sync(config)`
+  - `_write` (function, line 547) `def _write(cfg, verbs)`
+  - `_drop_cache` (function, line 571) `def _drop_cache(path_key)`
+  - `stats` (function, line 579) `def stats(config)`
+  - `search` (function, line 593) `def search(query, config, phase, enabled, limit)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+- Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
+
 ## modules/verb_manifest.py
 - Doc: Typed verb manifests - semantics for routable shell verbs.
 - Layer: utility
@@ -271,21 +404,21 @@ Previous: [KB_modules_p18.md](KB_modules_p18.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `YaraScanner` (class, line 23) `class YaraScanner`
-  - `create_default_rules` (function, line 371) `def create_default_rules()`
-  - `__init__` (method, line 31) `def __init__(self, rules_dir, auto_compile)`
-  - `ensure_directory` (method, line 41) `def ensure_directory(self)`
-  - `_load_external_vars` (method, line 45) `def _load_external_vars(self)`
-  - `compile_all` (method, line 54) `def compile_all(self)`
-  - `scan_file` (method, line 98) `def scan_file(self, filepath, timeout)`
-  - `_scan_with_timeout` (method, line 129) `def _scan_with_timeout(self, filepath, externals, timeout)`
-  - `_format_match` (method, line 162) `def _format_match(self, match)`
-  - `scan_directory` (method, line 187) `def scan_directory(self, directory, recursive, extensions, max_files)`
-  - `_sha256` (method, line 250) `def _sha256(filepath)`
-  - `add_rule` (method, line 258) `def add_rule(self, name, content)`
-  - `list_rules` (method, line 277) `def list_rules(self)`
-  - `download_community_rules` (method, line 300) `def download_community_rules(self)`
-  - `ioc_scan` (method, line 328) `def ioc_scan(self, target_path, iocs)`
-  - `target` (function, line 137) `def target()`
+  - `YaraScanner` (class, line 24) `class YaraScanner`
+  - `create_default_rules` (function, line 374) `def create_default_rules()`
+  - `__init__` (method, line 32) `def __init__(self, rules_dir, auto_compile)`
+  - `ensure_directory` (method, line 42) `def ensure_directory(self)`
+  - `_load_external_vars` (method, line 46) `def _load_external_vars(self)`
+  - `compile_all` (method, line 55) `def compile_all(self)`
+  - `scan_file` (method, line 99) `def scan_file(self, filepath, timeout)`
+  - `_scan_with_timeout` (method, line 130) `def _scan_with_timeout(self, filepath, externals, timeout)`
+  - `_format_match` (method, line 163) `def _format_match(self, match)`
+  - `scan_directory` (method, line 188) `def scan_directory(self, directory, recursive, extensions, max_files)`
+  - `_sha256` (method, line 251) `def _sha256(filepath)`
+  - `add_rule` (method, line 259) `def add_rule(self, name, content)`
+  - `list_rules` (method, line 278) `def list_rules(self)`
+  - `download_community_rules` (method, line 301) `def download_community_rules(self)`
+  - `ioc_scan` (method, line 331) `def ioc_scan(self, target_path, iocs)`
+  - `target` (function, line 138) `def target()`
 - Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
 

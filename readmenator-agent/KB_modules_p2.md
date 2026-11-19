@@ -115,21 +115,21 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_apt_chain_steps` (function, line 815) `def _apt_chain_steps(embedded, target, strict)`
   - `_chain_name_for_playbook` (function, line 844) `def _chain_name_for_playbook(playbook)`
   - `steps_for` (function, line 877) `def steps_for(text, target)`
-  - `ShellResult` (class, line 1035) `class ShellResult`
-  - `_TeeCapture` (class, line 1042) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 1070) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1168) `def _register_process(process)`
-  - `_unregister_process` (function, line 1174) `def _unregister_process(process)`
-  - `track_process` (function, line 1180) `def track_process(process)`
-  - `untrack_process` (function, line 1185) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1190) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1213) `def execute_streaming(command, on_output, timeout_sec)`
-  - `_exploitdb_steps` (function, line 1321) `def _exploitdb_steps(embedded, target)`
-  - `__init__` (method, line 1052) `def __init__(self, observer)`
-  - `write` (method, line 1057) `def write(self, data)`
-  - `_invoke` (function, line 1093) `def _invoke()`
-  - `_target` (function, line 1104) `def _target()`
-  - `_kill` (function, line 1245) `def _kill()`
+  - `ShellResult` (class, line 1039) `class ShellResult`
+  - `_TeeCapture` (class, line 1046) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 1074) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1172) `def _register_process(process)`
+  - `_unregister_process` (function, line 1178) `def _unregister_process(process)`
+  - `track_process` (function, line 1184) `def track_process(process)`
+  - `untrack_process` (function, line 1189) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1194) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1217) `def execute_streaming(command, on_output, timeout_sec)`
+  - `_exploitdb_steps` (function, line 1325) `def _exploitdb_steps(embedded, target)`
+  - `__init__` (method, line 1056) `def __init__(self, observer)`
+  - `write` (method, line 1061) `def write(self, data)`
+  - `_invoke` (function, line 1097) `def _invoke()`
+  - `_target` (function, line 1108) `def _target()`
+  - `_kill` (function, line 1249) `def _kill()`
 - Depends on: `core/config.py`, `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`, `modules/service_aliases.py`
 - Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_pwn_success.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_planner_initial_access.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
@@ -138,54 +138,54 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `TargetProfile` (class, line 65) `class TargetProfile`
-  - `ExploitCandidate` (class, line 80) `class ExploitCandidate`
-  - `ExploitResult` (class, line 95) `class ExploitResult`
-  - `AutonomousExploitEngine` (class, line 107) `class AutonomousExploitEngine`
-  - `__init__` (method, line 120) `def __init__(self)`
-  - `get_instance` (method, line 140) `def get_instance(cls)`
-  - `hunt` (method, line 151) `def hunt(self, target, max_exploits, profile, stop_on_first_shell)`
-  - `retry_with_credentials` (method, line 197) `def retry_with_credentials(self, target, credentials)`
-  - `_credential_aware_rank` (method, line 254) `def _credential_aware_rank(self, profile, credentials)`
-  - `_filter_placeholder_creds` (method, line 297) `def _filter_placeholder_creds(credentials)`
-  - `profile` (method, line 341) `def profile(self, target)`
-  - `rank_exploits` (method, line 402) `def rank_exploits(self, profile)`
-  - `execute_candidate` (method, line 436) `def execute_candidate(self, candidate, profile)`
-  - `_bounded_execute` (method, line 498) `def _bounded_execute(self, candidate, profile, executor)`
-  - `_match_atomic_specs` (method, line 535) `def _match_atomic_specs(self, profile)`
-  - `_match_exploit_db` (method, line 603) `def _match_exploit_db(self, service, product, version)`
-  - `_heuristic_match` (method, line 641) `def _heuristic_match(self, service, product, version)`
-  - `_match_by_port` (method, line 1152) `def _match_by_port(self, port, os_type)`
-  - `_scorer` (method, line 1209) `def _scorer(self, exploit, service, product, version)`
-  - `_run_exploit` (method, line 1249) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1295) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1312) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1464) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1499) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1519) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1549) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1577) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1588) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1687) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1705) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1784) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1800) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1811) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1837) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1872) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1920) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 2100) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 2126) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 2154) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2223) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2266) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2456) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2556) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2621) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2682) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2727) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2746) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth, cover_all)`
-  - `_is_placeholder` (function, line 312) `def _is_placeholder(value)`
+  - `TargetProfile` (class, line 66) `class TargetProfile`
+  - `ExploitCandidate` (class, line 81) `class ExploitCandidate`
+  - `ExploitResult` (class, line 96) `class ExploitResult`
+  - `AutonomousExploitEngine` (class, line 108) `class AutonomousExploitEngine`
+  - `__init__` (method, line 121) `def __init__(self)`
+  - `get_instance` (method, line 142) `def get_instance(cls)`
+  - `hunt` (method, line 153) `def hunt(self, target, max_exploits, profile, stop_on_first_shell)`
+  - `retry_with_credentials` (method, line 199) `def retry_with_credentials(self, target, credentials)`
+  - `_credential_aware_rank` (method, line 264) `def _credential_aware_rank(self, profile, credentials)`
+  - `_filter_placeholder_creds` (method, line 307) `def _filter_placeholder_creds(credentials)`
+  - `profile` (method, line 351) `def profile(self, target)`
+  - `rank_exploits` (method, line 412) `def rank_exploits(self, profile)`
+  - `execute_candidate` (method, line 446) `def execute_candidate(self, candidate, profile)`
+  - `_bounded_execute` (method, line 509) `def _bounded_execute(self, candidate, profile, executor)`
+  - `_match_atomic_specs` (method, line 546) `def _match_atomic_specs(self, profile)`
+  - `_match_exploit_db` (method, line 614) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 652) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 1163) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1220) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1260) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1306) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1323) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1475) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1510) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1530) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1560) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1588) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1599) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1698) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1716) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1795) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1811) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1822) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1848) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1883) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1931) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 2111) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2137) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2165) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2234) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2277) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2467) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2567) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2632) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2693) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2738) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2757) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth, cover_all)`
+  - `_is_placeholder` (function, line 322) `def _is_placeholder(value)`
 - Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/ctf_capture.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/mediation/engine_mediator.py`, `skills/mcp_tools/auto_pwn.py`, `skills/mcp_tools/exploit_chain.py`, `skills/mcp_tools/stealth.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_auto_pwn_coverage.py`, `tests/test_auto_pwn_success.py`, `tests/test_emulation_runner.py`, `tests/test_engine_mediator.py`, `tests/test_phase1_data_gaps.py`
 
@@ -236,15 +236,50 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `BeaconHistoryConfig` (class, line 28) `class BeaconHistoryConfig`
-  - `sanitize_client_id` (function, line 70) `def sanitize_client_id(client_id)`
-  - `append_record` (function, line 82) `def append_record(record, config)`
-  - `read_records` (function, line 116) `def read_records(client_id, config)`
-  - `records_path` (function, line 145) `def records_path(client_id, config)`
-  - `sessions_dir` (method, line 39) `def sessions_dir(self)`
-  - `records_path` (method, line 43) `def records_path(self, client_id)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/bof_delivery.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+  - `BeaconHistoryConfig` (class, line 30) `class BeaconHistoryConfig`
+  - `append_record` (function, line 72) `def append_record(record, config)`
+  - `read_records` (function, line 106) `def read_records(client_id, config)`
+  - `records_path` (function, line 135) `def records_path(client_id, config)`
+  - `sessions_dir` (method, line 41) `def sessions_dir(self)`
+  - `records_path` (method, line 45) `def records_path(self, client_id)`
+- Depends on: `core/logging.py`, `modules/security_sanitizers.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_handoff.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_bof_delivery.py`, `tests/test_security_lazyc2.py`
+
+## modules/beacon_kinds.py
+- Doc: Beacon kind classification — one home for implant family logic.
+- Language: py
+- Symbols:
+  - `detect_beacon_type` (function, line 50) `def detect_beacon_type(safe_id, platform, bsb_clients, sessions_dir)`
+  - `beacon_capabilities` (function, line 83) `def beacon_capabilities(beacon_type)`
+  - `beacon_commands` (function, line 121) `def beacon_commands(beacon_type)`
+  - `beacon_menu_bofs` (function, line 133) `def beacon_menu_bofs(capabilities, sessions_dir)`
+  - `beacon_menu_playbooks` (function, line 171) `def beacon_menu_playbooks(repo_root)`
+- Depends on: `core/logging.py`, `modules/apt_playbooks.py`, `modules/bof_registry.py`
+- Imported by: `lazyc2.py`, `tests/test_beacon_menu.py`
+
+## modules/beacon_loop.py
+- Doc: Autonomous beacon loop — sends capability commands to one implant.
+- Language: py
+- Symbols:
+  - `_wire_command` (function, line 107) `def _wire_command(command)`
+  - `_killchain_phase_for_command` (function, line 126) `def _killchain_phase_for_command(command)`
+  - `_advance_killchain_phase` (function, line 142) `def _advance_killchain_phase(phase, host, sessions_dir)`
+  - `BeaconLoopConfig` (class, line 168) `class BeaconLoopConfig`
+  - `BeaconLoopReport` (class, line 189) `class BeaconLoopReport`
+  - `queue_beacon_command` (function, line 211) `def queue_beacon_command(client_id, command, sessions_dir)`
+  - `summarize_history` (function, line 239) `def summarize_history(records, max_chars)`
+  - `_platform_from_records` (function, line 260) `def _platform_from_records(records)`
+  - `_platform_from_os_json` (function, line 280) `def _platform_from_os_json(sessions_dir)`
+  - `_platform_for` (function, line 302) `def _platform_for(sessions_dir, records)`
+  - `_validate_candidate` (function, line 318) `def _validate_candidate(raw)`
+  - `playbook_ladder` (function, line 343) `def playbook_ladder(goal, platform)`
+  - `heuristic_plan` (function, line 378) `def heuristic_plan(goal, platform, records, sessions_dir)`
+  - `llm_plan` (function, line 429) `def llm_plan(goal, platform, history, model, max_commands)`
+  - `_history_config` (function, line 480) `def _history_config(sessions_dir)`
+  - `run_beacon_loop` (function, line 494) `def run_beacon_loop(config, log, sleep, sessions_dir, deadline)`
+  - `write_report` (function, line 587) `def write_report(report, sessions_dir)`
+- Depends on: `modules/beacon_history.py`, `modules/killchain.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazy_handoff.py`, `tests/test_beacon_menu.py`, `tests/test_lazy_handoff.py`
 
 ## modules/beacon_recon.py
 - Doc: Beacon recon ingest — post-foothold discovery feeds the world model.
@@ -318,42 +353,47 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_stage_payload_b64` (function, line 95) `def _stage_payload_b64(external_root)`
-  - `BofDeliveryConfig` (class, line 141) `class BofDeliveryConfig`
-  - `ClientAddon` (class, line 162) `class ClientAddon`
-  - `load_client_addon` (function, line 180) `def load_client_addon(client, config)`
-  - `staging_dir` (function, line 221) `def staging_dir(config)`
-  - `stage_bof` (function, line 236) `def stage_bof(name, config)`
-  - `beacon_runtime_config` (function, line 255) `def beacon_runtime_config(client, client_id, config, payload)`
-  - `write_client_config` (function, line 332) `def write_client_config(client, client_id, config, payload)`
-  - `stage_client` (function, line 374) `def stage_client(client, config, payload)`
-  - `_raw_stage_for_implant_serving` (function, line 441) `def _raw_stage_for_implant_serving(addon_name, binary_path, config)`
-  - `_apply_upstream_report_patch` (function, line 493) `def _apply_upstream_report_patch(addon, config)`
-  - `key_missing_from_error` (function, line 626) `def key_missing_from_error(exc)`
-  - `delivery_command` (function, line 640) `def delivery_command(bof_name, c2_url, args, bofs_dir)`
-  - `_c2_channel_base` (function, line 666) `def _c2_channel_base(cfg, payload)`
-  - `queue_to_beacon` (function, line 688) `def queue_to_beacon(client_id, command, config, payload)`
-  - `recent_beacons` (function, line 751) `def recent_beacons(config, payload)`
-  - `_beacons_from_history` (function, line 791) `def _beacons_from_history(config)`
-  - `wait_for_beacon` (function, line 817) `def wait_for_beacon(client_id, since, timeout, config, payload)`
-  - `_record_after` (function, line 871) `def _record_after(row, since)`
-  - `c2_reachable` (function, line 895) `def c2_reachable(config, payload)`
-  - `run_bof` (function, line 930) `def run_bof(bof_name, client_id, args)`
-  - `run_bof_train` (function, line 969) `def run_bof_train(client_id, names, args)`
-  - `_deploy_paths` (function, line 1006) `def _deploy_paths(addon)`
-  - `deploy_client` (function, line 1035) `def deploy_client(client, target)`
-  - `_DockerSession` (class, line 1152) `class _DockerSession`
-  - `_docker_session_for` (function, line 1206) `def _docker_session_for(target)`
-  - `_atomic_session` (function, line 1253) `def _atomic_session(target)`
-  - `_shell_bearing_specs` (function, line 1303) `def _shell_bearing_specs(target)`
-  - `config_sessions_dir` (function, line 1335) `def config_sessions_dir()`
-  - `_history_config` (function, line 1340) `def _history_config(config)`
-  - `bof_results` (function, line 1356) `def bof_results(client_id, limit, config)`
-  - `__init__` (method, line 1160) `def __init__(self, container)`
-  - `alive` (method, line 1164) `def alive(self, timeout)`
-  - `run` (method, line 1184) `def run(self, command, timeout)`
+  - `_stage_payload_b64` (function, line 99) `def _stage_payload_b64(external_root)`
+  - `BofDeliveryConfig` (class, line 145) `class BofDeliveryConfig`
+  - `ClientAddon` (class, line 166) `class ClientAddon`
+  - `load_client_addon` (function, line 184) `def load_client_addon(client, config)`
+  - `staging_dir` (function, line 225) `def staging_dir(config)`
+  - `stage_bof` (function, line 240) `def stage_bof(name, config)`
+  - `beacon_runtime_config` (function, line 259) `def beacon_runtime_config(client, client_id, config, payload)`
+  - `write_client_config` (function, line 336) `def write_client_config(client, client_id, config, payload)`
+  - `stage_client` (function, line 378) `def stage_client(client, config, payload)`
+  - `_docker_container_for_ip` (function, line 446) `def _docker_container_for_ip(target)`
+  - `_build_beacon_in_container` (function, line 487) `def _build_beacon_in_container(addon, config, target)`
+  - `_build_portable_beacon` (function, line 567) `def _build_portable_beacon(addon, config)`
+  - `_raw_stage_for_implant_serving` (function, line 611) `def _raw_stage_for_implant_serving(addon_name, binary_path, config)`
+  - `_apply_upstream_report_patch` (function, line 663) `def _apply_upstream_report_patch(addon, config)`
+  - `_apply_compat_patch` (function, line 840) `def _apply_compat_patch(checkout)`
+  - `key_missing_from_error` (function, line 894) `def key_missing_from_error(exc)`
+  - `delivery_command` (function, line 908) `def delivery_command(bof_name, c2_url, args, bofs_dir)`
+  - `_c2_channel_base` (function, line 934) `def _c2_channel_base(cfg, payload)`
+  - `queue_to_beacon` (function, line 956) `def queue_to_beacon(client_id, command, config, payload)`
+  - `recent_beacons` (function, line 1019) `def recent_beacons(config, payload)`
+  - `_beacons_from_history` (function, line 1059) `def _beacons_from_history(config)`
+  - `beacon_for_target` (function, line 1085) `def beacon_for_target(target, config, payload)`
+  - `wait_for_beacon` (function, line 1123) `def wait_for_beacon(client_id, since, timeout, config, payload, command)`
+  - `_record_after` (function, line 1181) `def _record_after(row, since)`
+  - `c2_reachable` (function, line 1205) `def c2_reachable(config, payload)`
+  - `run_bof` (function, line 1240) `def run_bof(bof_name, client_id, args)`
+  - `run_bof_train` (function, line 1279) `def run_bof_train(client_id, names, args)`
+  - `_deploy_paths` (function, line 1316) `def _deploy_paths(addon)`
+  - `deploy_client` (function, line 1345) `def deploy_client(client, target)`
+  - `_DockerSession` (class, line 1474) `class _DockerSession`
+  - `_docker_session_for` (function, line 1528) `def _docker_session_for(target)`
+  - `_atomic_session` (function, line 1575) `def _atomic_session(target)`
+  - `_shell_bearing_specs` (function, line 1625) `def _shell_bearing_specs(target)`
+  - `config_sessions_dir` (function, line 1657) `def config_sessions_dir()`
+  - `_history_config` (function, line 1662) `def _history_config(config)`
+  - `bof_results` (function, line 1678) `def bof_results(client_id, limit, config)`
+  - `__init__` (method, line 1482) `def __init__(self, container)`
+  - `alive` (method, line 1486) `def alive(self, timeout)`
+  - `run` (method, line 1506) `def run(self, command, timeout)`
 - Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
-- Imported by: `cli/commands/bof_registry.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
+- Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
 
 ## modules/bof_registry.py
 - Doc: Beacon Object File (BOF) registry and marketplace for LazyOwn.
@@ -367,11 +407,11 @@ Previous: [KB_modules.md](KB_modules.md)
   - `BofYamlStore` (class, line 281) `class BofYamlStore`
   - `_build_default_catalog` (function, line 349) `def _build_default_catalog()`
   - `find_client_artifact` (function, line 362) `def find_client_artifact(entry)`
-  - `client_addon_install_path` (function, line 415) `def client_addon_install_path(client, addons_dir)`
-  - `stage_entry_bof` (function, line 441) `def stage_entry_bof(entry, sessions_dir)`
-  - `BofValidator` (class, line 474) `class BofValidator`
-  - `BofRegistry` (class, line 520) `class BofRegistry`
-  - `BofMarketplace` (class, line 607) `class BofMarketplace`
+  - `client_addon_install_path` (function, line 423) `def client_addon_install_path(client, addons_dir)`
+  - `stage_entry_bof` (function, line 449) `def stage_entry_bof(entry, sessions_dir)`
+  - `BofValidator` (class, line 482) `class BofValidator`
+  - `BofRegistry` (class, line 528) `class BofRegistry`
+  - `BofMarketplace` (class, line 615) `class BofMarketplace`
   - `to_dict` (method, line 130) `def to_dict(self)`
   - `from_dict` (method, line 151) `def from_dict(cls, raw)`
   - `register` (method, line 183) `def register(self, entry)`
@@ -389,96 +429,30 @@ Previous: [KB_modules.md](KB_modules.md)
   - `directory` (method, line 299) `def directory(self)`
   - `load_entries` (method, line 303) `def load_entries(self)`
   - `load_catalog` (method, line 342) `def load_catalog(self)`
-  - `compute_sha256` (method, line 483) `def compute_sha256(filepath)`
-  - `verify_entry` (method, line 492) `def verify_entry(entry, filepath)`
-  - `validate_args` (method, line 508) `def validate_args(entry, args)`
-  - `__init__` (method, line 527) `def __init__(self, sessions_dir)`
-  - `install_dir` (method, line 533) `def install_dir(self)`
-  - `_load_manifest` (method, line 537) `def _load_manifest(self)`
-  - `_save_manifest` (method, line 548) `def _save_manifest(self, manifest)`
-  - `is_installed` (method, line 553) `def is_installed(self, name)`
-  - `install` (method, line 558) `def install(self, entry)`
-  - `uninstall` (method, line 579) `def uninstall(self, name, remove_files)`
-  - `list_installed` (method, line 596) `def list_installed(self)`
-  - `get_install_info` (method, line 601) `def get_install_info(self, name)`
-  - `__init__` (method, line 619) `def __init__(self, sessions_dir, catalog)`
-  - `catalog` (method, line 630) `def catalog(self)`
-  - `registry` (method, line 635) `def registry(self)`
-  - `search` (method, line 639) `def search(self, query)`
-  - `info` (method, line 658) `def info(self, name)`
-  - `install` (method, line 675) `def install(self, name)`
-  - `uninstall` (method, line 704) `def uninstall(self, name)`
-  - `list_installed` (method, line 717) `def list_installed(self)`
-  - `list_missing_dependencies` (method, line 729) `def list_missing_dependencies(self, name)`
-  - `bulk_install` (method, line 737) `def bulk_install(self, names)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`
-- Imported by: `cli/commands/bof_registry.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
-
-## modules/browser_sync.py
-- Doc: Browser identity sync between the operator browser and the recorder proxy.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_sessions_dir` (function, line 71) `def _sessions_dir()`
-  - `_profile_path` (function, line 77) `def _profile_path()`
-  - `_jar_path` (function, line 82) `def _jar_path()`
-  - `_rules_path` (function, line 87) `def _rules_path()`
-  - `_token_path` (function, line 92) `def _token_path()`
-  - `_sanitize_header_value` (function, line 97) `def _sanitize_header_value(value)`
-  - `token` (function, line 112) `def token(create)`
-  - `reset_token` (function, line 138) `def reset_token()`
-  - `load_profile` (function, line 151) `def load_profile()`
-  - `profile_stats` (function, line 164) `def profile_stats()`
-  - `cookie_matches_host` (function, line 183) `def cookie_matches_host(cookie, host)`
-  - `cookie_matches_path` (function, line 202) `def cookie_matches_path(cookie, request_path)`
-  - `cookie_expired` (function, line 226) `def cookie_expired(cookie, now)`
-  - `cookies_for_host` (function, line 248) `def cookies_for_host(profile, host, path, scheme)`
-  - `build_cookie_header` (function, line 285) `def build_cookie_header(existing, cookies)`
-  - `_netscape_line` (function, line 317) `def _netscape_line(cookie)`
-  - `write_netscape_jar` (function, line 340) `def write_netscape_jar(profile, path)`
-  - `jar_path` (function, line 362) `def jar_path()`
-  - `_load_rules_cached` (function, line 367) `def _load_rules_cached()`
-  - `_read_payload_cached` (function, line 393) `def _read_payload_cached()`
-  - `_payload_inject_enabled` (function, line 413) `def _payload_inject_enabled()`
-  - `apply_rules` (function, line 418) `def apply_rules(headers, body)`
-  - `apply_identity_headers` (function, line 475) `def apply_identity_headers(host, headers, body, path, scheme)`
-  - `_profile_cache_get` (function, line 543) `def _profile_cache_get()`
-  - `_clean_cookie` (function, line 562) `def _clean_cookie(raw)`
-  - `SyncReceiver` (class, line 592) `class SyncReceiver`
-  - `get_receiver` (function, line 791) `def get_receiver()`
-  - `start_receiver` (function, line 800) `def start_receiver(port, host)`
-  - `stop_receiver` (function, line 813) `def stop_receiver()`
-  - `clear_profile` (function, line 822) `def clear_profile()`
-  - `apply_identity_to_url` (function, line 839) `def apply_identity_to_url(url, headers, body)`
-  - `ensure_wiring` (function, line 864) `def ensure_wiring()`
-  - `masked_rows` (function, line 906) `def masked_rows(profile, domain_filter, full)`
-  - `__init__` (method, line 595) `def __init__(self, host, port)`
-  - `start` (method, line 610) `def start(self, host, port)`
-  - `_store` (method, line 716) `def _store(self, data)`
-  - `stop` (method, line 755) `def stop(self)`
-  - `status` (method, line 771) `def status(self)`
-  - `_Handler` (class, line 632) `class _Handler(BaseHTTPRequestHandler)`
-  - `log_message` (method, line 638) `def log_message(self, fmt)`
-  - `do_GET` (method, line 642) `def do_GET(self)`
-  - `do_POST` (method, line 654) `def do_POST(self)`
-  - `_drain` (method, line 686) `def _drain(self, length)`
-  - `_reply` (method, line 698) `def _reply(self, code, payload)`
-- Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
-- Imported by: `modules/chain_runner.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `tests/conftest.py`
-
-## modules/bsb_compat.py
-- Doc: BlackSandBeacon wire-protocol compatibility helpers.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `derive_bsb_keys` (function, line 52) `def derive_bsb_keys(master_key)`
-  - `decrypt_bsb_report` (function, line 90) `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)`
-  - `encrypt_bsb_command` (function, line 139) `def encrypt_bsb_command(data, master_key)`
-  - `derive_bsb_stage_keys` (function, line 162) `def derive_bsb_stage_keys(token)`
-  - `encrypt_bsb_stage_blob` (function, line 208) `def encrypt_bsb_stage_blob(data, token)`
-  - `decrypt_bsb_stage_blob` (function, line 232) `def decrypt_bsb_stage_blob(encrypted_data, token)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `tests/test_bsb_fileless_compat.py`
+  - `compute_sha256` (method, line 491) `def compute_sha256(filepath)`
+  - `verify_entry` (method, line 500) `def verify_entry(entry, filepath)`
+  - `validate_args` (method, line 516) `def validate_args(entry, args)`
+  - `__init__` (method, line 535) `def __init__(self, sessions_dir)`
+  - `install_dir` (method, line 541) `def install_dir(self)`
+  - `_load_manifest` (method, line 545) `def _load_manifest(self)`
+  - `_save_manifest` (method, line 556) `def _save_manifest(self, manifest)`
+  - `is_installed` (method, line 561) `def is_installed(self, name)`
+  - `install` (method, line 566) `def install(self, entry)`
+  - `uninstall` (method, line 587) `def uninstall(self, name, remove_files)`
+  - `list_installed` (method, line 604) `def list_installed(self)`
+  - `get_install_info` (method, line 609) `def get_install_info(self, name)`
+  - `__init__` (method, line 627) `def __init__(self, sessions_dir, catalog)`
+  - `catalog` (method, line 638) `def catalog(self)`
+  - `registry` (method, line 643) `def registry(self)`
+  - `search` (method, line 647) `def search(self, query)`
+  - `info` (method, line 666) `def info(self, name)`
+  - `install` (method, line 683) `def install(self, name)`
+  - `uninstall` (method, line 712) `def uninstall(self, name)`
+  - `list_installed` (method, line 725) `def list_installed(self)`
+  - `list_missing_dependencies` (method, line 737) `def list_missing_dependencies(self, name)`
+  - `bulk_install` (method, line 745) `def bulk_install(self, names)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/bof_admin.py`, `modules/bsb_compat.py`
+- Imported by: `cli/commands/bof_registry.py`, `modules/beacon_kinds.py`, `modules/bof_delivery.py`, `tests/test_bof_registry.py`, `tests/test_bof_repo_contract.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

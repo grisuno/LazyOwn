@@ -157,6 +157,7 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `_gen_xss` (function, line 5820) `def _gen_xss(arguments, tool_name, _cmd)`
   - `_gen_xsstrike` (function, line 5828) `def _gen_xsstrike(arguments, tool_name, _cmd)`
   - `_gen_yara_scan` (function, line 5836) `def _gen_yara_scan(arguments, tool_name, _cmd)`
+- Imported by: `skills/lazyown_mcp.py`
 
 ## skills/mcp_lazy.py
 - Doc: Single helper behind every lazy optional import of the MCP server.

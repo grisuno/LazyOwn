@@ -115,7 +115,7 @@
 - Symbols:
   - `main` (function, line 9) `def main()`
 - Depends on: `poc_tui/app.py`
-- Imported by: `static/hexabot/hexabot-spinner.js`
+- Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `static/hexabot/hexabot-spinner.js`
 
 ## poc_tui/test_app.py
 - Doc: Pytest tests for LazyOwn TUI Shell POC.

@@ -1,4 +1,4 @@
-# API (page 13 of 30)
+# API (page 13 of 29)
 Previous: [API_p12.md](API_p12.md)
 
 ## modules/exploit_chain.py

@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `record` | method | `modules/llm_evaluator.py:57` | `def record(self, decision)` |
 | `record` | method | `modules/llm_evaluator.py:81` | `def record(self, decision)` |
 | `record_decision` | method | `modules/llm_evaluator.py:165` | `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
 | `record_decision` | function | `modules/llm_evaluator.py:302` | `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
@@ -239,6 +240,18 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_os_gate` | method | `modules/loop/worker_gating.py:80` | `def _os_gate(self, intent, command)` |
 | `_scope_allows_target` | method | `modules/loop/worker_gating.py:17` | `def _scope_allows_target(self, target)` |
 | `_sudo_guard` | method | `modules/loop/worker_gating.py:130` | `def _sudo_guard(self, intent, command)` |
+| `WorkerLazymodeMixin` | class | `modules/loop/worker_lazymode.py:45` | `class WorkerLazymodeMixin` |
+| `_codemode_has_content` | method | `modules/loop/worker_lazymode.py:351` | `def _codemode_has_content(result)` |
+| `_codemode_max_tokens` | method | `modules/loop/worker_lazymode.py:76` | `def _codemode_max_tokens(self)` |
+| `_codemode_prompt` | method | `modules/loop/worker_lazymode.py:133` | `def _codemode_prompt(self, intent, target)` |
+| `_codemode_timeout` | method | `modules/loop/worker_lazymode.py:84` | `def _codemode_timeout(self)` |
+| `_extract_script` | method | `modules/loop/worker_lazymode.py:172` | `def _extract_script(reply)` |
+| `_lazymode_enabled` | method | `modules/loop/worker_lazymode.py:53` | `def _lazymode_enabled(self)` |
+| `_lazymode_payload` | method | `modules/loop/worker_lazymode.py:67` | `def _lazymode_payload()` |
+| `_lazymode_try` | method | `modules/loop/worker_lazymode.py:206` | `def _lazymode_try(self, intent, outcome, transcripts, executor, budget, deadline)` |
+| `_recent_facts` | method | `modules/loop/worker_lazymode.py:119` | `def _recent_facts(self)` |
+| `_result_text` | method | `modules/loop/worker_lazymode.py:192` | `def _result_text(result)` |
+| `_sdk_surface` | method | `modules/loop/worker_lazymode.py:93` | `def _sdk_surface()` |
 | `WorkerMemoryMixin` | class | `modules/loop/worker_memory.py:6` | `class WorkerMemoryMixin` |
 | `_absorb_reaction` | method | `modules/loop/worker_memory.py:62` | `def _absorb_reaction(self, intent, command, output)` |
 | `_attribute_outcome` | method | `modules/loop/worker_memory.py:122` | `def _attribute_outcome(self, intent, command, output)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `MediationHubContract` | class | `modules/mediation/contracts.py:96` | `class MediationHubContract(Protocol)` |
 | `MediatorContract` | class | `modules/mediation/contracts.py:85` | `class MediatorContract(Protocol)` |
 | `complete` | method | `modules/mediation/contracts.py:61` | `def complete(self, prompt, max_tokens, task_id)` |
-| `describe` | method | `modules/mediation/contracts.py:90` | `def describe(self)` |
-| `has_members` | method | `modules/mediation/contracts.py:79` | `def has_members(self)` |
-| `is_known` | method | `modules/mediation/contracts.py:24` | `def is_known(cls, domain)` |
-| `mediator_for` | method | `modules/mediation/contracts.py:99` | `def mediator_for(self, domain)` |
-| `read` | method | `modules/mediation/contracts.py:45` | `def read(self, limit)` |
-| `resolve` | function | `modules/mediation/contracts.py:104` | `def resolve(domain)` |
-| `EngineMediator` | class | `modules/mediation/engine_mediator.py:66` | `class EngineMediator` |
-| `ExploitRetryPort` | class | `modules/mediation/engine_mediator.py:32` | `class ExploitRetryPort(Protocol)` |
-| `ReactionPort` | class | `modules/mediation/engine_mediator.py:49` | `class ReactionPort(Protocol)` |
-| `analyse` | method | `modules/mediation/engine_mediator.py:52` | `def analyse(self, output, command, platform)` |
-| `analyse` | method | `modules/mediation/engine_mediator.py:100` | `def analyse(self, output, command, platform)` |
-| `describe` | method | `modules/mediation/engine_mediator.py:71` | `def describe(self)` |
-| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:35` | `def retry_with_credentials(self, target, credentials)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

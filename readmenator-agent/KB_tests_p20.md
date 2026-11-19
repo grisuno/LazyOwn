@@ -152,6 +152,7 @@ Previous: [KB_tests_p19.md](KB_tests_p19.md)
 
 ## tests/test_objective_bootstrap.py
 - Doc: Contract tests for modules/loop/objective_bootstrap.py.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_collect_emit` (function, line 11) `def _collect_emit()`
@@ -167,6 +168,7 @@ Previous: [KB_tests_p19.md](KB_tests_p19.md)
 
 ## tests/test_opencode_backend.py
 - Doc: Contract tests for the OpenCode Zen LLM backend.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_FakeOpenAIClient` (class, line 17) `class _FakeOpenAIClient`
@@ -422,79 +424,6 @@ Previous: [KB_tests_p19.md](KB_tests_p19.md)
   - `test_validate_config_rejects_bad_pacing` (function, line 149) `def test_validate_config_rejects_bad_pacing()`
   - `test_validate_config_rejects_pacing_not_mapping` (function, line 171) `def test_validate_config_rejects_pacing_not_mapping()`
 - Depends on: `modules/loop_guardrails.py`, `modules/orchestrator_config.py`
-
-## tests/test_packaging.py
-- Doc: Packaging and project-foundation tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_read_text` (function, line 25) `def _read_text(path)`
-  - `_load_toml` (function, line 29) `def _load_toml(path)`
-  - `_load_yaml` (function, line 34) `def _load_yaml(path)`
-  - `TestConfigDeduplication` (class, line 39) `class TestConfigDeduplication`
-  - `TestPyProjectToml` (class, line 98) `class TestPyProjectToml`
-  - `TestSetupPy` (class, line 154) `class TestSetupPy`
-  - `TestRequirementsDev` (class, line 193) `class TestRequirementsDev`
-  - `TestPreCommitConfig` (class, line 213) `class TestPreCommitConfig`
-  - `TestCIWorkflows` (class, line 242) `class TestCIWorkflows`
-  - `TestGitIgnore` (class, line 284) `class TestGitIgnore`
-  - `TestRequirementsLock` (class, line 303) `class TestRequirementsLock`
-  - `TestInstallScript` (class, line 343) `class TestInstallScript`
-  - `TestSourceFilesParse` (class, line 370) `class TestSourceFilesParse`
-  - `test_config_class_defined_exactly_once_in_core` (method, line 46) `def test_config_class_defined_exactly_once_in_core(self)`
-  - `test_config_class_not_redefined_in_utils` (method, line 52) `def test_config_class_not_redefined_in_utils(self)`
-  - `_run_in_subprocess` (method, line 59) `def _run_in_subprocess(snippet)`
-  - `test_config_attribute_access_works` (method, line 74) `def test_config_attribute_access_works(self)`
-  - `test_config_getitem_returns_value` (method, line 83) `def test_config_getitem_returns_value(self)`
-  - `test_config_getitem_returns_none_for_missing_key` (method, line 89) `def test_config_getitem_returns_none_for_missing_key(self)`
-  - `pyproject` (method, line 102) `def pyproject(self)`
-  - `test_parses` (method, line 105) `def test_parses(self, pyproject)`
-  - `test_has_no_typo_dependency` (method, line 108) `def test_has_no_typo_dependency(self, pyproject)`
-  - `test_does_not_list_stdlib_ast_as_dep` (method, line 113) `def test_does_not_list_stdlib_ast_as_dep(self, pyproject)`
-  - `test_lists_flask_wtf_correctly` (method, line 117) `def test_lists_flask_wtf_correctly(self, pyproject)`
-  - `test_does_not_list_broken_docx` (method, line 121) `def test_does_not_list_broken_docx(self, pyproject)`
-  - `test_has_ml_optional_dependencies` (method, line 126) `def test_has_ml_optional_dependencies(self, pyproject)`
-  - `test_has_dev_optional_dependencies` (method, line 132) `def test_has_dev_optional_dependencies(self, pyproject)`
-  - `test_has_ruff_section` (method, line 138) `def test_has_ruff_section(self, pyproject)`
-  - `test_has_pytest_section` (method, line 142) `def test_has_pytest_section(self, pyproject)`
-  - `test_has_mypy_section` (method, line 146) `def test_has_mypy_section(self, pyproject)`
-  - `test_has_bandit_section` (method, line 150) `def test_has_bandit_section(self, pyproject)`
-  - `setup_tree` (method, line 163) `def setup_tree(self)`
-  - `setup_text` (method, line 167) `def setup_text(self)`
-  - `test_parses` (method, line 170) `def test_parses(self, setup_tree)`
-  - `test_calls_setup` (method, line 173) `def test_calls_setup(self, setup_tree)`
-  - `test_does_not_duplicate_dependencies` (method, line 181) `def test_does_not_duplicate_dependencies(self, setup_text)`
-  - `test_no_typo_dep` (method, line 186) `def test_no_typo_dep(self, setup_text)`
-  - `test_no_stdlib_ast_dep` (method, line 189) `def test_no_stdlib_ast_dep(self, setup_text)`
-  - `deps` (method, line 197) `def deps(self)`
-  - `test_lists_tool` (method, line 208) `def test_lists_tool(self, deps, tool)`
-  - `cfg` (method, line 217) `def cfg(self)`
-  - `test_parses` (method, line 220) `def test_parses(self, cfg)`
-  - `test_has_ruff_repo` (method, line 225) `def test_has_ruff_repo(self, cfg)`
-  - `test_has_detect_secrets_repo` (method, line 229) `def test_has_detect_secrets_repo(self, cfg)`
-  - `test_has_core_hygiene_hooks` (method, line 233) `def test_has_core_hygiene_hooks(self, cfg)`
-  - `lint_wf` (method, line 246) `def lint_wf(self)`
-  - `test_wf` (method, line 250) `def test_wf(self)`
-  - `security_wf` (method, line 254) `def security_wf(self)`
-  - `test_lint_workflow_has_ruff_and_mypy_jobs` (method, line 257) `def test_lint_workflow_has_ruff_and_mypy_jobs(self, lint_wf)`
-  - `test_test_workflow_runs_pytest` (method, line 262) `def test_test_workflow_runs_pytest(self, test_wf)`
-  - `test_security_workflow_has_three_jobs` (method, line 267) `def test_security_workflow_has_three_jobs(self, security_wf)`
-  - `test_workflow_triggers_on_push_and_pr` (method, line 276) `def test_workflow_triggers_on_push_and_pr(self, wf_path)`
-  - `patterns` (method, line 288) `def patterns(self)`
-  - `test_pattern_present` (method, line 299) `def test_pattern_present(self, patterns, pattern)`
-  - `_entries` (method, line 308) `def _entries(name)`
-  - `_names` (method, line 316) `def _names(entries)`
-  - `test_core_lock_exists_and_pinned` (method, line 319) `def test_core_lock_exists_and_pinned(self)`
-  - `test_core_lock_has_python_docx_not_broken_docx` (method, line 325) `def test_core_lock_has_python_docx_not_broken_docx(self)`
-  - `test_core_lock_is_cross_platform` (method, line 330) `def test_core_lock_is_cross_platform(self)`
-  - `test_ml_lock_exists_pinned_with_torch` (method, line 335) `def test_ml_lock_exists_pinned_with_torch(self)`
-  - `text` (method, line 347) `def text(self)`
-  - `test_uses_strict_mode` (method, line 350) `def test_uses_strict_mode(self, text)`
-  - `test_does_not_install_stdlib_ast` (method, line 353) `def test_does_not_install_stdlib_ast(self, text)`
-  - `test_does_not_install_broken_docx` (method, line 358) `def test_does_not_install_broken_docx(self, text)`
-  - `test_installs_from_pinned_lock` (method, line 363) `def test_installs_from_pinned_lock(self, text)`
-  - `test_no_absolute_modules_ext_path` (method, line 366) `def test_no_absolute_modules_ext_path(self, text)`
-  - `test_parses` (method, line 374) `def test_parses(self, filename)`
 
 
 Next: [KB_tests_p21.md](KB_tests_p21.md)

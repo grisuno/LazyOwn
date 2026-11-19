@@ -454,6 +454,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
 
 ## modules/session_reclaim.py
 - Doc: Audited cleanup planner for the top-level ``sessions`` directory.
+- Layer: utility
 - Language: py
 - Symbols:
   - `_glob_matcher` (function, line 94) `def _glob_matcher()`
@@ -479,22 +480,6 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `grouped` (method, line 313) `def grouped(self, tier)`
   - `tier_bytes` (method, line 321) `def tier_bytes(self, tier)`
   - `removable` (method, line 325) `def removable(self, include_sensitive)`
-
-## modules/session_state.py
-- Doc: LazyOwn Session State
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_detect_phase` (function, line 50) `def _detect_phase(event_types)`
-  - `_read_last_commands` (function, line 75) `def _read_last_commands(n)`
-  - `_read_events` (function, line 93) `def _read_events(n)`
-  - `_extract_creds_from_events` (function, line 118) `def _extract_creds_from_events(events)`
-  - `_extract_hosts` (function, line 133) `def _extract_hosts(rows, payload)`
-  - `_summarise_commands` (function, line 175) `def _summarise_commands(rows)`
-  - `build_state` (function, line 189) `def build_state()`
-  - `refresh` (function, line 240) `def refresh()`
-  - `load` (function, line 251) `def load()`
-- Imported by: `modules/recommender.py`
 
 
 Next: [KB_modules_p18.md](KB_modules_p18.md)

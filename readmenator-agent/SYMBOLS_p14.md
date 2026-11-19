@@ -3,8 +3,6 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
-| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
 | `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
 | `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
 | `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
@@ -496,5 +494,7 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
 | `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
 | `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
+| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
+| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

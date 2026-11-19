@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_mark_interrupted_targets_queued_and_running` | method | `skills/tests/test_hive_mind.py:722` | `def test_mark_interrupted_targets_queued_and_running(self)` |
+| `test_mcp_hive_collect_no_ids` | method | `skills/tests/test_hive_mind.py:660` | `def test_mcp_hive_collect_no_ids(self)` |
+| `test_mcp_hive_forget_returns_pruned_count` | method | `skills/tests/test_hive_mind.py:636` | `def test_mcp_hive_forget_returns_pruned_count(self)` |
+| `test_mcp_hive_plan_returns_parseable_string` | method | `skills/tests/test_hive_mind.py:610` | `def test_mcp_hive_plan_returns_parseable_string(self)` |
+| `test_mcp_hive_recall_no_results` | method | `skills/tests/test_hive_mind.py:629` | `def test_mcp_hive_recall_no_results(self)` |
+| `test_mcp_hive_recover_no_interrupted` | method | `skills/tests/test_hive_mind.py:862` | `def test_mcp_hive_recover_no_interrupted(self)` |
+| `test_mcp_hive_result_unknown_drone` | method | `skills/tests/test_hive_mind.py:652` | `def test_mcp_hive_result_unknown_drone(self)` |
+| `test_mcp_hive_spawn_single` | method | `skills/tests/test_hive_mind.py:643` | `def test_mcp_hive_spawn_single(self)` |
+| `test_mcp_hive_status_contains_fields` | method | `skills/tests/test_hive_mind.py:619` | `def test_mcp_hive_status_contains_fields(self)` |
+| `test_pending_count_after_publish` | method | `skills/tests/test_hive_mind.py:321` | `def test_pending_count_after_publish(self)` |
+| `test_plan_ad_goal` | method | `skills/tests/test_hive_mind.py:461` | `def test_plan_ad_goal(self)` |
+| `test_plan_enum_returns_multiple_tasks` | method | `skills/tests/test_hive_mind.py:446` | `def test_plan_enum_returns_multiple_tasks(self)` |
+| `test_plan_exploit_goal` | method | `skills/tests/test_hive_mind.py:454` | `def test_plan_exploit_goal(self)` |
 | `test_plan_generic_goal` | method | `skills/tests/test_hive_mind.py:468` | `def test_plan_generic_goal(self)` |
 | `test_plan_n_drones_pads_to_requested` | method | `skills/tests/test_hive_mind.py:474` | `def test_plan_n_drones_pads_to_requested(self)` |
 | `test_publish_and_receive` | method | `skills/tests/test_hive_mind.py:301` | `def test_publish_and_receive(self)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `o` | function | `static/js/chart.min.js:13` | `` |
 | `o` | function | `static/js/chart.min.js:13` | `` |
 | `o` | function | `static/js/chart.min.js:13` | `` |
-| `on` | class | `static/js/chart.min.js:13` | `` |
-| `oo` | class | `static/js/chart.min.js:13` | `` |
-| `p` | function | `static/js/chart.min.js:13` | `` |
-| `p` | function | `static/js/chart.min.js:13` | `` |
-| `r` | function | `static/js/chart.min.js:7` | `` |
-| `r` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

@@ -1,6 +1,87 @@
 # Subsystem: tests (page 22 of 27)
 Previous: [KB_tests_p21.md](KB_tests_p21.md)
 
+## tests/test_placeholder_coverage.py
+- Doc: Placeholder coverage across every registry that resolves ``{tokens}``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_live_keys` (function, line 40) `def _live_keys()`
+  - `_skill_keys` (function, line 49) `def _skill_keys()`
+  - `test_validator_covers_live_keys` (function, line 57) `def test_validator_covers_live_keys()`
+  - `test_schema_covers_live_keys` (function, line 63) `def test_schema_covers_live_keys()`
+  - `test_skill_documents_validator_keys` (function, line 68) `def test_skill_documents_validator_keys()`
+  - `test_addon_tokens_resolve` (function, line 78) `def test_addon_tokens_resolve()`
+  - `test_addon_tokens_resolve_at_runtime` (function, line 98) `def test_addon_tokens_resolve_at_runtime()`
+  - `test_required_params_exist_live` (function, line 122) `def test_required_params_exist_live()`
+- Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
+
+## tests/test_planner_initial_access.py
+- Doc: Deterministic initial-access intent: auto_pwn fires without an LLM.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `store` (function, line 9) `def store(tmp_path, monkeypatch)`
+  - `_make_planner` (function, line 19) `def _make_planner(store, goal, target)`
+  - `test_initial_access_candidate_emitted_for_access_goal` (function, line 35) `def test_initial_access_candidate_emitted_for_access_goal(store)`
+  - `test_initial_access_candidate_skips_when_intent_exists` (function, line 44) `def test_initial_access_candidate_skips_when_intent_exists(store)`
+  - `test_initial_access_candidate_emitted_regardless_of_goal` (function, line 51) `def test_initial_access_candidate_emitted_regardless_of_goal(store)`
+  - `test_initial_access_candidate_skips_when_foothold_proven` (function, line 60) `def test_initial_access_candidate_skips_when_foothold_proven(store, monkeypatch)`
+  - `test_foothold_gate_ignores_global_world_model` (function, line 69) `def test_foothold_gate_ignores_global_world_model(monkeypatch)`
+  - `test_foothold_gate_requires_task_context` (function, line 81) `def test_foothold_gate_requires_task_context()`
+  - `test_initial_access_candidate_skips_without_target` (function, line 87) `def test_initial_access_candidate_skips_without_target(store)`
+  - `test_plan_emits_initial_access_intent_first` (function, line 93) `def test_plan_emits_initial_access_intent_first(store, monkeypatch)`
+  - `test_worker_steps_run_auto_pwn_for_access_intent` (function, line 104) `def test_worker_steps_run_auto_pwn_for_access_intent(store)`
+  - `test_worker_steps_cover_all_when_flag_set` (function, line 127) `def test_worker_steps_cover_all_when_flag_set(store, monkeypatch)`
+  - `test_executor_bumps_auto_pwn_timeout` (function, line 152) `def test_executor_bumps_auto_pwn_timeout(monkeypatch)`
+  - `_Snap` (class, line 72) `class _Snap`
+  - `_fake_stream` (function, line 157) `def _fake_stream(command, on_output, timeout_sec)`
+  - `snapshot` (method, line 74) `def snapshot()`
+- Depends on: `core/config.py`, `modules/auto_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`
+
+## tests/test_playbook_admin.py
+- Doc: Playbook YAML administration: scan, create, update, delete, validate.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write` (function, line 21) `def _write(directory, name, data)`
+  - `test_scan_reports_apt_and_plan_shapes` (function, line 27) `def test_scan_reports_apt_and_plan_shapes(tmp_path)`
+  - `test_validate_rejects_mixed_and_empty` (function, line 60) `def test_validate_rejects_mixed_and_empty(tmp_path)`
+  - `test_create_update_and_delete_round_trip` (function, line 70) `def test_create_update_and_delete_round_trip(tmp_path)`
+  - `test_create_refuses_overwrite_and_escape` (function, line 91) `def test_create_refuses_overwrite_and_escape(tmp_path)`
+  - `test_slug_and_preview` (function, line 110) `def test_slug_and_preview(tmp_path)`
+- Depends on: `modules/playbook_admin.py`
+
+## tests/test_playbook_chain.py
+- Doc: Playbook lowering: phases[].steps[] actions and atomic tests become validated chains executed by...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_playbook` (function, line 12) `def _playbook()`
+  - `test_slugify_normalizes_playbook_names` (function, line 37) `def test_slugify_normalizes_playbook_names()`
+  - `test_playbook_to_chain_maps_every_kind` (function, line 43) `def test_playbook_to_chain_maps_every_kind()`
+  - `test_playbook_to_chain_skips_manual_atomic_tests` (function, line 63) `def test_playbook_to_chain_skips_manual_atomic_tests()`
+  - `test_playbook_to_chain_validates_against_registry` (function, line 84) `def test_playbook_to_chain_validates_against_registry()`
+  - `test_playbook_to_chain_stepwise_eligible_when_verbs_routable` (function, line 93) `def test_playbook_to_chain_stepwise_eligible_when_verbs_routable(monkeypatch)`
+  - `test_write_playbook_chain_round_trips` (function, line 104) `def test_write_playbook_chain_round_trips(tmp_path)`
+  - `test_validate_playbook_accepts_steps_and_rejects_bad_kinds` (function, line 116) `def test_validate_playbook_accepts_steps_and_rejects_bad_kinds()`
+  - `test_synth_playbook_flag_lowers_and_writes` (function, line 154) `def test_synth_playbook_flag_lowers_and_writes(tmp_path, monkeypatch)`
+  - `test_synth_playbook_unknown_name_loud` (function, line 177) `def test_synth_playbook_unknown_name_loud(tmp_path, monkeypatch)`
+- Depends on: `cli/apt_chain_support.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/auto_registry.py`, `modules/chain_loop.py`, `modules/chain_registry.py`, `modules/playbook_admin.py`, `modules/playbook_chain.py`
+
+## tests/test_plugin_loader_safety.py
+- Doc: Marketplace placeholder substitution must be shell-safe.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_fn` (function, line 23) `def _load_fn()`
+  - `TestPlaceholderQuoting` (class, line 38) `class TestPlaceholderQuoting`
+  - `test_plain_values_pass_through` (method, line 39) `def test_plain_values_pass_through(self)`
+  - `test_injection_neutralized` (method, line 43) `def test_injection_neutralized(self)`
+  - `test_command_substitution_neutralized` (method, line 48) `def test_command_substitution_neutralized(self)`
+  - `test_missing_key_left_verbatim` (method, line 53) `def test_missing_key_left_verbatim(self)`
+  - `test_uses_shlex_quote` (method, line 57) `def test_uses_shlex_quote(self)`
+
 ## tests/test_plugin_tiers.py
 - Doc: Tests for marketplace plugin tiers and operator ratings.
 - Layer: testing
@@ -392,81 +473,6 @@ Previous: [KB_tests_p21.md](KB_tests_p21.md)
   - `get_recommendations` (method, line 169) `def get_recommendations(self, target)`
   - `__init__` (method, line 179) `def __init__(self, kind, name, reason)`
 - Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`
-
-## tests/test_recon_plan.py
-- Doc: Spec coverage for :mod:`cli.recon_plan`.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_addon` (function, line 68) `def _seed_addon(addons_dir, name, os_value, triggers)`
-  - `_seed_tool` (function, line 90) `def _seed_tool(tools_dir, name, triggers, command, os_value)`
-  - `_seed_command_index` (function, line 110) `def _seed_command_index(path)`
-  - `_seed_engine` (function, line 130) `def _seed_engine(sessions, addons, tools, nmap_xml, history_rows, current_os)`
-  - `BuildReconPlanContractSpec` (class, line 149) `class BuildReconPlanContractSpec(TestCase)`
-  - `RenderMarkdownSpec` (class, line 289) `class RenderMarkdownSpec(TestCase)`
-  - `WritePlanSpec` (class, line 338) `class WritePlanSpec(TestCase)`
-  - `RenderRichSpec` (class, line 379) `class RenderRichSpec(TestCase)`
-  - `setUp` (method, line 152) `def setUp(self)`
-  - `tearDown` (method, line 176) `def tearDown(self)`
-  - `_build` (method, line 179) `def _build(self, current_os, payload)`
-  - `test_plan_includes_addons_matching_open_service` (method, line 193) `def test_plan_includes_addons_matching_open_service(self)`
-  - `test_plan_filters_os_incompatible_addons_on_linux` (method, line 199) `def test_plan_filters_os_incompatible_addons_on_linux(self)`
-  - `test_plan_includes_tools_matching_open_service` (method, line 204) `def test_plan_includes_tools_matching_open_service(self)`
-  - `test_tool_preview_substitutes_payload_placeholders` (method, line 210) `def test_tool_preview_substitutes_payload_placeholders(self)`
-  - `test_plan_excludes_already_executed_addons` (method, line 216) `def test_plan_excludes_already_executed_addons(self)`
-  - `test_plan_includes_phase_priority_command_suggestions` (method, line 237) `def test_plan_includes_phase_priority_command_suggestions(self)`
-  - `test_plan_skips_command_layer_when_index_missing` (method, line 243) `def test_plan_skips_command_layer_when_index_missing(self)`
-  - `test_plan_uses_payload_target_when_argument_missing` (method, line 259) `def test_plan_uses_payload_target_when_argument_missing(self)`
-  - `test_empty_scan_returns_empty_plan` (method, line 273) `def test_empty_scan_returns_empty_plan(self)`
-  - `_plan_with_items` (method, line 292) `def _plan_with_items(self)`
-  - `test_markdown_starts_with_target_header` (method, line 311) `def test_markdown_starts_with_target_header(self)`
-  - `test_markdown_renders_services_table` (method, line 315) `def test_markdown_renders_services_table(self)`
-  - `test_markdown_renders_command_preview_block` (method, line 320) `def test_markdown_renders_command_preview_block(self)`
-  - `test_markdown_handles_empty_plan` (method, line 325) `def test_markdown_handles_empty_plan(self)`
-  - `_plan` (method, line 341) `def _plan(self, target)`
-  - `test_write_creates_expected_filename` (method, line 351) `def test_write_creates_expected_filename(self)`
-  - `test_write_sanitises_target_for_filename` (method, line 358) `def test_write_sanitises_target_for_filename(self)`
-  - `test_write_sets_restrictive_permissions` (method, line 364) `def test_write_sets_restrictive_permissions(self)`
-  - `test_write_overwrites_existing_plan` (method, line 370) `def test_write_overwrites_existing_plan(self)`
-  - `_Recorder` (class, line 383) `class _Recorder`
-  - `test_renders_one_line_per_item` (method, line 389) `def test_renders_one_line_per_item(self)`
-  - `test_renders_friendly_message_when_empty` (method, line 406) `def test_renders_friendly_message_when_empty(self)`
-  - `print` (method, line 386) `def print(self, line)`
-- Depends on: `cli/exploration.py`, `cli/recon_plan.py`
-
-## tests/test_repeat_shapes.py
-- Doc: Stuck-loop shapes contract: AAAA plus ABABAB oscillation detection.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_alternating_pair_never_triggers_below_six` (function, line 13) `def test_alternating_pair_never_triggers_below_six()`
-  - `test_full_oscillation_triggers_at_six_records` (function, line 21) `def test_full_oscillation_triggers_at_six_records()`
-  - `test_identical_window_triggers_and_pair_empty` (function, line 31) `def test_identical_window_triggers_and_pair_empty()`
-  - `test_varied_traffic_never_triggers` (function, line 40) `def test_varied_traffic_never_triggers()`
-  - `test_reset_clears_pair` (function, line 54) `def test_reset_clears_pair()`
-  - `test_periodic_cycle_of_five_triggers_after_two_rounds` (function, line 63) `def test_periodic_cycle_of_five_triggers_after_two_rounds()`
-  - `test_periodic_cycle_never_fires_on_varied_progress` (function, line 74) `def test_periodic_cycle_never_fires_on_varied_progress()`
-  - `test_periodic_cycle_never_fires_below_two_rounds` (function, line 82) `def test_periodic_cycle_never_fires_below_two_rounds()`
-  - `test_describe_reports_cycle_shape` (function, line 90) `def test_describe_reports_cycle_shape()`
-  - `test_nine_step_round_family_is_caught_after_two_rounds` (function, line 99) `def test_nine_step_round_family_is_caught_after_two_rounds()`
-- Depends on: `modules/loop_guardrails.py`
-
-## tests/test_report_autogen.py
-- Doc: Tests for the engagement report auto-generation contract.
-- Language: py
-- Symbols:
-  - `test_normalize_funnel_list_to_dict` (function, line 15) `def test_normalize_funnel_list_to_dict()`
-  - `test_normalize_funnel_handles_dict_and_junk` (function, line 29) `def test_normalize_funnel_handles_dict_and_junk()`
-  - `test_resolve_formats_filters_and_defaults` (function, line 40) `def test_resolve_formats_filters_and_defaults()`
-  - `test_is_enabled` (function, line 52) `def test_is_enabled(value, expected)`
-  - `test_generate_refreshes_session_even_when_disabled` (function, line 58) `def test_generate_refreshes_session_even_when_disabled(monkeypatch)`
-  - `test_generate_emits_artifacts_when_enabled` (function, line 71) `def test_generate_emits_artifacts_when_enabled(monkeypatch, tmp_path)`
-  - `test_generate_never_raises_on_generator_failure` (function, line 102) `def test_generate_never_raises_on_generator_failure(monkeypatch)`
-  - `test_throttle_collapses_rapid_calls` (function, line 119) `def test_throttle_collapses_rapid_calls(monkeypatch)`
-  - `_Gen` (class, line 88) `class _Gen`
-  - `_Boom` (class, line 109) `class _Boom`
-  - `generate` (method, line 89) `def generate(self, output_dir, output_format, client_name)`
-  - `generate` (method, line 110) `def generate(self)`
 
 
 Next: [KB_tests_p23.md](KB_tests_p23.md)

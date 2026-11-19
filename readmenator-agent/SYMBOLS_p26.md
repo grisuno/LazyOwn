@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `main` | function | `scripts/dirtyinit_drive.sh:529` | `` |
+| `pack_apk` | function | `scripts/dirtyinit_drive.sh:211` | `` |
+| `parse_flags` | function | `scripts/dirtyinit_drive.sh:89` | `` |
+| `payload_value` | function | `scripts/dirtyinit_drive.sh:69` | `` |
+| `require_adb` | function | `scripts/dirtyinit_drive.sh:130` | `` |
+| `require_device` | function | `scripts/dirtyinit_drive.sh:134` | `` |
+| `tap_button` | function | `scripts/dirtyinit_drive.sh:348` | `` |
+| `warn` | function | `scripts/dirtyinit_drive.sh:66` | `` |
+| `build_sbom` | function | `scripts/generate_sbom.py:74` | `def build_sbom(with_ml)` |
+| `collect_components` | function | `scripts/generate_sbom.py:37` | `def collect_components(with_ml)` |
+| `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
+| `parse_requirement` | function | `scripts/generate_sbom.py:25` | `def parse_requirement(line)` |
+| `project_version` | function | `scripts/generate_sbom.py:68` | `def project_version()` |
 | `Journal` | class | `scripts/journal.py:149` | `class Journal` |
 | `JournalConfig` | class | `scripts/journal.py:53` | `class JournalConfig` |
 | `JournalError` | class | `scripts/journal.py:48` | `class JournalError(RuntimeError)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:186` | `def check_no_emoji(content, path)` |
 | `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:208` | `def check_no_forbidden_markers(content, path)` |
 | `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:290` | `def check_no_hardcoded_paths_or_ips(source, path)` |
-| `check_source` | function | `skills/claude_md_orchestrator/validators.py:359` | `def check_source(source, path, allow_numbers)` |
-| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:381` | `def check_spec(spec, min_sad_paths)` |
-| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:116` | `def find_block_comments(source)` |
-| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:138` | `def find_inline_comments(source)` |
-| `finditer` | method | `skills/claude_md_orchestrator/validators.py:81` | `def finditer(self, content)` |
-| `group` | method | `skills/claude_md_orchestrator/validators.py:69` | `def group(self, index)` |
-| `passed` | method | `skills/claude_md_orchestrator/validators.py:107` | `def passed(self)` |
-| `start` | method | `skills/claude_md_orchestrator/validators.py:65` | `def start(self)` |
-| `ControlState` | class | `skills/daemon_control.py:88` | `class ControlState` |
-| `DaemonControl` | class | `skills/daemon_control.py:162` | `class DaemonControl` |
-| `PendingAction` | class | `skills/daemon_control.py:49` | `class PendingAction` |
-| `__init__` | method | `skills/daemon_control.py:171` | `def __init__(self, sessions_dir)` |
-| `_first_token` | function | `skills/daemon_control.py:154` | `def _first_token(command)` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

@@ -1,78 +1,5 @@
-# API (page 3 of 30)
+# API (page 3 of 29)
 Previous: [API_p2.md](API_p2.md)
-
-## cli/commands/lazyops.py
-Depends on: `cli/commands/_base.py`, `core/process.py`, `modules/__init__.py`, `modules/addon_updater.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_commander.py`, `modules/lazy_deviations.py`, `modules/lazy_engine.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/lazy_skill_mirror.py`, `modules/lazy_skills.py`, `modules/orchestrator_config.py`, `modules/selfupdate.py`, `modules/traffic_recorder.py`, `utils.py`
-Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_runner.py`
-- `LazyCommandSet.do_lazy_dispatch` (method) `cli/commands/lazyops.py:95` `def do_lazy_dispatch(self, line)` -- Dispatch one detached task to an external agent: opencode|hermes [--in DIR] [--resume S] [--max-turns N]...
-- `LazyCommandSet.do_lazy_task` (method) `cli/commands/lazyops.py:154` `def do_lazy_task(self, line)` -- Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks.
-- `LazyCommandSet.do_lazy_graph` (method) `cli/commands/lazyops.py:276` `def do_lazy_graph(self, line)` -- Show planner-facing graph overview.
-- `LazyCommandSet.do_lazy_context` (method) `cli/commands/lazyops.py:305` `def do_lazy_context(self, line)` -- Render the bounded prompt context the planner/worker LLMs receive.
-- `LazyCommandSet.do_lazy_skill` (method) `cli/commands/lazyops.py:326` `def do_lazy_skill(self, line)` -- Skills: list|show <name>|preview|inject <name...>|clear|auto on|off|mirror [name]|register-hermes.
-- `LazyCommandSet.do_lazy_workspace` (method) `cli/commands/lazyops.py:410` `def do_lazy_workspace(self, line)` -- Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir <path>|rm <path>|path.
-- `LazyCommandSet.do_lazy_selfupdate` (method) `cli/commands/lazyops.py:463` `def do_lazy_selfupdate(self, line)` -- Self-update: check [--branch B]|apply [--yes] [--branch B].
-- `LazyCommandSet.do_lazy_planner` (method) `cli/commands/lazyops.py:491` `def do_lazy_planner(self, line)` -- Run one planner wakeup (emits 0..N intents).
-- `LazyCommandSet.do_lazy_frontier` (method) `cli/commands/lazyops.py:510` `def do_lazy_frontier(self, line)` -- Show pending intent queue.
-- `LazyCommandSet.do_lazy_worker` (method) `cli/commands/lazyops.py:522` `def do_lazy_worker(self, line)` -- Claim ONE intent and execute it with real tools.
-- `LazyCommandSet.do_lazy_trace` (method) `cli/commands/lazyops.py:562` `def do_lazy_trace(self, line)` -- Worker trace exchange.
-- `LazyCommandSet.do_lazy_broadcast` (method) `cli/commands/lazyops.py:615` `def do_lazy_broadcast(self, line)` -- Exploration timeline.
-- `LazyCommandSet.do_lazy_commander` (method) `cli/commands/lazyops.py:650` `def do_lazy_commander(self, line)` -- Allocate work slices across the task fleet.
-- `LazyCommandSet.do_lazy_deviations` (method) `cli/commands/lazyops.py:698` `def do_lazy_deviations(self, line)` -- List planned-versus-actual deviations.
-- `LazyCommandSet.do_lazy_blindspot` (method) `cli/commands/lazyops.py:736` `def do_lazy_blindspot(self, line)` -- Review graph blindspots into hints.
-- `LazyCommandSet.do_lazy_hint` (method) `cli/commands/lazyops.py:762` `def do_lazy_hint(self, line)` -- Inject steering hint.
-- `LazyCommandSet.do_lazy_intent` (method) `cli/commands/lazyops.py:774` `def do_lazy_intent(self, line)` -- Inject high-priority intent.
-- `LazyCommandSet.do_lazy_intent_delete` (method) `cli/commands/lazyops.py:799` `def do_lazy_intent_delete(self, line)` -- Delete an intent.
-- `LazyCommandSet.do_lazy_goal` (method) `cli/commands/lazyops.py:842` `def do_lazy_goal(self, line)` -- Goals: list|set <t1;t2>|edit <id> <text>|delete <id>|prove <goal> <evidence> <reason>|met <reason>.
-- `LazyCommandSet.do_lazy_constraint` (method) `cli/commands/lazyops.py:881` `def do_lazy_constraint(self, line)` -- Constraints: add <allow|deny> <text> | list.
-- `LazyCommandSet.do_lazy_scope` (method) `cli/commands/lazyops.py:899` `def do_lazy_scope(self, line)` -- Scope: add <kind> <value> [reason] | list.
-- `LazyCommandSet.do_lazy_todo` (method) `cli/commands/lazyops.py:917` `def do_lazy_todo(self, line)` -- Serial chain todos: add <text> | done <id> | list.
-- `LazyCommandSet.do_lazy_asset` (method) `cli/commands/lazyops.py:939` `def do_lazy_asset(self, line)` -- Assets: add <kind> <value> | list [kind] | scoped [--kind K] | coverage | untested.
-- `LazyCommandSet.do_lazy_enrich` (method) `cli/commands/lazyops.py:980` `def do_lazy_enrich(self, line)` -- Enrich asset with DNS/HTTP.
-- `LazyCommandSet.do_lazy_traffic` (method) `cli/commands/lazyops.py:992` `def do_lazy_traffic(self, line)` -- Traffic: list|search <q>|search-host <host> [--port P]|get <digest>|body <digest>|blob <digest> [--part req|resp]...
-- `LazyCommandSet.do_lazy_guard` (method) `cli/commands/lazyops.py:1213` `def do_lazy_guard(self, line)` -- Guard gate: check <cmd> | rule-add <pattern> <allow|ask|deny> [reason] | rule-del <p> | judge on|off [--fail...
-- `LazyCommandSet.do_lazy_finding` (method) `cli/commands/lazyops.py:1314` `def do_lazy_finding(self, line)` -- Findings: list [--full] [--limit N]|report <name> :: <summary>|status <id> <st>|update <id> <text>|context <id>.
-- `LazyCommandSet.do_lazy_retest` (method) `cli/commands/lazyops.py:1379` `def do_lazy_retest(self, line)` -- Retest finding to reproduced/fixed/inconclusive.
-- `LazyCommandSet.do_lazy_steer` (method) `cli/commands/lazyops.py:1398` `def do_lazy_steer(self, line)` -- Mid-run correction.
-- `LazyCommandSet.do_lazy_kill` (method) `cli/commands/lazyops.py:1410` `def do_lazy_kill(self, line)` -- Terminate running intent.
-- `LazyCommandSet.do_lazy_pause` (method) `cli/commands/lazyops.py:1422` `def do_lazy_pause(self, line)` -- Pause task loops.
-- `LazyCommandSet.do_lazy_resume` (method) `cli/commands/lazyops.py:1432` `def do_lazy_resume(self, line)` -- Resume paused task.
-- `LazyCommandSet.do_lazy_report` (method) `cli/commands/lazyops.py:1442` `def do_lazy_report(self, line)` -- Export severity-ranked report.
-- `LazyCommandSet.do_lazy_runtime` (method) `cli/commands/lazyops.py:1459` `def do_lazy_runtime(self, line)` -- Show/set loop runtime: budgets, deadline, abort cause, heartbeat, settlement text.
-- `LazyCommandSet.do_lazy_payload_keys` (method) `cli/commands/lazyops.py:1506` `def do_lazy_payload_keys(self, line)` -- Show worker tool defaults injected into every probe.
-- `LazyCommandSet.do_lazy_fact` (method) `cli/commands/lazyops.py:1518` `def do_lazy_fact(self, line)` -- Facts: list [query] [--hot|--cold]|add <text>.
-- `LazyCommandSet.do_lazy_node` (method) `cli/commands/lazyops.py:1546` `def do_lazy_node(self, line)` -- Full node detail.
-- `LazyCommandSet.do_lazy_evidence` (method) `cli/commands/lazyops.py:1566` `def do_lazy_evidence(self, line)` -- Evidence vault and frozen package.
-- `LazyCommandSet.do_lazy_ask` (method) `cli/commands/lazyops.py:1633` `def do_lazy_ask(self, line)` -- Bounded side question over task context.
-- `run_command` (function) `cli/commands/lazyops.py:1664` `def run_command(command)` -- Execute one shell command or LazyOwn verb and return its output.
-- `list_tasks` (function) `cli/commands/lazyops.py:1686` `def list_tasks()` -- List every task with status, intents, facts and findings.
-- `task_graph` (function) `cli/commands/lazyops.py:1690` `def task_graph(task)` -- Graph overview of one task (defaults to the active task).
-- `task_findings` (function) `cli/commands/lazyops.py:1694` `def task_findings(task)` -- Findings of one task with severity, status and report size.
-- `campaign_sitrep` (function) `cli/commands/lazyops.py:1698` `def campaign_sitrep()` -- Campaign summary: tasks, findings and phase counters.
-- `add_hint` (function) `cli/commands/lazyops.py:1711` `def add_hint(text)` -- Inject an operator hint into the active task planner.
-- `steer_intent` (function) `cli/commands/lazyops.py:1718` `def steer_intent(intent, message)` -- Send a mid-run course correction to a running intent.
-- `LazyCommandSet.do_lazy_agent` (method) `cli/commands/lazyops.py:1787` `def do_lazy_agent(self, line)` -- Main agent with full tool calling (native backend or opencode).
-- `LazyCommandSet.do_lazy_company` (method) `cli/commands/lazyops.py:1888` `def do_lazy_company(self, line)` -- Company scope: add <name> [scope]|list|match <value>.
-- `LazyCommandSet.do_lazy_tool` (method) `cli/commands/lazyops.py:1910` `def do_lazy_tool(self, line)` -- Tool catalog: list [agent]|bind|unbind <agent> <tool>|custom-add <name> <command|script|http> <target> [--desc D]...
-- `LazyCommandSet.do_lazy_verb` (method) `cli/commands/lazyops.py:1982` `def do_lazy_verb(self, line)` -- Loop verb admin: list [--phase P] [--q Q]|enable|disable <verb>|add <verb> --keywords K [--phase P] [--no-target]...
-- `LazyCommandSet.do_lazy_stage` (method) `cli/commands/lazyops.py:2080` `def do_lazy_stage(self, line)` -- Loop stage admin: list|enable|disable <stage>|reset.
-- `LazyCommandSet.do_lazy_mode` (method) `cli/commands/lazyops.py:2108` `def do_lazy_mode(self, line)` -- Engagement mode + findings/progress admin.
-- `LazyCommandSet.do_lazy_addon` (method) `cli/commands/lazyops.py:2134` `def do_lazy_addon(self, line)` -- Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run].
-- `LazyCommandSet.do_lazy_notify` (method) `cli/commands/lazyops.py:2243` `def do_lazy_notify(self, line)` -- Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass...
-- `LazyCommandSet.do_lazy_trigger` (method) `cli/commands/lazyops.py:2291` `def do_lazy_trigger(self, line)` -- Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync.
-- `LazyCommandSet.do_lazy_llm` (method) `cli/commands/lazyops.py:2380` `def do_lazy_llm(self, line)` -- LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record...
-- `LazyCommandSet.do_lazy_compact` (method) `cli/commands/lazyops.py:2517` `def do_lazy_compact(self, line)` -- Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>.
-- `LazyCommandSet.do_lazy_status` (method) `cli/commands/lazyops.py:2589` `def do_lazy_status(self, line)` -- Full task status.
-- `LazyCommandSet.do_lazy_overview` (method) `cli/commands/lazyops.py:2613` `def do_lazy_overview(self, line)` -- Alias of lazy_graph.
-- `LazyCommandSet.do_lazy_archive` (method) `cli/commands/lazyops.py:2618` `def do_lazy_archive(self, line)` -- Task snapshots: save [--task T]|list|stats|restore <path>.
-- `LazyCommandSet.do_lazy_template` (method) `cli/commands/lazyops.py:2649` `def do_lazy_template(self, line)` -- Goal templates: list|add <name> <goal>|use <name>|remove <name>.
-- `LazyCommandSet.do_lazy_category` (method) `cli/commands/lazyops.py:2680` `def do_lazy_category(self, line)` -- Task labels: set <name> [--task T]|list [name].
-- `LazyCommandSet.do_lazy_chat` (method) `cli/commands/lazyops.py:2701` `def do_lazy_chat(self, line)` -- Task conversation: say <text>|log|clear|sessions.
-- `LazyCommandSet.do_lazy_scheduler` (method) `cli/commands/lazyops.py:2734` `def do_lazy_scheduler(self, line)` -- Scheduler state: show|run.
-- `LazyCommandSet.do_lazy_gate` (method) `cli/commands/lazyops.py:2761` `def do_lazy_gate(self, line)` -- Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern>...
-- `LazyCommandSet.do_lazy_loop` (method) `cli/commands/lazyops.py:2806` `def do_lazy_loop(self, line)` -- Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/com...
-- `LazyCommandSet.do_lazy_sandbox` (method) `cli/commands/lazyops.py:2813` `def do_lazy_sandbox(self, line)` -- Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>.
-- `LazyCommandSet.do_lazy_install` (method) `cli/commands/lazyops.py:2876` `def do_lazy_install(self, line)` -- Capability installer: <tool> [--dry-run]|on|off|list.
-- `LazyCommandSet.do_lazy_pacing` (method) `cli/commands/lazyops.py:2914` `def do_lazy_pacing(self, line)` -- Show or set loop pacing knobs.
 
 ## cli/commands/loop_audit.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
@@ -489,6 +416,84 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `ScanMigratedCommandSet.do_net_rpc_addmem` (method) `cli/commands/scan_migrated.py:2769` `def do_net_rpc_addmem(self, line)` -- Executes the net rpc group addmem command to add a user to a specified group in Active Directory.
 - `ScanMigratedCommandSet.do_pre2k` (method) `cli/commands/scan_migrated.py:2815` `def do_pre2k(self, line)` -- Executes the pre2k tool to query the self.params['domain'] for pre-Windows 2000 machine accounts or to pass a list...
 - `ScanMigratedCommandSet.do_hound` (method) `cli/commands/scan_migrated.py:2908` `def do_hound(self, line)` -- Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
+
+## cli/commands/security.py
+Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `modules/hash_cracker.py`, `modules/opsec_scorer.py`
+- `SecurityCommandSet.do_opsec` (method) `cli/commands/security.py:26` `def do_opsec(self, line)` -- Score OPSEC risk for a LazyOwn command before execution.
+- `SecurityCommandSet.do_seal_credentials` (method) `cli/commands/security.py:106` `def do_seal_credentials(self, _line)` -- Encrypt all sensitive values in payload.json using AES-256-GCM.
+- `SecurityCommandSet.do_rotate_aes` (method) `cli/commands/security.py:127` `def do_rotate_aes(self, _line)` -- Generate a new AES key and re-encrypt all sealed credentials.
+- `SecurityCommandSet.do_unseal_credentials` (method) `cli/commands/security.py:150` `def do_unseal_credentials(self, _line)` -- Decrypt sealed credential values in payload.json for inspection.
+- `SecurityCommandSet.do_crack_hashes` (method) `cli/commands/security.py:170` `def do_crack_hashes(self, line)` -- Crack password hashes from a file using John the Ripper or Hashcat.
+- `SecurityCommandSet.complete_opsec` (method) `cli/commands/security.py:267` `def complete_opsec(self, text, line, begidx, endidx)`
+- `SecurityCommandSet.complete_crack_hashes` (method) `cli/commands/security.py:276` `def complete_crack_hashes(self, text, line, begidx, endidx)`
+
+## cli/commands/session_ops.py
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `core/payload_schema.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_loop.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
+Imported by: `tests/test_auto_crypto.py`, `tests/test_cli_assign.py`, `tests/test_lazy_runner.py`, `tests/test_session_ops_command_set.py`
+- `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:93` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
+- `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:118` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
+- `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:167` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+- `SessionOpsCommandSet.do_pivot` (method) `cli/commands/session_ops.py:175` `def do_pivot(self, line)` -- Record a newly discovered pivot target or show the pivot chain.
+- `SessionOpsCommandSet.do_tasks` (method) `cli/commands/session_ops.py:200` `def do_tasks(self, line)` -- View and manage the task queue from sessions/tasks.json.
+- `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:233` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
+- `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:250` `def do_sitrep(self, line)` -- Print a unified operational situation report.
+- `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:267` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
+- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:332` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
+- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:405` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
+- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:471` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
+- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:547` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
+- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:576` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
+- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:615` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
+- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:666` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
+- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:710` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
+- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:754` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:835` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:886` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:1013` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1104` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1136` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1227` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1249` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1287` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1320` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1351` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1400` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1462` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1510` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1522` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1572` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1618` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+
+## cli/commands/shellsys.py
+Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `modules/__init__.py`, `utils.py`
+Imported by: `tests/test_session_reclaim.py`, `tests/test_shellsys_command_set.py`
+- `ShellSysCommandSet.do_sh` (method) `cli/commands/shellsys.py:87` `def do_sh(self, line)` -- Executes a shell command directly from the LazyOwn interface.
+- `ShellSysCommandSet.do_sys` (method) `cli/commands/shellsys.py:119` `def do_sys(self, line)` -- Executes a shell command directly from the LazyOwn interface.
+- `ShellSysCommandSet.do_pwd` (method) `cli/commands/shellsys.py:167` `def do_pwd(self, line)` -- Displays the current working directory and lists files, and copies the current directory path to the clipboard.
+- `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:203` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
+- `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:227` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
+- `lazyrun_command` (function) `cli/commands/shellsys.py:262` `def lazyrun_command()`
+- `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:273` `def do_clean(self, line)` -- Audit and reclaim the ``sessions`` directory, dry-run by default.
+- `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:349` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
+- `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:382` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
+- `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:415` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
+- `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:452` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
+
+## cli/commands/sidequest.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `SidequestCommandSet.do_sidequest` (method) `cli/commands/sidequest.py:25` `def do_sidequest(self, statement)` -- Review frozen loop decisions read-only: sidequest list | ask.
+
+## cli/commands/sleep_obfuscation.py
+Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
+- `SleepObfuscationCommandSet.do_sleep_list` (method) `cli/commands/sleep_obfuscation.py:23` `def do_sleep_list(self, line)` -- List available sleep obfuscation techniques.
+- `SleepObfuscationCommandSet.do_sleep_info` (method) `cli/commands/sleep_obfuscation.py:50` `def do_sleep_info(self, line)` -- Show detailed information about a sleep obfuscation technique.
+- `SleepObfuscationCommandSet.do_sleep_configure` (method) `cli/commands/sleep_obfuscation.py:82` `def do_sleep_configure(self, line)` -- Configure the active sleep obfuscation technique.
+
+## cli/commands/socks_proxy.py
+Depends on: `cli/commands/_base.py`, `modules/socks_proxy.py`, `utils.py`
+- `SocksProxyCommandSet.do_socks_config` (method) `cli/commands/socks_proxy.py:25` `def do_socks_config(self, line)` -- Show or configure the SOCKS5 proxy.
+- `SocksProxyCommandSet.do_socks_sessions` (method) `cli/commands/socks_proxy.py:75` `def do_socks_sessions(self, line)` -- List active SOCKS proxy sessions.
+- `SocksProxyCommandSet.do_socks_export` (method) `cli/commands/socks_proxy.py:94` `def do_socks_export(self, line)` -- Export SOCKS5 proxy specification for beacon delivery.
 
 
 Next: [API_p4.md](API_p4.md)

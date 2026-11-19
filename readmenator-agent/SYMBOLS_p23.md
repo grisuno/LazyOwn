@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_jump_past` | method | `modules/resource_script.py:251` | `def _jump_past(self, open_res, close_re)` |
+| `_lookup` | method | `modules/resource_script.py:168` | `def _lookup(self, name)` |
+| `_repl` | function | `modules/resource_script.py:125` | `def _repl(m)` |
+| `_resolve` | method | `modules/resource_script.py:124` | `def _resolve(self, text)` |
+| `_resolve_operand` | method | `modules/resource_script.py:183` | `def _resolve_operand(self, operand)` |
+| `_skip` | method | `modules/resource_script.py:165` | `def _skip(self)` |
+| `eval_condition` | method | `modules/resource_script.py:191` | `def eval_condition(self, raw_condition)` |
+| `execute` | method | `modules/resource_script.py:279` | `def execute(self, script_path)` |
+| `execute_lines` | method | `modules/resource_script.py:293` | `def execute_lines(self, lines, source)` |
+| `execute_string` | method | `modules/resource_script.py:327` | `def execute_string(self, script)` |
+| `print` | method | `modules/resource_script.py:138` | `def print(self, msg)` |
+| `run_command` | method | `modules/resource_script.py:147` | `def run_command(self, cmd)` |
+| `_rewrite_segment` | function | `modules/retry_session.py:162` | `def _rewrite_segment(segment)` |
 | `_verify_askpass_layout` | function | `modules/retry_session.py:67` | `def _verify_askpass_layout(helper, secret_file)` |
 | `apply_sudo_askpass` | function | `modules/retry_session.py:137` | `def apply_sudo_askpass(command)` |
 | `clear_sudo_secret` | function | `modules/retry_session.py:125` | `def clear_sudo_secret()` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `_load_payload` | function | `modules/sinks/beacon_dispatch.py:23` | `def _load_payload()` |
 | `apply` | function | `modules/sinks/beacon_dispatch.py:46` | `def apply(event)` |
 | `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/chain_feed.py:22` | `def apply(event)` |
-| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/findings.py:42` | `def apply(event)` |
-| `handoff` | function | `modules/sinks/findings.py:88` | `def handoff(engagement_id, status, rounds)` |
-| `ingest_discarded` | function | `modules/sinks/findings.py:107` | `def ingest_discarded(engagement_id, entries)` |
-| `ledger_for` | function | `modules/sinks/findings.py:72` | `def ledger_for(engagement_id)` |
-| `limits_for` | function | `modules/sinks/findings.py:22` | `def limits_for()` |
-| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
-| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
-| `_db_mirror` | function | `modules/sinks/lazy_intel.py:88` | `def _db_mirror(host, row)` |
-| `_world_mirror` | function | `modules/sinks/lazy_intel.py:58` | `def _world_mirror(host, row, temperature, severity)` |
-| `apply` | function | `modules/sinks/lazy_intel.py:28` | `def apply(event)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

@@ -1,6 +1,21 @@
 # Subsystem: modules (page 13 of 19)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/lazyown_metaextract0r.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `signal_handler` (function, line 42) `def signal_handler(sig, frame)`
+  - `extract_pdf_metadata` (function, line 51) `def extract_pdf_metadata(file_path)`
+  - `extract_docx_metadata` (function, line 62) `def extract_docx_metadata(file_path)`
+  - `extract_ole_metadata` (function, line 73) `def extract_ole_metadata(file_path)`
+  - `extract_image_metadata` (function, line 85) `def extract_image_metadata(file_path)`
+  - `extract_metadata` (function, line 96) `def extract_metadata(file_path)`
+  - `find_and_extract_metadata` (function, line 109) `def find_and_extract_metadata(directory, output_file)`
+  - `parse_arguments` (function, line 130) `def parse_arguments()`
+  - `main` (function, line 140) `def main()`
+
 ## modules/lazyown_parquet_tool.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
@@ -459,42 +474,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `handleError` (method, line 122) `def handleError(self, record)`
 - Depends on: `core/logging.py`
 - Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
-
-## modules/loop_ai_bridge.py
-- Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_singleton` (function, line 50) `def _singleton(key, factory)`
-  - `_stage` (function, line 64) `def _stage(name, default)`
-  - `publish_loop_event` (function, line 74) `def publish_loop_event(task_id, worker, kind, text, severity)`
-  - `_hive_store` (function, line 101) `def _hive_store(task_id, worker, kind, text)`
-  - `assess_opsec` (function, line 125) `def assess_opsec(command, rhost)`
-  - `intent_tool_class` (function, line 169) `def intent_tool_class(summary)`
-  - `record_outcome_quality` (function, line 213) `def record_outcome_quality(worker, intent_summary, facts, findings)`
-  - `tool_class_yields` (function, line 240) `def tool_class_yields(summaries, phase)`
-  - `annotate_detection` (function, line 280) `def annotate_detection(command, action_category)`
-  - `moe_route` (function, line 304) `def moe_route(task_type, goal)`
-  - `moe_record_outcome` (function, line 321) `def moe_record_outcome(expert_id, task_type, reward, detection_prob)`
-  - `rl_select` (function, line 340) `def rl_select(task_type, phase, candidates, deterministic)`
-  - `rl_update` (function, line 362) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
-  - `rl_save` (function, line 385) `def rl_save()`
-  - `record_step` (function, line 407) `def record_step(task_id, worker, command, output, detection_prob)`
-  - `swan_available` (function, line 435) `def swan_available()`
-  - `swan_consult` (function, line 448) `def swan_consult(prompt, task_type, phase, timeout)`
-  - `stream_enabled` (function, line 475) `def stream_enabled()`
-  - `ai_snapshot` (function, line 485) `def ai_snapshot()`
-  - `_open` (function, line 104) `def _open()`
-  - `_open` (function, line 260) `def _open()`
-  - `_open` (function, line 285) `def _open()`
-  - `_open` (function, line 307) `def _open()`
-  - `_open` (function, line 326) `def _open()`
-  - `_open` (function, line 347) `def _open()`
-  - `_open` (function, line 369) `def _open()`
-  - `_open` (function, line 390) `def _open()`
-  - `_open` (function, line 440) `def _open()`
-- Depends on: `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-- Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

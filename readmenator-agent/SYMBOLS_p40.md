@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_returns_required_top_level_keys` | method | `tests/test_command_palette.py:1195` | `def test_returns_required_top_level_keys(self, synthetic_index, suite_config)` |
+| `test_route_decorator_present` | method | `tests/test_command_palette.py:1423` | `def test_route_decorator_present(self, src, suite_config)` |
+| `test_route_decorator_present` | method | `tests/test_command_palette.py:1879` | `def test_route_decorator_present(self, src, suite_config)` |
+| `test_route_function_defined` | method | `tests/test_command_palette.py:1427` | `def test_route_function_defined(self, src, suite_config)` |
+| `test_route_function_defined` | method | `tests/test_command_palette.py:1883` | `def test_route_function_defined(self, src, suite_config)` |
+| `test_route_handles_missing_index` | method | `tests/test_command_palette.py:1459` | `def test_route_handles_missing_index(self, src, suite_config)` |
+| `test_route_handles_missing_index` | method | `tests/test_command_palette.py:1911` | `def test_route_handles_missing_index(self, src, suite_config)` |
+| `test_route_loads_index_and_builds_view` | method | `tests/test_command_palette.py:1448` | `def test_route_loads_index_and_builds_view(self, src, suite_config)` |
+| `test_route_renders_palette_template` | method | `tests/test_command_palette.py:1454` | `def test_route_renders_palette_template(self, src, suite_config)` |
+| `test_route_returns_jsonified_view` | method | `tests/test_command_palette.py:1904` | `def test_route_returns_jsonified_view(self, src, suite_config)` |
+| `test_route_uses_requires_auth` | method | `tests/test_command_palette.py:1433` | `def test_route_uses_requires_auth(self, src, suite_config)` |
+| `test_route_uses_requires_auth` | method | `tests/test_command_palette.py:1889` | `def test_route_uses_requires_auth(self, src, suite_config)` |
+| `test_runs_after_handles_none_telemetry` | method | `tests/test_command_palette.py:2101` | `def test_runs_after_handles_none_telemetry(self)` |
+| `test_safe_load_graph_returns_none_when_missing` | method | `tests/test_command_palette.py:1559` | `def test_safe_load_graph_returns_none_when_missing(self, tmp_path)` |
+| `test_safe_load_returns_empty_index_when_csv_missing` | method | `tests/test_command_palette.py:2017` | `def test_safe_load_returns_empty_index_when_csv_missing(self, tmp_path)` |
+| `test_schema_version_matches_config` | method | `tests/test_command_palette.py:415` | `def test_schema_version_matches_config(self, index_document, suite_config)` |
+| `test_score_function_uses_runs_signal` | method | `tests/test_command_palette.py:2237` | `def test_score_function_uses_runs_signal(self, base_src)` |
+| `test_search_empty_uses_empty_message` | method | `tests/test_command_palette.py:847` | `def test_search_empty_uses_empty_message(self, renderer)` |
+| `test_search_flag_routes_to_search` | method | `tests/test_command_palette.py:691` | `def test_search_flag_routes_to_search(self, suite_config, parser)` |
+| `test_search_includes_query_in_header` | method | `tests/test_command_palette.py:838` | `def test_search_includes_query_in_header(self, renderer)` |
+| `test_search_mode_returns_query_and_hits` | method | `tests/test_command_palette.py:1123` | `def test_search_mode_returns_query_and_hits(self, synthetic_index)` |
 | `test_search_negative_limit_returns_empty` | method | `tests/test_command_palette.py:768` | `def test_search_negative_limit_returns_empty(self, query)` |
 | `test_search_substring_match` | method | `tests/test_command_palette.py:759` | `def test_search_substring_match(self, query, suite_config)` |
 | `test_search_when_token_is_unknown` | method | `tests/test_command_palette.py:986` | `def test_search_when_token_is_unknown(self, synthetic_index, suite_config)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 | `test_decide_rejects_invalid_decision` | function | `tests/test_daemon_control.py:183` | `def test_decide_rejects_invalid_decision(sessions_dir)` |
 | `test_decide_with_unknown_id_returns_none` | function | `tests/test_daemon_control.py:191` | `def test_decide_with_unknown_id_returns_none(sessions_dir)` |
 | `test_default_state_roundtrip` | function | `tests/test_daemon_control.py:52` | `def test_default_state_roundtrip(sessions_dir)` |
-| `test_is_vetoed_uses_first_token` | function | `tests/test_daemon_control.py:135` | `def test_is_vetoed_uses_first_token(sessions_dir)` |
-| `test_load_returns_defaults_on_invalid_json` | function | `tests/test_daemon_control.py:342` | `def test_load_returns_defaults_on_invalid_json(sessions_dir)` |
-| `test_pause_resume_round_trip` | function | `tests/test_daemon_control.py:102` | `def test_pause_resume_round_trip(sessions_dir)` |
-| `test_pending_action_is_expired_only_when_still_pending` | function | `tests/test_daemon_control.py:209` | `def test_pending_action_is_expired_only_when_still_pending()` |
-| `test_propose_decide_consume_cycle` | function | `tests/test_daemon_control.py:163` | `def test_propose_decide_consume_cycle(sessions_dir)` |
-| `test_save_writes_atomic_file_with_restricted_mode` | function | `tests/test_daemon_control.py:331` | `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)` |
-| `test_set_focus_replaces_list` | function | `tests/test_daemon_control.py:143` | `def test_set_focus_replaces_list(sessions_dir)` |
-| `test_set_mode_persists_and_normalises_invalid` | function | `tests/test_daemon_control.py:63` | `def test_set_mode_persists_and_normalises_invalid(sessions_dir)` |
-| `test_state_from_dict_preserves_pending` | function | `tests/test_daemon_control.py:80` | `def test_state_from_dict_preserves_pending()` |
-| `test_state_from_dict_sanitises_unknown_mode` | function | `tests/test_daemon_control.py:74` | `def test_state_from_dict_sanitises_unknown_mode()` |
-| `test_target_in_focus_defaults_to_true_when_no_focus` | function | `tests/test_daemon_control.py:153` | `def test_target_in_focus_defaults_to_true_when_no_focus(sessions_dir)` |
-| `test_wait_for_decision_expires_after_ttl` | function | `tests/test_daemon_control.py:237` | `def test_wait_for_decision_expires_after_ttl(sessions_dir)` |
-| `test_wait_for_decision_polls_until_decided` | function | `tests/test_daemon_control.py:252` | `def test_wait_for_decision_polls_until_decided(sessions_dir)` |
-| `test_wait_for_decision_returns_approved` | function | `tests/test_daemon_control.py:221` | `def test_wait_for_decision_returns_approved(sessions_dir)` |
-| `test_wait_until_unpaused_returns_false_after_max_wait` | function | `tests/test_daemon_control.py:288` | `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)` |
-| `test_wait_until_unpaused_returns_true_after_resume` | function | `tests/test_daemon_control.py:310` | `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)` |
-| `test_wait_until_unpaused_returns_true_when_already_running` | function | `tests/test_daemon_control.py:274` | `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)` |
-| `DaemonSuiteConfig` | class | `tests/test_daemon_ctl_command_set.py:34` | `class DaemonSuiteConfig` |
-| `_add_repo_root_to_syspath` | function | `tests/test_daemon_ctl_command_set.py:28` | `def _add_repo_root_to_syspath()` |
-| `_methods_of` | function | `tests/test_daemon_ctl_command_set.py:53` | `def _methods_of(path, class_name)` |
-| `test_no_command_collisions_with_source` | function | `tests/test_daemon_ctl_command_set.py:100` | `def test_no_command_collisions_with_source()` |
 
 Next: [SYMBOLS_p41.md](SYMBOLS_p41.md)

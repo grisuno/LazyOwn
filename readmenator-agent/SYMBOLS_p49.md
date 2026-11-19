@@ -3,6 +3,44 @@ Previous: [SYMBOLS_p48.md](SYMBOLS_p48.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_has_mypy_section` | method | `tests/test_packaging.py:146` | `def test_has_mypy_section(self, pyproject)` |
+| `test_has_no_typo_dependency` | method | `tests/test_packaging.py:108` | `def test_has_no_typo_dependency(self, pyproject)` |
+| `test_has_pytest_section` | method | `tests/test_packaging.py:142` | `def test_has_pytest_section(self, pyproject)` |
+| `test_has_ruff_repo` | method | `tests/test_packaging.py:225` | `def test_has_ruff_repo(self, cfg)` |
+| `test_has_ruff_section` | method | `tests/test_packaging.py:138` | `def test_has_ruff_section(self, pyproject)` |
+| `test_installs_from_pinned_lock` | method | `tests/test_packaging.py:363` | `def test_installs_from_pinned_lock(self, text)` |
+| `test_lint_workflow_has_ruff_and_mypy_jobs` | method | `tests/test_packaging.py:257` | `def test_lint_workflow_has_ruff_and_mypy_jobs(self, lint_wf)` |
+| `test_lists_flask_wtf_correctly` | method | `tests/test_packaging.py:117` | `def test_lists_flask_wtf_correctly(self, pyproject)` |
+| `test_lists_tool` | method | `tests/test_packaging.py:208` | `def test_lists_tool(self, deps, tool)` |
+| `test_ml_lock_exists_pinned_with_torch` | method | `tests/test_packaging.py:335` | `def test_ml_lock_exists_pinned_with_torch(self)` |
+| `test_no_absolute_modules_ext_path` | method | `tests/test_packaging.py:366` | `def test_no_absolute_modules_ext_path(self, text)` |
+| `test_no_stdlib_ast_dep` | method | `tests/test_packaging.py:189` | `def test_no_stdlib_ast_dep(self, setup_text)` |
+| `test_no_typo_dep` | method | `tests/test_packaging.py:186` | `def test_no_typo_dep(self, setup_text)` |
+| `test_parses` | method | `tests/test_packaging.py:105` | `def test_parses(self, pyproject)` |
+| `test_parses` | method | `tests/test_packaging.py:170` | `def test_parses(self, setup_tree)` |
+| `test_parses` | method | `tests/test_packaging.py:220` | `def test_parses(self, cfg)` |
+| `test_parses` | method | `tests/test_packaging.py:374` | `def test_parses(self, filename)` |
+| `test_pattern_present` | method | `tests/test_packaging.py:299` | `def test_pattern_present(self, patterns, pattern)` |
+| `test_security_workflow_has_three_jobs` | method | `tests/test_packaging.py:267` | `def test_security_workflow_has_three_jobs(self, security_wf)` |
+| `test_test_workflow_runs_pytest` | method | `tests/test_packaging.py:262` | `def test_test_workflow_runs_pytest(self, test_wf)` |
+| `test_uses_strict_mode` | method | `tests/test_packaging.py:350` | `def test_uses_strict_mode(self, text)` |
+| `test_wf` | method | `tests/test_packaging.py:250` | `def test_wf(self)` |
+| `test_workflow_triggers_on_push_and_pr` | method | `tests/test_packaging.py:276` | `def test_workflow_triggers_on_push_and_pr(self, wf_path)` |
+| `text` | method | `tests/test_packaging.py:347` | `def text(self)` |
+| `_fake_index` | function | `tests/test_palette_overlay.py:24` | `def _fake_index()` |
+| `runner` | function | `tests/test_palette_overlay.py:83` | `def runner(context)` |
+| `test_build_state_returns_none_when_index_missing` | function | `tests/test_palette_overlay.py:73` | `def test_build_state_returns_none_when_index_missing(monkeypatch)` |
+| `test_launch_overlay_uses_runner_for_tests` | function | `tests/test_palette_overlay.py:79` | `def test_launch_overlay_uses_runner_for_tests()` |
+| `test_rows_filter_by_substring` | function | `tests/test_palette_overlay.py:44` | `def test_rows_filter_by_substring()` |
+| `test_rows_rank_recents_above_substrings` | function | `tests/test_palette_overlay.py:52` | `def test_rows_rank_recents_above_substrings()` |
+| `test_rows_respect_max_rows` | function | `tests/test_palette_overlay.py:65` | `def test_rows_respect_max_rows()` |
+| `test_rows_returns_all_commands_when_query_empty` | function | `tests/test_palette_overlay.py:36` | `def test_rows_returns_all_commands_when_query_empty()` |
+| `test_set_query_strips_whitespace` | function | `tests/test_palette_overlay.py:106` | `def test_set_query_strips_whitespace()` |
+| `test_truncate_summary_uses_truncation_suffix` | function | `tests/test_palette_overlay.py:90` | `def test_truncate_summary_uses_truncation_suffix()` |
+| `FakeShell` | class | `tests/test_param_registry.py:48` | `class FakeShell` |
+| `TestOrchestratorParamsTab` | class | `tests/test_param_registry.py:267` | `class TestOrchestratorParamsTab` |
+| `TestParamCommand` | class | `tests/test_param_registry.py:247` | `class TestParamCommand` |
+| `TestRegistryCrud` | class | `tests/test_param_registry.py:93` | `class TestRegistryCrud` |
 | `TestRegistryFileFormat` | class | `tests/test_param_registry.py:56` | `class TestRegistryFileFormat` |
 | `TestRegistryProjections` | class | `tests/test_param_registry.py:151` | `class TestRegistryProjections` |
 | `TestSchemaProjection` | class | `tests/test_param_registry.py:188` | `class TestSchemaProjection` |
@@ -458,43 +496,5 @@ Previous: [SYMBOLS_p48.md](SYMBOLS_p48.md)
 | `test_strip_readline_markers_restores_raw` | function | `tests/test_prompt_readline_markers.py:79` | `def test_strip_readline_markers_restores_raw()` |
 | `test_stripped_prompt_matches_box_shape` | function | `tests/test_prompt_readline_markers.py:87` | `def test_stripped_prompt_matches_box_shape()` |
 | `_command_set_with_fake_shell` | function | `tests/test_prompt_refresh.py:22` | `def _command_set_with_fake_shell()` |
-| `test_do_assign_calls_refresh_prompt` | function | `tests/test_prompt_refresh.py:52` | `def test_do_assign_calls_refresh_prompt()` |
-| `test_no_bracket_replace_hack` | function | `tests/test_prompt_refresh.py:71` | `def test_no_bracket_replace_hack()` |
-| `test_prompt_read_after_forward` | function | `tests/test_prompt_refresh.py:37` | `def test_prompt_read_after_forward()` |
-| `test_prompt_write_forwards_to_shell` | function | `tests/test_prompt_refresh.py:29` | `def test_prompt_write_forwards_to_shell()` |
-| `test_render_prompt_includes_rhost` | function | `tests/test_prompt_refresh.py:65` | `def test_render_prompt_includes_rhost()` |
-| `test_rhost_commands_use_refresh_prompt` | function | `tests/test_prompt_refresh.py:78` | `def test_rhost_commands_use_refresh_prompt()` |
-| `test_shell_defines_refresh_prompt` | function | `tests/test_prompt_refresh.py:59` | `def test_shell_defines_refresh_prompt()` |
-| `test_unrelated_write_stays_local` | function | `tests/test_prompt_refresh.py:44` | `def test_unrelated_write_stays_local()` |
-| `_load_tools` | function | `tests/test_pwntomate_tools.py:47` | `def _load_tools()` |
-| `_render` | function | `tests/test_pwntomate_tools.py:57` | `def _render(template, domain, tunnel)` |
-| `_would_run` | function | `tests/test_pwntomate_tools.py:83` | `def _would_run(template, domain)` |
-| `test_gobuster_templates_use_valid_syntax` | function | `tests/test_pwntomate_tools.py:129` | `def test_gobuster_templates_use_valid_syntax()` |
-| `test_no_hardcoded_always_ssl_flag` | function | `tests/test_pwntomate_tools.py:141` | `def test_no_hardcoded_always_ssl_flag()` |
-| `test_placeholders_match_pwntomate_substitutions` | function | `tests/test_pwntomate_tools.py:103` | `def test_placeholders_match_pwntomate_substitutions()` |
-| `test_rendered_commands_have_no_empty_host` | function | `tests/test_pwntomate_tools.py:115` | `def test_rendered_commands_have_no_empty_host()` |
-| `test_templates_are_valid_json_with_required_keys` | function | `tests/test_pwntomate_tools.py:92` | `def test_templates_are_valid_json_with_required_keys()` |
-| `Server` | class | `tests/test_rea_mcp.py:48` | `class Server` |
-| `TextContent` | class | `tests/test_rea_mcp.py:41` | `class TextContent` |
-| `Tool` | class | `tests/test_rea_mcp.py:37` | `class Tool` |
-| `__init__` | method | `tests/test_rea_mcp.py:38` | `def __init__(self)` |
-| `__init__` | method | `tests/test_rea_mcp.py:42` | `def __init__(self)` |
-| `__init__` | method | `tests/test_rea_mcp.py:49` | `def __init__(self)` |
-| `_call` | function | `tests/test_rea_mcp.py:110` | `def _call(arguments, monkeypatch, payload)` |
-| `_ctx` | function | `tests/test_rea_mcp.py:78` | `def _ctx(payload)` |
-| `_fake_run` | function | `tests/test_rea_mcp.py:115` | `def _fake_run(argv)` |
-| `_fake_run` | function | `tests/test_rea_mcp.py:175` | `def _fake_run(argv)` |
-| `_invoke` | function | `tests/test_rea_mcp.py:105` | `def _invoke(arguments, payload)` |
-| `_stub_mcp_sdk` | function | `tests/test_rea_mcp.py:23` | `def _stub_mcp_sdk()` |
-| `_text` | function | `tests/test_rea_mcp.py:81` | `def _text(_tool_name, content)` |
-| `call_tool` | method | `tests/test_rea_mcp.py:55` | `def call_tool(self)` |
-| `list_tools` | method | `tests/test_rea_mcp.py:52` | `def list_tools(self)` |
-| `test_analyze_missing_target` | function | `tests/test_rea_mcp.py:192` | `def test_analyze_missing_target(monkeypatch)` |
-| `test_analyze_uses_explicit_target` | function | `tests/test_rea_mcp.py:185` | `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)` |
-| `test_decompile_needs_valid_address` | function | `tests/test_rea_mcp.py:206` | `def test_decompile_needs_valid_address(tmp_path, monkeypatch)` |
-| `test_doctor_argv` | function | `tests/test_rea_mcp.py:150` | `def test_doctor_argv(monkeypatch)` |
-| `test_inspect_artifact_argv` | function | `tests/test_rea_mcp.py:156` | `def test_inspect_artifact_argv(tmp_path, monkeypatch)` |
-| `test_large_output_survives_compaction` | function | `tests/test_rea_mcp.py:169` | `def test_large_output_survives_compaction(tmp_path, monkeypatch)` |
-| `test_list_tools_has_rea` | function | `tests/test_rea_mcp.py:127` | `def test_list_tools_has_rea()` |
 
 Next: [SYMBOLS_p50.md](SYMBOLS_p50.md)

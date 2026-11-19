@@ -353,6 +353,7 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
 ## tests/test_control_plane.py
 - Doc: Contract tests for modules/loop/control_plane.py.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_FakeControl` (class, line 13) `class _FakeControl`

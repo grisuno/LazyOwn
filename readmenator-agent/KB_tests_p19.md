@@ -1,6 +1,26 @@
 # Subsystem: tests (page 19 of 27)
 Previous: [KB_tests_p18.md](KB_tests_p18.md)
 
+## tests/test_loop_spawn_side.py
+- Doc: Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_chat_sessions_stay_independent` (function, line 15) `def test_chat_sessions_stay_independent(tmp_path, monkeypatch)`
+  - `test_side_questions_persist_and_recall` (function, line 36) `def test_side_questions_persist_and_recall(tmp_path, monkeypatch)`
+  - `test_spawn_inherits_scope_and_findings_read_only` (function, line 53) `def test_spawn_inherits_scope_and_findings_read_only(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_loop_store_race.py
+- Doc: Store file writes stay atomic under parallel workers (race regression).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_save_json_survives_parallel_writers` (function, line 8) `def test_save_json_survives_parallel_writers(tmp_path, monkeypatch)`
+  - `writer` (function, line 16) `def writer(worker)`
+- Depends on: `modules/lazy_loop.py`
+
 ## tests/test_loop_supervision.py
 - Doc: Supervision upgrades: repetition watchdog, stack priors, prompt masking.
 - Layer: testing
@@ -36,6 +56,21 @@ Previous: [KB_tests_p18.md](KB_tests_p18.md)
   - `_Bare` (class, line 83) `class _Bare`
   - `__init__` (method, line 84) `def __init__(self)`
 - Depends on: `modules/lazy_runner.py`
+
+## tests/test_loop_technique_deterministic.py
+- Doc: Technique intents resolve deterministically, not via the model.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_technique_intent_classification` (function, line 14) `def test_technique_intent_classification()`
+  - `test_technique_steps_are_headless` (function, line 25) `def test_technique_steps_are_headless()`
+  - `worker_env` (function, line 39) `def worker_env(tmp_path, monkeypatch)`
+  - `test_steps_for_resolves_technique` (function, line 65) `def test_steps_for_resolves_technique(worker_env)`
+  - `test_technique_deterministic_step_when_steps_run` (function, line 73) `def test_technique_deterministic_step_when_steps_run(worker_env, monkeypatch)`
+  - `test_execute_uses_model_for_nontechnique` (function, line 95) `def test_execute_uses_model_for_nontechnique(worker_env, monkeypatch)`
+  - `_executor` (function, line 86) `def _executor(command)`
+  - `_agentic` (function, line 102) `def _agentic()`
+- Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
 
 ## tests/test_loop_trigger_hints.py
 - Doc: BDD for the cve_hot trigger hint fingerprints.

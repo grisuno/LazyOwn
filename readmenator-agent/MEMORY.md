@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1634 files at commit `07f6203c2535`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1671 files at commit `53fa09d49036`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `one` (608), `modules` (602), `lazy` (577), `command` (576), `file` (531), `run` (520), `not` (505), `path` (496), `without` (470), `json` (461), `name` (454), `all` (436), `own` (426), `chain` (416), `cli` (409)
-- Subsystem `skills/mcp_tools`: 214 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `modules: lazy_loop`: 167 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `cli/commands`: 148 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazyc2`: 136 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `cli`: 112 files, core `cli/marketplace_config.py`: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
-- Subsystem `modules: lazyown_facts`: 103 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
-- Subsystem `modules: world_model`: 99 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `modules: lazyown`: 95 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Domain vocabulary (term, files): `one` (633), `modules` (623), `lazy` (599), `command` (593), `run` (547), `file` (537), `not` (525), `path` (518), `without` (492), `json` (478), `name` (470), `all` (441), `own` (439), `target` (432), `chain` (418)
+- Subsystem `skills/mcp_tools`: 214 files, core `skills/mcp_generated_tools.py`: Auto-generated MCP tool handlers from command_index.json.
+- Subsystem `modules: lazyc2`: 173 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `cli/commands`: 152 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazy_loop`: 152 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `cli`: 148 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
+- Subsystem `modules: world_model`: 122 files, core `modules/world_model.py`: modules/world_model.py
+- Subsystem `modules: lazyown`: 119 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: lazyown_facts`: 116 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 159; layer violations: 71 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 167; layer violations: 71 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1497 files, 23434 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 159 lines, max 11578.
+- py: 1534 files, 23929 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 159 lines, max 11943.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1558.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 24 files, 1639 symbols; docstrings on 48% of symbols; functions snake_case (46%); types PascalCase (27%); median file 7 lines, max 9358.
-- Tests: 481 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 500 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,7 +98,7 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 54%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 159).
+- No new dependency cycles (current: 167).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
@@ -156,4 +156,7 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-11-18 [decision] Foothold handoff marker now re-arms after HANDOFF_REARM_S when no beacon has reported for the target within BEACON_LIVENESS_S, so a later shell can deploy a fresh beacon and run beacon_loop instead of being blocked forever by status=deployed
 - 2026-11-18 [decision] OS inference now checks explicit Windows banners first, then Linux markers, and only then weak SMB/NetBIOS service markers; prevents Samba Metasploitable from being remembered as Windows and blocking the Linux beacon handoff
 - 2026-11-18 [decision] Loop now emits activity-log notifications for shell proof and beacon handoff deploy/complete; addon verbs generate lazy_addon run <name> --target <target> and do_lazy_addon accepts the short lazy_addon <name> [target] form
+- 2026-11-19 [decision] auto_loop now auto-starts the C2 when payload flag loop_c2_autostart is true (modules/lazy_runner._maybe_start_c2): TCP probe on c2_bind_address/lhost:c2_port, detached python lazyc2.py <port> <c2_user> <c2_pass>, log sessions/c2_autostart.log, fail-soft with c2_autostart_timeout override; added for the loop_beacon_handoff beacon capture.
+- 2026-11-19 [decision] beacon handoff visibility fixed: handoff worker resolves the newest running loop task when the shell outcome carries no task_id (TaskStore fallback in lazy_handoff._resolve_task_id) so handoff start/deployed/complete events reach the loop notifications panel; worker log now has a UTC-stamped run separator per invocation plus per-line HH:MM:SS timestamps and runs unbuffered (-u) so lines appear live; parent console line points at sessions/beacon_handoff_<host>.log.
+- 2026-11-19 [decision] beacon handoff liveness rewritten: _beacon_is_live now reads the C2's last-received report timestamp via bof_delivery.beacon_last_seen (/api/data, no disk fallback) with BEACON_LIVENESS_S=120s sized for the beacon's 6s poll cadence; the old 3600s disk-history window made a destroyed lab container's beacon look alive for an hour, silently skipping every new handoff (t0042). Skips are now loud via _log_skip_reason (in flight / still reporting / re-arm window). Verified activity_t0038/t0040/t004...
 <!-- readmenator:memory:notes:end -->

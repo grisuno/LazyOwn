@@ -2,10 +2,6 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
-- `lazygui/panels/__init__.py` -> `lazygui/panels/marketplace_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/registry.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/sessions_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/terminal_panel.py`
 - `lazygui/panels/base.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/base.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/campaign_panel.py` -> `lazygui/config/constants.py`
@@ -221,6 +217,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/apt_playbooks.py` -> `core/console.py`
 - `modules/apt_playbooks.py` -> `modules/atomic_resolver.py`
 - `modules/askpass.py` -> `core/config.py`
+- `modules/atomic_cli.py` -> `core/autonomous.py`
 - `modules/atomic_cli.py` -> `core/console.py`
 - `modules/atomic_cli.py` -> `core/hardening.py`
 - `modules/atomic_cli.py` -> `core/logging.py`
@@ -496,5 +493,8 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/intelligence_engine.py` -> `modules/estorides_importer.py`
 - `modules/intelligence_engine.py` -> `modules/factsio.py`
 - `modules/intelligence_engine.py` -> `modules/integrations/nuclei_bridge.py`
+- `modules/intelligence_engine.py` -> `modules/integrations/nuclei_parser.py`
+- `modules/intelligence_engine.py` -> `modules/lazy_heat.py`
+- `modules/intelligence_engine.py` -> `modules/obs_parser.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

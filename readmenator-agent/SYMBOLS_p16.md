@@ -3,8 +3,6 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
-| `main` | function | `modules/img2bin.py:43` | `def main()` |
 | `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
 | `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
 | `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
@@ -496,5 +494,7 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `_env_flag` | function | `modules/lazy_cve_feed.py:90` | `def _env_flag(name, default)` |
 | `_exploit_cves_from_text` | function | `modules/lazy_cve_feed.py:228` | `def _exploit_cves_from_text(text)` |
 | `_fetch` | function | `modules/lazy_cve_feed.py:112` | `def _fetch(url)` |
+| `_load_json` | function | `modules/lazy_cve_feed.py:150` | `def _load_json(name)` |
+| `_osv_cache_path` | function | `modules/lazy_cve_feed.py:281` | `def _osv_cache_path(product)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on` | class | `static/js/chart.min.js:13` | `` |
+| `oo` | class | `static/js/chart.min.js:13` | `` |
+| `p` | function | `static/js/chart.min.js:13` | `` |
+| `p` | function | `static/js/chart.min.js:13` | `` |
+| `r` | function | `static/js/chart.min.js:7` | `` |
+| `r` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
 | `s` | function | `static/js/chart.min.js:13` | `` |
 | `sn` | class | `static/js/chart.min.js:13` | `` |
 | `t` | function | `static/js/chart.min.js:13` | `` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `isFloating` | function | `static/js/html2pdf.bundle.min.js:4694` | `` |
 | `isFunction` | function | `static/js/html2pdf.bundle.min.js:7396` | `` |
 | `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
-| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
-| `isInFlow` | function | `static/js/html2pdf.bundle.min.js:4674` | `` |
-| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
-| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
-| `isInlineBlockOrInlineTable` | function | `static/js/html2pdf.bundle.min.js:4719` | `` |
-| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
-| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
-| `isInlineLevel` | function | `static/js/html2pdf.bundle.min.js:4714` | `` |
-| `isPercentage` | function | `static/js/html2pdf.bundle.min.js:960` | `` |
-| `isPositioned` | function | `static/js/html2pdf.bundle.min.js:4689` | `` |
-| `isPositionedWithZIndex` | function | `static/js/html2pdf.bundle.min.js:4709` | `` |
-| `isRootElement` | function | `static/js/html2pdf.bundle.min.js:4699` | `` |
-| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

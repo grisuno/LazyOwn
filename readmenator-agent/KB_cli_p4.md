@@ -329,7 +329,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Language: py
 - Symbols:
   - `format_payload` (function, line 14) `def format_payload(params)`
-- Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
 
 ## cli/splash.py
 - Doc: Animated splash overlay for the LazyOwn first-run experience.
@@ -430,7 +430,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `paint` (function, line 84) `def paint(text, token, payload)`
   - `render_prompt` (function, line 98) `def render_prompt(console, segments, payload)`
 - Depends on: `cli/themes.py`
-- Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
+- Imported by: `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
 
 ## cli/surface_graph.py
 - Doc: Network surface graph reader for the LazyOwn shell.

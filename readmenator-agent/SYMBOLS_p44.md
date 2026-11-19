@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p43.md](SYMBOLS_p43.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_phase_rank_returns_correct_index` | method | `tests/test_killchain_unified.py:41` | `def test_phase_rank_returns_correct_index(self)` |
+| `test_write_phase_advances_hosts` | method | `tests/test_killchain_unified.py:80` | `def test_write_phase_advances_hosts(self, sessions_dir)` |
+| `test_write_phase_completed_phases_tracks_progress` | method | `tests/test_killchain_unified.py:100` | `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)` |
+| `test_write_phase_invalid_returns_false` | method | `tests/test_killchain_unified.py:96` | `def test_write_phase_invalid_returns_false(self, sessions_dir)` |
+| `TestKillChainAdvancePhase` | class | `tests/test_killchain_unified_v2.py:185` | `class TestKillChainAdvancePhase` |
+| `TestKillChainConfig` | class | `tests/test_killchain_unified_v2.py:32` | `class TestKillChainConfig` |
+| `TestKillChainCurrentPhase` | class | `tests/test_killchain_unified_v2.py:104` | `class TestKillChainCurrentPhase` |
+| `TestKillChainGetProgress` | class | `tests/test_killchain_unified_v2.py:296` | `class TestKillChainGetProgress` |
+| `TestKillChainHelpers` | class | `tests/test_killchain_unified_v2.py:364` | `class TestKillChainHelpers` |
+| `TestPhaseStatusDataclass` | class | `tests/test_killchain_unified_v2.py:411` | `class TestPhaseStatusDataclass` |
+| `_reset_wm_singleton` | method | `tests/test_killchain_unified_v2.py:108` | `def _reset_wm_singleton(self)` |
+| `_reset_wm_singleton` | method | `tests/test_killchain_unified_v2.py:189` | `def _reset_wm_singleton(self)` |
+| `_reset_wm_singleton` | method | `tests/test_killchain_unified_v2.py:300` | `def _reset_wm_singleton(self)` |
+| `test_advance_advances_world_model_hosts` | method | `tests/test_killchain_unified_v2.py:244` | `def test_advance_advances_world_model_hosts(self)` |
+| `test_advance_does_not_downgrade_cached_world_model_state` | method | `tests/test_killchain_unified_v2.py:277` | `def test_advance_does_not_downgrade_cached_world_model_state(self)` |
+| `test_advance_invalid_phase_returns_false` | method | `tests/test_killchain_unified_v2.py:234` | `def test_advance_invalid_phase_returns_false(self)` |
+| `test_advance_tracks_completed_phases` | method | `tests/test_killchain_unified_v2.py:216` | `def test_advance_tracks_completed_phases(self)` |
+| `test_advance_with_host_does_not_touch_unrelated_hosts` | method | `tests/test_killchain_unified_v2.py:261` | `def test_advance_with_host_does_not_touch_unrelated_hosts(self)` |
+| `test_advance_writes_current_phase_and_phase_keys` | method | `tests/test_killchain_unified_v2.py:200` | `def test_advance_writes_current_phase_and_phase_keys(self)` |
+| `test_all_pending_when_nothing_done` | method | `tests/test_killchain_unified_v2.py:311` | `def test_all_pending_when_nothing_done(self)` |
+| `test_all_phases_have_colors` | method | `tests/test_killchain_unified_v2.py:54` | `def test_all_phases_have_colors(self)` |
 | `test_all_phases_have_labels` | method | `tests/test_killchain_unified_v2.py:49` | `def test_all_phases_have_labels(self)` |
 | `test_all_phases_have_rich_colors` | method | `tests/test_killchain_unified_v2.py:59` | `def test_all_phases_have_rich_colors(self)` |
 | `test_cli_phase_to_host_state_maps_all` | method | `tests/test_killchain_unified_v2.py:392` | `def test_cli_phase_to_host_state_maps_all(self)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p43.md](SYMBOLS_p43.md)
 | `test_start_twice_reuses_listener` | method | `tests/test_lazy_oob.py:33` | `def test_start_twice_reuses_listener(self)` |
 | `test_stop_reports_and_clears` | method | `tests/test_lazy_oob.py:73` | `def test_stop_reports_and_clears(self)` |
 | `test_stop_without_start_is_guidance` | method | `tests/test_lazy_oob.py:82` | `def test_stop_without_start_is_guidance(self)` |
-| `test_url_empty_when_not_running` | method | `tests/test_lazy_oob.py:46` | `def test_url_empty_when_not_running(self)` |
-| `test_url_reuses_active_token` | method | `tests/test_lazy_oob.py:41` | `def test_url_reuses_active_token(self)` |
-| `_Shell` | class | `tests/test_lazy_orchestrator.py:419` | `class _Shell` |
-| `__init__` | method | `tests/test_lazy_orchestrator.py:420` | `def __init__(self)` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:36` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:81` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:183` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:237` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:337` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:359` | `def _drive()` |
-| `_drive` | function | `tests/test_lazy_orchestrator.py:425` | `def _drive()` |
-| `_load` | function | `tests/test_lazy_orchestrator.py:103` | `def _load(target)` |
-| `_save` | function | `tests/test_lazy_orchestrator.py:106` | `def _save(data, target)` |
-| `payload_store` | function | `tests/test_lazy_orchestrator.py:99` | `def payload_store(monkeypatch)` |
-| `sandbox` | function | `tests/test_lazy_orchestrator.py:16` | `def sandbox(tmp_path, monkeypatch)` |
-| `test_auto_verb_enable_disable_and_custom` | function | `tests/test_lazy_orchestrator.py:135` | `def test_auto_verb_enable_disable_and_custom(payload_store)` |
-| `test_engine_respects_disabled_workers` | function | `tests/test_lazy_orchestrator.py:157` | `def test_engine_respects_disabled_workers(payload_store, tmp_path, monkeypatch)` |
-| `test_orchestrator_chains_tab_lists_and_toggles` | function | `tests/test_lazy_orchestrator.py:196` | `def test_orchestrator_chains_tab_lists_and_toggles(sandbox, monkeypatch, tmp_path)` |
-| `test_orchestrator_command_registered` | function | `tests/test_lazy_orchestrator.py:92` | `def test_orchestrator_command_registered()` |
-| `test_orchestrator_config_saves_to_payload` | function | `tests/test_lazy_orchestrator.py:25` | `def test_orchestrator_config_saves_to_payload(sandbox)` |
-| `test_orchestrator_generate_chain_uses_playbooks` | function | `tests/test_lazy_orchestrator.py:253` | `def test_orchestrator_generate_chain_uses_playbooks(sandbox, monkeypatch, tmp_path)` |
 
 Next: [SYMBOLS_p45.md](SYMBOLS_p45.md)

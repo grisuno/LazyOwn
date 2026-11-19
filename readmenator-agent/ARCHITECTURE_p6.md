@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `skills/mcp_tools/loop_smoke.py` -> `modules/lazy_engine.py`
 - `skills/mcp_tools/loop_smoke.py` -> `modules/loop_limits.py`
 - `skills/mcp_tools/loop_smoke.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/manage_permissions.py` -> `skills/mcp_tools/_context.py`
@@ -266,6 +267,9 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_atomic_exploit_bridge.py` -> `modules/__init__.py`
 - `tests/test_atomic_exploit_bridge.py` -> `modules/atomic_exploit_bridge.py`
 - `tests/test_atomic_exploit_bridge.py` -> `modules/autonomous_exploit_engine.py`
+- `tests/test_atomic_headless.py` -> `core/autonomous.py`
+- `tests/test_atomic_headless.py` -> `modules/atomic_cli.py`
+- `tests/test_atomic_headless.py` -> `modules/bof_delivery.py`
 - `tests/test_atomic_loop.py` -> `modules/apt_playbooks.py`
 - `tests/test_atomic_loop.py` -> `modules/atomic_cli.py`
 - `tests/test_atomic_loop.py` -> `modules/atomic_resolver.py`
@@ -492,9 +496,5 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_dashboard_tui.py` -> `cli/dashboard_tui.py`
 - `tests/test_db.py` -> `modules/db.py`
 - `tests/test_defense_eval.py` -> `modules/defense_eval.py`
-- `tests/test_defense_stages.py` -> `modules/__init__.py`
-- `tests/test_defense_stages.py` -> `modules/defense_eval.py`
-- `tests/test_defense_stages.py` -> `modules/defense_stages.py`
-- `tests/test_dependencies.py` -> `core/dependencies.py`
 
 Next: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)

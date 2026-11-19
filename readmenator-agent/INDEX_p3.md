@@ -242,6 +242,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_askpass.py` | Tests for the graphical sudo askpass helpers. | tests | 5 | 0 |
 | `tests/test_asset_gate.py` | Asset gate + un-nerfed outputs + IntelGraph CSP regression tests. | tests | 16 | 0 |
 | `tests/test_atomic_exploit_bridge.py` | Atomic exploit catalogue: one YAML per exploit, engine administered by files. | tests | 38 | 0 |
+| `tests/test_atomic_headless.py` | Headless atomic_tests: numeric selection and autonomous-safe prompts. | tests | 8 | 0 |
 | `tests/test_atomic_loop.py` | Atomic emulation inside the autonomous loop (registry + playbooks). | tests | 22 | 0 |
 | `tests/test_atomic_resolver.py` | MITRE ATT&CK <-> Atomic Red Team translator contract. | tests | 9 | 0 |
 | `tests/test_attack_surface3d.py` | Attack-surface 3D module: surface+intel fusion + embedded pages. | tests | 8 | 0 |
@@ -495,6 +496,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
 | `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
 | `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
-| `tests/test_loop_cli_catalog.py` | BDD tests for planner prompt visibility into routable CLI verbs. | tests | 7 | 0 |
 
 Next: [INDEX_p4.md](INDEX_p4.md)

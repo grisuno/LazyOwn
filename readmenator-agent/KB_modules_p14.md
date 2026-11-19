@@ -1,6 +1,42 @@
 # Subsystem: modules (page 14 of 19)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/loop_ai_bridge.py
+- Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_singleton` (function, line 50) `def _singleton(key, factory)`
+  - `_stage` (function, line 64) `def _stage(name, default)`
+  - `publish_loop_event` (function, line 74) `def publish_loop_event(task_id, worker, kind, text, severity)`
+  - `_hive_store` (function, line 101) `def _hive_store(task_id, worker, kind, text)`
+  - `assess_opsec` (function, line 125) `def assess_opsec(command, rhost)`
+  - `intent_tool_class` (function, line 169) `def intent_tool_class(summary)`
+  - `record_outcome_quality` (function, line 213) `def record_outcome_quality(worker, intent_summary, facts, findings)`
+  - `tool_class_yields` (function, line 240) `def tool_class_yields(summaries, phase)`
+  - `annotate_detection` (function, line 280) `def annotate_detection(command, action_category)`
+  - `moe_route` (function, line 304) `def moe_route(task_type, goal)`
+  - `moe_record_outcome` (function, line 321) `def moe_record_outcome(expert_id, task_type, reward, detection_prob)`
+  - `rl_select` (function, line 340) `def rl_select(task_type, phase, candidates, deterministic)`
+  - `rl_update` (function, line 362) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
+  - `rl_save` (function, line 385) `def rl_save()`
+  - `record_step` (function, line 407) `def record_step(task_id, worker, command, output, detection_prob)`
+  - `swan_available` (function, line 435) `def swan_available()`
+  - `swan_consult` (function, line 448) `def swan_consult(prompt, task_type, phase, timeout)`
+  - `stream_enabled` (function, line 475) `def stream_enabled()`
+  - `ai_snapshot` (function, line 485) `def ai_snapshot()`
+  - `_open` (function, line 104) `def _open()`
+  - `_open` (function, line 260) `def _open()`
+  - `_open` (function, line 285) `def _open()`
+  - `_open` (function, line 307) `def _open()`
+  - `_open` (function, line 326) `def _open()`
+  - `_open` (function, line 347) `def _open()`
+  - `_open` (function, line 369) `def _open()`
+  - `_open` (function, line 390) `def _open()`
+  - `_open` (function, line 440) `def _open()`
+- Depends on: `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+- Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
+
 ## modules/loop_audit.py
 - Doc: Operator audit trail for autonomous loop runs.
 - Layer: utility
@@ -426,44 +462,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
 - Doc: Download cloudflared and create a tunnel to localhost on a specified port.
 - Layer: utility
 - Language: sh
-
-## modules/module_registry.py
-- Doc: Unified module registry for LazyOwn — catalog, search, use/run workflow.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_classify` (function, line 91) `def _classify(category)`
-  - `_classify_module_source` (function, line 162) `def _classify_module_source(name, source)`
-  - `_extract_docstring_summary` (function, line 180) `def _extract_docstring_summary(source)`
-  - `ModuleInfo` (class, line 194) `class ModuleInfo`
-  - `ModuleRegistry` (class, line 267) `class ModuleRegistry`
-  - `format_module_table` (function, line 666) `def format_module_table(modules, cols)`
-  - `format_module_detail` (function, line 713) `def format_module_detail(m)`
-  - `__init__` (method, line 216) `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
-  - `to_dict` (method, line 246) `def to_dict(self)`
-  - `__repr__` (method, line 263) `def __repr__(self)`
-  - `__init__` (method, line 279) `def __init__(self, base_dir)`
-  - `get_instance` (method, line 285) `def get_instance(cls, base_dir)`
-  - `scan` (method, line 291) `def scan(self)`
-  - `rescan` (method, line 304) `def rescan(self)`
-  - `get` (method, line 313) `def get(self, name)`
-  - `search` (method, line 319) `def search(self, query, module_type, category, enabled_only, include_deprecated)`
-  - `deprecated_modules` (method, line 359) `def deprecated_modules(self)`
-  - `by_type` (method, line 365) `def by_type(self, module_type)`
-  - `summary` (method, line 369) `def summary(self)`
-  - `proposal_intents` (method, line 378) `def proposal_intents(self, texts, target, limit)`
-  - `_scan_yaml_addons` (method, line 462) `def _scan_yaml_addons(self)`
-  - `_scan_plugins` (method, line 503) `def _scan_plugins(self)`
-  - `_scan_tools` (method, line 543) `def _scan_tools(self)`
-  - `_scan_playbooks` (method, line 577) `def _scan_playbooks(self)`
-  - `_scan_python_modules` (method, line 597) `def _scan_python_modules(self)`
-  - `_looks_discoverable` (method, line 627) `def _looks_discoverable(source)`
-  - `_load_yaml` (method, line 641) `def _load_yaml(path)`
-  - `__len__` (method, line 650) `def __len__(self)`
-  - `__iter__` (method, line 655) `def __iter__(self)`
-  - `__contains__` (method, line 660) `def __contains__(self, name)`
-- Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

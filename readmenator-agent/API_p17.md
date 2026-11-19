@@ -1,4 +1,4 @@
-# API (page 17 of 30)
+# API (page 17 of 29)
 Previous: [API_p16.md](API_p16.md)
 
 ## modules/llm_factory.py

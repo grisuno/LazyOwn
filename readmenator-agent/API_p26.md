@@ -1,4 +1,4 @@
-# API (page 26 of 30)
+# API (page 26 of 29)
 Previous: [API_p25.md](API_p25.md)
 
 ## static/js/chart.min.js

@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
-| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
-| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 | `_format_elapsed` | method | `cli/commands/redteam_gym.py:342` | `def _format_elapsed(seconds)` |
 | `_gym_collect` | method | `cli/commands/redteam_gym.py:99` | `def _gym_collect(self, rest)` |
 | `_gym_hint` | method | `cli/commands/redteam_gym.py:469` | `def _gym_hint(self, args)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_missing_reason` | method | `cli/graph_advisor.py:684` | `def _missing_reason(self)` |
 | `_resolve_query` | method | `cli/graph_advisor.py:638` | `def _resolve_query(self, query)` |
 | `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
+| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
+| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
+| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

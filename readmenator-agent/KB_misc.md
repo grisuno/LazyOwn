@@ -5,15 +5,6 @@
 - Layer: infrastructure
 - Language: sh
 
-## 2026-11-18_112624/jquery-1.11.3.min.js
-- Doc: ! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license
-- Language: js
-- Symbols:
-  - `s` (function, line 2)
-  - `c` (function, line 4)
-  - `d` (function, line 5)
-- Depends on: `cli/show.py`, `cli/style.py`, `lazyown-docker/init.sh`, `poc_tui/run.py`
-
 ## deploy/range/ad-mini/traffic-gen.py
 - Doc: Fake network traffic generator for the AD mini range.
 - Layer: utility

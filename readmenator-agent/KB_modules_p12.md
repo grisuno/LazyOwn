@@ -325,6 +325,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
 ## modules/lazyllmchat.py
 - Doc: Interactive LLM chat assistant for the LazyOwn shell.
+- Layer: utility
 - Language: py
 - Symbols:
   - `LazyOwnShellBridge` (class, line 45) `class LazyOwnShellBridge`
@@ -383,6 +384,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
 ## modules/lazymode_playbook.py
 - Doc: Run and list lazymode-powered exploit playbooks.
+- Layer: utility
 - Language: py
 - Symbols:
   - `_iter_steps` (function, line 33) `def _iter_steps(data)`
@@ -480,21 +482,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `phase_kill_chain` (method, line 4398) `def phase_kill_chain(self)`
 - Depends on: `modules/killchain.py`
 - Imported by: `modules/selection/bridge.py`, `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`, `tests/test_selection_bridge.py`, `tests/test_selectors_base.py`
-
-## modules/lazyown_metaextract0r.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `signal_handler` (function, line 42) `def signal_handler(sig, frame)`
-  - `extract_pdf_metadata` (function, line 51) `def extract_pdf_metadata(file_path)`
-  - `extract_docx_metadata` (function, line 62) `def extract_docx_metadata(file_path)`
-  - `extract_ole_metadata` (function, line 73) `def extract_ole_metadata(file_path)`
-  - `extract_image_metadata` (function, line 85) `def extract_image_metadata(file_path)`
-  - `extract_metadata` (function, line 96) `def extract_metadata(file_path)`
-  - `find_and_extract_metadata` (function, line 109) `def find_and_extract_metadata(directory, output_file)`
-  - `parse_arguments` (function, line 130) `def parse_arguments()`
-  - `main` (function, line 140) `def main()`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

@@ -25,7 +25,7 @@ cli groups 1 files (py) around ExploitGymCommandSet, do_exploitgym, _egym_status
 
 ## modules (1.2)
 
-modules groups 21 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. Campaign scope coverage query for the autonomous loop.
+modules groups 22 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. Campaign scope coverage query for the autonomous loop.
 
 ## scripts (1.3)
 
@@ -33,7 +33,7 @@ scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_
 
 ## skills (1.4)
 
-skills groups 167 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 166 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
 
 ## tests (1.5)
 
@@ -53,6 +53,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - modules/golden_path.py
 - modules/lazyown_bridge.py
 - modules/llm_evaluator.py
+- modules/loop/target_os.py
 - modules/mcp_agent_bridge.py
 - modules/metrics.py
 - modules/pipeline_engine.py
@@ -80,6 +81,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/lazyown_parquet_db.py
 - skills/lazyown_policy.py
 - skills/lazyown_session.py
+- skills/mcp_generated_tools.py
 - skills/mcp_lazy.py
 - skills/mcp_tools/__init__.py
 - skills/mcp_tools/_context.py
@@ -147,7 +149,6 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/fast_run.py
 - skills/mcp_tools/generate_report.py
 - skills/mcp_tools/get_beacons.py
-- skills/mcp_tools/get_config.py
 - skills/mcp_tools/groq_agent.py
 - skills/mcp_tools/harness_status.py
 - skills/mcp_tools/heartbeat_status.py
@@ -192,7 +193,6 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/rea.py
 - skills/mcp_tools/reactive_suggest.py
 - skills/mcp_tools/read_prompt.py
-- skills/mcp_tools/read_session_file.py
 - skills/mcp_tools/run_agent.py
 - skills/mcp_tools/run_api.py
 - skills/mcp_tools/run_command.py

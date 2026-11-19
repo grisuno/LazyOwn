@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
-| `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
-| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
 | `_on_theme_changed` | method | `lazygui/windows/main_window.py:329` | `def _on_theme_changed(self, tokens)` |
 | `_on_theme_menu_action` | method | `lazygui/windows/main_window.py:337` | `def _on_theme_menu_action(self)` |
 | `_persist_geometry_and_state` | method | `lazygui/windows/main_window.py:244` | `def _persist_geometry_and_state(self)` |
@@ -362,18 +359,19 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `graphical_sudo_env` | function | `modules/askpass.py:125` | `def graphical_sudo_env()` |
 | `sudo_graphical_requested` | function | `modules/askpass.py:138` | `def sudo_graphical_requested(payload)` |
 | `coverage_for` | function | `modules/asset_graph.py:12` | `def coverage_for(db, workspace_id, scope)` |
-| `_load_credentials` | function | `modules/atomic_cli.py:174` | `def _load_credentials(params, non_interactive)` |
-| `_print` | function | `modules/atomic_cli.py:134` | `def _print(shell, text)` |
-| `_prompt_choice` | function | `modules/atomic_cli.py:200` | `def _prompt_choice(count, prompt, non_interactive)` |
-| `_resolver` | function | `modules/atomic_cli.py:126` | `def _resolver()` |
-| `_safe_copy` | function | `modules/atomic_cli.py:159` | `def _safe_copy(text)` |
-| `_sanitized_script_name` | function | `modules/atomic_cli.py:406` | `def _sanitized_script_name(test_id, extension)` |
-| `_wants_interactive` | function | `modules/atomic_cli.py:154` | `def _wants_interactive(non_interactive)` |
-| `_warn` | function | `modules/atomic_cli.py:145` | `def _warn(text)` |
+| `_is_autonomous` | function | `modules/atomic_cli.py:177` | `def _is_autonomous()` |
+| `_load_credentials` | function | `modules/atomic_cli.py:215` | `def _load_credentials(params, non_interactive)` |
+| `_print` | function | `modules/atomic_cli.py:157` | `def _print(shell, text)` |
+| `_prompt_choice` | function | `modules/atomic_cli.py:241` | `def _prompt_choice(count, prompt, non_interactive)` |
+| `_resolver` | function | `modules/atomic_cli.py:149` | `def _resolver()` |
+| `_safe_copy` | function | `modules/atomic_cli.py:200` | `def _safe_copy(text)` |
+| `_sanitized_script_name` | function | `modules/atomic_cli.py:460` | `def _sanitized_script_name(test_id, extension)` |
+| `_wants_interactive` | function | `modules/atomic_cli.py:195` | `def _wants_interactive(non_interactive)` |
+| `_warn` | function | `modules/atomic_cli.py:168` | `def _warn(text)` |
 | `default_platform_for_target` | function | `modules/atomic_cli.py:39` | `def default_platform_for_target(params)` |
 | `parse_atomic_line` | function | `modules/atomic_cli.py:64` | `def parse_atomic_line(line)` |
-| `run_atomic_gen` | function | `modules/atomic_cli.py:412` | `def run_atomic_gen(params, line, shell)` |
-| `run_atomic_tests` | function | `modules/atomic_cli.py:214` | `def run_atomic_tests(params, line, shell)` |
+| `run_atomic_gen` | function | `modules/atomic_cli.py:466` | `def run_atomic_gen(params, line, shell)` |
+| `run_atomic_tests` | function | `modules/atomic_cli.py:255` | `def run_atomic_tests(params, line, shell)` |
 | `_parse_complexity` | function | `modules/atomic_enricher.py:142` | `def _parse_complexity(command)` |
 | `_parse_keyword_tags` | function | `modules/atomic_enricher.py:152` | `def _parse_keyword_tags(name, description)` |
 | `_parse_platforms` | function | `modules/atomic_enricher.py:122` | `def _parse_platforms(raw)` |
@@ -496,5 +494,7 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `_persist_state` | method | `modules/auto_pivot.py:277` | `def _persist_state(self)` |
 | `add_pivot_node` | method | `modules/auto_pivot.py:90` | `def add_pivot_node(self, ip, access_type, credential_id, hostname)` |
 | `build_chain` | method | `modules/auto_pivot.py:146` | `def build_chain(self, target_ip, via_nodes, subnet)` |
+| `discover_subnets` | method | `modules/auto_pivot.py:128` | `def discover_subnets(self, node_ip, command_output)` |
+| `generate_chisel_command` | method | `modules/auto_pivot.py:206` | `def generate_chisel_command(self, target_ip, local_port)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

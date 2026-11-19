@@ -20,6 +20,7 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_beacon_menu.py
 - Doc: Tests for the implant beacon menu and the autonomous beacon loop.
+- Layer: testing
 - Language: py
 - Symbols:
   - `TestDetectBeaconType` (class, line 43) `class TestDetectBeaconType`

@@ -1,4 +1,4 @@
-# API (page 10 of 30)
+# API (page 10 of 29)
 Previous: [API_p9.md](API_p9.md)
 
 ## modules/ad_gym.py
@@ -154,12 +154,12 @@ Imported by: `skills/autonomous_daemon.py`
 - `coverage_for` (function) `modules/asset_graph.py:12` `def coverage_for(db, workspace_id, scope)` -- Report tested scope assets versus total scope from the campaign db.
 
 ## modules/atomic_cli.py
-Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `modules/bof_delivery.py`, `modules/lazy_osinfer.py`, `utils.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_atomic_loop.py`, `tests/test_lazy_handoff.py`
+Depends on: `core/autonomous.py`, `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `modules/bof_delivery.py`, `modules/lazy_osinfer.py`, `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_atomic_headless.py`, `tests/test_atomic_loop.py`, `tests/test_lazy_handoff.py`
 - `default_platform_for_target` (function) `modules/atomic_cli.py:39` `def default_platform_for_target(params)` -- Return the OS-aware platform default for the active target.
 - `parse_atomic_line` (function) `modules/atomic_cli.py:64` `def parse_atomic_line(line)` -- Parse free-form CLI args into a structured request.
-- `run_atomic_tests` (function) `modules/atomic_cli.py:214` `def run_atomic_tests(params, line, shell)` -- Execute the atomic_tests workflow (secure + agent-safe).
-- `run_atomic_gen` (function) `modules/atomic_cli.py:412` `def run_atomic_gen(params, line, shell)` -- Generate test + cleanup scripts for one technique or GUID.
+- `run_atomic_tests` (function) `modules/atomic_cli.py:255` `def run_atomic_tests(params, line, shell)` -- Execute the atomic_tests workflow (secure + agent-safe).
+- `run_atomic_gen` (function) `modules/atomic_cli.py:466` `def run_atomic_gen(params, line, shell)` -- Generate test + cleanup scripts for one technique or GUID.
 
 ## modules/atomic_enricher.py
 Depends on: `core/logging.py`
@@ -453,7 +453,7 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `modules/bof_registry.py`, `test
 
 ## modules/bof_delivery.py
 Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
-Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
+Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_headless.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
 - `load_client_addon` (function) `modules/bof_delivery.py:184` `def load_client_addon(client, config)` -- Resolve one beacon client lazyaddon manifest.
 - `staging_dir` (function) `modules/bof_delivery.py:225` `def staging_dir(config)` -- Return (and create) the BOF staging directory.
 - `stage_bof` (function) `modules/bof_delivery.py:240` `def stage_bof(name, config)` -- Stage one catalog BOF for delivery through its client.

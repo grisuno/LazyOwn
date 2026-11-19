@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
-| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
-| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
 | `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
 | `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
 | `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
 | `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
 | `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
+| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
+| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
+| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

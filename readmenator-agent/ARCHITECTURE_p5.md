@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `modules/test_lazyencoder_decoder.py` -> `modules/lazyencoder_decoder.py`
 - `modules/threat_model.py` -> `core/logging.py`
 - `modules/timeline_narrator.py` -> `modules/ai_fallback.py`
 - `modules/tools/loop_smoke.py` -> `modules/lazy_engine.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `skills/mcp_tools/llm_ask.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/lolbas_list.py` -> `skills/mcp_tools/_context.py`
 - `skills/mcp_tools/lolbas_use.py` -> `skills/mcp_tools/_context.py`
-- `skills/mcp_tools/loop_smoke.py` -> `modules/lazy_engine.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

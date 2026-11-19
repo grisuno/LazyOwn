@@ -3,11 +3,12 @@
 ## modules/loop/__init__.py
 - Layer: utility
 - Language: py
-- Depends on: `modules/loop/engine_proxy.py`, `modules/loop/triage_scheduler.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`
+- Depends on: `modules/loop/engine_proxy.py`, `modules/loop/triage_scheduler.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_lazymode.py`, `modules/loop/worker_memory.py`
 - Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/sidequest.py`, `tests/test_lazy_scope.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_sidequest.py`, `tests/test_target_os.py`
 
 ## modules/loop/control_plane.py
 - Doc: Operator control-plane precheck for the autonomous loop.
+- Layer: utility
 - Language: py
 - Symbols:
   - `precheck_control` (function, line 23) `def precheck_control(control, target, objective_id, step_n, emit, loop, wait_until_unpaused, poll_interval, max_wait)`
@@ -16,6 +17,7 @@
 
 ## modules/loop/daemon_reward.py
 - Doc: Single-responsibility contract for the autonomous daemon's RL step reward.
+- Layer: utility
 - Language: py
 - Symbols:
   - `_Trainer` (class, line 85) `class _Trainer(Protocol)`
@@ -63,6 +65,7 @@
 
 ## modules/loop/objective_bootstrap.py
 - Doc: Pre-loop bootstrap for an autonomous objective.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `ObjectiveBootstrap` (class, line 26) `class ObjectiveBootstrap`
@@ -72,6 +75,7 @@
 
 ## modules/loop/target_os.py
 - Doc: Target operating-system ground truth for the autonomous loop.
+- Layer: utility
 - Language: py
 - Symbols:
   - `detect_target_os` (function, line 42) `def detect_target_os(target, loop)`
@@ -175,6 +179,26 @@
   - `_sudo_guard` (method, line 130) `def _sudo_guard(self, intent, command)`
   - `_command_in_scope` (method, line 157) `def _command_in_scope(self, command)`
 - Depends on: `modules/__init__.py`, `modules/intercept.py`, `modules/lazy_loop.py`, `utils.py`
+- Imported by: `modules/loop/__init__.py`
+
+## modules/loop/worker_lazymode.py
+- Doc: Code-mode (lazymode) first attempt for the loop worker.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WorkerLazymodeMixin` (class, line 45) `class WorkerLazymodeMixin`
+  - `_lazymode_enabled` (method, line 53) `def _lazymode_enabled(self)`
+  - `_lazymode_payload` (method, line 67) `def _lazymode_payload()`
+  - `_codemode_max_tokens` (method, line 76) `def _codemode_max_tokens(self)`
+  - `_codemode_timeout` (method, line 84) `def _codemode_timeout(self)`
+  - `_sdk_surface` (method, line 93) `def _sdk_surface()`
+  - `_recent_facts` (method, line 119) `def _recent_facts(self)`
+  - `_codemode_prompt` (method, line 133) `def _codemode_prompt(self, intent, target)`
+  - `_extract_script` (method, line 172) `def _extract_script(reply)`
+  - `_result_text` (method, line 192) `def _result_text(result)`
+  - `_lazymode_try` (method, line 206) `def _lazymode_try(self, intent, outcome, transcripts, executor, budget, deadline)`
+  - `_codemode_has_content` (method, line 351) `def _codemode_has_content(result)`
+- Depends on: `core/config.py`, `modules/lazy_loop.py`, `sdk/lazymode/__init__.py`
 - Imported by: `modules/loop/__init__.py`
 
 ## modules/loop/worker_memory.py

@@ -1,6 +1,79 @@
 # Subsystem: tests (page 21 of 27)
 Previous: [KB_tests_p20.md](KB_tests_p20.md)
 
+## tests/test_packaging.py
+- Doc: Packaging and project-foundation tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_read_text` (function, line 25) `def _read_text(path)`
+  - `_load_toml` (function, line 29) `def _load_toml(path)`
+  - `_load_yaml` (function, line 34) `def _load_yaml(path)`
+  - `TestConfigDeduplication` (class, line 39) `class TestConfigDeduplication`
+  - `TestPyProjectToml` (class, line 98) `class TestPyProjectToml`
+  - `TestSetupPy` (class, line 154) `class TestSetupPy`
+  - `TestRequirementsDev` (class, line 193) `class TestRequirementsDev`
+  - `TestPreCommitConfig` (class, line 213) `class TestPreCommitConfig`
+  - `TestCIWorkflows` (class, line 242) `class TestCIWorkflows`
+  - `TestGitIgnore` (class, line 284) `class TestGitIgnore`
+  - `TestRequirementsLock` (class, line 303) `class TestRequirementsLock`
+  - `TestInstallScript` (class, line 343) `class TestInstallScript`
+  - `TestSourceFilesParse` (class, line 370) `class TestSourceFilesParse`
+  - `test_config_class_defined_exactly_once_in_core` (method, line 46) `def test_config_class_defined_exactly_once_in_core(self)`
+  - `test_config_class_not_redefined_in_utils` (method, line 52) `def test_config_class_not_redefined_in_utils(self)`
+  - `_run_in_subprocess` (method, line 59) `def _run_in_subprocess(snippet)`
+  - `test_config_attribute_access_works` (method, line 74) `def test_config_attribute_access_works(self)`
+  - `test_config_getitem_returns_value` (method, line 83) `def test_config_getitem_returns_value(self)`
+  - `test_config_getitem_returns_none_for_missing_key` (method, line 89) `def test_config_getitem_returns_none_for_missing_key(self)`
+  - `pyproject` (method, line 102) `def pyproject(self)`
+  - `test_parses` (method, line 105) `def test_parses(self, pyproject)`
+  - `test_has_no_typo_dependency` (method, line 108) `def test_has_no_typo_dependency(self, pyproject)`
+  - `test_does_not_list_stdlib_ast_as_dep` (method, line 113) `def test_does_not_list_stdlib_ast_as_dep(self, pyproject)`
+  - `test_lists_flask_wtf_correctly` (method, line 117) `def test_lists_flask_wtf_correctly(self, pyproject)`
+  - `test_does_not_list_broken_docx` (method, line 121) `def test_does_not_list_broken_docx(self, pyproject)`
+  - `test_has_ml_optional_dependencies` (method, line 126) `def test_has_ml_optional_dependencies(self, pyproject)`
+  - `test_has_dev_optional_dependencies` (method, line 132) `def test_has_dev_optional_dependencies(self, pyproject)`
+  - `test_has_ruff_section` (method, line 138) `def test_has_ruff_section(self, pyproject)`
+  - `test_has_pytest_section` (method, line 142) `def test_has_pytest_section(self, pyproject)`
+  - `test_has_mypy_section` (method, line 146) `def test_has_mypy_section(self, pyproject)`
+  - `test_has_bandit_section` (method, line 150) `def test_has_bandit_section(self, pyproject)`
+  - `setup_tree` (method, line 163) `def setup_tree(self)`
+  - `setup_text` (method, line 167) `def setup_text(self)`
+  - `test_parses` (method, line 170) `def test_parses(self, setup_tree)`
+  - `test_calls_setup` (method, line 173) `def test_calls_setup(self, setup_tree)`
+  - `test_does_not_duplicate_dependencies` (method, line 181) `def test_does_not_duplicate_dependencies(self, setup_text)`
+  - `test_no_typo_dep` (method, line 186) `def test_no_typo_dep(self, setup_text)`
+  - `test_no_stdlib_ast_dep` (method, line 189) `def test_no_stdlib_ast_dep(self, setup_text)`
+  - `deps` (method, line 197) `def deps(self)`
+  - `test_lists_tool` (method, line 208) `def test_lists_tool(self, deps, tool)`
+  - `cfg` (method, line 217) `def cfg(self)`
+  - `test_parses` (method, line 220) `def test_parses(self, cfg)`
+  - `test_has_ruff_repo` (method, line 225) `def test_has_ruff_repo(self, cfg)`
+  - `test_has_detect_secrets_repo` (method, line 229) `def test_has_detect_secrets_repo(self, cfg)`
+  - `test_has_core_hygiene_hooks` (method, line 233) `def test_has_core_hygiene_hooks(self, cfg)`
+  - `lint_wf` (method, line 246) `def lint_wf(self)`
+  - `test_wf` (method, line 250) `def test_wf(self)`
+  - `security_wf` (method, line 254) `def security_wf(self)`
+  - `test_lint_workflow_has_ruff_and_mypy_jobs` (method, line 257) `def test_lint_workflow_has_ruff_and_mypy_jobs(self, lint_wf)`
+  - `test_test_workflow_runs_pytest` (method, line 262) `def test_test_workflow_runs_pytest(self, test_wf)`
+  - `test_security_workflow_has_three_jobs` (method, line 267) `def test_security_workflow_has_three_jobs(self, security_wf)`
+  - `test_workflow_triggers_on_push_and_pr` (method, line 276) `def test_workflow_triggers_on_push_and_pr(self, wf_path)`
+  - `patterns` (method, line 288) `def patterns(self)`
+  - `test_pattern_present` (method, line 299) `def test_pattern_present(self, patterns, pattern)`
+  - `_entries` (method, line 308) `def _entries(name)`
+  - `_names` (method, line 316) `def _names(entries)`
+  - `test_core_lock_exists_and_pinned` (method, line 319) `def test_core_lock_exists_and_pinned(self)`
+  - `test_core_lock_has_python_docx_not_broken_docx` (method, line 325) `def test_core_lock_has_python_docx_not_broken_docx(self)`
+  - `test_core_lock_is_cross_platform` (method, line 330) `def test_core_lock_is_cross_platform(self)`
+  - `test_ml_lock_exists_pinned_with_torch` (method, line 335) `def test_ml_lock_exists_pinned_with_torch(self)`
+  - `text` (method, line 347) `def text(self)`
+  - `test_uses_strict_mode` (method, line 350) `def test_uses_strict_mode(self, text)`
+  - `test_does_not_install_stdlib_ast` (method, line 353) `def test_does_not_install_stdlib_ast(self, text)`
+  - `test_does_not_install_broken_docx` (method, line 358) `def test_does_not_install_broken_docx(self, text)`
+  - `test_installs_from_pinned_lock` (method, line 363) `def test_installs_from_pinned_lock(self, text)`
+  - `test_no_absolute_modules_ext_path` (method, line 366) `def test_no_absolute_modules_ext_path(self, text)`
+  - `test_parses` (method, line 374) `def test_parses(self, filename)`
+
 ## tests/test_palette_overlay.py
 - Doc: Tests for cli/palette_overlay.py.
 - Layer: testing
@@ -180,6 +253,7 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
 
 ## tests/test_payload_write_lock.py
 - Doc: Concurrency guard for :func:`core.config.save_payload`.
+- Layer: testing
 - Language: py
 - Symbols:
   - `test_lock_is_reentrant_across_sequential_acquires` (function, line 19) `def test_lock_is_reentrant_across_sequential_acquires(tmp_path)`
@@ -407,87 +481,6 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
   - `__init__` (method, line 370) `def __init__(self)`
   - `narrate` (method, line 373) `def narrate(self, kind, target, message, payload, severity)`
 - Depends on: `modules/pipeline_engine.py`, `skills/autonomous_daemon.py`
-
-## tests/test_placeholder_coverage.py
-- Doc: Placeholder coverage across every registry that resolves ``{tokens}``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_live_keys` (function, line 40) `def _live_keys()`
-  - `_skill_keys` (function, line 49) `def _skill_keys()`
-  - `test_validator_covers_live_keys` (function, line 57) `def test_validator_covers_live_keys()`
-  - `test_schema_covers_live_keys` (function, line 63) `def test_schema_covers_live_keys()`
-  - `test_skill_documents_validator_keys` (function, line 68) `def test_skill_documents_validator_keys()`
-  - `test_addon_tokens_resolve` (function, line 78) `def test_addon_tokens_resolve()`
-  - `test_addon_tokens_resolve_at_runtime` (function, line 98) `def test_addon_tokens_resolve_at_runtime()`
-  - `test_required_params_exist_live` (function, line 122) `def test_required_params_exist_live()`
-- Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
-
-## tests/test_planner_initial_access.py
-- Doc: Deterministic initial-access intent: auto_pwn fires without an LLM.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `store` (function, line 9) `def store(tmp_path, monkeypatch)`
-  - `_make_planner` (function, line 19) `def _make_planner(store, goal, target)`
-  - `test_initial_access_candidate_emitted_for_access_goal` (function, line 35) `def test_initial_access_candidate_emitted_for_access_goal(store)`
-  - `test_initial_access_candidate_skips_when_intent_exists` (function, line 44) `def test_initial_access_candidate_skips_when_intent_exists(store)`
-  - `test_initial_access_candidate_emitted_regardless_of_goal` (function, line 51) `def test_initial_access_candidate_emitted_regardless_of_goal(store)`
-  - `test_initial_access_candidate_skips_when_foothold_proven` (function, line 60) `def test_initial_access_candidate_skips_when_foothold_proven(store, monkeypatch)`
-  - `test_foothold_gate_ignores_global_world_model` (function, line 69) `def test_foothold_gate_ignores_global_world_model(monkeypatch)`
-  - `test_foothold_gate_requires_task_context` (function, line 81) `def test_foothold_gate_requires_task_context()`
-  - `test_initial_access_candidate_skips_without_target` (function, line 87) `def test_initial_access_candidate_skips_without_target(store)`
-  - `test_plan_emits_initial_access_intent_first` (function, line 93) `def test_plan_emits_initial_access_intent_first(store, monkeypatch)`
-  - `test_worker_steps_run_auto_pwn_for_access_intent` (function, line 104) `def test_worker_steps_run_auto_pwn_for_access_intent(store)`
-  - `test_worker_steps_cover_all_when_flag_set` (function, line 127) `def test_worker_steps_cover_all_when_flag_set(store, monkeypatch)`
-  - `test_executor_bumps_auto_pwn_timeout` (function, line 152) `def test_executor_bumps_auto_pwn_timeout(monkeypatch)`
-  - `_Snap` (class, line 72) `class _Snap`
-  - `_fake_stream` (function, line 157) `def _fake_stream(command, on_output, timeout_sec)`
-  - `snapshot` (method, line 74) `def snapshot()`
-- Depends on: `core/config.py`, `modules/auto_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`
-
-## tests/test_playbook_admin.py
-- Doc: Playbook YAML administration: scan, create, update, delete, validate.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_write` (function, line 21) `def _write(directory, name, data)`
-  - `test_scan_reports_apt_and_plan_shapes` (function, line 27) `def test_scan_reports_apt_and_plan_shapes(tmp_path)`
-  - `test_validate_rejects_mixed_and_empty` (function, line 60) `def test_validate_rejects_mixed_and_empty(tmp_path)`
-  - `test_create_update_and_delete_round_trip` (function, line 70) `def test_create_update_and_delete_round_trip(tmp_path)`
-  - `test_create_refuses_overwrite_and_escape` (function, line 91) `def test_create_refuses_overwrite_and_escape(tmp_path)`
-  - `test_slug_and_preview` (function, line 110) `def test_slug_and_preview(tmp_path)`
-- Depends on: `modules/playbook_admin.py`
-
-## tests/test_playbook_chain.py
-- Doc: Playbook lowering: phases[].steps[] actions and atomic tests become validated chains executed by...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_playbook` (function, line 12) `def _playbook()`
-  - `test_slugify_normalizes_playbook_names` (function, line 37) `def test_slugify_normalizes_playbook_names()`
-  - `test_playbook_to_chain_maps_every_kind` (function, line 43) `def test_playbook_to_chain_maps_every_kind()`
-  - `test_playbook_to_chain_skips_manual_atomic_tests` (function, line 63) `def test_playbook_to_chain_skips_manual_atomic_tests()`
-  - `test_playbook_to_chain_validates_against_registry` (function, line 84) `def test_playbook_to_chain_validates_against_registry()`
-  - `test_playbook_to_chain_stepwise_eligible_when_verbs_routable` (function, line 93) `def test_playbook_to_chain_stepwise_eligible_when_verbs_routable(monkeypatch)`
-  - `test_write_playbook_chain_round_trips` (function, line 104) `def test_write_playbook_chain_round_trips(tmp_path)`
-  - `test_validate_playbook_accepts_steps_and_rejects_bad_kinds` (function, line 116) `def test_validate_playbook_accepts_steps_and_rejects_bad_kinds()`
-  - `test_synth_playbook_flag_lowers_and_writes` (function, line 154) `def test_synth_playbook_flag_lowers_and_writes(tmp_path, monkeypatch)`
-  - `test_synth_playbook_unknown_name_loud` (function, line 177) `def test_synth_playbook_unknown_name_loud(tmp_path, monkeypatch)`
-- Depends on: `cli/apt_chain_support.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/auto_registry.py`, `modules/chain_loop.py`, `modules/chain_registry.py`, `modules/playbook_admin.py`, `modules/playbook_chain.py`
-
-## tests/test_plugin_loader_safety.py
-- Doc: Marketplace placeholder substitution must be shell-safe.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load_fn` (function, line 23) `def _load_fn()`
-  - `TestPlaceholderQuoting` (class, line 38) `class TestPlaceholderQuoting`
-  - `test_plain_values_pass_through` (method, line 39) `def test_plain_values_pass_through(self)`
-  - `test_injection_neutralized` (method, line 43) `def test_injection_neutralized(self)`
-  - `test_command_substitution_neutralized` (method, line 48) `def test_command_substitution_neutralized(self)`
-  - `test_missing_key_left_verbatim` (method, line 53) `def test_missing_key_left_verbatim(self)`
-  - `test_uses_shlex_quote` (method, line 57) `def test_uses_shlex_quote(self)`
 
 
 Next: [KB_tests_p22.md](KB_tests_p22.md)

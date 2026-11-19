@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/chain_feed.py:22` | `def apply(event)` |
+| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/findings.py:42` | `def apply(event)` |
+| `handoff` | function | `modules/sinks/findings.py:88` | `def handoff(engagement_id, status, rounds)` |
+| `ingest_discarded` | function | `modules/sinks/findings.py:107` | `def ingest_discarded(engagement_id, entries)` |
+| `ledger_for` | function | `modules/sinks/findings.py:72` | `def ledger_for(engagement_id)` |
+| `limits_for` | function | `modules/sinks/findings.py:22` | `def limits_for()` |
+| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
+| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
+| `_db_mirror` | function | `modules/sinks/lazy_intel.py:88` | `def _db_mirror(host, row)` |
+| `_world_mirror` | function | `modules/sinks/lazy_intel.py:58` | `def _world_mirror(host, row, temperature, severity)` |
+| `apply` | function | `modules/sinks/lazy_intel.py:28` | `def apply(event)` |
 | `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
 | `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
 | `_current_host` | function | `modules/sinks/world_diff.py:58` | `def _current_host(root, host)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
 | `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
 | `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
-| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
-| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
-| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

@@ -399,6 +399,7 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
 ## tests/test_lazyllmchat.py
 - Doc: Tests for the rescued LazyOwn LLM chat assistant module.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_load_module` (function, line 17) `def _load_module()`
@@ -421,6 +422,7 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
 ## tests/test_lazymode_playbook.py
 - Doc: Behaviour tests for the lazymode playbook runner.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_write` (function, line 36) `def _write(tmp_path, name, body)`
@@ -436,6 +438,7 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
 ## tests/test_lazymode_runner.py
 - Doc: Behaviour tests for the lazymode runners and surface index.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_payload` (function, line 14) `def _payload(tmp_path, data)`

@@ -2,6 +2,10 @@
 Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_defense_stages.py` -> `modules/__init__.py`
+- `tests/test_defense_stages.py` -> `modules/defense_eval.py`
+- `tests/test_defense_stages.py` -> `modules/defense_stages.py`
+- `tests/test_dependencies.py` -> `core/dependencies.py`
 - `tests/test_detection_dampening.py` -> `modules/detection_oracle.py`
 - `tests/test_detection_feed.py` -> `modules/detection_feed.py`
 - `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
@@ -408,6 +412,10 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_guardrails.py` -> `modules/loop_guardrails.py`
 - `tests/test_loop_intent_delete.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_intent_delete.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_lazymode_first.py` -> `core/config.py`
+- `tests/test_loop_lazymode_first.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_lazymode_first.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_lazymode_first.py` -> `sdk/lazymode/__init__.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/llm_factory.py`
@@ -437,6 +445,9 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_loop_supervision.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_supervision.py` -> `modules/lazy_orchestrator_feedback.py`
 - `tests/test_loop_target_authority.py` -> `modules/lazy_runner.py`
+- `tests/test_loop_technique_deterministic.py` -> `core/config.py`
+- `tests/test_loop_technique_deterministic.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_technique_deterministic.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_trigger_hints.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_trigger_hints.py` -> `modules/loop_triggers.py`
 - `tests/test_loop_trigger_hints.py` -> `modules/world_model.py`
@@ -485,16 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `tests/test_nethelpers_command_set.py` -> `cli/commands/misc_migrated.py`
 - `tests/test_nethelpers_command_set.py` -> `cli/commands/nethelpers.py`
 - `tests/test_nethelpers_command_set.py` -> `cli/registry.py`
-- `tests/test_nuclei_parser.py` -> `modules/integrations/nuclei_parser.py`
-- `tests/test_objective_bootstrap.py` -> `modules/loop/objective_bootstrap.py`
-- `tests/test_opencode_mcp_harness.py` -> `modules/__init__.py`
-- `tests/test_opencode_mcp_harness.py` -> `skills/lazyown_mcp_opencode.py`
-- `tests/test_ops_loot_phase.py` -> `cli/ops_commands.py`
-- `tests/test_ops_loot_phase.py` -> `modules/world_model.py`
-- `tests/test_opsec_scorer.py` -> `modules/opsec_scorer.py`
-- `tests/test_opsec_scorer_consolidated.py` -> `modules/opsec_scorer.py`
-- `tests/test_orchestrator_api.py` -> `core/api_authz.py`
-- `tests/test_orchestrator_api.py` -> `lazyc2/blueprints/orchestrator.py`
-- `tests/test_orchestrator_api.py` -> `modules/__init__.py`
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

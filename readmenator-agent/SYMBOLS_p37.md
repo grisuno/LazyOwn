@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_beacon_install_path` | method | `tests/test_blacksandbeacon_addon.py:84` | `def test_beacon_install_path(self, beacon)` |
+| `test_beacon_install_path_no_traversal` | method | `tests/test_blacksandbeacon_addon.py:100` | `def test_beacon_install_path_no_traversal(self, beacon)` |
+| `test_beacon_lazycommand_has_c2_port` | method | `tests/test_blacksandbeacon_addon.py:168` | `def test_beacon_lazycommand_has_c2_port(self, beacon)` |
+| `test_beacon_lazycommand_has_lhost` | method | `tests/test_blacksandbeacon_addon.py:160` | `def test_beacon_lazycommand_has_lhost(self, beacon)` |
+| `test_beacon_lazycommand_is_stage_helper` | method | `tests/test_blacksandbeacon_addon.py:205` | `def test_beacon_lazycommand_is_stage_helper(self, beacon)` |
+| `test_beacon_lhost_required` | method | `tests/test_blacksandbeacon_addon.py:148` | `def test_beacon_lhost_required(self, beacon)` |
+| `test_beacon_name_is_correct` | method | `tests/test_blacksandbeacon_addon.py:233` | `def test_beacon_name_is_correct(self, beacon)` |
+| `test_beacon_no_hardcoded_ip` | method | `tests/test_blacksandbeacon_addon.py:246` | `def test_beacon_no_hardcoded_ip(self)` |
+| `test_beacon_no_hardcoded_port_numbers` | method | `tests/test_blacksandbeacon_addon.py:260` | `def test_beacon_no_hardcoded_port_numbers(self)` |
+| `test_beacon_repo_url` | method | `tests/test_blacksandbeacon_addon.py:78` | `def test_beacon_repo_url(self, beacon)` |
+| `test_beacon_stage_helper_consumes_c2_params` | method | `tests/test_blacksandbeacon_addon.py:164` | `def test_beacon_stage_helper_consumes_c2_params(self, beacon)` |
+| `test_beacon_tool_has_key` | method | `tests/test_blacksandbeacon_addon.py:71` | `def test_beacon_tool_has_key(self, beacon, key)` |
+| `test_beacon_yaml_parses` | method | `tests/test_blacksandbeacon_addon.py:48` | `def test_beacon_yaml_parses(self, beacon)` |
+| `test_beacon_yaml_present` | method | `tests/test_blacksandbeacon_addon.py:42` | `def test_beacon_yaml_present(self)` |
+| `test_bof_category` | method | `tests/test_blacksandbeacon_addon.py:115` | `def test_bof_category(self, bof)` |
+| `test_bof_delivery_goes_through_bof_run` | method | `tests/test_blacksandbeacon_addon.py:176` | `def test_bof_delivery_goes_through_bof_run(self, bof)` |
+| `test_bof_description_mentions_elf` | method | `tests/test_blacksandbeacon_addon.py:229` | `def test_bof_description_mentions_elf(self, bof)` |
+| `test_bof_description_mentions_linux_bof` | method | `tests/test_blacksandbeacon_addon.py:225` | `def test_bof_description_mentions_linux_bof(self, bof)` |
+| `test_bof_enabled` | method | `tests/test_blacksandbeacon_addon.py:123` | `def test_bof_enabled(self, bof)` |
+| `test_bof_execute_resets_before_pull` | method | `tests/test_blacksandbeacon_addon.py:201` | `def test_bof_execute_resets_before_pull(self, bof)` |
+| `test_bof_execute_stages_to_sessions` | method | `tests/test_blacksandbeacon_addon.py:192` | `def test_bof_execute_stages_to_sessions(self, bof)` |
 | `test_bof_has_field` | method | `tests/test_blacksandbeacon_addon.py:63` | `def test_bof_has_field(self, bof, field)` |
 | `test_bof_has_lhost_param` | method | `tests/test_blacksandbeacon_addon.py:142` | `def test_bof_has_lhost_param(self, bof)` |
 | `test_bof_has_lport_param` | method | `tests/test_blacksandbeacon_addon.py:145` | `def test_bof_has_lport_param(self, bof)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `one_cmd` | method | `tests/test_c2_shell_lazy.py:45` | `def one_cmd(self, command)` |
 | `test_lazy_accessor_with_boot_sequence` | method | `tests/test_c2_shell_lazy.py:88` | `def test_lazy_accessor_with_boot_sequence(self)` |
 | `test_no_eager_shell_build` | method | `tests/test_c2_shell_lazy.py:76` | `def test_no_eager_shell_build(self)` |
-| `test_no_lazyown_import_at_top_level` | method | `tests/test_c2_shell_lazy.py:63` | `def test_no_lazyown_import_at_top_level(self)` |
-| `test_reads_forward_and_share_target` | method | `tests/test_c2_shell_lazy.py:104` | `def test_reads_forward_and_share_target(self)` |
-| `test_shell_output_attribute` | method | `tests/test_c2_shell_lazy.py:118` | `def test_shell_output_attribute(self)` |
-| `test_writes_forward` | method | `tests/test_c2_shell_lazy.py:111` | `def test_writes_forward(self)` |
-| `_StubWM` | class | `tests/test_c2_surfaces.py:103` | `class _StubWM` |
-| `_refused` | function | `tests/test_c2_surfaces.py:132` | `def _refused()` |
-| `_sandbox` | function | `tests/test_c2_surfaces.py:23` | `def _sandbox(tmp_path)` |
-| `_slow` | function | `tests/test_c2_surfaces.py:141` | `def _slow()` |
-| `test_append_note_never_clobbers` | function | `tests/test_c2_surfaces.py:56` | `def test_append_note_never_clobbers(tmp_path)` |
-| `test_group_tasks_unique_hits` | function | `tests/test_c2_surfaces.py:77` | `def test_group_tasks_unique_hits(tmp_path)` |
-| `test_lazyreport_errors_are_actionable` | function | `tests/test_c2_surfaces.py:122` | `def test_lazyreport_errors_are_actionable(monkeypatch)` |
-| `test_publish_banner_dedupes` | function | `tests/test_c2_surfaces.py:30` | `def test_publish_banner_dedupes(tmp_path)` |
-| `test_publish_cve_validates_and_dedupes` | function | `tests/test_c2_surfaces.py:42` | `def test_publish_cve_validates_and_dedupes(tmp_path)` |
-| `test_record_outcome_feeds_c2_surfaces` | function | `tests/test_c2_surfaces.py:95` | `def test_record_outcome_feeds_c2_surfaces(tmp_path, monkeypatch)` |
-| `test_register_loot_event_dedupes_and_rejects_traversal` | function | `tests/test_c2_surfaces.py:66` | `def test_register_loot_event_dedupes_and_rejects_traversal(tmp_path)` |
-| `update_from_findings` | method | `tests/test_c2_surfaces.py:104` | `def update_from_findings(self, findings)` |
-| `TestCampaignRoutesThroughHelpers` | class | `tests/test_campaign_import_safety.py:96` | `class TestCampaignRoutesThroughHelpers` |
-| `TestColumnFiltering` | class | `tests/test_campaign_import_safety.py:55` | `class TestColumnFiltering` |
-| `TestCopyTree` | class | `tests/test_campaign_import_safety.py:80` | `class TestCopyTree` |
-| `TestZipSlip` | class | `tests/test_campaign_import_safety.py:35` | `class TestZipSlip` |
-| `_make_evil_zip` | function | `tests/test_campaign_import_safety.py:27` | `def _make_evil_zip(path)` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

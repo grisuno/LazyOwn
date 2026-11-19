@@ -1,6 +1,93 @@
 # Subsystem: tests (page 24 of 27)
 Previous: [KB_tests_p23.md](KB_tests_p23.md)
 
+## tests/test_security_codeql_batch.py
+- Doc: SDD regression tests for the CodeQL security batch.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_server` (function, line 27) `def _server()`
+  - `TestProxySsrfGuard` (class, line 45) `class TestProxySsrfGuard`
+  - `TestProxyTlsDefaults` (class, line 92) `class TestProxyTlsDefaults`
+  - `TestWebhookSsrfGuard` (class, line 116) `class TestWebhookSsrfGuard`
+  - `TestChannelSecrets` (class, line 149) `class TestChannelSecrets`
+  - `TestReverseShellFallback` (class, line 186) `class TestReverseShellFallback`
+  - `TestViewYamlTraversal` (class, line 209) `class TestViewYamlTraversal`
+  - `_login_and_call` (function, line 253) `def _login_and_call(monkeypatch, tmp_path, view, path)`
+  - `TestGenericErrorResponses` (class, line 269) `class TestGenericErrorResponses`
+  - `TestEmojiPattern` (class, line 359) `class TestEmojiPattern`
+  - `test_allows_lab_targets_by_default` (method, line 48) `def test_allows_lab_targets_by_default(self)`
+  - `test_blocks_cloud_metadata` (method, line 55) `def test_blocks_cloud_metadata(self)`
+  - `test_blocks_malformed_targets` (method, line 65) `def test_blocks_malformed_targets(self)`
+  - `test_blocks_private_when_operator_opts_out` (method, line 81) `def test_blocks_private_when_operator_opts_out(self, monkeypatch)`
+  - `test_verified_context_by_default` (method, line 95) `def test_verified_context_by_default(self, monkeypatch)`
+  - `test_insecure_only_with_explicit_opt_in` (method, line 106) `def test_insecure_only_with_explicit_opt_in(self, monkeypatch)`
+  - `test_blocks_metadata_and_userinfo_and_ftp` (method, line 119) `def test_blocks_metadata_and_userinfo_and_ftp(self)`
+  - `test_loopback_needs_explicit_opt_in` (method, line 132) `def test_loopback_needs_explicit_opt_in(self, monkeypatch)`
+  - `test_allows_public_webhook` (method, line 142) `def test_allows_public_webhook(self)`
+  - `test_scrub_masks_passwords_and_tokens` (method, line 152) `def test_scrub_masks_passwords_and_tokens(self)`
+  - `test_password_roundtrip_with_key` (method, line 160) `def test_password_roundtrip_with_key(self, monkeypatch)`
+  - `test_password_roundtrip_without_key` (method, line 168) `def test_password_roundtrip_without_key(self, tmp_path, monkeypatch)`
+  - `test_channel_store_is_owner_only` (method, line 175) `def test_channel_store_is_owner_only(self, tmp_path, monkeypatch)`
+  - `test_secret_not_logged_and_file_restricted` (method, line 189) `def test_secret_not_logged_and_file_restricted(self, tmp_path, monkeypatch, caplog)`
+  - `_client` (method, line 213) `def _client(monkeypatch, tmp_path)`
+  - `test_blocks_traversal_inputs` (method, line 223) `def test_blocks_traversal_inputs(self, tmp_path, monkeypatch)`
+  - `test_serves_valid_subdir_and_ignores_symlink_escape` (method, line 230) `def test_serves_valid_subdir_and_ignores_symlink_escape(self, tmp_path, monkeypatch)`
+  - `test_broadcast_hides_exception` (method, line 272) `def test_broadcast_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_loop_graph_hides_exception` (method, line 285) `def test_loop_graph_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_guard_lookup_hides_exception` (method, line 297) `def test_guard_lookup_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_mentions_hide_exception` (method, line 312) `def test_mentions_hide_exception(self, tmp_path, monkeypatch)`
+  - `test_sse_stream_hides_exception` (method, line 325) `def test_sse_stream_hides_exception(self, tmp_path, monkeypatch)`
+  - `test_api_defaults_hide_exception` (method, line 342) `def test_api_defaults_hide_exception(self, monkeypatch)`
+  - `test_blocks_common_emoji_and_clean_text_passes` (method, line 362) `def test_blocks_common_emoji_and_clean_text_passes(self)`
+  - `test_no_mega_range_in_source` (method, line 368) `def test_no_mega_range_in_source(self)`
+  - `_boom` (function, line 317) `def _boom()`
+  - `_boom` (function, line 347) `def _boom()`
+- Depends on: `core/defaults.py`, `core/logging.py`, `lazyc2/blueprints/__init__.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_proxy.py`, `modules/notify.py`, `skills/claude_md_orchestrator/__init__.py`
+
+## tests/test_security_hardening.py
+- Doc: SDD+TDD+BDD tests for security hardening contracts.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSQLInjectionPrevention` (class, line 34) `class TestSQLInjectionPrevention`
+  - `TestLIKEEscapePrevention` (class, line 84) `class TestLIKEEscapePrevention`
+  - `TestTimingAttackPrevention` (class, line 132) `class TestTimingAttackPrevention`
+  - `TestSafeRunnerShellFalse` (class, line 176) `class TestSafeRunnerShellFalse`
+  - `TestPickleRemoved` (class, line 229) `class TestPickleRemoved`
+  - `TestCalderaConfigSecrets` (class, line 250) `class TestCalderaConfigSecrets`
+  - `TestConfigConstantsConsolidation` (class, line 279) `class TestConfigConstantsConsolidation`
+  - `TestCredentialEncryptionWarning` (class, line 325) `class TestCredentialEncryptionWarning`
+  - `TestOpenSSLConf` (class, line 357) `class TestOpenSSLConf`
+  - `TestAuthTimingIntegration` (class, line 377) `class TestAuthTimingIntegration`
+  - `test_valid_tables_constant_is_complete` (method, line 39) `def test_valid_tables_constant_is_complete(self)`
+  - `test_export_csv_rejects_malicious_table_name` (method, line 45) `def test_export_csv_rejects_malicious_table_name(self, fresh_db)`
+  - `test_export_csv_rejects_union_select` (method, line 51) `def test_export_csv_rejects_union_select(self, fresh_db)`
+  - `test_export_csv_accepts_all_valid_tables` (method, line 57) `def test_export_csv_accepts_all_valid_tables(self, fresh_db)`
+  - `fresh_db` (method, line 72) `def fresh_db(self)`
+  - `db_with_hosts` (method, line 89) `def db_with_hosts(self)`
+  - `test_percent_literal_not_wildcard` (method, line 98) `def test_percent_literal_not_wildcard(self, db_with_hosts)`
+  - `test_underscore_literal_not_wildcard` (method, line 107) `def test_underscore_literal_not_wildcard(self, db_with_hosts)`
+  - `test_normal_query_still_works` (method, line 116) `def test_normal_query_still_works(self, db_with_hosts)`
+  - `test_check_auth_uses_hmac_compare_digest` (method, line 136) `def test_check_auth_uses_hmac_compare_digest(self)`
+  - `test_hmac_compare_digest_rejects_timing_difference` (method, line 161) `def test_hmac_compare_digest_rejects_timing_difference(self)`
+  - `test_run_shell_does_not_use_shell_true` (method, line 181) `def test_run_shell_does_not_use_shell_true(self)`
+  - `test_run_shell_with_pipe_character` (method, line 200) `def test_run_shell_with_pipe_character(self)`
+  - `test_run_shell_with_semicolon_is_treated_as_argument` (method, line 212) `def test_run_shell_with_semicolon_is_treated_as_argument(self)`
+  - `test_pickle_not_imported_in_utils` (method, line 233) `def test_pickle_not_imported_in_utils(self)`
+  - `test_no_hardcoded_api_keys_in_caldera_config` (method, line 254) `def test_no_hardcoded_api_keys_in_caldera_config(self)`
+  - `test_caldera_config_uses_secrets_module` (method, line 263) `def test_caldera_config_uses_secrets_module(self)`
+  - `test_llm_factory_defines_constants` (method, line 283) `def test_llm_factory_defines_constants(self)`
+  - `test_ai_fallback_imports_from_llm_factory` (method, line 291) `def test_ai_fallback_imports_from_llm_factory(self)`
+  - `test_cli_ai_imports_from_llm_factory` (method, line 306) `def test_cli_ai_imports_from_llm_factory(self)`
+  - `test_db_module_has_logging_import` (method, line 329) `def test_db_module_has_logging_import(self)`
+  - `test_db_maybe_encrypt_has_warning_log` (method, line 336) `def test_db_maybe_encrypt_has_warning_log(self)`
+  - `test_db_maybe_decrypt_logs_failure` (method, line 344) `def test_db_maybe_decrypt_logs_failure(self)`
+  - `test_openssl_conf_uses_setdefault` (method, line 361) `def test_openssl_conf_uses_setdefault(self)`
+  - `test_check_auth_returns_false_for_wrong_credentials` (method, line 380) `def test_check_auth_returns_false_for_wrong_credentials(self)`
+  - `test_hmac_module_imported_in_lazyc2` (method, line 390) `def test_hmac_module_imported_in_lazyc2(self)`
+- Depends on: `core/safe_subprocess.py`, `modules/db.py`
+
 ## tests/test_security_hardening_v2.py
 - Doc: SDD+TDD+BDD tests for security hardening batch v2.
 - Layer: testing
@@ -400,98 +487,6 @@ Previous: [KB_tests_p23.md](KB_tests_p23.md)
   - `test_requires_target` (method, line 82) `def test_requires_target(self, registry)`
   - `test_exclude_skips_taken_intent` (method, line 87) `def test_exclude_skips_taken_intent(self, registry)`
 - Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/module_registry.py`, `modules/selection/base.py`, `modules/selection/module.py`
-
-## tests/test_selection_parquet.py
-- Doc: Tests for the shared parquet (session-history) selector.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_PDB` (class, line 23) `class _PDB`
-  - `_bind` (function, line 35) `def _bind(monkeypatch, pdb, blocked)`
-  - `_rows` (function, line 41) `def _rows()`
-  - `_ctx` (function, line 46) `def _ctx()`
-  - `test_no_target_abstains` (function, line 53) `def test_no_target_abstains(monkeypatch)`
-  - `test_no_pdb_abstains` (function, line 59) `def test_no_pdb_abstains(monkeypatch)`
-  - `test_most_frequent_head_wins` (function, line 65) `def test_most_frequent_head_wins(monkeypatch)`
-  - `test_success_only_query` (function, line 75) `def test_success_only_query(monkeypatch)`
-  - `test_burned_verb_skipped` (function, line 83) `def test_burned_verb_skipped(monkeypatch)`
-  - `test_blacklisted_verb_skipped` (function, line 90) `def test_blacklisted_verb_skipped(monkeypatch)`
-  - `test_taken_and_junk_skipped` (function, line 97) `def test_taken_and_junk_skipped(monkeypatch)`
-  - `test_multi_category_phase_falls_through` (function, line 104) `def test_multi_category_phase_falls_through(monkeypatch)`
-  - `__init__` (method, line 26) `def __init__(self, rows_by_cat)`
-  - `query_session` (method, line 30) `def query_session(self, phase, target, success_only, limit)`
-- Depends on: `modules/selection/base.py`, `modules/selection/parquet.py`
-
-## tests/test_selection_technique.py
-- Doc: Tests for the TechniqueSelector and its playbook_engine helper.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeStore` (class, line 18) `class _FakeStore`
-  - `_FakeStix` (class, line 26) `class _FakeStix`
-  - `fake_stix` (function, line 67) `def fake_stix(monkeypatch)`
-  - `_ctx` (function, line 75) `def _ctx(phase, os_hint, target, exclude)`
-  - `TestPhaseTechniques` (class, line 81) `class TestPhaseTechniques`
-  - `TestTechniqueSelector` (class, line 114) `class TestTechniqueSelector`
-  - `__init__` (method, line 19) `def __init__(self, techniques)`
-  - `query` (method, line 22) `def query(self, filters)`
-  - `__init__` (method, line 27) `def __init__(self, techniques, available)`
-  - `available` (method, line 31) `def available(self)`
-  - `store` (method, line 34) `def store(self)`
-  - `techniques_for_tactics` (method, line 37) `def techniques_for_tactics(self, tactics, platform)`
-  - `test_stix_phase_scoped` (method, line 82) `def test_stix_phase_scoped(self, fake_stix)`
-  - `test_unknown_phase_empty` (method, line 88) `def test_unknown_phase_empty(self, fake_stix)`
-  - `test_top_n_cap` (method, line 92) `def test_top_n_cap(self, fake_stix, monkeypatch, tmp_path)`
-  - `test_atomic_fallback_when_stix_missing` (method, line 104) `def test_atomic_fallback_when_stix_missing(self, monkeypatch, tmp_path)`
-  - `test_postexp_phase_proposes_atomic_tests` (method, line 115) `def test_postexp_phase_proposes_atomic_tests(self, fake_stix)`
-  - `test_recon_phase_abstains` (method, line 122) `def test_recon_phase_abstains(self, fake_stix)`
-  - `test_requires_target` (method, line 126) `def test_requires_target(self)`
-  - `test_exclude_skips_to_next_technique` (method, line 131) `def test_exclude_skips_to_next_technique(self, fake_stix, monkeypatch)`
-  - `test_routable_through_loop` (method, line 146) `def test_routable_through_loop(self, fake_stix)`
-- Depends on: `modules/auto_registry.py`, `modules/playbook_engine.py`, `modules/selection/base.py`, `modules/selection/technique.py`
-
-## tests/test_selection_technique_chain.py
-- Doc: Tests for TechniqueChainSelector and the focused technique-chain synth.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_ctx` (function, line 18) `def _ctx(phase, os_hint, target, exclude, extra)`
-  - `synth_sandbox` (function, line 29) `def synth_sandbox(monkeypatch)`
-  - `TestSynthTechniqueChain` (class, line 42) `class TestSynthTechniqueChain`
-  - `TestTechniqueChainSelector` (class, line 68) `class TestTechniqueChainSelector`
-  - `_fake_write` (function, line 33) `def _fake_write(data, chains_dir)`
-  - `test_builds_ordered_atomic_tests_steps` (method, line 43) `def test_builds_ordered_atomic_tests_steps(self)`
-  - `test_drops_malformed_ids_and_dedupes` (method, line 54) `def test_drops_malformed_ids_and_dedupes(self)`
-  - `test_under_two_techniques_is_empty` (method, line 59) `def test_under_two_techniques_is_empty(self)`
-  - `test_validates_against_registry` (method, line 63) `def test_validates_against_registry(self)`
-  - `test_phase_techniques_compile_into_one_chain` (method, line 69) `def test_phase_techniques_compile_into_one_chain(self, synth_sandbox, monkeypatch)`
-  - `test_goal_named_ids_win_verbatim` (method, line 86) `def test_goal_named_ids_win_verbatim(self, synth_sandbox, monkeypatch)`
-  - `test_recon_phase_abstains` (method, line 97) `def test_recon_phase_abstains(self, synth_sandbox)`
-  - `test_single_technique_abstains` (method, line 100) `def test_single_technique_abstains(self, synth_sandbox, monkeypatch)`
-  - `test_requires_target` (method, line 107) `def test_requires_target(self, synth_sandbox)`
-  - `test_excluded_command_is_not_reproposed` (method, line 111) `def test_excluded_command_is_not_reproposed(self, synth_sandbox, monkeypatch)`
-  - `test_already_registered_chain_is_not_rewritten` (method, line 124) `def test_already_registered_chain_is_not_rewritten(self, monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/selection/base.py`, `modules/selection/technique_chain.py`
-
-## tests/test_selection_wiring.py
-- Doc: Vertical wiring tests: playbooks, adversaries and apt_chain through the loop.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_ctx` (function, line 15) `def _ctx(goal, target, phase, exclude)`
-  - `TestPlaybookWiring` (class, line 20) `class TestPlaybookWiring`
-  - `TestAdversaryWiring` (class, line 43) `class TestAdversaryWiring`
-  - `TestRouting` (class, line 61) `class TestRouting`
-  - `test_cascade_names_actor_by_alias` (method, line 21) `def test_cascade_names_actor_by_alias(self)`
-  - `test_cascade_names_actor_slug` (method, line 27) `def test_cascade_names_actor_slug(self)`
-  - `test_generator_stubs_not_the_base_chain` (method, line 32) `def test_generator_stubs_not_the_base_chain(self)`
-  - `test_unknown_actor_never_runs_a_chain` (method, line 37) `def test_unknown_actor_never_runs_a_chain(self)`
-  - `testProfiles_resolve_to_numeric_ids` (method, line 44) `def testProfiles_resolve_to_numeric_ids(self)`
-  - `test_inject_shellcode_profile` (method, line 50) `def test_inject_shellcode_profile(self)`
-  - `test_adverbial_words_do_not_hijack` (method, line 55) `def test_adverbial_words_do_not_hijack(self)`
-  - `test_routable_through_loop` (method, line 62) `def test_routable_through_loop(self)`
-  - `test_lab_env_gate` (method, line 71) `def test_lab_env_gate(self, monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/selection/base.py`, `modules/selection/registry.py`
 
 
 Next: [KB_tests_p25.md](KB_tests_p25.md)

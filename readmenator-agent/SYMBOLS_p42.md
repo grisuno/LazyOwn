@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_ttl_127_maps_to_os_id_2_windows` | method | `tests/test_engagement_and_ping.py:309` | `def test_ttl_127_maps_to_os_id_2_windows(self)` |
+| `test_ttl_128_maps_to_os_id_2_windows` | method | `tests/test_engagement_and_ping.py:302` | `def test_ttl_128_maps_to_os_id_2_windows(self)` |
+| `test_ttl_255_maps_to_unknown` | method | `tests/test_engagement_and_ping.py:323` | `def test_ttl_255_maps_to_unknown(self)` |
+| `test_ttl_63_maps_to_os_id_1_linux` | method | `tests/test_engagement_and_ping.py:316` | `def test_ttl_63_maps_to_os_id_1_linux(self)` |
+| `test_ttl_64_maps_to_os_id_1_linux` | method | `tests/test_engagement_and_ping.py:295` | `def test_ttl_64_maps_to_os_id_1_linux(self)` |
+| `test_vri_does_not_fire_before_threshold` | method | `tests/test_engagement_and_ping.py:152` | `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)` |
+| `test_vri_fires_when_threshold_reached` | method | `tests/test_engagement_and_ping.py:126` | `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)` |
+| `TestHealCommandsSeen` | class | `tests/test_engagement_command_gate.py:187` | `class TestHealCommandsSeen` |
+| `TestHookRejectsNoise` | class | `tests/test_engagement_command_gate.py:106` | `class TestHookRejectsNoise` |
+| `TestIsRecordableCommand` | class | `tests/test_engagement_command_gate.py:68` | `class TestIsRecordableCommand` |
+| `TestSanitizeSeen` | class | `tests/test_engagement_command_gate.py:141` | `class TestSanitizeSeen` |
+| `_redirect_paths` | function | `tests/test_engagement_command_gate.py:34` | `def _redirect_paths(tmp_path)` |
+| `_restore_paths` | function | `tests/test_engagement_command_gate.py:56` | `def _restore_paths(saved)` |
+| `test_accepts_command_shaped_tokens` | method | `tests/test_engagement_command_gate.py:72` | `def test_accepts_command_shaped_tokens(self, cmd)` |
+| `test_do_prefixed_input_is_accepted` | method | `tests/test_engagement_command_gate.py:91` | `def test_do_prefixed_input_is_accepted(self)` |
+| `test_garbage_does_not_enter_commands_seen` | method | `tests/test_engagement_command_gate.py:109` | `def test_garbage_does_not_enter_commands_seen(self, tmp_path)` |
+| `test_idempotent_on_clean_state` | method | `tests/test_engagement_command_gate.py:207` | `def test_idempotent_on_clean_state(self, tmp_path)` |
+| `test_load_state_heals_polluted_file` | method | `tests/test_engagement_command_gate.py:165` | `def test_load_state_heals_polluted_file(self, tmp_path)` |
+| `test_normalize_is_idempotent` | method | `tests/test_engagement_command_gate.py:96` | `def test_normalize_is_idempotent(self)` |
+| `test_purges_and_persists` | method | `tests/test_engagement_command_gate.py:190` | `def test_purges_and_persists(self, tmp_path)` |
+| `test_quoted_path_rejected` | method | `tests/test_engagement_command_gate.py:86` | `def test_quoted_path_rejected(self)` |
 | `test_real_command_recorded_between_garbage` | method | `tests/test_engagement_command_gate.py:123` | `def test_real_command_recorded_between_garbage(self, tmp_path)` |
 | `test_rejects_syntactic_garbage` | method | `tests/test_engagement_command_gate.py:81` | `def test_rejects_syntactic_garbage(self, cmd)` |
 | `test_roster_drops_valid_but_unknown_tokens` | method | `tests/test_engagement_command_gate.py:158` | `def test_roster_drops_valid_but_unknown_tokens(self)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p41.md](SYMBOLS_p41.md)
 | `test_gym_status_filters_hosts_by_current_target` | function | `tests/test_gym_cli.py:103` | `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)` |
 | `test_gym_stop_all_and_by_name` | function | `tests/test_gym_cli.py:65` | `def test_gym_stop_all_and_by_name(sandbox, capsys)` |
 | `test_gym_stop_without_active_is_clean` | function | `tests/test_gym_cli.py:32` | `def test_gym_stop_without_active_is_clean(sandbox, capsys)` |
-| `test_gym_top_aliases_leaderboard` | function | `tests/test_gym_cli.py:97` | `def test_gym_top_aliases_leaderboard(sandbox, capsys)` |
-| `_FakeDocker` | class | `tests/test_gym_lifecycle.py:38` | `class _FakeDocker` |
-| `__call__` | method | `tests/test_gym_lifecycle.py:45` | `def __call__(self)` |
-| `__init__` | method | `tests/test_gym_lifecycle.py:41` | `def __init__(self, responses)` |
-| `__init__` | method | `tests/test_gym_lifecycle.py:54` | `def __init__(self, returncode, stdout, stderr)` |
-| `_result` | class | `tests/test_gym_lifecycle.py:53` | `class _result` |
-| `sandbox` | function | `tests/test_gym_lifecycle.py:20` | `def sandbox(tmp_path, monkeypatch)` |
-| `test_cleanup_gym_machines_stops_all` | function | `tests/test_gym_lifecycle.py:162` | `def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys)` |
-| `test_start_removes_stale_container_first` | function | `tests/test_gym_lifecycle.py:107` | `def test_start_removes_stale_container_first(sandbox, monkeypatch)` |
-| `test_start_spins_scenario_and_resolves_ip` | function | `tests/test_gym_lifecycle.py:60` | `def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch)` |
-| `test_start_without_docker_degrades_gracefully` | function | `tests/test_gym_lifecycle.py:99` | `def test_start_without_docker_degrades_gracefully(sandbox, monkeypatch)` |
-| `test_start_without_lab_flag_still_registers` | function | `tests/test_gym_lifecycle.py:89` | `def test_start_without_lab_flag_still_registers(sandbox, monkeypatch)` |
-| `test_stop_keeps_scenario_with_active_runs` | function | `tests/test_gym_lifecycle.py:142` | `def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch)` |
-| `test_stop_teardowns_scenario_container` | function | `tests/test_gym_lifecycle.py:122` | `def test_stop_teardowns_scenario_container(sandbox, monkeypatch)` |
-| `CtfCaptureSpec` | class | `tests/test_gym_matrix_ctf.py:13` | `class CtfCaptureSpec(TestCase)` |
-| `GymMatrixRunnerSpec` | class | `tests/test_gym_matrix_ctf.py:62` | `class GymMatrixRunnerSpec(TestCase)` |
-| `ReportIntegrationSpec` | class | `tests/test_gym_matrix_ctf.py:120` | `class ReportIntegrationSpec(TestCase)` |
-| `executor` | function | `tests/test_gym_matrix_ctf.py:92` | `def executor(cmd)` |
-| `test_captured_findings_enter_report` | method | `tests/test_gym_matrix_ctf.py:123` | `def test_captured_findings_enter_report(self)` |
-| `test_failed_capture_without_evidence` | method | `tests/test_gym_matrix_ctf.py:29` | `def test_failed_capture_without_evidence(self)` |
-| `test_load_artifact` | method | `tests/test_gym_matrix_ctf.py:57` | `def test_load_artifact(self)` |
 
 Next: [SYMBOLS_p43.md](SYMBOLS_p43.md)

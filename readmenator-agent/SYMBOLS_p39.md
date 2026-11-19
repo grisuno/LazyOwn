@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_warn_saves_invalid_but_present` | method | `tests/test_cli_assign.py:302` | `def test_warn_saves_invalid_but_present(self)` |
+| `TestRememberMeComparison` | class | `tests/test_cli_auth_remember.py:48` | `class TestRememberMeComparison` |
+| `isolated_auth` | function | `tests/test_cli_auth_remember.py:24` | `def isolated_auth(tmp_path, monkeypatch)` |
+| `test_comparison_is_timing_safe` | method | `tests/test_cli_auth_remember.py:76` | `def test_comparison_is_timing_safe(self)` |
+| `test_save_delegates_to_canonical_writer` | method | `tests/test_cli_auth_remember.py:92` | `def test_save_delegates_to_canonical_writer(self)` |
+| `test_save_writes_valid_json_and_audits` | method | `tests/test_cli_auth_remember.py:109` | `def test_save_writes_valid_json_and_audits(self, isolated_auth)` |
+| `test_valid_token_logs_in` | method | `tests/test_cli_auth_remember.py:49` | `def test_valid_token_logs_in(self, isolated_auth)` |
+| `test_wrong_token_rejected` | method | `tests/test_cli_auth_remember.py:63` | `def test_wrong_token_rejected(self, isolated_auth)` |
+| `Shell` | class | `tests/test_cli_command_sets.py:470` | `class Shell(Cmd)` |
+| `TestAliasLoaderSubstitution` | class | `tests/test_cli_command_sets.py:209` | `class TestAliasLoaderSubstitution` |
+| `TestAliasYamlIntegrity` | class | `tests/test_cli_command_sets.py:178` | `class TestAliasYamlIntegrity` |
+| `TestCommandSetDiscovery` | class | `tests/test_cli_command_sets.py:325` | `class TestCommandSetDiscovery` |
+| `TestLazyOwnRefactor` | class | `tests/test_cli_command_sets.py:298` | `class TestLazyOwnRefactor` |
+| `TestLazyOwnStillParses` | class | `tests/test_cli_command_sets.py:395` | `class TestLazyOwnStillParses` |
+| `TestPrivateHelperForwarding` | class | `tests/test_cli_command_sets.py:400` | `class TestPrivateHelperForwarding` |
+| `TestRegisterCommandSets` | class | `tests/test_cli_command_sets.py:357` | `class TestRegisterCommandSets` |
+| `_Bare` | class | `tests/test_cli_command_sets.py:363` | `class _Bare(Cmd)` |
+| `_Bare` | class | `tests/test_cli_command_sets.py:387` | `class _Bare(Cmd)` |
+| `_ExplosiveCommandSet` | class | `tests/test_cli_command_sets.py:375` | `class _ExplosiveCommandSet(CommandSet)` |
+| `_Probe` | class | `tests/test_cli_command_sets.py:415` | `class _Probe(LazyOwnCommandSet)` |
+| `_Shell` | class | `tests/test_cli_command_sets.py:428` | `class _Shell(Cmd)` |
 | `__init__` | method | `tests/test_cli_command_sets.py:376` | `def __init__(self)` |
 | `__init__` | method | `tests/test_cli_command_sets.py:429` | `def __init__(self)` |
 | `__init__` | method | `tests/test_cli_command_sets.py:471` | `def __init__(self)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 | `test_resolve_category_constant_name` | method | `tests/test_command_palette.py:544` | `def test_resolve_category_constant_name(self)` |
 | `test_resolve_category_missing` | method | `tests/test_command_palette.py:558` | `def test_resolve_category_missing(self)` |
 | `test_resolve_category_string_literal` | method | `tests/test_command_palette.py:551` | `def test_resolve_category_string_literal(self)` |
-| `test_returns_required_top_level_keys` | method | `tests/test_command_palette.py:1195` | `def test_returns_required_top_level_keys(self, synthetic_index, suite_config)` |
-| `test_route_decorator_present` | method | `tests/test_command_palette.py:1423` | `def test_route_decorator_present(self, src, suite_config)` |
-| `test_route_decorator_present` | method | `tests/test_command_palette.py:1879` | `def test_route_decorator_present(self, src, suite_config)` |
-| `test_route_function_defined` | method | `tests/test_command_palette.py:1427` | `def test_route_function_defined(self, src, suite_config)` |
-| `test_route_function_defined` | method | `tests/test_command_palette.py:1883` | `def test_route_function_defined(self, src, suite_config)` |
-| `test_route_handles_missing_index` | method | `tests/test_command_palette.py:1459` | `def test_route_handles_missing_index(self, src, suite_config)` |
-| `test_route_handles_missing_index` | method | `tests/test_command_palette.py:1911` | `def test_route_handles_missing_index(self, src, suite_config)` |
-| `test_route_loads_index_and_builds_view` | method | `tests/test_command_palette.py:1448` | `def test_route_loads_index_and_builds_view(self, src, suite_config)` |
-| `test_route_renders_palette_template` | method | `tests/test_command_palette.py:1454` | `def test_route_renders_palette_template(self, src, suite_config)` |
-| `test_route_returns_jsonified_view` | method | `tests/test_command_palette.py:1904` | `def test_route_returns_jsonified_view(self, src, suite_config)` |
-| `test_route_uses_requires_auth` | method | `tests/test_command_palette.py:1433` | `def test_route_uses_requires_auth(self, src, suite_config)` |
-| `test_route_uses_requires_auth` | method | `tests/test_command_palette.py:1889` | `def test_route_uses_requires_auth(self, src, suite_config)` |
-| `test_runs_after_handles_none_telemetry` | method | `tests/test_command_palette.py:2101` | `def test_runs_after_handles_none_telemetry(self)` |
-| `test_safe_load_graph_returns_none_when_missing` | method | `tests/test_command_palette.py:1559` | `def test_safe_load_graph_returns_none_when_missing(self, tmp_path)` |
-| `test_safe_load_returns_empty_index_when_csv_missing` | method | `tests/test_command_palette.py:2017` | `def test_safe_load_returns_empty_index_when_csv_missing(self, tmp_path)` |
-| `test_schema_version_matches_config` | method | `tests/test_command_palette.py:415` | `def test_schema_version_matches_config(self, index_document, suite_config)` |
-| `test_score_function_uses_runs_signal` | method | `tests/test_command_palette.py:2237` | `def test_score_function_uses_runs_signal(self, base_src)` |
-| `test_search_empty_uses_empty_message` | method | `tests/test_command_palette.py:847` | `def test_search_empty_uses_empty_message(self, renderer)` |
-| `test_search_flag_routes_to_search` | method | `tests/test_command_palette.py:691` | `def test_search_flag_routes_to_search(self, suite_config, parser)` |
-| `test_search_includes_query_in_header` | method | `tests/test_command_palette.py:838` | `def test_search_includes_query_in_header(self, renderer)` |
-| `test_search_mode_returns_query_and_hits` | method | `tests/test_command_palette.py:1123` | `def test_search_mode_returns_query_and_hits(self, synthetic_index)` |
 
 Next: [SYMBOLS_p40.md](SYMBOLS_p40.md)

@@ -1,104 +1,5 @@
-# API (page 7 of 30)
+# API (page 7 of 29)
 Previous: [API_p6.md](API_p6.md)
-
-## core/dependencies.py
-Imported by: `core/__init__.py`, `sdk/lazymode/runner.py`, `tests/test_dependencies.py`, `utils.py`
-- `MissingDependencyError.__init__` (method) `core/dependencies.py:45` `def __init__(self, import_name, pip_package, feature)` -- Build a remediation-oriented error message.
-- `_DeferredImport.__init__` (method) `core/dependencies.py:115` `def __init__(self, spec)` -- Store the dependency spec used to build remediation errors.
-- `_DeferredImport.__call__` (method) `core/dependencies.py:136` `def __call__(self)` -- Reject calling a missing dependency.
-- `optional_import` (function) `core/dependencies.py:183` `def optional_import(import_name)` -- Import an optional module, returning a deferred proxy when absent.
-- `optional_attr` (function) `core/dependencies.py:209` `def optional_attr(import_name, attr)` -- Import an attribute from an optional module, deferring failure.
-- `DependencyReport.missing` (method) `core/dependencies.py:278` `def missing(self)` -- Return the optional Python dependencies that are not installed.
-- `DependencyReport.ok` (method) `core/dependencies.py:283` `def ok(self)` -- Return ``True`` when every declared dependency is present.
-- `probe_python_dependency` (function) `core/dependencies.py:288` `def probe_python_dependency(spec)` -- Probe a single Python dependency by importing it.
-- `collect_dependency_report` (function) `core/dependencies.py:312` `def collect_dependency_report()` -- Probe every declared optional Python dependency.
-- `format_report` (function) `core/dependencies.py:323` `def format_report(report)` -- Render a :class:`DependencyReport` as an aligned, human-readable block.
-- `main` (function) `core/dependencies.py:368` `def main()` -- Print the optional-dependency report and return a process exit code.
-
-## core/error_advice.py
-Depends on: `core/console.py`
-- `ErrorAdvice.docs_url` (method) `core/error_advice.py:35` `def docs_url(self, config)` -- Return absolute documentation URL for this advice.
-- `get_advice` (function) `core/error_advice.py:74` `def get_advice(key)` -- Return advice for key or None when unknown.
-- `render_advice` (function) `core/error_advice.py:86` `def render_advice(key, config)` -- Render advice as four plain lines with explicit level tags.
-
-## core/errors.py
-Depends on: `cli/commands/enum.py`
-Imported by: `core/__init__.py`
-- `LazyOwnError.__init__` (method) `core/errors.py:61` `def __init__(self, message, error_code)`
-- `LazyOwnError.to_dict` (method) `core/errors.py:66` `def to_dict(self)` -- Return a serialisable dict with code, type, and message.
-- `ConfigError.__init__` (method) `core/errors.py:81` `def __init__(self, message, error_code)`
-- `TargetError.__init__` (method) `core/errors.py:88` `def __init__(self, message, error_code)`
-- `AuthError.__init__` (method) `core/errors.py:95` `def __init__(self, message, error_code)`
-- `ToolError.__init__` (method) `core/errors.py:102` `def __init__(self, message, error_code)`
-- `PayloadError.__init__` (method) `core/errors.py:109` `def __init__(self, message, error_code)`
-- `DatabaseError.__init__` (method) `core/errors.py:116` `def __init__(self, message, error_code)`
-- `NetworkError.__init__` (method) `core/errors.py:123` `def __init__(self, message, error_code)`
-- `PermissionError.__init__` (method) `core/errors.py:130` `def __init__(self, message, error_code)`
-- `ValidationError.__init__` (method) `core/errors.py:137` `def __init__(self, message, error_code)`
-
-## core/executor.py
-Depends on: `core/logging.py`
-Imported by: `tests/test_core_executor.py`
-- `safe_run` (function) `core/executor.py:96` `def safe_run(command)`
-- `safe_run` (function) `core/executor.py:98` `def safe_run(command)`
-- `safe_run` (function) `core/executor.py:101` `def safe_run(command)` -- Execute a command with logging and timeout.
-- `run_shell` (function) `core/executor.py:149` `def run_shell(cmd)` -- Execute a shell command and return its stdout.
-
-## core/hardening.py
-Depends on: `core/config.py`, `core/credential_vault.py`, `core/host_policy.py`, `core/logging.py`
-Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazy_poc.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_findings.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/scan_brief.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`, `tests/test_winbox_gym.py`
-- `reject_option_injection` (function) `core/hardening.py:93` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
-- `escape_powershell_single_quoted` (function) `core/hardening.py:112` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
-- `terminal_env` (function) `core/hardening.py:137` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
-- `safe_subprocess_run` (function) `core/hardening.py:158` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
-- `safe_clipboard_copy` (function) `core/hardening.py:211` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
-- `build_sshpass_command` (function) `core/hardening.py:250` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
-- `set_sshpass_env` (function) `core/hardening.py:279` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
-- `escape_html_content` (function) `core/hardening.py:298` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
-- `safe_path_join` (function) `core/hardening.py:310` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
-- `validate_network_cidr` (function) `core/hardening.py:336` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
-- `validate_port_spec` (function) `core/hardening.py:348` `def validate_port_spec(ports)` -- Validate a port specification string.
-- `validate_host` (function) `core/hardening.py:364` `def validate_host(host)` -- Validate a hostname or IP address.
-- `require_encryption_key` (function) `core/hardening.py:384` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
-- `defused_xml_parse` (function) `core/hardening.py:412` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
-- `sanitize_filename` (function) `core/hardening.py:434` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
-- `tls_secure_context` (function) `core/hardening.py:454` `def tls_secure_context(extra_ca)` -- Build a verifying client TLS context with a TLS 1.2 floor.
-- `tls_lab_unverified_allowed` (function) `core/hardening.py:479` `def tls_lab_unverified_allowed(host)` -- Return True only when unverified lab TLS is explicitly opted in.
-- `tls_lab_fallback_context` (function) `core/hardening.py:506` `def tls_lab_fallback_context()` -- Build the gated unverified context for lab self-signed hosts.
-- `validate_upstream_path` (function) `core/hardening.py:528` `def validate_upstream_path(path)` -- Validate an origin-form upstream path without regular expressions.
-- `is_safe_path_segment` (function) `core/hardening.py:557` `def is_safe_path_segment(segment)` -- Validate one path segment with a linear charset scan (no regex).
-- `is_safe_dir_path` (function) `core/hardening.py:578` `def is_safe_dir_path(raw)` -- Validate a relative directory path with linear scans (no regex).
-- `is_safe_yaml_name` (function) `core/hardening.py:604` `def is_safe_yaml_name(name)` -- Validate a YAML filename with linear scans (no regex).
-- `safe_join_under` (function) `core/hardening.py:623` `def safe_join_under(base_dir, user_path)` -- Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
-- `safe_open_under` (function) `core/hardening.py:652` `def safe_open_under(base_dir, user_path, mode)` -- Open a file under ``base_dir`` after traversal validation.
-- `store_secret_owner_only` (function) `core/hardening.py:679` `def store_secret_owner_only(path, text)` -- Atomically store a secret owner-only (0600, dir 0700).
-- `contains_emoji` (function) `core/hardening.py:722` `def contains_emoji(text)` -- Return True when ``text`` carries any emoji codepoint.
-- `iter_emoji_spans` (function) `core/hardening.py:737` `def iter_emoji_spans(text)` -- Return ``(offset, char)`` for every emoji char in ``text``.
-- `seal_secret` (function) `core/hardening.py:770` `def seal_secret(plaintext)` -- Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
-- `unseal_secret` (function) `core/hardening.py:801` `def unseal_secret(stored)` -- Reveal a secret stored by :func:`seal_secret` (legacy-compatible).
-- `redact_text` (function) `core/hardening.py:842` `def redact_text(text)` -- Mask credential-like patterns before persistence or display.
-
-## core/host_policy.py
-Imported by: `core/hardening.py`, `core/validators.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `tests/test_host_policy.py`
-- `rejects_shell_meta` (function) `core/host_policy.py:24` `def rejects_shell_meta(value)` -- Return True when value contains characters usable for shell injection.
-- `is_valid_cidr` (function) `core/host_policy.py:36` `def is_valid_cidr(value)` -- Check value is a valid CIDR block.
-- `is_valid_host` (function) `core/host_policy.py:52` `def is_valid_host(value)` -- Check value is a plain IP, CIDR, or hostname without shell metacharacters.
-- `is_file_like` (function) `core/host_policy.py:77` `def is_file_like(value)` -- Return True when value names a local artefact by extension, not a host.
-- `is_engagement_target` (function) `core/host_policy.py:95` `def is_engagement_target(value)` -- Return True when value is a routable engagement target, not a local file.
-
-## core/http.py
-Depends on: `core/console.py`
-Imported by: `core/__init__.py`
-- `generate_http_req` (function) `core/http.py:18` `def generate_http_req(host, port, uri, custom_header, cmd)` -- Build and send an HTTP GET request.
-- `get_banner` (function) `core/http.py:50` `def get_banner(host, port)` -- Fetch a banner by connecting via HTTP to the given host and port.
-- `get_command` (function) `core/http.py:69` `def get_command(url, lhost)` -- Fetch a command payload from a remote URL.
-- `send_command` (function) `core/http.py:87` `def send_command(cmd, url, lhost)` -- Send a command via HTTP POST.
-- `exploitalert` (function) `core/http.py:106` `def exploitalert(content)` -- Parse ExploitAlert search results HTML.
-- `packetstormsecurity` (function) `core/http.py:125` `def packetstormsecurity(content)` -- Parse Packet Storm Security search results HTML.
-- `nvddb` (function) `core/http.py:143` `def nvddb(content)` -- Parse NVD JSON vulnerability feed.
-- `scrape_news` (function) `core/http.py:174` `def scrape_news()` -- Scrape Hacker News top stories.
-- `display_news` (function) `core/http.py:198` `def display_news(titles, links, scores)` -- Display scraped news in the console.
-- `inject_payloads` (function) `core/http.py:211` `def inject_payloads(urls, payload_url, request_timeout)` -- Attempt to inject a payload URL into a list of target URLs.
 
 ## core/llm_budget.py
 Imported by: `cli/commands/ai.py`, `modules/llm_factory.py`, `skills/mcp_tools/get_llm_budget.py`, `tests/test_llm_budget.py`
@@ -190,15 +91,15 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
 Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `sdk/facade.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`, `tests/test_shell_params_seeding.py`
-- `register_specs` (function) `core/payload_schema.py:2298` `def register_specs(specs)` -- Register (or replace) field specs at runtime.
-- `unregister_specs` (function) `core/payload_schema.py:2321` `def unregister_specs(keys)` -- Remove runtime-registered specs from the schema.
-- `field_for` (function) `core/payload_schema.py:2339` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `coerce_value` (function) `core/payload_schema.py:2344` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `validate_value` (function) `core/payload_schema.py:2367` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `validate_payload` (function) `core/payload_schema.py:2441` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `format_issue` (function) `core/payload_schema.py:2476` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `default_payload` (function) `core/payload_schema.py:2494` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `categories` (function) `core/payload_schema.py:2502` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
+- `register_specs` (function) `core/payload_schema.py:2362` `def register_specs(specs)` -- Register (or replace) field specs at runtime.
+- `unregister_specs` (function) `core/payload_schema.py:2385` `def unregister_specs(keys)` -- Remove runtime-registered specs from the schema.
+- `field_for` (function) `core/payload_schema.py:2403` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `coerce_value` (function) `core/payload_schema.py:2408` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
+- `validate_value` (function) `core/payload_schema.py:2431` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
+- `validate_payload` (function) `core/payload_schema.py:2505` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
+- `format_issue` (function) `core/payload_schema.py:2540` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
+- `default_payload` (function) `core/payload_schema.py:2558` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
+- `categories` (function) `core/payload_schema.py:2566` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`

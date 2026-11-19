@@ -1,6 +1,44 @@
 # Subsystem: modules (page 15 of 19)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/module_registry.py
+- Doc: Unified module registry for LazyOwn — catalog, search, use/run workflow.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_classify` (function, line 91) `def _classify(category)`
+  - `_classify_module_source` (function, line 162) `def _classify_module_source(name, source)`
+  - `_extract_docstring_summary` (function, line 180) `def _extract_docstring_summary(source)`
+  - `ModuleInfo` (class, line 194) `class ModuleInfo`
+  - `ModuleRegistry` (class, line 267) `class ModuleRegistry`
+  - `format_module_table` (function, line 666) `def format_module_table(modules, cols)`
+  - `format_module_detail` (function, line 713) `def format_module_detail(m)`
+  - `__init__` (method, line 216) `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
+  - `to_dict` (method, line 246) `def to_dict(self)`
+  - `__repr__` (method, line 263) `def __repr__(self)`
+  - `__init__` (method, line 279) `def __init__(self, base_dir)`
+  - `get_instance` (method, line 285) `def get_instance(cls, base_dir)`
+  - `scan` (method, line 291) `def scan(self)`
+  - `rescan` (method, line 304) `def rescan(self)`
+  - `get` (method, line 313) `def get(self, name)`
+  - `search` (method, line 319) `def search(self, query, module_type, category, enabled_only, include_deprecated)`
+  - `deprecated_modules` (method, line 359) `def deprecated_modules(self)`
+  - `by_type` (method, line 365) `def by_type(self, module_type)`
+  - `summary` (method, line 369) `def summary(self)`
+  - `proposal_intents` (method, line 378) `def proposal_intents(self, texts, target, limit)`
+  - `_scan_yaml_addons` (method, line 462) `def _scan_yaml_addons(self)`
+  - `_scan_plugins` (method, line 503) `def _scan_plugins(self)`
+  - `_scan_tools` (method, line 543) `def _scan_tools(self)`
+  - `_scan_playbooks` (method, line 577) `def _scan_playbooks(self)`
+  - `_scan_python_modules` (method, line 597) `def _scan_python_modules(self)`
+  - `_looks_discoverable` (method, line 627) `def _looks_discoverable(source)`
+  - `_load_yaml` (method, line 641) `def _load_yaml(path)`
+  - `__len__` (method, line 650) `def __len__(self)`
+  - `__iter__` (method, line 655) `def __iter__(self)`
+  - `__contains__` (method, line 660) `def __contains__(self, name)`
+- Depends on: `core/logging.py`, `modules/__init__.py`
+- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
+
 ## modules/moe_router.py
 - Doc: modules/moe_router.py
 - Layer: presentation
@@ -447,31 +485,6 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `_apply` (function, line 187) `def _apply(data)`
 - Depends on: `core/atomic_store.py`
 - Imported by: `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, `tests/test_outcome_attribution.py`
-
-## modules/outcome_bus.py
-- Doc: Single fan-out contract for engagement outcomes.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `OutcomeEvent` (class, line 78) `class OutcomeEvent`
-  - `OutcomeBus` (class, line 157) `class OutcomeBus`
-  - `get_bus` (function, line 273) `def get_bus()`
-  - `reset_bus` (function, line 282) `def reset_bus()`
-  - `record` (function, line 287) `def record(event, sinks)`
-  - `record_event` (function, line 292) `def record_event()`
-  - `severity_for_event` (function, line 297) `def severity_for_event(severity)`
-  - `category_for_event` (function, line 302) `def category_for_event(kind)`
-  - `host_value` (method, line 106) `def host_value(self)`
-  - `key` (method, line 110) `def key(self)`
-  - `to_dict` (method, line 128) `def to_dict(self)`
-  - `__init__` (method, line 160) `def __init__(self, ledger_path, sink_map)`
-  - `reset` (method, line 173) `def reset(self)`
-  - `_sink` (method, line 179) `def _sink(self, name)`
-  - `_enabled_sinks` (method, line 194) `def _enabled_sinks(self, requested)`
-  - `record` (method, line 205) `def record(self, event, sinks)`
-  - `_append_ledger` (method, line 252) `def _append_ledger(self, event, statuses)`
-- Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

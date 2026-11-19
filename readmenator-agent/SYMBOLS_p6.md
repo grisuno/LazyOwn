@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
-| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
-| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
 | `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
 | `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
 | `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
 | `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
 | `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
+| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
+| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
+| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

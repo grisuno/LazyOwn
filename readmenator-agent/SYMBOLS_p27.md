@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_source` | function | `skills/claude_md_orchestrator/validators.py:359` | `def check_source(source, path, allow_numbers)` |
+| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:381` | `def check_spec(spec, min_sad_paths)` |
+| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:116` | `def find_block_comments(source)` |
+| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:138` | `def find_inline_comments(source)` |
+| `finditer` | method | `skills/claude_md_orchestrator/validators.py:81` | `def finditer(self, content)` |
+| `group` | method | `skills/claude_md_orchestrator/validators.py:69` | `def group(self, index)` |
+| `passed` | method | `skills/claude_md_orchestrator/validators.py:107` | `def passed(self)` |
+| `start` | method | `skills/claude_md_orchestrator/validators.py:65` | `def start(self)` |
+| `ControlState` | class | `skills/daemon_control.py:88` | `class ControlState` |
+| `DaemonControl` | class | `skills/daemon_control.py:162` | `class DaemonControl` |
+| `PendingAction` | class | `skills/daemon_control.py:49` | `class PendingAction` |
+| `__init__` | method | `skills/daemon_control.py:171` | `def __init__(self, sessions_dir)` |
+| `_first_token` | function | `skills/daemon_control.py:154` | `def _first_token(command)` |
 | `add_veto` | method | `skills/daemon_control.py:252` | `def add_veto(self, command_token)` |
 | `clear_vetoes` | method | `skills/daemon_control.py:275` | `def clear_vetoes(self)` |
 | `consume` | method | `skills/daemon_control.py:343` | `def consume(self, action_id)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `result` | method | `skills/lazyown_groq_agents.py:794` | `def result(self, agent_id)` |
 | `spawn` | method | `skills/lazyown_groq_agents.py:706` | `def spawn(self, goal, tools_filter, api_key, backend, max_iterations, system_prompt, block)` |
 | `spawn_agent` | function | `skills/lazyown_groq_agents.py:838` | `def spawn_agent(goal, tools_filter, api_key, backend, max_iterations, block)` |
-| `status` | method | `skills/lazyown_groq_agents.py:778` | `def status(self, agent_id)` |
-| `HookEvent` | class | `skills/lazyown_hooks.py:27` | `class HookEvent(Enum)` |
-| `HookRegistry` | class | `skills/lazyown_hooks.py:38` | `class HookRegistry` |
-| `__init__` | method | `skills/lazyown_hooks.py:47` | `def __init__(self)` |
-| `_audit` | function | `skills/lazyown_hooks.py:208` | `def _audit(ctx)` |
-| `audit_hook` | function | `skills/lazyown_hooks.py:139` | `def audit_hook(context, audit_path)` |
-| `build_default_registry` | function | `skills/lazyown_hooks.py:187` | `def build_default_registry(sessions_dir)` |
-| `get_registry` | function | `skills/lazyown_hooks.py:224` | `def get_registry(sessions_dir)` |
-| `metrics` | method | `skills/lazyown_hooks.py:79` | `def metrics(self)` |
-| `rate_limit_hook` | function | `skills/lazyown_hooks.py:116` | `def rate_limit_hook(context, window, limit)` |
-| `register` | method | `skills/lazyown_hooks.py:56` | `def register(self, event, handler)` |
-| `run` | method | `skills/lazyown_hooks.py:59` | `def run(self, event, context)` |
-| `sandbox_hook` | function | `skills/lazyown_hooks.py:101` | `def sandbox_hook(context)` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

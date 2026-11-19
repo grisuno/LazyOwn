@@ -2,12 +2,14 @@
 
 ## sdk/__init__.py
 - Doc: The LazyOwn programmatic SDK.
+- Layer: utility
 - Language: py
 - Depends on: `sdk/errors.py`, `sdk/facade.py`
 - Imported by: `skills/mcp_tools/get_config.py`, `skills/mcp_tools/read_session_file.py`, `skills/mcp_tools/set_config.py`, `tests/test_sdk_facade.py`
 
 ## sdk/errors.py
 - Doc: Typed errors for the LazyOwn programmatic SDK.
+- Layer: utility
 - Language: py
 - Symbols:
   - `SdkError` (class, line 13) `class SdkError(Exception)`
@@ -18,6 +20,7 @@
 
 ## sdk/facade.py
 - Doc: The LazyOwn programmatic facade (``Lazy``).
+- Layer: utility
 - Language: py
 - Symbols:
   - `_safe_session_name` (function, line 51) `def _safe_session_name(name, sessions_dir)`

@@ -456,6 +456,7 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
 ## tests/test_daemon_reward_contract.py
 - Doc: Contract tests for the extracted daemon RL reward module.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_FakeTrainer` (class, line 26) `class _FakeTrainer`

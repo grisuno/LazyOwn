@@ -1,4 +1,4 @@
-# API (page 20 of 30)
+# API (page 20 of 29)
 Previous: [API_p19.md](API_p19.md)
 
 ## modules/session_reader.py

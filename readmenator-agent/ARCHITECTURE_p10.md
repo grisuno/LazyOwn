@@ -94,6 +94,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/loop/worker_agentic.py` -> __future__, collections.abc, json, re, time, types, typing
 - `modules/loop/worker_execution.py` -> __future__, os, queue, signal, subprocess, threading, time, typing
 - `modules/loop/worker_gating.py` -> __future__, re
+- `modules/loop/worker_lazymode.py` -> __future__, json, re, time, typing
 - `modules/loop/worker_memory.py` -> __future__
 - `modules/loop_ai_bridge.py` -> __future__, threading
 - `modules/loop_audit.py` -> __future__, contextlib, json, pathlib, threading, time
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `skills/mcp_tools/session_diff.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/session_init.py` -> __future__, json, mcp, pathlib, sys, typing
 - `skills/mcp_tools/session_resume.py` -> __future__, mcp, typing
-- `skills/mcp_tools/session_state.py` -> __future__, asyncio, mcp, typing
 
 Next: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)

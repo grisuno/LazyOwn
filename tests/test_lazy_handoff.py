@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -393,3 +394,199 @@ class TestHookPlatformFilter:
         engine.fire("beacon_connected", {"client_id": "b1", "platform": "linux"})
         engine.fire("beacon_connected", {"client_id": "b2", "platform": "linux"})
         assert len(fired) == 2
+
+
+class TestHandoffTaskResolution:
+    def test_explicit_task_id_wins(self):
+        assert lazy_handoff._resolve_task_id("t0042") == "t0042"
+
+    def test_empty_falls_back_to_running_task(self, monkeypatch, tmp_path):
+        from modules.lazy_loop import TaskStore
+
+        store = TaskStore()
+        monkeypatch.setattr(store, "_path", tmp_path / "tasks.json")
+        store._raw = {
+            "seq": 2,
+            "tasks": {
+                "t0001": {"task_id": "t0001", "status": "done", "updated": 1},
+                "t0002": {"task_id": "t0002", "status": "running", "updated": 2},
+            },
+        }
+        monkeypatch.setattr("modules.lazy_loop.TaskStore", lambda: store)
+        assert lazy_handoff._resolve_task_id("") == "t0002"
+
+    def test_empty_falls_back_to_newest_task(self, monkeypatch, tmp_path):
+        from modules.lazy_loop import TaskStore
+
+        store = TaskStore()
+        monkeypatch.setattr(store, "_path", tmp_path / "tasks.json")
+        store._raw = {
+            "seq": 2,
+            "tasks": {
+                "t0001": {"task_id": "t0001", "status": "done", "updated": 1},
+                "t0002": {"task_id": "t0002", "status": "exhausted", "updated": 2},
+            },
+        }
+        monkeypatch.setattr("modules.lazy_loop.TaskStore", lambda: store)
+        assert lazy_handoff._resolve_task_id("") == "t0002"
+
+    @staticmethod
+    def _enable(monkeypatch) -> None:
+        monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
+        monkeypatch.setenv(lazy_handoff.HANDOFF_ENV, "1")
+        monkeypatch.setattr(
+            "core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True}
+        )
+
+    def test_marker_carries_resolved_task(self, monkeypatch, tmp_path):
+        self._enable(monkeypatch)
+        monkeypatch.setattr(lazy_handoff, "_resolve_task_id", lambda value: "t0009")
+        spawns = []
+        monkeypatch.setattr(subprocess, "Popen", lambda *a, **kw: spawns.append(a))
+        lazy_handoff.maybe_beacon_handoff("10.0.0.4", sessions_dir=tmp_path)
+        state = json.loads(lazy_handoff._marker_path("10.0.0.4", tmp_path).read_text(encoding="utf-8"))
+        assert state["task_id"] == "t0009"
+        assert "t0009" in spawns[0][0][-1]
+
+    def test_run_separator_written(self, monkeypatch, tmp_path):
+        self._enable(monkeypatch)
+        monkeypatch.setattr(lazy_handoff, "_resolve_task_id", lambda value: "t0009")
+        monkeypatch.setattr(subprocess, "Popen", lambda *a, **kw: None)
+        lazy_handoff.maybe_beacon_handoff("10.0.0.3", source="test", sessions_dir=tmp_path)
+        log_text = (tmp_path / "beacon_handoff_10.0.0.3.log").read_text(encoding="utf-8")
+        assert "beacon handoff run" in log_text
+        assert "target=10.0.0.3" in log_text
+        assert "task=t0009" in log_text
+
+
+class TestBeaconLiveness:
+    def test_live_only_skips_disk_fallback(self, monkeypatch, tmp_path):
+        from modules import bof_delivery
+
+        cfg = bof_delivery.BofDeliveryConfig(sessions_dir=tmp_path)
+        (tmp_path / "linux_beacon.records.jsonl").write_text(
+            json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2"}),
+            encoding="utf-8",
+        )
+
+        def raising(*args, **kwargs):
+            raise OSError("c2 down")
+
+        monkeypatch.setattr(bof_delivery, "_c2_channel_base", lambda cfg, data: "https://127.0.0.1:1")
+        monkeypatch.setattr(bof_delivery.time, "sleep", lambda *_: None)
+        monkeypatch.setattr(
+            "modules.bof_delivery.urllib.request.urlopen", raising, raising=False
+        )
+        assert bof_delivery.recent_beacons(config=cfg, payload={}, live_only=True) == []
+        assert bof_delivery.recent_beacons(config=cfg, payload={}) != []
+
+    def test_last_seen_empty_when_c2_unreachable(self, monkeypatch, tmp_path):
+        from modules import bof_delivery
+
+        def raising(*args, **kwargs):
+            raise OSError("c2 down")
+
+        monkeypatch.setattr(bof_delivery, "_c2_channel_base", lambda cfg, data: "https://127.0.0.1:1")
+        monkeypatch.setattr(
+            "modules.bof_delivery.urllib.request.urlopen", raising, raising=False
+        )
+        assert bof_delivery.beacon_last_seen("linux_beacon", config=bof_delivery.BofDeliveryConfig(sessions_dir=tmp_path), payload={}) == ""
+
+    def test_stale_last_seen_never_counts_as_live(self, monkeypatch, tmp_path):
+        history = tmp_path / "linux_beacon.records.jsonl"
+        history.write_text(
+            json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "timestamp": "2026-11-19T15:29:12+00:00"}),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(
+            "modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon"
+        )
+        monkeypatch.setattr(
+            "modules.bof_delivery.beacon_last_seen",
+            lambda client_id, config=None, payload=None: "",
+        )
+        assert lazy_handoff._beacon_is_live("172.17.0.2", tmp_path) is False
+
+    def test_fresh_last_seen_counts_as_live(self, monkeypatch, tmp_path):
+        history = tmp_path / "linux_beacon.records.jsonl"
+        history.write_text(
+            json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "timestamp": "2026-11-19T15:29:12+00:00"}),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(
+            "modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon"
+        )
+        fresh = (datetime.now(UTC) - timedelta(seconds=30)).isoformat()
+        monkeypatch.setattr(
+            "modules.bof_delivery.beacon_last_seen",
+            lambda client_id, config=None, payload=None: fresh,
+        )
+        assert lazy_handoff._beacon_is_live("172.17.0.2", tmp_path) is True
+
+    def test_minutes_old_last_seen_counts_as_dead(self, monkeypatch, tmp_path):
+        history = tmp_path / "linux_beacon.records.jsonl"
+        history.write_text(
+            json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "timestamp": "2026-11-19T15:29:12+00:00"}),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(
+            "modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon"
+        )
+        stale = (datetime.now(UTC) - timedelta(minutes=27)).isoformat()
+        monkeypatch.setattr(
+            "modules.bof_delivery.beacon_last_seen",
+            lambda client_id, config=None, payload=None: stale,
+        )
+        assert lazy_handoff._beacon_is_live("172.17.0.2", tmp_path) is False
+
+
+class TestSkipReason:
+    @staticmethod
+    def _enable(monkeypatch) -> None:
+        monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
+        monkeypatch.setenv(lazy_handoff.HANDOFF_ENV, "1")
+        monkeypatch.setattr(
+            "core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True}
+        )
+
+    def test_pending_marker_reason(self, monkeypatch, tmp_path):
+        self._enable(monkeypatch)
+        lines = []
+        lazy_handoff._marker_path("10.0.0.2", tmp_path).write_text(
+            json.dumps({"status": "pending"}), encoding="utf-8"
+        )
+        lazy_handoff._log_skip_reason("10.0.0.2", tmp_path, lines.append)
+        assert any("in flight" in line for line in lines)
+
+    def test_live_beacon_reason(self, monkeypatch, tmp_path):
+        self._enable(monkeypatch)
+        lines = []
+        lazy_handoff._marker_path("10.0.0.2", tmp_path).write_text(
+            json.dumps({"status": "deployed", "client_id": "linux_beacon"}), encoding="utf-8"
+        )
+        monkeypatch.setattr(lazy_handoff, "_beacon_is_live", lambda host, sessions: True)
+        lazy_handoff._log_skip_reason("10.0.0.2", tmp_path, lines.append)
+        assert any("still reporting" in line for line in lines)
+
+    def test_rearm_reason(self, monkeypatch, tmp_path):
+        self._enable(monkeypatch)
+        lines = []
+        lazy_handoff._marker_path("10.0.0.2", tmp_path).write_text(
+            json.dumps({"status": "deployed", "client_id": "linux_beacon"}), encoding="utf-8"
+        )
+        monkeypatch.setattr(lazy_handoff, "_beacon_is_live", lambda host, sessions: False)
+        lazy_handoff._log_skip_reason("10.0.0.2", tmp_path, lines.append)
+        assert any("re-arm" in line for line in lines)
+
+    def test_skip_is_logged_not_silent(self, monkeypatch, tmp_path):
+        self._enable(monkeypatch)
+        lines = []
+        spawns = []
+        monkeypatch.setattr(subprocess, "Popen", lambda *a, **kw: spawns.append(a))
+        lazy_handoff._marker_path("10.0.0.2", tmp_path).write_text(
+            json.dumps({"status": "deployed", "client_id": "linux_beacon"}), encoding="utf-8"
+        )
+        monkeypatch.setattr(lazy_handoff, "_beacon_is_live", lambda host, sessions: True)
+        assert lazy_handoff.maybe_beacon_handoff("10.0.0.2", sessions_dir=tmp_path, log=lines.append) is False
+        assert spawns == []
+        assert any("skipped" in line for line in lines)

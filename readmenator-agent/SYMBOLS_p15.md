@@ -3,8 +3,6 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
-| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
 | `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
 | `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
 | `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
@@ -496,5 +494,7 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
 | `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
 | `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
+| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
+| `main` | function | `modules/img2bin.py:43` | `def main()` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

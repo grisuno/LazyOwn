@@ -3,9 +3,6 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_tls_verify` | function | `cli/commands/c2_session.py:83` | `def _tls_verify()` |
-| `do_c2_deploy` | method | `cli/commands/c2_session.py:268` | `def do_c2_deploy(self, line)` |
-| `do_c2_exec` | method | `cli/commands/c2_session.py:318` | `def do_c2_exec(self, line)` |
 | `do_c2_loot` | method | `cli/commands/c2_session.py:365` | `def do_c2_loot(self, line)` |
 | `do_c2_reboot` | method | `cli/commands/c2_session.py:187` | `def do_c2_reboot(self, line)` |
 | `do_c2_server` | method | `cli/commands/c2_session.py:134` | `def do_c2_server(self, line)` |
@@ -85,36 +82,36 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_c2_quickstart` | method | `cli/commands/command_and_control.py:151` | `def do_c2_quickstart(self, _line)` |
 | `do_c2_status` | method | `cli/commands/command_and_control.py:41` | `def do_c2_status(self, _line)` |
 | `CommandAndControlMigratedCommandSet` | class | `cli/commands/command_and_control_migrated.py:66` | `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)` |
-| `_ability_to_step` | function | `cli/commands/command_and_control_migrated.py:2720` | `def _ability_to_step(ability)` |
+| `_ability_to_step` | function | `cli/commands/command_and_control_migrated.py:2724` | `def _ability_to_step(ability)` |
 | `_api` | function | `cli/commands/command_and_control_migrated.py:570` | `def _api(method, endpoint, payload)` |
-| `_latest_sweep_evidence` | method | `cli/commands/command_and_control_migrated.py:1285` | `def _latest_sweep_evidence(self, target)` |
-| `_load_ability` | function | `cli/commands/command_and_control_migrated.py:2713` | `def _load_ability(ability_file)` |
-| `do_apt_chain` | method | `cli/commands/command_and_control_migrated.py:1836` | `def do_apt_chain(self, line)` |
-| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:2181` | `def do_apt_playbook(self, line)` |
-| `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1556` | `def do_atomic_agent(self, line)` |
-| `do_atomic_clean` | method | `cli/commands/command_and_control_migrated.py:1388` | `def do_atomic_clean(self, line)` |
-| `do_atomic_emulate` | method | `cli/commands/command_and_control_migrated.py:1425` | `def do_atomic_emulate(self, line)` |
-| `do_atomic_gen` | method | `cli/commands/command_and_control_migrated.py:1270` | `def do_atomic_gen(self, line)` |
-| `do_atomic_shell` | method | `cli/commands/command_and_control_migrated.py:1314` | `def do_atomic_shell(self, line)` |
+| `_latest_sweep_evidence` | method | `cli/commands/command_and_control_migrated.py:1289` | `def _latest_sweep_evidence(self, target)` |
+| `_load_ability` | function | `cli/commands/command_and_control_migrated.py:2717` | `def _load_ability(ability_file)` |
+| `do_apt_chain` | method | `cli/commands/command_and_control_migrated.py:1840` | `def do_apt_chain(self, line)` |
+| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:2185` | `def do_apt_playbook(self, line)` |
+| `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1560` | `def do_atomic_agent(self, line)` |
+| `do_atomic_clean` | method | `cli/commands/command_and_control_migrated.py:1392` | `def do_atomic_clean(self, line)` |
+| `do_atomic_emulate` | method | `cli/commands/command_and_control_migrated.py:1429` | `def do_atomic_emulate(self, line)` |
+| `do_atomic_gen` | method | `cli/commands/command_and_control_migrated.py:1274` | `def do_atomic_gen(self, line)` |
+| `do_atomic_shell` | method | `cli/commands/command_and_control_migrated.py:1318` | `def do_atomic_shell(self, line)` |
 | `do_atomic_tests` | method | `cli/commands/command_and_control_migrated.py:1249` | `def do_atomic_tests(self, line)` |
-| `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1659` | `def do_attack_plan(self, line)` |
+| `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1663` | `def do_attack_plan(self, line)` |
 | `do_automsf` | method | `cli/commands/command_and_control_migrated.py:904` | `def do_automsf(self, line)` |
-| `do_beacon_loop` | method | `cli/commands/command_and_control_migrated.py:1485` | `def do_beacon_loop(self, line)` |
+| `do_beacon_loop` | method | `cli/commands/command_and_control_migrated.py:1489` | `def do_beacon_loop(self, line)` |
 | `do_c2` | method | `cli/commands/command_and_control_migrated.py:421` | `def do_c2(self, line)` |
-| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2640` | `def do_caldera(self, line)` |
-| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2781` | `def do_caldera_export(self, line)` |
-| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2689` | `def do_caldera_import(self, line)` |
-| `do_chain_distill` | method | `cli/commands/command_and_control_migrated.py:2131` | `def do_chain_distill(self, line)` |
+| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2644` | `def do_caldera(self, line)` |
+| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2785` | `def do_caldera_export(self, line)` |
+| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2693` | `def do_caldera_import(self, line)` |
+| `do_chain_distill` | method | `cli/commands/command_and_control_migrated.py:2135` | `def do_chain_distill(self, line)` |
 | `do_duckyspark` | method | `cli/commands/command_and_control_migrated.py:984` | `def do_duckyspark(self, line)` |
 | `do_emp3r0r` | method | `cli/commands/command_and_control_migrated.py:1185` | `def do_emp3r0r(self, line)` |
 | `do_empire` | method | `cli/commands/command_and_control_migrated.py:854` | `def do_empire(self, line)` |
-| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2404` | `def do_generate_playbook(self, line)` |
+| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2408` | `def do_generate_playbook(self, line)` |
 | `do_iis_webdav_upload_asp` | method | `cli/commands/command_and_control_migrated.py:949` | `def do_iis_webdav_upload_asp(self, line)` |
 | `do_listener` | method | `cli/commands/command_and_control_migrated.py:543` | `def do_listener(self, line)` |
-| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:2301` | `def do_mitre_test(self, line)` |
+| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:2305` | `def do_mitre_test(self, line)` |
 | `do_msf` | method | `cli/commands/command_and_control_migrated.py:71` | `def do_msf(self, line)` |
 | `do_msfrpc` | method | `cli/commands/command_and_control_migrated.py:713` | `def do_msfrpc(self, line)` |
-| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2583` | `def do_my_playbook(self, line)` |
+| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2587` | `def do_my_playbook(self, line)` |
 | `do_sandbox` | method | `cli/commands/command_and_control_migrated.py:671` | `def do_sandbox(self, line)` |
 | `do_sliver_server` | method | `cli/commands/command_and_control_migrated.py:737` | `def do_sliver_server(self, line)` |
 | `select_agent_flavour` | function | `cli/commands/command_and_control_migrated.py:43` | `def select_agent_flavour(run_tests, platform)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_range_wait_healthy` | method | `cli/commands/lab.py:321` | `def _range_wait_healthy(self, compose, timeout)` |
 | `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
 | `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
+| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
+| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
+| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:22` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

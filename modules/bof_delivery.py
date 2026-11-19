@@ -1019,15 +1019,21 @@ def queue_to_beacon(
 def recent_beacons(
     config: BofDeliveryConfig | None = None,
     payload: dict[str, Any] | None = None,
+    live_only: bool = False,
 ) -> list[dict[str, Any]]:
     """Return the beacons currently seen by the C2.
 
     Queries the authenticated ``/api/dashboard`` endpoint; falls back to
-    the on-disk beacon history files when the C2 is not reachable.
+    the on-disk beacon history files when the C2 is not reachable. With
+    ``live_only`` the disk fallback is skipped so a stale sessions
+    directory can never fake a connected beacon — the honest answer for
+    liveness decisions, since a dead container leaves fresh-looking
+    history behind.
 
     Args:
         config: Optional delivery configuration override.
         payload: Optional payload.json mapping override (tests).
+        live_only: Skip the disk-history fallback.
 
     Returns:
         A list of ``{client_id, hostname, user, last_seen}`` dicts.
@@ -1053,7 +1059,57 @@ def recent_beacons(
             return [item if isinstance(item, dict) else {"client_id": str(item)} for item in beacons]
     except Exception as exc:
         log.debug("dashboard query failed: %s", exc)
+    if live_only:
+        return []
     return _beacons_from_history(cfg)
+
+
+def beacon_last_seen(
+    client_id: str,
+    config: BofDeliveryConfig | None = None,
+    payload: dict[str, Any] | None = None,
+) -> str:
+    """Return the last-report timestamp the C2 holds for one beacon.
+
+    Queries the live ``/api/data`` endpoint: the C2's in-memory results
+    map is ground truth for what it actually received last, and a
+    destroyed container simply stops refreshing its entry. There is no
+    disk fallback, so stale history files can never fake a connected
+    implant.
+
+    Args:
+        client_id: Beacon client id (validated).
+        config: Optional delivery configuration override.
+        payload: Optional payload.json mapping override (tests).
+
+    Returns:
+        UTC ISO-8601 timestamp string, or "" when the C2 is unreachable
+        or the beacon is unknown to it.
+    """
+    from core.config import load_payload
+
+    clean_id = sanitize_client_id(client_id)
+    cfg = config or BofDeliveryConfig()
+    data = payload if payload is not None else load_payload()
+    base = _c2_channel_base(cfg, data)
+    user = str(data.get("c2_user", "LazyOwn"))
+    password = str(data.get("c2_pass", "LazyOwn"))
+    url = f"{base}/api/data"
+    auth = base64.b64encode(f"{user}:{password}".encode()).decode()
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    request = urllib.request.Request(url, headers={"Authorization": f"Basic {auth}"})
+    try:
+        with urllib.request.urlopen(request, timeout=cfg.request_timeout, context=context) as response:
+            body = json.loads(response.read().decode("utf-8", "replace"))
+    except Exception as exc:
+        log.debug("beacon last-seen query failed at %s: %s", url, exc)
+        return ""
+    record = (body.get("results") or {}).get(clean_id)
+    if isinstance(record, dict):
+        return str(record.get("timestamp", "") or "")
+    return ""
 
 
 def _beacons_from_history(config: BofDeliveryConfig) -> list[dict[str, Any]]:

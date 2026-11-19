@@ -1,6 +1,22 @@
 # Subsystem: modules (page 18 of 19)
 Previous: [KB_modules_p17.md](KB_modules_p17.md)
 
+## modules/session_state.py
+- Doc: LazyOwn Session State
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_detect_phase` (function, line 50) `def _detect_phase(event_types)`
+  - `_read_last_commands` (function, line 75) `def _read_last_commands(n)`
+  - `_read_events` (function, line 93) `def _read_events(n)`
+  - `_extract_creds_from_events` (function, line 118) `def _extract_creds_from_events(events)`
+  - `_extract_hosts` (function, line 133) `def _extract_hosts(rows, payload)`
+  - `_summarise_commands` (function, line 175) `def _summarise_commands(rows)`
+  - `build_state` (function, line 189) `def build_state()`
+  - `refresh` (function, line 240) `def refresh()`
+  - `load` (function, line 251) `def load()`
+- Imported by: `modules/recommender.py`
+
 ## modules/shell_session_store.py
 - Doc: Resumable, hash-identified shell session descriptors.
 - Layer: data_access
@@ -444,47 +460,6 @@ Previous: [KB_modules_p17.md](KB_modules_p17.md)
   - `_load_state` (method, line 248) `def _load_state(self)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/caldera.py`
-
-## modules/ttpscope_bridge.py
-- Doc: Secure bridge for the TTPScope MITRE ATT&CK research client.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `locate_binary` (function, line 82) `def locate_binary()`
-  - `validate_object_id` (function, line 92) `def validate_object_id(raw)`
-  - `validate_query` (function, line 100) `def validate_query(raw)`
-  - `validate_platform` (function, line 112) `def validate_platform(raw)`
-  - `_slug` (function, line 123) `def _slug(text)`
-  - `_run_ttpscope` (function, line 129) `def _run_ttpscope(args)`
-  - `_cache_dataset_path` (function, line 146) `def _cache_dataset_path()`
-  - `_fallback_sync` (function, line 153) `def _fallback_sync()`
-  - `_load_stix_bundle` (function, line 193) `def _load_stix_bundle()`
-  - `_stix_external_id` (function, line 211) `def _stix_external_id(obj)`
-  - `_stix_index` (function, line 219) `def _stix_index(bundle)`
-  - `_fallback_search_bundle` (function, line 235) `def _fallback_search_bundle(query, limit)`
-  - `_load_parquet` (function, line 259) `def _load_parquet(name)`
-  - `_load_atomic_parquet` (function, line 273) `def _load_atomic_parquet()`
-  - `_fallback_search_parquet` (function, line 282) `def _fallback_search_parquet(query, limit)`
-  - `_fallback_show_bundle` (function, line 303) `def _fallback_show_bundle(object_id)`
-  - `_fallback_show_parquet` (function, line 350) `def _fallback_show_parquet(object_id)`
-  - `_fallback_matrix_bundle` (function, line 384) `def _fallback_matrix_bundle(platform)`
-  - `_notes_dir` (function, line 415) `def _notes_dir()`
-  - `_fallback_note` (function, line 422) `def _fallback_note(object_id, text)`
-  - `_fallback_notes` (function, line 442) `def _fallback_notes(object_id)`
-  - `_fallback_matrix_parquet` (function, line 453) `def _fallback_matrix_parquet(platform)`
-  - `_stage` (function, line 485) `def _stage(action, slug, stdout, extra)`
-  - `do_sync` (function, line 497) `def do_sync()`
-  - `do_search` (function, line 508) `def do_search(query)`
-  - `do_show` (function, line 520) `def do_show(object_id)`
-  - `do_matrix` (function, line 535) `def do_matrix(platform)`
-  - `do_note` (function, line 551) `def do_note(object_id, text)`
-  - `do_notes` (function, line 570) `def do_notes(object_id)`
-  - `do_chain` (function, line 582) `def do_chain(object_id, platform, limit)`
-  - `run_action` (function, line 652) `def run_action(action)`
-  - `main` (function, line 679) `def main()`
-  - `_as_list` (function, line 460) `def _as_list(value)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
-- Imported by: `skills/mcp_tools/ttp_chain.py`
 
 
 Next: [KB_modules_p19.md](KB_modules_p19.md)

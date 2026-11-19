@@ -113,6 +113,7 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
 ## modules/lazy_handoff.py
 - Doc: Foothold-to-beacon handoff for the autonomous loop.
+- Layer: utility
 - Language: py
 - Symbols:
   - `handoff_enabled` (function, line 52) `def handoff_enabled(payload)`

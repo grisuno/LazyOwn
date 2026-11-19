@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_is_vetoed_uses_first_token` | function | `tests/test_daemon_control.py:135` | `def test_is_vetoed_uses_first_token(sessions_dir)` |
+| `test_load_returns_defaults_on_invalid_json` | function | `tests/test_daemon_control.py:342` | `def test_load_returns_defaults_on_invalid_json(sessions_dir)` |
+| `test_pause_resume_round_trip` | function | `tests/test_daemon_control.py:102` | `def test_pause_resume_round_trip(sessions_dir)` |
+| `test_pending_action_is_expired_only_when_still_pending` | function | `tests/test_daemon_control.py:209` | `def test_pending_action_is_expired_only_when_still_pending()` |
+| `test_propose_decide_consume_cycle` | function | `tests/test_daemon_control.py:163` | `def test_propose_decide_consume_cycle(sessions_dir)` |
+| `test_save_writes_atomic_file_with_restricted_mode` | function | `tests/test_daemon_control.py:331` | `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)` |
+| `test_set_focus_replaces_list` | function | `tests/test_daemon_control.py:143` | `def test_set_focus_replaces_list(sessions_dir)` |
+| `test_set_mode_persists_and_normalises_invalid` | function | `tests/test_daemon_control.py:63` | `def test_set_mode_persists_and_normalises_invalid(sessions_dir)` |
+| `test_state_from_dict_preserves_pending` | function | `tests/test_daemon_control.py:80` | `def test_state_from_dict_preserves_pending()` |
+| `test_state_from_dict_sanitises_unknown_mode` | function | `tests/test_daemon_control.py:74` | `def test_state_from_dict_sanitises_unknown_mode()` |
+| `test_target_in_focus_defaults_to_true_when_no_focus` | function | `tests/test_daemon_control.py:153` | `def test_target_in_focus_defaults_to_true_when_no_focus(sessions_dir)` |
+| `test_wait_for_decision_expires_after_ttl` | function | `tests/test_daemon_control.py:237` | `def test_wait_for_decision_expires_after_ttl(sessions_dir)` |
+| `test_wait_for_decision_polls_until_decided` | function | `tests/test_daemon_control.py:252` | `def test_wait_for_decision_polls_until_decided(sessions_dir)` |
+| `test_wait_for_decision_returns_approved` | function | `tests/test_daemon_control.py:221` | `def test_wait_for_decision_returns_approved(sessions_dir)` |
+| `test_wait_until_unpaused_returns_false_after_max_wait` | function | `tests/test_daemon_control.py:288` | `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)` |
+| `test_wait_until_unpaused_returns_true_after_resume` | function | `tests/test_daemon_control.py:310` | `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)` |
+| `test_wait_until_unpaused_returns_true_when_already_running` | function | `tests/test_daemon_control.py:274` | `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)` |
+| `DaemonSuiteConfig` | class | `tests/test_daemon_ctl_command_set.py:34` | `class DaemonSuiteConfig` |
+| `_add_repo_root_to_syspath` | function | `tests/test_daemon_ctl_command_set.py:28` | `def _add_repo_root_to_syspath()` |
+| `_methods_of` | function | `tests/test_daemon_ctl_command_set.py:53` | `def _methods_of(path, class_name)` |
+| `test_no_command_collisions_with_source` | function | `tests/test_daemon_ctl_command_set.py:100` | `def test_no_command_collisions_with_source()` |
 | `test_registry_registers_target` | function | `tests/test_daemon_ctl_command_set.py:93` | `def test_registry_registers_target()` |
 | `test_source_no_longer_defines_cluster` | function | `tests/test_daemon_ctl_command_set.py:87` | `def test_source_no_longer_defines_cluster()` |
 | `test_target_exposes_full_daemon_cluster` | function | `tests/test_daemon_ctl_command_set.py:74` | `def test_target_exposes_full_daemon_cluster()` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 | `test_shows_nothing_when_all_run` | method | `tests/test_engagement_and_ping.py:436` | `def test_shows_nothing_when_all_run(self, tmp_path)` |
 | `test_shows_unrun_commands` | method | `tests/test_engagement_and_ping.py:411` | `def test_shows_unrun_commands(self, tmp_path, capsys)` |
 | `test_threshold_is_variable_not_constant` | method | `tests/test_engagement_and_ping.py:120` | `def test_threshold_is_variable_not_constant(self)` |
-| `test_ttl_127_maps_to_os_id_2_windows` | method | `tests/test_engagement_and_ping.py:309` | `def test_ttl_127_maps_to_os_id_2_windows(self)` |
-| `test_ttl_128_maps_to_os_id_2_windows` | method | `tests/test_engagement_and_ping.py:302` | `def test_ttl_128_maps_to_os_id_2_windows(self)` |
-| `test_ttl_255_maps_to_unknown` | method | `tests/test_engagement_and_ping.py:323` | `def test_ttl_255_maps_to_unknown(self)` |
-| `test_ttl_63_maps_to_os_id_1_linux` | method | `tests/test_engagement_and_ping.py:316` | `def test_ttl_63_maps_to_os_id_1_linux(self)` |
-| `test_ttl_64_maps_to_os_id_1_linux` | method | `tests/test_engagement_and_ping.py:295` | `def test_ttl_64_maps_to_os_id_1_linux(self)` |
-| `test_vri_does_not_fire_before_threshold` | method | `tests/test_engagement_and_ping.py:152` | `def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys)` |
-| `test_vri_fires_when_threshold_reached` | method | `tests/test_engagement_and_ping.py:126` | `def test_vri_fires_when_threshold_reached(self, tmp_path, capsys)` |
-| `TestHealCommandsSeen` | class | `tests/test_engagement_command_gate.py:187` | `class TestHealCommandsSeen` |
-| `TestHookRejectsNoise` | class | `tests/test_engagement_command_gate.py:106` | `class TestHookRejectsNoise` |
-| `TestIsRecordableCommand` | class | `tests/test_engagement_command_gate.py:68` | `class TestIsRecordableCommand` |
-| `TestSanitizeSeen` | class | `tests/test_engagement_command_gate.py:141` | `class TestSanitizeSeen` |
-| `_redirect_paths` | function | `tests/test_engagement_command_gate.py:34` | `def _redirect_paths(tmp_path)` |
-| `_restore_paths` | function | `tests/test_engagement_command_gate.py:56` | `def _restore_paths(saved)` |
-| `test_accepts_command_shaped_tokens` | method | `tests/test_engagement_command_gate.py:72` | `def test_accepts_command_shaped_tokens(self, cmd)` |
-| `test_do_prefixed_input_is_accepted` | method | `tests/test_engagement_command_gate.py:91` | `def test_do_prefixed_input_is_accepted(self)` |
-| `test_garbage_does_not_enter_commands_seen` | method | `tests/test_engagement_command_gate.py:109` | `def test_garbage_does_not_enter_commands_seen(self, tmp_path)` |
-| `test_idempotent_on_clean_state` | method | `tests/test_engagement_command_gate.py:207` | `def test_idempotent_on_clean_state(self, tmp_path)` |
-| `test_load_state_heals_polluted_file` | method | `tests/test_engagement_command_gate.py:165` | `def test_load_state_heals_polluted_file(self, tmp_path)` |
-| `test_normalize_is_idempotent` | method | `tests/test_engagement_command_gate.py:96` | `def test_normalize_is_idempotent(self)` |
-| `test_purges_and_persists` | method | `tests/test_engagement_command_gate.py:190` | `def test_purges_and_persists(self, tmp_path)` |
-| `test_quoted_path_rejected` | method | `tests/test_engagement_command_gate.py:86` | `def test_quoted_path_rejected(self)` |
 
 Next: [SYMBOLS_p42.md](SYMBOLS_p42.md)

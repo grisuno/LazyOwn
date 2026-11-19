@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 167 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, _auto_pwn_cover_all, plausible_command. exploit commands migrated from lazyown.py.
+modules: lazy_loop groups 152 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, _auto_pwn_cover_all, plausible_command. Lazy autonomous loop commands (single orchestrator, lazy_* surface).
 
 ```mermaid
 graph LR
@@ -10,9 +10,9 @@ graph LR
     modules["modules"]
     skills["skills"]
     tests["tests"]
-    cli -- "depends on" --> core
     cli -- "calls into" --> modules
     core -- "calls into" --> modules
+    lazyc2 -- "calls into" --> core
     lazyc2 -- "calls into" --> modules
     modules -- "calls into" --> cli
     modules -- "calls into" --> core
@@ -27,50 +27,45 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (2.1)
+## cli (4.1)
 
-cli groups 6 files (py) around ExploitMigratedCommandSet, do_cp, do_createcookie, do_py3ttyup, do_pyautomate. exploit commands migrated from lazyown.py.
+cli groups 4 files (py) around PromptModal, __init__, compose, on_input_submitted, action_dismiss. Lazy autonomous loop commands (single orchestrator, lazy_* surface).
 
-## core (2.2)
+## core (4.2)
 
-core groups 3 files (py) around _unique_tmp, _ensure_parent, write_bytes_atomic, write_text_atomic, file_lock. Shared atomic file primitives for the loop's small JSON and blob stores.
+core groups 3 files (py) around _unique_tmp, _ensure_parent, write_bytes_atomic, write_text_atomic, file_lock. Tenant-bound API authorization for the LazyOwn C2 dashboard.
 
-## lazyc2 (2.3)
+## lazyc2 (4.3)
 
-lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _status_payload, status. Orchestrator REST + web panel for the LazyOwn C2 dashboard.
+lazyc2 groups 2 files (py) around HealthConfig, _health_status, _listener_alive, health, ping. API blueprint for the LazyOwn C2 server.
 
-## modules (2.4)
+## modules (4.4)
 
-modules groups 72 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, _auto_pwn_cover_all, plausible_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 61 files (py) around _record_deviation, planner_temperature, wire_capture_enabled, _auto_pwn_cover_all, plausible_command. Persistent memory for the auto loop.
 
-## skills (2.5)
+## skills (4.5)
 
-skills groups 11 files (py) around _loop_line, _render, handle, handle, handle. MCP tool ``lazyown_auto_loop`` (single runner, one path with the CLI).
+skills groups 10 files (py) around _loop_line, _render, handle, handle, handle. MCP tool ``lazyown_auto_loop`` (single runner, one path with the CLI).
 
-## tests (2.6)
+## tests (4.6)
 
-tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_reload, test_blocked_after_threshold_by_base, test_veto_blocks_immediately_and_persists, test_trims_to_capacity. BDD tests for the auto-loop persistent memory and selector cascade.
+tests groups 72 files (py) around TestApiAuthzConfig, test_defaults_are_secure_by_default, test_custom_overrides_preserve_typed_semantics, TestApiKey, test_serialization_roundtrip_preserves_all_fields. Tests for ``core.api_authz`` — tenant-bound API authorization.
 
 **Files**:
 
-- cli/commands/exploit_migrated.py
 - cli/commands/lazyops.py
-- cli/commands/mcp_bridge.py
-- cli/exploit_advisor.py
+- cli/headless.py
 - cli/lazy_monitor.py
 - cli/session_brief.py
+- core/api_authz.py
 - core/atomic_store.py
-- core/autonomous.py
 - core/terminal_guard.py
+- lazyc2/blueprints/api.py
 - lazyc2/blueprints/orchestrator.py
-- modules/adcs_attacks.py
 - modules/auto_loop_memory.py
-- modules/auto_registry.py
-- modules/chain_family.py
 - modules/custom_tools.py
 - modules/digest.py
 - modules/evidence_store.py
-- modules/exploit_chain.py
 - modules/finding_enrich.py
 - modules/guard_rules.py
 - modules/jsonl_tail.py
@@ -79,14 +74,12 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/lazy_commander.py
 - modules/lazy_drafts.py
 - modules/lazy_engine.py
-- modules/lazy_hostscore.py
 - modules/lazy_installer.py
 - modules/lazy_intel.py
 - modules/lazy_loop.py
 - modules/lazy_mentions.py
 - modules/lazy_objective_queue.py
 - modules/lazy_orchestrator_feedback.py
-- modules/lazy_osinfer.py
 - modules/lazy_proxy.py
 - modules/lazy_reaper.py
 - modules/lazy_roles.py
@@ -94,7 +87,6 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/lazy_sandbox.py
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
-- modules/lazy_world_diff.py
 - modules/loop/__init__.py
 - modules/loop/engine_proxy.py
 - modules/loop/triage_scheduler.py
@@ -113,7 +105,6 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/mediation/hub.py
 - modules/mediation/intel_mediator.py
 - modules/mediation/telemetry_mediator.py
-- modules/nmap_fingerprint.py
 - modules/notify.py
 - modules/outcome_attribution.py
 - modules/progress_ledger.py
@@ -121,12 +112,9 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/scan_brief.py
 - modules/selector_manager.py
 - modules/selfupdate.py
-- modules/service_aliases.py
 - modules/sidequest.py
 - modules/sidequestion.py
 - modules/sinks/chain_feed.py
-- modules/sinks/world_diff.py
-- modules/threat_model.py
 - modules/tools/__init__.py
 - modules/tools/loop_smoke.py
 - modules/tools/monitor_smoke.py
@@ -136,7 +124,6 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - modules/wire_capture.py
 - modules/workspace.py
 - skills/mcp_tools/auto_loop.py
-- skills/mcp_tools/lazy_addon.py
 - skills/mcp_tools/lazy_board.py
 - skills/mcp_tools/lazy_compact.py
 - skills/mcp_tools/lazy_delete.py
@@ -146,11 +133,10 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - skills/mcp_tools/lazy_proxy.py
 - skills/mcp_tools/lazy_trace.py
 - skills/mcp_tools/loop_smoke.py
+- tests/test_api_authz.py
 - tests/test_auto_loop_memory.py
-- tests/test_auto_registry.py
 - tests/test_autonomous_ops.py
-- tests/test_chain_family.py
-- tests/test_chain_list_command.py
+- tests/test_core_defaults.py
 - tests/test_engine_mediator.py
 - tests/test_evidence_store.py
 - tests/test_exploration_graph_concurrency.py
@@ -165,20 +151,18 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - tests/test_lazy_continuation.py
 - tests/test_lazy_engine.py
 - tests/test_lazy_evidence.py
-- tests/test_lazy_hostscore.py
 - tests/test_lazy_loop.py
 - tests/test_lazy_proxy.py
 - tests/test_lazy_reaper.py
 - tests/test_lazy_runner.py
 - tests/test_lazy_scope.py
-- tests/test_lazy_world_diff.py
-- tests/test_loop_auto_orchestrator.py
 - tests/test_loop_broadcast.py
 - tests/test_loop_budget.py
 - tests/test_loop_cli_catalog.py
 - tests/test_loop_cold_overview.py
 - tests/test_loop_decision_log.py
 - tests/test_loop_deterministic_mode.py
+- tests/test_loop_exit_gate.py
 - tests/test_loop_force_graph.py
 - tests/test_loop_guard_audit.py
 - tests/test_loop_guardrails.py
@@ -194,6 +178,7 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - tests/test_loop_store_race.py
 - tests/test_loop_supervision.py
 - tests/test_loop_target_authority.py
+- tests/test_loop_technique_deterministic.py
 - tests/test_loop_trigger_hints.py
 - tests/test_loop_worker_traces.py
 - tests/test_mcp_auto_loop_wrapper.py
@@ -215,8 +200,8 @@ tests groups 74 files (py) around TestFailureMemory, test_counts_persist_across_
 - tests/test_sidequest.py
 - tests/test_sink_chain_feed.py
 - tests/test_stall_dump.py
+- tests/test_target_os.py
 - tests/test_triage_scheduler.py
 - tests/test_trigger_policy.py
 - tests/test_wire_capture.py
-- tests/test_world_diff_retest.py
 - tests/test_writeback_hygiene.py

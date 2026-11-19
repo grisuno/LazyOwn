@@ -1,4 +1,4 @@
-# API (page 24 of 30)
+# API (page 24 of 29)
 Previous: [API_p23.md](API_p23.md)
 
 ## skills/mcp_tools/atomic_search.py

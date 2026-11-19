@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestGraphEdgeItem` | class | `tests/test_lazygui_graph_widget.py:181` | `class TestGraphEdgeItem` |
+| `TestGraphNodeItem` | class | `tests/test_lazygui_graph_widget.py:114` | `class TestGraphNodeItem` |
+| `TestGraphNodeItemWithIcon` | class | `tests/test_lazygui_graph_widget.py:360` | `class TestGraphNodeItemWithIcon` |
+| `TestGraphScene` | class | `tests/test_lazygui_graph_widget.py:212` | `class TestGraphScene` |
+| `TestGraphView` | class | `tests/test_lazygui_graph_widget.py:307` | `class TestGraphView` |
+| `TestGraphViewWithDatabaseFixture` | class | `tests/test_lazygui_graph_widget.py:333` | `class TestGraphViewWithDatabaseFixture` |
+| `TestRadiusResolution` | class | `tests/test_lazygui_graph_widget.py:79` | `class TestRadiusResolution` |
+| `_capture` | function | `tests/test_lazygui_graph_widget.py:296` | `def _capture(nid, pos)` |
+| `_cb` | function | `tests/test_lazygui_graph_widget.py:149` | `def _cb(nid)` |
+| `_cb` | function | `tests/test_lazygui_graph_widget.py:163` | `def _cb(nid, pos)` |
+| `_get_qapp` | function | `tests/test_lazygui_graph_widget.py:36` | `def _get_qapp()` |
+| `test_all_keys_present` | method | `tests/test_lazygui_graph_widget.py:109` | `def test_all_keys_present(self)` |
+| `test_beacon_color` | method | `tests/test_lazygui_graph_widget.py:50` | `def test_beacon_color(self)` |
+| `test_beacon_radius` | method | `tests/test_lazygui_graph_widget.py:86` | `def test_beacon_radius(self)` |
+| `test_c2_color` | method | `tests/test_lazygui_graph_widget.py:46` | `def test_c2_color(self)` |
+| `test_c2_radius` | method | `tests/test_lazygui_graph_widget.py:82` | `def test_c2_radius(self)` |
+| `test_callback_on_context_menu` | method | `tests/test_lazygui_graph_widget.py:157` | `def test_callback_on_context_menu(self)` |
+| `test_callback_on_selected` | method | `tests/test_lazygui_graph_widget.py:144` | `def test_callback_on_selected(self)` |
+| `test_construction` | method | `tests/test_lazygui_graph_widget.py:117` | `def test_construction(self)` |
+| `test_construction` | method | `tests/test_lazygui_graph_widget.py:215` | `def test_construction(self)` |
+| `test_construction` | method | `tests/test_lazygui_graph_widget.py:310` | `def test_construction(self)` |
 | `test_construction_with_nodes` | method | `tests/test_lazygui_graph_widget.py:184` | `def test_construction_with_nodes(self)` |
 | `test_default_radius` | method | `tests/test_lazygui_graph_widget.py:101` | `def test_default_radius(self)` |
 | `test_fit_to_content` | method | `tests/test_lazygui_graph_widget.py:325` | `def test_fit_to_content(self)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 | `test_worker_annotates_detection_and_records_outcome` | function | `tests/test_loop_ai_bridge.py:74` | `def test_worker_annotates_detection_and_records_outcome(store, bridge, monkeypatch)` |
 | `test_worker_blocks_on_opsec_gate` | function | `tests/test_loop_ai_bridge.py:207` | `def test_worker_blocks_on_opsec_gate(store, bridge, monkeypatch)` |
 | `test_worker_confirms_via_intercept_on_opsec_confirm` | function | `tests/test_loop_ai_bridge.py:239` | `def test_worker_confirms_via_intercept_on_opsec_confirm(store, bridge, monkeypatch)` |
-| `update` | method | `tests/test_loop_ai_bridge.py:186` | `def update(self, state, action, reward, next_state, candidates, detection_prob)` |
-| `audit_dir` | function | `tests/test_loop_audit.py:11` | `def audit_dir(tmp_path, monkeypatch)` |
-| `test_blocked_events` | function | `tests/test_loop_audit.py:86` | `def test_blocked_events(audit_dir)` |
-| `test_cap_trims_oldest` | function | `tests/test_loop_audit.py:172` | `def test_cap_trims_oldest(audit_dir, monkeypatch)` |
-| `test_list_runs_summarizes` | function | `tests/test_loop_audit.py:145` | `def test_list_runs_summarizes(audit_dir)` |
-| `test_output_tail_bounded_and_ansi_stripped` | function | `tests/test_loop_audit.py:74` | `def test_output_tail_bounded_and_ansi_stripped(audit_dir)` |
-| `test_record_appends_events` | function | `tests/test_loop_audit.py:20` | `def test_record_appends_events(audit_dir)` |
-| `test_record_command_carries_step_context` | function | `tests/test_loop_audit.py:35` | `def test_record_command_carries_step_context(audit_dir)` |
-| `test_record_command_detects_failure` | function | `tests/test_loop_audit.py:65` | `def test_record_command_detects_failure(audit_dir)` |
-| `test_registry_start_and_stop` | function | `tests/test_loop_audit.py:96` | `def test_registry_start_and_stop(audit_dir)` |
-| `test_render_shows_verdict_and_run_end` | function | `tests/test_loop_audit.py:132` | `def test_render_shows_verdict_and_run_end(audit_dir)` |
-| `test_render_summary_empty` | function | `tests/test_loop_audit.py:166` | `def test_render_summary_empty(audit_dir)` |
-| `test_timeline_merges_guard_and_activity` | function | `tests/test_loop_audit.py:106` | `def test_timeline_merges_guard_and_activity(audit_dir, monkeypatch)` |
-| `_write_run` | function | `tests/test_loop_audit_feedback.py:29` | `def _write_run(task_id)` |
-| `audit` | function | `tests/test_loop_audit_feedback.py:24` | `def audit(tmp_path, monkeypatch)` |
-| `test_blocked_verbs_empty_for_unknown_task` | function | `tests/test_loop_audit_feedback.py:51` | `def test_blocked_verbs_empty_for_unknown_task(audit)` |
-| `test_blocked_verbs_ignores_executed_commands` | function | `tests/test_loop_audit_feedback.py:55` | `def test_blocked_verbs_ignores_executed_commands(audit)` |
-| `test_blocked_verbs_returns_repeat_offenders` | function | `tests/test_loop_audit_feedback.py:39` | `def test_blocked_verbs_returns_repeat_offenders(audit)` |
-| `test_blocked_verbs_threshold_respected` | function | `tests/test_loop_audit_feedback.py:45` | `def test_blocked_verbs_threshold_respected(audit)` |
-| `_Shell` | class | `tests/test_loop_auto_orchestrator.py:59` | `class _Shell` |
-| `_Shell` | class | `tests/test_loop_auto_orchestrator.py:131` | `class _Shell` |
 
 Next: [SYMBOLS_p47.md](SYMBOLS_p47.md)

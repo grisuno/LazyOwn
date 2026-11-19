@@ -2,9 +2,6 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
-- `modules/intelligence_engine.py` -> `modules/integrations/nuclei_parser.py`
-- `modules/intelligence_engine.py` -> `modules/lazy_heat.py`
-- `modules/intelligence_engine.py` -> `modules/obs_parser.py`
 - `modules/intelligence_engine.py` -> `modules/world_model.py`
 - `modules/intelligence_engine.py` -> `modules/yara_scanner.py`
 - `modules/intercept.py` -> `cli/commands/enum.py`
@@ -223,6 +220,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_execution.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_gating.py`
+- `modules/loop/__init__.py` -> `modules/loop/worker_lazymode.py`
 - `modules/loop/__init__.py` -> `modules/loop/worker_memory.py`
 - `modules/loop/control_plane.py` -> `core/logging.py`
 - `modules/loop/daemon_reward.py` -> `modules/atomic_exploit_bridge.py`
@@ -254,6 +252,9 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/loop/worker_gating.py` -> `modules/intercept.py`
 - `modules/loop/worker_gating.py` -> `modules/lazy_loop.py`
 - `modules/loop/worker_gating.py` -> `utils.py`
+- `modules/loop/worker_lazymode.py` -> `core/config.py`
+- `modules/loop/worker_lazymode.py` -> `modules/lazy_loop.py`
+- `modules/loop/worker_lazymode.py` -> `sdk/lazymode/__init__.py`
 - `modules/loop/worker_memory.py` -> `modules/auto_loop_memory.py`
 - `modules/loop/worker_memory.py` -> `modules/lazy_loop.py`
 - `modules/loop/worker_memory.py` -> `modules/loop_guardrails.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `modules/state_manager.py` -> `modules/world_model.py`
 - `modules/sudo_tiocsti.py` -> `core/logging.py`
 - `modules/surface_ops.py` -> `modules/world_model.py`
-- `modules/test_lazyencoder_decoder.py` -> `modules/lazyencoder_decoder.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

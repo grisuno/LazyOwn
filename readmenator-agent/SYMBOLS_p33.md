@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
+| `isInFlow` | function | `static/js/html2pdf.bundle.min.js:4674` | `` |
+| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
+| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
+| `isInlineBlockOrInlineTable` | function | `static/js/html2pdf.bundle.min.js:4719` | `` |
+| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
+| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
+| `isInlineLevel` | function | `static/js/html2pdf.bundle.min.js:4714` | `` |
+| `isPercentage` | function | `static/js/html2pdf.bundle.min.js:960` | `` |
+| `isPositioned` | function | `static/js/html2pdf.bundle.min.js:4689` | `` |
+| `isPositionedWithZIndex` | function | `static/js/html2pdf.bundle.min.js:4709` | `` |
+| `isRootElement` | function | `static/js/html2pdf.bundle.min.js:4699` | `` |
+| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
 | `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
 | `isSameOrigin` | function | `static/js/html2pdf.bundle.min.js:6059` | `` |
 | `isTransformed` | function | `static/js/html2pdf.bundle.min.js:4704` | `` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `h` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `r` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `s` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `wt` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `e` | function | `static/js/tippy-6.js:1` | `` |
-| `r` | function | `static/js/tippy-6.js:1` | `` |
-| `u` | function | `static/js/tippy-6.js:1` | `` |
-| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Bk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Bx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

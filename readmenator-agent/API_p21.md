@@ -1,4 +1,4 @@
-# API (page 21 of 30)
+# API (page 21 of 29)
 Previous: [API_p20.md](API_p20.md)
 
 ## modules/vuln_bot_cli.py
@@ -366,7 +366,7 @@ Depends on: `poc_tui/config.py`
 
 ## poc_tui/run.py
 Depends on: `poc_tui/app.py`
-Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `static/hexabot/hexabot-spinner.js`
+Imported by: `static/hexabot/hexabot-spinner.js`
 - `main` (function) `poc_tui/run.py:9` `def main()`
 
 ## readmeneitor.py

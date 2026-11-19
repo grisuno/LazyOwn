@@ -64,7 +64,7 @@ class _WorkerHarness:
         worker.traffic = _Traffic()
         worker.activity = loop.ActivityLog("t0002")
         worker.shell = _ShellNone()
-        loop.Worker.task_id = property(lambda self: self.graph.task_id)
+        worker.task_id = worker.graph.task_id
         return worker, transcripts
 
 

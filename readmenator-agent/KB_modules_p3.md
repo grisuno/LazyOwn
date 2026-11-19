@@ -1,32 +1,101 @@
 # Subsystem: modules (page 3 of 19)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
+## modules/browser_sync.py
+- Doc: Browser identity sync between the operator browser and the recorder proxy.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sessions_dir` (function, line 71) `def _sessions_dir()`
+  - `_profile_path` (function, line 77) `def _profile_path()`
+  - `_jar_path` (function, line 82) `def _jar_path()`
+  - `_rules_path` (function, line 87) `def _rules_path()`
+  - `_token_path` (function, line 92) `def _token_path()`
+  - `_sanitize_header_value` (function, line 97) `def _sanitize_header_value(value)`
+  - `token` (function, line 112) `def token(create)`
+  - `reset_token` (function, line 138) `def reset_token()`
+  - `load_profile` (function, line 151) `def load_profile()`
+  - `profile_stats` (function, line 164) `def profile_stats()`
+  - `cookie_matches_host` (function, line 183) `def cookie_matches_host(cookie, host)`
+  - `cookie_matches_path` (function, line 202) `def cookie_matches_path(cookie, request_path)`
+  - `cookie_expired` (function, line 226) `def cookie_expired(cookie, now)`
+  - `cookies_for_host` (function, line 248) `def cookies_for_host(profile, host, path, scheme)`
+  - `build_cookie_header` (function, line 285) `def build_cookie_header(existing, cookies)`
+  - `_netscape_line` (function, line 317) `def _netscape_line(cookie)`
+  - `write_netscape_jar` (function, line 340) `def write_netscape_jar(profile, path)`
+  - `jar_path` (function, line 362) `def jar_path()`
+  - `_load_rules_cached` (function, line 367) `def _load_rules_cached()`
+  - `_read_payload_cached` (function, line 393) `def _read_payload_cached()`
+  - `_payload_inject_enabled` (function, line 413) `def _payload_inject_enabled()`
+  - `apply_rules` (function, line 418) `def apply_rules(headers, body)`
+  - `apply_identity_headers` (function, line 475) `def apply_identity_headers(host, headers, body, path, scheme)`
+  - `_profile_cache_get` (function, line 543) `def _profile_cache_get()`
+  - `_clean_cookie` (function, line 562) `def _clean_cookie(raw)`
+  - `SyncReceiver` (class, line 592) `class SyncReceiver`
+  - `get_receiver` (function, line 791) `def get_receiver()`
+  - `start_receiver` (function, line 800) `def start_receiver(port, host)`
+  - `stop_receiver` (function, line 813) `def stop_receiver()`
+  - `clear_profile` (function, line 822) `def clear_profile()`
+  - `apply_identity_to_url` (function, line 839) `def apply_identity_to_url(url, headers, body)`
+  - `ensure_wiring` (function, line 864) `def ensure_wiring()`
+  - `masked_rows` (function, line 906) `def masked_rows(profile, domain_filter, full)`
+  - `__init__` (method, line 595) `def __init__(self, host, port)`
+  - `start` (method, line 610) `def start(self, host, port)`
+  - `_store` (method, line 716) `def _store(self, data)`
+  - `stop` (method, line 755) `def stop(self)`
+  - `status` (method, line 771) `def status(self)`
+  - `_Handler` (class, line 632) `class _Handler(BaseHTTPRequestHandler)`
+  - `log_message` (method, line 638) `def log_message(self, fmt)`
+  - `do_GET` (method, line 642) `def do_GET(self)`
+  - `do_POST` (method, line 654) `def do_POST(self)`
+  - `_drain` (method, line 686) `def _drain(self, length)`
+  - `_reply` (method, line 698) `def _reply(self, code, payload)`
+- Depends on: `modules/__init__.py`, `modules/backdoor/server.c`
+- Imported by: `modules/chain_runner.py`, `modules/lazy_proxy.py`, `modules/lazyown_bprfuzzer.py`, `tests/conftest.py`
+
+## modules/bsb_compat.py
+- Doc: BlackSandBeacon wire-protocol compatibility helpers.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `derive_bsb_keys` (function, line 64) `def derive_bsb_keys(master_key)`
+  - `decrypt_bsb_report` (function, line 102) `def decrypt_bsb_report(encrypted_data, master_key, replay_window_seconds)`
+  - `encrypt_bsb_command` (function, line 151) `def encrypt_bsb_command(data, master_key)`
+  - `derive_bsb_stage_keys` (function, line 174) `def derive_bsb_stage_keys(token)`
+  - `encrypt_bsb_stage_blob` (function, line 220) `def encrypt_bsb_stage_blob(data, token)`
+  - `decrypt_bsb_stage_blob` (function, line 244) `def decrypt_bsb_stage_blob(encrypted_data, token)`
+  - `_bof_search_dirs` (function, line 273) `def _bof_search_dirs(repo_root)`
+  - `_safe_bof_candidate` (function, line 295) `def _safe_bof_candidate(base, relative)`
+  - `resolve_bof_object` (function, line 320) `def resolve_bof_object(name, relative_artifact, repo_root)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `modules/bof_registry.py`, `tests/test_bsb_fileless_compat.py`
+
 ## modules/c2_agent.py
 - Doc: Malleable C2 client lifecycle for lab targets.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_sync_credentials_file` (function, line 59) `def _sync_credentials_file(user, password)`
-  - `_unverified_context` (function, line 84) `def _unverified_context()`
-  - `client_id_for` (function, line 94) `def client_id_for(target, privilege)`
-  - `validate_client_id` (function, line 119) `def validate_client_id(raw)`
-  - `build_agent` (function, line 398) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
-  - `_ensure_key` (function, line 462) `def _ensure_key()`
-  - `_restore_key_from_snapshot` (function, line 493) `def _restore_key_from_snapshot()`
-  - `_snapshot_key` (function, line 516) `def _snapshot_key(aes_hex)`
-  - `read_aes_hex` (function, line 528) `def read_aes_hex()`
-  - `deploy` (function, line 533) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
-  - `read_records` (function, line 680) `def read_records(client_id, limit)`
-  - `wait_record` (function, line 697) `def wait_record(client_id, command, since, timeout)`
-  - `C2Server` (class, line 711) `class C2Server`
-  - `__init__` (method, line 714) `def __init__(self, port, user, password)`
-  - `_pid` (method, line 719) `def _pid(self)`
-  - `status` (method, line 731) `def status(self)`
-  - `start` (method, line 763) `def start(self)`
-  - `stop` (method, line 794) `def stop(self)`
-  - `ensure_http_listener` (method, line 817) `def ensure_http_listener(self, http_port, auth)`
-  - `_api` (function, line 825) `def _api(path, data)`
-- Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+  - `_sync_credentials_file` (function, line 61) `def _sync_credentials_file(user, password)`
+  - `_unverified_context` (function, line 86) `def _unverified_context()`
+  - `client_id_for` (function, line 96) `def client_id_for(target, privilege)`
+  - `validate_client_id` (function, line 121) `def validate_client_id(raw)`
+  - `build_agent` (function, line 400) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
+  - `_ensure_key` (function, line 464) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 495) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 518) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 530) `def read_aes_hex()`
+  - `deploy` (function, line 535) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
+  - `read_records` (function, line 682) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 699) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 713) `class C2Server`
+  - `__init__` (method, line 716) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 721) `def _pid(self)`
+  - `status` (method, line 733) `def status(self)`
+  - `start` (method, line 765) `def start(self)`
+  - `stop` (method, line 796) `def stop(self)`
+  - `ensure_http_listener` (method, line 819) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 827) `def _api(path, data)`
+- Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`, `modules/security_sanitizers.py`
 - Imported by: `cli/commands/c2_session.py`
 
 ## modules/c2_builder.py
@@ -426,65 +495,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_raise_timeout` (function, line 1513) `def _raise_timeout(_signum, _frame)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/browser_sync.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/lazy_deviations.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
 - Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/chain_loop.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_finalizer.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_lazy_adaptive_replan.py`, `tests/test_lazy_deviations.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-
-## modules/chain_state.py
-- Doc: Durable chain checkpoints for pause, resume and audit.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `checkpoint_dir` (function, line 26) `def checkpoint_dir(base_dir)`
-  - `new_run_id` (function, line 33) `def new_run_id(chain_name)`
-  - `write_checkpoint` (function, line 39) `def write_checkpoint(directory, state)`
-  - `load_checkpoint` (function, line 65) `def load_checkpoint(directory, run_id)`
-  - `list_checkpoints` (function, line 80) `def list_checkpoints(directory, limit, chain)`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
-
-## modules/chain_synth.py
-- Doc: Runtime chain synthesis from fact-store evidence.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_slug` (function, line 31) `def _slug(name)`
-  - `_wordlist` (function, line 35) `def _wordlist(param, fallback)`
-  - `_service_steps` (function, line 44) `def _service_steps(host, services)`
-  - `synth_chain_data` (function, line 91) `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)`
-  - `facts_for_target` (function, line 243) `def facts_for_target(target)`
-  - `synth_technique_chain_data` (function, line 272) `def synth_technique_chain_data(target, techniques, os_hint)`
-  - `write_generated_chain` (function, line 339) `def write_generated_chain(data, chains_dir)`
-- Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
-
-## modules/chain_tokens.py
-- Doc: Engagement-state tokens for YAML chains.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `build_tokens` (function, line 24) `def build_tokens(target, params)`
-  - `_load_host_facts` (function, line 72) `def _load_host_facts(host)`
-  - `_newest_creds_file` (function, line 88) `def _newest_creds_file(host)`
-  - `_candidate_files` (function, line 115) `def _candidate_files()`
-  - `_mentions` (function, line 125) `def _mentions(path, needle)`
-- Depends on: `skills/lazyown_facts.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
-
-## modules/cicd_enumerator.py
-- Doc: CI/CD Pipeline Enumeration Module.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CICDFinding` (class, line 33) `class CICDFinding`
-  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
-  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
-  - `scan` (method, line 60) `def scan(self)`
-  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
-  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
-  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
-  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
-  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
-  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
-  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
-  - `export_findings` (method, line 387) `def export_findings(self)`
-- Imported by: `cli/commands/cicd.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

@@ -34,6 +34,8 @@ class TechniqueSelector:
             if not tid:
                 continue
             command = f"atomic_tests {tid} --non-interactive"
+            if ctx.os_hint in ("linux", "windows"):
+                command += f" --platform {ctx.os_hint}"
             if command in ctx.exclude:
                 continue
             name = str(tech.get("name", "") or "").strip()

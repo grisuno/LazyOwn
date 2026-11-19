@@ -1,6 +1,134 @@
 # Subsystem: tests (page 19 of 27)
 Previous: [KB_tests_p18.md](KB_tests_p18.md)
 
+## tests/test_loop_supervision.py
+- Doc: Supervision upgrades: repetition watchdog, stack priors, prompt masking.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `_isolate_intel` (function, line 16) `def _isolate_intel(tmp_path, monkeypatch)`
+  - `_DeadPool` (class, line 25) `class _DeadPool`
+  - `_kill_llm` (function, line 37) `def _kill_llm(monkeypatch)`
+  - `test_repetition_watchdog_settles` (function, line 46) `def test_repetition_watchdog_settles(tmp_path, monkeypatch)`
+  - `test_stack_priors_prefer_same_stack` (function, line 75) `def test_stack_priors_prefer_same_stack(tmp_path, monkeypatch)`
+  - `test_prompt_context_masks_configured_only` (function, line 99) `def test_prompt_context_masks_configured_only(tmp_path, monkeypatch)`
+  - `members` (method, line 28) `def members(self)`
+  - `complete` (method, line 32) `def complete(self)`
+- Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`
+
+## tests/test_loop_target_authority.py
+- Doc: Target authority: --target rebinds payload rhost and scope.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeShell` (class, line 16) `class _FakeShell`
+  - `test_single_target_replaces_rhost_and_scope` (function, line 31) `def test_single_target_replaces_rhost_and_scope()`
+  - `test_multi_target_scope_is_every_target` (function, line 42) `def test_multi_target_scope_is_every_target()`
+  - `test_dedupes_and_strips` (function, line 49) `def test_dedupes_and_strips()`
+  - `test_noop_when_already_bound` (function, line 55) `def test_noop_when_already_bound()`
+  - `test_enforcement_mode_untouched` (function, line 62) `def test_enforcement_mode_untouched()`
+  - `test_empty_targets_is_noop` (function, line 68) `def test_empty_targets_is_noop()`
+  - `test_fallback_writer_without_scope_save` (function, line 75) `def test_fallback_writer_without_scope_save(monkeypatch)`
+  - `__init__` (method, line 19) `def __init__(self, params)`
+  - `_scope_save` (method, line 23) `def _scope_save(self, entries, mode)`
+  - `_fake_save` (function, line 78) `def _fake_save(params)`
+  - `_Bare` (class, line 83) `class _Bare`
+  - `__init__` (method, line 84) `def __init__(self)`
+- Depends on: `modules/lazy_runner.py`
+
+## tests/test_loop_trigger_hints.py
+- Doc: BDD for the cve_hot trigger hint fingerprints.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Graph` (class, line 29) `class _Graph`
+  - `_Assets` (class, line 42) `class _Assets`
+  - `trigger_env` (function, line 56) `def trigger_env(tmp_path, monkeypatch)`
+  - `test_cve_hot_hint_proposed_once_per_signature` (function, line 78) `def test_cve_hot_hint_proposed_once_per_signature(trigger_env)`
+  - `test_changed_banner_refires_the_hint` (function, line 90) `def test_changed_banner_refires_the_hint(tmp_path, monkeypatch)`
+  - `test_hint_fingerprint_normalizes_product_and_version` (function, line 118) `def test_hint_fingerprint_normalizes_product_and_version()`
+  - `test_prune_drops_expired_fingerprints` (function, line 128) `def test_prune_drops_expired_fingerprints()`
+  - `test_hint_ttl_expires_and_refires` (function, line 137) `def test_hint_ttl_expires_and_refires(tmp_path, monkeypatch)`
+  - `test_hint_store_written_under_loop_stores` (function, line 158) `def test_hint_store_written_under_loop_stores(tmp_path, monkeypatch)`
+  - `__init__` (method, line 32) `def __init__(self)`
+  - `add_node` (method, line 35) `def add_node(self, kind, text, state, priority, meta)`
+  - `list` (method, line 38) `def list(self)`
+  - `__init__` (method, line 45) `def __init__(self, value)`
+  - `list` (method, line 49) `def list(self, kind)`
+  - `fake_hot_matches` (function, line 65) `def fake_hot_matches(services, allow_network)`
+  - `fake_hot_matches` (function, line 100) `def fake_hot_matches(services, allow_network)`
+- Depends on: `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/world_model.py`
+
+## tests/test_loop_worker_traces.py
+- Doc: Worker cross-work trace tools (lazy 0.3.10 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `_seed_two_works` (function, line 15) `def _seed_two_works(engine, task_id)`
+  - `test_search_all_spans_works_without_intent` (function, line 27) `def test_search_all_spans_works_without_intent(tmp_path, monkeypatch)`
+  - `test_trace_steps_and_single_step` (function, line 40) `def test_trace_steps_and_single_step(tmp_path, monkeypatch)`
+  - `test_worker_lane_binds_node_detail` (function, line 57) `def test_worker_lane_binds_node_detail(tmp_path, monkeypatch)`
+  - `test_add_hint_emits_explicit_planner_trigger` (function, line 65) `def test_add_hint_emits_explicit_planner_trigger(tmp_path, monkeypatch)`
+  - `test_worker_bash_unbound_blocks_without_execution` (function, line 81) `def test_worker_bash_unbound_blocks_without_execution(tmp_path, monkeypatch)`
+  - `test_planner_intent_unbound_emits_nothing` (function, line 100) `def test_planner_intent_unbound_emits_nothing(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_marketplace_config.py
+- Doc: Marketplace registry and settings: formats, toggles, CRUD.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registry` (function, line 12) `def _registry(tmp_path, monkeypatch)`
+  - `test_tool_rows_use_json_and_active_key` (function, line 33) `def test_tool_rows_use_json_and_active_key(tmp_path, monkeypatch)`
+  - `test_plugin_rows_skip_lua_and_templates` (function, line 61) `def test_plugin_rows_skip_lua_and_templates(tmp_path, monkeypatch)`
+  - `test_read_only_tabs_never_toggle_or_delete` (function, line 76) `def test_read_only_tabs_never_toggle_or_delete(tmp_path, monkeypatch)`
+  - `test_create_and_delete_across_tabs` (function, line 89) `def test_create_and_delete_across_tabs(tmp_path, monkeypatch)`
+  - `test_settings_toggle_tracks_only_success` (function, line 105) `def test_settings_toggle_tracks_only_success(tmp_path, monkeypatch)`
+  - `test_marketplace_app_filters_rows` (function, line 118) `def test_marketplace_app_filters_rows(tmp_path, monkeypatch)`
+  - `test_filter_input_keeps_printable_keys` (function, line 145) `def test_filter_input_keeps_printable_keys(tmp_path, monkeypatch)`
+  - `_drive` (function, line 128) `def _drive()`
+  - `_drive` (function, line 151) `def _drive()`
+- Depends on: `cli/__init__.py`
+
+## tests/test_mcp_auto_loop_wrapper.py
+- Doc: MCP auto_loop wrapper contract: one runner, no dual engines.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched` (function, line 15) `def _patched(monkeypatch, tmp_path)`
+  - `test_fast_path_routes_through_the_shared_runner` (function, line 60) `def test_fast_path_routes_through_the_shared_runner(monkeypatch, tmp_path)`
+  - `test_legacy_flag_annotates_but_routes_shared` (function, line 75) `def test_legacy_flag_annotates_but_routes_shared(monkeypatch, tmp_path)`
+  - `test_runner_failure_surfaces` (function, line 85) `def test_runner_failure_surfaces(monkeypatch, tmp_path)`
+  - `test_refused_run_reports_the_reason` (function, line 95) `def test_refused_run_reports_the_reason(monkeypatch, tmp_path)`
+  - `test_preflight_failed_summary_still_renders_the_task` (function, line 106) `def test_preflight_failed_summary_still_renders_the_task(monkeypatch, tmp_path)`
+  - `test_schema_matches_the_shared_flags` (function, line 121) `def test_schema_matches_the_shared_flags()`
+  - `test_loop_line_translation` (function, line 131) `def test_loop_line_translation()`
+  - `_text` (function, line 148) `def _text(response)`
+  - `loop_join` (function, line 163) `def loop_join(coro)`
+  - `_fake_run` (function, line 47) `def _fake_run(shell, params, line, verb)`
+  - `_boom` (function, line 34) `def _boom(shell, params, line, verb)`
+  - `_refuse` (function, line 41) `def _refuse(shell, params, line, verb)`
+- Depends on: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/auto_loop.py`
+
+## tests/test_mcp_dispatch.py
+- Doc: call_tool dispatches through the handler registry.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_package_names` (function, line 29) `def _package_names()`
+  - `_registered` (function, line 33) `def _registered()`
+  - `_fallback_branches` (function, line 50) `def _fallback_branches()`
+  - `TestRegistryDispatch` (class, line 61) `class TestRegistryDispatch`
+  - `test_set_config_refuses_null_values` (function, line 79) `def test_set_config_refuses_null_values()`
+  - `test_new_chain_shell_tools_have_defs_and_handlers` (function, line 99) `def test_new_chain_shell_tools_have_defs_and_handlers()`
+  - `test_opencode_bridge_curates_loop_and_chain` (function, line 106) `def test_opencode_bridge_curates_loop_and_chain()`
+  - `test_mcp_never_offers_interactive_repl` (function, line 121) `def test_mcp_never_offers_interactive_repl()`
+  - `test_no_dead_duplicate_branches` (method, line 62) `def test_no_dead_duplicate_branches(self)`
+  - `test_migrated_handlers_registered` (method, line 66) `def test_migrated_handlers_registered(self)`
+  - `test_migrated_handlers_absent_from_fallback` (method, line 71) `def test_migrated_handlers_absent_from_fallback(self)`
+
 ## tests/test_mcp_improvements.py
 - Doc: Tests for the high/medium/low impact MCP improvements.
 - Layer: testing
@@ -254,19 +382,6 @@ Previous: [KB_tests_p18.md](KB_tests_p18.md)
   - `summarize` (method, line 217) `def summarize(self, window_seconds)`
 - Depends on: `skills/autonomous_daemon.py`
 
-## tests/test_migrate_lazyown_generator.py
-- Doc: Regression guard for the ``cli/commands`` migration generator.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_module_all` (function, line 27) `def _module_all(source)`
-  - `test_generated_module_parses` (function, line 57) `def test_generated_module_parses()`
-  - `test_all_is_static_and_matches_class_name` (function, line 62) `def test_all_is_static_and_matches_class_name()`
-  - `test_compound_phase_title_casing` (function, line 68) `def test_compound_phase_title_casing()`
-  - `test_no_unevaluated_fstring_all_literal` (function, line 74) `def test_no_unevaluated_fstring_all_literal()`
-  - `test_method_bodies_are_embedded_in_order` (function, line 81) `def test_method_bodies_are_embedded_in_order()`
-- Depends on: `scripts/migrate_lazyown.py`
-
 ## tests/test_module_registry.py
 - Doc: Tests for modules.module_registry — ModuleInfo, ModuleRegistry, search, summary.
 - Layer: testing
@@ -318,167 +433,6 @@ Previous: [KB_tests_p18.md](KB_tests_p18.md)
   - `test_limit_caps_results` (function, line 93) `def test_limit_caps_results(tmp_path, monkeypatch)`
   - `test_planner_appends_registry_candidates_last` (function, line 107) `def test_planner_appends_registry_candidates_last(tmp_path, monkeypatch)`
 - Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/module_registry.py`
-
-## tests/test_moe_rl_swan.py
-- Doc: tests/test_moe_rl_swan.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestDetectionOracle` (class, line 37) `class TestDetectionOracle`
-  - `TestMoERouter` (class, line 121) `class TestMoERouter`
-  - `TestRLTrainer` (class, line 223) `class TestRLTrainer`
-  - `TestSwanAgent` (class, line 340) `class TestSwanAgent`
-  - `TestAutonomousDaemonSWAN` (class, line 493) `class TestAutonomousDaemonSWAN`
-  - `TestPolicyDetectionAware` (class, line 571) `class TestPolicyDetectionAware`
-  - `TestWorldModelGraph` (class, line 616) `class TestWorldModelGraph`
-  - `TestMCPRegistration` (class, line 675) `class TestMCPRegistration`
-  - `test_low_risk_dns_query` (method, line 38) `def test_low_risk_dns_query(self)`
-  - `test_high_risk_mimikatz` (method, line 46) `def test_high_risk_mimikatz(self)`
-  - `test_critical_risk_combined_credential_tools` (method, line 54) `def test_critical_risk_combined_credential_tools(self)`
-  - `test_assessment_has_required_fields` (method, line 62) `def test_assessment_has_required_fields(self)`
-  - `test_is_high_risk_property_consistent_with_probability` (method, line 75) `def test_is_high_risk_property_consistent_with_probability(self)`
-  - `test_singleton_returns_same_instance` (method, line 83) `def test_singleton_returns_same_instance(self)`
-  - `test_nmap_is_not_high_risk` (method, line 91) `def test_nmap_is_not_high_risk(self)`
-  - `test_evil_winrm_is_high_risk` (method, line 99) `def test_evil_winrm_is_high_risk(self)`
-  - `test_is_critical_risk_property` (method, line 107) `def test_is_critical_risk_property(self)`
-  - `test_singleton_returns_same_instance` (method, line 122) `def test_singleton_returns_same_instance(self)`
-  - `test_route_returns_expert_or_raises_gracefully` (method, line 130) `def test_route_returns_expert_or_raises_gracefully(self)`
-  - `test_ensemble_returns_available_candidates` (method, line 143) `def test_ensemble_returns_available_candidates(self)`
-  - `test_record_outcome_updates_ema` (method, line 154) `def test_record_outcome_updates_ema(self, tmp_path)`
-  - `test_performance_bonus_positive_after_success` (method, line 164) `def test_performance_bonus_positive_after_success(self, tmp_path)`
-  - `test_performance_bonus_penalises_high_detection` (method, line 173) `def test_performance_bonus_penalises_high_detection(self, tmp_path)`
-  - `test_status_report_contains_experts` (method, line 184) `def test_status_report_contains_experts(self)`
-  - `test_softmax_deterministic_picks_highest_weight` (method, line 193) `def test_softmax_deterministic_picks_highest_weight(self)`
-  - `test_encode_state_format` (method, line 224) `def test_encode_state_format(self)`
-  - `test_select_action_returns_valid_candidate` (method, line 236) `def test_select_action_returns_valid_candidate(self)`
-  - `test_update_changes_qvalue` (method, line 246) `def test_update_changes_qvalue(self, tmp_path)`
-  - `test_epsilon_decays_after_update` (method, line 269) `def test_epsilon_decays_after_update(self, tmp_path)`
-  - `test_detection_penalty_lowers_effective_reward` (method, line 281) `def test_detection_penalty_lowers_effective_reward(self, tmp_path)`
-  - `test_optimistic_init_for_unseen_actions` (method, line 310) `def test_optimistic_init_for_unseen_actions(self, tmp_path)`
-  - `test_save_and_reload_persistence` (method, line 318) `def test_save_and_reload_persistence(self, tmp_path)`
-  - `test_swan_result_dataclass_fields` (method, line 341) `def test_swan_result_dataclass_fields(self)`
-  - `test_swan_result_failed_is_not_success` (method, line 364) `def test_swan_result_failed_is_not_success(self)`
-  - `test_outcome_evaluator_success_reward` (method, line 380) `def test_outcome_evaluator_success_reward(self)`
-  - `test_outcome_evaluator_failed_gives_negative_reward` (method, line 399) `def test_outcome_evaluator_failed_gives_negative_reward(self)`
-  - `test_outcome_evaluator_high_value_category_bonus` (method, line 417) `def test_outcome_evaluator_high_value_category_bonus(self)`
-  - `test_mcp_swan_route_returns_valid_json` (method, line 438) `def test_mcp_swan_route_returns_valid_json(self)`
-  - `test_mcp_swan_status_returns_valid_json` (method, line 452) `def test_mcp_swan_status_returns_valid_json(self)`
-  - `test_ensemble_result_dataclass_fields` (method, line 460) `def test_ensemble_result_dataclass_fields(self)`
-  - `test_swan_selector_disabled_by_default` (method, line 494) `def test_swan_selector_disabled_by_default(self)`
-  - `test_swan_selector_phase_mapping_coverage` (method, line 503) `def test_swan_selector_phase_mapping_coverage(self)`
-  - `test_cascade_strategy_contains_swan_selector` (method, line 511) `def test_cascade_strategy_contains_swan_selector(self)`
-  - `test_cascade_strategy_order` (method, line 525) `def test_cascade_strategy_order(self)`
-  - `test_fallback_selector_never_returns_none` (method, line 539) `def test_fallback_selector_never_returns_none(self)`
-  - `test_command_decision_source_label` (method, line 548) `def test_command_decision_source_label(self)`
-  - `test_llm_selector_disabled_without_env` (method, line 556) `def test_llm_selector_disabled_without_env(self)`
-  - `test_detection_above_threshold_zeroes_reward` (method, line 572) `def test_detection_above_threshold_zeroes_reward(self)`
-  - `test_low_detection_preserves_positive_reward` (method, line 587) `def test_low_detection_preserves_positive_reward(self)`
-  - `test_failed_outcome_gives_negative_reward` (method, line 602) `def test_failed_outcome_gives_negative_reward(self)`
-  - `test_add_relation_and_pivot_candidates` (method, line 617) `def test_add_relation_and_pivot_candidates(self, tmp_path)`
-  - `test_graph_snapshot_is_serialisable` (method, line 634) `def test_graph_snapshot_is_serialisable(self, tmp_path)`
-  - `test_auto_relation_on_service_add` (method, line 645) `def test_auto_relation_on_service_add(self, tmp_path)`
-  - `test_pivot_candidates_sorted_by_centrality` (method, line 656) `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)`
-  - `test_swan_tools_registered_in_mcp` (method, line 676) `def test_swan_tools_registered_in_mcp(self)`
-  - `test_hive_tools_registered_in_mcp` (method, line 688) `def test_hive_tools_registered_in_mcp(self)`
-  - `_ep` (function, line 199) `def _ep(eid, w)`
-  - `_make_trainer` (function, line 285) `def _make_trainer(suffix)`
-  - `_result` (function, line 421) `def _result(task_type)`
-- Depends on: `modules/detection_oracle.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
-
-## tests/test_moe_router_check_regression.py
-- Doc: Regression coverage for ``modules.moe_router.ExpertAvailabilityChecker._check``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_check_groq_returns_false_without_api_key` (function, line 27) `def test_check_groq_returns_false_without_api_key(monkeypatch)`
-  - `test_check_groq_returns_true_with_explicit_key` (function, line 47) `def test_check_groq_returns_true_with_explicit_key()`
-  - `test_check_groq_reads_env_when_arg_empty` (function, line 65) `def test_check_groq_reads_env_when_arg_empty(monkeypatch)`
-  - `test_check_toposwarm_uses_module_level_os_and_path` (function, line 85) `def test_check_toposwarm_uses_module_level_os_and_path(tmp_path, monkeypatch)`
-  - `test_check_toposwarm_returns_false_when_dir_absent` (function, line 110) `def test_check_toposwarm_returns_false_when_dir_absent(tmp_path, monkeypatch)`
-  - `test_check_unknown_backend_is_unavailable` (function, line 131) `def test_check_unknown_backend_is_unavailable()`
-- Depends on: `modules/moe_router.py`
-
-## tests/test_mutation_verification.py
-- Doc: Mutation verification contracts.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_sql_injection_blocked` (function, line 19) `def test_sql_injection_blocked()`
-  - `test_hmac_compare_digest_used` (function, line 27) `def test_hmac_compare_digest_used()`
-  - `test_shell_false_in_safe_runner` (function, line 41) `def test_shell_false_in_safe_runner()`
-  - `test_pickle_removed` (function, line 56) `def test_pickle_removed()`
-  - `test_no_hardcoded_secrets` (function, line 63) `def test_no_hardcoded_secrets()`
-- Depends on: `modules/db.py`
-
-## tests/test_nethelpers_command_set.py
-- Doc: Network helpers command set extraction tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
-  - `NethelpersSuiteConfig` (class, line 38) `class NethelpersSuiteConfig`
-  - `_methods_of` (function, line 61) `def _methods_of(path, class_name)`
-  - `test_target_is_active_command_set` (function, line 73) `def test_target_is_active_command_set()`
-  - `test_target_exposes_full_nethelpers_cluster` (function, line 82) `def test_target_exposes_full_nethelpers_cluster()`
-  - `test_target_phase_metadata` (function, line 89) `def test_target_phase_metadata()`
-  - `test_source_no_longer_defines_cluster` (function, line 95) `def test_source_no_longer_defines_cluster()`
-  - `test_registry_registers_target` (function, line 101) `def test_registry_registers_target()`
-  - `test_no_command_collisions_with_source` (function, line 108) `def test_no_command_collisions_with_source()`
-- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/nethelpers.py`, `cli/registry.py`
-
-## tests/test_no_shell_execution.py
-- Doc: Contract tests: no os.system and no manual sys.stdout reassignment.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `ScanConfig` (class, line 20) `class ScanConfig`
-  - `_parse` (function, line 64) `def _parse(path)`
-  - `find_os_system_calls` (function, line 72) `def find_os_system_calls(config)`
-  - `find_stdout_assignments` (function, line 96) `def find_stdout_assignments(config)`
-  - `test_no_os_system_in_production` (function, line 124) `def test_no_os_system_in_production()`
-  - `test_no_manual_stdout_reassignment` (function, line 130) `def test_no_manual_stdout_reassignment()`
-  - `test_scanner_detects_a_synthetic_os_system` (function, line 136) `def test_scanner_detects_a_synthetic_os_system(tmp_path)`
-  - `iter_files` (method, line 44) `def iter_files(self)`
-
-## tests/test_nuclei_parser.py
-- Doc: Tests for modules/integrations/nuclei_parser.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestNucleiFinding` (class, line 13) `class TestNucleiFinding`
-  - `TestNucleiParserText` (class, line 58) `class TestNucleiParserText`
-  - `TestNucleiParserJson` (class, line 73) `class TestNucleiParserJson`
-  - `TestSeverityMap` (class, line 120) `class TestSeverityMap`
-  - `TestMitreTactics` (class, line 128) `class TestMitreTactics`
-  - `TestRecommendations` (class, line 134) `class TestRecommendations`
-  - `test_fields` (method, line 14) `def test_fields(self)`
-  - `test_exploit_probability_map` (method, line 28) `def test_exploit_probability_map(self)`
-  - `test_mitre_tactic` (method, line 46) `def test_mitre_tactic(self)`
-  - `test_parse_empty` (method, line 59) `def test_parse_empty(self)`
-  - `test_parse_nuclei_line` (method, line 64) `def test_parse_nuclei_line(self)`
-  - `test_parse_empty` (method, line 74) `def test_parse_empty(self)`
-  - `test_parse_json_single_finding` (method, line 78) `def test_parse_json_single_finding(self)`
-  - `test_parse_json_multiple_findings` (method, line 90) `def test_parse_json_multiple_findings(self)`
-  - `test_parse_json_array` (method, line 99) `def test_parse_json_array(self)`
-  - `test_parse_with_cve_classification` (method, line 108) `def test_parse_with_cve_classification(self)`
-  - `test_critical_is_10` (method, line 121) `def test_critical_is_10(self)`
-  - `test_info_is_1` (method, line 124) `def test_info_is_1(self)`
-  - `test_all_tactics_have_ta_prefix` (method, line 129) `def test_all_tactics_have_ta_prefix(self)`
-  - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
-  - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
-- Depends on: `modules/integrations/nuclei_parser.py`
-
-## tests/test_opencode_mcp_harness.py
-- Doc: Opencode shim harness tool tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `OpencodeShimHarnessSpec` (class, line 16) `class OpencodeShimHarnessSpec(TestCase)`
-  - `test_harness_tools_listed` (method, line 19) `def test_harness_tools_listed(self)`
-  - `test_harness_status_shape` (method, line 25) `def test_harness_status_shape(self)`
-  - `test_golden_paths_and_ctf` (method, line 32) `def test_golden_paths_and_ctf(self)`
-  - `test_unknown_tool_rejected` (method, line 47) `def test_unknown_tool_rejected(self)`
-- Depends on: `modules/__init__.py`, `skills/lazyown_mcp_opencode.py`
 
 
 Next: [KB_tests_p20.md](KB_tests_p20.md)

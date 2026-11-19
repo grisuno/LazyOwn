@@ -1,8 +1,126 @@
-# Symbols (page 21 of 53)
+# Symbols (page 21 of 54)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:79` | `def retry_with_credentials(self, target, credentials)` |
+| `FeedbackMediator` | class | `modules/mediation/feedback_mediator.py:13` | `class FeedbackMediator` |
+| `describe` | method | `modules/mediation/feedback_mediator.py:18` | `def describe(self)` |
+| `order_steps` | method | `modules/mediation/feedback_mediator.py:22` | `def order_steps(self, steps, stack)` |
+| `MediationHub` | class | `modules/mediation/hub.py:19` | `class MediationHub` |
+| `__init__` | method | `modules/mediation/hub.py:22` | `def __init__(self)` |
+| `_build_default` | function | `modules/mediation/hub.py:55` | `def _build_default()` |
+| `default_hub` | function | `modules/mediation/hub.py:75` | `def default_hub()` |
+| `get_hub` | function | `modules/mediation/hub.py:80` | `def get_hub()` |
+| `mediator_for` | method | `modules/mediation/hub.py:35` | `def mediator_for(self, domain)` |
+| `register` | method | `modules/mediation/hub.py:26` | `def register(self, mediator)` |
+| `snapshot` | method | `modules/mediation/hub.py:46` | `def snapshot(self)` |
+| `IntelMediator` | class | `modules/mediation/intel_mediator.py:13` | `class IntelMediator` |
+| `__init__` | method | `modules/mediation/intel_mediator.py:18` | `def __init__(self)` |
+| `activity_records` | method | `modules/mediation/intel_mediator.py:39` | `def activity_records(self, task_id, limit)` |
+| `describe` | method | `modules/mediation/intel_mediator.py:32` | `def describe(self)` |
+| `mask_configured` | method | `modules/mediation/intel_mediator.py:133` | `def mask_configured(self, text)` |
+| `record_routing_decision` | method | `modules/mediation/intel_mediator.py:64` | `def record_routing_decision(self, task_id, intent_id, command, intent_text, target, stack)` |
+| `record_routing_outcome` | method | `modules/mediation/intel_mediator.py:97` | `def record_routing_outcome(self, task_id, intent_id, command, state, facts, findings, stack)` |
+| `register_activity_log_factory` | method | `modules/mediation/intel_mediator.py:22` | `def register_activity_log_factory(self, factory)` |
+| `stack_signature` | method | `modules/mediation/intel_mediator.py:149` | `def stack_signature(self, assets)` |
+| `TelemetryMediator` | class | `modules/mediation/telemetry_mediator.py:14` | `class TelemetryMediator` |
+| `annotate_detection` | method | `modules/mediation/telemetry_mediator.py:43` | `def annotate_detection(self, command)` |
+| `assess_opsec` | method | `modules/mediation/telemetry_mediator.py:59` | `def assess_opsec(self, command, rhost)` |
+| `describe` | method | `modules/mediation/telemetry_mediator.py:19` | `def describe(self)` |
+| `moe_record_outcome` | method | `modules/mediation/telemetry_mediator.py:203` | `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` |
+| `moe_route` | method | `modules/mediation/telemetry_mediator.py:162` | `def moe_route(self, task_type)` |
+| `publish_event` | method | `modules/mediation/telemetry_mediator.py:23` | `def publish_event(self, task_id, worker, kind, text, severity)` |
+| `record_outcome_quality` | method | `modules/mediation/telemetry_mediator.py:77` | `def record_outcome_quality(self, worker, intent_summary, facts, findings)` |
+| `record_step` | method | `modules/mediation/telemetry_mediator.py:111` | `def record_step(self, task_id, worker, command, output, detection_prob)` |
+| `rl_select` | method | `modules/mediation/telemetry_mediator.py:178` | `def rl_select(self, task_type, phase, candidates, deterministic)` |
+| `rl_update` | method | `modules/mediation/telemetry_mediator.py:219` | `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` |
+| `swan_available` | method | `modules/mediation/telemetry_mediator.py:128` | `def swan_available(self)` |
+| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:137` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
+| `tool_class_yields` | method | `modules/mediation/telemetry_mediator.py:93` | `def tool_class_yields(self, summaries, phase)` |
+| `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
+| `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
+| `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
+| `generate_on_exit_script` | method | `modules/memory_cleaner.py:255` | `def generate_on_exit_script(self)` |
+| `linux_memory_cleanup` | method | `modules/memory_cleaner.py:151` | `def linux_memory_cleanup(self)` |
+| `macos_memory_cleanup` | method | `modules/memory_cleaner.py:206` | `def macos_memory_cleanup(self)` |
+| `windows_memory_cleanup` | method | `modules/memory_cleaner.py:64` | `def windows_memory_cleanup(self)` |
+| `EmbeddingError` | class | `modules/memory_embeddings.py:30` | `class EmbeddingError(ValueError)` |
+| `_fnv1a` | function | `modules/memory_embeddings.py:34` | `def _fnv1a(data)` |
+| `_tokens` | function | `modules/memory_embeddings.py:41` | `def _tokens(text)` |
+| `as_floats` | function | `modules/memory_embeddings.py:109` | `def as_floats(blob)` |
+| `cosine` | function | `modules/memory_embeddings.py:75` | `def cosine(a, b)` |
+| `embed` | function | `modules/memory_embeddings.py:50` | `def embed(text)` |
+| `semantic_top_k` | function | `modules/memory_embeddings.py:85` | `def semantic_top_k(query, candidates, top_k)` |
+| `MemoryEntry` | class | `modules/memory_store.py:84` | `class MemoryEntry` |
+| `MemoryStore` | class | `modules/memory_store.py:237` | `class MemoryStore` |
+| `SQLiteBackend` | class | `modules/memory_store.py:132` | `class SQLiteBackend(StorageBackend)` |
+| `StorageBackend` | class | `modules/memory_store.py:97` | `class StorageBackend(ABC)` |
+| `VectorSQLiteBackend` | class | `modules/memory_store.py:315` | `class VectorSQLiteBackend(SQLiteBackend)` |
+| `__init__` | method | `modules/memory_store.py:133` | `def __init__(self, db_path)` |
+| `__init__` | method | `modules/memory_store.py:240` | `def __init__(self, backend)` |
+| `_cli` | function | `modules/memory_store.py:381` | `def _cli()` |
+| `_connect` | method | `modules/memory_store.py:139` | `def _connect(self)` |
+| `_fetch` | method | `modules/memory_store.py:175` | `def _fetch(self, sql, params)` |
+| `_print_entries` | function | `modules/memory_store.py:368` | `def _print_entries(entries)` |
+| `_row_to_entry` | function | `modules/memory_store.py:117` | `def _row_to_entry(row)` |
+| `all_entries` | method | `modules/memory_store.py:111` | `def all_entries(self, limit)` |
+| `all_entries` | method | `modules/memory_store.py:215` | `def all_entries(self, limit)` |
+| `by_host` | method | `modules/memory_store.py:105` | `def by_host(self, host, top_k)` |
+| `by_host` | method | `modules/memory_store.py:192` | `def by_host(self, host, top_k)` |
+| `by_service` | method | `modules/memory_store.py:108` | `def by_service(self, service, top_k)` |
+| `by_service` | method | `modules/memory_store.py:203` | `def by_service(self, service, top_k)` |
+| `close` | method | `modules/memory_store.py:114` | `def close(self)` |
+| `close` | method | `modules/memory_store.py:232` | `def close(self)` |
+| `export_finetuning_dataset` | method | `modules/memory_store.py:300` | `def export_finetuning_dataset(self, path)` |
+| `get_memory_store` | function | `modules/memory_store.py:339` | `def get_memory_store()` |
+| `recall` | method | `modules/memory_store.py:270` | `def recall(self, query, top_k)` |
+| `recall` | function | `modules/memory_store.py:360` | `def recall(query, top_k)` |
+| `recall_by_host` | method | `modules/memory_store.py:273` | `def recall_by_host(self, host, top_k)` |
+| `recall_for_service` | method | `modules/memory_store.py:276` | `def recall_for_service(self, service_name, top_k)` |
+| `recall_hybrid` | method | `modules/memory_store.py:279` | `def recall_hybrid(self, query, top_k)` |
+| `recall_hybrid` | function | `modules/memory_store.py:364` | `def recall_hybrid(query, top_k)` |
+| `remember` | method | `modules/memory_store.py:243` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
+| `remember` | function | `modules/memory_store.py:348` | `def remember(session_id, host, tool, command, output, findings, success)` |
+| `save` | method | `modules/memory_store.py:99` | `def save(self, entry)` |
+| `save` | method | `modules/memory_store.py:148` | `def save(self, entry)` |
+| `save` | method | `modules/memory_store.py:320` | `def save(self, entry)` |
+| `search` | method | `modules/memory_store.py:102` | `def search(self, query, top_k)` |
+| `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
+| `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
+| `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
+| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
+| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
+| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
+| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
+| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
+| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
+| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
+| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
+| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
+| `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
+| `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
+| `apply_migrations` | function | `modules/metasploitable_migrations.py:366` | `def apply_migrations(container, subnet)` |
+| `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
+| `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
+| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
+| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
+| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
+| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
+| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
+| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
+| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
+| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
+| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
+| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
+| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
+| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
+| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
+| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
+| `path` | method | `modules/metrics.py:201` | `def path(self)` |
+| `path` | method | `modules/metrics.py:350` | `def path(self)` |
 | `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
 | `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
 | `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
@@ -378,123 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_apply` | function | `modules/outcome_attribution.py:187` | `def _apply(data)` |
 | `_has_reject_signal` | function | `modules/outcome_attribution.py:81` | `def _has_reject_signal(text)` |
 | `_load` | method | `modules/outcome_attribution.py:160` | `def _load(self)` |
-| `blocked_verbs` | method | `modules/outcome_attribution.py:204` | `def blocked_verbs(self, threshold)` |
-| `classify` | function | `modules/outcome_attribution.py:100` | `def classify(output, is_error)` |
-| `counts` | method | `modules/outcome_attribution.py:199` | `def counts(self, verb)` |
-| `record` | method | `modules/outcome_attribution.py:167` | `def record(self, command, classification)` |
-| `verb_of` | function | `modules/outcome_attribution.py:126` | `def verb_of(command)` |
-| `OutcomeBus` | class | `modules/outcome_bus.py:157` | `class OutcomeBus` |
-| `OutcomeEvent` | class | `modules/outcome_bus.py:78` | `class OutcomeEvent` |
-| `__init__` | method | `modules/outcome_bus.py:160` | `def __init__(self, ledger_path, sink_map)` |
-| `_append_ledger` | method | `modules/outcome_bus.py:252` | `def _append_ledger(self, event, statuses)` |
-| `_enabled_sinks` | method | `modules/outcome_bus.py:194` | `def _enabled_sinks(self, requested)` |
-| `_sink` | method | `modules/outcome_bus.py:179` | `def _sink(self, name)` |
-| `category_for_event` | function | `modules/outcome_bus.py:302` | `def category_for_event(kind)` |
-| `get_bus` | function | `modules/outcome_bus.py:273` | `def get_bus()` |
-| `host_value` | method | `modules/outcome_bus.py:106` | `def host_value(self)` |
-| `key` | method | `modules/outcome_bus.py:110` | `def key(self)` |
-| `record` | method | `modules/outcome_bus.py:205` | `def record(self, event, sinks)` |
-| `record` | function | `modules/outcome_bus.py:287` | `def record(event, sinks)` |
-| `record_event` | function | `modules/outcome_bus.py:292` | `def record_event()` |
-| `reset` | method | `modules/outcome_bus.py:173` | `def reset(self)` |
-| `reset_bus` | function | `modules/outcome_bus.py:282` | `def reset_bus()` |
-| `severity_for_event` | function | `modules/outcome_bus.py:297` | `def severity_for_event(severity)` |
-| `to_dict` | method | `modules/outcome_bus.py:128` | `def to_dict(self)` |
-| `DynamicShellcodePayload` | class | `modules/payload_factory.py:409` | `class DynamicShellcodePayload(PayloadTemplate)` |
-| `MsfvenomPayload` | class | `modules/payload_factory.py:322` | `class MsfvenomPayload(PayloadTemplate)` |
-| `PayloadFactory` | class | `modules/payload_factory.py:457` | `class PayloadFactory` |
-| `PayloadTemplate` | class | `modules/payload_factory.py:216` | `class PayloadTemplate(ABC)` |
-| `ReverseShellPayload` | class | `modules/payload_factory.py:251` | `class ReverseShellPayload(PayloadTemplate)` |
-| `ShellcodePayload` | class | `modules/payload_factory.py:363` | `class ShellcodePayload(PayloadTemplate)` |
-| `WindowsReverseShellPayload` | class | `modules/payload_factory.py:290` | `class WindowsReverseShellPayload(PayloadTemplate)` |
-| `__init__` | method | `modules/payload_factory.py:222` | `def __init__(self, name, platform, arch, description, options)` |
-| `__init__` | method | `modules/payload_factory.py:254` | `def __init__(self)` |
-| `__init__` | method | `modules/payload_factory.py:293` | `def __init__(self)` |
-| `__init__` | method | `modules/payload_factory.py:325` | `def __init__(self, name, platform, arch)` |
-| `__init__` | method | `modules/payload_factory.py:374` | `def __init__(self, name, platform, arch, description, escaped_hex, patcher)` |
-| `__init__` | method | `modules/payload_factory.py:416` | `def __init__(self, name, platform, arch, description, builder)` |
-| `__init__` | method | `modules/payload_factory.py:464` | `def __init__(self)` |
-| `_apply_format` | method | `modules/payload_factory.py:575` | `def _apply_format(data, fmt)` |
-| `_build_linux_x64_reverse_tcp` | function | `modules/payload_factory.py:118` | `def _build_linux_x64_reverse_tcp(lhost, lport)` |
-| `_parse_escaped_hex` | function | `modules/payload_factory.py:442` | `def _parse_escaped_hex(escaped)` |
-| `_patch_shellcode_x64` | function | `modules/payload_factory.py:190` | `def _patch_shellcode_x64(raw, lhost, lport)` |
-| `_register_builtins` | method | `modules/payload_factory.py:468` | `def _register_builtins(self)` |
-| `format_payload_table` | function | `modules/payload_factory.py:672` | `def format_payload_table(payloads)` |
-| `generate` | method | `modules/payload_factory.py:237` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:272` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:305` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:337` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:397` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:436` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:529` | `def generate(self, name, format, output)` |
-| `get` | method | `modules/payload_factory.py:525` | `def get(self, name)` |
-| `list` | method | `modules/payload_factory.py:516` | `def list(self, platform)` |
-| `list_formats` | method | `modules/payload_factory.py:664` | `def list_formats()` |
-| `register` | method | `modules/payload_factory.py:512` | `def register(self, template)` |
-| `to_dict` | method | `modules/payload_factory.py:241` | `def to_dict(self)` |
-| `CampaignResult` | class | `modules/phishing_orchestrator.py:167` | `class CampaignResult` |
-| `CampaignTarget` | class | `modules/phishing_orchestrator.py:139` | `class CampaignTarget` |
-| `PhishingOrchestrator` | class | `modules/phishing_orchestrator.py:180` | `class PhishingOrchestrator` |
-| `PhishingTemplate` | class | `modules/phishing_orchestrator.py:154` | `class PhishingTemplate` |
-| `__init__` | method | `modules/phishing_orchestrator.py:399` | `def __init__(self)` |
-| `_decrypt_credential` | function | `modules/phishing_orchestrator.py:100` | `def _decrypt_credential(encrypted_b64)` |
-| `_derive_credential_key` | function | `modules/phishing_orchestrator.py:57` | `def _derive_credential_key()` |
-| `_encrypt_credential` | function | `modules/phishing_orchestrator.py:84` | `def _encrypt_credential(plaintext)` |
-| `_generate_landing_page` | method | `modules/phishing_orchestrator.py:766` | `def _generate_landing_page(self, template, target_domain, campaign_id)` |
-| `_hash_credential_for_log` | function | `modules/phishing_orchestrator.py:116` | `def _hash_credential_for_log(plaintext)` |
-| `_inject_harvester` | method | `modules/phishing_orchestrator.py:852` | `def _inject_harvester(self, html, page_id)` |
-| `_load_config` | method | `modules/phishing_orchestrator.py:891` | `def _load_config(self)` |
-| `_load_targets_from_file` | method | `modules/phishing_orchestrator.py:727` | `def _load_targets_from_file(self, filepath)` |
-| `_send_email` | method | `modules/phishing_orchestrator.py:818` | `def _send_email(self, to_email, subject, html_body, smtp_config)` |
-| `_setup_harvesting_endpoint` | method | `modules/phishing_orchestrator.py:806` | `def _setup_harvesting_endpoint(self, campaign_id)` |
-| `clone_landing_page` | method | `modules/phishing_orchestrator.py:616` | `def clone_landing_page(self, url)` |
-| `generate_template` | method | `modules/phishing_orchestrator.py:569` | `def generate_template(self, name, target_domain, context)` |
-| `get_instance` | method | `modules/phishing_orchestrator.py:404` | `def get_instance(cls)` |
-| `get_results` | method | `modules/phishing_orchestrator.py:643` | `def get_results(self, campaign_id)` |
-| `launch` | method | `modules/phishing_orchestrator.py:415` | `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` |
-| `profile_targets` | method | `modules/phishing_orchestrator.py:524` | `def profile_targets(self, domain)` |
-| `record_click` | method | `modules/phishing_orchestrator.py:667` | `def record_click(self, campaign_id, email)` |
-| `record_credentials` | method | `modules/phishing_orchestrator.py:688` | `def record_credentials(self, campaign_id, email, password)` |
-| `ConditionEvaluator` | class | `modules/pipeline_engine.py:326` | `class ConditionEvaluator` |
-| `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:868` | `class EngagementNarratorAdapter(INarratorAdapter)` |
-| `INarratorAdapter` | class | `modules/pipeline_engine.py:848` | `class INarratorAdapter(ABC)` |
-| `IStepRunner` | class | `modules/pipeline_engine.py:509` | `class IStepRunner(ABC)` |
-| `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:523` | `class LazyOwnStepRunner(IStepRunner)` |
-| `PipelineCycleError` | class | `modules/pipeline_engine.py:101` | `class PipelineCycleError(PipelineError)` |
-| `PipelineEngine` | class | `modules/pipeline_engine.py:908` | `class PipelineEngine` |
-| `PipelineError` | class | `modules/pipeline_engine.py:89` | `class PipelineError(Exception)` |
-| `PipelineLoader` | class | `modules/pipeline_engine.py:626` | `class PipelineLoader` |
-| `PipelineNotFoundError` | class | `modules/pipeline_engine.py:97` | `class PipelineNotFoundError(PipelineError)` |
-| `PipelineRun` | class | `modules/pipeline_engine.py:199` | `class PipelineRun` |
-| `PipelineSchemaError` | class | `modules/pipeline_engine.py:93` | `class PipelineSchemaError(PipelineError)` |
-| `PipelineSpec` | class | `modules/pipeline_engine.py:152` | `class PipelineSpec` |
-| `PipelineStep` | class | `modules/pipeline_engine.py:111` | `class PipelineStep` |
-| `RunArtifactStore` | class | `modules/pipeline_engine.py:769` | `class RunArtifactStore` |
-| `StepDerivers` | class | `modules/pipeline_engine.py:375` | `class StepDerivers` |
-| `StepResult` | class | `modules/pipeline_engine.py:163` | `class StepResult` |
-| `StepValidator` | class | `modules/pipeline_engine.py:341` | `class StepValidator` |
-| `TemplateResolver` | class | `modules/pipeline_engine.py:260` | `class TemplateResolver` |
-| `_SilentNarrator` | class | `modules/pipeline_engine.py:863` | `class _SilentNarrator(INarratorAdapter)` |
-| `__init__` | method | `modules/pipeline_engine.py:275` | `def __init__(self, context)` |
-| `__init__` | method | `modules/pipeline_engine.py:537` | `def __init__(self, runner, onecmd)` |
-| `__init__` | method | `modules/pipeline_engine.py:638` | `def __init__(self, pipelines_dir)` |
-| `__init__` | method | `modules/pipeline_engine.py:778` | `def __init__(self, runs_dir)` |
-| `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
-| `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
-| `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
-| `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
-| `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
-| `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
-| `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
-| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
-| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
-| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
-| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
-| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
-| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
-| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
-| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
-| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
-| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

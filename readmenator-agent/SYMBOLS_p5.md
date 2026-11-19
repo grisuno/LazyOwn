@@ -1,8 +1,14 @@
-# Symbols (page 5 of 53)
+# Symbols (page 5 of 54)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
+| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
+| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
+| `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
+| `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
+| `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
 | `did_you_mean` | method | `cli/graph_advisor.py:591` | `def did_you_mean(self, query, limit)` |
 | `edges_between` | method | `cli/graph_advisor.py:286` | `def edges_between(self, source, target)` |
 | `format_god_nodes` | function | `cli/graph_advisor.py:724` | `def format_god_nodes(results)` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
 | `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
 | `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
-| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
-| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
-| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
-| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
-| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
-| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

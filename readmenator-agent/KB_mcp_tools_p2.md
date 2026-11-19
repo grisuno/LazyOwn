@@ -170,8 +170,8 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `handle` (function, line 26) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
+  - `handle` (function, line 27) `def handle(arguments, tool_name, ctx)`
+- Depends on: `sdk/__init__.py`, `skills/mcp_tools/_context.py`
 
 ## skills/mcp_tools/get_llm_budget.py
 - Doc: MCP tool ``lazyown_get_llm_budget``: read the LLM cost budget status.
@@ -423,6 +423,27 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
   - `handle` (function, line 30) `def handle(arguments, tool_name, ctx)`
 - Depends on: `modules/__init__.py`, `skills/mcp_tools/_context.py`
 
+## skills/mcp_tools/lazymode_exec.py
+- Doc: MCP tool ``lazyown_lazymode_exec``: run one lazymode script.
+- Language: py
+- Symbols:
+  - `handle` (function, line 53) `def handle(arguments, tool_name, ctx)`
+- Depends on: `sdk/lazymode/__init__.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/lazymode_playbook.py
+- Doc: MCP tool ``lazyown_lazymode_playbook``: list and run lazymode playbooks.
+- Language: py
+- Symbols:
+  - `handle` (function, line 53) `def handle(arguments, tool_name, ctx)`
+- Depends on: `modules/lazymode_playbook.py`, `skills/mcp_tools/_context.py`
+
+## skills/mcp_tools/lazymode_search.py
+- Doc: MCP tool ``lazyown_lazymode_search``: discover the lazymode SDK surface.
+- Language: py
+- Symbols:
+  - `handle` (function, line 43) `def handle(arguments, tool_name, ctx)`
+- Depends on: `sdk/lazymode/__init__.py`, `skills/mcp_tools/_context.py`
+
 ## skills/mcp_tools/lazysearch.py
 - Doc: MCP tool ``lazyown_lazysearch`` (migrated from the call_tool dispatch chain).
 - Layer: utility
@@ -470,30 +491,6 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 - Symbols:
   - `handle` (function, line 36) `def handle(arguments, tool_name, ctx)`
 - Depends on: `core/param_registry.py`, `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/list_plugins.py
-- Doc: MCP tool ``lazyown_list_plugins`` (migrated from the call_tool dispatch chain).
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `handle` (function, line 17) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/list_sessions.py
-- Doc: MCP tool ``lazyown_list_sessions`` (migrated from the call_tool dispatch chain).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 26) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
-
-## skills/mcp_tools/list_targets.py
-- Doc: MCP tool ``lazyown_list_targets`` (migrated from the call_tool dispatch chain).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `handle` (function, line 30) `def handle(arguments, tool_name, ctx)`
-- Depends on: `skills/mcp_tools/_context.py`
 
 
 Next: [KB_mcp_tools_p3.md](KB_mcp_tools_p3.md)

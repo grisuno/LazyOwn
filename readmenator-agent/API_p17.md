@@ -1,5 +1,33 @@
-# API (page 17 of 28)
+# API (page 17 of 30)
 Previous: [API_p16.md](API_p16.md)
+
+## modules/llm_factory.py
+Depends on: `core/llm_budget.py`, `core/llm_key_pool.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/beacon_loop.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/sidequest.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
+- `is_model_missing_error` (function) `modules/llm_factory.py:137` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
+- `groq_model_chain` (function) `modules/llm_factory.py:157` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
+- `default_model_for` (function) `modules/llm_factory.py:246` `def default_model_for(backend)` -- Return the default model identifier for a backend.
+- `model_config_key` (function) `modules/llm_factory.py:267` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
+- `api_key_config_key` (function) `modules/llm_factory.py:288` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
+- `backend_requires_api_key` (function) `modules/llm_factory.py:313` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
+- `load_payload` (function) `modules/llm_factory.py:331` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
+- `get_llm_backend` (function) `modules/llm_factory.py:729` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:828` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:850` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:927` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:998` `def complete(model, prompt, max_tokens, temperature)` -- Complete a prompt through one model spec; raise when unanswered.
+
+## modules/llm_orchestrator.py
+Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`
+Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_vulnbot_fallback.py`
+- `OrchestratorResult.ok` (method) `modules/llm_orchestrator.py:118` `def ok(self)` -- Return True when a chain member served the answer.
+- `OrchestratorResult.display_text` (method) `modules/llm_orchestrator.py:123` `def display_text(self)` -- Return the notice-prefixed answer for operator-facing surfaces.
+- `sort_members` (function) `modules/llm_orchestrator.py:130` `def sort_members(members)` -- Return a weight-sorted defensive copy of a member list.
+- `pool_chain` (function) `modules/llm_orchestrator.py:148` `def pool_chain()` -- Return the failover chain governed by lazy_orchestrator.
+- `backend_kind` (function) `modules/llm_orchestrator.py:175` `def backend_kind(model_spec)` -- Return the provider prefix of a model spec.
+- `is_error_reply` (function) `modules/llm_orchestrator.py:192` `def is_error_reply(text)` -- Return True when a reply is a backend error banner, not content.
+- `is_placeholder_key` (function) `modules/llm_orchestrator.py:211` `def is_placeholder_key(value)` -- Return True when a key value is a shipped placeholder, not a secret.
+- `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
 
 ## modules/llm_pool.py
 Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
@@ -63,6 +91,20 @@ Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runn
 - `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
 - `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
 
+## modules/loop/control_plane.py
+Depends on: `core/logging.py`
+Imported by: `skills/autonomous_daemon.py`, `tests/test_control_plane.py`
+- `precheck_control` (function) `modules/loop/control_plane.py:23` `def precheck_control(control, target, objective_id, step_n, emit, loop, wait_until_unpaused, poll_interval, max_wait)` -- Run the per-step operator control gate.
+
+## modules/loop/daemon_reward.py
+Depends on: `modules/atomic_exploit_bridge.py`
+Imported by: `skills/autonomous_daemon.py`, `tests/test_daemon_reward_contract.py`
+- `_Trainer.encode_state` (method) `modules/loop/daemon_reward.py:88` `def encode_state(self, task_type, engagement_phase, recent_reward_ema)`
+- `_Trainer.update` (method) `modules/loop/daemon_reward.py:90` `def update(self, state, action, reward, next_state, candidates, detection_prob)`
+- `_Trainer.save` (method) `modules/loop/daemon_reward.py:100` `def save(self)`
+- `compute_step_reward` (function) `modules/loop/daemon_reward.py:126` `def compute_step_reward(output, command, phase, success, findings, prev_cmds)` -- Compute the multi-dimensional RL reward for one executed step.
+- `record_rl_feedback` (function) `modules/loop/daemon_reward.py:189` `def record_rl_feedback(trainer, source, command, phase, output, success, findings, prev_cmds, prior_ema, detection_prob)` -- Apply one honest temporal-difference update for an executed step.
+
 ## modules/loop/decision_log.py
 - `digest` (function) `modules/loop/decision_log.py:51` `def digest(text)` -- Return the stable short digest used to fingerprint a decision input.
 - `context_digest` (function) `modules/loop/decision_log.py:90` `def context_digest(ctx)` -- Fingerprint a selection context independent of field ordering.
@@ -81,6 +123,18 @@ Imported by: `modules/loop/__init__.py`
 - `EngineProxyMixin.proxy_env` (method) `modules/loop/engine_proxy.py:66` `def proxy_env(self)` -- Return the environment overrides that route tools via proxy.
 - `EngineProxyMixin.ingest_proxy_traffic` (method) `modules/loop/engine_proxy.py:75` `def ingest_proxy_traffic(self, task_id, limit)` -- Mirror new recorder exchanges into the task traffic log.
 - `EngineProxyMixin.search_proxy_body` (method) `modules/loop/engine_proxy.py:130` `def search_proxy_body(self, task_id, query, limit)` -- Full-text search proxy bodies scoped to one task's exchanges.
+
+## modules/loop/objective_bootstrap.py
+Depends on: `core/logging.py`, `modules/enrich.py`, `modules/goals.py`, `modules/intercept.py`, `modules/planner.py`
+Imported by: `skills/autonomous_daemon.py`, `tests/test_objective_bootstrap.py`
+- `bootstrap_objective` (function) `modules/loop/objective_bootstrap.py:46` `def bootstrap_objective(objective_id, objective_text, target, world_model, obs_parser, planner, emit, load_payload)` -- Run every once-per-objective setup step before the loop.
+
+## modules/loop/target_os.py
+Depends on: `core/config.py`, `core/logging.py`
+Imported by: `skills/autonomous_daemon.py`
+- `detect_target_os` (function) `modules/loop/target_os.py:42` `def detect_target_os(target, loop)` -- Infer the target OS from ICMP TTL via a single ping probe.
+- `os_id_for` (function) `modules/loop/target_os.py:93` `def os_id_for(detected_os)` -- Map an OS label to the LazyOwn canonical ``os_id`` string.
+- `persist_detected_os` (function) `modules/loop/target_os.py:105` `def persist_detected_os(objective_id, target, detected_os, world_model, emit, load_payload, sessions_dir, payload_file)` -- Record the detected OS as ground truth across every consumer.
 
 ## modules/loop/triage_scheduler.py
 Imported by: `modules/lazy_loop.py`, `modules/loop/__init__.py`, `tests/test_triage_scheduler.py`
@@ -191,22 +245,23 @@ Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_ru
 
 ## modules/loop_manager.py
 Depends on: `modules/loop_limits.py`
-Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_loop_manager.py`
-- `LoopValidationError.__init__` (method) `modules/loop_manager.py:88` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
-- `validate_target` (function) `modules/loop_manager.py:98` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
-- `sanitize_goal` (function) `modules/loop_manager.py:121` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
-- `clamp_int` (function) `modules/loop_manager.py:148` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
-- `clamp_float` (function) `modules/loop_manager.py:173` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
-- `validate_loop_id` (function) `modules/loop_manager.py:198` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
-- `LoopManager.__init__` (method) `modules/loop_manager.py:325` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
-- `LoopManager.loops_dir` (method) `modules/loop_manager.py:347` `def loops_dir(self)` -- Return the root directory for loop workspaces.
-- `LoopManager.start` (method) `modules/loop_manager.py:351` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
-- `LoopManager.list_loops` (method) `modules/loop_manager.py:546` `def list_loops(self)` -- Return every registry record with refreshed live status.
-- `LoopManager.get_loop` (method) `modules/loop_manager.py:581` `def get_loop(self, loop_id)` -- Return one registry record by id.
-- `LoopManager.read_log` (method) `modules/loop_manager.py:600` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
-- `LoopManager.stop` (method) `modules/loop_manager.py:667` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
-- `LoopManager.summary` (method) `modules/loop_manager.py:732` `def summary(self)` -- Return an aggregate view of loop activity for the report.
-- `default_manager` (function) `modules/loop_manager.py:850` `def default_manager()` -- Return the process-wide loop manager singleton.
+Imported by: `lazyc2.py`, `lazyc2/blueprints/loops.py`, `tests/test_beacon_menu.py`, `tests/test_loop_manager.py`
+- `LoopValidationError.__init__` (method) `modules/loop_manager.py:91` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
+- `validate_target` (function) `modules/loop_manager.py:101` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
+- `validate_beacon_target` (function) `modules/loop_manager.py:124` `def validate_beacon_target(raw)` -- Return the canonical string form of a validated beacon client id.
+- `sanitize_goal` (function) `modules/loop_manager.py:146` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
+- `clamp_int` (function) `modules/loop_manager.py:173` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
+- `clamp_float` (function) `modules/loop_manager.py:198` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
+- `validate_loop_id` (function) `modules/loop_manager.py:223` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
+- `LoopManager.__init__` (method) `modules/loop_manager.py:366` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
+- `LoopManager.loops_dir` (method) `modules/loop_manager.py:388` `def loops_dir(self)` -- Return the root directory for loop workspaces.
+- `LoopManager.start` (method) `modules/loop_manager.py:392` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
+- `LoopManager.list_loops` (method) `modules/loop_manager.py:594` `def list_loops(self)` -- Return every registry record with refreshed live status.
+- `LoopManager.get_loop` (method) `modules/loop_manager.py:629` `def get_loop(self, loop_id)` -- Return one registry record by id.
+- `LoopManager.read_log` (method) `modules/loop_manager.py:648` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
+- `LoopManager.stop` (method) `modules/loop_manager.py:715` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
+- `LoopManager.summary` (method) `modules/loop_manager.py:780` `def summary(self)` -- Return an aggregate view of loop activity for the report.
+- `default_manager` (function) `modules/loop_manager.py:898` `def default_manager()` -- Return the process-wide loop manager singleton.
 
 ## modules/loop_preflight.py
 Depends on: `modules/__init__.py`
@@ -415,7 +470,7 @@ Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/tes
 Depends on: `core/safe_exec.py`
 Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
 - `build_migrations` (function) `modules/metasploitable_migrations.py:194` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
-- `apply_migrations` (function) `modules/metasploitable_migrations.py:354` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
+- `apply_migrations` (function) `modules/metasploitable_migrations.py:366` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
 
 ## modules/metrics.py
 Depends on: `core/logging.py`
@@ -436,61 +491,6 @@ Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonom
 - `MetricsRecorder.tail` (method) `modules/metrics.py:430` `def tail(self, n)` -- Return the most recent *n* records, newest first.
 - `get_recorder` (function) `modules/metrics.py:452` `def get_recorder()` -- Return the process-wide :class:`MetricsRecorder` singleton.
 - `reset_recorder_for_tests` (function) `modules/metrics.py:466` `def reset_recorder_for_tests(writer)` -- Replace the module-level recorder with a fresh instance.
-
-## modules/mfa_bypass.py
-Imported by: `cli/commands/cicd.py`
-- `MFABypassEngine.__init__` (method) `modules/mfa_bypass.py:128` `def __init__(self, sessions_dir)`
-- `MFABypassEngine.enumerate_techniques` (method) `modules/mfa_bypass.py:133` `def enumerate_techniques(self, target)` -- Enumerate viable MFA bypass techniques for a given target.
-- `MFABypassEngine.generate_phishing_templates` (method) `modules/mfa_bypass.py:153` `def generate_phishing_templates(self, target)` -- Generate phishing templates tailored for MFA bypass.
-- `MFABypassEngine.mfa_conditional_access_scan` (method) `modules/mfa_bypass.py:223` `def mfa_conditional_access_scan(self, domain)` -- Scan for conditional access policy gaps.
-- `MFABypassEngine.replay_oauth_token` (method) `modules/mfa_bypass.py:252` `def replay_oauth_token(self, access_token, refresh_token)` -- Test if an OAuth2 token is still valid and can be replayed.
-- `MFABypassEngine.saml_golden_ticket_check` (method) `modules/mfa_bypass.py:278` `def saml_golden_ticket_check(self, adfs_server)` -- Check for ADFS token signing certificate exposure.
-- `MFABypassEngine.export_report` (method) `modules/mfa_bypass.py:303` `def export_report(self)` -- Export MFA bypass results to a JSON report.
-
-## modules/module_registry.py
-Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
-- `ModuleInfo.__init__` (method) `modules/module_registry.py:216` `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
-- `ModuleInfo.to_dict` (method) `modules/module_registry.py:246` `def to_dict(self)`
-- `ModuleRegistry.__init__` (method) `modules/module_registry.py:279` `def __init__(self, base_dir)`
-- `ModuleRegistry.get_instance` (method) `modules/module_registry.py:285` `def get_instance(cls, base_dir)` -- Return the singleton registry instance.
-- `ModuleRegistry.scan` (method) `modules/module_registry.py:291` `def scan(self)` -- Scan all module directories and return the full list.
-- `ModuleRegistry.rescan` (method) `modules/module_registry.py:304` `def rescan(self)` -- Force a full rescan and return modules.
-- `ModuleRegistry.get` (method) `modules/module_registry.py:313` `def get(self, name)` -- Get a module by name.
-- `ModuleRegistry.search` (method) `modules/module_registry.py:319` `def search(self, query, module_type, category, enabled_only, include_deprecated)` -- Search indexed modules.
-- `ModuleRegistry.deprecated_modules` (method) `modules/module_registry.py:359` `def deprecated_modules(self)` -- Return all deprecated modules.
-- `ModuleRegistry.by_type` (method) `modules/module_registry.py:365` `def by_type(self, module_type)` -- Shorthand for ``search(module_type=module_type)``.
-- `ModuleRegistry.summary` (method) `modules/module_registry.py:369` `def summary(self)` -- Return counts by module type.
-- `ModuleRegistry.proposal_intents` (method) `modules/module_registry.py:378` `def proposal_intents(self, texts, target, limit)` -- Loop bridge: map corpus mentions onto runnable module intents.
-- `format_module_table` (function) `modules/module_registry.py:666` `def format_module_table(modules, cols)` -- Format a list of modules as an aligned text table.
-- `format_module_detail` (function) `modules/module_registry.py:713` `def format_module_detail(m)` -- Format a single module's full metadata.
-
-## modules/moe_router.py
-Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
-Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
-- `ExpertProfile.is_local` (method) `modules/moe_router.py:96` `def is_local(self)`
-- `ExpertPerformance.update` (method) `modules/moe_router.py:115` `def update(self, reward, detection_prob)`
-- `IExpertSelector.select` (method) `modules/moe_router.py:261` `def select(self, candidates, task_type, performance_store, deterministic)` -- Return the selected expert from candidates.
-- `ExpertPerformanceStore.__init__` (method) `modules/moe_router.py:283` `def __init__(self, path)`
-- `ExpertPerformanceStore.record` (method) `modules/moe_router.py:298` `def record(self, expert_id, task_type, reward, detection_prob)` -- Update performance for (expert, task_type) and persist.
-- `ExpertPerformanceStore.get` (method) `modules/moe_router.py:316` `def get(self, expert_id, task_type)`
-- `ExpertPerformanceStore.all_for_task` (method) `modules/moe_router.py:321` `def all_for_task(self, task_type)`
-- `ExpertPerformanceStore.performance_bonus` (method) `modules/moe_router.py:325` `def performance_bonus(self, expert_id, task_type)` -- Return a bonus scalar in [-0.3, +0.5] based on EMA reward history.
-- `SoftmaxSelector.__init__` (method) `modules/moe_router.py:377` `def __init__(self, temperature)`
-- `SoftmaxSelector.temperature` (method) `modules/moe_router.py:381` `def temperature(self)`
-- `SoftmaxSelector.temperature` (method) `modules/moe_router.py:385` `def temperature(self, value)`
-- `SoftmaxSelector.select` (method) `modules/moe_router.py:388` `def select(self, candidates, task_type, performance_store, deterministic)`
-- `ExpertAvailabilityChecker.__init__` (method) `modules/moe_router.py:443` `def __init__(self)`
-- `ExpertAvailabilityChecker.is_available` (method) `modules/moe_router.py:447` `def is_available(self, expert, api_key)`
-- `MoERouter.__init__` (method) `modules/moe_router.py:500` `def __init__(self, experts, selector, performance_store, api_key)`
-- `MoERouter.route` (method) `modules/moe_router.py:515` `def route(self, task_type, goal, deterministic)` -- Return the single best expert for the given task_type.
-- `MoERouter.ensemble` (method) `modules/moe_router.py:547` `def ensemble(self, task_type, goal, n)` -- Return up to *n* distinct experts for ensemble execution.
-- `adjusted_weight` (function) `modules/moe_router.py:562` `def adjusted_weight(ep)`
-- `MoERouter.record_outcome` (method) `modules/moe_router.py:575` `def record_outcome(self, expert_id, task_type, reward, detection_prob)` -- Record the outcome of an expert execution.
-- `MoERouter.top_experts_for_task` (method) `modules/moe_router.py:589` `def top_experts_for_task(self, task_type, top_k)` -- Return (expert, adjusted_weight) sorted descending for diagnostics.
-- `MoERouter.get_expert` (method) `modules/moe_router.py:605` `def get_expert(self, expert_id)` -- Return expert by ID, or None.
-- `MoERouter.status_report` (method) `modules/moe_router.py:609` `def status_report(self)` -- Return a diagnostic snapshot of all experts and their weights.
-- `get_router` (function) `modules/moe_router.py:684` `def get_router(api_key)` -- Return (or create) the module-level singleton MoERouter.
 
 
 Next: [API_p18.md](API_p18.md)

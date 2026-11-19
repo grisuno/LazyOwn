@@ -1,18 +1,19 @@
-# Symbols (page 3 of 53)
+# Symbols (page 3 of 54)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
 | `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
-| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:24` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
-| `do_chisel` | method | `cli/commands/lateral.py:43` | `def do_chisel(self, line)` |
-| `do_ligolo` | method | `cli/commands/lateral.py:79` | `def do_ligolo(self, line)` |
-| `do_nc` | method | `cli/commands/lateral.py:91` | `def do_nc(self, line)` |
-| `do_ngrok` | method | `cli/commands/lateral.py:72` | `def do_ngrok(self, line)` |
-| `do_set_proxychains` | method | `cli/commands/lateral.py:59` | `def do_set_proxychains(self, line)` |
-| `do_socat` | method | `cli/commands/lateral.py:31` | `def do_socat(self, line)` |
-| `do_ssh` | method | `cli/commands/lateral.py:114` | `def do_ssh(self, line)` |
-| `do_wmiexec` | method | `cli/commands/lateral.py:106` | `def do_wmiexec(self, line)` |
+| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:22` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
+| `do_chisel` | method | `cli/commands/lateral.py:41` | `def do_chisel(self, line)` |
+| `do_ligolo` | method | `cli/commands/lateral.py:77` | `def do_ligolo(self, line)` |
+| `do_nc` | method | `cli/commands/lateral.py:89` | `def do_nc(self, line)` |
+| `do_ngrok` | method | `cli/commands/lateral.py:70` | `def do_ngrok(self, line)` |
+| `do_set_proxychains` | method | `cli/commands/lateral.py:57` | `def do_set_proxychains(self, line)` |
+| `do_socat` | method | `cli/commands/lateral.py:29` | `def do_socat(self, line)` |
+| `do_ssh` | method | `cli/commands/lateral.py:112` | `def do_ssh(self, line)` |
+| `do_wmiexec` | method | `cli/commands/lateral.py:104` | `def do_wmiexec(self, line)` |
 | `LateralMigratedCommandSet` | class | `cli/commands/lateral_migrated.py:24` | `class LateralMigratedCommandSet(LazyOwnCommandSet)` |
 | `do_addcli` | method | `cli/commands/lateral_migrated.py:1302` | `def do_addcli(self, line)` |
 | `do_bloodyAD` | method | `cli/commands/lateral_migrated.py:229` | `def do_bloodyAD(self, line)` |
@@ -68,6 +69,8 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_sync` | method | `cli/commands/lazyloop.py:36` | `def do_lazy_sync(self, line)` |
 | `do_lazy_verdict` | method | `cli/commands/lazyloop.py:190` | `def do_lazy_verdict(self, line)` |
 | `do_lazy_view` | method | `cli/commands/lazyloop.py:364` | `def do_lazy_view(self, line)` |
+| `LazymodeCommandSet` | class | `cli/commands/lazymode.py:20` | `class LazymodeCommandSet(LazyOwnCommandSet)` |
+| `do_lazymode_pb` | method | `cli/commands/lazymode.py:27` | `def do_lazymode_pb(self, line)` |
 | `LazyCommandSet` | class | `cli/commands/lazyops.py:42` | `class LazyCommandSet(LazyOwnCommandSet)` |
 | `_agent_main_prompt` | method | `cli/commands/lazyops.py:1776` | `def _agent_main_prompt(self, task_id)` |
 | `_agent_main_tools` | method | `cli/commands/lazyops.py:1659` | `def _agent_main_tools(self, task_id)` |
@@ -80,15 +83,15 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `campaign_sitrep` | function | `cli/commands/lazyops.py:1698` | `def campaign_sitrep()` |
 | `do_lazy_addon` | method | `cli/commands/lazyops.py:2134` | `def do_lazy_addon(self, line)` |
 | `do_lazy_agent` | method | `cli/commands/lazyops.py:1787` | `def do_lazy_agent(self, line)` |
-| `do_lazy_archive` | method | `cli/commands/lazyops.py:2616` | `def do_lazy_archive(self, line)` |
+| `do_lazy_archive` | method | `cli/commands/lazyops.py:2618` | `def do_lazy_archive(self, line)` |
 | `do_lazy_ask` | method | `cli/commands/lazyops.py:1633` | `def do_lazy_ask(self, line)` |
 | `do_lazy_asset` | method | `cli/commands/lazyops.py:939` | `def do_lazy_asset(self, line)` |
 | `do_lazy_blindspot` | method | `cli/commands/lazyops.py:736` | `def do_lazy_blindspot(self, line)` |
 | `do_lazy_broadcast` | method | `cli/commands/lazyops.py:615` | `def do_lazy_broadcast(self, line)` |
-| `do_lazy_category` | method | `cli/commands/lazyops.py:2678` | `def do_lazy_category(self, line)` |
-| `do_lazy_chat` | method | `cli/commands/lazyops.py:2699` | `def do_lazy_chat(self, line)` |
+| `do_lazy_category` | method | `cli/commands/lazyops.py:2680` | `def do_lazy_category(self, line)` |
+| `do_lazy_chat` | method | `cli/commands/lazyops.py:2701` | `def do_lazy_chat(self, line)` |
 | `do_lazy_commander` | method | `cli/commands/lazyops.py:650` | `def do_lazy_commander(self, line)` |
-| `do_lazy_compact` | method | `cli/commands/lazyops.py:2515` | `def do_lazy_compact(self, line)` |
+| `do_lazy_compact` | method | `cli/commands/lazyops.py:2517` | `def do_lazy_compact(self, line)` |
 | `do_lazy_company` | method | `cli/commands/lazyops.py:1888` | `def do_lazy_company(self, line)` |
 | `do_lazy_constraint` | method | `cli/commands/lazyops.py:881` | `def do_lazy_constraint(self, line)` |
 | `do_lazy_context` | method | `cli/commands/lazyops.py:305` | `def do_lazy_context(self, line)` |
@@ -99,22 +102,22 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_fact` | method | `cli/commands/lazyops.py:1518` | `def do_lazy_fact(self, line)` |
 | `do_lazy_finding` | method | `cli/commands/lazyops.py:1314` | `def do_lazy_finding(self, line)` |
 | `do_lazy_frontier` | method | `cli/commands/lazyops.py:510` | `def do_lazy_frontier(self, line)` |
-| `do_lazy_gate` | method | `cli/commands/lazyops.py:2759` | `def do_lazy_gate(self, line)` |
+| `do_lazy_gate` | method | `cli/commands/lazyops.py:2761` | `def do_lazy_gate(self, line)` |
 | `do_lazy_goal` | method | `cli/commands/lazyops.py:842` | `def do_lazy_goal(self, line)` |
 | `do_lazy_graph` | method | `cli/commands/lazyops.py:276` | `def do_lazy_graph(self, line)` |
 | `do_lazy_guard` | method | `cli/commands/lazyops.py:1213` | `def do_lazy_guard(self, line)` |
 | `do_lazy_hint` | method | `cli/commands/lazyops.py:762` | `def do_lazy_hint(self, line)` |
-| `do_lazy_install` | method | `cli/commands/lazyops.py:2874` | `def do_lazy_install(self, line)` |
+| `do_lazy_install` | method | `cli/commands/lazyops.py:2876` | `def do_lazy_install(self, line)` |
 | `do_lazy_intent` | method | `cli/commands/lazyops.py:774` | `def do_lazy_intent(self, line)` |
 | `do_lazy_intent_delete` | method | `cli/commands/lazyops.py:799` | `def do_lazy_intent_delete(self, line)` |
 | `do_lazy_kill` | method | `cli/commands/lazyops.py:1410` | `def do_lazy_kill(self, line)` |
-| `do_lazy_llm` | method | `cli/commands/lazyops.py:2378` | `def do_lazy_llm(self, line)` |
-| `do_lazy_loop` | method | `cli/commands/lazyops.py:2804` | `def do_lazy_loop(self, line)` |
+| `do_lazy_llm` | method | `cli/commands/lazyops.py:2380` | `def do_lazy_llm(self, line)` |
+| `do_lazy_loop` | method | `cli/commands/lazyops.py:2806` | `def do_lazy_loop(self, line)` |
 | `do_lazy_mode` | method | `cli/commands/lazyops.py:2108` | `def do_lazy_mode(self, line)` |
 | `do_lazy_node` | method | `cli/commands/lazyops.py:1546` | `def do_lazy_node(self, line)` |
-| `do_lazy_notify` | method | `cli/commands/lazyops.py:2241` | `def do_lazy_notify(self, line)` |
-| `do_lazy_overview` | method | `cli/commands/lazyops.py:2611` | `def do_lazy_overview(self, line)` |
-| `do_lazy_pacing` | method | `cli/commands/lazyops.py:2912` | `def do_lazy_pacing(self, line)` |
+| `do_lazy_notify` | method | `cli/commands/lazyops.py:2243` | `def do_lazy_notify(self, line)` |
+| `do_lazy_overview` | method | `cli/commands/lazyops.py:2613` | `def do_lazy_overview(self, line)` |
+| `do_lazy_pacing` | method | `cli/commands/lazyops.py:2914` | `def do_lazy_pacing(self, line)` |
 | `do_lazy_pause` | method | `cli/commands/lazyops.py:1422` | `def do_lazy_pause(self, line)` |
 | `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1506` | `def do_lazy_payload_keys(self, line)` |
 | `do_lazy_planner` | method | `cli/commands/lazyops.py:491` | `def do_lazy_planner(self, line)` |
@@ -122,21 +125,21 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_resume` | method | `cli/commands/lazyops.py:1432` | `def do_lazy_resume(self, line)` |
 | `do_lazy_retest` | method | `cli/commands/lazyops.py:1379` | `def do_lazy_retest(self, line)` |
 | `do_lazy_runtime` | method | `cli/commands/lazyops.py:1459` | `def do_lazy_runtime(self, line)` |
-| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2811` | `def do_lazy_sandbox(self, line)` |
-| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2732` | `def do_lazy_scheduler(self, line)` |
+| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2813` | `def do_lazy_sandbox(self, line)` |
+| `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2734` | `def do_lazy_scheduler(self, line)` |
 | `do_lazy_scope` | method | `cli/commands/lazyops.py:899` | `def do_lazy_scope(self, line)` |
 | `do_lazy_selfupdate` | method | `cli/commands/lazyops.py:463` | `def do_lazy_selfupdate(self, line)` |
 | `do_lazy_skill` | method | `cli/commands/lazyops.py:326` | `def do_lazy_skill(self, line)` |
 | `do_lazy_stage` | method | `cli/commands/lazyops.py:2080` | `def do_lazy_stage(self, line)` |
-| `do_lazy_status` | method | `cli/commands/lazyops.py:2587` | `def do_lazy_status(self, line)` |
+| `do_lazy_status` | method | `cli/commands/lazyops.py:2589` | `def do_lazy_status(self, line)` |
 | `do_lazy_steer` | method | `cli/commands/lazyops.py:1398` | `def do_lazy_steer(self, line)` |
 | `do_lazy_task` | method | `cli/commands/lazyops.py:154` | `def do_lazy_task(self, line)` |
-| `do_lazy_template` | method | `cli/commands/lazyops.py:2647` | `def do_lazy_template(self, line)` |
+| `do_lazy_template` | method | `cli/commands/lazyops.py:2649` | `def do_lazy_template(self, line)` |
 | `do_lazy_todo` | method | `cli/commands/lazyops.py:917` | `def do_lazy_todo(self, line)` |
 | `do_lazy_tool` | method | `cli/commands/lazyops.py:1910` | `def do_lazy_tool(self, line)` |
 | `do_lazy_trace` | method | `cli/commands/lazyops.py:562` | `def do_lazy_trace(self, line)` |
 | `do_lazy_traffic` | method | `cli/commands/lazyops.py:992` | `def do_lazy_traffic(self, line)` |
-| `do_lazy_trigger` | method | `cli/commands/lazyops.py:2289` | `def do_lazy_trigger(self, line)` |
+| `do_lazy_trigger` | method | `cli/commands/lazyops.py:2291` | `def do_lazy_trigger(self, line)` |
 | `do_lazy_verb` | method | `cli/commands/lazyops.py:1982` | `def do_lazy_verb(self, line)` |
 | `do_lazy_worker` | method | `cli/commands/lazyops.py:522` | `def do_lazy_worker(self, line)` |
 | `do_lazy_workspace` | method | `cli/commands/lazyops.py:410` | `def do_lazy_workspace(self, line)` |
@@ -289,17 +292,17 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `PayloadCommandSet` | class | `cli/commands/payload_generation.py:24` | `class PayloadCommandSet(LazyOwnCommandSet)` |
 | `_get_factory` | method | `cli/commands/payload_generation.py:30` | `def _get_factory(self)` |
 | `do_generate` | method | `cli/commands/payload_generation.py:37` | `def do_generate(self, line)` |
-| `PersistenceCommandSet` | class | `cli/commands/persist.py:26` | `class PersistenceCommandSet(LazyOwnCommandSet)` |
-| `_extract` | method | `cli/commands/persist.py:275` | `def _extract(args, flag)` |
-| `do_conptyshell` | method | `cli/commands/persist.py:73` | `def do_conptyshell(self, line)` |
-| `do_createrevshell` | method | `cli/commands/persist.py:47` | `def do_createrevshell(self, line)` |
-| `do_createwebshell` | method | `cli/commands/persist.py:33` | `def do_createwebshell(self, line)` |
-| `do_createwinrevshell` | method | `cli/commands/persist.py:61` | `def do_createwinrevshell(self, line)` |
-| `do_pwncatcs` | method | `cli/commands/persist.py:89` | `def do_pwncatcs(self, line)` |
-| `do_revwin` | method | `cli/commands/persist.py:99` | `def do_revwin(self, line)` |
-| `do_wmi_lateral` | method | `cli/commands/persist.py:170` | `def do_wmi_lateral(self, line)` |
-| `do_wmi_persist` | method | `cli/commands/persist.py:112` | `def do_wmi_persist(self, line)` |
-| `do_wmi_scheduled_task` | method | `cli/commands/persist.py:209` | `def do_wmi_scheduled_task(self, line)` |
+| `PersistenceCommandSet` | class | `cli/commands/persist.py:24` | `class PersistenceCommandSet(LazyOwnCommandSet)` |
+| `_extract` | method | `cli/commands/persist.py:273` | `def _extract(args, flag)` |
+| `do_conptyshell` | method | `cli/commands/persist.py:71` | `def do_conptyshell(self, line)` |
+| `do_createrevshell` | method | `cli/commands/persist.py:45` | `def do_createrevshell(self, line)` |
+| `do_createwebshell` | method | `cli/commands/persist.py:31` | `def do_createwebshell(self, line)` |
+| `do_createwinrevshell` | method | `cli/commands/persist.py:59` | `def do_createwinrevshell(self, line)` |
+| `do_pwncatcs` | method | `cli/commands/persist.py:87` | `def do_pwncatcs(self, line)` |
+| `do_revwin` | method | `cli/commands/persist.py:97` | `def do_revwin(self, line)` |
+| `do_wmi_lateral` | method | `cli/commands/persist.py:168` | `def do_wmi_lateral(self, line)` |
+| `do_wmi_persist` | method | `cli/commands/persist.py:110` | `def do_wmi_persist(self, line)` |
+| `do_wmi_scheduled_task` | method | `cli/commands/persist.py:207` | `def do_wmi_scheduled_task(self, line)` |
 | `PersistMigratedCommandSet` | class | `cli/commands/persist_migrated.py:32` | `class PersistMigratedCommandSet(LazyOwnCommandSet)` |
 | `_ensure_backdoor_creds` | method | `cli/commands/persist_migrated.py:68` | `def _ensure_backdoor_creds(self)` |
 | `do_asprevbase64` | method | `cli/commands/persist_migrated.py:354` | `def do_asprevbase64(self, line)` |
@@ -360,15 +363,15 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_pivot_proxy` | method | `cli/commands/pivoting.py:224` | `def do_pivot_proxy(self, line)` |
 | `do_pivot_scan` | method | `cli/commands/pivoting.py:171` | `def do_pivot_scan(self, line)` |
 | `do_pivot_status` | method | `cli/commands/pivoting.py:118` | `def do_pivot_status(self, line)` |
-| `PostExploitationCommandSet` | class | `cli/commands/postexp.py:25` | `class PostExploitationCommandSet(LazyOwnCommandSet)` |
-| `do_atomic_lazyown` | method | `cli/commands/postexp.py:87` | `def do_atomic_lazyown(self, line)` |
-| `do_disableav` | method | `cli/commands/postexp.py:45` | `def do_disableav(self, line)` |
-| `do_follina` | method | `cli/commands/postexp.py:69` | `def do_follina(self, line)` |
-| `do_lazywebshell` | method | `cli/commands/postexp.py:32` | `def do_lazywebshell(self, line)` |
-| `do_mimikatzpy` | method | `cli/commands/postexp.py:59` | `def do_mimikatzpy(self, line)` |
-| `do_ofuscatorps1` | method | `cli/commands/postexp.py:82` | `def do_ofuscatorps1(self, line)` |
-| `do_scavenger` | method | `cli/commands/postexp.py:64` | `def do_scavenger(self, line)` |
-| `do_shellcode` | method | `cli/commands/postexp.py:74` | `def do_shellcode(self, line)` |
+| `PostExploitationCommandSet` | class | `cli/commands/postexp.py:22` | `class PostExploitationCommandSet(LazyOwnCommandSet)` |
+| `do_atomic_lazyown` | method | `cli/commands/postexp.py:84` | `def do_atomic_lazyown(self, line)` |
+| `do_disableav` | method | `cli/commands/postexp.py:42` | `def do_disableav(self, line)` |
+| `do_follina` | method | `cli/commands/postexp.py:66` | `def do_follina(self, line)` |
+| `do_lazywebshell` | method | `cli/commands/postexp.py:29` | `def do_lazywebshell(self, line)` |
+| `do_mimikatzpy` | method | `cli/commands/postexp.py:56` | `def do_mimikatzpy(self, line)` |
+| `do_ofuscatorps1` | method | `cli/commands/postexp.py:79` | `def do_ofuscatorps1(self, line)` |
+| `do_scavenger` | method | `cli/commands/postexp.py:61` | `def do_scavenger(self, line)` |
+| `do_shellcode` | method | `cli/commands/postexp.py:71` | `def do_shellcode(self, line)` |
 | `PostexpMigratedCommandSet` | class | `cli/commands/postexp_migrated.py:32` | `class PostexpMigratedCommandSet(LazyOwnCommandSet)` |
 | `do_add2find` | method | `cli/commands/postexp_migrated.py:2524` | `def do_add2find(self, line)` |
 | `do_adversary` | method | `cli/commands/postexp_migrated.py:1997` | `def do_adversary(self, line)` |
@@ -408,27 +411,27 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_ssh_cmd` | method | `cli/commands/postexp_migrated.py:1837` | `def do_ssh_cmd(self, line)` |
 | `do_yara_scan` | method | `cli/commands/postexp_migrated.py:2610` | `def do_yara_scan(self, line)` |
 | `resolve_and_download_dependencies` | function | `cli/commands/postexp_migrated.py:1030` | `def resolve_and_download_dependencies(package_name)` |
-| `PrivilegeEscalationCommandSet` | class | `cli/commands/privilege_escalation.py:132` | `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)` |
-| `_detect_os_for_privesc` | method | `cli/commands/privilege_escalation.py:695` | `def _detect_os_for_privesc(self)` |
-| `_serve_via_http` | function | `cli/commands/privilege_escalation.py:114` | `def _serve_via_http(shell, binary_name, sessions_path, lport)` |
-| `_serve_windows_tool` | method | `cli/commands/privilege_escalation.py:656` | `def _serve_windows_tool(self, binary, label, description, args)` |
-| `_sessions_directory` | function | `cli/commands/privilege_escalation.py:102` | `def _sessions_directory(base_path)` |
-| `_whoami_priv_linux` | method | `cli/commands/privilege_escalation.py:480` | `def _whoami_priv_linux(self)` |
-| `_whoami_priv_windows` | method | `cli/commands/privilege_escalation.py:496` | `def _whoami_priv_windows(self)` |
-| `do_gtfo` | method | `cli/commands/privilege_escalation.py:403` | `def do_gtfo(self, line)` |
-| `do_juicypotato` | method | `cli/commands/privilege_escalation.py:632` | `def do_juicypotato(self, line)` |
-| `do_les` | method | `cli/commands/privilege_escalation.py:310` | `def do_les(self, line)` |
-| `do_linpeas` | method | `cli/commands/privilege_escalation.py:235` | `def do_linpeas(self, line)` |
-| `do_printspoofer` | method | `cli/commands/privilege_escalation.py:610` | `def do_printspoofer(self, line)` |
-| `do_privesc_cmd_by_os` | method | `cli/commands/privilege_escalation.py:755` | `def do_privesc_cmd_by_os(self, line)` |
-| `do_pspy` | method | `cli/commands/privilege_escalation.py:369` | `def do_pspy(self, line)` |
-| `do_responder` | method | `cli/commands/privilege_escalation.py:197` | `def do_responder(self, line)` |
-| `do_smbserver` | method | `cli/commands/privilege_escalation.py:139` | `def do_smbserver(self, line)` |
-| `do_sudo` | method | `cli/commands/privilege_escalation.py:222` | `def do_sudo(self, line)` |
-| `do_sudo_privesc` | method | `cli/commands/privilege_escalation.py:512` | `def do_sudo_privesc(self, line)` |
-| `do_suid_check` | method | `cli/commands/privilege_escalation.py:350` | `def do_suid_check(self, line)` |
-| `do_whoami_priv` | method | `cli/commands/privilege_escalation.py:450` | `def do_whoami_priv(self, line)` |
-| `do_winpeas` | method | `cli/commands/privilege_escalation.py:271` | `def do_winpeas(self, line)` |
+| `PrivilegeEscalationCommandSet` | class | `cli/commands/privilege_escalation.py:126` | `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)` |
+| `_detect_os_for_privesc` | method | `cli/commands/privilege_escalation.py:689` | `def _detect_os_for_privesc(self)` |
+| `_serve_via_http` | function | `cli/commands/privilege_escalation.py:108` | `def _serve_via_http(shell, binary_name, sessions_path, lport)` |
+| `_serve_windows_tool` | method | `cli/commands/privilege_escalation.py:650` | `def _serve_windows_tool(self, binary, label, description, args)` |
+| `_sessions_directory` | function | `cli/commands/privilege_escalation.py:96` | `def _sessions_directory(base_path)` |
+| `_whoami_priv_linux` | method | `cli/commands/privilege_escalation.py:474` | `def _whoami_priv_linux(self)` |
+| `_whoami_priv_windows` | method | `cli/commands/privilege_escalation.py:490` | `def _whoami_priv_windows(self)` |
+| `do_gtfo` | method | `cli/commands/privilege_escalation.py:397` | `def do_gtfo(self, line)` |
+| `do_juicypotato` | method | `cli/commands/privilege_escalation.py:626` | `def do_juicypotato(self, line)` |
+| `do_les` | method | `cli/commands/privilege_escalation.py:304` | `def do_les(self, line)` |
+| `do_linpeas` | method | `cli/commands/privilege_escalation.py:229` | `def do_linpeas(self, line)` |
+| `do_printspoofer` | method | `cli/commands/privilege_escalation.py:604` | `def do_printspoofer(self, line)` |
+| `do_privesc_cmd_by_os` | method | `cli/commands/privilege_escalation.py:749` | `def do_privesc_cmd_by_os(self, line)` |
+| `do_pspy` | method | `cli/commands/privilege_escalation.py:363` | `def do_pspy(self, line)` |
+| `do_responder` | method | `cli/commands/privilege_escalation.py:191` | `def do_responder(self, line)` |
+| `do_smbserver` | method | `cli/commands/privilege_escalation.py:133` | `def do_smbserver(self, line)` |
+| `do_sudo` | method | `cli/commands/privilege_escalation.py:216` | `def do_sudo(self, line)` |
+| `do_sudo_privesc` | method | `cli/commands/privilege_escalation.py:506` | `def do_sudo_privesc(self, line)` |
+| `do_suid_check` | method | `cli/commands/privilege_escalation.py:344` | `def do_suid_check(self, line)` |
+| `do_whoami_priv` | method | `cli/commands/privilege_escalation.py:444` | `def do_whoami_priv(self, line)` |
+| `do_winpeas` | method | `cli/commands/privilege_escalation.py:265` | `def do_winpeas(self, line)` |
 | `PurpleTeamCommandSet` | class | `cli/commands/purple_team.py:124` | `class PurpleTeamCommandSet(LazyOwnCommandSet)` |
 | `_build_config_parser` | function | `cli/commands/purple_team.py:92` | `def _build_config_parser()` |
 | `_build_exec_parser` | function | `cli/commands/purple_team.py:29` | `def _build_exec_parser()` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_trace` | method | `cli/commands/recon_migrated.py:831` | `def do_trace(self, line)` |
 | `do_trufflehog` | method | `cli/commands/recon_migrated.py:746` | `def do_trufflehog(self, line)` |
 | `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
-| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
-| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
-| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

@@ -224,10 +224,10 @@ def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ..
         Migration(
             id="proftpd-anonymous",
             description="Enable anonymous FTP access in proftpd",
-            check="grep -q '<Anonymous' /etc/proftpd/proftpd.conf",
+            check="grep -q '^<Anonymous' /etc/proftpd/proftpd.conf",
             apply="\n".join(
                 [
-                    "grep -q '<Anonymous' /etc/proftpd/proftpd.conf || cat >> /etc/proftpd/proftpd.conf <<'LZEOF'",
+                    "grep -q '^<Anonymous' /etc/proftpd/proftpd.conf || cat >> /etc/proftpd/proftpd.conf <<'LZEOF'",
                     "<Anonymous ~ftp>",
                     "  User ftp",
                     "  Group nogroup",
@@ -245,7 +245,7 @@ def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ..
             check='ps aux | grep "[X]tightvnc" | grep -q " -ac "',
             apply="\n".join(
                 [
-                    "pkill -f Xtightvnc 2>/dev/null || true",
+                    "pkill -x Xtightvnc 2>/dev/null || true",
                     "sleep 1",
                     f"(nohup {XVNC_COMMAND} >{XVNC_LOG} 2>&1 &)",
                     "sleep 2",
@@ -287,9 +287,21 @@ def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ..
             ),
         ),
         Migration(
+            id="dvwa-database",
+            description="Create/reset the DVWA database (setup.php create_db)",
+            check='mysql -u root -N -e "SHOW TABLES FROM dvwa" 2>/dev/null | grep -q "^users$"',
+            apply="\n".join(
+                [
+                    "curl -s -c /tmp/lz_dvwa.jar http://127.0.0.1/dvwa/setup.php >/dev/null 2>&1 || true",
+                    "curl -s -b /tmp/lz_dvwa.jar -d 'create_db=Create / Reset Database' http://127.0.0.1/dvwa/setup.php >/dev/null 2>&1 || true",
+                    "rm -f /tmp/lz_dvwa.jar",
+                ]
+            ),
+        ),
+        Migration(
             id="dvwa-dom-page",
             description="Install the canonical DVWA DOM XSS page (missing from this DVWA build)",
-            check=f"test -f {DVWA_DOM_PAGE}",
+            check=f"test -s {DVWA_DOM_PAGE}",
             apply=f"mkdir -p $(dirname {DVWA_DOM_PAGE}) && cat > {DVWA_DOM_PAGE}",
             payload=DVWA_DOM_PHP,
         ),
@@ -299,7 +311,7 @@ def build_migrations(subnet: str = DEFAULT_DOCKER_SUBNET) -> tuple[Migration, ..
                 "Serve answered A records over UDP/53 from a python2.5 responder "
                 "(named cannot capset inside the container)"
             ),
-            check=(f'test -x {DNS_FALLBACK_SCRIPT} && grep -q "00000000:0035" /proc/net/udp'),
+            check=(f'test -s {DNS_FALLBACK_SCRIPT} && grep -q "00000000:0035" /proc/net/udp'),
             apply="\n".join(
                 [
                     f"mkdir -p /usr/local/sbin && cat > {DNS_FALLBACK_SCRIPT} && chmod 755 {DNS_FALLBACK_SCRIPT}",

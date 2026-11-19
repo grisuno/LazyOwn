@@ -4,7 +4,7 @@
 
 ## Definition
 
-This community groups 136 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`. Core file: `lazyc2.py` (325 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 136 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`. Core file: `lazyc2.py` (330 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
@@ -20,7 +20,7 @@ This community groups 136 file(s) rooted at `tests` with dominant language py (c
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/addon_updater.py` | py | utility | 10 | yes |
-| `modules/beacon_history.py` | py | utility | 7 | yes |
+| `modules/beacon_history.py` | py | utility | 6 | yes |
 
 ### `lazyc2/security` (12 files)
 
@@ -89,7 +89,7 @@ This community groups 136 file(s) rooted at `tests` with dominant language py (c
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `lazyc2.py` | py | presentation | 325 | no |
+| `lazyc2.py` | py | presentation | 330 | no |
 
 ### `browser_sync_extension` (1 files)
 
@@ -141,8 +141,8 @@ This community groups 136 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 373
-- Cross-boundary resolved imports (EXTRACTED): 368
+- Internal resolved imports (EXTRACTED): 374
+- Cross-boundary resolved imports (EXTRACTED): 394
 
 ## Connections
 
@@ -152,26 +152,11 @@ This community groups 136 file(s) rooted at `tests` with dominant language py (c
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
-- [layer strict] `tests/integration_autonomous_flow.py` (testing) -> `modules/moe_router.py` (presentation)
-- [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
 - Why do 13 file(s) lack file-level docs (e.g. `browser_sync_extension/background.js`)? What purpose do they serve?
-- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
 - Should modules: lazyc2 be split, given cohesion 0.47?
 

@@ -3,6 +3,10 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 
 ## Internal Dependencies
 
+- `2026-11-18_112624/jquery-1.11.3.min.js` -> `cli/show.py`
+- `2026-11-18_112624/jquery-1.11.3.min.js` -> `cli/style.py`
+- `2026-11-18_112624/jquery-1.11.3.min.js` -> `lazyown-docker/init.sh`
+- `2026-11-18_112624/jquery-1.11.3.min.js` -> `poc_tui/run.py`
 - `banner.py` -> `utils.py`
 - `cli/__init__.py` -> `cli/aliases.py`
 - `cli/__init__.py` -> `cli/registry.py`
@@ -143,6 +147,8 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_cli.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_exploit_bridge.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_resolver.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/beacon_loop.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/bof_delivery.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_approval.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_distill.py`
@@ -225,7 +231,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/exploit_migrated.py` -> `modules/exploit_recommender.py`
 - `cli/commands/exploit_migrated.py` -> `modules/world_model.py`
 - `cli/commands/exploit_migrated.py` -> `utils.py`
+- `cli/commands/exploitdb.py` -> `cli/commands/_base.py`
 - `cli/commands/exploitdb.py` -> `modules/__init__.py`
+- `cli/commands/exploitdb.py` -> `utils.py`
 - `cli/commands/exploitgym.py` -> `cli/commands/_base.py`
 - `cli/commands/exploitgym.py` -> `modules/exploitgym_gym.py`
 - `cli/commands/exploitgym.py` -> `utils.py`
@@ -310,6 +318,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazyloop.py` -> `modules/lazy_mentions.py`
 - `cli/commands/lazyloop.py` -> `modules/sinks/findings.py`
 - `cli/commands/lazyloop.py` -> `utils.py`
+- `cli/commands/lazymode.py` -> `cli/commands/_base.py`
+- `cli/commands/lazymode.py` -> `modules/lazymode_playbook.py`
+- `cli/commands/lazymode.py` -> `utils.py`
 - `cli/commands/lazyops.py` -> `cli/commands/_base.py`
 - `cli/commands/lazyops.py` -> `core/process.py`
 - `cli/commands/lazyops.py` -> `modules/__init__.py`
@@ -485,16 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
 - `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
 - `cli/commands/redteam_gym.py` -> `utils.py`
-- `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
-- `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
-- `cli/commands/resource_scripting.py` -> `utils.py`
-- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
-- `cli/commands/retry_ops.py` -> `cli/retry_support.py`
-- `cli/commands/retry_ops.py` -> `modules/lazy_runner.py`
-- `cli/commands/retry_ops.py` -> `utils.py`
-- `cli/commands/scan.py` -> `cli/commands/_base.py`
-- `cli/commands/scan.py` -> `utils.py`
-- `cli/commands/scan_migrated.py` -> `cli/commands/_base.py`
-- `cli/commands/scan_migrated.py` -> `utils.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

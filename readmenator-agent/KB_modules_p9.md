@@ -1,6 +1,45 @@
 # Subsystem: modules (page 9 of 19)
 Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
+## modules/lazy_exposure.py
+- Doc: Target exposure report for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ensure_report` (function, line 56) `def ensure_report(target, entries, refresh)`
+  - `read_sightings` (function, line 97) `def read_sightings(target, state_path)`
+  - `generate_report` (function, line 129) `def generate_report(target, entries, sightings)`
+  - `_live_fingerprint` (function, line 210) `def _live_fingerprint()`
+  - `score_report` (function, line 219) `def score_report(entries, bounded_unknown, services)`
+  - `probe_checks` (function, line 257) `def probe_checks(matches, feed)`
+  - `save_report` (function, line 291) `def save_report(report, path)`
+  - `publish_report` (function, line 314) `def publish_report(report)`
+  - `_short_refs` (function, line 365) `def _short_refs(row)`
+  - `_shape_sightings` (function, line 370) `def _shape_sightings(rows)`
+  - `_match_hot_key` (function, line 400) `def _match_hot_key(row)`
+  - `_slug` (function, line 405) `def _slug(text)`
+  - `_int` (function, line 410) `def _int(value, fallback)`
+  - `refresh_if_stale` (function, line 418) `def refresh_if_stale(target, entries)`
+- Depends on: `modules/__init__.py`, `modules/lazy_feedmatch.py`, `modules/lazy_heat.py`, `modules/lazy_probes.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/mcp_tools/lazy_intel.py`, `tests/test_lazy_exposure.py`
+
+## modules/lazy_fallback.py
+- Doc: Adaptive fallback alternatives for failed chain techniques.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Alternative` (class, line 29) `class Alternative`
+  - `TechniqueFallback` (class, line 47) `class TechniqueFallback`
+  - `_service_satisfied` (function, line 172) `def _service_satisfied(required, services)`
+  - `AdaptiveFallbackArbiter` (class, line 185) `class AdaptiveFallbackArbiter`
+  - `catalogue_ids` (function, line 256) `def catalogue_ids()`
+  - `matches` (method, line 61) `def matches(self, command)`
+  - `__init__` (method, line 193) `def __init__(self, graph)`
+  - `suggest` (method, line 203) `def suggest(self, command, verdict, services, has_credentials, catalogue)`
+  - `_bind_family` (method, line 246) `def _bind_family(self, command)`
+- Depends on: `modules/atomic_exploit_bridge.py`, `modules/failure_verdict.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazy_adaptive.py`, `tests/test_lazy_fallback.py`
+
 ## modules/lazy_feedmatch.py
 - Doc: Exploit feed matching for LazyOwn.
 - Layer: utility
@@ -71,6 +110,22 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `latest_state` (method, line 696) `def latest_state(self, finding_ref)`
 - Depends on: `core/hardening.py`
 - Imported by: `tests/test_findings_gate.py`, `tests/test_lazy_findings.py`
+
+## modules/lazy_handoff.py
+- Doc: Foothold-to-beacon handoff for the autonomous loop.
+- Language: py
+- Symbols:
+  - `handoff_enabled` (function, line 52) `def handoff_enabled(payload)`
+  - `_marker_path` (function, line 76) `def _marker_path(target, sessions_dir)`
+  - `_beacon_is_live` (function, line 90) `def _beacon_is_live(target, sessions_dir)`
+  - `already_handed_off` (function, line 120) `def already_handed_off(target, sessions_dir)`
+  - `maybe_beacon_handoff` (function, line 164) `def maybe_beacon_handoff(target, source, log, sessions_dir, wait_s, rounds, task_id)`
+  - `_handoff_worker` (function, line 260) `def _handoff_worker(target, source, log, sessions_dir, wait_s, rounds, task_id)`
+  - `_mark_status` (function, line 333) `def _mark_status(target, sessions_dir, status, client_id)`
+  - `_main` (function, line 365) `def _main()`
+  - `activity` (function, line 281) `def activity(kind, text)`
+- Depends on: `core/config.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_history.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/outcome_bus.py`
+- Imported by: `modules/sinks/beacon_dispatch.py`
 
 ## modules/lazy_heat.py
 - Doc: Heat tiers and version math for CVE correlation.

@@ -1,5 +1,60 @@
-# API (page 18 of 28)
+# API (page 18 of 30)
 Previous: [API_p17.md](API_p17.md)
+
+## modules/mfa_bypass.py
+Imported by: `cli/commands/cicd.py`
+- `MFABypassEngine.__init__` (method) `modules/mfa_bypass.py:128` `def __init__(self, sessions_dir)`
+- `MFABypassEngine.enumerate_techniques` (method) `modules/mfa_bypass.py:133` `def enumerate_techniques(self, target)` -- Enumerate viable MFA bypass techniques for a given target.
+- `MFABypassEngine.generate_phishing_templates` (method) `modules/mfa_bypass.py:153` `def generate_phishing_templates(self, target)` -- Generate phishing templates tailored for MFA bypass.
+- `MFABypassEngine.mfa_conditional_access_scan` (method) `modules/mfa_bypass.py:223` `def mfa_conditional_access_scan(self, domain)` -- Scan for conditional access policy gaps.
+- `MFABypassEngine.replay_oauth_token` (method) `modules/mfa_bypass.py:252` `def replay_oauth_token(self, access_token, refresh_token)` -- Test if an OAuth2 token is still valid and can be replayed.
+- `MFABypassEngine.saml_golden_ticket_check` (method) `modules/mfa_bypass.py:278` `def saml_golden_ticket_check(self, adfs_server)` -- Check for ADFS token signing certificate exposure.
+- `MFABypassEngine.export_report` (method) `modules/mfa_bypass.py:303` `def export_report(self)` -- Export MFA bypass results to a JSON report.
+
+## modules/module_registry.py
+Depends on: `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `modules/selection/module.py`, `skills/mcp_tools/list_modules.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`, `tests/test_selection_module.py`
+- `ModuleInfo.__init__` (method) `modules/module_registry.py:216` `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
+- `ModuleInfo.to_dict` (method) `modules/module_registry.py:246` `def to_dict(self)`
+- `ModuleRegistry.__init__` (method) `modules/module_registry.py:279` `def __init__(self, base_dir)`
+- `ModuleRegistry.get_instance` (method) `modules/module_registry.py:285` `def get_instance(cls, base_dir)` -- Return the singleton registry instance.
+- `ModuleRegistry.scan` (method) `modules/module_registry.py:291` `def scan(self)` -- Scan all module directories and return the full list.
+- `ModuleRegistry.rescan` (method) `modules/module_registry.py:304` `def rescan(self)` -- Force a full rescan and return modules.
+- `ModuleRegistry.get` (method) `modules/module_registry.py:313` `def get(self, name)` -- Get a module by name.
+- `ModuleRegistry.search` (method) `modules/module_registry.py:319` `def search(self, query, module_type, category, enabled_only, include_deprecated)` -- Search indexed modules.
+- `ModuleRegistry.deprecated_modules` (method) `modules/module_registry.py:359` `def deprecated_modules(self)` -- Return all deprecated modules.
+- `ModuleRegistry.by_type` (method) `modules/module_registry.py:365` `def by_type(self, module_type)` -- Shorthand for ``search(module_type=module_type)``.
+- `ModuleRegistry.summary` (method) `modules/module_registry.py:369` `def summary(self)` -- Return counts by module type.
+- `ModuleRegistry.proposal_intents` (method) `modules/module_registry.py:378` `def proposal_intents(self, texts, target, limit)` -- Loop bridge: map corpus mentions onto runnable module intents.
+- `format_module_table` (function) `modules/module_registry.py:666` `def format_module_table(modules, cols)` -- Format a list of modules as an aligned text table.
+- `format_module_detail` (function) `modules/module_registry.py:713` `def format_module_detail(m)` -- Format a single module's full metadata.
+
+## modules/moe_router.py
+Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
+Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
+- `ExpertProfile.is_local` (method) `modules/moe_router.py:96` `def is_local(self)`
+- `ExpertPerformance.update` (method) `modules/moe_router.py:115` `def update(self, reward, detection_prob)`
+- `IExpertSelector.select` (method) `modules/moe_router.py:261` `def select(self, candidates, task_type, performance_store, deterministic)` -- Return the selected expert from candidates.
+- `ExpertPerformanceStore.__init__` (method) `modules/moe_router.py:283` `def __init__(self, path)`
+- `ExpertPerformanceStore.record` (method) `modules/moe_router.py:298` `def record(self, expert_id, task_type, reward, detection_prob)` -- Update performance for (expert, task_type) and persist.
+- `ExpertPerformanceStore.get` (method) `modules/moe_router.py:316` `def get(self, expert_id, task_type)`
+- `ExpertPerformanceStore.all_for_task` (method) `modules/moe_router.py:321` `def all_for_task(self, task_type)`
+- `ExpertPerformanceStore.performance_bonus` (method) `modules/moe_router.py:325` `def performance_bonus(self, expert_id, task_type)` -- Return a bonus scalar in [-0.3, +0.5] based on EMA reward history.
+- `SoftmaxSelector.__init__` (method) `modules/moe_router.py:377` `def __init__(self, temperature)`
+- `SoftmaxSelector.temperature` (method) `modules/moe_router.py:381` `def temperature(self)`
+- `SoftmaxSelector.temperature` (method) `modules/moe_router.py:385` `def temperature(self, value)`
+- `SoftmaxSelector.select` (method) `modules/moe_router.py:388` `def select(self, candidates, task_type, performance_store, deterministic)`
+- `ExpertAvailabilityChecker.__init__` (method) `modules/moe_router.py:443` `def __init__(self)`
+- `ExpertAvailabilityChecker.is_available` (method) `modules/moe_router.py:447` `def is_available(self, expert, api_key)`
+- `MoERouter.__init__` (method) `modules/moe_router.py:500` `def __init__(self, experts, selector, performance_store, api_key)`
+- `MoERouter.route` (method) `modules/moe_router.py:515` `def route(self, task_type, goal, deterministic)` -- Return the single best expert for the given task_type.
+- `MoERouter.ensemble` (method) `modules/moe_router.py:547` `def ensemble(self, task_type, goal, n)` -- Return up to *n* distinct experts for ensemble execution.
+- `adjusted_weight` (function) `modules/moe_router.py:562` `def adjusted_weight(ep)`
+- `MoERouter.record_outcome` (method) `modules/moe_router.py:575` `def record_outcome(self, expert_id, task_type, reward, detection_prob)` -- Record the outcome of an expert execution.
+- `MoERouter.top_experts_for_task` (method) `modules/moe_router.py:589` `def top_experts_for_task(self, task_type, top_k)` -- Return (expert, adjusted_weight) sorted descending for diagnostics.
+- `MoERouter.get_expert` (method) `modules/moe_router.py:605` `def get_expert(self, expert_id)` -- Return expert by ID, or None.
+- `MoERouter.status_report` (method) `modules/moe_router.py:609` `def status_report(self)` -- Return a diagnostic snapshot of all experts and their weights.
+- `get_router` (function) `modules/moe_router.py:684` `def get_router(api_key)` -- Return (or create) the module-level singleton MoERouter.
 
 ## modules/morse.py
 - `reverse_morse_code` (function) `modules/morse.py:98` `def reverse_morse_code()` -- Build the reverse lookup table from Morse code to characters.
@@ -70,7 +125,7 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `main` (function) `modules/nmap2csv.py:688` `def main()`
 
 ## modules/nmap_fingerprint.py
-Imported by: `cli/exploit_advisor.py`, `modules/exploit_chain.py`
+Imported by: `cli/exploit_advisor.py`, `modules/exploit_chain.py`, `sdk/facade.py`
 - `ServiceInfo.search_query` (method) `modules/nmap_fingerprint.py:109` `def search_query(self)` -- Best query string for searchsploit / NVD.
 - `ServiceInfo.display_name` (method) `modules/nmap_fingerprint.py:115` `def display_name(self)` -- Human-readable service label for operator tables.
 - `ServiceInfo.next_commands` (method) `modules/nmap_fingerprint.py:120` `def next_commands(self)` -- Return (command, reason) pairs recommended for this service.
@@ -196,7 +251,7 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `modul
 
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
 - `reload` (function) `modules/orchestrator_config.py:151` `def reload()` -- Invalidate every merged view after an external configuration change.
 - `profiles` (function) `modules/orchestrator_config.py:271` `def profiles()` -- Return every resolved profile, including inherited values.
 - `active_profile` (function) `modules/orchestrator_config.py:296` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
@@ -248,7 +303,7 @@ Imported by: `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, 
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
 - `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:106` `def host_value(self)` -- Return the best host identifier available.
 - `OutcomeEvent.key` (method) `modules/outcome_bus.py:110` `def key(self)` -- Return the idempotency key for this event.
 - `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:128` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -341,7 +396,7 @@ Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `ski
 
 ## modules/planner.py
 Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/loop/objective_bootstrap.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
 - `Planner.__init__` (method) `modules/planner.py:269` `def __init__(self, world_model, obs_parser, api_key)`
 - `Planner.plan` (method) `modules/planner.py:313` `def plan(self, target, max_candidates)` -- Return a ranked list of next-step candidates for *target*.
 - `Planner.to_dict` (method) `modules/planner.py:413` `def to_dict(self, result)`
@@ -358,20 +413,20 @@ Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/a
 - `Frontier.pop` (method) `modules/planner.py:551` `def pop(self)` -- Claim the oldest queued intent and mark its technique tried.
 
 ## modules/playbook_admin.py
-Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
-- `slugify` (function) `modules/playbook_admin.py:63` `def slugify(value)` -- Return a safe playbook filename stem.
-- `playbook_path` (function) `modules/playbook_admin.py:76` `def playbook_path(filename, directory)` -- Resolve one playbook file inside the playbooks root.
-- `load_playbook` (function) `modules/playbook_admin.py:103` `def load_playbook(path)` -- Read one playbook YAML mapping.
-- `playbook_kind` (function) `modules/playbook_admin.py:124` `def playbook_kind(data)` -- Return ``apt``, ``plan``, ``mixed`` or ``unknown`` for one mapping.
-- `validate_playbook` (function) `modules/playbook_admin.py:137` `def validate_playbook(data)` -- Validate the minimal shape shared by both playbook formats.
-- `summarize` (function) `modules/playbook_admin.py:227` `def summarize(path)` -- Build the admin-table row for one file without raising.
-- `scan_playbooks` (function) `modules/playbook_admin.py:261` `def scan_playbooks(directory)` -- Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
-- `preview_playbook` (function) `modules/playbook_admin.py:281` `def preview_playbook(path, limit)` -- Return a bounded, sanitized text preview for the detail pane.
-- `playbook_template` (function) `modules/playbook_admin.py:295` `def playbook_template(name, description, platforms)` -- Return a minimal APT playbook mapping ready for ``yaml.safe_dump``.
-- `create_playbook` (function) `modules/playbook_admin.py:327` `def create_playbook(filename)` -- Create one APT playbook file.
-- `update_playbook` (function) `modules/playbook_admin.py:380` `def update_playbook(path, data, directory)` -- Validate and atomically rewrite one playbook.
-- `save_playbook_yaml` (function) `modules/playbook_admin.py:407` `def save_playbook_yaml(path, text, directory)` -- Parse, validate and write a raw YAML document.
-- `delete_playbook` (function) `modules/playbook_admin.py:436` `def delete_playbook(path, directory)` -- Delete one playbook confined to the playbooks root.
+Imported by: `cli/orchestrator_assets_tabs.py`, `modules/lazymode_playbook.py`, `tests/test_lazymode_playbook.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
+- `slugify` (function) `modules/playbook_admin.py:72` `def slugify(value)` -- Return a safe playbook filename stem.
+- `playbook_path` (function) `modules/playbook_admin.py:85` `def playbook_path(filename, directory)` -- Resolve one playbook file inside the playbooks root.
+- `load_playbook` (function) `modules/playbook_admin.py:112` `def load_playbook(path)` -- Read one playbook YAML mapping.
+- `playbook_kind` (function) `modules/playbook_admin.py:133` `def playbook_kind(data)` -- Return ``apt``, ``plan``, ``mixed`` or ``unknown`` for one mapping.
+- `validate_playbook` (function) `modules/playbook_admin.py:146` `def validate_playbook(data)` -- Validate the minimal shape shared by both playbook formats.
+- `summarize` (function) `modules/playbook_admin.py:236` `def summarize(path)` -- Build the admin-table row for one file without raising.
+- `scan_playbooks` (function) `modules/playbook_admin.py:270` `def scan_playbooks(directory)` -- Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
+- `preview_playbook` (function) `modules/playbook_admin.py:290` `def preview_playbook(path, limit)` -- Return a bounded, sanitized text preview for the detail pane.
+- `playbook_template` (function) `modules/playbook_admin.py:304` `def playbook_template(name, description, platforms)` -- Return a minimal APT playbook mapping ready for ``yaml.safe_dump``.
+- `create_playbook` (function) `modules/playbook_admin.py:336` `def create_playbook(filename)` -- Create one APT playbook file.
+- `update_playbook` (function) `modules/playbook_admin.py:389` `def update_playbook(path, data, directory)` -- Validate and atomically rewrite one playbook.
+- `save_playbook_yaml` (function) `modules/playbook_admin.py:416` `def save_playbook_yaml(path, text, directory)` -- Parse, validate and write a raw YAML document.
+- `delete_playbook` (function) `modules/playbook_admin.py:445` `def delete_playbook(path, directory)` -- Delete one playbook confined to the playbooks root.
 
 ## modules/playbook_chain.py
 Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`
@@ -433,67 +488,6 @@ Depends on: `modules/pipeline_engine.py`
 - `missing_requirements` (function) `modules/poc_registry.py:392` `def missing_requirements(verb)` -- Return the PoC's required binaries that are absent on this host.
 - `propose_intents` (function) `modules/poc_registry.py:409` `def propose_intents(service_texts, target, limit, catalog_path)` -- Propose ``lazy_poc run`` intent lines for matching service tokens.
 - `verbs_summary` (function) `modules/poc_registry.py:449` `def verbs_summary(catalog_path)` -- Return every PoC verb as a dict for TUI and MCP surfaces.
-
-## modules/polymorphic_engine.py
-Imported by: `cli/commands/payload_arsenal.py`
-- `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
-- `PolymorphicEngine.mutate` (method) `modules/polymorphic_engine.py:163` `def mutate(self, shellcode, arch)` -- Apply all configured mutation passes to shellcode.
-- `PolymorphicEngine.decode_xor` (method) `modules/polymorphic_engine.py:361` `def decode_xor(data)` -- Decode single-byte XOR encrypted shellcode.
-- `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
-- `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
-- `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
-
-## modules/privesc_predictor.py
-Depends on: `core/console.py`, `modules/llm_factory.py`
-Imported by: `cli/commands/crystal_ball.py`
-- `parse_linpeas_output` (function) `modules/privesc_predictor.py:165` `def parse_linpeas_output(text)` -- Extract a structured SystemProfile from linpeas output text.
-- `parse_winpeas_output` (function) `modules/privesc_predictor.py:218` `def parse_winpeas_output(text)` -- Extract a structured SystemProfile from winpeas output text.
-- `match_known_cves` (function) `modules/privesc_predictor.py:249` `def match_known_cves(profile)` -- Match kernel version against the built-in CVE database.
-- `suid_vectors` (function) `modules/privesc_predictor.py:287` `def suid_vectors(profile)` -- Generate privilege escalation vectors from SUID binaries.
-- `capability_vectors` (function) `modules/privesc_predictor.py:361` `def capability_vectors(profile)` -- Generate privilege escalation vectors from Linux capabilities.
-- `group_vectors` (function) `modules/privesc_predictor.py:463` `def group_vectors(profile)` -- Generate privilege escalation vectors from group memberships.
-- `sudo_vectors` (function) `modules/privesc_predictor.py:501` `def sudo_vectors(profile)` -- Generate privilege escalation vectors from sudo rules.
-- `cron_vectors` (function) `modules/privesc_predictor.py:578` `def cron_vectors(profile)` -- Generate vectors from writable cron jobs and PATH manipulation.
-- `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
-- `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
-- `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
-
-## modules/professional_report.py
-Depends on: `modules/llm_factory.py`, `modules/world_model.py`
-Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
-- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
-- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
-- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:219` `def classify_findings(self, data)` -- Classify collected data into structured findings.
-- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:247` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
-- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:912` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
-- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:936` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
-- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:982` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
-
-## modules/progress_ledger.py
-Imported by: `modules/lazy_loop.py`, `tests/test_progress_ledger.py`
-- `StrikePolicy.clamped` (method) `modules/progress_ledger.py:56` `def clamped(self)` -- Return a copy with the strike cap forced into range.
-- `RoundSignals.progress` (method) `modules/progress_ledger.py:82` `def progress(self)` -- Return True when any objective-evidence signal fired.
-- `ProgressLedger.__init__` (method) `modules/progress_ledger.py:103` `def __init__(self, engagement_id, base_dir, policy)` -- Bind the ledger to one engagement.
-- `ProgressLedger.file_path` (method) `modules/progress_ledger.py:128` `def file_path(self)` -- Return the persisted strike state path.
-- `ProgressLedger.load` (method) `modules/progress_ledger.py:132` `def load(self)` -- Load persisted state, keeping any file intact on parse failure.
-- `ProgressLedger.save` (method) `modules/progress_ledger.py:152` `def save(self)` -- Persist the strike state with owner-only permissions.
-- `ProgressLedger.strikes` (method) `modules/progress_ledger.py:167` `def strikes(self)` -- Return the current consecutive no-progress strike count.
-- `ProgressLedger.log` (method) `modules/progress_ledger.py:172` `def log(self)` -- Return the recent strike/progress log rows.
-- `ProgressLedger.signals_from_brief` (method) `modules/progress_ledger.py:176` `def signals_from_brief(self, brief)` -- Diff one graph/orchestrator brief against the stored previous one.
-- `ProgressLedger.observe` (method) `modules/progress_ledger.py:208` `def observe(self, signals, note)` -- Record one round of signals and update the strike counter.
-- `ProgressLedger.brief_for_discards` (method) `modules/progress_ledger.py:250` `def brief_for_discards(self)` -- Return durable rows for the finding-ledger discard recorder.
-
-## modules/r.sh
-Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
-- `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
-
-## modules/reaction_bridge.py
-Depends on: `modules/lazy_loop.py`
-Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
-- `ReactionPick.__init__` (method) `modules/reaction_bridge.py:69` `def __init__(self, command, reason, priority, mitre)`
-- `save_decisions` (function) `modules/reaction_bridge.py:80` `def save_decisions(task_id, decisions)` -- Park picks into the per-task buffer; returns the saved count.
-- `load_reaction_triggers` (function) `modules/reaction_bridge.py:108` `def load_reaction_triggers(task_id, consumer)` -- Drain the buffer into planner trigger dicts (one-shot, one per round).
-- `find_credentials` (function) `modules/reaction_bridge.py:159` `def find_credentials(output)` -- Extract user:pass pairs and hashes; placeholder values are dropped.
 
 
 Next: [API_p19.md](API_p19.md)

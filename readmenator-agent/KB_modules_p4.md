@@ -1,6 +1,65 @@
 # Subsystem: modules (page 4 of 19)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/chain_state.py
+- Doc: Durable chain checkpoints for pause, resume and audit.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `checkpoint_dir` (function, line 26) `def checkpoint_dir(base_dir)`
+  - `new_run_id` (function, line 33) `def new_run_id(chain_name)`
+  - `write_checkpoint` (function, line 39) `def write_checkpoint(directory, state)`
+  - `load_checkpoint` (function, line 65) `def load_checkpoint(directory, run_id)`
+  - `list_checkpoints` (function, line 80) `def list_checkpoints(directory, limit, chain)`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_loop.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+
+## modules/chain_synth.py
+- Doc: Runtime chain synthesis from fact-store evidence.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug` (function, line 31) `def _slug(name)`
+  - `_wordlist` (function, line 35) `def _wordlist(param, fallback)`
+  - `_service_steps` (function, line 44) `def _service_steps(host, services)`
+  - `synth_chain_data` (function, line 91) `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2, techniques)`
+  - `facts_for_target` (function, line 243) `def facts_for_target(target)`
+  - `synth_technique_chain_data` (function, line 272) `def synth_technique_chain_data(target, techniques, os_hint)`
+  - `write_generated_chain` (function, line 339) `def write_generated_chain(data, chains_dir)`
+- Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `modules/lazy_autofire.py`, `modules/selection/technique_chain.py`, `tests/test_chain_synth.py`, `tests/test_selection_technique_chain.py`
+
+## modules/chain_tokens.py
+- Doc: Engagement-state tokens for YAML chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `build_tokens` (function, line 24) `def build_tokens(target, params)`
+  - `_load_host_facts` (function, line 72) `def _load_host_facts(host)`
+  - `_newest_creds_file` (function, line 88) `def _newest_creds_file(host)`
+  - `_candidate_files` (function, line 115) `def _candidate_files()`
+  - `_mentions` (function, line 125) `def _mentions(path, needle)`
+- Depends on: `skills/lazyown_facts.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
+
+## modules/cicd_enumerator.py
+- Doc: CI/CD Pipeline Enumeration Module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CICDFinding` (class, line 33) `class CICDFinding`
+  - `CICDEnumerator` (class, line 43) `class CICDEnumerator`
+  - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
+  - `scan` (method, line 60) `def scan(self)`
+  - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
+  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
+  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
+  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
+  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
+  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
+  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
+  - `export_findings` (method, line 387) `def export_findings(self)`
+- Imported by: `cli/commands/cicd.py`
+
 ## modules/cli_auth.py
 - Doc: CLI authentication module — login against users.json with remember-me.
 - Layer: utility
@@ -204,31 +263,33 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `HookRule` (class, line 45) `class HookRule`
-  - `HookEngine` (class, line 258) `class HookEngine`
-  - `get_hook_engine` (function, line 586) `def get_hook_engine()`
-  - `can_fire` (method, line 56) `def can_fire(self, now)`
-  - `mark_fired` (method, line 65) `def mark_fired(self)`
-  - `to_dict` (method, line 69) `def to_dict(self)`
-  - `__init__` (method, line 270) `def __init__(self)`
-  - `register_action_handler` (method, line 277) `def register_action_handler(self, action_type, handler)`
-  - `set_placeholders` (method, line 286) `def set_placeholders(self, placeholders)`
-  - `load_rules` (method, line 290) `def load_rules(self, path)`
-  - `save_rules` (method, line 322) `def save_rules(self, path)`
-  - `add_rule` (method, line 330) `def add_rule(self, rule_dict)`
-  - `remove_rule` (method, line 345) `def remove_rule(self, name)`
-  - `enable_rule` (method, line 359) `def enable_rule(self, name, enabled)`
-  - `_match_trigger` (method, line 369) `def _match_trigger(self, rule_trigger, event, context)`
-  - `_resolve_placeholders` (method, line 414) `def _resolve_placeholders(self, text, context)`
-  - `_execute_action` (method, line 428) `def _execute_action(self, action, context)`
-  - `_execute_shell_command` (method, line 467) `def _execute_shell_command(self, command, context)`
-  - `_execute_local_command` (method, line 476) `def _execute_local_command(command)`
-  - `_execute_cred_reuse` (method, line 500) `def _execute_cred_reuse(self, context)`
-  - `fire` (method, line 516) `def fire(self, event, context)`
-  - `list_rules` (method, line 571) `def list_rules(self)`
-  - `get_rule` (method, line 575) `def get_rule(self, name)`
+  - `HookRule` (class, line 46) `class HookRule`
+  - `HookEngine` (class, line 259) `class HookEngine`
+  - `get_hook_engine` (function, line 660) `def get_hook_engine()`
+  - `can_fire` (method, line 57) `def can_fire(self, now)`
+  - `mark_fired` (method, line 66) `def mark_fired(self)`
+  - `to_dict` (method, line 70) `def to_dict(self)`
+  - `__init__` (method, line 273) `def __init__(self)`
+  - `register_action_handler` (method, line 280) `def register_action_handler(self, action_type, handler)`
+  - `set_placeholders` (method, line 289) `def set_placeholders(self, placeholders)`
+  - `load_rules` (method, line 293) `def load_rules(self, path)`
+  - `save_rules` (method, line 325) `def save_rules(self, path)`
+  - `add_rule` (method, line 333) `def add_rule(self, rule_dict)`
+  - `remove_rule` (method, line 348) `def remove_rule(self, name)`
+  - `enable_rule` (method, line 362) `def enable_rule(self, name, enabled)`
+  - `_match_trigger` (method, line 372) `def _match_trigger(self, rule_trigger, event, context)`
+  - `_resolve_placeholders` (method, line 417) `def _resolve_placeholders(self, text, context)`
+  - `_platform_compatible` (method, line 441) `def _platform_compatible(self, action, context)`
+  - `_already_fired_for` (method, line 472) `def _already_fired_for(rule_name, context)`
+  - `_execute_action` (method, line 491) `def _execute_action(self, action, context)`
+  - `_execute_shell_command` (method, line 530) `def _execute_shell_command(self, command, context)`
+  - `_execute_local_command` (method, line 539) `def _execute_local_command(command)`
+  - `_execute_cred_reuse` (method, line 563) `def _execute_cred_reuse(self, context)`
+  - `fire` (method, line 579) `def fire(self, event, context)`
+  - `list_rules` (method, line 645) `def list_rules(self)`
+  - `get_rule` (method, line 649) `def get_rule(self, name)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
-- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_lazy_handoff.py`
 
 ## modules/config_store.py
 - Doc: Thread-safe singleton facade over core.config for payload.json.
@@ -294,27 +355,29 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `output_dir` (function, line 40) `def output_dir(sessions_dir)`
-  - `_check_root_shell` (function, line 53) `def _check_root_shell(output)`
-  - `_check_shadow_dump` (function, line 66) `def _check_shadow_dump(output)`
-  - `_check_credentials` (function, line 86) `def _check_credentials(output)`
-  - `_check_windows_os_enum` (function, line 104) `def _check_windows_os_enum(output)`
-  - `_check_defense_report` (function, line 123) `def _check_defense_report(output)`
-  - `_check_eventlog_rows` (function, line 136) `def _check_eventlog_rows(output)`
-  - `_check_kerberos_ticket` (function, line 149) `def _check_kerberos_ticket(output)`
-  - `_check_domain_enum` (function, line 162) `def _check_domain_enum(output)`
-  - `_check_smb_shares` (function, line 175) `def _check_smb_shares(output)`
-  - `evaluate_exploit_output` (function, line 203) `def evaluate_exploit_output(output)`
-  - `_expected_checkers` (function, line 244) `def _expected_checkers(entry)`
-  - `capture` (function, line 275) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
-  - `_publish_capture_outcome` (function, line 340) `def _publish_capture_outcome(record)`
-  - `record_path` (function, line 363) `def record_path(vuln_id, sessions_dir)`
-  - `_safe_dir` (function, line 376) `def _safe_dir(vuln_id)`
-  - `store_record` (function, line 389) `def store_record(record, sessions_dir)`
-  - `list_records` (function, line 407) `def list_records(sessions_dir)`
-  - `summary` (function, line 430) `def summary(sessions_dir)`
-  - `_gather_evidence` (function, line 457) `def _gather_evidence(candidates)`
-  - `_cli_capture` (function, line 481) `def _cli_capture(argv)`
+  - `output_dir` (function, line 44) `def output_dir(sessions_dir)`
+  - `_check_root_shell` (function, line 57) `def _check_root_shell(output)`
+  - `_check_shadow_dump` (function, line 70) `def _check_shadow_dump(output)`
+  - `_check_credentials` (function, line 90) `def _check_credentials(output)`
+  - `_check_windows_os_enum` (function, line 108) `def _check_windows_os_enum(output)`
+  - `_check_defense_report` (function, line 127) `def _check_defense_report(output)`
+  - `_check_eventlog_rows` (function, line 140) `def _check_eventlog_rows(output)`
+  - `_check_kerberos_ticket` (function, line 153) `def _check_kerberos_ticket(output)`
+  - `_check_domain_enum` (function, line 166) `def _check_domain_enum(output)`
+  - `_check_smb_shares` (function, line 179) `def _check_smb_shares(output)`
+  - `_check_xss_reflected` (function, line 192) `def _check_xss_reflected(output)`
+  - `_check_dns_recursion` (function, line 208) `def _check_dns_recursion(output)`
+  - `evaluate_exploit_output` (function, line 241) `def evaluate_exploit_output(output)`
+  - `_expected_checkers` (function, line 284) `def _expected_checkers(entry)`
+  - `capture` (function, line 315) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
+  - `_publish_capture_outcome` (function, line 380) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 403) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 416) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 429) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 447) `def list_records(sessions_dir)`
+  - `summary` (function, line 470) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 497) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 521) `def _cli_capture(argv)`
 - Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
 - Imported by: `modules/autonomous_exploit_engine.py`, `tests/test_auto_pwn_success.py`, `tests/test_ctf_signalman.py`
 
@@ -413,74 +476,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_read_timeline` (function, line 934) `def _read_timeline()`
   - `dashboard_timeline` (function, line 1017) `def dashboard_timeline()`
 - Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
-
-## modules/dashboard_engine.py
-- Doc: Live Network Map Dashboard for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_parse_nmap_xml_services` (function, line 39) `def _parse_nmap_xml_services(sessions_dir)`
-  - `DashboardNode` (class, line 99) `class DashboardNode`
-  - `DashboardEdge` (class, line 111) `class DashboardEdge`
-  - `DashboardEngine` (class, line 118) `class DashboardEngine`
-  - `__init__` (method, line 139) `def __init__(self, world_model)`
-  - `set_world_model` (method, line 148) `def set_world_model(self, model)`
-  - `set_exploit_recommender` (method, line 151) `def set_exploit_recommender(self, recommender)`
-  - `set_auto_pivot` (method, line 154) `def set_auto_pivot(self, pivot)`
-  - `set_evasion_engine` (method, line 157) `def set_evasion_engine(self, evasion)`
-  - `build_snapshot` (method, line 160) `def build_snapshot(self)`
-  - `render_text_map` (method, line 276) `def render_text_map(self, snapshot)`
-  - `render_ascii_topology` (method, line 358) `def render_ascii_topology(self, snapshot)`
-  - `_phase_icon` (method, line 398) `def _phase_icon(phase)`
-  - `export_json` (method, line 408) `def export_json(self, snapshot)`
-  - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
-  - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
-- Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
-
-## modules/db.py
-- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
-  - `get_db` (function, line 821) `def get_db(db_path)`
-  - `__init__` (method, line 159) `def __init__(self, db_path)`
-  - `_get_conn` (method, line 171) `def _get_conn(self)`
-  - `db_path` (method, line 182) `def db_path(self)`
-  - `_init_schema` (method, line 186) `def _init_schema(self)`
-  - `_current_version` (method, line 192) `def _current_version(self)`
-  - `_run_migrations` (method, line 197) `def _run_migrations(self)`
-  - `migration_status` (method, line 222) `def migration_status(self)`
-  - `_cursor` (method, line 235) `def _cursor(self)`
-  - `_maybe_encrypt` (method, line 251) `def _maybe_encrypt(self, value)`
-  - `_maybe_decrypt` (method, line 273) `def _maybe_decrypt(self, value)`
-  - `workspace_create` (method, line 292) `def workspace_create(self, name, description)`
-  - `workspace_list` (method, line 307) `def workspace_list(self)`
-  - `workspace_get` (method, line 313) `def workspace_get(self, name)`
-  - `default_workspace` (method, line 320) `def default_workspace(self, name)`
-  - `workspace_delete` (method, line 333) `def workspace_delete(self, name)`
-  - `host_add` (method, line 357) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
-  - `host_delete` (method, line 390) `def host_delete(self, host_id)`
-  - `host_list` (method, line 401) `def host_list(self, workspace_id)`
-  - `host_find` (method, line 410) `def host_find(self, workspace_id, query)`
-  - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
-  - `service_list` (method, line 447) `def service_list(self, host_id)`
-  - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
-  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
-  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
-  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
-  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
-  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
-  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
-  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
-  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
-  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
-  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
-  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
-  - `status` (method, line 775) `def status(self, workspace_id)`
-  - `close` (method, line 804) `def close(self)`
-- Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

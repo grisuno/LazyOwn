@@ -1,8 +1,15 @@
-# Symbols (page 8 of 53)
+# Symbols (page 8 of 54)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
+| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
+| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
+| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
+| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
+| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
+| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
 | `unseal_payload` | function | `core/credential_vault.py:164` | `def unseal_payload(payload, key)` |
 | `unseal_value` | function | `core/credential_vault.py:112` | `def unseal_value(sealed, key)` |
 | `AESdecrypt` | function | `core/crypto.py:122` | `def AESdecrypt(data, key)` |
@@ -226,45 +233,45 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `to_spec` | method | `core/param_registry.py:144` | `def to_spec(self)` |
 | `update_param` | function | `core/param_registry.py:343` | `def update_param(name, default, description, kind, category, root)` |
 | `strip_ansi` | function | `core/parsers.py:15` | `def strip_ansi(text)` |
-| `FieldKind` | class | `core/payload_schema.py:77` | `class FieldKind(StrEnum)` |
-| `FieldSpec` | class | `core/payload_schema.py:105` | `class FieldSpec` |
-| `Severity` | class | `core/payload_schema.py:96` | `class Severity(StrEnum)` |
-| `ValidationIssue` | class | `core/payload_schema.py:147` | `class ValidationIssue` |
-| `_coerce_bool` | function | `core/payload_schema.py:383` | `def _coerce_bool(raw)` |
-| `_coerce_int` | function | `core/payload_schema.py:368` | `def _coerce_int(raw)` |
-| `_coerce_list` | function | `core/payload_schema.py:310` | `def _coerce_list(raw)` |
-| `_load_operator_specs` | function | `core/payload_schema.py:2430` | `def _load_operator_specs()` |
-| `_spec` | function | `core/payload_schema.py:403` | `def _spec(name, kind, default, description)` |
-| `_validate_bool` | function | `core/payload_schema.py:200` | `def _validate_bool(value)` |
-| `_validate_c2_tls_verify` | function | `core/payload_schema.py:328` | `def _validate_c2_tls_verify(value)` |
-| `_validate_hex` | function | `core/payload_schema.py:259` | `def _validate_hex(value)` |
-| `_validate_hostname` | function | `core/payload_schema.py:225` | `def _validate_hostname(value)` |
-| `_validate_int` | function | `core/payload_schema.py:176` | `def _validate_int(value)` |
-| `_validate_interface` | function | `core/payload_schema.py:251` | `def _validate_interface(value)` |
-| `_validate_ip` | function | `core/payload_schema.py:217` | `def _validate_ip(value)` |
-| `_validate_json_blob` | function | `core/payload_schema.py:273` | `def _validate_json_blob(value)` |
-| `_validate_list` | function | `core/payload_schema.py:285` | `def _validate_list(value)` |
-| `_validate_opaque` | function | `core/payload_schema.py:324` | `def _validate_opaque(_value)` |
-| `_validate_os_id` | function | `core/payload_schema.py:267` | `def _validate_os_id(value)` |
-| `_validate_path` | function | `core/payload_schema.py:245` | `def _validate_path(value)` |
-| `_validate_port` | function | `core/payload_schema.py:190` | `def _validate_port(value)` |
-| `_validate_string` | function | `core/payload_schema.py:170` | `def _validate_string(value)` |
-| `_validate_url` | function | `core/payload_schema.py:237` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:2418` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:2260` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:2410` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:2255` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:2392` | `def format_issue(issue)` |
-| `register_specs` | function | `core/payload_schema.py:2214` | `def register_specs(specs)` |
-| `unregister_specs` | function | `core/payload_schema.py:2237` | `def unregister_specs(keys)` |
-| `validate_payload` | function | `core/payload_schema.py:2357` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:2283` | `def validate_value(key, value)` |
-| `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
+| `FieldKind` | class | `core/payload_schema.py:79` | `class FieldKind(StrEnum)` |
+| `FieldSpec` | class | `core/payload_schema.py:107` | `class FieldSpec` |
+| `Severity` | class | `core/payload_schema.py:98` | `class Severity(StrEnum)` |
+| `ValidationIssue` | class | `core/payload_schema.py:149` | `class ValidationIssue` |
+| `_coerce_bool` | function | `core/payload_schema.py:385` | `def _coerce_bool(raw)` |
+| `_coerce_int` | function | `core/payload_schema.py:370` | `def _coerce_int(raw)` |
+| `_coerce_list` | function | `core/payload_schema.py:312` | `def _coerce_list(raw)` |
+| `_load_operator_specs` | function | `core/payload_schema.py:2514` | `def _load_operator_specs()` |
+| `_spec` | function | `core/payload_schema.py:405` | `def _spec(name, kind, default, description)` |
+| `_validate_bool` | function | `core/payload_schema.py:202` | `def _validate_bool(value)` |
+| `_validate_c2_tls_verify` | function | `core/payload_schema.py:330` | `def _validate_c2_tls_verify(value)` |
+| `_validate_hex` | function | `core/payload_schema.py:261` | `def _validate_hex(value)` |
+| `_validate_hostname` | function | `core/payload_schema.py:227` | `def _validate_hostname(value)` |
+| `_validate_int` | function | `core/payload_schema.py:178` | `def _validate_int(value)` |
+| `_validate_interface` | function | `core/payload_schema.py:253` | `def _validate_interface(value)` |
+| `_validate_ip` | function | `core/payload_schema.py:219` | `def _validate_ip(value)` |
+| `_validate_json_blob` | function | `core/payload_schema.py:275` | `def _validate_json_blob(value)` |
+| `_validate_list` | function | `core/payload_schema.py:287` | `def _validate_list(value)` |
+| `_validate_opaque` | function | `core/payload_schema.py:326` | `def _validate_opaque(_value)` |
+| `_validate_os_id` | function | `core/payload_schema.py:269` | `def _validate_os_id(value)` |
+| `_validate_path` | function | `core/payload_schema.py:247` | `def _validate_path(value)` |
+| `_validate_port` | function | `core/payload_schema.py:192` | `def _validate_port(value)` |
+| `_validate_string` | function | `core/payload_schema.py:172` | `def _validate_string(value)` |
+| `_validate_url` | function | `core/payload_schema.py:239` | `def _validate_url(value)` |
+| `categories` | function | `core/payload_schema.py:2502` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:2344` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:2494` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:2339` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:2476` | `def format_issue(issue)` |
+| `register_specs` | function | `core/payload_schema.py:2298` | `def register_specs(specs)` |
+| `unregister_specs` | function | `core/payload_schema.py:2321` | `def unregister_specs(keys)` |
+| `validate_payload` | function | `core/payload_schema.py:2441` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:2367` | `def validate_value(key, value)` |
+| `_drain_stderr` | function | `core/process.py:221` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
-| `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |
+| `activate_server` | function | `core/process.py:272` | `def activate_server(httpd, url, lhost)` |
 | `check_go_tool_installed` | function | `core/process.py:34` | `def check_go_tool_installed(tool_name)` |
 | `check_sudo` | function | `core/process.py:97` | `def check_sudo()` |
-| `ensure_tmux_session` | function | `core/process.py:253` | `def ensure_tmux_session(session_name)` |
+| `ensure_tmux_session` | function | `core/process.py:254` | `def ensure_tmux_session(session_name)` |
 | `handle_multiple_rhosts` | function | `core/process.py:68` | `def handle_multiple_rhosts(func)` |
 | `is_binary_present` | function | `core/process.py:54` | `def is_binary_present(binary_name)` |
 | `is_package_installed` | function | `core/process.py:143` | `def is_package_installed(package_name)` |
@@ -305,18 +312,18 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `supports_unicode` | function | `core/safe_console.py:33` | `def supports_unicode()` |
 | `CommandInjectionError` | class | `core/safe_exec.py:49` | `class CommandInjectionError(PermissionError)` |
 | `UrlValidationError` | class | `core/safe_exec.py:53` | `class UrlValidationError(PermissionError)` |
-| `_communicate_group_managed` | function | `core/safe_exec.py:141` | `def _communicate_group_managed(process, timeout)` |
+| `_communicate_group_managed` | function | `core/safe_exec.py:141` | `def _communicate_group_managed(process, timeout, input_data)` |
 | `_kill_process_tree` | function | `core/safe_exec.py:111` | `def _kill_process_tree(process)` |
 | `needs_shell` | function | `core/safe_exec.py:57` | `def needs_shell(command)` |
-| `safe_clear_screen` | function | `core/safe_exec.py:285` | `def safe_clear_screen()` |
-| `safe_file_read` | function | `core/safe_exec.py:414` | `def safe_file_read(path)` |
-| `safe_find_tool` | function | `core/safe_exec.py:398` | `def safe_find_tool(name)` |
-| `safe_git_clone` | function | `core/safe_exec.py:327` | `def safe_git_clone(repo_url, target_dir)` |
-| `safe_ip_show` | function | `core/safe_exec.py:361` | `def safe_ip_show(interface)` |
-| `safe_run_argv` | function | `core/safe_exec.py:174` | `def safe_run_argv(argv)` |
-| `safe_run_shell` | function | `core/safe_exec.py:228` | `def safe_run_shell(command)` |
+| `safe_clear_screen` | function | `core/safe_exec.py:287` | `def safe_clear_screen()` |
+| `safe_file_read` | function | `core/safe_exec.py:416` | `def safe_file_read(path)` |
+| `safe_find_tool` | function | `core/safe_exec.py:400` | `def safe_find_tool(name)` |
+| `safe_git_clone` | function | `core/safe_exec.py:329` | `def safe_git_clone(repo_url, target_dir)` |
+| `safe_ip_show` | function | `core/safe_exec.py:363` | `def safe_ip_show(interface)` |
+| `safe_run_argv` | function | `core/safe_exec.py:176` | `def safe_run_argv(argv)` |
+| `safe_run_shell` | function | `core/safe_exec.py:230` | `def safe_run_shell(command)` |
 | `safe_system` | function | `core/safe_exec.py:74` | `def safe_system(command)` |
-| `validate_url` | function | `core/safe_exec.py:300` | `def validate_url(url)` |
+| `validate_url` | function | `core/safe_exec.py:302` | `def validate_url(url)` |
 | `filter_columns` | function | `core/safe_import.py:32` | `def filter_columns(src_columns, dest_columns)` |
 | `is_safe_identifier` | function | `core/safe_import.py:20` | `def is_safe_identifier(name)` |
 | `safe_copy_tree` | function | `core/safe_import.py:93` | `def safe_copy_tree(src, dest)` |
@@ -393,15 +400,15 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `validate_session` | method | `discord_c2.py:70` | `def validate_session(self, user_id)` |
 | `ctrl_c` | function | `external/install_external.sh:13` | `` |
 | `download` | function | `external/install_external.sh:18` | `` |
-| `_jq` | function | `fast_run_as_r00t.sh:31` | `` |
+| `_jq` | function | `fast_run_as_r00t.sh:39` | `` |
 | `check_deps` | function | `fast_run_as_r00t.sh:78` | `` |
 | `check_sudo` | function | `fast_run_as_r00t.sh:87` | `` |
 | `ensure_gum` | function | `fast_run_as_r00t.sh:67` | `` |
-| `err_box` | function | `fast_run_as_r00t.sh:61` | `` |
+| `err_box` | function | `fast_run_as_r00t.sh:33` | `` |
 | `kill_stale_c2` | function | `fast_run_as_r00t.sh:166` | `` |
-| `log` | function | `fast_run_as_r00t.sh:59` | `` |
+| `log` | function | `fast_run_as_r00t.sh:31` | `` |
 | `parse_args` | function | `fast_run_as_r00t.sh:96` | `` |
-| `spin` | function | `fast_run_as_r00t.sh:60` | `` |
+| `spin` | function | `fast_run_as_r00t.sh:32` | `` |
 | `start_chown_watcher` | function | `fast_run_as_r00t.sh:145` | `` |
 | `t_lazyown` | function | `fast_run_as_r00t.sh:121` | `` |
 | `t_priv_user` | function | `fast_run_as_r00t.sh:134` | `` |
@@ -470,31 +477,24 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `show_popup` | method | `lazy_sentinel4.py:402` | `def show_popup(self, file_name, relevant_info, commands, details)` |
 | `stop` | method | `lazy_sentinel4.py:536` | `def stop(self)` |
 | `to_dict` | method | `lazy_sentinel4.py:278` | `def to_dict(self)` |
-| `CustomDNSResolver` | class | `lazyc2.py:1863` | `class CustomDNSResolver(BaseResolver)` |
+| `CustomDNSResolver` | class | `lazyc2.py:1862` | `class CustomDNSResolver(BaseResolver)` |
 | `Handler` | class | `lazyc2.py:747` | `class Handler(FileSystemEventHandler)` |
-| `User` | class | `lazyc2.py:3301` | `class User(UserMixin)` |
+| `User` | class | `lazyc2.py:3298` | `class User(UserMixin)` |
 | `_JsonLogFormatter` | class | `lazyc2.py:460` | `class _JsonLogFormatter(Formatter)` |
-| `_LazyShellProxy` | class | `lazyc2.py:2916` | `class _LazyShellProxy` |
-| `__getattr__` | function | `lazyc2.py:2896` | `def __getattr__(name)` |
-| `__getattr__` | method | `lazyc2.py:2928` | `def __getattr__(self, name)` |
-| `__init__` | method | `lazyc2.py:3302` | `def __init__(self, user_data)` |
-| `__setattr__` | method | `lazyc2.py:2932` | `def __setattr__(self, name, value)` |
-| `_add_security_headers` | function | `lazyc2.py:2759` | `def _add_security_headers(response)` |
-| `_api_data_inner` | function | `lazyc2.py:5028` | `def _api_data_inner()` |
-| `_append_beacon_record` | function | `lazyc2.py:1380` | `def _append_beacon_record(record)` |
-| `_basic_authenticated` | function | `lazyc2.py:1544` | `def _basic_authenticated()` |
-| `_beacon_records_path` | function | `lazyc2.py:1272` | `def _beacon_records_path(client_id)` |
-| `_beacon_signature_guard` | function | `lazyc2.py:3696` | `def _beacon_signature_guard()` |
-| `_behavioral_risk_prompt` | function | `lazyc2.py:2517` | `def _behavioral_risk_prompt(event)` |
-| `_bg_cred_reuse` | function | `lazyc2.py:4122` | `def _bg_cred_reuse(_ip)` |
-| `_bootstrap_initial_admin` | function | `lazyc2.py:2996` | `def _bootstrap_initial_admin()` |
-| `_build_privesc_command` | function | `lazyc2.py:3667` | `def _build_privesc_command(platform)` |
-| `_build_stage_config_document` | function | `lazyc2.py:4442` | `def _build_stage_config_document()` |
-| `_campaign_adaptation_prompt` | function | `lazyc2.py:2570` | `def _campaign_adaptation_prompt(campaign_id, events)` |
-| `_complete_mfa_login` | function | `lazyc2.py:6676` | `def _complete_mfa_login()` |
-| `_csrf_cookie_secure` | function | `lazyc2.py:1533` | `def _csrf_cookie_secure()` |
-| `_csrf_enabled` | function | `lazyc2.py:1524` | `def _csrf_enabled()` |
-| `_current_aes_key` | function | `lazyc2.py:2089` | `def _current_aes_key()` |
-| `_encrypt_command_for` | function | `lazyc2.py:3530` | `def _encrypt_command_for(client_id, command)` |
+| `_LazyShellProxy` | class | `lazyc2.py:2915` | `class _LazyShellProxy` |
+| `__getattr__` | function | `lazyc2.py:2895` | `def __getattr__(name)` |
+| `__getattr__` | method | `lazyc2.py:2927` | `def __getattr__(self, name)` |
+| `__init__` | method | `lazyc2.py:3299` | `def __init__(self, user_data)` |
+| `__setattr__` | method | `lazyc2.py:2931` | `def __setattr__(self, name, value)` |
+| `_add_security_headers` | function | `lazyc2.py:2758` | `def _add_security_headers(response)` |
+| `_api_data_inner` | function | `lazyc2.py:5049` | `def _api_data_inner()` |
+| `_append_beacon_record` | function | `lazyc2.py:1379` | `def _append_beacon_record(record)` |
+| `_basic_authenticated` | function | `lazyc2.py:1543` | `def _basic_authenticated()` |
+| `_beacon_capabilities` | function | `lazyc2.py:7389` | `def _beacon_capabilities(beacon_type)` |
+| `_beacon_menu_bofs` | function | `lazyc2.py:7405` | `def _beacon_menu_bofs(capabilities)` |
+| `_beacon_menu_playbooks` | function | `lazyc2.py:7421` | `def _beacon_menu_playbooks()` |
+| `_beacon_records_path` | function | `lazyc2.py:1271` | `def _beacon_records_path(client_id)` |
+| `_beacon_signature_guard` | function | `lazyc2.py:3703` | `def _beacon_signature_guard()` |
+| `_behavioral_risk_prompt` | function | `lazyc2.py:2516` | `def _behavioral_risk_prompt(event)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

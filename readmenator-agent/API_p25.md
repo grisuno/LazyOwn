@@ -1,5 +1,161 @@
-# API (page 25 of 28)
+# API (page 25 of 30)
 Previous: [API_p24.md](API_p24.md)
+
+## skills/mcp_tools/parquet_annotate.py
+Depends on: `skills/lazyown_parquet_db.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/parquet_annotate.py:51` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_parquet_annotate MCP tool.
+
+## skills/mcp_tools/parquet_query.py
+Depends on: `skills/lazyown_parquet_db.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/parquet_query.py:87` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_parquet_query MCP tool.
+
+## skills/mcp_tools/phase_guide.py
+Depends on: `modules/lazyown_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/phase_guide.py:64` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_phase_guide MCP tool.
+
+## skills/mcp_tools/pipeline_list.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_list.py:18` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_list MCP tool.
+
+## skills/mcp_tools/pipeline_run.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_run.py:46` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_run MCP tool.
+
+## skills/mcp_tools/pipeline_status.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_status.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_status MCP tool.
+
+## skills/mcp_tools/pipeline_validate.py
+Depends on: `modules/pipeline_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pipeline_validate.py:28` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_pipeline_validate MCP tool.
+
+## skills/mcp_tools/pivot_status.py
+Depends on: `modules/auto_pivot.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/pivot_status.py:27` `def handle(arguments, tool_name, ctx)` -- Return active routes, proxychains config and next-pivot suggestion.
+
+## skills/mcp_tools/playbook_generate.py
+Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/playbook_generate.py:52` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_playbook_generate MCP tool.
+
+## skills/mcp_tools/playbook_run.py
+Depends on: `modules/playbook_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/playbook_run.py:55` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_playbook_run MCP tool.
+
+## skills/mcp_tools/policy_status.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/policy_status.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_policy_status MCP tool.
+
+## skills/mcp_tools/poll_events.py
+Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/poll_events.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_poll_events MCP tool.
+
+## skills/mcp_tools/rag_index.py
+Depends on: `modules/session_rag.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rag_index.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_rag_index MCP tool.
+
+## skills/mcp_tools/rag_query.py
+Depends on: `modules/session_rag.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rag_query.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_rag_query MCP tool.
+
+## skills/mcp_tools/rea.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rea.py:95` `def handle(arguments, tool_name, ctx)` -- Run one REA CLI action against a local artifact and return a JSON envelope.
+
+## skills/mcp_tools/reactive_suggest.py
+Depends on: `modules/reactive_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/reactive_suggest.py:50` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_reactive_suggest MCP tool.
+
+## skills/mcp_tools/read_prompt.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/read_prompt.py:41` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_read_prompt MCP tool.
+
+## skills/mcp_tools/read_session_file.py
+Depends on: `sdk/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/read_session_file.py:34` `def handle(arguments, tool_name, ctx)` -- Return a bounded view of a sessions artefact via the SDK facade.
+
+## skills/mcp_tools/recommend_next.py
+Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`, `modules/recommender.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/recommend_next.py:25` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_recommend_next MCP tool.
+
+## skills/mcp_tools/rich_tui_snapshot.py
+Depends on: `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/rich_tui_snapshot.py:30` `def handle(arguments, tool_name, ctx)` -- Return a non-interactive snapshot of the Rich TUI dashboard as JSON.
+
+## skills/mcp_tools/run_agent.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_agent.py:50` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_agent MCP tool.
+
+## skills/mcp_tools/run_api.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_api.py:30` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_api MCP tool.
+
+## skills/mcp_tools/run_command.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_command.py:82` `def handle(arguments, tool_name, ctx)` -- Pre-flight, confirm, execute and record one or more shell commands.
+
+## skills/mcp_tools/run_command_async.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/run_command_async.py:39` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_run_command_async MCP tool.
+
+## skills/mcp_tools/search_tools.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/search_tools.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_search_tools MCP tool.
+
+## skills/mcp_tools/searchsploit.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/searchsploit.py:79` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_searchsploit MCP tool.
+
+## skills/mcp_tools/session_diff.py
+Depends on: `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_diff.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_diff MCP tool.
+
+## skills/mcp_tools/session_init.py
+Depends on: `modules/killchain.py`, `modules/lazyown_bridge.py`, `skills/lazyown_mcp_helpers.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_init.py:59` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_init MCP tool.
+
+## skills/mcp_tools/session_resume.py
+Depends on: `skills/lazyown_session.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_resume.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_resume MCP tool.
+
+## skills/mcp_tools/session_state.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_state.py:33` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_state MCP tool.
+
+## skills/mcp_tools/session_status.py
+Depends on: `modules/session_reader.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/session_status.py:43` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_session_status MCP tool.
+
+## skills/mcp_tools/set_active_target.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/set_active_target.py:35` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_set_active_target MCP tool.
+
+## skills/mcp_tools/set_config.py
+Depends on: `core/payload_schema.py`, `sdk/__init__.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/set_config.py:37` `def handle(arguments, tool_name, ctx)` -- Coerce, validate and persist one payload key via the SDK facade.
+
+## skills/mcp_tools/soul.py
+Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/soul.py:42` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_soul MCP tool.
+
+## skills/mcp_tools/stealth.py
+Depends on: `modules/autonomous_exploit_engine.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/stealth.py:35` `def handle(arguments, tool_name, ctx)` -- Set the stealth level on the exploit engine and persist it to config.
+
+## skills/mcp_tools/subagent_run.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/lazyown_session.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/subagent_run.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_subagent_run MCP tool.
+
+## skills/mcp_tools/swan_ensemble.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_ensemble.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_ensemble MCP tool.
+
+## skills/mcp_tools/swan_route.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_route.py:37` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_route MCP tool.
+
+## skills/mcp_tools/swan_run.py
+Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
+- `handle` (function) `skills/mcp_tools/swan_run.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_swan_run MCP tool.
 
 ## skills/mcp_tools/swan_status.py
 Depends on: `skills/mcp_tools/_context.py`, `skills/swan_agent.py`
@@ -290,86 +446,6 @@ Depends on: `cli/assign.py`, `cli/show.py`
 - `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
 - `h` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
 - `M` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !
-
-## static/js/chart.min.js
-Depends on: `cli/assign.py`, `cli/show.py`, `lazyown-docker/init.sh`, `modules/notify.py`
-- `i` (function) `static/js/chart.min.js:7` -- !
-- `h` (function) `static/js/chart.min.js:7` -- !
-- `r` (function) `static/js/chart.min.js:7` -- !
-- `it` (function) `static/js/chart.min.js:7` -- !
-- `yt` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `ye` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `m` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `Ue` (function) `static/js/chart.min.js:13`
-- `Ge` (function) `static/js/chart.min.js:13`
-- `i` (function) `static/js/chart.min.js:13`
-- `y` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `Xs` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `bn` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `l` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `t` (function) `static/js/chart.min.js:13`
-- `p` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `a` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `Se` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `r` (function) `static/js/chart.min.js:13`
-- `i` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `d` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `e` (function) `static/js/chart.min.js:13`
-- `n` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `s` (function) `static/js/chart.min.js:13`
-- `n` (function) `static/js/chart.min.js:13`
-- `o` (function) `static/js/chart.min.js:13`
-- `y` (function) `static/js/chart.min.js:13`
-- `g` (function) `static/js/chart.min.js:13`
-- `p` (function) `static/js/chart.min.js:13`
-
-## static/js/force-graph-1.43.5.min.js
-Depends on: `cli/assign.py`, `cli/style.py`, `modules/exp.c`
-- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `n` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `Cn` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `Tr` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `o` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `ti` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `e` (function) `static/js/force-graph-1.43.5.min.js:2` -- Version 1.43.5 force-graph - https://github.com/vasturiano/force-graph
-- `t` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `u` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `y` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `l` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `b` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `h` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `s` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `f` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `i` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `e` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `Fi` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `r` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `n` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `sa` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `ha` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `v` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `o` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
-- `c` (function) `static/js/force-graph-1.43.5.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
 
 
 Next: [API_p26.md](API_p26.md)

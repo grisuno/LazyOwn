@@ -1,8 +1,11 @@
-# Symbols (page 4 of 53)
+# Symbols (page 4 of 54)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
+| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
+| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 | `_format_elapsed` | method | `cli/commands/redteam_gym.py:342` | `def _format_elapsed(seconds)` |
 | `_gym_collect` | method | `cli/commands/redteam_gym.py:99` | `def _gym_collect(self, rest)` |
 | `_gym_hint` | method | `cli/commands/redteam_gym.py:469` | `def _gym_hint(self, args)` |
@@ -145,18 +148,21 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `do_tasks` | method | `cli/commands/session_ops.py:200` | `def do_tasks(self, line)` |
 | `do_tenant` | method | `cli/commands/session_ops.py:332` | `def do_tenant(self, line)` |
 | `do_traces` | method | `cli/commands/session_ops.py:754` | `def do_traces(self, line)` |
-| `ShellSysCommandSet` | class | `cli/commands/shellsys.py:24` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
-| `do_clean` | method | `cli/commands/shellsys.py:217` | `def do_clean(self, line)` |
-| `do_cron` | method | `cli/commands/shellsys.py:171` | `def do_cron(self, line)` |
-| `do_fixel` | method | `cli/commands/shellsys.py:338` | `def do_fixel(self, line)` |
-| `do_fixperm` | method | `cli/commands/shellsys.py:305` | `def do_fixperm(self, line)` |
-| `do_nano` | method | `cli/commands/shellsys.py:147` | `def do_nano(self, line)` |
-| `do_pop` | method | `cli/commands/shellsys.py:371` | `def do_pop(self, line)` |
-| `do_pwd` | method | `cli/commands/shellsys.py:111` | `def do_pwd(self, line)` |
-| `do_sh` | method | `cli/commands/shellsys.py:31` | `def do_sh(self, line)` |
-| `do_sys` | method | `cli/commands/shellsys.py:63` | `def do_sys(self, line)` |
-| `do_tab` | method | `cli/commands/shellsys.py:408` | `def do_tab(self, line)` |
-| `lazyrun_command` | function | `cli/commands/shellsys.py:206` | `def lazyrun_command()` |
+| `ShellSysCommandSet` | class | `cli/commands/shellsys.py:80` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
+| `_count` | function | `cli/commands/shellsys.py:75` | `def _count(groups)` |
+| `_print_cleanup_plan` | function | `cli/commands/shellsys.py:28` | `def _print_cleanup_plan(plan, include_sensitive)` |
+| `_print_groups` | function | `cli/commands/shellsys.py:62` | `def _print_groups(groups, list_entries)` |
+| `do_clean` | method | `cli/commands/shellsys.py:273` | `def do_clean(self, line)` |
+| `do_cron` | method | `cli/commands/shellsys.py:227` | `def do_cron(self, line)` |
+| `do_fixel` | method | `cli/commands/shellsys.py:382` | `def do_fixel(self, line)` |
+| `do_fixperm` | method | `cli/commands/shellsys.py:349` | `def do_fixperm(self, line)` |
+| `do_nano` | method | `cli/commands/shellsys.py:203` | `def do_nano(self, line)` |
+| `do_pop` | method | `cli/commands/shellsys.py:415` | `def do_pop(self, line)` |
+| `do_pwd` | method | `cli/commands/shellsys.py:167` | `def do_pwd(self, line)` |
+| `do_sh` | method | `cli/commands/shellsys.py:87` | `def do_sh(self, line)` |
+| `do_sys` | method | `cli/commands/shellsys.py:119` | `def do_sys(self, line)` |
+| `do_tab` | method | `cli/commands/shellsys.py:452` | `def do_tab(self, line)` |
+| `lazyrun_command` | function | `cli/commands/shellsys.py:262` | `def lazyrun_command()` |
 | `SidequestCommandSet` | class | `cli/commands/sidequest.py:18` | `class SidequestCommandSet(LazyOwnCommandSet)` |
 | `do_sidequest` | method | `cli/commands/sidequest.py:25` | `def do_sidequest(self, statement)` |
 | `SleepObfuscationCommandSet` | class | `cli/commands/sleep_obfuscation.py:16` | `class SleepObfuscationCommandSet(LazyOwnCommandSet)` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_missing_reason` | method | `cli/graph_advisor.py:684` | `def _missing_reason(self)` |
 | `_resolve_query` | method | `cli/graph_advisor.py:638` | `def _resolve_query(self, query)` |
 | `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
-| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
-| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
-| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
-| `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
-| `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
-| `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

@@ -4,7 +4,30 @@
 - Layer: utility
 - Language: py
 - Depends on: `modules/loop/engine_proxy.py`, `modules/loop/triage_scheduler.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_memory.py`
-- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/sidequest.py`, `tests/test_lazy_scope.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_sidequest.py`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/sidequest.py`, `tests/test_lazy_scope.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_sidequest.py`, `tests/test_target_os.py`
+
+## modules/loop/control_plane.py
+- Doc: Operator control-plane precheck for the autonomous loop.
+- Language: py
+- Symbols:
+  - `precheck_control` (function, line 23) `def precheck_control(control, target, objective_id, step_n, emit, loop, wait_until_unpaused, poll_interval, max_wait)`
+- Depends on: `core/logging.py`
+- Imported by: `skills/autonomous_daemon.py`, `tests/test_control_plane.py`
+
+## modules/loop/daemon_reward.py
+- Doc: Single-responsibility contract for the autonomous daemon's RL step reward.
+- Language: py
+- Symbols:
+  - `_Trainer` (class, line 85) `class _Trainer(Protocol)`
+  - `RLStepResult` (class, line 104) `class RLStepResult`
+  - `_shell_evidence` (function, line 116) `def _shell_evidence(output)`
+  - `compute_step_reward` (function, line 126) `def compute_step_reward(output, command, phase, success, findings, prev_cmds)`
+  - `record_rl_feedback` (function, line 189) `def record_rl_feedback(trainer, source, command, phase, output, success, findings, prev_cmds, prior_ema, detection_prob)`
+  - `encode_state` (method, line 88) `def encode_state(self, task_type, engagement_phase, recent_reward_ema)`
+  - `update` (method, line 90) `def update(self, state, action, reward, next_state, candidates, detection_prob)`
+  - `save` (method, line 100) `def save(self)`
+- Depends on: `modules/atomic_exploit_bridge.py`
+- Imported by: `skills/autonomous_daemon.py`, `tests/test_daemon_reward_contract.py`
 
 ## modules/loop/decision_log.py
 - Doc: Reproducible decision ledger for the autonomous loop.
@@ -37,6 +60,25 @@
   - `_maybe_proxy_gc` (method, line 157) `def _maybe_proxy_gc(self)`
 - Depends on: `modules/__init__.py`, `modules/lazy_loop.py`, `modules/traffic_recorder.py`
 - Imported by: `modules/loop/__init__.py`
+
+## modules/loop/objective_bootstrap.py
+- Doc: Pre-loop bootstrap for an autonomous objective.
+- Language: py
+- Symbols:
+  - `ObjectiveBootstrap` (class, line 26) `class ObjectiveBootstrap`
+  - `bootstrap_objective` (function, line 46) `def bootstrap_objective(objective_id, objective_text, target, world_model, obs_parser, planner, emit, load_payload)`
+- Depends on: `core/logging.py`, `modules/enrich.py`, `modules/goals.py`, `modules/intercept.py`, `modules/planner.py`
+- Imported by: `skills/autonomous_daemon.py`, `tests/test_objective_bootstrap.py`
+
+## modules/loop/target_os.py
+- Doc: Target operating-system ground truth for the autonomous loop.
+- Language: py
+- Symbols:
+  - `detect_target_os` (function, line 42) `def detect_target_os(target, loop)`
+  - `os_id_for` (function, line 93) `def os_id_for(detected_os)`
+  - `persist_detected_os` (function, line 105) `def persist_detected_os(objective_id, target, detected_os, world_model, emit, load_payload, sessions_dir, payload_file)`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `skills/autonomous_daemon.py`
 
 ## modules/loop/triage_scheduler.py
 - Doc: Difficulty-triage scheduling for the autonomous multi-target loop.

@@ -180,6 +180,14 @@ def run_matrix(
         record_run["status"] = "ok" if result.ok else "failed"
         record_run["run_id"] = result.run_id
         record_run["chain_output"] = outputs[:MAX_MATRIX_OUTPUT_CHARS]
+        record_run["steps"] = [
+            {
+                "id": step.id,
+                "status": step.status,
+                "reason": (step.reason or "")[:200],
+            }
+            for step in result.steps
+        ]
         if dry_run:
             record_run["capture"] = "dry-run"
         else:

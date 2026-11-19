@@ -1,5 +1,90 @@
-# API (page 20 of 28)
+# API (page 20 of 30)
 Previous: [API_p19.md](API_p19.md)
+
+## modules/session_reader.py
+Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
+- `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
+- `ImplantRecord.platform` (method) `modules/session_reader.py:60` `def platform(self)`
+- `ImplantRecord.ip_list` (method) `modules/session_reader.py:69` `def ip_list(self)`
+- `SessionSummary.active_client_ids` (method) `modules/session_reader.py:94` `def active_client_ids(self)`
+- `SessionSummary.privileged_sessions` (method) `modules/session_reader.py:101` `def privileged_sessions(self)`
+- `SessionSummary.unprivileged_sessions` (method) `modules/session_reader.py:108` `def unprivileged_sessions(self)`
+- `SessionSummary.latest_for` (method) `modules/session_reader.py:114` `def latest_for(self, client_id)`
+- `SessionSummary.task_by_status` (method) `modules/session_reader.py:118` `def task_by_status(self, status)`
+- `AbstractReader.read` (method) `modules/session_reader.py:129` `def read(self, sessions_dir)`
+- `ImplantCSVReader.read` (method) `modules/session_reader.py:157` `def read(self, sessions_dir)`
+- `CommandOutputReader.read` (method) `modules/session_reader.py:199` `def read(self, sessions_dir)`
+- `DiscoveredHostReader.read` (method) `modules/session_reader.py:217` `def read(self, sessions_dir)`
+- `TaskReader.read` (method) `modules/session_reader.py:235` `def read(self, sessions_dir)`
+- `TaskWriter.__init__` (method) `modules/session_reader.py:260` `def __init__(self, sessions_dir)`
+- `TaskWriter.append` (method) `modules/session_reader.py:263` `def append(self, title, description, operator, status)`
+- `TaskWriter.update_status` (method) `modules/session_reader.py:288` `def update_status(self, task_id, status)`
+- `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
+- `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
+- `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
+
+## modules/session_reclaim.py
+- `CleanupEntry.display_name` (method) `modules/session_reclaim.py:295` `def display_name(self)` -- Return the entry name with control characters escaped for the terminal.
+- `CleanupPlan.by_tier` (method) `modules/session_reclaim.py:308` `def by_tier(self, tier)` -- Return the entries assigned to a given tier, largest first.
+- `CleanupPlan.grouped` (method) `modules/session_reclaim.py:313` `def grouped(self, tier)` -- Return the tier entries grouped by display label, largest group first.
+- `CleanupPlan.tier_bytes` (method) `modules/session_reclaim.py:321` `def tier_bytes(self, tier)` -- Return the total size in bytes of the entries in a tier.
+- `CleanupPlan.removable` (method) `modules/session_reclaim.py:325` `def removable(self, include_sensitive)` -- Return the entries that execution would remove for the chosen scope.
+- `human_size` (function) `modules/session_reclaim.py:342` `def human_size(num_bytes)` -- Return a compact human-readable representation of a byte count.
+- `safe_label` (function) `modules/session_reclaim.py:354` `def safe_label(name)` -- Return a name with control and direction-override characters neutralised.
+- `entry_size` (function) `modules/session_reclaim.py:371` `def entry_size(path)` -- Return the size in bytes of a file or the recursive size of a directory.
+- `classify` (function) `modules/session_reclaim.py:392` `def classify(name)` -- Return the ``(tier, label)`` verdict for a top-level entry name.
+- `build_plan` (function) `modules/session_reclaim.py:415` `def build_plan(sessions_dir, subset)` -- Partition ``sessions_dir`` into a protected, sensitive and reclaim plan.
+- `remove_entries` (function) `modules/session_reclaim.py:486` `def remove_entries(entries, remover)` -- Delete the given entries, collecting reclaimed bytes and per-entry errors.
+
+## modules/session_state.py
+Imported by: `modules/recommender.py`
+- `build_state` (function) `modules/session_state.py:189` `def build_state()` -- Assemble and return the current session state dict.
+- `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
+- `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
+
+## modules/shell_session_store.py
+Depends on: `modules/atomic_exploit_bridge.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`
+- `session_id` (function) `modules/shell_session_store.py:49` `def session_id(target, via, created_at)` -- Return the stable content hash identifying a session.
+- `register` (function) `modules/shell_session_store.py:80` `def register(target, via, port, lhost, evidence)` -- Create or refresh the resumable descriptor for an obtained shell.
+- `get` (function) `modules/shell_session_store.py:123` `def get(session)` -- Return one descriptor by id, or None when absent or unreadable.
+- `list_sessions` (function) `modules/shell_session_store.py:134` `def list_sessions(target)` -- Return persisted descriptors, newest first, optionally for one target.
+- `mark_closed` (function) `modules/shell_session_store.py:174` `def mark_closed(target, via)` -- Mark matching descriptors closed.
+- `resume` (function) `modules/shell_session_store.py:214` `def resume(session)` -- Re-establish a persisted shell session through its recorded primitive.
+
+## modules/sidequest.py
+Depends on: `modules/llm_factory.py`, `modules/loop/__init__.py`
+- `checkpoint_id` (function) `modules/sidequest.py:38` `def checkpoint_id(row)` -- Return a stable, position-independent ordinal for one decision row.
+- `list_checkpoints` (function) `modules/sidequest.py:61` `def list_checkpoints(run_id, limit)` -- Return recent decision checkpoints, newest last, each with its ordinal.
+- `get_checkpoint` (function) `modules/sidequest.py:99` `def get_checkpoint(ordinal)` -- Return the full frozen decision row for a checkpoint ordinal.
+- `ask` (function) `modules/sidequest.py:142` `def ask(ordinal, question, temperature)` -- Answer a question about one frozen checkpoint, read-only.
+
+## modules/sidequestion.py
+Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
+- `SideQuestionService.__init__` (method) `modules/sidequestion.py:55` `def __init__(self, answer_fn, config)` -- Initialize registries with an optional answer function.
+- `SideQuestionService.capture` (method) `modules/sidequestion.py:66` `def capture(self, task_id, text)` -- Freeze main-loop context into an immutable snapshot.
+- `SideQuestionService.ask` (method) `modules/sidequestion.py:75` `def ask(self, snapshot_id, question)` -- Answer from a snapshot without touching main state.
+- `SideQuestionService.cancel` (method) `modules/sidequestion.py:104` `def cancel(self, request_id)` -- Mark a pending request cancelled.
+- `SideQuestionService.history` (method) `modules/sidequestion.py:113` `def history(self, limit, before)` -- Page request history newest first.
+
+## modules/sinks/attack_graph.py
+Depends on: `modules/attack_surface3d.py`, `modules/outcome_bus.py`
+Imported by: `tests/test_outcome_bus.py`
+- `apply` (function) `modules/sinks/attack_graph.py:13` `def apply(event)` -- Rebuild the attack graph and its exposure summary.
+
+## modules/sinks/beacon_dispatch.py
+Depends on: `core/config.py`, `core/hardening.py`, `modules/lazy_handoff.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
+Imported by: `tests/test_outcome_bus.py`
+- `apply` (function) `modules/sinks/beacon_dispatch.py:46` `def apply(event)` -- Stage the catch-back command for one foothold outcome.
+
+## modules/sinks/c2_surfaces.py
+Depends on: `modules/c2_surfaces.py`, `modules/outcome_bus.py`
+Imported by: `tests/test_outcome_bus.py`
+- `apply` (function) `modules/sinks/c2_surfaces.py:11` `def apply(event)` -- Write the operator-visible surfaces for one outcome.
+
+## modules/sinks/campaign_db.py
+Depends on: `modules/db.py`, `modules/outcome_bus.py`
+- `apply` (function) `modules/sinks/campaign_db.py:9` `def apply(event)` -- Mirror one outcome into the campaign database.
 
 ## modules/sinks/chain_feed.py
 Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
@@ -258,22 +343,23 @@ Imported by: `cli/commands/persist_migrated.py`
 - `TrafficMorpher.generate_beacon_profile` (method) `modules/traffic_morpher.py:270` `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` -- Generate a complete C2 beacon profile configuration.
 
 ## modules/traffic_recorder.py
+Depends on: `modules/security_sanitizers.py`
 Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/loop/engine_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
-- `url_template` (function) `modules/traffic_recorder.py:72` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
-- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:97` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
-- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:147` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
-- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:239` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
-- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:256` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
-- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:262` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
-- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:284` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
-- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:293` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
-- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:326` `def count(self)` -- Return the total number of recorded exchanges.
-- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:352` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
-- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:391` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
-- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:460` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
-- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:502` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
-- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:563` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
-- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:596` `def gc(self, older_than_sec, max_rows)` -- Delete exchanges older than a cut-off with their bodies and index rows.
+- `url_template` (function) `modules/traffic_recorder.py:74` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
+- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:99` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
+- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:149` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
+- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:241` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
+- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:258` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
+- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:264` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
+- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:286` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
+- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:295` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
+- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:328` `def count(self)` -- Return the total number of recorded exchanges.
+- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:354` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
+- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:393` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
+- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:462` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
+- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:504` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
+- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:565` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
+- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:598` `def gc(self, older_than_sec, max_rows)` -- Delete exchanges older than a cut-off with their bodies and index rows.
 
 ## modules/trigger_policy.py
 Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
@@ -406,79 +492,6 @@ Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_
 - `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
 - `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
 - `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
-
-## modules/vuln_bot_cli.py
-Depends on: `modules/vulnbot.py`
-- `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
-- `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
-
-## modules/vulnbot.py
-Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
-Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
-- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:38` `def __init__(self, provider, mode, debug, script_path)`
-- `list_files` (function) `modules/vulnbot.py:149` `def list_files(directory)` -- Lista archivos en un directorio
-- `read_file` (function) `modules/vulnbot.py:153` `def read_file(path)` -- Lee contenido de un archivo
-- `edit_file` (function) `modules/vulnbot.py:158` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
-- `generate` (function) `modules/vulnbot.py:202` `def generate()`
-- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:208` `def load_knowledge_base(self)` -- Load the knowledge base in any known shape.
-- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:224` `def save_knowledge_base(self, kb)`
-- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:228` `def get_relevant_knowledge(self, prompt)` -- Return knowledge responses whose text shares keywords with the prompt.
-- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:251` `def create_complex_prompt(self, base_prompt, history, knowledge)`
-- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:267` `def read_file_content(self, file_path)`
-- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:273` `def load_event_config(self)`
-- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:281` `def process_with_context(self, file_path, event)`
-- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:297` `def stream_response(self, prompt)`
-- `generate` (function) `modules/vulnbot.py:298` `def generate()`
-- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:303` `def add_to_knowledge_base(self, prompt, response)` -- Append a prompt/response record in the canonical list format.
-
-## modules/websocket_beacon.py
-Depends on: `core/hardening.py`
-- `WebSocketBeacon.__init__` (method) `modules/websocket_beacon.py:62` `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
-- `WebSocketBeacon.connect` (method) `modules/websocket_beacon.py:122` `def connect(self)` -- Establish WebSocket connection to the C2 server.
-- `WebSocketBeacon.check_in` (method) `modules/websocket_beacon.py:157` `def check_in(self)` -- Send heartbeat and retrieve pending tasks.
-- `WebSocketBeacon.send_result` (method) `modules/websocket_beacon.py:191` `def send_result(self, task_id, output, exit_code)` -- Send command execution result back to C2.
-- `WebSocketBeacon.run` (method) `modules/websocket_beacon.py:214` `def run(self, command_handler)` -- Main beacon loop with check-in and command execution.
-- `WebSocketBeacon.shutdown` (method) `modules/websocket_beacon.py:263` `def shutdown(self)` -- Gracefully shutdown the beacon.
-- `WebSocketC2Handler.__init__` (method) `modules/websocket_beacon.py:288` `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
-- `WebSocketC2Handler.start` (method) `modules/websocket_beacon.py:382` `def start(self)` -- Start the WebSocket C2 server.
-- `WebSocketC2Handler.stop` (method) `modules/websocket_beacon.py:392` `def stop(self)` -- Stop the WebSocket C2 server.
-- `WebSocketC2Handler.start_in_thread` (method) `modules/websocket_beacon.py:399` `def start_in_thread(self)` -- Start the WebSocket C2 server in a background thread.
-- `WebSocketC2Handler.send_task` (method) `modules/websocket_beacon.py:416` `def send_task(self, beacon_id, command)` -- Send a command task to a specific beacon.
-- `WebSocketC2Handler.list_beacons` (method) `modules/websocket_beacon.py:447` `def list_beacons(self)` -- List all connected beacons.
-- `WebSocketC2Handler.remove_stale_beacons` (method) `modules/websocket_beacon.py:464` `def remove_stale_beacons(self, timeout)` -- Remove beacons that have not checked in within the timeout.
-
-## modules/win_rootkit/backup.c
-- `elp` (function) `modules/win_rootkit/backup.c:66` `void elp()`
-- `ensure_pid_file_exists` (function) `modules/win_rootkit/backup.c:86` `void ensure_pid_file_exists()`
-- `ensure_key_file_exists` (function) `modules/win_rootkit/backup.c:123` `void ensure_key_file_exists()`
-- `ensure_hide_file_exists` (function) `modules/win_rootkit/backup.c:150` `void ensure_hide_file_exists()`
-- `infect_command` (function) `modules/win_rootkit/backup.c:179` `void infect_command()`
-- `handle_client` (function) `modules/win_rootkit/backup.c:204` `DWORD WINAPI handle_client(LPVOID client_socket)`
-- `monitor_shell` (function) `modules/win_rootkit/backup.c:430` `DWORD WINAPI monitor_shell(LPVOID data)`
-- `main` (function) `modules/win_rootkit/backup.c:540` `int main()`
-
-## modules/win_rootkit/mrhyde.c
-- `RunExperiment` (function) `modules/win_rootkit/mrhyde.c:19` `void __cdecl RunExperiment()` -- Define the RunExperiment function
-- `load_hidden_pids` (function) `modules/win_rootkit/mrhyde.c:24` `void load_hidden_pids()`
-- `load_hidden_files` (function) `modules/win_rootkit/mrhyde.c:47` `void load_hidden_files()`
-- `FindProcessId` (function) `modules/win_rootkit/mrhyde.c:89` `DWORD FindProcessId(const char* processName)`
-- `HideProcessByPID` (function) `modules/win_rootkit/mrhyde.c:115` `void HideProcessByPID(DWORD pid)`
-- `search_pid` (function) `modules/win_rootkit/mrhyde.c:137` `BOOL search_pid()`
-- `should_hide_pid` (function) `modules/win_rootkit/mrhyde.c:147` `BOOL should_hide_pid(DWORD pid)`
-- `should_hide_file` (function) `modules/win_rootkit/mrhyde.c:161` `BOOL should_hide_file(const char* filename)`
-- `HookedFindFirstFile` (function) `modules/win_rootkit/mrhyde.c:171` `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindFirstFile
-- `HookedFindNextFile` (function) `modules/win_rootkit/mrhyde.c:180` `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindNextFile
-- `HookedCreateToolhelp32Snapshot` (function) `modules/win_rootkit/mrhyde.c:189` `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` -- Hook para CreateToolhelp32Snapshot
-- `HookedProcess32First` (function) `modules/win_rootkit/mrhyde.c:198` `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32First
-- `HookedProcess32Next` (function) `modules/win_rootkit/mrhyde.c:210` `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32Next
-- `HookFunctions` (function) `modules/win_rootkit/mrhyde.c:222` `void HookFunctions()` -- Función para realizar el hooking de las funciones
-- `DllMain` (function) `modules/win_rootkit/mrhyde.c:272` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-
-## modules/win_rootkit/win_rin3_rootkit.cs
-- `SID.GetUsernameFromPid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:145`
-- `SID.ShouldHidePid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:203`
-- `SID.HookFindFirstFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:214`
-- `SID.HookCreateFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:226`
 
 
 Next: [API_p21.md](API_p21.md)

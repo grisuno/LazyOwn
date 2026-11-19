@@ -1,8 +1,111 @@
-# Symbols (page 20 of 53)
+# Symbols (page 20 of 54)
 Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `record` | method | `modules/llm_evaluator.py:81` | `def record(self, decision)` |
+| `record_decision` | method | `modules/llm_evaluator.py:165` | `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
+| `record_decision` | function | `modules/llm_evaluator.py:302` | `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
+| `record_outcome` | method | `modules/llm_evaluator.py:191` | `def record_outcome(self, decision_id, actual_outcome, findings_count, success)` |
+| `record_outcome` | function | `modules/llm_evaluator.py:313` | `def record_outcome(decision_id, actual_outcome, findings_count, success)` |
+| `update_outcome` | method | `modules/llm_evaluator.py:60` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
+| `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
+| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:213` | `class LLMBackendNotSupportedError(ValueError)` |
+| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:209` | `class LLMBackendUnavailableError(RuntimeError)` |
+| `_build_anthropic` | function | `modules/llm_factory.py:591` | `def _build_anthropic(config)` |
+| `_build_backend` | function | `modules/llm_factory.py:781` | `def _build_backend(normalized, resolved_config)` |
+| `_build_deepseek` | function | `modules/llm_factory.py:613` | `def _build_deepseek(config)` |
+| `_build_groq` | function | `modules/llm_factory.py:519` | `def _build_groq(config)` |
+| `_build_llamacpp` | function | `modules/llm_factory.py:555` | `def _build_llamacpp(config)` |
+| `_build_ollama` | function | `modules/llm_factory.py:541` | `def _build_ollama(config)` |
+| `_build_openai` | function | `modules/llm_factory.py:569` | `def _build_openai(config)` |
+| `_build_opencode` | function | `modules/llm_factory.py:635` | `def _build_opencode(config)` |
+| `_is_placeholder_key` | function | `modules/llm_factory.py:355` | `def _is_placeholder_key(value)` |
+| `_normalize_backend` | function | `modules/llm_factory.py:453` | `def _normalize_backend(backend)` |
+| `_pi_complete` | function | `modules/llm_factory.py:886` | `def _pi_complete(model, prompt, max_tokens)` |
+| `_pi_timeout` | function | `modules/llm_factory.py:874` | `def _pi_timeout()` |
+| `_pooled_key` | function | `modules/llm_factory.py:398` | `def _pooled_key(backend, config, fallback)` |
+| `_require_cloud_allowed` | function | `modules/llm_factory.py:487` | `def _require_cloud_allowed(normalized)` |
+| `_resolve_api_key` | function | `modules/llm_factory.py:375` | `def _resolve_api_key(config)` |
+| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:421` | `def _resolve_api_key_for_backend(backend, config)` |
+| `_resolve_model_identifier` | function | `modules/llm_factory.py:662` | `def _resolve_model_identifier(backend_identifier, config)` |
+| `_wrap_with_budget` | function | `modules/llm_factory.py:691` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `api_key_config_key` | function | `modules/llm_factory.py:288` | `def api_key_config_key(backend)` |
+| `backend_requires_api_key` | function | `modules/llm_factory.py:313` | `def backend_requires_api_key(backend)` |
+| `complete` | function | `modules/llm_factory.py:998` | `def complete(model, prompt, max_tokens, temperature)` |
+| `default_model_for` | function | `modules/llm_factory.py:246` | `def default_model_for(backend)` |
+| `get_llm_backend` | function | `modules/llm_factory.py:729` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | function | `modules/llm_factory.py:828` | `def get_llm_backend_raw(config, backend)` |
+| `groq_model_chain` | function | `modules/llm_factory.py:157` | `def groq_model_chain(config)` |
+| `is_model_missing_error` | function | `modules/llm_factory.py:137` | `def is_model_missing_error(message)` |
+| `load_payload` | function | `modules/llm_factory.py:331` | `def load_payload(payload_path)` |
+| `model_config_key` | function | `modules/llm_factory.py:267` | `def model_config_key(backend)` |
+| `stream_complete` | function | `modules/llm_factory.py:927` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
+| `try_get_llm_backend` | function | `modules/llm_factory.py:850` | `def try_get_llm_backend(config, backend)` |
+| `OrchestratorResult` | class | `modules/llm_orchestrator.py:92` | `class OrchestratorResult` |
+| `_bare_model_name` | function | `modules/llm_orchestrator.py:423` | `def _bare_model_name(model_spec)` |
+| `_blank_error` | function | `modules/llm_orchestrator.py:87` | `def _blank_error(message)` |
+| `_breaker_active` | function | `modules/llm_orchestrator.py:288` | `def _breaker_active()` |
+| `_dedupe` | function | `modules/llm_orchestrator.py:229` | `def _dedupe(chain)` |
+| `_default_health` | function | `modules/llm_orchestrator.py:278` | `def _default_health()` |
+| `_ensure_groq_env_key` | function | `modules/llm_orchestrator.py:242` | `def _ensure_groq_env_key(api_key)` |
+| `_exhausted_result` | function | `modules/llm_orchestrator.py:512` | `def _exhausted_result(attempts, specs, record)` |
+| `_factory_executor` | function | `modules/llm_orchestrator.py:308` | `def _factory_executor(model_spec, prompt, max_tokens)` |
+| `_ledger_record` | function | `modules/llm_orchestrator.py:298` | `def _ledger_record(name, ok, text)` |
+| `_notice_fallback` | function | `modules/llm_orchestrator.py:330` | `def _notice_fallback(primary, attempts, served)` |
+| `_walk_chain` | function | `modules/llm_orchestrator.py:431` | `def _walk_chain(chain, walk, health, attempts, specs, max_tokens, system, prompt, record, healthy_only, skipped)` |
+| `_weight` | function | `modules/llm_orchestrator.py:139` | `def _weight(member)` |
+| `backend_kind` | function | `modules/llm_orchestrator.py:175` | `def backend_kind(model_spec)` |
+| `complete_with_fallback` | function | `modules/llm_orchestrator.py:349` | `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` |
+| `display_text` | method | `modules/llm_orchestrator.py:123` | `def display_text(self)` |
+| `is_error_reply` | function | `modules/llm_orchestrator.py:192` | `def is_error_reply(text)` |
+| `is_placeholder_key` | function | `modules/llm_orchestrator.py:211` | `def is_placeholder_key(value)` |
+| `ok` | method | `modules/llm_orchestrator.py:118` | `def ok(self)` |
+| `pool_chain` | function | `modules/llm_orchestrator.py:148` | `def pool_chain()` |
+| `sort_members` | function | `modules/llm_orchestrator.py:130` | `def sort_members(members)` |
+| `HealthRegistry` | class | `modules/llm_pool.py:75` | `class HealthRegistry` |
+| `LLMPool` | class | `modules/llm_pool.py:176` | `class LLMPool` |
+| `PoolConfig` | class | `modules/llm_pool.py:29` | `class PoolConfig` |
+| `PoolExhausted` | class | `modules/llm_pool.py:42` | `class PoolExhausted(RuntimeError)` |
+| `PoolMember` | class | `modules/llm_pool.py:64` | `class PoolMember` |
+| `__init__` | method | `modules/llm_pool.py:83` | `def __init__(self, config)` |
+| `__init__` | method | `modules/llm_pool.py:179` | `def __init__(self, members, health, config)` |
+| `_backoff_for` | method | `modules/llm_pool.py:155` | `def _backoff_for(self, failures)` |
+| `_health_path` | function | `modules/llm_pool.py:20` | `def _health_path()` |
+| `_load` | method | `modules/llm_pool.py:92` | `def _load(self)` |
+| `_ordered` | method | `modules/llm_pool.py:201` | `def _ordered(self)` |
+| `_persist_locked` | method | `modules/llm_pool.py:116` | `def _persist_locked(self)` |
+| `_truncate` | method | `modules/llm_pool.py:217` | `def _truncate(self, text, overflow_dir)` |
+| `complete` | method | `modules/llm_pool.py:237` | `def complete(self, prompt, max_tokens, session_key, overflow_dir)` |
+| `healthy` | method | `modules/llm_pool.py:163` | `def healthy(self, member_id)` |
+| `members` | method | `modules/llm_pool.py:192` | `def members(self)` |
+| `report_failure` | method | `modules/llm_pool.py:143` | `def report_failure(self, member_id, error)` |
+| `report_success` | method | `modules/llm_pool.py:135` | `def report_success(self, member_id)` |
+| `session_key` | method | `modules/llm_pool.py:196` | `def session_key(self, conversation_id, role, index)` |
+| `shared_registry` | function | `modules/llm_pool.py:50` | `def shared_registry(config)` |
+| `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
+| `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
+| `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
+| `_payload_block` | function | `modules/llm_prompts.py:354` | `def _payload_block(config)` |
+| `_prompt_adversary` | function | `modules/llm_prompts.py:393` | `def _prompt_adversary(base_prompt, kb_text, config)` |
+| `_prompt_general` | function | `modules/llm_prompts.py:409` | `def _prompt_general(base_prompt, kb_text, config)` |
+| `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
+| `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
+| `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
+| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
+| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
+| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
+| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
+| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
+| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
+| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
+| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
+| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
+| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
+| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
+| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
+| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
+| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
 | `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
 | `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
 | `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
@@ -38,6 +141,15 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `set_quiet` | function | `modules/logging_config.py:367` | `def set_quiet()` |
 | `set_verbose` | function | `modules/logging_config.py:373` | `def set_verbose()` |
 | `silence_module` | function | `modules/logging_config.py:379` | `def silence_module(name)` |
+| `precheck_control` | function | `modules/loop/control_plane.py:23` | `def precheck_control(control, target, objective_id, step_n, emit, loop, wait_until_unpaused, poll_interval, max_wait)` |
+| `RLStepResult` | class | `modules/loop/daemon_reward.py:104` | `class RLStepResult` |
+| `_Trainer` | class | `modules/loop/daemon_reward.py:85` | `class _Trainer(Protocol)` |
+| `_shell_evidence` | function | `modules/loop/daemon_reward.py:116` | `def _shell_evidence(output)` |
+| `compute_step_reward` | function | `modules/loop/daemon_reward.py:126` | `def compute_step_reward(output, command, phase, success, findings, prev_cmds)` |
+| `encode_state` | method | `modules/loop/daemon_reward.py:88` | `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` |
+| `record_rl_feedback` | function | `modules/loop/daemon_reward.py:189` | `def record_rl_feedback(trainer, source, command, phase, output, success, findings, prev_cmds, prior_ema, detection_prob)` |
+| `save` | method | `modules/loop/daemon_reward.py:100` | `def save(self)` |
+| `update` | method | `modules/loop/daemon_reward.py:90` | `def update(self, state, action, reward, next_state, candidates, detection_prob)` |
 | `DecisionRecord` | class | `modules/loop/decision_log.py:143` | `class DecisionRecord` |
 | `_canonical` | function | `modules/loop/decision_log.py:68` | `def _canonical(value)` |
 | `_rotate` | function | `modules/loop/decision_log.py:182` | `def _rotate(path)` |
@@ -56,6 +168,11 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `proxy_status` | method | `modules/loop/engine_proxy.py:60` | `def proxy_status(self)` |
 | `proxy_stop` | method | `modules/loop/engine_proxy.py:52` | `def proxy_stop(self)` |
 | `search_proxy_body` | method | `modules/loop/engine_proxy.py:130` | `def search_proxy_body(self, task_id, query, limit)` |
+| `ObjectiveBootstrap` | class | `modules/loop/objective_bootstrap.py:26` | `class ObjectiveBootstrap` |
+| `bootstrap_objective` | function | `modules/loop/objective_bootstrap.py:46` | `def bootstrap_objective(objective_id, objective_text, target, world_model, obs_parser, planner, emit, load_payload)` |
+| `detect_target_os` | function | `modules/loop/target_os.py:42` | `def detect_target_os(target, loop)` |
+| `os_id_for` | function | `modules/loop/target_os.py:93` | `def os_id_for(detected_os)` |
+| `persist_detected_os` | function | `modules/loop/target_os.py:105` | `def persist_detected_os(objective_id, target, detected_os, world_model, emit, load_payload, sessions_dir, payload_file)` |
 | `TriageScheduler` | class | `modules/loop/triage_scheduler.py:85` | `class TriageScheduler` |
 | `__init__` | method | `modules/loop/triage_scheduler.py:92` | `def __init__(self, stop_loss_attempts, salvage_progress, hard_threshold)` |
 | `_clamp01` | function | `modules/loop/triage_scheduler.py:31` | `def _clamp01(value)` |
@@ -242,40 +359,41 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `slot` | method | `modules/loop_guardrails.py:545` | `def slot(self, target)` |
 | `stuck` | method | `modules/loop_guardrails.py:182` | `def stuck(self)` |
 | `windows_delay` | method | `modules/loop_guardrails.py:432` | `def windows_delay(windows, now)` |
-| `LoopManager` | class | `modules/loop_manager.py:314` | `class LoopManager` |
-| `LoopNotFoundError` | class | `modules/loop_manager.py:94` | `class LoopNotFoundError(KeyError)` |
-| `LoopSpec` | class | `modules/loop_manager.py:262` | `class LoopSpec` |
-| `LoopValidationError` | class | `modules/loop_manager.py:85` | `class LoopValidationError(ValueError)` |
-| `__init__` | method | `modules/loop_manager.py:88` | `def __init__(self, field, message)` |
-| `__init__` | method | `modules/loop_manager.py:325` | `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` |
-| `_load_registry_locked` | method | `modules/loop_manager.py:817` | `def _load_registry_locked(self)` |
-| `_loop_command` | function | `modules/loop_manager.py:282` | `def _loop_command(spec)` |
-| `_now_iso` | function | `modules/loop_manager.py:215` | `def _now_iso()` |
-| `_pid_alive` | function | `modules/loop_manager.py:244` | `def _pid_alive(pid, start_ticks)` |
-| `_process_start_ticks` | function | `modules/loop_manager.py:220` | `def _process_start_ticks(pid)` |
-| `_prune_locked` | method | `modules/loop_manager.py:768` | `def _prune_locked(self)` |
-| `_read_outcome` | method | `modules/loop_manager.py:529` | `def _read_outcome(workspace)` |
-| `_reap` | method | `modules/loop_manager.py:470` | `def _reap(self, loop_id, process)` |
-| `_refresh_log_bytes` | method | `modules/loop_manager.py:570` | `def _refresh_log_bytes(self, record)` |
-| `_remove_workspace` | method | `modules/loop_manager.py:793` | `def _remove_workspace(self, loop_id)` |
-| `_resolve_log_path` | method | `modules/loop_manager.py:641` | `def _resolve_log_path(self, record)` |
-| `_save_registry_locked` | method | `modules/loop_manager.py:832` | `def _save_registry_locked(self, records)` |
-| `_spawn_locked` | method | `modules/loop_manager.py:392` | `def _spawn_locked(self, spec, operator)` |
-| `_update_status_locked` | method | `modules/loop_manager.py:715` | `def _update_status_locked(self, loop_id, status)` |
-| `_write_workspace_metadata` | method | `modules/loop_manager.py:512` | `def _write_workspace_metadata(record)` |
-| `clamp_float` | function | `modules/loop_manager.py:173` | `def clamp_float(raw, field, default, minimum, maximum)` |
-| `clamp_int` | function | `modules/loop_manager.py:148` | `def clamp_int(raw, field, default, minimum, maximum)` |
-| `default_manager` | function | `modules/loop_manager.py:850` | `def default_manager()` |
-| `get_loop` | method | `modules/loop_manager.py:581` | `def get_loop(self, loop_id)` |
-| `list_loops` | method | `modules/loop_manager.py:546` | `def list_loops(self)` |
-| `loops_dir` | method | `modules/loop_manager.py:347` | `def loops_dir(self)` |
-| `read_log` | method | `modules/loop_manager.py:600` | `def read_log(self, loop_id, offset)` |
-| `sanitize_goal` | function | `modules/loop_manager.py:121` | `def sanitize_goal(raw)` |
-| `start` | method | `modules/loop_manager.py:351` | `def start(self, spec, operator)` |
-| `stop` | method | `modules/loop_manager.py:667` | `def stop(self, loop_id)` |
-| `summary` | method | `modules/loop_manager.py:732` | `def summary(self)` |
-| `validate_loop_id` | function | `modules/loop_manager.py:198` | `def validate_loop_id(loop_id)` |
-| `validate_target` | function | `modules/loop_manager.py:98` | `def validate_target(raw)` |
+| `LoopManager` | class | `modules/loop_manager.py:355` | `class LoopManager` |
+| `LoopNotFoundError` | class | `modules/loop_manager.py:97` | `class LoopNotFoundError(KeyError)` |
+| `LoopSpec` | class | `modules/loop_manager.py:287` | `class LoopSpec` |
+| `LoopValidationError` | class | `modules/loop_manager.py:88` | `class LoopValidationError(ValueError)` |
+| `__init__` | method | `modules/loop_manager.py:91` | `def __init__(self, field, message)` |
+| `__init__` | method | `modules/loop_manager.py:366` | `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` |
+| `_load_registry_locked` | method | `modules/loop_manager.py:865` | `def _load_registry_locked(self)` |
+| `_loop_command` | function | `modules/loop_manager.py:308` | `def _loop_command(spec)` |
+| `_now_iso` | function | `modules/loop_manager.py:240` | `def _now_iso()` |
+| `_pid_alive` | function | `modules/loop_manager.py:269` | `def _pid_alive(pid, start_ticks)` |
+| `_process_start_ticks` | function | `modules/loop_manager.py:245` | `def _process_start_ticks(pid)` |
+| `_prune_locked` | method | `modules/loop_manager.py:816` | `def _prune_locked(self)` |
+| `_read_outcome` | method | `modules/loop_manager.py:577` | `def _read_outcome(workspace)` |
+| `_reap` | method | `modules/loop_manager.py:518` | `def _reap(self, loop_id, process)` |
+| `_refresh_log_bytes` | method | `modules/loop_manager.py:618` | `def _refresh_log_bytes(self, record)` |
+| `_remove_workspace` | method | `modules/loop_manager.py:841` | `def _remove_workspace(self, loop_id)` |
+| `_resolve_log_path` | method | `modules/loop_manager.py:689` | `def _resolve_log_path(self, record)` |
+| `_save_registry_locked` | method | `modules/loop_manager.py:880` | `def _save_registry_locked(self, records)` |
+| `_spawn_locked` | method | `modules/loop_manager.py:437` | `def _spawn_locked(self, spec, operator)` |
+| `_update_status_locked` | method | `modules/loop_manager.py:763` | `def _update_status_locked(self, loop_id, status)` |
+| `_write_workspace_metadata` | method | `modules/loop_manager.py:560` | `def _write_workspace_metadata(record)` |
+| `clamp_float` | function | `modules/loop_manager.py:198` | `def clamp_float(raw, field, default, minimum, maximum)` |
+| `clamp_int` | function | `modules/loop_manager.py:173` | `def clamp_int(raw, field, default, minimum, maximum)` |
+| `default_manager` | function | `modules/loop_manager.py:898` | `def default_manager()` |
+| `get_loop` | method | `modules/loop_manager.py:629` | `def get_loop(self, loop_id)` |
+| `list_loops` | method | `modules/loop_manager.py:594` | `def list_loops(self)` |
+| `loops_dir` | method | `modules/loop_manager.py:388` | `def loops_dir(self)` |
+| `read_log` | method | `modules/loop_manager.py:648` | `def read_log(self, loop_id, offset)` |
+| `sanitize_goal` | function | `modules/loop_manager.py:146` | `def sanitize_goal(raw)` |
+| `start` | method | `modules/loop_manager.py:392` | `def start(self, spec, operator)` |
+| `stop` | method | `modules/loop_manager.py:715` | `def stop(self, loop_id)` |
+| `summary` | method | `modules/loop_manager.py:780` | `def summary(self)` |
+| `validate_beacon_target` | function | `modules/loop_manager.py:124` | `def validate_beacon_target(raw)` |
+| `validate_loop_id` | function | `modules/loop_manager.py:223` | `def validate_loop_id(loop_id)` |
+| `validate_target` | function | `modules/loop_manager.py:101` | `def validate_target(raw)` |
 | `_probe` | function | `modules/loop_preflight.py:107` | `def _probe(port)` |
 | `check_target` | function | `modules/loop_preflight.py:145` | `def check_target(target, ports, connect_timeout, lab)` |
 | `lab_state_for` | function | `modules/loop_preflight.py:38` | `def lab_state_for(target, scenarios, running, existing, ip_lookup)` |
@@ -378,123 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `analyse` | method | `modules/mediation/engine_mediator.py:100` | `def analyse(self, output, command, platform)` |
 | `describe` | method | `modules/mediation/engine_mediator.py:71` | `def describe(self)` |
 | `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:35` | `def retry_with_credentials(self, target, credentials)` |
-| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:79` | `def retry_with_credentials(self, target, credentials)` |
-| `FeedbackMediator` | class | `modules/mediation/feedback_mediator.py:13` | `class FeedbackMediator` |
-| `describe` | method | `modules/mediation/feedback_mediator.py:18` | `def describe(self)` |
-| `order_steps` | method | `modules/mediation/feedback_mediator.py:22` | `def order_steps(self, steps, stack)` |
-| `MediationHub` | class | `modules/mediation/hub.py:19` | `class MediationHub` |
-| `__init__` | method | `modules/mediation/hub.py:22` | `def __init__(self)` |
-| `_build_default` | function | `modules/mediation/hub.py:55` | `def _build_default()` |
-| `default_hub` | function | `modules/mediation/hub.py:75` | `def default_hub()` |
-| `get_hub` | function | `modules/mediation/hub.py:80` | `def get_hub()` |
-| `mediator_for` | method | `modules/mediation/hub.py:35` | `def mediator_for(self, domain)` |
-| `register` | method | `modules/mediation/hub.py:26` | `def register(self, mediator)` |
-| `snapshot` | method | `modules/mediation/hub.py:46` | `def snapshot(self)` |
-| `IntelMediator` | class | `modules/mediation/intel_mediator.py:13` | `class IntelMediator` |
-| `__init__` | method | `modules/mediation/intel_mediator.py:18` | `def __init__(self)` |
-| `activity_records` | method | `modules/mediation/intel_mediator.py:39` | `def activity_records(self, task_id, limit)` |
-| `describe` | method | `modules/mediation/intel_mediator.py:32` | `def describe(self)` |
-| `mask_configured` | method | `modules/mediation/intel_mediator.py:133` | `def mask_configured(self, text)` |
-| `record_routing_decision` | method | `modules/mediation/intel_mediator.py:64` | `def record_routing_decision(self, task_id, intent_id, command, intent_text, target, stack)` |
-| `record_routing_outcome` | method | `modules/mediation/intel_mediator.py:97` | `def record_routing_outcome(self, task_id, intent_id, command, state, facts, findings, stack)` |
-| `register_activity_log_factory` | method | `modules/mediation/intel_mediator.py:22` | `def register_activity_log_factory(self, factory)` |
-| `stack_signature` | method | `modules/mediation/intel_mediator.py:149` | `def stack_signature(self, assets)` |
-| `TelemetryMediator` | class | `modules/mediation/telemetry_mediator.py:14` | `class TelemetryMediator` |
-| `annotate_detection` | method | `modules/mediation/telemetry_mediator.py:43` | `def annotate_detection(self, command)` |
-| `assess_opsec` | method | `modules/mediation/telemetry_mediator.py:59` | `def assess_opsec(self, command, rhost)` |
-| `describe` | method | `modules/mediation/telemetry_mediator.py:19` | `def describe(self)` |
-| `moe_record_outcome` | method | `modules/mediation/telemetry_mediator.py:203` | `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` |
-| `moe_route` | method | `modules/mediation/telemetry_mediator.py:162` | `def moe_route(self, task_type)` |
-| `publish_event` | method | `modules/mediation/telemetry_mediator.py:23` | `def publish_event(self, task_id, worker, kind, text, severity)` |
-| `record_outcome_quality` | method | `modules/mediation/telemetry_mediator.py:77` | `def record_outcome_quality(self, worker, intent_summary, facts, findings)` |
-| `record_step` | method | `modules/mediation/telemetry_mediator.py:111` | `def record_step(self, task_id, worker, command, output, detection_prob)` |
-| `rl_select` | method | `modules/mediation/telemetry_mediator.py:178` | `def rl_select(self, task_type, phase, candidates, deterministic)` |
-| `rl_update` | method | `modules/mediation/telemetry_mediator.py:219` | `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` |
-| `swan_available` | method | `modules/mediation/telemetry_mediator.py:128` | `def swan_available(self)` |
-| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:137` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
-| `tool_class_yields` | method | `modules/mediation/telemetry_mediator.py:93` | `def tool_class_yields(self, summaries, phase)` |
-| `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
-| `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
-| `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
-| `generate_on_exit_script` | method | `modules/memory_cleaner.py:255` | `def generate_on_exit_script(self)` |
-| `linux_memory_cleanup` | method | `modules/memory_cleaner.py:151` | `def linux_memory_cleanup(self)` |
-| `macos_memory_cleanup` | method | `modules/memory_cleaner.py:206` | `def macos_memory_cleanup(self)` |
-| `windows_memory_cleanup` | method | `modules/memory_cleaner.py:64` | `def windows_memory_cleanup(self)` |
-| `EmbeddingError` | class | `modules/memory_embeddings.py:30` | `class EmbeddingError(ValueError)` |
-| `_fnv1a` | function | `modules/memory_embeddings.py:34` | `def _fnv1a(data)` |
-| `_tokens` | function | `modules/memory_embeddings.py:41` | `def _tokens(text)` |
-| `as_floats` | function | `modules/memory_embeddings.py:109` | `def as_floats(blob)` |
-| `cosine` | function | `modules/memory_embeddings.py:75` | `def cosine(a, b)` |
-| `embed` | function | `modules/memory_embeddings.py:50` | `def embed(text)` |
-| `semantic_top_k` | function | `modules/memory_embeddings.py:85` | `def semantic_top_k(query, candidates, top_k)` |
-| `MemoryEntry` | class | `modules/memory_store.py:84` | `class MemoryEntry` |
-| `MemoryStore` | class | `modules/memory_store.py:237` | `class MemoryStore` |
-| `SQLiteBackend` | class | `modules/memory_store.py:132` | `class SQLiteBackend(StorageBackend)` |
-| `StorageBackend` | class | `modules/memory_store.py:97` | `class StorageBackend(ABC)` |
-| `VectorSQLiteBackend` | class | `modules/memory_store.py:315` | `class VectorSQLiteBackend(SQLiteBackend)` |
-| `__init__` | method | `modules/memory_store.py:133` | `def __init__(self, db_path)` |
-| `__init__` | method | `modules/memory_store.py:240` | `def __init__(self, backend)` |
-| `_cli` | function | `modules/memory_store.py:381` | `def _cli()` |
-| `_connect` | method | `modules/memory_store.py:139` | `def _connect(self)` |
-| `_fetch` | method | `modules/memory_store.py:175` | `def _fetch(self, sql, params)` |
-| `_print_entries` | function | `modules/memory_store.py:368` | `def _print_entries(entries)` |
-| `_row_to_entry` | function | `modules/memory_store.py:117` | `def _row_to_entry(row)` |
-| `all_entries` | method | `modules/memory_store.py:111` | `def all_entries(self, limit)` |
-| `all_entries` | method | `modules/memory_store.py:215` | `def all_entries(self, limit)` |
-| `by_host` | method | `modules/memory_store.py:105` | `def by_host(self, host, top_k)` |
-| `by_host` | method | `modules/memory_store.py:192` | `def by_host(self, host, top_k)` |
-| `by_service` | method | `modules/memory_store.py:108` | `def by_service(self, service, top_k)` |
-| `by_service` | method | `modules/memory_store.py:203` | `def by_service(self, service, top_k)` |
-| `close` | method | `modules/memory_store.py:114` | `def close(self)` |
-| `close` | method | `modules/memory_store.py:232` | `def close(self)` |
-| `export_finetuning_dataset` | method | `modules/memory_store.py:300` | `def export_finetuning_dataset(self, path)` |
-| `get_memory_store` | function | `modules/memory_store.py:339` | `def get_memory_store()` |
-| `recall` | method | `modules/memory_store.py:270` | `def recall(self, query, top_k)` |
-| `recall` | function | `modules/memory_store.py:360` | `def recall(query, top_k)` |
-| `recall_by_host` | method | `modules/memory_store.py:273` | `def recall_by_host(self, host, top_k)` |
-| `recall_for_service` | method | `modules/memory_store.py:276` | `def recall_for_service(self, service_name, top_k)` |
-| `recall_hybrid` | method | `modules/memory_store.py:279` | `def recall_hybrid(self, query, top_k)` |
-| `recall_hybrid` | function | `modules/memory_store.py:364` | `def recall_hybrid(query, top_k)` |
-| `remember` | method | `modules/memory_store.py:243` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
-| `remember` | function | `modules/memory_store.py:348` | `def remember(session_id, host, tool, command, output, findings, success)` |
-| `save` | method | `modules/memory_store.py:99` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:148` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:320` | `def save(self, entry)` |
-| `search` | method | `modules/memory_store.py:102` | `def search(self, query, top_k)` |
-| `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
-| `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
-| `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
-| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
-| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
-| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
-| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
-| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
-| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
-| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
-| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
-| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
-| `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
-| `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
-| `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
-| `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
-| `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
-| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
-| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
-| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
-| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
-| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
-| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
-| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
-| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
-| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
-| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
-| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
-| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
-| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
-| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
-| `path` | method | `modules/metrics.py:201` | `def path(self)` |
-| `path` | method | `modules/metrics.py:350` | `def path(self)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

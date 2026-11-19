@@ -1,8 +1,14 @@
-# Symbols (page 7 of 53)
+# Symbols (page 7 of 54)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
+| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
+| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
+| `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
+| `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
+| `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
 | `_hint` | method | `cli/tui_forms.py:172` | `def _hint(self, text)` |
 | `_render_options` | method | `cli/tui_forms.py:155` | `def _render_options(self, query)` |
 | `_save` | method | `cli/tui_forms.py:327` | `def _save(self)` |
@@ -459,26 +465,27 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `one_cmd` | method | `core/command_bridge.py:89` | `def one_cmd(self, command)` |
 | `onecmd` | method | `core/command_bridge.py:65` | `def onecmd(self, command)` |
 | `ready` | method | `core/command_bridge.py:25` | `def ready(self)` |
-| `Config` | class | `core/config.py:211` | `class Config` |
-| `__getattr__` | method | `core/config.py:233` | `def __getattr__(self, name)` |
-| `__getitem__` | method | `core/config.py:236` | `def __getitem__(self, key)` |
-| `__init__` | method | `core/config.py:224` | `def __init__(self, config_dict, sessions_dir)` |
-| `_apply_env_overrides` | function | `core/config.py:75` | `def _apply_env_overrides(payload)` |
-| `_calling_frame` | function | `core/config.py:173` | `def _calling_frame()` |
-| `_coerce_env_value` | function | `core/config.py:108` | `def _coerce_env_value(raw, existing)` |
-| `_collect_validation_warnings` | function | `core/config.py:187` | `def _collect_validation_warnings(payload)` |
-| `_load_raw_payload` | function | `core/config.py:309` | `def _load_raw_payload(path)` |
-| `_log_config_change` | function | `core/config.py:151` | `def _log_config_change(key, old_value, new_value)` |
-| `_mask_if_sensitive` | function | `core/config.py:133` | `def _mask_if_sensitive(key, value)` |
-| `_migrate_keys` | function | `core/config.py:254` | `def _migrate_keys(config_dict)` |
-| `_rat_key_is_valid` | function | `core/config.py:455` | `def _rat_key_is_valid(value)` |
-| `as_params` | method | `core/config.py:239` | `def as_params(self)` |
-| `ensure_rat_key` | function | `core/config.py:468` | `def ensure_rat_key(config_obj)` |
-| `load_and_validate` | function | `core/config.py:350` | `def load_and_validate(path)` |
-| `load_payload` | function | `core/config.py:332` | `def load_payload(path)` |
-| `overridden_keys` | method | `core/config.py:249` | `def overridden_keys(self)` |
-| `resolve_aes_key` | function | `core/config.py:266` | `def resolve_aes_key(config_dict)` |
-| `save_payload` | function | `core/config.py:401` | `def save_payload(payload, path)` |
+| `Config` | class | `core/config.py:213` | `class Config` |
+| `__getattr__` | method | `core/config.py:235` | `def __getattr__(self, name)` |
+| `__getitem__` | method | `core/config.py:238` | `def __getitem__(self, key)` |
+| `__init__` | method | `core/config.py:226` | `def __init__(self, config_dict, sessions_dir)` |
+| `_apply_env_overrides` | function | `core/config.py:77` | `def _apply_env_overrides(payload)` |
+| `_calling_frame` | function | `core/config.py:175` | `def _calling_frame()` |
+| `_coerce_env_value` | function | `core/config.py:110` | `def _coerce_env_value(raw, existing)` |
+| `_collect_validation_warnings` | function | `core/config.py:189` | `def _collect_validation_warnings(payload)` |
+| `_load_raw_payload` | function | `core/config.py:311` | `def _load_raw_payload(path)` |
+| `_log_config_change` | function | `core/config.py:153` | `def _log_config_change(key, old_value, new_value)` |
+| `_mask_if_sensitive` | function | `core/config.py:135` | `def _mask_if_sensitive(key, value)` |
+| `_migrate_keys` | function | `core/config.py:256` | `def _migrate_keys(config_dict)` |
+| `_payload_write_lock` | function | `core/config.py:404` | `def _payload_write_lock(target)` |
+| `_rat_key_is_valid` | function | `core/config.py:495` | `def _rat_key_is_valid(value)` |
+| `as_params` | method | `core/config.py:241` | `def as_params(self)` |
+| `ensure_rat_key` | function | `core/config.py:508` | `def ensure_rat_key(config_obj)` |
+| `load_and_validate` | function | `core/config.py:352` | `def load_and_validate(path)` |
+| `load_payload` | function | `core/config.py:334` | `def load_payload(path)` |
+| `overridden_keys` | method | `core/config.py:251` | `def overridden_keys(self)` |
+| `resolve_aes_key` | function | `core/config.py:268` | `def resolve_aes_key(config_dict)` |
+| `save_payload` | function | `core/config.py:440` | `def save_payload(payload, path)` |
 | `_emit` | function | `core/console.py:208` | `def _emit(line)` |
 | `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
 | `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
 | `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
 | `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
-| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
-| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
-| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
-| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
-| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
-| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
-| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

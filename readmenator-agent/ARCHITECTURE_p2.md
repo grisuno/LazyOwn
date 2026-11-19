@@ -2,6 +2,17 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
+- `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
+- `cli/commands/resource_scripting.py` -> `utils.py`
+- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
+- `cli/commands/retry_ops.py` -> `cli/retry_support.py`
+- `cli/commands/retry_ops.py` -> `modules/lazy_runner.py`
+- `cli/commands/retry_ops.py` -> `utils.py`
+- `cli/commands/scan.py` -> `cli/commands/_base.py`
+- `cli/commands/scan.py` -> `utils.py`
+- `cli/commands/scan_migrated.py` -> `cli/commands/_base.py`
+- `cli/commands/scan_migrated.py` -> `utils.py`
 - `cli/commands/security.py` -> `cli/commands/_base.py`
 - `cli/commands/security.py` -> `core/config.py`
 - `cli/commands/security.py` -> `core/console.py`
@@ -32,6 +43,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/commands/shellsys.py` -> `cli/commands/_base.py`
 - `cli/commands/shellsys.py` -> `core/safe_exec.py`
 - `cli/commands/shellsys.py` -> `core/session_secrets.py`
+- `cli/commands/shellsys.py` -> `modules/__init__.py`
 - `cli/commands/shellsys.py` -> `utils.py`
 - `cli/commands/sidequest.py` -> `cli/commands/_base.py`
 - `cli/commands/sidequest.py` -> `modules/__init__.py`
@@ -340,6 +352,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/attack_surface3d.py`
 - `lazyc2.py` -> `modules/backdoor/server.c`
 - `lazyc2.py` -> `modules/beacon_history.py`
+- `lazyc2.py` -> `modules/beacon_kinds.py`
 - `lazyc2.py` -> `modules/beacon_recon.py`
 - `lazyc2.py` -> `modules/bof_delivery.py`
 - `lazyc2.py` -> `modules/bsb_compat.py`
@@ -414,6 +427,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/blueprints/beacon.py` -> `core/logging.py`
 - `lazyc2/blueprints/beacon.py` -> `modules/conditional_hooks.py`
 - `lazyc2/blueprints/beacon.py` -> `modules/credential_reuse.py`
+- `lazyc2/blueprints/beacon.py` -> `modules/security_sanitizers.py`
 - `lazyc2/blueprints/beacon.py` -> `modules/state_manager.py`
 - `lazyc2/blueprints/gym.py` -> `lazyc2/blueprints/session_auth.py`
 - `lazyc2/blueprints/gym.py` -> `lazyc2/security/csrf_flow.py`
@@ -482,19 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/__init__.py` -> `lazygui/panels/history_panel.py`
 - `lazygui/panels/__init__.py` -> `lazygui/panels/killchain_panel.py`
 - `lazygui/panels/__init__.py` -> `lazygui/panels/listeners_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/marketplace_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/registry.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/sessions_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/terminal_panel.py`
-- `lazygui/panels/base.py` -> `lazygui/config/constants.py`
-- `lazygui/panels/base.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/campaign_panel.py` -> `lazygui/config/constants.py`
-- `lazygui/panels/campaign_panel.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/campaign_panel.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/campaign_panel.py` -> `lazygui/services/models.py`
-- `lazygui/panels/credentials_panel.py` -> `lazygui/config/constants.py`
-- `lazygui/panels/credentials_panel.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/credentials_panel.py` -> `lazygui/services/backend.py`
-- `lazygui/panels/cve_panel.py` -> `lazygui/config/constants.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

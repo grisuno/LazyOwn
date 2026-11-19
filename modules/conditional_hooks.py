@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import shlex
 import threading
 import time
@@ -117,7 +118,7 @@ DEFAULT_RULES: list[dict[str, Any]] = [
         "name": "auto-loot-on-privesc",
         "trigger": {"event": "privilege_escalated"},
         "actions": [
-            {"type": "run_command", "command": "whoami /priv"},
+            {"type": "run_command", "command": "whoami /priv || id"},
             {"type": "run_command", "command": "lazydump"},
         ],
         "cooldown_seconds": 0,
@@ -266,6 +267,8 @@ class HookEngine:
     Rules are loaded from ``sessions/conditional_hooks.json`` with
     built-in defaults as fallback.
     """
+
+    _fired_once: set[tuple[str, str]] = set()
 
     def __init__(self) -> None:
         self._rules: list[HookRule] = []
@@ -425,6 +428,66 @@ class HookEngine:
                 result = result.replace("{" + key + "}", shlex.quote(str(val)))
         return result
 
+    _WINDOWS_ONLY_RE = re.compile(
+        r"(?i)(whoami\s+/\w|\bnet\s+(?:user|localgroup|share|start|stop)\b|\bdir\s+%|findstr"
+        r"|%userprofile%|\bwmic\b|\bpowershell\b|\breg\s+(?:add|query|delete)|\bdsquery\b"
+        r"|\biwr\b|\bwevtutil\b|\bicacls\b)"
+    )
+    _LINUX_ONLY_RE = re.compile(
+        r"(?i)(\buname\b|\bid\b|\bchmod\b|\bchown\b|\bapt(?:-get)?\s|\bsudo\s|/etc/passwd"
+        r"|\blinpeas\b|\bunzip\b|\bss\s+-tlnp\b)"
+    )
+
+    def _platform_compatible(self, action: dict[str, Any], context: dict[str, Any]) -> bool:
+        """Return True when a run_command action suits the target platform.
+
+        Beacon hook contexts carry ``platform`` (``linux``/``windows``);
+        every command goes through a content scan for platform-exclusive
+        markers so a Windows-only probe can never queue on a Linux beacon
+        (and vice versa). Dual-fallback commands (``a || b``) keep the
+        fragments that match the platform.
+
+        Args:
+            action: Hook action dict (``run_command``/``run_scan_command``).
+            context: Event context (``platform`` when a beacon fires it).
+
+        Returns:
+            True when the command may run.
+        """
+        if action.get("type") not in ("run_command", "run_scan_command"):
+            return True
+        command = str(action.get("command", "") or "")
+        platform = str(context.get("platform", "") or "").strip().lower()
+        if not command or platform not in ("linux", "windows"):
+            return True
+        wrong = self._LINUX_ONLY_RE if platform == "windows" else self._WINDOWS_ONLY_RE
+        fragments = [f.strip() for f in re.split(r"\|\||&&|;", command) if f.strip()]
+        if wrong.search(command) and len(fragments) == 1:
+            return False
+        if len(fragments) > 1:
+            return any(not wrong.search(f) for f in fragments)
+        return True
+
+    @staticmethod
+    def _already_fired_for(rule_name: str, context: dict[str, Any]) -> bool:
+        """Dedupe zero-cooldown rules per beacon session (in-memory).
+
+        Args:
+            rule_name: Rule that fired.
+            context: Event context (``client_id`` when a beacon fires it).
+
+        Returns:
+            True when the same rule already fired for this client.
+        """
+        client_id = str(context.get("client_id", "") or "")
+        if not client_id:
+            return False
+        key = (rule_name, client_id)
+        if key in HookEngine._fired_once:
+            return True
+        HookEngine._fired_once.add(key)
+        return False
+
     def _execute_action(self, action: dict[str, Any], context: dict[str, Any]) -> Any:
         """Execute a single action and return its result."""
         action_type = action.get("type", "")
@@ -540,8 +603,19 @@ class HookEngine:
                 if not rule.can_fire(now):
                     continue
 
+                actions = [
+                    action
+                    for action in rule.actions
+                    if self._platform_compatible(action, context)
+                ]
+                if not actions:
+                    log.debug("[hook] rule %s skipped: no platform-compatible actions", rule.name)
+                    continue
+                if rule.cooldown_seconds <= 0 and self._already_fired_for(rule.name, context):
+                    continue
+
                 rule.mark_fired()
-                for action in rule.actions:
+                for action in actions:
                     try:
                         result = self._execute_action(action, context)
                         results.append(

@@ -18,6 +18,50 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
 - Depends on: `modules/beacon_history.py`
 
+## tests/test_beacon_menu.py
+- Doc: Tests for the implant beacon menu and the autonomous beacon loop.
+- Language: py
+- Symbols:
+  - `TestDetectBeaconType` (class, line 43) `class TestDetectBeaconType`
+  - `TestBeaconCapabilities` (class, line 69) `class TestBeaconCapabilities`
+  - `TestBeaconMenuData` (class, line 101) `class TestBeaconMenuData`
+  - `TestValidateCandidate` (class, line 118) `class TestValidateCandidate`
+  - `TestQueueCommand` (class, line 138) `class TestQueueCommand`
+  - `TestHeuristicPlan` (class, line 150) `class TestHeuristicPlan`
+  - `TestSummarizeHistory` (class, line 167) `class TestSummarizeHistory`
+  - `TestRunBeaconLoop` (class, line 177) `class TestRunBeaconLoop`
+  - `TestBeaconLoopKind` (class, line 242) `class TestBeaconLoopKind`
+  - `test_bsb_client_id_wins` (method, line 44) `def test_bsb_client_id_wins(self, tmp_path)`
+  - `test_go_agent_by_staged_binary` (method, line 49) `def test_go_agent_by_staged_binary(self, tmp_path)`
+  - `test_go_agent_by_loader_source` (method, line 54) `def test_go_agent_by_loader_source(self, tmp_path)`
+  - `test_windows_c_beacon_fallback` (method, line 59) `def test_windows_c_beacon_fallback(self, tmp_path)`
+  - `test_linux_fallback_and_unknown` (method, line 63) `def test_linux_fallback_and_unknown(self, tmp_path)`
+  - `test_bsb_has_linux_bofs` (method, line 70) `def test_bsb_has_linux_bofs(self)`
+  - `test_c_win_has_windows_bofs` (method, line 76) `def test_c_win_has_windows_bofs(self)`
+  - `test_go_agent_has_shellcode_dll` (method, line 83) `def test_go_agent_has_shellcode_dll(self)`
+  - `test_unknown_minimal` (method, line 89) `def test_unknown_minimal(self)`
+  - `test_command_catalog_per_type` (method, line 95) `def test_command_catalog_per_type(self)`
+  - `test_bofs_filtered_by_platform` (method, line 102) `def test_bofs_filtered_by_platform(self, tmp_path)`
+  - `test_bofs_empty_without_capability` (method, line 108) `def test_bofs_empty_without_capability(self, tmp_path)`
+  - `test_playbooks_from_repo` (method, line 111) `def test_playbooks_from_repo(self)`
+  - `test_capability_commands_allowed` (method, line 119) `def test_capability_commands_allowed(self)`
+  - `test_readonly_shell_allowed` (method, line 124) `def test_readonly_shell_allowed(self)`
+  - `test_forbidden_and_metachars_rejected` (method, line 128) `def test_forbidden_and_metachars_rejected(self)`
+  - `test_appends_to_queue_file` (method, line 139) `def test_appends_to_queue_file(self, tmp_path)`
+  - `test_rejects_bad_ids` (method, line 145) `def test_rejects_bad_ids(self, tmp_path)`
+  - `test_recon_plan_is_validated` (method, line 151) `def test_recon_plan_is_validated(self)`
+  - `test_exfil_goal_targets_exfil` (method, line 157) `def test_exfil_goal_targets_exfil(self)`
+  - `test_seen_commands_not_repeated` (method, line 161) `def test_seen_commands_not_repeated(self)`
+  - `test_bounded_and_ordered` (method, line 168) `def test_bounded_and_ordered(self)`
+  - `_write_history` (method, line 178) `def _write_history(self, sessions, client, outputs)`
+  - `test_heuristic_loop_queues_commands` (method, line 191) `def test_heuristic_loop_queues_commands(self, tmp_path)`
+  - `test_invalid_client_aborts` (method, line 215) `def test_invalid_client_aborts(self, tmp_path)`
+  - `test_report_written` (method, line 225) `def test_report_written(self, tmp_path)`
+  - `test_loop_command_shape` (method, line 243) `def test_loop_command_shape(self)`
+  - `test_validate_beacon_target` (method, line 252) `def test_validate_beacon_target(self)`
+  - `test_manager_rejects_bad_beacon_target` (method, line 261) `def test_manager_rejects_bad_beacon_target(self, tmp_path)`
+- Depends on: `modules/beacon_kinds.py`, `modules/beacon_loop.py`, `modules/loop_manager.py`
+
 ## tests/test_beacon_recon_sink.py
 - Doc: Beacon recon ingest tests.
 - Layer: testing
@@ -153,33 +197,42 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `cfg` (function, line 29) `def cfg(tmp_path)`
-  - `TestClientResolution` (class, line 40) `class TestClientResolution`
-  - `TestDeliveryCommand` (class, line 62) `class TestDeliveryCommand`
-  - `TestSanitize` (class, line 77) `class TestSanitize`
-  - `TestQueue` (class, line 86) `class TestQueue`
-  - `TestReachability` (class, line 96) `class TestReachability`
-  - `TestHistory` (class, line 102) `class TestHistory`
-  - `TestWait` (class, line 111) `class TestWait`
-  - `TestStage` (class, line 117) `class TestStage`
-  - `TestRunBof` (class, line 124) `class TestRunBof`
-  - `test_resolve_blacksandbeacon` (method, line 41) `def test_resolve_blacksandbeacon(self)`
-  - `test_resolve_beacon` (method, line 48) `def test_resolve_beacon(self)`
-  - `test_unknown_client` (method, line 53) `def test_unknown_client(self)`
-  - `test_bof_loader_addon_allowed` (method, line 57) `def test_bof_loader_addon_allowed(self)`
-  - `test_beacon_c_separator_contract` (method, line 63) `def test_beacon_c_separator_contract(self)`
-  - `test_args_after_space_comma_joined` (method, line 68) `def test_args_after_space_comma_joined(self)`
-  - `test_reject_newline_bof` (method, line 72) `def test_reject_newline_bof(self)`
-  - `test_sanitizes_ids` (method, line 78) `def test_sanitizes_ids(self)`
-  - `test_unreachable_c2_returns_false` (method, line 87) `def test_unreachable_c2_returns_false(self, cfg, monkeypatch)`
-  - `test_bad_client_id_aborts` (method, line 91) `def test_bad_client_id_aborts(self, cfg)`
-  - `test_c2_reachable_false_when_closed` (method, line 97) `def test_c2_reachable_false_when_closed(self, cfg, monkeypatch)`
-  - `test_bof_results_validates_client` (method, line 103) `def test_bof_results_validates_client(self)`
-  - `test_bof_results_empty_history` (method, line 107) `def test_bof_results_empty_history(self, cfg)`
-  - `test_wait_times_out_on_absent_beacon` (method, line 112) `def test_wait_times_out_on_absent_beacon(self, cfg)`
-  - `test_stage_unknown_bof_raises` (method, line 118) `def test_stage_unknown_bof_raises(self, tmp_path)`
-  - `test_run_bof_reaches_c2_and_fails_softly` (method, line 125) `def test_run_bof_reaches_c2_and_fails_softly(self, tmp_path, monkeypatch)`
-- Depends on: `modules/beacon_config_builder.py`, `modules/bof_delivery.py`
+  - `cfg` (function, line 32) `def cfg(tmp_path)`
+  - `TestClientResolution` (class, line 43) `class TestClientResolution`
+  - `TestDeliveryCommand` (class, line 65) `class TestDeliveryCommand`
+  - `TestSanitize` (class, line 80) `class TestSanitize`
+  - `TestQueue` (class, line 89) `class TestQueue`
+  - `TestBeaconForTarget` (class, line 99) `class TestBeaconForTarget`
+  - `TestReachability` (class, line 119) `class TestReachability`
+  - `TestHistory` (class, line 125) `class TestHistory`
+  - `TestWait` (class, line 134) `class TestWait`
+  - `TestDeployClient` (class, line 154) `class TestDeployClient`
+  - `TestStage` (class, line 195) `class TestStage`
+  - `TestRunBof` (class, line 202) `class TestRunBof`
+  - `test_resolve_blacksandbeacon` (method, line 44) `def test_resolve_blacksandbeacon(self)`
+  - `test_resolve_beacon` (method, line 51) `def test_resolve_beacon(self)`
+  - `test_unknown_client` (method, line 56) `def test_unknown_client(self)`
+  - `test_bof_loader_addon_allowed` (method, line 60) `def test_bof_loader_addon_allowed(self)`
+  - `test_beacon_c_separator_contract` (method, line 66) `def test_beacon_c_separator_contract(self)`
+  - `test_args_after_space_comma_joined` (method, line 71) `def test_args_after_space_comma_joined(self)`
+  - `test_reject_newline_bof` (method, line 75) `def test_reject_newline_bof(self)`
+  - `test_sanitizes_ids` (method, line 81) `def test_sanitizes_ids(self)`
+  - `test_unreachable_c2_returns_false` (method, line 90) `def test_unreachable_c2_returns_false(self, cfg, monkeypatch)`
+  - `test_bad_client_id_aborts` (method, line 94) `def test_bad_client_id_aborts(self, cfg)`
+  - `test_matches_ip_from_beacon_history` (method, line 100) `def test_matches_ip_from_beacon_history(self, cfg, monkeypatch)`
+  - `test_c2_reachable_false_when_closed` (method, line 120) `def test_c2_reachable_false_when_closed(self, cfg, monkeypatch)`
+  - `test_bof_results_validates_client` (method, line 126) `def test_bof_results_validates_client(self)`
+  - `test_bof_results_empty_history` (method, line 130) `def test_bof_results_empty_history(self, cfg)`
+  - `test_wait_times_out_on_absent_beacon` (method, line 135) `def test_wait_times_out_on_absent_beacon(self, cfg)`
+  - `test_wait_matches_requested_command` (method, line 139) `def test_wait_matches_requested_command(self, cfg, monkeypatch)`
+  - `test_probe_queued_before_checkin_wait` (method, line 155) `def test_probe_queued_before_checkin_wait(self, cfg, monkeypatch)`
+  - `test_stage_unknown_bof_raises` (method, line 196) `def test_stage_unknown_bof_raises(self, tmp_path)`
+  - `test_run_bof_reaches_c2_and_fails_softly` (method, line 203) `def test_run_bof_reaches_c2_and_fails_softly(self, tmp_path, monkeypatch)`
+  - `Session` (class, line 163) `class Session`
+  - `queue` (function, line 169) `def queue(client_id, command, config, data)`
+  - `wait` (function, line 173) `def wait(client_id, since, timeout, config, payload, command)`
+  - `run` (method, line 164) `def run(self, command, timeout)`
+- Depends on: `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_delivery.py`
 
 ## tests/test_bof_registry.py
 - Doc: Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
@@ -436,49 +489,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `_StubProxy` (class, line 317) `class _StubProxy`
   - `start` (method, line 318) `def start(self, port, upstream)`
 - Depends on: `modules/__init__.py`
-
-## tests/test_bsb_fileless_compat.py
-- Doc: Fileless BlackSandBeacon compatibility contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load_server` (function, line 25) `def _load_server()`
-  - `_encrypt_bsb_report` (function, line 42) `def _encrypt_bsb_report(payload, master_key, counter)`
-  - `server` (function, line 58) `def server()`
-  - `bsb_env` (function, line 63) `def bsb_env(server, monkeypatch, tmp_path)`
-  - `TestRuntimeConfig` (class, line 75) `class TestRuntimeConfig`
-  - `TestFilelessDeployCommand` (class, line 115) `class TestFilelessDeployCommand`
-  - `TestStageCrypto` (class, line 178) `class TestStageCrypto`
-  - `TestStageRoutes` (class, line 204) `class TestStageRoutes`
-  - `TestBofRoute` (class, line 261) `class TestBofRoute`
-  - `TestPollRoute` (class, line 286) `class TestPollRoute`
-  - `TestReportRoute` (class, line 307) `class TestReportRoute`
-  - `test_config_carries_master_and_legacy_key` (method, line 76) `def test_config_carries_master_and_legacy_key(self, tmp_path)`
-  - `test_config_keeps_lazyc2_endpoints` (method, line 89) `def test_config_keeps_lazyc2_endpoints(self, tmp_path)`
-  - `test_config_requires_key` (method, line 103) `def test_config_requires_key(self, tmp_path)`
-  - `test_template_chain_is_diskless_then_disk` (method, line 116) `def test_template_chain_is_diskless_then_disk(self)`
-  - `test_stager_blob_is_memfd_loader` (method, line 128) `def test_stager_blob_is_memfd_loader(self)`
-  - `test_upstream_stage_payload_available_from_checkout` (method, line 140) `def test_upstream_stage_payload_available_from_checkout(self)`
-  - `test_chain_formats_without_placeholder_leaks` (method, line 151) `def test_chain_formats_without_placeholder_leaks(self)`
-  - `test_stage_blob_roundtrip_matches_upstream_decoder` (method, line 179) `def test_stage_blob_roundtrip_matches_upstream_decoder(self)`
-  - `test_stage_blob_rejects_wrong_token` (method, line 190) `def test_stage_blob_rejects_wrong_token(self)`
-  - `test_stage_keys_fail_closed_on_empty_token` (method, line 197) `def test_stage_keys_fail_closed_on_empty_token(self)`
-  - `test_stage_beacon_serves_elf_under_token` (method, line 205) `def test_stage_beacon_serves_elf_under_token(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_stage_beacon_rejects_bad_token` (method, line 216) `def test_stage_beacon_rejects_bad_token(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_stage_beacon_fails_without_elf` (method, line 223) `def test_stage_beacon_fails_without_elf(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_stage_config_carries_c2_contract` (method, line 229) `def test_stage_config_carries_c2_contract(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_bof_serves_raw_base64` (method, line 262) `def test_bof_serves_raw_base64(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_bof_rejects_traversal` (method, line 274) `def test_bof_rejects_traversal(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_bof_missing_object` (method, line 280) `def test_bof_missing_object(self, server, bsb_env, monkeypatch, tmp_path)`
-  - `test_poll_get_marks_bsb_and_delegates` (method, line 287) `def test_poll_get_marks_bsb_and_delegates(self, server, bsb_env, monkeypatch)`
-  - `test_poll_post_marks_bsb_and_delegates` (method, line 297) `def test_poll_post_marks_bsb_and_delegates(self, server, bsb_env, monkeypatch)`
-  - `test_report_recovers_client_from_payload` (method, line 308) `def test_report_recovers_client_from_payload(self, server, bsb_env, monkeypatch)`
-  - `test_report_garbage_is_rejected` (method, line 337) `def test_report_garbage_is_rejected(self, server, bsb_env)`
-  - `test_report_without_client_id_is_rejected` (method, line 342) `def test_report_without_client_id_is_rejected(self, server, bsb_env, monkeypatch)`
-  - `test_report_malleable_alias_routes` (method, line 352) `def test_report_malleable_alias_routes(self, server, bsb_env, monkeypatch)`
-  - `_TmpConfig` (class, line 243) `class _TmpConfig(BofDeliveryConfig)`
-  - `__post_init__` (method, line 244) `def __post_init__(self)`
-- Depends on: `modules/bof_delivery.py`, `modules/bsb_compat.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

@@ -1,8 +1,59 @@
-# Symbols (page 15 of 53)
+# Symbols (page 15 of 54)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
+| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
+| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
+| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
+| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
+| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
+| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
+| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
+| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
+| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
+| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
+| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
+| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
+| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
+| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
+| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
+| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
+| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
+| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
+| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
+| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
+| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
+| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
+| `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
+| `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
+| `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
+| `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
+| `EvidenceStore` | class | `modules/evidence_store.py:53` | `class EvidenceStore` |
+| `__init__` | method | `modules/evidence_store.py:62` | `def __init__(self, task_id, base_dir)` |
+| `_path_for` | method | `modules/evidence_store.py:77` | `def _path_for(self, digest)` |
+| `_sanitize_digest` | function | `modules/evidence_store.py:32` | `def _sanitize_digest(digest)` |
+| `directory` | method | `modules/evidence_store.py:73` | `def directory(self)` |
+| `fetch` | method | `modules/evidence_store.py:135` | `def fetch(self, digest)` |
+| `gc` | method | `modules/evidence_store.py:153` | `def gc(self, referenced, grace_seconds)` |
+| `has` | method | `modules/evidence_store.py:88` | `def has(self, digest)` |
+| `preserve` | method | `modules/evidence_store.py:93` | `def preserve(self, record)` |
+| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
+| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
+| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
+| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
+| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
+| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
+| `Msg` | struct | `modules/exp.c:100` | `` |
+| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
+| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
+| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
+| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
+| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
+| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
+| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
+| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
 | `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
 | `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
 | `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
@@ -85,14 +136,14 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `gen_yaml` | function | `modules/exploitdb_bridge.py:151` | `def gen_yaml(item, outdir)` |
 | `scan_tier0` | function | `modules/exploitdb_bridge.py:105` | `def scan_tier0(limit, platform, only_cve)` |
 | `sync_tier0` | function | `modules/exploitdb_bridge.py:194` | `def sync_tier0(limit, platform, only_cve, outdir)` |
-| `_flags` | function | `modules/exploitdb_c_bridge.py:74` | `def _flags(src)` |
-| `_load_csv` | function | `modules/exploitdb_c_bridge.py:17` | `def _load_csv()` |
-| `_read` | function | `modules/exploitdb_c_bridge.py:24` | `def _read(edb_file)` |
-| `compile_batch` | function | `modules/exploitdb_c_bridge.py:148` | `def compile_batch(limit)` |
-| `gen_batch` | function | `modules/exploitdb_c_bridge.py:134` | `def gen_batch(limit)` |
-| `gen_c_yaml` | function | `modules/exploitdb_c_bridge.py:152` | `def gen_c_yaml(item, binpath, wrapper)` |
-| `gen_c_yaml_compile_on_use` | function | `modules/exploitdb_c_bridge.py:89` | `def gen_c_yaml_compile_on_use(item)` |
-| `scan_c` | function | `modules/exploitdb_c_bridge.py:32` | `def scan_c(limit, platform, skip_existing)` |
+| `_flags` | function | `modules/exploitdb_c_bridge.py:75` | `def _flags(src)` |
+| `_load_csv` | function | `modules/exploitdb_c_bridge.py:18` | `def _load_csv()` |
+| `_read` | function | `modules/exploitdb_c_bridge.py:25` | `def _read(edb_file)` |
+| `compile_batch` | function | `modules/exploitdb_c_bridge.py:149` | `def compile_batch(limit)` |
+| `gen_batch` | function | `modules/exploitdb_c_bridge.py:135` | `def gen_batch(limit)` |
+| `gen_c_yaml` | function | `modules/exploitdb_c_bridge.py:153` | `def gen_c_yaml(item, binpath, wrapper)` |
+| `gen_c_yaml_compile_on_use` | function | `modules/exploitdb_c_bridge.py:90` | `def gen_c_yaml_compile_on_use(item)` |
+| `scan_c` | function | `modules/exploitdb_c_bridge.py:33` | `def scan_c(limit, platform, skip_existing)` |
 | `_detect_domain` | function | `modules/exploitgym_gym.py:96` | `def _detect_domain(task_id)` |
 | `_ensure_clone` | function | `modules/exploitgym_gym.py:232` | `def _ensure_clone(root, timeout)` |
 | `_ensure_dir` | function | `modules/exploitgym_gym.py:56` | `def _ensure_dir()` |
@@ -345,9 +396,9 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `cleanup_enabled` | function | `modules/gym_cleanup.py:28` | `def cleanup_enabled()` |
 | `cleanup_gym_machines` | function | `modules/gym_cleanup.py:44` | `def cleanup_gym_machines(verbose)` |
 | `_catalogue` | function | `modules/gym_matrix_runner.py:36` | `def _catalogue(catalogue)` |
-| `_persist` | function | `modules/gym_matrix_runner.py:236` | `def _persist(summary_result, sessions_dir)` |
-| `_stats` | function | `modules/gym_matrix_runner.py:220` | `def _stats(runs)` |
-| `load_matrix` | function | `modules/gym_matrix_runner.py:252` | `def load_matrix(sessions_dir)` |
+| `_persist` | function | `modules/gym_matrix_runner.py:244` | `def _persist(summary_result, sessions_dir)` |
+| `_stats` | function | `modules/gym_matrix_runner.py:228` | `def _stats(runs)` |
+| `load_matrix` | function | `modules/gym_matrix_runner.py:260` | `def load_matrix(sessions_dir)` |
 | `plan_matrix` | function | `modules/gym_matrix_runner.py:49` | `def plan_matrix(target, sessions_dir, only, top_k, catalogue)` |
 | `run_matrix` | function | `modules/gym_matrix_runner.py:104` | `def run_matrix(target)` |
 | `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
@@ -445,56 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
 | `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
 | `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
-| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
-| `main` | function | `modules/img2bin.py:43` | `def main()` |
-| `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
-| `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
-| `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
-| `FindingMapper` | class | `modules/integrations/misp_export.py:86` | `class FindingMapper(ABC)` |
-| `HashMapper` | class | `modules/integrations/misp_export.py:183` | `class HashMapper(FindingMapper)` |
-| `IPMapper` | class | `modules/integrations/misp_export.py:103` | `class IPMapper(FindingMapper)` |
-| `MISPAttribute` | class | `modules/integrations/misp_export.py:59` | `class MISPAttribute` |
-| `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
-| `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
-| `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
-| `_DictFinding` | class | `modules/integrations/misp_export.py:498` | `class _DictFinding` |
-| `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
-| `__init__` | method | `modules/integrations/misp_export.py:501` | `def __init__(self, data)` |
-| `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
-| `_dict_to_fact_records` | method | `modules/integrations/misp_export.py:457` | `def _dict_to_fact_records(data)` |
-| `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
-| `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
-| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
-| `_is_domain` | method | `modules/integrations/misp_export.py:178` | `def _is_domain(finding)` |
-| `_is_hash` | method | `modules/integrations/misp_export.py:206` | `def _is_hash(finding)` |
-| `_is_ip` | method | `modules/integrations/misp_export.py:118` | `def _is_ip(finding)` |
-| `_is_service` | method | `modules/integrations/misp_export.py:233` | `def _is_service(finding)` |
-| `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
-| `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
-| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
-| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
-| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
-| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
-| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
-| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
-| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
-| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
-| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
-| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
-| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
-| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
-| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
-| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
-| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

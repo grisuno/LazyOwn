@@ -1,4 +1,4 @@
-# API (page 16 of 28)
+# API (page 16 of 30)
 Previous: [API_p15.md](API_p15.md)
 
 ## modules/lazy_sandbox.py
@@ -221,6 +221,26 @@ Imported by: `cli/commands/containers.py`
 - `ContainerRuntimeDetector.detect_dangerous_capabilities` (method) `modules/lazyk8s.py:921` `def detect_dangerous_capabilities()` -- Detect dangerous Linux capabilities in the current container.
 - `ContainerRuntimeDetector.auto_detect_all` (method) `modules/lazyk8s.py:992` `def auto_detect_all()` -- Run comprehensive container escape auto-detection.
 
+## modules/lazyllmchat.py
+Depends on: `modules/llm_factory.py`
+- `LazyOwnShellBridge.__init__` (method) `modules/lazyllmchat.py:53` `def __init__(self, script_path)` -- Resolve the shell module path and load the shell instance.
+- `no_history_init` (function) `modules/lazyllmchat.py:72` `def no_history_init(self_)`
+- `LazyOwnShellBridge.execute` (method) `modules/lazyllmchat.py:99` `def execute(self, command)` -- Run a command through the loaded shell and capture its output.
+- `target` (function) `modules/lazyllmchat.py:112` `def target()`
+- `SessionContextProvider.__init__` (method) `modules/lazyllmchat.py:149` `def __init__(self, session_path)` -- Resolve the session report path relative to this module.
+- `SessionContextProvider.get_last_lines` (method) `modules/lazyllmchat.py:157` `def get_last_lines(self, count)` -- Return the header plus the last ``count`` report rows.
+- `PromptBuilder.for_command_analysis` (method) `modules/lazyllmchat.py:193` `def for_command_analysis(command, output, context, history)` -- Build a prompt that asks the model to analyze command output.
+- `PromptBuilder.for_direct_query` (method) `modules/lazyllmchat.py:220` `def for_direct_query(query, context, history)` -- Build a prompt for a free-form operator query.
+- `LLMEngine.__init__` (method) `modules/lazyllmchat.py:253` `def __init__(self)` -- Load the backend and initialize the rolling history buffer.
+- `LLMEngine.is_ready` (method) `modules/lazyllmchat.py:268` `def is_ready(self)` -- Report whether a usable backend was resolved.
+- `LLMEngine.ask` (method) `modules/lazyllmchat.py:276` `def ask(self, prompt)` -- Send a prompt to the backend and record the exchange.
+- `LLMEngine.get_history_text` (method) `modules/lazyllmchat.py:300` `def get_history_text(self)` -- Return the rolling history formatted for prompt inclusion.
+- `LazyOwnPromptRenderer.render` (method) `modules/lazyllmchat.py:322` `def render(self)` -- Build the per-turn colored prompt string.
+- `LazyOwnPromptRenderer.banner` (method) `modules/lazyllmchat.py:342` `def banner(self)` -- Return the help banner shown on activation.
+- `LazyOwnLLMChat.__init__` (method) `modules/lazyllmchat.py:361` `def __init__(self)` -- Construct the collaborators the interactive loop relies on.
+- `LazyOwnLLMChat.run` (method) `modules/lazyllmchat.py:441` `def run(self, initial_query)` -- Run the interactive assistant loop until the operator exits.
+- `main` (function) `modules/lazyllmchat.py:475` `def main()` -- Parse arguments and launch the interactive assistant.
+
 ## modules/lazylynis.sh
 - `check_sudo` (function) `modules/lazylynis.sh:32` -- Función para verificar y relanzar con sudo si es necesario
 
@@ -229,6 +249,13 @@ Imported by: `cli/commands/containers.py`
 - `extract_ports_info` (function) `modules/lazymasscan.sh:74`
 - `run_masscan_script` (function) `modules/lazymasscan.sh:94`
 - `print_row` (function) `modules/lazymasscan.sh:117`
+
+## modules/lazymode_playbook.py
+Depends on: `modules/playbook_admin.py`, `sdk/lazymode/__init__.py`
+Imported by: `cli/commands/lazymode.py`, `skills/mcp_tools/lazymode_playbook.py`, `tests/test_lazymode_playbook.py`
+- `is_vector_playbook` (function) `modules/lazymode_playbook.py:55` `def is_vector_playbook(data)` -- Return whether *data* declares at least one lazymode step.
+- `list_vector_playbooks` (function) `modules/lazymode_playbook.py:67` `def list_vector_playbooks(directory)` -- Return a summary of every lazymode playbook in *directory*.
+- `run_playbook` (function) `modules/lazymode_playbook.py:152` `def run_playbook(name, target, directory, timeout)` -- Run every lazymode step of a playbook and return the outcome.
 
 ## modules/lazynmap.sh
 - `cleanup` (function) `modules/lazynmap.sh:29`
@@ -462,34 +489,6 @@ Imported by: `skills/mcp_tools/eval_quality.py`, `tests/test_core_modules.py`
 - `get_evaluator` (function) `modules/llm_evaluator.py:293` `def get_evaluator()`
 - `record_decision` (function) `modules/llm_evaluator.py:302` `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
 - `record_outcome` (function) `modules/llm_evaluator.py:313` `def record_outcome(decision_id, actual_outcome, findings_count, success)`
-
-## modules/llm_factory.py
-Depends on: `core/llm_budget.py`, `core/llm_key_pool.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
-Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/sidequest.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
-- `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
-- `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
-- `default_model_for` (function) `modules/llm_factory.py:224` `def default_model_for(backend)` -- Return the default model identifier for a backend.
-- `model_config_key` (function) `modules/llm_factory.py:245` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
-- `api_key_config_key` (function) `modules/llm_factory.py:266` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
-- `backend_requires_api_key` (function) `modules/llm_factory.py:291` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
-- `load_payload` (function) `modules/llm_factory.py:309` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
-- `get_llm_backend` (function) `modules/llm_factory.py:676` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
-- `get_llm_backend_raw` (function) `modules/llm_factory.py:772` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
-- `try_get_llm_backend` (function) `modules/llm_factory.py:794` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
-- `stream_complete` (function) `modules/llm_factory.py:871` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
-- `complete` (function) `modules/llm_factory.py:942` `def complete(model, prompt, max_tokens, temperature)` -- Complete a prompt through one model spec; raise when unanswered.
-
-## modules/llm_orchestrator.py
-Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`
-Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_vulnbot_fallback.py`
-- `OrchestratorResult.ok` (method) `modules/llm_orchestrator.py:118` `def ok(self)` -- Return True when a chain member served the answer.
-- `OrchestratorResult.display_text` (method) `modules/llm_orchestrator.py:123` `def display_text(self)` -- Return the notice-prefixed answer for operator-facing surfaces.
-- `sort_members` (function) `modules/llm_orchestrator.py:130` `def sort_members(members)` -- Return a weight-sorted defensive copy of a member list.
-- `pool_chain` (function) `modules/llm_orchestrator.py:148` `def pool_chain()` -- Return the failover chain governed by lazy_orchestrator.
-- `backend_kind` (function) `modules/llm_orchestrator.py:175` `def backend_kind(model_spec)` -- Return the provider prefix of a model spec.
-- `is_error_reply` (function) `modules/llm_orchestrator.py:192` `def is_error_reply(text)` -- Return True when a reply is a backend error banner, not content.
-- `is_placeholder_key` (function) `modules/llm_orchestrator.py:211` `def is_placeholder_key(value)` -- Return True when a key value is a shipped placeholder, not a secret.
-- `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
 
 
 Next: [API_p17.md](API_p17.md)

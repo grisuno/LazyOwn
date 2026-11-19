@@ -83,6 +83,17 @@ def apply(event: OutcomeEvent) -> bool:
             _copy_clipboard(command)
         except Exception:
             pass
+    try:
+        from modules.lazy_handoff import maybe_beacon_handoff
+
+        maybe_beacon_handoff(
+            host,
+            source=event.source,
+            sessions_dir=sessions,
+            task_id=str(event.task_id or ""),
+        )
+    except Exception:
+        pass
     return True
 
 

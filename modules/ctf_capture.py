@@ -35,6 +35,10 @@ EVENTLOG_CSV_RE = re.compile(r"(?im)^\s*Time\s*,\s*Log\s*,\s*Level\s*,\s*Id\s*,\
 KERBEROS_TICKET_RE = re.compile(r"\$krb5(?:tgs|asrep)\$[0-9]+\$")
 DOMAIN_ENUM_RE = re.compile(r"(?im)namingContexts|sAMAccountName|SidType(?:User|Group|Domain)|user:\[")
 SMB_SHARE_RE = re.compile(r"(?im)^\s*\S+:\s+(?:Disk|IPC|Printer)\b|Sharename")
+XSS_REFLECTED_RE = re.compile(
+    r"(?i)<script>[^<]*alert\(1\)[^<]*</script>|XSS_EXECUTED|lz_(?:dvwa_dom|mutillidae_xss|twiki|beacon)\?\S+"
+)
+DNS_RECURSION_RE = re.compile(r"(?im)status: NOERROR|;; ANSWER SECTION|;; flags:[^\n]*\bra\b")
 
 
 def output_dir(sessions_dir: str | Path | None = None) -> Path:
@@ -185,6 +189,38 @@ def _check_smb_shares(output: str) -> str:
     return match.group(0).strip() if match else ""
 
 
+def _check_xss_reflected(output: str) -> str:
+    """Return reflected-XSS evidence from an output blob, or empty string.
+
+    Matches an inline ``alert(1)`` reflection or a headless-browser
+    beacon hit captured by the exploit script.
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    match = XSS_REFLECTED_RE.search(output or "")
+    return match.group(0).strip() if match else ""
+
+
+def _check_dns_recursion(output: str) -> str:
+    """Return DNS recursion evidence from a dig output blob, or empty string.
+
+    Matches the dig header lines that prove the resolver answered an
+    arbitrary domain on behalf of the client.
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    match = DNS_RECURSION_RE.search(output or "")
+    return match.group(0).strip() if match else ""
+
+
 CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
     ("root_shell", _check_root_shell),
     ("shadow_dump", _check_shadow_dump),
@@ -195,6 +231,8 @@ CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
     ("kerberos_ticket", _check_kerberos_ticket),
     ("domain_enum", _check_domain_enum),
     ("smb_shares", _check_smb_shares),
+    ("xss_reflected", _check_xss_reflected),
+    ("dns_recursion", _check_dns_recursion),
 )
 
 _SHELL_OBJECTIVE_CHECKERS: tuple[str, ...] = ("root_shell", "shadow_dump", "credentials")
@@ -238,6 +276,8 @@ _CHECKER_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("defense_report", ("defender", "applocker", "hvci", "defense", "antivirus", "edr")),
     ("shadow_dump", ("shadow", "hashdump", "secretsdump")),
     ("credentials", ("cred", "password", "login", "default creds")),
+    ("xss_reflected", ("xss", "cross-site", "cross site")),
+    ("dns_recursion", ("recursion", "dns")),
 )
 
 

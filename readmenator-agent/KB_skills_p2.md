@@ -270,12 +270,13 @@ Previous: [KB_skills.md](KB_skills.md)
   - `register_handler` (function, line 604) `def register_handler(tool_name)`
   - `_make_text` (function, line 618) `def _make_text(tool_name, content)`
   - `_run_lazyown_command` (function, line 738) `def _run_lazyown_command(command, timeout)`
-  - `_registry_schemas` (function, line 883) `def _registry_schemas()`
-  - `list_tools` (function, line 897) `def list_tools()`
-  - `substitute_playbook_target` (function, line 921) `def substitute_playbook_target(command, target)`
-  - `call_tool` (function, line 939) `def call_tool(name, arguments)`
-  - `_handle_sighup` (function, line 1038) `def _handle_sighup(signum, frame)`
-  - `main` (function, line 1049) `def main()`
+  - `_generated_tool_definitions` (function, line 935) `def _generated_tool_definitions()`
+  - `_registry_schemas` (function, line 948) `def _registry_schemas()`
+  - `list_tools` (function, line 962) `def list_tools()`
+  - `substitute_playbook_target` (function, line 986) `def substitute_playbook_target(command, target)`
+  - `call_tool` (function, line 1004) `def call_tool(name, arguments)`
+  - `_handle_sighup` (function, line 1103) `def _handle_sighup(signum, frame)`
+  - `main` (function, line 1114) `def main()`
   - `_load` (function, line 82) `def _load(ns)`
   - `_load` (function, line 100) `def _load(ns)`
   - `_load` (function, line 115) `def _load(ns)`
@@ -295,14 +296,17 @@ Previous: [KB_skills.md](KB_skills.md)
   - `_decorator` (function, line 611) `def _decorator(func)`
   - `_policy_integration_or_none` (function, line 844) `def _policy_integration_or_none()`
   - `_all_tools` (function, line 848) `def _all_tools()`
-  - `text` (function, line 941) `def text(content)`
-  - `_iter_registry_schemas` (function, line 878) `def _iter_registry_schemas()`
-  - `_handle_sse` (function, line 1067) `def _handle_sse(request)`
-  - `_handle_messages` (function, line 1071) `def _handle_messages(scope, receive, send)`
+  - `_register_generated_if_absent` (function, line 895) `def _register_generated_if_absent(tool_name)`
+  - `text` (function, line 1006) `def text(content)`
+  - `_iter_registry_schemas` (function, line 880) `def _iter_registry_schemas()`
+  - `_decorator` (function, line 912) `def _decorator(func)`
+  - `_get_generated_tool_definitions` (function, line 930) `def _get_generated_tool_definitions()`
+  - `_handle_sse` (function, line 1132) `def _handle_sse(request)`
+  - `_handle_messages` (function, line 1136) `def _handle_messages(scope, receive, send)`
   - `_create_tool_file` (function, line 200) `def _create_tool_file()`
   - `_get_pdb` (function, line 258) `def _get_pdb(_)`
   - `_compact_output_fn` (function, line 408) `def _compact_output_fn(c, t)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/mcp_agent_bridge.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/event_engine.py`, `modules/mcp_agent_bridge.py`, `modules/recommender.py`, `modules/sinks/routing.py`, `modules/timeline_narrator.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_generated_tools.py`, `skills/mcp_lazy.py`, `skills/mcp_tools/__init__.py`, `skills/mcp_tools/_context.py`
 - Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
 
 ## skills/lazyown_mcp_helpers.py

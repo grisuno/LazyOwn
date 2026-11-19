@@ -384,24 +384,29 @@ Previous: [KB_tests.md](KB_tests.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_fixture_atomics` (function, line 20) `def _fixture_atomics(root)`
-  - `test_steps_for_explicit_atomic_intent` (function, line 44) `def test_steps_for_explicit_atomic_intent()`
-  - `test_steps_for_keyword_atomic_intent` (function, line 54) `def test_steps_for_keyword_atomic_intent()`
-  - `test_atomic_lines_are_always_non_interactive` (function, line 62) `def test_atomic_lines_are_always_non_interactive()`
-  - `test_planner_discovers_atomic_verbs` (function, line 73) `def test_planner_discovers_atomic_verbs()`
-  - `test_steps_for_explicit_playbook_intent` (function, line 79) `def test_steps_for_explicit_playbook_intent()`
-  - `test_steps_for_keyword_playbook_intent` (function, line 85) `def test_steps_for_keyword_playbook_intent()`
-  - `test_rocke_playbook_resolves_linux_chain` (function, line 94) `def test_rocke_playbook_resolves_linux_chain()`
-  - `test_planner_discovers_playbook_verb` (function, line 106) `def test_planner_discovers_playbook_verb()`
-  - `test_loop_reaches_apt_chain_end_to_end` (function, line 112) `def test_loop_reaches_apt_chain_end_to_end()`
-  - `test_apt_chain_binds_playbook_and_target` (function, line 135) `def test_apt_chain_binds_playbook_and_target()`
-  - `test_apt_chain_keyword_never_invents_playbook` (function, line 145) `def test_apt_chain_keyword_never_invents_playbook()`
-  - `test_apt_chain_line_routes_via_shell` (function, line 156) `def test_apt_chain_line_routes_via_shell()`
-  - `test_planner_discovers_apt_chain_verb` (function, line 168) `def test_planner_discovers_apt_chain_verb()`
-  - `test_validate_resolves_technique_ids` (function, line 174) `def test_validate_resolves_technique_ids(tmp_path, monkeypatch)`
-  - `test_atomic_shell_never_interactive_from_loop` (function, line 202) `def test_atomic_shell_never_interactive_from_loop()`
-  - `test_atomic_clean_routes_and_never_autofires` (function, line 212) `def test_atomic_clean_routes_and_never_autofires()`
-- Depends on: `modules/apt_playbooks.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`
+  - `_fixture_atomics` (function, line 21) `def _fixture_atomics(root)`
+  - `test_steps_for_explicit_atomic_intent` (function, line 45) `def test_steps_for_explicit_atomic_intent()`
+  - `test_steps_for_keyword_atomic_intent` (function, line 55) `def test_steps_for_keyword_atomic_intent()`
+  - `test_atomic_lines_are_always_non_interactive` (function, line 63) `def test_atomic_lines_are_always_non_interactive()`
+  - `test_planner_discovers_atomic_verbs` (function, line 74) `def test_planner_discovers_atomic_verbs()`
+  - `test_steps_for_explicit_playbook_intent` (function, line 80) `def test_steps_for_explicit_playbook_intent()`
+  - `test_steps_for_keyword_playbook_intent` (function, line 86) `def test_steps_for_keyword_playbook_intent()`
+  - `test_rocke_playbook_resolves_linux_chain` (function, line 95) `def test_rocke_playbook_resolves_linux_chain()`
+  - `test_planner_discovers_playbook_verb` (function, line 107) `def test_planner_discovers_playbook_verb()`
+  - `test_loop_reaches_apt_chain_end_to_end` (function, line 113) `def test_loop_reaches_apt_chain_end_to_end()`
+  - `test_apt_chain_binds_playbook_and_target` (function, line 136) `def test_apt_chain_binds_playbook_and_target()`
+  - `test_apt_chain_keyword_never_invents_playbook` (function, line 146) `def test_apt_chain_keyword_never_invents_playbook()`
+  - `test_apt_chain_line_routes_via_shell` (function, line 157) `def test_apt_chain_line_routes_via_shell()`
+  - `test_planner_discovers_apt_chain_verb` (function, line 169) `def test_planner_discovers_apt_chain_verb()`
+  - `test_validate_resolves_technique_ids` (function, line 175) `def test_validate_resolves_technique_ids(tmp_path, monkeypatch)`
+  - `test_atomic_shell_never_interactive_from_loop` (function, line 203) `def test_atomic_shell_never_interactive_from_loop()`
+  - `test_atomic_clean_routes_and_never_autofires` (function, line 213) `def test_atomic_clean_routes_and_never_autofires()`
+  - `test_non_interactive_atomic_skips_credential_prompt` (function, line 220) `def test_non_interactive_atomic_skips_credential_prompt(monkeypatch)`
+  - `test_non_interactive_atomic_prefers_deployed_beacon` (function, line 232) `def test_non_interactive_atomic_prefers_deployed_beacon(monkeypatch)`
+  - `forbidden` (function, line 225) `def forbidden()`
+  - `Shell` (class, line 270) `class Shell`
+  - `logcsv` (method, line 271) `def logcsv(self, text)`
+- Depends on: `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_resolver.py`, `modules/auto_registry.py`, `modules/bof_delivery.py`, `utils.py`
 
 ## tests/test_atomic_resolver.py
 - Doc: MITRE ATT&CK <-> Atomic Red Team translator contract.

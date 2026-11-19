@@ -2,6 +2,20 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/panels/__init__.py` -> `lazygui/panels/marketplace_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/registry.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/sessions_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/terminal_panel.py`
+- `lazygui/panels/base.py` -> `lazygui/config/constants.py`
+- `lazygui/panels/base.py` -> `lazygui/services/backend.py`
+- `lazygui/panels/campaign_panel.py` -> `lazygui/config/constants.py`
+- `lazygui/panels/campaign_panel.py` -> `lazygui/panels/base.py`
+- `lazygui/panels/campaign_panel.py` -> `lazygui/services/backend.py`
+- `lazygui/panels/campaign_panel.py` -> `lazygui/services/models.py`
+- `lazygui/panels/credentials_panel.py` -> `lazygui/config/constants.py`
+- `lazygui/panels/credentials_panel.py` -> `lazygui/panels/base.py`
+- `lazygui/panels/credentials_panel.py` -> `lazygui/services/backend.py`
+- `lazygui/panels/cve_panel.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/cve_panel.py` -> `lazygui/panels/base.py`
 - `lazygui/panels/cve_panel.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/event_log_panel.py` -> `lazygui/config/constants.py`
@@ -168,10 +182,10 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `lazyown.py` -> `core/config.py`
 - `lazyown.py` -> `core/console.py`
 - `lazyown.py` -> `core/credential_vault.py`
-- `lazyown.py` -> `core/defaults.py`
 - `lazyown.py` -> `core/hardening.py`
 - `lazyown.py` -> `core/logging.py`
 - `lazyown.py` -> `core/param_registry.py`
+- `lazyown.py` -> `core/payload_schema.py`
 - `lazyown.py` -> `modules/askpass.py`
 - `lazyown.py` -> `modules/cli_auth.py`
 - `lazyown.py` -> `modules/command_executor.py`
@@ -211,6 +225,8 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/atomic_cli.py` -> `core/hardening.py`
 - `modules/atomic_cli.py` -> `core/logging.py`
 - `modules/atomic_cli.py` -> `modules/atomic_resolver.py`
+- `modules/atomic_cli.py` -> `modules/bof_delivery.py`
+- `modules/atomic_cli.py` -> `modules/lazy_osinfer.py`
 - `modules/atomic_cli.py` -> `utils.py`
 - `modules/atomic_enricher.py` -> `core/logging.py`
 - `modules/atomic_exploit_bridge.py` -> `core/config.py`
@@ -260,6 +276,13 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/beacon_config_builder.py` -> `modules/sleep_obfuscation.py`
 - `modules/beacon_config_builder.py` -> `modules/socks_proxy.py`
 - `modules/beacon_history.py` -> `core/logging.py`
+- `modules/beacon_history.py` -> `modules/security_sanitizers.py`
+- `modules/beacon_kinds.py` -> `core/logging.py`
+- `modules/beacon_kinds.py` -> `modules/apt_playbooks.py`
+- `modules/beacon_kinds.py` -> `modules/bof_registry.py`
+- `modules/beacon_loop.py` -> `modules/beacon_history.py`
+- `modules/beacon_loop.py` -> `modules/killchain.py`
+- `modules/beacon_loop.py` -> `modules/llm_factory.py`
 - `modules/beacon_recon.py` -> `core/logging.py`
 - `modules/beacon_recon.py` -> `modules/outcome_bus.py`
 - `modules/beacon_recon.py` -> `modules/world_model.py`
@@ -274,6 +297,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/bof_registry.py` -> `cli/commands/enum.py`
 - `modules/bof_registry.py` -> `core/logging.py`
 - `modules/bof_registry.py` -> `modules/bof_admin.py`
+- `modules/bof_registry.py` -> `modules/bsb_compat.py`
 - `modules/browser_sync.py` -> `modules/__init__.py`
 - `modules/browser_sync.py` -> `modules/backdoor/server.c`
 - `modules/bsb_compat.py` -> `core/logging.py`
@@ -281,6 +305,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/c2_agent.py` -> `core/session_secrets.py`
 - `modules/c2_agent.py` -> `lazyc2/security/services.py`
 - `modules/c2_agent.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/c2_agent.py` -> `modules/security_sanitizers.py`
 - `modules/c2_builder.py` -> `core/config.py`
 - `modules/c2_builder.py` -> `core/session_secrets.py`
 - `modules/c2_builder.py` -> `core/validators.py`
@@ -380,6 +405,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/engage_summary.py` -> `modules/evidence.py`
 - `modules/engagement_hooks.py` -> `core/logging.py`
 - `modules/engagement_hooks.py` -> `modules/collab_bp.py`
+- `modules/engagement_hooks.py` -> `modules/security_sanitizers.py`
 - `modules/estorides_importer.py` -> `core/logging.py`
 - `modules/estorides_importer.py` -> `modules/db.py`
 - `modules/estorides_importer.py` -> `modules/world_model.py`
@@ -398,6 +424,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/exploit_chain.py` -> `modules/service_aliases.py`
 - `modules/exploit_recommender.py` -> `lazygui/version.py`
 - `modules/exploit_recommender.py` -> `modules/world_model.py`
+- `modules/exploitdb_c_bridge.py` -> `modules/security_sanitizers.py`
 - `modules/exploitgym_gym.py` -> `modules/redteam_gym.py`
 - `modules/factsio.py` -> `core/logging.py`
 - `modules/failure_verdict.py` -> `cli/commands/enum.py`
@@ -469,32 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/intelligence_engine.py` -> `modules/estorides_importer.py`
 - `modules/intelligence_engine.py` -> `modules/factsio.py`
 - `modules/intelligence_engine.py` -> `modules/integrations/nuclei_bridge.py`
-- `modules/intelligence_engine.py` -> `modules/integrations/nuclei_parser.py`
-- `modules/intelligence_engine.py` -> `modules/lazy_heat.py`
-- `modules/intelligence_engine.py` -> `modules/obs_parser.py`
-- `modules/intelligence_engine.py` -> `modules/world_model.py`
-- `modules/intelligence_engine.py` -> `modules/yara_scanner.py`
-- `modules/intercept.py` -> `cli/commands/enum.py`
-- `modules/kerberoasting.py` -> `modules/kerberos_core.py`
-- `modules/kerberos_tickets.py` -> `modules/kerberos_core.py`
-- `modules/kill_chain_viz.py` -> `modules/killchain.py`
-- `modules/killchain.py` -> `core/logging.py`
-- `modules/killchain.py` -> `modules/world_model.py`
-- `modules/lab_runtime.py` -> `modules/metasploitable_migrations.py`
-- `modules/lazy_agent.py` -> `core/config.py`
-- `modules/lazy_agent.py` -> `modules/__init__.py`
-- `modules/lazy_agent.py` -> `modules/agent_runner.py`
-- `modules/lazy_agent.py` -> `modules/auto_registry.py`
-- `modules/lazy_agent.py` -> `modules/lazy_loop.py`
-- `modules/lazy_agent.py` -> `modules/llm_factory.py`
-- `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py`
-- `modules/lazy_autofire.py` -> `modules/__init__.py`
-- `modules/lazy_autofire.py` -> `modules/chain_synth.py`
-- `modules/lazy_autofire.py` -> `modules/lazy_probes.py`
-- `modules/lazy_bridge.py` -> `modules/finding_lifecycle.py`
-- `modules/lazy_bridge.py` -> `modules/traffic_recorder.py`
-- `modules/lazy_bridge.py` -> `modules/world_model.py`
-- `modules/lazy_checks.py` -> `modules/lazy_heat.py`
-- `modules/lazy_cli_bridge.py` -> `core/config.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

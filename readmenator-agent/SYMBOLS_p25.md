@@ -1,8 +1,150 @@
-# Symbols (page 25 of 53)
+# Symbols (page 25 of 54)
 Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
+| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
+| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
+| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
+| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
+| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
+| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
+| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
+| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
+| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
+| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
+| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
+| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
+| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
+| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
+| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
+| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
+| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
+| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
+| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
+| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
+| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
+| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
+| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
+| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
+| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
+| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
+| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
+| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
+| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
+| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
+| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
+| `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:382` | `void ensure_pid_file_exists()` |
+| `freePIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:162` | `void freePIDArray(PIDArray *array)` |
+| `getPIDsFromTasklist` | function | `modules/win_rootkit/win_ring3_rootkit.c:166` | `void getPIDsFromTasklist(PIDArray *pidArray)` |
+| `giveGift` | function | `modules/win_rootkit/win_ring3_rootkit.c:475` | `BOOL giveGift()` |
+| `handle_client` | function | `modules/win_rootkit/win_ring3_rootkit.c:526` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `initPIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:146` | `void initPIDArray(PIDArray *array)` |
+| `main` | function | `modules/win_rootkit/win_ring3_rootkit.c:865` | `int main()` |
+| `monitor_shell` | function | `modules/win_rootkit/win_ring3_rootkit.c:755` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:94` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `HIDDEN_DIR` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:32` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:33` | `#define HIDDEN_FILE` |
+| `HIDE_USER` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:34` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:35` | `#define MAX_HIDE_PIDS` |
+| `get_username_from_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:42` | `char* get_username_from_pid(DWORD pid)` |
+| `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
+| `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
+| `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
+| `_c_locale_process_env` | function | `modules/winbox_gym.py:190` | `def _c_locale_process_env()` |
+| `_canonical_state` | function | `modules/winbox_gym.py:164` | `def _canonical_state(raw)` |
+| `_clean_snapshot_present` | function | `modules/winbox_gym.py:508` | `def _clean_snapshot_present()` |
+| `_complete_partial_build` | function | `modules/winbox_gym.py:645` | `def _complete_partial_build(notify)` |
+| `_emit_notify` | function | `modules/winbox_gym.py:179` | `def _emit_notify(notifier, message)` |
+| `_guest_probe_z_drive` | function | `modules/winbox_gym.py:767` | `def _guest_probe_z_drive()` |
+| `_guest_probe_z_drive_retries` | function | `modules/winbox_gym.py:781` | `def _guest_probe_z_drive_retries()` |
+| `_install_disk_is_substantial` | function | `modules/winbox_gym.py:537` | `def _install_disk_is_substantial()` |
+| `_load_yaml` | function | `modules/winbox_gym.py:205` | `def _load_yaml(path)` |
+| `_missing_prereqs` | function | `modules/winbox_gym.py:407` | `def _missing_prereqs()` |
+| `_prereq_path` | function | `modules/winbox_gym.py:392` | `def _prereq_path(name)` |
+| `_recover_partial_build` | function | `modules/winbox_gym.py:705` | `def _recover_partial_build(notify, build_timeout)` |
+| `_repair_guest_ntfs` | function | `modules/winbox_gym.py:588` | `def _repair_guest_ntfs(notify)` |
+| `_stream_command` | function | `modules/winbox_gym.py:1002` | `def _stream_command(argv)` |
+| `_verify_provisioning` | function | `modules/winbox_gym.py:798` | `def _verify_provisioning(notify)` |
+| `_vm_built_from` | function | `modules/winbox_gym.py:1164` | `def _vm_built_from(status)` |
+| `_wait_for_shutdown` | function | `modules/winbox_gym.py:560` | `def _wait_for_shutdown(timeout, notify)` |
+| `_winbox_disk_path` | function | `modules/winbox_gym.py:634` | `def _winbox_disk_path()` |
+| `attack_readiness` | function | `modules/winbox_gym.py:1234` | `def attack_readiness(params)` |
+| `binary_path` | function | `modules/winbox_gym.py:335` | `def binary_path()` |
+| `chain_for` | function | `modules/winbox_gym.py:242` | `def chain_for(vuln_id, path)` |
+| `check_readiness` | function | `modules/winbox_gym.py:412` | `def check_readiness(params)` |
+| `ensure_installed` | function | `modules/winbox_gym.py:340` | `def ensure_installed(params, timeout)` |
+| `ensure_lab_ready` | function | `modules/winbox_gym.py:822` | `def ensure_lab_ready(params)` |
+| `ensure_prereqs` | function | `modules/winbox_gym.py:453` | `def ensure_prereqs(timeout)` |
+| `ensure_vm_running` | function | `modules/winbox_gym.py:1184` | `def ensure_vm_running(timeout)` |
+| `exploit_for` | function | `modules/winbox_gym.py:252` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/winbox_gym.py:233` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/winbox_gym.py:222` | `def load_index(path)` |
+| `main` | function | `modules/winbox_gym.py:1262` | `def main()` |
+| `record_artifact` | function | `modules/winbox_gym.py:1211` | `def record_artifact(name, output)` |
+| `resolve_target` | function | `modules/winbox_gym.py:1170` | `def resolve_target()` |
+| `run_cli` | function | `modules/winbox_gym.py:924` | `def run_cli(args, timeout)` |
+| `summary` | function | `modules/winbox_gym.py:311` | `def summary(path)` |
+| `validate_matrix` | function | `modules/winbox_gym.py:262` | `def validate_matrix(path)` |
+| `vm_ip` | function | `modules/winbox_gym.py:1148` | `def vm_ip()` |
+| `vm_status` | function | `modules/winbox_gym.py:1113` | `def vm_status(timeout)` |
+| `vulnerabilities` | function | `modules/winbox_gym.py:227` | `def vulnerabilities(path)` |
+| `WireStore` | class | `modules/wire_capture.py:47` | `class WireStore` |
+| `__init__` | method | `modules/wire_capture.py:56` | `def __init__(self, task_id, base_dir)` |
+| `_path_for` | method | `modules/wire_capture.py:71` | `def _path_for(self, digest)` |
+| `_sanitize_digest` | function | `modules/wire_capture.py:28` | `def _sanitize_digest(digest)` |
+| `capture` | method | `modules/wire_capture.py:87` | `def capture(self, digest, raw, max_bytes)` |
+| `directory` | method | `modules/wire_capture.py:67` | `def directory(self)` |
+| `fetch` | method | `modules/wire_capture.py:146` | `def fetch(self, digest)` |
+| `has` | method | `modules/wire_capture.py:82` | `def has(self, digest)` |
+| `truncated` | method | `modules/wire_capture.py:129` | `def truncated(self, digest)` |
+| `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
+| `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
+| `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
+| `remove` | function | `modules/workspace.py:90` | `def remove(rel)` |
+| `resolve` | function | `modules/workspace.py:27` | `def resolve(rel)` |
+| `root` | function | `modules/workspace.py:21` | `def root()` |
+| `write_text` | function | `modules/workspace.py:72` | `def write_text(rel, content)` |
+| `CredentialEntry` | class | `modules/world_model.py:412` | `class CredentialEntry` |
+| `DomainEntry` | class | `modules/world_model.py:438` | `class DomainEntry` |
+| `EmailEntry` | class | `modules/world_model.py:430` | `class EmailEntry` |
+| `EngagementPhase` | class | `modules/world_model.py:391` | `class EngagementPhase(StrEnum)` |
+| `HostEntry` | class | `modules/world_model.py:588` | `class HostEntry` |
+| `HostState` | class | `modules/world_model.py:375` | `class HostState(StrEnum)` |
+| `NetworkGraph` | class | `modules/world_model.py:468` | `class NetworkGraph` |
+| `NetworkRelation` | class | `modules/world_model.py:446` | `class NetworkRelation` |
+| `ServiceInfo` | class | `modules/world_model.py:403` | `class ServiceInfo` |
+| `VulnerabilityEntry` | class | `modules/world_model.py:421` | `class VulnerabilityEntry` |
+| `WorldModel` | class | `modules/world_model.py:769` | `class WorldModel` |
+| `_PhaseDeriver` | class | `modules/world_model.py:644` | `class _PhaseDeriver` |
+| `__init__` | method | `modules/world_model.py:491` | `def __init__(self)` |
+| `__init__` | method | `modules/world_model.py:777` | `def __init__(self, path)` |
+| `_cred_value` | method | `modules/world_model.py:1206` | `def _cred_value(cred)` |
+| `_decrypt_payload_text` | function | `modules/world_model.py:220` | `def _decrypt_payload_text(text, password, salt)` |
+| `_derive_crypto_key` | function | `modules/world_model.py:78` | `def _derive_crypto_key(password, salt)` |
+| `_encrypt_payload` | function | `modules/world_model.py:200` | `def _encrypt_payload(payload, password, salt)` |
+| `_load` | method | `modules/world_model.py:1339` | `def _load(self)` |
+| `_load_or_create_salt` | function | `modules/world_model.py:157` | `def _load_or_create_salt(salt_path)` |
+| `_machine_password` | function | `modules/world_model.py:87` | `def _machine_password()` |
+| `_master_password` | function | `modules/world_model.py:128` | `def _master_password()` |
+| `_read_encrypted_dict` | function | `modules/world_model.py:259` | `def _read_encrypted_dict(path)` |
+| `_save` | method | `modules/world_model.py:1320` | `def _save(self)` |
+| `add_credential` | method | `modules/world_model.py:897` | `def add_credential(self, value, host, service)` |
 | `add_domain` | method | `modules/world_model.py:992` | `def add_domain(self, domain, host, context)` |
 | `add_email` | method | `modules/world_model.py:986` | `def add_email(self, address, host, context)` |
 | `add_host` | method | `modules/world_model.py:793` | `def add_host(self, ip)` |
@@ -56,22 +198,22 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `generate_prompt` | method | `modules/yaml_generator.py:52` | `def generate_prompt(self, user_request)` |
 | `load_payload` | method | `modules/yaml_generator.py:24` | `def load_payload(self)` |
 | `main` | function | `modules/yaml_generator.py:139` | `def main()` |
-| `YaraScanner` | class | `modules/yara_scanner.py:23` | `class YaraScanner` |
-| `__init__` | method | `modules/yara_scanner.py:31` | `def __init__(self, rules_dir, auto_compile)` |
-| `_format_match` | method | `modules/yara_scanner.py:162` | `def _format_match(self, match)` |
-| `_load_external_vars` | method | `modules/yara_scanner.py:45` | `def _load_external_vars(self)` |
-| `_scan_with_timeout` | method | `modules/yara_scanner.py:129` | `def _scan_with_timeout(self, filepath, externals, timeout)` |
-| `_sha256` | method | `modules/yara_scanner.py:250` | `def _sha256(filepath)` |
-| `add_rule` | method | `modules/yara_scanner.py:258` | `def add_rule(self, name, content)` |
-| `compile_all` | method | `modules/yara_scanner.py:54` | `def compile_all(self)` |
-| `create_default_rules` | function | `modules/yara_scanner.py:371` | `def create_default_rules()` |
-| `download_community_rules` | method | `modules/yara_scanner.py:300` | `def download_community_rules(self)` |
-| `ensure_directory` | method | `modules/yara_scanner.py:41` | `def ensure_directory(self)` |
-| `ioc_scan` | method | `modules/yara_scanner.py:328` | `def ioc_scan(self, target_path, iocs)` |
-| `list_rules` | method | `modules/yara_scanner.py:277` | `def list_rules(self)` |
-| `scan_directory` | method | `modules/yara_scanner.py:187` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
-| `scan_file` | method | `modules/yara_scanner.py:98` | `def scan_file(self, filepath, timeout)` |
-| `target` | function | `modules/yara_scanner.py:137` | `def target()` |
+| `YaraScanner` | class | `modules/yara_scanner.py:24` | `class YaraScanner` |
+| `__init__` | method | `modules/yara_scanner.py:32` | `def __init__(self, rules_dir, auto_compile)` |
+| `_format_match` | method | `modules/yara_scanner.py:163` | `def _format_match(self, match)` |
+| `_load_external_vars` | method | `modules/yara_scanner.py:46` | `def _load_external_vars(self)` |
+| `_scan_with_timeout` | method | `modules/yara_scanner.py:130` | `def _scan_with_timeout(self, filepath, externals, timeout)` |
+| `_sha256` | method | `modules/yara_scanner.py:251` | `def _sha256(filepath)` |
+| `add_rule` | method | `modules/yara_scanner.py:259` | `def add_rule(self, name, content)` |
+| `compile_all` | method | `modules/yara_scanner.py:55` | `def compile_all(self)` |
+| `create_default_rules` | function | `modules/yara_scanner.py:374` | `def create_default_rules()` |
+| `download_community_rules` | method | `modules/yara_scanner.py:301` | `def download_community_rules(self)` |
+| `ensure_directory` | method | `modules/yara_scanner.py:42` | `def ensure_directory(self)` |
+| `ioc_scan` | method | `modules/yara_scanner.py:331` | `def ioc_scan(self, target_path, iocs)` |
+| `list_rules` | method | `modules/yara_scanner.py:278` | `def list_rules(self)` |
+| `scan_directory` | method | `modules/yara_scanner.py:188` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
+| `scan_file` | method | `modules/yara_scanner.py:99` | `def scan_file(self, filepath, timeout)` |
+| `target` | function | `modules/yara_scanner.py:138` | `def target()` |
 | `all` | function | `plugins/generate_c_reverse_shell.lua:108` | `` |
 | `generate_c_reverse_shell` | function | `plugins/generate_c_reverse_shell.lua:1` | `` |
 | `generate_cleanup_commands` | function | `plugins/generate_cleanup_commands.lua:3` | `` |
@@ -270,13 +412,6 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `write_utils_md` | function | `readmeneitor.py:241` | `def write_utils_md(functions, output_path)` |
 | `banner` | function | `run_topoexploit_agent.sh:29` | `` |
 | `start_api` | function | `run_topoexploit_agent.sh:38` | `` |
-| `MigrationError` | class | `scripts/activate_migrations.py:28` | `class MigrationError(Exception)` |
-| `activate_migrated_file` | function | `scripts/activate_migrations.py:75` | `def activate_migrated_file(migrated_path, dry_run)` |
-| `extract_command_names` | function | `scripts/activate_migrations.py:42` | `def extract_command_names(migrated_path)` |
-| `find_in_lazyown` | function | `scripts/activate_migrations.py:52` | `def find_in_lazyown(command_names)` |
-| `find_migrated_sets` | function | `scripts/activate_migrations.py:32` | `def find_migrated_sets()` |
-| `main` | function | `scripts/activate_migrations.py:88` | `def main()` |
-| `remove_from_lazyown` | function | `scripts/activate_migrations.py:62` | `def remove_from_lazyown(locations, dry_run)` |
 | `classify_os` | function | `scripts/backfill_addon_os_trigger.py:104` | `def classify_os(filename)` |
 | `known_trigger` | function | `scripts/backfill_addon_os_trigger.py:121` | `def known_trigger(name)` |
 | `main` | function | `scripts/backfill_addon_os_trigger.py:175` | `def main()` |
@@ -361,140 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
 | `parse_requirement` | function | `scripts/generate_sbom.py:25` | `def parse_requirement(line)` |
 | `project_version` | function | `scripts/generate_sbom.py:68` | `def project_version()` |
-| `Journal` | class | `scripts/journal.py:149` | `class Journal` |
-| `JournalConfig` | class | `scripts/journal.py:53` | `class JournalConfig` |
-| `JournalError` | class | `scripts/journal.py:48` | `class JournalError(RuntimeError)` |
-| `_build_parser` | function | `scripts/journal.py:245` | `def _build_parser()` |
-| `_default_runner` | function | `scripts/journal.py:124` | `def _default_runner(args)` |
-| `_git_remote_slug` | function | `scripts/journal.py:114` | `def _git_remote_slug()` |
-| `_graphql` | method | `scripts/journal.py:163` | `def _graphql(self, query, variables)` |
-| `_run_git` | function | `scripts/journal.py:90` | `def _run_git(args)` |
-| `category_id` | method | `scripts/journal.py:192` | `def category_id(self)` |
-| `entries` | method | `scripts/journal.py:223` | `def entries(self, limit)` |
-| `from_git_remote` | method | `scripts/journal.py:71` | `def from_git_remote(cls, remote, category)` |
-| `main` | function | `scripts/journal.py:264` | `def main(argv)` |
-| `post` | method | `scripts/journal.py:206` | `def post(self, title, body)` |
-| `repo_id` | method | `scripts/journal.py:184` | `def repo_id(self)` |
-| `healthy` | function | `scripts/lazy_llamacpp_serve.sh:33` | `` |
-| `ask` | function | `scripts/lazy_llamacpp_setup.sh:40` | `` |
-| `_backup` | function | `scripts/lazy_opencode_config.py:29` | `def _backup(path)` |
-| `_hermes_path` | function | `scripts/lazy_opencode_config.py:41` | `def _hermes_path()` |
-| `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
-| `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
-| `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
-| `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
-| `_LoopSettings` | class | `scripts/mcp_call.py:52` | `class _LoopSettings` |
-| `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
-| `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
-| `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
-| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
-| `_extract_answer` | function | `scripts/mcp_call.py:100` | `def _extract_answer(result)` |
-| `_parse_arguments` | function | `scripts/mcp_call.py:80` | `def _parse_arguments(raw)` |
-| `_server_command` | function | `scripts/mcp_call.py:61` | `def _server_command()` |
-| `main` | function | `scripts/mcp_call.py:173` | `def main(argv)` |
-| `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
-| `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
-| `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
-| `_method_names_from_file` | function | `scripts/migrate_commandsets.py:52` | `def _method_names_from_file(filepath)` |
-| `main` | function | `scripts/migrate_commandsets.py:158` | `def main()` |
-| `merge_phase` | function | `scripts/migrate_commandsets.py:117` | `def merge_phase(phase, dry_run)` |
-| `_category_from_decorator` | function | `scripts/migrate_lazyown.py:70` | `def _category_from_decorator(decorator)` |
-| `_indent_level` | function | `scripts/migrate_lazyown.py:84` | `def _indent_level(line)` |
-| `build_migrated_module` | function | `scripts/migrate_lazyown.py:124` | `def build_migrated_module(phase, category, methods)` |
-| `extract_method` | function | `scripts/migrate_lazyown.py:88` | `def extract_method(source, node)` |
-| `main` | function | `scripts/migrate_lazyown.py:173` | `def main()` |
-| `rewrite_globals` | function | `scripts/migrate_lazyown.py:96` | `def rewrite_globals(method_source)` |
-| `changed_sources` | function | `scripts/mutate.sh:33` | `` |
-| `runners` | function | `scripts/mutate.sh:29` | `` |
-| `usage` | function | `scripts/mutate.sh:40` | `` |
-| `discover_runners` | function | `scripts/mutation_gate.py:25` | `def discover_runners()` |
-| `main` | function | `scripts/mutation_gate.py:63` | `def main(argv)` |
-| `run_runner` | function | `scripts/mutation_gate.py:34` | `def run_runner(path, timeout_s)` |
-| `fail` | function | `scripts/publish_wiki.sh:38` | `` |
-| `log` | function | `scripts/publish_wiki.sh:37` | `` |
-| `write_c2_api` | function | `scripts/publish_wiki.sh:150` | `` |
-| `write_footer` | function | `scripts/publish_wiki.sh:207` | `` |
-| `write_home` | function | `scripts/publish_wiki.sh:58` | `` |
-| `write_installation` | function | `scripts/publish_wiki.sh:92` | `` |
-| `write_plugins` | function | `scripts/publish_wiki.sh:174` | `` |
-| `write_sidebar` | function | `scripts/publish_wiki.sh:188` | `` |
-| `_build_parser` | function | `scripts/read_journal.py:19` | `def _build_parser()` |
-| `main` | function | `scripts/read_journal.py:29` | `def main(argv)` |
-| `check` | function | `scripts/smoke_onboarding.sh:8` | `` |
-| `canonical_command_count` | function | `scripts/sync_doc_stats.py:87` | `def canonical_command_count(root)` |
-| `main` | function | `scripts/sync_doc_stats.py:165` | `def main()` |
-| `measure_stats` | function | `scripts/sync_doc_stats.py:109` | `def measure_stats(root)` |
-| `project_version` | function | `scripts/sync_doc_stats.py:100` | `def project_version(root)` |
-| `render` | function | `scripts/sync_doc_stats.py:136` | `def render(template, stats)` |
-| `sync` | function | `scripts/sync_doc_stats.py:141` | `def sync(check, stats, root)` |
-| `bdd_modules` | function | `scripts/test_bdd.sh:33` | `` |
-| `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
-| `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
-| `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
-| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
-| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
-| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
-| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
-| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
-| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
-| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
-| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
-| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
-| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
-| `check` | function | `scripts/validate_agent_contract.sh:32` | `` |
-| `check_no_hardcoded_passwords` | function | `scripts/validate_agent_contract.sh:59` | `` |
-| `check_no_hardcoded_wordlists` | function | `scripts/validate_agent_contract.sh:74` | `` |
-| `fail` | function | `scripts/validate_agent_contract.sh:27` | `` |
-| `pass` | function | `scripts/validate_agent_contract.sh:23` | `` |
-| `ACIEngine` | class | `skills/aci_planner.py:595` | `class ACIEngine` |
-| `ACIGoal` | class | `skills/aci_planner.py:146` | `class ACIGoal` |
-| `ACIPlan` | class | `skills/aci_planner.py:182` | `class ACIPlan` |
-| `ACIPlanner` | class | `skills/aci_planner.py:451` | `class ACIPlanner` |
-| `ACIReflector` | class | `skills/aci_planner.py:789` | `class ACIReflector` |
-| `AttackPhase` | class | `skills/aci_planner.py:157` | `class AttackPhase` |
-| `__init__` | method | `skills/aci_planner.py:463` | `def __init__(self, api_key, objectives_file, plan_file)` |
-| `__init__` | method | `skills/aci_planner.py:606` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
-| `__init__` | method | `skills/aci_planner.py:799` | `def __init__(self, lessons_file)` |
-| `_archive_plan` | function | `skills/aci_planner.py:258` | `def _archive_plan(plan, history_file)` |
-| `_build_parser` | function | `skills/aci_planner.py:980` | `def _build_parser()` |
-| `_build_phases_from_llm` | method | `skills/aci_planner.py:511` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
-| `_build_phases_static` | method | `skills/aci_planner.py:536` | `def _build_phases_static(self, goal, phase_filter)` |
-| `_count_blocked` | method | `skills/aci_planner.py:775` | `def _count_blocked(self, plan)` |
-| `_count_objectives_by_status` | function | `skills/aci_planner.py:287` | `def _count_objectives_by_status(obj_ids, objectives_file)` |
-| `_inject_all_objectives` | method | `skills/aci_planner.py:564` | `def _inject_all_objectives(self, plan)` |
-| `_llm_decompose` | function | `skills/aci_planner.py:337` | `def _llm_decompose(goal, api_key)` |
-| `_llm_replan` | function | `skills/aci_planner.py:402` | `def _llm_replan(plan, reason, api_key)` |
-| `_load_payload` | function | `skills/aci_planner.py:267` | `def _load_payload()` |
-| `_load_plan` | function | `skills/aci_planner.py:245` | `def _load_plan(plan_file)` |
-| `_load_world_model` | function | `skills/aci_planner.py:276` | `def _load_world_model()` |
-| `_now_iso` | function | `skills/aci_planner.py:231` | `def _now_iso()` |
-| `_persist_lessons` | method | `skills/aci_planner.py:854` | `def _persist_lessons(self, lessons)` |
-| `_save_plan` | function | `skills/aci_planner.py:235` | `def _save_plan(plan, plan_file)` |
-| `_sync_phase_statuses` | method | `skills/aci_planner.py:756` | `def _sync_phase_statuses(self, plan)` |
-| `_write_objective` | method | `skills/aci_planner.py:573` | `def _write_objective(self, text, phase, target)` |
-| `active_phase` | method | `skills/aci_planner.py:199` | `def active_phase(self)` |
-| `complete` | method | `skills/aci_planner.py:743` | `def complete(self)` |
-| `completion_pct` | method | `skills/aci_planner.py:207` | `def completion_pct(self)` |
-| `from_dict` | method | `skills/aci_planner.py:176` | `def from_dict(cls, d)` |
-| `from_dict` | method | `skills/aci_planner.py:221` | `def from_dict(cls, d)` |
-| `main` | function | `skills/aci_planner.py:1005` | `def main(argv)` |
-| `mcp_aci_plan` | function | `skills/aci_planner.py:867` | `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` |
-| `mcp_aci_replan` | function | `skills/aci_planner.py:942` | `def mcp_aci_replan(reason)` |
-| `mcp_aci_status` | function | `skills/aci_planner.py:925` | `def mcp_aci_status()` |
-| `plan` | method | `skills/aci_planner.py:473` | `def plan(self, goal, phase_filter)` |
-| `reflect` | method | `skills/aci_planner.py:802` | `def reflect(self, plan)` |
-| `replan` | method | `skills/aci_planner.py:673` | `def replan(self, reason)` |
-| `should_replan` | method | `skills/aci_planner.py:660` | `def should_replan(self, plan)` |
-| `status` | method | `skills/aci_planner.py:620` | `def status(self)` |
-| `to_dict` | method | `skills/aci_planner.py:171` | `def to_dict(self)` |
-| `to_dict` | method | `skills/aci_planner.py:214` | `def to_dict(self)` |
-| `BridgeFallbackResolver` | class | `skills/autonomous_daemon.py:3082` | `class BridgeFallbackResolver(IToolFallbackResolver)` |
-| `CascadeStrategy` | class | `skills/autonomous_daemon.py:1234` | `class CascadeStrategy` |
-| `CommandRunnerChain` | class | `skills/autonomous_daemon.py:584` | `class CommandRunnerChain(ICommandRunner)` |
-| `DroneCoordinator` | class | `skills/autonomous_daemon.py:2726` | `class DroneCoordinator` |
-| `EngageOrchestrator` | class | `skills/autonomous_daemon.py:3220` | `class EngageOrchestrator` |
-| `EnginePhaseResult` | class | `skills/autonomous_daemon.py:3031` | `class EnginePhaseResult` |
-| `EnginePhaseStep` | class | `skills/autonomous_daemon.py:3014` | `class EnginePhaseStep` |
-| `ExecutionEngine` | class | `skills/autonomous_daemon.py:1368` | `class ExecutionEngine(IObjectiveHandler)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

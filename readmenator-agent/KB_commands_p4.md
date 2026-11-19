@@ -2,21 +2,21 @@
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
 ## cli/commands/persist.py
-- Doc: Persistence command set (pending).
+- Doc: Persistence command set.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PersistenceCommandSet` (class, line 26) `class PersistenceCommandSet(LazyOwnCommandSet)`
-  - `do_createwebshell` (method, line 33) `def do_createwebshell(self, line)`
-  - `do_createrevshell` (method, line 47) `def do_createrevshell(self, line)`
-  - `do_createwinrevshell` (method, line 61) `def do_createwinrevshell(self, line)`
-  - `do_conptyshell` (method, line 73) `def do_conptyshell(self, line)`
-  - `do_pwncatcs` (method, line 89) `def do_pwncatcs(self, line)`
-  - `do_revwin` (method, line 99) `def do_revwin(self, line)`
-  - `do_wmi_persist` (method, line 112) `def do_wmi_persist(self, line)`
-  - `do_wmi_lateral` (method, line 170) `def do_wmi_lateral(self, line)`
-  - `do_wmi_scheduled_task` (method, line 209) `def do_wmi_scheduled_task(self, line)`
-  - `_extract` (method, line 275) `def _extract(args, flag)`
+  - `PersistenceCommandSet` (class, line 24) `class PersistenceCommandSet(LazyOwnCommandSet)`
+  - `do_createwebshell` (method, line 31) `def do_createwebshell(self, line)`
+  - `do_createrevshell` (method, line 45) `def do_createrevshell(self, line)`
+  - `do_createwinrevshell` (method, line 59) `def do_createwinrevshell(self, line)`
+  - `do_conptyshell` (method, line 71) `def do_conptyshell(self, line)`
+  - `do_pwncatcs` (method, line 87) `def do_pwncatcs(self, line)`
+  - `do_revwin` (method, line 97) `def do_revwin(self, line)`
+  - `do_wmi_persist` (method, line 110) `def do_wmi_persist(self, line)`
+  - `do_wmi_lateral` (method, line 168) `def do_wmi_lateral(self, line)`
+  - `do_wmi_scheduled_task` (method, line 207) `def do_wmi_scheduled_task(self, line)`
+  - `_extract` (method, line 273) `def _extract(args, flag)`
 - Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/persist_migrated.py
@@ -102,19 +102,19 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
 
 ## cli/commands/postexp.py
-- Doc: Post-Exploitation command set (pending).
+- Doc: Post-Exploitation command set.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PostExploitationCommandSet` (class, line 25) `class PostExploitationCommandSet(LazyOwnCommandSet)`
-  - `do_lazywebshell` (method, line 32) `def do_lazywebshell(self, line)`
-  - `do_disableav` (method, line 45) `def do_disableav(self, line)`
-  - `do_mimikatzpy` (method, line 59) `def do_mimikatzpy(self, line)`
-  - `do_scavenger` (method, line 64) `def do_scavenger(self, line)`
-  - `do_follina` (method, line 69) `def do_follina(self, line)`
-  - `do_shellcode` (method, line 74) `def do_shellcode(self, line)`
-  - `do_ofuscatorps1` (method, line 82) `def do_ofuscatorps1(self, line)`
-  - `do_atomic_lazyown` (method, line 87) `def do_atomic_lazyown(self, line)`
+  - `PostExploitationCommandSet` (class, line 22) `class PostExploitationCommandSet(LazyOwnCommandSet)`
+  - `do_lazywebshell` (method, line 29) `def do_lazywebshell(self, line)`
+  - `do_disableav` (method, line 42) `def do_disableav(self, line)`
+  - `do_mimikatzpy` (method, line 56) `def do_mimikatzpy(self, line)`
+  - `do_scavenger` (method, line 61) `def do_scavenger(self, line)`
+  - `do_follina` (method, line 66) `def do_follina(self, line)`
+  - `do_shellcode` (method, line 71) `def do_shellcode(self, line)`
+  - `do_ofuscatorps1` (method, line 79) `def do_ofuscatorps1(self, line)`
+  - `do_atomic_lazyown` (method, line 84) `def do_atomic_lazyown(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/postexp_migrated.py
@@ -168,27 +168,27 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_sessions_directory` (function, line 102) `def _sessions_directory(base_path)`
-  - `_serve_via_http` (function, line 114) `def _serve_via_http(shell, binary_name, sessions_path, lport)`
-  - `PrivilegeEscalationCommandSet` (class, line 132) `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)`
-  - `do_smbserver` (method, line 139) `def do_smbserver(self, line)`
-  - `do_responder` (method, line 197) `def do_responder(self, line)`
-  - `do_sudo` (method, line 222) `def do_sudo(self, line)`
-  - `do_linpeas` (method, line 235) `def do_linpeas(self, line)`
-  - `do_winpeas` (method, line 271) `def do_winpeas(self, line)`
-  - `do_les` (method, line 310) `def do_les(self, line)`
-  - `do_suid_check` (method, line 350) `def do_suid_check(self, line)`
-  - `do_pspy` (method, line 369) `def do_pspy(self, line)`
-  - `do_gtfo` (method, line 403) `def do_gtfo(self, line)`
-  - `do_whoami_priv` (method, line 450) `def do_whoami_priv(self, line)`
-  - `_whoami_priv_linux` (method, line 480) `def _whoami_priv_linux(self)`
-  - `_whoami_priv_windows` (method, line 496) `def _whoami_priv_windows(self)`
-  - `do_sudo_privesc` (method, line 512) `def do_sudo_privesc(self, line)`
-  - `do_printspoofer` (method, line 610) `def do_printspoofer(self, line)`
-  - `do_juicypotato` (method, line 632) `def do_juicypotato(self, line)`
-  - `_serve_windows_tool` (method, line 656) `def _serve_windows_tool(self, binary, label, description, args)`
-  - `_detect_os_for_privesc` (method, line 695) `def _detect_os_for_privesc(self)`
-  - `do_privesc_cmd_by_os` (method, line 755) `def do_privesc_cmd_by_os(self, line)`
+  - `_sessions_directory` (function, line 96) `def _sessions_directory(base_path)`
+  - `_serve_via_http` (function, line 108) `def _serve_via_http(shell, binary_name, sessions_path, lport)`
+  - `PrivilegeEscalationCommandSet` (class, line 126) `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)`
+  - `do_smbserver` (method, line 133) `def do_smbserver(self, line)`
+  - `do_responder` (method, line 191) `def do_responder(self, line)`
+  - `do_sudo` (method, line 216) `def do_sudo(self, line)`
+  - `do_linpeas` (method, line 229) `def do_linpeas(self, line)`
+  - `do_winpeas` (method, line 265) `def do_winpeas(self, line)`
+  - `do_les` (method, line 304) `def do_les(self, line)`
+  - `do_suid_check` (method, line 344) `def do_suid_check(self, line)`
+  - `do_pspy` (method, line 363) `def do_pspy(self, line)`
+  - `do_gtfo` (method, line 397) `def do_gtfo(self, line)`
+  - `do_whoami_priv` (method, line 444) `def do_whoami_priv(self, line)`
+  - `_whoami_priv_linux` (method, line 474) `def _whoami_priv_linux(self)`
+  - `_whoami_priv_windows` (method, line 490) `def _whoami_priv_windows(self)`
+  - `do_sudo_privesc` (method, line 506) `def do_sudo_privesc(self, line)`
+  - `do_printspoofer` (method, line 604) `def do_printspoofer(self, line)`
+  - `do_juicypotato` (method, line 626) `def do_juicypotato(self, line)`
+  - `_serve_windows_tool` (method, line 650) `def _serve_windows_tool(self, binary, label, description, args)`
+  - `_detect_os_for_privesc` (method, line 689) `def _detect_os_for_privesc(self)`
+  - `do_privesc_cmd_by_os` (method, line 749) `def do_privesc_cmd_by_os(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `tests/test_shell_semantics.py`
 

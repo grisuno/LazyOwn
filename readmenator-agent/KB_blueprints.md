@@ -104,14 +104,14 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `init_beacon_bp` (function, line 35) `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...`
-  - `_fire_hooks` (function, line 72) `def _fire_hooks(event, context)`
-  - `_trigger_cred_reuse` (function, line 91) `def _trigger_cred_reuse(context)`
-  - `send_command` (function, line 111) `def send_command(client_id)`
-  - `receive_result` (function, line 131) `def receive_result(client_id)`
-  - `issue_command` (function, line 245) `def issue_command()`
-  - `_run` (function, line 97) `def _run()`
-- Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+  - `init_beacon_bp` (function, line 37) `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...`
+  - `_fire_hooks` (function, line 74) `def _fire_hooks(event, context)`
+  - `_trigger_cred_reuse` (function, line 93) `def _trigger_cred_reuse(context)`
+  - `send_command` (function, line 113) `def send_command(client_id)`
+  - `receive_result` (function, line 133) `def receive_result(client_id)`
+  - `issue_command` (function, line 247) `def issue_command()`
+  - `_run` (function, line 99) `def _run()`
+- Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`
 - Imported by: `lazyc2/blueprints/__init__.py`
 
 ## lazyc2/blueprints/gym.py
@@ -136,15 +136,15 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_generic_loop_error` (function, line 54) `def _generic_loop_error()`
-  - `_loops_start` (function, line 63) `def _loops_start()`
-  - `_loops_list` (function, line 115) `def _loops_list()`
-  - `_loop_log` (function, line 123) `def _loop_log(loop_id)`
-  - `_loop_stop` (function, line 141) `def _loop_stop(loop_id)`
-  - `_default_guard` (function, line 158) `def _default_guard(view, needs_csrf)`
-  - `init_loops_bp` (function, line 179) `def init_loops_bp(limiter, guard)`
-  - `wrapper` (function, line 170) `def wrapper()`
-  - `_limited` (function, line 195) `def _limited(view, limit_string)`
+  - `_generic_loop_error` (function, line 58) `def _generic_loop_error()`
+  - `_loops_start` (function, line 67) `def _loops_start()`
+  - `_loops_list` (function, line 128) `def _loops_list()`
+  - `_loop_log` (function, line 136) `def _loop_log(loop_id)`
+  - `_loop_stop` (function, line 154) `def _loop_stop(loop_id)`
+  - `_default_guard` (function, line 171) `def _default_guard(view, needs_csrf)`
+  - `init_loops_bp` (function, line 192) `def init_loops_bp(limiter, guard)`
+  - `wrapper` (function, line 183) `def wrapper()`
+  - `_limited` (function, line 208) `def _limited(view, limit_string)`
 - Depends on: `core/logging.py`, `modules/loop_manager.py`
 - Imported by: `lazyc2/app_factory.py`, `lazyc2/blueprints/__init__.py`
 

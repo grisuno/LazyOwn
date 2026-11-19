@@ -35,11 +35,22 @@ _TTL_PATTERNS = (
     re.compile(r"\bTTL[=\s]+(\d{1,3})\b"),
 )
 
-# Windows-only service fingerprints from nmap service names/banners.
-_WINDOWS_SERVICE_MARKERS = ("msrpc", "netbios-ssn", "netbios-ns", "microsoft-ds", "ms-wbt-server", "rdp", "iis", "ms-sql", "microsoft", "winrm", "smb")
-_WINDOWS_BANNER_MARKERS = ("microsoft", "windows", "iis/", "remote desktop", "netbios")
-_LINUX_SERVICE_MARKERS = ("linux", "ubuntu", "debian", "centos", "fedora", "openssh", "apache", "nginx", "postfix", "samba")
-_LINUX_BANNER_MARKERS = ("linux", "ubuntu", "debian", "centos", "fedora", "gentoo", "unix")
+_WINDOWS_STRONG_MARKERS = ("microsoft windows", "windows", "iis/", "microsoft-iis", "remote desktop")
+_WINDOWS_WEAK_MARKERS = ("msrpc", "netbios-ssn", "netbios-ns", "microsoft-ds", "ms-wbt-server", "rdp", "ms-sql", "winrm", "smb")
+_LINUX_MARKERS = (
+    "linux",
+    "ubuntu",
+    "debian",
+    "centos",
+    "fedora",
+    "gentoo",
+    "unix",
+    "openssh",
+    "apache",
+    "nginx",
+    "postfix",
+    "samba",
+)
 
 _ASSET_OS_CACHE: dict[str, dict] = {}
 
@@ -106,12 +117,15 @@ def infer_from_banner(text: str) -> dict:
     lowered = str(text or "").lower()
     if not lowered.strip():
         return {"os": OS_UNKNOWN, "reason": ""}
-    for marker in _WINDOWS_SERVICE_MARKERS + _WINDOWS_BANNER_MARKERS:
+    for marker in _WINDOWS_STRONG_MARKERS:
         if marker in lowered:
             return {"os": OS_WINDOWS, "reason": f"banner marker '{marker}'"}
-    for marker in _LINUX_BANNER_MARKERS:
+    for marker in _LINUX_MARKERS:
         if marker in lowered:
             return {"os": OS_LINUX, "reason": f"banner marker '{marker}'"}
+    for marker in _WINDOWS_WEAK_MARKERS:
+        if marker in lowered:
+            return {"os": OS_WINDOWS, "reason": f"service marker '{marker}'"}
     return {"os": OS_UNKNOWN, "reason": ""}
 
 

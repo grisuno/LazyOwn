@@ -1,6 +1,66 @@
 # Subsystem: modules (page 13 of 19)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/lazyown_parquet_tool.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `highlight_term` (function, line 34) `def highlight_term(text, term)`
+  - `search_in_parquet` (function, line 39) `def search_in_parquet(term, parquet_files)`
+  - `buscar_binarios` (function, line 53) `def buscar_binarios(args)`
+  - `ejecutar_opciones` (function, line 136) `def ejecutar_opciones()`
+
+## modules/lazyownerweb.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `send_request` (function, line 36) `def send_request(url, params, method)`
+  - `test_injection` (function, line 49) `def test_injection(url, payloads, param_name, detection_strings, method)`
+  - `main` (function, line 59) `def main()`
+- Depends on: `core/logging.py`, `modules/logging_config.py`
+
+## modules/lazypassgen.py
+- Doc: LazyPassGen: target-aware weak-password generator for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_split_entities` (function, line 45) `def _split_entities(target)`
+  - `_leetspeak` (function, line 62) `def _leetspeak(word)`
+  - `_mutations` (function, line 77) `def _mutations(words)`
+  - `generate` (function, line 115) `def generate(target)`
+  - `export` (function, line 135) `def export(target, path)`
+- Depends on: `modules/__init__.py`
+
+## modules/lazypoophish.py
+- Doc: LazyPoophish: phishing fallback delivery for the LazyOwn autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `fresh_access_token` (function, line 34) `def fresh_access_token(target)`
+  - `fallback_ready` (function, line 52) `def fallback_ready(target)`
+  - `run_fallback` (function, line 71) `def run_fallback(target, params, template, mode, targets_file, provider, shorten)`
+- Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phishing_orchestrator.py`
+
+## modules/lazypsexec.sh
+- Doc: execute_psexec: Función para ejecutar psexec y verificar la salida
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `execute_psexec` (function, line 15)
+
+## modules/lazyreverse_shell.sh
+- Doc: Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `mostrar_ayuda` (function, line 21)
+  - `validar_ip` (function, line 31)
+
+## modules/lazyrtpflood.sh
+- Layer: utility
+- Language: sh
+
 ## modules/lazyshortener.py
 - Doc: LazyShortener: URL shortener bridge for LazyOwn phishing delivery.
 - Layer: utility
@@ -228,39 +288,40 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `is_model_missing_error` (function, line 121) `def is_model_missing_error(message)`
-  - `groq_model_chain` (function, line 141) `def groq_model_chain(config)`
-  - `LLMBackendUnavailableError` (class, line 190) `class LLMBackendUnavailableError(RuntimeError)`
-  - `LLMBackendNotSupportedError` (class, line 194) `class LLMBackendNotSupportedError(ValueError)`
-  - `default_model_for` (function, line 224) `def default_model_for(backend)`
-  - `model_config_key` (function, line 245) `def model_config_key(backend)`
-  - `api_key_config_key` (function, line 266) `def api_key_config_key(backend)`
-  - `backend_requires_api_key` (function, line 291) `def backend_requires_api_key(backend)`
-  - `load_payload` (function, line 309) `def load_payload(payload_path)`
-  - `_is_placeholder_key` (function, line 333) `def _is_placeholder_key(value)`
-  - `_resolve_api_key` (function, line 353) `def _resolve_api_key(config)`
-  - `_pooled_key` (function, line 376) `def _pooled_key(backend, config, fallback)`
-  - `_resolve_api_key_for_backend` (function, line 399) `def _resolve_api_key_for_backend(backend, config)`
-  - `_normalize_backend` (function, line 430) `def _normalize_backend(backend)`
-  - `_require_cloud_allowed` (function, line 463) `def _require_cloud_allowed(normalized)`
-  - `_build_groq` (function, line 495) `def _build_groq(config)`
-  - `_build_ollama` (function, line 517) `def _build_ollama(config)`
-  - `_build_llamacpp` (function, line 531) `def _build_llamacpp(config)`
-  - `_build_openai` (function, line 545) `def _build_openai(config)`
-  - `_build_anthropic` (function, line 567) `def _build_anthropic(config)`
-  - `_build_deepseek` (function, line 589) `def _build_deepseek(config)`
-  - `_resolve_model_identifier` (function, line 611) `def _resolve_model_identifier(backend_identifier, config)`
-  - `_wrap_with_budget` (function, line 638) `def _wrap_with_budget(backend, config, backend_identifier)`
-  - `get_llm_backend` (function, line 676) `def get_llm_backend(config, backend)`
-  - `_build_backend` (function, line 728) `def _build_backend(normalized, resolved_config)`
-  - `get_llm_backend_raw` (function, line 772) `def get_llm_backend_raw(config, backend)`
-  - `try_get_llm_backend` (function, line 794) `def try_get_llm_backend(config, backend)`
-  - `_pi_timeout` (function, line 818) `def _pi_timeout()`
-  - `_pi_complete` (function, line 830) `def _pi_complete(model, prompt, max_tokens)`
-  - `stream_complete` (function, line 871) `def stream_complete(model, prompt, max_tokens, on_delta)`
-  - `complete` (function, line 942) `def complete(model, prompt, max_tokens, temperature)`
+  - `is_model_missing_error` (function, line 137) `def is_model_missing_error(message)`
+  - `groq_model_chain` (function, line 157) `def groq_model_chain(config)`
+  - `LLMBackendUnavailableError` (class, line 209) `class LLMBackendUnavailableError(RuntimeError)`
+  - `LLMBackendNotSupportedError` (class, line 213) `class LLMBackendNotSupportedError(ValueError)`
+  - `default_model_for` (function, line 246) `def default_model_for(backend)`
+  - `model_config_key` (function, line 267) `def model_config_key(backend)`
+  - `api_key_config_key` (function, line 288) `def api_key_config_key(backend)`
+  - `backend_requires_api_key` (function, line 313) `def backend_requires_api_key(backend)`
+  - `load_payload` (function, line 331) `def load_payload(payload_path)`
+  - `_is_placeholder_key` (function, line 355) `def _is_placeholder_key(value)`
+  - `_resolve_api_key` (function, line 375) `def _resolve_api_key(config)`
+  - `_pooled_key` (function, line 398) `def _pooled_key(backend, config, fallback)`
+  - `_resolve_api_key_for_backend` (function, line 421) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (function, line 453) `def _normalize_backend(backend)`
+  - `_require_cloud_allowed` (function, line 487) `def _require_cloud_allowed(normalized)`
+  - `_build_groq` (function, line 519) `def _build_groq(config)`
+  - `_build_ollama` (function, line 541) `def _build_ollama(config)`
+  - `_build_llamacpp` (function, line 555) `def _build_llamacpp(config)`
+  - `_build_openai` (function, line 569) `def _build_openai(config)`
+  - `_build_anthropic` (function, line 591) `def _build_anthropic(config)`
+  - `_build_deepseek` (function, line 613) `def _build_deepseek(config)`
+  - `_build_opencode` (function, line 635) `def _build_opencode(config)`
+  - `_resolve_model_identifier` (function, line 662) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (function, line 691) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (function, line 729) `def get_llm_backend(config, backend)`
+  - `_build_backend` (function, line 781) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (function, line 828) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (function, line 850) `def try_get_llm_backend(config, backend)`
+  - `_pi_timeout` (function, line 874) `def _pi_timeout()`
+  - `_pi_complete` (function, line 886) `def _pi_complete(model, prompt, max_tokens)`
+  - `stream_complete` (function, line 927) `def stream_complete(model, prompt, max_tokens, on_delta)`
+  - `complete` (function, line 998) `def complete(model, prompt, max_tokens, temperature)`
 - Depends on: `core/llm_budget.py`, `core/llm_key_pool.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
-- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/sidequest.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/beacon_loop.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/sidequest.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
 
 ## modules/llm_orchestrator.py
 - Doc: Orchestrator-governed LLM failover chain for every AI module.
@@ -434,50 +495,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_open` (function, line 440) `def _open()`
 - Depends on: `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 - Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
-
-## modules/loop_audit.py
-- Doc: Operator audit trail for autonomous loop runs.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_clean` (function, line 56) `def _clean(text, limit)`
-  - `_first_token` (function, line 61) `def _first_token(command)`
-  - `_output_tail` (function, line 71) `def _output_tail(output)`
-  - `step_context` (function, line 80) `def step_context(task_id)`
-  - `_consume_context` (function, line 103) `def _consume_context()`
-  - `audit_path` (function, line 109) `def audit_path(task_id)`
-  - `LoopAudit` (class, line 114) `class LoopAudit`
-  - `start` (function, line 320) `def start(task_id)`
-  - `audit_for` (function, line 338) `def audit_for(task_id)`
-  - `stop` (function, line 349) `def stop(task_id)`
-  - `_read_jsonl` (function, line 355) `def _read_jsonl(path)`
-  - `blocked_verbs` (function, line 360) `def blocked_verbs(task_id, min_count)`
-  - `guard_rows` (function, line 392) `def guard_rows(task_id)`
-  - `activity_rows` (function, line 397) `def activity_rows(task_id)`
-  - `_ts` (function, line 402) `def _ts(row)`
-  - `_timeline_event` (function, line 410) `def _timeline_event(audit_row, start_ts)`
-  - `_guard_event` (function, line 421) `def _guard_event(row, start_ts)`
-  - `_activity_event` (function, line 433) `def _activity_event(row, start_ts)`
-  - `timeline` (function, line 447) `def timeline(task_id, audit)`
-  - `_fmt_offset` (function, line 471) `def _fmt_offset(offset)`
-  - `_render_event` (function, line 476) `def _render_event(event)`
-  - `render` (function, line 537) `def render(task_id, limit, audit)`
-  - `list_runs` (function, line 558) `def list_runs(limit)`
-  - `render_summary` (function, line 595) `def render_summary(summaries)`
-  - `__init__` (method, line 123) `def __init__(self, task_id, path)`
-  - `path` (method, line 131) `def path(self)`
-  - `record` (method, line 135) `def record(self, kind)`
-  - `run_start` (method, line 155) `def run_start(self, goal, target, rounds, workers, mode, profile)`
-  - `preflight` (method, line 168) `def preflight(self, outcome)`
-  - `blocked` (method, line 178) `def blocked(self, source, reason, command, worker, intent)`
-  - `verdict` (method, line 189) `def verdict(self, verdict)`
-  - `run_end` (method, line 203) `def run_end(self, status, rounds, verdict, error)`
-  - `record_command` (method, line 216) `def record_command(self, command, output, duration, ok, task_id)`
-  - `_append` (method, line 273) `def _append(self, event)`
-  - `_trim` (method, line 288) `def _trim(self)`
-  - `_read` (method, line 303) `def _read(path)`
-- Depends on: `core/parsers.py`
-- Imported by: `modules/lazy_loop.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

@@ -1,6 +1,40 @@
 # Subsystem: tests (page 13 of 27)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_hunt_verify.py
+- Doc: Hunt verification: verdict taxonomy, scope gate and dependency gating.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_event` (function, line 29) `def _event(ref, fields, kind, path)`
+  - `test_observed_verdict_requires_fields` (function, line 33) `def test_observed_verdict_requires_fields()`
+  - `test_missing_fields_block_observed` (function, line 43) `def test_missing_fields_block_observed()`
+  - `test_out_of_scope_ref_rejected` (function, line 52) `def test_out_of_scope_ref_rejected()`
+  - `test_not_observed_requires_scope_covered` (function, line 60) `def test_not_observed_requires_scope_covered()`
+  - `test_stage_filters_exclude_events` (function, line 70) `def test_stage_filters_exclude_events()`
+  - `test_inferred_requires_alternatives` (function, line 78) `def test_inferred_requires_alternatives()`
+  - `test_dependency_gating_notes_unproven_chain` (function, line 91) `def test_dependency_gating_notes_unproven_chain()`
+  - `test_known_self_refs_separated` (function, line 100) `def test_known_self_refs_separated()`
+  - `test_validate_specs_checks_dependencies` (function, line 109) `def test_validate_specs_checks_dependencies()`
+  - `test_caps_enforced` (function, line 118) `def test_caps_enforced()`
+  - `test_field_present_helper` (function, line 126) `def test_field_present_helper()`
+- Depends on: `modules/hunt_verify.py`
+
+## tests/test_implant_session_secrets.py
+- Doc: ImplantSessionSecretsSpec: Contract: lab Go implant templates bind rotating session secrets.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `ImplantSessionSecretsSpec` (class, line 22) `class ImplantSessionSecretsSpec(TestCase)`
+  - `test_implant_binds_sleep_and_persistence_placeholders` (method, line 25) `def test_implant_binds_sleep_and_persistence_placeholders(self)`
+  - `test_implant_uses_obfuscated_sleep_and_jitter_bounds` (method, line 30) `def test_implant_uses_obfuscated_sleep_and_jitter_bounds(self)`
+  - `test_implant_uses_utls_for_real_tls_fingerprint` (method, line 38) `def test_implant_uses_utls_for_real_tls_fingerprint(self)`
+  - `test_listener_and_monrevlin_bind_session_magic` (method, line 45) `def test_listener_and_monrevlin_bind_session_magic(self)`
+  - `test_rootkit_listener_default_is_neutral` (method, line 53) `def test_rootkit_listener_default_is_neutral(self)`
+  - `test_lkm_makefile_carries_deployment_values` (method, line 57) `def test_lkm_makefile_carries_deployment_values(self)`
+  - `test_url_traffic_template_keys_match_builder_context` (method, line 64) `def test_url_traffic_template_keys_match_builder_context(self)`
+- Depends on: `modules/c2_builder.py`
+
 ## tests/test_improvements_spec.py
 - Doc: Spec-driven validation of the three priority improvements.
 - Layer: testing
@@ -457,38 +491,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_phase_status_is_immutable` (method, line 414) `def test_phase_status_is_immutable(self)`
   - `test_phase_status_fields_match_config` (method, line 419) `def test_phase_status_fields_match_config(self)`
 - Depends on: `modules/killchain.py`, `modules/world_model.py`
-
-## tests/test_lab_target_visibility.py
-- Doc: Lab target visibility: start/status always show the container IP.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
-  - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
-- Depends on: `cli/commands/lab.py`
-
-## tests/test_lazy_adaptive_replan.py
-- Doc: Adaptive replanner wiring through the ChainRunner (apt_chain --adaptive).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 14) `def _chain(steps)`
-  - `_fail_locked_out` (function, line 19) `def _fail_locked_out(command)`
-  - `_facts` (function, line 25) `def _facts(monkeypatch, services, credentials)`
-  - `test_parse_accepts_adaptive_flag` (function, line 30) `def test_parse_accepts_adaptive_flag()`
-  - `test_adaptive_replanner_inserts_alternative_after_permission_wall` (function, line 38) `def test_adaptive_replanner_inserts_alternative_after_permission_wall(monkeypatch)`
-  - `test_lockout_walls_insert_nothing` (function, line 76) `def test_lockout_walls_insert_nothing(monkeypatch)`
-  - `test_composed_replanners_run_in_order` (function, line 110) `def test_composed_replanners_run_in_order(monkeypatch)`
-  - `test_replanner_ignores_ok_outcomes` (function, line 135) `def test_replanner_ignores_ok_outcomes()`
-  - `executor` (function, line 44) `def executor(command)`
-  - `executor` (function, line 81) `def executor(command)`
-  - `first` (function, line 116) `def first(context)`
-  - `second` (function, line 119) `def second(context)`
-  - `FakeOutcome` (class, line 124) `class FakeOutcome`
-  - `Ctx` (class, line 141) `class Ctx`
-  - `Outcome` (class, line 145) `class Outcome`
-  - `insert_step` (method, line 156) `def insert_step(self, step)`
-- Depends on: `cli/apt_chain_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

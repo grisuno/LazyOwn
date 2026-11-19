@@ -25,6 +25,7 @@ from utils import (
     RED,
     RESET,
     YELLOW,
+    check_rhost,
     exploitation_category,
     print_error,
     print_msg,
@@ -141,12 +142,11 @@ class GymMetasploitableCommandSet(LazyOwnCommandSet):
             dry_run: Resolve without executing.
         """
         target = self._target()
-        checker = getattr(self, "check_rhost", None) or getattr(self._shell(), "check_rhost", None)
-        if checker and not checker():
+        if not check_rhost(target):
             return
         result = gym_matrix_runner.run_matrix(
             target,
-            shell=self._shell(),
+            shell=self._resolve_shell(),
             dry_run=dry_run,
             sessions_dir=None,
             only=only,

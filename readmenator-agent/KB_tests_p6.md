@@ -1,6 +1,46 @@
 # Subsystem: tests (page 6 of 27)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
+## tests/test_chain_finalizer.py
+- Doc: Chain finalization contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 21) `def _chain(steps)`
+  - `test_chain_with_captured_evidence_is_verified` (function, line 26) `def test_chain_with_captured_evidence_is_verified()`
+  - `test_chain_ok_without_evidence_is_downgraded` (function, line 39) `def test_chain_ok_without_evidence_is_downgraded()`
+  - `test_chain_with_open_steps_reports_pending_reason` (function, line 49) `def test_chain_with_open_steps_reports_pending_reason()`
+  - `test_dry_run_has_no_finalization` (function, line 71) `def test_dry_run_has_no_finalization()`
+  - `test_hunting_verdicts_count_as_confirmed` (function, line 80) `def test_hunting_verdicts_count_as_confirmed(tmp_path)`
+  - `executor` (function, line 53) `def executor(command)`
+  - `executor` (function, line 86) `def executor(command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/lazy_finalizer.py`
+
+## tests/test_chain_freshness_guard.py
+- Doc: Freshness guards for chain skips: stale artefacts do not skip work.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_file` (function, line 18) `def _file(path, payload, mtime)`
+  - `test_skip_pending_fresh_and_forever` (function, line 26) `def test_skip_pending_fresh_and_forever(tmp_path)`
+  - `test_skip_pending_stale_artifact_runs` (function, line 33) `def test_skip_pending_stale_artifact_runs(tmp_path)`
+  - `test_missing_artifact_runs` (function, line 40) `def test_missing_artifact_runs(tmp_path)`
+  - `test_schema_validates_skip_max_age` (function, line 45) `def test_schema_validates_skip_max_age()`
+  - `test_runner_reexecutes_stale_step` (function, line 68) `def test_runner_reexecutes_stale_step(tmp_path)`
+  - `test_runner_skips_fresh_step` (function, line 89) `def test_runner_skips_fresh_step(tmp_path)`
+  - `executor` (function, line 73) `def executor(command)`
+  - `executor` (function, line 94) `def executor(command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
+## tests/test_chain_list_command.py
+- Doc: BDD: chain list exposes the YAML chain registry.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_chain_list_lists_registry` (function, line 12) `def test_chain_list_lists_registry(capsys)`
+  - `test_chain_list_filters` (function, line 22) `def test_chain_list_filters(capsys)`
+- Depends on: `cli/commands/exploit_migrated.py`
+
 ## tests/test_chain_loop.py
 - Doc: Chain-aware loop execution: stepwise apt_chain decisions inside the worker, subprocess fallback...
 - Layer: testing
@@ -423,74 +463,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_save_delegates_to_canonical_writer` (method, line 92) `def test_save_delegates_to_canonical_writer(self)`
   - `test_save_writes_valid_json_and_audits` (method, line 109) `def test_save_writes_valid_json_and_audits(self, isolated_auth)`
 - Depends on: `modules/cli_auth.py`
-
-## tests/test_cli_command_sets.py
-- Doc: ``cli`` package declarativeness and ``CommandSet`` registration tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 24) `def _add_repo_root_to_syspath()`
-  - `_load_yaml` (function, line 29) `def _load_yaml()`
-  - `_legacy_alias_keys_from_lazyown` (function, line 34) `def _legacy_alias_keys_from_lazyown()`
-  - `TestAliasYamlIntegrity` (class, line 178) `class TestAliasYamlIntegrity`
-  - `TestAliasLoaderSubstitution` (class, line 209) `class TestAliasLoaderSubstitution`
-  - `TestLazyOwnRefactor` (class, line 298) `class TestLazyOwnRefactor`
-  - `TestCommandSetDiscovery` (class, line 325) `class TestCommandSetDiscovery`
-  - `TestRegisterCommandSets` (class, line 357) `class TestRegisterCommandSets`
-  - `TestLazyOwnStillParses` (class, line 395) `class TestLazyOwnStillParses`
-  - `TestPrivateHelperForwarding` (class, line 400) `class TestPrivateHelperForwarding`
-  - `test_rm_wm_host_alias_appends_the_ip_parameter` (function, line 464) `def test_rm_wm_host_alias_appends_the_ip_parameter()`
-  - `test_alias_with_trailing_args_keeps_operator_parameters` (function, line 484) `def test_alias_with_trailing_args_keeps_operator_parameters()`
-  - `test_yaml_loads` (method, line 179) `def test_yaml_loads(self)`
-  - `test_yaml_keys_match_legacy_set` (method, line 184) `def test_yaml_keys_match_legacy_set(self)`
-  - `test_yaml_count_is_125` (method, line 192) `def test_yaml_count_is_125(self)`
-  - `test_all_values_are_strings` (method, line 195) `def test_all_values_are_strings(self)`
-  - `test_vuln_alias_carries_ansi_escape` (method, line 199) `def test_vuln_alias_carries_ansi_escape(self)`
-  - `test_ls_is_unchanged` (method, line 202) `def test_ls_is_unchanged(self)`
-  - `test_q_is_exit` (method, line 205) `def test_q_is_exit(self)`
-  - `test_load_aliases_substitutes_payload_values` (method, line 215) `def test_load_aliases_substitutes_payload_values(self)`
-  - `test_missing_keys_substitute_to_empty_string` (method, line 237) `def test_missing_keys_substitute_to_empty_string(self)`
-  - `test_none_values_substitute_to_empty_string` (method, line 244) `def test_none_values_substitute_to_empty_string(self)`
-  - `test_aliases_with_no_placeholders_unchanged` (method, line 250) `def test_aliases_with_no_placeholders_unchanged(self)`
-  - `test_loader_rejects_non_mapping` (method, line 258) `def test_loader_rejects_non_mapping(self, tmp_path)`
-  - `test_loader_rejects_non_string_value` (method, line 266) `def test_loader_rejects_non_string_value(self, tmp_path)`
-  - `test_loader_handles_empty_file` (method, line 274) `def test_loader_handles_empty_file(self, tmp_path)`
-  - `test_real_yaml_loads_with_real_payload` (method, line 281) `def test_real_yaml_loads_with_real_payload(self)`
-  - `test_lazy_default_preserves_placeholders` (method, line 290) `def test_lazy_default_preserves_placeholders(self)`
-  - `lazyown_text` (method, line 300) `def lazyown_text(self)`
-  - `test_no_inline_aliases_dict_with_entries` (method, line 303) `def test_no_inline_aliases_dict_with_entries(self, lazyown_text)`
-  - `test_imports_cli_aliases_loader` (method, line 312) `def test_imports_cli_aliases_loader(self, lazyown_text)`
-  - `test_imports_cli_registry` (method, line 315) `def test_imports_cli_registry(self, lazyown_text)`
-  - `test_init_populates_aliases_at_runtime` (method, line 318) `def test_init_populates_aliases_at_runtime(self, lazyown_text)`
-  - `test_init_registers_command_sets` (method, line 321) `def test_init_registers_command_sets(self, lazyown_text)`
-  - `test_discovery_excludes_underscore_modules` (method, line 326) `def test_discovery_excludes_underscore_modules(self)`
-  - `test_discovers_diagnostics_pilot` (method, line 332) `def test_discovers_diagnostics_pilot(self)`
-  - `test_pilot_commandset_subclasses_base` (method, line 338) `def test_pilot_commandset_subclasses_base(self)`
-  - `test_pilot_commandset_declares_phase` (method, line 344) `def test_pilot_commandset_declares_phase(self)`
-  - `test_pilot_commandset_has_do_methods` (method, line 349) `def test_pilot_commandset_has_do_methods(self)`
-  - `test_registers_on_a_minimal_cmd2_instance` (method, line 358) `def test_registers_on_a_minimal_cmd2_instance(self)`
-  - `test_register_skips_failing_commandset_without_aborting` (method, line 370) `def test_register_skips_failing_commandset_without_aborting(self, monkeypatch)`
-  - `test_ast_parse` (method, line 396) `def test_ast_parse(self)`
-  - `_probe_class` (method, line 410) `def _probe_class(self)`
-  - `_shell_class` (method, line 425) `def _shell_class(self)`
-  - `test_private_helper_inert_before_registration` (method, line 438) `def test_private_helper_inert_before_registration(self)`
-  - `test_private_helper_forwards_after_registration` (method, line 443) `def test_private_helper_forwards_after_registration(self)`
-  - `test_dunder_still_refused_after_registration` (method, line 449) `def test_dunder_still_refused_after_registration(self)`
-  - `test_missing_private_raises_not_utils_fallback` (method, line 456) `def test_missing_private_raises_not_utils_fallback(self)`
-  - `Shell` (class, line 470) `class Shell(Cmd)`
-  - `_Bare` (class, line 363) `class _Bare(Cmd)`
-  - `_ExplosiveCommandSet` (class, line 375) `class _ExplosiveCommandSet(CommandSet)`
-  - `fake_iter` (function, line 379) `def fake_iter()`
-  - `_Bare` (class, line 387) `class _Bare(Cmd)`
-  - `_Probe` (class, line 415) `class _Probe(LazyOwnCommandSet)`
-  - `_Shell` (class, line 428) `class _Shell(Cmd)`
-  - `__init__` (method, line 471) `def __init__(self)`
-  - `do_sh` (method, line 476) `def do_sh(self, line)`
-  - `__init__` (method, line 376) `def __init__(self)`
-  - `do_probe` (method, line 420) `def do_probe(self, line)`
-  - `__init__` (method, line 429) `def __init__(self)`
-  - `_scope_helper` (method, line 433) `def _scope_helper(self)`
-- Depends on: `cli/__init__.py`, `cli/aliases.py`, `cli/commands/_base.py`, `cli/commands/diagnostics.py`, `cli/registry.py`, `core/config.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

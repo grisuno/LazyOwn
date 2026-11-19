@@ -141,12 +141,14 @@ def _kill_process_tree(process: subprocess.Popen) -> None:
 def _communicate_group_managed(
     process: subprocess.Popen,
     timeout: float | None,
+    input_data: str | None = None,
 ) -> tuple[str, str]:
     """Communicate with a child and reap its whole process group on timeout.
 
     Args:
         process: Child process.
         timeout: Wall-clock limit; None waits forever.
+        input_data: Optional stdin content (required when stdin is a pipe).
 
     Returns:
         ``(stdout, stderr)`` captured text.
@@ -156,7 +158,7 @@ def _communicate_group_managed(
             exception carries whatever output was already captured.
     """
     try:
-        return process.communicate(timeout=timeout)
+        return process.communicate(input=input_data, timeout=timeout)
     except subprocess.TimeoutExpired:
         _kill_process_tree(process)
         try:
@@ -214,7 +216,7 @@ def safe_run_argv(
         start_new_session=_START_NEW_SESSION,
     )
     try:
-        stdout, stderr = _communicate_group_managed(process, timeout)
+        stdout, stderr = _communicate_group_managed(process, timeout, input_data)
     finally:
         if process.poll() is None:
             _kill_process_tree(process)

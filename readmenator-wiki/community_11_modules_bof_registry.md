@@ -14,7 +14,7 @@ This community groups 43 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `modules/beacon_config_builder.py` | py | infrastructure | 16 | yes |
 | `modules/bof_admin.py` | py | utility | 14 | yes |
-| `modules/bof_delivery.py` | py | utility | 34 | yes |
+| `modules/bof_delivery.py` | py | utility | 39 | yes |
 | `modules/bof_registry.py` | py | utility | 51 | yes |
 
 ### `tests` (14 files)
@@ -23,7 +23,7 @@ This community groups 43 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `tests/test_beacon_config_builder.py` | py | testing | 20 | yes |
 | `tests/test_bof_admin.py` | py | testing | 27 | yes |
-| `tests/test_bof_delivery.py` | py | testing | 26 | yes |
+| `tests/test_bof_delivery.py` | py | testing | 35 | yes |
 | `tests/test_bof_registry.py` | py | testing | 51 | yes |
 
 ### `modules/guardrails` (6 files)
@@ -106,8 +106,8 @@ This community groups 43 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 92
-- Cross-boundary resolved imports (EXTRACTED): 110
+- Internal resolved imports (EXTRACTED): 93
+- Cross-boundary resolved imports (EXTRACTED): 125
 
 ## Connections
 
@@ -117,14 +117,10 @@ This community groups 43 file(s) rooted at `modules` with dominant language py (
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/opsec_scorer.py` -> `core/config.py`
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
-- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/opsec_scorer.py` be broken with an interface?
 - What would break if the most connected file in modules: bof_registry changed?
 - Should modules: bof_registry be split, given cohesion 0.46?
 

@@ -1,6 +1,106 @@
 # Subsystem: modules (page 17 of 19)
 Previous: [KB_modules_p16.md](KB_modules_p16.md)
 
+## modules/reactive_engine.py
+- Doc: modules/reactive_engine.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_default_config_loader` (function, line 42) `def _default_config_loader()`
+  - `Signal` (class, line 69) `class Signal`
+  - `ReactiveDecision` (class, line 80) `class ReactiveDecision`
+  - `AbstractSignalMatcher` (class, line 97) `class AbstractSignalMatcher(ABC)`
+  - `AVBlockedMatcher` (class, line 102) `class AVBlockedMatcher(AbstractSignalMatcher)`
+  - `CredentialFoundMatcher` (class, line 147) `class CredentialFoundMatcher(AbstractSignalMatcher)`
+  - `PrivescHintMatcher` (class, line 174) `class PrivescHintMatcher(AbstractSignalMatcher)`
+  - `NewHostMatcher` (class, line 209) `class NewHostMatcher(AbstractSignalMatcher)`
+  - `ServiceVersionMatcher` (class, line 232) `class ServiceVersionMatcher(AbstractSignalMatcher)`
+  - `ShellErrorMatcher` (class, line 262) `class ShellErrorMatcher(AbstractSignalMatcher)`
+  - `LateralOpportunityMatcher` (class, line 293) `class LateralOpportunityMatcher(AbstractSignalMatcher)`
+  - `DataOfInterestMatcher` (class, line 323) `class DataOfInterestMatcher(AbstractSignalMatcher)`
+  - `ParquetAdvisor` (class, line 389) `class ParquetAdvisor`
+  - `EvasionAdvisor` (class, line 481) `class EvasionAdvisor`
+  - `PrivescAdvisor` (class, line 537) `class PrivescAdvisor`
+  - `SemanticContextAdvisor` (class, line 632) `class SemanticContextAdvisor`
+  - `ReactiveEngine` (class, line 804) `class ReactiveEngine`
+  - `get_engine` (function, line 977) `def get_engine()`
+  - `match` (method, line 99) `def match(self, output, context)`
+  - `match` (method, line 128) `def match(self, output, context)`
+  - `match` (method, line 159) `def match(self, output, context)`
+  - `match` (method, line 192) `def match(self, output, context)`
+  - `match` (method, line 214) `def match(self, output, context)`
+  - `match` (method, line 247) `def match(self, output, context)`
+  - `match` (method, line 276) `def match(self, output, context)`
+  - `match` (method, line 307) `def match(self, output, context)`
+  - `match` (method, line 349) `def match(self, output, context)`
+  - `__init__` (method, line 395) `def __init__(self, root)`
+  - `_load` (method, line 402) `def _load(self)`
+  - `gtfobins_for` (method, line 421) `def gtfobins_for(self, binary)`
+  - `lolbas_for` (method, line 434) `def lolbas_for(self, binary)`
+  - `technique_commands_for` (method, line 448) `def technique_commands_for(self, platform, keyword)`
+  - `suggest` (method, line 504) `def suggest(self, signals, platform)`
+  - `suggest` (method, line 565) `def suggest(self, signals, platform, parquet)`
+  - `__init__` (method, line 644) `def __init__(self, rag, config_loader, min_score, query_limit)`
+  - `_load_rag` (method, line 671) `def _load_rag(self)`
+  - `_enabled` (method, line 697) `def _enabled(self)`
+  - `_extract_verb` (method, line 715) `def _extract_verb(source)`
+  - `suggest` (method, line 734) `def suggest(self, output, command, platform, context)`
+  - `__init__` (method, line 810) `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
+  - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
+  - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/reactive_suggest.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+
+## modules/recommender.py
+- Doc: LazyOwn Smart Command Recommender
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_user_prompt` (function, line 55) `def _build_user_prompt(state)`
+  - `_call_ai` (function, line 97) `def _call_ai(api_key, user_prompt)`
+  - `recommend` (function, line 143) `def recommend(state, api_key)`
+  - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
+- Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
+- Imported by: `skills/lazyown_mcp.py`, `skills/mcp_tools/recommend_next.py`
+
+## modules/redteam_gym.py
+- Doc: Red Team Gym — gamified pentest training mode.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `reload_challenge_definitions` (function, line 300) `def reload_challenge_definitions(directory)`
+  - `GymAttempt` (class, line 319) `class GymAttempt`
+  - `_ensure_gym_dir` (function, line 335) `def _ensure_gym_dir()`
+  - `_load_leaderboard` (function, line 340) `def _load_leaderboard()`
+  - `_save_leaderboard` (function, line 356) `def _save_leaderboard(board)`
+  - `_get_username` (function, line 367) `def _get_username()`
+  - `definition_rows` (function, line 394) `def definition_rows()`
+  - `create_gym` (function, line 399) `def create_gym(gym_id)`
+  - `save_gym_yaml` (function, line 436) `def save_gym_yaml(gym_id, text)`
+  - `delete_gym` (function, line 446) `def delete_gym(gym_id)`
+  - `list_challenges` (function, line 454) `def list_challenges()`
+  - `_resolve_active_run` (function, line 477) `def _resolve_active_run(selector, operator)`
+  - `start_challenge` (function, line 495) `def start_challenge(challenge_id, target, spin_lab, notify)`
+  - `_spin_scenario` (function, line 603) `def _spin_scenario(scenario, notify)`
+  - `submit_challenge` (function, line 648) `def submit_challenge(techniques_used, success, run_id)`
+  - `stop_challenges` (function, line 756) `def stop_challenges(selector)`
+  - `_teardown_stopped_scenarios` (function, line 777) `def _teardown_stopped_scenarios(stopped)`
+  - `_same_engagement` (function, line 811) `def _same_engagement(ip, target)`
+  - `engagement_context` (function, line 838) `def engagement_context(target)`
+  - `get_active_challenges` (function, line 898) `def get_active_challenges()`
+  - `_calc_speed_score` (function, line 911) `def _calc_speed_score(elapsed_seconds, max_bonus)`
+  - `_calc_stealth_score` (function, line 932) `def _calc_stealth_score(techniques, max_bonus)`
+  - `_calc_technique_score` (function, line 948) `def _calc_technique_score(techniques, chal, max_bonus)`
+  - `_update_leaderboard` (function, line 970) `def _update_leaderboard(attempt)`
+  - `_award_gym_elo` (function, line 1014) `def _award_gym_elo(username, elo_bonus)`
+  - `_get_rank` (function, line 1040) `def _get_rank(username)`
+  - `show_leaderboard` (function, line 1057) `def show_leaderboard(top_n)`
+  - `get_active_challenge` (function, line 1084) `def get_active_challenge(run_id)`
+  - `record_external_attempt` (function, line 1115) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
+  - `main` (function, line 1169) `def main()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
+
 ## modules/reflective_dll.py
 - Doc: Reflective DLL loading — load PE from memory without touching disk.
 - Layer: utility
@@ -196,7 +296,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `focus_summary` (function, line 227) `def focus_summary(brief, limit)`
   - `intents_from_brief` (function, line 247) `def intents_from_brief(brief, limit)`
 - Depends on: `core/hardening.py`
-- Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_scan_brief.py`
+- Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `sdk/facade.py`, `tests/test_scan_brief.py`
 
 ## modules/search.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
@@ -216,6 +316,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `CommandRedactor` (class, line 318) `class CommandRedactor`
   - `OutputSanitizer` (class, line 406) `class OutputSanitizer`
   - `build_default_config` (function, line 477) `def build_default_config(payload)`
+  - `sanitize_client_id` (function, line 492) `def sanitize_client_id(value, max_length)`
   - `from_payload` (method, line 68) `def from_payload(cls, payload)`
   - `__init__` (method, line 115) `def __init__(self, config)`
   - `is_valid_name` (method, line 129) `def is_valid_name(self, name)`
@@ -234,7 +335,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `__init__` (method, line 418) `def __init__(self, config)`
   - `sanitize` (method, line 429) `def sanitize(self, value)`
   - `_sanitize` (method, line 433) `def _sanitize(self, value, depth)`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `modules/beacon_history.py`, `modules/c2_agent.py`, `modules/engagement_hooks.py`, `modules/exploitdb_c_bridge.py`, `modules/lazyown_bprfuzzer.py`, `modules/traffic_recorder.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
 
 ## modules/selector_manager.py
 - Doc: Selector manager: deterministic priority cascade with provenance.
@@ -351,6 +452,34 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `aggregate` (method, line 331) `def aggregate(self, sessions_dir)`
 - Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
 
+## modules/session_reclaim.py
+- Doc: Audited cleanup planner for the top-level ``sessions`` directory.
+- Language: py
+- Symbols:
+  - `_glob_matcher` (function, line 94) `def _glob_matcher()`
+  - `_target_dir_matcher` (function, line 103) `def _target_dir_matcher(name)`
+  - `_Rule` (class, line 109) `class _Rule`
+  - `CleanupEntry` (class, line 283) `class CleanupEntry`
+  - `CleanupPlan` (class, line 301) `class CleanupPlan`
+  - `CleanupResult` (class, line 334) `class CleanupResult`
+  - `human_size` (function, line 342) `def human_size(num_bytes)`
+  - `safe_label` (function, line 354) `def safe_label(name)`
+  - `entry_size` (function, line 371) `def entry_size(path)`
+  - `classify` (function, line 392) `def classify(name)`
+  - `_subset_filter` (function, line 405) `def _subset_filter(subset)`
+  - `build_plan` (function, line 415) `def build_plan(sessions_dir, subset)`
+  - `_default_remove` (function, line 455) `def _default_remove(entry)`
+  - `_unlink` (function, line 471) `def _unlink(path)`
+  - `_force_remove` (function, line 480) `def _force_remove(func, path, _exc_info)`
+  - `remove_entries` (function, line 486) `def remove_entries(entries, remover)`
+  - `_group_size` (function, line 511) `def _group_size(entries)`
+  - `_match` (function, line 97) `def _match(name)`
+  - `display_name` (method, line 295) `def display_name(self)`
+  - `by_tier` (method, line 308) `def by_tier(self, tier)`
+  - `grouped` (method, line 313) `def grouped(self, tier)`
+  - `tier_bytes` (method, line 321) `def tier_bytes(self, tier)`
+  - `removable` (method, line 325) `def removable(self, include_sensitive)`
+
 ## modules/session_state.py
 - Doc: LazyOwn Session State
 - Layer: utility
@@ -366,135 +495,6 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `refresh` (function, line 240) `def refresh()`
   - `load` (function, line 251) `def load()`
 - Imported by: `modules/recommender.py`
-
-## modules/shell_session_store.py
-- Doc: Resumable, hash-identified shell session descriptors.
-- Layer: data_access
-- Language: py
-- Symbols:
-  - `_store_dir` (function, line 35) `def _store_dir()`
-  - `_now_iso` (function, line 42) `def _now_iso()`
-  - `session_id` (function, line 49) `def session_id(target, via, created_at)`
-  - `_path_for` (function, line 66) `def _path_for(session)`
-  - `_write` (function, line 72) `def _write(record)`
-  - `register` (function, line 80) `def register(target, via, port, lhost, evidence)`
-  - `get` (function, line 123) `def get(session)`
-  - `list_sessions` (function, line 134) `def list_sessions(target)`
-  - `_live_keys` (function, line 164) `def _live_keys()`
-  - `mark_closed` (function, line 174) `def mark_closed(target, via)`
-  - `_reopen_primitive` (function, line 195) `def _reopen_primitive(target, via, lhost)`
-  - `resume` (function, line 214) `def resume(session)`
-- Depends on: `modules/atomic_exploit_bridge.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`
-
-## modules/sidequest.py
-- Doc: Read-only side questions against the loop's immutable decision checkpoints.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `checkpoint_id` (function, line 38) `def checkpoint_id(row)`
-  - `list_checkpoints` (function, line 61) `def list_checkpoints(run_id, limit)`
-  - `get_checkpoint` (function, line 99) `def get_checkpoint(ordinal)`
-  - `_render_context` (function, line 123) `def _render_context(row)`
-  - `ask` (function, line 142) `def ask(ordinal, question, temperature)`
-  - `_record_sidequest` (function, line 187) `def _record_sidequest(ordinal, question, answer)`
-- Depends on: `modules/llm_factory.py`, `modules/loop/__init__.py`
-
-## modules/sidequestion.py
-- Doc: Isolated side-question answering against immutable snapshots.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SideConfig` (class, line 19) `class SideConfig`
-  - `Snapshot` (class, line 32) `class Snapshot`
-  - `SideQuestion` (class, line 42) `class SideQuestion`
-  - `SideQuestionService` (class, line 52) `class SideQuestionService`
-  - `__init__` (method, line 55) `def __init__(self, answer_fn, config)`
-  - `capture` (method, line 66) `def capture(self, task_id, text)`
-  - `ask` (method, line 75) `def ask(self, snapshot_id, question)`
-  - `cancel` (method, line 104) `def cancel(self, request_id)`
-  - `history` (method, line 113) `def history(self, limit, before)`
-- Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
-
-## modules/sleep_obfuscation.py
-- Doc: Sleep obfuscation engine for beacon memory evasion.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `OsPlatform` (class, line 57) `class OsPlatform(str, Enum)`
-  - `TechniqueRisk` (class, line 64) `class TechniqueRisk(str, Enum)`
-  - `SleepTechnique` (class, line 73) `class SleepTechnique`
-  - `SleepObfuscationConfig` (class, line 100) `class SleepObfuscationConfig`
-  - `SleepTechniqueCatalog` (class, line 163) `class SleepTechniqueCatalog`
-  - `_build_default_catalog` (function, line 201) `def _build_default_catalog()`
-  - `SleepTechniqueValidator` (class, line 365) `class SleepTechniqueValidator`
-  - `SleepObfuscationEngine` (class, line 394) `class SleepObfuscationEngine`
-  - `to_dict` (method, line 129) `def to_dict(self)`
-  - `from_dict` (method, line 146) `def from_dict(cls, raw)`
-  - `__init__` (method, line 170) `def __init__(self)`
-  - `register` (method, line 173) `def register(self, technique)`
-  - `get` (method, line 177) `def get(self, name)`
-  - `list_all` (method, line 184) `def list_all(self)`
-  - `list_by_platform` (method, line 192) `def list_by_platform(self, platform)`
-  - `list_names` (method, line 196) `def list_names(self)`
-  - `validate` (method, line 369) `def validate(config, technique)`
-  - `validate_config` (method, line 386) `def validate_config(config)`
-  - `__init__` (method, line 407) `def __init__(self, catalog)`
-  - `catalog` (method, line 416) `def catalog(self)`
-  - `config` (method, line 421) `def config(self)`
-  - `detection_resistance` (method, line 426) `def detection_resistance(self)`
-  - `select` (method, line 442) `def select(self, technique_name)`
-  - `configure` (method, line 449) `def configure(self, technique, overrides)`
-  - `validate` (method, line 484) `def validate(self, config)`
-  - `recommend` (method, line 500) `def recommend(self, platform)`
-  - `to_dict` (method, line 513) `def to_dict(self)`
-  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
-
-## modules/smbver.sh
-- Doc: Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen...
-- Layer: utility
-- Language: sh
-
-## modules/socks_proxy.py
-- Doc: SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SocksAuthMethod` (class, line 65) `class SocksAuthMethod(IntEnum)`
-  - `SocksCommand` (class, line 74) `class SocksCommand(IntEnum)`
-  - `SocksAddressType` (class, line 82) `class SocksAddressType(IntEnum)`
-  - `SocksReply` (class, line 90) `class SocksReply(IntEnum)`
-  - `SocksSession` (class, line 120) `class SocksSession`
-  - `SocksProxyConfig` (class, line 166) `class SocksProxyConfig`
-  - `SocksValidator` (class, line 244) `class SocksValidator`
-  - `SocksProxyEngine` (class, line 368) `class SocksProxyEngine`
-  - `message` (method, line 103) `def message(self)`
-  - `elapsed_seconds` (method, line 144) `def elapsed_seconds(self)`
-  - `to_dict` (method, line 150) `def to_dict(self)`
-  - `to_dict` (method, line 199) `def to_dict(self)`
-  - `from_dict` (method, line 218) `def from_dict(cls, raw)`
-  - `validate_config` (method, line 253) `def validate_config(config)`
-  - `validate_request` (method, line 300) `def validate_request(command, address_type, host, port, config)`
-  - `_check_access_control` (method, line 340) `def _check_access_control(host, port, config)`
-  - `__init__` (method, line 381) `def __init__(self, config)`
-  - `config` (method, line 387) `def config(self)`
-  - `sessions` (method, line 392) `def sessions(self)`
-  - `session_count` (method, line 397) `def session_count(self)`
-  - `validate` (method, line 401) `def validate(self, config)`
-  - `build_spec` (method, line 413) `def build_spec(self)`
-  - `create_session` (method, line 436) `def create_session(self, session_id, target_host, target_port, beacon_client_id)`
-  - `remove_session` (method, line 475) `def remove_session(self, session_id)`
-  - `get_session` (method, line 482) `def get_session(self, session_id)`
-  - `add_bytes` (method, line 486) `def add_bytes(self, session_id, sent, received)`
-  - `cleanup_expired` (method, line 497) `def cleanup_expired(self)`
-  - `list_sessions` (method, line 511) `def list_sessions(self)`
-  - `_find_oldest_session` (method, line 515) `def _find_oldest_session(self)`
-  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
-  - `from_payload` (method, line 528) `def from_payload(cls, payload)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
 
 
 Next: [KB_modules_p18.md](KB_modules_p18.md)

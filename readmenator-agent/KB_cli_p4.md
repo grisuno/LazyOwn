@@ -50,21 +50,21 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `render_inline_hints` (function, line 230) `def render_inline_hints(advisor, last_command, limit, enabled)`
-  - `_first_token` (function, line 272) `def _first_token(raw)`
-  - `_extract_labels` (function, line 277) `def _extract_labels(suggestions, limit)`
-  - `_truncate` (function, line 288) `def _truncate(value, max_len)`
-  - `_render` (function, line 294) `def _render(labels)`
-  - `EvidenceHint` (class, line 309) `class EvidenceHint`
-  - `confidence_from_score` (function, line 331) `def confidence_from_score(score)`
-  - `_clean_reason` (function, line 353) `def _clean_reason(reasons)`
-  - `build_evidence_hints` (function, line 372) `def build_evidence_hints(recommendations, limit)`
-  - `render_evidence_hints` (function, line 410) `def render_evidence_hints(hints)`
-  - `build_evidence_hint_lines` (function, line 426) `def build_evidence_hint_lines(hints)`
-  - `read_run_commands` (function, line 453) `def read_run_commands(sessions_dir)`
-  - `_collect_command_hints` (function, line 486) `def _collect_command_hints(cmd, phase, already_run, limit)`
-  - `render_command_hints` (function, line 524) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
-  - `command_hints` (function, line 559) `def command_hints(last_command, phase, sessions_dir, limit)`
+  - `render_inline_hints` (function, line 234) `def render_inline_hints(advisor, last_command, limit, enabled)`
+  - `_first_token` (function, line 276) `def _first_token(raw)`
+  - `_extract_labels` (function, line 281) `def _extract_labels(suggestions, limit)`
+  - `_truncate` (function, line 292) `def _truncate(value, max_len)`
+  - `_render` (function, line 298) `def _render(labels)`
+  - `EvidenceHint` (class, line 313) `class EvidenceHint`
+  - `confidence_from_score` (function, line 335) `def confidence_from_score(score)`
+  - `_clean_reason` (function, line 357) `def _clean_reason(reasons)`
+  - `build_evidence_hints` (function, line 376) `def build_evidence_hints(recommendations, limit)`
+  - `render_evidence_hints` (function, line 414) `def render_evidence_hints(hints)`
+  - `build_evidence_hint_lines` (function, line 430) `def build_evidence_hint_lines(hints)`
+  - `read_run_commands` (function, line 457) `def read_run_commands(sessions_dir)`
+  - `_collect_command_hints` (function, line 490) `def _collect_command_hints(cmd, phase, already_run, limit)`
+  - `render_command_hints` (function, line 528) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
+  - `command_hints` (function, line 563) `def command_hints(last_command, phase, sessions_dir, limit)`
 - Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
 - Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
 
@@ -194,7 +194,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `iter_command_sets` (function, line 41) `def iter_command_sets(include_pending)`
   - `register_command_sets` (function, line 77) `def register_command_sets(shell)`
 - Depends on: `cli/commands/_dormancy.py`
-- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_exposure_command_sets.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_exploitdb_command_set.py`, `tests/test_exposure_command_sets.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/retry_support.py
 - Doc: Retry support - resume logic shared by the ``retry`` CLI surface.
@@ -233,7 +233,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `__init__` (method, line 280) `def __init__(self, scope_entries, mode, is_offensive, deny_entries)`
   - `evaluate` (method, line 304) `def evaluate(self, command, target)`
 - Depends on: `cli/commands/enum.py`
-- Imported by: `lazyown.py`, `tests/test_scope_guard.py`
+- Imported by: `lazyown.py`, `sdk/lazymode/runner.py`, `tests/test_scope_guard.py`
 
 ## cli/session_brief.py
 - Doc: Consolidated session-start brief for the LazyOwn shell.
@@ -329,7 +329,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Language: py
 - Symbols:
   - `format_payload` (function, line 14) `def format_payload(params)`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
+- Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
 
 ## cli/splash.py
 - Doc: Animated splash overlay for the LazyOwn first-run experience.
@@ -430,7 +430,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `paint` (function, line 84) `def paint(text, token, payload)`
   - `render_prompt` (function, line 98) `def render_prompt(console, segments, payload)`
 - Depends on: `cli/themes.py`
-- Imported by: `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
+- Imported by: `2026-11-18_112624/jquery-1.11.3.min.js`, `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
 
 ## cli/surface_graph.py
 - Doc: Network surface graph reader for the LazyOwn shell.

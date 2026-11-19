@@ -1,8 +1,14 @@
-# Symbols (page 6 of 53)
+# Symbols (page 6 of 54)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
+| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
+| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
+| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
+| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
+| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
 | `ProTip` | class | `cli/protips.py:34` | `class ProTip` |
 | `_after` | function | `cli/protips.py:75` | `def _after(ctx)` |
 | `_has_api_key` | function | `cli/protips.py:59` | `def _has_api_key(ctx)` |
@@ -31,21 +37,21 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `launch` | function | `cli/purple_tui.py:233` | `def launch()` |
 | `on_mount` | method | `cli/purple_tui.py:108` | `def on_mount(self)` |
 | `refresh_data` | method | `cli/purple_tui.py:115` | `def refresh_data(self)` |
-| `EvidenceHint` | class | `cli/reactive_hints.py:309` | `class EvidenceHint` |
-| `_clean_reason` | function | `cli/reactive_hints.py:353` | `def _clean_reason(reasons)` |
-| `_collect_command_hints` | function | `cli/reactive_hints.py:486` | `def _collect_command_hints(cmd, phase, already_run, limit)` |
-| `_extract_labels` | function | `cli/reactive_hints.py:277` | `def _extract_labels(suggestions, limit)` |
-| `_first_token` | function | `cli/reactive_hints.py:272` | `def _first_token(raw)` |
-| `_render` | function | `cli/reactive_hints.py:294` | `def _render(labels)` |
-| `_truncate` | function | `cli/reactive_hints.py:288` | `def _truncate(value, max_len)` |
-| `build_evidence_hint_lines` | function | `cli/reactive_hints.py:426` | `def build_evidence_hint_lines(hints)` |
-| `build_evidence_hints` | function | `cli/reactive_hints.py:372` | `def build_evidence_hints(recommendations, limit)` |
-| `command_hints` | function | `cli/reactive_hints.py:559` | `def command_hints(last_command, phase, sessions_dir, limit)` |
-| `confidence_from_score` | function | `cli/reactive_hints.py:331` | `def confidence_from_score(score)` |
-| `read_run_commands` | function | `cli/reactive_hints.py:453` | `def read_run_commands(sessions_dir)` |
-| `render_command_hints` | function | `cli/reactive_hints.py:524` | `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` |
-| `render_evidence_hints` | function | `cli/reactive_hints.py:410` | `def render_evidence_hints(hints)` |
-| `render_inline_hints` | function | `cli/reactive_hints.py:230` | `def render_inline_hints(advisor, last_command, limit, enabled)` |
+| `EvidenceHint` | class | `cli/reactive_hints.py:313` | `class EvidenceHint` |
+| `_clean_reason` | function | `cli/reactive_hints.py:357` | `def _clean_reason(reasons)` |
+| `_collect_command_hints` | function | `cli/reactive_hints.py:490` | `def _collect_command_hints(cmd, phase, already_run, limit)` |
+| `_extract_labels` | function | `cli/reactive_hints.py:281` | `def _extract_labels(suggestions, limit)` |
+| `_first_token` | function | `cli/reactive_hints.py:276` | `def _first_token(raw)` |
+| `_render` | function | `cli/reactive_hints.py:298` | `def _render(labels)` |
+| `_truncate` | function | `cli/reactive_hints.py:292` | `def _truncate(value, max_len)` |
+| `build_evidence_hint_lines` | function | `cli/reactive_hints.py:430` | `def build_evidence_hint_lines(hints)` |
+| `build_evidence_hints` | function | `cli/reactive_hints.py:376` | `def build_evidence_hints(recommendations, limit)` |
+| `command_hints` | function | `cli/reactive_hints.py:563` | `def command_hints(last_command, phase, sessions_dir, limit)` |
+| `confidence_from_score` | function | `cli/reactive_hints.py:335` | `def confidence_from_score(score)` |
+| `read_run_commands` | function | `cli/reactive_hints.py:457` | `def read_run_commands(sessions_dir)` |
+| `render_command_hints` | function | `cli/reactive_hints.py:528` | `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` |
+| `render_evidence_hints` | function | `cli/reactive_hints.py:414` | `def render_evidence_hints(hints)` |
+| `render_inline_hints` | function | `cli/reactive_hints.py:234` | `def render_inline_hints(advisor, last_command, limit, enabled)` |
 | `ReasoningEntry` | class | `cli/reasoning_stream.py:66` | `class ReasoningEntry` |
 | `_extract_reward` | function | `cli/reasoning_stream.py:175` | `def _extract_reward(payload)` |
 | `_format_size` | function | `cli/reasoning_stream.py:134` | `def _format_size(num_bytes)` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
 | `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
 | `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
-| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
-| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
-| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
-| `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
-| `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
-| `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

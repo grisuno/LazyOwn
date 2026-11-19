@@ -1,6 +1,78 @@
 # Subsystem: modules (page 15 of 19)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/moe_router.py
+- Doc: modules/moe_router.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `ExpertProfile` (class, line 83) `class ExpertProfile`
+  - `ExpertPerformance` (class, line 101) `class ExpertPerformance`
+  - `IExpertSelector` (class, line 257) `class IExpertSelector(ABC)`
+  - `ExpertPerformanceStore` (class, line 276) `class ExpertPerformanceStore`
+  - `SoftmaxSelector` (class, line 368) `class SoftmaxSelector(IExpertSelector)`
+  - `_softmax` (function, line 423) `def _softmax(values, temperature)`
+  - `ExpertAvailabilityChecker` (class, line 437) `class ExpertAvailabilityChecker`
+  - `MoERouter` (class, line 489) `class MoERouter`
+  - `_load_groq_key` (function, line 665) `def _load_groq_key()`
+  - `get_router` (function, line 684) `def get_router(api_key)`
+  - `is_local` (method, line 96) `def is_local(self)`
+  - `update` (method, line 115) `def update(self, reward, detection_prob)`
+  - `select` (method, line 261) `def select(self, candidates, task_type, performance_store, deterministic)`
+  - `__init__` (method, line 283) `def __init__(self, path)`
+  - `_key` (method, line 293) `def _key(expert_id, task_type)`
+  - `record` (method, line 298) `def record(self, expert_id, task_type, reward, detection_prob)`
+  - `get` (method, line 316) `def get(self, expert_id, task_type)`
+  - `all_for_task` (method, line 321) `def all_for_task(self, task_type)`
+  - `performance_bonus` (method, line 325) `def performance_bonus(self, expert_id, task_type)`
+  - `_save` (method, line 341) `def _save(self)`
+  - `_load` (method, line 350) `def _load(self)`
+  - `__init__` (method, line 377) `def __init__(self, temperature)`
+  - `temperature` (method, line 381) `def temperature(self)`
+  - `temperature` (method, line 385) `def temperature(self, value)`
+  - `select` (method, line 388) `def select(self, candidates, task_type, performance_store, deterministic)`
+  - `_compute_weights` (method, line 410) `def _compute_weights(candidates, task_type, store)`
+  - `__init__` (method, line 443) `def __init__(self)`
+  - `is_available` (method, line 447) `def is_available(self, expert, api_key)`
+  - `_check` (method, line 458) `def _check(expert, api_key)`
+  - `__init__` (method, line 500) `def __init__(self, experts, selector, performance_store, api_key)`
+  - `route` (method, line 515) `def route(self, task_type, goal, deterministic)`
+  - `ensemble` (method, line 547) `def ensemble(self, task_type, goal, n)`
+  - `record_outcome` (method, line 575) `def record_outcome(self, expert_id, task_type, reward, detection_prob)`
+  - `top_experts_for_task` (method, line 589) `def top_experts_for_task(self, task_type, top_k)`
+  - `get_expert` (method, line 605) `def get_expert(self, expert_id)`
+  - `status_report` (method, line 609) `def status_report(self)`
+  - `_available_for_task` (method, line 640) `def _available_for_task(self, task_type)`
+  - `_anneal_temperature` (method, line 645) `def _anneal_temperature(self)`
+  - `adjusted_weight` (function, line 562) `def adjusted_weight(ep)`
+- Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
+- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
+
+## modules/morse.py
+- Doc: Morse code conversion service with interactive driver.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MorseConfig` (class, line 16) `class MorseConfig`
+  - `reverse_morse_code` (function, line 98) `def reverse_morse_code()`
+  - `text_to_morse` (function, line 109) `def text_to_morse(text, config)`
+  - `morse_to_text` (function, line 130) `def morse_to_text(morse_code, config)`
+  - `clear_screen` (function, line 157) `def clear_screen(config)`
+  - `read_choice` (function, line 171) `def read_choice(config)`
+  - `run_driver` (function, line 186) `def run_driver(config)`
+
+## modules/mysql_hookandroot_lib.c
+- Doc: reverse_shell: fork & send a bash shell to the attacker before starting mysqld
+- Layer: utility
+- Language: c
+- Symbols:
+  - `reverse_shell` (function, line 74) `void reverse_shell(void)`
+  - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
+  - `_GNU_SOURCE` (macro, line 50) `#define _GNU_SOURCE`
+  - `ATTACKERS_IP` (macro, line 64) `#define ATTACKERS_IP`
+  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
+  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
+
 ## modules/network_opsec.py
 - Doc: Network OPSEC — proxy chain enforcement, canary detection, traffic randomization.
 - Layer: utility
@@ -81,7 +153,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `search_query` (method, line 109) `def search_query(self)`
   - `display_name` (method, line 115) `def display_name(self)`
   - `next_commands` (method, line 120) `def next_commands(self)`
-- Imported by: `cli/exploit_advisor.py`, `modules/exploit_chain.py`
+- Imported by: `cli/exploit_advisor.py`, `modules/exploit_chain.py`, `sdk/facade.py`
 
 ## modules/notify.py
 - Doc: Stateless multi-channel notifier for finding events.
@@ -336,7 +408,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `reset` (function, line 850) `def reset()`
   - `validate_config` (function, line 857) `def validate_config(data)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/osint_enrich.py
 - Doc: Keyless OSINT enrichment for finding evidence.
@@ -399,77 +471,7 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `record` (method, line 205) `def record(self, event, sinks)`
   - `_append_ledger` (method, line 252) `def _append_ledger(self, event, statuses)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
-
-## modules/payload_factory.py
-- Doc: Native payload generation framework — stagers, stages, singles, formats.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `_build_linux_x64_reverse_tcp` (function, line 118) `def _build_linux_x64_reverse_tcp(lhost, lport)`
-  - `_patch_shellcode_x64` (function, line 190) `def _patch_shellcode_x64(raw, lhost, lport)`
-  - `PayloadTemplate` (class, line 216) `class PayloadTemplate(ABC)`
-  - `ReverseShellPayload` (class, line 251) `class ReverseShellPayload(PayloadTemplate)`
-  - `WindowsReverseShellPayload` (class, line 290) `class WindowsReverseShellPayload(PayloadTemplate)`
-  - `MsfvenomPayload` (class, line 322) `class MsfvenomPayload(PayloadTemplate)`
-  - `ShellcodePayload` (class, line 363) `class ShellcodePayload(PayloadTemplate)`
-  - `DynamicShellcodePayload` (class, line 409) `class DynamicShellcodePayload(PayloadTemplate)`
-  - `_parse_escaped_hex` (function, line 442) `def _parse_escaped_hex(escaped)`
-  - `PayloadFactory` (class, line 457) `class PayloadFactory`
-  - `format_payload_table` (function, line 672) `def format_payload_table(payloads)`
-  - `__init__` (method, line 222) `def __init__(self, name, platform, arch, description, options)`
-  - `generate` (method, line 237) `def generate(self)`
-  - `to_dict` (method, line 241) `def to_dict(self)`
-  - `__init__` (method, line 254) `def __init__(self)`
-  - `generate` (method, line 272) `def generate(self)`
-  - `__init__` (method, line 293) `def __init__(self)`
-  - `generate` (method, line 305) `def generate(self)`
-  - `__init__` (method, line 325) `def __init__(self, name, platform, arch)`
-  - `generate` (method, line 337) `def generate(self)`
-  - `__init__` (method, line 374) `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
-  - `generate` (method, line 397) `def generate(self)`
-  - `__init__` (method, line 416) `def __init__(self, name, platform, arch, description, builder)`
-  - `generate` (method, line 436) `def generate(self)`
-  - `__init__` (method, line 464) `def __init__(self)`
-  - `_register_builtins` (method, line 468) `def _register_builtins(self)`
-  - `register` (method, line 512) `def register(self, template)`
-  - `list` (method, line 516) `def list(self, platform)`
-  - `get` (method, line 525) `def get(self, name)`
-  - `generate` (method, line 529) `def generate(self, name, format, output)`
-  - `_apply_format` (method, line 575) `def _apply_format(data, fmt)`
-  - `list_formats` (method, line 664) `def list_formats()`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `modules/sinks/beacon_dispatch.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
-
-## modules/phishing_orchestrator.py
-- Doc: Smart Phishing Campaign Orchestrator.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
-  - `_encrypt_credential` (function, line 84) `def _encrypt_credential(plaintext)`
-  - `_decrypt_credential` (function, line 100) `def _decrypt_credential(encrypted_b64)`
-  - `_hash_credential_for_log` (function, line 116) `def _hash_credential_for_log(plaintext)`
-  - `CampaignTarget` (class, line 139) `class CampaignTarget`
-  - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
-  - `CampaignResult` (class, line 167) `class CampaignResult`
-  - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
-  - `__init__` (method, line 399) `def __init__(self)`
-  - `get_instance` (method, line 404) `def get_instance(cls)`
-  - `launch` (method, line 415) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
-  - `profile_targets` (method, line 524) `def profile_targets(self, domain)`
-  - `generate_template` (method, line 569) `def generate_template(self, name, target_domain, context)`
-  - `clone_landing_page` (method, line 616) `def clone_landing_page(self, url)`
-  - `get_results` (method, line 643) `def get_results(self, campaign_id)`
-  - `record_click` (method, line 667) `def record_click(self, campaign_id, email)`
-  - `record_credentials` (method, line 688) `def record_credentials(self, campaign_id, email, password)`
-  - `_load_targets_from_file` (method, line 727) `def _load_targets_from_file(self, filepath)`
-  - `_generate_landing_page` (method, line 766) `def _generate_landing_page(self, template, target_domain, campaign_id)`
-  - `_setup_harvesting_endpoint` (method, line 806) `def _setup_harvesting_endpoint(self, campaign_id)`
-  - `_send_email` (method, line 818) `def _send_email(self, to_email, subject, html_body, smtp_config)`
-  - `_inject_harvester` (method, line 852) `def _inject_harvester(self, html, page_id)`
-  - `_load_config` (method, line 891) `def _load_config(self)`
-- Depends on: `core/crypto.py`, `core/hardening.py`
-- Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `tests/test_security_hardening_v3.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

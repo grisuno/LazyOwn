@@ -1,6 +1,74 @@
 # Subsystem: modules (page 5 of 19)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/dashboard_engine.py
+- Doc: Live Network Map Dashboard for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_parse_nmap_xml_services` (function, line 39) `def _parse_nmap_xml_services(sessions_dir)`
+  - `DashboardNode` (class, line 99) `class DashboardNode`
+  - `DashboardEdge` (class, line 111) `class DashboardEdge`
+  - `DashboardEngine` (class, line 118) `class DashboardEngine`
+  - `__init__` (method, line 139) `def __init__(self, world_model)`
+  - `set_world_model` (method, line 148) `def set_world_model(self, model)`
+  - `set_exploit_recommender` (method, line 151) `def set_exploit_recommender(self, recommender)`
+  - `set_auto_pivot` (method, line 154) `def set_auto_pivot(self, pivot)`
+  - `set_evasion_engine` (method, line 157) `def set_evasion_engine(self, evasion)`
+  - `build_snapshot` (method, line 160) `def build_snapshot(self)`
+  - `render_text_map` (method, line 276) `def render_text_map(self, snapshot)`
+  - `render_ascii_topology` (method, line 358) `def render_ascii_topology(self, snapshot)`
+  - `_phase_icon` (method, line 398) `def _phase_icon(phase)`
+  - `export_json` (method, line 408) `def export_json(self, snapshot)`
+  - `persist_snapshot` (method, line 421) `def persist_snapshot(self, snapshot)`
+  - `format_for_cli` (method, line 438) `def format_for_cli(self, snapshot)`
+- Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/dashboard_snapshot.py`, `skills/mcp_tools/rich_tui_snapshot.py`
+
+## modules/db.py
+- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
+  - `get_db` (function, line 821) `def get_db(db_path)`
+  - `__init__` (method, line 159) `def __init__(self, db_path)`
+  - `_get_conn` (method, line 171) `def _get_conn(self)`
+  - `db_path` (method, line 182) `def db_path(self)`
+  - `_init_schema` (method, line 186) `def _init_schema(self)`
+  - `_current_version` (method, line 192) `def _current_version(self)`
+  - `_run_migrations` (method, line 197) `def _run_migrations(self)`
+  - `migration_status` (method, line 222) `def migration_status(self)`
+  - `_cursor` (method, line 235) `def _cursor(self)`
+  - `_maybe_encrypt` (method, line 251) `def _maybe_encrypt(self, value)`
+  - `_maybe_decrypt` (method, line 273) `def _maybe_decrypt(self, value)`
+  - `workspace_create` (method, line 292) `def workspace_create(self, name, description)`
+  - `workspace_list` (method, line 307) `def workspace_list(self)`
+  - `workspace_get` (method, line 313) `def workspace_get(self, name)`
+  - `default_workspace` (method, line 320) `def default_workspace(self, name)`
+  - `workspace_delete` (method, line 333) `def workspace_delete(self, name)`
+  - `host_add` (method, line 357) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
+  - `host_delete` (method, line 390) `def host_delete(self, host_id)`
+  - `host_list` (method, line 401) `def host_list(self, workspace_id)`
+  - `host_find` (method, line 410) `def host_find(self, workspace_id, query)`
+  - `service_add` (method, line 427) `def service_add(self, host_id, port, protocol, state, name, product, version)`
+  - `service_list` (method, line 447) `def service_list(self, host_id)`
+  - `vuln_add` (method, line 460) `def vuln_add(self, host_id, name, severity, description, refs)`
+  - `vuln_get` (method, line 478) `def vuln_get(self, vuln_id)`
+  - `vuln_update` (method, line 490) `def vuln_update(self, vuln_id, refs, severity, description)`
+  - `vuln_list` (method, line 528) `def vuln_list(self, workspace_id, severity)`
+  - `cred_add` (method, line 557) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
+  - `cred_list` (method, line 577) `def cred_list(self, workspace_id)`
+  - `loot_add` (method, line 596) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
+  - `loot_list` (method, line 615) `def loot_list(self, workspace_id)`
+  - `note_add` (method, line 631) `def note_add(self, workspace_id, data, note_type, host_id)`
+  - `note_list` (method, line 648) `def note_list(self, workspace_id)`
+  - `import_nmap_xml` (method, line 664) `def import_nmap_xml(self, workspace_id, xml_path)`
+  - `export_csv` (method, line 740) `def export_csv(self, table, workspace_id)`
+  - `status` (method, line 775) `def status(self, workspace_id)`
+  - `close` (method, line 804) `def close(self)`
+- Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/db.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
+
 ## modules/defense_eval.py
 - Doc: Detection rule replay over recorded attack and control logs.
 - Layer: utility
@@ -323,49 +391,49 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_safe_str` (function, line 78) `def _safe_str(value, maxlen)`
-  - `_load_payload` (function, line 88) `def _load_payload()`
-  - `EngagementEvent` (class, line 101) `class EngagementEvent`
-  - `INotificationSink` (class, line 150) `class INotificationSink(ABC)`
-  - `StreamEventSink` (class, line 167) `class StreamEventSink(INotificationSink)`
-  - `CollabNotificationSink` (class, line 204) `class CollabNotificationSink(INotificationSink)`
-  - `_OutboundHTTPSink` (class, line 242) `class _OutboundHTTPSink(INotificationSink)`
-  - `TelegramNotificationSink` (class, line 278) `class TelegramNotificationSink(_OutboundHTTPSink)`
-  - `DiscordNotificationSink` (class, line 311) `class DiscordNotificationSink(_OutboundHTTPSink)`
-  - `NotificationBroadcaster` (class, line 336) `class NotificationBroadcaster`
-  - `EngagementNarrator` (class, line 382) `class EngagementNarrator`
-  - `_load_seen_beacons` (function, line 444) `def _load_seen_beacons()`
-  - `_save_seen_beacons` (function, line 455) `def _save_seen_beacons(seen)`
-  - `_sanitize_client_id` (function, line 466) `def _sanitize_client_id(client_id)`
-  - `get_default_narrator` (function, line 482) `def get_default_narrator()`
-  - `publish_shell_obtained` (function, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
-  - `append_approval_record` (function, line 564) `def append_approval_record(record)`
-  - `list_pending_approvals` (function, line 575) `def list_pending_approvals()`
-  - `resolve_approval` (function, line 601) `def resolve_approval(approval_id, decision, operator)`
-  - `is_valid_target` (function, line 626) `def is_valid_target(value)`
-  - `now` (method, line 124) `def now(cls, kind, target, message, payload, severity)`
-  - `render_line` (method, line 143) `def render_line(self)`
-  - `name` (method, line 155) `def name(self)`
-  - `deliver` (method, line 159) `def deliver(self, event)`
-  - `name` (method, line 178) `def name(self)`
-  - `deliver` (method, line 181) `def deliver(self, event)`
-  - `name` (method, line 213) `def name(self)`
-  - `deliver` (method, line 216) `def deliver(self, event)`
-  - `name` (method, line 252) `def name(self)`
-  - `_build_request` (method, line 255) `def _build_request(self, event)`
-  - `deliver` (method, line 258) `def deliver(self, event)`
-  - `name` (method, line 288) `def name(self)`
-  - `_build_request` (method, line 291) `def _build_request(self, event)`
-  - `name` (method, line 320) `def name(self)`
-  - `_build_request` (method, line 323) `def _build_request(self, event)`
-  - `__init__` (method, line 349) `def __init__(self, sinks)`
-  - `default` (method, line 354) `def default(cls)`
-  - `add` (method, line 365) `def add(self, sink)`
-  - `deliver` (method, line 370) `def deliver(self, event)`
-  - `__init__` (method, line 393) `def __init__(self, broadcaster)`
-  - `narrate` (method, line 400) `def narrate(self, kind, target, message, payload, severity)`
-  - `_persist` (method, line 417) `def _persist(self, event)`
-- Depends on: `core/logging.py`, `modules/collab_bp.py`
+  - `_safe_str` (function, line 82) `def _safe_str(value, maxlen)`
+  - `_load_payload` (function, line 92) `def _load_payload()`
+  - `EngagementEvent` (class, line 105) `class EngagementEvent`
+  - `INotificationSink` (class, line 154) `class INotificationSink(ABC)`
+  - `StreamEventSink` (class, line 171) `class StreamEventSink(INotificationSink)`
+  - `CollabNotificationSink` (class, line 208) `class CollabNotificationSink(INotificationSink)`
+  - `_OutboundHTTPSink` (class, line 246) `class _OutboundHTTPSink(INotificationSink)`
+  - `TelegramNotificationSink` (class, line 282) `class TelegramNotificationSink(_OutboundHTTPSink)`
+  - `DiscordNotificationSink` (class, line 315) `class DiscordNotificationSink(_OutboundHTTPSink)`
+  - `NotificationBroadcaster` (class, line 340) `class NotificationBroadcaster`
+  - `EngagementNarrator` (class, line 386) `class EngagementNarrator`
+  - `_load_seen_beacons` (function, line 448) `def _load_seen_beacons()`
+  - `_save_seen_beacons` (function, line 459) `def _save_seen_beacons(seen)`
+  - `_sanitize_client_id` (function, line 470) `def _sanitize_client_id(client_id)`
+  - `get_default_narrator` (function, line 485) `def get_default_narrator()`
+  - `publish_shell_obtained` (function, line 494) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
+  - `append_approval_record` (function, line 567) `def append_approval_record(record)`
+  - `list_pending_approvals` (function, line 578) `def list_pending_approvals()`
+  - `resolve_approval` (function, line 604) `def resolve_approval(approval_id, decision, operator)`
+  - `is_valid_target` (function, line 629) `def is_valid_target(value)`
+  - `now` (method, line 128) `def now(cls, kind, target, message, payload, severity)`
+  - `render_line` (method, line 147) `def render_line(self)`
+  - `name` (method, line 159) `def name(self)`
+  - `deliver` (method, line 163) `def deliver(self, event)`
+  - `name` (method, line 182) `def name(self)`
+  - `deliver` (method, line 185) `def deliver(self, event)`
+  - `name` (method, line 217) `def name(self)`
+  - `deliver` (method, line 220) `def deliver(self, event)`
+  - `name` (method, line 256) `def name(self)`
+  - `_build_request` (method, line 259) `def _build_request(self, event)`
+  - `deliver` (method, line 262) `def deliver(self, event)`
+  - `name` (method, line 292) `def name(self)`
+  - `_build_request` (method, line 295) `def _build_request(self, event)`
+  - `name` (method, line 324) `def name(self)`
+  - `_build_request` (method, line 327) `def _build_request(self, event)`
+  - `__init__` (method, line 353) `def __init__(self, sinks)`
+  - `default` (method, line 358) `def default(cls)`
+  - `add` (method, line 369) `def add(self, sink)`
+  - `deliver` (method, line 374) `def deliver(self, event)`
+  - `__init__` (method, line 397) `def __init__(self, broadcaster)`
+  - `narrate` (method, line 404) `def narrate(self, kind, target, message, payload, severity)`
+  - `_persist` (method, line 421) `def _persist(self, event)`
+- Depends on: `core/logging.py`, `modules/collab_bp.py`, `modules/security_sanitizers.py`
 - Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
 
 ## modules/enrich.py
@@ -384,7 +452,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `submit` (method, line 108) `def submit(self, target)`
   - `_run` (method, line 121) `def _run(self, target)`
   - `shutdown` (method, line 128) `def shutdown(self, wait)`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `modules/loop/objective_bootstrap.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
 
 ## modules/entra_id_attacks.py
 - Doc: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.
@@ -422,61 +490,6 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `load_lan_bundle` (function, line 288) `def load_lan_bundle(path)`
   - `split_lan_targets` (function, line 323) `def split_lan_targets(est)`
 - Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
-
-## modules/estorides_importer.py
-- Doc: estorides_importer
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
-  - `ImportResult` (class, line 96) `class ImportResult`
-  - `SeedResult` (class, line 128) `class SeedResult`
-  - `extract_seeds_from_world_model` (function, line 143) `def extract_seeds_from_world_model(world_model_path)`
-  - `extract_seeds_from_hosts_file` (function, line 177) `def extract_seeds_from_hosts_file(path)`
-  - `extract_seeds_from_db` (function, line 205) `def extract_seeds_from_db(db_path)`
-  - `extract_seeds_from_scope` (function, line 244) `def extract_seeds_from_scope(scope_entries)`
-  - `run_estorides_discover` (function, line 274) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
-  - `run_estorides_run` (function, line 334) `def run_estorides_run(query, out_json, timeout)`
-  - `EstoridesCaseReader` (class, line 387) `class EstoridesCaseReader`
-  - `EstoridesStixParser` (class, line 497) `class EstoridesStixParser`
-  - `find_lan_bundle_files` (function, line 588) `def find_lan_bundle_files(lan_dir, sessions_dir)`
-  - `LanBundleReader` (class, line 624) `class LanBundleReader`
-  - `ensure_directories` (function, line 696) `def ensure_directories()`
-  - `EstoridesToLazyOwnBridge` (class, line 702) `class EstoridesToLazyOwnBridge`
-  - `FeedbackLoop` (class, line 885) `class FeedbackLoop`
-  - `export_combined_graph` (function, line 1031) `def export_combined_graph(output_path)`
-  - `success` (method, line 110) `def success(self)`
-  - `to_dict` (method, line 113) `def to_dict(self)`
-  - `new_assets` (method, line 139) `def new_assets(self)`
-  - `__init__` (method, line 390) `def __init__(self, db_path)`
-  - `available` (method, line 395) `def available(self)`
-  - `_ensure_conn` (method, line 398) `def _ensure_conn(self)`
-  - `list_cases` (method, line 404) `def list_cases(self, limit)`
-  - `get_entities` (method, line 416) `def get_entities(self, case_id, entity_types, limit)`
-  - `get_host_entities` (method, line 471) `def get_host_entities(self, case_id)`
-  - `get_all_entities` (method, line 475) `def get_all_entities(self, case_id)`
-  - `stats` (method, line 478) `def stats(self)`
-  - `close` (method, line 491) `def close(self)`
-  - `__init__` (method, line 513) `def __init__(self, stix_path)`
-  - `available` (method, line 517) `def available(self)`
-  - `parse` (method, line 520) `def parse(self)`
-  - `parse_by_type` (method, line 554) `def parse_by_type(self, entity_types)`
-  - `_extract_value` (method, line 565) `def _extract_value(obj, stix_type)`
-  - `__init__` (method, line 634) `def __init__(self, lan_dir)`
-  - `available` (method, line 638) `def available(self)`
-  - `read_devices` (method, line 641) `def read_devices(self)`
-  - `parse` (method, line 654) `def parse(self)`
-  - `attack_targets` (method, line 685) `def attack_targets(self)`
-  - `__init__` (method, line 705) `def __init__(self, db_path, config_path)`
-  - `import_entities` (method, line 713) `def import_entities(self, entities, add_to_scope, add_to_db)`
-  - `_import_to_db` (method, line 757) `def _import_to_db(self, imports, result)`
-  - `_import_to_scope` (method, line 803) `def _import_to_scope(self, imports, result)`
-  - `get_combined_surface` (method, line 836) `def get_combined_surface(self)`
-  - `__init__` (method, line 896) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-  - `run` (method, line 912) `def run(self, seed_methods)`
-  - `_gather_seeds` (method, line 1005) `def _gather_seeds(self, methods, seen)`
-- Depends on: `core/logging.py`, `modules/db.py`, `modules/world_model.py`
-- Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

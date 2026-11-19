@@ -278,7 +278,7 @@ def start(scenario: str) -> dict:
     stale = name in existing_containers()
     if stale:
         _docker("rm", "-f", name, timeout=DOCKER_INSPECT_TIMEOUT_SEC)
-    cmd = ["run", "-d", "-i", "--rm", "--name", name]
+    cmd = ["run", "-d", "-i", "--restart", "unless-stopped", "--name", name]
     if info.get("privileged"):
         cmd.append("--privileged")
     for env_key, env_value in (info.get("env") or {}).items():

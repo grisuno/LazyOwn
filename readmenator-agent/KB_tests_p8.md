@@ -351,6 +351,26 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_dotted_symbol_exists_uses_ast_not_import` (function, line 47) `def test_dotted_symbol_exists_uses_ast_not_import(tmp_path)`
 - Depends on: `scripts/check_contract_manifest.py`
 
+## tests/test_control_plane.py
+- Doc: Contract tests for modules/loop/control_plane.py.
+- Language: py
+- Symbols:
+  - `_FakeControl` (class, line 13) `class _FakeControl`
+  - `_run` (function, line 34) `def _run(control, emit)`
+  - `_collect` (function, line 54) `def _collect()`
+  - `test_no_control_continues` (function, line 59) `def test_no_control_continues()`
+  - `test_out_of_focus_stops` (function, line 65) `def test_out_of_focus_stops()`
+  - `test_in_focus_not_paused_continues` (function, line 73) `def test_in_focus_not_paused_continues()`
+  - `test_paused_then_resumed_continues` (function, line 80) `def test_paused_then_resumed_continues()`
+  - `test_paused_beyond_ceiling_stops` (function, line 88) `def test_paused_beyond_ceiling_stops()`
+  - `test_paused_without_waiter_skips_pause` (function, line 96) `def test_paused_without_waiter_skips_pause()`
+  - `test_control_error_fails_open` (function, line 103) `def test_control_error_fails_open()`
+  - `__init__` (method, line 16) `def __init__(self, in_focus, paused, focus_targets, raise_on)`
+  - `target_in_focus` (method, line 22) `def target_in_focus(self, _target)`
+  - `is_paused` (method, line 27) `def is_paused(self)`
+  - `load` (method, line 30) `def load(self)`
+- Depends on: `modules/loop/control_plane.py`
+
 ## tests/test_core.py
 - Doc: ``core`` package and ``utils`` re-export tests.
 - Layer: testing
@@ -451,33 +471,6 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_missing_required_fields_reported_as_errors` (method, line 169) `def test_missing_required_fields_reported_as_errors(self, tmp_path)`
   - `test_invalid_types_reported_as_warnings` (method, line 180) `def test_invalid_types_reported_as_warnings(self, tmp_path)`
 - Depends on: `core/config.py`, `core/payload_schema.py`
-
-## tests/test_core_defaults.py
-- Doc: Build-time defaults are data, not literals.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
-  - `TestLoader` (class, line 28) `class TestLoader`
-  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
-  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
-  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
-  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
-  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
-  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
-  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
-  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
-  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
-  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
-  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
-  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
-  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
-  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
-  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
-  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
-  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
-  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
-- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
 
 
 Next: [KB_tests_p9.md](KB_tests_p9.md)

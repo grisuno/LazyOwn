@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
-| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
-| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
 | `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
 | `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
 | `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
 | `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
 | `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
+| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
+| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
+| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

@@ -3,8 +3,6 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `discover_subnets` | method | `modules/auto_pivot.py:128` | `def discover_subnets(self, node_ip, command_output)` |
-| `generate_chisel_command` | method | `modules/auto_pivot.py:206` | `def generate_chisel_command(self, target_ip, local_port)` |
 | `generate_proxychains_config` | method | `modules/auto_pivot.py:177` | `def generate_proxychains_config(self, chain_id)` |
 | `generate_ssh_socks_command` | method | `modules/auto_pivot.py:212` | `def generate_ssh_socks_command(self, node_ip, local_port)` |
 | `generate_sshuttle_command` | method | `modules/auto_pivot.py:203` | `def generate_sshuttle_command(self, node_ip, subnet)` |
@@ -496,5 +494,7 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `WebSocketProfile` | class | `modules/c2_profile_engine.py:349` | `class WebSocketProfile` |
 | `__init__` | method | `modules/c2_profile_engine.py:453` | `def __init__(self, slots)` |
 | `__init__` | method | `modules/c2_profile_engine.py:627` | `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)` |
+| `_default_slots` | method | `modules/c2_profile_engine.py:709` | `def _default_slots(self)` |
+| `active_transport` | method | `modules/c2_profile_engine.py:668` | `def active_transport(self)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

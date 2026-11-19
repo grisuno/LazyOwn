@@ -2,6 +2,17 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_nuclei_parser.py` -> `modules/integrations/nuclei_parser.py`
+- `tests/test_objective_bootstrap.py` -> `modules/loop/objective_bootstrap.py`
+- `tests/test_opencode_mcp_harness.py` -> `modules/__init__.py`
+- `tests/test_opencode_mcp_harness.py` -> `skills/lazyown_mcp_opencode.py`
+- `tests/test_ops_loot_phase.py` -> `cli/ops_commands.py`
+- `tests/test_ops_loot_phase.py` -> `modules/world_model.py`
+- `tests/test_opsec_scorer.py` -> `modules/opsec_scorer.py`
+- `tests/test_opsec_scorer_consolidated.py` -> `modules/opsec_scorer.py`
+- `tests/test_orchestrator_api.py` -> `core/api_authz.py`
+- `tests/test_orchestrator_api.py` -> `lazyc2/blueprints/orchestrator.py`
+- `tests/test_orchestrator_api.py` -> `modules/__init__.py`
 - `tests/test_orchestrator_api.py` -> `modules/lazy_loop.py`
 - `tests/test_orchestrator_api.py` -> `modules/orchestrator_config.py`
 - `tests/test_orchestrator_api.py` -> `modules/trigger_policy.py`

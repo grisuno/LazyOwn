@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ensure_optional` | function | `skills/mcp_lazy.py:18` | `def ensure_optional(namespace, flag, loader)` |
+| `_build_tool_schema` | function | `skills/mcp_tool_generator.py:91` | `def _build_tool_schema(command_param_name)` |
+| `extract_commands` | function | `skills/mcp_tool_generator.py:34` | `def extract_commands(index)` |
+| `extract_existing_handlers` | function | `skills/mcp_tool_generator.py:55` | `def extract_existing_handlers()` |
+| `generate_module` | function | `skills/mcp_tool_generator.py:106` | `def generate_module(commands, existing_handlers, limit)` |
+| `load_command_index` | function | `skills/mcp_tool_generator.py:29` | `def load_command_index()` |
+| `main` | function | `skills/mcp_tool_generator.py:220` | `def main()` |
+| `sanitize_description` | function | `skills/mcp_tool_generator.py:72` | `def sanitize_description(summary, max_len)` |
+| `sanitize_docstring` | function | `skills/mcp_tool_generator.py:85` | `def sanitize_docstring(text)` |
+| `verify_coverage` | function | `skills/mcp_tool_generator.py:203` | `def verify_coverage(commands, existing_handlers)` |
+| `_async_wrap` | function | `skills/mcp_tools/__init__.py:93` | `def _async_wrap(arguments, tool_name, _handle)` |
+| `_sync_wrap` | function | `skills/mcp_tools/__init__.py:99` | `def _sync_wrap(arguments, tool_name, _handle)` |
+| `iter_schemas` | function | `skills/mcp_tools/__init__.py:65` | `def iter_schemas()` |
 | `iter_tool_modules` | function | `skills/mcp_tools/__init__.py:38` | `def iter_tool_modules()` |
 | `register_handlers` | function | `skills/mcp_tools/__init__.py:71` | `def register_handlers(handlers, ctx)` |
 | `MCPContext` | class | `skills/mcp_tools/_context.py:21` | `class MCPContext` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_list_all_includes_spawned_drone` | method | `skills/tests/test_hive_mind.py:392` | `def test_list_all_includes_spawned_drone(self)` |
 | `test_load_all_empty_db` | method | `skills/tests/test_hive_mind.py:759` | `def test_load_all_empty_db(self)` |
 | `test_load_interrupted_returns_only_interrupted` | method | `skills/tests/test_hive_mind.py:737` | `def test_load_interrupted_returns_only_interrupted(self)` |
-| `test_mark_interrupted_targets_queued_and_running` | method | `skills/tests/test_hive_mind.py:722` | `def test_mark_interrupted_targets_queued_and_running(self)` |
-| `test_mcp_hive_collect_no_ids` | method | `skills/tests/test_hive_mind.py:660` | `def test_mcp_hive_collect_no_ids(self)` |
-| `test_mcp_hive_forget_returns_pruned_count` | method | `skills/tests/test_hive_mind.py:636` | `def test_mcp_hive_forget_returns_pruned_count(self)` |
-| `test_mcp_hive_plan_returns_parseable_string` | method | `skills/tests/test_hive_mind.py:610` | `def test_mcp_hive_plan_returns_parseable_string(self)` |
-| `test_mcp_hive_recall_no_results` | method | `skills/tests/test_hive_mind.py:629` | `def test_mcp_hive_recall_no_results(self)` |
-| `test_mcp_hive_recover_no_interrupted` | method | `skills/tests/test_hive_mind.py:862` | `def test_mcp_hive_recover_no_interrupted(self)` |
-| `test_mcp_hive_result_unknown_drone` | method | `skills/tests/test_hive_mind.py:652` | `def test_mcp_hive_result_unknown_drone(self)` |
-| `test_mcp_hive_spawn_single` | method | `skills/tests/test_hive_mind.py:643` | `def test_mcp_hive_spawn_single(self)` |
-| `test_mcp_hive_status_contains_fields` | method | `skills/tests/test_hive_mind.py:619` | `def test_mcp_hive_status_contains_fields(self)` |
-| `test_pending_count_after_publish` | method | `skills/tests/test_hive_mind.py:321` | `def test_pending_count_after_publish(self)` |
-| `test_plan_ad_goal` | method | `skills/tests/test_hive_mind.py:461` | `def test_plan_ad_goal(self)` |
-| `test_plan_enum_returns_multiple_tasks` | method | `skills/tests/test_hive_mind.py:446` | `def test_plan_enum_returns_multiple_tasks(self)` |
-| `test_plan_exploit_goal` | method | `skills/tests/test_hive_mind.py:454` | `def test_plan_exploit_goal(self)` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

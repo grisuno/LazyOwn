@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
-| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
-| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:22` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 | `do_chisel` | method | `cli/commands/lateral.py:41` | `def do_chisel(self, line)` |
 | `do_ligolo` | method | `cli/commands/lateral.py:77` | `def do_ligolo(self, line)` |
 | `do_nc` | method | `cli/commands/lateral.py:89` | `def do_nc(self, line)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_trace` | method | `cli/commands/recon_migrated.py:831` | `def do_trace(self, line)` |
 | `do_trufflehog` | method | `cli/commands/recon_migrated.py:746` | `def do_trufflehog(self, line)` |
 | `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
+| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
+| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
+| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

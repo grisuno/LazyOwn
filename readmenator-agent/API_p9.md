@@ -1,4 +1,4 @@
-# API (page 9 of 30)
+# API (page 9 of 29)
 Previous: [API_p8.md](API_p8.md)
 
 ## lazyc2/security/https_redirect.py

@@ -1,4 +1,4 @@
-# API (page 28 of 30)
+# API (page 28 of 29)
 Previous: [API_p27.md](API_p27.md)
 
 ## static/js/html2pdf.bundle.min.js (continued)

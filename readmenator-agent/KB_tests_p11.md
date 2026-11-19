@@ -271,6 +271,7 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
 ## tests/test_exploitdb_command_set.py
 - Doc: Regression guard for the ExploitDB command set.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_add_repo_root_to_syspath` (function, line 33) `def _add_repo_root_to_syspath()`

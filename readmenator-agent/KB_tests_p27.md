@@ -1,6 +1,115 @@
 # Subsystem: tests (page 27 of 27)
 Previous: [KB_tests_p26.md](KB_tests_p26.md)
 
+## tests/test_unified_bridge_delegate.py
+- Doc: Contract tests for UnifiedBridge.delegate agent polling.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `unified_bridge` (function, line 16) `def unified_bridge(monkeypatch)`
+  - `_patch_bridge_api` (function, line 25) `def _patch_bridge_api(monkeypatch, statuses, result)`
+  - `test_delegate_polls_until_completion` (function, line 40) `def test_delegate_polls_until_completion(monkeypatch, unified_bridge)`
+  - `test_delegate_times_out_when_agent_never_finishes` (function, line 55) `def test_delegate_times_out_when_agent_never_finishes(monkeypatch, unified_bridge)`
+  - `test_delegate_reports_agent_failure` (function, line 66) `def test_delegate_reports_agent_failure(monkeypatch, unified_bridge)`
+  - `test_delegate_surfaces_missing_agent` (function, line 77) `def test_delegate_surfaces_missing_agent(monkeypatch, unified_bridge)`
+  - `test_delegate_wraps_start_errors` (function, line 87) `def test_delegate_wraps_start_errors(monkeypatch, unified_bridge)`
+  - `fake_start` (function, line 30) `def fake_start(goal, backend, runner, max_iterations)`
+  - `boom` (function, line 90) `def boom()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_unified_dashboard.py
+- Doc: Tests for modules/unified_dashboard.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestUnifiedDashboardInit` (class, line 10) `class TestUnifiedDashboardInit`
+  - `TestWorldModelCollection` (class, line 21) `class TestWorldModelCollection`
+  - `TestDaemonStatus` (class, line 36) `class TestDaemonStatus`
+  - `TestUnifiedSnapshot` (class, line 51) `class TestUnifiedSnapshot`
+  - `TestRenderUnified` (class, line 74) `class TestRenderUnified`
+  - `TestExportJson` (class, line 95) `class TestExportJson`
+  - `test_default_init` (method, line 11) `def test_default_init(self, tmp_path)`
+  - `test_get_unified_dashboard_singleton` (method, line 15) `def test_get_unified_dashboard_singleton(self, tmp_path)`
+  - `test_collect_world_model_exists` (method, line 22) `def test_collect_world_model_exists(self, tmp_path)`
+  - `test_collect_world_model_missing` (method, line 30) `def test_collect_world_model_missing(self, tmp_path)`
+  - `test_collect_daemon_status_exists` (method, line 37) `def test_collect_daemon_status_exists(self, tmp_path)`
+  - `test_collect_daemon_status_missing` (method, line 45) `def test_collect_daemon_status_missing(self, tmp_path)`
+  - `test_snapshot_keys` (method, line 52) `def test_snapshot_keys(self, tmp_path)`
+  - `test_snapshot_timestamp` (method, line 67) `def test_snapshot_timestamp(self, tmp_path)`
+  - `test_render_contains_header` (method, line 75) `def test_render_contains_header(self, tmp_path)`
+  - `test_render_contains_sections` (method, line 80) `def test_render_contains_sections(self, tmp_path)`
+  - `test_render_contains_timestamp` (method, line 89) `def test_render_contains_timestamp(self, tmp_path)`
+  - `test_export_json` (method, line 96) `def test_export_json(self, tmp_path)`
+- Depends on: `modules/unified_dashboard.py`
+
+## tests/test_utils_import_silent.py
+- Doc: utils as a library: importing it must never parse the importer's argv.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_import_with_foreign_argv_is_silent` (function, line 12) `def test_import_with_foreign_argv_is_silent()`
+  - `test_lazy_import_chains_stay_silent` (function, line 34) `def test_lazy_import_chains_stay_silent()`
+
+## tests/test_verb_catalog.py
+- Doc: BDD contract tests for the operator verb catalog.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sandbox` (function, line 19) `def sandbox(tmp_path)`
+  - `test_sync_generates_catalog_with_builtins_on_and_new_off` (function, line 32) `def test_sync_generates_catalog_with_builtins_on_and_new_off(sandbox)`
+  - `test_sync_preserves_operator_choices` (function, line 41) `def test_sync_preserves_operator_choices(sandbox)`
+  - `test_sync_prunes_stale_commands` (function, line 51) `def test_sync_prunes_stale_commands(sandbox)`
+  - `test_load_returns_empty_on_missing_invalid_or_oversize` (function, line 64) `def test_load_returns_empty_on_missing_invalid_or_oversize(sandbox, tmp_path)`
+  - `test_set_enabled_unknown_command_raises` (function, line 73) `def test_set_enabled_unknown_command_raises(sandbox)`
+  - `test_set_enabled_persists_atomically` (function, line 79) `def test_set_enabled_persists_atomically(sandbox)`
+  - `test_validate_catalog_rejects_bad_documents` (function, line 88) `def test_validate_catalog_rejects_bad_documents(sandbox)`
+  - `test_effective_verbs_include_catalog_entries` (function, line 97) `def test_effective_verbs_include_catalog_entries(sandbox, monkeypatch)`
+  - `test_loop_refuses_disabled_cli_verb_and_allows_enabled` (function, line 111) `def test_loop_refuses_disabled_cli_verb_and_allows_enabled(sandbox, monkeypatch)`
+  - `test_stats_reports_on_off_counts` (function, line 133) `def test_stats_reports_on_off_counts(sandbox)`
+  - `test_search_filters_catalog` (function, line 141) `def test_search_filters_catalog(sandbox)`
+  - `_addon_sandbox` (function, line 150) `def _addon_sandbox(tmp_path, enabled)`
+  - `test_sync_indexes_enabled_lazyaddons_disabled_by_default` (function, line 169) `def test_sync_indexes_enabled_lazyaddons_disabled_by_default(tmp_path)`
+  - `test_sync_prunes_renamed_or_disabled_addons` (function, line 187) `def test_sync_prunes_renamed_or_disabled_addons(tmp_path)`
+  - `test_operator_can_turn_addon_verb_on` (function, line 202) `def test_operator_can_turn_addon_verb_on(tmp_path)`
+  - `test_steps_for_addon_verb_runs_lazy_addon` (function, line 215) `def test_steps_for_addon_verb_runs_lazy_addon(tmp_path, monkeypatch)`
+  - `test_entries_default_phases_is_single_phase` (function, line 237) `def test_entries_default_phases_is_single_phase(sandbox)`
+  - `test_entries_multi_phase_list_is_honoured` (function, line 249) `def test_entries_multi_phase_list_is_honoured(sandbox)`
+  - `test_validate_catalog_rejects_non_string_phases` (function, line 262) `def test_validate_catalog_rejects_non_string_phases(sandbox)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_verb_manifest.py
+- Doc: BDD tests for the typed verb manifest store.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `manifest_path` (function, line 14) `def manifest_path(tmp_path)`
+  - `TestSchema` (class, line 50) `class TestSchema`
+  - `TestPlanCheck` (class, line 81) `class TestPlanCheck`
+  - `TestNoiseAndCost` (class, line 118) `class TestNoiseAndCost`
+  - `test_valid_manifest_parses` (method, line 53) `def test_valid_manifest_parses(self, manifest_path)`
+  - `test_unknown_fact_id_dropped` (method, line 65) `def test_unknown_fact_id_dropped(self, manifest_path)`
+  - `test_parse_manifest_rejects_junk` (method, line 73) `def test_parse_manifest_rejects_junk(self)`
+  - `test_unmet_precondition_reported` (method, line 84) `def test_unmet_precondition_reported(self, manifest_path)`
+  - `test_effect_paid_forward` (method, line 91) `def test_effect_paid_forward(self, manifest_path)`
+  - `test_world_model_facts_default` (method, line 104) `def test_world_model_facts_default(self)`
+  - `test_fallback_when_store_empty` (method, line 112) `def test_fallback_when_store_empty(self, tmp_path)`
+  - `test_noise_clamped` (method, line 121) `def test_noise_clamped(self)`
+  - `test_cost_tolerates_junk` (method, line 129) `def test_cost_tolerates_junk(self)`
+- Depends on: `modules/chain_registry.py`, `modules/verb_manifest.py`
+
+## tests/test_viral_adoption.py
+- Doc: Viral adoption assets: GIFs, smoke script, drift CI, launch kit.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_demo_gifs_exist_and_nonempty` (function, line 8) `def test_demo_gifs_exist_and_nonempty()`
+  - `test_demo_gif_commands_exist_in_source` (function, line 23) `def test_demo_gif_commands_exist_in_source()`
+  - `test_readme_links_viral_assets` (function, line 75) `def test_readme_links_viral_assets()`
+  - `test_smoke_script_covers_onboarding` (function, line 83) `def test_smoke_script_covers_onboarding()`
+  - `test_docs_drift_workflow_exists` (function, line 89) `def test_docs_drift_workflow_exists()`
+  - `test_marketplace_template_exists` (function, line 95) `def test_marketplace_template_exists()`
+  - `test_launch_kit_exists` (function, line 101) `def test_launch_kit_exists()`
+
 ## tests/test_vuln_mitigations.py
 - Doc: Regression suite for the GitHub code-scanning mitigations.
 - Layer: testing

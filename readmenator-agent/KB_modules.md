@@ -327,18 +327,19 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Symbols:
   - `default_platform_for_target` (function, line 39) `def default_platform_for_target(params)`
   - `parse_atomic_line` (function, line 64) `def parse_atomic_line(line)`
-  - `_resolver` (function, line 126) `def _resolver()`
-  - `_print` (function, line 134) `def _print(shell, text)`
-  - `_warn` (function, line 145) `def _warn(text)`
-  - `_wants_interactive` (function, line 154) `def _wants_interactive(non_interactive)`
-  - `_safe_copy` (function, line 159) `def _safe_copy(text)`
-  - `_load_credentials` (function, line 174) `def _load_credentials(params, non_interactive)`
-  - `_prompt_choice` (function, line 200) `def _prompt_choice(count, prompt, non_interactive)`
-  - `run_atomic_tests` (function, line 214) `def run_atomic_tests(params, line, shell)`
-  - `_sanitized_script_name` (function, line 406) `def _sanitized_script_name(test_id, extension)`
-  - `run_atomic_gen` (function, line 412) `def run_atomic_gen(params, line, shell)`
-- Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `modules/bof_delivery.py`, `modules/lazy_osinfer.py`, `utils.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_atomic_loop.py`, `tests/test_lazy_handoff.py`
+  - `_resolver` (function, line 149) `def _resolver()`
+  - `_print` (function, line 157) `def _print(shell, text)`
+  - `_warn` (function, line 168) `def _warn(text)`
+  - `_is_autonomous` (function, line 177) `def _is_autonomous()`
+  - `_wants_interactive` (function, line 195) `def _wants_interactive(non_interactive)`
+  - `_safe_copy` (function, line 200) `def _safe_copy(text)`
+  - `_load_credentials` (function, line 215) `def _load_credentials(params, non_interactive)`
+  - `_prompt_choice` (function, line 241) `def _prompt_choice(count, prompt, non_interactive)`
+  - `run_atomic_tests` (function, line 255) `def run_atomic_tests(params, line, shell)`
+  - `_sanitized_script_name` (function, line 460) `def _sanitized_script_name(test_id, extension)`
+  - `run_atomic_gen` (function, line 466) `def run_atomic_gen(params, line, shell)`
+- Depends on: `core/autonomous.py`, `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `modules/bof_delivery.py`, `modules/lazy_osinfer.py`, `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_atomic_headless.py`, `tests/test_atomic_loop.py`, `tests/test_lazy_handoff.py`
 
 ## modules/atomic_enricher.py
 - Doc: — Enrich techniques.parquet with structured derived columns.

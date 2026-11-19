@@ -3,6 +3,44 @@ Previous: [SYMBOLS_p52.md](SYMBOLS_p52.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_state_clamps_negative_offsets` | function | `tests/test_toast_bus.py:59` | `def test_state_clamps_negative_offsets(tmp_path)` |
+| `test_state_round_trip` | function | `tests/test_toast_bus.py:49` | `def test_state_round_trip(tmp_path)` |
+| `test_summary_deduplicates_command_args_tail` | function | `tests/test_toast_bus.py:296` | `def test_summary_deduplicates_command_args_tail()` |
+| `test_summary_falls_back_to_capture_metadata` | function | `tests/test_toast_bus.py:279` | `def test_summary_falls_back_to_capture_metadata()` |
+| `test_summary_prefers_title_then_description` | function | `tests/test_toast_bus.py:269` | `def test_summary_prefers_title_then_description()` |
+| `test_toasts_enabled_default_true` | function | `tests/test_toast_bus.py:157` | `def test_toasts_enabled_default_true()` |
+| `_SpyConsole` | class | `tests/test_toastr_unify.py:73` | `class _SpyConsole` |
+| `__init__` | method | `tests/test_toastr_unify.py:76` | `def __init__(self)` |
+| `print` | method | `tests/test_toastr_unify.py:79` | `def print(self, message, style)` |
+| `test_empty_message_falls_back_like_legacy` | function | `tests/test_toastr_unify.py:45` | `def test_empty_message_falls_back_like_legacy()` |
+| `test_markup_is_escaped_for_plain_text` | function | `tests/test_toastr_unify.py:51` | `def test_markup_is_escaped_for_plain_text()` |
+| `test_plain_text_message_wraps_and_adapts` | function | `tests/test_toastr_unify.py:35` | `def test_plain_text_message_wraps_and_adapts()` |
+| `test_sentinel_panel_keeps_field_layout` | function | `tests/test_toastr_unify.py:57` | `def test_sentinel_panel_keeps_field_layout()` |
+| `test_sentinel_severity_selects_border` | function | `tests/test_toastr_unify.py:67` | `def test_sentinel_severity_selects_border()` |
+| `test_severity_table_covers_every_surface_level` | function | `tests/test_toastr_unify.py:22` | `def test_severity_table_covers_every_surface_level()` |
+| `test_shell_hint_bypass_keeps_empty_fallback` | function | `tests/test_toastr_unify.py:91` | `def test_shell_hint_bypass_keeps_empty_fallback()` |
+| `test_shell_hint_bypass_prints_flat_line` | function | `tests/test_toastr_unify.py:84` | `def test_shell_hint_bypass_prints_flat_line()` |
+| `test_unknown_severity_falls_back_to_info` | function | `tests/test_toastr_unify.py:30` | `def test_unknown_severity_falls_back_to_info()` |
+| `_dev_pin` | function | `tests/test_toolchain_pins.py:18` | `def _dev_pin(package)` |
+| `test_ci_yml_does_not_hardcode_ruff` | function | `tests/test_toolchain_pins.py:25` | `def test_ci_yml_does_not_hardcode_ruff()` |
+| `test_lint_workflow_installs_dev_requirements` | function | `tests/test_toolchain_pins.py:54` | `def test_lint_workflow_installs_dev_requirements()` |
+| `test_pre_commit_mypy_rev_matches_dev_pin` | function | `tests/test_toolchain_pins.py:43` | `def test_pre_commit_mypy_rev_matches_dev_pin()` |
+| `test_pre_commit_ruff_rev_matches_dev_pin` | function | `tests/test_toolchain_pins.py:32` | `def test_pre_commit_ruff_rev_matches_dev_pin()` |
+| `test_deadline_ignores_partials_below_salvage_threshold` | function | `tests/test_triage_scheduler.py:72` | `def test_deadline_ignores_partials_below_salvage_threshold()` |
+| `test_deadline_salvages_partials_first` | function | `tests/test_triage_scheduler.py:62` | `def test_deadline_salvages_partials_first()` |
+| `test_estimate_difficulty_accepts_counts_or_collections` | function | `tests/test_triage_scheduler.py:33` | `def test_estimate_difficulty_accepts_counts_or_collections()` |
+| `test_estimate_difficulty_rich_target_drains_before_unknown` | function | `tests/test_triage_scheduler.py:26` | `def test_estimate_difficulty_rich_target_drains_before_unknown()` |
+| `test_estimate_difficulty_unknown_target_is_neutral` | function | `tests/test_triage_scheduler.py:20` | `def test_estimate_difficulty_unknown_target_is_neutral()` |
+| `test_estimate_difficulty_wide_surface_is_easier` | function | `tests/test_triage_scheduler.py:13` | `def test_estimate_difficulty_wide_surface_is_easier()` |
+| `test_order_breaks_ties_by_progress_then_arrival` | function | `tests/test_triage_scheduler.py:51` | `def test_order_breaks_ties_by_progress_then_arrival()` |
+| `test_order_is_easy_first` | function | `tests/test_triage_scheduler.py:40` | `def test_order_is_easy_first()` |
+| `test_pick_next_returns_none_when_empty` | function | `tests/test_triage_scheduler.py:98` | `def test_pick_next_returns_none_when_empty()` |
+| `test_route_splits_hard_and_easy` | function | `tests/test_triage_scheduler.py:91` | `def test_route_splits_hard_and_easy()` |
+| `test_stop_loss_triggers_on_attempts_without_progress` | function | `tests/test_triage_scheduler.py:83` | `def test_stop_loss_triggers_on_attempts_without_progress()` |
+| `test_orchestrator_yaml_declares_trigger_seeds` | function | `tests/test_trigger_policy.py:82` | `def test_orchestrator_yaml_declares_trigger_seeds()` |
+| `test_seed_store_drops_unknown_kinds` | function | `tests/test_trigger_policy.py:89` | `def test_seed_store_drops_unknown_kinds(tmp_path, monkeypatch)` |
+| `test_seed_store_is_idempotent` | function | `tests/test_trigger_policy.py:48` | `def test_seed_store_is_idempotent(tmp_path, monkeypatch)` |
+| `test_seed_store_keeps_runtime_triggers` | function | `tests/test_trigger_policy.py:66` | `def test_seed_store_keeps_runtime_triggers(tmp_path, monkeypatch)` |
 | `test_seeds_coerce_and_skip_unknown_kinds` | function | `tests/test_trigger_policy.py:26` | `def test_seeds_coerce_and_skip_unknown_kinds()` |
 | `test_validate_policy_rejects_bad_documents` | function | `tests/test_trigger_policy.py:18` | `def test_validate_policy_rejects_bad_documents()` |
 | `test_yaml_seeds_read_from_orchestrator_document` | function | `tests/test_trigger_policy.py:40` | `def test_yaml_seeds_read_from_orchestrator_document()` |
@@ -458,43 +496,5 @@ Previous: [SYMBOLS_p52.md](SYMBOLS_p52.md)
 | `ensure_tmux_session` | function | `utils.py:2121` | `def ensure_tmux_session(session_name)` |
 | `exploitalert` | function | `utils.py:933` | `def exploitalert(content)` |
 | `extract` | function | `utils.py:1571` | `def extract(string, extract_flag)` |
-| `extract_banners` | function | `utils.py:2584` | `def extract_banners(xml_file)` |
-| `find_ea` | function | `utils.py:1118` | `def find_ea(keyword)` |
-| `find_ps` | function | `utils.py:1168` | `def find_ps(keyword)` |
-| `find_ss` | function | `utils.py:1056` | `def find_ss(keyword)` |
-| `fix_common_yaml_issues` | function | `utils.py:3052` | `def fix_common_yaml_issues(yaml_content)` |
-| `format_openssh_key` | function | `utils.py:1497` | `def format_openssh_key(raw_key)` |
-| `format_rsa_key` | function | `utils.py:1529` | `def format_rsa_key(raw_key)` |
-| `generate_certificates` | function | `utils.py:1317` | `def generate_certificates()` |
-| `generate_emails` | function | `utils.py:1400` | `def generate_emails(full_name, domain)` |
-| `generate_http_req` | function | `utils.py:1473` | `def generate_http_req(host, port, uri, custom_header, cmd)` |
-| `generate_index` | function | `utils.py:2417` | `def generate_index(repo_dir)` |
-| `generate_random_cve_id` | function | `utils.py:1305` | `def generate_random_cve_id()` |
-| `get_banner` | function | `utils.py:2225` | `def get_banner(ip, port)` |
-| `get_command` | function | `utils.py:2305` | `def get_command(url, lhost)` |
-| `get_credentials` | function | `utils.py:1622` | `def get_credentials(file, ncred)` |
-| `get_domain` | function | `utils.py:1288` | `def get_domain(url)` |
-| `get_domain_from_xml` | function | `utils.py:2170` | `def get_domain_from_xml(xml_file)` |
-| `get_git_info` | function | `utils.py:770` | `def get_git_info()` |
-| `get_hash` | function | `utils.py:1964` | `def get_hash(dir)` |
-| `get_network_info` | function | `utils.py:735` | `def get_network_info()` |
-| `get_open_ports` | function | `utils.py:694` | `def get_open_ports()` |
-| `get_org` | function | `utils.py:2747` | `def get_org(data)` |
-| `get_terminal_size` | function | `utils.py:2057` | `def get_terminal_size()` |
-| `get_users_dic` | function | `utils.py:1929` | `def get_users_dic(txt)` |
-| `get_venv_info` | function | `utils.py:789` | `def get_venv_info()` |
-| `get_xml` | function | `utils.py:2157` | `def get_xml(directory)` |
-| `getprompt` | function | `utils.py:810` | `def getprompt()` |
-| `halp` | function | `utils.py:2066` | `def halp()` |
-| `handle` | function | `utils.py:1899` | `def handle(input_str)` |
-| `handle_forms` | function | `utils.py:1787` | `def handle_forms(content, url)` |
-| `htmlify` | function | `utils.py:2682` | `def htmlify(data)` |
-| `inject_payloads` | function | `utils.py:1725` | `def inject_payloads(urls, payload_url, request_timeout)` |
-| `is_digit` | function | `utils.py:2005` | `def is_digit(the_digit)` |
-| `is_exist` | function | `utils.py:1259` | `def is_exist(file)` |
-| `is_package_installed` | function | `utils.py:1560` | `def is_package_installed(package_name)` |
-| `is_port_in_use` | function | `utils.py:2705` | `def is_port_in_use(port, host)` |
-| `lazyown_set_config` | function | `utils.py:324` | `def lazyown_set_config(key, value, config_obj)` |
-| `list_binaries` | function | `utils.py:2242` | `def list_binaries(directory)` |
 
 Next: [SYMBOLS_p54.md](SYMBOLS_p54.md)

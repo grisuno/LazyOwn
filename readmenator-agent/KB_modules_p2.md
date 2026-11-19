@@ -247,6 +247,7 @@ Previous: [KB_modules.md](KB_modules.md)
 
 ## modules/beacon_kinds.py
 - Doc: Beacon kind classification — one home for implant family logic.
+- Layer: utility
 - Language: py
 - Symbols:
   - `detect_beacon_type` (function, line 50) `def detect_beacon_type(safe_id, platform, bsb_clients, sessions_dir)`
@@ -259,6 +260,7 @@ Previous: [KB_modules.md](KB_modules.md)
 
 ## modules/beacon_loop.py
 - Doc: Autonomous beacon loop — sends capability commands to one implant.
+- Layer: utility
 - Language: py
 - Symbols:
   - `_wire_command` (function, line 107) `def _wire_command(command)`
@@ -393,7 +395,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `alive` (method, line 1486) `def alive(self, timeout)`
   - `run` (method, line 1506) `def run(self, command, timeout)`
 - Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
-- Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
+- Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_headless.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
 
 ## modules/bof_registry.py
 - Doc: Beacon Object File (BOF) registry and marketplace for LazyOwn.

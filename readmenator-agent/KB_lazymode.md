@@ -2,12 +2,14 @@
 
 ## sdk/lazymode/__init__.py
 - Doc: lazymode: programmatic (code-mode) execution over the LazyOwn SDK.
+- Layer: utility
 - Language: py
 - Depends on: `sdk/lazymode/index.py`, `sdk/lazymode/runner.py`
-- Imported by: `modules/lazymode_playbook.py`, `skills/mcp_tools/lazymode_exec.py`, `skills/mcp_tools/lazymode_search.py`, `tests/test_lazymode_runner.py`
+- Imported by: `modules/lazymode_playbook.py`, `modules/loop/worker_lazymode.py`, `skills/mcp_tools/lazymode_exec.py`, `skills/mcp_tools/lazymode_search.py`, `tests/test_lazymode_runner.py`, `tests/test_loop_lazymode_first.py`
 
 ## sdk/lazymode/_bootstrap.py
 - Doc: Subprocess entry point that runs one lazymode Python script.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `_bounded` (function, line 30) `def _bounded(text)`
@@ -19,6 +21,7 @@
 
 ## sdk/lazymode/index.py
 - Doc: Discoverable index of the lazymode SDK surface.
+- Layer: utility
 - Language: py
 - Symbols:
   - `_entry` (function, line 21) `def _entry(path, member)`
@@ -30,6 +33,7 @@
 
 ## sdk/lazymode/runner.py
 - Doc: The lazymode code runners (hybrid: Python subprocess + Lua in-process).
+- Layer: utility
 - Language: py
 - Symbols:
   - `_bounded` (function, line 51) `def _bounded(text)`

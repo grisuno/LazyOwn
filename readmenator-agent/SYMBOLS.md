@@ -3,9 +3,6 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `c` | function | `2026-11-18_112624/jquery-1.11.3.min.js:4` | `` |
-| `d` | function | `2026-11-18_112624/jquery-1.11.3.min.js:5` | `` |
-| `s` | function | `2026-11-18_112624/jquery-1.11.3.min.js:2` | `` |
 | `get_commit_type` | function | `DEPLOY.sh:203` | `` |
 | `increment_version` | function | `DEPLOY.sh:19` | `` |
 | `update_section_html` | function | `DEPLOY.sh:99` | `` |
@@ -496,5 +493,8 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_issue` | function | `cli/commands/c2_session.py:101` | `def _issue(client_id, command, auth, https_port)` |
 | `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
 | `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
+| `_tls_verify` | function | `cli/commands/c2_session.py:83` | `def _tls_verify()` |
+| `do_c2_deploy` | method | `cli/commands/c2_session.py:268` | `def do_c2_deploy(self, line)` |
+| `do_c2_exec` | method | `cli/commands/c2_session.py:318` | `def do_c2_exec(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

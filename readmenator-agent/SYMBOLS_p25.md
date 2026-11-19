@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
+| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
+| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
+| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
+| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
+| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
+| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
 | `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
 | `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
 | `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `find_ndk_clang` | function | `scripts/dirtyinit_drive.sh:185` | `` |
 | `find_sdk` | function | `scripts/dirtyinit_drive.sh:141` | `` |
 | `log` | function | `scripts/dirtyinit_drive.sh:65` | `` |
-| `main` | function | `scripts/dirtyinit_drive.sh:529` | `` |
-| `pack_apk` | function | `scripts/dirtyinit_drive.sh:211` | `` |
-| `parse_flags` | function | `scripts/dirtyinit_drive.sh:89` | `` |
-| `payload_value` | function | `scripts/dirtyinit_drive.sh:69` | `` |
-| `require_adb` | function | `scripts/dirtyinit_drive.sh:130` | `` |
-| `require_device` | function | `scripts/dirtyinit_drive.sh:134` | `` |
-| `tap_button` | function | `scripts/dirtyinit_drive.sh:348` | `` |
-| `warn` | function | `scripts/dirtyinit_drive.sh:66` | `` |
-| `build_sbom` | function | `scripts/generate_sbom.py:74` | `def build_sbom(with_ml)` |
-| `collect_components` | function | `scripts/generate_sbom.py:37` | `def collect_components(with_ml)` |
-| `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
-| `parse_requirement` | function | `scripts/generate_sbom.py:25` | `def parse_requirement(line)` |
-| `project_version` | function | `scripts/generate_sbom.py:68` | `def project_version()` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

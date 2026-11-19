@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `describe` | method | `modules/mediation/contracts.py:90` | `def describe(self)` |
+| `has_members` | method | `modules/mediation/contracts.py:79` | `def has_members(self)` |
+| `is_known` | method | `modules/mediation/contracts.py:24` | `def is_known(cls, domain)` |
+| `mediator_for` | method | `modules/mediation/contracts.py:99` | `def mediator_for(self, domain)` |
+| `read` | method | `modules/mediation/contracts.py:45` | `def read(self, limit)` |
+| `resolve` | function | `modules/mediation/contracts.py:104` | `def resolve(domain)` |
+| `EngineMediator` | class | `modules/mediation/engine_mediator.py:66` | `class EngineMediator` |
+| `ExploitRetryPort` | class | `modules/mediation/engine_mediator.py:32` | `class ExploitRetryPort(Protocol)` |
+| `ReactionPort` | class | `modules/mediation/engine_mediator.py:49` | `class ReactionPort(Protocol)` |
+| `analyse` | method | `modules/mediation/engine_mediator.py:52` | `def analyse(self, output, command, platform)` |
+| `analyse` | method | `modules/mediation/engine_mediator.py:100` | `def analyse(self, output, command, platform)` |
+| `describe` | method | `modules/mediation/engine_mediator.py:71` | `def describe(self)` |
+| `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:35` | `def retry_with_credentials(self, target, credentials)` |
 | `retry_with_credentials` | method | `modules/mediation/engine_mediator.py:79` | `def retry_with_credentials(self, target, credentials)` |
 | `FeedbackMediator` | class | `modules/mediation/feedback_mediator.py:13` | `class FeedbackMediator` |
 | `describe` | method | `modules/mediation/feedback_mediator.py:18` | `def describe(self)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_cache_save` | function | `modules/osint_enrich.py:61` | `def _cache_save(sessions_dir, data)` |
 | `_cached` | function | `modules/osint_enrich.py:69` | `def _cached(sessions_dir, key, ttl)` |
 | `_get_json` | function | `modules/osint_enrich.py:84` | `def _get_json(url, params)` |
-| `_get_text` | function | `modules/osint_enrich.py:110` | `def _get_text(url, params)` |
-| `_post_json` | function | `modules/osint_enrich.py:96` | `def _post_json(url, payload)` |
-| `_store` | function | `modules/osint_enrich.py:77` | `def _store(sessions_dir, key, data)` |
-| `cve_lookup` | function | `modules/osint_enrich.py:122` | `def cve_lookup(cve_id, sessions_dir)` |
-| `domain_exposure` | function | `modules/osint_enrich.py:198` | `def domain_exposure(domain, sessions_dir)` |
-| `enrich_evidence` | function | `modules/osint_enrich.py:213` | `def enrich_evidence(items, sessions_dir)` |
-| `host_geo` | function | `modules/osint_enrich.py:183` | `def host_geo(ip, sessions_dir)` |
-| `reverse_dns` | function | `modules/osint_enrich.py:161` | `def reverse_dns(ip, sessions_dir)` |
-| `AttributionLedger` | class | `modules/outcome_attribution.py:141` | `class AttributionLedger` |
-| `__init__` | method | `modules/outcome_attribution.py:149` | `def __init__(self, task_id, base_dir)` |
-| `_apply` | function | `modules/outcome_attribution.py:187` | `def _apply(data)` |
-| `_has_reject_signal` | function | `modules/outcome_attribution.py:81` | `def _has_reject_signal(text)` |
-| `_load` | method | `modules/outcome_attribution.py:160` | `def _load(self)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

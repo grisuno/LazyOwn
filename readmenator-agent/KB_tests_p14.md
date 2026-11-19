@@ -393,6 +393,7 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
 ## tests/test_lazy_handoff.py
 - Doc: Tests for the foothold-to-beacon handoff and OS-aware beacon loop.
+- Layer: testing
 - Language: py
 - Symbols:
   - `TestHandoffGate` (class, line 33) `class TestHandoffGate`

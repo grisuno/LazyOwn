@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_gym_top_aliases_leaderboard` | function | `tests/test_gym_cli.py:97` | `def test_gym_top_aliases_leaderboard(sandbox, capsys)` |
+| `_FakeDocker` | class | `tests/test_gym_lifecycle.py:38` | `class _FakeDocker` |
+| `__call__` | method | `tests/test_gym_lifecycle.py:45` | `def __call__(self)` |
+| `__init__` | method | `tests/test_gym_lifecycle.py:41` | `def __init__(self, responses)` |
+| `__init__` | method | `tests/test_gym_lifecycle.py:54` | `def __init__(self, returncode, stdout, stderr)` |
+| `_result` | class | `tests/test_gym_lifecycle.py:53` | `class _result` |
+| `sandbox` | function | `tests/test_gym_lifecycle.py:20` | `def sandbox(tmp_path, monkeypatch)` |
+| `test_cleanup_gym_machines_stops_all` | function | `tests/test_gym_lifecycle.py:162` | `def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys)` |
+| `test_start_removes_stale_container_first` | function | `tests/test_gym_lifecycle.py:107` | `def test_start_removes_stale_container_first(sandbox, monkeypatch)` |
+| `test_start_spins_scenario_and_resolves_ip` | function | `tests/test_gym_lifecycle.py:60` | `def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch)` |
+| `test_start_without_docker_degrades_gracefully` | function | `tests/test_gym_lifecycle.py:99` | `def test_start_without_docker_degrades_gracefully(sandbox, monkeypatch)` |
+| `test_start_without_lab_flag_still_registers` | function | `tests/test_gym_lifecycle.py:89` | `def test_start_without_lab_flag_still_registers(sandbox, monkeypatch)` |
+| `test_stop_keeps_scenario_with_active_runs` | function | `tests/test_gym_lifecycle.py:142` | `def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch)` |
+| `test_stop_teardowns_scenario_container` | function | `tests/test_gym_lifecycle.py:122` | `def test_stop_teardowns_scenario_container(sandbox, monkeypatch)` |
+| `CtfCaptureSpec` | class | `tests/test_gym_matrix_ctf.py:13` | `class CtfCaptureSpec(TestCase)` |
+| `GymMatrixRunnerSpec` | class | `tests/test_gym_matrix_ctf.py:62` | `class GymMatrixRunnerSpec(TestCase)` |
+| `ReportIntegrationSpec` | class | `tests/test_gym_matrix_ctf.py:120` | `class ReportIntegrationSpec(TestCase)` |
+| `executor` | function | `tests/test_gym_matrix_ctf.py:92` | `def executor(cmd)` |
+| `test_captured_findings_enter_report` | method | `tests/test_gym_matrix_ctf.py:123` | `def test_captured_findings_enter_report(self)` |
+| `test_failed_capture_without_evidence` | method | `tests/test_gym_matrix_ctf.py:29` | `def test_failed_capture_without_evidence(self)` |
+| `test_load_artifact` | method | `tests/test_gym_matrix_ctf.py:57` | `def test_load_artifact(self)` |
 | `test_plan_isolates_only_filter` | method | `tests/test_gym_matrix_ctf.py:72` | `def test_plan_isolates_only_filter(self)` |
 | `test_plan_ordered_by_severity` | method | `tests/test_gym_matrix_ctf.py:65` | `def test_plan_ordered_by_severity(self)` |
 | `test_plan_rejects_empty_target` | method | `tests/test_gym_matrix_ctf.py:76` | `def test_plan_rejects_empty_target(self)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 | `sessions_dir` | method | `tests/test_killchain_unified.py:52` | `def sessions_dir(self)` |
 | `test_cli_phase_to_host_state_maps_correctly` | method | `tests/test_killchain_unified.py:30` | `def test_cli_phase_to_host_state_maps_correctly(self)` |
 | `test_engagement_phase_to_cli_maps_all` | method | `tests/test_killchain_unified.py:21` | `def test_engagement_phase_to_cli_maps_all(self)` |
-| `test_phase_rank_returns_correct_index` | method | `tests/test_killchain_unified.py:41` | `def test_phase_rank_returns_correct_index(self)` |
-| `test_write_phase_advances_hosts` | method | `tests/test_killchain_unified.py:80` | `def test_write_phase_advances_hosts(self, sessions_dir)` |
-| `test_write_phase_completed_phases_tracks_progress` | method | `tests/test_killchain_unified.py:100` | `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)` |
-| `test_write_phase_invalid_returns_false` | method | `tests/test_killchain_unified.py:96` | `def test_write_phase_invalid_returns_false(self, sessions_dir)` |
-| `TestKillChainAdvancePhase` | class | `tests/test_killchain_unified_v2.py:185` | `class TestKillChainAdvancePhase` |
-| `TestKillChainConfig` | class | `tests/test_killchain_unified_v2.py:32` | `class TestKillChainConfig` |
-| `TestKillChainCurrentPhase` | class | `tests/test_killchain_unified_v2.py:104` | `class TestKillChainCurrentPhase` |
-| `TestKillChainGetProgress` | class | `tests/test_killchain_unified_v2.py:296` | `class TestKillChainGetProgress` |
-| `TestKillChainHelpers` | class | `tests/test_killchain_unified_v2.py:364` | `class TestKillChainHelpers` |
-| `TestPhaseStatusDataclass` | class | `tests/test_killchain_unified_v2.py:411` | `class TestPhaseStatusDataclass` |
-| `_reset_wm_singleton` | method | `tests/test_killchain_unified_v2.py:108` | `def _reset_wm_singleton(self)` |
-| `_reset_wm_singleton` | method | `tests/test_killchain_unified_v2.py:189` | `def _reset_wm_singleton(self)` |
-| `_reset_wm_singleton` | method | `tests/test_killchain_unified_v2.py:300` | `def _reset_wm_singleton(self)` |
-| `test_advance_advances_world_model_hosts` | method | `tests/test_killchain_unified_v2.py:244` | `def test_advance_advances_world_model_hosts(self)` |
-| `test_advance_does_not_downgrade_cached_world_model_state` | method | `tests/test_killchain_unified_v2.py:277` | `def test_advance_does_not_downgrade_cached_world_model_state(self)` |
-| `test_advance_invalid_phase_returns_false` | method | `tests/test_killchain_unified_v2.py:234` | `def test_advance_invalid_phase_returns_false(self)` |
-| `test_advance_tracks_completed_phases` | method | `tests/test_killchain_unified_v2.py:216` | `def test_advance_tracks_completed_phases(self)` |
-| `test_advance_with_host_does_not_touch_unrelated_hosts` | method | `tests/test_killchain_unified_v2.py:261` | `def test_advance_with_host_does_not_touch_unrelated_hosts(self)` |
-| `test_advance_writes_current_phase_and_phase_keys` | method | `tests/test_killchain_unified_v2.py:200` | `def test_advance_writes_current_phase_and_phase_keys(self)` |
-| `test_all_pending_when_nothing_done` | method | `tests/test_killchain_unified_v2.py:311` | `def test_all_pending_when_nothing_done(self)` |
-| `test_all_phases_have_colors` | method | `tests/test_killchain_unified_v2.py:54` | `def test_all_phases_have_colors(self)` |
 
 Next: [SYMBOLS_p44.md](SYMBOLS_p44.md)

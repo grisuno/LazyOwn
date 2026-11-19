@@ -3,7 +3,6 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
-| `modules/fast_run_service.sh` | LazyOwn service-mode orchestrator. | modules | 39 | 0 |
 | `modules/finding_enrich.py` | Idempotent enrichment of a finding's evidence before it is reported. | modules | 5 | 1 |
 | `modules/finding_lifecycle.py` | Finding confirmation lifecycle: pending -> confirmed / rejected. | modules | 27 | 8 |
 | `modules/forensic_cleaner.py` | Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup. | modules | 8 | 1 |
@@ -65,7 +64,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 26 | 5 |
 | `modules/lazy_deviations.py` | Planned-versus-actual deviation ledger for loop and chain runs. | modules | 12 | 4 |
 | `modules/lazy_drafts.py` | Injected objective drafts: close the lazy_drafts handoff loop. | modules | 2 | 1 |
-| `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 47 |
+| `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 49 |
 | `modules/lazy_exposure.py` | Target exposure report for LazyOwn. | modules | 14 | 5 |
 | `modules/lazy_fallback.py` | Adaptive fallback alternatives for failed chain techniques. | modules | 9 | 3 |
 | `modules/lazy_feedmatch.py` | Exploit feed matching for LazyOwn. | modules | 18 | 6 |
@@ -78,7 +77,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
 | `modules/lazy_inventory.py` | Host-reported inventory for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_ledger.py` | Freshness ledger: TTL windows per verb and target for the loop worker. | modules | 11 | 3 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 489 | 100 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 492 | 103 |
 | `modules/lazy_match_policy.py` | Match policy doctrine: what may claim a match and what stays a lead. | modules | 14 | 1 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_netattack.py` | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | modules | 12 | 1 |
@@ -159,6 +158,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/loop/worker_agentic.py` | WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker. | loop | 36 | 5 |
 | `modules/loop/worker_execution.py` | WorkerExecutionMixin: Command execution, background jobs and persistent-shell lifecycle for a... | loop | 12 | 1 |
 | `modules/loop/worker_gating.py` | WorkerGatingMixin: Scope, operating-system and privilege gates for a loop worker. | loop | 7 | 1 |
+| `modules/loop/worker_lazymode.py` | Code-mode (lazymode) first attempt for the loop worker. | loop | 12 | 1 |
 | `modules/loop/worker_memory.py` | WorkerMemoryMixin: Durable and in-session memory behaviour for a loop worker. | loop | 7 | 1 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 28 | 7 |
 | `modules/loop_audit.py` | Operator audit trail for autonomous loop runs. | modules | 36 | 1 |
@@ -360,7 +360,7 @@ Previous: [INDEX.md](INDEX.md)
 | `poc_tui/app.py` | LazyOwn TUI Shell — Proof of Concept.  cmd2 as backend, Textual as frontend. | poc_tui | 47 | 3 |
 | `poc_tui/config.py` | Payload.json configuration manager for the TUI shell. | poc_tui | 11 | 1 |
 | `poc_tui/plugin_loader.py` | Unified plugin loader — YAML addons, Lua plugins, and .tool files. | poc_tui | 22 | 0 |
-| `poc_tui/run.py` | Convenience launcher that symlinks LazyOwn dirs and starts the TUI. | poc_tui | 1 | 2 |
+| `poc_tui/run.py` | Convenience launcher that symlinks LazyOwn dirs and starts the TUI. | poc_tui | 1 | 1 |
 | `poc_tui/test_app.py` | Pytest tests for LazyOwn TUI Shell POC. | poc_tui | 56 | 0 |
 | `pwntomate.py` | This software must not be used by military or secret service organisations. | root | 3 | 0 |
 | `py2elf.sh` | Nombre del script: py2elf.sh Autor: Gris Iscomeback Correo electrónico... | root | 0 | 0 |
@@ -398,7 +398,7 @@ Previous: [INDEX.md](INDEX.md)
 | `sdk/__init__.py` | The LazyOwn programmatic SDK. | sdk | 0 | 4 |
 | `sdk/errors.py` | Typed errors for the LazyOwn programmatic SDK. | sdk | 4 | 4 |
 | `sdk/facade.py` | The LazyOwn programmatic facade (``Lazy``). | sdk | 19 | 4 |
-| `sdk/lazymode/__init__.py` | lazymode: programmatic (code-mode) execution over the LazyOwn SDK. | lazymode | 0 | 4 |
+| `sdk/lazymode/__init__.py` | lazymode: programmatic (code-mode) execution over the LazyOwn SDK. | lazymode | 0 | 6 |
 | `sdk/lazymode/_bootstrap.py` | Subprocess entry point that runs one lazymode Python script. | lazymode | 4 | 1 |
 | `sdk/lazymode/index.py` | Discoverable index of the lazymode SDK surface. | lazymode | 4 | 1 |
 | `sdk/lazymode/runner.py` | The lazymode code runners (hybrid: Python subprocess + Lua in-process). | lazymode | 11 | 3 |

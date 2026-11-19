@@ -1,4 +1,4 @@
-# API (page 22 of 30)
+# API (page 22 of 29)
 Previous: [API_p21.md](API_p21.md)
 
 ## scripts/mcp_call.py

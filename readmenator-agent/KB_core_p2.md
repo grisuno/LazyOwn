@@ -29,16 +29,16 @@ Previous: [KB_core.md](KB_core.md)
   - `_coerce_int` (function, line 370) `def _coerce_int(raw)`
   - `_coerce_bool` (function, line 385) `def _coerce_bool(raw)`
   - `_spec` (function, line 405) `def _spec(name, kind, default, description)`
-  - `register_specs` (function, line 2298) `def register_specs(specs)`
-  - `unregister_specs` (function, line 2321) `def unregister_specs(keys)`
-  - `field_for` (function, line 2339) `def field_for(key)`
-  - `coerce_value` (function, line 2344) `def coerce_value(key, raw)`
-  - `validate_value` (function, line 2367) `def validate_value(key, value)`
-  - `validate_payload` (function, line 2441) `def validate_payload(payload)`
-  - `format_issue` (function, line 2476) `def format_issue(issue)`
-  - `default_payload` (function, line 2494) `def default_payload()`
-  - `categories` (function, line 2502) `def categories()`
-  - `_load_operator_specs` (function, line 2514) `def _load_operator_specs()`
+  - `register_specs` (function, line 2362) `def register_specs(specs)`
+  - `unregister_specs` (function, line 2385) `def unregister_specs(keys)`
+  - `field_for` (function, line 2403) `def field_for(key)`
+  - `coerce_value` (function, line 2408) `def coerce_value(key, raw)`
+  - `validate_value` (function, line 2431) `def validate_value(key, value)`
+  - `validate_payload` (function, line 2505) `def validate_payload(payload)`
+  - `format_issue` (function, line 2540) `def format_issue(issue)`
+  - `default_payload` (function, line 2558) `def default_payload()`
+  - `categories` (function, line 2566) `def categories()`
+  - `_load_operator_specs` (function, line 2578) `def _load_operator_specs()`
 - Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `sdk/facade.py`, `skills/mcp_tools/set_config.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`, `tests/test_shell_params_seeding.py`
 

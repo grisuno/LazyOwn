@@ -1,6 +1,6 @@
 # modules: world_model
 
-modules: world_model groups 99 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Command chain registry: explicit prerequisites and dynamic next steps.
+modules: world_model groups 122 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Command chain registry: explicit prerequisites and dynamic next steps.
 
 ```mermaid
 graph LR
@@ -21,34 +21,35 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (7.1)
+## cli (6.1)
 
-cli groups 9 files (py) around ExplorationConfig, DiscoveredService, label, AddonEntry, ToolEntry. Command chain registry: explicit prerequisites and dynamic next steps.
+cli groups 10 files (py) around ExplorationConfig, DiscoveredService, label, AddonEntry, ToolEntry. Command chain registry: explicit prerequisites and dynamic next steps.
 
-## contrib (7.2)
+## contrib (6.2)
 
 contrib groups 3 files (py) around BinaryFinder, __init__, find_suid_binaries, find_capabilities_binaries, find_executable_binaries.
 
-## lazygui (7.3)
+## lazygui (6.3)
 
 lazygui groups 2 files (py). LazyOwn Operator Console.
 
-## modules (7.4)
+## modules (6.4)
 
-modules groups 45 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Attack-surface 3D intel module: C2-centred campaign graph.
+modules groups 58 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Attack-surface 3D intel module: C2-centred campaign graph.
 
-## skills (7.5)
+## skills (6.5)
 
 skills groups 11 files (py) around handle, handle, handle, _has_data, handle. MCP tool ``lazyown_command_next`` (migrated from the call_tool dispatch chain).
 
-## tests (7.6)
+## tests (6.6)
 
-tests groups 29 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
+tests groups 38 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
 
 **Files**:
 
 - cli/command_chain.py
 - cli/commands/caldera.py
+- cli/commands/mcp_bridge.py
 - cli/commands/pwn.py
 - cli/commands/surface.py
 - cli/exploration.py
@@ -86,22 +87,35 @@ tests groups 29 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - modules/lazy_exposure.py
 - modules/lazy_feedmatch.py
 - modules/lazy_heat.py
+- modules/lazy_hostscore.py
 - modules/lazy_inventory.py
+- modules/lazy_ledger.py
 - modules/lazy_match_policy.py
 - modules/lazy_probes.py
 - modules/lazy_sentinel.py
 - modules/lazy_surface_diff.py
 - modules/lazy_timeline.py
+- modules/lazy_world_diff.py
 - modules/live_surface.py
 - modules/obs_parser.py
 - modules/operation.py
 - modules/osint_enrich.py
+- modules/outcome_bus.py
 - modules/planner.py
 - modules/playbook_engine.py
 - modules/rich_tui.py
+- modules/sinks/__init__.py
+- modules/sinks/attack_graph.py
+- modules/sinks/c2_surfaces.py
+- modules/sinks/intel_graph.py
+- modules/sinks/killchain.py
 - modules/sinks/lazy_intel.py
+- modules/sinks/objectives.py
+- modules/sinks/routing.py
+- modules/sinks/world_diff.py
 - modules/sinks/world_model.py
 - modules/surface_ops.py
+- modules/threat_model.py
 - modules/ttp_coverage.py
 - modules/unified_dashboard.py
 - modules/world_model.py
@@ -125,6 +139,7 @@ tests groups 29 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - tests/test_daemon_loop.py
 - tests/test_estorides_fusion.py
 - tests/test_finding_lifecycle.py
+- tests/test_gym_registry.py
 - tests/test_intel_fusion.py
 - tests/test_intelligence_engine.py
 - tests/test_killchain_snapshot.py
@@ -133,16 +148,24 @@ tests groups 29 files (py) around gate_env, test_gate_exact_and_fuzzy_match, tes
 - tests/test_lazy_checks.py
 - tests/test_lazy_exposure.py
 - tests/test_lazy_feedmatch.py
+- tests/test_lazy_hostscore.py
 - tests/test_lazy_intel_wiring.py
+- tests/test_lazy_ledger.py
 - tests/test_lazy_match_policy.py
 - tests/test_lazy_probes.py
 - tests/test_lazy_sentinel.py
+- tests/test_lazy_world_diff.py
 - tests/test_lazynmap_post.py
 - tests/test_live_surface.py
+- tests/test_loop_auto_orchestrator.py
+- tests/test_loop_evidence_wiring.py
 - tests/test_nuclei_parser.py
 - tests/test_ops_loot_phase.py
+- tests/test_outcome_bus.py
 - tests/test_recon_plan.py
 - tests/test_single_source_of_truth.py
+- tests/test_sink_lazy_intel.py
 - tests/test_surface_graph.py
 - tests/test_unified_dashboard.py
+- tests/test_world_diff_retest.py
 - tests/test_world_model_extended.py

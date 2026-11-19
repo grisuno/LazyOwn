@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_db_services` | function | `skills/mcp_generated_tools.py:1914` | `def _gen_db_services(arguments, tool_name, _cmd)` |
+| `_gen_db_status` | function | `skills/mcp_generated_tools.py:1922` | `def _gen_db_status(arguments, tool_name, _cmd)` |
+| `_gen_db_vulns` | function | `skills/mcp_generated_tools.py:1930` | `def _gen_db_vulns(arguments, tool_name, _cmd)` |
+| `_gen_db_workspace` | function | `skills/mcp_generated_tools.py:1938` | `def _gen_db_workspace(arguments, tool_name, _cmd)` |
+| `_gen_dcomexec` | function | `skills/mcp_generated_tools.py:1946` | `def _gen_dcomexec(arguments, tool_name, _cmd)` |
+| `_gen_decode` | function | `skills/mcp_generated_tools.py:1954` | `def _gen_decode(arguments, tool_name, _cmd)` |
+| `_gen_decrypt` | function | `skills/mcp_generated_tools.py:1962` | `def _gen_decrypt(arguments, tool_name, _cmd)` |
+| `_gen_depconfuse` | function | `skills/mcp_generated_tools.py:1970` | `def _gen_depconfuse(arguments, tool_name, _cmd)` |
+| `_gen_depscan` | function | `skills/mcp_generated_tools.py:1978` | `def _gen_depscan(arguments, tool_name, _cmd)` |
+| `_gen_detect_edr` | function | `skills/mcp_generated_tools.py:1986` | `def _gen_detect_edr(arguments, tool_name, _cmd)` |
+| `_gen_dig` | function | `skills/mcp_generated_tools.py:1994` | `def _gen_dig(arguments, tool_name, _cmd)` |
+| `_gen_digdug` | function | `skills/mcp_generated_tools.py:2002` | `def _gen_digdug(arguments, tool_name, _cmd)` |
+| `_gen_dirsearch` | function | `skills/mcp_generated_tools.py:2010` | `def _gen_dirsearch(arguments, tool_name, _cmd)` |
 | `_gen_disableav` | function | `skills/mcp_generated_tools.py:2018` | `def _gen_disableav(arguments, tool_name, _cmd)` |
 | `_gen_dmitry` | function | `skills/mcp_generated_tools.py:2026` | `def _gen_dmitry(arguments, tool_name, _cmd)` |
 | `_gen_dns_beacon` | function | `skills/mcp_generated_tools.py:2034` | `def _gen_dns_beacon(arguments, tool_name, _cmd)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `_gen_yara_scan` | function | `skills/mcp_generated_tools.py:5836` | `def _gen_yara_scan(arguments, tool_name, _cmd)` |
 | `get_generated_tool_definitions` | function | `skills/mcp_generated_tools.py:659` | `def get_generated_tool_definitions()` |
 | `register_all_generated_handlers` | function | `skills/mcp_generated_tools.py:684` | `def register_all_generated_handlers(register_handler_fn, make_text_fn, run_lazyown_cmd_fn)` |
-| `ensure_optional` | function | `skills/mcp_lazy.py:18` | `def ensure_optional(namespace, flag, loader)` |
-| `_build_tool_schema` | function | `skills/mcp_tool_generator.py:91` | `def _build_tool_schema(command_param_name)` |
-| `extract_commands` | function | `skills/mcp_tool_generator.py:34` | `def extract_commands(index)` |
-| `extract_existing_handlers` | function | `skills/mcp_tool_generator.py:55` | `def extract_existing_handlers()` |
-| `generate_module` | function | `skills/mcp_tool_generator.py:106` | `def generate_module(commands, existing_handlers, limit)` |
-| `load_command_index` | function | `skills/mcp_tool_generator.py:29` | `def load_command_index()` |
-| `main` | function | `skills/mcp_tool_generator.py:220` | `def main()` |
-| `sanitize_description` | function | `skills/mcp_tool_generator.py:72` | `def sanitize_description(summary, max_len)` |
-| `sanitize_docstring` | function | `skills/mcp_tool_generator.py:85` | `def sanitize_docstring(text)` |
-| `verify_coverage` | function | `skills/mcp_tool_generator.py:203` | `def verify_coverage(commands, existing_handlers)` |
-| `_async_wrap` | function | `skills/mcp_tools/__init__.py:93` | `def _async_wrap(arguments, tool_name, _handle)` |
-| `_sync_wrap` | function | `skills/mcp_tools/__init__.py:99` | `def _sync_wrap(arguments, tool_name, _handle)` |
-| `iter_schemas` | function | `skills/mcp_tools/__init__.py:65` | `def iter_schemas()` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

@@ -4,15 +4,15 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does _context.py depend on, and what depends on it? (190 connections)
+### Q: What does _context.py depend on, and what depends on it? (193 connections)
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (153 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (159 connections)
 
 - Status: unanswered
 
-### Q: What does logging.py depend on, and what depends on it? (167 connections)
+### Q: What does logging.py depend on, and what depends on it? (173 connections)
 
 - Status: unanswered
 

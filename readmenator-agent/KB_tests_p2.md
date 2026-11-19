@@ -379,6 +379,21 @@ Previous: [KB_tests.md](KB_tests.md)
   - `_fake_input` (function, line 485) `def _fake_input(prompt)`
 - Depends on: `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`
 
+## tests/test_atomic_headless.py
+- Doc: Headless atomic_tests: numeric selection and autonomous-safe prompts.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_make_test` (function, line 17) `def _make_test(guid, name, command)`
+  - `three_tests` (function, line 34) `def three_tests(monkeypatch)`
+  - `test_parse_accepts_numeric_and_flag_forms` (function, line 66) `def test_parse_accepts_numeric_and_flag_forms()`
+  - `test_numeric_argument_selects_that_test` (function, line 77) `def test_numeric_argument_selects_that_test(three_tests)`
+  - `test_out_of_range_index_is_usage_error` (function, line 85) `def test_out_of_range_index_is_usage_error(three_tests)`
+  - `test_autonomous_mode_picks_first_without_prompt` (function, line 93) `def test_autonomous_mode_picks_first_without_prompt(three_tests, monkeypatch)`
+  - `test_tty_without_autonomous_still_prompts` (function, line 105) `def test_tty_without_autonomous_still_prompts(three_tests, monkeypatch)`
+  - `_fake_input` (function, line 112) `def _fake_input(prompt)`
+- Depends on: `core/autonomous.py`, `modules/atomic_cli.py`, `modules/bof_delivery.py`
+
 ## tests/test_atomic_loop.py
 - Doc: Atomic emulation inside the autonomous loop (registry + playbooks).
 - Layer: testing

@@ -1,6 +1,6 @@
 # modules: lazyown_facts
 
-modules: lazyown_facts groups 103 files (js, py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: lazyown_facts groups 116 files (js, py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
@@ -10,6 +10,7 @@ graph LR
     skills["skills"]
     static["static"]
     tests["tests"]
+    cli -- "calls into" --> core
     cli -- "calls into" --> modules
     cli -- "calls into" --> skills
     cli -- "calls into" --> tests
@@ -25,40 +26,44 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (6.1)
+## cli (8.1)
 
-cli groups 4 files (py) around _apply_limit, _parse_admin_flags, _token_name_ok, ChainArgs, parse_chain_args. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+cli groups 6 files (py) around _apply_limit, _parse_admin_flags, _token_name_ok, ChainArgs, parse_chain_args. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
-## core (6.2)
+## core (8.2)
 
-core groups 3 files (py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Process and subprocess utilities for the LazyOwn framework.
+core groups 4 files (py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Autonomous-run mode for the loop engine.
 
-## modules (6.3)
+## modules (8.3)
 
-modules groups 40 files (py) around skip_pending, ChainStep, identifier, Chain, resolve. AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
+modules groups 46 files (py) around skip_pending, ChainStep, identifier, Chain, resolve. AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
 
-## skills (6.4)
+## skills (8.4)
 
 skills groups 9 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. LazyOwn FactStore
 
-## static (6.5)
+## static (8.5)
 
 static groups 1 files (js) around pJS, draw, d, init, process.
 
-## tests (6.6)
+## tests (8.6)
 
-tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 50 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
 - cli/apt_chain_support.py
 - cli/commands/command_and_control_migrated.py
+- cli/commands/exploit_migrated.py
 - cli/commands/lazy_adaptive.py
+- cli/exploit_advisor.py
 - cli/retry_support.py
+- core/autonomous.py
 - core/process.py
 - core/safe_exec.py
 - core/safe_subprocess.py
 - modules/ad_gym.py
+- modules/adcs_attacks.py
 - modules/ai_exploit_chain.py
 - modules/apt_playbooks.py
 - modules/atomic_cli.py
@@ -69,6 +74,7 @@ tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/chain_approval.py
 - modules/chain_distill.py
 - modules/chain_facts.py
+- modules/chain_family.py
 - modules/chain_loop.py
 - modules/chain_registry.py
 - modules/chain_runner.py
@@ -79,21 +85,25 @@ tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/ctf_capture.py
 - modules/dns_beacon.py
 - modules/emulation_runner.py
+- modules/exploit_chain.py
 - modules/failure_verdict.py
 - modules/gym_matrix_runner.py
 - modules/lazy_deviations.py
 - modules/lazy_fallback.py
 - modules/lazy_finalizer.py
+- modules/lazy_osinfer.py
 - modules/lazy_scope.py
 - modules/lazy_verify.py
 - modules/lazypoophish.py
 - modules/lazyshortener.py
+- modules/loop/daemon_reward.py
 - modules/metasploitable_gym.py
 - modules/metasploitable_migrations.py
-- modules/playbook_admin.py
+- modules/nmap_fingerprint.py
 - modules/playbook_chain.py
 - modules/resource_script.py
 - modules/retry_session.py
+- modules/service_aliases.py
 - modules/shell_session_store.py
 - modules/ttpscope_bridge.py
 - modules/verb_manifest.py
@@ -111,6 +121,7 @@ tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_apt_chain_admin.py
 - tests/test_apt_chain_integration.py
 - tests/test_atomic_exploit_bridge.py
+- tests/test_atomic_headless.py
 - tests/test_atomic_loop.py
 - tests/test_atomic_resolver.py
 - tests/test_auto_pwn_coverage.py
@@ -121,8 +132,10 @@ tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_chain_distill_custody.py
 - tests/test_chain_distill_scope.py
 - tests/test_chain_evidence.py
+- tests/test_chain_family.py
 - tests/test_chain_finalizer.py
 - tests/test_chain_freshness_guard.py
+- tests/test_chain_list_command.py
 - tests/test_chain_loop.py
 - tests/test_chain_parallel_fallback.py
 - tests/test_chain_registry.py
@@ -134,6 +147,7 @@ tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_codeql_alert_fixes.py
 - tests/test_command_control_agent.py
 - tests/test_ctf_signalman.py
+- tests/test_daemon_reward_contract.py
 - tests/test_emulation_runner.py
 - tests/test_executor_kernel.py
 - tests/test_f4_hardening.py
@@ -142,9 +156,9 @@ tests groups 46 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_lazy_adaptive_replan.py
 - tests/test_lazy_deviations.py
 - tests/test_lazy_fallback.py
+- tests/test_lazy_handoff.py
 - tests/test_metasploitable_gym.py
 - tests/test_metasploitable_migrations.py
-- tests/test_playbook_admin.py
 - tests/test_playbook_chain.py
 - tests/test_resource_script.py
 - tests/test_retry_session.py

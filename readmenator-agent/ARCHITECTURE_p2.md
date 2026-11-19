@@ -2,10 +2,6 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
-- `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
-- `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
-- `cli/commands/resource_scripting.py` -> `utils.py`
-- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
 - `cli/commands/retry_ops.py` -> `cli/retry_support.py`
 - `cli/commands/retry_ops.py` -> `modules/lazy_runner.py`
 - `cli/commands/retry_ops.py` -> `utils.py`
@@ -496,5 +492,9 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/__init__.py` -> `lazygui/panels/history_panel.py`
 - `lazygui/panels/__init__.py` -> `lazygui/panels/killchain_panel.py`
 - `lazygui/panels/__init__.py` -> `lazygui/panels/listeners_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/marketplace_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/registry.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/sessions_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/terminal_panel.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

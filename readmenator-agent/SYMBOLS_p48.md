@@ -3,6 +3,44 @@ Previous: [SYMBOLS_p47.md](SYMBOLS_p47.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Fake` | class | `tests/test_mediation.py:182` | `class Fake` |
+| `FakePort` | class | `tests/test_mediation.py:239` | `class FakePort` |
+| `FakePort` | class | `tests/test_mediation.py:280` | `class FakePort` |
+| `TestChainMediatorLlmPort` | class | `tests/test_mediation.py:170` | `class TestChainMediatorLlmPort` |
+| `TestFeedbackMediator` | class | `tests/test_mediation.py:62` | `class TestFeedbackMediator` |
+| `TestHubRouting` | class | `tests/test_mediation.py:19` | `class TestHubRouting` |
+| `TestIntelMediatorActivityPort` | class | `tests/test_mediation.py:39` | `class TestIntelMediatorActivityPort` |
+| `TestTelemetryMediator` | class | `tests/test_mediation.py:82` | `class TestTelemetryMediator` |
+| `_FakeHub` | class | `tests/test_mediation.py:197` | `class _FakeHub` |
+| `_NoLock` | class | `tests/test_mediation.py:204` | `class _NoLock` |
+| `__enter__` | method | `tests/test_mediation.py:205` | `def __enter__(self)` |
+| `__exit__` | method | `tests/test_mediation.py:208` | `def __exit__(self)` |
+| `__init__` | method | `tests/test_mediation.py:198` | `def __init__(self, port)` |
+| `_patch_hub` | method | `tests/test_mediation.py:194` | `def _patch_hub(self, monkeypatch, port)` |
+| `boom` | function | `tests/test_mediation.py:68` | `def boom(steps, stack)` |
+| `boom` | function | `tests/test_mediation.py:108` | `def boom()` |
+| `boom` | function | `tests/test_mediation.py:124` | `def boom()` |
+| `boom` | function | `tests/test_mediation.py:147` | `def boom()` |
+| `boom` | function | `tests/test_mediation.py:163` | `def boom()` |
+| `complete` | method | `tests/test_mediation.py:183` | `def complete(self, prompt, max_tokens, task_id)` |
+| `complete` | method | `tests/test_mediation.py:218` | `def complete(self, prompt, max_tokens, task_id)` |
+| `complete` | method | `tests/test_mediation.py:240` | `def complete(self, prompt, max_tokens, task_id)` |
+| `complete` | method | `tests/test_mediation.py:281` | `def complete(self, prompt, max_tokens, task_id)` |
+| `has_members` | method | `tests/test_mediation.py:186` | `def has_members(self)` |
+| `has_members` | method | `tests/test_mediation.py:221` | `def has_members(self)` |
+| `has_members` | method | `tests/test_mediation.py:243` | `def has_members(self)` |
+| `has_members` | method | `tests/test_mediation.py:285` | `def has_members(self)` |
+| `mediator_for` | method | `tests/test_mediation.py:201` | `def mediator_for(self, domain)` |
+| `test_activity_records_fallback_graceful` | method | `tests/test_mediation.py:48` | `def test_activity_records_fallback_graceful(self)` |
+| `test_activity_records_via_injected_port` | method | `tests/test_mediation.py:42` | `def test_activity_records_via_injected_port(self)` |
+| `test_all_default_domains_registered` | method | `tests/test_mediation.py:22` | `def test_all_default_domains_registered(self)` |
+| `test_assess_opsec_forwards_to_bridge` | method | `tests/test_mediation.py:114` | `def test_assess_opsec_forwards_to_bridge(self, monkeypatch)` |
+| `test_assess_opsec_graceful_on_bridge_failure` | method | `tests/test_mediation.py:121` | `def test_assess_opsec_graceful_on_bridge_failure(self, monkeypatch)` |
+| `test_mask_and_stack_survive_missing_peers` | method | `tests/test_mediation.py:52` | `def test_mask_and_stack_survive_missing_peers(self, monkeypatch)` |
+| `test_mediation_contract_shape` | method | `tests/test_mediation.py:33` | `def test_mediation_contract_shape(self)` |
+| `test_order_steps_forwarded` | method | `tests/test_mediation.py:75` | `def test_order_steps_forwarded(self, monkeypatch)` |
+| `test_order_steps_passthrough_on_error` | method | `tests/test_mediation.py:65` | `def test_order_steps_passthrough_on_error(self, monkeypatch)` |
+| `test_port_contract` | method | `tests/test_mediation.py:173` | `def test_port_contract(self)` |
 | `test_publish_event_default_severity_positional` | method | `tests/test_mediation.py:85` | `def test_publish_event_default_severity_positional(self, monkeypatch)` |
 | `test_publish_event_forwarding_calls_default_path` | method | `tests/test_mediation.py:95` | `def test_publish_event_forwarding_calls_default_path(self, monkeypatch)` |
 | `test_record_outcome_quality_forwards_to_bridge` | method | `tests/test_mediation.py:130` | `def test_record_outcome_quality_forwards_to_bridge(self, monkeypatch)` |
@@ -458,43 +496,5 @@ Previous: [SYMBOLS_p47.md](SYMBOLS_p47.md)
 | `test_has_detect_secrets_repo` | method | `tests/test_packaging.py:229` | `def test_has_detect_secrets_repo(self, cfg)` |
 | `test_has_dev_optional_dependencies` | method | `tests/test_packaging.py:132` | `def test_has_dev_optional_dependencies(self, pyproject)` |
 | `test_has_ml_optional_dependencies` | method | `tests/test_packaging.py:126` | `def test_has_ml_optional_dependencies(self, pyproject)` |
-| `test_has_mypy_section` | method | `tests/test_packaging.py:146` | `def test_has_mypy_section(self, pyproject)` |
-| `test_has_no_typo_dependency` | method | `tests/test_packaging.py:108` | `def test_has_no_typo_dependency(self, pyproject)` |
-| `test_has_pytest_section` | method | `tests/test_packaging.py:142` | `def test_has_pytest_section(self, pyproject)` |
-| `test_has_ruff_repo` | method | `tests/test_packaging.py:225` | `def test_has_ruff_repo(self, cfg)` |
-| `test_has_ruff_section` | method | `tests/test_packaging.py:138` | `def test_has_ruff_section(self, pyproject)` |
-| `test_installs_from_pinned_lock` | method | `tests/test_packaging.py:363` | `def test_installs_from_pinned_lock(self, text)` |
-| `test_lint_workflow_has_ruff_and_mypy_jobs` | method | `tests/test_packaging.py:257` | `def test_lint_workflow_has_ruff_and_mypy_jobs(self, lint_wf)` |
-| `test_lists_flask_wtf_correctly` | method | `tests/test_packaging.py:117` | `def test_lists_flask_wtf_correctly(self, pyproject)` |
-| `test_lists_tool` | method | `tests/test_packaging.py:208` | `def test_lists_tool(self, deps, tool)` |
-| `test_ml_lock_exists_pinned_with_torch` | method | `tests/test_packaging.py:335` | `def test_ml_lock_exists_pinned_with_torch(self)` |
-| `test_no_absolute_modules_ext_path` | method | `tests/test_packaging.py:366` | `def test_no_absolute_modules_ext_path(self, text)` |
-| `test_no_stdlib_ast_dep` | method | `tests/test_packaging.py:189` | `def test_no_stdlib_ast_dep(self, setup_text)` |
-| `test_no_typo_dep` | method | `tests/test_packaging.py:186` | `def test_no_typo_dep(self, setup_text)` |
-| `test_parses` | method | `tests/test_packaging.py:105` | `def test_parses(self, pyproject)` |
-| `test_parses` | method | `tests/test_packaging.py:170` | `def test_parses(self, setup_tree)` |
-| `test_parses` | method | `tests/test_packaging.py:220` | `def test_parses(self, cfg)` |
-| `test_parses` | method | `tests/test_packaging.py:374` | `def test_parses(self, filename)` |
-| `test_pattern_present` | method | `tests/test_packaging.py:299` | `def test_pattern_present(self, patterns, pattern)` |
-| `test_security_workflow_has_three_jobs` | method | `tests/test_packaging.py:267` | `def test_security_workflow_has_three_jobs(self, security_wf)` |
-| `test_test_workflow_runs_pytest` | method | `tests/test_packaging.py:262` | `def test_test_workflow_runs_pytest(self, test_wf)` |
-| `test_uses_strict_mode` | method | `tests/test_packaging.py:350` | `def test_uses_strict_mode(self, text)` |
-| `test_wf` | method | `tests/test_packaging.py:250` | `def test_wf(self)` |
-| `test_workflow_triggers_on_push_and_pr` | method | `tests/test_packaging.py:276` | `def test_workflow_triggers_on_push_and_pr(self, wf_path)` |
-| `text` | method | `tests/test_packaging.py:347` | `def text(self)` |
-| `_fake_index` | function | `tests/test_palette_overlay.py:24` | `def _fake_index()` |
-| `runner` | function | `tests/test_palette_overlay.py:83` | `def runner(context)` |
-| `test_build_state_returns_none_when_index_missing` | function | `tests/test_palette_overlay.py:73` | `def test_build_state_returns_none_when_index_missing(monkeypatch)` |
-| `test_launch_overlay_uses_runner_for_tests` | function | `tests/test_palette_overlay.py:79` | `def test_launch_overlay_uses_runner_for_tests()` |
-| `test_rows_filter_by_substring` | function | `tests/test_palette_overlay.py:44` | `def test_rows_filter_by_substring()` |
-| `test_rows_rank_recents_above_substrings` | function | `tests/test_palette_overlay.py:52` | `def test_rows_rank_recents_above_substrings()` |
-| `test_rows_respect_max_rows` | function | `tests/test_palette_overlay.py:65` | `def test_rows_respect_max_rows()` |
-| `test_rows_returns_all_commands_when_query_empty` | function | `tests/test_palette_overlay.py:36` | `def test_rows_returns_all_commands_when_query_empty()` |
-| `test_set_query_strips_whitespace` | function | `tests/test_palette_overlay.py:106` | `def test_set_query_strips_whitespace()` |
-| `test_truncate_summary_uses_truncation_suffix` | function | `tests/test_palette_overlay.py:90` | `def test_truncate_summary_uses_truncation_suffix()` |
-| `FakeShell` | class | `tests/test_param_registry.py:48` | `class FakeShell` |
-| `TestOrchestratorParamsTab` | class | `tests/test_param_registry.py:267` | `class TestOrchestratorParamsTab` |
-| `TestParamCommand` | class | `tests/test_param_registry.py:247` | `class TestParamCommand` |
-| `TestRegistryCrud` | class | `tests/test_param_registry.py:93` | `class TestRegistryCrud` |
 
 Next: [SYMBOLS_p49.md](SYMBOLS_p49.md)

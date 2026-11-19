@@ -1,6 +1,6 @@
 # modules: defense_eval
 
-*Community 14 | 8 files | cohesion 0.64*
+*Community 13 | 8 files | cohesion 0.64*
 
 ## Definition
 

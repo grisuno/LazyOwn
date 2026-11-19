@@ -1,4 +1,4 @@
-# API (page 25 of 30)
+# API (page 25 of 29)
 Previous: [API_p24.md](API_p24.md)
 
 ## skills/mcp_tools/parquet_annotate.py

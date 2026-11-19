@@ -1,4 +1,4 @@
-# API (page 11 of 30)
+# API (page 11 of 29)
 Previous: [API_p10.md](API_p10.md)
 
 ## modules/bof_registry.py

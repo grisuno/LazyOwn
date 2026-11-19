@@ -3,10 +3,6 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 
 ## Internal Dependencies
 
-- `2026-11-18_112624/jquery-1.11.3.min.js` -> `cli/show.py`
-- `2026-11-18_112624/jquery-1.11.3.min.js` -> `cli/style.py`
-- `2026-11-18_112624/jquery-1.11.3.min.js` -> `lazyown-docker/init.sh`
-- `2026-11-18_112624/jquery-1.11.3.min.js` -> `poc_tui/run.py`
 - `banner.py` -> `utils.py`
 - `cli/__init__.py` -> `cli/aliases.py`
 - `cli/__init__.py` -> `cli/registry.py`
@@ -496,5 +492,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
 - `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
 - `cli/commands/redteam_gym.py` -> `utils.py`
+- `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
+- `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
+- `cli/commands/resource_scripting.py` -> `utils.py`
+- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

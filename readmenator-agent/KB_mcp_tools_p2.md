@@ -425,6 +425,7 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 
 ## skills/mcp_tools/lazymode_exec.py
 - Doc: MCP tool ``lazyown_lazymode_exec``: run one lazymode script.
+- Layer: utility
 - Language: py
 - Symbols:
   - `handle` (function, line 53) `def handle(arguments, tool_name, ctx)`
@@ -432,6 +433,7 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 
 ## skills/mcp_tools/lazymode_playbook.py
 - Doc: MCP tool ``lazyown_lazymode_playbook``: list and run lazymode playbooks.
+- Layer: utility
 - Language: py
 - Symbols:
   - `handle` (function, line 53) `def handle(arguments, tool_name, ctx)`
@@ -439,6 +441,7 @@ Previous: [KB_mcp_tools.md](KB_mcp_tools.md)
 
 ## skills/mcp_tools/lazymode_search.py
 - Doc: MCP tool ``lazyown_lazymode_search``: discover the lazymode SDK surface.
+- Layer: utility
 - Language: py
 - Symbols:
   - `handle` (function, line 43) `def handle(arguments, tool_name, ctx)`

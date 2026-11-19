@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `load_banners` | function | `lazyc2/extensions/storage.py:154` | `def load_banners()` |
-| `load_cves` | function | `lazyc2/extensions/storage.py:59` | `def load_cves()` |
-| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
 | `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
 | `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
 | `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_make_panel_toggle` | method | `lazygui/windows/main_window.py:300` | `def _make_panel_toggle(self, panel)` |
 | `_make_theme_apply` | method | `lazygui/windows/main_window.py:311` | `def _make_theme_apply(self, identifier)` |
 | `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
+| `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
+| `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
+| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

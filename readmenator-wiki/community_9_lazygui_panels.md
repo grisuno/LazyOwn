@@ -1,6 +1,6 @@
 # lazygui/panels
 
-*Community 8 | 54 files | cohesion 0.94*
+*Community 9 | 54 files | cohesion 0.94*
 
 ## Definition
 
@@ -120,7 +120,7 @@ This community groups 54 file(s) rooted at `lazygui/panels` with dominant langua
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [layer strict] `tests/test_lazygui_graph_widget.py` (testing) -> `lazygui/widgets/graph_view.py` (presentation)
 
 ## Open Questions
 

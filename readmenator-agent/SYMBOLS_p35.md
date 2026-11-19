@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `main` | function | `tests/run_mutation_llm_orchestrator.py:220` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_llm_orchestrator.py:184` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_llm_orchestrator.py:196` | `def run_tests()` |
+| `main` | function | `tests/run_mutation_loop_cli_catalog.py:50` | `def main()` |
+| `_run_tests` | function | `tests/run_mutation_no_shell.py:25` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_no_shell.py:37` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_opsec.py:59` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_opsec.py:83` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_opsec.py:68` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_opsec.py:73` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_orchestrator_yaml.py:54` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_orchestrator_yaml.py:83` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_orchestrator_yaml.py:64` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_orchestrator_yaml.py:71` | `def run_tests()` |
 | `backup_files` | function | `tests/run_mutation_outcome_bus.py:47` | `def backup_files(mutations, base_dir)` |
 | `main` | function | `tests/run_mutation_outcome_bus.py:76` | `def main()` |
@@ -446,6 +459,14 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_shell_output_evidence_rejects_benign_output` | function | `tests/test_atomic_exploit_bridge.py:140` | `def test_shell_output_evidence_rejects_benign_output()` |
 | `test_validate_accepts_good_document` | function | `tests/test_atomic_exploit_bridge.py:54` | `def test_validate_accepts_good_document()` |
 | `test_validate_rejects_bad_documents` | function | `tests/test_atomic_exploit_bridge.py:59` | `def test_validate_rejects_bad_documents()` |
+| `_fake_input` | function | `tests/test_atomic_headless.py:112` | `def _fake_input(prompt)` |
+| `_make_test` | function | `tests/test_atomic_headless.py:17` | `def _make_test(guid, name, command)` |
+| `test_autonomous_mode_picks_first_without_prompt` | function | `tests/test_atomic_headless.py:93` | `def test_autonomous_mode_picks_first_without_prompt(three_tests, monkeypatch)` |
+| `test_numeric_argument_selects_that_test` | function | `tests/test_atomic_headless.py:77` | `def test_numeric_argument_selects_that_test(three_tests)` |
+| `test_out_of_range_index_is_usage_error` | function | `tests/test_atomic_headless.py:85` | `def test_out_of_range_index_is_usage_error(three_tests)` |
+| `test_parse_accepts_numeric_and_flag_forms` | function | `tests/test_atomic_headless.py:66` | `def test_parse_accepts_numeric_and_flag_forms()` |
+| `test_tty_without_autonomous_still_prompts` | function | `tests/test_atomic_headless.py:105` | `def test_tty_without_autonomous_still_prompts(three_tests, monkeypatch)` |
+| `three_tests` | function | `tests/test_atomic_headless.py:34` | `def three_tests(monkeypatch)` |
 | `Shell` | class | `tests/test_atomic_loop.py:270` | `class Shell` |
 | `_fixture_atomics` | function | `tests/test_atomic_loop.py:21` | `def _fixture_atomics(root)` |
 | `forbidden` | function | `tests/test_atomic_loop.py:225` | `def forbidden()` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `test_normalize_mitre_rejects_injection` | function | `tests/test_atomic_resolver.py:71` | `def test_normalize_mitre_rejects_injection()` |
 | `test_platform_allowlist` | function | `tests/test_atomic_resolver.py:87` | `def test_platform_allowlist()` |
 | `test_resolver_lists_and_filters` | function | `tests/test_atomic_resolver.py:94` | `def test_resolver_lists_and_filters(tmp_path)` |
-| `test_resolver_prefix_and_unknown` | function | `tests/test_atomic_resolver.py:105` | `def test_resolver_prefix_and_unknown(tmp_path)` |
-| `test_variables_and_render` | function | `tests/test_atomic_resolver.py:121` | `def test_variables_and_render()` |
-| `_fixture_sessions` | function | `tests/test_attack_surface3d.py:24` | `def _fixture_sessions(tmp_path)` |
-| `test_attack_bundle_payload` | function | `tests/test_attack_surface3d.py:72` | `def test_attack_bundle_payload(tmp_path)` |
-| `test_attack_fuses_surface_and_intel` | function | `tests/test_attack_surface3d.py:47` | `def test_attack_fuses_surface_and_intel(tmp_path)` |
-| `test_attack_menu_entry_and_routes` | function | `tests/test_attack_surface3d.py:129` | `def test_attack_menu_entry_and_routes()` |
-| `test_attack_pages_embedded_and_wired` | function | `tests/test_attack_surface3d.py:109` | `def test_attack_pages_embedded_and_wired()` |
-| `test_attack_payload_readmenator_shape` | function | `tests/test_attack_surface3d.py:59` | `def test_attack_payload_readmenator_shape(tmp_path)` |
-| `test_attack_summary_feeds_loop` | function | `tests/test_attack_surface3d.py:93` | `def test_attack_summary_feeds_loop(tmp_path)` |
-| `test_new_endpoints_require_login_and_decoy` | function | `tests/test_attack_surface3d.py:144` | `def test_new_endpoints_require_login_and_decoy()` |
-| `TestAddonExists` | class | `tests/test_attack_surface_addons.py:68` | `class TestAddonExists` |
-| `TestCloudSploitSpecific` | class | `tests/test_attack_surface_addons.py:294` | `class TestCloudSploitSpecific` |
-| `TestCommandTemplates` | class | `tests/test_attack_surface_addons.py:234` | `class TestCommandTemplates` |
-| `TestFuzzAddonStructure` | class | `tests/test_attack_surface_addons.py:384` | `class TestFuzzAddonStructure` |
-| `TestGrypeSpecific` | class | `tests/test_attack_surface_addons.py:333` | `class TestGrypeSpecific` |
-| `TestNoHardcodedSecrets` | class | `tests/test_attack_surface_addons.py:207` | `class TestNoHardcodedSecrets` |
-| `TestParams` | class | `tests/test_attack_surface_addons.py:151` | `class TestParams` |
-| `TestPathSafety` | class | `tests/test_attack_surface_addons.py:180` | `class TestPathSafety` |
-| `TestProwlerSpecific` | class | `tests/test_attack_surface_addons.py:273` | `class TestProwlerSpecific` |
-| `TestReportFullSpecific` | class | `tests/test_attack_surface_addons.py:353` | `class TestReportFullSpecific` |
-| `TestRequiredFields` | class | `tests/test_attack_surface_addons.py:88` | `class TestRequiredFields` |
 
 Next: [SYMBOLS_p36.md](SYMBOLS_p36.md)

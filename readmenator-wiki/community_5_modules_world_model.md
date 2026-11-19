@@ -1,14 +1,14 @@
 # modules: world_model
 
-*Community 6 | 99 files | cohesion 0.43*
+*Community 5 | 122 files | cohesion 0.45*
 
 ## Definition
 
-This community groups 99 file(s) rooted at `modules` with dominant language py (cohesion 0.43). Central symbols: `AddonCatalog`, `AddonEntry`, `AdvancePhaseSingleWriterSpec`, `BinaryAttacker`, `BinaryFinder`, `BuildReconPlanContractSpec`, `CVEMapper`, `CalderaCommandSet`. Core file: `modules/world_model.py` (70 symbols). Documented purpose: Command chain registry: explicit prerequisites and dynamic next steps.  The chain answers two questions for both the human operator and the AI:  1. ``prev(cmd)`.
+This community groups 122 file(s) rooted at `modules` with dominant language py (cohesion 0.45). Central symbols: `AddonCatalog`, `AddonEntry`, `AdvancePhaseSingleWriterSpec`, `BinaryAttacker`, `BinaryFinder`, `BuildReconPlanContractSpec`, `CVEMapper`, `CalderaCommandSet`. Core file: `modules/world_model.py` (70 symbols). Documented purpose: Command chain registry: explicit prerequisites and dynamic next steps.  The chain answers two questions for both the human operator and the AI:  1. ``prev(cmd)`.
 
 ## Files
 
-### `modules` (38 files)
+### `modules` (43 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -16,7 +16,7 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 | `modules/beacon_recon.py` | py | utility | 6 | yes |
 | `modules/compliance.py` | py | utility | 26 | yes |
 
-### `tests` (29 files)
+### `tests` (38 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -30,6 +30,13 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `skills/mcp_tools/command_next.py` | py | utility | 1 | yes |
 | `skills/mcp_tools/command_prev.py` | py | utility | 1 | yes |
+
+### `modules/sinks` (10 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/sinks/__init__.py` | py | utility | 0 | yes |
+| `modules/sinks/attack_graph.py` | py | utility | 1 | yes |
 
 ### `cli` (6 files)
 
@@ -45,12 +52,12 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 | `modules/integrations/__init__.py` | py | utility | 0 | yes |
 | `modules/integrations/misp_export.py` | py | utility | 39 | yes |
 
-### `cli/commands` (3 files)
+### `cli/commands` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/caldera.py` | py | utility | 21 | yes |
-| `cli/commands/pwn.py` | py | utility | 8 | yes |
+| `cli/commands/mcp_bridge.py` | py | utility | 20 | yes |
 
 ### `contrib/legacy` (3 files)
 
@@ -66,14 +73,7 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 | `lazygui/__init__.py` | py | utility | 0 | yes |
 | `lazygui/version.py` | py | utility | 0 | yes |
 
-### `modules/sinks` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/sinks/lazy_intel.py` | py | utility | 3 | yes |
-| `modules/sinks/world_model.py` | py | business_logic | 1 | yes |
-
-*... and 79 more files in this community.*
+*... and 102 more files in this community.*
 
 
 ## Key Symbols
@@ -111,29 +111,38 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 228
-- Cross-boundary resolved imports (EXTRACTED): 350
+- Internal resolved imports (EXTRACTED): 293
+- Cross-boundary resolved imports (EXTRACTED): 424
 
 ## Connections
 
-- [EXTRACTED] depends_on community 6 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.
-- [EXTRACTED] depends_on community 9 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 6 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 5 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.
+- [EXTRACTED] depends_on community 8 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 5 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/credential_vault.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `core/config.py`
+- [cycle] `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/sinks/routing.py` -> `modules/lazy_ledger.py` -> `modules/lazy_loop.py`
+- [dataflow UNCHECKED_ALLOC] `cli/lazynmap_post.py:243` `_emit_event` `fd`: Result of allocator stored in `fd` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/estorides_importer.py:811` `_import_to_scope` `cfg`: Result of allocator stored in `cfg` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/estorides_importer.py:863` `get_combined_surface` `cfg`: Result of allocator stored in `cfg` is never checked against NULL.
 
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazypwn.py`)? What purpose do they serve?
+- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/credential_vault.py` be broken with an interface?
 - What would break if the most connected file in modules: world_model changed?
-- Should modules: world_model be split, given cohesion 0.43?
+- Should modules: world_model be split, given cohesion 0.45?
 
 ## Sources
 
 - `cli/command_chain.py`
 - `cli/commands/caldera.py`
+- `cli/commands/mcp_bridge.py`
 - `cli/commands/pwn.py`
 - `cli/commands/surface.py`
 - `cli/exploration.py`
@@ -151,5 +160,4 @@ This community groups 99 file(s) rooted at `modules` with dominant language py (
 - `modules/compliance.py`
 - `modules/dashboard_engine.py`
 - `modules/estorides_fusion.py`
-- `modules/estorides_importer.py`
-- *... and 79 more*
+- *... and 102 more*

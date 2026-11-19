@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_resolver_prefix_and_unknown` | function | `tests/test_atomic_resolver.py:105` | `def test_resolver_prefix_and_unknown(tmp_path)` |
+| `test_variables_and_render` | function | `tests/test_atomic_resolver.py:121` | `def test_variables_and_render()` |
+| `_fixture_sessions` | function | `tests/test_attack_surface3d.py:24` | `def _fixture_sessions(tmp_path)` |
+| `test_attack_bundle_payload` | function | `tests/test_attack_surface3d.py:72` | `def test_attack_bundle_payload(tmp_path)` |
+| `test_attack_fuses_surface_and_intel` | function | `tests/test_attack_surface3d.py:47` | `def test_attack_fuses_surface_and_intel(tmp_path)` |
+| `test_attack_menu_entry_and_routes` | function | `tests/test_attack_surface3d.py:129` | `def test_attack_menu_entry_and_routes()` |
+| `test_attack_pages_embedded_and_wired` | function | `tests/test_attack_surface3d.py:109` | `def test_attack_pages_embedded_and_wired()` |
+| `test_attack_payload_readmenator_shape` | function | `tests/test_attack_surface3d.py:59` | `def test_attack_payload_readmenator_shape(tmp_path)` |
+| `test_attack_summary_feeds_loop` | function | `tests/test_attack_surface3d.py:93` | `def test_attack_summary_feeds_loop(tmp_path)` |
+| `test_new_endpoints_require_login_and_decoy` | function | `tests/test_attack_surface3d.py:144` | `def test_new_endpoints_require_login_and_decoy()` |
+| `TestAddonExists` | class | `tests/test_attack_surface_addons.py:68` | `class TestAddonExists` |
+| `TestCloudSploitSpecific` | class | `tests/test_attack_surface_addons.py:294` | `class TestCloudSploitSpecific` |
+| `TestCommandTemplates` | class | `tests/test_attack_surface_addons.py:234` | `class TestCommandTemplates` |
+| `TestFuzzAddonStructure` | class | `tests/test_attack_surface_addons.py:384` | `class TestFuzzAddonStructure` |
+| `TestGrypeSpecific` | class | `tests/test_attack_surface_addons.py:333` | `class TestGrypeSpecific` |
+| `TestNoHardcodedSecrets` | class | `tests/test_attack_surface_addons.py:207` | `class TestNoHardcodedSecrets` |
+| `TestParams` | class | `tests/test_attack_surface_addons.py:151` | `class TestParams` |
+| `TestPathSafety` | class | `tests/test_attack_surface_addons.py:180` | `class TestPathSafety` |
+| `TestProwlerSpecific` | class | `tests/test_attack_surface_addons.py:273` | `class TestProwlerSpecific` |
+| `TestReportFullSpecific` | class | `tests/test_attack_surface_addons.py:353` | `class TestReportFullSpecific` |
+| `TestRequiredFields` | class | `tests/test_attack_surface_addons.py:88` | `class TestRequiredFields` |
 | `TestResultReview` | class | `tests/test_attack_surface_addons.py:418` | `class TestResultReview` |
 | `TestScoutSuiteSpecific` | class | `tests/test_attack_surface_addons.py:251` | `class TestScoutSuiteSpecific` |
 | `TestToolSection` | class | `tests/test_attack_surface_addons.py:118` | `class TestToolSection` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 | `test_beacon_has_lhost_param` | method | `tests/test_blacksandbeacon_addon.py:133` | `def test_beacon_has_lhost_param(self, beacon)` |
 | `test_beacon_has_lport_param` | method | `tests/test_blacksandbeacon_addon.py:136` | `def test_beacon_has_lport_param(self, beacon)` |
 | `test_beacon_install_command_is_make` | method | `tests/test_blacksandbeacon_addon.py:90` | `def test_beacon_install_command_is_make(self, beacon)` |
-| `test_beacon_install_path` | method | `tests/test_blacksandbeacon_addon.py:84` | `def test_beacon_install_path(self, beacon)` |
-| `test_beacon_install_path_no_traversal` | method | `tests/test_blacksandbeacon_addon.py:100` | `def test_beacon_install_path_no_traversal(self, beacon)` |
-| `test_beacon_lazycommand_has_c2_port` | method | `tests/test_blacksandbeacon_addon.py:168` | `def test_beacon_lazycommand_has_c2_port(self, beacon)` |
-| `test_beacon_lazycommand_has_lhost` | method | `tests/test_blacksandbeacon_addon.py:160` | `def test_beacon_lazycommand_has_lhost(self, beacon)` |
-| `test_beacon_lazycommand_is_stage_helper` | method | `tests/test_blacksandbeacon_addon.py:205` | `def test_beacon_lazycommand_is_stage_helper(self, beacon)` |
-| `test_beacon_lhost_required` | method | `tests/test_blacksandbeacon_addon.py:148` | `def test_beacon_lhost_required(self, beacon)` |
-| `test_beacon_name_is_correct` | method | `tests/test_blacksandbeacon_addon.py:233` | `def test_beacon_name_is_correct(self, beacon)` |
-| `test_beacon_no_hardcoded_ip` | method | `tests/test_blacksandbeacon_addon.py:246` | `def test_beacon_no_hardcoded_ip(self)` |
-| `test_beacon_no_hardcoded_port_numbers` | method | `tests/test_blacksandbeacon_addon.py:260` | `def test_beacon_no_hardcoded_port_numbers(self)` |
-| `test_beacon_repo_url` | method | `tests/test_blacksandbeacon_addon.py:78` | `def test_beacon_repo_url(self, beacon)` |
-| `test_beacon_stage_helper_consumes_c2_params` | method | `tests/test_blacksandbeacon_addon.py:164` | `def test_beacon_stage_helper_consumes_c2_params(self, beacon)` |
-| `test_beacon_tool_has_key` | method | `tests/test_blacksandbeacon_addon.py:71` | `def test_beacon_tool_has_key(self, beacon, key)` |
-| `test_beacon_yaml_parses` | method | `tests/test_blacksandbeacon_addon.py:48` | `def test_beacon_yaml_parses(self, beacon)` |
-| `test_beacon_yaml_present` | method | `tests/test_blacksandbeacon_addon.py:42` | `def test_beacon_yaml_present(self)` |
-| `test_bof_category` | method | `tests/test_blacksandbeacon_addon.py:115` | `def test_bof_category(self, bof)` |
-| `test_bof_delivery_goes_through_bof_run` | method | `tests/test_blacksandbeacon_addon.py:176` | `def test_bof_delivery_goes_through_bof_run(self, bof)` |
-| `test_bof_description_mentions_elf` | method | `tests/test_blacksandbeacon_addon.py:229` | `def test_bof_description_mentions_elf(self, bof)` |
-| `test_bof_description_mentions_linux_bof` | method | `tests/test_blacksandbeacon_addon.py:225` | `def test_bof_description_mentions_linux_bof(self, bof)` |
-| `test_bof_enabled` | method | `tests/test_blacksandbeacon_addon.py:123` | `def test_bof_enabled(self, bof)` |
-| `test_bof_execute_resets_before_pull` | method | `tests/test_blacksandbeacon_addon.py:201` | `def test_bof_execute_resets_before_pull(self, bof)` |
-| `test_bof_execute_stages_to_sessions` | method | `tests/test_blacksandbeacon_addon.py:192` | `def test_bof_execute_stages_to_sessions(self, bof)` |
 
 Next: [SYMBOLS_p37.md](SYMBOLS_p37.md)

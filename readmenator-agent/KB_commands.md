@@ -375,26 +375,26 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_duckyspark` (method, line 984) `def do_duckyspark(self, line)`
   - `do_emp3r0r` (method, line 1185) `def do_emp3r0r(self, line)`
   - `do_atomic_tests` (method, line 1249) `def do_atomic_tests(self, line)`
-  - `do_atomic_gen` (method, line 1270) `def do_atomic_gen(self, line)`
-  - `_latest_sweep_evidence` (method, line 1285) `def _latest_sweep_evidence(self, target)`
-  - `do_atomic_shell` (method, line 1314) `def do_atomic_shell(self, line)`
-  - `do_atomic_clean` (method, line 1388) `def do_atomic_clean(self, line)`
-  - `do_atomic_emulate` (method, line 1425) `def do_atomic_emulate(self, line)`
-  - `do_beacon_loop` (method, line 1485) `def do_beacon_loop(self, line)`
-  - `do_atomic_agent` (method, line 1556) `def do_atomic_agent(self, line)`
-  - `do_attack_plan` (method, line 1659) `def do_attack_plan(self, line)`
-  - `do_apt_chain` (method, line 1836) `def do_apt_chain(self, line)`
-  - `do_chain_distill` (method, line 2131) `def do_chain_distill(self, line)`
-  - `do_apt_playbook` (method, line 2181) `def do_apt_playbook(self, line)`
-  - `do_mitre_test` (method, line 2301) `def do_mitre_test(self, line)`
-  - `do_generate_playbook` (method, line 2404) `def do_generate_playbook(self, line)`
-  - `do_my_playbook` (method, line 2583) `def do_my_playbook(self, line)`
-  - `do_caldera` (method, line 2640) `def do_caldera(self, line)`
-  - `do_caldera_import` (method, line 2689) `def do_caldera_import(self, line)`
-  - `do_caldera_export` (method, line 2781) `def do_caldera_export(self, line)`
+  - `do_atomic_gen` (method, line 1274) `def do_atomic_gen(self, line)`
+  - `_latest_sweep_evidence` (method, line 1289) `def _latest_sweep_evidence(self, target)`
+  - `do_atomic_shell` (method, line 1318) `def do_atomic_shell(self, line)`
+  - `do_atomic_clean` (method, line 1392) `def do_atomic_clean(self, line)`
+  - `do_atomic_emulate` (method, line 1429) `def do_atomic_emulate(self, line)`
+  - `do_beacon_loop` (method, line 1489) `def do_beacon_loop(self, line)`
+  - `do_atomic_agent` (method, line 1560) `def do_atomic_agent(self, line)`
+  - `do_attack_plan` (method, line 1663) `def do_attack_plan(self, line)`
+  - `do_apt_chain` (method, line 1840) `def do_apt_chain(self, line)`
+  - `do_chain_distill` (method, line 2135) `def do_chain_distill(self, line)`
+  - `do_apt_playbook` (method, line 2185) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 2305) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 2408) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2587) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2644) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2693) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2785) `def do_caldera_export(self, line)`
   - `_api` (function, line 570) `def _api(method, endpoint, payload)`
-  - `_load_ability` (function, line 2713) `def _load_ability(ability_file)`
-  - `_ability_to_step` (function, line 2720) `def _ability_to_step(ability)`
+  - `_load_ability` (function, line 2717) `def _load_ability(ability_file)`
+  - `_ability_to_step` (function, line 2724) `def _ability_to_step(ability)`
 - Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/c2_builder.py`, `modules/chain_approval.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `modules/shell_session_store.py`, `utils.py`
 - Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_command_control_agent.py`, `tests/test_gym_cli.py`
 

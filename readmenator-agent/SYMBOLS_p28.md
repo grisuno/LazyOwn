@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `status` | method | `skills/lazyown_groq_agents.py:778` | `def status(self, agent_id)` |
+| `HookEvent` | class | `skills/lazyown_hooks.py:27` | `class HookEvent(Enum)` |
+| `HookRegistry` | class | `skills/lazyown_hooks.py:38` | `class HookRegistry` |
+| `__init__` | method | `skills/lazyown_hooks.py:47` | `def __init__(self)` |
+| `_audit` | function | `skills/lazyown_hooks.py:208` | `def _audit(ctx)` |
+| `audit_hook` | function | `skills/lazyown_hooks.py:139` | `def audit_hook(context, audit_path)` |
+| `build_default_registry` | function | `skills/lazyown_hooks.py:187` | `def build_default_registry(sessions_dir)` |
+| `get_registry` | function | `skills/lazyown_hooks.py:224` | `def get_registry(sessions_dir)` |
+| `metrics` | method | `skills/lazyown_hooks.py:79` | `def metrics(self)` |
+| `rate_limit_hook` | function | `skills/lazyown_hooks.py:116` | `def rate_limit_hook(context, window, limit)` |
+| `register` | method | `skills/lazyown_hooks.py:56` | `def register(self, event, handler)` |
+| `run` | method | `skills/lazyown_hooks.py:59` | `def run(self, event, context)` |
+| `sandbox_hook` | function | `skills/lazyown_hooks.py:101` | `def sandbox_hook(context)` |
 | `start_timer_hook` | function | `skills/lazyown_hooks.py:176` | `def start_timer_hook(context)` |
 | `timing_hook` | function | `skills/lazyown_hooks.py:161` | `def timing_hook(context)` |
 | `LLMBridge` | class | `skills/lazyown_llm.py:97` | `class LLMBridge` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `_gen_db_init` | function | `skills/mcp_generated_tools.py:1890` | `def _gen_db_init(arguments, tool_name, _cmd)` |
 | `_gen_db_loot` | function | `skills/mcp_generated_tools.py:1898` | `def _gen_db_loot(arguments, tool_name, _cmd)` |
 | `_gen_db_notes` | function | `skills/mcp_generated_tools.py:1906` | `def _gen_db_notes(arguments, tool_name, _cmd)` |
-| `_gen_db_services` | function | `skills/mcp_generated_tools.py:1914` | `def _gen_db_services(arguments, tool_name, _cmd)` |
-| `_gen_db_status` | function | `skills/mcp_generated_tools.py:1922` | `def _gen_db_status(arguments, tool_name, _cmd)` |
-| `_gen_db_vulns` | function | `skills/mcp_generated_tools.py:1930` | `def _gen_db_vulns(arguments, tool_name, _cmd)` |
-| `_gen_db_workspace` | function | `skills/mcp_generated_tools.py:1938` | `def _gen_db_workspace(arguments, tool_name, _cmd)` |
-| `_gen_dcomexec` | function | `skills/mcp_generated_tools.py:1946` | `def _gen_dcomexec(arguments, tool_name, _cmd)` |
-| `_gen_decode` | function | `skills/mcp_generated_tools.py:1954` | `def _gen_decode(arguments, tool_name, _cmd)` |
-| `_gen_decrypt` | function | `skills/mcp_generated_tools.py:1962` | `def _gen_decrypt(arguments, tool_name, _cmd)` |
-| `_gen_depconfuse` | function | `skills/mcp_generated_tools.py:1970` | `def _gen_depconfuse(arguments, tool_name, _cmd)` |
-| `_gen_depscan` | function | `skills/mcp_generated_tools.py:1978` | `def _gen_depscan(arguments, tool_name, _cmd)` |
-| `_gen_detect_edr` | function | `skills/mcp_generated_tools.py:1986` | `def _gen_detect_edr(arguments, tool_name, _cmd)` |
-| `_gen_dig` | function | `skills/mcp_generated_tools.py:1994` | `def _gen_dig(arguments, tool_name, _cmd)` |
-| `_gen_digdug` | function | `skills/mcp_generated_tools.py:2002` | `def _gen_digdug(arguments, tool_name, _cmd)` |
-| `_gen_dirsearch` | function | `skills/mcp_generated_tools.py:2010` | `def _gen_dirsearch(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

@@ -3,6 +3,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_loop_cli_catalog.py` | BDD tests for planner prompt visibility into routable CLI verbs. | tests | 7 | 0 |
 | `tests/test_loop_cold_overview.py` | Cold debounce + planner overview parity (lazy 0.3.8 coldgraph). | tests | 6 | 0 |
 | `tests/test_loop_decision_log.py` | Tests for the reproducible loop decision ledger and planner determinism. | tests | 24 | 0 |
 | `tests/test_loop_deterministic_mode.py` | Tests for the reproducible loop mode that prefers heuristic steps. | tests | 18 | 0 |
@@ -13,6 +14,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_loop_guard_audit.py` | Guard audit filters + tool_use_id source jump (lazy 0.3.11/0.3.12 parity). | tests | 4 | 0 |
 | `tests/test_loop_guardrails.py` | Loop guardrails: repetition detection, EDR pacing, target caps, vector fact memory. | tests | 18 | 0 |
 | `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
+| `tests/test_loop_lazymode_first.py` | Code-mode (lazymode) is the worker's first option. | tests | 9 | 0 |
 | `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 19 | 0 |
 | `tests/test_loop_manager.py` | Tests for modules.loop_manager — safe autonomous loop orchestration. | tests | 51 | 0 |
 | `tests/test_loop_manager_outcome.py` | Loop manager outcome propagation: workspace result.json drives status. | tests | 15 | 0 |
@@ -27,6 +29,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
 | `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
 | `tests/test_loop_target_authority.py` | Target authority: --target rebinds payload rhost and scope. | tests | 13 | 0 |
+| `tests/test_loop_technique_deterministic.py` | Technique intents resolve deterministically, not via the model. | tests | 8 | 0 |
 | `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |

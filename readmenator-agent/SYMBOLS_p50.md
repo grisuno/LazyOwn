@@ -3,6 +3,44 @@ Previous: [SYMBOLS_p49.md](SYMBOLS_p49.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_do_assign_calls_refresh_prompt` | function | `tests/test_prompt_refresh.py:52` | `def test_do_assign_calls_refresh_prompt()` |
+| `test_no_bracket_replace_hack` | function | `tests/test_prompt_refresh.py:71` | `def test_no_bracket_replace_hack()` |
+| `test_prompt_read_after_forward` | function | `tests/test_prompt_refresh.py:37` | `def test_prompt_read_after_forward()` |
+| `test_prompt_write_forwards_to_shell` | function | `tests/test_prompt_refresh.py:29` | `def test_prompt_write_forwards_to_shell()` |
+| `test_render_prompt_includes_rhost` | function | `tests/test_prompt_refresh.py:65` | `def test_render_prompt_includes_rhost()` |
+| `test_rhost_commands_use_refresh_prompt` | function | `tests/test_prompt_refresh.py:78` | `def test_rhost_commands_use_refresh_prompt()` |
+| `test_shell_defines_refresh_prompt` | function | `tests/test_prompt_refresh.py:59` | `def test_shell_defines_refresh_prompt()` |
+| `test_unrelated_write_stays_local` | function | `tests/test_prompt_refresh.py:44` | `def test_unrelated_write_stays_local()` |
+| `_load_tools` | function | `tests/test_pwntomate_tools.py:47` | `def _load_tools()` |
+| `_render` | function | `tests/test_pwntomate_tools.py:57` | `def _render(template, domain, tunnel)` |
+| `_would_run` | function | `tests/test_pwntomate_tools.py:83` | `def _would_run(template, domain)` |
+| `test_gobuster_templates_use_valid_syntax` | function | `tests/test_pwntomate_tools.py:129` | `def test_gobuster_templates_use_valid_syntax()` |
+| `test_no_hardcoded_always_ssl_flag` | function | `tests/test_pwntomate_tools.py:141` | `def test_no_hardcoded_always_ssl_flag()` |
+| `test_placeholders_match_pwntomate_substitutions` | function | `tests/test_pwntomate_tools.py:103` | `def test_placeholders_match_pwntomate_substitutions()` |
+| `test_rendered_commands_have_no_empty_host` | function | `tests/test_pwntomate_tools.py:115` | `def test_rendered_commands_have_no_empty_host()` |
+| `test_templates_are_valid_json_with_required_keys` | function | `tests/test_pwntomate_tools.py:92` | `def test_templates_are_valid_json_with_required_keys()` |
+| `Server` | class | `tests/test_rea_mcp.py:48` | `class Server` |
+| `TextContent` | class | `tests/test_rea_mcp.py:41` | `class TextContent` |
+| `Tool` | class | `tests/test_rea_mcp.py:37` | `class Tool` |
+| `__init__` | method | `tests/test_rea_mcp.py:38` | `def __init__(self)` |
+| `__init__` | method | `tests/test_rea_mcp.py:42` | `def __init__(self)` |
+| `__init__` | method | `tests/test_rea_mcp.py:49` | `def __init__(self)` |
+| `_call` | function | `tests/test_rea_mcp.py:110` | `def _call(arguments, monkeypatch, payload)` |
+| `_ctx` | function | `tests/test_rea_mcp.py:78` | `def _ctx(payload)` |
+| `_fake_run` | function | `tests/test_rea_mcp.py:115` | `def _fake_run(argv)` |
+| `_fake_run` | function | `tests/test_rea_mcp.py:175` | `def _fake_run(argv)` |
+| `_invoke` | function | `tests/test_rea_mcp.py:105` | `def _invoke(arguments, payload)` |
+| `_stub_mcp_sdk` | function | `tests/test_rea_mcp.py:23` | `def _stub_mcp_sdk()` |
+| `_text` | function | `tests/test_rea_mcp.py:81` | `def _text(_tool_name, content)` |
+| `call_tool` | method | `tests/test_rea_mcp.py:55` | `def call_tool(self)` |
+| `list_tools` | method | `tests/test_rea_mcp.py:52` | `def list_tools(self)` |
+| `test_analyze_missing_target` | function | `tests/test_rea_mcp.py:192` | `def test_analyze_missing_target(monkeypatch)` |
+| `test_analyze_uses_explicit_target` | function | `tests/test_rea_mcp.py:185` | `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)` |
+| `test_decompile_needs_valid_address` | function | `tests/test_rea_mcp.py:206` | `def test_decompile_needs_valid_address(tmp_path, monkeypatch)` |
+| `test_doctor_argv` | function | `tests/test_rea_mcp.py:150` | `def test_doctor_argv(monkeypatch)` |
+| `test_inspect_artifact_argv` | function | `tests/test_rea_mcp.py:156` | `def test_inspect_artifact_argv(tmp_path, monkeypatch)` |
+| `test_large_output_survives_compaction` | function | `tests/test_rea_mcp.py:169` | `def test_large_output_survives_compaction(tmp_path, monkeypatch)` |
+| `test_list_tools_has_rea` | function | `tests/test_rea_mcp.py:127` | `def test_list_tools_has_rea()` |
 | `test_missing_binary` | function | `tests/test_rea_mcp.py:142` | `def test_missing_binary(monkeypatch)` |
 | `test_provider_flag_appended` | function | `tests/test_rea_mcp.py:233` | `def test_provider_flag_appended(tmp_path, monkeypatch)` |
 | `test_search_needs_query` | function | `tests/test_rea_mcp.py:221` | `def test_search_needs_query(tmp_path, monkeypatch)` |
@@ -458,43 +496,5 @@ Previous: [SYMBOLS_p49.md](SYMBOLS_p49.md)
 | `test_benign` | method | `tests/test_scope_guard_integration.py:46` | `def test_benign(self)` |
 | `test_benign_command_allows` | method | `tests/test_scope_guard_integration.py:74` | `def test_benign_command_allows(self)` |
 | `test_build_offensive_from_categories` | method | `tests/test_scope_guard_integration.py:139` | `def test_build_offensive_from_categories(self)` |
-| `test_default_classification_kept_without_force` | method | `tests/test_scope_guard_integration.py:215` | `def test_default_classification_kept_without_force(self)` |
-| `test_direct_offensive` | method | `tests/test_scope_guard_integration.py:42` | `def test_direct_offensive(self)` |
-| `test_enforce_allows_explicit_in_scope_target` | method | `tests/test_scope_guard_integration.py:197` | `def test_enforce_allows_explicit_in_scope_target(self)` |
-| `test_enforce_blocks_explicit_out_of_scope_target` | method | `tests/test_scope_guard_integration.py:188` | `def test_enforce_blocks_explicit_out_of_scope_target(self)` |
-| `test_enforce_mode_blocks_out_of_scope` | method | `tests/test_scope_guard_integration.py:88` | `def test_enforce_mode_blocks_out_of_scope(self)` |
-| `test_enforce_mode_confirmation_allows` | method | `tests/test_scope_guard_integration.py:96` | `def test_enforce_mode_confirmation_allows(self)` |
-| `test_in_scope_allows` | method | `tests/test_scope_guard_integration.py:67` | `def test_in_scope_allows(self)` |
-| `test_malformed_params_fail_open` | method | `tests/test_scope_guard_integration.py:111` | `def test_malformed_params_fail_open(self)` |
-| `test_no_scope_allows` | method | `tests/test_scope_guard_integration.py:60` | `def test_no_scope_allows(self)` |
-| `test_non_tty_refuses` | method | `tests/test_scope_guard_integration.py:121` | `def test_non_tty_refuses(self, monkeypatch)` |
-| `test_normalizes_list` | method | `tests/test_scope_guard_integration.py:129` | `def test_normalizes_list(self)` |
-| `test_normalizes_string` | method | `tests/test_scope_guard_integration.py:133` | `def test_normalizes_string(self)` |
-| `test_off_mode_allows` | method | `tests/test_scope_guard_integration.py:104` | `def test_off_mode_allows(self)` |
-| `test_warn_annotates_explicit_out_of_scope_target` | method | `tests/test_scope_guard_integration.py:206` | `def test_warn_annotates_explicit_out_of_scope_target(self, capsys)` |
-| `test_warn_mode_allows_out_of_scope` | method | `tests/test_scope_guard_integration.py:81` | `def test_warn_mode_allows_out_of_scope(self, capsys)` |
-| `_write_payload` | function | `tests/test_sdk_facade.py:13` | `def _write_payload(tmp_path, data)` |
-| `enforcing` | function | `tests/test_sdk_facade.py:94` | `def enforcing(command, target)` |
-| `fake_runner` | function | `tests/test_sdk_facade.py:80` | `def fake_runner(command, timeout)` |
-| `fake_runner` | function | `tests/test_sdk_facade.py:111` | `def fake_runner(command, timeout)` |
-| `test_config_all_reads_fresh` | function | `tests/test_sdk_facade.py:19` | `def test_config_all_reads_fresh(tmp_path)` |
-| `test_config_get_default` | function | `tests/test_sdk_facade.py:25` | `def test_config_get_default(tmp_path)` |
-| `test_config_set_persists` | function | `tests/test_sdk_facade.py:31` | `def test_config_set_persists(tmp_path)` |
-| `test_config_set_rejects_invalid` | function | `tests/test_sdk_facade.py:38` | `def test_config_set_rejects_invalid(tmp_path)` |
-| `test_scope_check_blocks_offensive_target` | function | `tests/test_sdk_facade.py:93` | `def test_scope_check_blocks_offensive_target(tmp_path)` |
-| `test_scope_dormant_without_check` | function | `tests/test_sdk_facade.py:108` | `def test_scope_dormant_without_check(tmp_path)` |
-| `test_sessions_list_and_read` | function | `tests/test_sdk_facade.py:45` | `def test_sessions_list_and_read(tmp_path)` |
-| `test_sessions_path_traversal_blocked` | function | `tests/test_sdk_facade.py:69` | `def test_sessions_path_traversal_blocked(tmp_path)` |
-| `test_sessions_read_missing_is_empty` | function | `tests/test_sdk_facade.py:62` | `def test_sessions_read_missing_is_empty(tmp_path)` |
-| `test_sessions_read_nested` | function | `tests/test_sdk_facade.py:54` | `def test_sessions_read_nested(tmp_path)` |
-| `test_sh_runs_through_injected_runner` | function | `tests/test_sdk_facade.py:77` | `def test_sh_runs_through_injected_runner(tmp_path)` |
-| `FakeSock` | class | `tests/test_security_alerts_fix.py:82` | `class FakeSock` |
-| `_response_calls_with_raw_exception` | function | `tests/test_security_alerts_fix.py:277` | `def _response_calls_with_raw_exception(tree)` |
-| `close` | method | `tests/test_security_alerts_fix.py:83` | `def close(self)` |
-| `fake_create_connection` | function | `tests/test_security_alerts_fix.py:86` | `def fake_create_connection(address, timeout)` |
-| `test_activity_and_trace_scrubbed` | function | `tests/test_security_alerts_fix.py:158` | `def test_activity_and_trace_scrubbed(tmp_path)` |
-| `test_c2_responses_never_carry_raw_exceptions` | function | `tests/test_security_alerts_fix.py:305` | `def test_c2_responses_never_carry_raw_exceptions()` |
-| `test_emoji_detector_without_broad_ranges` | function | `tests/test_security_alerts_fix.py:242` | `def test_emoji_detector_without_broad_ranges()` |
-| `test_get_output_logs_type_only` | function | `tests/test_security_alerts_fix.py:338` | `def test_get_output_logs_type_only()` |
 
 Next: [SYMBOLS_p51.md](SYMBOLS_p51.md)

@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `update` | method | `tests/test_loop_ai_bridge.py:186` | `def update(self, state, action, reward, next_state, candidates, detection_prob)` |
+| `audit_dir` | function | `tests/test_loop_audit.py:11` | `def audit_dir(tmp_path, monkeypatch)` |
+| `test_blocked_events` | function | `tests/test_loop_audit.py:86` | `def test_blocked_events(audit_dir)` |
+| `test_cap_trims_oldest` | function | `tests/test_loop_audit.py:172` | `def test_cap_trims_oldest(audit_dir, monkeypatch)` |
+| `test_list_runs_summarizes` | function | `tests/test_loop_audit.py:145` | `def test_list_runs_summarizes(audit_dir)` |
+| `test_output_tail_bounded_and_ansi_stripped` | function | `tests/test_loop_audit.py:74` | `def test_output_tail_bounded_and_ansi_stripped(audit_dir)` |
+| `test_record_appends_events` | function | `tests/test_loop_audit.py:20` | `def test_record_appends_events(audit_dir)` |
+| `test_record_command_carries_step_context` | function | `tests/test_loop_audit.py:35` | `def test_record_command_carries_step_context(audit_dir)` |
+| `test_record_command_detects_failure` | function | `tests/test_loop_audit.py:65` | `def test_record_command_detects_failure(audit_dir)` |
+| `test_registry_start_and_stop` | function | `tests/test_loop_audit.py:96` | `def test_registry_start_and_stop(audit_dir)` |
+| `test_render_shows_verdict_and_run_end` | function | `tests/test_loop_audit.py:132` | `def test_render_shows_verdict_and_run_end(audit_dir)` |
+| `test_render_summary_empty` | function | `tests/test_loop_audit.py:166` | `def test_render_summary_empty(audit_dir)` |
+| `test_timeline_merges_guard_and_activity` | function | `tests/test_loop_audit.py:106` | `def test_timeline_merges_guard_and_activity(audit_dir, monkeypatch)` |
+| `_write_run` | function | `tests/test_loop_audit_feedback.py:29` | `def _write_run(task_id)` |
+| `audit` | function | `tests/test_loop_audit_feedback.py:24` | `def audit(tmp_path, monkeypatch)` |
+| `test_blocked_verbs_empty_for_unknown_task` | function | `tests/test_loop_audit_feedback.py:51` | `def test_blocked_verbs_empty_for_unknown_task(audit)` |
+| `test_blocked_verbs_ignores_executed_commands` | function | `tests/test_loop_audit_feedback.py:55` | `def test_blocked_verbs_ignores_executed_commands(audit)` |
+| `test_blocked_verbs_returns_repeat_offenders` | function | `tests/test_loop_audit_feedback.py:39` | `def test_blocked_verbs_returns_repeat_offenders(audit)` |
+| `test_blocked_verbs_threshold_respected` | function | `tests/test_loop_audit_feedback.py:45` | `def test_blocked_verbs_threshold_respected(audit)` |
+| `_Shell` | class | `tests/test_loop_auto_orchestrator.py:59` | `class _Shell` |
+| `_Shell` | class | `tests/test_loop_auto_orchestrator.py:131` | `class _Shell` |
 | `onecmd` | method | `tests/test_loop_auto_orchestrator.py:60` | `def onecmd(self, command)` |
 | `onecmd_plus_hooks` | method | `tests/test_loop_auto_orchestrator.py:132` | `def onecmd_plus_hooks(self, command)` |
 | `test_addon_hits_rank_specific_before_generic` | function | `tests/test_loop_auto_orchestrator.py:22` | `def test_addon_hits_rank_specific_before_generic()` |
@@ -166,6 +187,15 @@ Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 | `test_hard_delete_removes_exclusive_keeps_shared` | function | `tests/test_loop_intent_delete.py:46` | `def test_hard_delete_removes_exclusive_keeps_shared(tmp_path, monkeypatch)` |
 | `test_soft_delete_keeps_outputs_and_notifies` | function | `tests/test_loop_intent_delete.py:17` | `def test_soft_delete_keeps_outputs_and_notifies(tmp_path, monkeypatch)` |
 | `test_soft_delete_requires_reason` | function | `tests/test_loop_intent_delete.py:37` | `def test_soft_delete_requires_reason(tmp_path, monkeypatch)` |
+| `_patch_model` | function | `tests/test_loop_lazymode_first.py:53` | `def _patch_model(monkeypatch, loop, reply, run_result)` |
+| `_result` | function | `tests/test_loop_lazymode_first.py:18` | `def _result(ok, result, stdout, error, duration)` |
+| `test_codemode_disabled_is_noop` | function | `tests/test_loop_lazymode_first.py:114` | `def test_codemode_disabled_is_noop(worker_env, monkeypatch)` |
+| `test_codemode_exploit_without_shell_falls_through` | function | `tests/test_loop_lazymode_first.py:82` | `def test_codemode_exploit_without_shell_falls_through(worker_env, monkeypatch)` |
+| `test_codemode_no_script_falls_through` | function | `tests/test_loop_lazymode_first.py:97` | `def test_codemode_no_script_falls_through(worker_env, monkeypatch)` |
+| `test_codemode_recon_owns_on_content` | function | `tests/test_loop_lazymode_first.py:129` | `def test_codemode_recon_owns_on_content(worker_env, monkeypatch)` |
+| `test_codemode_shell_wins_and_skips_agent` | function | `tests/test_loop_lazymode_first.py:61` | `def test_codemode_shell_wins_and_skips_agent(worker_env, monkeypatch)` |
+| `test_execute_tries_codemode_before_agentic` | function | `tests/test_loop_lazymode_first.py:149` | `def test_execute_tries_codemode_before_agentic(worker_env, monkeypatch)` |
+| `worker_env` | function | `tests/test_loop_lazymode_first.py:24` | `def worker_env(tmp_path, monkeypatch)` |
 | `_patched_engine` | function | `tests/test_loop_llm_resilience.py:6` | `def _patched_engine(tmp_path, monkeypatch)` |
 | `error_then_ok` | function | `tests/test_loop_llm_resilience.py:61` | `def error_then_ok(model, prompt, max_tokens)` |
 | `first_empty_then_ok` | function | `tests/test_loop_llm_resilience.py:42` | `def first_empty_then_ok(model, prompt, max_tokens)` |
@@ -335,6 +365,14 @@ Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 | `test_multi_target_scope_is_every_target` | function | `tests/test_loop_target_authority.py:42` | `def test_multi_target_scope_is_every_target()` |
 | `test_noop_when_already_bound` | function | `tests/test_loop_target_authority.py:55` | `def test_noop_when_already_bound()` |
 | `test_single_target_replaces_rhost_and_scope` | function | `tests/test_loop_target_authority.py:31` | `def test_single_target_replaces_rhost_and_scope()` |
+| `_agentic` | function | `tests/test_loop_technique_deterministic.py:102` | `def _agentic()` |
+| `_executor` | function | `tests/test_loop_technique_deterministic.py:86` | `def _executor(command)` |
+| `test_execute_uses_model_for_nontechnique` | function | `tests/test_loop_technique_deterministic.py:95` | `def test_execute_uses_model_for_nontechnique(worker_env, monkeypatch)` |
+| `test_steps_for_resolves_technique` | function | `tests/test_loop_technique_deterministic.py:65` | `def test_steps_for_resolves_technique(worker_env)` |
+| `test_technique_deterministic_step_when_steps_run` | function | `tests/test_loop_technique_deterministic.py:73` | `def test_technique_deterministic_step_when_steps_run(worker_env, monkeypatch)` |
+| `test_technique_intent_classification` | function | `tests/test_loop_technique_deterministic.py:14` | `def test_technique_intent_classification()` |
+| `test_technique_steps_are_headless` | function | `tests/test_loop_technique_deterministic.py:25` | `def test_technique_steps_are_headless()` |
+| `worker_env` | function | `tests/test_loop_technique_deterministic.py:39` | `def worker_env(tmp_path, monkeypatch)` |
 | `_Assets` | class | `tests/test_loop_trigger_hints.py:42` | `class _Assets` |
 | `_Graph` | class | `tests/test_loop_trigger_hints.py:29` | `class _Graph` |
 | `__init__` | method | `tests/test_loop_trigger_hints.py:32` | `def __init__(self)` |
@@ -458,43 +496,5 @@ Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 | `test_register_handlers_populates_table` | method | `tests/test_mcp_tools_registry.py:66` | `def test_register_handlers_populates_table(self)` |
 | `test_tool_modules_do_not_import_runtime` | method | `tests/test_mcp_tools_registry.py:104` | `def test_tool_modules_do_not_import_runtime(self)` |
 | `Empty` | class | `tests/test_mediation.py:217` | `class Empty` |
-| `Fake` | class | `tests/test_mediation.py:182` | `class Fake` |
-| `FakePort` | class | `tests/test_mediation.py:239` | `class FakePort` |
-| `FakePort` | class | `tests/test_mediation.py:280` | `class FakePort` |
-| `TestChainMediatorLlmPort` | class | `tests/test_mediation.py:170` | `class TestChainMediatorLlmPort` |
-| `TestFeedbackMediator` | class | `tests/test_mediation.py:62` | `class TestFeedbackMediator` |
-| `TestHubRouting` | class | `tests/test_mediation.py:19` | `class TestHubRouting` |
-| `TestIntelMediatorActivityPort` | class | `tests/test_mediation.py:39` | `class TestIntelMediatorActivityPort` |
-| `TestTelemetryMediator` | class | `tests/test_mediation.py:82` | `class TestTelemetryMediator` |
-| `_FakeHub` | class | `tests/test_mediation.py:197` | `class _FakeHub` |
-| `_NoLock` | class | `tests/test_mediation.py:204` | `class _NoLock` |
-| `__enter__` | method | `tests/test_mediation.py:205` | `def __enter__(self)` |
-| `__exit__` | method | `tests/test_mediation.py:208` | `def __exit__(self)` |
-| `__init__` | method | `tests/test_mediation.py:198` | `def __init__(self, port)` |
-| `_patch_hub` | method | `tests/test_mediation.py:194` | `def _patch_hub(self, monkeypatch, port)` |
-| `boom` | function | `tests/test_mediation.py:68` | `def boom(steps, stack)` |
-| `boom` | function | `tests/test_mediation.py:108` | `def boom()` |
-| `boom` | function | `tests/test_mediation.py:124` | `def boom()` |
-| `boom` | function | `tests/test_mediation.py:147` | `def boom()` |
-| `boom` | function | `tests/test_mediation.py:163` | `def boom()` |
-| `complete` | method | `tests/test_mediation.py:183` | `def complete(self, prompt, max_tokens, task_id)` |
-| `complete` | method | `tests/test_mediation.py:218` | `def complete(self, prompt, max_tokens, task_id)` |
-| `complete` | method | `tests/test_mediation.py:240` | `def complete(self, prompt, max_tokens, task_id)` |
-| `complete` | method | `tests/test_mediation.py:281` | `def complete(self, prompt, max_tokens, task_id)` |
-| `has_members` | method | `tests/test_mediation.py:186` | `def has_members(self)` |
-| `has_members` | method | `tests/test_mediation.py:221` | `def has_members(self)` |
-| `has_members` | method | `tests/test_mediation.py:243` | `def has_members(self)` |
-| `has_members` | method | `tests/test_mediation.py:285` | `def has_members(self)` |
-| `mediator_for` | method | `tests/test_mediation.py:201` | `def mediator_for(self, domain)` |
-| `test_activity_records_fallback_graceful` | method | `tests/test_mediation.py:48` | `def test_activity_records_fallback_graceful(self)` |
-| `test_activity_records_via_injected_port` | method | `tests/test_mediation.py:42` | `def test_activity_records_via_injected_port(self)` |
-| `test_all_default_domains_registered` | method | `tests/test_mediation.py:22` | `def test_all_default_domains_registered(self)` |
-| `test_assess_opsec_forwards_to_bridge` | method | `tests/test_mediation.py:114` | `def test_assess_opsec_forwards_to_bridge(self, monkeypatch)` |
-| `test_assess_opsec_graceful_on_bridge_failure` | method | `tests/test_mediation.py:121` | `def test_assess_opsec_graceful_on_bridge_failure(self, monkeypatch)` |
-| `test_mask_and_stack_survive_missing_peers` | method | `tests/test_mediation.py:52` | `def test_mask_and_stack_survive_missing_peers(self, monkeypatch)` |
-| `test_mediation_contract_shape` | method | `tests/test_mediation.py:33` | `def test_mediation_contract_shape(self)` |
-| `test_order_steps_forwarded` | method | `tests/test_mediation.py:75` | `def test_order_steps_forwarded(self, monkeypatch)` |
-| `test_order_steps_passthrough_on_error` | method | `tests/test_mediation.py:65` | `def test_order_steps_passthrough_on_error(self, monkeypatch)` |
-| `test_port_contract` | method | `tests/test_mediation.py:173` | `def test_port_contract(self)` |
 
 Next: [SYMBOLS_p48.md](SYMBOLS_p48.md)

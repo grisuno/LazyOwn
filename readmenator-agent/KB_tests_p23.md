@@ -1,6 +1,82 @@
 # Subsystem: tests (page 23 of 27)
 Previous: [KB_tests_p22.md](KB_tests_p22.md)
 
+## tests/test_recon_plan.py
+- Doc: Spec coverage for :mod:`cli.recon_plan`.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_seed_addon` (function, line 68) `def _seed_addon(addons_dir, name, os_value, triggers)`
+  - `_seed_tool` (function, line 90) `def _seed_tool(tools_dir, name, triggers, command, os_value)`
+  - `_seed_command_index` (function, line 110) `def _seed_command_index(path)`
+  - `_seed_engine` (function, line 130) `def _seed_engine(sessions, addons, tools, nmap_xml, history_rows, current_os)`
+  - `BuildReconPlanContractSpec` (class, line 149) `class BuildReconPlanContractSpec(TestCase)`
+  - `RenderMarkdownSpec` (class, line 289) `class RenderMarkdownSpec(TestCase)`
+  - `WritePlanSpec` (class, line 338) `class WritePlanSpec(TestCase)`
+  - `RenderRichSpec` (class, line 379) `class RenderRichSpec(TestCase)`
+  - `setUp` (method, line 152) `def setUp(self)`
+  - `tearDown` (method, line 176) `def tearDown(self)`
+  - `_build` (method, line 179) `def _build(self, current_os, payload)`
+  - `test_plan_includes_addons_matching_open_service` (method, line 193) `def test_plan_includes_addons_matching_open_service(self)`
+  - `test_plan_filters_os_incompatible_addons_on_linux` (method, line 199) `def test_plan_filters_os_incompatible_addons_on_linux(self)`
+  - `test_plan_includes_tools_matching_open_service` (method, line 204) `def test_plan_includes_tools_matching_open_service(self)`
+  - `test_tool_preview_substitutes_payload_placeholders` (method, line 210) `def test_tool_preview_substitutes_payload_placeholders(self)`
+  - `test_plan_excludes_already_executed_addons` (method, line 216) `def test_plan_excludes_already_executed_addons(self)`
+  - `test_plan_includes_phase_priority_command_suggestions` (method, line 237) `def test_plan_includes_phase_priority_command_suggestions(self)`
+  - `test_plan_skips_command_layer_when_index_missing` (method, line 243) `def test_plan_skips_command_layer_when_index_missing(self)`
+  - `test_plan_uses_payload_target_when_argument_missing` (method, line 259) `def test_plan_uses_payload_target_when_argument_missing(self)`
+  - `test_empty_scan_returns_empty_plan` (method, line 273) `def test_empty_scan_returns_empty_plan(self)`
+  - `_plan_with_items` (method, line 292) `def _plan_with_items(self)`
+  - `test_markdown_starts_with_target_header` (method, line 311) `def test_markdown_starts_with_target_header(self)`
+  - `test_markdown_renders_services_table` (method, line 315) `def test_markdown_renders_services_table(self)`
+  - `test_markdown_renders_command_preview_block` (method, line 320) `def test_markdown_renders_command_preview_block(self)`
+  - `test_markdown_handles_empty_plan` (method, line 325) `def test_markdown_handles_empty_plan(self)`
+  - `_plan` (method, line 341) `def _plan(self, target)`
+  - `test_write_creates_expected_filename` (method, line 351) `def test_write_creates_expected_filename(self)`
+  - `test_write_sanitises_target_for_filename` (method, line 358) `def test_write_sanitises_target_for_filename(self)`
+  - `test_write_sets_restrictive_permissions` (method, line 364) `def test_write_sets_restrictive_permissions(self)`
+  - `test_write_overwrites_existing_plan` (method, line 370) `def test_write_overwrites_existing_plan(self)`
+  - `_Recorder` (class, line 383) `class _Recorder`
+  - `test_renders_one_line_per_item` (method, line 389) `def test_renders_one_line_per_item(self)`
+  - `test_renders_friendly_message_when_empty` (method, line 406) `def test_renders_friendly_message_when_empty(self)`
+  - `print` (method, line 386) `def print(self, line)`
+- Depends on: `cli/exploration.py`, `cli/recon_plan.py`
+
+## tests/test_repeat_shapes.py
+- Doc: Stuck-loop shapes contract: AAAA plus ABABAB oscillation detection.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_alternating_pair_never_triggers_below_six` (function, line 13) `def test_alternating_pair_never_triggers_below_six()`
+  - `test_full_oscillation_triggers_at_six_records` (function, line 21) `def test_full_oscillation_triggers_at_six_records()`
+  - `test_identical_window_triggers_and_pair_empty` (function, line 31) `def test_identical_window_triggers_and_pair_empty()`
+  - `test_varied_traffic_never_triggers` (function, line 40) `def test_varied_traffic_never_triggers()`
+  - `test_reset_clears_pair` (function, line 54) `def test_reset_clears_pair()`
+  - `test_periodic_cycle_of_five_triggers_after_two_rounds` (function, line 63) `def test_periodic_cycle_of_five_triggers_after_two_rounds()`
+  - `test_periodic_cycle_never_fires_on_varied_progress` (function, line 74) `def test_periodic_cycle_never_fires_on_varied_progress()`
+  - `test_periodic_cycle_never_fires_below_two_rounds` (function, line 82) `def test_periodic_cycle_never_fires_below_two_rounds()`
+  - `test_describe_reports_cycle_shape` (function, line 90) `def test_describe_reports_cycle_shape()`
+  - `test_nine_step_round_family_is_caught_after_two_rounds` (function, line 99) `def test_nine_step_round_family_is_caught_after_two_rounds()`
+- Depends on: `modules/loop_guardrails.py`
+
+## tests/test_report_autogen.py
+- Doc: Tests for the engagement report auto-generation contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_normalize_funnel_list_to_dict` (function, line 15) `def test_normalize_funnel_list_to_dict()`
+  - `test_normalize_funnel_handles_dict_and_junk` (function, line 29) `def test_normalize_funnel_handles_dict_and_junk()`
+  - `test_resolve_formats_filters_and_defaults` (function, line 40) `def test_resolve_formats_filters_and_defaults()`
+  - `test_is_enabled` (function, line 52) `def test_is_enabled(value, expected)`
+  - `test_generate_refreshes_session_even_when_disabled` (function, line 58) `def test_generate_refreshes_session_even_when_disabled(monkeypatch)`
+  - `test_generate_emits_artifacts_when_enabled` (function, line 71) `def test_generate_emits_artifacts_when_enabled(monkeypatch, tmp_path)`
+  - `test_generate_never_raises_on_generator_failure` (function, line 102) `def test_generate_never_raises_on_generator_failure(monkeypatch)`
+  - `test_throttle_collapses_rapid_calls` (function, line 119) `def test_throttle_collapses_rapid_calls(monkeypatch)`
+  - `_Gen` (class, line 88) `class _Gen`
+  - `_Boom` (class, line 109) `class _Boom`
+  - `generate` (method, line 89) `def generate(self, output_dir, output_format, client_name)`
+  - `generate` (method, line 110) `def generate(self)`
+
 ## tests/test_report_banners_endpoints.py
 - Doc: Tests for /report and /banners endpoints error handling.
 - Layer: testing
@@ -124,6 +200,7 @@ Previous: [KB_tests_p22.md](KB_tests_p22.md)
 
 ## tests/test_rl_trainer_singleton_contract.py
 - Doc: Watchdog: the RL trainer and MoE router are single shared singletons.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_core_source_files` (function, line 36) `def _core_source_files()`
@@ -353,6 +430,7 @@ Previous: [KB_tests_p22.md](KB_tests_p22.md)
 
 ## tests/test_sdk_facade.py
 - Doc: Behaviour tests for the LazyOwn programmatic SDK facade.
+- Layer: testing
 - Language: py
 - Symbols:
   - `_write_payload` (function, line 13) `def _write_payload(tmp_path, data)`
@@ -402,93 +480,6 @@ Previous: [KB_tests_p22.md](KB_tests_p22.md)
   - `fake_create_connection` (function, line 86) `def fake_create_connection(address, timeout)`
   - `close` (method, line 83) `def close(self)`
 - Depends on: `core/hardening.py`, `core/reverse_shell_secret.py`, `modules/domain_dominance.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/claude_md_orchestrator/validators.py`
-
-## tests/test_security_codeql_batch.py
-- Doc: SDD regression tests for the CodeQL security batch.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_server` (function, line 27) `def _server()`
-  - `TestProxySsrfGuard` (class, line 45) `class TestProxySsrfGuard`
-  - `TestProxyTlsDefaults` (class, line 92) `class TestProxyTlsDefaults`
-  - `TestWebhookSsrfGuard` (class, line 116) `class TestWebhookSsrfGuard`
-  - `TestChannelSecrets` (class, line 149) `class TestChannelSecrets`
-  - `TestReverseShellFallback` (class, line 186) `class TestReverseShellFallback`
-  - `TestViewYamlTraversal` (class, line 209) `class TestViewYamlTraversal`
-  - `_login_and_call` (function, line 253) `def _login_and_call(monkeypatch, tmp_path, view, path)`
-  - `TestGenericErrorResponses` (class, line 269) `class TestGenericErrorResponses`
-  - `TestEmojiPattern` (class, line 359) `class TestEmojiPattern`
-  - `test_allows_lab_targets_by_default` (method, line 48) `def test_allows_lab_targets_by_default(self)`
-  - `test_blocks_cloud_metadata` (method, line 55) `def test_blocks_cloud_metadata(self)`
-  - `test_blocks_malformed_targets` (method, line 65) `def test_blocks_malformed_targets(self)`
-  - `test_blocks_private_when_operator_opts_out` (method, line 81) `def test_blocks_private_when_operator_opts_out(self, monkeypatch)`
-  - `test_verified_context_by_default` (method, line 95) `def test_verified_context_by_default(self, monkeypatch)`
-  - `test_insecure_only_with_explicit_opt_in` (method, line 106) `def test_insecure_only_with_explicit_opt_in(self, monkeypatch)`
-  - `test_blocks_metadata_and_userinfo_and_ftp` (method, line 119) `def test_blocks_metadata_and_userinfo_and_ftp(self)`
-  - `test_loopback_needs_explicit_opt_in` (method, line 132) `def test_loopback_needs_explicit_opt_in(self, monkeypatch)`
-  - `test_allows_public_webhook` (method, line 142) `def test_allows_public_webhook(self)`
-  - `test_scrub_masks_passwords_and_tokens` (method, line 152) `def test_scrub_masks_passwords_and_tokens(self)`
-  - `test_password_roundtrip_with_key` (method, line 160) `def test_password_roundtrip_with_key(self, monkeypatch)`
-  - `test_password_roundtrip_without_key` (method, line 168) `def test_password_roundtrip_without_key(self, tmp_path, monkeypatch)`
-  - `test_channel_store_is_owner_only` (method, line 175) `def test_channel_store_is_owner_only(self, tmp_path, monkeypatch)`
-  - `test_secret_not_logged_and_file_restricted` (method, line 189) `def test_secret_not_logged_and_file_restricted(self, tmp_path, monkeypatch, caplog)`
-  - `_client` (method, line 213) `def _client(monkeypatch, tmp_path)`
-  - `test_blocks_traversal_inputs` (method, line 223) `def test_blocks_traversal_inputs(self, tmp_path, monkeypatch)`
-  - `test_serves_valid_subdir_and_ignores_symlink_escape` (method, line 230) `def test_serves_valid_subdir_and_ignores_symlink_escape(self, tmp_path, monkeypatch)`
-  - `test_broadcast_hides_exception` (method, line 272) `def test_broadcast_hides_exception(self, tmp_path, monkeypatch)`
-  - `test_loop_graph_hides_exception` (method, line 285) `def test_loop_graph_hides_exception(self, tmp_path, monkeypatch)`
-  - `test_guard_lookup_hides_exception` (method, line 297) `def test_guard_lookup_hides_exception(self, tmp_path, monkeypatch)`
-  - `test_mentions_hide_exception` (method, line 312) `def test_mentions_hide_exception(self, tmp_path, monkeypatch)`
-  - `test_sse_stream_hides_exception` (method, line 325) `def test_sse_stream_hides_exception(self, tmp_path, monkeypatch)`
-  - `test_api_defaults_hide_exception` (method, line 342) `def test_api_defaults_hide_exception(self, monkeypatch)`
-  - `test_blocks_common_emoji_and_clean_text_passes` (method, line 362) `def test_blocks_common_emoji_and_clean_text_passes(self)`
-  - `test_no_mega_range_in_source` (method, line 368) `def test_no_mega_range_in_source(self)`
-  - `_boom` (function, line 317) `def _boom()`
-  - `_boom` (function, line 347) `def _boom()`
-- Depends on: `core/defaults.py`, `core/logging.py`, `lazyc2/blueprints/__init__.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_proxy.py`, `modules/notify.py`, `skills/claude_md_orchestrator/__init__.py`
-
-## tests/test_security_hardening.py
-- Doc: SDD+TDD+BDD tests for security hardening contracts.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSQLInjectionPrevention` (class, line 34) `class TestSQLInjectionPrevention`
-  - `TestLIKEEscapePrevention` (class, line 84) `class TestLIKEEscapePrevention`
-  - `TestTimingAttackPrevention` (class, line 132) `class TestTimingAttackPrevention`
-  - `TestSafeRunnerShellFalse` (class, line 176) `class TestSafeRunnerShellFalse`
-  - `TestPickleRemoved` (class, line 229) `class TestPickleRemoved`
-  - `TestCalderaConfigSecrets` (class, line 250) `class TestCalderaConfigSecrets`
-  - `TestConfigConstantsConsolidation` (class, line 279) `class TestConfigConstantsConsolidation`
-  - `TestCredentialEncryptionWarning` (class, line 325) `class TestCredentialEncryptionWarning`
-  - `TestOpenSSLConf` (class, line 357) `class TestOpenSSLConf`
-  - `TestAuthTimingIntegration` (class, line 377) `class TestAuthTimingIntegration`
-  - `test_valid_tables_constant_is_complete` (method, line 39) `def test_valid_tables_constant_is_complete(self)`
-  - `test_export_csv_rejects_malicious_table_name` (method, line 45) `def test_export_csv_rejects_malicious_table_name(self, fresh_db)`
-  - `test_export_csv_rejects_union_select` (method, line 51) `def test_export_csv_rejects_union_select(self, fresh_db)`
-  - `test_export_csv_accepts_all_valid_tables` (method, line 57) `def test_export_csv_accepts_all_valid_tables(self, fresh_db)`
-  - `fresh_db` (method, line 72) `def fresh_db(self)`
-  - `db_with_hosts` (method, line 89) `def db_with_hosts(self)`
-  - `test_percent_literal_not_wildcard` (method, line 98) `def test_percent_literal_not_wildcard(self, db_with_hosts)`
-  - `test_underscore_literal_not_wildcard` (method, line 107) `def test_underscore_literal_not_wildcard(self, db_with_hosts)`
-  - `test_normal_query_still_works` (method, line 116) `def test_normal_query_still_works(self, db_with_hosts)`
-  - `test_check_auth_uses_hmac_compare_digest` (method, line 136) `def test_check_auth_uses_hmac_compare_digest(self)`
-  - `test_hmac_compare_digest_rejects_timing_difference` (method, line 161) `def test_hmac_compare_digest_rejects_timing_difference(self)`
-  - `test_run_shell_does_not_use_shell_true` (method, line 181) `def test_run_shell_does_not_use_shell_true(self)`
-  - `test_run_shell_with_pipe_character` (method, line 200) `def test_run_shell_with_pipe_character(self)`
-  - `test_run_shell_with_semicolon_is_treated_as_argument` (method, line 212) `def test_run_shell_with_semicolon_is_treated_as_argument(self)`
-  - `test_pickle_not_imported_in_utils` (method, line 233) `def test_pickle_not_imported_in_utils(self)`
-  - `test_no_hardcoded_api_keys_in_caldera_config` (method, line 254) `def test_no_hardcoded_api_keys_in_caldera_config(self)`
-  - `test_caldera_config_uses_secrets_module` (method, line 263) `def test_caldera_config_uses_secrets_module(self)`
-  - `test_llm_factory_defines_constants` (method, line 283) `def test_llm_factory_defines_constants(self)`
-  - `test_ai_fallback_imports_from_llm_factory` (method, line 291) `def test_ai_fallback_imports_from_llm_factory(self)`
-  - `test_cli_ai_imports_from_llm_factory` (method, line 306) `def test_cli_ai_imports_from_llm_factory(self)`
-  - `test_db_module_has_logging_import` (method, line 329) `def test_db_module_has_logging_import(self)`
-  - `test_db_maybe_encrypt_has_warning_log` (method, line 336) `def test_db_maybe_encrypt_has_warning_log(self)`
-  - `test_db_maybe_decrypt_logs_failure` (method, line 344) `def test_db_maybe_decrypt_logs_failure(self)`
-  - `test_openssl_conf_uses_setdefault` (method, line 361) `def test_openssl_conf_uses_setdefault(self)`
-  - `test_check_auth_returns_false_for_wrong_credentials` (method, line 380) `def test_check_auth_returns_false_for_wrong_credentials(self)`
-  - `test_hmac_module_imported_in_lazyc2` (method, line 390) `def test_hmac_module_imported_in_lazyc2(self)`
-- Depends on: `core/safe_subprocess.py`, `modules/db.py`
 
 
 Next: [KB_tests_p24.md](KB_tests_p24.md)

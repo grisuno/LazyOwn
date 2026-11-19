@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `status` | function | `modules/lazy_sandbox.py:223` | `def status(task_id)` |
 | `ScopeVerdict` | class | `modules/lazy_scope.py:50` | `class ScopeVerdict` |
 | `_ResolveCache` | class | `modules/lazy_scope.py:65` | `class _ResolveCache` |
 | `_address_denied` | function | `modules/lazy_scope.py:319` | `def _address_denied(address, denylist)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `load_by_session` | method | `modules/llm_evaluator.py:72` | `def load_by_session(self, session_id)` |
 | `load_by_session` | method | `modules/llm_evaluator.py:135` | `def load_by_session(self, session_id)` |
 | `quality_report` | method | `modules/llm_evaluator.py:241` | `def quality_report(self, session_id)` |
-| `record` | method | `modules/llm_evaluator.py:57` | `def record(self, decision)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_get_text` | function | `modules/osint_enrich.py:110` | `def _get_text(url, params)` |
+| `_post_json` | function | `modules/osint_enrich.py:96` | `def _post_json(url, payload)` |
+| `_store` | function | `modules/osint_enrich.py:77` | `def _store(sessions_dir, key, data)` |
+| `cve_lookup` | function | `modules/osint_enrich.py:122` | `def cve_lookup(cve_id, sessions_dir)` |
+| `domain_exposure` | function | `modules/osint_enrich.py:198` | `def domain_exposure(domain, sessions_dir)` |
+| `enrich_evidence` | function | `modules/osint_enrich.py:213` | `def enrich_evidence(items, sessions_dir)` |
+| `host_geo` | function | `modules/osint_enrich.py:183` | `def host_geo(ip, sessions_dir)` |
+| `reverse_dns` | function | `modules/osint_enrich.py:161` | `def reverse_dns(ip, sessions_dir)` |
+| `AttributionLedger` | class | `modules/outcome_attribution.py:141` | `class AttributionLedger` |
+| `__init__` | method | `modules/outcome_attribution.py:149` | `def __init__(self, task_id, base_dir)` |
+| `_apply` | function | `modules/outcome_attribution.py:187` | `def _apply(data)` |
+| `_has_reject_signal` | function | `modules/outcome_attribution.py:81` | `def _has_reject_signal(text)` |
+| `_load` | method | `modules/outcome_attribution.py:160` | `def _load(self)` |
 | `blocked_verbs` | method | `modules/outcome_attribution.py:204` | `def blocked_verbs(self, threshold)` |
 | `classify` | function | `modules/outcome_attribution.py:100` | `def classify(output, is_error)` |
 | `counts` | method | `modules/outcome_attribution.py:199` | `def counts(self, verb)` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `_compare` | method | `modules/resource_script.py:220` | `def _compare(left, op, right)` |
 | `_execute_line` | method | `modules/resource_script.py:347` | `def _execute_line(self, raw)` |
 | `_extract_macros` | method | `modules/resource_script.py:331` | `def _extract_macros(self, lines)` |
-| `_jump_past` | method | `modules/resource_script.py:251` | `def _jump_past(self, open_res, close_re)` |
-| `_lookup` | method | `modules/resource_script.py:168` | `def _lookup(self, name)` |
-| `_repl` | function | `modules/resource_script.py:125` | `def _repl(m)` |
-| `_resolve` | method | `modules/resource_script.py:124` | `def _resolve(self, text)` |
-| `_resolve_operand` | method | `modules/resource_script.py:183` | `def _resolve_operand(self, operand)` |
-| `_skip` | method | `modules/resource_script.py:165` | `def _skip(self)` |
-| `eval_condition` | method | `modules/resource_script.py:191` | `def eval_condition(self, raw_condition)` |
-| `execute` | method | `modules/resource_script.py:279` | `def execute(self, script_path)` |
-| `execute_lines` | method | `modules/resource_script.py:293` | `def execute_lines(self, lines, source)` |
-| `execute_string` | method | `modules/resource_script.py:327` | `def execute_string(self, script)` |
-| `print` | method | `modules/resource_script.py:138` | `def print(self, msg)` |
-| `run_command` | method | `modules/resource_script.py:147` | `def run_command(self, cmd)` |
-| `_rewrite_segment` | function | `modules/retry_session.py:162` | `def _rewrite_segment(segment)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

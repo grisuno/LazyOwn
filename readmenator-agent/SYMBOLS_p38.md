@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_no_lazyown_import_at_top_level` | method | `tests/test_c2_shell_lazy.py:63` | `def test_no_lazyown_import_at_top_level(self)` |
+| `test_reads_forward_and_share_target` | method | `tests/test_c2_shell_lazy.py:104` | `def test_reads_forward_and_share_target(self)` |
+| `test_shell_output_attribute` | method | `tests/test_c2_shell_lazy.py:118` | `def test_shell_output_attribute(self)` |
+| `test_writes_forward` | method | `tests/test_c2_shell_lazy.py:111` | `def test_writes_forward(self)` |
+| `_StubWM` | class | `tests/test_c2_surfaces.py:103` | `class _StubWM` |
+| `_refused` | function | `tests/test_c2_surfaces.py:132` | `def _refused()` |
+| `_sandbox` | function | `tests/test_c2_surfaces.py:23` | `def _sandbox(tmp_path)` |
+| `_slow` | function | `tests/test_c2_surfaces.py:141` | `def _slow()` |
+| `test_append_note_never_clobbers` | function | `tests/test_c2_surfaces.py:56` | `def test_append_note_never_clobbers(tmp_path)` |
+| `test_group_tasks_unique_hits` | function | `tests/test_c2_surfaces.py:77` | `def test_group_tasks_unique_hits(tmp_path)` |
+| `test_lazyreport_errors_are_actionable` | function | `tests/test_c2_surfaces.py:122` | `def test_lazyreport_errors_are_actionable(monkeypatch)` |
+| `test_publish_banner_dedupes` | function | `tests/test_c2_surfaces.py:30` | `def test_publish_banner_dedupes(tmp_path)` |
+| `test_publish_cve_validates_and_dedupes` | function | `tests/test_c2_surfaces.py:42` | `def test_publish_cve_validates_and_dedupes(tmp_path)` |
+| `test_record_outcome_feeds_c2_surfaces` | function | `tests/test_c2_surfaces.py:95` | `def test_record_outcome_feeds_c2_surfaces(tmp_path, monkeypatch)` |
+| `test_register_loot_event_dedupes_and_rejects_traversal` | function | `tests/test_c2_surfaces.py:66` | `def test_register_loot_event_dedupes_and_rejects_traversal(tmp_path)` |
+| `update_from_findings` | method | `tests/test_c2_surfaces.py:104` | `def update_from_findings(self, findings)` |
+| `TestCampaignRoutesThroughHelpers` | class | `tests/test_campaign_import_safety.py:96` | `class TestCampaignRoutesThroughHelpers` |
+| `TestColumnFiltering` | class | `tests/test_campaign_import_safety.py:55` | `class TestColumnFiltering` |
+| `TestCopyTree` | class | `tests/test_campaign_import_safety.py:80` | `class TestCopyTree` |
+| `TestZipSlip` | class | `tests/test_campaign_import_safety.py:35` | `class TestZipSlip` |
+| `_make_evil_zip` | function | `tests/test_campaign_import_safety.py:27` | `def _make_evil_zip(path)` |
 | `test_evil_members_skipped` | method | `tests/test_campaign_import_safety.py:36` | `def test_evil_members_skipped(self, tmp_path)` |
 | `test_filtered_insert_roundtrip` | method | `tests/test_campaign_import_safety.py:70` | `def test_filtered_insert_roundtrip(self, tmp_path)` |
 | `test_identifier_policy` | method | `tests/test_campaign_import_safety.py:56` | `def test_identifier_policy(self)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 | `test_save_optional` | method | `tests/test_cli_assign.py:78` | `def test_save_optional(self)` |
 | `test_save_receives_mutated_dict` | method | `tests/test_cli_assign.py:66` | `def test_save_receives_mutated_dict(self)` |
 | `test_strip_shell_quotes_variants` | method | `tests/test_cli_assign.py:111` | `def test_strip_shell_quotes_variants(self)` |
-| `test_warn_saves_invalid_but_present` | method | `tests/test_cli_assign.py:302` | `def test_warn_saves_invalid_but_present(self)` |
-| `TestRememberMeComparison` | class | `tests/test_cli_auth_remember.py:48` | `class TestRememberMeComparison` |
-| `isolated_auth` | function | `tests/test_cli_auth_remember.py:24` | `def isolated_auth(tmp_path, monkeypatch)` |
-| `test_comparison_is_timing_safe` | method | `tests/test_cli_auth_remember.py:76` | `def test_comparison_is_timing_safe(self)` |
-| `test_save_delegates_to_canonical_writer` | method | `tests/test_cli_auth_remember.py:92` | `def test_save_delegates_to_canonical_writer(self)` |
-| `test_save_writes_valid_json_and_audits` | method | `tests/test_cli_auth_remember.py:109` | `def test_save_writes_valid_json_and_audits(self, isolated_auth)` |
-| `test_valid_token_logs_in` | method | `tests/test_cli_auth_remember.py:49` | `def test_valid_token_logs_in(self, isolated_auth)` |
-| `test_wrong_token_rejected` | method | `tests/test_cli_auth_remember.py:63` | `def test_wrong_token_rejected(self, isolated_auth)` |
-| `Shell` | class | `tests/test_cli_command_sets.py:470` | `class Shell(Cmd)` |
-| `TestAliasLoaderSubstitution` | class | `tests/test_cli_command_sets.py:209` | `class TestAliasLoaderSubstitution` |
-| `TestAliasYamlIntegrity` | class | `tests/test_cli_command_sets.py:178` | `class TestAliasYamlIntegrity` |
-| `TestCommandSetDiscovery` | class | `tests/test_cli_command_sets.py:325` | `class TestCommandSetDiscovery` |
-| `TestLazyOwnRefactor` | class | `tests/test_cli_command_sets.py:298` | `class TestLazyOwnRefactor` |
-| `TestLazyOwnStillParses` | class | `tests/test_cli_command_sets.py:395` | `class TestLazyOwnStillParses` |
-| `TestPrivateHelperForwarding` | class | `tests/test_cli_command_sets.py:400` | `class TestPrivateHelperForwarding` |
-| `TestRegisterCommandSets` | class | `tests/test_cli_command_sets.py:357` | `class TestRegisterCommandSets` |
-| `_Bare` | class | `tests/test_cli_command_sets.py:363` | `class _Bare(Cmd)` |
-| `_Bare` | class | `tests/test_cli_command_sets.py:387` | `class _Bare(Cmd)` |
-| `_ExplosiveCommandSet` | class | `tests/test_cli_command_sets.py:375` | `class _ExplosiveCommandSet(CommandSet)` |
-| `_Probe` | class | `tests/test_cli_command_sets.py:415` | `class _Probe(LazyOwnCommandSet)` |
-| `_Shell` | class | `tests/test_cli_command_sets.py:428` | `class _Shell(Cmd)` |
 
 Next: [SYMBOLS_p39.md](SYMBOLS_p39.md)

@@ -1,70 +1,29 @@
-# skills/claude_md_orchestrator
+# skills/hermes-lazyown
 
-*Community 13 | 30 files | cohesion 0.68*
+*Community 11 | 14 files | cohesion 0.56*
 
 ## Definition
 
-This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.68). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `BprfuzzerIdentitySpec`, `CheckResult`, `CheckpointSerializer`, `CicdResult`, `CicleState`. Core file: `tests/test_security_sanitizers.py` (51 symbols). Documented purpose: Browser identity sync between the operator browser and the recorder proxy.  A Chrome/Brave extension (``browser_sync_extension/``) pushes the real cookie store .
+This community groups 14 file(s) rooted at `skills/hermes-lazyown` with dominant language py (cohesion 0.56). Central symbols: `BprfuzzerIdentitySpec`, `CheckpointSerializer`, `CompactionResult`, `CompactionStrategy`, `ConfigBridge`, `ConfigBridgeError`, `ConfigKeys`, `DefaultCompaction`. Core file: `modules/browser_sync.py` (44 symbols). Documented purpose: Browser identity sync between the operator browser and the recorder proxy.  A Chrome/Brave extension (``browser_sync_extension/``) pushes the real cookie store .
 
 ## Files
-
-### `skills/claude_md_orchestrator` (13 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/claude_md_orchestrator/__init__.py` | py | utility | 0 | yes |
-| `skills/claude_md_orchestrator/bdd_agent.py` | py | utility | 8 | yes |
-| `skills/claude_md_orchestrator/boy_scout.py` | py | utility | 5 | yes |
-| `skills/claude_md_orchestrator/cicd_agent.py` | py | utility | 7 | yes |
-| `skills/claude_md_orchestrator/config.py` | py | infrastructure | 15 | yes |
-
-### `skills/hermes-lazyown` (7 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/hermes-lazyown/claudemd_rules.py` | py | business_logic | 14 | yes |
-| `skills/hermes-lazyown/config_bridge.py` | py | infrastructure | 16 | yes |
-| `skills/hermes-lazyown/constants.py` | py | utility | 15 | yes |
-| `skills/hermes-lazyown/executor.py` | py | utility | 13 | yes |
-| `skills/hermes-lazyown/hermes_sync.py` | py | utility | 14 | yes |
-
-### `modules` (4 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/browser_sync.py` | py | utility | 44 | yes |
-| `modules/lazy_oob.py` | py | utility | 18 | yes |
-| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
-| `modules/security_sanitizers.py` | py | utility | 26 | yes |
-
-### `contrib/legacy` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
 | `contrib/legacy/lazyhttpreverseshell.py` | py | utility | 10 | no |
-
-### `tests` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_bprfuzzer_identity.py` | py | testing | 10 | yes |
-| `tests/test_security_sanitizers.py` | py | testing | 51 | yes |
-
-### `.` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `pwntomate.py` | py | utility | 3 | yes |
-
-### `modules/backdoor` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
 | `modules/backdoor/server.c` | c | utility | 1 | no |
-
-*... and 10 more files in this community.*
-
+| `modules/browser_sync.py` | py | utility | 44 | yes |
+| `modules/lazy_oob.py` | py | utility | 18 | yes |
+| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
+| `skills/hermes-lazyown/claudemd_rules.py` | py | business_logic | 14 | yes |
+| `skills/hermes-lazyown/config_bridge.py` | py | infrastructure | 16 | yes |
+| `skills/hermes-lazyown/constants.py` | py | utility | 15 | yes |
+| `skills/hermes-lazyown/executor.py` | py | utility | 13 | yes |
+| `skills/hermes-lazyown/hermes_sync.py` | py | utility | 14 | yes |
+| `skills/hermes-lazyown/mcp_server.py` | py | utility | 28 | yes |
+| `skills/hermes-lazyown/output_compactor.py` | py | utility | 20 | yes |
+| `tests/test_bprfuzzer_identity.py` | py | testing | 10 | yes |
 
 ## Key Symbols
 
@@ -101,8 +60,8 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 56
-- Cross-boundary resolved imports (EXTRACTED): 32
+- Internal resolved imports (EXTRACTED): 19
+- Cross-boundary resolved imports (EXTRACTED): 17
 
 ## Connections
 
@@ -110,13 +69,13 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [dataflow UNCHECKED_ALLOC] `modules/backdoor/server.c:19` `main` `sock`: Result of allocator stored in `sock` is never checked against NULL.
 
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
-- What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.68?
+- What would break if the most connected file in skills/hermes-lazyown changed?
+- Should skills/hermes-lazyown be split, given cohesion 0.56?
 
 ## Sources
 
@@ -126,18 +85,11 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `modules/browser_sync.py`
 - `modules/lazy_oob.py`
 - `modules/lazyown_bprfuzzer.py`
-- `modules/security_sanitizers.py`
-- `pwntomate.py`
-- `skills/claude_md_orchestrator/__init__.py`
-- `skills/claude_md_orchestrator/bdd_agent.py`
-- `skills/claude_md_orchestrator/boy_scout.py`
-- `skills/claude_md_orchestrator/cicd_agent.py`
-- `skills/claude_md_orchestrator/config.py`
-- `skills/claude_md_orchestrator/documentation_agent.py`
-- `skills/claude_md_orchestrator/models.py`
-- `skills/claude_md_orchestrator/orchestrator.py`
-- `skills/claude_md_orchestrator/parser.py`
-- `skills/claude_md_orchestrator/reviewer_agent.py`
-- `skills/claude_md_orchestrator/sdd_agent.py`
-- `skills/claude_md_orchestrator/tdd_agent.py`
-- *... and 10 more*
+- `skills/hermes-lazyown/claudemd_rules.py`
+- `skills/hermes-lazyown/config_bridge.py`
+- `skills/hermes-lazyown/constants.py`
+- `skills/hermes-lazyown/executor.py`
+- `skills/hermes-lazyown/hermes_sync.py`
+- `skills/hermes-lazyown/mcp_server.py`
+- `skills/hermes-lazyown/output_compactor.py`
+- `tests/test_bprfuzzer_identity.py`

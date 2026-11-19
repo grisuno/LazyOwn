@@ -17,6 +17,9 @@ import os
 import queue
 import re
 import shlex
+import socket
+import subprocess
+import sys
 import threading
 import time
 from collections.abc import Callable
@@ -45,6 +48,14 @@ LOOP_RESULT_FILENAME = "result.json"
 SUCCESS_LOOP_STATUSES = ("done", "pentest_proven")
 EXIT_LOOP_ERROR = 1
 EXIT_LOOP_TIMEOUT = 4
+C2_AUTOSTART_FLAG = "loop_c2_autostart"
+C2_AUTOSTART_TIMEOUT_FLAG = "c2_autostart_timeout"
+C2_AUTOSTART_TIMEOUT_S = 45.0
+C2_AUTOSTART_POLL_S = 1.0
+C2_AUTOSTART_LOGFILE = "c2_autostart.log"
+C2_PORT_FALLBACK = 4444
+_C2_WILDCARD_HOSTS = ("", "0.0.0.0", "::", "*", "::/0")
+_c2_autostart_lock = threading.Lock()
 
 
 class ThreadStdoutRouter(io.TextIOBase):
@@ -515,6 +526,146 @@ def _start_browser_sync(params: dict) -> None:
             )
     except Exception as exc:
         print_warn(f"browser sync autostart skipped: {exc}")
+
+
+def _c2_endpoint(params: dict) -> tuple[str, int]:
+    """Resolve the C2 bind host and port from the payload mapping.
+
+    Args:
+        params: Payload mapping.
+
+    Returns:
+        ``(host, port)`` where the host falls back to ``lhost`` and then
+        loopback, and the port falls back to ``C2_PORT_FALLBACK``.
+    """
+    params = params or {}
+    host = str(params.get("c2_bind_address", "") or params.get("lhost", "") or "").strip()
+    if host in _C2_WILDCARD_HOSTS:
+        host = "127.0.0.1"
+    try:
+        port = int(float(params.get("c2_port", C2_PORT_FALLBACK) or C2_PORT_FALLBACK))
+    except (TypeError, ValueError):
+        port = C2_PORT_FALLBACK
+    return host, port
+
+
+def _c2_port_alive(host: str, port: int) -> bool:
+    """Report whether the C2 endpoint already accepts TCP connections.
+
+    A plain TCP connect is proxy-free and auth-free; the beacon channel
+    uses exactly this listener, so an open port is the signal the
+    handoff needs.
+
+    Args:
+        host: Bind host to probe.
+        port: Port to probe.
+
+    Returns:
+        True when a connection was accepted within two seconds.
+    """
+    try:
+        with socket.create_connection((host, port), timeout=2.0):
+            return True
+    except OSError:
+        return False
+
+
+def _c2_argv(params: dict, port: int) -> list[str]:
+    """Build the detached C2 launch command from the payload mapping.
+
+    Mirrors the operator's canonical invocation
+    ``python lazyc2.py <port> <user> <pass>``, reusing the exact
+    ``c2_user``/``c2_pass`` pair the beacon channel authenticates with.
+
+    Args:
+        params: Payload mapping.
+        port: Resolved C2 port.
+
+    Returns:
+        Argument vector for ``subprocess.Popen``.
+    """
+    params = params or {}
+    user = str(params.get("c2_user", "") or "LazyOwn")
+    password = str(params.get("c2_pass", "") or "LazyOwn")
+    return [sys.executable, "-u", "lazyc2.py", str(port), user, password]
+
+
+def _maybe_start_c2(params: dict) -> bool:
+    """Spawn the C2 dashboard when the payload asks for it (fail-soft).
+
+    Gated on ``loop_c2_autostart`` in payload.json so the foothold
+    beacon handoff always finds a live C2 able to queue its check-in
+    probe. A live listener on ``c2_bind_address``/``lhost``:``c2_port``
+    skips the spawn; otherwise ``lazyc2.py`` runs detached with output
+    in ``sessions/c2_autostart.log`` and the runner waits up to
+    ``c2_autostart_timeout`` seconds for the port to open. Never raises
+    and never blocks the loop beyond that timeout.
+
+    Args:
+        params: Payload mapping.
+
+    Returns:
+        True when the C2 endpoint is accepting connections.
+    """
+    params = params or {}
+    if not bool(params.get(C2_AUTOSTART_FLAG)) or os.environ.get("PYTEST_CURRENT_TEST"):
+        return False
+    host, port = _c2_endpoint(params)
+    try:
+        raw_timeout = float(params.get(C2_AUTOSTART_TIMEOUT_FLAG, C2_AUTOSTART_TIMEOUT_S) or C2_AUTOSTART_TIMEOUT_S)
+        timeout = max(5.0, min(300.0, raw_timeout))
+    except (TypeError, ValueError):
+        timeout = C2_AUTOSTART_TIMEOUT_S
+    root = Path(__file__).resolve().parent.parent
+    with _c2_autostart_lock:
+        if _c2_port_alive(host, port):
+            print_msg(f"[*] c2 already listening on {host}:{port}")
+            return _c2_autostart_tip(params)
+        env = {key: value for key, value in os.environ.items() if not key.lower().endswith("_proxy")}
+        env["NO_PROXY"] = "*"
+        env["no_proxy"] = "*"
+        try:
+            log_path = root / SESSIONS_DIR / C2_AUTOSTART_LOGFILE
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(log_path, "ab", buffering=0) as log_file:
+                subprocess.Popen(
+                    _c2_argv(params, port),
+                    stdout=log_file,
+                    stderr=subprocess.STDOUT,
+                    cwd=str(root),
+                    env=env,
+                    start_new_session=True,
+                )
+        except OSError as exc:
+            print_warn(f"[!] c2 autostart failed to spawn: {exc}")
+            return False
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if _c2_port_alive(host, port):
+            print_msg(
+                f"[*] c2 autostart: listening on {host}:{port} (sessions/{C2_AUTOSTART_LOGFILE})"
+            )
+            return _c2_autostart_tip(params)
+        time.sleep(C2_AUTOSTART_POLL_S)
+    print_warn(
+        f"[!] c2 autostart: not listening on {host}:{port} after {timeout:.0f}s; "
+        f"check sessions/{C2_AUTOSTART_LOGFILE}"
+    )
+    return False
+
+
+def _c2_autostart_tip(params: dict) -> bool:
+    """Print the beacon-capture hint when the handoff flag is off.
+
+    Args:
+        params: Payload mapping.
+
+    Returns:
+        True, so callers can return the alive status directly.
+    """
+    if not bool((params or {}).get("loop_beacon_handoff")):
+        print_msg("[*] tip: set loop_beacon_handoff true to capture beacons on foothold")
+    return True
 
 
 def _maybe_phishing_fallback(result: dict, config: LoopRunConfig, params: dict) -> dict:
@@ -1337,6 +1488,7 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
     _prepare_engine(engine, shell, config, params)
     _start_proxy(engine, params)
     _start_browser_sync(params)
+    _maybe_start_c2(params)
     print_msg(f"[*] orchestrator chain: {'/'.join(engine.ORCHESTRATOR_CHAIN)}")
     if _budget_declined(config):
         return {"task_id": config.task_id, "cancelled": True, "error": "budget declined"}

@@ -2,6 +2,10 @@
 Previous: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)
 
 ## External Imports (continued)
+- `tests/test_stall_dump.py` -> __future__, pytest
+- `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
+- `tests/test_structured_logging.py` -> __future__, json, logging.handlers, pathlib, sys
+- `tests/test_surface_graph.py` -> __future__, csv, io, json, pathlib, pytest, sys
 - `tests/test_sync_doc_stats.py` -> __future__, importlib.util, json, pathlib, pytest
 - `tests/test_target_os.py` -> asyncio, json, pytest, subprocess
 - `tests/test_themes.py` -> __future__, pathlib, sys

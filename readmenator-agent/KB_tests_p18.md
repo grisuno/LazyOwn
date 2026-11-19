@@ -264,6 +264,22 @@ Previous: [KB_tests_p17.md](KB_tests_p17.md)
   - `test_hard_delete_removes_exclusive_keeps_shared` (function, line 46) `def test_hard_delete_removes_exclusive_keeps_shared(tmp_path, monkeypatch)`
 - Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
 
+## tests/test_loop_lazymode_first.py
+- Doc: Code-mode (lazymode) is the worker's first option.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_result` (function, line 18) `def _result(ok, result, stdout, error, duration)`
+  - `worker_env` (function, line 24) `def worker_env(tmp_path, monkeypatch)`
+  - `_patch_model` (function, line 53) `def _patch_model(monkeypatch, loop, reply, run_result)`
+  - `test_codemode_shell_wins_and_skips_agent` (function, line 61) `def test_codemode_shell_wins_and_skips_agent(worker_env, monkeypatch)`
+  - `test_codemode_exploit_without_shell_falls_through` (function, line 82) `def test_codemode_exploit_without_shell_falls_through(worker_env, monkeypatch)`
+  - `test_codemode_no_script_falls_through` (function, line 97) `def test_codemode_no_script_falls_through(worker_env, monkeypatch)`
+  - `test_codemode_disabled_is_noop` (function, line 114) `def test_codemode_disabled_is_noop(worker_env, monkeypatch)`
+  - `test_codemode_recon_owns_on_content` (function, line 129) `def test_codemode_recon_owns_on_content(worker_env, monkeypatch)`
+  - `test_execute_tries_codemode_before_agentic` (function, line 149) `def test_execute_tries_codemode_before_agentic(worker_env, monkeypatch)`
+- Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `sdk/lazymode/__init__.py`
+
 ## tests/test_loop_llm_resilience.py
 - Doc: LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity).
 - Layer: testing
@@ -474,26 +490,6 @@ Previous: [KB_tests_p17.md](KB_tests_p17.md)
   - `test_traffic_search_host_port_aware` (function, line 71) `def test_traffic_search_host_port_aware(tmp_path, monkeypatch)`
   - `test_finding_evidence_roles_notes_order` (function, line 88) `def test_finding_evidence_roles_notes_order(tmp_path, monkeypatch)`
 - Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_loop_spawn_side.py
-- Doc: Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
-  - `test_chat_sessions_stay_independent` (function, line 15) `def test_chat_sessions_stay_independent(tmp_path, monkeypatch)`
-  - `test_side_questions_persist_and_recall` (function, line 36) `def test_side_questions_persist_and_recall(tmp_path, monkeypatch)`
-  - `test_spawn_inherits_scope_and_findings_read_only` (function, line 53) `def test_spawn_inherits_scope_and_findings_read_only(tmp_path, monkeypatch)`
-- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_loop_store_race.py
-- Doc: Store file writes stay atomic under parallel workers (race regression).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_save_json_survives_parallel_writers` (function, line 8) `def test_save_json_survives_parallel_writers(tmp_path, monkeypatch)`
-  - `writer` (function, line 16) `def writer(worker)`
-- Depends on: `modules/lazy_loop.py`
 
 
 Next: [KB_tests_p19.md](KB_tests_p19.md)

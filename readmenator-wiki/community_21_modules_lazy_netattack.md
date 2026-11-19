@@ -1,6 +1,6 @@
 # modules: lazy_netattack
 
-*Community 23 | 2 files | cohesion 1.00*
+*Community 21 | 2 files | cohesion 1.00*
 
 ## Definition
 

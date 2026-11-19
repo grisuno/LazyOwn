@@ -1,4 +1,4 @@
-# API (page 23 of 30)
+# API (page 23 of 29)
 Previous: [API_p22.md](API_p22.md)
 
 ## skills/hive_mind.py

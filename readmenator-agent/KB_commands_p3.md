@@ -164,6 +164,7 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 
 ## cli/commands/lazymode.py
 - Doc: Lazymode playbook command set.
+- Layer: utility
 - Language: py
 - Symbols:
   - `LazymodeCommandSet` (class, line 20) `class LazymodeCommandSet(LazyOwnCommandSet)`

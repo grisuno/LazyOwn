@@ -3,9 +3,6 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
-| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
-| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
 | `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
 | `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
 | `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
@@ -240,7 +237,7 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `_coerce_bool` | function | `core/payload_schema.py:385` | `def _coerce_bool(raw)` |
 | `_coerce_int` | function | `core/payload_schema.py:370` | `def _coerce_int(raw)` |
 | `_coerce_list` | function | `core/payload_schema.py:312` | `def _coerce_list(raw)` |
-| `_load_operator_specs` | function | `core/payload_schema.py:2514` | `def _load_operator_specs()` |
+| `_load_operator_specs` | function | `core/payload_schema.py:2578` | `def _load_operator_specs()` |
 | `_spec` | function | `core/payload_schema.py:405` | `def _spec(name, kind, default, description)` |
 | `_validate_bool` | function | `core/payload_schema.py:202` | `def _validate_bool(value)` |
 | `_validate_c2_tls_verify` | function | `core/payload_schema.py:330` | `def _validate_c2_tls_verify(value)` |
@@ -257,15 +254,15 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `_validate_port` | function | `core/payload_schema.py:192` | `def _validate_port(value)` |
 | `_validate_string` | function | `core/payload_schema.py:172` | `def _validate_string(value)` |
 | `_validate_url` | function | `core/payload_schema.py:239` | `def _validate_url(value)` |
-| `categories` | function | `core/payload_schema.py:2502` | `def categories()` |
-| `coerce_value` | function | `core/payload_schema.py:2344` | `def coerce_value(key, raw)` |
-| `default_payload` | function | `core/payload_schema.py:2494` | `def default_payload()` |
-| `field_for` | function | `core/payload_schema.py:2339` | `def field_for(key)` |
-| `format_issue` | function | `core/payload_schema.py:2476` | `def format_issue(issue)` |
-| `register_specs` | function | `core/payload_schema.py:2298` | `def register_specs(specs)` |
-| `unregister_specs` | function | `core/payload_schema.py:2321` | `def unregister_specs(keys)` |
-| `validate_payload` | function | `core/payload_schema.py:2441` | `def validate_payload(payload)` |
-| `validate_value` | function | `core/payload_schema.py:2367` | `def validate_value(key, value)` |
+| `categories` | function | `core/payload_schema.py:2566` | `def categories()` |
+| `coerce_value` | function | `core/payload_schema.py:2408` | `def coerce_value(key, raw)` |
+| `default_payload` | function | `core/payload_schema.py:2558` | `def default_payload()` |
+| `field_for` | function | `core/payload_schema.py:2403` | `def field_for(key)` |
+| `format_issue` | function | `core/payload_schema.py:2540` | `def format_issue(issue)` |
+| `register_specs` | function | `core/payload_schema.py:2362` | `def register_specs(specs)` |
+| `unregister_specs` | function | `core/payload_schema.py:2385` | `def unregister_specs(keys)` |
+| `validate_payload` | function | `core/payload_schema.py:2505` | `def validate_payload(payload)` |
+| `validate_value` | function | `core/payload_schema.py:2431` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:221` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:272` | `def activate_server(httpd, url, lhost)` |
@@ -496,5 +493,8 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `_beacon_records_path` | function | `lazyc2.py:1271` | `def _beacon_records_path(client_id)` |
 | `_beacon_signature_guard` | function | `lazyc2.py:3703` | `def _beacon_signature_guard()` |
 | `_behavioral_risk_prompt` | function | `lazyc2.py:2516` | `def _behavioral_risk_prompt(event)` |
+| `_bg_cred_reuse` | function | `lazyc2.py:4129` | `def _bg_cred_reuse(_ip)` |
+| `_bootstrap_initial_admin` | function | `lazyc2.py:2995` | `def _bootstrap_initial_admin()` |
+| `_build_privesc_command` | function | `lazyc2.py:3674` | `def _build_privesc_command(platform)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

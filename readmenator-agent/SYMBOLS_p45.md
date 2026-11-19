@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_url_empty_when_not_running` | method | `tests/test_lazy_oob.py:46` | `def test_url_empty_when_not_running(self)` |
+| `test_url_reuses_active_token` | method | `tests/test_lazy_oob.py:41` | `def test_url_reuses_active_token(self)` |
+| `_Shell` | class | `tests/test_lazy_orchestrator.py:419` | `class _Shell` |
+| `__init__` | method | `tests/test_lazy_orchestrator.py:420` | `def __init__(self)` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:36` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:81` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:183` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:237` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:337` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:359` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:425` | `def _drive()` |
+| `_load` | function | `tests/test_lazy_orchestrator.py:103` | `def _load(target)` |
+| `_save` | function | `tests/test_lazy_orchestrator.py:106` | `def _save(data, target)` |
+| `payload_store` | function | `tests/test_lazy_orchestrator.py:99` | `def payload_store(monkeypatch)` |
+| `sandbox` | function | `tests/test_lazy_orchestrator.py:16` | `def sandbox(tmp_path, monkeypatch)` |
+| `test_auto_verb_enable_disable_and_custom` | function | `tests/test_lazy_orchestrator.py:135` | `def test_auto_verb_enable_disable_and_custom(payload_store)` |
+| `test_engine_respects_disabled_workers` | function | `tests/test_lazy_orchestrator.py:157` | `def test_engine_respects_disabled_workers(payload_store, tmp_path, monkeypatch)` |
+| `test_orchestrator_chains_tab_lists_and_toggles` | function | `tests/test_lazy_orchestrator.py:196` | `def test_orchestrator_chains_tab_lists_and_toggles(sandbox, monkeypatch, tmp_path)` |
+| `test_orchestrator_command_registered` | function | `tests/test_lazy_orchestrator.py:92` | `def test_orchestrator_command_registered()` |
+| `test_orchestrator_config_saves_to_payload` | function | `tests/test_lazy_orchestrator.py:25` | `def test_orchestrator_config_saves_to_payload(sandbox)` |
+| `test_orchestrator_generate_chain_uses_playbooks` | function | `tests/test_lazy_orchestrator.py:253` | `def test_orchestrator_generate_chain_uses_playbooks(sandbox, monkeypatch, tmp_path)` |
 | `test_orchestrator_gyms_tab_starts_and_stops` | function | `tests/test_lazy_orchestrator.py:377` | `def test_orchestrator_gyms_tab_starts_and_stops(tmp_path, monkeypatch)` |
 | `test_orchestrator_models_and_guard_actions` | function | `tests/test_lazy_orchestrator.py:51` | `def test_orchestrator_models_and_guard_actions(sandbox)` |
 | `test_orchestrator_now_shows_activity` | function | `tests/test_lazy_orchestrator.py:69` | `def test_orchestrator_now_shows_activity(sandbox)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 | `test_world_model_default` | method | `tests/test_lazygui_backend.py:133` | `def test_world_model_default(self)` |
 | `TestColorMap` | class | `tests/test_lazygui_graph_widget.py:106` | `class TestColorMap` |
 | `TestColorResolution` | class | `tests/test_lazygui_graph_widget.py:43` | `class TestColorResolution` |
-| `TestGraphEdgeItem` | class | `tests/test_lazygui_graph_widget.py:181` | `class TestGraphEdgeItem` |
-| `TestGraphNodeItem` | class | `tests/test_lazygui_graph_widget.py:114` | `class TestGraphNodeItem` |
-| `TestGraphNodeItemWithIcon` | class | `tests/test_lazygui_graph_widget.py:360` | `class TestGraphNodeItemWithIcon` |
-| `TestGraphScene` | class | `tests/test_lazygui_graph_widget.py:212` | `class TestGraphScene` |
-| `TestGraphView` | class | `tests/test_lazygui_graph_widget.py:307` | `class TestGraphView` |
-| `TestGraphViewWithDatabaseFixture` | class | `tests/test_lazygui_graph_widget.py:333` | `class TestGraphViewWithDatabaseFixture` |
-| `TestRadiusResolution` | class | `tests/test_lazygui_graph_widget.py:79` | `class TestRadiusResolution` |
-| `_capture` | function | `tests/test_lazygui_graph_widget.py:296` | `def _capture(nid, pos)` |
-| `_cb` | function | `tests/test_lazygui_graph_widget.py:149` | `def _cb(nid)` |
-| `_cb` | function | `tests/test_lazygui_graph_widget.py:163` | `def _cb(nid, pos)` |
-| `_get_qapp` | function | `tests/test_lazygui_graph_widget.py:36` | `def _get_qapp()` |
-| `test_all_keys_present` | method | `tests/test_lazygui_graph_widget.py:109` | `def test_all_keys_present(self)` |
-| `test_beacon_color` | method | `tests/test_lazygui_graph_widget.py:50` | `def test_beacon_color(self)` |
-| `test_beacon_radius` | method | `tests/test_lazygui_graph_widget.py:86` | `def test_beacon_radius(self)` |
-| `test_c2_color` | method | `tests/test_lazygui_graph_widget.py:46` | `def test_c2_color(self)` |
-| `test_c2_radius` | method | `tests/test_lazygui_graph_widget.py:82` | `def test_c2_radius(self)` |
-| `test_callback_on_context_menu` | method | `tests/test_lazygui_graph_widget.py:157` | `def test_callback_on_context_menu(self)` |
-| `test_callback_on_selected` | method | `tests/test_lazygui_graph_widget.py:144` | `def test_callback_on_selected(self)` |
-| `test_construction` | method | `tests/test_lazygui_graph_widget.py:117` | `def test_construction(self)` |
-| `test_construction` | method | `tests/test_lazygui_graph_widget.py:215` | `def test_construction(self)` |
-| `test_construction` | method | `tests/test_lazygui_graph_widget.py:310` | `def test_construction(self)` |
 
 Next: [SYMBOLS_p46.md](SYMBOLS_p46.md)

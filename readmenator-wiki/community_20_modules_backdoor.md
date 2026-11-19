@@ -1,6 +1,6 @@
 # modules/backdoor
 
-*Community 22 | 2 files | cohesion 1.00*
+*Community 20 | 2 files | cohesion 1.00*
 
 ## Definition
 
@@ -34,7 +34,9 @@ This community groups 2 file(s) rooted at `modules/backdoor` with dominant langu
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [dataflow UNCHECKED_ALLOC] `modules/backdoor/backdoor.c:83` `str_cut` `buffer`: Result of allocator stored in `buffer` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/backdoor/backdoor.c:149` `WinMain` `sock`: Result of allocator stored in `sock` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/backdoor/keylogger.h:95` `logg` `kh`: Result of allocator stored in `kh` is never checked against NULL.
 
 ## Open Questions
 

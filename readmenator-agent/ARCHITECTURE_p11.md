@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 
 ## External Imports (continued)
+- `skills/mcp_tools/session_state.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/session_status.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/set_active_target.py` -> __future__, datetime, mcp, typing
 - `skills/mcp_tools/set_config.py` -> __future__, json, mcp, sys, typing
@@ -95,6 +96,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_askpass.py` -> __future__, pytest
 - `tests/test_asset_gate.py` -> __future__, pathlib, pytest, sys
 - `tests/test_atomic_exploit_bridge.py` -> __future__, builtins, pathlib, re, socket, sys, threading, yaml
+- `tests/test_atomic_headless.py` -> __future__, pytest, types
 - `tests/test_atomic_loop.py` -> __future__, pathlib, sys, types, yaml
 - `tests/test_atomic_resolver.py` -> __future__, pathlib, pytest, sys, yaml
 - `tests/test_attack_surface3d.py` -> __future__, json, pathlib, sys
@@ -358,6 +360,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_loop_guard_audit.py` -> __future__
 - `tests/test_loop_guardrails.py` -> __future__, threading, time
 - `tests/test_loop_intent_delete.py` -> __future__, pytest
+- `tests/test_loop_lazymode_first.py` -> __future__, pytest, types
 - `tests/test_loop_llm_resilience.py` -> __future__
 - `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
 - `tests/test_loop_manager_outcome.py` -> __future__, json, pytest, threading
@@ -372,6 +375,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_loop_store_race.py` -> __future__, threading
 - `tests/test_loop_supervision.py` -> __future__
 - `tests/test_loop_target_authority.py` -> __future__
+- `tests/test_loop_technique_deterministic.py` -> __future__, pytest
 - `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
 - `tests/test_loop_worker_traces.py` -> __future__
 - `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
@@ -492,9 +496,5 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_sink_lazy_intel.py` -> __future__, pathlib, pytest
 - `tests/test_sleep_obfuscation.py` -> __future__, pytest
 - `tests/test_socks_proxy.py` -> __future__
-- `tests/test_stall_dump.py` -> __future__, pytest
-- `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
-- `tests/test_structured_logging.py` -> __future__, json, logging.handlers, pathlib, sys
-- `tests/test_surface_graph.py` -> __future__, csv, io, json, pathlib, pytest, sys
 
 Next: [ARCHITECTURE_p12.md](ARCHITECTURE_p12.md)

@@ -3,6 +3,19 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `r` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `s` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `wt` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `e` | function | `static/js/tippy-6.js:1` | `` |
+| `r` | function | `static/js/tippy-6.js:1` | `` |
+| `u` | function | `static/js/tippy-6.js:1` | `` |
+| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Bk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Bx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `C` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
 | `C` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `CE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
@@ -483,18 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `restore_files` | function | `tests/run_mutation_llm.py:69` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_llm.py:74` | `def run_tests()` |
 | `backup_files` | function | `tests/run_mutation_llm_orchestrator.py:166` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_llm_orchestrator.py:220` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_llm_orchestrator.py:184` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_llm_orchestrator.py:196` | `def run_tests()` |
-| `main` | function | `tests/run_mutation_loop_cli_catalog.py:50` | `def main()` |
-| `_run_tests` | function | `tests/run_mutation_no_shell.py:25` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_no_shell.py:37` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_opsec.py:59` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_opsec.py:83` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_opsec.py:68` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_opsec.py:73` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_orchestrator_yaml.py:54` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_orchestrator_yaml.py:83` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_orchestrator_yaml.py:64` | `def restore_files(backups, base_dir, mutations)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

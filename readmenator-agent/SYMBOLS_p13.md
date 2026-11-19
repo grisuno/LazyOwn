@@ -3,8 +3,6 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_default_slots` | method | `modules/c2_profile_engine.py:709` | `def _default_slots(self)` |
-| `active_transport` | method | `modules/c2_profile_engine.py:668` | `def active_transport(self)` |
 | `build_query_subdomain` | method | `modules/c2_profile_engine.py:231` | `def build_query_subdomain(self, data, packet_id)` |
 | `current_slot` | method | `modules/c2_profile_engine.py:460` | `def current_slot(self)` |
 | `dns_profile` | method | `modules/c2_profile_engine.py:648` | `def dns_profile(self)` |
@@ -496,5 +494,7 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
 | `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
 | `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

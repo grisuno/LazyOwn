@@ -66,10 +66,16 @@ def parse_atomic_line(line: str) -> dict[str, Any]:
 
     Supported forms (all optional, composable):
         ``T1078`` | ``<guid>`` | ``T1059 --platform linux``
+        ``T1105 2`` | ``T1105 --test 2`` | ``--index 3``
         ``--platform windows --non-interactive --json --limit 3``
 
+    The ``--test``/``--index`` flag (or a trailing positional integer) picks
+    one test by its 1-based position in the listing, so a technique with
+    several atomics runs headless without the interactive chooser.
+
     Returns:
-        Dict with query, platform, non_interactive, as_json, limit.
+        Dict with query, platform, non_interactive, as_json, limit,
+        test_index (0 when unset).
     """
     text = (line or "").strip()
     tokens = shlex.split(text) if text else []
@@ -79,6 +85,7 @@ def parse_atomic_line(line: str) -> dict[str, Any]:
         "non_interactive": False,
         "as_json": False,
         "limit": 20,
+        "test_index": 0,
     }
     positionals: list[str] = []
     for token in tokens:
@@ -98,6 +105,13 @@ def parse_atomic_line(line: str) -> dict[str, Any]:
                 pass
         elif low == "--limit":
             out["limit"] = "__next__"  # type: ignore
+        elif low.startswith("--test=") or low.startswith("--index="):
+            try:
+                out["test_index"] = max(1, int(token.split("=", 1)[1]))
+            except ValueError:
+                pass
+        elif low in ("--test", "--index"):
+            out["test_index"] = "__next__"  # type: ignore
         elif out["platform"] == "__next__":
             out["platform"] = token
         elif out["limit"] == "__next__":
@@ -105,12 +119,19 @@ def parse_atomic_line(line: str) -> dict[str, Any]:
                 out["limit"] = max(1, min(int(token), 50))
             except ValueError:
                 out["limit"] = 20
+        elif out["test_index"] == "__next__":
+            try:
+                out["test_index"] = max(1, int(token))
+            except ValueError:
+                out["test_index"] = 0
         else:
             positionals.append(token)
     if out["platform"] == "__next__":
         out["platform"] = ""
     if out["limit"] == "__next__":
         out["limit"] = 20
+    if out["test_index"] == "__next__":
+        out["test_index"] = 0
     if positionals:
         out["query"] = positionals[0]
         for extra in positionals[1:]:
@@ -118,7 +139,9 @@ def parse_atomic_line(line: str) -> dict[str, Any]:
                 "windows", "macos", "linux", "containers",
             ):
                 out["platform"] = extra
-    if not sys.stdin.isatty():
+            elif not out["test_index"] and extra.isdigit():
+                out["test_index"] = max(1, int(extra))
+    if not sys.stdin.isatty() or _is_autonomous():
         out["non_interactive"] = True
     return out
 
@@ -151,9 +174,27 @@ def _warn(text: str) -> None:
         print(f"[!] {text}")
 
 
+def _is_autonomous() -> bool:
+    """Return True while an autonomous loop run owns the process.
+
+    During a loop run ``builtins.input`` is replaced by a stub that returns
+    an empty string, so any interactive chooser would read back "" and fail.
+    Treating that state as non-interactive keeps every atomic verb headless.
+
+    Returns:
+        True when the autonomous-mode flag is set.
+    """
+    try:
+        from core.autonomous import is_autonomous
+
+        return is_autonomous()
+    except Exception:
+        return False
+
+
 def _wants_interactive(non_interactive: bool) -> bool:
     """Return True only when interactive prompts are allowed."""
-    return not non_interactive and sys.stdin.isatty()
+    return not non_interactive and not _is_autonomous() and sys.stdin.isatty()
 
 
 def _safe_copy(text: str) -> None:
@@ -238,6 +279,7 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
     platform = request["platform"]
     non_interactive = request["non_interactive"]
     limit = int(request["limit"])
+    test_index = int(request.get("test_index", 0) or 0)
 
     if not platform and not _wants_interactive(non_interactive):
         platform = default_platform_for_target(params)
@@ -293,7 +335,15 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
             key=lambda test: 0 if "linux" in [p.lower() for p in test.platforms] else 1
         )
 
-    if len(candidates) == 1 or non_interactive or not _wants_interactive(non_interactive):
+    if test_index:
+        if 1 <= test_index <= len(candidates):
+            selected = candidates[test_index - 1]
+            selected_guid = selected.guid
+            _print(shell, f"Selected test #{test_index} of {len(candidates)}: {selected.name}")
+        else:
+            _warn(f"Test index {test_index} out of range (1-{len(candidates)}).")
+            return 2
+    elif len(candidates) == 1 or non_interactive or not _wants_interactive(non_interactive):
         selected = candidates[0]
         selected_guid = selected.guid
     else:
@@ -302,12 +352,16 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
             _print(shell, f"{idx}. [{test.mitre_id}] {test.name} Id: {test.guid}")
         choice = _prompt_choice(min(len(candidates), limit), "    [!] Enter the number of the test: ", non_interactive)
         if choice < 0:
-            _warn("Invalid choice.")
+            _warn("Invalid choice. Pass the test number as an argument to run headless, e.g. 'atomic_tests <TID> 2'.")
             return 2
         selected = candidates[choice]
         selected_guid = selected.guid
-    if len(candidates) > 1 and (non_interactive or not _wants_interactive(non_interactive)) and query:
-        _print(shell, f"Multiple tests for {query.upper()}: using first ({selected.name}).")
+    if not test_index and len(candidates) > 1 and (non_interactive or not _wants_interactive(non_interactive)) and query:
+        _print(
+            shell,
+            f"Multiple tests for {query.upper()}: using first ({selected.name}). "
+            f"Pass a number to pick another, e.g. '{query} 2'.",
+        )
 
     _print(shell, f"Atomic ID: {selected_guid}")
     _print(shell, f"Test: {selected.name}")

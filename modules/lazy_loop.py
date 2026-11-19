@@ -44,6 +44,7 @@ from modules.loop import (
     WorkerAgenticMixin,
     WorkerExecutionMixin,
     WorkerGatingMixin,
+    WorkerLazymodeMixin,
     WorkerMemoryMixin,
 )
 from modules.loop_guardrails import (
@@ -3720,6 +3721,74 @@ def _initial_access_intent(text: str) -> bool:
     return any(mark in text for mark in _INITIAL_ACCESS_MARKS)
 
 
+_TECHNIQUE_ID_RE = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
+
+
+def _technique_intent(text: str) -> bool:
+    """Return True when the intent emulates a named MITRE technique.
+
+    A technique-review/emulation objective (``Review T1105: ...``,
+    ``run action: atomic_tests T1059 ...``) maps to one deterministic,
+    headless ``atomic_tests`` run, so the worker resolves it without
+    spending a model turn. Exploitation-class intents are excluded; those
+    belong to the code-mode exploit vectors and the ``auto_pwn`` fallback.
+
+    Args:
+        text: Raw intent text.
+
+    Returns:
+        True when the intent references a MITRE technique ID and is not
+        exploitation-class.
+    """
+    lowered = (text or "").lower()
+    if _initial_access_intent(lowered):
+        return False
+    return bool(_TECHNIQUE_ID_RE.search(text or ""))
+
+
+def _technique_steps(text: str) -> list[str]:
+    """Return the headless ``atomic_tests`` line for a technique intent.
+
+    The platform is left to the verb's target-OS default; the test is
+    always staged non-interactively so an unattended worker never blocks
+    on the test chooser.
+
+    Args:
+        text: Raw intent text carrying a MITRE technique ID.
+
+    Returns:
+        A single-element command list, or an empty list when no technique
+        ID is present.
+    """
+    match = _TECHNIQUE_ID_RE.search(text or "")
+    if not match:
+        return []
+    return [f"atomic_tests {match.group(0).upper()} --non-interactive"]
+
+
+def _technique_deterministic_enabled() -> bool:
+    """Return whether technique intents resolve deterministically first.
+
+    Reads ``payload.json:loop_technique_deterministic`` (default True).
+    When enabled, a MITRE-technique objective runs a headless
+    ``atomic_tests`` through the deterministic step loop instead of the
+    tool-calling agent, so the loop stops burning the model on emulation.
+
+    Returns:
+        True when the deterministic technique path is active.
+    """
+    try:
+        from core.config import load_payload
+
+        payload = load_payload() or {}
+    except Exception:
+        return True
+    value = payload.get("loop_technique_deterministic", True)
+    if isinstance(value, str):
+        return value.strip().lower() not in ("0", "false", "no", "off", "")
+    return bool(value)
+
+
 _FOOTHOLD_FINDING_MARKS = (
     "shell",
     "session",
@@ -4851,7 +4920,7 @@ class Planner:
         return None
 
 
-class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, WorkerMemoryMixin):
+class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, WorkerMemoryMixin):
     """Executes exactly ONE claimed intent with real tools."""
 
     def __init__(
@@ -5001,6 +5070,8 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         except Exception:
             agentic_allowed = True
         intent_deadline = (_now() + float(timeout_sec)) if timeout_sec else 0.0
+        if self._lazymode_try(intent, outcome, transcripts, executor, budget, deadline=intent_deadline):
+            return self._finish(intent, outcome, transcripts, worker_tools)
         if agentic_allowed and self._agentic_try(
             intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline=intent_deadline
         ):
@@ -5954,6 +6025,10 @@ class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, Worker
         keyword_resolved = _auto_keyword_steps(intent.text, target)
         if keyword_resolved:
             return ping_first + keyword_resolved
+        if _technique_deterministic_enabled() and _technique_intent(intent.text):
+            technique_resolved = _technique_steps(intent.text)
+            if technique_resolved:
+                return technique_resolved
         if _initial_access_intent(text):
             cover = " --all" if _auto_pwn_cover_all() else ""
             return ping_first + scan_first + [f"auto_pwn {target}{cover}".strip()]

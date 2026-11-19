@@ -1253,12 +1253,16 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         raw GUIDs, or prefixes (``T1059``), with optional flags:
 
             atomic_tests T1078 --platform linux --non-interactive
+            atomic_tests T1105 2                 (run the 2nd listed test)
+            atomic_tests T1105 --test 2          (same, explicit flag)
             atomic_tests <guid> --platform windows
             atomic_tests --platform linux   (lists, interactive only)
 
-        Non-interactive mode (``--non-interactive`` or piped stdin,
-        as used by MCP and the autonomous loop) stages the first
-        matching test to the clipboard without blocking on input.
+        When a technique has several atomics, pass the 1-based test number
+        (trailing integer, or ``--test``/``--index``) to pick one headless
+        instead of the interactive chooser. Non-interactive mode
+        (``--non-interactive``, piped stdin, or the autonomous loop) stages
+        the first matching test without blocking on input.
         Implementation lives in :mod:`modules.atomic_cli`.
         """
         from modules.atomic_cli import run_atomic_tests

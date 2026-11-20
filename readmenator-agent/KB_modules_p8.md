@@ -1,6 +1,45 @@
 # Subsystem: modules (page 8 of 19)
 Previous: [KB_modules_p7.md](KB_modules_p7.md)
 
+## modules/intercept.py
+- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
+  - `InterceptConfig` (class, line 33) `class InterceptConfig`
+  - `InterceptRule` (class, line 50) `class InterceptRule`
+  - `PendingApproval` (class, line 77) `class PendingApproval`
+  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
+  - `builtin_rules` (function, line 101) `def builtin_rules()`
+  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
+  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
+  - `Interceptor` (class, line 154) `class Interceptor`
+  - `Guard` (class, line 255) `class Guard`
+  - `__post_init__` (method, line 61) `def __post_init__(self)`
+  - `matches` (method, line 68) `def matches(self, tool, command)`
+  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
+  - `rules` (method, line 172) `def rules(self)`
+  - `add_rule` (method, line 177) `def add_rule(self, rule)`
+  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
+  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
+  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
+  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
+  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
+  - `__init__` (method, line 258) `def __init__(self, interceptor)`
+  - `interceptor` (method, line 266) `def interceptor(self)`
+  - `check` (method, line 270) `def check(self, tool, command)`
+  - `observe` (method, line 282) `def observe(self, output, source)`
+  - `record_failure` (method, line 291) `def record_failure(self, source)`
+  - `audit_log` (method, line 296) `def audit_log(self, limit)`
+  - `attribution` (method, line 301) `def attribution(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_loop_post_signal.py`, `tests/test_safety_gates.py`
+
+## modules/internal_discover.sh
+- Layer: utility
+- Language: sh
+
 ## modules/iptables_portforward.sh
 - Layer: utility
 - Language: sh
@@ -450,44 +489,6 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `_worker` (function, line 696) `def _worker()`
 - Depends on: `modules/lazy_heat.py`
 - Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_feedmatch.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
-
-## modules/lazy_deviations.py
-- Doc: Planned-versus-actual deviation ledger for loop and chain runs.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DeviationRecord` (class, line 35) `class DeviationRecord`
-  - `_clean` (function, line 67) `def _clean(text)`
-  - `DeviationLedger` (class, line 72) `class DeviationLedger`
-  - `as_dict` (method, line 55) `def as_dict(self)`
-  - `__init__` (method, line 80) `def __init__(self, path)`
-  - `record` (method, line 84) `def record(self, scope, planned, actual, reason, source)`
-  - `list` (method, line 124) `def list(self, scope, limit)`
-  - `render_markdown` (method, line 140) `def render_markdown(self, records, title)`
-  - `_last_matches` (method, line 160) `def _last_matches(self, scope, planned, actual, reason)`
-  - `_read` (method, line 172) `def _read(self)`
-  - `_append` (method, line 201) `def _append(self, record)`
-  - `_trim` (method, line 216) `def _trim(self)`
-- Imported by: `cli/commands/lazyops.py`, `modules/chain_runner.py`, `modules/lazy_loop.py`, `tests/test_lazy_deviations.py`
-
-## modules/lazy_drafts.py
-- Doc: Injected objective drafts: close the lazy_drafts handoff loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_drafts_dir` (function, line 27) `def _drafts_dir()`
-  - `drain` (function, line 34) `def drain(engine)`
-- Depends on: `modules/lazy_loop.py`
-- Imported by: `tests/test_loop_objective_wiring.py`
-
-## modules/lazy_engine.py
-- Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LazyEngine` (class, line 56) `class LazyEngine(LazyLoopEngine)`
-- Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/lazy_board.py`, `skills/mcp_tools/lazy_finding.py`, `skills/mcp_tools/lazy_hint.py`, `skills/mcp_tools/lazy_proxy.py`, `skills/mcp_tools/lazy_trace.py`, `skills/mcp_tools/loop_smoke.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_lazymode_first.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_technique_deterministic.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_planner_initial_access.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
 
 
 Next: [KB_modules_p9.md](KB_modules_p9.md)

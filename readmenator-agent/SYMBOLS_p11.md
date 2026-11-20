@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_emit_request_connect` | method | `lazygui/windows/main_window.py:372` | `def _emit_request_connect(self)` |
+| `_install_layout` | method | `lazygui/windows/main_window.py:108` | `def _install_layout(self)` |
+| `_install_menu_bar` | method | `lazygui/windows/main_window.py:131` | `def _install_menu_bar(self)` |
+| `_install_shortcuts` | method | `lazygui/windows/main_window.py:220` | `def _install_shortcuts(self)` |
+| `_install_statusbar` | method | `lazygui/windows/main_window.py:195` | `def _install_statusbar(self)` |
+| `_install_toolbar` | method | `lazygui/windows/main_window.py:171` | `def _install_toolbar(self)` |
+| `_make_panel_toggle` | method | `lazygui/windows/main_window.py:300` | `def _make_panel_toggle(self, panel)` |
+| `_make_theme_apply` | method | `lazygui/windows/main_window.py:311` | `def _make_theme_apply(self, identifier)` |
+| `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
+| `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
+| `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
+| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
 | `_on_theme_changed` | method | `lazygui/windows/main_window.py:329` | `def _on_theme_changed(self, tokens)` |
 | `_on_theme_menu_action` | method | `lazygui/windows/main_window.py:337` | `def _on_theme_menu_action(self)` |
 | `_persist_geometry_and_state` | method | `lazygui/windows/main_window.py:244` | `def _persist_geometry_and_state(self)` |
@@ -220,38 +232,39 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `AgentRunner` | class | `modules/agent_runner.py:194` | `class AgentRunner` |
 | `AgentTool` | class | `modules/agent_runner.py:70` | `class AgentTool` |
 | `CommandMetadata` | class | `modules/agent_runner.py:131` | `class CommandMetadata` |
-| `LazyOwnShellWrapper` | class | `modules/agent_runner.py:486` | `class LazyOwnShellWrapper` |
-| `VulnBotCLI` | class | `modules/agent_runner.py:563` | `class VulnBotCLI` |
+| `LazyOwnShellWrapper` | class | `modules/agent_runner.py:499` | `class LazyOwnShellWrapper` |
+| `VulnBotCLI` | class | `modules/agent_runner.py:576` | `class VulnBotCLI` |
 | `__init__` | method | `modules/agent_runner.py:73` | `def __init__(self, name, description, func, parameters, required)` |
 | `__init__` | method | `modules/agent_runner.py:197` | `def __init__(self, model, system_prompt, max_iterations)` |
-| `__init__` | method | `modules/agent_runner.py:489` | `def __init__(self, script_path)` |
-| `__init__` | method | `modules/agent_runner.py:564` | `def __init__(self, provider, mode, debug, script_path)` |
+| `__init__` | method | `modules/agent_runner.py:502` | `def __init__(self, script_path)` |
+| `__init__` | method | `modules/agent_runner.py:577` | `def __init__(self, provider, mode, debug, script_path)` |
 | `_call_model` | method | `modules/agent_runner.py:299` | `def _call_model(self)` |
 | `_emit_delta` | method | `modules/agent_runner.py:419` | `def _emit_delta(self, kind, text)` |
-| `_load_model` | method | `modules/agent_runner.py:576` | `def _load_model(self)` |
-| `_load_shell` | method | `modules/agent_runner.py:496` | `def _load_shell(self)` |
+| `_fence_tool_result` | function | `modules/agent_runner.py:485` | `def _fence_tool_result(result)` |
+| `_load_model` | method | `modules/agent_runner.py:589` | `def _load_model(self)` |
+| `_load_shell` | method | `modules/agent_runner.py:509` | `def _load_shell(self)` |
 | `_manage_memory` | method | `modules/agent_runner.py:214` | `def _manage_memory(self)` |
 | `_process_tool_call` | method | `modules/agent_runner.py:438` | `def _process_tool_call(self, tool_call)` |
 | `_reset_history` | method | `modules/agent_runner.py:211` | `def _reset_history(self)` |
-| `_setup_agent` | method | `modules/agent_runner.py:591` | `def _setup_agent(self)` |
+| `_setup_agent` | method | `modules/agent_runner.py:604` | `def _setup_agent(self)` |
 | `_stream_call` | method | `modules/agent_runner.py:345` | `def _stream_call(self, model_name, messages, max_tokens)` |
 | `_tool_call_snapshot` | function | `modules/agent_runner.py:177` | `def _tool_call_snapshot(tool_call)` |
 | `configure_logging` | function | `modules/agent_runner.py:64` | `def configure_logging(debug)` |
 | `execute` | method | `modules/agent_runner.py:87` | `def execute(self)` |
-| `execute_command` | method | `modules/agent_runner.py:519` | `def execute_command(self, command)` |
+| `execute_command` | method | `modules/agent_runner.py:532` | `def execute_command(self, command)` |
 | `extract_commands_from_file` | method | `modules/agent_runner.py:142` | `def extract_commands_from_file(file_path, prefix)` |
-| `get_commands_summary` | method | `modules/agent_runner.py:556` | `def get_commands_summary(self)` |
+| `get_commands_summary` | method | `modules/agent_runner.py:569` | `def get_commands_summary(self)` |
 | `get_tools_for_api` | method | `modules/agent_runner.py:270` | `def get_tools_for_api(self)` |
-| `interactive_mode` | function | `modules/agent_runner.py:624` | `def interactive_mode(bot)` |
-| `main` | function | `modules/agent_runner.py:658` | `def main()` |
+| `interactive_mode` | function | `modules/agent_runner.py:637` | `def interactive_mode(bot)` |
+| `main` | function | `modules/agent_runner.py:671` | `def main()` |
 | `make_executor` | function | `modules/agent_runner.py:247` | `def make_executor(cmd_name)` |
-| `parse_args` | function | `modules/agent_runner.py:648` | `def parse_args()` |
-| `process_request` | method | `modules/agent_runner.py:619` | `def process_request(self, user_input)` |
+| `parse_args` | function | `modules/agent_runner.py:661` | `def parse_args()` |
+| `process_request` | method | `modules/agent_runner.py:632` | `def process_request(self, user_input)` |
 | `register_tool` | method | `modules/agent_runner.py:222` | `def register_tool(self, tool)` |
 | `register_tool_from_instance` | method | `modules/agent_runner.py:225` | `def register_tool_from_instance(self, func)` |
 | `register_tools_from_metadata` | method | `modules/agent_runner.py:243` | `def register_tools_from_metadata(self, commands, executor)` |
 | `run` | method | `modules/agent_runner.py:275` | `def run(self, user_input)` |
-| `target` | function | `modules/agent_runner.py:526` | `def target()` |
+| `target` | function | `modules/agent_runner.py:539` | `def target()` |
 | `to_api_format` | method | `modules/agent_runner.py:81` | `def to_api_format(self)` |
 | `wrapper` | function | `modules/agent_runner.py:248` | `def wrapper(command)` |
 | `AIExploitChainer` | class | `modules/ai_exploit_chain.py:224` | `class AIExploitChainer` |
@@ -381,46 +394,50 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `enrich` | function | `modules/atomic_enricher.py:173` | `def enrich(force)` |
 | `load_enriched` | function | `modules/atomic_enricher.py:215` | `def load_enriched()` |
 | `query_atomic` | function | `modules/atomic_enricher.py:232` | `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
-| `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:105` | `class ExploitCommand` |
-| `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:113` | `class ExploitSpec` |
-| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:762` | `class _ShellSession` |
-| `__init__` | method | `modules/atomic_exploit_bridge.py:770` | `def __init__(self, target, port, sock, owner)` |
-| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1125` | `def _adopt_live_shell(spec, target, port)` |
-| `_claim_port` | function | `modules/atomic_exploit_bridge.py:857` | `def _claim_port(spec_id, target, port)` |
-| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:1035` | `def _destroy_gym(container)` |
-| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:583` | `def _install_missing_binaries(names)` |
-| `_persist_session` | function | `modules/atomic_exploit_bridge.py:1053` | `def _persist_session(via, target, port, lhost)` |
-| `_read_until` | method | `modules/atomic_exploit_bridge.py:801` | `def _read_until(self, marker, timeout)` |
-| `_release_port` | function | `modules/atomic_exploit_bridge.py:875` | `def _release_port(target, port)` |
-| `_string_list` | function | `modules/atomic_exploit_bridge.py:163` | `def _string_list(value)` |
-| `_token_mapping` | function | `modules/atomic_exploit_bridge.py:532` | `def _token_mapping(rhost, lhost, lport, port)` |
-| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1151` | `def _wait_port_closed(target, port, timeout)` |
-| `alive` | method | `modules/atomic_exploit_bridge.py:780` | `def alive(self, timeout)` |
-| `auto` | function | `modules/atomic_exploit_bridge.py:372` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
-| `build_commands` | function | `modules/atomic_exploit_bridge.py:546` | `def build_commands(spec, rhost, lhost, lport, port)` |
-| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:976` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
-| `close` | method | `modules/atomic_exploit_bridge.py:829` | `def close(self)` |
-| `close_sessions` | function | `modules/atomic_exploit_bridge.py:928` | `def close_sessions(target)` |
-| `detect_shell` | function | `modules/atomic_exploit_bridge.py:564` | `def detect_shell(spec, output)` |
-| `emulate` | function | `modules/atomic_exploit_bridge.py:1239` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
-| `ensure_session` | function | `modules/atomic_exploit_bridge.py:1068` | `def ensure_session(spec, target, lhost)` |
-| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1184` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
-| `live_sessions` | function | `modules/atomic_exploit_bridge.py:909` | `def live_sessions()` |
-| `load_all` | function | `modules/atomic_exploit_bridge.py:247` | `def load_all(exploits_dir)` |
-| `main` | function | `modules/atomic_exploit_bridge.py:1361` | `def main()` |
-| `match_score` | function | `modules/atomic_exploit_bridge.py:302` | `def match_score(spec, service, product, version, os_hint)` |
-| `open_shell` | function | `modules/atomic_exploit_bridge.py:706` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
-| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:335` | `def parse_scan_xml(xml_path)` |
-| `rank` | function | `modules/atomic_exploit_bridge.py:477` | `def rank(services, exploits_dir, os_hint)` |
-| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1273` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
-| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:880` | `def record_shell_outcome(target, via)` |
-| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1166` | `def remote_exec(spec, target, command, lhost)` |
-| `run` | method | `modules/atomic_exploit_bridge.py:787` | `def run(self, command, timeout)` |
-| `run_spec` | function | `modules/atomic_exploit_bridge.py:613` | `def run_spec(spec, rhost, lhost, lport, port)` |
-| `severity_rank` | method | `modules/atomic_exploit_bridge.py:138` | `def severity_rank(self)` |
-| `shell_output_evidence` | function | `modules/atomic_exploit_bridge.py:84` | `def shell_output_evidence(output)` |
-| `to_dict` | method | `modules/atomic_exploit_bridge.py:142` | `def to_dict(self)` |
-| `validate_spec` | function | `modules/atomic_exploit_bridge.py:171` | `def validate_spec(data, filename)` |
+| `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:149` | `class ExploitCommand` |
+| `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:157` | `class ExploitSpec` |
+| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:806` | `class _ShellSession` |
+| `__init__` | method | `modules/atomic_exploit_bridge.py:814` | `def __init__(self, target, port, sock, owner)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1247` | `def _adopt_live_shell(spec, target, port)` |
+| `_claim_port` | function | `modules/atomic_exploit_bridge.py:905` | `def _claim_port(spec_id, target, port)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:1157` | `def _destroy_gym(container)` |
+| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:627` | `def _install_missing_binaries(names)` |
+| `_persist_session` | function | `modules/atomic_exploit_bridge.py:1175` | `def _persist_session(via, target, port, lhost)` |
+| `_read_until` | method | `modules/atomic_exploit_bridge.py:845` | `def _read_until(self, marker, timeout)` |
+| `_release_port` | function | `modules/atomic_exploit_bridge.py:923` | `def _release_port(target, port)` |
+| `_string_list` | function | `modules/atomic_exploit_bridge.py:207` | `def _string_list(value)` |
+| `_token_mapping` | function | `modules/atomic_exploit_bridge.py:576` | `def _token_mapping(rhost, lhost, lport, port)` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1273` | `def _wait_port_closed(target, port, timeout)` |
+| `alive` | method | `modules/atomic_exploit_bridge.py:824` | `def alive(self, timeout)` |
+| `auto` | function | `modules/atomic_exploit_bridge.py:416` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
+| `build_commands` | function | `modules/atomic_exploit_bridge.py:590` | `def build_commands(spec, rhost, lhost, lport, port)` |
+| `claim_effect` | function | `modules/atomic_exploit_bridge.py:1008` | `def claim_effect(target, vector, ttl)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:1098` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `close` | method | `modules/atomic_exploit_bridge.py:873` | `def close(self)` |
+| `close_sessions` | function | `modules/atomic_exploit_bridge.py:1050` | `def close_sessions(target)` |
+| `detect_shell` | function | `modules/atomic_exploit_bridge.py:608` | `def detect_shell(spec, output)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:1361` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:1190` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1306` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `is_scan_only_verb` | function | `modules/atomic_exploit_bridge.py:113` | `def is_scan_only_verb(command)` |
+| `live_sessions` | function | `modules/atomic_exploit_bridge.py:957` | `def live_sessions()` |
+| `load_all` | function | `modules/atomic_exploit_bridge.py:291` | `def load_all(exploits_dir)` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1483` | `def main()` |
+| `match_score` | function | `modules/atomic_exploit_bridge.py:346` | `def match_score(spec, service, product, version, os_hint)` |
+| `open_shell` | function | `modules/atomic_exploit_bridge.py:750` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
+| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:379` | `def parse_scan_xml(xml_path)` |
+| `probe_live_shell` | function | `modules/atomic_exploit_bridge.py:976` | `def probe_live_shell(target, command)` |
+| `rank` | function | `modules/atomic_exploit_bridge.py:521` | `def rank(services, exploits_dir, os_hint)` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1395` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
+| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:928` | `def record_shell_outcome(target, via)` |
+| `release_effect` | function | `modules/atomic_exploit_bridge.py:1040` | `def release_effect(target, vector)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1288` | `def remote_exec(spec, target, command, lhost)` |
+| `run` | method | `modules/atomic_exploit_bridge.py:831` | `def run(self, command, timeout)` |
+| `run_spec` | function | `modules/atomic_exploit_bridge.py:657` | `def run_spec(spec, rhost, lhost, lport, port)` |
+| `severity_rank` | method | `modules/atomic_exploit_bridge.py:182` | `def severity_rank(self)` |
+| `shell_output_evidence` | function | `modules/atomic_exploit_bridge.py:87` | `def shell_output_evidence(output)` |
+| `to_dict` | method | `modules/atomic_exploit_bridge.py:186` | `def to_dict(self)` |
+| `validate_spec` | function | `modules/atomic_exploit_bridge.py:215` | `def validate_spec(data, filename)` |
 | `AtomicResolver` | class | `modules/atomic_resolver.py:219` | `class AtomicResolver` |
 | `AtomicTest` | class | `modules/atomic_resolver.py:131` | `class AtomicTest` |
 | `__init__` | method | `modules/atomic_resolver.py:226` | `def __init__(self, atomics_dir)` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `path` | method | `modules/auto_loop_memory.py:63` | `def path(self)` |
 | `peek` | method | `modules/auto_loop_memory.py:237` | `def peek(self)` |
 | `pop` | method | `modules/auto_loop_memory.py:229` | `def pop(self)` |
-| `push` | method | `modules/auto_loop_memory.py:220` | `def push(self, command, reason)` |
-| `record_failure` | method | `modules/auto_loop_memory.py:79` | `def record_failure(self, target, category, command)` |
-| `sanctioned_bases` | method | `modules/auto_loop_memory.py:146` | `def sanctioned_bases(self, target)` |
-| `save` | method | `modules/auto_loop_memory.py:166` | `def save(self)` |
-| `save` | method | `modules/auto_loop_memory.py:244` | `def save(self)` |
-| `veto_base` | method | `modules/auto_loop_memory.py:105` | `def veto_base(self, target, base_command)` |
-| `AutoPivotEngine` | class | `modules/auto_pivot.py:47` | `class AutoPivotEngine` |
-| `PivotChain` | class | `modules/auto_pivot.py:39` | `class PivotChain` |
-| `PivotNode` | class | `modules/auto_pivot.py:23` | `class PivotNode` |
-| `__init__` | method | `modules/auto_pivot.py:73` | `def __init__(self, config)` |
-| `_load_state` | method | `modules/auto_pivot.py:314` | `def _load_state(self)` |
-| `_next_port` | method | `modules/auto_pivot.py:85` | `def _next_port(self)` |
-| `_persist_state` | method | `modules/auto_pivot.py:277` | `def _persist_state(self)` |
-| `add_pivot_node` | method | `modules/auto_pivot.py:90` | `def add_pivot_node(self, ip, access_type, credential_id, hostname)` |
-| `build_chain` | method | `modules/auto_pivot.py:146` | `def build_chain(self, target_ip, via_nodes, subnet)` |
-| `discover_subnets` | method | `modules/auto_pivot.py:128` | `def discover_subnets(self, node_ip, command_output)` |
-| `generate_chisel_command` | method | `modules/auto_pivot.py:206` | `def generate_chisel_command(self, target_ip, local_port)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

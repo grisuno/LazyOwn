@@ -2,10 +2,28 @@
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
 ## modules/lazy_loop.py (continued)
-  - `stage_enabled` (function, line 9826) `def stage_enabled(_name)`
-  - `_stage_enabled` (function, line 10701) `def _stage_enabled(_name)`
-- Depends on: `core/atomic_store.py`, `core/config.py`, `core/crypto.py`, `core/hardening.py`, `core/host_policy.py`, `core/logging.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_loop_memory.py`, `modules/auto_registry.py`, `modules/chain_loop.py`, `modules/custom_tools.py`, `modules/defense_stages.py`, `modules/digest.py`, `modules/evidence_store.py`, `modules/finding_enrich.py`, `modules/finding_lifecycle.py`, `modules/guardrails/__init__.py`, `modules/harness.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_blindspot.py`, `modules/lazy_bridge.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_deviations.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/lazy_orchestrator_feedback.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_skills.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/lesson_ingestor.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop/__init__.py`, `modules/loop/triage_scheduler.py`, `modules/loop_ai_bridge.py`, `modules/loop_audit.py`, `modules/loop_guardrails.py`, `modules/loop_triggers.py`, `modules/mediation/__init__.py`, `modules/module_registry.py`, `modules/notify.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/progress_ledger.py`, `modules/reaction_bridge.py`, `modules/scan_brief.py`, `modules/selection/base.py`, `modules/selection/registry.py`, `modules/selfupdate.py`, `modules/sinks/findings.py`, `modules/traffic_recorder.py`, `modules/trigger_policy.py`, `modules/wire_capture.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/chain_family.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_drafts.py`, `modules/lazy_engine.py`, `modules/lazy_handoff.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_objective_queue.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_lazymode.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/mcp_tools/lazy_compact.py`, `skills/mcp_tools/lazy_delete.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_chain_family.py`, `tests/test_engine_mediator.py`, `tests/test_evidence_store.py`, `tests/test_exploration_graph_concurrency.py`, `tests/test_failure_memory_veto.py`, `tests/test_finding_enrich.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_blindspot.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_lazymode_first.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_technique_deterministic.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_planner_initial_access.py`, `tests/test_policy_planner_signal.py`, `tests/test_scan_brief.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_stall_dump.py`, `tests/test_trigger_policy.py`, `tests/test_wire_capture.py`, `tests/test_world_diff_retest.py`, `tests/test_writeback_hygiene.py`
+  - `graph_overview` (method, line 12172) `def graph_overview(self, task_id)`
+  - `_finding_list` (method, line 12205) `def _finding_list(self, graph)`
+  - `broadcast` (method, line 12234) `def broadcast(self, task_id, kinds, query, order, page, per_page, states)`
+  - `_broadcast_row` (method, line 12309) `def _broadcast_row(self, graph, node)`
+  - `loop_graph` (method, line 12358) `def loop_graph(self, task_id)`
+  - `graph_context` (method, line 12427) `def graph_context(self, task_id, top)`
+  - `_do` (function, line 1755) `def _do()`
+  - `_do` (function, line 1789) `def _do()`
+  - `_signature` (function, line 4387) `def _signature(text)`
+  - `sink` (function, line 5067) `def sink(text)`
+  - `sink` (function, line 6128) `def sink(text)`
+  - `_worker` (function, line 6895) `def _worker(work)`
+  - `_find` (function, line 7069) `def _find(value)`
+  - `_union` (function, line 7075) `def _union(left, right)`
+  - `order` (function, line 11885) `def order(items)`
+  - `_work` (function, line 7873) `def _work()`
+  - `_run_one` (function, line 10412) `def _run_one(index_node)`
+  - `_complete` (function, line 9822) `def _complete(prompt, max_tokens)`
+  - `stage_enabled` (function, line 10342) `def stage_enabled(_name)`
+  - `_stage_enabled` (function, line 11233) `def _stage_enabled(_name)`
+- Depends on: `core/atomic_store.py`, `core/config.py`, `core/crypto.py`, `core/hardening.py`, `core/host_policy.py`, `core/logging.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_loop_memory.py`, `modules/auto_registry.py`, `modules/chain_loop.py`, `modules/custom_tools.py`, `modules/defense_stages.py`, `modules/digest.py`, `modules/evidence_store.py`, `modules/fact_gated_todolist.py`, `modules/finding_enrich.py`, `modules/finding_lifecycle.py`, `modules/guardrails/__init__.py`, `modules/harness.py`, `modules/killchain.py`, `modules/lazy_blindspot.py`, `modules/lazy_bridge.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_deviations.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_hostscore.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/lazy_orchestrator_feedback.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_skills.py`, `modules/lazy_timeline.py`, `modules/lazy_world_diff.py`, `modules/lesson_ingestor.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop/__init__.py`, `modules/loop/boundary.py`, `modules/loop/evidence.py`, `modules/loop/leases.py`, `modules/loop/planner_bridge.py`, `modules/loop/tokens.py`, `modules/loop/triage_scheduler.py`, `modules/loop_ai_bridge.py`, `modules/loop_audit.py`, `modules/loop_guardrails.py`, `modules/loop_triggers.py`, `modules/mediation/__init__.py`, `modules/module_registry.py`, `modules/notify.py`, `modules/orchestrator_config.py`, `modules/outcome_attribution.py`, `modules/outcome_bus.py`, `modules/progress_ledger.py`, `modules/reaction_bridge.py`, `modules/scan_brief.py`, `modules/selection/base.py`, `modules/selection/registry.py`, `modules/selfupdate.py`, `modules/sinks/findings.py`, `modules/traffic_recorder.py`, `modules/trigger_policy.py`, `modules/wire_capture.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/chain_family.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_drafts.py`, `modules/lazy_engine.py`, `modules/lazy_handoff.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_objective_queue.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop/engine_proxy.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_lazymode.py`, `modules/loop/worker_memory.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/mcp_tools/lazy_compact.py`, `skills/mcp_tools/lazy_delete.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_chain_family.py`, `tests/test_engine_mediator.py`, `tests/test_evidence_store.py`, `tests/test_exploration_graph_concurrency.py`, `tests/test_fact_gated_todolist.py`, `tests/test_failure_memory_veto.py`, `tests/test_finding_enrich.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_blindspot.py`, `tests/test_lazy_continuation.py`, `tests/test_lazy_deviations.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_citation_judge.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_first.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_idempotent_retest.py`, `tests/test_loop_intel_projection.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_lazymode_first.py`, `tests/test_loop_leases_integration.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_post_signal.py`, `tests/test_loop_scan_banner_guard.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_technique_deterministic.py`, `tests/test_loop_termination.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_verb_capabilities.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_planner_initial_access.py`, `tests/test_policy_planner_signal.py`, `tests/test_scan_brief.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_stall_dump.py`, `tests/test_trigger_policy.py`, `tests/test_wire_capture.py`, `tests/test_world_diff_retest.py`, `tests/test_writeback_hygiene.py`
 
 ## modules/lazy_match_policy.py
 - Doc: Match policy doctrine: what may claim a match and what stays a lead.
@@ -367,58 +385,63 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ThreadStdoutRouter` (class, line 50) `class ThreadStdoutRouter(TextIOBase)`
-  - `LoopRunConfig` (class, line 99) `class LoopRunConfig`
-  - `_to_int` (function, line 163) `def _to_int(raw, default)`
-  - `_to_float` (function, line 171) `def _to_float(raw, default)`
-  - `parse_loop_line` (function, line 179) `def parse_loop_line(line)`
-  - `resolve_loop_defaults` (function, line 313) `def resolve_loop_defaults(config)`
-  - `build_executor` (function, line 349) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image, audit)`
-  - `_abort_run` (function, line 434) `def _abort_run(engine, task_id, reason)`
-  - `_prepare_engine` (function, line 453) `def _prepare_engine(engine, shell, config, params)`
-  - `_start_proxy` (function, line 473) `def _start_proxy(engine, params)`
-  - `_start_browser_sync` (function, line 498) `def _start_browser_sync(params)`
-  - `_maybe_phishing_fallback` (function, line 520) `def _maybe_phishing_fallback(result, config, params)`
-  - `loop_exit_code` (function, line 566) `def loop_exit_code(result)`
-  - `autonomous_exit_gate` (function, line 609) `def autonomous_exit_gate(result)`
-  - `_loop_outcome` (function, line 637) `def _loop_outcome(result, goal)`
-  - `write_loop_result` (function, line 658) `def write_loop_result(config, result)`
-  - `report_result` (function, line 687) `def report_result(result)`
-  - `_print_handoff` (function, line 746) `def _print_handoff(handoff)`
-  - `_bootstrap` (function, line 771) `def _bootstrap(scan_target, executor)`
-  - `_apply_budget` (function, line 802) `def _apply_budget(engine, task_id, budget)`
-  - `_budget_declined` (function, line 815) `def _budget_declined(config)`
-  - `_run_with_progress` (function, line 831) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 938) `def _overview(task_id)`
-  - `_format_activity` (function, line 948) `def _format_activity(record)`
-  - `_last_task_commands` (function, line 962) `def _last_task_commands(task_id, limit)`
-  - `_dump_thread_stacks` (function, line 992) `def _dump_thread_stacks(task_id, target)`
-  - `_stall_thresholds` (function, line 1020) `def _stall_thresholds(verb_timeout)`
-  - `_poll_progress` (function, line 1034) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 1130) `def _terminal_stream()`
-  - `_run_plain` (function, line 1152) `def _run_plain(engine, config)`
-  - `bind_target_authority` (function, line 1188) `def bind_target_authority(shell, targets)`
-  - `load_targets_file` (function, line 1248) `def load_targets_file(path)`
-  - `run_loop` (function, line 1303) `def run_loop(shell, params, config)`
-  - `_autogenerate_report` (function, line 1458) `def _autogenerate_report(result)`
-  - `_preflight_gate` (function, line 1482) `def _preflight_gate(engine, config, audit)`
-  - `_tty_available` (function, line 1529) `def _tty_available()`
-  - `_run_targets_file` (function, line 1542) `def _run_targets_file(shell, params, config)`
-  - `run_loop_command` (function, line 1603) `def run_loop_command(shell, params, line, verb)`
-  - `__init__` (method, line 60) `def __init__(self, main_stream, spool)`
-  - `write` (method, line 66) `def write(self, data)`
-  - `flush` (method, line 77) `def flush(self)`
-  - `encoding` (method, line 85) `def encoding(self)`
-  - `isatty` (method, line 89) `def isatty(self)`
-  - `clamped` (method, line 127) `def clamped(self)`
-  - `_resolve_alias` (function, line 373) `def _resolve_alias(command)`
-  - `_dispatch` (function, line 378) `def _dispatch(command)`
-  - `_executor` (function, line 418) `def _executor(command)`
-  - `stream` (function, line 846) `def stream(text)`
-  - `_run` (function, line 884) `def _run()`
-  - `_write` (function, line 1142) `def _write(text)`
-  - `_work_one` (function, line 1565) `def _work_one(target)`
-  - `_limited` (function, line 1568) `def _limited()`
+  - `ThreadStdoutRouter` (class, line 61) `class ThreadStdoutRouter(TextIOBase)`
+  - `LoopRunConfig` (class, line 110) `class LoopRunConfig`
+  - `_to_int` (function, line 174) `def _to_int(raw, default)`
+  - `_to_float` (function, line 182) `def _to_float(raw, default)`
+  - `parse_loop_line` (function, line 190) `def parse_loop_line(line)`
+  - `resolve_loop_defaults` (function, line 324) `def resolve_loop_defaults(config)`
+  - `build_executor` (function, line 360) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image, audit)`
+  - `_abort_run` (function, line 445) `def _abort_run(engine, task_id, reason)`
+  - `_prepare_engine` (function, line 464) `def _prepare_engine(engine, shell, config, params)`
+  - `_start_proxy` (function, line 484) `def _start_proxy(engine, params)`
+  - `_start_browser_sync` (function, line 509) `def _start_browser_sync(params)`
+  - `_c2_endpoint` (function, line 531) `def _c2_endpoint(params)`
+  - `_c2_port_alive` (function, line 552) `def _c2_port_alive(host, port)`
+  - `_c2_argv` (function, line 573) `def _c2_argv(params, port)`
+  - `_maybe_start_c2` (function, line 593) `def _maybe_start_c2(params)`
+  - `_c2_autostart_tip` (function, line 657) `def _c2_autostart_tip(params)`
+  - `_maybe_phishing_fallback` (function, line 671) `def _maybe_phishing_fallback(result, config, params)`
+  - `loop_exit_code` (function, line 717) `def loop_exit_code(result)`
+  - `autonomous_exit_gate` (function, line 760) `def autonomous_exit_gate(result)`
+  - `_loop_outcome` (function, line 788) `def _loop_outcome(result, goal)`
+  - `write_loop_result` (function, line 809) `def write_loop_result(config, result)`
+  - `report_result` (function, line 838) `def report_result(result)`
+  - `_print_handoff` (function, line 897) `def _print_handoff(handoff)`
+  - `_bootstrap` (function, line 922) `def _bootstrap(scan_target, executor)`
+  - `_apply_budget` (function, line 953) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 966) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 982) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 1089) `def _overview(task_id)`
+  - `_format_activity` (function, line 1099) `def _format_activity(record)`
+  - `_last_task_commands` (function, line 1113) `def _last_task_commands(task_id, limit)`
+  - `_dump_thread_stacks` (function, line 1143) `def _dump_thread_stacks(task_id, target)`
+  - `_stall_thresholds` (function, line 1171) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 1185) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 1281) `def _terminal_stream()`
+  - `_run_plain` (function, line 1303) `def _run_plain(engine, config)`
+  - `bind_target_authority` (function, line 1339) `def bind_target_authority(shell, targets)`
+  - `load_targets_file` (function, line 1399) `def load_targets_file(path)`
+  - `run_loop` (function, line 1454) `def run_loop(shell, params, config)`
+  - `_autogenerate_report` (function, line 1610) `def _autogenerate_report(result)`
+  - `_preflight_gate` (function, line 1634) `def _preflight_gate(engine, config, audit)`
+  - `_tty_available` (function, line 1681) `def _tty_available()`
+  - `_run_targets_file` (function, line 1694) `def _run_targets_file(shell, params, config)`
+  - `run_loop_command` (function, line 1755) `def run_loop_command(shell, params, line, verb)`
+  - `__init__` (method, line 71) `def __init__(self, main_stream, spool)`
+  - `write` (method, line 77) `def write(self, data)`
+  - `flush` (method, line 88) `def flush(self)`
+  - `encoding` (method, line 96) `def encoding(self)`
+  - `isatty` (method, line 100) `def isatty(self)`
+  - `clamped` (method, line 138) `def clamped(self)`
+  - `_resolve_alias` (function, line 384) `def _resolve_alias(command)`
+  - `_dispatch` (function, line 389) `def _dispatch(command)`
+  - `_executor` (function, line 429) `def _executor(command)`
+  - `stream` (function, line 997) `def stream(text)`
+  - `_run` (function, line 1035) `def _run()`
+  - `_write` (function, line 1293) `def _write(text)`
+  - `_work_one` (function, line 1717) `def _work_one(target)`
+  - `_limited` (function, line 1720) `def _limited()`
 - Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/config.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_limits.py`, `modules/loop_progress.py`, `modules/scan_brief.py`, `utils.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `skills/mcp_tools/auto_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_exit_gate.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_preflight.py`, `tests/test_loop_target_authority.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_orchestrator_yaml.py`, `tests/test_planner_initial_access.py`, `tests/test_stall_dump.py`
 
@@ -465,22 +488,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `put` (method, line 89) `def put(self, name, values, now)`
   - `_keep` (function, line 143) `def _keep(start, value)`
 - Imported by: `modules/chain_distill.py`
-
-## modules/lazy_search.py
-- Doc: Lazy saved-search grammar over the engagement database.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SearchTerm` (class, line 65) `class SearchTerm`
-  - `Query` (class, line 80) `class Query`
-  - `parse` (function, line 94) `def parse(query)`
-  - `execute` (function, line 132) `def execute(db, query, workspace_name, db_path)`
-  - `_row_match` (function, line 178) `def _row_match(parsed, row, is_host)`
-  - `_term_hit` (function, line 202) `def _term_hit(term, row, is_host)`
-  - `_searchable` (function, line 233) `def _searchable(row, is_host)`
-  - `_canon` (function, line 250) `def _canon(key, value)`
-- Depends on: `modules/db.py`
-- Imported by: `skills/mcp_tools/lazysearch.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

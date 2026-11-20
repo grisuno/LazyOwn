@@ -1,0 +1,35 @@
+name: php2shell_c
+description: |
+  php2shell Chain C (CVE-2026-109618/109619): FPM session-handler mismatch
+  to __destruct RCE. Pollutes a php-fpm worker with php_serialize, injects
+  a serialized POP gadget through the upload_progress filename, and the
+  clean php-handler decode failure fires __destruct on the gadget.
+
+  First use: assign url http://target then run php2shell_c. OS command:
+  assign rce_command 'id > /tmp/p.txt'. Free args: --upload-path,
+  --trigger-path, --pollute-path, --gadget. Lab: upstream FPM lab
+  (PHP 5.6). FPM-only.
+author: Qi Deng (ikow)
+version: '1.0'
+enabled: true
+update: true
+os: linux
+trigger: [http, https]
+category: '03. Exploitation'
+module_type: exploit
+params:
+- name: url
+  type: string
+  required: true
+  description: Target base URL of the php-fpm site.
+- name: rce_command
+  type: string
+  required: false
+  default: id
+  description: OS command executed by the __destruct gadget on the target.
+tool:
+  name: php2shell Chain C (handler mismatch)
+  repo_url: https://github.com/ikow/php2shell-poc.git
+  install_path: external/.exploit/php2shell_poc
+  execute_command: python3 exploit/chain_c_mismatch_rce.py --target {url} --command
+    '{rce_command}'

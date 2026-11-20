@@ -1,6 +1,120 @@
 # API (page 6 of 29)
 Previous: [API_p5.md](API_p5.md)
 
+## cli/tutorial.py
+Depends on: `core/console.py`
+Imported by: `cli/commands/help_ui.py`
+- `is_done` (function) `cli/tutorial.py:83` `def is_done(config)` -- Return True if the tutorial has already been completed.
+- `mark_done` (function) `cli/tutorial.py:89` `def mark_done(config)` -- Persist the tutorial completion marker.
+- `render_header` (function) `cli/tutorial.py:96` `def render_header()` -- Print the tutorial welcome banner.
+- `render_phase_table` (function) `cli/tutorial.py:113` `def render_phase_table()` -- Print the full phase overview before starting.
+- `run_step` (function) `cli/tutorial.py:128` `def run_step(index, command, description, why, params, command_runner)` -- Execute one tutorial step and return True if the user wants to continue.
+- `run` (function) `cli/tutorial.py:185` `def run(params, command_runner)` -- Run the interactive tutorial.
+
+## cli/wizard.py
+Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+- `run` (function) `cli/wizard.py:169` `def run(params, save)` -- Run the interactive setup wizard and return a :class:`WizardResult`.
+- `run_non_interactive` (function) `cli/wizard.py:234` `def run_non_interactive(params, save, values)` -- Apply configuration without prompts — Docker/CI/headless first runs.
+- `check_binaries` (function) `cli/wizard.py:947` `def check_binaries(specs, which)` -- Return the presence status of every spec without executing it.
+
+## cli/wizard_scope.py
+Imported by: `cli/commands/help_ui.py`
+- `parse_scope` (function) `cli/wizard_scope.py:38` `def parse_scope(tokens, config)` -- Parse --show and --only=a,b flags from wizard tokens.
+- `status_rows` (function) `cli/wizard_scope.py:64` `def status_rows(params)` -- Build display rows for the current configuration state.
+
+## contrib/legacy/lazy_http_bof.py
+- `genHeader` (function) `contrib/legacy/lazy_http_bof.py:6` `def genHeader(raw)`
+- `exploit` (function) `contrib/legacy/lazy_http_bof.py:29` `def exploit(target, port, payload)`
+
+## contrib/legacy/lazy_packet_image_sniffer.py
+- `check_sudo` (function) `contrib/legacy/lazy_packet_image_sniffer.py:23` `def check_sudo()`
+- `list_interfaces` (function) `contrib/legacy/lazy_packet_image_sniffer.py:31` `def list_interfaces()`
+- `choose_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:49` `def choose_interface(interfaces)`
+- `get_subnet_from_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:61` `def get_subnet_from_interface(interface)`
+- `get_ip_addresses` (function) `contrib/legacy/lazy_packet_image_sniffer.py:65` `def get_ip_addresses(interface)`
+- `handle_packet` (function) `contrib/legacy/lazy_packet_image_sniffer.py:111` `def handle_packet(packet)`
+- `save_image` (function) `contrib/legacy/lazy_packet_image_sniffer.py:161` `def save_image(src_ip, end_idx)`
+- `run` (function) `contrib/legacy/lazy_packet_image_sniffer.py:187` `def run()`
+- `daemonize` (function) `contrib/legacy/lazy_packet_image_sniffer.py:192` `def daemonize()`
+
+## contrib/legacy/lazyaddon_creator.py
+Depends on: `modules/llm_client.py`
+- `parse_github_url` (function) `contrib/legacy/lazyaddon_creator.py:49` `def parse_github_url(url)` -- Extrae (owner, repo) de una URL de GitHub.
+- `github_api_get` (function) `contrib/legacy/lazyaddon_creator.py:58` `def github_api_get(owner, repo, endpoint)` -- GET a la API pública de GitHub (sin auth, rate-limit 60/hr).
+- `fetch_repo_metadata` (function) `contrib/legacy/lazyaddon_creator.py:68` `def fetch_repo_metadata(owner, repo)` -- Devuelve metadata básica del repo.
+- `fetch_readme` (function) `contrib/legacy/lazyaddon_creator.py:73` `def fetch_readme(owner, repo)` -- Descarga y decodifica el README.
+- `fetch_root_files` (function) `contrib/legacy/lazyaddon_creator.py:85` `def fetch_root_files(owner, repo)` -- Lista nombres de archivos en el directorio raíz.
+- `build_llm_prompt` (function) `contrib/legacy/lazyaddon_creator.py:98` `def build_llm_prompt(meta, readme, root_files)` -- Construye el prompt para el LLM.
+- `extract_json_from_response` (function) `contrib/legacy/lazyaddon_creator.py:164` `def extract_json_from_response(text)` -- Extrae el primer bloque JSON de una respuesta de LLM.
+- `heuristic_install_command` (function) `contrib/legacy/lazyaddon_creator.py:192` `def heuristic_install_command(root_files, language)` -- Infiere un install_command básico a partir de los archivos raíz.
+- `heuristic_execute_command` (function) `contrib/legacy/lazyaddon_creator.py:211` `def heuristic_execute_command(name, root_files, language)` -- Infiere un execute_command básico.
+- `heuristic_params` (function) `contrib/legacy/lazyaddon_creator.py:245` `def heuristic_params(name, readme, root_files)` -- Infiere parámetros comunes basándose en el nombre y README.
+- `fallback_yaml_data` (function) `contrib/legacy/lazyaddon_creator.py:276` `def fallback_yaml_data(meta, readme, root_files)` -- Genera datos de addon usando solo heurísticas locales (sin LLM).
+- `build_yaml` (function) `contrib/legacy/lazyaddon_creator.py:300` `def build_yaml(data, repo_url)` -- Construye la estructura de dict que representa el addon YAML.
+- `save_yaml` (function) `contrib/legacy/lazyaddon_creator.py:336` `def save_yaml(addon, output_dir)` -- Guarda el dict como archivo YAML en output_dir.
+- `main` (function) `contrib/legacy/lazyaddon_creator.py:357` `def main()`
+
+## contrib/legacy/lazyarpspoofing.py
+- `check_sudo` (function) `contrib/legacy/lazyarpspoofing.py:27` `def check_sudo()`
+- `enable_ip_forward` (function) `contrib/legacy/lazyarpspoofing.py:35` `def enable_ip_forward()`
+- `disable_ip_forward` (function) `contrib/legacy/lazyarpspoofing.py:38` `def disable_ip_forward()`
+- `get_local_ip` (function) `contrib/legacy/lazyarpspoofing.py:41` `def get_local_ip(ifname)`
+- `get_mac` (function) `contrib/legacy/lazyarpspoofing.py:49` `def get_mac(ip, device, retries, timeout)`
+- `spoofer` (function) `contrib/legacy/lazyarpspoofing.py:69` `def spoofer(target, spoofed, device)`
+- `main` (function) `contrib/legacy/lazyarpspoofing.py:80` `def main()`
+
+## contrib/legacy/lazycam.py
+- `RTSPScanner.__init__` (method) `contrib/legacy/lazycam.py:33` `def __init__(self, verbose, wspace)`
+- `RTSPScanner.run` (method) `contrib/legacy/lazycam.py:49` `def run(self)`
+- `RTSPScanner.resizeImg` (method) `contrib/legacy/lazycam.py:68` `def resizeImg(self, img, output, height, ratio, fmt)`
+- `RTSPScanner.splitCSV` (method) `contrib/legacy/lazycam.py:77` `def splitCSV(self, csv)`
+- `RTSPScanner.scanner` (method) `contrib/legacy/lazycam.py:83` `def scanner(self)`
+- `RTSPScanner.delCameras` (method) `contrib/legacy/lazycam.py:136` `def delCameras(self)`
+- `RTSPScanner.addCameras` (method) `contrib/legacy/lazycam.py:149` `def addCameras(self)`
+- `cla` (function) `contrib/legacy/lazycam.py:212` `def cla()`
+- `main` (function) `contrib/legacy/lazycam.py:257` `def main()`
+
+## contrib/legacy/lazydeepseekcli.py
+Depends on: `core/logging.py`
+Imported by: `modules/llm_adapter.py`, `tests/test_c2_surfaces.py`
+- `truncate_message` (function) `contrib/legacy/lazydeepseekcli.py:41` `def truncate_message(message, max_chars)`
+- `configure_logging` (function) `contrib/legacy/lazydeepseekcli.py:45` `def configure_logging(debug)`
+- `load_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:167` `def load_knowledge_base(file_path)`
+- `save_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:174` `def save_knowledge_base(knowledge_base, file_path)`
+- `add_to_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:179` `def add_to_knowledge_base(prompt, command, file_path)`
+- `get_relevant_knowledge` (function) `contrib/legacy/lazydeepseekcli.py:185` `def get_relevant_knowledge(prompt)`
+- `transform_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:193` `def transform_knowledge_base(prompt_builder)`
+- `generate` (function) `contrib/legacy/lazydeepseekcli.py:232` `def generate()`
+- `process_prompt_local` (function) `contrib/legacy/lazydeepseekcli.py:261` `def process_prompt_local(prompt, debug, mode)`
+- `process_prompt_localreport` (function) `contrib/legacy/lazydeepseekcli.py:269` `def process_prompt_localreport(prompt, debug, mode)`
+- `parse_args` (function) `contrib/legacy/lazydeepseekcli.py:277` `def parse_args()`
+
+## contrib/legacy/lazydisassebler.py
+- `X64Disassembler.__init__` (method) `contrib/legacy/lazydisassebler.py:34` `def __init__(self)` -- Initializes the X64Disassembler instance.
+- `X64Disassembler.read_elf_header` (method) `contrib/legacy/lazydisassebler.py:79` `def read_elf_header(self, data)` -- Reads the ELF header and finds the code section.
+- `X64Disassembler.parse_modrm` (method) `contrib/legacy/lazydisassebler.py:135` `def parse_modrm(self, modrm, rex)` -- Parses the ModR/M byte and extracts mod, reg, and rm fields.
+- `X64Disassembler.parse_sib` (method) `contrib/legacy/lazydisassebler.py:173` `def parse_sib(self, sib, rex)` -- Parses the SIB byte and extracts scale, index, and base fields.
+- `X64Disassembler.get_operand_str` (method) `contrib/legacy/lazydisassebler.py:212` `def get_operand_str(self, mod, rm, rex, bytes_data, offset)` -- Gets the string representation of the operand based on mod/rm.
+- `X64Disassembler.disassemble` (method) `contrib/legacy/lazydisassebler.py:305` `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)` -- Main disassembler for x86-64 code.
+- `main` (function) `contrib/legacy/lazydisassebler.py:489` `def main()` -- Main function for the disassembler.
+
+## contrib/legacy/lazyftpsniff.py
+- `check_sudo` (function) `contrib/legacy/lazyftpsniff.py:21` `def check_sudo()`
+- `signal_handler` (function) `contrib/legacy/lazyftpsniff.py:34` `def signal_handler(sig, frame)`
+- `parse_arguments` (function) `contrib/legacy/lazyftpsniff.py:42` `def parse_arguments()`
+- `sniffer_ftp` (function) `contrib/legacy/lazyftpsniff.py:56` `def sniffer_ftp(pkt)`
+- `main` (function) `contrib/legacy/lazyftpsniff.py:69` `def main()`
+
+## contrib/legacy/lazygalazy.py
+Depends on: `modules/backdoor/server.c`
+- `SamsungKnoxExploitServer.do_GET` (method) `contrib/legacy/lazygalazy.py:11` `def do_GET(self)`
+- `SamsungKnoxExploitServer.apk_bytes` (method) `contrib/legacy/lazygalazy.py:33` `def apk_bytes(self)`
+- `SamsungKnoxExploitServer.launch_html` (method) `contrib/legacy/lazygalazy.py:36` `def launch_html(self)`
+- `SamsungKnoxExploitServer.exploit_js` (method) `contrib/legacy/lazygalazy.py:49` `def exploit_js(self)`
+- `SamsungKnoxExploitServer.rand_word` (method) `contrib/legacy/lazygalazy.py:93` `def rand_word(self)`
+- `main` (function) `contrib/legacy/lazygalazy.py:97` `def main()`
+
 ## contrib/legacy/lazygptcli.py
 Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
 - `signal_handler` (function) `contrib/legacy/lazygptcli.py:66` `def signal_handler(sig, frame)`
@@ -325,7 +439,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/lazy_poc.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/ai_fallback.py`, `modules/askpass.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/auto_registry.py`, `modules/beacon_config_builder.py`, `modules/bof_delivery.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/chain_loop.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/ctf_signalman.py`, `modules/db.py`, `modules/guard_rules.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_handoff.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/loop/target_os.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_lazymode.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `modules/yaml_generator.py`, `sdk/facade.py`, `sdk/lazymode/_bootstrap.py`, `sdk/lazymode/runner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_cleanup_policy.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_loop_lazymode_first.py`, `tests/test_loop_supervision.py`, `tests/test_loop_technique_deterministic.py`, `tests/test_orchestrator_yaml.py`, `tests/test_payload_write_lock.py`, `tests/test_planner_initial_access.py`, `tests/test_session_secrets.py`, `tests/test_shell_params_seeding.py`, `tests/test_target_os.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/lazy_poc.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/ai_fallback.py`, `modules/askpass.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/auto_registry.py`, `modules/beacon_config_builder.py`, `modules/bof_delivery.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/chain_loop.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/ctf_signalman.py`, `modules/db.py`, `modules/guard_rules.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_handoff.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazy_sandbox.py`, `modules/loop/target_os.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_lazymode.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `modules/yaml_generator.py`, `sdk/facade.py`, `sdk/lazymode/_bootstrap.py`, `sdk/lazymode/runner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_cleanup_policy.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_first.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_loop_lazymode_first.py`, `tests/test_loop_supervision.py`, `tests/test_loop_technique_deterministic.py`, `tests/test_orchestrator_yaml.py`, `tests/test_payload_write_lock.py`, `tests/test_planner_initial_access.py`, `tests/test_session_secrets.py`, `tests/test_shell_params_seeding.py`, `tests/test_target_os.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:226` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:241` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:251` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -377,105 +491,6 @@ Imported by: `cli/commands/cred_migrated.py`, `cli/commands/defaults.py`, `lazyc
 - `rockyou_wordlist` (function) `core/defaults.py:81` `def rockyou_wordlist()` -- Return the default wordlist path.
 - `common_wordlists` (function) `core/defaults.py:90` `def common_wordlists()` -- Return the ordered wordlist fallback candidates.
 - `sessions_dir` (function) `core/defaults.py:100` `def sessions_dir()` -- Return the sessions directory path.
-
-## core/dependencies.py
-Imported by: `core/__init__.py`, `sdk/lazymode/runner.py`, `tests/test_dependencies.py`, `utils.py`
-- `MissingDependencyError.__init__` (method) `core/dependencies.py:45` `def __init__(self, import_name, pip_package, feature)` -- Build a remediation-oriented error message.
-- `_DeferredImport.__init__` (method) `core/dependencies.py:115` `def __init__(self, spec)` -- Store the dependency spec used to build remediation errors.
-- `_DeferredImport.__call__` (method) `core/dependencies.py:136` `def __call__(self)` -- Reject calling a missing dependency.
-- `optional_import` (function) `core/dependencies.py:183` `def optional_import(import_name)` -- Import an optional module, returning a deferred proxy when absent.
-- `optional_attr` (function) `core/dependencies.py:209` `def optional_attr(import_name, attr)` -- Import an attribute from an optional module, deferring failure.
-- `DependencyReport.missing` (method) `core/dependencies.py:278` `def missing(self)` -- Return the optional Python dependencies that are not installed.
-- `DependencyReport.ok` (method) `core/dependencies.py:283` `def ok(self)` -- Return ``True`` when every declared dependency is present.
-- `probe_python_dependency` (function) `core/dependencies.py:288` `def probe_python_dependency(spec)` -- Probe a single Python dependency by importing it.
-- `collect_dependency_report` (function) `core/dependencies.py:312` `def collect_dependency_report()` -- Probe every declared optional Python dependency.
-- `format_report` (function) `core/dependencies.py:323` `def format_report(report)` -- Render a :class:`DependencyReport` as an aligned, human-readable block.
-- `main` (function) `core/dependencies.py:368` `def main()` -- Print the optional-dependency report and return a process exit code.
-
-## core/error_advice.py
-Depends on: `core/console.py`
-- `ErrorAdvice.docs_url` (method) `core/error_advice.py:35` `def docs_url(self, config)` -- Return absolute documentation URL for this advice.
-- `get_advice` (function) `core/error_advice.py:74` `def get_advice(key)` -- Return advice for key or None when unknown.
-- `render_advice` (function) `core/error_advice.py:86` `def render_advice(key, config)` -- Render advice as four plain lines with explicit level tags.
-
-## core/errors.py
-Depends on: `cli/commands/enum.py`
-Imported by: `core/__init__.py`
-- `LazyOwnError.__init__` (method) `core/errors.py:61` `def __init__(self, message, error_code)`
-- `LazyOwnError.to_dict` (method) `core/errors.py:66` `def to_dict(self)` -- Return a serialisable dict with code, type, and message.
-- `ConfigError.__init__` (method) `core/errors.py:81` `def __init__(self, message, error_code)`
-- `TargetError.__init__` (method) `core/errors.py:88` `def __init__(self, message, error_code)`
-- `AuthError.__init__` (method) `core/errors.py:95` `def __init__(self, message, error_code)`
-- `ToolError.__init__` (method) `core/errors.py:102` `def __init__(self, message, error_code)`
-- `PayloadError.__init__` (method) `core/errors.py:109` `def __init__(self, message, error_code)`
-- `DatabaseError.__init__` (method) `core/errors.py:116` `def __init__(self, message, error_code)`
-- `NetworkError.__init__` (method) `core/errors.py:123` `def __init__(self, message, error_code)`
-- `PermissionError.__init__` (method) `core/errors.py:130` `def __init__(self, message, error_code)`
-- `ValidationError.__init__` (method) `core/errors.py:137` `def __init__(self, message, error_code)`
-
-## core/executor.py
-Depends on: `core/logging.py`
-Imported by: `tests/test_core_executor.py`
-- `safe_run` (function) `core/executor.py:96` `def safe_run(command)`
-- `safe_run` (function) `core/executor.py:98` `def safe_run(command)`
-- `safe_run` (function) `core/executor.py:101` `def safe_run(command)` -- Execute a command with logging and timeout.
-- `run_shell` (function) `core/executor.py:149` `def run_shell(cmd)` -- Execute a shell command and return its stdout.
-
-## core/hardening.py
-Depends on: `core/config.py`, `core/credential_vault.py`, `core/host_policy.py`, `core/logging.py`
-Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazy_poc.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_findings.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/scan_brief.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`, `tests/test_winbox_gym.py`
-- `reject_option_injection` (function) `core/hardening.py:93` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
-- `escape_powershell_single_quoted` (function) `core/hardening.py:112` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
-- `terminal_env` (function) `core/hardening.py:137` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
-- `safe_subprocess_run` (function) `core/hardening.py:158` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
-- `safe_clipboard_copy` (function) `core/hardening.py:211` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
-- `build_sshpass_command` (function) `core/hardening.py:250` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
-- `set_sshpass_env` (function) `core/hardening.py:279` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
-- `escape_html_content` (function) `core/hardening.py:298` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
-- `safe_path_join` (function) `core/hardening.py:310` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
-- `validate_network_cidr` (function) `core/hardening.py:336` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
-- `validate_port_spec` (function) `core/hardening.py:348` `def validate_port_spec(ports)` -- Validate a port specification string.
-- `validate_host` (function) `core/hardening.py:364` `def validate_host(host)` -- Validate a hostname or IP address.
-- `require_encryption_key` (function) `core/hardening.py:384` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
-- `defused_xml_parse` (function) `core/hardening.py:412` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
-- `sanitize_filename` (function) `core/hardening.py:434` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
-- `tls_secure_context` (function) `core/hardening.py:454` `def tls_secure_context(extra_ca)` -- Build a verifying client TLS context with a TLS 1.2 floor.
-- `tls_lab_unverified_allowed` (function) `core/hardening.py:479` `def tls_lab_unverified_allowed(host)` -- Return True only when unverified lab TLS is explicitly opted in.
-- `tls_lab_fallback_context` (function) `core/hardening.py:506` `def tls_lab_fallback_context()` -- Build the gated unverified context for lab self-signed hosts.
-- `validate_upstream_path` (function) `core/hardening.py:528` `def validate_upstream_path(path)` -- Validate an origin-form upstream path without regular expressions.
-- `is_safe_path_segment` (function) `core/hardening.py:557` `def is_safe_path_segment(segment)` -- Validate one path segment with a linear charset scan (no regex).
-- `is_safe_dir_path` (function) `core/hardening.py:578` `def is_safe_dir_path(raw)` -- Validate a relative directory path with linear scans (no regex).
-- `is_safe_yaml_name` (function) `core/hardening.py:604` `def is_safe_yaml_name(name)` -- Validate a YAML filename with linear scans (no regex).
-- `safe_join_under` (function) `core/hardening.py:623` `def safe_join_under(base_dir, user_path)` -- Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
-- `safe_open_under` (function) `core/hardening.py:652` `def safe_open_under(base_dir, user_path, mode)` -- Open a file under ``base_dir`` after traversal validation.
-- `store_secret_owner_only` (function) `core/hardening.py:679` `def store_secret_owner_only(path, text)` -- Atomically store a secret owner-only (0600, dir 0700).
-- `contains_emoji` (function) `core/hardening.py:722` `def contains_emoji(text)` -- Return True when ``text`` carries any emoji codepoint.
-- `iter_emoji_spans` (function) `core/hardening.py:737` `def iter_emoji_spans(text)` -- Return ``(offset, char)`` for every emoji char in ``text``.
-- `seal_secret` (function) `core/hardening.py:770` `def seal_secret(plaintext)` -- Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
-- `unseal_secret` (function) `core/hardening.py:801` `def unseal_secret(stored)` -- Reveal a secret stored by :func:`seal_secret` (legacy-compatible).
-- `redact_text` (function) `core/hardening.py:842` `def redact_text(text)` -- Mask credential-like patterns before persistence or display.
-
-## core/host_policy.py
-Imported by: `core/hardening.py`, `core/validators.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `tests/test_host_policy.py`
-- `rejects_shell_meta` (function) `core/host_policy.py:24` `def rejects_shell_meta(value)` -- Return True when value contains characters usable for shell injection.
-- `is_valid_cidr` (function) `core/host_policy.py:36` `def is_valid_cidr(value)` -- Check value is a valid CIDR block.
-- `is_valid_host` (function) `core/host_policy.py:52` `def is_valid_host(value)` -- Check value is a plain IP, CIDR, or hostname without shell metacharacters.
-- `is_file_like` (function) `core/host_policy.py:77` `def is_file_like(value)` -- Return True when value names a local artefact by extension, not a host.
-- `is_engagement_target` (function) `core/host_policy.py:95` `def is_engagement_target(value)` -- Return True when value is a routable engagement target, not a local file.
-
-## core/http.py
-Depends on: `core/console.py`
-Imported by: `core/__init__.py`
-- `generate_http_req` (function) `core/http.py:18` `def generate_http_req(host, port, uri, custom_header, cmd)` -- Build and send an HTTP GET request.
-- `get_banner` (function) `core/http.py:50` `def get_banner(host, port)` -- Fetch a banner by connecting via HTTP to the given host and port.
-- `get_command` (function) `core/http.py:69` `def get_command(url, lhost)` -- Fetch a command payload from a remote URL.
-- `send_command` (function) `core/http.py:87` `def send_command(cmd, url, lhost)` -- Send a command via HTTP POST.
-- `exploitalert` (function) `core/http.py:106` `def exploitalert(content)` -- Parse ExploitAlert search results HTML.
-- `packetstormsecurity` (function) `core/http.py:125` `def packetstormsecurity(content)` -- Parse Packet Storm Security search results HTML.
-- `nvddb` (function) `core/http.py:143` `def nvddb(content)` -- Parse NVD JSON vulnerability feed.
-- `scrape_news` (function) `core/http.py:174` `def scrape_news()` -- Scrape Hacker News top stories.
-- `display_news` (function) `core/http.py:198` `def display_news(titles, links, scores)` -- Display scraped news in the console.
-- `inject_payloads` (function) `core/http.py:211` `def inject_payloads(urls, payload_url, request_timeout)` -- Attempt to inject a payload URL into a list of target URLs.
 
 
 Next: [API_p7.md](API_p7.md)

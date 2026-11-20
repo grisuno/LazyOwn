@@ -357,7 +357,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/asset_graph.py` -> __future__
 - `modules/atomic_cli.py` -> __future__, getpass, os, pathlib, re, shlex, sys, time, typing
 - `modules/atomic_enricher.py` -> __future__, argparse, collections, numpy, pandas, pathlib, re, sys, typing
-- `modules/atomic_exploit_bridge.py` -> __future__, argparse, dataclasses, datetime, json, pathlib, re, secrets, shutil, socket, subprocess, sys, threading, time, typing, xml.etree.ElementTree, yaml
+- `modules/atomic_exploit_bridge.py` -> __future__, argparse, dataclasses, datetime, json, os, pathlib, re, secrets, shlex, shutil, socket, subprocess, sys, threading, time, typing, xml.etree.ElementTree, yaml
 - `modules/atomic_resolver.py` -> __future__, dataclasses, glob, os, pathlib, re, typing, uuid, yaml
 - `modules/attack_surface3d.py` -> __future__, importlib.util, pathlib, sys, time
 - `modules/auto_loop_memory.py` -> __future__, dataclasses, json, os, pathlib, tempfile, time
@@ -451,6 +451,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/exploitdb_bridge.py` -> __future__, csv, os, pathlib, re, typing, yaml
 - `modules/exploitdb_c_bridge.py` -> __future__, csv, pathlib, re, yaml
 - `modules/exploitgym_gym.py` -> __future__, json, os, pathlib, re, shutil, subprocess, time, typing
+- `modules/fact_gated_todolist.py` -> __future__, collections.abc, typing
 - `modules/factsio.py` -> __future__, collections.abc, json, pathlib, typing
 - `modules/failure_verdict.py` -> __future__, dataclasses
 - `modules/finding_enrich.py` -> __future__, hashlib, typing
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `modules/kerberos_tickets.py` -> __future__, dataclasses, struct, time, typing
 - `modules/kill_chain_viz.py` -> __future__, datetime, json, os, pathlib, typing
 - `modules/killchain.py` -> __future__, collections.abc, dataclasses, datetime, os, pathlib, typing
-- `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
 
 Next: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)

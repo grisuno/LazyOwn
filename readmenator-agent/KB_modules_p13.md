@@ -1,6 +1,57 @@
 # Subsystem: modules (page 13 of 19)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/lazyown_bridge.py
+- Doc: modules/lazyown_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CatalogEntry` (class, line 48) `class CatalogEntry`
+  - `CommandCatalog` (class, line 115) `class CommandCatalog`
+  - `AbstractSelector` (class, line 3984) `class AbstractSelector(ABC)`
+  - `ServiceAwareSelector` (class, line 4002) `class ServiceAwareSelector(AbstractSelector)`
+  - `MitreAlignedSelector` (class, line 4042) `class MitreAlignedSelector(AbstractSelector)`
+  - `TagSelector` (class, line 4071) `class TagSelector(AbstractSelector)`
+  - `ContextEnricher` (class, line 4103) `class ContextEnricher`
+  - `PhaseMapper` (class, line 4153) `class PhaseMapper`
+  - `BridgeDispatcher` (class, line 4233) `class BridgeDispatcher`
+  - `get_dispatcher` (function, line 4409) `def get_dispatcher()`
+  - `build_command` (method, line 63) `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)`
+  - `matches_service` (method, line 94) `def matches_service(self, services)`
+  - `matches_os` (method, line 104) `def matches_os(self, os_hint)`
+  - `__init__` (method, line 118) `def __init__(self)`
+  - `_populate` (method, line 122) `def _populate(self)`
+  - `by_phase` (method, line 3946) `def by_phase(self, phase)`
+  - `by_mitre` (method, line 3952) `def by_mitre(self, technique_id)`
+  - `by_service` (method, line 3956) `def by_service(self, service_name)`
+  - `by_tag` (method, line 3960) `def by_tag(self, tag)`
+  - `by_os` (method, line 3963) `def by_os(self, os_hint)`
+  - `all_phases` (method, line 3966) `def all_phases(self)`
+  - `get` (method, line 3969) `def get(self, command)`
+  - `count` (method, line 3975) `def count(self)`
+  - `select` (method, line 3986) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `select` (method, line 4005) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `__init__` (method, line 4045) `def __init__(self, technique_id)`
+  - `select` (method, line 4049) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `__init__` (method, line 4074) `def __init__(self, tag)`
+  - `select` (method, line 4078) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
+  - `enrich` (method, line 4106) `def enrich(self, entry, target, world_snapshot)`
+  - `canonical_kill_chain_order` (method, line 4204) `def canonical_kill_chain_order()`
+  - `to_bridge_phase` (method, line 4210) `def to_bridge_phase(self, wm_phase)`
+  - `kill_chain_order` (method, line 4223) `def kill_chain_order(self)`
+  - `__init__` (method, line 4239) `def __init__(self, catalog, selector, enricher, phase_mapper)`
+  - `suggest` (method, line 4251) `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)`
+  - `suggest_sequence` (method, line 4296) `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)`
+  - `suggest_for_wm_phase` (method, line 4325) `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)`
+  - `list_phase` (method, line 4343) `def list_phase(self, phase)`
+  - `all_phases` (method, line 4347) `def all_phases(self)`
+  - `catalog_summary` (method, line 4350) `def catalog_summary(self)`
+  - `catalog_summary_filtered` (method, line 4358) `def catalog_summary_filtered(self, phase, os_hint)`
+  - `catalog_count` (method, line 4395) `def catalog_count(self)`
+  - `phase_kill_chain` (method, line 4398) `def phase_kill_chain(self)`
+- Depends on: `modules/killchain.py`
+- Imported by: `modules/selection/bridge.py`, `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`, `tests/test_selection_bridge.py`, `tests/test_selectors_base.py`
+
 ## modules/lazyown_metaextract0r.py
 - Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
@@ -374,25 +425,28 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
 - Symbols:
   - `_health_path` (function, line 20) `def _health_path()`
   - `PoolConfig` (class, line 29) `class PoolConfig`
-  - `PoolExhausted` (class, line 42) `class PoolExhausted(RuntimeError)`
-  - `shared_registry` (function, line 50) `def shared_registry(config)`
-  - `PoolMember` (class, line 64) `class PoolMember`
-  - `HealthRegistry` (class, line 75) `class HealthRegistry`
-  - `LLMPool` (class, line 176) `class LLMPool`
-  - `__init__` (method, line 83) `def __init__(self, config)`
-  - `_load` (method, line 92) `def _load(self)`
-  - `_persist_locked` (method, line 116) `def _persist_locked(self)`
-  - `report_success` (method, line 135) `def report_success(self, member_id)`
-  - `report_failure` (method, line 143) `def report_failure(self, member_id, error)`
-  - `_backoff_for` (method, line 155) `def _backoff_for(self, failures)`
-  - `healthy` (method, line 163) `def healthy(self, member_id)`
-  - `__init__` (method, line 179) `def __init__(self, members, health, config)`
-  - `members` (method, line 192) `def members(self)`
-  - `session_key` (method, line 196) `def session_key(self, conversation_id, role, index)`
-  - `_ordered` (method, line 201) `def _ordered(self)`
-  - `_truncate` (method, line 217) `def _truncate(self, text, overflow_dir)`
-  - `complete` (method, line 237) `def complete(self, prompt, max_tokens, session_key, overflow_dir)`
-- Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
+  - `register_usage_sink` (function, line 45) `def register_usage_sink(sink)`
+  - `usage_sinks` (function, line 56) `def usage_sinks()`
+  - `_publish_usage` (function, line 62) `def _publish_usage(member_name, prompt, completion)`
+  - `PoolExhausted` (class, line 71) `class PoolExhausted(RuntimeError)`
+  - `shared_registry` (function, line 79) `def shared_registry(config)`
+  - `PoolMember` (class, line 93) `class PoolMember`
+  - `HealthRegistry` (class, line 104) `class HealthRegistry`
+  - `LLMPool` (class, line 205) `class LLMPool`
+  - `__init__` (method, line 112) `def __init__(self, config)`
+  - `_load` (method, line 121) `def _load(self)`
+  - `_persist_locked` (method, line 145) `def _persist_locked(self)`
+  - `report_success` (method, line 164) `def report_success(self, member_id)`
+  - `report_failure` (method, line 172) `def report_failure(self, member_id, error)`
+  - `_backoff_for` (method, line 184) `def _backoff_for(self, failures)`
+  - `healthy` (method, line 192) `def healthy(self, member_id)`
+  - `__init__` (method, line 208) `def __init__(self, members, health, config)`
+  - `members` (method, line 221) `def members(self)`
+  - `session_key` (method, line 225) `def session_key(self, conversation_id, role, index)`
+  - `_ordered` (method, line 230) `def _ordered(self)`
+  - `_truncate` (method, line 246) `def _truncate(self, text, overflow_dir)`
+  - `complete` (method, line 266) `def complete(self, prompt, max_tokens, session_key, overflow_dir)`
+- Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_tokens.py`
 
 ## modules/llm_prompts.py
 - Doc: Canonical prompt-template and knowledge-base contract for LLM consumers.
@@ -429,51 +483,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `relevant` (method, line 335) `def relevant(self, prompt, limit)`
 - Depends on: `modules/colors.py`
 - Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_llm_prompts.py`
-
-## modules/log_tamper.py
-- Doc: Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LogTamperConfig` (class, line 71) `class LogTamperConfig`
-  - `LogTamper` (class, line 95) `class LogTamper`
-  - `__init__` (method, line 105) `def __init__(self, config)`
-  - `windows_clear_commands` (method, line 108) `def windows_clear_commands(self)`
-  - `linux_clear_commands` (method, line 176) `def linux_clear_commands(self)`
-  - `macos_clear_commands` (method, line 243) `def macos_clear_commands(self)`
-  - `generate_all` (method, line 295) `def generate_all(self)`
-  - `auditd_disable_commands` (method, line 307) `def auditd_disable_commands(self)`
-  - `sysmon_disable_commands` (method, line 341) `def sysmon_disable_commands(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/logging_config.py
-- Doc: Centralized logging configuration for the LazyOwn framework.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
-  - `JsonFormatter` (class, line 53) `class JsonFormatter(Formatter)`
-  - `CorrelationFilter` (class, line 91) `class CorrelationFilter(Filter)`
-  - `ResilientRotatingFileHandler` (class, line 103) `class ResilientRotatingFileHandler(RotatingFileHandler)`
-  - `set_correlation_id` (function, line 134) `def set_correlation_id(cid)`
-  - `get_correlation_id` (function, line 139) `def get_correlation_id()`
-  - `clear_correlation_id` (function, line 144) `def clear_correlation_id()`
-  - `_ensure_log_dir_writable` (function, line 156) `def _ensure_log_dir_writable(log_dir)`
-  - `_use_json_format` (function, line 235) `def _use_json_format()`
-  - `configure` (function, line 244) `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)`
-  - `get_logger` (function, line 328) `def get_logger(name, level)`
-  - `set_level` (function, line 357) `def set_level(name, level)`
-  - `set_quiet` (function, line 367) `def set_quiet()`
-  - `set_verbose` (function, line 373) `def set_verbose()`
-  - `silence_module` (function, line 379) `def silence_module(name)`
-  - `reset` (function, line 388) `def reset()`
-  - `format` (method, line 39) `def format(self, record)`
-  - `format` (method, line 72) `def format(self, record)`
-  - `filter` (method, line 94) `def filter(self, record)`
-  - `emit` (method, line 116) `def emit(self, record)`
-  - `handleError` (method, line 122) `def handleError(self, record)`
-- Depends on: `core/logging.py`
-- Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

@@ -1,6 +1,26 @@
 # API (page 24 of 29)
 Previous: [API_p23.md](API_p23.md)
 
+## skills/mcp_tools/agent_result.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/agent_result.py:31` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_agent_result MCP tool.
+
+## skills/mcp_tools/agent_status.py
+Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/agent_status.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_agent_status MCP tool.
+
+## skills/mcp_tools/apt_chain.py
+Depends on: `modules/chain_registry.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/apt_chain.py:93` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_apt_chain MCP tool.
+
+## skills/mcp_tools/atomic_clean.py
+Depends on: `modules/atomic_exploit_bridge.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/atomic_clean.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_clean MCP tool.
+
+## skills/mcp_tools/atomic_resolve.py
+Depends on: `modules/atomic_enricher.py`, `modules/atomic_resolver.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/atomic_resolve.py:49` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_resolve MCP tool.
+
 ## skills/mcp_tools/atomic_search.py
 Depends on: `modules/atomic_enricher.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/atomic_search.py:74` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_search MCP tool.
@@ -475,26 +495,6 @@ Depends on: `skills/mcp_tools/_context.py`, `skills/mcp_tools/memory_store.py`
 Depends on: `skills/mcp_tools/_context.py`
 Imported by: `skills/mcp_tools/memory_recall.py`
 - `handle` (function) `skills/mcp_tools/memory_store.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_memory_store MCP tool.
-
-## skills/mcp_tools/metrics_summary.py
-Depends on: `modules/metrics.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/metrics_summary.py:40` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_metrics_summary MCP tool.
-
-## skills/mcp_tools/misp_export.py
-Depends on: `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/misp_export.py:38` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_misp_export MCP tool.
-
-## skills/mcp_tools/next_objective.py
-Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/next_objective.py:29` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_next_objective MCP tool.
-
-## skills/mcp_tools/opencode_config.py
-Depends on: `scripts/lazy_opencode_config.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/opencode_config.py:38` `def handle(arguments, tool_name, ctx)` -- Patch opencode/hermes configs to the local llama.cpp server.
-
-## skills/mcp_tools/palette.py
-Depends on: `cli/palette.py`, `cli/palette_command.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/palette.py:41` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_palette MCP tool.
 
 
 Next: [API_p25.md](API_p25.md)

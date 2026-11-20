@@ -1,0 +1,29 @@
+name: php2shell_scan
+description: |
+  php2shell Scanner for CVE-2026-109618 / CVE-2026-109619 (pre-auth PHP RCE
+  via session.upload_progress, PHP 5.4.0-8.5.11). 4-tier detection:
+  fingerprint, reachability, session-write and opt-in destructive OOM
+  differential. Stdlib only.
+
+  First use: assign url http://target/index.php then run php2shell_scan.
+  Free args: --json, --active (tier 4), -p /path.php, -f urls.txt, -t 20.
+  Lab: lab start php2shell56 (PHP 5.6). Metasploitable 2 runs PHP 5.2.4,
+  below the 5.4 floor, and reports clean.
+author: Qi Deng (ikow)
+version: '1.0'
+enabled: true
+update: true
+os: any
+trigger: [http, https]
+category: '02. Scanning & Enumeration'
+module_type: scanner
+params:
+- name: url
+  type: string
+  required: true
+  description: Target URL to assess (http:// or https://host[:port]/path).
+tool:
+  name: php2shell Scanner
+  repo_url: https://github.com/ikow/php2shell-poc.git
+  install_path: external/.exploit/php2shell_poc
+  execute_command: python3 scanner/check.py {url}

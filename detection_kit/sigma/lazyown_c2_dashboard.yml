@@ -1,0 +1,30 @@
+title: LazyOwn C2 Dashboard Session
+id: 826b8361-ec10-48d5-a6a7-ab5abb411709
+status: stable
+description: >
+  Detects operator traffic against a LazyOwn C2 web dashboard: the Flask app
+  serves /api/data (polling), /gettasks and /api/beacon_results/<client_id>.
+  A dashboard session from an unexpected management host means a rogue C2 is
+  running in the environment.
+author: LazyOwn RedTeam Framework
+date: 2026-11-19
+references:
+  - https://github.com/grisuno/LazyOwn
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+logsource:
+  category: webserver
+detection:
+  selection_api_data:
+    c-uri: '/api/data'
+  selection_beacon_results:
+    c-uri|startswith: '/api/beacon_results/'
+  selection_beacon_menu:
+    c-uri|startswith: '/api/beacon_menu/'
+  selection_gettasks:
+    c-uri: '/gettasks'
+  condition: 1 of selection_*
+falsepositives:
+  - Your own sanctioned LazyOwn C2 host; allowlist it explicitly.
+level: medium

@@ -1,5 +1,16 @@
-# Subsystem: tests (page 12 of 27)
+# Subsystem: tests (page 12 of 28)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
+
+## tests/test_findings_gate.py
+- Doc: Chain-to-findings gate contract: insufficient verdicts never confirm.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain_payload` (function, line 14) `def _chain_payload(gate)`
+  - `test_open_gate_confirms_with_evidence` (function, line 31) `def test_open_gate_confirms_with_evidence()`
+  - `test_blocked_gate_stays_partial_with_reason` (function, line 37) `def test_blocked_gate_stays_partial_with_reason()`
+  - `test_default_payload_unaffected` (function, line 45) `def test_default_payload_unaffected()`
+- Depends on: `modules/lazy_findings.py`
 
 ## tests/test_fuzzy_picker.py
 - Doc: Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py.
@@ -469,24 +480,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_headings_preserved` (method, line 86) `def test_headings_preserved(self)`
   - `test_strict_allowlist_strips_more` (method, line 96) `def test_strict_allowlist_strips_more(self)`
 - Depends on: `lazyc2/security/html_sanitizer.py`
-
-## tests/test_https_redirect.py
-- Doc: TDD tests for the HTTPS redirect contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeRequest` (class, line 23) `class _FakeRequest`
-  - `TestHTTPSRedirect` (class, line 34) `class TestHTTPSRedirect`
-  - `TestRedirectResponseShape` (class, line 74) `class TestRedirectResponseShape`
-  - `__init__` (method, line 24) `def __init__(self, is_secure, host, path, query_string)`
-  - `test_secure_request_passes_through` (method, line 37) `def test_secure_request_passes_through(self)`
-  - `test_insecure_in_prod_redirects_to_https` (method, line 42) `def test_insecure_in_prod_redirects_to_https(self)`
-  - `test_insecure_in_dev_passes_through` (method, line 50) `def test_insecure_in_dev_passes_through(self)`
-  - `test_insecure_when_disabled_passes_through` (method, line 55) `def test_insecure_when_disabled_passes_through(self)`
-  - `test_query_string_preserved` (method, line 60) `def test_query_string_preserved(self)`
-  - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
-  - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
-- Depends on: `lazyc2/security/https_redirect.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

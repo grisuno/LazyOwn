@@ -90,3 +90,6 @@ readmenator-maps/
 
 # advisory lock sidecar for atomic payload.json writes
 *.json.lock
+
+# detection kit build artefacts
+detection_kit/dist/

@@ -1,6 +1,70 @@
 # API (page 20 of 29)
 Previous: [API_p19.md](API_p19.md)
 
+## modules/selection/poc.py
+Depends on: `modules/__init__.py`, `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_poc_registry.py`
+- `PoCSelector.propose` (method) `modules/selection/poc.py:25` `def propose(self, ctx)` -- Return a PoC action for the context, or None when nothing fits.
+
+## modules/selection/registry.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/bridge.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/parquet.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_chain_match_determinism.py`, `tests/test_chain_selector.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+- `all_selectors` (function) `modules/selection/registry.py:35` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
+- `default_selectors` (function) `modules/selection/registry.py:83` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
+- `propose_next` (function) `modules/selection/registry.py:98` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
+
+## modules/selection/technique.py
+Depends on: `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
+Imported by: `modules/selection/registry.py`, `tests/test_selection_technique.py`
+- `TechniqueSelector.propose` (method) `modules/selection/technique.py:23` `def propose(self, ctx)` -- Return a technique emulation action, or None when not applicable.
+
+## modules/selection/technique_chain.py
+Depends on: `modules/chain_registry.py`, `modules/chain_synth.py`, `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
+Imported by: `modules/selection/registry.py`, `tests/test_selection_technique_chain.py`
+- `TechniqueChainSelector.propose` (method) `modules/selection/technique_chain.py:53` `def propose(self, ctx)` -- Return a technique-chain action, or None when fewer than two fit.
+
+## modules/selector_manager.py
+Imported by: `tests/test_auto_loop_memory.py`
+- `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
+
+## modules/selfupdate.py
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
+- `Updater.__init__` (method) `modules/selfupdate.py:47` `def __init__(self, live_path)` -- Bind the updater to the binary that may be replaced.
+- `Updater.verify` (method) `modules/selfupdate.py:52` `def verify(self, artifact)` -- Return True when the payload matches its recorded digest.
+- `Updater.stage` (method) `modules/selfupdate.py:57` `def stage(self, artifact, directory)` -- Write a verified payload into ``directory``.
+- `Updater.rollback` (method) `modules/selfupdate.py:77` `def rollback(self)` -- Restore the ``<name>.old`` snapshot over the live binary.
+- `current_branch` (function) `modules/selfupdate.py:96` `def current_branch(runner)` -- Return the checked-out branch name (empty on failure).
+- `dirty` (function) `modules/selfupdate.py:102` `def dirty(runner)` -- Return True when the working tree has uncommitted changes.
+- `check` (function) `modules/selfupdate.py:108` `def check(branch, runner)` -- Fetch the branch and report ahead/behind counts.
+- `apply` (function) `modules/selfupdate.py:140` `def apply(branch, confirm, runner)` -- Fast-forward the tree to origin/<branch> when safe.
+
+## modules/session_cleanup.py
+Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
+- `find_cloudflared_pids` (function) `modules/session_cleanup.py:28` `def find_cloudflared_pids(ps_output)` -- Extract PIDs of ``cloudflared tunnel`` processes from ps output.
+- `stop_cloudflared_processes` (function) `modules/session_cleanup.py:94` `def stop_cloudflared_processes()` -- Terminate stray ``cloudflared tunnel`` host processes.
+- `cleanup_ephemeral_infra` (function) `modules/session_cleanup.py:120` `def cleanup_ephemeral_infra()` -- Stop all disposable infrastructure owned by this checkout.
+
+## modules/session_rag.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/rag_index.py`, `skills/mcp_tools/rag_query.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
+- `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
+- `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
+- `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
+- `_KeywordFallback.add` (method) `modules/session_rag.py:136` `def add(self, doc_id, text, meta)`
+- `_KeywordFallback.query` (method) `modules/session_rag.py:146` `def query(self, query_text, n)`
+- `_KeywordFallback.count` (method) `modules/session_rag.py:156` `def count(self)`
+- `_KeywordFallback.reset` (method) `modules/session_rag.py:159` `def reset(self)`
+- `_RagState.load` (method) `modules/session_rag.py:172` `def load(cls)`
+- `_RagState.save` (method) `modules/session_rag.py:181` `def save(self)`
+- `SessionRAG.__init__` (method) `modules/session_rag.py:191` `def __init__(self)`
+- `SessionRAG.index_new` (method) `modules/session_rag.py:301` `def index_new(self)` -- Incrementally index only new or changed files.
+- `SessionRAG.index_parquet_sources` (method) `modules/session_rag.py:322` `def index_parquet_sources(self, force)` -- Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index) into the RAG store.
+- `SessionRAG.index_all` (method) `modules/session_rag.py:411` `def index_all(self)` -- Full re-index from scratch.
+- `SessionRAG.query` (method) `modules/session_rag.py:439` `def query(self, query_text, n, collection)` -- Return top-n relevant chunks as dicts with keys: text, source, chunk, score.
+- `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
+- `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
+- `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
+
 ## modules/session_reader.py
 Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
 - `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
@@ -428,70 +492,6 @@ Imported by: `skills/mcp_tools/unified_dashboard.py`, `tests/test_unified_dashbo
 - `UnifiedDashboard.render_unified` (method) `modules/unified_dashboard.py:170` `def render_unified(self)` -- Render the unified dashboard as a text string for CLI/TUI.
 - `UnifiedDashboard.export_json` (method) `modules/unified_dashboard.py:251` `def export_json(self)` -- Export the unified snapshot as a JSON string.
 - `get_unified_dashboard` (function) `modules/unified_dashboard.py:256` `def get_unified_dashboard(sessions_dir)` -- Return a module-level :class:`UnifiedDashboard` singleton.
-
-## modules/venator.py
-- `getUUID` (function) `modules/venator.py:38` `def getUUID()`
-- `io_key` (function) `modules/venator.py:49` `def io_key(keyname)`
-- `getSystemInfo` (function) `modules/venator.py:66` `def getSystemInfo(output_file)`
-- `getVTResult` (function) `modules/venator.py:83` `def getVTResult(fileHash)`
-- `getHash` (function) `modules/venator.py:112` `def getHash(file, ignoreVFlag)`
-- `checkSignature` (function) `modules/venator.py:132` `def checkSignature(file, bundle)`
-- `datetime_handler` (function) `modules/venator.py:210` `def datetime_handler(x)`
-- `parseAgentsDaemons` (function) `modules/venator.py:215` `def parseAgentsDaemons(item, path)`
-- `getLaunchAgents` (function) `modules/venator.py:287` `def getLaunchAgents(path, output_file, ignoreVFlag)`
-- `getLaunchDaemons` (function) `modules/venator.py:302` `def getLaunchDaemons(path, output_file, ignoreVFlag)`
-- `getUsers` (function) `modules/venator.py:317` `def getUsers(output_file)`
-- `getSafariExtensions` (function) `modules/venator.py:338` `def getSafariExtensions(path, output_file)`
-- `getChromeExtensions` (function) `modules/venator.py:357` `def getChromeExtensions(path, output_file)`
-- `getChromeDownloads` (function) `modules/venator.py:388` `def getChromeDownloads(chromeHistoryDbPath, output_file)`
-- `getFirefoxExtensions` (function) `modules/venator.py:442` `def getFirefoxExtensions(path, output_file)`
-- `getInstallHistory` (function) `modules/venator.py:477` `def getInstallHistory(output_file)`
-- `getCronJobs` (function) `modules/venator.py:494` `def getCronJobs(users, output_file)`
-- `getEmond` (function) `modules/venator.py:513` `def getEmond(output_file)`
-- `getKext` (function) `modules/venator.py:530` `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
-- `getEnv` (function) `modules/venator.py:577` `def getEnv(output_file)`
-- `getPeriodicScripts` (function) `modules/venator.py:592` `def getPeriodicScripts(output_file)`
-- `getConnections` (function) `modules/venator.py:609` `def getConnections(output_file)`
-- `SIPStatus` (function) `modules/venator.py:637` `def SIPStatus(output_file)`
-- `GatekeeperStatus` (function) `modules/venator.py:651` `def GatekeeperStatus(output_file)`
-- `parseApp` (function) `modules/venator.py:663` `def parseApp(app, ignoreVFlag)`
-- `getLoginItems` (function) `modules/venator.py:706` `def getLoginItems(path, output_file, ignoreVFlag)`
-- `getApps` (function) `modules/venator.py:741` `def getApps(path, output_file, ignoreVFlag)`
-- `getEventTaps` (function) `modules/venator.py:763` `def getEventTaps(output_file)`
-- `getBashHistory` (function) `modules/venator.py:786` `def getBashHistory(output_file, users)`
-- `getShellStartupScripts` (function) `modules/venator.py:804` `def getShellStartupScripts(users, output_file)`
-- `hmac_sha256` (function) `modules/venator.py:842` `def hmac_sha256(key, data)`
-- `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
-- `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
-- `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
-
-## modules/verb_catalog.py
-Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
-Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
-- `index_commands` (function) `modules/verb_catalog.py:254` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
-- `validate_catalog` (function) `modules/verb_catalog.py:294` `def validate_catalog(data)` -- Validate one raw catalog document.
-- `load` (function) `modules/verb_catalog.py:331` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
-- `entries` (function) `modules/verb_catalog.py:364` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
-- `catalog_enabled` (function) `modules/verb_catalog.py:420` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
-- `catalog_source` (function) `modules/verb_catalog.py:435` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
-- `set_enabled` (function) `modules/verb_catalog.py:449` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
-- `sync` (function) `modules/verb_catalog.py:487` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
-- `stats` (function) `modules/verb_catalog.py:579` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
-- `search` (function) `modules/verb_catalog.py:593` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
-
-## modules/verb_manifest.py
-Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
-Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
-- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
-- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
-- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
-- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
-- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
-- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
-- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
-- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
-- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
-- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
 
 
 Next: [API_p21.md](API_p21.md)

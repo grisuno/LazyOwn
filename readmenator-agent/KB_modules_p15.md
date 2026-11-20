@@ -1,6 +1,28 @@
 # Subsystem: modules (page 15 of 19)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/mfa_bypass.py
+- Doc: MFA Bypass Toolkit — techniques for circumventing multi-factor authentication.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MFATarget` (class, line 103) `class MFATarget`
+  - `MFABypassResult` (class, line 113) `class MFABypassResult`
+  - `MFABypassEngine` (class, line 121) `class MFABypassEngine`
+  - `__init__` (method, line 128) `def __init__(self, sessions_dir)`
+  - `enumerate_techniques` (method, line 133) `def enumerate_techniques(self, target)`
+  - `generate_phishing_templates` (method, line 153) `def generate_phishing_templates(self, target)`
+  - `mfa_conditional_access_scan` (method, line 223) `def mfa_conditional_access_scan(self, domain)`
+  - `replay_oauth_token` (method, line 252) `def replay_oauth_token(self, access_token, refresh_token)`
+  - `saml_golden_ticket_check` (method, line 278) `def saml_golden_ticket_check(self, adfs_server)`
+  - `export_report` (method, line 303) `def export_report(self)`
+- Imported by: `cli/commands/cicd.py`
+
+## modules/mkcloudflaretunnel.sh
+- Doc: Download cloudflared and create a tunnel to localhost on a specified port.
+- Layer: utility
+- Language: sh
+
 ## modules/module_registry.py
 - Doc: Unified module registry for LazyOwn — catalog, search, use/run workflow.
 - Layer: utility
@@ -404,47 +426,52 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `_invalidate` (function, line 143) `def _invalidate()`
-  - `reload` (function, line 151) `def reload()`
-  - `_payload` (function, line 156) `def _payload()`
-  - `_section` (function, line 166) `def _section(payload)`
-  - `_save` (function, line 171) `def _save(payload)`
-  - `_read_yaml` (function, line 179) `def _read_yaml(path)`
-  - `_fallback_profile` (function, line 203) `def _fallback_profile()`
-  - `_merge_stage` (function, line 218) `def _merge_stage(base, override)`
-  - `_merge_profile` (function, line 234) `def _merge_profile(parent, child)`
-  - `_resolve_profile` (function, line 256) `def _resolve_profile(name, raw_profiles, stack)`
-  - `profiles` (function, line 271) `def profiles()`
-  - `_default_profile_name` (function, line 286) `def _default_profile_name(data)`
-  - `active_profile` (function, line 296) `def active_profile()`
-  - `profile_config` (function, line 308) `def profile_config(name)`
-  - `set_profile` (function, line 315) `def set_profile(name)`
-  - `set_harness` (function, line 339) `def set_harness(enabled)`
-  - `limits` (function, line 371) `def limits()`
-  - `budget` (function, line 378) `def budget()`
-  - `findings_config` (function, line 385) `def findings_config()`
-  - `progress_config` (function, line 407) `def progress_config()`
-  - `pacing` (function, line 439) `def pacing()`
-  - `set_pacing` (function, line 487) `def set_pacing(key, value)`
-  - `engagement_mode` (function, line 512) `def engagement_mode()`
-  - `set_engagement_mode` (function, line 530) `def set_engagement_mode(mode)`
-  - `chain_defaults` (function, line 553) `def chain_defaults()`
-  - `sinks` (function, line 562) `def sinks()`
-  - `selectors` (function, line 573) `def selectors()`
-  - `selector_enabled` (function, line 584) `def selector_enabled(name)`
-  - `set_selector` (function, line 589) `def set_selector(name, enabled)`
-  - `stages` (function, line 599) `def stages()`
-  - `stage_enabled` (function, line 629) `def stage_enabled(name)`
-  - `stage_params` (function, line 635) `def stage_params(name)`
-  - `set_stage` (function, line 640) `def set_stage(name, enabled)`
-  - `effective_verbs` (function, line 665) `def effective_verbs()`
-  - `_catalog_verbs` (function, line 720) `def _catalog_verbs(seen, overrides)`
-  - `verb_config` (function, line 757) `def verb_config(name)`
-  - `verb_enabled` (function, line 766) `def verb_enabled(name)`
-  - `upsert_verb` (function, line 772) `def upsert_verb(name)`
-  - `remove_verb` (function, line 829) `def remove_verb(name)`
-  - `reset` (function, line 850) `def reset()`
-  - `validate_config` (function, line 857) `def validate_config(data)`
+  - `_invalidate` (function, line 173) `def _invalidate()`
+  - `reload` (function, line 181) `def reload()`
+  - `_payload` (function, line 186) `def _payload()`
+  - `_section` (function, line 196) `def _section(payload)`
+  - `_save` (function, line 201) `def _save(payload)`
+  - `_read_yaml` (function, line 209) `def _read_yaml(path)`
+  - `_fallback_profile` (function, line 233) `def _fallback_profile()`
+  - `_merge_stage` (function, line 248) `def _merge_stage(base, override)`
+  - `_merge_profile` (function, line 264) `def _merge_profile(parent, child)`
+  - `_resolve_profile` (function, line 286) `def _resolve_profile(name, raw_profiles, stack)`
+  - `profiles` (function, line 301) `def profiles()`
+  - `_default_profile_name` (function, line 316) `def _default_profile_name(data)`
+  - `active_profile` (function, line 326) `def active_profile()`
+  - `profile_config` (function, line 338) `def profile_config(name)`
+  - `set_profile` (function, line 345) `def set_profile(name)`
+  - `set_harness` (function, line 369) `def set_harness(enabled)`
+  - `limits` (function, line 401) `def limits()`
+  - `budget` (function, line 408) `def budget()`
+  - `findings_config` (function, line 415) `def findings_config()`
+  - `progress_config` (function, line 437) `def progress_config()`
+  - `pacing` (function, line 469) `def pacing()`
+  - `set_pacing` (function, line 517) `def set_pacing(key, value)`
+  - `termination` (function, line 542) `def termination()`
+  - `leases_config` (function, line 570) `def leases_config()`
+  - `boundary_config` (function, line 588) `def boundary_config()`
+  - `evidence_config` (function, line 601) `def evidence_config()`
+  - `planner_config` (function, line 620) `def planner_config()`
+  - `engagement_mode` (function, line 637) `def engagement_mode()`
+  - `set_engagement_mode` (function, line 655) `def set_engagement_mode(mode)`
+  - `chain_defaults` (function, line 678) `def chain_defaults()`
+  - `sinks` (function, line 687) `def sinks()`
+  - `selectors` (function, line 698) `def selectors()`
+  - `selector_enabled` (function, line 709) `def selector_enabled(name)`
+  - `set_selector` (function, line 714) `def set_selector(name, enabled)`
+  - `stages` (function, line 724) `def stages()`
+  - `stage_enabled` (function, line 754) `def stage_enabled(name)`
+  - `stage_params` (function, line 760) `def stage_params(name)`
+  - `set_stage` (function, line 765) `def set_stage(name, enabled)`
+  - `effective_verbs` (function, line 790) `def effective_verbs()`
+  - `_catalog_verbs` (function, line 845) `def _catalog_verbs(seen, overrides)`
+  - `verb_config` (function, line 882) `def verb_config(name)`
+  - `verb_enabled` (function, line 891) `def verb_enabled(name)`
+  - `upsert_verb` (function, line 897) `def upsert_verb(name)`
+  - `remove_verb` (function, line 954) `def remove_verb(name)`
+  - `reset` (function, line 975) `def reset()`
+  - `validate_config` (function, line 982) `def validate_config(data)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
 
@@ -467,24 +494,6 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `domain_exposure` (function, line 198) `def domain_exposure(domain, sessions_dir)`
   - `enrich_evidence` (function, line 213) `def enrich_evidence(items, sessions_dir)`
 - Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
-
-## modules/outcome_attribution.py
-- Doc: Observer-style failure attribution for autonomous loop steps.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_has_reject_signal` (function, line 81) `def _has_reject_signal(text)`
-  - `classify` (function, line 100) `def classify(output, is_error)`
-  - `verb_of` (function, line 126) `def verb_of(command)`
-  - `AttributionLedger` (class, line 141) `class AttributionLedger`
-  - `__init__` (method, line 149) `def __init__(self, task_id, base_dir)`
-  - `_load` (method, line 160) `def _load(self)`
-  - `record` (method, line 167) `def record(self, command, classification)`
-  - `counts` (method, line 199) `def counts(self, verb)`
-  - `blocked_verbs` (method, line 204) `def blocked_verbs(self, threshold)`
-  - `_apply` (function, line 187) `def _apply(data)`
-- Depends on: `core/atomic_store.py`
-- Imported by: `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, `tests/test_outcome_attribution.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

@@ -1,4 +1,4 @@
-# Subsystem: tests (page 8 of 27)
+# Subsystem: tests (page 8 of 28)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
 ## tests/test_command_palette.py

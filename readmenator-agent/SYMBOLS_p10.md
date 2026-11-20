@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_guard` | function | `lazyc2/blueprints/session_auth.py:36` | `def _guard()` |
+| `require_operator_session` | function | `lazyc2/blueprints/session_auth.py:20` | `def require_operator_session(blueprint, login_endpoint)` |
+| `decoy_response` | function | `lazyc2/extensions/decoy.py:12` | `def decoy_response()` |
+| `_get_safe_file_path` | function | `lazyc2/extensions/short_urls.py:74` | `def _get_safe_file_path(user_path)` |
+| `configure` | function | `lazyc2/extensions/short_urls.py:21` | `def configure(sessions_phishing_dir)` |
+| `is_valid_url` | function | `lazyc2/extensions/short_urls.py:104` | `def is_valid_url(url)` |
+| `load_short_urls` | function | `lazyc2/extensions/short_urls.py:33` | `def load_short_urls()` |
+| `save_short_urls` | function | `lazyc2/extensions/short_urls.py:59` | `def save_short_urls(data)` |
+| `configure` | function | `lazyc2/extensions/storage.py:18` | `def configure(sessions_dir)` |
+| `load_banners` | function | `lazyc2/extensions/storage.py:154` | `def load_banners()` |
+| `load_cves` | function | `lazyc2/extensions/storage.py:59` | `def load_cves()` |
+| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
 | `load_note` | function | `lazyc2/extensions/storage.py:87` | `def load_note()` |
 | `load_notifications` | function | `lazyc2/extensions/storage.py:137` | `def load_notifications()` |
 | `load_routes` | function | `lazyc2/extensions/storage.py:179` | `def load_routes()` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `__init__` | method | `lazygui/windows/main_window.py:40` | `def __init__(self, constants, settings, theme_manager, backend, event_log, parent)` |
 | `_apply` | function | `lazygui/windows/main_window.py:314` | `def _apply()` |
 | `_build_palette_actions` | method | `lazygui/windows/main_window.py:261` | `def _build_palette_actions(self)` |
-| `_emit_request_connect` | method | `lazygui/windows/main_window.py:372` | `def _emit_request_connect(self)` |
-| `_install_layout` | method | `lazygui/windows/main_window.py:108` | `def _install_layout(self)` |
-| `_install_menu_bar` | method | `lazygui/windows/main_window.py:131` | `def _install_menu_bar(self)` |
-| `_install_shortcuts` | method | `lazygui/windows/main_window.py:220` | `def _install_shortcuts(self)` |
-| `_install_statusbar` | method | `lazygui/windows/main_window.py:195` | `def _install_statusbar(self)` |
-| `_install_toolbar` | method | `lazygui/windows/main_window.py:171` | `def _install_toolbar(self)` |
-| `_make_panel_toggle` | method | `lazygui/windows/main_window.py:300` | `def _make_panel_toggle(self, panel)` |
-| `_make_theme_apply` | method | `lazygui/windows/main_window.py:311` | `def _make_theme_apply(self, identifier)` |
-| `_on_dashboard_updated` | method | `lazygui/windows/main_window.py:350` | `def _on_dashboard_updated(self, dashboard)` |
-| `_on_event_logged` | method | `lazygui/windows/main_window.py:326` | `def _on_event_logged(self, _record)` |
-| `_on_operator_changed` | method | `lazygui/windows/main_window.py:319` | `def _on_operator_changed(self, operator)` |
-| `_on_sessions_count_changed` | method | `lazygui/windows/main_window.py:345` | `def _on_sessions_count_changed(self, sessions)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

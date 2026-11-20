@@ -1,5 +1,55 @@
-# Subsystem: tests (page 14 of 27)
+# Subsystem: tests (page 14 of 28)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
+
+## tests/test_killchain_unified_v2.py
+- Doc: Comprehensive tests for modules.killchain — the unified single source of truth.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestKillChainConfig` (class, line 32) `class TestKillChainConfig`
+  - `TestKillChainCurrentPhase` (class, line 104) `class TestKillChainCurrentPhase`
+  - `TestKillChainAdvancePhase` (class, line 185) `class TestKillChainAdvancePhase`
+  - `TestKillChainGetProgress` (class, line 296) `class TestKillChainGetProgress`
+  - `TestKillChainHelpers` (class, line 364) `class TestKillChainHelpers`
+  - `TestPhaseStatusDataclass` (class, line 411) `class TestPhaseStatusDataclass`
+  - `test_phases_is_8_tuple` (method, line 35) `def test_phases_is_8_tuple(self)`
+  - `test_phases_are_in_correct_kill_chain_order` (method, line 41) `def test_phases_are_in_correct_kill_chain_order(self)`
+  - `test_compact_phases_are_in_correct_order` (method, line 45) `def test_compact_phases_are_in_correct_order(self)`
+  - `test_all_phases_have_labels` (method, line 49) `def test_all_phases_have_labels(self)`
+  - `test_all_phases_have_colors` (method, line 54) `def test_all_phases_have_colors(self)`
+  - `test_all_phases_have_rich_colors` (method, line 59) `def test_all_phases_have_rich_colors(self)`
+  - `test_engagement_to_cli_covers_all_engagement_phases` (method, line 63) `def test_engagement_to_cli_covers_all_engagement_phases(self)`
+  - `test_cli_to_host_state_returns_expected` (method, line 71) `def test_cli_to_host_state_returns_expected(self)`
+  - `test_phase_index_valid_and_invalid` (method, line 81) `def test_phase_index_valid_and_invalid(self)`
+  - `test_is_valid_phase` (method, line 87) `def test_is_valid_phase(self)`
+  - `test_compact_phases_and_labels` (method, line 92) `def test_compact_phases_and_labels(self)`
+  - `test_world_model_path` (method, line 97) `def test_world_model_path(self)`
+  - `_reset_wm_singleton` (method, line 108) `def _reset_wm_singleton(self)`
+  - `test_returns_recon_when_no_world_model_exists` (method, line 119) `def test_returns_recon_when_no_world_model_exists(self)`
+  - `test_reads_from_world_model_host_state` (method, line 126) `def test_reads_from_world_model_host_state(self)`
+  - `test_raw_json_override_wins_when_higher_rank` (method, line 141) `def test_raw_json_override_wins_when_higher_rank(self)`
+  - `test_raw_json_override_ignored_when_lower_rank` (method, line 157) `def test_raw_json_override_ignored_when_lower_rank(self)`
+  - `test_falls_back_to_legacy_phase_key` (method, line 173) `def test_falls_back_to_legacy_phase_key(self)`
+  - `_reset_wm_singleton` (method, line 189) `def _reset_wm_singleton(self)`
+  - `test_advance_writes_current_phase_and_phase_keys` (method, line 200) `def test_advance_writes_current_phase_and_phase_keys(self)`
+  - `test_advance_tracks_completed_phases` (method, line 216) `def test_advance_tracks_completed_phases(self)`
+  - `test_advance_invalid_phase_returns_false` (method, line 234) `def test_advance_invalid_phase_returns_false(self)`
+  - `test_advance_advances_world_model_hosts` (method, line 244) `def test_advance_advances_world_model_hosts(self)`
+  - `test_advance_with_host_does_not_touch_unrelated_hosts` (method, line 261) `def test_advance_with_host_does_not_touch_unrelated_hosts(self)`
+  - `test_advance_does_not_downgrade_cached_world_model_state` (method, line 277) `def test_advance_does_not_downgrade_cached_world_model_state(self)`
+  - `_reset_wm_singleton` (method, line 300) `def _reset_wm_singleton(self)`
+  - `test_all_pending_when_nothing_done` (method, line 311) `def test_all_pending_when_nothing_done(self)`
+  - `test_progress_reflects_completed_and_active` (method, line 324) `def test_progress_reflects_completed_and_active(self)`
+  - `test_progress_has_colors_and_labels` (method, line 348) `def test_progress_has_colors_and_labels(self)`
+  - `test_phases_for_display_returns_triples` (method, line 367) `def test_phases_for_display_returns_triples(self)`
+  - `test_compact_progress_returns_string` (method, line 377) `def test_compact_progress_returns_string(self)`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 383) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_all` (method, line 392) `def test_cli_phase_to_host_state_maps_all(self)`
+  - `test_get_killchain_returns_class` (method, line 400) `def test_get_killchain_returns_class(self)`
+  - `test_phase_index_returns_correct` (method, line 404) `def test_phase_index_returns_correct(self)`
+  - `test_phase_status_is_immutable` (method, line 414) `def test_phase_status_is_immutable(self)`
+  - `test_phase_status_fields_match_config` (method, line 419) `def test_phase_status_fields_match_config(self)`
+- Depends on: `modules/killchain.py`, `modules/world_model.py`
 
 ## tests/test_lab_target_visibility.py
 - Doc: Lab target visibility: start/status always show the container IP.
@@ -390,98 +440,6 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `test_handoff_decision` (method, line 250) `def test_handoff_decision(self, ledger_module)`
   - `test_discard_row_normalized` (method, line 261) `def test_discard_row_normalized(self, ledger_module)`
 - Depends on: `modules/lazy_findings.py`
-
-## tests/test_lazy_handoff.py
-- Doc: Tests for the foothold-to-beacon handoff and OS-aware beacon loop.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestHandoffGate` (class, line 33) `class TestHandoffGate`
-  - `TestHandoffStart` (class, line 53) `class TestHandoffStart`
-  - `TestOsInference` (class, line 146) `class TestOsInference`
-  - `TestOsJsonPlatform` (class, line 164) `class TestOsJsonPlatform`
-  - `TestPlaybookLadder` (class, line 183) `class TestPlaybookLadder`
-  - `TestHeuristicPlan` (class, line 203) `class TestHeuristicPlan`
-  - `TestRunBeaconLoopSessionsDir` (class, line 227) `class TestRunBeaconLoopSessionsDir`
-  - `TestShellNotification` (class, line 306) `class TestShellNotification`
-  - `TestDefaultPlatform` (class, line 337) `class TestDefaultPlatform`
-  - `TestHookPlatformFilter` (class, line 348) `class TestHookPlatformFilter`
-  - `test_disabled_under_pytest` (method, line 34) `def test_disabled_under_pytest(self, monkeypatch)`
-  - `test_env_kill_switch` (method, line 38) `def test_env_kill_switch(self, monkeypatch)`
-  - `test_flag_off` (method, line 43) `def test_flag_off(self, monkeypatch)`
-  - `test_flag_on` (method, line 47) `def test_flag_on(self, monkeypatch)`
-  - `_enable` (method, line 54) `def _enable(self, monkeypatch)`
-  - `test_starts_once_per_host` (method, line 61) `def test_starts_once_per_host(self, monkeypatch, tmp_path)`
-  - `test_failed_marker_allows_retry` (method, line 70) `def test_failed_marker_allows_retry(self, monkeypatch, tmp_path)`
-  - `test_deployed_marker_rearms_when_beacon_is_dead` (method, line 80) `def test_deployed_marker_rearms_when_beacon_is_dead(self, monkeypatch, tmp_path)`
-  - `test_live_beacon_keeps_deployed_marker` (method, line 99) `def test_live_beacon_keeps_deployed_marker(self, monkeypatch, tmp_path)`
-  - `test_task_id_reaches_worker_and_marker` (method, line 118) `def test_task_id_reaches_worker_and_marker(self, monkeypatch, tmp_path)`
-  - `test_windows_target_skipped` (method, line 131) `def test_windows_target_skipped(self, monkeypatch, tmp_path)`
-  - `test_noop_without_target` (method, line 141) `def test_noop_without_target(self, monkeypatch, tmp_path)`
-  - `test_samba_banner_does_not_win_over_linux_markers` (method, line 147) `def test_samba_banner_does_not_win_over_linux_markers(self)`
-  - `test_explicit_windows_still_wins` (method, line 153) `def test_explicit_windows_still_wins(self)`
-  - `test_generic_smb_only_falls_back_to_windows` (method, line 158) `def test_generic_smb_only_falls_back_to_windows(self)`
-  - `test_list_schema` (method, line 165) `def test_list_schema(self, tmp_path)`
-  - `test_windows` (method, line 172) `def test_windows(self, tmp_path)`
-  - `test_missing` (method, line 179) `def test_missing(self, tmp_path)`
-  - `test_linux_full_ladder` (method, line 184) `def test_linux_full_ladder(self)`
-  - `test_persistence_goal_gated` (method, line 193) `def test_persistence_goal_gated(self)`
-  - `test_no_exfil_without_goal` (method, line 198) `def test_no_exfil_without_goal(self)`
-  - `test_ladder_progression` (method, line 204) `def test_ladder_progression(self, tmp_path)`
-  - `test_os_json_fallback` (method, line 218) `def test_os_json_fallback(self, tmp_path)`
-  - `_history` (method, line 228) `def _history(self, sessions, client, rows)`
-  - `test_loop_uses_sessions_dir_history` (method, line 234) `def test_loop_uses_sessions_dir_history(self, tmp_path)`
-  - `test_exfil_record_advances_killchain` (method, line 259) `def test_exfil_record_advances_killchain(self, tmp_path, monkeypatch)`
-  - `test_exfil_capability_uses_beacon_wire_command` (method, line 301) `def test_exfil_capability_uses_beacon_wire_command(self)`
-  - `test_shell_proof_emits_loop_notification` (method, line 307) `def test_shell_proof_emits_loop_notification(self, monkeypatch)`
-  - `test_os_id_linux` (method, line 338) `def test_os_id_linux(self)`
-  - `test_os_id_windows` (method, line 341) `def test_os_id_windows(self)`
-  - `test_unknown` (method, line 344) `def test_unknown(self)`
-  - `_engine` (method, line 351) `def _engine(self)`
-  - `test_windows_only_blocked_on_linux` (method, line 356) `def test_windows_only_blocked_on_linux(self)`
-  - `test_linux_only_blocked_on_windows` (method, line 363) `def test_linux_only_blocked_on_windows(self)`
-  - `test_dual_fallback_keeps_platform_fragment` (method, line 370) `def test_dual_fallback_keeps_platform_fragment(self)`
-  - `test_zero_cooldown_rule_fires_once_per_beacon` (method, line 379) `def test_zero_cooldown_rule_fires_once_per_beacon(self)`
-  - `fake_queue` (function, line 239) `def fake_queue(client_id, command, sessions_dir)`
-  - `fake_advance` (function, line 276) `def fake_advance(new_phase, world_model_path, host, extras)`
-  - `FakeActivity` (class, line 319) `class FakeActivity`
-  - `__init__` (method, line 320) `def __init__(self, task_id)`
-  - `emit` (method, line 323) `def emit(self, worker, kind, text, intent_id, tool_use_id)`
-- Depends on: `modules/__init__.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_loop.py`, `modules/conditional_hooks.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/outcome_bus.py`
-
-## tests/test_lazy_hostscore.py
-- Doc: Host heat score contract: deterministic, capped, auditable priorities.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_hot_cve_and_findings_and_shell_stay_capped` (function, line 21) `def test_hot_cve_and_findings_and_shell_stay_capped()`
-  - `test_findings_cap_bounds_the_subtotal` (function, line 39) `def test_findings_cap_bounds_the_subtotal()`
-  - `test_discarded_findings_and_cold_no_points` (function, line 58) `def test_discarded_findings_and_cold_no_points()`
-  - `test_empty_inputs_score_zero` (function, line 78) `def test_empty_inputs_score_zero()`
-  - `test_persistence_roundtrip` (function, line 83) `def test_persistence_roundtrip(tmp_path)`
-  - `test_rescore_offline_survives_errors` (function, line 93) `def test_rescore_offline_survives_errors(tmp_path, monkeypatch)`
-  - `_StubWorld` (class, line 97) `class _StubWorld`
-  - `broken_correlate` (function, line 116) `def broken_correlate()`
-  - `snapshot` (method, line 100) `def snapshot(self)`
-- Depends on: `modules/lazy_hostscore.py`
-
-## tests/test_lazy_intel_wiring.py
-- Doc: Wiring contract tests: loop timeline snapshot + MCP lazy intel tools.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestExposureRefreshWiring` (class, line 13) `class TestExposureRefreshWiring`
-  - `TestLoopTimelineWiring` (class, line 45) `class TestLoopTimelineWiring`
-  - `TestMcpTools` (class, line 65) `class TestMcpTools`
-  - `test_loop_refreshes_stale_intel_report` (method, line 14) `def test_loop_refreshes_stale_intel_report(self)`
-  - `test_refresh_stale_contract` (method, line 20) `def test_refresh_stale_contract(self, tmp_path, monkeypatch)`
-  - `test_sync_intel_records_timeline_snapshot` (method, line 46) `def test_sync_intel_records_timeline_snapshot(self)`
-  - `test_shell_exit_snapshot_registered` (method, line 52) `def test_shell_exit_snapshot_registered(self)`
-  - `test_record_quiet_never_raises` (method, line 57) `def test_record_quiet_never_raises(self, tmp_path)`
-  - `test_lazy_tools_declared` (method, line 66) `def test_lazy_tools_declared(self)`
-  - `test_lazy_tools_dispatched` (method, line 75) `def test_lazy_tools_dispatched(self)`
-  - `test_hermes_bridge_exposes_lazy_tools` (method, line 83) `def test_hermes_bridge_exposes_lazy_tools(self)`
-- Depends on: `modules/__init__.py`, `modules/lazy_timeline.py`
 
 
 Next: [KB_tests_p15.md](KB_tests_p15.md)

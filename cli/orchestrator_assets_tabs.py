@@ -36,6 +36,7 @@ CONFIG_FIELDS = (
     ConfigField("max_concurrent", "Max concurrent tasks", "0"),
     ConfigField("proxy_autostart", "Recorder proxy autostart", "true"),
     ConfigField("proxy_port", "Recorder proxy port", "8080"),
+    ConfigField("gym_cleanup_on_exit", "Gym cleanup on exit", "false"),
     ConfigField("agent_backend", "Main agent backend", "native"),
     ConfigField("c2_require_beacon_hmac", "Require beacon HMAC", "true"),
     ConfigField("auto_privesc_on_checkin", "Auto privesc on check-in", "false"),
@@ -48,6 +49,16 @@ CONFIG_FIELDS = (
     ConfigField("sleep_activation_delay_max", "Activation delay max", "0s"),
     ConfigField("persistence_cron_schedule", "Persistence cron schedule", "*/5 * * * *"),
     ConfigField("persistence_service_name", "Persistence service name", "sysmaint"),
+    ConfigField("auto_pwn_stealth", "auto_pwn stealth (low|medium|high|paranoid)", "low"),
+    ConfigField("auto_pwn_enable_pivot", "auto_pwn auto pivot", "false"),
+    ConfigField("auto_pwn_enable_privesc", "auto_pwn auto privesc", "false"),
+    ConfigField("auto_pwn_cover_all", "auto_pwn coverage mode (--all)", "false"),
+    ConfigField("auto_pwn_foothold_cap", "auto_pwn foothold cap", "8"),
+    ConfigField("auto_pwn_coverage_max_vectors", "auto_pwn coverage max vectors", "80"),
+    ConfigField("auto_pwn_vector_timeout_sec", "auto_pwn vector timeout sec", "45"),
+    ConfigField("auto_pwn_retry_budget_sec", "auto_pwn retry budget sec", "180"),
+    ConfigField("auto_pwn_confidence_floor", "auto_pwn confidence floor (0-1)", "0.65"),
+    ConfigField("auto_pwn_port_confidence", "auto_pwn port confidence (0-1)", "0.9"),
 )
 
 

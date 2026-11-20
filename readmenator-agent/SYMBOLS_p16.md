@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
+| `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
+| `analyze_directory` | method | `modules/ia_code_analysis.py:37` | `def analyze_directory(self, directory)` |
+| `analyze_with_deepseek` | function | `modules/ia_code_analysis.py:66` | `def analyze_with_deepseek(code_content, file_path, mode)` |
+| `parse_args` | function | `modules/ia_code_analysis.py:178` | `def parse_args()` |
+| `save_results_to_json` | function | `modules/ia_code_analysis.py:123` | `def save_results_to_json(results, file_path)` |
+| `start_analysis` | function | `modules/ia_code_analysis.py:169` | `def start_analysis(code_dir, mode)` |
+| `LogFileHandler` | class | `modules/ia_logs_analysis.py:54` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/ia_logs_analysis.py:59` | `def __init__(self, mode)` |
+| `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
+| `analyze_with_deepseek` | function | `modules/ia_logs_analysis.py:94` | `def analyze_with_deepseek(log_content, mode)` |
+| `on_modified` | method | `modules/ia_logs_analysis.py:64` | `def on_modified(self, event)` |
+| `parse_args` | function | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
+| `start_monitoring` | function | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
+| `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
+| `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
+| `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
+| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
+| `main` | function | `modules/img2bin.py:43` | `def main()` |
 | `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
 | `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
 | `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `handover_brief` | function | `modules/lazy_continuation.py:173` | `def handover_brief(target)` |
 | `load` | function | `modules/lazy_continuation.py:144` | `def load(target)` |
 | `recall_candidates` | function | `modules/lazy_continuation.py:214` | `def recall_candidates(target, limit)` |
-| `record_path` | function | `modules/lazy_continuation.py:77` | `def record_path(target)` |
-| `save` | function | `modules/lazy_continuation.py:89` | `def save(target, task_id, goal, status, settlement, findings, next_steps, credentials, deviations)` |
-| `CredRow` | class | `modules/lazy_creds.py:30` | `class CredRow` |
-| `as_lines` | function | `modules/lazy_creds.py:101` | `def as_lines(rows)` |
-| `candidates` | function | `modules/lazy_creds.py:79` | `def candidates(limit)` |
-| `count` | function | `modules/lazy_creds.py:96` | `def count()` |
-| `export_pairs` | function | `modules/lazy_creds.py:106` | `def export_pairs(path, limit)` |
-| `load` | function | `modules/lazy_creds.py:39` | `def load()` |
-| `search` | function | `modules/lazy_creds.py:63` | `def search(query)` |
-| `_advisory_cve_id` | function | `modules/lazy_cve_feed.py:398` | `def _advisory_cve_id(advisory)` |
-| `_advisory_cvss` | function | `modules/lazy_cve_feed.py:407` | `def _advisory_cvss(advisory)` |
-| `_advisory_matches_product` | function | `modules/lazy_cve_feed.py:421` | `def _advisory_matches_product(advisory, banner_words)` |
-| `_cache_fresh` | function | `modules/lazy_cve_feed.py:104` | `def _cache_fresh(path, ttl_sec)` |
-| `_cache_path` | function | `modules/lazy_cve_feed.py:95` | `def _cache_path(name)` |
-| `_cached_advisories` | function | `modules/lazy_cve_feed.py:544` | `def _cached_advisories()` |
-| `_env_flag` | function | `modules/lazy_cve_feed.py:90` | `def _env_flag(name, default)` |
-| `_exploit_cves_from_text` | function | `modules/lazy_cve_feed.py:228` | `def _exploit_cves_from_text(text)` |
-| `_fetch` | function | `modules/lazy_cve_feed.py:112` | `def _fetch(url)` |
-| `_load_json` | function | `modules/lazy_cve_feed.py:150` | `def _load_json(name)` |
-| `_osv_cache_path` | function | `modules/lazy_cve_feed.py:281` | `def _osv_cache_path(product)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

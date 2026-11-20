@@ -1,11 +1,10 @@
 # cli/commands
 
-cli/commands groups 152 files (py) around lazyown_set_config, resolve_alias, needs_sudo, sudo_available, _retry_sudo_gate. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 158 files (py) around lazyown_set_config, resolve_alias, needs_sudo, sudo_available, _retry_sudo_gate. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
     cli["cli"]
-    contrib["contrib"]
     core["core"]
     modules["modules"]
     root["root"]
@@ -15,14 +14,10 @@ graph LR
     cli -- "calls into" --> modules
     cli -- "calls into" --> root
     cli -- "calls into" --> tests
-    contrib -- "calls into" --> modules
     modules -- "calls into" --> cli
-    modules -- "calls into" --> core
     modules -- "calls into" --> root
     modules -- "calls into" --> tests
     root -- "calls into" --> cli
-    root -- "depends on" --> core
-    root -- "calls into" --> modules
     root -- "calls into" --> tests
     skills -- "calls into" --> modules
     tests -- "calls into" --> cli
@@ -31,39 +26,36 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (3.1)
+## cli (4.1)
 
-cli groups 80 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Configurable Neon Box banner for the LazyOwn interactive shell.
+cli groups 87 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Configurable Neon Box banner for the LazyOwn interactive shell.
 
-## contrib (3.2)
+## core (4.2)
 
-contrib groups 3 files (py) around ensure_http_prefix, signal_handler, main, parse_hash_file, reverse_shell.
+core groups 2 files (py) around load_defaults, clear_cache, get, default_lport, default_rport. Build-time default constants loaded from ``config/defaults.toml``.
 
-## core (3.3)
+## modules (4.3)
 
-core groups 4 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Build-time default constants loaded from ``config/defaults.toml``.
+modules groups 16 files (py) around ContainerResource, ContainerFinding, DockerEnumerator, __init__, is_socket_accessible. Browser-in-the-Middle (BitM) attack engine.
 
-## modules (3.4)
-
-modules groups 19 files (py) around base64_encode, base64_decode, caesar_cipher, caesar_decipher, key_substitution. Browser-in-the-Middle (BitM) attack engine.
-
-## root (3.5)
+## root (4.4)
 
 root groups 2 files (py) around lazyown_set_config, resolve_alias, needs_sudo, sudo_available, _retry_sudo_gate. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## skills (3.6)
+## skills (4.5)
 
 skills groups 1 files (py) around handle. MCP tool ``lazyown_list_modules``: list modules and scripts in modules/.
 
-## tests (3.7)
+## tests (4.6)
 
-tests groups 43 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
+tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
 
 **Files**:
 
 - banner.py
 - cli/banner_config.py
 - cli/commands/_base.py
+- cli/commands/_dormancy.py
 - cli/commands/anti_forensics.py
 - cli/commands/applocker_bypass.py
 - cli/commands/bitm.py
@@ -77,9 +69,11 @@ tests groups 43 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/commands/cloud.py
 - cli/commands/collaboration.py
 - cli/commands/command_and_control.py
+- cli/commands/containers.py
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
 - cli/commands/crystal_ball.py
+- cli/commands/daemon_ctl.py
 - cli/commands/database.py
 - cli/commands/defaults.py
 - cli/commands/demo.py
@@ -111,6 +105,7 @@ tests groups 43 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/commands/lazymode.py
 - cli/commands/loop_audit.py
 - cli/commands/marketplace.py
+- cli/commands/misc_migrated.py
 - cli/commands/mobile_macos.py
 - cli/commands/module_manager.py
 - cli/commands/netattack.py
@@ -139,51 +134,48 @@ tests groups 43 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/confirm.py
 - cli/fuzzy_match.py
 - cli/fuzzy_picker.py
+- cli/graph_overlay.py
 - cli/output_mode.py
-- cli/plugin_tiers.py
+- cli/registry.py
 - cli/session_hud.py
-- contrib/legacy/lazycreate_webshell.py
-- contrib/legacy/lazylogpoisoning.py
-- contrib/legacy/lazyreversentlmv2.py
+- cli/sessions_browser.py
+- cli/timeline_browser.py
 - core/defaults.py
-- core/host_policy.py
 - core/safe_import.py
-- core/validators.py
 - modules/__init__.py
 - modules/bitm_engine.py
-- modules/c2_builder.py
 - modules/categories.py
 - modules/cicd_enumerator.py
 - modules/cloud_enum.py
 - modules/dpapi_harvester.py
 - modules/edr_detector.py
 - modules/evasive_payloads.py
-- modules/lab_runtime.py
+- modules/intercept.py
 - modules/lazycloud.py
-- modules/lazyencoder_decoder.py
+- modules/lazyk8s.py
 - modules/lazypassgen.py
 - modules/loop/worker_gating.py
 - modules/loop_preflight.py
 - modules/mfa_bypass.py
 - modules/module_registry.py
-- modules/professional_report.py
-- modules/test_lazyencoder_decoder.py
 - skills/mcp_tools/list_modules.py
 - tests/test_ad_lab_gym.py
 - tests/test_api_key_resolution.py
 - tests/test_banner_config.py
-- tests/test_bdd_infra_range_report.py
 - tests/test_browser_sync.py
 - tests/test_c2_agent_dual.py
+- tests/test_c2_autostart.py
 - tests/test_campaign_import_safety.py
 - tests/test_categories.py
+- tests/test_command_set_migration.py
 - tests/test_credentials_rotation.py
+- tests/test_daemon_ctl_command_set.py
+- tests/test_encoding_command_set.py
+- tests/test_exploitdb_command_set.py
+- tests/test_exposure_command_sets.py
 - tests/test_fuzzy_picker.py
-- tests/test_gym_matrix_ctf.py
-- tests/test_host_policy.py
-- tests/test_implant_session_secrets.py
-- tests/test_infra_disposable.py
-- tests/test_input_fuzz.py
+- tests/test_graph_overlay.py
+- tests/test_help_ui_command_set.py
 - tests/test_lab_target_visibility.py
 - tests/test_lazy_autofire.py
 - tests/test_lazy_creds.py
@@ -203,12 +195,17 @@ tests groups 43 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_loop_mentions.py
 - tests/test_module_registry.py
 - tests/test_module_registry_bridge.py
-- tests/test_plugin_tiers.py
+- tests/test_nethelpers_command_set.py
+- tests/test_orchestrator_loop_substrate.py
 - tests/test_prompt_readline_markers.py
 - tests/test_prompt_refresh.py
-- tests/test_require_guards.py
+- tests/test_safety_gates.py
+- tests/test_session_ops_command_set.py
 - tests/test_session_reclaim.py
+- tests/test_sessions_browser.py
 - tests/test_shell_session_store.py
+- tests/test_shellsys_command_set.py
+- tests/test_timeline_browser.py
 - tests/test_ttpscope_bridge.py
 - tests/test_unified_bridge_delegate.py
 - tests/test_verb_catalog.py

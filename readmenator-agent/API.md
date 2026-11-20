@@ -1,6 +1,30 @@
 # API (page 1 of 29)
 Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md), [API_p22.md](API_p22.md), [API_p23.md](API_p23.md), [API_p24.md](API_p24.md), [API_p25.md](API_p25.md), [API_p26.md](API_p26.md), [API_p27.md](API_p27.md), [API_p28.md](API_p28.md), [API_p29.md](API_p29.md)
 
+## 2026-11-19_154944/jquery-1.11.3.min.js
+Depends on: `cli/show.py`, `cli/style.py`, `lazyown-docker/init.sh`, `poc_tui/run.py`
+- `s` (function) `2026-11-19_154944/jquery-1.11.3.min.js:2` -- /*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license
+- `c` (function) `2026-11-19_154944/jquery-1.11.3.min.js:4`
+- `d` (function) `2026-11-19_154944/jquery-1.11.3.min.js:5`
+
+## 2026-11-19_162254/jquery-1.11.3.min.js
+Depends on: `cli/show.py`, `cli/style.py`, `lazyown-docker/init.sh`, `poc_tui/run.py`
+- `s` (function) `2026-11-19_162254/jquery-1.11.3.min.js:2` -- /*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license
+- `c` (function) `2026-11-19_162254/jquery-1.11.3.min.js:4`
+- `d` (function) `2026-11-19_162254/jquery-1.11.3.min.js:5`
+
+## 2026-11-19_164345/jquery-1.11.3.min.js
+Depends on: `cli/show.py`, `cli/style.py`, `lazyown-docker/init.sh`, `poc_tui/run.py`
+- `s` (function) `2026-11-19_164345/jquery-1.11.3.min.js:2` -- /*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license
+- `c` (function) `2026-11-19_164345/jquery-1.11.3.min.js:4`
+- `d` (function) `2026-11-19_164345/jquery-1.11.3.min.js:5`
+
+## 2026-11-19_170839/jquery-1.11.3.min.js
+Depends on: `cli/show.py`, `cli/style.py`, `lazyown-docker/init.sh`, `poc_tui/run.py`
+- `s` (function) `2026-11-19_170839/jquery-1.11.3.min.js:2` -- /*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license
+- `c` (function) `2026-11-19_170839/jquery-1.11.3.min.js:4`
+- `d` (function) `2026-11-19_170839/jquery-1.11.3.min.js:5`
+
 ## DEPLOY.sh
 - `increment_version` (function) `DEPLOY.sh:19`
 - `update_section_html` (function) `DEPLOY.sh:99` -- Función para actualizar una sección específica
@@ -461,39 +485,6 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `CommandAndControlCommandSet.do_c2_quickstart` (method) `cli/commands/command_and_control.py:151` `def do_c2_quickstart(self, _line)` -- Quick C2 setup: generate key, prepare implant dir, print beacon commands.
 - `CommandAndControlCommandSet.do_c2_beacon_cmd` (method) `cli/commands/command_and_control.py:198` `def do_c2_beacon_cmd(self, line)` -- Queue a command for execution on a connected beacon.
 - `CommandAndControlCommandSet.do_c2_implant` (method) `cli/commands/command_and_control.py:233` `def do_c2_implant(self, line)` -- Generate a compiled implant payload for the target platform.
-
-## cli/commands/command_and_control_migrated.py
-Depends on: `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/c2_builder.py`, `modules/chain_approval.py`, `modules/chain_distill.py`, `modules/chain_facts.py`, `modules/chain_family.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `modules/listener_manager.py`, `modules/outcome_bus.py`, `modules/shell_session_store.py`, `utils.py`
-Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_command_control_agent.py`, `tests/test_gym_cli.py`
-- `select_agent_flavour` (function) `cli/commands/command_and_control_migrated.py:43` `def select_agent_flavour(run_tests, platform)` -- Pick the agent script extension from the tests of the current run.
-- `CommandAndControlMigratedCommandSet.do_msf` (method) `cli/commands/command_and_control_migrated.py:71` `def do_msf(self, line)` -- Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating...
-- `CommandAndControlMigratedCommandSet.do_c2` (method) `cli/commands/command_and_control_migrated.py:421` `def do_c2(self, line)` -- Handle C2 server setup and agent compilation.
-- `CommandAndControlMigratedCommandSet.do_listener` (method) `cli/commands/command_and_control_migrated.py:543` `def do_listener(self, line)` -- Manage C2 listeners: list, add, start, stop, remove.
-- `CommandAndControlMigratedCommandSet.do_sandbox` (method) `cli/commands/command_and_control_migrated.py:671` `def do_sandbox(self, line)` -- Toggle or query Docker sandbox mode.
-- `CommandAndControlMigratedCommandSet.do_msfrpc` (method) `cli/commands/command_and_control_migrated.py:713` `def do_msfrpc(self, line)` -- Connects to the msfrpcd daemon and allows remote control of Metasploit.
-- `CommandAndControlMigratedCommandSet.do_sliver_server` (method) `cli/commands/command_and_control_migrated.py:737` `def do_sliver_server(self, line)` -- Starts the Sliver server and generates a client configuration file for connecting clients.
-- `CommandAndControlMigratedCommandSet.do_empire` (method) `cli/commands/command_and_control_migrated.py:854` `def do_empire(self, line)` -- Generates payloads using PowerShell Empire with various options.
-- `CommandAndControlMigratedCommandSet.do_automsf` (method) `cli/commands/command_and_control_migrated.py:904` `def do_automsf(self, line)` -- Try to check if Vulnerable using the module passed by argument of lazyown example automsf...
-- `CommandAndControlMigratedCommandSet.do_iis_webdav_upload_asp` (method) `cli/commands/command_and_control_migrated.py:949` `def do_iis_webdav_upload_asp(self, line)` -- (CVE-2017-7269).
-- `CommandAndControlMigratedCommandSet.do_duckyspark` (method) `cli/commands/command_and_control_migrated.py:984` `def do_duckyspark(self, line)` -- duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
-- `CommandAndControlMigratedCommandSet.do_emp3r0r` (method) `cli/commands/command_and_control_migrated.py:1185` `def do_emp3r0r(self, line)` -- Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
-- `CommandAndControlMigratedCommandSet.do_atomic_tests` (method) `cli/commands/command_and_control_migrated.py:1249` `def do_atomic_tests(self, line)` -- Stage an Atomic Red Team test by MITRE technique ID or GUID.
-- `CommandAndControlMigratedCommandSet.do_atomic_gen` (method) `cli/commands/command_and_control_migrated.py:1274` `def do_atomic_gen(self, line)` -- Generate test + cleanup scripts for a MITRE ID or GUID.
-- `CommandAndControlMigratedCommandSet.do_atomic_shell` (method) `cli/commands/command_and_control_migrated.py:1318` `def do_atomic_shell(self, line)` -- Open an interactive root shell on the target when possible.
-- `CommandAndControlMigratedCommandSet.do_atomic_clean` (method) `cli/commands/command_and_control_migrated.py:1392` `def do_atomic_clean(self, line)` -- Clean up engagement artefacts (soft) or tear down the gym (hard).
-- `CommandAndControlMigratedCommandSet.do_atomic_emulate` (method) `cli/commands/command_and_control_migrated.py:1429` `def do_atomic_emulate(self, line)` -- Execute emulation tests on the target through a working shell.
-- `CommandAndControlMigratedCommandSet.do_beacon_loop` (method) `cli/commands/command_and_control_migrated.py:1489` `def do_beacon_loop(self, line)` -- Run the autonomous beacon loop against one connected implant.
-- `CommandAndControlMigratedCommandSet.do_atomic_agent` (method) `cli/commands/command_and_control_migrated.py:1560` `def do_atomic_agent(self, line)` -- Generates and synchronizes atomic agent scripts.
-- `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1663` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
-- `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1840` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
-- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:2135` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2185` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2305` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2408` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2587` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2644` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2693` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2785` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 
 Next: [API_p2.md](API_p2.md)

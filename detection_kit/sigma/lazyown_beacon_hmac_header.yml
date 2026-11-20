@@ -1,0 +1,27 @@
+title: LazyOwn Beacon HMAC Signature Header
+id: 95a3cf75-9678-4987-bbe7-497a1fdd554c
+status: stable
+description: >
+  Detects the LazyOwn beacon wire signature: bodies are HMAC-SHA256 signed
+  (default on since the 2026-10 hardening) and carried in the X-Signature
+  header on /report/ POSTs. Header presence plus a /report/ POST on a
+  non-lab host is a high-confidence LazyOwn beacon signal.
+author: LazyOwn RedTeam Framework
+date: 2026-11-19
+references:
+  - https://github.com/grisuno/LazyOwn
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-method: 'POST'
+    c-uri|endswith: '/report/'
+  signature_header:
+    cs-X-Signature|re: '[a-f0-9]{64}'
+  condition: selection and signature_header
+falsepositives:
+  - Other apps that use an X-Signature HMAC header on a /report/ route.
+level: high

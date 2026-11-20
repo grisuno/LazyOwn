@@ -1,6 +1,35 @@
 # Subsystem: modules (page 18 of 19)
 Previous: [KB_modules_p17.md](KB_modules_p17.md)
 
+## modules/session_reclaim.py
+- Doc: Audited cleanup planner for the top-level ``sessions`` directory.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_glob_matcher` (function, line 94) `def _glob_matcher()`
+  - `_target_dir_matcher` (function, line 103) `def _target_dir_matcher(name)`
+  - `_Rule` (class, line 109) `class _Rule`
+  - `CleanupEntry` (class, line 283) `class CleanupEntry`
+  - `CleanupPlan` (class, line 301) `class CleanupPlan`
+  - `CleanupResult` (class, line 334) `class CleanupResult`
+  - `human_size` (function, line 342) `def human_size(num_bytes)`
+  - `safe_label` (function, line 354) `def safe_label(name)`
+  - `entry_size` (function, line 371) `def entry_size(path)`
+  - `classify` (function, line 392) `def classify(name)`
+  - `_subset_filter` (function, line 405) `def _subset_filter(subset)`
+  - `build_plan` (function, line 415) `def build_plan(sessions_dir, subset)`
+  - `_default_remove` (function, line 455) `def _default_remove(entry)`
+  - `_unlink` (function, line 471) `def _unlink(path)`
+  - `_force_remove` (function, line 480) `def _force_remove(func, path, _exc_info)`
+  - `remove_entries` (function, line 486) `def remove_entries(entries, remover)`
+  - `_group_size` (function, line 511) `def _group_size(entries)`
+  - `_match` (function, line 97) `def _match(name)`
+  - `display_name` (method, line 295) `def display_name(self)`
+  - `by_tier` (method, line 308) `def by_tier(self, tier)`
+  - `grouped` (method, line 313) `def grouped(self, tier)`
+  - `tier_bytes` (method, line 321) `def tier_bytes(self, tier)`
+  - `removable` (method, line 325) `def removable(self, include_sensitive)`
+
 ## modules/session_state.py
 - Doc: LazyOwn Session State
 - Layer: utility

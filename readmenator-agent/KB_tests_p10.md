@@ -1,4 +1,4 @@
-# Subsystem: tests (page 10 of 27)
+# Subsystem: tests (page 10 of 28)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
 ## tests/test_daemon_step_reward.py
@@ -379,27 +379,27 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `temp_sessions` (function, line 63) `def temp_sessions(tmp_path, monkeypatch)`
   - `_orch` (function, line 74) `def _orch(target, scripted, plan, guard)`
   - `test_denied_command_never_executes` (function, line 89) `def test_denied_command_never_executes(temp_sessions)`
-  - `test_duplicate_success_is_skipped` (function, line 109) `def test_duplicate_success_is_skipped(temp_sessions)`
-  - `test_scan_step_skipped_when_scan_held` (function, line 123) `def test_scan_step_skipped_when_scan_held(temp_sessions)`
-  - `test_executed_steps_leave_transcript_and_evidence` (function, line 138) `def test_executed_steps_leave_transcript_and_evidence(temp_sessions)`
-  - `test_notify_journal_written_for_findings` (function, line 153) `def test_notify_journal_written_for_findings(temp_sessions)`
-  - `test_no_new_direction_when_world_unchanged` (function, line 164) `def test_no_new_direction_when_world_unchanged(temp_sessions, monkeypatch)`
-  - `test_planner_intent_executes_mapped_verb` (function, line 175) `def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch)`
-  - `test_planner_fallback_pushes_forward` (function, line 196) `def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch)`
-  - `test_latest_hint_renders_newest_event` (function, line 225) `def test_latest_hint_renders_newest_event(tmp_path)`
-  - `test_engage_summary_counts_ran_and_skipped` (function, line 241) `def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch)`
+  - `test_duplicate_success_is_skipped` (function, line 110) `def test_duplicate_success_is_skipped(temp_sessions)`
+  - `test_scan_step_skipped_when_scan_held` (function, line 124) `def test_scan_step_skipped_when_scan_held(temp_sessions)`
+  - `test_executed_steps_leave_transcript_and_evidence` (function, line 139) `def test_executed_steps_leave_transcript_and_evidence(temp_sessions)`
+  - `test_notify_journal_written_for_findings` (function, line 155) `def test_notify_journal_written_for_findings(temp_sessions)`
+  - `test_no_new_direction_when_world_unchanged` (function, line 166) `def test_no_new_direction_when_world_unchanged(temp_sessions, monkeypatch)`
+  - `test_planner_intent_executes_mapped_verb` (function, line 176) `def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch)`
+  - `test_planner_fallback_pushes_forward` (function, line 197) `def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch)`
+  - `test_latest_hint_renders_newest_event` (function, line 226) `def test_latest_hint_renders_newest_event(tmp_path)`
+  - `test_engage_summary_counts_ran_and_skipped` (function, line 242) `def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch)`
   - `__init__` (method, line 26) `def __init__(self, scripted)`
   - `run` (method, line 31) `def run(self, command, timeout)`
   - `name` (method, line 39) `def name(self)`
   - `__init__` (method, line 47) `def __init__(self)`
   - `narrate` (method, line 51) `def narrate(self, kind)`
-  - `_Dispatcher` (class, line 182) `class _Dispatcher`
-  - `_EmptyPlanner` (class, line 203) `class _EmptyPlanner`
-  - `_Dispatcher` (class, line 209) `class _Dispatcher`
+  - `_Dispatcher` (class, line 183) `class _Dispatcher`
+  - `_EmptyPlanner` (class, line 205) `class _EmptyPlanner`
+  - `_Dispatcher` (class, line 211) `class _Dispatcher`
   - `_Narrator` (class, line 248) `class _Narrator(_RecorderNarrator)`
-  - `suggest` (method, line 183) `def suggest(self)`
-  - `plan` (method, line 204) `def plan(self, target, max_candidates)`
-  - `suggest` (method, line 210) `def suggest(self)`
+  - `suggest` (method, line 184) `def suggest(self)`
+  - `plan` (method, line 206) `def plan(self, target, max_candidates)`
+  - `suggest` (method, line 212) `def suggest(self)`
   - `narrate` (method, line 249) `def narrate(self, kind, message)`
 - Depends on: `cli/reasoning_stream.py`, `modules/intercept.py`, `modules/planner.py`, `modules/traffic_recorder.py`, `skills/autonomous_daemon.py`
 

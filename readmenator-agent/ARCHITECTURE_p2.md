@@ -2,6 +2,22 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/recon_migrated.py` -> `cli/aliases.py`
+- `cli/commands/recon_migrated.py` -> `cli/assign.py`
+- `cli/commands/recon_migrated.py` -> `cli/commands/_base.py`
+- `cli/commands/recon_migrated.py` -> `cli/surface_tui.py`
+- `cli/commands/recon_migrated.py` -> `core/config.py`
+- `cli/commands/recon_migrated.py` -> `utils.py`
+- `cli/commands/redteam_gym.py` -> `cli/commands/_base.py`
+- `cli/commands/redteam_gym.py` -> `modules/chain_registry.py`
+- `cli/commands/redteam_gym.py` -> `modules/ctf_signalman.py`
+- `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
+- `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
+- `cli/commands/redteam_gym.py` -> `utils.py`
+- `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
+- `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
+- `cli/commands/resource_scripting.py` -> `utils.py`
+- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
 - `cli/commands/retry_ops.py` -> `cli/retry_support.py`
 - `cli/commands/retry_ops.py` -> `modules/lazy_runner.py`
 - `cli/commands/retry_ops.py` -> `utils.py`
@@ -480,21 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/config/__init__.py` -> `lazygui/config/settings.py`
 - `lazygui/config/c2_credentials.py` -> `core/logging.py`
 - `lazygui/config/paths.py` -> `lazygui/config/constants.py`
-- `lazygui/config/settings.py` -> `core/logging.py`
-- `lazygui/config/settings.py` -> `lazygui/config/constants.py`
-- `lazygui/config/settings.py` -> `lazygui/config/paths.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/base.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/campaign_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/credentials_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/cve_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/event_log_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/graph_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/history_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/killchain_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/listeners_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/marketplace_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/registry.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/sessions_panel.py`
-- `lazygui/panels/__init__.py` -> `lazygui/panels/terminal_panel.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

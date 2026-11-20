@@ -2,6 +2,31 @@
 Previous: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)
 
 ## External Imports (continued)
+- `tests/test_selection_lazyscript.py` -> __future__, pytest
+- `tests/test_selection_module.py` -> __future__, pytest
+- `tests/test_selection_parquet.py` -> __future__, pathlib, sys
+- `tests/test_selection_technique.py` -> __future__, pytest
+- `tests/test_selection_technique_chain.py` -> __future__, pytest
+- `tests/test_selection_wiring.py` -> __future__
+- `tests/test_selectors_base.py` -> __future__
+- `tests/test_selectors_capabilities.py` -> __future__
+- `tests/test_session_brief.py` -> __future__, pathlib, pytest, re
+- `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_session_reclaim.py` -> __future__, os, pytest, types
+- `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest
+- `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
+- `tests/test_shell_params_seeding.py` -> __future__, pathlib
+- `tests/test_shell_semantics.py` -> __future__
+- `tests/test_shell_session_store.py` -> __future__, pathlib, pytest, sys
+- `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
+- `tests/test_sidequest.py` -> __future__
+- `tests/test_single_implementation.py` -> __future__
+- `tests/test_single_source_of_truth.py` -> __future__, json, pathlib, tempfile, unittest
+- `tests/test_sink_chain_feed.py` -> __future__, json, pathlib
+- `tests/test_sink_lazy_intel.py` -> __future__, pathlib, pytest
+- `tests/test_sleep_obfuscation.py` -> __future__, pytest
+- `tests/test_socks_proxy.py` -> __future__
 - `tests/test_stall_dump.py` -> __future__, pytest
 - `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
 - `tests/test_structured_logging.py` -> __future__, json, logging.handlers, pathlib, sys

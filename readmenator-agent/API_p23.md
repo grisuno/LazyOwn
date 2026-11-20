@@ -1,6 +1,27 @@
 # API (page 23 of 29)
 Previous: [API_p22.md](API_p22.md)
 
+## skills/hermes-lazyown/mcp_server.py
+Depends on: `modules/backdoor/server.c`, `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/constants.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/output_compactor.py`
+- `list_tools` (function) `skills/hermes-lazyown/mcp_server.py:329` `def list_tools()`
+- `call_tool` (function) `skills/hermes-lazyown/mcp_server.py:334` `def call_tool(name, arguments)` -- Dispatch incoming tool calls to the appropriate handler.
+- `main` (function) `skills/hermes-lazyown/mcp_server.py:751` `def main()`
+
+## skills/hermes-lazyown/output_compactor.py
+Depends on: `skills/hermes-lazyown/constants.py`
+Imported by: `skills/hermes-lazyown/mcp_server.py`
+- `CompactionResult.__init__` (method) `skills/hermes-lazyown/output_compactor.py:20` `def __init__(self, compacted, original_lines, compacted_lines)`
+- `CompactionResult.reduction_ratio` (method) `skills/hermes-lazyown/output_compactor.py:26` `def reduction_ratio(self)` -- Return the ratio of lines removed (0.0 to 1.0).
+- `CompactionStrategy.compact` (method) `skills/hermes-lazyown/output_compactor.py:40` `def compact(self, raw_output, tool_name)` -- Compact *raw_output* and return a CompactionResult.
+- `ReconCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:55` `def compact(self, raw_output, tool_name)`
+- `EnumCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:93` `def compact(self, raw_output, tool_name)`
+- `ExploitCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:124` `def compact(self, raw_output, tool_name)`
+- `PrivescCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:151` `def compact(self, raw_output, tool_name)`
+- `DefaultCompaction.__init__` (method) `skills/hermes-lazyown/output_compactor.py:165` `def __init__(self, max_lines)`
+- `DefaultCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:168` `def compact(self, raw_output, tool_name)`
+- `OutputCompactor.__init__` (method) `skills/hermes-lazyown/output_compactor.py:196` `def __init__(self, default_max_lines)`
+- `OutputCompactor.compact` (method) `skills/hermes-lazyown/output_compactor.py:200` `def compact(self, raw_output, phase, tool_name)` -- Compact *raw_output* according to *phase*.
+
 ## skills/hive_mind.py
 Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_parquet_db.py`
 Imported by: `modules/loop_ai_bridge.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/hive_collect.py`, `skills/mcp_tools/hive_forget.py`, `skills/mcp_tools/hive_plan.py`, `skills/mcp_tools/hive_recall.py`, `skills/mcp_tools/hive_recover.py`, `skills/mcp_tools/hive_result.py`, `skills/mcp_tools/hive_spawn.py`, `skills/mcp_tools/hive_status.py`, `skills/swan_agent.py`, `skills/tests/test_hive_mind.py`, `skills/unified_orchestrator.py`
@@ -473,26 +494,6 @@ Depends on: `modules/event_engine.py`, `skills/mcp_tools/_context.py`
 ## skills/mcp_tools/add_target.py
 Depends on: `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/add_target.py:48` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_add_target MCP tool.
-
-## skills/mcp_tools/agent_result.py
-Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/agent_result.py:31` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_agent_result MCP tool.
-
-## skills/mcp_tools/agent_status.py
-Depends on: `modules/mcp_agent_bridge.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/agent_status.py:32` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_agent_status MCP tool.
-
-## skills/mcp_tools/apt_chain.py
-Depends on: `modules/chain_registry.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/apt_chain.py:93` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_apt_chain MCP tool.
-
-## skills/mcp_tools/atomic_clean.py
-Depends on: `modules/atomic_exploit_bridge.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/atomic_clean.py:45` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_clean MCP tool.
-
-## skills/mcp_tools/atomic_resolve.py
-Depends on: `modules/atomic_enricher.py`, `modules/atomic_resolver.py`, `skills/mcp_tools/_context.py`
-- `handle` (function) `skills/mcp_tools/atomic_resolve.py:49` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_atomic_resolve MCP tool.
 
 
 Next: [API_p24.md](API_p24.md)

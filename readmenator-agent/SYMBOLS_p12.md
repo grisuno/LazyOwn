@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `push` | method | `modules/auto_loop_memory.py:220` | `def push(self, command, reason)` |
+| `record_failure` | method | `modules/auto_loop_memory.py:79` | `def record_failure(self, target, category, command)` |
+| `sanctioned_bases` | method | `modules/auto_loop_memory.py:146` | `def sanctioned_bases(self, target)` |
+| `save` | method | `modules/auto_loop_memory.py:166` | `def save(self)` |
+| `save` | method | `modules/auto_loop_memory.py:244` | `def save(self)` |
+| `veto_base` | method | `modules/auto_loop_memory.py:105` | `def veto_base(self, target, base_command)` |
+| `AutoPivotEngine` | class | `modules/auto_pivot.py:47` | `class AutoPivotEngine` |
+| `PivotChain` | class | `modules/auto_pivot.py:39` | `class PivotChain` |
+| `PivotNode` | class | `modules/auto_pivot.py:23` | `class PivotNode` |
+| `__init__` | method | `modules/auto_pivot.py:73` | `def __init__(self, config)` |
+| `_load_state` | method | `modules/auto_pivot.py:314` | `def _load_state(self)` |
+| `_next_port` | method | `modules/auto_pivot.py:85` | `def _next_port(self)` |
+| `_persist_state` | method | `modules/auto_pivot.py:277` | `def _persist_state(self)` |
+| `add_pivot_node` | method | `modules/auto_pivot.py:90` | `def add_pivot_node(self, ip, access_type, credential_id, hostname)` |
+| `build_chain` | method | `modules/auto_pivot.py:146` | `def build_chain(self, target_ip, via_nodes, subnet)` |
+| `discover_subnets` | method | `modules/auto_pivot.py:128` | `def discover_subnets(self, node_ip, command_output)` |
+| `generate_chisel_command` | method | `modules/auto_pivot.py:206` | `def generate_chisel_command(self, target_ip, local_port)` |
 | `generate_proxychains_config` | method | `modules/auto_pivot.py:177` | `def generate_proxychains_config(self, chain_id)` |
 | `generate_ssh_socks_command` | method | `modules/auto_pivot.py:212` | `def generate_ssh_socks_command(self, node_ip, local_port)` |
 | `generate_sshuttle_command` | method | `modules/auto_pivot.py:203` | `def generate_sshuttle_command(self, node_ip, subnet)` |
@@ -254,42 +271,43 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `validate_bof` | function | `modules/bof_admin.py:132` | `def validate_bof(data)` |
 | `BofDeliveryConfig` | class | `modules/bof_delivery.py:145` | `class BofDeliveryConfig` |
 | `ClientAddon` | class | `modules/bof_delivery.py:166` | `class ClientAddon` |
-| `_DockerSession` | class | `modules/bof_delivery.py:1474` | `class _DockerSession` |
-| `__init__` | method | `modules/bof_delivery.py:1482` | `def __init__(self, container)` |
+| `_DockerSession` | class | `modules/bof_delivery.py:1530` | `class _DockerSession` |
+| `__init__` | method | `modules/bof_delivery.py:1538` | `def __init__(self, container)` |
 | `_apply_compat_patch` | function | `modules/bof_delivery.py:840` | `def _apply_compat_patch(checkout)` |
 | `_apply_upstream_report_patch` | function | `modules/bof_delivery.py:663` | `def _apply_upstream_report_patch(addon, config)` |
-| `_atomic_session` | function | `modules/bof_delivery.py:1575` | `def _atomic_session(target)` |
-| `_beacons_from_history` | function | `modules/bof_delivery.py:1059` | `def _beacons_from_history(config)` |
+| `_atomic_session` | function | `modules/bof_delivery.py:1631` | `def _atomic_session(target)` |
+| `_beacons_from_history` | function | `modules/bof_delivery.py:1115` | `def _beacons_from_history(config)` |
 | `_build_beacon_in_container` | function | `modules/bof_delivery.py:487` | `def _build_beacon_in_container(addon, config, target)` |
 | `_build_portable_beacon` | function | `modules/bof_delivery.py:567` | `def _build_portable_beacon(addon, config)` |
 | `_c2_channel_base` | function | `modules/bof_delivery.py:934` | `def _c2_channel_base(cfg, payload)` |
-| `_deploy_paths` | function | `modules/bof_delivery.py:1316` | `def _deploy_paths(addon)` |
+| `_deploy_paths` | function | `modules/bof_delivery.py:1372` | `def _deploy_paths(addon)` |
 | `_docker_container_for_ip` | function | `modules/bof_delivery.py:446` | `def _docker_container_for_ip(target)` |
-| `_docker_session_for` | function | `modules/bof_delivery.py:1528` | `def _docker_session_for(target)` |
-| `_history_config` | function | `modules/bof_delivery.py:1662` | `def _history_config(config)` |
+| `_docker_session_for` | function | `modules/bof_delivery.py:1584` | `def _docker_session_for(target)` |
+| `_history_config` | function | `modules/bof_delivery.py:1718` | `def _history_config(config)` |
 | `_raw_stage_for_implant_serving` | function | `modules/bof_delivery.py:611` | `def _raw_stage_for_implant_serving(addon_name, binary_path, config)` |
-| `_record_after` | function | `modules/bof_delivery.py:1181` | `def _record_after(row, since)` |
-| `_shell_bearing_specs` | function | `modules/bof_delivery.py:1625` | `def _shell_bearing_specs(target)` |
+| `_record_after` | function | `modules/bof_delivery.py:1237` | `def _record_after(row, since)` |
+| `_shell_bearing_specs` | function | `modules/bof_delivery.py:1681` | `def _shell_bearing_specs(target)` |
 | `_stage_payload_b64` | function | `modules/bof_delivery.py:99` | `def _stage_payload_b64(external_root)` |
-| `alive` | method | `modules/bof_delivery.py:1486` | `def alive(self, timeout)` |
-| `beacon_for_target` | function | `modules/bof_delivery.py:1085` | `def beacon_for_target(target, config, payload)` |
+| `alive` | method | `modules/bof_delivery.py:1542` | `def alive(self, timeout)` |
+| `beacon_for_target` | function | `modules/bof_delivery.py:1141` | `def beacon_for_target(target, config, payload)` |
+| `beacon_last_seen` | function | `modules/bof_delivery.py:1067` | `def beacon_last_seen(client_id, config, payload)` |
 | `beacon_runtime_config` | function | `modules/bof_delivery.py:259` | `def beacon_runtime_config(client, client_id, config, payload)` |
-| `bof_results` | function | `modules/bof_delivery.py:1678` | `def bof_results(client_id, limit, config)` |
-| `c2_reachable` | function | `modules/bof_delivery.py:1205` | `def c2_reachable(config, payload)` |
-| `config_sessions_dir` | function | `modules/bof_delivery.py:1657` | `def config_sessions_dir()` |
+| `bof_results` | function | `modules/bof_delivery.py:1734` | `def bof_results(client_id, limit, config)` |
+| `c2_reachable` | function | `modules/bof_delivery.py:1261` | `def c2_reachable(config, payload)` |
+| `config_sessions_dir` | function | `modules/bof_delivery.py:1713` | `def config_sessions_dir()` |
 | `delivery_command` | function | `modules/bof_delivery.py:908` | `def delivery_command(bof_name, c2_url, args, bofs_dir)` |
-| `deploy_client` | function | `modules/bof_delivery.py:1345` | `def deploy_client(client, target)` |
+| `deploy_client` | function | `modules/bof_delivery.py:1401` | `def deploy_client(client, target)` |
 | `key_missing_from_error` | function | `modules/bof_delivery.py:894` | `def key_missing_from_error(exc)` |
 | `load_client_addon` | function | `modules/bof_delivery.py:184` | `def load_client_addon(client, config)` |
 | `queue_to_beacon` | function | `modules/bof_delivery.py:956` | `def queue_to_beacon(client_id, command, config, payload)` |
-| `recent_beacons` | function | `modules/bof_delivery.py:1019` | `def recent_beacons(config, payload)` |
-| `run` | method | `modules/bof_delivery.py:1506` | `def run(self, command, timeout)` |
-| `run_bof` | function | `modules/bof_delivery.py:1240` | `def run_bof(bof_name, client_id, args)` |
-| `run_bof_train` | function | `modules/bof_delivery.py:1279` | `def run_bof_train(client_id, names, args)` |
+| `recent_beacons` | function | `modules/bof_delivery.py:1019` | `def recent_beacons(config, payload, live_only)` |
+| `run` | method | `modules/bof_delivery.py:1562` | `def run(self, command, timeout)` |
+| `run_bof` | function | `modules/bof_delivery.py:1296` | `def run_bof(bof_name, client_id, args)` |
+| `run_bof_train` | function | `modules/bof_delivery.py:1335` | `def run_bof_train(client_id, names, args)` |
 | `stage_bof` | function | `modules/bof_delivery.py:240` | `def stage_bof(name, config)` |
 | `stage_client` | function | `modules/bof_delivery.py:378` | `def stage_client(client, config, payload)` |
 | `staging_dir` | function | `modules/bof_delivery.py:225` | `def staging_dir(config)` |
-| `wait_for_beacon` | function | `modules/bof_delivery.py:1123` | `def wait_for_beacon(client_id, since, timeout, config, payload, command)` |
+| `wait_for_beacon` | function | `modules/bof_delivery.py:1179` | `def wait_for_beacon(client_id, since, timeout, config, payload, command)` |
 | `write_client_config` | function | `modules/bof_delivery.py:336` | `def write_client_config(client, client_id, config, payload)` |
 | `BofCatalog` | class | `modules/bof_registry.py:173` | `class BofCatalog` |
 | `BofCategory` | class | `modules/bof_registry.py:78` | `class BofCategory(str, Enum)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `jitter_delay` | method | `modules/c2_profile.py:101` | `def jitter_delay(self)` |
 | `list_names` | method | `modules/c2_profile.py:485` | `def list_names(self)` |
 | `list_profiles` | function | `modules/c2_profile.py:625` | `def list_profiles()` |
-| `load_from_directory` | method | `modules/c2_profile.py:493` | `def load_from_directory(self, path)` |
-| `register` | method | `modules/c2_profile.py:464` | `def register(self, name, profile)` |
-| `save` | method | `modules/c2_profile.py:282` | `def save(profile, path)` |
-| `to_dict` | method | `modules/c2_profile.py:254` | `def to_dict(profile)` |
-| `validate` | method | `modules/c2_profile.py:162` | `def validate(self, profile)` |
-| `DnsProfile` | class | `modules/c2_profile_engine.py:205` | `class DnsProfile` |
-| `ProfileEngine` | class | `modules/c2_profile_engine.py:611` | `class ProfileEngine` |
-| `ProfileRotator` | class | `modules/c2_profile_engine.py:441` | `class ProfileRotator` |
-| `ProfileValidator` | class | `modules/c2_profile_engine.py:503` | `class ProfileValidator` |
-| `RotationSlot` | class | `modules/c2_profile_engine.py:414` | `class RotationSlot` |
-| `SmbProfile` | class | `modules/c2_profile_engine.py:289` | `class SmbProfile` |
-| `TlsProfile` | class | `modules/c2_profile_engine.py:117` | `class TlsProfile` |
-| `TransportType` | class | `modules/c2_profile_engine.py:404` | `class TransportType(Enum)` |
-| `WebSocketProfile` | class | `modules/c2_profile_engine.py:349` | `class WebSocketProfile` |
-| `__init__` | method | `modules/c2_profile_engine.py:453` | `def __init__(self, slots)` |
-| `__init__` | method | `modules/c2_profile_engine.py:627` | `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)` |
-| `_default_slots` | method | `modules/c2_profile_engine.py:709` | `def _default_slots(self)` |
-| `active_transport` | method | `modules/c2_profile_engine.py:668` | `def active_transport(self)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

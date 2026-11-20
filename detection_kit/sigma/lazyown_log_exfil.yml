@@ -1,0 +1,27 @@
+title: LazyOwn C2 Log Exfil Channel
+id: b55a7279-b8bf-4e3e-b9cb-4d711a1acd4b
+status: stable
+description: >
+  Detects the LazyOwn beacon log channel: GET or POST to /log/<data> (or a
+  malleable <prefix>/log/<data>), where the URL path carries base64/log data.
+  Used to pull task output out of a compromised host; on any network outside
+  the declared lab this is exfiltration.
+author: LazyOwn RedTeam Framework
+date: 2026-11-19
+references:
+  - https://github.com/grisuno/LazyOwn
+tags:
+  - attack.exfiltration
+  - attack.t1041
+logsource:
+  category: webserver
+detection:
+  selection:
+    c-uri|contains|all:
+      - '/log/'
+  filter_malleable_prefix:
+    c-uri|re: '(^|[a-z0-9_/-])/log/[A-Za-z0-9+/=_-]{8,}'
+  condition: selection
+falsepositives:
+  - Generic /log/ endpoints on legitimate web apps; scope this rule to lab boundaries first.
+level: medium

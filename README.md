@@ -6,7 +6,7 @@
 [![release](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)](https://github.com/grisuno/LazyOwn/releases)
 [![docker](https://img.shields.io/badge/docker-ghcr.io%2Fgrisuno%2Flazyown-blue?logo=docker)](https://github.com/grisuno/LazyOwn/pkgs/container/lazyown)
 [![ci](https://github.com/grisuno/LazyOwn/actions/workflows/ci.yml/badge.svg)](https://github.com/grisuno/LazyOwn/actions/workflows/ci.yml)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
 > **872 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The First OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
@@ -380,9 +380,17 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 872-command reference and [`ESSENT
 
 - YouTube, podcast, and DeepWiki links live with the launch kit: [`docs/launch_kit/POSTS.md`](docs/launch_kit/POSTS.md)
 
+## Detection kit
+
+Ready-made defensive indicators for the beacon and C2 wire surface: 6 Sigma
+rules, 6 Suricata rules and a MISP event import in
+[`detection_kit/`](detection_kit/README.md) (`python detection_kit/build_kit.py <version>`
+packs a release tarball). Plus the shipped [`yara_rules/`](yara_rules/) corpus and
+SARIF code-scanning output via `readmenator . --sarif`.
+
 ## License
 
-LazyOwn is free software under the GNU General Public License v3   see [`LICENSE`](LICENSE). Comes with ABSOLUTELY NO WARRANTY.
+LazyOwn is free software under the GNU Affero General Public License v3 (AGPL-3.0)   see [`LICENSE`](LICENSE). Comes with ABSOLUTELY NO WARRANTY.
 
 ## Acknowledgments
 

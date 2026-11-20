@@ -38,6 +38,35 @@ class PoolConfig:
 
 CONFIG = PoolConfig()
 
+_USAGE_SINKS: list[Callable[[str, int, int], None]] = []
+_USAGE_SINKS_LOCK = threading.Lock()
+
+
+def register_usage_sink(sink: Callable[[str, int, int], None]) -> None:
+    """Register an observer receiving (member, prompt_chars, completion_chars).
+
+    Args:
+        sink: Callable invoked after every successful member completion.
+    """
+    with _USAGE_SINKS_LOCK:
+        if sink not in _USAGE_SINKS:
+            _USAGE_SINKS.append(sink)
+
+
+def usage_sinks() -> list[Callable[[str, int, int], None]]:
+    """Return the registered usage observers."""
+    with _USAGE_SINKS_LOCK:
+        return list(_USAGE_SINKS)
+
+
+def _publish_usage(member_name: str, prompt: str, completion: str) -> None:
+    """Notify every usage observer about one completion."""
+    for sink in usage_sinks():
+        try:
+            sink(member_name, len(str(prompt or "")), len(str(completion or "")))
+        except Exception:
+            continue
+
 
 class PoolExhausted(RuntimeError):
     """Raised when every pool member fails a request."""
@@ -248,7 +277,9 @@ class LLMPool:
                 except TypeError:
                     result = member.complete(str(prompt))
                 self._health.report_success(member.member_id)
-                return self._truncate(str(result), overflow_dir)
+                text = str(result)
+                _publish_usage(member.name, str(prompt), text)
+                return self._truncate(text, overflow_dir)
             except Exception as exc:
                 self._health.report_failure(member.member_id, str(exc))
                 errors.append(f"{member.name}: {exc}")

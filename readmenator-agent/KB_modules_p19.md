@@ -146,6 +146,17 @@ Previous: [KB_modules_p18.md](KB_modules_p18.md)
   - `s3_upload` (function, line 866) `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
   - `io_key` (function, line 49) `def io_key(keyname)`
 
+## modules/verb_capabilities.py
+- Doc: Declarative verb capability registry for the unattended loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_verb_of` (function, line 27) `def _verb_of(command)`
+  - `capability_of` (function, line 36) `def capability_of(command)`
+  - `requires_privilege` (function, line 41) `def requires_privilege(command)`
+  - `downgrade_for_unattended` (function, line 47) `def downgrade_for_unattended(command, target)`
+- Imported by: `modules/loop/worker_gating.py`, `tests/test_loop_verb_capabilities.py`
+
 ## modules/verb_catalog.py
 - Doc: Operator-owned YAML catalog of every routable shell verb.
 - Layer: utility

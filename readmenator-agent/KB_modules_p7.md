@@ -1,6 +1,18 @@
 # Subsystem: modules (page 7 of 19)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/finding_enrich.py
+- Doc: Idempotent enrichment of a finding's evidence before it is reported.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_role_rank` (function, line 34) `def _role_rank(role)`
+  - `_stronger` (function, line 39) `def _stronger(left, right)`
+  - `enrich_refs` (function, line 44) `def enrich_refs(refs)`
+  - `_enrichment_digest` (function, line 90) `def _enrichment_digest(ordered)`
+  - `enrich_finding` (function, line 96) `def enrich_finding(traffic_log, finding_id, graph)`
+- Imported by: `modules/lazy_loop.py`
+
 ## modules/finding_lifecycle.py
 - Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
 - Layer: utility
@@ -453,45 +465,6 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `_is_placeholder` (method, line 1120) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
-
-## modules/intercept.py
-- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
-  - `InterceptConfig` (class, line 33) `class InterceptConfig`
-  - `InterceptRule` (class, line 50) `class InterceptRule`
-  - `PendingApproval` (class, line 77) `class PendingApproval`
-  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (function, line 101) `def builtin_rules()`
-  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
-  - `Interceptor` (class, line 154) `class Interceptor`
-  - `Guard` (class, line 255) `class Guard`
-  - `__post_init__` (method, line 61) `def __post_init__(self)`
-  - `matches` (method, line 68) `def matches(self, tool, command)`
-  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
-  - `rules` (method, line 172) `def rules(self)`
-  - `add_rule` (method, line 177) `def add_rule(self, rule)`
-  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
-  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
-  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
-  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
-  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
-  - `__init__` (method, line 258) `def __init__(self, interceptor)`
-  - `interceptor` (method, line 266) `def interceptor(self)`
-  - `check` (method, line 270) `def check(self, tool, command)`
-  - `observe` (method, line 282) `def observe(self, output, source)`
-  - `record_failure` (method, line 291) `def record_failure(self, source)`
-  - `audit_log` (method, line 296) `def audit_log(self, limit)`
-  - `attribution` (method, line 301) `def attribution(self)`
-- Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/internal_discover.sh
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

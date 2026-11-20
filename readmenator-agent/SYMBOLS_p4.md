@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_serveralive2` | method | `cli/commands/recon_migrated.py:1036` | `def do_serveralive2(self, line)` |
+| `do_sherlock` | method | `cli/commands/recon_migrated.py:705` | `def do_sherlock(self, line)` |
+| `do_sslscan` | method | `cli/commands/recon_migrated.py:633` | `def do_sslscan(self, line)` |
+| `do_surface` | method | `cli/commands/recon_migrated.py:43` | `def do_surface(self, line)` |
+| `do_tcpdump_capture` | method | `cli/commands/recon_migrated.py:486` | `def do_tcpdump_capture(self, line)` |
+| `do_tcpdump_icmp` | method | `cli/commands/recon_migrated.py:453` | `def do_tcpdump_icmp(self, line)` |
+| `do_trace` | method | `cli/commands/recon_migrated.py:831` | `def do_trace(self, line)` |
+| `do_trufflehog` | method | `cli/commands/recon_migrated.py:746` | `def do_trufflehog(self, line)` |
+| `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
+| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
+| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
+| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 | `_format_elapsed` | method | `cli/commands/redteam_gym.py:342` | `def _format_elapsed(seconds)` |
 | `_gym_collect` | method | `cli/commands/redteam_gym.py:99` | `def _gym_collect(self, rest)` |
 | `_gym_hint` | method | `cli/commands/redteam_gym.py:469` | `def _gym_hint(self, args)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `__init__` | method | `cli/graph_advisor.py:304` | `def __init__(self, config)` |
 | `__init__` | method | `cli/graph_advisor.py:362` | `def __init__(self, config, loader, index, scorer)` |
 | `_best_score` | method | `cli/graph_advisor.py:319` | `def _best_score(self, node, terms, raw_query)` |
-| `_bfs_distance` | method | `cli/graph_advisor.py:649` | `def _bfs_distance(index, start, max_hops)` |
-| `_build` | method | `cli/graph_advisor.py:223` | `def _build(self)` |
-| `_classify_health` | method | `cli/graph_advisor.py:432` | `def _classify_health(self, edges_count, age_days)` |
-| `_ensure_index` | method | `cli/graph_advisor.py:675` | `def _ensure_index(self)` |
-| `_graph_age_days` | method | `cli/graph_advisor.py:423` | `def _graph_age_days(self, path)` |
-| `_iter_all_edges` | method | `cli/graph_advisor.py:665` | `def _iter_all_edges(index)` |
-| `_missing_reason` | method | `cli/graph_advisor.py:684` | `def _missing_reason(self)` |
-| `_resolve_query` | method | `cli/graph_advisor.py:638` | `def _resolve_query(self, query)` |
-| `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
-| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
-| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
-| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

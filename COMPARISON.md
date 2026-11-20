@@ -12,7 +12,7 @@ rather lose a tick than mislead an operator.
 | Capability | LazyOwn | Sliver | Havoc | Mythic | Empire 5.x | Caldera | Metasploit |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | Active OSS development | yes | yes | yes | yes | yes | yes | yes |
-| License | GPLv3 | GPLv3 | GPLv3 | BSD-3 | BSD-3 | Apache-2 | BSD-3 |
+| License | AGPL-3.0 | GPLv3 | GPLv3 | BSD-3 | BSD-3 | Apache-2 | BSD-3 |
 | Single-binary install path | yes | yes | partial | container only | yes | partial | yes |
 | Operator CLI (interactive) | yes (cmd2) | yes | partial | partial | yes | no (web) | yes |
 | Operator web UI | yes (Flask) | no | yes (Qt) | yes (React) | yes (Starkiller) | yes | no |

@@ -3,6 +3,123 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Config` | class | `skills/lazyown_facts.py:34` | `class Config` |
+| `CrackMapExecParser` | class | `skills/lazyown_facts.py:240` | `class CrackMapExecParser(ITextOutputParser)` |
+| `CredentialFact` | class | `skills/lazyown_facts.py:75` | `class CredentialFact` |
+| `DiscoveredPath` | class | `skills/lazyown_facts.py:120` | `class DiscoveredPath` |
+| `Enum4linuxParser` | class | `skills/lazyown_facts.py:292` | `class Enum4linuxParser(ITextOutputParser)` |
+| `FactStore` | class | `skills/lazyown_facts.py:667` | `class FactStore` |
+| `GenericOutputParser` | class | `skills/lazyown_facts.py:625` | `class GenericOutputParser(ITextOutputParser)` |
+| `GobusterFfufParser` | class | `skills/lazyown_facts.py:435` | `class GobusterFfufParser(ITextOutputParser)` |
+| `HostFacts` | class | `skills/lazyown_facts.py:132` | `class HostFacts` |
+| `INmapXmlParser` | class | `skills/lazyown_facts.py:166` | `class INmapXmlParser` |
+| `ITextOutputParser` | class | `skills/lazyown_facts.py:212` | `class ITextOutputParser` |
+| `KerbruteParser` | class | `skills/lazyown_facts.py:395` | `class KerbruteParser(ITextOutputParser)` |
+| `LdapParser` | class | `skills/lazyown_facts.py:366` | `class LdapParser(ITextOutputParser)` |
+| `NiktoParser` | class | `skills/lazyown_facts.py:494` | `class NiktoParser(ITextOutputParser)` |
+| `NucleiParser` | class | `skills/lazyown_facts.py:537` | `class NucleiParser(ITextOutputParser)` |
+| `RpcclientParser` | class | `skills/lazyown_facts.py:416` | `class RpcclientParser(ITextOutputParser)` |
+| `SecretsdumpParser` | class | `skills/lazyown_facts.py:331` | `class SecretsdumpParser(ITextOutputParser)` |
+| `ServiceFact` | class | `skills/lazyown_facts.py:62` | `class ServiceFact` |
+| `ShareFact` | class | `skills/lazyown_facts.py:87` | `class ShareFact` |
+| `SslscanParser` | class | `skills/lazyown_facts.py:573` | `class SslscanParser(ITextOutputParser)` |
+| `ToolDefinition` | class | `skills/lazyown_facts.py:1016` | `class ToolDefinition` |
+| `VulnerabilityFact` | class | `skills/lazyown_facts.py:107` | `class VulnerabilityFact` |
+| `__init__` | method | `skills/lazyown_facts.py:677` | `def __init__(self, cfg)` |
+| `_cmd_clean` | function | `skills/lazyown_facts.py:1065` | `def _cmd_clean(_args)` |
+| `_cmd_parse` | function | `skills/lazyown_facts.py:1051` | `def _cmd_parse(args)` |
+| `_cmd_show` | function | `skills/lazyown_facts.py:1060` | `def _cmd_show(args)` |
+| `_dedup_creds` | method | `skills/lazyown_facts.py:759` | `def _dedup_creds(self, hf)` |
+| `_dedup_paths` | method | `skills/lazyown_facts.py:779` | `def _dedup_paths(self, hf)` |
+| `_dedup_services` | method | `skills/lazyown_facts.py:749` | `def _dedup_services(self, hf)` |
+| `_dedup_vulns` | method | `skills/lazyown_facts.py:769` | `def _dedup_vulns(self, hf)` |
+| `_guess_host_from_filename` | method | `skills/lazyown_facts.py:841` | `def _guess_host_from_filename(filename)` |
+| `_guess_port_from_path` | method | `skills/lazyown_facts.py:847` | `def _guess_port_from_path(txt_path)` |
+| `_host` | method | `skills/lazyown_facts.py:744` | `def _host(self, ip)` |
+| `_load` | method | `skills/lazyown_facts.py:702` | `def _load(self)` |
+| `all_hosts` | method | `skills/lazyown_facts.py:893` | `def all_hosts(self)` |
+| `can_parse` | method | `skills/lazyown_facts.py:217` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:250` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:301` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:341` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:374` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:403` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:424` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:447` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:502` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:545` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:581` | `def can_parse(self, filename, content)` |
+| `can_parse` | method | `skills/lazyown_facts.py:635` | `def can_parse(self, filename, content)` |
+| `context_for_command` | method | `skills/lazyown_facts.py:896` | `def context_for_command(self, host, category)` |
+| `create_tool_file` | function | `skills/lazyown_facts.py:1025` | `def create_tool_file(toolname, command, trigger, active, tools_dir)` |
+| `default` | method | `skills/lazyown_facts.py:45` | `def default(cls)` |
+| `get_host` | method | `skills/lazyown_facts.py:890` | `def get_host(self, host)` |
+| `highest_access` | method | `skills/lazyown_facts.py:145` | `def highest_access(self)` |
+| `ingest_text` | method | `skills/lazyown_facts.py:803` | `def ingest_text(self, txt_path, host_hint)` |
+| `ingest_xml` | method | `skills/lazyown_facts.py:791` | `def ingest_xml(self, xml_path)` |
+| `main` | function | `skills/lazyown_facts.py:1074` | `def main()` |
+| `open_ports` | method | `skills/lazyown_facts.py:156` | `def open_ports(self)` |
+| `parse` | method | `skills/lazyown_facts.py:169` | `def parse(self, xml_path)` |
+| `parse` | method | `skills/lazyown_facts.py:220` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:257` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:304` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:346` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:377` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:406` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:427` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:450` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:505` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:548` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:584` | `def parse(self, host, content, source_file)` |
+| `parse` | method | `skills/lazyown_facts.py:638` | `def parse(self, host, content, source_file)` |
+| `parse_all` | method | `skills/lazyown_facts.py:859` | `def parse_all(self, target)` |
+| `parse_extended` | method | `skills/lazyown_facts.py:228` | `def parse_extended(self, host, content, source_file, port)` |
+| `parse_extended` | method | `skills/lazyown_facts.py:453` | `def parse_extended(self, host, content, source_file, port)` |
+| `parse_extended` | method | `skills/lazyown_facts.py:508` | `def parse_extended(self, host, content, source_file, port)` |
+| `parse_extended` | method | `skills/lazyown_facts.py:551` | `def parse_extended(self, host, content, source_file, port)` |
+| `parse_extended` | method | `skills/lazyown_facts.py:587` | `def parse_extended(self, host, content, source_file, port)` |
+| `save` | method | `skills/lazyown_facts.py:727` | `def save(self)` |
+| `services_by_name` | method | `skills/lazyown_facts.py:159` | `def services_by_name(self, name)` |
+| `summary` | method | `skills/lazyown_facts.py:986` | `def summary(self, host)` |
+| `GroqAgentPool` | class | `skills/lazyown_groq_agents.py:699` | `class GroqAgentPool` |
+| `_AgentState` | class | `skills/lazyown_groq_agents.py:666` | `class _AgentState` |
+| `__init__` | method | `skills/lazyown_groq_agents.py:702` | `def __init__(self)` |
+| `_agent_system_prompt` | function | `skills/lazyown_groq_agents.py:682` | `def _agent_system_prompt(tool_names)` |
+| `_c2_req` | function | `skills/lazyown_groq_agents.py:81` | `def _c2_req(path, method, body)` |
+| `_load_payload` | function | `skills/lazyown_groq_agents.py:56` | `def _load_payload()` |
+| `_now_utc` | function | `skills/lazyown_groq_agents.py:678` | `def _now_utc()` |
+| `_run` | method | `skills/lazyown_groq_agents.py:742` | `def _run(self, state, tools, api_key, max_iterations, system_prompt)` |
+| `_run_cmd` | function | `skills/lazyown_groq_agents.py:63` | `def _run_cmd(command, timeout)` |
+| `_t_atomic_search` | function | `skills/lazyown_groq_agents.py:442` | `def _t_atomic_search(keyword, mitre_id, platform, scope, complexity, has_prereqs, limit, include_command)` |
+| `_t_bridge_catalog` | function | `skills/lazyown_groq_agents.py:125` | `def _t_bridge_catalog(phase, os_hint)` |
+| `_t_bridge_suggest` | function | `skills/lazyown_groq_agents.py:98` | `def _t_bridge_suggest(phase, services, tag, os_hint)` |
+| `_t_c2_command` | function | `skills/lazyown_groq_agents.py:300` | `def _t_c2_command(client_id, command)` |
+| `_t_c2_status` | function | `skills/lazyown_groq_agents.py:295` | `def _t_c2_status()` |
+| `_t_command_help` | function | `skills/lazyown_groq_agents.py:390` | `def _t_command_help(command)` |
+| `_t_cve_lookup` | function | `skills/lazyown_groq_agents.py:207` | `def _t_cve_lookup(product, version)` |
+| `_t_facts_show` | function | `skills/lazyown_groq_agents.py:198` | `def _t_facts_show(target)` |
+| `_t_inject_objective` | function | `skills/lazyown_groq_agents.py:333` | `def _t_inject_objective(title, description)` |
+| `_t_list_sessions` | function | `skills/lazyown_groq_agents.py:287` | `def _t_list_sessions()` |
+| `_t_memory_search` | function | `skills/lazyown_groq_agents.py:228` | `def _t_memory_search(query)` |
+| `_t_parquet_context` | function | `skills/lazyown_groq_agents.py:171` | `def _t_parquet_context(phase, target)` |
+| `_t_rag_query` | function | `skills/lazyown_groq_agents.py:394` | `def _t_rag_query(query, n)` |
+| `_t_reactive_suggest` | function | `skills/lazyown_groq_agents.py:346` | `def _t_reactive_suggest(output, command, platform)` |
+| `_t_read_session_file` | function | `skills/lazyown_groq_agents.py:277` | `def _t_read_session_file(filename)` |
+| `_t_run_command` | function | `skills/lazyown_groq_agents.py:94` | `def _t_run_command(command)` |
+| `_t_searchsploit` | function | `skills/lazyown_groq_agents.py:369` | `def _t_searchsploit(query)` |
+| `_t_session_status` | function | `skills/lazyown_groq_agents.py:256` | `def _t_session_status()` |
+| `_t_task_add` | function | `skills/lazyown_groq_agents.py:319` | `def _t_task_add(title, description)` |
+| `_t_task_list` | function | `skills/lazyown_groq_agents.py:305` | `def _t_task_list(filter_status)` |
+| `_t_threat_model` | function | `skills/lazyown_groq_agents.py:415` | `def _t_threat_model(action)` |
+| `agent_result` | function | `skills/lazyown_groq_agents.py:861` | `def agent_result(agent_id)` |
+| `agent_status` | function | `skills/lazyown_groq_agents.py:857` | `def agent_status(agent_id)` |
+| `get_pool` | function | `skills/lazyown_groq_agents.py:829` | `def get_pool()` |
+| `list_agents` | function | `skills/lazyown_groq_agents.py:865` | `def list_agents(limit)` |
+| `list_all` | method | `skills/lazyown_groq_agents.py:807` | `def list_all(self, limit)` |
+| `main` | function | `skills/lazyown_groq_agents.py:872` | `def main()` |
+| `result` | method | `skills/lazyown_groq_agents.py:794` | `def result(self, agent_id)` |
+| `spawn` | method | `skills/lazyown_groq_agents.py:706` | `def spawn(self, goal, tools_filter, api_key, backend, max_iterations, system_prompt, block)` |
+| `spawn_agent` | function | `skills/lazyown_groq_agents.py:838` | `def spawn_agent(goal, tools_filter, api_key, backend, max_iterations, block)` |
 | `status` | method | `skills/lazyown_groq_agents.py:778` | `def status(self, agent_id)` |
 | `HookEvent` | class | `skills/lazyown_hooks.py:27` | `class HookEvent(Enum)` |
 | `HookRegistry` | class | `skills/lazyown_hooks.py:38` | `class HookRegistry` |
@@ -379,122 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `_gen_applocker_mshta` | function | `skills/mcp_generated_tools.py:952` | `def _gen_applocker_mshta(arguments, tool_name, _cmd)` |
 | `_gen_applocker_presentation` | function | `skills/mcp_generated_tools.py:960` | `def _gen_applocker_presentation(arguments, tool_name, _cmd)` |
 | `_gen_applocker_regsvcs` | function | `skills/mcp_generated_tools.py:968` | `def _gen_applocker_regsvcs(arguments, tool_name, _cmd)` |
-| `_gen_applocker_rundll32` | function | `skills/mcp_generated_tools.py:976` | `def _gen_applocker_rundll32(arguments, tool_name, _cmd)` |
-| `_gen_apropos` | function | `skills/mcp_generated_tools.py:984` | `def _gen_apropos(arguments, tool_name, _cmd)` |
-| `_gen_apt_playbook` | function | `skills/mcp_generated_tools.py:992` | `def _gen_apt_playbook(arguments, tool_name, _cmd)` |
-| `_gen_apt_proxy` | function | `skills/mcp_generated_tools.py:1000` | `def _gen_apt_proxy(arguments, tool_name, _cmd)` |
-| `_gen_apt_repo` | function | `skills/mcp_generated_tools.py:1008` | `def _gen_apt_repo(arguments, tool_name, _cmd)` |
-| `_gen_arjun` | function | `skills/mcp_generated_tools.py:1016` | `def _gen_arjun(arguments, tool_name, _cmd)` |
-| `_gen_arpscan` | function | `skills/mcp_generated_tools.py:1024` | `def _gen_arpscan(arguments, tool_name, _cmd)` |
-| `_gen_ask` | function | `skills/mcp_generated_tools.py:1032` | `def _gen_ask(arguments, tool_name, _cmd)` |
-| `_gen_asprevbase64` | function | `skills/mcp_generated_tools.py:1040` | `def _gen_asprevbase64(arguments, tool_name, _cmd)` |
-| `_gen_assign` | function | `skills/mcp_generated_tools.py:1048` | `def _gen_assign(arguments, tool_name, _cmd)` |
-| `_gen_atomic_agent` | function | `skills/mcp_generated_tools.py:1056` | `def _gen_atomic_agent(arguments, tool_name, _cmd)` |
-| `_gen_atomic_gen` | function | `skills/mcp_generated_tools.py:1064` | `def _gen_atomic_gen(arguments, tool_name, _cmd)` |
-| `_gen_atomic_lazyown` | function | `skills/mcp_generated_tools.py:1072` | `def _gen_atomic_lazyown(arguments, tool_name, _cmd)` |
-| `_gen_atomic_tests` | function | `skills/mcp_generated_tools.py:1080` | `def _gen_atomic_tests(arguments, tool_name, _cmd)` |
-| `_gen_attack_plan` | function | `skills/mcp_generated_tools.py:1088` | `def _gen_attack_plan(arguments, tool_name, _cmd)` |
-| `_gen_attack_surface` | function | `skills/mcp_generated_tools.py:1096` | `def _gen_attack_surface(arguments, tool_name, _cmd)` |
-| `_gen_audit_complete_keys` | function | `skills/mcp_generated_tools.py:1104` | `def _gen_audit_complete_keys(arguments, tool_name, _cmd)` |
-| `_gen_autoblody` | function | `skills/mcp_generated_tools.py:1112` | `def _gen_autoblody(arguments, tool_name, _cmd)` |
-| `_gen_automsf` | function | `skills/mcp_generated_tools.py:1120` | `def _gen_automsf(arguments, tool_name, _cmd)` |
-| `_gen_autopivot` | function | `skills/mcp_generated_tools.py:1128` | `def _gen_autopivot(arguments, tool_name, _cmd)` |
-| `_gen_back` | function | `skills/mcp_generated_tools.py:1136` | `def _gen_back(arguments, tool_name, _cmd)` |
-| `_gen_backdoor_factory` | function | `skills/mcp_generated_tools.py:1144` | `def _gen_backdoor_factory(arguments, tool_name, _cmd)` |
-| `_gen_banner` | function | `skills/mcp_generated_tools.py:1152` | `def _gen_banner(arguments, tool_name, _cmd)` |
-| `_gen_banners` | function | `skills/mcp_generated_tools.py:1160` | `def _gen_banners(arguments, tool_name, _cmd)` |
-| `_gen_base64decode` | function | `skills/mcp_generated_tools.py:1168` | `def _gen_base64decode(arguments, tool_name, _cmd)` |
-| `_gen_base64encode` | function | `skills/mcp_generated_tools.py:1176` | `def _gen_base64encode(arguments, tool_name, _cmd)` |
-| `_gen_batchnmap` | function | `skills/mcp_generated_tools.py:1184` | `def _gen_batchnmap(arguments, tool_name, _cmd)` |
-| `_gen_bbot` | function | `skills/mcp_generated_tools.py:1192` | `def _gen_bbot(arguments, tool_name, _cmd)` |
-| `_gen_beaconcfg` | function | `skills/mcp_generated_tools.py:1200` | `def _gen_beaconcfg(arguments, tool_name, _cmd)` |
-| `_gen_bin2shellcode` | function | `skills/mcp_generated_tools.py:1208` | `def _gen_bin2shellcode(arguments, tool_name, _cmd)` |
-| `_gen_binarycheck` | function | `skills/mcp_generated_tools.py:1216` | `def _gen_binarycheck(arguments, tool_name, _cmd)` |
-| `_gen_bitm` | function | `skills/mcp_generated_tools.py:1224` | `def _gen_bitm(arguments, tool_name, _cmd)` |
-| `_gen_blazy` | function | `skills/mcp_generated_tools.py:1232` | `def _gen_blazy(arguments, tool_name, _cmd)` |
-| `_gen_bloodhound` | function | `skills/mcp_generated_tools.py:1240` | `def _gen_bloodhound(arguments, tool_name, _cmd)` |
-| `_gen_bloodyAD` | function | `skills/mcp_generated_tools.py:1248` | `def _gen_bloodyAD(arguments, tool_name, _cmd)` |
-| `_gen_breacher` | function | `skills/mcp_generated_tools.py:1256` | `def _gen_breacher(arguments, tool_name, _cmd)` |
-| `_gen_browse` | function | `skills/mcp_generated_tools.py:1264` | `def _gen_browse(arguments, tool_name, _cmd)` |
-| `_gen_c2` | function | `skills/mcp_generated_tools.py:1272` | `def _gen_c2(arguments, tool_name, _cmd)` |
-| `_gen_c2_beacon_cmd` | function | `skills/mcp_generated_tools.py:1280` | `def _gen_c2_beacon_cmd(arguments, tool_name, _cmd)` |
-| `_gen_c2_beacons` | function | `skills/mcp_generated_tools.py:1288` | `def _gen_c2_beacons(arguments, tool_name, _cmd)` |
-| `_gen_c2_implant` | function | `skills/mcp_generated_tools.py:1296` | `def _gen_c2_implant(arguments, tool_name, _cmd)` |
-| `_gen_c2_keygen` | function | `skills/mcp_generated_tools.py:1304` | `def _gen_c2_keygen(arguments, tool_name, _cmd)` |
-| `_gen_c2_quickstart` | function | `skills/mcp_generated_tools.py:1312` | `def _gen_c2_quickstart(arguments, tool_name, _cmd)` |
-| `_gen_c2asm` | function | `skills/mcp_generated_tools.py:1320` | `def _gen_c2asm(arguments, tool_name, _cmd)` |
-| `_gen_cacti_exploit` | function | `skills/mcp_generated_tools.py:1328` | `def _gen_cacti_exploit(arguments, tool_name, _cmd)` |
-| `_gen_caldera` | function | `skills/mcp_generated_tools.py:1336` | `def _gen_caldera(arguments, tool_name, _cmd)` |
-| `_gen_caldera_export` | function | `skills/mcp_generated_tools.py:1344` | `def _gen_caldera_export(arguments, tool_name, _cmd)` |
-| `_gen_caldera_import` | function | `skills/mcp_generated_tools.py:1352` | `def _gen_caldera_import(arguments, tool_name, _cmd)` |
-| `_gen_camphish` | function | `skills/mcp_generated_tools.py:1360` | `def _gen_camphish(arguments, tool_name, _cmd)` |
-| `_gen_certipy` | function | `skills/mcp_generated_tools.py:1368` | `def _gen_certipy(arguments, tool_name, _cmd)` |
-| `_gen_certipy_ad` | function | `skills/mcp_generated_tools.py:1376` | `def _gen_certipy_ad(arguments, tool_name, _cmd)` |
-| `_gen_cewl` | function | `skills/mcp_generated_tools.py:1384` | `def _gen_cewl(arguments, tool_name, _cmd)` |
-| `_gen_chain` | function | `skills/mcp_generated_tools.py:1392` | `def _gen_chain(arguments, tool_name, _cmd)` |
-| `_gen_changeme` | function | `skills/mcp_generated_tools.py:1400` | `def _gen_changeme(arguments, tool_name, _cmd)` |
-| `_gen_check_update` | function | `skills/mcp_generated_tools.py:1408` | `def _gen_check_update(arguments, tool_name, _cmd)` |
-| `_gen_chisel` | function | `skills/mcp_generated_tools.py:1416` | `def _gen_chisel(arguments, tool_name, _cmd)` |
-| `_gen_cicd_scan` | function | `skills/mcp_generated_tools.py:1424` | `def _gen_cicd_scan(arguments, tool_name, _cmd)` |
-| `_gen_cicd_secrets` | function | `skills/mcp_generated_tools.py:1432` | `def _gen_cicd_secrets(arguments, tool_name, _cmd)` |
-| `_gen_clean` | function | `skills/mcp_generated_tools.py:1440` | `def _gen_clean(arguments, tool_name, _cmd)` |
-| `_gen_clean_ad` | function | `skills/mcp_generated_tools.py:1448` | `def _gen_clean_ad(arguments, tool_name, _cmd)` |
-| `_gen_clock` | function | `skills/mcp_generated_tools.py:1456` | `def _gen_clock(arguments, tool_name, _cmd)` |
-| `_gen_clone_site` | function | `skills/mcp_generated_tools.py:1464` | `def _gen_clone_site(arguments, tool_name, _cmd)` |
-| `_gen_cloud_buckets` | function | `skills/mcp_generated_tools.py:1472` | `def _gen_cloud_buckets(arguments, tool_name, _cmd)` |
-| `_gen_cloud_enum` | function | `skills/mcp_generated_tools.py:1480` | `def _gen_cloud_enum(arguments, tool_name, _cmd)` |
-| `_gen_cloud_iam` | function | `skills/mcp_generated_tools.py:1488` | `def _gen_cloud_iam(arguments, tool_name, _cmd)` |
-| `_gen_cloud_metadata` | function | `skills/mcp_generated_tools.py:1496` | `def _gen_cloud_metadata(arguments, tool_name, _cmd)` |
-| `_gen_cloud_scan` | function | `skills/mcp_generated_tools.py:1504` | `def _gen_cloud_scan(arguments, tool_name, _cmd)` |
-| `_gen_cme` | function | `skills/mcp_generated_tools.py:1512` | `def _gen_cme(arguments, tool_name, _cmd)` |
-| `_gen_collab_join` | function | `skills/mcp_generated_tools.py:1520` | `def _gen_collab_join(arguments, tool_name, _cmd)` |
-| `_gen_commix` | function | `skills/mcp_generated_tools.py:1528` | `def _gen_commix(arguments, tool_name, _cmd)` |
-| `_gen_config_banner` | function | `skills/mcp_generated_tools.py:1536` | `def _gen_config_banner(arguments, tool_name, _cmd)` |
-| `_gen_conptyshell` | function | `skills/mcp_generated_tools.py:1544` | `def _gen_conptyshell(arguments, tool_name, _cmd)` |
-| `_gen_container_detect` | function | `skills/mcp_generated_tools.py:1552` | `def _gen_container_detect(arguments, tool_name, _cmd)` |
-| `_gen_container_escape` | function | `skills/mcp_generated_tools.py:1560` | `def _gen_container_escape(arguments, tool_name, _cmd)` |
-| `_gen_convert_remcomsvc_from_file` | function | `skills/mcp_generated_tools.py:1568` | `def _gen_convert_remcomsvc_from_file(arguments, tool_name, _cmd)` |
-| `_gen_cover_tracks` | function | `skills/mcp_generated_tools.py:1578` | `def _gen_cover_tracks(arguments, tool_name, _cmd)` |
-| `_gen_cp` | function | `skills/mcp_generated_tools.py:1586` | `def _gen_cp(arguments, tool_name, _cmd)` |
-| `_gen_cports` | function | `skills/mcp_generated_tools.py:1594` | `def _gen_cports(arguments, tool_name, _cmd)` |
-| `_gen_crack_cisco_7_password` | function | `skills/mcp_generated_tools.py:1602` | `def _gen_crack_cisco_7_password(arguments, tool_name, _cmd)` |
-| `_gen_crack_hashes` | function | `skills/mcp_generated_tools.py:1610` | `def _gen_crack_hashes(arguments, tool_name, _cmd)` |
-| `_gen_create_session_json` | function | `skills/mcp_generated_tools.py:1618` | `def _gen_create_session_json(arguments, tool_name, _cmd)` |
-| `_gen_create_synthetic` | function | `skills/mcp_generated_tools.py:1626` | `def _gen_create_synthetic(arguments, tool_name, _cmd)` |
-| `_gen_createcookie` | function | `skills/mcp_generated_tools.py:1634` | `def _gen_createcookie(arguments, tool_name, _cmd)` |
-| `_gen_createcredentials` | function | `skills/mcp_generated_tools.py:1642` | `def _gen_createcredentials(arguments, tool_name, _cmd)` |
-| `_gen_createdll` | function | `skills/mcp_generated_tools.py:1650` | `def _gen_createdll(arguments, tool_name, _cmd)` |
-| `_gen_createhash` | function | `skills/mcp_generated_tools.py:1658` | `def _gen_createhash(arguments, tool_name, _cmd)` |
-| `_gen_createjsonmachine` | function | `skills/mcp_generated_tools.py:1666` | `def _gen_createjsonmachine(arguments, tool_name, _cmd)` |
-| `_gen_createjsonmachine_batch` | function | `skills/mcp_generated_tools.py:1674` | `def _gen_createjsonmachine_batch(arguments, tool_name, _cmd)` |
-| `_gen_createmail` | function | `skills/mcp_generated_tools.py:1682` | `def _gen_createmail(arguments, tool_name, _cmd)` |
-| `_gen_createpayload` | function | `skills/mcp_generated_tools.py:1690` | `def _gen_createpayload(arguments, tool_name, _cmd)` |
-| `_gen_createrevshell` | function | `skills/mcp_generated_tools.py:1698` | `def _gen_createrevshell(arguments, tool_name, _cmd)` |
-| `_gen_createtargets` | function | `skills/mcp_generated_tools.py:1706` | `def _gen_createtargets(arguments, tool_name, _cmd)` |
-| `_gen_createusers_and_hashs` | function | `skills/mcp_generated_tools.py:1714` | `def _gen_createusers_and_hashs(arguments, tool_name, _cmd)` |
-| `_gen_createwebshell` | function | `skills/mcp_generated_tools.py:1722` | `def _gen_createwebshell(arguments, tool_name, _cmd)` |
-| `_gen_createwinrevshell` | function | `skills/mcp_generated_tools.py:1730` | `def _gen_createwinrevshell(arguments, tool_name, _cmd)` |
-| `_gen_cred` | function | `skills/mcp_generated_tools.py:1738` | `def _gen_cred(arguments, tool_name, _cmd)` |
-| `_gen_cred_mark_failed` | function | `skills/mcp_generated_tools.py:1746` | `def _gen_cred_mark_failed(arguments, tool_name, _cmd)` |
-| `_gen_cred_reuse` | function | `skills/mcp_generated_tools.py:1754` | `def _gen_cred_reuse(arguments, tool_name, _cmd)` |
-| `_gen_creds_py` | function | `skills/mcp_generated_tools.py:1762` | `def _gen_creds_py(arguments, tool_name, _cmd)` |
-| `_gen_cron` | function | `skills/mcp_generated_tools.py:1770` | `def _gen_cron(arguments, tool_name, _cmd)` |
-| `_gen_crunch` | function | `skills/mcp_generated_tools.py:1778` | `def _gen_crunch(arguments, tool_name, _cmd)` |
-| `_gen_crystal_ball` | function | `skills/mcp_generated_tools.py:1786` | `def _gen_crystal_ball(arguments, tool_name, _cmd)` |
-| `_gen_ctx` | function | `skills/mcp_generated_tools.py:1794` | `def _gen_ctx(arguments, tool_name, _cmd)` |
-| `_gen_cubespraying` | function | `skills/mcp_generated_tools.py:1802` | `def _gen_cubespraying(arguments, tool_name, _cmd)` |
-| `_gen_cve` | function | `skills/mcp_generated_tools.py:1810` | `def _gen_cve(arguments, tool_name, _cmd)` |
-| `_gen_d3monizedshell` | function | `skills/mcp_generated_tools.py:1818` | `def _gen_d3monizedshell(arguments, tool_name, _cmd)` |
-| `_gen_dacledit` | function | `skills/mcp_generated_tools.py:1826` | `def _gen_dacledit(arguments, tool_name, _cmd)` |
-| `_gen_darkarmour` | function | `skills/mcp_generated_tools.py:1834` | `def _gen_darkarmour(arguments, tool_name, _cmd)` |
-| `_gen_dashboard` | function | `skills/mcp_generated_tools.py:1842` | `def _gen_dashboard(arguments, tool_name, _cmd)` |
-| `_gen_davtest` | function | `skills/mcp_generated_tools.py:1850` | `def _gen_davtest(arguments, tool_name, _cmd)` |
-| `_gen_db_creds` | function | `skills/mcp_generated_tools.py:1858` | `def _gen_db_creds(arguments, tool_name, _cmd)` |
-| `_gen_db_export` | function | `skills/mcp_generated_tools.py:1866` | `def _gen_db_export(arguments, tool_name, _cmd)` |
-| `_gen_db_hosts` | function | `skills/mcp_generated_tools.py:1874` | `def _gen_db_hosts(arguments, tool_name, _cmd)` |
-| `_gen_db_import` | function | `skills/mcp_generated_tools.py:1882` | `def _gen_db_import(arguments, tool_name, _cmd)` |
-| `_gen_db_init` | function | `skills/mcp_generated_tools.py:1890` | `def _gen_db_init(arguments, tool_name, _cmd)` |
-| `_gen_db_loot` | function | `skills/mcp_generated_tools.py:1898` | `def _gen_db_loot(arguments, tool_name, _cmd)` |
-| `_gen_db_notes` | function | `skills/mcp_generated_tools.py:1906` | `def _gen_db_notes(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

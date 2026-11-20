@@ -3,6 +3,22 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 
 ## Internal Dependencies
 
+- `2026-11-19_154944/jquery-1.11.3.min.js` -> `cli/show.py`
+- `2026-11-19_154944/jquery-1.11.3.min.js` -> `cli/style.py`
+- `2026-11-19_154944/jquery-1.11.3.min.js` -> `lazyown-docker/init.sh`
+- `2026-11-19_154944/jquery-1.11.3.min.js` -> `poc_tui/run.py`
+- `2026-11-19_162254/jquery-1.11.3.min.js` -> `cli/show.py`
+- `2026-11-19_162254/jquery-1.11.3.min.js` -> `cli/style.py`
+- `2026-11-19_162254/jquery-1.11.3.min.js` -> `lazyown-docker/init.sh`
+- `2026-11-19_162254/jquery-1.11.3.min.js` -> `poc_tui/run.py`
+- `2026-11-19_164345/jquery-1.11.3.min.js` -> `cli/show.py`
+- `2026-11-19_164345/jquery-1.11.3.min.js` -> `cli/style.py`
+- `2026-11-19_164345/jquery-1.11.3.min.js` -> `lazyown-docker/init.sh`
+- `2026-11-19_164345/jquery-1.11.3.min.js` -> `poc_tui/run.py`
+- `2026-11-19_170839/jquery-1.11.3.min.js` -> `cli/show.py`
+- `2026-11-19_170839/jquery-1.11.3.min.js` -> `cli/style.py`
+- `2026-11-19_170839/jquery-1.11.3.min.js` -> `lazyown-docker/init.sh`
+- `2026-11-19_170839/jquery-1.11.3.min.js` -> `poc_tui/run.py`
 - `banner.py` -> `utils.py`
 - `cli/__init__.py` -> `cli/aliases.py`
 - `cli/__init__.py` -> `cli/registry.py`
@@ -480,21 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/recon.py` -> `core/console.py`
 - `cli/commands/recon.py` -> `modules/intelligence_engine.py`
 - `cli/commands/recon.py` -> `utils.py`
-- `cli/commands/recon_migrated.py` -> `cli/aliases.py`
-- `cli/commands/recon_migrated.py` -> `cli/assign.py`
-- `cli/commands/recon_migrated.py` -> `cli/commands/_base.py`
-- `cli/commands/recon_migrated.py` -> `cli/surface_tui.py`
-- `cli/commands/recon_migrated.py` -> `core/config.py`
-- `cli/commands/recon_migrated.py` -> `utils.py`
-- `cli/commands/redteam_gym.py` -> `cli/commands/_base.py`
-- `cli/commands/redteam_gym.py` -> `modules/chain_registry.py`
-- `cli/commands/redteam_gym.py` -> `modules/ctf_signalman.py`
-- `cli/commands/redteam_gym.py` -> `modules/metasploitable_gym.py`
-- `cli/commands/redteam_gym.py` -> `modules/redteam_gym.py`
-- `cli/commands/redteam_gym.py` -> `utils.py`
-- `cli/commands/resource_scripting.py` -> `cli/commands/_base.py`
-- `cli/commands/resource_scripting.py` -> `modules/resource_script.py`
-- `cli/commands/resource_scripting.py` -> `utils.py`
-- `cli/commands/retry_ops.py` -> `cli/commands/_base.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

@@ -217,7 +217,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `get` (method, line 90) `def get(self, content_hash)`
   - `exists` (method, line 98) `def exists(self, content_hash)`
   - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
-- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_safety_gates.py`
 
 ## modules/evidence_store.py
 - Doc: Durable, content-addressed evidence store independent of disposable traffic.
@@ -408,6 +408,15 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Depends on: `modules/redteam_gym.py`
 - Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`, `skills/mcp_tools/exploitgym_run.py`, `skills/mcp_tools/exploitgym_score.py`, `skills/mcp_tools/exploitgym_status.py`, `tests/test_exploitgym_gym.py`
 
+## modules/fact_gated_todolist.py
+- Doc: Fact-gated todolist: dispatch an intent only when its prerequisite facts exist.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `unmet_requirements` (function, line 23) `def unmet_requirements(requires, facts)`
+  - `gate` (function, line 47) `def gate(items, facts)`
+- Imported by: `modules/lazy_loop.py`, `tests/test_fact_gated_todolist.py`
+
 ## modules/factsio.py
 - Doc: Canonical reader for the FactStore ``policy_facts.json`` document.
 - Layer: utility
@@ -483,18 +492,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `cmd_chown_now` (function, line 521)
   - `usage` (function, line 528)
   - `main` (function, line 557)
-
-## modules/finding_enrich.py
-- Doc: Idempotent enrichment of a finding's evidence before it is reported.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_role_rank` (function, line 34) `def _role_rank(role)`
-  - `_stronger` (function, line 39) `def _stronger(left, right)`
-  - `enrich_refs` (function, line 44) `def enrich_refs(refs)`
-  - `_enrichment_digest` (function, line 90) `def _enrichment_digest(ordered)`
-  - `enrich_finding` (function, line 96) `def enrich_finding(traffic_log, finding_id, graph)`
-- Imported by: `modules/lazy_loop.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

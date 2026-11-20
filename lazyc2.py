@@ -3140,6 +3140,7 @@ IMPLANT_STAGE_FILES = {
     "beacon.enc",
     "blacksandbeacon",
     "blacksandbeacon_config",
+    "docker_escape.sh",
 }
 app.config["ALLOWED_EXTENSIONS"] = ALLOWED_EXTENSIONS
 BINARY_HEADERS = [

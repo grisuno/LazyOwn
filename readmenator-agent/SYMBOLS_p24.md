@@ -3,6 +3,119 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/session_rag.py:191` | `def __init__(self)` |
+| `_chunk_text` | function | `modules/session_rag.py:88` | `def _chunk_text(text, size, overlap)` |
+| `_index_file` | method | `modules/session_rag.py:265` | `def _index_file(self, path, collection_key)` |
+| `_init_backend` | method | `modules/session_rag.py:202` | `def _init_backend(self)` |
+| `_iter_artefacts` | method | `modules/session_rag.py:248` | `def _iter_artefacts(self)` |
+| `add` | method | `modules/session_rag.py:136` | `def add(self, doc_id, text, meta)` |
+| `context_for_step` | method | `modules/session_rag.py:489` | `def context_for_step(self, phase, target, cmd, n)` |
+| `count` | method | `modules/session_rag.py:156` | `def count(self)` |
+| `get_rag` | function | `modules/session_rag.py:535` | `def get_rag()` |
+| `index_all` | method | `modules/session_rag.py:411` | `def index_all(self)` |
+| `index_new` | method | `modules/session_rag.py:301` | `def index_new(self)` |
+| `index_parquet_sources` | method | `modules/session_rag.py:322` | `def index_parquet_sources(self, force)` |
+| `load` | method | `modules/session_rag.py:115` | `def load(self, path)` |
+| `load` | method | `modules/session_rag.py:172` | `def load(cls)` |
+| `query` | method | `modules/session_rag.py:146` | `def query(self, query_text, n)` |
+| `query` | method | `modules/session_rag.py:439` | `def query(self, query_text, n, collection)` |
+| `reset` | method | `modules/session_rag.py:159` | `def reset(self)` |
+| `save` | method | `modules/session_rag.py:126` | `def save(self, path)` |
+| `save` | method | `modules/session_rag.py:181` | `def save(self)` |
+| `stats` | method | `modules/session_rag.py:509` | `def stats(self)` |
+| `AbstractReader` | class | `modules/session_reader.py:127` | `class AbstractReader(ABC)` |
+| `CampaignTask` | class | `modules/session_reader.py:74` | `class CampaignTask` |
+| `CommandOutputReader` | class | `modules/session_reader.py:193` | `class CommandOutputReader(AbstractReader)` |
+| `DiscoveredHostReader` | class | `modules/session_reader.py:214` | `class DiscoveredHostReader(AbstractReader)` |
+| `ImplantCSVReader` | class | `modules/session_reader.py:137` | `class ImplantCSVReader(AbstractReader)` |
+| `ImplantRecord` | class | `modules/session_reader.py:39` | `class ImplantRecord` |
+| `SessionAggregator` | class | `modules/session_reader.py:313` | `class SessionAggregator` |
+| `SessionSummary` | class | `modules/session_reader.py:85` | `class SessionSummary` |
+| `TaskReader` | class | `modules/session_reader.py:232` | `class TaskReader(AbstractReader)` |
+| `TaskWriter` | class | `modules/session_reader.py:257` | `class TaskWriter` |
+| `__init__` | method | `modules/session_reader.py:260` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/session_reader.py:319` | `def __init__(self, implant_reader, output_reader, host_reader, task_reader)` |
+| `active_client_ids` | method | `modules/session_reader.py:94` | `def active_client_ids(self)` |
+| `aggregate` | method | `modules/session_reader.py:331` | `def aggregate(self, sessions_dir)` |
+| `append` | method | `modules/session_reader.py:263` | `def append(self, title, description, operator, status)` |
+| `get_aggregator` | function | `modules/session_reader.py:347` | `def get_aggregator()` |
+| `ip_list` | method | `modules/session_reader.py:69` | `def ip_list(self)` |
+| `is_privileged` | method | `modules/session_reader.py:55` | `def is_privileged(self)` |
+| `latest_for` | method | `modules/session_reader.py:114` | `def latest_for(self, client_id)` |
+| `platform` | method | `modules/session_reader.py:60` | `def platform(self)` |
+| `privileged_sessions` | method | `modules/session_reader.py:101` | `def privileged_sessions(self)` |
+| `read` | method | `modules/session_reader.py:129` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:157` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
+| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
+| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
+| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
+| `CleanupEntry` | class | `modules/session_reclaim.py:283` | `class CleanupEntry` |
+| `CleanupPlan` | class | `modules/session_reclaim.py:301` | `class CleanupPlan` |
+| `CleanupResult` | class | `modules/session_reclaim.py:334` | `class CleanupResult` |
+| `_Rule` | class | `modules/session_reclaim.py:109` | `class _Rule` |
+| `_default_remove` | function | `modules/session_reclaim.py:455` | `def _default_remove(entry)` |
+| `_force_remove` | function | `modules/session_reclaim.py:480` | `def _force_remove(func, path, _exc_info)` |
+| `_glob_matcher` | function | `modules/session_reclaim.py:94` | `def _glob_matcher()` |
+| `_group_size` | function | `modules/session_reclaim.py:511` | `def _group_size(entries)` |
+| `_match` | function | `modules/session_reclaim.py:97` | `def _match(name)` |
+| `_subset_filter` | function | `modules/session_reclaim.py:405` | `def _subset_filter(subset)` |
+| `_target_dir_matcher` | function | `modules/session_reclaim.py:103` | `def _target_dir_matcher(name)` |
+| `_unlink` | function | `modules/session_reclaim.py:471` | `def _unlink(path)` |
+| `build_plan` | function | `modules/session_reclaim.py:415` | `def build_plan(sessions_dir, subset)` |
+| `by_tier` | method | `modules/session_reclaim.py:308` | `def by_tier(self, tier)` |
+| `classify` | function | `modules/session_reclaim.py:392` | `def classify(name)` |
+| `display_name` | method | `modules/session_reclaim.py:295` | `def display_name(self)` |
+| `entry_size` | function | `modules/session_reclaim.py:371` | `def entry_size(path)` |
+| `grouped` | method | `modules/session_reclaim.py:313` | `def grouped(self, tier)` |
+| `human_size` | function | `modules/session_reclaim.py:342` | `def human_size(num_bytes)` |
+| `removable` | method | `modules/session_reclaim.py:325` | `def removable(self, include_sensitive)` |
+| `remove_entries` | function | `modules/session_reclaim.py:486` | `def remove_entries(entries, remover)` |
+| `safe_label` | function | `modules/session_reclaim.py:354` | `def safe_label(name)` |
+| `tier_bytes` | method | `modules/session_reclaim.py:321` | `def tier_bytes(self, tier)` |
+| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
+| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
+| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
+| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
+| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
+| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
+| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
+| `load` | function | `modules/session_state.py:251` | `def load()` |
+| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
+| `_live_keys` | function | `modules/shell_session_store.py:164` | `def _live_keys()` |
+| `_now_iso` | function | `modules/shell_session_store.py:42` | `def _now_iso()` |
+| `_path_for` | function | `modules/shell_session_store.py:66` | `def _path_for(session)` |
+| `_reopen_primitive` | function | `modules/shell_session_store.py:195` | `def _reopen_primitive(target, via, lhost)` |
+| `_store_dir` | function | `modules/shell_session_store.py:35` | `def _store_dir()` |
+| `_write` | function | `modules/shell_session_store.py:72` | `def _write(record)` |
+| `get` | function | `modules/shell_session_store.py:123` | `def get(session)` |
+| `list_sessions` | function | `modules/shell_session_store.py:134` | `def list_sessions(target)` |
+| `mark_closed` | function | `modules/shell_session_store.py:174` | `def mark_closed(target, via)` |
+| `register` | function | `modules/shell_session_store.py:80` | `def register(target, via, port, lhost, evidence)` |
+| `resume` | function | `modules/shell_session_store.py:214` | `def resume(session)` |
+| `session_id` | function | `modules/shell_session_store.py:49` | `def session_id(target, via, created_at)` |
+| `_record_sidequest` | function | `modules/sidequest.py:187` | `def _record_sidequest(ordinal, question, answer)` |
+| `_render_context` | function | `modules/sidequest.py:123` | `def _render_context(row)` |
+| `ask` | function | `modules/sidequest.py:142` | `def ask(ordinal, question, temperature)` |
+| `checkpoint_id` | function | `modules/sidequest.py:38` | `def checkpoint_id(row)` |
+| `get_checkpoint` | function | `modules/sidequest.py:99` | `def get_checkpoint(ordinal)` |
+| `list_checkpoints` | function | `modules/sidequest.py:61` | `def list_checkpoints(run_id, limit)` |
+| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
+| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
+| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
+| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
+| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
+| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
+| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
+| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
+| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
+| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
+| `_copy_clipboard` | function | `modules/sinks/beacon_dispatch.py:34` | `def _copy_clipboard(text)` |
+| `_load_payload` | function | `modules/sinks/beacon_dispatch.py:23` | `def _load_payload()` |
+| `apply` | function | `modules/sinks/beacon_dispatch.py:46` | `def apply(event)` |
+| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
 | `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
 | `apply` | function | `modules/sinks/chain_feed.py:22` | `def apply(event)` |
 | `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
@@ -383,118 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `getBashHistory` | function | `modules/venator.py:786` | `def getBashHistory(output_file, users)` |
 | `getChromeDownloads` | function | `modules/venator.py:388` | `def getChromeDownloads(chromeHistoryDbPath, output_file)` |
 | `getChromeExtensions` | function | `modules/venator.py:357` | `def getChromeExtensions(path, output_file)` |
-| `getConnections` | function | `modules/venator.py:609` | `def getConnections(output_file)` |
-| `getCronJobs` | function | `modules/venator.py:494` | `def getCronJobs(users, output_file)` |
-| `getEmond` | function | `modules/venator.py:513` | `def getEmond(output_file)` |
-| `getEnv` | function | `modules/venator.py:577` | `def getEnv(output_file)` |
-| `getEventTaps` | function | `modules/venator.py:763` | `def getEventTaps(output_file)` |
-| `getFirefoxExtensions` | function | `modules/venator.py:442` | `def getFirefoxExtensions(path, output_file)` |
-| `getHash` | function | `modules/venator.py:112` | `def getHash(file, ignoreVFlag)` |
-| `getInstallHistory` | function | `modules/venator.py:477` | `def getInstallHistory(output_file)` |
-| `getKext` | function | `modules/venator.py:530` | `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)` |
-| `getLaunchAgents` | function | `modules/venator.py:287` | `def getLaunchAgents(path, output_file, ignoreVFlag)` |
-| `getLaunchDaemons` | function | `modules/venator.py:302` | `def getLaunchDaemons(path, output_file, ignoreVFlag)` |
-| `getLoginItems` | function | `modules/venator.py:706` | `def getLoginItems(path, output_file, ignoreVFlag)` |
-| `getPeriodicScripts` | function | `modules/venator.py:592` | `def getPeriodicScripts(output_file)` |
-| `getSafariExtensions` | function | `modules/venator.py:338` | `def getSafariExtensions(path, output_file)` |
-| `getShellStartupScripts` | function | `modules/venator.py:804` | `def getShellStartupScripts(users, output_file)` |
-| `getSystemInfo` | function | `modules/venator.py:66` | `def getSystemInfo(output_file)` |
-| `getUUID` | function | `modules/venator.py:38` | `def getUUID()` |
-| `getUsers` | function | `modules/venator.py:317` | `def getUsers(output_file)` |
-| `getVTResult` | function | `modules/venator.py:83` | `def getVTResult(fileHash)` |
-| `hmac_sha256` | function | `modules/venator.py:842` | `def hmac_sha256(key, data)` |
-| `io_key` | function | `modules/venator.py:49` | `def io_key(keyname)` |
-| `parseAgentsDaemons` | function | `modules/venator.py:215` | `def parseAgentsDaemons(item, path)` |
-| `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
-| `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
-| `VerbCatalogConfig` | class | `modules/verb_catalog.py:77` | `class VerbCatalogConfig` |
-| `_addon_discoveries` | function | `modules/verb_catalog.py:171` | `def _addon_discoveries(config)` |
-| `_all_discoveries` | function | `modules/verb_catalog.py:242` | `def _all_discoveries(config)` |
-| `_builtin_names` | function | `modules/verb_catalog.py:111` | `def _builtin_names()` |
-| `_default_config` | function | `modules/verb_catalog.py:101` | `def _default_config()` |
-| `_drop_cache` | function | `modules/verb_catalog.py:571` | `def _drop_cache(path_key)` |
-| `_phase_fallback` | function | `modules/verb_catalog.py:123` | `def _phase_fallback(verb)` |
-| `_phases_for` | function | `modules/verb_catalog.py:133` | `def _phases_for(stored, phase)` |
-| `_poc_discoveries` | function | `modules/verb_catalog.py:215` | `def _poc_discoveries(config)` |
-| `_risk_fallback` | function | `modules/verb_catalog.py:161` | `def _risk_fallback(verb)` |
-| `_write` | function | `modules/verb_catalog.py:547` | `def _write(cfg, verbs)` |
-| `catalog_enabled` | function | `modules/verb_catalog.py:420` | `def catalog_enabled(name, config)` |
-| `catalog_source` | function | `modules/verb_catalog.py:435` | `def catalog_source(name, config)` |
-| `entries` | function | `modules/verb_catalog.py:364` | `def entries(config)` |
-| `index_commands` | function | `modules/verb_catalog.py:254` | `def index_commands(config)` |
-| `load` | function | `modules/verb_catalog.py:331` | `def load(config)` |
-| `search` | function | `modules/verb_catalog.py:593` | `def search(query, config, phase, enabled, limit)` |
-| `set_enabled` | function | `modules/verb_catalog.py:449` | `def set_enabled(name, enabled, config)` |
-| `stats` | function | `modules/verb_catalog.py:579` | `def stats(config)` |
-| `sync` | function | `modules/verb_catalog.py:487` | `def sync(config)` |
-| `validate_catalog` | function | `modules/verb_catalog.py:294` | `def validate_catalog(data)` |
-| `FactPredicate` | class | `modules/verb_manifest.py:123` | `class FactPredicate` |
-| `ManifestCost` | class | `modules/verb_manifest.py:93` | `class ManifestCost` |
-| `ManifestNoise` | class | `modules/verb_manifest.py:108` | `class ManifestNoise` |
-| `VerbManifest` | class | `modules/verb_manifest.py:188` | `class VerbManifest` |
-| `_load_document` | function | `modules/verb_manifest.py:338` | `def _load_document(path)` |
-| `_parse_cost` | function | `modules/verb_manifest.py:254` | `def _parse_cost(data)` |
-| `_parse_noise` | function | `modules/verb_manifest.py:276` | `def _parse_noise(data)` |
-| `args` | method | `modules/verb_manifest.py:152` | `def args(self)` |
-| `coverage` | function | `modules/verb_manifest.py:522` | `def coverage(total_verbs, path)` |
-| `facts_for_target` | function | `modules/verb_manifest.py:411` | `def facts_for_target(host)` |
-| `is_wild` | method | `modules/verb_manifest.py:156` | `def is_wild(self, key)` |
-| `manifest_for` | function | `modules/verb_manifest.py:396` | `def manifest_for(verb, path)` |
-| `manifests` | function | `modules/verb_manifest.py:371` | `def manifests(path)` |
-| `matches` | method | `modules/verb_manifest.py:161` | `def matches(self, other)` |
-| `parse_manifest` | function | `modules/verb_manifest.py:296` | `def parse_manifest(verb, data)` |
-| `parse_predicate` | function | `modules/verb_manifest.py:222` | `def parse_predicate(data)` |
-| `plan_check` | function | `modules/verb_manifest.py:467` | `def plan_check(steps, tokens, path, facts)` |
-| `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
-| `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
-| `VulnBotCLI` | class | `modules/vulnbot.py:37` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vulnbot.py:38` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_complete_with_fallback` | method | `modules/vulnbot.py:69` | `def _complete_with_fallback(self, prompt)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:172` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:54` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:146` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:124` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:199` | `def _stream_agent_response(self, prompt)` |
-| `_stream_with_fallback` | method | `modules/vulnbot.py:92` | `def _stream_with_fallback(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:303` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:251` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | function | `modules/vulnbot.py:158` | `def edit_file(path, content, old_text)` |
-| `generate` | function | `modules/vulnbot.py:202` | `def generate()` |
-| `generate` | function | `modules/vulnbot.py:298` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:228` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | function | `modules/vulnbot.py:149` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:273` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:208` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:281` | `def process_with_context(self, file_path, event)` |
-| `read_file` | function | `modules/vulnbot.py:153` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vulnbot.py:267` | `def read_file_content(self, file_path)` |
-| `save_knowledge_base` | method | `modules/vulnbot.py:224` | `def save_knowledge_base(self, kb)` |
-| `stream_response` | method | `modules/vulnbot.py:297` | `def stream_response(self, prompt)` |
-| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
-| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
-| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
-| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
-| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
-| `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
-| `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
-| `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
-| `_jittered_sleep` | method | `modules/websocket_beacon.py:114` | `def _jittered_sleep(self)` |
-| `_run_loop` | method | `modules/websocket_beacon.py:410` | `def _run_loop(self, loop)` |
-| `check_in` | method | `modules/websocket_beacon.py:157` | `def check_in(self)` |
-| `connect` | method | `modules/websocket_beacon.py:122` | `def connect(self)` |
-| `list_beacons` | method | `modules/websocket_beacon.py:447` | `def list_beacons(self)` |
-| `remove_stale_beacons` | method | `modules/websocket_beacon.py:464` | `def remove_stale_beacons(self, timeout)` |
-| `run` | method | `modules/websocket_beacon.py:214` | `def run(self, command_handler)` |
-| `send_result` | method | `modules/websocket_beacon.py:191` | `def send_result(self, task_id, output, exit_code)` |
-| `send_task` | method | `modules/websocket_beacon.py:416` | `def send_task(self, beacon_id, command)` |
-| `shutdown` | method | `modules/websocket_beacon.py:263` | `def shutdown(self)` |
-| `start` | method | `modules/websocket_beacon.py:382` | `def start(self)` |
-| `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
-| `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

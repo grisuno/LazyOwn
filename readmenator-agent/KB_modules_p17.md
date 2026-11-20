@@ -1,6 +1,23 @@
 # Subsystem: modules (page 17 of 19)
 Previous: [KB_modules_p16.md](KB_modules_p16.md)
 
+## modules/reaction_bridge.py
+- Doc: Reaction bridge between the reactive engine and the loop planner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReactionPick` (class, line 66) `class ReactionPick`
+  - `_buffer_path` (function, line 76) `def _buffer_path(task_id)`
+  - `save_decisions` (function, line 80) `def save_decisions(task_id, decisions)`
+  - `load_reaction_triggers` (function, line 108) `def load_reaction_triggers(task_id, consumer)`
+  - `_load_buffer` (function, line 143) `def _load_buffer(task_id)`
+  - `_write_buffer` (function, line 150) `def _write_buffer(task_id, payload)`
+  - `_placeholder_value` (function, line 154) `def _placeholder_value(value)`
+  - `find_credentials` (function, line 159) `def find_credentials(output)`
+  - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
+
 ## modules/reactive_engine.py
 - Doc: modules/reactive_engine.py
 - Layer: utility
@@ -451,35 +468,6 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `__init__` (method, line 319) `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
   - `aggregate` (method, line 331) `def aggregate(self, sessions_dir)`
 - Imported by: `skills/lazyown_groq_agents.py`, `skills/mcp_tools/campaign_tasks.py`, `skills/mcp_tools/session_status.py`, `tests/test_core_modules.py`
-
-## modules/session_reclaim.py
-- Doc: Audited cleanup planner for the top-level ``sessions`` directory.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_glob_matcher` (function, line 94) `def _glob_matcher()`
-  - `_target_dir_matcher` (function, line 103) `def _target_dir_matcher(name)`
-  - `_Rule` (class, line 109) `class _Rule`
-  - `CleanupEntry` (class, line 283) `class CleanupEntry`
-  - `CleanupPlan` (class, line 301) `class CleanupPlan`
-  - `CleanupResult` (class, line 334) `class CleanupResult`
-  - `human_size` (function, line 342) `def human_size(num_bytes)`
-  - `safe_label` (function, line 354) `def safe_label(name)`
-  - `entry_size` (function, line 371) `def entry_size(path)`
-  - `classify` (function, line 392) `def classify(name)`
-  - `_subset_filter` (function, line 405) `def _subset_filter(subset)`
-  - `build_plan` (function, line 415) `def build_plan(sessions_dir, subset)`
-  - `_default_remove` (function, line 455) `def _default_remove(entry)`
-  - `_unlink` (function, line 471) `def _unlink(path)`
-  - `_force_remove` (function, line 480) `def _force_remove(func, path, _exc_info)`
-  - `remove_entries` (function, line 486) `def remove_entries(entries, remover)`
-  - `_group_size` (function, line 511) `def _group_size(entries)`
-  - `_match` (function, line 97) `def _match(name)`
-  - `display_name` (method, line 295) `def display_name(self)`
-  - `by_tier` (method, line 308) `def by_tier(self, tier)`
-  - `grouped` (method, line 313) `def grouped(self, tier)`
-  - `tier_bytes` (method, line 321) `def tier_bytes(self, tier)`
-  - `removable` (method, line 325) `def removable(self, include_sensitive)`
 
 
 Next: [KB_modules_p18.md](KB_modules_p18.md)

@@ -1,6 +1,76 @@
 # API (page 21 of 29)
 Previous: [API_p20.md](API_p20.md)
 
+## modules/venator.py
+- `getUUID` (function) `modules/venator.py:38` `def getUUID()`
+- `io_key` (function) `modules/venator.py:49` `def io_key(keyname)`
+- `getSystemInfo` (function) `modules/venator.py:66` `def getSystemInfo(output_file)`
+- `getVTResult` (function) `modules/venator.py:83` `def getVTResult(fileHash)`
+- `getHash` (function) `modules/venator.py:112` `def getHash(file, ignoreVFlag)`
+- `checkSignature` (function) `modules/venator.py:132` `def checkSignature(file, bundle)`
+- `datetime_handler` (function) `modules/venator.py:210` `def datetime_handler(x)`
+- `parseAgentsDaemons` (function) `modules/venator.py:215` `def parseAgentsDaemons(item, path)`
+- `getLaunchAgents` (function) `modules/venator.py:287` `def getLaunchAgents(path, output_file, ignoreVFlag)`
+- `getLaunchDaemons` (function) `modules/venator.py:302` `def getLaunchDaemons(path, output_file, ignoreVFlag)`
+- `getUsers` (function) `modules/venator.py:317` `def getUsers(output_file)`
+- `getSafariExtensions` (function) `modules/venator.py:338` `def getSafariExtensions(path, output_file)`
+- `getChromeExtensions` (function) `modules/venator.py:357` `def getChromeExtensions(path, output_file)`
+- `getChromeDownloads` (function) `modules/venator.py:388` `def getChromeDownloads(chromeHistoryDbPath, output_file)`
+- `getFirefoxExtensions` (function) `modules/venator.py:442` `def getFirefoxExtensions(path, output_file)`
+- `getInstallHistory` (function) `modules/venator.py:477` `def getInstallHistory(output_file)`
+- `getCronJobs` (function) `modules/venator.py:494` `def getCronJobs(users, output_file)`
+- `getEmond` (function) `modules/venator.py:513` `def getEmond(output_file)`
+- `getKext` (function) `modules/venator.py:530` `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
+- `getEnv` (function) `modules/venator.py:577` `def getEnv(output_file)`
+- `getPeriodicScripts` (function) `modules/venator.py:592` `def getPeriodicScripts(output_file)`
+- `getConnections` (function) `modules/venator.py:609` `def getConnections(output_file)`
+- `SIPStatus` (function) `modules/venator.py:637` `def SIPStatus(output_file)`
+- `GatekeeperStatus` (function) `modules/venator.py:651` `def GatekeeperStatus(output_file)`
+- `parseApp` (function) `modules/venator.py:663` `def parseApp(app, ignoreVFlag)`
+- `getLoginItems` (function) `modules/venator.py:706` `def getLoginItems(path, output_file, ignoreVFlag)`
+- `getApps` (function) `modules/venator.py:741` `def getApps(path, output_file, ignoreVFlag)`
+- `getEventTaps` (function) `modules/venator.py:763` `def getEventTaps(output_file)`
+- `getBashHistory` (function) `modules/venator.py:786` `def getBashHistory(output_file, users)`
+- `getShellStartupScripts` (function) `modules/venator.py:804` `def getShellStartupScripts(users, output_file)`
+- `hmac_sha256` (function) `modules/venator.py:842` `def hmac_sha256(key, data)`
+- `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
+- `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
+- `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
+
+## modules/verb_capabilities.py
+Imported by: `modules/loop/worker_gating.py`, `tests/test_loop_verb_capabilities.py`
+- `capability_of` (function) `modules/verb_capabilities.py:36` `def capability_of(command)` -- Return the capability record for a command's leading verb, or ``{}``.
+- `requires_privilege` (function) `modules/verb_capabilities.py:41` `def requires_privilege(command)` -- Return True when the command's verb needs root or a tty to run honestly.
+- `downgrade_for_unattended` (function) `modules/verb_capabilities.py:47` `def downgrade_for_unattended(command, target)` -- Rewrite a privilege-needing verb to its unprivileged fallback.
+
+## modules/verb_catalog.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_poc_registry.py`, `tests/test_session_brief.py`
+- `index_commands` (function) `modules/verb_catalog.py:254` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:294` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:331` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:364` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:420` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:435` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:449` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:487` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:579` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:593` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+
+## modules/verb_manifest.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
+- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
+- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
+- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
+- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
+- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
+- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
+- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
+- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
+- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
+
 ## modules/vuln_bot_cli.py
 Depends on: `modules/vulnbot.py`
 - `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
@@ -366,7 +436,7 @@ Depends on: `poc_tui/config.py`
 
 ## poc_tui/run.py
 Depends on: `poc_tui/app.py`
-Imported by: `static/hexabot/hexabot-spinner.js`
+Imported by: `2026-11-19_154944/jquery-1.11.3.min.js`, `2026-11-19_162254/jquery-1.11.3.min.js`, `2026-11-19_164345/jquery-1.11.3.min.js`, `2026-11-19_170839/jquery-1.11.3.min.js`, `static/hexabot/hexabot-spinner.js`
 - `main` (function) `poc_tui/run.py:9` `def main()`
 
 ## readmeneitor.py
@@ -424,76 +494,6 @@ Imported by: `static/hexabot/hexabot-spinner.js`
 Imported by: `tests/test_contract_manifest.py`
 - `check_manifest` (function) `scripts/check_contract_manifest.py:176` `def check_manifest(config)` -- Return the list of documented contracts that are missing on disk.
 - `main` (function) `scripts/check_contract_manifest.py:229` `def main(argv)` -- Run the manifest check and return the process exit code.
-
-## scripts/devtools/command_audit.py
-Depends on: `lazyown.py`
-- `argparser_commands` (function) `scripts/devtools/command_audit.py:40` `def argparser_commands(config)` -- Return the command names decorated with ``@with_argparser``.
-- `audit` (function) `scripts/devtools/command_audit.py:65` `def audit(config)` -- Run the dispatch and parser audit.
-- `main` (function) `scripts/devtools/command_audit.py:105` `def main(argv)` -- Run the audit and return the process exit code.
-
-## scripts/devtools/core_smoke.py
-Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `modules/killchain.py`, `modules/payload_factory.py`
-- `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
-- `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
-- `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
-
-## scripts/dirtyinit_drive.sh
-- `log` (function) `scripts/dirtyinit_drive.sh:65`
-- `warn` (function) `scripts/dirtyinit_drive.sh:66`
-- `die` (function) `scripts/dirtyinit_drive.sh:67`
-- `payload_value` (function) `scripts/dirtyinit_drive.sh:69`
-- `parse_flags` (function) `scripts/dirtyinit_drive.sh:89`
-- `require_adb` (function) `scripts/dirtyinit_drive.sh:130`
-- `require_device` (function) `scripts/dirtyinit_drive.sh:134`
-- `find_sdk` (function) `scripts/dirtyinit_drive.sh:141`
-- `find_ndk` (function) `scripts/dirtyinit_drive.sh:152`
-- `find_build_tools` (function) `scripts/dirtyinit_drive.sh:166`
-- `find_android_jar` (function) `scripts/dirtyinit_drive.sh:173`
-- `find_ndk_clang` (function) `scripts/dirtyinit_drive.sh:185`
-- `find_java_tool` (function) `scripts/dirtyinit_drive.sh:201`
-- `pack_apk` (function) `scripts/dirtyinit_drive.sh:211`
-- `compile_activity` (function) `scripts/dirtyinit_drive.sh:255`
-- `do_build` (function) `scripts/dirtyinit_drive.sh:265`
-- `do_install` (function) `scripts/dirtyinit_drive.sh:329`
-- `do_launch` (function) `scripts/dirtyinit_drive.sh:340`
-- `tap_button` (function) `scripts/dirtyinit_drive.sh:348`
-- `do_auto` (function) `scripts/dirtyinit_drive.sh:382`
-- `do_extract` (function) `scripts/dirtyinit_drive.sh:393`
-- `do_stage` (function) `scripts/dirtyinit_drive.sh:402`
-- `do_run` (function) `scripts/dirtyinit_drive.sh:412`
-- `do_logs` (function) `scripts/dirtyinit_drive.sh:418`
-- `do_status` (function) `scripts/dirtyinit_drive.sh:423`
-- `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
-- `do_help` (function) `scripts/dirtyinit_drive.sh:525`
-- `main` (function) `scripts/dirtyinit_drive.sh:529`
-
-## scripts/generate_sbom.py
-- `parse_requirement` (function) `scripts/generate_sbom.py:25` `def parse_requirement(line)` -- Split one requirements line into (name, pinned_version|None).
-- `collect_components` (function) `scripts/generate_sbom.py:37` `def collect_components(with_ml)` -- Parse requirements files into CycloneDX components, deduplicated.
-- `project_version` (function) `scripts/generate_sbom.py:68` `def project_version()` -- Read the package version from pyproject.toml.
-- `build_sbom` (function) `scripts/generate_sbom.py:74` `def build_sbom(with_ml)` -- Assemble the CycloneDX document.
-- `main` (function) `scripts/generate_sbom.py:92` `def main()` -- CLI entry point.
-
-## scripts/journal.py
-Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
-- `JournalConfig.from_git_remote` (method) `scripts/journal.py:71` `def from_git_remote(cls, remote, category)` -- Build a config from the ``origin`` remote of the current checkout.
-- `Journal.repo_id` (method) `scripts/journal.py:184` `def repo_id(self)` -- The GraphQL node id of the repository.
-- `Journal.category_id` (method) `scripts/journal.py:192` `def category_id(self)` -- The GraphQL node id of the journal category.
-- `Journal.post` (method) `scripts/journal.py:206` `def post(self, title, body)` -- Create a journal entry and return its number, url, and title.
-- `Journal.entries` (method) `scripts/journal.py:223` `def entries(self, limit)` -- Return the most recently updated journal entries.
-- `main` (function) `scripts/journal.py:264` `def main(argv)` -- Run the journal CLI and return the process exit code.
-
-## scripts/lazy_llamacpp_serve.sh
-- `healthy` (function) `scripts/lazy_llamacpp_serve.sh:33`
-
-## scripts/lazy_llamacpp_setup.sh
-- `ask` (function) `scripts/lazy_llamacpp_setup.sh:40`
-
-## scripts/lazy_opencode_config.py
-Imported by: `skills/mcp_tools/opencode_config.py`
-- `patch_opencode` (function) `scripts/lazy_opencode_config.py:46` `def patch_opencode(set_default, host)` -- Merge the llamacpp provider into the opencode config.
-- `patch_hermes` (function) `scripts/lazy_opencode_config.py:93` `def patch_hermes(host)` -- Point the hermes config at the local llama.cpp server.
-- `main` (function) `scripts/lazy_opencode_config.py:150` `def main(argv)` -- CLI entry: ``--target opencode|hermes|both [--set-default]``.
 
 
 Next: [API_p22.md](API_p22.md)

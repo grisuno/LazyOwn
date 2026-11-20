@@ -1,10 +1,10 @@
 # modules: lazyc2
 
-*Community 1 | 173 files | cohesion 0.49*
+*Community 1 | 176 files | cohesion 0.49*
 
 ## Definition
 
-This community groups 173 file(s) rooted at `tests` with dominant language py (cohesion 0.49). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `AdvisoryLedger`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`, `BeaconConfig`, `BeaconConfigBuilder`. Core file: `lazyc2.py` (330 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 176 file(s) rooted at `tests` with dominant language py (cohesion 0.49). Central symbols: `AESKeyManager`, `AddonUpdateResult`, `AdvisoryLedger`, `AutoRecommender`, `AutomationCommandSet`, `AutonomousAgent`, `BeaconConfig`, `BeaconConfigBuilder`. Core file: `lazyc2.py` (330 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
@@ -15,12 +15,11 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 | `tests/integration_autonomous_flow.py` | py | testing | 1 | no |
 | `tests/test_addon_creator.py` | py | testing | 86 | yes |
 
-### `modules` (47 files)
+### `modules` (49 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/addon_updater.py` | py | utility | 10 | yes |
-| `modules/beacon_config_builder.py` | py | infrastructure | 16 | yes |
 
 ### `lazyc2/security` (13 files)
 
@@ -28,11 +27,11 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `lazyc2/security/__init__.py` | py | utility | 0 | no |
 
-### `contrib/legacy` (10 files)
+### `contrib/legacy` (11 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
+| `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
 
 ### `lazyc2/blueprints` (10 files)
 
@@ -82,12 +81,6 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `lazyc2/__init__.py` | py | utility | 0 | no |
 
-### `.` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2.py` | py | presentation | 330 | no |
-
 ### `modules/sinks` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -100,11 +93,23 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `static/js/socket.io-4.0.0.min.js` | js | utility | 32 | yes |
 
+### `.` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2.py` | py | presentation | 330 | no |
+
 ### `browser_sync_extension` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `browser_sync_extension/background.js` | js | infrastructure | 7 | no |
+
+### `modules/backdoor` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/backdoor/server.c` | c | utility | 1 | no |
 
 ### `modules/loop` (1 files)
 
@@ -118,7 +123,7 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/tests/test_harness_e2e.py` | py | testing | 10 | yes |
 
-*... and 153 more files in this community.*
+*... and 156 more files in this community.*
 
 
 ## Key Symbols
@@ -156,15 +161,15 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 470
-- Cross-boundary resolved imports (EXTRACTED): 455
+- Internal resolved imports (EXTRACTED): 472
+- Cross-boundary resolved imports (EXTRACTED): 464
 
 ## Connections
 
-- [EXTRACTED] depends_on community 7 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
-- [EXTRACTED] depends_on community 6 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 4 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
-- [EXTRACTED] depends_on community 1 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 4 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
+- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
+- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -173,20 +178,20 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
+- [cycle] `cli/commands/_base.py` -> `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/integration_autonomous_flow.py` (testing) -> `modules/moe_router.py` (presentation)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
 - [layer strict] `tests/test_api_v1.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_v1.py` (testing) -> `lazyc2/blueprints/api_v1.py` (presentation)
-- [layer strict] `tests/test_c2_surfaces.py` (testing) -> `contrib/legacy/lazydeepseekcli.py` (presentation)
+- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 
 ## Open Questions
 
-- Why do 14 file(s) lack file-level docs (e.g. `browser_sync_extension/background.js`)? What purpose do they serve?
+- Why do 17 file(s) lack file-level docs (e.g. `browser_sync_extension/background.js`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyc2 changed?
 - Should modules: lazyc2 be split, given cohesion 0.49?
@@ -197,10 +202,11 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 - `cli/commands/automation.py`
 - `cli/commands/bof_registry.py`
 - `cli/commands/enum.py`
-- `contrib/legacy/lazydeepseekcli.py`
+- `contrib/legacy/lazygalazy.py`
 - `contrib/legacy/lazygptcli.py`
 - `contrib/legacy/lazygptcli_unified.py`
 - `contrib/legacy/lazyhoneypot.py`
+- `contrib/legacy/lazyhttpreverseshell.py`
 - `contrib/legacy/lazyopenssh77enum2.py`
 - `contrib/legacy/lazyproxy.py`
 - `contrib/legacy/lazysearch_bot.py`
@@ -212,5 +218,4 @@ This community groups 173 file(s) rooted at `tests` with dominant language py (c
 - `core/scheduler.py`
 - `core/security.py`
 - `core/session_secrets.py`
-- `lazyc2.py`
-- *... and 153 more*
+- *... and 156 more*

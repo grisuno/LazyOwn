@@ -478,8 +478,21 @@ If you already have the information, answer the user."""
             {"role": "assistant", "content": None, "tool_calls": [_tool_call_snapshot(tool_call)]}
         )
         self.conversation_history.append(
-            {"role": "tool", "tool_call_id": tool_call.id, "name": tool_name, "content": result}
+            {"role": "tool", "tool_call_id": tool_call.id, "name": tool_name, "content": _fence_tool_result(result)}
         )
+
+
+def _fence_tool_result(result: str) -> str:
+    """Wrap a tool output in the untrusted boundary when enabled."""
+    try:
+        from modules import orchestrator_config as oc
+        from modules.loop.boundary import fence_result
+
+        if oc.boundary_config().get("enabled", True):
+            return fence_result(str(result or ""))
+    except Exception:
+        return str(result or "")
+    return str(result or "")
 
 
 # ===== SHELL WRAPPER WITH TIMEOUT =====

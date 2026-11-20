@@ -1,1 +1,28 @@
-readmenator-graphrag/index.json filter=lfs diff=lfs merge=lfs -text
+# Git LFS: heavy media and database blobs never re-enter history as
+# plain objects; existing tracked gifs convert on their next re-add
+# (run `git lfs migrate import --everything` once to rewrite history).
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.gif filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.db filter=lfs diff=lfs merge=lfs -text
+*.sqlite filter=lfs diff=lfs merge=lfs -text
+*.sqlite3 filter=lfs diff=lfs merge=lfs -text
+readmenator-graphrag/** filter=lfs diff=lfs merge=lfs -text
+
+# linguist: classify the repo by its Python source, not vendored or
+# generated trees.
+external/** linguist-vendored
+static/** linguist-generated
+templates/index.html linguist-generated
+readmenator-agent/** linguist-generated
+readmenator-wiki/** linguist-generated
+readmenator-rules/** linguist-generated
+readmenator-maps/** linguist-generated
+parquets/** linguist-generated
+sessions/** linguist-generated
+docs/** linguist-documentation
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

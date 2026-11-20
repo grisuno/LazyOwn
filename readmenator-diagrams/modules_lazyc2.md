@@ -1,6 +1,6 @@
 # modules: lazyc2
 
-modules: lazyc2 groups 173 files (js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 176 files (c, js, py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -14,14 +14,13 @@ graph LR
     skills["skills"]
     static["static"]
     tests["tests"]
-    tests -- "calls into" --> contrib
     tests -- "calls into" --> core
     tests -- "calls into" --> lazyc2
     tests -- "calls into" --> modules
     tests -- "calls into" --> root
     cli -- "calls into" --> modules
     contrib -- "depends on" --> core
-    contrib -- "calls into" --> modules
+    contrib -- "depends on" --> modules
     core -- "depends on" --> browser_sync_extension
     core -- "calls into" --> lazyc2
     lazyc2 -- "depends on" --> cli
@@ -39,6 +38,7 @@ graph LR
     skills -- "calls into" --> core
     skills -- "calls into" --> modules
     static -- "depends on" --> lazyc2
+    static -- "calls into" --> modules
 ```
 
 ## browser_sync_extension (2.1)
@@ -51,7 +51,7 @@ cli groups 3 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impack
 
 ## contrib (2.3)
 
-contrib groups 10 files (py) around truncate_message, configure_logging, _load_payload_kv, _load_report_context, _prompt_redteam. Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local +...
+contrib groups 11 files (py) around _ret_model, truncate_message, _configure_logging, _load_knowledge_base, _save_knowledge_base. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ## core (2.4)
 
@@ -63,11 +63,11 @@ lazyc2 groups 31 files (py) around CSRFPolicy, __init__, header, cookie_name, is
 
 ## modules (2.6)
 
-modules groups 56 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
+modules groups 59 files (c, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Git update contract for lazyaddons.
 
 ## root (2.7)
 
-root groups 2 files (py) around _env_tag, is_insecure_credential, _listen_address, _is_unspecified_bind_literal, _select_specific_bind_address. is_insecure_credential: Check for weak or default credentials
+root groups 1 files (py) around _env_tag, is_insecure_credential, _listen_address, _is_unspecified_bind_literal, _select_specific_bind_address. is_insecure_credential: Check for weak or default credentials
 
 ## skills (2.8)
 
@@ -87,10 +87,11 @@ tests groups 50 files (py) around test_autonomous_flow_integration, _valid_draft
 - cli/commands/automation.py
 - cli/commands/bof_registry.py
 - cli/commands/enum.py
-- contrib/legacy/lazydeepseekcli.py
+- contrib/legacy/lazygalazy.py
 - contrib/legacy/lazygptcli.py
 - contrib/legacy/lazygptcli_unified.py
 - contrib/legacy/lazyhoneypot.py
+- contrib/legacy/lazyhttpreverseshell.py
 - contrib/legacy/lazyopenssh77enum2.py
 - contrib/legacy/lazyproxy.py
 - contrib/legacy/lazysearch_bot.py
@@ -135,6 +136,7 @@ tests groups 50 files (py) around test_autonomous_flow_integration, _valid_draft
 - lazyc2/security/trusted_proxy.py
 - lazyc2/security/validators.py
 - modules/addon_updater.py
+- modules/backdoor/server.c
 - modules/beacon_config_builder.py
 - modules/beacon_history.py
 - modules/beacon_kinds.py
@@ -142,11 +144,11 @@ tests groups 50 files (py) around test_autonomous_flow_integration, _valid_draft
 - modules/bof_admin.py
 - modules/bof_delivery.py
 - modules/bof_registry.py
+- modules/browser_sync.py
 - modules/bsb_compat.py
 - modules/c2_agent.py
 - modules/c2_profile.py
 - modules/c2_profile_engine.py
-- modules/c2_surfaces.py
 - modules/collab_bp.py
 - modules/colors.py
 - modules/conditional_hooks.py
@@ -170,8 +172,10 @@ tests groups 50 files (py) around test_autonomous_flow_integration, _valid_draft
 - modules/ia_code_analysis.py
 - modules/ia_logs_analysis.py
 - modules/ia_network_analysis.py
+- modules/lazy_oob.py
 - modules/lazy_rbac.py
 - modules/lazy_search.py
+- modules/lazyown_bprfuzzer.py
 - modules/lazyownerweb.py
 - modules/lesson_ingestor.py
 - modules/lilsplunky.py
@@ -190,7 +194,6 @@ tests groups 50 files (py) around test_autonomous_flow_integration, _valid_draft
 - modules/sudo_tiocsti.py
 - modules/toposwarm_bridge.py
 - modules/unified_bridge.py
-- pwntomate.py
 - skills/daemon_health.py
 - skills/lazyown_campaign.py
 - skills/lazyown_claudemd.py
@@ -217,10 +220,10 @@ tests groups 50 files (py) around test_autonomous_flow_integration, _valid_draft
 - tests/test_bof_delivery.py
 - tests/test_bof_registry.py
 - tests/test_bof_repo_contract.py
+- tests/test_bprfuzzer_identity.py
 - tests/test_bsb_fileless_compat.py
 - tests/test_c2_credential_bootstrap.py
 - tests/test_c2_profile_engine.py
-- tests/test_c2_surfaces.py
 - tests/test_collab_and_onboarding.py
 - tests/test_command_allowlist.py
 - tests/test_command_allowlist_behavior.py

@@ -104,6 +104,36 @@ FALLBACK_PROGRESS: dict[str, Any] = {
     "exploit_classes": ("exploit", "chain", "emulation", "ctf_capture"),
 }
 
+FALLBACK_TERMINATION: dict[str, Any] = {
+    "mode": "try_hard",
+    "max_tokens_per_task": 2_000_000,
+    "max_tokens_per_intent": 150_000,
+    "wrapup_reserve_pct": 5.0,
+    "wrapup_reserve_tokens": 20_000,
+}
+
+TERMINATION_MODES: tuple[str, ...] = ("save_tokens", "try_hard")
+
+FALLBACK_LEASES: dict[str, Any] = {
+    "enabled": True,
+    "ttl_sec": 900.0,
+    "heartbeat_sec": 60.0,
+}
+
+FALLBACK_BOUNDARY: dict[str, Any] = {
+    "enabled": True,
+}
+
+FALLBACK_EVIDENCE: dict[str, Any] = {
+    "citation_enabled": True,
+    "citation_max_age_sec": 24 * 3600.0,
+    "replay_enabled": True,
+}
+
+FALLBACK_PLANNER: dict[str, Any] = {
+    "bridge_enabled": True,
+}
+
 FALLBACK_MODE: str = "redteam"
 
 ENGAGEMENT_MODES: tuple[str, ...] = ("pentest", "redteam", "ctf")
@@ -509,6 +539,101 @@ def set_pacing(key: str, value: Any) -> dict[str, Any]:
     return pacing()
 
 
+def termination() -> dict[str, Any]:
+    """Return resolved termination policy settings for the active profile.
+
+    ``mode`` selects between ``save_tokens`` (wrap up cleanly once the
+    token budget is spent) and ``try_hard`` (keep the loop alive and
+    degrade to the deterministic layer). Token caps and the wrap-up
+    reserve are enforced by ``modules.loop.tokens.TerminationPolicy``.
+
+    Returns:
+        Mapping with mode, token caps and reserve knobs.
+    """
+    merged = dict(FALLBACK_TERMINATION)
+    merged.update(profile_config().get("termination") or {})
+    merged.update(_section().get("termination") or {})
+    mode = str(merged.get("mode") or FALLBACK_TERMINATION["mode"]).strip().lower()
+    merged["mode"] = mode if mode in TERMINATION_MODES else FALLBACK_TERMINATION["mode"]
+    for key in ("max_tokens_per_task", "max_tokens_per_intent", "wrapup_reserve_tokens"):
+        try:
+            merged[key] = max(0, int(merged.get(key, 0) or 0))
+        except (TypeError, ValueError):
+            merged[key] = FALLBACK_TERMINATION[key]
+    try:
+        merged["wrapup_reserve_pct"] = min(50.0, max(0.0, float(merged.get("wrapup_reserve_pct", 0.0) or 0.0)))
+    except (TypeError, ValueError):
+        merged["wrapup_reserve_pct"] = FALLBACK_TERMINATION["wrapup_reserve_pct"]
+    return merged
+
+
+def leases_config() -> dict[str, Any]:
+    """Return resolved claim-lease settings for the active profile.
+
+    Returns:
+        Mapping with ``enabled``, ``ttl_sec`` and ``heartbeat_sec``.
+    """
+    merged = dict(FALLBACK_LEASES)
+    merged.update(profile_config().get("leases") or {})
+    merged.update(_section().get("leases") or {})
+    merged["enabled"] = bool(merged.get("enabled", True))
+    for key in ("ttl_sec", "heartbeat_sec"):
+        try:
+            merged[key] = max(1.0, float(merged.get(key, 0.0) or 0.0))
+        except (TypeError, ValueError):
+            merged[key] = FALLBACK_LEASES[key]
+    return merged
+
+
+def boundary_config() -> dict[str, Any]:
+    """Return resolved untrusted-boundary settings for the active profile.
+
+    Returns:
+        Mapping with the ``enabled`` toggle (default True).
+    """
+    merged = dict(FALLBACK_BOUNDARY)
+    merged.update(profile_config().get("boundary") or {})
+    merged.update(_section().get("boundary") or {})
+    merged["enabled"] = bool(merged.get("enabled", True))
+    return merged
+
+
+def evidence_config() -> dict[str, Any]:
+    """Return resolved verbatim-citation and replay settings.
+
+    Returns:
+        Mapping with ``citation_enabled``, ``citation_max_age_sec`` and
+        ``replay_enabled``.
+    """
+    merged = dict(FALLBACK_EVIDENCE)
+    merged.update(profile_config().get("evidence") or {})
+    merged.update(_section().get("evidence") or {})
+    merged["citation_enabled"] = bool(merged.get("citation_enabled", True))
+    merged["replay_enabled"] = bool(merged.get("replay_enabled", True))
+    try:
+        merged["citation_max_age_sec"] = max(1.0, float(merged.get("citation_max_age_sec", 0.0) or 0.0))
+    except (TypeError, ValueError):
+        merged["citation_max_age_sec"] = FALLBACK_EVIDENCE["citation_max_age_sec"]
+    return merged
+
+
+def planner_config() -> dict[str, Any]:
+    """Return resolved planner-consolidation settings for the active profile.
+
+    ``bridge_enabled`` feeds the technique planner's ranked candidates
+    into the loop intent frontier (single pipeline instead of two
+    parallel planners).
+
+    Returns:
+        Mapping with the ``bridge_enabled`` toggle.
+    """
+    merged = dict(FALLBACK_PLANNER)
+    merged.update(profile_config().get("planner") or {})
+    merged.update(_section().get("planner") or {})
+    merged["bridge_enabled"] = bool(merged.get("bridge_enabled", True))
+    return merged
+
+
 def engagement_mode() -> str:
     """Return the active engagement mode (pentest | redteam | ctf).
 
@@ -903,6 +1028,49 @@ def validate_config(data: Any) -> list[str]:
         for key in ("limits", "budget", "sinks", "findings", "progress", "pacing"):
             if key in profile and not isinstance(profile[key], dict):
                 errors.append(f"profile {name} {key} must be a mapping")
+        for key in ("termination", "leases", "boundary", "evidence"):
+            if key in profile and not isinstance(profile[key], dict):
+                errors.append(f"profile {name} {key} must be a mapping")
+        planner = profile.get("planner") or {}
+        if isinstance(planner, dict) and "bridge_enabled" in planner and not isinstance(planner["bridge_enabled"], bool):
+            errors.append(f"profile {name} planner bridge_enabled must be a boolean")
+        termination = profile.get("termination") or {}
+        if isinstance(termination, dict):
+            tmode = str(termination.get("mode", "") or "")
+            if tmode and tmode not in TERMINATION_MODES:
+                errors.append(
+                    f"profile {name} termination mode must be one of {'/'.join(TERMINATION_MODES)} (got {tmode!r})"
+                )
+            for key in ("max_tokens_per_task", "max_tokens_per_intent", "wrapup_reserve_tokens"):
+                if key in termination and (isinstance(termination[key], bool) or not isinstance(termination[key], (int, float)) or termination[key] < 0):
+                    errors.append(f"profile {name} termination {key} must be a non-negative number")
+            if "wrapup_reserve_pct" in termination and (
+                isinstance(termination["wrapup_reserve_pct"], bool)
+                or not isinstance(termination["wrapup_reserve_pct"], (int, float))
+                or not 0 <= termination["wrapup_reserve_pct"] <= 50
+            ):
+                errors.append(f"profile {name} termination wrapup_reserve_pct must be a number in [0, 50]")
+        leases = profile.get("leases") or {}
+        if isinstance(leases, dict):
+            if "enabled" in leases and not isinstance(leases["enabled"], bool):
+                errors.append(f"profile {name} leases enabled must be a boolean")
+            for key in ("ttl_sec", "heartbeat_sec"):
+                if key in leases and (isinstance(leases[key], bool) or not isinstance(leases[key], (int, float)) or leases[key] <= 0):
+                    errors.append(f"profile {name} leases {key} must be a positive number")
+        boundary = profile.get("boundary") or {}
+        if isinstance(boundary, dict) and "enabled" in boundary and not isinstance(boundary["enabled"], bool):
+            errors.append(f"profile {name} boundary enabled must be a boolean")
+        evidence = profile.get("evidence") or {}
+        if isinstance(evidence, dict):
+            for key in ("citation_enabled", "replay_enabled"):
+                if key in evidence and not isinstance(evidence[key], bool):
+                    errors.append(f"profile {name} evidence {key} must be a boolean")
+            if "citation_max_age_sec" in evidence and (
+                isinstance(evidence["citation_max_age_sec"], bool)
+                or not isinstance(evidence["citation_max_age_sec"], (int, float))
+                or evidence["citation_max_age_sec"] <= 0
+            ):
+                errors.append(f"profile {name} evidence citation_max_age_sec must be a positive number")
         for key, value in (profile.get("findings") or {}).items():
             if key == "redact_secrets":
                 if not isinstance(value, bool):
@@ -993,24 +1161,34 @@ def validate_config(data: Any) -> list[str]:
 __all__ = [
     "DEFAULT_STAGES",
     "ENGAGEMENT_MODES",
+    "FALLBACK_BOUNDARY",
     "FALLBACK_BUDGET",
+    "FALLBACK_EVIDENCE",
     "FALLBACK_FINDINGS",
+    "FALLBACK_LEASES",
     "FALLBACK_LIMITS",
     "FALLBACK_MODE",
     "FALLBACK_PACING",
+    "FALLBACK_PLANNER",
     "FALLBACK_PROGRESS",
     "FALLBACK_SINKS",
     "FALLBACK_STAGES",
+    "FALLBACK_TERMINATION",
     "ORCHESTRATOR_YAML_PATH",
     "STAGE_DEFS",
+    "TERMINATION_MODES",
     "active_profile",
+    "boundary_config",
     "budget",
     "chain_defaults",
     "effective_verbs",
+    "evidence_config",
     "engagement_mode",
     "findings_config",
+    "leases_config",
     "limits",
     "pacing",
+    "planner_config",
     "profiles",
     "profile_config",
     "progress_config",
@@ -1025,6 +1203,7 @@ __all__ = [
     "stage_enabled",
     "stage_params",
     "stages",
+    "termination",
     "upsert_verb",
     "validate_config",
     "verb_config",

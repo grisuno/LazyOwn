@@ -1,15 +1,16 @@
 # skills/claude_md_orchestrator
 
-*Community 12 | 13 files | cohesion 0.78*
+*Community 12 | 14 files | cohesion 0.79*
 
 ## Definition
 
-This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.78). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `skills/claude_md_orchestrator/models.py` (32 symbols). Documented purpose: Public API for the claude_md_orchestrator skill.  The package re-exports the classes and the helper functions the CLI and the tests share. The orchestrator modu.
+This community groups 14 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.79). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `skills/claude_md_orchestrator/models.py` (32 symbols). Documented purpose: This software must not be used by military or secret service organisations. License: GPL-3.0-only.
 
 ## Files
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `pwntomate.py` | py | utility | 3 | yes |
 | `skills/claude_md_orchestrator/__init__.py` | py | utility | 0 | yes |
 | `skills/claude_md_orchestrator/bdd_agent.py` | py | utility | 8 | yes |
 | `skills/claude_md_orchestrator/boy_scout.py` | py | utility | 5 | yes |
@@ -26,6 +27,9 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Key Symbols
 
+- `_build_substitutions` (function, `pwntomate.py:113`) `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` - Return the non-credential substitution map for a tool template.
+- `_fix_sessions_owner` (function, `pwntomate.py:143`) `def _fix_sessions_owner()` - Best-effort ownership fixup, silent when not permitted.
+- `_run_tool` (function, `pwntomate.py:203`) `def _run_tool(cmd)` - Run one auto-job command without shell interpretation.
 - `_module_name` (function, `skills/claude_md_orchestrator/bdd_agent.py:80`) `def _module_name(contract)` - Return the python module name the implementation will use.
 - `_module_path` (function, `skills/claude_md_orchestrator/bdd_agent.py:85`) `def _module_path(contract, config)` - Return the absolute path of the implementation module.
 - `_package_init` (function, `skills/claude_md_orchestrator/bdd_agent.py:90`) `def _package_init(config)` - Return the absolute path of the implementation package init file.
@@ -53,13 +57,10 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `ensure` (method, `skills/claude_md_orchestrator/config.py:112`) `def ensure(self)` - Create the run subdirectories if they do not exist.
 - `state_path` (method, `skills/claude_md_orchestrator/config.py:122`) `def state_path(self)` - Return the absolute path of the cycle state file.
 - `specs_dir` (method, `skills/claude_md_orchestrator/config.py:126`) `def specs_dir(self)` - Return the absolute path of the spec directory.
-- `tests_dir` (method, `skills/claude_md_orchestrator/config.py:130`) `def tests_dir(self)` - Return the absolute path of the test directory.
-- `src_dir` (method, `skills/claude_md_orchestrator/config.py:134`) `def src_dir(self)` - Return the absolute path of the implementation directory.
-- `review_dir` (method, `skills/claude_md_orchestrator/config.py:138`) `def review_dir(self)` - Return the absolute path of the review directory.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 33
+- Internal resolved imports (EXTRACTED): 34
 - Cross-boundary resolved imports (EXTRACTED): 8
 
 ## Connections
@@ -69,17 +70,18 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `skills/claude_md_orchestrator/parser.py` via `subprocess` (5 hops)
-- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
+- [cycle] `cli/commands/_base.py` -> `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 
 ## Open Questions
 
-- Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
+- Can the cycle `cli/commands/_base.py` -> `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.78?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.79?
 
 ## Sources
 
+- `pwntomate.py`
 - `skills/claude_md_orchestrator/__init__.py`
 - `skills/claude_md_orchestrator/bdd_agent.py`
 - `skills/claude_md_orchestrator/boy_scout.py`

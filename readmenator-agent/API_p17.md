@@ -30,16 +30,18 @@ Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `m
 - `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
 
 ## modules/llm_pool.py
-Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
-- `shared_registry` (function) `modules/llm_pool.py:50` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
-- `HealthRegistry.__init__` (method) `modules/llm_pool.py:83` `def __init__(self, config)` -- Initialize counters from the persisted breaker state.
-- `HealthRegistry.report_success` (method) `modules/llm_pool.py:135` `def report_success(self, member_id)` -- Clear failure state for a member.
-- `HealthRegistry.report_failure` (method) `modules/llm_pool.py:143` `def report_failure(self, member_id, error)` -- Record a failure; auth/quota errors trip immediately.
-- `HealthRegistry.healthy` (method) `modules/llm_pool.py:163` `def healthy(self, member_id)` -- Return True when a member may serve traffic.
-- `LLMPool.__init__` (method) `modules/llm_pool.py:179` `def __init__(self, members, health, config)` -- Order members by descending rank (RR within equal rank).
-- `LLMPool.members` (method) `modules/llm_pool.py:192` `def members(self)` -- Return chain members in order.
-- `LLMPool.session_key` (method) `modules/llm_pool.py:196` `def session_key(self, conversation_id, role, index)` -- Build a sticky session header (LAZY session_header parity).
-- `LLMPool.complete` (method) `modules/llm_pool.py:237` `def complete(self, prompt, max_tokens, session_key, overflow_dir)` -- Complete a prompt with pre-token failover across members.
+Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_tokens.py`
+- `register_usage_sink` (function) `modules/llm_pool.py:45` `def register_usage_sink(sink)` -- Register an observer receiving (member, prompt_chars, completion_chars).
+- `usage_sinks` (function) `modules/llm_pool.py:56` `def usage_sinks()` -- Return the registered usage observers.
+- `shared_registry` (function) `modules/llm_pool.py:79` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
+- `HealthRegistry.__init__` (method) `modules/llm_pool.py:112` `def __init__(self, config)` -- Initialize counters from the persisted breaker state.
+- `HealthRegistry.report_success` (method) `modules/llm_pool.py:164` `def report_success(self, member_id)` -- Clear failure state for a member.
+- `HealthRegistry.report_failure` (method) `modules/llm_pool.py:172` `def report_failure(self, member_id, error)` -- Record a failure; auth/quota errors trip immediately.
+- `HealthRegistry.healthy` (method) `modules/llm_pool.py:192` `def healthy(self, member_id)` -- Return True when a member may serve traffic.
+- `LLMPool.__init__` (method) `modules/llm_pool.py:208` `def __init__(self, members, health, config)` -- Order members by descending rank (RR within equal rank).
+- `LLMPool.members` (method) `modules/llm_pool.py:221` `def members(self)` -- Return chain members in order.
+- `LLMPool.session_key` (method) `modules/llm_pool.py:225` `def session_key(self, conversation_id, role, index)` -- Build a sticky session header (LAZY session_header parity).
+- `LLMPool.complete` (method) `modules/llm_pool.py:266` `def complete(self, prompt, max_tokens, session_key, overflow_dir)` -- Complete a prompt with pre-token failover across members.
 
 ## modules/llm_prompts.py
 Depends on: `modules/colors.py`
@@ -91,6 +93,16 @@ Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runn
 - `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
 - `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
 
+## modules/loop/boundary.py
+Imported by: `modules/agent_runner.py`, `modules/lazy_loop.py`, `tests/test_loop_boundary.py`, `tests/test_loop_citation_judge.py`
+- `fence_result` (function) `modules/loop/boundary.py:34` `def fence_result(content)` -- Fence one tool result and append the short code-owned tail.
+- `nonce` (function) `modules/loop/boundary.py:42` `def nonce()` -- Return a short random marker nonce.
+- `fence` (function) `modules/loop/boundary.py:52` `def fence(label, content, value)` -- Wrap untrusted content between a nonce marker pair.
+- `code_tail` (function) `modules/loop/boundary.py:75` `def code_tail()` -- Return the fixed code-owned boundary tail.
+- `check_leakage` (function) `modules/loop/boundary.py:80` `def check_leakage(prompt)` -- Return marker tokens that do not appear exactly twice (unclosed fences).
+- `wrap_context_section` (function) `modules/loop/boundary.py:93` `def wrap_context_section(label, content, sections)` -- Append a fenced section to a prompt sections list (convenience).
+- `tail_sections` (function) `modules/loop/boundary.py:100` `def tail_sections(sections)` -- Join prompt sections and append the code-owned tail.
+
 ## modules/loop/control_plane.py
 Depends on: `core/logging.py`
 Imported by: `skills/autonomous_daemon.py`, `tests/test_control_plane.py`
@@ -124,10 +136,49 @@ Imported by: `modules/loop/__init__.py`
 - `EngineProxyMixin.ingest_proxy_traffic` (method) `modules/loop/engine_proxy.py:75` `def ingest_proxy_traffic(self, task_id, limit)` -- Mirror new recorder exchanges into the task traffic log.
 - `EngineProxyMixin.search_proxy_body` (method) `modules/loop/engine_proxy.py:130` `def search_proxy_body(self, task_id, query, limit)` -- Full-text search proxy bodies scoped to one task's exchanges.
 
+## modules/loop/evidence.py
+Depends on: `modules/__init__.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_loop_evidence.py`
+- `normalize_ws` (function) `modules/loop/evidence.py:25` `def normalize_ws(text)` -- Collapse whitespace runs to single spaces and strip.
+- `verbatim_contains` (function) `modules/loop/evidence.py:30` `def verbatim_contains(quote, source)` -- Return True when the quote appears verbatim (whitespace-normalised).
+- `extract_quote` (function) `modules/loop/evidence.py:37` `def extract_quote(text)` -- Extract the best quoted span from finding text (best effort).
+- `CitationService.__init__` (method) `modules/loop/evidence.py:56` `def __init__(self, max_age_sec)`
+- `CitationService.verify` (method) `modules/loop/evidence.py:59` `def verify(self, quote, traffic)` -- Search the task traffic log for the quote.
+- `CitationService.replay` (method) `modules/loop/evidence.py:98` `def replay(self, command, executor, traffic)` -- Replay the stored PoC command once and verify the quote in output.
+- `CitationService.annotate` (method) `modules/loop/evidence.py:127` `def annotate(self, finding, verification)` -- Merge a citation verification into a finding meta dict.
+- `citation_service_from_orchestrator` (function) `modules/loop/evidence.py:138` `def citation_service_from_orchestrator()` -- Build the citation service from the active orchestrator profile.
+- `citation_enabled` (function) `modules/loop/evidence.py:153` `def citation_enabled()` -- Return whether citation verification is enabled (default True).
+
+## modules/loop/leases.py
+Depends on: `modules/loop/state_db.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_loop_leases.py`
+- `LeaseStore.__init__` (method) `modules/loop/leases.py:54` `def __init__(self, db_path)`
+- `LeaseStore.try_claim` (method) `modules/loop/leases.py:69` `def try_claim(self, task_id, node_id, worker, ttl_sec)` -- Acquire or refresh the lease for one intent, or fail when held.
+- `LeaseStore.heartbeat` (method) `modules/loop/leases.py:113` `def heartbeat(self, task_id, node_id, ttl_sec)` -- Extend one live lease; settled or expired leases do not extend.
+- `LeaseStore.settle` (method) `modules/loop/leases.py:128` `def settle(self, task_id, node_id)` -- Mark the lease settled so the intent can never be claimed again.
+- `LeaseStore.release` (method) `modules/loop/leases.py:142` `def release(self, task_id, node_id)` -- Drop the lease row so the intent becomes claimable again.
+- `LeaseStore.active` (method) `modules/loop/leases.py:155` `def active(self, task_id, node_id)` -- Return True when an unexpired, unsettled lease exists.
+- `LeaseStore.sweep` (method) `modules/loop/leases.py:169` `def sweep(self, now)` -- Drop expired live leases and return the freed claims.
+- `LeaseStore.counts` (method) `modules/loop/leases.py:205` `def counts(self)` -- Return live, expired and settled lease counts (observability).
+
 ## modules/loop/objective_bootstrap.py
 Depends on: `core/logging.py`, `modules/enrich.py`, `modules/goals.py`, `modules/intercept.py`, `modules/planner.py`
 Imported by: `skills/autonomous_daemon.py`, `tests/test_objective_bootstrap.py`
 - `bootstrap_objective` (function) `modules/loop/objective_bootstrap.py:46` `def bootstrap_objective(objective_id, objective_text, target, world_model, obs_parser, planner, emit, load_payload)` -- Run every once-per-objective setup step before the loop.
+
+## modules/loop/planner_bridge.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/planner.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_loop_planner_bridge.py`
+- `planner_bridge_enabled` (function) `modules/loop/planner_bridge.py:22` `def planner_bridge_enabled()` -- Return whether the technique->intent bridge is enabled (default True).
+- `technique_candidate_summary` (function) `modules/loop/planner_bridge.py:34` `def technique_candidate_summary(candidate)` -- Render one PlanCandidate as an intent summary line.
+- `technique_intents` (function) `modules/loop/planner_bridge.py:45` `def technique_intents(target, max_candidates)` -- Run the technique planner for a target and return intent summaries.
+- `bridge_candidates_for_task` (function) `modules/loop/planner_bridge.py:70` `def bridge_candidates_for_task(target, existing, max_candidates)` -- Return bridge candidate tuples the engine planner can consume.
+
+## modules/loop/state_db.py
+Imported by: `modules/loop/leases.py`, `modules/loop/tokens.py`
+- `default_db_path` (function) `modules/loop/state_db.py:21` `def default_db_path()` -- Return the default loop state database path under sessions.
+- `connect` (function) `modules/loop/state_db.py:26` `def connect(db_path)` -- Open a new WAL SQLite connection with a bounded lock wait.
+- `thread_connection` (function) `modules/loop/state_db.py:44` `def thread_connection(db_path)` -- Return the per-thread connection for a database path.
 
 ## modules/loop/target_os.py
 Depends on: `core/config.py`, `core/logging.py`
@@ -135,6 +186,22 @@ Imported by: `skills/autonomous_daemon.py`
 - `detect_target_os` (function) `modules/loop/target_os.py:42` `def detect_target_os(target, loop)` -- Infer the target OS from ICMP TTL via a single ping probe.
 - `os_id_for` (function) `modules/loop/target_os.py:93` `def os_id_for(detected_os)` -- Map an OS label to the LazyOwn canonical ``os_id`` string.
 - `persist_detected_os` (function) `modules/loop/target_os.py:105` `def persist_detected_os(objective_id, target, detected_os, world_model, emit, load_payload, sessions_dir, payload_file)` -- Record the detected OS as ground truth across every consumer.
+
+## modules/loop/tokens.py
+Depends on: `modules/__init__.py`, `modules/loop/state_db.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_loop_tokens.py`
+- `estimate_tokens` (function) `modules/loop/tokens.py:44` `def estimate_tokens(chars)` -- Estimate token count from character count (deterministic heuristic).
+- `register_llm_sink` (function) `modules/loop/tokens.py:49` `def register_llm_sink()` -- Wire the ledger into the LLM pool usage sink (idempotent).
+- `shared_ledger` (function) `modules/loop/tokens.py:64` `def shared_ledger()` -- Return the process-wide ledger bound to the default database.
+- `TokenLedger.__init__` (method) `modules/loop/tokens.py:79` `def __init__(self, db_path)`
+- `TokenLedger.charge_chars` (method) `modules/loop/tokens.py:89` `def charge_chars(self, member, prompt_chars, completion_chars, task_id, intent_id)` -- Charge one estimated-token usage row from raw characters.
+- `TokenLedger.charge` (method) `modules/loop/tokens.py:104` `def charge(self, task_id, prompt_tokens, completion_tokens, intent_id, member)` -- Charge one explicit token usage row.
+- `TokenLedger.usage` (method) `modules/loop/tokens.py:117` `def usage(self, task_id, intent_id)` -- Return prompt/completion/total token sums for a task or intent.
+- `TokenLedger.reset` (method) `modules/loop/tokens.py:139` `def reset(self, task_id)` -- Delete usage rows for one task; returns removed count.
+- `TokenLedger.counts` (method) `modules/loop/tokens.py:149` `def counts(self)` -- Return total rows and token sums (observability).
+- `TerminationPolicy.from_orchestrator` (method) `modules/loop/tokens.py:182` `def from_orchestrator(cls)` -- Build the policy from the active orchestrator profile.
+- `TerminationPolicy.wrapup_reserve` (method) `modules/loop/tokens.py:214` `def wrapup_reserve(self, max_tokens)` -- Return the reserved token count that the wrap-up must keep.
+- `TerminationPolicy.guard` (method) `modules/loop/tokens.py:223` `def guard(self, task_id, ledger, intent_id)` -- Return the spend verdict and the action the loop must take.
 
 ## modules/loop/triage_scheduler.py
 Imported by: `modules/lazy_loop.py`, `modules/loop/__init__.py`, `tests/test_triage_scheduler.py`
@@ -149,16 +216,16 @@ Imported by: `modules/lazy_loop.py`, `modules/loop/__init__.py`, `tests/test_tri
 
 ## modules/loop/worker_agentic.py
 Depends on: `core/config.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/guard_rules.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/loop/__init__.py`, `modules/outcome_attribution.py`
-Imported by: `modules/loop/__init__.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_outcome_attribution.py`
+Imported by: `modules/loop/__init__.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_loop_verb_capabilities.py`, `tests/test_outcome_attribution.py`
 - `run_command` (function) `modules/loop/worker_agentic.py:308` `def run_command(command, background)` -- Run one shell probe/verb through scope, guard and audit.
 - `record_fact` (function) `modules/loop/worker_agentic.py:335` `def record_fact(text)` -- Persist one observed or inferred fact on the exploration graph.
 - `report_finding` (function) `modules/loop/worker_agentic.py:344` `def report_finding(name, evidence, severity)` -- Record a verified vulnerability with its evidence.
 - `traffic_search` (function) `modules/loop/worker_agentic.py:355` `def traffic_search(query)` -- Search captured command/traffic records by keyword.
-- `graph_state` (function) `modules/loop/worker_agentic.py:368` `def graph_state()` -- Compact exploration overview: intents, facts, findings.
-- `shell_open` (function) `modules/loop/worker_agentic.py:383` `def shell_open()` -- Open a persistent bash session for multi-step shell work.
-- `shell_send` (function) `modules/loop/worker_agentic.py:387` `def shell_send(command)` -- Run one guarded command in the persistent shell session.
-- `job_status` (function) `modules/loop/worker_agentic.py:391` `def job_status(job_id)` -- Report whether one background job is still running.
-- `job_output` (function) `modules/loop/worker_agentic.py:399` `def job_output(job_id)` -- Return the tail of one background job's output.
+- `graph_state` (function) `modules/loop/worker_agentic.py:368` `def graph_state()` -- Compact exploration overview plus already-discovered assets.
+- `shell_open` (function) `modules/loop/worker_agentic.py:400` `def shell_open()` -- Open a persistent bash session for multi-step shell work.
+- `shell_send` (function) `modules/loop/worker_agentic.py:404` `def shell_send(command)` -- Run one guarded command in the persistent shell session.
+- `job_status` (function) `modules/loop/worker_agentic.py:408` `def job_status(job_id)` -- Report whether one background job is still running.
+- `job_output` (function) `modules/loop/worker_agentic.py:416` `def job_output(job_id)` -- Return the tail of one background job's output.
 
 ## modules/loop_ai_bridge.py
 Depends on: `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
@@ -421,76 +488,6 @@ Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
 - `cosine` (function) `modules/memory_embeddings.py:75` `def cosine(a, b)` -- Cosine similarity of two embedding BLOBs; legacy/partial input -> 0.0.
 - `semantic_top_k` (function) `modules/memory_embeddings.py:85` `def semantic_top_k(query, candidates, top_k)` -- Rank candidate (id, embedding) pairs against the query.
 - `as_floats` (function) `modules/memory_embeddings.py:109` `def as_floats(blob)` -- Decode a BLOB into a mutable float array (diagnostics/tests).
-
-## modules/memory_store.py
-Depends on: `modules/memory_embeddings.py`
-Imported by: `tests/test_memory_semantics.py`
-- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
-- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
-- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
-- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
-- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
-- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
-- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
-- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
-- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
-- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
-- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
-- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
-- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
-- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
-- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
-- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
-- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
-- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
-- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
-- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
-- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
-- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
-- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
-- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
-- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
-- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
-- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
-- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
-
-## modules/metasploitable_gym.py
-Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
-Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
-- `load_index` (function) `modules/metasploitable_gym.py:42` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
-- `vulnerabilities` (function) `modules/metasploitable_gym.py:47` `def vulnerabilities(path)` -- Return every indexed vulnerability.
-- `get` (function) `modules/metasploitable_gym.py:53` `def get(vuln_id, path)` -- Return one vulnerability by id, or None.
-- `chain_for` (function) `modules/metasploitable_gym.py:62` `def chain_for(vuln_id, path)` -- Return the resolved chain for one vulnerability, or None.
-- `exploit_for` (function) `modules/metasploitable_gym.py:72` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one vulnerability, or None.
-- `validate_matrix` (function) `modules/metasploitable_gym.py:82` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
-- `summary` (function) `modules/metasploitable_gym.py:138` `def summary(path)` -- Return counts by severity and service for operators.
-- `main` (function) `modules/metasploitable_gym.py:157` `def main()` -- CLI: list | validate | info | chain.
-
-## modules/metasploitable_migrations.py
-Depends on: `core/safe_exec.py`
-Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
-- `build_migrations` (function) `modules/metasploitable_migrations.py:194` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
-- `apply_migrations` (function) `modules/metasploitable_migrations.py:366` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
-
-## modules/metrics.py
-Depends on: `core/logging.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/metrics_summary.py`, `tests/test_metrics.py`
-- `MetricsRegistry.__init__` (method) `modules/metrics.py:63` `def __init__(self)` -- Create an empty registry with its own lock.
-- `MetricsRegistry.inc` (method) `modules/metrics.py:69` `def inc(self, name, labels, value)` -- Increment the named counter for the given labels.
-- `MetricsRegistry.get` (method) `modules/metrics.py:87` `def get(self, name, labels)` -- Return the current value of a counter.
-- `MetricsRegistry.prometheus_text` (method) `modules/metrics.py:107` `def prometheus_text(self)` -- Render every counter in Prometheus text exposition format.
-- `MetricRecord.to_dict` (method) `modules/metrics.py:167` `def to_dict(self)` -- Return the record as a JSON-serialisable dictionary.
-- `MetricsWriter.__init__` (method) `modules/metrics.py:189` `def __init__(self, path)` -- Initialise the writer.
-- `MetricsWriter.path` (method) `modules/metrics.py:201` `def path(self)` -- Return the JSONL destination path.
-- `MetricsWriter.append` (method) `modules/metrics.py:206` `def append(self, record)` -- Append a single record to disk.
-- `MetricsAggregator.summarize` (method) `modules/metrics.py:254` `def summarize(cls, records, window_seconds, now_utc)` -- Compute aggregate statistics over the supplied records.
-- `MetricsRecorder.__init__` (method) `modules/metrics.py:339` `def __init__(self, writer)` -- Initialise the recorder.
-- `MetricsRecorder.path` (method) `modules/metrics.py:350` `def path(self)` -- Return the JSONL path used by the underlying writer.
-- `MetricsRecorder.record` (method) `modules/metrics.py:355` `def record(self, command, args, duration_ms, success, exit_code, source)` -- Persist a single command-execution telemetry record.
-- `MetricsRecorder.summarize` (method) `modules/metrics.py:416` `def summarize(self, window_seconds)` -- Return aggregate statistics over recorded events.
-- `MetricsRecorder.tail` (method) `modules/metrics.py:430` `def tail(self, n)` -- Return the most recent *n* records, newest first.
-- `get_recorder` (function) `modules/metrics.py:452` `def get_recorder()` -- Return the process-wide :class:`MetricsRecorder` singleton.
-- `reset_recorder_for_tests` (function) `modules/metrics.py:466` `def reset_recorder_for_tests(writer)` -- Replace the module-level recorder with a fresh instance.
 
 
 Next: [API_p18.md](API_p18.md)

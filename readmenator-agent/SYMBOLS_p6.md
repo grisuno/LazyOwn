@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `enrich_commands` | function | `cli/palette_telemetry.py:300` | `def enrich_commands(telemetry, rows)` |
+| `enrich_detail` | function | `cli/palette_telemetry.py:275` | `def enrich_detail(telemetry, entry)` |
+| `load_telemetry` | function | `cli/palette_telemetry.py:186` | `def load_telemetry(path)` |
+| `recents` | function | `cli/palette_telemetry.py:259` | `def recents(telemetry)` |
+| `runs_after` | function | `cli/palette_telemetry.py:239` | `def runs_after(telemetry, command_name)` |
+| `safe_load_telemetry` | function | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
+| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
+| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
+| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
+| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
+| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
+| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
 | `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
 | `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
 | `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `resolve_sources` | method | `cli/toast_bus.py:255` | `def resolve_sources(self, names)` |
 | `rich_toastr_panel` | function | `cli/toast_bus.py:456` | `def rich_toastr_panel(message, severity, terminal_width, config)` |
 | `root` | method | `cli/toast_bus.py:219` | `def root(self)` |
-| `sentinel_toast_panel` | function | `cli/toast_bus.py:528` | `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` |
-| `set` | method | `cli/toast_bus.py:155` | `def set(self, name, offset)` |
-| `shell_hint_bypass` | function | `cli/toast_bus.py:509` | `def shell_hint_bypass(console, message, severity)` |
-| `toastr_severity_style` | function | `cli/toast_bus.py:449` | `def toastr_severity_style(severity)` |
-| `toasts_enabled` | function | `cli/toast_bus.py:920` | `def toasts_enabled(payload, config)` |
-| `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
-| `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
-| `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
-| `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
-| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
-| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
-| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

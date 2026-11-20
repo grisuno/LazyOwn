@@ -9,11 +9,11 @@ graph LR
     tests -- "calls into" --> lazygui
 ```
 
-## lazygui (10.1)
+## lazygui (11.1)
 
 lazygui groups 51 files (py) around WindowConstants, TimingConstants, NetworkConstants, PtyConstants, FontConstants. Entry point for ``python -m lazygui``.
 
-## tests (10.2)
+## tests (11.2)
 
 tests groups 3 files (py) around TestBackendDescriptor, test_construction, test_immutable, TestBackendStatus, test_values. Tests for lazygui backend services.
 

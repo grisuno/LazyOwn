@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1671 files at commit `53fa09d49036`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1700 files at commit `77ea5bf94ff8`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `one` (633), `modules` (623), `lazy` (599), `command` (593), `run` (547), `file` (537), `not` (525), `path` (518), `without` (492), `json` (478), `name` (470), `all` (441), `own` (439), `target` (432), `chain` (418)
-- Subsystem `skills/mcp_tools`: 214 files, core `skills/mcp_generated_tools.py`: Auto-generated MCP tool handlers from command_index.json.
-- Subsystem `modules: lazyc2`: 173 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `cli/commands`: 152 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazy_loop`: 152 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `cli`: 148 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
-- Subsystem `modules: world_model`: 122 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `modules: lazyown`: 119 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: lazyown_facts`: 116 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
+- Domain vocabulary (term, files): `one` (644), `modules` (636), `lazy` (605), `command` (600), `run` (554), `file` (538), `not` (536), `path` (528), `without` (500), `json` (480), `name` (472), `all` (443), `own` (443), `target` (436), `chain` (419)
+- Subsystem `skills/mcp_tools`: 226 files, core `skills/mcp_generated_tools.py`: Auto-generated MCP tool handlers from command_index.json.
+- Subsystem `modules: lazyc2`: 176 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: lazy_loop`: 162 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `cli/commands`: 158 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyown`: 151 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: lazyown_facts`: 110 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
+- Subsystem `modules: autonomous_exploit_engine`: 87 files, core `modules/autonomous_exploit_engine.py`: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
+- Subsystem `modules: world_model`: 84 files, core `modules/world_model.py`: modules/world_model.py
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 167; layer violations: 71 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 172; layer violations: 71 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1534 files, 23929 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 159 lines, max 11943.
+- py: 1559 files, 24248 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 157 lines, max 12548.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1558.
+- js: 28 files, 1651 symbols; docstrings on 47% of symbols; functions snake_case (46%); types PascalCase (27%); median file 6 lines, max 9358.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
-- js: 24 files, 1639 symbols; docstrings on 48% of symbols; functions snake_case (46%); types PascalCase (27%); median file 7 lines, max 9358.
-- Tests: 500 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 517 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,14 +98,14 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 54%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 167).
+- No new dependency cycles (current: 172).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
 ## 6. Risks to respect
 
-- God nodes (changes ripple widely): `skills/mcp_tools/_context.py`, `modules/lazy_loop.py`, `core/logging.py`, `modules/__init__.py`, `utils.py`
-- Hotspots (complex and central): `static/js/html2pdf.bundle.min.js`, `static/js/3d-force-graph-1.73.4.min.js`, `skills/mcp_generated_tools.py`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`
+- God nodes (changes ripple widely): `modules/lazy_loop.py`, `skills/mcp_tools/_context.py`, `core/logging.py`, `modules/__init__.py`, `utils.py`
+- Hotspots (complex and central): `static/js/html2pdf.bundle.min.js`, `static/js/3d-force-graph-1.73.4.min.js`, `skills/mcp_generated_tools.py`, `modules/lazy_loop.py`, `static/js/vis-network-9.1.2.min.js`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop/__init__.py` -> `modules/loop/worker_agentic.py` -> `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/engine_mediator.py` -> `modules/autonomous_exploit_engine.py` -> `modules/atomic_exploit_bridge.py` -> `core/config.py`
@@ -159,4 +159,7 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-11-19 [decision] auto_loop now auto-starts the C2 when payload flag loop_c2_autostart is true (modules/lazy_runner._maybe_start_c2): TCP probe on c2_bind_address/lhost:c2_port, detached python lazyc2.py <port> <c2_user> <c2_pass>, log sessions/c2_autostart.log, fail-soft with c2_autostart_timeout override; added for the loop_beacon_handoff beacon capture.
 - 2026-11-19 [decision] beacon handoff visibility fixed: handoff worker resolves the newest running loop task when the shell outcome carries no task_id (TaskStore fallback in lazy_handoff._resolve_task_id) so handoff start/deployed/complete events reach the loop notifications panel; worker log now has a UTC-stamped run separator per invocation plus per-line HH:MM:SS timestamps and runs unbuffered (-u) so lines appear live; parent console line points at sessions/beacon_handoff_<host>.log.
 - 2026-11-19 [decision] beacon handoff liveness rewritten: _beacon_is_live now reads the C2's last-received report timestamp via bof_delivery.beacon_last_seen (/api/data, no disk fallback) with BEACON_LIVENESS_S=120s sized for the beacon's 6s poll cadence; the old 3600s disk-history window made a destroyed lab container's beacon look alive for an hour, silently skipping every new handoff (t0042). Skips are now loud via _log_skip_reason (in flight / still reporting / re-arm window). Verified activity_t0038/t0040/t004...
+- 2026-11-19 [decision] Loop substrate v6 shipped (ARTEX parity, 6 review gaps closed): modules/loop/state_db.py (shared SQLite WAL sessions/db/loop_state.db gitignored) + leases.py LeaseStore (BEGIN IMMEDIATE CAS claim, heartbeat on Budget.record_toolcall, settle-on-terminal via set_state _sync_lease, release-on-requeue, engine _sweep_leases requeues expired running intents each round; config orchestrator leases {enabled,ttl_sec,heartbeat_sec}); tokens.py TokenLedger (est tokens = chars/4 via llm_pool.register_usag...
+- 2026-11-20 [decision] php2shell package: 4 lazyaddons (php2shell_scan/_a/_b/_c from ikow/php2shell-poc) + 2 atomic specs (php2shell_chain_a/c) auto-matched by auto_pwn via services=[http]; shared operator param rce_command; verbs addon:php2shell_* in config/verbs.yaml; labs php2shell56 (PHP 5.6.40) + php2shell84 (8.4.26 bookworm, OpenSSL 3) provisioned by _ensure_php2shell bootstrap (base64 payloads, apache restart after ini write)
+- 2026-11-20 [decision] beacon handoff now covers HTTP-RCE footholds: Php2ShellSession (modules/php2shell_rce.py, alive/run adapter) feeds deploy_client(session=...) when open_shell has no bind-shell spec; confirm_outcome publishes shell event that triggers maybe_beacon_handoff. Beacon loop gained docker_escape phase (goal keywords or beacon_docker_escape payload flag): socket probe srwx detection -> staged scripts/docker_escape.sh via C2 /s/ (IMPLANT_STAGE_FILES) -> privileged helper with HostConfig.Binds reads hos...
 <!-- readmenator:memory:notes:end -->

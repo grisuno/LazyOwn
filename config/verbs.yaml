@@ -1464,6 +1464,46 @@ verbs:
       bookworm|lab''. Free args append to exploit.py, e.g. ''php2shell -c "id>/tmp/p1"
       --fetch /p1''. Payload max 14 bytes.'
     source: addon
+  addon:php2shell_scan:
+    enabled: true
+    phase: enum
+    risk: safe
+    description: 'php2shell Scanner (CVE-2026-109618/109619): 4-tier pre-auth PHP
+      RCE exposure check (fingerprint, upload_progress reachability, session-write,
+      opt-in OOM differential). Clones to external/.exploit/php2shell_poc. Target:
+      ''assign url http://host/index.php'', then ''php2shell_scan''. Free args: --json,
+      --active (tier 4), -p /path.php, -f urls.txt.'
+    source: addon
+  addon:php2shell_a:
+    enabled: true
+    phase: exploit
+    risk: exploit
+    description: 'php2shell Chain A (CVE-2026-109618/109619): pre-auth RCE via
+      session.upload_progress PHP injection + LFI include of the poisoned session
+      file. Needs PHP 5.4.0-8.5.11 with an LFI sink and a known save_path. Target:
+      ''assign url http://host/index.php''. OS command: ''assign rce_command id''.
+      Free args: --inject-path, --lfi-path, --session-path, --attempts, --cleanup-on.
+      Lab: lab start php2shell56.'
+    source: addon
+  addon:php2shell_b:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: 'php2shell Chain B (CVE-2026-109618): var_destroy UAF to handler
+      overwrite via /proc/self/mem; target-local PHP CLI exploit calibrated for
+      php:8.2.34-fpm. Stages sessions/php2shell_chain_b.php, then upload_c2 +
+      issue_command_to_c2 run it on the victim. Needs a live C2 session.'
+    source: addon
+  addon:php2shell_c:
+    enabled: true
+    phase: exploit
+    risk: exploit
+    description: 'php2shell Chain C (CVE-2026-109618/109619): FPM serialize_handler
+      mismatch to __destruct RCE. Needs php-fpm workers, one php_serialize endpoint
+      and a POP gadget class. Target: ''assign url http://host''. Free args:
+      --upload-path, --trigger-path, --pollute-path, --gadget. FPM-only; mod_php
+      ignores .user.ini.'
+    source: addon
   addon:pi_qwen:
     enabled: false
     phase: exploit

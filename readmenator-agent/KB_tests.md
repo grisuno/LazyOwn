@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 27)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md), [KB_tests_p22.md](KB_tests_p22.md), [KB_tests_p23.md](KB_tests_p23.md), [KB_tests_p24.md](KB_tests_p24.md), [KB_tests_p25.md](KB_tests_p25.md), [KB_tests_p26.md](KB_tests_p26.md), [KB_tests_p27.md](KB_tests_p27.md)
+# Subsystem: tests (page 1 of 28)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md), [KB_tests_p22.md](KB_tests_p22.md), [KB_tests_p23.md](KB_tests_p23.md), [KB_tests_p24.md](KB_tests_p24.md), [KB_tests_p25.md](KB_tests_p25.md), [KB_tests_p26.md](KB_tests_p26.md), [KB_tests_p27.md](KB_tests_p27.md), [KB_tests_p28.md](KB_tests_p28.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -13,18 +13,19 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_isolated_llm_health` (function, line 16) `def _isolated_llm_health(tmp_path, monkeypatch)`
   - `_fast_llm_connect_backoff` (function, line 46) `def _fast_llm_connect_backoff(monkeypatch)`
   - `_reset_world_model_singleton` (function, line 62) `def _reset_world_model_singleton()`
-  - `_reset_guard_harness` (function, line 72) `def _reset_guard_harness()`
-  - `_offline_llm_for_loop_tests` (function, line 91) `def _offline_llm_for_loop_tests(request, monkeypatch)`
-  - `_isolated_payload_scope` (function, line 169) `def _isolated_payload_scope(tmp_path, monkeypatch)`
-  - `_no_browser_sync_wiring` (function, line 202) `def _no_browser_sync_wiring(monkeypatch)`
+  - `_isolated_loop_state_db` (function, line 72) `def _isolated_loop_state_db(tmp_path, monkeypatch)`
+  - `_reset_guard_harness` (function, line 95) `def _reset_guard_harness()`
+  - `_offline_llm_for_loop_tests` (function, line 114) `def _offline_llm_for_loop_tests(request, monkeypatch)`
+  - `_isolated_payload_scope` (function, line 192) `def _isolated_payload_scope(tmp_path, monkeypatch)`
+  - `_no_browser_sync_wiring` (function, line 225) `def _no_browser_sync_wiring(monkeypatch)`
   - `_isolated_path` (function, line 32) `def _isolated_path()`
-  - `_offline` (function, line 108) `def _offline(model, prompt, max_tokens)`
-  - `_HealthyRegistry` (class, line 113) `class _HealthyRegistry`
-  - `_scoped_load_payload` (function, line 184) `def _scoped_load_payload()`
-  - `healthy` (method, line 116) `def healthy(self, name)`
-  - `report_failure` (method, line 119) `def report_failure(self, name, reason)`
-  - `report_success` (method, line 122) `def report_success(self, name)`
-- Depends on: `core/config.py`, `modules/browser_sync.py`, `modules/guardrails/harness.py`, `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
+  - `_offline` (function, line 131) `def _offline(model, prompt, max_tokens)`
+  - `_HealthyRegistry` (class, line 136) `class _HealthyRegistry`
+  - `_scoped_load_payload` (function, line 207) `def _scoped_load_payload()`
+  - `healthy` (method, line 139) `def healthy(self, name)`
+  - `report_failure` (method, line 142) `def report_failure(self, name, reason)`
+  - `report_success` (method, line 145) `def report_success(self, name)`
+- Depends on: `core/config.py`, `modules/browser_sync.py`, `modules/guardrails/harness.py`, `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop/__init__.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
 
 ## tests/integration_autonomous_flow.py
 - Doc: test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module...

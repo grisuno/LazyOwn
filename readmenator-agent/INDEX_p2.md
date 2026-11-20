@@ -3,6 +3,11 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/exploitgym_gym.py` | ExploitGym integration — real-world vulnerability-to-exploit benchmark. | modules | 20 | 6 |
+| `modules/fact_gated_todolist.py` | Fact-gated todolist: dispatch an intent only when its prerequisite facts exist. | modules | 2 | 2 |
+| `modules/factsio.py` | Canonical reader for the FactStore ``policy_facts.json`` document. | modules | 7 | 4 |
+| `modules/failure_verdict.py` | Failure verdict contract: classify one failed execution into an action. | modules | 8 | 5 |
+| `modules/fast_run_service.sh` | LazyOwn service-mode orchestrator. | modules | 39 | 0 |
 | `modules/finding_enrich.py` | Idempotent enrichment of a finding's evidence before it is reported. | modules | 5 | 1 |
 | `modules/finding_lifecycle.py` | Finding confirmation lifecycle: pending -> confirmed / rejected. | modules | 27 | 8 |
 | `modules/forensic_cleaner.py` | Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup. | modules | 8 | 1 |
@@ -64,20 +69,20 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 26 | 5 |
 | `modules/lazy_deviations.py` | Planned-versus-actual deviation ledger for loop and chain runs. | modules | 12 | 4 |
 | `modules/lazy_drafts.py` | Injected objective drafts: close the lazy_drafts handoff loop. | modules | 2 | 1 |
-| `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 49 |
+| `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 51 |
 | `modules/lazy_exposure.py` | Target exposure report for LazyOwn. | modules | 14 | 5 |
 | `modules/lazy_fallback.py` | Adaptive fallback alternatives for failed chain techniques. | modules | 9 | 3 |
 | `modules/lazy_feedmatch.py` | Exploit feed matching for LazyOwn. | modules | 18 | 6 |
 | `modules/lazy_finalizer.py` | Evidence-gated finalization for the autonomous loop and apt_chain. | modules | 3 | 1 |
 | `modules/lazy_findings.py` | Engagement findings ledger: state machine plus reproducible evidence. | modules | 27 | 2 |
-| `modules/lazy_handoff.py` | Foothold-to-beacon handoff for the autonomous loop. | modules | 9 | 1 |
+| `modules/lazy_handoff.py` | Foothold-to-beacon handoff for the autonomous loop. | modules | 14 | 1 |
 | `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 15 | 11 |
 | `modules/lazy_hostscore.py` | Host heat score: deterministic 0-100 priority for every known host. | modules | 5 | 2 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
 | `modules/lazy_inventory.py` | Host-reported inventory for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_ledger.py` | Freshness ledger: TTL windows per verb and target for the loop worker. | modules | 11 | 3 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 492 | 103 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 510 | 113 |
 | `modules/lazy_match_policy.py` | Match policy doctrine: what may claim a match and what stays a lead. | modules | 14 | 1 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_netattack.py` | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | modules | 12 | 1 |
@@ -90,7 +95,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 10 |
 | `modules/lazy_reaper.py` | Reaper: expire lazy-loop tasks whose process proves dead. | modules | 3 | 2 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
-| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 52 | 17 |
+| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 57 | 17 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
 | `modules/lazy_scope.py` | Lab-only default scope for autonomous loop targets. | modules | 17 | 1 |
 | `modules/lazy_search.py` | Lazy saved-search grammar over the engagement database. | modules | 8 | 1 |
@@ -143,21 +148,27 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/llm_evaluator.py` | — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning... | modules | 28 | 2 |
 | `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 32 | 33 |
 | `modules/llm_orchestrator.py` | Orchestrator-governed LLM failover chain for every AI module. | modules | 21 | 8 |
-| `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 9 |
+| `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 23 | 10 |
 | `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 5 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 23 |
-| `modules/loop/__init__.py` | - | loop | 0 | 8 |
+| `modules/loop/__init__.py` | - | loop | 0 | 13 |
+| `modules/loop/boundary.py` | Untrusted-data boundary for every LLM-bound surface of the loop. | loop | 8 | 4 |
 | `modules/loop/control_plane.py` | Operator control-plane precheck for the autonomous loop. | loop | 1 | 2 |
 | `modules/loop/daemon_reward.py` | Single-responsibility contract for the autonomous daemon's RL step reward. | loop | 8 | 2 |
 | `modules/loop/decision_log.py` | Reproducible decision ledger for the autonomous loop. | loop | 10 | 0 |
 | `modules/loop/engine_proxy.py` | EngineProxyMixin: Recorder-proxy lifecycle and traffic ingestion for the loop engine. | loop | 8 | 1 |
+| `modules/loop/evidence.py` | Verbatim citation verification and command replay for loop findings. | loop | 10 | 2 |
+| `modules/loop/leases.py` | Claim leases with heartbeat for the lazy loop frontier. | loop | 12 | 2 |
 | `modules/loop/objective_bootstrap.py` | Pre-loop bootstrap for an autonomous objective. | loop | 2 | 2 |
+| `modules/loop/planner_bridge.py` | Bridge from the technique planner to the loop intent frontier. | loop | 4 | 2 |
+| `modules/loop/state_db.py` | Shared SQLite state substrate for loop modules. | loop | 3 | 2 |
 | `modules/loop/target_os.py` | Target operating-system ground truth for the autonomous loop. | loop | 3 | 1 |
+| `modules/loop/tokens.py` | Token and turn budgets with wrap-up reservation for the lazy loop. | loop | 19 | 2 |
 | `modules/loop/triage_scheduler.py` | Difficulty-triage scheduling for the autonomous multi-target loop. | loop | 11 | 3 |
-| `modules/loop/worker_agentic.py` | WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker. | loop | 36 | 5 |
+| `modules/loop/worker_agentic.py` | WorkerAgenticMixin: Tool-calling agent loop and LLM step planning for a loop worker. | loop | 36 | 6 |
 | `modules/loop/worker_execution.py` | WorkerExecutionMixin: Command execution, background jobs and persistent-shell lifecycle for a... | loop | 12 | 1 |
-| `modules/loop/worker_gating.py` | WorkerGatingMixin: Scope, operating-system and privilege gates for a loop worker. | loop | 7 | 1 |
+| `modules/loop/worker_gating.py` | WorkerGatingMixin: Scope, operating-system and privilege gates for a loop worker. | loop | 8 | 1 |
 | `modules/loop/worker_lazymode.py` | Code-mode (lazymode) first attempt for the loop worker. | loop | 12 | 1 |
 | `modules/loop/worker_memory.py` | WorkerMemoryMixin: Durable and in-session memory behaviour for a loop worker. | loop | 7 | 1 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 28 | 7 |
@@ -201,14 +212,14 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
 | `modules/operator_profiles.py` | Multi-operator profile management for LazyOwn team server. | modules | 20 | 1 |
 | `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 5 |
-| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 41 | 22 |
+| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 46 | 22 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
-| `modules/outcome_attribution.py` | Observer-style failure attribution for autonomous loop steps. | modules | 10 | 3 |
-| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 40 |
+| `modules/outcome_attribution.py` | Observer-style failure attribution for autonomous loop steps. | modules | 10 | 5 |
+| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 42 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 7 |
 | `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 3 |
 | `modules/pipeline_engine.py` | modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn | modules | 80 | 8 |
-| `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 8 |
+| `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 9 |
 | `modules/playbook_admin.py` | Safe CRUD for the YAML playbooks under ``playbooks/``. | modules | 18 | 5 |
 | `modules/playbook_chain.py` | Playbook to chain lowering: one contract, one destination. | modules | 5 | 2 |
 | `modules/playbook_engine.py` | modules/playbook_engine.py | modules | 32 | 10 |
@@ -312,6 +323,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/unified_dashboard.py` | Unified campaign dashboard — combines all state sources into one view. | modules | 15 | 2 |
 | `modules/update_db.sh` | Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico... | modules | 0 | 0 |
 | `modules/venator.py` | - | modules | 34 | 0 |
+| `modules/verb_capabilities.py` | Declarative verb capability registry for the unattended loop. | modules | 4 | 2 |
 | `modules/verb_catalog.py` | Operator-owned YAML catalog of every routable shell verb. | modules | 21 | 10 |
 | `modules/verb_manifest.py` | Typed verb manifests - semantics for routable shell verbs. | modules | 17 | 3 |
 | `modules/vuln_bot_cli.py` | - | modules | 2 | 0 |
@@ -360,7 +372,7 @@ Previous: [INDEX.md](INDEX.md)
 | `poc_tui/app.py` | LazyOwn TUI Shell — Proof of Concept.  cmd2 as backend, Textual as frontend. | poc_tui | 47 | 3 |
 | `poc_tui/config.py` | Payload.json configuration manager for the TUI shell. | poc_tui | 11 | 1 |
 | `poc_tui/plugin_loader.py` | Unified plugin loader — YAML addons, Lua plugins, and .tool files. | poc_tui | 22 | 0 |
-| `poc_tui/run.py` | Convenience launcher that symlinks LazyOwn dirs and starts the TUI. | poc_tui | 1 | 1 |
+| `poc_tui/run.py` | Convenience launcher that symlinks LazyOwn dirs and starts the TUI. | poc_tui | 1 | 5 |
 | `poc_tui/test_app.py` | Pytest tests for LazyOwn TUI Shell POC. | poc_tui | 56 | 0 |
 | `pwntomate.py` | This software must not be used by military or secret service organisations. | root | 3 | 0 |
 | `py2elf.sh` | Nombre del script: py2elf.sh Autor: Gris Iscomeback Correo electrónico... | root | 0 | 0 |
@@ -484,17 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/mcp_tools/c2_notes.py` | MCP tool ``lazyown_c2_notes`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/c2_profile.py` | MCP tool ``lazyown_c2_profile`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/c2_redop.py` | MCP tool ``lazyown_c2_redop`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/c2_script.py` | MCP tool ``lazyown_c2_script`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/c2_search_agent.py` | MCP tool ``lazyown_c2_search_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/c2_status.py` | MCP tool ``lazyown_c2_status``: check C2 reachability and dashboard data. | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/c2_vuln_analysis.py` | MCP tool ``lazyown_c2_vuln_analysis`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/campaign.py` | MCP tool ``lazyown_campaign`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/campaign_lessons.py` | MCP tool ``lazyown_campaign_lessons`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/campaign_sitrep.py` | MCP tool ``lazyown_campaign_sitrep`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/campaign_tasks.py` | MCP tool ``lazyown_campaign_tasks`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/claudemd.py` | MCP tool ``lazyown_claudemd`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/collab_publish.py` | MCP tool ``lazyown_collab_publish`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
-| `skills/mcp_tools/command_help.py` | MCP tool ``lazyown_command_help`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
-| `skills/mcp_tools/command_next.py` | MCP tool ``lazyown_command_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

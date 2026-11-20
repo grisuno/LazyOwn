@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `load_from_directory` | method | `modules/c2_profile.py:493` | `def load_from_directory(self, path)` |
+| `register` | method | `modules/c2_profile.py:464` | `def register(self, name, profile)` |
+| `save` | method | `modules/c2_profile.py:282` | `def save(profile, path)` |
+| `to_dict` | method | `modules/c2_profile.py:254` | `def to_dict(profile)` |
+| `validate` | method | `modules/c2_profile.py:162` | `def validate(self, profile)` |
+| `DnsProfile` | class | `modules/c2_profile_engine.py:205` | `class DnsProfile` |
+| `ProfileEngine` | class | `modules/c2_profile_engine.py:611` | `class ProfileEngine` |
+| `ProfileRotator` | class | `modules/c2_profile_engine.py:441` | `class ProfileRotator` |
+| `ProfileValidator` | class | `modules/c2_profile_engine.py:503` | `class ProfileValidator` |
+| `RotationSlot` | class | `modules/c2_profile_engine.py:414` | `class RotationSlot` |
+| `SmbProfile` | class | `modules/c2_profile_engine.py:289` | `class SmbProfile` |
+| `TlsProfile` | class | `modules/c2_profile_engine.py:117` | `class TlsProfile` |
+| `TransportType` | class | `modules/c2_profile_engine.py:404` | `class TransportType(Enum)` |
+| `WebSocketProfile` | class | `modules/c2_profile_engine.py:349` | `class WebSocketProfile` |
+| `__init__` | method | `modules/c2_profile_engine.py:453` | `def __init__(self, slots)` |
+| `__init__` | method | `modules/c2_profile_engine.py:627` | `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)` |
+| `_default_slots` | method | `modules/c2_profile_engine.py:709` | `def _default_slots(self)` |
+| `active_transport` | method | `modules/c2_profile_engine.py:668` | `def active_transport(self)` |
 | `build_query_subdomain` | method | `modules/c2_profile_engine.py:231` | `def build_query_subdomain(self, data, packet_id)` |
 | `current_slot` | method | `modules/c2_profile_engine.py:460` | `def current_slot(self)` |
 | `dns_profile` | method | `modules/c2_profile_engine.py:648` | `def dns_profile(self)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `run_custom_tool_line` | function | `modules/custom_tools.py:151` | `def run_custom_tool_line(command, on_output)` |
 | `run_tool` | function | `modules/custom_tools.py:170` | `def run_tool(name, arg, on_output)` |
 | `CVEMatcher` | class | `modules/cve_matcher.py:60` | `class CVEMatcher` |
-| `CVEResult` | class | `modules/cve_matcher.py:51` | `class CVEResult` |
-| `__init__` | method | `modules/cve_matcher.py:70` | `def __init__(self, api_key, cache_dir)` |
-| `_cache_path` | method | `modules/cve_matcher.py:95` | `def _cache_path(self, params)` |
-| `_load_cache` | method | `modules/cve_matcher.py:100` | `def _load_cache(self, params)` |
-| `_query` | method | `modules/cve_matcher.py:128` | `def _query(self)` |
-| `_rate_limit` | method | `modules/cve_matcher.py:121` | `def _rate_limit(self)` |
-| `_save_cache` | method | `modules/cve_matcher.py:112` | `def _save_cache(self, params, results)` |
-| `get_matcher` | function | `modules/cve_matcher.py:198` | `def get_matcher()` |
-| `search` | method | `modules/cve_matcher.py:82` | `def search(self)` |
-| `search` | function | `modules/cve_matcher.py:206` | `def search(product, version, max_results)` |
-| `search_by_cpe` | method | `modules/cve_matcher.py:89` | `def search_by_cpe(self, cpe_name, max_results)` |
-| `ACEntry` | class | `modules/dacl_abuse.py:67` | `class ACEntry` |
-| `ACLTarget` | class | `modules/dacl_abuse.py:91` | `class ACLTarget` |
-| `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
-| `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
-| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
-| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
-| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

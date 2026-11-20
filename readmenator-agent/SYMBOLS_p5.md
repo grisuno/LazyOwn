@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_bfs_distance` | method | `cli/graph_advisor.py:649` | `def _bfs_distance(index, start, max_hops)` |
+| `_build` | method | `cli/graph_advisor.py:223` | `def _build(self)` |
+| `_classify_health` | method | `cli/graph_advisor.py:432` | `def _classify_health(self, edges_count, age_days)` |
+| `_ensure_index` | method | `cli/graph_advisor.py:675` | `def _ensure_index(self)` |
+| `_graph_age_days` | method | `cli/graph_advisor.py:423` | `def _graph_age_days(self, path)` |
+| `_iter_all_edges` | method | `cli/graph_advisor.py:665` | `def _iter_all_edges(index)` |
+| `_missing_reason` | method | `cli/graph_advisor.py:684` | `def _missing_reason(self)` |
+| `_resolve_query` | method | `cli/graph_advisor.py:638` | `def _resolve_query(self, query)` |
+| `_score` | method | `cli/graph_advisor.py:335` | `def _score(self, value, terms, query)` |
+| `_seed_nodes` | method | `cli/graph_advisor.py:624` | `def _seed_nodes(self, recent_commands)` |
+| `_tokens` | method | `cli/graph_advisor.py:350` | `def _tokens(self, query)` |
+| `clear_cache` | method | `cli/graph_advisor.py:207` | `def clear_cache(cls)` |
 | `community_members` | method | `cli/graph_advisor.py:289` | `def community_members(self, community_id)` |
 | `degree` | method | `cli/graph_advisor.py:292` | `def degree(self, node_id)` |
 | `degree_ranked` | method | `cli/graph_advisor.py:295` | `def degree_ranked(self)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_normalise_command` | function | `cli/palette_telemetry.py:97` | `def _normalise_command(value)` |
 | `_read_csv_rows` | function | `cli/palette_telemetry.py:107` | `def _read_csv_rows(path)` |
 | `command_stats` | function | `cli/palette_telemetry.py:216` | `def command_stats(telemetry, command_name)` |
-| `enrich_commands` | function | `cli/palette_telemetry.py:300` | `def enrich_commands(telemetry, rows)` |
-| `enrich_detail` | function | `cli/palette_telemetry.py:275` | `def enrich_detail(telemetry, entry)` |
-| `load_telemetry` | function | `cli/palette_telemetry.py:186` | `def load_telemetry(path)` |
-| `recents` | function | `cli/palette_telemetry.py:259` | `def recents(telemetry)` |
-| `runs_after` | function | `cli/palette_telemetry.py:239` | `def runs_after(telemetry, command_name)` |
-| `safe_load_telemetry` | function | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
-| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
-| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
-| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
-| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
-| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
-| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

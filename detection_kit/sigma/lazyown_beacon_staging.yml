@@ -1,0 +1,24 @@
+title: LazyOwn C2 Beacon Binary Staging
+id: 931cb17b-8472-4c9f-bd86-ea9fa3a1a91d
+status: stable
+description: >
+  Detects a client fetching the staged beacon ELF over the C2 listener
+  (GET /stage/beacon). On an operator network this is the fingerprint of a
+  payload delivery step; on a lab host it must only ever resolve to the C2.
+author: LazyOwn RedTeam Framework
+date: 2026-11-19
+references:
+  - https://github.com/grisuno/LazyOwn
+tags:
+  - attack.command_and_control
+  - attack.t1105
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-method: 'GET'
+    c-uri|endswith: '/stage/beacon'
+  condition: selection
+falsepositives:
+  - Operator-driven delivery tests against the intended lab target.
+level: high

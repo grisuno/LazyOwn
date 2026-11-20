@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `unsubscribe` | method | `modules/event_bus.py:327` | `def unsubscribe(self, subscriber_id)` |
+| `write` | method | `modules/event_bus.py:137` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
+| `AutoRecommender` | class | `modules/event_consumers.py:191` | `class AutoRecommender` |
+| `CredentialReactor` | class | `modules/event_consumers.py:262` | `class CredentialReactor` |
+| `DashboardPusher` | class | `modules/event_consumers.py:348` | `class DashboardPusher` |
+| `PhaseTracker` | class | `modules/event_consumers.py:136` | `class PhaseTracker` |
+| `SoulSync` | class | `modules/event_consumers.py:310` | `class SoulSync` |
+| `__call__` | method | `modules/event_consumers.py:149` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:197` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:272` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
+| `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
+| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
+| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
 | `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
 | `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
 | `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
@@ -162,6 +180,8 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
 | `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
 | `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
+| `gate` | function | `modules/fact_gated_todolist.py:47` | `def gate(items, facts)` |
+| `unmet_requirements` | function | `modules/fact_gated_todolist.py:23` | `def unmet_requirements(requires, facts)` |
 | `_as_list` | function | `modules/factsio.py:131` | `def _as_list(value)` |
 | `_iter_kind` | function | `modules/factsio.py:116` | `def _iter_kind(record, key, fact_type, host)` |
 | `_observable` | function | `modules/factsio.py:137` | `def _observable(record, fact_type)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `validate_specs` | function | `modules/hunt_verify.py:197` | `def validate_specs(specs)` |
 | `verify_stages` | function | `modules/hunt_verify.py:232` | `def verify_stages(specs, observations, events, scope_covered)` |
 | `CodeAnalyzer` | class | `modules/ia_code_analysis.py:28` | `class CodeAnalyzer` |
-| `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
-| `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
-| `analyze_directory` | method | `modules/ia_code_analysis.py:37` | `def analyze_directory(self, directory)` |
-| `analyze_with_deepseek` | function | `modules/ia_code_analysis.py:66` | `def analyze_with_deepseek(code_content, file_path, mode)` |
-| `parse_args` | function | `modules/ia_code_analysis.py:178` | `def parse_args()` |
-| `save_results_to_json` | function | `modules/ia_code_analysis.py:123` | `def save_results_to_json(results, file_path)` |
-| `start_analysis` | function | `modules/ia_code_analysis.py:169` | `def start_analysis(code_dir, mode)` |
-| `LogFileHandler` | class | `modules/ia_logs_analysis.py:54` | `class LogFileHandler(FileSystemEventHandler)` |
-| `__init__` | method | `modules/ia_logs_analysis.py:59` | `def __init__(self, mode)` |
-| `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
-| `analyze_with_deepseek` | function | `modules/ia_logs_analysis.py:94` | `def analyze_with_deepseek(log_content, mode)` |
-| `on_modified` | method | `modules/ia_logs_analysis.py:64` | `def on_modified(self, event)` |
-| `parse_args` | function | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
-| `start_monitoring` | function | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
-| `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
-| `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
-| `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
-| `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
-| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
-| `main` | function | `modules/img2bin.py:43` | `def main()` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

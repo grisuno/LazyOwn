@@ -4,13 +4,13 @@
 
 These files have the most connections. Changes here have high blast radius.
 
+- `modules/lazy_loop.py` (score: 401.00, imported by 113 files)
 - `skills/mcp_tools/_context.py` (score: 386.10, imported by 193 files)
-- `modules/lazy_loop.py` (score: 367.20, imported by 103 files)
-- `core/logging.py` (score: 347.20, imported by 173 files)
-- `modules/__init__.py` (score: 312.00, imported by 156 files)
-- `utils.py` (score: 276.70, imported by 119 files)
+- `core/logging.py` (score: 349.20, imported by 174 files)
+- `modules/__init__.py` (score: 330.00, imported by 165 files)
+- `utils.py` (score: 278.70, imported by 120 files)
 - `cli/commands/_base.py` (score: 230.70, imported by 113 files)
-- `core/config.py` (score: 192.10, imported by 93 files)
+- `core/config.py` (score: 194.10, imported by 94 files)
 - `modules/world_model.py` (score: 181.00, imported by 82 files)
 - `lazyc2.py` (score: 159.00)
 - `skills/autonomous_daemon.py` (score: 148.00, imported by 27 files)
@@ -20,24 +20,24 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `skills/mcp_tools/_context.py` -- 50 direct, 193 total dependents
-- `core/logging.py` -- 50 direct, 173 total dependents
-- `core/crypto.py` -- 10 direct, 157 total dependents
-- `modules/__init__.py` -- 50 direct, 156 total dependents
-- `core/validators.py` -- 12 direct, 148 total dependents
-- `modules/backdoor/server.c` -- 15 direct, 144 total dependents
-- `modules/chain_match.py` -- 5 direct, 143 total dependents
-- `modules/selection/atomic.py` -- 5 direct, 143 total dependents
-- `modules/selection/module.py` -- 5 direct, 143 total dependents
-- `modules/selection/chain.py` -- 5 direct, 142 total dependents
+- `core/logging.py` -- 50 direct, 174 total dependents
+- `modules/__init__.py` -- 50 direct, 165 total dependents
+- `modules/selection/parquet.py` -- 5 direct, 159 total dependents
+- `cli/scope_guard.py` -- 3 direct, 149 total dependents
+- `modules/autonomous_exploit_engine.py` -- 13 direct, 149 total dependents
+- `modules/planner.py` -- 9 direct, 149 total dependents
+- `core/process.py` -- 13 direct, 147 total dependents
+- `modules/security_sanitizers.py` -- 11 direct, 147 total dependents
+- `modules/verb_manifest.py` -- 3 direct, 146 total dependents
 
 ## Hotspots (complexity + centrality)
 
 - `static/js/html2pdf.bundle.min.js` -- complexity: 1.0, centrality: 0.6, combined: 0.8
 - `static/js/3d-force-graph-1.73.4.min.js` -- complexity: 0.2, centrality: 1.0, combined: 0.7
 - `skills/mcp_generated_tools.py` -- complexity: 0.9, centrality: 0.0, combined: 0.3
+- `modules/lazy_loop.py` -- complexity: 0.7, centrality: 0.1, combined: 0.3
 - `static/js/vis-network-9.1.2.min.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/vis-network.min.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
-- `modules/lazy_loop.py` -- complexity: 0.7, centrality: 0.1, combined: 0.3
 - `static/js/xterm.js` -- complexity: 0.1, centrality: 0.5, combined: 0.3
 - `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.3, combined: 0.3

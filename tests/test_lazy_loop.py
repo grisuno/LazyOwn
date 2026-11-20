@@ -10,10 +10,13 @@ def _patched_engine(tmp_path, monkeypatch):
     """Return an engine whose stores live entirely under tmp_path."""
     import modules.lazy_loop as loop
     from modules.lazy_engine import LazyEngine
+    from modules.loop import state_db
 
     monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
     monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
+    monkeypatch.setattr(state_db, "default_db_path", lambda: tmp_path / "loop_state.db")
+    monkeypatch.setattr(loop, "_LEASE_STORE", None)
     return LazyEngine()
 
 

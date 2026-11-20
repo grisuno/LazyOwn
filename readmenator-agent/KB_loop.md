@@ -4,7 +4,22 @@
 - Layer: utility
 - Language: py
 - Depends on: `modules/loop/engine_proxy.py`, `modules/loop/triage_scheduler.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop/worker_gating.py`, `modules/loop/worker_lazymode.py`, `modules/loop/worker_memory.py`
-- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/sidequest.py`, `tests/test_lazy_scope.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_sidequest.py`, `tests/test_target_os.py`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/sidequest.py`, `tests/conftest.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_scope.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_loop_leases_integration.py`, `tests/test_loop_termination.py`, `tests/test_loop_tokens.py`, `tests/test_sidequest.py`, `tests/test_target_os.py`
+
+## modules/loop/boundary.py
+- Doc: Untrusted-data boundary for every LLM-bound surface of the loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `fence_result` (function, line 34) `def fence_result(content)`
+  - `nonce` (function, line 42) `def nonce()`
+  - `_fingerprint` (function, line 47) `def _fingerprint(content)`
+  - `fence` (function, line 52) `def fence(label, content, value)`
+  - `code_tail` (function, line 75) `def code_tail()`
+  - `check_leakage` (function, line 80) `def check_leakage(prompt)`
+  - `wrap_context_section` (function, line 93) `def wrap_context_section(label, content, sections)`
+  - `tail_sections` (function, line 100) `def tail_sections(sections)`
+- Imported by: `modules/agent_runner.py`, `modules/lazy_loop.py`, `tests/test_loop_boundary.py`, `tests/test_loop_citation_judge.py`
 
 ## modules/loop/control_plane.py
 - Doc: Operator control-plane precheck for the autonomous loop.
@@ -63,6 +78,44 @@
 - Depends on: `modules/__init__.py`, `modules/lazy_loop.py`, `modules/traffic_recorder.py`
 - Imported by: `modules/loop/__init__.py`
 
+## modules/loop/evidence.py
+- Doc: Verbatim citation verification and command replay for loop findings.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `normalize_ws` (function, line 25) `def normalize_ws(text)`
+  - `verbatim_contains` (function, line 30) `def verbatim_contains(quote, source)`
+  - `extract_quote` (function, line 37) `def extract_quote(text)`
+  - `CitationService` (class, line 49) `class CitationService`
+  - `citation_service_from_orchestrator` (function, line 138) `def citation_service_from_orchestrator()`
+  - `citation_enabled` (function, line 153) `def citation_enabled()`
+  - `__init__` (method, line 56) `def __init__(self, max_age_sec)`
+  - `verify` (method, line 59) `def verify(self, quote, traffic)`
+  - `replay` (method, line 98) `def replay(self, command, executor, traffic)`
+  - `annotate` (method, line 127) `def annotate(self, finding, verification)`
+- Depends on: `modules/__init__.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_loop_evidence.py`
+
+## modules/loop/leases.py
+- Doc: Claim leases with heartbeat for the lazy loop frontier.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Lease` (class, line 37) `class Lease`
+  - `LeaseStore` (class, line 46) `class LeaseStore`
+  - `__init__` (method, line 54) `def __init__(self, db_path)`
+  - `_conn` (method, line 61) `def _conn(self)`
+  - `_now` (method, line 65) `def _now(self)`
+  - `try_claim` (method, line 69) `def try_claim(self, task_id, node_id, worker, ttl_sec)`
+  - `heartbeat` (method, line 113) `def heartbeat(self, task_id, node_id, ttl_sec)`
+  - `settle` (method, line 128) `def settle(self, task_id, node_id)`
+  - `release` (method, line 142) `def release(self, task_id, node_id)`
+  - `active` (method, line 155) `def active(self, task_id, node_id)`
+  - `sweep` (method, line 169) `def sweep(self, now)`
+  - `counts` (method, line 205) `def counts(self)`
+- Depends on: `modules/loop/state_db.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_loop_leases.py`
+
 ## modules/loop/objective_bootstrap.py
 - Doc: Pre-loop bootstrap for an autonomous objective.
 - Layer: infrastructure
@@ -72,6 +125,28 @@
   - `bootstrap_objective` (function, line 46) `def bootstrap_objective(objective_id, objective_text, target, world_model, obs_parser, planner, emit, load_payload)`
 - Depends on: `core/logging.py`, `modules/enrich.py`, `modules/goals.py`, `modules/intercept.py`, `modules/planner.py`
 - Imported by: `skills/autonomous_daemon.py`, `tests/test_objective_bootstrap.py`
+
+## modules/loop/planner_bridge.py
+- Doc: Bridge from the technique planner to the loop intent frontier.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `planner_bridge_enabled` (function, line 22) `def planner_bridge_enabled()`
+  - `technique_candidate_summary` (function, line 34) `def technique_candidate_summary(candidate)`
+  - `technique_intents` (function, line 45) `def technique_intents(target, max_candidates)`
+  - `bridge_candidates_for_task` (function, line 70) `def bridge_candidates_for_task(target, existing, max_candidates)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/planner.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_loop_planner_bridge.py`
+
+## modules/loop/state_db.py
+- Doc: Shared SQLite state substrate for loop modules.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `default_db_path` (function, line 21) `def default_db_path()`
+  - `connect` (function, line 26) `def connect(db_path)`
+  - `thread_connection` (function, line 44) `def thread_connection(db_path)`
+- Imported by: `modules/loop/leases.py`, `modules/loop/tokens.py`
 
 ## modules/loop/target_os.py
 - Doc: Target operating-system ground truth for the autonomous loop.
@@ -83,6 +158,33 @@
   - `persist_detected_os` (function, line 105) `def persist_detected_os(objective_id, target, detected_os, world_model, emit, load_payload, sessions_dir, payload_file)`
 - Depends on: `core/config.py`, `core/logging.py`
 - Imported by: `skills/autonomous_daemon.py`
+
+## modules/loop/tokens.py
+- Doc: Token and turn budgets with wrap-up reservation for the lazy loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `estimate_tokens` (function, line 44) `def estimate_tokens(chars)`
+  - `register_llm_sink` (function, line 49) `def register_llm_sink()`
+  - `shared_ledger` (function, line 64) `def shared_ledger()`
+  - `TokenLedger` (class, line 72) `class TokenLedger`
+  - `TerminationPolicy` (class, line 167) `class TerminationPolicy`
+  - `_sink` (function, line 55) `def _sink(member, prompt_chars, completion_chars)`
+  - `__init__` (method, line 79) `def __init__(self, db_path)`
+  - `_conn` (method, line 85) `def _conn(self)`
+  - `charge_chars` (method, line 89) `def charge_chars(self, member, prompt_chars, completion_chars, task_id, intent_id)`
+  - `charge` (method, line 104) `def charge(self, task_id, prompt_tokens, completion_tokens, intent_id, member)`
+  - `usage` (method, line 117) `def usage(self, task_id, intent_id)`
+  - `reset` (method, line 139) `def reset(self, task_id)`
+  - `counts` (method, line 149) `def counts(self)`
+  - `__post_init__` (method, line 176) `def __post_init__(self)`
+  - `from_orchestrator` (method, line 182) `def from_orchestrator(cls)`
+  - `wrapup_reserve` (method, line 214) `def wrapup_reserve(self, max_tokens)`
+  - `guard` (method, line 223) `def guard(self, task_id, ledger, intent_id)`
+  - `_int` (function, line 194) `def _int(key, fallback)`
+  - `_float` (function, line 200) `def _float(key, fallback)`
+- Depends on: `modules/__init__.py`, `modules/loop/state_db.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_loop_tokens.py`
 
 ## modules/loop/triage_scheduler.py
 - Doc: Difficulty-triage scheduling for the autonomous multi-target loop.
@@ -122,29 +224,29 @@
   - `_drain_steer` (method, line 252) `def _drain_steer(self, intent)`
   - `_agent_preflight` (method, line 263) `def _agent_preflight(self, intent, command)`
   - `_agent_tools` (method, line 296) `def _agent_tools(self, intent, executor, transcripts, budget, intercept, retry_state)`
-  - `_agent_verb_catalog` (method, line 480) `def _agent_verb_catalog(self)`
-  - `_agent_os_hint` (method, line 508) `def _agent_os_hint(self, intent)`
-  - `_agent_system_prompt` (method, line 524) `def _agent_system_prompt(self, intent)`
-  - `_agentic_try` (method, line 568) `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline)`
-  - `_with_llm_steps` (method, line 706) `def _with_llm_steps(self, intent, steps, prior_text)`
-  - `_llm_steps` (method, line 758) `def _llm_steps(self, intent, prior_text)`
-  - `_blocked_verbs` (method, line 916) `def _blocked_verbs(self)`
-  - `_guard_rules` (method, line 934) `def _guard_rules(self)`
-  - `_record_llm_decision` (method, line 956) `def _record_llm_decision(self, intent, prompt, reply, candidates, chosen, filtered)`
-  - `_decision_context` (method, line 1008) `def _decision_context(self, intent)`
-  - `_guard_filter` (method, line 1054) `def _guard_filter(self, intent, candidates)`
-  - `_record_deterministic_decision` (method, line 1085) `def _record_deterministic_decision(self, intent, candidates, chosen, filtered)`
+  - `_agent_verb_catalog` (method, line 497) `def _agent_verb_catalog(self)`
+  - `_agent_os_hint` (method, line 525) `def _agent_os_hint(self, intent)`
+  - `_agent_system_prompt` (method, line 541) `def _agent_system_prompt(self, intent)`
+  - `_agentic_try` (method, line 596) `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state, deadline)`
+  - `_with_llm_steps` (method, line 742) `def _with_llm_steps(self, intent, steps, prior_text)`
+  - `_llm_steps` (method, line 794) `def _llm_steps(self, intent, prior_text)`
+  - `_blocked_verbs` (method, line 953) `def _blocked_verbs(self)`
+  - `_guard_rules` (method, line 971) `def _guard_rules(self)`
+  - `_record_llm_decision` (method, line 993) `def _record_llm_decision(self, intent, prompt, reply, candidates, chosen, filtered)`
+  - `_decision_context` (method, line 1045) `def _decision_context(self, intent)`
+  - `_guard_filter` (method, line 1091) `def _guard_filter(self, intent, candidates)`
+  - `_record_deterministic_decision` (method, line 1122) `def _record_deterministic_decision(self, intent, candidates, chosen, filtered)`
   - `run_command` (function, line 308) `def run_command(command, background)`
   - `record_fact` (function, line 335) `def record_fact(text)`
   - `report_finding` (function, line 344) `def report_finding(name, evidence, severity)`
   - `traffic_search` (function, line 355) `def traffic_search(query)`
   - `graph_state` (function, line 368) `def graph_state()`
-  - `shell_open` (function, line 383) `def shell_open()`
-  - `shell_send` (function, line 387) `def shell_send(command)`
-  - `job_status` (function, line 391) `def job_status(job_id)`
-  - `job_output` (function, line 399) `def job_output(job_id)`
+  - `shell_open` (function, line 400) `def shell_open()`
+  - `shell_send` (function, line 404) `def shell_send(command)`
+  - `job_status` (function, line 408) `def job_status(job_id)`
+  - `job_output` (function, line 416) `def job_output(job_id)`
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/guard_rules.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/loop/__init__.py`, `modules/outcome_attribution.py`
-- Imported by: `modules/loop/__init__.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_outcome_attribution.py`
+- Imported by: `modules/loop/__init__.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_decision_log.py`, `tests/test_loop_deterministic_mode.py`, `tests/test_loop_verb_capabilities.py`, `tests/test_outcome_attribution.py`
 
 ## modules/loop/worker_execution.py
 - Doc: WorkerExecutionMixin: Command execution, background jobs and persistent-shell lifecycle for a...
@@ -177,8 +279,9 @@
   - `_os_gate` (method, line 80) `def _os_gate(self, intent, command)`
   - `_learn_os` (method, line 106) `def _learn_os(self, intent, command, output)`
   - `_sudo_guard` (method, line 130) `def _sudo_guard(self, intent, command)`
-  - `_command_in_scope` (method, line 157) `def _command_in_scope(self, command)`
-- Depends on: `modules/__init__.py`, `modules/intercept.py`, `modules/lazy_loop.py`, `utils.py`
+  - `_downgrade_privileged` (method, line 157) `def _downgrade_privileged(self, command, target)`
+  - `_command_in_scope` (method, line 187) `def _command_in_scope(self, command)`
+- Depends on: `modules/__init__.py`, `modules/intercept.py`, `modules/lazy_loop.py`, `modules/verb_capabilities.py`, `utils.py`
 - Imported by: `modules/loop/__init__.py`
 
 ## modules/loop/worker_lazymode.py

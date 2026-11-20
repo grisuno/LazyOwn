@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 
 ## External Imports (continued)
+- `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
 - `modules/lab_runtime.py` -> __future__, pathlib, secrets, subprocess, time
 - `modules/lazy_agent.py` -> __future__, collections.abc, json, os, shutil, signal, subprocess, threading, time
 - `modules/lazy_autofire.py` -> __future__, json, os, pathlib, re, time
@@ -41,7 +42,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/lazy_rbac.py` -> __future__, collections.abc, dataclasses, flask, flask_login, functools, hmac, json, os, pathlib, pyotp, re, secrets, time, typing
 - `modules/lazy_reaper.py` -> __future__, json, pathlib, time, typing
 - `modules/lazy_roles.py` -> __future__, json, pathlib, time
-- `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, ipaddress, json, modules.report_autogen, os, pathlib, queue, re, shlex, signal, sys, threading, time
+- `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, ipaddress, json, modules.report_autogen, os, pathlib, queue, re, shlex, signal, socket, subprocess, sys, threading, time
 - `modules/lazy_sandbox.py` -> __future__, os, pathlib, re, shutil, subprocess, threading
 - `modules/lazy_scope.py` -> __future__, dataclasses, ipaddress, pathlib, re, socket, time
 - `modules/lazy_search.py` -> __future__, dataclasses, shlex
@@ -84,12 +85,18 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
 - `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
 - `modules/loop/__init__.py` -> __future__
+- `modules/loop/boundary.py` -> __future__, hashlib, secrets
 - `modules/loop/control_plane.py` -> __future__, asyncio, collections.abc, typing
 - `modules/loop/daemon_reward.py` -> __future__, dataclasses, typing
 - `modules/loop/decision_log.py` -> __future__, collections.abc, dataclasses, hashlib, json, os, pathlib, time, typing
 - `modules/loop/engine_proxy.py` -> __future__
+- `modules/loop/evidence.py` -> __future__, re, time
+- `modules/loop/leases.py` -> __future__, dataclasses, threading, time
 - `modules/loop/objective_bootstrap.py` -> __future__, collections.abc, dataclasses, typing
+- `modules/loop/planner_bridge.py` -> __future__
+- `modules/loop/state_db.py` -> __future__, pathlib, sqlite3, threading
 - `modules/loop/target_os.py` -> __future__, asyncio, collections.abc, json, pathlib, re, subprocess, typing
+- `modules/loop/tokens.py` -> __future__, dataclasses, time
 - `modules/loop/triage_scheduler.py` -> __future__, collections.abc, typing
 - `modules/loop/worker_agentic.py` -> __future__, collections.abc, json, re, time, types, typing
 - `modules/loop/worker_execution.py` -> __future__, os, queue, signal, subprocess, threading, time, typing
@@ -238,6 +245,7 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `modules/unified_bridge.py` -> __future__, abc, collections.abc, dataclasses, fcntl, os, pathlib, pty, re, select, struct, subprocess, sys, termios, time, typing
 - `modules/unified_dashboard.py` -> __future__, datetime, json, pathlib, typing
 - `modules/venator.py` -> Foundation, Quartz, argparse, base64, binascii, ctypes, ctypes.util, datetime, hashlib, hmac, httplib, json, objc, os, platform, plistlib, shutil, socket, sqlite3, subprocess, sys, tempfile, time, urllib2
+- `modules/verb_capabilities.py` -> __future__, os, shlex
 - `modules/verb_catalog.py` -> __future__, dataclasses, json, pathlib, re, threading, time, typing, yaml
 - `modules/verb_manifest.py` -> __future__, dataclasses, pathlib, re, threading, time, yaml
 - `modules/vuln_bot_cli.py` -> argparse, sys
@@ -488,13 +496,5 @@ Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
 - `skills/mcp_tools/recommend_next.py` -> __future__, asyncio, mcp, os, typing
 - `skills/mcp_tools/rich_tui_snapshot.py` -> __future__, json, mcp, typing
 - `skills/mcp_tools/run_agent.py` -> __future__, asyncio, mcp, os, typing
-- `skills/mcp_tools/run_api.py` -> __future__, asyncio, json, mcp, typing
-- `skills/mcp_tools/run_command.py` -> __future__, asyncio, event_bus, json, mcp, typing
-- `skills/mcp_tools/run_command_async.py` -> __future__, json, mcp, typing
-- `skills/mcp_tools/search_tools.py` -> __future__, mcp, typing
-- `skills/mcp_tools/searchsploit.py` -> __future__, asyncio, mcp, typing
-- `skills/mcp_tools/session_diff.py` -> __future__, json, mcp, typing
-- `skills/mcp_tools/session_init.py` -> __future__, json, mcp, pathlib, sys, typing
-- `skills/mcp_tools/session_resume.py` -> __future__, mcp, typing
 
 Next: [ARCHITECTURE_p11.md](ARCHITECTURE_p11.md)

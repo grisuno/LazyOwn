@@ -3,7 +3,7 @@ Previous: [API_p13.md](API_p13.md)
 
 ## modules/intercept.py
 Depends on: `cli/commands/enum.py`
-Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+Imported by: `cli/commands/daemon_ctl.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/worker_gating.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_loop_post_signal.py`, `tests/test_safety_gates.py`
 - `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
 - `builtin_rules` (function) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
 - `scope_blocked` (function) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
@@ -353,12 +353,13 @@ Imported by: `tests/test_findings_gate.py`, `tests/test_lazy_findings.py`
 - `FindingsLedger.latest_state` (method) `modules/lazy_findings.py:696` `def latest_state(self, finding_ref)` -- Return the newest known state of one finding reference.
 
 ## modules/lazy_handoff.py
-Depends on: `core/config.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_history.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/outcome_bus.py`
+Depends on: `core/config.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/outcome_bus.py`
 Imported by: `modules/sinks/beacon_dispatch.py`
 - `handoff_enabled` (function) `modules/lazy_handoff.py:52` `def handoff_enabled(payload)` -- Return True when the foothold-to-beacon handoff may run.
-- `already_handed_off` (function) `modules/lazy_handoff.py:120` `def already_handed_off(target, sessions_dir)` -- Return True when a handoff is in flight or still within re-arm grace.
-- `maybe_beacon_handoff` (function) `modules/lazy_handoff.py:164` `def maybe_beacon_handoff(target, source, log, sessions_dir, wait_s, rounds, task_id)` -- Start the beacon handoff for one confirmed foothold.
-- `activity` (function) `modules/lazy_handoff.py:281` `def activity(kind, text)`
+- `already_handed_off` (function) `modules/lazy_handoff.py:167` `def already_handed_off(target, sessions_dir)` -- Return True when a handoff is in flight or still within re-arm grace.
+- `maybe_beacon_handoff` (function) `modules/lazy_handoff.py:263` `def maybe_beacon_handoff(target, source, log, sessions_dir, wait_s, rounds, task_id)` -- Start the beacon handoff for one confirmed foothold.
+- `tlog` (function) `modules/lazy_handoff.py:392` `def tlog(line)` -- Log one worker line with a UTC clock prefix and explicit flush.
+- `activity` (function) `modules/lazy_handoff.py:400` `def activity(kind, text)`
 
 ## modules/lazy_heat.py
 Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_checks.py`, `modules/lazy_cve_feed.py`, `modules/lazy_exposure.py`, `modules/lazy_feedmatch.py`, `modules/lazy_match_policy.py`, `modules/loop_triggers.py`, `modules/sinks/lazy_intel.py`, `tests/test_lazy_feedmatch.py`

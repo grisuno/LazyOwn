@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
+| `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
+| `colors_enabled` | function | `core/console.py:98` | `def colors_enabled()` |
+| `ensure_blocking_stdio` | function | `core/console.py:161` | `def ensure_blocking_stdio()` |
+| `format_line` | function | `core/console.py:121` | `def format_line(prefix, message, glyph)` |
+| `print_error` | function | `core/console.py:137` | `def print_error(error)` |
+| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
+| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
+| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
+| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
+| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
+| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
 | `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
 | `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
 | `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `__init__` | method | `lazyc2.py:3299` | `def __init__(self, user_data)` |
 | `__setattr__` | method | `lazyc2.py:2931` | `def __setattr__(self, name, value)` |
 | `_add_security_headers` | function | `lazyc2.py:2758` | `def _add_security_headers(response)` |
-| `_api_data_inner` | function | `lazyc2.py:5049` | `def _api_data_inner()` |
-| `_append_beacon_record` | function | `lazyc2.py:1379` | `def _append_beacon_record(record)` |
-| `_basic_authenticated` | function | `lazyc2.py:1543` | `def _basic_authenticated()` |
-| `_beacon_capabilities` | function | `lazyc2.py:7389` | `def _beacon_capabilities(beacon_type)` |
-| `_beacon_menu_bofs` | function | `lazyc2.py:7405` | `def _beacon_menu_bofs(capabilities)` |
-| `_beacon_menu_playbooks` | function | `lazyc2.py:7421` | `def _beacon_menu_playbooks()` |
-| `_beacon_records_path` | function | `lazyc2.py:1271` | `def _beacon_records_path(client_id)` |
-| `_beacon_signature_guard` | function | `lazyc2.py:3703` | `def _beacon_signature_guard()` |
-| `_behavioral_risk_prompt` | function | `lazyc2.py:2516` | `def _behavioral_risk_prompt(event)` |
-| `_bg_cred_reuse` | function | `lazyc2.py:4129` | `def _bg_cred_reuse(_ip)` |
-| `_bootstrap_initial_admin` | function | `lazyc2.py:2995` | `def _bootstrap_initial_admin()` |
-| `_build_privesc_command` | function | `lazyc2.py:3674` | `def _build_privesc_command(platform)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

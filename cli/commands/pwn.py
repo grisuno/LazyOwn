@@ -24,6 +24,116 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
 PLUGINS_DIR = BASE_DIR / "plugins"
 
+_STALE_PROBE_TIMEOUT_SEC = 2.0
+_STALE_ANSWER_RATIO = 0.5
+_STEALTH_LEVELS = ("low", "medium", "high", "paranoid")
+
+
+def refresh_stale_profile(target: str, ports: list[int], onecmd) -> bool:
+    """Verify the cached attack surface is live, rescanning when it is not.
+
+    Docker reuses bridge IPs, so a world-model host can carry the services
+    of a container that no longer holds the address. Every cached port is
+    probed with a TCP connect; when fewer than half answer the profile is
+    stale: a fresh scan runs and the world-model host is rebuilt from it,
+    so the exploit budget is not burned on phantom ports.
+
+    Args:
+        target: Target IP the cached profile belongs to.
+        ports: Cached open ports from the current profile.
+        onecmd: Callable executing one shell command (``onecmd``).
+
+    Returns:
+        ``True`` when the profile was verified or refreshed, ``False``
+        when no fresh scan data could be obtained.
+    """
+    from modules import loop_preflight
+    from modules.nmap_fingerprint import find_nmap_xml, parse_nmap_xml
+    from modules.world_model import get_world_model
+
+    try:
+        live = loop_preflight.probe_tcp(target, ports=ports, timeout=_STALE_PROBE_TIMEOUT_SEC)
+    except Exception:
+        live = []
+    if live and len(live) >= max(1, int(len(ports) * _STALE_ANSWER_RATIO)):
+        return True
+    if live:
+        print_warn(
+            f"[coverage] only {len(live)}/{len(ports)} cached port(s) answer for {target} "
+            "(stale world model or reused Docker IP) — rescanning."
+        )
+    else:
+        print_warn(
+            f"[coverage] cached profile lists {len(ports)} port(s) for {target} but none answer "
+            "(stale world model or reused Docker IP) — rescanning."
+        )
+    onecmd(f"lazynmap {target}")
+
+    xml_files = find_nmap_xml(target, sessions_dir=str(SESSIONS_DIR))
+    services = parse_nmap_xml(xml_files[0]) if xml_files else []
+    if not services:
+        print_error(f"No fresh scan data for {target}; profile stays stale.")
+        return False
+
+    world = get_world_model()
+    world.reset_host(target)
+    for svc in services:
+        world.add_service(target, port=svc.port, name=svc.name, version=svc.version, protocol=svc.protocol)
+    print_msg(f"[coverage] profile refreshed from scan: {len(services)} open service(s) on {target}")
+    return True
+
+
+def _as_bool(raw) -> bool:
+    """Coerce a payload value into a boolean flag.
+
+    Args:
+        raw: Payload value (bool, int or string).
+
+    Returns:
+        ``True`` for truthy boolean spellings, ``False`` otherwise.
+    """
+    if isinstance(raw, bool):
+        return raw
+    return str(raw).strip().lower() in ("true", "yes", "on", "1")
+
+
+def load_fresh_payload() -> dict:
+    """Load payload.json straight from disk (operator edits apply at once).
+
+    The live shell ``params`` dict can lag behind an orchestrator save, so
+    auto_pwn defaults are resolved against the file itself.
+
+    Returns:
+        The current payload mapping (empty when unreadable).
+    """
+    try:
+        from core.config import load_payload
+
+        return dict(load_payload() or {})
+    except Exception:
+        return {}
+
+
+def resolve_auto_pwn_defaults(params: dict) -> dict:
+    """Resolve auto_pwn run defaults from the payload configuration.
+
+    Args:
+        params: Live payload params (``payload.json`` view).
+
+    Returns:
+        Mapping with ``pivot``, ``privesc``, ``cover_all`` and ``stealth``
+        defaults; ``stealth`` falls back to ``low`` on unknown values.
+    """
+    stealth = str(params.get("auto_pwn_stealth", "") or "low").strip().lower()
+    if stealth not in _STEALTH_LEVELS:
+        stealth = "low"
+    return {
+        "pivot": _as_bool(params.get("auto_pwn_enable_pivot", False)),
+        "privesc": _as_bool(params.get("auto_pwn_enable_privesc", False)),
+        "cover_all": _as_bool(params.get("auto_pwn_cover_all", False)),
+        "stealth": stealth,
+    }
+
 
 class PwnCommandSet(LazyOwnCommandSet):
     """Autonomous exploitation, LOLBAS, and advanced attack commands."""
@@ -45,16 +155,20 @@ class PwnCommandSet(LazyOwnCommandSet):
         engine at a scoped host without mutating payload.json. ``--all``
         enables coverage mode: every ranked vector is exploited and
         recorded instead of stopping at the first shell, so a gym run
-        exercises all of the target's Metasploitable paths.
+        exercises all of the target's Metasploitable paths. Flags not
+        passed fall back to the payload ``auto_pwn_*`` knobs
+        (pivot, privesc, coverage, stealth), editable from the
+        lazy_orchestrator Config tab.
         """
         args = line.strip().split()
         target_override = ""
         if args and not args[0].startswith("-"):
             target_override = args.pop(0)
-        enable_pivot = "--pivot" in args
-        enable_privesc = "--privesc" in args
-        cover_all = "--all" in args
-        stealth = "low"
+        defaults = resolve_auto_pwn_defaults(load_fresh_payload())
+        enable_pivot = "--pivot" in args or defaults["pivot"]
+        enable_privesc = "--privesc" in args or defaults["privesc"]
+        cover_all = "--all" in args or defaults["cover_all"]
+        stealth = ""
         for arg in args:
             if arg.startswith("--stealth="):
                 stealth = arg.split("=", 1)[1]
@@ -62,6 +176,9 @@ class PwnCommandSet(LazyOwnCommandSet):
                 idx = args.index("--stealth") + 1
                 if idx < len(args):
                     stealth = args[idx]
+        if stealth.strip().lower() not in _STEALTH_LEVELS:
+            stealth = defaults["stealth"]
+        stealth = stealth.strip().lower()
 
         try:
             from modules.autonomous_exploit_engine import AutonomousExploitEngine
@@ -112,6 +229,15 @@ class PwnCommandSet(LazyOwnCommandSet):
             if not profile.open_ports:
                 print_error(f"Still no open ports after scan. Target {target} may be unreachable.")
                 return
+        else:
+            try:
+                if not refresh_stale_profile(target, list(profile.open_ports), self.onecmd):
+                    return
+                refreshed = engine.profile(target)
+                if refreshed.open_ports:
+                    profile = refreshed
+            except Exception as exc:
+                print_warn(f"[!] stale profile check skipped: {exc}")
 
         print_msg(f"\n[*] Target: {target}  Pivot: {enable_pivot}  PrivEsc: {enable_privesc}  Stealth: {stealth}")
 
@@ -127,10 +253,17 @@ class PwnCommandSet(LazyOwnCommandSet):
         success = [e for e in exploits if e.get("success")]
         shell = [e for e in exploits if e.get("shell_obtained")]
         shell_flag = result.get("shell_obtained", False)
+        if result.get("error"):
+            print_error(f"engine error: {result.get('error')}")
         mode = "coverage" if cover_all else "foothold"
         print_msg(
             f"\n  [+] DONE ({mode})  exploits={len(exploits)}  success={len(success)}  shells={len(shell)}  shell={'YES' if shell_flag else 'no'}"
         )
+        if not exploits and not result.get("error"):
+            print_warn(
+                "no vector attempted: re-run with 'auto_pwn' after a fresh scan, "
+                "or enable coverage with --all"
+            )
         if shell_flag and result.get("best_session_id"):
             print_msg(f"  [+] Session: {result.get('best_session_id')}", flush=True)
 

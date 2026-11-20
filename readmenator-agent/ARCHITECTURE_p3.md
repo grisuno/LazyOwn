@@ -2,6 +2,22 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/config/settings.py` -> `core/logging.py`
+- `lazygui/config/settings.py` -> `lazygui/config/constants.py`
+- `lazygui/config/settings.py` -> `lazygui/config/paths.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/base.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/campaign_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/credentials_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/cve_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/event_log_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/graph_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/history_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/killchain_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/listeners_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/marketplace_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/registry.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/sessions_panel.py`
+- `lazygui/panels/__init__.py` -> `lazygui/panels/terminal_panel.py`
 - `lazygui/panels/base.py` -> `lazygui/config/constants.py`
 - `lazygui/panels/base.py` -> `lazygui/services/backend.py`
 - `lazygui/panels/campaign_panel.py` -> `lazygui/config/constants.py`
@@ -204,9 +220,11 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/ad_gym.py` -> `modules/chain_registry.py`
 - `modules/addon_updater.py` -> `core/logging.py`
 - `modules/agent_runner.py` -> `core/logging.py`
+- `modules/agent_runner.py` -> `modules/__init__.py`
 - `modules/agent_runner.py` -> `modules/ai_model.py`
 - `modules/agent_runner.py` -> `modules/llm_factory.py`
 - `modules/agent_runner.py` -> `modules/logging_config.py`
+- `modules/agent_runner.py` -> `modules/loop/boundary.py`
 - `modules/ai_exploit_chain.py` -> `modules/autonomous_exploit_engine.py`
 - `modules/ai_fallback.py` -> `core/config.py`
 - `modules/ai_fallback.py` -> `modules/llm_factory.py`
@@ -478,23 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/integrations/nuclei_bridge.py` -> `core/logging.py`
 - `modules/integrations/nuclei_parser.py` -> `core/logging.py`
 - `modules/integrations/nuclei_parser.py` -> `modules/db.py`
-- `modules/integrations/nuclei_parser.py` -> `modules/integrations/nuclei_bridge.py`
-- `modules/integrations/nuclei_parser.py` -> `modules/world_model.py`
-- `modules/integrations/searchsploit.py` -> `core/logging.py`
-- `modules/intel_fusion.py` -> `modules/__init__.py`
-- `modules/intel_fusion.py` -> `modules/estorides_fusion.py`
-- `modules/intel_fusion.py` -> `modules/finding_lifecycle.py`
-- `modules/intel_fusion.py` -> `modules/lazy_cve_feed.py`
-- `modules/intel_fusion.py` -> `modules/lazy_heat.py`
-- `modules/intel_fusion.py` -> `modules/lazy_world_diff.py`
-- `modules/intel_fusion.py` -> `modules/world_model.py`
-- `modules/intelligence_engine.py` -> `core/logging.py`
-- `modules/intelligence_engine.py` -> `modules/__init__.py`
-- `modules/intelligence_engine.py` -> `modules/estorides_importer.py`
-- `modules/intelligence_engine.py` -> `modules/factsio.py`
-- `modules/intelligence_engine.py` -> `modules/integrations/nuclei_bridge.py`
-- `modules/intelligence_engine.py` -> `modules/integrations/nuclei_parser.py`
-- `modules/intelligence_engine.py` -> `modules/lazy_heat.py`
-- `modules/intelligence_engine.py` -> `modules/obs_parser.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

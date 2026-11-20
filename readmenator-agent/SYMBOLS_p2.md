@@ -3,6 +3,18 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_c2_dns` | method | `cli/commands/c2_profile.py:69` | `def do_c2_dns(self, line)` |
+| `do_c2_profiles` | method | `cli/commands/c2_profile.py:25` | `def do_c2_profiles(self, line)` |
+| `do_c2_rotate` | method | `cli/commands/c2_profile.py:90` | `def do_c2_rotate(self, line)` |
+| `do_c2_tls` | method | `cli/commands/c2_profile.py:50` | `def do_c2_tls(self, line)` |
+| `C2SessionCommandSet` | class | `cli/commands/c2_session.py:127` | `class C2SessionCommandSet(LazyOwnCommandSet)` |
+| `_fresh_lab_creds` | function | `cli/commands/c2_session.py:54` | `def _fresh_lab_creds()` |
+| `_issue` | function | `cli/commands/c2_session.py:101` | `def _issue(client_id, command, auth, https_port)` |
+| `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
+| `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
+| `_tls_verify` | function | `cli/commands/c2_session.py:83` | `def _tls_verify()` |
+| `do_c2_deploy` | method | `cli/commands/c2_session.py:268` | `def do_c2_deploy(self, line)` |
+| `do_c2_exec` | method | `cli/commands/c2_session.py:318` | `def do_c2_exec(self, line)` |
 | `do_c2_loot` | method | `cli/commands/c2_session.py:365` | `def do_c2_loot(self, line)` |
 | `do_c2_reboot` | method | `cli/commands/c2_session.py:187` | `def do_c2_reboot(self, line)` |
 | `do_c2_server` | method | `cli/commands/c2_session.py:134` | `def do_c2_server(self, line)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_print_lab_target` | method | `cli/commands/lab.py:57` | `def _print_lab_target(self, scenario, container_name, ports)` |
 | `_range_container_ip` | method | `cli/commands/lab.py:407` | `def _range_container_ip(self, container)` |
 | `_range_container_state` | method | `cli/commands/lab.py:296` | `def _range_container_state(self, container)` |
-| `_range_dispatch` | method | `cli/commands/lab.py:218` | `def _range_dispatch(self, args)` |
-| `_range_list` | method | `cli/commands/lab.py:250` | `def _range_list(self)` |
-| `_range_start` | method | `cli/commands/lab.py:259` | `def _range_start(self, profile)` |
-| `_range_status` | method | `cli/commands/lab.py:431` | `def _range_status(self)` |
-| `_range_stop` | method | `cli/commands/lab.py:418` | `def _range_stop(self, profile)` |
-| `_range_verify` | method | `cli/commands/lab.py:353` | `def _range_verify(self, profile)` |
-| `_range_wait_healthy` | method | `cli/commands/lab.py:321` | `def _range_wait_healthy(self, compose, timeout)` |
-| `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
-| `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
-| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
-| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
-| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:22` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

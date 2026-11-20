@@ -1,6 +1,76 @@
 # API (page 18 of 29)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/memory_store.py
+Depends on: `modules/memory_embeddings.py`
+Imported by: `tests/test_memory_semantics.py`
+- `StorageBackend.save` (method) `modules/memory_store.py:99` `def save(self, entry)`
+- `StorageBackend.search` (method) `modules/memory_store.py:102` `def search(self, query, top_k)`
+- `StorageBackend.by_host` (method) `modules/memory_store.py:105` `def by_host(self, host, top_k)`
+- `StorageBackend.by_service` (method) `modules/memory_store.py:108` `def by_service(self, service, top_k)`
+- `StorageBackend.all_entries` (method) `modules/memory_store.py:111` `def all_entries(self, limit)`
+- `StorageBackend.close` (method) `modules/memory_store.py:114` `def close(self)`
+- `SQLiteBackend.__init__` (method) `modules/memory_store.py:133` `def __init__(self, db_path)`
+- `SQLiteBackend.save` (method) `modules/memory_store.py:148` `def save(self, entry)`
+- `SQLiteBackend.search` (method) `modules/memory_store.py:180` `def search(self, query, top_k)`
+- `SQLiteBackend.by_host` (method) `modules/memory_store.py:192` `def by_host(self, host, top_k)`
+- `SQLiteBackend.by_service` (method) `modules/memory_store.py:203` `def by_service(self, service, top_k)`
+- `SQLiteBackend.all_entries` (method) `modules/memory_store.py:215` `def all_entries(self, limit)`
+- `SQLiteBackend.stats_raw` (method) `modules/memory_store.py:225` `def stats_raw(self)`
+- `SQLiteBackend.close` (method) `modules/memory_store.py:232` `def close(self)`
+- `MemoryStore.__init__` (method) `modules/memory_store.py:240` `def __init__(self, backend)`
+- `MemoryStore.remember` (method) `modules/memory_store.py:243` `def remember(self, session_id, host, tool, command, output, findings, success)`
+- `MemoryStore.recall` (method) `modules/memory_store.py:270` `def recall(self, query, top_k)`
+- `MemoryStore.recall_by_host` (method) `modules/memory_store.py:273` `def recall_by_host(self, host, top_k)`
+- `MemoryStore.recall_for_service` (method) `modules/memory_store.py:276` `def recall_for_service(self, service_name, top_k)`
+- `MemoryStore.recall_hybrid` (method) `modules/memory_store.py:279` `def recall_hybrid(self, query, top_k)` -- FTS5 keyword hits first; semantic fallback when keywords miss.
+- `MemoryStore.stats` (method) `modules/memory_store.py:292` `def stats(self)`
+- `MemoryStore.export_finetuning_dataset` (method) `modules/memory_store.py:300` `def export_finetuning_dataset(self, path)`
+- `VectorSQLiteBackend.save` (method) `modules/memory_store.py:320` `def save(self, entry)`
+- `VectorSQLiteBackend.search_semantic` (method) `modules/memory_store.py:328` `def search_semantic(self, query, top_k)`
+- `get_memory_store` (function) `modules/memory_store.py:339` `def get_memory_store()`
+- `remember` (function) `modules/memory_store.py:348` `def remember(session_id, host, tool, command, output, findings, success)`
+- `recall` (function) `modules/memory_store.py:360` `def recall(query, top_k)`
+- `recall_hybrid` (function) `modules/memory_store.py:364` `def recall_hybrid(query, top_k)`
+
+## modules/metasploitable_gym.py
+Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
+Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
+- `load_index` (function) `modules/metasploitable_gym.py:42` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/metasploitable_gym.py:47` `def vulnerabilities(path)` -- Return every indexed vulnerability.
+- `get` (function) `modules/metasploitable_gym.py:53` `def get(vuln_id, path)` -- Return one vulnerability by id, or None.
+- `chain_for` (function) `modules/metasploitable_gym.py:62` `def chain_for(vuln_id, path)` -- Return the resolved chain for one vulnerability, or None.
+- `exploit_for` (function) `modules/metasploitable_gym.py:72` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one vulnerability, or None.
+- `validate_matrix` (function) `modules/metasploitable_gym.py:82` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/metasploitable_gym.py:138` `def summary(path)` -- Return counts by severity and service for operators.
+- `main` (function) `modules/metasploitable_gym.py:157` `def main()` -- CLI: list | validate | info | chain.
+
+## modules/metasploitable_migrations.py
+Depends on: `core/safe_exec.py`
+Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
+- `build_migrations` (function) `modules/metasploitable_migrations.py:194` `def build_migrations(subnet)` -- Return the ordered migration list with the docker subnet applied.
+- `apply_migrations` (function) `modules/metasploitable_migrations.py:366` `def apply_migrations(container, subnet)` -- Run every migration on the gym container, skipping applied ones.
+
+## modules/metrics.py
+Depends on: `core/logging.py`
+Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/metrics_summary.py`, `tests/test_metrics.py`
+- `MetricsRegistry.__init__` (method) `modules/metrics.py:63` `def __init__(self)` -- Create an empty registry with its own lock.
+- `MetricsRegistry.inc` (method) `modules/metrics.py:69` `def inc(self, name, labels, value)` -- Increment the named counter for the given labels.
+- `MetricsRegistry.get` (method) `modules/metrics.py:87` `def get(self, name, labels)` -- Return the current value of a counter.
+- `MetricsRegistry.prometheus_text` (method) `modules/metrics.py:107` `def prometheus_text(self)` -- Render every counter in Prometheus text exposition format.
+- `MetricRecord.to_dict` (method) `modules/metrics.py:167` `def to_dict(self)` -- Return the record as a JSON-serialisable dictionary.
+- `MetricsWriter.__init__` (method) `modules/metrics.py:189` `def __init__(self, path)` -- Initialise the writer.
+- `MetricsWriter.path` (method) `modules/metrics.py:201` `def path(self)` -- Return the JSONL destination path.
+- `MetricsWriter.append` (method) `modules/metrics.py:206` `def append(self, record)` -- Append a single record to disk.
+- `MetricsAggregator.summarize` (method) `modules/metrics.py:254` `def summarize(cls, records, window_seconds, now_utc)` -- Compute aggregate statistics over the supplied records.
+- `MetricsRecorder.__init__` (method) `modules/metrics.py:339` `def __init__(self, writer)` -- Initialise the recorder.
+- `MetricsRecorder.path` (method) `modules/metrics.py:350` `def path(self)` -- Return the JSONL path used by the underlying writer.
+- `MetricsRecorder.record` (method) `modules/metrics.py:355` `def record(self, command, args, duration_ms, success, exit_code, source)` -- Persist a single command-execution telemetry record.
+- `MetricsRecorder.summarize` (method) `modules/metrics.py:416` `def summarize(self, window_seconds)` -- Return aggregate statistics over recorded events.
+- `MetricsRecorder.tail` (method) `modules/metrics.py:430` `def tail(self, n)` -- Return the most recent *n* records, newest first.
+- `get_recorder` (function) `modules/metrics.py:452` `def get_recorder()` -- Return the process-wide :class:`MetricsRecorder` singleton.
+- `reset_recorder_for_tests` (function) `modules/metrics.py:466` `def reset_recorder_for_tests(writer)` -- Replace the module-level recorder with a fresh instance.
+
 ## modules/mfa_bypass.py
 Imported by: `cli/commands/cicd.py`
 - `MFABypassEngine.__init__` (method) `modules/mfa_bypass.py:128` `def __init__(self, sessions_dir)`
@@ -252,36 +322,41 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `modul
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
 Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_pacing.py`, `tests/test_selectors_capabilities.py`
-- `reload` (function) `modules/orchestrator_config.py:151` `def reload()` -- Invalidate every merged view after an external configuration change.
-- `profiles` (function) `modules/orchestrator_config.py:271` `def profiles()` -- Return every resolved profile, including inherited values.
-- `active_profile` (function) `modules/orchestrator_config.py:296` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
-- `profile_config` (function) `modules/orchestrator_config.py:308` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
-- `set_profile` (function) `modules/orchestrator_config.py:315` `def set_profile(name)` -- Persist the active profile name.
-- `set_harness` (function) `modules/orchestrator_config.py:339` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
-- `limits` (function) `modules/orchestrator_config.py:371` `def limits()` -- Return resolved numeric limits for the active profile.
-- `budget` (function) `modules/orchestrator_config.py:378` `def budget()` -- Return resolved budgets for the active profile.
-- `findings_config` (function) `modules/orchestrator_config.py:385` `def findings_config()` -- Return resolved findings-ledger settings for the active profile.
-- `progress_config` (function) `modules/orchestrator_config.py:407` `def progress_config()` -- Return resolved goal-progress strikethreshold settings.
-- `pacing` (function) `modules/orchestrator_config.py:439` `def pacing()` -- Return resolved pacing settings for the active profile.
-- `set_pacing` (function) `modules/orchestrator_config.py:487` `def set_pacing(key, value)` -- Persist one pacing override in the payload section.
-- `engagement_mode` (function) `modules/orchestrator_config.py:512` `def engagement_mode()` -- Return the active engagement mode (pentest | redteam | ctf).
-- `set_engagement_mode` (function) `modules/orchestrator_config.py:530` `def set_engagement_mode(mode)` -- Persist the engagement mode in the payload.
-- `chain_defaults` (function) `modules/orchestrator_config.py:553` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
-- `sinks` (function) `modules/orchestrator_config.py:562` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
-- `selectors` (function) `modules/orchestrator_config.py:573` `def selectors()` -- Return action-selector toggles from the payload orchestrator section.
-- `selector_enabled` (function) `modules/orchestrator_config.py:584` `def selector_enabled(name)` -- Return whether one shared selector may fire (unknown = enabled).
-- `set_selector` (function) `modules/orchestrator_config.py:589` `def set_selector(name, enabled)` -- Persist the enabled flag of one shared selector and return the toggles.
-- `stages` (function) `modules/orchestrator_config.py:599` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
-- `stage_enabled` (function) `modules/orchestrator_config.py:629` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
-- `stage_params` (function) `modules/orchestrator_config.py:635` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
-- `set_stage` (function) `modules/orchestrator_config.py:640` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:665` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:757` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:766` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:772` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:829` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:850` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:857` `def validate_config(data)` -- Validate one raw orchestration mapping.
+- `reload` (function) `modules/orchestrator_config.py:181` `def reload()` -- Invalidate every merged view after an external configuration change.
+- `profiles` (function) `modules/orchestrator_config.py:301` `def profiles()` -- Return every resolved profile, including inherited values.
+- `active_profile` (function) `modules/orchestrator_config.py:326` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
+- `profile_config` (function) `modules/orchestrator_config.py:338` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
+- `set_profile` (function) `modules/orchestrator_config.py:345` `def set_profile(name)` -- Persist the active profile name.
+- `set_harness` (function) `modules/orchestrator_config.py:369` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
+- `limits` (function) `modules/orchestrator_config.py:401` `def limits()` -- Return resolved numeric limits for the active profile.
+- `budget` (function) `modules/orchestrator_config.py:408` `def budget()` -- Return resolved budgets for the active profile.
+- `findings_config` (function) `modules/orchestrator_config.py:415` `def findings_config()` -- Return resolved findings-ledger settings for the active profile.
+- `progress_config` (function) `modules/orchestrator_config.py:437` `def progress_config()` -- Return resolved goal-progress strikethreshold settings.
+- `pacing` (function) `modules/orchestrator_config.py:469` `def pacing()` -- Return resolved pacing settings for the active profile.
+- `set_pacing` (function) `modules/orchestrator_config.py:517` `def set_pacing(key, value)` -- Persist one pacing override in the payload section.
+- `termination` (function) `modules/orchestrator_config.py:542` `def termination()` -- Return resolved termination policy settings for the active profile.
+- `leases_config` (function) `modules/orchestrator_config.py:570` `def leases_config()` -- Return resolved claim-lease settings for the active profile.
+- `boundary_config` (function) `modules/orchestrator_config.py:588` `def boundary_config()` -- Return resolved untrusted-boundary settings for the active profile.
+- `evidence_config` (function) `modules/orchestrator_config.py:601` `def evidence_config()` -- Return resolved verbatim-citation and replay settings.
+- `planner_config` (function) `modules/orchestrator_config.py:620` `def planner_config()` -- Return resolved planner-consolidation settings for the active profile.
+- `engagement_mode` (function) `modules/orchestrator_config.py:637` `def engagement_mode()` -- Return the active engagement mode (pentest | redteam | ctf).
+- `set_engagement_mode` (function) `modules/orchestrator_config.py:655` `def set_engagement_mode(mode)` -- Persist the engagement mode in the payload.
+- `chain_defaults` (function) `modules/orchestrator_config.py:678` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
+- `sinks` (function) `modules/orchestrator_config.py:687` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
+- `selectors` (function) `modules/orchestrator_config.py:698` `def selectors()` -- Return action-selector toggles from the payload orchestrator section.
+- `selector_enabled` (function) `modules/orchestrator_config.py:709` `def selector_enabled(name)` -- Return whether one shared selector may fire (unknown = enabled).
+- `set_selector` (function) `modules/orchestrator_config.py:714` `def set_selector(name, enabled)` -- Persist the enabled flag of one shared selector and return the toggles.
+- `stages` (function) `modules/orchestrator_config.py:724` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:754` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:760` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:765` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:790` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:882` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:891` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:897` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:954` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:975` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:982` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -293,7 +368,7 @@ Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 
 ## modules/outcome_attribution.py
 Depends on: `core/atomic_store.py`
-Imported by: `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, `tests/test_outcome_attribution.py`
+Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, `tests/test_loop_post_signal.py`, `tests/test_outcome_attribution.py`
 - `classify` (function) `modules/outcome_attribution.py:100` `def classify(output, is_error)` -- Attribute one step's result to ``ok``, ``blocked`` or ``error``.
 - `verb_of` (function) `modules/outcome_attribution.py:126` `def verb_of(command)` -- Return the leading verb of a command line for per-verb attribution.
 - `AttributionLedger.__init__` (method) `modules/outcome_attribution.py:149` `def __init__(self, task_id, base_dir)` -- Bind the ledger to a task, creating its file lazily on write.
@@ -303,7 +378,7 @@ Imported by: `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, 
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_idempotent_retest.py`, `tests/test_loop_scan_banner_guard.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
 - `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:106` `def host_value(self)` -- Return the best host identifier available.
 - `OutcomeEvent.key` (method) `modules/outcome_bus.py:110` `def key(self)` -- Return the idempotency key for this event.
 - `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:128` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -396,7 +471,7 @@ Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `ski
 
 ## modules/planner.py
 Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/loop/objective_bootstrap.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/planner_bridge.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
 - `Planner.__init__` (method) `modules/planner.py:269` `def __init__(self, world_model, obs_parser, api_key)`
 - `Planner.plan` (method) `modules/planner.py:313` `def plan(self, target, max_candidates)` -- Return a ranked list of next-step candidates for *target*.
 - `Planner.to_dict` (method) `modules/planner.py:413` `def to_dict(self, result)`
@@ -411,83 +486,6 @@ Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/
 - `Frontier.tried` (method) `modules/planner.py:528` `def tried(self)` -- Return the tried technique identifiers.
 - `Frontier.refill` (method) `modules/planner.py:532` `def refill(self, target, max_intents)` -- Plan fresh intents, keeping only untried and unblocked ones.
 - `Frontier.pop` (method) `modules/planner.py:551` `def pop(self)` -- Claim the oldest queued intent and mark its technique tried.
-
-## modules/playbook_admin.py
-Imported by: `cli/orchestrator_assets_tabs.py`, `modules/lazymode_playbook.py`, `tests/test_lazymode_playbook.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
-- `slugify` (function) `modules/playbook_admin.py:72` `def slugify(value)` -- Return a safe playbook filename stem.
-- `playbook_path` (function) `modules/playbook_admin.py:85` `def playbook_path(filename, directory)` -- Resolve one playbook file inside the playbooks root.
-- `load_playbook` (function) `modules/playbook_admin.py:112` `def load_playbook(path)` -- Read one playbook YAML mapping.
-- `playbook_kind` (function) `modules/playbook_admin.py:133` `def playbook_kind(data)` -- Return ``apt``, ``plan``, ``mixed`` or ``unknown`` for one mapping.
-- `validate_playbook` (function) `modules/playbook_admin.py:146` `def validate_playbook(data)` -- Validate the minimal shape shared by both playbook formats.
-- `summarize` (function) `modules/playbook_admin.py:236` `def summarize(path)` -- Build the admin-table row for one file without raising.
-- `scan_playbooks` (function) `modules/playbook_admin.py:270` `def scan_playbooks(directory)` -- Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
-- `preview_playbook` (function) `modules/playbook_admin.py:290` `def preview_playbook(path, limit)` -- Return a bounded, sanitized text preview for the detail pane.
-- `playbook_template` (function) `modules/playbook_admin.py:304` `def playbook_template(name, description, platforms)` -- Return a minimal APT playbook mapping ready for ``yaml.safe_dump``.
-- `create_playbook` (function) `modules/playbook_admin.py:336` `def create_playbook(filename)` -- Create one APT playbook file.
-- `update_playbook` (function) `modules/playbook_admin.py:389` `def update_playbook(path, data, directory)` -- Validate and atomically rewrite one playbook.
-- `save_playbook_yaml` (function) `modules/playbook_admin.py:416` `def save_playbook_yaml(path, text, directory)` -- Parse, validate and write a raw YAML document.
-- `delete_playbook` (function) `modules/playbook_admin.py:445` `def delete_playbook(path, directory)` -- Delete one playbook confined to the playbooks root.
-
-## modules/playbook_chain.py
-Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`
-Imported by: `cli/apt_chain_support.py`, `tests/test_playbook_chain.py`
-- `slugify` (function) `modules/playbook_chain.py:29` `def slugify(name)` -- Return a chain-safe slug for a playbook name.
-- `playbook_to_chain` (function) `modules/playbook_chain.py:69` `def playbook_to_chain(playbook, target, playbook_dir)` -- Lower one playbook into a validated in-memory chain.
-- `write_playbook_chain` (function) `modules/playbook_chain.py:152` `def write_playbook_chain(chain, chains_dir)` -- Persist a lowered chain next to the shipped ones.
-
-## modules/playbook_engine.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/mcp_tools/playbook_generate.py`, `skills/mcp_tools/playbook_run.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
-- `PlaybookStep.to_dict` (method) `modules/playbook_engine.py:113` `def to_dict(self)`
-- `PlaybookStep.from_dict` (method) `modules/playbook_engine.py:128` `def from_dict(cls, d)`
-- `Playbook.to_dict` (method) `modules/playbook_engine.py:141` `def to_dict(self)`
-- `Playbook.from_dict` (method) `modules/playbook_engine.py:152` `def from_dict(cls, d)`
-- `_StixLoader.__init__` (method) `modules/playbook_engine.py:188` `def __init__(self, json_path)`
-- `_StixLoader.available` (method) `modules/playbook_engine.py:192` `def available(self)`
-- `_StixLoader.store` (method) `modules/playbook_engine.py:195` `def store(self)`
-- `_StixLoader.techniques_for_tactics` (method) `modules/playbook_engine.py:210` `def techniques_for_tactics(self, tactic_shortnames, platform)` -- Return ATT&CK techniques matching the given tactic shortnames.
-- `_AtomicIndex.__init__` (method) `modules/playbook_engine.py:260` `def __init__(self, atomics_path)`
-- `_AtomicIndex.available` (method) `modules/playbook_engine.py:264` `def available(self)`
-- `_AtomicIndex.build` (method) `modules/playbook_engine.py:267` `def build(self)`
-- `_AtomicIndex.tests_for_technique` (method) `modules/playbook_engine.py:300` `def tests_for_technique(self, technique_id, platform)`
-- `_TechniqueSelector.select` (method) `modules/playbook_engine.py:317` `def select(self, candidates, world_context, target, phase, api_key, top_n)`
-- `PlaybookEngine.__init__` (method) `modules/playbook_engine.py:387` `def __init__(self, world_model, obs_parser, api_key, top_n)`
-- `PlaybookEngine.derive` (method) `modules/playbook_engine.py:427` `def derive(self, target, phase, platform, apt_name)` -- Generate a Playbook for *target* at the given *phase*.
-- `PlaybookEngine.execute` (method) `modules/playbook_engine.py:529` `def execute(self, playbook, executor, dry_run)` -- Execute a Playbook step by step.
-- `PlaybookEngine.save` (method) `modules/playbook_engine.py:599` `def save(self, playbook, path)` -- Persist playbook to YAML (compatible with existing playbooks/ format).
-- `PlaybookEngine.load` (method) `modules/playbook_engine.py:611` `def load(self, path)` -- Load a playbook from YAML.
-- `PlaybookEngine.result_summary` (method) `modules/playbook_engine.py:640` `def result_summary(self, result)` -- Return a human-readable / LLM-readable summary of a PlaybookResult.
-- `get_engine` (function) `modules/playbook_engine.py:669` `def get_engine(api_key)` -- Return (or create) the module-level singleton PlaybookEngine.
-- `phase_techniques` (function) `modules/playbook_engine.py:696` `def phase_techniques(phase, platform, top_n)` -- Return candidate ATT&CK techniques for one canonical loop phase.
-
-## modules/playbook_executor.py
-Depends on: `modules/pipeline_engine.py`
-- `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
-- `ITTPMapper.resolve` (method) `modules/playbook_executor.py:97` `def resolve(self, technique_id, atomic_test, platform)` -- Return a LazyOwn shell command string or None if unmapped.
-- `DefaultTTPMapper.register` (method) `modules/playbook_executor.py:180` `def register(cls, technique_id, platform, command)` -- Add a new technique-to-command mapping.
-- `DefaultTTPMapper.resolve` (method) `modules/playbook_executor.py:185` `def resolve(self, technique_id, atomic_test, platform)`
-- `PlaybookLoader.__init__` (method) `modules/playbook_executor.py:208` `def __init__(self, playbooks_dir)`
-- `PlaybookLoader.list` (method) `modules/playbook_executor.py:211` `def list(self)` -- Return every discoverable playbook name.
-- `PlaybookLoader.load` (method) `modules/playbook_executor.py:224` `def load(self, name)` -- Load and validate a playbook by name.
-- `PlaybookEngine.__init__` (method) `modules/playbook_executor.py:339` `def __init__(self, loader, mapper, pipelines_dir)`
-- `PlaybookEngine.loader` (method) `modules/playbook_executor.py:350` `def loader(self)`
-- `PlaybookEngine.analyze` (method) `modules/playbook_executor.py:353` `def analyze(self, name, platform)` -- Analyze a playbook: count techniques, automated vs manual, coverage.
-- `PlaybookEngine.generate_pipeline` (method) `modules/playbook_executor.py:378` `def generate_pipeline(self, name, platform)` -- Generate a pipeline YAML file from a playbook.
-- `PlaybookEngine.run` (method) `modules/playbook_executor.py:390` `def run(self, name, platform, target, onecmd)` -- Generate and execute a pipeline from a playbook.
-- `playbook_list` (function) `modules/playbook_executor.py:416` `def playbook_list()` -- Return a JSON array of available playbooks.
-- `playbook_analyze` (function) `modules/playbook_executor.py:422` `def playbook_analyze(name, platform)` -- Return a JSON summary of one playbook.
-- `playbook_generate` (function) `modules/playbook_executor.py:429` `def playbook_generate(name, platform)` -- Generate a runnable pipeline from a playbook.
-- `playbook_run` (function) `modules/playbook_executor.py:436` `def playbook_run(name, platform, target, onecmd)` -- Analyze, generate, and execute a playbook.
-
-## modules/poc_registry.py
-- `PocVerb.to_dict` (method) `modules/poc_registry.py:129` `def to_dict(self)` -- Return a JSON-serialisable summary for the orchestrator surfaces.
-- `poc_verbs` (function) `modules/poc_registry.py:283` `def poc_verbs(catalog_path)` -- Return the catalogued PoC verbs (cached, fail-safe).
-- `get_poc` (function) `modules/poc_registry.py:312` `def get_poc(name, catalog_path)` -- Return one PoC verb by name, or None when unknown/disabled-less.
-- `interpreter_argv` (function) `modules/poc_registry.py:325` `def interpreter_argv(verb)` -- Return the ``argv`` prefix that launches the PoC script.
-- `render_argv` (function) `modules/poc_registry.py:337` `def render_argv(verb, params, target, overrides)` -- Expand one PoC verb into a safe ``argv`` list.
-- `missing_requirements` (function) `modules/poc_registry.py:392` `def missing_requirements(verb)` -- Return the PoC's required binaries that are absent on this host.
-- `propose_intents` (function) `modules/poc_registry.py:409` `def propose_intents(service_texts, target, limit, catalog_path)` -- Propose ``lazy_poc run`` intent lines for matching service tokens.
-- `verbs_summary` (function) `modules/poc_registry.py:449` `def verbs_summary(catalog_path)` -- Return every PoC verb as a dict for TUI and MCP surfaces.
 
 
 Next: [API_p19.md](API_p19.md)

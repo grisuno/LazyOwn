@@ -69,6 +69,29 @@ def _reset_world_model_singleton() -> None:
 
 
 @pytest.fixture(autouse=True)
+def _isolated_loop_state_db(tmp_path, monkeypatch):
+    """Point the loop SQLite substrate at a per-test file.
+
+    The lease store is a process-wide singleton over
+    ``sessions/db/loop_state.db``; with deterministic task ids (t0001)
+    two tests would otherwise collide on the same claim row and block
+    each other. Each test gets its own database and a fresh singleton.
+    """
+    try:
+        import modules.lazy_loop as loop
+        from modules.loop import state_db
+    except Exception:
+        yield
+        return
+    monkeypatch.setattr(state_db, "default_db_path", lambda: tmp_path / "loop_state.db")
+    monkeypatch.setattr(loop, "_LEASE_STORE", None)
+    monkeypatch.setattr(loop, "_TOKEN_POLICY", None)
+    yield
+    monkeypatch.setattr(loop, "_LEASE_STORE", None)
+    monkeypatch.setattr(loop, "_TOKEN_POLICY", None)
+
+
+@pytest.fixture(autouse=True)
 def _reset_guard_harness() -> None:
     """Give every test a fresh capacity ledger in the shared harness.
 

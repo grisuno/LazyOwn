@@ -1,0 +1,28 @@
+title: LazyOwn C2 Beacon Check-In
+id: 2ab5f503-e14d-4d50-96d6-3db0cc1d11e0
+status: stable
+description: >
+  Detects the LazyOwn (grisuno/LazyOwn) beacon check-in: every beacon agent
+  posts its encrypted report to the C2 listener on /report/ or a malleable
+  prefix followed by report/. Defenders can pin their own listener first and
+  treat this rule as a lab-boundary guard (the beacon must never leave the
+  lab segment).
+author: LazyOwn RedTeam Framework
+date: 2026-11-19
+references:
+  - https://github.com/grisuno/LazyOwn
+  - https://lazyc2.py source, routes /report/ and {malleable}/report/
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+logsource:
+  category: webserver
+detection:
+  selection_method:
+    cs-method: 'POST'
+  selection_uri:
+    c-uri|endswith: '/report/'
+  condition: selection_method and selection_uri
+falsepositives:
+  - Any legitimate application exposing a POST /report/ endpoint on the same host.
+level: high

@@ -1,0 +1,35 @@
+name: php2shell_a
+description: |
+  php2shell Chain A (CVE-2026-109618/109619): pre-auth RCE by injecting PHP
+  code through the session.upload_progress multipart filename, then
+  including the poisoned session file through any LFI sink.
+
+  First use: assign url http://target/index.php then run php2shell_a.
+  OS command: assign rce_command 'cat /etc/passwd'. Free args: --inject-path,
+  --lfi-path, --session-path, --attempts, --cleanup-on.
+
+  Lab: lab start php2shell56 (PHP 5.6.40, LFI at /vuln.php).
+author: Qi Deng (ikow)
+version: '1.0'
+enabled: true
+update: true
+os: linux
+trigger: [http, https]
+category: '03. Exploitation'
+module_type: exploit
+params:
+- name: url
+  type: string
+  required: true
+  description: Target base URL whose endpoint starts the PHP session.
+- name: rce_command
+  type: string
+  required: false
+  default: id
+  description: OS command executed on the target through the injected session.
+tool:
+  name: php2shell Chain A (session injection + LFI)
+  repo_url: https://github.com/ikow/php2shell-poc.git
+  install_path: external/.exploit/php2shell_poc
+  execute_command: python3 exploit/chain_a_session_lfi.py --target {url} --command
+    '{rce_command}'

@@ -1,0 +1,24 @@
+title: LazyOwn Beacon Result Pull
+id: 29db24b4-febc-4a38-9919-41d5f3f312ed
+status: stable
+description: >
+  Detects a beacon client reading its queued results back from the C2:
+  GET /api/beacon_results/<client_id>. Any host polling this endpoint
+  outside the declared lab segment is running a LazyOwn beacon.
+author: LazyOwn RedTeam Framework
+date: 2026-11-19
+references:
+  - https://github.com/grisuno/LazyOwn
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-method: 'GET'
+    c-uri|startswith: '/api/beacon_results/'
+  condition: selection
+falsepositives:
+  - The operator dashboard itself (allowlist the management host).
+level: high

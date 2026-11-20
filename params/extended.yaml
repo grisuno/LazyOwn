@@ -58,3 +58,6 @@ android_serial: ""
 dirtyinit_device_path: "/data/local/tmp/dirtyinit"
 wifi_ssid: ""
 stage_token: ""
+loop_beacon_handoff: false
+loop_c2_autostart: false
+beacon_docker_escape: false

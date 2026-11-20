@@ -561,7 +561,7 @@ class WorkerAgenticMixin:
         os_line = f"Target OS (inferred evidence): {os_hint}. Choose verbs compatible with it.\n" if os_hint else ""
         verb_catalog = self._agent_verb_catalog()
         verb_block = f"{verb_catalog}\n" if verb_catalog else ""
-        return (
+        system_prompt = (
             "You are the LazyOwn worker agent of an authorized penetration test.\n"
             f"Task goal: {str(record.get('goal', ''))[:300]}\n"
             f"Intent #{intent.node_id}: {intent.text[:300]}\n"
@@ -583,6 +583,15 @@ class WorkerAgenticMixin:
             "actually-triggered vulnerabilities with report_finding (evidence required). "
             "Finish with a concise factual summary."
         )
+        try:
+            from modules import orchestrator_config as _oc
+            from modules.lazy_loop import code_tail as _code_tail
+
+            if _oc.boundary_config().get("enabled", True):
+                return system_prompt + "\n" + _code_tail()
+        except Exception:
+            return system_prompt
+        return system_prompt
 
     def _agentic_try(
         self,
@@ -644,6 +653,14 @@ class WorkerAgenticMixin:
             "Inspect results between calls. When done, reply with "
             "a concise factual summary."
         )
+        try:
+            from modules import orchestrator_config as _oc
+            from modules.lazy_loop import code_tail as _code_tail
+
+            if _oc.boundary_config().get("enabled", True):
+                launch_prompt = launch_prompt + "\n" + _code_tail()
+        except Exception:
+            pass
         steer = self._drain_steer(intent)
         if steer:
             launch_prompt = f"[OPERATOR MESSAGE] {steer}\n\n{launch_prompt}"

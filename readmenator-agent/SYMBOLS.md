@@ -3,6 +3,18 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `c` | function | `2026-11-19_154944/jquery-1.11.3.min.js:4` | `` |
+| `d` | function | `2026-11-19_154944/jquery-1.11.3.min.js:5` | `` |
+| `s` | function | `2026-11-19_154944/jquery-1.11.3.min.js:2` | `` |
+| `c` | function | `2026-11-19_162254/jquery-1.11.3.min.js:4` | `` |
+| `d` | function | `2026-11-19_162254/jquery-1.11.3.min.js:5` | `` |
+| `s` | function | `2026-11-19_162254/jquery-1.11.3.min.js:2` | `` |
+| `c` | function | `2026-11-19_164345/jquery-1.11.3.min.js:4` | `` |
+| `d` | function | `2026-11-19_164345/jquery-1.11.3.min.js:5` | `` |
+| `s` | function | `2026-11-19_164345/jquery-1.11.3.min.js:2` | `` |
+| `c` | function | `2026-11-19_170839/jquery-1.11.3.min.js:4` | `` |
+| `d` | function | `2026-11-19_170839/jquery-1.11.3.min.js:5` | `` |
+| `s` | function | `2026-11-19_170839/jquery-1.11.3.min.js:2` | `` |
 | `get_commit_type` | function | `DEPLOY.sh:203` | `` |
 | `increment_version` | function | `DEPLOY.sh:19` | `` |
 | `update_section_html` | function | `DEPLOY.sh:99` | `` |
@@ -484,17 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `BrowserSyncCommandSet` | class | `cli/commands/browser_sync.py:13` | `class BrowserSyncCommandSet(LazyOwnCommandSet)` |
 | `do_browsersync` | method | `cli/commands/browser_sync.py:20` | `def do_browsersync(self, line)` |
 | `C2ProfileCommandSet` | class | `cli/commands/c2_profile.py:18` | `class C2ProfileCommandSet(LazyOwnCommandSet)` |
-| `do_c2_dns` | method | `cli/commands/c2_profile.py:69` | `def do_c2_dns(self, line)` |
-| `do_c2_profiles` | method | `cli/commands/c2_profile.py:25` | `def do_c2_profiles(self, line)` |
-| `do_c2_rotate` | method | `cli/commands/c2_profile.py:90` | `def do_c2_rotate(self, line)` |
-| `do_c2_tls` | method | `cli/commands/c2_profile.py:50` | `def do_c2_tls(self, line)` |
-| `C2SessionCommandSet` | class | `cli/commands/c2_session.py:127` | `class C2SessionCommandSet(LazyOwnCommandSet)` |
-| `_fresh_lab_creds` | function | `cli/commands/c2_session.py:54` | `def _fresh_lab_creds()` |
-| `_issue` | function | `cli/commands/c2_session.py:101` | `def _issue(client_id, command, auth, https_port)` |
-| `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
-| `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
-| `_tls_verify` | function | `cli/commands/c2_session.py:83` | `def _tls_verify()` |
-| `do_c2_deploy` | method | `cli/commands/c2_session.py:268` | `def do_c2_deploy(self, line)` |
-| `do_c2_exec` | method | `cli/commands/c2_session.py:318` | `def do_c2_exec(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

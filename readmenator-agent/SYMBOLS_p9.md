@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_api_data_inner` | function | `lazyc2.py:5049` | `def _api_data_inner()` |
+| `_append_beacon_record` | function | `lazyc2.py:1379` | `def _append_beacon_record(record)` |
+| `_basic_authenticated` | function | `lazyc2.py:1543` | `def _basic_authenticated()` |
+| `_beacon_capabilities` | function | `lazyc2.py:7389` | `def _beacon_capabilities(beacon_type)` |
+| `_beacon_menu_bofs` | function | `lazyc2.py:7405` | `def _beacon_menu_bofs(capabilities)` |
+| `_beacon_menu_playbooks` | function | `lazyc2.py:7421` | `def _beacon_menu_playbooks()` |
+| `_beacon_records_path` | function | `lazyc2.py:1271` | `def _beacon_records_path(client_id)` |
+| `_beacon_signature_guard` | function | `lazyc2.py:3703` | `def _beacon_signature_guard()` |
+| `_behavioral_risk_prompt` | function | `lazyc2.py:2516` | `def _behavioral_risk_prompt(event)` |
+| `_bg_cred_reuse` | function | `lazyc2.py:4129` | `def _bg_cred_reuse(_ip)` |
+| `_bootstrap_initial_admin` | function | `lazyc2.py:2995` | `def _bootstrap_initial_admin()` |
+| `_build_privesc_command` | function | `lazyc2.py:3674` | `def _build_privesc_command(platform)` |
 | `_build_stage_config_document` | function | `lazyc2.py:4449` | `def _build_stage_config_document()` |
 | `_campaign_adaptation_prompt` | function | `lazyc2.py:2569` | `def _campaign_adaptation_prompt(campaign_id, events)` |
 | `_complete_mfa_login` | function | `lazyc2.py:6707` | `def _complete_mfa_login()` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `track_interaction` | function | `lazyc2/blueprints/phishing.py:89` | `def track_interaction(short_url)` |
 | `update_short_url` | function | `lazyc2/blueprints/phishing.py:125` | `def update_short_url(short_url)` |
 | `webserver_report` | function | `lazyc2/blueprints/phishing.py:174` | `def webserver_report(filename)` |
-| `_guard` | function | `lazyc2/blueprints/session_auth.py:36` | `def _guard()` |
-| `require_operator_session` | function | `lazyc2/blueprints/session_auth.py:20` | `def require_operator_session(blueprint, login_endpoint)` |
-| `decoy_response` | function | `lazyc2/extensions/decoy.py:12` | `def decoy_response()` |
-| `_get_safe_file_path` | function | `lazyc2/extensions/short_urls.py:74` | `def _get_safe_file_path(user_path)` |
-| `configure` | function | `lazyc2/extensions/short_urls.py:21` | `def configure(sessions_phishing_dir)` |
-| `is_valid_url` | function | `lazyc2/extensions/short_urls.py:104` | `def is_valid_url(url)` |
-| `load_short_urls` | function | `lazyc2/extensions/short_urls.py:33` | `def load_short_urls()` |
-| `save_short_urls` | function | `lazyc2/extensions/short_urls.py:59` | `def save_short_urls(data)` |
-| `configure` | function | `lazyc2/extensions/storage.py:18` | `def configure(sessions_dir)` |
-| `load_banners` | function | `lazyc2/extensions/storage.py:154` | `def load_banners()` |
-| `load_cves` | function | `lazyc2/extensions/storage.py:59` | `def load_cves()` |
-| `load_event_config` | function | `lazyc2/extensions/storage.py:121` | `def load_event_config()` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

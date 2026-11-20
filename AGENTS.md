@@ -345,6 +345,58 @@ scope or tasks. Surfaces: `lazy_commander [--minutes N] [--slices N]
 [--workers N]`, `LazyCommander(board_fn, complete_fn, work_fn,
 pause_fn, clock, sleep)`. Tests: `tests/test_lazy_commander.py`.
 
+### `modules/loop/` — Loop substrate contracts (ARTEX parity, v6)
+
+One SQLite WAL file (`sessions/db/loop_state.db`, gitignored) and five
+one-contract modules the god class delegates to (composition over
+inflating `lazy_loop.py`). Config precedence everywhere: module
+fallback < YAML profile < payload `orchestrator.<section>`.
+
+- `modules/loop/state_db.py` — `connect`/`thread_connection` helpers
+  over the shared WAL database. Tests: `tests/test_loop_leases.py`.
+- `modules/loop/leases.py` — `LeaseStore` claim leases keyed by
+  `(task_id, node_id)`: CAS claim under `BEGIN IMMEDIATE`, heartbeat,
+  settle (a settled intent never re-claims), release, sweep of dead
+  claims back to pending. `ExplorationGraph.compare_and_claim`
+  acquires the lease before the flock-persist; `set_state` settles or
+  releases on terminal/requeue transitions; `Budget.record_toolcall`
+  heartbeats the claim; the engine run loop sweeps expired leases each
+  round (`_sweep_leases`). Config: `leases: {enabled, ttl_sec,
+  heartbeat_sec}`. Tests: `tests/test_loop_leases.py`,
+  `tests/test_loop_leases_integration.py`.
+- `modules/loop/tokens.py` — `TokenLedger` (estimated token spend per
+  task/intent; `llm_pool.register_usage_sink` feeds it from every
+  completion) + `TerminationPolicy` with the `save_tokens`/`try_hard`
+  termination modes and a wrap-up reserve. `save_tokens` wraps the
+  loop up cleanly when the spend cap is reached (abort cause
+  `token_budget`, terminal auto_pwn fallback skipped); `try_hard`
+  degrades to the deterministic layer only (planner stops emitting LLM
+  intents). Config: `termination: {mode, max_tokens_per_task,
+  max_tokens_per_intent, wrapup_reserve_pct, wrapup_reserve_tokens}`.
+  Tests: `tests/test_loop_tokens.py`,
+  `tests/test_loop_termination.py`.
+- `modules/loop/boundary.py` — Untrusted-data boundary with per-instance
+  nonce marker pairs (`fence`), the fixed code-owned rule text
+  (`code_tail`), tamper detection (`check_leakage`) and the short
+  per-tool-result variant (`fence_result`). Applied to
+  `build_prompt_context`, `judge_command`, the agent system/launch
+  prompts and every `agent_runner` tool result. Config: `boundary:
+  {enabled}`. Tests: `tests/test_loop_boundary.py`,
+  `tests/test_loop_citation_judge.py`.
+- `modules/loop/evidence.py` — Verbatim citation verification:
+  `verbatim_contains`, `extract_quote`, `CitationService.verify/replay/
+  annotate`. Findings carry an extracted `quote` in meta;
+  `Retester._citation_verdict` returns `reproduced` with zero
+  executions when the quote binds to fresh captured output, before any
+  replay. Config: `evidence: {citation_enabled, citation_max_age_sec,
+  replay_enabled}`. Tests: `tests/test_loop_evidence.py`,
+  `tests/test_loop_citation_judge.py`.
+- `modules/loop/planner_bridge.py` — Single planner pipeline: the
+  technique planner's ranked `PlanCandidate` steps convert into intent
+  summaries and feed the loop `Planner._candidates()` (deduped against
+  existing intents). Config: `planner: {bridge_enabled}`. Tests:
+  `tests/test_loop_planner_bridge.py`.
+
 ### `cli/tips_engine.py` — Unified post-command tips engine
 
 **Contract:** Coordinate all suggestion surfaces (kill-chain hints, protips,

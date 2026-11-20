@@ -104,13 +104,14 @@ def test_rank_skips_noise_service_flood():
 
 def test_coverage_bounded_vector_does_not_stall(monkeypatch):
     """A single hanging vector must not stall a coverage run: it is bounded and
-    the traversal continues to the remaining vectors."""
+    the traversal continues to the remaining vectors. The wall-clock cap is
+    the payload ``auto_pwn_vector_timeout_sec`` knob."""
     import time as _time
 
     from modules import autonomous_exploit_engine as mod
 
-    monkeypatch.setattr(mod, "_PER_VECTOR_TIMEOUT", 0.3)
     eng = AutonomousExploitEngine()
+    eng._payload_config = {"auto_pwn_vector_timeout_sec": 0.3}
     profile = _profile()
     cands = _candidates(4)
 

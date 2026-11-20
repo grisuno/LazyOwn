@@ -1,4 +1,4 @@
-# Subsystem: tests (page 11 of 27)
+# Subsystem: tests (page 11 of 28)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
 ## tests/test_engage_summary.py
@@ -409,6 +409,21 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `save` (method, line 100) `def save(self)`
 - Depends on: `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
+## tests/test_fact_gated_todolist.py
+- Doc: Fact-gated todolist contract + planner wiring (lever #6).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 16) `def _sandbox(tmp_path, monkeypatch)`
+  - `test_unmet_requirements_substring_and_case` (function, line 23) `def test_unmet_requirements_substring_and_case()`
+  - `test_gate_partitions_ready_and_blocked` (function, line 32) `def test_gate_partitions_ready_and_blocked()`
+  - `_planner` (function, line 47) `def _planner(tmp_path, monkeypatch)`
+  - `test_planner_defers_lateral_without_foothold` (function, line 60) `def test_planner_defers_lateral_without_foothold(tmp_path, monkeypatch)`
+  - `test_planner_releases_lateral_after_foothold` (function, line 75) `def test_planner_releases_lateral_after_foothold(tmp_path, monkeypatch)`
+  - `test_fact_gate_flag_default_on` (function, line 89) `def test_fact_gate_flag_default_on()`
+  - `test_fact_gate_is_fail_open` (function, line 94) `def test_fact_gate_is_fail_open(tmp_path, monkeypatch)`
+- Depends on: `modules/fact_gated_todolist.py`, `modules/lazy_loop.py`
+
 ## tests/test_failure_memory_veto.py
 - Doc: Failure-memory veto contract: exhausted commands stop burning rounds.
 - Layer: testing
@@ -477,17 +492,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_enrich_evidence_never_fails_offline` (function, line 85) `def test_enrich_evidence_never_fails_offline(tmp_path, monkeypatch)`
   - `_boom` (function, line 87) `def _boom(cve, sessions)`
 - Depends on: `modules/finding_lifecycle.py`, `modules/osint_enrich.py`
-
-## tests/test_findings_gate.py
-- Doc: Chain-to-findings gate contract: insufficient verdicts never confirm.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain_payload` (function, line 14) `def _chain_payload(gate)`
-  - `test_open_gate_confirms_with_evidence` (function, line 31) `def test_open_gate_confirms_with_evidence()`
-  - `test_blocked_gate_stays_partial_with_reason` (function, line 37) `def test_blocked_gate_stays_partial_with_reason()`
-  - `test_default_payload_unaffected` (function, line 45) `def test_default_payload_unaffected()`
-- Depends on: `modules/lazy_findings.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

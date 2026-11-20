@@ -1,0 +1,21 @@
+# Suricata rules for the LazyOwn C2 and beacon wire surface.
+# Local sid range: 9000000-9000999. Scope first (LAB_NET = your declared
+# lab segment) then invert for rogue-C2 hunting outside it.
+
+# Beacon check-in: POST /report/ (or malleable <prefix>/report/)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"LAZYOWN beacon check-in POST /report/"; flow:established,to_server; http.uri; content:"/report/"; endswith; http.method; content:"POST"; classtype:command-and-control; sid:9000001; rev:1;)
+
+# Beacon binary staging
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"LAZYOWN beacon binary staging GET /stage/beacon"; flow:established,to_server; http.uri; content:"/stage/beacon"; endswith; http.method; content:"GET"; classtype:command-and-control; sid:9000002; rev:1;)
+
+# Log exfil channel
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"LAZYOWN beacon log exfil /log/<data>"; flow:established,to_server; http.uri; content:"/log/"; startswith; pcre:"/log\/[A-Za-z0-9+\/=_-]{8,}"; classtype:exfiltration; sid:9000003; rev:1;)
+
+# Dashboard API polling (rogue C2 hunt)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"LAZYOWN C2 dashboard /api/data polling"; flow:established,to_server; http.uri; content:"/api/data"; startswith; http.method; content:"GET"; classtype:command-and-control; sid:9000004; rev:1;)
+
+# Beacon result pull
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"LAZYOWN beacon result pull GET /api/beacon_results/"; flow:established,to_server; http.uri; content:"/api/beacon_results/"; startswith; http.method; content:"GET"; classtype:command-and-control; sid:9000005; rev:1;)
+
+# HMAC wire signature header on check-in (high confidence)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"LAZYOWN beacon HMAC X-Signature header on /report/"; flow:established,to_server; http.uri; content:"/report/"; endswith; http.header; content:"X-Signature|3a|"; nocase; classtype:command-and-control; sid:9000006; rev:1;)

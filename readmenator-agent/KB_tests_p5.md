@@ -1,4 +1,4 @@
-# Subsystem: tests (page 5 of 27)
+# Subsystem: tests (page 5 of 28)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
 
 ## tests/test_bsb_fileless_compat.py
@@ -107,6 +107,31 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `run` (method, line 122) `def run(self, cmd, timeout)`
   - `run` (method, line 164) `def run(self, cmd, timeout)`
   - `run` (method, line 181) `def run(self, cmd, timeout)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_c2_autostart.py
+- Doc: Tests for the auto_loop C2 autostart wiring in modules.lazy_runner.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `runner` (function, line 19) `def runner()`
+  - `_allow_pytest_call` (function, line 25) `def _allow_pytest_call(monkeypatch)`
+  - `TestEndpoint` (class, line 37) `class TestEndpoint`
+  - `TestMaybeStartC2` (class, line 56) `class TestMaybeStartC2`
+  - `test_bind_address_wins` (method, line 38) `def test_bind_address_wins(self, runner)`
+  - `test_wildcard_maps_to_loopback` (method, line 42) `def test_wildcard_maps_to_loopback(self, runner)`
+  - `test_port_fallback` (method, line 46) `def test_port_fallback(self, runner)`
+  - `test_bad_port_falls_back` (method, line 51) `def test_bad_port_falls_back(self, runner)`
+  - `test_flag_off_is_noop` (method, line 57) `def test_flag_off_is_noop(self, runner, monkeypatch)`
+  - `test_already_listening_skips_spawn` (method, line 65) `def test_already_listening_skips_spawn(self, runner, monkeypatch)`
+  - `test_spawn_and_wait_success` (method, line 74) `def test_spawn_and_wait_success(self, runner, monkeypatch)`
+  - `test_spawn_never_listening_warns` (method, line 101) `def test_spawn_never_listening_warns(self, runner, monkeypatch)`
+  - `test_pytest_guard_blocks_spawn` (method, line 119) `def test_pytest_guard_blocks_spawn(self, runner, monkeypatch)`
+  - `test_never_raises_on_spawn_failure` (method, line 126) `def test_never_raises_on_spawn_failure(self, runner, monkeypatch)`
+  - `test_tip_when_handoff_off` (method, line 136) `def test_tip_when_handoff_off(self, runner, monkeypatch)`
+  - `test_no_tip_when_handoff_on` (method, line 146) `def test_no_tip_when_handoff_on(self, runner, monkeypatch)`
+  - `fake_alive` (function, line 80) `def fake_alive(host, port)`
+  - `raising` (function, line 129) `def raising()`
 - Depends on: `modules/__init__.py`
 
 ## tests/test_c2_credential_bootstrap.py
@@ -469,21 +494,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `_execute` (method, line 186) `def _execute(self, command, timeout, expect_exits)`
   - `_execute` (method, line 204) `def _execute(self, command, timeout, expect_exits)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_family.py
-- Doc: Isomorphism-transfer BDD contract: family signatures and chain reuse.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_signature_ignores_service_order_and_duplicates` (function, line 14) `def test_signature_ignores_service_order_and_duplicates()`
-  - `test_signature_collapses_known_service_aliases` (function, line 21) `def test_signature_collapses_known_service_aliases()`
-  - `test_signature_distinguishes_os_and_creds` (function, line 28) `def test_signature_distinguishes_os_and_creds()`
-  - `test_empty_services_is_the_empty_family` (function, line 35) `def test_empty_services_is_the_empty_family()`
-  - `test_registry_ranks_proven_chain_over_associated` (function, line 40) `def test_registry_ranks_proven_chain_over_associated(tmp_path)`
-  - `test_registry_empty_family_is_never_recorded` (function, line 54) `def test_registry_empty_family_is_never_recorded(tmp_path)`
-  - `test_transfer_note_surfaces_known_chain` (function, line 61) `def test_transfer_note_surfaces_known_chain(tmp_path)`
-  - `test_default_registry_uses_store_path` (function, line 72) `def test_default_registry_uses_store_path(tmp_path, monkeypatch)`
-- Depends on: `modules/chain_family.py`, `modules/lazy_loop.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

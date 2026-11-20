@@ -12,6 +12,7 @@ so the cleanup pass can find every machine the framework launched.
 
 from __future__ import annotations
 
+import base64
 import secrets
 import subprocess
 import time
@@ -77,6 +78,18 @@ LAB_SCENARIOS: dict[str, dict] = {
         "ports": {"8080/tcp": 9090},
         "description": "Apache Struts2 -- CVE-2017-5638 and more",
         "difficulty": "hard",
+    },
+    "php2shell56": {
+        "image": "php:5.6.40-apache",
+        "ports": {"80/tcp": 8086},
+        "description": "php2shell56 -- EOL PHP 5.6.40 mod_php with session.upload_progress and an LFI sink (CVE-2026-109618/109619 lab)",
+        "difficulty": "easy",
+    },
+    "php2shell84": {
+        "image": "php:8.4.26-apache",
+        "ports": {"80/tcp": 8087},
+        "description": "php2shell84 -- vulnerable PHP 8.4.26 mod_php (bookworm, OpenSSL 3) with session.upload_progress and an LFI sink",
+        "difficulty": "easy",
     },
 }
 
@@ -194,6 +207,84 @@ def ensure_web(scenario: str, name: str) -> None:
     )
 
 
+PHP2SHELL56_INI = (
+    'session.save_path = "/tmp/sessions"\n'
+    "session.use_strict_mode = 0\n"
+    "session.use_only_cookies = 0\n"
+    "session.upload_progress.enabled = 1\n"
+    "session.upload_progress.cleanup = 0\n"
+    "display_errors = On\n"
+)
+
+PHP2SHELL56_INDEX = (
+    "<?php\n"
+    "session_start();\n"
+    "echo \"PHP \" . PHP_VERSION . \"\\n\";\n"
+    "echo \"SAPI \" . php_sapi_name() . \"\\n\";\n"
+    "echo \"upload_progress \" . ini_get('session.upload_progress.enabled') . \"\\n\";\n"
+    "echo \"OK\\n\";\n"
+)
+
+PHP2SHELL56_LFI = (
+    "<?php\n"
+    "$page = isset($_GET['page']) ? $_GET['page'] : 'home';\n"
+    "include($page);\n"
+)
+
+PHP2SHELL56_INI_B64 = base64.b64encode(PHP2SHELL56_INI.encode()).decode()
+PHP2SHELL56_INDEX_B64 = base64.b64encode(PHP2SHELL56_INDEX.encode()).decode()
+PHP2SHELL56_LFI_B64 = base64.b64encode(PHP2SHELL56_LFI.encode()).decode()
+
+PHP2SHELL56_BOOTSTRAP = (
+    "set -e; "
+    "mkdir -p /tmp/sessions && chmod 1777 /tmp/sessions; "
+    f"printf '%s' {PHP2SHELL56_INI_B64} | base64 -d > /usr/local/etc/php/conf.d/lazyown-php2shell56.ini; "
+    f"printf '%s' {PHP2SHELL56_INDEX_B64} | base64 -d > /var/www/html/index.php; "
+    f"printf '%s' {PHP2SHELL56_LFI_B64} | base64 -d > /var/www/html/vuln.php; "
+    "touch /var/www/html/.lazyown_php2shell56; "
+    "apachectl -k restart 2>/dev/null || service apache2 restart 2>/dev/null || true"
+)
+
+
+PHP2SHELL_SCENARIOS = frozenset({"php2shell56", "php2shell84"})
+
+
+def _ensure_php2shell(scenario: str, name: str) -> None:
+    """Provision the php2shell lab webroot and session configuration idempotently.
+
+    Drops the upload_progress-enabled session configuration, the
+    ``session_start()`` injection endpoint and the ``vuln.php`` LFI sink
+    into the stock ``php:5.6.40-apache`` (PHP 5 vulnerable target) or
+    ``php:8.4.26-apache`` (bookworm with OpenSSL 3, beacon-compatible)
+    image, so chain A of the php2shell PoC (CVE-2026-109618/109619) and
+    the beacon handoff work out of the box. Every step is best-effort:
+    a failed exec never crashes the lab start.
+
+    Args:
+        scenario: Lab scenario key (``php2shell56`` or ``php2shell84``).
+        name: Container name.
+    """
+    if scenario not in PHP2SHELL_SCENARIOS:
+        return
+    probe = _docker("exec", name, "test", "-f", "/var/www/html/.lazyown_php2shell56")
+    if probe.returncode == 0:
+        return
+    script = PHP2SHELL56_BOOTSTRAP.replace("PHP2SHELL56_INI", PHP2SHELL56_INI)
+    script = script.replace("PHP2SHELL56_INDEX", PHP2SHELL56_INDEX)
+    script = script.replace("PHP2SHELL56_LFI", PHP2SHELL56_LFI)
+    _docker("exec", name, "sh", "-c", script, timeout=30)
+
+
+def _ensure_php2shell56(scenario: str, name: str) -> None:
+    """Backward-compatible alias for :func:`_ensure_php2shell`.
+
+    Args:
+        scenario: Lab scenario key.
+        name: Container name.
+    """
+    _ensure_php2shell(scenario, name)
+
+
 def _ensure_ad_lab(scenario: str, name: str) -> None:
     """Wait for the Samba DC and create the kerberoastable fixture idempotently.
 
@@ -263,6 +354,7 @@ def start(scenario: str) -> dict:
     name = container_name(scenario)
     if name in running_containers():
         ensure_web(scenario, name)
+        _ensure_php2shell56(scenario, name)
         _ensure_ad_lab(scenario, name)
         return {
             "success": True,
@@ -290,6 +382,7 @@ def start(scenario: str) -> dict:
     if run.returncode != 0:
         return {"success": False, "error": (run.stderr or run.stdout or "")[-300:], "ports": {}}
     ensure_web(scenario, name)
+    _ensure_php2shell56(scenario, name)
     _ensure_ad_lab(scenario, name)
     return {
         "success": True,

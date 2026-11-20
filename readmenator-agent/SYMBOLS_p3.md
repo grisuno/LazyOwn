@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_range_dispatch` | method | `cli/commands/lab.py:218` | `def _range_dispatch(self, args)` |
+| `_range_list` | method | `cli/commands/lab.py:250` | `def _range_list(self)` |
+| `_range_start` | method | `cli/commands/lab.py:259` | `def _range_start(self, profile)` |
+| `_range_status` | method | `cli/commands/lab.py:431` | `def _range_status(self)` |
+| `_range_stop` | method | `cli/commands/lab.py:418` | `def _range_stop(self, profile)` |
+| `_range_verify` | method | `cli/commands/lab.py:353` | `def _range_verify(self, profile)` |
+| `_range_wait_healthy` | method | `cli/commands/lab.py:321` | `def _range_wait_healthy(self, compose, timeout)` |
+| `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
+| `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
+| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
+| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
+| `LateralMovementCommandSet` | class | `cli/commands/lateral.py:22` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 | `do_chisel` | method | `cli/commands/lateral.py:41` | `def do_chisel(self, line)` |
 | `do_ligolo` | method | `cli/commands/lateral.py:77` | `def do_ligolo(self, line)` |
 | `do_nc` | method | `cli/commands/lateral.py:89` | `def do_nc(self, line)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_ports` | method | `cli/commands/recon_migrated.py:411` | `def do_ports(self, line)` |
 | `do_proxy` | method | `cli/commands/recon_migrated.py:373` | `def do_proxy(self, line)` |
 | `do_recon` | method | `cli/commands/recon_migrated.py:1280` | `def do_recon(self, line)` |
-| `do_serveralive2` | method | `cli/commands/recon_migrated.py:1036` | `def do_serveralive2(self, line)` |
-| `do_sherlock` | method | `cli/commands/recon_migrated.py:705` | `def do_sherlock(self, line)` |
-| `do_sslscan` | method | `cli/commands/recon_migrated.py:633` | `def do_sslscan(self, line)` |
-| `do_surface` | method | `cli/commands/recon_migrated.py:43` | `def do_surface(self, line)` |
-| `do_tcpdump_capture` | method | `cli/commands/recon_migrated.py:486` | `def do_tcpdump_capture(self, line)` |
-| `do_tcpdump_icmp` | method | `cli/commands/recon_migrated.py:453` | `def do_tcpdump_icmp(self, line)` |
-| `do_trace` | method | `cli/commands/recon_migrated.py:831` | `def do_trace(self, line)` |
-| `do_trufflehog` | method | `cli/commands/recon_migrated.py:746` | `def do_trufflehog(self, line)` |
-| `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
-| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
-| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
-| `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:34` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

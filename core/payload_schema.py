@@ -327,6 +327,25 @@ def _validate_opaque(_value: Any) -> str | None:
     return None
 
 
+def _validate_fraction(value: Any) -> str | None:
+    """Validate a probability-like number in the [0, 1] range.
+
+    Args:
+        value: Raw payload value (string or number).
+
+    Returns:
+        ``None`` when the value parses to a float between 0 and 1,
+        otherwise a human-readable message.
+    """
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return f"expected a number between 0 and 1, got {value!r}"
+    if not 0.0 <= number <= 1.0:
+        return f"expected a number between 0 and 1, got {value!r}"
+    return None
+
+
 def _validate_c2_tls_verify(value: Any) -> str | None:
     """Validate the ``c2_tls_verify`` mode accepted by ``lazyown``.
 
@@ -1006,6 +1025,145 @@ SCHEMA: dict[str, FieldSpec] = {
             category="c2",
         ),
         _spec(
+            "auto_pwn_stealth",
+            FieldKind.STRING,
+            "low",
+            "Default stealth level for auto_pwn runs: low, medium, high or paranoid.",
+            long_help=(
+                "Read by the autonomous exploitation engine and the auto_pwn "
+                "command when --stealth is not passed on the command line. "
+                "Each level trades speed for noise: low scans fast with no "
+                "delays, paranoid rate-limits probes and fragments packets."
+            ),
+            example="low",
+            allowed=("low", "medium", "high", "paranoid"),
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_enable_pivot",
+            FieldKind.BOOL,
+            "False",
+            "Auto-pivot after a successful auto_pwn exploitation.",
+            long_help=(
+                "Equivalent to passing --pivot on every auto_pwn run. When a "
+                "foothold is obtained the engine enumerates the target's "
+                "subnets and builds the pivot routing chain."
+            ),
+            example="False",
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_enable_privesc",
+            FieldKind.BOOL,
+            "False",
+            "Attempt privilege escalation after a successful auto_pwn foothold.",
+            long_help=(
+                "Equivalent to passing --privesc on every auto_pwn run. The "
+                "engine chains local privesc techniques against the first "
+                "shell session obtained."
+            ),
+            example="False",
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_cover_all",
+            FieldKind.BOOL,
+            "False",
+            "Run auto_pwn in coverage mode: attempt every ranked vector.",
+            long_help=(
+                "Equivalent to passing --all on every auto_pwn run. In "
+                "coverage mode the engine does not stop at the first shell: "
+                "it exercises and records every vector up to "
+                "auto_pwn_coverage_max_vectors so gyms learn all paths."
+            ),
+            example="False",
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_foothold_cap",
+            FieldKind.INT,
+            8,
+            "Max exploit attempts auto_pwn makes in foothold mode.",
+            long_help=(
+                "Caps the ranked candidates attempted when coverage mode is "
+                "off, before a shell is obtained. Raise it for noisy targets "
+                "with many services."
+            ),
+            example="8",
+            min_value=1,
+            max_value=200,
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_coverage_max_vectors",
+            FieldKind.INT,
+            80,
+            "Max exploit vectors auto_pwn attempts in coverage mode (--all).",
+            long_help=(
+                "Hard ceiling for a coverage run so a gym matrix cannot run "
+                "forever against a target with an unusually rich surface."
+            ),
+            example="80",
+            min_value=1,
+            max_value=500,
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_vector_timeout_sec",
+            FieldKind.INT,
+            45,
+            "Wall-clock timeout (seconds) per exploit vector in coverage mode.",
+            long_help=(
+                "A vector that blocks (a reverse-shell trigger waiting on a "
+                "callback that never arrives) is abandoned after this many "
+                "seconds so the traversal continues to the remaining paths."
+            ),
+            example="45",
+            min_value=5,
+            max_value=3600,
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_retry_budget_sec",
+            FieldKind.INT,
+            180,
+            "Wall-clock budget (seconds) for the credential-aware exploit retry.",
+            long_help=(
+                "Bounds re-exploitation with captured credentials so a long "
+                "spray cannot hang the post-exploitation stage."
+            ),
+            example="180",
+            min_value=10,
+            max_value=86400,
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_confidence_floor",
+            FieldKind.OPAQUE,
+            "0.65",
+            "Minimum confidence (0-1) a curated atomic vector needs to rank.",
+            long_help=(
+                "Curated exploits/*.yaml vectors matched by service name start "
+                "at this confidence when the spec declares none of its own."
+            ),
+            example="0.65",
+            custom_validator=_validate_fraction,
+            category="exploit",
+        ),
+        _spec(
+            "auto_pwn_port_confidence",
+            FieldKind.OPAQUE,
+            "0.9",
+            "Confidence (0-1) granted to curated vectors matched by open port.",
+            long_help=(
+                "Port-matched bind-shell/backdoor vectors (exec_shell_port) "
+                "start at this confidence when the spec declares none."
+            ),
+            example="0.9",
+            custom_validator=_validate_fraction,
+            category="exploit",
+        ),
+        _spec(
             "auto_discover_on_checkin",
             FieldKind.BOOL,
             "False",
@@ -1456,6 +1614,95 @@ SCHEMA: dict[str, FieldSpec] = {
             example="180",
             category="ai",
             min_value=1,
+        ),
+        _spec(
+            "loop_lazymode_max_vectors",
+            FieldKind.INT,
+            4,
+            "Maximum ranked vectors one lazymode script may exercise.",
+            long_help=(
+                "Upper bound on the number of exploit vectors the loop "
+                "exercises per lazymode script, keeping code-mode sweeps "
+                "bounded in time and in noise."
+            ),
+            example="4",
+            category="ai",
+            min_value=1,
+        ),
+        _spec(
+            "loop_c2_autostart",
+            FieldKind.BOOL,
+            False,
+            "Spawn the C2 dashboard when the loop needs the beacon channel.",
+            long_help=(
+                "When enabled the autonomous loop spawns lazyc2.py detached "
+                "on c2_bind_address:c2_port whenever the beacon handoff "
+                "needs a live listener and none is answering, so foothold "
+                "beacons always find a C2 to check in against."
+            ),
+            category="c2",
+        ),
+        _spec(
+            "beacon_docker_escape",
+            FieldKind.BOOL,
+            False,
+            "Add a container-escape step to the autonomous beacon loop.",
+            long_help=(
+                "When enabled, every beacon-loop run probes for a mounted "
+                "/var/run/docker.sock and, when the socket is reachable, "
+                "stages scripts/docker_escape.sh through the C2 /s/ "
+                "endpoint and runs it: a privileged helper container with "
+                "the host rootfs mounted at /host copies /etc/shadow into "
+                "the shared /tmp. Operators can also arm the phase per "
+                "run with a goal that mentions docker, escape, container "
+                "or host."
+            ),
+            category="c2",
+        ),
+        _spec(
+            "loop_beacon_handoff",
+            FieldKind.BOOL,
+            False,
+            "Deploy a beacon and start the beacon loop on every foothold.",
+            long_help=(
+                "When any shell producer (loop, auto_pwn, chain runner, "
+                "php2shell HTTP RCE) publishes a shell-confirmed outcome, "
+                "the handoff deploys the black sand beacon through the "
+                "executing primitive and drives it with the beacon-loop "
+                "playbook (awareness, discovery, docker escape, "
+                "privilege escalation, exfiltration). Kill switch: "
+                "LAZYOWN_BEACON_HANDOFF=0."
+            ),
+            category="c2",
+        ),
+        _spec(
+            "c2_bind_address",
+            FieldKind.IP,
+            "0.0.0.0",
+            "Address the C2 dashboard and beacon channel bind to.",
+            long_help=(
+                "Loopback binds keep the C2 private to the operator host; "
+                "a Docker bridge IP exposes it to lab containers so their "
+                "beacons can check in."
+            ),
+            example="172.17.0.1",
+            category="c2",
+        ),
+        _spec(
+            "autonomous",
+            FieldKind.STRING,
+            "0",
+            "Legacy enable flag for autonomous mode.",
+            example="1",
+            category="misc",
+        ),
+        _spec(
+            "dir",
+            FieldKind.PATH,
+            "",
+            "Generic working directory knob shared by addons and aliases.",
+            example="/tmp/own",
+            category="misc",
         ),
         _spec(
             "loop_technique_deterministic",

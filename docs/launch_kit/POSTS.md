@@ -5,7 +5,7 @@
 Title: Show HN: LazyOwn – OSS red-team C2 with Linux BOF, YARA/Nuclei marketplaces, 153 MCP tools
 
 Body:
-I built LazyOwn, a GPLv3 red-team framework (741 CLI commands, multi-operator
+I built LazyOwn, an AGPL-3.0 red-team framework (741 CLI commands, multi-operator
 C2, phishing engine). Three things no other OSS C2 has in one place:
 1. Linux BOF support (ELF dlopen beacon),
 2. built-in YARA + Nuclei marketplaces (one-command install),
@@ -22,7 +22,7 @@ Title: [OSS] LazyOwn – 741-command red-team framework with AI agents and Linux
 Body: 5-min quickstart in QUICKSTART.md, 80/20 guide in ESSENTIALS.md,
 full HTB Lame walkthrough in docs/examples/. Docker one-liner, wizard setup,
 multi-operator collab. Looking for contributors: YARA/Nuclei templates are
-good-first-issues. GPLv3, Kali/Parrot/Docker.
+good-first-issues. AGPL-3.0, Kali/Parrot/Docker.
 
 ## X / Twitter thread
 
@@ -33,7 +33,7 @@ recommend_next. Or one command: engage <ip>.
 3/ Multi-operator collab + phishing engine + auto reports (md/docx).
 Demo GIFs in README. Comparison vs Sliver/Mythic/Havoc in COMPARISON.md.
 4/ Contributors wanted: one-command YARA/Nuclei template PRs. Good first
-issues labeled. GPLv3.
+issues labeled. AGPL-3.0.
 
 ## Discord / LinkedIn
 

@@ -89,7 +89,8 @@ def _orch(target: str = "10.10.11.5", scripted: dict | None = None,
 def test_denied_command_never_executes(temp_sessions):
     """BDD: a denied step is skipped and its command never runs."""
     from autonomous_daemon import EnginePhaseStep
-    from modules.intercept import InterceptRule, Interceptor, Guard
+
+    from modules.intercept import Guard, Interceptor, InterceptRule
 
     guard = Guard(interceptor=Interceptor(
         rules=[InterceptRule(pattern="evilwipe", action="deny", priority=50)]))
@@ -138,6 +139,7 @@ def test_scan_step_skipped_when_scan_held(temp_sessions):
 def test_executed_steps_leave_transcript_and_evidence(temp_sessions):
     """BDD: every executed step is recorded with its evidence blob."""
     from autonomous_daemon import EnginePhaseStep
+
     from modules.traffic_recorder import TrafficRecorder
 
     orch = _orch(
@@ -163,7 +165,6 @@ def test_notify_journal_written_for_findings(temp_sessions):
 
 def test_no_new_direction_when_world_unchanged(temp_sessions, monkeypatch):
     """BDD: an unchanged world ends the wake with zero extra intents."""
-    import autonomous_daemon
 
     orch = _orch(scripted={"ping": "open"})
     results: list = []
@@ -196,6 +197,7 @@ def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch):
 def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch):
     """BDD: empty refill on a changed world still emits one command."""
     import autonomous_daemon
+
     from modules.planner import PlanResult
 
     (temp_sessions / "world_model.json").write_text('{"hosts": {}}')
@@ -210,7 +212,6 @@ def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch):
         def suggest(self, **_kwargs):
             return ("facts_show fallback", object())
 
-    import modules.planner as _planner_mod
 
     monkeypatch.setattr(autonomous_daemon, "_get_dispatcher",
                         lambda: (lambda: _Dispatcher()))
@@ -240,7 +241,6 @@ def test_latest_hint_renders_newest_event(tmp_path):
 
 def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch):
     """BDD: the done message separates ran from skipped steps."""
-    import autonomous_daemon
     from autonomous_daemon import EnginePhaseStep
 
     messages: list[str] = []

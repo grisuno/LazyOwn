@@ -19,6 +19,12 @@ that bind to the host object through `self` and carry no state of their own.
 | `worker_agentic.py` | `WorkerAgenticMixin`: the guard-enforced tool catalogue, the agent system prompt, the multi-attempt tool-calling session, operator-steer drainage, stop-reason checkpoints and the deterministic LLM step suggestions. |
 | `engine_proxy.py` | `EngineProxyMixin`: the `LazyLoopEngine` recorder-proxy lifecycle (`proxy_start`/`stop`/`status`/`env`), per-task traffic ingestion, body search and the retention sweep. |
 | `triage_scheduler.py` | `TriageScheduler` + `estimate_difficulty`: difficulty-triage scheduling for the multi-target queue (easy-first ordering, deadline salvage of partials, stop-loss). Pure; `LazyLoopEngine.drain_queue` uses it when `loop_triage_enabled` is set. |
+| `state_db.py` | Shared SQLite WAL substrate (`sessions/db/loop_state.db`, gitignored) with `connect`/`thread_connection`; one file backs claim leases and token usage. |
+| `leases.py` | `LeaseStore`: transactional claim leases keyed by `(task_id, node_id)` — CAS claim under `BEGIN IMMEDIATE`, heartbeat, settle (a settled intent never re-claims), release and sweep of provably-dead claims back to pending. `ExplorationGraph.compare_and_claim` acquires the lease before the flock-persist, `set_state` settles/releases on terminal/requeue transitions, `Budget.record_toolcall` heartbeats the claim, and the engine run loop sweeps expired leases each round. Config: orchestrator profile `leases: {enabled, ttl_sec, heartbeat_sec}`. |
+| `tokens.py` | `TokenLedger` (SQLite) + `TerminationPolicy`: estimated token spend per task and per intent (prompt/completion characters registered as an `llm_pool` usage sink), a wrap-up reserve kept aside, and the `save_tokens` vs `try_hard` termination modes — `save_tokens` wraps the loop up cleanly when the spend cap is reached (no terminal auto_pwn fallback), `try_hard` degrades to the deterministic layer only (planner stops emitting LLM intents). `Budget.check` reports the token verdict; `Planner.plan` honours `deterministic_only`. Config: profile `termination: {mode, max_tokens_per_task, max_tokens_per_intent, wrapup_reserve_pct, wrapup_reserve_tokens}`. |
+| `boundary.py` | Untrusted-data boundary: `fence(label, content)` wraps tool-result/finding blocks in per-instance nonce marker pairs, `code_tail()` returns the fixed code-owned rule text, `check_leakage(prompt)` flags fences that were tampered with, `fence_result` is the short per-tool-result variant. Applied to `build_prompt_context` (digests/findings/facts), `judge_command`, the agent system and launch prompts, and every `agent_runner` tool result. Config: profile `boundary: {enabled}` (default True). |
+| `evidence.py` | Verbatim citation verification: `verbatim_contains` (whitespace-normalised), `extract_quote`, and `CitationService.verify/replay/annotate` over the task traffic log. `FindingService.report` stores the extracted quote in the finding meta; `Retester._citation_verdict` returns `reproduced` with zero executions when the quote binds to fresh captured output, before any replay. Config: profile `evidence: {citation_enabled, citation_max_age_sec, replay_enabled}`. |
+| `planner_bridge.py` | Single-planner-pipeline bridge: `modules.planner` technique candidates (ranked `PlanCandidate` steps) are converted into intent summaries and fed into the loop `Planner._candidates()`, deduped against existing intents. Config: profile `planner: {bridge_enabled}` (default True). |
 
 ## How it works
 
@@ -52,3 +58,13 @@ helpers that remain on the coordinator (`self._target_for`,
 4. Delete the moved method bodies from `modules/lazy_loop.py`.
 5. Run the loop test suite (`pytest tests/test_lazy_loop.py tests/test_asset_gate.py`
    and the scope/evidence suites) to confirm the public surface is unchanged.
+
+## Adding a substrate module
+
+The leases/tokens/boundary/evidence/planner_bridge files are not mixins but
+standalone contracts the god class delegates to (composition over a growing
+`lazy_loop.py`). Follow the same pattern: one file per contract, config read
+from an orchestrator profile section (fallback < YAML profile < payload
+`orchestrator.<section>`), SQLite persistence through `state_db` when the
+concern needs transactional cross-process semantics, and pytest coverage in a
+dedicated `tests/test_loop_<concern>.py`.

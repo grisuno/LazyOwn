@@ -1,6 +1,22 @@
 # Subsystem: modules (page 12 of 19)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/lazy_search.py
+- Doc: Lazy saved-search grammar over the engagement database.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SearchTerm` (class, line 65) `class SearchTerm`
+  - `Query` (class, line 80) `class Query`
+  - `parse` (function, line 94) `def parse(query)`
+  - `execute` (function, line 132) `def execute(db, query, workspace_name, db_path)`
+  - `_row_match` (function, line 178) `def _row_match(parsed, row, is_host)`
+  - `_term_hit` (function, line 202) `def _term_hit(term, row, is_host)`
+  - `_searchable` (function, line 233) `def _searchable(row, is_host)`
+  - `_canon` (function, line 250) `def _canon(key, value)`
+- Depends on: `modules/db.py`
+- Imported by: `skills/mcp_tools/lazysearch.py`
+
 ## modules/lazy_sentinel.py
 - Doc: Internal-network sentinel for LazyOwn.
 - Layer: utility
@@ -431,57 +447,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `do_POST` (method, line 119) `def do_POST(self)`
   - `_handle_request` (method, line 122) `def _handle_request(self, method)`
 - Depends on: `modules/backdoor/server.c`, `modules/browser_sync.py`, `modules/security_sanitizers.py`
-
-## modules/lazyown_bridge.py
-- Doc: modules/lazyown_bridge.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CatalogEntry` (class, line 48) `class CatalogEntry`
-  - `CommandCatalog` (class, line 115) `class CommandCatalog`
-  - `AbstractSelector` (class, line 3984) `class AbstractSelector(ABC)`
-  - `ServiceAwareSelector` (class, line 4002) `class ServiceAwareSelector(AbstractSelector)`
-  - `MitreAlignedSelector` (class, line 4042) `class MitreAlignedSelector(AbstractSelector)`
-  - `TagSelector` (class, line 4071) `class TagSelector(AbstractSelector)`
-  - `ContextEnricher` (class, line 4103) `class ContextEnricher`
-  - `PhaseMapper` (class, line 4153) `class PhaseMapper`
-  - `BridgeDispatcher` (class, line 4233) `class BridgeDispatcher`
-  - `get_dispatcher` (function, line 4409) `def get_dispatcher()`
-  - `build_command` (method, line 63) `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)`
-  - `matches_service` (method, line 94) `def matches_service(self, services)`
-  - `matches_os` (method, line 104) `def matches_os(self, os_hint)`
-  - `__init__` (method, line 118) `def __init__(self)`
-  - `_populate` (method, line 122) `def _populate(self)`
-  - `by_phase` (method, line 3946) `def by_phase(self, phase)`
-  - `by_mitre` (method, line 3952) `def by_mitre(self, technique_id)`
-  - `by_service` (method, line 3956) `def by_service(self, service_name)`
-  - `by_tag` (method, line 3960) `def by_tag(self, tag)`
-  - `by_os` (method, line 3963) `def by_os(self, os_hint)`
-  - `all_phases` (method, line 3966) `def all_phases(self)`
-  - `get` (method, line 3969) `def get(self, command)`
-  - `count` (method, line 3975) `def count(self)`
-  - `select` (method, line 3986) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `select` (method, line 4005) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `__init__` (method, line 4045) `def __init__(self, technique_id)`
-  - `select` (method, line 4049) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `__init__` (method, line 4074) `def __init__(self, tag)`
-  - `select` (method, line 4078) `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-  - `enrich` (method, line 4106) `def enrich(self, entry, target, world_snapshot)`
-  - `canonical_kill_chain_order` (method, line 4204) `def canonical_kill_chain_order()`
-  - `to_bridge_phase` (method, line 4210) `def to_bridge_phase(self, wm_phase)`
-  - `kill_chain_order` (method, line 4223) `def kill_chain_order(self)`
-  - `__init__` (method, line 4239) `def __init__(self, catalog, selector, enricher, phase_mapper)`
-  - `suggest` (method, line 4251) `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)`
-  - `suggest_sequence` (method, line 4296) `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)`
-  - `suggest_for_wm_phase` (method, line 4325) `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)`
-  - `list_phase` (method, line 4343) `def list_phase(self, phase)`
-  - `all_phases` (method, line 4347) `def all_phases(self)`
-  - `catalog_summary` (method, line 4350) `def catalog_summary(self)`
-  - `catalog_summary_filtered` (method, line 4358) `def catalog_summary_filtered(self, phase, os_hint)`
-  - `catalog_count` (method, line 4395) `def catalog_count(self)`
-  - `phase_kill_chain` (method, line 4398) `def phase_kill_chain(self)`
-- Depends on: `modules/killchain.py`
-- Imported by: `modules/selection/bridge.py`, `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/bridge_suggest.py`, `skills/mcp_tools/discover_commands.py`, `skills/mcp_tools/phase_guide.py`, `skills/mcp_tools/session_init.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`, `tests/test_selection_bridge.py`, `tests/test_selectors_base.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

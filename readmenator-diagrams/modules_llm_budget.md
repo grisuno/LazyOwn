@@ -1,6 +1,6 @@
 # modules: llm_budget
 
-modules: llm_budget groups 54 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
+modules: llm_budget groups 43 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. Artificial Intelligence command set.
 
 ```mermaid
 graph LR
@@ -8,7 +8,6 @@ graph LR
     contrib["contrib"]
     core["core"]
     modules["modules"]
-    root["root"]
     skills["skills"]
     tests["tests"]
     cli -- "calls into" --> core
@@ -16,41 +15,35 @@ graph LR
     contrib -- "calls into" --> modules
     modules -- "depends on" --> contrib
     modules -- "calls into" --> core
-    root -- "calls into" --> core
-    root -- "calls into" --> modules
     skills -- "calls into" --> core
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
     tests -- "calls into" --> modules
 ```
 
-## cli (9.1)
+## cli (12.1)
 
 cli groups 2 files (py) around AiCommandSet, do_ask, do_groq, do_poolcheck, _serve. Artificial Intelligence command set.
 
-## contrib (9.2)
+## contrib (12.2)
 
 contrib groups 3 files (py) around clean_think, clean_yaml, truncate_message, configure_logging, create_complex_prompt. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
 
-## core (9.3)
+## core (12.3)
 
-core groups 7 files (py) around strip_ansi, BudgetExceeded, LLMBackendLike, generate, stream_generate. Core primitives for the LazyOwn framework.
+core groups 2 files (py) around BudgetExceeded, LLMBackendLike, generate, stream_generate, complete. LLM budget cap and per call token counter.
 
-## modules (9.4)
+## modules (12.4)
 
-modules groups 24 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
+modules groups 23 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
 
-## root (9.5)
-
-root groups 4 files (py) around SecureSessionManager, __init__, register_failed_attempt, check_lockout, check_rate_limit. download_c2: Handle the /download_c2 command to download a file from the C2.
-
-## skills (9.6)
+## skills (12.5)
 
 skills groups 1 files (py) around handle. MCP tool ``lazyown_get_llm_budget``: read the LLM cost budget status.
 
-## tests (9.7)
+## tests (12.6)
 
-tests groups 13 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _reset_guard_harness. Global pytest isolation hooks.
+tests groups 12 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _isolated_loop_state_db. Global pytest isolation hooks.
 
 **Files**:
 
@@ -59,14 +52,8 @@ tests groups 13 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - contrib/legacy/lazyaddon_creator.py
 - contrib/legacy/lazyllmchat.py
 - contrib/legacy/lazyphishingai.py
-- core/__init__.py
-- core/errors.py
-- core/http.py
 - core/llm_budget.py
 - core/llm_key_pool.py
-- core/network.py
-- core/parsers.py
-- discord_c2.py
 - modules/agent_runner.py
 - modules/ai_fallback.py
 - modules/ai_model.py
@@ -81,7 +68,6 @@ tests groups 13 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/llm_prompts.py
 - modules/log_tamper.py
 - modules/loop_ai_bridge.py
-- modules/loop_audit.py
 - modules/memory_cleaner.py
 - modules/network_opsec.py
 - modules/opsec_scorer.py
@@ -92,9 +78,6 @@ tests groups 13 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/vulnbot.py
 - modules/yaml_generator.py
 - skills/mcp_tools/get_llm_budget.py
-- slack_c2_bot.py
-- telegram_c2.py
-- telegram_hermes.py
 - tests/conftest.py
 - tests/test_ai_commands_llm.py
 - tests/test_lazy_streaming.py
@@ -106,5 +89,4 @@ tests groups 13 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_loop_ai_bridge.py
 - tests/test_opsec_scorer.py
 - tests/test_opsec_scorer_consolidated.py
-- tests/test_single_implementation.py
 - tests/test_vulnbot_fallback.py

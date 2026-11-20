@@ -53,6 +53,10 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
                 them in one scoreboard (sessions/ctf/scoreboard.json)
             gym leaderboard|top [top_n]           - show top players
             gym hint [run_id]                     - hint for an active gym
+            gym cleanup on|off|status             - keep gym machines alive
+                after the shell exits (off keeps labs up between runs;
+                on restores the exit teardown). Also configurable from
+                the lazy_orchestrator Config tab.
 
         Challenges award ELO that feeds into the existing karma system
         (Noob -> Rookie -> Skidy -> Hacker -> Pro -> Elite -> Godlike).
@@ -93,8 +97,41 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             self._gym_leaderboard(rest)
         elif action == "hint":
             self._gym_hint(rest)
+        elif action == "cleanup":
+            self._gym_cleanup(rest)
         else:
             print_error(f"Unknown action: {action}")
+
+    def _gym_cleanup(self, rest: list[str]) -> None:
+        """Toggle the exit cleanup flag from the shell (Config tab parity).
+
+        Args:
+            rest: ``on``, ``off`` or ``status``.
+        """
+        from core.config import save_payload
+
+        action = (rest[0].lower() if rest else "status")
+        try:
+            from core.config import load_payload
+
+            payload = load_payload() or {}
+        except Exception as exc:
+            print_error(f"payload unavailable: {exc}")
+            return
+        if action == "status":
+            state = "on" if payload.get("gym_cleanup_on_exit") else "off"
+            print_msg(f"[*] gym cleanup on exit: {state} (payload gym_cleanup_on_exit)")
+            return
+        if action in ("on", "off"):
+            payload["gym_cleanup_on_exit"] = action == "on"
+            save_payload(payload)
+            state = "on" if action == "on" else "off"
+            print_msg(
+                f"[*] gym cleanup on exit: {state} "
+                f"({'labs stop when the shell exits' if action == 'on' else 'labs stay up between runs'})"
+            )
+            return
+        print_error("Usage: gym cleanup on|off|status")
 
     def _gym_collect(self, rest: list[str]) -> None:
         """Sweep a gym scenario and score every vector in one scoreboard."""

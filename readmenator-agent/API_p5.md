@@ -1,6 +1,117 @@
 # API (page 5 of 29)
 Previous: [API_p4.md](API_p4.md)
 
+## cli/orchestrator_assets_tabs.py
+Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/bof_admin.py`, `modules/bof_delivery.py`, `modules/chain_registry.py`, `modules/guardrails/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
+Imported by: `cli/lazy_orchestrator.py`, `tests/test_audit_remediation.py`, `tests/test_orchestrator_pacing.py`
+- `parse_sleeper_windows` (function) `cli/orchestrator_assets_tabs.py:92` `def parse_sleeper_windows(raw)` -- Parse a comma-separated sleeper-window string.
+- `format_sleeper_windows` (function) `cli/orchestrator_assets_tabs.py:121` `def format_sleeper_windows(value)` -- Render stored sleeper windows as an editable comma-separated string.
+- `parse_edr_pause_ranges` (function) `cli/orchestrator_assets_tabs.py:128` `def parse_edr_pause_ranges(raw)` -- Parse ``level:low-high`` pause ranges from a compact string.
+- `format_edr_pause_ranges` (function) `cli/orchestrator_assets_tabs.py:161` `def format_edr_pause_ranges(value)` -- Render stored EDR pause ranges as an editable compact string.
+- `OrchestratorAssetsMixin.playbook_rows` (method) `cli/orchestrator_assets_tabs.py:217` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
+- `OrchestratorAssetsMixin.playbook_preview` (method) `cli/orchestrator_assets_tabs.py:241` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
+- `OrchestratorAssetsMixin.create_playbook_file` (method) `cli/orchestrator_assets_tabs.py:250` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
+- `OrchestratorAssetsMixin.save_playbook_text` (method) `cli/orchestrator_assets_tabs.py:271` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
+- `OrchestratorAssetsMixin.delete_playbook_file` (method) `cli/orchestrator_assets_tabs.py:283` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
+- `OrchestratorAssetsMixin.playbook_candidates` (method) `cli/orchestrator_assets_tabs.py:291` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
+- `OrchestratorAssetsMixin.gym_rows` (method) `cli/orchestrator_assets_tabs.py:374` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
+- `OrchestratorAssetsMixin.gym_preview` (method) `cli/orchestrator_assets_tabs.py:411` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
+- `OrchestratorAssetsMixin.start_gym` (method) `cli/orchestrator_assets_tabs.py:479` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
+- `OrchestratorAssetsMixin.stop_gym` (method) `cli/orchestrator_assets_tabs.py:487` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
+- `OrchestratorAssetsMixin.toggle_gym` (method) `cli/orchestrator_assets_tabs.py:495` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
+- `OrchestratorAssetsMixin.profile_rows` (method) `cli/orchestrator_assets_tabs.py:537` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
+- `OrchestratorAssetsMixin.activate_profile` (method) `cli/orchestrator_assets_tabs.py:562` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
+- `OrchestratorAssetsMixin.bof_rows` (method) `cli/orchestrator_assets_tabs.py:630` `def bof_rows(self)` -- Return one row per BOF YAML configuration file, invalid ones included.
+- `OrchestratorAssetsMixin.bof_preview` (method) `cli/orchestrator_assets_tabs.py:654` `def bof_preview(self, filename, limit)` -- Return a bounded YAML preview for one BOF file.
+- `OrchestratorAssetsMixin.create_bof_file` (method) `cli/orchestrator_assets_tabs.py:663` `def create_bof_file(self, filename, name, description, client)` -- Create one BOF YAML and repaint the table.
+- `OrchestratorAssetsMixin.save_bof_text` (method) `cli/orchestrator_assets_tabs.py:683` `def save_bof_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
+- `OrchestratorAssetsMixin.delete_bof_file` (method) `cli/orchestrator_assets_tabs.py:695` `def delete_bof_file(self, filename)` -- Delete one BOF YAML after the operator confirms.
+- `OrchestratorAssetsMixin.stage_bof_file` (method) `cli/orchestrator_assets_tabs.py:703` `def stage_bof_file(self, filename)` -- Stage the compiled artifact of one BOF for beacon delivery.
+- `OrchestratorAssetsMixin.chain_rows` (method) `cli/orchestrator_assets_tabs.py:789` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
+- `OrchestratorAssetsMixin.chain_steps_preview` (method) `cli/orchestrator_assets_tabs.py:798` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
+- `OrchestratorAssetsMixin.toggle_chain` (method) `cli/orchestrator_assets_tabs.py:815` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
+- `OrchestratorAssetsMixin.generate_chain` (method) `cli/orchestrator_assets_tabs.py:826` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
+- `OrchestratorAssetsMixin.remove_chain` (method) `cli/orchestrator_assets_tabs.py:840` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
+- `OrchestratorAssetsMixin.on_data_table_row_highlighted` (method) `cli/orchestrator_assets_tabs.py:896` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
+- `OrchestratorAssetsMixin.seed_triggers_from_yaml` (method) `cli/orchestrator_assets_tabs.py:939` `def seed_triggers_from_yaml(self)` -- Seed triggers from config/orchestrator.yaml into the store.
+- `OrchestratorAssetsMixin.toggle_trigger` (method) `cli/orchestrator_assets_tabs.py:969` `def toggle_trigger(self, trigger_id)` -- Flip one trigger's enabled flag in the store.
+- `OrchestratorAssetsMixin.remove_trigger` (method) `cli/orchestrator_assets_tabs.py:979` `def remove_trigger(self, trigger_id)` -- Delete one trigger from the store.
+- `OrchestratorAssetsMixin.add_trigger` (method) `cli/orchestrator_assets_tabs.py:987` `def add_trigger(self, kind, every_sec, arg)` -- Add a scheduler trigger entered from the picker form.
+- `OrchestratorAssetsMixin.trigger_kind_options` (method) `cli/orchestrator_assets_tabs.py:999` `def trigger_kind_options(self)` -- Return selectable trigger kinds for the add form.
+- `OrchestratorAssetsMixin.save_pacing` (method) `cli/orchestrator_assets_tabs.py:1089` `def save_pacing(self, values)` -- Validate and persist the Pacing tab fields through set_pacing.
+- `OrchestratorAssetsMixin.save_config` (method) `cli/orchestrator_assets_tabs.py:1134` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
+- `OrchestratorAssetsMixin.add_model_member` (method) `cli/orchestrator_assets_tabs.py:1156` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
+- `OrchestratorAssetsMixin.remove_model_member` (method) `cli/orchestrator_assets_tabs.py:1164` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
+- `OrchestratorAssetsMixin.set_model_priority` (method) `cli/orchestrator_assets_tabs.py:1172` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
+- `OrchestratorAssetsMixin.set_harness` (method) `cli/orchestrator_assets_tabs.py:1184` `def set_harness(self, enabled)` -- Toggle the deterministic harness from the orchestrator UI.
+- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:1209` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
+- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:1217` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
+- `OrchestratorAssetsMixin.save_guardrails` (method) `cli/orchestrator_assets_tabs.py:1268` `def save_guardrails(self, values)` -- Merge harness settings into payload and reconfigure the harness.
+- `OrchestratorAssetsMixin.warm_restart_harness` (method) `cli/orchestrator_assets_tabs.py:1314` `def warm_restart_harness(self)` -- Run the harness warm restart and repaint the table.
+- `OrchestratorAssetsMixin.rearm_harness` (method) `cli/orchestrator_assets_tabs.py:1326` `def rearm_harness(self)` -- Re-arm suspended features and clear advisories.
+
+## cli/output_mode.py
+Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
+- `parse_output_flags` (function) `cli/output_mode.py:43` `def parse_output_flags(args, config)` -- Split output control flags from positional command arguments.
+- `strip_ansi` (function) `cli/output_mode.py:65` `def strip_ansi(text)` -- Remove ANSI escape sequences from text.
+- `format_output` (function) `cli/output_mode.py:77` `def format_output(data, mode)` -- Render data according to the parsed output mode.
+- `dry_run_line` (function) `cli/output_mode.py:98` `def dry_run_line(command)` -- Render the exact shell line that would run without running it.
+
+## cli/palette.py
+Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/mcp_tools/palette.py`, `tests/test_command_palette.py`
+- `load_index` (function) `cli/palette.py:30` `def load_index(path)` -- Return the parsed catalogue as a dict.
+- `all_commands` (function) `cli/palette.py:55` `def all_commands()` -- Return every command entry, sorted by name.
+- `all_phases` (function) `cli/palette.py:72` `def all_phases()` -- Return the sorted list of phase identifiers present in the index.
+- `all_categories` (function) `cli/palette.py:77` `def all_categories()` -- Return the sorted list of cmd2 category labels present in the index.
+- `filter_by_phase` (function) `cli/palette.py:82` `def filter_by_phase(phase)` -- Return command entries whose ``phase`` matches ``phase``.
+- `filter_by_category` (function) `cli/palette.py:92` `def filter_by_category(category)` -- Return command entries with the given cmd2 category label.
+- `search` (function) `cli/palette.py:97` `def search(query)` -- Substring search over ``name`` and ``summary`` (case-insensitive).
+- `get` (function) `cli/palette.py:114` `def get(name)` -- Return the canonical entry for ``name`` or ``None`` if unknown.
+- `duplicates` (function) `cli/palette.py:125` `def duplicates()` -- Return the duplicate-method audit list as stored in the index.
+- `totals` (function) `cli/palette.py:130` `def totals()` -- Return the ``totals`` block (counts of methods, unique names, ...).
+
+## cli/palette_command.py
+Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`, `core/text_utils.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `skills/mcp_tools/palette.py`, `tests/test_command_palette.py`
+- `PaletteRenderConfig.truncate_summary` (method) `cli/palette_command.py:107` `def truncate_summary(self, summary)` -- Trim ``summary`` to :attr:`summary_max_chars` with marker suffix.
+- `PaletteArgumentParser.__init__` (method) `cli/palette_command.py:149` `def __init__(self, config)`
+- `PaletteArgumentParser.parse` (method) `cli/palette_command.py:152` `def parse(self, line)` -- Return a :class:`PaletteArgs` for ``line``.
+- `PaletteIndexQuery.__init__` (method) `cli/palette_command.py:193` `def __init__(self, index)`
+- `PaletteIndexQuery.commands` (method) `cli/palette_command.py:197` `def commands(self)` -- Return canonical (non-duplicate) command entries.
+- `PaletteIndexQuery.phases` (method) `cli/palette_command.py:203` `def phases(self)` -- Return the sorted list of phase identifiers in the index.
+- `PaletteIndexQuery.phase_counts` (method) `cli/palette_command.py:208` `def phase_counts(self)` -- Return ``{phase: command_count}`` for every phase in the index.
+- `PaletteIndexQuery.in_phase` (method) `cli/palette_command.py:213` `def in_phase(self, phase)` -- Return commands whose ``phase`` matches ``phase`` (case-insensitive).
+- `PaletteIndexQuery.search` (method) `cli/palette_command.py:218` `def search(self, query)` -- Substring search over ``name`` and ``summary`` (case-insensitive).
+- `PaletteIndexQuery.detail` (method) `cli/palette_command.py:234` `def detail(self, target)` -- Return the canonical entry for ``target`` or ``None``.
+- `PaletteIndexQuery.next_phase` (method) `cli/palette_command.py:249` `def next_phase(self, current)` -- Return the phase that comes after ``current`` in ``ordering``.
+- `PaletteRenderer.__init__` (method) `cli/palette_command.py:285` `def __init__(self, config)`
+- `PaletteRenderer.render_overview` (method) `cli/palette_command.py:288` `def render_overview(self, phase_counts)` -- Format the multi-phase overview table.
+- `PaletteRenderer.render_phase` (method) `cli/palette_command.py:304` `def render_phase(self, phase, rows)` -- Format a phase listing of ``(name, summary)`` pairs.
+- `PaletteRenderer.render_search` (method) `cli/palette_command.py:312` `def render_search(self, query, rows)` -- Format the cross-phase search result table.
+- `PaletteRenderer.render_detail` (method) `cli/palette_command.py:320` `def render_detail(self, entry)` -- Format the detail view for a single command entry.
+- `PaletteRenderer.render_next` (method) `cli/palette_command.py:360` `def render_next(self, phase, rows)` -- Format the recommended-next-phase listing.
+- `render` (function) `cli/palette_command.py:447` `def render(index, line)` -- Top-level entry point used by :class:`LazyOwnShell.do_palette`.
+- `PaletteJsonResult.to_dict` (method) `cli/palette_command.py:502` `def to_dict(self)` -- Serialise to a plain ``dict`` suitable for ``json.dumps``.
+- `PaletteJsonRenderer.__init__` (method) `cli/palette_command.py:522` `def __init__(self, config)`
+- `PaletteJsonRenderer.render_overview` (method) `cli/palette_command.py:525` `def render_overview(self, phase_counts)` -- Build a result document for overview mode.
+- `PaletteJsonRenderer.render_phase` (method) `cli/palette_command.py:532` `def render_phase(self, phase, query, rows)` -- Build a result document for phase mode.
+- `PaletteJsonRenderer.render_search` (method) `cli/palette_command.py:541` `def render_search(self, query, rows)` -- Build a result document for search mode.
+- `PaletteJsonRenderer.render_detail` (method) `cli/palette_command.py:549` `def render_detail(self, target, entry)` -- Build a result document for detail mode.
+- `PaletteJsonRenderer.render_next` (method) `cli/palette_command.py:557` `def render_next(self, phase, rows)` -- Build a result document for next-phase mode.
+- `render_json` (function) `cli/palette_command.py:566` `def render_json(index, line)` -- Structured-data variant of :func:`render`.
+- `build_palette_view` (function) `cli/palette_command.py:619` `def build_palette_view(index)` -- Assemble the template context consumed by the C2 ``/palette`` view.
+- `PaletteCompleter.__init__` (method) `cli/palette_command.py:755` `def __init__(self, config)`
+- `PaletteCompleter.complete` (method) `cli/palette_command.py:758` `def complete(self, text, line, endidx, index)` -- Return tab-completion candidates given the editor state.
+
+## cli/palette_graph.py
+Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
+- `load_graph` (function) `cli/palette_graph.py:127` `def load_graph(path)` -- Return the parsed graph index, cached per resolved path.
+- `safe_load_graph` (function) `cli/palette_graph.py:149` `def safe_load_graph(path)` -- Best-effort variant of :func:`load_graph`.
+- `callees` (function) `cli/palette_graph.py:179` `def callees(graph, command_name)` -- Return helper-function labels invoked by ``command_name``.
+- `related_commands` (function) `cli/palette_graph.py:226` `def related_commands(graph, command_name)` -- Return ``do_*`` commands that share helper functions with this one.
+- `enrich_detail` (function) `cli/palette_graph.py:287` `def enrich_detail(graph, entry)` -- Attach ``calls`` and ``related`` lists to a palette detail entry.
+- `enrich_commands` (function) `cli/palette_graph.py:309` `def enrich_commands(graph, rows)` -- Enrich every entry of ``rows`` with neighbour data.
+
 ## cli/palette_overlay.py
 Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
 Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
@@ -191,7 +302,7 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_sessions_browser.py`
 - `_SessionsBrowserApp.action_close` (method) `cli/sessions_browser.py:373` `def action_close(self)`
 
 ## cli/show.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
+Imported by: `2026-11-19_154944/jquery-1.11.3.min.js`, `2026-11-19_162254/jquery-1.11.3.min.js`, `2026-11-19_164345/jquery-1.11.3.min.js`, `2026-11-19_170839/jquery-1.11.3.min.js`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
 - `format_payload` (function) `cli/show.py:14` `def format_payload(params)` -- Render ``params`` as a sorted, aligned ``key = value`` block.
 
 ## cli/splash.py
@@ -238,7 +349,7 @@ Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status
 
 ## cli/style.py
 Depends on: `cli/themes.py`
-Imported by: `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
+Imported by: `2026-11-19_154944/jquery-1.11.3.min.js`, `2026-11-19_162254/jquery-1.11.3.min.js`, `2026-11-19_164345/jquery-1.11.3.min.js`, `2026-11-19_170839/jquery-1.11.3.min.js`, `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
 - `style` (function) `cli/style.py:49` `def style(token, theme)` -- Return the Rich style string for a semantic token.
 - `active_tokens` (function) `cli/style.py:68` `def active_tokens(payload)` -- Resolve every :data:`TOKEN_KEYS` entry for the payload's theme.
 - `paint` (function) `cli/style.py:84` `def paint(text, token, payload)` -- Render ``text`` with the style of ``token`` for the active theme.
@@ -375,120 +486,6 @@ Imported by: `cli/lazy_orchestrator.py`, `cli/marketplace_config.py`, `cli/orche
 Depends on: `cli/themes.py`
 Imported by: `cli/commands/help_ui.py`
 - `run` (function) `cli/tui_theme.py:87` `def run(args, payload, save)` -- Execute the ``tui_theme`` command.
-
-## cli/tutorial.py
-Depends on: `core/console.py`
-Imported by: `cli/commands/help_ui.py`
-- `is_done` (function) `cli/tutorial.py:83` `def is_done(config)` -- Return True if the tutorial has already been completed.
-- `mark_done` (function) `cli/tutorial.py:89` `def mark_done(config)` -- Persist the tutorial completion marker.
-- `render_header` (function) `cli/tutorial.py:96` `def render_header()` -- Print the tutorial welcome banner.
-- `render_phase_table` (function) `cli/tutorial.py:113` `def render_phase_table()` -- Print the full phase overview before starting.
-- `run_step` (function) `cli/tutorial.py:128` `def run_step(index, command, description, why, params, command_runner)` -- Execute one tutorial step and return True if the user wants to continue.
-- `run` (function) `cli/tutorial.py:185` `def run(params, command_runner)` -- Run the interactive tutorial.
-
-## cli/wizard.py
-Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
-Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
-- `run` (function) `cli/wizard.py:169` `def run(params, save)` -- Run the interactive setup wizard and return a :class:`WizardResult`.
-- `run_non_interactive` (function) `cli/wizard.py:234` `def run_non_interactive(params, save, values)` -- Apply configuration without prompts — Docker/CI/headless first runs.
-- `check_binaries` (function) `cli/wizard.py:947` `def check_binaries(specs, which)` -- Return the presence status of every spec without executing it.
-
-## cli/wizard_scope.py
-Imported by: `cli/commands/help_ui.py`
-- `parse_scope` (function) `cli/wizard_scope.py:38` `def parse_scope(tokens, config)` -- Parse --show and --only=a,b flags from wizard tokens.
-- `status_rows` (function) `cli/wizard_scope.py:64` `def status_rows(params)` -- Build display rows for the current configuration state.
-
-## contrib/legacy/lazy_http_bof.py
-- `genHeader` (function) `contrib/legacy/lazy_http_bof.py:6` `def genHeader(raw)`
-- `exploit` (function) `contrib/legacy/lazy_http_bof.py:29` `def exploit(target, port, payload)`
-
-## contrib/legacy/lazy_packet_image_sniffer.py
-- `check_sudo` (function) `contrib/legacy/lazy_packet_image_sniffer.py:23` `def check_sudo()`
-- `list_interfaces` (function) `contrib/legacy/lazy_packet_image_sniffer.py:31` `def list_interfaces()`
-- `choose_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:49` `def choose_interface(interfaces)`
-- `get_subnet_from_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:61` `def get_subnet_from_interface(interface)`
-- `get_ip_addresses` (function) `contrib/legacy/lazy_packet_image_sniffer.py:65` `def get_ip_addresses(interface)`
-- `handle_packet` (function) `contrib/legacy/lazy_packet_image_sniffer.py:111` `def handle_packet(packet)`
-- `save_image` (function) `contrib/legacy/lazy_packet_image_sniffer.py:161` `def save_image(src_ip, end_idx)`
-- `run` (function) `contrib/legacy/lazy_packet_image_sniffer.py:187` `def run()`
-- `daemonize` (function) `contrib/legacy/lazy_packet_image_sniffer.py:192` `def daemonize()`
-
-## contrib/legacy/lazyaddon_creator.py
-Depends on: `modules/llm_client.py`
-- `parse_github_url` (function) `contrib/legacy/lazyaddon_creator.py:49` `def parse_github_url(url)` -- Extrae (owner, repo) de una URL de GitHub.
-- `github_api_get` (function) `contrib/legacy/lazyaddon_creator.py:58` `def github_api_get(owner, repo, endpoint)` -- GET a la API pública de GitHub (sin auth, rate-limit 60/hr).
-- `fetch_repo_metadata` (function) `contrib/legacy/lazyaddon_creator.py:68` `def fetch_repo_metadata(owner, repo)` -- Devuelve metadata básica del repo.
-- `fetch_readme` (function) `contrib/legacy/lazyaddon_creator.py:73` `def fetch_readme(owner, repo)` -- Descarga y decodifica el README.
-- `fetch_root_files` (function) `contrib/legacy/lazyaddon_creator.py:85` `def fetch_root_files(owner, repo)` -- Lista nombres de archivos en el directorio raíz.
-- `build_llm_prompt` (function) `contrib/legacy/lazyaddon_creator.py:98` `def build_llm_prompt(meta, readme, root_files)` -- Construye el prompt para el LLM.
-- `extract_json_from_response` (function) `contrib/legacy/lazyaddon_creator.py:164` `def extract_json_from_response(text)` -- Extrae el primer bloque JSON de una respuesta de LLM.
-- `heuristic_install_command` (function) `contrib/legacy/lazyaddon_creator.py:192` `def heuristic_install_command(root_files, language)` -- Infiere un install_command básico a partir de los archivos raíz.
-- `heuristic_execute_command` (function) `contrib/legacy/lazyaddon_creator.py:211` `def heuristic_execute_command(name, root_files, language)` -- Infiere un execute_command básico.
-- `heuristic_params` (function) `contrib/legacy/lazyaddon_creator.py:245` `def heuristic_params(name, readme, root_files)` -- Infiere parámetros comunes basándose en el nombre y README.
-- `fallback_yaml_data` (function) `contrib/legacy/lazyaddon_creator.py:276` `def fallback_yaml_data(meta, readme, root_files)` -- Genera datos de addon usando solo heurísticas locales (sin LLM).
-- `build_yaml` (function) `contrib/legacy/lazyaddon_creator.py:300` `def build_yaml(data, repo_url)` -- Construye la estructura de dict que representa el addon YAML.
-- `save_yaml` (function) `contrib/legacy/lazyaddon_creator.py:336` `def save_yaml(addon, output_dir)` -- Guarda el dict como archivo YAML en output_dir.
-- `main` (function) `contrib/legacy/lazyaddon_creator.py:357` `def main()`
-
-## contrib/legacy/lazyarpspoofing.py
-- `check_sudo` (function) `contrib/legacy/lazyarpspoofing.py:27` `def check_sudo()`
-- `enable_ip_forward` (function) `contrib/legacy/lazyarpspoofing.py:35` `def enable_ip_forward()`
-- `disable_ip_forward` (function) `contrib/legacy/lazyarpspoofing.py:38` `def disable_ip_forward()`
-- `get_local_ip` (function) `contrib/legacy/lazyarpspoofing.py:41` `def get_local_ip(ifname)`
-- `get_mac` (function) `contrib/legacy/lazyarpspoofing.py:49` `def get_mac(ip, device, retries, timeout)`
-- `spoofer` (function) `contrib/legacy/lazyarpspoofing.py:69` `def spoofer(target, spoofed, device)`
-- `main` (function) `contrib/legacy/lazyarpspoofing.py:80` `def main()`
-
-## contrib/legacy/lazycam.py
-- `RTSPScanner.__init__` (method) `contrib/legacy/lazycam.py:33` `def __init__(self, verbose, wspace)`
-- `RTSPScanner.run` (method) `contrib/legacy/lazycam.py:49` `def run(self)`
-- `RTSPScanner.resizeImg` (method) `contrib/legacy/lazycam.py:68` `def resizeImg(self, img, output, height, ratio, fmt)`
-- `RTSPScanner.splitCSV` (method) `contrib/legacy/lazycam.py:77` `def splitCSV(self, csv)`
-- `RTSPScanner.scanner` (method) `contrib/legacy/lazycam.py:83` `def scanner(self)`
-- `RTSPScanner.delCameras` (method) `contrib/legacy/lazycam.py:136` `def delCameras(self)`
-- `RTSPScanner.addCameras` (method) `contrib/legacy/lazycam.py:149` `def addCameras(self)`
-- `cla` (function) `contrib/legacy/lazycam.py:212` `def cla()`
-- `main` (function) `contrib/legacy/lazycam.py:257` `def main()`
-
-## contrib/legacy/lazydeepseekcli.py
-Depends on: `core/logging.py`
-Imported by: `modules/llm_adapter.py`, `tests/test_c2_surfaces.py`
-- `truncate_message` (function) `contrib/legacy/lazydeepseekcli.py:41` `def truncate_message(message, max_chars)`
-- `configure_logging` (function) `contrib/legacy/lazydeepseekcli.py:45` `def configure_logging(debug)`
-- `load_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:167` `def load_knowledge_base(file_path)`
-- `save_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:174` `def save_knowledge_base(knowledge_base, file_path)`
-- `add_to_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:179` `def add_to_knowledge_base(prompt, command, file_path)`
-- `get_relevant_knowledge` (function) `contrib/legacy/lazydeepseekcli.py:185` `def get_relevant_knowledge(prompt)`
-- `transform_knowledge_base` (function) `contrib/legacy/lazydeepseekcli.py:193` `def transform_knowledge_base(prompt_builder)`
-- `generate` (function) `contrib/legacy/lazydeepseekcli.py:232` `def generate()`
-- `process_prompt_local` (function) `contrib/legacy/lazydeepseekcli.py:261` `def process_prompt_local(prompt, debug, mode)`
-- `process_prompt_localreport` (function) `contrib/legacy/lazydeepseekcli.py:269` `def process_prompt_localreport(prompt, debug, mode)`
-- `parse_args` (function) `contrib/legacy/lazydeepseekcli.py:277` `def parse_args()`
-
-## contrib/legacy/lazydisassebler.py
-- `X64Disassembler.__init__` (method) `contrib/legacy/lazydisassebler.py:34` `def __init__(self)` -- Initializes the X64Disassembler instance.
-- `X64Disassembler.read_elf_header` (method) `contrib/legacy/lazydisassebler.py:79` `def read_elf_header(self, data)` -- Reads the ELF header and finds the code section.
-- `X64Disassembler.parse_modrm` (method) `contrib/legacy/lazydisassebler.py:135` `def parse_modrm(self, modrm, rex)` -- Parses the ModR/M byte and extracts mod, reg, and rm fields.
-- `X64Disassembler.parse_sib` (method) `contrib/legacy/lazydisassebler.py:173` `def parse_sib(self, sib, rex)` -- Parses the SIB byte and extracts scale, index, and base fields.
-- `X64Disassembler.get_operand_str` (method) `contrib/legacy/lazydisassebler.py:212` `def get_operand_str(self, mod, rm, rex, bytes_data, offset)` -- Gets the string representation of the operand based on mod/rm.
-- `X64Disassembler.disassemble` (method) `contrib/legacy/lazydisassebler.py:305` `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)` -- Main disassembler for x86-64 code.
-- `main` (function) `contrib/legacy/lazydisassebler.py:489` `def main()` -- Main function for the disassembler.
-
-## contrib/legacy/lazyftpsniff.py
-- `check_sudo` (function) `contrib/legacy/lazyftpsniff.py:21` `def check_sudo()`
-- `signal_handler` (function) `contrib/legacy/lazyftpsniff.py:34` `def signal_handler(sig, frame)`
-- `parse_arguments` (function) `contrib/legacy/lazyftpsniff.py:42` `def parse_arguments()`
-- `sniffer_ftp` (function) `contrib/legacy/lazyftpsniff.py:56` `def sniffer_ftp(pkt)`
-- `main` (function) `contrib/legacy/lazyftpsniff.py:69` `def main()`
-
-## contrib/legacy/lazygalazy.py
-Depends on: `modules/backdoor/server.c`
-- `SamsungKnoxExploitServer.do_GET` (method) `contrib/legacy/lazygalazy.py:11` `def do_GET(self)`
-- `SamsungKnoxExploitServer.apk_bytes` (method) `contrib/legacy/lazygalazy.py:33` `def apk_bytes(self)`
-- `SamsungKnoxExploitServer.launch_html` (method) `contrib/legacy/lazygalazy.py:36` `def launch_html(self)`
-- `SamsungKnoxExploitServer.exploit_js` (method) `contrib/legacy/lazygalazy.py:49` `def exploit_js(self)`
-- `SamsungKnoxExploitServer.rand_word` (method) `contrib/legacy/lazygalazy.py:93` `def rand_word(self)`
-- `main` (function) `contrib/legacy/lazygalazy.py:97` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

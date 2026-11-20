@@ -1,0 +1,24 @@
+{
+  "Event": {
+    "uuid": "b55a7279-8472-4c9f-bd86-ea9fa3a1a91d",
+    "info": "LazyOwn C2 / beacon HTTP wire surface (defensive indicators)",
+    "date": "2026-11-19",
+    "analysis": "2",
+    "distribution": "5",
+    "threat_level_id": "4",
+    "published": false,
+    "Tag": [
+      {"name": "misp-threat-actor=\"lab-only\"", "colour": "#00aa00"},
+      {"name": "misp-galaxy:mitre-attack-pattern=\"Command and Control\"", "colour": "#ff0000"},
+      {"name": "type:command-and-control", "colour": "#ff8800"}
+    ],
+    "Attribute": [
+      {"uuid": "2ab5f503-e14d-4d50-96d6-3db0cc1d11e0", "type": "http-method", "category": "Network activity", "to_ids": true, "value": "POST /report/"},
+      {"uuid": "931cb17b-8472-4c9f-bd86-ea9fa3a1a91d", "type": "url", "category": "Network activity", "to_ids": true, "value": "/stage/beacon"},
+      {"uuid": "b55a7279-b8bf-4e3e-b9cb-4d711a1acd4b", "type": "url", "category": "Network activity", "to_ids": true, "value": "/log/<base64-data>"},
+      {"uuid": "826b8361-ec10-48d5-a6a7-ab5abb411709", "type": "url", "category": "Network activity", "to_ids": true, "value": "/api/data"},
+      {"uuid": "95a3cf75-9678-4987-bbe7-497a1fdd554c", "type": "url", "category": "Network activity", "to_ids": true, "value": "/api/beacon_results/<client_id>"},
+      {"uuid": "29db24b4-febc-4a38-9919-41d5f3f312ed", "type": "http-header", "category": "Network activity", "to_ids": true, "value": "X-Signature: HMAC-SHA256(body, rat_key)"}
+    ]
+  }
+}

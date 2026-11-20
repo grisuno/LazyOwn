@@ -3,6 +3,123 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `getConnections` | function | `modules/venator.py:609` | `def getConnections(output_file)` |
+| `getCronJobs` | function | `modules/venator.py:494` | `def getCronJobs(users, output_file)` |
+| `getEmond` | function | `modules/venator.py:513` | `def getEmond(output_file)` |
+| `getEnv` | function | `modules/venator.py:577` | `def getEnv(output_file)` |
+| `getEventTaps` | function | `modules/venator.py:763` | `def getEventTaps(output_file)` |
+| `getFirefoxExtensions` | function | `modules/venator.py:442` | `def getFirefoxExtensions(path, output_file)` |
+| `getHash` | function | `modules/venator.py:112` | `def getHash(file, ignoreVFlag)` |
+| `getInstallHistory` | function | `modules/venator.py:477` | `def getInstallHistory(output_file)` |
+| `getKext` | function | `modules/venator.py:530` | `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)` |
+| `getLaunchAgents` | function | `modules/venator.py:287` | `def getLaunchAgents(path, output_file, ignoreVFlag)` |
+| `getLaunchDaemons` | function | `modules/venator.py:302` | `def getLaunchDaemons(path, output_file, ignoreVFlag)` |
+| `getLoginItems` | function | `modules/venator.py:706` | `def getLoginItems(path, output_file, ignoreVFlag)` |
+| `getPeriodicScripts` | function | `modules/venator.py:592` | `def getPeriodicScripts(output_file)` |
+| `getSafariExtensions` | function | `modules/venator.py:338` | `def getSafariExtensions(path, output_file)` |
+| `getShellStartupScripts` | function | `modules/venator.py:804` | `def getShellStartupScripts(users, output_file)` |
+| `getSystemInfo` | function | `modules/venator.py:66` | `def getSystemInfo(output_file)` |
+| `getUUID` | function | `modules/venator.py:38` | `def getUUID()` |
+| `getUsers` | function | `modules/venator.py:317` | `def getUsers(output_file)` |
+| `getVTResult` | function | `modules/venator.py:83` | `def getVTResult(fileHash)` |
+| `hmac_sha256` | function | `modules/venator.py:842` | `def hmac_sha256(key, data)` |
+| `io_key` | function | `modules/venator.py:49` | `def io_key(keyname)` |
+| `parseAgentsDaemons` | function | `modules/venator.py:215` | `def parseAgentsDaemons(item, path)` |
+| `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
+| `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
+| `_verb_of` | function | `modules/verb_capabilities.py:27` | `def _verb_of(command)` |
+| `capability_of` | function | `modules/verb_capabilities.py:36` | `def capability_of(command)` |
+| `downgrade_for_unattended` | function | `modules/verb_capabilities.py:47` | `def downgrade_for_unattended(command, target)` |
+| `requires_privilege` | function | `modules/verb_capabilities.py:41` | `def requires_privilege(command)` |
+| `VerbCatalogConfig` | class | `modules/verb_catalog.py:77` | `class VerbCatalogConfig` |
+| `_addon_discoveries` | function | `modules/verb_catalog.py:171` | `def _addon_discoveries(config)` |
+| `_all_discoveries` | function | `modules/verb_catalog.py:242` | `def _all_discoveries(config)` |
+| `_builtin_names` | function | `modules/verb_catalog.py:111` | `def _builtin_names()` |
+| `_default_config` | function | `modules/verb_catalog.py:101` | `def _default_config()` |
+| `_drop_cache` | function | `modules/verb_catalog.py:571` | `def _drop_cache(path_key)` |
+| `_phase_fallback` | function | `modules/verb_catalog.py:123` | `def _phase_fallback(verb)` |
+| `_phases_for` | function | `modules/verb_catalog.py:133` | `def _phases_for(stored, phase)` |
+| `_poc_discoveries` | function | `modules/verb_catalog.py:215` | `def _poc_discoveries(config)` |
+| `_risk_fallback` | function | `modules/verb_catalog.py:161` | `def _risk_fallback(verb)` |
+| `_write` | function | `modules/verb_catalog.py:547` | `def _write(cfg, verbs)` |
+| `catalog_enabled` | function | `modules/verb_catalog.py:420` | `def catalog_enabled(name, config)` |
+| `catalog_source` | function | `modules/verb_catalog.py:435` | `def catalog_source(name, config)` |
+| `entries` | function | `modules/verb_catalog.py:364` | `def entries(config)` |
+| `index_commands` | function | `modules/verb_catalog.py:254` | `def index_commands(config)` |
+| `load` | function | `modules/verb_catalog.py:331` | `def load(config)` |
+| `search` | function | `modules/verb_catalog.py:593` | `def search(query, config, phase, enabled, limit)` |
+| `set_enabled` | function | `modules/verb_catalog.py:449` | `def set_enabled(name, enabled, config)` |
+| `stats` | function | `modules/verb_catalog.py:579` | `def stats(config)` |
+| `sync` | function | `modules/verb_catalog.py:487` | `def sync(config)` |
+| `validate_catalog` | function | `modules/verb_catalog.py:294` | `def validate_catalog(data)` |
+| `FactPredicate` | class | `modules/verb_manifest.py:123` | `class FactPredicate` |
+| `ManifestCost` | class | `modules/verb_manifest.py:93` | `class ManifestCost` |
+| `ManifestNoise` | class | `modules/verb_manifest.py:108` | `class ManifestNoise` |
+| `VerbManifest` | class | `modules/verb_manifest.py:188` | `class VerbManifest` |
+| `_load_document` | function | `modules/verb_manifest.py:338` | `def _load_document(path)` |
+| `_parse_cost` | function | `modules/verb_manifest.py:254` | `def _parse_cost(data)` |
+| `_parse_noise` | function | `modules/verb_manifest.py:276` | `def _parse_noise(data)` |
+| `args` | method | `modules/verb_manifest.py:152` | `def args(self)` |
+| `coverage` | function | `modules/verb_manifest.py:522` | `def coverage(total_verbs, path)` |
+| `facts_for_target` | function | `modules/verb_manifest.py:411` | `def facts_for_target(host)` |
+| `is_wild` | method | `modules/verb_manifest.py:156` | `def is_wild(self, key)` |
+| `manifest_for` | function | `modules/verb_manifest.py:396` | `def manifest_for(verb, path)` |
+| `manifests` | function | `modules/verb_manifest.py:371` | `def manifests(path)` |
+| `matches` | method | `modules/verb_manifest.py:161` | `def matches(self, other)` |
+| `parse_manifest` | function | `modules/verb_manifest.py:296` | `def parse_manifest(verb, data)` |
+| `parse_predicate` | function | `modules/verb_manifest.py:222` | `def parse_predicate(data)` |
+| `plan_check` | function | `modules/verb_manifest.py:467` | `def plan_check(steps, tokens, path, facts)` |
+| `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
+| `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
+| `VulnBotCLI` | class | `modules/vulnbot.py:37` | `class VulnBotCLI` |
+| `__init__` | method | `modules/vulnbot.py:38` | `def __init__(self, provider, mode, debug, script_path)` |
+| `_complete_with_fallback` | method | `modules/vulnbot.py:69` | `def _complete_with_fallback(self, prompt)` |
+| `_load_external_tools` | method | `modules/vulnbot.py:172` | `def _load_external_tools(self, script_path)` |
+| `_load_model` | method | `modules/vulnbot.py:54` | `def _load_model(self)` |
+| `_register_file_tools` | method | `modules/vulnbot.py:146` | `def _register_file_tools(self)` |
+| `_setup_agent` | method | `modules/vulnbot.py:124` | `def _setup_agent(self, script_path)` |
+| `_stream_agent_response` | method | `modules/vulnbot.py:199` | `def _stream_agent_response(self, prompt)` |
+| `_stream_with_fallback` | method | `modules/vulnbot.py:92` | `def _stream_with_fallback(self, prompt)` |
+| `add_to_knowledge_base` | method | `modules/vulnbot.py:303` | `def add_to_knowledge_base(self, prompt, response)` |
+| `create_complex_prompt` | method | `modules/vulnbot.py:251` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
+| `edit_file` | function | `modules/vulnbot.py:158` | `def edit_file(path, content, old_text)` |
+| `generate` | function | `modules/vulnbot.py:202` | `def generate()` |
+| `generate` | function | `modules/vulnbot.py:298` | `def generate()` |
+| `get_relevant_knowledge` | method | `modules/vulnbot.py:228` | `def get_relevant_knowledge(self, prompt)` |
+| `list_files` | function | `modules/vulnbot.py:149` | `def list_files(directory)` |
+| `load_event_config` | method | `modules/vulnbot.py:273` | `def load_event_config(self)` |
+| `load_knowledge_base` | method | `modules/vulnbot.py:208` | `def load_knowledge_base(self)` |
+| `process_with_context` | method | `modules/vulnbot.py:281` | `def process_with_context(self, file_path, event)` |
+| `read_file` | function | `modules/vulnbot.py:153` | `def read_file(path)` |
+| `read_file_content` | method | `modules/vulnbot.py:267` | `def read_file_content(self, file_path)` |
+| `save_knowledge_base` | method | `modules/vulnbot.py:224` | `def save_knowledge_base(self, kb)` |
+| `stream_response` | method | `modules/vulnbot.py:297` | `def stream_response(self, prompt)` |
+| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
+| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
+| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
+| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
+| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
+| `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
+| `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
+| `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
+| `_jittered_sleep` | method | `modules/websocket_beacon.py:114` | `def _jittered_sleep(self)` |
+| `_run_loop` | method | `modules/websocket_beacon.py:410` | `def _run_loop(self, loop)` |
+| `check_in` | method | `modules/websocket_beacon.py:157` | `def check_in(self)` |
+| `connect` | method | `modules/websocket_beacon.py:122` | `def connect(self)` |
+| `list_beacons` | method | `modules/websocket_beacon.py:447` | `def list_beacons(self)` |
+| `remove_stale_beacons` | method | `modules/websocket_beacon.py:464` | `def remove_stale_beacons(self, timeout)` |
+| `run` | method | `modules/websocket_beacon.py:214` | `def run(self, command_handler)` |
+| `send_result` | method | `modules/websocket_beacon.py:191` | `def send_result(self, task_id, output, exit_code)` |
+| `send_task` | method | `modules/websocket_beacon.py:416` | `def send_task(self, beacon_id, command)` |
+| `shutdown` | method | `modules/websocket_beacon.py:263` | `def shutdown(self)` |
+| `start` | method | `modules/websocket_beacon.py:382` | `def start(self)` |
+| `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
+| `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
+| `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
+| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
 | `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
 | `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
 | `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
@@ -379,122 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `_t` | function | `poc_tui/test_app.py:399` | `def _t()` |
 | `_t` | function | `poc_tui/test_app.py:414` | `def _t()` |
 | `test_app_creates` | method | `poc_tui/test_app.py:101` | `def test_app_creates(self)` |
-| `test_app_starts_stops` | method | `poc_tui/test_app.py:105` | `def test_app_starts_stops(self)` |
-| `test_backend_ready` | method | `poc_tui/test_app.py:234` | `def test_backend_ready(self)` |
-| `test_buffer_cleared` | method | `poc_tui/test_app.py:86` | `def test_buffer_cleared(self)` |
-| `test_busy_command_shows_running_indicator` | method | `poc_tui/test_app.py:373` | `def test_busy_command_shows_running_indicator(self)` |
-| `test_command_output_visible_in_screenshot` | method | `poc_tui/test_app.py:411` | `def test_command_output_visible_in_screenshot(self)` |
-| `test_commands_queue_serialized` | method | `poc_tui/test_app.py:318` | `def test_commands_queue_serialized(self)` |
-| `test_execute_help` | method | `poc_tui/test_app.py:135` | `def test_execute_help(self)` |
-| `test_focus_returns_after_command` | method | `poc_tui/test_app.py:341` | `def test_focus_returns_after_command(self)` |
-| `test_get_aliases` | method | `poc_tui/test_app.py:71` | `def test_get_aliases(self)` |
-| `test_get_commands` | method | `poc_tui/test_app.py:62` | `def test_get_commands(self)` |
-| `test_history_down` | method | `poc_tui/test_app.py:181` | `def test_history_down(self)` |
-| `test_history_up` | method | `poc_tui/test_app.py:164` | `def test_history_up(self)` |
-| `test_init_sets_base_dir` | method | `poc_tui/test_app.py:33` | `def test_init_sets_base_dir(self)` |
-| `test_input_cleared_after_submit` | method | `poc_tui/test_app.py:151` | `def test_input_cleared_after_submit(self)` |
-| `test_input_has_focus` | method | `poc_tui/test_app.py:125` | `def test_input_has_focus(self)` |
-| `test_layout_all_panels_render_in_screenshot` | method | `poc_tui/test_app.py:392` | `def test_layout_all_panels_render_in_screenshot(self)` |
-| `test_output_renders_ansi_codes` | method | `poc_tui/test_app.py:358` | `def test_output_renders_ansi_codes(self)` |
-| `test_panels_visible` | method | `poc_tui/test_app.py:114` | `def test_panels_visible(self)` |
-| `test_q_is_quit_not_shell_alias` | method | `poc_tui/test_app.py:288` | `def test_q_is_quit_not_shell_alias(self)` |
-| `test_quit` | method | `poc_tui/test_app.py:224` | `def test_quit(self)` |
-| `test_quit_word_not_sent_to_backend` | method | `poc_tui/test_app.py:304` | `def test_quit_word_not_sent_to_backend(self)` |
-| `test_run_before_start` | method | `poc_tui/test_app.py:37` | `def test_run_before_start(self)` |
-| `test_run_help` | method | `poc_tui/test_app.py:55` | `def test_run_help(self)` |
-| `test_run_show` | method | `poc_tui/test_app.py:48` | `def test_run_show(self)` |
-| `test_set_and_show` | method | `poc_tui/test_app.py:78` | `def test_set_and_show(self)` |
-| `test_set_updates_dashboard` | method | `poc_tui/test_app.py:247` | `def test_set_updates_dashboard(self)` |
-| `test_show_command_output_in_log` | method | `poc_tui/test_app.py:269` | `def test_show_command_output_in_log(self)` |
-| `test_start_and_stop` | method | `poc_tui/test_app.py:42` | `def test_start_and_stop(self)` |
-| `test_tab_complete` | method | `poc_tui/test_app.py:197` | `def test_tab_complete(self)` |
-| `test_toggle_sidebar` | method | `poc_tui/test_app.py:209` | `def test_toggle_sidebar(self)` |
-| `_build_substitutions` | function | `pwntomate.py:113` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
-| `_fix_sessions_owner` | function | `pwntomate.py:143` | `def _fix_sessions_owner()` |
-| `_run_tool` | function | `pwntomate.py:203` | `def _run_tool(cmd)` |
-| `build_command_map` | function | `readmeneitor.py:104` | `def build_command_map(index_data)` |
-| `convert_to_html` | function | `readmeneitor.py:343` | `def convert_to_html(md_path, html_path)` |
-| `extract_docstrings_from_dir` | function | `readmeneitor.py:161` | `def extract_docstrings_from_dir(dirpath)` |
-| `extract_docstrings_from_file` | function | `readmeneitor.py:132` | `def extract_docstrings_from_file(filepath)` |
-| `extract_functions_from_file` | function | `readmeneitor.py:209` | `def extract_functions_from_file(filepath)` |
-| `group_commands_by_phase` | function | `readmeneitor.py:187` | `def group_commands_by_phase(cmd_map)` |
-| `load_command_index` | function | `readmeneitor.py:83` | `def load_command_index(index_path)` |
-| `main` | function | `readmeneitor.py:379` | `def main()` |
-| `normalize_trailing_newline` | function | `readmeneitor.py:74` | `def normalize_trailing_newline(output_path)` |
-| `write_commands_md` | function | `readmeneitor.py:276` | `def write_commands_md(cmd_map, docstrings, groups, output_path)` |
-| `write_utils_md` | function | `readmeneitor.py:241` | `def write_utils_md(functions, output_path)` |
-| `banner` | function | `run_topoexploit_agent.sh:29` | `` |
-| `start_api` | function | `run_topoexploit_agent.sh:38` | `` |
-| `classify_os` | function | `scripts/backfill_addon_os_trigger.py:104` | `def classify_os(filename)` |
-| `known_trigger` | function | `scripts/backfill_addon_os_trigger.py:121` | `def known_trigger(name)` |
-| `main` | function | `scripts/backfill_addon_os_trigger.py:175` | `def main()` |
-| `patch` | function | `scripts/backfill_addon_os_trigger.py:141` | `def patch(path)` |
-| `render_trigger` | function | `scripts/backfill_addon_os_trigger.py:127` | `def render_trigger(trigger)` |
-| `apply_interface` | function | `scripts/broadcom_wps_drive.sh:166` | `` |
-| `detect_interface` | function | `scripts/broadcom_wps_drive.sh:151` | `` |
-| `die` | function | `scripts/broadcom_wps_drive.sh:55` | `` |
-| `do_doctor` | function | `scripts/broadcom_wps_drive.sh:348` | `` |
-| `do_monitor` | function | `scripts/broadcom_wps_drive.sh:235` | `` |
-| `do_status` | function | `scripts/broadcom_wps_drive.sh:325` | `` |
-| `do_unmonitor` | function | `scripts/broadcom_wps_drive.sh:247` | `` |
-| `elevate` | function | `scripts/broadcom_wps_drive.sh:200` | `` |
-| `ensure_monitor_mode` | function | `scripts/broadcom_wps_drive.sh:259` | `` |
-| `has_scapy` | function | `scripts/broadcom_wps_drive.sh:231` | `` |
-| `have_sudo` | function | `scripts/broadcom_wps_drive.sh:194` | `` |
-| `interface_mode` | function | `scripts/broadcom_wps_drive.sh:210` | `` |
-| `interface_up` | function | `scripts/broadcom_wps_drive.sh:216` | `` |
-| `is_root` | function | `scripts/broadcom_wps_drive.sh:190` | `` |
-| `is_wireless` | function | `scripts/broadcom_wps_drive.sh:162` | `` |
-| `log` | function | `scripts/broadcom_wps_drive.sh:53` | `` |
-| `main` | function | `scripts/broadcom_wps_drive.sh:404` | `` |
-| `parse_flags` | function | `scripts/broadcom_wps_drive.sh:81` | `` |
-| `payload_value` | function | `scripts/broadcom_wps_drive.sh:61` | `` |
-| `python_bin` | function | `scripts/broadcom_wps_drive.sh:227` | `` |
-| `resolve_interface` | function | `scripts/broadcom_wps_drive.sh:170` | `` |
-| `run_fingerprint` | function | `scripts/broadcom_wps_drive.sh:268` | `` |
-| `run_yara` | function | `scripts/broadcom_wps_drive.sh:308` | `` |
-| `usage` | function | `scripts/broadcom_wps_drive.sh:57` | `` |
-| `warn` | function | `scripts/broadcom_wps_drive.sh:54` | `` |
-| `ManifestConfig` | class | `scripts/check_contract_manifest.py:34` | `class ManifestConfig` |
-| `__post_init__` | method | `scripts/check_contract_manifest.py:53` | `def __post_init__(self)` |
-| `_collect_doc_imports` | function | `scripts/check_contract_manifest.py:163` | `def _collect_doc_imports(text)` |
-| `_dotted_symbol_exists` | function | `scripts/check_contract_manifest.py:112` | `def _dotted_symbol_exists(token, config)` |
-| `_extract_dotted_tokens` | function | `scripts/check_contract_manifest.py:209` | `def _extract_dotted_tokens(text, config)` |
-| `_extract_path_tokens` | function | `scripts/check_contract_manifest.py:138` | `def _extract_path_tokens(text, config)` |
-| `_iter_table_cells` | function | `scripts/check_contract_manifest.py:127` | `def _iter_table_cells(text)` |
-| `_module_path` | function | `scripts/check_contract_manifest.py:100` | `def _module_path(module, config)` |
-| `_resolve` | method | `scripts/check_contract_manifest.py:58` | `def _resolve(self, path)` |
-| `_resolve_reference` | function | `scripts/check_contract_manifest.py:154` | `def _resolve_reference(token, config)` |
-| `_top_level_names` | function | `scripts/check_contract_manifest.py:72` | `def _top_level_names(path)` |
-| `check_manifest` | function | `scripts/check_contract_manifest.py:176` | `def check_manifest(config)` |
-| `main` | function | `scripts/check_contract_manifest.py:229` | `def main(argv)` |
-| `AuditConfig` | class | `scripts/devtools/command_audit.py:25` | `class AuditConfig` |
-| `argparser_commands` | function | `scripts/devtools/command_audit.py:40` | `def argparser_commands(config)` |
-| `audit` | function | `scripts/devtools/command_audit.py:65` | `def audit(config)` |
-| `main` | function | `scripts/devtools/command_audit.py:105` | `def main(argv)` |
-| `SmokeConfig` | class | `scripts/devtools/core_smoke.py:20` | `class SmokeConfig` |
-| `check_calls` | function | `scripts/devtools/core_smoke.py:81` | `def check_calls()` |
-| `check_surfaces` | function | `scripts/devtools/core_smoke.py:64` | `def check_surfaces(config)` |
-| `main` | function | `scripts/devtools/core_smoke.py:118` | `def main()` |
-| `compile_activity` | function | `scripts/dirtyinit_drive.sh:255` | `` |
-| `die` | function | `scripts/dirtyinit_drive.sh:67` | `` |
-| `do_auto` | function | `scripts/dirtyinit_drive.sh:382` | `` |
-| `do_build` | function | `scripts/dirtyinit_drive.sh:265` | `` |
-| `do_doctor` | function | `scripts/dirtyinit_drive.sh:468` | `` |
-| `do_extract` | function | `scripts/dirtyinit_drive.sh:393` | `` |
-| `do_help` | function | `scripts/dirtyinit_drive.sh:525` | `` |
-| `do_install` | function | `scripts/dirtyinit_drive.sh:329` | `` |
-| `do_launch` | function | `scripts/dirtyinit_drive.sh:340` | `` |
-| `do_logs` | function | `scripts/dirtyinit_drive.sh:418` | `` |
-| `do_run` | function | `scripts/dirtyinit_drive.sh:412` | `` |
-| `do_stage` | function | `scripts/dirtyinit_drive.sh:402` | `` |
-| `do_status` | function | `scripts/dirtyinit_drive.sh:423` | `` |
-| `find_android_jar` | function | `scripts/dirtyinit_drive.sh:173` | `` |
-| `find_build_tools` | function | `scripts/dirtyinit_drive.sh:166` | `` |
-| `find_java_tool` | function | `scripts/dirtyinit_drive.sh:201` | `` |
-| `find_ndk` | function | `scripts/dirtyinit_drive.sh:152` | `` |
-| `find_ndk_clang` | function | `scripts/dirtyinit_drive.sh:185` | `` |
-| `find_sdk` | function | `scripts/dirtyinit_drive.sh:141` | `` |
-| `log` | function | `scripts/dirtyinit_drive.sh:65` | `` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

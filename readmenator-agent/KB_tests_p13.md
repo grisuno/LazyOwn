@@ -1,5 +1,23 @@
-# Subsystem: tests (page 13 of 27)
+# Subsystem: tests (page 13 of 28)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
+
+## tests/test_https_redirect.py
+- Doc: TDD tests for the HTTPS redirect contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_FakeRequest` (class, line 23) `class _FakeRequest`
+  - `TestHTTPSRedirect` (class, line 34) `class TestHTTPSRedirect`
+  - `TestRedirectResponseShape` (class, line 74) `class TestRedirectResponseShape`
+  - `__init__` (method, line 24) `def __init__(self, is_secure, host, path, query_string)`
+  - `test_secure_request_passes_through` (method, line 37) `def test_secure_request_passes_through(self)`
+  - `test_insecure_in_prod_redirects_to_https` (method, line 42) `def test_insecure_in_prod_redirects_to_https(self)`
+  - `test_insecure_in_dev_passes_through` (method, line 50) `def test_insecure_in_dev_passes_through(self)`
+  - `test_insecure_when_disabled_passes_through` (method, line 55) `def test_insecure_when_disabled_passes_through(self)`
+  - `test_query_string_preserved` (method, line 60) `def test_query_string_preserved(self)`
+  - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
+  - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
+- Depends on: `lazyc2/security/https_redirect.py`
 
 ## tests/test_hunt_verify.py
 - Doc: Hunt verification: verdict taxonomy, scope gate and dependency gating.
@@ -441,56 +459,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_write_phase_invalid_returns_false` (method, line 96) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
   - `test_write_phase_completed_phases_tracks_progress` (method, line 100) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
 - Depends on: `cli/ops_commands.py`, `modules/world_model.py`
-
-## tests/test_killchain_unified_v2.py
-- Doc: Comprehensive tests for modules.killchain — the unified single source of truth.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestKillChainConfig` (class, line 32) `class TestKillChainConfig`
-  - `TestKillChainCurrentPhase` (class, line 104) `class TestKillChainCurrentPhase`
-  - `TestKillChainAdvancePhase` (class, line 185) `class TestKillChainAdvancePhase`
-  - `TestKillChainGetProgress` (class, line 296) `class TestKillChainGetProgress`
-  - `TestKillChainHelpers` (class, line 364) `class TestKillChainHelpers`
-  - `TestPhaseStatusDataclass` (class, line 411) `class TestPhaseStatusDataclass`
-  - `test_phases_is_8_tuple` (method, line 35) `def test_phases_is_8_tuple(self)`
-  - `test_phases_are_in_correct_kill_chain_order` (method, line 41) `def test_phases_are_in_correct_kill_chain_order(self)`
-  - `test_compact_phases_are_in_correct_order` (method, line 45) `def test_compact_phases_are_in_correct_order(self)`
-  - `test_all_phases_have_labels` (method, line 49) `def test_all_phases_have_labels(self)`
-  - `test_all_phases_have_colors` (method, line 54) `def test_all_phases_have_colors(self)`
-  - `test_all_phases_have_rich_colors` (method, line 59) `def test_all_phases_have_rich_colors(self)`
-  - `test_engagement_to_cli_covers_all_engagement_phases` (method, line 63) `def test_engagement_to_cli_covers_all_engagement_phases(self)`
-  - `test_cli_to_host_state_returns_expected` (method, line 71) `def test_cli_to_host_state_returns_expected(self)`
-  - `test_phase_index_valid_and_invalid` (method, line 81) `def test_phase_index_valid_and_invalid(self)`
-  - `test_is_valid_phase` (method, line 87) `def test_is_valid_phase(self)`
-  - `test_compact_phases_and_labels` (method, line 92) `def test_compact_phases_and_labels(self)`
-  - `test_world_model_path` (method, line 97) `def test_world_model_path(self)`
-  - `_reset_wm_singleton` (method, line 108) `def _reset_wm_singleton(self)`
-  - `test_returns_recon_when_no_world_model_exists` (method, line 119) `def test_returns_recon_when_no_world_model_exists(self)`
-  - `test_reads_from_world_model_host_state` (method, line 126) `def test_reads_from_world_model_host_state(self)`
-  - `test_raw_json_override_wins_when_higher_rank` (method, line 141) `def test_raw_json_override_wins_when_higher_rank(self)`
-  - `test_raw_json_override_ignored_when_lower_rank` (method, line 157) `def test_raw_json_override_ignored_when_lower_rank(self)`
-  - `test_falls_back_to_legacy_phase_key` (method, line 173) `def test_falls_back_to_legacy_phase_key(self)`
-  - `_reset_wm_singleton` (method, line 189) `def _reset_wm_singleton(self)`
-  - `test_advance_writes_current_phase_and_phase_keys` (method, line 200) `def test_advance_writes_current_phase_and_phase_keys(self)`
-  - `test_advance_tracks_completed_phases` (method, line 216) `def test_advance_tracks_completed_phases(self)`
-  - `test_advance_invalid_phase_returns_false` (method, line 234) `def test_advance_invalid_phase_returns_false(self)`
-  - `test_advance_advances_world_model_hosts` (method, line 244) `def test_advance_advances_world_model_hosts(self)`
-  - `test_advance_with_host_does_not_touch_unrelated_hosts` (method, line 261) `def test_advance_with_host_does_not_touch_unrelated_hosts(self)`
-  - `test_advance_does_not_downgrade_cached_world_model_state` (method, line 277) `def test_advance_does_not_downgrade_cached_world_model_state(self)`
-  - `_reset_wm_singleton` (method, line 300) `def _reset_wm_singleton(self)`
-  - `test_all_pending_when_nothing_done` (method, line 311) `def test_all_pending_when_nothing_done(self)`
-  - `test_progress_reflects_completed_and_active` (method, line 324) `def test_progress_reflects_completed_and_active(self)`
-  - `test_progress_has_colors_and_labels` (method, line 348) `def test_progress_has_colors_and_labels(self)`
-  - `test_phases_for_display_returns_triples` (method, line 367) `def test_phases_for_display_returns_triples(self)`
-  - `test_compact_progress_returns_string` (method, line 377) `def test_compact_progress_returns_string(self)`
-  - `test_engagement_phase_to_cli_maps_all` (method, line 383) `def test_engagement_phase_to_cli_maps_all(self)`
-  - `test_cli_phase_to_host_state_maps_all` (method, line 392) `def test_cli_phase_to_host_state_maps_all(self)`
-  - `test_get_killchain_returns_class` (method, line 400) `def test_get_killchain_returns_class(self)`
-  - `test_phase_index_returns_correct` (method, line 404) `def test_phase_index_returns_correct(self)`
-  - `test_phase_status_is_immutable` (method, line 414) `def test_phase_status_is_immutable(self)`
-  - `test_phase_status_fields_match_config` (method, line 419) `def test_phase_status_fields_match_config(self)`
-- Depends on: `modules/killchain.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

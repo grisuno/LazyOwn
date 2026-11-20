@@ -1,6 +1,24 @@
 # Subsystem: modules (page 16 of 19)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/outcome_attribution.py
+- Doc: Observer-style failure attribution for autonomous loop steps.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_has_reject_signal` (function, line 81) `def _has_reject_signal(text)`
+  - `classify` (function, line 100) `def classify(output, is_error)`
+  - `verb_of` (function, line 126) `def verb_of(command)`
+  - `AttributionLedger` (class, line 141) `class AttributionLedger`
+  - `__init__` (method, line 149) `def __init__(self, task_id, base_dir)`
+  - `_load` (method, line 160) `def _load(self)`
+  - `record` (method, line 167) `def record(self, command, classification)`
+  - `counts` (method, line 199) `def counts(self, verb)`
+  - `blocked_verbs` (method, line 204) `def blocked_verbs(self, threshold)`
+  - `_apply` (function, line 187) `def _apply(data)`
+- Depends on: `core/atomic_store.py`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_memory.py`, `tests/test_loop_post_signal.py`, `tests/test_outcome_attribution.py`
+
 ## modules/outcome_bus.py
 - Doc: Single fan-out contract for engagement outcomes.
 - Layer: infrastructure
@@ -24,7 +42,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `record` (method, line 205) `def record(self, event, sinks)`
   - `_append_ledger` (method, line 252) `def _append_ledger(self, event, statuses)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_handoff.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_handoff.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_idempotent_retest.py`, `tests/test_loop_scan_banner_guard.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
 
 ## modules/payload_factory.py
 - Doc: Native payload generation framework — stagers, stages, singles, formats.
@@ -218,7 +236,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `pop` (method, line 551) `def pop(self)`
   - `__len__` (method, line 560) `def __len__(self)`
 - Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/loop/objective_bootstrap.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `modules/loop/objective_bootstrap.py`, `modules/loop/planner_bridge.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
 
 ## modules/playbook_admin.py
 - Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
@@ -466,23 +484,6 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
 - Symbols:
   - `download_kernel_sources` (function, line 10)
 - Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
-
-## modules/reaction_bridge.py
-- Doc: Reaction bridge between the reactive engine and the loop planner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReactionPick` (class, line 66) `class ReactionPick`
-  - `_buffer_path` (function, line 76) `def _buffer_path(task_id)`
-  - `save_decisions` (function, line 80) `def save_decisions(task_id, decisions)`
-  - `load_reaction_triggers` (function, line 108) `def load_reaction_triggers(task_id, consumer)`
-  - `_load_buffer` (function, line 143) `def _load_buffer(task_id)`
-  - `_write_buffer` (function, line 150) `def _write_buffer(task_id, payload)`
-  - `_placeholder_value` (function, line 154) `def _placeholder_value(value)`
-  - `find_credentials` (function, line 159) `def find_credentials(output)`
-  - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
-- Depends on: `modules/lazy_loop.py`
-- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_reaction_bridge.py`
 
 
 Next: [KB_modules_p17.md](KB_modules_p17.md)

@@ -1,0 +1,20 @@
+id: php2shell_chain_a
+name: php2shell Chain A - PHP 5.6 pre-auth RCE
+description: CVE-2026-109618/109619 chain A against the vulnerable PHP 5.6 lab.
+scenario: php2shell56
+chain: ""
+objective: Achieve pre-auth command execution on the PHP 5.6.40 lab through session.upload_progress session injection plus the /vuln.php LFI sink.
+difficulty: easy
+phases: [recon, enum, exploit]
+required_techniques: [T1190]
+bonus_techniques: []
+max_points: 2000
+speed_bonus_max: 400
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+  - "Start the lab: lab start php2shell56 (PHP 5.6.40 mod_php, LFI at /vuln.php, sessions at /tmp/sessions)."
+  - "Point the addon at it: assign url http://127.0.0.1:8086/index.php then run php2shell_scan to confirm exposure."
+  - "Exploit: php2shell_a or auto_pwn (the exploits/php2shell_chain_a.yaml spec matches the lab http port)."
+success_check: "RCE CONFIRMED output with the assigned rce_command"
+elo_bonus: 200

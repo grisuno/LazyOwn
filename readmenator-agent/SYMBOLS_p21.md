@@ -3,6 +3,114 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_resolve_log_path` | method | `modules/loop_manager.py:689` | `def _resolve_log_path(self, record)` |
+| `_save_registry_locked` | method | `modules/loop_manager.py:880` | `def _save_registry_locked(self, records)` |
+| `_spawn_locked` | method | `modules/loop_manager.py:437` | `def _spawn_locked(self, spec, operator)` |
+| `_update_status_locked` | method | `modules/loop_manager.py:763` | `def _update_status_locked(self, loop_id, status)` |
+| `_write_workspace_metadata` | method | `modules/loop_manager.py:560` | `def _write_workspace_metadata(record)` |
+| `clamp_float` | function | `modules/loop_manager.py:198` | `def clamp_float(raw, field, default, minimum, maximum)` |
+| `clamp_int` | function | `modules/loop_manager.py:173` | `def clamp_int(raw, field, default, minimum, maximum)` |
+| `default_manager` | function | `modules/loop_manager.py:898` | `def default_manager()` |
+| `get_loop` | method | `modules/loop_manager.py:629` | `def get_loop(self, loop_id)` |
+| `list_loops` | method | `modules/loop_manager.py:594` | `def list_loops(self)` |
+| `loops_dir` | method | `modules/loop_manager.py:388` | `def loops_dir(self)` |
+| `read_log` | method | `modules/loop_manager.py:648` | `def read_log(self, loop_id, offset)` |
+| `sanitize_goal` | function | `modules/loop_manager.py:146` | `def sanitize_goal(raw)` |
+| `start` | method | `modules/loop_manager.py:392` | `def start(self, spec, operator)` |
+| `stop` | method | `modules/loop_manager.py:715` | `def stop(self, loop_id)` |
+| `summary` | method | `modules/loop_manager.py:780` | `def summary(self)` |
+| `validate_beacon_target` | function | `modules/loop_manager.py:124` | `def validate_beacon_target(raw)` |
+| `validate_loop_id` | function | `modules/loop_manager.py:223` | `def validate_loop_id(loop_id)` |
+| `validate_target` | function | `modules/loop_manager.py:101` | `def validate_target(raw)` |
+| `_probe` | function | `modules/loop_preflight.py:107` | `def _probe(port)` |
+| `check_target` | function | `modules/loop_preflight.py:145` | `def check_target(target, ports, connect_timeout, lab)` |
+| `lab_state_for` | function | `modules/loop_preflight.py:38` | `def lab_state_for(target, scenarios, running, existing, ip_lookup)` |
+| `probe_tcp` | function | `modules/loop_preflight.py:125` | `def probe_tcp(target, ports, timeout)` |
+| `probe_tcp_detailed` | function | `modules/loop_preflight.py:83` | `def probe_tcp_detailed(target, ports, timeout)` |
+| `recovery_hint` | function | `modules/loop_preflight.py:211` | `def recovery_hint(outcome)` |
+| `LoopProgress` | class | `modules/loop_progress.py:169` | `class LoopProgress` |
+| `LoopSnapshot` | class | `modules/loop_progress.py:80` | `class LoopSnapshot` |
+| `__post_init__` | method | `modules/loop_progress.py:182` | `def __post_init__(self)` |
+| `_footer` | method | `modules/loop_progress.py:306` | `def _footer(self, snapshot, elapsed)` |
+| `_header` | method | `modules/loop_progress.py:282` | `def _header(self)` |
+| `_milestone_line` | method | `modules/loop_progress.py:289` | `def _milestone_line(self, snapshot, states, current)` |
+| `_render` | method | `modules/loop_progress.py:324` | `def _render(self, snapshot)` |
+| `emit` | method | `modules/loop_progress.py:268` | `def emit(self, line)` |
+| `live_mode` | method | `modules/loop_progress.py:195` | `def live_mode(self)` |
+| `refresh` | method | `modules/loop_progress.py:246` | `def refresh(self, snapshot)` |
+| `sanitize_line` | function | `modules/loop_progress.py:151` | `def sanitize_line(line, keep_ansi)` |
+| `snap_to_states` | function | `modules/loop_progress.py:123` | `def snap_to_states(snapshot)` |
+| `snapshot_from_overview` | function | `modules/loop_progress.py:99` | `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` |
+| `start` | method | `modules/loop_progress.py:202` | `def start(self)` |
+| `stop` | method | `modules/loop_progress.py:229` | `def stop(self)` |
+| `TriggerStore` | class | `modules/loop_triggers.py:88` | `class TriggerStore` |
+| `__init__` | method | `modules/loop_triggers.py:91` | `def __init__(self, task_id)` |
+| `_core` | function | `modules/loop_triggers.py:81` | `def _core()` |
+| `_load` | method | `modules/loop_triggers.py:97` | `def _load(self)` |
+| `add` | method | `modules/loop_triggers.py:101` | `def add(self, kind, arg, every_sec)` |
+| `due` | method | `modules/loop_triggers.py:233` | `def due(self, task_id, graph, activity, assets, store)` |
+| `ensure_ad_surface_trigger` | method | `modules/loop_triggers.py:220` | `def ensure_ad_surface_trigger(self)` |
+| `ensure_cve_hot_trigger` | method | `modules/loop_triggers.py:207` | `def ensure_cve_hot_trigger(self)` |
+| `ensure_service_trigger` | method | `modules/loop_triggers.py:194` | `def ensure_service_trigger(self)` |
+| `hint_fingerprint` | function | `modules/loop_triggers.py:28` | `def hint_fingerprint(row)` |
+| `list` | method | `modules/loop_triggers.py:190` | `def list(self)` |
+| `prune_hint_fingerprints` | function | `modules/loop_triggers.py:60` | `def prune_hint_fingerprints(store, now, ttl)` |
+| `read_signing_evidence` | function | `modules/loop_triggers.py:499` | `def read_signing_evidence(store_dir)` |
+| `remove` | method | `modules/loop_triggers.py:165` | `def remove(self, trigger_id)` |
+| `set_enabled` | method | `modules/loop_triggers.py:176` | `def set_enabled(self, trigger_id, enabled)` |
+| `upsert_defaults` | method | `modules/loop_triggers.py:123` | `def upsert_defaults(self, seeds)` |
+| `MacOSPayloadConfig` | class | `modules/macos_payloads.py:60` | `class MacOSPayloadConfig` |
+| `MacOSPayloadFactory` | class | `modules/macos_payloads.py:88` | `class MacOSPayloadFactory` |
+| `__init__` | method | `modules/macos_payloads.py:111` | `def __init__(self, config, output_dir)` |
+| `_adho_codesign` | method | `modules/macos_payloads.py:192` | `def _adho_codesign(self, app_dir)` |
+| `_obfuscate_shell` | method | `modules/macos_payloads.py:116` | `def _obfuscate_shell(self, code)` |
+| `_reverse_shell_command` | method | `modules/macos_payloads.py:122` | `def _reverse_shell_command(self)` |
+| `generate_all` | method | `modules/macos_payloads.py:470` | `def generate_all(self)` |
+| `generate_app_bundle` | method | `modules/macos_payloads.py:137` | `def generate_app_bundle(self)` |
+| `generate_launchd_persistence` | method | `modules/macos_payloads.py:212` | `def generate_launchd_persistence(self)` |
+| `generate_osascript_dropper` | method | `modules/macos_payloads.py:314` | `def generate_osascript_dropper(self)` |
+| `generate_persistence_scripts` | method | `modules/macos_payloads.py:398` | `def generate_persistence_scripts(self)` |
+| `generate_phishing_dialog` | method | `modules/macos_payloads.py:447` | `def generate_phishing_dialog(self)` |
+| `generate_swift_stager` | method | `modules/macos_payloads.py:335` | `def generate_swift_stager(self)` |
+| `generate_tcc_bypass` | method | `modules/macos_payloads.py:268` | `def generate_tcc_bypass(self)` |
+| `list_persistence_methods` | method | `modules/macos_payloads.py:522` | `def list_persistence_methods()` |
+| `list_tcc_services` | method | `modules/macos_payloads.py:517` | `def list_tcc_services()` |
+| `check_collision` | function | `modules/mario.py:105` | `def check_collision(x, y, layer)` |
+| `AgentBridgeWorker` | class | `modules/mcp_agent_bridge.py:468` | `class AgentBridgeWorker` |
+| `GroqAgentWorker` | class | `modules/mcp_agent_bridge.py:234` | `class GroqAgentWorker` |
+| `OllamaReActWorker` | class | `modules/mcp_agent_bridge.py:367` | `class OllamaReActWorker` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:235` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:368` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:471` | `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)` |
+| `_agent_file` | function | `modules/mcp_agent_bridge.py:141` | `def _agent_file(agent_id)` |
+| `_make_client` | function | `modules/mcp_agent_bridge.py:39` | `def _make_client(backend)` |
+| `_ollama_chat` | function | `modules/mcp_agent_bridge.py:92` | `def _ollama_chat(model, messages, max_tokens, timeout)` |
+| `_parse` | method | `modules/mcp_agent_bridge.py:381` | `def _parse(self, text)` |
+| `_read_log` | function | `modules/mcp_agent_bridge.py:150` | `def _read_log(agent_id)` |
+| `_tools` | method | `modules/mcp_agent_bridge.py:248` | `def _tools(self)` |
+| `_write_log` | function | `modules/mcp_agent_bridge.py:145` | `def _write_log(agent_id, entry)` |
+| `dummy_runner` | function | `modules/mcp_agent_bridge.py:531` | `def dummy_runner(cmd)` |
+| `get_agent_result` | function | `modules/mcp_agent_bridge.py:188` | `def get_agent_result(agent_id)` |
+| `get_agent_status` | function | `modules/mcp_agent_bridge.py:163` | `def get_agent_status(agent_id)` |
+| `list_agents` | function | `modules/mcp_agent_bridge.py:211` | `def list_agents(limit)` |
+| `run` | method | `modules/mcp_agent_bridge.py:264` | `def run(self)` |
+| `run` | method | `modules/mcp_agent_bridge.py:389` | `def run(self)` |
+| `run` | method | `modules/mcp_agent_bridge.py:478` | `def run(self)` |
+| `start_agent` | function | `modules/mcp_agent_bridge.py:508` | `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` |
+| `ChainMediator` | class | `modules/mediation/chain_mediator.py:48` | `class ChainMediator` |
+| `LlmPoolPort` | class | `modules/mediation/chain_mediator.py:13` | `class LlmPoolPort` |
+| `__init__` | method | `modules/mediation/chain_mediator.py:53` | `def __init__(self)` |
+| `complete` | method | `modules/mediation/chain_mediator.py:16` | `def complete(self, prompt, max_tokens, task_id)` |
+| `describe` | method | `modules/mediation/chain_mediator.py:73` | `def describe(self)` |
+| `has_members` | method | `modules/mediation/chain_mediator.py:34` | `def has_members(self)` |
+| `llm` | method | `modules/mediation/chain_mediator.py:65` | `def llm(self)` |
+| `register_llm_port` | method | `modules/mediation/chain_mediator.py:57` | `def register_llm_port(self, port)` |
+| `ActivityLogPort` | class | `modules/mediation/contracts.py:36` | `class ActivityLogPort(Protocol)` |
+| `LlmCompletionPort` | class | `modules/mediation/contracts.py:58` | `class LlmCompletionPort(Protocol)` |
+| `MediationDomains` | class | `modules/mediation/contracts.py:12` | `class MediationDomains` |
+| `MediationHubContract` | class | `modules/mediation/contracts.py:96` | `class MediationHubContract(Protocol)` |
+| `MediatorContract` | class | `modules/mediation/contracts.py:85` | `class MediatorContract(Protocol)` |
+| `complete` | method | `modules/mediation/contracts.py:61` | `def complete(self, prompt, max_tokens, task_id)` |
 | `describe` | method | `modules/mediation/contracts.py:90` | `def describe(self)` |
 | `has_members` | method | `modules/mediation/contracts.py:79` | `def has_members(self)` |
 | `is_known` | method | `modules/mediation/contracts.py:24` | `def is_known(cls, domain)` |
@@ -388,113 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `record_facts` | method | `modules/operation.py:164` | `def record_facts(self, findings)` |
 | `report` | method | `modules/operation.py:431` | `def report(self, op_id)` |
 | `resume` | method | `modules/operation.py:378` | `def resume(self, op_id, executor)` |
-| `save` | method | `modules/operation.py:134` | `def save(self)` |
-| `start` | method | `modules/operation.py:287` | `def start(self, op_id, executor)` |
-| `status` | method | `modules/operation.py:396` | `def status(self, op_id)` |
-| `stop` | method | `modules/operation.py:386` | `def stop(self, op_id)` |
-| `timeline` | method | `modules/operation.py:425` | `def timeline(self, op_id)` |
-| `to_dict` | method | `modules/operation.py:98` | `def to_dict(self)` |
-| `OperatorProfile` | class | `modules/operator_profiles.py:38` | `class OperatorProfile` |
-| `OperatorProfileManager` | class | `modules/operator_profiles.py:77` | `class OperatorProfileManager` |
-| `__init__` | method | `modules/operator_profiles.py:88` | `def __init__(self)` |
-| `_ensure_team_ca` | method | `modules/operator_profiles.py:93` | `def _ensure_team_ca(self)` |
-| `_generate_operator_cert` | method | `modules/operator_profiles.py:130` | `def _generate_operator_cert(self, username)` |
-| `_profile_dir` | method | `modules/operator_profiles.py:124` | `def _profile_dir(self, username)` |
-| `_profile_path` | method | `modules/operator_profiles.py:127` | `def _profile_path(self, username)` |
-| `_save_profile` | method | `modules/operator_profiles.py:255` | `def _save_profile(self, profile)` |
-| `create_profile` | method | `modules/operator_profiles.py:192` | `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` |
-| `delete_profile` | method | `modules/operator_profiles.py:289` | `def delete_profile(self, username)` |
-| `effective_config` | method | `modules/operator_profiles.py:360` | `def effective_config(self, username)` |
-| `get_attribute` | method | `modules/operator_profiles.py:328` | `def get_attribute(self, username, key, default)` |
-| `get_operator_profile_manager` | function | `modules/operator_profiles.py:398` | `def get_operator_profile_manager()` |
-| `list_profiles` | method | `modules/operator_profiles.py:300` | `def list_profiles(self)` |
-| `load_profile` | method | `modules/operator_profiles.py:260` | `def load_profile(self, username)` |
-| `log_action` | method | `modules/operator_profiles.py:335` | `def log_action(self, username, action, details)` |
-| `set_attribute` | method | `modules/operator_profiles.py:319` | `def set_attribute(self, username, key, value)` |
-| `to_dict` | method | `modules/operator_profiles.py:57` | `def to_dict(self)` |
-| `touch_activity` | method | `modules/operator_profiles.py:312` | `def touch_activity(self, username)` |
-| `update_profile` | method | `modules/operator_profiles.py:276` | `def update_profile(self, username)` |
-| `GateAction` | class | `modules/opsec_scorer.py:180` | `class GateAction(IntEnum)` |
-| `GatedOpsecScore` | class | `modules/opsec_scorer.py:303` | `class GatedOpsecScore` |
-| `OpsecContext` | class | `modules/opsec_scorer.py:232` | `class OpsecContext` |
-| `OpsecScore` | class | `modules/opsec_scorer.py:265` | `class OpsecScore` |
-| `OpsecScorer` | class | `modules/opsec_scorer.py:331` | `class OpsecScorer` |
-| `OpsecScorerV2` | class | `modules/opsec_scorer.py:559` | `class OpsecScorerV2` |
-| `RiskLevel` | class | `modules/opsec_scorer.py:170` | `class RiskLevel(IntEnum)` |
-| `__init__` | method | `modules/opsec_scorer.py:343` | `def __init__(self, payload, world_model)` |
-| `__init__` | method | `modules/opsec_scorer.py:617` | `def __init__(self, context)` |
-| `_build_explanation` | method | `modules/opsec_scorer.py:796` | `def _build_explanation(cmd, noise, detects, gate)` |
-| `_build_recommendation` | method | `modules/opsec_scorer.py:544` | `def _build_recommendation(risk_level, mitigations)` |
-| `_detection_risk_label` | method | `modules/opsec_scorer.py:532` | `def _detection_risk_label(detectable, noise)` |
-| `_estimate_noise` | method | `modules/opsec_scorer.py:426` | `def _estimate_noise(self, command)` |
-| `_evasion_reduction` | method | `modules/opsec_scorer.py:498` | `def _evasion_reduction(self, detectable)` |
-| `_find_alternatives` | method | `modules/opsec_scorer.py:777` | `def _find_alternatives(cmd)` |
-| `_gather_mitigations` | method | `modules/opsec_scorer.py:510` | `def _gather_mitigations(self, detectable, noise)` |
-| `_generate_mitigations` | method | `modules/opsec_scorer.py:753` | `def _generate_mitigations(noise, detects)` |
-| `_get_host_purpose` | method | `modules/opsec_scorer.py:479` | `def _get_host_purpose(self, rhost)` |
-| `_noise_to_risk` | method | `modules/opsec_scorer.py:527` | `def _noise_to_risk(noise)` |
-| `_noise_to_risk` | method | `modules/opsec_scorer.py:739` | `def _noise_to_risk(noise)` |
-| `_phase_mismatch_penalty` | method | `modules/opsec_scorer.py:448` | `def _phase_mismatch_penalty(self, tool_phase, override)` |
-| `_risk_bucket` | function | `modules/opsec_scorer.py:189` | `def _risk_bucket(noise)` |
-| `_risk_label` | function | `modules/opsec_scorer.py:207` | `def _risk_label(noise)` |
-| `_risk_level` | function | `modules/opsec_scorer.py:219` | `def _risk_level(noise)` |
-| `_risk_to_gate` | method | `modules/opsec_scorer.py:743` | `def _risk_to_gate(self, risk)` |
-| `_target_sensitivity_bonus` | method | `modules/opsec_scorer.py:470` | `def _target_sensitivity_bonus(self, rhost)` |
-| `assess` | method | `modules/opsec_scorer.py:622` | `def assess(self, command, extra_context)` |
-| `evasion_active` | method | `modules/opsec_scorer.py:352` | `def evasion_active(self)` |
-| `get_trend` | method | `modules/opsec_scorer.py:709` | `def get_trend(self)` |
-| `score` | method | `modules/opsec_scorer.py:365` | `def score(self, command, rhost, phase_override)` |
-| `score_batch` | method | `modules/opsec_scorer.py:413` | `def score_batch(self, commands, rhost)` |
-| `score_command` | function | `modules/opsec_scorer.py:811` | `def score_command(command, payload, rhost)` |
-| `should_allow` | method | `modules/opsec_scorer.py:696` | `def should_allow(self, command)` |
-| `suggest_mitigations` | method | `modules/opsec_scorer.py:417` | `def suggest_mitigations(self, command, detectable_by)` |
-| `to_dict` | method | `modules/opsec_scorer.py:288` | `def to_dict(self)` |
-| `traffic_morphing_active` | method | `modules/opsec_scorer.py:357` | `def traffic_morphing_active(self)` |
-| `_catalog_verbs` | function | `modules/orchestrator_config.py:720` | `def _catalog_verbs(seen, overrides)` |
-| `_default_profile_name` | function | `modules/orchestrator_config.py:286` | `def _default_profile_name(data)` |
-| `_fallback_profile` | function | `modules/orchestrator_config.py:203` | `def _fallback_profile()` |
-| `_invalidate` | function | `modules/orchestrator_config.py:143` | `def _invalidate()` |
-| `_merge_profile` | function | `modules/orchestrator_config.py:234` | `def _merge_profile(parent, child)` |
-| `_merge_stage` | function | `modules/orchestrator_config.py:218` | `def _merge_stage(base, override)` |
-| `_payload` | function | `modules/orchestrator_config.py:156` | `def _payload()` |
-| `_read_yaml` | function | `modules/orchestrator_config.py:179` | `def _read_yaml(path)` |
-| `_resolve_profile` | function | `modules/orchestrator_config.py:256` | `def _resolve_profile(name, raw_profiles, stack)` |
-| `_save` | function | `modules/orchestrator_config.py:171` | `def _save(payload)` |
-| `_section` | function | `modules/orchestrator_config.py:166` | `def _section(payload)` |
-| `active_profile` | function | `modules/orchestrator_config.py:296` | `def active_profile()` |
-| `budget` | function | `modules/orchestrator_config.py:378` | `def budget()` |
-| `chain_defaults` | function | `modules/orchestrator_config.py:553` | `def chain_defaults()` |
-| `effective_verbs` | function | `modules/orchestrator_config.py:665` | `def effective_verbs()` |
-| `engagement_mode` | function | `modules/orchestrator_config.py:512` | `def engagement_mode()` |
-| `findings_config` | function | `modules/orchestrator_config.py:385` | `def findings_config()` |
-| `limits` | function | `modules/orchestrator_config.py:371` | `def limits()` |
-| `pacing` | function | `modules/orchestrator_config.py:439` | `def pacing()` |
-| `profile_config` | function | `modules/orchestrator_config.py:308` | `def profile_config(name)` |
-| `profiles` | function | `modules/orchestrator_config.py:271` | `def profiles()` |
-| `progress_config` | function | `modules/orchestrator_config.py:407` | `def progress_config()` |
-| `reload` | function | `modules/orchestrator_config.py:151` | `def reload()` |
-| `remove_verb` | function | `modules/orchestrator_config.py:829` | `def remove_verb(name)` |
-| `reset` | function | `modules/orchestrator_config.py:850` | `def reset()` |
-| `selector_enabled` | function | `modules/orchestrator_config.py:584` | `def selector_enabled(name)` |
-| `selectors` | function | `modules/orchestrator_config.py:573` | `def selectors()` |
-| `set_engagement_mode` | function | `modules/orchestrator_config.py:530` | `def set_engagement_mode(mode)` |
-| `set_harness` | function | `modules/orchestrator_config.py:339` | `def set_harness(enabled)` |
-| `set_pacing` | function | `modules/orchestrator_config.py:487` | `def set_pacing(key, value)` |
-| `set_profile` | function | `modules/orchestrator_config.py:315` | `def set_profile(name)` |
-| `set_selector` | function | `modules/orchestrator_config.py:589` | `def set_selector(name, enabled)` |
-| `set_stage` | function | `modules/orchestrator_config.py:640` | `def set_stage(name, enabled)` |
-| `sinks` | function | `modules/orchestrator_config.py:562` | `def sinks()` |
-| `stage_enabled` | function | `modules/orchestrator_config.py:629` | `def stage_enabled(name)` |
-| `stage_params` | function | `modules/orchestrator_config.py:635` | `def stage_params(name)` |
-| `stages` | function | `modules/orchestrator_config.py:599` | `def stages()` |
-| `upsert_verb` | function | `modules/orchestrator_config.py:772` | `def upsert_verb(name)` |
-| `validate_config` | function | `modules/orchestrator_config.py:857` | `def validate_config(data)` |
-| `verb_config` | function | `modules/orchestrator_config.py:757` | `def verb_config(name)` |
-| `verb_enabled` | function | `modules/orchestrator_config.py:766` | `def verb_enabled(name)` |
-| `_cache_load` | function | `modules/osint_enrich.py:52` | `def _cache_load(sessions_dir)` |
-| `_cache_path` | function | `modules/osint_enrich.py:47` | `def _cache_path(sessions_dir)` |
-| `_cache_save` | function | `modules/osint_enrich.py:61` | `def _cache_save(sessions_dir, data)` |
-| `_cached` | function | `modules/osint_enrich.py:69` | `def _cached(sessions_dir, key, ttl)` |
-| `_get_json` | function | `modules/osint_enrich.py:84` | `def _get_json(url, params)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

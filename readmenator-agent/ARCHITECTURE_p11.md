@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 
 ## External Imports (continued)
+- `skills/mcp_tools/run_api.py` -> __future__, asyncio, json, mcp, typing
+- `skills/mcp_tools/run_command.py` -> __future__, asyncio, event_bus, json, mcp, typing
+- `skills/mcp_tools/run_command_async.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/search_tools.py` -> __future__, mcp, typing
+- `skills/mcp_tools/searchsploit.py` -> __future__, asyncio, mcp, typing
+- `skills/mcp_tools/session_diff.py` -> __future__, json, mcp, typing
+- `skills/mcp_tools/session_init.py` -> __future__, json, mcp, pathlib, sys, typing
+- `skills/mcp_tools/session_resume.py` -> __future__, mcp, typing
 - `skills/mcp_tools/session_state.py` -> __future__, asyncio, mcp, typing
 - `skills/mcp_tools/session_status.py` -> __future__, mcp, sys, typing
 - `skills/mcp_tools/set_active_target.py` -> __future__, datetime, mcp, typing
@@ -132,6 +140,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_bsb_fileless_compat.py` -> __future__, base64, cryptography.hazmat.backends, cryptography.hazmat.primitives.ciphers, dataclasses, importlib.util, json, os, pathlib, pytest, sys
 - `tests/test_c2_agent.py` -> __future__, ast, importlib, inspect, json, os, pathlib, re, stat, sys
 - `tests/test_c2_agent_dual.py` -> __future__, pathlib, re, sys, tempfile, unittest, unittest.mock
+- `tests/test_c2_autostart.py` -> __future__, pytest, subprocess
 - `tests/test_c2_credential_bootstrap.py` -> __future__, os, pathlib
 - `tests/test_c2_process_smoke.py` -> __future__, json, os, pathlib, pytest, requests, shutil, socket, subprocess, sys, time
 - `tests/test_c2_profile_engine.py` -> __future__, pytest
@@ -236,6 +245,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_exploration_graph_concurrency.py` -> __future__, threading
 - `tests/test_exposure_command_sets.py` -> __future__
 - `tests/test_f4_hardening.py` -> __future__, pathlib, subprocess, tempfile, threading, time, types, unittest
+- `tests/test_fact_gated_todolist.py` -> __future__
 - `tests/test_failure_memory_veto.py` -> __future__, pathlib
 - `tests/test_failure_verdict.py` -> __future__
 - `tests/test_finding_enrich.py` -> __future__, types
@@ -294,7 +304,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_lazy_feedmatch.py` -> __future__, json, os, pytest
 - `tests/test_lazy_finalizer.py` -> __future__
 - `tests/test_lazy_findings.py` -> __future__, pathlib, pytest, tempfile
-- `tests/test_lazy_handoff.py` -> __future__, json, pathlib, pytest, subprocess, types
+- `tests/test_lazy_handoff.py` -> __future__, datetime, json, pathlib, pytest, subprocess, types
 - `tests/test_lazy_hostscore.py` -> __future__, json, pathlib
 - `tests/test_lazy_intel_wiring.py` -> __future__, pathlib, time
 - `tests/test_lazy_inventory.py` -> __future__
@@ -304,7 +314,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_lazy_netattack.py` -> __future__, pytest
 - `tests/test_lazy_oob.py` -> __future__, pathlib, tempfile, unittest, unittest.mock, urllib.request
 - `tests/test_lazy_orchestrator.py` -> __future__, asyncio, json, pytest, shutil, textual.widgets, yaml
-- `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
+- `tests/test_lazy_parity.py` -> __future__, evidence, io, json, os, pathlib, sys, time
 - `tests/test_lazy_probes.py` -> __future__
 - `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
 - `tests/test_lazy_reaper.py` -> __future__, typing
@@ -347,20 +357,28 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_loop_audit.py` -> __future__, json, pytest
 - `tests/test_loop_audit_feedback.py` -> __future__, pathlib, pytest, sys
 - `tests/test_loop_auto_orchestrator.py` -> __future__, ast, builtins, pathlib
+- `tests/test_loop_boundary.py` -> __future__
 - `tests/test_loop_broadcast.py` -> __future__
 - `tests/test_loop_budget.py` -> __future__, pytest
+- `tests/test_loop_citation_judge.py` -> __future__, pytest, time
 - `tests/test_loop_cli_catalog.py` -> __future__, pytest
 - `tests/test_loop_cold_overview.py` -> __future__
 - `tests/test_loop_decision_log.py` -> __future__, pathlib, pytest
+- `tests/test_loop_deterministic_first.py` -> __future__, pytest
 - `tests/test_loop_deterministic_mode.py` -> __future__, types
+- `tests/test_loop_evidence.py` -> __future__, time
 - `tests/test_loop_evidence_wiring.py` -> __future__, json, pathlib, pytest, types
 - `tests/test_loop_exit_gate.py` -> __future__, ast, json, pathlib, pytest
 - `tests/test_loop_fire_pending.py` -> __future__, json, pathlib, pytest
 - `tests/test_loop_force_graph.py` -> __future__
 - `tests/test_loop_guard_audit.py` -> __future__
 - `tests/test_loop_guardrails.py` -> __future__, threading, time
+- `tests/test_loop_idempotent_retest.py` -> __future__
+- `tests/test_loop_intel_projection.py` -> __future__, json
 - `tests/test_loop_intent_delete.py` -> __future__, pytest
 - `tests/test_loop_lazymode_first.py` -> __future__, pytest, types
+- `tests/test_loop_leases.py` -> __future__, pytest, threading, time
+- `tests/test_loop_leases_integration.py` -> __future__, pytest
 - `tests/test_loop_llm_resilience.py` -> __future__
 - `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
 - `tests/test_loop_manager_outcome.py` -> __future__, json, pytest, threading
@@ -368,15 +386,21 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_loop_multi_target.py` -> __future__, pytest
 - `tests/test_loop_nmap_guard.py` -> __future__
 - `tests/test_loop_objective_wiring.py` -> __future__, datetime, json
+- `tests/test_loop_planner_bridge.py` -> __future__, types
+- `tests/test_loop_post_signal.py` -> __future__, inspect
 - `tests/test_loop_preflight.py` -> __future__, socket, threading
 - `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
+- `tests/test_loop_scan_banner_guard.py` -> __future__, pytest, types
 - `tests/test_loop_scope_traffic_evidence.py` -> __future__
 - `tests/test_loop_spawn_side.py` -> __future__
 - `tests/test_loop_store_race.py` -> __future__, threading
 - `tests/test_loop_supervision.py` -> __future__
 - `tests/test_loop_target_authority.py` -> __future__
 - `tests/test_loop_technique_deterministic.py` -> __future__, pytest
+- `tests/test_loop_termination.py` -> __future__, pytest
+- `tests/test_loop_tokens.py` -> __future__, pytest
 - `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_loop_verb_capabilities.py` -> __future__, inspect
 - `tests/test_loop_worker_traces.py` -> __future__
 - `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
 - `tests/test_mcp_auto_loop_wrapper.py` -> __future__, asyncio, json, pytest, types
@@ -405,6 +429,7 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_opsec_scorer.py` -> __future__
 - `tests/test_opsec_scorer_consolidated.py` -> __future__
 - `tests/test_orchestrator_api.py` -> __future__, flask, json, os, pathlib, pytest
+- `tests/test_orchestrator_loop_substrate.py` -> __future__, pytest
 - `tests/test_orchestrator_pacing.py` -> __future__, pytest
 - `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
 - `tests/test_orchestrator_yaml.py` -> __future__, pathlib, pytest, yaml
@@ -471,30 +496,5 @@ Previous: [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
 - `tests/test_selection_bridge.py` -> __future__, dataclasses, pathlib, sys
-- `tests/test_selection_lazyscript.py` -> __future__, pytest
-- `tests/test_selection_module.py` -> __future__, pytest
-- `tests/test_selection_parquet.py` -> __future__, pathlib, sys
-- `tests/test_selection_technique.py` -> __future__, pytest
-- `tests/test_selection_technique_chain.py` -> __future__, pytest
-- `tests/test_selection_wiring.py` -> __future__
-- `tests/test_selectors_base.py` -> __future__
-- `tests/test_selectors_capabilities.py` -> __future__
-- `tests/test_session_brief.py` -> __future__, pathlib, pytest, re
-- `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_session_reclaim.py` -> __future__, os, pytest, types
-- `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest
-- `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
-- `tests/test_shell_params_seeding.py` -> __future__, pathlib
-- `tests/test_shell_semantics.py` -> __future__
-- `tests/test_shell_session_store.py` -> __future__, pathlib, pytest, sys
-- `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
-- `tests/test_sidequest.py` -> __future__
-- `tests/test_single_implementation.py` -> __future__
-- `tests/test_single_source_of_truth.py` -> __future__, json, pathlib, tempfile, unittest
-- `tests/test_sink_chain_feed.py` -> __future__, json, pathlib
-- `tests/test_sink_lazy_intel.py` -> __future__, pathlib, pytest
-- `tests/test_sleep_obfuscation.py` -> __future__, pytest
-- `tests/test_socks_proxy.py` -> __future__
 
 Next: [ARCHITECTURE_p12.md](ARCHITECTURE_p12.md)

@@ -1,6 +1,44 @@
 # Subsystem: modules (page 9 of 19)
 Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
+## modules/lazy_deviations.py
+- Doc: Planned-versus-actual deviation ledger for loop and chain runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DeviationRecord` (class, line 35) `class DeviationRecord`
+  - `_clean` (function, line 67) `def _clean(text)`
+  - `DeviationLedger` (class, line 72) `class DeviationLedger`
+  - `as_dict` (method, line 55) `def as_dict(self)`
+  - `__init__` (method, line 80) `def __init__(self, path)`
+  - `record` (method, line 84) `def record(self, scope, planned, actual, reason, source)`
+  - `list` (method, line 124) `def list(self, scope, limit)`
+  - `render_markdown` (method, line 140) `def render_markdown(self, records, title)`
+  - `_last_matches` (method, line 160) `def _last_matches(self, scope, planned, actual, reason)`
+  - `_read` (method, line 172) `def _read(self)`
+  - `_append` (method, line 201) `def _append(self, record)`
+  - `_trim` (method, line 216) `def _trim(self)`
+- Imported by: `cli/commands/lazyops.py`, `modules/chain_runner.py`, `modules/lazy_loop.py`, `tests/test_lazy_deviations.py`
+
+## modules/lazy_drafts.py
+- Doc: Injected objective drafts: close the lazy_drafts handoff loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_drafts_dir` (function, line 27) `def _drafts_dir()`
+  - `drain` (function, line 34) `def drain(engine)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `tests/test_loop_objective_wiring.py`
+
+## modules/lazy_engine.py
+- Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyEngine` (class, line 56) `class LazyEngine(LazyLoopEngine)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/autonomous_daemon.py`, `skills/mcp_tools/lazy_board.py`, `skills/mcp_tools/lazy_finding.py`, `skills/mcp_tools/lazy_hint.py`, `skills/mcp_tools/lazy_proxy.py`, `skills/mcp_tools/lazy_trace.py`, `skills/mcp_tools/loop_smoke.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_deterministic_first.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_lazymode_first.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_objective_wiring.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_technique_deterministic.py`, `tests/test_loop_termination.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_planner_initial_access.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+
 ## modules/lazy_exposure.py
 - Doc: Target exposure report for LazyOwn.
 - Layer: utility
@@ -118,14 +156,19 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Symbols:
   - `handoff_enabled` (function, line 52) `def handoff_enabled(payload)`
   - `_marker_path` (function, line 76) `def _marker_path(target, sessions_dir)`
-  - `_beacon_is_live` (function, line 90) `def _beacon_is_live(target, sessions_dir)`
-  - `already_handed_off` (function, line 120) `def already_handed_off(target, sessions_dir)`
-  - `maybe_beacon_handoff` (function, line 164) `def maybe_beacon_handoff(target, source, log, sessions_dir, wait_s, rounds, task_id)`
-  - `_handoff_worker` (function, line 260) `def _handoff_worker(target, source, log, sessions_dir, wait_s, rounds, task_id)`
-  - `_mark_status` (function, line 333) `def _mark_status(target, sessions_dir, status, client_id)`
-  - `_main` (function, line 365) `def _main()`
-  - `activity` (function, line 281) `def activity(kind, text)`
-- Depends on: `core/config.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_history.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/outcome_bus.py`
+  - `_resolve_task_id` (function, line 90) `def _resolve_task_id(task_id)`
+  - `_beacon_is_live` (function, line 128) `def _beacon_is_live(target, sessions_dir)`
+  - `already_handed_off` (function, line 167) `def already_handed_off(target, sessions_dir)`
+  - `_append_run_separator` (function, line 211) `def _append_run_separator(log_path, host, source, task_id)`
+  - `_log_skip_reason` (function, line 235) `def _log_skip_reason(host, sessions_dir, log)`
+  - `maybe_beacon_handoff` (function, line 263) `def maybe_beacon_handoff(target, source, log, sessions_dir, wait_s, rounds, task_id)`
+  - `_handoff_worker` (function, line 371) `def _handoff_worker(target, source, log, sessions_dir, wait_s, rounds, task_id)`
+  - `_mark_status` (function, line 454) `def _mark_status(target, sessions_dir, status, client_id)`
+  - `_main` (function, line 486) `def _main()`
+  - `_seq` (function, line 118) `def _seq(record)`
+  - `tlog` (function, line 392) `def tlog(line)`
+  - `activity` (function, line 400) `def activity(kind, text)`
+- Depends on: `core/config.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/outcome_bus.py`
 - Imported by: `modules/sinks/beacon_dispatch.py`
 
 ## modules/lazy_heat.py

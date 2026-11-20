@@ -3,6 +3,18 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `sentinel_toast_panel` | function | `cli/toast_bus.py:528` | `def sentinel_toast_panel(file_name, relevant_info, commands, details, severity)` |
+| `set` | method | `cli/toast_bus.py:155` | `def set(self, name, offset)` |
+| `shell_hint_bypass` | function | `cli/toast_bus.py:509` | `def shell_hint_bypass(console, message, severity)` |
+| `toastr_severity_style` | function | `cli/toast_bus.py:449` | `def toastr_severity_style(severity)` |
+| `toasts_enabled` | function | `cli/toast_bus.py:920` | `def toasts_enabled(payload, config)` |
+| `ConfirmModal` | class | `cli/tui_forms.py:247` | `class ConfirmModal` |
+| `FormModal` | class | `cli/tui_forms.py:63` | `class FormModal` |
+| `SearchSelectModal` | class | `cli/tui_forms.py:112` | `class SearchSelectModal` |
+| `TextEditorModal` | class | `cli/tui_forms.py:284` | `class TextEditorModal` |
+| `__init__` | method | `cli/tui_forms.py:68` | `def __init__(self, title, fields, defaults, save_label)` |
+| `__init__` | method | `cli/tui_forms.py:122` | `def __init__(self, title, options, placeholder, allow_custom)` |
+| `__init__` | method | `cli/tui_forms.py:256` | `def __init__(self, title, body)` |
 | `__init__` | method | `cli/tui_forms.py:298` | `def __init__(self, title, text, validator, language, save_label)` |
 | `_accept` | method | `cli/tui_forms.py:191` | `def _accept(self)` |
 | `_current_text` | method | `cli/tui_forms.py:323` | `def _current_text(self)` |
@@ -484,17 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `resolve_aes_key` | function | `core/config.py:268` | `def resolve_aes_key(config_dict)` |
 | `save_payload` | function | `core/config.py:440` | `def save_payload(payload, path)` |
 | `_emit` | function | `core/console.py:208` | `def _emit(line)` |
-| `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
-| `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
-| `colors_enabled` | function | `core/console.py:98` | `def colors_enabled()` |
-| `ensure_blocking_stdio` | function | `core/console.py:161` | `def ensure_blocking_stdio()` |
-| `format_line` | function | `core/console.py:121` | `def format_line(prefix, message, glyph)` |
-| `print_error` | function | `core/console.py:137` | `def print_error(error)` |
-| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
-| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
-| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
-| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
-| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
-| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

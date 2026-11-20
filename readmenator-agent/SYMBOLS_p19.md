@@ -3,6 +3,54 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_maybe_start_c2` | function | `modules/lazy_runner.py:593` | `def _maybe_start_c2(params)` |
+| `_overview` | function | `modules/lazy_runner.py:1089` | `def _overview(task_id)` |
+| `_poll_progress` | function | `modules/lazy_runner.py:1185` | `def _poll_progress(engine, config, progress, transcript, worker)` |
+| `_preflight_gate` | function | `modules/lazy_runner.py:1634` | `def _preflight_gate(engine, config, audit)` |
+| `_prepare_engine` | function | `modules/lazy_runner.py:464` | `def _prepare_engine(engine, shell, config, params)` |
+| `_print_handoff` | function | `modules/lazy_runner.py:897` | `def _print_handoff(handoff)` |
+| `_resolve_alias` | function | `modules/lazy_runner.py:384` | `def _resolve_alias(command)` |
+| `_run` | function | `modules/lazy_runner.py:1035` | `def _run()` |
+| `_run_plain` | function | `modules/lazy_runner.py:1303` | `def _run_plain(engine, config)` |
+| `_run_targets_file` | function | `modules/lazy_runner.py:1694` | `def _run_targets_file(shell, params, config)` |
+| `_run_with_progress` | function | `modules/lazy_runner.py:982` | `def _run_with_progress(engine, config)` |
+| `_stall_thresholds` | function | `modules/lazy_runner.py:1171` | `def _stall_thresholds(verb_timeout)` |
+| `_start_browser_sync` | function | `modules/lazy_runner.py:509` | `def _start_browser_sync(params)` |
+| `_start_proxy` | function | `modules/lazy_runner.py:484` | `def _start_proxy(engine, params)` |
+| `_terminal_stream` | function | `modules/lazy_runner.py:1281` | `def _terminal_stream()` |
+| `_to_float` | function | `modules/lazy_runner.py:182` | `def _to_float(raw, default)` |
+| `_to_int` | function | `modules/lazy_runner.py:174` | `def _to_int(raw, default)` |
+| `_tty_available` | function | `modules/lazy_runner.py:1681` | `def _tty_available()` |
+| `_work_one` | function | `modules/lazy_runner.py:1717` | `def _work_one(target)` |
+| `_write` | function | `modules/lazy_runner.py:1293` | `def _write(text)` |
+| `autonomous_exit_gate` | function | `modules/lazy_runner.py:760` | `def autonomous_exit_gate(result)` |
+| `bind_target_authority` | function | `modules/lazy_runner.py:1339` | `def bind_target_authority(shell, targets)` |
+| `build_executor` | function | `modules/lazy_runner.py:360` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image, audit)` |
+| `clamped` | method | `modules/lazy_runner.py:138` | `def clamped(self)` |
+| `encoding` | method | `modules/lazy_runner.py:96` | `def encoding(self)` |
+| `flush` | method | `modules/lazy_runner.py:88` | `def flush(self)` |
+| `isatty` | method | `modules/lazy_runner.py:100` | `def isatty(self)` |
+| `load_targets_file` | function | `modules/lazy_runner.py:1399` | `def load_targets_file(path)` |
+| `loop_exit_code` | function | `modules/lazy_runner.py:717` | `def loop_exit_code(result)` |
+| `parse_loop_line` | function | `modules/lazy_runner.py:190` | `def parse_loop_line(line)` |
+| `report_result` | function | `modules/lazy_runner.py:838` | `def report_result(result)` |
+| `resolve_loop_defaults` | function | `modules/lazy_runner.py:324` | `def resolve_loop_defaults(config)` |
+| `run_loop` | function | `modules/lazy_runner.py:1454` | `def run_loop(shell, params, config)` |
+| `run_loop_command` | function | `modules/lazy_runner.py:1755` | `def run_loop_command(shell, params, line, verb)` |
+| `stream` | function | `modules/lazy_runner.py:997` | `def stream(text)` |
+| `write` | method | `modules/lazy_runner.py:77` | `def write(self, data)` |
+| `write_loop_result` | function | `modules/lazy_runner.py:809` | `def write_loop_result(config, result)` |
+| `_payload_value` | function | `modules/lazy_sandbox.py:41` | `def _payload_value(key, default)` |
+| `_sandbox_executor` | function | `modules/lazy_sandbox.py:265` | `def _sandbox_executor(command)` |
+| `container_name` | function | `modules/lazy_sandbox.py:67` | `def container_name(task_id)` |
+| `container_running` | function | `modules/lazy_sandbox.py:94` | `def container_running(task_id)` |
+| `docker_available` | function | `modules/lazy_sandbox.py:73` | `def docker_available()` |
+| `ensure_container` | function | `modules/lazy_sandbox.py:112` | `def ensure_container(task_id, image)` |
+| `exec_command` | function | `modules/lazy_sandbox.py:180` | `def exec_command(task_id, command, timeout_sec, image)` |
+| `executor_for` | function | `modules/lazy_sandbox.py:251` | `def executor_for(task_id, image)` |
+| `image_available` | function | `modules/lazy_sandbox.py:78` | `def image_available(image)` |
+| `image_name` | function | `modules/lazy_sandbox.py:52` | `def image_name(configured)` |
+| `remove_container` | function | `modules/lazy_sandbox.py:214` | `def remove_container(task_id)` |
 | `status` | function | `modules/lazy_sandbox.py:223` | `def status(task_id)` |
 | `ScopeVerdict` | class | `modules/lazy_scope.py:50` | `class ScopeVerdict` |
 | `_ResolveCache` | class | `modules/lazy_scope.py:65` | `class _ResolveCache` |
@@ -448,53 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_label_for` | function | `modules/live_surface.py:64` | `def _label_for(node_id)` |
 | `_node_value` | function | `modules/live_surface.py:50` | `def _node_value(centrality)` |
 | `build_live_graph` | function | `modules/live_surface.py:72` | `def build_live_graph(world)` |
-| `_complete` | function | `modules/llm_adapter.py:89` | `def _complete(client, full_prompt, model)` |
-| `_configure_logging` | function | `modules/llm_adapter.py:72` | `def _configure_logging(debug)` |
-| `_orchestrated` | function | `modules/llm_adapter.py:124` | `def _orchestrated(full_prompt, prompt, store, primary_error)` |
-| `_process` | function | `modules/llm_adapter.py:103` | `def _process(client, prompt, debug, template, config)` |
-| `_read_error` | function | `modules/llm_adapter.py:85` | `def _read_error(prompt)` |
-| `_read_prompt_file` | function | `modules/llm_adapter.py:77` | `def _read_prompt_file(prompt)` |
-| `ask_general` | function | `modules/llm_adapter.py:290` | `def ask_general(prompt, debug)` |
-| `process_prompt` | function | `modules/llm_adapter.py:155` | `def process_prompt(client, prompt, debug)` |
-| `process_prompt_adversary` | function | `modules/llm_adapter.py:183` | `def process_prompt_adversary(client, prompt, debug)` |
-| `process_prompt_general` | function | `modules/llm_adapter.py:197` | `def process_prompt_general(client, prompt, debug)` |
-| `process_prompt_redop` | function | `modules/llm_adapter.py:273` | `def process_prompt_redop(client, prompt, debug)` |
-| `process_prompt_script` | function | `modules/llm_adapter.py:169` | `def process_prompt_script(client, prompt, debug)` |
-| `process_prompt_search` | function | `modules/llm_adapter.py:211` | `def process_prompt_search(client, prompt, debug)` |
-| `process_prompt_task` | function | `modules/llm_adapter.py:225` | `def process_prompt_task(client, prompt, debug)` |
-| `process_prompt_vuln` | function | `modules/llm_adapter.py:242` | `def process_prompt_vuln(client, prompt, debug, event)` |
-| `safe_groq_client` | function | `modules/llm_adapter.py:55` | `def safe_groq_client(api_key)` |
-| `LLMClient` | class | `modules/llm_client.py:45` | `class LLMClient` |
-| `__init__` | method | `modules/llm_client.py:63` | `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)` |
-| `_ask_groq` | method | `modules/llm_client.py:179` | `def _ask_groq(self, prompt, model, system, temperature)` |
-| `_ask_llamacpp` | method | `modules/llm_client.py:242` | `def _ask_llamacpp(self, prompt, model, system)` |
-| `_ask_ollama` | method | `modules/llm_client.py:220` | `def _ask_ollama(self, prompt, model)` |
-| `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
-| `ask` | function | `modules/llm_client.py:276` | `def ask(prompt)` |
-| `classify` | method | `modules/llm_client.py:130` | `def classify(self, output)` |
-| `classify` | function | `modules/llm_client.py:288` | `def classify(output)` |
-| `get_client` | function | `modules/llm_client.py:268` | `def get_client(api_key)` |
-| `summarize` | method | `modules/llm_client.py:159` | `def summarize(self, text)` |
-| `summarize` | function | `modules/llm_client.py:293` | `def summarize(text)` |
-| `DecisionRecord` | class | `modules/llm_evaluator.py:21` | `class DecisionRecord` |
-| `JSONLRecorder` | class | `modules/llm_evaluator.py:75` | `class JSONLRecorder(OutcomeRecorder)` |
-| `LLMEvaluator` | class | `modules/llm_evaluator.py:161` | `class LLMEvaluator` |
-| `OutcomeRecorder` | class | `modules/llm_evaluator.py:55` | `class OutcomeRecorder(ABC)` |
-| `QualityMetrics` | class | `modules/llm_evaluator.py:140` | `class QualityMetrics` |
-| `__init__` | method | `modules/llm_evaluator.py:76` | `def __init__(self, path)` |
-| `__init__` | method | `modules/llm_evaluator.py:162` | `def __init__(self, recorder)` |
-| `_cli` | function | `modules/llm_evaluator.py:322` | `def _cli()` |
-| `_new_id` | function | `modules/llm_evaluator.py:35` | `def _new_id()` |
-| `_record_from_dict` | function | `modules/llm_evaluator.py:39` | `def _record_from_dict(d)` |
-| `_safe_mean` | function | `modules/llm_evaluator.py:150` | `def _safe_mean(values)` |
-| `_tactic_success_rates` | function | `modules/llm_evaluator.py:154` | `def _tactic_success_rates(records)` |
-| `compute_metrics` | method | `modules/llm_evaluator.py:200` | `def compute_metrics(self, session_id)` |
-| `export_finetuning_dataset` | method | `modules/llm_evaluator.py:256` | `def export_finetuning_dataset(self, path)` |
-| `get_evaluator` | function | `modules/llm_evaluator.py:293` | `def get_evaluator()` |
-| `load_all` | method | `modules/llm_evaluator.py:69` | `def load_all(self)` |
-| `load_all` | method | `modules/llm_evaluator.py:120` | `def load_all(self)` |
-| `load_by_session` | method | `modules/llm_evaluator.py:72` | `def load_by_session(self, session_id)` |
-| `load_by_session` | method | `modules/llm_evaluator.py:135` | `def load_by_session(self, session_id)` |
-| `quality_report` | method | `modules/llm_evaluator.py:241` | `def quality_report(self, session_id)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

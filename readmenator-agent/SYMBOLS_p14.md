@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `CVEResult` | class | `modules/cve_matcher.py:51` | `class CVEResult` |
+| `__init__` | method | `modules/cve_matcher.py:70` | `def __init__(self, api_key, cache_dir)` |
+| `_cache_path` | method | `modules/cve_matcher.py:95` | `def _cache_path(self, params)` |
+| `_load_cache` | method | `modules/cve_matcher.py:100` | `def _load_cache(self, params)` |
+| `_query` | method | `modules/cve_matcher.py:128` | `def _query(self)` |
+| `_rate_limit` | method | `modules/cve_matcher.py:121` | `def _rate_limit(self)` |
+| `_save_cache` | method | `modules/cve_matcher.py:112` | `def _save_cache(self, params, results)` |
+| `get_matcher` | function | `modules/cve_matcher.py:198` | `def get_matcher()` |
+| `search` | method | `modules/cve_matcher.py:82` | `def search(self)` |
+| `search` | function | `modules/cve_matcher.py:206` | `def search(product, version, max_results)` |
+| `search_by_cpe` | method | `modules/cve_matcher.py:89` | `def search_by_cpe(self, cpe_name, max_results)` |
+| `ACEntry` | class | `modules/dacl_abuse.py:67` | `class ACEntry` |
+| `ACLTarget` | class | `modules/dacl_abuse.py:91` | `class ACLTarget` |
+| `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
+| `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
+| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
 | `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
 | `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
 | `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `subscriber_count` | method | `modules/event_bus.py:295` | `def subscriber_count(self)` |
 | `to_dict` | method | `modules/event_bus.py:96` | `def to_dict(self)` |
 | `to_json` | method | `modules/event_bus.py:111` | `def to_json(self)` |
-| `unsubscribe` | method | `modules/event_bus.py:327` | `def unsubscribe(self, subscriber_id)` |
-| `write` | method | `modules/event_bus.py:137` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
-| `AutoRecommender` | class | `modules/event_consumers.py:191` | `class AutoRecommender` |
-| `CredentialReactor` | class | `modules/event_consumers.py:262` | `class CredentialReactor` |
-| `DashboardPusher` | class | `modules/event_consumers.py:348` | `class DashboardPusher` |
-| `PhaseTracker` | class | `modules/event_consumers.py:136` | `class PhaseTracker` |
-| `SoulSync` | class | `modules/event_consumers.py:310` | `class SoulSync` |
-| `__call__` | method | `modules/event_consumers.py:149` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:197` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:272` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
-| `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
-| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
-| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

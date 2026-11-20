@@ -1,6 +1,26 @@
 # API (page 25 of 29)
 Previous: [API_p24.md](API_p24.md)
 
+## skills/mcp_tools/metrics_summary.py
+Depends on: `modules/metrics.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/metrics_summary.py:40` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_metrics_summary MCP tool.
+
+## skills/mcp_tools/misp_export.py
+Depends on: `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/misp_export.py:38` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_misp_export MCP tool.
+
+## skills/mcp_tools/next_objective.py
+Depends on: `skills/lazyown_objective.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/next_objective.py:29` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_next_objective MCP tool.
+
+## skills/mcp_tools/opencode_config.py
+Depends on: `scripts/lazy_opencode_config.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/opencode_config.py:38` `def handle(arguments, tool_name, ctx)` -- Patch opencode/hermes configs to the local llama.cpp server.
+
+## skills/mcp_tools/palette.py
+Depends on: `cli/palette.py`, `cli/palette_command.py`, `skills/mcp_tools/_context.py`
+- `handle` (function) `skills/mcp_tools/palette.py:41` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_palette MCP tool.
+
 ## skills/mcp_tools/parquet_annotate.py
 Depends on: `skills/lazyown_parquet_db.py`, `skills/mcp_tools/_context.py`
 - `handle` (function) `skills/mcp_tools/parquet_annotate.py:51` `def handle(arguments, tool_name, ctx)` -- Handle the lazyown_parquet_annotate MCP tool.

@@ -1,6 +1,6 @@
 # skills/mcp_tools
 
-skills/mcp_tools groups 214 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. ExploitGym CLI command set — real-world exploit benchmark harness.
+skills/mcp_tools groups 226 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Phase-scoped CommandSet modules.
 
 ```mermaid
 graph LR
@@ -11,21 +11,22 @@ graph LR
     tests["tests"]
     cli -- "calls into" --> modules
     modules -- "calls into" --> skills
+    skills -- "calls into" --> cli
     skills -- "calls into" --> modules
     skills -- "calls into" --> scripts
     skills -- "calls into" --> tests
-    tests -- "depends on" --> cli
+    tests -- "calls into" --> cli
     tests -- "calls into" --> modules
     tests -- "calls into" --> skills
 ```
 
 ## cli (1.1)
 
-cli groups 1 files (py) around ExploitGymCommandSet, do_exploitgym, _egym_status, _egym_setup, _egym_list. ExploitGym CLI command set — real-world exploit benchmark harness.
+cli groups 3 files (py) around GraphAdvisorConfig, GraphNode, to_summary, GraphEdge, to_summary. Phase-scoped CommandSet modules.
 
 ## modules (1.2)
 
-modules groups 22 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. Campaign scope coverage query for the autonomous loop.
+modules groups 25 files (py) around SigmaRule, DetectionAssessment, is_high_risk, is_critical_risk, IDetectionOracle. Campaign scope coverage query for the autonomous loop.
 
 ## scripts (1.3)
 
@@ -33,29 +34,34 @@ scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_
 
 ## skills (1.4)
 
-skills groups 166 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 170 files (py) around MCPContext, _try_import, _update_task_status, _credential_worth_task, _task_title_open. Autonomous Campaign Intelligence (ACI) Planner
 
 ## tests (1.5)
 
-tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
+tests groups 27 files (py) around _make_goal, _patched_paths, _start_patches, _stop_patches, _make_planner. tests/test_aci_planner.py
 
 **Files**:
 
+- cli/commands/__init__.py
 - cli/commands/exploitgym.py
+- cli/graph_advisor.py
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/cve_matcher.py
 - modules/detection_feed.py
 - modules/detection_oracle.py
+- modules/engage_summary.py
+- modules/enrich.py
 - modules/evasion_engine.py
 - modules/event_engine.py
+- modules/evidence.py
 - modules/exploitgym_gym.py
 - modules/golden_path.py
 - modules/lazyown_bridge.py
 - modules/llm_evaluator.py
+- modules/loop/objective_bootstrap.py
 - modules/loop/target_os.py
 - modules/mcp_agent_bridge.py
-- modules/metrics.py
 - modules/pipeline_engine.py
 - modules/playbook_executor.py
 - modules/reactive_engine.py
@@ -149,6 +155,10 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/fast_run.py
 - skills/mcp_tools/generate_report.py
 - skills/mcp_tools/get_beacons.py
+- skills/mcp_tools/graph_neighbors.py
+- skills/mcp_tools/graph_search.py
+- skills/mcp_tools/graph_suggest_next.py
+- skills/mcp_tools/graph_summary.py
 - skills/mcp_tools/groq_agent.py
 - skills/mcp_tools/harness_status.py
 - skills/mcp_tools/heartbeat_status.py
@@ -175,7 +185,6 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/mcp_tools/manage_permissions.py
 - skills/mcp_tools/memory_recall.py
 - skills/mcp_tools/memory_store.py
-- skills/mcp_tools/metrics_summary.py
 - skills/mcp_tools/misp_export.py
 - skills/mcp_tools/next_objective.py
 - skills/mcp_tools/opencode_config.py
@@ -230,6 +239,7 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - skills/tests/test_mcp_smoke.py
 - skills/tests/test_objectives.py
 - skills/tests/test_parquet_db.py
+- skills/unified_orchestrator.py
 - skills/update_knowledge.py
 - tests/test_aci_planner.py
 - tests/test_autonomous_replay.py
@@ -242,14 +252,17 @@ tests groups 24 files (py) around _make_goal, _patched_paths, _start_patches, _s
 - tests/test_detection_dampening.py
 - tests/test_detection_feed.py
 - tests/test_engage_orchestrator.py
+- tests/test_engage_summary.py
 - tests/test_exploitgym_gym.py
 - tests/test_golden_path.py
+- tests/test_graph_advisor.py
+- tests/test_improvements_spec.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py
 - tests/test_mcp_tools_registry.py
-- tests/test_metrics.py
 - tests/test_metrics_aware_selector.py
 - tests/test_moe_rl_swan.py
+- tests/test_objective_bootstrap.py
 - tests/test_pipeline_engine.py
 - tests/test_rea_mcp.py
 - tests/test_reactive_engine_semantic.py

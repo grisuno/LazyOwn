@@ -1,6 +1,39 @@
 # Subsystem: modules (page 2 of 19)
 Previous: [KB_modules.md](KB_modules.md)
 
+## modules/auto_loop_memory.py
+- Doc: Persistent memory for the auto loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PendingDecision` (class, line 45) `class PendingDecision`
+  - `FailureMemory` (class, line 53) `class FailureMemory`
+  - `DecisionPersistence` (class, line 212) `class DecisionPersistence`
+  - `__init__` (method, line 56) `def __init__(self, filepath)`
+  - `path` (method, line 63) `def path(self)`
+  - `make_key` (method, line 68) `def make_key(target, category, command)`
+  - `base_of` (method, line 75) `def base_of(command)`
+  - `record_failure` (method, line 79) `def record_failure(self, target, category, command)`
+  - `failure_count` (method, line 89) `def failure_count(self, target, category, command)`
+  - `count_for_base` (method, line 94) `def count_for_base(self, target, base_command)`
+  - `veto_base` (method, line 105) `def veto_base(self, target, base_command)`
+  - `is_blocked` (method, line 115) `def is_blocked(self, target, base_command, bonus_key)`
+  - `failure_count_strict` (method, line 123) `def failure_count_strict(self, target, key)`
+  - `blocked_bases` (method, line 128) `def blocked_bases(self, target)`
+  - `clear_target` (method, line 140) `def clear_target(self, target)`
+  - `sanctioned_bases` (method, line 146) `def sanctioned_bases(self, target)`
+  - `_trim` (method, line 159) `def _trim(self)`
+  - `save` (method, line 166) `def save(self)`
+  - `_load` (method, line 186) `def _load(self)`
+  - `__init__` (method, line 215) `def __init__(self, filepath)`
+  - `push` (method, line 220) `def push(self, command, reason)`
+  - `pop` (method, line 229) `def pop(self)`
+  - `peek` (method, line 237) `def peek(self)`
+  - `__len__` (method, line 241) `def __len__(self)`
+  - `save` (method, line 244) `def save(self)`
+  - `_load` (method, line 262) `def _load(self)`
+- Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
+
 ## modules/auto_pivot.py
 - Doc: Auto-Pivoting Engine for LazyOwn.
 - Layer: utility
@@ -131,7 +164,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_target` (function, line 1108) `def _target()`
   - `_kill` (function, line 1249) `def _kill()`
 - Depends on: `core/config.py`, `core/host_policy.py`, `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`, `modules/service_aliases.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_pwn_success.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_planner_initial_access.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/lazyops.py`, `modules/chain_loop.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop/worker_agentic.py`, `modules/loop/worker_execution.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/mcp_tools/lazy_addon.py`, `tests/test_atomic_loop.py`, `tests/test_auto_pwn_success.py`, `tests/test_auto_registry.py`, `tests/test_chain_loop.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_idempotent_retest.py`, `tests/test_planner_initial_access.py`, `tests/test_playbook_chain.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -243,7 +276,7 @@ Previous: [KB_modules.md](KB_modules.md)
   - `sessions_dir` (method, line 41) `def sessions_dir(self)`
   - `records_path` (method, line 45) `def records_path(self, client_id)`
 - Depends on: `core/logging.py`, `modules/security_sanitizers.py`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `modules/lazy_handoff.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_bof_delivery.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `modules/beacon_loop.py`, `modules/bof_delivery.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_bof_delivery.py`, `tests/test_security_lazyc2.py`
 
 ## modules/beacon_kinds.py
 - Doc: Beacon kind classification — one home for implant family logic.
@@ -374,26 +407,27 @@ Previous: [KB_modules.md](KB_modules.md)
   - `delivery_command` (function, line 908) `def delivery_command(bof_name, c2_url, args, bofs_dir)`
   - `_c2_channel_base` (function, line 934) `def _c2_channel_base(cfg, payload)`
   - `queue_to_beacon` (function, line 956) `def queue_to_beacon(client_id, command, config, payload)`
-  - `recent_beacons` (function, line 1019) `def recent_beacons(config, payload)`
-  - `_beacons_from_history` (function, line 1059) `def _beacons_from_history(config)`
-  - `beacon_for_target` (function, line 1085) `def beacon_for_target(target, config, payload)`
-  - `wait_for_beacon` (function, line 1123) `def wait_for_beacon(client_id, since, timeout, config, payload, command)`
-  - `_record_after` (function, line 1181) `def _record_after(row, since)`
-  - `c2_reachable` (function, line 1205) `def c2_reachable(config, payload)`
-  - `run_bof` (function, line 1240) `def run_bof(bof_name, client_id, args)`
-  - `run_bof_train` (function, line 1279) `def run_bof_train(client_id, names, args)`
-  - `_deploy_paths` (function, line 1316) `def _deploy_paths(addon)`
-  - `deploy_client` (function, line 1345) `def deploy_client(client, target)`
-  - `_DockerSession` (class, line 1474) `class _DockerSession`
-  - `_docker_session_for` (function, line 1528) `def _docker_session_for(target)`
-  - `_atomic_session` (function, line 1575) `def _atomic_session(target)`
-  - `_shell_bearing_specs` (function, line 1625) `def _shell_bearing_specs(target)`
-  - `config_sessions_dir` (function, line 1657) `def config_sessions_dir()`
-  - `_history_config` (function, line 1662) `def _history_config(config)`
-  - `bof_results` (function, line 1678) `def bof_results(client_id, limit, config)`
-  - `__init__` (method, line 1482) `def __init__(self, container)`
-  - `alive` (method, line 1486) `def alive(self, timeout)`
-  - `run` (method, line 1506) `def run(self, command, timeout)`
+  - `recent_beacons` (function, line 1019) `def recent_beacons(config, payload, live_only)`
+  - `beacon_last_seen` (function, line 1067) `def beacon_last_seen(client_id, config, payload)`
+  - `_beacons_from_history` (function, line 1115) `def _beacons_from_history(config)`
+  - `beacon_for_target` (function, line 1141) `def beacon_for_target(target, config, payload)`
+  - `wait_for_beacon` (function, line 1179) `def wait_for_beacon(client_id, since, timeout, config, payload, command)`
+  - `_record_after` (function, line 1237) `def _record_after(row, since)`
+  - `c2_reachable` (function, line 1261) `def c2_reachable(config, payload)`
+  - `run_bof` (function, line 1296) `def run_bof(bof_name, client_id, args)`
+  - `run_bof_train` (function, line 1335) `def run_bof_train(client_id, names, args)`
+  - `_deploy_paths` (function, line 1372) `def _deploy_paths(addon)`
+  - `deploy_client` (function, line 1401) `def deploy_client(client, target)`
+  - `_DockerSession` (class, line 1530) `class _DockerSession`
+  - `_docker_session_for` (function, line 1584) `def _docker_session_for(target)`
+  - `_atomic_session` (function, line 1631) `def _atomic_session(target)`
+  - `_shell_bearing_specs` (function, line 1681) `def _shell_bearing_specs(target)`
+  - `config_sessions_dir` (function, line 1713) `def config_sessions_dir()`
+  - `_history_config` (function, line 1718) `def _history_config(config)`
+  - `bof_results` (function, line 1734) `def bof_results(client_id, limit, config)`
+  - `__init__` (method, line 1538) `def __init__(self, container)`
+  - `alive` (method, line 1542) `def alive(self, timeout)`
+  - `run` (method, line 1562) `def run(self, command, timeout)`
 - Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`
 - Imported by: `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2.py`, `modules/atomic_cli.py`, `modules/lazy_handoff.py`, `tests/test_atomic_headless.py`, `tests/test_atomic_loop.py`, `tests/test_bof_delivery.py`, `tests/test_bof_repo_contract.py`, `tests/test_bsb_fileless_compat.py`
 

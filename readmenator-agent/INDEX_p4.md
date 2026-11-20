@@ -3,18 +3,40 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_llm_adapter_parity.py` | Parity contract tests for the self-contained Groq adapter family. | tests | 42 | 0 |
+| `tests/test_llm_budget.py` | Contract tests for the LLM budget cap. | tests | 27 | 0 |
+| `tests/test_llm_contract.py` | LLM subsystem contract tests. | tests | 23 | 0 |
+| `tests/test_llm_key_pool.py` | LLM key-pool BDD contract: round-robin rotation and quota cooldown. | tests | 9 | 0 |
+| `tests/test_llm_legacy_isolation.py` | Watchdog: core must not depend on the retired legacy Groq LLM scripts. | tests | 4 | 0 |
+| `tests/test_llm_orchestrator.py` | SDD spec and BDD scenarios for the orchestrator-governed LLM failover chain. | tests | 89 | 0 |
+| `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
+| `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
+| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 35 | 0 |
+| `tests/test_loop_audit.py` | Loop audit trail: timeline events, step context and rendering. | tests | 12 | 0 |
+| `tests/test_loop_audit_feedback.py` | Traceability feeds the process: repeatedly gate-blocked verbs become vetoes. | tests | 6 | 0 |
+| `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
+| `tests/test_loop_boundary.py` | Tests for modules.loop.boundary. | tests | 8 | 0 |
+| `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
+| `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
+| `tests/test_loop_citation_judge.py` | Citation-first retest and fenced judge prompt integration. | tests | 13 | 0 |
 | `tests/test_loop_cli_catalog.py` | BDD tests for planner prompt visibility into routable CLI verbs. | tests | 7 | 0 |
 | `tests/test_loop_cold_overview.py` | Cold debounce + planner overview parity (lazy 0.3.8 coldgraph). | tests | 6 | 0 |
 | `tests/test_loop_decision_log.py` | Tests for the reproducible loop decision ledger and planner determinism. | tests | 24 | 0 |
+| `tests/test_loop_deterministic_first.py` | Deterministic-first, LLM-last for exploitation intents (lever #5). | tests | 6 | 0 |
 | `tests/test_loop_deterministic_mode.py` | Tests for the reproducible loop mode that prefers heuristic steps. | tests | 18 | 0 |
+| `tests/test_loop_evidence.py` | Tests for modules.loop.evidence. | tests | 18 | 0 |
 | `tests/test_loop_evidence_wiring.py` | BDD tests for the loop evidence loop-closure wiring. | tests | 19 | 0 |
 | `tests/test_loop_exit_gate.py` | Honest loop endings: exit-code mapping, autonomous gate and headless runner. | tests | 16 | 0 |
 | `tests/test_loop_fire_pending.py` | Vertical test: fire-pending intelligence drives a real auto_loop round. | tests | 14 | 0 |
 | `tests/test_loop_force_graph.py` | Loop ForceGraph context regression tests (lazy 0.3.12 fidelity). | tests | 4 | 0 |
 | `tests/test_loop_guard_audit.py` | Guard audit filters + tool_use_id source jump (lazy 0.3.11/0.3.12 parity). | tests | 4 | 0 |
 | `tests/test_loop_guardrails.py` | Loop guardrails: repetition detection, EDR pacing, target caps, vector fact memory. | tests | 18 | 0 |
+| `tests/test_loop_idempotent_retest.py` | Idempotent retest + effect lock: exploitation verbs are verified, not replayed. | tests | 12 | 0 |
+| `tests/test_loop_intel_projection.py` | graph_state projects known assets, auto-findings carry class/CVE (bugs 2.4, 2.6). | tests | 24 | 0 |
 | `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
 | `tests/test_loop_lazymode_first.py` | Code-mode (lazymode) is the worker's first option. | tests | 9 | 0 |
+| `tests/test_loop_leases.py` | Tests for modules.loop.leases. | tests | 13 | 0 |
+| `tests/test_loop_leases_integration.py` | Integration tests: exploration graph claims ride on SQLite leases. | tests | 8 | 0 |
 | `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 19 | 0 |
 | `tests/test_loop_manager.py` | Tests for modules.loop_manager — safe autonomous loop orchestration. | tests | 51 | 0 |
 | `tests/test_loop_manager_outcome.py` | Loop manager outcome propagation: workspace result.json drives status. | tests | 15 | 0 |
@@ -22,15 +44,21 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_loop_multi_target.py` | Multi-target loop entry: scope-file parsing, validation and caps. | tests | 6 | 0 |
 | `tests/test_loop_nmap_guard.py` | Loop guardrails: command repair and bounded scanning retests. | tests | 8 | 0 |
 | `tests/test_loop_objective_wiring.py` | Loop wiring fidelity: objective queue and Hermes draft consumption. | tests | 12 | 0 |
+| `tests/test_loop_planner_bridge.py` | Tests for the technique-planner to intent-frontier bridge. | tests | 9 | 0 |
+| `tests/test_loop_post_signal.py` | Post-tool signal is observational, not enforcement (bug 2.3). | tests | 4 | 0 |
 | `tests/test_loop_preflight.py` | Target preflight for loops and auto_pwn: lab state and TCP reachability. | tests | 10 | 0 |
 | `tests/test_loop_progress.py` | Loop milestone panel: inferred stage states stay honest. | tests | 11 | 0 |
+| `tests/test_loop_scan_banner_guard.py` | The scanner-banner guard: a scan that echoes a backdoor's shell prompt in its fingerprint must... | tests | 11 | 0 |
 | `tests/test_loop_scope_traffic_evidence.py` | Scope ownership, port-aware traffic search, role-based evidences (lazy parity). | tests | 7 | 0 |
 | `tests/test_loop_spawn_side.py` | Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9). | tests | 4 | 0 |
 | `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
 | `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
 | `tests/test_loop_target_authority.py` | Target authority: --target rebinds payload rhost and scope. | tests | 13 | 0 |
 | `tests/test_loop_technique_deterministic.py` | Technique intents resolve deterministically, not via the model. | tests | 8 | 0 |
+| `tests/test_loop_termination.py` | Termination mode tests: save_tokens wraps up cleanly, try_hard degrades only. | tests | 6 | 0 |
+| `tests/test_loop_tokens.py` | Tests for modules.loop.tokens and the llm_pool usage sink. | tests | 15 | 0 |
 | `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
+| `tests/test_loop_verb_capabilities.py` | Verb capability metadata downgrades privileged verbs unattended (bug 2.5).  lazynmap needs root... | tests | 7 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
 | `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one runner, no dual engines. | tests | 13 | 0 |
@@ -60,6 +88,7 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tests/test_opsec_scorer.py` | Tests for modules/opsec_scorer.py | tests | 13 | 0 |
 | `tests/test_opsec_scorer_consolidated.py` | Consolidated OPSEC scorer contract tests (SDD/TDD/BDD). | tests | 22 | 0 |
 | `tests/test_orchestrator_api.py` | Integration tests for the orchestrator REST API (``/api/v1/orchestrator``). | tests | 12 | 0 |
+| `tests/test_orchestrator_loop_substrate.py` | Tests for orchestrator termination/leases/boundary/evidence sections. | tests | 12 | 0 |
 | `tests/test_orchestrator_pacing.py` | Pacing tab: jitter and sleeper controls round-trip through set_pacing. | tests | 12 | 0 |
 | `tests/test_orchestrator_triggers.py` | BDD tests for the orchestrator Triggers tab. | tests | 6 | 0 |
 | `tests/test_orchestrator_yaml.py` | Orchestrator YAML BDD contract: profiles, stages, limits and CLI wiring. | tests | 13 | 0 |
@@ -194,5 +223,5 @@ Previous: [INDEX_p3.md](INDEX_p3.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 127 | 119 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 127 | 120 |
 

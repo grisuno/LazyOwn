@@ -1,4 +1,4 @@
-# Subsystem: tests (page 7 of 27)
+# Subsystem: tests (page 7 of 28)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
 ## tests/test_cli_command_sets.py

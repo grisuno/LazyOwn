@@ -1,6 +1,83 @@
 # API (page 19 of 29)
 Previous: [API_p18.md](API_p18.md)
 
+## modules/playbook_admin.py
+Imported by: `cli/orchestrator_assets_tabs.py`, `modules/lazymode_playbook.py`, `tests/test_lazymode_playbook.py`, `tests/test_playbook_admin.py`, `tests/test_playbook_chain.py`
+- `slugify` (function) `modules/playbook_admin.py:72` `def slugify(value)` -- Return a safe playbook filename stem.
+- `playbook_path` (function) `modules/playbook_admin.py:85` `def playbook_path(filename, directory)` -- Resolve one playbook file inside the playbooks root.
+- `load_playbook` (function) `modules/playbook_admin.py:112` `def load_playbook(path)` -- Read one playbook YAML mapping.
+- `playbook_kind` (function) `modules/playbook_admin.py:133` `def playbook_kind(data)` -- Return ``apt``, ``plan``, ``mixed`` or ``unknown`` for one mapping.
+- `validate_playbook` (function) `modules/playbook_admin.py:146` `def validate_playbook(data)` -- Validate the minimal shape shared by both playbook formats.
+- `summarize` (function) `modules/playbook_admin.py:236` `def summarize(path)` -- Build the admin-table row for one file without raising.
+- `scan_playbooks` (function) `modules/playbook_admin.py:270` `def scan_playbooks(directory)` -- Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
+- `preview_playbook` (function) `modules/playbook_admin.py:290` `def preview_playbook(path, limit)` -- Return a bounded, sanitized text preview for the detail pane.
+- `playbook_template` (function) `modules/playbook_admin.py:304` `def playbook_template(name, description, platforms)` -- Return a minimal APT playbook mapping ready for ``yaml.safe_dump``.
+- `create_playbook` (function) `modules/playbook_admin.py:336` `def create_playbook(filename)` -- Create one APT playbook file.
+- `update_playbook` (function) `modules/playbook_admin.py:389` `def update_playbook(path, data, directory)` -- Validate and atomically rewrite one playbook.
+- `save_playbook_yaml` (function) `modules/playbook_admin.py:416` `def save_playbook_yaml(path, text, directory)` -- Parse, validate and write a raw YAML document.
+- `delete_playbook` (function) `modules/playbook_admin.py:445` `def delete_playbook(path, directory)` -- Delete one playbook confined to the playbooks root.
+
+## modules/playbook_chain.py
+Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`
+Imported by: `cli/apt_chain_support.py`, `tests/test_playbook_chain.py`
+- `slugify` (function) `modules/playbook_chain.py:29` `def slugify(name)` -- Return a chain-safe slug for a playbook name.
+- `playbook_to_chain` (function) `modules/playbook_chain.py:69` `def playbook_to_chain(playbook, target, playbook_dir)` -- Lower one playbook into a validated in-memory chain.
+- `write_playbook_chain` (function) `modules/playbook_chain.py:152` `def write_playbook_chain(chain, chains_dir)` -- Persist a lowered chain next to the shipped ones.
+
+## modules/playbook_engine.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/mcp_tools/playbook_generate.py`, `skills/mcp_tools/playbook_run.py`, `tests/test_core_modules.py`, `tests/test_selection_technique.py`
+- `PlaybookStep.to_dict` (method) `modules/playbook_engine.py:113` `def to_dict(self)`
+- `PlaybookStep.from_dict` (method) `modules/playbook_engine.py:128` `def from_dict(cls, d)`
+- `Playbook.to_dict` (method) `modules/playbook_engine.py:141` `def to_dict(self)`
+- `Playbook.from_dict` (method) `modules/playbook_engine.py:152` `def from_dict(cls, d)`
+- `_StixLoader.__init__` (method) `modules/playbook_engine.py:188` `def __init__(self, json_path)`
+- `_StixLoader.available` (method) `modules/playbook_engine.py:192` `def available(self)`
+- `_StixLoader.store` (method) `modules/playbook_engine.py:195` `def store(self)`
+- `_StixLoader.techniques_for_tactics` (method) `modules/playbook_engine.py:210` `def techniques_for_tactics(self, tactic_shortnames, platform)` -- Return ATT&CK techniques matching the given tactic shortnames.
+- `_AtomicIndex.__init__` (method) `modules/playbook_engine.py:260` `def __init__(self, atomics_path)`
+- `_AtomicIndex.available` (method) `modules/playbook_engine.py:264` `def available(self)`
+- `_AtomicIndex.build` (method) `modules/playbook_engine.py:267` `def build(self)`
+- `_AtomicIndex.tests_for_technique` (method) `modules/playbook_engine.py:300` `def tests_for_technique(self, technique_id, platform)`
+- `_TechniqueSelector.select` (method) `modules/playbook_engine.py:317` `def select(self, candidates, world_context, target, phase, api_key, top_n)`
+- `PlaybookEngine.__init__` (method) `modules/playbook_engine.py:387` `def __init__(self, world_model, obs_parser, api_key, top_n)`
+- `PlaybookEngine.derive` (method) `modules/playbook_engine.py:427` `def derive(self, target, phase, platform, apt_name)` -- Generate a Playbook for *target* at the given *phase*.
+- `PlaybookEngine.execute` (method) `modules/playbook_engine.py:529` `def execute(self, playbook, executor, dry_run)` -- Execute a Playbook step by step.
+- `PlaybookEngine.save` (method) `modules/playbook_engine.py:599` `def save(self, playbook, path)` -- Persist playbook to YAML (compatible with existing playbooks/ format).
+- `PlaybookEngine.load` (method) `modules/playbook_engine.py:611` `def load(self, path)` -- Load a playbook from YAML.
+- `PlaybookEngine.result_summary` (method) `modules/playbook_engine.py:640` `def result_summary(self, result)` -- Return a human-readable / LLM-readable summary of a PlaybookResult.
+- `get_engine` (function) `modules/playbook_engine.py:669` `def get_engine(api_key)` -- Return (or create) the module-level singleton PlaybookEngine.
+- `phase_techniques` (function) `modules/playbook_engine.py:696` `def phase_techniques(phase, platform, top_n)` -- Return candidate ATT&CK techniques for one canonical loop phase.
+
+## modules/playbook_executor.py
+Depends on: `modules/pipeline_engine.py`
+- `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
+- `ITTPMapper.resolve` (method) `modules/playbook_executor.py:97` `def resolve(self, technique_id, atomic_test, platform)` -- Return a LazyOwn shell command string or None if unmapped.
+- `DefaultTTPMapper.register` (method) `modules/playbook_executor.py:180` `def register(cls, technique_id, platform, command)` -- Add a new technique-to-command mapping.
+- `DefaultTTPMapper.resolve` (method) `modules/playbook_executor.py:185` `def resolve(self, technique_id, atomic_test, platform)`
+- `PlaybookLoader.__init__` (method) `modules/playbook_executor.py:208` `def __init__(self, playbooks_dir)`
+- `PlaybookLoader.list` (method) `modules/playbook_executor.py:211` `def list(self)` -- Return every discoverable playbook name.
+- `PlaybookLoader.load` (method) `modules/playbook_executor.py:224` `def load(self, name)` -- Load and validate a playbook by name.
+- `PlaybookEngine.__init__` (method) `modules/playbook_executor.py:339` `def __init__(self, loader, mapper, pipelines_dir)`
+- `PlaybookEngine.loader` (method) `modules/playbook_executor.py:350` `def loader(self)`
+- `PlaybookEngine.analyze` (method) `modules/playbook_executor.py:353` `def analyze(self, name, platform)` -- Analyze a playbook: count techniques, automated vs manual, coverage.
+- `PlaybookEngine.generate_pipeline` (method) `modules/playbook_executor.py:378` `def generate_pipeline(self, name, platform)` -- Generate a pipeline YAML file from a playbook.
+- `PlaybookEngine.run` (method) `modules/playbook_executor.py:390` `def run(self, name, platform, target, onecmd)` -- Generate and execute a pipeline from a playbook.
+- `playbook_list` (function) `modules/playbook_executor.py:416` `def playbook_list()` -- Return a JSON array of available playbooks.
+- `playbook_analyze` (function) `modules/playbook_executor.py:422` `def playbook_analyze(name, platform)` -- Return a JSON summary of one playbook.
+- `playbook_generate` (function) `modules/playbook_executor.py:429` `def playbook_generate(name, platform)` -- Generate a runnable pipeline from a playbook.
+- `playbook_run` (function) `modules/playbook_executor.py:436` `def playbook_run(name, platform, target, onecmd)` -- Analyze, generate, and execute a playbook.
+
+## modules/poc_registry.py
+- `PocVerb.to_dict` (method) `modules/poc_registry.py:129` `def to_dict(self)` -- Return a JSON-serialisable summary for the orchestrator surfaces.
+- `poc_verbs` (function) `modules/poc_registry.py:283` `def poc_verbs(catalog_path)` -- Return the catalogued PoC verbs (cached, fail-safe).
+- `get_poc` (function) `modules/poc_registry.py:312` `def get_poc(name, catalog_path)` -- Return one PoC verb by name, or None when unknown/disabled-less.
+- `interpreter_argv` (function) `modules/poc_registry.py:325` `def interpreter_argv(verb)` -- Return the ``argv`` prefix that launches the PoC script.
+- `render_argv` (function) `modules/poc_registry.py:337` `def render_argv(verb, params, target, overrides)` -- Expand one PoC verb into a safe ``argv`` list.
+- `missing_requirements` (function) `modules/poc_registry.py:392` `def missing_requirements(verb)` -- Return the PoC's required binaries that are absent on this host.
+- `propose_intents` (function) `modules/poc_registry.py:409` `def propose_intents(service_texts, target, limit, catalog_path)` -- Propose ``lazy_poc run`` intent lines for matching service tokens.
+- `verbs_summary` (function) `modules/poc_registry.py:449` `def verbs_summary(catalog_path)` -- Return every PoC verb as a dict for TUI and MCP surfaces.
+
 ## modules/polymorphic_engine.py
 Imported by: `cli/commands/payload_arsenal.py`
 - `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
@@ -417,70 +494,6 @@ Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/se
 Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
 - `PlaybookSelector.__init__` (method) `modules/selection/playbook.py:79` `def __init__(self, playbook_dir)` -- Bind the playbook directory for summary loading.
 - `PlaybookSelector.propose` (method) `modules/selection/playbook.py:128` `def propose(self, ctx)` -- Return an actor-emulation action when the goal names one, else None.
-
-## modules/selection/poc.py
-Depends on: `modules/__init__.py`, `modules/selection/base.py`
-Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_poc_registry.py`
-- `PoCSelector.propose` (method) `modules/selection/poc.py:25` `def propose(self, ctx)` -- Return a PoC action for the context, or None when nothing fits.
-
-## modules/selection/registry.py
-Depends on: `core/logging.py`, `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/bridge.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/parquet.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`
-Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_chain_match_determinism.py`, `tests/test_chain_selector.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
-- `all_selectors` (function) `modules/selection/registry.py:35` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
-- `default_selectors` (function) `modules/selection/registry.py:83` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
-- `propose_next` (function) `modules/selection/registry.py:98` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
-
-## modules/selection/technique.py
-Depends on: `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
-Imported by: `modules/selection/registry.py`, `tests/test_selection_technique.py`
-- `TechniqueSelector.propose` (method) `modules/selection/technique.py:23` `def propose(self, ctx)` -- Return a technique emulation action, or None when not applicable.
-
-## modules/selection/technique_chain.py
-Depends on: `modules/chain_registry.py`, `modules/chain_synth.py`, `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
-Imported by: `modules/selection/registry.py`, `tests/test_selection_technique_chain.py`
-- `TechniqueChainSelector.propose` (method) `modules/selection/technique_chain.py:53` `def propose(self, ctx)` -- Return a technique-chain action, or None when fewer than two fit.
-
-## modules/selector_manager.py
-Imported by: `tests/test_auto_loop_memory.py`
-- `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
-
-## modules/selfupdate.py
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
-- `Updater.__init__` (method) `modules/selfupdate.py:47` `def __init__(self, live_path)` -- Bind the updater to the binary that may be replaced.
-- `Updater.verify` (method) `modules/selfupdate.py:52` `def verify(self, artifact)` -- Return True when the payload matches its recorded digest.
-- `Updater.stage` (method) `modules/selfupdate.py:57` `def stage(self, artifact, directory)` -- Write a verified payload into ``directory``.
-- `Updater.rollback` (method) `modules/selfupdate.py:77` `def rollback(self)` -- Restore the ``<name>.old`` snapshot over the live binary.
-- `current_branch` (function) `modules/selfupdate.py:96` `def current_branch(runner)` -- Return the checked-out branch name (empty on failure).
-- `dirty` (function) `modules/selfupdate.py:102` `def dirty(runner)` -- Return True when the working tree has uncommitted changes.
-- `check` (function) `modules/selfupdate.py:108` `def check(branch, runner)` -- Fetch the branch and report ahead/behind counts.
-- `apply` (function) `modules/selfupdate.py:140` `def apply(branch, confirm, runner)` -- Fast-forward the tree to origin/<branch> when safe.
-
-## modules/session_cleanup.py
-Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
-- `find_cloudflared_pids` (function) `modules/session_cleanup.py:28` `def find_cloudflared_pids(ps_output)` -- Extract PIDs of ``cloudflared tunnel`` processes from ps output.
-- `stop_cloudflared_processes` (function) `modules/session_cleanup.py:94` `def stop_cloudflared_processes()` -- Terminate stray ``cloudflared tunnel`` host processes.
-- `cleanup_ephemeral_infra` (function) `modules/session_cleanup.py:120` `def cleanup_ephemeral_infra()` -- Stop all disposable infrastructure owned by this checkout.
-
-## modules/session_rag.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/rag_index.py`, `skills/mcp_tools/rag_query.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
-- `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
-- `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
-- `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
-- `_KeywordFallback.add` (method) `modules/session_rag.py:136` `def add(self, doc_id, text, meta)`
-- `_KeywordFallback.query` (method) `modules/session_rag.py:146` `def query(self, query_text, n)`
-- `_KeywordFallback.count` (method) `modules/session_rag.py:156` `def count(self)`
-- `_KeywordFallback.reset` (method) `modules/session_rag.py:159` `def reset(self)`
-- `_RagState.load` (method) `modules/session_rag.py:172` `def load(cls)`
-- `_RagState.save` (method) `modules/session_rag.py:181` `def save(self)`
-- `SessionRAG.__init__` (method) `modules/session_rag.py:191` `def __init__(self)`
-- `SessionRAG.index_new` (method) `modules/session_rag.py:301` `def index_new(self)` -- Incrementally index only new or changed files.
-- `SessionRAG.index_parquet_sources` (method) `modules/session_rag.py:322` `def index_parquet_sources(self, force)` -- Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index) into the RAG store.
-- `SessionRAG.index_all` (method) `modules/session_rag.py:411` `def index_all(self)` -- Full re-index from scratch.
-- `SessionRAG.query` (method) `modules/session_rag.py:439` `def query(self, query_text, n, collection)` -- Return top-n relevant chunks as dicts with keys: text, source, chunk, score.
-- `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
-- `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
-- `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
 
 
 Next: [API_p20.md](API_p20.md)

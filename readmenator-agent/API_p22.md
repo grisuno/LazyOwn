@@ -1,6 +1,76 @@
 # API (page 22 of 29)
 Previous: [API_p21.md](API_p21.md)
 
+## scripts/devtools/command_audit.py
+Depends on: `lazyown.py`
+- `argparser_commands` (function) `scripts/devtools/command_audit.py:40` `def argparser_commands(config)` -- Return the command names decorated with ``@with_argparser``.
+- `audit` (function) `scripts/devtools/command_audit.py:65` `def audit(config)` -- Run the dispatch and parser audit.
+- `main` (function) `scripts/devtools/command_audit.py:105` `def main(argv)` -- Run the audit and return the process exit code.
+
+## scripts/devtools/core_smoke.py
+Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `modules/killchain.py`, `modules/payload_factory.py`
+- `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
+- `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
+- `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
+
+## scripts/dirtyinit_drive.sh
+- `log` (function) `scripts/dirtyinit_drive.sh:65`
+- `warn` (function) `scripts/dirtyinit_drive.sh:66`
+- `die` (function) `scripts/dirtyinit_drive.sh:67`
+- `payload_value` (function) `scripts/dirtyinit_drive.sh:69`
+- `parse_flags` (function) `scripts/dirtyinit_drive.sh:89`
+- `require_adb` (function) `scripts/dirtyinit_drive.sh:130`
+- `require_device` (function) `scripts/dirtyinit_drive.sh:134`
+- `find_sdk` (function) `scripts/dirtyinit_drive.sh:141`
+- `find_ndk` (function) `scripts/dirtyinit_drive.sh:152`
+- `find_build_tools` (function) `scripts/dirtyinit_drive.sh:166`
+- `find_android_jar` (function) `scripts/dirtyinit_drive.sh:173`
+- `find_ndk_clang` (function) `scripts/dirtyinit_drive.sh:185`
+- `find_java_tool` (function) `scripts/dirtyinit_drive.sh:201`
+- `pack_apk` (function) `scripts/dirtyinit_drive.sh:211`
+- `compile_activity` (function) `scripts/dirtyinit_drive.sh:255`
+- `do_build` (function) `scripts/dirtyinit_drive.sh:265`
+- `do_install` (function) `scripts/dirtyinit_drive.sh:329`
+- `do_launch` (function) `scripts/dirtyinit_drive.sh:340`
+- `tap_button` (function) `scripts/dirtyinit_drive.sh:348`
+- `do_auto` (function) `scripts/dirtyinit_drive.sh:382`
+- `do_extract` (function) `scripts/dirtyinit_drive.sh:393`
+- `do_stage` (function) `scripts/dirtyinit_drive.sh:402`
+- `do_run` (function) `scripts/dirtyinit_drive.sh:412`
+- `do_logs` (function) `scripts/dirtyinit_drive.sh:418`
+- `do_status` (function) `scripts/dirtyinit_drive.sh:423`
+- `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
+- `do_help` (function) `scripts/dirtyinit_drive.sh:525`
+- `main` (function) `scripts/dirtyinit_drive.sh:529`
+
+## scripts/generate_sbom.py
+- `parse_requirement` (function) `scripts/generate_sbom.py:25` `def parse_requirement(line)` -- Split one requirements line into (name, pinned_version|None).
+- `collect_components` (function) `scripts/generate_sbom.py:37` `def collect_components(with_ml)` -- Parse requirements files into CycloneDX components, deduplicated.
+- `project_version` (function) `scripts/generate_sbom.py:68` `def project_version()` -- Read the package version from pyproject.toml.
+- `build_sbom` (function) `scripts/generate_sbom.py:74` `def build_sbom(with_ml)` -- Assemble the CycloneDX document.
+- `main` (function) `scripts/generate_sbom.py:92` `def main()` -- CLI entry point.
+
+## scripts/journal.py
+Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
+- `JournalConfig.from_git_remote` (method) `scripts/journal.py:71` `def from_git_remote(cls, remote, category)` -- Build a config from the ``origin`` remote of the current checkout.
+- `Journal.repo_id` (method) `scripts/journal.py:184` `def repo_id(self)` -- The GraphQL node id of the repository.
+- `Journal.category_id` (method) `scripts/journal.py:192` `def category_id(self)` -- The GraphQL node id of the journal category.
+- `Journal.post` (method) `scripts/journal.py:206` `def post(self, title, body)` -- Create a journal entry and return its number, url, and title.
+- `Journal.entries` (method) `scripts/journal.py:223` `def entries(self, limit)` -- Return the most recently updated journal entries.
+- `main` (function) `scripts/journal.py:264` `def main(argv)` -- Run the journal CLI and return the process exit code.
+
+## scripts/lazy_llamacpp_serve.sh
+- `healthy` (function) `scripts/lazy_llamacpp_serve.sh:33`
+
+## scripts/lazy_llamacpp_setup.sh
+- `ask` (function) `scripts/lazy_llamacpp_setup.sh:40`
+
+## scripts/lazy_opencode_config.py
+Imported by: `skills/mcp_tools/opencode_config.py`
+- `patch_opencode` (function) `scripts/lazy_opencode_config.py:46` `def patch_opencode(set_default, host)` -- Merge the llamacpp provider into the opencode config.
+- `patch_hermes` (function) `scripts/lazy_opencode_config.py:93` `def patch_hermes(host)` -- Point the hermes config at the local llama.cpp server.
+- `main` (function) `scripts/lazy_opencode_config.py:150` `def main(argv)` -- CLI entry: ``--target opencode|hermes|both [--set-default]``.
+
 ## scripts/mcp_call.py
 - `_ToolAnswer.__init__` (method) `scripts/mcp_call.py:46` `def __init__(self, text, is_error)`
 - `main` (function) `scripts/mcp_call.py:173` `def main(argv)` -- Parse the CLI, execute one MCP tool and print its answer.
@@ -423,27 +493,6 @@ Imported by: `skills/hermes-lazyown/mcp_server.py`
 - `ObjectiveTodoSync.inject_objective` (method) `skills/hermes-lazyown/hermes_sync.py:127` `def inject_objective(self, text, priority, notes)` -- Inject a new objective into the LazyOwn queue.
 - `DelegationPlanner.plan_for_service` (method) `skills/hermes-lazyown/hermes_sync.py:154` `def plan_for_service(self, service, port, rhost)` -- Return a list of delegation task descriptors for a discovered service.
 - `DelegationPlanner.plan_for_credential` (method) `skills/hermes-lazyown/hermes_sync.py:233` `def plan_for_credential(self, cred_type, value, rhost)` -- Return delegation tasks triggered by a newly found credential.
-
-## skills/hermes-lazyown/mcp_server.py
-Depends on: `modules/backdoor/server.c`, `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/constants.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/output_compactor.py`
-- `list_tools` (function) `skills/hermes-lazyown/mcp_server.py:329` `def list_tools()`
-- `call_tool` (function) `skills/hermes-lazyown/mcp_server.py:334` `def call_tool(name, arguments)` -- Dispatch incoming tool calls to the appropriate handler.
-- `main` (function) `skills/hermes-lazyown/mcp_server.py:751` `def main()`
-
-## skills/hermes-lazyown/output_compactor.py
-Depends on: `skills/hermes-lazyown/constants.py`
-Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `CompactionResult.__init__` (method) `skills/hermes-lazyown/output_compactor.py:20` `def __init__(self, compacted, original_lines, compacted_lines)`
-- `CompactionResult.reduction_ratio` (method) `skills/hermes-lazyown/output_compactor.py:26` `def reduction_ratio(self)` -- Return the ratio of lines removed (0.0 to 1.0).
-- `CompactionStrategy.compact` (method) `skills/hermes-lazyown/output_compactor.py:40` `def compact(self, raw_output, tool_name)` -- Compact *raw_output* and return a CompactionResult.
-- `ReconCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:55` `def compact(self, raw_output, tool_name)`
-- `EnumCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:93` `def compact(self, raw_output, tool_name)`
-- `ExploitCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:124` `def compact(self, raw_output, tool_name)`
-- `PrivescCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:151` `def compact(self, raw_output, tool_name)`
-- `DefaultCompaction.__init__` (method) `skills/hermes-lazyown/output_compactor.py:165` `def __init__(self, max_lines)`
-- `DefaultCompaction.compact` (method) `skills/hermes-lazyown/output_compactor.py:168` `def compact(self, raw_output, tool_name)`
-- `OutputCompactor.__init__` (method) `skills/hermes-lazyown/output_compactor.py:196` `def __init__(self, default_max_lines)`
-- `OutputCompactor.compact` (method) `skills/hermes-lazyown/output_compactor.py:200` `def compact(self, raw_output, phase, tool_name)` -- Compact *raw_output* according to *phase*.
 
 
 Next: [API_p23.md](API_p23.md)

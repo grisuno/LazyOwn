@@ -3,6 +3,124 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_confirm_gate_denies_when_operator_refuses` | function | `tests/test_apt_chain_admin.py:256` | `def test_confirm_gate_denies_when_operator_refuses(tmp_path, monkeypatch, capsys)` |
+| `test_engagement_tokens_resolved_from_fact_store` | function | `tests/test_apt_chain_admin.py:272` | `def test_engagement_tokens_resolved_from_fact_store(monkeypatch, tmp_path)` |
+| `test_missing_value_errors` | method | `tests/test_apt_chain_admin.py:385` | `def test_missing_value_errors(self)` |
+| `test_parse_flags_and_unknown_flag_fails_loudly` | function | `tests/test_apt_chain_admin.py:59` | `def test_parse_flags_and_unknown_flag_fails_loudly()` |
+| `test_playbook_flag_parsed` | method | `tests/test_apt_chain_admin.py:377` | `def test_playbook_flag_parsed(self)` |
+| `test_playbook_overrides_base_chain` | function | `tests/test_apt_chain_admin.py:321` | `def test_playbook_overrides_base_chain(tmp_path, monkeypatch, capsys)` |
+| `test_positional_only_unchanged` | method | `tests/test_apt_chain_admin.py:395` | `def test_positional_only_unchanged(self)` |
+| `test_render_admin_tags_severity_per_payload` | function | `tests/test_apt_chain_admin.py:94` | `def test_render_admin_tags_severity_per_payload()` |
+| `test_resolve_invocation_lenient_policy_and_seed_merge` | function | `tests/test_apt_chain_admin.py:72` | `def test_resolve_invocation_lenient_policy_and_seed_merge()` |
+| `test_run_checkpoints_and_resume` | function | `tests/test_apt_chain_admin.py:196` | `def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys)` |
+| `test_run_dry_run_json_output` | function | `tests/test_apt_chain_admin.py:177` | `def test_run_dry_run_json_output(tmp_path, monkeypatch, capsys)` |
+| `test_select_step_ids_supports_step_from_and_to` | function | `tests/test_apt_chain_admin.py:113` | `def test_select_step_ids_supports_step_from_and_to()` |
+| `test_step_filtering_drops_out_of_scope_steps` | function | `tests/test_apt_chain_admin.py:334` | `def test_step_filtering_drops_out_of_scope_steps(tmp_path, monkeypatch, capsys)` |
+| `test_techniques_parsed` | method | `tests/test_apt_chain_admin.py:369` | `def test_techniques_parsed(self)` |
+| `test_unknown_admin_flag_still_loud` | method | `tests/test_apt_chain_admin.py:390` | `def test_unknown_admin_flag_still_loud(self)` |
+| `test_unknown_run_flags_fail_loudly` | function | `tests/test_apt_chain_admin.py:357` | `def test_unknown_run_flags_fail_loudly(tmp_path, monkeypatch, capsys)` |
+| `_Set` | class | `tests/test_apt_chain_integration.py:19` | `class _Set(CommandAndControlMigratedCommandSet)` |
+| `_Shell` | class | `tests/test_apt_chain_integration.py:28` | `class _Shell(Cmd)` |
+| `__init__` | method | `tests/test_apt_chain_integration.py:31` | `def __init__(self)` |
+| `do_assign` | method | `tests/test_apt_chain_integration.py:37` | `def do_assign(self, line)` |
+| `do_atomic_shell` | method | `tests/test_apt_chain_integration.py:22` | `def do_atomic_shell(self, line)` |
+| `test_apt_chain_prints_raw_output_and_opens_shell_on_main_thread` | function | `tests/test_apt_chain_integration.py:42` | `def test_apt_chain_prints_raw_output_and_opens_shell_on_main_thread(tmp_path, monkeypatch, capsys)` |
+| `test_create_zenity_askpass_writes_helper` | function | `tests/test_askpass.py:26` | `def test_create_zenity_askpass_writes_helper(monkeypatch, tmp_path)` |
+| `test_find_native_askpass_uses_installed_helper` | function | `tests/test_askpass.py:17` | `def test_find_native_askpass_uses_installed_helper(monkeypatch, tmp_path)` |
+| `test_find_native_askpass_without_display_is_empty` | function | `tests/test_askpass.py:10` | `def test_find_native_askpass_without_display_is_empty(monkeypatch)` |
+| `test_sudo_graphical_requested_defaults_on` | function | `tests/test_askpass.py:38` | `def test_sudo_graphical_requested_defaults_on(monkeypatch)` |
+| `test_sudo_graphical_requested_off_in_autonomous_loop` | function | `tests/test_askpass.py:45` | `def test_sudo_graphical_requested_off_in_autonomous_loop(monkeypatch)` |
+| `gate_env` | function | `tests/test_asset_gate.py:18` | `def gate_env(tmp_path, monkeypatch)` |
+| `test_compact_unfolded_cap_and_flag` | function | `tests/test_asset_gate.py:157` | `def test_compact_unfolded_cap_and_flag(gate_env)` |
+| `test_digest_overview_expandable` | function | `tests/test_asset_gate.py:174` | `def test_digest_overview_expandable(gate_env)` |
+| `test_gate_blocks_asset_insert` | function | `tests/test_asset_gate.py:57` | `def test_gate_blocks_asset_insert(gate_env)` |
+| `test_gate_cidr_match` | function | `tests/test_asset_gate.py:36` | `def test_gate_cidr_match(gate_env)` |
+| `test_gate_exact_and_fuzzy_match` | function | `tests/test_asset_gate.py:25` | `def test_gate_exact_and_fuzzy_match(gate_env)` |
+| `test_gate_task_allow_is_closed_whitelist` | function | `tests/test_asset_gate.py:43` | `def test_gate_task_allow_is_closed_whitelist(gate_env)` |
+| `test_hot_facts_never_truncated` | function | `tests/test_asset_gate.py:194` | `def test_hot_facts_never_truncated(gate_env)` |
+| `test_intel_nodes_carry_community` | function | `tests/test_asset_gate.py:126` | `def test_intel_nodes_carry_community()` |
+| `test_intel_payload_readmenator_shape` | function | `tests/test_asset_gate.py:136` | `def test_intel_payload_readmenator_shape()` |
+| `test_intel_template_embedded_in_lazyown_chrome` | function | `tests/test_asset_gate.py:94` | `def test_intel_template_embedded_in_lazyown_chrome()` |
+| `test_intel_template_maps_edges_to_links` | function | `tests/test_asset_gate.py:106` | `def test_intel_template_maps_edges_to_links()` |
+| `test_intel_template_readmenator_grade` | function | `tests/test_asset_gate.py:114` | `def test_intel_template_readmenator_grade()` |
+| `test_intel_template_uses_vendored_libs` | function | `tests/test_asset_gate.py:83` | `def test_intel_template_uses_vendored_libs()` |
+| `test_lazy_gate_surface` | function | `tests/test_asset_gate.py:66` | `def test_lazy_gate_surface()` |
+| `test_traffic_clear` | function | `tests/test_asset_gate.py:75` | `def test_traffic_clear(gate_env)` |
+| `_Done` | class | `tests/test_atomic_exploit_bridge.py:453` | `class _Done` |
+| `_FakeCleanupSession` | class | `tests/test_atomic_exploit_bridge.py:391` | `class _FakeCleanupSession` |
+| `__init__` | method | `tests/test_atomic_exploit_bridge.py:394` | `def __init__(self)` |
+| `_counting_trigger` | function | `tests/test_atomic_exploit_bridge.py:377` | `def _counting_trigger()` |
+| `_demo_spec` | function | `tests/test_atomic_exploit_bridge.py:293` | `def _demo_spec()` |
+| `_fake` | function | `tests/test_atomic_exploit_bridge.py:319` | `def _fake(target_port, timeout)` |
+| `_fake_input` | function | `tests/test_atomic_exploit_bridge.py:485` | `def _fake_input(prompt)` |
+| `_fake_shell_peer` | function | `tests/test_atomic_exploit_bridge.py:246` | `def _fake_shell_peer(sock, reply)` |
+| `_flaky_trigger` | function | `tests/test_atomic_exploit_bridge.py:341` | `def _flaky_trigger()` |
+| `_missing` | function | `tests/test_atomic_exploit_bridge.py:447` | `def _missing()` |
+| `_patch_connect` | function | `tests/test_atomic_exploit_bridge.py:311` | `def _patch_connect(monkeypatch, failures_before_success)` |
+| `_serve` | function | `tests/test_atomic_exploit_bridge.py:251` | `def _serve()` |
+| `_valid_doc` | function | `tests/test_atomic_exploit_bridge.py:32` | `def _valid_doc()` |
+| `_write` | function | `tests/test_atomic_exploit_bridge.py:27` | `def _write(path, data)` |
+| `run` | method | `tests/test_atomic_exploit_bridge.py:397` | `def run(self, command, timeout)` |
+| `test_addon_paths_match_cwd` | function | `tests/test_atomic_exploit_bridge.py:227` | `def test_addon_paths_match_cwd()` |
+| `test_addon_schema` | function | `tests/test_atomic_exploit_bridge.py:217` | `def test_addon_schema()` |
+| `test_auto_sweep_from_scan_xml` | function | `tests/test_atomic_exploit_bridge.py:172` | `def test_auto_sweep_from_scan_xml(tmp_path, monkeypatch)` |
+| `test_build_commands_tokens` | function | `tests/test_atomic_exploit_bridge.py:101` | `def test_build_commands_tokens(tmp_path)` |
+| `test_cleanup_no_session_reports_honestly` | function | `tests/test_atomic_exploit_bridge.py:429` | `def test_cleanup_no_session_reports_honestly(monkeypatch)` |
+| `test_cleanup_soft_removes_but_keeps_loot` | function | `tests/test_atomic_exploit_bridge.py:402` | `def test_cleanup_soft_removes_but_keeps_loot(tmp_path, monkeypatch)` |
+| `test_destroy_gym_validates_and_handles_missing_docker` | function | `tests/test_atomic_exploit_bridge.py:438` | `def test_destroy_gym_validates_and_handles_missing_docker(monkeypatch)` |
+| `test_engine_prefers_yaml_over_hardcode` | function | `tests/test_atomic_exploit_bridge.py:201` | `def test_engine_prefers_yaml_over_hardcode(tmp_path, monkeypatch)` |
+| `test_ensure_session_adopts_orphan` | function | `tests/test_atomic_exploit_bridge.py:369` | `def test_ensure_session_adopts_orphan(monkeypatch)` |
+| `test_interactive_shell_no_spec_reports_error` | function | `tests/test_atomic_exploit_bridge.py:500` | `def test_interactive_shell_no_spec_reports_error(monkeypatch)` |
+| `test_interactive_shell_repl_until_exit` | function | `tests/test_atomic_exploit_bridge.py:472` | `def test_interactive_shell_repl_until_exit(monkeypatch, capsys)` |
+| `test_interactive_shell_verify_only_without_tty` | function | `tests/test_atomic_exploit_bridge.py:462` | `def test_interactive_shell_verify_only_without_tty(monkeypatch, capsys)` |
+| `test_load_all_skips_invalid_and_disabled` | function | `tests/test_atomic_exploit_bridge.py:81` | `def test_load_all_skips_invalid_and_disabled(tmp_path)` |
+| `test_match_is_exact_or_all` | function | `tests/test_atomic_exploit_bridge.py:90` | `def test_match_is_exact_or_all()` |
+| `test_open_shell_gives_up` | function | `tests/test_atomic_exploit_bridge.py:357` | `def test_open_shell_gives_up(monkeypatch)` |
+| `test_open_shell_retries_racy_trigger` | function | `tests/test_atomic_exploit_bridge.py:332` | `def test_open_shell_retries_racy_trigger(monkeypatch)` |
+| `test_rank_orders_severity_then_confidence` | function | `tests/test_atomic_exploit_bridge.py:110` | `def test_rank_orders_severity_then_confidence(tmp_path)` |
+| `test_run_spec_detects_shell_without_network` | function | `tests/test_atomic_exploit_bridge.py:121` | `def test_run_spec_detects_shell_without_network()` |
+| `test_session_multiplexes_commands` | function | `tests/test_atomic_exploit_bridge.py:274` | `def test_session_multiplexes_commands()` |
+| `test_shell_output_evidence_detects_real_shells` | function | `tests/test_atomic_exploit_bridge.py:155` | `def test_shell_output_evidence_detects_real_shells()` |
+| `test_shell_output_evidence_rejects_benign_output` | function | `tests/test_atomic_exploit_bridge.py:140` | `def test_shell_output_evidence_rejects_benign_output()` |
+| `test_validate_accepts_good_document` | function | `tests/test_atomic_exploit_bridge.py:54` | `def test_validate_accepts_good_document()` |
+| `test_validate_rejects_bad_documents` | function | `tests/test_atomic_exploit_bridge.py:59` | `def test_validate_rejects_bad_documents()` |
+| `_fake_input` | function | `tests/test_atomic_headless.py:112` | `def _fake_input(prompt)` |
+| `_make_test` | function | `tests/test_atomic_headless.py:17` | `def _make_test(guid, name, command)` |
+| `test_autonomous_mode_picks_first_without_prompt` | function | `tests/test_atomic_headless.py:93` | `def test_autonomous_mode_picks_first_without_prompt(three_tests, monkeypatch)` |
+| `test_numeric_argument_selects_that_test` | function | `tests/test_atomic_headless.py:77` | `def test_numeric_argument_selects_that_test(three_tests)` |
+| `test_out_of_range_index_is_usage_error` | function | `tests/test_atomic_headless.py:85` | `def test_out_of_range_index_is_usage_error(three_tests)` |
+| `test_parse_accepts_numeric_and_flag_forms` | function | `tests/test_atomic_headless.py:66` | `def test_parse_accepts_numeric_and_flag_forms()` |
+| `test_tty_without_autonomous_still_prompts` | function | `tests/test_atomic_headless.py:105` | `def test_tty_without_autonomous_still_prompts(three_tests, monkeypatch)` |
+| `three_tests` | function | `tests/test_atomic_headless.py:34` | `def three_tests(monkeypatch)` |
+| `Shell` | class | `tests/test_atomic_loop.py:270` | `class Shell` |
+| `_fixture_atomics` | function | `tests/test_atomic_loop.py:21` | `def _fixture_atomics(root)` |
+| `forbidden` | function | `tests/test_atomic_loop.py:225` | `def forbidden()` |
+| `logcsv` | method | `tests/test_atomic_loop.py:271` | `def logcsv(self, text)` |
+| `test_apt_chain_binds_playbook_and_target` | function | `tests/test_atomic_loop.py:136` | `def test_apt_chain_binds_playbook_and_target()` |
+| `test_apt_chain_keyword_never_invents_playbook` | function | `tests/test_atomic_loop.py:146` | `def test_apt_chain_keyword_never_invents_playbook()` |
+| `test_apt_chain_line_routes_via_shell` | function | `tests/test_atomic_loop.py:157` | `def test_apt_chain_line_routes_via_shell()` |
+| `test_atomic_clean_routes_and_never_autofires` | function | `tests/test_atomic_loop.py:213` | `def test_atomic_clean_routes_and_never_autofires()` |
+| `test_atomic_lines_are_always_non_interactive` | function | `tests/test_atomic_loop.py:63` | `def test_atomic_lines_are_always_non_interactive()` |
+| `test_atomic_shell_never_interactive_from_loop` | function | `tests/test_atomic_loop.py:203` | `def test_atomic_shell_never_interactive_from_loop()` |
+| `test_loop_reaches_apt_chain_end_to_end` | function | `tests/test_atomic_loop.py:113` | `def test_loop_reaches_apt_chain_end_to_end()` |
+| `test_non_interactive_atomic_prefers_deployed_beacon` | function | `tests/test_atomic_loop.py:232` | `def test_non_interactive_atomic_prefers_deployed_beacon(monkeypatch)` |
+| `test_non_interactive_atomic_skips_credential_prompt` | function | `tests/test_atomic_loop.py:220` | `def test_non_interactive_atomic_skips_credential_prompt(monkeypatch)` |
+| `test_planner_discovers_apt_chain_verb` | function | `tests/test_atomic_loop.py:169` | `def test_planner_discovers_apt_chain_verb()` |
+| `test_planner_discovers_atomic_verbs` | function | `tests/test_atomic_loop.py:74` | `def test_planner_discovers_atomic_verbs()` |
+| `test_planner_discovers_playbook_verb` | function | `tests/test_atomic_loop.py:107` | `def test_planner_discovers_playbook_verb()` |
+| `test_rocke_playbook_resolves_linux_chain` | function | `tests/test_atomic_loop.py:95` | `def test_rocke_playbook_resolves_linux_chain()` |
+| `test_steps_for_explicit_atomic_intent` | function | `tests/test_atomic_loop.py:45` | `def test_steps_for_explicit_atomic_intent()` |
+| `test_steps_for_explicit_playbook_intent` | function | `tests/test_atomic_loop.py:80` | `def test_steps_for_explicit_playbook_intent()` |
+| `test_steps_for_keyword_atomic_intent` | function | `tests/test_atomic_loop.py:55` | `def test_steps_for_keyword_atomic_intent()` |
+| `test_steps_for_keyword_playbook_intent` | function | `tests/test_atomic_loop.py:86` | `def test_steps_for_keyword_playbook_intent()` |
+| `test_validate_resolves_technique_ids` | function | `tests/test_atomic_loop.py:175` | `def test_validate_resolves_technique_ids(tmp_path, monkeypatch)` |
+| `_write_fixture_atomics` | function | `tests/test_atomic_resolver.py:30` | `def _write_fixture_atomics(root)` |
+| `test_chain_skips_invalid` | function | `tests/test_atomic_resolver.py:114` | `def test_chain_skips_invalid(tmp_path)` |
+| `test_guid_validation_roundtrip` | function | `tests/test_atomic_resolver.py:79` | `def test_guid_validation_roundtrip()` |
+| `test_normalize_mitre_accepts_variants` | function | `tests/test_atomic_resolver.py:64` | `def test_normalize_mitre_accepts_variants()` |
+| `test_normalize_mitre_rejects_injection` | function | `tests/test_atomic_resolver.py:71` | `def test_normalize_mitre_rejects_injection()` |
+| `test_platform_allowlist` | function | `tests/test_atomic_resolver.py:87` | `def test_platform_allowlist()` |
+| `test_resolver_lists_and_filters` | function | `tests/test_atomic_resolver.py:94` | `def test_resolver_lists_and_filters(tmp_path)` |
 | `test_resolver_prefix_and_unknown` | function | `tests/test_atomic_resolver.py:105` | `def test_resolver_prefix_and_unknown(tmp_path)` |
 | `test_variables_and_render` | function | `tests/test_atomic_resolver.py:121` | `def test_variables_and_render()` |
 | `_fixture_sessions` | function | `tests/test_attack_surface3d.py:24` | `def _fixture_sessions(tmp_path)` |
@@ -378,123 +496,5 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 | `test_settings_toggle_adds_then_removes` | function | `tests/test_banner_config.py:131` | `def test_settings_toggle_adds_then_removes()` |
 | `Completed` | class | `tests/test_bdd_infra_range_report.py:28` | `class Completed` |
 | `test_bdd_beacon_build_injects_fallback_urls` | function | `tests/test_bdd_infra_range_report.py:51` | `def test_bdd_beacon_build_injects_fallback_urls()` |
-| `test_bdd_range_compose_topology` | function | `tests/test_bdd_infra_range_report.py:65` | `def test_bdd_range_compose_topology()` |
-| `test_bdd_redirector_spawn_registers_urls` | function | `tests/test_bdd_infra_range_report.py:15` | `def test_bdd_redirector_spawn_registers_urls()` |
-| `test_bdd_report_executive_summary_without_ai` | function | `tests/test_bdd_infra_range_report.py:83` | `def test_bdd_report_executive_summary_without_ai()` |
-| `TestBeaconConfig` | class | `tests/test_beacon_config_builder.py:24` | `class TestBeaconConfig` |
-| `TestBeaconConfigBuilder` | class | `tests/test_beacon_config_builder.py:143` | `class TestBeaconConfigBuilder` |
-| `TestGenerateBofExecutionCommand` | class | `tests/test_beacon_config_builder.py:207` | `class TestGenerateBofExecutionCommand` |
-| `test_basic_bof_command` | method | `tests/test_beacon_config_builder.py:208` | `def test_basic_bof_command(self)` |
-| `test_bof_command_has_no_colon_between_url_and_args` | method | `tests/test_beacon_config_builder.py:223` | `def test_bof_command_has_no_colon_between_url_and_args(self)` |
-| `test_bof_with_args_space_separated` | method | `tests/test_beacon_config_builder.py:215` | `def test_bof_with_args_space_separated(self)` |
-| `test_build_falls_back_on_missing_engines` | method | `tests/test_beacon_config_builder.py:199` | `def test_build_falls_back_on_missing_engines(self)` |
-| `test_build_injects_dns_from_payload` | method | `tests/test_beacon_config_builder.py:185` | `def test_build_injects_dns_from_payload(self)` |
-| `test_build_injects_tls_from_payload` | method | `tests/test_beacon_config_builder.py:172` | `def test_build_injects_tls_from_payload(self)` |
-| `test_build_minimal` | method | `tests/test_beacon_config_builder.py:144` | `def test_build_minimal(self)` |
-| `test_build_with_malleable_route` | method | `tests/test_beacon_config_builder.py:159` | `def test_build_with_malleable_route(self)` |
-| `test_custom_bofs_dir` | method | `tests/test_beacon_config_builder.py:232` | `def test_custom_bofs_dir(self)` |
-| `test_default_construction` | method | `tests/test_beacon_config_builder.py:25` | `def test_default_construction(self)` |
-| `test_empty_args_arg_only_blank_rejected` | method | `tests/test_beacon_config_builder.py:240` | `def test_empty_args_arg_only_blank_rejected(self)` |
-| `test_rejects_newline_in_bof_name` | method | `tests/test_beacon_config_builder.py:244` | `def test_rejects_newline_in_bof_name(self)` |
-| `test_rejects_space_in_bof_name` | method | `tests/test_beacon_config_builder.py:248` | `def test_rejects_space_in_bof_name(self)` |
-| `test_to_config_json` | method | `tests/test_beacon_config_builder.py:87` | `def test_to_config_json(self)` |
-| `test_to_dict_serialization` | method | `tests/test_beacon_config_builder.py:115` | `def test_to_dict_serialization(self)` |
-| `test_to_gen_beacon_args` | method | `tests/test_beacon_config_builder.py:38` | `def test_to_gen_beacon_args(self)` |
-| `test_to_go_implant_vars` | method | `tests/test_beacon_config_builder.py:61` | `def test_to_go_implant_vars(self)` |
-| `TestAppendRead` | class | `tests/test_beacon_history.py:38` | `class TestAppendRead` |
-| `TestSanitization` | class | `tests/test_beacon_history.py:23` | `class TestSanitization` |
-| `_config` | function | `tests/test_beacon_history.py:19` | `def _config(tmp_path)` |
-| `test_append_then_read_round_trips` | method | `tests/test_beacon_history.py:39` | `def test_append_then_read_round_trips(self, tmp_path)` |
-| `test_missing_history_reads_empty` | method | `tests/test_beacon_history.py:72` | `def test_missing_history_reads_empty(self, tmp_path)` |
-| `test_multiple_beacons_do_not_interleave` | method | `tests/test_beacon_history.py:50` | `def test_multiple_beacons_do_not_interleave(self, tmp_path)` |
-| `test_record_without_client_id_is_rejected` | method | `tests/test_beacon_history.py:75` | `def test_record_without_client_id_is_rejected(self, tmp_path)` |
-| `test_records_path_is_bounded_inside_sessions` | method | `tests/test_beacon_history.py:29` | `def test_records_path_is_bounded_inside_sessions(self, tmp_path)` |
-| `test_sanitize_client_id_strips_unsafe_chars` | method | `tests/test_beacon_history.py:24` | `def test_sanitize_client_id_strips_unsafe_chars(self)` |
-| `test_skips_malformed_lines` | method | `tests/test_beacon_history.py:59` | `def test_skips_malformed_lines(self, tmp_path)` |
-| `TestBeaconCapabilities` | class | `tests/test_beacon_menu.py:69` | `class TestBeaconCapabilities` |
-| `TestBeaconLoopKind` | class | `tests/test_beacon_menu.py:242` | `class TestBeaconLoopKind` |
-| `TestBeaconMenuData` | class | `tests/test_beacon_menu.py:101` | `class TestBeaconMenuData` |
-| `TestDetectBeaconType` | class | `tests/test_beacon_menu.py:43` | `class TestDetectBeaconType` |
-| `TestHeuristicPlan` | class | `tests/test_beacon_menu.py:150` | `class TestHeuristicPlan` |
-| `TestQueueCommand` | class | `tests/test_beacon_menu.py:138` | `class TestQueueCommand` |
-| `TestRunBeaconLoop` | class | `tests/test_beacon_menu.py:177` | `class TestRunBeaconLoop` |
-| `TestSummarizeHistory` | class | `tests/test_beacon_menu.py:167` | `class TestSummarizeHistory` |
-| `TestValidateCandidate` | class | `tests/test_beacon_menu.py:118` | `class TestValidateCandidate` |
-| `_write_history` | method | `tests/test_beacon_menu.py:178` | `def _write_history(self, sessions, client, outputs)` |
-| `test_appends_to_queue_file` | method | `tests/test_beacon_menu.py:139` | `def test_appends_to_queue_file(self, tmp_path)` |
-| `test_bofs_empty_without_capability` | method | `tests/test_beacon_menu.py:108` | `def test_bofs_empty_without_capability(self, tmp_path)` |
-| `test_bofs_filtered_by_platform` | method | `tests/test_beacon_menu.py:102` | `def test_bofs_filtered_by_platform(self, tmp_path)` |
-| `test_bounded_and_ordered` | method | `tests/test_beacon_menu.py:168` | `def test_bounded_and_ordered(self)` |
-| `test_bsb_client_id_wins` | method | `tests/test_beacon_menu.py:44` | `def test_bsb_client_id_wins(self, tmp_path)` |
-| `test_bsb_has_linux_bofs` | method | `tests/test_beacon_menu.py:70` | `def test_bsb_has_linux_bofs(self)` |
-| `test_c_win_has_windows_bofs` | method | `tests/test_beacon_menu.py:76` | `def test_c_win_has_windows_bofs(self)` |
-| `test_capability_commands_allowed` | method | `tests/test_beacon_menu.py:119` | `def test_capability_commands_allowed(self)` |
-| `test_command_catalog_per_type` | method | `tests/test_beacon_menu.py:95` | `def test_command_catalog_per_type(self)` |
-| `test_exfil_goal_targets_exfil` | method | `tests/test_beacon_menu.py:157` | `def test_exfil_goal_targets_exfil(self)` |
-| `test_forbidden_and_metachars_rejected` | method | `tests/test_beacon_menu.py:128` | `def test_forbidden_and_metachars_rejected(self)` |
-| `test_go_agent_by_loader_source` | method | `tests/test_beacon_menu.py:54` | `def test_go_agent_by_loader_source(self, tmp_path)` |
-| `test_go_agent_by_staged_binary` | method | `tests/test_beacon_menu.py:49` | `def test_go_agent_by_staged_binary(self, tmp_path)` |
-| `test_go_agent_has_shellcode_dll` | method | `tests/test_beacon_menu.py:83` | `def test_go_agent_has_shellcode_dll(self)` |
-| `test_heuristic_loop_queues_commands` | method | `tests/test_beacon_menu.py:191` | `def test_heuristic_loop_queues_commands(self, tmp_path)` |
-| `test_invalid_client_aborts` | method | `tests/test_beacon_menu.py:215` | `def test_invalid_client_aborts(self, tmp_path)` |
-| `test_linux_fallback_and_unknown` | method | `tests/test_beacon_menu.py:63` | `def test_linux_fallback_and_unknown(self, tmp_path)` |
-| `test_loop_command_shape` | method | `tests/test_beacon_menu.py:243` | `def test_loop_command_shape(self)` |
-| `test_manager_rejects_bad_beacon_target` | method | `tests/test_beacon_menu.py:261` | `def test_manager_rejects_bad_beacon_target(self, tmp_path)` |
-| `test_playbooks_from_repo` | method | `tests/test_beacon_menu.py:111` | `def test_playbooks_from_repo(self)` |
-| `test_readonly_shell_allowed` | method | `tests/test_beacon_menu.py:124` | `def test_readonly_shell_allowed(self)` |
-| `test_recon_plan_is_validated` | method | `tests/test_beacon_menu.py:151` | `def test_recon_plan_is_validated(self)` |
-| `test_rejects_bad_ids` | method | `tests/test_beacon_menu.py:145` | `def test_rejects_bad_ids(self, tmp_path)` |
-| `test_report_written` | method | `tests/test_beacon_menu.py:225` | `def test_report_written(self, tmp_path)` |
-| `test_seen_commands_not_repeated` | method | `tests/test_beacon_menu.py:161` | `def test_seen_commands_not_repeated(self)` |
-| `test_unknown_minimal` | method | `tests/test_beacon_menu.py:89` | `def test_unknown_minimal(self)` |
-| `test_validate_beacon_target` | method | `tests/test_beacon_menu.py:252` | `def test_validate_beacon_target(self)` |
-| `test_windows_c_beacon_fallback` | method | `tests/test_beacon_menu.py:59` | `def test_windows_c_beacon_fallback(self, tmp_path)` |
-| `IngestBeaconReconSpec` | class | `tests/test_beacon_recon_sink.py:75` | `class IngestBeaconReconSpec(TestCase)` |
-| `ParseBeaconPortscanSpec` | class | `tests/test_beacon_recon_sink.py:49` | `class ParseBeaconPortscanSpec(TestCase)` |
-| `ParseDiscoveredIpsSpec` | class | `tests/test_beacon_recon_sink.py:30` | `class ParseDiscoveredIpsSpec(TestCase)` |
-| `_fresh_world_model` | function | `tests/test_beacon_recon_sink.py:26` | `def _fresh_world_model(tmp)` |
-| `_run` | method | `tests/test_beacon_recon_sink.py:76` | `def _run(self, tmp, wm, discovered, portscan)` |
-| `test_dict_payload` | method | `tests/test_beacon_recon_sink.py:58` | `def test_dict_payload(self)` |
-| `test_dict_with_list_values` | method | `tests/test_beacon_recon_sink.py:37` | `def test_dict_with_list_values(self)` |
-| `test_empty_values` | method | `tests/test_beacon_recon_sink.py:43` | `def test_empty_values(self)` |
-| `test_empty_values` | method | `tests/test_beacon_recon_sink.py:70` | `def test_empty_values(self)` |
-| `test_flat_string` | method | `tests/test_beacon_recon_sink.py:31` | `def test_flat_string(self)` |
-| `test_flat_string_credits_default_host` | method | `tests/test_beacon_recon_sink.py:50` | `def test_flat_string_credits_default_host(self)` |
-| `test_go_map_string` | method | `tests/test_beacon_recon_sink.py:54` | `def test_go_map_string(self)` |
-| `test_host_prefix_string` | method | `tests/test_beacon_recon_sink.py:66` | `def test_host_prefix_string(self)` |
-| `test_hosts_services_ledger_and_outcome` | method | `tests/test_beacon_recon_sink.py:96` | `def test_hosts_services_ledger_and_outcome(self)` |
-| `test_noise_and_bounds` | method | `tests/test_beacon_recon_sink.py:62` | `def test_noise_and_bounds(self)` |
-| `test_noop_without_data_and_without_ip` | method | `tests/test_beacon_recon_sink.py:124` | `def test_noop_without_data_and_without_ip(self)` |
-| `test_rerun_is_idempotent_for_hosts_and_services` | method | `tests/test_beacon_recon_sink.py:114` | `def test_rerun_is_idempotent_for_hosts_and_services(self)` |
-| `test_skips_non_ips` | method | `tests/test_beacon_recon_sink.py:40` | `def test_skips_non_ips(self)` |
-| `TestBeaconCategory` | class | `tests/test_blacksandbeacon_addon.py:111` | `class TestBeaconCategory` |
-| `TestBeaconCommandTemplates` | class | `tests/test_blacksandbeacon_addon.py:157` | `class TestBeaconCommandTemplates` |
-| `TestBeaconDescriptionQuality` | class | `tests/test_blacksandbeacon_addon.py:215` | `class TestBeaconDescriptionQuality` |
-| `TestBeaconEnabled` | class | `tests/test_blacksandbeacon_addon.py:119` | `class TestBeaconEnabled` |
-| `TestBeaconNoHardcodedSecrets` | class | `tests/test_blacksandbeacon_addon.py:240` | `class TestBeaconNoHardcodedSecrets` |
-| `TestBeaconParams` | class | `tests/test_blacksandbeacon_addon.py:127` | `class TestBeaconParams` |
-| `TestBeaconPathSafety` | class | `tests/test_blacksandbeacon_addon.py:97` | `class TestBeaconPathSafety` |
-| `TestBeaconRequiredFields` | class | `tests/test_blacksandbeacon_addon.py:55` | `class TestBeaconRequiredFields` |
-| `TestBeaconToolSection` | class | `tests/test_blacksandbeacon_addon.py:67` | `class TestBeaconToolSection` |
-| `TestBeaconYamlExists` | class | `tests/test_blacksandbeacon_addon.py:41` | `class TestBeaconYamlExists` |
-| `_load` | function | `tests/test_blacksandbeacon_addon.py:26` | `def _load(path)` |
-| `_param_names` | method | `tests/test_blacksandbeacon_addon.py:130` | `def _param_names(self, addon)` |
-| `_yaml_text` | method | `tests/test_blacksandbeacon_addon.py:243` | `def _yaml_text(self, path)` |
-| `beacon` | function | `tests/test_blacksandbeacon_addon.py:32` | `def beacon()` |
-| `bof` | function | `tests/test_blacksandbeacon_addon.py:37` | `def bof()` |
-| `test_beacon_category` | method | `tests/test_blacksandbeacon_addon.py:112` | `def test_beacon_category(self, beacon)` |
-| `test_beacon_description_documents_stage_flow` | method | `tests/test_blacksandbeacon_addon.py:209` | `def test_beacon_description_documents_stage_flow(self, beacon)` |
-| `test_beacon_description_mentions_bof` | method | `tests/test_blacksandbeacon_addon.py:218` | `def test_beacon_description_mentions_bof(self, beacon)` |
-| `test_beacon_description_mentions_linux` | method | `tests/test_blacksandbeacon_addon.py:222` | `def test_beacon_description_mentions_linux(self, beacon)` |
-| `test_beacon_enabled` | method | `tests/test_blacksandbeacon_addon.py:120` | `def test_beacon_enabled(self, beacon)` |
-| `test_beacon_execute_builds_canonical_beacon` | method | `tests/test_blacksandbeacon_addon.py:188` | `def test_beacon_execute_builds_canonical_beacon(self, beacon)` |
-| `test_beacon_execute_resets_before_pull` | method | `tests/test_blacksandbeacon_addon.py:197` | `def test_beacon_execute_resets_before_pull(self, beacon)` |
-| `test_beacon_execute_stages_config` | method | `tests/test_blacksandbeacon_addon.py:184` | `def test_beacon_execute_stages_config(self, beacon)` |
-| `test_beacon_execute_stages_to_sessions` | method | `tests/test_blacksandbeacon_addon.py:180` | `def test_beacon_execute_stages_to_sessions(self, beacon)` |
-| `test_beacon_has_c2_port_param` | method | `tests/test_blacksandbeacon_addon.py:139` | `def test_beacon_has_c2_port_param(self, beacon)` |
-| `test_beacon_has_field` | method | `tests/test_blacksandbeacon_addon.py:59` | `def test_beacon_has_field(self, beacon, field)` |
-| `test_beacon_has_lhost_param` | method | `tests/test_blacksandbeacon_addon.py:133` | `def test_beacon_has_lhost_param(self, beacon)` |
-| `test_beacon_has_lport_param` | method | `tests/test_blacksandbeacon_addon.py:136` | `def test_beacon_has_lport_param(self, beacon)` |
-| `test_beacon_install_command_is_make` | method | `tests/test_blacksandbeacon_addon.py:90` | `def test_beacon_install_command_is_make(self, beacon)` |
 
 Next: [SYMBOLS_p37.md](SYMBOLS_p37.md)

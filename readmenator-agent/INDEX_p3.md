@@ -3,6 +3,18 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `skills/mcp_tools/c2_script.py` | MCP tool ``lazyown_c2_script`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/c2_search_agent.py` | MCP tool ``lazyown_c2_search_agent`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/c2_status.py` | MCP tool ``lazyown_c2_status``: check C2 reachability and dashboard data. | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/c2_vuln_analysis.py` | MCP tool ``lazyown_c2_vuln_analysis`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/campaign.py` | MCP tool ``lazyown_campaign`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/campaign_lessons.py` | MCP tool ``lazyown_campaign_lessons`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/campaign_sitrep.py` | MCP tool ``lazyown_campaign_sitrep`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/campaign_tasks.py` | MCP tool ``lazyown_campaign_tasks`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/claudemd.py` | MCP tool ``lazyown_claudemd`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/collab_publish.py` | MCP tool ``lazyown_collab_publish`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
+| `skills/mcp_tools/command_help.py` | MCP tool ``lazyown_command_help`` (migrated from the call_tool dispatch chain). | mcp_tools | 2 | 0 |
+| `skills/mcp_tools/command_next.py` | MCP tool ``lazyown_command_next`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/command_prev.py` | MCP tool ``lazyown_command_prev`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/create_addon.py` | MCP tool ``lazyown_create_addon`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
 | `skills/mcp_tools/create_param.py` | MCP tool ``lazyown_create_param`` (migrated from the call_tool dispatch chain). | mcp_tools | 1 | 0 |
@@ -195,7 +207,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `test_bdd.sh` | - | root | 0 | 0 |
 | `testmeneitor.py` | - | root | 5 | 0 |
 | `tests/__init__.py` | - | tests | 0 | 0 |
-| `tests/conftest.py` | Global pytest isolation hooks. | tests | 14 | 0 |
+| `tests/conftest.py` | Global pytest isolation hooks. | tests | 15 | 0 |
 | `tests/contract/__init__.py` | - | contract | 0 | 0 |
 | `tests/contract/test_suite_homologation.py` | SDD suite homologation contract for LazyOwn tests. | contract | 20 | 0 |
 | `tests/integration_autonomous_flow.py` | test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module... | tests | 1 | 0 |
@@ -278,6 +290,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_bsb_fileless_compat.py` | Fileless BlackSandBeacon compatibility contract tests. | tests | 36 | 0 |
 | `tests/test_c2_agent.py` | Malleable C2 agent: template safety, key ownership, record reading. | tests | 20 | 0 |
 | `tests/test_c2_agent_dual.py` | Dual C2 client profiles (lowpriv/root) contract tests. | tests | 31 | 0 |
+| `tests/test_c2_autostart.py` | Tests for the auto_loop C2 autostart wiring in modules.lazy_runner. | tests | 18 | 0 |
 | `tests/test_c2_credential_bootstrap.py` | C2 boot credential contract: file, console and RBAC registration. | tests | 21 | 0 |
 | `tests/test_c2_process_smoke.py` | Real-process smoke test: spawn lazyc2.py and drive it over HTTP. | tests | 7 | 0 |
 | `tests/test_c2_profile_engine.py` | Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile... | tests | 63 | 0 |
@@ -382,6 +395,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_exploration_graph_concurrency.py` | Concurrency contract for the per-task exploration graph. | tests | 5 | 0 |
 | `tests/test_exposure_command_sets.py` | Exposure command-set discovery: the five lazy intel surfaces register. | tests | 2 | 0 |
 | `tests/test_f4_hardening.py` | F4 hardening: verb watchdog, chain fact spool, ctf CLI, foothold chain. | tests | 24 | 0 |
+| `tests/test_fact_gated_todolist.py` | Fact-gated todolist contract + planner wiring (lever #6). | tests | 8 | 0 |
 | `tests/test_failure_memory_veto.py` | Failure-memory veto contract: exhausted commands stop burning rounds. | tests | 4 | 0 |
 | `tests/test_failure_verdict.py` | Failure verdict contract: classification, action hints and hard stops. | tests | 14 | 0 |
 | `tests/test_finding_enrich.py` | Tests for idempotent enrichment of a finding's evidence. | tests | 13 | 0 |
@@ -441,7 +455,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_feedmatch.py` | BDD tests for the lazy feed schema and hard-evidence version matching. | tests | 30 | 0 |
 | `tests/test_lazy_finalizer.py` | Evidence-gated finalization contract. | tests | 10 | 0 |
 | `tests/test_lazy_findings.py` | Tests for modules.lazy_findings — engagement findings ledger. | tests | 30 | 0 |
-| `tests/test_lazy_handoff.py` | Tests for the foothold-to-beacon handoff and OS-aware beacon loop. | tests | 51 | 0 |
+| `tests/test_lazy_handoff.py` | Tests for the foothold-to-beacon handoff and OS-aware beacon loop. | tests | 72 | 0 |
 | `tests/test_lazy_hostscore.py` | Host heat score contract: deterministic, capped, auditable priorities. | tests | 9 | 0 |
 | `tests/test_lazy_intel_wiring.py` | Wiring contract tests: loop timeline snapshot + MCP lazy intel tools. | tests | 11 | 0 |
 | `tests/test_lazy_inventory.py` | BDD tests for the host-reported inventory contract. | tests | 12 | 0 |
@@ -482,19 +496,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lesson_ingestor_startup.py` | Loop-to-loop learning: new campaign lessons feed the RL/MoE once per lesson. | tests | 11 | 0 |
 | `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
 | `tests/test_live_surface.py` | Tests for modules/live_surface.py. | tests | 10 | 0 |
-| `tests/test_llm_adapter_parity.py` | Parity contract tests for the self-contained Groq adapter family. | tests | 42 | 0 |
-| `tests/test_llm_budget.py` | Contract tests for the LLM budget cap. | tests | 27 | 0 |
-| `tests/test_llm_contract.py` | LLM subsystem contract tests. | tests | 23 | 0 |
-| `tests/test_llm_key_pool.py` | LLM key-pool BDD contract: round-robin rotation and quota cooldown. | tests | 9 | 0 |
-| `tests/test_llm_legacy_isolation.py` | Watchdog: core must not depend on the retired legacy Groq LLM scripts. | tests | 4 | 0 |
-| `tests/test_llm_orchestrator.py` | SDD spec and BDD scenarios for the orchestrator-governed LLM failover chain. | tests | 89 | 0 |
-| `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
-| `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
-| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 35 | 0 |
-| `tests/test_loop_audit.py` | Loop audit trail: timeline events, step context and rendering. | tests | 12 | 0 |
-| `tests/test_loop_audit_feedback.py` | Traceability feeds the process: repeatedly gate-blocked verbs become vetoes. | tests | 6 | 0 |
-| `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
-| `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
-| `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
 
 Next: [INDEX_p4.md](INDEX_p4.md)

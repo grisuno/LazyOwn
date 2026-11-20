@@ -48,6 +48,11 @@ Imported by: `cli/commands/exploitgym.py`, `skills/mcp_tools/exploitgym_list.py`
 - `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
 - `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
 
+## modules/fact_gated_todolist.py
+Imported by: `modules/lazy_loop.py`, `tests/test_fact_gated_todolist.py`
+- `unmet_requirements` (function) `modules/fact_gated_todolist.py:23` `def unmet_requirements(requires, facts)` -- Return the required predicates not satisfied by any known fact.
+- `gate` (function) `modules/fact_gated_todolist.py:47` `def gate(items, facts)` -- Partition todolist items into those ready to dispatch and those blocked.
+
 ## modules/factsio.py
 Depends on: `core/logging.py`
 Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`

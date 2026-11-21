@@ -167,6 +167,11 @@ FLAG_VALUES = (
 FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm", "--fallback-phish", "--no-preflight")
 _BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
 _BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
+_BUDGET_TO_ENGINE = {
+    "rounds": "max_rounds",
+    "toolcalls": "max_toolcalls",
+    "findings": "max_findings",
+}
 ENGAGEMENT_MODES = ("pentest", "redteam", "ctf")
 _MODE_HINT = "pentest stops the loop when exploitability is proven; redteam keeps compromising; ctf chases flags"
 
@@ -274,7 +279,12 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                     if key not in _BUDGET_KEYS or raw_value in ("", None):
                         raise ValueError(f"--budget accepts {'/'.join(_BUDGET_KEYS)}=N pairs (got {chunk!r})")
                     parsed = float(raw_value)
-                    budget[key] = max(_BUDGET_MINIMUMS[key], parsed)
+                    clamped = max(_BUDGET_MINIMUMS[key], parsed)
+                    if clamped != parsed:
+                        print_warn(
+                            f"[!] budget {key}={parsed:g} below the usable floor; clamped to {clamped:g}"
+                        )
+                    budget[key] = clamped
             idx += 2
             continue
         if token in FLAG_TOGGLES:
@@ -951,14 +961,26 @@ def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:
 
 
 def _apply_budget(engine, task_id: str, budget: dict) -> None:
-    """Persist per-task budget caps before orchestration begins."""
+    """Persist per-task budget caps before orchestration begins.
+
+    The CLI budget vocabulary (``rounds/toolcalls/findings``) maps onto the
+    engine budget keys (``max_rounds/max_toolcalls/max_findings``); without
+    the mapping ``set_limits`` silently drops the rounds cap and the engine
+    keeps its default while the operator believes one round was requested.
+
+    Args:
+        engine: Running engine with a task store.
+        task_id: Task to cap.
+        budget: Parsed ``--budget`` pairs (CLI vocabulary).
+    """
     if not task_id or not budget:
         return
+    mapped = {_BUDGET_TO_ENGINE.get(key, key): value for key, value in budget.items()}
     try:
         from modules.lazy_loop import Budget as _EngineBudget
 
-        _EngineBudget(getattr(engine, "store", None)).set_limits(task_id, **budget)
-        print_msg(f"[*] budget caps: {budget}")
+        _EngineBudget(getattr(engine, "store", None)).set_limits(task_id, **mapped)
+        print_msg(f"[*] budget caps: {mapped}")
     except Exception as exc:
         print_warn(f"[!] budget not applied: {exc}")
 

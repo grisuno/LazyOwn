@@ -1,6 +1,11 @@
 from __future__ import annotations
 
+import re
+
 from modules.loop_guardrails import FactVectorStore
+
+_AMBIENT_NOISE_RE = re.compile(r"loop:agent-error|Error code: \d{3}|Rate limit reached", re.IGNORECASE)
+_SHELL_EVIDENCE_RE = re.compile(r"uid=\d+\(|\[SHELL\]|SHELL OBTAINED|interactive shell obtained", re.IGNORECASE)
 
 
 class WorkerMemoryMixin:
@@ -135,7 +140,13 @@ class WorkerMemoryMixin:
         try:
             from modules.outcome_attribution import BLOCKED, AttributionLedger, classify
 
-            classification = classify(output)
+            scrubbed = "\n".join(
+                line for line in str(output or "").splitlines() if not _AMBIENT_NOISE_RE.search(line)
+            )
+            if _SHELL_EVIDENCE_RE.search(scrubbed):
+                classification = "ok"
+            else:
+                classification = classify(scrubbed)
             verb = AttributionLedger(self.task_id).record(command, classification)
             if classification == BLOCKED and verb:
                 self.activity.emit(

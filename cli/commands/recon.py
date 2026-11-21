@@ -170,6 +170,9 @@ class ReconCommandSet(LazyOwnCommandSet):
         if not line or not rhost:
             print_error("[-] rhost must be assign or you must pass the dns argument like dig box.htb")
             return
+        if any(token.startswith(("+", "@")) for token in line.split()):
+            self.cmd(f"dig {line}")
+            return
         print_msg(f"Try dig version.bind CHAOS TXT @{line} {RESET}")
         self.cmd(f"dig version.bind CHAOS TXT @{line}")
         print_msg(f"dig any {line} @{rhost}")

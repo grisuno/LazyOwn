@@ -32,14 +32,44 @@ from typing import Any
 LAZYMODE_FIRST_KEY = "loop_lazymode_first"
 LAZYMODE_MAX_TOKENS_KEY = "loop_lazymode_max_tokens"
 LAZYMODE_TIMEOUT_KEY = "loop_lazymode_timeout"
+LAZYMODE_MIN_MODEL_B_KEY = "loop_lazymode_min_model_b"
 _DEFAULT_MAX_TOKENS = 1200
 _DEFAULT_TIMEOUT_SEC = 180.0
+_DEFAULT_MIN_MODEL_B = 7.0
 _CONTEXT_FACT_LIMIT = 4
 _FACT_CHAR_LIMIT = 200
 _PROOF_CHAR_LIMIT = 8000
 _TRANSCRIPT_CHAR_LIMIT = 4000
 _MIN_CONTENT_CHARS = 24
 _CODE_FENCE_RE = re.compile(r"```(?:python|py)?\s*\n(.*?)```", re.DOTALL)
+_MODEL_SIZE_TAG_RE = re.compile(r"(\d+(?:[.,]\d+)?)b\b", re.IGNORECASE)
+
+
+def _member_sizes_b(members: list[Any]) -> list[float]:
+    """Return parameter-size hints parsed from member model tags.
+
+    Members expose ``model`` strings like ``ollama:deepseek-r1:1.5b``; the
+    trailing ``N[b]`` token is the parameter count in billions. Entries
+    without a parseable tag are skipped (unknown size never blocks).
+
+    Args:
+        members: Chain member dicts (or anything else; non-dicts are skipped).
+
+    Returns:
+        Sizes in billions of parameters, ascending.
+    """
+    sizes: list[float] = []
+    for member in members or []:
+        if not isinstance(member, dict):
+            continue
+        model = str((member or {}).get("model", "") or "")
+        match = _MODEL_SIZE_TAG_RE.search(model)
+        if match:
+            try:
+                sizes.append(float(match.group(1).replace(",", ".")))
+            except ValueError:
+                continue
+    return sorted(sizes)
 
 
 class WorkerLazymodeMixin:
@@ -88,6 +118,33 @@ class WorkerLazymodeMixin:
         except Exception:
             return _DEFAULT_TIMEOUT_SEC
         return value if value > 0 else _DEFAULT_TIMEOUT_SEC
+
+    def _model_too_small(self, members: list[Any]) -> tuple[bool, float | None, float]:
+        """Return whether every sized chain member is below the codegen floor.
+
+        Small reasoning models (single-digit billions) almost never emit a
+        syntactically valid script against an internal SDK surface, and each
+        attempt costs minutes of wall time. Members with no size tag count as
+        unknown-size and never block; the floor is configurable via
+        ``payload.json:loop_lazymode_min_model_b`` (default 7.0).
+
+        Args:
+            members: Chain members (task-bound chain, else pool members).
+
+        Returns:
+            ``(too_small, smallest_size, threshold)`` where ``too_small`` is
+            False when any member is untagged or at/above the threshold.
+        """
+        payload = self._lazymode_payload()
+        try:
+            threshold = float(payload.get(LAZYMODE_MIN_MODEL_B_KEY, _DEFAULT_MIN_MODEL_B))
+        except (TypeError, ValueError):
+            threshold = _DEFAULT_MIN_MODEL_B
+        sizes = _member_sizes_b(members)
+        if not sizes:
+            return False, None, threshold
+        smallest = sizes[0]
+        return smallest < threshold, smallest, threshold
 
     @staticmethod
     def _sdk_surface() -> str:
@@ -259,6 +316,17 @@ class WorkerLazymodeMixin:
         except Exception:
             return False
         if not pool.members() and not chain:
+            return False
+        members = chain or pool.members()
+        too_small, size, threshold = self._model_too_small(members)
+        if too_small:
+            self.activity.emit(
+                self.name,
+                "lazymode",
+                f"code mode: active model ~{size:g}B < codegen floor {threshold:g}B; "
+                "skipping codegen (agent and auto_pwn follow)",
+                intent_id=intent.node_id,
+            )
             return False
         self.activity.emit(
             self.name,

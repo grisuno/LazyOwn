@@ -12,9 +12,9 @@ from __future__ import annotations
 from pathlib import Path
 
 from modules import lazy_findings
-from modules.outcome_bus import OutcomeEvent
+from modules.outcome_bus import SESSIONS_DIR, OutcomeEvent
 
-_BASE_DIR = Path(__file__).resolve().parent.parent.parent / "sessions"
+_BASE_DIR = SESSIONS_DIR
 
 LEDGER_MARKER = "findings_ledger"
 

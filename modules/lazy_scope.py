@@ -304,6 +304,58 @@ def scope_verdict(
     return ScopeVerdict(True, "", f"{text} resolves inside the lab")
 
 
+def network_verdict(
+    network: str,
+    allowlist: frozenset[str] | None = None,
+    denylist: frozenset[str] | None = None,
+) -> ScopeVerdict:
+    """Decide whether an entire CIDR block is inside the default lab scope.
+
+    Deny entries have priority and any overlap blocks the whole block, so a
+    sweep that merely touches a denied range never runs. An allowlist entry
+    must cover the whole block. Without an allowlist the block itself must be
+    loopback, RFC1918, link-local or unique-local.
+
+    Args:
+        network: Candidate network in CIDR notation.
+        allowlist: Extra operator-approved lab networks or hosts.
+        denylist: Operator-denied hosts, IPs or CIDR blocks.
+
+    Returns:
+        ScopeVerdict with allowed flag, denial kind and detail.
+    """
+    text = str(network or "").strip()
+    if not text:
+        return ScopeVerdict(False, "empty", "no network to authorize")
+    try:
+        parsed = ipaddress.ip_network(text, strict=False)
+    except ValueError:
+        return ScopeVerdict(False, "invalid", f"{text} is not a CIDR network")
+    if denylist:
+        for denied in _networks_of(denylist):
+            if denied.version == parsed.version and parsed.overlaps(denied):
+                return ScopeVerdict(
+                    False,
+                    "denylist",
+                    f"{text} overlaps denied range {denied}",
+                )
+        if text.lower() in denylist:
+            return ScopeVerdict(False, "denylist", f"{text} is explicitly denied by operator denylist")
+    if allowlist:
+        for entry in allowlist:
+            try:
+                allowed = ipaddress.ip_network(entry.rstrip("."), strict=False)
+            except ValueError:
+                continue
+            if allowed.version == parsed.version and parsed.subnet_of(allowed):
+                return ScopeVerdict(True, "", "operator allowlist network")
+        if text.lower() in allowlist:
+            return ScopeVerdict(True, "", "operator allowlist")
+    if parsed.is_loopback or parsed.is_private or parsed.is_link_local:
+        return ScopeVerdict(True, "", "lab network")
+    return ScopeVerdict(False, "public-network", f"{text} is not a lab network")
+
+
 def _networks_of(entries: frozenset[str]) -> list[ipaddress._BaseNetwork]:
     """Return parsed CIDR networks from a scope entry set."""
     networks: list[ipaddress._BaseNetwork] = []
@@ -383,6 +435,7 @@ __all__ = [
     "command_scope_verdict",
     "extract_hosts",
     "is_lab_address",
+    "network_verdict",
     "read_allowlist",
     "read_denylist",
     "read_scope_file",

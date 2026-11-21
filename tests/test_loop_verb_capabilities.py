@@ -29,14 +29,15 @@ def test_capability_of_returns_record_or_empty():
     record = caps.capability_of("lazynmap 172.17.0.2")
     assert record["requires_root"] is True
     assert record["requires_tty"] is True
-    assert record["fallback"].startswith("nmap -sT")
+    assert record["fallback"].startswith("nmap -Pn -sT -sV")
+    assert "2375" in record["fallback"]
     assert caps.capability_of("nmap 1.2.3.4") == {}
 
 
 def test_downgrade_rewrites_lazynmap_to_unprivileged_scan():
     """A lazynmap command becomes an unprivileged nmap connect scan."""
     rewritten, note = caps.downgrade_for_unattended("lazynmap 172.17.0.2", "172.17.0.2")
-    assert rewritten == "nmap -sT -sV --top-ports 100 172.17.0.2"
+    assert rewritten.endswith("-oA sessions/scan_172.17.0.2.nmap 172.17.0.2")
     assert "downgrade" in note
 
     from_args, _ = caps.downgrade_for_unattended("lazynmap 10.9.9.9")
@@ -54,7 +55,8 @@ def test_worker_downgrade_depends_on_sudo_availability(monkeypatch):
 
     monkeypatch.setattr(utils, "sudo_available", lambda: False)
     command, note = worker._downgrade_privileged("lazynmap 172.17.0.2", "172.17.0.2")
-    assert command == "nmap -sT -sV --top-ports 100 172.17.0.2"
+    assert command.startswith("nmap -Pn -sT -sV -p ")
+    assert command.endswith("-oA sessions/scan_172.17.0.2.nmap 172.17.0.2")
     assert note
 
     monkeypatch.setattr(utils, "sudo_available", lambda: True)

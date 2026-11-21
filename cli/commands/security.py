@@ -277,3 +277,50 @@ class SecurityCommandSet(LazyOwnCommandSet):
         sessions_path = Path("sessions")
         candidates = list(sessions_path.glob("hash*")) + list(sessions_path.glob("*hash*"))
         return [str(p) for p in candidates if p.name.startswith(text)]
+
+    def do_crack_facts(self, line: str) -> None:
+        """Crack crypt hashes harvested into the FactStore for one host.
+
+        Exports the ``user:crypt`` rows the spool ingested (shadow dumps,
+        container-host-mount escapes), runs john/hashcat and returns every
+        cracked password to the LazyOwnDB credentials table and to the
+        loop world model as unbound spray candidates.
+
+        Usage: crack_facts <host> [--wordlist <path>]
+
+        Examples:
+            crack_facts 10.0.0.55
+            crack_facts 10.0.0.55 --wordlist /usr/share/wordlists/rockyou.txt
+        """
+        args = line.strip().split()
+        if not args:
+            self._cmd.perror("Usage: crack_facts <host> [--wordlist <path>]")
+            return
+        host = args[0]
+        wordlist = None
+        if "--wordlist" in args:
+            idx = args.index("--wordlist")
+            if idx + 1 < len(args):
+                wordlist = args[idx + 1]
+        try:
+            from rich.console import Console
+
+            from modules.crack_consumer import consume, render_summary
+
+            console = Console()
+            summary = consume(host, wordlist=wordlist)
+            for text in render_summary(summary):
+                console.print(text)
+            if summary.get("cracked"):
+                console.print("[green]cracked passwords are now unbound spray candidates in the world model[/green]")
+        except Exception as exc:
+            self._cmd.perror(f"crack_facts failed: {exc}")
+
+    def complete_crack_facts(self, text: str, line: str, begidx: int, endidx: int) -> list[str]:
+        try:
+            from skills.lazyown_facts import FactStore
+
+            store = FactStore()
+            return [host for host in store.hosts() if host.startswith(text)]
+        except Exception:
+            return []

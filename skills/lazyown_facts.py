@@ -363,6 +363,66 @@ class SecretsdumpParser(ITextOutputParser):
         return creds, shares, access
 
 
+class ShadowParser(ITextOutputParser):
+    """Parse /etc/shadow and crypt-format hash dumps.
+
+    Covers the glibc crypt prefixes the loop meets on Linux hosts and
+    container-host-mount escapes: ``$1$`` MD5, ``$2a/2b/2y$`` bcrypt,
+    ``$5$`` SHA-256, ``$6$`` SHA-512, ``$7$`` scrypt, ``$y$`` yescrypt and
+    ``$gy$`` gost-yescrypt. Locked accounts (``*`` or ``!``) carry no
+    cracking material and produce no credential fact.
+    """
+
+    TOOL_NAME = "shadow"
+
+    CRYPT_HASH_TYPES = {
+        "1": "MD5-crypt",
+        "2a": "bcrypt",
+        "2b": "bcrypt",
+        "2y": "bcrypt",
+        "5": "SHA-256-crypt",
+        "6": "SHA-512-crypt",
+        "7": "scrypt",
+        "y": "yescrypt",
+        "gy": "gost-yescrypt",
+    }
+    _SHADOW_RE = re.compile(
+        r"^(?P<user>[A-Za-z_][A-Za-z0-9._-]{0,31}):(?P<hash>\$(?P<prefix>[0-9a-z]+)\$[^\s:]+):",
+        re.MULTILINE,
+    )
+    _ANY_SHADOW_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9._-]{0,31}:(\$[^\s:]*|[*!+.=]):", re.MULTILINE)
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return (
+            "shadow" in filename.lower()
+            or "hashdump" in filename.lower()
+            or self._SHADOW_RE.search(content or "") is not None
+            or self._ANY_SHADOW_RE.search(content or "") is not None
+        )
+
+    def parse(self, host: str, content: str, source_file: str):
+        creds: list[CredentialFact] = []
+        shares: list[ShareFact] = []
+        access: list[AccessFact] = []
+        for match in self._SHADOW_RE.finditer(content or ""):
+            hash_type = self.CRYPT_HASH_TYPES.get(match.group("prefix"), "")
+            if not hash_type:
+                continue
+            creds.append(
+                CredentialFact(
+                    host=host,
+                    username=match.group("user"),
+                    password="",
+                    source_file=source_file,
+                    hash_value=match.group("hash"),
+                    hash_type=hash_type,
+                )
+            )
+        if self._ANY_SHADOW_RE.search(content or "") is not None:
+            access.append(AccessFact(host=host, level="root", method="shadow-read", source_file=source_file))
+        return creds, shares, access
+
+
 class LdapParser(ITextOutputParser):
     """Parse ldapsearch / ldapdomaindump output."""
 
@@ -685,6 +745,7 @@ class FactStore:
             CrackMapExecParser(),
             Enum4linuxParser(),
             SecretsdumpParser(),
+            ShadowParser(),
             LdapParser(),
             KerbruteParser(),
             RpcclientParser(),
@@ -723,6 +784,25 @@ class FactStore:
                 hf.paths.append(DiscoveredPath(**p))
             hf.os_hint = blob.get("os_hint", "")
             self._data[host] = hf
+
+    def facts_for(self, host: str):
+        """Return one host's facts without mutating the store.
+
+        Args:
+            host: Host IP the facts belong to.
+
+        Returns:
+            HostFacts for the host, or None when nothing was ingested yet.
+        """
+        return self._data.get(host)
+
+    def hosts(self) -> list[str]:
+        """Return every host key present in the store.
+
+        Returns:
+            List of host IPs, insertion order preserved.
+        """
+        return list(self._data)
 
     def save(self) -> None:
         out: dict[str, dict] = {}

@@ -268,6 +268,58 @@ def target_in_deny(target: str, entries: Sequence[str]) -> bool:
     return target_in_scope(target, entries)
 
 
+def network_in_scope(network: str, entries: Sequence[str]) -> bool:
+    """Return whether a whole network is authorized by the scope *entries*.
+
+    A network is authorized only when every address it contains is covered:
+    the entry must be a CIDR that is equal to or a supernet of *network*.
+    Bare IPs and hostnames never authorize a network, so a sweep such as
+    ``10.0.0.0/16`` cannot slip past a scope that names a single host.
+
+    Args:
+        network: The candidate network in CIDR notation.
+        entries: Authorized scope entries.
+
+    Returns:
+        ``True`` when at least one scope entry covers the whole network.
+    """
+    parsed = _parse_network((network or "").strip())
+    if parsed is None:
+        return False
+    for raw in entries:
+        entry = _parse_network(raw.strip())
+        if entry is None or entry.version != parsed.version:
+            continue
+        if parsed.subnet_of(entry):
+            return True
+    return False
+
+
+def network_denied(network: str, entries: Sequence[str]) -> bool:
+    """Return whether a network overlaps any explicit deny entry.
+
+    Any overlap is enough: a sweep that merely touches a denied range must
+    not run, because it would send traffic to the denied addresses.
+
+    Args:
+        network: The candidate network in CIDR notation.
+        entries: Denied scope entries.
+
+    Returns:
+        ``True`` when the network overlaps at least one deny entry.
+    """
+    parsed = _parse_network((network or "").strip())
+    if parsed is None:
+        return False
+    for raw in entries:
+        entry = _parse_network(raw.strip())
+        if entry is None or entry.version != parsed.version:
+            continue
+        if parsed.overlaps(entry):
+            return True
+    return False
+
+
 class ScopeGuard:
     """Decides whether an offensive command may run against the active target.
 

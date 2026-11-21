@@ -121,6 +121,7 @@ MAX_PRIORITY = 10
 MAX_INTENTS_PER_ROUND = 4
 MAX_CHANGE_INTENTS = 2
 MAX_GHOST_INTENTS = 2
+MAX_LATERAL_INTENTS = 2
 REFINE_MAX_PENDING = 12
 MAX_FACTS_PAGE = 100
 MAX_WORKER_STEPS = 6
@@ -2891,6 +2892,112 @@ def _target_as_asset(value: str) -> AssetNode:
     return AssetNode(asset_id=0, kind=kind, value=text, parent_id=0, dedupe_key="")
 
 
+def scope_allows_target(task_id: str, store, target: str) -> tuple[bool, str]:
+    """Single scope decision for one target shared by worker and planner.
+
+    Applies the same three layers everywhere: the asset gate (operator
+    allow/deny rules), the global protected-suffix deny, and the task's
+    authorized scope. With no task scope it falls back to the lab-only
+    default so an autonomous round never touches public infrastructure.
+
+    Args:
+        task_id: Owning task whose scope rules apply.
+        store: Task store exposing ``get(task_id)``.
+        target: Host, IP or URL the caller wants to touch.
+
+    Returns:
+        ``(allowed, reason)``; reason is empty when allowed.
+    """
+    text = (target or "").strip()
+    if not text:
+        return True, ""
+    try:
+        gate = AssetGate(task_id).evaluate(text)
+        if not gate["allowed"]:
+            return False, f"asset-gate: {gate['reason']}"
+    except Exception:
+        pass
+    try:
+        from modules.intercept import scope_blocked
+
+        if scope_blocked(text):
+            return False, "scope-deny-global: protected suffix"
+    except Exception:
+        pass
+    record = (store.get(task_id) or {}) if store is not None else {}
+    scope = record.get("scope", []) or []
+    if scope:
+        shim = _target_as_asset(text)
+        for item in scope:
+            if _scope_covers(str(item.get("kind", "")), str(item.get("value", "")), shim):
+                return True, ""
+        return False, "target outside task scope"
+    from modules import lazy_scope
+
+    if not lazy_scope.LAB_DEFAULT_ENABLED:
+        return True, ""
+    verdict = lazy_scope.scope_verdict(
+        text,
+        allowlist=lazy_scope.read_allowlist(),
+        denylist=lazy_scope.read_denylist(),
+    )
+    if verdict.allowed:
+        return True, ""
+    return False, f"scope-lab-default: {verdict.reason}: {verdict.detail}"
+
+
+def scope_allows_network(task_id: str, store, network: str) -> tuple[bool, str]:
+    """Single scope decision for a CIDR sweep shared by worker and planner.
+
+    A network is allowed only when the task scope explicitly covers every
+    address in it (a CIDR entry equal to or wider than the sweep). With no
+    task scope the lab-only default applies, so only loopback/RFC1918
+    blocks pass unless the operator allowlists them.
+
+    Args:
+        task_id: Owning task whose scope rules apply.
+        store: Task store exposing ``get(task_id)``.
+        network: Candidate network in CIDR notation.
+
+    Returns:
+        ``(allowed, reason)``; reason is empty when allowed.
+    """
+    import ipaddress
+
+    text = (network or "").strip()
+    if not text:
+        return True, ""
+    try:
+        parsed = ipaddress.ip_network(text, strict=False)
+    except ValueError:
+        return False, f"invalid network: {text}"
+    record = (store.get(task_id) or {}) if store is not None else {}
+    scope = record.get("scope", []) or []
+    if scope:
+        if parsed.prefixlen == parsed.max_prefixlen:
+            allowed, reason = scope_allows_target(task_id, store, str(parsed.network_address))
+            if allowed:
+                return True, ""
+        from cli.scope_guard import network_in_scope
+
+        entries = [str(item.get("value", "")) for item in scope]
+        if network_in_scope(text, entries):
+            return True, ""
+        return False, "network outside task scope"
+    from modules import lazy_scope
+
+    if not lazy_scope.LAB_DEFAULT_ENABLED:
+        return True, ""
+    verdict = lazy_scope.network_verdict(
+        text,
+        allowlist=lazy_scope.read_allowlist(),
+        denylist=lazy_scope.read_denylist(),
+    )
+    if verdict.allowed:
+        return True, ""
+    return False, f"scope-lab-default: {verdict.reason}: {verdict.detail}"
+
+
 def _asset_candidates(target: str) -> tuple[list[str], list[str], list[str]]:
     """Split a target into domain/ip/url candidate lists for gate matching."""
     text = (target or "").strip()
@@ -3983,6 +4090,83 @@ _FOOTHOLD_FINDING_MARKS = (
 )
 
 
+def _row_epoch(value) -> float:
+    """Return one ledger row's recorded_at as an epoch float, tolerantly.
+
+    Ledger rows carry either an epoch number or an ISO-8601 timestamp;
+    unparseable values return 0.0 so a freshness gate never blocks them.
+
+    Args:
+        value: Epoch number or ISO-8601 timestamp string.
+
+    Returns:
+        Epoch seconds, or 0.0 when the value cannot be parsed.
+    """
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        pass
+    try:
+        from datetime import datetime
+
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00")).timestamp()
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def _ledger_side_hits(task_id: str, scoped_ips: list[str] | set[str], primary: str, not_before: float = 0.0) -> bool:
+    """Return True when this engagement's ledger carries side-host shell evidence.
+
+    The findings ledger is per-engagement, so a prior campaign's exploited
+    side host never satisfies a fresh run's lateral goal. Shell-evidence rows
+    carry the shell's host in ``target`` and the executed command in
+    ``evidence``; rows recorded before the engagement started are inherited
+    from an earlier campaign and never count.
+
+    Args:
+        task_id: Engagement whose ledger is scanned.
+        scoped_ips: Authorized side-host IPs (any order).
+        primary: Primary target IP; excluded from the side-host set.
+        not_before: Only rows recorded at or after this epoch count; 0
+            disables the freshness gate.
+
+    Returns:
+        True when any confirmed fresh ledger row references a scoped side IP.
+    """
+    try:
+        from modules.sinks.findings import ledger_for
+    except Exception:
+        return False
+    try:
+        rows = ledger_for(task_id).rows()
+    except Exception:
+        return False
+    for row in rows:
+        if str(row.get("state", "")) != "confirmed":
+            continue
+        if not_before and _row_epoch(row.get("recorded_at", 0)) < not_before:
+            continue
+        evidence = row.get("evidence") if isinstance(row.get("evidence"), dict) else {}
+        blob = " ".join(
+            str(row.get(field, "") or "")
+            for field in ("title", "target", "description")
+        )
+        blob += " " + " ".join(
+            str(evidence.get(field, "") or "") for field in ("command", "output")
+        )
+        for ip in scoped_ips:
+            if ip and ip != primary and ip in blob:
+                ActivityLog(task_id).emit(
+                    "lateral-gate",
+                    "side-hit",
+                    f"row {str(row.get('id', ''))[:12]} state={row.get('state')} "
+                    f"recorded={row.get('recorded_at')} target={row.get('target')} "
+                    f"matched ip={ip} title={str(row.get('title', ''))[:60]}",
+                )
+                return True
+    return False
+
+
 def _target_foothold_proven(target: str, task_id: str = "") -> bool:
     """Report whether THIS engagement already reached an initial foothold.
 
@@ -4318,6 +4502,7 @@ class Planner:
         initial_access = self._initial_access_candidate(existing)
         if initial_access is not None:
             candidates.insert(0, initial_access)
+        candidates.sort(key=lambda cand: cand[3], reverse=True)
         token_verdict = token_guard(self.task_id)
         if token_verdict.get("action") == "deterministic_only":
             self.activity.emit(
@@ -4691,6 +4876,133 @@ class Planner:
         except Exception:
             return False
 
+    def _pivot_prefix(self) -> str:
+        """Return a proxychains prefix for the active pivot chain.
+
+        Reads ``sessions/pivot_chain.json`` (written by ``autopivot``) and
+        renders a dedicated proxychains config so lateral commands to
+        internal hosts route through the last hop. Returns an empty string
+        when no hop is active or the config cannot be written, so the
+        proposal still runs directly instead of failing closed.
+        """
+        try:
+            import shlex
+
+            chain = json.loads((SESSIONS_DIR / "pivot_chain.json").read_text(encoding="utf-8"))
+            hops = chain.get("hops", []) or []
+            if not hops:
+                return ""
+            port = int(hops[-1].get("port", 0) or 0)
+            if port <= 0:
+                return ""
+            config = SESSIONS_DIR / "pivot_proxychains.conf"
+            body = (
+                "strict_chain\nproxy_dns\ntcp_read_time_out 15000\n"
+                f"tcp_connect_time_out 8000\n[ProxyList]\nsocks5 127.0.0.1 {port}\n"
+            )
+            if not config.is_file() or config.read_text(encoding="utf-8") != body:
+                config.write_text(body, encoding="utf-8")
+            return f"proxychains4 -q -f {shlex.quote(str(config))}"
+        except Exception:
+            return ""
+
+    def _lateral_candidates(self) -> list[tuple[str, list[int], list[int], int]]:
+        """Propose host-bound lateral movement from world-model evidence.
+
+        Only runs once the primary target has a proven foothold, so lateral
+        steps never queue before initial access. Every proposal is filtered
+        through the same scope helper the worker uses and the host asset is
+        inserted with the task id, so the asset gate has the final word.
+        """
+        try:
+            from modules.loop.lateral_planner import plan_lateral
+            from modules.world_model import read_state_dict
+        except Exception:
+            return []
+        target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
+        if not target or not _target_foothold_proven(target, self.task_id):
+            return []
+        try:
+            raw = read_state_dict(SESSIONS_DIR / "world_model.json") or {}
+        except Exception:
+            return []
+        hosts = {
+            ip: value
+            for ip, value in (raw.get("hosts", {}) or {}).items()
+            if str(ip).strip() != target
+        }
+        if not hosts:
+            return []
+        credentials = list(raw.get("credentials", []) or [])
+        try:
+            from core.config import load_payload
+
+            payload = load_payload() or {}
+            payload_user = str(payload.get("start_user", "") or "").strip()
+            payload_secret = str(
+                payload.get("start_pass", "") or payload.get("hash", "") or ""
+            ).strip()
+            if payload_user and payload_secret:
+                credentials.append({"value": f"{payload_user}:{payload_secret}", "host": "", "service": ""})
+        except Exception:
+            pass
+        marker = self._ACTION_MARKER
+        taken = {
+            node.text[len(marker):].strip()
+            for node in self.graph.list("intent")
+            if node.text.startswith(marker) and node.text[len(marker):].strip()
+        }
+        proposals = plan_lateral(
+            hosts,
+            credentials,
+            pivot_prefix=self._pivot_prefix(),
+            exclude=taken,
+            limit=MAX_LATERAL_INTENTS,
+        )
+        out: list[tuple[str, list[int], list[int], int]] = []
+
+        def _insert_asset(ip: str):
+            asset = next((a for a in self.assets.list("ip") if a.value == ip), None)
+            if asset is None:
+                try:
+                    asset = self.assets.insert("ip", ip, task_id=self.task_id)
+                except ValueError:
+                    return None
+            return asset
+
+        for ip, value in sorted(hosts.items()):
+            services = (value or {}).get("services", {}) or {}
+            state = str((value or {}).get("state", "") or "")
+            if services or state not in ("unscanned", "", "scanned", None):
+                continue
+            if f"lazynmap {ip}" in taken:
+                continue
+            allowed, reason = scope_allows_target(self.task_id, self.store, ip)
+            if not allowed:
+                continue
+            asset = _insert_asset(ip)
+            if asset is None:
+                continue
+            out.append((f"{marker}lazynmap {ip}", [asset.asset_id], [], MAX_PRIORITY + 1))
+            self.activity.emit("planner", "lateral-scan", f"side host {ip} has no world-model services; scanning")
+            taken.add(f"lazynmap {ip}")
+        for proposal in proposals:
+            allowed, reason = scope_allows_target(self.task_id, self.store, proposal.host)
+            if not allowed:
+                self.activity.emit("planner", "lateral-skip", f"{proposal.host}: {reason}")
+                continue
+            asset = _insert_asset(proposal.host)
+            if asset is None:
+                self.activity.emit("planner", "lateral-skip", f"{proposal.host}: asset rejected")
+                continue
+            out.append((f"{marker}{proposal.command}", [asset.asset_id], [], MAX_PRIORITY + 1))
+            self.activity.emit(
+                "planner",
+                "lateral",
+                f"{proposal.service} {proposal.host} via {proposal.credential_user or 'daemon'}",
+            )
+        return out
+
     def _initial_access_candidate(self, existing: set[str]) -> tuple[str, list[int], list[int], int] | None:
         """Guarantee one exploitation-class intent while no foothold exists.
 
@@ -4784,6 +5096,7 @@ class Planner:
         out.extend(self._objective_candidates())
         out.extend(self._continuation_candidates())
         out.extend(self._selector_candidates())
+        out.extend(self._lateral_candidates())
         try:
             from modules.loop.planner_bridge import bridge_candidates_for_task
 
@@ -4832,7 +5145,14 @@ class Planner:
                     asset = self.assets.get(asset_id)
                     if asset is not None and asset.value in scores:
                         bonus = max(bonus, min(4, int(scores[asset.value] / 10)))
-                boosted.append((summary, asset_ids, parents, min(10, priority + bonus)))
+                boosted.append(
+                    (
+                        summary,
+                        asset_ids,
+                        parents,
+                        priority if priority > MAX_PRIORITY else min(10, priority + bonus),
+                    )
+                )
             out = boosted
             self.activity.emit("planner", "intel", f"exposure-ranked {len(out)} candidates from intel_summary")
         try:
@@ -4897,7 +5217,14 @@ class Planner:
                 bonus = 0
                 for asset_id in asset_ids:
                     bonus = max(bonus, min(3, heat.get(int(asset_id), 0)))
-                ranked.append((summary, asset_ids, parents, min(10, priority + bonus)))
+                ranked.append(
+                    (
+                        summary,
+                        asset_ids,
+                        parents,
+                        priority if priority > MAX_PRIORITY else min(10, priority + bonus),
+                    )
+                )
             ranked.sort(key=lambda row: (-max([heat.get(int(a), 0) for a in row[1]] or [0]), -row[3]))
             out = ranked
             self.activity.emit("planner", "force", f"force-ranked {len(out)} candidates by graph heat")
@@ -5035,7 +5362,14 @@ class Planner:
                 boosted += 1
             elif delta < 0:
                 demoted += 1
-            adjusted.append((summary, asset_ids, parents, max(1, min(MAX_PRIORITY, priority + delta))))
+            adjusted.append(
+                (
+                    summary,
+                    asset_ids,
+                    parents,
+                    priority if priority > MAX_PRIORITY else max(1, min(MAX_PRIORITY, priority + delta)),
+                )
+            )
         if boosted or demoted:
             self.activity.emit(
                 "planner",
@@ -5710,6 +6044,14 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                 intent_id=intent.node_id,
             )
             return "", "blocked", "scope"
+        if not self._command_in_scope(command):
+            self.activity.emit(
+                self.name,
+                "block",
+                f"scope-enforce: embedded host or network outside authorized scope: {command[:160]}",
+                intent_id=intent.node_id,
+            )
+            return "", "blocked", "scope"
         command, downgrade_note = self._downgrade_privileged(command, target)
         if downgrade_note:
             self.activity.emit(
@@ -6258,6 +6600,9 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         action_marker = "run action: "
         if intent.text.startswith(action_marker):
             command = intent.text[len(action_marker):].strip()
+            if command.startswith("lazynmap ") and len(command.split()) >= 2:
+                host = command.split()[1]
+                return [command, f"auto_populate {host}".strip()]
             return [command] if command else []
         host_flag = f" {target}"
         use_lazynmap = getattr(self, "shell", None) is not None
@@ -6299,6 +6644,9 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             return ping_first + scan_first + [
                 f"curl -sS -m 20 -I http://{target}".strip(),
             ]
+        chain_step = re.search(r"chain ([a-z0-9_-]+) step ([a-z0-9_-]+)", intent.text)
+        if chain_step is not None:
+            return [f"chain {chain_step.group(1)} step {chain_step.group(2)}"]
         from modules.auto_registry import steps_for as _auto_keyword_steps
 
         keyword_resolved = _auto_keyword_steps(intent.text, target)
@@ -6397,6 +6745,8 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             "unauthorized",
             "login:",
             "password:",
+            "uid=0(",
+            "shell obtained",
         )
         if allow_finding and any(mark in lowered for mark in finding_marks):
             poc = f"{best_cmd}\n{best_out[:800]}"
@@ -11011,11 +11361,43 @@ class LazyLoopEngine(EngineProxyMixin):
             lowered_goal = goal.lower()
             wants_creds = any(k in lowered_goal for k in ("cred", "password", "hash", "login"))
             wants_access = any(k in lowered_goal for k in ("access", "shell", "session", "own", "exploit", "compromis", "foothold"))
+            wants_lateral = any(
+                k in lowered_goal for k in ("lateral", "pivot", "propagate", "spread", "move to")
+            )
+            lateral_hit = False
+            if wants_lateral:
+                scope_values = [
+                    str((item or {}).get("value", "") or "")
+                    for item in scope
+                    if (item or {}).get("value")
+                ]
+                primary = scope_values[0] if scope_values else ""
+                scoped_ips = {
+                    str((item or {}).get("value", "") or "")
+                    for item in scope
+                    if (item or {}).get("kind") == "ip"
+                }
+                lateral_hit = any(
+                    ip and ip in (n.text or "")
+                    for n in findings
+                    for ip in scoped_ips
+                    if ip != primary
+                )
+                if not lateral_hit:
+                    not_before = float((record.get("runtime") or {}).get("started", 0) or 0)
+                    lateral_hit = bool(
+                        _ledger_side_hits(task_id, sorted(scoped_ips), primary, not_before)
+                    )
             cred_hit = any(
                 k in (n.text or "").lower() for n in findings for k in ("password", "hash", "login:", "credential")
             )
             if status == "done":
                 verdict["verdict"] = "achieved"
+            elif wants_lateral and not lateral_hit:
+                verdict["verdict"] = "partial"
+                verdict["completion_reason"] = (
+                    "goal asks for lateral movement but no scoped side host carries finding evidence yet"
+                )
             elif wants_creds and cred_hit:
                 verdict["verdict"] = "achieved"
             elif wants_access and confirmed_count:
@@ -11747,6 +12129,41 @@ class LazyLoopEngine(EngineProxyMixin):
             ActivityLog(task_id).emit("engine", "progress", f"progress ledger unavailable: {str(exc)[:120]}")
             result = {"decision": ""}
         if mode == "pentest" and explained:
+            record = self.store.get(task_id) or {}
+            goal = str(record.get("goal", "") or "").lower()
+            wants_lateral = any(
+                k in goal for k in ("lateral", "pivot", "propagate", "spread", "move to")
+            )
+            if wants_lateral:
+                scope_items = [
+                    str((item or {}).get("value", "") or "")
+                    for item in (record.get("scope", []) or [])
+                    if (item or {}).get("kind") == "ip" and (item or {}).get("value")
+                ]
+                primary = scope_items[0] if scope_items else ""
+                not_before = float((record.get("runtime") or {}).get("started", 0) or 0)
+                side_hits = [
+                    1
+                    for finding in graph.list("finding")
+                    for ip in scope_items
+                    if ip and ip != primary and ip in (finding.text or "")
+                ]
+                if not side_hits and _ledger_side_hits(task_id, scope_items, primary, not_before):
+                    side_hits = [1]
+                if not side_hits:
+                    ActivityLog(task_id).emit(
+                        "engine",
+                        "pentest-stop",
+                        "foothold proven but goal asks for lateral movement; continuing "
+                        "(no side-host finding evidence yet)",
+                    )
+                    return ""
+                ActivityLog(task_id).emit(
+                    "engine",
+                    "pentest-decision",
+                    f"lateral goal satisfied: side evidence found "
+                    f"({len(scope_items)} scoped, primary {primary})",
+                )
             return "pentest_proven"
         if str(result.get("decision", "")) == "handoff":
             self._archive_discards(task_id, last_results=summary.get("results", []) or [])

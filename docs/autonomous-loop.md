@@ -149,6 +149,48 @@ are active at once so the operator uplink is never saturated; every
 target gets its own task and the final summary reports per-target
 results.
 
+## Lateral movement
+
+Once the primary target has a proven foothold (a confirmed shell/session
+finding **in this engagement**), the planner's lateral branch wakes up
+(`Planner._lateral_candidates`) and proposes host-bound movement from
+world-model evidence, ordered by yield:
+
+1. **Docker daemon escape** — an open 2375/2376 port becomes
+   `docker -H tcp://<ip>:2375 run --rm -v /:/mnt ...` with a `NO_PROXY`
+   prefix so the recorder proxy never intercepts the daemon connection.
+   Priority 11: the docker escape and the side-host scan outrank every
+   ordinary candidate (which cap at 10).
+2. **Credential spray** — `crackmapexec smb|winrm|ssh|mssql|rdp <host>`
+   with the strongest credential: host-bound first, then payload
+   `start_user/start_pass`, then world-model creds. NTLM hashes use
+   `-H` where the protocol allows them; SSH hashes are skipped. Secrets
+   are `shlex.quote`-d and every host is re-validated through
+   `scope_allows_target` (asset gate → protected suffix → task scope →
+   lab default) — a public or out-of-scope host logs `lateral-skip` and
+   is never touched.
+3. **Side-host discovery** — an in-scope host with no world-model
+   services gets one `run action: lazynmap <ip>` proposal followed by
+   `auto_populate <ip>`. When `lazynmap` needs the tty it does not have,
+   the capability registry downgrades to a plain nmap connect scan over
+   the lateral port list and writes `sessions/scan_<ip>.nmap.xml` so
+   `auto_populate` can ingest it.
+
+The loop refuses to stop on a "move laterally" goal until a scoped side
+host carries finding evidence from **this run**: the stop gate
+(`_engagement_decision`) and the verdict (`_evaluate_goal`) both check
+the task graph findings and the per-engagement findings ledger for a
+confirmed row referencing a side IP (rows inherited from an earlier
+campaign are filtered by `recorded_at >= runtime.started`). The audit
+trail records the decision either way: `pentest-stop` (continuing),
+`pentest-decision` (lateral goal satisfied) and `lateral-skip`
+(per-host scope rejection).
+
+Verified end to end (`auto_loop`, MS2 + a docker:dind target with an
+open daemon): foothold on the MS2 → `run action:` docker-escape intent →
+`uid=0(root)` on the dind → beacon handoff dispatched for the side host
+→ `pentest-decision` → verdict `achieved`, coverage 100%.
+
 ## Observability
 
 

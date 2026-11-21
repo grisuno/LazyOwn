@@ -207,6 +207,14 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
         description="one-command full chain: assign, scan, sweep, validate, plan, stage",
     ),
     AutoVerb(
+        verb="crack_facts",
+        phases=("cred", "lateral"),
+        keywords=("crack", "shadow", "password hashes", "hashes", "wordlist", "unshadow"),
+        needs_target=True,
+        extra_args="",
+        description="crack crypt hashes from the FactStore and feed the world model",
+    ),
+    AutoVerb(
         verb="atomic_shell",
         phases=("exploit", "c2"),
         keywords=(

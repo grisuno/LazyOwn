@@ -16,33 +16,12 @@ class WorkerGatingMixin:
 
     def _scope_allows_target(self, target: str) -> bool:
         """Enforce explicit scope: targets outside scope are blocked."""
-        from modules.lazy_loop import AssetGate, _scope_covers, _target_as_asset
+        from modules.lazy_loop import scope_allows_target
 
-        try:
-            gate = AssetGate(self.task_id).evaluate(target or "")
-            if not gate["allowed"]:
-                self.activity.emit(self.name, "block", f"asset-gate: {target} {gate['reason']}", intent_id=0)
-                return False
-        except Exception:
-            pass
-        try:
-            from modules.intercept import scope_blocked as _blocked
-
-            if _blocked(target or ""):
-                self.activity.emit(
-                    self.name, "block", f"scope-deny-global: {target} matches protected suffix", intent_id=0
-                )
-                return False
-        except Exception:
-            pass
-        record = self.store.get(self.task_id) or {}
-        scope = record.get("scope", []) or []
-        if not scope:
-            return self._lab_scope_default(target)
-        shim = _target_as_asset(target)
-        for item in scope:
-            if _scope_covers(str(item.get("kind", "")), str(item.get("value", "")), shim):
-                return True
+        allowed, reason = scope_allows_target(self.task_id, self.store, target)
+        if allowed:
+            return True
+        self.activity.emit(self.name, "block", f"scope: {target} {reason}", intent_id=0)
         return False
 
     def _lab_scope_default(self, target: str) -> bool:
@@ -58,21 +37,15 @@ class WorkerGatingMixin:
         Returns:
             True when the target is lab-local or explicitly allowed.
         """
-        from modules import lazy_scope
+        from modules.lazy_loop import scope_allows_target
 
-        if not lazy_scope.LAB_DEFAULT_ENABLED:
-            return True
-        verdict = lazy_scope.scope_verdict(
-            target,
-            allowlist=lazy_scope.read_allowlist(),
-            denylist=lazy_scope.read_denylist(),
-        )
-        if verdict.allowed:
+        allowed, reason = scope_allows_target(self.task_id, self.store, target)
+        if allowed:
             return True
         self.activity.emit(
             self.name,
             "block",
-            f"scope-lab-default: {target} {verdict.reason}: {verdict.detail}",
+            f"scope-lab-default: {target} {reason}",
             intent_id=0,
         )
         return False
@@ -185,9 +158,29 @@ class WorkerGatingMixin:
             return command, ""
 
     def _command_in_scope(self, command: str) -> bool:
-        """Return True when every host a command mentions is in scope."""
+        """Return True when every host and network a command mentions is in scope.
+
+        IPv4 literals, URLs and CIDR sweeps are extracted independently.
+        A CIDR must be covered by the task scope as a whole, so a sweep
+        cannot hide behind one in-scope host inside it.
+        """
+        from modules.lazy_loop import scope_allows_network
+
         text = command or ""
+        networks = set(re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}/\d{1,2}\b", text))
         targets = set(re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text))
+        for network in networks:
+            base = network.split("/", 1)[0]
+            targets.discard(base)
+            allowed, reason = scope_allows_network(self.task_id, self.store, network)
+            if not allowed:
+                self.activity.emit(
+                    self.name,
+                    "block",
+                    f"scope-network: {network} {reason}",
+                    intent_id=0,
+                )
+                return False
         targets.update(re.findall(r"https?://[^\s'\"]+", text))
         if not targets:
             return True

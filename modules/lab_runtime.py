@@ -103,6 +103,35 @@ RANGE_PROFILES: dict[str, dict] = {
 }
 
 
+LAB_PRODUCT_HINTS: dict[str, dict[str, str]] = {
+    "php2shell56": {"name": "http", "product": "php", "version": "5.6.40"},
+    "php2shell84": {"name": "http", "product": "php", "version": "8.4.26"},
+    "wordpress": {"name": "http", "product": "wordpress", "version": ""},
+    "juice-shop": {"name": "http", "product": "node.js", "version": ""},
+    "tomcat": {"name": "http", "product": "apache tomcat", "version": "8.0"},
+    "struts": {"name": "http", "product": "apache struts", "version": "2.3.32"},
+    "metasploitable": {"name": "http", "product": "apache", "version": "2.2.8"},
+    "ad-lab": {"name": "ldap", "product": "samba", "version": ""},
+}
+
+
+def lab_product_hint(scenario: str) -> dict[str, str]:
+    """Return the known service fingerprint for one lab scenario.
+
+    The operator boots these images itself, so the product/version pair is
+    first-class evidence: the exploit ranker can corroborate a spec without
+    waiting for a deep nmap version probe that plain HTTP answers hide.
+
+    Args:
+        scenario: Lab scenario key from :data:`LAB_SCENARIOS`.
+
+    Returns:
+        ``{"name": ..., "product": ..., "version": ...}`` or an empty dict
+        when the scenario has no fingerprint recorded.
+    """
+    return dict(LAB_PRODUCT_HINTS.get(scenario, {}))
+
+
 def docker_available() -> bool:
     """Return whether the Docker daemon is reachable."""
     try:
@@ -545,6 +574,7 @@ __all__ = [
     "RANGE_PREFIX",
     "REGISTRY_PREFIX",
     "apply_gym_migrations",
+    "lab_product_hint",
     "container_ip",
     "container_name",
     "docker_available",

@@ -429,8 +429,42 @@ NETWORK_TOOL_HEADS = frozenset(
         "snmpwalk",
         "snmpcheck",
         "whatweb",
+        "nc",
+        "ncat",
+        "netcat",
     }
 )
+
+_NETCAT_HEADS = frozenset({"nc", "ncat", "netcat"})
+_NETCAT_HEAD_RE = re.compile(r"\b(?:nc|ncat|netcat)\b")
+_NETCAT_TIMED_RE = re.compile(r"(?:^|\s)(?:-w\S*|-q\S*|--timeout=\S*)")
+
+
+def _netcat_idle_timeout(command: str) -> tuple[str, str]:
+    """Bound a netcat command's idle reads without re-quoting the line.
+
+    A bare ``nc host port`` (or a piped one-shot banner sender) idles forever
+    on servers that keep the connection open and burns the whole worker
+    timeout; ``-w N`` bounds connect and idle reads. The injection is done on
+    the raw string so piped quoting (``printf 'payload' | nc ...``) survives.
+
+    Args:
+        command: Raw proposed command line.
+
+    Returns:
+        ``(command, reason)`` with ``-w 5`` injected after the first netcat
+        head when the line carries none; ``reason`` empty when unchanged.
+    """
+    match = _NETCAT_HEAD_RE.search(command or "")
+    if match is None:
+        return command, ""
+    tail = command[match.start():]
+    if _NETCAT_TIMED_RE.search(" " + tail):
+        return command, ""
+    repaired = command[: match.start()] + _NETCAT_HEAD_RE.sub(
+        lambda m: f"{m.group(0)} -w 5", command[match.start():], count=1
+    )
+    return repaired, "injected netcat idle timeout"
 
 NMAP_VALUE_FLAGS = frozenset(
     {
@@ -525,20 +559,24 @@ def repair_worker_command(command: str, target: str) -> tuple[str, str]:
     """
     if not (command or "").strip() or not target:
         return command, ""
+    command, reason = _netcat_idle_timeout(command)
+    original = command
     try:
         tokens = shlex.split(command)
     except ValueError:
         return command, ""
     if not tokens:
         return command, ""
-    reason = ""
     original_head = tokens[0]
     head = os.path.basename(original_head)
     if head != original_head:
+        parts = command.split(None, 1)
+        command = head + (" " + parts[1] if len(parts) > 1 else "")
         tokens[0] = head
-        reason = f"stripped binary path from {original_head}"
+        stripped = f"stripped binary path from {original_head}"
+        reason = f"{reason}; {stripped}" if reason else stripped
     if head not in NETWORK_TOOL_HEADS:
-        return (" ".join(tokens), reason) if reason else (command, "")
+        return command, reason
     kept: list[str] = [tokens[0]]
     drop_next = False
     skip_next = False
@@ -4089,6 +4127,17 @@ _FOOTHOLD_FINDING_MARKS = (
     "initial access",
 )
 
+_FINDING_FAILURE_MARKS = (
+    "connection refused",
+    "unable to negotiate",
+    "couldn't get address",
+    "no route",
+    "no servers could be reached",
+    "no matching key exchange method",
+    "no matching host key type",
+    "connection timed out",
+)
+
 
 def _row_epoch(value) -> float:
     """Return one ledger row's recorded_at as an epoch float, tolerantly.
@@ -6747,8 +6796,14 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             "password:",
             "uid=0(",
             "shell obtained",
+            "uid=",
         )
-        if allow_finding and any(mark in lowered for mark in finding_marks):
+        failure_marks = _FINDING_FAILURE_MARKS
+        if (
+            allow_finding
+            and any(mark in lowered for mark in finding_marks)
+            and not any(mark in lowered for mark in failure_marks)
+        ):
             poc = f"{best_cmd}\n{best_out[:800]}"
             vulnclass, cve = _derive_finding_class(f"{best_cmd} {best_out}")
             label = cve or (vulnclass.upper() if vulnclass else "")
@@ -6929,6 +6984,11 @@ class Retester:
             "login required",
             "unauthorized",
             "captcha",
+            "unable to negotiate",
+            "couldn't get address",
+            "no matching key exchange method",
+            "no matching host key type",
+            "no servers could be reached",
         )
         command = (poc.splitlines() or [""])[0][:300] or f"curl -sS -m 20 -I {finding.text[:120]}"
         if _is_scan_command(command):
@@ -6956,16 +7016,23 @@ class Retester:
                         evidence = f"retest failed: {exc}"
                     self.traffic.record("bash", command, evidence, {"retest": finding_id})
                     lowered = evidence.lower()
+                    if any(mark in lowered for mark in blocked_marks) or not evidence.strip():
+                        verdict = "inconclusive"
+                        evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
+                        break
                     if any(mark in lowered for mark in ("200", "vulnerable", "cve", "exploit", "open tcp")):
                         verdict = "reproduced"
                         break
                     if any(mark in lowered for mark in ("patched", "no longer", "remediated", "not vulnerable")):
                         verdict = "fixed"
                         break
-                    if any(mark in lowered for mark in blocked_marks) or not evidence.strip():
-                        verdict = "inconclusive"
-                        evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
-                        break
+        if verdict == "reproduced" and any(mark in evidence.lower() for mark in blocked_marks):
+            verdict = "inconclusive"
+            evidence = (
+                "[blocked] replay evidence carries a connection failure; "
+                "no positive proof\n" + evidence[:600]
+            )
+            attempts = max(attempts, 1)
         finding.meta["retest"] = {
             "verdict": verdict,
             "attempts": attempts,
@@ -7074,6 +7141,19 @@ class Retester:
                 "reproduced",
                 f"[session] {vector} on {target} verified via live shell {owner}: {marker} :: {output[:200]}",
                 1,
+            )
+        stored = f"{finding.text or ''}\n{str(finding.meta.get('poc', '') or '')}"
+        uid_capture = _SHELL_UID_RE.search(stored)
+        failure_poisoned = any(
+            mark in stored.lower()
+            for mark in ("connection refused", "unable to negotiate", "couldn't get address", "no route")
+        )
+        if uid_capture and not failure_poisoned:
+            return (
+                "reproduced",
+                f"[evidence] {vector} on {target}: captured run output proves {uid_capture.group(0)} "
+                f"(live re-probe unavailable)",
+                0,
             )
         return (
             "inconclusive",
@@ -11429,6 +11509,8 @@ class LazyLoopEngine(EngineProxyMixin):
                     verdict["missing_checks"] = decision.missing_checks
             except Exception:
                 pass
+            if verdict["verdict"] == "achieved":
+                self._mark_goals_achieved(task_id, graph, activity)
             verdict.update(
                 {
                     "goal": goal[:300],
@@ -11513,7 +11595,9 @@ class LazyLoopEngine(EngineProxyMixin):
         if timeout_sec:
             self.store.set_deadline(task_id, timeout_sec)
             self.budget.set_limits(task_id, timeout_sec=timeout_sec)
-        self.budget.set_limits(task_id, max_rounds=max_rounds)
+        persisted = (self.store.get(task_id) or {}).get("budget", {}) or {}
+        if "max_rounds" not in persisted:
+            self.budget.set_limits(task_id, max_rounds=max_rounds)
         try:
             register_llm_sink()
         except Exception:
@@ -11843,6 +11927,43 @@ class LazyLoopEngine(EngineProxyMixin):
             if fallback is None:
                 fallback = node.node_id
         return fallback
+
+    def _mark_goals_achieved(self, task_id: str, graph: ExplorationGraph, activity: ActivityLog) -> None:
+        """Credit pending goal nodes once the wrap-up verdict is achieved.
+
+        The round-time goal checker keeps a lone initial-access goal pending
+        on purpose (the planner stops once every goal is done), so goal nodes
+        legitimately lag behind an achieved campaign and the operator footer
+        reads ``goals 0/2`` under ``achieved``. At wrap-up the achieved
+        verdict is authoritative: every surviving pending goal is credited
+        against the strongest confirmed finding. Conservative: without a
+        confirmed finding node the footer stays behind rather than lying.
+
+        Args:
+            task_id: Engagement identifier.
+            graph: Task exploration graph.
+            activity: Activity log for the proven-by trace.
+        """
+        pending = graph.list("goal", "pending")
+        if not pending:
+            return
+        evidence = None
+        for candidate in graph.list("finding"):
+            if str(candidate.state) in ("confirmed",) or "reproduced" in str(
+                candidate.meta.get("verdict", "")
+            ):
+                evidence = candidate
+                break
+        if evidence is None:
+            return
+        for goal in pending:
+            graph.add_edge(evidence.node_id, goal.node_id, "proves")
+            graph.set_state(goal.node_id, "done")
+            activity.emit(
+                "planner",
+                "goal",
+                f"goal #{goal.node_id} proven by #{evidence.node_id}: wrap-up verdict achieved",
+            )
 
     def _check_goals(self, task_id: str, graph: ExplorationGraph, activity: ActivityLog) -> None:
         """Prove goals from evidence.

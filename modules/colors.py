@@ -51,7 +51,7 @@ def retModel():
         {
             "1": "openai/gpt-oss-120b",
             "2": "llama-3.1-8b-instant",
-            "3": "llama3-70b-8192",
+            "3": "llama-3.3-70b-versatile",
             "4": "llama3-8b-8192",
             "5": "mixtral-8x7b-32768",
         }

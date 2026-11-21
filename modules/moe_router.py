@@ -191,12 +191,12 @@ _DEFAULT_EXPERTS: list[ExpertProfile] = [
     ExpertProfile(
         expert_id="groq_gemma",
         backend="groq",
-        model="gemma2-9b-it",
+        model="llama-3.1-8b-instant",
         capabilities=["analyze", "report", "enum"],
         base_weight=0.65,
         cost_tier=1,
         latency_ms=800,
-        description=("Gemma 2 9B for output analysis, log parsing, and report synthesis."),
+        description=("Llama 3.1 8B Instant for output analysis, log parsing, and report synthesis."),
     ),
     ExpertProfile(
         expert_id="groq_cloud",

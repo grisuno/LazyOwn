@@ -130,7 +130,7 @@ ENV_GROQ_MODEL = "LAZYOWN_GROQ_MODEL"
 GROQ_MODEL_FALLBACKS: tuple[str, ...] = (
     "llama-3.1-8b-instant",
     "openai/gpt-oss-120b",
-    "gemma2-9b-it",
+    "llama-3.3-70b-versatile",
 )
 
 

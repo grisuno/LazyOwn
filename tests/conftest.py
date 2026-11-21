@@ -69,6 +69,25 @@ def _reset_world_model_singleton() -> None:
 
 
 @pytest.fixture(autouse=True)
+def _isolated_findings_ledger(tmp_path, monkeypatch):
+    """Point the durable findings ledger at a per-test directory.
+
+    The findings sink resolves a repo-relative ``sessions/findings`` path,
+    so a deterministically numbered task id (t0001) collides with a real
+    engagement's rows and one test can observe, or poison, an earlier
+    campaign's evidence (the terminal-fallback retest became unprovable
+    after its own first run confirmed a row in ``t0001.jsonl``).
+    """
+    try:
+        import modules.sinks.findings as findings_sink
+    except Exception:
+        yield
+        return
+    monkeypatch.setattr(findings_sink, "_BASE_DIR", tmp_path)
+    yield
+
+
+@pytest.fixture(autouse=True)
 def _isolated_loop_state_db(tmp_path, monkeypatch):
     """Point the loop SQLite substrate at a per-test file.
 

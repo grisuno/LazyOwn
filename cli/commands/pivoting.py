@@ -66,6 +66,22 @@ class PivotingCommandSet(LazyOwnCommandSet):
             print_warn("No internal networks discovered, using common ranges")
             networks = COMMON_INTERNAL_NETS
 
+        authorized: list[str] = []
+        for net in networks:
+            allowed, reason, mode = _network_scope_verdict(net)
+            if allowed:
+                authorized.append(net)
+                continue
+            if mode == "enforce":
+                print_warn(f"Scope dropped pivot network {net}: {reason}")
+                continue
+            print_warn(f"Out-of-scope pivot network (warn mode) {net}: {reason}")
+            authorized.append(net)
+        networks = authorized
+        if not networks:
+            print_error("No pivot network is inside the authorized scope.")
+            return
+
         print_msg(f"Discovered {len(networks)} networks:")
         for net in networks:
             print_msg(f"  {net}")
@@ -184,6 +200,13 @@ class PivotingCommandSet(LazyOwnCommandSet):
         ports = _extract_flag(args, "--port") or "22,80,443,445,3389,8080,8443"
         rate = _extract_flag(args, "--rate") or "100"
 
+        allowed, reason, mode = _network_scope_verdict(network)
+        if not allowed:
+            if mode == "enforce":
+                print_error(f"Scope blocked pivot_scan: {reason}. Authorize it with: scope add {network}")
+                return
+            print_warn(f"Out-of-scope pivot_scan (warn mode): {reason}")
+
         chain = _load_pivot_chain()
         if not chain.get("hops"):
             print_error("No pivot chain active. Run autopivot first.")
@@ -257,6 +280,49 @@ class PivotingCommandSet(LazyOwnCommandSet):
         subprocess.run(cmd, shell=False, timeout=10, stderr=subprocess.DEVNULL)
         print_msg(f"Proxy ready: socks5://127.0.0.1:{port}")
         print_msg(f"export ALL_PROXY=socks5://127.0.0.1:{port}")
+
+
+def _network_scope_verdict(network: str) -> tuple[bool, str, str]:
+    """Decide whether a pivot network is authorized.
+
+    Args:
+        network: Candidate network in CIDR notation.
+
+    Returns:
+        ``(allowed, reason, mode)`` where mode is the active enforcement
+        posture (``off``, ``warn`` or ``enforce``). With no configured
+        scope the lab-only default decides, so public sweeps are warned
+        about or blocked exactly like loop targets.
+    """
+    from cli.scope_guard import ScopeMode, network_denied, network_in_scope, normalize_scope
+
+    try:
+        from core.config import load_payload
+
+        params = load_payload() or {}
+    except Exception:
+        params = {}
+    mode = ScopeMode.from_value(params.get("scope_enforcement"))
+    if mode is ScopeMode.OFF:
+        return True, "scope guard off", mode.value
+    entries = normalize_scope(params.get("scope"))
+    deny = normalize_scope(params.get("scope_deny"))
+    if deny and network_denied(network, deny):
+        return False, f"{network} overlaps scope_deny", mode.value
+    if entries:
+        if network_in_scope(network, entries):
+            return True, "network inside authorized scope", mode.value
+        return False, f"{network} is not covered by scope {list(entries)}", mode.value
+    from modules import lazy_scope
+
+    verdict = lazy_scope.network_verdict(
+        network,
+        allowlist=lazy_scope.read_allowlist(),
+        denylist=lazy_scope.read_denylist(),
+    )
+    if verdict.allowed:
+        return True, verdict.detail, mode.value
+    return False, f"{network} is not a lab network ({verdict.reason})", mode.value
 
 
 def _discover_internal_networks(rhost: str) -> list[str]:

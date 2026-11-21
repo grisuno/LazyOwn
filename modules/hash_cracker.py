@@ -90,19 +90,47 @@ HASH_PATTERNS: dict[str, dict[str, Any]] = {
         "john_format": "md5crypt",
         "source": "Linux /etc/shadow",
     },
+    "sha256crypt": {
+        "format": "sha256crypt",
+        "hashcat_mode": "7400",
+        "pattern": re.compile(r"^\$5\$(rounds=\d+\$)?[./0-9A-Za-z]+\$[./0-9A-Za-z]+$"),
+        "john_format": "sha256crypt",
+        "source": "Linux /etc/shadow",
+    },
     "sha512crypt": {
         "format": "sha512crypt",
         "hashcat_mode": "1800",
-        "pattern": re.compile(r"^\$6\$.+\$.+$"),
+        "pattern": re.compile(r"^\$6\$(rounds=\d+\$)?[./0-9A-Za-z]+\$[./0-9A-Za-z]+$"),
         "john_format": "sha512crypt",
         "source": "Linux /etc/shadow",
+    },
+    "bcrypt": {
+        "format": "bcrypt",
+        "hashcat_mode": "3200",
+        "pattern": re.compile(r"^\$2[abxy]\$\d{2}\$[./0-9A-Za-z]+$"),
+        "john_format": "bcrypt",
+        "source": "Linux /etc/shadow / web app hashes",
     },
     "yescrypt": {
         "format": "yescrypt",
         "hashcat_mode": None,
-        "pattern": re.compile(r"^\$y\$j.+\$.+$"),
+        "pattern": re.compile(r"^\$y\$[./0-9A-Za-z]+\$[./0-9A-Za-z]+\$[./0-9A-Za-z]+$"),
         "john_format": "yescrypt",
         "source": "Linux /etc/shadow (modern)",
+    },
+    "gost_yescrypt": {
+        "format": "gost-yescrypt",
+        "hashcat_mode": None,
+        "pattern": re.compile(r"^\$gy\$[./0-9A-Za-z]+\$[./0-9A-Za-z]+\$[./0-9A-Za-z]+$"),
+        "john_format": "gost-yescrypt",
+        "source": "Linux /etc/shadow (gost)",
+    },
+    "scrypt": {
+        "format": "scrypt",
+        "hashcat_mode": "15700",
+        "pattern": re.compile(r"^\$7\$[./0-9A-Za-z]+\$[./0-9A-Za-z]+\$[./0-9A-Za-z]+$"),
+        "john_format": "scrypt",
+        "source": "Linux /etc/shadow",
     },
     "descrypt": {
         "format": "descrypt",
@@ -429,7 +457,7 @@ class HashCracker:
 
         host_id: int | None = None
         if rhost:
-            hosts = db.host_search(address=rhost, workspace_id=ws_id)
+            hosts = db.host_find(ws_id, rhost)
             if hosts:
                 host_id = hosts[0]["id"]
 
@@ -444,11 +472,39 @@ class HashCracker:
                 realm=rhost,
                 cred_type="password",
                 origin=f"cracked_{result.cracker}",
-                cracked=1,
             )
             imported += 1
 
         log.info("Imported %d cracked credentials into DB workspace '%s'", imported, workspace_name)
+        return imported
+
+    def import_to_world_model(self, results: list[CrackResult], host: str = "") -> int:
+        """Import cracked passwords into the loop world model for lateral spray.
+
+        Credentials land fully unbound (no host, no service) so the
+        autonomous lateral planner treats them as spray candidates against
+        every in-scope host and protocol. Placeholder tokens are rejected
+        upstream by :meth:`add_credential`.
+
+        Args:
+            results: Crack results from crack_file(); only cracked rows import.
+            host: Source host the hashes were harvested from; kept for logs.
+
+        Returns:
+            Number of credentials accepted by the world model.
+        """
+        from modules.world_model import get_world_model
+
+        imported = 0
+        world = get_world_model()
+        for result in results:
+            if not result.cracked or not result.password:
+                continue
+            username = result.hash_value.split(":")[0] if ":" in result.hash_value else ""
+            value = f"{username}:{result.password}" if username else result.password
+            world.add_credential(value, host="", service="")
+            imported += 1
+            log.info("World model: cracked %s password imported (source %s)", username or "userless", host)
         return imported
 
     def _crack_hashcat(
@@ -506,10 +562,16 @@ class HashCracker:
     ) -> list[CrackResult]:
         import tempfile
 
+        def _hash_only(ident: HashIdentifier) -> str:
+            raw = ident.raw.strip()
+            if ident.username and raw.startswith(ident.username + ":"):
+                return raw[len(ident.username) + 1:]
+            return raw
+
         tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hashes", delete=False)
         try:
             for ident in idents:
-                tmp.write(ident.raw + "\n")
+                tmp.write(_hash_only(ident) + "\n")
             tmp.close()
             cmd = [
                 self._hashcat_bin,
@@ -522,8 +584,6 @@ class HashCracker:
                 "--potfile-disable",
                 "--quiet",
                 "-O",
-                "--outfile-format",
-                "1",
             ]
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout)
             cracked_map: dict[str, str] = {}
@@ -534,7 +594,7 @@ class HashCracker:
 
             results: list[CrackResult] = []
             for ident in idents:
-                pw = cracked_map.get(ident.raw.strip(), "")
+                pw = cracked_map.get(_hash_only(ident), "")
                 results.append(
                     CrackResult(
                         hash_value=ident.raw,
@@ -547,10 +607,10 @@ class HashCracker:
                 )
             return results
         except subprocess.TimeoutExpired:
-            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         except Exception as exc:
             log.debug("hashcat batch error: %s", exc)
-            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         finally:
             try:
                 Path(tmp.name).unlink()
@@ -575,8 +635,7 @@ class HashCracker:
                 f"--format={fmt_info['john_format']}",
                 f"--wordlist={wordlist}",
                 f"--rules={self._rules}",
-                "--max-run-time",
-                str(self._timeout),
+                f"--max-run-time={self._timeout}",
                 tmp.name,
             ]
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout + 30)
@@ -626,8 +685,7 @@ class HashCracker:
                 f"--format={fmt_info['john_format']}",
                 f"--wordlist={wordlist}",
                 f"--rules={self._rules}",
-                "--max-run-time",
-                str(self._timeout),
+                f"--max-run-time={self._timeout}",
                 tmp.name,
             ]
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout + 30)
@@ -657,10 +715,10 @@ class HashCracker:
                 )
             return results
         except subprocess.TimeoutExpired:
-            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         except Exception as exc:
             log.debug("john batch error: %s", exc)
-            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         finally:
             try:
                 Path(tmp.name).unlink()

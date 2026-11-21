@@ -19,7 +19,7 @@ _CAPABILITIES: dict[str, dict[str, object]] = {
     "lazynmap": {
         "requires_root": True,
         "requires_tty": True,
-        "fallback": "nmap -sT -sV --top-ports 100",
+        "fallback": "nmap -Pn -sT -sV -p 21,22,23,25,80,111,445,1433,2121,2375,2376,3389,3306,5432,5900,5985,6000,8009",
     },
 }
 
@@ -66,5 +66,5 @@ def downgrade_for_unattended(command: str, target: str = "") -> tuple[str, str]:
     except (ValueError, IndexError):
         args = []
     host = target or next((arg for arg in args if not arg.startswith("-")), "")
-    rewritten = f"{fallback} {host}".strip()
-    return rewritten, f"{verb} needs root/tty; unattended downgrade to {fallback}"
+    rewritten = f"{fallback} -oA sessions/scan_{host}.nmap {host}".strip()
+    return rewritten, f"{verb} needs root/tty; unattended downgrade to {fallback.split()[0]}"

@@ -219,3 +219,24 @@ errors for a broken matrix. `tests/test_apt_chain_integration.py` pins the
 real cmd2 path: raw output visible, no boolean leak, interactive shell on
 the calling thread. `tests/test_lab_target_visibility.py` pins the IP and
 assign line in `lab start` and `lab status`.
+
+## Verified matrix (tleemcjr/metasploitable2)
+
+The full 46-vector matrix captures every vector against the dockerized
+MS2 image once `lab start metasploitable` applies the idempotent
+migrations (shellshock CGI, mutillidae RFI payload + `allow_url_include`,
+Xvnc with `-ac`, proftpd anonymous block, userspace mountd for
+`showmount`, the UDP/53 python responder for BIND, the canonical DVWA
+DOM-XSS page and both databases). Run it exactly as an operator would:
+
+```bash
+./run --headless --no-banner -c "lab start metasploitable"
+./run --headless --no-banner -c "gym_metasploitable run"   # 46/46 captured
+```
+
+Seven vectors (`shellshock`, `mutillidae_rfi`, `nfs_exports`,
+`dns_recursion`, `dvwa_xss_dom`, `proftpd_anon`, `x11_open`) look broken
+against a container started without the migrations: the services they
+exploit simply are not running yet. `lab start` (the CLI path) applies
+the migrations; booting the container through `lab_runtime.start()`
+directly skips them.

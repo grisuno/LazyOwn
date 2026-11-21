@@ -958,10 +958,8 @@ def _registry_schemas() -> list[types.Tool]:
         return []
 
 
-@server.list_tools()
 async def list_tools() -> list[types.Tool]:
-    return [
-        # ── Unified Dashboard ─────────────────────────────────────────────────────
+    return [        # ── Unified Dashboard ─────────────────────────────────────────────────────
         # ── Master campaign SITREP ────────────────────────────────────────────
         # ── Session intelligence ──────────────────────────────────────────────
         # ── C2 AI endpoints ───────────────────────────────────────────────────
@@ -1000,7 +998,6 @@ def substitute_playbook_target(command: str, target: str) -> str:
     return command.replace("{target}", shlex.quote(target)) if target else command
 
 
-@server.call_tool()
 async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextContent]:
 
     def text(content: str) -> list[types.TextContent]:
@@ -1091,6 +1088,25 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(dyn_result)
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
+
+
+# ── MCP 2.x request-handler registration ─────────────────────────────────────
+# The mcp 2.x Server replaced the list_tools/call_tool decorators with
+# constructor-injected request handlers; these adapters keep the legacy
+# implementations above verbatim and bridge the result shapes.
+
+async def _on_list_tools(context, params) -> types.ListToolsResult:
+    tools = await list_tools()
+    return types.ListToolsResult(tools=tools)
+
+
+async def _on_call_tool(context, params) -> types.CallToolResult:
+    content = await call_tool(str(params.name), dict(params.arguments or {}))
+    return types.CallToolResult(content=content)
+
+
+server.add_request_handler("tools/list", types.PaginatedRequestParams, _on_list_tools)
+server.add_request_handler("tools/call", types.CallToolRequestParams, _on_call_tool)
 
 
 # ── Hot-reload via SIGHUP ─────────────────────────────────────────────────────

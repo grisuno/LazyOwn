@@ -53,7 +53,10 @@ class BrowserSyncCommandSet(LazyOwnCommandSet):
                     return
             if port is None:
                 try:
-                    port = int((self.params or {}).get("browser_sync_port", browser_sync.DEFAULT_SYNC_PORT) or browser_sync.DEFAULT_SYNC_PORT)
+                    port = int(
+                        (self.params or {}).get("browser_sync_port", browser_sync.DEFAULT_SYNC_PORT)
+                        or browser_sync.DEFAULT_SYNC_PORT
+                    )
                 except (TypeError, ValueError):
                     port = browser_sync.DEFAULT_SYNC_PORT
             status = browser_sync.start_receiver(port=port)

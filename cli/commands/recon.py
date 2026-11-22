@@ -776,7 +776,7 @@ class ReconCommandSet(LazyOwnCommandSet):
 
 __all__ = ["ReconCommandSet"]
 for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
+    if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
 
 
@@ -944,73 +944,43 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         Ensure you have assign `self.params['rhost']` to the target host for the command to work.
         """
         os_json = []
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         shell = self._resolve_shell()
 
         def _set_exit(code: int) -> None:
             if shell is not None:
                 shell.exit_code = code
 
-        if check_rhost(self.params['rhost']):
+        if check_rhost(self.params["rhost"]):
             print_msg(f"Try... ping -c 1 {self.params['rhost']} ")
-            result = subprocess.run(
-                ["ping", "-c", "1", self.params['rhost']], capture_output=True, text=True
-            )
+            result = subprocess.run(["ping", "-c", "1", self.params["rhost"]], capture_output=True, text=True)
 
             if result.returncode == 0:
                 _set_exit(0)
                 try:
                     ttl_index = result.stdout.find("ttl=")
                     if ttl_index != -1:
-                        ttl_value = int(
-                            result.stdout[ttl_index + 4 : ttl_index + 7]
-                        )
+                        ttl_value = int(result.stdout[ttl_index + 4 : ttl_index + 7])
                         print_msg(f"TTL:{ttl_value}")
                         if ttl_value <= 64:
-                            print_msg(
-                                f"{GREEN}Host alive {CYAN}likely {BLUE}Linux{RESET}"
-                            )
-                            os_json.append({
-                                "id": '1',
-                                "os": 'Linux',
-                                "ttl": ttl_value,
-                                "state": 'active'
-                            })
+                            print_msg(f"{GREEN}Host alive {CYAN}likely {BLUE}Linux{RESET}")
+                            os_json.append({"id": "1", "os": "Linux", "ttl": ttl_value, "state": "active"})
                         elif ttl_value <= 128:
-                            print_msg(
-                                f"{GREEN}Host alive {CYAN}likely {RED}Windows{RESET}"
-                            )
-                            os_json.append({
-                                "id": '2',
-                                "os": 'Windows',
-                                "ttl": ttl_value,
-                                "state": 'active'
-                            })
+                            print_msg(f"{GREEN}Host alive {CYAN}likely {RED}Windows{RESET}")
+                            os_json.append({"id": "2", "os": "Windows", "ttl": ttl_value, "state": "active"})
                         else:
-                            print_error(
-                                "Cannot determine operating system with certainty"
-                            )
-                            os_json.append({
-                                "id": '4',
-                                "os": 'Unknown',
-                                "ttl": ttl_value,
-                                "state": 'active'
-                            })
+                            print_error("Cannot determine operating system with certainty")
+                            os_json.append({"id": "4", "os": "Unknown", "ttl": ttl_value, "state": "active"})
                     else:
                         print_error("TTL not found in ping output")
-                        os_json.append({
-                            "id": '4',
-                            "os": 'Unknown',
-                            "ttl": 'NULL',
-                            "state": 'inactive'
-                        })
+                        os_json.append({"id": "4", "os": "Unknown", "ttl": "NULL", "state": "inactive"})
                 except ValueError:
                     print_error("Could not convert TTL to an integer")
             else:
                 print_error("Ping to host failed")
                 _set_exit(1)
             print_msg(f"Done... ping -c 1 {self.params['rhost']} ")
-            with open('sessions/os.json', 'w') as json_file:
+            with open("sessions/os.json", "w") as json_file:
                 json.dump(os_json, json_file, indent=4)
 
             # Persist the detected OS into the live shell params so every
@@ -1075,13 +1045,11 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             ────▌──▐────
         """
         print_msg(cmd)
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         if line == "url":
-            url = self.params['url']
+            url = self.params["url"]
             if not url:
-                print_error(
-                    "If you pass the param url, url mus be assign, ex: assign url http://url.ext"
-                )
+                print_error("If you pass the param url, url mus be assign, ex: assign url http://url.ext")
                 return
 
             print_msg(f"Try gospider -s {url}")
@@ -1091,11 +1059,9 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             return
 
         if line == "ssl":
-            url = self.params['url'].replace("http","https")
+            url = self.params["url"].replace("http", "https")
             if not url:
-                print_error(
-                    "If you pass the param url, url mus be assign, ex: assign url http://url.ext"
-                )
+                print_error("If you pass the param url, url mus be assign, ex: assign url http://url.ext")
                 return
 
             print_msg(f"Try gospider -s {url}")
@@ -1104,16 +1070,14 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             print_msg(cmd)
             return
 
-        if not check_rhost(self.params['rhost']):
+        if not check_rhost(self.params["rhost"]):
             return
         if is_binary_present("gospider"):
             print_msg(f"try... gospider -s http://{self.params['rhost']}")
             self.cmd(f"gospider -s http://{self.params['rhost']}")
             print_msg(cmd)
         else:
-            print_msg(
-                "gospider is not installed, installing... (control + c to cancel)"
-            )
+            print_msg("gospider is not installed, installing... (control + c to cancel)")
             self.cmd(f"sudo apt install gospider -y && gospider -s http://{self.params['rhost']}")
             print_msg(cmd)
 
@@ -1147,12 +1111,9 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             - To stop the proxy server, terminate the running process manually.
         """
 
-
         print_msg("Running Lazy Proxy ...")
         self.cmd("python3 modules/lazyproxy.py")
-        print_msg(
-            f"{YELLOW} Shutdown proxy server at sessions in port {RED} 8888 {RESET}"
-        )
+        print_msg(f"{YELLOW} Shutdown proxy server at sessions in port {RED} 8888 {RESET}")
         return
 
     @cmd2.with_category("01. Reconnaissance")
@@ -1222,9 +1183,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         """
 
         if not line:
-            print_error(
-                "necesitas pasarle la interfaz que se quedarà en escucha ej: tcpdump_icmp tun0"
-            )
+            print_error("necesitas pasarle la interfaz que se quedarà en escucha ej: tcpdump_icmp tun0")
             return
         print_msg(f"{WHITE}sudo tcpdump -i {GREEN}{line}{WHITE}{CYAN} icmp -n{RESET} ")
         self.cmd(f"sudo tcpdump -i {line} icmp -n")
@@ -1259,15 +1218,15 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         """
 
         if not line:
-            print_error(
-                "necesitas pasarle la interfaz que se quedarà en escucha ej: tcpdump_icmp tun0"
-            )
+            print_error("necesitas pasarle la interfaz que se quedarà en escucha ej: tcpdump_icmp tun0")
             return
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        rhost = self.params["rhost"]
+        if not check_rhost(self.params["rhost"]):
             return
 
-        print_msg(f"{WHITE}sudo tcpdump -i {GREEN}{line}{WHITE}{CYAN} -w pcaps/capture_{self.params['rhost']}.pcap {RESET} ")
+        print_msg(
+            f"{WHITE}sudo tcpdump -i {GREEN}{line}{WHITE}{CYAN} -w pcaps/capture_{self.params['rhost']}.pcap {RESET} "
+        )
         self.cmd(f"sudo tcpdump -i {line}  -w pcaps/capture_{self.params['rhost']}.pcap ")
         return
 
@@ -1300,7 +1259,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         Note: Ensure that the capture file `pcaps/capture_<self.params['rhost']>.pcap` is available in the `pcaps` directory.
         """
 
-        pcaps_dir = 'pcaps'
+        pcaps_dir = "pcaps"
         all_items = os.listdir(pcaps_dir)
 
         for item in all_items:
@@ -1310,20 +1269,19 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
                 if os.path.isfile(item_path):
                     print_msg("Analizing...")
 
-                    rhost = self.params['rhost']
-                    if not check_rhost(self.params['rhost']):
+                    rhost = self.params["rhost"]
+                    if not check_rhost(self.params["rhost"]):
                         return
 
                     pcap_file = item_path
                     if not os.path.exists(pcap_file):
                         print_error("you must run command do_tcpdump_capture tun0 first.")
                         return
-                    if os.path.splitext(pcap_file)[1].lower() == '.pcap':
-
-                        command = f'tshark -r {pcap_file} -T fields -e frame.number -e frame.time -e frame.len -e ip.src -e ip.dst -e ip.proto -e tcp.srcport -e tcp.dstport -e udp.srcport -e udp.dstport -e http.request.uri -e http.response.code -e ftp.request.command -e ftp.request.arg -e dns.qry.name '
+                    if os.path.splitext(pcap_file)[1].lower() == ".pcap":
+                        command = f"tshark -r {pcap_file} -T fields -e frame.number -e frame.time -e frame.len -e ip.src -e ip.dst -e ip.proto -e tcp.srcport -e tcp.dstport -e udp.srcport -e udp.dstport -e http.request.uri -e http.response.code -e ftp.request.command -e ftp.request.arg -e dns.qry.name "
                         print_msg(command)
                         self.cmd(command)
-                        command = f'tshark -r {pcap_file} -q -z conv,tcp,ip '
+                        command = f"tshark -r {pcap_file} -q -z conv,tcp,ip "
                         print_msg(command)
                         self.cmd(command)
                         command = f"tshark -r {pcap_file} -Y 'ftp.request.command == USER || ftp.request.command == PASS' -T fields -e ip.dst -e frame.time -e ftp.request.command -e ftp.request.arg"
@@ -1351,21 +1309,15 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         url = line
         limit = self.params.get("limit", 10)
 
-        wayback_url = (
-            f"https://web.archive.org/cdx/search?url={url}&matchType=prefix&collapse=urlkey&output=text&fl=original&filter=&limit={limit}"
-        )
+        wayback_url = f"https://web.archive.org/cdx/search?url={url}&matchType=prefix&collapse=urlkey&output=text&fl=original&filter=&limit={limit}"
 
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/68.0"
-        }
+        headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/68.0"}
         self.cmd("clear")
 
         try:
             r = requests.get(wayback_url, headers=headers)
             r.raise_for_status()
             results = r.text
-
-
 
             print_msg(f"{GREEN}############ All websites from the WayBack Machine ###########")
 
@@ -1404,14 +1356,14 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         - The `check_rhost()` function is used to validate the `self.params['rhost']` before running the scan.
         - The `sslscan-singleip.sh` script must be present in the `sessions` directory.
         """
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        rhost = self.params["rhost"]
+        if not check_rhost(self.params["rhost"]):
             return
 
         if not line:
             port = ""
         else:
-            port = ":"+line
+            port = ":" + line
 
         command = f"cd sessions && ./sslscan-singleip.sh {self.params['rhost']}{port}"
         print_msg(f"Attempting to execute: {command}")
@@ -1554,7 +1506,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             print_warn("Installing apache-users...")
             self.cmd("sudo apt install apache-users -y")
 
-        usrwordlist = self.params['usrwordlist']
+        usrwordlist = self.params["usrwordlist"]
         if not usrwordlist:
             print_error("User wordlist must be assigned, use: assign usrwordlist /path/to/wordlist")
             return
@@ -1562,16 +1514,18 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         if line:
             rhost = line
         else:
-            rhost = self.params['rhost']
-            if not check_rhost(self.params['rhost']):
+            rhost = self.params["rhost"]
+            if not check_rhost(self.params["rhost"]):
                 return
 
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         users = get_users_dic()
         print_msg(f"Try... apache-users -h  {self.params['rhost']} -l {users} -p 80 -s 0 -e 403 -t 10 {RESET}")
         self.cmd(f"apache-users -h  {self.params['rhost']} -l {users} -p 80 -s 0 -e 403 -t 10")
-        if input("    [?] Do you want extend the userenum ? (y/n)") == 'y':
-            print_msg(f"Try... apache-users -h  {self.params['rhost']} -l {usrwordlist} -p 80 -s 0 -e 403 -t 10 {RESET}")
+        if input("    [?] Do you want extend the userenum ? (y/n)") == "y":
+            print_msg(
+                f"Try... apache-users -h  {self.params['rhost']} -l {usrwordlist} -p 80 -s 0 -e 403 -t 10 {RESET}"
+            )
             self.cmd(f"apache-users -h  {self.params['rhost']} -l {usrwordlist} -p 80 -s 0 -e 403 -t 10")
         return
 
@@ -1605,7 +1559,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         are concerns.
         """
         if not line:
-            url = self.params['url']
+            url = self.params["url"]
             domain = get_domain(url)
         else:
             domain = line
@@ -1666,6 +1620,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             command = "cd && mkdir alterx && cd alterx && wget https://github.com/projectdiscovery/alterx/releases/download/v0.0.4/alterx_0.0.4_linux_amd64.zip && unzip alterx_0.0.4_linux_amd64.zip"
             self.cmd(command)
             import os as _os
+
             shell = _os.environ.get("SHELL", "")
             rc_file = None
             if "zsh" in shell:
@@ -1675,7 +1630,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             if rc_file and rc_file.exists():
                 try:
                     content = rc_file.read_text(encoding="utf-8")
-                    path_entry = 'export PATH=$PATH:~/alterx'
+                    path_entry = "export PATH=$PATH:~/alterx"
                     if path_entry not in content:
                         rc_file.write_text(
                             content.rstrip() + "\n" + path_entry + "\n",
@@ -1685,10 +1640,13 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
                 except OSError as exc:
                     print_warn(f"Failed to update {rc_file}: {exc}")
 
-        url = self.params['url']
+        url = self.params["url"]
         domain = get_domain(url)
         if not line:
-            line = input(f"    [!] Enter the self.params['domain']: (Default: {self.params['domain']})") or self.params['domain']
+            line = (
+                input(f"    [!] Enter the self.params['domain']: (Default: {self.params['domain']})")
+                or self.params["domain"]
+            )
 
         command = f"echo {line} | alterx > sessions/subdomain_dic_{line}.txt"
         print_msg(command)
@@ -1718,10 +1676,10 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
                 data = json.load(f)
 
             user_file = "sessions/users.txt"
-            with open(user_file, 'a') as uf:
+            with open(user_file, "a") as uf:
                 for entry in data:
-                    if 'sAMAccountName' in entry:
-                        uf.write(entry['sAMAccountName'] + '\n')
+                    if "sAMAccountName" in entry:
+                        uf.write(entry["sAMAccountName"] + "\n")
                         print_msg(f"Agregado usuario: {entry['sAMAccountName']}")
 
             print_msg(f"Todos los usuarios se han agregado a {user_file}.")
@@ -1810,7 +1768,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         bindings = obj.ServerAlive2()
 
         for binding in bindings:
-            addr = binding['aNetworkAddr']
+            addr = binding["aNetworkAddr"]
             print_msg(f"Address: {addr}")
         return
 
@@ -1855,7 +1813,6 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
 
         print_msg(f"Generating padding using pwntools for {selected_binary}...")
 
-
         print_msg(f"Listing gadgets for {selected_binary}...")
         self.cmd(f"env/bin/ROPgadget --binary {selected_binary}")
 
@@ -1889,10 +1846,9 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             self.cmd(f"git clone {krbrelayx_git} {krbrelayx_path}")
             self.cmd("pip3 install impacket ldap3 dnspython")
 
-
-        subdomain = self.params['subdomain']
-        domain = self.params['domain']
-        lhost = self.params['lhost']
+        subdomain = self.params["subdomain"]
+        domain = self.params["domain"]
+        lhost = self.params["lhost"]
         credentials = get_credentials()
 
         if not credentials:
@@ -1925,7 +1881,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         metabigor_path = os.path.join("external", ".exploit", "metabigor")
         metabigor_path = f"{path}/{metabigor_path}"
         metabigor_repo = "https://github.com/j3ssie/metabigor.git"
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         if not os.path.exists(metabigor_path):
             print_warn("Metabigor is not installed. Cloning the repository and installing dependencies.")
             self.cmd(f"git clone {metabigor_repo} {metabigor_path}")
@@ -1946,7 +1902,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             "3": "Find related domains using certificate info",
             "4": "Run scan with rustscan, masscan, or nmap",
             "5": "Get IP address summary",
-            "6": "Extract Shodan IPInfo"
+            "6": "Extract Shodan IPInfo",
         }
 
         print_msg("Select the type of task to perform:")
@@ -1958,22 +1914,25 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
 
         if task == "Discovery IP of a company/organization":
             target = input("    [!] Enter the organization name: ").strip()
-            command = f"echo \"{target}\" | metabigor net --org -o {path}/sessions/result_{target}.txt"
+            command = f'echo "{target}" | metabigor net --org -o {path}/sessions/result_{target}.txt'
         elif task == "Discovery IP of an ASN":
             target = input("    [!] Enter the ASN: ").strip()
-            command = f"echo \"{target}\" | metabigor net --asn -o {path}/sessions/result_{target}.txt"
+            command = f'echo "{target}" | metabigor net --asn -o {path}/sessions/result_{target}.txt'
         elif task == "Find related domains using certificate info":
             target = input("    [!] Enter the company/organization name: ").strip()
             command = f"echo \"{target}\" | metabigor related -s 'cert' -o {path}/sessions/result_{target}.txt"
         elif task == "Run scan with rustscan, masscan, or nmap":
-            target = input(f"    [!] Enter the target IP/CIDR (e.g., {self.params['rhost']}/24: ").strip() or f"{self.params['rhost']}/24"
-            command = f"echo \"{target}\" | metabigor scan -o {path}/sessions/result_{target}.txt"
+            target = (
+                input(f"    [!] Enter the target IP/CIDR (e.g., {self.params['rhost']}/24: ").strip()
+                or f"{self.params['rhost']}/24"
+            )
+            command = f'echo "{target}" | metabigor scan -o {path}/sessions/result_{target}.txt'
         elif task == "Get IP address summary":
-            target = input(f"    [!] Enter the IP address {self.params['rhost']}: ").strip() or self.params['rhost']
-            command = f"echo \"{target}\" | metabigor ipc --json -o {path}/sessions/result_{target}.txt"
+            target = input(f"    [!] Enter the IP address {self.params['rhost']}: ").strip() or self.params["rhost"]
+            command = f'echo "{target}" | metabigor ipc --json -o {path}/sessions/result_{target}.txt'
         elif task == "Extract Shodan IPInfo":
-            target = input(f"    [!] Enter the IP address: {self.params['rhost']}: ").strip() or self.params['rhost']
-            command = f"echo \"{target}\" | metabigor ip -open -o {path}/sessions/result_{target}.txt"
+            target = input(f"    [!] Enter the IP address: {self.params['rhost']}: ").strip() or self.params["rhost"]
+            command = f'echo "{target}" | metabigor ip -open -o {path}/sessions/result_{target}.txt'
 
         print_msg(f"Executing Metabigor with command: {command}")
         self.cmd(command)
@@ -2001,24 +1960,24 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         """
 
         httprobe_binary = "httprobe"
-        domain = self.params['domain']
+        domain = self.params["domain"]
         install_command = "go install github.com/tomnomnom/httprobe@latest"
         if not os.path.exists(os.path.expanduser("~/go/bin/httprobe")):
             self.cmd(install_command)
 
-        input_file = get_users_dic('txt')
-        http = input("    [!] Enter the http port default 80: ") or '80'
-        https = input("    [!] Enter the https port default 443: ") or '443'
-        concurrency = input("    [!] Enter the concurrency level default 50: ") or '50'
-        timeout = input("    [!] Enter the Timeout in milisecs default 20000: ") or '20000'
+        input_file = get_users_dic("txt")
+        http = input("    [!] Enter the http port default 80: ") or "80"
+        https = input("    [!] Enter the https port default 443: ") or "443"
+        concurrency = input("    [!] Enter the concurrency level default 50: ") or "50"
+        timeout = input("    [!] Enter the Timeout in milisecs default 20000: ") or "20000"
         additional_params = f" -p http:{http} -p https:{https} -c {concurrency} -t {timeout}"
         if line:
-            command = f"echo \"{line.strip()}\" | {httprobe_binary} {additional_params}"
+            command = f'echo "{line.strip()}" | {httprobe_binary} {additional_params}'
         else:
             if input_file is not None:
                 command = f"cat {input_file} | {httprobe_binary} {additional_params}"
             else:
-                command = f"echo \"{self.params['domain']}\" | {httprobe_binary} {additional_params}"
+                command = f'echo "{self.params["domain"]}" | {httprobe_binary} {additional_params}'
         print_msg(command)
         self.cmd(command)
         self.logcsv(f"httprobe {command}")
@@ -2066,10 +2025,16 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         if line:
             domain = line.strip()
         else:
-            domain = self.params['domain']
+            domain = self.params["domain"]
 
         command_eye = "/usr/share/eyewitness/EyeWitness.py "
-        command = "domain={dom};curl -fsSL \"https://crt.sh/?q=${self.params['domain']}\" | pup 'td text{}' | grep \"${self.params['domain']}\" | sort -n | uniq | httprobe > {sessions}/enum_tmp_{dom}.txt;  {command_eye} -f {sessions}/enum_tmp_{dom}.txt --web".replace("{dom}", self.params['domain']).replace("{command_eye}",command_eye).replace("{sessions}",sessions)
+        command = (
+            "domain={dom};curl -fsSL \"https://crt.sh/?q=${self.params['domain']}\" | pup 'td text{}' | grep \"${self.params['domain']}\" | sort -n | uniq | httprobe > {sessions}/enum_tmp_{dom}.txt;  {command_eye} -f {sessions}/enum_tmp_{dom}.txt --web".replace(
+                "{dom}", self.params["domain"]
+            )
+            .replace("{command_eye}", command_eye)
+            .replace("{sessions}", sessions)
+        )
 
         print_msg(command)
         time.sleep(1)
@@ -2105,8 +2070,8 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
                 self.cmd(f"git clone {dnschef_repo} {dnschef_path}")
                 self.cmd(f"cd {dnschef_path} && pip3 install -r requirements.txt")
 
-            rhost = self.params['rhost']
-            domain = self.params['domain']
+            rhost = self.params["rhost"]
+            domain = self.params["domain"]
             command = f"sudo python3 -W ignore {dnschef_path}/dnschef.py --fakeip {self.params['rhost']} --fakedomains {self.params['domain']}"
             self.cmd(command)
         except Exception as e:

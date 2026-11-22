@@ -564,24 +564,33 @@ def render_admin(payload: dict[str, Any], action: str) -> list[tuple[str, str]]:
         lines.append(("msg", f"{'chain':<44} {'ok':<5} {'on':<4} {'steps':<6} playbook"))
         lines.append(("msg", "-" * 78))
         for row in rows:
-            lines.append((
-                "msg",
-                f"{str(row.get('name', ''))[:43]:<44} {str(row.get('valid', ''))[:4]:<5} "
-                f"{str(row.get('enabled', ''))[:3]:<4} {str(row.get('steps', ''))[:5]:<6} "
-                f"{row.get('playbook', '')}",
-            ))
+            lines.append(
+                (
+                    "msg",
+                    f"{str(row.get('name', ''))[:43]:<44} {str(row.get('valid', ''))[:4]:<5} "
+                    f"{str(row.get('enabled', ''))[:3]:<4} {str(row.get('steps', ''))[:5]:<6} "
+                    f"{row.get('playbook', '')}",
+                )
+            )
     elif resolved == "checkpoints":
         if not rows:
             lines.append(("warn", "[apt_chain] no checkpoints (runs via apt_chain without --no-checkpoint)."))
         for row in rows:
-            lines.append((
-                "msg",
-                f"{row.get('run_id', ''):<62} {row.get('chain', ''):<24} "
-                f"state={row.get('state', ''):<10} target={row.get('target', '')}",
-            ))
+            lines.append(
+                (
+                    "msg",
+                    f"{row.get('run_id', ''):<62} {row.get('chain', ''):<24} "
+                    f"state={row.get('state', ''):<10} target={row.get('target', '')}",
+                )
+            )
     elif resolved == "show":
         lines.append(("msg", f"[apt_chain] {payload.get('name')}: {payload.get('description') or '(no description)'}"))
-        lines.append(("msg", f"    extends: {payload.get('extends') or '(base)'}  defaults: {json.dumps(payload.get('defaults', {}))}"))
+        lines.append(
+            (
+                "msg",
+                f"    extends: {payload.get('extends') or '(base)'}  defaults: {json.dumps(payload.get('defaults', {}))}",
+            )
+        )
         for step in payload.get("steps", []) or []:
             lines.append(("msg", f"    - {step.get('id', step.get('run'))}: {step.get('run', '')}"))
         for error in payload.get("errors") or []:
@@ -599,12 +608,14 @@ def render_admin(payload: dict[str, Any], action: str) -> list[tuple[str, str]]:
         lines.append(("msg", f"{'id':<18} {'status':<9} {'chain':<24} {'step':<20} command"))
         lines.append(("msg", "-" * 88))
         for row in rows:
-            lines.append((
-                "msg",
-                f"{str(row.get('id', ''))[:17]:<18} {str(row.get('status', ''))[:8]:<9} "
-                f"{str(row.get('chain', ''))[:23]:<24} {str(row.get('step_id', ''))[:19]:<20} "
-                f"{str(row.get('command', ''))[:60]}",
-            ))
+            lines.append(
+                (
+                    "msg",
+                    f"{str(row.get('id', ''))[:17]:<18} {str(row.get('status', ''))[:8]:<9} "
+                    f"{str(row.get('chain', ''))[:23]:<24} {str(row.get('step_id', ''))[:19]:<20} "
+                    f"{str(row.get('command', ''))[:60]}",
+                )
+            )
     elif payload.get("errors"):
         for error in payload["errors"]:
             lines.append(("warn", f"    - {error}"))

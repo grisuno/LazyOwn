@@ -181,6 +181,9 @@ ignore = [
 # cli/commands: S103/S104/S608 are intentional in a pentest framework
 # (payloads chmod 0o755, C2 binding 0.0.0.0, imports over hardcoded tables).
 "cli/commands/*" = ["S103", "S104", "S608"]
+# core/payload_schema.py: the c2_bind_address FieldSpec carries the data string
+# "0.0.0.0" as its default value (config data, not a socket bind) — S104 only.
+"core/payload_schema.py" = ["S104"]
 # Legacy monoliths — gradual cleanup in progress
 # Tier 1: core/ and cli/ have full linting enabled
 # Tier 2: modules/, skills/, plugins/ get security-only ignores

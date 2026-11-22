@@ -358,6 +358,7 @@ class CommandChain:
 
         return self.next_resolver.resolve(cmd=cmd, params=params, target=target, phase=phase, limit=limit)
 
+
 __all__ = [
     "ChainConfig",
     "CommandChain",

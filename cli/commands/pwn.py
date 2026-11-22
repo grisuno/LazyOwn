@@ -260,10 +260,7 @@ class PwnCommandSet(LazyOwnCommandSet):
             f"\n  [+] DONE ({mode})  exploits={len(exploits)}  success={len(success)}  shells={len(shell)}  shell={'YES' if shell_flag else 'no'}"
         )
         if not exploits and not result.get("error"):
-            print_warn(
-                "no vector attempted: re-run with 'auto_pwn' after a fresh scan, "
-                "or enable coverage with --all"
-            )
+            print_warn("no vector attempted: re-run with 'auto_pwn' after a fresh scan, or enable coverage with --all")
         if shell_flag and result.get("best_session_id"):
             print_msg(f"  [+] Session: {result.get('best_session_id')}", flush=True)
 

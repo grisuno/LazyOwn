@@ -70,7 +70,7 @@ def test_atomic_fires_on_technique_ids_in_postexp():
     """Given technique ids in a post-foothold phase, Then atomic_emulate is proposed."""
     decision = AtomicSelector().propose(_ctx("emulate T1059.001 and T1082", phase="postexp"))
     assert decision is not None
-    assert decision.command == "atomic_emulate --target 10.0.0.9 --techniques T1059.001,T1082"
+    assert decision.command == "atomic_emulate --target 10.0.0.9 --techniques T1059.001,T1082 --platform linux"
     assert decision.source == "atomic"
 
 
@@ -78,7 +78,7 @@ def test_atomic_honours_explicit_techniques_extra():
     """Given techniques passed via extra, Then they drive the emulation."""
     decision = AtomicSelector().propose(_ctx("", phase="lateral", techniques=["T1021", "T1021"]))
     assert decision is not None
-    assert decision.command == "atomic_emulate --target 10.0.0.9 --techniques T1021"
+    assert decision.command == "atomic_emulate --target 10.0.0.9 --techniques T1021 --platform linux"
 
 
 def test_atomic_abstains_in_recon_phase():

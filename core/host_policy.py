@@ -16,8 +16,24 @@ import re
 _HOST_RE = re.compile(r"^(?=.{1,253}$)([A-Za-z0-9]([A-Za-z0-9._-]{0,251}[A-Za-z0-9])?)$")
 _SHELL_META_CHARS = frozenset(";&|`$(){}!><*?~#\\'\"\n\r")
 _FILE_LIKE_SUFFIXES = (
-    ".sh", ".py", ".exe", ".dll", ".ps1", ".bat", ".txt", ".json", ".xml",
-    ".html", ".php", ".jsp", ".bin", ".elf", ".so", ".conf", ".cfg", ".log",
+    ".sh",
+    ".py",
+    ".exe",
+    ".dll",
+    ".ps1",
+    ".bat",
+    ".txt",
+    ".json",
+    ".xml",
+    ".html",
+    ".php",
+    ".jsp",
+    ".bin",
+    ".elf",
+    ".so",
+    ".conf",
+    ".cfg",
+    ".log",
 )
 
 

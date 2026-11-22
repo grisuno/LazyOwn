@@ -147,7 +147,9 @@ def _wired_engine(monkeypatch, config: dict, executed: list[str], shell_at: set[
         return ExploitResult(candidate=candidate, success=True, shell_obtained=got_shell)
 
     monkeypatch.setattr(eng, "execute_candidate", fake_exec)
-    monkeypatch.setattr(eng, "_bounded_execute", lambda candidate, profile: fake_exec(candidate, profile))
+    monkeypatch.setattr(
+        eng, "_bounded_execute", lambda candidate, profile, timeout=None: fake_exec(candidate, profile)
+    )
     monkeypatch.setattr(
         AutonomousExploitEngine, "get_instance", classmethod(lambda cls: eng)
     )

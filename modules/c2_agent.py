@@ -661,7 +661,7 @@ def deploy(
     finally:
         _close_shells(target)
     return {
-        "deployed": True,
+        "deployed": bool(launched) and running not in ("0", "[error]"),
         "client_id": client_id,
         "privilege": wanted,
         "via": spec.id,

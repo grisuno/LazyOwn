@@ -600,7 +600,7 @@ def _c2_argv(params: dict, port: int) -> list[str]:
     return [sys.executable, "-u", "lazyc2.py", str(port), user, password]
 
 
-def _maybe_start_c2(params: dict) -> bool:
+def _maybe_start_c2(params: dict, force: bool = False) -> bool:
     """Spawn the C2 dashboard when the payload asks for it (fail-soft).
 
     Gated on ``loop_c2_autostart`` in payload.json so the foothold
@@ -613,12 +613,17 @@ def _maybe_start_c2(params: dict) -> bool:
 
     Args:
         params: Payload mapping.
+        force: Start the C2 even when ``loop_c2_autostart`` is off. The
+            beacon handoff uses this because a foothold without a live
+            C2 can never check in.
 
     Returns:
         True when the C2 endpoint is accepting connections.
     """
     params = params or {}
-    if not bool(params.get(C2_AUTOSTART_FLAG)) or os.environ.get("PYTEST_CURRENT_TEST"):
+    if not force and not bool(params.get(C2_AUTOSTART_FLAG)):
+        return False
+    if os.environ.get("PYTEST_CURRENT_TEST"):
         return False
     host, port = _c2_endpoint(params)
     try:

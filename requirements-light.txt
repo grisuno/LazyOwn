@@ -11,7 +11,7 @@ aiowinreg==0.0.13
 annotated-types==0.8.0
 anyio==4.16.0
 APScheduler==3.11.3
-argcomplete==3.6.3
+argcomplete==3.7.2
 argon2-cffi==25.1.0
 argon2-cffi-bindings==26.2.0
 asn1crypto==1.5.1

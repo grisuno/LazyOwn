@@ -111,6 +111,28 @@ def _isolated_loop_state_db(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _isolated_db_write_queue(tmp_path, monkeypatch):
+    """Isolate the campaign database write queue per test.
+
+    ``campaign_db`` is a default outcome sink, so any test firing the real
+    bus would otherwise spawn the process-wide writer thread and write to
+    the shared ``sessions/db/lazyown.db``. Each test gets a synchronous
+    queue bound to a per-test database and the singleton is restored.
+    """
+    try:
+        from modules import db_writer
+        from modules.db import LazyOwnDB
+    except Exception:
+        yield
+        return
+    database = LazyOwnDB(str(tmp_path / "campaign.db"))
+    queue = db_writer.DBWriteQueue(db_factory=lambda: database, synchronous=True)
+    db_writer.set_write_queue(queue)
+    yield
+    db_writer.set_write_queue(None)
+
+
+@pytest.fixture(autouse=True)
 def _reset_guard_harness() -> None:
     """Give every test a fresh capacity ledger in the shared harness.
 

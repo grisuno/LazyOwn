@@ -49,7 +49,7 @@ SINK_LOADERS: dict[str, tuple[str, str]] = {
     "chain_feed": ("modules.sinks.chain_feed", "apply"),
 }
 
-DEFAULT_SINKS = tuple(name for name in SINK_LOADERS if name != "campaign_db")
+DEFAULT_SINKS = tuple(SINK_LOADERS)
 
 _SEVERITY = {
     "critical": "critical",

@@ -36,10 +36,20 @@ Sinks live in `modules/sinks/`, one file per surface, each exposing
 failure isolation. A sink exception becomes `False`; the remaining
 sinks still run.
 
-Default order: `world_model`, `killchain`, `routing`, `c2_surfaces`,
-`objectives`, `event_bus`, `intel_graph`, `attack_graph`, `report`.
-`campaign_db` is opt-in because routine loop traffic must not open
-SQLite.
+Default order follows `SINK_LOADERS`: `world_model`, `killchain`,
+`lazy_intel`, `findings`, `routing`, `c2_surfaces`, `objectives`,
+`event_bus`, `intel_graph`, `attack_graph`, `world_diff`,
+`beacon_dispatch`, `report`, `campaign_db`, `chain_feed`.
+
+`campaign_db` is now a default sink. It no longer opens SQLite on the hot
+path: the sink hands its host and vulnerability mirror to the
+single-writer queue in `modules/db_writer.py`, which applies the write on
+one dedicated writer thread bound to one WAL-mode connection. The sink
+returns as soon as the operation is accepted, so routine loop traffic
+never blocks on database I/O. A full queue drops the write with a debug
+log rather than blocking the caller, and `DBWriteQueue.flush()` drains the
+queue for tests and graceful shutdown. Disable the sink per profile with
+`config/orchestrator.yaml -> profiles.<name>.sinks.campaign_db: false`.
 
 ## Configuration
 
@@ -60,5 +70,8 @@ The audit row is best-effort; a full disk never blocks an engagement.
 ## Tests
 
 - `tests/test_outcome_bus.py`: fan-out, dedupe, toggles, failure
-  isolation, C2/objectives/report/graph sinks, bridge mapping.
+  isolation, C2/objectives/report/graph sinks, bridge mapping, and the
+  non-blocking `campaign_db` default sink.
+- `tests/test_db_writer.py`: single-writer persistence, non-blocking
+  submit under a full queue, failure isolation, synchronous mode.
 - `tests/run_mutation_outcome_bus.py`: four mutants, all killed.

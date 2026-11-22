@@ -18,6 +18,10 @@ that bind to the host object through `self` and carry no state of their own.
 | `worker_execution.py` | `WorkerExecutionMixin`: command dispatch through the executor or registry, tracked background jobs, the persistent bash session, alias resolution and the deny/auto-approve/missing-binary admissibility helpers. |
 | `worker_agentic.py` | `WorkerAgenticMixin`: the guard-enforced tool catalogue, the agent system prompt, the multi-attempt tool-calling session, operator-steer drainage, stop-reason checkpoints and the deterministic LLM step suggestions. |
 | `engine_proxy.py` | `EngineProxyMixin`: the `LazyLoopEngine` recorder-proxy lifecycle (`proxy_start`/`stop`/`status`/`env`), per-task traffic ingestion, body search and the retention sweep. |
+| `engine_reporting.py` | `EngineReportingMixin`: the engine's read-only output surface — traffic/evidence/findings exports, `status`/`graph_overview`/`graph_context`/`loop_graph` state views, the finding list and the operator `broadcast`/`_broadcast_row`/`broadcast_events` rows. |
+| `engine_goals.py` | `EngineGoalsMixin`: CRUD over the objective tree — `add_intent`/`add_hint`, `set_goals`/`edit_goal`/`delete_goal`, and intent deletion (`preview_delete_intent`/`delete_intent`/`_intent_subtree`/`_split_exclusive`). |
+| `engine_verdict.py` | `EngineVerdictMixin`: goal evaluation and proof — `goal_met`/`record_fact`/`record_verdict`, `_evaluate_goal`/`_check_goals`/`_goals_met`, `prove_goal`/`_mark_goals_achieved`/`_foothold_proven`/`_foothold_evidence_id`, the terminal auto_pwn fallback and the engagement decision. |
+| `engine_tasks.py` | `EngineTaskMixin`: task lifecycle and the concurrency queue — `create_task`/`spawn_task`/`delete_task`, `list_tasks`/`task_graph`/`task_findings`/`task_traces`/`task_node_detail`, `pause_task`/`resume_task`, `set_concurrency`/`admission_check`/`drain_queue`, discard archival, finding-report writeback and the C2 board mirror. |
 | `triage_scheduler.py` | `TriageScheduler` + `estimate_difficulty`: difficulty-triage scheduling for the multi-target queue (easy-first ordering, deadline salvage of partials, stop-loss). Pure; `LazyLoopEngine.drain_queue` uses it when `loop_triage_enabled` is set. |
 | `state_db.py` | Shared SQLite WAL substrate (`sessions/db/loop_state.db`, gitignored) with `connect`/`thread_connection`; one file backs claim leases and token usage. |
 | `leases.py` | `LeaseStore`: transactional claim leases keyed by `(task_id, node_id)` — CAS claim under `BEGIN IMMEDIATE`, heartbeat, settle (a settled intent never re-claims), release and sweep of provably-dead claims back to pending. `ExplorationGraph.compare_and_claim` acquires the lease before the flock-persist, `set_state` settles/releases on terminal/requeue transitions, `Budget.record_toolcall` heartbeats the claim, and the engine run loop sweeps expired leases each round. Config: orchestrator profile `leases: {enabled, ttl_sec, heartbeat_sec}`. |
@@ -30,10 +34,14 @@ that bind to the host object through `self` and carry no state of their own.
 
 `modules.lazy_loop.Worker` inherits the worker mixins
 (`class Worker(WorkerAgenticMixin, WorkerExecutionMixin, WorkerGatingMixin, WorkerMemoryMixin)`)
-and `modules.lazy_loop.LazyLoopEngine` inherits `EngineProxyMixin`.
+and `modules.lazy_loop.LazyLoopEngine` inherits the engine mixins
+(`class LazyLoopEngine(EngineTaskMixin, EngineGoalsMixin, EngineVerdictMixin, EngineReportingMixin, EngineProxyMixin)`),
+leaving only the core round/run orchestration on the host class.
 Method resolution keeps the public surface identical, so every caller that used
-`worker._os_gate(...)`, `worker._run(...)`, `worker._agentic_try(...)` or
-`engine.proxy_start(...)` keeps working without change. The mixins never import `lazy_loop` at module load time;
+`worker._os_gate(...)`, `worker._run(...)`, `worker._agentic_try(...)`,
+`engine.proxy_start(...)`, `engine.create_task(...)`, `engine.add_intent(...)`,
+`engine.prove_goal(...)` or `engine.export_findings_report(...)` keeps working
+without change. The mixins never import `lazy_loop` at module load time;
 module-level helpers that still live in `lazy_loop` (`_store_path`, `_now`,
 `AssetGate`, `FindingService`, `LlmPool`, `constraint_block`,
 `build_prompt_context`, `task_llm_chain`, `plausible_command`,

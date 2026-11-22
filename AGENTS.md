@@ -92,13 +92,30 @@ Critical security fixes applied with full test coverage. Run: `pytest tests/test
 
 ## How to add a new CLI command
 
-1. Add `do_<name>(self, line)` near related commands in `lazyown.py`.
-2. Read inputs from `self.params` (payload.json) — never accept rhost/lhost as positional args when in payload.
+New commands go in a `cli/commands/<module>.py` `CommandSet`, not in
+`lazyown.py`. The command migration is complete: `lazyown.py` holds the
+`LazyOwnShell` skeleton and startup wiring, while ~880 `do_*` methods live
+in auto-discovered `CommandSet` modules under `cli/commands/`
+(`cli/registry.py` registers them at boot). Do **not** add new `do_*`
+methods to `lazyown.py` — that re-grows the god class and splits dispatch
+across two models.
+
+1. Add `do_<name>(self, line)` to the right `CommandSet` subclass of
+   `cli.commands._base.LazyOwnCommandSet` under `cli/commands/`, grouped
+   by kill-chain phase (recon, enum, exploit, ...). Create a new module +
+   `CommandSet` (plus `README.md`) only when no existing phase module fits.
+2. Read inputs from `self.params` (payload.json) — the base class
+   forwards unknown attribute reads to the bound shell, so `self.params`,
+   `self.scripts` and shell helpers work verbatim inside a `CommandSet`.
+   Never accept rhost/lhost as positional args when in payload.
 3. Validate with `check_rhost` / `check_lhost` / `check_lport` from `utils.py`.
 4. Execute via `run_command(cmd_str)` — captures output, strips ANSI, CSV-logs.
 5. Write artefacts to `sessions/...` with stable filenames.
 6. Add one natural short alias (or none).
 7. If the command has a kill-chain phase, add it to the bridge catalog so `auto_loop` sees it.
+
+Reserve `lazyown.py` edits for shell-skeleton concerns (startup hooks,
+prompt/chain engine, scope guard, tool/plugin/adversary registration).
 
 Do NOT import `lazyc2` from CLI. Do NOT write to `payload.json` outside `do_assign` / `do_set` / `lazyown_set_config`.
 

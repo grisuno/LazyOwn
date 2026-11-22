@@ -98,7 +98,9 @@ class LoopAuditCommandSet(LazyOwnCommandSet):
                 f"[*] summary: commands {summary['ok']} ok / {summary['failed']} failed "
                 f"— status {summary['status'] or '-'} verdict {summary['verdict'] or '-'}"
             )
-        print_msg(f"[*] full command traffic: sessions/lazy/traffic_{task}.jsonl · report: sessions/lazy/report_{task}.md")
+        print_msg(
+            f"[*] full command traffic: sessions/lazy/traffic_{task}.jsonl · report: sessions/lazy/report_{task}.md"
+        )
 
 
 __all__ = ["LoopAuditCommandSet"]

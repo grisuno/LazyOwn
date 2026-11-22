@@ -660,7 +660,9 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
 
         copy2clip(oneliner)
         if line.strip() != "raw":
-            print_succ(f"{GREEN}obfuscated fileless one-liner ready (base64 || upstream stage || raw /s/ || disk){RESET}")
+            print_succ(
+                f"{GREEN}obfuscated fileless one-liner ready (base64 || upstream stage || raw /s/ || disk){RESET}"
+            )
         else:
             print_succ(f"{GREEN}raw fileless one-liner ready (upstream stage || raw /s/ || disk fallback){RESET}")
         print_msg("queue commands with issue_command_to_c2; run BOFs with bof_run <name> <beacon_id>")

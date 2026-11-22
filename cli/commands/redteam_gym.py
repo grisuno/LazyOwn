@@ -110,7 +110,7 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
         """
         from core.config import save_payload
 
-        action = (rest[0].lower() if rest else "status")
+        action = rest[0].lower() if rest else "status"
         try:
             from core.config import load_payload
 

@@ -725,10 +725,7 @@ class LazyCommandSet(LazyOwnCommandSet):
         print_msg(f"{len(records)} deviation(s)" + (f" in {scope}" if scope else ""))
         for row in records:
             stamp = time.strftime("%m-%d %H:%M", time.localtime(row.ts))
-            print_msg(
-                f"  {stamp} [{row.source or '-'}] {row.planned[:90]}"
-                f" -> {row.actual[:90]} ({row.reason[:90]})"
-            )
+            print_msg(f"  {stamp} [{row.source or '-'}] {row.planned[:90]} -> {row.actual[:90]} ({row.reason[:90]})")
         if "--md" in args:
             print_msg(ledger.render_markdown(records))
 

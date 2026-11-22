@@ -15,10 +15,12 @@ Ports:
   autonomous exploit engine's retry queue (credential reuse).
 - :class:`ReactionPort` — reactive-engine analysis of step output into
   next-action decisions.
+- :class:`ReasoningPort` — chain-strategy reasoning over a target into the
+  next best exploit candidate.
 
 Failure semantics: every port call degrades to a no-op answer (empty
-list, empty string) when its engine import fails, so a missing engine
-never breaks the loop round.
+list, empty string, ``None``) when its engine import fails, so a missing
+engine never breaks the loop round.
 """
 
 from __future__ import annotations
@@ -63,6 +65,23 @@ class ReactionPort(Protocol):
         ...
 
 
+@runtime_checkable
+class ReasoningPort(Protocol):
+    """Request-port for chain-strategy reasoning about a target."""
+
+    def reason(self, target: str) -> Any | None:
+        """Produce the next best exploit candidate for a target.
+
+        Args:
+            target: IP or hostname to reason about.
+
+        Returns:
+            An exploit candidate; ``None`` when the target is empty or the
+            chaining engine is unavailable.
+        """
+        ...
+
+
 class EngineMediator:
     """Mediate engine access for the autonomous loop and CLI surfaces."""
 
@@ -72,8 +91,8 @@ class EngineMediator:
         """Return introspection metadata for diagnostics."""
         return {
             "domain": self.domain,
-            "ports": ["exploit_retry", "reaction"],
-            "engines": ["autonomous_exploit_engine", "reactive_engine"],
+            "ports": ["exploit_retry", "reaction", "reasoning"],
+            "engines": ["autonomous_exploit_engine", "reactive_engine", "ai_exploit_chain"],
         }
 
     def retry_with_credentials(self, target: str, credentials: list[dict]) -> int:
@@ -115,4 +134,27 @@ class EngineMediator:
         except Exception:
             return []
 
-__all__ = ["EngineMediator", "ExploitRetryPort", "ReactionPort"]
+    def reason(self, target: str) -> Any | None:
+        """Produce the next best exploit candidate through chain reasoning.
+
+        Args:
+            target: IP or hostname to reason about.
+
+        Returns:
+            An ``ExploitCandidate`` for the next strategy, or ``None`` when the
+            target is empty or the chaining engine is unavailable.
+        """
+        if not target:
+            return None
+        try:
+            from modules.ai_exploit_chain import AIExploitChainer, ExploitChainContext
+            from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
+            profile = AutonomousExploitEngine.get_instance().profile(target)
+            chainer = AIExploitChainer()
+            context = ExploitChainContext(target=target, profile=profile)
+            return chainer.reason(context)
+        except Exception:
+            return None
+
+__all__ = ["EngineMediator", "ExploitRetryPort", "ReactionPort", "ReasoningPort"]

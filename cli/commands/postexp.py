@@ -126,6 +126,8 @@ objShell.Run("powershell -Command Add-MpPreference -ExclusionPath 'C:\\'"), 0, T
     def do_atomic_lazyown(self, line):
         """Execute atomic red-team tests via LazyOwn."""
         self.cmd(f"python3 modules/atomic_lazyown.py {line}")
+
+
 for _lazy_name in dir(_lazy_utils):
     if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))

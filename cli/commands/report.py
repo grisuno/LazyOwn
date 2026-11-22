@@ -112,8 +112,10 @@ class ReportToolsCommandSet(LazyOwnCommandSet):
             print_msg("[+] Usage: malwarebazar <hash>")
             return
         self.cmd(f"python3 modules/malwarebazar.py {line}")
+
+
 for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
+    if not _lazy_name.startswith("_"):
         globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
 
 
@@ -157,9 +159,7 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
 
         print_msg(f"Try... nmap --script-help '{line}*'{RESET}")
         self.cmd(f"nmap --script-help '{line}*'")
-        print_msg(
-            f"now you can run : {MAGENTA} sh sudo nmap -sCV -p <port> --script <script1,script2 <ip> {RESET}"
-        )
+        print_msg(f"now you can run : {MAGENTA} sh sudo nmap -sCV -p <port> --script <script1,script2 <ip> {RESET}")
         return
 
     @cmd2.with_category("11. Reporting")
@@ -189,7 +189,7 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         if matched_cmds:
             print_msg("Commands found in the cmd interface:")
             for cmd in matched_cmds:
-                print_msg(f"  {cmd.replace('do_','').replace('run_', 'run ')}")
+                print_msg(f"  {cmd.replace('do_', '').replace('run_', 'run ')}")
         else:
             print_warn("No matching commands found in the cmd interface.")
 
@@ -204,7 +204,7 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         return
 
     @cmd2.with_category("11. Reporting")
-    def do_morse(self,line):
+    def do_morse(self, line):
         """Interactive Morse Code Converter.
 
         This function serves as an interface for converting text to Morse code and vice versa.
@@ -267,12 +267,16 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         - `run(command)`: Utility function used to execute the command for downloading the malware.
         """
         if not line:
-            print_error(f"You need pass the hash of malware as an argument example {GREEN}download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d {BLUE} To get hash of malware see {GREEN}help malwarebazar")
+            print_error(
+                f"You need pass the hash of malware as an argument example {GREEN}download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d {BLUE} To get hash of malware see {GREEN}help malwarebazar"
+            )
             return
         file = "sessions/malware.zip"
         command = f'curl -X POST -d "query=get_file&sha256_hash={line}" -o {file} https://mb-api.abuse.ch/api/v1/'
         run(command)
-        print_msg('Please note that any malware sample you download from MalwareBazaar will be zipped (malware.zip) and password protected using the password "infected" (without "").')
+        print_msg(
+            'Please note that any malware sample you download from MalwareBazaar will be zipped (malware.zip) and password protected using the password "infected" (without "").'
+        )
         out = run(f"file {file}")
         print_msg(out)
         return
@@ -309,9 +313,9 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        old_domain = get_domain(self.params['url'])
+        old_domain = get_domain(self.params["url"])
         try:
-            with open('payload.json') as file:
+            with open("payload.json") as file:
                 data = json.load(file)
         except FileNotFoundError:
             print_error("Error: payload.json not found")
@@ -334,15 +338,15 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         if not new_domain:
             print_error("you need pass new_domain")
             return
-        data['url'] = new_url
-        data['domain'] = new_domain
-        data['rhost'] = new_ip
+        data["url"] = new_url
+        data["domain"] = new_domain
+        data["rhost"] = new_ip
 
         new_name = new_domain.split(".")[0]
         self.cmd(f"mv payload.json payload_{old_domain}.json")
         new_filename = f"payload_{new_name}.json"
 
-        with open(new_filename, 'w') as outfile:
+        with open(new_filename, "w") as outfile:
             json.dump(data, outfile, indent=4)
         self.cmd(f"cp {new_filename} payload.json")
         print_msg(f"Updated file saved as {new_filename}")
@@ -379,8 +383,8 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        sessions_dir = 'sessions'
-        csv_files = [f for f in os.listdir(sessions_dir) if f.endswith('.csv')]
+        sessions_dir = "sessions"
+        csv_files = [f for f in os.listdir(sessions_dir) if f.endswith(".csv")]
 
         if not csv_files:
             print_error("No CSV files found in the 'sessions' directory.")
@@ -403,29 +407,31 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             with open(csv_path) as file:
                 reader = csv.DictReader(file)
                 for row in reader:
-                    identifier = row['identifier'].replace("*.","")
-                    eligible_for_bounty = row['eligible_for_bounty'].lower() == 'true'
-                    eligible_for_submission = row['eligible_for_submission'].lower() == 'true'
+                    identifier = row["identifier"].replace("*.", "")
+                    eligible_for_bounty = row["eligible_for_bounty"].lower() == "true"
+                    eligible_for_submission = row["eligible_for_submission"].lower() == "true"
 
                     if eligible_for_bounty and eligible_for_submission:
                         try:
-                            ping_result = subprocess.run(['ping', '-c', '1', identifier], capture_output=True, text=True)
+                            ping_result = subprocess.run(
+                                ["ping", "-c", "1", identifier], capture_output=True, text=True
+                            )
                             if ping_result.returncode != 0:
                                 print_error(f"Failed to ping {identifier}. Skipping.")
                                 continue
-                            ip_address = ping_result.stdout.split()[2].strip('()')
+                            ip_address = ping_result.stdout.split()[2].strip("()")
 
-                            with open('payload.json') as payload_file:
+                            with open("payload.json") as payload_file:
                                 data = json.load(payload_file)
 
                             new_url = f"http://{identifier}"
                             new_domain = identifier
-                            data['url'] = new_url
-                            data['domain'] = new_domain
-                            data['rhost'] = ip_address
+                            data["url"] = new_url
+                            data["domain"] = new_domain
+                            data["rhost"] = ip_address
 
                             new_filename = f"payload_{identifier.replace('.', '_')}.json"
-                            with open(new_filename, 'w') as outfile:
+                            with open(new_filename, "w") as outfile:
                                 json.dump(data, outfile, indent=4)
 
                             print_msg(f"Created payload for {identifier}: {new_filename}")
@@ -456,14 +462,14 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             self.cmd("pip3 install nth")
             return
 
-        hash_file_path = 'sessions/hash.txt'
+        hash_file_path = "sessions/hash.txt"
 
         if not os.path.exists(hash_file_path):
             print_error(f"Hash not found. To create a hash use:{GREEN} createhash {RESET}")
             return
 
         hash_value = get_hash()
-        command = f"nth -t \"{hash_value}\""
+        command = f'nth -t "{hash_value}"'
 
         print_msg(f"Executing command: {command}")
         self.cmd(command)
@@ -496,20 +502,22 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         if line:
             ports = line.strip()
         else:
-            ports = ','.join(
-                re.findall(r'(\d{1,5})/open', open(file).read())
-            )
+            ports = ",".join(re.findall(r"(\d{1,5})/open", open(file).read()))
 
-        ip_address = sorted(
-            set(re.findall(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', open(file).read()))
-        )[0] if re.findall(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', open(file).read()) else "Not found"
+        ip_address = (
+            sorted(set(re.findall(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", open(file).read())))[0]
+            if re.findall(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", open(file).read())
+            else "Not found"
+        )
 
         print_msg("Extracting info...")
         print_msg(f"IP Address: {ip_address}")
         print_msg(f"Open Ports: {ports}")
         print_warn("To enter use Ctrl + Clic: ")
         print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/ip/{ip_address}")
-        print_msg(f"{BLUE}{UNDERLINE}https://otx.alienvault.com/browse/global/indicators?include_inactive=0&sort=-modified&page=1&limit=10&indicatorsSearch={ip_address}")
+        print_msg(
+            f"{BLUE}{UNDERLINE}https://otx.alienvault.com/browse/global/indicators?include_inactive=0&sort=-modified&page=1&limit=10&indicatorsSearch={ip_address}"
+        )
         print_msg(f"{BLUE}{UNDERLINE}https://viz.greynoise.io/ip/{ip_address}")
         print_msg(f"{BLUE}{UNDERLINE}https://search.censys.io/hosts/{ip_address}")
         print_msg(f"{BLUE}{UNDERLINE}https://talosintelligence.com/reputation_center/lookup?search={ip_address}")
@@ -530,7 +538,10 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             print_msg(openssl)
             self.cmd(openssl)
             banner = get_banner(ip_address, p)
-            if banner and banner not in ("No banner received (timed out)", "Connection reset by peer - no banner available"):
+            if banner and banner not in (
+                "No banner received (timed out)",
+                "Connection reset by peer - no banner available",
+            ):
                 print_msg(banner)
                 self.onecmd(f"ss {banner}")
             else:
@@ -563,13 +574,13 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         Returns:
         None
         """
-        target_account = input("    [!] Enter the target account (default: ca_operator): ") or 'ca_operator'
+        target_account = input("    [!] Enter the target account (default: ca_operator): ") or "ca_operator"
         new_password = input("    [!] Enter the new password: ")
-        domain = self.params['domain']
+        domain = self.params["domain"]
         hash_value = input("    [!] Enter the NTLM hash for Pass-the-Hash authentication: ")
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
 
-        command = f"pth-net rpc password \"{target_account}\" \"{new_password}\" -U \"{self.params['domain']}/management_svc%{hash_value}\" -S \"{self.params['rhost']}\""
+        command = f'pth-net rpc password "{target_account}" "{new_password}" -U "{self.params["domain"]}/management_svc%{hash_value}" -S "{self.params["rhost"]}"'
         print_msg(command)
         self.cmd(command)
         return
@@ -599,19 +610,21 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             eyewitness_path = path + "/" + eyewitness_path
             default_timeout = 60
             path = os.getcwd()
-            domain = self.params['domain']
+            domain = self.params["domain"]
             if not os.path.exists(eyewitness_path):
                 print_warn("EyeWitness not found. Installing...")
                 os.makedirs(eyewitness_path, exist_ok=True)
                 self.cmd(f"git clone {eyewitness_repo} {eyewitness_path}")
-                self.cmd(f"cd {eyewitness_path}/Python/setup && sudo ./setup.sh && pip3 install selenium && pip3 install pyvirtualdisplay")
+                self.cmd(
+                    f"cd {eyewitness_path}/Python/setup && sudo ./setup.sh && pip3 install selenium && pip3 install pyvirtualdisplay"
+                )
                 print_msg("EyeWitness installed successfully.")
 
             input_file = get_users_dic("txt")
 
             if input_file is None:
                 input_file = f"{path}/sessions/domain_{self.params['domain']}.txt"
-                command = f"echo \"{self.params['domain']}\" > {input_file}"
+                command = f'echo "{self.params["domain"]}" > {input_file}'
                 print_msg("Crafting file self.params['domain']: " + command)
                 self.cmd(command)
 
@@ -652,7 +665,6 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
                 command = f"cd {pup_path} && go get github.com/ericchiang/pup && go build && go install"
                 print_msg(command)
                 self.cmd(command)
-
 
             url = self.params.get("url")
             if not url:
@@ -741,7 +753,7 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             print_error(f"Error: Directory not found: {self.captured_images_dir}")
             return
 
-        image_files = sorted(glob.glob(os.path.join(self.captured_images_dir, 'capture_*.png')))
+        image_files = sorted(glob.glob(os.path.join(self.captured_images_dir, "capture_*.png")))
 
         if not image_files:
             print_error("No PNG images found in the captured images directory.")
@@ -754,19 +766,26 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
 
         try:
             ffmpeg_cmd = [
-                'ffmpeg',
-                '-framerate', str(frame_rate),
-                '-pattern_type', 'glob',
-                '-i', os.path.join(self.captured_images_dir, 'capture_*.png'),
-                '-vf', f'fade=in:st=0:d=1,fade=out:st={fade_out_start}:d=1',
-                '-r', '30', # Output frame rate
-                '-c:v', 'libx264',
-                '-pix_fmt', 'yuv420p',
-                '-y',  # Overwrite output file if it exists
-                self.captured_images_dir + '/output.mp4'
+                "ffmpeg",
+                "-framerate",
+                str(frame_rate),
+                "-pattern_type",
+                "glob",
+                "-i",
+                os.path.join(self.captured_images_dir, "capture_*.png"),
+                "-vf",
+                f"fade=in:st=0:d=1,fade=out:st={fade_out_start}:d=1",
+                "-r",
+                "30",  # Output frame rate
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                "-y",  # Overwrite output file if it exists
+                self.captured_images_dir + "/output.mp4",
             ]
             subprocess.run(ffmpeg_cmd, check=True, capture_output=True)
-            print_msg("Video "+ self.captured_images_dir + '/output.mp4' + " created successfully.")
+            print_msg("Video " + self.captured_images_dir + "/output.mp4" + " created successfully.")
         except FileNotFoundError:
             print_error("Error: ffmpeg command not found. Please ensure it is installed and in your system's PATH.")
         except subprocess.CalledProcessError as e:
@@ -795,10 +814,8 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             "hosts": [],
             "services": [],
             "vulnerabilities": [],
-
         }
         processed_ips = set()
-
 
         scan_files = glob.glob(os.path.join(self.sessions_dir, "scan_*.csv"))
         for scan_file in scan_files:
@@ -818,7 +835,6 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
                 ip = match.group(1)
                 self.process_scan_csv(scan_file, ip, None, all_data, processed_ips)
 
-
         vuln_files = glob.glob(os.path.join(self.sessions_dir, "vulns_*.csv"))
         for vuln_file in vuln_files:
             match = re.match(r"vulns_([^_]+).csv", os.path.basename(vuln_file))
@@ -827,7 +843,7 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
                 self.process_vuln_csv(vuln_file, ip, all_data, processed_ips)
 
         output_file = os.path.join(self.sessions_dir, "surface_attack.json")
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(all_data, f, indent=2)
         print_msg(f"Processed CSV files and saved data to '{output_file}'.")
 

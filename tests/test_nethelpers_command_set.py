@@ -1,17 +1,17 @@
 """Network helpers command set extraction tests.
 
 SDD contract for the network helpers cluster split out of
-``cli/commands/misc_migrated.py`` into ``cli/commands/nethelpers.py``.
+``cli/commands/misc.py`` into ``cli/commands/nethelpers.py``.
 
 Stage A (pending): the new ``NetworkHelpersCommandSet`` subclasses
 ``PendingCommandSet`` so it is discovered but not registered, coexisting
 with the originals. Tests assert structure plus AST parity with the
-original methods in ``misc_migrated.py``.
+original methods in ``misc.py``.
 
 Stage B (active): after the originals are deleted and the base class is
 flipped to ``LazyOwnCommandSet``, tests assert registry discovery,
 active registration eligibility, and absence of the methods in
-``misc_migrated.py``.
+``misc.py``.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SOURCE_PATH = REPO_ROOT / "cli" / "commands" / "misc_migrated.py"
+SOURCE_PATH = REPO_ROOT / "cli" / "commands" / "misc.py"
 TARGET_PATH = REPO_ROOT / "cli" / "commands" / "nethelpers.py"
 
 
@@ -106,7 +106,7 @@ def test_registry_registers_target() -> None:
 
 
 def test_no_command_collisions_with_source() -> None:
-    from cli.commands.misc_migrated import MiscMigratedCommandSet
+    from cli.commands.misc import MiscMigratedCommandSet
     from cli.commands.nethelpers import NetworkHelpersCommandSet
 
     target_cmds = {n for n in dir(NetworkHelpersCommandSet) if n.startswith("do_")}

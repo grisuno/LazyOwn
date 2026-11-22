@@ -1,6 +1,6 @@
 """Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
 
-Thin CLI wrappers in ``cli/commands/command_and_control_migrated.py``
+Thin CLI wrappers in ``cli/commands/command_and_control.py``
 delegate here. MCP tools and the autonomous loop may call
 ``run_atomic_tests`` / ``run_atomic_gen`` directly with
 ``non_interactive=True`` so execution never blocks on ``input()``.

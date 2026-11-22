@@ -123,7 +123,7 @@ def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys
 def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys):
     """A live atomic_shell session updates the target host state only."""
     import modules.atomic_exploit_bridge as bridge
-    from cli.commands.command_and_control_migrated import CommandAndControlMigratedCommandSet
+    from cli.commands.command_and_control import CommandAndControlMigratedCommandSet
     from modules.world_model import get_world_model
 
     monkeypatch.setattr(

@@ -50,13 +50,13 @@ class TestLoader:
 class TestCallSitesMigrated:
     SITES = {
         "modules/hash_cracker.py": "COMMON_WORDLISTS",
-        "cli/commands/cred_migrated.py": "rockyou_wordlist",
+        "cli/commands/cred.py": "rockyou_wordlist",
         "lazyown.py": "default_lport",
         "modules/autonomous_exploit_engine.py": "default_lport",
     }
 
     def test_no_hardcoded_rockyou_in_logic(self) -> None:
-        for rel in ("modules/hash_cracker.py", "cli/commands/cred_migrated.py"):
+        for rel in ("modules/hash_cracker.py", "cli/commands/cred.py"):
             tree = ast.parse((REPO_ROOT / rel).read_text(encoding="utf-8"))
             literals = [
                 n.value

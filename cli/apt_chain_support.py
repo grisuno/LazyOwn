@@ -1,6 +1,6 @@
 """Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
-Keeps ``cli.commands.command_and_control_migrated`` thin: argument
+Keeps ``cli.commands.command_and_control`` thin: argument
 parsing, step selection, checkpoint/resume wiring, result rendering and
 the reactive replanner live here. Options are parsed manually so any
 unknown flag fails loudly instead of being silently swallowed.

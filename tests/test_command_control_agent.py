@@ -2,7 +2,7 @@
 
 Covers the two fixes that keep stale staging from corrupting agents:
 
-- :func:`cli.commands.command_and_control_migrated.select_agent_flavour`
+- :func:`cli.commands.command_and_control.select_agent_flavour`
   picks ``.ps1`` vs ``.sh`` from the plan platform or the scripts of the
   CURRENT run, never from the historical contents of
   ``sessions/temp_uploads/``.
@@ -23,7 +23,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-MODULE_PATH = REPO_ROOT / "cli" / "commands" / "command_and_control_migrated.py"
+MODULE_PATH = REPO_ROOT / "cli" / "commands" / "command_and_control.py"
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -35,7 +35,7 @@ def _add_repo_root_to_syspath() -> None:
 class TestSelectAgentFlavour:
     @pytest.fixture
     def select(self):
-        from cli.commands.command_and_control_migrated import select_agent_flavour
+        from cli.commands.command_and_control import select_agent_flavour
 
         return select_agent_flavour
 

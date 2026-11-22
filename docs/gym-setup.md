@@ -129,18 +129,32 @@ when the project virtualenv lacks selenium.
 ## State-at-rest password
 
 Session state (`sessions/world_model.json`) encrypts at rest on shell
-close (PBKDF2HMAC + Fernet, see `cli/auto_crypto.py`). On startup the
-shell decrypts it transparently. The password resolution order:
+close (PBKDF2HMAC + Fernet, see `cli/auto_crypto.py` and
+`core/crypto.py`). On startup the shell decrypts it transparently. The
+key resolution order — identical for the auto-crypto engine and the
+world model, so either writer's output stays readable by the other — is:
 
-1. `LAZYOWN_MASTER_PASSWORD` environment variable (export it in the
-   session or in a wrapper script when you want an explicit password);
-2. the authenticated CLI operator, derived as `lazyown:<operator>` —
-   the same key material the login session uses, so MCP subprocesses
-   and background loops read the encrypted state without extra setup.
+1. `LAZYOWN_MASTER_PASSWORD` environment variable (portable and
+   strongest; export it in the session or a wrapper script);
+2. an OS keyring secret (random, created on first use) when the
+   `keyring` package is installed;
+3. a device-bound random secret in `sessions/.state_secret` (mode
+   `0o600`), created on first use — local-disk security only, so a
+   warning is emitted recommending `LAZYOWN_MASTER_PASSWORD`;
+4. otherwise no key is available and sensitive state is **not**
+   encrypted (an explicit warning is logged).
 
-Nothing else to configure: when you log in as an operator the state
-decrypts automatically; external tools reading `sessions/world_model.json`
-get the plaintext view through the same fallback.
+The key is never derived from a public value. The previous
+`lazyown:<operator>` scheme (a key derived from the operator username)
+was insecure against anyone with disk access and has been removed from
+the write path; it survives only as a read-only fallback, so state
+written under the old scheme still decrypts and then migrates to the
+current key on the next save (with a deprecation warning).
+
+For portable, operator-grade encryption across machines and MCP
+subprocesses, set `LAZYOWN_MASTER_PASSWORD`. Without it, state is still
+encrypted with the device-bound secret but only decryptable on the same
+host.
 
 ---
 

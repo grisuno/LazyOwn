@@ -102,7 +102,7 @@
     "cli/commands/winbox_gym.py"
   ],
   "source_sha256": {
-    "lazyown.py": "1c34ec8cc6a386bb976a37b4cc68aae3998bc0a11c94a3c2ca6aa144ae94746a",
+    "lazyown.py": "5b7086de429e5b46647bc68d03e1af5e6571b9a53b75371cf484bb7dc7ae28fd",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -11468,7 +11468,7 @@
     },
     {
       "name": "do_set",
-      "line": 794,
+      "line": 796,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -11479,7 +11479,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 3606,
+      "line": 3608,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -11490,7 +11490,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 3636,
+      "line": 3638,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -11501,7 +11501,7 @@
     },
     {
       "name": "do_route",
-      "line": 3675,
+      "line": 3677,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

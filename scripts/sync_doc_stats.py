@@ -7,6 +7,7 @@ README, guides and agent context never contradict each other again:
 - ``cli_commands``   — ``do_`` methods in lazyown.py + cli/commands/*.py (AST)
 - ``bridge_catalog`` — ``CatalogEntry(`` rows in modules/lazyown_bridge.py
 - ``mcp_tools``      — ``name="lazyown_`` registrations in skills/lazyown_mcp.py
+                      plus the per-tool modules in skills/mcp_tools/
 - ``aliases``        — keys in cli/aliases.yaml
 - ``addons``         — lazyaddons/*.yaml
 - ``plugins``        — plugins/*.lua
@@ -81,6 +82,11 @@ REPLACEMENTS: tuple[tuple[str, str, str], ...] = (
     ),
     ("README.md", r"## v\d+\.\d+\.\d+ Highlights", "## v{version} Highlights"),
     ("README.md", r"Release history \(v0\.0\.1 to v\d+\.\d+\.\d+\)", "Release history (v0.0.1 to v{version})"),
+    ("docs/mcp-setup.md", r"MCP Tool Groups \(\d+ tools\)", "MCP Tool Groups ({mcp_tools} tools)"),
+    ("docs/mcp-setup.md", r"exposes \d+\+? tools", "exposes {mcp_tools} tools"),
+    ("README.md", r"\d+ MCP tools for AI agents", "{mcp_tools} MCP tools for AI agents"),
+    ("README.md", r"MCP server for AI agents \(\d+ tools\)", "MCP server for AI agents ({mcp_tools} tools)"),
+    ("CLAUDE.md", r"~\d+ tools\. \*\*Never", "~{mcp_tools} tools. **Never"),
 )
 
 
@@ -113,6 +119,11 @@ def measure_stats(root: Path = REPO_ROOT) -> dict[str, int | str]:
         root: Repository root. Injectable so tests can point at a fixture.
     """
     mcp_source = (root / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")
+    mcp_tools_dir = root / "skills" / "mcp_tools"
+    mcp_tool_count = len(re.findall(r'name="lazyown_', mcp_source))
+    if mcp_tools_dir.is_dir():
+        for module in mcp_tools_dir.glob("*.py"):
+            mcp_tool_count += len(re.findall(r'name="lazyown_', module.read_text(encoding="utf-8")))
     bridge_source = (root / "modules" / "lazyown_bridge.py").read_text(encoding="utf-8")
     aliases = yaml.safe_load((root / "cli" / "aliases.yaml").read_text(encoding="utf-8"))
     cli_commands = canonical_command_count(root)
@@ -122,7 +133,7 @@ def measure_stats(root: Path = REPO_ROOT) -> dict[str, int | str]:
         "cli_commands": cli_commands,
         "cli_hundreds": (cli_commands // 100) * 100,
         "bridge_catalog": bridge_source.count("CatalogEntry("),
-        "mcp_tools": len(re.findall(r'name="lazyown_', mcp_source)),
+        "mcp_tools": mcp_tool_count,
         "aliases": len(aliases or {}),
         "addons": len(list((root / "lazyaddons").glob("*.yaml"))),
         "plugins": len(list((root / "plugins").glob("*.lua"))),

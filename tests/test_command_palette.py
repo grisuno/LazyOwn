@@ -93,7 +93,7 @@ class PaletteSuiteConfig:
     required_migrated_imports: tuple[str, ...] = ("from cli.palette_command import render as _render_palette",)
     expected_lazyown_methods: frozenset[str] = frozenset({"complete_palette"})
     lazyown_shell_class_name: str = "LazyOwnShell"
-    palette_command_module: str = "cli/commands/misc_migrated.py"
+    palette_command_module: str = "cli/commands/misc.py"
     known_duplicate_lines: dict[str, frozenset[int]] = field(default_factory=dict)
     invalid_index_payload: str = "{not json"
     case_sensitive_invariant_phase_index: int = 0

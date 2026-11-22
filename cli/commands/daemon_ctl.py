@@ -1,6 +1,6 @@
 """Autonomous daemon control extracted from the miscellaneous cluster.
 
-Pending status: originals deleted from ``cli/commands/misc_migrated.py``;
+Pending status: originals deleted from ``cli/commands/misc.py``;
 this set is registered by ``cli.registry``.
 """
 

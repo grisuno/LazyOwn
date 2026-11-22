@@ -427,7 +427,7 @@ chain_distill t0123 --all           # include dropped rows in the listing
 Output chains are plain `ChainRunner` YAML — run them again with
 `apt_chain <name> <target>` or schedule them as playbooks. Implementation:
 `modules/chain_distill.py`; CLI in
-`cli/commands/command_and_control_migrated.py`.
+`cli/commands/command_and_control.py`.
 
 ## Blindspot reviews and the deviation ledger
 

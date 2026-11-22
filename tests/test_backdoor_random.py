@@ -9,7 +9,7 @@ from types import SimpleNamespace
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
-from cli.commands.persist_migrated import PersistMigratedCommandSet  # noqa: E402
+from cli.commands.persist import PersistMigratedCommandSet  # noqa: E402
 
 _FORBIDDEN = set(";|&$()`{}!><*?~#\\'\"\n\r \t:")
 
@@ -51,7 +51,7 @@ def test_ensure_persists_once_then_reuses(monkeypatch) -> None:
     """First call generates + saves; second call reuses without saving."""
     saved: list = []
     monkeypatch.setattr(
-        "cli.commands.persist_migrated.save_payload",
+        "cli.commands.persist.save_payload",
         lambda params: saved.append(dict(params)),
     )
     stub = SimpleNamespace(params={"backdoor_username": "CHANGE_ME", "backdoor_password": "CHANGE_ME"})

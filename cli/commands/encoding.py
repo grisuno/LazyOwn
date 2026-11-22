@@ -1,7 +1,7 @@
-"""Encoding commands extracted from misc_migrated.py.
+"""Encoding commands extracted from misc.py.
 
 Phase misc cluster: URL/base64/rot/obfuscation helpers. Active: originals
-deleted from ``cli/commands/misc_migrated.py`` and this set is registered
+deleted from ``cli/commands/misc.py`` and this set is registered
 by ``cli.registry``.
 """
 

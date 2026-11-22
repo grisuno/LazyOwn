@@ -692,6 +692,38 @@ _LOOP_PHASE_ALIASES: dict[str, str] = {
     "complete": "complete",
 }
 
+PHASE_FALLBACK_TECHNIQUES: dict[str, dict[str, tuple[str, ...]]] = {
+    "recon": {
+        "any": ("T1595", "T1592", "T1590", "T1589"),
+    },
+    "scanning": {
+        "any": ("T1046", "T1018", "T1016", "T1082"),
+    },
+    "enumeration": {
+        "any": ("T1087", "T1083", "T1069", "T1135"),
+    },
+    "exploitation": {
+        "any": ("T1190", "T1203", "T1133", "T1078"),
+    },
+    "post_exploitation": {
+        "any": (
+            "T1548",
+            "T1055",
+            "T1003",
+            "T1114",
+            "T1555",
+            "T1021",
+            "T1005",
+            "T1041",
+        ),
+        "linux": ("T1548", "T1548.001", "T1548.003", "T1003", "T1005", "T1055", "T1021.004"),
+        "windows": ("T1548", "T1548.002", "T1055", "T1003", "T1003.003", "T1021", "T1555", "T1114"),
+    },
+    "complete": {
+        "any": ("T1486", "T1489", "T1490"),
+    },
+}
+
 
 def phase_techniques(phase: str, platform: str = "", top_n: int = 8) -> list[dict]:
     """Return candidate ATT&CK techniques for one canonical loop phase.
@@ -727,6 +759,8 @@ def phase_techniques(phase: str, platform: str = "", top_n: int = 8) -> list[dic
             log.debug("STIX technique query failed: %s", exc)
 
     if not out:
+        table = PHASE_FALLBACK_TECHNIQUES.get(mapped, {})
+        preferred = table.get(platform_l) or table.get("any") or ()
         index = get_engine()._atomic.build()
         for tid in sorted(index):
             if len(out) >= max(1, top_n):
@@ -737,6 +771,8 @@ def phase_techniques(phase: str, platform: str = "", top_n: int = 8) -> list[dic
             if platform_l and tests and not any(
                 platform_l in [p.lower() for p in t.get("platforms", [])] for t in tests
             ):
+                continue
+            if preferred and tid.split(".", 1)[0] not in {p.split(".", 1)[0] for p in preferred}:
                 continue
             seen.add(tid)
             out.append({"technique_id": tid, "name": str(tests[0].get("name", "") or "") if tests else ""})

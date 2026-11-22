@@ -53,6 +53,7 @@ from modules.loop import (
 )
 from modules.loop.boundary import code_tail, fence
 from modules.loop.evidence import citation_enabled, extract_quote
+from modules.loop.finding_class import class_for_finding, evidence_supports_class
 from modules.loop.leases import LeaseStore
 from modules.loop.tokens import TerminationPolicy, TokenLedger, register_llm_sink
 from modules.loop_guardrails import (
@@ -405,6 +406,18 @@ def _is_host_like_target(value: str) -> bool:
     from core.host_policy import is_engagement_target
 
     return is_engagement_target(value, allow_cidr=False)
+
+
+def _is_file_like_value(value: str) -> bool:
+    """Return True when value names a local artefact, not a network asset.
+
+    Tool output mentions file names (``scan_x.nmap.xml``, ``report.pdf``)
+    that match the subdomain grammar; anchoring them as subdomain assets
+    pollutes the asset graph with phantom network entities.
+    """
+    from core.host_policy import is_file_like
+
+    return is_file_like(value)
 
 
 NETWORK_TOOL_HEADS = frozenset(
@@ -1366,6 +1379,9 @@ def _llm_quota_reply(text: str) -> bool:
             "insufficient balance",
             "exceeded your current",
             "out of tokens",
+            "tokens per day",
+            "tpd",
+            "usage limit",
         )
     )
 
@@ -6502,7 +6518,7 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                 return
             node = self.graph.add_node(
                 "fact",
-                f"settlement ({reason}) intent #{intent.node_id}: {reply.strip()[:500]}",
+                f"settlement ({reason}) intent #{intent.node_id}: {_strip_settlement_headers(reply)[:500]}",
                 state="done",
                 meta={"settlement": True, "intent": intent.node_id, "reason": reason},
             )
@@ -6764,7 +6780,7 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                     self.graph.anchor(fact.node_id, asset.asset_id)
                     wrote["assets"] += 1
             for host in re.findall(r"\b(?:[a-z0-9-]+\.)+[a-z]{2,}\b", out.lower())[:8]:
-                if ("subdomain", host) not in seen_assets:
+                if ("subdomain", host) not in seen_assets and not _is_file_like_value(host):
                     seen_assets.add(("subdomain", host))
                     try:
                         asset = self.assets.insert("subdomain", host, task_id=self.graph.task_id)
@@ -6802,10 +6818,14 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             "shell obtained",
             "uid=",
         )
+        word_boundary_marks = frozenset({"vulnerable", "exploit", "rce", "sqli", "lfi", "unauthorized"})
         failure_marks = _FINDING_FAILURE_MARKS
         if (
             allow_finding
-            and any(mark in lowered for mark in finding_marks)
+            and any(
+                re.search(rf"\b{re.escape(mark)}\b", lowered) if mark in word_boundary_marks else mark in lowered
+                for mark in finding_marks
+            )
             and not any(mark in lowered for mark in failure_marks)
         ):
             poc = f"{best_cmd}\n{best_out[:800]}"
@@ -6976,6 +6996,7 @@ class Retester:
         verdict = "inconclusive"
         evidence = ""
         poc = str(finding.meta.get("poc", "") or finding.text or "")[:300]
+        finding_class = class_for_finding(finding.meta, finding.text)
         blocked_marks = (
             "401",
             "403 forbidden",
@@ -7025,6 +7046,14 @@ class Retester:
                         evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
                         break
                     if any(mark in lowered for mark in ("200", "vulnerable", "cve", "exploit", "open tcp")):
+                        if finding_class and not evidence_supports_class(finding_class, evidence):
+                            verdict = "inconclusive"
+                            evidence = (
+                                f"[typed] replay output matched generic success keywords but carried no "
+                                f"{finding_class} evidence; keyword alone never proves the declared class\n"
+                                + evidence[:600]
+                            )
+                            break
                         verdict = "reproduced"
                         break
                     if any(mark in lowered for mark in ("patched", "no longer", "remediated", "not vulnerable")):
@@ -7049,6 +7078,7 @@ class Retester:
             finding.meta["level"] = (
                 "critical" if str(finding.meta.get("severity", "")) == "critical" else "confirmed"
             )
+            finding.meta["severity_verified"] = True
         elif verdict == "fixed":
             finding.state = "done"
             finding.meta["status"] = "fixed"
@@ -7058,6 +7088,8 @@ class Retester:
             finding.meta["status"] = "inconclusive"
             finding.meta["vstate"] = "partial"
             finding.meta["retest_terminal"] = True
+            finding.meta["severity_verified"] = False
+            finding.meta["level"] = "identified"
         self.graph.persist()
         self.activity.emit("retester", "verdict", f"finding #{finding_id}: {verdict} ({attempts} attempts)")
         try:
@@ -7170,10 +7202,11 @@ class Retester:
         """Verify a finding by verbatim citation of already-captured output.
 
         ARTEX evidence rule: a quote bound to captured output proves the
-        finding without re-executing anything. When the finding's quote
-        appears verbatim (whitespace-normalised) in a fresh-enough
-        traffic record, the verdict is ``reproduced`` with attempts 0;
-        anything else returns None so the ordinary verdict chain runs.
+        finding without re-executing anything — but only when the cited
+        record carries evidence of the finding's declared class. A quote
+        that merely binds to output that does not satisfy the class
+        predicate (a T1005 collection dump quoted as SQLi, say) yields an
+        explicit inconclusive instead of ``reproduced``.
 
         Args:
             finding: Finding node to verify.
@@ -7196,6 +7229,21 @@ class Retester:
                 f"[citation] verbatim proof found in captured output "
                 f"(command: {verification.get('command', '')[:160]}, age {verification.get('age')}s)"
             )
+            finding_class = class_for_finding(finding.meta, finding.text)
+            cited_output = str(verification.get("output", "") or "")
+            if finding_class and not evidence_supports_class(finding_class, cited_output):
+                self.activity.emit(
+                    "retester",
+                    "citation",
+                    f"finding #{finding.node_id}: citation binds but output carries no "
+                    f"{finding_class} evidence; inconclusive",
+                )
+                return (
+                    "inconclusive",
+                    "[citation] quote binds to captured output but the output carries no "
+                    f"{finding_class} evidence; typed predicate not satisfied",
+                    0,
+                )
             self.activity.emit("retester", "citation", f"finding #{finding.node_id} verified via captured citation")
             return ("reproduced", evidence, 0)
         except Exception:
@@ -7871,6 +7919,42 @@ def constraint_block(constraints: list[dict], scope: str = "") -> str:
     return block
 
 
+_SETTLEMENT_SECTION_LABELS = (
+    "facts observed",
+    "facts",
+    "coverage",
+    "open leads",
+    "what remains untested",
+    "recommended next intent",
+    "recommended next steps",
+)
+
+_SETTLEMENT_LABEL_RE = re.compile(
+    r"^\s*(?:\*{1,2}|#+\s*)?(?:"
+    + "|".join(re.escape(label) for label in _SETTLEMENT_SECTION_LABELS)
+    + r")\s*:?\s*(?:\*{1,2})?\s*$",
+    re.IGNORECASE,
+)
+
+
+def _strip_settlement_headers(text: str) -> str:
+    """Drop echoed markdown section labels from a settlement reply.
+
+    Small models echo the prompt's section vocabulary (``**Facts
+    Observed:**``) as empty headers, which duplicates the label once per
+    settlement and once per wrap-up fact. Header-only lines carry no
+    evidence, so they are removed, not rewritten.
+
+    Args:
+        text: Raw settlement reply.
+
+    Returns:
+        The reply without header-only lines.
+    """
+    lines = [line for line in str(text or "").splitlines() if not _SETTLEMENT_LABEL_RE.match(line)]
+    return "\n".join(lines).strip()
+
+
 def settlement_prompt(agent: str, reason: str) -> str:
     """Build the wrap-up instruction used when a run budget ends.
 
@@ -8100,24 +8184,42 @@ _VULNCLASS_MARKS: tuple[tuple[str, str], ...] = (
 def _derive_finding_class(blob: str) -> tuple[str, str]:
     """Derive ``(vulnclass, cve)`` from finding evidence using known marks.
 
-    Reuses the finding-to-technique vocabulary so an auto-reported finding
-    carries a concrete class and CVE instead of a bare "possible issue",
-    letting :class:`FindingService` resolve the ATT&CK technique precisely
-    rather than falling back to a generic id.
+    A declared technique id wins over text keywords: ``T1005`` is data
+    collection, so an atomic T1005 run whose output mentions SQLite must
+    never be classed as SQLi by substring matching. Keyword marks match
+    on word boundaries, so ``sqlite3`` cannot produce ``sqli`` and
+    ``rce``-in-another-word cannot produce ``rce``.
 
     Args:
         blob: Combined command and output evidence for the finding.
 
     Returns:
-        ``(vulnclass, cve)`` where ``vulnclass`` is the first matched class
-        mark (or ``cve`` when only a CVE is present, else empty) and ``cve``
-        is the upper-cased identifier when present.
+        ``(vulnclass, cve)`` where ``vulnclass`` is the technique-derived
+        or first word-boundary class mark (or ``cve`` when only a CVE is
+        present, else empty) and ``cve`` is the upper-cased identifier
+        when present.
     """
-    lowered = str(blob or "").lower()
+    text = str(blob or "")
+    lowered = text.lower()
     cve_match = re.search(r"cve-\d{4}-\d{4,7}", lowered)
     cve = cve_match.group(0).upper() if cve_match else ""
+    technique_match = re.search(r"\bT(\d{4}(?:\.\d{3})?)\b", text)
+    if technique_match:
+        from modules.loop.finding_class import TECHNIQUE_CLASSES
+
+        technique = f"T{technique_match.group(1)}"
+        outcome_class = TECHNIQUE_CLASSES.get(technique) or TECHNIQUE_CLASSES.get(
+            technique.split(".", 1)[0]
+        )
+        if outcome_class:
+            from modules.loop.finding_class import VULNCLASS_CLASSES
+
+            for vulnclass, mapped in VULNCLASS_CLASSES.items():
+                if mapped == outcome_class:
+                    return vulnclass, cve
+            return technique.lower(), cve
     for mark, _technique in _VULNCLASS_MARKS:
-        if mark in lowered:
+        if re.search(rf"\b{re.escape(mark)}\b", lowered):
             return mark, cve
     return ("cve" if cve else ""), cve
 
@@ -8152,7 +8254,7 @@ class FindingService:
                 return known
             lowered = str(text or "").lower()
             for mark, technique in _VULNCLASS_MARKS:
-                if mark in lowered:
+                if re.search(rf"\b{re.escape(mark)}\b", lowered):
                     return technique
             return VULNCLASS_FALLBACK_TECHNIQUE
         except Exception:
@@ -8184,6 +8286,7 @@ class FindingService:
             return existing
         sev = (severity or "").lower() if severity in SEVERITIES else finding_severity(text, poc)
         technique = self._technique_for(vulnclass, text)
+        declared_class = class_for_finding({"vulnclass": vulnclass, "technique_id": technique}, text)
         try:
             from modules import lazy_findings
 
@@ -8201,6 +8304,7 @@ class FindingService:
                 "severity": sev,
                 "vulnclass": (vulnclass or "")[:80],
                 "technique_id": technique,
+                "outcome_class": declared_class,
                 "vstate": initial_state,
                 "level": initial_level,
                 "status": "pending",
@@ -9095,7 +9199,7 @@ class LlmPool:
             self._record_raw(name, prompt, text, False, task_id=task_id, model_spec=model_spec)
             if self._health is not None:
                 try:
-                    self._health.report_failure(name, reason)
+                    self._health.report_failure(name, f"{reason}: {text[:200]}")
                 except Exception:
                     pass
             if task_id and _llm_quota_reply(text):
@@ -10872,7 +10976,7 @@ class LazyLoopEngine(
                 return ""
             node = graph.add_node(
                 "fact",
-                f"task wrap-up ({reason}): {reply.strip()[:600]}",
+                f"task wrap-up ({reason}): {_strip_settlement_headers(reply)[:600]}",
                 state="done",
                 meta={"wrapup": True, "reason": reason},
             )

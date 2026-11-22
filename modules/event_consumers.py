@@ -70,9 +70,24 @@ def _inject_objective(text: str, priority: str = "medium", source: str = "event_
 
 
 def _update_world_model_host(address: str, state: str, services: list[dict] | None = None) -> None:
-    """Update or create a host entry in world_model.json."""
+    """Update or create a host entry in world_model.json.
+
+    Non-host values (chain names, task ids and other bare slugs) are
+    rejected before they ever reach the host map: a world-model host must
+    be an IP literal or a dotted hostname, so phantom hosts can never
+    pollute the surface diff.
+
+    Args:
+        address: Host IP or dotted hostname observed on an event.
+        state: New host state.
+        services: Optional service rows to merge.
+    """
+    from core.host_policy import is_world_host
     from modules.world_model import read_state_dict, write_state_dict
 
+    address = str(address or "").strip()
+    if not is_world_host(address):
+        return
     wm = read_state_dict(_WORLD_MODEL_FILE)
     if "hosts" not in wm:
         wm["hosts"] = {}
@@ -81,6 +96,9 @@ def _update_world_model_host(address: str, state: str, services: list[dict] | No
     host = wm["hosts"][address]
     host["state"] = state
     host["ip"] = address
+    provenance = host.setdefault("provenance", {})
+    if isinstance(provenance, dict) and not provenance.get("source"):
+        provenance["source"] = "event_consumer"
     if services:
         for svc in services:
             port = str(svc.get("port", ""))

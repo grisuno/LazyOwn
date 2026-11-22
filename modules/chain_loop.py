@@ -186,6 +186,8 @@ def run_chain_stepwise(
         chain = None
     if chain is None:
         return None
+    if str(target or "").strip().lower() == str(chain.name).strip().lower():
+        target = ""
     target = target or worker._target_for(intent)
     mode = chain_mode()
     eligible, reason = stepwise_eligible(chain)

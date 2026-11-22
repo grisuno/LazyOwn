@@ -21,6 +21,8 @@ tool:
   name: vulnbot
   repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: modules/
+  requires_files:
+  - ../sessions/vulns_{rhost}.nmap
   execute_command: python3 vuln_bot_cli.py --file ../sessions/vulns_{rhost}.nmap --provider
     deepseek --mode console | gum format
 category: 12. Miscellaneous

@@ -25,6 +25,17 @@ def _health_path() -> Path:
     return Path("sessions") / "lazy" / "llm_health.json"
 
 
+TPD_COOLDOWN_SEC = 4 * 3600.0
+TPD_MARKERS = (
+    "tokens per day",
+    "tpd",
+    "daily",
+    "usage limit",
+    "rate limit reached",
+    "429",
+)
+
+
 @dataclass(frozen=True, slots=True)
 class PoolConfig:
     """Centralized constants for pool behavior (LAZY llmpool parity)."""
@@ -32,6 +43,7 @@ class PoolConfig:
     unhealthy_cooldown_sec: float = 300.0
     max_failures: int = 3
     backoff_sec: tuple = (60.0, 300.0, 1800.0)
+    tpd_cooldown_sec: float = TPD_COOLDOWN_SEC
     max_output_chars: int = 30000
     overflow_dirname: str = "cmd-output"
 
@@ -106,6 +118,9 @@ class HealthRegistry:
 
     Soft trips after max_failures transient errors; auth errors
     (401/402/quota) trip immediately. Backoff tiers are 1m/5m/30m.
+    Daily-quota exhaustion (429 tokens-per-day) parks the member on an
+    hour-scale cooldown: a TPD reset never happens inside a 30-minute
+    backoff, so retrying it every round only burns calls.
     State persists to disk so the breaker survives process restarts.
     """
 
@@ -116,6 +131,7 @@ class HealthRegistry:
         self._failures: dict[str, int] = {}
         self._last_failure: dict[str, float] = {}
         self._hard_trip: dict[str, float] = {}
+        self._tpd_trip: dict[str, float] = {}
         self._load()
 
     def _load(self) -> None:
@@ -141,6 +157,11 @@ class HealthRegistry:
                 self._hard_trip[str(key)] = float(value)
             except (TypeError, ValueError):
                 continue
+        for key, value in (payload.get("tpd_trip") or {}).items():
+            try:
+                self._tpd_trip[str(key)] = float(value)
+            except (TypeError, ValueError):
+                continue
 
     def _persist_locked(self) -> None:
         """Write the breaker state; called with the lock held."""
@@ -153,6 +174,7 @@ class HealthRegistry:
                         "failures": self._failures,
                         "last_failure": self._last_failure,
                         "hard_trip": self._hard_trip,
+                        "tpd_trip": self._tpd_trip,
                     },
                     ensure_ascii=False,
                 ),
@@ -167,16 +189,29 @@ class HealthRegistry:
             self._failures.pop(str(member_id), None)
             self._last_failure.pop(str(member_id), None)
             self._hard_trip.pop(str(member_id), None)
+            self._tpd_trip.pop(str(member_id), None)
             self._persist_locked()
 
     def report_failure(self, member_id: str, error: str = "") -> None:
-        """Record a failure; auth/quota errors trip immediately."""
+        """Record a failure; auth/quota errors trip immediately.
+
+        A 429 carrying a daily-quota wording additionally parks the member
+        for the TPD cooldown (hours), because no backoff tier short enough
+        for transient errors can see a daily reset.
+
+        Args:
+            member_id: Pool member key.
+            error: Error text the provider returned.
+        """
         lowered = str(error or "").lower()
         immediate = any(k in lowered for k in ("401", "402", "unauthorized", "quota", "insufficient"))
+        tpd = "429" in lowered and any(k in lowered for k in TPD_MARKERS)
         with self._lock:
             key = str(member_id)
             if immediate:
                 self._hard_trip[key] = time.time()
+            if tpd:
+                self._tpd_trip[key] = time.time()
             self._failures[key] = self._failures.get(key, 0) + 1
             self._last_failure[key] = time.time()
             self._persist_locked()
@@ -190,13 +225,23 @@ class HealthRegistry:
         return float(tiers[max(0, idx)])
 
     def healthy(self, member_id: str) -> bool:
-        """Return True when a member may serve traffic."""
+        """Return True when a member may serve traffic.
+
+        A TPD-parked member stays down for the hour-scale cooldown even
+        when its ordinary failure count decayed, so the pool stops paying
+        a call per round against an exhausted daily quota.
+        """
         with self._lock:
             key = str(member_id)
             failures = self._failures.get(key, 0)
+            last = self._last_failure.get(key, 0.0)
+            tpd_at = self._tpd_trip.get(key, 0.0)
+            if tpd_at and (time.time() - tpd_at) < self._config.tpd_cooldown_sec:
+                return False
+            if tpd_at and key not in self._hard_trip:
+                self._tpd_trip.pop(key, None)
             if failures < self._config.max_failures and key not in self._hard_trip:
                 return True
-            last = self._last_failure.get(key, 0.0)
             if key in self._hard_trip:
                 last = max(last, self._hard_trip.get(key, 0.0))
             return (time.time() - last) >= self._backoff_for(max(failures, self._config.max_failures))

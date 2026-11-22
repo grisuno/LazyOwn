@@ -252,6 +252,10 @@ single contract.
 | Service alias tables | `modules/service_aliases.py` | `exploit_chain`, `chain_family`, `auto_registry` |
 | JSONL append/read in the engine | `_append_jsonl`/`_read_jsonl` in `lazy_loop` | activity, traffic, guard audit, LLM raw log, chat |
 | Mediation access in the engine | `mediation_resolve/_telemetry/_intel/_feedback` | every engine call-site (one try/import site) |
+| World-model host keys | `core.host_policy.is_world_host` (IP literal or dotted hostname) | `event_consumers._update_world_model_host`, `lazy_bridge.pull_to_world_model`, `lazy_surface_diff.current_snapshots` — chain/task slugs never enter the host map; loop hosts carry an out-of-scope provenance note |
+| Unattended privilege downgrade (chain steps) | `modules.chain_runner.ChainRunner._downgrade_privileged` + `modules.verb_capabilities` (`_verb_of` strips `.sh`) | worker gating (`worker_gating._downgrade_privileged`) and chain `_execute` — a `lazynmap.sh` chain step degrades to `nmap -sT` with the `-oA sessions/scan_<host>.nmap` artefact contract instead of aborting |
+| Declared finding class | `modules/loop/finding_class.class_for_finding` + `evidence_supports_class` | `FindingService.report` (meta `outcome_class`), `Retester` citation/replay gates (typed evidence required for `reproduced`; non-reproduced pins `level=identified`, `severity_verified=false`), `_derive_finding_class` (word-boundary marks, technique id wins over keywords) |
+| Daily-quota LLM breaker (TPD) | `modules.llm_pool.HealthRegistry` (`tpd_trip`, `tpd_cooldown_sec` 4h default) | loop `LlmPool.complete` failure reporting (error text forwarded so 429 TPD wording parks the member for hours, not one backoff tier) |
 
 Retired as dead code (zero production callers, verified): `send_worker_message`,
 `pause_intent`/`resume_intent`, `set_node_state`/`set_node_meta`,

@@ -9338,7 +9338,7 @@ if __name__ == "__main__":
     try:
         from cli.auto_crypto import AutoCryptoConfig as _ACC
         from cli.auto_crypto import AutoCryptoEngine as _ACE
-        from cli.auto_crypto import build_password_provider_from_cli_login
+        from cli.auto_crypto import build_legacy_password_provider, build_password_provider_from_cli_login
 
         _provider = build_password_provider_from_cli_login() or (lambda: None)
         _auto_crypto_engine = _ACE(
@@ -9346,6 +9346,7 @@ if __name__ == "__main__":
                 sessions_dir="sessions",
                 auto_enabled=True,
                 password_provider=_provider,
+                legacy_password_provider=build_legacy_password_provider(),
             )
         )
         _auto_crypto_engine.decrypt_session()

@@ -41,9 +41,9 @@ import json
 import logging
 import os
 import secrets
-import stat
 import threading
-from dataclasses import dataclass, field, fields as dataclass_fields
+from dataclasses import dataclass, field
+from dataclasses import fields as dataclass_fields
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
@@ -60,8 +60,6 @@ ENCRYPTED_SUFFIX: str = ".encrypted"
 _FERNET_TOKEN_PREFIX: str = "gAAAAA"
 _MAX_TOKEN_WRAP_DEPTH: int = 3
 _SALT_RELATIVE: str = ".auto_crypto_salt"
-_STATE_SECRET_RELATIVE: str = ".state_secret"
-_STATE_SECRET_BYTES: int = 32
 _RESTRICTED_FILE_MODE: int = 0o600
 
 PASSTHROUGH_KEYS: tuple[str, ...] = (
@@ -87,71 +85,55 @@ def _derive_crypto_key(password: str, salt: bytes) -> bytes:
 def _machine_password() -> str | None:
     """Return a device-bound secret used as at-rest key material of last resort.
 
-    The secret lives in ``sessions/.state_secret`` with mode 0o600. It is
-    created on first use, so any environment that can write the state file
-    can also resolve this key; the operator-facing key material (master
-    password, CLI login) always takes precedence. When neither an
-    environment password nor an operator session nor a creatable/readable
-    device secret is available, at-rest security cannot be guaranteed and
-    the caller must fail closed instead of persisting clear text.
+    Delegates to :func:`core.crypto.machine_secret`, which creates/reads the
+    random ``sessions/.state_secret`` (mode 0o600) and refuses a file with
+    unsafe permissions. The secret is never derived from a predictable value,
+    and the on-disk format is shared with the auto-crypto engine so either
+    writer's output stays decryptable by the other.
 
     Returns:
         Hex-encoded secret string, or None when the secret file cannot be
         created, read, or has the wrong mode.
     """
-    from core.hardening import safe_path_join
+    from core.crypto import machine_secret
 
-    secret_path = Path(safe_path_join(str(_SESSIONS_DIR), _STATE_SECRET_RELATIVE))
-    try:
-        if secret_path.exists():
-            mode = stat.S_IMODE(secret_path.stat().st_mode)
-            if mode & 0o022:
-                log.warning("world_model: %s has an unsafe mode, refusing device key", secret_path)
-                return None
-            value = secret_path.read_text(encoding="utf-8").strip()
-            if len(value) >= _STATE_SECRET_BYTES:
-                return value
-            return None
-        _SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
-        fd = os.open(secret_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, _RESTRICTED_FILE_MODE)
-        try:
-            os.write(fd, secrets.token_hex(_STATE_SECRET_BYTES).encode())
-        finally:
-            os.close(fd)
-        os.chmod(secret_path, _RESTRICTED_FILE_MODE)
-        return secret_path.read_text(encoding="utf-8").strip()
-    except Exception as exc:
-        log.warning("world_model: device key unavailable: %s", exc)
-        return None
+    return machine_secret(_SESSIONS_DIR)
 
 
 def _master_password() -> str | None:
     """Return the shared master password for state-at-rest protection.
 
-    Resolution order mirrors ``cli.auto_crypto.build_password_provider_from_cli_login``
-    and ends with a device-bound fallback so saves never degrade to clear
-    text when the sessions directory is writable:
-
-        1. ``LAZYOWN_MASTER_PASSWORD`` environment variable.
-        2. ``lazyown:<operator>`` for the authenticated CLI operator
-           (the same key material the auto-crypto engine derives from).
-        3. ``sessions/.state_secret`` device-bound secret (mode 0o600).
+    Delegates to :func:`core.crypto.resolve_master_password`, which resolves
+    ``LAZYOWN_MASTER_PASSWORD`` env, then the OS keyring, then the device-bound
+    ``sessions/.state_secret`` secret, then ``None``. The predictable
+    ``lazyown:<operator>`` scheme has been removed from write resolution and
+    survives only as a READ-only fallback (see :func:`_legacy_master_password`).
+    This order is identical to the auto-crypto engine, so either writer's output
+    stays decryptable by the other.
 
     Returns None only when no credential source is available, which means
     ``write_state_dict`` must refuse to persist sensitive state.
     """
-    password = os.environ.get("LAZYOWN_MASTER_PASSWORD")
-    if password:
-        return password
+    from core.crypto import resolve_master_password
+
+    return resolve_master_password(str(_SESSIONS_DIR))
+
+
+def _legacy_master_password() -> str | None:
+    """Return the deprecated ``lazyown:<operator>`` key for READ compatibility.
+
+    Returns:
+        ``"lazyown:<operator>"`` for the authenticated CLI operator, used only
+        to decrypt state written by the removed predictable scheme, else None.
+    """
+    from core.crypto import legacy_master_password
+
     try:
         from modules.cli_auth import get_current_operator
 
-        operator = get_current_operator()
-        if operator:
-            return f"lazyown:{operator}"
+        return legacy_master_password(get_current_operator())
     except Exception:
-        pass
-    return _machine_password()
+        return None
 
 
 def _load_or_create_salt(salt_path: Path) -> bytes:
@@ -277,15 +259,28 @@ def _read_encrypted_dict(path: Path) -> dict:
     if not salt:
         log.warning("world_model: no salt available to decrypt state %s", path)
         return {}
-    for candidate in (path, Path(str(path) + ENCRYPTED_SUFFIX)):
-        try:
-            if not candidate.is_file():
+    candidate_passwords = [password]
+    legacy = _legacy_master_password()
+    if legacy and legacy != password:
+        candidate_passwords.append(legacy)
+    for attempt, candidate_password in enumerate(candidate_passwords):
+        for candidate in (path, Path(str(path) + ENCRYPTED_SUFFIX)):
+            try:
+                if not candidate.is_file():
+                    continue
+                document = _decrypt_payload_text(
+                    candidate.read_text(encoding="ascii", errors="strict"), candidate_password, salt
+                )
+                if document:
+                    if attempt > 0:
+                        log.warning(
+                            "world_model: %s used the deprecated lazyown:<operator> scheme; "
+                            "it will migrate to the current key on next save.",
+                            candidate,
+                        )
+                    return document
+            except Exception:
                 continue
-            document = _decrypt_payload_text(candidate.read_text(encoding="ascii", errors="strict"), password, salt)
-            if document:
-                return document
-        except Exception:
-            continue
     return {}
 
 

@@ -51,7 +51,7 @@ Plus pre-existing contracts from the first security pass:
 | 15 | `core/reverse_shell_secret.py` + `lazyc2.py` | Sealed reverse-shell fallback password | `tests/test_security_alerts_fix.py` | `c2_reverse_shell_password` |
 | 16 | `modules/domain_dominance.py` (loot sealing) | Sealed AD loot with legacy fallback | `tests/test_security_alerts_fix.py` | n/a (shared `key.aes`) |
 | 17 | `skills/claude_md_orchestrator/validators.py` (emoji matcher) | Regex-range-free emoji detection | `tests/test_security_alerts_fix.py` | n/a |
-| 18 | `skills/lazyown_mcp.py` (trace redaction) + `cli/commands/scan_migrated.py` (MSF rc shred) | Redacted worker traces, minimal plaintext lifetime for SMB creds | `tests/test_security_alerts_fix.py` | `LAZYOWN_KEEP_MSF_RC` |
+| 18 | `skills/lazyown_mcp.py` (trace redaction) + `cli/commands/scan.py` (MSF rc shred) | Redacted worker traces, minimal plaintext lifetime for SMB creds | `tests/test_security_alerts_fix.py` | `LAZYOWN_KEEP_MSF_RC` |
 
 ## Contract 1: CORS origin allowlist
 
@@ -263,7 +263,7 @@ defense in depth).
 | #961 clear-text storage | `modules/domain_dominance.py` | loot secrets sealed via `core/hardening.seal_secret()` with plaintext fallback for legacy workflows; `_unseal_loot_secret()` reveals values for operator reuse |
 | #962 clear-text storage | `modules/lazy_loop.py` | activity records are scrubbed with `scrub_secrets()` before the append-only write and stored 0600; covered by regression test, no code change needed |
 | #938 clear-text storage | `skills/lazyown_mcp.py` | `_trace_append()` redacts records with `core/hardening.redact_text()` and enforces 0700/0600 modes |
-| #924 clear-text storage | `cli/commands/scan_migrated.py` | the MSF rc file is created with `O_NOFOLLOW` + 0600 and shredded (overwrite + unlink) after `msfconsole` runs unless `LAZYOWN_KEEP_MSF_RC=1` |
+| #924 clear-text storage | `cli/commands/scan.py` | the MSF rc file is created with `O_NOFOLLOW` + 0600 and shredded (overwrite + unlink) after `msfconsole` runs unless `LAZYOWN_KEEP_MSF_RC=1` |
 | #955-959 path injection | `lazyc2.py` (`view_yaml`) | directory and filename checks replaced with linear-scan validators (`is_safe_dir_path`, `is_safe_yaml_name`, no regex); resolution goes through `safe_join_under()` (realpath + commonpath); enumeration caps are named constants |
 | #960 polynomial regex | `lazyc2.py` (`view_yaml`) | the YAML filename regex is gone, replaced by the linear `is_safe_yaml_name()` scan |
 | #966-972 permissive regex range | `skills/claude_md_orchestrator/validators.py` | the broad emoji character class is replaced by `_EmojiPattern`, an ordinal-interval matcher over `core/hardening` intervals with the same `finditer` API; no regex literal with wide ranges remains |
@@ -321,11 +321,11 @@ Files hardened (v4):
 | Fix | File |
 |-----|------|
 | URL injection prevention | `poc_tui/plugin_loader.py` |
-| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/ia_*.py`, `cli/commands/recon_migrated.py`, `cli/commands/misc_migrated.py` |
+| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/ia_*.py`, `cli/commands/recon.py`, `cli/commands/misc.py` |
 | shell=False enforced | `lazyc2.py` `execute_command` |
 | shell=True eliminated | `modules/dpapi_harvester.py`, `modules/edr_detector.py` |
 | Injection prevention | `modules/conditional_hooks.py` (`shlex.quote`) |
-| Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py`, `cli/commands/persist_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/postexp_migrated.py` |
+| Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py`, `cli/commands/persist.py`, `cli/commands/exfiltration.py`, `cli/commands/postexp.py` |
 
 ## C2 transport and evasion contracts
 

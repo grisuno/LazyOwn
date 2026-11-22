@@ -1,9 +1,9 @@
 """Daemon command set extraction tests.
 
 SDD contract for the daemon cluster split out of
-``cli/commands/misc_migrated.py`` into ``cli/commands/daemon_ctl.py``.
+``cli/commands/misc.py`` into ``cli/commands/daemon_ctl.py``.
 
-Stage B (active): the originals are deleted from ``misc_migrated.py``
+Stage B (active): the originals are deleted from ``misc.py``
 and ``DaemonControlCommandSet`` subclasses ``LazyOwnCommandSet`` so
 ``cli.registry`` registers it on the shell. Tests assert active
 registration eligibility, command coverage, and absence of the
@@ -20,7 +20,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SOURCE_PATH = REPO_ROOT / "cli" / "commands" / "misc_migrated.py"
+SOURCE_PATH = REPO_ROOT / "cli" / "commands" / "misc.py"
 TARGET_PATH = REPO_ROOT / "cli" / "commands" / "daemon_ctl.py"
 
 
@@ -99,7 +99,7 @@ def test_registry_registers_target() -> None:
 
 def test_no_command_collisions_with_source() -> None:
     from cli.commands.daemon_ctl import DaemonControlCommandSet
-    from cli.commands.misc_migrated import MiscMigratedCommandSet
+    from cli.commands.misc import MiscMigratedCommandSet
 
     target_cmds = {n for n in dir(DaemonControlCommandSet) if n.startswith("do_")}
     source_cmds = {n for n in dir(MiscMigratedCommandSet) if n.startswith("do_")}

@@ -10,8 +10,8 @@ Covers:
   - modules/morse.py: os.system removed
   - modules/c2_builder.py: os.system replaced with Python-native ops
   - lazyc2.py: execute_command uses shell=False
-  - cli/commands/misc_migrated.py: os.system and shell=True removed
-  - cli/commands/recon_migrated.py: os.system replaced with Python
+  - cli/commands/misc.py: os.system and shell=True removed
+  - cli/commands/recon.py: os.system replaced with Python
   - Hardcoded absolute paths eliminated
   - modules/conditional_hooks.py: shlex.quote injection prevention
 """
@@ -412,7 +412,7 @@ class TestExecuteCommandShellFalse:
 
 
 # ---------------------------------------------------------------------------
-# SDD Contract 10: misc_migrated.py — no os.system for IP display
+# SDD Contract 10: misc.py — no os.system for IP display
 # ---------------------------------------------------------------------------
 
 
@@ -556,18 +556,18 @@ class TestSafeClearScreen:
 
 
 # ---------------------------------------------------------------------------
-# SDD Contract 15: recon_migrated.py — no os.system for PATH setup
+# SDD Contract 15: recon.py — no os.system for PATH setup
 # ---------------------------------------------------------------------------
 
 
 class TestReconMigratedNoOsSystem:
-    """CONTRACT: cli/commands/recon_migrated.py must not use os.system
+    """CONTRACT: cli/commands/recon.py must not use os.system
     for PATH modification."""
 
     def test_no_os_system_for_path_setup(self):
-        """BDD: Given the recon_migrated.py module, When I check the
+        """BDD: Given the recon.py module, When I check the
         alterx PATH setup, Then it must use Python file operations."""
-        recon_path = Path(__file__).parent.parent / "cli" / "commands" / "recon_migrated.py"
+        recon_path = Path(__file__).parent.parent / "cli" / "commands" / "recon.py"
         content = recon_path.read_text(encoding="utf-8")
         assert "os.system(command)" not in content
 

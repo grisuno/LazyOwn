@@ -70,8 +70,8 @@ mutmut run  # 122/228 killed, 53.5% kill rate on core/hardening.py
 ```
 
 **Key fixes applied:**
-- `shell=True` eliminated from `anti_forensics.py`, `pivoting.py`, `icmp_server.py`, `resource_script.py`, `command_executor.py`, `postexp_migrated.py` (22 instances)
-- `os.system()` eliminated from `persist_migrated.py`, `cloud.py`, `lazyown.py` (4 instances), `misc_migrated.py`
+- `shell=True` eliminated from `anti_forensics.py`, `pivoting.py`, `icmp_server.py`, `resource_script.py`, `command_executor.py`, `postexp.py` (22 instances)
+- `os.system()` eliminated from `persist.py`, `cloud.py`, `lazyown.py` (4 instances), `misc.py`
 - `os.popen()` eliminated from `websocket_beacon.py`, `evasive_payload.py`
 - `sshpass -p` replaced with `sshpass -e` + env var across 4 files (C2, lateral, exfil, persist)
 - Hardcoded encryption key removed from `phishing_orchestrator.py` (ENCRYPTION_KEY mandatory)

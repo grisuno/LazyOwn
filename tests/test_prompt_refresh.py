@@ -70,7 +70,7 @@ def test_render_prompt_includes_rhost() -> None:
 
 def test_no_bracket_replace_hack() -> None:
     """Prompt builders must not inject text after every closing bracket."""
-    source = (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+    source = (REPO_ROOT / "cli" / "commands" / "misc.py").read_text(encoding="utf-8")
     assert ".replace(']'" not in source
     assert '.replace("]",' not in source
 

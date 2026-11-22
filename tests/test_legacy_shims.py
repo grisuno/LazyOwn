@@ -42,7 +42,7 @@ class TestLegacyShims:
 
 class TestReferencedScriptsExist:
     def test_exploit_migrated_script_paths(self) -> None:
-        source = (REPO_ROOT / "cli" / "commands" / "exploit_migrated.py").read_text(
+        source = (REPO_ROOT / "cli" / "commands" / "exploit.py").read_text(
             encoding="utf-8"
         )
         missing = [

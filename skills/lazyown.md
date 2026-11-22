@@ -247,7 +247,7 @@ lazyown_command_help(command="secretsdump")
 
 ---
 
-## Core MCP Tools (0)
+## Core MCP Tools (191)
 
 ### Campaign Intelligence (call at shift start)
 

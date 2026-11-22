@@ -186,17 +186,27 @@ CLI and C2 both import `utils.py` + read `payload.json`. MCP reuses `LazyOwnShel
 
 ---
 
-## 5. CLI conventions (`lazyown.py`)
+## 5. CLI conventions (`cli/commands/` CommandSets)
 
-- One class `LazyOwnShell(cmd2.Cmd)`. Subclass `CommandSet` only when meaningfully orthogonal.
-- Methods `do_<name>(self, line)`; docstring = `help <name>`.
+- New commands live in a `cli/commands/<module>.py` `CommandSet`
+  subclass of `cli.commands._base.LazyOwnCommandSet`, auto-discovered and
+  registered by `cli/registry.py` at boot. The migration is done: ~880
+  `do_*` methods already live under `cli/commands/`; `lazyown.py` keeps
+  only the `LazyOwnShell` skeleton (startup hooks, prompt/chain engine,
+  scope guard, registration) and a handful of residual `do_*`.
+- **Do not add new `do_*` to `lazyown.py`** — it re-grows the god class
+  and splits dispatch across two models. Only edit `lazyown.py` for
+  shell-skeleton concerns.
+- Methods `do_<name>(self, line)` on the `CommandSet`; docstring = `help <name>`.
 - Args: `@with_argparser(parser)` for non-trivial; `@with_argument_list` for simple split.
 - `@with_category('Recon')` etc. — keep existing names.
 - Aliases: `aliases` dict at class level; payload-derived aliases use class-body `f""` (refresh on shell restart).
-- `self.params` mirrors `payload.json`. Write back via `do_assign`/`do_set` only.
+- `self.params` mirrors `payload.json` and is forwarded to the bound shell
+  by `LazyOwnCommandSet`. Write back via `do_assign`/`do_set` only.
 
 ### Adding a command — happy path
-1. Place near related commands in right category.
+1. Place the `do_*` in the phase-matching `CommandSet` under `cli/commands/`
+   (new module + set + `README.md` only when none fits).
 2. Read inputs from `self.params` — never accept `rhost`/`lhost`/etc. as positional when in payload.
 3. Validate with `check_rhost`/`check_lhost`/`check_lport` (utils).
 4. Execute via `run_command(cmd_str)` — captures output, strips ANSI, CSV-logs.
@@ -389,7 +399,7 @@ When invoking Claude/Groq/Ollama (`lazyown_llm_ask`, `swan_run`, `hive_spawn`, `
 | Wrap existing GitHub tool | `lazyaddons/<name>.yaml` |
 | One-liner / payload generator | `plugins/<name>.lua` |
 | Auto-run on discovered service | `tools/<name>.tool` |
-| New CLI command | `do_<name>` in `lazyown.py` |
+| New CLI command | `do_<name>` in a `CommandSet` under `cli/commands/` (never `lazyown.py`) |
 | New web UI page / beacon endpoint | `lazyc2.py` route + Jinja2 |
 | New Flask blueprint | `modules/<name>_bp.py` + register in `lazyc2.py`; config via `app.config["LAZYOWN_CONFIG"]` |
 | New MCP tool | `skills/lazyown_mcp.py` |

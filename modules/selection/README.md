@@ -10,6 +10,7 @@ cascade instead of carrying private "pick the next action" logic.
 | File | Contract |
 |------|----------|
 | `base.py` | The shared vocabulary: `SelectionContext` (live engagement snapshot), `ActionDecision` (one proposed command), and the `Selector` protocol every strategy implements. Pure, no framework imports. |
+| `command_selector.py` | The daemon's selector contract as a single-identity leaf: the `ICommandSelector` ABC (`.select()` adapter boundary) plus the `CommandDecision = ActionDecision` alias. Lives here (a real package) so the concrete selectors in `modules/daemon_selectors.py` and the daemon keep one class identity regardless of whether `skills.autonomous_daemon` or bare `autonomous_daemon` loads the daemon. Pure, imports only `base`. |
 | `playbook.py` | `PlaybookSelector` - runs an APT actor emulation (`apt_chain apt_<actor>`) when the objective names an actor from `playbooks/`. |
 | `adversary.py` | `AdversarySelector` - runs a custom adversary profile (`adversary_yaml <name>`) when the objective names one from `lazyadversaries/`. |
 | `atomic.py` | `AtomicSelector` - emulates named MITRE ATT&CK techniques with Atomic Red Team tests (`atomic_emulate --techniques`); both share one execution path. |

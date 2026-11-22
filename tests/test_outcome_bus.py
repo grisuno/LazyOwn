@@ -70,7 +70,7 @@ def test_default_sinks_cover_required_surfaces():
         "world_diff",
         "chain_feed",
     } <= set(DEFAULT_SINKS)
-    assert "campaign_db" not in DEFAULT_SINKS
+    assert "campaign_db" in DEFAULT_SINKS
 
 
 def test_c2_surface_sink_writes_banner_cve_and_note(tmp_path: Path):
@@ -382,3 +382,32 @@ def test_concurrent_duplicates_fan_out_once(tmp_path: Path):
     with ThreadPoolExecutor(max_workers=8) as pool:
         list(pool.map(lambda _: bus.record(event, sinks=["only"]), range(8)))
     assert calls == [1]
+
+
+def test_campaign_db_sink_is_nonblocking_and_persists(tmp_path: Path):
+    """Given the default bus, When an outcome records, Then campaign_db enqueues a durable mirror."""
+    from modules import db_writer
+    from modules.db import LazyOwnDB
+    from modules.sinks import campaign_db
+
+    database = LazyOwnDB(str(tmp_path / "campaign.db"))
+    queue = db_writer.DBWriteQueue(db_factory=lambda: database, synchronous=True)
+    previous = db_writer.get_write_queue()
+    db_writer.set_write_queue(queue)
+    try:
+        event = OutcomeEvent(
+            kind="exploit",
+            target="10.0.0.9",
+            host="10.0.0.9",
+            title="Demo RCE",
+            description="proven",
+            severity="critical",
+            cve="CVE-2020-0002",
+            source="demo",
+        )
+        assert campaign_db.apply(event) is True
+    finally:
+        db_writer.set_write_queue(previous)
+    workspace = database.default_workspace("default")
+    hosts = database.host_list(workspace)
+    assert any(host["address"] == "10.0.0.9" for host in hosts)

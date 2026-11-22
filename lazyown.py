@@ -34,6 +34,7 @@ from cli.aliases import empty_placeholders as _empty_alias_placeholders
 from cli.aliases import load_aliases as _load_aliases
 from cli.auto_crypto import AutoCryptoConfig as _AutoCryptoConfig
 from cli.auto_crypto import AutoCryptoEngine as _AutoCryptoEngine
+from cli.auto_crypto import build_legacy_password_provider as _build_legacy_crypto_password_provider
 from cli.auto_crypto import build_password_provider_from_cli_login as _build_crypto_password_provider
 from cli.autosuggest import build_default_engine as _build_autosuggest_engine
 from cli.autosuggest_shell import AutosuggestMixin
@@ -400,6 +401,7 @@ class LazyOwnShell(
                     sessions_dir="sessions",
                     auto_enabled=True,
                     password_provider=_build_crypto_password_provider(),
+                    legacy_password_provider=_build_legacy_crypto_password_provider(),
                 )
             )
         except Exception as exc:

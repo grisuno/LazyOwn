@@ -70,6 +70,7 @@ class AutoCryptoConfig:
         ]
     )
     password_provider: Callable[[], str | None] | None = None
+    legacy_password_provider: Callable[[], str | None] | None = None
     auto_enabled: bool = True
     pbkdf2_iterations: int = 100_000
 
@@ -188,6 +189,7 @@ class AutoCryptoEngine:
         salt = self._load_or_create_salt()
         key = self._derive_key(password, salt)
         cipher = Fernet(key)
+        legacy_cipher = self._build_legacy_cipher(salt)
 
         sessions = Path(self._config.sessions_dir)
         if not sessions.exists():
@@ -214,7 +216,13 @@ class AutoCryptoEngine:
             try:
                 with open(path, "rb") as fh:
                     encrypted_data = fh.read()
-                decrypted_data = cipher.decrypt(encrypted_data)
+                try:
+                    decrypted_data = cipher.decrypt(encrypted_data)
+                except InvalidToken:
+                    decrypted_data = self._decrypt_legacy(legacy_cipher, encrypted_data, path)
+                    if decrypted_data is None:
+                        _log.warning("auto_crypto: wrong password or corrupt file %s", path)
+                        continue
                 if path.name.endswith(ENCRYPTED_SUFFIX):
                     original_name = path.name[: -len(ENCRYPTED_SUFFIX)]
                     original_path = sessions / original_name
@@ -227,14 +235,62 @@ class AutoCryptoEngine:
                 if path.name.endswith(ENCRYPTED_SUFFIX):
                     os.remove(path)
                 decrypted_count += 1
-            except InvalidToken:
-                _log.warning("auto_crypto: wrong password or corrupt file %s", path)
-                continue
             except OSError as exc:
                 _log.warning("auto_crypto: skipping %s: %s", path, exc)
                 continue
 
         return decrypted_count > 0
+
+    def _build_legacy_cipher(self, salt: bytes):
+        """Build a Fernet cipher for the deprecated ``lazyown:<operator>`` key.
+
+        Args:
+            salt: The persisted PBKDF2 salt, shared with the primary cipher.
+
+        Returns:
+            A ``Fernet`` instance for the legacy key, or ``None`` when no
+            legacy provider is configured or it yields no password.
+        """
+        provider = self._config.legacy_password_provider
+        if provider is None:
+            return None
+        try:
+            legacy_password = provider()
+        except Exception:
+            return None
+        if not legacy_password:
+            return None
+        from cryptography.fernet import Fernet
+
+        return Fernet(self._derive_key(legacy_password, salt))
+
+    def _decrypt_legacy(self, legacy_cipher, encrypted_data: bytes, path: Path) -> bytes | None:
+        """Decrypt one file with the legacy cipher, warning once on success.
+
+        Args:
+            legacy_cipher: The legacy ``Fernet`` cipher, or ``None``.
+            encrypted_data: The ciphertext bytes.
+            path: The file being decrypted (for the warning).
+
+        Returns:
+            The plaintext bytes when the legacy key matches, else ``None``.
+            A successful legacy decryption re-encrypts under the current key on
+            the next encryption pass, migrating the file off the old scheme.
+        """
+        if legacy_cipher is None:
+            return None
+        from cryptography.fernet import InvalidToken
+
+        try:
+            plaintext = legacy_cipher.decrypt(encrypted_data)
+        except InvalidToken:
+            return None
+        _log.warning(
+            "auto_crypto: %s was encrypted with the deprecated lazyown:<operator> "
+            "scheme; decrypting and migrating to the current key on next save.",
+            path,
+        )
+        return plaintext
 
     def has_password(self) -> bool:
         """Return True when the configured provider yields a password now.
@@ -294,32 +350,53 @@ class AutoCryptoEngine:
         return derive_key(password, salt)
 
 
-def build_password_provider_from_cli_login() -> Callable[[], str | None]:
-    """Return a password provider that reads the CLI login session.
+def build_password_provider_from_cli_login(
+    sessions_dir: str = DEFAULT_SESSIONS_DIR,
+) -> Callable[[], str | None]:
+    """Return the at-rest password provider for session encryption.
 
-    The provider tries:
-    1. ``modules.cli_auth.get_current_operator()`` for username,
-       then reads the operator's stored credential hash from ``users.json``.
-    2. Falls back to ``LAZYOWN_MASTER_PASSWORD`` environment variable.
-    3. Returns None when no credential is available (crypto is skipped).
+    Resolution is delegated to :func:`core.crypto.resolve_master_password`:
+    ``LAZYOWN_MASTER_PASSWORD`` env, then the OS keyring, then a device-bound
+    random secret, then ``None`` (encryption skipped, with an explicit
+    warning). The key is never derived from the public operator username; the
+    removed ``lazyown:<operator>`` scheme survives only as a read-only legacy
+    fallback (see :func:`build_legacy_password_provider`).
+
+    Args:
+        sessions_dir: Directory for the device-bound secret.
 
     Returns:
-        A zero-argument callable returning the operator's password or None.
+        A zero-argument callable returning the resolved password or ``None``.
     """
 
     def _provider() -> str | None:
-        master_pass = os.environ.get("LAZYOWN_MASTER_PASSWORD")
-        if master_pass:
-            return master_pass
+        from core.crypto import resolve_master_password
+
+        return resolve_master_password(sessions_dir)
+
+    return _provider
+
+
+def build_legacy_password_provider() -> Callable[[], str | None]:
+    """Return a READ-ONLY provider yielding the deprecated ``lazyown:<operator>``.
+
+    Used solely to decrypt files written by the pre-removal predictable scheme;
+    such files re-encrypt under the current key on the next encryption pass. It
+    must never be configured as the primary provider.
+
+    Returns:
+        A zero-argument callable returning ``lazyown:<operator>`` or ``None``.
+    """
+
+    def _provider() -> str | None:
+        from core.crypto import legacy_master_password
+
         try:
             from modules.cli_auth import get_current_operator
 
-            username = get_current_operator()
-            if username:
-                return f"lazyown:{username}"
-        except ImportError:
-            pass
-        return None
+            return legacy_master_password(get_current_operator())
+        except Exception:
+            return None
 
     return _provider
 
@@ -330,4 +407,5 @@ __all__ = [
     "SALT_FILE",
     "ENCRYPTED_SUFFIX",
     "build_password_provider_from_cli_login",
+    "build_legacy_password_provider",
 ]

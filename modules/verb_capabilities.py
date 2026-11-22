@@ -25,12 +25,20 @@ _CAPABILITIES: dict[str, dict[str, object]] = {
 
 
 def _verb_of(command: str) -> str:
-    """Return the lowercased basename of a command's leading token."""
+    """Return the lowercased basename of a command's leading token.
+
+    Script-suffixed invocations (``modules/lazynmap.sh``) resolve to the
+    bare verb (``lazynmap``) so a shell wrapper and its registry verb
+    share one capability record.
+    """
     try:
         head = shlex.split(command or "")[0]
     except (ValueError, IndexError):
         return ""
-    return os.path.basename(head).lower()
+    verb = os.path.basename(head).lower()
+    if verb.endswith(".sh"):
+        verb = verb[: -len(".sh")]
+    return verb
 
 
 def capability_of(command: str) -> dict[str, object]:

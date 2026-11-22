@@ -423,6 +423,12 @@ class EmulationRunner:
             name=str(getattr(test, "name", "") or ""),
             command=command[:MAX_COMMAND_CHARS],
         )
+        test_platforms = [str(item).strip().lower() for item in (getattr(test, "platforms", None) or [])]
+        report_platform = str(getattr(report, "platform", "") or "").strip().lower()
+        if test_platforms and report_platform and report_platform not in test_platforms:
+            result.status = "skipped"
+            result.note = f"platform mismatch: test {'/'.join(test_platforms)} vs run {report_platform}"
+            return result
         if manual and not include_manual:
             result.status = "skipped"
             result.note = "manual"

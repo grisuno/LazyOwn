@@ -147,6 +147,7 @@ class ChainStep:
     budget: dict[str, int] = field(default_factory=dict)
     sleep: float = 0.0
     jitter: float = 0.0
+    needs_artifacts: list[str] = field(default_factory=list)
 
     @property
     def identifier(self) -> str:
@@ -209,6 +210,7 @@ class Chain:
                 "evidence": list(step.evidence),
                 "evidence_sha256": dict(step.evidence_sha256),
                 "budget": dict(step.budget),
+                "needs_artifacts": list(step.needs_artifacts),
                 "step": step,
             }
             skip_reason, rendered = step_gate_verdict(step, _render, merged)
@@ -247,10 +249,11 @@ def step_gate_verdict(
 ) -> tuple[str, str]:
     """Evaluate the canonical gate chain for one step, in one order.
 
-    Order: ``when`` -> ``skip_if_exists`` -> dependency -> ``resolve_newest``
-    -> unresolved token. Mutates ``variables`` when ``resolve_newest``
-    binds a match. The runner passes its dependency reason (computed
-    from prior verdicts, pure read); previews pass the default empty.
+    Order: ``when`` -> ``skip_if_exists`` -> ``needs_artifacts`` ->
+    dependency -> ``resolve_newest`` -> unresolved token. Mutates
+    ``variables`` when ``resolve_newest`` binds a match. The runner passes
+    its dependency reason (computed from prior verdicts, pure read);
+    previews pass the default empty.
 
     Args:
         step: The step being gated.
@@ -273,6 +276,10 @@ def step_gate_verdict(
         skip_reason = skip_pending(skip_path, step.skip_max_age)
         if skip_reason:
             return skip_reason, rendered
+    for template in step.needs_artifacts[:_MAX_STEP_LIST_ITEMS]:
+        artifact = render(template, variables)
+        if artifact and not os.path.exists(artifact):
+            return f"missing input artefact: {artifact}", rendered
     if dependency_reason:
         return dependency_reason, rendered
     if step.resolve_newest_glob and step.resolve_newest_as:
@@ -581,7 +588,7 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
                         errors.append(f"step {step_label}: depends_on cannot target itself")
                     else:
                         jumps.append((step_label, dependency, "depends_on"))
-            for list_key in ("required_fields", "benign_alternatives", "evidence"):
+            for list_key in ("required_fields", "benign_alternatives", "evidence", "needs_artifacts"):
                 values = step.get(list_key, [])
                 if not isinstance(values, list) or len(values) > _MAX_STEP_LIST_ITEMS:
                     errors.append(f"step {step_label}: {list_key} must be a list of at most {_MAX_STEP_LIST_ITEMS} items")
@@ -791,6 +798,7 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
             str(value).strip() for value in (item.get("benign_alternatives") or []) if str(value).strip()
         ],
         evidence=[str(value).strip() for value in (item.get("evidence") or []) if str(value).strip()],
+        needs_artifacts=[str(value).strip() for value in (item.get("needs_artifacts") or []) if str(value).strip()],
         evidence_sha256={
             str(path).strip(): str(digest).strip()
             for path, digest in (item.get("evidence_sha256") or {}).items()

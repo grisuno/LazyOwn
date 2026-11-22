@@ -47,6 +47,35 @@ OS_RE = re.compile(
 )
 SERVICE_RE = re.compile(r"(\d+)/tcp\s+(\w+)\s+(\S+)\s+([^\n]*)")
 
+_IN_SCOPE_NOTE = "[loop-bridge] observed out of task scope; provenance only, not an engagement target"
+
+
+def is_world_host(value: str) -> bool:
+    """Return True when value may stand as a world-model host key.
+
+    Delegates the shape policy to :mod:`core.host_policy`: IP literals and
+    dotted hostnames pass; bare single-label slugs (chain names, task ids)
+    fail so they can never become phantom hosts.
+    """
+    from core.host_policy import is_world_host as _policy_gate
+
+    return _policy_gate(value)
+
+
+def _in_scope(host: str) -> bool:
+    """Return the lab-default scope verdict for one host (fail-open)."""
+    try:
+        from modules import lazy_scope
+
+        verdict = lazy_scope.scope_verdict(
+            host,
+            allowlist=lazy_scope.read_allowlist(),
+            denylist=lazy_scope.read_denylist(),
+        )
+        return bool(verdict.allowed)
+    except Exception:
+        return True
+
 
 def _read_json(path: Path, default):
     """Read json tolerating missing files.
@@ -251,13 +280,18 @@ def pull_to_world_model() -> dict:
         graph = lazy_graph(task_id)
         observations = _extract_hosts_from_graph(graph)
         for ip, observation in observations.items():
-            hosts_synced.add(ip)
             facts_synced += len(observation["facts"])
             services_synced += len(observation["services"])
             if world is None:
                 continue
             try:
+                if not is_world_host(ip):
+                    continue
+                hosts_synced.add(ip)
+                in_scope = _in_scope(ip)
                 world.add_host(ip)
+                if not in_scope:
+                    world.add_note(ip, _IN_SCOPE_NOTE)
                 if observation.get("os"):
                     world.set_os_hint(ip, observation["os"])
                 for service in observation["services"]:
@@ -287,7 +321,9 @@ def pull_to_world_model() -> dict:
         if not isinstance(asset, dict):
             continue
         if str(asset.get("kind")) == "ip":
-            hosts_synced.add(str(asset.get("value", "")))
+            value = str(asset.get("value", "")).strip()
+            if is_world_host(value):
+                hosts_synced.add(value)
     summary = {"hosts": sorted(hosts_synced), "services": services_synced,
                "vulnerabilities": vulns_synced, "facts": facts_synced,
                "tasks": len(tasks), "assets": len(assets)}

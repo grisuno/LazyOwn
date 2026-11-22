@@ -68,7 +68,7 @@ class CitationService:
             Dict with ``verified``, ``digest``, ``command`` and ``age``.
         """
         needle = normalize_ws(quote)
-        result = {"verified": False, "digest": "", "command": "", "age": -1.0}
+        result = {"verified": False, "digest": "", "command": "", "age": -1.0, "output": ""}
         if not needle or len(needle) < MIN_QUOTE_CHARS or traffic is None:
             return result
         try:
@@ -92,6 +92,7 @@ class CitationService:
                 "digest": str(row.get("digest", "")),
                 "command": str(row.get("command", "")),
                 "age": round(age, 1),
+                "output": output[:2000],
             }
         return result
 

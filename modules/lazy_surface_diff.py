@@ -160,12 +160,18 @@ def _load_previous(path: Path) -> dict:
 def current_snapshots(world: dict | None = None) -> dict[str, dict]:
     """Snapshot every host of the current world model view.
 
+    Host keys must be IP literals or dotted hostnames; bare slugs that
+    once leaked into the host map (chain names, task ids) are excluded so
+    a historical phantom host can never reappear in a diff.
+
     Args:
         world: Preloaded world-model dict; read from disk when None.
 
     Returns:
         ``{host: snapshot}``.
     """
+    from core.host_policy import is_world_host
+
     if world is None:
         try:
             from modules.world_model import read_state_dict
@@ -178,7 +184,7 @@ def current_snapshots(world: dict | None = None) -> dict[str, dict]:
         hosts = {str(h.get("ip", i)): h for i, h in enumerate(hosts) if isinstance(h, dict)}
     out: dict[str, dict] = {}
     for ip, host in list(hosts.items())[:MAX_HOSTS_PER_DIFF]:
-        if isinstance(host, dict):
+        if isinstance(host, dict) and is_world_host(ip):
             out[ip] = snapshot_host(host)
     return out
 

@@ -296,9 +296,12 @@ def resolve_invocation(
                 else:
                     chain_name = lowered
                 continue
-            if not target and _looks_like_target(token):
-                target = token
-                break
+            if not target:
+                if chain_file_exists(lowered):
+                    continue
+                if _looks_like_target(token):
+                    target = token
+                    break
             continue
         if chain_file_exists(lowered):
             if get_chain(lowered) is None:

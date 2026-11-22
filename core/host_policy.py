@@ -130,3 +130,31 @@ def is_engagement_target(value: object, *, allow_cidr: bool = True) -> bool:
     if not allow_cidr and "/" in text:
         return False
     return is_valid_host(text)
+
+
+def is_world_host(value: object) -> bool:
+    """Return True when value may stand as a world-model host key.
+
+    The world-model host surface is stricter than the target grammar: a
+    host key must be an IP literal or a dotted hostname. Bare single-label
+    slugs (chain names such as ``gym_metasploitable_ms2_nfs_exports``,
+    task ids, run ids) match the loose target grammar yet are never
+    routable hosts, and letting them into the host map pollutes the
+    surface diff and every consumer that reads it.
+
+    Args:
+        value: Candidate host key of any type.
+
+    Returns:
+        True for IP literals and dotted hostnames; False otherwise.
+    """
+    if not isinstance(value, str):
+        return False
+    text = value.strip()
+    if not text or "/" in text or not is_valid_host(text):
+        return False
+    try:
+        ipaddress.ip_address(text)
+        return True
+    except ValueError:
+        return "." in text and _HOST_RE.match(text) is not None

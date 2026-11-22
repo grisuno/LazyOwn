@@ -89,6 +89,7 @@ class StepOutcome:
     alternatives: list[str] = field(default_factory=list)
     budget_used: dict[str, int] = field(default_factory=dict)
     from_fallback: bool = False
+    capability_note: str = ""
 
     @property
     def ok(self) -> bool:
@@ -115,6 +116,7 @@ class StepOutcome:
             "missing_fields": list(self.missing_fields),
             "alternatives": list(self.alternatives),
             "budget_used": dict(self.budget_used),
+            "capability_note": self.capability_note,
         }
 
 
@@ -1111,6 +1113,11 @@ class ChainRunner:
             outcome.run = rendered
             return outcome
         outcome.run = rendered
+        downgraded, capability_note = self._downgrade_privileged(rendered)
+        if capability_note:
+            rendered = downgraded
+            outcome.run = rendered
+            outcome.capability_note = capability_note
         if self.dry_run:
             outcome.status = "dry-run"
             return outcome
@@ -1274,6 +1281,36 @@ class ChainRunner:
             return bool(self.approver(step_id, command))
         except Exception:
             return False
+
+    def _downgrade_privileged(self, command: str) -> tuple[str, str]:
+        """Rewrite a root/tty-only step to its unprivileged fallback in unattended runs.
+
+        Chain steps historically invoked the privileged primitive directly
+        (``lazynmap`` and peers) and aborted with a sudo refusal, cascading
+        missing-artifact errors into every downstream step. The same
+        capability table the loop worker uses applies here at the step
+        executor, so a chain scan degrades to ``nmap -sT`` and actually
+        produces the scan artefacts its successors consume.
+
+        Args:
+            command: Rendered step command.
+
+        Returns:
+            ``(command, note)``: unchanged command and empty note when no
+            downgrade applies, else the fallback command and a reason.
+        """
+        try:
+            from modules.verb_capabilities import downgrade_for_unattended, requires_privilege
+            from utils import sudo_available
+
+            if not requires_privilege(command):
+                return command, ""
+            if sudo_available():
+                return command, ""
+            target = str(self.tokens.get("target", "") or "")
+            return downgrade_for_unattended(command, target)
+        except Exception:
+            return command, ""
 
     def _verify_timeout(self, step: ChainStep) -> float:
         """Return the wall clock budget for one verification command."""

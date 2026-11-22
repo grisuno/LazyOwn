@@ -161,7 +161,7 @@
     "cli/commands/lazy_poc.py": "9035714b0dc3a90e9f7bf7ac238c34d1db5a1c4cf232d67419a49badda317f02",
     "cli/commands/lazyloop.py": "661aafd0c89b4580f05b378dbdc04ee5521009e21634bac7480a7bf2bf141f86",
     "cli/commands/lazymode.py": "04bae970fadef06c94f5969a443ab1d1c094208db64679d9893502f3f43d2b0f",
-    "cli/commands/lazyops.py": "696a88a47da7819207fdf2094770ffe1ee583617afa18ead194433560b544cbb",
+    "cli/commands/lazyops.py": "44291e7a8b79887769dd29623e6fecfb5d846f2a10cfec01e95f0f5ae2b657f6",
     "cli/commands/loop_audit.py": "23573e02ef4c2e8e24ccffd4781bcb856cc79a49b49f2033b1ac8bdd085120b5",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "cdbb53af5b1c3036d034ca609b82f59087b170a110f99301ce72ce3dba1b4c89",
@@ -6903,7 +6903,7 @@
     },
     {
       "name": "do_lazy_notify",
-      "line": 2240,
+      "line": 2250,
       "summary": "Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test [severity]. Us…",
       "category": null,
       "phase": "uncategorized",
@@ -6914,7 +6914,7 @@
     },
     {
       "name": "do_lazy_trigger",
-      "line": 2288,
+      "line": 2298,
       "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync. Usage: lazy_trigger ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6925,7 +6925,7 @@
     },
     {
       "name": "do_lazy_llm",
-      "line": 2377,
+      "line": 2387,
       "summary": "LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--rol…",
       "category": null,
       "phase": "uncategorized",
@@ -6936,7 +6936,7 @@
     },
     {
       "name": "do_lazy_compact",
-      "line": 2514,
+      "line": 2524,
       "summary": "Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6947,7 +6947,7 @@
     },
     {
       "name": "do_lazy_status",
-      "line": 2586,
+      "line": 2596,
       "summary": "Full task status. Usage: lazy_status [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6958,7 +6958,7 @@
     },
     {
       "name": "do_lazy_overview",
-      "line": 2610,
+      "line": 2620,
       "summary": "Alias of lazy_graph. Usage: lazy_overview [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6969,7 +6969,7 @@
     },
     {
       "name": "do_lazy_archive",
-      "line": 2615,
+      "line": 2625,
       "summary": "Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ...",
       "category": null,
       "phase": "uncategorized",
@@ -6980,7 +6980,7 @@
     },
     {
       "name": "do_lazy_template",
-      "line": 2646,
+      "line": 2656,
       "summary": "Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ...",
       "category": null,
       "phase": "uncategorized",
@@ -6991,7 +6991,7 @@
     },
     {
       "name": "do_lazy_category",
-      "line": 2677,
+      "line": 2687,
       "summary": "Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ...",
       "category": null,
       "phase": "uncategorized",
@@ -7002,7 +7002,7 @@
     },
     {
       "name": "do_lazy_chat",
-      "line": 2698,
+      "line": 2708,
       "summary": "Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -7013,7 +7013,7 @@
     },
     {
       "name": "do_lazy_scheduler",
-      "line": 2731,
+      "line": 2741,
       "summary": "Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -7024,7 +7024,7 @@
     },
     {
       "name": "do_lazy_gate",
-      "line": 2758,
+      "line": 2768,
       "summary": "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ... [--task…",
       "category": null,
       "phase": "uncategorized",
@@ -7035,7 +7035,7 @@
     },
     {
       "name": "do_lazy_loop",
-      "line": 2803,
+      "line": 2813,
       "summary": "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--target T] …",
       "category": null,
       "phase": "uncategorized",
@@ -7046,7 +7046,7 @@
     },
     {
       "name": "do_lazy_sandbox",
-      "line": 2810,
+      "line": 2820,
       "summary": "Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...",
       "category": null,
       "phase": "uncategorized",
@@ -7057,7 +7057,7 @@
     },
     {
       "name": "do_lazy_install",
-      "line": 2873,
+      "line": 2883,
       "summary": "Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ...",
       "category": null,
       "phase": "uncategorized",
@@ -7068,7 +7068,7 @@
     },
     {
       "name": "do_lazy_pacing",
-      "line": 2911,
+      "line": 2921,
       "summary": "Show or set loop pacing knobs. Usage: lazy_pacing [list|set <key> <value>]",
       "category": null,
       "phase": "uncategorized",

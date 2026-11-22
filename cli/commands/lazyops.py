@@ -2226,6 +2226,16 @@ class LazyCommandSet(LazyOwnCommandSet):
             if ("{target}" in template or "{rhost}" in template) and not (target or "").strip():
                 print_error(f"Addon '{name}' needs a target: pass --target or assign rhost.")
                 return
+            for template_path in (tool.get("requires_files") or [])[:8]:
+                required = str(template_path)
+                for key in ("target", "rhost", "lhost", "lport", "domain"):
+                    required = required.replace("{" + key + "}", str(subs.get(key, "")))
+                if required and not _Path(required).is_file():
+                    print_error(
+                        f"Addon '{name}' skipped: required artefact missing: {required} "
+                        "(upstream step did not produce it)"
+                    )
+                    return
             print_msg(f"[*] lazy_addon run {name}: {command[:200]}")
             try:
                 output = _run_command(command) or ""

@@ -123,3 +123,47 @@ def test_coverage_bounded_vector_does_not_stall(monkeypatch):
     out = mod.AutonomousExploitEngine._bounded_execute(eng, cands[1], profile, exec_maybe_hang)
     assert out.success is False
     assert "timeout" in out.error.lower()
+
+
+def test_full_auto_pwn_breaker_skips_family(monkeypatch, tmp_path):
+    """Two family timeouts must skip the rest of that family, not other paths."""
+    from modules import autonomous_exploit_engine as mod
+    from modules.exploit_engine.outcomes import SKIP, TIMEOUT
+
+    eng = AutonomousExploitEngine()
+    eng._payload_config = {"auto_pwn_coverage_max_vectors": 6, "auto_pwn_breaker_timeouts": 2}
+    eng._attempted_cves = set()
+    monkeypatch.setattr(mod.AutonomousExploitEngine, "_load_payload_config", lambda self: dict(eng._payload_config))
+    monkeypatch.setattr(mod, "SESSIONS_DIR", tmp_path)
+    monkeypatch.setattr(AutonomousExploitEngine, "get_instance", classmethod(lambda cls: eng))
+    monkeypatch.setattr(eng, "profile", lambda target: _profile())
+    monkeypatch.setattr(
+        eng,
+        "rank_exploits",
+        lambda profile: [
+            ExploitCandidate(service="http", product="tomcat", version="", strategy="tomcat_0", confidence=0.9, family="tomcat"),
+            ExploitCandidate(service="http", product="tomcat", version="", strategy="tomcat_1", confidence=0.9, family="tomcat"),
+            ExploitCandidate(service="http", product="tomcat", version="", strategy="tomcat_2", confidence=0.9, family="tomcat"),
+            ExploitCandidate(service="ftp", product="vsftpd", version="", strategy="vsftpd_0", confidence=0.9, family="vsftpd"),
+        ],
+    )
+    monkeypatch.setattr(eng, "_apply_stealth_delay", lambda: None)
+
+    def bounded(candidate, profile, timeout=None):
+        if candidate.family == "tomcat":
+            return ExploitResult(candidate=candidate, success=False, outcome=TIMEOUT, timed_out=True)
+        return ExploitResult(candidate=candidate, success=True, outcome="anon_access")
+
+    monkeypatch.setattr(eng, "_bounded_execute", bounded)
+
+    summary = mod.AutonomousExploitEngine.full_auto_pwn("10.0.0.2", cover_all=True)
+    outcomes = {r["strategy"]: r["outcome"] for r in summary["exploit_results"]}
+    assert outcomes["tomcat_0"] == TIMEOUT
+    assert outcomes["tomcat_1"] == TIMEOUT
+    assert outcomes["tomcat_2"] == SKIP
+    assert outcomes["vsftpd_0"] == "anon_access"
+    assert summary["circuit_open"] == ["tomcat"]
+    assert summary["outcomes"] == {"timeout": 2, "skip": 1, "anon_access": 1}
+    assert summary["shells_obtained"] == 0
+    hb = (tmp_path / "auto_pwn_heartbeat.json").read_text()
+    assert '"status": "completed"' in hb

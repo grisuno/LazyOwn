@@ -1523,7 +1523,7 @@ def deploy_client(
     return {
         "success": bool(record),
         "client_id": checked_id,
-        "deployed": True,
+        "deployed": bool(record),
         "reason": (
             f"beacon {checked_id} checked in after {style} delivery"
             if record

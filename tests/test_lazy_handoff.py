@@ -590,3 +590,33 @@ class TestSkipReason:
         assert lazy_handoff.maybe_beacon_handoff("10.0.0.2", sessions_dir=tmp_path, log=lines.append) is False
         assert spawns == []
         assert any("skipped" in line for line in lines)
+
+
+class TestC2Preflight:
+    def test_reuses_runner_autostart_with_force(self, monkeypatch):
+        calls = []
+
+        def fake_start(params, force=False):
+            calls.append((params, force))
+            return True
+
+        monkeypatch.setattr("modules.lazy_runner._maybe_start_c2", fake_start)
+        lines = []
+        assert lazy_handoff._ensure_c2_for_handoff({"c2_port": 4444}, lines.append) is True
+        assert calls == [({"c2_port": 4444}, True)]
+        assert any("c2 reachable" in line for line in lines)
+
+    def test_failure_is_logged_and_blocks(self, monkeypatch):
+        monkeypatch.setattr("modules.lazy_runner._maybe_start_c2", lambda params, force=False: False)
+        lines = []
+        assert lazy_handoff._ensure_c2_for_handoff({}, lines.append) is False
+        assert any("not reachable" in line for line in lines)
+
+    def test_exception_is_fail_soft(self, monkeypatch):
+        def boom(params, force=False):
+            raise RuntimeError("boom")
+
+        monkeypatch.setattr("modules.lazy_runner._maybe_start_c2", boom)
+        lines = []
+        assert lazy_handoff._ensure_c2_for_handoff({}, lines.append) is False
+        assert any("preflight failed" in line for line in lines)

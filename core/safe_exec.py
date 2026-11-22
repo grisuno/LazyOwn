@@ -23,14 +23,31 @@ import shlex
 import signal
 import subprocess
 import sys
+import time
 import urllib.parse
 from collections.abc import Sequence
 from pathlib import Path
 
 log = logging.getLogger("core.safe_exec")
 
-_START_NEW_SESSION = sys.platform != "win32"
 _KILL_GRACE_SECONDS = 2.0
+_VECTOR_CHILD_ENV = "LAZYOWN_VECTOR_CHILD"
+
+
+def _new_session_enabled() -> bool:
+    """Return whether a child must become its own process-group leader.
+
+    A vector worker (spawned by the coverage engine) is already a
+    process-group leader. Its shell children must stay in that group so
+    the parent's single ``killpg`` reaches the whole tree; creating a
+    nested session would hide them from the outer kill.
+
+    Returns:
+        True when the child should call ``setsid``.
+    """
+    if sys.platform == "win32":
+        return False
+    return os.environ.get(_VECTOR_CHILD_ENV) != "1"
 
 _URL_SAFE_PATTERN = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$")
 
@@ -108,7 +125,7 @@ def safe_system(command: str, *, reason: str = "") -> int:
     return result.returncode
 
 
-def _kill_process_tree(process: subprocess.Popen) -> None:
+def _kill_process_tree(process: subprocess.Popen, group: bool | None = None) -> None:
     """Force-kill a child's whole process group, then the child.
 
     Third-party children (scanners, shells) can ignore termination
@@ -117,11 +134,14 @@ def _kill_process_tree(process: subprocess.Popen) -> None:
 
     Args:
         process: Child process to terminate.
+        group: Whether the child leads its own group. ``None`` uses the
+            ambient session policy.
     """
     if process.poll() is not None:
         return
+    kill_group = _new_session_enabled() if group is None else group
     for sig in (signal.SIGTERM, signal.SIGKILL):
-        if _START_NEW_SESSION and process.pid:
+        if kill_group and process.pid:
             try:
                 os.killpg(os.getpgid(process.pid), sig)
             except (ProcessLookupError, PermissionError, OSError):
@@ -138,10 +158,51 @@ def _kill_process_tree(process: subprocess.Popen) -> None:
                 continue
 
 
+def _drain_pipe(stream, deadline: float) -> str:
+    """Read whatever a pipe has buffered without blocking past a deadline.
+
+    ``process.communicate()`` can block forever when a detached
+    grandchild inherited the write end of the pipe. After the process
+    group was killed, drain with non-blocking reads until the pipe
+    reports EOF or the grace deadline expires.
+
+    Args:
+        stream: Text pipe (``process.stdout``/``stderr``) or None.
+        deadline: Monotonic deadline for the drain.
+
+    Returns:
+        Decoded text already available on the pipe.
+    """
+    if stream is None:
+        return ""
+    try:
+        fd = stream.fileno()
+        os.set_blocking(fd, False)
+    except (OSError, ValueError):
+        return ""
+    chunks: list[bytes] = []
+    while time.monotonic() < deadline:
+        try:
+            chunk = os.read(fd, 65536)
+        except BlockingIOError:
+            time.sleep(0.05)
+            continue
+        except OSError:
+            break
+        if not chunk:
+            break
+        chunks.append(chunk)
+    try:
+        return b"".join(chunks).decode("utf-8", errors="replace")
+    except Exception:
+        return ""
+
+
 def _communicate_group_managed(
     process: subprocess.Popen,
     timeout: float | None,
     input_data: str | None = None,
+    group: bool | None = None,
 ) -> tuple[str, str]:
     """Communicate with a child and reap its whole process group on timeout.
 
@@ -149,6 +210,7 @@ def _communicate_group_managed(
         process: Child process.
         timeout: Wall-clock limit; None waits forever.
         input_data: Optional stdin content (required when stdin is a pipe).
+        group: Whether the child leads its own process group.
 
     Returns:
         ``(stdout, stderr)`` captured text.
@@ -160,11 +222,14 @@ def _communicate_group_managed(
     try:
         return process.communicate(input=input_data, timeout=timeout)
     except subprocess.TimeoutExpired:
-        _kill_process_tree(process)
+        _kill_process_tree(process, group)
+        deadline = time.monotonic() + _KILL_GRACE_SECONDS
+        output = _drain_pipe(process.stdout, deadline)
+        error = _drain_pipe(process.stderr, deadline)
         try:
-            output, error = process.communicate(timeout=_KILL_GRACE_SECONDS)
+            process.wait(timeout=_KILL_GRACE_SECONDS)
         except subprocess.TimeoutExpired:
-            output, error = process.communicate()
+            pass
         raise subprocess.TimeoutExpired(
             process.args,
             timeout,
@@ -206,6 +271,7 @@ def safe_run_argv(
         if "\0" in arg:
             raise CommandInjectionError("Null byte in argument rejected")
     log.debug("safe_run_argv: %s", argv[0])
+    group = _new_session_enabled()
     process = subprocess.Popen(
         list(argv),
         shell=False,
@@ -213,13 +279,13 @@ def safe_run_argv(
         stderr=subprocess.PIPE if capture_output else None,
         stdin=subprocess.PIPE if input_data is not None else None,
         text=True,
-        start_new_session=_START_NEW_SESSION,
+        start_new_session=group,
     )
     try:
-        stdout, stderr = _communicate_group_managed(process, timeout, input_data)
+        stdout, stderr = _communicate_group_managed(process, timeout, input_data, group)
     finally:
         if process.poll() is None:
-            _kill_process_tree(process)
+            _kill_process_tree(process, group)
             process.communicate()
     result = subprocess.CompletedProcess(argv, process.returncode, stdout, stderr)
     if check and result.returncode != 0:
@@ -266,6 +332,7 @@ def safe_run_shell(
     if len(command) > _MAX_COMMAND_LENGTH:
         raise ValueError(f"command exceeds {_MAX_COMMAND_LENGTH} chars")
     log.debug("safe_run_shell: %s reason=%s", command[:80], reason)
+    group = _new_session_enabled()
     process = subprocess.Popen(
         command,
         shell=True,
@@ -273,13 +340,13 @@ def safe_run_shell(
         stderr=subprocess.PIPE,
         text=True,
         cwd=cwd,
-        start_new_session=_START_NEW_SESSION,
+        start_new_session=group,
     )
     try:
-        stdout, stderr = _communicate_group_managed(process, timeout)
+        stdout, stderr = _communicate_group_managed(process, timeout, group=group)
     finally:
         if process.poll() is None:
-            _kill_process_tree(process)
+            _kill_process_tree(process, group)
             process.communicate()
     return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 

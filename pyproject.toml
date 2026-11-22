@@ -11,31 +11,39 @@ authors = [{ name = "Gris Iscomeback", email = "grisiscomeback@gmail.com" }]
 license = { text = "AGPL-3.0-only" }
 readme = "README.md"
 requires-python = ">=3.10"
+# Base = the light profile: shell + C2 + recon/exploit core. Everything here
+# must be importable (or a shelled-out CLI tool the framework invokes) on a
+# headless install. Analytics, AI, ML, cloud and RAG stacks live in extras so
+# a light install stays small and headless-friendly. pyproject is the single
+# source of truth; the requirements*.txt locks are regenerated from it.
 dependencies = [
     "requests>=2.28.0",
     "cmd2",
     "python-libnmap",
-    "groq",
     "pypdf>=6.1.1",
     "python-docx",
     "olefile",
     "exifread",
     "impacket",
-    "pandas",
+    "pwntools",
+    "cryptography",
+    "openai",
     "colorama",
     "tabulate",
-    "pyarrow",
-    "keyboard",
     "flask-unsign",
     "name-that-hash",
     "certipy-ad",
     "pykeepass",
     "Pillow",
     "netaddr",
-    "stix2",
-    "pyautogui",
-    "networkx",
-    "pyvis",
+    "netifaces",
+    "pyasn1",
+    "pyjwt",
+    "pyotp",
+    "yara-python",
+    "apscheduler",
+    "websockets",
+    "websocket-client",
     "markdown",
     "scapy",
     "watchdog",
@@ -53,7 +61,6 @@ dependencies = [
     "rich",
     "flask_socketio",
     "minikerberos",
-    "tinydb",
     "msldap",
     "prettytable",
     "fire",
@@ -85,6 +92,28 @@ Repository = "https://github.com/grisuno/LazyOwn"
 Documentation = "https://grisuno.github.io/LazyOwn/"
 
 [project.optional-dependencies]
+# Reports, parquet knowledge bases and graph analytics.
+analytics = [
+    "pandas",
+    "pyarrow",
+    "numpy",
+    "networkx",
+    "stix2",
+]
+# Cloud LLM providers (the OpenAI-compatible client stays in base for local
+# llama.cpp/Ollama backends).
+ai = [
+    "groq",
+    "anthropic",
+]
+# Cloud-provider recon and exfiltration.
+cloud = [
+    "boto3",
+]
+# Retrieval-augmented generation vector store (keyword fallback in base).
+rag = [
+    "chromadb",
+]
 ml = [
     "torch",
     "torchvision",

@@ -86,7 +86,19 @@ mutants/
 # (regenerate locally with: readmenator . --rebuild)
 readmenator-apidocs/
 readmenator-maps/
+readmenator-agent/
+readmenator-diagrams/
+readmenator-graphrag/
+readmenator-rules/
+readmenator-wiki/
+.readmenator_cache/
+KNOWLEDGE_BASE.md
 *.mp4
+
+# local virtualenv / build strays that leaked into git history
+/pyvenv.cfg
+/r
+/docs/index.html.bak
 
 # advisory lock sidecar for atomic payload.json writes
 *.json.lock

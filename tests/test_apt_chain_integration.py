@@ -12,7 +12,7 @@ import threading
 import cmd2
 import yaml
 
-from cli.commands.command_and_control_migrated import CommandAndControlMigratedCommandSet
+from cli.commands.command_and_control import CommandAndControlMigratedCommandSet
 import modules.chain_registry as chain_registry
 
 

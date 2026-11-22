@@ -22,7 +22,7 @@ from modules.chain_state import checkpoint_dir, load_checkpoint
 
 def _make_shell():
     """Return a minimal registered shell."""
-    from cli.commands.command_and_control_migrated import CommandAndControlMigratedCommandSet
+    from cli.commands.command_and_control import CommandAndControlMigratedCommandSet
 
     class _Set(CommandAndControlMigratedCommandSet):
         """Command set under test."""

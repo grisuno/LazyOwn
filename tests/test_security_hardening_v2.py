@@ -6,9 +6,9 @@ BEHAVIOURALLY (BDD-style) so they read as specifications.
 
 Covers:
   - P0: Command injection prevention in cli/commands/ai.py
-  - P0: Credential injection prevention in cli/commands/postexp_migrated.py
+  - P0: Credential injection prevention in cli/commands/postexp.py
   - P1: DNS command allowlist enforcement in lazyc2.py
-  - P1: Safe shell execution in cli/commands/misc_migrated.py
+  - P1: Safe shell execution in cli/commands/misc.py
   - P1: Credential encryption at rest in modules/phishing_orchestrator.py
 """
 
@@ -90,11 +90,11 @@ class TestAICommandInjectionPrevention:
 
 
 class TestSSHCredentialInjectionPrevention:
-    """CONTRACT: The postexp_migrated module must NEVER pass passwords
+    """CONTRACT: The postexp module must NEVER pass passwords
     through shell command strings via sshpass -p '{password}'.
     Passwords must be passed via SSHPASS environment variable with -e flag."""
 
-    SOURCE = _read("cli/commands/postexp_migrated.py")
+    SOURCE = _read("cli/commands/postexp.py")
 
     def test_no_sshpass_minus_p_in_code(self):
         """BDD: Given the postexp module source is loaded,
@@ -225,7 +225,7 @@ class TestSafeShellExecution:
     SOURCE = _read("cli/commands/shellsys.py")
 
     def test_do_sys_uses_safe_runner(self):
-        """BDD: Given the misc_migrated source is loaded,
+        """BDD: Given the misc source is loaded,
         When I locate the do_sys method,
         Then it must use the safe_run_shell gate, not a raw shell."""
         lines = self.SOURCE.split("\n")
@@ -265,7 +265,7 @@ class TestSafeShellExecution:
         """BDD: Given the shell command module sources,
         When I scan for os.system in actual code (not docstrings),
         Then it must not appear in any command execution method."""
-        for module in (self.SOURCE, _read("cli/commands/misc_migrated.py")):
+        for module in (self.SOURCE, _read("cli/commands/misc.py")):
             lines = module.split("\n")
             in_docstring = False
             for i, line in enumerate(lines):
@@ -362,7 +362,7 @@ class TestNoOsSystemInCriticalPaths:
         """BDD: Given the post-exploitation module source,
         When I scan for sshpass in f-strings in code,
         Then none must exist."""
-        source = _read("cli/commands/postexp_migrated.py")
+        source = _read("cli/commands/postexp.py")
         lines = source.split("\n")
         in_docstring = False
         for line in lines:

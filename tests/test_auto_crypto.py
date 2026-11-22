@@ -196,7 +196,7 @@ class TestExitEncryptWiring:
         import builtins
 
         import modules.lazy_loop as loop_module
-        from cli.commands.misc_migrated import MiscMigratedCommandSet
+        from cli.commands.misc import MiscMigratedCommandSet
 
         monkeypatch.setattr(
             loop_module,
@@ -212,7 +212,7 @@ class TestExitEncryptWiring:
 
     def test_eof_encrypts_before_returning(self, monkeypatch):
         import modules.lazy_loop as loop_module
-        from cli.commands.misc_migrated import MiscMigratedCommandSet
+        from cli.commands.misc import MiscMigratedCommandSet
 
         monkeypatch.setattr(
             loop_module,

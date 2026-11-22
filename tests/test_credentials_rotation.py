@@ -23,7 +23,7 @@ import pytest
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
-from cli.commands.cred_migrated import CredMigratedCommandSet  # noqa: E402
+from cli.commands.cred import CredMigratedCommandSet  # noqa: E402
 
 _rotate = CredMigratedCommandSet._rotate_existing_credentials
 

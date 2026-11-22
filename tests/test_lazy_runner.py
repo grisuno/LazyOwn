@@ -1342,7 +1342,7 @@ def test_pyautomate_filters_to_requested_target(tmp_path, monkeypatch):
     (tmp_path / "sessions" / "scan_127.0.0.1.nmap.xml").write_text("<nmaprun/>")
     (tmp_path / "sessions" / "scan_10.0.0.1.nmap.xml").write_text("<nmaprun/>")
     monkeypatch.chdir(tmp_path)
-    from cli.commands.exploit_migrated import ExploitMigratedCommandSet
+    from cli.commands.exploit import ExploitMigratedCommandSet
 
     cmdset = ExploitMigratedCommandSet()
     recorded: list[str] = []

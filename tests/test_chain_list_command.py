@@ -6,7 +6,7 @@ with state, resolved steps and playbook; a filter narrows the result.
 
 from __future__ import annotations
 
-from cli.commands.exploit_migrated import ExploitMigratedCommandSet
+from cli.commands.exploit import ExploitMigratedCommandSet
 
 
 def test_chain_list_lists_registry(capsys):

@@ -19,7 +19,7 @@ MUTATIONS = {
         "expected": "test_when_evaluator_is_safe_and_expressive must fail",
     },
     "apt_chain_output_hidden": {
-        "file": "cli/commands/command_and_control_migrated.py",
+        "file": "cli/commands/command_and_control.py",
         "description": "Hide raw command output from the operator",
         "old": "                if outcome.output:",
         "new": "                if False:",

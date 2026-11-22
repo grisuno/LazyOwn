@@ -6,12 +6,37 @@ quick triage, or operators who never touch the AI features.
 
 | Capability | `full` (default) | `light` |
 |------------|------------------|---------|
-| Interactive shell (`./run`), 748 commands | yes | yes |
+| Interactive shell (`./run`), full command set | yes | yes |
 | C2 server, beacons, phishing, collab | yes | yes |
 | Recon, enum, exploit, AD tooling | yes | yes |
-| Session reports (`pandas`), parquet KBs (`pyarrow`), graphs (`networkx`) | yes | no |
-| LLM backends (`groq`, wizard provider step) | yes | no (step skipped) |
-| ML stack (`--with-ml`: torch, sklearn) | opt-in | opt-in |
+| Local LLM / OpenAI-compatible client (loop, llama.cpp, Ollama) | yes | yes |
+| Session reports (`pandas`), parquet KBs (`pyarrow`), graphs (`networkx`), STIX | `analytics` extra | no |
+| Cloud LLM backends (`groq`, `anthropic`) | `ai` extra | no |
+| Cloud recon/exfil (`boto3`) | `cloud` extra | no |
+| RAG vector store (`chromadb`; keyword fallback in base) | `rag` extra | no |
+| ML stack (`--with-ml`: torch, sklearn, seaborn) | opt-in | opt-in |
+
+## Dependency tiering
+
+`pyproject.toml` is the single source of truth. The base `dependencies` are
+exactly the light core (shell + C2 + recon/exploit); everything heavier lives
+in a named extra:
+
+| Extra | Packages | Purpose |
+|-------|----------|---------|
+| `analytics` | pandas, pyarrow, numpy, networkx, stix2 | reports, parquet KBs, graphs |
+| `ai` | groq, anthropic | cloud LLM providers |
+| `cloud` | boto3 | cloud-provider recon and exfiltration |
+| `rag` | chromadb | retrieval-augmented generation vector store |
+| `ml` | torch, torchvision, torchaudio, scikit-learn, seaborn, joblib | heavy ML stack |
+
+The three lock files are regenerated from `pyproject.toml` by resolving it in a
+clean virtualenv (never `pip freeze` of a working env) — see
+`scripts/regen_locks.sh`:
+
+- `requirements-light.txt` = base, resolved as a strict subset of the full lock.
+- `requirements.txt` = `.[analytics,ai,cloud,rag]` (full core, no ML).
+- `requirements-ml.txt` = the `.[ml]` additions on top of the full lock.
 
 ## Select at install time
 

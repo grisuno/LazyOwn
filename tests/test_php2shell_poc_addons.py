@@ -181,7 +181,7 @@ class TestAtomicSpecsForAutoPwn:
         profile = TargetProfile(
             ip="127.0.0.1",
             open_ports=(8086,),
-            services=({"name": "http", "port": "8086", "product": "Apache", "version": "2.4"},),
+            services=({"name": "http", "port": "8086", "product": "Apache httpd", "version": "2.4 (PHP/8.1)"},),
         )
         strategies = {c.strategy for c in engine._match_atomic_specs(profile)}
         assert "php2shell_chain_a" in strategies

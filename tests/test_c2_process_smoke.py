@@ -77,7 +77,7 @@ def c2_server(tmp_path):
             "c2_bind_address": "127.0.0.1",
             "c2_https_redirect": False,
             "c2_csrf_enabled": True,
-            "rotate_keys_on_boot": False,
+            "rotate_c2_creds_on_boot": False,
             "enable_c2_debug": False,
         }
     )

@@ -166,6 +166,7 @@ profiles:
       verb_timeout_sec: 300
       step_delay_sec: 0.5
       scan_reuse_sec: 21600
+      target_concurrency: 3
     budget:
       max_rounds: 10
       max_toolcalls: 200
@@ -196,6 +197,18 @@ profiles:
     mode: redteam
     chain: apt_chain
     playbook: rocke
+    ss_cve:
+      enabled: true
+      max_services: 5
+      max_cves: 5
+      llm_summary: false
+    worker_comms:
+      enabled: true
+      max_messages: 6
+      cross_task_only: true
+    decoy:
+      mode: page
+      operator_allowlist: 127.0.0.1
     sinks:
       world_model: true
       killchain: true

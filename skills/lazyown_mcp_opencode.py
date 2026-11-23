@@ -160,10 +160,7 @@ def _call_harness_tool(name: str, arguments: dict[str, Any]) -> list[types.TextC
         return _harness_result(
             {
                 "pushed": len(objectives),
-                "objectives": [
-                    {"id": obj.id, "priority": obj.priority, "text": obj.text[:140]}
-                    for obj in objectives
-                ],
+                "objectives": [{"id": obj.id, "priority": obj.priority, "text": obj.text[:140]} for obj in objectives],
             }
         )
     if name == "ctf_report":
@@ -179,7 +176,6 @@ def _call_harness_tool(name: str, arguments: dict[str, Any]) -> list[types.TextC
     raise ValueError(f"Unknown harness tool '{name}'")
 
 
-@server.list_tools()
 async def list_tools() -> list[types.Tool]:
     """Expose the curated subset under short names, keeping original schemas."""
     all_tools = await _list_tools()
@@ -192,14 +188,13 @@ async def list_tools() -> list[types.Tool]:
                 types.Tool(
                     name=short_name,
                     description=original.description,
-                    inputSchema=original.inputSchema,
+                    input_schema=dict(original.input_schema or {"type": "object"}),
                 )
             )
     curated.extend(_sync_harness())
     return curated
 
 
-@server.call_tool()
 async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextContent]:
     """Proxy the short name to the full LazyOwn MCP handler."""
     if name in HARNESS_TOOLS:
@@ -208,6 +203,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     if full_name is None:
         raise ValueError(f"Unknown curated tool '{name}'")
     return await _call_tool(full_name, arguments)
+
+
+async def _on_list_tools(context, params) -> types.ListToolsResult:
+    tools = await list_tools()
+    return types.ListToolsResult(tools=tools)
+
+
+async def _on_call_tool(context, params) -> types.CallToolResult:
+    content = await call_tool(str(params.name), dict(params.arguments or {}))
+    return types.CallToolResult(content=content)
+
+
+server.add_request_handler("tools/list", types.PaginatedRequestParams, _on_list_tools)
+server.add_request_handler("tools/call", types.CallToolRequestParams, _on_call_tool)
 
 
 async def main() -> None:

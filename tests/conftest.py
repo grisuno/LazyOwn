@@ -105,6 +105,13 @@ def _isolated_loop_state_db(tmp_path, monkeypatch):
     monkeypatch.setattr(state_db, "default_db_path", lambda: tmp_path / "loop_state.db")
     monkeypatch.setattr(loop, "_LEASE_STORE", None)
     monkeypatch.setattr(loop, "_TOKEN_POLICY", None)
+    try:
+        from modules.loop import event_store
+
+        monkeypatch.setattr(event_store, "_shared", None)
+        monkeypatch.setattr(event_store, "_schema_applied", set())
+    except Exception:
+        pass
     yield
     monkeypatch.setattr(loop, "_LEASE_STORE", None)
     monkeypatch.setattr(loop, "_TOKEN_POLICY", None)

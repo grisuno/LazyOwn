@@ -49,6 +49,7 @@ def _new_session_enabled() -> bool:
         return False
     return os.environ.get(_VECTOR_CHILD_ENV) != "1"
 
+
 _URL_SAFE_PATTERN = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$")
 
 _SHELL_META_PATTERN = re.compile(r"[;&|`$(){}!><*?~#`'\"\\\n\r]")

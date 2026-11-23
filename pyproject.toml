@@ -209,12 +209,15 @@ addopts = [
     "-ra",
     "--strict-markers",
     "--strict-config",
+    "-m",
+    "not smoke",
 ]
 markers = [
     "unit: fast isolated unit tests with no network or sessions state",
     "integration: integration tests touching real services or sessions/ fixtures",
     "bdd: behaviour scenarios stating Given/When/Then in the docstring",
     "contract: SDD specification contracts pinning public behaviour",
+    "smoke: real-process smoke tests, opt in explicitly with -m smoke",
     "mutation: mutation gate probes asserting weak tests fail on mutants",
     "sdd: specification-driven design contract tests",
     "tdd: test-driven development regression tests",

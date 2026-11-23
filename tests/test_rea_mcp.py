@@ -128,7 +128,7 @@ def test_list_tools_has_rea() -> None:
     tools = asyncio.run(lazyown_mcp.list_tools())
     by_name = {t.name: t for t in tools}
     assert "lazyown_rea" in by_name
-    schema = by_name["lazyown_rea"].inputSchema
+    schema = dict(by_name["lazyown_rea"].input_schema or {})
     for prop in ("action", "target", "address", "query", "provider", "timeout"):
         assert prop in schema["properties"], f"missing schema property: {prop}"
 

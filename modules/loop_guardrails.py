@@ -535,6 +535,26 @@ class TargetLimiter:
         """Configured upper bound of simultaneous targets."""
         return self._max
 
+    def grow_to(self, max_concurrent: int) -> int:
+        """Raise the concurrency cap (never shrink) and return the new cap.
+
+        Growing swaps the semaphore; in-flight holders on the previous
+        semaphore drain naturally because only growth is allowed.
+
+        Args:
+            max_concurrent: Desired cap; values at or below the current
+                cap are ignored.
+
+        Returns:
+            The effective cap after the call.
+        """
+        value = max(1, int(max_concurrent))
+        if value <= self._max:
+            return self._max
+        self._max = value
+        self._semaphore = threading.Semaphore(value)
+        return self._max
+
     @property
     def active_targets(self) -> int:
         """How many distinct targets currently hold a slot."""

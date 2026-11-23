@@ -26,10 +26,13 @@ class TestApiKeyWiredIntoParams:
         )
 
     def test_params_api_key_binds_config_attr(self):
+        from core.payload_schema import default_payload
+
         src = LAZYOWN_PATH.read_text(encoding="utf-8")
-        assert '"api_key": api_key,' in src, (
-            "self.params must reference the api_key class attribute populated from Config(load_payload())"
+        assert "self.params = {**default_payload(), **load_payload()}" in src, (
+            "self.params must derive from payload.json so the configured api_key reaches every consumer"
         )
+        assert "api_key" in default_payload(), "default_payload must ship the api_key key"
 
     def test_class_attribute_api_key_reads_payload(self):
         src = LAZYOWN_PATH.read_text(encoding="utf-8")

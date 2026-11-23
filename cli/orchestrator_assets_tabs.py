@@ -59,6 +59,9 @@ CONFIG_FIELDS = (
     ConfigField("auto_pwn_retry_budget_sec", "auto_pwn retry budget sec", "180"),
     ConfigField("auto_pwn_confidence_floor", "auto_pwn confidence floor (0-1)", "0.65"),
     ConfigField("auto_pwn_port_confidence", "auto_pwn port confidence (0-1)", "0.9"),
+    ConfigField("c2_decoy_mode", "C2 decoy mode (off|page|deny)", "page"),
+    ConfigField("c2_operator_ip_allowlist", "C2 operator IP allowlist", "127.0.0.1"),
+    ConfigField("orchestrator.decoy.mode", "Loop decoy mode (off|page|deny)", "page"),
 )
 
 

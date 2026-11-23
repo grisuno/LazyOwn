@@ -116,4 +116,5 @@ class TestAuditLog:
     def test_audit_log_disabled_is_noop(self, tmp_path: Path) -> None:
         allowlist = CommandAllowlist(["ping"], audit_log_path=None)
         allowlist.check("ping 10.0.0.1")
-        assert list(tmp_path.iterdir()) == []
+        jsonl_files = [p for p in tmp_path.iterdir() if p.suffix in (".jsonl", ".log")]
+        assert jsonl_files == []

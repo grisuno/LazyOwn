@@ -3,7 +3,7 @@
 # Usage: docker pull ghcr.io/grisuno/lazyown:latest
 #        docker run -it --rm -v "$(pwd)/payload.json:/app/payload.json" ghcr.io/grisuno/lazyown
 
-FROM python:3.11-slim AS builder
+FROM python:3.15-slim AS builder
 
 WORKDIR /build
 
@@ -20,7 +20,7 @@ COPY requirements.txt uv.lock pyproject.toml .
 RUN pip install --upgrade pip && \
     pip install --prefix=/install -r requirements.txt
 
-FROM python:3.11-slim
+FROM python:3.15-slim
 
 LABEL org.opencontainers.image.source="https://github.com/grisuno/LazyOwn"
 LABEL org.opencontainers.image.description="LazyOwn RedTeam Framework"

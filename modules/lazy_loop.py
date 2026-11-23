@@ -8118,6 +8118,19 @@ def build_prompt_context(
     except Exception:
         pass
     try:
+        from modules import orchestrator_config as _oc_comms
+
+        comms = _oc_comms.worker_comms_config()
+        if comms.get("enabled"):
+            from modules.loop.event_store import fleet_prompt_context
+
+            fleet_task = task_id if comms.get("cross_task_only", True) else ""
+            fleet_text = fleet_prompt_context(task_id=fleet_task, limit=int(comms.get("max_messages", 6) or 6))
+            if fleet_text:
+                parts.append(fence("fleet_intel", fleet_text) if boundary_on else fleet_text)
+    except Exception:
+        pass
+    try:
         from modules.lazy_cli_bridge import catalog_cli_for_phase
 
         allowed = catalog_cli_for_phase()
@@ -9908,6 +9921,12 @@ class LazyLoopEngine(
             0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300)
         )
         self.worker_cap = max(1, int(resolved.get("worker_parallel_cap", 5) or 5))
+        try:
+            from modules.loop_guardrails import _TARGET_LIMITER as _limiter
+
+            _limiter.grow_to(max(int(resolved.get("target_concurrency", 0) or 0), self.worker_cap))
+        except Exception:
+            pass
         self.worker_round_timeout_sec = max(
             0.0,
             float(

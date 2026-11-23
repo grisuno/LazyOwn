@@ -171,10 +171,15 @@ class TestContracts:
     def test_wiring_sources(self):
         story = "the round loop closes every previously documented gap"
         lazy = (Path(__file__).resolve().parent.parent / "modules" / "lazy_loop.py").read_text(encoding="utf-8")
-        daemon = (Path(__file__).resolve().parent.parent / "skills" / "autonomous_daemon.py").read_text(encoding="utf-8")
+        verdict = (Path(__file__).resolve().parent.parent / "modules" / "loop" / "engine_verdict.py").read_text(
+            encoding="utf-8"
+        )
+        daemon = (Path(__file__).resolve().parent.parent / "skills" / "autonomous_daemon.py").read_text(
+            encoding="utf-8"
+        )
         assert "_publish_shell_proof" in lazy, story
         assert "record_worker_traces" in lazy, story
         assert "digest_of" in lazy, story
-        assert "progress config unavailable" in lazy, story
+        assert "progress config unavailable" in verdict, story
         assert "save_payload as _save_payload" in daemon, story
         assert "PAYLOAD_FILE.write_text" not in daemon, story

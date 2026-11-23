@@ -792,6 +792,33 @@ def fromjson(value):
     return json.loads(value)
 
 
+def _safe_listdir(path):
+    """List a directory without raising when it is missing.
+
+    Args:
+        path: Directory path.
+
+    Returns:
+        Entry names, or an empty list when the directory does not exist.
+    """
+    try:
+        return os.listdir(path)
+    except OSError:
+        return []
+
+
+def _atomic_directories():
+    """List atomic technique directories when the framework is synced.
+
+    Returns:
+        Directory names under the atomic-red-team atomics path, or an
+        empty list when the framework has not been cloned.
+    """
+    if not os.path.isdir(atomic_framework_path):
+        return []
+    return [d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))]
+
+
 def run_shell():
     while True:
         try:
@@ -2050,25 +2077,36 @@ def handle_client(client_socket, remote_host, remote_port):
 def decoy():
     """Serve a decoy page to non-operator IPs when decoy mode is enabled.
 
-    Behaviour is driven by ``c2_decoy_mode`` in payload.json:
+    Mode precedence (see :func:`modules.orchestrator_config.decoy_config`):
+    module fallback ``page`` < YAML profile ``decoy.mode`` < payload
+    ``orchestrator.decoy.mode`` < legacy payload ``c2_decoy_mode``.
 
     - ``"off"``: disabled; every request proceeds to normal handling.
-    - ``"page"`` (default): requests from IPs outside the operator allowlist
+    - ``"page"``: requests from IPs outside the operator allowlist
       receive a fake decoy page. This preserves the legacy honeypot look.
     - ``"deny"``: requests from non-operator IPs receive HTTP 403 instead
       of a misleading page. Use this when the decoy is not wanted.
 
     The operator allowlist is ``lhost``, ``127.0.0.1`` and the entries of
-    ``c2_operator_ip_allowlist``.
+    the resolved ``operator_allowlist``.
     """
-    mode = str(getattr(config, "c2_decoy_mode", "page") or "page").strip().lower()
+    try:
+        from modules.orchestrator_config import decoy_config
+
+        resolved = decoy_config()
+    except Exception:
+        resolved = {
+            "mode": str(getattr(config, "c2_decoy_mode", "page") or "page"),
+            "operator_allowlist": str(getattr(config, "c2_operator_ip_allowlist", "127.0.0.1") or "127.0.0.1"),
+        }
+    mode = str(resolved.get("mode", "page") or "page").strip().lower()
     if mode == "off":
         return None
     client_ip = request.remote_addr
     allowed_ips = {str(lhost), "127.0.0.1"}
     allowed_ips.update(
         ip.strip()
-        for ip in str(getattr(config, "c2_operator_ip_allowlist", "127.0.0.1") or "127.0.0.1")
+        for ip in str(resolved.get("operator_allowlist", "127.0.0.1") or "127.0.0.1")
         .replace("{lhost}", str(getattr(config, "lhost", "127.0.0.1")))
         .split(",")
         if ip.strip()
@@ -2796,11 +2834,15 @@ def _load_or_create_secret_key():
     return _SecretKeyManager(Path("sessions")).get_or_create()
 
 
+_c2_tls_deployed = bool(getattr(config, "c2_https_redirect", False)) or (
+    os.path.exists("cert.pem") and os.path.exists("key.pem")
+)
 app.secret_key = _load_or_create_secret_key() + SESSION_ID
 app.config["SECRET_KEY"] = app.secret_key
-app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SECURE"] = _c2_tls_deployed
 app.config["SESSION_COOKIE_HTTPONLY"] = True
-app.config["REMEMBER_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["REMEMBER_COOKIE_SECURE"] = _c2_tls_deployed
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PROPAGATE_EXCEPTIONS"] = False
 app.config["TRAP_HTTP_EXCEPTIONS"] = True
@@ -3292,9 +3334,6 @@ if not route_valid:
     logging.error("Error: c2_malleable_route is invalid: %s", route_error)
     sys.exit(1)
 
-if not os.path.exists(atomic_framework_path):
-    shell.onecmd("atomic_tests")
-
 
 class User(UserMixin):
     def __init__(self, user_data):
@@ -3451,9 +3490,7 @@ def index():
     session_data["params"] = make_serializable(session_data.get("params", {}))
     session_data["params"]["api_key"] = "Hidden conntent"
     connected_clients_list = list(connected_clients)
-    directories = [
-        d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))
-    ]
+    directories = _atomic_directories()
 
     commands_history = {}
     os_data = {}
@@ -3488,7 +3525,7 @@ def index():
     event_config = load_event_config()
     response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
+    for filename in _safe_listdir(TOOLS_DIR):
         if filename.endswith(".tool"):
             tool_path = os.path.join(TOOLS_DIR, filename)
             with open(tool_path, "r") as file:
@@ -4672,7 +4709,9 @@ import os  # noqa: E402
 
 from flask import Flask  # noqa: E402
 
-_DOWNLOAD_SAFE_SERVICE = _SafeFileService(Path(os.path.join(os.getcwd(), "sessions", "temp_uploads")))
+_UPLOADS_BASE = Path(os.path.join(os.getcwd(), "sessions", "temp_uploads"))
+_UPLOADS_BASE.mkdir(parents=True, exist_ok=True)
+_DOWNLOAD_SAFE_SERVICE = _SafeFileService(_UPLOADS_BASE)
 
 
 @app.route("/download/<path:file_path>", methods=["GET"])
@@ -5081,9 +5120,7 @@ def _api_data_inner():
     session_data["params"] = make_serializable(session_data.get("params", {}))
     session_data["params"]["api_key"] = "Hidden conntent"
     connected_clients_list = list(connected_clients)
-    directories = [
-        d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))
-    ]
+    directories = _atomic_directories()
 
     commands_history = {}
     os_data = {}
@@ -5118,7 +5155,7 @@ def _api_data_inner():
     event_config = load_event_config()
     response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
+    for filename in _safe_listdir(TOOLS_DIR):
         if filename.endswith(".tool"):
             tool_path = os.path.join(TOOLS_DIR, filename)
             with open(tool_path, "r") as file:
@@ -6332,7 +6369,7 @@ def list_tools():
     response = decoy()
     if response:
         return response
-    tools = [f for f in os.listdir(TOOLS_DIR) if f.endswith(".tool")]
+    tools = [f for f in _safe_listdir(TOOLS_DIR) if f.endswith(".tool")]
     return render_template("list_tools.html", tools=tools)
 
 
@@ -6370,7 +6407,7 @@ def view_tool(toolname):
     if response:
         return response
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
+    for filename in _safe_listdir(TOOLS_DIR):
         if filename.endswith(".tool"):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
             with open(tool_path_safe, "r") as file:
@@ -6403,7 +6440,7 @@ def update_tool(toolname):
         return response
 
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
+    for filename in _safe_listdir(TOOLS_DIR):
         if filename.endswith(".tool"):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
             with open(tool_path_safe, "r") as file:
@@ -6450,7 +6487,7 @@ def delete_tool(toolname):
         return response
 
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
+    for filename in _safe_listdir(TOOLS_DIR):
         if filename.endswith(".tool"):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
             with open(tool_path_safe, "r") as file:
@@ -7590,7 +7627,7 @@ def _render_legacy_report():
         report_data = {}
     tools = []
     try:
-        for filename in os.listdir(TOOLS_DIR):
+        for filename in _safe_listdir(TOOLS_DIR):
             if filename.endswith(".tool"):
                 tool_path = os.path.join(TOOLS_DIR, filename)
                 try:

@@ -62,7 +62,9 @@ def test_fast_path_routes_through_the_shared_runner(monkeypatch, tmp_path):
     runs = _patched(monkeypatch, tmp_path)
     from skills.lazyown_mcp import call_tool
 
-    response = loop_join(call_tool("lazyown_auto_loop", {"target": "10.0.0.9", "objective": "probe 10.0.0.9", "rounds": 2}))
+    response = loop_join(
+        call_tool("lazyown_auto_loop", {"target": "10.0.0.9", "objective": "probe 10.0.0.9", "rounds": 2})
+    )
     assert runs, "runner must be invoked"
     (params, line, verb) = runs[0]
     assert verb == "auto_loop"
@@ -108,7 +110,13 @@ def test_preflight_failed_summary_still_renders_the_task(monkeypatch, tmp_path):
     runs = _patched(
         monkeypatch,
         tmp_path,
-        run_result={"task_id": "t0009", "status": "preflight_failed", "rounds": 0, "overview": {}, "error": "target unreachable"},
+        run_result={
+            "task_id": "t0009",
+            "status": "preflight_failed",
+            "rounds": 0,
+            "overview": {},
+            "error": "target unreachable",
+        },
     )
     from skills.lazyown_mcp import call_tool
 
@@ -122,7 +130,7 @@ def test_schema_matches_the_shared_flags():
     """Given the tool schema, When inspected, Then it documents the shared runner limits."""
     from skills.mcp_tools.auto_loop import TOOL
 
-    props = TOOL.inputSchema["properties"]
+    props = dict(TOOL.input_schema or {})["properties"]
     assert "target" in props and "objective" in props and "legacy" in props
     assert "clamp 50" in props["rounds"]["description"]
     assert "max 5" in props["workers"]["description"]

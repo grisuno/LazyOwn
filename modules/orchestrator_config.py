@@ -86,6 +86,7 @@ FALLBACK_LIMITS: dict[str, int | float] = {
     "verb_timeout_sec": 300,
     "step_delay_sec": 0.5,
     "scan_reuse_sec": 21600,
+    "target_concurrency": 3,
 }
 
 FALLBACK_BUDGET: dict[str, int] = {"max_rounds": 10, "max_toolcalls": 200, "max_findings": 50}
@@ -120,6 +121,28 @@ FALLBACK_LEASES: dict[str, Any] = {
     "heartbeat_sec": 60.0,
 }
 
+FALLBACK_SS_CVE: dict[str, Any] = {
+    "enabled": True,
+    "max_services": 5,
+    "max_cves": 5,
+    "max_cve_results": 10,
+    "llm_summary": False,
+    "llm_model": "auto:",
+}
+
+FALLBACK_WORKER_COMMS: dict[str, Any] = {
+    "enabled": True,
+    "max_messages": 6,
+    "cross_task_only": True,
+}
+
+DECOY_MODES: tuple[str, ...] = ("off", "page", "deny")
+
+FALLBACK_DECOY: dict[str, Any] = {
+    "mode": "page",
+    "operator_allowlist": "127.0.0.1",
+}
+
 FALLBACK_BOUNDARY: dict[str, Any] = {
     "enabled": True,
 }
@@ -149,6 +172,7 @@ FALLBACK_SINKS: dict[str, bool] = {
     "event_bus": True,
     "report": True,
     "findings": True,
+    "loop_state": True,
 }
 
 FALLBACK_PACING: dict[str, Any] = {
@@ -634,6 +658,79 @@ def planner_config() -> dict[str, Any]:
     return merged
 
 
+def ss_cve_config() -> dict[str, Any]:
+    """Return resolved CVE-context settings for the ``ss`` command.
+
+    Precedence: module fallback < YAML profile ``ss_cve`` < payload
+    ``orchestrator.ss_cve``.
+
+    Returns:
+        Mapping with ``enabled``, ``max_services``, ``max_cves``,
+        ``max_cve_results``, ``llm_summary`` and ``llm_model``.
+    """
+    merged = dict(FALLBACK_SS_CVE)
+    merged.update(profile_config().get("ss_cve") or {})
+    merged.update(_section().get("ss_cve") or {})
+    merged["enabled"] = bool(merged.get("enabled", True))
+    merged["llm_summary"] = bool(merged.get("llm_summary", False))
+    for key in ("max_services", "max_cves", "max_cve_results"):
+        try:
+            merged[key] = max(1, int(merged.get(key, 0) or 0))
+        except (TypeError, ValueError):
+            merged[key] = FALLBACK_SS_CVE[key]
+    return merged
+
+
+def worker_comms_config() -> dict[str, Any]:
+    """Return resolved worker-communication settings.
+
+    Controls whether loop workers read the SQLite message board
+    (footholds, notes, intel published by sibling workers) into their
+    prompt context.
+
+    Returns:
+        Mapping with ``enabled``, ``max_messages`` and
+        ``cross_task_only``.
+    """
+    merged = dict(FALLBACK_WORKER_COMMS)
+    merged.update(profile_config().get("worker_comms") or {})
+    merged.update(_section().get("worker_comms") or {})
+    merged["enabled"] = bool(merged.get("enabled", True))
+    merged["cross_task_only"] = bool(merged.get("cross_task_only", True))
+    try:
+        merged["max_messages"] = max(1, int(merged.get("max_messages", 0) or 0))
+    except (TypeError, ValueError):
+        merged["max_messages"] = FALLBACK_WORKER_COMMS["max_messages"]
+    return merged
+
+
+def decoy_config() -> dict[str, Any]:
+    """Return resolved C2 decoy (honeypot page) settings.
+
+    Precedence: module fallback < YAML profile ``decoy`` < payload
+    ``orchestrator.decoy``. The legacy top-level payload keys
+    (``c2_decoy_mode``, ``c2_operator_ip_allowlist``) win over everything
+    so existing deployments keep their explicit choice.
+
+    Returns:
+        Mapping with ``mode`` (``off|page|deny``) and
+        ``operator_allowlist`` (CSV of operator IPs).
+    """
+    merged = dict(FALLBACK_DECOY)
+    merged.update(profile_config().get("decoy") or {})
+    merged.update(_section().get("decoy") or {})
+    payload = _payload()
+    legacy_mode = str(payload.get("c2_decoy_mode", "") or "").strip().lower()
+    if legacy_mode in DECOY_MODES:
+        merged["mode"] = legacy_mode
+    legacy_allowlist = str(payload.get("c2_operator_ip_allowlist", "") or "").strip()
+    if legacy_allowlist:
+        merged["operator_allowlist"] = legacy_allowlist
+    mode = str(merged.get("mode", "") or "").strip().lower()
+    merged["mode"] = mode if mode in DECOY_MODES else FALLBACK_DECOY["mode"]
+    return merged
+
+
 def engagement_mode() -> str:
     """Return the active engagement mode (pentest | redteam | ctf).
 
@@ -1028,7 +1125,7 @@ def validate_config(data: Any) -> list[str]:
         for key in ("limits", "budget", "sinks", "findings", "progress", "pacing"):
             if key in profile and not isinstance(profile[key], dict):
                 errors.append(f"profile {name} {key} must be a mapping")
-        for key in ("termination", "leases", "boundary", "evidence"):
+        for key in ("termination", "leases", "boundary", "evidence", "ss_cve", "worker_comms", "decoy"):
             if key in profile and not isinstance(profile[key], dict):
                 errors.append(f"profile {name} {key} must be a mapping")
         planner = profile.get("planner") or {}
@@ -1172,8 +1269,11 @@ __all__ = [
     "FALLBACK_PLANNER",
     "FALLBACK_PROGRESS",
     "FALLBACK_SINKS",
+    "FALLBACK_SS_CVE",
     "FALLBACK_STAGES",
     "FALLBACK_TERMINATION",
+    "FALLBACK_WORKER_COMMS",
+    "DECOY_MODES",
     "ORCHESTRATOR_YAML_PATH",
     "STAGE_DEFS",
     "TERMINATION_MODES",
@@ -1203,9 +1303,12 @@ __all__ = [
     "stage_enabled",
     "stage_params",
     "stages",
+    "ss_cve_config",
     "termination",
     "upsert_verb",
     "validate_config",
     "verb_config",
     "verb_enabled",
+    "worker_comms_config",
+    "decoy_config",
 ]

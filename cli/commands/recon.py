@@ -538,6 +538,42 @@ class ReconCommandSet(LazyOwnCommandSet):
 
         rhost = self.params.get("rhost") or ""
 
+        def _emit_cve_context(payload_builder) -> None:
+            try:
+                from modules import orchestrator_config as _oc
+                from modules import ss_cve_context as _ss_cve
+
+                cfg = _oc.ss_cve_config()
+                if not cfg.get("enabled"):
+                    return
+                payload = payload_builder(cfg)
+                if not payload.get("total_cves"):
+                    return
+                block = _ss_cve.render_block(payload)
+                if block:
+                    print_msg("CVE context (LLM-ready, untrusted):")
+                    print_msg(block)
+                summary = _ss_cve.llm_summary(payload, cfg)
+                if summary:
+                    print_msg("CVE ranking (LLM):")
+                    print_msg(summary)
+                    payload["llm_summary"] = summary
+                saved = _ss_cve.save_context(payload, rhost)
+                _ss_cve.publish_intel(payload, rhost)
+                print_msg(f"CVE context saved to {saved}")
+            except Exception as exc:
+                print_error(f"CVE context enrichment failed: {exc}")
+
+        def _ss_cve_for_results(cfg):
+            from modules import ss_cve_context as _mod
+
+            return _mod.build_for_services(_mod.rows_from_results(results), cfg)
+
+        def _ss_cve_for_query(cfg):
+            from modules import ss_cve_context as _mod
+
+            return _mod.build_for_query(query, cfg)
+
         def _run_single_search(query: str) -> list[ExploitHit]:
             hits: list[ExploitHit] = []
             import subprocess as _sp
@@ -592,6 +628,7 @@ class ReconCommandSet(LazyOwnCommandSet):
             print_msg(f"Results saved to {saved}")
             if n_tasks:
                 print_msg(f"{n_tasks} task(s) added — run 'tasks' to view")
+            _emit_cve_context(lambda cfg: _ss_cve_for_results(cfg))
             return
 
         # ── Manual mode: existing multi-source search + next-step table ───
@@ -669,6 +706,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         if rhost and dummy_hits:
             inject_exploit_tasks([dummy_result], rhost)
             print_msg("Task created in tasks.json — run 'tasks' to view")
+        _emit_cve_context(lambda cfg: _ss_cve_for_query(cfg))
 
     @cmd2.with_category(scanning_category)
     def do_wfuzz(self, line):

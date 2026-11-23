@@ -111,7 +111,12 @@ class TestSessionForTarget:
         monkeypatch.setattr(
             preflight,
             "lab_state_for",
-            lambda target: {"scenario": "php2shell56", "container": "lazyown-lab-php2shell56", "ip": "172.17.0.9", "running": True},
+            lambda target: {
+                "scenario": "php2shell56",
+                "container": "lazyown-lab-php2shell56",
+                "ip": "172.17.0.9",
+                "running": True,
+            },
         )
         confirmed: list[str] = []
         monkeypatch.setattr(pr, "confirm_outcome", lambda host, output="", task_id="": confirmed.append(host) or True)
@@ -254,6 +259,7 @@ class TestHandoffFallback:
             "_php2shell_session_for",
             lambda target, payload=None: FakeSession(),
         )
+        monkeypatch.setattr(handoff, "_ensure_c2_for_handoff", lambda payload, log: True)
         monkeypatch.setattr("modules.bof_delivery.deploy_client", FakeDelivery.deploy_client)
         monkeypatch.setattr("modules.beacon_loop.run_beacon_loop", FakeLoop.run_beacon_loop)
         monkeypatch.setattr("modules.beacon_loop.write_report", FakeLoop.write_report)
@@ -261,8 +267,6 @@ class TestHandoffFallback:
         def fake_tlog(line: str) -> None:
             events.append(line)
 
-        handoff._handoff_worker(
-            "172.17.0.9", "test", fake_tlog, tmp_path, 1.0, 1
-        )
+        handoff._handoff_worker("172.17.0.9", "test", fake_tlog, tmp_path, 1.0, 1)
         assert any("session=FakeSession" in e for e in events)
         assert any("php2shell HTTP RCE session confirmed" in e for e in events)

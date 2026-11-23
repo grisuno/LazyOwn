@@ -182,7 +182,7 @@
     "cli/commands/privilege_escalation.py": "cadce76403468e2479cbfab0146e0d60354fa16bbd0712c32012d6f6826e99d4",
     "cli/commands/purple_team.py": "c94742dca374ba5c5dfa1409f6abbe0712e19721cd04dee2a428011ae83e2d9b",
     "cli/commands/pwn.py": "fad030c762e6ec2e633335b0493932f6d1845aefda87d14341d82123873a4c1c",
-    "cli/commands/recon.py": "1e9e02539325087869b7308bdb5a2ee6ce8709151315b835cf2ef187f61b4c62",
+    "cli/commands/recon.py": "1db3ba0c9710626c1e822abf1dc69feeb3532b16ce620294e988b83a22e9170c",
     "cli/commands/redteam_gym.py": "7afb467fb4e5bf711b82b89782b00d1cdb69c8e0d776fd63e262464cc352561b",
     "cli/commands/report.py": "750041ff28d9bfaad4f1ef85c36f44cf885a426e8046ce013911a34973dd234d",
     "cli/commands/report_enhanced.py": "98a90162b98fde872a6fca66c6c474e3184c27cbf5325de5bb12fbc77a73ac94",
@@ -9323,7 +9323,7 @@
     },
     {
       "name": "do_wfuzz",
-      "line": 674,
+      "line": 712,
       "summary": "Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9334,7 +9334,7 @@
     },
     {
       "name": "do_surface",
-      "line": 791,
+      "line": 829,
       "summary": "Render the network surface graph in the terminal.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9345,7 +9345,7 @@
     },
     {
       "name": "do_getcap",
-      "line": 845,
+      "line": 883,
       "summary": "Retrieve and display file capabilities on the system.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9356,7 +9356,7 @@
     },
     {
       "name": "do_launchpad",
-      "line": 879,
+      "line": 917,
       "summary": "Searches for packages on Launchpad based on the provided search term and extracts codenames from the results. The distribution is extracted from the search ter…",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9367,7 +9367,7 @@
     },
     {
       "name": "do_ping",
-      "line": 925,
+      "line": 963,
       "summary": "Perform a ping to check host availability and infer the operating system based on TTL values.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9378,7 +9378,7 @@
     },
     {
       "name": "do_gospider",
-      "line": 1003,
+      "line": 1041,
       "summary": "Try gospider for web spidering.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9389,7 +9389,7 @@
     },
     {
       "name": "do_proxy",
-      "line": 1085,
+      "line": 1123,
       "summary": "Runs a small proxy server to modify HTTP requests on the fly.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9400,7 +9400,7 @@
     },
     {
       "name": "do_ports",
-      "line": 1120,
+      "line": 1158,
       "summary": "Lists all open TCP and UDP ports on the local system.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9411,7 +9411,7 @@
     },
     {
       "name": "do_tcpdump_icmp",
-      "line": 1162,
+      "line": 1200,
       "summary": "Starts `tcpdump` to capture ICMP traffic on the specified interface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9422,7 +9422,7 @@
     },
     {
       "name": "do_tcpdump_capture",
-      "line": 1193,
+      "line": 1231,
       "summary": "Starts packet capture using `tcpdump` on the specified interface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9433,7 +9433,7 @@
     },
     {
       "name": "do_tshark_analyze",
-      "line": 1234,
+      "line": 1272,
       "summary": "Analyzes a packet capture file using `tshark` based on the provided remote host IP.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9444,7 +9444,7 @@
     },
     {
       "name": "do_waybackmachine",
-      "line": 1299,
+      "line": 1337,
       "summary": "Fetch URLs from the Wayback Machine for a given website.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9455,7 +9455,7 @@
     },
     {
       "name": "do_sslscan",
-      "line": 1333,
+      "line": 1371,
       "summary": "Run an SSL scan on the specified remote host.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9466,7 +9466,7 @@
     },
     {
       "name": "do_graudit",
-      "line": 1374,
+      "line": 1412,
       "summary": "Executes the graudit command to perform a static code analysis with the specified options.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9477,7 +9477,7 @@
     },
     {
       "name": "do_sherlock",
-      "line": 1405,
+      "line": 1443,
       "summary": "Executes the Sherlock tool to find usernames across social networks.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9488,7 +9488,7 @@
     },
     {
       "name": "do_trufflehog",
-      "line": 1446,
+      "line": 1484,
       "summary": "Executes trufflehog to search for secrets in a given Git repository URL.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9499,7 +9499,7 @@
     },
     {
       "name": "do_apache_users",
-      "line": 1484,
+      "line": 1522,
       "summary": "Performs enumeration of users from a target system using `apache-users`.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9510,7 +9510,7 @@
     },
     {
       "name": "do_trace",
-      "line": 1533,
+      "line": 1571,
       "summary": "Traces the DNS information for a given self.params['domain'] using the FreeDNS service. (using freedns IP Not your IP)",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9521,7 +9521,7 @@
     },
     {
       "name": "do_alterx",
-      "line": 1576,
+      "line": 1614,
       "summary": "Executes the 'alterx' command for subdomain enumeration on the provided self.params['domain']. If 'alterx'",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9532,7 +9532,7 @@
     },
     {
       "name": "do_windapsearchscrapeusers",
-      "line": 1657,
+      "line": 1695,
       "summary": "Extracts usernames from a JSON output generated by go-windapsearch and appends them",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9543,7 +9543,7 @@
     },
     {
       "name": "do_cve",
-      "line": 1693,
+      "line": 1731,
       "summary": "Search for a CVE using the CIRCL API.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9554,7 +9554,7 @@
     },
     {
       "name": "do_serveralive2",
-      "line": 1742,
+      "line": 1780,
       "summary": "Command serveralive2: Uses Impacket to connect to a remote MSRPC interface and retrieves the server bindings.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9565,7 +9565,7 @@
     },
     {
       "name": "do_binarycheck",
-      "line": 1776,
+      "line": 1814,
       "summary": "Performs various checks on a selected binary to gather information and protections.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9576,7 +9576,7 @@
     },
     {
       "name": "do_dnstool_py",
-      "line": 1820,
+      "line": 1858,
       "summary": "Executes the dnstool.py tool to modify Active Directory-integrated DNS records.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9587,7 +9587,7 @@
     },
     {
       "name": "do_metabigor",
-      "line": 1865,
+      "line": 1903,
       "summary": "Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9598,7 +9598,7 @@
     },
     {
       "name": "do_httprobe",
-      "line": 1944,
+      "line": 1982,
       "summary": "Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9609,7 +9609,7 @@
     },
     {
       "name": "do_recon",
-      "line": 1987,
+      "line": 2025,
       "summary": "Performs reconnaissance on a specified self.params['domain'] using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9620,7 +9620,7 @@
     },
     {
       "name": "do_dnschef",
-      "line": 2047,
+      "line": 2085,
       "summary": "Executes the DNSChef tool to monitor DNS queries and intercept responses.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9631,7 +9631,7 @@
     },
     {
       "name": "do_ipinfo",
-      "line": 2082,
+      "line": 2120,
       "summary": "Retrieves detailed information about an IP address using the ARIN API.",
       "category": "01. Reconnaissance",
       "phase": "recon",

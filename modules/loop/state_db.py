@@ -12,6 +12,7 @@ import sqlite3
 import threading
 from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parents[2]
 DB_DIRNAME = "sessions/db"
 DB_FILENAME = "loop_state.db"
 _BUSY_TIMEOUT_SEC = 10.0
@@ -20,7 +21,7 @@ _local = threading.local()
 
 def default_db_path() -> Path:
     """Return the default loop state database path under sessions."""
-    return Path(DB_DIRNAME) / DB_FILENAME
+    return BASE_DIR / DB_DIRNAME / DB_FILENAME
 
 
 def connect(db_path: str | Path | None = None) -> sqlite3.Connection:

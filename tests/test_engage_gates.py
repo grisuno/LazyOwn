@@ -55,8 +55,7 @@ class _RecorderNarrator:
 
 def _approved_gate():
     """Return a gate double that approves everything."""
-    return SimpleNamespace(
-        request=lambda **_kwargs: SimpleNamespace(is_approved=True, rationale="ok"))
+    return SimpleNamespace(request=lambda **_kwargs: SimpleNamespace(is_approved=True, rationale="ok"))
 
 
 @pytest.fixture
@@ -71,8 +70,7 @@ def temp_sessions(tmp_path, monkeypatch):
     return sessions_dir
 
 
-def _orch(target: str = "10.10.11.5", scripted: dict | None = None,
-          plan=None, guard=None):
+def _orch(target: str = "10.10.11.5", scripted: dict | None = None, plan=None, guard=None):
     """Build an engage orchestrator with doubles."""
     from autonomous_daemon import EngageOrchestrator
 
@@ -92,12 +90,13 @@ def test_denied_command_never_executes(temp_sessions):
 
     from modules.intercept import Guard, Interceptor, InterceptRule
 
-    guard = Guard(interceptor=Interceptor(
-        rules=[InterceptRule(pattern="evilwipe", action="deny", priority=50)]))
+    guard = Guard(interceptor=Interceptor(rules=[InterceptRule(pattern="evilwipe", action="deny", priority=50)]))
     orch = _orch(
         scripted={"ping": "1 packets received open"},
-        plan=(EnginePhaseStep(phase="recon", primary="ping", label="p"),
-              EnginePhaseStep(phase="exploit", primary="evilwipe now", label="e")),
+        plan=(
+            EnginePhaseStep(phase="recon", primary="ping", label="p"),
+            EnginePhaseStep(phase="exploit", primary="evilwipe now", label="e"),
+        ),
         guard=guard,
     )
     summary = orch.run()
@@ -113,8 +112,10 @@ def test_duplicate_success_is_skipped(temp_sessions):
 
     orch = _orch(
         scripted={"ping": "1 packets received open"},
-        plan=(EnginePhaseStep(phase="recon", primary="ping", label="a"),
-              EnginePhaseStep(phase="recon", primary="ping", label="b")),
+        plan=(
+            EnginePhaseStep(phase="recon", primary="ping", label="a"),
+            EnginePhaseStep(phase="recon", primary="ping", label="b"),
+        ),
     )
     summary = orch.run()
     assert summary["steps"][1]["skipped_reason"] == "duplicate_of_successful_step"
@@ -128,8 +129,10 @@ def test_scan_step_skipped_when_scan_held(temp_sessions):
     (temp_sessions / "scan_10.10.11.5.nmap").write_text("<nmap/>")
     orch = _orch(
         scripted={"ping": "1 packets received open"},
-        plan=(EnginePhaseStep(phase="recon", primary="ping", label="a"),
-              EnginePhaseStep(phase="recon", primary="lazynmap", label="b")),
+        plan=(
+            EnginePhaseStep(phase="recon", primary="ping", label="a"),
+            EnginePhaseStep(phase="recon", primary="lazynmap", label="b"),
+        ),
     )
     summary = orch.run()
     assert summary["steps"][1]["skipped_reason"] == "scan_already_held"
@@ -156,8 +159,7 @@ def test_notify_journal_written_for_findings(temp_sessions):
     """BDD: high-value notifications render redacted and journal."""
     import autonomous_daemon
 
-    autonomous_daemon._notify_finding("Shell on 10.0.0.1 sk-abcdef123456", "lazymsfvenom",
-                                      severity="critical")
+    autonomous_daemon._notify_finding("Shell on 10.0.0.1 sk-abcdef123456", "lazymsfvenom", severity="critical")
     rows = (temp_sessions / "notifications.jsonl").read_text().splitlines()
     assert rows and "[REDACTED]" in rows[0]
     assert json.loads(rows[0])["severity"] == "critical"
@@ -177,15 +179,13 @@ def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch):
     """BDD: a changed world wakes planner intents mapped to own verbs."""
     import autonomous_daemon
 
-    (temp_sessions / "world_model.json").write_text(
-        '{"hosts": {"10.10.11.5": {"state": "scanned"}}}')
+    (temp_sessions / "world_model.json").write_text('{"hosts": {"10.10.11.5": {"state": "scanned"}}}')
 
     class _Dispatcher:
         def suggest(self, **_kwargs):
             return ("facts_show awakened", object())
 
-    monkeypatch.setattr(autonomous_daemon, "_get_dispatcher",
-                        lambda: (lambda: _Dispatcher()))
+    monkeypatch.setattr(autonomous_daemon, "_get_dispatcher", lambda: _Dispatcher())
     orch = _orch(scripted={"facts_show": "found service ssh open"})
     results: list = []
     assert orch._run_planner_intents(results, fp_before="") is False
@@ -205,20 +205,16 @@ def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch):
     class _EmptyPlanner:
         def plan(self, target: str, max_candidates: int = 10) -> PlanResult:
             """Report no candidates."""
-            return PlanResult(target=target, candidates=[], chosen=None,
-                              rationale="empty", facts_observed=["fact-1"])
+            return PlanResult(target=target, candidates=[], chosen=None, rationale="empty", facts_observed=["fact-1"])
 
     class _Dispatcher:
         def suggest(self, **_kwargs):
             return ("facts_show fallback", object())
 
-
-    monkeypatch.setattr(autonomous_daemon, "_get_dispatcher",
-                        lambda: (lambda: _Dispatcher()))
+    monkeypatch.setattr(autonomous_daemon, "_get_dispatcher", lambda: _Dispatcher())
     orch = _orch(scripted={"facts_show": "found facts open"})
     results: list = []
-    assert orch._run_planner_intents(results, fp_before="stale",
-                                     planner=_EmptyPlanner()) is False
+    assert orch._run_planner_intents(results, fp_before="stale", planner=_EmptyPlanner()) is False
     assert len(results) == 1
     assert "PLANNER_FALLBACK" in orch._narrator.kinds
 
@@ -231,10 +227,18 @@ def test_latest_hint_renders_newest_event(tmp_path):
 
     assert latest_hint(str(tmp_path / "missing.jsonl")) == ""
     path = tmp_path / "events.jsonl"
-    path.write_text(_json.dumps({"id": "1", "ts": "2026-01-01T00:00:00",
-                                 "type": "STEP_START", "severity": "info",
-                                 "payload": {"command": "lazynmap",
-                                             "phase": "recon"}}) + "\n")
+    path.write_text(
+        _json.dumps(
+            {
+                "id": "1",
+                "ts": "2026-01-01T00:00:00",
+                "type": "STEP_START",
+                "severity": "info",
+                "payload": {"command": "lazynmap", "phase": "recon"},
+            }
+        )
+        + "\n"
+    )
     hint = latest_hint(str(path))
     assert "STEP_START" in hint and "lazynmap" in hint
 
@@ -253,8 +257,10 @@ def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch):
 
     orch = _orch(scripted={"ping": "1 packets received open"})
     orch._narrator = _Narrator()
-    orch._plan = (EnginePhaseStep(phase="recon", primary="ping", label="a"),
-                  EnginePhaseStep(phase="recon", primary="ping", label="b"))
+    orch._plan = (
+        EnginePhaseStep(phase="recon", primary="ping", label="a"),
+        EnginePhaseStep(phase="recon", primary="ping", label="b"),
+    )
     orch.run()
     done = next(m for m in messages if "finished" in m)
     assert "1 ran" in done and "1 skipped" in done

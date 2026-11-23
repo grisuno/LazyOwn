@@ -89,7 +89,7 @@ class TestPlannerFireIntent:
         assert priorities and priorities[0] <= 2, story
 
     def test_planner_dedupes_after_first_proposal(self, fire_report, monkeypatch):
-        story = "already queued fire actions never repeat (exclude set)"
+        story = "already queued fire actions never repeat (exclude set); the cascade may still propose other directions"
         import modules.lazy_loop as loop
         from modules.lazy_engine import LazyEngine
 
@@ -99,7 +99,11 @@ class TestPlannerFireIntent:
         graph = loop.ExplorationGraph(task_id)
         graph.add_node("intent", f"run action: lazyautofire fire {REPORT_TARGET}", priority=2)
         planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
-        assert planner._selector_candidates() == [], story
+        candidates = planner._selector_candidates()
+        assert all(
+            f"run action: lazyautofire fire {REPORT_TARGET}" not in (c[0] or "")
+            for c in candidates
+        ), story
 
 
 class TestWorkerExecutesFireAction:

@@ -4200,9 +4200,9 @@ numpy==2.5.5 ; python_full_version >= '3.12' \
     #   scipy
     #   seaborn
     #   torchvision
-nvidia-cublas==13.1.1.3 ; python_full_version < '3.11' and sys_platform == 'linux' \
-    --hash=sha256:37936a16db8fe4ac1f065c2139360608a543a09275cb1a1af612e08cfa065436 \
-    --hash=sha256:b7a210458267ac818974c53038fbec2e969d5c99f305ab15c72522fa9f001dd5
+nvidia-cublas==13.10.1.6 ; python_full_version < '3.11' and sys_platform == 'linux' \
+    --hash=sha256:0052e19ce6afed797ee445c60463de2460e950d9bb16ceac1ddd2141f611fbc1 \
+    --hash=sha256:0f26cf49a81377fd96f519e28fd56c5f638a2581f303d531f60e633fb222e1ea
     # via
     #   cuda-toolkit
     #   nvidia-cudnn-cu13

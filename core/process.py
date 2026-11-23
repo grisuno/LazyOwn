@@ -248,7 +248,25 @@ def run_command(command: str, timeout: float | None = None) -> str:
         exit_code = process.returncode
         output += "".join(stderr_chunks)
         _print_run_command_status(command, time.monotonic() - start_time, exit_code)
+        _purple_sync_capture(command, exit_code)
     return output
+
+
+def _purple_sync_capture(command: str, exit_code: int | None) -> None:
+    """Forward executed commands to the purple-sync SIEM spool.
+
+    Never raises: telemetry must not break command execution.
+
+    Args:
+        command: Command line that ran.
+        exit_code: Exit status of the process.
+    """
+    try:
+        from modules import purple_sync
+
+        purple_sync.hook_command(command, exit_code)
+    except Exception:
+        pass
 
 
 def ensure_tmux_session(session_name: str) -> None:

@@ -367,6 +367,16 @@ class SemanticStore(IMemoryStore):
         if not _CHROMA_OK:
             return None
         try:
+            from modules.orchestrator_config import chroma_config
+
+            if not chroma_config().get("enabled"):
+                log.info(
+                    "hive_mind: ChromaDB disabled by orchestrator.chroma.enabled=false (opt-in); episodic fallback active"
+                )
+                return None
+        except Exception:
+            return None
+        try:
             client = chromadb.PersistentClient(path=str(chroma_dir))
             return client.get_or_create_collection(
                 name="hive_memory",

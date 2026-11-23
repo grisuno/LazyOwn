@@ -17,7 +17,7 @@ LazyOwn is a professional pentest/red-team framework:
 
 - **CLI** (`lazyown.py`): cmd2 shell with 879 commands and 130 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
-- **MCP** (`skills/lazyown_mcp.py`): 191 tools exposing the framework to AI agents.
+- **MCP** (`skills/lazyown_mcp.py`): 194 tools exposing the framework to AI agents.
 - **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
 - **Module Registry** (`modules/module_registry.py`): Catalog of 120+ modules from lazyaddons, plugins, tools, playbooks — search, use, run workflow.
 - **Payload Factory** (`modules/payload_factory.py`): Native payload generation (reverse shells, PowerShell, shellcode) with format conversion.
@@ -172,7 +172,7 @@ bash scripts/setup_hermes_mcp.sh
 | `lazyown_facts_show` | After auto_populate — displays discovered ports, services, versions |
 | `lazyown_recommend_next` | When unsure what to do — Groq ranks 3-5 next commands |
 
-For the full 191-tool reference see `skills/lazyown.md`.
+For the full 194-tool reference see `skills/lazyown.md`.
 
 ---
 
@@ -225,7 +225,7 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `CHEATSHEET.md` | ~300 | ~40 frequent commands by user goal |
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
-| `skills/lazyown.md` | ~1600 | Complete 191-tool MCP playbook |
+| `skills/lazyown.md` | ~1600 | Complete 194-tool MCP playbook |
 | `COMMANDS.md` | ~1600 | Full 879-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
 

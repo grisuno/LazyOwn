@@ -63,3 +63,17 @@ pandas = optional_import("pandas")  # deferred proxy when missing
 if pandas:  # proxy is falsy
     frame = pandas.DataFrame(rows)
 ```
+
+## Safe execution wrappers — one home per concern (dedup contract)
+
+Three runners exist; pick by semantics, never reimplement:
+
+| Wrapper | Semantics | Use when |
+|---|---|---|
+| `core.hardening.safe_subprocess_run` | argv list, `shell=False`, env injection, control-char rejection | Default for new code running a known program |
+| `core.safe_exec` (safe_system / safe_run_argv / safe_run_shell) | shell metachar guard + process-tree kill + timeout | Fixed shell strings, long-running tools needing group kill |
+| `core.safe_subprocess.SafeRunner` | default-deny policy gate + JSON audit trail | Explicit `allow=True` shell execution with justification |
+
+`SafeRunner.run` delegates to `safe_subprocess_run` (single hardened argv
+implementation). `core/logging.py` was retired: `modules/logging_config.py`
+is the only logging bootstrap (18 consumers).

@@ -136,6 +136,11 @@ FALLBACK_WORKER_COMMS: dict[str, Any] = {
     "cross_task_only": True,
 }
 
+FALLBACK_CHROMA: dict[str, Any] = {
+    "enabled": False,
+    "reason": "chromadb is on an unpatched critical CVE path; opt in explicitly",
+}
+
 DECOY_MODES: tuple[str, ...] = ("off", "page", "deny")
 
 FALLBACK_DECOY: dict[str, Any] = {
@@ -678,6 +683,24 @@ def ss_cve_config() -> dict[str, Any]:
             merged[key] = max(1, int(merged.get(key, 0) or 0))
         except (TypeError, ValueError):
             merged[key] = FALLBACK_SS_CVE[key]
+    return merged
+
+
+def chroma_config() -> dict[str, Any]:
+    """Return resolved ChromaDB/RAG settings.
+
+    Precedence: module fallback < YAML profile ``chroma`` < payload
+    ``orchestrator.chroma``. Default is OFF: the chromadb dependency
+    currently has an unpatched critical advisory, so vector search is an
+    explicit operator opt-in (``orchestrator.chroma.enabled: true``).
+
+    Returns:
+        Mapping with ``enabled``.
+    """
+    merged = dict(FALLBACK_CHROMA)
+    merged.update(profile_config().get("chroma") or {})
+    merged.update(_section().get("chroma") or {})
+    merged["enabled"] = bool(merged.get("enabled", False))
     return merged
 
 
@@ -1273,6 +1296,7 @@ __all__ = [
     "FALLBACK_STAGES",
     "FALLBACK_TERMINATION",
     "FALLBACK_WORKER_COMMS",
+    "FALLBACK_CHROMA",
     "DECOY_MODES",
     "ORCHESTRATOR_YAML_PATH",
     "STAGE_DEFS",

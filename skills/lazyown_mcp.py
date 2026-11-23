@@ -866,6 +866,7 @@ try:
         get_claudemd=_get_claudemd,
         job_store=_job_store,
         list_tools=_all_tools,
+        call_tool=lambda tool_name, tool_args: call_tool(tool_name, tool_args),
         sitrep_recommendations=_sitrep_recommendations,
     )
     _REGISTERED_TOOL_NAMES = _register_registry_handlers(_TOOL_HANDLERS, _MCP_TOOL_CONTEXT)
@@ -1095,8 +1096,34 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 # constructor-injected request handlers; these adapters keep the legacy
 # implementations above verbatim and bridge the result shapes.
 
+_META_TOOL_NAMES = frozenset(
+    {
+        "lazyown_discover",
+        "lazyown_inspect_tool_schema",
+        "lazyown_execute_verb",
+    }
+)
+
+
+def _meta_only_listing() -> bool:
+    """Resolve the progressive-disclosure listing mode.
+
+    ``LAZYOWN_MCP_META=1`` (default) advertises only the meta tools so
+    every MCP client burns ~85% less context on tools/list; the whole
+    catalogue stays callable through ``lazyown_execute_verb``. Set
+    ``LAZYOWN_MCP_META=0`` to restore the full advertisement for clients
+    that enumerate tools themselves.
+
+    Returns:
+        True when only the meta tools should be advertised.
+    """
+    return os.environ.get("LAZYOWN_MCP_META", "1") != "0"
+
+
 async def _on_list_tools(context, params) -> types.ListToolsResult:
     tools = await list_tools()
+    if _meta_only_listing():
+        tools = [tool for tool in tools if getattr(tool, "name", "") in _META_TOOL_NAMES]
     return types.ListToolsResult(tools=tools)
 
 

@@ -271,3 +271,17 @@ skips = [
     "B501",
     "B701",
 ]
+
+[tool.uv]
+# The lock is authoritative: uv.lock guarantees reproducible installs for
+# every consumer (CI, Docker, pip-audit, Dependabot).
+package = true
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "pre-commit",
+]

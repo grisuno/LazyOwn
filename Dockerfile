@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpcap-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY requirements.txt uv.lock pyproject.toml .
 RUN pip install --upgrade pip && \
     pip install --prefix=/install -r requirements.txt
 

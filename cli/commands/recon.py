@@ -560,9 +560,29 @@ class ReconCommandSet(LazyOwnCommandSet):
                     payload["llm_summary"] = summary
                 saved = _ss_cve.save_context(payload, rhost)
                 _ss_cve.publish_intel(payload, rhost)
+                _store_service_context(payload)
                 print_msg(f"CVE context saved to {saved}")
             except Exception as exc:
                 print_error(f"CVE context enrichment failed: {exc}")
+
+        def _store_service_context(payload) -> None:
+            try:
+                from modules import cve_local as _cve_local
+
+                services = [
+                    {
+                        "service": f"{row.get('name', '')}:{row.get('port', '')}",
+                        "product": row.get("product", ""),
+                        "version": row.get("version", ""),
+                        "cves": [cve.get("cve", "") for cve in row.get("cves", []) if cve.get("cve")],
+                    }
+                    for row in payload.get("services", [])
+                ]
+                stored = _cve_local.store_context(rhost, services)
+                if stored:
+                    print_msg(f"Service snapshot stored ({stored} rows): cve_search --rhost answers instantly")
+            except Exception as exc:
+                print_error(f"Service context persistence skipped: {exc}")
 
         def _ss_cve_for_results(cfg):
             from modules import ss_cve_context as _mod

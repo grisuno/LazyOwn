@@ -76,7 +76,7 @@ Full setup: https://github.com/grisuno/LazyOwnOpenCodeAdapter
 | `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
 | `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## MCP Tool Groups (191 tools)
+## MCP Tool Groups (194 tools)
 
 | Group | Tools | Description |
 |-------|-------|-------------|

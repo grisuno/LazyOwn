@@ -37,7 +37,7 @@ cmd2==4.4.3
 colorama==0.4.6
 colored-traceback==0.4.2
 construct==2.10.70
-cryptography==42.0.8
+cryptography==50.0.0
 cssselect==1.6.0
 cssutils==2.15.0
 defusedxml==0.7.1

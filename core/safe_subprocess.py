@@ -73,6 +73,10 @@ class SafeRunner:
     def run(self, argv: Sequence[str], *, timeout: float | None = None) -> SafeRunResult:
         """Execute ``argv`` without invoking a shell.
 
+        Delegates to :func:`core.hardening.safe_subprocess_run`, the single
+        hardened argv runner shared by the whole core layer, and wraps the
+        result in :class:`SafeRunResult` for this module's API shape.
+
         Args:
             argv: The program and its arguments as a sequence of strings.
             timeout: Optional wall-clock timeout in seconds.
@@ -84,16 +88,12 @@ class SafeRunner:
             FileNotFoundError: if the program does not exist.
             subprocess.TimeoutExpired: if the timeout elapses.
         """
+        from core.hardening import safe_subprocess_run
+
         if not argv:
             raise ValueError("argv must contain at least the program name")
         start = time.monotonic()
-        completed = subprocess.run(
-            list(argv),
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-        )
+        completed = safe_subprocess_run(argv, timeout=timeout)
         duration = time.monotonic() - start
         return SafeRunResult(
             returncode=completed.returncode,

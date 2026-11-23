@@ -2964,5 +2964,35 @@ class LazyCommandSet(LazyOwnCommandSet):
             return
         print_error("Usage: lazy_pacing [list|set <key> <value>]")
 
+    @cmd2.with_category(ai_category)
+    def do_loop_trace(self, line):
+        """Standalone interactive HTML trace of one autonomous run.
+
+        Usage:
+            loop_trace [task_id]    build sessions/traces/trace_<task>.html
+            loop_trace index        rebuild sessions/traces/index.html
+            loop_trace list         list tasks with an audit trail
+        """
+        from modules import loop_trace as trace_module
+
+        args = shlex.split(line) if line.strip() else []
+        if not args or args[0] in ("list",):
+            tasks = trace_module.list_tasks_with_traces()
+            print_msg(f"Tasks with audit trails: {', '.join(tasks[:40])}" + (" ..." if len(tasks) > 40 else ""))
+            if not args:
+                print_msg("Usage: loop_trace <task_id> | index | list")
+            return
+        if args[0] == "index":
+            print_msg(f"Trace index: {trace_module.write_index()}")
+            return
+        task_id = args[0]
+        try:
+            path = trace_module.write_trace(task_id)
+        except Exception as exc:
+            print_error(f"Trace build failed: {exc}")
+            return
+        print_msg(f"Trace written: {path}")
+        print_msg("Open it in a browser: standalone HTML, no external assets.")
+
 
 __all__ = ["LazyCommandSet"]

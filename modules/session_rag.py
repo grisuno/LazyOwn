@@ -200,8 +200,17 @@ class SessionRAG:
     # Backend init
     # ------------------------------------------------------------------
     def _init_backend(self) -> None:
-        if not _CHROMA_OK:
-            log.info("session_rag: chromadb not installed — using keyword fallback")
+        try:
+            from modules.orchestrator_config import chroma_config
+
+            chroma_enabled = bool(chroma_config().get("enabled"))
+        except Exception:
+            chroma_enabled = False
+        if not _CHROMA_OK or not chroma_enabled:
+            if _CHROMA_OK and not chroma_enabled:
+                log.info("session_rag: ChromaDB disabled by orchestrator.chroma.enabled=false (opt-in)")
+            else:
+                log.info("session_rag: chromadb not installed — using keyword fallback")
             self._fallback.load(FALLBACK_INDEX_FILE)
             self._ready = True
             return

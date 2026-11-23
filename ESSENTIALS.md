@@ -181,6 +181,6 @@ Full setup guide: `docs/gym-setup.md`.
 | 50 frequent commands by goal | `CHEATSHEET.md` |
 | All 879 commands with descriptions | `COMMANDS.md` (auto-generated) |
 | All 130 aliases | `COMMANDS.md` alias section |
-| Full MCP tool reference (191 tools) | `skills/lazyown.md` |
+| Full MCP tool reference (194 tools) | `skills/lazyown.md` |
 | Architecture and dev reference | `CLAUDE.md` |
 | Honest framework comparison | `COMPARISON.md` |

@@ -26,6 +26,13 @@ repos:
         types_or: [python, yaml]
         pass_filenames: false
 
+      - id: sync-doc-stats
+        name: doc stats are in sync with code
+        entry: python3 scripts/sync_doc_stats.py --check
+        language: system
+        files: '^(lazyown\.py|cli/commands/.*\.py|cli/aliases\.yaml|cli/registry\.py|skills/lazyown_mcp\.py|skills/mcp_tools/.*\.py|lazyaddons/.*\.yaml|plugins/.*\.lua|tools/.*\.tool|playbooks/.*\.yaml|pyproject\.toml|README\.md|AGENTS\.md|COMMANDS\.md|ESSENTIALS\.md|CHEATSHEET\.md|QUICKSTART\.md|CLAUDE\.md|CORE\.md)$'
+        pass_filenames: false
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.10
     hooks:

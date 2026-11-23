@@ -9,7 +9,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
-> **879 CLI commands. Multi-operator C2. 191 MCP tools for AI agents. The First OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
+> **879 CLI commands. Multi-operator C2. 194 MCP tools for AI agents. The First OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
 
 ## Install in one command
 
@@ -54,7 +54,7 @@ Automated by [readmenator](https://grisuno.github.io/LazyOwn/readmenator-maps/in
 |---|:-:|:-:|:-:|:-:|:-:|:-:|
 | Linux BOF support | yes | no | no | no | no | no |
 | YARA + Nuclei marketplace built-in | yes | no | no | no | no | no |
-| MCP server for AI agents (191 tools) | yes | no | no | no | no | no |
+| MCP server for AI agents (194 tools) | yes | no | no | no | no | no |
 | LLM operator + multi-agent hive | yes | no | no | no | no | no |
 | Multi-operator C2 + phishing engine | yes | partial | partial | partial | partial | partial |
 
@@ -82,7 +82,7 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v 0.5.0
 
-LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 879 CLI commands, 130 aliases, 191 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 879 CLI commands, 130 aliases, 194 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
 **New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_loop` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
 
@@ -248,7 +248,7 @@ LazyOwn is built around a modular, command-driven architecture that provides fle
 # LazyOwn Skills   MCP Integration
 
 Connect AI agents to the framework via the Model Context Protocol (MCP). The MCP server
-(`skills/lazyown_mcp.py`) exposes 191 tools covering the full engagement lifecycle.
+(`skills/lazyown_mcp.py`) exposes 194 tools covering the full engagement lifecycle.
 
 ```bash
 bash scripts/setup_hermes_mcp.sh   # register the MCP server

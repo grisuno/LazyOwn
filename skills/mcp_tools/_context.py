@@ -51,6 +51,10 @@ class MCPContext:
             and job-status tools observe the same jobs.
         list_tools: The server's async ``list_tools`` coroutine, for tools
             that search or enumerate the whole catalogue.
+        call_tool: The server's async ``call_tool`` coroutine (name,
+            arguments) so meta tools can dispatch into any registered tool
+            while reusing the permission gate and hook pipeline; ``None``
+            when the runtime predates the field.
         sitrep_recommendations: Return the top campaign recommendations, for
             session-brief tools.
     """
@@ -71,4 +75,5 @@ class MCPContext:
     get_claudemd: Callable[[], Any | None]
     job_store: Any
     list_tools: Callable[[], Any]
+    call_tool: Callable[[str, dict[str, Any]], Any] | None
     sitrep_recommendations: Callable[..., list]

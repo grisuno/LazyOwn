@@ -385,3 +385,181 @@ class PurpleTeamCommandSet(LazyOwnCommandSet):
             det = "YES" if r.actually_detected else "NO"
             self.poutput(f"  {ts:20s}  {cmd:30s}  {r.category:12s}  {r.oracle_prediction:.0%}     {det:8s}")
         self.poutput("")
+
+
+
+def _build_sync_parser() -> Cmd2ArgumentParser:
+    parser = Cmd2ArgumentParser(prog="purple_sync")
+    parser.add_argument(
+        "action",
+        nargs="?",
+        default="status",
+        choices=["status", "on", "off", "send", "test", "config", "backfill"],
+        help="status=show state, on/off=enable telemetry, send=drain spool, "
+        "test=emit test event, config=set endpoint keys, backfill=forward history files",
+    )
+    parser.add_argument("key", nargs="?", default="", help="Config key (config) or file path (backfill)")
+    parser.add_argument("value", nargs="?", default="", help="Config value (config) or extra files (backfill)")
+    return parser
+
+
+class PurpleSyncCommandSet(LazyOwnCommandSet):
+    """SIEM telemetry commands for the purple team loop."""
+
+    @with_argparser(_build_sync_parser())
+    @with_category(_CATEGORY)
+    def do_purple_sync(self, args: argparse.Namespace) -> None:
+        """Stream offensive actions to a local Elastic/Splunk SIEM.
+
+        Actions: status, on, off, send, test, config <key> <value>,
+        backfill <file> [more files].
+        """
+        from modules import purple_sync
+
+        action = args.action
+        if action == "status":
+            status = purple_sync.status()
+            self.poutput("\n  Purple Sync (SIEM telemetry):")
+            self.poutput("  " + "=" * 44)
+            self.poutput(f"  {'enabled':14s} : {status['enabled']}")
+            self.poutput(f"  {'siem_type':14s} : {status['siem_type']}")
+            self.poutput(f"  {'endpoint':14s} : {'set' if status['endpoint_set'] else 'not configured'}")
+            self.poutput(f"  {'pending':14s} : {status['pending']}")
+            self.poutput(f"  {'sent':14s} : {status['sent']}")
+            self.poutput("  Configure: purple_sync config <key> <value>")
+            self.poutput("  Keys: siem_type elastic|splunk|webhook, endpoint, token, index, source_type")
+            self.poutput("")
+            return
+
+        if action in ("on", "off"):
+            config = purple_sync.load_config()
+            config.enabled = action == "on"
+            if config.enabled and not config.endpoint:
+                self.poutput("  Endpoint missing: purple_sync config endpoint https://host:9200")
+                return
+            data = purple_sync.save_config(config)
+            purple_sync.get_sync().configure(config)
+            self.poutput(f"  Purple sync {action} -> {data['endpoint']}")
+            return
+
+        if action == "send":
+            sent = purple_sync.flush()
+            self.poutput(f"  Forwarded {sent} event(s) to the SIEM")
+            return
+
+        if action == "test":
+            event = purple_sync.test_event()
+            self.poutput(f"  Test event emitted: {event.get('event', {}).get('action')}")
+            self.poutput("  Run `purple_sync send` if not forwarding automatically")
+            return
+
+        if action == "config":
+            if not args.key:
+                config = purple_sync.load_config()
+                self.poutput("\n  Purple Sync configuration:")
+                for key, value in config.as_dict().items():
+                    shown = "[set]" if key == "token" and value else value
+                    self.poutput(f"  {key:12s} : {shown}")
+                return
+            if not args.value:
+                self.poutput("  Usage: purple_sync config <key> <value>")
+                return
+            config = purple_sync.load_config()
+            key = args.key
+            value = args.value
+            if key in ("enabled", "verify_tls", "redact"):
+                setattr(config, key, value.lower() in ("true", "1", "yes"))
+            elif key in ("batch_size",):
+                setattr(config, key, int(value))
+            elif key in ("timeout_sec",):
+                setattr(config, key, float(value))
+            elif key == "siem_type":
+                if value not in purple_sync.SIEM_TYPES:
+                    self.poutput(f"  Unknown siem type '{value}'. Options: {', '.join(purple_sync.SIEM_TYPES)}")
+                    return
+                config.siem_type = value
+            else:
+                setattr(config, key, value)
+            data = purple_sync.save_config(config)
+            purple_sync.get_sync().configure(config)
+            self.poutput(f"  Set {key} = {data.get(key)}")
+            return
+
+        if action == "backfill":
+            if not args.key:
+                self.poutput("  Usage: purple_sync backfill <sessions/file.jsonl> [more files]")
+                return
+            files = [args.key] + ([args.value] if args.value else [])
+            sent = purple_sync.backfill(files)
+            self.poutput(f"  Forwarded {sent} historical event(s)")
+            return
+
+
+def _build_detect_rule_parser() -> Cmd2ArgumentParser:
+    parser = Cmd2ArgumentParser(prog="detect_rule")
+    parser.add_argument("command", nargs="+", help="Offensive command to turn into a detection rule")
+    parser.add_argument("--name", "-n", default="", help="Rule/action name (default: binary)")
+    parser.add_argument("--technique", "-t", default="", help="MITRE ATT&CK technique id (e.g. T1003.001)")
+    parser.add_argument("--category", "-c", default="other", choices=list(CATEGORY_CHOICES), help="Kill-chain category")
+    parser.add_argument("--artifacts", "-a", nargs="*", default=[], help="Payload artifacts for the YARA rule")
+    parser.add_argument("--save", "-s", action="store_true", help="Write rules to sessions/purple_rules/")
+    parser.add_argument("--install", action="store_true", help="Also copy the Sigma rule into detection_kit/sigma/")
+    return parser
+
+
+CATEGORY_CHOICES = (
+    "recon",
+    "enum",
+    "exploit",
+    "credential",
+    "lateral",
+    "privesc",
+    "payload",
+    "brute_force",
+    "intrusion",
+    "exfil",
+    "persistence",
+    "other",
+)
+
+
+class DetectionSynthCommandSet(LazyOwnCommandSet):
+    """Offensive action to defensive detection rule (Sigma + YARA)."""
+
+    @with_argparser(_build_detect_rule_parser())
+    @with_category(_CATEGORY)
+    def do_detect_rule(self, args: argparse.Namespace) -> None:
+        """Synthesize the matching Sigma/YARA rule for an offensive action.
+
+        Examples:
+            detect_rule mimikatz sekurlsa::logonpasswords -t T1003.001 -c credential
+            detect_rule lazy_persistence.sh --artifacts /tmp/bd.sh --save --install
+        """
+        from modules import detection_synthesizer
+
+        command = " ".join(args.command).strip()
+        if not command:
+            self.poutput("  Pass the offensive command, e.g.: detect_rule mimikatz sekurlsa::logonpasswords")
+            return
+        name = args.name or command.split()[0].split("/")[-1]
+        fingerprint = detection_synthesizer.ActionFingerprint(
+            name=name,
+            command=command,
+            technique_id=args.technique,
+            category=args.category,
+            artifacts=list(args.artifacts or []),
+        )
+        sigma = detection_synthesizer.synthesize_sigma(fingerprint)
+        yara = detection_synthesizer.synthesize_yara(fingerprint)
+        self.poutput("\n  Sigma rule:")
+        self.poutput("  " + "-" * 60)
+        self.poutput("\n".join("  " + line for line in sigma.splitlines()))
+        if yara:
+            self.poutput("\n  YARA rule:")
+            self.poutput("  " + "-" * 60)
+            self.poutput("\n".join("  " + line for line in yara.splitlines()))
+        if args.save or args.install:
+            written = detection_synthesizer.save_rules(fingerprint, install=args.install)
+            for kind, path in written.items():
+                self.poutput(f"  Saved {kind}: {path}")
+        self.poutput("")

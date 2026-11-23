@@ -3528,7 +3528,12 @@ anti_debug()
 _ENTRY_BASENAMES = {"lazyown.py", "lazyown", "run", "run.bat", "lazyown.cmd"}
 _is_entry_point = os.path.basename(sys.argv[0]) in _ENTRY_BASENAMES if sys.argv and sys.argv[0] else False
 
-startup_ns, unknown_args = _build_startup_parser().parse_known_args(arguments)
+if _is_entry_point:
+    startup_ns, unknown_args = _build_startup_parser().parse_known_args(arguments)
+else:
+    _startup_parser = _build_startup_parser()
+    startup_ns = _startup_parser.parse_args([])
+    unknown_args = []
 
 if startup_ns.help and _is_entry_point:
     halp()

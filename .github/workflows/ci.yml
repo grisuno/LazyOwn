@@ -24,6 +24,10 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements-dev.txt
+      - name: Verify uv.lock is in sync with pyproject.toml
+        run: |
+          pip install uv
+          uv lock --check
       - name: Ruff check
         run: ruff check .
       - name: Ruff format check

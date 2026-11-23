@@ -1,0 +1,243 @@
+{% extends "base.html" %} {% block content %}
+<style>
+    .lazybox-title {
+        font-family: "Courier New", monospace;
+        letter-spacing: 4px;
+        text-shadow: 0 0 12px #00ff9c, 0 0 32px #00ff9c55;
+        color: #00ff9c;
+    }
+    .lazybox-card {
+        background: rgba(13, 17, 23, 0.85);
+        border: 1px solid #2ea04333;
+        border-radius: 12px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .lazybox-card:hover {
+        border-color: #00ff9c88;
+        box-shadow: 0 0 18px #00ff9c22;
+    }
+    .lazybox-rank {
+        font-weight: 700;
+        color: #ffd700;
+    }
+    .badge-locked { filter: grayscale(1); opacity: 0.45; }
+    .lazybox-estado { font-size: 0.8rem; }
+</style>
+<div class="container mt-4" id="lazybox-root">
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+        <h1 class="lazybox-title mb-0">▓▒░ LazyBox ░▒▓</h1>
+        <span class="text-muted lazybox-estado" id="lazybox-totals"></span>
+    </div>
+    <p class="text-secondary">Red Team Gym + gamificación + inteligencia de campaña, en un solo panel.</p>
+
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#lb-catalogo">Catálogo</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lb-intel">Inteligencia</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lb-score">Scoreboard</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="lb-catalogo">
+            <h5 class="text-success">Escenarios</h5>
+            <div class="row g-3 mb-4" id="lazybox-scenarios"></div>
+            <h5 class="text-success">Retos</h5>
+            <div class="row g-3" id="lazybox-challenges"></div>
+        </div>
+
+        <div class="tab-pane fade" id="lb-intel">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label text-secondary">Reto</label>
+                    <select class="form-select bg-dark text-light" id="lazybox-intel-select"></select>
+                    <button class="btn btn-outline-success btn-sm mt-2 w-100" id="lazybox-intel-refresh">Refrescar intel</button>
+                </div>
+                <div class="col-md-8" id="lazybox-intel-panel"></div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="lb-score">
+            <div class="row g-3">
+                <div class="col-md-4" id="lazybox-operator"></div>
+                <div class="col-md-8" id="lazybox-board"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    "use strict";
+    const csrfHeader = "X-XSRF-TOKEN";
+    const csrfToken = (document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/) || [])[1] || "";
+
+    function post(url, body) {
+        return fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", [csrfHeader]: csrfToken },
+            body: JSON.stringify(body || {}),
+        }).then(function (r) { return r.json().then(function (j) { return { status: r.status, json: j }; }); });
+    }
+    function get(url) {
+        return fetch(url).then(function (r) { return r.json(); });
+    }
+    function esc(text) {
+        const div = document.createElement("div");
+        div.textContent = text == null ? "" : String(text);
+        return div.innerHTML;
+    }
+    function diffColor(diff) {
+        return { easy: "success", medium: "warning", hard: "danger" }[String(diff).toLowerCase()] || "secondary";
+    }
+    function fmtElapsed(sec) {
+        sec = Math.max(0, Math.floor(sec));
+        return Math.floor(sec / 60) + "m " + (sec % 60) + "s";
+    }
+
+    function renderScenarios(rows) {
+        const host = document.getElementById("lazybox-scenarios");
+        host.innerHTML = rows.map(function (row) {
+            const estado = row.running
+                ? '<span class="badge bg-success lazybox-estado">RUNNING · ' + esc(row.ip) + '</span>'
+                : '<span class="badge bg-secondary lazybox-estado">STOPPED</span>';
+            const ports = Object.keys(row.ports || {}).map(esc).join(", ");
+            return '<div class="col-md-4"><div class="lazybox-card p-3 h-100">' +
+                '<h6 class="text-light mb-1">' + esc(row.scenario) +
+                ' <span class="badge bg-' + diffColor(row.difficulty) + '">' + esc(row.difficulty) + '</span></h6>' +
+                '<p class="text-secondary small mb-2">' + esc(row.description) + '</p>' +
+                estado + '<div class="text-muted small mt-1">' + ports + '</div></div></div>';
+        }).join("");
+    }
+
+    function renderChallenges(rows) {
+        const host = document.getElementById("lazybox-challenges");
+        host.innerHTML = rows.map(function (row) {
+            const estado = row.active
+                ? '<span class="badge bg-primary lazybox-estado">ACTIVE · ' + esc(row.operator) + ' · ' + fmtElapsed(row.elapsed) + '</span>'
+                : '<span class="badge bg-secondary lazybox-estado">IDLE</span>';
+            const actions = row.active
+                ? '<button class="btn btn-outline-danger btn-sm" data-stop="' + esc(row.run_id || row.id) + '">Stop</button>' +
+                  '<button class="btn btn-outline-success btn-sm" data-submit="' + esc(row.id) + '">Submit</button>'
+                : '<button class="btn btn-outline-success btn-sm" data-start="' + esc(row.id) + '">Start</button>';
+            return '<div class="col-md-4"><div class="lazybox-card p-3 h-100 d-flex flex-column">' +
+                '<h6 class="text-light mb-1">' + esc(row.name) +
+                ' <span class="badge bg-' + diffColor(row.difficulty) + '">' + esc(row.difficulty) + '</span></h6>' +
+                '<p class="text-secondary small mb-2 flex-grow-1">' + esc(row.description) + '</p>' +
+                '<div class="text-muted small mb-2">' + esc(row.phases || []).join(" → ") + '</div>' +
+                '<div class="d-flex justify-content-between align-items-center">' +
+                '<span><span class="text-warning">+' + esc(row.max_points) + '</span> pts · <span class="text-info">+' + esc(row.elo_bonus) + '</span> ELO</span>' +
+                estado + '</div><div class="mt-2 d-flex gap-2">' + actions + '</div></div></div>';
+        }).join("");
+    }
+
+    function renderTotals(t) {
+        document.getElementById("lazybox-totals").textContent =
+            "escenarios " + t.scenarios_running + "/" + t.scenarios + " vivos · retos " + t.challenges_active + "/" + t.challenges + " activos";
+    }
+
+    function loadCatalogue() {
+        get("/api/lazybox/catalogue").then(function (data) {
+            renderScenarios(data.scenarios || []);
+            renderChallenges(data.challenges || []);
+            renderTotals(data.totals || {});
+            const sel = document.getElementById("lazybox-intel-select");
+            sel.innerHTML = (data.challenges || []).map(function (row) {
+                return '<option value="' + esc(row.id) + '">' + esc(row.name) + '</option>';
+            }).join("");
+            loadScoreboard();
+        }).catch(function () { /* fail-soft */ });
+    }
+
+    function renderIntel(data) {
+        const host = document.getElementById("lazybox-intel-panel");
+        if (!data.success) { host.innerHTML = '<div class="alert alert-warning">' + esc(data.error) + '</div>'; return; }
+        const def = data.definition || {};
+        const eng = data.engagement || {};
+        const kc = data.killchain || {};
+        const rows = (eng.host_states || {});
+        const hosts = Object.keys(rows).length
+            ? Object.keys(rows).map(function (ip) {
+                  const st = rows[ip];
+                  return '<span class="badge ' + (st === "owned" ? "bg-danger" : "bg-warning text-dark") + ' me-1">' +
+                      esc(ip) + " · " + esc(st) + '</span>';
+              }).join("")
+            : '<span class="text-secondary">sin hosts comprometidos todavía</span>';
+        const shells = (eng.live_shells || []).length
+            ? (eng.live_shells || []).map(function (s) { return '<span class="badge bg-success me-1">' + esc(s.target) + '</span>'; }).join("")
+            : '<span class="text-secondary">sin shells activos</span>';
+        const attempts = (data.attempts || []).map(function (a) {
+            return '<tr><td>' + esc(a.operator) + '</td><td>' + (a.success ? "✔" : "✖") + '</td><td>' +
+                esc(a.total_points != null ? a.total_points : a.points) + '</td></tr>';
+        }).join("");
+        host.innerHTML =
+            '<div class="lazybox-card p-3 h-100">' +
+            '<h5 class="text-light">' + esc(def.name) + ' <span class="badge bg-' + diffColor(def.difficulty) + '">' + esc(def.difficulty) + '</span></h5>' +
+            '<p class="text-secondary small">' + esc(def.description) + '</p>' +
+            '<div class="mb-2"><strong class="text-success">Kill-chain:</strong> ' + esc(kc.current_phase || eng.phase || "recon") +
+            ' <span class="text-muted small">(' + esc((kc.completed_phases || []).join(", ")) + ')</span></div>' +
+            '<div class="mb-2"><strong class="text-success">Hosts:</strong> ' + hosts + '</div>' +
+            '<div class="mb-2"><strong class="text-success">Shells:</strong> ' + shells + '</div>' +
+            '<div class="mb-2"><strong class="text-success">Fase engagement:</strong> ' + esc(eng.phase || "-") +
+            ' · objetivo ' + esc(eng.target || "-") + '</div>' +
+            '<div><strong class="text-success">Intentos previos:</strong><table class="table table-sm table-dark mt-1 mb-0">' +
+            '<thead><tr><th>operador</th><th>ok</th><th>pts</th></tr></thead><tbody>' +
+            (attempts || '<tr><td colspan="3" class="text-secondary">sin intentos</td></tr>') +
+            '</tbody></table></div></div>';
+    }
+
+    function loadIntel(cid) {
+        get("/api/lazybox/intel/" + encodeURIComponent(cid)).then(renderIntel).catch(function () { /* fail-soft */ });
+    }
+
+    function renderOperator(op) {
+        const badges = (op.badges || []).map(function (b) {
+            return '<span class="badge bg-info text-dark me-1">' + esc(b) + '</span>';
+        }).join("");
+        document.getElementById("lazybox-operator").innerHTML =
+            '<div class="lazybox-card p-3 h-100">' +
+            '<h6 class="text-success">Operador</h6>' +
+            '<div class="lazybox-rank h3">' + esc(op.karma_name || "-") + '</div>' +
+            '<div class="text-warning h5">' + esc(op.elo || 0) + ' ELO</div>' +
+            '<div class="text-muted small mb-2">sesión: +' + esc(op.elo_session_delta || 0) + ' · total cmds: ' + esc(op.total_commands || 0) + '</div>' +
+            '<div>' + (badges || '<span class="text-secondary">sin badges</span>') + '</div></div>';
+    }
+
+    function renderBoard(rows) {
+        const body = rows.map(function (row, idx) {
+            return '<tr><td>' + (idx + 1) + '</td><td class="lazybox-rank">' + esc(row.operator) + '</td><td>' +
+                esc(row.total_points || 0) + '</td><td>' + esc(row.challenges_won || 0) + '/' + esc(row.challenges_played || 0) + '</td></tr>';
+        }).join("");
+        document.getElementById("lazybox-board").innerHTML =
+            '<div class="lazybox-card p-3 h-100"><h6 class="text-success">Leaderboard</h6>' +
+            '<table class="table table-dark table-sm mb-0"><thead><tr><th>#</th><th>Operador</th><th>Puntos</th><th>Retos</th></tr></thead>' +
+            '<tbody>' + (body || '<tr><td colspan="4" class="text-secondary">sin partidas</td></tr>') + '</tbody></table></div>';
+    }
+
+    function loadScoreboard() {
+        get("/api/lazybox/scoreboard").then(function (data) {
+            renderOperator(data.operator || {});
+            renderBoard(data.leaderboard || []);
+        }).catch(function () { /* fail-soft */ });
+    }
+
+    document.getElementById("lazybox-root").addEventListener("click", function (ev) {
+        const start = ev.target.getAttribute("data-start");
+        const stop = ev.target.getAttribute("data-stop");
+        const submit = ev.target.getAttribute("data-submit");
+        if (start) {
+            post("/api/lazybox/challenge/start", { challenge_id: start }).then(loadCatalogue);
+        } else if (stop) {
+            post("/api/lazybox/challenge/stop", { selector: stop }).then(loadCatalogue);
+        } else if (submit) {
+            post("/api/lazybox/challenge/submit", { success: true, run_id: "" }).then(loadCatalogue);
+        }
+    });
+
+    document.getElementById("lazybox-intel-select").addEventListener("change", function (ev) { loadIntel(ev.target.value); });
+    document.getElementById("lazybox-intel-refresh").addEventListener("click", function () {
+        loadIntel(document.getElementById("lazybox-intel-select").value);
+    });
+
+    loadCatalogue();
+})();
+</script>
+{% endblock %}

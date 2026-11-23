@@ -353,6 +353,15 @@ def _load_leaderboard() -> dict[str, dict[str, Any]]:
         return {}
 
 
+def leaderboard() -> dict[str, dict[str, Any]]:
+    """Load the persistent gym leaderboard (public accessor).
+
+    Returns:
+        Dict mapping operator name to stats.
+    """
+    return _load_leaderboard()
+
+
 def _save_leaderboard(board: dict[str, dict[str, Any]]) -> None:
     """Persist the leaderboard.
 

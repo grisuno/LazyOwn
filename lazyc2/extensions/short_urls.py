@@ -1,74 +1,46 @@
-"""Short URL management utilities for the C2 phishing module.
+"""Short URL management shim for the C2 phishing module.
 
-Provides load/save/validation helpers for short URL redirection
-and phishing campaign tracking. Intended for internal use by
-:mod:`lazyc2.blueprints.phishing`.
+Delegates the ``short_urls.json`` load/save contract to
+:mod:`lazyc2.phishing.short_urls_store` so the monolith routes and the
+factory-path blueprint share one registry implementation and one file.
+Intended for internal use by :mod:`lazyc2.blueprints.phishing`.
 """
 
 from __future__ import annotations
 
-import json
 import logging
 import os
 from urllib.parse import urlparse
 
 import validators
 
-SHORT_URLS_FILE: str = ""
-ALLOWED_BASE_DIR: str = ""
+from lazyc2.phishing.paths import SHORT_URLS_FILE
+from lazyc2.phishing.short_urls_store import load_short_urls, save_short_urls
+
+ALLOWED_BASE_DIR = os.path.abspath("./sessions")
+
+__all__ = [
+    "ALLOWED_BASE_DIR",
+    "SHORT_URLS_FILE",
+    "configure",
+    "is_valid_url",
+    "load_short_urls",
+    "save_short_urls",
+]
 
 
 def configure(sessions_phishing_dir: str) -> None:
-    """Set the phishing directory where short_urls.json lives.
+    """Record the phishing directory where short_urls.json lives.
+
+    Kept for backwards compatibility with :mod:`lazyc2.app_factory`; the
+    registry path itself is owned by
+    :data:`lazyc2.phishing.paths.SHORT_URLS_FILE` and never changes.
 
     Args:
         sessions_phishing_dir: Absolute or relative path to the phishing
             session directory.
     """
-    global SHORT_URLS_FILE, ALLOWED_BASE_DIR  # noqa: PLW0603
-    SHORT_URLS_FILE = os.path.join(sessions_phishing_dir, "short_urls.json")
-    ALLOWED_BASE_DIR = os.path.abspath("./sessions")
-
-
-def load_short_urls() -> dict:
-    """Load short URLs from JSON file, creating it if it doesn't exist.
-
-    Returns:
-        A dict mapping short URL keys to their metadata (original_url,
-        active, created_at).
-    """
-    if not os.path.exists(SHORT_URLS_FILE):
-        try:
-            os.makedirs(os.path.dirname(SHORT_URLS_FILE), exist_ok=True)
-            with open(SHORT_URLS_FILE, "w") as f:
-                json.dump({}, f)
-        except Exception:
-            logging.error("Failed to create short_urls.json")
-            raise
-    try:
-        with open(SHORT_URLS_FILE) as f:
-            return json.load(f)
-    except json.JSONDecodeError:
-        logging.error("Failed to parse short_urls.json")
-        return {}
-    except Exception:
-        logging.error("Error reading short_urls.json")
-        raise
-
-
-def save_short_urls(data: dict) -> None:
-    """Save short URLs to JSON file.
-
-    Args:
-        data: Dict mapping short URL keys to their metadata.
-    """
-    try:
-        os.makedirs(os.path.dirname(SHORT_URLS_FILE), exist_ok=True)
-        with open(SHORT_URLS_FILE, "w") as f:
-            json.dump(data, f, indent=2)
-    except Exception:
-        logging.error("Failed to save short_urls.json")
-        raise
+    _ = sessions_phishing_dir
 
 
 def _get_safe_file_path(user_path: str) -> str | None:

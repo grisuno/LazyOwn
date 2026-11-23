@@ -105,3 +105,74 @@ class PayloadCommandSet(LazyOwnCommandSet):
                     print(raw.decode("utf-8", errors="replace"))
         except Exception as e:
             print_error(f"Generation failed: {e}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_lazypayload_garble(self, line):
+        """Build an obfuscated Go binary with garble.
+
+        Usage: lazypayload_garble <source_dir_or_package> [--output path]
+
+        Reads the garble_* keys from payload.json (garble_level,
+        garble_seed, garble_lit, garble_tiny, garble_out).
+        """
+        args = shlex.split(line.strip()) if line.strip() else []
+        source = ""
+        output = None
+        i = 0
+        while i < len(args):
+            if args[i] == "--output" and i + 1 < len(args):
+                output = args[i + 1]
+                i += 2
+            elif not source:
+                source = args[i]
+                i += 1
+            else:
+                print_warn(f"Ignoring unknown argument: {args[i]}")
+                i += 1
+        if not source:
+            print_error("Usage: lazypayload_garble <source_dir_or_package> [--output path]")
+            return
+        try:
+            from modules.payload_native import PayloadNativeError, build_garble
+
+            artefact = build_garble(source, output=output)
+            print_msg(f"Garble build written to {artefact}")
+            print_msg(f"  Size: {artefact.stat().st_size} bytes")
+        except PayloadNativeError as e:
+            print_error(f"Garble build failed: {e}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_lazypayload_donut(self, line):
+        """Generate shellcode from an executable with donut.
+
+        Usage: lazypayload_donut <input_exe> [--output path]
+
+        Reads the donut_* keys from payload.json (donut_arch,
+        donut_format, donut_bypass, donut_compress, donut_exit_opt,
+        donut_out).
+        """
+        args = shlex.split(line.strip()) if line.strip() else []
+        source = ""
+        output = None
+        i = 0
+        while i < len(args):
+            if args[i] == "--output" and i + 1 < len(args):
+                output = args[i + 1]
+                i += 2
+            elif not source:
+                source = args[i]
+                i += 1
+            else:
+                print_warn(f"Ignoring unknown argument: {args[i]}")
+                i += 1
+        if not source:
+            print_error("Usage: lazypayload_donut <input_exe> [--output path]")
+            return
+        try:
+            from modules.payload_native import PayloadNativeError, build_donut_shellcode
+
+            artefact = build_donut_shellcode(source, output=output)
+            print_msg(f"Shellcode written to {artefact}")
+            print_msg(f"  Size: {artefact.stat().st_size} bytes")
+        except PayloadNativeError as e:
+            print_error(f"Donut build failed: {e}")

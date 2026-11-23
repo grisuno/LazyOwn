@@ -81,27 +81,19 @@ def _scenario_allowed(scenario: str) -> bool:
 
 
 def _scenario_row(name: str, info: dict) -> dict:
-    """Return one viz-ready scenario row with live status."""
-    running = False
-    ip = ""
-    container = ""
-    try:
-        from modules.lab_runtime import container_ip, container_name, running_containers
+    """Return one viz-ready scenario row from the LazyBox catalogue."""
+    from modules.lazybox import _scenario_rows
 
-        name_full = container_name(name)
-        container = name_full
-        running = name_full in running_containers()
-        if running:
-            ip = container_ip(name_full)
-    except Exception:
-        running = False
+    for row in _scenario_rows():
+        if row["scenario"] == name:
+            return row
     return {
         "scenario": name,
         "description": str(info.get("description", "")),
         "difficulty": str(info.get("difficulty", "")),
-        "running": running,
-        "container": container,
-        "ip": ip,
+        "running": False,
+        "container": "",
+        "ip": "",
         "ports": dict(info.get("ports", {}) or {}),
         "node_id": f"{GYM_NODE_PREFIX}{name}",
     }
@@ -129,23 +121,19 @@ def api_gym_nodes():
     IP straight from the graph.
     """
     try:
-        from modules.lab_runtime import LAB_SCENARIOS, container_ip, container_name, running_containers
+        from modules.lazybox import _scenario_rows
 
-        running = set(running_containers())
-        nodes = []
-        for name, info in sorted(LAB_SCENARIOS.items()):
-            name_full = container_name(name)
-            if name_full not in running:
-                continue
-            nodes.append(
-                {
-                    "node_id": f"{GYM_NODE_PREFIX}{name}",
-                    "scenario": name,
-                    "ip": container_ip(name_full),
-                    "description": str(info.get("description", "")),
-                    "ports": dict(info.get("ports", {}) or {}),
-                }
-            )
+        nodes = [
+            {
+                "node_id": row["node_id"],
+                "scenario": row["scenario"],
+                "ip": row["ip"],
+                "description": row["description"],
+                "ports": row["ports"],
+            }
+            for row in _scenario_rows()
+            if row["running"]
+        ]
         return jsonify({"nodes": nodes}), 200
     except Exception:
         current_app.logger.exception("api_gym_nodes failed")

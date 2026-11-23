@@ -28,6 +28,7 @@ from flask_socketio import SocketIO
 
 from lazyc2.blueprints import api_bp, api_v1_bp, redirect_bp
 from lazyc2.blueprints.gym import gym_bp
+from lazyc2.blueprints.lazybox import lazybox_bp
 from lazyc2.blueprints.loops import init_loops_bp, loops_bp
 from lazyc2.blueprints.orchestrator import orchestrator_bp
 from lazyc2.extensions import short_urls as short_urls_ext
@@ -172,6 +173,7 @@ def create_app() -> Flask:
     init_loops_bp(limiter)
     app.register_blueprint(loops_bp)
     app.register_blueprint(gym_bp)
+    app.register_blueprint(lazybox_bp)
 
     # ── Error handlers ────────────────────────────────────────────────────
     @app.errorhandler(404)

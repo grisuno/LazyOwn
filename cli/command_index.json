@@ -25,6 +25,7 @@
     "cli/commands/containers.py",
     "cli/commands/cred.py",
     "cli/commands/crystal_ball.py",
+    "cli/commands/cve_local.py",
     "cli/commands/daemon_ctl.py",
     "cli/commands/database.py",
     "cli/commands/defaults.py",
@@ -65,6 +66,7 @@
     "cli/commands/marketplace.py",
     "cli/commands/mcp_bridge.py",
     "cli/commands/misc.py",
+    "cli/commands/mitre_coverage.py",
     "cli/commands/mobile_macos.py",
     "cli/commands/module_manager.py",
     "cli/commands/netattack.py",
@@ -126,6 +128,7 @@
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ee12b68e2f88134e23f0fae2448d89c32024eaa93be4874b9ef006eecc731d01",
     "cli/commands/crystal_ball.py": "2a8849f7155c42704d1fe3ae777f109b1e4dc1d1fb2fd0d99e459c008231fe35",
+    "cli/commands/cve_local.py": "9268785022bcff6624cd675195c26a8135b8f0353eb2d2c17d6e077cf0411076",
     "cli/commands/daemon_ctl.py": "3e68c2481faf8ffc0a51b438d77d48810ceaf7d29e3ec9575050a95939f78876",
     "cli/commands/database.py": "940f1bc970473116f7b5f9d1f0146d3d48cb5e705c22ae9f754c534cfa81eb4b",
     "cli/commands/defaults.py": "73251af2f6f6c7ca67f6fd0885db1792831f35fcce1bfee2f2a8bb4f62695754",
@@ -161,11 +164,12 @@
     "cli/commands/lazy_poc.py": "9035714b0dc3a90e9f7bf7ac238c34d1db5a1c4cf232d67419a49badda317f02",
     "cli/commands/lazyloop.py": "661aafd0c89b4580f05b378dbdc04ee5521009e21634bac7480a7bf2bf141f86",
     "cli/commands/lazymode.py": "04bae970fadef06c94f5969a443ab1d1c094208db64679d9893502f3f43d2b0f",
-    "cli/commands/lazyops.py": "44291e7a8b79887769dd29623e6fecfb5d846f2a10cfec01e95f0f5ae2b657f6",
+    "cli/commands/lazyops.py": "8c3d095c62bb0e303d86482b899398d30c63f388464d13d8f01edd961da5539a",
     "cli/commands/loop_audit.py": "23573e02ef4c2e8e24ccffd4781bcb856cc79a49b49f2033b1ac8bdd085120b5",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "cdbb53af5b1c3036d034ca609b82f59087b170a110f99301ce72ce3dba1b4c89",
     "cli/commands/misc.py": "0ab7e1634c13e9c6f03b3145dd36b1bfc9f2265f1d8084e63ca60f75ed6ed384",
+    "cli/commands/mitre_coverage.py": "aa895e9d06fd37f25360451baa46d37a4bac55baa4fb6f6b7ad3fb0faf91add2",
     "cli/commands/mobile_macos.py": "4a1705515212bed4c8bae93694a2279e4ab20ac3b9dc63589a218180976a7379",
     "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
     "cli/commands/netattack.py": "e22782020c095787bbb2b813aa8092704158d7c0c0c29074c4f12a2df643daeb",
@@ -174,18 +178,18 @@
     "cli/commands/orchestration.py": "1ebcfecbcf754ef6b94ffd463d55f3a7156e67c71f07d5308adc61f26c051ce9",
     "cli/commands/params_ops.py": "9537157228ea5cf191e981c032c5cf49ab92d98f04ad717f6b27284a2e8b767a",
     "cli/commands/payload_arsenal.py": "194cb64b3a2aea266ebc4a5312fc49710a173f174e822940870b914142a7bf92",
-    "cli/commands/payload_generation.py": "21682bd07aa0915faf5c2657bdd810e09601817c57f6aa1417738a7b7372f242",
+    "cli/commands/payload_generation.py": "c80b5770da6ec8d65e27d317b25517f58d0aaca60967c195177250d90dbd6ee4",
     "cli/commands/persist.py": "95f5a4538ae1366667232b882e88705e83f3d3a4f8cbfc464a547d5d4caf1b1f",
     "cli/commands/phishing_wizard.py": "e5d2e08608402ab53fa3d99fd3e2513b10fbcd9e2405ec573356c61e2bc83055",
     "cli/commands/pivoting.py": "8eb7db6cc59a15cefa055be91cc108c59e4bbd42f8690db729c834b51820a142",
-    "cli/commands/postexp.py": "d8a3733e5187ca098e5b69fc8f16783e5aa88dad45df329a32cf027a4875b125",
+    "cli/commands/postexp.py": "b2fcf601f39a5aa6b58bd2ab11b9e5bc4d51c808c9efd23d14355931f57fe0f9",
     "cli/commands/privilege_escalation.py": "cadce76403468e2479cbfab0146e0d60354fa16bbd0712c32012d6f6826e99d4",
-    "cli/commands/purple_team.py": "c94742dca374ba5c5dfa1409f6abbe0712e19721cd04dee2a428011ae83e2d9b",
+    "cli/commands/purple_team.py": "cd8a7057c657111f5d031284152755e2578b146f396fb68e1081e4bf364a1555",
     "cli/commands/pwn.py": "fad030c762e6ec2e633335b0493932f6d1845aefda87d14341d82123873a4c1c",
-    "cli/commands/recon.py": "1db3ba0c9710626c1e822abf1dc69feeb3532b16ce620294e988b83a22e9170c",
+    "cli/commands/recon.py": "718fe9b7ab59e0fd9790f034283e7479cf1c803589b8ffa6b7935560de63c33e",
     "cli/commands/redteam_gym.py": "7afb467fb4e5bf711b82b89782b00d1cdb69c8e0d776fd63e262464cc352561b",
     "cli/commands/report.py": "750041ff28d9bfaad4f1ef85c36f44cf885a426e8046ce013911a34973dd234d",
-    "cli/commands/report_enhanced.py": "98a90162b98fde872a6fca66c6c474e3184c27cbf5325de5bb12fbc77a73ac94",
+    "cli/commands/report_enhanced.py": "505f7687faf1a821dcd9a285e240833ed0f22f578dbe46c0aa4578c4df8a48d3",
     "cli/commands/reporting.py": "eff4961ab39d81f96903d172649c91e24a26fc489234abdc16c50935f6c5ec0d",
     "cli/commands/resource_scripting.py": "d5ae946b5a429043c6fe4e781fd6f14eed3b7d3bf8bb650595e8bb1c40a44bba",
     "cli/commands/retry_ops.py": "596f94a7c679905f0405463bdba668dcba5f5a8610d2ca1dd73aa32af8f5917f",
@@ -203,8 +207,8 @@
     "cli/commands/winbox_gym.py": "9cf60c6a80526452f5e13880cc8d4b80a59d5be515cabc18f3f1e4e20f455910"
   },
   "totals": {
-    "method_definitions": 879,
-    "unique_commands": 879,
+    "method_definitions": 887,
+    "unique_commands": 887,
     "duplicates": 0,
     "phases": 14,
     "categories": 18
@@ -256,12 +260,15 @@
       "do_crack_facts",
       "do_crack_hashes",
       "do_cross_cloud",
+      "do_cve_search",
+      "do_cve_sync",
       "do_dacl_abuse",
       "do_delegation_attack",
       "do_delegation_enum",
       "do_depconfuse",
       "do_depscan",
       "do_detect_edr",
+      "do_detect_rule",
       "do_docker_enum",
       "do_dotnet_payload",
       "do_edr_detect",
@@ -357,6 +364,7 @@
       "do_linux_advanced_payload",
       "do_llm_budget",
       "do_log_tamper",
+      "do_loop_trace",
       "do_macos_keychain",
       "do_macos_payload",
       "do_macos_persist",
@@ -388,6 +396,7 @@
       "do_purple_methods",
       "do_purple_report",
       "do_purple_score",
+      "do_purple_sync",
       "do_purple_test",
       "do_rag_query",
       "do_reload_addons",
@@ -524,6 +533,8 @@
       "do_lazyinventory",
       "do_lazyoob",
       "do_lazypassgen",
+      "do_lazypayload_donut",
+      "do_lazypayload_garble",
       "do_lazyscript",
       "do_lazysearch",
       "do_lazysentinel",
@@ -927,6 +938,7 @@
       "do_lfi",
       "do_lol",
       "do_lolbas_use",
+      "do_mitre_coverage",
       "do_ms08_067_netapi",
       "do_ntpdate",
       "do_owneredit",
@@ -1233,6 +1245,8 @@
       "do_lazyinventory",
       "do_lazyoob",
       "do_lazypassgen",
+      "do_lazypayload_donut",
+      "do_lazypayload_garble",
       "do_lazyscript",
       "do_lazysearch",
       "do_lazysentinel",
@@ -1636,6 +1650,7 @@
       "do_lfi",
       "do_lol",
       "do_lolbas_use",
+      "do_mitre_coverage",
       "do_ms08_067_netapi",
       "do_ntpdate",
       "do_owneredit",
@@ -3873,6 +3888,28 @@
       "phase": "privesc",
       "source_file": "cli/commands/crystal_ball.py",
       "class_name": "CrystalBallCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_cve_sync",
+      "line": 43,
+      "summary": "Refresh the local NVD/Exploit-DB snapshot for instant searches.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/cve_local.py",
+      "class_name": "CveLocalCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_cve_search",
+      "line": 57,
+      "summary": "Instant offline CVE search over the local snapshot.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/cve_local.py",
+      "class_name": "CveLocalCommandSet",
       "community": null,
       "duplicate_of": null
     },
@@ -7078,6 +7115,17 @@
       "duplicate_of": null
     },
     {
+      "name": "do_loop_trace",
+      "line": 2968,
+      "summary": "Standalone interactive HTML trace of one autonomous run.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_loop_audit",
       "line": 25,
       "summary": "Audit what an autonomous loop actually did.",
@@ -7529,6 +7577,17 @@
       "duplicate_of": null
     },
     {
+      "name": "do_mitre_coverage",
+      "line": 34,
+      "summary": "Report the ATT&CK tactics/techniques LazyOwn covers and executed.",
+      "category": "03. Exploitation",
+      "phase": "exploit",
+      "source_file": "cli/commands/mitre_coverage.py",
+      "class_name": "MitreCoverageCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_android_enum",
       "line": 103,
       "summary": "Enumerate an Android device connected via ADB.",
@@ -7928,6 +7987,28 @@
       "name": "do_generate",
       "line": 37,
       "summary": "Generate a payload.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/payload_generation.py",
+      "class_name": "PayloadCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazypayload_garble",
+      "line": 110,
+      "summary": "Build an obfuscated Go binary with garble.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/payload_generation.py",
+      "class_name": "PayloadCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazypayload_donut",
+      "line": 145,
+      "summary": "Generate shellcode from an executable with donut.",
       "category": "12. Miscellaneous",
       "phase": "misc",
       "source_file": "cli/commands/payload_generation.py",
@@ -8388,7 +8469,7 @@
     },
     {
       "name": "do_lazywebshell",
-      "line": 71,
+      "line": 70,
       "summary": "Run LazyOwn webshell server on port 8888.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8399,7 +8480,7 @@
     },
     {
       "name": "do_disableav",
-      "line": 84,
+      "line": 83,
       "summary": "Create a VBS script to attempt disabling Windows Defender.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8410,7 +8491,7 @@
     },
     {
       "name": "do_mimikatzpy",
-      "line": 98,
+      "line": 97,
       "summary": "Run Mimikatz over Python (impacket style).",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8421,7 +8502,7 @@
     },
     {
       "name": "do_scavenger",
-      "line": 103,
+      "line": 102,
       "summary": "Run the Scavenger post-exploitation data collector.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8432,7 +8513,7 @@
     },
     {
       "name": "do_follina",
-      "line": 108,
+      "line": 107,
       "summary": "Run the Follina (CVE-2022-30190) exploit setup.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8443,7 +8524,7 @@
     },
     {
       "name": "do_shellcode",
-      "line": 113,
+      "line": 112,
       "summary": "Generate and manage shellcode.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8454,7 +8535,7 @@
     },
     {
       "name": "do_ofuscatorps1",
-      "line": 121,
+      "line": 120,
       "summary": "Obfuscate a PowerShell script.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8465,7 +8546,7 @@
     },
     {
       "name": "do_atomic_lazyown",
-      "line": 126,
+      "line": 125,
       "summary": "Execute atomic red-team tests via LazyOwn.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8476,7 +8557,7 @@
     },
     {
       "name": "do_find",
-      "line": 144,
+      "line": 143,
       "summary": "Automates command execution based on a list of aliases and commands.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8487,7 +8568,7 @@
     },
     {
       "name": "do_cports",
-      "line": 640,
+      "line": 639,
       "summary": "Generates a command to display TCP and UDP ports and copies it to the clipboard.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8498,7 +8579,7 @@
     },
     {
       "name": "do_rubeus",
-      "line": 685,
+      "line": 684,
       "summary": "Copies a command to the clipboard for downloading and running Rubeus.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8509,7 +8590,7 @@
     },
     {
       "name": "do_sessionsshstrace",
-      "line": 725,
+      "line": 724,
       "summary": "Attach strace to a running process and log output to a file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8520,7 +8601,7 @@
     },
     {
       "name": "do_powershell_cmd_stager",
-      "line": 776,
+      "line": 775,
       "summary": "Generate and execute a PowerShell command stager to run a .ps1 script.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8531,7 +8612,7 @@
     },
     {
       "name": "do_shellcode_search",
-      "line": 813,
+      "line": 812,
       "summary": "Search the shell-storm API for shellcodes using the provided keywords.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8542,7 +8623,7 @@
     },
     {
       "name": "do_shellcode2sylk",
-      "line": 861,
+      "line": 860,
       "summary": "Converts shellcode to SYLK format and saves the result to a file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8553,7 +8634,7 @@
     },
     {
       "name": "do_pezorsh",
-      "line": 906,
+      "line": 905,
       "summary": "Executes the PEzor tool to pack executables or shellcode with custom configurations.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8564,7 +8645,7 @@
     },
     {
       "name": "do_pip_repo",
-      "line": 979,
+      "line": 978,
       "summary": "Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8575,7 +8656,7 @@
     },
     {
       "name": "do_apt_repo",
-      "line": 1091,
+      "line": 1090,
       "summary": "Creates a comprehensive local APT repository with enhanced dependency resolution.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8586,7 +8667,7 @@
     },
     {
       "name": "do_createpayload",
-      "line": 1340,
+      "line": 1339,
       "summary": "Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8597,7 +8678,7 @@
     },
     {
       "name": "do_bin2shellcode",
-      "line": 1392,
+      "line": 1391,
       "summary": "Converts a binary file to a shellcode string in C or Nim format.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8608,7 +8689,7 @@
     },
     {
       "name": "do_exe2bin",
-      "line": 1482,
+      "line": 1481,
       "summary": "Trasnform file .exe into binary file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8619,7 +8700,7 @@
     },
     {
       "name": "do_exe2donutbin",
-      "line": 1509,
+      "line": 1508,
       "summary": "Trasnform file .exe into donut binary file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8630,7 +8711,7 @@
     },
     {
       "name": "do_issue_command_to_c2",
-      "line": 1533,
+      "line": 1530,
       "summary": "Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use download_c2 command",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8641,7 +8722,7 @@
     },
     {
       "name": "do_d3monizedshell",
-      "line": 1557,
+      "line": 1554,
       "summary": "Executes the D3m0n1z3dShell tool for persistence in Linux.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8652,7 +8733,7 @@
     },
     {
       "name": "do_scp",
-      "line": 1590,
+      "line": 1587,
       "summary": "Copies the local \"sessions\" directory to a remote host using scp, leveraging sshpass for automated authentication.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8663,7 +8744,7 @@
     },
     {
       "name": "do_apt_proxy",
-      "line": 1686,
+      "line": 1683,
       "summary": "Configures the local machine with internet access to act as an APT proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8674,7 +8755,7 @@
     },
     {
       "name": "do_pip_proxy",
-      "line": 1740,
+      "line": 1737,
       "summary": "Configures the local machine with internet access to act as a pip proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8685,7 +8766,7 @@
     },
     {
       "name": "do_internet_proxy",
-      "line": 1798,
+      "line": 1795,
       "summary": "Configures the local machine with internet access to act as a proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8696,7 +8777,7 @@
     },
     {
       "name": "do_shellcode2elf",
-      "line": 1860,
+      "line": 1857,
       "summary": "Convert shellcode into an ELF file and infect it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8707,7 +8788,7 @@
     },
     {
       "name": "do_ssh_cmd",
-      "line": 1942,
+      "line": 1939,
       "summary": "Perform Remote Execution Command through SSH using configured start_user. See help grisun0 for backdoor user configuration.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8718,7 +8799,7 @@
     },
     {
       "name": "do_service_ssh",
-      "line": 1971,
+      "line": 1968,
       "summary": "Creates a systemd service file for a specified binary and generates a script to enable and start the service.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8729,7 +8810,7 @@
     },
     {
       "name": "do_ofuscatesh",
-      "line": 2045,
+      "line": 2042,
       "summary": "Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8740,7 +8821,7 @@
     },
     {
       "name": "do_ofuscate_payload",
-      "line": 2075,
+      "line": 2072,
       "summary": "Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8751,7 +8832,7 @@
     },
     {
       "name": "do_adversary",
-      "line": 2102,
+      "line": 2099,
       "summary": "LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8762,7 +8843,7 @@
     },
     {
       "name": "do_ofuscate_string",
-      "line": 2250,
+      "line": 2247,
       "summary": "Ofuscate a string into Go code.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8773,7 +8854,7 @@
     },
     {
       "name": "do_path2hex",
-      "line": 2292,
+      "line": 2289,
       "summary": "Convert a binary path to x64 little-endian hex code for shellcode injection.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8784,7 +8865,7 @@
     },
     {
       "name": "do_hex2shellcode",
-      "line": 2339,
+      "line": 2336,
       "summary": "Convert raw hex payload from msfvenom into NASM-compatible shellcode format.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8795,7 +8876,7 @@
     },
     {
       "name": "do_create_synthetic",
-      "line": 2396,
+      "line": 2393,
       "summary": "Create a basic synthetic playbook from Nmap CSV when LLM fails.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8806,7 +8887,7 @@
     },
     {
       "name": "do_extract_yaml",
-      "line": 2448,
+      "line": 2445,
       "summary": "Extract YAML from an existing debug file and try to create a playbook.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8817,7 +8898,7 @@
     },
     {
       "name": "do_convert_remcomsvc_from_file",
-      "line": 2510,
+      "line": 2507,
       "summary": "Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon …",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8828,7 +8909,7 @@
     },
     {
       "name": "do_adversary_yaml",
-      "line": 2544,
+      "line": 2541,
       "summary": "Execute adversary from YAML in lazyadversaries/*.yaml",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8839,7 +8920,7 @@
     },
     {
       "name": "do_add2find",
-      "line": 2629,
+      "line": 2626,
       "summary": "Add a new custom command to the 'find' system, saved in user_commands.json.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8850,7 +8931,7 @@
     },
     {
       "name": "do_rmfromfind",
-      "line": 2657,
+      "line": 2654,
       "summary": "Remove a custom command by index (as shown in 'find').",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8861,7 +8942,7 @@
     },
     {
       "name": "do_aes_pe",
-      "line": 2686,
+      "line": 2683,
       "summary": "Encrypt with AES and random key to PE EXE file, to usage with loaders.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8872,7 +8953,7 @@
     },
     {
       "name": "do_yara_scan",
-      "line": 2715,
+      "line": 2712,
       "summary": "Scan files or directories with YARA rules for malware/IOCs.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -9124,6 +9205,28 @@
       "duplicate_of": null
     },
     {
+      "name": "do_purple_sync",
+      "line": 411,
+      "summary": "Stream offensive actions to a local Elastic/Splunk SIEM.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/purple_team.py",
+      "class_name": "PurpleSyncCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_detect_rule",
+      "line": 531,
+      "summary": "Synthesize the matching Sigma/YARA rule for an offensive action.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/purple_team.py",
+      "class_name": "DetectionSynthCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_auto_pwn",
       "line": 145,
       "summary": "Run the full autonomous exploitation chain against the target.",
@@ -9323,7 +9426,7 @@
     },
     {
       "name": "do_wfuzz",
-      "line": 712,
+      "line": 732,
       "summary": "Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -9334,7 +9437,7 @@
     },
     {
       "name": "do_surface",
-      "line": 829,
+      "line": 849,
       "summary": "Render the network surface graph in the terminal.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9345,7 +9448,7 @@
     },
     {
       "name": "do_getcap",
-      "line": 883,
+      "line": 903,
       "summary": "Retrieve and display file capabilities on the system.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9356,7 +9459,7 @@
     },
     {
       "name": "do_launchpad",
-      "line": 917,
+      "line": 937,
       "summary": "Searches for packages on Launchpad based on the provided search term and extracts codenames from the results. The distribution is extracted from the search ter…",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9367,7 +9470,7 @@
     },
     {
       "name": "do_ping",
-      "line": 963,
+      "line": 983,
       "summary": "Perform a ping to check host availability and infer the operating system based on TTL values.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9378,7 +9481,7 @@
     },
     {
       "name": "do_gospider",
-      "line": 1041,
+      "line": 1061,
       "summary": "Try gospider for web spidering.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9389,7 +9492,7 @@
     },
     {
       "name": "do_proxy",
-      "line": 1123,
+      "line": 1143,
       "summary": "Runs a small proxy server to modify HTTP requests on the fly.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9400,7 +9503,7 @@
     },
     {
       "name": "do_ports",
-      "line": 1158,
+      "line": 1178,
       "summary": "Lists all open TCP and UDP ports on the local system.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9411,7 +9514,7 @@
     },
     {
       "name": "do_tcpdump_icmp",
-      "line": 1200,
+      "line": 1220,
       "summary": "Starts `tcpdump` to capture ICMP traffic on the specified interface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9422,7 +9525,7 @@
     },
     {
       "name": "do_tcpdump_capture",
-      "line": 1231,
+      "line": 1251,
       "summary": "Starts packet capture using `tcpdump` on the specified interface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9433,7 +9536,7 @@
     },
     {
       "name": "do_tshark_analyze",
-      "line": 1272,
+      "line": 1292,
       "summary": "Analyzes a packet capture file using `tshark` based on the provided remote host IP.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9444,7 +9547,7 @@
     },
     {
       "name": "do_waybackmachine",
-      "line": 1337,
+      "line": 1357,
       "summary": "Fetch URLs from the Wayback Machine for a given website.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9455,7 +9558,7 @@
     },
     {
       "name": "do_sslscan",
-      "line": 1371,
+      "line": 1391,
       "summary": "Run an SSL scan on the specified remote host.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9466,7 +9569,7 @@
     },
     {
       "name": "do_graudit",
-      "line": 1412,
+      "line": 1432,
       "summary": "Executes the graudit command to perform a static code analysis with the specified options.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9477,7 +9580,7 @@
     },
     {
       "name": "do_sherlock",
-      "line": 1443,
+      "line": 1463,
       "summary": "Executes the Sherlock tool to find usernames across social networks.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9488,7 +9591,7 @@
     },
     {
       "name": "do_trufflehog",
-      "line": 1484,
+      "line": 1504,
       "summary": "Executes trufflehog to search for secrets in a given Git repository URL.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9499,7 +9602,7 @@
     },
     {
       "name": "do_apache_users",
-      "line": 1522,
+      "line": 1542,
       "summary": "Performs enumeration of users from a target system using `apache-users`.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9510,7 +9613,7 @@
     },
     {
       "name": "do_trace",
-      "line": 1571,
+      "line": 1591,
       "summary": "Traces the DNS information for a given self.params['domain'] using the FreeDNS service. (using freedns IP Not your IP)",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9521,7 +9624,7 @@
     },
     {
       "name": "do_alterx",
-      "line": 1614,
+      "line": 1634,
       "summary": "Executes the 'alterx' command for subdomain enumeration on the provided self.params['domain']. If 'alterx'",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9532,7 +9635,7 @@
     },
     {
       "name": "do_windapsearchscrapeusers",
-      "line": 1695,
+      "line": 1715,
       "summary": "Extracts usernames from a JSON output generated by go-windapsearch and appends them",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9543,7 +9646,7 @@
     },
     {
       "name": "do_cve",
-      "line": 1731,
+      "line": 1751,
       "summary": "Search for a CVE using the CIRCL API.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9554,7 +9657,7 @@
     },
     {
       "name": "do_serveralive2",
-      "line": 1780,
+      "line": 1800,
       "summary": "Command serveralive2: Uses Impacket to connect to a remote MSRPC interface and retrieves the server bindings.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9565,7 +9668,7 @@
     },
     {
       "name": "do_binarycheck",
-      "line": 1814,
+      "line": 1834,
       "summary": "Performs various checks on a selected binary to gather information and protections.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9576,7 +9679,7 @@
     },
     {
       "name": "do_dnstool_py",
-      "line": 1858,
+      "line": 1878,
       "summary": "Executes the dnstool.py tool to modify Active Directory-integrated DNS records.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9587,7 +9690,7 @@
     },
     {
       "name": "do_metabigor",
-      "line": 1903,
+      "line": 1923,
       "summary": "Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9598,7 +9701,7 @@
     },
     {
       "name": "do_httprobe",
-      "line": 1982,
+      "line": 2002,
       "summary": "Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9609,7 +9712,7 @@
     },
     {
       "name": "do_recon",
-      "line": 2025,
+      "line": 2045,
       "summary": "Performs reconnaissance on a specified self.params['domain'] using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9620,7 +9723,7 @@
     },
     {
       "name": "do_dnschef",
-      "line": 2085,
+      "line": 2105,
       "summary": "Executes the DNSChef tool to monitor DNS queries and intercept responses.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9631,7 +9734,7 @@
     },
     {
       "name": "do_ipinfo",
-      "line": 2120,
+      "line": 2140,
       "summary": "Retrieves detailed information about an IP address using the ARIN API.",
       "category": "01. Reconnaissance",
       "phase": "recon",

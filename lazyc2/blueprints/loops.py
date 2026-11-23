@@ -25,10 +25,10 @@ from modules.loop_manager import (
     MAX_ROUNDS,
     MAX_TIMEOUT_SECONDS,
     MAX_WORKERS,
-    LoopManager,
     LoopNotFoundError,
     LoopSpec,
     LoopValidationError,
+    default_manager,
 )
 from modules.loop_manager import (
     clamp_float as _loop_clamp_float,
@@ -44,10 +44,6 @@ from modules.loop_manager import (
 )
 from modules.loop_manager import (
     validate_target as _loop_validate_target,
-)
-
-from modules.loop_manager import (
-    default_manager,
 )
 
 loops_bp = Blueprint("loops", __name__)

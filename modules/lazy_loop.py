@@ -3636,12 +3636,19 @@ class TaskStore:
         return sorted(self._raw.get("tasks", {}).values(), key=lambda t: t.get("task_id", ""))
 
     def set_status(self, task_id: str, status: str) -> bool:
-        """Update task status."""
+        """Update task status through the transition FSM."""
+        from modules.loop.task_fsm import InvalidTaskTransition, require_transition
+
         record = self.get(task_id)
         if record is None:
             return False
         if status not in TASK_STATUSES:
             raise ValueError(f"unknown status: {status}")
+        current = str(record.get("status", "running"))
+        try:
+            require_transition(current, status)
+        except InvalidTaskTransition:
+            raise
         record["status"] = status
         record["updated"] = _now()
         self._persist()
@@ -3649,7 +3656,12 @@ class TaskStore:
 
     def pause(self, task_id: str) -> bool:
         """Pause planner and workers like the planner Engine.Pause."""
-        return self.set_status(task_id, "paused")
+        from modules.loop.task_fsm import InvalidTaskTransition
+
+        try:
+            return self.set_status(task_id, "paused")
+        except InvalidTaskTransition:
+            return False
 
     def resume(self, task_id: str) -> bool:
         """Resume a paused task back to running like the planner resumeTask."""
@@ -3680,14 +3692,16 @@ class TaskStore:
 
     def enqueue(self, task_id: str) -> bool:
         """Mark a task queued with its arrival stamp."""
+        from modules.loop.task_fsm import InvalidTaskTransition
+
         record = self.get(task_id)
         if record is None:
             return False
-        record["status"] = "queued"
         record["queued_at"] = _now()
-        record["updated"] = _now()
-        self._persist()
-        return True
+        try:
+            return self.set_status(task_id, "queued")
+        except InvalidTaskTransition:
+            return False
 
     def dequeue_next(self, order=None) -> dict | None:
         """Pop one queued task, mark it running and return it.
@@ -3699,6 +3713,10 @@ class TaskStore:
 
         Returns:
             The dequeued task record, or None when the queue is empty.
+
+        Raises:
+            InvalidTaskTransition: When the stored status drifted away
+                from the queued state between listing and dequeuing.
         """
         items = self.queue()
         if not items:
@@ -3711,6 +3729,7 @@ class TaskStore:
             except Exception:
                 _LOG.debug("queue order callback failed, keeping FIFO order")
         record = items[0]
+        self.set_status(record["task_id"], "running")
         record["status"] = "running"
         record["updated"] = _now()
         self._persist()

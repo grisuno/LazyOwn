@@ -33,7 +33,6 @@ from utils import (
     copy2clip,
     create_synthetic_yaml,
     datetime,
-    donut,
     dropFile,
     extract,
     generate_index,
@@ -1519,14 +1518,12 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             input_exe = line.strip()
         else:
             input_exe = get_users_dic("exe")
-        path = os.getcwd()
-        output_bin = f"{path}/sessions/shellcode.bin"
         try:
-            shellcode = donut.create(file=input_exe)
-            with open(output_bin, "wb") as f:
-                f.write(shellcode)
+            from modules.payload_native import PayloadNativeError, build_donut_shellcode
+
+            output_bin = build_donut_shellcode(input_exe)
             print_msg(f"Shellcode written to {output_bin}")
-        except Exception as e:
+        except PayloadNativeError as e:
             print_error(f"Error generating shellcode: {e}")
 
     @cmd2.with_category("04. Post-Exploitation")

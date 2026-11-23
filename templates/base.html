@@ -28,6 +28,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="opsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">Ops</a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="opsDropdown" style="z-index:99999;position:absolute;">
                                 <li><a class="dropdown-item" href="{{ url_for('index') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('lazybox.lazybox_page') }}">LazyBox</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('phishing.list_campaigns') }}">Phishing</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('tasks') }}">Tasks</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('list_tools') }}">Tools</a></li>

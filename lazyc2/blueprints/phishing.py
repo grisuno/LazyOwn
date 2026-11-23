@@ -34,6 +34,8 @@ from lazyc2.extensions.short_urls import (
     load_short_urls,
     save_short_urls,
 )
+from lazyc2.phishing.paths import DB_PATH as _PHISHING_DB_PATH
+from lazyc2.security.auth import requires_auth
 from lazyc2.security.validators import resolve_contained_file_path
 from modules.security_sanitizers import SessionPathResolver
 
@@ -46,6 +48,7 @@ def _get_config(key: str, default=None):
 
 
 @redirect_bp.route("/create_short_url", methods=["POST"])
+@requires_auth
 def create_short_url():
     """Create one or more short URLs for a single original URL.
 
@@ -98,7 +101,7 @@ def track_interaction(short_url):
     short_urls = load_short_urls()
     if short_url not in short_urls or not short_urls[short_url]["active"]:
         abort(404)
-    db_path = _get_config("DB_PATH", "sessions/c2.db")
+    db_path = _get_config("DB_PATH", _PHISHING_DB_PATH)
     client_ip = request.remote_addr
     user_agent = request.headers.get("User-Agent")
     behavior_data = request.args.get("behavior", "{}")
@@ -122,6 +125,7 @@ def track_interaction(short_url):
 
 
 @redirect_bp.route("/update_short_url/<short_url>", methods=["PUT"])
+@requires_auth
 def update_short_url(short_url):
     """Update an existing short URL's target or active status.
 

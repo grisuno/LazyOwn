@@ -12,8 +12,12 @@ server.
 
 | Directory | Contents |
 |-----------|---------|
-| `security/` | Input validation, path safety, CORS, CSRF, HTTPS, command allowlist, HTML sanitization, trusted-proxy parsing, and shell-runner policies used by C2 routes. |
-| `blueprints/` | Flask blueprints registered from `lazyc2.py` (auth, operations, api, addons). |
+| `security/` | Input validation, path safety, CORS, CSRF, HTTPS, command allowlist, HTML sanitization, trusted-proxy parsing, auth primitives (`auth.py`) and shell-runner policies used by C2 routes. |
+| `beacons/` | Beacon on-disk state contract: command queue, result history and malleable recon markers (`BeaconStore`). |
+| `listeners/` | Multi-listener REST surface (`listeners_bp`) over `modules.listener_manager`. |
+| `phishing/` | Campaign storage layout, short-URL registry store and the campaign REST blueprint (`phishing_bp`). |
+| `terminal/` | Socket.IO terminal glue: `/listener`, `/pty` and `/terminal` namespaces registered via `register_terminal_glue`. |
+| `blueprints/` | Flask blueprints registered from `lazyc2.py` via `register_blueprints(app)` (single registration home: auth, operations, api, gym, lazybox, loops, listeners). |
 | `extensions/` | Shared helpers for blueprints: decoy response, storage, short URLs. |
 
 ## Root modules

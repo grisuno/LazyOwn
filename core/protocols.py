@@ -10,6 +10,7 @@ Type-only — no runtime side effects.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any, Protocol, runtime_checkable
 
 
@@ -80,4 +81,45 @@ class OutcomeEvaluator(Protocol):
         """Return a reward in ``[0.0, 1.0]``."""
 
 
-__all__ = ["Selector", "LLMBackend", "MemoryStore", "BridgeCatalog", "OutcomeEvaluator"]
+@dataclass(frozen=True)
+class C2Message:
+    """One inbound operator message delivered over a C2 channel.
+
+    Attributes:
+        channel: Name of the channel the message arrived on.
+        sender: Platform-side sender id (chat/user id).
+        text: Raw message text.
+    """
+
+    channel: str
+    sender: str
+    text: str
+
+
+@runtime_checkable
+class C2Channel(Protocol):
+    """Bidirectional operator channel into the C2 (telegram/discord/slack).
+
+    Channels are transport-only: they deliver outbound text to the
+    operator and poll inbound operator messages. Command execution is
+    owned by an injected executor strategy, never by the channel.
+    """
+
+    name: str
+
+    def send(self, text: str) -> bool:
+        """Deliver one outbound message; return True on success."""
+
+    def poll(self) -> list[C2Message]:
+        """Return the new inbound messages since the last poll."""
+
+
+__all__ = [
+    "C2Channel",
+    "C2Message",
+    "Selector",
+    "LLMBackend",
+    "MemoryStore",
+    "BridgeCatalog",
+    "OutcomeEvaluator",
+]

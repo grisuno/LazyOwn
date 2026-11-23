@@ -4282,9 +4282,11 @@ nvidia-cusolver==12.2.0.11 ; python_full_version >= '3.11' and ((platform_machin
     --hash=sha256:8be097fca28de6be0990ab216ee9b804dd51077e1d1d83acf6c9850650bdc64d \
     --hash=sha256:fab5778f6769947389a1a6abc07e635576825a08c0ffc68c3ae7f1392c794b42
     # via cuda-toolkit
-nvidia-cusparse==12.6.3.3 ; python_full_version < '3.11' and ((platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')) \
-    --hash=sha256:2b3c89c88d01ee0e477cb7f82ef60a11a4bcd57b6b87c33f789350b59759360b \
-    --hash=sha256:80bcc4662f23f1054ee334a15c72b8940402975e0eab63178fc7e670aa59472c
+nvidia-cusparse==12.9.4.2 ; python_full_version < '3.11' and ((platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')) \
+    --hash=sha256:072667e58c851a318738f5527a12eb225cbf058803f2ea451c722d8cf8edddec \
+    --hash=sha256:2defba1fbe76140c9eedc9fe82d58f11a0e2b7fd2c12dc5fb1267cc076689669 \
+    --hash=sha256:50d7a8c47c377c44ec1db681710156a28246ddfe3bde7be801daa85aba5483cc \
+    --hash=sha256:e2ce97f185c9c4b285e4a8fbf02cb96dd1b8dd66736ebe2f0a8da5f6012a4fb7
     # via
     #   cuda-toolkit
     #   nvidia-cusolver

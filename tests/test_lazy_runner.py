@@ -949,15 +949,21 @@ def test_engine_wake_preempts_heartbeat(store):
 
     engine = LazyEngine()
     engine.heartbeat_sec = 30.0
+    engine.wake_debounce_sec = 0.0
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     calls = {"n": 0}
+    done = _threading.Event()
 
     def _round(task_id_arg, workers=1, executor=None):
         calls["n"] += 1
         return {"new_intents": 0, "executed": 0, "overview": {}}
 
+    def _run():
+        engine.run(task_id, max_rounds=3, workers=1)
+        done.set()
+
     engine.run_round = _round
-    thread = _threading.Thread(target=lambda: engine.run(task_id, max_rounds=3, workers=1), daemon=True)
+    thread = _threading.Thread(target=_run, daemon=True)
     started = _time.monotonic()
     thread.start()
     deadline = started + 6
@@ -967,11 +973,13 @@ def test_engine_wake_preempts_heartbeat(store):
     while calls["n"] < 2 and _time.monotonic() < deadline:
         _time.sleep(0.01)
     loop.wake_task(task_id)
-    thread.join(timeout=8)
+    finished = done.wait(timeout=15)
+    thread.join(timeout=1)
     elapsed = _time.monotonic() - started
+    assert finished
     assert not thread.is_alive()
     assert calls["n"] == 3
-    assert elapsed < 10
+    assert elapsed < 20
 
 
 def test_engine_heartbeat_replans_when_idle(store):

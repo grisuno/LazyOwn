@@ -9,7 +9,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
-> **879 CLI commands. Multi-operator C2. 194 MCP tools for AI agents. The First OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
+> **887 CLI commands. Multi-operator C2. 194 MCP tools for AI agents. The First OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
 
 ## Install in one command
 
@@ -82,7 +82,7 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v 0.5.0
 
-LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 879 CLI commands, 130 aliases, 194 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 887 CLI commands, 130 aliases, 194 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
 **New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_loop` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
 
@@ -259,7 +259,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Key Features
 
-1. **879 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD   recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+1. **887 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD   recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
 2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
 3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons   all browsable via curses TUI.
 4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon   `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
@@ -326,7 +326,7 @@ Agent setup details (Claude Code, Hermes, OpenCode, env vars, tool groups): [`do
 
 ## Command Capabilities
 
-LazyOwn provides 879 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
+LazyOwn provides 887 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
 
 | Phase | Highlight Commands |
 |-------|-------------------|
@@ -346,7 +346,7 @@ LazyOwn provides 879 commands across 13 kill-chain phases, available from both C
 
 Core management: `assign`, `show`, `doctor`, `wizard`, `scope`, `collab_join`, `config_banner`, `palette`, `fz`.
 
-See [`COMMANDS.md`](COMMANDS.md) for the full 879-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
+See [`COMMANDS.md`](COMMANDS.md) for the full 887-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
 
 ## Go deeper
 
@@ -372,7 +372,7 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 879-command reference and [`ESSENT
 
 ## Full references (auto-generated, standalone)
 
-- [`COMMANDS.md`](COMMANDS.md)   full 879-command reference
+- [`COMMANDS.md`](COMMANDS.md)   full 887-command reference
 - [`UTILS.md`](UTILS.md)   helper-function reference for `utils.py`
 - [`CHANGELOG.md`](CHANGELOG.md)   release history
 
@@ -414,7 +414,7 @@ For two critical security advisories that helped us harden the framework and fix
 
 ### KitPloit.com
 
-We, the people who dedicate time to LazyOwn, are flattered by that excellent review on [Kitploit](https://x.com/KitPloit/status/2105568661779907031). Thank you so much, it helps us reach a wider community. 
+We, the people who dedicate time to LazyOwn, are flattered by that excellent review on [Kitploit](https://x.com/KitPloit/status/2105568661779907031). Thank you so much, it helps us reach a wider community.
 
 - [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
 - [https://kitploit.com/en/tools/github/grisuno/blacksandbeacon](https://kitploit.com/en/tools/github/grisuno/blacksandbeacon)

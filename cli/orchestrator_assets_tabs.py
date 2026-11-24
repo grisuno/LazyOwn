@@ -8,8 +8,10 @@ and persistence helpers stay single-responsibility here.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from rich.text import Text
 from textual.widgets import DataTable, Input, Static
@@ -86,7 +88,7 @@ PACING_FIELDS = (
 )
 
 
-def _coerce(raw) -> object:
+def _coerce(raw) -> int | float | bool | str:
     """Coerce a form string into bool/int when it clearly is one."""
     text = str(raw).strip().lower()
     if text in ("true", "yes", "on"):
@@ -219,6 +221,14 @@ def _widget_id(key: str) -> str:
 
 class OrchestratorAssetsMixin:
     """Tab controllers for Playbooks, Gyms, Chains and Profiles tabs."""
+
+    _playbooks_dir_override: Path | None
+    _bofs_dir_override: Path | None
+    _payload_path: Path | None
+    _selected_row: Callable[[str], str]
+    notify: Callable[..., None]
+    query_one: Callable[..., Any]
+    push_screen: Callable[..., Any]
 
     def _playbooks_dir(self) -> Path:
         """Playbook file root (overrideable for sandboxed tests)."""

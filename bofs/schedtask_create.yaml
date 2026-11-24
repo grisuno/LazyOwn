@@ -7,7 +7,7 @@ source_file: SA/schedtask_create/entry.c
 client: beacon
 platform: windows
 category: persistence
-client_artifact: 
+client_artifact:
 required_args: ['taskname', 'command']
 optional_args: ['server', 'username', 'password', 'interval']
 mitre_technique: T1053

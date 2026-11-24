@@ -197,7 +197,7 @@ def exploitalert(content: str) -> list[dict[str, str]]:
         title_el = item.select_one(".exploit-title")
         link_el = item.select_one("a")
         if title_el and link_el:
-            results.append({"title": title_el.get_text(strip=True), "link": link_el.get("href", "")})
+            results.append({"title": title_el.get_text(strip=True), "link": str(link_el.get("href", ""))})
     return results
 
 
@@ -215,7 +215,7 @@ def packetstormsecurity(content: str) -> list[dict[str, str]]:
     for item in soup.select(".result"):
         title_el = item.select_one(".title a")
         if title_el:
-            results.append({"title": title_el.get_text(strip=True), "link": title_el.get("href", "")})
+            results.append({"title": title_el.get_text(strip=True), "link": str(title_el.get("href", ""))})
     return results
 
 
@@ -266,7 +266,7 @@ def scrape_news() -> tuple[list[str], list[str], list[str]]:
             title_el = row.select_one(".titleline a")
             if title_el:
                 titles.append(title_el.get_text(strip=True))
-                links.append(title_el.get("href", ""))
+                links.append(str(title_el.get("href", "")))
         for score_el in soup.select(".score"):
             scores.append(score_el.get_text(strip=True))
     except RequestException:

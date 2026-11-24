@@ -18,8 +18,11 @@ from modules.bof_registry import _build_default_catalog, client_addon_install_pa
 
 
 def _external_artifacts_present() -> bool:
-    root = Path("external") / ".exploit"
-    return root.is_dir() and any(root.iterdir())
+    for client in ("beacon", "blacksandbeacon"):
+        install_path = client_addon_install_path(client)
+        if install_path and (Path(install_path) / "bof").is_dir():
+            return True
+    return False
 
 
 def test_every_yaml_is_a_valid_contract():

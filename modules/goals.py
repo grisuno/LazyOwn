@@ -12,7 +12,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-
 MAX_DECOMPOSE_TURNS = 8
 
 
@@ -67,7 +66,7 @@ def decompose_rule_based(objective_text: str, max_goals: int = 8) -> list[GoalSp
         return [GoalSpec(text="recon: discover live hosts and open services")]
     parts = [p.strip() for p in _GOAL_SPLIT_RE.split(raw) if p.strip()]
     goals: list[GoalSpec] = []
-    for part in parts[:max(1, max_goals)]:
+    for part in parts[: max(1, max_goals)]:
         low = part.lower()
         mapped = next((g for k, g in _KEYWORD_GOALS if k in low), "")
         goals.append(GoalSpec(text=mapped or f"task: {part[:120]}"))
@@ -77,7 +76,7 @@ def decompose_rule_based(objective_text: str, max_goals: int = 8) -> list[GoalSp
     for goal in goals:
         if goal.text not in {g.text for g in seen}:
             seen.append(goal)
-    return seen[:max(1, max_goals)]
+    return seen[: max(1, max_goals)]
 
 
 def load_constraints(payload: dict | None = None) -> TaskConstraints:
@@ -155,7 +154,11 @@ class GoalTracker:
 
 
 __all__ = [
-    "MAX_DECOMPOSE_TURNS", "GoalSpec", "TaskConstraints",
-    "decompose_rule_based", "load_constraints", "constraint_block_text",
+    "MAX_DECOMPOSE_TURNS",
+    "GoalSpec",
+    "TaskConstraints",
+    "decompose_rule_based",
+    "load_constraints",
+    "constraint_block_text",
     "GoalTracker",
 ]

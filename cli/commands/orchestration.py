@@ -75,7 +75,7 @@ def _spinner_hints(stop: object, events_path: str = "sessions/autonomous_events.
         console = _Console()
         hint = _SPINNER_IDLE
         with console.status(f"[bold yellow]{hint}[/]", spinner="dots"):
-            while not stop.is_set():  # type: ignore[union-attr]
+            while not stop.is_set():  # type: ignore[attr-defined]
                 try:
                     fresh = _latest_hint(events_path)
                     if fresh:
@@ -83,7 +83,7 @@ def _spinner_hints(stop: object, events_path: str = "sessions/autonomous_events.
                 except Exception:
                     pass
                 try:
-                    console.update(f"[bold yellow]{hint}[/]")
+                    console.update(f"[bold yellow]{hint}[/]")  # type: ignore[attr-defined]
                 except Exception:
                     pass
                 _time.sleep(_SPINNER_POLL_S)

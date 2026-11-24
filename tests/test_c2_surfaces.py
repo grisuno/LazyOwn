@@ -78,8 +78,8 @@ def test_group_tasks_unique_hits(tmp_path: Path) -> None:
     """Identical titles collapse with counts; junk is tallied as noise."""
     tasks = [
         {"id": 0, "status": "Done", "title": "Recon 10.0.0.1", "operator": "x"},
-        {"id": 1, "status": "New", "title": "Leverage new credential: {\"value\": \"a:b\"}"},
-        {"id": 2, "status": "New", "title": "Leverage new credential: {\"value\": \"12:09:08\"}"},
+        {"id": 1, "status": "New", "title": 'Leverage new credential: {"value": "a:b"}'},
+        {"id": 2, "status": "New", "title": 'Leverage new credential: {"value": "12:09:08"}'},
         {"id": 3, "status": "New", "title": "Enumerate newly discovered host 10.0.0.1"},
         {"id": 4, "status": "New", "title": "Enumerate newly discovered host 10.0.0.1"},
     ]
@@ -105,12 +105,18 @@ def test_record_outcome_feeds_c2_surfaces(tmp_path: Path, monkeypatch) -> None:
             return None
 
     monkeypatch.setattr("modules.world_model.get_world_model", lambda *a, **k: _StubWM())
-    monkeypatch.setattr("modules.killchain.KillChain", lambda *a, **k: type("K", (), {"advance_phase": lambda s, p: False})())
+    monkeypatch.setattr(
+        "modules.killchain.KillChain", lambda *a, **k: type("K", (), {"advance_phase": lambda s, p: False})()
+    )
     monkeypatch.setattr("modules.intel_fusion.build_intel_graph", lambda *a, **k: {})
     monkeypatch.setattr("modules.lazy_intel.record_routing_outcome", lambda *a, **k: {})
     spec = ExploitSpec(
-        id="demo", mitre_id="T1190", cve="CVE-2011-2523", title="Demo RCE",
-        severity="critical", confidence=0.9,
+        id="demo",
+        mitre_id="T1190",
+        cve="CVE-2011-2523",
+        title="Demo RCE",
+        severity="critical",
+        confidence=0.9,
         commands=[_Cmd(run="id", timeout=5)],
     )
     fed = _bridge.record_outcome(spec, "10.0.0.1", True, output="uid=0", surfaces_dir=sessions)

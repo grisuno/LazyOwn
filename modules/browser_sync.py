@@ -218,9 +218,7 @@ def cookie_matches_path(cookie: dict[str, Any], request_path: str) -> bool:
         target = "/" + target
     if target == cookie_path:
         return True
-    return target.startswith(cookie_path) and (
-        cookie_path.endswith("/") or target[len(cookie_path)] == "/"
-    )
+    return target.startswith(cookie_path) and (cookie_path.endswith("/") or target[len(cookie_path)] == "/")
 
 
 def cookie_expired(cookie: dict[str, Any], now: float | None = None) -> bool:
@@ -731,7 +729,9 @@ class SyncReceiver:
         profile = {
             "synced_at": time.time(),
             "user_agent": _sanitize_header_value(data.get("user_agent")),
-            "languages": [str(v)[:64] for v in data.get("languages") or []][:8] if isinstance(data.get("languages"), list) else [],
+            "languages": [str(v)[:64] for v in data.get("languages") or []][:8]
+            if isinstance(data.get("languages"), list)
+            else [],
             "client_hints": {
                 _sanitize_header_value(k): _sanitize_header_value(v)
                 for k, v in (data.get("client_hints") or {}).items()

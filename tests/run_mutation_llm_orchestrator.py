@@ -37,8 +37,8 @@ MUTATIONS = {
     "exhausted_help_suppressed": {
         "file": "modules/llm_orchestrator.py",
         "description": "Return empty text on total exhaustion instead of the help message",
-        "old": "        text=HELP_MESSAGE,\n        backend=\"error\",\n        notice=notice,\n        attempts=list(attempts),\n        attempted_specs=list(specs),",
-        "new": "        text=\"\",\n        backend=\"error\",\n        notice=notice,\n        attempts=list(attempts),\n        attempted_specs=list(specs),",
+        "old": '        text=HELP_MESSAGE,\n        backend="error",\n        notice=notice,\n        attempts=list(attempts),\n        attempted_specs=list(specs),',
+        "new": '        text="",\n        backend="error",\n        notice=notice,\n        attempts=list(attempts),\n        attempted_specs=list(specs),',
         "expected": "test_all_members_fail_returns_error_result_without_raising must fail",
     },
     "error_banner_accepted_as_content": {

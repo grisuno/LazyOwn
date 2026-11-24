@@ -44,14 +44,10 @@ UPSTREAM = "chryzsh/awesome-windows-security"
 
 NAME_PATTERN = re.compile(r"^[a-z][a-z0-9-]{1,63}$")
 TOKEN_PATTERN = re.compile(r"`([a-z][a-z0-9_]{2,30})`")
-GUID_PATTERN = re.compile(
-    r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b"
-)
+GUID_PATTERN = re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b")
 TECHNIQUE_PATTERN = re.compile(r"^T\d{4}(\.\d{3})?$")
 ESCID_PATTERN = re.compile(r"^ESC\d{1,2}$")
-TABLE_ROW_PATTERN = re.compile(
-    r"^\|\s*(T\d{4}(?:\.\d{3})?)\s*\|\s*([0-9a-f-]{36})\s*\|", re.MULTILINE
-)
+TABLE_ROW_PATTERN = re.compile(r"^\|\s*(T\d{4}(?:\.\d{3})?)\s*\|\s*([0-9a-f-]{36})\s*\|", re.MULTILINE)
 
 ALLOWED_NON_COMMANDS = {
     "hash",
@@ -293,11 +289,7 @@ class TestAtomicTranslation:
         if not atomic_index:
             pytest.skip("atomic-red-team checkout not present")
         rows = TABLE_ROW_PATTERN.findall(_skill_text())
-        offenders = [
-            (technique, guid)
-            for technique, guid in rows
-            if atomic_index[guid.lower()][0] != technique
-        ]
+        offenders = [(technique, guid) for technique, guid in rows if atomic_index[guid.lower()][0] != technique]
         assert offenders == [], f"technique/guid mismatch: {offenders}"
 
     def test_resolver_contract_is_documented(self):

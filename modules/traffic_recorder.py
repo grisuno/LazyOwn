@@ -631,15 +631,13 @@ class TrafficRecorder:
                 removed = len(rows)
                 if rows:
                     conn.execute(
-                        "DELETE FROM exchanges WHERE id IN "
-                        f"({', '.join('?' for _ in rows)})",
+                        f"DELETE FROM exchanges WHERE id IN ({', '.join('?' for _ in rows)})",
                         tuple(str(row["id"]) for row in rows),
                     )
                     if self._fts:
                         try:
                             conn.execute(
-                                "DELETE FROM bodies_fts WHERE exchange_id IN "
-                                f"({', '.join('?' for _ in rows)})",
+                                f"DELETE FROM bodies_fts WHERE exchange_id IN ({', '.join('?' for _ in rows)})",
                                 tuple(str(row["id"]) for row in rows),
                             )
                         except sqlite3.OperationalError as exc:

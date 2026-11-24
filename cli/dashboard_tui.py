@@ -334,7 +334,7 @@ class TargetPanel(Static):
     }
     """
 
-    def get_selection(self, selection: Any) -> list[str] | None:
+    def get_selection(self, selection: Any) -> tuple[str, str] | None:
         """Override to prevent IndexError when selection offsets exceed text length.
 
         Rich ``Text`` objects may produce ``Content`` whose plain-text length is
@@ -955,7 +955,7 @@ class LazyOwnDashboard(App):
         except Exception:
             pass
 
-    def action_screenshot(self) -> None:
+    def action_screenshot(self, filename: str | None = None, path: str | None = None) -> None:
         """Save an SVG screenshot next to the sessions directory."""
         try:
             path = str(Path(self._sessions_dir) / "dashboard.svg")

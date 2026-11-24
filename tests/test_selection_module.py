@@ -25,9 +25,7 @@ def registry(tmp_path, monkeypatch):
     )
     playbooks = tmp_path / "playbooks"
     playbooks.mkdir(parents=True, exist_ok=True)
-    (playbooks / "rocke.json").write_text(
-        '{"name": "rocke", "description": "ransomware emulation"}', encoding="utf-8"
-    )
+    (playbooks / "rocke.json").write_text('{"name": "rocke", "description": "ransomware emulation"}', encoding="utf-8")
     reg = mr.ModuleRegistry(tmp_path)
     reg.scan()
 

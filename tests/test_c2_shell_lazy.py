@@ -29,11 +29,7 @@ def _load_proxy_class():
         The class object plus the namespace it was exec'd with.
     """
     tree = _module_tree()
-    node = next(
-        n
-        for n in tree.body
-        if isinstance(n, ast.ClassDef) and n.name == "_LazyShellProxy"
-    )
+    node = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "_LazyShellProxy")
     namespace: dict = {}
     created = {"count": 0}
 
@@ -67,8 +63,7 @@ class TestNoEagerCliBuild:
             if isinstance(node, ast.ImportFrom) and node.module == "lazyown":
                 offenders.append(ast.dump(node))
             if isinstance(node, ast.Import) and any(
-                a.name == "lazyown" or a.name.startswith("lazyown.")
-                for a in node.names
+                a.name == "lazyown" or a.name.startswith("lazyown.") for a in node.names
             ):
                 offenders.append(ast.dump(node))
         assert not offenders, f"top-level CLI imports: {offenders}"
@@ -76,9 +71,7 @@ class TestNoEagerCliBuild:
     def test_no_eager_shell_build(self) -> None:
         tree = _module_tree()
         for node in tree.body:
-            if isinstance(node, ast.Assign) and any(
-                isinstance(t, ast.Name) and t.id == "shell" for t in node.targets
-            ):
+            if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "shell" for t in node.targets):
                 assert not (
                     isinstance(node.value, ast.Call)
                     and isinstance(node.value.func, ast.Name)
@@ -89,11 +82,7 @@ class TestNoEagerCliBuild:
         tree = _module_tree()
         names = {node.name for node in tree.body if isinstance(node, ast.FunctionDef)}
         assert "_init_shell" in names
-        init = next(
-            node
-            for node in tree.body
-            if isinstance(node, ast.FunctionDef) and node.name == "_init_shell"
-        )
+        init = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "_init_shell")
         body_src = ast.dump(init)
         assert "LazyOwnShell" in body_src
         assert "StringIO" in body_src

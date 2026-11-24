@@ -55,7 +55,7 @@ def write_checkpoint(directory: Path | str, state: dict[str, Any]) -> Path:
     payload = dict(state)
     payload["steps"] = list(payload.get("steps") or [])[:_MAX_STEPS_RECORD]
     payload["updated_at"] = time.time()
-    text = json.dumps(payload, default=str)[:_MAX_CHECKPOINT_BYTES * 4]
+    text = json.dumps(payload, default=str)[: _MAX_CHECKPOINT_BYTES * 4]
     tmp = path.with_suffix(_STATE_SUFFIX + ".tmp")
     tmp.write_text(text, encoding="utf-8")
     os.replace(tmp, path)

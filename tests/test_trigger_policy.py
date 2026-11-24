@@ -10,8 +10,6 @@ additions.
 
 from pathlib import Path
 
-
-
 from modules import trigger_policy
 
 
@@ -95,4 +93,3 @@ def test_seed_store_drops_unknown_kinds(tmp_path: Path, monkeypatch):
     trigger_policy.seed_store(policy=[{"kind": "not_a_kind", "every_sec": 5}])
     items = trigger_policy.export_store()
     assert [item["kind"] for item in items] == []
-

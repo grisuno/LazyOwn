@@ -42,11 +42,17 @@ async def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext):
 
     wanted = str(arguments.get("tool_name", "") or "").strip()
     if not wanted:
-        return ctx.text(tool_name, "Pass a tool_name, e.g. lazyown_inspect_tool_schema(tool_name='lazyown_auto_populate')")
+        return ctx.text(
+            tool_name, "Pass a tool_name, e.g. lazyown_inspect_tool_schema(tool_name='lazyown_auto_populate')"
+        )
     tools = await ctx.list_tools()
     for tool in tools:
         if getattr(tool, "name", "") == wanted:
             schema = getattr(tool, "inputSchema", None)
-            body = json.dumps({"name": wanted, "description": getattr(tool, "description", ""), "inputSchema": schema}, indent=2, default=str)
+            body = json.dumps(
+                {"name": wanted, "description": getattr(tool, "description", ""), "inputSchema": schema},
+                indent=2,
+                default=str,
+            )
             return ctx.text(tool_name, body)
     return ctx.text(tool_name, f"Unknown tool: {wanted}. Use lazyown_discover to list valid names.")

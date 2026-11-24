@@ -8,13 +8,13 @@ from pathlib import Path
 
 import pytest
 
-from modules.world_model import read_state_dict
 from cli.ops_commands import (
     _cli_phase_to_host_state,
     _engagement_phase_to_cli,
     _phase_rank,
     write_phase,
 )
+from modules.world_model import read_state_dict
 
 
 class TestPhaseMapping:

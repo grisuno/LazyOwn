@@ -22,22 +22,36 @@ def _fixture_sessions(tmp_path: Path) -> Path:
     """Write a minimal campaign: world model, lazy task, objective, log."""
     world = {
         "phase": "recon",
-        "hosts": {"10.0.0.5": {"ip": "10.0.0.5", "state": "scanned",
-                               "os_hint": "linux",
-                               "services": {"22": {"port": 22, "name": "ssh", "state": "open"}}}},
-        "vulnerabilities": [{"id": "v1", "title": "open ssh", "host": "10.0.0.5",
-                             "severity": "high"}],
+        "hosts": {
+            "10.0.0.5": {
+                "ip": "10.0.0.5",
+                "state": "scanned",
+                "os_hint": "linux",
+                "services": {"22": {"port": 22, "name": "ssh", "state": "open"}},
+            }
+        },
+        "vulnerabilities": [{"id": "v1", "title": "open ssh", "host": "10.0.0.5", "severity": "high"}],
     }
     (tmp_path / "world_model.json").write_text(json.dumps(world))
     lazy = tmp_path / "lazy"
     lazy.mkdir()
-    (lazy / "tasks.json").write_text(json.dumps({"seq": 1, "tasks": {
-        "t0001": {"task_id": "t0001", "goal": "assess 10.0.0.5", "status": "running",
-                  "scope": [{"kind": "ip", "value": "10.0.0.5"}]}}}))
-    (tmp_path / "objectives.jsonl").write_text(
-        json.dumps({"objective": "own 10.0.0.5", "status": "open"}) + "\n")
-    (tmp_path / "autonomous_events.jsonl").write_text(
-        json.dumps({"message": "scanned 10.0.0.5"}) + "\n")
+    (lazy / "tasks.json").write_text(
+        json.dumps(
+            {
+                "seq": 1,
+                "tasks": {
+                    "t0001": {
+                        "task_id": "t0001",
+                        "goal": "assess 10.0.0.5",
+                        "status": "running",
+                        "scope": [{"kind": "ip", "value": "10.0.0.5"}],
+                    }
+                },
+            }
+        )
+    )
+    (tmp_path / "objectives.jsonl").write_text(json.dumps({"objective": "own 10.0.0.5", "status": "open"}) + "\n")
+    (tmp_path / "autonomous_events.jsonl").write_text(json.dumps({"message": "scanned 10.0.0.5"}) + "\n")
     return tmp_path
 
 
@@ -80,10 +94,7 @@ def test_summary_score_is_bounded_0_100(tmp_path: Path) -> None:
     """A hyper-connected host with huge degree never scores past 100."""
     world = {
         "phase": "recon",
-        "hosts": {
-            f"10.0.1.{i}": {"ip": f"10.0.1.{i}", "state": "scanned", "services": {}}
-            for i in range(1, 40)
-        },
+        "hosts": {f"10.0.1.{i}": {"ip": f"10.0.1.{i}", "state": "scanned", "services": {}} for i in range(1, 40)},
     }
     (tmp_path / "world_model.json").write_text(json.dumps(world))
     graph = build_intel_graph(tmp_path)
@@ -102,6 +113,7 @@ def test_summary_score_detail_components_sum(tmp_path: Path) -> None:
     assert "connectivity" in labels
     assert "findings" in labels
 
+
 def test_summary_heat_component_from_matched_cve(tmp_path: Path, monkeypatch) -> None:
     """A hot CVE candidate matched on a host raises its score with a labeled line."""
     import time
@@ -112,8 +124,16 @@ def test_summary_heat_component_from_matched_cve(tmp_path: Path, monkeypatch) ->
         lazy_cve_feed,
         "correlate",
         lambda banner, version="", allow_network=True: [
-            {"cve": "CVE-2021-41773", "heat": "hot", "cvss": 9.8, "kev": True,
-             "epss": 0.9, "exploit": True, "in_range": True, "confidence": "high"}
+            {
+                "cve": "CVE-2021-41773",
+                "heat": "hot",
+                "cvss": 9.8,
+                "kev": True,
+                "epss": 0.9,
+                "exploit": True,
+                "in_range": True,
+                "confidence": "high",
+            }
         ],
         raising=True,
     )
@@ -123,16 +143,30 @@ def test_summary_heat_component_from_matched_cve(tmp_path: Path, monkeypatch) ->
         json.dumps(
             {
                 "phase": "exploit",
-                "hosts": {"10.0.0.5": {"ip": "10.0.0.5", "state": "scanned",
-                                       "services": {"80": {"port": 80, "name": "http", "version": "Apache 2.4.49", "state": "open"}}}},
+                "hosts": {
+                    "10.0.0.5": {
+                        "ip": "10.0.0.5",
+                        "state": "scanned",
+                        "services": {"80": {"port": 80, "name": "http", "version": "Apache 2.4.49", "state": "open"}},
+                    }
+                },
             }
         )
     )
-    (tmp_path / "autonomous_events.jsonl").write_text(
-        json.dumps({"message": "hit"}) + "\n")
+    (tmp_path / "autonomous_events.jsonl").write_text(json.dumps({"message": "hit"}) + "\n")
     (tmp_path / "lazy_changes.jsonl").write_text(
-        json.dumps({"kind": "port_opened", "ip": "10.0.0.5", "port": 80, "before": None,
-                    "after": {"service": "https"}, "detected": time.time()}) + "\n")
+        json.dumps(
+            {
+                "kind": "port_opened",
+                "ip": "10.0.0.5",
+                "port": 80,
+                "before": None,
+                "after": {"service": "https"},
+                "detected": time.time(),
+            }
+        )
+        + "\n"
+    )
     graph = build_intel_graph(tmp_path)
     summary = write_summary(graph, tmp_path)
     top = summary["top_exposed"][0]
@@ -147,8 +181,18 @@ def test_summary_recency_rewards_new_hosts(tmp_path: Path) -> None:
     import time
 
     (tmp_path / "lazy_changes.jsonl").write_text(
-        json.dumps({"kind": "host_new", "ip": "10.0.0.5", "port": "", "before": None,
-                    "after": {"ip": "10.0.0.5"}, "detected": time.time()}) + "\n")
+        json.dumps(
+            {
+                "kind": "host_new",
+                "ip": "10.0.0.5",
+                "port": "",
+                "before": None,
+                "after": {"ip": "10.0.0.5"},
+                "detected": time.time(),
+            }
+        )
+        + "\n"
+    )
     graph = build_intel_graph(_fixture_sessions(tmp_path))
     summary = write_summary(graph, tmp_path)
     detail = next(h["score_detail"] for h in summary["top_exposed"] if h["host"] == "10.0.0.5")
@@ -160,8 +204,18 @@ def test_summary_reports_heat_counts_and_changes(tmp_path: Path) -> None:
     import time
 
     (tmp_path / "lazy_changes.jsonl").write_text(
-        json.dumps({"kind": "port_opened", "ip": "10.0.0.5", "port": 443, "before": None,
-                    "after": {"service": "https"}, "detected": time.time()}) + "\n")
+        json.dumps(
+            {
+                "kind": "port_opened",
+                "ip": "10.0.0.5",
+                "port": 443,
+                "before": None,
+                "after": {"service": "https"},
+                "detected": time.time(),
+            }
+        )
+        + "\n"
+    )
     graph = build_intel_graph(_fixture_sessions(tmp_path))
     summary = write_summary(graph, tmp_path)
     assert set(summary["heat_counts"]) == {"hot", "warm", "cold"}
@@ -176,10 +230,24 @@ def _svg_fixture(kind_counts: dict[str, int] | None = None) -> dict:
         {"id": "h2", "kind": "host-owned", "value": "10.0.0.6", "degree": 1},
         {"id": "h3", "kind": "host", "value": "10.0.0.7", "degree": 1},
         {"id": "s1", "kind": "service", "value": "openssh", "degree": 1, "community": "net:10.0.0.5"},
-        {"id": "c1", "kind": "cve", "value": "CVE-2023-38408", "degree": 1,
-         "heat": "hot", "heat_rank": 3, "community": "net:10.0.0.5"},
-        {"id": "c2", "kind": "cve", "value": "CVE-2015-01-01", "degree": 1,
-         "heat": "cold", "heat_rank": 1, "community": "net:10.0.0.6"},
+        {
+            "id": "c1",
+            "kind": "cve",
+            "value": "CVE-2023-38408",
+            "degree": 1,
+            "heat": "hot",
+            "heat_rank": 3,
+            "community": "net:10.0.0.5",
+        },
+        {
+            "id": "c2",
+            "kind": "cve",
+            "value": "CVE-2015-01-01",
+            "degree": 1,
+            "heat": "cold",
+            "heat_rank": 1,
+            "community": "net:10.0.0.6",
+        },
     ]
     edges: list[dict] = [
         {"source": "h1", "target": "c2root", "type": "commands"},
@@ -230,9 +298,7 @@ def test_selection_is_input_order_independent() -> None:
 def test_relations_svg_escapes_untrusted_text() -> None:
     """Scan-derived labels never carry raw angle brackets into the svg."""
     payload = _svg_fixture()
-    payload["nodes"].append(
-        {"id": "evil", "kind": "finding", "value": "<script>alert(1)</script>", "degree": 1}
-    )
+    payload["nodes"].append({"id": "evil", "kind": "finding", "value": "<script>alert(1)</script>", "degree": 1})
     payload["edges"].append({"source": "evil", "target": "c2root", "type": "observed_in"})
     svg = intel_fusion.relations_svg(payload)
     assert "<script>alert(1)</script>" not in svg
@@ -257,7 +323,7 @@ def test_relations_svg_caps_heat_ranking() -> None:
 def test_report_renders_relations_appendix() -> None:
     """/report wires the snapshot into a dedicated appendix."""
     source = (_ROOT / "lazyc2.py").read_text()
-    assert 'from modules.intel_fusion import' in source
+    assert "from modules.intel_fusion import" in source
     assert "relations_svg" in source
     assert '"graph_svg"' in source
     template = (_ROOT / "templates" / "report.html").read_text()
@@ -281,19 +347,25 @@ def test_report_template_renders_host_scores_and_snapshot() -> None:
     env.globals["current_user"] = _User()
     env.globals["get_flashed_messages"] = lambda with_categories=False: []
     html = env.get_template("report.html").render(
-        report_data={}, tools=[], tasks=[], cves=[],
-        session_data={"params": {}, "implants": []}, implants=[],
+        report_data={},
+        tools=[],
+        tasks=[],
+        cves=[],
+        session_data={"params": {}, "implants": []},
+        implants=[],
         loops_summary={"total": 0, "by_status": {}, "by_target": {}, "recent": []},
         surface_intel={
             "summary": {
                 "funnel": {"discovered": 1, "owned": 0, "with findings": 1},
                 "heat_counts": {"hot": 1, "warm": 0, "cold": 1},
                 "top_exposed": [
-                    {"host": "10.0.0.5", "score": 45.0,
-                     "score_detail": [{"label": "CVE heat", "points": 40.0}]}
+                    {"host": "10.0.0.5", "score": 45.0, "score_detail": [{"label": "CVE heat", "points": 40.0}]}
                 ],
             },
-            "changes": [], "ghosts": [], "history": [], "graph_svg": svg,
+            "changes": [],
+            "ghosts": [],
+            "history": [],
+            "graph_svg": svg,
         },
     )
     assert "Appendix G" in html

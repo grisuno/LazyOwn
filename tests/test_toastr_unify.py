@@ -56,9 +56,7 @@ def test_markup_is_escaped_for_plain_text():
 
 def test_sentinel_panel_keeps_field_layout():
     """Given sentinel fields, the popup panel keeps the documented layout."""
-    panel = sentinel_toast_panel(
-        "report.yaml", "suspicious decode", "lazy enc", "entropy 7.9", severity="critical"
-    )
+    panel = sentinel_toast_panel("report.yaml", "suspicious decode", "lazy enc", "entropy 7.9", severity="critical")
     plain = panel.renderable.plain
     for marker in ("File:", "Info:", "Commands:", "Details:"):
         assert marker in plain

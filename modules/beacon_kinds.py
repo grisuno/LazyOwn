@@ -11,6 +11,7 @@ never disagree about what an implant can do.
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 from typing import Any
 
@@ -67,9 +68,11 @@ def detect_beacon_type(
     """
     if safe_id in bsb_clients:
         return "bsb", "BlackSandBeacon (C, Linux, BOF/RunELF)"
+    base_real = os.path.realpath(str(sessions_dir))
     for name in (f"{safe_id}", f"l_{safe_id}"):
         for ext in GO_BINARY_EXTS:
-            if (Path(sessions_dir) / f"{name}{ext}").is_file():
+            candidate = os.path.realpath(os.path.join(base_real, f"{name}{ext}"))
+            if candidate.startswith(base_real + os.sep) and os.path.isfile(candidate):
                 goos = (platform or "").strip().lower()
                 return "go", f"LazyOwn Go agent ({goos or 'native'})"
     normalized = (platform or "").strip().lower()

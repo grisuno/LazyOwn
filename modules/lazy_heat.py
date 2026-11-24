@@ -51,26 +51,67 @@ NO_DATA = "no_data"
 _VER_RE = re.compile(r"(\d+(?:\.\d+)*)")
 _EPOCH_RE = re.compile(r"^\s*\d+:(?=\d)")
 _HASH_RE = re.compile(r"^[0-9a-f]{7,40}$", re.IGNORECASE)
-_PRE_RE = re.compile(
-    r"^[-_.~+ ]?(?:(alpha|beta|rc|cr|pre|dev|snapshot)|(a|b|m))[-_. ]?(\d+)?", re.IGNORECASE
-)
-_PRE_RANK = {"dev": -6, "snapshot": -6, "alpha": -5, "a": -5, "beta": -4, "b": -4, "m": -3, "pre": -2, "cr": -1, "rc": -1}
+_PRE_RE = re.compile(r"^[-_.~+ ]?(?:(alpha|beta|rc|cr|pre|dev|snapshot)|(a|b|m))[-_. ]?(\d+)?", re.IGNORECASE)
+_PRE_RANK = {
+    "dev": -6,
+    "snapshot": -6,
+    "alpha": -5,
+    "a": -5,
+    "beta": -4,
+    "b": -4,
+    "m": -3,
+    "pre": -2,
+    "cr": -1,
+    "rc": -1,
+}
 
 _MIN_TOKEN_LEN = 3
 # Generic words identify infrastructure, not a vulnerable product.
 GENERIC_WORDS = frozenset(
     {
-        "cms", "server", "core", "api", "web", "app", "http", "https", "framework", "project", "client",
-        "service", "services", "sdk", "cli", "lib", "library", "tool", "tools", "manager", "platform",
-        "engine", "plugin", "module", "data", "cloud", "ssl", "tls", "js", "html", "proxy", "gateway",
-        "portal", "admin", "system", "daemon", "database", "db",
+        "cms",
+        "server",
+        "core",
+        "api",
+        "web",
+        "app",
+        "http",
+        "https",
+        "framework",
+        "project",
+        "client",
+        "service",
+        "services",
+        "sdk",
+        "cli",
+        "lib",
+        "library",
+        "tool",
+        "tools",
+        "manager",
+        "platform",
+        "engine",
+        "plugin",
+        "module",
+        "data",
+        "cloud",
+        "ssl",
+        "tls",
+        "js",
+        "html",
+        "proxy",
+        "gateway",
+        "portal",
+        "admin",
+        "system",
+        "daemon",
+        "database",
+        "db",
     }
 )
 
 
-def classify_heat(
-    kev: bool = False, epss: float | None = None, exploit: bool = False, cvss: float = 0.0
-) -> str:
+def classify_heat(kev: bool = False, epss: float | None = None, exploit: bool = False, cvss: float = 0.0) -> str:
     """Return the heat tier of one CVE from its exploitation signals.
 
     Args:
@@ -148,7 +189,7 @@ def parse_version(value: str, strict: bool = False) -> tuple[int, ...] | None:
         parts = [int(part) for part in match.group(1).split(".")]
     except ValueError:
         return None
-    pre = _PRE_RE.match(text[match.end():])
+    pre = _PRE_RE.match(text[match.end() :])
     if pre and (pre.group(1) or pre.group(3)):
         parts += [_PRE_RANK[(pre.group(1) or pre.group(2)).lower()], int(pre.group(3) or 0)]
     return tuple(parts)
@@ -413,7 +454,8 @@ def host_heat(tier_values, severity_levels=None, unscanned: bool = False) -> str
         Hottest tier, or ``unscanned``/``clean`` with no signal.
     """
     temps = [
-        tier for tier in (*tuple(tier_values or ()), *(heat_of_severity(level) for level in tuple(severity_levels or ())))
+        tier
+        for tier in (*tuple(tier_values or ()), *(heat_of_severity(level) for level in tuple(severity_levels or ())))
         if tier in HEAT_RANK
     ]
     if temps:

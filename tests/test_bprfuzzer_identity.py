@@ -17,9 +17,7 @@ SAMPLE_PROFILE = {
     "user_agent": "Mozilla/5.0 FuzzerAgent",
     "languages": ["en-US"],
     "client_hints": {},
-    "cookies": [
-        {"domain": "127.0.0.1", "name": "session", "value": "fuzz-cookie-1", "path": "/", "hostOnly": True}
-    ],
+    "cookies": [{"domain": "127.0.0.1", "name": "session", "value": "fuzz-cookie-1", "path": "/", "hostOnly": True}],
 }
 
 
@@ -85,9 +83,7 @@ class BprfuzzerIdentitySpec(unittest.TestCase):
         self.assertEqual(EchoHandler.captured["ua"], "Mozilla/5.0 FuzzerAgent")
 
     def test_send_request_merge_preserves_operator_headers(self):
-        response = bprfuzzer.send_request(
-            self.echo_url, headers={"X-Custom": "1", "Cookie": "operator=keepme"}
-        )
+        response = bprfuzzer.send_request(self.echo_url, headers={"X-Custom": "1", "Cookie": "operator=keepme"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("operator=keepme", EchoHandler.captured["cookie"])
         self.assertIn("session=fuzz-cookie-1", EchoHandler.captured["cookie"])

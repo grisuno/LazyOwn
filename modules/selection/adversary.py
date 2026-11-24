@@ -63,12 +63,14 @@ def load_profiles(adversaries_dir: str | Path | None = None) -> list[dict]:
             name = str(row.get("name") or "").strip()
             if not name:
                 continue
-            profiles.append({
-                "id": profile_id,
-                "file": path.name,
-                "slug": slug,
-                "name": re.sub(r"\.\w+$", "", name).strip().lower(),
-            })
+            profiles.append(
+                {
+                    "id": profile_id,
+                    "file": path.name,
+                    "slug": slug,
+                    "name": re.sub(r"\.\w+$", "", name).strip().lower(),
+                }
+            )
     return profiles
 
 
@@ -147,10 +149,7 @@ class AdversarySelector:
         return ActionDecision(
             command=command,
             source=self.name,
-            reason=(
-                f"goal names adversary profile {profile['slug']} "
-                f"(id={profile['id']}, artifact {profile['name']})"
-            ),
+            reason=(f"goal names adversary profile {profile['slug']} (id={profile['id']}, artifact {profile['name']})"),
             priority=4,
             mitre="",
         )

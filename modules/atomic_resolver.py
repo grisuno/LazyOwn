@@ -271,7 +271,9 @@ class AtomicResolver:
         self._by_guid = {}
         self._by_mitre = {}
         if not self.available:
-            return {}
+            built = self._build_parquet_index()
+            self._indexed = True
+            return built
         for yaml_file in _safe_yaml_files(self._atomics):
             try:
                 with yaml_file.open("r", encoding="utf-8", errors="replace") as fh:
@@ -301,6 +303,63 @@ class AtomicResolver:
         self._indexed = True
         log.info("Atomic index: %d techniques, %d tests", len(self._by_mitre), len(self._by_guid))
         return dict(self._by_mitre)
+
+    def _build_parquet_index(self) -> dict[str, list[str]]:
+        """Index the shipped Atomic catalogue parquet as a repo-less fallback.
+
+        The external Atomic Red Team checkout is optional; the tracked
+        ``parquets/techniques*.parquet`` files already carry every test
+        GUID, platform list and command, so resolvers keep working on a
+        clean checkout and in CI.
+
+        Returns:
+            Mapping of technique ID to the GUIDs found in the catalogue.
+        """
+        try:
+            import pandas as pd  # type: ignore
+        except Exception as exc:
+            log.debug("Atomic parquet fallback unavailable: %s", exc)
+            return {}
+        for name in ("techniques_enriched", "techniques"):
+            target = _BASE_DIR / "parquets" / f"{name}.parquet"
+            if not target.exists():
+                continue
+            try:
+                frame = pd.read_parquet(target)
+            except Exception as exc:
+                log.debug("Atomic parquet read failed (%s): %s", name, exc)
+                continue
+            for row in frame.to_dict("records"):
+                mitre_id = str(row.get("mitre_id", "") or "").strip().upper()
+                guid = str(row.get("id", "") or "").strip().lower()
+                if not is_mitre_id(mitre_id) or not is_guid(guid):
+                    continue
+                platforms = row.get("platforms")
+                if hasattr(platforms, "tolist"):
+                    platforms = platforms.tolist()
+                self._by_guid[guid] = AtomicTest(
+                    guid=guid,
+                    name=str(row.get("name", "") or ""),
+                    description=str(row.get("description", "") or ""),
+                    platforms=[str(p) for p in (platforms or [])],
+                    command=str(row.get("command", "") or ""),
+                    prereq_command=str(row.get("prereq_command", "") or ""),
+                    get_prereq_command=str(row.get("get_prereq_command", "") or ""),
+                    cleanup_command=str(row.get("cleanup_command", "") or ""),
+                    mitre_id=mitre_id,
+                )
+                self._by_mitre.setdefault(mitre_id, [])
+                if guid not in self._by_mitre[mitre_id]:
+                    self._by_mitre[mitre_id].append(guid)
+            if self._by_mitre:
+                log.info(
+                    "Atomic parquet index (%s): %d techniques, %d tests",
+                    name,
+                    len(self._by_mitre),
+                    len(self._by_guid),
+                )
+                return dict(self._by_mitre)
+        return {}
 
     def guids_for_technique(self, mitre_id: str) -> list[str]:
         """Return GUIDs registered for a technique ID (empty when unknown)."""

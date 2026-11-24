@@ -115,7 +115,9 @@ def _newest_creds_file(host: str) -> Path | None:
 def _candidate_files() -> list[Path]:
     """Return newest-first session text files worth scanning."""
     try:
-        paths = [path for path in _SESSIONS_DIR.glob("*.txt*") if path.is_file() and not path.name.endswith(".encrypted")]
+        paths = [
+            path for path in _SESSIONS_DIR.glob("*.txt*") if path.is_file() and not path.name.endswith(".encrypted")
+        ]
     except OSError:
         return []
     paths.sort(key=lambda path: path.stat().st_mtime, reverse=True)

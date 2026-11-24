@@ -15,14 +15,14 @@ import array
 import math
 import re
 import struct
-from typing import Sequence
+from collections.abc import Sequence
 
 _DIM = 512
 _TOKEN_MIN_LEN = 2
 _BIGRAM_STEP = 1
 _FNV_OFFSET = 0x811C9DC5
 _FNV_PRIME = 0x01000193
-_FLOAT_FMT = "<%df" % _DIM
+_FLOAT_FMT = f"<{_DIM}f"
 _CHAR_ANALOG = re.compile(r"[^a-zA-Z0-9_]+")
 _MIN_COSINE = 0.10
 
@@ -79,7 +79,7 @@ def cosine(a: bytes, b: bytes) -> float:
         right = struct.unpack(_FLOAT_FMT, b)
     except (struct.error, TypeError, ValueError, AttributeError):
         return 0.0
-    return sum(l * r for l, r in zip(left, right))
+    return sum(left_val * right_val for left_val, right_val in zip(left, right, strict=True))
 
 
 def semantic_top_k(
@@ -106,7 +106,7 @@ def semantic_top_k(
     return scored[:top_k]
 
 
-def as_floats(blob: bytes) -> "array.array":
+def as_floats(blob: bytes) -> array.array:
     """Decode a BLOB into a mutable float array (diagnostics/tests)."""
     values = struct.unpack(_FLOAT_FMT, blob)
     out = array.array("f", values)

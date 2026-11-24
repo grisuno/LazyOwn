@@ -13,7 +13,7 @@ from lazyc2.security.constants import (
     FILE_PERMISSION_OWNER_RW,
     MAX_UPLOAD_SIZE_BYTES,
 )
-from lazyc2.security.validators import validate_aes_key, validate_file_path_within_base
+from lazyc2.security.validators import validate_aes_key
 
 
 class SecretKeyManager:
@@ -68,20 +68,25 @@ class SafeFileService:
     def _resolve_safe(self, relative_path: str) -> Path:
         """Resolve a relative path safely within the base directory.
 
+        Both the base and the candidate are canonicalised with
+        ``os.path.realpath`` (symlink-safe) and the candidate must pass
+        a ``startswith`` containment guard. The guarded, resolved path
+        is returned so callers only ever touch verified paths.
+
         Args:
             relative_path: A relative path string.
 
         Returns:
-            The resolved Path object.
+            The verified Path object.
 
         Raises:
             PermissionError: If the resolved path escapes the base directory.
         """
-        candidate = self._base_dir / relative_path
-        is_valid, error = validate_file_path_within_base(candidate, self._base_dir)
-        if not is_valid:
-            raise PermissionError(error)
-        return candidate
+        base = os.path.realpath(str(self._base_dir))
+        resolved = os.path.realpath(os.path.join(base, str(relative_path)))
+        if not resolved.startswith(base + os.sep):
+            raise PermissionError("File path is outside allowed directory")
+        return Path(resolved)
 
     def read_bytes(self, relative_path: str) -> bytes:
         """Read a file as bytes after path validation.

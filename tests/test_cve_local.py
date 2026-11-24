@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import json
-import sqlite3
 import time
-from pathlib import Path
 
 import pytest
 
@@ -38,7 +36,9 @@ def _fake_nvd_page(start_index: int, count: int = 2, total: int = 4):
                             "nodes": [
                                 {
                                     "cpeMatch": [
-                                        {"criteria": f"cpe:2.3:a:apache:http_server:2.4.50:*:*:*:*:*:*:{start_index + offset}:*"}
+                                        {
+                                            "criteria": f"cpe:2.3:a:apache:http_server:2.4.50:*:*:*:*:*:*:{start_index + offset}:*"
+                                        }
                                     ]
                                 }
                             ]
@@ -47,7 +47,9 @@ def _fake_nvd_page(start_index: int, count: int = 2, total: int = 4):
                 }
             }
         )
-    return json.dumps({"resultsPerPage": count, "startIndex": start_index, "totalResults": total, "vulnerabilities": vulnerabilities}).encode()
+    return json.dumps(
+        {"resultsPerPage": count, "startIndex": start_index, "totalResults": total, "vulnerabilities": vulnerabilities}
+    ).encode()
 
 
 class TestSync:
@@ -110,8 +112,32 @@ class TestSearch:
         assert not db.search("apache", version="9.9.9")
 
     def test_exploit_ids_attached(self, db):
-        db.upsert_cves([{"id": "CVE-2021-41773", "cvss": 9.8, "products": ["apache:http_server:2.4.50"], "description": "apache path traversal", "published": "2021-01-01", "modified": "", "vector": ""}])
-        db.upsert_exploits([{"edb_id": "51094", "cves": ["CVE-2021-41773"], "description": "rce", "type": "webapps", "platform": "multiple", "date": "2022-11-01", "url": ""}])
+        db.upsert_cves(
+            [
+                {
+                    "id": "CVE-2021-41773",
+                    "cvss": 9.8,
+                    "products": ["apache:http_server:2.4.50"],
+                    "description": "apache path traversal",
+                    "published": "2021-01-01",
+                    "modified": "",
+                    "vector": "",
+                }
+            ]
+        )
+        db.upsert_exploits(
+            [
+                {
+                    "edb_id": "51094",
+                    "cves": ["CVE-2021-41773"],
+                    "description": "rce",
+                    "type": "webapps",
+                    "platform": "multiple",
+                    "date": "2022-11-01",
+                    "url": "",
+                }
+            ]
+        )
         hits = db.search("CVE-2021-41773")
         assert hits and hits[0]["exploitdb"] == ["51094"]
 

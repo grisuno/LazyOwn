@@ -60,8 +60,7 @@ def test_planner_force_ranks_connected_surface(tmp_path, monkeypatch):
     hot = engine.assets.insert("ip", "127.0.0.9")
     seed = engine.add_intent(task_id, "seed probe for heat")
     graph.anchor(seed.node_id, hot.asset_id)
-    planner = modules.Planner(task_id, engine.assets, graph,
-                              modules.ActivityLog(task_id), engine.store)
+    planner = modules.Planner(task_id, engine.assets, graph, modules.ActivityLog(task_id), engine.store)
     candidates = planner._candidates()
     assert candidates, "planner must emit candidates on fresh task"
     heats = []

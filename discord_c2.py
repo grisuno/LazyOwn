@@ -255,7 +255,7 @@ async def download_c2(ctx, client_id: str, file_name: str):
 @bot.command()
 async def send_connected_clients(ctx):
     try:
-        response = requests.get(FLASK_API_URL, verify=False)  # noqa: S501
+        response = requests.get(FLASK_API_URL, verify=C2_TLS_VERIFY)
         if response.status_code == 200:
             data = response.json()
             connected_clients_list = data.get("connected_clients", [])
@@ -301,6 +301,7 @@ MAX_FAILED_ATTEMPTS = 3
 RATE_LIMIT = 5
 user_games = {}
 client_id = ""
+C2_TLS_VERIFY = "cert.pem" if os.path.isfile("cert.pem") else True
 FLASK_API_URL = f"https://{lhost}:{c2_port}/get_connected_clients"
 
 if __name__ == "__main__":

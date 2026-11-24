@@ -9,8 +9,6 @@ and the shell integration picks the newest task automatically.
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 
 

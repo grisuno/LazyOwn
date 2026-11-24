@@ -340,9 +340,7 @@ def write_state_dict(path: str | Path, data: dict) -> bool:
     tmp = plain.with_suffix(".json.tmp")
     try:
         if not password:
-            log.warning(
-                "world_model.write_state_dict: refusing clear-text persist of sensitive state at %s", plain
-            )
+            log.warning("world_model.write_state_dict: refusing clear-text persist of sensitive state at %s", plain)
             return False
         payload = json.dumps(data, indent=2).encode("utf-8")
         token = _encrypt_payload(payload, password, _load_or_create_salt(plain.parent / _SALT_RELATIVE))
@@ -1106,9 +1104,7 @@ class WorldModel:
             legacy_hosts = data.get("hosts") if isinstance(data, dict) else None
             legacy_hosts = legacy_hosts if isinstance(legacy_hosts, dict) else {}
             hosts_cell = legacy_hosts or {
-                key: value
-                for key, value in (data.items() if isinstance(data, dict) else [])
-                if isinstance(value, dict)
+                key: value for key, value in (data.items() if isinstance(data, dict) else []) if isinstance(value, dict)
             }
         legacy_credentials = data.get("credentials", []) if isinstance(data, dict) else []
         legacy_credentials = legacy_credentials if isinstance(legacy_credentials, list) else []
@@ -1144,9 +1140,7 @@ class WorldModel:
                 for vuln in host_data.get("vulnerabilities", []):
                     if isinstance(vuln, dict) and (vuln.get("vuln_id") or vuln.get("description")):
                         self.add_vulnerability(
-                            description=str(
-                                vuln.get("title") or vuln.get("description") or vuln.get("vuln_id", "")
-                            ),
+                            description=str(vuln.get("title") or vuln.get("description") or vuln.get("vuln_id", "")),
                             host=str(vuln.get("host", "") or host_ip),
                             cve=str(vuln.get("vuln_id", "") or vuln.get("cve", "")),
                             severity=str(vuln.get("severity", "UNKNOWN")),

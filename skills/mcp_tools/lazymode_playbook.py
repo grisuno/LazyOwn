@@ -73,8 +73,6 @@ def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext) -> list:
             return ctx.text(tool_name, "error: name is required for action=run")
         target = str(arguments.get("target", "")).strip() or None
         timeout = arguments.get("timeout")
-        outcome = run_playbook(
-            name, target=target, timeout=float(timeout) if timeout is not None else None
-        )
+        outcome = run_playbook(name, target=target, timeout=float(timeout) if timeout is not None else None)
         return ctx.text(tool_name, json.dumps(outcome, indent=2))
     return ctx.text(tool_name, json.dumps(list_vector_playbooks(), indent=2))

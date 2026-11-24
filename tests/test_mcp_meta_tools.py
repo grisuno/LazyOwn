@@ -28,7 +28,9 @@ def runtime():
 
 class TestListFilter:
     def test_meta_tools_registered(self, runtime):
-        names = asyncio.run(runtime._all_tools.__wrapped__() if hasattr(runtime._all_tools, "__wrapped__") else runtime._all_tools())
+        names = asyncio.run(
+            runtime._all_tools.__wrapped__() if hasattr(runtime._all_tools, "__wrapped__") else runtime._all_tools()
+        )
         names = {t.name for t in names}
         assert META_NAMES <= names
 

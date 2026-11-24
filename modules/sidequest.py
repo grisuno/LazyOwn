@@ -51,10 +51,7 @@ def checkpoint_id(row: dict[str, Any]) -> str:
     """
     if not row:
         return ""
-    material = "|".join(
-        str(row.get(key, ""))
-        for key in ("run_id", "step", "source", "ctx_digest", "chosen", "ts")
-    )
+    material = "|".join(str(row.get(key, "")) for key in ("run_id", "step", "source", "ctx_digest", "chosen", "ts"))
     return hashlib.sha256(material.encode("utf-8", errors="replace")).hexdigest()[:_ORDINAL_WIDTH]
 
 
@@ -78,7 +75,7 @@ def list_checkpoints(run_id: str = "", limit: int = _DEFAULT_LIMIT) -> list[dict
         return []
     if run_id:
         rows = [row for row in rows if str(row.get("run_id", "")) == str(run_id)]
-    rows = rows[-max(1, int(limit)):]
+    rows = rows[-max(1, int(limit)) :]
     out: list[dict[str, Any]] = []
     for row in rows:
         out.append(
@@ -173,7 +170,9 @@ def ask(ordinal: str, question: str, temperature: float = _SIDEQUEST_TEMPERATURE
         from modules.llm_factory import complete as _complete
 
         try:
-            answer = str(_complete("auto", prompt, max_tokens=_ANSWER_MAX_TOKENS, temperature=temperature) or "").strip()
+            answer = str(
+                _complete("auto", prompt, max_tokens=_ANSWER_MAX_TOKENS, temperature=temperature) or ""
+            ).strip()
         except TypeError:
             answer = str(_complete("auto", prompt, max_tokens=_ANSWER_MAX_TOKENS) or "").strip()
     except Exception as exc:

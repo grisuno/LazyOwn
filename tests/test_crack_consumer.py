@@ -24,16 +24,34 @@ def _store(tmp_path: Path, host: str = "10.0.0.55") -> FactStore:
 def _add_creds(store: FactStore, host: str) -> None:
     facts = store._host(host)
     facts.credentials.append(
-        CredentialFact(host=host, username="root", password="", source_file="spool.txt",
-                       hash_value="$6$saltstring$hashhashhashhash", hash_type="SHA-512-crypt")
+        CredentialFact(
+            host=host,
+            username="root",
+            password="",
+            source_file="spool.txt",
+            hash_value="$6$saltstring$hashhashhashhash",
+            hash_type="SHA-512-crypt",
+        )
     )
     facts.credentials.append(
-        CredentialFact(host=host, username="svc", password="", source_file="spool.txt",
-                       hash_value="$y$9$pepper$morehash", hash_type="yescrypt")
+        CredentialFact(
+            host=host,
+            username="svc",
+            password="",
+            source_file="spool.txt",
+            hash_value="$y$9$pepper$morehash",
+            hash_type="yescrypt",
+        )
     )
     facts.credentials.append(
-        CredentialFact(host=host, username="ntlm-user", password="", source_file="spool.txt",
-                       hash_value="0123456789abcdef0123456789abcdef", hash_type="MD4/NTLM")
+        CredentialFact(
+            host=host,
+            username="ntlm-user",
+            password="",
+            source_file="spool.txt",
+            hash_value="0123456789abcdef0123456789abcdef",
+            hash_type="MD4/NTLM",
+        )
     )
 
 
@@ -100,9 +118,16 @@ def test_consume_cracks_and_feeds_world_model(tmp_path: Path, monkeypatch):
     _add_creds(store, "10.0.0.55")
     fake = _fake_cracker(
         monkeypatch,
-        [CrackResult(hash_value="root:$6$saltstring$hashhashhashhash",
-                     password="Password1!", hash_type="sha512crypt",
-                     format="sha512crypt", cracked=True, cracker="john")],
+        [
+            CrackResult(
+                hash_value="root:$6$saltstring$hashhashhashhash",
+                password="Password1!",
+                hash_type="sha512crypt",
+                format="sha512crypt",
+                cracked=True,
+                cracker="john",
+            )
+        ],
     )
     summary = consume("10.0.0.55", cracker=fake, store=store, sessions_dir=tmp_path)
     assert summary["identified"] == 2

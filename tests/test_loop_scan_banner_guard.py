@@ -108,9 +108,7 @@ class TestScanBannerGuard:
         """Given an nmap step whose fingerprint echoes a root prompt, When
         shell-proof publication runs, Then no exploit event is published."""
         worker = _worker("t-scan-suppress")
-        result = worker._publish_shell_proof(
-            _intent(), "172.17.0.2", "nmap -sT -sV 172.17.0.2", NMAP_INGRESLOCK_OUTPUT
-        )
+        result = worker._publish_shell_proof(_intent(), "172.17.0.2", "nmap -sT -sV 172.17.0.2", NMAP_INGRESLOCK_OUTPUT)
         assert result is False, "a scanner banner must not fabricate a foothold"
         assert sink_log == [], "no exploit event may reach the bus from a scan banner"
 
@@ -119,9 +117,7 @@ class TestScanBannerGuard:
         publication runs, Then one exploit outcome with the shell flag lands:
         the guard suppresses only scanners, never real footholds."""
         worker = _worker("t-nc-shell")
-        result = worker._publish_shell_proof(
-            _intent(), "172.17.0.2", "nc 172.17.0.2 1524", NC_SHELL_OUTPUT
-        )
+        result = worker._publish_shell_proof(_intent(), "172.17.0.2", "nc 172.17.0.2 1524", NC_SHELL_OUTPUT)
         assert result is True, "a real nc foothold must still publish"
         event = sink_log[-1]
         assert event.kind == "exploit" and event.shell and event.success

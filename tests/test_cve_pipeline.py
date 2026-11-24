@@ -18,7 +18,12 @@ def test_extract_hosts_captures_services_versions_and_cves() -> None:
     graph = _graph_payload(
         [
             {"node_id": 1, "kind": "fact", "state": "done", "text": "21/tcp open ftp vsftpd 2.3.4 on 192.168.1.152"},
-            {"node_id": 2, "kind": "finding", "state": "done", "text": "samba usermap RCE CVE-2017-7494 on 192.168.1.152"},
+            {
+                "node_id": 2,
+                "kind": "finding",
+                "state": "done",
+                "text": "samba usermap RCE CVE-2017-7494 on 192.168.1.152",
+            },
             {"node_id": 3, "kind": "fact", "state": "done", "text": "OS: Linux 2.6.9 - 2.6.33 at 192.168.1.152"},
         ]
     )
@@ -48,7 +53,9 @@ class _StubWorld:
         self.data["hosts"][ip]["services"][str(port)] = {"port": port, "name": name, "version": version}
 
     def add_vulnerability(self, description: str, host: str = "", cve: str = "", severity: str = "UNKNOWN") -> None:
-        self.data["vulnerabilities"].append({"description": description, "host": host, "cve": cve, "severity": severity})
+        self.data["vulnerabilities"].append(
+            {"description": description, "host": host, "cve": cve, "severity": severity}
+        )
 
     def snapshot(self) -> dict:
         return dict(self.data)
@@ -61,7 +68,12 @@ def test_pull_to_world_model_writes_services_and_cves(tmp_path: Path, monkeypatc
 
     fake_graph = _graph_payload(
         [
-            {"node_id": 1, "kind": "fact", "state": "done", "text": "445/tcp open netbios-ssn Samba smbd 3.0.20-Debian on 10.10.10.5"},
+            {
+                "node_id": 1,
+                "kind": "fact",
+                "state": "done",
+                "text": "445/tcp open netbios-ssn Samba smbd 3.0.20-Debian on 10.10.10.5",
+            },
             {"node_id": 2, "kind": "finding", "state": "done", "text": "CVE-2017-7494 reproduced on 10.10.10.5"},
         ]
     )
@@ -93,13 +105,20 @@ def test_intel_graph_exposes_cve_nodes_with_heat() -> None:
                 "ip": "10.99.0.9",
                 "state": "scanned",
                 "os_hint": "Linux",
-                "services": {"445": {"port": 445, "protocol": "tcp", "name": "netbios-ssn", "version": "", "state": "open"}},
+                "services": {
+                    "445": {"port": 445, "protocol": "tcp", "name": "netbios-ssn", "version": "", "state": "open"}
+                },
                 "notes": [],
                 "last_updated": "",
             }
         },
         "vulnerabilities": [
-            {"description": "samba usermap script RCE", "host": "10.99.0.9", "cve": "CVE-2017-7494", "severity": "critical"}
+            {
+                "description": "samba usermap script RCE",
+                "host": "10.99.0.9",
+                "cve": "CVE-2017-7494",
+                "severity": "critical",
+            }
         ],
         "credentials": [],
         "emails": [],

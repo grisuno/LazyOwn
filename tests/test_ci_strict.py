@@ -92,5 +92,6 @@ def test_ci_workflow_gates_severity_and_types() -> None:
     """The main CI workflow gates high-severity bandit and typed mypy."""
     text = CI_WORKFLOW.read_text(encoding="utf-8")
     assert "--severity-level high" in text, "bandit is not gated on high severity"
-    assert "--no-site-packages" in text, "mypy is not isolated from site-packages"
+    assert "types-PyYAML" in text, "mypy runs without installed type stubs"
+    assert "--explicit-package-bases" in text, "mypy lacks explicit package bases"
     assert re.search(r"run:\s*mypy", text), "mypy step is missing"

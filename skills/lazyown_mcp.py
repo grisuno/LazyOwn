@@ -543,10 +543,7 @@ def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dic
         context = ssl.create_default_context()
         context.check_hostname = True
         context.verify_mode = ssl.CERT_REQUIRED
-        try:
-            context.minimum_version = ssl.TLSVersion.TLSv1_2
-        except (AttributeError, ValueError):
-            pass
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
         return context
 
     def _is_lab_target(name: str) -> bool:
@@ -576,10 +573,7 @@ def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dic
         fallback = ssl.create_default_context()
         fallback.check_hostname = False
         fallback.verify_mode = ssl.CERT_NONE
-        try:
-            fallback.minimum_version = ssl.TLSVersion.TLSv1_2
-        except (AttributeError, ValueError):
-            pass
+        fallback.minimum_version = ssl.TLSVersion.TLSv1_2
         try:
             with urllib.request.urlopen(req, context=fallback, timeout=10) as resp:
                 return json.loads(resp.read().decode())

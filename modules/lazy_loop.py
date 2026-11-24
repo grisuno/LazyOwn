@@ -64,6 +64,7 @@ from modules.loop_guardrails import (
     TargetLimiter,
     listing_forbidden,
 )
+from modules.loop_triggers import TriggerStore
 
 
 def _record_deviation(scope: str, planned: str, actual: str, reason: str, source: str) -> None:
@@ -111,7 +112,6 @@ FINDING_STATUSES = (
     "duplicate",
     "risk_accepted",
 )
-from modules.loop_triggers import TRIGGER_KINDS  # noqa: F401  (re-export consumed by loop_triggers)
 
 GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
@@ -1148,13 +1148,22 @@ def _now() -> float:
 
 
 def _store_path(name: str) -> Path:
-    """Return JSON store path, ensuring the directory exists."""
+    """Return JSON store path, ensuring the directory exists.
+
+    The store name is resolved against the store directory with a
+    realpath containment guard so a task-supplied identifier can never
+    point outside ``STORE_DIR``.
+    """
     STORE_DIR.mkdir(parents=True, exist_ok=True)
     try:
         os.chmod(STORE_DIR, 0o700)
     except OSError:
         pass
-    path = STORE_DIR / name
+    base_real = os.path.realpath(str(STORE_DIR))
+    candidate = os.path.realpath(os.path.join(base_real, str(name)))
+    if not candidate.startswith(base_real + os.sep):
+        raise ValueError(f"store path escapes the store directory: {name!r}")
+    path = Path(candidate)
     if path.exists():
         _restrict_file(path)
     return path
@@ -8863,9 +8872,6 @@ class Notifier:
             except Exception:
                 continue
         return delivered
-
-
-from modules.loop_triggers import TriggerStore
 
 
 class LlmPool:

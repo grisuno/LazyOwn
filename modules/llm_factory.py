@@ -909,9 +909,14 @@ def _pi_complete(model: str | None, prompt: str, max_tokens: int = 800) -> str:
     exe = shutil.which("pi")
     if not exe:
         raise RuntimeError("pi leg unavailable: pi CLI not in PATH")
-    cmd = [exe, "--model", f"{PI_PROVIDER_ID}/{model or PI_DEFAULT_MODEL}", "--print", prompt[:6000]]
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=_pi_timeout(), shell=False)
+        proc = subprocess.run(
+            [exe, "--model", f"{PI_PROVIDER_ID}/{model or PI_DEFAULT_MODEL}", "--print", prompt[:6000]],
+            capture_output=True,
+            text=True,
+            timeout=_pi_timeout(),
+            shell=False,
+        )
     except FileNotFoundError as exc:
         raise RuntimeError("pi leg unavailable: pi CLI not in PATH") from exc
     except subprocess.TimeoutExpired as exc:

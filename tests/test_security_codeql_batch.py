@@ -213,7 +213,9 @@ class TestViewYamlTraversal:
     def _client(monkeypatch, tmp_path):
         lazyc2 = _server()
 
-        monkeypatch.setattr(lazyc2, "check_auth", lambda u, p: True)
+        import lazyc2.security.auth as auth_module
+
+        monkeypatch.setattr(auth_module, "check_auth", lambda u, p: True)
         monkeypatch.setattr(lazyc2, "atomic_framework_path", str(tmp_path))
         client = lazyc2.app.test_client()
         token = base64.b64encode(b"operator:any").decode("ascii")

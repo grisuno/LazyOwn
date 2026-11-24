@@ -138,18 +138,18 @@ class TestTimingAttackPrevention:
         Then hmac.compare_digest must be used (not == operator)."""
         import ast
 
-        lazyc2_path = Path(__file__).parent.parent / "lazyc2.py"
-        source = lazyc2_path.read_text(encoding="utf-8")
+        auth_path = Path(__file__).parent.parent / "lazyc2" / "security" / "auth.py"
+        source = auth_path.read_text(encoding="utf-8")
         tree = ast.parse(source)
 
         for node in ast.walk(tree):
-            if isinstance(node, ast.FunctionDef) and node.name == "check_auth":
+            if isinstance(node, ast.FunctionDef) and node.name in ("check_auth", "_matches_boot"):
                 func_source = ast.get_source_segment(source, node)
                 assert "hmac.compare_digest" in func_source, (
-                    "check_auth must use hmac.compare_digest for constant-time comparison"
+                    f"{node.name} must use hmac.compare_digest for constant-time comparison"
                 )
                 assert "username == USERNAME" not in func_source, (
-                    "check_auth must not use == for credential comparison (timing attack)"
+                    f"{node.name} must not use == for credential comparison (timing attack)"
                 )
                 assert "password == PASSWORD" not in func_source, (
                     "check_auth must not use == for credential comparison (timing attack)"
@@ -381,8 +381,8 @@ class TestAuthTimingIntegration:
         """BDD: Given wrong username and password,
         When check_auth is called, Then it returns False."""
 
-        lazyc2_path = Path(__file__).parent.parent / "lazyc2.py"
-        source = lazyc2_path.read_text(encoding="utf-8")
+        auth_path = Path(__file__).parent.parent / "lazyc2" / "security" / "auth.py"
+        source = auth_path.read_text(encoding="utf-8")
 
         assert "def check_auth(" in source
         assert "hmac.compare_digest" in source

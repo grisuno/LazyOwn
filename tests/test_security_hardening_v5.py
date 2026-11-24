@@ -20,6 +20,8 @@ LAZYC2_SRC = (REPO_ROOT / "lazyc2.py").read_text(encoding="utf-8")
 LAZYOWN_SRC = (REPO_ROOT / "lazyown.py").read_text(encoding="utf-8")
 LAZYC2_TREE = ast.parse(LAZYC2_SRC)
 LAZYOWN_TREE = ast.parse(LAZYOWN_SRC)
+TERMINAL_GLUE_SRC = (REPO_ROOT / "lazyc2" / "terminal" / "glue.py").read_text(encoding="utf-8")
+TERMINAL_GLUE_TREE = ast.parse(TERMINAL_GLUE_SRC)
 
 
 def _find(tree: ast.Module, name: str, kind=ast.FunctionDef):
@@ -89,13 +91,13 @@ def _has_jsonify_key(func: ast.FunctionDef, key: str) -> bool:
 
 class TestWebTerminalInputHandler:
     def test_handle_input_never_writes_shell_stdin(self) -> None:
-        handler = _find(LAZYC2_TREE, "handle_input")
+        handler = _find(TERMINAL_GLUE_TREE, "handle_input")
         src = ast.dump(handler)
         assert "stdin.write" not in src, "handle_input still writes to the shell's unwritable stdin"
         assert "stdin.seek" not in src
 
     def test_handle_input_keeps_one_cmd_and_guards(self) -> None:
-        handler = _find(LAZYC2_TREE, "handle_input")
+        handler = _find(TERMINAL_GLUE_TREE, "handle_input")
         src = ast.dump(handler)
         assert "one_cmd" in src
         assert "login_required" in {ast.dump(d) for d in handler.decorator_list} or any(

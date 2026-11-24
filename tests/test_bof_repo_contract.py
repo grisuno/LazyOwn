@@ -10,9 +10,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from modules.bof_admin import BOFS_DIR, scan_bofs
 from modules.bof_delivery import BofDeliveryConfig, stage_bof
 from modules.bof_registry import _build_default_catalog, client_addon_install_path, find_client_artifact
+
+
+def _external_artifacts_present() -> bool:
+    root = Path("external") / ".exploit"
+    return root.is_dir() and any(root.iterdir())
 
 
 def test_every_yaml_is_a_valid_contract():
@@ -41,6 +48,8 @@ def test_clients_are_real_lazyaddons():
 
 
 def test_local_artifacts_resolve_through_the_lazyaddons():
+    if not _external_artifacts_present():
+        pytest.skip("external exploit checkouts not present")
     catalog = _build_default_catalog()
     resolved = 0
     for entry in catalog.entries.values():
@@ -52,6 +61,8 @@ def test_local_artifacts_resolve_through_the_lazyaddons():
 
 
 def test_linux_bofs_stage_for_gym():
+    if not _external_artifacts_present():
+        pytest.skip("external exploit checkouts not present")
     cfg = BofDeliveryConfig()
     for name in ("whoami_linux", "is_sudo", "suid_enum", "userenum", "cat"):
         staged = stage_bof(name, cfg)

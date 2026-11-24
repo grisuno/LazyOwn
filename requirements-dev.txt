@@ -1,8 +1,8 @@
-ruff==0.16.10
+ruff==0.17.6
 pytest>=7.0
 pytest-cov>=4.0
 pytest-timeout>=2.3
-mypy==1.15.0
+mypy==1.20.2
 bandit>=1.7
 detect-secrets>=1.5
 pip-audit>=2.7

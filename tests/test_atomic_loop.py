@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import yaml
 
 _ROOT = Path(__file__).parent.parent
@@ -90,6 +91,9 @@ def test_steps_for_keyword_playbook_intent() -> None:
 
 def test_rocke_playbook_resolves_linux_chain() -> None:
     """Rocke playbook loads, validates, and every staged technique exists."""
+    atomics = _ROOT / "external" / ".exploit" / "atomic-red-team" / "atomics"
+    if not atomics.is_dir():
+        pytest.skip("atomic-red-team checkout not present")
     engine = AptPlaybookEngine(playbook_dir="playbooks")
     pb = engine.get("rocke")
     assert pb is not None and "linux" in pb.platforms
